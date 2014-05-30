@@ -1,0 +1,22 @@
+{
+  "name": "runnable-angular",
+  "main": "client/main.js",
+  "version": "0.0.0",
+  "authors": [
+    "Casey Flynn <casey@runnable.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.6.0",
+    "jquery": "~2.1.0"
+  }
+}

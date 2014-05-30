@@ -3,3 +3,4 @@
 .dump
 node_modules/
 client/build/
+bower/
