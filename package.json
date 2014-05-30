@@ -1,0 +1,39 @@
+{
+  "name": "runnable-angular",
+  "version": "0.0.0",
+  "private": true,
+  "description": "rewrite of runnable-web in angularjs",
+  "main": "./client/main.js",
+  "scripts": {
+    "start": "NODE_PATH=. node server/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Casey Flynn",
+  "dependencies": {
+    "express": "~4.3.2",
+    "compression": "~1.0.2"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "browserify": "~4.1.6",
+    "grunt-browserify": "~2.1.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-concat": "~0.4.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-bg-shell": "~2.3.1",
+    "grunt-contrib-sass": "~0.7.3",
+    "grunt-autoprefixer": "~0.7.3"
+  },
+  "browser": {},
+  "browserify-shim": {
+    "jquery": {
+      "exports": "jQuery"
+    }
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  }
+}
