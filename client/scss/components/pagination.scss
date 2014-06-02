@@ -1,0 +1,117 @@
+.pagination {
+  background: $gray-light;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #fff;
+  display: table;
+  height: 38px;
+  list-style-type: none;
+  margin: 20px auto 0;
+  padding: 0;
+  user-select: none;
+
+  li {
+    background: $gray-lighter;
+    border: 1px solid rgba(0,0,0,.1);
+    border-bottom: 0;
+    box-shadow: inset 0 1px 0 #fff;
+    display: inline-block;
+    font-size: 13px;
+    height: 36px;
+    line-height: 36px;
+    margin-left: -1px;
+    min-width: 36px;
+    position: relative;
+      top: -1px;
+    text-align: center;
+
+    &:first-child {
+      border-radius: 3px 0 0 3px;
+      border-right: 0;
+      left: -1px;
+    }
+
+    &:last-child {
+      border-left: 0;
+      border-radius: 0 3px 3px 0;
+      right: -1px;
+    }
+
+    &:hover {
+      background: #fff;
+    }
+
+    // previous/next arrows
+    &.prev span {
+      padding: 0 2px 0 2px;
+    }
+
+    &.next span {
+      padding-right: 3px;
+    }
+
+    &.prev,
+    &.next {
+
+      span {
+        transition: transform .1s cubic-bezier(.19,1,.22,1);
+      }
+
+      &:active span {
+        color: $orange;
+      }
+    }
+
+    &.prev:hover span {
+      transform: translate3d(-2px,0,0);
+    }
+
+    &.next:hover span {
+      transform: translate3d(2px,0,0);
+    }
+  }
+
+  a {
+    color: $gray-dark;
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    padding: 0 6px;
+    width: 100%;
+
+    &:hover {
+      color: $gray-darker;
+      text-decoration: none;
+    }
+
+    &:active {
+      color: $orange;
+
+      span {
+        color: $orange;
+      }
+    }
+  }
+
+  .active,
+  .ellipsis {
+    background: rgba($gray-light,.5);
+    border-color: rgba(0,0,0,.05);
+    box-shadow: none;
+    cursor: default;
+
+    &:hover {
+      background: rgba($gray-light,.5);
+    }
+  }
+
+  .active,
+  .active:active {
+    color: $gray-dark;
+  }
+
+  .ellipsis,
+  .ellipsis:active {
+    color: rgba($gray-dark,.25);
+  }
+}

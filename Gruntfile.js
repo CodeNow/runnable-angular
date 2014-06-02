@@ -47,7 +47,7 @@ module.exports = function(grunt) {
     browserify: {
       build: {
         files: {
-          'public/build/bundle.js': ['client/js/main.js']
+          'client/build/bundle.js': ['client/main.js']
         },
         options: {
           transform: ['browserify-shim']
@@ -91,7 +91,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-bg-shell');
 
-  grunt.registerTask('server', ['concat', 'copy', 'browserify', 'bgShell:server', 'watch']);
-  grunt.registerTask('default', ['concat', 'copy', 'browserify']);
+  //grunt.registerTask('server', ['concat', 'copy', 'browserify', 'bgShell:server', 'watch']);
+  //grunt.registerTask('default', ['concat', 'copy', 'browserify']);
+  grunt.registerTask('default', ['browserify']);
 
 };

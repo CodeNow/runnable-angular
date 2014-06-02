@@ -1,0 +1,38 @@
+// focus
+input:focus,
+input[type="color"]:focus,
+input[type="date"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="email"]:focus,
+input[type="month"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="time"]:focus,
+input[type="url"]:focus,
+input[type="week"]:focus,
+textarea:focus,
+.uneditable-input:focus {
+  box-shadow: none;
+}
+
+// lists
+ol,
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+// pre
+pre {
+  margin: 0;
+}
+
+// from agency
+a::-moz-focus-inner,
+button::-moz-focus-inner,  {
+  border: 0;
+}

@@ -1,0 +1,30 @@
+//if no channel image
+.no-img {
+  background: $purple;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.5;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+//on channel page
+#tags-main h1 .no-img {
+  float: left;
+  height: 58px;
+  line-height: 58px;
+  margin-right: 15px;
+  width: 58px;
+
+  & ~ span {
+    line-height: 34px;
+
+    @include media(xs) {
+      line-height: 58px;
+    }
+  }
+}

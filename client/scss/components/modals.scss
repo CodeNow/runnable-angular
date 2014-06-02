@@ -1,0 +1,696 @@
+.modal {
+  animation: modalIn .3s forwards;
+  transform: translate3d(0,-100%,0);
+
+  .modal-dialog {
+    padding-top: 108px;
+    width: 30%;
+      max-width: 460px;
+      min-width: 320px;
+
+    @include media(xs) {
+      padding: 54px 0 0;
+      width: calc(100% - 30px);
+    }
+  }
+
+  .modal-content {
+    background: $gray-lighter;
+    border: 0;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 #fff;
+  }
+
+  .modal-header {
+    background: $purple-light;
+    border-radius: 3px 3px 0 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+    color: #fff;
+    height: 40px;
+    padding: 0 20px;
+
+    h4 {
+      font-size: 14px;
+      font-weight: 700;
+      height: 40px;
+      line-height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 0 1px 0 rgba(0,0,0,.2);
+      white-space: nowrap;
+    }
+
+    .close {
+      box-shadow: none;
+      color: rgba(0,0,0,.5);
+      height: 36px;
+      opacity: .8;
+      text-align: right;
+      text-shadow: 0 1px 0 rgba(255,255,255,.2);
+      width: 18px;
+
+      &:hover {
+        color: rgba(0,0,0,.75);
+        opacity: 1;
+        text-shadow: 0 1px 0 rgba(255,255,255,.2);
+      }
+    }
+  }
+
+  .modal-body {
+    input,
+    textarea {
+      margin-bottom: 15px;
+    }
+
+    [type='button'] {
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+    }
+
+    p {
+      color: $gray-dark;
+      text-align: center;
+
+      a {
+        color: $purple;
+        font-size: 14px;
+        font-weight: 700;
+        text-shadow: 0 1px 0 #fff;
+      }
+    }
+
+    textarea {
+      max-height: 400px;
+      min-height: 80px;
+      resize: vertical;
+    }
+  }
+
+  .orange {
+    margin-bottom: 0;
+  }
+
+  .popover {
+    font-weight: normal;
+    z-index: 1050;
+  }
+
+  a {
+    color: $purple;
+    font-weight: 700;
+
+    &:hover {
+      color: $purple-dark;
+    }
+  }
+
+  .btn,
+  .btn:hover {
+    color: #fff;
+  }
+}
+
+.modal-backdrop {
+  background: rgba(0,0,0,.85);
+  opacity: 0;
+
+  &.in {
+    animation: fadeIn .2s forwards;
+    opacity: 1;
+  }
+}
+
+// modal
+.modal-dialog .tab-content {
+  margin-top: 20px;
+}
+
+.modal-dialog .input-group {
+  margin-bottom: 20px;
+
+  input {
+    margin-bottom: 0;
+  }
+}
+
+// wth modal is shifting whole page bc of margin
+body.modal-open,
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+  margin-right: 0;
+}
+
+// registration modals
+#register-modal {
+
+  .modal-dialog {
+    max-width: 300px;
+    perspective: 1000px;
+    transform-origin: 50% 250%;
+  }
+
+  &.flip {
+
+    #signup {
+      transform: rotate3d(0,1,0,180deg);
+    }
+
+    #login {
+      transform: rotate3d(0,1,0,0);
+    }
+  }
+
+  .purple {
+    color: #fff;
+    margin: 20px;
+    text-indent: 28px;
+    width: calc(100% - 40px);
+  }
+
+  small {
+    display: block;
+    position: relative;
+    text-align: center;
+    text-shadow: 0 1px 0 #fff;
+    user-select: none;
+
+    &::before,
+    &::after {
+      background: rgba(0,0,0,.1);
+      box-shadow: 0 1px 0 #fff;
+      content: '';
+      display: block;
+      height: 1px;
+      position: absolute;
+        top: 9px;
+      width: 40%;
+    }
+
+    &::before {
+      left: 20px;
+    }
+
+    &::after {
+      right: 20px;
+    }
+  }
+
+  form {
+    padding: 20px 20px 60px;
+  }
+
+  .modal-content > p {
+    background: $gray-light;
+    border-radius: 0 0 3px 3px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff;
+    color: $gray-darker;
+    font-size: 13px;
+    margin: 0;
+    padding: 15px 20px;
+    position: absolute;
+      bottom: 0;
+      z-index: 10;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.alt-link {
+  display: none;
+}
+
+#signup,
+#login {
+  backface-visibility: hidden;
+  overflow: hidden;
+  position: absolute;
+  transition: transform .3s ease-in-out;
+  width: 100%;
+}
+
+#signup {
+  z-index: 2;
+}
+
+#login {
+  height: 251px;
+  transform: rotate3d(0,1,0,-180deg);
+  transition: transform .3s ease-in-out, height .6s ease-in-out;
+  z-index: 1;
+}
+
+// reset form
+.reset-link {
+  display: table;
+  font-size: 13px;
+  margin: 15px auto 0;
+
+  &.in {
+    font-size: 16px;
+  }
+}
+
+#login-form,
+#reset-form,
+#confirm-reset {
+  position: absolute;
+    z-index: 10;
+  transition: transform .6s ease-in-out, opacity .5s ease-in-out;
+  width: 100%;
+}
+
+#reset-form,
+#confirm-reset {
+  opacity: 0;
+  transform: translate3d(0,251px,0);
+
+  > p {
+    color: $gray-dark;
+    font-size: 13px;
+  }
+
+  .plane-container {
+    display: none;
+    position: absolute;
+      top: 100px;
+      left: 75px;
+      z-index: -1;
+    transform: translate3d(0,0,0);
+  }
+
+  object {
+    animation: planeRotate 4s forwards infinite ease-in-out;
+    display: block;
+    height: 100px;
+    margin: 0 auto;
+    position: absolute;
+      right: 0;
+      left: 0;
+    width: 100px;
+  }
+}
+
+#login.show-reset,
+#login.show-confirmation {
+
+  #login-form {
+    opacity: 0;
+    transform: translate3d(0,-100%,0);
+  }
+
+  > p {
+    display: none;
+  }
+
+  > .alt-link {
+    display: block;
+  }
+}
+
+#login.show-reset {
+  height: 213px;
+
+  #reset-form {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+}
+
+#login.show-confirmation {
+
+  #reset-form {
+    opacity: 0;
+    transform: translate3d(0,-251px,0);
+  }
+
+  #confirm-reset {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+
+  .plane-container {
+    display: block;
+    height: 200px;
+    width: 200px;
+  }
+}
+
+// .spec-modals
+.modal .spec-modal {
+  width: 50%;
+
+  .modal-body {
+    max-height: 400px;
+    overflow: auto;
+    padding: 20px 20px 0;
+    width: 100%;
+
+    label {
+      color: $gray-dark;
+      font-size: 14px;
+      font-weight: normal;
+    }
+
+    p {
+      font-weight: 700;
+      text-align: left;
+    }
+
+    a {
+      cursor: pointer;
+    }
+
+    hr {
+      border-top: 1px solid rgba(0,0,0,.1);
+      margin-right: -20px;
+      margin-left: -20px;
+    }
+
+    .popover {
+      font-weight: normal;
+      max-width: 350px;
+    }
+
+    input {
+      margin-bottom: 20px;
+    }
+  }
+
+  .modal-footer {
+    margin-top: 0;
+
+    // primary action
+    > button {
+      float: right;
+    }
+
+    // secondary action
+    .back,
+    .prev {
+      color: $purple-light;
+      display: block;
+      float: left;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 36px; // match height of button
+    }
+  }
+}
+
+// #add-spec-modal
+#add-spec-modal {
+  width: 30%;
+    min-width: 320px;
+
+  .modal-body {
+
+    ul {
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,.1);
+      margin: 0 0 20px;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    li {
+      border-bottom: solid 1px #eee;
+      height: 40px;
+      line-height: 40px;
+      list-style: none;
+      margin: 0;
+      transition: background .2s ease-in-out;
+      width: 100%;
+
+      &:hover {
+        background: #fcf7ff;
+      }
+
+      > .existing {
+        color: $gray-darkest;
+        display: block;
+        font-weight: 700;
+        height: 100%;
+        padding: 0 15px;
+        width: 100%;
+      }
+    }
+
+    // icons
+    img {
+      height: auto;
+      margin-right: 10px;
+      width: 22px;
+    }
+
+  // add new api link
+    > .new {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  }
+}
+
+// #implement-modal
+#implement-modal > .modal-dialog {
+
+  .modal-body {
+    padding: 0;
+
+    .run-button {
+      margin: 50px 220px;
+    }
+
+    #implement-env-tab {
+      padding: 20px 20px 0;
+
+      form {
+
+        > p {
+          font-weight: 700;
+        }
+
+        input[readonly] {
+          background-color: #efefef;
+          border: 1px solid #bbb;
+          color: #bbb;
+          cursor: text;
+        }
+      }
+    }
+
+    #implement-instructions-tab {
+      background: $light-yellow;
+      border: 1px solid rgba(0,0,0,.1);
+      border-bottom: 0;
+      height: 100%;
+      overflow: auto;
+      padding: 20px;
+      width: 100%;
+    }
+
+    #implement-saved {
+      padding: 20px;
+
+      > p {
+        font-weight: 700;
+      }
+
+      > button {
+        float: right;
+      }
+    }
+
+  }
+}
+
+// #review-spec-modal
+#review-spec-modal {
+
+  .modal-body {
+
+    // wrapping div
+    > div {
+      background: $light-yellow;
+      border: 1px solid rgba(0,0,0,.1);
+      height: 100%;
+      margin-bottom: 20px;
+      padding: 20px;
+      width: 100%;
+
+      a {
+        font-weight: 700;
+      }
+
+      div > p {
+        overflow: auto;
+      }
+    }
+  }
+
+  .status-bar {
+    padding: 0;
+
+    .status-message {
+      padding-left: 10px;
+    }
+
+    button {
+      margin: 0;
+
+      @include media(xs) {
+        width: auto;
+      }
+    }
+
+    p {
+      margin: 0 0 0 15px;
+
+      @include media(xs) {
+        display: inline;
+      }
+    }
+  }
+}
+
+// #create-spec-modal
+#create-spec-modal {
+
+  .modal-body {
+
+    //primary action
+    > .orange {
+      float: right;
+      margin-bottom: 20px;
+    }
+  }
+
+  .step1 {
+
+    // api key inputs
+    .form-group {
+      position: relative;
+
+      button {
+        border: 0;
+        border-left: 1px solid #cdcdcd;
+        border-radius: 0 3px 3px 0;
+        height: 34px;
+        line-height: 34px;
+        position: absolute;
+          top: 1px;
+          right: 1px;
+        width: 42px;
+      }
+    }
+
+    // .add-key
+    .add-key {
+      margin-bottom: 20px;
+    }
+  }
+
+  .step2 {
+
+    > .modal-body {
+      padding: 20px;
+    }
+
+    //markdown link
+    .help-link {
+      color: $gray-dark;
+      font-size: 12px;
+      font-weight: 700;
+
+      &.hover {
+        color: $gray-darker;
+      }
+    }
+
+    .nav-tabs {
+      border-bottom: 0;
+
+      > li > a {
+        border-bottom: 1px solid #ddd;
+      }
+    }
+
+    .tab-content {
+      margin-top: 0;
+    }
+
+    textarea,
+    #create-spec-preview {
+      height: 100%;
+      margin-bottom: 20px;
+      min-height: 200px;
+      overflow: auto;
+      padding: 20px;
+      width: 100%;
+    }
+
+    textarea {
+      border-radius: 0 2px 2px;
+      position: relative;
+        z-index: 1;
+      resize: vertical;
+    }
+
+    #create-spec-preview {
+      background: $light-yellow;
+      border: 1px solid rgba(0,0,0,.1);
+    }
+  }
+}
+
+// bootstrap-dialogs
+.bootstrap-dialog {
+
+  .modal-content {
+    background: #fcf8e3;
+    background-image: linear-gradient(45deg,desaturate(darken(#fcf8e3,5),10) 25%,transparent 25%,transparent 50%,desaturate(darken(#fcf8e3,5),10) 50%,desaturate(darken(#fcf8e3,5),10) 75%,transparent 75%,transparent);
+    background-size: 40px 40px;
+    border-radius: 3px;
+    box-shadow: 0 3px 3px rgba(0,0,0,.3);
+    color: #8a6d3b;
+    padding: 10px;
+  }
+
+  .modal-body,
+  .modal-footer {
+    background: rgba(255,255,255,.75);
+    border: 1px solid #e5e5e5;
+  }
+
+  .modal-body {
+    border-radius: 3px 3px 0 0;
+
+    input {
+      margin: 20px 0 0;
+    }
+  }
+
+  .modal-footer {
+    border-top: 0;
+    border-radius: 0 0 3px 3px;
+    margin-top: 0;
+  }
+
+  h3 {
+    font-weight: 700;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+}

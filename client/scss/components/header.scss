@@ -1,0 +1,82 @@
+#primary {
+  @extend .clearfix;
+  background: $purple;
+  line-height: 54px;
+
+  @include media(sm) {
+    height: 54px;
+  }
+
+  .container {
+    position: relative;
+  }
+
+  nav > div {
+    @include media(sm) {
+      height: 54px;
+    }
+  }
+}
+
+#header-actions {
+  float: right;
+
+  > a,
+  > span {
+    color: #fff;
+    float: right;
+  }
+
+  > a {
+    font-size: 13px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .btn {
+    margin: 10px 15px 0 0;
+
+    @include media(xs) {
+      margin: 0 0 10px;
+      width: 100%;
+    }
+  }
+
+  @include media(xs) {
+    padding: 0 15px;
+    position: static;
+    width: 100%;
+  }
+}
+
+#user,
+#header-signup-link {
+  cursor: pointer;
+  display: inline-block;
+
+  img {
+    border-radius: 50%;
+  }
+
+  .menu {
+    display: block;
+  }
+
+  .exit:hover:before {
+    content: '☹';
+    font-size: 19px;
+    line-height: 0;
+  }
+
+  @include media(xs) {
+    position: absolute;
+      top: 0;
+      right: 15px;
+  }
+}
+
+#header-signup-link {
+  padding-right: 15px;
+}

@@ -1,0 +1,39 @@
+#logo {
+  display: inline-block;
+  height: 54px;
+  position: relative;
+    z-index: $z-show;
+  user-select: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:hover > span,
+  &:active > span {
+    background-position: 0 100%;
+  }
+  > span {
+    background: url(../images/sprite-runnable-logo-2.png) no-repeat;
+    display: inline-block;
+    height: 22px;
+    margin: 16px 0 0;
+    padding: 0;
+    width: 140px;
+
+    @include retina() {
+      background: url(../images/sprite-runnable-logo-2@2x.png) no-repeat;
+      background-size: 100%;
+    }
+  }
+
+  > sup {
+    color: $purple-logo;
+    line-height: 54px;
+    position: relative;
+      top: -12px;
+      left: -4px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+    user-select: none;
+  }
+}

@@ -1,0 +1,26 @@
+small {
+  color: $gray-dark;
+  font-size: 12px; // percentage was unreliable
+  font-weight: 400; // reset if within header tags
+}
+
+input ~ small {
+  margin-left: 12px; // match input padding
+}
+
+// links
+a {
+  color: $gray-dark;
+
+  &:hover {
+    color: $gray-darker;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &:active {
+    color: $gray-darkest;
+    text-decoration: none;
+    transform: translate(0,1px,0); // only works if inline-block
+  }
+}

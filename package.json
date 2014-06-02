@@ -23,12 +23,23 @@
     "grunt-contrib-copy": "~0.5.0",
     "grunt-bg-shell": "~2.3.1",
     "grunt-contrib-sass": "~0.7.3",
-    "grunt-autoprefixer": "~0.7.3"
+    "grunt-autoprefixer": "~0.7.3",
+    "browserify-shim": "~3.5.0",
+    "gulp": "~3.6.2",
+    "vinyl-source-stream": "~0.1.1",
+    "watchify": "~0.10.2",
+    "gulp-sass": "~0.7.1"
   },
-  "browser": {},
+  "browser": {
+    "jquery": "./bower/jquery/dist/jquery.js",
+    "angular": "./bower/angular/angular.js"
+  },
   "browserify-shim": {
     "jquery": {
       "exports": "jQuery"
+    },
+    "angular": {
+      "exports": null
     }
   },
   "browserify": {

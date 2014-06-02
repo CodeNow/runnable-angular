@@ -1,0 +1,156 @@
+// hide get satisfaction
+.no-satisfaction .gsfn-widget-tab {
+  display: none;
+}
+
+#output {
+
+  &.terminal {
+
+    .terminal {
+      border: 0;
+      height: auto;
+      position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+  }
+
+  &.results {
+    margin-top: 50px;
+    padding: 2.5%;
+  }
+
+  #primary {
+    height: 50px;
+    position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000000000;
+    width: 100%;
+
+    #output-reload {
+      background-image: url('../images/sprite-icon-reload.png');
+      @include background-image-retina('../images/sprite-icon-reload@2x.png');
+      background-size: 18px auto;
+      display: inline-block;
+      float: left;
+      height: 23px;
+      margin: 13px 0 0 30px;
+      width: 18px;
+
+      &.disabled {
+        background-position: 0 -23px;
+        cursor: default;
+      }
+    }
+
+    .form-control {
+      border: 0;
+      color: #bcbcbc;
+      float: left;
+      font-weight: normal;
+      margin: 8px 0 0 15px;
+      min-height: 30px;
+      width: 400px;
+
+      &:focus {
+        color: #333;
+      }
+
+      @include breakpoint(screen-sm) {
+        width: 64%;
+      }
+    }
+
+    #output-popout {
+      background-image: url('../images/icon-popout.png');
+      @include background-image-retina('../images/icon-popout@2x.png');
+      background-size: 23px 23px;
+      display: inline-block;
+      float: left;
+      height: 23px;
+      margin: 12px 0 0 15px;
+      width: 23px;
+    }
+  }
+
+  #output-results-container {
+    height: 70%;
+    position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+
+    &.out {
+      display: none;
+    }
+
+    .build-message {
+      padding-top: 100px
+    }
+
+    #output-results {
+      border: 0;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      width: 100%;
+    }
+
+    .ui-resizable-handle {
+      background-image: url(../images/icon-resize.png);
+      @include background-image-retina('../images/icon-resize@2x.png');
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 20px 14px;
+      bottom: 10px;
+      cursor: ns-resize;
+      height: 14px;
+      text-align: center;
+      width: 100%;
+      z-index: 1000000;
+    }
+
+    &.full-height {
+      height: 100%;
+    }
+  }
+
+  #output-terminal-container {
+    height: 30%;
+    position: absolute;
+      top: auto !important; // ff resize fix
+      right: 0;
+      bottom: 0;
+      left: 0;
+    width: 100%;
+
+    &.in {
+      @include animation(heightUp .75s ease-in-out forwards);
+    }
+
+    #output-terminal {
+      border: 0;
+      height: 100%;
+      position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      width: 100%;
+    }
+
+    &.full-height {
+      bottom: auto;
+      height: 100%;
+      top: 0;
+    }
+  }
+}

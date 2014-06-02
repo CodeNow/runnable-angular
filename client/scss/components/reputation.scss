@@ -1,0 +1,44 @@
+// .reputation
+.reputation {
+  background: $purple-light;
+  border-radius: 50%;
+  color: #fff;
+  display: block;
+  font-size: 11px;
+  height: 32px;
+  line-height: 32px;
+  margin: 0 auto;
+  padding: 0;
+  position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  text-align: center;
+  user-select: none;
+  width: 32px;
+
+  // tooltip positions
+  &:before {
+    top: 42px;
+  }
+
+  &:after {
+    left: 12px;
+    top: 36px;
+  }
+
+  &.reputation-lg {
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
+    right: 10px;
+    top: 10px;
+    width: 36px;
+  }
+
+  &.reputation-sm {
+    height: 24px;
+    line-height: 24px;
+    width: 24px;
+  }
+}

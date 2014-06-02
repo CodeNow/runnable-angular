@@ -1,0 +1,677 @@
+#file-explorer {
+  background: $gray-lighter;
+  border-right: 1px solid rgba(0,0,0,.1);
+  float: left;
+  height: calc(100% - 36px);
+  position: absolute;
+    top: 36px;
+  transform: translate3d(-255px,0,0);
+  transition: transform .2s ease-in-out, width 0s ease-in-out;
+  width: 255px;
+
+  // file tree
+  .nav {
+    font-size: 12px;
+    height: calc(100% - 28px);
+    overflow: auto;
+    padding: 1px 0 0;
+
+    ul {
+      padding: 0 0 5px;
+    }
+
+    > li {
+      height: 100%;
+    }
+
+    .fs-list li {
+      cursor: pointer;
+    }
+
+    // style folders and files
+    li {
+      list-style-type: none;
+
+      &.active > div > a {
+        font-weight: 700;
+
+        &.arrow:before {
+          border-top: 6px solid #fff !important;
+        }
+      }
+
+      &.ui-draggable-hover {
+        background: #fff;
+        box-shadow: inset 0 -1px 0 rgba(0,0,0,.1), inset 0 1px 0 rgba(0,0,0,.1);
+      }
+
+      &.folder {
+
+        .arrow:before {
+          border-top: 6px solid rgba(0,0,0,.2);
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+          content: '';
+          float: left;
+          margin: 6px 8px 0 0;
+          transition: transform .1s linear;
+        }
+
+        .collapsed:before {
+          transform: rotate3d(0,0,1,-90deg);
+        }
+      }
+
+      &.empty {
+        cursor: default;
+
+        span {
+          color: #aaa;
+        }
+      }
+
+      [title='empty'] {
+        color: #aaa;
+        pointer-events: none;
+      }
+
+      .git {
+        padding-left: 42px;
+
+        > span {
+          color: $gray-dark;
+          font-size: 11px;
+          max-width: 200px;
+          overflow: hidden;
+          padding: 3px 0;
+          text-overflow: ellipsis;
+        }
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+
+    a,
+    img,
+    span {
+      color: $gray-darker;
+      display: block;
+      padding: 6px 0 6px 24px;
+      white-space: nowrap;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      &:before {
+        border-top: 6px solid transparent;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+        content: '';
+        float: left;
+        margin: 6px 10px 0 0;
+
+      }
+    }
+  }
+
+  // file tree item
+  .ui-draggable:hover {
+    background: #fff;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.05), inset 0 1px 0 rgba(0,0,0,.05);
+  }
+
+  // icons
+  .nav object {
+    float: left;
+    margin: 2px 6px 0 0;
+  }
+}
+
+// nested folders
+#file-explorer .nav {
+
+  li {
+
+    img {
+      box-sizing: content-box;
+    }
+
+    ul {
+      padding-left: 0;
+
+      li {
+
+        a,
+        img,
+        input,
+        span {
+          // padding-left: 0;
+        }
+
+        li {
+          a, img, input, span, form {
+            padding-left: 40px;
+          }
+        }
+
+        li li {
+          a, img, input, span, form {
+            padding-left: 56px;
+          }
+        }
+
+        li li li {
+          a, img, input, span, form {
+            padding-left: 72px;
+          }
+        }
+
+        li li li li {
+          a, img, input, span, form {
+            padding-left: 88px;
+          }
+        }
+
+        li li li li li {
+          a, img, input, span, form {
+            padding-left: 104px;
+          }
+        }
+
+        li li li li li li {
+          a, img, input, span, form {
+            padding-left: 120px;
+          }
+        }
+
+        li li li li li li li {
+          a, img, input, span, form {
+            padding-left: 136px;
+          }
+        }
+
+        li li li li li li li li {
+          a, img, input, span, form {
+            padding-left: 152px;
+          }
+        }
+
+        li li li li li li li li li {
+          a, img, input, span, form {
+            padding-left: 168px;
+          }
+        }
+
+        li li li li li li li li li li {
+          a, img, input, span, form {
+            padding-left: 184px;
+          }
+        }
+        li li li li li li li li li li li {
+          a, img, input, span, form {
+            padding-left: 200px;
+          }
+        }
+      }
+    }
+  }
+
+  .name-input {
+    border-radius: 0;
+    height: 29px;
+    min-height: 0;
+    padding: 6px 14px;
+    width: 100%;
+  }
+}
+
+// upload
+#drop-to-add {
+  background: #fff;
+  color: $gray-dark;
+  display: block;
+  height: 54px;
+  line-height: 58px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  user-select: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  > div {
+    position: absolute;
+    transition: transform .2 ease-in-out;
+    width: 100%;
+
+    &:last-child {
+      transform: translate3d(0,-100%,0);
+    }
+  }
+
+  &.in > div {
+    &:first-child {
+      transform: translate3d(0,100%,0);
+    }
+
+    &:last-child {
+      transform: translate3d(0,0,0);
+    }
+  }
+}
+
+
+// .sub-tree
+.sub-tree {
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  box-shadow: inset 0 1px 0 #fff;
+  position: relative;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  > a {
+    display: block;
+    height: 28px;
+    position: absolute;
+    width: 20px;
+
+    &::after {
+      @extend .arrow-down;
+      border-top-color: rgba(0,0,0,.2);
+      content: '';
+      cursor: pointer;
+      left: 9px;
+      top: 13px;
+      transform: rotate3d(0,0,1,-90deg);
+      transition: transform .2s ease-in-out;
+    }
+  }
+
+  &.in a::after {
+    transform: rotate3d(0,0,1,0);
+  }
+
+  > h6 {
+    color: $gray-darker;
+    font-weight: 700;
+    margin: 0;
+    padding: 10px 0 5px 24px;
+    text-transform: uppercase;
+
+    > button {
+      position: absolute;
+        top: 6px;
+    }
+
+    > .branch-switcher,
+    > #rebuild,
+    > #tip {
+      right: 36px;
+    }
+
+    > button {
+      right: 5px;
+    }
+  }
+}
+
+.branch-switcher {
+  text-align: left;
+  width: 80px;
+
+  &::after {
+    @extend .arrow-down;
+    content: '';
+    right: 4px;
+    top: 7px;
+  }
+
+  .glyphicons {
+    margin: 0;
+  }
+}
+
+// if preview tip
+#tip {
+  display: none;
+}
+
+.preview {
+
+  #rebuild {
+    display: none;
+  }
+
+  #tip {
+    display: block;
+  }
+}
+
+// popovers
+.file-explorer-menu {
+  width: 26px;
+
+  .glyphicons {
+    margin: 0;
+  }
+
+  .popover {
+    max-height: 90px;
+    // margin-left: 36px;
+    left: -19px;
+    top: -4px;
+    transform-origin: 24px 0;
+    width: 300px;
+
+    &.no-git {
+      width: 200px;
+
+      li {
+        width: 50%;
+
+        &:last-child {
+          display: none;
+        }
+      }
+    }
+
+    // add repo form
+    &.show-add-repo {
+      max-height: 300px;
+
+      .popover-content {
+        max-height: 300px;
+      }
+
+      #file-explorer-options {
+        display: none;
+      }
+
+      #add-repo {
+        display: block;
+      }
+    }
+  }
+
+  .popover.bottom > .arrow {
+    left: 24px;
+  }
+}
+
+// add repo form
+#add-repo {
+  display: none;
+
+  form {
+    position: relative;
+    transition: transform .2s;
+  }
+
+  > form::after {
+    content: '\E028';
+    display: block;
+    font-family: 'Glyphicons Regular';
+    font-size: 11px;
+    height: 36px;
+    line-height: 36px;
+    position: absolute;
+      top: 0;
+      right: 0;
+    text-align: center;
+    width: 36px;
+  }
+
+  ul {
+    margin: 10px 0 0;
+    max-height: 236px;
+    overflow: scroll;
+    transition: transform .2s;
+  }
+
+  li {
+    border-top: 1px solid rgba(0,0,0,.1);
+    height: 36px;
+    overflow: hidden;
+    transition: height .2s, opacity .2s;
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  .select-repo {
+    background: #fff;
+    height: 36px;
+    position: relative;
+      z-index: 2;
+  }
+
+  .cogwheel {
+    font-size: 11px;
+    height: 20px;
+    line-height: 20px;
+    position: absolute;
+      top: 8px;
+      right: 10px;
+      z-index: 3;
+    width: 26px;
+  }
+}
+
+.add-repo-form {
+    position: absolute;
+      bottom: 0;
+
+    input {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .orange {
+      width: 100%;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+.show-form {
+  max-height: 154px !important;
+
+  #add-repo {
+
+    > form {
+      transform: translate3d(0,-56px,0);
+    }
+
+    > ul {
+      max-height: 138px !important;
+      overflow: hidden;
+      transform: translate3d(0,-46px,0);
+    }
+
+    li {
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+
+      .select-repo {
+        pointer-events: none;
+      }
+
+      &.in {
+        border-top: 0;
+        display: block;
+        height: 138px !important;
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+
+        .cogwheel {
+          pointer-events: auto;
+        }
+
+      }
+    }
+  }
+
+  .add-repo-form {
+    background: $gray-lighter;
+    border-top: 1px solid rgba(0,0,0,.05);
+    padding: 10px;
+  }
+}
+
+// shortcut popover
+#add-tab .popover {
+  left: auto;
+  max-height: 450px;
+  right: 234px;
+  top: -4px;
+  transform-origin: 250px -15px;
+
+  .arrow {
+    left: auto;
+    right: 12px;
+  }
+
+  .popover-content {
+    max-height: 450px;
+  }
+
+  #add-tab-options > ol {
+    margin-bottom: 10px;
+
+    &.col-popover-3 {
+      overflow: hidden;
+    }
+  }
+
+  .popover-footer {
+
+    button {
+      width: 100%;
+    }
+  }
+
+  // shortcuts
+  #new-shortcut {
+    display: none;
+  }
+
+  &.show-new-shortcut {
+
+    #add-tab-options {
+      display: none;
+    }
+
+    button {
+      margin: 10px 0 0;
+      width: 100%;
+    }
+  }
+
+  &.show-new-shortcut {
+    max-height: 309px;
+
+    .popover-content {
+      max-height: 305px;
+    }
+
+    #new-shortcut {
+      display: block;
+    }
+
+    input:first-child {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+#shortcuts  {
+  max-height: 290px;
+  overflow: scroll;
+
+  li {
+    float: none;
+    height: 36px;
+    position: relative;
+    text-align: left;
+    width: 100%;
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  // delete
+  .delete {
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+    color: rgba($gray-dark,.5);
+    height: 20px;
+    line-height: 19px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+      top: 8px;
+      right: 4px;
+    text-shadow: none;
+    transition: all .25s cubic-bezier(.19,1,.22,1);
+    width: 22px;
+    white-space: nowrap;
+
+    @include media(xs) {
+      top: 24px;
+    }
+
+    &:hover {
+      background: $orange;
+      border: 1px solid rgba(0,0,0,.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+      color: #fff;
+      width: 72px;
+
+      > span:first-child {
+        opacity: 1;
+      }
+
+      > span:last-child {
+        transform: rotate3d(0,0,1,90deg);
+      }
+    }
+
+    &:active {
+      box-shadow: none;
+      transform: translate3d(0,1px,0);
+    }
+
+    > span {
+      position: absolute;
+
+      &:first-child {
+        left: 6px;
+        opacity: 0;
+        top: 0;
+        transition: opacity .25s cubic-bezier(.19,1,.22,1);
+      }
+
+      &:last-child {
+        right: 1px;
+        top: 3px;
+        transition: transform .25s ease-in-out;
+      }
+    }
+  }
+}
