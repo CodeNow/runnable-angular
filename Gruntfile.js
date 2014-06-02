@@ -47,10 +47,22 @@ module.exports = function(grunt) {
     browserify: {
       build: {
         files: {
-          'client/build/bundle.js': ['client/main.js']
+          'client/build/js/bundle.js': ['client/main.js']
         },
         options: {
           transform: ['browserify-shim']
+        }
+      }
+    },
+    jade2js: {
+      compile: {
+        options: {
+          namespace: 'Templates'
+        },
+        files: {
+          './client/build/views/viewBundle.js': [
+            './client/views/**/*.jade'
+          ]
         }
       }
     },
@@ -64,12 +76,30 @@ module.exports = function(grunt) {
         filter: 'isFile'
       }
     },
+    execute: {
+      indexFiles: {
+        call: function (grunt, options, async) {
+          var done = async();
+          return done();
+          // var paths = grunt.file.expand('./client/controllers/**/*.js');
+          // grunt.file.write('./client/controllers/requireIndex.json', JSON.stringify(paths));
+          // done();
+        }
+      },
+      cleanFiles: {
+        call: function (grunt, options, async) {
+          var done = async();
+          done();
+        }
+      }
+    },
     watch: {
       files: [
-        './client/**/*.js',
-        './client/**/*.css'
+        'client/**/*.js',
+        'client/**/*.jade',
+        '!client/build/**/*.*'
       ],
-      tasks: ['concat', 'copy', 'browserify']
+      tasks: ['jade2js', 'execute:indexFiles', 'browserify', 'execute:cleanFiles']
     },
     bgShell: {
       server: {
@@ -90,6 +120,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-bg-shell');
+  grunt.loadNpmTasks('grunt-jade-plugin');
+  grunt.loadNpmTasks('grunt-execute');
 
   //grunt.registerTask('server', ['concat', 'copy', 'browserify', 'bgShell:server', 'watch']);
   //grunt.registerTask('default', ['concat', 'copy', 'browserify']);

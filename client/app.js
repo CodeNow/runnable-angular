@@ -1,3 +1,3 @@
 var angular = require('angular');
-
-module.exports = angular.module('app', []);
+var uiRouter = require('angular-ui-router');
+module.exports = angular.module('app', [uiRouter]);
