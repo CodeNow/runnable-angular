@@ -1,1 +1,112 @@
-h1 home
+section#home-header.hero.in(ng-show = "true")
+  .bubbles-container
+    .bubbles
+      img.bubble.small(src = "/build/images/hero-logos/search.svg")
+      img.bubble.medium.reverse(src = "/build/images/hero-logos/thumbs-up.svg")
+      img.bubble.large(src = "/build/images/hero-logos/lightbulb.svg")
+      img.bubble.small.reverse(src = "/build/images/hero-logos/cog.svg")
+      img.bubble.medium(src = "/build/images/hero-logos/chat-cutout.svg")
+      img.bubble.large.reverse(src = "/build/images/hero-logos/globe.svg")
+      img.bubble.small(src = "/build/images/hero-logos/world.svg")
+      img.bubble.medium.reverse(src = "/build/images/hero-logos/jquery.svg")
+      img.bubble.large(src = "/build/images/hero-logos/cog.svg")
+      img.bubble.small.reverse(src = "/build/images/hero-logos/codeigniter.svg")
+      img.bubble.medium(src = "/build/images/hero-logos/arrow.svg")
+      img.bubble.large.reverse(src = "/build/images/hero-logos/chat-bubble.svg")
+      img.bubble.small(src = "/build/images/hero-logos/connection.svg")
+      img.bubble.medium.reverse(src = "/build/images/hero-logos/display.svg")
+      img.bubble.large(src = "/build/images/hero-logos/expression-engine.svg")
+      img.bubble.small.reverse(src = "/build/images/hero-logos/heart.svg")
+      img.bubble.small(src = "/build/images/hero-logos/search.svg")
+      img.bubble.medium.reverse(src = "/build/images/hero-logos/thumbs-up.svg")
+      img.bubble.large(src = "/build/images/hero-logos/lightbulb.svg")
+      img.bubble.small.reverse(src = "/build/images/hero-logos/cog.svg")
+      img.bubble.medium(src = "/build/images/hero-logos/chat-cutout.svg")
+      img.bubble.large.reverse(src = "/build/images/hero-logos/globe.svg")
+      img.bubble.small(src = "/build/images/hero-logos/world.svg")
+      img.bubble.medium.reverse(src = "/build/images/hero-logos/jquery.svg")
+      img.bubble.large(src = "/build/images/hero-logos/cog.svg")
+      img.bubble.small.reverse(src = "/build/images/hero-logos/codeigniter.svg")
+      img.bubble.medium(src = "/build/images/hero-logos/arrow.svg")
+      img.bubble.large.reverse(src = "/build/images/hero-logos/chat-bubble.svg")
+      img.bubble.small(src = "/build/images/hero-logos/connection.svg")
+      img.bubble.medium.reverse(src = "/build/images/hero-logos/display.svg")
+      img.bubble.large(src = "/build/images/hero-logos/expression-engine.svg")
+      img.bubble.small.reverse(src = "/build/images/hero-logos/heart.svg")
+  .container
+    .row
+      .col-sm-12
+        h1 Run
+          ul#channel-text.out
+            li Your
+            li {{title}}
+          | Code Online
+        h2 Choose Your Stack to Get Started
+        ul#channel-images
+          li
+            a(href       = "/new/{{name}}"
+              data-title = "{{name}}")
+  .glyphicons.chevron-right
+
+section#feed
+  .container
+    .row
+      nav#feed-nav.col-md-10.col-md-offset-2.col-sm-9.col-sm-offset-3.clearfix
+        .btn-group.toggles
+          a#trending.btn(ng-class = ""
+                         href     = "/") Trending
+          a#popular.btn(ng-class = ""
+                        href     = "/") Popular
+        form#search.searchbar(action = "/search"
+                              method = "get")
+          input(required
+                name        = "q"
+                type        = "search"
+                placeholder = "Search")
+          button.glyphicons.search
+
+  .row.sort-popular.sort
+    //- feed-filters
+    section#filters.col-md-2.col-sm-3
+      h3
+        | Filter
+        span ing
+        button(type = "button") Show All
+
+    ol
+      li(data-name = "PHP"
+         ng-repeat = "filter in homeData.filters")
+        a(href = "/")
+          img(src       = "/build/images/provider-icons/icon-php-alt.svg"
+              data-name = "PHP"
+              data-alt  = "true"
+              alt       = "PHP")
+          | &nbsp;PHP&nbsp;
+          span.count 555
+          button.glyphicons.circle-remove(type = "button")
+
+    //- feed
+    ul.col-md-10.col-sm-9.runnable-feed
+      li(ng-repeat = "project in homeData.projects")
+        h2.col-sm-12
+          a(href = "/") DDoS the pentagon
+        .col-sm-12.clearfix
+          data
+            span.glyphicons.play-button
+            b 1000&nbsp;
+            | Runs
+          ul.tags
+            li.active(ng-repeat = "tag in project.tags")
+              a(href = "/") evil
+
+        time a day ago
+        a.user-img(href = "/users/")
+          img(src    = "http://placehold.it/22"
+              height = "22"
+              width  = "22")
+
+  #callout.row
+    a(href = "/publish")
+      label New!
+      strong Add your own Code Channel.&nbsp;
+      span Use your API, service, or project on Runnable

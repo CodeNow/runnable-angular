@@ -130,7 +130,15 @@ module.exports = function(grunt) {
         cwd: 'client/images/',
         src: '**',
         dest: 'client/build/images/',
-        flatten: true,
+        flatten: false,
+        filter: 'isFile'
+      },
+      fonts: {
+        expand: true,
+        cwd: 'client/fonts/',
+        src: '**',
+        dest: 'client/build/fonts/',
+        flatten: false,
         filter: 'isFile'
       }
     },
@@ -210,7 +218,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
 
-  grunt.registerTask('build', ['copy:images', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'browserify']);
+  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'browserify']);
   grunt.registerTask('develop', ['build', 'concurrent']);
 
 
