@@ -1,22 +1,57 @@
+var path = require('path');
+var _    = require('underscore');
+
 module.exports = function(grunt) {
+
+  var sassDir   = 'client/scss';
+  var sassIndex = path.join(sassDir, 'index.scss');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    autoprefixer: {
+      dist: {
+        options: {
+          browsers: ['last 2 versions']
+        },
+        files: {
+          'client/build/css/index.css' : 'client/build/css/index.css'
+        }
+      }
+    },
+    sass: {
+      compile: {
+        options: {
+          style: 'compressed'
+        },
+        files: {
+          'client/build/css/index.css': sassIndex
+        }
+      },
+      dev: {
+        options: {
+          lineNumbers: true,
+          style: 'expanded'
+        },
+        files: {
+          'client/build/css/index.css': sassIndex
+        }
+      }
+    },
     concat: {
       options: {
         separator: "\n"
       },
       dist: {
         src: [
-          'bower/twitter/dist/css/bootstrap.min.css',
-          'bower/twitter/dist/css/bootstrap-theme.min.css',
-          'client/css/search.css',
-          'client/css/space.css',
-          'client/css/signup.css',
-          'client/css/style.css'
+          'client/styles/bootstrap/bootstrap.min.css',
+          'client/styles/bootstrap/bootstrap-theme.min.css',
+          //ngprogress?
+          'client/styles/glyphicons.css',
+          'client/styles/jquery-ui/jquery-ui-1.10.4.custom.css',
+          'client/build/css/index.css'
         ],
         //dest: 'public/build/<%= pkg.name %>.css'
-        dest: 'public/build/bundle.css'
+        dest: 'client/build/css/index.css'
       }
     },
     uglify: {
@@ -67,11 +102,11 @@ module.exports = function(grunt) {
       }
     },
     copy: {
-      main: {
+      images: {
         expand: true,
-        cwd: 'bower/twitter/dist/fonts/',
+        cwd: 'client/images/',
         src: '**',
-        dest: 'public/fonts/',
+        dest: 'client/build/images/',
         flatten: true,
         filter: 'isFile'
       }
@@ -97,9 +132,10 @@ module.exports = function(grunt) {
       files: [
         'client/**/*.js',
         'client/**/*.jade',
+        'client/**/*.scss',
         '!client/build/**/*.*'
       ],
-      tasks: ['jade2js', 'execute:indexFiles', 'browserify', 'execute:cleanFiles']
+      tasks: ['jade2js', 'sass', 'concat', 'execute:indexFiles', 'browserify', 'execute:cleanFiles']
     },
     bgShell: {
       server: {
@@ -122,9 +158,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-jade-plugin');
   grunt.loadNpmTasks('grunt-execute');
+  grunt.loadNpmTasks('grunt-autoprefixer');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   //grunt.registerTask('server', ['concat', 'copy', 'browserify', 'bgShell:server', 'watch']);
   //grunt.registerTask('default', ['concat', 'copy', 'browserify']);
-  grunt.registerTask('default', ['browserify']);
+  grunt.registerTask('default', ['copy:images', 'jade2js', 'sass', 'concat', 'browserify', 'watch']);
 
 };

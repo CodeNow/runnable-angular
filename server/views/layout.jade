@@ -1,6 +1,6 @@
 doctype html
 html(lang          = "en"
-     class         = "no-js"
+     class         = "js no-touch csstransforms csstransforms3d csstransitions"
      ng-controller = "ControllerApp")
   head
     meta(name    = "google-site-verification"
@@ -19,5 +19,5 @@ html(lang          = "en"
          href  = "/build/css/index.css?v=#{locals.version}")
     title #{locals.version}
   body
-    div(ui-view)
+    div#content(ui-view)
     script(src = "/build/js/bundle.js?v=#{locals.version}")
