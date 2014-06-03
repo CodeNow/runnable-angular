@@ -105,7 +105,10 @@ module.exports = function(grunt) {
           'client/build/js/bundle.js': ['client/main.js']
         },
         options: {
-          transform: ['browserify-shim']
+          transform: ['browserify-shim'],
+          alias: [
+            'client/app.js:app'
+          ]
         }
       }
     },
@@ -178,7 +181,7 @@ module.exports = function(grunt) {
           'client/**/*.css',
           '!client/build/**/*.*'
         ],
-        tasks: ['sass:compile', 'concat', 'autoprefixer']
+        tasks: ['sass:dev', 'concat', 'autoprefixer']
       }
     },
     bgShell: {
@@ -207,7 +210,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
 
-  grunt.registerTask('build', ['copy:images', 'sass:compile', 'concat', 'autoprefixer', 'jade2js', 'browserify']);
+  grunt.registerTask('build', ['copy:images', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'browserify']);
   grunt.registerTask('develop', ['build', 'concurrent']);
 
 

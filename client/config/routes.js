@@ -4,15 +4,21 @@ module.exports = [{
   templateUrl: 'viewLayout',
   controller:  'ControllerLayout'
 }, {
-  state:       'mainLayout.feed',
+  state:       'mainLayout.home',
   abstract:    false,
   url:         '^/',
-  templateUrl: 'viewFeed',
-  controller:  'ControllerFeed'
+  templateUrl: 'viewHome',
+  controller:  'ControllerHome'
 }, {
   state:       'mainLayout.about',
   abstract:    false,
   url:         '^/about',
   templateUrl: 'viewAbout',
   controller:  'ControllerAbout'
+}, {
+  state:       'mainLayout.jobs',
+  abstract:    false,
+  url:         '^/jobs',
+  templateUrl: 'viewJobs',
+  controller:  'ControllerJobs'
 }];

@@ -13,9 +13,10 @@ app.run(['$templateCache', function ($templateCache) {
 
 // bundle application deps w/ browserify by requiring
 require('./controllers/controllerApp');
-require('./controllers/controllerAbout');
-require('./controllers/controllerFeed');
 require('./controllers/controllerLayout');
+require('./controllers/about/controllerAbout');
+require('./controllers/home/controllerHome');
+require('./controllers/jobs/controllerJobs');
 
 require('./router');
 
