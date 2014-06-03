@@ -3,11 +3,31 @@ var _    = require('underscore');
 
 module.exports = function(grunt) {
 
-  var sassDir   = 'client/scss';
+  var sassDir   = 'client/styles/scss';
   var sassIndex = path.join(sassDir, 'index.scss');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    concurrent: {
+      dev: {
+        tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'nodemon'],
+        options: {
+          logConcurrentOutput: true
+        }
+      }
+    },
+    nodemon: {
+      dev: {
+        script: 'server/main.js',
+        options: {
+          env: {
+            'NODE_ENV': 'development',
+            'NODE_PATH': '.'
+          },
+          watch: ['server/**/*.js']
+        }
+      }
+    },
     autoprefixer: {
       dist: {
         options: {
@@ -129,13 +149,37 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: [
-        'client/**/*.js',
-        'client/**/*.jade',
-        'client/**/*.scss',
-        '!client/build/**/*.*'
-      ],
-      tasks: ['jade2js', 'sass', 'concat', 'execute:indexFiles', 'browserify', 'execute:cleanFiles']
+      images: {
+        files: [
+          'client/images/*'
+        ],
+        tasks: ['copy:images']
+      },
+      javascripts: {
+        files: [
+          'client/**/*.js',
+          '!client/build/**/*.*'
+        ],
+        tasks: ['browserify']
+      },
+      templates: {
+        files: [
+          'client/**/*.jade',
+          '!client/build/**/*.*'
+        ],
+        tasks: [
+          'jade2js',
+          'browserify'
+        ]
+      },
+      styles: {
+        files: [
+          'client/**/*.scss',
+          'client/**/*.css',
+          '!client/build/**/*.*'
+        ],
+        tasks: ['sass:compile', 'concat', 'autoprefixer']
+      }
     },
     bgShell: {
       server: {
@@ -160,9 +204,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-execute');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-concurrent');
 
-  //grunt.registerTask('server', ['concat', 'copy', 'browserify', 'bgShell:server', 'watch']);
-  //grunt.registerTask('default', ['concat', 'copy', 'browserify']);
-  grunt.registerTask('default', ['copy:images', 'jade2js', 'sass', 'concat', 'browserify', 'watch']);
+  grunt.registerTask('build', ['copy:images', 'sass:compile', 'concat', 'autoprefixer', 'jade2js', 'browserify']);
+  grunt.registerTask('develop', ['build', 'concurrent']);
+
 
 };

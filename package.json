@@ -37,7 +37,11 @@
     "gulp-nodemon": "~1.0.3",
     "stringify": "~2.1.0",
     "grunt-jade-plugin": "git://github.com/Runnable/grunt-jade-plugin.git#604fba490db0c8cf9ee4ce0c51ef91acf44ac573",
-    "grunt-execute": "~0.2.1"
+    "grunt-execute": "~0.2.1",
+    "grunt-nodemon": "~0.2.1",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-qunit": "~0.5.1",
+    "grunt-concurrent": "~0.5.0"
   },
   "browser": {
     "jquery": "./bower/jquery/dist/jquery.js"
