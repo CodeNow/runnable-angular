@@ -12,9 +12,11 @@ app.config(['$stateProvider',
 
   // redirect unmatched urls
   // $urlRouterProvider.otherwise('/');
+
   routes.forEach(function (item, index, arr) {
     $stateProvider.state(item.state, {
       url:         item.url,
+      abstract:    item.abstract,
       templateUrl: item.templateUrl,
       controller:  item.controller
     });

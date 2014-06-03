@@ -15,6 +15,8 @@ app.use(compression());
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item, index, arr) {
+  if (!item.url)
+    return;
   app.route(item.url).get(function (req, res, next) {
     res.render('layout');
   });

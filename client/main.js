@@ -6,15 +6,19 @@ var _       = require('underscore');
 var views = require('./build/views/viewBundle');
 app.run(['$templateCache', function ($templateCache) {
   _.each(views.Templates, function (item, index) {
-    console.log(item.call());
-    $templateCache.put(index, item.call());
+    console.log(index);
+    $templateCache.put(index, item());
   });
 }]);
 
 // bundle application deps w/ browserify by requiring
-require('./controllers/controllerIndex');
 require('./controllers/controllerAbout');
+require('./controllers/controllerApp');
+require('./controllers/controllerFeed');
+require('./controllers/controllerLayout');
 
 require('./router');
 
-module.exports = angular.bootstrap(document, ['app']);
+window.onload = function () {
+  module.exports = angular.bootstrap(document, ['app']);
+};
