@@ -12,6 +12,7 @@ module.exports = function(grunt) {
       dev: {
         tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'nodemon'],
         options: {
+          limit: 10,
           logConcurrentOutput: true
         }
       }

@@ -72,18 +72,17 @@ section#feed
         | Filter
         span ing
         button(type = "button") Show All
-
-    ol
-      li(data-name = "PHP"
-         ng-repeat = "filter in homeData.filters")
-        a(href = "/")
-          img(src       = "/build/images/provider-icons/icon-php-alt.svg"
-              data-name = "PHP"
-              data-alt  = "true"
-              alt       = "PHP")
-          | &nbsp;PHP&nbsp;
-          span.count 555
-          button.glyphicons.circle-remove(type = "button")
+      ol
+        li(data-name = "PHP"
+           ng-repeat = "filter in homeData.filters")
+          a(href = "/")
+            img(src       = "/build/images/provider-icons/icon-php-alt.svg"
+                data-name = "PHP"
+                data-alt  = "true"
+                alt       = "PHP")
+            | &nbsp;PHP&nbsp;
+            span.count 555
+            button.glyphicons.circle-remove(type = "button")
 
     //- feed
     ul.col-md-10.col-sm-9.runnable-feed
