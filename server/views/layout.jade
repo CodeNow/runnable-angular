@@ -17,6 +17,8 @@ html(lang          = "en"
     link(rel   = "stylesheet"
          media = "screen"
          href  = "/build/css/index.css?v=#{locals.version}")
+    link(rel  = "stylesheet"
+         href = "//fonts.googleapis.com/css?family=Oxygen:400,700")
     title #{locals.version}
   body
     #content(ui-view)

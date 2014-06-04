@@ -23,5 +23,5 @@ require('client/config/routes').forEach(function (item, index, arr) {
 });
 
 app.listen(app.get('port'), function () {
-  console.log('App listening at port: ' + app.get('port'));
+  console.log('App listening on port: ' + app.get('port'));
 });
