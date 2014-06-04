@@ -17,6 +17,7 @@ require('./controllers/controllerLayout');
 require('./controllers/about/controllerAbout');
 require('./controllers/home/controllerHome');
 require('./controllers/jobs/controllerJobs');
+require('./controllers/project/controllerProject');
 
 require('./router');
 

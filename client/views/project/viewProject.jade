@@ -1,0 +1,82 @@
+main.project-container
+  section#project-details.container
+    .row
+      .col-sm-9
+        .page-title
+          //- runnable_title
+          h1
+            form
+              input.form-control(required
+                                 ng-init     = "canEdit=true"
+                                 ng-if       = "canEdit"
+                                 name        = "name"
+                                 placeholder = "Give your code example a title"
+                                 value       = "model.attributes.name"
+                                 maxlength   = "2000")
+              span(ng-if = "!canEdit") model.virtual.nameWithTags
+
+          //- runnable_stats
+          .runnable-stats
+            h2
+              span.glyphicons.share
+              |&nbsp;Forked from&nbsp;
+              a(href = "/") {parentName}
+              |.
+            data
+              span.glyphicons.play-button
+              b {runs}
+              |&nbsp;Runs
+
+              span.glyphicons.eye-open
+              b {views}
+              |&nbsp;Views
+
+              span.glyphicons.notes-2
+              b {copies}
+              |&nbsp;Copies
+
+          //- project_tags
+          ul#project_tags.tags
+            li
+              a.tag
+                img
+                | {name}
+                name.glyphicons.remove-2
+
+        .main-controls
+          //- fork_button
+          button.green
+            span.glyphicons.git-create
+            span Fork This
+          //- improve_button
+          #improve-btn.btn-group
+            button.silver.glyphicons.thumbs-up(type = "button")
+            button.silver.glyphicons.thumbs-down(type    = "button"
+                                                 ng-show = "false")
+            //- improve_popover
+            .popover.fade.bottom
+              .arrow
+              .popover-content
+                form#improve_from_1337.clearfix
+                  textarea.form-control.feedback-description(required
+                                                             placeholder = "Send a message to the author")
+                  button.orange Send
+      //- runnable_owner
+      #project-author.col-sm-3
+        .row
+          a.col-sm-5.col-xl-4(href = "/")
+            img(src = ""
+                alt = "")
+          h4.col-sm-7.col-xl-8
+            a(href = "") {model.attributes.username}
+            b Anonymous
+            .publish-date published {4 days ago}
+          //- leader_badges
+
+  section#project
+    //- code_editor
+    //- rebuild_loader
+
+
+
+
