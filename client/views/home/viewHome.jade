@@ -65,44 +65,44 @@ section#feed
                 placeholder = "Search")
           button.glyphicons.search
 
-  .row.sort-popular.sort
-    //- feed-filters
-    section#filters.col-md-2.col-sm-3
-      h3
-        | Filter
-        span ing
-        button(type = "button") Show All
-      ol
-        li(data-name = "PHP"
-           ng-repeat = "filter in homeData.filters")
-          a(href = "/")
-            img(src       = "/build/images/provider-icons/icon-php-alt.svg"
-                data-name = "PHP"
-                data-alt  = "true"
-                alt       = "PHP")
-            | &nbsp;PHP&nbsp;
-            span.count 555
-            button.glyphicons.circle-remove(type = "button")
+    .row.sort-popular.sort
+      //- feed-filters
+      section#filters.col-md-2.col-sm-3
+        h3
+          | Filter
+          span ing
+          button(type = "button") Show All
+        ol
+          li(data-name = "PHP"
+             ng-repeat = "filter in homeData.filters")
+            a(href = "/")
+              img(src       = "/build/images/provider-icons/icon-php-alt.svg"
+                  data-name = "PHP"
+                  data-alt  = "true"
+                  alt       = "PHP")
+              | &nbsp;PHP&nbsp;
+              span.count 555
+              button.glyphicons.circle-remove(type = "button")
 
-    //- feed
-    ul.col-md-10.col-sm-9.runnable-feed
-      li(ng-repeat = "project in homeData.projects")
-        h2.col-sm-12
-          a(href = "/") DDoS the pentagon
-        .col-sm-12.clearfix
-          data
-            span.glyphicons.play-button
-            b 1000&nbsp;
-            | Runs
-          ul.tags
-            li.active(ng-repeat = "tag in project.tags")
-              a(href = "/") evil
+      //- feed
+      ul.col-md-10.col-sm-9.runnable-feed
+        li(ng-repeat = "project in homeData.projects")
+          h2.col-sm-12
+            a(href = "/") DDoS the pentagon
+          .col-sm-12.clearfix
+            data
+              span.glyphicons.play-button
+              b 1000&nbsp;
+              | Runs
+            ul.tags
+              li.active(ng-repeat = "tag in project.tags")
+                a(href = "/") evil
 
-        time a day ago
-        a.user-img(href = "/users/")
-          img(src    = "http://placehold.it/22"
-              height = "22"
-              width  = "22")
+          time a day ago
+          a.user-img(href = "/users/")
+            img(src    = "http://placehold.it/22"
+                height = "22"
+                width  = "22")
 
   #callout.row
     a(href = "/publish")

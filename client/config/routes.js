@@ -21,4 +21,10 @@ module.exports = [{
   url:         '^/jobs',
   templateUrl: 'viewJobs',
   controller:  'ControllerJobs'
+}, {
+  state:       'mainLayout.project',
+  abstract:    false,
+  url:         '^/project/:username/:projectid',
+  templateUrl: 'viewProject',
+  controller:  'ControllerProject'
 }];
