@@ -39,5 +39,34 @@ app.controller('ControllerDevelopmentStatus', [
     background: 'rgba(91, 55, 119, 0.7)'
   };
   DevStatusData.style = defaultStyle;
+  DevStatusData.setPosition = function (position) {
+    switch(position){
+      case 'top-left':
+        defaultStyle.top  = '0px';
+        defaultStyle.left = '0px';
+        delete defaultStyle.bottom;
+        delete defaultStyle.right;
+        break;
+      case 'bottom-left':
+        defaultStyle.bottom  = '0px';
+        defaultStyle.left = '0px';
+        delete defaultStyle.top;
+        delete defaultStyle.right;
+        break;
+      case 'bottom-right':
+        defaultStyle.bottom  = '0px';
+        defaultStyle.right = '0px';
+        delete defaultStyle.top;
+        delete defaultStyle.left;
+        break;
+      case 'top-right':
+        defaultStyle.top  = '0px';
+        defaultStyle.right = '0px';
+        delete defaultStyle.bottom;
+        delete defaultStyle.left;
+        break;
+    }
+  };
+
 
 }]);

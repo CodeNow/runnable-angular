@@ -23,7 +23,7 @@ require('./controllers/project/controllerProject');
 // include only in dev
 require('./controllers/developmentStatus/controllerDevelopmentStatus');
 
-require('./router');
+ require('./router');
 
 window.onload = function () {
   module.exports = angular.bootstrap(document, ['app']);

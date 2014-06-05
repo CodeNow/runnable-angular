@@ -2,7 +2,15 @@ div(ng-style = "DevStatusData.style"
     ng-init  = "DevStatusData.short = true"
     ng-mouseenter = "DevStatusData.short = false"
     ng-mouseleave = "DevStatusData.short = true")
-  h5 Development Status
+  h5 Development Status (
+    a(ng-click = "DevStatusData.setPosition('top-left')") top-left
+    |&nbsp;|&nbsp;
+    a(ng-click = "DevStatusData.setPosition('bottom-left')") bottom-left
+    |&nbsp;|&nbsp;
+    a(ng-click = "DevStatusData.setPosition('bottom-right')") bottom-right
+    |&nbsp;|&nbsp;
+    a(ng-click = "DevStatusData.setPosition('top-right')") top-right
+    |)
   pre(ng-if = "DevStatusData.short")
     {{DevStatusData.repository.statusShort}}
 
