@@ -21,7 +21,7 @@
     max-width: 540px;
   }
 
-  button {
+  a {
     background: rgba(255,255,255,.15);
     border: 0;
     border-radius: 3px;
@@ -30,16 +30,22 @@
     font-size: 16px;
     font-weight: 400;
     height: 40px;
+    line-height: 40px;
     margin: 0 auto;
     text-indent: 28px;
     text-shadow: none;
 
     &:hover {
       background: rgba(255,255,255,.25);
+      color: #fff;
     }
 
     &:active {
       background: rgba(255,255,255,.35);
+    }
+
+    > object {
+      margin-top: 10px;
     }
   }
 }
