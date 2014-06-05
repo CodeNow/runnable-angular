@@ -1,25 +1,23 @@
 doctype html
 html(lang          = "en"
-     class         = "js no-touch csstransforms csstransforms3d csstransitions"
+     class         = "no-js"
      ng-controller = "ControllerApp")
   head
-    meta(name    = "google-site-verification"
-         content = "x7aUQzI0MCl_SEwRhQ1TFHiNvYgGprRse3EL-FScpoU")
     meta(charset = "utf-8")
-    meta(name    = "description"
-         content = "")
-    link(rel  = "canonical"
-         href = "")
-    link(rel  = "apple-touch-icon"
-         href = "/build/images/icons/icons-ios.png")
-    link(rel  = "apple-mobile-web-app-title"
-         href = "Runnable")
+    meta(name   = "viewport"
+        content = "width=device-width, initial-scale=1")
+    title #{locals.version}
+    link(rel  = "stylesheet"
+         href = "//fonts.googleapis.com/css?family=Oxygen:400,700")
     link(rel   = "stylesheet"
          media = "screen"
          href  = "/build/css/index.css?v=#{locals.version}")
-    link(rel  = "stylesheet"
-         href = "//fonts.googleapis.com/css?family=Oxygen:400,700")
-    title #{locals.version}
+
+    // ios
+    link(rel  = "apple-touch-icon"
+         href = "/build/images/icons/icons-ios.png")
+    meta(name    = "apple-mobile-web-app-title"
+         console = "Runnable")
   body
     #content(ui-view)
     script(src = "/build/js/bundle.js?v=#{locals.version}")
