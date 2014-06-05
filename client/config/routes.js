@@ -2,29 +2,49 @@ module.exports = [{
   state:       'mainLayout',
   abstract:    true,
   templateUrl: 'viewLayout',
-  controller:  'ControllerLayout'
+  controller:  'ControllerLayout',
+  data: {
+    header: true,
+    footer: true
+  }
 }, {
   state:       'mainLayout.home',
   abstract:    false,
   url:         '^/',
   templateUrl: 'viewHome',
-  controller:  'ControllerHome'
+  controller:  'ControllerHome',
+  data: {
+    header: true,
+    footer: true
+  }
 }, {
   state:       'mainLayout.about',
   abstract:    false,
   url:         '^/about',
   templateUrl: 'viewAbout',
-  controller:  'ControllerAbout'
+  controller:  'ControllerAbout',
+  data: {
+    header: true,
+    footer: true
+  }
 }, {
   state:       'mainLayout.jobs',
   abstract:    false,
   url:         '^/jobs',
   templateUrl: 'viewJobs',
-  controller:  'ControllerJobs'
+  controller:  'ControllerJobs',
+  data: {
+    header: true,
+    footer: true
+  }
 }, {
   state:       'mainLayout.project',
   abstract:    false,
   url:         '^/project/:username/:projectid',
   templateUrl: 'viewProject',
-  controller:  'ControllerProject'
+  controller:  'ControllerProject',
+  data: {
+    header: true,
+    footer: true
+  }
 }];

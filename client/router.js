@@ -18,7 +18,8 @@ app.config(['$stateProvider',
       url:         item.url,
       abstract:    item.abstract,
       templateUrl: item.templateUrl,
-      controller:  item.controller
+      controller:  item.controller,
+      data:        item.data
     });
   });
 
