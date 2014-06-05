@@ -36,7 +36,7 @@ app.controller('ControllerDevelopmentStatus', [
     'max-width': '75%',
     'max-height': '75%',
     'overflow-y': 'scroll',
-    background: 'rgba(91, 55, 119, 0.7)'
+    background: 'rgba(91, 55, 119, 1)'
   };
   DevStatusData.style = defaultStyle;
   DevStatusData.setPosition = function (position) {
