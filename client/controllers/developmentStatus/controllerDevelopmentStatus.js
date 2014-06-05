@@ -28,7 +28,7 @@ app.controller('ControllerDevelopmentStatus', [
 
   var defaultStyle = {
     color: '#FFF',
-    position: 'absolute',
+    position: 'fixed',
     bottom: '0px',
     right: '0px',
     border: '1px solid #000',
