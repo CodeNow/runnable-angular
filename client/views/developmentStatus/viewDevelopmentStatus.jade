@@ -1,5 +1,4 @@
-div(ng-style = "DevStatusData.style"
-    ng-init  = "DevStatusData.short = true"
+div(ng-init  = "DevStatusData.short = true"
     ng-mouseenter = "DevStatusData.short = false"
     ng-mouseleave = "DevStatusData.short = true")
   h5 Development Status
@@ -23,9 +22,14 @@ div(ng-style = "DevStatusData.style"
     | -----------------
 
     {{DevStatusData.repository.logShort}}
+
   pre(ng-if = "!DevStatusData.short && !DevStatusData.hide")
     {{DevStatusData.repository.status}}
-
     | -----------------
-
+  |(
+  a(ng-click = "DevStatusData.showDiff = !DevStatusData.showDiff") Toggle Diff/Log
+  |)
+  pre(ng-if = "!DevStatusData.short && !DevStatusData.hide && !DevStatusData.showDiff")
     {{DevStatusData.repository.log}}
+  pre(ng-if = "!DevStatusData.short && !DevStatusData.hide && DevStatusData.showDiff")
+    {{DevStatusData.repository.diff}}

@@ -33,7 +33,7 @@ app.controller('ControllerDevelopmentStatus', [
     right: '0px',
     border: '1px solid #000',
     'min-width': '200px',
-    'max-width': '50%',
+    'max-width': '75%',
     'max-height': '75%',
     'overflow-y': 'scroll',
     background: 'rgba(91, 55, 119, 0.7)'

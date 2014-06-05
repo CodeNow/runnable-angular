@@ -18,8 +18,5 @@ html(lang          = "en"
          href = "/build/images/icons/icons-ios.png")
     meta(name    = "apple-mobile-web-app-title"
          console = "Runnable")
-  body
-    #content(ui-view)
-    div(ng-controller = "ControllerDevelopmentStatus"
-        ng-include = "'viewDevelopmentStatus'")
     script(src = "/build/js/bundle.js?v=#{locals.version}")
+  body(ui-view)

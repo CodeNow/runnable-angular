@@ -3,3 +3,7 @@ header#primary(ng-if      = "rootData.state.current.data.header"
 main(ui-view)
 footer(ng-if      = "rootData.state.current.data.footer"
        ng-include = "'viewFooter'")
+
+div(ng-controller = "ControllerDevelopmentStatus"
+    ng-include    = "'viewDevelopmentStatus'"
+    ng-style      = "DevStatusData.style")

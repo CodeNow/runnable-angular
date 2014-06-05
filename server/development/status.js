@@ -12,11 +12,15 @@ module.exports = function (req, res, next) {
     },
     function (cb) {
       git.exec('log', '--pretty=format:[%an] \t %ar \t %s', cb);
+    },
+    function (cb) {
+      git.exec('diff', cb);
     }
   ], function (err, result) {
     res.json({
       status: result[0],
-      log: result[1]
+      log: result[1],
+      diff: result[2]
     });
   });
 };

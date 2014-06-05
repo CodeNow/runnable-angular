@@ -18,7 +18,7 @@
     "browser-resolve": "~1.2.4",
     "angular": "~1.2.16",
     "async": "~0.9.0",
-    "git-tools": "~0.1.1"
+    "jquery": "~2.1.1"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -45,15 +45,11 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-qunit": "~0.5.1",
     "grunt-concurrent": "~0.5.0",
-    "git-wrapper": "~0.1.1",
-    "git-tools": "~0.1.1",
-    "watch-fs": "0.0.7"
+    "git-tools": "~0.1.1"
   },
   "browser": {
-    "jquery": "./bower/jquery/dist/jquery.js"
   },
   "browserify-shim": {
-    "jquery": "$"
   },
   "browserify": {
     "transform": [
