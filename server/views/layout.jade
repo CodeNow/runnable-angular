@@ -20,4 +20,6 @@ html(lang          = "en"
          console = "Runnable")
   body
     #content(ui-view)
+    div(ng-controller = "ControllerDevelopmentStatus"
+        ng-include = "'viewDevelopmentStatus'")
     script(src = "/build/js/bundle.js?v=#{locals.version}")

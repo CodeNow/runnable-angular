@@ -1,4 +1,4 @@
-var app     = require('./app');
+var app     = require('app');
 var angular = require('angular');
 var _       = require('underscore');
 
@@ -18,6 +18,10 @@ require('./controllers/about/controllerAbout');
 require('./controllers/home/controllerHome');
 require('./controllers/jobs/controllerJobs');
 require('./controllers/project/controllerProject');
+
+
+// include only in dev
+require('./controllers/developmentStatus/controllerDevelopmentStatus');
 
 require('./router');
 
