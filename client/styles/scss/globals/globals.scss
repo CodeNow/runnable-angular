@@ -1,31 +1,17 @@
 // global layout
-html,
-#content {
-  background: $gray-light;
-}
-
 body {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-body,
-#content > div {
-  background: $gray-lighter;
-}
-
 html,
 body,
-#content {
+#content,
+main {
   height: 100%;
 }
 
 main {
-  margin: 30px 0 60px;
   overflow: hidden;
-
-  @include media(xs) {
-    margin-top: 15px;
-  }
 }
 
 // utility
@@ -38,42 +24,7 @@ main {
   /* 2 */
 
 }
+
 .clearfix:after {
   clear: both;
-}
-
-.right {
-  float: right;
-}
-
-.left {
-  float: left;
-}
-
-.text-left {
-  text-align: left !important;
-}
-
-.text-right {
-  text-align: right !important;
-}
-
-.clear {
-  clear: both;
-}
-
-.hide {
-  display: none;
-}
-
-.inline-block {
-  display: inline-block;
-}
-
-.center {
-  margin: 0 auto;
-}
-
-.center-text {
-  text-align: center;
 }
