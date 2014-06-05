@@ -14,7 +14,7 @@ module.exports = [{
   templateUrl: 'viewHome',
   controller:  'ControllerHome',
   data: {
-    header: true,
+    header: false,
     footer: true
   }
 }, {
