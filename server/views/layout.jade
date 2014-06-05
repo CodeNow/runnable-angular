@@ -19,4 +19,5 @@ html(lang          = "en"
     meta(name    = "apple-mobile-web-app-title"
          console = "Runnable")
     script(src = "/build/js/bundle.js?v=#{locals.version}")
-  body(ui-view)
+  body(ui-view
+       ng-class = "{landing: (rootData.state.current.name === 'mainLayout.home')}")
