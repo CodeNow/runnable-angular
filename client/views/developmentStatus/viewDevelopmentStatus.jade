@@ -1,0 +1,17 @@
+div(ng-style = "DevStatusData.style"
+    ng-init  = "DevStatusData.short = true"
+    ng-mouseenter = "DevStatusData.short = false"
+    ng-mouseleave = "DevStatusData.short = true")
+  h5 Development Status
+  pre(ng-if = "DevStatusData.short")
+    {{DevStatusData.repository.statusShort}}
+
+    | -----------------
+
+    {{DevStatusData.repository.logShort}}
+  pre(ng-if = "!DevStatusData.short")
+    {{DevStatusData.repository.status}}
+
+    | -----------------
+
+    {{DevStatusData.repository.log}}
