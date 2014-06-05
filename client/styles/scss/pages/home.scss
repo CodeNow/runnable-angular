@@ -1,3 +1,7 @@
+.landing > main {
+  height: calc(100% - 54px);
+}
+
 #home {
   background: linear-gradient($purple-light,$purple);
   display: table;
