@@ -1,13 +1,18 @@
 var app     = require('app');
 var angular = require('angular');
 var _       = require('underscore');
+var jQuery  = require('jquery');
 
 // Cache all views
 var views = require('./build/views/viewBundle');
-app.run(['$templateCache', function ($templateCache) {
+app.run(['$rootScope', '$templateCache', function ($rootScope, $templateCache) {
   _.each(views.Templates, function (item, index) {
     console.log(index);
     $templateCache.put(index, item());
+  });
+  // leave user at top of page each route change
+  $rootScope.$on('$stateChangeSuccess', function () {
+    jQuery('html, body').scrollTop(0);
   });
 }]);
 
@@ -19,11 +24,10 @@ require('./controllers/home/controllerHome');
 require('./controllers/jobs/controllerJobs');
 require('./controllers/project/controllerProject');
 
-
 // include only in dev
 require('./controllers/developmentStatus/controllerDevelopmentStatus');
 
- require('./router');
+require('./router');
 
 window.onload = function () {
   module.exports = angular.bootstrap(document, ['app']);
