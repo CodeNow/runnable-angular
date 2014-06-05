@@ -15,21 +15,23 @@ div(ng-init  = "DevStatusData.short = true"
     |&nbsp;(
     a(ng-click = "DevStatusData.hide = !DevStatusData.hide") show/hide
     |)
+  div(ng-if = "!DevStatusData.hide")
+    pre(ng-if = "DevStatusData.short && !DevStatusData.hide")
+      {{DevStatusData.repository.statusShort}}
 
-  pre(ng-if = "DevStatusData.short && !DevStatusData.hide")
-    {{DevStatusData.repository.statusShort}}
+      | -----------------
 
-    | -----------------
+      {{DevStatusData.repository.logShort}}
 
-    {{DevStatusData.repository.logShort}}
+    pre(ng-if = "!DevStatusData.short && !DevStatusData.hide")
+      {{DevStatusData.repository.status}}
+      | -----------------
+    span(ng-if = "!DevStatusData.short")
+      |(
+      a(ng-click = "DevStatusData.showDiff = !DevStatusData.showDiff") Toggle Diff/Log
+      |)
 
-  pre(ng-if = "!DevStatusData.short && !DevStatusData.hide")
-    {{DevStatusData.repository.status}}
-    | -----------------
-  |(
-  a(ng-click = "DevStatusData.showDiff = !DevStatusData.showDiff") Toggle Diff/Log
-  |)
-  pre(ng-if = "!DevStatusData.short && !DevStatusData.hide && !DevStatusData.showDiff")
-    {{DevStatusData.repository.log}}
-  pre(ng-if = "!DevStatusData.short && !DevStatusData.hide && DevStatusData.showDiff")
-    {{DevStatusData.repository.diff}}
+    pre(ng-if = "!DevStatusData.short && !DevStatusData.hide && !DevStatusData.showDiff")
+      {{DevStatusData.repository.log}}
+    pre(ng-if = "!DevStatusData.short && !DevStatusData.hide && DevStatusData.showDiff")
+      {{DevStatusData.repository.diff}}
