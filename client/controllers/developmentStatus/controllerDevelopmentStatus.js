@@ -35,7 +35,7 @@ app.controller('ControllerDevelopmentStatus', [
     'min-width': '200px',
     'max-width': '50%',
     'max-height': '75%',
-    'overflow': 'hidden',
+    'overflow-y': 'scroll',
     background: 'rgba(91, 55, 119, 0.7)'
   };
   DevStatusData.style = defaultStyle;
