@@ -4,7 +4,7 @@ nav.row
     span
     sup &lt;beta&gt;
 
-  div#header-actions.col-sm-4
+  #header-actions
     span#user.menu(ng-init = "userMenu=true"
                    ng-if   = "userMenu")
       a
@@ -24,12 +24,3 @@ nav.row
           a(href = "/logout")
             |Log Out
             span.glyphicons.exit
-    a#header-signup-link(ng-if = "!userMenu") Sign Up
-    a.btn.purple(href = "/new") Create New
-
-  form#search(ng-if = "showSearch")
-    input(required
-          name        = "q"
-          type        = "search"
-          placeholder = "")
-    button.glyphicons.search
