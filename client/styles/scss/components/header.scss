@@ -1,7 +1,8 @@
 #primary {
   @extend .clearfix;
-  background: $purple;
+  background-image: linear-gradient($purple,darken($purple,5%));
   line-height: 54px;
+  padding: 0 15px;
 
   @include media(sm) {
     height: 54px;

@@ -15,34 +15,6 @@ main.project-container
                                  maxlength   = "2000")
               span(ng-if = "!canEdit") model.virtual.nameWithTags
 
-          //- runnable_stats
-          .runnable-stats
-            h2
-              span.glyphicons.share
-              |&nbsp;Forked from&nbsp;
-              a(href = "/") {parentName}
-              |.
-            data
-              span.glyphicons.play-button
-              b {runs}
-              |&nbsp;Runs
-
-              span.glyphicons.eye-open
-              b {views}
-              |&nbsp;Views
-
-              span.glyphicons.notes-2
-              b {copies}
-              |&nbsp;Copies
-
-          //- project_tags
-          ul#project_tags.tags
-            li
-              a.tag
-                img
-                | {name}
-                name.glyphicons.remove-2
-
         .main-controls
           //- fork_button
           button.green
@@ -60,21 +32,6 @@ main.project-container
                   textarea.form-control.feedback-description(required
                                                              placeholder = "Send a message to the author")
                   button.orange Send
-      //- runnable_owner
-      #project-author.col-sm-3
-        .row
-          a.col-sm-5.col-xl-4(href = "/")
-            img(src = "http://placehold.it/50"
-                alt = "")
-          h4.col-sm-7.col-xl-8
-            a(href = "") {model.attributes.username}
-            b Anonymous
-            .publish-date published {4 days ago}
-          //- leader_badges
-          ul.col-sm-7.col-sm-offset-5.col-md-offset-0.col-xl-8
-            li
-              | # {attributes.leaderPosition} in
-              a {name}
 
   section#project
     //- code_editor
