@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
+    "ace-bundle": "git@github.com:CodeNow/ace-bundle.git#818cce93829f1d546c2da81f047b84bf668c07a8",
     "angular-ui-ace": "bower"
   }
 }

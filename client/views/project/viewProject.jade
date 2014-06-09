@@ -88,9 +88,10 @@ main.project-container
         //- add_tab
 
       //- file_explorer
-      #project-editor-container.show-readme
-
+      #project-editor-container
         //- code
+        pre#project-editor(ui-ace = "{showGutter: false}");
+
         //- html_readme
 
     //- rebuild_loader
