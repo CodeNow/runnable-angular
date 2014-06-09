@@ -32,12 +32,11 @@
 }
 
 .project-container {
-  height: calc(100% - 123px);
-  margin: 15px 0 0;
+  height: 100%;
 }
 
 .status-bar ~ .project-container {
-  height: calc(100% - 177px);
+  height: 100%;
 }
 
 // image/container title
