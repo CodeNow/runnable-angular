@@ -1,6 +1,8 @@
 #logo {
   display: inline-block;
   height: 54px;
+  float: left;
+  padding: 0 15px;
   position: relative;
     z-index: $z-show;
   user-select: none;

@@ -1,37 +1,35 @@
-.container
-  nav.row
+nav.row
 
-    .col-sm-4
-      a#logo(href = "/")
-        span
-        sup &lt;beta&gt;
+  a#logo(href = "/")
+    span
+    sup &lt;beta&gt;
 
-    div#header-actions.col-sm-4
-      span#user.menu(ng-init = "userMenu=true"
-                     ng-if   = "userMenu")
-        a
-          img(src    = "{{headerActionsData.user.gravitar}}"
-              alt    = "{{headerActionsData}}"
-              height = "18"
-              width  = "18")
-        ul
-          li
-            a(href = "/user/{{username}}")
-              |Profile
-              img(src    = "{{gravitar}}"
-                  alt    = "{{username}}"
-                  height = "18"
-                  width  = "18")
-          li
-            a(href = "/logout")
-              |Log Out
-              span.glyphicons.exit
-      a#header-signup-link(ng-if = "!userMenu") Sign Up
-      a.btn.purple(href = "/new") Create New
+  div#header-actions.col-sm-4
+    span#user.menu(ng-init = "userMenu=true"
+                   ng-if   = "userMenu")
+      a
+        img(src    = "{{headerActionsData.user.gravitar}}"
+            alt    = "{{headerActionsData}}"
+            height = "18"
+            width  = "18")
+      ul
+        li
+          a(href = "/user/{{username}}")
+            |Profile
+            img(src    = "{{gravitar}}"
+                alt    = "{{username}}"
+                height = "18"
+                width  = "18")
+        li
+          a(href = "/logout")
+            |Log Out
+            span.glyphicons.exit
+    a#header-signup-link(ng-if = "!userMenu") Sign Up
+    a.btn.purple(href = "/new") Create New
 
-    form#search(ng-if = "showSearch")
-      input(required
-            name        = "q"
-            type        = "search"
-            placeholder = "")
-      button.glyphicons.search
+  form#search(ng-if = "showSearch")
+    input(required
+          name        = "q"
+          type        = "search"
+          placeholder = "")
+    button.glyphicons.search
