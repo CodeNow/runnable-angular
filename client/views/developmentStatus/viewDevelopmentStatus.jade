@@ -1,6 +1,5 @@
 div(ng-init  = "DevStatusData.short = true"
-    ng-mouseenter = "DevStatusData.short = false"
-    ng-mouseleave = "DevStatusData.short = true")
+    ng-if    = "false")
   h5 Development Status
     span(ng-if = "!DevStatusData.hide")
       |&nbsp;(
@@ -15,7 +14,9 @@ div(ng-init  = "DevStatusData.short = true"
     |&nbsp;(
     a(ng-click = "DevStatusData.hide = !DevStatusData.hide") show/hide
     |)
-  div(ng-if = "!DevStatusData.hide")
+  div(ng-if         = "!DevStatusData.hide"
+      ng-mouseenter = "DevStatusData.short = false"
+      ng-mouseleave = "DevStatusData.short = true")
     pre(ng-if = "DevStatusData.short && !DevStatusData.hide")
       {{DevStatusData.repository.statusShort}}
 

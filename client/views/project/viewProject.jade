@@ -64,7 +64,7 @@ main.project-container
       #project-author.col-sm-3
         .row
           a.col-sm-5.col-xl-4(href = "/")
-            img(src = ""
+            img(src = "http://placehold.it/50"
                 alt = "")
           h4.col-sm-7.col-xl-8
             a(href = "") {model.attributes.username}
@@ -72,13 +72,26 @@ main.project-container
             .publish-date published {4 days ago}
           //- leader_badges
           ul.col-sm-7.col-sm-offset-5.col-md-offset-0.col-xl-8
-
+            li
+              | # {attributes.leaderPosition} in
+              a {name}
 
   section#project
     //- code_editor
+    #code-editor.in
+      #project-toolbar
+        a#open-file-explorer.glyphicons.folder-closed
+        //- readme_button
+        #project-editor-tabs-wrapper
+          //- file_tabs
+        //- file_select
+        //- add_tab
+
+      //- file_explorer
+      #project-editor-container.show-readme
+
+        //- code
+        //- html_readme
+
     //- rebuild_loader
-
-
-
-
 

@@ -18,7 +18,8 @@
     "browser-resolve": "~1.2.4",
     "angular": "~1.2.16",
     "async": "~0.9.0",
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.6.1"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -48,6 +49,7 @@
     "git-tools": "~0.1.1"
   },
   "browser": {
+    "ace": "./bower/ace-builds/src-noconflict/ace.js"
   },
   "browserify-shim": {
   },

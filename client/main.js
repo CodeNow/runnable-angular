@@ -7,7 +7,6 @@ var jQuery  = require('jquery');
 var views = require('./build/views/viewBundle');
 app.run(['$rootScope', '$templateCache', function ($rootScope, $templateCache) {
   _.each(views.Templates, function (item, index) {
-    console.log(index);
     $templateCache.put(index, item());
   });
   // leave user at top of page each route change
@@ -28,6 +27,9 @@ require('./controllers/project/controllerProject');
 require('./controllers/developmentStatus/controllerDevelopmentStatus');
 
 require('./router');
+
+// servicej
+require('./services/api');
 
 window.onload = function () {
   module.exports = angular.bootstrap(document, ['app']);
