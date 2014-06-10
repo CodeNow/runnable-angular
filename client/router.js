@@ -1,5 +1,5 @@
-var app    = require('./app');
-var routes = require('./config/routes');
+var app    = require('app');
+var routes = require('config/routes');
 
 app.config(['$stateProvider',
             '$urlRouterProvider',
