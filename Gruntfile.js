@@ -22,6 +22,7 @@ module.exports = function(grunt) {
         script: 'server/main.js',
         options: {
           env: {
+            'PORT': 3001,
             'NODE_ENV': 'development',
             'NODE_PATH': '.'
           },
