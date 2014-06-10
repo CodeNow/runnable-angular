@@ -1,7 +1,7 @@
 header#primary(ng-if      = "rootData.state.current.data.header"
                ng-include = "'viewHeader'")
 main(ui-view)
-footer(ng-if      = "rootData.state.current.data.footer"
+footer(ng-if      = "dataLayout.showPopover1"
        ng-include = "'viewFooter'")
 
 //- development status

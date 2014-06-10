@@ -12,15 +12,70 @@
     position: relative;
   }
 
+  #logo {
+    border-right: 1px solid rgba(0,0,0,.2);
+    box-shadow: 1px 0 0 rgba(255,255,255,.1);
+  }
+
   nav > div {
     @include media(sm) {
       height: 54px;
     }
   }
+
+  nav > ul {
+    float: left;
+
+    > li {
+      color: $purple-logo;
+      display: inline-block;
+      padding: 0 15px;
+      position: relative;
+
+      &::after {
+        background: rgba(0,0,0,.2);
+        box-shadow: 1px 0 0 rgba(255,255,255,.1);
+        content: '';
+        display: block;
+        height: 54px;
+        position: absolute;
+          top: 0;
+          right: 0;
+        transform: rotate3d(0,0,1,15deg);
+        width: 1px;
+      }
+
+      .arrow-down {
+        border-top-color: $purple-logo;
+        right: 15px;
+        top: 24px;
+      }
+
+      &:nth-child(n+2) {
+        cursor: pointer;
+        padding-right: 30px;
+
+        &:hover {
+          color: #fff;
+
+          .arrow-down {
+            border-top-color: #fff;
+          }
+        }
+      }
+
+      &:last-child::after {
+        display: none;
+      }
+    }
+  }
 }
 
 #header-actions {
+  border-left: 1px solid rgba(0,0,0,.2);
+  box-shadow: inset 1px 0 0 rgba(255,255,255,.1);
   float: right;
+  width: 54px;
 
   > a,
   > span {

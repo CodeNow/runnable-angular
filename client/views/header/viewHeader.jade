@@ -4,6 +4,17 @@ nav.row
     span
     sup &lt;beta&gt;
 
+  ul
+    li codenow
+    li(ng-click = "dataHeader.showPopover1 = true") project-name
+      div(ng-class = "{in: dataHeader.showPopover1}"
+          class    = "popover bottom fade")
+        | HI MOM
+
+      a.arrow-down
+    li branch-name
+      a.arrow-down
+
   #header-actions
     span#user.menu(ng-init = "userMenu=true"
                    ng-if   = "userMenu")
