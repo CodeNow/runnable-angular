@@ -36,6 +36,7 @@
   section#project
     //- code_editor
     #code-editor.in
+
       #project-toolbar
         a#open-file-explorer.glyphicons.folder-closed
         //- readme_button
@@ -45,9 +46,65 @@
         //- add_tab
 
       //- file_explorer
+      aside#file-explorer
+        ul#controls
+          li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
+            span
+          li.light-theme.theme.tooltip(data-title = "Light Theme")
+        #build-files.sub-tree.in
+          a
+          h6
+            | BUILD FILES
+            button.silver.btn-sm.dropdown.branch-switcher(type = "button")
+              select
+                option(disabled) Select Branch
+                option(selected) Master
+                option Feature Branch
+                option Other Branch
+                option Olive Branch
+              span.glyphicons.git-branch
+              | Master
+            //- file_explorer_menu
+            button.silver.btn-sm.btn-popover.file-explorer-menu
+              span.glyphicons.cogwheel
+              .popover.fade.bottom.menu
+                .arrow
+                  .popover-content
+                    ul#file-explorer-options.popover-body.col-popover-3
+                      li
+                        a
+                          object.iconnables(data = "/build/images/icons/icons-new-file.svg"
+                                            type = "image/svg+xml")
+                          | New File
+                      li
+                        a
+                          object.iconnables(data = "/build/images/icons/icons-new-folder.svg"
+                                            type = "image/svg+xml")
+                          | New Folder
+                      li
+                        a#add-repo-link
+                          object.iconnables(data = "/build/images/icons/icons-octocat.svg"
+                                            type = "image/svg+xml")
+                          | Add Repo
+                  #add-repo.popover-body
+                    form
+                      input.form-control(type        = "search"
+                                         placeholder = "Filter Repositories")
+                    ul.popover-list
+                      li
+                        a.select-repo
+                          | username/reponame
+                          a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
+                        form.add-repo-form
+                          input.form-control(placeholder = "Branch or SHA (optional)")
+                          a.btn.btn-block.orange Add Repository
+
+          ul.nav.nav-pills.nav-stacked
+            
+
       #project-editor-container
         //- code
-        pre#project-editor(ui-ace = "{showGutter: false}");
+        pre#project-editor(ui-ace = "{showGutter: false}") Test
 
         //- html_readme
 
