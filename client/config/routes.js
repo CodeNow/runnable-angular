@@ -38,11 +38,21 @@ module.exports = [{
     footer: true
   }
 }, {
-  state:       'mainLayout.project',
+  state:       'mainLayout.build',
   abstract:    false,
-  url:         '^/project/:username/:projectid',
-  templateUrl: 'viewProject',
-  controller:  'ControllerProject',
+  url:         '^/:userOrOrg/:projectName/',
+  templateUrl: 'viewBuild',
+  controller:  'ControllerBuild',
+  data: {
+    header: true,
+    footer: true
+  }
+}, {
+  state:       'mainLayout.buildBranch',
+  abstract:    false,
+  url:         '^/:userOrOrg/:projectName/:branch',
+  templateUrl: 'viewBuild',
+  controller:  'ControllerBuild',
   data: {
     header: true,
     footer: true
