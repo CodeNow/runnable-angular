@@ -210,7 +210,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('autoBundleDependencies', '', function () {
-    var done = this.async();
+    var done       = this.async();
     var clientPath = path.join(__dirname, 'client');
     bundle('controllers');
     bundle('services');
@@ -226,14 +226,14 @@ module.exports = function(grunt) {
         //file doesn't exist
       }
       find.file(/\.js$/, workingPath, function (files) {
-        var filestring = files
+        var fileString = files
           .map(function (item) {
             return item.replace(workingPath, '.').replace(/\.js$/, '');
           })
           .reduce(function (previous, current) {
             return previous += 'require(\'' + current + '\');\n';
           }, '');
-        fs.writeFileSync(path.join(workingPath, 'index.js'), filestring);
+        fs.writeFileSync(path.join(workingPath, 'index.js'), fileString);
       });
     }
   });
