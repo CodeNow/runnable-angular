@@ -3,7 +3,8 @@ var apiConfig = require('config/api');
 var Runnable  = require('runnable');
 
 app.factory('api', [function () {
-  return new Runnable(apiConfig.host).anonymous();
+  return {};
+  //return new Runnable(apiConfig.host).anonymous();
 }]);
 
 // temporary
