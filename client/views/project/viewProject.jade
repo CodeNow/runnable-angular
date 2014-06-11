@@ -1,112 +1,111 @@
-.project-container
-  section#project-details.container
-    .row
-      .col-sm-9
-        .page-title
-          //- runnable_title
-          h1
-            form
-              input.form-control(required
-                                 ng-init     = "canEdit=true"
-                                 ng-if       = "canEdit"
-                                 name        = "name"
-                                 placeholder = "Give your code example a title"
-                                 value       = "model.attributes.name"
-                                 maxlength   = "2000")
-              span(ng-if = "!canEdit") model.virtual.nameWithTags
+section#project-details.col-sm-3
+  //- runnable_title
+  h1
+    a.glyphicons.chevron-left
+    | Build 1776
+    a.glyphicons.chevron-right
 
-        .main-controls
-          //- fork_button
-          button.green
-            span.glyphicons.git-create
-            span Fork This
-          //- improve_button
-          #improve-btn.btn-group
-            button.silver.glyphicons.thumbs-up(type = "button")
-            button.silver.glyphicons.thumbs-down(type = "button")
-            //- improve_popover
-            .popover.fade.bottom
+  .main-controls
+    button.green
+      span.glyphicons.play
+      span Run Instance
+    button.silver
+      span Rebuild
+
+  ul
+    li
+      span.glyphicons.circle-ok
+      | Build Passed
+    li
+      span.glyphicons.stopwatch
+      | Took 87 seconds
+    li
+      span.glyphicons.calendar
+      | Built 2 days ago
+    li
+      span.glyphicons.electricity
+      | Manaully triggered by <a>Tony</a>
+
+  ol
+    li Commit Log
+    li Update privacy.hbs
+      span.glyphicons.more
+    li
+
+section#project.col-sm-9
+  //- code_editor
+  #code-editor.in
+
+    #project-toolbar
+      a#open-file-explorer.glyphicons.folder-closed
+      //- readme_button
+      #project-editor-tabs-wrapper
+        //- file_tabs
+      //- file_select
+      //- add_tab
+
+    //- file_explorer
+    aside#file-explorer
+      ul#controls
+        li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
+          span
+        li.light-theme.theme.tooltip(data-title = "Light Theme")
+      #build-files.sub-tree.in
+        a
+        h6
+          | BUILD FILES
+          button.silver.btn-sm.dropdown.branch-switcher(type = "button")
+            select
+              option(disabled) Select Branch
+              option(selected) Master
+              option Feature Branch
+              option Other Branch
+              option Olive Branch
+            span.glyphicons.git-branch
+            | Master
+          //- file_explorer_menu
+          button.silver.btn-sm.btn-popover.file-explorer-menu
+            span.glyphicons.cogwheel
+            .popover.fade.bottom.menu
               .arrow
-              .popover-content
-                form#improve_from_1337.clearfix
-                  textarea.form-control.feedback-description(required
-                                                             placeholder = "Send a message to the author")
-                  button.orange Send
+                .popover-content
+                  ul#file-explorer-options.popover-body.col-popover-3
+                    li
+                      a
+                        object.iconnables(data = "/build/images/icons/icons-new-file.svg"
+                                          type = "image/svg+xml")
+                        | New File
+                    li
+                      a
+                        object.iconnables(data = "/build/images/icons/icons-new-folder.svg"
+                                          type = "image/svg+xml")
+                        | New Folder
+                    li
+                      a#add-repo-link
+                        object.iconnables(data = "/build/images/icons/icons-octocat.svg"
+                                          type = "image/svg+xml")
+                        | Add Repo
+                #add-repo.popover-body
+                  form
+                    input.form-control(type        = "search"
+                                       placeholder = "Filter Repositories")
+                  ul.popover-list
+                    li
+                      a.select-repo
+                        | username/reponame
+                        a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
+                      form.add-repo-form
+                        input.form-control(placeholder = "Branch or SHA (optional)")
+                        a.btn.btn-block.orange Add Repository
 
-  section#project
-    //- code_editor
-    #code-editor.in
+        ul.nav.nav-pills.nav-stacked
 
-      #project-toolbar
-        a#open-file-explorer.glyphicons.folder-closed
-        //- readme_button
-        #project-editor-tabs-wrapper
-          //- file_tabs
-        //- file_select
-        //- add_tab
 
-      //- file_explorer
-      aside#file-explorer
-        ul#controls
-          li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
-            span
-          li.light-theme.theme.tooltip(data-title = "Light Theme")
-        #build-files.sub-tree.in
-          a
-          h6
-            | BUILD FILES
-            button.silver.btn-sm.dropdown.branch-switcher(type = "button")
-              select
-                option(disabled) Select Branch
-                option(selected) Master
-                option Feature Branch
-                option Other Branch
-                option Olive Branch
-              span.glyphicons.git-branch
-              | Master
-            //- file_explorer_menu
-            button.silver.btn-sm.btn-popover.file-explorer-menu
-              span.glyphicons.cogwheel
-              .popover.fade.bottom.menu
-                .arrow
-                  .popover-content
-                    ul#file-explorer-options.popover-body.col-popover-3
-                      li
-                        a
-                          object.iconnables(data = "/build/images/icons/icons-new-file.svg"
-                                            type = "image/svg+xml")
-                          | New File
-                      li
-                        a
-                          object.iconnables(data = "/build/images/icons/icons-new-folder.svg"
-                                            type = "image/svg+xml")
-                          | New Folder
-                      li
-                        a#add-repo-link
-                          object.iconnables(data = "/build/images/icons/icons-octocat.svg"
-                                            type = "image/svg+xml")
-                          | Add Repo
-                  #add-repo.popover-body
-                    form
-                      input.form-control(type        = "search"
-                                         placeholder = "Filter Repositories")
-                    ul.popover-list
-                      li
-                        a.select-repo
-                          | username/reponame
-                          a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
-                        form.add-repo-form
-                          input.form-control(placeholder = "Branch or SHA (optional)")
-                          a.btn.btn-block.orange Add Repository
+    #project-editor-container
+      //- code
+      pre#project-editor(ui-ace = "{showGutter: false}") Test
 
-          ul.nav.nav-pills.nav-stacked
-            
+      //- html_readme
 
-      #project-editor-container
-        //- code
-        pre#project-editor(ui-ace = "{showGutter: false}") Test
-
-        //- html_readme
-
-    //- rebuild_loader
+  //- rebuild_loader
 
