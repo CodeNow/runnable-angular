@@ -1,6 +1,4 @@
 var app = require('app');
-var _   = require('underscore');
-
 app.controller('ControllerDevelopmentStatus', [
   '$scope',
   '$http', function ($scope, $http) {
@@ -71,6 +69,4 @@ app.controller('ControllerDevelopmentStatus', [
         break;
     }
   };
-
-
 }]);
