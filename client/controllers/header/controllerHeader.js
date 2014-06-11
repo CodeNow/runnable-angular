@@ -5,8 +5,8 @@ app.controller('ControllerHeader', ['$scope', '$window', function ($scope, $wind
 
   dataHeader.togglePopover1 = function (e) {
     if (e) e.stopPropagation();
-    dataHeader.showPopover1 = !dataHeader.showPopover1;
-    if (dataHeader.showPopover1) {
+    if (!dataHeader.showPopover1) {
+      dataHeader.showPopover1 = true;
       $window.onclick = function (event) {
         dataHeader.showPopover1 = false;
         $scope.$apply();
