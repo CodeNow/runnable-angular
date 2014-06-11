@@ -7,13 +7,13 @@ nav.row
   ul
     li codenow
 
-    li(ng-click = "dataHeader.showChangeProject = true") project-name
+    li(ng-click = "dataHeader.toggleChangeProjectPopover($event)") project-name
       div(ng-class   = "{in: dataHeader.showChangeProject}"
           ng-include = "'viewHeaderPopoverChangeProject'"
           class      = "popover menu bottom fade")
       a.arrow-down
 
-    li(ng-click = "dataHeader.showChangeBranch = true") branch-name
+    li(ng-click = "dataHeader.toggleChangeBranchPopover($event)") branch-name
       div(ng-class   = "{in: dataHeader.showChangeBranch}"
           ng-include = "'viewHeaderPopoverChangeBranch'"
           class      = "popover menu bottom fade")

@@ -1,5 +1,7 @@
 var path = require('path');
 var _    = require('underscore');
+var find = require('find');
+var fs   = require('fs');
 
 module.exports = function(grunt) {
 
@@ -109,7 +111,9 @@ module.exports = function(grunt) {
         options: {
           transform: ['browserify-shim'],
           alias: [
-            'client/app.js:app'
+            'client/app.js:app',
+            'client/config/routes:config/routes',
+            'client/config/api:config/api'
           ]
         }
       }
@@ -205,6 +209,35 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('autoBundleDependencies', '', function () {
+    var done       = this.async();
+    var clientPath = path.join(__dirname, 'client');
+    bundle('controllers');
+    bundle('services');
+    bundle('filters');
+    bundle('directives');
+    bundle('animations');
+    done();
+    function bundle (subDir) {
+      var workingPath = path.join(clientPath, subDir);
+      try {
+        fs.unlinkSync(path.join(workingPath, 'index.js'));
+      } catch (e) {
+        //file doesn't exist
+      }
+      find.file(/\.js$/, workingPath, function (files) {
+        var fileString = files
+          .map(function (item) {
+            return item.replace(workingPath, '.').replace(/\.js$/, '');
+          })
+          .reduce(function (previous, current) {
+            return previous += 'require(\'' + current + '\');\n';
+          }, '');
+        fs.writeFileSync(path.join(workingPath, 'index.js'), fileString);
+      });
+    }
+  });
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
@@ -220,7 +253,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
 
-  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'browserify']);
+  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'autoBundleDependencies', 'browserify']);
   grunt.registerTask('develop', ['build', 'concurrent']);
 
 

@@ -48,12 +48,11 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-qunit": "~0.5.1",
     "grunt-concurrent": "~0.5.0",
-    "git-tools": "~0.1.1"
+    "git-tools": "~0.1.1",
+    "find": "~0.1.5"
   },
-  "browser": {
-  },
-  "browserify-shim": {
-  },
+  "browser": {},
+  "browserify-shim": {},
   "browserify": {
     "transform": [
       "browserify-shim"

@@ -1,7 +1,7 @@
 var app     = require('app');
 var angular = require('angular');
 var _       = require('underscore');
-var jQuery  = require('jquery');
+var jQuery  = require('jquery'); //required: places $ on window
 
 // Cache all views
 var views = require('./build/views/viewBundle');
@@ -15,21 +15,13 @@ app.run(['$rootScope', '$templateCache', function ($rootScope, $templateCache) {
   });
 }]);
 
-// bundle application deps w/ browserify by requiring
-require('./controllers/controllerApp');
-require('./controllers/controllerLayout');
-require('./controllers/about/controllerAbout');
-require('./controllers/home/controllerHome');
-require('./controllers/jobs/controllerJobs');
-require('./controllers/project/controllerProject');
-
-// include only in dev
-require('./controllers/developmentStatus/controllerDevelopmentStatus');
+require('./controllers/index');
+require('./services/index');
+require('./filters/index');
+require('./directives/index');
+require('./animations/index');
 
 require('./router');
-
-// servicej
-require('./services/api');
 
 window.onload = function () {
   module.exports = angular.bootstrap(document, ['app']);
