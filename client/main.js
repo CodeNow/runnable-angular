@@ -8,10 +8,6 @@ app.run(['$rootScope', '$templateCache', function ($rootScope, $templateCache) {
   Object.keys(views.Templates).forEach(function (viewName) {
     $templateCache.put(viewName, views.Templates[viewName]());
   });
-  // _.each(views.Templates.forEach(function (view, index) {
-  //   $templateCache.put(index, view());
-  // });
-
   // leave user at top of page each route change
   $rootScope.$on('$stateChangeSuccess', function () {
     jQuery('html, body').scrollTop(0);
