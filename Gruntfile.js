@@ -228,7 +228,7 @@ module.exports = function(grunt) {
       find.file(/\.js$/, workingPath, function (files) {
         var filestring = files
           .map(function (item) {
-            return item.replace(workingPath, '.');
+            return item.replace(workingPath, '.').replace(/\.js$/, '');
           })
           .reduce(function (previous, current) {
             return previous += 'require(\'' + current + '\');\n';
