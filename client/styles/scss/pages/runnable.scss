@@ -35,59 +35,6 @@
   height: 100%;
 }
 
-.status-bar ~ .project-container {
-  height: 100%;
-}
-
-// image/container title
-.page-title {
-
-  .tags {
-    margin-top: 5px;
-  }
-
-  h1 {
-    @extend .clearfix;
-    color: $gray-darker;
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0 0 10px;
-
-    @include media(xs) {
-      margin-bottom: 2px;
-    }
-
-    @include media(sm) {
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    > span {
-      display: block;
-      float: left;
-      margin-right: 10px;
-      max-width: calc(100% - 125px);
-      text-overflow: ellipsis;
-
-      @include media(sm) {
-        overflow: hidden;
-        white-space: nowrap;
-      }
-    }
-
-    > .dropdown {
-      @extend .clearfix;
-      float: left;
-      width: 115px;
-
-      button {
-        width: 115px;
-      }
-    }
-  }
-}
-
 #new-tag {
   background: none;
   border: 0;
@@ -186,44 +133,48 @@
 
 // edit title and description
 #project-details {
-  height: 173px;
-  overflow: visible;
+  border-right: 1px solid rgba(0,0,0,.1);
+  height: 100%;
+  padding: 0;
 
-  > .row,
-  > .row > .col-sm-9 {
-    height: 100%;
+  > h1 {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 1px 0 #fff;
+    color: $gray-dark;
+    font-size: 16px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    width: 100%;
+
+    > a {
+      color: rgba(0,0,0,.1);
+      position: absolute;
+        top: 10px;
+
+      &:first-child {
+        left: 15px;
+      }
+
+      &:last-child {
+        right: 15px;
+      }
+    }
   }
 
-  input {
-    color: $gray-darker;
-    margin-bottom: 5px;
+  ul {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 1px 0 #fff;
+    padding: 10px 0;
   }
 
-  textarea {
-    height: 72px;
-    margin-bottom: 6px;
-    max-height: 144px;
-    resize: vertical;
-  }
+  li {
+    color: $gray-dark;
+    padding: 5px 20px;
 
-  .cancel {
-    font-size: 13px;
-    font-weight: 400;
-    padding: 0 8px;
-  }
-
-  .glyphicons.edit {
-    font-size: 18px;
-    line-height: 0;
-    padding: 0 8px;
-  }
-
-  data {
-    font-size: 12px;
-  }
-
-  h2 {
-    margin: 0;
+    > span {
+      width: 24px;
+    }
   }
 }
 
@@ -381,12 +332,15 @@
 // main-controls
 .main-controls {
   @extend .clearfix;
-  position: absolute;
-    bottom: 30px;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  box-shadow: 0 1px 0 #fff;
+  height: 54px;
+  padding: 0 15px;
 
   > .btn-group,
   > button {
     float: left;
+    margin-top: 8px;
   }
 
   > .btn-group:first-child {
@@ -540,8 +494,8 @@
 
 // #project
 #project {
-  border-top: 1px solid rgba(0,0,0,.1);
-  height: calc(100% - 173px);
+  height: 100%;
+  padding: 0;
   position: relative;
 }
 

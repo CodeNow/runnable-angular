@@ -40,11 +40,11 @@
 
   &.menu {
     cursor: default;
-    max-height: 90px;
+    // max-height: 90px;
     width: 300px;
 
     .popover-content {
-      max-height: 86px;
+      // max-height: 86px;
       overflow: hidden;
       padding: 7px;
       transition: max-height .2s;
@@ -333,7 +333,13 @@
 }
 
 // popovers in header
-header li .popover {
-  right: -90px;
+header .popover {
+  left: auto;
+  right: -120px;
   top: 40px;
+  transform-origin: 50% 0;
+
+  input {
+    margin-bottom: 10px;
+  }
 }
