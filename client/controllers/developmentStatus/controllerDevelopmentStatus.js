@@ -71,6 +71,4 @@ app.controller('ControllerDevelopmentStatus', [
         break;
     }
   };
-
-
 }]);
