@@ -14,9 +14,8 @@ div(ng-init  = "DevStatusData.short = true"
     |&nbsp;(
     a(ng-click = "DevStatusData.hide = !DevStatusData.hide") show/hide
     |)
-  div(ng-if         = "!DevStatusData.hide"
-      ng-mouseenter = "DevStatusData.short = false"
-      ng-mouseleave = "DevStatusData.short = true")
+  div(ng-if    = "!DevStatusData.hide"
+      ng-click = "DevStatusData.short = !DevStatusData.short")
     pre(ng-if = "DevStatusData.short && !DevStatusData.hide")
       {{DevStatusData.repository.statusShort}}
 
