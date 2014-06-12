@@ -547,3 +547,11 @@
 #readonly-message {
   text-align: center;
 }
+
+// #build-stream
+#build-stream {
+
+  > .row {
+    margin: 15px -15px;
+  }
+}
