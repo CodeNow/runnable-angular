@@ -22,5 +22,5 @@ require('./animations/index');
 require('./router');
 
 window.onload = function () {
-  module.exports = angular.bootstrap(document, ['app']);
+  angular.bootstrap(document, ['app']);
 };

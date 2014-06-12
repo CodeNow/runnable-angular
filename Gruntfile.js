@@ -109,6 +109,9 @@ module.exports = function(grunt) {
           'client/build/js/bundle.js': ['client/main.js']
         },
         options: {
+          bundleOptions: {
+            debug: true
+          },
           transform: ['browserify-shim'],
           alias: [
             'client/app.js:app',
