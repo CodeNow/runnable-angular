@@ -114,7 +114,7 @@ module.exports = function(grunt) {
           },
           transform: ['browserify-shim'],
           alias: [
-            'client/app.js:app',
+            'client/lib/app:app',
             'client/config/routes:config/routes',
             'client/config/api:config/api'
           ]
