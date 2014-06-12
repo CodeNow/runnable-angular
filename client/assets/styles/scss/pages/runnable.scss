@@ -174,7 +174,7 @@
 
     > li {
       color: $gray-dark;
-      padding: 5px 20px 6px;
+      padding: 5px 15px 6px;
 
       > span {
         width: 24px;
@@ -197,8 +197,17 @@
 
 .commit {
 
+  object {
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    top: 2px;
+    width: 14px;
+  }
+
   img {
     background: rgba(0,0,0,.1);
+    border: 1px solid $gray-dark;
     border-radius: 50%;
     float: left;
     height: 14px;
@@ -546,4 +555,12 @@
 // #readonly-message
 #readonly-message {
   text-align: center;
+}
+
+// #build-stream
+#build-stream {
+
+  > .row {
+    margin: 15px -15px;
+  }
 }
