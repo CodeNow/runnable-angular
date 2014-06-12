@@ -136,7 +136,7 @@ module.exports = function(grunt) {
     copy: {
       images: {
         expand: true,
-        cwd: 'client/images/',
+        cwd: 'client/assets/images/',
         src: '**',
         dest: 'client/build/images/',
         flatten: false,
@@ -144,7 +144,7 @@ module.exports = function(grunt) {
       },
       fonts: {
         expand: true,
-        cwd: 'client/fonts/',
+        cwd: 'client/assets/fonts/',
         src: '**',
         dest: 'client/build/fonts/',
         flatten: false,
@@ -171,7 +171,7 @@ module.exports = function(grunt) {
     watch: {
       images: {
         files: [
-          'client/images/*'
+          'client/assets/images/*'
         ],
         tasks: ['copy:images']
       },
