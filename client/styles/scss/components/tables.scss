@@ -8,6 +8,11 @@
   border-left: 0;
   border-right: 0;
   padding: 8px 15px;
+
+  &:first-child {
+    padding: 8px 0 0 8px;
+    text-align: center;
+  }
 }
 
 .table-bordered > thead > tr > th,
@@ -27,6 +32,18 @@ td {
 
 table {
   color: $gray-dark;
+
+  th {
+    background: $gray;
+  }
+
+  td {
+    cursor: pointer;
+  }
+
+  .glyphicons {
+    font-size: 12px;
+  }
 
   .circle-exclamation-mark {
     color: $orange;
