@@ -28,86 +28,62 @@ section#project-details
 
   ol#commit-logs
     li Commit Log
-    li
+
+    li(ng-repeat = "commit in dataBuild.commits")
       ol.commit
         li
-          a
-            object(
-              class = "iconnables filetypes"
-              data = "/build/images/icons/filetypes/icons-git.svg"
-              type = "image/svg+xml"
-            )
-            b 823014
-            | #{''} removing comment
+          a {{commit.message}}
         li
           a
             img
-            | #{''} cflynn07
-          span 2 hours ago
-    li
-      ol.commit
-        li
-          a(alt = "full commit message")
-            object(
-              class = "iconnables filetypes"
-              data = "/build/images/icons/filetypes/icons-git.svg"
-              type = "image/svg+xml"
-            )
-            b 823014
-            | #{''} separate popover for branches
-        li
-          a
-            img
-            | #{''} prafulrana
-          span 8 hours ago
-    li
-      ol.commit
-        li
-          a
-            object(
-              class = "iconnables filetypes"
-              data = "/build/images/icons/filetypes/icons-git.svg"
-              type = "image/svg+xml"
-            )
-            b 823014
-            | #{''} change project popover
-        li
-          a
-            img
-            | #{''} runnabro
-          span 8 hours ago
-    li
-      ol.commit
-        li
-          a
-            object(
-              class = "iconnables filetypes"
-              data = "/build/images/icons/filetypes/icons-git.svg"
-              type = "image/svg+xml"
-            )
-            b 823014
-            | #{''} remove sign up, new, search from header
-        li
-          a
-            img
-            | #{''} runnabro
-          span 10 hours ago
-    li
-      ol.commit
-        li
-          a
-            object(
-              class = "iconnables filetypes"
-              data = "/build/images/icons/filetypes/icons-git.svg"
-              type = "image/svg+xml"
-            )
-            b 823014
-            | #{''} sync with tony
-        li
-          a
-            img
-            | #{''} cflynn07
-          span 1 day ago
+            | #{''} {{commit.username}}
+          span {{commit.datetime | timeAgo}}
+
+    //- li
+    //-   ol.commit
+    //-     li
+    //-       a removing comment
+    //-     li
+    //-       a
+    //-         img
+    //-         |&nbsp;cflynn07
+    //-       span 2 hours ago
+    //- li
+    //-   ol.commit
+    //-     li
+    //-       a separate popover for branches
+    //-     li
+    //-       a
+    //-         img
+    //-         |&nbsp;prafulrana
+    //-       span 8 hours ago
+    //- li
+    //-   ol.commit
+    //-     li
+    //-       a change project popover
+    //-     li
+    //-       a
+    //-         img
+    //-         |&nbsp;runnabro
+    //-       span 8 hours ago
+    //- li
+    //-   ol.commit
+    //-     li
+    //-       a remove sign up, new, search from header
+    //-     li
+    //-       a
+    //-         img
+    //-         |&nbsp;runnabro
+    //-       span 10 hours ago
+    //- li
+    //-   ol.commit
+    //-     li
+    //-       a sync with tony
+    //-     li
+    //-       a
+    //-         img
+    //-         |&nbsp;cflynn07
+    //-       span 1 day ago
 
 
 section#project
@@ -150,31 +126,23 @@ section#project
                   ul#file-explorer-options.popover-body.col-popover-3
                     li
                       a
-                        object.iconnables(
-                          data = "/build/images/icons/icons-new-file.svg"
-                          type = "image/svg+xml"
-                        )
+                        object.iconnables(data = "/build/images/icons/icons-new-file.svg"
+                                          type = "image/svg+xml")
                         | New File
                     li
                       a
-                        object.iconnables(
-                          data = "/build/images/icons/icons-new-folder.svg"
-                          type = "image/svg+xml"
-                        )
+                        object.iconnables(data = "/build/images/icons/icons-new-folder.svg"
+                                          type = "image/svg+xml")
                         | New Folder
                     li
                       a#add-repo-link
-                        object.iconnables(
-                          data = "/build/images/icons/icons-octocat.svg"
-                          type = "image/svg+xml"
-                        )
+                        object.iconnables(data = "/build/images/icons/icons-octocat.svg"
+                                          type = "image/svg+xml")
                         | Add Repo
                 #add-repo.popover-body
                   form
-                    input.form-control(
-                      type = "search"
-                      placeholder = "Filter Repositories"
-                    )
+                    input.form-control(type        = "search"
+                                       placeholder = "Filter Repositories")
                   ul.popover-list
                     li
                       a.select-repo

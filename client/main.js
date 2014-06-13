@@ -19,8 +19,8 @@ require('./services/index');
 require('./filters/index');
 require('./directives/index');
 require('./animations/index');
-require('./router');
+require('./lib/router');
 
-window.onload = function () {
+jQuery(function () {
   angular.bootstrap(document, ['app']);
-};
+});

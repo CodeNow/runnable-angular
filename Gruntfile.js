@@ -114,7 +114,7 @@ module.exports = function(grunt) {
           },
           transform: ['browserify-shim'],
           alias: [
-            'client/app.js:app',
+            'client/lib/app:app',
             'client/config/routes:config/routes',
             'client/config/api:config/api'
           ]
@@ -128,7 +128,7 @@ module.exports = function(grunt) {
         },
         files: {
           './client/build/views/viewBundle.js': [
-            './client/views/**/*.jade'
+            './client/templates/**/*.jade'
           ]
         }
       }
@@ -136,7 +136,7 @@ module.exports = function(grunt) {
     copy: {
       images: {
         expand: true,
-        cwd: 'client/images/',
+        cwd: 'client/assets/images/',
         src: '**',
         dest: 'client/build/images/',
         flatten: false,
@@ -144,7 +144,7 @@ module.exports = function(grunt) {
       },
       fonts: {
         expand: true,
-        cwd: 'client/fonts/',
+        cwd: 'client/assets/fonts/',
         src: '**',
         dest: 'client/build/fonts/',
         flatten: false,
@@ -171,7 +171,7 @@ module.exports = function(grunt) {
     watch: {
       images: {
         files: [
-          'client/images/*'
+          'client/assets/images/*'
         ],
         tasks: ['copy:images']
       },
