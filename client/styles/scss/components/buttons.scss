@@ -218,6 +218,17 @@ button,
     border-color: rgba(#5b3777,.6);
     color: lighten(#ac67c6,38);
   }
+
+  &.no-states {
+
+    &:hover,
+    &:active {
+      background-color: #9a58ba;
+      background-image: linear-gradient(rgba(#6b409b,0),#6b409b);
+      border-color: #5b3777;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.1);
+    }
+  }
 }
 
 .btn-label {

@@ -4,24 +4,32 @@ nav.row
     span
     sup &lt;beta&gt;
 
-  ul
-    li codenow
+  ul.btn-group
+    li.btn.purple.no-states codenow
 
-    li(ng-click = "dataHeader.toggleChangeProjectPopover($event)") project-name
-      div(ng-class   = "{in: dataHeader.showChangeProject}"
-          ng-include = "'viewHeaderPopoverChangeProject'"
-          class      = "popover menu bottom fade")
-      a.arrow-down
+    li.btn.purple.no-states project-name
+      div(
+        ng-class   = "{in: dataHeader.showChangeProject}"
+        ng-include = "'viewHeaderPopoverChangeProject'"
+        class      = "popover menu bottom fade"
+      )
+      a(ng-click = "dataHeader.toggleChangeProjectPopover($event)")
+        span.arrow-down
 
-    li(ng-click = "dataHeader.toggleChangeBranchPopover($event)") branch-name
-      div(ng-class   = "{in: dataHeader.showChangeBranch}"
-          ng-include = "'viewHeaderPopoverChangeBranch'"
-          class      = "popover menu bottom fade")
-      a.arrow-down
+    li.btn.purple.no-states branch-name
+      div(
+        ng-class   = "{in: dataHeader.showChangeBranch}"
+        ng-include = "'viewHeaderPopoverChangeBranch'"
+        class      = "popover menu bottom fade"
+      )
+      a(ng-click = "dataHeader.toggleChangeBranchPopover($event)")
+        span.arrow-down
 
   #header-actions
-    span#user.menu(ng-init = "userMenu=true"
-                   ng-if   = "userMenu")
+    span#user.menu(
+      ng-init = "userMenu=true"
+      ng-if   = "userMenu"
+    )
       a
         img(src    = "{{headerActionsData.user.gravitar}}"
             alt    = "{{headerActionsData}}"
