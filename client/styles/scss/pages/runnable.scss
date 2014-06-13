@@ -134,8 +134,10 @@
 // edit title and description
 #project-details {
   border-right: 1px solid rgba(0,0,0,.1);
+  float: left;
   height: 100%;
   padding: 0;
+  width: 254px;
 
   > h1 {
     background: $gray;
@@ -145,6 +147,7 @@
     font-size: 16px;
     height: 36px;
     line-height: 36px;
+    position: relative;
     text-align: center;
     width: 100%;
 
@@ -547,9 +550,11 @@
 
 // #project
 #project {
+  float: left;
   height: 100%;
   padding: 0;
   position: relative;
+  width: calc(100% - 254px);
 }
 
 // #readonly-message
