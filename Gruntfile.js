@@ -5,7 +5,7 @@ var fs   = require('fs');
 
 module.exports = function(grunt) {
 
-  var sassDir   = 'client/styles/scss';
+  var sassDir   = 'client/assets/styles/scss';
   var sassIndex = path.join(sassDir, 'index.scss');
 
   grunt.initConfig({
@@ -67,11 +67,11 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
-          'client/styles/bootstrap/bootstrap.min.css',
-          'client/styles/bootstrap/bootstrap-theme.min.css',
+          'client/assets/styles/bootstrap/bootstrap.min.css',
+          // 'client/assets/styles/bootstrap/bootstrap-theme.min.css',
           //ngprogress?
-          'client/styles/glyphicons.css',
-          'client/styles/jquery-ui/jquery-ui-1.10.4.custom.css',
+          'client/assets/styles/glyphicons.css',
+          'client/assets/styles/jquery-ui/jquery-ui-1.10.4.custom.css',
           'client/build/css/index.css'
         ],
         //dest: 'public/build/<%= pkg.name %>.css'
