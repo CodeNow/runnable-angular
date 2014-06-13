@@ -1,0 +1,155 @@
+#jobs {
+  overflow: hidden;
+
+  .jumbotron {
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    min-height: 700px;
+
+    h2 {
+      font-size: 36px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.4em;
+    }
+  }
+}
+
+#jobs-header {
+  background-image: url(../images/jobs-header.jpg);
+  @include background-image-retina('../images/jobs-header@2x.jpg');
+  background-size: cover;
+  color: #fff;
+  height: 700px;
+  text-align: center;
+
+  h2 {
+    margin-top: 215px;
+  }
+
+  p {
+    margin-bottom: 50px;
+  }
+
+  button {
+    font-size: 17px;
+    height: 60px;
+    padding: 0 40px;
+  }
+}
+
+#jobs-perks {
+  color: $gray-dark;
+  padding: 60px 0 15px;
+  text-align: center;
+
+  h2 {
+    font-weight: bold;
+    margin: 0 0 60px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 60px;
+  }
+}
+
+#jobs-you {
+  background-image: url(../images/jobs-you.jpg);
+  @include background-image-retina('../images/jobs-you@2x.jpg');
+  background-size: cover;
+  color: #fff;
+  height: 700px;
+
+  h2 {
+    margin-top: 415px;
+  }
+}
+
+#jobs-open-positions h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 75px;
+}
+
+#jobs-open-positions-list {
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+  margin: 25px 0 75px;
+  padding: 0;
+
+  li {
+    border-bottom: solid 1px $gray-light;
+    list-style: none;
+    margin: 0;
+    padding: 0 2.5%;
+  }
+
+  h4,
+  p,
+  div {
+    font-size: 14px;
+    line-height: 81px;
+    margin: 0;
+    padding: 0;
+  }
+
+  h4 {
+    float: left;
+    font-weight: 600;
+  }
+
+  p {
+    float: right;
+  }
+}
+
+#jobs-about {
+  h3 {
+    margin-bottom: 21px;
+  }
+
+  p {
+    border-bottom: solid 1px $gray;
+    color: $gray-dark;
+    font-size: 16px;
+    line-height: 1.4em;
+    margin: 0 0 25px;
+    padding: 0 0 25px;
+  }
+}
+
+#jobs-contact-list {
+  margin: 0;
+  padding: 0;
+
+  li {
+    color: $gray-darker;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 27px;
+    list-style: none;
+    margin-bottom: 25px;
+    padding-left: 54px;
+    position: relative;
+    text-align: left;
+  }
+
+  a {
+    color: $gray-darker;
+  }
+
+  span {
+    color: darken($gray,10%);
+    font-size: 24px;
+    position: absolute;
+      left: 15px;
+  }
+}

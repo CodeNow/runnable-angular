@@ -1,0 +1,638 @@
+// Responsive Mixins
+@mixin breakpoint($point) {
+  @if $point == screen-lg {
+    @media (max-width: 1200px) { @content; }
+  }
+  @else if $point == screen-md {
+    @media (max-width: 992px) { @content; }
+  }
+  @else if $point == screen-sm {
+    @media (max-width: 768px)  { @content; }
+  }
+  @else if $point == screen-xs {
+    @media (max-width: 480px)  { @content; }
+  }
+}
+
+// Retina Mixin
+// http://37signals.com/svn/posts/3271-easy-retina-ready-images-using-scss
+@mixin background-image-retina($image) {
+  @media (min--moz-device-pixel-ratio: 1.3),
+    (-o-min-device-pixel-ratio: 2.6/2),
+    (-webkit-min-device-pixel-ratio: 1.3),
+    (min-device-pixel-ratio: 1.3),
+    (min-resolution: 1.3dppx) {
+  /* on retina, use image that's scaled by 2 */
+  background-image: url($image);
+  }
+}
+
+
+
+
+
+
+// Keyframes Mixin from Bourbon - https://github.com/thoughtbot/bourbon
+//************************************************************************//
+// Example: @include prefixer(border-radius, $radii, webkit ms spec);
+//************************************************************************//
+// Variables located in /settings/_prefixer.scss
+
+@mixin prefixer ($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+  @if $prefix == webkit {
+    @if $prefix-for-webkit {
+    -webkit-#{$property}: $value;
+    }
+  }
+  @else if $prefix == moz {
+    @if $prefix-for-mozilla {
+    -moz-#{$property}: $value;
+    }
+  }
+  @else if $prefix == ms {
+    @if $prefix-for-microsoft {
+    -ms-#{$property}: $value;
+    }
+  }
+  @else if $prefix == o {
+    @if $prefix-for-opera {
+    -o-#{$property}: $value;
+    }
+  }
+  @else if $prefix == spec {
+    @if $prefix-for-spec {
+    #{$property}: $value;
+    }
+  }
+  @else  {
+    @warn "Unrecognized prefix: #{$prefix}";
+  }
+  }
+}
+
+@mixin disable-prefix-for-all() {
+  $prefix-for-webkit:    false;
+  $prefix-for-mozilla:   false;
+  $prefix-for-microsoft: false;
+  $prefix-for-opera:     false;
+  $prefix-for-spec:      false;
+}
+
+// Variable settings for /addons/prefixer.scss
+
+$prefix-for-webkit:    true !default;
+$prefix-for-mozilla:   true !default;
+$prefix-for-microsoft: true !default;
+$prefix-for-opera:     true !default;
+$prefix-for-spec:      true !default; // required for keyframe mixin
+
+// Adds keyframes blocks for supported prefixes, removing redundant prefixes in the block's content
+@mixin keyframes($name) {
+  $original-prefix-for-webkit:    $prefix-for-webkit;
+  $original-prefix-for-mozilla:   $prefix-for-mozilla;
+  $original-prefix-for-microsoft: $prefix-for-microsoft;
+  $original-prefix-for-opera:     $prefix-for-opera;
+  $original-prefix-for-spec:      $prefix-for-spec;
+
+  @if $original-prefix-for-webkit {
+      @include disable-prefix-for-all();
+      $prefix-for-webkit: true;
+      @-webkit-keyframes #{$name} {
+        @content;
+    }
+  }
+  @if $original-prefix-for-mozilla {
+    @include disable-prefix-for-all();
+    $prefix-for-mozilla: true;
+    @-moz-keyframes #{$name} {
+      @content;
+    }
+  }
+  @if $original-prefix-for-spec {
+    @include disable-prefix-for-all();
+    $prefix-for-spec: true;
+    @keyframes #{$name} {
+      @content;
+    }
+  }
+
+  $prefix-for-webkit:    $original-prefix-for-webkit;
+  $prefix-for-mozilla:   $original-prefix-for-mozilla;
+  $prefix-for-microsoft: $original-prefix-for-microsoft;
+  $prefix-for-opera:     $original-prefix-for-opera;
+  $prefix-for-spec:      $original-prefix-for-spec;
+}
+
+// UI KIT
+progress {
+  appearance: none;
+  background-color: #b9b9b9;
+  border: none;
+
+  // Reset the default appearance
+  background-image: linear-gradient(#b1b1b1,#ccc);
+  border: solid 1px #a9a9a9;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3) inset;
+  // For IE10
+  color: $purple;
+
+  width: 100%;
+  height: 14px;
+
+  &[value] {
+
+    &::-webkit-progress-bar {
+      background-image: linear-gradient(#b1b1b1,#ccc);
+      border-radius: 7px;
+      box-shadow: 0 2px 5px rgba(0,0,0,.3) inset;
+      overflow: hidden;
+    }
+
+    &::-webkit-progress-value {
+      background-image: linear-gradient(#9958ba,#6d419c);
+      border: solid 1px #70429c;
+      border-radius: 7px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.3) inset;
+      width: 100%;
+    }
+  }
+
+  &::-moz-progress-bar {
+    background-image: linear-gradient(#9958ba,#6d419c);
+    border: solid 1px #70429c;
+    border-radius: 7px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.3) inset;
+  }
+}
+
+.progress-bar {
+  background-color: #b9b9b9;
+  background-image: linear-gradient(#b1b1b1,#ccc);
+  border: solid 1px #a9a9a9;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3) inset;
+  height: 14px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  .progress-bar-fill {
+    background-image: linear-gradient(#9958BA,#6D419C);
+    border: solid 1px #70429c;
+    border-radius: 7px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.3) inset;
+    height: 12px;
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.step-progress-bar {
+  background: #dedede;
+  border-radius: 5px;
+  height: 11px;
+  margin: 25px 0;
+  padding: 0;
+  position: relative;
+    z-index: 10;
+
+  &.steps-2 li { width: 100% }
+  &.steps-3 li { width: 50% }
+  &.steps-4 li { width: 33.3% }
+  &.steps-5 li { width: 25% }
+  &.steps-6 li { width: 20% }
+  &.steps-7 li { width: 16.6% }
+  &.steps-8 li { width: 14.27% }
+  &.steps-9 li { width: 12.5% }
+  &.steps-10 li { width: 11.1% }
+
+  li {
+    float: left;
+    height: 6px;
+    list-style: none;
+    margin: 2px 0 0;
+    padding: 0;
+    position: relative;
+
+    &:before {
+      background: #dedede;
+      border-radius: 50%;
+      color: #fff;
+      content: attr(data-step);
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 22px;
+      position: absolute;
+        top: -8px;
+        right: -11px;
+        z-index: 100;
+      text-align: center;
+      width: 22px;
+    }
+
+    &.active {
+      background-color: #81b638;
+      background-image: linear-gradient(#81B638, #589427);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.5);
+      color: #fff;
+      text-shadow: 0 -1px 0 #4f7c20;
+
+      &:before {
+        background-image: linear-gradient(#81b638, #589427);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.5);
+        color: #fff;
+        text-shadow: 0 -1px 0 #4f7c20;
+      }
+    }
+
+    &:first-child {
+      left: 10px;
+      width: 0;
+    }
+
+    &:last-child {
+      right: 10px;
+    }
+  }
+}
+
+.tags {
+
+  .widget-title {
+    @extend .clearfix;
+
+    .edit-tags {
+      background-image: url(../images/sprite-edit-tag.png);
+      @include background-image-retina('../images/sprite-edit-tag@2x.png');
+      background-size: 15px auto;
+      float: right;
+      height: 15px;
+      width: 15px;
+
+      &:hover {
+        background-position: 0 -15px;
+      }
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      float: left;
+      list-style: none;
+      margin: 0 9px 9px 0;
+      padding: 0;
+    }
+  }
+}
+
+.icon {
+  background: #bbb;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 48px;
+  overflow: hidden;
+  text-align: center;
+  width: 48px;
+
+  &.play {
+    background-image: url(../images/icon-play.png);
+    @include background-image-retina('../images/icon-play@2x.png');
+    background-size: 20px 25px;
+  }
+
+  &.arrow-left {
+    background-image: url(../images/icon-arrow-left.png);
+    @include background-image-retina('../images/icon-arrow-left@2x.png');
+    background-size: 24px 22px;
+  }
+
+  &.two-arrow {
+    background-image: url(../images/icon-two-arrow.png);
+    @include background-image-retina('../images/icon-two-arrow@2x.png');
+    background-size: 30px 22px;
+  }
+
+  &.folder {
+    background-image: url(../images/icon-folder.png);
+    @include background-image-retina('../images/icon-folder@2x.png');
+    background-size: 40px 28px;
+  }
+}
+
+.info-box {
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  overflow: hidden;
+
+  h3 {
+    background: $purple-light;
+    border-radius: 3px 3px 0 0;
+    color: #fff;
+    font-size: 16px;
+    margin: 0;
+    padding: 6px 12px;
+
+    span {
+      float: right;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+  }
+
+  .info-box-content {
+    font-weight: 700;
+    padding: 12px;
+
+    p {
+      font-size: 12px;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.expandable {
+  display: none;
+  opacity: 0;
+
+  &.expanded {
+    display: inline;
+    opacity: 1;
+  }
+}
+
+.bootstrap-select {
+  background: none;
+  display: inline-block;
+  margin-left: 10px;
+  margin-top: 14px;
+  vertical-align: middle;
+
+  .btn {
+    box-shadow: none;
+    border-color: #bbb;
+    color: #bbb;
+    font-size: 12px;
+    font-weight: 700;
+
+    .caret {
+      border-top-color: #bbb;
+      float: right;
+      margin-top: 7px;
+    }
+  }
+
+  &.open {
+
+    .btn {
+      background: #ccc;
+      border: solid 1px #999;
+      color: #fff;
+      text-shadow: none;
+
+      .caret {
+        border-top-color: #fff;
+      }
+
+      &:focus {
+        outline: none !important;
+      }
+    }
+  }
+
+  .dropdown-menu > li > a {
+    padding: 3px 14px;
+  }
+
+  .dropdown-menu li a:hover {
+    background: $orange;
+  }
+}
+
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
+.ui-autocomplete {
+  background: #fff;
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  top: 5px;
+  z-index: 100000;
+
+  li {
+    list-style: none;
+    margin: 0;
+
+    a {
+      color: $gray-darkest;
+      display: block;
+      font-size: 13px;
+      padding: 8px 10px !important;
+      text-decoration: none;
+
+      &.ui-state-focus {
+        background: $orange;
+        color: #fff;
+      }
+    }
+  }
+}
+
+a.terminal-popout {
+  background-image: url(../images/sprite-popout.png);
+  @include background-image-retina('../images/sprite-popout@2x.png');
+  background-size: 11px auto;
+  display: inline-block;
+  height: 11px;
+  margin-bottom: -2px;
+  width: 11px;
+
+  &:hover {
+    background-position: 0 -11px;
+  }
+}
+
+#output-terminal-container,
+.terminal-view {
+
+  .terminal-loader {
+    box-sizing: content-box;
+    display: none;
+    margin-top: 51px;
+    position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index:3;
+    white-space: normal;
+
+    .terminal-loader-icon {
+      height: 54px;
+      margin: -26px 0 0 -35px;
+      position: absolute;
+        top: 50%;
+        left: 50%;
+      text-align: center;
+      width: 70px;
+
+      img {
+        margin-right: 4px;
+        opacity: .6;
+      }
+
+      .dot {
+        background-color: #999;
+        border-radius: 50%;
+        height: 8px;
+        opacity: 0;
+        position: absolute;
+          bottom: 0;
+        width: 8px;
+
+        &.dot-1 {
+          animation: spin 1s linear -.5s infinite;
+          left: 0;
+          margin: 0 0 0 -4px;
+        }
+
+        &.dot-2 {
+          animation: spin 1s linear -.375s infinite;
+          left: 25%;
+          margin: 0 0 0 -4px;
+        }
+
+        &.dot-3 {
+          animation: spin 1s linear -.25s infinite;
+          left: 50%;
+          margin: 0 0 0 -4px;
+        }
+
+        &.dot-4 {
+          animation: spin 1s linear -.125s infinite;
+          left: 75%;
+          margin: 0 0 0 -4px;
+        }
+
+        &.dot-5 {
+          animation: spin 1s linear 0 infinite;
+          margin: 0 -4px 0 0;
+          right: 0;
+        }
+      }
+    }
+  }
+
+  &.loading .terminal-loader {
+    display: block;
+  }
+}
+
+#output-terminal-container .terminal-loader{
+  margin-top: 0;
+}
+
+#disqus_thread {
+  margin: 40px 0;
+}
+
+#tags-main {
+  margin-bottom: 0;
+  max-width: 1170px;
+
+  h1 {
+    @extend .clearfix;
+    color: $gray-darker;
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0 0 15px;
+
+    @include media(xs) {
+      margin: 0;
+    }
+
+    > img {
+      display: block;
+      float: left;
+      height: 70px - 12px;
+      margin-right: 15px;
+      user-select: none;
+      width: 70px - 12px;
+    }
+
+    > p {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+      margin: 6px 0 0;
+
+      @include media(xs) {
+        margin-top: 15px;
+      }
+    }
+  }
+}
+
+#contact-header,
+.basic-page {
+  text-align: center;
+
+  #contact-mid,
+  .basic-page-mid {
+    background-color: $purple;
+    color: #fff;
+    height: 200px;
+
+    h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin: 0;
+      padding: 40px 0 10px;
+    }
+
+    p {
+      color: #c49cdf;
+      font-size: 18px;
+    }
+  }
+
+  #contact-body,
+  .basic-page-body {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 2px 7px rgba(0,0,0,.1);
+    margin-bottom: 40px;
+    margin-top: -45px;
+    padding-bottom: 30px;
+    text-align: left;
+  }
+
+  #contact-body {
+    background-image: url(../images/contact-body.jpg);
+    @include background-image-retina('../images/contact-body@2x.jpg');
+  }
+}
+
+#edit-mode {
+  background: $orange;
+  color: #fff;
+  font-size: 12px;
+
+  p {
+    margin: 0;
+    padding: 7px 0;
+  }
+}

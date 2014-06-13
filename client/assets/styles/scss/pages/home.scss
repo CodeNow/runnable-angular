@@ -1,0 +1,55 @@
+.landing > main {
+  height: calc(100% - 54px);
+}
+
+#home {
+  background: linear-gradient($purple-light,$purple);
+  display: table;
+  height: 100%;
+  width: 100%;
+
+  .valign {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  #logomark {
+    height: 120px;
+    margin-top: -120px;
+    width: 120px;
+  }
+
+  #heading {
+    display: block;
+    margin: 15px auto 30px;
+    max-width: 540px;
+  }
+
+  a {
+    background: rgba(255,255,255,.15);
+    border: 0;
+    border-radius: 3px;
+    box-shadow: none;
+    display: table;
+    font-size: 16px;
+    font-weight: 400;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 auto;
+    text-indent: 28px;
+    text-shadow: none;
+
+    &:hover {
+      background: rgba(255,255,255,.25);
+      color: #fff;
+    }
+
+    &:active {
+      background: rgba(255,255,255,.35);
+    }
+
+    > object {
+      margin-top: 10px;
+    }
+  }
+}

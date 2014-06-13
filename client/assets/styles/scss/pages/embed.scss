@@ -1,0 +1,194 @@
+#embed {
+  border: 1px solid rgba(0,0,0,.1);
+  height: 100%;
+  margin: 0;
+  min-height: 320px;
+  min-width: 320px;
+  position: relative;
+  width: 100%;
+
+  &.with-terminal {
+
+    #code-editor-embed {
+      height: calc(100% - 81px);
+    }
+
+    #project-editor-container {
+      height: calc(100% - 36px);
+    }
+
+    .terminal-view {
+      display: block;
+      height: 45px;
+      transition: height .15s ease-in-out;
+    }
+  }
+
+  &.in {
+
+    #code-editor-embed {
+      height: calc(100% - 286px);
+    }
+
+    .terminal-view {
+      height: 250px;
+    }
+  }
+
+  // run button
+  > button {
+    background: $green-light;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    height: 37px;
+    line-height: 37px;
+    position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 3;
+  }
+
+  // code editor
+  #code-editor-embed {
+    height: calc(100% - 36px);
+    transition: height .15s ease-in-out;
+  }
+
+  #project-editor-container {
+    height: calc(100% - 36px);
+
+    &.with-output {
+
+      > pre {
+        display: none;
+      }
+
+      > #run-output {
+        display: block;
+      }
+    }
+  }
+
+  #project-editor {
+    min-height: 100%;
+    transform: translateZ(0);
+  }
+
+  #code-editor-embed {
+    border: 0;
+
+    &.in {
+
+      #open-file-explorer {
+        height: 36px;
+      }
+
+      #project-editor-tabs-wrapper {
+        transform: translate3d(204px,0,0);
+        width: calc(100% - 330px);
+      }
+    }
+
+    &:after {
+      display: none;
+    }
+  }
+
+  #open-file-explorer {
+    height: 37px;
+    transition: height 0s .1s;
+  }
+
+  #project-editor-tabs-wrapper {
+    border-bottom: 0;
+    width: calc(100% - 126px);
+  }
+
+  #project-select-tabs {
+    border: 0;
+    border-left: 1px solid rgba(0,0,0,.1);
+    border-radius: 0;
+    position: absolute;
+      top: 0;
+      right: 73px;
+  }
+
+  #project-editor-tabs > li {
+    border-top: 0;
+  }
+
+  #project-editor-container {
+    border-top: 1px solid rgba(0,0,0,.1);
+    min-height: 0;
+    overflow: auto;
+  }
+
+  // terminal
+  .terminal-title {
+    display: none;
+  }
+
+  .terminal-view {
+    display: none;
+    position: absolute;
+      bottom: 36px;
+      z-index: 10;
+    width: 100%;
+
+    iframe {
+      height: 100%;
+      min-height: 0;
+      width: 100%;
+    }
+
+    .overlay-loader {
+      display: none;
+    }
+  }
+
+  .terminal-loader {
+    display: none;
+  }
+
+  // output
+  #run-output {
+    display: none;
+
+    iframe {
+      border: 0;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  // footer
+  footer {
+    background: $gray-light;
+    border-top: 1px solid rgba(0,0,0,.1);
+    box-shadow: none;
+    height: 36px;
+    line-height: 36px;
+    position: absolute;
+      bottom: 0;
+      z-index: 10;
+    width: 100%;
+
+    > a {
+      float: left;
+    }
+  }
+
+  #logo {
+    float: right;
+    height: 36px;
+    margin-right: 6px;
+    padding: 0;
+    width: 36px;
+
+    > svg {
+      height: 36px;
+      width: 36px;
+    }
+  }
+}

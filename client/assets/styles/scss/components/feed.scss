@@ -1,0 +1,277 @@
+#feed {
+  @extend .clearfix;
+  background: $gray-lighter;
+  overflow: hidden;
+  padding-bottom: 100px;
+  position: relative;
+    z-index: 1;
+
+  > .container {
+    max-width: 1170px;
+  }
+
+  // show trending or popular
+  .sort {
+    overflow: hidden;
+  }
+
+  .sort-popular > [data-orderbyparam="trending"],
+  .sort-trending > [data-orderbyparam="popular"] {
+    display: none;
+  }
+}
+
+#home-header {
+
+  ~ #feed {
+    transition: transform .4s cubic-bezier(.19,1,.22,1);
+    transform: translate3d(0,-240px,0);
+  }
+
+  &.inner ~ #feed {
+    transform: translate3d(0,0,0);
+  }
+}
+
+// feed nav
+#feed-nav {
+  margin-bottom: 15px;
+  margin-top: 15px;
+  padding: 0 15px;
+
+  @include media(xs) {
+    margin-bottom: 0;
+  }
+
+  // toggle for trending & popular
+  > div {
+    float: left;
+  }
+
+  // search
+  #search {
+    float: right;
+
+    input {
+      width: 105px;
+
+      &:focus {
+        width: 240px;
+
+        @include media(sm) {
+          width: 300px;
+        }
+      }
+
+      @media (max-width: 500px) {
+        width: 100%;
+
+        &:focus {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// runnable-feed
+.runnable-feed {
+  list-style-type: none;
+  padding: 0;
+
+  > li {
+    border-bottom: 1px solid $gray;
+    border-top: 1px solid #fff;
+    margin: 0 10px;
+    padding: 20px 0;
+    position: relative;
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    @media (max-width: 500px) {
+      margin: 0;
+    }
+
+    @include media(sm) {
+      padding-bottom: 14px;
+    }
+  }
+
+  // runnable title
+  h2 {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    padding: 0 15px;
+    width: auto;
+
+    a {
+      color: $gray-darker;
+      cursor: pointer;
+      display: block;
+
+      &:hover {
+        color: $gray-darkest;
+      }
+
+      &:active {
+        transform: translate3d(0,1px,0);
+      }
+    }
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  // runs
+  .play-button {
+    color: $orange;
+    font-size: 12px;
+    margin-right: 4px;
+  }
+
+  data {
+    color: $gray-dark;
+    margin-right: 10px;
+
+    @include media(xs) {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    @include media(sm) {
+      float: left;
+    }
+  }
+
+  // tags
+  div {
+
+    > ul {
+
+      @include media(xs) {
+        display: block;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 1px;
+        white-space: nowrap;
+      }
+
+      @include media(sm) {
+        width: calc(100% - 200px)
+      }
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+  }
+
+  // time
+  time {
+    color: $gray-dark;
+    font-size: 13px;
+    position: absolute;
+      right: 50px;
+      bottom: 28px;
+
+    @include media(xs) {
+      bottom: 52px;
+      color: lighten($gray-dark,20%);
+    }
+
+    @media (max-width: 500px) {
+      right: 44px;
+    }
+  }
+
+  // user image
+  .user-img {
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+    height: 22px;
+    overflow: hidden;
+    position: absolute;
+      right: 15px;
+      bottom: 28px;
+    width: 22px;
+
+    &:active {
+      transform: translate3d(0,1px,0);
+    }
+
+    @include media(xs) {
+      bottom: 54px;
+    }
+  }
+
+  // delete
+  .delete {
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+    color: rgba($gray-dark,.5);
+    height: 20px;
+    line-height: 19px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+      top: 20px;
+      right: 10px;
+    text-shadow: none;
+    transition: all .25s cubic-bezier(.19,1,.22,1);
+    width: 22px;
+    white-space: nowrap;
+
+    @include media(xs) {
+      top: 24px;
+    }
+
+    &:hover {
+      background: $orange;
+      border: 1px solid rgba(0,0,0,.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+      color: #fff;
+      width: 72px;
+
+      > span:first-child {
+        opacity: 1;
+      }
+
+      > span:last-child {
+        transform: rotate3d(0,0,1,90deg);
+      }
+    }
+
+    &:active {
+      box-shadow: none;
+      transform: translate3d(0,1px,0);
+    }
+
+    > span {
+      position: absolute;
+
+      &:first-child {
+        left: 6px;
+        opacity: 0;
+        top: 0;
+        transition: opacity .25s cubic-bezier(.19,1,.22,1);
+      }
+
+      &:last-child {
+        right: 6px;
+        top: 3px;
+        transition: transform .25s ease-in-out;
+      }
+    }
+  }
+}

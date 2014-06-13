@@ -1,0 +1,44 @@
+//colors
+$gray:           #e8e8e8;
+$gray-lighter:   #f6f6f6;
+$gray-light:     #eee;
+$gray-dark:      #888;
+$gray-darker:    #555;
+$gray-darkest:   #333;
+
+$green:          #4ca844;
+$green-dark:     darken($green,3);
+$green-darker:   darken($green,7);
+
+$green-light:    #85bd4c;
+$green-lighter:  lighten($green-light,7);
+
+$silver:         #e4e4e4;
+$silver-lighter: lighten($silver,8);
+$silver-light:   lighten($silver,5);
+$silver-dark:    darken($silver,9);
+$silver-darker:  darken($silver,12);
+
+$purple:         #5b3777;
+$purple-lighter: saturate(lighten($purple, 60), 63);
+$purple-light:   lighten($purple,14);
+$purple-dark:    darken($purple,14);
+$purple-darker:  darken($purple,17);
+
+$purple-logo:    lighten($purple-light,20%);
+
+$orange:         #fd7022;
+$orange-lighter: lighten($orange,13);
+$orange-light:   lighten($orange,5);
+$orange-dark:    darken($orange,5);
+$orange-darker:  darken($orange,13);
+
+$light-yellow:   #ffffe0;
+$dark-yellow:    darken(desaturate($light-yellow,65),45);
+
+// z-indexes
+$z-hide: -10000;
+$z-show: 10000;
+
+$zpopover: 9998;
+$ztooltip: 9999;
