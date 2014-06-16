@@ -16,7 +16,7 @@ module.exports = [{
   data: {
     header: false,
     bodyClass: {
-      landing: true
+      'height-54': true
     },
     footer: true
   }
@@ -28,9 +28,6 @@ module.exports = [{
   controller:  'ControllerAbout',
   data: {
     header: true,
-    bodyClass: {
-      landing: true
-    },
     footer: true
   }
 }, {
@@ -41,9 +38,6 @@ module.exports = [{
   controller:  'ControllerJobs',
   data: {
     header: true,
-    bodyClass: {
-      landing: true
-    },
     footer: true
   }
 }, {
@@ -54,6 +48,9 @@ module.exports = [{
   controller:  'ControllerBuildStream',
   data: {
     header: true,
+    bodyClass: {
+      'height-108': true
+    },
     footer: true
   }
 }, {
@@ -64,6 +61,9 @@ module.exports = [{
   controller:  'ControllerBuild',
   data: {
     header: true,
+    bodyClass: {
+      'height-54': true
+    },
     footer: false
   }
 }, {
@@ -74,6 +74,9 @@ module.exports = [{
   controller:  'ControllerInstance',
   data: {
     header: true,
+    bodyClass: {
+      'height-54': true
+    },
     footer: false
   }
 }];
