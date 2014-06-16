@@ -40,7 +40,7 @@ module.exports = [{
 }, {
   state:       'mainLayout.buildStream',
   abstract:    false,
-  url:         '^/:userOrOrg/:project/:branch',
+  url:         '^/:owner/:project/:branch',
   templateUrl: 'viewBuildStream',
   controller:  'ControllerBuildStream',
   data: {
@@ -50,9 +50,19 @@ module.exports = [{
 }, {
   state:       'mainLayout.build',
   abstract:    false,
-  url:         '^/:userOrOrg/:project/:branch/:build',
+  url:         '^/:owner/:project/:branch/:build',
   templateUrl: 'viewBuild',
   controller:  'ControllerBuild',
+  data: {
+    header: true,
+    footer: true
+  }
+}, {
+  state:       'mainLayout.instance',
+  abstract:    false,
+  url:         '^/instance/:id',
+  templateUrl: 'viewInstance',
+  controller:  'ControllerInstance',
   data: {
     header: true,
     footer: true
