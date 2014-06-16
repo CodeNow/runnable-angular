@@ -12,7 +12,7 @@ app.controller('ControllerHeader', ['$scope', '$window', function ($scope, $wind
     }
     dataHeader['show' + popoverName] = true;
     $elParent.off('click').on('click', function (eventC) {
-      if ($elParent.has($(eventC.target))) {
+      if ($(this).has($(eventC.target))) {
         eventC.stopPropagation();
       }
     });
