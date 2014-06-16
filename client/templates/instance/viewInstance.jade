@@ -1,90 +1,23 @@
 section#project-details
   //- runnable_title
-  h1
-    a.glyphicons.chevron-left
-    | Build 1776
-    a.glyphicons.chevron-right
+  h1 Build 1776
 
   .main-controls
-    button.green
-      span.glyphicons.play
-      span Run Instance
-    button.silver
-      span Rebuild
+    button.silver.btn-block Save Changes
 
   ul
     li
-      span.glyphicons.circle-ok
-      | Build Passed
+      input.form-control(
+        readonly
+        value = "runnable.url/a1201jeid"
+      )
     li
-      span.glyphicons.stopwatch
-      | Built in 87 seconds
+      span.glyphicons.unshare
+      | Built from
+      a #{''} user/project/branch
     li
       span.glyphicons.calendar
-      | Finished 2 days ago
-    li
-      span.glyphicons.electricity
-      | Triggered by <a>runnabro</a>
-
-  ol#commit-logs
-    li Commit Log
-
-    li(ng-repeat = "commit in dataBuild.commits")
-      ol.commit
-        li
-          a {{commit.message}}
-        li
-          a
-            img
-            | #{''} {{commit.username}}
-          span {{commit.datetime | timeAgo}}
-
-    //- li
-    //-   ol.commit
-    //-     li
-    //-       a removing comment
-    //-     li
-    //-       a
-    //-         img
-    //-         |&nbsp;cflynn07
-    //-       span 2 hours ago
-    //- li
-    //-   ol.commit
-    //-     li
-    //-       a separate popover for branches
-    //-     li
-    //-       a
-    //-         img
-    //-         |&nbsp;prafulrana
-    //-       span 8 hours ago
-    //- li
-    //-   ol.commit
-    //-     li
-    //-       a change project popover
-    //-     li
-    //-       a
-    //-         img
-    //-         |&nbsp;runnabro
-    //-       span 8 hours ago
-    //- li
-    //-   ol.commit
-    //-     li
-    //-       a remove sign up, new, search from header
-    //-     li
-    //-       a
-    //-         img
-    //-         |&nbsp;runnabro
-    //-       span 10 hours ago
-    //- li
-    //-   ol.commit
-    //-     li
-    //-       a sync with tony
-    //-     li
-    //-       a
-    //-         img
-    //-         |&nbsp;cflynn07
-    //-       span 1 day ago
-
+      | Launched on 10/21/2014
 
 section#project
   //- code_editor
@@ -119,16 +52,7 @@ section#project
       #build-files.sub-tree.in
         a
         h6
-          | BUILD FILES
-          button.silver.btn-sm.dropdown.branch-switcher(type = "button")
-            select
-              option(disabled) Select Branch
-              option(selected) Master
-              option Feature Branch
-              option Other Branch
-              option Olive Branch
-            span.glyphicons.git-branch
-            | Master
+          | CONTAINER FILES
           //- file_explorer_menu
           button.silver.btn-sm.btn-popover.file-explorer-menu
             span.glyphicons.cogwheel
