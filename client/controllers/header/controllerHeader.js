@@ -14,12 +14,10 @@ app.controller('ControllerHeader', ['$scope', '$window', function ($scope, $wind
     $elParent.off('click').on('click', function (eventC) {
       if ($elParent.has($(eventC.target))) {
         eventC.stopPropagation();
-        console.log('stop 2');
       }
     });
     setTimeout(function () {
       $(window).one('click', function (eventB) {
-        console.log('p2');
         $scope.$apply(function () {
           dataHeader['show' + popoverName] = false;
         });
