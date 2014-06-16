@@ -10,3 +10,4 @@ client/services/index.js
 client/filters/index.js
 client/directives/index.js
 client/animations/index.js
+*.rdb

@@ -64,7 +64,7 @@ module.exports = [{
   controller:  'ControllerBuild',
   data: {
     header: true,
-    footer: true
+    footer: false
   }
 }, {
   state:       'mainLayout.instance',
@@ -74,6 +74,6 @@ module.exports = [{
   controller:  'ControllerInstance',
   data: {
     header: true,
-    footer: true
+    footer: false
   }
 }];
