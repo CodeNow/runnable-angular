@@ -1,0 +1,84 @@
+.arrow
+.popover-content
+  #add-tab-options
+    ol.popover-body.col-popover-3
+      li
+        a
+          object.iconnables(
+            data  = "/build/images/icons/icons-web.svg"
+            type  = "image/svg+xml"
+          )
+          | Web View
+      li
+        a
+          object.iconnables(
+            data  = "/build/images/icons/icons-terminal.svg"
+            type  = "image/svg+xml"
+          )
+          | Terminal
+      li
+        a
+          object.iconnables(
+            data  = "/build/images/icons/icons-logs.svg"
+            type  = "image/svg+xml"
+          )
+          | Run Log
+
+    ol#shortcuts.popover-body.popover-list
+      li
+        a Shortcut 1
+          button.delete(type = "button")
+            span Delete
+            span.glyphicons.circle-remove
+      li
+        a Shortcut 2
+          button.delete(type = "button")
+            span Delete
+            span.glyphicons.circle-remove
+      li
+        a Shortcut 3
+          button.delete(type = "button")
+            span Delete
+            span.glyphicons.circle-remove
+      li
+        a Shortcut 4
+          button.delete(type = "button")
+            span Delete
+            span.glyphicons.circle-remove
+    button#new-shortcut-button.silver.btn-block(type = "button") New Shortcut
+
+  form#new-shortcut
+    input.form-control(
+      placeholder = "Shortcut Name"
+      required
+    )
+    input.form-control(
+      placeholder = "Shortcut CMD"
+      required
+    )
+    .form-group.toggle-group
+      label.active
+        .sprite-icons-output
+        | Web &amp; Terminal
+        input(
+          type = "radio"
+          name = "output_format"
+          checked
+        )
+      label
+        .sprite-icons-output
+        | Only Web
+        input(
+          type = "radio"
+          name = "output_format"
+          checked
+        )
+      label
+        .sprite-icons-output
+        | Only Terminal
+        input(
+          type = "radio"
+          name = "output_format"
+          checked
+        )
+    button.orange.btn-block Create New Shortcut

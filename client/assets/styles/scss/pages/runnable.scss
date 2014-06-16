@@ -433,6 +433,10 @@
     margin-left: 10px;
   }
 
+  > .btn-block {
+    margin-left: 0;
+  }
+
   > .silver {
 
     @include media(xxs) {
