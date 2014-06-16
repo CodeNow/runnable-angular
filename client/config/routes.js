@@ -15,6 +15,9 @@ module.exports = [{
   controller:  'ControllerHome',
   data: {
     header: false,
+    bodyClass: {
+      landing: true
+    },
     footer: true
   }
 }, {
@@ -25,6 +28,9 @@ module.exports = [{
   controller:  'ControllerAbout',
   data: {
     header: true,
+    bodyClass: {
+      landing: true
+    },
     footer: true
   }
 }, {
@@ -35,6 +41,9 @@ module.exports = [{
   controller:  'ControllerJobs',
   data: {
     header: true,
+    bodyClass: {
+      landing: true
+    },
     footer: true
   }
 }, {

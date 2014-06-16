@@ -20,7 +20,6 @@ html(
     media = "screen"
     href  = "/build/css/index.css?v=#{locals.version}"
   )
-
   //- ios
   link(
     rel  = "apple-touch-icon"
@@ -33,5 +32,5 @@ html(
   script(src = "/build/js/bundle.js?v=#{locals.version}")
   body(
     ui-view
-    ng-class = "{landing: (rootData.state.current.name === 'mainLayout.home')}"
+    ng-class = "rootData.state.current.data.bodyClass"
   )
