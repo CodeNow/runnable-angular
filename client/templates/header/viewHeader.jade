@@ -8,21 +8,19 @@ nav.row
     li.btn.purple.no-states codenow
 
     li.btn.purple.no-states project-name
-      div(
+      .popover.menu.bottom.fade(
         ng-class   = "{in: dataHeader.showChangeProject}"
         ng-include = "'viewHeaderPopoverChangeProject'"
-        class      = "popover menu bottom fade"
       )
-      a(ng-click = "dataHeader.toggleChangeProjectPopover($event)")
+      a(ng-click = "dataHeader.togglePopover('ChangeProject', $event)")
         span.arrow-down
 
     li.btn.purple.no-states branch-name
-      div(
+      .popover.menu.bottom.fade(
         ng-class   = "{in: dataHeader.showChangeBranch}"
         ng-include = "'viewHeaderPopoverChangeBranch'"
-        class      = "popover menu bottom fade"
       )
-      a(ng-click = "dataHeader.toggleChangeBranchPopover($event)")
+      a(ng-click = "dataHeader.togglePopover('ChangeBranch', $event)")
         span.arrow-down
 
   #header-actions

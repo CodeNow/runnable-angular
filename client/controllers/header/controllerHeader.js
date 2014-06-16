@@ -1,17 +1,29 @@
 var app = require('app');
+var $   = require('jquery');
 app.controller('ControllerHeader', ['$scope', '$window', function ($scope, $window) {
   var dataHeader = {};
   $scope.dataHeader = dataHeader;
 
-  dataHeader.toggleChangeProjectPopover = function (e) {
-    if (e) e.stopPropagation();
-    if (!dataHeader.showChangeProject) {
-      dataHeader.showChangeProject = true;
-      $window.onclick = function (event) {
-        dataHeader.showChangeProject = false;
-        $scope.$apply();
-        $window.onclick = null;
-      };
+  dataHeader.togglePopover = function (popoverName, eventA) {
+    var $elParent = $(eventA.currentTarget).parent('li.btn').children('div.popover');
+    if (dataHeader['show' + popoverName]) {
+      eventA.stopPropagation();
+      return;
     }
+    dataHeader['show' + popoverName] = true;
+    $elParent.off('click').on('click', function (eventC) {
+      if ($elParent.has($(eventC.target))) {
+        eventC.stopPropagation();
+        console.log('stop 2');
+      }
+    });
+    setTimeout(function () {
+      $(window).one('click', function (eventB) {
+        console.log('p2');
+        $scope.$apply(function () {
+          dataHeader['show' + popoverName] = false;
+        });
+      });
+    }, 1);
   };
 }]);
