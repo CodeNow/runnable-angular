@@ -1,23 +1,37 @@
 doctype html
-html(lang          = "en"
-     class         = "no-js"
-     ng-controller = "ControllerApp")
+html(
+  lang          = "en"
+  class         = "no-js"
+  ng-controller = "ControllerApp"
+  )
   head
-    meta(charset = "utf-8")
-    meta(name   = "viewport"
-         content = "width=device-width, initial-scale=1")
-    title sandbox.runnable
-    link(rel  = "stylesheet"
-         href = "//fonts.googleapis.com/css?family=Oxygen:400,700")
-    link(rel   = "stylesheet"
-         media = "screen"
-         href  = "/build/css/index.css?v=#{locals.version}")
+  meta(charset = "utf-8")
+  meta(
+    name    = "viewport"
+    content = "width=device-width, initial-scale=1"
+  )
+  title sandbox.runnable
+  link(
+    rel  = "stylesheet"
+    href = "//fonts.googleapis.com/css?family=Oxygen:400,700"
+  )
+  link(
+    rel   = "stylesheet"
+    media = "screen"
+    href  = "/build/css/index.css?v=#{locals.version}"
+  )
 
-    //- ios
-    link(rel  = "apple-touch-icon"
-         href = "/build/images/icons/icons-ios.png")
-    meta(name    = "apple-mobile-web-app-title"
-         console = "Runnable")
-    script(src = "/build/js/bundle.js?v=#{locals.version}")
-  body(ui-view
-       ng-class = "{landing: (rootData.state.current.name === 'mainLayout.home')}")
+  //- ios
+  link(
+    rel  = "apple-touch-icon"
+    href = "/build/images/icons/icons-ios.png"
+  )
+  meta(
+    name    = "apple-mobile-web-app-title"
+    console = "Runnable"
+  )
+  script(src = "/build/js/bundle.js?v=#{locals.version}")
+  body(
+    ui-view
+    ng-class = "{landing: (rootData.state.current.name === 'mainLayout.home')}"
+  )
