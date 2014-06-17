@@ -14,16 +14,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['commonjs', 'browserify', 'mocha'],
-
-
-    commonjsPreprocessor: {
-      // alias: package.browserifyAliases.reduce(function (previous, current) {
-      //   current = current.split(':');
-      //   previous[path.join(__dirname, current[0])] = current[1];
-      //   return previous;
-      // }, {})
-    },
+    frameworks: ['browserify', 'mocha'],
 
 
     // list of files / patterns to load in the browser
@@ -41,18 +32,11 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      // 'client/main.js': ['commonjs', 'browserify'],
       'test/**/*.js': ['browserify']
     },
 
 
     browserify: {
-      // alias: package.browserifyAliases.reduce(function (previous, current) {
-      //   current = current.split(':');
-      //   previous[path.join('./', current[0])] = current[1];
-      //   console.log(previous);
-      //   return previous;
-      // }, {})
       transform: ['browserify-shim']
     },
 
