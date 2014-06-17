@@ -8,6 +8,10 @@
     "start": "NODE_PATH=. node server/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": ">=0.10.25 < 0.12",
+    "npm": "~1.3.24"
+  },
   "author": "Casey Flynn",
   "dependencies": {
     "angular": "~1.2.16",
