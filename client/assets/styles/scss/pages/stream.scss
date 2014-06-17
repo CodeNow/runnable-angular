@@ -22,6 +22,11 @@
   tr:last-child > td {
     border-bottom: 0;
   }
+
+  .btn-sm {
+    display: none;
+    width: 55px;
+  }
 }
 
 .table-scroll {

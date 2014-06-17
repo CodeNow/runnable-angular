@@ -88,6 +88,19 @@
 #header-actions {
   float: right;
 
+  // placeholder
+  &::after {
+    @extend .btn;
+    @extend .purple;
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 50%;
+    content: '';
+    display: block;
+    height: 36px;
+    margin: 9px;
+    width: 36px;
+  }
+
   > a,
   > span {
     color: #fff;

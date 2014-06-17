@@ -44,3 +44,21 @@
     width: 14px;
   }
 }
+
+// circle-pass/fail
+.circle-pass,
+.circle-fail {
+  border: 1px solid $green;
+  border-radius: 50%;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+}
+
+.circle-pass {
+  border-color: $green;
+}
+
+.circle-fail {
+  border-color: $orange;
+}
