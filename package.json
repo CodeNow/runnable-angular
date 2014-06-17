@@ -51,14 +51,19 @@
     "grunt-concurrent": "~0.5.0",
     "git-tools": "~0.1.1",
     "find": "~0.1.5",
-    "karma": "~0.12.16",
     "mocha": "~1.20.1",
+    "chai": "~1.9.1",
+    "karma": "~0.12.16",
     "karma-mocha": "~0.1.4",
     "karma-chrome-launcher": "~0.1.4",
-    "chai": "~1.9.1",
-    "karma-browserify": "~0.2.1"
+    "karma-browserify": "~0.2.1",
+    "karma-commonjs": "0.0.8"
   },
-  "browser": {},
+  "browser": {
+    "app": "./client/lib/app.js",
+    "config/routes": "./client/config/routes.js",
+    "config/api": "./client/config/api.js"
+  },
   "browserify-shim": {},
   "browserify": {
     "transform": [

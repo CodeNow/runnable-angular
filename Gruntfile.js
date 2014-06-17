@@ -1,7 +1,8 @@
-var path = require('path');
-var _    = require('underscore');
-var find = require('find');
-var fs   = require('fs');
+var path    = require('path');
+var _       = require('underscore');
+var find    = require('find');
+var fs      = require('fs');
+var package = require('./package');
 
 module.exports = function(grunt) {
 
@@ -69,7 +70,7 @@ module.exports = function(grunt) {
         src: [
           'client/assets/styles/bootstrap/bootstrap.min.css',
           // 'client/assets/styles/bootstrap/bootstrap-theme.min.css',
-          //ngprogress?
+          // ngprogress?
           'client/assets/styles/glyphicons.css',
           'client/assets/styles/jquery-ui/jquery-ui-1.10.4.custom.css',
           'client/build/css/index.css'
@@ -112,12 +113,7 @@ module.exports = function(grunt) {
           bundleOptions: {
             debug: true
           },
-          transform: ['browserify-shim'],
-          alias: [
-            'client/lib/app:app',
-            'client/config/routes:config/routes',
-            'client/config/api:config/api'
-          ]
+          transform: ['browserify-shim']
         }
       }
     },
