@@ -209,7 +209,14 @@ module.exports = function(grunt) {
     },
     bgShell: {
       karma: {
-        cmd: 'SAUCE_USERNAME=runnable SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48 karma start ./test/karma.conf.js'
+        bg: true,
+        cmd: [
+          'SAUCE_USERNAME=runnable',
+          'SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48',
+          'BUILD_NUMBER=1',
+          'karma start ./test/karma.conf.js'
+        ].join(' ')
+        //cmd: 'SAUCE_USERNAME=runnable SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48 BUILD_NUMBER=1 karma start ./test/karma.conf.js'
       },
       server: {
         cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
