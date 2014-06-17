@@ -7,7 +7,7 @@ Runnable 2.0 (Angular)
 
 A front-end for our system-sandbox management platform.
 
-<img src="http://runnable.com/images/bear-alt.png" title="Runnable" alt="Runnable" align="right">
+<img src="http://runnable.com/images/bear-alt.png" title="Runnable" alt="Runnable" align="right" height="300">
 
 
 Requirements
