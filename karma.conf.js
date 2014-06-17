@@ -1,6 +1,10 @@
 // Karma configuration
 // Generated on Mon Jun 16 2014 11:48:06 GMT-0700 (PDT)
 
+var _       = require('underscore');
+var package = require('./package');
+var path    = require('path');
+
 module.exports = function(config) {
   config.set({
 
@@ -10,13 +14,22 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'browserify'],
+    frameworks: ['commonjs', 'browserify', 'mocha'],
+
+
+    commonjsPreprocessor: {
+      // alias: package.browserifyAliases.reduce(function (previous, current) {
+      //   current = current.split(':');
+      //   previous[path.join(__dirname, current[0])] = current[1];
+      //   return previous;
+      // }, {})
+    },
 
 
     // list of files / patterns to load in the browser
     files: [
-      './client/**/*.js',
-      //'./test/**/*.js'
+      // 'client/main.js',
+      'test/**/*.js'
     ],
 
 
@@ -28,15 +41,19 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      // 'client/main.js': ['commonjs', 'browserify'],
+      'test/**/*.js': ['browserify']
     },
 
+
     browserify: {
-        extensions: ['.js'],
-        ignore: [],
-        transform: [],
-        watch:     true,
-        debug:     true,
-        npParse:   []
+      // alias: package.browserifyAliases.reduce(function (previous, current) {
+      //   current = current.split(':');
+      //   previous[path.join('./', current[0])] = current[1];
+      //   console.log(previous);
+      //   return previous;
+      // }, {})
+      transform: ['browserify-shim']
     },
 
 
