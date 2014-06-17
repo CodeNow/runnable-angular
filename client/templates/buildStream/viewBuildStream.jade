@@ -12,130 +12,239 @@ header#build-stream-header
     button.silver Next 100
       span.glyphicons.chevron-right(type = "button")
 
-table#build-stream.table.table-bordered.table-hover
-  thead
-    tr
-      th
-      th Build
-      th Duration
-      th Started
-      th Triggered By
-      th Commit Message
-      th
-  tbody
-    tr
-      td
-        span.glyphicons.circle-ok
-      td 1776
-      td 8 minutes
-      td 1 hour ago
-      td
-        a prafulrana
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-ok
-      td 1775
-      td 8 minutes
-      td 2 hours ago
-      td
-        a cflynn07
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-ok
-      td 1774
-      td 8 minutes
-      td 3 hours ago
-      td
-        a cflynn07
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1773
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1772
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1771
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1770
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1769
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
+div.table-scroll
+  table#build-stream.table.table-bordered.table-hover
+    thead
+      tr
+        th
+        th.sortable.descending
+          span Build
+        th.sortable
+          span Duration
+        th.sortable
+          span Started
+        th Triggered By
+        th Commit Message
+        th
+    tbody
+      tr
+        td
+          span.glyphicons.circle-ok
+        td 1776
+        td 8 minutes
+        td 1 hour ago
+        td
+          a CodeNow/runnable-web#4da2298a6b
+        td commit message about stuff
+        td
+          button.btn-sm.silver
+            span.glyphicons.play
+            | Run
+      tr
+        td
+          span.glyphicons.circle-ok
+        td 1775
+        td 8 minutes
+        td 2 hours ago
+        td
+          a CodeNow/runnable-web#a1bbd063d2
+        td commit message about stuff
+        td
+          button.btn-sm.silver
+            span.glyphicons.play
+            | Run
+      tr
+        td
+          span.glyphicons.circle-ok
+        td 1774
+        td 8 minutes
+        td 3 hours ago
+        td
+          a cflynn07
+          | #{''} (manual)
+        td commit message about stuff
+        td
+          button.btn-sm.silver
+            span.glyphicons.play
+            | Run
+      tr
+        td
+          span.glyphicons.circle-exclamation-mark
+        td 1773
+        td 8 minutes
+        td 4 hours ago
+        td
+          a runnabro
+          | #{''} (manual)
+        td commit message about stuff
+        td
+          button.btn-sm.silver(disabled)
+            span.glyphicons.play
+            | Run
+      tr
+        td
+          span.glyphicons.circle-exclamation-mark
+        td 1772
+        td 8 minutes
+        td 4 hours ago
+        td
+          a runnabro
+          | #{''} (manual)
+        td commit message about stuff
+        td
+          button.btn-sm.silver(disabled)
+            span.glyphicons.play
+            | Run
+      tr
+        td
+          span.glyphicons.circle-exclamation-mark
+        td 1771
+        td 8 minutes
+        td 4 hours ago
+        td
+          a CodeNow/runnable-web#4da2298a6b
+        td commit message about stuff
+        td
+          button.btn-sm.silver(disabled)
+            span.glyphicons.play
+            | Run
+      tr
+        td
+          span.glyphicons.circle-exclamation-mark
+        td 1770
+        td 8 minutes
+        td 4 hours ago
+        td
+          a CodeNow/runnable-web#1c9120febc
+        td commit message about stuff
+        td
+          button.btn-sm.silver(disabled)
+            span.glyphicons.play
+            | Run
+      tr
+        td
+          span.glyphicons.circle-exclamation-mark
+        td 1769
+        td 8 minutes
+        td 4 hours ago
+        td
+          a CodeNow/runnable-web#d5ba4e6bab
+        td commit message about stuff
+        td
+          button.btn-sm.silver(disabled)
+            span.glyphicons.play
+            | Run
+      tr
+          td
+            span.glyphicons.circle-ok
+          td 1776
+          td 8 minutes
+          td 1 hour ago
+          td
+            a prafulrana
+            | #{''} (manual)
+          td commit message about stuff
+          td
+            button.btn-sm.silver
+              span.glyphicons.play
+              | Run
+        tr
+          td
+            span.glyphicons.circle-ok
+          td 1775
+          td 8 minutes
+          td 2 hours ago
+          td
+            a cflynn07
+            | #{''} (manual)
+          td commit message about stuff
+          td
+            button.btn-sm.silver
+              span.glyphicons.play
+              | Run
+        tr
+          td
+            span.glyphicons.circle-ok
+          td 1774
+          td 8 minutes
+          td 3 hours ago
+          td
+            a cflynn07
+            | #{''} (manual)
+          td commit message about stuff
+          td
+            button.btn-sm.silver
+              span.glyphicons.play
+              | Run
+        tr
+          td
+            span.glyphicons.circle-exclamation-mark
+          td 1773
+          td 8 minutes
+          td 4 hours ago
+          td
+            a runnabro
+            | #{''} (manual)
+          td commit message about stuff
+          td
+            button.btn-sm.silver(disabled)
+              span.glyphicons.play
+              | Run
+        tr
+          td
+            span.glyphicons.circle-exclamation-mark
+          td 1772
+          td 8 minutes
+          td 4 hours ago
+          td
+            a runnabro
+            | #{''} (manual)
+          td commit message about stuff
+          td
+            button.btn-sm.silver(disabled)
+              span.glyphicons.play
+              | Run
+        tr
+          td
+            span.glyphicons.circle-exclamation-mark
+          td 1771
+          td 8 minutes
+          td 4 hours ago
+          td
+            a CodeNow/runnable-web#d5ba4e6bab
+          td commit message about stuff
+          td
+            button.btn-sm.silver(disabled)
+              span.glyphicons.play
+              | Run
+        tr
+          td
+            span.glyphicons.circle-exclamation-mark
+          td 1770
+          td 8 minutes
+          td 4 hours ago
+          td
+            a CodeNow/runnable-web#d5ba4e6bab
+          td commit message about stuff
+          td
+            button.btn-sm.silver(disabled)
+              span.glyphicons.play
+              | Run
+        tr
+          td
+            span.glyphicons.circle-exclamation-mark
+          td 1769
+          td 8 minutes
+          td 4 hours ago
+          td
+            a runnabro
+            | #{''} (manual)
+          td commit message about stuff
+          td
+            button.btn-sm.silver(disabled)
+              span.glyphicons.play
+              | Run
+        tr
         td
           span.glyphicons.circle-ok
         td 1776
@@ -247,115 +356,3 @@ table#build-stream.table.table-bordered.table-hover
           button.btn-sm.silver(disabled)
             span.glyphicons.play
             | Run
-      tr
-      td
-        span.glyphicons.circle-ok
-      td 1776
-      td 8 minutes
-      td 1 hour ago
-      td
-        a prafulrana
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-ok
-      td 1775
-      td 8 minutes
-      td 2 hours ago
-      td
-        a cflynn07
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-ok
-      td 1774
-      td 8 minutes
-      td 3 hours ago
-      td
-        a cflynn07
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1773
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1772
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1771
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1770
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run
-    tr
-      td
-        span.glyphicons.circle-exclamation-mark
-      td 1769
-      td 8 minutes
-      td 4 hours ago
-      td
-        a runnabro
-        | #{''} (manual)
-      td commit message about stuff
-      td
-        button.btn-sm.silver(disabled)
-          span.glyphicons.play
-          | Run

@@ -7,10 +7,10 @@
 .table-bordered > tfoot > tr > td {
   border-left: 0;
   border-right: 0;
-  padding: 8px 15px;
+  padding: 9px 15px;
 
   &:first-child {
-    padding: 8px 0 0 8px;
+    padding: 9px 0 0 8px;
     text-align: center;
   }
 }
@@ -35,11 +35,18 @@ table {
 
   th {
     background: $gray;
-    box-shadow: inset 0 2px 0 #fff;
   }
 
   td {
     cursor: pointer;
+
+    > .glyphicons {
+      font-size: 14px;
+    }
+
+    &:nth-child(2) {
+      font-weight: 700;
+    }
   }
 
   .glyphicons {
@@ -48,5 +55,57 @@ table {
 
   .circle-exclamation-mark {
     color: $orange;
+  }
+}
+
+.sortable {
+  cursor: pointer;
+
+  > span {
+    float: left;
+
+    &::before,
+    &::after {
+      content: '';
+      float: right;
+      position: relative !important;
+        left: 5px;
+    }
+
+    &::before {
+      @extend .arrow-up;
+      left: -3px;
+      top: 3px;
+    }
+
+    &::after {
+      @extend .arrow-down;
+      top: 12px;
+    }
+  }
+
+  &.descending > span {
+
+    &::before {
+      display: none;
+    }
+
+    &::after {
+      border-top-color: $green;
+      top: 7px;
+    }
+  }
+
+  &.ascending > span {
+
+    &::before {
+      border-bottom-color: $green;
+      left: 3px;
+      top: 6px;
+    }
+
+    &::after {
+      display: none;
+    }
   }
 }

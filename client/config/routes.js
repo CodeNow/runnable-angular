@@ -48,7 +48,10 @@ module.exports = [{
   controller:  'ControllerBuildStream',
   data: {
     header: true,
-    footer: true
+    bodyClass: {
+      'height-54': true
+    },
+    footer: false
   }
 }, {
   state:       'mainLayout.build',
