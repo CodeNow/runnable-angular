@@ -38,7 +38,9 @@ module.exports = function(config) {
     },
 
     customLaunchers: customLaunchers,
-    browsers: Object.keys(customLaunchers),
+
+    // browsers: Object.keys(customLaunchers),
+    browsers: ['Chrome'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
