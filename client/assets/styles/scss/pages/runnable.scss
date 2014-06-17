@@ -140,20 +140,21 @@
   width: 254px;
 
   > h1 {
-    background: $gray;
-    border-bottom: 1px solid rgba(0,0,0,.1);
-    box-shadow: 0 1px 0 #fff, inset 0 1px 0 #fff;
-    color: $gray-dark;
-    font-size: 16px;
-    height: 36px;
-    line-height: 36px;
+    font-weight: 700;
     position: relative;
-    text-align: center;
-    width: 100%;
 
     > a {
+      color: rgba(0,0,0,.1);
       position: absolute;
-        top: 10px;
+        top: 15px;
+
+      &:hover {
+        color: $gray-dark;
+      }
+
+      &:active {
+        color: $gray-darker;
+      }
 
       &:first-child {
         left: 15px;
@@ -194,6 +195,7 @@
 
     &:first-child {
       background: $gray;
+      font-weight: 700;
     }
   }
 }
@@ -396,7 +398,6 @@
   > .btn-group,
   > button {
     float: left;
-    margin-top: 8px;
   }
 
   > .btn-group:first-child {
@@ -564,12 +565,4 @@
 // #readonly-message
 #readonly-message {
   text-align: center;
-}
-
-// #build-stream
-#build-stream {
-
-  > .row {
-    margin: 15px -15px;
-  }
 }

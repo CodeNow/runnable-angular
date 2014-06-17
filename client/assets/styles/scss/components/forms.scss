@@ -3,13 +3,13 @@ input,
 textarea,
 .form-control {
   -webkit-appearance: none;
-  border: 1px solid rgba(0,0,0,.1);
+  border: 1px solid rgba(0,0,0,.15);
   box-shadow: 0 1px 0 #fff;
   color: $gray-darkest;
   transition: border .1s cubic-bezier(.19,1,.22,1);
 
   &:hover {
-    border-color: rgba(0,0,0,.15);
+    border-color: rgba(0,0,0,.2);
   }
 
   &:focus {

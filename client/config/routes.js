@@ -49,9 +49,9 @@ module.exports = [{
   data: {
     header: true,
     bodyClass: {
-      'height-108': true
+      'height-54': true
     },
-    footer: true
+    footer: false
   }
 }, {
   state:       'mainLayout.build',
