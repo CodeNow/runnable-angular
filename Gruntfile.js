@@ -278,7 +278,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'autoBundleDependencies', 'browserify', 'bgShell:karma', 'karma:unit']);
+  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'autoBundleDependencies', 'browserify']);
   grunt.registerTask('develop', ['build', 'concurrent']);
 
 
