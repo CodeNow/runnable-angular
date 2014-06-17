@@ -169,14 +169,19 @@ module.exports = function(grunt) {
         files: [
           'client/assets/images/*'
         ],
-        tasks: ['copy:images']
+        tasks: [
+          'copy:images'
+        ]
       },
       javascripts: {
         files: [
           'client/**/*.js',
           '!client/build/**/*.*'
         ],
-        tasks: ['browserify']
+        tasks: [
+          'browserify',
+          'bgShell:karma'
+        ]
       },
       templates: {
         files: [
@@ -185,7 +190,8 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'jade2js',
-          'browserify'
+          'browserify',
+          'bgShell:karma'
         ]
       },
       styles: {
@@ -194,16 +200,28 @@ module.exports = function(grunt) {
           'client/**/*.css',
           '!client/build/**/*.*'
         ],
-        tasks: ['sass:dev', 'concat', 'autoprefixer']
+        tasks: [
+          'sass:dev',
+          'concat',
+          'autoprefixer'
+        ]
       }
     },
     bgShell: {
+      karma: {
+        cmd: 'SAUCE_USERNAME=runnable SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48 karma start ./test/karma.conf.js'
+      },
       server: {
         cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
         bg: true,
         execOpts: {
           maxBuffer: 1000*1024
         }
+      }
+    },
+    karma: {
+      unit: {
+        configFile: './test/karma.conf.js'
       }
     }
   });
@@ -251,8 +269,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'autoBundleDependencies', 'browserify']);
+  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'autoBundleDependencies', 'browserify', 'bgShell:karma', 'karma:unit']);
   grunt.registerTask('develop', ['build', 'concurrent']);
 
 
