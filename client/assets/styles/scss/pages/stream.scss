@@ -1,36 +1,84 @@
 #build-stream-header {
-  float: left;
-  width: 254px;
 
-  input {
-    margin-bottom: 9px;
+  h1 {
+    float: left;
   }
 
-  button {
-    width: 50%;
+  .btn-group,
+  input {
+    float: right;
+    margin: 8px 15px;
+  }
 
-    &:only-child {
-      width: 100%;
+  input {
+    margin-left: 0;
+    width: 270px;
+  }
+
+  .btn-group > button {
+
+    &:first-child {
+      padding-left: 6px;
+    }
+
+    &:last-child {
+      padding-right: 6px;
+    }
+
+    > object {
+      height: 20px;
+      margin: 0;
+      position: relative;
+        top: 4px;
+      width: 20px;
     }
   }
 }
 
 #build-stream {
-  border-bottom: 0;
   margin: 0;
 
   tr:last-child > td {
     border-bottom: 0;
   }
 
+  td:nth-child(2),
+  th:nth-child(2) {
+    padding-left: 0;
+  }
+
+  th:last-child {
+    text-align: right;
+  }
+
   .btn-sm {
     display: none;
-    width: 55px;
+  }
+
+  object {
+    height: 24px;
+    position: relative;
+      top: 5px;
+    width: 24px;
+  }
+
+  .tooltip {
+    cursor: pointer;
+    float: right;
+
+    &::before {
+      left: auto;
+      right: 0;
+      top: 40px;
+    }
+
+    &::after {
+      top: 34px;
+    }
   }
 }
 
 .table-scroll {
-  height: 100%;
+  height: calc(100% - 54px);
   overflow-y: scroll;
-  width: calc(100% - 254px);
 }

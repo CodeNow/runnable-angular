@@ -1,10 +1,27 @@
-.sidebar {
+.sub-header {
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  height: 54px;
+  line-height: 54px;
 
   h1 {
     color: $gray-dark;
-    font-size: 24px;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 600;
     height: 54px;
     line-height: 54px;
-    text-align: center;
+    padding: 0 15px;
+  }
+
+  .recipe {
+    display: inline-block;
+    margin: 8px 0 0 -6px;
+    min-width: 120px;
+
+      button {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 18px;
+    }
   }
 }
