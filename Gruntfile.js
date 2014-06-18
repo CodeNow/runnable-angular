@@ -180,7 +180,7 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'browserify',
-          'bgShell:karma'
+        //  'bgShell:karma'
         ]
       },
       templates: {
@@ -191,7 +191,7 @@ module.exports = function(grunt) {
         tasks: [
           'jade2js',
           'browserify',
-          'bgShell:karma'
+        //  'bgShell:karma'
         ]
       },
       styles: {
