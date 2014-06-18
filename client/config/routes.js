@@ -41,11 +41,11 @@ module.exports = [{
     footer: true
   }
 }, {
-  state:       'mainLayout.buildStream',
+  state:       'mainLayout.buildList',
   abstract:    false,
   url:         '^/:owner/:project/:branch',
-  templateUrl: 'viewBuildStream',
-  controller:  'ControllerBuildStream',
+  templateUrl: 'viewBuildList',
+  controller:  'ControllerBuildList',
   data: {
     header: true,
     footer: false

@@ -1,37 +1,64 @@
-var app = require('app');
+var app     = require('app');
+var angular = require('angular');
 app.controller('ControllerBuild', [
   '$scope',
   'user',
+  'async',
   'ensureAnonymous',
+  '$stateParams',
   function ($scope,
             user,
-            ensureAnonymous) {
+            async,
+            ensureAnonymous,
+            $stateParams) {
 
     var dataBuild = {};
     $scope.dataBuild = dataBuild;
 
-    dataBuild.commits = [{
-      message: 'syncing with Tony',
-      username: 'cflynn07',
-      datetime: new Date(Date.now() - Math.ceil(Math.random() * 100000000000))
-    },{
-      message: 'removing comment',
-      username: 'cflynn07',
-      datetime: new Date(Date.now() - Math.ceil(Math.random() * 100000000000))
-    }];
-
-
     ensureAnonymous(user, function (err) {
-      if (err) return;
+      if (err) {
+        console.log('err', err);
+        return;
+      }
+
+      async.parallel({
+        user: function (cb) {
+          //var user = user.fetchUser... ?
+          user.fetchUsers({
+            username: $stateParams.owner
+          }, cb);
+        },
+        projectAndInstance: function (cb) {
+          //var project = user.fetchProject... ?
+          async.waterfall([
+            function fetchProject (cb) {
+              var project = user.fetchProjects({
+                owner: $stateParams.owner,
+                name:  $stateParams.project.replace(/-/g, ' ') //move inside npm module?
+              }, cb);
+            },
+            function fetchInstance (project, cb) {
+              // FIXME: check project exists,
+              // FIXME: check default environment exists
+              user.createInstance({
+                environment: project.toJSON().defaultEnvironment
+              }, cb);
+            }
+          ], function (err, results) {
+            cb(err, {
+              project: project,
+              instance: instance
+            });
+          });
+        }
+      }, function (err, results) {
+        if (err) {
+          // display 404 page
+          console.log('err', err);
+          return;
+        }
+        // angular.extend(dataBuild, results);
+      });
     });
-
-    // user.anonymous(function () {
-    // });
-
-    // projects = api.fetchProjects(function () {
-    //   projects.models[0].fetchEnvironments(function () {
-
-    //   });
-    // });
 
 }]);
