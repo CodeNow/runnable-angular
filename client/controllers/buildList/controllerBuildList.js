@@ -79,8 +79,10 @@ function ControllerBuildList ($scope,
     }
   ], function (err, project, environment, builds) {
     if (err) return; // TODO error handling
-    dataBuildList.project     = project;
-    dataBuildList.environment = environment;
-    dataBuildList.builds      = builds;
+    $scope.$apply(function () {
+      dataBuildList.project     = project;
+      dataBuildList.environment = environment;
+      dataBuildList.builds      = builds;
+    });
   });
 }
