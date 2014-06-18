@@ -5,7 +5,8 @@ var deps = [
   'user',
   '$stateParams',
   'async',
-  '$window'
+  '$window',
+  'hasProps'
 ];
 deps.push(ControllerBuildList);
 app.controller('ControllerBuildList', deps);
@@ -13,7 +14,8 @@ function ControllerBuildList ($scope,
                               user,
                               $stateParams,
                               async,
-                              $window) {
+                              $window,
+                              hasProps) {
   var dataBuildList = $scope.dataBuildList = {};
 
   dataBuildList.togglePopover = function (popoverName, eventA) {
@@ -23,7 +25,7 @@ function ControllerBuildList ($scope,
     }
     dataBuildList['show' + popoverName] = true;
     // prevent popover from minimizing when clicking inside popover
-    var $elPopover = $(eventA.currentTarget).parent('li.btn').children('.popover');
+    var $elPopover = $(eventA.currentTarget).children('.popover');
     $elPopover.off('click').on('click', function (eventC) {
       if ($(this).has($(eventC.target))) {
         eventC.stopPropagation();
@@ -46,7 +48,8 @@ function ControllerBuildList ($scope,
       if (user.id()) {
         cb();
       } else {
-        user.anonymous(cb);
+        //user.anonymous(function () { cb(); });
+        user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
       }
     },
     //-------
