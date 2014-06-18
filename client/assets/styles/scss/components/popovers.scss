@@ -1,6 +1,5 @@
 // popovers
 .popover {
-  background: $gray-lighter;
   border: 1px solid rgba(0,0,0,.1);
   box-shadow: 0 1px 10px rgba(0,0,0,.1);
   display: block;
@@ -15,19 +14,23 @@
     width .2s ease-in-out;
   z-index: -1;
 
-  &.bottom > .arrow:after {
-    border-bottom-color: $gray-lighter;
+  &.bottom > .arrow {
+    top: -10px;
+
+    &::after {
+      border-bottom-color: $gray-lighter;
+    }
   }
 
-  &.left > .arrow:after {
+  &.left > .arrow::after {
     border-left-color: $gray-lighter;
   }
 
-  &.right > .arrow:after {
+  &.right > .arrow::after {
     border-right-color: $gray-lighter;
   }
 
-  &.top > .arrow:after {
+  &.top > .arrow::after {
     border-top-color: $gray-lighter;
   }
 
@@ -46,7 +49,7 @@
     .popover-content {
       // max-height: 86px;
       overflow: hidden;
-      padding: 7px;
+      padding: 0;
       transition: max-height .2s;
     }
 
@@ -54,7 +57,6 @@
     ul {
       @extend .clearfix;
       background: #fff;
-      border: 1px solid rgba(0,0,0,.1);
       border-radius: 3px;
       box-shadow: 0 1px 0 #fff;
       text-shadow: none;
@@ -67,6 +69,7 @@
         border-top: 1px solid rgba(0,0,0,.1);
         color: $gray-darker;
         font-size: 14px;
+        font-weight: 400;
 
         &:first-child {
           border-top: 0;
@@ -108,6 +111,23 @@
       }
     }
   }
+
+  .form-control {
+    border: 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-radius: 0;
+    padding: 0 15px;
+
+    &:hover,
+    &:focus {
+      border-color: rgba(0,0,0,.1);
+    }
+  }
+}
+
+.popover-title {
+  background: $gray-lighter;
+  font-weight: 600;
 }
 
 .popover-footer {

@@ -16,22 +16,32 @@
 
   .recipe {
     display: inline-block;
-    margin: 8px 0 0 -6px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-left: 6px;
     min-width: 120px;
+    position: relative;
+    text-align: left;
 
-      button {
-      font-size: 18px;
-      font-weight: 600;
-      line-height: 18px;
+    > .arrow-down {
+      right: 10px;
+      top: 15px;
     }
   }
 
-  object {
+  .btn-group object {
     height: 24px;
     margin-right: 4px;
     position: relative;
       top: 5px;
     width: 24px;
+  }
+
+  .popover {
+    left: -34px;
+    top: 28px;
+    transform-origin: 50% 0;
   }
 }
 
@@ -39,12 +49,12 @@
 #build-stream-header {
 
   .btn-group,
-  input {
+  > input {
     float: right;
     margin: 8px 15px;
   }
 
-  input {
+  > input {
     margin-left: 0;
     width: 270px;
   }
@@ -91,6 +101,7 @@
 
   object {
     height: 24px;
+    pointer-events: none;
     position: relative;
       top: 5px;
     width: 24px;
