@@ -1,7 +1,7 @@
 .sidebar {
   border-right: 1px solid rgba(0,0,0,.1);
   float: left;
-  height: 100%;
+  height: calc(100% - 54px);
   padding: 0;
   width: 240px;
 }

@@ -1,12 +1,14 @@
 nav#build-stream-header.sub-header
   h1 Builds for
-  .dropdown.recipe
-    button.btn.silver(type = "button") @recipe
-    select
-      option(selected) Master
-      option prafulrana
-      option runnabro
-      option cflynn07
+    button.btn.silver.recipe(
+      ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event)"
+      type     = "button"
+    ) @master
+      span.arrow-down
+      .popover.menu.bottom.fade(
+        ng-class   = "{in: dataBuildList.showChangeRecipe}"
+        ng-include = "'viewBuildListPopoverChangeRecipe'"
+      )
   input.form-control(placeholder = "Search Builds")
   .btn-group
     button.silver(type = "button")

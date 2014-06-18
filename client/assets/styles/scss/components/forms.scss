@@ -61,6 +61,46 @@ input {
   }
 }
 
+.search {
+  position: relative;
+
+  object {
+    height: 24px;
+    margin: 6px 0 0;
+    right: 0;
+    top: 0;
+    width: 24px;
+  }
+
+  > button {
+    height: 36px;
+    margin: 0;
+    position: absolute;
+      top: 0;
+    transition: transform .2s;
+    width: 36px;
+  }
+
+  > .submit {
+    right: 6px;
+  }
+
+  > .add {
+    right: -30px;
+  }
+
+  input:valid {
+
+    & ~ .submit {
+      transform: translate3d(30px,0,0);
+    }
+
+    & ~ .add {
+      transform: translate3d(-36px,0,0);
+    }
+  }
+}
+
 .form-control::placeholder {
   color: $gray-dark;
 }
