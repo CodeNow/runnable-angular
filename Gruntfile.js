@@ -167,7 +167,10 @@ module.exports = function(grunt) {
     watch: {
       images: {
         files: [
-          'client/assets/images/*'
+          'client/assets/images/**/*.jpg',
+          'client/assets/images/**/*.jpeg',
+          'client/assets/images/**/*.png',
+          'client/assets/images/**/*.svg'
         ],
         tasks: [
           'copy:images'
