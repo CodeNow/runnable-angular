@@ -1,5 +1,9 @@
 var app = require('app');
-app.controller('ControllerInstance', ['$scope', function ($scope) {
-  var dataInstance = {};
-  $scope.dataInstance = dataInstance;
-}]);
+var deps = [
+  '$scope'
+];
+deps.push(ControllerInstance);
+app.controller('ControllerInstance', deps);
+function ControllerInstance ($scope) {
+  var dataInstance = $scope.dataInstance = {};
+}
