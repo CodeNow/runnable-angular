@@ -24,8 +24,8 @@ function ControllerBuildList ($scope,
     //-------
     function fetchProject (cb) {
       var projects = user.fetchProjects({
-        owner: $stateParams.owner,
-        name:  $stateParams.name
+        ownerUsername: $stateParams.ownerUsername,
+        name:          $stateParams.name
       }, function (err, body) {
         if (err) {
           // error handling
@@ -47,7 +47,7 @@ function ControllerBuildList ($scope,
       });
     }
   ], function (err, project, environment, builds) {
-    if (err) return; //TODO error handling
+    if (err) return; // TODO error handling
     dataBuildList.project     = project;
     dataBuildList.environment = environment;
     dataBuildList.builds      = builds;

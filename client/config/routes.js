@@ -43,7 +43,7 @@ module.exports = [{
 }, {
   state:       'mainLayout.buildList',
   abstract:    false,
-  url:         '^/:owner/:name/:branch',
+  url:         '^/:ownerUsername/:name/:branch',
   templateUrl: 'viewBuildList',
   controller:  'ControllerBuildList',
   data: {
@@ -53,7 +53,7 @@ module.exports = [{
 }, {
   state:       'mainLayout.build',
   abstract:    false,
-  url:         '^/:owner/:name/:branch/:build',
+  url:         '^/:ownerUsername/:name/:branch/:build',
   templateUrl: 'viewBuild',
   controller:  'ControllerBuild',
   data: {
