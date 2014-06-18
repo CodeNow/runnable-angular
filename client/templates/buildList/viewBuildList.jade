@@ -1,354 +1,551 @@
-header#build-stream-header.sidebar
-  h1.col-sm-12
-    b 100
-    | /560
-    b #{''} Builds
-  .col-sm-12
-    input.form-control(placeholder = "Search Builds")
-  .btn-group.col-sm-12
-    button.silver
-      span.glyphicons.chevron-left(type = "button")
+nav#build-stream-header.sub-header
+  h1 Builds for
+  .dropdown.recipe
+    button.btn.silver(type = "button") @recipe
+    select
+      option(selected) Master
+      option prafulrana
+      option runnabro
+      option cflynn07
+  input.form-control(placeholder = "Search Builds")
+  .btn-group
+    button.silver(type = "button")
+      object(
+        data = "/build/images/icons/icons-chevron-left.svg"
+        type = "image/svg+xml"
+      )
       | Prev 100
-    button.silver Next 100
-      span.glyphicons.chevron-right(type = "button")
+    button.silver(type = "button") Next 100
+      object(
+        data = "/build/images/icons/icons-chevron-right.svg"
+        type = "image/svg+xml"
+      )
 
-div.table-scroll
-  table#build-stream.table.table-bordered.table-hover
+.table-scroll
+  table#build-stream.table.table-hover
     thead
       tr
         th
         th.sortable.descending
           span Build
+        th Triggered By
+        th Commit Message
+        th Repo
         th.sortable
           span Duration
         th.sortable
-          span Started
-        th Triggered By
-        th Commit Message
-        th
+          span Initiated
+        th Actions
     tbody
       tr
         td
-          span.glyphicons.circle-ok
+          object(
+            data = "/build/images/icons/icons-pass.svg"
+            type = "image/svg+xml"
+          )
         td 1776
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td 3 seconds ago
         td
-          a CodeNow/runnable-web#4da2298a6b
-        td commit message about stuff
-        td
-          button.btn-sm.silver
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Run Instance"
+          )
+            object(
+              data = "/build/images/icons/icons-run.svg"
+              type = "image/svg+xml"
+            )
       tr
         td
-          span.glyphicons.circle-ok
+          object(
+            data = "/build/images/icons/icons-pass.svg"
+            type = "image/svg+xml"
+          )
         td 1775
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td 2 minutes ago
         td
-          a CodeNow/runnable-web#a1bbd063d2
-        td commit message about stuff
-        td
-          button.btn-sm.silver
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Run Instance"
+          )
+            object(
+              data = "/build/images/icons/icons-run.svg"
+              type = "image/svg+xml"
+            )
       tr
         td
-          span.glyphicons.circle-ok
+          object(
+            data = "/build/images/icons/icons-pass.svg"
+            type = "image/svg+xml"
+          )
         td 1774
-        td 97 seconds
-        td 99/99/99
+        td username (manual)
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td 3 minutes ago
         td
-          a CodeNow/runnable-web#4da2298a6b
-        td commit message about stuff
-        td
-          button.btn-sm.silver
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Run Instance"
+          )
+            object(
+              data = "/build/images/icons/icons-run.svg"
+              type = "image/svg+xml"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1773
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td 1 hour ago
         td
-          a runnabro
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1772
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td 12 hours ago
         td
-          a CodeNow/runnable-web#4da2298a6b
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1771
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td 23 hours ago
         td
-          a CodeNow/runnable-web#4da2298a6b
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1770
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a CodeNow/runnable-web#1c9120febc
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1769
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a CodeNow/runnable-web#d5ba4e6bab
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
           td
-            span.glyphicons.circle-ok
+            object(
+              data = "/build/images/icons/icons-pass.svg"
+              type = "image/svg+xml"
+            )
           td 1776
-          td 97 seconds
-          td 99/99/99
+          td username
+          td git commit log
+          td CodeNow/Reponame
           td
-            a CodeNow/runnable-web#4da2298a6b
-          td commit message about stuff
+            a 90 seconds
+          td on 88/88
           td
-            button.btn-sm.silver
-              span.glyphicons.play
-              | Run
+            a(
+              class      = "tooltip"
+              data-title = "Run Instance"
+            )
+              object(
+                data = "/build/images/icons/icons-run.svg"
+                type = "image/svg+xml"
+              )
         tr
           td
-            span.glyphicons.circle-ok
+            object(
+              data = "/build/images/icons/icons-pass.svg"
+              type = "image/svg+xml"
+            )
           td 1775
-          td 97 seconds
-          td 99/99/99
+          td username
+          td git commit log
+          td CodeNow/Reponame
           td
-            a cflynn07
-            | #{''} (manual)
-          td commit message about stuff
+            a 90 seconds
+          td on 88/88
           td
-            button.btn-sm.silver
-              span.glyphicons.play
-              | Run
+            a(
+              class      = "tooltip"
+              data-title = "Run Instance"
+            )
+              object(
+                data = "/build/images/icons/icons-run.svg"
+                type = "image/svg+xml"
+              )
         tr
           td
-            span.glyphicons.circle-ok
+            object(
+              data = "/build/images/icons/icons-pass.svg"
+              type = "image/svg+xml"
+            )
           td 1774
-          td 97 seconds
-          td 99/99/99
+          td username
+          td git commit log
+          td CodeNow/Reponame
           td
-            a CodeNow/runnable-web#4da2298a6b
-          td commit message about stuff
+            a 90 seconds
+          td on 88/88
           td
-            button.btn-sm.silver
-              span.glyphicons.play
-              | Run
+            a(
+              class      = "tooltip"
+              data-title = "Run Instance"
+            )
+              object(
+                data = "/build/images/icons/icons-run.svg"
+                type = "image/svg+xml"
+              )
         tr
           td
-            span.glyphicons.circle-exclamation-mark
+            object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
           td 1773
-          td 97 seconds
-          td 99/99/99
+          td username
+          td git commit log
+          td CodeNow/Reponame
           td
-            a runnabro
-            | #{''} (manual)
-          td commit message about stuff
+            a 90 seconds
+          td on 88/88
           td
-            button.btn-sm.silver(disabled)
-              span.glyphicons.play
-              | Run
+            a(
+              class      = "tooltip"
+              data-title = "Open Log"
+            )
+              object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+          )
         tr
           td
-            span.glyphicons.circle-exclamation-mark
+            object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
           td 1772
-          td 97 seconds
-          td 99/99/99
+          td username
+          td git commit log
+          td CodeNow/Reponame
           td
-            a runnabro
-            | #{''} (manual)
-          td commit message about stuff
+            a 90 seconds
+          td on 88/88
           td
-            button.btn-sm.silver(disabled)
-              span.glyphicons.play
-              | Run
+            a(
+              class      = "tooltip"
+              data-title = "Open Log"
+            )
+              object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+          )
         tr
           td
-            span.glyphicons.circle-exclamation-mark
+            object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
           td 1771
-          td 97 seconds
-          td 99/99/99
+          td username
+          td git commit log
+          td CodeNow/Reponame
           td
-            a CodeNow/runnable-web#d5ba4e6bab
-          td commit message about stuff
+            a 90 seconds
+          td on 88/88
           td
-            button.btn-sm.silver(disabled)
-              span.glyphicons.play
-              | Run
+            a(
+              class      = "tooltip"
+              data-title = "Open Log"
+            )
+              object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+          )
         tr
           td
-            span.glyphicons.circle-exclamation-mark
+            object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
           td 1770
-          td 97 seconds
-          td 99/99/99
+          td username
+          td git commit log
+          td CodeNow/Reponame
           td
-            a CodeNow/runnable-web#d5ba4e6bab
-          td commit message about stuff
+            a 90 seconds
+          td on 88/88
           td
-            button.btn-sm.silver(disabled)
-              span.glyphicons.play
-              | Run
+            a(
+              class      = "tooltip"
+              data-title = "Open Log"
+            )
+              object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+          )
         tr
           td
-            span.glyphicons.circle-exclamation-mark
+            object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
           td 1769
-          td 97 seconds
-          td 99/99/99
+          td username
+          td git commit log
+          td CodeNow/Reponame
           td
-            a runnabro
-            | #{''} (manual)
-          td commit message about stuff
+            a 90 seconds
+          td on 88/88
           td
-            button.btn-sm.silver(disabled)
-              span.glyphicons.play
-              | Run
+            a(
+              class      = "tooltip"
+              data-title = "Open Log"
+            )
+              object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+          )
         tr
         td
-          span.glyphicons.circle-ok
+          object(
+            data = "/build/images/icons/icons-pass.svg"
+            type = "image/svg+xml"
+          )
         td 1776
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a prafulrana
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Run Instance"
+          )
+            object(
+              data = "/build/images/icons/icons-run.svg"
+              type = "image/svg+xml"
+            )
       tr
         td
-          span.glyphicons.circle-ok
+          object(
+            data = "/build/images/icons/icons-pass.svg"
+            type = "image/svg+xml"
+          )
         td 1775
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a cflynn07
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Run Instance"
+          )
+            object(
+              data = "/build/images/icons/icons-run.svg"
+              type = "image/svg+xml"
+            )
       tr
         td
-          span.glyphicons.circle-ok
+          object(
+            data = "/build/images/icons/icons-pass.svg"
+            type = "image/svg+xml"
+          )
         td 1774
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a cflynn07
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Run Instance"
+          )
+            object(
+              data = "/build/images/icons/icons-run.svg"
+              type = "image/svg+xml"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1773
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a runnabro
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1772
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a runnabro
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1771
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a runnabro
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1770
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a runnabro
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+              type = "image/svg+xml"
+              data = "/build/images/icons/icons-error.svg"
+            )
       tr
         td
-          span.glyphicons.circle-exclamation-mark
+          object(
+            data = "/build/images/icons/icons-fail.svg"
+            type = "image/svg+xml"
+          )
         td 1769
-        td 97 seconds
-        td 99/99/99
+        td username
+        td git commit log
+        td CodeNow/Reponame
+        td 90 seconds
+        td on 88/88
         td
-          a runnabro
-          | #{''} (manual)
-        td commit message about stuff
-        td
-          button.btn-sm.silver(disabled)
-            span.glyphicons.play
-            | Run
+          a(
+            class      = "tooltip"
+            data-title = "Open Log"
+          )
+            object(
+                type = "image/svg+xml"
+                data = "/build/images/icons/icons-error.svg"
+              )

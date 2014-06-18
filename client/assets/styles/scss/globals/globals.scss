@@ -1,6 +1,10 @@
 // global layout
 body {
   -webkit-font-smoothing: subpixel-antialiased;
+  background: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 300;
 }
 
 html,
@@ -9,13 +13,20 @@ body {
 }
 
 main {
+  float: left;
+  height: 100%;
+  width: calc(100% - 240px);
 
   .height-54 & {
+    float: none;
     height: calc(100% - 54px);
+    width: auto;
   }
 
   .height-108 & {
+    float: none;
     height: calc(100% - 108px);
+    width: auto;
   }
 }
 

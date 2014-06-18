@@ -1,47 +1,77 @@
-nav.row
+a#logo(href = "/")
+  span
+  sup &lt;beta&gt;
 
-  a#logo(href = "/")
-    span
-    sup &lt;beta&gt;
+a#user(href = "#")
+  img(
+    height = "24"
+    src    = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
+    width  = "24"
+  )
+  | username
+  //- span.arrow-down
 
-  ul.btn-group
-    li.btn.purple.no-states codenow
+ul#repositories
+  li
+    a.active runnable-angular
+  li
+    a runnable_jenkins-cookbook
+  li
+    a api
+  li
+    a runnable-api-client
+  li
+    a runnable_base-cookbook
+  li
+    a runnable-api-client
+  li
+    a api-server
+  li
+    a krain
+  li
+    a frontdoor
+  li
+    a Lebowski
 
-    li.btn.purple.no-states project-name
-      .popover.menu.bottom.fade(
-        ng-class   = "{in: dataHeader.showChangeProject}"
-        ng-include = "'viewHeaderPopoverChangeProject'"
-      )
-      a(ng-click = "dataHeader.togglePopover('ChangeProject', $event)")
-        span.arrow-down
 
-    li.btn.purple.no-states branch-name
-      .popover.menu.bottom.fade(
-        ng-class   = "{in: dataHeader.showChangeBranch}"
-        ng-include = "'viewHeaderPopoverChangeBranch'"
-      )
-      a(ng-click = "dataHeader.togglePopover('ChangeBranch', $event)")
-        span.arrow-down
+//-  ul.btn-group
+//-    li.btn.purple.no-states codenow
 
-  #header-actions
-    span#user.menu(
-      ng-init = "userMenu=true"
-      ng-if   = "userMenu"
-    )
-      a
-        img(src    = "{{headerActionsData.user.gravitar}}"
-            alt    = "{{headerActionsData}}"
-            height = "18"
-            width  = "18")
-      ul
-        li
-          a(href = "/user/{{username}}")
-            |Profile
-            img(src    = "{{gravitar}}"
-                alt    = "{{username}}"
-                height = "18"
-                width  = "18")
-        li
-          a(href = "/logout")
-            |Log Out
-            span.glyphicons.exit
+//-    li.btn.purple.no-states project-name
+//-      .popover.menu.bottom.fade(
+//-        ng-class   = "{in: dataHeader.showChangeProject}"
+//-        ng-include = "'viewHeaderPopoverChangeProject'"
+//-      )
+//-      a(ng-click = "dataHeader.togglePopover('ChangeProject', $event)")
+//-        span.arrow-down
+
+//-    li.btn.purple.no-states branch-name
+//-      .popover.menu.bottom.fade(
+//-        ng-class   = "{in: dataHeader.showChangeBranch}"
+//-        ng-include = "'viewHeaderPopoverChangeBranch'"
+//-      )
+//-      a(ng-click = "dataHeader.togglePopover('ChangeBranch', $event)")
+//-        span.arrow-down
+
+//-  #header-actions
+//-    span#user.menu(
+//-      ng-init = "userMenu=true"
+//-      ng-if   = "userMenu"
+//-    )
+//-      a
+//-        img(src    = "{{headerActionsData.user.gravitar}}"
+//-            alt    = "{{headerActionsData}}"
+//-            height = "18"
+//-            width  = "18")
+//-      ul
+//-        li
+//-          a(href = "/user/{{username}}")
+//-            |Profile
+//-            img(src    = "{{gravitar}}"
+//-                alt    = "{{username}}"
+//-                height = "18"
+//-                width  = "18")
+//-        li
+//-          a(href = "/logout")
+//-            |Log Out
+//-            span.glyphicons.exit

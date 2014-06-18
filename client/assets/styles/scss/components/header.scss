@@ -1,149 +1,231 @@
-#primary {
-  @extend .clearfix;
-  background-image: linear-gradient($purple,darken($purple,5%));
-  line-height: 54px;
-  padding: 0 15px;
+header {
+  background: $purple;
+  float: left;
+  height: 100%;
+  width: 240px;
 
-  @include media(sm) {
-    height: 54px;
-  }
-
-  .container {
-    position: relative;
-  }
-
-  nav > div {
-    @include media(sm) {
-      height: 54px;
-    }
-  }
-
-  nav > ul {
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 3px;
-    float: left;
-    margin-top: 8px;
-
-    > li {
-      border: 0;
-      display: inline-block;
-      font-weight: 400;
-      padding: 0 15px;
-      position: relative;
-
-      &:nth-child(2) {
-        border-radius: 0;
-      }
-
-      &::after {
-        background: rgba(0,0,0,.2);
-        box-shadow: 1px 0 0 rgba(255,255,255,.1);
-        content: '';
-        display: block;
-        height: 36px;
-        position: absolute;
-          top: 0;
-          right: 0;
-          z-index: 1;
-        transform: rotate3d(0,0,1,15deg);
-        width: 1px;
-      }
-
-      > a {
-        border: 1px solid rgba(0,0,0,.2);
-        border-radius: 3px;
-        display: inline-block;
-        float: right;
-        height: 20px;
-        margin: 9px 8px 0;
-        position: relative;
-        width: 20px;
-
-        &:hover {
-          border-color: rgba(255,255,255,.75);
-
-          .arrow-down {
-            border-top-color: #fff;
-          }
-        }
-      }
-
-      .arrow-down {
-        border-top-color: rgba(0,0,0,.3);
-        right: 5px;
-        top: 7px;
-      }
-
-      &:nth-child(n+2) {
-        padding-right: 5px;
-      }
-
-      &:last-child::after {
-        display: none;
-      }
-    }
-  }
-}
-
-#header-actions {
-  float: right;
-
-  > a,
-  > span {
-    color: #fff;
-    float: right;
-  }
-
-  > a {
-    font-size: 13px;
+  a {
+    color: $gray-light;
 
     &:hover {
-      text-decoration: none;
+      color: $gray-lighter;
     }
-  }
 
-  .btn {
-    margin: 10px 15px 0 0;
-
-    @include media(xs) {
-      margin: 0 0 10px;
-      width: 100%;
+    &:active {
+      color: $gray-lighter;
     }
-  }
-
-  @include media(xs) {
-    padding: 0 15px;
-    position: static;
-    width: 100%;
   }
 }
 
+// header defaults
 #user,
-#header-signup-link {
-  cursor: pointer;
-  display: inline-block;
+#repositories {
+  padding: 0 15px;
+}
 
-  img {
+#user {
+  border-bottom: 1px solid rgba(0,0,0,.15);
+  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+  display: block;
+  height: 54px;
+  line-height: 54px;
+  overflow: hidden;
+  padding-left: 30px;
+  text-overflow: ellipsis;
+  width: 100%;
+  white-space: nowrap;
+
+  > img {
     border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
   }
+}
 
-  .menu {
+#repositories {
+  padding-top: 15px;
+
+  a {
+    border-radius: 3px;
     display: block;
-  }
+    height: 36px;
+    line-height: 36px;
+    margin: 3px 0;
+    overflow: hidden;
+    padding: 0 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-  .exit:hover:before {
-    content: '☹';
-    font-size: 19px;
-    line-height: 0;
-  }
+    &:hover {
+      background: rgba(0,0,0,.15);
+    }
 
-  @include media(xs) {
-    position: absolute;
-      top: 0;
-      right: 15px;
+    &:active,
+    &.active {
+      background: rgba(0,0,0,.3);
+    }
   }
 }
 
-#header-signup-link {
-  padding-right: 15px;
-}
+// #primary {
+//   @extend .clearfix;
+//   background-image: linear-gradient($purple,darken($purple,5%));
+//   line-height: 54px;
+//   padding: 0 15px;
+
+//   @include media(sm) {
+//     height: 54px;
+//   }
+
+//   .container {
+//     position: relative;
+//   }
+
+//   nav > div {
+//     @include media(sm) {
+//       height: 54px;
+//     }
+//   }
+
+//   nav > ul {
+//     border: 1px solid rgba(0,0,0,.1);
+//     border-radius: 3px;
+//     float: left;
+//     margin-top: 8px;
+
+//     > li {
+//       border: 0;
+//       display: inline-block;
+//       font-weight: 400;
+//       padding: 0 15px;
+//       position: relative;
+
+//       &:nth-child(2) {
+//         border-radius: 0;
+//       }
+
+//       &::after {
+//         background: rgba(0,0,0,.2);
+//         box-shadow: 1px 0 0 rgba(255,255,255,.1);
+//         content: '';
+//         display: block;
+//         height: 36px;
+//         position: absolute;
+//           top: 0;
+//           right: 0;
+//           z-index: 1;
+//         transform: rotate3d(0,0,1,15deg);
+//         width: 1px;
+//       }
+
+//       > a {
+//         border: 1px solid rgba(0,0,0,.2);
+//         border-radius: 3px;
+//         display: inline-block;
+//         float: right;
+//         height: 20px;
+//         margin: 9px 8px 0;
+//         position: relative;
+//         width: 20px;
+
+//         &:hover {
+//           border-color: rgba(255,255,255,.75);
+
+//           .arrow-down {
+//             border-top-color: #fff;
+//           }
+//         }
+//       }
+
+//       .arrow-down {
+//         border-top-color: rgba(0,0,0,.3);
+//         right: 5px;
+//         top: 7px;
+//       }
+
+//       &:nth-child(n+2) {
+//         padding-right: 5px;
+//       }
+
+//       &:last-child::after {
+//         display: none;
+//       }
+//     }
+//   }
+// }
+
+// #header-actions {
+//   float: right;
+
+//   // placeholder
+//   &::after {
+//     @extend .btn;
+//     @extend .purple;
+//     border: 1px solid rgba(0,0,0,.5);
+//     border-radius: 50%;
+//     content: '';
+//     display: block;
+//     height: 36px;
+//     margin: 9px;
+//     width: 36px;
+//   }
+
+//   > a,
+//   > span {
+//     color: #fff;
+//     float: right;
+//   }
+
+//   > a {
+//     font-size: 13px;
+
+//     &:hover {
+//       text-decoration: none;
+//     }
+//   }
+
+//   .btn {
+//     margin: 10px 15px 0 0;
+
+//     @include media(xs) {
+//       margin: 0 0 10px;
+//       width: 100%;
+//     }
+//   }
+
+//   @include media(xs) {
+//     padding: 0 15px;
+//     position: static;
+//     width: 100%;
+//   }
+// }
+
+// #user,
+// #header-signup-link {
+//   cursor: pointer;
+//   display: inline-block;
+
+//   img {
+//     border-radius: 50%;
+//   }
+
+//   .menu {
+//     display: block;
+//   }
+
+//   .exit:hover:before {
+//     content: '☹';
+//     font-size: 19px;
+//     line-height: 0;
+//   }
+
+//   @include media(xs) {
+//     position: absolute;
+//       top: 0;
+//       right: 15px;
+//   }
+// }
+
+// #header-signup-link {
+//   padding-right: 15px;
+// }
