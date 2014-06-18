@@ -32,9 +32,9 @@
 
 // iconnables
 .iconnables {
-  display: block;
+  display: inline-block;
   height: 30px;
-  margin: 0 auto;
+  margin: 0;
   pointer-events: none;
   position: relative;
   width: 30px;
@@ -42,6 +42,11 @@
   &.filetypes {
     height: 14px;
     width: 14px;
+  }
+
+  &.icons-pass {
+    height: 24px;
+    width: 24px;
   }
 }
 

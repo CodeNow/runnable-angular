@@ -38,6 +38,11 @@
     width: 24px;
   }
 
+  .icons-pass {
+    margin-right: 6px;
+    top: 6px;
+  }
+
   .popover {
     left: -34px;
     top: 28px;
@@ -49,12 +54,12 @@
 #build-stream-header {
 
   .btn-group,
-  > input {
+  > .search {
     float: right;
     margin: 8px 15px;
   }
 
-  > input {
+  > .search {
     margin-left: 0;
     width: 270px;
   }
