@@ -18,12 +18,15 @@ function ControllerBuildList ($scope,
                               hasProps) {
   var dataBuildList = $scope.dataBuildList = {};
 
+  dataBuildList.popoverChangeRecipe = {};
+
   dataBuildList.togglePopover = function (popoverName, eventA) {
     if (dataBuildList['show' + popoverName]) {
       eventA.stopPropagation();
       return;
     }
     dataBuildList['show' + popoverName] = true;
+    dataBuildList['popover' + popoverName].filter = '';
     // prevent popover from minimizing when clicking inside popover
     var $elPopover = $(eventA.currentTarget).children('.popover');
     $elPopover.off('click').on('click', function (eventC) {
