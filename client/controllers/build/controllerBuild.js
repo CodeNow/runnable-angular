@@ -12,8 +12,7 @@ app.controller('ControllerBuild', [
             ensureAnonymous,
             $stateParams) {
 
-    var dataBuild = {};
-    $scope.dataBuild = dataBuild;
+    var dataBuild = $scope.dataBuild = {};
 
     ensureAnonymous(user, function (err) {
       if (err) {
