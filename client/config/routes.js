@@ -58,9 +58,6 @@ module.exports = [{
   controller:  'ControllerBuild',
   data: {
     header: true,
-    bodyClass: {
-      'height-54': true
-    },
     footer: false
   }
 }, {

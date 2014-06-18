@@ -113,3 +113,8 @@ table {
     }
   }
 }
+
+.table-scroll {
+  height: calc(100% - 54px);
+  overflow-y: scroll;
+}

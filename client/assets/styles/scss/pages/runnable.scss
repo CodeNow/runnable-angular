@@ -133,38 +133,6 @@
 
 // edit title and description
 #project-details {
-  border-right: 1px solid rgba(0,0,0,.1);
-  float: left;
-  height: 100%;
-  padding: 0;
-  width: 254px;
-
-  > h1 {
-    font-weight: 700;
-    position: relative;
-
-    > a {
-      color: rgba(0,0,0,.1);
-      position: absolute;
-        top: 15px;
-
-      &:hover {
-        color: $gray-dark;
-      }
-
-      &:active {
-        color: $gray-darker;
-      }
-
-      &:first-child {
-        left: 15px;
-      }
-
-      &:last-child {
-        right: 15px;
-      }
-    }
-  }
 
   ul {
     border-bottom: 1px solid rgba(0,0,0,.1);
@@ -559,7 +527,7 @@
   height: 100%;
   padding: 0;
   position: relative;
-  width: calc(100% - 254px);
+  width: calc(100% - 240px);
 }
 
 // #readonly-message
