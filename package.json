@@ -61,7 +61,10 @@
     "karma-commonjs": "0.0.8",
     "karma-jasmine": "~0.2.2",
     "karma-mocha-reporter": "~0.2.5",
-    "karma-sauce-launcher": "~0.2.8"
+    "karma-sauce-launcher": "~0.2.8",
+    "svgo": "~0.4.4",
+    "exec": "~0.1.1",
+    "cli-table": "~0.3.0"
   },
   "browser": {
     "app": "./client/lib/app.js",

@@ -3,6 +3,8 @@ var _       = require('underscore');
 var find    = require('find');
 var fs      = require('fs');
 var package = require('./package');
+var async   = require('async');
+var Table   = require('cli-table');
 
 module.exports = function(grunt) {
 
@@ -234,6 +236,41 @@ module.exports = function(grunt) {
         configFile: './test/karma.conf.js'
       }
     }
+  });
+
+  grunt.registerTask('autoSVGO', '', function () {
+    var done = this.async();
+    var buildImgPath = path.join(__dirname, 'client/build/images');
+    find.file(/\.svg$/, buildImgPath, function (files) {
+      files = files.map(function (file) {
+        return (function (file) {
+          return function (cb) {
+            require('exec')('./node_modules/.bin/svgo ' + file, function (err, out, code) {
+              cb(err, {
+                file: file,
+                out: out
+              });
+            });
+          };
+        })(file);
+      });
+      async.parallel(files, function (err, results) {
+        var table = new Table({
+          head: ['File', 'SVGO output'],
+          colWidths: [80, 50]
+        });
+        results
+          .map(function (file) {
+            return [file.file.replace(__dirname, ''), file.out.replace(/\n/g, ' ').replace(/\r/g, '')];
+          })
+          .map(function (file) {
+            table.push(file);
+          });
+        //table.push.apply(this, results);
+        console.log(table.toString());
+        done();
+      });
+    });
   });
 
   grunt.registerTask('autoBundleDependencies', '', function () {
