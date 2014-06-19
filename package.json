@@ -68,6 +68,7 @@
   },
   "browser": {
     "app": "./client/lib/app.js",
+    "main": "./client/main.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js"
   },
