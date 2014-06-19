@@ -38,6 +38,11 @@
     width: 24px;
   }
 
+  .icons-pass {
+    margin-right: 6px;
+    top: 6px;
+  }
+
   .popover {
     left: -34px;
     top: 28px;
@@ -49,12 +54,12 @@
 #build-stream-header {
 
   .btn-group,
-  > input {
+  > .search {
     float: right;
     margin: 8px 15px;
   }
 
-  > input {
+  > .search {
     margin-left: 0;
     width: 270px;
   }
@@ -124,7 +129,20 @@
 }
 
 // build
-#build-header h1 {
+.sidebar-header {
   border-right: 1px solid rgba(0,0,0,.1);
+  float: left;
+  text-align: center;
+  text-indent: -30px;
   width: 240px;
+}
+
+// main-controls
+#main-controls {
+  float: left;
+  padding: 0 15px;
+
+  button {
+    margin-right: 9px;
+  }
 }

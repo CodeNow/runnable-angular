@@ -1,36 +1,32 @@
 doctype html
 html(
-  lang          = "en"
-  class         = "no-js"
+  class = "no-js"
+  lang = "en"
   ng-controller = "ControllerApp"
 )
   head
   meta(charset = "utf-8")
   meta(
-    name    = "viewport"
     content = "width=device-width, initial-scale=1"
+    name = "viewport"
   )
   title sandbox.runnable
   link(
-    rel  = "stylesheet"
-    href = "//fonts.googleapis.com/css?family=Oxygen:400,700"
-  )
-  link(
-    rel   = "stylesheet"
+    href = "/build/css/index.css?v=#{locals.version}"
     media = "screen"
-    href  = "/build/css/index.css?v=#{locals.version}"
+    rel = "stylesheet"
   )
   //- ios
   link(
-    rel  = "apple-touch-icon"
     href = "/build/images/icons/icons-ios.png"
+    rel = "apple-touch-icon"
   )
   meta(
-    name    = "apple-mobile-web-app-title"
     console = "Runnable"
+    name = "apple-mobile-web-app-title"
   )
   script(src = "/build/js/bundle.js?v=#{locals.version}")
   body(
-    ui-view
     ng-class = "rootData.state.current.data.bodyClass"
+    ui-view
   )

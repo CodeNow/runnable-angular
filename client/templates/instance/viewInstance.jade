@@ -1,23 +1,31 @@
-section#project-details.sidebar
+nav.sub-header
   //- runnable_title
-  h1 Build 1776
+  h1.sidebar-header
+    object(
+      class = "iconnables icons-pass"
+      data = "/build/images/icons/icons-pass.svg"
+      type = "image/svg+xml"
+    )
+    | Build 1776
 
-  .main-controls
-    button.silver.btn-block Save Changes
+  section#main-controls
+    button.orange(type = "button") Kill Instance
+    button.silver(type = "button") Save Changes
 
+section#project-details.sidebar
   ul
     li
       input.form-control(
         readonly
-        value = "runnable.url/a1201jeid"
+        value = "runnable.url/1290ejdinkl32"
       )
     li
       span.glyphicons.unshare
-      | Built from
-      a #{''} user/project/branch
+      | Built from #{''}
+      a user/project/recipe
     li
       span.glyphicons.calendar
-      | Launched on 10/21/2014
+      | Initiated on Mar 18
 
 section#project
   //- code_editor

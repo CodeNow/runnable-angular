@@ -1,27 +1,56 @@
-nav#build-header.sub-header
-  h1
+nav.sub-header
+  h1.sidebar-header
     object(
+      class = "iconnables icons-pass"
       data = "/build/images/icons/icons-pass.svg"
       type = "image/svg+xml"
     )
     | Build 1776
 
+  section#main-controls
+    button.green(type = "button")
+      span.glyphicons
+      //- object(
+      //-   data = "/build/images/icons/icons-run.svg"
+      //-   type = "image/svg+xml"
+      //- )
+      | Run Instance
+    button.silver(type = "button") Rebuild
+
 section#project-details.sidebar
   ul
-    li @ From #{''}
-      b master
     li
-      span.glyphicons.stopwatch
+      object(
+        class = "iconnables icons-recipe"
+        data = "/build/images/icons/icons-recipe.svg"
+        type = "image/svg+xml"
+      )
+      b master
+      | #{''} recipe
+    li
+      object(
+        class = "iconnables icons-duration"
+        data = "/build/images/icons/icons-duration.svg"
+        type = "image/svg+xml"
+      )
       | Built in 87 seconds
     li
-      span.glyphicons.calendar
+      object(
+        class = "iconnables icons-calendar"
+        data = "/build/images/icons/icons-calendar.svg"
+        type = "image/svg+xml"
+      )
       | Initiated 10 minutes ago
     li
-      span.glyphicons.electricity
+      object(
+        class = "iconnables icons-trigger"
+        data = "/build/images/icons/icons-trigger.svg"
+        type = "image/svg+xml"
+      )
       | Triggered by <a>runnabro</a>
 
   ol#commit-logs
-    li Commit Log
+    li Commit Logs
 
     li(ng-repeat = "commit in dataBuild.commits")
       ol.commit
@@ -38,7 +67,11 @@ section#project-details.sidebar
           a removing comment
         li
           a
-            img
+            img(
+              height = "20"
+              src = "https://avatars0.githubusercontent.com/u/467885?s=460"
+              width = "20"
+            )
             |&nbsp;cflynn07
           span 2 hours ago
     li
@@ -47,7 +80,11 @@ section#project-details.sidebar
           a separate popover for branches
         li
           a
-            img
+            img(
+              height = "20"
+              src = "http://www.gravatar.com/avatar/49fa96bd569083f739e8f8e37264b6fc?s=64"
+              width = "20"
+            )
             |&nbsp;prafulrana
           span 8 hours ago
     li
@@ -56,7 +93,11 @@ section#project-details.sidebar
           a change project popover
         li
           a
-            img
+            img(
+              height = "20"
+              src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
+              width = "20"
+            )
             |&nbsp;runnabro
           span 8 hours ago
     li
@@ -65,7 +106,11 @@ section#project-details.sidebar
           a remove sign up, new, search from header
         li
           a
-            img
+            img(
+              height = "20"
+              src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
+              width = "20"
+            )
             |&nbsp;runnabro
           span 10 hours ago
     li
@@ -74,7 +119,11 @@ section#project-details.sidebar
           a sync with tony
         li
           a
-            img
+            img(
+              height = "20"
+              src = "https://avatars0.githubusercontent.com/u/467885?s=460"
+              width = "20"
+            )
             |&nbsp;cflynn07
           span 1 day ago
 

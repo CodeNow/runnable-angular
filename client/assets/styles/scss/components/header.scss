@@ -1,5 +1,5 @@
 header {
-  background: $purple;
+  background-image: linear-gradient($purple,$purple-dark);
   float: left;
   height: 100%;
   width: 240px;
@@ -24,8 +24,8 @@ header {
 }
 
 #user {
-  border-bottom: 1px solid rgba(0,0,0,.15);
-  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(0,0,0,.2);
   display: block;
   height: 54px;
   line-height: 54px;
@@ -34,6 +34,10 @@ header {
   text-overflow: ellipsis;
   width: 100%;
   white-space: nowrap;
+
+  &:hover {
+    background: rgba(255,255,255,.06);
+  }
 
   > img {
     border-radius: 50%;

@@ -3,14 +3,23 @@ nav#build-stream-header.sub-header
     button.btn.silver.recipe(
       ng-class = "{active: dataBuildList.showChangeRecipe}"
       ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event)"
-      type     = "button"
-    ) @master
+      type = "button"
+    ) @Main
       span.arrow-down
       .popover.menu.bottom.fade(
-        ng-class   = "{in: dataBuildList.showChangeRecipe}"
+        ng-class = "{in: dataBuildList.showChangeRecipe}"
         ng-include = "'viewBuildListPopoverChangeRecipe'"
       )
-  input.form-control(placeholder = "Search Builds")
+  form.search
+    input.form-control(
+      placeholder = "Search Builds"
+      required
+    )
+    button.submit
+      object(
+        data = "/build/images/icons/icons-search.svg"
+        type = "image/svg+xml"
+      )
   .btn-group
     button.silver(type = "button")
       object(
