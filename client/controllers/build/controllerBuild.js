@@ -44,56 +44,20 @@ function ControllerBuild ($scope,
         if (err) return cb(err); // TODO error handling
         cb(null, project, environment, build);
       });
+    },
+    function newBuildVersion (project, environment, build, cb) {
+      var versionId = build.toJSON().versions[0];
+      var version = build.newVersion(versionId);
+      cb(null, project, environment, build, version);
+    },
+    function fetchRootFiles (project, environment, build, version, cb) {
+      var rootDirFiles = version.fetchFiles({Prefix: '/'}, function () {
+        //...... TODO
+      });
     }
   ], function (err, project, environment, build) {
     console.log(arguments);
     $scope.$apply(function () {});
   });
 
-  /*
-  ensureAnonymous(user, function (err) {
-    if (err) {
-      console.log('err', err);
-      return;
-    }
-    async.parallel({
-      user: function (cb) {
-        //var user = user.fetchUser... ?
-        user.fetchUsers({
-          username: $stateParams.owner
-        }, cb);
-      },
-      projectAndInstance: function (cb) {
-        //var project = user.fetchProject... ?
-        async.waterfall([
-          function fetchProject (cb) {
-            var project = user.fetchProjects({
-              owner: $stateParams.owner,
-              name:  $stateParams.project.replace(/-/g, ' ') //move inside npm module?
-            }, cb);
-          },
-          function fetchInstance (project, cb) {
-            // FIXME: check project exists,
-            // FIXME: check default environment exists
-            user.createInstance({
-              environment: project.toJSON().defaultEnvironment
-            }, cb);
-          }
-        ], function (err, results) {
-          cb(err, {
-            project: project,
-            instance: instance
-          });
-        });
-      }
-    }, function (err, results) {
-      if (err) {
-        // display 404 page
-        console.log('err', err);
-        return;
-      }
-      // angular.extend(dataBuild, results);
-    });
-  });
-  */
 }
