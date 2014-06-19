@@ -95,6 +95,7 @@
   }
 
   #project-select-tabs {
+    border-left: 1px solid rgba(0,0,0,.1);
     overflow: hidden;
   }
 
@@ -155,7 +156,6 @@
   // add tab
   #add-tab {
     border-left: 1px solid rgba(0,0,0,.1);
-    border-right: 1px solid rgba(0,0,0,.1);
     color: $gray-dark;
     height: 36px;
     line-height: 36px;
@@ -177,6 +177,8 @@
 
 // controls
 #controls {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba(0,0,0,.1);
   border-right: 1px solid rgba(0,0,0,.1);
   box-shadow: inset 0 1px 0 #fff;
   height: 36px;
@@ -188,7 +190,7 @@
     left: 36px;
     z-index: 1;
   user-select: none;
-  width: 219px;
+  width: 204px;
 
   li {
     color: $gray-dark;
@@ -254,7 +256,7 @@
   height: 36px;
   overflow: hidden;
   transition: all .2s ease-in-out;
-  width: calc(100% - 144px);
+  width: calc(100% - 275px);
 }
 
 #project-editor-tabs {
@@ -385,7 +387,7 @@
 
   // readme icon
   #show-readme {
-    transform: translate3d(219px,0,0);
+    transform: translate3d(204px,0,0);
   }
 
   // file explorer
@@ -396,15 +398,15 @@
 
   // tabs
   #project-editor-tabs-wrapper {
-    transform: translate3d(219px,0,0);
-    width: calc(100% - 363px);
+    transform: translate3d(204px,0,0);
+    width: calc(100% - 275px);
   }
 
   // ace editor
   #project-editor-container {
-    transform: translate3d(255px,0,0);
+    transform: translate3d(240px,0,0);
     transition: all .2s ease-in-out;
-    width: calc(100% - 255px);
+    width: calc(100% - 240px);
   }
 }
 

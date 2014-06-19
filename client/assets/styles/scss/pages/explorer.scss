@@ -5,9 +5,9 @@
   height: calc(100% - 36px);
   position: absolute;
     top: 36px;
-  transform: translate3d(-255px,0,0);
+  transform: translate3d(-240px,0,0);
   transition: transform .2s ease-in-out, width 0s ease-in-out;
-  width: 255px;
+  width: 240px;
 
   // file tree
   .nav {

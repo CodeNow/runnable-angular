@@ -131,5 +131,18 @@
 // build
 #build-header h1 {
   border-right: 1px solid rgba(0,0,0,.1);
+  float: left;
+  text-align: center;
+  text-indent: -30px;
   width: 240px;
+}
+
+// main-controls
+#main-controls {
+  float: left;
+  padding: 0 15px;
+
+  button {
+    margin-right: 9px;
+  }
 }
