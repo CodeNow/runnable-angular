@@ -45,6 +45,10 @@ textarea,
   }
 }
 
+.form-control::placeholder {
+  color: rgba(0,0,0,.5);
+}
+
 input {
 
   &[type=radio] {
@@ -99,10 +103,6 @@ input {
       transform: translate3d(-36px,0,0);
     }
   }
-}
-
-.form-control::placeholder {
-  color: $gray-dark;
 }
 
 .form-group {

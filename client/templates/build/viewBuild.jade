@@ -8,14 +8,11 @@ nav.sub-header
     | Build 1776
 
   section#main-controls
-    button.green(type = "button")
-      span.glyphicons
-      //- object(
-      //-   data = "/build/images/icons/icons-run.svg"
-      //-   type = "image/svg+xml"
-      //- )
-      | Run Instance
-    button.silver(type = "button") Rebuild
+    button.green(type = "button") Run Instance
+    .input-group
+      .input-group-btn
+        button.btn.silver(type = "button") Rebuild
+      input.form-control(placeholder = "Add rebuild message")
 
 section#project-details.sidebar
   ul

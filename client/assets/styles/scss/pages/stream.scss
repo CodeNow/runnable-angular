@@ -142,7 +142,28 @@
   float: left;
   padding: 0 15px;
 
-  button {
-    margin-right: 9px;
+  > button {
+    float: left;
+    margin: 8px 9px 0 0;
+  }
+
+  .input-group {
+    float: left;
+    max-width: 330px;
+
+    input {
+      float: left;
+      margin: 8px 0;
+      transition: .2s width;
+      width: 180px;
+
+      &:focus {
+        width: 99%;
+      }
+    }
+
+    button {
+      border-right: 0;
+    }
   }
 }
