@@ -39,12 +39,33 @@
   position: relative;
   width: 30px;
 
+  &.icons-calendar {
+    height: 24px;
+    width: 24px;
+  }
+
+  &.icons-duration {
+    height: 24px;
+    width: 24px;
+  }
+
   &.filetypes {
     height: 14px;
     width: 14px;
   }
 
   &.icons-pass {
+    height: 24px;
+    width: 24px;
+  }
+
+  &.icons-recipe {
+    height: 24px;
+    width: 24px;
+  }
+
+
+  &.icons-trigger {
     height: 24px;
     width: 24px;
   }

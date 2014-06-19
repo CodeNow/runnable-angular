@@ -19,16 +19,34 @@ nav.sub-header
 
 section#project-details.sidebar
   ul
-    li @ From #{''}
-      b master
     li
-      span.glyphicons.stopwatch
+      object(
+        class = "iconnables icons-recipe"
+        data = "/build/images/icons/icons-recipe.svg"
+        type = "image/svg+xml"
+      )
+      b master
+      | #{''} recipe
+    li
+      object(
+        class = "iconnables icons-duration"
+        data = "/build/images/icons/icons-duration.svg"
+        type = "image/svg+xml"
+      )
       | Built in 87 seconds
     li
-      span.glyphicons.calendar
+      object(
+        class = "iconnables icons-calendar"
+        data = "/build/images/icons/icons-calendar.svg"
+        type = "image/svg+xml"
+      )
       | Initiated 10 minutes ago
     li
-      span.glyphicons.electricity
+      object(
+        class = "iconnables icons-trigger"
+        data = "/build/images/icons/icons-trigger.svg"
+        type = "image/svg+xml"
+      )
       | Triggered by <a>runnabro</a>
 
   ol#commit-logs
