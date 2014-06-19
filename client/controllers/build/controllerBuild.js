@@ -4,7 +4,6 @@ var deps    = [
   '$scope',
   'user',
   'async',
-  'ensureAnonymous',
   '$stateParams'
 ];
 deps.push(ControllerBuild);
@@ -12,9 +11,46 @@ app.controller('ControllerBuild', deps);
 function ControllerBuild ($scope,
                           user,
                           async,
-                          ensureAnonymous,
                           $stateParams) {
   var dataBuild = $scope.dataBuild = {};
+
+  async.waterfall([
+    function tempHelper (cb) {
+      if (user.id()) {
+        cb();
+      } else {
+        user.login('runnableUser9', 'asdfasdf9', function () {
+          cb();
+        });
+      }
+    },
+    function fetchProject (cb) {
+      var projects = user.fetchProjects({
+        ownerUsername: $stateParams.ownerUsername,
+        name:          $stateParams.name
+      }, function (err, body) {
+        if(err) return cb(err); // error handling
+        cb(null, projects.models[0]);
+      });
+    },
+    function fetchEnvironment (project, cb) {
+      // TODO error check
+      var environmentJSON = project.toJSON().environments.filter(hasProps({name: 'master'}))[0];
+      var environment = project.newEnvironment(environmentJSON);
+      cb(null, project, environment);
+    },
+    function fetchBuild (project, environment, cb) {
+      var build = environment.fetchBuild($stateParams.buildId, function (err, body) {
+        if (err) return cb(err); // TODO error handling
+        cb(null, project, environment, build);
+      });
+    }
+  ], function (err, project, environment, build) {
+    console.log(arguments);
+    $scope.$apply(function () {});
+  });
+
+  /*
   ensureAnonymous(user, function (err) {
     if (err) {
       console.log('err', err);
@@ -59,4 +95,5 @@ function ControllerBuild ($scope,
       // angular.extend(dataBuild, results);
     });
   });
+  */
 }
