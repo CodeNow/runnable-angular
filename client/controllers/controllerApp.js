@@ -6,7 +6,6 @@ app.controller('ControllerApp', [
   function ($rootScope,
             $scope,
             $state) {
-  var rootData = {};
-  $scope.rootData = rootData;
-  rootData.state = $state;
+  var appData = $scope.appData = {};
+  appData.state = $state;
 }]);
