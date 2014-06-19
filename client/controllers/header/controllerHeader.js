@@ -1,6 +1,12 @@
 var app = require('app');
 var $   = require('jquery');
-app.controller('ControllerHeader', ['$scope', '$window', function ($scope, $window) {
+var deps = [
+  '$scope',
+  '$window'
+];
+deps.push(ControllerHeader);
+app.controller('ControllerHeader', deps);
+function ControllerHeader ($scope, $window) {
   var dataHeader = {};
   $scope.dataHeader = dataHeader;
 
@@ -27,4 +33,4 @@ app.controller('ControllerHeader', ['$scope', '$window', function ($scope, $wind
       });
     }, 1);
   };
-}]);
+}
