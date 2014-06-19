@@ -63,7 +63,7 @@ module.exports = [{
 }, {
   state:       'mainLayout.instance',
   abstract:    false,
-  url:         '^/instance/:id',
+  url:         '^/instance/:instanceId',
   templateUrl: 'viewInstance',
   controller:  'ControllerInstance',
   data: {
