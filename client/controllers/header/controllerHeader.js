@@ -1,5 +1,5 @@
-var app = require('app');
-var $   = require('jquery');
+var app  = require('app');
+var $    = require('jquery');
 var deps = [
   '$scope',
   '$window'

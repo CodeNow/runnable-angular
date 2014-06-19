@@ -1,4 +1,4 @@
-var app = require('app');
+var app  = require('app');
 var deps = [
   '$scope'
 ];
