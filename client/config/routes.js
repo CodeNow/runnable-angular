@@ -68,9 +68,6 @@ module.exports = [{
   controller:  'ControllerInstance',
   data: {
     header: true,
-    bodyClass: {
-      'height-54': true
-    },
     footer: false
   }
 }];
