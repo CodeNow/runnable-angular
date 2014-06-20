@@ -6,7 +6,7 @@
   "main": "./client/main.js",
   "scripts": {
     "start": "NODE_PATH=. node server/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/karma start ./test/karma.conf.js"
   },
   "engines": {
     "node": ">=0.10.25 < 0.12",
