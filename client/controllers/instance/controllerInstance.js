@@ -12,10 +12,26 @@ function ControllerInstance ($scope,
                              $stateParams,
                              user) {
   var dataInstance = $scope.dataInstance = {};
+
+  // init
+  dataInstance.popoverAddTab = {
+    filter: ''
+  };
+  dataInstance.showAddTab = false;
+
+  $scope.$on('app-document-click', function () {
+    dataInstance['showAddTab'] = false;
+    dataInstance['popoverAddTab'].filter = '';
+  });
+  dataInstance.togglePopover = function (popoverName, event) {
+    event.stopPropagation();
+    dataInstance['show' + popoverName] = true;
+  };
+
   async.waterfall([
     function tempHelper (cb) {
       if (user.id()) {
-        
+
       }
     },
     function (cb) {

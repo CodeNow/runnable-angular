@@ -93,11 +93,14 @@ section#project
           option(selected) Tab 1
           option Tab 2
       //- add_tab
-      #add-tab.btn-popover
+      #add-tab.btn-popover(
+        ng-class = "{active: dataInstance.showAddTab}"
+        ng-click = "dataInstance.togglePopover('AddTab', $event);"
+      )
         span.glyphicons.plus
-        div(
-          ng-include = "'viewBuildPopoverAddTab'"
-          class      = "popover menu bottom fade"
+        div.popover.menu.bottom.fade(
+          ng-class = "{in: dataInstance.showAddTab}"
+          ng-include = "'viewInstancePopoverAddTab'"
         )
 
     //- file_explorer
