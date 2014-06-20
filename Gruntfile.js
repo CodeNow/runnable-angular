@@ -175,7 +175,8 @@ module.exports = function(grunt) {
           'client/assets/images/**/*.svg'
         ],
         tasks: [
-          'copy:images'
+          'copy:images',
+          'autoSVGO'
         ]
       },
       javascripts: {
@@ -261,7 +262,7 @@ module.exports = function(grunt) {
         });
         results
           .map(function (file) {
-            return [file.file.replace(__dirname, ''), file.out.replace(/\n/g, ' ').replace(/\r/g, '')];
+            return [file.file.replace(__dirname, '.'), file.out.replace(/\n/g, ' ').replace(/\r/g, '')];
           })
           .map(function (file) {
             table.push(file);
@@ -297,6 +298,12 @@ module.exports = function(grunt) {
           .reduce(function (previous, current) {
             return previous += 'require(\'' + current + '\');\n';
           }, '');
+
+        fileString += '\n';
+        fileString += 'module.exports=' + JSON.stringify(files.map(function (item) {
+          return item.substr(item.lastIndexOf('/')+1).replace(/\.js$/, '');
+        }));
+        fileString += ';'
         fs.writeFileSync(path.join(workingPath, 'index.js'), fileString);
       });
     }

@@ -1,6 +1,6 @@
 var app     = require('app');
 var angular = require('angular');
-var jQuery  = require('jquery'); //required: places $ on window
+var $       = require('jquery'); //required: places $ on window
 
 // Cache all views
 var views = require('./build/views/viewBundle');
@@ -10,7 +10,7 @@ app.run(['$rootScope', '$templateCache', function ($rootScope, $templateCache) {
   });
   // leave user at top of page each route change
   $rootScope.$on('$stateChangeSuccess', function () {
-    jQuery('html, body').scrollTop(0);
+    $('html, body').scrollTop(0);
   });
 }]);
 
@@ -21,6 +21,6 @@ require('./directives/index');
 require('./animations/index');
 require('./lib/router');
 
-jQuery(function () {
+$(function () {
   angular.bootstrap(document, ['app']);
 });

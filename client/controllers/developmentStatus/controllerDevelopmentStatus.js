@@ -1,30 +1,34 @@
 var app = require('app');
 app.controller('ControllerDevelopmentStatus', [
   '$scope',
-  '$http', function ($scope, $http) {
+  '$http',
+  function ($scope,
+            $http) {
 
-  var DevStatusData = {};
-  $scope.DevStatusData = DevStatusData;
+  var dataDevelopmentStatus = $scope.dataDevelopmentStatus = {};
 
-  DevStatusData.hover = function () {
+  var dataDevelopmentStatus = {};
+  $scope.dataDevelopmentStatus = dataDevelopmentStatus;
+
+  dataDevelopmentStatus.hover = function () {
   };
-  DevStatusData.update = function () {
+  dataDevelopmentStatus.update = function () {
     $http({
       method: 'GET',
       url: '/development_status'
     })
     .success(function (data, status, headers, config) {
-      DevStatusData.repository = data;
-      DevStatusData.repository.statusShort = DevStatusData.repository.status.split('\n')[0] + '\n'
-                                             + DevStatusData.repository.status.split('\n')[1];
-      DevStatusData.repository.logShort = DevStatusData.repository.log.split('\n')[0] + '\n'
-                                          + DevStatusData.repository.log.split('\n')[1];
+      dataDevelopmentStatus.repository = data;
+      dataDevelopmentStatus.repository.statusShort = dataDevelopmentStatus.repository.status.split('\n')[0] + '\n'
+                                             + dataDevelopmentStatus.repository.status.split('\n')[1];
+      dataDevelopmentStatus.repository.logShort = dataDevelopmentStatus.repository.log.split('\n')[0] + '\n'
+                                          + dataDevelopmentStatus.repository.log.split('\n')[1];
 
     })
     .error();
   };
-  DevStatusData.update();
-  setInterval(DevStatusData.update, 1000);
+  dataDevelopmentStatus.update();
+  setInterval(dataDevelopmentStatus.update, 1000);
 
   var defaultStyle = {
     color: '#FFF',
@@ -40,8 +44,8 @@ app.controller('ControllerDevelopmentStatus', [
     'z-index': 10000,
     'cursor': 'pointer'
   };
-  DevStatusData.style = defaultStyle;
-  DevStatusData.setPosition = function (position) {
+  dataDevelopmentStatus.style = defaultStyle;
+  dataDevelopmentStatus.setPosition = function (position) {
     switch(position){
       case 'top-left':
         defaultStyle.top  = '0px';

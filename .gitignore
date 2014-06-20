@@ -1,10 +1,10 @@
 .DS_Store
-.log
-.dump
+*.log
+*.dump
 node_modules/
 client/build/
 bower/
-.sass-cache/
+*.sass-cache/
 client/controllers/index.js
 client/services/index.js
 client/filters/index.js
