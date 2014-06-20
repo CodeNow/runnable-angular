@@ -18,20 +18,14 @@
     top: -10px;
 
     &::after {
-      border-bottom-color: $gray-lighter;
+      border-bottom-color: #fff;
     }
   }
 
-  &.left > .arrow::after {
-    border-left-color: $gray-lighter;
-  }
-
-  &.right > .arrow::after {
-    border-right-color: $gray-lighter;
-  }
-
+  &.left > .arrow::after,
+  &.right > .arrow::after,
   &.top > .arrow::after {
-    border-top-color: $gray-lighter;
+    border-top-color: #fff;
   }
 
   &.in {
@@ -57,7 +51,6 @@
     ul {
       @extend .clearfix;
       background: #fff;
-      border-radius: 3px;
       box-shadow: 0 1px 0 #fff;
       text-shadow: none;
     }
@@ -90,7 +83,7 @@
         display: block;
         font-size: 13px;
         line-height: 2;
-        padding: 12px 0 2px;
+        padding: 16px 0 2px;
         user-select: none;
 
         .glyphicons {

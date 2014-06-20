@@ -549,10 +549,16 @@
   }
 
   #add-tab-options > ol {
-    margin-bottom: 10px;
 
     &.col-popover-3 {
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      height: 81px;
       overflow: hidden;
+    }
+
+    object {
+      display: block;
+      margin: 0 auto;
     }
   }
 
@@ -566,6 +572,11 @@
   // shortcuts
   #new-shortcut {
     display: none;
+  }
+
+  #new-shortcut-button {
+    border: 0;
+    border-radius: 0;
   }
 
   &.show-new-shortcut {
@@ -598,6 +609,7 @@
 }
 
 #shortcuts  {
+  border-bottom: 1px solid rgba(0,0,0,.1);
   max-height: 290px;
   overflow: scroll;
 
@@ -619,6 +631,7 @@
     border: 1px solid transparent;
     box-shadow: none;
     color: rgba($gray-dark,.5);
+    font-size: 12px;
     height: 20px;
     line-height: 19px;
     margin: 0;
@@ -641,7 +654,7 @@
       border: 1px solid rgba(0,0,0,.1);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
       color: #fff;
-      width: 72px;
+      width: 66px;
 
       > span:first-child {
         opacity: 1;
