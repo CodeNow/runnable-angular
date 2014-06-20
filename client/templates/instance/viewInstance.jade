@@ -1,19 +1,14 @@
 nav.sub-header
   //- runnable_title
-  h1.divided-header
-    a(
-      class = "tooltip"
-      data-title = "View Origin"
+  h1.divided-header servername-1776
+    object(
+      class = "iconnables icons-back"
+      data = "/build/images/icons/icons-edit.svg"
+      type = "image/svg+xml"
     )
-      object(
-        class = "iconnables icons-back"
-        data = "/build/images/icons/icons-back.svg"
-        type = "image/svg+xml"
-      )
-    | project/recipe/1776
 
   section#main-controls
-    button.orange(type = "button") Kill Instance
+    button.orange(type = "button") Delete Instance
     button.silver(type = "button") Save Changes
 
 section.sidebar
@@ -23,6 +18,14 @@ section.sidebar
         readonly
         value = "runnable.url/1290ejdinkl32"
       )
+    li
+      object(
+        class = "iconnables icons-back"
+        data = "/build/images/icons/icons-back.svg"
+        type = "image/svg+xml"
+      )
+      | Built from #{''}
+      a project/recipe/1776
     li
       object(
         class = "iconnables icons-calendar"

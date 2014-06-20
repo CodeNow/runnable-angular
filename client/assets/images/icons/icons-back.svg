@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
 <g id="check" display="none">
 	<path display="inline" fill="none" stroke="#4CA844" stroke-width="2" stroke-miterlimit="10" d="M23.2,10.3l-9.6,9.6l-5.4-5.4"/>
@@ -34,13 +34,13 @@
 </g>
 <g id="add" display="none">
 	<g display="inline">
-		<path fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" d="M15,6.7l0,17 M23.5,15.2l-17,0"/>
+		<path fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" d="M15,6.7v17 M23.5,15.2h-17"/>
 	</g>
 </g>
 <g id="recipe" display="none">
 	<g display="inline">
 		<path fill="none" stroke="#00A651" stroke-miterlimit="10" d="M10.1,18.4c4.6,0,2.1,3.4,11.8,3.4"/>
-		<path fill="none" stroke="#00A651" stroke-width="2" stroke-miterlimit="10" d="M21.7,21.4l-4.3-7.2V7.2C17.7,7,18,6.6,18,6.1V6
+		<path fill="none" stroke="#00A651" stroke-width="2" stroke-miterlimit="10" d="M21.7,21.4l-4.3-7.2v-7C17.7,7,18,6.6,18,6.1V6
 			c0-0.7-0.5-1.2-1.2-1.2h-3.6C12.5,4.8,12,5.3,12,6v0.2c0,0.5,0.3,0.9,0.7,1.1v7.1l-4.3,7.2c0,0-2.6,3.8,1.6,3.8s5.1,0,5.1,0
 			s1,0,5.1,0S21.7,21.4,21.7,21.4z"/>
 	</g>
@@ -58,10 +58,10 @@
 </g>
 <g id="calendar" display="none">
 	<path display="inline" fill="none" stroke="#FC7022" stroke-width="2" stroke-miterlimit="10" d="M24.5,22c0,0.8-0.7,1.5-1.5,1.5H7
-		c-0.8,0-1.5-0.7-1.5-1.5V7.9c0-0.8,0.7-1.5,1.5-1.5H23c0.8,0,1.5,0.7,1.5,1.5V22z"/>
+		c-0.8,0-1.5-0.7-1.5-1.5V7.9c0-0.8,0.7-1.5,1.5-1.5h16c0.8,0,1.5,0.7,1.5,1.5V22z"/>
 	<g display="inline">
 		<path fill="#FC7022" d="M14.7,19.3v-5h-1.9v-1.2c0.3,0,0.5,0,0.8-0.1c0.3,0,0.5-0.1,0.7-0.3c0.2-0.1,0.4-0.3,0.5-0.5
-			c0.1-0.2,0.2-0.4,0.3-0.7h1.2v7.7H14.7z"/>
+			s0.2-0.4,0.3-0.7h1.2v7.7h-1.6V19.3z"/>
 	</g>
 	<g display="inline">
 		<line fill="none" stroke="#FC7022" stroke-miterlimit="10" x1="9.8" y1="3.5" x2="9.8" y2="9.3"/>
@@ -75,8 +75,8 @@
 			c0.3,0,0.4,0.2,0.2,0.4c0,0-9.4,12.8-9.6,13c-0.2,0.2-0.3,0.2-0.2-0.2C11.7,25.8,13.7,17.3,13.7,17.3z"/>
 	</g>
 </g>
-<g id="back">
-	<circle fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" cx="15" cy="15" r="12"/>
-	<polyline fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" points="17.5,20 12.5,15 17.5,10 	"/>
+<g id="back_1_">
+	<circle fill="none" stroke="#5B3777" stroke-width="2" stroke-miterlimit="10" cx="15" cy="15" r="10"/>
+	<polyline fill="none" stroke="#5B3777" stroke-width="2" stroke-miterlimit="10" points="17.1,19.2 12.9,15 17.1,10.8 	"/>
 </g>
 </svg>

@@ -31,48 +31,28 @@
 }
 
 // iconnables
+// .icons-back
+// .icons-calendar
+// .icons-duration
+// .icons-pass
+// .icons-recipe
+// .icons-trigger
 .iconnables {
   display: inline-block;
-  height: 30px;
+  height: 24px;
   margin: 0;
   pointer-events: none;
   position: relative;
-  width: 30px;
+  width: 24px;
 
-  &.icons-back {
-    height: 24px;
-    width: 24px;
-  }
-
-  &.icons-calendar {
-    height: 24px;
-    width: 24px;
-  }
-
-  &.icons-duration {
-    height: 24px;
-    width: 24px;
+  &.lg {
+    height: 30px;
+    width: 30px;
   }
 
   &.filetypes {
     height: 14px;
     width: 14px;
-  }
-
-  &.icons-pass {
-    height: 24px;
-    width: 24px;
-  }
-
-  &.icons-recipe {
-    height: 24px;
-    width: 24px;
-  }
-
-
-  &.icons-trigger {
-    height: 24px;
-    width: 24px;
   }
 }
 

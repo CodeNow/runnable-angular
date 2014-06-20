@@ -3,7 +3,7 @@
   float: left;
   height: calc(100% - 54px);
   padding: 0;
-  width: 240px;
+  width: 270px;
 
   > ul,
   > ol {
@@ -61,10 +61,10 @@
   }
 
   pre {
-    font-size: 11px;
-    height: calc(100% - 174px);
+    color: $gray-dark;
+    font-size: 10px;
+    height: calc(100% - 210px);
     letter-spacing: -.5px;
-    opacity: .75;
     overflow-y: auto;
     padding: 6px;
   }
