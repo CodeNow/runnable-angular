@@ -1,8 +1,7 @@
 nav#build-stream-header.sub-header
-  h1 Builds for
+  h1(ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event);") Builds for
     button.btn.silver.recipe(
       ng-class = "{active: dataBuildList.showChangeRecipe}"
-      ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event)"
       type = "button"
     ) @Main
       span.arrow-down
