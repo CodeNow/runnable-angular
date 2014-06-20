@@ -1,12 +1,6 @@
 header#primary(ng-controller = "ControllerHeader"
-               ng-if         = "appData.state.current.data.header"
+               ng-if         = "dataApp.state.current.data.header"
                ng-include    = "'viewHeader'")
 main(ui-view)
-footer(ng-if      = "appData.state.current.data.footer"
+footer(ng-if      = "dataApp.state.current.data.footer"
        ng-include = "'viewFooter'")
-
-//- development status
-div(ng-controller = "ControllerDevelopmentStatus"
-    ng-include    = "'viewDevelopmentStatus'"
-    ng-if         = "false"
-    ng-style      = "DevStatusData.style")

@@ -64,7 +64,9 @@
     "karma-sauce-launcher": "~0.2.8",
     "svgo": "~0.4.4",
     "exec": "~0.1.1",
-    "cli-table": "~0.3.0"
+    "cli-table": "~0.3.0",
+    "sinon": "~1.10.2",
+    "colors": "~0.6.2"
   },
   "browser": {
     "app": "./client/lib/app.js",

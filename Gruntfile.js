@@ -328,5 +328,4 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'autoBundleDependencies', 'browserify']);
   grunt.registerTask('develop', ['build', 'concurrent']);
 
-
 };

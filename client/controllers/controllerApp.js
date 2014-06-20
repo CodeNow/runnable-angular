@@ -1,11 +1,14 @@
-var app = require('app');
-app.controller('ControllerApp', [
+var app  = require('app');
+var deps = [
   '$rootScope',
   '$scope',
-  '$state',
-  function ($rootScope,
-            $scope,
-            $state) {
-  var appData = $scope.appData = {};
-  appData.state = $state;
-}]);
+  '$state'
+];
+deps.push(ControllerApp);
+app.controller('ControllerApp', deps);
+function ControllerApp ($rootScope,
+                        $scope,
+                        $state) {
+  var dataApp = $scope.dataApp = {};
+  dataApp.state = $state;
+}
