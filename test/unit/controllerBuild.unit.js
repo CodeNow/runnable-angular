@@ -1,11 +1,12 @@
-var main = require('main');
-var chai = require('chai');
+var main    = require('main');
+var chai    = require('chai');
 var angular = require('angular');
 var inject  = angular.injector(['app']).invoke;
+var colors  = require('colors');
 
 var controllerName = 'ControllerBuild';
 
-describe(controllerName, function () {
+describe(controllerName.underline.red, function () {
 
   var $scope;
 
