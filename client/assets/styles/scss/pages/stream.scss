@@ -24,22 +24,20 @@
       width: 270px;
     }
 
-    > a {
-      display: inline-block;
-      height: 24px;
-      left: -3px;
-      top: 6px;
-      width: 24px;
+    > .inline-edit {
+      color: $gray-dark;
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 8px;
+      text-align: center;
+    }
 
-      &::before {
-        font-size: 14px;
-        font-weight: 400;
-      }
-
-      object {
-        position: absolute;
-          left: 0;
-      }
+    > object {
+      height: 22px;
+      position: absolute;
+        right: 22px;
+        top: 15px;
+      width: 22px;
     }
   }
 

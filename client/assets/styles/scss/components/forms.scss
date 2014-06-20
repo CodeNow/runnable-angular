@@ -65,6 +65,17 @@ input {
   }
 }
 
+// inline editing
+.inline-edit {
+  background: none;
+  border-color: transparent;
+
+  &:hover,
+  &:focus {
+    @extend .form-control;
+  }
+}
+
 .search {
   position: relative;
 
