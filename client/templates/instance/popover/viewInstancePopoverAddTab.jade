@@ -1,26 +1,26 @@
-.arrow
+.arrow.white
 .popover-content
   #add-tab-options
     ol.popover-body.col-popover-3
       li
         a
           object.iconnables(
-            data  = "/build/images/icons/icons-web.svg"
-            type  = "image/svg+xml"
+            data = "/build/images/icons/icons-web.svg"
+            type = "image/svg+xml"
           )
           | Web View
       li
         a
           object.iconnables(
-            data  = "/build/images/icons/icons-terminal.svg"
-            type  = "image/svg+xml"
+            data = "/build/images/icons/icons-terminal.svg"
+            type = "image/svg+xml"
           )
           | Terminal
       li
         a
           object.iconnables(
-            data  = "/build/images/icons/icons-logs.svg"
-            type  = "image/svg+xml"
+            data = "/build/images/icons/icons-logs.svg"
+            type = "image/svg+xml"
           )
           | Run Log
 
@@ -48,6 +48,7 @@
     button#new-shortcut-button.silver.btn-block(type = "button") New Shortcut
 
   form#new-shortcut
+    h3.popover-title Add New Shortcut
     input.form-control(
       placeholder = "Shortcut Name"
       required
@@ -81,4 +82,4 @@
           name = "output_format"
           checked
         )
-    button.orange.btn-block Create New Shortcut
+    button.silver.btn-block Create New Shortcut

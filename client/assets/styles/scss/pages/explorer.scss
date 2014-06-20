@@ -574,25 +574,19 @@
     display: none;
   }
 
-  #new-shortcut-button {
-    border: 0;
-    border-radius: 0;
-  }
-
   &.show-new-shortcut {
 
     #add-tab-options {
       display: none;
     }
-
-    button {
-      margin: 10px 0 0;
-      width: 100%;
-    }
   }
 
   &.show-new-shortcut {
     max-height: 309px;
+
+    > .arrow::after {
+      border-bottom-color: $gray-lighter;
+    }
 
     .popover-content {
       max-height: 305px;
@@ -600,10 +594,6 @@
 
     #new-shortcut {
       display: block;
-    }
-
-    input:first-child {
-      margin-bottom: 10px;
     }
   }
 }

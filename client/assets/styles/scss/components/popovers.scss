@@ -18,13 +18,21 @@
     top: -10px;
 
     &::after {
-      border-bottom-color: #fff;
+      border-bottom-color: $gray-lighter;
     }
   }
 
   &.left > .arrow::after,
   &.right > .arrow::after,
   &.top > .arrow::after {
+    border-top-color: $gray-lighter;
+  }
+
+  &.bottom > .arrow.white::after {
+    border-bottom-color: #fff;
+  }
+
+  &.top > .arrow.white::after {
     border-top-color: #fff;
   }
 
@@ -116,10 +124,16 @@
       border-color: rgba(0,0,0,.1);
     }
   }
+
+  .btn-block {
+    border: 0;
+    border-radius: 0;
+  }
 }
 
 .popover-title {
   background: $gray-lighter;
+  color: $gray-dark;
   font-size: 16px;
   font-weight: 500;
 }
@@ -227,10 +241,8 @@
 
 // toggle view
 .toggle-group {
-  border: 1px solid rgba(0,0,0,.1);
-  border-radius: 3px;
-  box-shadow: 0 1px 0 #fff;
-  margin: 10px 0 0;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  margin: 0;
 
   > label {
     background: #fff;
