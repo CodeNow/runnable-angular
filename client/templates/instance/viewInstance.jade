@@ -1,7 +1,15 @@
 nav.sub-header
   //- runnable_title
   h1.divided-header
-    //- span Built From
+    a(
+      class = "tooltip"
+      data-title = "View Origin"
+    )
+      object(
+        class = "iconnables icons-back"
+        data = "/build/images/icons/icons-back.svg"
+        type = "image/svg+xml"
+      )
     | project/recipe/1776
 
   section#main-controls
