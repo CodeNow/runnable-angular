@@ -62,8 +62,10 @@
 
   pre {
     font-size: 11px;
+    height: calc(100% - 174px);
     letter-spacing: -.5px;
     opacity: .75;
+    overflow-y: auto;
     padding: 6px;
   }
 }
