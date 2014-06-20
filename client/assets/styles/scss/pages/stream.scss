@@ -12,6 +12,16 @@
     height: 54px;
     line-height: 54px;
     padding: 0 15px;
+    text-align: center;
+
+    &.build-header {
+      text-indent: -30px;
+    }
+
+    &.divided-header {
+      border-right: 1px solid rgba(0,0,0,.1);
+      width: 240px;
+    }
   }
 
   .recipe {
@@ -126,15 +136,6 @@
       top: 34px;
     }
   }
-}
-
-// build
-.sidebar-header {
-  border-right: 1px solid rgba(0,0,0,.1);
-  float: left;
-  text-align: center;
-  text-indent: -30px;
-  width: 240px;
 }
 
 // main-controls

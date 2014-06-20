@@ -57,7 +57,7 @@ input {
 
   &[disabled],
   &[readonly] {
-    background: $gray-light;
+    background: $gray-lighter;
   }
 
   &[readonly] {
@@ -91,6 +91,21 @@ input {
 
   > .add {
     right: -30px;
+  }
+
+  .active {
+    opacity: 0;
+  }
+
+  input:valid ~ .submit {
+
+    .inactive {
+      opacity: 0;
+    }
+
+    .active {
+      opacity: 1;
+    }
   }
 
   &.check-valid input:valid {

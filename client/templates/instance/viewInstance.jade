@@ -1,18 +1,14 @@
 nav.sub-header
   //- runnable_title
-  h1.sidebar-header
-    object(
-      class = "iconnables icons-pass"
-      data = "/build/images/icons/icons-pass.svg"
-      type = "image/svg+xml"
-    )
-    | Build 1776
+  h1.divided-header
+    //- span Built From
+    | project/recipe/1776
 
   section#main-controls
     button.orange(type = "button") Kill Instance
     button.silver(type = "button") Save Changes
 
-section#project-details.sidebar
+section.sidebar
   ul
     li
       input.form-control(
@@ -20,12 +16,27 @@ section#project-details.sidebar
         value = "runnable.url/1290ejdinkl32"
       )
     li
-      span.glyphicons.unshare
-      | Built from #{''}
-      a user/project/recipe
+      object(
+        class = "iconnables icons-calendar"
+        data = "/build/images/icons/icons-calendar.svg"
+        type = "image/svg+xml"
+      )
+      | Started on Mar 18
     li
-      span.glyphicons.calendar
-      | Initiated on Mar 18
+      object(
+        class = "iconnables icons-duration"
+        data = "/build/images/icons/icons-duration.svg"
+        type = "image/svg+xml"
+      )
+      | Running for 18 hours
+  ol
+    li Server Log
+  pre
+    | [nodemon] v1.0.20
+    | [nodemon] to restart at any time, enter `rs`
+    | [nodemon] watching: server/**/*.js
+    | [nodemon] starting `node server/main.js`
+    | App listening on port: 3001
 
 section#project
   //- code_editor
