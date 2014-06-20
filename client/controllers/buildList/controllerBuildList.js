@@ -17,7 +17,12 @@ function ControllerBuildList ($scope,
                               hasProps) {
 
   var dataBuildList = $scope.dataBuildList = {};
-  dataBuildList.popoverChangeRecipe = {};
+
+  // init
+  dataBuildList.popoverChangeRecipe = {
+    filter: ''
+  };
+  dataBuildList.showChangeRecipe = false;
 
   $scope.$on('app-document-click', function () {
     dataBuildList['showChangeRecipe'] = false;
