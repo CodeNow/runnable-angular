@@ -1,3 +1,6 @@
 dependencies:
   override:
     - npm rebuild
+machine:
+  node:
+    version: v0.10.25
