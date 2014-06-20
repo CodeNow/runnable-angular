@@ -1,5 +1,4 @@
 var app  = require('app');
-var $    = require('jquery');
 var deps = [
   '$scope',
   'user',

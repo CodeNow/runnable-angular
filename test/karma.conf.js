@@ -67,11 +67,12 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'unit/**/*.js': ['browserify']
+      'unit/**/*.js': ['browserify', 'sourcemap']
     },
 
 
     browserify: {
+      debug: true,
       transform: ['browserify-shim']
     },
 
