@@ -1,7 +1,6 @@
 .DS_Store
 *.log
 *.dump
-node_modules/
 client/build/
 bower/
 *.sass-cache/
