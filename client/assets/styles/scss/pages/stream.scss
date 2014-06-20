@@ -12,6 +12,16 @@
     height: 54px;
     line-height: 54px;
     padding: 0 15px;
+    text-align: center;
+
+    &.build-header {
+      text-indent: -30px;
+    }
+
+    &.divided-header {
+      border-right: 1px solid rgba(0,0,0,.1);
+      width: 240px;
+    }
   }
 
   .recipe {
@@ -128,21 +138,33 @@
   }
 }
 
-// build
-.sidebar-header {
-  border-right: 1px solid rgba(0,0,0,.1);
-  float: left;
-  text-align: center;
-  text-indent: -30px;
-  width: 240px;
-}
-
 // main-controls
 #main-controls {
   float: left;
   padding: 0 15px;
 
-  button {
-    margin-right: 9px;
+  > button {
+    float: left;
+    margin: 8px 9px 0 0;
+  }
+
+  .input-group {
+    float: left;
+    max-width: 330px;
+
+    input {
+      float: left;
+      margin: 8px 0;
+      transition: .2s width;
+      width: 180px;
+
+      &:focus {
+        width: 99%;
+      }
+    }
+
+    button {
+      border-right: 0;
+    }
   }
 }

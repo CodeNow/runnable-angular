@@ -45,6 +45,10 @@ textarea,
   }
 }
 
+.form-control::placeholder {
+  color: rgba(0,0,0,.5);
+}
+
 input {
 
   &[type=radio] {
@@ -53,7 +57,7 @@ input {
 
   &[disabled],
   &[readonly] {
-    background: $gray-light;
+    background: $gray-lighter;
   }
 
   &[readonly] {
@@ -89,6 +93,21 @@ input {
     right: -30px;
   }
 
+  .active {
+    opacity: 0;
+  }
+
+  input:valid ~ .submit {
+
+    .inactive {
+      opacity: 0;
+    }
+
+    .active {
+      opacity: 1;
+    }
+  }
+
   &.check-valid input:valid {
 
     & ~ .submit {
@@ -99,10 +118,6 @@ input {
       transform: translate3d(-36px,0,0);
     }
   }
-}
-
-.form-control::placeholder {
-  color: $gray-dark;
 }
 
 .form-group {

@@ -1,5 +1,5 @@
 nav.sub-header
-  h1.sidebar-header
+  h1.build-header.divided-header
     object(
       class = "iconnables icons-pass"
       data = "/build/images/icons/icons-pass.svg"
@@ -8,16 +8,13 @@ nav.sub-header
     | Build 1776
 
   section#main-controls
-    button.green(type = "button")
-      span.glyphicons
-      //- object(
-      //-   data = "/build/images/icons/icons-run.svg"
-      //-   type = "image/svg+xml"
-      //- )
-      | Run Instance
-    button.silver(type = "button") Rebuild
+    button.green(type = "button") Run Instance
+    .input-group
+      .input-group-btn
+        button.btn.silver(type = "button") Rebuild
+      input.form-control(placeholder = "Add rebuild message")
 
-section#project-details.sidebar
+section.sidebar
   ul
     li
       object(
@@ -48,8 +45,7 @@ section#project-details.sidebar
         type = "image/svg+xml"
       )
       | Triggered by <a>runnabro</a>
-
-  ol#commit-logs
+  ol
     li Commit Logs
 
     li(ng-repeat = "commit in dataBuild.commits")

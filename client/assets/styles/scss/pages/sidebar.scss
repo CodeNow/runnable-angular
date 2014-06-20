@@ -1,0 +1,102 @@
+.sidebar {
+  border-right: 1px solid rgba(0,0,0,.1);
+  float: left;
+  height: calc(100% - 54px);
+  padding: 0;
+  width: 240px;
+
+  > ul,
+  > ol {
+    font-size: 14px;
+
+    > li {
+      color: $gray-dark;
+
+      > span {
+        width: 24px;
+      }
+    }
+  }
+
+  input {
+    margin-bottom: 9px;
+  }
+
+  > ul {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 1px 0 #fff;
+    padding: 10px 0;
+
+    a {
+      font-weight: 600;
+    }
+
+    object {
+      float: left;
+      margin-right: 6px;
+      top: 6px;
+    }
+
+    > li {
+      min-height: 36px;
+      line-height: 36px;
+      padding: 0 15px;
+    }
+  }
+
+  > ol {
+
+    > li {
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      padding: 5px 15px 6px;
+
+      &:first-child {
+        font-weight: 600;
+        height: 36px;
+        line-height: 36px;
+        padding: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  pre {
+    font-size: 11px;
+    letter-spacing: -.5px;
+    opacity: .75;
+    padding: 6px;
+  }
+}
+
+.commit {
+
+  object {
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    top: 2px;
+    width: 14px;
+  }
+
+  img {
+    border-radius: 50%;
+    float: left;
+    height: 20px;
+    margin: 1px 4px 0 0;
+    width: 20px;
+  }
+
+  > li {
+    padding: 2px 0;
+
+    &:last-child {
+      font-weight: 600;
+
+      > span {
+        float: right;
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+  }
+}

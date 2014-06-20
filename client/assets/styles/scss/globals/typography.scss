@@ -18,6 +18,11 @@ input ~ small {
   margin-left: 12px; // match input padding
 }
 
+pre {
+  background: none;
+  padding: 9px;
+}
+
 // links
 a {
   color: $gray-dark;
