@@ -46,10 +46,16 @@ section.sidebar
       | Running for 18 hours
   ol
     li Server Log
-      a.tooltip(data-title = "Rerun Instance")
+      a.tooltip.restart(data-title = "Rerun Instance")
         object(
           class = "iconnables icons-restart"
           data = "/build/images/icons/icons-restart.svg"
+          type = "image/svg+xml"
+        )
+      a.tooltip.error(data-title = "Show Run Log")
+        object(
+          class = "iconnables icons-error"
+          data = "/build/images/icons/icons-error.svg"
           type = "image/svg+xml"
         )
   pre
