@@ -1,10 +1,5 @@
 module.exports = [{
-  state:       'mainLayout',
-  abstract:    true,
-  templateUrl: 'viewLayout',
-  controller:  'ControllerLayout',
-}, {
-  state:       'mainLayout.home',
+  state:       'home',
   abstract:    false,
   url:         '^/',
   templateUrl: 'viewHome',
@@ -15,24 +10,18 @@ module.exports = [{
     },
   }
 }, {
-  state:       'mainLayout.about',
+  state:       'about',
   abstract:    false,
   url:         '^/about',
   templateUrl: 'viewAbout',
   controller:  'ControllerAbout',
 }, {
-  state:       'mainLayout.jobs',
+  state:       'jobs',
   abstract:    false,
   url:         '^/jobs',
   templateUrl: 'viewJobs',
   controller:  'ControllerJobs',
-}, 
-
-
-
-
-
-{
+}, {
   state:       'projects',
   abstract:    true,
   templateUrl: 'viewProjectLayout',

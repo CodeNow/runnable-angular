@@ -1,14 +1,17 @@
 var app  = require('app');
-var deps = [
-  '$rootScope',
-  '$scope',
-  '$state'
-];
-deps.push(ControllerApp);
-app.controller('ControllerApp', deps);
+app.controller('ControllerApp', ControllerApp);
+/**
+ * ControllerApp
+ * @constructor
+ * @export
+ * @ngInject
+ */
 function ControllerApp ($rootScope,
                         $scope,
                         $state) {
   var dataApp = $scope.dataApp = {};
   dataApp.state = $state;
+  dataApp.click = function () {
+    $scope.$broadcast('app-document-click');
+  };
 }

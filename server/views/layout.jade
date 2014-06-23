@@ -27,6 +27,6 @@ html.no-js(
   script(src = "/build/js/bundle.js?v=#{locals.version}")
   body(
     ng-class = "dataApp.state.current.data.bodyClass"
-    ng-click = "dataLayout.click($scope, this)"
+    ng-click = "dataApp.click($scope, this)"
     ui-view
   )
