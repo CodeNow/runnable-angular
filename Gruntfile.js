@@ -10,6 +10,14 @@ module.exports = function(grunt) {
 
   var sassDir   = 'client/assets/styles/scss';
   var sassIndex = path.join(sassDir, 'index.scss');
+  var jshintFiles = [
+    'Gruntfile.js',
+    'client/**/*.js',
+    '!client/build/**/*.js',
+    '!client/assets/**/*.js',
+    'server/**/*.js',
+    'test/**/*.js'
+  ];
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -95,15 +103,23 @@ module.exports = function(grunt) {
       files: ['test/**/*.html']
     },
     jshint: {
-      files: ['Gruntfile.js', 'client/**/*.js', 'server/**/*.js', 'test/**/*.js'],
       options: {
-        // options here to override JSHint defaults
+        debug: false,
         globals: {
           jQuery: true,
           console: true,
           module: true,
           document: true
-        }
+        },
+      },
+      prod: {
+        files: {src: jshintFiles}
+      },
+      dev: {
+        options: {
+          debug: true
+        },
+        files: {src: jshintFiles}
       }
     },
     browserify: {
@@ -185,7 +201,7 @@ module.exports = function(grunt) {
           '!client/build/**/*.*'
         ],
         tasks: [
-          'jshint',
+          'jshint:dev',
           'browserify',
         //  'bgShell:karma'
         ]
@@ -275,6 +291,12 @@ module.exports = function(grunt) {
     });
   });
 
+  // grunt.registerTask('autoAddHooks', '', function () {
+  //   var done = this.async();
+  //   var hooksPath = path.join(__dirname, '.git', 'hooks');
+  //   find.file(/\.hook$/, path.join(__dirname, ))
+  // });
+
   grunt.registerTask('autoBundleDependencies', '', function () {
     var done       = this.async();
     var clientPath = path.join(__dirname, 'client');
@@ -304,7 +326,7 @@ module.exports = function(grunt) {
         fileString += 'module.exports=' + JSON.stringify(files.map(function (item) {
           return item.substr(item.lastIndexOf('/')+1).replace(/\.js$/, '');
         }));
-        fileString += ';'
+        fileString += ';';
         fs.writeFileSync(path.join(workingPath, 'index.js'), fileString);
       });
     }
@@ -326,7 +348,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'jshint', 'autoBundleDependencies', 'browserify']);
+  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'jshint:dev', 'autoBundleDependencies', 'browserify']);
   grunt.registerTask('develop', ['build', 'concurrent']);
 
 };
