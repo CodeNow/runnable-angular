@@ -72,6 +72,7 @@ function ControllerBuildList ($scope,
       dataBuildList.project     = project;
       dataBuildList.environment = environment;
       dataBuildList.builds      = builds;
+      debugger;
     });
   });
 }
