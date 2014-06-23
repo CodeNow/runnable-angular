@@ -6,9 +6,7 @@ var inject  = angular.injector(['app']).invoke;
 var colors  = require('colors');
 
 describe('ControllerBuildList'.underline.red, function () {
-
   var $appScope, $layoutScope, $buildListScope;
-
   beforeEach(function () {
     inject(function($rootScope, $controller) {
       $appScope = $rootScope.$new();
@@ -23,7 +21,6 @@ describe('ControllerBuildList'.underline.red, function () {
       $buildListScope.dataBuidList = {
         togglePopover: function (popoverName, event) {}
       };
-
       $controller('ControllerApp', {
         $scope: $appScope,
         $state: {}
@@ -38,7 +35,6 @@ describe('ControllerBuildList'.underline.red, function () {
   });
 
   it('should display a popover when \'builds\' button click event triggered', function () {
-
     var event = {
       stopPropagation: sinon.spy()
     };
@@ -47,11 +43,9 @@ describe('ControllerBuildList'.underline.red, function () {
     $buildListScope.dataBuildList.togglePopover('ChangeRecipe', event); // click 1
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true);
     chai.expect(event.stopPropagation.callCount).to.equal(1);
-
   });
 
   it('builds button click event should be idempotent', function () {
-
     var event = {
       stopPropagation: sinon.spy()
     };
@@ -60,7 +54,6 @@ describe('ControllerBuildList'.underline.red, function () {
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true);
     chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
     chai.expect(event.stopPropagation.callCount).to.equal(2);
-
     // type something into search
     $buildListScope.dataBuildList.popoverChangeRecipe.filter = '123';
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true); // <-- technically a click to type... use protractor
@@ -68,26 +61,20 @@ describe('ControllerBuildList'.underline.red, function () {
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true);
     chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('123');
     chai.expect(event.stopPropagation.callCount).to.equal(3);
-
   });
 
   it('clicking on sibling or parent element hides the popover', function () {
     var event = {
       stopPropagation: sinon.spy()
     };
-
     // trigger click outside of popover button
     $layoutScope.dataLayout.click();
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(false);
     chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
-
     $buildListScope.dataBuildList.togglePopover('ChangeRecipe', event); // click 1
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true); // popover is showing after click
-
     $layoutScope.dataLayout.click();
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(false);
     chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
-
   });
-
 });
