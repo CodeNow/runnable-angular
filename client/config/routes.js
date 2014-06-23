@@ -41,7 +41,7 @@ module.exports = [{
     footer: true
   }
 }, {
-  state:       'mainLayout.buildList',
+  state:       'mainLayout.projects.buildList',
   abstract:    false,
   url:         '^/:ownerUsername/:name/:branch',
   templateUrl: 'viewBuildList',
@@ -51,7 +51,7 @@ module.exports = [{
     footer: false
   }
 }, {
-  state:       'mainLayout.build',
+  state:       'mainLayout.projects.build',
   abstract:    false,
   url:         '^/:ownerUsername/:name/:branch/:build',
   templateUrl: 'viewBuild',
@@ -61,7 +61,7 @@ module.exports = [{
     footer: false
   }
 }, {
-  state:       'mainLayout.instance',
+  state:       'mainLayout.projects.instance',
   abstract:    false,
   url:         '^/instance/:instanceId',
   templateUrl: 'viewInstance',
