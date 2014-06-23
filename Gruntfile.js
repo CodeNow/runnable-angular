@@ -202,6 +202,7 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'jshint:dev',
+          'autoBundleDependencies',
           'browserify',
         //  'bgShell:karma'
         ]

@@ -1,8 +1,12 @@
 var app  = require('app');
-// var $    = require('jquery');
-
-app.controller('ControllerProjectHeader', ControllerProjectHeader);
-function ControllerProjectHeader ($scope,
+app.controller('ControllerProjectLayout', ControllerProjectLayout);
+/**
+ * ControllerProjectLayout
+ * @constructor
+ * @export
+ * @ngInject
+ */
+function ControllerProjectLayout ($scope,
                                   $window) {
   var dataProjectHeader = $scope.dataProjectHeader = {};
 

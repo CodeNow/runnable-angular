@@ -3,10 +3,6 @@ module.exports = [{
   abstract:    true,
   templateUrl: 'viewLayout',
   controller:  'ControllerLayout',
-  data: {
-    header: true,
-    footer: true
-  }
 }, {
   state:       'mainLayout.home',
   abstract:    false,
@@ -14,11 +10,9 @@ module.exports = [{
   templateUrl: 'viewHome',
   controller:  'ControllerHome',
   data: {
-    header: false,
     bodyClass: {
       'height-54': true
     },
-    footer: true
   }
 }, {
   state:       'mainLayout.about',
@@ -26,48 +20,39 @@ module.exports = [{
   url:         '^/about',
   templateUrl: 'viewAbout',
   controller:  'ControllerAbout',
-  data: {
-    header: true,
-    footer: true
-  }
 }, {
   state:       'mainLayout.jobs',
   abstract:    false,
   url:         '^/jobs',
   templateUrl: 'viewJobs',
   controller:  'ControllerJobs',
-  data: {
-    header: true,
-    footer: true
-  }
+}, 
+
+
+
+
+
+{
+  state:       'projects',
+  abstract:    true,
+  templateUrl: 'viewProjectLayout',
+  controller:  'ControllerProjectLayout'
 }, {
-  state:       'mainLayout.projects.buildList',
+  state:       'projects.buildList',
   abstract:    false,
   url:         '^/:ownerUsername/:name/:branch',
   templateUrl: 'viewBuildList',
   controller:  'ControllerBuildList',
-  data: {
-    header: true,
-    footer: false
-  }
 }, {
-  state:       'mainLayout.projects.build',
+  state:       'projects.build',
   abstract:    false,
   url:         '^/:ownerUsername/:name/:branch/:build',
   templateUrl: 'viewBuild',
   controller:  'ControllerBuild',
-  data: {
-    header: true,
-    footer: false
-  }
 }, {
-  state:       'mainLayout.projects.instance',
+  state:       'projects.instance',
   abstract:    false,
   url:         '^/instance/:instanceId',
   templateUrl: 'viewInstance',
   controller:  'ControllerInstance',
-  data: {
-    header: true,
-    footer: false
-  }
 }];
