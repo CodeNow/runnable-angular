@@ -20,8 +20,8 @@ function ControllerInstance ($scope,
   dataInstance.showAddTab = false;
 
   $scope.$on('app-document-click', function () {
-    dataInstance['showAddTab'] = false;
-    dataInstance['popoverAddTab'].filter = '';
+    dataInstance.showAddTab = false;
+    dataInstance.popoverAddTab.filter = '';
   });
   dataInstance.togglePopover = function (popoverName, event) {
     event.stopPropagation();

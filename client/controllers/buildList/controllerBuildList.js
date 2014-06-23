@@ -12,7 +12,7 @@ function ControllerBuildList ($scope,
                               $stateParams,
                               async,
                               $window,
-                              hasProps) {
+                              hasKeypaths) {
 
   var dataBuildList = $scope.dataBuildList = {};
 
@@ -23,8 +23,8 @@ function ControllerBuildList ($scope,
   dataBuildList.showChangeRecipe = false;
 
   $scope.$on('app-document-click', function () {
-    dataBuildList['showChangeRecipe'] = false;
-    dataBuildList['popoverChangeRecipe'].filter = '';
+    dataBuildList.showChangeRecipe = false;
+    dataBuildList.popoverChangeRecipe.filter = '';
   });
   dataBuildList.togglePopover = function (popoverName, event) {
     event.stopPropagation();
@@ -54,25 +54,33 @@ function ControllerBuildList ($scope,
         cb(null, projects.models[0]);
       });
     },
-    function fetchEnvironment (project, cb) {
+    function fetchEnvironments (project, cb) {
       // TODO error check
-      var environmentJSON = project.toJSON().environments.filter(hasProps({name: 'master'}))[0];
-      var environment = project.newEnvironment(environmentJSON);
-      cb(null, project, environment);
+      // var environmentJSON = project.toJSON().environments.filter(hasProps({name: 'master'}))[0];
+      // var environment = project.newEnvironment(environmentJSON);
+      var environments = project.fetchEnvironments({ownerUsername: $stateParams.ownerUsername}, function () {
+        cb(null, project, environments);
+      });
+      // cb(null, project, environment);
     },
-    function fetchBuilds (project, environment, cb) {
+    function fetchEnvironment (project, environments, cb) {
+      var environment = environments.models.filter(hasKeypaths({'attrs.name': 'master'}))[0];
+      cb(null, project, environments, environment);
+    },
+    function fetchBuilds (project, environments, environment, cb) {
       var builds = environment.fetchBuilds(function (err) {
         if (err) return cb(err); //TODO error handling
-        cb(null, project, environment, builds);
+        cb(null, project, environments, environment, builds);
       });
     }
-  ], function (err, project, environment, builds) {
+  ], function (err, project, environments, environment, builds) {
     if (err) return; // TODO error handling
     $scope.$apply(function () {
-      dataBuildList.project     = project;
-      dataBuildList.environment = environment;
-      dataBuildList.builds      = builds;
-      debugger;
+      dataBuildList.project      = project;
+      dataBuildList.environments = environments;
+      dataBuildList.environment  = environment;
+      dataBuildList.builds       = builds;
+      console.log(dataBuildList);
     });
   });
 }

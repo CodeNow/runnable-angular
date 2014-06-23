@@ -95,7 +95,7 @@ module.exports = function(grunt) {
       files: ['test/**/*.html']
     },
     jshint: {
-      files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+      files: ['Gruntfile.js', 'client/**/*.js', 'server/**/*.js', 'test/**/*.js'],
       options: {
         // options here to override JSHint defaults
         globals: {
@@ -185,6 +185,7 @@ module.exports = function(grunt) {
           '!client/build/**/*.*'
         ],
         tasks: [
+          'jshint',
           'browserify',
         //  'bgShell:karma'
         ]
@@ -325,7 +326,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'autoBundleDependencies', 'browserify']);
+  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'jshint', 'autoBundleDependencies', 'browserify']);
   grunt.registerTask('develop', ['build', 'concurrent']);
 
 };
