@@ -1,14 +1,12 @@
 var app  = require('app');
-var deps = [
-  '$scope',
-  'user',
-  '$stateParams',
-  'async',
-  '$window',
-  'hasProps'
-];
-deps.push(ControllerBuildList);
-app.controller('ControllerBuildList', deps);
+app.controller('ControllerBuildList', ControllerBuildList);
+/**
+ * ControllerBuildList
+ * @param $scope
+ * @constructor
+ * @export
+ * @ngInject
+ */
 function ControllerBuildList ($scope,
                               user,
                               $stateParams,
@@ -74,6 +72,7 @@ function ControllerBuildList ($scope,
       dataBuildList.project     = project;
       dataBuildList.environment = environment;
       dataBuildList.builds      = builds;
+      debugger;
     });
   });
 }
