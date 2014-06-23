@@ -67,6 +67,7 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
+            ng-href    = "{{ dataBuildList.getRunHREF(build.attrs.id) }}"
             data-title = "Run Instance"
           )
             object(

@@ -21,7 +21,6 @@ function ControllerBuildList ($scope,
     filter: ''
   };
   dataBuildList.showChangeRecipe = false;
-
   $scope.$on('app-document-click', function () {
     dataBuildList.showChangeRecipe = false;
     dataBuildList.popoverChangeRecipe.filter = '';
@@ -29,6 +28,9 @@ function ControllerBuildList ($scope,
   dataBuildList.togglePopover = function (popoverName, event) {
     event.stopPropagation();
     dataBuildList['show' + popoverName] = true;
+  };
+  dataBuildList.getRunHREF = function (id) {
+    return '/' + $stateParams.ownerUsername + '/' + $stateParams.name + '/' + $stateParams.branch + '/' + id + '/';
   };
 
   async.waterfall([
