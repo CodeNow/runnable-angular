@@ -162,8 +162,10 @@ section.sidebar
                       | Add Repo
               #add-repo.popover-body
                 form
-                  input.form-control(type        = "search"
-                                     placeholder = "Filter Repositories")
+                  input.form-control(
+                    type = "search"
+                    placeholder = "Filter Repositories"
+                  )
                 ul.popover-list
                   li
                     a.select-repo
@@ -173,7 +175,50 @@ section.sidebar
                       input.form-control(placeholder = "Branch or SHA (optional)")
                       a.btn.btn-block.orange Add Repository
 
-      ul.nav.nav-pills.nav-stacked
+      ul.tree
+        li.folder
+          object.iconnables(
+            class = "iconnables filetypes"
+            data = "/build/images/icons/filetypes/icons-folder.svg"
+            type = "image/svg+xml"
+          )
+          | css
+          ul
+            li
+              object.iconnables(
+                class = "iconnables filetypes"
+                data = "/build/images/icons/filetypes/icons-file.svg"
+                type = "image/svg+xml"
+              )
+              | styles.css
+            li
+              object.iconnables(
+                class = "iconnables filetypes"
+                data = "/build/images/icons/filetypes/icons-file.svg"
+                type = "image/svg+xml"
+              )
+              | tables.css
+        li
+          object.iconnables(
+            class = "iconnables filetypes"
+            data = "/build/images/icons/filetypes/icons-file.svg"
+            type = "image/svg+xml"
+          )
+          | favicon.png
+        li
+          object.iconnables(
+            class = "iconnables filetypes"
+            data = "/build/images/icons/filetypes/icons-file.svg"
+            type = "image/svg+xml"
+          )
+          | index.html
+        li
+          object.iconnables(
+            class = "iconnables filetypes"
+            data = "/build/images/icons/filetypes/icons-file.svg"
+            type = "image/svg+xml"
+          )
+          | htc.access
 
   #editor-toolbar
     #tabs-wrapper
