@@ -129,7 +129,7 @@ section.sidebar
         span
       li.light-theme.theme.tooltip(data-title = "Light Theme")
         span
-    .folder.in
+    .explorer-header
       h6
         | BUILD FILES
         //- file_explorer_menu
@@ -141,18 +141,24 @@ section.sidebar
                 ul#file-explorer-options.popover-body.col-popover-3
                   li
                     a
-                      object.iconnables(data = "/build/images/icons/icons-new-file.svg"
-                                        type = "image/svg+xml")
+                      object.iconnables(
+                        data = "/build/images/icons/icons-new-file.svg"
+                        type = "image/svg+xml"
+                      )
                       | New File
                   li
                     a
-                      object.iconnables(data = "/build/images/icons/icons-new-folder.svg"
-                                        type = "image/svg+xml")
+                      object.iconnables(
+                        data = "/build/images/icons/icons-new-folder.svg"
+                        type = "image/svg+xml"
+                      )
                       | New Folder
                   li
                     a#add-repo-link
-                      object.iconnables(data = "/build/images/icons/icons-octocat.svg"
-                                        type = "image/svg+xml")
+                      object.iconnables(
+                        data = "/build/images/icons/icons-octocat.svg"
+                        type = "image/svg+xml"
+                      )
                       | Add Repo
               #add-repo.popover-body
                 form

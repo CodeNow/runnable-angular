@@ -1,3 +1,4 @@
+// modernizr test
 @mixin modernizr($test) {
   html.#{$test} & {
     @content;
@@ -11,102 +12,6 @@
     (min-resolution: 2dppx) {
       @content;
   }
-}
-
-// transition-delay mixin
-@mixin transition-delay($delay) {
-  -webkit-transition-delay: $delay;
-  transition-delay: $delay;
-}
-
-// animation-delay mixin
-@mixin animation-delay($delay) {
-  -webkit-animation-delay: $delay;
-  animation-delay: $delay;
-}
-
-// animation mixin
-@mixin animation($animation) {
-  -webkit-animation: $animation;
-  animation: $animation;
-}
-
-// user-select mixin
-@mixin user-select($user-select) {
-  -moz-user-select: $user-select;
-  -ms-user-select: $user-select;
-  -webkit-user-select: $user-select;
-  user-select: $user-select;
-}
-
-// transform3d mixin with fallback for top
-@mixin transform-3d($x: 0, $y: 0, $z: 1) {
-  -webkit-transform: translate3d($x, $y, $z);
-  transform: translate3d($x, $y, $z);
-
-  @include modernizr(no-csstransforms3d) {
-    -ms-transform: translate($x, $y);
-    -webkit-transform: translate($x, $y);
-    transform: translate($x, $y);
-  }
-
-  @include modernizr(no-csstransforms) {
-    top: $y;
-  }
-}
-
-// scale3d mixin
-@mixin scale-3d($x: 0, $y: 0, $z: 1) {
-  -webkit-transform: scale3d($x, $y, $z);
-  transform: scale3d($x, $y, $z);
-
-  @include modernizr(no-csstransforms3d) {
-    -ms-transform: scale($x, $y);
-    -webkit-transform: scale($x, $y);
-    transform: scale($x, $y);
-  }
-
-  @include modernizr(no-csstransforms) {
-    height: $y;
-    width: $x;
-  }
-}
-
-// rotate3d mixin
-@mixin rotate-3d($a: 0) {
-  -webkit-transform: rotate3d(0,0,1,$a);
-  transform: rotate($a);
-  // ff doesn't rotate in the correct direction
-  // unless -webkit-, using 2d transforms for now
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=769892
-  // the bug in action: http://jsbin.com/AnaFICAY/2/edit
-
-  @include modernizr(no-csstransforms3d) {
-    -ms-transform: rotate($a);
-    -webkit-transform: rotate($a);
-    transform: rotate($a);
-  }
-}
-
-// transform-origin mixin
-@mixin transform-origin($x: 50%, $y: 50%) {
-  -ms-transform-origin: $x, $y;
-  -webkit-transform-origin: $x, $y;
-  transform-origin: $x, $y;
-}
-
-// transition mixin for transforms
-@mixin transition-transforms($transition, $transition2:false) {
-  $params: $transition;
-
-  @if $transition2 {
-    $params: $transition, $transition2;
-  }
-
-  -ms-transition: -ms-transform+" "+$params;
-  -webkit-transition: -webkit-transform+" "+$params;
-  transition: transform+" "+$params;
-
 }
 
 // bootstrap's LESS media queries for SASS

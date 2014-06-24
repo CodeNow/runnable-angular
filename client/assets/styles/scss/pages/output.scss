@@ -133,7 +133,7 @@
     width: 100%;
 
     &.in {
-      @include animation(heightUp .75s ease-in-out forwards);
+      animation: heightUp .75s ease-in-out forwards;
     }
 
     #output-terminal {
