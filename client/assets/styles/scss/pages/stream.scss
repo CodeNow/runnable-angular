@@ -35,14 +35,14 @@
     > object {
       margin-right: 6px;
       top: 6px;
-      transition: .2s transform;
+      transition: 2s transform;
     }
 
-    &.in > object {
+    &.ng-enter > object {
       transform: scale3d(1,1,1)
     }
 
-    &.out > object {
+    &.ng-leave > object {
       transform: scale3d(0,0,0);
     }
   }

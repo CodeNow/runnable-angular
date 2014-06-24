@@ -140,11 +140,6 @@
 // when file explorer is open
 #editor.in {
 
-  // file explorer icon
-  #explorer-toggle::before {
-    content: '\E145';
-  }
-
   // explorer
   #explorer {
     transform: translate3d(0,0,0);

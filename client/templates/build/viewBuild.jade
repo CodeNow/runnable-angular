@@ -1,13 +1,17 @@
 nav.sub-header
 
-  h1.build-header.divided-header(ng-animate="{enter: 'in', leave: 'out'}", ng-if = "!dataBuild.isDirty")
+  h1.build-header.divided-header(
+    ng-if = "!dataBuild.isDirty"
+  )
     object.iconnables.icons-pass(
       data = "/build/images/icons/icons-pass.svg"
       type = "image/svg+xml"
     )
     | Build 1776
 
-  h1.build-header.divided-header(ng-animate="{enter: 'in', leave: 'out'}", ng-if = "dataBuild.isDirty")
+  h1.build-header.divided-header(
+    ng-if = "dataBuild.isDirty"
+  )
     object.iconnables.icons-pass(
       data = "/build/images/icons/icons-asterisk.svg"
       type = "image/svg+xml"
@@ -133,7 +137,11 @@ section.sidebar
 #editor.in
   //- file_explorer
   aside#explorer
-    button#explorer-toggle.glyphicons.folder-closed
+    button#explorer-toggle
+      object.iconnables(
+        data = "/build/images/icons/icons-folder-open.svg"
+        type = "image/svg+xml"
+      )
     ul#controls
       li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
         span
