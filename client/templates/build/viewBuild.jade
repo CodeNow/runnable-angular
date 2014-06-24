@@ -1,16 +1,17 @@
 nav.sub-header
 
   h1.build-header.divided-header
-    object.iconnables.icons-pass(
-      data = "/build/images/icons/icons-pass.svg"
-      ng-if = "!dataBuild.isDirty"
-      type = "image/svg+xml"
-    )
-    object.iconnables.icons-pass(
-      data = "/build/images/icons/icons-asterisk.svg"
-      ng-if = "dataBuild.isDirty"
-      type = "image/svg+xml"
-    )
+    .iconnables-container
+      object.iconnables.icons-pass(
+        data = "/build/images/icons/icons-pass.svg"
+        ng-if = "!dataBuild.isDirty"
+        type = "image/svg+xml"
+      )
+      object.iconnables.icons-pass(
+        data = "/build/images/icons/icons-asterisk.svg"
+        ng-if = "dataBuild.isDirty"
+        type = "image/svg+xml"
+      )
     | Build 1776
 
   section#main-controls(ng-if = "!dataBuild.isDirty")

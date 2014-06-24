@@ -32,27 +32,37 @@
       text-align: center;
     }
 
-    > object {
+    > .iconnables-container {
       margin-right: 6px;
+      position: relative;
       top: 6px;
 
-      &.ng-enter {
-        transition: transform 2s 2s;
-        transform: scale3d(0,0,0);
-        width: 0;
-      }
-
-      &.ng-leave {
-        transition: transform 2s;
-      }
-
-      &.ng-enter-active {
-        transform: scale3d(1,1,1);
+      > object {
+        display: inline-block;
+        height: 24px;
+        position: absolute;
+          top: 0;
+          left: 0;
         width: 24px;
-      }
 
-      &.ng-leave-active {
-        transform: scale3d(0,0,0);
+        &.ng-enter {
+          transition: transform 2s 2s;
+          transform: scale3d(0,0,0);
+          width: 0;
+        }
+
+        &.ng-leave {
+          transition: transform 2s;
+        }
+
+        &.ng-enter-active {
+          transform: scale3d(1,1,1);
+          width: 24px;
+        }
+
+        &.ng-leave-active {
+          transform: scale3d(0,0,0);
+        }
       }
     }
   }
