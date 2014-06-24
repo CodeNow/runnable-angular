@@ -9,8 +9,8 @@ dependencies:
     - grunt autoBundleDependencies
     - grunt browserify
     - karma start ./test/karma.conf.js --single-run
+  cache_directories:
+    - ~/nvm
 machine:
   node:
     version: v0.10.25
-cache_directories:
-  - ~/nvm
