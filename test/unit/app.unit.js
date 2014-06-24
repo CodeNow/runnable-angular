@@ -22,7 +22,7 @@ describe('general controller tests'.underline.red, function () {
     });
 
     var table = new Table({
-      colWidths: [20, 50],
+      colWidths: [25, 50],
       chars: { 'top': '' , 'top-mid': '' , 'top-left': '' , 'top-right': '',
                'bottom': '' , 'bottom-mid': '' , 'bottom-left': '' , 'bottom-right': '',
                'left': '' , 'left-mid': '' , 'mid': '' , 'mid-mid': '', 'right': '' ,
