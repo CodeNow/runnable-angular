@@ -35,15 +35,25 @@
     > object {
       margin-right: 6px;
       top: 6px;
-      transition: 2s transform;
-    }
 
-    &.ng-enter > object {
-      transform: scale3d(1,1,1)
-    }
+      &.ng-enter {
+        transition: transform 2s 2s;
+        transform: scale3d(0,0,0);
+        width: 0;
+      }
 
-    &.ng-leave > object {
-      transform: scale3d(0,0,0);
+      &.ng-leave {
+        transition: transform 2s;
+      }
+
+      &.ng-enter-active {
+        transform: scale3d(1,1,1);
+        width: 24px;
+      }
+
+      &.ng-leave-active {
+        transform: scale3d(0,0,0);
+      }
     }
   }
 
