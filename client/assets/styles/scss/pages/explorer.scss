@@ -18,13 +18,23 @@
     cursor: pointer;
     line-height: 28px;
     height: 28px; // default height
-    padding: 0 9px 0 20px;
+    // padding: 0 9px 0 20px;
+    padding: 0;
     position: relative;
+    text-indent: 20px;
     transition: height .2s;
 
     &:active,
     &.active {
       background: #fff;
+    }
+
+    > ul > li {
+      text-indent: 40px;
+
+      > ul > li {
+        text-indent: 60px;
+      }
     }
   }
 
@@ -46,10 +56,23 @@
 
     > ul {
       overflow: hidden;
-      padding-left: 11px;
 
       > li {
         height: 0; // hide items within folders by default
+      }
+
+      > .folder {
+
+        &::after {
+          left: 27px;
+        }
+
+        > ul > .folder {
+
+          &::after {
+            left: 47px;
+          }
+        }
       }
     }
 
