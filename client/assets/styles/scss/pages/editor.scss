@@ -1,265 +1,25 @@
-#code-editor,
-#code-editor-embed {
-  height: 100%;
+#editor {
+  height: calc(100% - 54px);
   overflow: hidden;
   position: relative;
-
-  &:after {
-    background: rgba(0,0,0,.1);
-    content: '';
-    display: block;
-    height: 100%;
-    position: absolute;
-      top: 36px;
-      right: 0;
-    width: 1px;
-  }
-
-  @include media(xxs) {
-    border-left: 0;
-    margin: 0 -15px;
-  }
-}
-
-// toolbar
-#project-toolbar {
-  border-bottom: 1px solid rgba(0,0,0,.1);
-  height: 36px;
-  overflow: visible;
-  position: absolute;
-    z-index: 2;
-  width: 100%;
-
-  > a {
-    cursor: pointer;
-    display: block;
-    float: left;
-    font-size: 18px;
-    height: 35px;
-    line-height: 36px;
-    text-align: center;
-    width: 36px;
-  }
-
-  #open-file-explorer {
-    background: $gray-lighter;
-    border-right: 1px solid rgba(0,0,0,.1);
-    box-shadow: inset 0 1px 0 #fff;
-    color: $gray-dark;
-    height: 35px;
-    line-height: 34px;
-    top: 0;
-    user-select: none;
-    z-index: 9999; // chrome z-index glitch
-
-    &:hover {
-      color: $gray-darker;
-      text-decoration: none;
-    }
-
-    &:active {
-      color: $gray-darkest;
-    }
-  }
-
-  #show-readme {
-    background: $gray-light;
-    border-right: 1px solid rgba(0,0,0,.1);
-    color: $gray-dark;
-    line-height: 38px;
-    transition: transform .2s ease-in-out;
-
-    &:hover {
-      background: $gray-lighter;
-    }
-
-    &:active {
-      color: $gray-darker;
-    }
-
-    &.active {
-      background: $gray-lighter;
-      box-shadow: inset 0 1px 0 #fff;
-      color: $gray-darker;
-      cursor: default;
-    }
-  }
-
-  // right side tabs
-  #project-select-tabs,
-  #add-tab {
-    border: 0;
-    float: right;
-    transition: transform .2s ease-in-out;
-    width: 36px;
-  }
-
-  #project-select-tabs {
-    border-left: 1px solid rgba(0,0,0,.1);
-    overflow: hidden;
-  }
-
-  #add-tab {
-    box-shadow: inset 0 1px 0 #fff;
-    color: $gray-dark;
-    cursor: pointer;
-    position: relative;
-
-    &:hover {
-      color: $gray-darker;
-    }
-
-    &.active,
-    &:active {
-      color: $gray-darkest;
-    }
-  }
-
-  // select menu tabs
-  #project-select-tabs {
-    overflow: hidden;
-    z-index: 9999; // chrome z-index glitch
-
-    button {
-
-      &:before {
-        border-bottom-color: $gray-dark;
-        right: 16px;
-      }
-
-      &:after {
-        border-top-color: $gray-dark;
-        right: 16px;
-      }
-    }
-
-    &:hover > button {
-
-      &:before {
-        border-bottom-color: $gray-darker;
-      }
-
-      &:after {
-        border-top-color: $gray-darker;
-      }
-    }
-
-    > button {
-      border: 0;
-      box-shadow: inset 0 1px 0 #fff;
-      height: 35px;
-      padding: 0;
-      position: relative;
-    }
-  }
-
-  // add tab
-  #add-tab {
-    border-left: 1px solid rgba(0,0,0,.1);
-    color: $gray-dark;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
-  }
-
-  .tooltip {
-
-    &:before {
-      top: 36px;
-    }
-
-    &:after {
-      top: 30px;
-
-    }
-  }
-}
-
-// controls
-#controls {
-  background: $gray-lighter;
-  border-bottom: 1px solid rgba(0,0,0,.1);
-  border-right: 1px solid rgba(0,0,0,.1);
-  box-shadow: inset 0 1px 0 #fff;
-  height: 36px;
-  margin: 0;
-  padding: 0;
-  // a bit ratchet, will have to be refactored one day
-  position: absolute;
-    top: -36px;
-    left: 36px;
-    z-index: 1;
-  user-select: none;
-  width: 204px;
-
-  li {
-    color: $gray-dark;
-    cursor: pointer;
-    display: block;
-    float: left;
-    font-size: 16px;
-    height: 36px;
-    line-height: 36px;
-    list-style: none;
-    margin: 0;
-    top: 0;
-    text-align: center;
-    user-select: none;
-    width: 36px;
-
-    &:before {
-      top: 36px;
-    }
-
-    &:after {
-      top: 30px;
-      left: 12px;
-    }
-
-    &.dark-theme,
-    &.light-theme {
-
-      > span {
-        border: 1px solid $gray-dark;
-        border-radius: 50%;
-        content: '';
-        display: block;
-        height: 18px;
-        margin: 8px auto;
-        width: 18px;
-      }
-    }
-
-    &.dark-theme > span {
-      background: $purple;
-    }
-
-      &.light-theme > span {
-        background: $gray-lighter;
-      }
-
-    &.active {
-      cursor: default;
-
-       > span {
-        border: 1px solid $orange;
-      }
-    }
-  }
 }
 
 // default tabs
-#project-editor-tabs-wrapper {
+#tabs-wrapper {
   background: $gray-light;
   border-bottom: 1px solid rgba(0,0,0,.1);
   float: left;
   height: 36px;
   overflow: hidden;
   transition: all .2s ease-in-out;
-  width: calc(100% - 275px);
+  width: calc(100% - 36px);
+
+  &.with-addtab {
+    width: calc(100% - 72px);
+  }
 }
 
-#project-editor-tabs {
+#tabs {
   border: 0;
   height: 51px;
   overflow-x: scroll;
@@ -356,10 +116,8 @@
   }
 }
 
-#project-editor-container {
-  background: #fff;
+#editor-container {
   height: calc(100% - 36px);
-  margin-top: 36px;
   transform: translate3d(0,0,0);
   transition: transform .2s ease-in-out, width 0s ease-in-out;
   width: 100%;
@@ -371,88 +129,39 @@
   .ace_text-input {
     font-size: 16px;
   }
+
+  pre {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
 }
 
 // when file explorer is open
-#code-editor.in,
-#code-editor-embed.in {
+#editor.in {
 
   // file explorer icon
-  #open-file-explorer {
-
-    &:before {
-      content: '\E145';
-    }
+  #explorer-toggle::before {
+    content: '\E145';
   }
 
-  // readme icon
-  #show-readme {
-    transform: translate3d(204px,0,0);
-  }
-
-  // file explorer
-  #file-explorer {
+  // explorer
+  #explorer {
     transform: translate3d(0,0,0);
-    z-index: 10;
   }
 
-  // tabs
-  #project-editor-tabs-wrapper {
-    transform: translate3d(204px,0,0);
-    width: calc(100% - 275px);
+  // toolbar
+  #editor-toolbar {
+    transform: translate3d(240px,0,0);
+    width: calc(100% - 240px);
   }
 
   // ace editor
-  #project-editor-container {
+  #editor-container {
     transform: translate3d(240px,0,0);
     transition: all .2s ease-in-out;
     width: calc(100% - 240px);
   }
-}
-
-// toggling readme and code editor
-#project-editor-container {
-
-  > #html-readme {
-    display: none;
-  }
-
-  > #output-view {
-    border: 0px;
-    display: none;
-    height: 100%;
-    min-height: 400px;
-    width: 100%;
-  }
-
-  &.show-readme {
-
-    > #project-editor,
-    > #output-view {
-      display: none;
-    }
-
-    > #html-readme {
-      display: block;
-    }
-  }
-
-  &.show-output-view {
-
-    > #project-editor,
-    > #html-readme {
-      display: none;
-    }
-
-    > #output-view {
-      display: block;
-    }
-  }
-}
-
-// pre
-#project-editor {
-  height: 100% !important;
 }
 
 // ace tooltip bug?
