@@ -1,10 +1,8 @@
-#file-explorer {
+#explorer {
   background: $gray-lighter;
   border-right: 1px solid rgba(0,0,0,.1);
-  float: left;
-  height: calc(100% - 36px);
+  height:  100%;
   position: absolute;
-    top: 36px;
   transform: translate3d(-240px,0,0);
   transition: transform .2s ease-in-out, width 0s ease-in-out;
   width: 240px;
@@ -117,12 +115,6 @@
     }
   }
 
-  // file tree item
-  .ui-draggable:hover {
-    background: #fff;
-    box-shadow: inset 0 -1px 0 rgba(0,0,0,.05), inset 0 1px 0 rgba(0,0,0,.05);
-  }
-
   // icons
   .nav object {
     float: left;
@@ -130,8 +122,211 @@
   }
 }
 
+#explorer-toggle {
+  background: $gray-lighter;
+  border: 0;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-radius: 0;
+  border-right: 1px solid rgba(0,0,0,.1);
+  color: $gray-dark;
+  float: left;
+  height: 36px;
+  padding: 0;
+  user-select: none;
+  width: 36px;
+
+  &:hover {
+    color: $gray-darker;
+    text-decoration: none;
+  }
+
+  &:active {
+    color: $gray-darkest;
+  }
+}
+
+// controls
+#controls {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-right: 1px solid rgba(0,0,0,.1);
+  height: 36px;
+  margin: 0 0 0 36px;
+  padding: 0;
+  user-select: none;
+  width: 204px;
+
+  li {
+    color: $gray-dark;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 16px;
+    height: 36px;
+    line-height: 36px;
+    list-style: none;
+    margin: 0;
+    top: 0;
+    text-align: center;
+    user-select: none;
+    width: 36px;
+
+    &:before {
+      top: 36px;
+    }
+
+    &:after {
+      top: 30px;
+      left: 12px;
+    }
+
+    &.dark-theme,
+    &.light-theme {
+
+      > span {
+        border: 1px solid $gray-dark;
+        border-radius: 50%;
+        content: '';
+        display: block;
+        height: 18px;
+        margin: 8px auto;
+        width: 18px;
+      }
+    }
+
+    &.dark-theme > span {
+      background: $purple;
+    }
+
+      &.light-theme > span {
+        background: $gray-lighter;
+      }
+
+    &.active {
+      cursor: default;
+
+       > span {
+        border: 1px solid $orange;
+      }
+    }
+  }
+}
+
+// toolbar
+#editor-toolbar {
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  height: 36px;
+  overflow: visible;
+  position: relative;
+    z-index: $zpopover;
+  transform: translate3d(0,0,0);
+  width: 100%;
+
+  > a {
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 18px;
+    height: 35px;
+    line-height: 36px;
+    text-align: center;
+    width: 36px;
+  }
+
+  // right side tabs
+  #select-tabs,
+  #add-tab {
+    border: 0;
+    float: right;
+    transition: transform .2s ease-in-out;
+    width: 36px;
+  }
+
+  #select-tabs {
+    border-left: 1px solid rgba(0,0,0,.1);
+    overflow: hidden;
+  }
+
+  #add-tab {
+    background: $gray-lighter;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff;
+    color: $gray-dark;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      color: $gray-darker;
+    }
+
+    &.active,
+    &:active {
+      color: $gray-darkest;
+    }
+  }
+
+  // select menu tabs
+  #select-tabs {
+    overflow: hidden;
+    z-index: 9999; // chrome z-index glitch
+
+    button {
+
+      &:before {
+        border-bottom-color: $gray-dark;
+        right: 16px;
+      }
+
+      &:after {
+        border-top-color: $gray-dark;
+        right: 16px;
+      }
+    }
+
+    &:hover > button {
+
+      &:before {
+        border-bottom-color: $gray-darker;
+      }
+
+      &:after {
+        border-top-color: $gray-darker;
+      }
+    }
+
+    > button {
+      border: 0;
+      box-shadow: inset 0 1px 0 #fff;
+      height: 35px;
+      padding: 0;
+      position: relative;
+    }
+  }
+
+  // add tab
+  #add-tab {
+    border-left: 1px solid rgba(0,0,0,.1);
+    color: $gray-dark;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+  }
+
+  .tooltip {
+
+    &:before {
+      top: 36px;
+    }
+
+    &:after {
+      top: 30px;
+
+    }
+  }
+}
+
 // nested folders
-#file-explorer .nav {
+#explorer .nav {
 
   li {
 
@@ -335,22 +530,6 @@
 
   .glyphicons {
     margin: 0;
-  }
-}
-
-// if preview tip
-#tip {
-  display: none;
-}
-
-.preview {
-
-  #rebuild {
-    display: none;
-  }
-
-  #tip {
-    display: block;
   }
 }
 

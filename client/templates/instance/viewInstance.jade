@@ -90,85 +90,78 @@ section.sidebar
     | [nodemon] starting `node server/main.js`
     | App listening on port: 3001
 
-section#project
-  //- code_editor
-  #code-editor.in
+//- code_editor
+#editor.in
 
-    #project-toolbar
-      a#open-file-explorer.glyphicons.folder-closed
-      //- readme_button
-      #project-editor-tabs-wrapper
-      //- file_tabs
-      //- file_select
-      #project-select-tabs.dropdown
-        button(type = "button")
-        select
-          option(selected) Tab 1
-          option Tab 2
-      //- add_tab
-      #add-tab.btn-popover(
-        ng-class = "{active: dataInstance.showAddTab}"
-        ng-click = "dataInstance.togglePopover('AddTab', $event);"
+  //- file_explorer
+  aside#explorer
+    button#explorer-toggle.glyphicons.folder-closed
+    ul#controls
+      li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
+        span
+      li.light-theme.theme.tooltip(data-title = "Light Theme")
+        span
+    .folder.in
+      h6
+        | CONTAINER FILES
+        //- file_explorer_menu
+        button.silver.btn-sm.btn-popover.file-explorer-menu
+          span.glyphicons.cogwheel
+          .popover.fade.bottom.menu
+            .arrow
+              .popover-content
+                ul#file-explorer-options.popover-body.col-popover-3
+                  li
+                    a
+                      object.iconnables(data = "/build/images/icons/icons-new-file.svg"
+                                        type = "image/svg+xml")
+                      | New File
+                  li
+                    a
+                      object.iconnables(data = "/build/images/icons/icons-new-folder.svg"
+                                        type = "image/svg+xml")
+                      | New Folder
+                  li
+                    a#add-repo-link
+                      object.iconnables(data = "/build/images/icons/icons-octocat.svg"
+                                        type = "image/svg+xml")
+                      | Add Repo
+              #add-repo.popover-body
+                form
+                  input.form-control(type        = "search"
+                                     placeholder = "Filter Repositories")
+                ul.popover-list
+                  li
+                    a.select-repo
+                      | username/reponame
+                      a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
+                    form.add-repo-form
+                      input.form-control(placeholder = "Branch or SHA (optional)")
+                      a.btn.btn-block.orange Add Repository
+
+      ul.nav.nav-pills.nav-stacked
+
+  #editor-toolbar
+    #tabs-wrapper.with-addtab
+    //- file_tabs
+    #select-tabs.dropdown
+      button(type = "button")
+      select
+        option(selected) Tab 1
+        option Tab 2
+    //- add_tab
+    #add-tab.btn-popover(
+      ng-class = "{active: dataInstance.showAddTab}"
+      ng-click = "dataInstance.togglePopover('AddTab', $event);"
+    )
+      span.glyphicons.plus
+      div.popover.menu.bottom.fade(
+        ng-class = "{in: dataInstance.showAddTab}"
+        ng-include = "'viewInstancePopoverAddTab'"
       )
-        span.glyphicons.plus
-        div.popover.menu.bottom.fade(
-          ng-class = "{in: dataInstance.showAddTab}"
-          ng-include = "'viewInstancePopoverAddTab'"
-        )
 
-    //- file_explorer
-    aside#file-explorer
-      ul#controls
-        li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
-          span
-        li.light-theme.theme.tooltip(data-title = "Light Theme")
-          span
-      #build-files.sub-tree.in
-        a
-        h6
-          | CONTAINER FILES
-          //- file_explorer_menu
-          button.silver.btn-sm.btn-popover.file-explorer-menu
-            span.glyphicons.cogwheel
-            .popover.fade.bottom.menu
-              .arrow
-                .popover-content
-                  ul#file-explorer-options.popover-body.col-popover-3
-                    li
-                      a
-                        object.iconnables(data = "/build/images/icons/icons-new-file.svg"
-                                          type = "image/svg+xml")
-                        | New File
-                    li
-                      a
-                        object.iconnables(data = "/build/images/icons/icons-new-folder.svg"
-                                          type = "image/svg+xml")
-                        | New Folder
-                    li
-                      a#add-repo-link
-                        object.iconnables(data = "/build/images/icons/icons-octocat.svg"
-                                          type = "image/svg+xml")
-                        | Add Repo
-                #add-repo.popover-body
-                  form
-                    input.form-control(type        = "search"
-                                       placeholder = "Filter Repositories")
-                  ul.popover-list
-                    li
-                      a.select-repo
-                        | username/reponame
-                        a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
-                      form.add-repo-form
-                        input.form-control(placeholder = "Branch or SHA (optional)")
-                        a.btn.btn-block.orange Add Repository
+  #editor-container
+    //- code
+    pre(ui-ace = "{showGutter: false}") Test
 
-        ul.nav.nav-pills.nav-stacked
-
-    #project-editor-container
-      //- code
-      pre#project-editor(ui-ace = "{showGutter: false}") Test
-
-      //- html_readme
-
-  //- rebuild_loader
-
+//- rebuild_loader
