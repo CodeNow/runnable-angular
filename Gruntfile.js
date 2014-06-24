@@ -271,7 +271,7 @@ module.exports = function(grunt) {
       },
       'npm-install': {
         bg: false,
-        cmd: 'echo \'installing dependencies...\n\' && npm install && npm rebuild'
+        cmd: 'echo \'installing dependencies...\n\' && npm install'
       }
     },
     karma: {
