@@ -1,0 +1,77 @@
+#!/usr/bin/osascript
+-- luismartingil 2013
+-- Applescript to launch an specific terminal configuration
+-- Dont unfocus with the mouse/keyboard while executing. the script.
+
+--
+--
+-- Update. Check iterm_launcher02.applescript for a clean and DRY way of doing this.
+--
+--
+
+launch "iTerm"
+
+tell application "iTerm"
+  activate
+
+  -- terminate the first session of the first terminal
+
+  -- make a new terminal
+  set myterm to (make new terminal)
+  tell myterm
+
+    set number of columns to 140
+    set number of rows to 80
+
+    --set theMessages to {"red", "blue", "yellow"}
+    repeat with n from 1 to 3
+      set sessionList to {}
+
+      -- launch a default shell in a new tab in the same terminal
+      launch session n
+
+      tell i term application "System Events" to key code 30 using command down
+
+      tell i term application "System Events" to keystroke "D" using command down
+
+      tell i term application "System Events" to key code 30 using command down
+
+      tell i term application "System Events" to keystroke "d" using command down
+
+      tell i term application "System Events" to keystroke "52" using command down
+
+      delay 1
+
+      tell first item of sessions
+        set name to "runnable-angular server"
+        set transparency to "0"
+        set background color to "blue"
+        write text "cd ~/Documents/workspace/runnable-angular"
+        write text "/bin/sleep 1"
+        write text "grunt dev"
+      end tell
+
+      tell second item of sessions
+        set name to "runnable-angular test server"
+        set transparency to "0"
+        set background color to "purple"
+        write text "cd ~/Documents/workspace/runnable-angular"
+        write text "/bin/sleep 1"
+        write text "grunt test-watch"
+      end tell
+
+      tell third item of sessions
+        set name to "name3"
+        set transparency to "0.1"
+        write text "cd ~/Documents/workspace/runnable-angular"
+        write text "say 'Good morning master Flynn.'"
+        write text "say 'You are '"
+        write text "git status | for k in {1..2}; do read line; say $line; done;"
+        write text "clear"
+        write text "git status"
+      end tell
+
+      return sessionList
+    end repeat
+  end tell
+end tell
