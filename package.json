@@ -67,7 +67,8 @@
     "cli-table": "~0.3.0",
     "sinon": "~1.10.2",
     "colors": "~0.6.2",
-    "karma-sourcemap-loader": "~0.2.0"
+    "karma-sourcemap-loader": "~0.2.0",
+    "karma-phantomjs-launcher": "~0.1.4"
   },
   "browser": {
     "app": "./client/lib/app.js",

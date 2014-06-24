@@ -195,6 +195,15 @@ module.exports = function(grunt) {
           'autoSVGO'
         ]
       },
+      tests: {
+        files: [
+          'client/build/**/*.js',
+          'test/**/*.js'
+        ],
+        tasks: [
+          'bgShell:karma'
+        ]
+      },
       javascripts: {
         files: [
           'client/**/*.js',
@@ -232,15 +241,19 @@ module.exports = function(grunt) {
       }
     },
     bgShell: {
+      // karma: {
+      //   bg: true,
+      //   cmd: [
+      //     'SAUCE_USERNAME=runnable',
+      //     'SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48',
+      //     'BUILD_NUMBER=1',
+      //     'karma start ./test/karma.conf.js'
+      //   ].join(' ')
+      //   //cmd: 'SAUCE_USERNAME=runnable SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48 BUILD_NUMBER=1 karma start ./test/karma.conf.js'
+      // },
       karma: {
-        bg: true,
-        cmd: [
-          'SAUCE_USERNAME=runnable',
-          'SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48',
-          'BUILD_NUMBER=1',
-          'karma start ./test/karma.conf.js'
-        ].join(' ')
-        //cmd: 'SAUCE_USERNAME=runnable SAUCE_ACCESS_KEY=f41cc147-a7f0-42b0-8e86-53eb5a349f48 BUILD_NUMBER=1 karma start ./test/karma.conf.js'
+        bg: false,
+        cmd: 'karma start ./test/karma.conf.js --single-run'
       },
       server: {
         cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
@@ -357,7 +370,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-karma');
 
+  grunt.registerTask('test-watch', ['watch:tests']);
   grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'jshint:dev', 'autoBundleDependencies', 'browserify']);
-  grunt.registerTask('develop', ['build', 'concurrent']);
+  grunt.registerTask('dev', ['build', 'concurrent']);
 
 };

@@ -44,10 +44,11 @@ module.exports = function(config) {
     customLaunchers: customLaunchers,
 
     // browsers: Object.keys(customLaunchers),
-    browsers: ['Chrome'],
+    // browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: './',
 
 
     // frameworks to use
@@ -58,7 +59,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // 'client/main.js',
+      // 'client/**/*.js',
       'unit/**/*.js'
     ],
 
@@ -77,6 +78,7 @@ module.exports = function(config) {
 
     browserify: {
       debug: true,
+      //watch: true,
       transform: ['browserify-shim']
     },
 
@@ -102,6 +104,7 @@ module.exports = function(config) {
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
+    autoWatchBatchDelay: 2000,
 
 
     // start these browsers
