@@ -33,6 +33,10 @@ var customLaunchers = {
 module.exports = function(config) {
   config.set({
 
+    browserDisconnectTimeout: 100000,
+    browserDisconnectTolerance: 50,
+    browserNoActivityTimeout: 100000,
+
     sauceLabs: {
       testName: 'Runnable 2.0'
     },
