@@ -39,10 +39,10 @@
     top: 28px;
     right: 0;
     z-index: 0;
-  @include transition-transforms(.1s);
+  transition: transform .1s;
 
   &.in {
-    @include transform-3d(0,-36px,0);
+    transform: translate3d(0,-36px,0);
   }
 
   a {
