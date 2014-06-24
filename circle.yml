@@ -8,7 +8,6 @@ dependencies:
     - grunt jshint:prod
     - grunt autoBundleDependencies
     - grunt browserify
-    - karma start ./test/karma.conf.js --single-run
   cache_directories:
     - ~/nvm
 machine:
