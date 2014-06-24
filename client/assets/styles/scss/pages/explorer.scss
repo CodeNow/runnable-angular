@@ -8,22 +8,33 @@
   width: 240px;
 
   // file tree
-  .nav {
+  .tree {
     font-size: 12px;
-    height: calc(100% - 28px);
+    font-weight: 400;
     overflow: auto;
-    padding: 1px 0 0;
 
-    ul {
-      padding: 0 0 5px;
-    }
-
-    > li {
-      height: 100%;
-    }
-
-    .fs-list li {
+    li {
       cursor: pointer;
+      height: 28px;
+      line-height: 28px;
+      padding: 0 9px;
+
+      &:active,
+      &.active {
+        background: #fff;
+      }
+    }
+
+    // folders
+    .folder {
+
+      ul {
+        display: none;
+      }
+
+      &.in ul {
+        display: block;
+      }
     }
 
     // style folders and files
