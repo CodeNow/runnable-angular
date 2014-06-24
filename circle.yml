@@ -1,5 +1,8 @@
 dependencies:
   override:
+    - npm install -g grunt-cli
+    - npm install -g karma
+    - npm install -g jade
     - npm install
     - grunt jade2js
     - grunt jshint:prod
