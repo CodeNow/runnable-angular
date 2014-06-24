@@ -15,8 +15,8 @@ module.exports = function(grunt) {
     'client/**/*.js',
     '!client/build/**/*.js',
     '!client/assets/**/*.js',
-    'server/**/*.js',
-    'test/**/*.js'
+    'server/**/*.js'
+  //  'test/**/*.js'
   ];
 
   grunt.initConfig({
