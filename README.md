@@ -9,6 +9,11 @@ A front-end for our system-sandbox management platform.
 
 <img src="http://runnable.com/images/bear-alt.png" title="Runnable" alt="Runnable" align="right" height="300">
 
+Instructions
+------------
+- `grunt`: execute `grunt build` and start a server to serve the app at http://localhost:3001
+- `grunt build`: compile all js/jade/sass and concat files into client/build/
+- `grunt test-watch`: watch tests and client/build/ for changes and run karma tests
 
 Requirements
 ------------
@@ -16,15 +21,6 @@ Requirements
 - npm ~1.3.24
 - npm install grunt -g
 - npm install karma -g
-
-Development
------------
-<pre>
-  Build:
-    - grunt build
-  Develop
-    - grunt develop
-</pre>
 
 Contributors
 ------------
