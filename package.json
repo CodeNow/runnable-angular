@@ -69,7 +69,9 @@
     "colors": "~0.6.2",
     "karma-sourcemap-loader": "~0.2.0",
     "karma-phantomjs-launcher": "~0.1.4",
-    "grunt-githooks": "~0.3.1"
+    "grunt-githooks": "~0.3.1",
+    "karma-coverage": "~0.2.4",
+    "coverify": "~1.0.7"
   },
   "browser": {
     "app": "./client/lib/app.js",

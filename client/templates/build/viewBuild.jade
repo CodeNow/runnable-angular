@@ -1,17 +1,38 @@
 nav.sub-header
-  h1.build-header.divided-header
+
+
+
+  h1.build-header.divided-header(ng-if = "!dataBuild.isDirty")
     object.iconnables.icons-pass(
       data = "/build/images/icons/icons-pass.svg"
       type = "image/svg+xml"
     )
     | Build 1776
 
-  section#main-controls
+  h1.build-header.divided-header(ng-if = "dataBuild.isDirty")
+    object.iconnables.icons-pass(
+      data = "/build/images/icons/icons-pass.svg"
+      type = "image/svg+xml"
+    )
+    | Build 1776 (dirty)
+
+
+
+  section#main-controls(ng-if = "!dataBuild.isDirty")
     button.green(type = "button") Run Instance
     //- .input-group
       //- .input-group-btn
     button.btn.silver(type = "button") Rebuild
       //- input.form-control(placeholder = "Add rebuild message")
+
+  section#main-controls(ng-if = "dataBuild.isDirty")
+    button.green(type = "button") Run Instance (dirty)
+    //- .input-group
+      //- .input-group-btn
+    button.btn.silver(type = "button") Rebuild (dirty)
+      //- input.form-control(placeholder = "Add rebuild message")
+
+
 
 section.sidebar
   ul
@@ -246,6 +267,6 @@ section.sidebar
 
   #editor-container
     //- code
-    pre(ui-ace = "{showGutter: false}") Test
+    pre(ui-ace = "{showGutter: false}", ng-click = "dataBuild.isDirty = true") Test
 
 //- rebuild_loader
