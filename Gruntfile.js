@@ -301,36 +301,44 @@ module.exports = function(grunt) {
   grunt.registerTask('autoBundleDependencies', '', function () {
     var done       = this.async();
     var clientPath = path.join(__dirname, 'client');
-    bundle('controllers');
-    bundle('services');
-    bundle('filters');
-    bundle('directives');
-    bundle('animations');
-    done();
-    function bundle (subDir) {
-      var workingPath = path.join(clientPath, subDir);
-      try {
-        fs.unlinkSync(path.join(workingPath, 'index.js'));
-      } catch (e) {
-        //file doesn't exist
-      }
-      find.file(/\.js$/, workingPath, function (files) {
-        var fileString = files
-          .map(function (item) {
-            return item.replace(workingPath, '.').replace(/\.js$/, '');
-          })
-          .reduce(function (previous, current) {
-            return previous += 'require(\'' + current + '\');\n';
-          }, '');
+    async.series([
+      bundle('controllers'),
+      bundle('services'),
+      bundle('filters'),
+      bundle('directives'),
+      bundle('animations')
+    ], function () { done(); });
 
-        fileString += '\n';
-        fileString += 'module.exports=' + JSON.stringify(files.map(function (item) {
-          return item.substr(item.lastIndexOf('/')+1).replace(/\.js$/, '');
-        }));
-        fileString += ';';
-        fs.writeFileSync(path.join(workingPath, 'index.js'), fileString);
-      });
+    function bundle (subDir) {
+      return (function (subDir) {
+        return function (cb) {
+          var workingPath = path.join(clientPath, subDir);
+          try {
+            fs.unlinkSync(path.join(workingPath, 'index.js'));
+          } catch (e) {
+            //file doesn't exist
+          }
+          find.file(/\.js$/, workingPath, function (files) {
+            var fileString = files
+              .map(function (item) {
+                return item.replace(workingPath, '.').replace(/\.js$/, '');
+              })
+              .reduce(function (previous, current) {
+                return previous += 'require(\'' + current + '\');\n';
+              }, '');
+
+            fileString += '\n';
+            fileString += 'module.exports=' + JSON.stringify(files.map(function (item) {
+              return item.substr(item.lastIndexOf('/')+1).replace(/\.js$/, '');
+            }));
+            fileString += ';';
+            fs.writeFileSync(path.join(workingPath, 'index.js'), fileString);
+            cb();
+          });
+        };
+      })(subDir);
     }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
