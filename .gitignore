@@ -2,8 +2,6 @@
 *.log
 *.dump
 client/build/
-bower/
-node_modules/
 *.sass-cache/
 client/controllers/index.js
 client/services/index.js
