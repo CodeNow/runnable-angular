@@ -1,38 +1,27 @@
 nav.sub-header
 
-
-
-  h1.build-header.divided-header(ng-if = "!dataBuild.isDirty")
+  h1.build-header.divided-header(ng-animate="{enter: 'in', leave: 'out'}", ng-if = "!dataBuild.isDirty")
     object.iconnables.icons-pass(
       data = "/build/images/icons/icons-pass.svg"
       type = "image/svg+xml"
     )
     | Build 1776
 
-  h1.build-header.divided-header(ng-if = "dataBuild.isDirty")
+  h1.build-header.divided-header(ng-animate="{enter: 'in', leave: 'out'}", ng-if = "dataBuild.isDirty")
     object.iconnables.icons-pass(
-      data = "/build/images/icons/icons-pass.svg"
+      data = "/build/images/icons/icons-asterisk.svg"
       type = "image/svg+xml"
     )
-    | Build 1776 (dirty)
-
-
+    | Build 1776
 
   section#main-controls(ng-if = "!dataBuild.isDirty")
     button.green(type = "button") Run Instance
-    //- .input-group
-      //- .input-group-btn
     button.btn.silver(type = "button") Rebuild
-      //- input.form-control(placeholder = "Add rebuild message")
 
   section#main-controls(ng-if = "dataBuild.isDirty")
-    button.green(type = "button") Run Instance (dirty)
-    //- .input-group
-      //- .input-group-btn
-    button.btn.silver(type = "button") Rebuild (dirty)
-      //- input.form-control(placeholder = "Add rebuild message")
-
-
+    button.silver(type = "button") Discard Changes
+    button.btn.green(type = "button") Build
+    input.form-control(placeholder = "Add build message")
 
 section.sidebar
   ul

@@ -32,12 +32,18 @@
       text-align: center;
     }
 
-    > .icons-back {
-      height: 22px;
-      position: absolute;
-        right: 22px;
-        top: 15px;
-      width: 22px;
+    > object {
+      margin-right: 6px;
+      top: 6px;
+      transition: .2s transform;
+    }
+
+    &.in > object {
+      transform: scale3d(1,1,1)
+    }
+
+    &.out > object {
+      transform: scale3d(0,0,0);
     }
   }
 
@@ -64,11 +70,6 @@
     position: relative;
       top: 5px;
     width: 24px;
-  }
-
-  .icons-pass {
-    margin-right: 6px;
-    top: 6px;
   }
 
   .popover {
@@ -160,29 +161,15 @@
 #main-controls {
   float: left;
   padding: 0 15px;
+  width: calc(100% - 270px);
 
   > button {
     float: left;
     margin: 8px 9px 0 0;
   }
 
-  .input-group {
-    float: left;
-    max-width: 330px;
-
-    input {
-      float: left;
-      margin: 8px 0;
-      transition: .2s width;
-      width: 180px;
-
-      &:focus {
-        width: 99%;
-      }
-    }
-
-    button {
-      border-right: 0;
-    }
+  > input {
+    margin-top: 8px;
+    width: 270px;
   }
 }
