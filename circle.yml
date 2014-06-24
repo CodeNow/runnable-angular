@@ -1,10 +1,11 @@
 dependencies:
   override:
     - npm install grunt -g
+    - npm install jade -g
     - npm install karma -g
     - npm install
     - grunt jade2js
-    - grunt jshit:prod
+    - grunt jshint:prod
     - grunt autoBundleDependencies
     - grunt browserify
     - karma start ./test/karma.conf.circleci.js
