@@ -23,7 +23,9 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     githooks: {
       all: {
-        'pre-commit': 'jshint:prod'
+        'pre-commit':    'jshint:prod',
+        'post-merge':    'bgShell:npm-install',
+        'post-checkout': 'bgShell:npm-install'
       }
     },
     concurrent: {
@@ -266,13 +268,17 @@ module.exports = function(grunt) {
         execOpts: {
           maxBuffer: 1000*1024
         }
+      },
+      'npm-install': {
+        bg: false,
+        cmd: 'npm install'
       }
     },
     karma: {
       unit: {
         configFile: './test/karma.conf.js'
       }
-    }
+    },
   });
 
   grunt.registerTask('autoSVGO', '', function () {
@@ -371,7 +377,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test-watch', ['watch:tests']);
   grunt.registerTask('build', ['githooks', 'copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'jshint:dev', 'autoBundleDependencies', 'browserify']);
-//  grunt.registerTask('dev', ['build', 'concurrent']);
   grunt.registerTask('default', ['build', 'concurrent']);
 
 };
