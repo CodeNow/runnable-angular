@@ -8,7 +8,7 @@ app.controller('ControllerProjectLayout', ControllerProjectLayout);
  */
 function ControllerProjectLayout ($scope,
                                   $window) {
-  var dataProjectHeader = $scope.dataProjectHeader = {};
+  var dataProjectLayout = $scope.dataProjectLayout = {};
 
   // dataHeader.togglePopover = function (popoverName, eventA) {
   //   if (dataHeader['show' + popoverName]) {

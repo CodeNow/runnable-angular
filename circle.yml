@@ -1,9 +1,11 @@
 dependencies:
   override:
-    - npm install -g grunt-cli
-    - npm install -g karma
-    - grunt build
-    - karma start ./test/karma.conf.js
+    - npm install
+    - grunt jade2js
+    - grunt jshint:prod
+    - grunt autoBundleDependencies
+    - grunt browserify
+    - karma start ./test/karma.conf.circleci.js
 machine:
   node:
     version: v0.10.25

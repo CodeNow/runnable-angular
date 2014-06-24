@@ -10,13 +10,13 @@ describe('ControllerBuildList'.underline.red, function () {
   beforeEach(function () {
     inject(function($rootScope, $controller) {
       $appScope = $rootScope.$new();
-      $appScope.dataApp = {};
-      $layoutScope = $appScope.$new();
-      $layoutScope.dataLayout = {
+      $appScope.dataApp = {
         click: sinon.spy(function () {
-          //$scope.$broadcast('app-document-click');
+          // $scope.$broadcast('app-document-click');
         })
       };
+      $layoutScope = $appScope.$new();
+      $layoutScope.dataLayout = {};
       $buildListScope = $layoutScope.$new();
       $buildListScope.dataBuidList = {
         togglePopover: function (popoverName, event) {}
@@ -25,7 +25,7 @@ describe('ControllerBuildList'.underline.red, function () {
         $scope: $appScope,
         $state: {}
       });
-      $controller('ControllerLayout', {
+      $controller('ControllerProjectLayout', {
         $scope: $layoutScope
       });
       $controller('ControllerBuildList', {
@@ -68,12 +68,12 @@ describe('ControllerBuildList'.underline.red, function () {
       stopPropagation: sinon.spy()
     };
     // trigger click outside of popover button
-    $layoutScope.dataLayout.click();
+    $appScope.dataApp.click();
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(false);
     chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
     $buildListScope.dataBuildList.togglePopover('ChangeRecipe', event); // click 1
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true); // popover is showing after click
-    $layoutScope.dataLayout.click();
+    $appScope.dataApp.click();
     chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(false);
     chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
   });
