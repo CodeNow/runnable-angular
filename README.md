@@ -14,6 +14,7 @@ Instructions
 - `grunt`: execute `grunt build` and start a server to serve the app at http://localhost:3001
 - `grunt build`: compile all js/jade/sass and concat files into client/build/
 - `grunt test-watch`: watch tests and client/build/ for changes and run karma tests
+- *auto-run*: if you have iterm installed, run `./devUtils/termStart`
 
 Requirements
 ------------
