@@ -21,6 +21,11 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    githooks: {
+      all: {
+        'pre-commit': 'jshint:prod'
+      }
+    },
     concurrent: {
       dev: {
         tasks: ['watch:images', 'watch:javascripts', 'watch:templates', 'watch:styles', 'nodemon'],
@@ -305,12 +310,6 @@ module.exports = function(grunt) {
     });
   });
 
-  // grunt.registerTask('autoAddHooks', '', function () {
-  //   var done = this.async();
-  //   var hooksPath = path.join(__dirname, '.git', 'hooks');
-  //   find.file(/\.hook$/, path.join(__dirname, ))
-  // });
-
   grunt.registerTask('autoBundleDependencies', '', function () {
     var done       = this.async();
     var clientPath = path.join(__dirname, 'client');
@@ -351,7 +350,6 @@ module.exports = function(grunt) {
         };
       })(subDir);
     }
-
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -369,9 +367,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-githooks');
 
   grunt.registerTask('test-watch', ['watch:tests']);
-  grunt.registerTask('build', ['copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'jshint:dev', 'autoBundleDependencies', 'browserify']);
-  grunt.registerTask('dev', ['build', 'concurrent']);
+  grunt.registerTask('build', ['githooks', 'copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'jshint:dev', 'autoBundleDependencies', 'browserify']);
+//  grunt.registerTask('dev', ['build', 'concurrent']);
+  grunt.registerTask('default', ['build', 'concurrent']);
 
 };
