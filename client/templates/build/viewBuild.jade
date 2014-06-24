@@ -248,6 +248,6 @@ section.sidebar
 
   #editor-container
     //- code
-    pre(ui-ace = "{showGutter: false}", ng-click = "dataBuild.isDirty = true") Test
+    pre(ui-ace = "{showGutter: false}", ng-click = "dataBuild.isDirty = !dataBuild.isDirty") Test
 
 //- rebuild_loader
