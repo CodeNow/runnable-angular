@@ -242,35 +242,33 @@
     width: 36px;
   }
 
-  #select-tabs {
-    border-left: 1px solid rgba(0,0,0,.1);
-    overflow: hidden;
-  }
-
   #add-tab {
     background: $gray-lighter;
     border-bottom: 1px solid rgba(0,0,0,.1);
-    box-shadow: inset 0 1px 0 #fff;
     color: $gray-dark;
     cursor: pointer;
     position: relative;
 
-    &:hover {
-      color: $gray-darker;
-    }
-
+    &:hover,
     &.active,
     &:active {
-      color: $gray-darkest;
+      background: #fff;
     }
   }
 
   // select menu tabs
   #select-tabs {
+    border-left: 1px solid rgba(0,0,0,.1);
+    border-radius: 0;
     overflow: hidden;
     z-index: 9999; // chrome z-index glitch
 
     button {
+      border: 0;
+      box-shadow: none;
+      height: 35px;
+      padding: 0;
+      position: relative;
 
       &:before {
         border-bottom-color: $gray-dark;
@@ -293,14 +291,6 @@
         border-top-color: $gray-darker;
       }
     }
-
-    > button {
-      border: 0;
-      box-shadow: inset 0 1px 0 #fff;
-      height: 35px;
-      padding: 0;
-      position: relative;
-    }
   }
 
   // add tab
@@ -322,6 +312,21 @@
       top: 30px;
 
     }
+  }
+}
+
+// explorer header
+.explorer-header {
+  height: 36px;
+
+  > h6 {
+    line-height: 36px;
+    padding: 0 9px;
+  }
+
+  button {
+    float: right;
+    margin-top: 8px;
   }
 }
 
