@@ -184,6 +184,21 @@ section.sidebar
           )
           | css
           ul
+            li.folder
+              object.iconnables(
+                class = "iconnables filetypes"
+                data = "/build/images/icons/filetypes/icons-folder.svg"
+                type = "image/svg+xml"
+              )
+              | modules
+              ul
+                li
+                  object.iconnables(
+                    class = "iconnables filetypes"
+                    data = "/build/images/icons/filetypes/icons-file.svg"
+                    type = "image/svg+xml"
+                  )
+                  | components.scss
             li
               object.iconnables(
                 class = "iconnables filetypes"
