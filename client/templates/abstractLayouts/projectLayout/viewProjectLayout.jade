@@ -13,26 +13,8 @@ header#primary
     //- span.arrow-down
 
   ul#repositories
-    li
-      a.active runnable-angular
-    li
-      a runnable_jenkins-cookbook
-    li
-      a api
-    li
-      a runnable-api-client
-    li
-      a runnable_base-cookbook
-    li
-      a runnable-api-client
-    li
-      a api-server
-    li
-      a krain
-    li
-      a frontdoor
-    li
-      a Lebowski
+    li(ng-repeat = "project in dataProjectLayout.projects.models")
+      a(ng-class = "{'active': (project.attrs.name === dataProjectLayout.name) }") {{ project.attrs.name }}
 
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)

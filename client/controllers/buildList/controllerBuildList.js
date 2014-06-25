@@ -1,4 +1,3 @@
-var main = require('main');
 var app  = require('app');
 app.controller('ControllerBuildList', ControllerBuildList);
 /**
