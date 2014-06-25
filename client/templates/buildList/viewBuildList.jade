@@ -10,6 +10,7 @@ nav#build-stream-header.sub-header
         ng-class = "{in: dataBuildList.showChangeRecipe}"
         ng-include = "'viewBuildListPopoverChangeRecipe'"
       )
+  h1(ng-click = "dataBuildList.show404()") show 404
   form.search
     input.form-control(
       placeholder = "Search Builds"

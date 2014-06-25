@@ -10,13 +10,21 @@ app.controller('ControllerBuildList', ControllerBuildList);
 function ControllerBuildList ($scope,
                               user,
                               $stateParams,
+                              $state,
                               async,
                               $window,
                               hasKeypaths) {
 
   var dataBuildList = $scope.dataBuildList = {};
 
-  // init
+  dataBuildList.show404 = function () {
+    $state.go('error', {}, {
+      location: false,
+      inherit:  true
+    });
+  };
+
+
   dataBuildList.popoverChangeRecipe = {
     filter: ''
   };
@@ -72,7 +80,7 @@ function ControllerBuildList ($scope,
       cb(null, project, environments, environment);
     },
     function fetchBuilds (project, environments, environment, cb) {
-      var builds = environment.fetchBuilds(function (err) {
+      var builds = environment.fetchBuilds({}, function (err) {
         if (err) return cb(err); //TODO error handling
         cb(null, project, environments, environment, builds);
       });

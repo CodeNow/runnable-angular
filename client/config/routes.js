@@ -44,4 +44,9 @@ module.exports = [{
   url:         '^/instance/:instanceId',
   templateUrl: 'viewInstance',
   controller:  'ControllerInstance',
+}, {
+  state:       'error',
+  abstract:    false,
+  templateUrl: 'viewError',
+  controller:  'ControllerError'
 }];
