@@ -54,7 +54,8 @@ nav#build-stream-header.sub-header
           span Initiated
         th Actions
     tbody
-      tr(ng-repeat = "build in dataBuildList.builds.models")
+      tr(ng-repeat = "build in dataBuildList.builds.models"
+         ng-click  = "dataBuildList.redirectBuildPage(build.attrs.id)")
         td
           object(
             data = "/build/images/icons/icons-pass.svg"
@@ -68,7 +69,7 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
-            ng-href    = "{{ dataBuildList.getInstanceHref(build.attrs.id) }}"
+            ng-click   = "dataBuildList.redirectInstancePage(build.attrs.id)"
             data-title = "Run Instance"
           )
             object(

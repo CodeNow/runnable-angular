@@ -15,23 +15,26 @@ function ControllerBuildList ($scope,
                               $window,
                               hasKeypaths) {
 
+  // init data
   var dataBuildList = $scope.dataBuildList = {};
+  dataBuildList.popoverChangeRecipe = {
+    filter: ''
+  };
+  dataBuildList.showChangeRecipe = false;
 
+  // scope event listeners
+  $scope.$on('app-document-click', function () {
+    dataBuildList.showChangeRecipe = false;
+    dataBuildList.popoverChangeRecipe.filter = '';
+  });
+
+  // dom event callbacks
   dataBuildList.show404 = function () {
     $state.go('error', {}, {
       location: false,
       inherit:  true
     });
   };
-
-  dataBuildList.popoverChangeRecipe = {
-    filter: ''
-  };
-  dataBuildList.showChangeRecipe = false;
-  $scope.$on('app-document-click', function () {
-    dataBuildList.showChangeRecipe = false;
-    dataBuildList.popoverChangeRecipe.filter = '';
-  });
   dataBuildList.togglePopover = function (popoverName, event) {
     event.stopPropagation();
     dataBuildList['show' + popoverName] = true;
@@ -39,7 +42,19 @@ function ControllerBuildList ($scope,
   dataBuildList.getBuildHref = function (buildId) {
     return '/' + $stateParams.userName + '/' + $stateParams.projectName + '/' + $stateParams.branchName + '/' + buildId + '/';
   };
+  dataBuildList.redirectInstancePage = function (buildId) {
+    $state.go('projects.instance', angular.extend({
+      buildId:    buildId,
+      instanceId: '555'
+    }, $stateParams));
+  };
+  dataBuildList.redirectBuildPage = function (buildId) {
+    $state.go('projects.build', angular.extend({
+      buildId: buildId
+    }, $stateParams));
+  };
 
+  // seed data
   async.waterfall([
     // temporary helper
     function tempHelper (cb) {
