@@ -376,6 +376,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-githooks');
 
   grunt.registerTask('test-watch', ['watch:tests']);
+  grunt.registerTask('test-unit', ['bgShell:karma']);
+  grunt.registerTask('test-e2e', ['bgShell:karma']);
   grunt.registerTask('build', ['githooks', 'bgShell:npm-install', 'copy', 'sass:dev', 'concat', 'autoprefixer', 'jade2js', 'jshint:dev', 'autoBundleDependencies', 'browserify']);
   grunt.registerTask('default', ['build', 'concurrent']);
 
