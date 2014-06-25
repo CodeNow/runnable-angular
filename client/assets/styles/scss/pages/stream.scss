@@ -24,6 +24,30 @@
       width: 270px;
     }
 
+    > .iconnables-container{
+      margin-right: 6px;
+      top: 6px;
+
+      > object {
+        position: absolute;
+          top: 0;
+          left: 0;
+        transition: transform .2s;
+
+        &.ng-enter {
+          transform: scale3d(0,0,0);
+        }
+
+        &.ng-enter-active {
+          transform: scale3d(1,1,1);
+        }
+
+        &.ng-leave-active {
+          transform: scale3d(0,0,0);
+        }
+      }
+    }
+
     > .inline-edit {
       color: $gray-dark;
       font-size: 18px;
@@ -32,38 +56,10 @@
       text-align: center;
     }
 
-    > .iconnables-container {
-      margin-right: 6px;
-      position: relative;
-      top: 6px;
-
-      > object {
-        display: inline-block;
-        height: 24px;
-        position: absolute;
-          top: 0;
-          left: 0;
-        width: 24px;
-
-        &.ng-enter {
-          transition: transform 2s 2s;
-          transform: scale3d(0,0,0);
-          width: 0;
-        }
-
-        &.ng-leave {
-          transition: transform 2s;
-        }
-
-        &.ng-enter-active {
-          transform: scale3d(1,1,1);
-          width: 24px;
-        }
-
-        &.ng-leave-active {
-          transform: scale3d(0,0,0);
-        }
-      }
+    > .icons-back {
+      position: absolute;
+        top: 14px;
+        right: 20px;
     }
   }
 

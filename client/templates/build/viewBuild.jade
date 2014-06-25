@@ -1,15 +1,15 @@
 nav.sub-header
 
-  h1.build-header.divided-header
-    .iconnables-container
+  h1.build-header.divided-header(ng-switch on="dataBuild.isDirty")
+    .iconnables.iconnables-container
       object.iconnables.icons-pass(
         data = "/build/images/icons/icons-pass.svg"
-        ng-if = "!dataBuild.isDirty"
+        ng-switch-default
         type = "image/svg+xml"
       )
       object.iconnables.icons-pass(
         data = "/build/images/icons/icons-asterisk.svg"
-        ng-if = "dataBuild.isDirty"
+        ng-switch-when = "true"
         type = "image/svg+xml"
       )
     | Build 1776
