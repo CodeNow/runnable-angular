@@ -1,29 +1,47 @@
 nav.sub-header
 
   h1.build-header.divided-header
-    .iconnables.iconnables-container()
+    .iconnables.iconnables-container
       object.iconnables.icons-pass(
-        data = "/build/images/icons/icons-pass.svg"
         animated-if = "dataBuild.showClean"
         animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
+        data = "/build/images/icons/icons-pass.svg"
         type = "image/svg+xml"
       )
       object.iconnables.icons-asterisk(
-        data = "/build/images/icons/icons-asterisk.svg"
         animated-if = "dataBuild.showDirty"
         animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
+        data = "/build/images/icons/icons-asterisk.svg"
         type = "image/svg+xml"
       )
     | Build 1776
 
-  section#main-controls(ng-if = "!dataBuild.isDirty")
-    button.green(type = "button") Run Instance
-    button.btn.silver(type = "button") Rebuild
-
-  section#main-controls(ng-if = "dataBuild.isDirty")
-    button.btn.green(type = "button") Build
-    input.form-control(placeholder = "Add build message")
-    button.silver(type = "button") Discard Changes
+  section#main-controls
+    button.green(
+      animated-if = "dataBuild.showClean"
+      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
+      type = "button"
+    ) Run Instance
+    button.btn.silver(
+      animated-if = "dataBuild.showClean"
+      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
+      type = "button"
+    ) Rebuild
+    button.btn.green(
+      animated-if = "dataBuild.showDirty"
+      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
+      type = "button"
+    ) Build
+    input.form-control(
+      animated-if = "dataBuild.showDirty"
+      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
+      placeholder = "Add build message"
+    )
+    button.silver(
+      animated-if = "dataBuild.showDirty"
+      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
+      type = "button"
+    ) Discard Changes
 
 section.sidebar
   ul

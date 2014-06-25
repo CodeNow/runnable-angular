@@ -13,7 +13,11 @@ button,
   padding: 0 18px 0 16px;
   text-align: center;
   text-shadow: 0 -1px 0 rgba(0,0,0,.3);
-  transition: all .2s ease-in-out;
+  transition:
+    background .2s ease-in-out,
+    border .2s ease-in-out,
+    box-shadow .2s ease-in-out,
+    transform .15s;
   user-select: none;
   white-space: nowrap;
 
