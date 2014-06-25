@@ -20,6 +20,7 @@ function ControllerBuild ($scope,
   dataBuild.leaveIconAnimation = function () {};
   dataBuild.toggleClean = function () {
     dataBuild.isClean = !dataBuild.isClean;
+    dataBuild.showClean = false;
     if (dataBuild.isClean) {
       dataBuild.leaveIconAnimation = function () {
         $scope.$apply(function () {
