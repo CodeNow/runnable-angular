@@ -14,6 +14,13 @@ describe('general controller tests'.underline.red, function () {
     before(function () {
       inject(function($rootScope, $controller) {
         $scope = $rootScope.$new();
+        $scope.dataApp = {
+          state: {
+            params: {
+              name: 'test9'
+            }
+          }
+        };
         $controller(controllerName, {
           $scope: $scope,
           $state: {}

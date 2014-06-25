@@ -12,21 +12,25 @@ describe('ControllerBuildList'.underline.red, function () {
       $appScope = $rootScope.$new();
       $appScope.dataApp = {
         click: sinon.spy(function () {
-          // $scope.$broadcast('app-document-click');
+          //$scope.$broadcast('app-document-click');
         })
       };
-      $layoutScope = $appScope.$new();
-      $layoutScope.dataLayout = {};
-      $buildListScope = $layoutScope.$new();
+      $projectLayoutScope = $appScope.$new();
+      $projectLayoutScope.dataProjectLayout = {};
+      $buildListScope = $projectLayoutScope.$new();
       $buildListScope.dataBuidList = {
         togglePopover: function (popoverName, event) {}
       };
       $controller('ControllerApp', {
         $scope: $appScope,
-        $state: {}
+        $state: {
+          params: {
+            'name': 'test9'
+          }
+        }
       });
       $controller('ControllerProjectLayout', {
-        $scope: $layoutScope
+        $scope: $projectLayoutScope,
       });
       $controller('ControllerBuildList', {
         $scope: $buildListScope
