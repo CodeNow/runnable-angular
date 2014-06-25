@@ -27,7 +27,11 @@ function ControllerProjectLayout ($scope,
     },
     //-------
     function fetchProjects (cb) {
-      var projects = user.fetchProjects({ownerUsername: 'runnableUser9'}, function (err, body) {
+      var projects = user.fetchProjects({
+        qs: {
+          ownerUsername: 'runnableUser9'
+        }
+      }, function (err, body) {
         if (err) {
           // error handling
           return cb(err);

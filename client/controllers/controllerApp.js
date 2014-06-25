@@ -6,8 +6,7 @@ app.controller('ControllerApp', ControllerApp);
  * @export
  * @ngInject
  */
-function ControllerApp ($rootScope,
-                        $scope,
+function ControllerApp ($scope,
                         $state) {
   var dataApp = $scope.dataApp = {};
   dataApp.state = $state;
