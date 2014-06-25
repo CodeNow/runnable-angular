@@ -14,7 +14,10 @@ header#primary
 
   ul#repositories
     li(ng-repeat = "project in dataProjectLayout.projects.models")
-      a(ng-class = "{'active': (project.attrs.name === dataProjectLayout.name) }") {{ project.attrs.name }}
+      a(
+        ng-class = "{'active': (project.attrs.name === dataProjectLayout.name) }"
+        ng-href  = "{{ dataProjectLayout.getProjectBuildListUrl(project.attrs.name) }}"
+      ) {{ project.attrs.name }}
 
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
