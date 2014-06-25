@@ -14,6 +14,7 @@
     padding: 0 15px;
     position: relative;
     text-align: center;
+    transition: color .2s;
 
     &.build-header {
       text-indent: -30px;
@@ -24,6 +25,10 @@
       width: 270px;
     }
 
+    &.in {
+      color: #888 // dim when modified
+    }
+
     > .iconnables-container{
       margin-right: 3px;
       top: 6px;
@@ -32,7 +37,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        transition: transform .15s;
+        transition: transform .1s;
 
         &.icons-asterisk {
           left: 4px;
@@ -179,7 +184,10 @@
 
 // main-controls
 #main-controls {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba(0,0,0,.1);
   float: left;
+  height: 54px;
   padding: 0 15px;
   position: relative;
   width: calc(100% - 270px);
@@ -188,7 +196,7 @@
   .dirty {
     @extend .clearfix;
     position: absolute;
-    transition: transform .15s;
+    transition: transform .2s;
   }
 
   .dirty {
