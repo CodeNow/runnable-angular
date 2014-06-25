@@ -229,7 +229,10 @@ section.sidebar
                       a.btn.btn-block.orange Add Repository
 
       ul.tree
-        li.folder
+        li.folder(
+            ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"
+            ng-class = "{'in': dataBuild.folderTestOpen}"
+          )
           object.iconnables.filetypes(
             data = "/build/images/icons/filetypes/icons-folder.svg"
             type = "image/svg+xml"
