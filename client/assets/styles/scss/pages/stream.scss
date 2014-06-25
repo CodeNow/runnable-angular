@@ -183,13 +183,13 @@
   padding: 0 15px;
   width: calc(100% - 270px);
 
-  > button {
+  > button,
+  > input {
     float: left;
     margin: 8px 9px 0 0;
   }
 
   > input {
-    margin-top: 8px;
     width: 270px;
   }
 }
