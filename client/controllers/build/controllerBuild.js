@@ -14,6 +14,29 @@ function ControllerBuild ($scope,
                           $stateParams) {
   var dataBuild = $scope.dataBuild = {};
 
+  dataBuild.isClean = true;
+  dataBuild.showClean = dataBuild.isClean;
+  dataBuild.showDirty = !dataBuild.isClean;
+  dataBuild.leaveIconAnimation = function () {};
+  dataBuild.toggleClean = function () {
+    dataBuild.isClean = !dataBuild.isClean;
+    if (dataBuild.isClean) {
+      dataBuild.leaveIconAnimation = function () {
+        $scope.$apply(function () {
+          dataBuild.showClean = true;
+        });
+      };
+      dataBuild.showDirty = false;
+    } else {
+      dataBuild.leaveIconAnimation = function () {
+        $scope.$apply(function () {
+          dataBuild.showDirty = true;
+        });
+      };
+      dataBuild.showClean = false;
+    }
+  };
+
   // async.waterfall([
   //   function tempHelper (cb) {
   //     if (user.id()) {
