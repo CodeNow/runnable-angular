@@ -15,7 +15,7 @@ header#primary
   ul#repositories
     li(ng-repeat = "project in dataProjectLayout.projects.models")
       a(
-        ng-class = "{'active': (project.attrs.name === dataProjectLayout.name) }"
+        ng-class = "{'active': (project.attrs.name === dataApp.state.params.name) }"
         ng-href  = "{{ dataProjectLayout.getProjectBuildListUrl(project.attrs.name) }}"
       ) {{ project.attrs.name }}
 

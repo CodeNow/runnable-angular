@@ -9,8 +9,8 @@ app.controller('ControllerProjectLayout', ControllerProjectLayout);
 function ControllerProjectLayout ($scope,
                                   async,
                                   user) {
+
   var dataProjectLayout = $scope.dataProjectLayout = {};
-  dataProjectLayout.name = $scope.dataApp.state.params.name;
   dataProjectLayout.getProjectBuildListUrl = function (name) {
     return '/' + $scope.dataApp.state.params.ownerUsername + '/' + name + '/master/';
   };
