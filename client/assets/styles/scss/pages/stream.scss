@@ -181,28 +181,35 @@
 #main-controls {
   float: left;
   padding: 0 15px;
+  position: relative;
   width: calc(100% - 270px);
 
-  > button,
-  > input {
-    float: left;
-    margin: 8px 9px 0 0;
+  .clean,
+  .dirty {
+    @extend .clearfix;
+    position: absolute;
     transition: transform .15s;
+  }
 
-    &.ng-enter {
-      transform: translate3d(0,-54px,0);
-    }
+  .dirty {
+    top: 54px;
+  }
 
-    &.ng-enter-active {
-      transform: translate3d(0,0,0);
-    }
+  &.in {
 
-    &.ng-leave-active {
+    .clean,
+    .dirty {
       transform: translate3d(0,-54px,0);
     }
   }
 
-  > input {
+  button,
+  input {
+    float: left;
+    margin: 8px 9px 0 0;
+  }
+
+  input {
     width: 270px;
   }
 }

@@ -16,31 +16,15 @@ nav.sub-header
     | Build 1776
 
   section#main-controls
-    button.green(
-      animated-if = "dataBuild.showClean"
-      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
-      type = "button"
-    ) Run Instance
-    button.btn.silver(
-      animated-if = "dataBuild.showClean"
-      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
-      type = "button"
-    ) Rebuild
-    button.btn.green(
-      animated-if = "dataBuild.showDirty"
-      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
-      type = "button"
-    ) Build
-    input.form-control(
-      animated-if = "dataBuild.showDirty"
-      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
-      placeholder = "Add build message"
-    )
-    button.silver(
-      animated-if = "dataBuild.showDirty"
-      animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
-      type = "button"
-    ) Discard Changes
+    .clean
+      button.green(type = "button") Run Instance
+      button.btn.silver(type = "button") Rebuild
+    .dirty
+      button.btn.green(type = "button") Build
+      input.form-control(placeholder = "Add build message")
+      button.silver(type = "button") Discard Changes
+
+
 
 section.sidebar
   ul
@@ -294,6 +278,6 @@ section.sidebar
 
   #editor-container
     //- code
-    pre(ui-ace = "{showGutter: false}", ng-click = "dataBuild.toggleClean()") Test
+    pre(ui-ace, ng-click = "dataBuild.toggleClean()") Test
 
 //- rebuild_loader
