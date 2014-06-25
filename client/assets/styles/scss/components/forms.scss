@@ -17,27 +17,6 @@ textarea,
     border-color: $orange;
   }
 
-  &.success {
-    border-color: #6ca52e;
-    background-image: url('../images/icon-success.png');
-    @include background-image-retina('../images/icon-success@2x.png');
-    background-size: 10px 8px;
-    padding-right: 40px;
-    background-repeat: no-repeat;
-    background-position: calc(100% - 15px) center;
-  }
-
-  &.error {
-    border-color: #d73539;
-    padding-right: 40px;
-    background-image: url('../images/icon-error.png');
-    @include background-image-retina('../images/icon-error@2x.png');
-    color: #D73539;
-    background-size: 3px 11px;
-    background-repeat: no-repeat;
-    background-position: calc(100% - 19px) center;
-  }
-
   @include retina() {
     @media (max-width: 500px) {
       font-size: 16px;
