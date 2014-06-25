@@ -13,3 +13,6 @@ dependencies:
 machine:
   node:
     version: v0.10.25
+test:
+  override:
+    - karma start ./test/karma.conf.js --single-run
