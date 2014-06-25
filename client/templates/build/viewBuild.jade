@@ -15,7 +15,7 @@ nav.sub-header
       )
     | Build 1776
 
-  section#main-controls
+  section#main-controls(ng-class = "{'in': !dataBuild.isClean}")
     .clean
       button.green(type = "button") Run Instance
       button.btn.silver(type = "button") Rebuild
