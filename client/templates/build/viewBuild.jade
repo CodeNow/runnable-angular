@@ -1,5 +1,7 @@
 nav.sub-header
-  h1.build-header.divided-header
+  h1.build-header.divided-header(
+    ng-class = "{'in': !dataBuild.isClean }"
+  )
     .iconnables.iconnables-container
       object.iconnables.icons-pass(
         animated-if = "dataBuild.showClean"
