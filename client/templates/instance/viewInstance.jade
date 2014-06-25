@@ -11,8 +11,7 @@ nav.sub-header
     )
 
   section#main-controls
-    button.orange(type = "button") Delete Instance
-    button.silver(type = "button") Save Changes
+    button.green(type = "button") Save Changes
 
 section.sidebar
   ul
@@ -40,62 +39,30 @@ section.sidebar
         type = "image/svg+xml"
       )
       | Running for 18 hours
-  ol
-    li Server Log
-      a.tooltip.restart(data-title = "Rerun Instance")
-        object.iconnables.icons-restart(
+  ul.actions
+    li Restart Instance
+      button.btn-sm.silver(type = "button")
+        object.iconnables(
           data = "/build/images/icons/icons-restart.svg"
           type = "image/svg+xml"
         )
-      a.tooltip.error(data-title = "Show Server Log")
-        object.iconnables.icons-error(
-          data = "/build/images/icons/icons-error.svg"
+    li Delete Instance
+      button.btn-sm.silver(type = "button")
+        object.iconnables.icons-delete(
+          data = "/build/images/icons/icons-delete.svg"
           type = "image/svg+xml"
         )
-  pre
-    | Copied 268 files
-    |
-    | Running "copy:fonts" (copy) task
-    | Copied 4 files
-    |
-    | Running "sass:dev" (sass) task
-    | File client/build/css/index.css created.
-    |
-    | Running "concat:dist" (concat) task
-    | File client/build/css/index.css created.
-    |
-    | Running "autoprefixer:dist" (autoprefixer) task
-    | File client/build/css/index.css created.
-    |
-    | Running "jade2js:compile" (jade2js) task
-    | File './client/build/views/viewBundle.js' created.
-    |
-    | Running "autoBundleDependencies" task
-    |
-    | Running "browserify:build" (browserify) task
-    |
-    | Running "concurrent:dev" (concurrent) task
-    | Running "watch:templates" (watch) task
-    | Waiting...
-    | Running "watch:styles" (watch) task
-    | Waiting...
-    | Running "nodemon:dev" (nodemon) task
-    | Running "watch:images" (watch) task
-    | Waiting...
-    | Running "watch:javascripts" (watch) task
-    | Waiting...
-    | [nodemon] v1.0.20
-    | [nodemon] to restart at any time, enter `rs`
-    | [nodemon] watching: server/**/*.js
-    | [nodemon] starting `node server/main.js`
-    | App listening on port: 3001
 
 //- code_editor
 #editor.in
 
   //- file_explorer
   aside#explorer
-    button#explorer-toggle.glyphicons.folder-closed
+    button#explorer-toggle
+      object.iconnables(
+        data = "/build/images/icons/icons-folder-open.svg"
+        type = "image/svg+xml"
+      )
     ul#controls
       li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
         span
@@ -220,6 +187,7 @@ section.sidebar
 
   #editor-container
     //- code
+    //- note: server log and terminal tab should open by default
     pre(ui-ace = "{showGutter: false}") Test
 
 //- rebuild_loader
