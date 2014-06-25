@@ -7,9 +7,11 @@ app.controller('ControllerApp', ControllerApp);
  * @ngInject
  */
 function ControllerApp ($scope,
+                        $stateParams,
                         $state) {
   var dataApp = $scope.dataApp = {};
   dataApp.state = $state;
+  dataApp.stateParams = $stateParams;
   dataApp.click = function () {
     $scope.$broadcast('app-document-click');
   };
