@@ -80,7 +80,7 @@ section.sidebar
           a
             img
             | #{''} {{commit.username}}
-          span {{commit.datetime | timeAgo}}
+          span {{commit.hash}}
     li
       ol.commit
         li
@@ -89,11 +89,15 @@ section.sidebar
           a
             img(
               height = "20"
-              src = "https://avatars0.githubusercontent.com/u/467885?s=460"
+              src = "https://avatars0.githubusercontent.com/u/467885?s=64"
               width = "20"
             )
             |&nbsp;cflynn07
-          span 2 hours ago
+          a 37a8f1
+            object(
+              data = "/build/images/icons/icons-git-alt.svg"
+              type = "image/svg+xml"
+            )
     li
       ol.commit
         li
@@ -106,7 +110,11 @@ section.sidebar
               width = "20"
             )
             |&nbsp;prafulrana
-          span 8 hours ago
+          a 37a8f1
+            object(
+              data = "/build/images/icons/icons-git-alt.svg"
+              type = "image/svg+xml"
+            )
     li
       ol.commit
         li
@@ -119,7 +127,11 @@ section.sidebar
               width = "20"
             )
             |&nbsp;runnabro
-          span 8 hours ago
+          a 37a8f1
+            object(
+              data = "/build/images/icons/icons-git-alt.svg"
+              type = "image/svg+xml"
+            )
     li
       ol.commit
         li
@@ -132,7 +144,11 @@ section.sidebar
               width = "20"
             )
             |&nbsp;runnabro
-          span 10 hours ago
+          a 37a8f1
+            object(
+              data = "/build/images/icons/icons-git-alt.svg"
+              type = "image/svg+xml"
+            )
     li
       ol.commit
         li
@@ -141,11 +157,15 @@ section.sidebar
           a
             img(
               height = "20"
-              src = "https://avatars0.githubusercontent.com/u/467885?s=460"
+              src = "https://avatars0.githubusercontent.com/u/467885?s=64"
               width = "20"
             )
             |&nbsp;cflynn07
-          span 1 day ago
+          a 37a8f1
+            object(
+              data = "/build/images/icons/icons-git-alt.svg"
+              type = "image/svg+xml"
+            )
 
 
 //- code_editor
