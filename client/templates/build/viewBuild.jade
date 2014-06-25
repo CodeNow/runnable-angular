@@ -1,15 +1,17 @@
 nav.sub-header
 
-  h1.build-header.divided-header(ng-switch on="dataBuild.isDirty")
-    .iconnables.iconnables-container
+  h1.build-header.divided-header
+    .iconnables.iconnables-container()
       object.iconnables.icons-pass(
         data = "/build/images/icons/icons-pass.svg"
-        ng-switch-default
+        animated-if = "dataBuild.showClean"
+        animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
         type = "image/svg+xml"
       )
       object.iconnables.icons-pass(
         data = "/build/images/icons/icons-asterisk.svg"
-        ng-switch-when = "true"
+        animated-if = "dataBuild.showDirty"
+        animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
         type = "image/svg+xml"
       )
     | Build 1776
@@ -252,6 +254,6 @@ section.sidebar
 
   #editor-container
     //- code
-    pre(ui-ace = "{showGutter: false}", ng-click = "dataBuild.isDirty = !dataBuild.isDirty") Test
+    pre(ui-ace = "{showGutter: false}", ng-click = "dataBuild.toggleClean()") Test
 
 //- rebuild_loader
