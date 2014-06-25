@@ -11,8 +11,8 @@ function ControllerProjectLayout ($scope,
                                   user) {
 
   var dataProjectLayout = $scope.dataProjectLayout = {};
-  dataProjectLayout.getProjectBuildListUrl = function (name) {
-    return '/' + $scope.dataApp.state.params.ownerUsername + '/' + name + '/master/';
+  dataProjectLayout.getProjectBuildListHref = function (projectName) {
+    return '/' + $scope.dataApp.stateParams.userName + '/' + projectName + '/master/';
   };
 
   async.waterfall([
@@ -28,9 +28,7 @@ function ControllerProjectLayout ($scope,
     //-------
     function fetchProjects (cb) {
       var projects = user.fetchProjects({
-        qs: {
-          ownerUsername: 'runnableUser9'
-        }
+        ownerUsername: $scope.dataApp.stateParams.userName
       }, function (err, body) {
         if (err) {
           // error handling

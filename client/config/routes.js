@@ -29,19 +29,19 @@ module.exports = [{
 }, {
   state:       'projects.buildList',
   abstract:    false,
-  url:         '^/:ownerUsername/:name/:branch',
+  url:         '^/:userName/:projectName/:branchName',
   templateUrl: 'viewBuildList',
   controller:  'ControllerBuildList',
 }, {
   state:       'projects.build',
   abstract:    false,
-  url:         '^/:ownerUsername/:name/:branch/:build',
+  url:         '^/:userName/:projectName/:branchName/:buildId',
   templateUrl: 'viewBuild',
   controller:  'ControllerBuild',
 }, {
   state:       'projects.instance',
   abstract:    false,
-  url:         '^/instance/:instanceId',
+  url:         '^/:userName/:projectName/:branchName/:buildId/:instanceId',
   templateUrl: 'viewInstance',
   controller:  'ControllerInstance',
 }, {

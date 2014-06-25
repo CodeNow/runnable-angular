@@ -24,7 +24,6 @@ function ControllerBuildList ($scope,
     });
   };
 
-
   dataBuildList.popoverChangeRecipe = {
     filter: ''
   };
@@ -37,8 +36,8 @@ function ControllerBuildList ($scope,
     event.stopPropagation();
     dataBuildList['show' + popoverName] = true;
   };
-  dataBuildList.getRunHREF = function (id) {
-    return '/' + $stateParams.ownerUsername + '/' + $stateParams.name + '/' + $stateParams.branch + '/' + id + '/';
+  dataBuildList.getBuildHref = function (buildId) {
+    return '/' + $stateParams.userName + '/' + $stateParams.projectName + '/' + $stateParams.branchName + '/' + buildId + '/';
   };
 
   async.waterfall([
@@ -55,8 +54,8 @@ function ControllerBuildList ($scope,
     function fetchProject (cb) {
       var projects = user.fetchProjects({
         qs: {
-          ownerUsername: $stateParams.ownerUsername,
-          name:          $stateParams.name
+          ownerUsername: $stateParams.userName,
+          name:          $stateParams.projectName
         }
       }, function (err, body) {
         if (err) {
@@ -70,7 +69,9 @@ function ControllerBuildList ($scope,
       // TODO error check
       // var environmentJSON = project.toJSON().environments.filter(hasProps({name: 'master'}))[0];
       // var environment = project.newEnvironment(environmentJSON);
-      var environments = project.fetchEnvironments({ownerUsername: $stateParams.ownerUsername}, function () {
+      var environments = project.fetchEnvironments({
+        ownerUsername: $stateParams.userName
+      }, function () {
         cb(null, project, environments);
       });
       // cb(null, project, environment);
@@ -92,7 +93,7 @@ function ControllerBuildList ($scope,
       dataBuildList.environments = environments;
       dataBuildList.environment  = environment;
       dataBuildList.builds       = builds;
-      console.log(dataBuildList);
+      //console.log(dataBuildList);
     });
   });
 }
