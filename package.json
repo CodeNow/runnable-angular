@@ -73,7 +73,8 @@
     "grunt-githooks": "~0.3.1",
     "karma-coverage": "~0.2.4",
     "coverify": "~1.0.7",
-    "protractor": "~1.0.0-rc1"
+    "protractor": "~1.0.0-rc1",
+    "browserify-angular-mocks": "0.0.0"
   },
   "browser": {
     "app": "./client/lib/app.js",
