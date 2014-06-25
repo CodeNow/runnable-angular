@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
 <g id="check" display="none">
 	<path display="inline" fill="none" stroke="#4CA844" stroke-width="2" stroke-miterlimit="10" d="M23.2,10.3l-9.6,9.6l-5.4-5.4"/>
@@ -34,13 +34,13 @@
 </g>
 <g id="add" display="none">
 	<g display="inline">
-		<path fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" d="M15,6.7l0,17 M23.5,15.2l-17,0"/>
+		<path fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" d="M15,6.7v17 M23.5,15.2h-17"/>
 	</g>
 </g>
 <g id="recipe" display="none">
 	<g display="inline">
 		<path fill="none" stroke="#00A651" stroke-miterlimit="10" d="M10.1,18.4c4.6,0,2.1,3.4,11.8,3.4"/>
-		<path fill="none" stroke="#00A651" stroke-width="2" stroke-miterlimit="10" d="M21.7,21.4l-4.3-7.2V7.2C17.7,7,18,6.6,18,6.1V6
+		<path fill="none" stroke="#00A651" stroke-width="2" stroke-miterlimit="10" d="M21.7,21.4l-4.3-7.2v-7C17.7,7,18,6.6,18,6.1V6
 			c0-0.7-0.5-1.2-1.2-1.2h-3.6C12.5,4.8,12,5.3,12,6v0.2c0,0.5,0.3,0.9,0.7,1.1v7.1l-4.3,7.2c0,0-2.6,3.8,1.6,3.8s5.1,0,5.1,0
 			s1,0,5.1,0S21.7,21.4,21.7,21.4z"/>
 	</g>
@@ -58,10 +58,10 @@
 </g>
 <g id="calendar" display="none">
 	<path display="inline" fill="none" stroke="#FC7022" stroke-width="2" stroke-miterlimit="10" d="M24.5,22c0,0.8-0.7,1.5-1.5,1.5H7
-		c-0.8,0-1.5-0.7-1.5-1.5V7.9c0-0.8,0.7-1.5,1.5-1.5H23c0.8,0,1.5,0.7,1.5,1.5V22z"/>
+		c-0.8,0-1.5-0.7-1.5-1.5V7.9c0-0.8,0.7-1.5,1.5-1.5h16c0.8,0,1.5,0.7,1.5,1.5V22z"/>
 	<g display="inline">
 		<path fill="#FC7022" d="M14.7,19.3v-5h-1.9v-1.2c0.3,0,0.5,0,0.8-0.1c0.3,0,0.5-0.1,0.7-0.3c0.2-0.1,0.4-0.3,0.5-0.5
-			c0.1-0.2,0.2-0.4,0.3-0.7h1.2v7.7H14.7z"/>
+			s0.2-0.4,0.3-0.7h1.2v7.7h-1.6V19.3z"/>
 	</g>
 	<g display="inline">
 		<line fill="none" stroke="#FC7022" stroke-miterlimit="10" x1="9.8" y1="3.5" x2="9.8" y2="9.3"/>
@@ -83,14 +83,15 @@
 </g>
 <g id="edit" display="none">
 	<path display="inline" fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" d="M25.3,7.3l-2.7-2.7
-		c-0.2-0.2-0.6-0.2-0.9,0l-0.4,0.4L20,6.4l0,0L6,20.3c-0.1,0.1-0.2,0.2-0.2,0.3l-1.3,4.7l4.7-1.3c0.1,0,0.2-0.1,0.3-0.2L23.5,10l0,0
+		c-0.2-0.2-0.6-0.2-0.9,0L21.3,5L20,6.4l0,0L6,20.3c-0.1,0.1-0.2,0.2-0.2,0.3l-1.3,4.7L9.2,24c0.1,0,0.2-0.1,0.3-0.2l14-13.8l0,0
 		l1.3-1.3l0.4-0.4C25.6,7.9,25.6,7.5,25.3,7.3z"/>
 	
 		<line display="inline" fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" x1="18.9" y1="7" x2="22.9" y2="11.1"/>
 </g>
-<g id="relaunch">
-	<path fill="#CCCCCC" d="M17.2,7.1l0.4-2.7c0-0.3-0.1-0.4-0.4-0.3l-6,2.9C11,7.2,11,7.5,11.1,7.7l4.8,4.7c0.2,0.2,0.4,0.1,0.4-0.1
-		l0.5-3.2c3.5,0.8,6.1,4,6.1,7.7c0,4.4-3.5,7.9-7.9,7.9c-4.4,0-7.9-3.5-7.9-7.9c0-1.5,0.4-3,1.3-4.3l-1.7-1.1
-		c-1.1,1.6-1.6,3.5-1.6,5.4c0,5.5,4.4,9.9,9.9,9.9s9.9-4.4,9.9-9.9C24.9,12.1,21.6,8.1,17.2,7.1z"/>
+<g>
+	<path fill="#555555" d="M17.9,2.6c0.1-0.3-0.2-0.5-0.5-0.3L9.7,6C9.4,6.2,9.4,6.5,9.6,6.8l6.1,6.1c0.2,0.3,0.5,0.2,0.5-0.2
+		L17.9,2.6z"/>
 </g>
+<path fill="none" stroke="#555555" stroke-width="3" stroke-miterlimit="10" d="M6.7,11.6L6.7,11.6c-1,1.6-1.6,3.4-1.6,5.4
+	c0,5.5,4.4,9.9,9.9,9.9s9.9-4.4,9.9-9.9c0-5.5-4.4-9.9-9.9-9.9"/>
 </svg>
