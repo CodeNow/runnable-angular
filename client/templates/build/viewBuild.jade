@@ -207,7 +207,6 @@ section.sidebar
                     form.add-repo-form
                       input.form-control(placeholder = "Branch or SHA (optional)")
                       a.btn.btn-block.orange Add Repository
-
       ul.tree
         li.folder(
             ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"
@@ -262,7 +261,6 @@ section.sidebar
             type = "image/svg+xml"
           )
           | htc.access
-
   #editor-toolbar
     #tabs-wrapper
     //- file_tabs
@@ -271,9 +269,6 @@ section.sidebar
       select
         option(selected) Tab 1
         option Tab 2
-
   #editor-container
     //- code
     pre(ui-ace, ng-click = "dataBuild.toggleClean()") Test
-
-//- rebuild_loader
