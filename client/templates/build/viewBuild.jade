@@ -21,13 +21,13 @@ nav.sub-header
       .btn-group
         button.green(type = "button") Build
         button.green(
-          ng-class = ""
-          ng-click = ""
+          ng-class = "{active: dataBuild.showBuildOptions"
+          ng-click = "dataBuild.togglePopover('BuildOptions', $event)"
           type = "button"
         )
-          span.glyphicons.expand
+          span.arrow-down
           .popover.menu.bottom.fade(
-            ng-class = ""
+            ng-class = "{in: dataBuild.showBuildOptions}"
             ng-include = "'viewBuildPopoverBuildOptions'"
           )
       //- input.form-control(placeholder = "Add build message")

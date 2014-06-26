@@ -231,7 +231,13 @@
   .btn-group {
 
     > button:last-child {
-      padding: 0 0 0 4px;
+      padding: 0;
+      width: 30px;
+    }
+
+    .arrow-down {
+      border-top-color: #fff;
+      right: 10px;
     }
   }
 }

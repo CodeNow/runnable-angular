@@ -38,6 +38,23 @@ function ControllerBuild ($scope,
     }
   };
 
+  // popoverBuildOptions
+  dataBuild.popoverBuildOptions = {
+    filter: ''
+  };
+  dataBuild.showBuildOptions = false;
+
+  // scope event listeners
+  $scope.$on('app-document-click', function () {
+    dataBuild.showBuildOptions = false;
+    dataBuild.popoverBuildOptions.filter = '';
+  });
+
+  dataBuild.togglePopover = function (popoverName, event) {
+    event.stopPropagation();
+    dataBuild['show' + popoverName] = true;
+  };
+
   // async.waterfall([
   //   function tempHelper (cb) {
   //     if (user.id()) {
