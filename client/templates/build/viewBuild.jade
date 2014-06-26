@@ -4,14 +4,10 @@ nav.sub-header
   )
     .iconnables.iconnables-container
       object.iconnables.icons-pass(
-        animated-if = "dataBuild.showClean"
-        animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
         data = "/build/images/icons/icons-pass.svg"
         type = "image/svg+xml"
       )
       object.iconnables.icons-asterisk(
-        animated-if = "dataBuild.showDirty"
-        animated-if-leave-callback = "dataBuild.leaveIconAnimation()"
         data = "/build/images/icons/icons-asterisk.svg"
         type = "image/svg+xml"
       )
@@ -25,8 +21,6 @@ nav.sub-header
       button.btn.green(type = "button") Build
       input.form-control(placeholder = "Add build message")
       button.silver(type = "button") Discard Changes
-
-
 
 section.sidebar
   ul
@@ -213,7 +207,6 @@ section.sidebar
                     form.add-repo-form
                       input.form-control(placeholder = "Branch or SHA (optional)")
                       a.btn.btn-block.orange Add Repository
-
       ul.tree
         li.folder(
             ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"
@@ -268,7 +261,6 @@ section.sidebar
             type = "image/svg+xml"
           )
           | htc.access
-
   #editor-toolbar
     #tabs-wrapper
     //- file_tabs
@@ -277,9 +269,6 @@ section.sidebar
       select
         option(selected) Tab 1
         option Tab 2
-
   #editor-container
     //- code
     pre(ui-ace, ng-click = "dataBuild.toggleClean()") Test
-
-//- rebuild_loader

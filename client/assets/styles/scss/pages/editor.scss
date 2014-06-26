@@ -4,6 +4,16 @@
   position: relative;
 }
 
+#error-log {
+  background: $gray-lighter;
+  height: 100%;
+  position: absolute;
+    top: 0;
+    right: 0;
+    z-index: $z-show;
+  width: calc(100% - 510px);
+}
+
 // default tabs
 #tabs-wrapper {
   background: $gray-light;

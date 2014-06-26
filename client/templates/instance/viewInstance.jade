@@ -5,7 +5,7 @@ nav.sub-header
       spellcheck = "false"
       value = "servername-1776"
     )
-    object.iconnables.icons-back(
+    object.iconnables.icons-edit(
       data = "/build/images/icons/icons-edit.svg"
       type = "image/svg+xml"
     )
@@ -55,7 +55,6 @@ section.sidebar
 
 //- code_editor
 #editor.in
-
   //- file_explorer
   aside#explorer
     button#explorer-toggle
@@ -113,7 +112,6 @@ section.sidebar
                     form.add-repo-form
                       input.form-control(placeholder = "Branch or SHA (optional)")
                       a.btn.btn-block.orange Add Repository
-
       ul.tree
         li.folder
           object.iconnables.filetypes(
@@ -165,7 +163,6 @@ section.sidebar
             type = "image/svg+xml"
           )
           | htc.access
-
   #editor-toolbar
     #tabs-wrapper.with-addtab
     //- file_tabs
@@ -184,10 +181,19 @@ section.sidebar
         ng-class = "{in: dataInstance.showAddTab}"
         ng-include = "'viewInstancePopoverAddTab'"
       )
-
   #editor-container
     //- code
     //- note: server log and terminal tab should open by default
     pre(ui-ace) Test
 
-//- rebuild_loader
+//- error-log
+//- note: this should appear when an error happens on the server
+//- pre#error-log.
+  >> File "client/assets/styles/scss/pages/editor.scss" changed.
+  Running "sass:dev" (sass) task
+  NoMethodError: undefined method `count' for nil:NilClass
+    Use --trace for backtrace.
+  Warning: Exited with error code 1 Use --force to continue.
+
+  Aborted due to warnings.
+  Completed in 2.311s at Wed Jun 25 2014 17:31:15 GMT-0700 (PDT) - Waiting...
