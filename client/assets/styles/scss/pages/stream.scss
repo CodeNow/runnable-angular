@@ -75,7 +75,8 @@
     }
 
     // overflow for main-controls
-    &.ng-animate {
+    &.in-add-active,
+    &.in-remove-active {
 
       & ~ #main-controls {
         overflow: hidden !important;
