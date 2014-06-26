@@ -1,5 +1,5 @@
 .arrow
-h3.popover-title Set Recipe and Message
+h3.popover-title Set Build Recipe and Message
 .popover-content
   form
     //- recipe should clear on click
@@ -10,7 +10,7 @@ h3.popover-title Set Recipe and Message
       ng-click = ""
       ng-init="buildRecipe='Main'"
       ng-model = "buildRecipe"
-      placeholder = "Choose or create recipe"
+      placeholder = "Choose or Create Recipe"
       value = "Main"
     )
     datalist(
@@ -20,5 +20,5 @@ h3.popover-title Set Recipe and Message
       option(value = "Recipe 1")
       option(value = "Recipe 2")
       option(value = "Recipe 3")
-    textarea.form-control(placeholder = "Build message")
+    textarea.form-control(placeholder = "Build Message")
     button.btn-block.green Build in {{buildRecipe}}
