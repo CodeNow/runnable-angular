@@ -68,6 +68,11 @@
         right: 20px;
         left: auto;
     }
+
+    // overflow for main-controls
+    &.ng-animate ~ #main-controls {
+      overflow: hidden !important;
+    }
   }
 
   .recipe {
@@ -186,8 +191,10 @@
   border-bottom: 1px solid rgba(0,0,0,.1);
   float: left;
   height: 54px;
+  overflow: hidden;
   padding: 0 15px;
   position: relative;
+    z-index: 2;
   width: calc(100% - 270px);
 
   .clean,
@@ -195,6 +202,17 @@
     @extend .clearfix;
     position: absolute;
     transition: transform .2s;
+
+    > .btn-group,
+    > button,
+    > input {
+      float: left;
+      margin: 8px 9px 0 0;
+    }
+
+    > input {
+      width: 270px;
+    }
   }
 
   .dirty {
@@ -202,6 +220,7 @@
   }
 
   &.in {
+    overflow: visible;
 
     .clean,
     .dirty {
@@ -209,13 +228,10 @@
     }
   }
 
-  button,
-  input {
-    float: left;
-    margin: 8px 9px 0 0;
-  }
+  .btn-group {
 
-  input {
-    width: 270px;
+    > button:last-child {
+      padding: 0 0 0 4px;
+    }
   }
 }

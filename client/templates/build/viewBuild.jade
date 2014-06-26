@@ -18,8 +18,19 @@ nav.sub-header
       button.green(type = "button") Run Instance
       button.btn.silver(type = "button") Rebuild
     .dirty
-      button.btn.green(type = "button") Build
-      input.form-control(placeholder = "Add build message")
+      .btn-group
+        button.green(type = "button") Build
+        button.green(
+          ng-class = ""
+          ng-click = ""
+          type = "button"
+        )
+          span.glyphicons.expand
+          .popover.menu.bottom.fade(
+            ng-class = ""
+            ng-include = "'viewBuildPopoverBuildOptions'"
+          )
+      //- input.form-control(placeholder = "Add build message")
       button.silver(type = "button") Discard Changes
 
 section.sidebar

@@ -177,7 +177,7 @@ section.sidebar
       ng-click = "dataInstance.togglePopover('AddTab', $event);"
     )
       span.glyphicons.plus
-      div.popover.menu.bottom.fade(
+      .popover.menu.bottom.fade(
         ng-class = "{in: dataInstance.showAddTab}"
         ng-include = "'viewInstancePopoverAddTab'"
       )
