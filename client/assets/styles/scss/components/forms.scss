@@ -97,7 +97,7 @@ input {
   }
 
   > .add {
-    right: -30px;
+    right: -36px;
   }
 
   .active {
@@ -118,7 +118,7 @@ input {
   &.check-valid input:valid {
 
     & ~ .submit {
-      transform: translate3d(30px,0,0);
+      transform: translate3d(36px,0,0);
     }
 
     & ~ .add {
