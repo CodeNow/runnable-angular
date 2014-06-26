@@ -39,15 +39,13 @@ function ControllerBuild ($scope,
   };
 
   // popoverBuildOptions
-  dataBuild.popoverBuildOptions = {
-    filter: ''
-  };
   dataBuild.showBuildOptions = false;
+  dataBuild.showRebuildOptions = false;
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
     dataBuild.showBuildOptions = false;
-    dataBuild.popoverBuildOptions.filter = '';
+    dataBuild.showRebuildOptions = false;
   });
 
   dataBuild.togglePopover = function (popoverName, event) {

@@ -15,13 +15,25 @@ nav.sub-header
 
   section#main-controls(ng-class = "{'in': !dataBuild.isClean}")
     .clean
-      button.green(type = "button") Run Instance
-      button.btn.silver(type = "button") Rebuild
+      button.orange(type = "button") Run Instance
+      .btn-group
+        button.silver(type = "button") Rebuild
+        button.silver(
+          ng-class = "{active: dataBuild.showRebuildOptions}"
+          ng-click = "dataBuild.togglePopover('RebuildOptions', $event)"
+          type = "button"
+        )
+          span.arrow-down
+          .popover.menu.bottom.fade(
+            ng-class = "{in: dataBuild.showRebuildOptions}"
+            ng-include = "'viewBuildPopoverRebuildOptions'"
+          )
+
     .dirty
       .btn-group
         button.green(type = "button") Build
         button.green(
-          ng-class = "{active: dataBuild.showBuildOptions"
+          ng-class = "{active: dataBuild.showBuildOptions}"
           ng-click = "dataBuild.togglePopover('BuildOptions', $event)"
           type = "button"
         )
