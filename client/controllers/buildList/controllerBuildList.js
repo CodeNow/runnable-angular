@@ -21,6 +21,8 @@ function ControllerBuildList ($scope,
     filter: ''
   };
   dataBuildList.showChangeRecipe = false;
+  dataBuildList.predicate = '';
+  dataBuildList.ascending = false;
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
@@ -53,25 +55,34 @@ function ControllerBuildList ($scope,
       buildId: buildId
     }, $stateParams));
   };
+  dataBuildList.toggleSortByBuild = function () {
+    dataBuildList.predicate = 'attrs.id';
+    dataBuildList.ascending = !dataBuildList.ascending;
+  };
+  dataBuildList.getBuildSortClass = function () {
+    var res = (dataBuildList.predicate === 'attrs.id' && dataBuildList.ascending) ?
+      'ascending' : (dataBuildList.predicate === 'attrs.id' && !dataBuildList.ascending) ?
+        'descending' : '';
+    return res;
+  };
 
   // seed data
   async.waterfall([
     // temporary helper
-    function tempHelper (cb) {
-      if (user.id()) {
-        cb();
-      } else {
-        //user.anonymous(function () { cb(); });
-        user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
-      }
-    },
+    $scope.dataApp.holdUntilAuth,
+/*    function tempHelper (cb) {*/
+      //if (user.id()) {
+        //cb();
+      //} else {
+        ////user.anonymous(function () { cb(); });
+        //user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
+      //}
+/*    }*/,
     //-------
     function fetchProject (cb) {
       var projects = user.fetchProjects({
-        qs: {
-          ownerUsername: $stateParams.userName,
-          name:          $stateParams.projectName
-        }
+        ownerUsername: $stateParams.userName,
+        name:          $stateParams.projectName
       }, function (err, body) {
         if (err) {
           // error handling
@@ -82,14 +93,12 @@ function ControllerBuildList ($scope,
     },
     function fetchEnvironments (project, cb) {
       // TODO error check
-      // var environmentJSON = project.toJSON().environments.filter(hasProps({name: 'master'}))[0];
-      // var environment = project.newEnvironment(environmentJSON);
       var environments = project.fetchEnvironments({
         ownerUsername: $stateParams.userName
-      }, function () {
+      }, function (err) {
+        // error handling
         cb(null, project, environments);
       });
-      // cb(null, project, environment);
     },
     function fetchEnvironment (project, environments, cb) {
       var environment = environments.models.filter(hasKeypaths({'attrs.name': 'master'}))[0];
@@ -100,15 +109,36 @@ function ControllerBuildList ($scope,
         if (err) return cb(err); //TODO error handling
         cb(null, project, environments, environment, builds);
       });
+    },
+    function fetchBuildsOwners (project, environments, environment, builds, cb) {
+      var ownerIds = builds.models
+        .map(function (item) {
+          return item.attrs.owner;
+        })
+        .reduce(function (previous, current) {
+          if (previous.indexOf(current) === -1) previous.push(current);
+          return previous;
+        }, []);
+      var buildOwners = user.fetchUsers({
+        _id: ownerIds
+      }, function (err) {
+        buildOwners = buildOwners.models.reduce(function (previous, current) {
+          previous[current.id()] = current;
+          return previous;
+        }, {});
+        cb(null, project, environments, environment, builds, buildOwners);
+      });
     }
-  ], function (err, project, environments, environment, builds) {
+  ], function (err, project, environments, environment, builds, buildOwners) {
     if (err) return; // TODO error handling
     $scope.$apply(function () {
       dataBuildList.project      = project;
       dataBuildList.environments = environments;
       dataBuildList.environment  = environment;
       dataBuildList.builds       = builds;
-      //console.log(dataBuildList);
+      dataBuildList.buildOwners  = buildOwners;
+      debugger;
     });
   });
+
 }
