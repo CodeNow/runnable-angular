@@ -28,7 +28,7 @@
     "compression": "~1.0.2",
     "brace": "~0.2.1",
     "moment": "~2.7.0",
-    "browserify-angular-animate": "~1.2.0"
+    "browserify-angular-animate": "~1.2.18"
   },
   "devDependencies": {
     "browserify": "~4.1.6",
