@@ -40,10 +40,12 @@ function ControllerBuild ($scope,
 
   // popoverBuildOptions
   dataBuild.showBuildOptions = false;
+  dataBuild.showRebuildOptions = false;
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
     dataBuild.showBuildOptions = false;
+    dataBuild.showRebuildOptions = false;
   });
 
   dataBuild.togglePopover = function (popoverName, event) {

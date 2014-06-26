@@ -75,8 +75,16 @@
     }
 
     // overflow for main-controls
-    &.ng-animate ~ #main-controls {
-      overflow: hidden !important;
+    &.ng-animate {
+
+      & ~ #main-controls {
+        overflow: hidden !important;
+
+        .clean,
+        .dirty {
+          z-index: 0 !important;
+        }
+      }
     }
   }
 
@@ -195,10 +203,7 @@
   border-bottom: 1px solid rgba(0,0,0,.1);
   float: left;
   height: 54px;
-  overflow: hidden;
   padding: 0 15px;
-  position: relative;
-    z-index: 2;
   width: calc(100% - 270px);
 
   .clean,
@@ -219,8 +224,13 @@
     }
   }
 
+  .clean {
+    z-index: $z-show;
+  }
+
   .dirty {
     top: 54px;
+    z-index: auto;
   }
 
   &.in {
@@ -229,6 +239,14 @@
     .clean,
     .dirty {
       transform: translate3d(0,-54px,0);
+    }
+
+    .clean {
+      z-index: auto;
+    }
+
+    .dirty {
+      z-index: $z-show;
     }
   }
 
@@ -239,8 +257,15 @@
       width: 30px;
     }
 
-    .arrow-down {
+    .green .arrow-down {
       border-top-color: #fff;
+    }
+
+    .silver .arrow-down {
+      border-top-color: $gray-dark;
+    }
+
+    .arrow-down {
       right: 10px;
     }
 
