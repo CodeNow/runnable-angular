@@ -1,24 +1,24 @@
 .arrow
-h3.popover-title Build Options
+h3.popover-title Set Recipe and Message
 .popover-content
   form
     //- recipe should clear on click
-    //- 'Master' should be replaced with the last recipe the build was created with
+    //- 'Main' should be replaced with the last recipe the build was created with
     //- needs to revert on close
     input.form-control(
       list = "user-recipes"
       ng-click = ""
-      ng-init="buildRecipe='Master (current)'"
+      ng-init="buildRecipe='Main'"
       ng-model = "buildRecipe"
       placeholder = "Choose or create recipe"
-      value = "Master"
+      value = "Main"
     )
     datalist(
       id = "user-recipes"
     )
-      option(value = "Master")
+      option(value = "Main")
       option(value = "Recipe 1")
       option(value = "Recipe 2")
       option(value = "Recipe 3")
     textarea.form-control(placeholder = "Build message")
-    button.btn-block.green Build with {{buildRecipe}}
+    button.btn-block.green Build in {{buildRecipe}}
