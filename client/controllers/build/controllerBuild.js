@@ -39,15 +39,11 @@ function ControllerBuild ($scope,
   };
 
   // popoverBuildOptions
-  dataBuild.popoverBuildOptions = {
-    filter: ''
-  };
   dataBuild.showBuildOptions = false;
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
     dataBuild.showBuildOptions = false;
-    dataBuild.popoverBuildOptions.filter = '';
   });
 
   dataBuild.togglePopover = function (popoverName, event) {
