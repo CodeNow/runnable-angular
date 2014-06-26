@@ -1,6 +1,23 @@
 .arrow
+h3.popover-title Build Options
 .popover-content
   form
-    input.form-control(placeholder = "Build with...(optional)")
-    textarea.form-control(placeholder = "Build message (optional)")
-    button.btn-block.green Build
+    //- should clear on click
+    //- 'Master' should be replaced with the last recipe the build was in
+    input.form-control(
+      list = "user-recipes"
+      ng-click = ""
+      ng-init="buildRecipe='Master'"
+      ng-model = "buildRecipe"
+      placeholder = "Choose or create recipe"
+      value = "Master"
+    )
+    datalist(
+      id = "user-recipes"
+    )
+      option(value = "Master")
+      option(value = "Recipe 1")
+      option(value = "Recipe 2")
+      option(value = "Recipe 3")
+    textarea.form-control(placeholder = "Build message")
+    button.btn-block.silver Build with {{buildRecipe}}

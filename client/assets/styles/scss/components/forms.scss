@@ -110,6 +110,18 @@ input {
   }
 }
 
+// different position in popovers
+.popover .search {
+
+  > .submit {
+    right: 0;
+  }
+
+  > .add {
+    right: -36px;
+  }
+}
+
 .form-group {
   position: relative;
 }

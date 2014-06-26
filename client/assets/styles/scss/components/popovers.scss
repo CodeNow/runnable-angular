@@ -126,6 +126,12 @@
     }
   }
 
+  textarea.form-control {
+    min-height: 60px;
+    padding: 6px 15px;
+    resize: none;
+  }
+
   .btn-block {
     border: 0;
     border-radius: 0;

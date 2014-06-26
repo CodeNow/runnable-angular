@@ -37,6 +37,11 @@
       }
     }
 
+    // recipe popover position
+    .popover {
+      left: -34px;
+    }
+
     object {
       position: absolute;
         top: 0;
@@ -101,7 +106,6 @@
   }
 
   .popover {
-    left: -34px;
     top: 28px;
     transform-origin: 50% 0;
   }
@@ -238,6 +242,10 @@
     .arrow-down {
       border-top-color: #fff;
       right: 10px;
+    }
+
+    .popover {
+      left: -124px;
     }
   }
 }
