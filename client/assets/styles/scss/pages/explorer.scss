@@ -790,7 +790,7 @@
 // shortcut popover
 #add-tab .popover {
   left: auto;
-  max-height: 266px;
+  max-height: 278px;
   right: -8px;
   top: 30px;
   transform-origin: 250px -15px;
@@ -801,7 +801,7 @@
   }
 
   .popover-content {
-    max-height: 262px;
+    max-height: 274px;
   }
 
   #add-tab-options > ol {
@@ -831,7 +831,7 @@
   }
 
   &.show-new-shortcut {
-    max-height: 248px;
+    max-height: 260px;
 
     #add-tab-options {
       display: none;
@@ -842,7 +842,7 @@
     }
 
     .popover-content {
-      max-height: 244px;
+      max-height: 256px;
     }
 
     #new-shortcut {

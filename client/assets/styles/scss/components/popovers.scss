@@ -45,11 +45,10 @@
 
   &.menu {
     cursor: default;
-    // max-height: 90px;
     width: 300px;
 
     .popover-content {
-      // max-height: 86px;
+      margin: 0 -1px -2px;
       overflow: hidden;
       padding: 0;
       transition: max-height .2s;
@@ -133,8 +132,12 @@
   }
 
   .btn-block {
-    border: 0;
-    border-radius: 0;
+    margin: 6px;
+    width: calc(100% - 12px);
+  }
+
+  .green {
+    border-top: 1px solid rgba(0,0,0,.1);
   }
 }
 
