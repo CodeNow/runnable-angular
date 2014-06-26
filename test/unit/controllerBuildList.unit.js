@@ -1,42 +1,58 @@
 var main    = require('main');
 var chai    = require('chai');
 var sinon   = require('sinon');
-var angular = require('angular');
-var inject  = angular.injector(['app']).invoke;
 var colors  = require('colors');
+var angular = require('angular');
+require('browserify-angular-mocks');
+
+
+var uiRouter = require('angular-ui-router');
+var uiAce    = require('angular-ui-ace');
+var uiAnimate = require('browserify-angular-animate');
+
+
+//var $injector = angular.injector(['app']);
 
 describe('ControllerBuildList'.underline.red, function () {
-  var $appScope, $layoutScope, $buildListScope;
-  beforeEach(function () {
-    inject(function($rootScope, $controller) {
-      $appScope = $rootScope.$new();
-      $appScope.dataApp = {
-        click: sinon.spy(function () {
-          //$scope.$broadcast('app-document-click');
-        })
-      };
-      $projectLayoutScope = $appScope.$new();
-      $projectLayoutScope.dataProjectLayout = {};
-      $buildListScope = $projectLayoutScope.$new();
-      $buildListScope.dataBuidList = {
-        togglePopover: function (popoverName, event) {}
-      };
-      $controller('ControllerApp', {
-        $scope: $appScope,
-        $state: {
-          params: {
-            'name': 'test9'
-          }
-        }
-      });
-      $controller('ControllerProjectLayout', {
-        $scope: $projectLayoutScope,
-      });
-      $controller('ControllerBuildList', {
-        $scope: $buildListScope
-      });
+  var $appScope,
+      $projectLayoutScope,
+      $buildListScope,
+      $stateParams,
+      $state;
+
+  beforeEach(angular.mock.module(uiRouter));
+  beforeEach(angular.mock.module('app'));
+  beforeEach(angular.mock.inject(function($rootScope, $controller, $state, $stateParams) {
+
+    $state = {};
+    $stateParams = {};
+
+    $appScope           = $rootScope.$new();
+    $projectLayoutScope = $appScope.$new();
+    $buildListScope     = $projectLayoutScope.$new();
+
+    $controller('ControllerApp', {
+      $scope: $appScope,
+      $state: $state,
+      $stateParams: $stateParams
+      // $stateParams: {
+      //   userName:    '',
+      //   projectName: '',
+      //   branchName:  ''
+      // },
+      // $state: {
+      //   params: {
+      //     projectName: 'test9'
+      //   }
+      // }
     });
-  });
+    $controller('ControllerProjectLayout', {
+      $scope: $projectLayoutScope,
+    });
+    $controller('ControllerBuildList', {
+      $scope: $buildListScope
+    });
+  }));
 
   it('should display a popover when \'builds\' button click event triggered', function () {
     var event = {
