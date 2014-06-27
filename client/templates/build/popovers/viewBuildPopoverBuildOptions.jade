@@ -23,4 +23,4 @@ h3.popover-title Set Recipe and Message
       option(value = "Recipe 2")
       option(value = "Recipe 3")
     textarea.form-control(placeholder = "Build Message")
-    button.btn-block.green Build in {{dataBuild.buildRecipe}}
+    button.btn-block.green{{ dataBuild.getPopoverButtonText() }}

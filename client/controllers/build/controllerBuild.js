@@ -39,6 +39,13 @@ function ControllerBuild ($scope,
       dataBuild.showClean = false;
     }
   };
+  dataBuild.getPopoverButtonText = function () {
+    var msg = 'Build';
+    if (dataBuild.buildRecipe.length) {
+      msg += ' in ' + dataBuild.buildRecipe;
+    }
+    return msg;
+  };
   dataBuild.decideIfResetModelValue = function (event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
