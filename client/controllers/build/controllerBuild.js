@@ -13,7 +13,7 @@ function ControllerBuild ($scope,
                           async,
                           $stateParams) {
   var dataBuild = $scope.dataBuild = {};
-
+  debugger;
   dataBuild.isClean = true;
   dataBuild.showClean = dataBuild.isClean;
   dataBuild.showDirty = !dataBuild.isClean;

@@ -43,7 +43,10 @@ nav#build-stream-header.sub-header
     thead
       tr
         th
-        th.sortable.descending
+        th.sortable(
+          ng-click = "dataBuildList.toggleSortByBuild()"
+          ng-class = "dataBuildList.getBuildSortClass()"
+        )
           span Build
         th Triggered By
         th Commit Message
@@ -54,17 +57,22 @@ nav#build-stream-header.sub-header
           span Initiated
         th Actions
     tbody
-      tr(ng-repeat = "build in dataBuildList.builds.models"
-         ng-click  = "dataBuildList.redirectBuildPage(build.attrs.id)")
+      tr(
+        ng-repeat = "build in dataBuildList.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
+        ng-click  = "dataBuildList.redirectBuildPage(build.attrs.id)"
+      )
         td
           object(
             data = "/build/images/icons/icons-pass.svg"
             type = "image/svg+xml"
           )
         td {{ build.attrs.id | limitTo:4 }}...
-        td {{ build.attrs.createdBy }}
+        td {{ dataBuildList.buildOwners.getById(build.attrs.owner).attrs.username }}
         td {{ build.attrs.message }}
-        td {{ build.attrs.name }}
+
+        //- td {{ dataBuildList.environments.getById(build.attrs.environment).attrs.name }}
+        td {{ '' }}
+
         td {{ build.attrs.duration }}
         td {{ build.attrs.created | timeAgo }}
         td
