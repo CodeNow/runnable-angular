@@ -21,7 +21,7 @@
     "underscore": "~1.6.0",
     "angular-ui-router": "~0.2.10",
     "angular-ui-ace": "git://github.com/Runnable/ui-ace.git#2cd192b73660a864889725ece5ed1bc077e45829",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.11.2",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.11.3",
     "browser-resolve": "~1.2.4",
     "async": "~0.9.0",
     "jquery": "~2.1.1",
