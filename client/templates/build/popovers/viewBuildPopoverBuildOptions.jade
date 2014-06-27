@@ -6,11 +6,10 @@ h3.popover-title Set Recipe and Message
     .form-label
       input.form-control(
         list = "user-recipes"
-        ng-click = "dataBuild.buildRecipe=''"
+        ng-click = "dataBuild.decideIfResetModelValue($event)"
         ng-init = "dataBuild.buildRecipe=dataApp.stateParams.branchName"
         ng-model = "dataBuild.buildRecipe"
         placeholder = "Choose or Create Recipe"
-        value = "{{ dataApp.stateParams.branchName }}"
       )
       object.iconnables(
         data = "/build/images/icons/icons-recipe-alt.svg"

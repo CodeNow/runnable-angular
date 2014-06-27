@@ -137,7 +137,6 @@ function ControllerBuildList ($scope,
       dataBuildList.environment  = environment;
       dataBuildList.builds       = builds;
       dataBuildList.buildOwners  = buildOwners;
-      debugger;
     });
   });
 

@@ -13,11 +13,13 @@ function ControllerBuild ($scope,
                           async,
                           $stateParams) {
   var dataBuild = $scope.dataBuild = {};
-  debugger;
   dataBuild.isClean = true;
   dataBuild.showClean = dataBuild.isClean;
   dataBuild.showDirty = !dataBuild.isClean;
+  dataBuild.inputHasBeenClicked = false;
   dataBuild.leaveIconAnimation = function () {};
+  dataBuild.showBuildOptions = false;
+
   dataBuild.toggleClean = function () {
     dataBuild.isClean = !dataBuild.isClean;
     dataBuild.showClean = false;
@@ -37,19 +39,21 @@ function ControllerBuild ($scope,
       dataBuild.showClean = false;
     }
   };
-
-  // popoverBuildOptions
-  dataBuild.showBuildOptions = false;
-
-  // scope event listeners
-  $scope.$on('app-document-click', function () {
-    dataBuild.showBuildOptions = false;
-  });
-
+  dataBuild.decideIfResetModelValue = function (event) {
+    if (event && typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+    }
+    if (!dataBuild.inputHasBeenClicked) {
+      dataBuild.buildRecipe = '';
+      dataBuild.inputHasBeenClicked = true;
+    }
+  };
   dataBuild.togglePopover = function (popoverName, event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
     }
+    dataBuild.buildRecipe = $scope.dataApp.stateParams.branchName;
+    dataBuild.inputHasBeenClicked = false;
     dataBuild.showBuildOptionsClean = false;
     dataBuild.showBuildOptionsDirty = false;
     if(popoverName === 'BuildOptionsClean' || popoverName === 'BuildOptionsDirty') {
@@ -61,7 +65,12 @@ function ControllerBuild ($scope,
   });
   $scope.$on('app-document-click', function () {
     dataBuild.togglePopover();
+    dataBuild.showBuildOptions = false;
   });
+
+
+
+
 
   // async.waterfall([
   //   function tempHelper (cb) {
