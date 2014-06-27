@@ -5,13 +5,9 @@ var colors  = require('colors');
 var angular = require('angular');
 require('browserify-angular-mocks');
 
-
 var uiRouter = require('angular-ui-router');
 var uiAce    = require('angular-ui-ace');
 var uiAnimate = require('browserify-angular-animate');
-
-
-//var $injector = angular.injector(['app']);
 
 describe('ControllerBuildList'.underline.red, function () {
   var $appScope,
@@ -21,8 +17,14 @@ describe('ControllerBuildList'.underline.red, function () {
       $state;
 
   beforeEach(angular.mock.module(uiRouter));
+  beforeEach(angular.mock.module('ngMock'));
   beforeEach(angular.mock.module('app'));
-  beforeEach(angular.mock.inject(function($rootScope, $controller, $state, $stateParams) {
+  beforeEach(angular.mock.inject(function(
+    $rootScope,
+    $controller,
+    $state,
+    $stateParams
+  ) {
 
     $state = {};
     $stateParams = {};
@@ -35,16 +37,6 @@ describe('ControllerBuildList'.underline.red, function () {
       $scope: $appScope,
       $state: $state,
       $stateParams: $stateParams
-      // $stateParams: {
-      //   userName:    '',
-      //   projectName: '',
-      //   branchName:  ''
-      // },
-      // $state: {
-      //   params: {
-      //     projectName: 'test9'
-      //   }
-      // }
     });
     $controller('ControllerProjectLayout', {
       $scope: $projectLayoutScope,

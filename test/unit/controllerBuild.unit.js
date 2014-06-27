@@ -1,24 +1,25 @@
 var main    = require('main');
 var chai    = require('chai');
-var angular = require('angular');
-var inject  = angular.injector(['app']).invoke;
 var colors  = require('colors');
+var angular = require('angular');
+require('browserify-angular-mocks');
 
-var controllerName = 'ControllerBuild';
+var uiRouter = require('angular-ui-router');
 
-describe(controllerName.underline.red, function () {
+describe('ControllerBuild'.underline.red, function () {
 
   var $scope;
 
+  beforeEach(angular.mock.module(uiRouter));
   beforeEach(function () {
     inject(function($rootScope, $controller) {
       $scope = $rootScope.$new();
-      $controller(controllerName, {$scope: $scope});
+      $controller('ControllerBuild', {
+        $scope: $scope
+      });
     });
   });
 
-  it('should namespace', function () {
-    chai.expect($scope[controllerName.replace(/^Controller/, 'data')]).to.be.a('object');
-  });
+
 
 });
