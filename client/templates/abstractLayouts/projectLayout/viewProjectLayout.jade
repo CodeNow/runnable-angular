@@ -19,21 +19,39 @@ header#primary
   //-       ng-href  = "{{ dataProjectLayout.getProjectBuildListHref(project.attrs.name) }}"
   //-     ) {{ project.attrs.name }}
 
-  .btn-group.toggle.clearfix
-    button.active Projects
-    button Instances
+  //- .btn-group.toggle.clearfix
+  //-   button.active Projects
+  //-   button Instances
 
   //- all the dummy data
   .list-container
     ul#projects
-      li.active
-        a Project X
-        //- ul
-        //-   li Main
-        //-   li Recipe 1
-        //-   li Recipe 2
       li
-        a repo4mylyfe
+        a Project X
+      li.active
+        a purple4lyfe
+        //- ul.recipe-list
+        //-   li.active
+        //-     a
+        //-       object.iconnables(
+        //-         data = "/build/images/icons/icons-pass.svg"
+        //-         type = "image/svg+xml"
+        //-       )
+        //-       | Main
+        //-   li
+        //-     a
+        //-       object.iconnables(
+        //-         data = "/build/images/icons/icons-pass.svg"
+        //-         type = "image/svg+xml"
+        //-       )
+        //-       | Recipe 1
+        //-   li
+        //-     a
+        //-       object.iconnables(
+        //-         data = "/build/images/icons/icons-fail.svg"
+        //-         type = "image/svg+xml"
+        //-       )
+        //-       | Recipe 2
       li
         a buster
       li
@@ -41,13 +59,13 @@ header#primary
       li
         a lunagrams
 
-    ul#instances
-      li
-        a Project X
-      li
-        a repo4mylyfe
-      li
-        a buster
+    //- ul#instances
+    //-   li
+    //-     a Project X
+    //-   li
+    //-     a purple4lyfe
+    //-   li
+    //-     a buster
 
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)

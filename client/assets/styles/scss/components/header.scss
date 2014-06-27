@@ -23,6 +23,7 @@ header {
   border-top: 1px solid rgba(0,0,0,.2);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
   display: block;
+  font-weight: 500;
   height: 54px;
   line-height: 54px;
   overflow: hidden;
@@ -57,7 +58,7 @@ header {
     border: 1px solid rgba(0,0,0,.3);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(0,0,0,.05);
     font-size: 15px;
-    font-weight: 300;
+    font-weight: 500;
     width: 50%;
 
     &:hover {
@@ -114,6 +115,10 @@ header {
     &.active {
       background: rgba(0,0,0,.15);
       box-shadow: none;
+
+      > a {
+        cursor: default;
+      }
     }
   }
 
@@ -132,4 +137,27 @@ header {
   position: absolute;
     top: 0;
   transform: translate3d(240px,0,0);
+}
+
+.recipe-list {
+  padding-bottom: 6px;
+
+  > li {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    margin-top: 3px;
+
+    &:active,
+    &.active {
+      background: rgba(0,0,0,.2);
+      border-color: rgba(0,0,0,.3);
+    }
+  }
+
+  object {
+    height: 21px;
+    margin-right: 4px;
+    top: 5px;
+    width: 21px;
+  }
 }

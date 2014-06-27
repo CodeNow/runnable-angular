@@ -96,13 +96,18 @@
     line-height: 18px;
     margin-left: 6px;
     min-width: 120px;
-    padding-left: 9px;
+    padding-left: 26px;
     position: relative;
     text-align: left;
 
     > .arrow-down {
       right: 10px;
       top: 15px;
+    }
+
+    object {
+      left: 32px;
+      opacity: .25;
     }
   }
 

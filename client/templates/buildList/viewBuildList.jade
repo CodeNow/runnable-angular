@@ -1,16 +1,21 @@
 nav#build-stream-header.sub-header
-  h1 Builds for
+  h1 Built in
     button.btn.silver.recipe(
       ng-class = "{active: dataBuildList.showChangeRecipe}"
       ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event);"
       type = "button"
-    ) {{ dataBuildList.environment.attrs.name }}
+    )
+      object.iconnables(
+        data = "/build/images/icons/icons-recipe-alt.svg"
+        type = "image/svg+xml"
+      )
+      | {{ dataApp.stateParams.branchName }}
       span.arrow-down
       .popover.menu.bottom.fade(
         ng-class = "{in: dataBuildList.showChangeRecipe}"
         ng-include = "'viewBuildListPopoverChangeRecipe'"
       )
-  h1(ng-click = "dataBuildList.show404()") show 404
+  //- h1(ng-click = "dataBuildList.show404()") show 404
   form.search
     input.form-control(
       placeholder = "Search Builds"
