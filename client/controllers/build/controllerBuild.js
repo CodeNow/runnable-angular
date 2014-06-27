@@ -47,9 +47,21 @@ function ControllerBuild ($scope,
   });
 
   dataBuild.togglePopover = function (popoverName, event) {
-    event.stopPropagation();
-    dataBuild['show' + popoverName] = true;
+    if (event && typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+    }
+    dataBuild.showBuildOptionsClean = false;
+    dataBuild.showBuildOptionsDirty = false;
+    if(popoverName === 'BuildOptionsClean' || popoverName === 'BuildOptionsDirty') {
+      dataBuild['show' + popoverName] = true;
+    }
   };
+  $scope.$watch('dataBuild.isClean', function () {
+    dataBuild.togglePopover();
+  });
+  $scope.$on('app-document-click', function () {
+    dataBuild.togglePopover();
+  });
 
   // async.waterfall([
   //   function tempHelper (cb) {

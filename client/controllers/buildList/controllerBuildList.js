@@ -77,9 +77,9 @@ function ControllerBuildList ($scope,
         ////user.anonymous(function () { cb(); });
         //user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
       //}
-/*    }*/,
+/*    }*/
     //-------
-    function fetchProject (cb) {
+    function fetchProject (me, cb) {
       var projects = user.fetchProjects({
         ownerUsername: $stateParams.userName,
         name:          $stateParams.projectName

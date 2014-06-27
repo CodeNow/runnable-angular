@@ -17,16 +17,17 @@ function ControllerProjectLayout ($scope,
 
   async.waterfall([
     // temporary helper
-    function tempHelper (cb) {
-      if (user.id()) {
-        cb();
-      } else {
-        //user.anonymous(function () { cb(); });
-        user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
-      }
-    },
+    $scope.dataApp.holdUntilAuth,
+/*    function tempHelper (cb) {*/
+      //if (user.id()) {
+        //cb();
+      //} else {
+        ////user.anonymous(function () { cb(); });
+        //user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
+      //}
+/*    }*/
     //-------
-    function fetchProjects (cb) {
+    function fetchProjects (me, cb) {
       var projects = user.fetchProjects({
         ownerUsername: $scope.dataApp.stateParams.userName
       }, function (err, body) {

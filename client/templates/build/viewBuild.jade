@@ -19,13 +19,13 @@ nav.sub-header
       .btn-group
         button.silver(type = "button") Rebuild
         button.silver(
-          ng-class = "{active: dataBuild.showBuildOptions}"
-          ng-click = "dataBuild.togglePopover('buildOptions', $event)"
+          ng-class = "{active: dataBuild.showBuildOptionsClean}"
+          ng-click = "dataBuild.togglePopover('BuildOptionsClean', $event)"
           type = "button"
         )
           span.arrow-down
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.showBuildOptions}"
+            ng-class = "{in: dataBuild.showBuildOptionsClean}"
             ng-include = "'viewBuildPopoverBuildOptions'"
           )
 
@@ -33,13 +33,13 @@ nav.sub-header
       .btn-group
         button.green(type = "button") Build
         button.green(
-          ng-class = "{active: dataBuild.showBuildOptions}"
-          ng-click = "dataBuild.togglePopover('BuildOptions', $event)"
+          ng-class = "{active: dataBuild.showBuildOptionsDirty}"
+          ng-click = "dataBuild.togglePopover('BuildOptionsDirty', $event)"
           type = "button"
         )
           span.arrow-down
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.showBuildOptions}"
+            ng-class = "{in: dataBuild.showBuildOptionsDirty}"
             ng-include = "'viewBuildPopoverBuildOptions'"
           )
       button.silver(type = "button") Discard Changes
