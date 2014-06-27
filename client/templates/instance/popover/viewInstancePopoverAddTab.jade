@@ -45,7 +45,10 @@
           button.delete(type = "button")
             span Delete
             span.glyphicons.circle-remove
-    button#new-shortcut-button.silver.btn-block(type = "button") New Shortcut
+    button#new-shortcut-button.silver.btn-block(
+      ng-click = "dataInstance.showNewShortcut = true"
+      type = "button"
+    ) New Shortcut
 
   form#new-shortcut
     h3.popover-title Add New Shortcut

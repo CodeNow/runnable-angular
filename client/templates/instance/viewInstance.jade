@@ -27,7 +27,7 @@ section.sidebar
         data = "/build/images/icons/icons-back.svg"
         type = "image/svg+xml"
       )
-      | Built from #{''}
+      | Launched from #{''}
       a project/recipe/1776
     li
       object.iconnables.icons-calendar(
@@ -181,7 +181,7 @@ section.sidebar
     )
       span.glyphicons.plus
       .popover.menu.bottom.fade(
-        ng-class = "{in: dataInstance.showAddTab}"
+        ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut':dataInstance.showNewShortcut}"
         ng-include = "'viewInstancePopoverAddTab'"
       )
   #editor-container

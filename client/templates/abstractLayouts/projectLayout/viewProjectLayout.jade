@@ -12,12 +12,38 @@ header#primary
     | username
     //- span.arrow-down
 
-  ul#repositories
-    li(ng-repeat = "project in dataProjectLayout.projects.models")
-      a(
-        ng-class = "{'active': (project.attrs.name === dataApp.stateParams.projectName) }"
-        ng-href  = "{{ dataProjectLayout.getProjectBuildListHref(project.attrs.name) }}"
-      ) {{ project.attrs.name }}
+  //- ul#repositories
+  //-   li(ng-repeat = "project in dataProjectLayout.projects.models")
+  //-     a(
+  //-       ng-class = "{'active': (project.attrs.name === dataApp.stateParams.projectName) }"
+  //-       ng-href  = "{{ dataProjectLayout.getProjectBuildListHref(project.attrs.name) }}"
+  //-     ) {{ project.attrs.name }}
+
+  .btn-group.toggle.clearfix
+    button Projects
+    button Instances
+
+  //- all the dummy data
+  ul#projects
+    li.active
+      a Project X
+      //- ul
+      //-   li Main
+      //-   li Recipe 1
+      //-   li Recipe 2
+    li
+      a repo4mylyfe
+    li
+      a buster
+
+  ul#instances
+    li INSTANCES
+    li
+      a Project X
+    li
+      a repo4mylyfe
+    li
+      a buster
 
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
