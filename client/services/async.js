@@ -1,4 +1,4 @@
-var app = require('app');
-app.factory('async', function () {
+require('app')
+  .factory('async', function () {
   return require('async');
 });
