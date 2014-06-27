@@ -1,17 +1,18 @@
-var app  = require('app');
-app.controller('ControllerApp', ControllerApp);
+require('app')
+  .controller('ControllerApp', ControllerApp);
 /**
  * ControllerApp
  * @constructor
  * @export
  * @ngInject
  */
-function ControllerApp ($rootScope,
-                        $scope,
-                        user,
-                        $stateParams,
-                        $state) {
-
+function ControllerApp (
+  $rootScope,
+  $scope,
+  user,
+  $stateParams,
+  $state
+) {
   window.user = user;
 
   var dataApp = $scope.dataApp = $rootScope.dataApp = {};
@@ -40,3 +41,10 @@ function ControllerApp ($rootScope,
     }
   };
 }
+
+ControllerApp.prototype.asyncCheckUserAuthStatus = function (
+  status,
+  cb
+) {
+
+};
