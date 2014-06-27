@@ -2,17 +2,15 @@
 h3.popover-title Set Recipe and Message
 .popover-content
   form
-    //- recipe should clear on click
-    //- 'Main' should be replaced with the last recipe the build was created with
     //- needs to revert on close
     .form-label
       input.form-control(
         list = "user-recipes"
-        ng-click = ""
-        ng-init="buildRecipe='Main'"
-        ng-model = "buildRecipe"
+        ng-click = "dataBuild.buildRecipe=''"
+        ng-init = "dataBuild.buildRecipe=dataApp.stateParams.branchName"
+        ng-model = "dataBuild.buildRecipe"
         placeholder = "Choose or Create Recipe"
-        value = "Main"
+        value = "{{ dataApp.stateParams.branchName }}"
       )
       object.iconnables(
         data = "/build/images/icons/icons-recipe-alt.svg"
@@ -26,4 +24,4 @@ h3.popover-title Set Recipe and Message
       option(value = "Recipe 2")
       option(value = "Recipe 3")
     textarea.form-control(placeholder = "Build Message")
-    button.btn-block.green Build in {{buildRecipe}}
+    button.btn-block.green Build in {{dataBuild.buildRecipe}}

@@ -19,14 +19,14 @@ nav.sub-header
       .btn-group
         button.silver(type = "button") Rebuild
         button.silver(
-          ng-class = "{active: dataBuild.showRebuildOptions}"
-          ng-click = "dataBuild.togglePopover('RebuildOptions', $event)"
+          ng-class = "{active: dataBuild.showBuildOptions}"
+          ng-click = "dataBuild.togglePopover('buildOptions', $event)"
           type = "button"
         )
           span.arrow-down
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.showRebuildOptions}"
-            ng-include = "'viewBuildPopoverRebuildOptions'"
+            ng-class = "{in: dataBuild.showBuildOptions}"
+            ng-include = "'viewBuildPopoverBuildOptions'"
           )
 
     .dirty
@@ -51,7 +51,7 @@ section.sidebar
         data = "/build/images/icons/icons-recipe.svg"
         type = "image/svg+xml"
       )
-      b Main
+      b {{ dataApp.stateParams.branchName }}
       | #{''} recipe
     li
       object.iconnables.icons-duration(
