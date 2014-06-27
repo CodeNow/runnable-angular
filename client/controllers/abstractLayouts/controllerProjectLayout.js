@@ -17,6 +17,18 @@ function ControllerProjectLayout (
     return '/' + $scope.dataApp.stateParams.userName + '/' + projectName + '/master/';
   };
 
+  dataProjectLayout.showChangeAccount = false;
+
+  // scope event listeners
+  $scope.$on('app-document-click', function () {
+    dataProjectLayout.showChangeAccount = false;
+  });
+
+  dataProjectLayout.togglePopover = function (popoverName, event) {
+    event.stopPropagation();
+    dataProjectLayout['show' + popoverName] = true;
+  };
+
   async.waterfall([
     // temporary helper
     $scope.dataApp.holdUntilAuth,

@@ -26,8 +26,8 @@ header {
   font-weight: 500;
   height: 54px;
   line-height: 54px;
-  overflow: hidden;
   padding: 0 15px 0 30px;
+  position: relative;
   text-overflow: ellipsis;
   width: 100%;
   white-space: nowrap;
@@ -44,8 +44,15 @@ header {
 
   > img {
     border-radius: 50%;
-    display: inline-block;
-    margin-right: 6px;
+    display: block;
+    float: left;
+    margin: 15px 6px 0 0;
+  }
+
+  .arrow-down {
+    border-top-color: rgba(255,255,255,.6);
+    right: 24px;
+    top: 24px
   }
 }
 

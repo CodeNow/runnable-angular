@@ -3,14 +3,21 @@ header#primary
     span
     sup &lt;alpha&gt;
 
-  a#user(href = "#")
+  a#user(
+    ng-class = "{active: dataProjectLayout.showChangeAccount}"
+    ng-click = "dataProjectLayout.togglePopover('ChangeAccount', $event);"
+  )
     img(
       height = "24"
       src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
       width = "24"
     )
     | username
-    //- span.arrow-down
+    span.arrow-down
+    .popover.menu.bottom.fade(
+      ng-class = "{in: dataProjectLayout.showChangeAccount}"
+      ng-include = "'viewProjectLayoutPopoverChangeAccount'"
+    )
 
   //- ul#repositories
   //-   li(ng-repeat = "project in dataProjectLayout.projects.models")
