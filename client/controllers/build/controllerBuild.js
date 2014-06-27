@@ -1,17 +1,17 @@
-var app     = require('app');
-var angular = require('angular');
-var deps    = [
-  '$scope',
-  'user',
-  'async',
-  '$stateParams'
-];
-deps.push(ControllerBuild);
-app.controller('ControllerBuild', deps);
-function ControllerBuild ($scope,
-                          user,
-                          async,
-                          $stateParams) {
+require('app')
+  .controller('ControllerBuild', ControllerBuild);
+/**
+ * ControllerBuild
+ * @constructor
+ * @export
+ * @ngInject
+ */
+function ControllerBuild (
+  $scope,
+  user,
+  async,
+  $stateParams
+) {
   var dataBuild = $scope.dataBuild = {};
   dataBuild.isClean = true;
   dataBuild.showClean = dataBuild.isClean;

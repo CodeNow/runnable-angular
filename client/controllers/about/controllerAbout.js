@@ -1,9 +1,13 @@
-var app  = require('app');
-var deps = [
-  '$scope'
-];
-deps.push(ControllerAbout);
-app.controller('ControllerAbout', deps);
-function ControllerAbout ($scope) {
+require('app')
+  .controller('ControllerAbout', ControllerAbout);
+/**
+ * ControllerAbout
+ * @constructor
+ * @export
+ * @ngInject
+ */
+function ControllerAbout (
+  $scope
+) {
   var dataAbout = $scope.dataAbout = {};
 }

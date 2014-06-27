@@ -1,5 +1,5 @@
-var app = require('app');
-app.controller('ControllerError', ControllerError);
+require('app')
+  .controller('ControllerError', ControllerError);
 /**
  * ControllerBuildList
  * @param $scope
@@ -7,7 +7,8 @@ app.controller('ControllerError', ControllerError);
  * @export
  * @ngInject
  */
-function ControllerError ($scope) {
+function ControllerError (
+  $scope
+) {
   var dataError = $scope.dataError = {};
-  console.log('p1');
 }
