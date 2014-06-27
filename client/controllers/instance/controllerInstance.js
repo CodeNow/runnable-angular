@@ -1,16 +1,17 @@
-var app  = require('app');
-var deps = [
-  '$scope',
-  'async',
-  '$stateParams',
-  'user'
-];
-deps.push(ControllerInstance);
-app.controller('ControllerInstance', deps);
-function ControllerInstance ($scope,
-                             async,
-                             $stateParams,
-                             user) {
+require('app')
+  .controller('ControllerInstance', ControllerInstance);
+/**
+ * ControllerInstance
+ * @constructor
+ * @export
+ * @ngInject
+ */
+function ControllerInstance (
+  $scope,
+  async,
+  $stateParams,
+  user
+) {
   var dataInstance = $scope.dataInstance = {};
 
   // init

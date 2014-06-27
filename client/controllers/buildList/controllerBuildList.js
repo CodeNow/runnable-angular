@@ -1,5 +1,5 @@
-var app  = require('app');
-app.controller('ControllerBuildList', ControllerBuildList);
+require('app')
+  .controller('ControllerBuildList', ControllerBuildList);
 /**
  * ControllerBuildList
  * @param $scope
@@ -7,13 +7,15 @@ app.controller('ControllerBuildList', ControllerBuildList);
  * @export
  * @ngInject
  */
-function ControllerBuildList ($scope,
-                              user,
-                              $stateParams,
-                              $state,
-                              async,
-                              $window,
-                              hasKeypaths) {
+function ControllerBuildList (
+  $scope,
+  user,
+  $stateParams,
+  $state,
+  async,
+  $window,
+  hasKeypaths
+) {
 
   // init data
   var dataBuildList = $scope.dataBuildList = {};

@@ -1,14 +1,16 @@
-var app  = require('app');
-app.controller('ControllerProjectLayout', ControllerProjectLayout);
+require('app')
+  .controller('ControllerProjectLayout', ControllerProjectLayout);
 /**
  * ControllerProjectLayout
  * @constructor
  * @export
  * @ngInject
  */
-function ControllerProjectLayout ($scope,
-                                  async,
-                                  user) {
+function ControllerProjectLayout (
+  $scope,
+  async,
+  user
+) {
 
   var dataProjectLayout = $scope.dataProjectLayout = {};
   dataProjectLayout.getProjectBuildListHref = function (projectName) {

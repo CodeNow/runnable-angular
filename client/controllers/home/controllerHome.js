@@ -1,9 +1,13 @@
-var app  = require('app');
-var deps = [
-  '$scope'
-];
-deps.push(ControllerHome);
-app.controller('ControllerHome', deps);
-function ControllerHome ($scope) {
+require('app')
+  .controller('ControllerHome', ControllerHome);
+/**
+ * ControllerHome
+ * @constructor
+ * @export
+ * @ngInject
+ */
+function ControllerHome (
+  $scope
+) {
   var dataHome = $scope.dataHome = {};
 }

@@ -1,3 +1,3 @@
 module.exports = {
-  host: 'http://runnable2.net:3030'
+  host: 'http://api.runnable2.net'
 };
