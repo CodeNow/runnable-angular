@@ -75,10 +75,6 @@ function ControllerBuild (
     dataBuild.showBuildOptions = false;
   });
 
-
-
-
-
   // async.waterfall([
   //   function tempHelper (cb) {
   //     if (user.id()) {
