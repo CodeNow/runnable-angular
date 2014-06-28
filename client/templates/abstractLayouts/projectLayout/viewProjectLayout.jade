@@ -4,8 +4,9 @@ header#primary
     sup &lt;alpha&gt;
 
   a#user(
-    ng-class = "{active: dataProjectLayout.showChangeAccount}"
-    ng-click = "dataProjectLayout.togglePopover('ChangeAccount', $event);"
+    ng-class="{'active': dataProjectLayout.showChangeAccount, '': !dataProjectLayout.showChangeAccount}"
+    ng-click = "dataProjectLayout.showChangeAccount = !dataProjectLayout.showChangeAccount"
+    ng-init = "dataProjectLayout.showChangeAccount = false"
   )
     img(
       height = "24"
@@ -14,10 +15,22 @@ header#primary
     )
     | username
     span.arrow-down
-    .popover.menu.bottom.fade(
-      ng-class = "{in: dataProjectLayout.showChangeAccount}"
-      ng-include = "'viewProjectLayoutPopoverChangeAccount'"
-    )
+  ul.accounts
+    li
+      img(
+        height = "24"
+        src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
+        width = "24"
+      )
+      | CodeNow
+    li
+      img(
+        height = "24"
+        src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
+        width = "24"
+      )
+      | Runnable
+    li Log Out
 
   //- ul#repositories
   //-   li(ng-repeat = "project in dataProjectLayout.projects.models")
