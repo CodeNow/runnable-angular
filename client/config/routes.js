@@ -50,3 +50,4 @@ module.exports = [{
   templateUrl: 'viewError',
   controller:  'ControllerError'
 }];
+Object.freeze(module.exports);
