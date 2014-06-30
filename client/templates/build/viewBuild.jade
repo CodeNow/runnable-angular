@@ -174,9 +174,10 @@ section.sidebar
 #editor(
   ng-class="{'in': dataBuild.showExplorer, '': !dataBuild.showExplorer}"
 )
-  button#explorer-toggle(
+  button#explorer-toggle.with-iconnables(
     ng-click = "dataBuild.showExplorer = !dataBuild.showExplorer"
     ng-init = "dataBuild.showExplorer = true"
+    type = "button"
   )
     object.iconnables(
       data = "/build/images/icons/icons-folder-open.svg"
@@ -292,7 +293,11 @@ section.sidebar
     #tabs-wrapper
     //- file_tabs
   #select-tabs.dropdown
-    button(type = "button")
+    button.with-iconnables(type = "button")
+      object.iconnables(
+        data = "/build/images/icons/icons-select.svg"
+        type = "image/svg+xml"
+      )
     select
       option(selected) Tab 1
       option Tab 2

@@ -116,13 +116,10 @@
   border-bottom: 1px solid rgba(0,0,0,.1);
   border-radius: 0;
   border-right: 1px solid rgba(0,0,0,.1);
-  color: $gray-dark;
   float: left;
   height: 36px;
-  padding: 6px 0 0;
   position: absolute;
     z-index: $z-show;
-  user-select: none;
   width: 36px;
 
   &:hover,
@@ -251,6 +248,8 @@
 // toolbar tabs
 #add-tab,
 #select-tabs {
+  border-bottom: 1px solid #d5d5d5;
+  border-left: 1px solid #d5d5d5;
   position: absolute;
     top: 0;
     z-index: $z-show;
@@ -258,18 +257,16 @@
 
 // add-tab
 #add-tab {
-  border: 0;
+  background: $gray-lighter;
+  border-radius: 0;
+  border-right: 0;
+  border-top: 0;
   float: right;
+  margin-top: -36px;
+  position: relative;
+  right: 36px;
   transition: transform .2s ease-in-out;
   width: 36px;
-}
-
-#add-tab {
-  background: $gray-lighter;
-  border-bottom: 1px solid rgba(0,0,0,.1);
-  color: $gray-dark;
-  cursor: pointer;
-  position: relative;
 
   &:hover,
   &.active,
@@ -278,19 +275,9 @@
   }
 }
 
-// add tab
-#add-tab {
-  border-left: 1px solid rgba(0,0,0,.1);
-  border-radius: 0;
-  margin-top: -36px;
-  padding: 0;
-  right: 36px;
-}
-
 // select-tabs
 #select-tabs {
   border-bottom: 1px solid #d5d5d5;
-  border-left: 1px solid #d5d5d5;
   border-radius: 0;
   overflow: hidden;
   right: 0;
@@ -300,7 +287,6 @@
     border: 0;
     box-shadow: none;
     height: 35px;
-    padding: 0;
     position: relative;
 
     &:before {
@@ -312,6 +298,10 @@
       border-top-color: $gray-dark;
       right: 16px;
     }
+  }
+
+  .iconnables {
+    margin-right: 1px;
   }
 
   &:hover > button {
@@ -340,44 +330,6 @@
     margin-top: 8px;
   }
 }
-
-// upload
-#drop-to-add {
-  background: #fff;
-  color: $gray-dark;
-  display: block;
-  height: 54px;
-  line-height: 58px;
-  overflow: hidden;
-  position: relative;
-  text-align: center;
-  user-select: none;
-
-  &:hover {
-    text-decoration: none;
-  }
-
-  > div {
-    position: absolute;
-    transition: transform .2 ease-in-out;
-    width: 100%;
-
-    &:last-child {
-      transform: translate3d(0,-100%,0);
-    }
-  }
-
-  &.in > div {
-    &:first-child {
-      transform: translate3d(0,100%,0);
-    }
-
-    &:last-child {
-      transform: translate3d(0,0,0);
-    }
-  }
-}
-
 
 // .sub-tree
 .sub-tree {

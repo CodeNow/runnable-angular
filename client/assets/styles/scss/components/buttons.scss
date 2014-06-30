@@ -44,6 +44,10 @@ button,
     }
   }
 
+  &.with-iconnables {
+    padding: 6px 0 0;
+  }
+
   img,
   span {
     display: inline-block;
@@ -51,14 +55,6 @@ button,
 
   img {
     margin: -4px 4px 0 0;
-  }
-
-  > object {
-    height: 20px;
-    margin: 8px 0 0 -28px;
-    pointer-events: none;
-    position: absolute;
-    width: 20px;
   }
 
   &.btn-sm {

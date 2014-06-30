@@ -60,7 +60,7 @@ section.sidebar
 #editor.with-addtab(
   ng-class="{'in': dataBuild.showExplorer, '': !dataBuild.showExplorer}"
 )
-  button#explorer-toggle(
+  button#explorer-toggle.with-iconnables(
     ng-click = "dataBuild.showExplorer = !dataBuild.showExplorer"
     ng-init = "dataBuild.showExplorer = true"
   )
@@ -174,17 +174,25 @@ section.sidebar
   #editor-toolbar
     #tabs-wrapper
     //- file_tabs
-  button#add-tab(
+  button#add-tab.with-iconnables(
     ng-class = "{active: dataInstance.showAddTab}"
     ng-click = "dataInstance.togglePopover('AddTab', $event);"
+    type = "button"
   )
-    span.glyphicons.plus
+    object.iconnables(
+      data = "/build/images/icons/icons-add-alt.svg"
+      type = "image/svg+xml"
+    )
     .popover.menu.bottom.fade(
       ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut':dataInstance.showNewShortcut}"
       ng-include = "'viewInstancePopoverAddTab'"
     )
   #select-tabs.dropdown
-    button(type = "button")
+    button.with-iconnables(type = "button")
+      object.iconnables(
+        data = "/build/images/icons/icons-select.svg"
+        type = "image/svg+xml"
+      )
     select
       option(selected) Tab 1
       option Tab 2
