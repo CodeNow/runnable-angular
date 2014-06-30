@@ -20,6 +20,9 @@ describe('ControllerBuild'.underline.red, function () {
     });
   });
 
-
+  it('getPopoverButtonText returns correct string', function () {
+    var string = $scope.dataBuild.getPopoverButtonText('');
+    chai.expect(string).to.equal('Build');
+  });
 
 });
