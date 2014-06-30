@@ -35,13 +35,13 @@ module.exports = [{
 }, {
   state:       'projects.build',
   abstract:    false,
-  url:         '^/:userName/:projectName/:branchName/:buildId',
+  url:         '^/:userName/:projectName/:branchName/:buildName',
   templateUrl: 'viewBuild',
   controller:  'ControllerBuild',
 }, {
   state:       'projects.instance',
   abstract:    false,
-  url:         '^/:userName/:projectName/:branchName/:buildId/:instanceId',
+  url:         '^/:userName/:projectName/:branchName/:buildName/:instanceId',
   templateUrl: 'viewInstance',
   controller:  'ControllerInstance',
 }, {
