@@ -71,11 +71,10 @@ section.sidebar
         type = "image/svg+xml"
       )
       | Triggered by <a>runnabro</a>
-  ol
-    li Commit Logs
-
+  h3 Message Log
+  ol#messages
     li(ng-repeat = "commit in dataBuild.commits")
-      ol.commit
+      ol.message
         li
           a {{commit.message}}
         li
@@ -84,7 +83,7 @@ section.sidebar
             | #{''} {{commit.username}}
           span {{commit.hash}}
     li
-      ol.commit
+      ol.message
         li
           a removing comment
         li
@@ -101,7 +100,7 @@ section.sidebar
               type = "image/svg+xml"
             )
     li
-      ol.commit
+      ol.message
         li
           a separate popover for branches
         li
@@ -118,7 +117,7 @@ section.sidebar
               type = "image/svg+xml"
             )
     li
-      ol.commit
+      ol.message
         li
           a change project popover
         li
@@ -135,7 +134,7 @@ section.sidebar
               type = "image/svg+xml"
             )
     li
-      ol.commit
+      ol.message
         li
           a remove sign up, new, search from header
         li
@@ -152,7 +151,7 @@ section.sidebar
               type = "image/svg+xml"
             )
     li
-      ol.commit
+      ol.message
         li
           a sync with tony
         li

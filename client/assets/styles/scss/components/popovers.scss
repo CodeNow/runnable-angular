@@ -147,6 +147,7 @@
   color: $gray-dark;
   font-size: 16px;
   font-weight: 500;
+  text-shadow: none;
 }
 
 .popover-footer {
@@ -257,6 +258,7 @@
 
   > label {
     background: #fff;
+    color: $gray-dark;
     cursor: pointer;
     display: block;
     font-weight: 400;
@@ -264,6 +266,7 @@
     line-height: 50px;
     margin: 0;
     padding: 0 10px;
+    text-shadow: none;
     width: 100%;
 
     &:nth-child(n+2) {
