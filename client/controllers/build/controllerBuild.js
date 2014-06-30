@@ -18,7 +18,6 @@ function ControllerBuild (
   var dataBuild = $scope.dataBuild = self.initState();
 
   dataBuild.getPopoverButtonText = self.getPopoverButtonText;
-
   dataBuild.resetInputModelValue = function (event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
@@ -46,6 +45,7 @@ function ControllerBuild (
       dataBuild['show' + popoverName] = true;
     }
   };
+
   $scope.$watch('dataBuild.isClean', function () {
     dataBuild.togglePopover();
   });
