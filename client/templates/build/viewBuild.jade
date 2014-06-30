@@ -192,10 +192,12 @@ section.sidebar
         span
     .explorer-header
       h6
-        | BUILD FILES
-        //- file_explorer_menu
-        button.silver.btn-sm.btn-popover.file-explorer-menu
-          span.glyphicons.cogwheel
+        | RECIPE FILES
+        button.silver.btn-sm.file-explorer-menu.with-iconnables
+          object.iconnables(
+            data = "/build/images/icons/icons-gear.svg"
+            type = "image/svg+xml"
+          )
           .popover.fade.bottom.menu
             .arrow
               .popover-content

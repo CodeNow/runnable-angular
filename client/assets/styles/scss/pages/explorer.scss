@@ -321,13 +321,14 @@
   height: 36px;
 
   > h6 {
+    color: $gray-dark;
     line-height: 36px;
     padding: 0 9px;
   }
 
   button {
     float: right;
-    margin-top: 8px;
+    margin-top: 6px;
   }
 }
 
