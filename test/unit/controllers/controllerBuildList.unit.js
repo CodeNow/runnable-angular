@@ -21,9 +21,7 @@ describe('ControllerBuildList'.underline.red, function () {
   beforeEach(angular.mock.module('app'));
   beforeEach(angular.mock.inject(function(
     $rootScope,
-    $controller,
-    $state,
-    $stateParams
+    $controller
   ) {
 
     $state = {};

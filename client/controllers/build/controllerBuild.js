@@ -1,3 +1,4 @@
+var angular = require('angular');
 require('app')
   .controller('ControllerBuild', ControllerBuild);
 /**
@@ -15,7 +16,8 @@ function ControllerBuild (
 
   this.scope = $scope;
   var self = ControllerBuild;
-  var dataBuild = $scope.dataBuild = self.initState();
+  var dataBuild = $scope.dataBuild = self.initState($stateParams);
+  angular.extend($scope.dataBuild, self.initPopoverState($stateParams));
 
   dataBuild.getPopoverButtonText = self.getPopoverButtonText;
   dataBuild.resetInputModelValue = function (event) {
@@ -23,26 +25,26 @@ function ControllerBuild (
       event.stopPropagation();
     }
     if (!dataBuild.inputHasBeenClicked) {
-      dataBuild.buildRecipe = '';
+      dataBuild.buildName = '';
       dataBuild.inputHasBeenClicked = true;
     }
   };
   dataBuild.togglePopover = function (popoverName, event) {
-    if (event && typeof event.stopPropagation === 'function') {
+    var popovers = [
+      'BuildOptionsClean',
+      'BuildOptionsDirty',
+      'FileMenu'
+    ];
+    if (typeof event !== 'undefined' && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
     }
-    if (dataBuild.showBuildOptionsDirty && popoverName == 'BuildOptionsDirty') {
-      return;
+    if (typeof popoverName !== 'string' && typeof popoverName !== 'undefined') {
+      throw new Error('invalid argument: ' + (typeof popoverName));
+    } else if (typeof popoverName === 'string' && popovers.indexOf(popoverName) === -1) {
+      throw new Error('invalid argument: ' + popoverName);
     }
-    if (dataBuild.showBuildOptionsClean && popoverName == 'BuildOptionsClean') {
-      return;
-    }
-    dataBuild.buildRecipe = $scope.dataApp.stateParams.branchName;
-    dataBuild.inputHasBeenClicked = false;
-    dataBuild.showBuildOptionsClean = false;
-    dataBuild.showBuildOptionsDirty = false;
-    dataBuild.showFileMenu = false;
-    if(popoverName === 'BuildOptionsClean' || popoverName === 'BuildOptionsDirty' || popoverName == 'FileMenu') {
+    angular.extend(dataBuild, self.initPopoverState($stateParams));
+    if (typeof popoverName === 'string') {
       dataBuild['show' + popoverName] = true;
     }
   };
@@ -107,12 +109,19 @@ function ControllerBuild (
 
 }
 
-ControllerBuild.initState = function () {
- return {
-   isClean: false,
-   inputHasBeenClicked: false,
-   showBuildOptions: false,
-   buildRecipe: ''
+ControllerBuild.initState = function ($stateParams) {
+  return {
+   isClean: true,
+  };
+};
+
+ControllerBuild.initPopoverState = function ($stateParams) {
+  return {
+    showBuildOptionsDirty: false,
+    showBuildOptionsClean: false,
+    showFileMenu:          false,
+    buildName:             $stateParams.buildName,
+    inputHasBeenClicked:   false
   };
 };
 
