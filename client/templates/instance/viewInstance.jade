@@ -27,22 +27,22 @@ section.sidebar
         data = "/build/images/icons/icons-back.svg"
         type = "image/svg+xml"
       )
-      | Launched from #{''}
-      a project/recipe/1776
+      | From #{''}
+      a(title = "user/app/config/build") user/app/config/build
     li
       object.iconnables.icons-calendar(
         data = "/build/images/icons/icons-calendar.svg"
         type = "image/svg+xml"
       )
-      | Started on Mar 18
+      | Started on <time datetime="20014-03-18 19:00" title="20014-03-18 19:00">Mar 18</time>
     li
       object.iconnables.icons-duration(
         data = "/build/images/icons/icons-duration.svg"
         type = "image/svg+xml"
       )
       | Running for 18 hours
+  h3 Actions
   ol.actions
-    li Actions
     li Restart Instance
       button.btn-sm.silver(type = "button")
         object.iconnables(

@@ -52,7 +52,7 @@ section.sidebar
         type = "image/svg+xml"
       )
       b {{ dataApp.stateParams.branchName }}
-      | #{''} recipe
+      | #{''} config
     li
       object.iconnables.icons-duration(
         data = "/build/images/icons/icons-duration.svg"
@@ -64,7 +64,7 @@ section.sidebar
         data = "/build/images/icons/icons-calendar.svg"
         type = "image/svg+xml"
       )
-      | Initiated 10 minutes ago
+      | Initiated <time datetime="2014-07-04 19:00" title="2014-07-04 19:00">10 minutes ago</time>
     li
       object.iconnables.icons-trigger(
         data = "/build/images/icons/icons-trigger.svg"
@@ -191,7 +191,7 @@ section.sidebar
         span
     .explorer-header
       h6
-        | RECIPE FILES
+        | CONFIG FILES
         button.silver.btn-sm.file-explorer-menu.with-iconnables(
           ng-class = "{active: dataBuild.showFileMenu}"
           ng-click = "dataBuild.togglePopover('FileMenu', $event)"

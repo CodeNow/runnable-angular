@@ -1,25 +1,25 @@
 .arrow
-h3.popover-title Set Recipe and Message
+h3.popover-title Set Config and Message
 .popover-content
   form
     //- needs to revert on close
     .form-label
       input.form-control(
-        list = "user-recipes"
+        list = "user-configs"
         ng-click = "dataBuild.resetInputModelValue($event)"
         ng-model = "dataBuild.buildRecipe"
-        placeholder = "Choose or Create Recipe"
+        placeholder = "Choose or Create Config"
       )
       object.iconnables(
         data = "/build/images/icons/icons-recipe-alt.svg"
         type = "image/svg+xml"
       )
     datalist(
-      id = "user-recipes"
+      id = "user-configs"
     )
       option(value = "Main")
-      option(value = "Recipe 1")
-      option(value = "Recipe 2")
-      option(value = "Recipe 3")
+      option(value = "Config 1")
+      option(value = "Config 2")
+      option(value = "Config 3")
     textarea.form-control(placeholder = "Build Message")
     button.btn-block.green{{ dataBuild.getPopoverButtonText(dataBuild.buildRecipe) }}
