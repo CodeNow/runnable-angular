@@ -12,41 +12,14 @@ function ControllerBuild (
   async,
   $stateParams
 ) {
-  var dataBuild = $scope.dataBuild = {};
-  dataBuild.isClean = true;
-  dataBuild.showClean = dataBuild.isClean;
-  dataBuild.showDirty = !dataBuild.isClean;
-  dataBuild.inputHasBeenClicked = false;
-  dataBuild.leaveIconAnimation = function () {};
-  dataBuild.showBuildOptions = false;
 
-  dataBuild.toggleClean = function () {
-    dataBuild.isClean = !dataBuild.isClean;
-    dataBuild.showClean = false;
-    if (dataBuild.isClean) {
-      dataBuild.leaveIconAnimation = function () {
-        $scope.$apply(function () {
-          dataBuild.showClean = true;
-        });
-      };
-      dataBuild.showDirty = false;
-    } else {
-      dataBuild.leaveIconAnimation = function () {
-        $scope.$apply(function () {
-          dataBuild.showDirty = true;
-        });
-      };
-      dataBuild.showClean = false;
-    }
-  };
-  dataBuild.getPopoverButtonText = function () {
-    var msg = 'Build';
-    if (dataBuild.buildRecipe.length) {
-      msg += ' in ' + dataBuild.buildRecipe;
-    }
-    return msg;
-  };
-  dataBuild.decideIfResetModelValue = function (event) {
+  this.scope = $scope;
+  var self = ControllerBuild;
+  var dataBuild = $scope.dataBuild = self.initState();
+
+  dataBuild.getPopoverButtonText = self.getPopoverButtonText;
+
+  dataBuild.resetInputModelValue = function (event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
     }
@@ -58,6 +31,12 @@ function ControllerBuild (
   dataBuild.togglePopover = function (popoverName, event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
+    }
+    if (dataBuild.showBuildOptionsDirty && popoverName == 'BuildOptionsDirty') {
+      return;
+    }
+    if (dataBuild.showBuildOptionsClean && popoverName == 'BuildOptionsClean') {
+      return;
     }
     dataBuild.buildRecipe = $scope.dataApp.stateParams.branchName;
     dataBuild.inputHasBeenClicked = false;
@@ -74,6 +53,8 @@ function ControllerBuild (
     dataBuild.togglePopover();
     dataBuild.showBuildOptions = false;
   });
+
+  return this;
 
   // async.waterfall([
   //   function tempHelper (cb) {
@@ -122,3 +103,16 @@ function ControllerBuild (
   // });
 
 }
+
+ControllerBuild.initState = function () {
+ return {
+   isClean: false,
+   inputHasBeenClicked: false,
+   showBuildOptions: false,
+   buildRecipe: ''
+  };
+};
+
+ControllerBuild.getPopoverButtonText = function (name) {
+  return 'Build' + ((name && name.length) ? 's in '+name : '');
+};
