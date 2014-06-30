@@ -106,8 +106,12 @@
     }
 
     .icons-recipe {
-      left: 32px;
+      height: 20px;
+      margin: 8px 0 0 4px;
       opacity: .25;
+      pointer-events: none;
+      position: absolute;
+      width: 20px;
     }
 
     .circle-remove {
@@ -218,7 +222,7 @@
     > button,
     > input {
       float: left;
-      margin: 8px 9px 0 0;
+      margin: 9px 9px 0 0;
     }
 
     > input {

@@ -171,14 +171,20 @@ section.sidebar
 
 
 //- code_editor
-#editor.in
+#editor(
+  ng-class="{'in': dataBuild.showExplorer, '': !dataBuild.showExplorer}"
+)
+  button#explorer-toggle.with-iconnables(
+    ng-click = "dataBuild.showExplorer = !dataBuild.showExplorer"
+    ng-init = "dataBuild.showExplorer = true"
+    type = "button"
+  )
+    object.iconnables(
+      data = "/build/images/icons/icons-folder-open.svg"
+      type = "image/svg+xml"
+    )
   //- file_explorer
   aside#explorer
-    button#explorer-toggle
-      object.iconnables(
-        data = "/build/images/icons/icons-folder-open.svg"
-        type = "image/svg+xml"
-      )
     ul#controls
       li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
         span
@@ -186,49 +192,19 @@ section.sidebar
         span
     .explorer-header
       h6
-        | BUILD FILES
-        //- file_explorer_menu
-        button.silver.btn-sm.btn-popover.file-explorer-menu
-          span.glyphicons.cogwheel
-          .popover.fade.bottom.menu
-            .arrow
-              .popover-content
-                ul#file-explorer-options.popover-body.col-popover-3
-                  li
-                    a
-                      object.iconnables(
-                        data = "/build/images/icons/icons-new-file.svg"
-                        type = "image/svg+xml"
-                      )
-                      | New File
-                  li
-                    a
-                      object.iconnables(
-                        data = "/build/images/icons/icons-new-folder.svg"
-                        type = "image/svg+xml"
-                      )
-                      | New Folder
-                  li
-                    a#add-repo-link
-                      object.iconnables(
-                        data = "/build/images/icons/icons-octocat.svg"
-                        type = "image/svg+xml"
-                      )
-                      | Add Repo
-              #add-repo.popover-body
-                form
-                  input.form-control(
-                    type = "search"
-                    placeholder = "Filter Repositories"
-                  )
-                ul.popover-list
-                  li
-                    a.select-repo
-                      | username/reponame
-                      a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
-                    form.add-repo-form
-                      input.form-control(placeholder = "Branch or SHA (optional)")
-                      a.btn.btn-block.orange Add Repository
+        | RECIPE FILES
+        button.silver.btn-sm.file-explorer-menu.with-iconnables(
+          ng-class = "{active: dataBuild.showFileMenu}"
+          ng-click = "dataBuild.togglePopover('FileMenu', $event)"
+        )
+          object.iconnables(
+            data = "/build/images/icons/icons-gear.svg"
+            type = "image/svg+xml"
+          )
+          .popover.menu.bottom.fade(
+            ng-class = "{in: dataBuild.showFileMenu}"
+            ng-include = "'viewBuildPopoverFileMenu'"
+          )
       ul.tree
         li.folder(
             ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"
@@ -286,11 +262,15 @@ section.sidebar
   #editor-toolbar
     #tabs-wrapper
     //- file_tabs
-    #select-tabs.dropdown
-      button(type = "button")
-      select
-        option(selected) Tab 1
-        option Tab 2
+  #select-tabs.dropdown
+    button.with-iconnables(type = "button")
+      object.iconnables(
+        data = "/build/images/icons/icons-select.svg"
+        type = "image/svg+xml"
+      )
+    select
+      option(selected) Tab 1
+      option Tab 2
   #editor-container
     //- code
     pre(ui-ace, ng-click = "dataBuild.isClean = !dataBuild.isClean") Test

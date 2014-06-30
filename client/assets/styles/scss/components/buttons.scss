@@ -11,6 +11,7 @@ button,
   height: 36px;
   line-height: 35px;
   padding: 0 18px 0 16px;
+  position: relative;
   text-align: center;
   text-shadow: 0 -1px 0 rgba(0,0,0,.3);
   transition:
@@ -38,27 +39,10 @@ button,
     box-shadow: none;
     cursor: not-allowed;
     text-shadow: none;
-
-    img {
-      opacity: .75;
-    }
   }
 
-  img,
-  span {
-    display: inline-block;
-  }
-
-  img {
-    margin: -4px 4px 0 0;
-  }
-
-  > object {
-    height: 20px;
-    margin: 8px 0 0 -28px;
-    pointer-events: none;
-    position: absolute;
-    width: 20px;
+  &.with-iconnables {
+    padding: 6px 0 0;
   }
 
   &.btn-sm {
@@ -68,9 +52,13 @@ button,
     padding: 0 6px;
     text-shadow: none;
 
-    &.glyphicons {
-      color: #999;
-      line-height: 1;
+    &.with-iconnables {
+      padding: 1px 0 0;
+
+      > .iconnables {
+        height: 18px;
+        width: 18p;
+      }
     }
   }
 }

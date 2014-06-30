@@ -1,4 +1,5 @@
 #editor {
+  background: $gray-light;
   height: calc(100% - 54px);
   overflow: hidden;
   position: relative;
@@ -22,12 +23,7 @@
   float: left;
   height: 36px;
   overflow: hidden;
-  transition: all .2s ease-in-out;
-  width: calc(100% - 36px);
-
-  &.with-addtab {
-    width: calc(100% - 72px);
-  }
+  width: 100%;
 }
 
 #tabs {
@@ -133,6 +129,12 @@
   transition: transform .2s ease-in-out, width 0s ease-in-out;
   width: 100%;
 
+  .in & {
+    transform: translate3d(240px,0,0);
+    transition: transform .2s ease-in-out, width .225s ease-in-out;
+    width: calc(100% - 240px);
+  }
+
   .ace_scrollbar {
     overflow: hidden;
   }
@@ -145,28 +147,6 @@
     height: 100%;
     position: absolute;
     width: 100%;
-  }
-}
-
-// when file explorer is open
-#editor.in {
-
-  // explorer
-  #explorer {
-    transform: translate3d(0,0,0);
-  }
-
-  // toolbar
-  #editor-toolbar {
-    transform: translate3d(240px,0,0);
-    width: calc(100% - 240px);
-  }
-
-  // ace editor
-  #editor-container {
-    transform: translate3d(240px,0,0);
-    transition: all .2s ease-in-out;
-    width: calc(100% - 240px);
   }
 }
 

@@ -1,0 +1,40 @@
+.arrow
+.popover-content
+  ul#file-explorer-options.popover-body
+    li
+      a
+        object.iconnables(
+          data = "/build/images/icons/icons-new-file.svg"
+          type = "image/svg+xml"
+        )
+        | New File
+    li
+      a
+        object.iconnables(
+          data = "/build/images/icons/icons-new-folder.svg"
+          type = "image/svg+xml"
+        )
+        | New Folder
+    li.divider
+    li
+      a#add-repo-link
+        object.iconnables(
+          data = "/build/images/icons/icons-octocat.svg"
+          type = "image/svg+xml"
+        )
+        | Add Repo
+
+  #add-repo.popover-body
+    form
+      input.form-control(
+        type = "search"
+        placeholder = "Filter Repositories"
+      )
+    ul.popover-list
+      li
+        a.select-repo
+          | username/reponame
+          a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
+        form.add-repo-form
+          input.form-control(placeholder = "Branch or SHA (optional)")
+          a.btn.btn-block.orange Add Repository

@@ -16,10 +16,6 @@
     width: 100%;
   }
 
-  // select:focus ~ button {
-  //   background: #fff;
-  // }
-
   select[disabled] {
     cursor: not-allowed;
 
@@ -37,36 +33,14 @@
     position: absolute;
       top: 0;
       right: 0;
-    text-align: left;
-    text-shadow: none;
     width: 100%;
 
     &.in {
       background: #fff;
     }
 
-    &:before,
-    &:after {
-      color: rgba(0,0,0,.1);
-      content: '';
-      display: block;
-      pointer-events: none;
-      position: absolute;
-        right: 8px;
-    }
-
-    &:before {
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-bottom: 6px solid rgba(0,0,0,.1);
-      top: 9px;
-    }
-
-    &:after {
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 6px solid rgba(0,0,0,.1);
-      bottom: 9px;
+    .iconnables {
+      // margin:
     }
   }
 

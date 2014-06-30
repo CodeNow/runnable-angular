@@ -68,7 +68,7 @@ header {
 .accounts {
   max-height: 0;
   overflow: hidden;
-  transition: max-height .3s;
+  transition: max-height .3s ease-in-out;
 
   li {
     background: rgba(255,255,255,.075);
