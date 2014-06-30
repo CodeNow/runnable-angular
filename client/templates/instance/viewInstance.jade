@@ -57,14 +57,19 @@ section.sidebar
         )
 
 //- code_editor
-#editor.in
+#editor.with-addtab(
+  ng-class="{'in': dataBuild.showExplorer, '': !dataBuild.showExplorer}"
+)
+  button#explorer-toggle(
+    ng-click = "dataBuild.showExplorer = !dataBuild.showExplorer"
+    ng-init = "dataBuild.showExplorer = true"
+  )
+    object.iconnables(
+      data = "/build/images/icons/icons-folder-open.svg"
+      type = "image/svg+xml"
+    )
   //- file_explorer
   aside#explorer
-    button#explorer-toggle
-      object.iconnables(
-        data = "/build/images/icons/icons-folder-open.svg"
-        type = "image/svg+xml"
-      )
     ul#controls
       li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
         span
@@ -167,23 +172,22 @@ section.sidebar
           )
           | htc.access
   #editor-toolbar
-    #tabs-wrapper.with-addtab
+    #tabs-wrapper
     //- file_tabs
-    #select-tabs.dropdown
-      button(type = "button")
-      select
-        option(selected) Tab 1
-        option Tab 2
-    //- add_tab
-    #add-tab.btn-popover(
-      ng-class = "{active: dataInstance.showAddTab}"
-      ng-click = "dataInstance.togglePopover('AddTab', $event);"
+  button#add-tab(
+    ng-class = "{active: dataInstance.showAddTab}"
+    ng-click = "dataInstance.togglePopover('AddTab', $event);"
+  )
+    span.glyphicons.plus
+    .popover.menu.bottom.fade(
+      ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut':dataInstance.showNewShortcut}"
+      ng-include = "'viewInstancePopoverAddTab'"
     )
-      span.glyphicons.plus
-      .popover.menu.bottom.fade(
-        ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut':dataInstance.showNewShortcut}"
-        ng-include = "'viewInstancePopoverAddTab'"
-      )
+  #select-tabs.dropdown
+    button(type = "button")
+    select
+      option(selected) Tab 1
+      option Tab 2
   #editor-container
     //- code
     //- note: server log and terminal tab should open by default

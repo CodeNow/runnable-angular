@@ -4,8 +4,12 @@
   height:  100%;
   position: absolute;
   transform: translate3d(-240px,0,0);
-  transition: transform .2s ease-in-out, width 0s ease-in-out;
+  transition: transform .2s ease-in-out;
   width: 240px;
+
+  .in & {
+    transform: translate3d(0,0,0);
+  }
 
   // file tree
   .tree {
@@ -103,94 +107,6 @@
         }
       }
     }
-
-  //   // style folders and files
-  //   li {
-  //     list-style-type: none;
-
-  //     &.active > div > a {
-  //       font-weight: 700;
-
-  //       &.arrow:before {
-  //         border-top: 6px solid #fff !important;
-  //       }
-  //     }
-
-  //     &.ui-draggable-hover {
-  //       background: #fff;
-  //       box-shadow: inset 0 -1px 0 rgba(0,0,0,.1), inset 0 1px 0 rgba(0,0,0,.1);
-  //     }
-
-  //     &.folder {
-
-  //       .arrow:before {
-  //         border-top: 6px solid rgba(0,0,0,.2);
-  //         border-left: 4px solid transparent;
-  //         border-right: 4px solid transparent;
-  //         content: '';
-  //         float: left;
-  //         margin: 6px 8px 0 0;
-  //         transition: transform .1s linear;
-  //       }
-
-  //       .collapsed:before {
-  //         transform: rotate3d(0,0,1,-90deg);
-  //       }
-  //     }
-
-  //     &.empty {
-  //       cursor: default;
-
-  //       span {
-  //         color: #aaa;
-  //       }
-  //     }
-
-  //     [title='empty'] {
-  //       color: #aaa;
-  //       pointer-events: none;
-  //     }
-
-  //     .git {
-  //       padding-left: 42px;
-
-  //       > span {
-  //         color: $gray-dark;
-  //         font-size: 11px;
-  //         max-width: 200px;
-  //         overflow: hidden;
-  //         padding: 3px 0;
-  //         text-overflow: ellipsis;
-  //       }
-
-  //       &::before {
-  //         display: none;
-  //       }
-  //     }
-  //   }
-
-  //   a,
-  //   img,
-  //   span {
-  //     color: $gray-darker;
-  //     display: block;
-  //     padding: 6px 0 6px 24px;
-  //     white-space: nowrap;
-
-  //     &:hover {
-  //       text-decoration: none;
-  //     }
-
-  //     &:before {
-  //       border-top: 6px solid transparent;
-  //       border-right: 4px solid transparent;
-  //       border-left: 4px solid transparent;
-  //       content: '';
-  //       float: left;
-  //       margin: 6px 10px 0 0;
-
-  //     }
-  //   }
   }
 }
 
@@ -204,6 +120,8 @@
   float: left;
   height: 36px;
   padding: 6px 0 0;
+  position: absolute;
+    z-index: $z-show;
   user-select: none;
   width: 36px;
 
@@ -288,8 +206,23 @@
   overflow: visible;
   position: relative;
     z-index: $zpopover;
-  transform: translate3d(0,0,0);
-  width: 100%;
+  transform: translate3d(36px,0,0);
+  transition: transform .15s ease-in-out, width 0s ease-in-out;
+  width: calc(100% - 72px);
+
+  .with-addtab & {
+    width: calc(100% - 108px);
+  }
+
+  .in & {
+    transition: transform .225s ease-in-out, width .275s ease-in-out;
+    transform: translate3d(240px,0,0);
+    width: calc(100% - 276px);
+  }
+
+  .with-addtab.in & {
+    width: calc(100% - 312px);
+  }
 
   > a {
     cursor: pointer;
@@ -302,75 +235,6 @@
     width: 36px;
   }
 
-  // right side tabs
-  #select-tabs,
-  #add-tab {
-    border: 0;
-    float: right;
-    transition: transform .2s ease-in-out;
-    width: 36px;
-  }
-
-  #add-tab {
-    background: $gray-lighter;
-    border-bottom: 1px solid rgba(0,0,0,.1);
-    color: $gray-dark;
-    cursor: pointer;
-    position: relative;
-
-    &:hover,
-    &.active,
-    &:active {
-      background: #fff;
-    }
-  }
-
-  // select menu tabs
-  #select-tabs {
-    border-left: 1px solid rgba(0,0,0,.1);
-    border-radius: 0;
-    overflow: hidden;
-    z-index: 9999; // chrome z-index glitch
-
-    button {
-      border: 0;
-      box-shadow: none;
-      height: 35px;
-      padding: 0;
-      position: relative;
-
-      &:before {
-        border-bottom-color: $gray-dark;
-        right: 16px;
-      }
-
-      &:after {
-        border-top-color: $gray-dark;
-        right: 16px;
-      }
-    }
-
-    &:hover > button {
-
-      &:before {
-        border-bottom-color: $gray-darker;
-      }
-
-      &:after {
-        border-top-color: $gray-darker;
-      }
-    }
-  }
-
-  // add tab
-  #add-tab {
-    border-left: 1px solid rgba(0,0,0,.1);
-    color: $gray-dark;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
-  }
-
   .tooltip {
 
     &:before {
@@ -380,6 +244,84 @@
     &:after {
       top: 30px;
 
+    }
+  }
+}
+
+// toolbar tabs
+#add-tab,
+#select-tabs {
+  position: absolute;
+    top: 0;
+    z-index: $z-show;
+}
+
+// add-tab
+#add-tab {
+  border: 0;
+  float: right;
+  transition: transform .2s ease-in-out;
+  width: 36px;
+}
+
+#add-tab {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  color: $gray-dark;
+  cursor: pointer;
+  position: relative;
+
+  &:hover,
+  &.active,
+  &:active {
+    background: #fff;
+  }
+}
+
+// add tab
+#add-tab {
+  border-left: 1px solid rgba(0,0,0,.1);
+  border-radius: 0;
+  margin-top: -36px;
+  padding: 0;
+  right: 36px;
+}
+
+// select-tabs
+#select-tabs {
+  border-bottom: 1px solid #d5d5d5;
+  border-left: 1px solid #d5d5d5;
+  border-radius: 0;
+  overflow: hidden;
+  right: 0;
+  width: 36px;
+
+  button {
+    border: 0;
+    box-shadow: none;
+    height: 35px;
+    padding: 0;
+    position: relative;
+
+    &:before {
+      border-bottom-color: $gray-dark;
+      right: 16px;
+    }
+
+    &:after {
+      border-top-color: $gray-dark;
+      right: 16px;
+    }
+  }
+
+  &:hover > button {
+
+    &:before {
+      border-bottom-color: $gray-darker;
+    }
+
+    &:after {
+      border-top-color: $gray-darker;
     }
   }
 }
@@ -396,104 +338,6 @@
   button {
     float: right;
     margin-top: 8px;
-  }
-}
-
-// nested folders
-#explorer .nav {
-
-  li {
-
-    img {
-      box-sizing: content-box;
-    }
-
-    ul {
-      padding-left: 0;
-
-      li {
-
-        a,
-        img,
-        input,
-        span {
-          // padding-left: 0;
-        }
-
-        li {
-          a, img, input, span, form {
-            padding-left: 40px;
-          }
-        }
-
-        li li {
-          a, img, input, span, form {
-            padding-left: 56px;
-          }
-        }
-
-        li li li {
-          a, img, input, span, form {
-            padding-left: 72px;
-          }
-        }
-
-        li li li li {
-          a, img, input, span, form {
-            padding-left: 88px;
-          }
-        }
-
-        li li li li li {
-          a, img, input, span, form {
-            padding-left: 104px;
-          }
-        }
-
-        li li li li li li {
-          a, img, input, span, form {
-            padding-left: 120px;
-          }
-        }
-
-        li li li li li li li {
-          a, img, input, span, form {
-            padding-left: 136px;
-          }
-        }
-
-        li li li li li li li li {
-          a, img, input, span, form {
-            padding-left: 152px;
-          }
-        }
-
-        li li li li li li li li li {
-          a, img, input, span, form {
-            padding-left: 168px;
-          }
-        }
-
-        li li li li li li li li li li {
-          a, img, input, span, form {
-            padding-left: 184px;
-          }
-        }
-        li li li li li li li li li li li {
-          a, img, input, span, form {
-            padding-left: 200px;
-          }
-        }
-      }
-    }
-  }
-
-  .name-input {
-    border-radius: 0;
-    height: 29px;
-    min-height: 0;
-    padding: 6px 14px;
-    width: 100%;
   }
 }
 
