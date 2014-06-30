@@ -58,11 +58,11 @@ section.sidebar
 
 //- code_editor
 #editor.with-addtab(
-  ng-class="{'in': dataBuild.showExplorer, '': !dataBuild.showExplorer}"
+  ng-class="{'in': dataInstance.showExplorer, '': !dataInstance.showExplorer}"
 )
   button#explorer-toggle.with-iconnables(
-    ng-click = "dataBuild.showExplorer = !dataBuild.showExplorer"
-    ng-init = "dataBuild.showExplorer = true"
+    ng-click = "dataInstance.showExplorer = !dataInstance.showExplorer"
+    ng-init = "dataInstance.showExplorer = true"
   )
     object.iconnables(
       data = "/build/images/icons/icons-folder-open.svg"
@@ -78,50 +78,18 @@ section.sidebar
     .explorer-header
       h6
         | INSTANCE FILES
-        button.silver.btn-sm.file-explorer-menu.with-iconnables
+        button.silver.btn-sm.file-explorer-menu.with-iconnables(
+          ng-class = "{active: dataInstance.showFileMenu}"
+          ng-click = "dataInstance.togglePopover('FileMenu', $event)"
+        )
           object.iconnables(
             data = "/build/images/icons/icons-gear.svg"
             type = "image/svg+xml"
           )
-          .popover.fade.bottom.menu
-            .arrow
-              .popover-content
-                ul#file-explorer-options.popover-body.col-popover-3
-                  li
-                    a
-                      object.iconnables(
-                        data = "/build/images/icons/icons-new-file.svg"
-                        type = "image/svg+xml"
-                      )
-                      | New File
-                  li
-                    a
-                      object.iconnables(
-                        data = "/build/images/icons/icons-new-folder.svg"
-                        type = "image/svg+xml"
-                      )
-                      | New Folder
-                  li
-                    a#add-repo-link
-                      object.iconnables(
-                        data = "/build/images/icons/icons-octocat.svg"
-                        type = "image/svg+xml"
-                      )
-                      | Add Repo
-              #add-repo.popover-body
-                form
-                  input.form-control(
-                    type = "search"
-                    placeholder = "Filter Repositories"
-                  )
-                ul.popover-list
-                  li
-                    a.select-repo
-                      | username/reponame
-                      a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
-                    form.add-repo-form
-                      input.form-control(placeholder = "Branch or SHA (optional)")
-                      a.btn.btn-block.orange Add Repository
+          .popover.menu.bottom.fade(
+            ng-class = "{in: dataInstance.showFileMenu}"
+            ng-include = "'viewInstancePopoverFileMenu'"
+          )
       ul.tree
         li.folder
           object.iconnables.filetypes(

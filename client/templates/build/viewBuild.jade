@@ -193,50 +193,18 @@ section.sidebar
     .explorer-header
       h6
         | RECIPE FILES
-        button.silver.btn-sm.file-explorer-menu.with-iconnables
+        button.silver.btn-sm.file-explorer-menu.with-iconnables(
+          ng-class = "{active: dataBuild.showFileMenu}"
+          ng-click = "dataBuild.togglePopover('FileMenu', $event)"
+        )
           object.iconnables(
             data = "/build/images/icons/icons-gear.svg"
             type = "image/svg+xml"
           )
-          .popover.fade.bottom.menu
-            .arrow
-              .popover-content
-                ul#file-explorer-options.popover-body.col-popover-3
-                  li
-                    a
-                      object.iconnables(
-                        data = "/build/images/icons/icons-new-file.svg"
-                        type = "image/svg+xml"
-                      )
-                      | New File
-                  li
-                    a
-                      object.iconnables(
-                        data = "/build/images/icons/icons-new-folder.svg"
-                        type = "image/svg+xml"
-                      )
-                      | New Folder
-                  li
-                    a#add-repo-link
-                      object.iconnables(
-                        data = "/build/images/icons/icons-octocat.svg"
-                        type = "image/svg+xml"
-                      )
-                      | Add Repo
-              #add-repo.popover-body
-                form
-                  input.form-control(
-                    type = "search"
-                    placeholder = "Filter Repositories"
-                  )
-                ul.popover-list
-                  li
-                    a.select-repo
-                      | username/reponame
-                      a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
-                    form.add-repo-form
-                      input.form-control(placeholder = "Branch or SHA (optional)")
-                      a.btn.btn-block.orange Add Repository
+          .popover.menu.bottom.fade(
+            ng-class = "{in: dataBuild.showFileMenu}"
+            ng-include = "'viewBuildPopoverFileMenu'"
+          )
       ul.tree
         li.folder(
             ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"

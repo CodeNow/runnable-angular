@@ -41,7 +41,8 @@ function ControllerBuild (
     dataBuild.inputHasBeenClicked = false;
     dataBuild.showBuildOptionsClean = false;
     dataBuild.showBuildOptionsDirty = false;
-    if(popoverName === 'BuildOptionsClean' || popoverName === 'BuildOptionsDirty') {
+    dataBuild.showFileMenu = false;
+    if(popoverName === 'BuildOptionsClean' || popoverName === 'BuildOptionsDirty' || popoverName == 'FileMenu') {
       dataBuild['show' + popoverName] = true;
     }
   };
@@ -49,9 +50,11 @@ function ControllerBuild (
   $scope.$watch('dataBuild.isClean', function () {
     dataBuild.togglePopover();
   });
+
   $scope.$on('app-document-click', function () {
     dataBuild.togglePopover();
     dataBuild.showBuildOptions = false;
+    dataBuild.showFileMenu = false;
   });
 
   return this;

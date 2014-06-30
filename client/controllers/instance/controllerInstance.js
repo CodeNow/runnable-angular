@@ -18,14 +18,20 @@ function ControllerInstance (
   dataInstance.popoverAddTab = {
     filter: ''
   };
+
   dataInstance.showAddTab = false;
+  dataInstance.showFileMenu = false;
 
   $scope.$on('app-document-click', function () {
     dataInstance.showAddTab = false;
+    dataInstance.showFileMenu = false;
     dataInstance.popoverAddTab.filter = '';
   });
+
   dataInstance.togglePopover = function (popoverName, event) {
     event.stopPropagation();
+    dataInstance.showAddTab = false;
+    dataInstance.showFileMenu = false;
     dataInstance['show' + popoverName] = true;
   };
 

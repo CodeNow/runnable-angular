@@ -3,6 +3,7 @@
   border-right: 1px solid rgba(0,0,0,.1);
   height:  100%;
   position: absolute;
+    z-index: 1;
   transform: translate3d(-240px,0,0);
   transition: transform .2s ease-in-out;
   width: 240px;
@@ -408,29 +409,15 @@
 .file-explorer-menu {
   width: 26px;
 
-  .glyphicons {
-    margin: 0;
+  .bottom .arrow::after {
+    border-bottom-color: #fff;
   }
 
   .popover {
-    max-height: 90px;
-    // margin-left: 36px;
-    left: -19px;
-    top: -4px;
+    left: -13px;
+    top: 16px;
     transform-origin: 24px 0;
-    width: 300px;
-
-    &.no-git {
-      width: 200px;
-
-      li {
-        width: 50%;
-
-        &:last-child {
-          display: none;
-        }
-      }
-    }
+    width: 210px;
 
     // add repo form
     &.show-add-repo {
@@ -452,6 +439,42 @@
 
   .popover.bottom > .arrow {
     left: 24px;
+  }
+}
+
+#file-explorer-options {
+  margin: 4px 0 5px;
+
+  > li {
+    height: 36px;
+    line-height: 36px;
+
+    &.divider {
+      background: rgba(0,0,0,.1);
+      height: 1px;
+      line-height: 1;
+      margin: 4px 0;
+    }
+  }
+
+  a {
+    padding-left: 7px;
+
+    &:hover {
+      background: $gray-light;
+    }
+
+    &:active,
+    &.active {
+      color: $gray-dark;
+    }
+  }
+
+  .iconnables {
+    float: left;
+    height: 20px;
+    margin: 8px;
+    width: 20px;
   }
 }
 
