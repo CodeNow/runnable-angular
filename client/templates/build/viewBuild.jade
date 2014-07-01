@@ -207,7 +207,7 @@ section.sidebar
             type = "image/svg+xml"
           )
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.showFileMenu}"
+            ng-class = "{in: dataBuild.showFileMenu, 'show-add-repo': dataBuild.showAddRepo}"
             ng-include = "'viewBuildPopoverFileMenu'"
           )
       ul.tree

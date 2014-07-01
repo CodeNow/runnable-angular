@@ -328,11 +328,11 @@
     color: $gray-dark;
     line-height: 36px;
     padding: 0 9px;
-  }
 
-  button {
-    float: right;
-    margin-top: 6px;
+    > button {
+      float: right;
+      margin-top: 6px;
+    }
   }
 }
 
@@ -449,8 +449,10 @@
   margin: 4px 0 5px;
 
   > li {
+    cursor: pointer;
     height: 36px;
     line-height: 36px;
+    padding-left: 7px;
 
     &.divider {
       background: rgba(0,0,0,.1);
@@ -458,10 +460,6 @@
       line-height: 1;
       margin: 4px 0;
     }
-  }
-
-  a {
-    padding-left: 7px;
 
     &:hover {
       background: $gray-light;
@@ -488,24 +486,19 @@
   form {
     position: relative;
     transition: transform .2s;
-  }
 
-  > form::after {
-    content: '\E028';
-    display: block;
-    font-family: 'Glyphicons Regular';
-    font-size: 11px;
-    height: 36px;
-    line-height: 36px;
-    position: absolute;
-      top: 0;
-      right: 0;
-    text-align: center;
-    width: 36px;
+    button {
+      margin: 0;
+      right: 6px;
+
+    }
+
+    object {
+      position: absolute;
+    }
   }
 
   ul {
-    margin: 10px 0 0;
     max-height: 236px;
     overflow: scroll;
     transition: transform .2s;
@@ -513,31 +506,17 @@
 
   li {
     border-top: 1px solid rgba(0,0,0,.1);
+    cursor: pointer;
     height: 36px;
     overflow: hidden;
+    padding: 0 15px;
+    position: relative;
+      z-index: 2;
     transition: height .2s, opacity .2s;
 
     &:first-child {
       border-top: 0;
     }
-  }
-
-  .select-repo {
-    background: #fff;
-    height: 36px;
-    position: relative;
-      z-index: 2;
-  }
-
-  .cogwheel {
-    font-size: 11px;
-    height: 20px;
-    line-height: 20px;
-    position: absolute;
-      top: 8px;
-      right: 10px;
-      z-index: 3;
-    width: 26px;
   }
 }
 
@@ -611,7 +590,7 @@
 #add-tab .popover {
   left: auto;
   max-height: 278px;
-  right: -8px;
+  right: -7px;
   top: 30px;
   transform-origin: 250px -15px;
 
