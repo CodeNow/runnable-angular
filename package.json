@@ -63,6 +63,7 @@
     "karma-chrome-launcher": "~0.1.4",
     "karma-commonjs": "0.0.8",
     "karma-coverage": "~0.2.4",
+    "karma-growl-reporter": "^0.1.1",
     "karma-jasmine": "~0.2.2",
     "karma-mocha": "~0.1.4",
     "karma-mocha-reporter": "~0.2.5",
