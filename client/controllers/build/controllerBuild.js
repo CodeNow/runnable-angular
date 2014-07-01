@@ -21,32 +21,23 @@ function ControllerBuild (
 
   dataBuild.getPopoverButtonText = self.getPopoverButtonText;
   dataBuild.resetInputModelValue = function (event) {
-    if (event && typeof event.stopPropagation === 'function') {
-      event.stopPropagation();
-    }
-    if (!dataBuild.inputHasBeenClicked) {
-      dataBuild.buildName = '';
-      dataBuild.inputHasBeenClicked = true;
-    }
+    angular.extend(
+      dataBuild,
+      self.resetInputModelValue(
+        event,
+        dataBuild.inputHasBeenClicked
+      )
+    );
   };
   dataBuild.togglePopover = function (popoverName, event) {
-    var popovers = [
-      'BuildOptionsClean',
-      'BuildOptionsDirty',
-      'FileMenu'
-    ];
-    if (typeof event !== 'undefined' && typeof event.stopPropagation === 'function') {
-      event.stopPropagation();
-    }
-    if (typeof popoverName !== 'string' && typeof popoverName !== 'undefined') {
-      throw new Error('invalid argument: ' + (typeof popoverName));
-    } else if (typeof popoverName === 'string' && popovers.indexOf(popoverName) === -1) {
-      throw new Error('invalid argument: ' + popoverName);
-    }
-    angular.extend(dataBuild, self.initPopoverState($stateParams));
-    if (typeof popoverName === 'string') {
-      dataBuild['show' + popoverName] = true;
-    }
+    angular.extend(
+      dataBuild,
+      self.togglePopover(
+        popoverName,
+        event,
+        $stateParams
+      )
+    );
   };
 
   $scope.$watch('dataBuild.isClean', function () {
@@ -55,11 +46,16 @@ function ControllerBuild (
 
   $scope.$on('app-document-click', function () {
     dataBuild.togglePopover();
-    dataBuild.showBuildOptions = false;
-    dataBuild.showFileMenu = false;
   });
 
   return this;
+}
+
+ControllerBuild.fetchData = function (
+  async,
+  user,
+  $stateParams
+) {};
 
   // async.waterfall([
   //   function tempHelper (cb) {
@@ -107,7 +103,17 @@ function ControllerBuild (
   //   $scope.$apply(function () {});
   // });
 
-}
+ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
+  if (event && typeof event.stopPropagation === 'function') {
+    event.stopPropagation();
+  }
+  if (!inputHasBeenClicked) {
+    return {
+      buildName: '',
+      inputHasBeenClicked: true
+    };
+  }
+};
 
 ControllerBuild.initState = function ($stateParams) {
   return {
@@ -127,4 +133,25 @@ ControllerBuild.initPopoverState = function ($stateParams) {
 
 ControllerBuild.getPopoverButtonText = function (name) {
   return 'Build' + ((name && name.length) ? 's in '+name : '');
+};
+
+ControllerBuild.togglePopover = function (popoverName, event, $stateParams) {
+  var popovers = [
+    'BuildOptionsClean',
+    'BuildOptionsDirty',
+    'FileMenu'
+  ];
+  if (typeof event !== 'undefined' && typeof event.stopPropagation === 'function') {
+    event.stopPropagation();
+  }
+  if (typeof popoverName !== 'string' && typeof popoverName !== 'undefined') {
+    throw new Error('invalid argument: ' + (typeof popoverName));
+  } else if (typeof popoverName === 'string' && popovers.indexOf(popoverName) === -1) {
+    throw new Error('invalid argument: ' + popoverName);
+  }
+  var newState = this.initPopoverState($stateParams);
+  if (typeof popoverName === 'string') {
+    newState['show' + popoverName] = true;
+  }
+  return newState;
 };
