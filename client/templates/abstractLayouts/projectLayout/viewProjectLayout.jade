@@ -3,39 +3,40 @@ header#primary
     span
     sup &lt;alpha&gt;
 
-  a#user(
+  button.white#user(
     ng-class="{'active': dataProjectLayout.showChangeAccount, '': !dataProjectLayout.showChangeAccount}"
     ng-click = "dataProjectLayout.showChangeAccount = !dataProjectLayout.showChangeAccount"
     ng-init = "dataProjectLayout.showChangeAccount = false"
+    type = "button"
   )
     img(
-      height = "24"
+      height = "19"
       src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
-      width = "24"
+      width = "19"
     )
     | username
     object.iconnables(
       data = "/build/images/icons/icons-arrow-down-alt.svg"
       type = "image/svg+xml"
     )
-  ul.accounts
-    li
+  ul.accounts.btn-group-vertical
+    li.btn.white
       a
         img(
-          height = "24"
-          src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
-          width = "24"
+          height = "19"
+          src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
+          width = "19"
         )
         | CodeNow
-    li
+    li.btn.white
       a
         img(
-          height = "24"
-          src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
-          width = "24"
+          height = "19"
+          src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
+          width = "19"
         )
         | Runnable
-    li
+    li.btn.white
       a Log Out
 
   //- ul#repositories
@@ -45,53 +46,73 @@ header#primary
   //-       ng-href  = "{{ dataProjectLayout.getProjectBuildListHref(project.attrs.name) }}"
   //-     ) {{ project.attrs.name }}
 
-  //- .btn-group.toggle.clearfix
-  //-   button.active Projects
-  //-   button Instances
-
   //- all the dummy data
-  .list-container
-    ul#projects
-      li
-        a Project X
-      li.active
-        a purple4lyfe
-        //- ul.config-list
-        //-   li.active
-        //-     a
-        //-       object.iconnables(
-        //-         data = "/build/images/icons/icons-pass.svg"
-        //-         type = "image/svg+xml"
-        //-       )
-        //-       | Main
-        //-   li
-        //-     a
-        //-       object.iconnables(
-        //-         data = "/build/images/icons/icons-pass.svg"
-        //-         type = "image/svg+xml"
-        //-       )
-        //-       | Recipe 1
-        //-   li
-        //-     a
-        //-       object.iconnables(
-        //-         data = "/build/images/icons/icons-fail.svg"
-        //-         type = "image/svg+xml"
-        //-       )
-        //-       | Recipe 2
-      li
-        a buster
-      li
-        a stickoftruth
-      li
-        a lunagrams
+  h3 PROJECTS
+  ul#projects.btn-group-vertical
+    li.btn.white(
+      ng-class = "{active: dataProjectLayout.showRecipes}"
+      ng-click = "dataProjectLayout.showRecipes = !dataProjectLayout.showRecipes"
+    )
+      object.iconnables(
+        data = "/build/images/icons/icons-arrow-down-alt.svg"
+        type = "image/svg+xml"
+      )
+      | Buster
+      ul.config-list
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Main
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Recipe 1
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Recipe 2
+    li.btn.white
+      object.iconnables(
+        data = "/build/images/icons/icons-arrow-down-alt.svg"
+        type = "image/svg+xml"
+      )
+      | Bob Lob Law
+      ul.config-list
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Main
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Recipe 1
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Recipe 2
+    //- The project, Luna, doesn't have an expand icon because it has no recipes (so it can't expand)
+    li.btn.white Luna
 
-    //- ul#instances
-    //-   li
-    //-     a Project X
-    //-   li
-    //-     a purple4lyfe
-    //-   li
-    //-     a buster
+  h3 INSTANCES
+  ul#instances.btn-group-vertical
+    li.btn.white Project X
+      small user/app/config/build
+    li.btn.white Colorado
+      small user/app/config/build
+    li.btn.white California
+      small user/app/config/build
 
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
