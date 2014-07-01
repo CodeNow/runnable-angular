@@ -47,72 +47,83 @@ header#primary
   //-     ) {{ project.attrs.name }}
 
   //- all the dummy data
-  h3 PROJECTS
-  ul#projects.btn-group-vertical
-    li.btn.white(
-      ng-class = "{active: dataProjectLayout.showRecipes}"
-      ng-click = "dataProjectLayout.showRecipes = !dataProjectLayout.showRecipes"
-    )
-      object.iconnables(
-        data = "/build/images/icons/icons-arrow-down-alt.svg"
-        type = "image/svg+xml"
+  .scroll-container
+    h3 PROJECTS
+    ul#projects.btn-group-vertical
+      li.btn.white(
+        ng-class = "{active: dataProjectLayout.showRecipes}"
+        ng-click = "dataProjectLayout.showRecipes = !dataProjectLayout.showRecipes"
       )
-      | Buster
-      ul.config-list
-        li
-          object.iconnables(
-            data = "/build/images/icons/icons-recipe-white.svg"
-            type = "image/svg+xml"
-          )
-          | Main
-        li
-          object.iconnables(
-            data = "/build/images/icons/icons-recipe-white.svg"
-            type = "image/svg+xml"
-          )
-          | Recipe 1
-        li
-          object.iconnables(
-            data = "/build/images/icons/icons-recipe-white.svg"
-            type = "image/svg+xml"
-          )
-          | Recipe 2
-    li.btn.white
-      object.iconnables(
-        data = "/build/images/icons/icons-arrow-down-alt.svg"
-        type = "image/svg+xml"
-      )
-      | Bob Lob Law
-      ul.config-list
-        li
-          object.iconnables(
-            data = "/build/images/icons/icons-recipe-white.svg"
-            type = "image/svg+xml"
-          )
-          | Main
-        li
-          object.iconnables(
-            data = "/build/images/icons/icons-recipe-white.svg"
-            type = "image/svg+xml"
-          )
-          | Recipe 1
-        li
-          object.iconnables(
-            data = "/build/images/icons/icons-recipe-white.svg"
-            type = "image/svg+xml"
-          )
-          | Recipe 2
-    //- The project, Luna, doesn't have an expand icon because it has no recipes (so it can't expand)
-    li.btn.white Luna
+        object.iconnables(
+          data = "/build/images/icons/icons-arrow-down-alt.svg"
+          type = "image/svg+xml"
+        )
+        | Buster
+        ul.config-list
+          li
+            object.iconnables(
+              data = "/build/images/icons/icons-recipe-white.svg"
+              type = "image/svg+xml"
+            )
+            | Main
+          li
+            object.iconnables(
+              data = "/build/images/icons/icons-recipe-white.svg"
+              type = "image/svg+xml"
+            )
+            | Recipe 1
+          li
+            object.iconnables(
+              data = "/build/images/icons/icons-recipe-white.svg"
+              type = "image/svg+xml"
+            )
+            | Recipe 2
+      li.btn.white
+        object.iconnables(
+          data = "/build/images/icons/icons-arrow-down-alt.svg"
+          type = "image/svg+xml"
+        )
+        | Bob Lob Law
+        ul.config-list
+          li
+            object.iconnables(
+              data = "/build/images/icons/icons-recipe-white.svg"
+              type = "image/svg+xml"
+            )
+            | Main
+          li
+            object.iconnables(
+              data = "/build/images/icons/icons-recipe-white.svg"
+              type = "image/svg+xml"
+            )
+            | Recipe 1
+          li
+            object.iconnables(
+              data = "/build/images/icons/icons-recipe-white.svg"
+              type = "image/svg+xml"
+            )
+            | Recipe 2
+      //- The project, Luna, doesn't have an expand icon because it has no recipes (so it can't expand)
+      li.btn.white Luna
 
-  h3 INSTANCES
-  ul#instances.btn-group-vertical
-    li.btn.white Project X
-      small user/app/config/build
-    li.btn.white Colorado
-      small user/app/config/build
-    li.btn.white California
-      small user/app/config/build
+    h3 INSTANCES
+    ul#instances.btn-group-vertical
+      li.btn.white Project X
+        small user/app/config/build
+      li.btn.white Colorado
+        small user/app/config/build
+      li.btn.white California
+        small user/app/config/build
+      li.btn.white Idaho
+        small user/app/config/build
+      li.btn.white Rhode Island
+        small user/app/config/build
+      li.btn.white Montana
+        small user/app/config/build
+      li.btn.white Hawaii
+        small user/app/config/build
+      li.btn.white Alaska
+        small user/app/config/build
 
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
