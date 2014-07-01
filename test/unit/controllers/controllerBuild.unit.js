@@ -201,7 +201,7 @@ describe('ControllerBuild'.bold.underline.blue, function () {
     });
   });
 
-  describe('clean/dirty editing state', function () {
+  describe('clean/dirty editing state'.blue, function () {
     it('state should be clean at initialization', function () {
       expect(dataBuild).to.have.property('isClean', true);
     });

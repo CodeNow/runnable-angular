@@ -11,7 +11,7 @@ var uiRouter = require('angular-ui-router');
 var uiAce    = require('angular-ui-ace');
 var uiAnimate = require('browserify-angular-animate');
 
-describe('ControllerBuildList'.underline.blue, function () {
+describe('ControllerBuildList'.bold.underline.blue, function () {
   var $appScope,
       $projectLayoutScope,
       $buildListScope,
@@ -48,7 +48,7 @@ describe('ControllerBuildList'.underline.blue, function () {
     dataBuildList = $buildListScope.dataBuildList;
   }));
 
-  describe('togglePopover', function () {
+  describe('togglePopover'.blue, function () {
     it('displays popover when invoking togglePopover', function () {
       var event = {
         stopPropagation: sinon.spy()
