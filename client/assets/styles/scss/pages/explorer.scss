@@ -412,10 +412,6 @@
 .file-explorer-menu {
   width: 26px;
 
-  .bottom .arrow::after {
-    border-bottom-color: #fff;
-  }
-
   .popover {
     left: -13px;
     top: 16px;
@@ -521,22 +517,22 @@
 }
 
 .add-repo-form {
-    position: absolute;
-      bottom: 0;
+  position: absolute;
+    bottom: 0;
 
-    input {
-      margin-bottom: 10px;
-      width: 100%;
-    }
+  input {
+    margin-bottom: 10px;
+    width: 100%;
+  }
 
-    .orange {
-      width: 100%;
+  .orange {
+    width: 100%;
 
-      &:hover {
-        color: #fff;
-      }
+    &:hover {
+      color: #fff;
     }
   }
+}
 
 .show-form {
   max-height: 154px !important;
@@ -544,7 +540,7 @@
   #add-repo {
 
     > form {
-      transform: translate3d(0,-56px,0);
+      transform: translate3d(0,-36px,0);
     }
 
     > ul {

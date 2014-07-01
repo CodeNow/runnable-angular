@@ -1,4 +1,4 @@
-.arrow
+.arrow.white
 .popover-content
   ul#file-explorer-options.popover-body
     li
@@ -41,13 +41,15 @@
         )
     ul.popover-list
       li(
-        ng-click = "dataBuild.showAddRepoForm = true"
+        ng-class = "{in: dataBuild.showForm}"
+        ng-click = "dataBuild.showForm = true"
       ) org/reponame
         form.add-repo-form
           input.form-control(placeholder = "Branch or SHA (optional)")
           a.btn.btn-block.orange Add Repository
       li(
-        ng-click = "dataBuild.showAddRepoForm = true"
+        ng-class = "{in: dataBuild.showForm}"
+        ng-click = "dataBuild.showForm = true"
       ) org/reponame
         form.add-repo-form
           input.form-control(placeholder = "Branch or SHA (optional)")

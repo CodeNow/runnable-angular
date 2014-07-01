@@ -87,7 +87,7 @@ section.sidebar
             type = "image/svg+xml"
           )
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataInstance.showFileMenu, 'show-add-repo': dataInstance.showAddRepo}"
+            ng-class = "{in: dataInstance.showFileMenu, 'show-add-repo': dataInstance.showAddRepo, 'show-form': dataInstance.showForm}"
             ng-include = "'viewInstancePopoverFileMenu'"
           )
       ul.tree
