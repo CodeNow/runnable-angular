@@ -45,7 +45,7 @@ module.exports = [{
   templateUrl: 'viewInstance',
   controller:  'ControllerInstance',
 }, {
-  state:       'error',
+  state:       '404',
   abstract:    false,
   templateUrl: 'viewError',
   controller:  'ControllerError'

@@ -21,13 +21,17 @@ function ControllerProjectLayout (
 
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
-
+    function checkAuth (me, cb) {
+      if ($scope.dataApp.user.username !== $scope.dataApp.stateParams.userName) {
+        $state.go('404', {});
+        return cb(new Error());
+      }
+    },
     function fetchProjects (me, cb) {
       var projects = user.fetchProjects({
         ownerUsername: $scope.dataApp.stateParams.userName
       }, function (err, response) {
         if (err) {
-          $state.go('error', {});
           return cb(err);
         }
         cb(null, projects);
