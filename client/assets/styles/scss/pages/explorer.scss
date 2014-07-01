@@ -137,62 +137,51 @@
   border-right: 1px solid rgba(0,0,0,.1);
   height: 36px;
   margin: 0 0 0 36px;
-  padding: 0;
   user-select: none;
   width: 204px;
+}
 
-  li {
-    color: $gray-dark;
-    cursor: pointer;
-    display: block;
-    float: left;
-    font-size: 16px;
-    height: 36px;
-    line-height: 36px;
-    list-style: none;
-    margin: 0;
-    top: 0;
-    text-align: center;
-    user-select: none;
-    width: 36px;
+.toggle-theme {
+  padding: 0;
 
-    &:before {
-      top: 36px;
+  // tooltips
+  &::before,
+  &::after {
+    font-weight: 300;
+    margin-left: 12px;
+    margin-top: 9px;
+  }
+
+  &.light > .theme::before {
+    background: rgba($purple,.75);
+  }
+
+  &.dark > .theme::after {
+    background: rgba($gray-dark,.75);
+  }
+
+  .theme {
+
+    &::before,
+    &::after {
+      border-radius: 50%;
+      content: '';
+      display: inline-block;
+      height: 18px;
+      margin: 8px auto;
+      width: 18px;
     }
 
-    &:after {
-      top: 30px;
-      left: 12px;
+    &::before {
+      border: 2px solid $purple;
+      background: rgba($purple,.25);
+      margin-left: 9px;
     }
 
-    &.dark-theme,
-    &.light-theme {
-
-      > span {
-        border: 1px solid $gray-dark;
-        border-radius: 50%;
-        content: '';
-        display: block;
-        height: 18px;
-        margin: 8px auto;
-        width: 18px;
-      }
-    }
-
-    &.dark-theme > span {
-      background: $purple;
-    }
-
-      &.light-theme > span {
-        background: $gray-lighter;
-      }
-
-    &.active {
-      cursor: default;
-
-       > span {
-        border: 1px solid $orange;
-      }
+    &::after {
+      border: 2px solid $gray-dark;
+      background: rgba($gray-dark,.1);
+      margin-left: -6px;
     }
   }
 }

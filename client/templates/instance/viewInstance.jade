@@ -70,11 +70,13 @@ section.sidebar
     )
   //- file_explorer
   aside#explorer
-    ul#controls
-      li.dark-theme.theme.active.tooltip(data-title = "Dark Theme")
-        span
-      li.light-theme.theme.tooltip(data-title = "Light Theme")
-        span
+    #controls
+      button.toggle-theme.tooltip(
+        data-title = "Change Theme"
+        ng-class = "{dark: !dataBuild.toggleTheme, light: dataBuild.toggleTheme}"
+        ng-click = "dataBuild.toggleTheme = !dataBuild.toggleTheme"
+      )
+        .theme
     .explorer-header
       h6
         | INSTANCE FILES
