@@ -13,17 +13,22 @@ function ControllerApp (
   $stateParams,
   $state
 ) {
+
   this.scope = $scope;
   var self = ControllerApp;
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($stateParams);
 
   dataApp.click = function () {
-    self.documentLevelClick($scope);
+    $scope.$broadcast('app-document-click');
+    //self.documentLevelClick($scope);
   };
 
   dataApp.holdUntilAuth = function (cb) {
-    $scope.$apply(function () {
-      angular.extend(dataApp, self.holdUntilAuth(dataApp.status, user, cb));
+    self.holdUntilAuth(dataApp.status, user, $state, function (err, newData, response) {
+      $scope.apply(function () {
+        angular.extend(dataApp, newData);
+      });
+      cb(err, response);
     });
   };
 }
@@ -48,14 +53,13 @@ ControllerApp.holdUntilAuth = function (status, user, $state, cb) {
   } else if (status === 'unknown') {
     resp.user = user.fetch('me', function (err, result) {
       if (err) {
-        $state.go('home', {});
+        // $state.go('home', {});
       } else {
         resp.status = 'authenticated';
       }
-      cb(err, result);
+      cb(err, resp, result);
     });
   } else {
     throw new Error('invalid argument');
   }
-  return resp;
 };
