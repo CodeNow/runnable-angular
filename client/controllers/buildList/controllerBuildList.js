@@ -71,6 +71,7 @@ function ControllerBuildList (
   // seed data
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
+
     function fetchProject (me, cb) {
       var projects = user.fetchProjects({
         ownerUsername: $stateParams.userName,
@@ -131,5 +132,4 @@ function ControllerBuildList (
       dataBuildList.buildOwners  = buildOwners;
     });
   });
-
 }

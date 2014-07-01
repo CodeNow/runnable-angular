@@ -27,7 +27,7 @@ function ControllerApp (
                        user,
                        $state, 
                        function (err, newData, response) {
-      $scope.apply(function () {
+      $scope.$apply(function () {
         angular.extend(dataApp, newData);
       });
       cb(err, response);
