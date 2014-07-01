@@ -55,6 +55,7 @@ header {
 
       a {
         opacity: 1;
+        transform: scale3d(1,1,1);
       }
     }
   }
@@ -67,10 +68,10 @@ header {
     margin: 15px 9px 0 30px;
   }
 
-  .arrow-down {
-    border-top-color: rgba(255,255,255,.6);
-    right: 24px;
-    top: 24px
+  .iconnables {
+    position: absolute;
+      top: 16px;
+      right: 24px;
   }
 }
 
@@ -119,7 +120,8 @@ header {
   a {
     display: block;
     opacity: 0;
-    transition: opacity .2s;
+    transition: opacity .2s, transform .2s;
+    transform: scale3d(1,.5,1);
   }
 }
 

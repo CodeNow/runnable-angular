@@ -18,12 +18,15 @@ nav.sub-header
       button.orange(type = "button") Run Instance
       .btn-group
         button.silver(type = "button") Rebuild
-        button.silver(
+        button.silver.btn-icon(
           ng-class = "{active: dataBuild.showBuildOptionsClean}"
           ng-click = "dataBuild.togglePopover('BuildOptionsClean', $event)"
           type = "button"
         )
-          span.arrow-down
+          object.iconnables(
+            data = "/build/images/icons/icons-arrow-down.svg"
+            type = "image/svg+xml"
+          )
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.showBuildOptionsClean}"
             ng-include = "'viewBuildPopoverBuildOptions'"
@@ -32,12 +35,15 @@ nav.sub-header
     .dirty
       .btn-group
         button.green(type = "button") Build
-        button.green(
+        button.green.btn-icon(
           ng-class = "{active: dataBuild.showBuildOptionsDirty}"
           ng-click = "dataBuild.togglePopover('BuildOptionsDirty', $event)"
           type = "button"
         )
-          span.arrow-down
+          object.iconnables(
+            data = "/build/images/icons/icons-arrow-down-alt.svg"
+            type = "image/svg+xml"
+          )
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.showBuildOptionsDirty}"
             ng-include = "'viewBuildPopoverBuildOptions'"
@@ -173,7 +179,7 @@ section.sidebar
 #editor(
   ng-class="{'in': dataBuild.showExplorer, '': !dataBuild.showExplorer}"
 )
-  button#explorer-toggle.with-iconnables(
+  button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.showExplorer = !dataBuild.showExplorer"
     ng-init = "dataBuild.showExplorer = true"
     type = "button"
@@ -192,7 +198,7 @@ section.sidebar
     .explorer-header
       h6
         | CONFIG FILES
-        button.silver.btn-sm.file-explorer-menu.with-iconnables(
+        button.silver.btn-sm.file-explorer-menu.btn-icon(
           ng-class = "{active: dataBuild.showFileMenu}"
           ng-click = "dataBuild.togglePopover('FileMenu', $event)"
         )
@@ -262,7 +268,7 @@ section.sidebar
     #tabs-wrapper
     //- file_tabs
   #select-tabs.dropdown
-    button.with-iconnables(type = "button")
+    button.btn-icon(type = "button")
       object.iconnables(
         data = "/build/images/icons/icons-select.svg"
         type = "image/svg+xml"

@@ -259,20 +259,7 @@
   .btn-group {
 
     > button:last-child {
-      padding: 0;
       width: 30px;
-    }
-
-    .green .arrow-down {
-      border-top-color: #fff;
-    }
-
-    .silver .arrow-down {
-      border-top-color: $gray-dark;
-    }
-
-    .arrow-down {
-      right: 10px;
     }
 
     .popover {

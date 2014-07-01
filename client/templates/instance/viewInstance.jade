@@ -60,7 +60,7 @@ section.sidebar
 #editor.with-addtab(
   ng-class="{'in': dataInstance.showExplorer, '': !dataInstance.showExplorer}"
 )
-  button#explorer-toggle.with-iconnables(
+  button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.showExplorer = !dataInstance.showExplorer"
     ng-init = "dataInstance.showExplorer = true"
   )
@@ -78,7 +78,7 @@ section.sidebar
     .explorer-header
       h6
         | INSTANCE FILES
-        button.silver.btn-sm.file-explorer-menu.with-iconnables(
+        button.silver.btn-sm.file-explorer-menu.btn-icon(
           ng-class = "{active: dataInstance.showFileMenu}"
           ng-click = "dataInstance.togglePopover('FileMenu', $event)"
         )
@@ -144,7 +144,7 @@ section.sidebar
   #editor-toolbar
     #tabs-wrapper
     //- file_tabs
-  button#add-tab.with-iconnables(
+  button#add-tab.btn-icon(
     ng-class = "{active: dataInstance.showAddTab}"
     ng-click = "dataInstance.togglePopover('AddTab', $event);"
     type = "button"
@@ -158,7 +158,7 @@ section.sidebar
       ng-include = "'viewInstancePopoverAddTab'"
     )
   #select-tabs.dropdown
-    button.with-iconnables(type = "button")
+    button.btn-icon(type = "button")
       object.iconnables(
         data = "/build/images/icons/icons-select.svg"
         type = "image/svg+xml"

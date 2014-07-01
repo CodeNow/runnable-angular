@@ -41,7 +41,7 @@ button,
     text-shadow: none;
   }
 
-  &.with-iconnables {
+  &.btn-icon {
     padding: 6px 0 0;
   }
 
@@ -52,7 +52,7 @@ button,
     padding: 0 6px;
     text-shadow: none;
 
-    &.with-iconnables {
+    &.btn-icon {
       padding: 1px 0 0;
 
       > .iconnables {
