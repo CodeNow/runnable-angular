@@ -13,38 +13,49 @@ function ControllerApp (
   $stateParams,
   $state
 ) {
-  window.user = user;
+  this.scope = $scope;
+  var self = ControllerApp;
+  var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($stateParams);
 
-  var dataApp = $scope.dataApp = $rootScope.dataApp = {};
-  dataApp.state = $state;
-  dataApp.stateParams = $stateParams;
   dataApp.click = function () {
-    $scope.$broadcast('app-document-click');
+    self.documentLevelClick($scope);
   };
 
-  dataApp.status = 'unknown';
-  dataApp.user   = {};
-
-  // helper to hold api requests until auth check
   dataApp.holdUntilAuth = function (cb) {
-    if (dataApp.status === 'authenticated') {
-      cb(null, dataApp.user);
-    } else if (dataApp.status === 'unknown') {
-      dataApp.user = user.fetch('me', function (err, result) {
-        if (err) {
-          //$state.go('home', {});
-        } else {
-          dataApp.status = 'authenticated';
-        }
-        cb(err, result);
-      });
-    }
+    $scope.$apply(function () {
+      angular.extend(dataApp, self.holdUntilAuth(dataApp.status, user, cb));
+    });
   };
 }
 
-ControllerApp.prototype.asyncCheckUserAuthStatus = function (
-  status,
-  cb
-) {
+ControllerApp.initState = function ($state, $stateParams) {
+  return {
+    state: $state,
+    stateParams: $stateParams,
+    status: 'unknown',
+    user: {}
+  };
+};
 
+ControllerApp.documentLevelClick = function ($scope) {
+  $scope.$broadcast('app-document-click');
+};
+
+ControllerApp.holdUntilAuth = function (status, user, $state, cb) {
+  var resp = {};
+  if (status === 'authenticated') {
+    cb(null, user);
+  } else if (status === 'unknown') {
+    resp.user = user.fetch('me', function (err, result) {
+      if (err) {
+        $state.go('home', {});
+      } else {
+        resp.status = 'authenticated';
+      }
+      cb(err, result);
+    });
+  } else {
+    throw new Error('invalid argument');
+  }
+  return resp;
 };
