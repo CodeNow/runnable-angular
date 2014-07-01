@@ -85,13 +85,17 @@ header {
     }
 
     & ~ .accounts {
-      max-height: 300px;
+      max-height: 108px;
       opacity: 1;
 
       a {
         opacity: 1;
         transform: translate3d(0,0,0);
       }
+    }
+
+    & ~ .scroll-container {
+      height: calc(100% - 205px);
     }
   }
 
@@ -146,28 +150,11 @@ header {
   }
 }
 
-.toggle {
-  display: block;
-  margin: 15px 15px 0;
-
-  > button {
-    background: rgba(255,255,255,.075);
-    border: 1px solid rgba(0,0,0,.3);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(0,0,0,.05);
-    font-size: 15px;
-    font-weight: 500;
-    width: 50%;
-
-    &:hover {
-      background: rgba(255,255,255,.1);
-    }
-
-    &:active,
-    &.active {
-      background: rgba(0,0,0,.15);
-      box-shadow: none;
-    }
-  }
+.scroll-container {
+  height: calc(100% - 97px);
+  margin: 0 -15px;
+  overflow-y: auto;
+  padding: 0 15px 15px;
 }
 
 #projects,
@@ -222,7 +209,7 @@ header {
   box-shadow: inset 0 1px 0 rgba(0,0,0,.15);
   font-size: 13px;
   max-height: 0;
-  transition: max-height .2s;
+  transition: max-height .3s;
 
   li {
 
