@@ -17,36 +17,33 @@ describe('ControllerBuildList'.bold.underline.blue, function () {
       $buildListScope,
       $stateParams,
       $state,
-      dataBuildList;;
+      dataBuildList;
 
-  beforeEach(angular.mock.module(uiRouter));
-  beforeEach(angular.mock.module('ngMock'));
-  beforeEach(angular.mock.module('app'));
-  beforeEach(angular.mock.inject(function(
-    $rootScope,
-    $controller
-  ) {
-
-    $state = {};
-    $stateParams = {};
-
-    $appScope           = $rootScope.$new();
-    $projectLayoutScope = $appScope.$new();
-    $buildListScope     = $projectLayoutScope.$new();
-
-    $controller('ControllerApp', {
-      $scope: $appScope,
-      $state: $state,
-      $stateParams: $stateParams
+  function initState () {
+    angular.mock.module(uiRouter);
+    angular.mock.module('ngMock');
+    angular.mock.module('app');
+    angular.mock.inject(function($rootScope, $controller) {
+      $state = {};
+      $stateParams = {};
+      $appScope           = $rootScope.$new();
+      $projectLayoutScope = $appScope.$new();
+      $buildListScope     = $projectLayoutScope.$new();
+      $controller('ControllerApp', {
+        $scope: $appScope,
+        $state: $state,
+        $stateParams: $stateParams
+      });
+      $controller('ControllerProjectLayout', {
+        $scope: $projectLayoutScope,
+      });
+      $controller('ControllerBuildList', {
+        $scope: $buildListScope
+      });
+      dataBuildList = $buildListScope.dataBuildList;
     });
-    $controller('ControllerProjectLayout', {
-      $scope: $projectLayoutScope,
-    });
-    $controller('ControllerBuildList', {
-      $scope: $buildListScope
-    });
-    dataBuildList = $buildListScope.dataBuildList;
-  }));
+  }
+  beforeEach(initState);
 
   describe('togglePopover'.blue, function () {
     it('displays popover when invoking togglePopover', function () {

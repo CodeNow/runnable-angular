@@ -11,7 +11,6 @@ var expect = chai.expect;
 var uiRouter = require('angular-ui-router');
 
 describe('ControllerBuild'.bold.underline.blue, function () {
-
   var $appScope,
       $projectLayoutScope,
       $buildScope,
@@ -52,8 +51,7 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       });
       dataBuild = $buildScope.dataBuild;
     });
-  };
-
+  }
   beforeEach(initState);
 
   describe('getPopoverButtonText'.blue, function () {
