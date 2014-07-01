@@ -9,14 +9,14 @@ require('app')
 function ControllerProjectLayout (
   $scope,
   async,
+  $state,
   user
 ) {
-
   var self = ControllerProjectLayout;
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
 
   dataProjectLayout.getProjectBuildListHref = function (projectName) {
-    return '/' + $scope.dataApp.stateParams.userName + '/' + projectName + '/master/';
+    return self.getProjectBuildListHref($scope.dataApp.stateParams.userName, projectName);
   };
 
   async.waterfall([
@@ -25,9 +25,9 @@ function ControllerProjectLayout (
     function fetchProjects (me, cb) {
       var projects = user.fetchProjects({
         ownerUsername: $scope.dataApp.stateParams.userName
-      }, function (err, body) {
+      }, function (err, response) {
         if (err) {
-          // error handling
+          $state.go('error', {});
           return cb(err);
         }
         cb(null, projects);
@@ -45,4 +45,8 @@ ControllerProjectLayout.initState = function () {
   return {
     showChangeAccount: false
   };
+};
+
+ControllerProjectLayout.getProjectBuildListHref = function (userName, projectName) {
+  return '/' + userName + '/' + projectName + '/master/';
 };
