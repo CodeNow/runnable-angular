@@ -43,14 +43,16 @@
       li(
         ng-class = "{in: dataBuild.showForm}"
         ng-click = "dataBuild.showForm = true"
-      ) org/reponame
+      )
+        span org/reponame
         form.add-repo-form
           input.form-control(placeholder = "Branch or SHA (optional)")
-          a.btn.btn-block.orange Add Repository
+          button.btn-block.green Add Repository
       li(
         ng-class = "{in: dataBuild.showForm}"
         ng-click = "dataBuild.showForm = true"
-      ) org/reponame
+      )
+        span org/reponame
         form.add-repo-form
           input.form-control(placeholder = "Branch or SHA (optional)")
-          a.btn.btn-block.orange Add Repository
+          button.btn-block.green Add Repository
