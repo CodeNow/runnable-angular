@@ -70,17 +70,8 @@ function ControllerBuildList (
 
   // seed data
   async.waterfall([
-    // temporary helper
     $scope.dataApp.holdUntilAuth,
-/*    function tempHelper (cb) {*/
-      //if (user.id()) {
-        //cb();
-      //} else {
-        ////user.anonymous(function () { cb(); });
-        //user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
-      //}
-/*    }*/
-    //-------
+
     function fetchProject (me, cb) {
       var projects = user.fetchProjects({
         ownerUsername: $stateParams.userName,
@@ -113,6 +104,9 @@ function ControllerBuildList (
       });
     },
     function fetchBuildsOwners (project, environments, environment, builds, cb) {
+      if (builds.models.length === 0) {
+        return cb(null, project, environments, environment, [], []);
+      }
       var ownerIds = builds.models
         .map(function (item) {
           return item.attrs.owner;
@@ -141,5 +135,4 @@ function ControllerBuildList (
       dataBuildList.buildOwners  = buildOwners;
     });
   });
-
 }
