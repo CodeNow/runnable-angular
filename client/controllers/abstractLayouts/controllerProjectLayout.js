@@ -26,6 +26,7 @@ function ControllerProjectLayout (
         $state.go('404', {});
         return cb(new Error());
       }
+      cb(null, me);
     },
     function fetchProjects (me, cb) {
       var projects = user.fetchProjects({
