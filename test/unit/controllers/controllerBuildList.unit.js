@@ -5,16 +5,19 @@ var colors  = require('colors');
 var angular = require('angular');
 require('browserify-angular-mocks');
 
+var expect = chai.expect;
+
 var uiRouter = require('angular-ui-router');
 var uiAce    = require('angular-ui-ace');
 var uiAnimate = require('browserify-angular-animate');
 
-describe('ControllerBuildList'.underline.red, function () {
+describe('ControllerBuildList'.underline.blue, function () {
   var $appScope,
       $projectLayoutScope,
       $buildListScope,
       $stateParams,
-      $state;
+      $state,
+      dataBuildList;;
 
   beforeEach(angular.mock.module(uiRouter));
   beforeEach(angular.mock.module('ngMock'));
@@ -42,49 +45,52 @@ describe('ControllerBuildList'.underline.red, function () {
     $controller('ControllerBuildList', {
       $scope: $buildListScope
     });
+    dataBuildList = $buildListScope.dataBuildList;
   }));
 
-  it('should display a popover when \'builds\' button click event triggered', function () {
-    var event = {
-      stopPropagation: sinon.spy()
-    };
-    chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
-    chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(false);
-    $buildListScope.dataBuildList.togglePopover('ChangeRecipe', event); // click 1
-    chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true);
-    chai.expect(event.stopPropagation.callCount).to.equal(1);
-  });
+  describe('togglePopover', function () {
+    it('displays popover when invoking togglePopover', function () {
+      var event = {
+        stopPropagation: sinon.spy()
+      };
+      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('');
+      expect(dataBuildList.showChangeRecipe).to.equal(false);
+      dataBuildList.togglePopover('ChangeRecipe', event); // click 1
+      expect(dataBuildList.showChangeRecipe).to.equal(true);
+      expect(event.stopPropagation.callCount).to.equal(1);
+    });
 
-  it('builds button click event should be idempotent', function () {
-    var event = {
-      stopPropagation: sinon.spy()
-    };
-    $buildListScope.dataBuildList.togglePopover('ChangeRecipe', event); // click 1
-    $buildListScope.dataBuildList.togglePopover('ChangeRecipe', event); // click 2
-    chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true);
-    chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
-    chai.expect(event.stopPropagation.callCount).to.equal(2);
-    // type something into search
-    $buildListScope.dataBuildList.popoverChangeRecipe.filter = '123';
-    chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true); // <-- technically a click to type... use protractor
-    $buildListScope.dataBuildList.togglePopover('ChangeRecipe', event);         // click 3
-    chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true);
-    chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('123');
-    chai.expect(event.stopPropagation.callCount).to.equal(3);
-  });
+    it('togglePopover should be idempotent', function () {
+      var event = {
+        stopPropagation: sinon.spy()
+      };
+      dataBuildList.togglePopover('ChangeRecipe', event); // click 1
+      dataBuildList.togglePopover('ChangeRecipe', event); // click 2
+      expect(dataBuildList.showChangeRecipe).to.equal(true);
+      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('');
+      expect(event.stopPropagation.callCount).to.equal(2);
+      // type something into search
+      dataBuildList.popoverChangeRecipe.filter = '123';
+      expect(dataBuildList.showChangeRecipe).to.equal(true); // <-- technically a click to type... use protractor
+      dataBuildList.togglePopover('ChangeRecipe', event);         // click 3
+      expect(dataBuildList.showChangeRecipe).to.equal(true);
+      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('123');
+      expect(event.stopPropagation.callCount).to.equal(3);
+    });
 
-  it('clicking on sibling or parent element hides the popover', function () {
-    var event = {
-      stopPropagation: sinon.spy()
-    };
-    // trigger click outside of popover button
-    $appScope.dataApp.click();
-    chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(false);
-    chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
-    $buildListScope.dataBuildList.togglePopover('ChangeRecipe', event); // click 1
-    chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(true); // popover is showing after click
-    $appScope.dataApp.click();
-    chai.expect($buildListScope.dataBuildList.showChangeRecipe).to.equal(false);
-    chai.expect($buildListScope.dataBuildList.popoverChangeRecipe.filter).to.equal('');
+    it('outside click event on document hides popovers when they are displayed', function () {
+      var event = {
+        stopPropagation: sinon.spy()
+      };
+      // trigger click outside of popover button
+      $appScope.dataApp.click();
+      expect(dataBuildList.showChangeRecipe).to.equal(false);
+      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('');
+      dataBuildList.togglePopover('ChangeRecipe', event); // click 1
+      expect(dataBuildList.showChangeRecipe).to.equal(true); // popover is showing after click
+      $appScope.dataApp.click();
+      expect(dataBuildList.showChangeRecipe).to.equal(false);
+      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('');
+    });
   });
 });
