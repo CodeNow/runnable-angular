@@ -84,7 +84,6 @@ button,
 }
 
 .green {
-  @extend .btn;
   background-color: $green-light;
   background-image: linear-gradient(rgba($green,.25),$green);
   border-color: $green-darker;
@@ -159,7 +158,6 @@ button,
 }
 
 .orange {
-  @extend .btn;
   background-color: adjust-hue($orange-light,3);
   background-image: linear-gradient(rgba($orange-dark,0),$orange-dark);
   border-color: $orange-darker;
@@ -187,7 +185,6 @@ button,
 }
 
 .purple {
-  @extend .btn;
   background-color: #9a58ba;
   background-image: linear-gradient(rgba(#6b409b,.25),#6b409b);
   border-color: #5b3777;
@@ -223,6 +220,26 @@ button,
       border-color: #5b3777;
       box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
     }
+  }
+}
+
+.white {
+  background: rgba(255,255,255,.075);
+  border: 1px solid rgba(0,0,0,.3);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+  color: #fff;
+  font-weight: 300;
+
+ &:hover {
+    background: rgba(255,255,255,.1);
+  }
+
+  &:active,
+  &.active {
+    background: rgba(0,0,0,.15);
+    box-shadow: none;
+    transition: none;
   }
 }
 

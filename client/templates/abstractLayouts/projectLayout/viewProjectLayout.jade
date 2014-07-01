@@ -3,39 +3,40 @@ header#primary
     span
     sup &lt;alpha&gt;
 
-  a#user(
+  button.white#user(
     ng-class="{'active': dataProjectLayout.showChangeAccount, '': !dataProjectLayout.showChangeAccount}"
     ng-click = "dataProjectLayout.showChangeAccount = !dataProjectLayout.showChangeAccount"
     ng-init = "dataProjectLayout.showChangeAccount = false"
+    type = "button"
   )
     img(
-      height = "24"
+      height = "19"
       src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
-      width = "24"
+      width = "19"
     )
     | username
     object.iconnables(
       data = "/build/images/icons/icons-arrow-down-alt.svg"
       type = "image/svg+xml"
     )
-  ul.accounts
-    li
+  ul.accounts.btn-group-vertical
+    li.btn.white
       a
         img(
-          height = "24"
-          src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
-          width = "24"
+          height = "19"
+          src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
+          width = "19"
         )
         | CodeNow
-    li
+    li.btn.white
       a
         img(
-          height = "24"
-          src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
-          width = "24"
+          height = "19"
+          src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
+          width = "19"
         )
         | Runnable
-    li
+    li.btn.white
       a Log Out
 
   //- ul#repositories
@@ -53,37 +54,18 @@ header#primary
   .list-container
     ul#projects
       li
-        a Project X
-      li.active
-        a purple4lyfe
-        //- ul.config-list
-        //-   li.active
-        //-     a
-        //-       object.iconnables(
-        //-         data = "/build/images/icons/icons-pass.svg"
-        //-         type = "image/svg+xml"
-        //-       )
-        //-       | Main
-        //-   li
-        //-     a
-        //-       object.iconnables(
-        //-         data = "/build/images/icons/icons-pass.svg"
-        //-         type = "image/svg+xml"
-        //-       )
-        //-       | Recipe 1
-        //-   li
-        //-     a
-        //-       object.iconnables(
-        //-         data = "/build/images/icons/icons-fail.svg"
-        //-         type = "image/svg+xml"
-        //-       )
-        //-       | Recipe 2
+        a Buster
       li
-        a buster
+        a Bob Lob Law
+        ul.config-list
+          li
+            a Main
+          li
+            a Recipe 1
+          li
+            a Recipe 2
       li
-        a stickoftruth
-      li
-        a lunagrams
+        a Luna
 
     //- ul#instances
     //-   li
