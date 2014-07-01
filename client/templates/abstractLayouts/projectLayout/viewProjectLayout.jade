@@ -6,15 +6,14 @@ header#primary
   button.white#user(
     ng-class="{'active': dataProjectLayout.showChangeAccount, '': !dataProjectLayout.showChangeAccount}"
     ng-click = "dataProjectLayout.showChangeAccount = !dataProjectLayout.showChangeAccount"
-    ng-init = "dataProjectLayout.showChangeAccount = false"
     type = "button"
   )
     img(
       height = "19"
-      src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
+      src = "{{ dataApp.user.gravitar }}"
       width = "19"
     )
-    | username
+    | {{ dataApp.user.username }}
     object.iconnables(
       data = "/build/images/icons/icons-arrow-down-alt.svg"
       type = "image/svg+xml"
@@ -51,14 +50,15 @@ header#primary
     h3 PROJECTS
     ul#projects.btn-group-vertical
       li.btn.white(
-        ng-class = "{active: dataProjectLayout.showRecipes}"
-        ng-click = "dataProjectLayout.showRecipes = !dataProjectLayout.showRecipes"
+        ng-repeat = "project in dataProjectLayout.projects.models"
+        ng-class = "{active: show}"
+        ng-click = "show = !show"
       )
         object.iconnables(
           data = "/build/images/icons/icons-arrow-down-alt.svg"
           type = "image/svg+xml"
         )
-        | Buster
+          | {{ project.attrs.name }}
         ul.config-list
           li
             object.iconnables(
@@ -78,33 +78,36 @@ header#primary
               type = "image/svg+xml"
             )
             | Recipe 2
-      li.btn.white
-        object.iconnables(
-          data = "/build/images/icons/icons-arrow-down-alt.svg"
-          type = "image/svg+xml"
-        )
-        | Bob Lob Law
-        ul.config-list
-          li
-            object.iconnables(
-              data = "/build/images/icons/icons-recipe-white.svg"
-              type = "image/svg+xml"
-            )
-            | Main
-          li
-            object.iconnables(
-              data = "/build/images/icons/icons-recipe-white.svg"
-              type = "image/svg+xml"
-            )
-            | Recipe 1
-          li
-            object.iconnables(
-              data = "/build/images/icons/icons-recipe-white.svg"
-              type = "image/svg+xml"
-            )
-            | Recipe 2
-      //- The project, Luna, doesn't have an expand icon because it has no recipes (so it can't expand)
-      li.btn.white Luna
+
+
+
+      //-li.btn.white
+        //-object.iconnables(
+          //-data = "/build/images/icons/icons-arrow-down-alt.svg"
+          //-type = "image/svg+xml"
+        //-)
+        //-| Bob Lob Law
+        //-ul.config-list
+          //-li
+            //-object.iconnables(
+              //-data = "/build/images/icons/icons-recipe-white.svg"
+              //-type = "image/svg+xml"
+            //-)
+            //-| Main
+          //-li
+            //-object.iconnables(
+              //-data = "/build/images/icons/icons-recipe-white.svg"
+              //-type = "image/svg+xml"
+            //-)
+            //-| Recipe 1
+          //-li
+            //-object.iconnables(
+              //-data = "/build/images/icons/icons-recipe-white.svg"
+              //-type = "image/svg+xml"
+            //-)
+            //-| Recipe 2
+      //-//- The project, Luna, doesn't have an expand icon because it has no recipes (so it can't expand)
+      //-li.btn.white Luna
 
     h3 INSTANCES
     ul#instances.btn-group-vertical

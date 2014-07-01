@@ -12,23 +12,16 @@ function ControllerProjectLayout (
   user
 ) {
 
-  var dataProjectLayout = $scope.dataProjectLayout = {};
+  var self = ControllerProjectLayout;
+  var dataProjectLayout = $scope.dataProjectLayout = self.initState();
+
   dataProjectLayout.getProjectBuildListHref = function (projectName) {
     return '/' + $scope.dataApp.stateParams.userName + '/' + projectName + '/master/';
   };
 
   async.waterfall([
-    // temporary helper
     $scope.dataApp.holdUntilAuth,
-/*    function tempHelper (cb) {*/
-      //if (user.id()) {
-        //cb();
-      //} else {
-        ////user.anonymous(function () { cb(); });
-        //user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
-      //}
-/*    }*/
-    //-------
+
     function fetchProjects (me, cb) {
       var projects = user.fetchProjects({
         ownerUsername: $scope.dataApp.stateParams.userName
@@ -47,3 +40,9 @@ function ControllerProjectLayout (
     });
   });
 }
+
+ControllerProjectLayout.initState = function () {
+  return {
+    showChangeAccount: false
+  };
+};
