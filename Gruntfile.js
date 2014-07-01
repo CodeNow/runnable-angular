@@ -24,6 +24,7 @@ module.exports = function(grunt) {
     githooks: {
       all: {
         'pre-commit':    'jshint:prod',
+        'pre-push':      'bgShell:karma',
         'post-merge':    'bgShell:npm-install',
         'post-checkout': 'bgShell:npm-install'
       }
