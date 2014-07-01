@@ -5,6 +5,17 @@
   padding: 0;
   width: 270px;
 
+  h3 {
+    color: $gray-dark;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    font-size: 14px;
+    font-weight: 600;
+    height: 36px;
+    line-height: 36px;
+    padding: 0;
+    text-align: center;
+  }
+
   > ul,
   > ol {
     font-size: 14px;
@@ -24,7 +35,6 @@
 
   > ul {
     border-bottom: 1px solid rgba(0,0,0,.1);
-    box-shadow: 0 1px 0 #fff;
     padding: 10px 0;
 
     a {
@@ -34,7 +44,10 @@
     > li {
       line-height: 36px;
       min-height: 36px;
+      overflow: hidden;
       padding: 0 15px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       > object {
         float: left;
@@ -49,15 +62,6 @@
     > li {
       border-bottom: 1px solid rgba(0,0,0,.1);
       padding: 5px 15px 6px;
-
-      &:first-child {
-        font-weight: 600;
-        height: 36px;
-        line-height: 36px;
-        padding: 0;
-        position: relative;
-        text-align: center;
-      }
     }
   }
 
@@ -70,10 +74,6 @@
       height: 36px;
       line-height: 36px;
       padding: 0 15px;
-
-      &:first-child {
-        font-size: 14px;
-      }
     }
 
     button {
@@ -94,7 +94,12 @@
   }
 }
 
-.commit {
+#messages {
+  height: calc(100% - 201px);
+  overflow-y: auto;
+}
+
+.message {
 
   object {
     float: right;

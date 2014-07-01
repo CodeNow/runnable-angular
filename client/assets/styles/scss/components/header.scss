@@ -25,13 +25,13 @@ header {
   color: #fff;
   display: block;
   font-weight: 500;
-  min-height: 54px;
   line-height: 54px;
+  min-height: 54px;
   position: relative;
   text-overflow: ellipsis;
   transition: background .15s;
-  width: 100%;
   white-space: nowrap;
+  width: 100%;
 
   &:hover {
     background: rgba(255,255,255,.1);
@@ -41,12 +41,26 @@ header {
   &.active {
     background: rgba(0,0,0,.15);
     box-shadow: none;
+    transition: none;
   }
 
   &.active {
 
+    .iconnables {
+      transform: rotate3d(0,0,1,180deg);
+    }
+
     & ~ .accounts {
       max-height: 300px;
+
+      li {
+        transform: translate3d(0,0,0);
+      }
+
+      a {
+        opacity: 1;
+        transform: scale3d(1,1,1);
+      }
     }
   }
 
@@ -58,10 +72,10 @@ header {
     margin: 15px 9px 0 30px;
   }
 
-  .arrow-down {
-    border-top-color: rgba(255,255,255,.6);
-    right: 24px;
-    top: 24px
+  .iconnables {
+    position: absolute;
+      top: 16px;
+      right: 24px;
   }
 }
 
@@ -78,6 +92,8 @@ header {
     cursor: pointer;
     height: 45px;
     line-height: 45px;
+    transform: translate3d(0,-32px,0);
+    transition: transform .2s ease-in-out;
 
     &:last-child {
       font-size: 12px;
@@ -103,6 +119,13 @@ header {
       float: left;
       margin: 9px 9px 0 30px;
     }
+  }
+
+  a {
+    display: block;
+    opacity: 0;
+    transition: opacity .2s, transform .2s;
+    transform: scale3d(1,.5,1);
   }
 }
 
@@ -195,7 +218,7 @@ header {
   transform: translate3d(240px,0,0);
 }
 
-.recipe-list {
+.config-list {
   padding-bottom: 6px;
 
   > li {

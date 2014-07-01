@@ -37,16 +37,15 @@
       }
     }
 
-    // recipe popover position
+    // configs popover position
     .popover {
-      left: -34px;
+      left: -32px;
     }
 
     object {
       position: absolute;
         top: 0;
         left: 0;
-      transition: transform .15s;
 
       &.icons-asterisk {
         left: 4px;
@@ -89,7 +88,7 @@
     }
   }
 
-  .recipe {
+  .config {
     display: inline-block;
     font-size: 18px;
     font-weight: 600;
@@ -100,9 +99,14 @@
     position: relative;
     text-align: left;
 
-    > .arrow-down {
-      right: 10px;
-      top: 15px;
+    &.active .icons-arrow-down {
+      transform: rotate3d(0,0,1,180deg);
+    }
+
+    .icons-arrow-down {
+      left: auto;
+      right: 0;
+      top: 6px;
     }
 
     .icons-recipe {
@@ -259,20 +263,11 @@
   .btn-group {
 
     > button:last-child {
-      padding: 0;
       width: 30px;
-    }
 
-    .green .arrow-down {
-      border-top-color: #fff;
-    }
-
-    .silver .arrow-down {
-      border-top-color: $gray-dark;
-    }
-
-    .arrow-down {
-      right: 10px;
+      &.active .iconnables {
+        transform: rotate3d(0,0,1,180deg);
+      }
     }
 
     .popover {

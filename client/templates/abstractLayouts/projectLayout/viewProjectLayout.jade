@@ -14,23 +14,29 @@ header#primary
       width = "24"
     )
     | username
-    span.arrow-down
+    object.iconnables(
+      data = "/build/images/icons/icons-arrow-down-alt.svg"
+      type = "image/svg+xml"
+    )
   ul.accounts
     li
-      img(
-        height = "24"
-        src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
-        width = "24"
-      )
-      | CodeNow
+      a
+        img(
+          height = "24"
+          src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
+          width = "24"
+        )
+        | CodeNow
     li
-      img(
-        height = "24"
-        src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
-        width = "24"
-      )
-      | Runnable
-    li Log Out
+      a
+        img(
+          height = "24"
+          src = "https://avatars1.githubusercontent.com/u/2335750?s=24"
+          width = "24"
+        )
+        | Runnable
+    li
+      a Log Out
 
   //- ul#repositories
   //-   li(ng-repeat = "project in dataProjectLayout.projects.models")
@@ -50,7 +56,7 @@ header#primary
         a Project X
       li.active
         a purple4lyfe
-        //- ul.recipe-list
+        //- ul.config-list
         //-   li.active
         //-     a
         //-       object.iconnables(

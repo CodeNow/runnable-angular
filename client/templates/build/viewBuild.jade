@@ -18,12 +18,15 @@ nav.sub-header
       button.orange(type = "button") Run Instance
       .btn-group
         button.silver(type = "button") Rebuild
-        button.silver(
+        button.silver.btn-icon(
           ng-class = "{active: dataBuild.showBuildOptionsClean}"
           ng-click = "dataBuild.togglePopover('BuildOptionsClean', $event)"
           type = "button"
         )
-          span.arrow-down
+          object.iconnables(
+            data = "/build/images/icons/icons-arrow-down.svg"
+            type = "image/svg+xml"
+          )
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.showBuildOptionsClean}"
             ng-include = "'viewBuildPopoverBuildOptions'"
@@ -32,12 +35,15 @@ nav.sub-header
     .dirty
       .btn-group
         button.green(type = "button") Build
-        button.green(
+        button.green.btn-icon(
           ng-class = "{active: dataBuild.showBuildOptionsDirty}"
           ng-click = "dataBuild.togglePopover('BuildOptionsDirty', $event)"
           type = "button"
         )
-          span.arrow-down
+          object.iconnables(
+            data = "/build/images/icons/icons-arrow-down-alt.svg"
+            type = "image/svg+xml"
+          )
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.showBuildOptionsDirty}"
             ng-include = "'viewBuildPopoverBuildOptions'"
@@ -52,7 +58,7 @@ section.sidebar
         type = "image/svg+xml"
       )
       b {{ dataApp.stateParams.branchName }}
-      | #{''} recipe
+      | #{''} config
     li
       object.iconnables.icons-duration(
         data = "/build/images/icons/icons-duration.svg"
@@ -64,18 +70,17 @@ section.sidebar
         data = "/build/images/icons/icons-calendar.svg"
         type = "image/svg+xml"
       )
-      | Initiated 10 minutes ago
+      | Initiated <time datetime="2014-07-04 19:00" title="2014-07-04 19:00">10 minutes ago</time>
     li
       object.iconnables.icons-trigger(
         data = "/build/images/icons/icons-trigger.svg"
         type = "image/svg+xml"
       )
       | Triggered by <a>runnabro</a>
-  ol
-    li Commit Logs
-
+  h3 Message Log
+  ol#messages
     li(ng-repeat = "commit in dataBuild.commits")
-      ol.commit
+      ol.message
         li
           a {{commit.message}}
         li
@@ -84,7 +89,7 @@ section.sidebar
             | #{''} {{commit.username}}
           span {{commit.hash}}
     li
-      ol.commit
+      ol.message
         li
           a removing comment
         li
@@ -101,7 +106,7 @@ section.sidebar
               type = "image/svg+xml"
             )
     li
-      ol.commit
+      ol.message
         li
           a separate popover for branches
         li
@@ -118,7 +123,7 @@ section.sidebar
               type = "image/svg+xml"
             )
     li
-      ol.commit
+      ol.message
         li
           a change project popover
         li
@@ -135,7 +140,7 @@ section.sidebar
               type = "image/svg+xml"
             )
     li
-      ol.commit
+      ol.message
         li
           a remove sign up, new, search from header
         li
@@ -152,7 +157,7 @@ section.sidebar
               type = "image/svg+xml"
             )
     li
-      ol.commit
+      ol.message
         li
           a sync with tony
         li
@@ -174,7 +179,7 @@ section.sidebar
 #editor(
   ng-class="{'in': dataBuild.showExplorer, '': !dataBuild.showExplorer}"
 )
-  button#explorer-toggle.with-iconnables(
+  button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.showExplorer = !dataBuild.showExplorer"
     ng-init = "dataBuild.showExplorer = true"
     type = "button"
@@ -192,8 +197,8 @@ section.sidebar
         span
     .explorer-header
       h6
-        | RECIPE FILES
-        button.silver.btn-sm.file-explorer-menu.with-iconnables(
+        | CONFIG FILES
+        button.silver.btn-sm.file-explorer-menu.btn-icon(
           ng-class = "{active: dataBuild.showFileMenu}"
           ng-click = "dataBuild.togglePopover('FileMenu', $event)"
         )
@@ -263,7 +268,7 @@ section.sidebar
     #tabs-wrapper
     //- file_tabs
   #select-tabs.dropdown
-    button.with-iconnables(type = "button")
+    button.btn-icon(type = "button")
       object.iconnables(
         data = "/build/images/icons/icons-select.svg"
         type = "image/svg+xml"
