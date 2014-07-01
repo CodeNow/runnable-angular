@@ -2,39 +2,53 @@
 .popover-content
   ul#file-explorer-options.popover-body
     li
-      a
-        object.iconnables(
-          data = "/build/images/icons/icons-new-file.svg"
-          type = "image/svg+xml"
-        )
-        | New File
+      object.iconnables(
+        data = "/build/images/icons/icons-new-file.svg"
+        type = "image/svg+xml"
+      )
+      | New File
     li
-      a
-        object.iconnables(
-          data = "/build/images/icons/icons-new-folder.svg"
-          type = "image/svg+xml"
-        )
-        | New Folder
+      object.iconnables(
+        data = "/build/images/icons/icons-new-folder.svg"
+        type = "image/svg+xml"
+      )
+      | New Folder
     li.divider
-    li
-      a#add-repo-link
-        object.iconnables(
-          data = "/build/images/icons/icons-octocat.svg"
-          type = "image/svg+xml"
-        )
-        | Add Repo
+    li(
+      ng-click = "dataInstance.showAddRepo = true"
+    )
+      object.iconnables(
+        data = "/build/images/icons/icons-octocat.svg"
+        type = "image/svg+xml"
+      )
+      | Add Repo
 
   #add-repo.popover-body
-    form
+    form.search
       input.form-control(
         type = "search"
         placeholder = "Filter Repositories"
+        required
       )
+      button.submit
+        object.inactive(
+          data = "/build/images/icons/icons-search.svg"
+          type = "image/svg+xml"
+        )
+        object.active(
+          data = "/build/images/icons/icons-search-active.svg"
+          type = "image/svg+xml"
+        )
     ul.popover-list
-      li
-        a.select-repo
-          | username/reponame
-          a.btn.btm-sm.silver.glyphicons.cogwheel.select-branch
+      li(
+        ng-click = "dataBuild.showAddRepoForm = true"
+      ) org/reponame
+        form.add-repo-form
+          input.form-control(placeholder = "Branch or SHA (optional)")
+          a.btn.btn-block.orange Add Repository
+      li(
+        ng-click = "dataBuild.showAddRepoForm = true"
+      ) org/reponame
         form.add-repo-form
           input.form-control(placeholder = "Branch or SHA (optional)")
           a.btn.btn-block.orange Add Repository

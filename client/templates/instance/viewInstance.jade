@@ -87,7 +87,7 @@ section.sidebar
             type = "image/svg+xml"
           )
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataInstance.showFileMenu}"
+            ng-class = "{in: dataInstance.showFileMenu, 'show-add-repo': dataInstance.showAddRepo}"
             ng-include = "'viewInstancePopoverFileMenu'"
           )
       ul.tree
@@ -154,7 +154,7 @@ section.sidebar
       type = "image/svg+xml"
     )
     .popover.menu.bottom.fade(
-      ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut':dataInstance.showNewShortcut}"
+      ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut': dataInstance.showNewShortcut}"
       ng-include = "'viewInstancePopoverAddTab'"
     )
   #select-tabs.dropdown
