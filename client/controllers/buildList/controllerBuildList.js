@@ -104,6 +104,9 @@ function ControllerBuildList (
       });
     },
     function fetchBuildsOwners (project, environments, environment, builds, cb) {
+      if (builds.models.length === 0) {
+        return cb(null, project, environments, environment, [], []);
+      }
       var ownerIds = builds.models
         .map(function (item) {
           return item.attrs.owner;
