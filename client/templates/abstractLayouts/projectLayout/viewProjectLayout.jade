@@ -46,34 +46,70 @@ header#primary
   //-       ng-href  = "{{ dataProjectLayout.getProjectBuildListHref(project.attrs.name) }}"
   //-     ) {{ project.attrs.name }}
 
-  //- .btn-group.toggle.clearfix
-  //-   button.active Projects
-  //-   button Instances
-
   //- all the dummy data
-  .list-container
-    ul#projects
-      li
-        a Buster
-      li
-        a Bob Lob Law
-        ul.config-list
-          li
-            a Main
-          li
-            a Recipe 1
-          li
-            a Recipe 2
-      li
-        a Luna
+  h3 PROJECTS
+  ul#projects.btn-group-vertical
+    li.btn.white
+      object.iconnables(
+        data = "/build/images/icons/icons-arrow-down-alt.svg"
+        type = "image/svg+xml"
+      )
+      | Buster
+      ul.config-list
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Main
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Recipe 1
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Recipe 2
+    li.btn.white.active
+      object.iconnables(
+        data = "/build/images/icons/icons-arrow-down-alt.svg"
+        type = "image/svg+xml"
+      )
+      | Bob Lob Law
+      ul.config-list
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Main
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Recipe 1
+        li
+          object.iconnables(
+            data = "/build/images/icons/icons-recipe-white.svg"
+            type = "image/svg+xml"
+          )
+          | Recipe 2
+    //- The project, Luna, doesn't have an expand icon because it has no recipes (so it can't expand)
+    li.btn.white Luna
 
-    //- ul#instances
-    //-   li
-    //-     a Project X
-    //-   li
-    //-     a purple4lyfe
-    //-   li
-    //-     a buster
+  h3 INSTANCES
+  ul#instances.btn-group-vertical
+    li.btn.white Project X
+      small user/app/config/build
+    li.btn.white Colorado
+      small user/app/config/build
+    li.btn.white California
+      small user/app/config/build
 
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
