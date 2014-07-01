@@ -16,7 +16,7 @@ function ControllerApp (
 
   this.scope = $scope;
   var self = ControllerApp;
-  var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($stateParams);
+  var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state, $stateParams);
 
   dataApp.click = function () {
     self.documentLevelClick($scope);
