@@ -19,12 +19,14 @@ function ControllerApp (
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($stateParams);
 
   dataApp.click = function () {
-    $scope.$broadcast('app-document-click');
-    //self.documentLevelClick($scope);
+    self.documentLevelClick($scope);
   };
 
   dataApp.holdUntilAuth = function (cb) {
-    self.holdUntilAuth(dataApp.status, user, $state, function (err, newData, response) {
+    self.holdUntilAuth(dataApp.status,
+                       user,
+                       $state, 
+                       function (err, newData, response) {
       $scope.apply(function () {
         angular.extend(dataApp, newData);
       });
