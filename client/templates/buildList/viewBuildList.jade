@@ -10,7 +10,10 @@ nav#build-stream-header.sub-header
         type = "image/svg+xml"
       )
       | {{ dataApp.stateParams.branchName }}
-      span.arrow-down
+      object.iconnables.icons-arrow-down(
+        data = "/build/images/icons/icons-arrow-down.svg"
+        type = "image/svg+xml"
+      )
       .popover.menu.bottom.fade(
         ng-class = "{in: dataBuildList.showChangeRecipe}"
         ng-include = "'viewBuildListPopoverChangeRecipe'"

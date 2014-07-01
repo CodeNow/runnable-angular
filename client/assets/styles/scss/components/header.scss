@@ -46,6 +46,10 @@ header {
 
   &.active {
 
+    .iconnables {
+      transform: rotate3d(0,0,1,180deg);
+    }
+
     & ~ .accounts {
       max-height: 300px;
 

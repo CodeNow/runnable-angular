@@ -44,6 +44,7 @@
   margin: 0;
   pointer-events: none;
   position: relative;
+  transition: transform .15s;
   width: 24px;
 
   &.lg {

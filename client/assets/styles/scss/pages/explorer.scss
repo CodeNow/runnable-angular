@@ -265,13 +265,17 @@
   float: right;
   margin-top: -36px;
   position: relative;
-  right: 36px;
+    right: 36px;
   width: 36px;
 
   &:hover,
   &.active,
   &:active {
     background: #fff;
+  }
+
+  &.active .icons-add-alt {
+    transform: rotate3d(0,0,1,135deg);
   }
 }
 
