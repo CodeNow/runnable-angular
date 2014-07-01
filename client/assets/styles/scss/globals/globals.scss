@@ -17,6 +17,11 @@ main {
   height: 100%;
   width: calc(100% - 240px);
 
+  .width-full & {
+    float: none;
+    width: 100%;
+  }
+
   .height-54 & {
     float: none;
     height: calc(100% - 54px);

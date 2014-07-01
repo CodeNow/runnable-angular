@@ -6,7 +6,7 @@ module.exports = [{
   controller:  'ControllerHome',
   data: {
     bodyClass: {
-      'height-54': true
+      'width-full': true
     },
   }
 }, {
