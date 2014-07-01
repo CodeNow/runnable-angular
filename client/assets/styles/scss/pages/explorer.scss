@@ -526,6 +526,10 @@
 .show-form {
   max-height: 126px !important;
 
+  .arrow::after {
+    border-bottom-color: $gray-lighter !important;
+  }
+
   #add-repo {
 
     > form {
