@@ -516,6 +516,22 @@
       border-top: 0;
     }
   }
+
+  .btn-icon {
+    display: none;
+    float: left;
+    margin-left: 6px;
+    opacity: .5;
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:active,
+    &.active {
+      opacity: 1;
+    }
+  }
 }
 
 .add-repo-form {
@@ -528,6 +544,14 @@
 
   .arrow::after {
     border-bottom-color: $gray-lighter !important;
+  }
+
+  .popover-content {
+    max-height: 126px !important;
+  }
+
+  .popover-body {
+    max-height: 123px;
   }
 
   #add-repo {
@@ -543,6 +567,7 @@
     }
 
     li {
+      cursor: default;
       height: 0;
       opacity: 0;
       padding: 0;
@@ -566,7 +591,10 @@
     span {
       @extend .popover-title;
       display: block;
-      padding: 0 15px;
+    }
+
+    .btn-icon {
+      display: inline-block;
     }
   }
 

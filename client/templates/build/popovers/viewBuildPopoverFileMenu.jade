@@ -44,7 +44,16 @@
         ng-class = "{in: dataBuild.showForm}"
         ng-click = "dataBuild.showForm = true"
       )
-        span org/reponame
+        span
+          button.btn-icon(
+            ng-click = "dataBuild.showForm = false"
+            type = "button"
+          )
+            object.iconnables(
+              data = "/build/images/icons/icons-chevron-left.svg"
+              type = "image/svg+xml"
+            )
+          | org/reponame
         form.add-repo-form
           input.form-control(placeholder = "Branch or SHA (optional)")
           button.btn-block.green Add Repository
@@ -52,7 +61,33 @@
         ng-class = "{in: dataBuild.showForm}"
         ng-click = "dataBuild.showForm = true"
       )
-        span org/reponame
+        span
+          button.btn-icon(
+            ng-click = "dataBuild.showForm = false"
+            type = "button"
+          )
+            object.iconnables(
+              data = "/build/images/icons/icons-chevron-left.svg"
+              type = "image/svg+xml"
+            )
+          | org/reponame
+        form.add-repo-form
+          input.form-control(placeholder = "Branch or SHA (optional)")
+          button.btn-block.green Add Repository
+      li(
+        ng-class = "{in: dataBuild.showForm}"
+        ng-click = "dataBuild.showForm = true"
+      )
+        span
+          button.btn-icon(
+            ng-click = "dataBuild.showForm = false"
+            type = "button"
+          )
+            object.iconnables(
+              data = "/build/images/icons/icons-chevron-left.svg"
+              type = "image/svg+xml"
+            )
+          | org/reponame
         form.add-repo-form
           input.form-control(placeholder = "Branch or SHA (optional)")
           button.btn-block.green Add Repository
