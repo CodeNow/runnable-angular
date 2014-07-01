@@ -25,6 +25,38 @@ header {
 
     &.active {
       background: rgba(255,255,255,.075);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+
+      &:hover {
+        background: rgba(255,255,255,.1);
+        color: $gray-lighter;
+      }
+
+      &:active {
+        background: transparent;
+        box-shadow: none;
+        color: $gray-lighter;
+        transition: none;
+
+        &::after {
+          background: rgba(0,0,0,.15);
+          box-shadow: none;
+        }
+
+        > ul {
+          background: #553a69;
+        }
+      }
+
+      &::after {
+        content: '';
+        display: block;
+        height: 36px;
+        position: absolute;
+          top: 0;
+          left: 0;
+        width: 100%;
+      }
     }
   }
 
@@ -47,7 +79,6 @@ header {
 
   &.active {
     border-radius: 3px 3px 0 0;
-    background: rgba(0,0,0,.15);
 
     .iconnables {
       transform: rotate3d(0,0,1,180deg);
@@ -179,6 +210,7 @@ header {
 
   small {
     color: rgba(255,255,255,.5);
+    letter-spacing: .5px;
     position: absolute;
       bottom: 6px;
       left: 0;
