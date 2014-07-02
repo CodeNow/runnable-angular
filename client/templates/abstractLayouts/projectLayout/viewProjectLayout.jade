@@ -74,7 +74,7 @@ header(
         )
         | {{ project.attrs.name }}
         ul.config-list(
-          ng-repeat = "environments in project.environments"
+          ng-repeat = "environments in project.attrs.environments"
         )
           li
             object.iconnables(
