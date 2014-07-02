@@ -79,7 +79,7 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.message }}
 
         //- td {{ dataBuildList.environments.getById(build.attrs.environment).attrs.name }}
-        td {{ '' }}
+        td {{ dataBuildList.project.attrs.name }}
 
         td {{ build.attrs.duration }}
         td {{ build.attrs.created | timeAgo }}
