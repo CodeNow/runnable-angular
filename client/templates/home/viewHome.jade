@@ -8,8 +8,9 @@ main
         data = "/build/images/sandbox-runnable-logo.svg"
         type = "image/svg+xml"
       )
+      h1(ng-click = "dataHome.seed()") SEED!
       a.btn.white(
-        href = "{{ dataHome.authUrl }}"
+        href = "{{ dataApp.loginURL }}"
         type = "button"
       )
         object.iconnables(data = "/build/images/icons/icons-git.svg"

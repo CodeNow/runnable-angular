@@ -1,6 +1,5 @@
 require('app')
   .controller('ControllerHome', ControllerHome);
-var injAsync;
 /**
  * ControllerHome
  * @constructor
@@ -9,14 +8,11 @@ var injAsync;
  */
 function ControllerHome (
   $scope,
-  apiHost,
-  user,
-  async
+  user
 ) {
 
-  injAsync = async;
   var self = ControllerHome;
-  var dataHome = $scope.dataHome = self.initState(apiHost);
+  var dataHome = $scope.dataHome = self.initState();
   self.checkIfAuth(
     $scope.dataApp.holdUntilAuth,
     $scope.dataApp.state,
@@ -24,10 +20,8 @@ function ControllerHome (
   );
 }
 
-ControllerHome.initState = function (apiHost) {
+ControllerHome.initState = function () {
   return {
-    apiHost: apiHost,
-    authUrl: apiHost+'/auth/github?redirect='+encodeURI('http://localhost:3001/')
   };
 };
 

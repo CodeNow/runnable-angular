@@ -36,7 +36,9 @@ header#primary
           )
           | Runnable
       li.btn.white
-        a Log Out
+        a(
+          href = "{{ dataApp.logoutURL }}"
+        ) Log Out
     form
       //- this field is optional. if blank, name the app for them: 'My App'
       input.form-control(placeholder = "Application Name")

@@ -11,11 +11,15 @@ function ControllerApp (
   $scope,
   user,
   $stateParams,
-  $state
+  $state,
+  apiHost
 ) {
+
   this.scope = $scope;
   var self = ControllerApp;
-  var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state, $stateParams);
+  var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
+                                                                     $stateParams,
+                                                                     apiHost);
 
   dataApp.click = function () {
     self.documentLevelClick($scope);
@@ -29,13 +33,18 @@ function ControllerApp (
       });
     });
   };
+
+  $scope.$watch('dataApp.user', function (newVal, oldVal) {
+  });
 }
 
-ControllerApp.initState = function ($state, $stateParams) {
+ControllerApp.initState = function ($state, $stateParams, apiHost) {
   return {
     state: $state,
     stateParams: $stateParams,
-    user: null
+    user: null,
+    loginURL: apiHost+'/auth/github?redirect='+encodeURI('http://localhost:3001'),
+    logoutURL: apiHost+'/auth/logout?redirect='+encodeURI('http://localhost:3001')
   };
 };
 
@@ -59,3 +68,4 @@ ControllerApp.holdUntilAuth = function (dataAppUser, user, $state, cb) {
     });
   }
 };
+
