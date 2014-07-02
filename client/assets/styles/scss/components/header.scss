@@ -38,6 +38,20 @@ header {
       pointer-events: auto;
     }
 
+    .accounts {
+
+      li {
+
+        &:nth-last-child(2) {
+          border-radius: 0 0 3px 3px !important;
+        }
+
+        &:last-child {
+          display: none;
+        }
+      }
+    }
+
     // hides all non-relevant elements
     .scroll-container {
       opacity: 0;
@@ -64,7 +78,7 @@ header {
 
   input {
     box-shadow: none !important;
-    margin: 3px 0 9px;
+    margin: 9px 0;
   }
 
   a {
