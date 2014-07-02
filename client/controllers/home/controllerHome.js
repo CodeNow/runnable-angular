@@ -33,6 +33,7 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
         ownerUsername: thisUser.attrs.username
       }, function () {
         if (!projects.models.length) {
+          $state.go('projects', {});
           return;
         }
         var firstProject = projects.models[0];
