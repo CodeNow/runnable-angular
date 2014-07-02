@@ -1,42 +1,46 @@
 header#primary
-  a#logo(href = "/")
-    span
-    sup &lt;alpha&gt;
+  .startup-container
+    a#logo(href = "/")
+      span
+      sup &lt;alpha&gt;
 
-  button.white#user(
-    ng-class="{'active': dataProjectLayout.showChangeAccount, '': !dataProjectLayout.showChangeAccount}"
-    ng-click = "dataProjectLayout.showChangeAccount = !dataProjectLayout.showChangeAccount"
-    type = "button"
-  )
-    img(
-      height = "19"
-      src = "{{ dataApp.user.gravitar }}"
-      width = "19"
+    button.white#user(
+      ng-class="{'active': dataProjectLayout.showChangeAccount, '': !dataProjectLayout.showChangeAccount}"
+      ng-click = "dataProjectLayout.showChangeAccount = !dataProjectLayout.showChangeAccount"
+      type = "button"
     )
-    | {{ dataApp.user.username }}
-    object.iconnables(
-      data = "/build/images/icons/icons-arrow-down-alt.svg"
-      type = "image/svg+xml"
-    )
-  ul.accounts.btn-group-vertical
-    li.btn.white
-      a
-        img(
-          height = "19"
-          src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
-          width = "19"
-        )
-        | CodeNow
-    li.btn.white
-      a
-        img(
-          height = "19"
-          src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
-          width = "19"
-        )
-        | Runnable
-    li.btn.white
-      a Log Out
+      img(
+        height = "19"
+        src = "{{ dataApp.user.gravitar }}"
+        width = "19"
+      )
+      | {{ dataApp.user.username }}
+      object.iconnables(
+        data = "/build/images/icons/icons-arrow-down-alt.svg"
+        type = "image/svg+xml"
+      )
+    ul.accounts.btn-group-vertical
+      li.btn.white
+        a
+          img(
+            height = "19"
+            src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
+            width = "19"
+          )
+          | CodeNow
+      li.btn.white
+        a
+          img(
+            height = "19"
+            src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
+            width = "19"
+          )
+          | Runnable
+      li.btn.white
+        a Log Out
+    form
+      input.form-control(placeholder = "Project Name")
+      button.orange.btn-block Create Project
 
   //- ul#repositories
   //-   li(ng-repeat = "project in dataProjectLayout.projects.models")
