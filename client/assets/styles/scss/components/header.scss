@@ -7,7 +7,7 @@ header {
   transition: width .3s ease-in-out;
   width: 240px;
 
-  // new project mode
+  // new app mode
   &.in {
     width: 100%;
 
@@ -205,7 +205,7 @@ header {
   transition: opacity .15s .3s ease-in-out;
 }
 
-#projects,
+#apps,
 #instances {
   width: 100%;
 

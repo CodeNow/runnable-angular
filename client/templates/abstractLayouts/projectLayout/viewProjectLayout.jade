@@ -39,8 +39,11 @@ header#primary
       li.btn.white
         a Log Out
     form
-      input.form-control(placeholder = "Project Name")
-      button.orange.btn-block Create Project
+      //- this field is optional. if blank, name the app for them: 'My App'
+      input.form-control(placeholder = "Application Name")
+      button.orange.btn-block(
+        ng-click = ""
+      ) Create App
 
   //- ul#repositories
   //-   li(ng-repeat = "project in dataProjectLayout.projects.models")
@@ -51,8 +54,8 @@ header#primary
 
   //- all the dummy data
   .scroll-container
-    h3 PROJECTS
-    ul#projects.btn-group-vertical
+    h3 APPLICATIONS
+    ul#apps.btn-group-vertical
       li.btn.white(
         ng-repeat = "project in dataProjectLayout.projects.models"
         ng-class = "{active: show}"
@@ -75,13 +78,13 @@ header#primary
               data = "/build/images/icons/icons-recipe-white.svg"
               type = "image/svg+xml"
             )
-            | Recipe 1
+            | Config 1
           li
             object.iconnables(
               data = "/build/images/icons/icons-recipe-white.svg"
               type = "image/svg+xml"
             )
-            | Recipe 2
+            | Config 2
 
 
 
@@ -110,12 +113,12 @@ header#primary
               //-type = "image/svg+xml"
             //-)
             //-| Recipe 2
-      //-//- The project, Luna, doesn't have an expand icon because it has no recipes (so it can't expand)
+      //-//- The app, Luna, doesn't have an expand icon because it has no recipes (so it can't expand)
       //-li.btn.white Luna
 
     h3 INSTANCES
     ul#instances.btn-group-vertical
-      li.btn.white Project X
+      li.btn.white My App
         small user/app/config/build
       li.btn.white Colorado
         small user/app/config/build
