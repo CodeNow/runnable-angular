@@ -388,7 +388,7 @@ module.exports = function(grunt) {
     'concat',
     'autoprefixer',
     'jade2js',
-  //  'jshint:dev',
+    'jshint:dev',
     'autoBundleDependencies',
     'browserify'
   ]);
