@@ -14,36 +14,43 @@ module.exports = [{
   abstract:    false,
   url:         '^/about',
   templateUrl: 'viewAbout',
-  controller:  'ControllerAbout',
+  controller:  'ControllerAbout'
 }, {
   state:       'jobs',
   abstract:    false,
   url:         '^/jobs',
   templateUrl: 'viewJobs',
-  controller:  'ControllerJobs',
+  controller:  'ControllerJobs'
 }, {
   state:       'projects',
-  abstract:    true,
+  abstract:    false,
+  url:         '^/new',
   templateUrl: 'viewProjectLayout',
   controller:  'ControllerProjectLayout'
 }, {
+  state:       'projects.setup',
+  abstract:    false,
+  url:         '^/new/:userName/:projectName',
+  templateUrl: 'viewSetup',
+  controller:  'ControllerSetup'
+}, {
   state:       'projects.buildList',
   abstract:    false,
-  url:         '^/:userName/:projectName/:branchName',
+  url:         '^/project/:userName/:projectName/:branchName',
   templateUrl: 'viewBuildList',
-  controller:  'ControllerBuildList',
+  controller:  'ControllerBuildList'
 }, {
   state:       'projects.build',
   abstract:    false,
-  url:         '^/:userName/:projectName/:branchName/:buildName',
+  url:         '^/project/:userName/:projectName/:branchName/:buildName',
   templateUrl: 'viewBuild',
-  controller:  'ControllerBuild',
+  controller:  'ControllerBuild'
 }, {
   state:       'projects.instance',
   abstract:    false,
-  url:         '^/:userName/:projectName/:branchName/:buildName/:instanceId',
+  url:         '^/project/:userName/:projectName/:branchName/:buildName/:instanceId',
   templateUrl: 'viewInstance',
-  controller:  'ControllerInstance',
+  controller:  'ControllerInstance'
 }, {
   state:       '404',
   abstract:    false,

@@ -18,37 +18,74 @@ function ControllerProjectLayout (
   dataProjectLayout.getProjectBuildListHref = function (projectName) {
     return self.getProjectBuildListHref($scope.dataApp.stateParams.userName, projectName);
   };
+  dataProjectLayout.getInClass = function () {
+    return ($state.current.name === 'projects') ? 'in' : '';
+  };
 
-  async.waterfall([
-    $scope.dataApp.holdUntilAuth,
-    function checkAuth (me, cb) {
-      if ($scope.dataApp.user.attrs.username !== $scope.dataApp.stateParams.userName) {
-        $state.go('404', {});
-        return cb(new Error());
+  dataProjectLayout.createNewApp = function () {
+    async.waterfall([
+      $scope.dataApp.holdUntilAuth,
+      function (thisUser, cb) {
+        var project = thisUser.createProject({
+          name: dataProjectLayout.newAppName,
+          dockerfile: 'FROM ubuntu\n'
+        }, function (err) {
+          cb(err, thisUser, project);
+        });
       }
-      cb(null, me);
-    },
-    function fetchProjects (me, cb) {
-      var projects = user.fetchProjects({
-        ownerUsername: $scope.dataApp.stateParams.userName
-      }, function (err, response) {
-        if (err) {
-          return cb(err);
+    ], function (err, thisUser, project) {
+      if (err) {
+        // TODO
+      }
+      $state.go('projects.setup', {
+        userName: thisUser.attrs.username,
+        projectName: project.attrs.name
+      });
+    });
+  };
+
+  $scope.$watch('dataApp.state.current.name', function () {
+    initForState();
+  });
+
+  function initForState () {
+    if ($state.current.name === 'projects') {
+      $scope.dataApp.holdUntilAuth(angular.noop);
+    } else {
+      async.waterfall([
+        $scope.dataApp.holdUntilAuth,
+        function checkAuth (me, cb) {
+          if ($scope.dataApp.user.attrs.username !== $scope.dataApp.stateParams.userName) {
+            $state.go('404', {});
+            return cb(new Error());
+          }
+          cb(null, me);
+        },
+        function fetchProjects (me, cb) {
+          var projects = user.fetchProjects({
+            ownerUsername: $scope.dataApp.stateParams.userName
+          }, function (err, response) {
+            if (err) {
+              return cb(err);
+            }
+            cb(null, projects);
+          });
         }
-        cb(null, projects);
+      ], function (err, projects) {
+        if (err) return; // TODO error handling
+        $scope.$apply(function () {
+          dataProjectLayout.projects = projects;
+        });
       });
     }
-  ], function (err, projects) {
-    if (err) return; // TODO error handling
-    $scope.$apply(function () {
-      dataProjectLayout.projects = projects;
-    });
-  });
+  }
+
 }
 
 ControllerProjectLayout.initState = function () {
   return {
-    showChangeAccount: false
+    showChangeAccount: false,
+    newAppName: ''
   };
 };
 
