@@ -1,3 +1,5 @@
+var seedProjects = require('seeds/projects');
+
 require('app')
   .controller('ControllerBuildList', ControllerBuildList);
 /**
@@ -78,18 +80,21 @@ function ControllerBuildList (
         name:          $stateParams.projectName
       }, function (err, body) {
         if (err) {
-          // error handling
+          // project not found
+          $state.go('404', {});
           return cb(err);
         }
         cb(null, projects.models[0]);
       });
     },
     function fetchEnvironments (project, cb) {
-      // TODO error check
       var environments = project.fetchEnvironments({
         ownerUsername: $stateParams.userName
       }, function (err) {
-        // error handling
+        if (err) {
+          // no environments found
+          return cb(err);
+        }
         cb(null, project, environments);
       });
     },
@@ -98,8 +103,10 @@ function ControllerBuildList (
       cb(null, project, environments, environment);
     },
     function fetchBuilds (project, environments, environment, cb) {
-      var builds = environment.fetchBuilds({}, function (err) {
-        if (err) return cb(err); //TODO error handling
+      var builds = environment.fetchBuilds(function (err) {
+        if (err) {
+          return cb(err);
+        }
         cb(null, project, environments, environment, builds);
       });
     },
