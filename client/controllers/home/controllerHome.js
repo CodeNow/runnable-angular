@@ -10,7 +10,6 @@ function ControllerHome (
   $scope,
   user
 ) {
-
   var self = ControllerHome;
   var dataHome = $scope.dataHome = self.initState();
   self.checkIfAuth(
@@ -45,9 +44,5 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
       });
     }
   });
-};
-
-// temporary helper
-ControllerHome.seed = function () {
 
 };
