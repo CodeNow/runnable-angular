@@ -121,9 +121,6 @@ function ControllerBuildList (
       });
     },
     function fetchBuildsOwners (project, environments, environment, builds, cb) {
-      if (builds.models.length === 0) {
-        return cb(null, project, environments, environment, [], []);
-      }
       var ownerIds = builds.models
         .map(function (item) {
           return item.attrs.owner;
@@ -135,10 +132,6 @@ function ControllerBuildList (
       var buildOwners = user.fetchUsers({
         _id: ownerIds
       }, function (err) {
-        buildOwners = buildOwners.models.reduce(function (previous, current) {
-          previous[current.id()] = current;
-          return previous;
-        }, {});
         cb(null, project, environments, environment, builds, buildOwners);
       });
     }
