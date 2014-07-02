@@ -35,7 +35,6 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
                                        $state,
                                        user) {
   holdUntilAuth(function (err, thisUser) {
-    debugger;
     if (!err && thisUser) {
       var projects = thisUser.fetchProjects({
         ownerUsername: thisUser.attrs.username

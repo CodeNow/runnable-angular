@@ -10,11 +10,13 @@ body {
 html,
 body {
   height: 100%;
+  overflow: hidden;
 }
 
 main {
-  float: left;
+  float: right;
   height: 100%;
+  overflow: hidden;
   width: calc(100% - 240px);
 
   .width-full & {
