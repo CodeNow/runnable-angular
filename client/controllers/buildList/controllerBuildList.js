@@ -18,13 +18,20 @@ function ControllerBuildList (
 ) {
 
   // init data
-  var dataBuildList = $scope.dataBuildList = {};
+  var self = ControllerBuildList;
+  var dataBuildList = $scope.dataBuildList = {}; // self.initState();
+
+
+
   dataBuildList.popoverChangeRecipe = {
     filter: ''
   };
+
   dataBuildList.showChangeRecipe = false;
   dataBuildList.predicate = '';
   dataBuildList.ascending = false;
+
+
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
@@ -68,12 +75,17 @@ function ControllerBuildList (
     return res;
   };
 
+
+
+
+
+
   // seed data
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
 
-    function fetchProject (me, cb) {
-      var projects = user.fetchProjects({
+    function fetchProject (thisUser, cb) {
+      var projects = thisUser.fetchProjects({
         ownerUsername: $stateParams.userName,
         name:          $stateParams.projectName
       }, function (err, body) {
@@ -141,3 +153,14 @@ function ControllerBuildList (
     });
   });
 }
+
+ControllerBuildList.initState = function () {
+  return {
+    popoverChangeRecipe: {
+      recipe: ''
+    },
+    showChangeRecipe: false,
+    predicate: '',
+    ascending: false
+  };
+};

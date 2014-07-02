@@ -10,10 +10,10 @@ header#primary
   )
     img(
       height = "19"
-      src = "{{ dataApp.user.gravitar }}"
+      src = "{{ dataApp.user.attrs.gravitar }}"
       width = "19"
     )
-    | {{ dataApp.user.username }}
+    | {{ dataApp.user.attrs.username }}
     object.iconnables(
       data = "/build/images/icons/icons-arrow-down-alt.svg"
       type = "image/svg+xml"

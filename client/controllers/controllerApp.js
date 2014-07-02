@@ -13,7 +13,6 @@ function ControllerApp (
   $stateParams,
   $state
 ) {
-
   this.scope = $scope;
   var self = ControllerApp;
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state, $stateParams);
@@ -23,14 +22,11 @@ function ControllerApp (
   };
 
   dataApp.holdUntilAuth = function (cb) {
-    self.holdUntilAuth(dataApp.status,
-                       user,
-                       $state, 
-                       function (err, newData, response) {
+    self.holdUntilAuth(dataApp.user, user, $state, function (err, response, newData) {
       $scope.$apply(function () {
         angular.extend(dataApp, newData);
+        cb(err, dataApp.user);
       });
-      cb(err, response);
     });
   };
 }
@@ -39,8 +35,7 @@ ControllerApp.initState = function ($state, $stateParams) {
   return {
     state: $state,
     stateParams: $stateParams,
-    status: 'unknown',
-    user: {}
+    user: null
   };
 };
 
@@ -48,21 +43,19 @@ ControllerApp.documentLevelClick = function ($scope) {
   $scope.$broadcast('app-document-click');
 };
 
-ControllerApp.holdUntilAuth = function (status, user, $state, cb) {
-  var resp = {};
-  if (status === 'authenticated') {
-    cb(null, user);
-  } else if (status === 'unknown') {
-    user.fetch('me', function (err, result) {
-      if (err) {
-        // $state.go('home', {});
-      } else {
-        resp.user = result;
-        resp.status = 'authenticated';
-      }
-      cb(err, resp, result);
-    });
+ControllerApp.holdUntilAuth = function (dataAppUser, user, $state, cb) {
+  var newData = {};
+  newData.user = null;
+  if (typeof dataAppUser === 'undefined') {
+    cb(null, newData);
   } else {
-    throw new Error('invalid argument');
+    var newUser = user.fetchUser('me', function (err, result) {
+      if (err) {
+        $state.go('home', {});
+      } else {
+        newData.user = newUser;
+      }
+      cb(err, result, newData);
+    });
   }
 };

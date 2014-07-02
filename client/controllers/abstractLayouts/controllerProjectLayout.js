@@ -22,7 +22,7 @@ function ControllerProjectLayout (
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
     function checkAuth (me, cb) {
-      if ($scope.dataApp.user.username !== $scope.dataApp.stateParams.userName) {
+      if ($scope.dataApp.user.attrs.username !== $scope.dataApp.stateParams.userName) {
         $state.go('404', {});
         return cb(new Error());
       }

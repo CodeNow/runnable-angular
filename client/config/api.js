@@ -1,4 +1,4 @@
 module.exports = {
-  host: 'http://api.runnable2.net'
+  host: 'http://api.runnable3.net'
 };
 Object.freeze(module.exports);
