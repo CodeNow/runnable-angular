@@ -74,14 +74,14 @@ header(
         )
         | {{ project.attrs.name }}
         ul.config-list(
-          ng-repeat = "environments in project.attrs.environments"
+          ng-repeat = "environment in project.attrs.environments"
         )
           li
             object.iconnables(
               data = "/build/images/icons/icons-recipe-white.svg"
               type = "image/svg+xml"
             )
-            | {{ environment.attrs.name }}
+            | {{ environment.name }}
 
       //-li.btn.white
         //-object.iconnables(
