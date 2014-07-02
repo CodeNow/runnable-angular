@@ -1,5 +1,3 @@
-var seedProjects = require('seeds/projects');
-
 require('app')
   .controller('ControllerBuildList', ControllerBuildList);
 /**
