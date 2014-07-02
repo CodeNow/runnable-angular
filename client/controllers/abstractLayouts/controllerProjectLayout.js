@@ -9,32 +9,30 @@ require('app')
 function ControllerProjectLayout (
   $scope,
   async,
+  $state,
   user
 ) {
+  var self = ControllerProjectLayout;
+  var dataProjectLayout = $scope.dataProjectLayout = self.initState();
 
-  var dataProjectLayout = $scope.dataProjectLayout = {};
   dataProjectLayout.getProjectBuildListHref = function (projectName) {
-    return '/' + $scope.dataApp.stateParams.userName + '/' + projectName + '/master/';
+    return self.getProjectBuildListHref($scope.dataApp.stateParams.userName, projectName);
   };
 
   async.waterfall([
-    // temporary helper
     $scope.dataApp.holdUntilAuth,
-/*    function tempHelper (cb) {*/
-      //if (user.id()) {
-        //cb();
-      //} else {
-        ////user.anonymous(function () { cb(); });
-        //user.login('runnableUser9', 'asdfasdf9', function () { cb(); });
-      //}
-/*    }*/
-    //-------
+    function checkAuth (me, cb) {
+      if ($scope.dataApp.user.username !== $scope.dataApp.stateParams.userName) {
+        $state.go('404', {});
+        return cb(new Error());
+      }
+      cb(null, me);
+    },
     function fetchProjects (me, cb) {
       var projects = user.fetchProjects({
         ownerUsername: $scope.dataApp.stateParams.userName
-      }, function (err, body) {
+      }, function (err, response) {
         if (err) {
-          // error handling
           return cb(err);
         }
         cb(null, projects);
@@ -47,3 +45,13 @@ function ControllerProjectLayout (
     });
   });
 }
+
+ControllerProjectLayout.initState = function () {
+  return {
+    showChangeAccount: false
+  };
+};
+
+ControllerProjectLayout.getProjectBuildListHref = function (userName, projectName) {
+  return '/' + userName + '/' + projectName + '/master/';
+};

@@ -53,10 +53,11 @@ ControllerApp.holdUntilAuth = function (status, user, $state, cb) {
   if (status === 'authenticated') {
     cb(null, user);
   } else if (status === 'unknown') {
-    resp.user = user.fetch('me', function (err, result) {
+    user.fetch('me', function (err, result) {
       if (err) {
         // $state.go('home', {});
       } else {
+        resp.user = result;
         resp.status = 'authenticated';
       }
       cb(err, resp, result);
