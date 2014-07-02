@@ -1,4 +1,4 @@
-header#primary
+header
   .startup-container
     a#logo(href = "/")
       span
@@ -41,10 +41,8 @@ header#primary
         ) Log Out
     form
       //- this field is optional. if blank, name the app for them: 'My App'
-      input.form-control(placeholder = "Application Name")
-      button.orange.btn-block(
-        ng-click = ""
-      ) Create App
+      input.form-control(placeholder = "Give your app a name.")
+      button.orange.btn-block Create App
 
   //- ul#repositories
   //-   li(ng-repeat = "project in dataProjectLayout.projects.models")
