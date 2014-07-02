@@ -2,6 +2,14 @@ nav.sub-header
   h1.build-header.divided-header.animations-off(
     ng-class = "{'in': !dataBuild.isClean }"
   )
+    button.btn-icon.silver.tooltip(
+      data-title = "View All Builds"
+      type = "button"
+    )
+      object.iconnables.icons-back-table(
+        data = "/build/images/icons/icons-back-table.svg"
+        type = "image/svg+xml"
+      )
     .iconnables.iconnables-container
       object.iconnables.icons-pass(
         data = "/build/images/icons/icons-pass.svg"

@@ -37,25 +37,40 @@
       }
     }
 
+    // back-stream
+    .btn-icon {
+      position: absolute;
+        left: 9px;
+        top: 8px;
+      width: 36px;
+
+      &::before,
+      &::after {
+        margin-left: 6px;
+        margin-top: 12px;
+      }
+    }
+
     // configs popover position
     .popover {
       left: -32px;
     }
 
-    object {
-      position: absolute;
-        top: 0;
-        left: 0;
-
-      &.icons-asterisk {
-        left: 4px;
-        transform: scale3d(0,0,0);
-      }
-    }
-
     > .iconnables-container{
       margin-right: 3px;
       top: 6px;
+      user-select: none;
+
+      .iconnables {
+        position: absolute;
+          top: 0;
+          left: 0;
+
+        &.icons-asterisk {
+          left: 4px;
+          transform: scale3d(0,0,0);
+        }
+      }
     }
 
     > .inline-edit {
