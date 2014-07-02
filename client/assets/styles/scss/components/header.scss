@@ -12,7 +12,23 @@ header {
     width: 100%;
 
     .startup-container {
-      transform: translate3d(0,200%,0);
+      transform: translate3d(0,30px,0);
+
+      @media (min-height: 500px) {
+        transform: translate3d(0,125px,0);
+      }
+
+      @media (min-height: 600px) {
+        transform: translate3d(0,200px,0);
+      }
+
+      @media (min-height: 750px) {
+        transform: translate3d(0,250px,0);
+      }
+
+      @media (min-height: 1000px) {
+        transform: translate3d(0,350px,0);
+      }
     }
 
     //reveal form
@@ -47,7 +63,6 @@ header {
   }
 
   input {
-    border-color: transparent !important;
     box-shadow: none !important;
     margin: 3px 0 9px;
   }
