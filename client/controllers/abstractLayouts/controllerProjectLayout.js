@@ -23,6 +23,7 @@ function ControllerProjectLayout (
   };
 
   dataProjectLayout.createNewApp = function () {
+    dataProjectLayout.disableNewButton = true;
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
       function (thisUser, cb) {
@@ -34,6 +35,7 @@ function ControllerProjectLayout (
         });
       }
     ], function (err, thisUser, project) {
+      dataProjectLayout.disableNewButton = false;
       if (err) {
         // TODO
       }
@@ -85,7 +87,8 @@ function ControllerProjectLayout (
 ControllerProjectLayout.initState = function () {
   return {
     showChangeAccount: false,
-    newAppName: ''
+    newAppName: '',
+    disableNewButton: false
   };
 };
 

@@ -8,6 +8,7 @@ header(
     button.white#user(
       ng-class="{'active': dataProjectLayout.showChangeAccount, '': !dataProjectLayout.showChangeAccount}"
       ng-click = "dataProjectLayout.showChangeAccount = !dataProjectLayout.showChangeAccount"
+      ng-disabled = "dataProjectLayout.disableNewButton"
       type = "button"
     )
       img(
@@ -71,28 +72,16 @@ header(
           data = "/build/images/icons/icons-arrow-down-alt.svg"
           type = "image/svg+xml"
         )
-          | {{ project.attrs.name }}
-        ul.config-list
+        | {{ project.attrs.name }}
+        ul.config-list(
+          ng-repeat = "environments in project.environments"
+        )
           li
             object.iconnables(
               data = "/build/images/icons/icons-recipe-white.svg"
               type = "image/svg+xml"
             )
-            | Main
-          li
-            object.iconnables(
-              data = "/build/images/icons/icons-recipe-white.svg"
-              type = "image/svg+xml"
-            )
-            | Config 1
-          li
-            object.iconnables(
-              data = "/build/images/icons/icons-recipe-white.svg"
-              type = "image/svg+xml"
-            )
-            | Config 2
-
-
+            | {{ environment.attrs.name }}
 
       //-li.btn.white
         //-object.iconnables(
