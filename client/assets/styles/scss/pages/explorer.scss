@@ -197,6 +197,11 @@
   transition: transform .15s ease-in-out, width 0s ease-in-out;
   width: calc(100% - 72px);
 
+  .setup & {
+    transform: none;
+    width: 100%;
+  }
+
   .with-addtab & {
     width: calc(100% - 108px);
   }

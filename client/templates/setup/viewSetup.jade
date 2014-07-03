@@ -1,5 +1,5 @@
 nav.sub-header
-  h1.divided-header App Setup
+  h1.divided-header Application Setup
   section#main-controls
 
 section.sidebar
@@ -7,7 +7,7 @@ section.sidebar
     #setup-repo
       .input-container
         input.form-control(
-          ng-click = ""
+          ng-click = "dataSetup.repoMode = !dataSetup.repoMode"
           placeholder = "Add Repository"
         )
         object.iconnables.icons-arrow-down(
@@ -15,22 +15,54 @@ section.sidebar
           type = "image/svg+xml"
         )
       .popover.bottom.fade(
-        ng-class = ""
+        ng-class = "{in: dataSetup.repoMode}"
         ng-include = "'viewSetupPopoverAddRepos'"
       )
-      ul
+      ul#added-repos
         li Org/Repo
-    #setup
+          button.btn-icon
+            object.iconnables.icons-delete(
+              data = "/build/images/icons/icons-delete.svg"
+              type = "image/svg+xml"
+            )
+          button.btn-icon
+            object.iconnables.icons-arrow-down(
+              data = "/build/images/icons/icons-arrow-down.svg"
+              ng-click = ""
+              type = "image/svg+xml"
+            )
+          .form-label
+            span /
+            input.form-control(placeholder = "Set location of repo")
+        li Org/Repo
+          button.btn-icon
+            object.iconnables.icons-delete(
+              data = "/build/images/icons/icons-delete.svg"
+              type = "image/svg+xml"
+            )
+          button.btn-icon
+            object.iconnables.icons-arrow-down(
+              data = "/build/images/icons/icons-arrow-down.svg"
+              type = "image/svg+xml"
+            )
+          .form-label
+            span /
+            input.form-control(placeholder = "Set location of repo")
+
+    #setup-template
       h3 Choose a Docker Template
       .form-group.toggle-group
+        //- the required attribute is needed on only one input
         label Node.js + MongoDB
           input(
             name = "docker-template"
+            required
             type = "radio"
           )
         label Template 2
           input(
             name = "docker-template"
+            required
             type = "radio"
           )
         label Template 3
@@ -48,8 +80,9 @@ section.sidebar
             name = "docker-template"
             type = "radio"
           )
-        label Template 6
+        label.active Template 6
           input(
+            checked
             name = "docker-template"
             type = "radio"
           )
@@ -58,9 +91,12 @@ section.sidebar
             name = "docker-template"
             type = "radio"
           )
-    button.btn-block.orange Build Project
+    button.btn-block.orange Build Application
 
 #editor
+  #editor-toolbar
+    #tabs-wrapper
+    //- file_tabs
   pre(ui-ace readonly="true").
     ## Start from base Ubuntu 14.04
     FROM ubuntu:14.04

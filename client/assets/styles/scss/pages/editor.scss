@@ -9,6 +9,11 @@
     height: 100%;
     position: absolute;
     width: 100%;
+
+    &[readonly],
+    &[readonly="true"] {
+      opacity: .5;
+    }
   }
 }
 

@@ -31,12 +31,22 @@ textarea,
 .form-label {
   position: relative;
 
+  .iconnables,
+  span {
+    position: absolute;
+  }
+
+  span {
+    display: inline-block;
+    height: 36px;
+    width: 36px;
+  }
+
   .iconnables {
     height: 24px;
+    left: 9px;
     opacity: .25;
-    position: absolute;
-      top: 6px;
-      left: 9px;
+    top: 6px;
     width: 24px;
   }
 
@@ -49,6 +59,7 @@ input {
 
   &[type=radio] {
     -webkit-appearance: radio;
+    cursor: pointer;
   }
 
   &[disabled],

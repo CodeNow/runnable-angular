@@ -1,4 +1,10 @@
+.setup .orange {
+  margin: 0 15px;
+  width: calc(100% - 30px);
+}
+
 #setup-repo {
+  border-bottom: 1px solid rgba(0,0,0,.1);
   padding: 15px;
 
   .input-container {
@@ -19,5 +25,69 @@
     height: 100%;
     margin: 0;
     width: 100%;
+  }
+}
+
+#added-repos {
+
+  > li {
+    background: $gray-lighter;
+    border: 1px solid rgba(0,0,0,.1);
+    height: 36px;
+    line-height: 36px;
+    margin-top: -1px;
+    padding: 0 9px 0 15px;
+
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+      margin-top: 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+  }
+
+  button {
+    float: right;
+    height: 35px;
+    opacity: .5;
+    width: 24px;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .icons-arrow-down {
+    right: 0;
+  }
+
+  .icons-delete {
+    height: 15px;
+    top: -2px;
+    width: 15px;
+  }
+
+  .form-label {
+    display: none;
+  }
+}
+
+#setup-template {
+
+  .form-group {
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 3px;
+    margin: 15px;
+  }
+
+  label {
+    height: 36px;
+    line-height: 36px;
+  }
+
+  input {
+    margin-top: 12px;
   }
 }
