@@ -32,7 +32,12 @@ module.exports = [{
   abstract:    false,
   url:         '^/new/:userName/:projectName',
   templateUrl: 'viewSetup',
-  controller:  'ControllerSetup'
+  controller:  'ControllerSetup',
+  data: {
+    bodyClass: {
+      'setup': true
+    },
+  }
 }, {
   state:       'projects.buildList',
   abstract:    false,

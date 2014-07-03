@@ -1,0 +1,23 @@
+#setup-repo {
+  padding: 15px;
+
+  .input-container {
+    position: relative;
+      z-index: $z-show;
+  }
+
+  .icons-arrow-down {
+    position: absolute;
+      top: 6px;
+      right: 6px;
+  }
+
+  .popover {
+    background: rgba(255,255,255,.9);
+    border: 0;
+    box-shadow: none;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+  }
+}

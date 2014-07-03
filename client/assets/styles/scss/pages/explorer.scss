@@ -311,7 +311,9 @@
 
 // explorer header
 .explorer-header {
+  border-bottom: 1px solid rgba(0,0,0,.1);
   height: 36px;
+  line-height: 36px;
 
   > h6 {
     color: $gray-dark;

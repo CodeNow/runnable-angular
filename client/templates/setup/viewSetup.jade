@@ -1,0 +1,105 @@
+nav.sub-header
+  h1.divided-header App Setup
+  section#main-controls
+
+section.sidebar
+  form
+    #setup-repo
+      .input-container
+        input.form-control(
+          ng-click = ""
+          placeholder = "Add Repository"
+        )
+        object.iconnables.icons-arrow-down(
+          data = "/build/images/icons/icons-arrow-down.svg"
+          type = "image/svg+xml"
+        )
+      .popover.bottom.fade(
+        ng-class = ""
+        ng-include = "'viewSetupPopoverAddRepos'"
+      )
+      ul
+        li Org/Repo
+    #setup
+      h3 Choose a Docker Template
+      .form-group.toggle-group
+        label Node.js + MongoDB
+          input(
+            name = "docker-template"
+            type = "radio"
+          )
+        label Template 2
+          input(
+            name = "docker-template"
+            type = "radio"
+          )
+        label Template 3
+          input(
+            name = "docker-template"
+            type = "radio"
+          )
+        label Template 4
+          input(
+            name = "docker-template"
+            type = "radio"
+          )
+        label Template 5
+          input(
+            name = "docker-template"
+            type = "radio"
+          )
+        label Template 6
+          input(
+            name = "docker-template"
+            type = "radio"
+          )
+        label Template 7
+          input(
+            name = "docker-template"
+            type = "radio"
+          )
+    button.btn-block.orange Build Project
+
+#editor
+  pre(ui-ace readonly="true").
+    ## Start from base Ubuntu 14.04
+    FROM ubuntu:14.04
+
+    ## Update and install components
+    RUN \
+      apt-get update && \
+      apt-get -y upgrade && \
+      apt-get install -y curl man unzip
+
+    ## Set environment variables.
+    ENV HOME /root
+
+    ## Download Node.js v0.10.28 binary
+    RUN \
+      cd /usr/local && \
+      curl -o nodejs.tar.gz http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-x64.tar.gz && \
+      tar --strip-components 1 -xzf nodejs.tar.gz
+
+    ## Install NPM
+    RUN \
+      apt-get update -y && \
+      apt-get install npm -y
+
+
+    ## Specify the directory to work from
+    RUN mkdir app
+    WORKDIR /root/app
+
+    ## Add files to container
+    ADD <reponame> <dst>
+
+    ## Specify which ports to open
+    EXPOSE 80
+
+
+    ## Run NPM on package.json (if included)
+    RUN npm install
+
+
+    ## Specify the last command to run
+    CMD ["node", "server.js"]

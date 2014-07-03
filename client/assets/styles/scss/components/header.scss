@@ -8,11 +8,23 @@ header {
   width: 240px;
 
   // new app mode
+  &.in,
+  .setup & {
+    // hides all non-relevant elements
+    .scroll-container {
+      opacity: 0;
+      pointer-events: none;
+      transition: none;
+    }
+  }
+
   &.in {
+    transition: none;
     width: 100%;
 
     .startup-container {
       top: calc(50% - 100px);
+      transition: none;
     }
 
     //reveal form
@@ -20,6 +32,7 @@ header {
       height: auto;
       opacity: 1;
       pointer-events: auto;
+      transition: none;
     }
 
     .accounts {
@@ -34,13 +47,6 @@ header {
           display: none;
         }
       }
-    }
-
-    // hides all non-relevant elements
-    .scroll-container {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .15s ease-in-out;
     }
   }
 
