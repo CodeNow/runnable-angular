@@ -74,7 +74,7 @@ nav#build-stream-header.sub-header
             data = "/build/images/icons/icons-pass.svg"
             type = "image/svg+xml"
           )
-        td {{ build.attrs.id | limitTo:4 }}...
+        td {{ build.attrs.id }}
         td {{ dataBuildList.buildOwners.getById(build.attrs.owner).attrs.username }}
         td {{ build.attrs.message }}
         td {{ dataBuildList.project.attrs.name }}

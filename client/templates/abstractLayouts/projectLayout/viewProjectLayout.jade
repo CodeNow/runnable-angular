@@ -66,7 +66,7 @@ header(
       li.btn.white.animations-off(
         ng-repeat = "project in dataProjectLayout.projects.models"
         ng-class = "dataProjectLayout.getProjectLiClass(project)"
-        ng-click = "dataProjectLayout.stateToBuildList(project, $event)"
+        ng-click = "dataProjectLayout.stateToBuildList(project, $event);"
       )
         object.iconnables(
           data = "/build/images/icons/icons-arrow-down-alt.svg"
@@ -76,7 +76,9 @@ header(
         ul.config-list(
           ng-repeat = "environment in project.attrs.environments"
         )
-          li
+          li.active(
+            ng-click = "dataProjectLayout.stateToBuildList(project, environment, $event)"
+          )
             object.iconnables(
               data = "/build/images/icons/icons-recipe-white.svg"
               type = "image/svg+xml"

@@ -16,12 +16,9 @@ function ControllerBuildList (
   $window,
   hasKeypaths
 ) {
-
   // init data
   var self = ControllerBuildList;
   var dataBuildList = $scope.dataBuildList = {}; // self.initState();
-
-
 
   dataBuildList.popoverChangeRecipe = {
     filter: ''

@@ -10,28 +10,40 @@ function ControllerProjectLayout (
   $scope,
   async,
   $state,
+  $stateParams,
   user
 ) {
+
   var self = ControllerProjectLayout;
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
 
   dataProjectLayout.getProjectBuildListHref = function (projectName) {
-    return self.getProjectBuildListHref($scope.dataApp.stateParams.userName, projectName);
+    return self.getProjectBuildListHref($state.params.userName, projectName);
   };
   dataProjectLayout.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
   dataProjectLayout.getProjectLiClass = function (project) {
-    return (project.attrs.name === $scope.dataApp.stateParams.projectName) ? 'active' : '';
+    return (project.attrs.name === $state.params.projectName) ? 'active':'';
   };
-  dataProjectLayout.stateToBuildList = function (project, event) {
+  dataProjectLayout.stateToBuildList = function () {
+    var project, environment, event;
+    project = arguments[0];
+    if (arguments.length == 2) {
+      event = arguments[1];
+    } else {
+      environment = arguments[1];
+      event       = arguments[2];
+    }
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
     }
+    // speed up menu active change
+    // dataProjectLayout.projectName = project.attrs.name;
     $state.go('projects.buildList', {
-      userName: $scope.dataApp.user.attrs.username,
+      userName:    $scope.dataApp.user.attrs.username,
       projectName: project.attrs.name,
-      branchName: 'master'
+      branchName:  ((environment) ? environment.name : 'master')
     });
   };
 
