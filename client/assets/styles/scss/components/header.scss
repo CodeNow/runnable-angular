@@ -9,10 +9,12 @@ header {
 
   // new app mode
   &.in {
+    transition: none;
     width: 100%;
 
     .startup-container {
       top: calc(50% - 100px);
+      transition: none;
     }
 
     //reveal form
@@ -20,6 +22,7 @@ header {
       height: auto;
       opacity: 1;
       pointer-events: auto;
+      transition: none;
     }
 
     .accounts {
@@ -40,7 +43,7 @@ header {
     .scroll-container {
       opacity: 0;
       pointer-events: none;
-      transition: opacity .15s ease-in-out;
+      transition: none;
     }
   }
 
