@@ -21,6 +21,16 @@ function ControllerProjectLayout (
   dataProjectLayout.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
+  dataProjectLayout.stateToBuildList = function (project, event) {
+    if (event && typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+    }
+    $state.go('projects.buildList', {
+      userName: $scope.dataApp.user.attrs.username,
+      projectName: project.attrs.name,
+      branchName: 'master'
+    });
+  };
 
   dataProjectLayout.createNewApp = function () {
     dataProjectLayout.disableNewButton = true;
