@@ -72,7 +72,7 @@ header(
           data = "/build/images/icons/icons-arrow-down-alt.svg"
           type = "image/svg+xml"
         )
-        | {{ project.attrs.name }}
+        a(ng-click = "dataProjectLayout.stateToBuildList(project, $event)") {{ project.attrs.name }}
         ul.config-list(
           ng-repeat = "environment in project.attrs.environments"
         )
