@@ -4,6 +4,12 @@
   overflow: hidden;
   position: relative;
     z-index: 2;
+
+  pre {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
 }
 
 #error-log {
@@ -141,12 +147,6 @@
 
   .ace_text-input {
     font-size: 16px;
-  }
-
-  pre {
-    height: 100%;
-    position: absolute;
-    width: 100%;
   }
 }
 

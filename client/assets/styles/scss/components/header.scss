@@ -8,6 +8,16 @@ header {
   width: 240px;
 
   // new app mode
+  &.in,
+  .setup & {
+    // hides all non-relevant elements
+    .scroll-container {
+      opacity: 0;
+      pointer-events: none;
+      transition: none;
+    }
+  }
+
   &.in {
     transition: none;
     width: 100%;
@@ -37,13 +47,6 @@ header {
           display: none;
         }
       }
-    }
-
-    // hides all non-relevant elements
-    .scroll-container {
-      opacity: 0;
-      pointer-events: none;
-      transition: none;
     }
   }
 
