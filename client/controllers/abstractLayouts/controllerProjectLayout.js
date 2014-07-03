@@ -21,6 +21,9 @@ function ControllerProjectLayout (
   dataProjectLayout.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
+  dataProjectLayout.getProjectLiClass = function (project) {
+    return (project.attrs.name === $scope.dataApp.stateParams.projectName) ? 'active' : '';
+  };
   dataProjectLayout.stateToBuildList = function (project, event) {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();

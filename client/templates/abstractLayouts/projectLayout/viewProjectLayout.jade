@@ -63,16 +63,16 @@ header(
   .scroll-container
     h3 APPLICATIONS
     ul#apps.btn-group-vertical
-      li.btn.white(
+      li.btn.white.animations-off(
         ng-repeat = "project in dataProjectLayout.projects.models"
-        ng-class = "{active: show}"
-        ng-click = "show = !show"
+        ng-class = "dataProjectLayout.getProjectLiClass(project)"
+        ng-click = "dataProjectLayout.stateToBuildList(project, $event)"
       )
         object.iconnables(
           data = "/build/images/icons/icons-arrow-down-alt.svg"
           type = "image/svg+xml"
         )
-        a(ng-click = "dataProjectLayout.stateToBuildList(project, $event)") {{ project.attrs.name }}
+        | {{ project.attrs.name }}
         ul.config-list(
           ng-repeat = "environment in project.attrs.environments"
         )

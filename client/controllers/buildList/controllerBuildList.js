@@ -53,16 +53,24 @@ function ControllerBuildList (
   dataBuildList.getBuildHref = function (buildId) {
     return '/' + $stateParams.userName + '/' + $stateParams.projectName + '/' + $stateParams.branchName + '/' + buildId + '/';
   };
-  dataBuildList.redirectInstancePage = function (buildId) {
-    $state.go('projects.instance', angular.extend({
-      buildId:    buildId,
-      instanceId: '555'
-    }, $stateParams));
+  dataBuildList.stateToInstance= function (buildId) {
+    var state = {
+      userName:    $scope.dataApp.user.attrs.username,
+      projectName: dataBuildList.project.attrs.name,
+      branchName:  dataBuildList.environment.attrs.name,
+      buildName:   build.attrs.id,
+      instanceId:  '12345'
+    };
+    $state.go('projects.instance', state);
   };
-  dataBuildList.redirectBuildPage = function (buildId) {
-    $state.go('projects.build', angular.extend({
-      buildId: buildId
-    }, $stateParams));
+  dataBuildList.stateToBuild = function (build) {
+    var state = {
+      userName:    $scope.dataApp.user.attrs.username,
+      projectName: dataBuildList.project.attrs.name,
+      branchName:  dataBuildList.environment.attrs.name,
+      buildName:   build.attrs.id
+    };
+    $state.go('projects.build', state);
   };
   dataBuildList.toggleSortByBuild = function () {
     dataBuildList.predicate = 'attrs.id';
@@ -75,15 +83,9 @@ function ControllerBuildList (
     return res;
   };
 
-
-
-
-
-
   // seed data
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
-
     function fetchProject (thisUser, cb) {
       var projects = thisUser.fetchProjects({
         ownerUsername: $stateParams.userName,
@@ -94,31 +96,46 @@ function ControllerBuildList (
           $state.go('404', {});
           return cb(err);
         }
+        dataBuildList.project = projects.models[0];
         cb(null, projects.models[0]);
       });
+      if (projects.models.length) {
+        dataBuildList.project = projects.models[0];
+        $scope.safeApply();
+        cb(null, dataBuildList.project);
+        cb = angular.noop;
+      }
     },
     function fetchEnvironments (project, cb) {
       var environments = project.fetchEnvironments({
-        ownerUsername: $stateParams.userName
+        ownerUsername: $stateParams.userName,
+        name:          $stateParams.branchName // <-- should be environmentName
       }, function (err) {
         if (err) {
           // no environments found
           return cb(err);
         }
-        cb(null, project, environments);
+        dataBuildList.environment = environments.models[0];
+        cb(null, project, environments, environments.models[0]);
       });
-    },
-    function fetchEnvironment (project, environments, cb) {
-      var environment = environments.models.filter(hasKeypaths({'attrs.name': 'master'}))[0];
-      cb(null, project, environments, environment);
+      if (environments.models.length) {
+        dataBuildList.environments = environments;
+        dataBuildList.environment = environments.models[0];
+        $scope.safeApply();
+        cb(null, project, environments, dataBuildList.environment);
+        cb = angular.noop;
+      }
     },
     function fetchBuilds (project, environments, environment, cb) {
       var builds = environment.fetchBuilds(function (err) {
         if (err) {
           return cb(err);
         }
+        dataBuildList.builds = builds;
         cb(null, project, environments, environment, builds);
       });
+      dataBuildList.builds = builds;
+      $scope.safeApply();
     },
     function fetchBuildsOwners (project, environments, environment, builds, cb) {
       var ownerIds = builds.models
@@ -132,18 +149,18 @@ function ControllerBuildList (
       var buildOwners = user.fetchUsers({
         _id: ownerIds
       }, function (err) {
+        if (err) {
+          return;
+        }
+        dataBuildList.buildOwners = buildOwners;
         cb(null, project, environments, environment, builds, buildOwners);
       });
+      dataBuildList.buildOwners = buildOwners;
+      $scope.safeApply();
     }
   ], function (err, project, environments, environment, builds, buildOwners) {
     if (err) return; // TODO error handling
-    $scope.$apply(function () {
-      dataBuildList.project      = project;
-      dataBuildList.environments = environments;
-      dataBuildList.environment  = environment;
-      dataBuildList.builds       = builds;
-      dataBuildList.buildOwners  = buildOwners;
-    });
+    $scope.$apply();
   });
 }
 

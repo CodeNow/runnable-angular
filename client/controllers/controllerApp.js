@@ -9,13 +9,13 @@ require('app')
 function ControllerApp (
   $rootScope,
   $scope,
-  user,
+  $timeout,
   $stateParams,
   $state,
+  user,
   apiHost
 ) {
 
-  this.scope = $scope;
   var self = ControllerApp;
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
                                                                      $stateParams,
@@ -34,8 +34,15 @@ function ControllerApp (
     });
   };
 
-  $scope.$watch('dataApp.user', function (newVal, oldVal) {
-  });
+  $scope.safeApply = function(cb) {
+    $timeout(function () {
+      if (typeof cb === 'function') {
+        $scope.$apply(cb);
+      } else {
+        $scope.$apply();
+      }
+    });
+  };
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {

@@ -67,7 +67,7 @@ nav#build-stream-header.sub-header
     tbody
       tr(
         ng-repeat = "build in dataBuildList.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
-        ng-click  = "dataBuildList.redirectBuildPage(build.attrs.id)"
+        ng-click  = "dataBuildList.stateToBuild(build)"
       )
         td
           object(
@@ -77,15 +77,12 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.id | limitTo:4 }}...
         td {{ dataBuildList.buildOwners.getById(build.attrs.owner).attrs.username }}
         td {{ build.attrs.message }}
-
-        //- td {{ dataBuildList.environments.getById(build.attrs.environment).attrs.name }}
         td {{ dataBuildList.project.attrs.name }}
-
         td {{ build.attrs.duration }}
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
-            ng-click   = "dataBuildList.redirectInstancePage(build.attrs.id)"
+            ng-click   = "dataBuildList.stateToInstance(build)"
             data-title = "Run Instance"
           )
             object(
