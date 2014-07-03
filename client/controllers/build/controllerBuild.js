@@ -1,4 +1,3 @@
-var angular = require('angular');
 require('app')
   .controller('ControllerBuild', ControllerBuild);
 /**
@@ -49,40 +48,51 @@ function ControllerBuild (
 
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
-    function fetchProject (cb) {
-      var projects = user.fetchProjects({
-        ownerUsername: $stateParams.ownerUsername,
-        name:          $stateParams.name
+    function fetchProject (thisUser, cb) {
+      var projects = thisUser.fetchProjects({
+        ownerUsername: $stateParams.userName,
+        name:          $stateParams.projectName
       }, function (err, body) {
         if(err) return cb(err); // error handling
         cb(null, projects.models[0]);
       });
     },
     function fetchEnvironment (project, cb) {
-      // TODO error check
-      var environmentJSON = project.toJSON().environments.filter(hasProps({name: 'master'}))[0];
-      var environment = project.newEnvironment(environmentJSON);
-      cb(null, project, environment);
+      var environments = project.fetchEnvironments({
+        ownerUsername: $stateParams.userName,
+        name:          $stateParams.branchName
+      }, function (err, results) {
+        if (err) {
+          return cb(err);
+        }
+        var environment = environments.models[0];
+        cb(null, project, environment);
+      });
     },
     function fetchBuild (project, environment, cb) {
-      var build = environment.fetchBuild($stateParams.buildId, function (err, body) {
-        if (err) return cb(err); // TODO error handling
+      var build = environment.fetchBuild($stateParams.buildName, function (err, body) {
+        if (err) {
+          return cb(err);
+        }
         cb(null, project, environment, build);
       });
     },
     function newBuildVersion (project, environment, build, cb) {
-      var versionId = build.toJSON().versions[0];
-      var version = build.newVersion(versionId);
-      cb(null, project, environment, build, version);
+      cb(null, project, environment, build);
+      // var versionId = build.toJSON().versions[0];
+      // var version = build.newVersion(versionId);
     },
-    function fetchRootFiles (project, environment, build, version, cb) {
-      var rootDirFiles = version.fetchFiles({Prefix: '/'}, function () {
-        //...... TODO
-      });
+    function fetchRootFiles (project, environment, build, cb) {
+      cb(null, project, environment, build);
+      // var rootDirFiles = version.fetchFiles({Prefix: '/'}, function () {
+      //...... TODO
+      // });
     }
   ], function (err, project, environment, build) {
-    console.log(arguments);
-    $scope.$apply(function () {});
+    dataBuild.project     = project;
+    dataBuild.environment = environment;
+    dataBuild.build       = build;
+    $scope.$apply();
   });
 
 

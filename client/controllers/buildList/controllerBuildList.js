@@ -12,9 +12,7 @@ function ControllerBuildList (
   user,
   $stateParams,
   $state,
-  async,
-  $window,
-  hasKeypaths
+  async
 ) {
   // init data
   var self = ControllerBuildList;

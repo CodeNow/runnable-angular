@@ -4,6 +4,7 @@ nav.sub-header
   )
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
+      ng-click = "dataBuild.stateToBuildList($event)"
       type = "button"
     )
       object.iconnables.icons-back-table(
@@ -19,7 +20,7 @@ nav.sub-header
         data = "/build/images/icons/icons-asterisk.svg"
         type = "image/svg+xml"
       )
-    | Build 1776
+      | Build {{ dataBuild.build.attrs.id }}
 
   section#main-controls(ng-class = "{'in': !dataBuild.isClean}")
     .clean
