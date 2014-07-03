@@ -19,21 +19,24 @@ section.sidebar
         ng-include = "'viewSetupPopoverAddRepos'"
       )
       ul#added-repos
-        li Org/Repo
+        li(
+          ng-class ="{in: dataSetup.showForm}"
+        ) Org/Repo
           button.btn-icon
             object.iconnables.icons-delete(
               data = "/build/images/icons/icons-delete.svg"
               type = "image/svg+xml"
             )
-          button.btn-icon
+          button.btn-icon(
+            ng-click = "dataSetup.showForm = !dataSetup.showForm"
+          )
             object.iconnables.icons-arrow-down(
               data = "/build/images/icons/icons-arrow-down.svg"
-              ng-click = ""
               type = "image/svg+xml"
             )
           .form-label
             span /
-            input.form-control(placeholder = "Set location of repo")
+            input.form-control(placeholder = "location of repo")
         li Org/Repo
           button.btn-icon
             object.iconnables.icons-delete(
