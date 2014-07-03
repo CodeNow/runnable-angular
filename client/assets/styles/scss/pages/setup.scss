@@ -33,10 +33,20 @@
   > li {
     background: $gray-lighter;
     border: 1px solid rgba(0,0,0,.1);
-    height: 36px;
     line-height: 36px;
     margin-top: -1px;
+    max-height: 36px;
+    overflow: hidden;
     padding: 0 9px 0 15px;
+    transition: max-height .2s ease-in-out;
+
+    &.in {
+      max-height: 72px;
+
+      .icons-arrow-down {
+        transform: rotate3d(0,0,1,180deg);
+      }
+    }
 
     &:first-child {
       border-radius: 3px 3px 0 0;
@@ -70,7 +80,18 @@
   }
 
   .form-label {
-    display: none;
+    border-top: 1px solid rgba(0,0,0,.1);
+    margin: 0 -9px 0 -15px;
+
+    > input {
+      border: 0;
+      border-radius: 0;
+      padding-left: 3px;
+    }
+
+    > span {
+      text-align: center;
+    }
   }
 }
 
