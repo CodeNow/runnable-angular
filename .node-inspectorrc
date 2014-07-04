@@ -1,0 +1,8 @@
+{
+  "web-port": 8088,
+  "web-host": null,
+  "save-live-edit": true,
+  "no-preload": true,
+  "hidden": [],
+  "stack-trace-limit": 50
+}
