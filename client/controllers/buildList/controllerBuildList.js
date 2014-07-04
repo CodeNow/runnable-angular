@@ -13,8 +13,7 @@ function ControllerBuildList (
   $stateParams,
   $state,
   async,
-  $window,
-  hasKeypaths
+  keypather
 ) {
   // init data
   var self = ControllerBuildList;
@@ -44,7 +43,9 @@ function ControllerBuildList (
     });
   };
   dataBuildList.togglePopover = function (popoverName, event) {
-    event.stopPropagation();
+    if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
+      event.stopPropagation();
+    }
     dataBuildList['show' + popoverName] = true;
   };
   dataBuildList.getBuildHref = function (buildId) {
