@@ -20,7 +20,7 @@ nav.sub-header
         data = "/build/images/icons/icons-asterisk.svg"
         type = "image/svg+xml"
       )
-      | Build {{ dataBuild.build.attrs.id }}
+    | Build {{ dataBuild.build.attrs.id | limitTo:4 }}...
 
   section#main-controls(ng-class = "{'in': !dataBuild.isClean}")
     .clean

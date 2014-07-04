@@ -8,9 +8,11 @@ require('app')
  */
 function ControllerBuild (
   $scope,
+  $stateParams,
+  $state,
   user,
   async,
-  $stateParams
+  keypather
 ) {
 
   var self = ControllerBuild;
@@ -36,6 +38,17 @@ function ControllerBuild (
         $stateParams
       )
     );
+  };
+  dataBuild.stateToBuildList = function (event) {
+    if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
+      event.stopPropagation();
+    }
+    var state = {
+      userName:    $stateParams.userName,
+      projectName: $stateParams.projectName,
+      branchName:  $stateParams.branchName
+    };
+    $state.go('projects.buildList', state);
   };
 
   $scope.$watch('dataBuild.isClean', function () {
