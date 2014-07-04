@@ -24,7 +24,28 @@
     box-shadow: none;
     height: 100%;
     margin: 0;
+    transform: scale3d(1,0,1);
+    transform-origin: 50% 0;
     width: 100%;
+
+    &.in {
+      transform: scale3d(1,1,1);
+    }
+
+    li {
+      background: $gray-lighter;
+      cursor: pointer;
+      padding: 0 15px;
+    }
+
+    button {
+      margin: 15px 0;
+      width: 100%;
+    }
+  }
+
+  .popover-content {
+    padding: 65px 15px 15px;
   }
 }
 
@@ -32,13 +53,7 @@
 
   > li {
     background: $gray-lighter;
-    border: 1px solid rgba(0,0,0,.1);
-    line-height: 36px;
-    margin-top: -1px;
-    max-height: 36px;
-    overflow: hidden;
     padding: 0 9px 0 15px;
-    transition: max-height .2s ease-in-out;
 
     &.in {
       max-height: 72px;
