@@ -72,7 +72,9 @@ nav.sub-header
       ) Discard Changes
 
 section.sidebar
-  ul()
+  ul(
+    ng-show = "dataBuild.data.build.attrs.created"
+  )
     li
       object.iconnables.icons-recipe(
         data = "/build/images/icons/icons-recipe.svg"
