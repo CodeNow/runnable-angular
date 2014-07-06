@@ -201,8 +201,7 @@ section.sidebar
   ng-class="{'in': dataBuild.data.showExplorer, '': !dataBuild.data.showExplorer}"
 )
   button#explorer-toggle.btn-icon(
-    ng-click = "dataBuild.data.showExplorer = !dataBuild.data.showExplorer"
-    ng-init = "dataBuild.data.showExplorer = true"
+    ng-click = "dataBuild.actions.toggleExplorer($event)"
     type = "button"
   )
     object.iconnables(

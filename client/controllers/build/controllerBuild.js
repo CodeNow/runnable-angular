@@ -40,6 +40,12 @@ function ControllerBuild (
       )
     );
   };
+  dataBuild.actions.toggleExplorer = function (event) {
+    if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
+      event.stopPropagation();
+    }
+    dataBuild.data.showExplorer = !dataBuild.data.showExplorer;
+  };
   dataBuild.actions.stateToBuildList = function (event) {
     if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
       event.stopPropagation();

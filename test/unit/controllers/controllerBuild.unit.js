@@ -231,4 +231,28 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
     });;
   });
+
+  describe('explorer menu'.blue, function () {
+    it('should initialize to open', function () {
+      expect(dataBuild.data.showExplorer).to.equal(true);
+    });
+
+    it('should toggle open/closed', function () {
+      dataBuild.actions.toggleExplorer();
+      expect(dataBuild.data.showExplorer).to.equal(false);
+      dataBuild.actions.toggleExplorer();
+      expect(dataBuild.data.showExplorer).to.equal(true);
+      dataBuild.actions.toggleExplorer();
+      expect(dataBuild.data.showExplorer).to.equal(false);
+    });
+
+    it('should not toggle in response to external click events', function () {
+      dataBuild.actions.toggleExplorer();
+      expect(dataBuild.data.showExplorer).to.equal(false);
+      dataBuild.actions.toggleExplorer();
+      expect(dataBuild.data.showExplorer).to.equal(true);
+      $appScope.dataApp.click();
+      expect(dataBuild.data.showExplorer).to.equal(true);
+    });
+  });
 });
