@@ -12,24 +12,25 @@ function ControllerBuild (
   $state,
   user,
   async,
-  keypather
+  keypather,
+  extendDeep
 ) {
 
   var self = ControllerBuild;
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
-  angular.extend(dataBuild, self.initPopoverState($stateParams));
+  extendDeep(dataBuild, self.initPopoverState($stateParams));
 
-  dataBuild.getPopoverButtonText = self.getPopoverButtonText;
-  dataBuild.resetInputModelValue = function (event) {
+  dataBuild.actions.getPopoverButtonText = self.getPopoverButtonText;
+  dataBuild.actions.resetInputModelValue = function (event) {
     angular.extend(
       dataBuild,
       self.resetInputModelValue(
         event,
-        dataBuild.inputHasBeenClicked
+        dataBuild.data.inputHasBeenClicked
       )
     );
   };
-  dataBuild.togglePopover = function (popoverName, event) {
+  dataBuild.actions.togglePopover = function (popoverName, event) {
     angular.extend(
       dataBuild,
       self.togglePopover(
@@ -39,7 +40,7 @@ function ControllerBuild (
       )
     );
   };
-  dataBuild.stateToBuildList = function (event) {
+  dataBuild.actions.stateToBuildList = function (event) {
     if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
       event.stopPropagation();
     }
@@ -51,17 +52,17 @@ function ControllerBuild (
     $state.go('projects.buildList', state);
   };
 
-  dataBuild.runInstance = function () {};
-  dataBuild.rebuild = function () {};
-  dataBuild.build = function () {};
-  dataBuild.discardChanges = function () {};
+  dataBuild.actions.runInstance = function () {};
+  dataBuild.actions.rebuild = function () {};
+  dataBuild.actions.build = function () {};
+  dataBuild.actions.discardChanges = function () {};
 
-  $scope.$watch('dataBuild.isClean', function () {
-    dataBuild.togglePopover();
+  $scope.$watch('dataBuild.data.isClean', function () {
+    dataBuild.actions.togglePopover();
   });
 
   $scope.$on('app-document-click', function () {
-    dataBuild.togglePopover();
+    dataBuild.actions.togglePopover();
   });
 
   async.waterfall([
@@ -160,16 +161,19 @@ ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
   }
   if (!inputHasBeenClicked) {
     return {
-      buildName: '',
-      inputHasBeenClicked: true
+      data:{
+        buildName: '',
+        inputHasBeenClicked: true
+      }
     };
   }
 };
 
 ControllerBuild.initState = function ($stateParams) {
   return {
-   isClean: true,
-   data:    {},
+   data:    {
+     isClean: true
+   },
    actions: {}
   };
 };
@@ -207,7 +211,7 @@ ControllerBuild.togglePopover = function (popoverName, event, $stateParams) {
   }
   var newState = this.initPopoverState($stateParams);
   if (typeof popoverName === 'string') {
-    newState['show' + popoverName] = true;
+    newState.data['show' + popoverName] = true;
   }
   return newState;
 };
