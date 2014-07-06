@@ -7,7 +7,7 @@ section.sidebar
     #setup-repo
       .input-container
         input.form-control(
-          ng-click = "dataSetup.repoMode = !dataSetup.repoMode"
+          ng-click = "dataSetup.repoMode = true"
           placeholder = "Add Repository"
         )
         object.iconnables.icons-arrow-down(
@@ -18,7 +18,7 @@ section.sidebar
         ng-class = "{in: dataSetup.repoMode}"
         ng-include = "'viewSetupPopoverAddRepos'"
       )
-      ul#added-repos
+      ul#added-repos.vertical-list
         li(
           ng-class ="{in: dataSetup.showForm}"
         ) Org/Repo
