@@ -19,6 +19,10 @@ function ControllerBuild (
   var self = ControllerBuild;
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
   extendDeep(dataBuild, self.initPopoverState($stateParams));
+  // one-time initialization
+  extendDeep(dataBuild.data, {
+    showExplorer: true
+  });
 
   dataBuild.actions.getPopoverButtonText = self.getPopoverButtonText;
   dataBuild.actions.resetInputModelValue = function (event) {
@@ -144,16 +148,27 @@ function ControllerBuild (
       });
       cb();
     },
-    function newBuildVersion (cb) {
-      cb();
-      // var versionId = build.toJSON().versions[0];
-      // var version = build.newVersion(versionId);
+    function fetchFiles (cb) {
+      var build = dataBuild.data.build;
+      var contextId = build.toJSON().contexts[0];
+      var versionId = build.toJSON().versions[0];
+      var version = user.newContext(contextId).fetchVersion(versionId, function (err) {
+        if (err) {
+          return cb(err);
+        }
+        dataBuild.data.version = version;
+        cb();
+      });
     },
-    function fetchRootFiles (cb) {
-      cb();
-      // var rootDirFiles = version.fetchFiles({Prefix: '/'}, function () {
-      //...... TODO
-      // });
+    function fetchFiles (cb) {
+      var version = dataBuild.data.version;
+      var files = version.fetchFiles(function (err) {
+        if (err) {
+          return cb(err);
+        }
+        dataBuild.data.files = files;
+        cb();
+      });
     }
   ], function () {
     $scope.$apply();

@@ -1,11 +1,22 @@
-var app = require('app');
-app.directive('fileTree', function () {
+require('app')
+  .directive('fileTree', fileTreeFactory);
+/**
+ * fileTree Directive
+ * @constructor
+ * @export
+ * @ngInject
+ */
+function fileTreeFactory (
+  user
+) {
   return {
     restrict: 'E',
     templateUrl: 'fileTree',
-    scope: {},
+    scope: {
+      'build': '='
+    },
     link: function (scope, element, attrs) {
 
     }
   };
-});
+}

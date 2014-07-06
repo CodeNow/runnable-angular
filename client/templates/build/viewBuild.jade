@@ -200,6 +200,9 @@ section.sidebar
 #editor.in(
   ng-class="{'in': dataBuild.data.showExplorer, '': !dataBuild.data.showExplorer}"
 )
+
+  file-tree(build = "dataBuild.data.build")
+
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.actions.toggleExplorer($event)"
     type = "button"
@@ -209,85 +212,7 @@ section.sidebar
       type = "image/svg+xml"
     )
   //- file_explorer
-  aside#explorer
-    //- ng-init should remember theme by user
-    #controls
-      button.toggle-theme.tooltip(
-        data-title = "Change Theme"
-        ng-class = "{dark: !dataBuild.data.toggleTheme, light: dataBuild.data.toggleTheme}"
-        ng-click = "dataBuild.data.toggleTheme = !dataBuild.data.toggleTheme"
-      )
-        .theme
-    .explorer-header
-      h6
-        | CONFIG FILES
-        button.silver.btn-sm.file-explorer-menu.btn-icon(
-          ng-class = "{active: dataBuild.data.showFileMenu}"
-          ng-click = "dataBuild.data.togglePopover('FileMenu', $event)"
-        )
-          object.iconnables(
-            data = "/build/images/icons/icons-gear.svg"
-            type = "image/svg+xml"
-          )
-          .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.data.showFileMenu, 'show-add-repo': dataBuild.data.showAddRepo, 'show-form': dataBuild.data.showForm}"
-            ng-include = "'viewBuildPopoverFileMenu'"
-          )
-      ul.tree
-        li.folder(
-            ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"
-            ng-class = "{'in': dataBuild.folderTestOpen}"
-          )
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-folder.svg"
-            type = "image/svg+xml"
-          )
-          | css
-          ul
-            li.folder
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-folder.svg"
-                type = "image/svg+xml"
-              )
-              | modules
-              ul
-                li
-                  object.iconnables.filetypes(
-                    data = "/build/images/icons/filetypes/icons-file.svg"
-                    type = "image/svg+xml"
-                  )
-                  | components.scss
-            li
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-file.svg"
-                type = "image/svg+xml"
-              )
-              | styles.css
-            li
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-file.svg"
-                type = "image/svg+xml"
-              )
-              | tables.css
-        li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
-          | favicon.png
-        li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
-          | index.html
-        li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
-          | htc.access
-  #editor-toolbar
+    #editor-toolbar
     #tabs-wrapper
     //- file_tabs
   #select-tabs.dropdown
