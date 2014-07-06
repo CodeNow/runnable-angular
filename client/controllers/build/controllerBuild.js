@@ -22,7 +22,7 @@ function ControllerBuild (
 
   dataBuild.actions.getPopoverButtonText = self.getPopoverButtonText;
   dataBuild.actions.resetInputModelValue = function (event) {
-    angular.extend(
+    extendDeep(
       dataBuild,
       self.resetInputModelValue(
         event,
@@ -31,7 +31,7 @@ function ControllerBuild (
     );
   };
   dataBuild.actions.togglePopover = function (popoverName, event) {
-    angular.extend(
+    extendDeep(
       dataBuild,
       self.togglePopover(
         popoverName,
