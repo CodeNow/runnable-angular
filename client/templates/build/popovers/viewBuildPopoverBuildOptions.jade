@@ -6,8 +6,8 @@ h3.popover-title Set Config and Message
     .form-label
       input.form-control(
         list = "user-configs"
-        ng-click = "dataBuild.resetInputModelValue($event)"
-        ng-model = "dataBuild.buildName"
+        ng-click = "dataBuild.actions.resetInputModelValue($event)"
+        ng-model = "dataBuild.data.buildName"
         placeholder = "Choose or Create Config"
       )
       object.iconnables(
@@ -22,4 +22,4 @@ h3.popover-title Set Config and Message
       option(value = "Config 2")
       option(value = "Config 3")
     textarea.form-control(placeholder = "Build Message")
-    button.btn-block.green{{ dataBuild.getPopoverButtonText(dataBuild.buildName) }}
+    button.btn-block.green{{ dataBuild.actions.getPopoverButtonText(dataBuild.buildName) }}

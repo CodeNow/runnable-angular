@@ -51,6 +51,11 @@ function ControllerBuild (
     $state.go('projects.buildList', state);
   };
 
+  dataBuild.runInstance = function () {};
+  dataBuild.rebuild = function () {};
+  dataBuild.build = function () {};
+  dataBuild.discardChanges = function () {};
+
   $scope.$watch('dataBuild.isClean', function () {
     dataBuild.togglePopover();
   });
@@ -62,15 +67,32 @@ function ControllerBuild (
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
     function fetchProject (thisUser, cb) {
+      function updateDom () {
+        if (projects.models.length) {
+          dataBuild.data.project = projects.models[0];
+          $scope.safeApply();
+        }
+      }
       var projects = thisUser.fetchProjects({
         ownerUsername: $stateParams.userName,
         name:          $stateParams.projectName
       }, function (err, body) {
-        if(err) return cb(err); // error handling
-        cb(null, projects.models[0]);
+        if (err) {
+          return cb(err); // error handling
+        }
+        updateDom();
+        cb();
       });
+      updateDom();
     },
-    function fetchEnvironment (project, cb) {
+    function fetchEnvironment (cb) {
+      var project = dataBuild.data.project;
+      function updateDom () {
+        if (environments.models.length) {
+          dataBuild.data.environment = environments.models[0];
+          $scope.safeApply();
+        }
+      }
       var environments = project.fetchEnvironments({
         ownerUsername: $stateParams.userName,
         name:          $stateParams.branchName
@@ -78,91 +100,59 @@ function ControllerBuild (
         if (err) {
           return cb(err);
         }
-        var environment = environments.models[0];
-        cb(null, project, environment);
+        updateDom();
+        cb();
       });
+      updateDom();
     },
-    function fetchBuild (project, environment, cb) {
+    function fetchBuild (cb) {
+      var environment = dataBuild.data.environment;
+      function updateDom () {
+        if (build) {
+          dataBuild.data.build = build;
+          $scope.safeApply();
+        }
+      }
       var build = environment.fetchBuild($stateParams.buildName, function (err, body) {
         if (err) {
           return cb(err);
         }
-        cb(null, project, environment, build);
+        updateDom();
+        cb();
       });
+      updateDom();
     },
-    function newBuildVersion (project, environment, build, cb) {
-      cb(null, project, environment, build);
+    function fetchBuildOwner (cb) {
+      var build = dataBuild.data.build;
+      function updateDom () {
+        dataBuild.data.buildOwner = buildOwner;
+        $scope.safeApply();
+      }
+      var buildOwner = user.fetchUser(build.attrs.owner, function (err) {
+        if (err) {
+          return cb(err);
+        }
+        updateDom();
+        cb();
+      });
+      cb();
+    },
+    function newBuildVersion (cb) {
+      cb();
       // var versionId = build.toJSON().versions[0];
       // var version = build.newVersion(versionId);
     },
-    function fetchRootFiles (project, environment, build, cb) {
-      cb(null, project, environment, build);
+    function fetchRootFiles (cb) {
+      cb();
       // var rootDirFiles = version.fetchFiles({Prefix: '/'}, function () {
       //...... TODO
       // });
     }
-  ], function (err, project, environment, build) {
-    dataBuild.project     = project;
-    dataBuild.environment = environment;
-    dataBuild.build       = build;
+  ], function () {
     $scope.$apply();
   });
 
-
 }
-
-ControllerBuild.fetchData = function (
-  async,
-  user,
-  $stateParams,
-  cb
-) {
-  async.waterfall([
-    function tempHelper (cb) {
-      if (user.id()) {
-        cb();
-      } else {
-        user.login('runnableUser9', 'asdfasdf9', function () {
-          cb();
-        });
-      }
-    },
-    function fetchProject (cb) {
-      var projects = user.fetchProjects({
-        ownerUsername: $stateParams.ownerUsername,
-        name:          $stateParams.name
-      }, function (err, body) {
-        if(err) return cb(err); // error handling
-        cb(null, projects.models[0]);
-      });
-    },
-    function fetchEnvironment (project, cb) {
-      // TODO error check
-      var environmentJSON = project.toJSON().environments.filter(hasProps({name: 'master'}))[0];
-      var environment = project.newEnvironment(environmentJSON);
-      cb(null, project, environment);
-    },
-    function fetchBuild (project, environment, cb) {
-      var build = environment.fetchBuild($stateParams.buildId, function (err, body) {
-        if (err) return cb(err); // TODO error handling
-        cb(null, project, environment, build);
-      });
-    },
-    function newBuildVersion (project, environment, build, cb) {
-      var versionId = build.toJSON().versions[0];
-      var version = build.newVersion(versionId);
-      cb(null, project, environment, build, version);
-    },
-    function fetchRootFiles (project, environment, build, version, cb) {
-      var rootDirFiles = version.fetchFiles({Prefix: '/'}, function () {
-        //...... TODO
-      });
-    }
-  ], function (err, project, environment, build) {
-    console.log(arguments);
-    $scope.$apply(function () {});
-  });
-};
 
 ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
   if (event && typeof event.stopPropagation === 'function') {
@@ -179,16 +169,21 @@ ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
 ControllerBuild.initState = function ($stateParams) {
   return {
    isClean: true,
+   data:    {},
+   actions: {}
   };
 };
 
 ControllerBuild.initPopoverState = function ($stateParams) {
   return {
-    showBuildOptionsDirty: false,
-    showBuildOptionsClean: false,
-    showFileMenu:          false,
-    buildName:             $stateParams.buildName,
-    inputHasBeenClicked:   false
+    data: {
+      showBuildOptionsDirty: false,
+      showBuildOptionsClean: false,
+      showFileMenu:          false,
+      showForm:              false,
+      buildName:             $stateParams.buildName,
+      inputHasBeenClicked:   false
+    }
   };
 };
 
