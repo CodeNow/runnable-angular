@@ -1,6 +1,23 @@
-.setup .orange {
-  margin: 0 15px;
-  width: calc(100% - 30px);
+.setup {
+
+  .sidebar.out {
+    cursor: not-allowed;
+    user-select: none;
+
+    > form {
+      opacity: .3;
+      pointer-events: none;
+    }
+
+    & ~ #editor > button {
+      display: none;
+    }
+  }
+
+  .orange {
+    margin: 0 15px;
+    width: calc(100% - 30px);
+  }
 }
 
 #setup-repo {

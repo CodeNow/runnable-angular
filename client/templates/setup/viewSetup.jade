@@ -8,13 +8,19 @@ nav.sub-header
       data = "/build/images/icons/icons-edit.svg"
       type = "image/svg+xml"
     )
-  section#main-controls
+  section#main-controls(ng-class = "{in: dataSetup.actions.isAdvanced}")
     .clean
-      button.silver(type = "button") Readonly
+      button.silver(
+        ng-click = "dataSetup.actions.isAdvanced = true"
+        type = "button"
+      ) Advanced Setup
     .dirty
-      button.silver(type = "button") Discard Changes
+      button.silver(
+        ng-click = "dataSetup.actions.isAdvanced = false"
+        type = "button"
+      ) Discard changes and return to basic setup
 
-section.sidebar
+section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
   form
     #setup-repo
       .popover.bottom.fade(
@@ -117,6 +123,10 @@ section.sidebar
     button.btn-block.orange Build Application
 
 #editor
+  button.silver(
+    disabled
+    type = "button"
+  ) Readonly
   #editor-toolbar
     ul#tabs-wrapper
       li
