@@ -1,9 +1,24 @@
 .popover-content
   ul.vertical-list
+    li(
+      ng-class = "{in: dataSetup.repoSelected}"
+      ng-click = "dataSetup.repoSelected = !dataSetup.repoSelected"
+    ) Org/Repo
+      object.iconnables.icons-pass(
+        data = "/build/images/icons/icons-pass.svg"
+        type = "image/svg+xml"
+      )
     li Org/Repo
+      object.iconnables.icons-pass(
+        data = "/build/images/icons/icons-pass.svg"
+        type = "image/svg+xml"
+      )
     li Org/Repo
-    li Org/Repo
+      object.iconnables.icons-pass(
+        data = "/build/images/icons/icons-pass.svg"
+        type = "image/svg+xml"
+      )
   button.btn-block.silver(
     ng-click = "dataSetup.repoMode = false"
     type = "button"
-  ) Add [checked] Repositories
+  ) Add [#] Repositories
