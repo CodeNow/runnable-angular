@@ -23,7 +23,7 @@ nav.sub-header
     | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
   section#main-controls(ng-class = "{'in': !dataBuild.data.isClean}")
-    .clean
+    .clean(ng-class = "{in: dataBuild.data.showBuildOptionsClean}")
       button.orange(
         type = "button"
         ng-click = "dataBuild.actions.runInstance()"
@@ -47,7 +47,7 @@ nav.sub-header
             ng-include = "'viewBuildPopoverBuildOptions'"
           )
 
-    .dirty
+    .dirty(ng-class = "{in: dataBuild.data.showBuildOptionsDirty}")
       .btn-group
         button.green(
           type = "button"

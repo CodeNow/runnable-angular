@@ -89,18 +89,18 @@
     }
 
     // overflow for main-controls
-    &.in-add-active,
-    &.in-remove-active {
+    // &.in-add-active,
+    // &.in-remove-active {
 
-      & ~ #main-controls {
-        overflow: hidden !important;
+    //   & ~ #main-controls {
+    //     overflow: hidden !important;
 
-        .clean,
-        .dirty {
-          z-index: 0 !important;
-        }
-      }
-    }
+    //     .clean,
+    //     .dirty {
+    //       z-index: 0 !important;
+    //     }
+    //   }
+    // }
   }
 
   .config {
@@ -240,6 +240,7 @@
     position: absolute;
     transition: transform .2s;
     width: 100%;
+    z-index: 1;
 
     > .btn-group,
     > button,
@@ -251,15 +252,14 @@
     > input {
       width: 270px;
     }
-  }
 
-  .clean {
-    z-index: $z-show;
+    &.in {
+      z-index: $z-show;
+    }
   }
 
   .dirty {
     top: 54px;
-    z-index: auto;
   }
 
   &.in {
@@ -268,14 +268,6 @@
     .clean,
     .dirty {
       transform: translate3d(0,-54px,0);
-    }
-
-    .clean {
-      z-index: auto;
-    }
-
-    .dirty {
-      z-index: $z-show;
     }
   }
 
