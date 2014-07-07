@@ -15,7 +15,7 @@
       | New Folder
     li.divider
     li(
-      ng-click = "dataBuild.showAddRepo = true"
+      ng-click = "dataBuild.data.showAddRepo = true"
     )
       object.iconnables(
         data = "/build/images/icons/icons-octocat.svg"
@@ -41,12 +41,12 @@
         )
     ul.popover-list
       li(
-        ng-class = "{in: dataBuild.showForm}"
-        ng-click = "dataBuild.showForm = true"
+        ng-class = "{in: dataBuild.data.showForm}"
+        ng-click = "dataBuild.data.showForm = true"
       )
         span
           button.btn-icon(
-            ng-click = "dataBuild.showForm = false"
+            ng-click = "dataBuild.data.showForm = false"
             type = "button"
           )
             object.iconnables(
@@ -58,12 +58,12 @@
           input.form-control(placeholder = "Branch or SHA (optional)")
           button.btn-block.green Add Repository
       li(
-        ng-class = "{in: dataBuild.showForm}"
-        ng-click = "dataBuild.showForm = true"
+        ng-class = "{in: dataBuild.data.showForm}"
+        ng-click = "dataBuild.data.showForm = true"
       )
         span
           button.btn-icon(
-            ng-click = "dataBuild.showForm = false"
+            ng-click = "dataBuild.data.showForm = false"
             type = "button"
           )
             object.iconnables(
@@ -75,12 +75,12 @@
           input.form-control(placeholder = "Branch or SHA (optional)")
           button.btn-block.green Add Repository
       li(
-        ng-class = "{in: dataBuild.showForm}"
-        ng-click = "dataBuild.showForm = true"
+        ng-class = "{in: dataBuild.data.showForm}"
+        ng-click = "dataBuild.data.showForm = true"
       )
         span
           button.btn-icon(
-            ng-click = "dataBuild.showForm = false"
+            ng-click = "dataBuild.data.showForm = false"
             type = "button"
           )
             object.iconnables(

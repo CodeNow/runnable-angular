@@ -12,25 +12,30 @@ function ControllerBuild (
   $state,
   user,
   async,
-  keypather
+  keypather,
+  extendDeep
 ) {
 
   var self = ControllerBuild;
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
-  angular.extend(dataBuild, self.initPopoverState($stateParams));
+  extendDeep(dataBuild, self.initPopoverState($stateParams));
+  // one-time initialization
+  extendDeep(dataBuild.data, {
+    showExplorer: true
+  });
 
-  dataBuild.getPopoverButtonText = self.getPopoverButtonText;
-  dataBuild.resetInputModelValue = function (event) {
-    angular.extend(
+  dataBuild.actions.getPopoverButtonText = self.getPopoverButtonText;
+  dataBuild.actions.resetInputModelValue = function (event) {
+    extendDeep(
       dataBuild,
       self.resetInputModelValue(
         event,
-        dataBuild.inputHasBeenClicked
+        dataBuild.data.inputHasBeenClicked
       )
     );
   };
-  dataBuild.togglePopover = function (popoverName, event) {
-    angular.extend(
+  dataBuild.actions.togglePopover = function (popoverName, event) {
+    extendDeep(
       dataBuild,
       self.togglePopover(
         popoverName,
@@ -39,7 +44,13 @@ function ControllerBuild (
       )
     );
   };
-  dataBuild.stateToBuildList = function (event) {
+  dataBuild.actions.toggleExplorer = function (event) {
+    if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
+      event.stopPropagation();
+    }
+    dataBuild.data.showExplorer = !dataBuild.data.showExplorer;
+  };
+  dataBuild.actions.stateToBuildList = function (event) {
     if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
       event.stopPropagation();
     }
@@ -51,26 +62,48 @@ function ControllerBuild (
     $state.go('projects.buildList', state);
   };
 
-  $scope.$watch('dataBuild.isClean', function () {
-    dataBuild.togglePopover();
+  dataBuild.actions.runInstance = function () {};
+  dataBuild.actions.rebuild = function () {};
+  dataBuild.actions.build = function () {};
+  dataBuild.actions.discardChanges = function () {};
+
+  $scope.$watch('dataBuild.data.isClean', function () {
+    dataBuild.actions.togglePopover();
   });
 
   $scope.$on('app-document-click', function () {
-    dataBuild.togglePopover();
+    dataBuild.actions.togglePopover();
   });
 
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
     function fetchProject (thisUser, cb) {
+      function updateDom () {
+        if (projects.models.length) {
+          dataBuild.data.project = projects.models[0];
+          $scope.safeApply();
+        }
+      }
       var projects = thisUser.fetchProjects({
         ownerUsername: $stateParams.userName,
         name:          $stateParams.projectName
       }, function (err, body) {
-        if(err) return cb(err); // error handling
-        cb(null, projects.models[0]);
+        if (err) {
+          return cb(err); // error handling
+        }
+        updateDom();
+        cb();
       });
+      updateDom();
     },
-    function fetchEnvironment (project, cb) {
+    function fetchEnvironment (cb) {
+      var project = dataBuild.data.project;
+      function updateDom () {
+        if (environments.models.length) {
+          dataBuild.data.environment = environments.models[0];
+          $scope.safeApply();
+        }
+      }
       var environments = project.fetchEnvironments({
         ownerUsername: $stateParams.userName,
         name:          $stateParams.branchName
@@ -78,91 +111,70 @@ function ControllerBuild (
         if (err) {
           return cb(err);
         }
-        var environment = environments.models[0];
-        cb(null, project, environment);
+        updateDom();
+        cb();
       });
+      updateDom();
     },
-    function fetchBuild (project, environment, cb) {
+    function fetchBuild (cb) {
+      var environment = dataBuild.data.environment;
+      function updateDom () {
+        if (build) {
+          dataBuild.data.build = build;
+          $scope.safeApply();
+        }
+      }
       var build = environment.fetchBuild($stateParams.buildName, function (err, body) {
         if (err) {
           return cb(err);
         }
-        cb(null, project, environment, build);
+        updateDom();
+        cb();
+      });
+      updateDom();
+    },
+    function fetchBuildOwner (cb) {
+      var build = dataBuild.data.build;
+      function updateDom () {
+        dataBuild.data.buildOwner = buildOwner;
+        $scope.safeApply();
+      }
+      var buildOwner = user.fetchUser(build.attrs.owner, function (err) {
+        if (err) {
+          return cb(err);
+        }
+        updateDom();
+        cb();
+      });
+      cb();
+    },
+    function fetchFiles (cb) {
+      var build = dataBuild.data.build;
+      var contextId = build.toJSON().contexts[0];
+      var versionId = build.toJSON().versions[0];
+      var version = user.newContext(contextId).fetchVersion(versionId, function (err) {
+        if (err) {
+          return cb(err);
+        }
+        dataBuild.data.version = version;
+        cb();
       });
     },
-    function newBuildVersion (project, environment, build, cb) {
-      cb(null, project, environment, build);
-      // var versionId = build.toJSON().versions[0];
-      // var version = build.newVersion(versionId);
-    },
-    function fetchRootFiles (project, environment, build, cb) {
-      cb(null, project, environment, build);
-      // var rootDirFiles = version.fetchFiles({Prefix: '/'}, function () {
-      //...... TODO
-      // });
+    function fetchFiles (cb) {
+      var version = dataBuild.data.version;
+      var files = version.fetchFiles(function (err) {
+        if (err) {
+          return cb(err);
+        }
+        dataBuild.data.files = files;
+        cb();
+      });
     }
-  ], function (err, project, environment, build) {
-    dataBuild.project     = project;
-    dataBuild.environment = environment;
-    dataBuild.build       = build;
+  ], function () {
     $scope.$apply();
   });
 
-
 }
-
-ControllerBuild.fetchData = function (
-  async,
-  user,
-  $stateParams,
-  cb
-) {
-  async.waterfall([
-    function tempHelper (cb) {
-      if (user.id()) {
-        cb();
-      } else {
-        user.login('runnableUser9', 'asdfasdf9', function () {
-          cb();
-        });
-      }
-    },
-    function fetchProject (cb) {
-      var projects = user.fetchProjects({
-        ownerUsername: $stateParams.ownerUsername,
-        name:          $stateParams.name
-      }, function (err, body) {
-        if(err) return cb(err); // error handling
-        cb(null, projects.models[0]);
-      });
-    },
-    function fetchEnvironment (project, cb) {
-      // TODO error check
-      var environmentJSON = project.toJSON().environments.filter(hasProps({name: 'master'}))[0];
-      var environment = project.newEnvironment(environmentJSON);
-      cb(null, project, environment);
-    },
-    function fetchBuild (project, environment, cb) {
-      var build = environment.fetchBuild($stateParams.buildId, function (err, body) {
-        if (err) return cb(err); // TODO error handling
-        cb(null, project, environment, build);
-      });
-    },
-    function newBuildVersion (project, environment, build, cb) {
-      var versionId = build.toJSON().versions[0];
-      var version = build.newVersion(versionId);
-      cb(null, project, environment, build, version);
-    },
-    function fetchRootFiles (project, environment, build, version, cb) {
-      var rootDirFiles = version.fetchFiles({Prefix: '/'}, function () {
-        //...... TODO
-      });
-    }
-  ], function (err, project, environment, build) {
-    console.log(arguments);
-    $scope.$apply(function () {});
-  });
-};
 
 ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
   if (event && typeof event.stopPropagation === 'function') {
@@ -170,25 +182,34 @@ ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
   }
   if (!inputHasBeenClicked) {
     return {
-      buildName: '',
-      inputHasBeenClicked: true
+      data:{
+        buildName: '',
+        inputHasBeenClicked: true
+      }
     };
   }
 };
 
 ControllerBuild.initState = function ($stateParams) {
   return {
-   isClean: true,
+   data:    {
+     isClean: true
+   },
+   actions: {}
   };
 };
 
 ControllerBuild.initPopoverState = function ($stateParams) {
   return {
-    showBuildOptionsDirty: false,
-    showBuildOptionsClean: false,
-    showFileMenu:          false,
-    buildName:             $stateParams.buildName,
-    inputHasBeenClicked:   false
+    data: {
+      showBuildOptionsDirty: false,
+      showBuildOptionsClean: false,
+      showFileMenu:          false,
+      // showExplorer:          true,
+      showForm:              false,
+      buildName:             $stateParams.buildName,
+      inputHasBeenClicked:   false
+    }
   };
 };
 
@@ -212,7 +233,7 @@ ControllerBuild.togglePopover = function (popoverName, event, $stateParams) {
   }
   var newState = this.initPopoverState($stateParams);
   if (typeof popoverName === 'string') {
-    newState['show' + popoverName] = true;
+    newState.data['show' + popoverName] = true;
   }
   return newState;
 };

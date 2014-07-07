@@ -1,10 +1,10 @@
 nav.sub-header
   h1.build-header.divided-header.animations-off(
-    ng-class = "{'in': !dataBuild.isClean }"
+    ng-class = "{'in': !dataBuild.data.isClean }"
   )
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
-      ng-click = "dataBuild.stateToBuildList($event)"
+      ng-click = "dataBuild.actions.stateToBuildList($event)"
       type = "button"
     )
       object.iconnables.icons-back-table(
@@ -20,16 +20,22 @@ nav.sub-header
         data = "/build/images/icons/icons-asterisk.svg"
         type = "image/svg+xml"
       )
-    | Build {{ dataBuild.build.attrs.id | limitTo:4 }}...
+    | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
-  section#main-controls(ng-class = "{'in': !dataBuild.isClean}")
+  section#main-controls(ng-class = "{'in': !dataBuild.data.isClean}")
     .clean
-      button.orange(type = "button") Run Instance
+      button.orange(
+        type = "button"
+        ng-click = "dataBuild.actions.runInstance()"
+      ) Run Instance
       .btn-group
-        button.silver(type = "button") Rebuild
+        button.silver(
+          type = "button"
+          ng-click = "dataBuild.actions.rebuild();"
+        ) Rebuild
         button.silver.btn-icon(
-          ng-class = "{active: dataBuild.showBuildOptionsClean}"
-          ng-click = "dataBuild.togglePopover('BuildOptionsClean', $event)"
+          ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
+          ng-click = "dataBuild.actions.togglePopover('BuildOptionsClean', $event)"
           type = "button"
         )
           object.iconnables(
@@ -37,16 +43,19 @@ nav.sub-header
             type = "image/svg+xml"
           )
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.showBuildOptionsClean}"
+            ng-class = "{in: dataBuild.data.showBuildOptionsClean}"
             ng-include = "'viewBuildPopoverBuildOptions'"
           )
 
     .dirty
       .btn-group
-        button.green(type = "button") Build
+        button.green(
+          type = "button"
+          ng-click = "dataBuild.actions.build()"
+        ) Build
         button.green.btn-icon(
-          ng-class = "{active: dataBuild.showBuildOptionsDirty}"
-          ng-click = "dataBuild.togglePopover('BuildOptionsDirty', $event)"
+          ng-class = "{active: dataBuild.data.showBuildOptionsDirty}"
+          ng-click = "dataBuild.actions.togglePopover('BuildOptionsDirty', $event)"
           type = "button"
         )
           object.iconnables(
@@ -54,13 +63,18 @@ nav.sub-header
             type = "image/svg+xml"
           )
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.showBuildOptionsDirty}"
+            ng-class = "{in: dataBuild.data.showBuildOptionsDirty}"
             ng-include = "'viewBuildPopoverBuildOptions'"
           )
-      button.silver(type = "button") Discard Changes
+      button.silver(
+        type = "button"
+        ng-click = "dataBuild.actions.discardChanges()"
+      ) Discard Changes
 
 section.sidebar
-  ul
+  ul(
+    ng-show = "dataBuild.data.build.attrs.created"
+  )
     li
       object.iconnables.icons-recipe(
         data = "/build/images/icons/icons-recipe.svg"
@@ -79,16 +93,16 @@ section.sidebar
         data = "/build/images/icons/icons-calendar.svg"
         type = "image/svg+xml"
       )
-      | Initiated <time datetime="2014-07-04 19:00" title="2014-07-04 19:00">10 minutes ago</time>
+      | Initiated {{ dataBuild.data.build.attrs.created | timeAgo }}
     li
       object.iconnables.icons-trigger(
         data = "/build/images/icons/icons-trigger.svg"
         type = "image/svg+xml"
       )
-      | Triggered by <a>runnabro</a>
+      | Triggered by <a>{{ dataBuild.data.buildOwner.attrs.username }}</a>
   h3 Message Log
   ol#messages
-    li(ng-repeat = "commit in dataBuild.commits")
+    li(ng-repeat = "commit in dataBuild.data.commits")
       ol.message
         li
           a {{commit.message}}
@@ -186,11 +200,13 @@ section.sidebar
 
 //- code_editor
 #editor.in(
-  ng-class="{'in': dataBuild.showExplorer, '': !dataBuild.showExplorer}"
+  ng-class="{'in': dataBuild.data.showExplorer, '': !dataBuild.data.showExplorer}"
 )
+
+  file-tree(build = "dataBuild.data.build")
+
   button#explorer-toggle.btn-icon(
-    ng-click = "dataBuild.showExplorer = !dataBuild.showExplorer"
-    ng-init = "dataBuild.showExplorer = true"
+    ng-click = "dataBuild.actions.toggleExplorer($event)"
     type = "button"
   )
     object.iconnables(
@@ -198,85 +214,7 @@ section.sidebar
       type = "image/svg+xml"
     )
   //- file_explorer
-  aside#explorer
-    //- ng-init should remember theme by user
-    #controls
-      button.toggle-theme.tooltip(
-        data-title = "Change Theme"
-        ng-class = "{dark: !dataBuild.toggleTheme, light: dataBuild.toggleTheme}"
-        ng-click = "dataBuild.toggleTheme = !dataBuild.toggleTheme"
-      )
-        .theme
-    .explorer-header
-      h6
-        | CONFIG FILES
-        button.silver.btn-sm.file-explorer-menu.btn-icon(
-          ng-class = "{active: dataBuild.showFileMenu}"
-          ng-click = "dataBuild.togglePopover('FileMenu', $event)"
-        )
-          object.iconnables(
-            data = "/build/images/icons/icons-gear.svg"
-            type = "image/svg+xml"
-          )
-          .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.showFileMenu, 'show-add-repo': dataBuild.showAddRepo, 'show-form': dataBuild.showForm}"
-            ng-include = "'viewBuildPopoverFileMenu'"
-          )
-      ul.tree
-        li.folder(
-            ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"
-            ng-class = "{'in': dataBuild.folderTestOpen}"
-          )
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-folder.svg"
-            type = "image/svg+xml"
-          )
-          | css
-          ul
-            li.folder
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-folder.svg"
-                type = "image/svg+xml"
-              )
-              | modules
-              ul
-                li
-                  object.iconnables.filetypes(
-                    data = "/build/images/icons/filetypes/icons-file.svg"
-                    type = "image/svg+xml"
-                  )
-                  | components.scss
-            li
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-file.svg"
-                type = "image/svg+xml"
-              )
-              | styles.css
-            li
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-file.svg"
-                type = "image/svg+xml"
-              )
-              | tables.css
-        li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
-          | favicon.png
-        li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
-          | index.html
-        li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
-          | htc.access
-  #editor-toolbar
+    #editor-toolbar
     #tabs-wrapper
     //- file_tabs
   #select-tabs.dropdown
@@ -290,4 +228,4 @@ section.sidebar
       option Tab 2
   #editor-container
     //- code
-    pre(ui-ace, ng-click = "dataBuild.isClean = !dataBuild.isClean") Test
+    pre(ui-ace, ng-click = "dataBuild.data.isClean = !dataBuild.data.isClean") Test
