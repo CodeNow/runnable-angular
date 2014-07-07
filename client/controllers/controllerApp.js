@@ -13,7 +13,8 @@ function ControllerApp (
   $stateParams,
   $state,
   user,
-  apiHost
+  apiHost,
+  holdUntilAuth
 ) {
 
   var self = ControllerApp;
@@ -26,11 +27,15 @@ function ControllerApp (
   };
 
   dataApp.holdUntilAuth = function (cb) {
-    self.holdUntilAuth(dataApp.user, user, $state, function (err, response, newData) {
-      $scope.$apply(function () {
-        angular.extend(dataApp, newData);
-        cb(err, dataApp.user);
-      });
+    holdUntilAuth(function (err, thisUser) {
+      if (err) {
+        $state.go('home', {});
+      } else {
+        $scope.safeApply(function () {
+          dataApp.user = thisUser;
+          cb(err, thisUser);
+        });
+      }
     });
   };
 
@@ -58,21 +63,3 @@ ControllerApp.initState = function ($state, $stateParams, apiHost) {
 ControllerApp.documentLevelClick = function ($scope) {
   $scope.$broadcast('app-document-click');
 };
-
-ControllerApp.holdUntilAuth = function (dataAppUser, user, $state, cb) {
-  var newData = {};
-  newData.user = null;
-  if (typeof dataAppUser === 'undefined') {
-    cb(null, newData);
-  } else {
-    var newUser = user.fetchUser('me', function (err, result) {
-      if (err) {
-        $state.go('home', {});
-      } else {
-        newData.user = newUser;
-      }
-      cb(err, result, newData);
-    });
-  }
-};
-
