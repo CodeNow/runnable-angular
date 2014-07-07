@@ -12,8 +12,10 @@ function fileTreeFactory (
   return {
     restrict: 'E',
     templateUrl: 'fileTree',
+    replace: true,
     scope: {
-      'build': '='
+      'version': '=',
+      'container': '='
     },
     link: function (scope, element, attrs) {
 
