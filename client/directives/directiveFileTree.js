@@ -17,8 +17,8 @@ function fileTreeFactory (
       'version': '=',
       'container': '='
     },
-    link: function (scope, element, attrs) {
-
+    link: function ($scope, element, attrs) {
+      console.log('$scope', $scope);
     }
   };
 }

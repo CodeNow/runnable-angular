@@ -203,7 +203,10 @@ section.sidebar
   ng-class="{'in': dataBuild.data.showExplorer, '': !dataBuild.data.showExplorer}"
 )
 
-  file-tree(build = "dataBuild.data.build")
+  file-tree(
+    version = "dataBuild.data.build"
+    container = "dataBuild.data.version"
+  )
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.actions.toggleExplorer($event)"
