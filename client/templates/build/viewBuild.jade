@@ -202,13 +202,20 @@ section.sidebar
 #editor.in(
   ng-class="{'in': dataBuild.data.showExplorer, '': !dataBuild.data.showExplorer}"
 )
-
-  file-tree(
-    user-name = "dataApp.stateParams.userName"
-    project-name = "dataApp.stateParams.projectName"
-    branch-name = "dataApp.stateParams.branchName"
-    build-id = "dataApp.stateParams.buildName"
-  )
+  aside#explorer
+    #controls
+      button.toggle-theme.tooltip(
+        data-title = "Change Theme"
+        ng-class = "{dark: !dataBuild.data.toggleTheme, light: dataBuild.data.toggleTheme}"
+        ng-click = "dataBuild.data.toggleTheme = !dataBuild.data.toggleTheme"
+      )
+        .theme
+    file-tree(
+      user-name = "dataApp.stateParams.userName"
+      project-name = "dataApp.stateParams.projectName"
+      branch-name = "dataApp.stateParams.branchName"
+      build-id = "dataApp.stateParams.buildName"
+    )
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.actions.toggleExplorer($event)"
