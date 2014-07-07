@@ -10,12 +10,29 @@
   .input-container {
     position: relative;
       z-index: $z-show;
+
+    .icons-arrow-down,
+    .btn-icon {
+      position: absolute;
+        top: 6px;
+        right: 6px;
+    }
+
+    .btn-icon {
+      top: 0;
+      transform: scale3d(0,0,0);
+    }
   }
 
-  .icons-arrow-down {
-    position: absolute;
-      top: 6px;
-      right: 6px;
+  .popover.in ~ .input-container {
+
+    .btn-icon {
+      transform: scale3d(1,1,1);
+    }
+
+    .icons-arrow-down {
+      transform: scale3d(0,0,0);
+    }
   }
 
   .popover {
@@ -24,23 +41,33 @@
     box-shadow: none;
     height: 100%;
     margin: 0;
-    transform: scale3d(1,0,1);
-    transform-origin: 50% 0;
+    opacity: 0;
+    transition: opacity .15s ease-in-out;
     width: 100%;
 
     &.in {
-      transform: scale3d(1,1,1);
+      opacity: 1;
     }
 
     li {
       background: $gray-lighter;
       cursor: pointer;
       padding: 0 15px;
+
+      &.in .icons-pass {
+        transform: scale3d(1,1,1);
+      }
     }
 
     button {
       margin: 15px 0;
       width: 100%;
+    }
+
+    .icons-pass {
+      float: right;
+      top: 6px;
+      transform: scale3d(0,0,0);
     }
   }
 

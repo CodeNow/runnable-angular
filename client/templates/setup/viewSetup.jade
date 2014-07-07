@@ -5,6 +5,10 @@ nav.sub-header
 section.sidebar
   form
     #setup-repo
+      .popover.bottom.fade(
+        ng-class = "{in: dataSetup.repoMode}"
+        ng-include = "'viewSetupPopoverAddRepos'"
+      )
       .input-container
         input.form-control(
           ng-click = "dataSetup.repoMode = true"
@@ -14,10 +18,14 @@ section.sidebar
           data = "/build/images/icons/icons-arrow-down.svg"
           type = "image/svg+xml"
         )
-      .popover.bottom.fade(
-        ng-class = "{in: dataSetup.repoMode}"
-        ng-include = "'viewSetupPopoverAddRepos'"
-      )
+        button.btn-icon(
+          ng-click = "dataSetup.repoMode = false"
+          type = "button"
+        )
+          object.iconnables.icons-close(
+            data = "/build/images/icons/icons-close.svg"
+            type = "image/svg+xml"
+          )
       ul#added-repos.vertical-list
         li(
           ng-class ="{in: dataSetup.showForm}"
