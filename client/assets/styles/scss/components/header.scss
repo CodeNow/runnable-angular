@@ -129,12 +129,30 @@ header {
   }
 
   h3 {
-    color: $purple-logo;
+    color: rgba(255,255,255,.5);
     font-size: 12px;
     font-weight: 300;
     letter-spacing: .5px;
     margin: 15px 0 6px 15px;
+    position: relative;
     text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+
+    > button {
+      opacity: .5;
+      position: absolute;
+        top: -16px;
+        right: 11px;
+
+      &:hover {
+        opacity: .75;
+      }
+    }
+
+    .iconnables {
+      height: 20px;
+      top: 3px;
+      width: 20px;
+    }
   }
 }
 

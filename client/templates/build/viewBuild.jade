@@ -23,7 +23,7 @@ nav.sub-header
     | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
   section#main-controls(ng-class = "{'in': !dataBuild.data.isClean}")
-    .clean
+    .clean(ng-class = "{in: dataBuild.data.showBuildOptionsClean}")
       button.orange(
         type = "button"
         ng-click = "dataBuild.actions.runInstance()"
@@ -47,7 +47,7 @@ nav.sub-header
             ng-include = "'viewBuildPopoverBuildOptions'"
           )
 
-    .dirty
+    .dirty(ng-class = "{in: dataBuild.data.showBuildOptionsDirty}")
       .btn-group
         button.green(
           type = "button"
@@ -219,9 +219,28 @@ section.sidebar
       type = "image/svg+xml"
     )
   //- file_explorer
-    #editor-toolbar
-    #tabs-wrapper
-    //- file_tabs
+  #editor-toolbar
+    ul#tabs-wrapper
+      li
+        a.active(
+          data-title = "dockerfile"
+          title = "~/full/path/dockerfile"
+        ) dockerfile
+        button.btn-icon
+          object.iconnables(
+            data = "/build/images/icons/icons-close.svg"
+            type = "image/svg+xml"
+          )
+      li
+        a(
+          data-title = "main.config"
+          title = "~/full/path/main.config"
+        ) main.config
+        button.btn-icon
+          object.iconnables(
+            data = "/build/images/icons/icons-close.svg"
+            type = "image/svg+xml"
+          )
   #select-tabs.dropdown
     button.btn-icon(type = "button")
       object.iconnables(

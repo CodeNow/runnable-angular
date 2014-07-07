@@ -15,6 +15,15 @@
       opacity: .5;
     }
   }
+
+  > button {
+    box-shadow: none;
+    pointer-events: none;
+    position: absolute;
+      top: 45px;
+      right: 9px;
+      z-index: 1;
+  }
 }
 
 #error-log {
@@ -35,6 +44,78 @@
   height: 36px;
   overflow: hidden;
   width: 100%;
+
+  li {
+    border: 1px solid rgba(0,0,0,.05);
+    border-bottom: 0;
+    border-top: 0;
+    display: inline-block;
+    margin-left: -1px;
+    position: relative;
+
+    &:last-child {
+      margin-right: 1px;
+    }
+  }
+
+  a {
+    background: $gray-lighter;
+    border: 0;
+    border-radius: 0;
+    color: $gray-dark;
+    display: block;
+    font-size: 14px;
+    height: 35px;
+    line-height: 36px;
+    margin: 0;
+    padding: 0 36px 0 9px;
+
+    &:hover {
+      background: #fff;
+    }
+
+    &:active,
+    &.active {
+      background: #fff;
+      color: $gray-darker;
+    }
+
+    &.active::after {
+      background: #fff;
+      color: $gray-darker;
+      content: attr(data-title);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 36px;
+      padding-left: 9px;
+      pointer-events: none;
+      position: absolute;
+        top: 0;
+        left: 0;
+    }
+  }
+
+  button {
+    opacity: .5;
+    padding-top: 3px;
+    position: absolute;
+      top: 0;
+      right: 0;
+    width: 30px;
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  object {
+    height: 15px;
+    width: 15px;
+  }
 }
 
 #tabs {
@@ -45,45 +126,6 @@
   white-space: nowrap;
 
   li {
-    border: 1px solid rgba(0,0,0,.1);
-    border-bottom: 0;
-    border-top: 0;
-    display: inline-block;
-    float: none;
-    margin-left: -5px;
-    position: relative;
-
-    &:first-child {
-      margin-left: -1px;
-    }
-
-    &:last-child {
-      margin-right: 1px;
-    }
-
-    > a {
-      cursor: pointer;
-    }
-
-    > .tab-body {
-      background: $gray-light;
-      border: 0;
-      border-radius: 0;
-      color: $gray-dark;
-      font-size: 12px;
-      height: 35px;
-      line-height: 36px;
-      margin: 0;
-      padding: 0 40px 0 10px;
-
-      &:hover {
-        background: $gray-lighter;
-      }
-
-      &:active {
-        color: $gray-darker;
-      }
-    }
 
     > .remove-2 {
       background: none;

@@ -62,6 +62,11 @@ header(
   //- all the dummy data
   .scroll-container
     h3 APPLICATIONS
+      button.btn-icon(type = "button")
+        object.iconnables(
+          data = "/build/images/icons/icons-add-white.svg"
+          type = "image/svg+xml"
+        )
     ul#apps.btn-group-vertical
       li.btn.white.animations-off(
         ng-repeat = "project in dataProjectLayout.projects.models"
