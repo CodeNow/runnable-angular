@@ -15,11 +15,6 @@ function fileTreeFactory (
     templateUrl: 'viewFileTree',
     replace: true,
     scope: {
-  //    'userName':    '=',
-  //    'projectName': '=',
-  //    'branchName':  '=',
-  //    'buildId':     '=',
-  //    'files':        '='
       'build': '='
     },
     link: function ($scope, element, attrs) {
