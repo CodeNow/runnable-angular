@@ -14,8 +14,7 @@ function tabsFactory (
     restrict: 'E',
     templateUrl: 'viewTabs',
     replace: true,
-    scope: {
-    },
+    scope: {},
     link: function ($scope, element, attrs) {
     }
   };
