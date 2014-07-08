@@ -1,5 +1,5 @@
 .explorer-header
-  h6
+  h6(ng-if = "data.buildFiles.models.length")
     | CONFIG FILES
     button.silver.btn-sm.file-explorer-menu.btn-icon(
       ng-class = "{active: dataBuild.data.showFileMenu}"
@@ -15,10 +15,14 @@
       )
 
   ul.tree
-    li.folder(
+    li(
       ng-repeat = "buildFile in data.buildFiles.models"
-    ) {{ buildFile.fullPath() }}
-
+    )
+      object.iconnables.filetypes(
+        data = "/build/images/icons/filetypes/icons-file.svg"
+        type = "image/svg+xml"
+      )
+      | {{ buildFile.fullPath() }}
 
     //-li.folder(
         //-ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"
