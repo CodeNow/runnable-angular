@@ -10,10 +10,8 @@ h3.popover-title Set Config and Message
         ng-model = "dataBuild.data.buildName"
         placeholder = "Choose or Create Config"
       )
-      object.iconnables(
-        data = "/build/images/icons/icons-recipe-alt.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-recipe
+        use(xlink:href = "#icons-recipe")
     datalist(
       id = "user-configs"
     )

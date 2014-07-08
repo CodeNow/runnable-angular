@@ -5,10 +5,8 @@
       ng-class = "{active: dataBuild.data.showFileMenu}"
       ng-click = "dataBuild.data.togglePopover('FileMenu', $event)"
     )
-      object.iconnables(
-        data = "/build/images/icons/icons-gear.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-gear
+        use(xlink:href = "#icons-gear")
       .popover.menu.bottom.fade(
         ng-class = "{in: dataBuild.data.showFileMenu, 'show-add-repo': dataBuild.data.showAddRepo, 'show-form': dataBuild.data.showForm}"
         ng-include = "'viewBuildPopoverFileMenu'"

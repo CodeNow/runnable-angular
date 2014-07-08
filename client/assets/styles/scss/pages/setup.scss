@@ -40,6 +40,7 @@
     }
 
     .btn-icon {
+      color: $gray-dark;
       top: 0;
       transform: scale3d(0,0,0);
     }
@@ -86,6 +87,7 @@
     }
 
     .icons-check {
+      color: $green;
       float: right;
       top: 6px;
       transform: scale3d(0,0,0);
