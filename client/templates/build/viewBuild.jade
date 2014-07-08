@@ -216,6 +216,43 @@ section.sidebar
       branch-name = "dataApp.stateParams.branchName"
       build-id = "dataApp.stateParams.buildName"
     )
+    #repo-list.explorer-header
+      h6
+        | REPOSITORIES
+        button.silver.btn-sm.file-explorer-menu.btn-icon(
+          ng-class = "{active: dataInstance.showFileMenu}"
+          ng-click = "dataInstance.togglePopover('FileMenu', $event)"
+        )
+          object.iconnables(
+            data = "/build/images/icons/icons-gear.svg"
+            type = "image/svg+xml"
+          )
+          .popover.menu.bottom.fade(
+            ng-class = "{in: dataInstance.showFileMenu}"
+            ng-include = "'viewInstancePopoverFileMenu'"
+          )
+      ul.repo-tree
+        li
+          object.iconnables.filetypes(
+            data = "/build/images/icons/filetypes/icons-git.svg"
+            type = "image/svg+xml"
+          )
+          | org/reponame
+          small 02cfe5664f
+        li
+          object.iconnables.filetypes(
+            data = "/build/images/icons/filetypes/icons-git.svg"
+            type = "image/svg+xml"
+          )
+          | org/reponame
+          small 02cfe5664f
+        li
+          object.iconnables.filetypes(
+            data = "/build/images/icons/filetypes/icons-git.svg"
+            type = "image/svg+xml"
+          )
+          | org/reponame
+          small 02cfe5664f
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.actions.toggleExplorer($event)"
