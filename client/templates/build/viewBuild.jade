@@ -226,40 +226,12 @@ section.sidebar
       type = "image/svg+xml"
     )
   //- file_explorer
-  #editor-toolbar
-    tabs(
-      build-id = "dataApp.stateParams.buildName"
-    )
-    ul#tabs-wrapper
-      li
-        a.active(
-          data-title = "dockerfile"
-          title = "~/full/path/dockerfile"
-        ) dockerfile
-        button.btn-icon
-          object.iconnables(
-            data = "/build/images/icons/icons-close.svg"
-            type = "image/svg+xml"
-          )
-      li
-        a(
-          data-title = "main.config"
-          title = "~/full/path/main.config"
-        ) main.config
-        button.btn-icon
-          object.iconnables(
-            data = "/build/images/icons/icons-close.svg"
-            type = "image/svg+xml"
-          )
-  #select-tabs.dropdown
-    button.btn-icon(type = "button")
-      object.iconnables(
-        data = "/build/images/icons/icons-select.svg"
-        type = "image/svg+xml"
-      )
-    select
-      option(selected) Tab 1
-      option Tab 2
+  tabs(
+    build-id = "dataApp.stateParams.buildName"
+  )
+  tabs-dropdown(
+    build-id = "dataApp.stateParams.buildName"
+  )
   #editor-container
     //- code
     pre(ui-ace, ng-click = "dataBuild.data.isClean = !dataBuild.data.isClean") Test
