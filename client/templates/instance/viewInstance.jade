@@ -51,10 +51,8 @@ section.sidebar
     ng-click = "dataInstance.showExplorer = !dataInstance.showExplorer"
     ng-init = "dataInstance.showExplorer = true"
   )
-    object.iconnables(
-      data = "/build/images/icons/icons-folder-open.svg"
-      type = "image/svg+xml"
-    )
+    svg.iconnables.icons-folder-open
+      use(xlink:href = "#icons-folder-open")
   //- file_explorer
   aside#explorer
     #controls

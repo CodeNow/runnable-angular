@@ -4,10 +4,8 @@ nav.sub-header
       spellcheck = "false"
       value = "Application Name"
     )
-    object.iconnables.icons-edit(
-      data = "/build/images/icons/icons-edit.svg"
-      type = "image/svg+xml"
-    )
+    svg.iconnables.icons-edit
+      use(xlink:href = "#icons-edit")
   section#main-controls(ng-class = "{in: dataSetup.actions.isAdvanced}")
     .clean
       button.silver(
@@ -32,18 +30,14 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
           ng-click = "dataSetup.repoMode = true"
           placeholder = "Add Repository"
         )
-        object.iconnables.icons-arrow-down(
-          data = "/build/images/icons/icons-arrow-down.svg"
-          type = "image/svg+xml"
-        )
+        svg.iconnables.icons-arrow-down
+          use(xlink:href = "#icons-arrow-down")
         button.btn-icon(
           ng-click = "dataSetup.repoMode = false"
           type = "button"
         )
-          object.iconnables.icons-close(
-            data = "/build/images/icons/icons-close.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
       //- if there are duplicate repo names, use name-2, name-3, and so on.
       ul#added-repos
         li
@@ -126,20 +120,16 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
           title = "~/full/path/dockerfile"
         ) dockerfile
         button.btn-icon
-          object.iconnables(
-            data = "/build/images/icons/icons-close.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
       li
         a(
           data-title = "main.config"
           title = "~/full/path/main.config"
         ) main.config
         button.btn-icon
-          object.iconnables(
-            data = "/build/images/icons/icons-close.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
   pre(ui-ace readonly="true").
     ## Start from base Ubuntu 14.04
     FROM ubuntu:14.04

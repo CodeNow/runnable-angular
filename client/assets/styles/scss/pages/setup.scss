@@ -116,12 +116,17 @@
   }
 
   button {
+    color: $gray-dark;
     float: right;
     height: 35px;
     opacity: .5;
     width: 24px;
 
     &:hover {
+      opacity: .75;
+    }
+
+    &:active {
       opacity: 1;
     }
   }

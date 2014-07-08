@@ -87,7 +87,8 @@
     }
 
     > .icons-edit {
-      color: #ccc;
+      color: $gray-dark;
+      opacity: .25;
       position: absolute;
         top: 14px;
         right: 20px;
