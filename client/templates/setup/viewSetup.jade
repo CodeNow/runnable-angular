@@ -44,6 +44,7 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
             data = "/build/images/icons/icons-close.svg"
             type = "image/svg+xml"
           )
+      //- if there are duplicate repo names, use name-2, name-3, and so on.
       ul#added-repos
         li
           .repo Org/Repo
@@ -57,7 +58,7 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
               value = "/root/reponame"
             )
         li
-          .repo Org/Repo
+          .repo Org/AnotherRepo
             button.btn-icon
               svg.iconnables.icons-delete
                 use(xlink:href = "#icons-delete")
@@ -65,7 +66,7 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
             span dest:
             input.form-control(
               placeholder = "Destination"
-              value = "/root/reponame"
+              value = "/root/anotherrepo"
             )
 
     #setup-template
