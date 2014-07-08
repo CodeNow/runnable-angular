@@ -7,19 +7,13 @@ nav.sub-header
       ng-click = "dataBuild.actions.stateToBuildList($event)"
       type = "button"
     )
-      object.iconnables.icons-back-table(
-        data = "/build/images/icons/icons-back-table.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-back-table
+        use(xlink:href = "#icons-back-table")
     .iconnables.iconnables-container
-      object.iconnables.icons-pass(
-        data = "/build/images/icons/icons-pass.svg"
-        type = "image/svg+xml"
-      )
-      object.iconnables.icons-asterisk(
-        data = "/build/images/icons/icons-asterisk.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-check
+        use(xlink:href = "#icons-check")
+      svg.iconnables.icons-asterisk
+        use(xlink:href = "#icons-asterisk")
     | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
   section#main-controls(ng-class = "{'in': !dataBuild.data.isClean}")
@@ -76,29 +70,21 @@ section.sidebar
     ng-show = "dataBuild.data.build.attrs.created"
   )
     li
-      object.iconnables.icons-recipe(
-        data = "/build/images/icons/icons-recipe.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-recipe
+        use(xlink:href = "#icons-recipe")
       b {{ dataApp.stateParams.branchName }}
       | #{''} config
     li
-      object.iconnables.icons-duration(
-        data = "/build/images/icons/icons-duration.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-duration
+        use(xlink:href = "#icons-duration")
       | Built in 87 seconds
     li
-      object.iconnables.icons-calendar(
-        data = "/build/images/icons/icons-calendar.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-calendar
+        use(xlink:href = "#icons-calendar")
       | Initiated {{ dataBuild.data.build.attrs.created | timeAgo }}
     li
-      object.iconnables.icons-trigger(
-        data = "/build/images/icons/icons-trigger.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-trigger
+        use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuild.data.buildOwner.attrs.username }}</a>
   h3 Message Log
   ol#messages
@@ -124,10 +110,8 @@ section.sidebar
             )
             |&nbsp;cflynn07
           a 37a8f1
-            object(
-              data = "/build/images/icons/icons-git-alt.svg"
-              type = "image/svg+xml"
-            )
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
     li
       ol.message
         li
@@ -141,10 +125,8 @@ section.sidebar
             )
             |&nbsp;prafulrana
           a 37a8f1
-            object(
-              data = "/build/images/icons/icons-git-alt.svg"
-              type = "image/svg+xml"
-            )
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
     li
       ol.message
         li
@@ -158,10 +140,8 @@ section.sidebar
             )
             |&nbsp;runnabro
           a 37a8f1
-            object(
-              data = "/build/images/icons/icons-git-alt.svg"
-              type = "image/svg+xml"
-            )
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
     li
       ol.message
         li
@@ -175,10 +155,8 @@ section.sidebar
             )
             |&nbsp;runnabro
           a 37a8f1
-            object(
-              data = "/build/images/icons/icons-git-alt.svg"
-              type = "image/svg+xml"
-            )
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
     li
       ol.message
         li
@@ -192,10 +170,8 @@ section.sidebar
             )
             |&nbsp;cflynn07
           a 37a8f1
-            object(
-              data = "/build/images/icons/icons-git-alt.svg"
-              type = "image/svg+xml"
-            )
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
 
 
 //- code_editor
@@ -220,10 +196,8 @@ section.sidebar
           ng-class = "{active: dataInstance.showFileMenu}"
           ng-click = "dataInstance.togglePopover('FileMenu', $event)"
         )
-          object.iconnables(
-            data = "/build/images/icons/icons-gear.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-gear
+            use(xlink:href = "#icons-gear")
           .popover.menu.bottom.fade(
             ng-class = "{in: dataInstance.showFileMenu}"
             ng-include = "'viewInstancePopoverFileMenu'"

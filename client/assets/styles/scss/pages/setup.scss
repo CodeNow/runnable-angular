@@ -75,7 +75,7 @@
       cursor: pointer;
       padding: 0 15px;
 
-      &.in .icons-pass {
+      &.in .icons-check {
         transform: scale3d(1,1,1);
       }
     }
@@ -85,7 +85,7 @@
       width: 100%;
     }
 
-    .icons-pass {
+    .icons-check {
       float: right;
       top: 6px;
       transform: scale3d(0,0,0);

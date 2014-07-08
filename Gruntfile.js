@@ -200,7 +200,7 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'copy:images',
-          'autoSVGO'
+          // 'autoSVGO'
         ]
       },
       tests: {
