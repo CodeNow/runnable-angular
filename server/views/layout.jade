@@ -25,8 +25,10 @@ html.no-js(
     name = "apple-mobile-web-app-title"
   )
   script(src = "/build/js/bundle.js?v=#{locals.version}")
-  body(
-    ng-class = "dataApp.state.current.data.bodyClass"
-    ng-click = "dataApp.click($scope, this)"
-    ui-view
-  )
+  body
+    ng-include#svg-defs(src = "'svgDefs'")
+    #wrapper(
+      ng-class = "dataApp.state.current.data.bodyClass"
+      ng-click = "dataApp.click($scope, this)"
+      ui-view
+    )

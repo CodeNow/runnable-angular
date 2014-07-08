@@ -1,18 +1,16 @@
-ng-include#svg-defs(src = "'svgDefs'")
-main
-  #home
-    .valign
-      object#logomark.iconnables(
-        data = "/build/images/logomark.svg"
-        type = "image/svg+xml")
-      object#heading(
-        data = "/build/images/sandbox-runnable-logo.svg"
-        type = "image/svg+xml"
-      )
-      a.btn.white(
-        href = "{{ dataApp.loginURL }}"
-        type = "button"
-      )
-        svg.iconnables
-          use(xlink:href = "#icons-git")
-        | Log In with Github
+main#home
+  .valign
+    object#logomark.iconnables(
+      data = "/build/images/logomark.svg"
+      type = "image/svg+xml")
+    object#heading(
+      data = "/build/images/sandbox-runnable-logo.svg"
+      type = "image/svg+xml"
+    )
+    a.btn.white(
+      href = "{{ dataApp.loginURL }}"
+      type = "button"
+    )
+      svg.iconnables
+        use(xlink:href = "#icons-git")
+      | Log In with Github
