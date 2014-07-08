@@ -15,15 +15,15 @@
       opacity: .5;
     }
   }
+}
 
-  > button {
-    box-shadow: none;
-    pointer-events: none;
-    position: absolute;
-      top: 45px;
-      right: 9px;
-      z-index: 1;
-  }
+#editor-status {
+  box-shadow: none;
+  pointer-events: none;
+  position: absolute;
+    top: 45px;
+    right: 9px;
+    z-index: 1;
 }
 
 #error-log {
