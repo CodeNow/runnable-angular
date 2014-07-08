@@ -5,15 +5,11 @@ nav#build-stream-header.sub-header
       ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event);"
       type = "button"
     )
-      object.iconnables.icons-recipe(
-        data = "/build/images/icons/icons-recipe-alt.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-recipe
+        use(xlink:href = "#icons-recipe")
       | {{ dataApp.stateParams.branchName }}
-      object.iconnables.icons-arrow-down(
-        data = "/build/images/icons/icons-arrow-down.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-arrow-down
+        use(xlink:href = "#icons-arrow-down")
       .popover.menu.bottom.fade(
         ng-class = "{in: dataBuildList.showChangeRecipe}"
         ng-include = "'viewBuildListPopoverChangeRecipe'"
@@ -25,27 +21,18 @@ nav#build-stream-header.sub-header
       required
     )
     button.submit
-      object.inactive(
-        data = "/build/images/icons/icons-search.svg"
-        type = "image/svg+xml"
-      )
-      object.active(
-        data = "/build/images/icons/icons-search-active.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-search
+        use(xlink:href = "#icons-search")
+      svg.iconnables.icons-search-active
+        use(xlink:href = "#icons-search-active")
   .btn-group
     button.silver(type = "button")
-      object(
-        data = "/build/images/icons/icons-chevron-left.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-chevron-left
+        use(xlink:href = "#icons-chevron-left")
       | Prev 100
     button.silver(type = "button") Next 100
-      object(
-        data = "/build/images/icons/icons-chevron-right.svg"
-        type = "image/svg+xml"
-      )
-
+      svg.iconnables.icons-chevron-right
+        use(xlink:href = "#icons-chevron-right")
 .table-scroll
   table#build-stream.table.table-hover
     thead
@@ -70,10 +57,8 @@ nav#build-stream-header.sub-header
         ng-click  = "dataBuildList.stateToBuild(build)"
       )
         td
-          object(
-            data = "/build/images/icons/icons-check.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-check
+            use(xlink:href = "#icons-check")
         td {{ build.attrs.id }}
         td {{ dataBuildList.buildOwners.getById(build.attrs.owner).attrs.username }}
         td {{ build.attrs.message }}
@@ -85,30 +70,5 @@ nav#build-stream-header.sub-header
             ng-click   = "dataBuildList.stateToInstance(build)"
             data-title = "Run Instance"
           )
-            object(
-              data = "/build/images/icons/icons-run.svg"
-              type = "image/svg+xml"
-            )
-
-
-      //- tr
-      //-   td
-      //-     object(
-      //-       data = "/build/images/icons/icons-check.svg"
-      //-       type = "image/svg+xml"
-      //-     )
-      //-   td 1776
-      //-   td username
-      //-   td git commit log
-      //-   td CodeNow/Reponame
-      //-   td 90 seconds
-      //-   td 3 seconds ago
-      //-   td
-      //-     a(
-      //-       class      = "tooltip"
-      //-       data-title = "Run Instance"
-      //-     )
-      //-       object(
-      //-         data = "/build/images/icons/icons-run.svg"
-      //-         type = "image/svg+xml"
-      //-       )
+            svg.iconnables.icons-run
+              use(xlink:href = "#icons-run")

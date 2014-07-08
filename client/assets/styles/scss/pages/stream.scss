@@ -94,20 +94,6 @@
         right: 20px;
         left: auto;
     }
-
-    // overflow for main-controls
-    // &.in-add-active,
-    // &.in-remove-active {
-
-    //   & ~ #main-controls {
-    //     overflow: hidden !important;
-
-    //     .clean,
-    //     .dirty {
-    //       z-index: 0 !important;
-    //     }
-    //   }
-    // }
   }
 
   .config {
@@ -178,7 +164,7 @@
       padding-right: 6px;
     }
 
-    > object {
+    > .iconnables {
       height: 20px;
       margin: 0;
       position: relative;
@@ -208,12 +194,24 @@
     display: none;
   }
 
-  object {
+  .iconnables {
     height: 24px;
     pointer-events: none;
     position: relative;
       top: 5px;
     width: 24px;
+  }
+
+  .icons-check {
+    color: $green;
+  }
+
+  .icons-run {
+    color: $green;
+  }
+
+  .icons-fail {
+    color: $orange;
   }
 
   .tooltip {
