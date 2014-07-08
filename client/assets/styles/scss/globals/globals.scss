@@ -37,6 +37,11 @@ main {
   }
 }
 
+// svg files
+#svg-defs {
+  display: none !important;
+}
+
 // utility
 .clearfix:before,
 .clearfix:after {

@@ -1,3 +1,4 @@
+ng-include#svg-defs(src = "'svgDefs'")
 header(
   ng-class = "dataProjectLayout.getInClass()"
 )
@@ -17,10 +18,8 @@ header(
         width = "19"
       )
       | {{ dataApp.user.attrs.username }}
-      object.iconnables(
-        data = "/build/images/icons/icons-arrow-down-alt.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables
+        use(xlink:href = "#icons-arrow-down-alt")
     ul.accounts.btn-group-vertical
       li.btn.white
         a
