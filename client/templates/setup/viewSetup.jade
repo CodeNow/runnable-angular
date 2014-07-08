@@ -13,12 +13,12 @@ nav.sub-header
       button.silver(
         ng-click = "dataSetup.actions.isAdvanced = true"
         type = "button"
-      ) Advanced Setup
+      ) Enter Advanced Setup
     .dirty
       button.silver(
         ng-click = "dataSetup.actions.isAdvanced = false"
         type = "button"
-      ) Discard changes and return to basic setup
+      ) Discard Changes and Return to Basic Setup
 
 section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
   form
@@ -44,39 +44,29 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
             data = "/build/images/icons/icons-close.svg"
             type = "image/svg+xml"
           )
-      ul#added-repos.vertical-list
-        li(
-          ng-class ="{in: dataSetup.showForm}"
-        ) Org/Repo
-          button.btn-icon
-            object.iconnables.icons-delete(
-              data = "/build/images/icons/icons-delete.svg"
-              type = "image/svg+xml"
+      ul#added-repos
+        li
+          .repo Org/Repo
+            button.btn-icon
+              svg.iconnables.icons-delete
+                use(xlink:href = "#icons-delete")
+          label
+            span dest:
+            input.form-control(
+              placeholder = "Destination"
+              value = "/root/reponame"
             )
-          button.btn-icon(
-            ng-click = "dataSetup.showForm = !dataSetup.showForm"
-          )
-            object.iconnables.icons-arrow-down(
-              data = "/build/images/icons/icons-arrow-down.svg"
-              type = "image/svg+xml"
+        li
+          .repo Org/Repo
+            button.btn-icon
+              svg.iconnables.icons-delete
+                use(xlink:href = "#icons-delete")
+          label
+            span dest:
+            input.form-control(
+              placeholder = "Destination"
+              value = "/root/reponame"
             )
-          .form-label
-            span /
-            input.form-control(placeholder = "location of repo")
-        li Org/Repo
-          button.btn-icon
-            object.iconnables.icons-delete(
-              data = "/build/images/icons/icons-delete.svg"
-              type = "image/svg+xml"
-            )
-          button.btn-icon
-            object.iconnables.icons-arrow-down(
-              data = "/build/images/icons/icons-arrow-down.svg"
-              type = "image/svg+xml"
-            )
-          .form-label
-            span /
-            input.form-control(placeholder = "Set location of repo")
 
     #setup-template
       h3 Choose a Docker Template
