@@ -55,10 +55,17 @@
   // icons with fill
   &.icons-git {
     fill: currentColor;
+    stroke: none;
   }
 
   // icons with stroke
-  &.icons-gear {
+  &.icons-asterisk,
+  &.icons-back-table,
+  &.icons-check,
+  &.icons-gear,
+  &.icons-recipe,
+  &.icons-trigger {
+    fill: none;
     stroke: currentColor;
   }
 }

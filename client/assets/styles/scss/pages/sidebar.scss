@@ -51,7 +51,8 @@
       text-overflow: ellipsis;
       white-space: nowrap;
 
-      > object {
+      > .iconnables {
+        color: $purple;
         float: left;
         margin-right: 6px;
         top: 6px;
