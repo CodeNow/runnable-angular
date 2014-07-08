@@ -30,9 +30,13 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
           ng-click = "dataSetup.repoMode = true"
           placeholder = "Add Repository"
         )
-        svg.iconnables.icons-arrow-down
-          use(xlink:href = "#icons-arrow-down")
-        button.btn-icon(
+        button.btn-icon.inactive(
+          ng-click = "dataSetup.repoMode = true"
+          type = "button"
+        )
+          svg.iconnables.icons-arrow-down
+            use(xlink:href = "#icons-arrow-down")
+        button.btn-icon.active(
           ng-click = "dataSetup.repoMode = false"
           type = "button"
         )
