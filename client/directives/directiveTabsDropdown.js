@@ -15,6 +15,8 @@ function factoryTabsDropdown (
     templateUrl: 'viewTabsDropdown',
     replace: true,
     scope: {},
-    link: function ($scope, element, attrs) {}
+    link: function ($scope, element, attrs) {
+
+    }
   };
 }
