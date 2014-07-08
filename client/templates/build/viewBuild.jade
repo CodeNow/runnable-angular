@@ -32,10 +32,8 @@ nav.sub-header
           ng-click = "dataBuild.actions.togglePopover('BuildOptionsClean', $event)"
           type = "button"
         )
-          object.iconnables(
-            data = "/build/images/icons/icons-arrow-down.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-arrow-down
+            use(xlink:href = "#icons-arrow-down")
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.data.showBuildOptionsClean}"
             ng-include = "'viewBuildPopoverBuildOptions'"
@@ -52,10 +50,8 @@ nav.sub-header
           ng-click = "dataBuild.actions.togglePopover('BuildOptionsDirty', $event)"
           type = "button"
         )
-          object.iconnables(
-            data = "/build/images/icons/icons-arrow-down-alt.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-arrow-down
+            use(xlink:href = "#icons-arrow-down")
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.data.showBuildOptionsDirty}"
             ng-include = "'viewBuildPopoverBuildOptions'"
@@ -232,10 +228,8 @@ section.sidebar
     ng-click = "dataBuild.actions.toggleExplorer($event)"
     type = "button"
   )
-    object.iconnables(
-      data = "/build/images/icons/icons-folder-open.svg"
-      type = "image/svg+xml"
-    )
+    svg.iconnables.icons-folder-open
+      use(xlink:href = "#icons-folder-open")
   //- file_explorer
   tabs(
     build-id = "dataApp.stateParams.buildName"

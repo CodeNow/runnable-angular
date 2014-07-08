@@ -59,6 +59,7 @@
   }
 
   // icons with stroke
+  &.icons-add,
   &.icons-arrow-down,
   &.icons-asterisk,
   &.icons-back,
@@ -70,6 +71,7 @@
   &.icons-gear,
   &.icons-folder-open,
   &.icons-recipe,
+  &.icons-select,
   &.icons-trigger {
     fill: none;
     stroke: currentColor;

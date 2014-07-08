@@ -69,10 +69,8 @@ section.sidebar
           ng-class = "{active: dataInstance.showFileMenu}"
           ng-click = "dataInstance.togglePopover('FileMenu', $event)"
         )
-          object.iconnables(
-            data = "/build/images/icons/icons-gear.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-gear
+            use(xlink:href = "#icons-gear")
           .popover.menu.bottom.fade(
             ng-class = "{in: dataInstance.showFileMenu}"
             ng-include = "'viewInstancePopoverFileMenu'"
@@ -136,39 +134,31 @@ section.sidebar
           title = "~/full/path/dockerfile"
         ) dockerfile
         button.btn-icon
-          object.iconnables(
-            data = "/build/images/icons/icons-close.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
       li
         a(
           data-title = "main.config"
           title = "~/full/path/main.config"
         ) main.config
         button.btn-icon
-          object.iconnables(
-            data = "/build/images/icons/icons-close.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
   button#add-tab.btn-icon(
     ng-class = "{active: dataInstance.showAddTab}"
     ng-click = "dataInstance.togglePopover('AddTab', $event);"
     type = "button"
   )
-    object.iconnables.icons-add-alt(
-      data = "/build/images/icons/icons-add-alt.svg"
-      type = "image/svg+xml"
-    )
+    svg.iconnables.icons-add
+      use(xlink:href = "#icons-add")
     .popover.menu.bottom.fade(
       ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut': dataInstance.showNewShortcut}"
       ng-include = "'viewInstancePopoverAddTab'"
     )
   #select-tabs.dropdown
     button.btn-icon(type = "button")
-      object.iconnables(
-        data = "/build/images/icons/icons-select.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-select
+        use(xlink:href = "#icons-select")
     select
       option(selected) Tab 1
       option Tab 2
