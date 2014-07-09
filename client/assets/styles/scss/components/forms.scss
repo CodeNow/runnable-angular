@@ -4,9 +4,15 @@ textarea,
 .form-control {
   -webkit-appearance: none;
   border: 1px solid rgba(0,0,0,.15);
+  border-radius: 3px;
   box-shadow: 0 1px 0 #fff;
   color: $gray-darkest;
+  display: block;
+  height: 36px;
+  line-height: 1.4;
+  padding: 6px 12px;
   transition: border .1s cubic-bezier(.19,1,.22,1), transform .15s;
+  width: 100%;
 
   &:hover {
     border-color: rgba(0,0,0,.2);
@@ -15,6 +21,12 @@ textarea,
   &:focus {
     box-shadow: 0 1px 0 #fff;
     border-color: $orange;
+    outline: 0;
+  }
+
+  &[disabled] {
+    background: $gray-light;
+    cursor: not-allowed;
   }
 
   @include retina() {

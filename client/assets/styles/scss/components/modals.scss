@@ -1,8 +1,61 @@
+// inherit from bootstrap
+.modal.fade .modal-dialog {
+  transform: translate(0, -25%);
+  transition: transform .3s ease-out;
+}
+
+.modal.in .modal-dialog {
+  transform: translate(0,0);
+}
+
+.modal-title {
+  line-height: 1.4;
+  margin: 0;
+}
+
+.modal-footer .btn + .btn {
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+
+.modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+
+@media screen and (min-width: 768px) {
+
+  .modal-dialog {
+    left: 50%;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    right: auto;
+    width: 600px;
+  }
+
+  .modal-content {
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+  }
+}
+
 .modal {
   animation: modalIn .3s forwards;
+  display: none;
+  overflow: auto;
+  overflow-y: scroll;
+  position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zmodal;
   transform: translate3d(0,-100%,0);
 
   .modal-dialog {
+    margin: 0 auto;
     padding-top: 108px;
     width: 30%;
       max-width: 460px;
@@ -16,13 +69,17 @@
 
   .modal-content {
     background: $gray-lighter;
+    background-clip: padding-box;
     border: 0;
     border-radius: 3px;
     box-shadow: inset 0 1px 0 #fff;
+    outline: none;
+    position: relative;
   }
 
   .modal-header {
     background: $purple-light;
+    border-bottom: 1px solid rgba(0,0,0,.1);
     border-radius: 3px 3px 0 0;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
     color: #fff;
@@ -58,6 +115,9 @@
   }
 
   .modal-body {
+    position: relative;
+    padding: 15px;
+
     input,
     textarea {
       margin-bottom: 15px;
@@ -90,6 +150,25 @@
     }
   }
 
+  .modal-footer {
+    border-top: 1px solid rgba(0,0,0,.1);
+    margin-top: 15px;
+    padding: 10px 20px;
+
+    &::before,
+    &::after {
+      content: " ";
+      /* 1 */
+
+      display: table;
+      /* 2 */
+    }
+
+    &::after {
+      clear: both;
+    }
+  }
+
   .orange {
     margin-bottom: 0;
   }
@@ -117,11 +196,21 @@
 .modal-backdrop {
   background: rgba(0,0,0,.85);
   opacity: 0;
+  position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zmodal-backdrop;
 
   &.in {
     animation: fadeIn .2s forwards;
     opacity: 1;
   }
+}
+
+.modal-open {
+  overflow: hidden;
 }
 
 // modal
@@ -135,13 +224,6 @@
   input {
     margin-bottom: 0;
   }
-}
-
-// wth modal is shifting whole page bc of margin
-body.modal-open,
-.modal-open .navbar-fixed-top,
-.modal-open .navbar-fixed-bottom {
-  margin-right: 0;
 }
 
 .alt-link {

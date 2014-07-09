@@ -647,6 +647,10 @@
   // shortcuts
   #new-shortcut {
     display: none;
+
+    input[type='radio'] {
+      margin-top: 6px;
+    }
   }
 
   &.show-new-shortcut {
