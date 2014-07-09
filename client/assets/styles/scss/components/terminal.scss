@@ -18,10 +18,6 @@
     padding: 0 15px;
   }
 
-  .glyphicons {
-    color: $gray-dark;
-  }
-
   a:hover {
     color: $gray-darker;
     text-decoration: none;
@@ -68,10 +64,6 @@
     @include media (lg) {
       display: inline;
     }
-  }
-
-  .glyphicons {
-    margin: 0 2px;
   }
 }
 

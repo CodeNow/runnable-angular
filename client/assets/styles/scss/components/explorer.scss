@@ -410,22 +410,6 @@
   }
 }
 
-.branch-switcher {
-  text-align: left;
-  width: 80px;
-
-  &::after {
-    @extend .arrow-down;
-    content: '';
-    right: 4px;
-    top: 7px;
-  }
-
-  .glyphicons {
-    margin: 0;
-  }
-}
-
 // popovers
 .file-explorer-menu {
   width: 26px;
