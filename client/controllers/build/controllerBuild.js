@@ -204,7 +204,6 @@ ControllerBuild.initPopoverState = function ($stateParams) {
     data: {
       showBuildOptionsDirty: false,
       showBuildOptionsClean: false,
-      showFileMenu:          false,
       // showExplorer:          true,
       showForm:              false,
       buildName:             $stateParams.buildName,

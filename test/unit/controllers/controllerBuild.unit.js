@@ -106,7 +106,6 @@ describe('ControllerBuild'.bold.underline.blue, function () {
     it('popovers are not displayed by default', function () {
       expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
       expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
-      expect(dataBuild.data).to.have.property('showFileMenu', false);
       expect(dataBuild.data).to.have.property('buildName', $stateParams.buildName);
       expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
 
@@ -122,7 +121,6 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       $appScope.dataApp.click();
       expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
       expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-      expect(dataBuild.data).to.have.property('showFileMenu', false);
       expect(dataBuild.data).to.have.property('buildName', $stateParams.buildName);
       expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
     });
@@ -146,7 +144,6 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       setTimeout(function () {
         expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
         expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
-        expect(dataBuild.data).to.have.property('showFileMenu', false);
         done();
       }, 1);
     });
@@ -158,19 +155,12 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       dataBuild.actions.togglePopover('BuildOptionsClean', event);
       expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
       expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
-      expect(dataBuild.data).to.have.property('showFileMenu', false);
 
       dataBuild.actions.togglePopover('BuildOptionsDirty', event);
       expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
       expect(dataBuild.data).to.have.property('showBuildOptionsDirty', true);
-      expect(dataBuild.data).to.have.property('showFileMenu', false);
 
-      dataBuild.actions.togglePopover('FileMenu', event);
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-      expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
-      expect(dataBuild.data).to.have.property('showFileMenu', true);
-
-      expect(event.stopPropagation.callCount).to.equal(3);
+      expect(event.stopPropagation.callCount).to.equal(2);
     });
 
     it('togglePopover w/ no arguments hides any displayed popovers', function () {
