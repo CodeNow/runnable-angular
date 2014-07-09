@@ -12,10 +12,7 @@
 // global
 @import "globals/mixins";
 @import "globals/reset";
-@import "globals/ie";
-@import "globals/print";
 @import "globals/var";
-@import "globals/screen";
 @import "globals/globals";
 @import "globals/typography";
 
@@ -57,7 +54,6 @@
 @import "pages/sidebar";
 @import "pages/terminal";
 @import "pages/profile";
-@import "pages/output";
 @import "pages/editor";
 @import "pages/explorer";
 @import "pages/embed";
