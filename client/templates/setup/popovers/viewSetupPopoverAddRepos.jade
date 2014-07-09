@@ -4,20 +4,14 @@
       ng-class = "{in: dataSetup.repoSelected}"
       ng-click = "dataSetup.repoSelected = !dataSetup.repoSelected"
     ) Org/Repo
-      object.iconnables.icons-check(
-        data = "/build/images/icons/icons-check.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-check
+        use(xlink:href = "#icons-check")
     li Org/Repo
-      object.iconnables.icons-check(
-        data = "/build/images/icons/icons-check.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-check
+        use(xlink:href = "#icons-check")
     li Org/Repo
-      object.iconnables.icons-check(
-        data = "/build/images/icons/icons-check.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables.icons-check
+        use(xlink:href = "#icons-check")
   button.btn-block.silver(
     ng-click = "dataSetup.repoMode = false"
     type = "button"

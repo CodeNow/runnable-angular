@@ -96,6 +96,7 @@
   }
 
   button {
+    color: $gray-dark;
     opacity: .5;
     padding-top: 3px;
     position: absolute;
@@ -112,7 +113,7 @@
     }
   }
 
-  object {
+  .icons-close {
     height: 15px;
     width: 15px;
   }

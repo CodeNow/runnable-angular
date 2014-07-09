@@ -22,6 +22,10 @@
     margin: 0 15px;
     width: calc(100% - 30px);
   }
+
+  #tabs-wrapper a {
+    padding-right: 18px;
+  }
 }
 
 #setup-repo {
@@ -32,26 +36,25 @@
     position: relative;
       z-index: $z-show;
 
-    .icons-arrow-down,
-    .btn-icon {
+    > .btn-icon {
+      color: $gray-dark;
       position: absolute;
-        top: 6px;
+        top: 0;
         right: 6px;
     }
 
-    .btn-icon {
-      top: 0;
+    > .active {
       transform: scale3d(0,0,0);
     }
   }
 
   .popover.in ~ .input-container {
 
-    .btn-icon {
+    .active {
       transform: scale3d(1,1,1);
     }
 
-    .icons-arrow-down {
+    .inactive {
       transform: scale3d(0,0,0);
     }
   }
@@ -63,6 +66,7 @@
     height: 100%;
     margin: 0;
     opacity: 0;
+    padding: 0;
     transition: opacity .15s ease-in-out;
     width: 100%;
 
@@ -86,6 +90,7 @@
     }
 
     .icons-check {
+      color: $green;
       float: right;
       top: 6px;
       transform: scale3d(0,0,0);
@@ -93,7 +98,7 @@
   }
 
   .popover-content {
-    padding: 65px 15px 15px;
+    padding: 66px 15px 15px;
   }
 }
 
@@ -116,12 +121,17 @@
   }
 
   button {
+    color: $gray-dark;
     float: right;
     height: 35px;
     opacity: .5;
     width: 24px;
 
     &:hover {
+      opacity: .75;
+    }
+
+    &:active {
       opacity: 1;
     }
   }

@@ -12,57 +12,37 @@
 // global
 @import "globals/mixins";
 @import "globals/reset";
-@import "globals/ie";
-@import "globals/print";
 @import "globals/var";
-@import "globals/screen";
 @import "globals/globals";
 @import "globals/typography";
 
-// components
-@import "components/buttons";
-@import "components/header";
+// components (structure)
 @import "components/logo";
-@import "components/footer";
-@import "components/hero";
-@import "components/feed";
-@import "components/filters";
-@import "components/cards";
-@import "components/navtabs";
+@import "components/header";
+// @import "components/footer";
+@import "components/stream";
+@import "components/sidebar";
+@import "components/explorer";
+@import "components/editor";
+@import "components/terminal";
+
+// components (elements)
+@import "components/animations";
+@import "components/icons";
+@import "components/tables";
 @import "components/lists";
+@import "components/forms";
+@import "components/buttons";
+@import "components/select";
 @import "components/modals";
 @import "components/popovers";
-@import "components/select";
-@import "components/forms";
-@import "components/tables";
-@import "components/animations";
-@import "components/loader";
-@import "components/tooltips";
-@import "components/pagination";
-@import "components/tags";
-@import "components/images";
-@import "components/validation";
-@import "components/errors";
-@import "components/messages";
 @import "components/menu";
-@import "components/reputation";
-@import "components/icons";
-@import "components/statusbars";
+@import "components/tooltips";
+@import "components/errors";
 
 // pages
 @import "pages/home";
-@import "pages/setup";
-@import "pages/runnable";
-@import "pages/stream";
-@import "pages/sidebar";
-@import "pages/terminal";
-@import "pages/profile";
-@import "pages/output";
-@import "pages/editor";
-@import "pages/explorer";
-@import "pages/embed";
-@import "pages/readme";
-@import "pages/new";
 @import "pages/providers";
 @import "pages/about";
 @import "pages/jobs";
+@import "pages/setup";

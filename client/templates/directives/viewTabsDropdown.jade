@@ -1,9 +1,7 @@
 #select-tabs.dropdown
   button.btn-icon(type = "button")
-    object.iconnables(
-      data = "/build/images/icons/icons-select.svg"
-      type = "image/svg+xml"
-    )
+    svg.iconnables.icons-select
+      use(xlink:href = "#icons-select")
   select
     option(
       ng-repeat = "buildFile in actions.getActiveFiles()"

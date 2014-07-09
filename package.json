@@ -76,8 +76,7 @@
     "nodemon": "~1.1.1",
     "protractor": "~1.0.0-rc1",
     "sinon": "~1.10.2",
-    "stringify": "~2.1.0",
-    "svgo": "~0.4.4"
+    "stringify": "~2.1.0"
   },
   "browser": {
     "app": "./client/lib/app.js",

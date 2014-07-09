@@ -1,6 +1,5 @@
 #editor-toolbar
   ul#tabs-wrapper
-    //-  li(ng-repeat = "buildFile in buildFiles.models | filter:{state:{active:true}}")
     li(ng-repeat = "buildFile in actions.getActiveFiles()")
       a(
         ng-attr-data-title = "{{ buildFile.attrs.id }}"
@@ -10,7 +9,5 @@
       button.btn-icon(
         ng-click = "buildFile.state.active = false"
       )
-        object.iconnables(
-          data = "/build/images/icons/icons-close.svg"
-          type = "image/svg+xml"
-        )
+        svg.iconnables.icons-close
+          use(xlink:href = "#icons-close")

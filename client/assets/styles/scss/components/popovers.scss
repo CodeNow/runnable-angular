@@ -216,41 +216,6 @@
   }
 }
 
-// improve popover
-#improve-btn {
-
-  .embed-close {
-    min-width: 16px;
-  }
-
-  .thanks .glyphicons {
-    font-size: 22px;
-    top: 2px;
-
-    &:before {
-      content: '☺';
-    }
-  }
-
-  .popover {
-
-    .arrow {
-      left: 52px;
-    }
-
-    textarea {
-      max-height: 300px;
-      min-height: 150px;
-      resize: vertical;
-    }
-
-    .orange {
-      margin-top: 15px;
-      width: 100%;
-    }
-  }
-}
-
 // toggle view
 .toggle-group {
   border-bottom: 1px solid rgba(0,0,0,.1);

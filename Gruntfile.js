@@ -87,8 +87,6 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'client/assets/styles/bootstrap/bootstrap.min.css',
-          // 'client/assets/styles/bootstrap/bootstrap-theme.min.css',
-          // ngprogress?
           'client/assets/styles/glyphicons.css',
           'client/assets/styles/jquery-ui/jquery-ui-1.10.4.custom.css',
           'client/build/css/index.css'
@@ -199,8 +197,7 @@ module.exports = function(grunt) {
           'client/assets/images/**/*.svg'
         ],
         tasks: [
-          'copy:images',
-          // 'autoSVGO'
+          'copy:images'
         ]
       },
       tests: {
@@ -280,41 +277,6 @@ module.exports = function(grunt) {
         configFile: './test/karma.conf.js'
       }
     },
-  });
-
-  grunt.registerTask('autoSVGO', '', function () {
-    var done = this.async();
-    var buildImgPath = path.join(__dirname, 'client/build/images');
-    find.file(/\.svg$/, buildImgPath, function (files) {
-      files = files.map(function (file) {
-        return (function (file) {
-          return function (cb) {
-            require('exec')('./node_modules/.bin/svgo ' + file, function (err, out, code) {
-              cb(err, {
-                file: file,
-                out: out
-              });
-            });
-          };
-        })(file);
-      });
-      async.parallel(files, function (err, results) {
-        var table = new Table({
-          head: ['File', 'SVGO output'],
-          colWidths: [80, 50]
-        });
-        results
-          .map(function (file) {
-            return [file.file.replace(__dirname, '.'), file.out.replace(/\n/g, ' ').replace(/\r/g, '')];
-          })
-          .map(function (file) {
-            table.push(file);
-          });
-        //table.push.apply(this, results);
-        console.log(table.toString());
-        done();
-      });
-    });
   });
 
   grunt.registerTask('autoBundleDependencies', '', function () {

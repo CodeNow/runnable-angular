@@ -22,9 +22,9 @@
 
 #about-header {
   background-image: url(../images/about-header-plx.jpg);
-  @include background-image-retina('../images/about-header-plx@2x.jpg');
+  @include background-retina('../images/about-header-plx@2x.jpg');
   color: #fff;
-  text-shadow: 0 3px 20px rgba(0,0,0,0.75);
+  text-shadow: 0 3px 20px rgba(0,0,0,.75);
 
   h2 {
     margin-top: 225px;
@@ -146,7 +146,7 @@
 
 #about-stack {
   background-image: url(../images/about-stack.jpg);
-  @include background-image-retina('../images/about-stack@2x.jpg');
+  @include background-retina('../images/about-stack@2x.jpg');
   background-size: cover;
   color: #fff;
   overflow: hidden;
@@ -198,7 +198,7 @@
 
 #about-satellite {
   background-image: url(../images/about-satellite.jpg);
-  @include background-image-retina('../images/about-satellite@2x.jpg');
+  @include background-retina('../images/about-satellite@2x.jpg');
   background-size: cover;
   color: #fff;
   text-shadow: 0 3px 20px rgba(0,0,0,0.75);

@@ -59,11 +59,24 @@
   }
 
   // icons with stroke
+  &.icons-add,
+  &.icons-arrow-down,
   &.icons-asterisk,
+  &.icons-back,
   &.icons-back-table,
   &.icons-check,
+  &.icons-chevron-left,
+  &.icons-chevron-right,
+  &.icons-close,
+  &.icons-delete,
+  &.icons-edit,
+  &.icons-error,
+  &.icons-fail,
   &.icons-gear,
+  &.icons-folder-open,
   &.icons-recipe,
+  &.icons-run,
+  &.icons-select,
   &.icons-trigger {
     fill: none;
     stroke: currentColor;

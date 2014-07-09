@@ -86,7 +86,7 @@ input {
 .search {
   position: relative;
 
-  object {
+  .iconnables {
     height: 24px;
     margin: 6px 6px 0;
     right: 0;
@@ -97,6 +97,7 @@ input {
   > button {
     height: 36px;
     margin: 0;
+    overflow: hidden;
     padding: 0;
     position: absolute;
       top: 0;
@@ -109,21 +110,30 @@ input {
   }
 
   > .add {
+    color: $orange;
     right: -36px;
   }
 
-  .active {
-    margin-left: -30px;
+  .icons-search,
+  .icons-search-active {
+    position: absolute;
+  }
+
+  .icons-search {
+    opacity: 1;
+  }
+
+  .icons-search-active {
     opacity: 0;
   }
 
   input:valid ~ .submit {
 
-    .inactive {
+    .icons-search {
       opacity: 0;
     }
 
-    .active {
+    .icons-search-active {
       opacity: 1;
     }
   }
@@ -177,147 +187,6 @@ input {
   &.in {
     display: block;
     z-index: 1;
-  }
-}
-
-// search
-#search {
-  position: relative;
-
-  @media (max-width: 500px) {
-    clear: both;
-    margin-top: 15px;
-    width: 100%;
-  }
-
-  .form-group {
-    margin-bottom: 0;
-  }
-
-  .twitter-typeahead {
-    background: #fff;
-    border-radius: 3px;
-  }
-
-  input {
-    -webkit-appearance: none;
-    border-radius: 3px;
-    height: 36px;
-    transition: width .3s cubic-bezier(.19,1,.22,1);
-
-    @include retina() {
-      @media (max-width: 500px) {
-        font-size: 16px;
-      }
-    }
-  }
-
-  button {
-    background: #fff;
-    border: 0;
-    box-shadow: none;
-    color: $gray-dark;
-    height: 34px;
-    position: absolute;
-      top: 1px;
-      right: 1px;
-      z-index: 2;
-    text-shadow: none;
-  }
-}
-
-// header search
-header {
-
-  #search {
-    float: right;
-    height: 36px;
-    line-height: 1;
-    margin: 0 15px 9px;
-    width: calc(100% - 30px);
-
-    @include media(sm) {
-      margin: 11px 15px 0 0;
-      width: auto;
-    }
-
-    input {
-      background: rgba(0,0,0,.1);
-      box-shadow: 0 1px 0 rgba(255,255,255,.15);
-      color: $purple-logo;
-      height: 34px;
-      padding-right: 24px;
-      text-overflow: ellipsis;
-      transition: background .1s, width .3s cubic-bezier(.19,1,.22,1);
-      width: 165px;
-
-      &::placeholder {
-        color: $purple-logo;
-      }
-
-      &:focus {
-        background: #fff;
-        border-color: transparent;
-        color: $gray-darker;
-
-        @include media(sm) {
-          width: 300px;
-        }
-
-        &::placeholder {
-          color: $gray-dark;
-        }
-
-        & ~ button {
-          color: $gray-dark;
-
-          &:hover {
-            color: $gray-darker;
-          }
-        }
-      }
-
-      @include media(xs) {
-        width: 100%;
-      }
-    }
-
-    button {
-      background: transparent;
-      color: $purple-logo;
-      font-size: 11px;
-      height: 32px;
-      right: 0;
-      width: 36px;
-    }
-  }
-}
-
-//feed search
-#feed-nav {
-
-  #search {
-    float: right;
-
-    input {
-      width: 105px;
-
-      &:focus {
-        width: 240px;
-
-        @include media(sm) {
-          width: 300px;
-        }
-      }
-
-      @media (max-width: 500px) {
-        width: 100%;
-
-        &:focus {
-          width: 100%;
-        }
-      }
-    }
   }
 }
 
@@ -389,80 +258,6 @@ form.inline {
           top: 20px;
         }
       }
-    }
-  }
-}
-
-// autocomplete
-.ui-autocomplete {
-  background: $gray-lighter;
-  border: 1px solid rgba(0,0,0,.1);
-  box-shadow: none;
-  left: 0 !important;
-  top: -3px !important;
-  width: 100% !important;
-
-  li > a {
-    color: $gray-dark;
-    font-size: 14px;
-    height: 36px;
-    line-height: 36px;
-    padding: 0 10px !important;
-
-    &.ui-state-focus {
-      background: #fff;
-      color: $gray-dark;
-    }
-  }
-}
-
-// contact modal
-#contact-modal {
-
-  .modal-body {
-    overflow: hidden;
-  }
-
-  form,
-  .confirmation {
-    transition: transform .6s ease-in-out, opacity .5s ease-in-out;
-  }
-
-  form.in,
-  form.in ~ .confirmation {
-    transform: translate3d(0,-325px,0);
-  }
-
-  form.in {
-    opacity: 0;
-  }
-
-  form.in ~ .confirmation {
-    opacity: 1;
-  }
-
-  .confirmation {
-    color: $gray-darker;
-    height: 100%;
-    opacity: 0;
-    padding: 0 30px;
-    position: absolute;
-      left: 0;
-    text-align: center;
-    width: 100%;
-
-    h2 {
-      font-weight: 700;
-      margin: 105px 0 15px;
-    }
-
-    button {
-      margin: 0 auto;
-      position: absolute;
-        right: 0;
-        bottom: 20px;
-        left: 0;
-      width: calc(100% - 40px);
     }
   }
 }
