@@ -47,22 +47,10 @@ table {
     border-bottom: 1px solid rgba(0,0,0,.025);
     cursor: pointer;
 
-    > .glyphicons {
-      font-size: 14px;
-    }
-
     &:nth-child(2) {
       font-size: 16px;
       font-weight: 700;
     }
-  }
-
-  .glyphicons {
-    font-size: 12px;
-  }
-
-  .circle-exclamation-mark {
-    color: $orange;
   }
 }
 

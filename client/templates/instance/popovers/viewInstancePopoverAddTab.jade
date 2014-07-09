@@ -3,48 +3,41 @@
   #add-tab-options
     ol.popover-body.col-popover-3
       li
-        a
-          object.iconnables.lg(
-            data = "/build/images/icons/icons-web.svg"
-            type = "image/svg+xml"
-          )
-          | Web View
+        object.iconnables.lg(
+          data = "/build/images/icons/icons-web.svg"
+          type = "image/svg+xml"
+        )
+        | Web View
       li
-        a
-          object.iconnables.lg(
-            data = "/build/images/icons/icons-terminal.svg"
-            type = "image/svg+xml"
-          )
-          | Terminal
+        object.iconnables.lg(
+          data = "/build/images/icons/icons-terminal.svg"
+          type = "image/svg+xml"
+        )
+        | Terminal
       li
-        a
-          object.iconnables.lg(
-            data = "/build/images/icons/icons-logs.svg"
-            type = "image/svg+xml"
-          )
-          | Run Log
+        object.iconnables.lg(
+          data = "/build/images/icons/icons-logs.svg"
+          type = "image/svg+xml"
+        )
+        | Run Log
 
     ol#shortcuts.popover-body.popover-list
-      li
-        a Shortcut 1
-          button.delete(type = "button")
-            span Delete
-            span.glyphicons.circle-remove
-      li
-        a Shortcut 2
-          button.delete(type = "button")
-            span Delete
-            span.glyphicons.circle-remove
-      li
-        a Shortcut 3
-          button.delete(type = "button")
-            span Delete
-            span.glyphicons.circle-remove
-      li
-        a Shortcut 4
-          button.delete(type = "button")
-            span Delete
-            span.glyphicons.circle-remove
+      li Shortcut 1
+        button.btn-icon.delete(type = "button")
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
+      li Shortcut 2
+        button.btn-icon.delete(type = "button")
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
+      li Shortcut 3
+        button.btn-icon.delete(type = "button")
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
+      li Shortcut 4
+        button.btn-icon.delete(type = "button")
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
     button#new-shortcut-button.silver.btn-block(
       ng-click = "dataInstance.showNewShortcut = true"
       type = "button"
