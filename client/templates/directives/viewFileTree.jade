@@ -1,14 +1,14 @@
 .explorer-header
-  h6(ng-if = "data.buildFiles.models.length")
+  h6(ng-if = "buildFiles.models.length")
     | CONFIG FILES
     button.silver.btn-sm.file-explorer-menu.btn-icon(
-      ng-class = "{active: dataBuild.data.showFileMenu}"
-      ng-click = "dataBuild.data.togglePopover('FileMenu', $event)"
+      ng-class = "{active: data.showFileMenu}"
+      ng-click = "actions.togglePopover('FileMenu', $event)"
     )
       svg.iconnables.icons-gear
         use(xlink:href = "#icons-gear")
       .popover.menu.bottom.fade(
-        ng-class = "{in: dataBuild.data.showFileMenu, 'show-add-repo': dataBuild.data.showAddRepo, 'show-form': dataBuild.data.showForm}"
+        ng-class = "{in: data.showFileMenu, 'show-add-repo': data.showAddRepo, 'show-form': data.showForm}"
         ng-include = "'viewBuildPopoverFileMenu'"
       )
 

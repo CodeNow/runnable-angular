@@ -1,10 +1,10 @@
 require('app')
-  .directive('tabsDropdown', factoryTabsDropdown);
+  .directive('tabsDropdown', tabsDropdown);
 /**
  * tabsDropdown Directive
  * @ngInject
  */
-function factoryTabsDropdown (
+function tabsDropdown (
   keypather
 ) {
   return {

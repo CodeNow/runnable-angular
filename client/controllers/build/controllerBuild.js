@@ -220,8 +220,7 @@ ControllerBuild.getPopoverButtonText = function (name) {
 ControllerBuild.togglePopover = function (popoverName, event, $stateParams) {
   var popovers = [
     'BuildOptionsClean',
-    'BuildOptionsDirty',
-    'FileMenu'
+    'BuildOptionsDirty'
   ];
   if (typeof event !== 'undefined' && typeof event.stopPropagation === 'function') {
     event.stopPropagation();
