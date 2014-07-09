@@ -5,6 +5,7 @@ require('app')
  * @ngInject
  */
 function fileTree (
+  $timeout,
   keypather
 ) {
   return {
@@ -12,6 +13,7 @@ function fileTree (
     templateUrl: 'viewFileTree',
     replace: true,
     scope: {
+      'version': '=',
       'buildFiles': '='
     },
     link: function ($scope, element, attrs) {
@@ -36,6 +38,21 @@ function fileTree (
         } else {
           data.showFileMenu = false;
         }
+      };
+
+      actions.createFile = function () {
+        $scope.version.createFile({
+          name: 'untitled'+Math.ceil((Math.random()*100000)),
+          path: '/',
+          body: ''
+        }, function () {
+          $scope.version.fetchFiles(function () {
+            $timeout(function () {
+              actions.togglePopover();
+              $scope.$apply();
+            });
+          });
+        });
       };
 
       $scope.$on('app-document-click', function () {

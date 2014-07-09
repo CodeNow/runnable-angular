@@ -1,7 +1,9 @@
 .arrow.white
 .popover-content
   ul#file-explorer-options.popover-body
-    li
+    li(
+      ng-click = "actions.createFile()"
+    )
       object.iconnables(
         data = "/build/images/icons/icons-new-file.svg"
         type = "image/svg+xml"

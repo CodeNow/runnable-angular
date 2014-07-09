@@ -1,10 +1,10 @@
 require('app')
-  .directive('tabs', tabsFactory);
+  .directive('tabs', tabs);
 /**
  * tabs Directive
  * @ngInject
  */
-function tabsFactory (
+function tabs (
   keypather
 ) {
   return {
@@ -12,6 +12,7 @@ function tabsFactory (
     templateUrl: 'viewTabs',
     replace: true,
     scope: {
+      'version': '=',
       'buildFiles': '='
     },
     link: function ($scope, element, attrs) {
