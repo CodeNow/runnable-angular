@@ -5,7 +5,8 @@
       type = "image/svg+xml"
     )
   select
-    option(selected) Tab 1
-    option Tab 2
+    option(
+      ng-repeat = "buildFile in actions.getActiveFiles()"
+    ) {{ buildFile.fullPath() }}
 
 

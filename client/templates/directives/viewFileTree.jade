@@ -16,7 +16,8 @@
 
   ul.file-tree
     li(
-      ng-repeat = "buildFile in data.buildFiles.models"
+      ng-repeat = "buildFile in buildFiles.models"
+      ng-click = "buildFile.state.active = true; buildFile.state.activeTime = data.date.now()"
     )
       object.iconnables.filetypes(
         data = "/build/images/icons/filetypes/icons-file.svg"
