@@ -28,7 +28,7 @@
     "jquery": "~2.1.1",
     "keypather": "^1.7.1",
     "moment": "~2.7.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.11.7",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.11.9",
     "underscore": "~1.6.0"
   },
   "devDependencies": {
