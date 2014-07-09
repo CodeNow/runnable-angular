@@ -631,9 +631,9 @@
       overflow: hidden;
     }
 
-    object {
+    .iconnables.lg {
       display: block;
-      margin: 0 auto;
+      margin: 12px auto 0;
     }
   }
 
@@ -676,8 +676,10 @@
   overflow: scroll;
 
   li {
+    cursor: pointer;
     float: none;
     height: 36px;
+    padding-left: 15px;
     position: relative;
     text-align: left;
     width: 100%;

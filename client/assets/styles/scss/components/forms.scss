@@ -153,12 +153,8 @@ input {
 // different position in popovers
 .popover .search {
 
-  > .submit {
-    right: -3px;
-  }
-
   > .add {
-    right: -40px;
+    right: -36px;
   }
 }
 
@@ -249,15 +245,6 @@ form.inline {
     > ul {
       margin-top: 0;
       min-width: 190px;
-
-      .glyphicons {
-        font-size: 10px;
-        top: 12px;
-
-        @include media(xs) {
-          top: 20px;
-        }
-      }
     }
   }
 }
