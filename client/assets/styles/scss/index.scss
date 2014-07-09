@@ -16,10 +16,17 @@
 @import "globals/globals";
 @import "globals/typography";
 
-// components
+// components (structure)
 @import "components/logo";
 @import "components/header";
 // @import "components/footer";
+@import "components/stream";
+@import "components/sidebar";
+@import "components/explorer";
+@import "components/editor";
+@import "components/terminal";
+
+// components (elements)
 @import "components/animations";
 @import "components/icons";
 @import "components/tables";
@@ -35,17 +42,7 @@
 
 // pages
 @import "pages/home";
-@import "pages/setup";
-@import "pages/runnable";
-@import "pages/stream";
-@import "pages/sidebar";
-@import "pages/terminal";
-@import "pages/profile";
-@import "pages/editor";
-@import "pages/explorer";
-@import "pages/embed";
-@import "pages/readme";
-@import "pages/new";
 @import "pages/providers";
 @import "pages/about";
 @import "pages/jobs";
+@import "pages/setup";
