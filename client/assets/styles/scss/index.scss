@@ -17,34 +17,21 @@
 @import "globals/typography";
 
 // components
-@import "components/buttons";
-@import "components/header";
 @import "components/logo";
-@import "components/footer";
-@import "components/hero";
-@import "components/feed";
-@import "components/filters";
-@import "components/cards";
-@import "components/navtabs";
+@import "components/header";
+// @import "components/footer";
+@import "components/animations";
+@import "components/icons";
+@import "components/tables";
 @import "components/lists";
+@import "components/forms";
+@import "components/buttons";
+@import "components/select";
 @import "components/modals";
 @import "components/popovers";
-@import "components/select";
-@import "components/forms";
-@import "components/tables";
-@import "components/animations";
-@import "components/loader";
-@import "components/tooltips";
-@import "components/pagination";
-@import "components/tags";
-@import "components/images";
-@import "components/validation";
-@import "components/errors";
-@import "components/messages";
 @import "components/menu";
-@import "components/reputation";
-@import "components/icons";
-@import "components/statusbars";
+@import "components/tooltips";
+@import "components/errors";
 
 // pages
 @import "pages/home";
