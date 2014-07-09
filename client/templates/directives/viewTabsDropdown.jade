@@ -3,7 +3,8 @@
     svg.iconnables.icons-select
       use(xlink:href = "#icons-select")
   select
-    option(selected) Tab 1
-    option Tab 2
+    option(
+      ng-repeat = "buildFile in actions.getActiveFiles()"
+    ) {{ buildFile.fullPath() }}
 
 

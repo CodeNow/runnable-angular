@@ -148,7 +148,7 @@ function ControllerBuild (
       });
       cb();
     },
-    function fetchFiles (cb) {
+    function fetchVersion (cb) {
       var build = dataBuild.data.build;
       var contextId = build.toJSON().contexts[0];
       var versionId = build.toJSON().versions[0];
@@ -160,13 +160,13 @@ function ControllerBuild (
         cb();
       });
     },
-    function fetchFiles (cb) {
+    function fetchBuildFiles (cb) {
       var version = dataBuild.data.version;
-      var files = version.fetchFiles(function (err) {
+      var buildFiles = version.fetchFiles(function (err) {
         if (err) {
           return cb(err);
         }
-        dataBuild.data.files = files;
+        dataBuild.data.buildFiles = buildFiles;
         cb();
       });
     }
