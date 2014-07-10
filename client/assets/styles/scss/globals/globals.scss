@@ -1,10 +1,17 @@
 // global layout
+html {
+  font-size: 62.5%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 body {
   -webkit-font-smoothing: subpixel-antialiased;
   background: #fff;
+  color: $gray-dark;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: 300;
+  line-height: 1.4;
 }
 
 html,
@@ -56,4 +63,12 @@ main {
 
 .clearfix:after {
   clear: both;
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.pull-right {
+  float: right !important;
 }

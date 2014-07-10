@@ -52,11 +52,6 @@
       }
     }
 
-    // configs popover position
-    .popover {
-      left: -35px;
-    }
-
     > .iconnables-container{
       margin-right: 3px;
       top: 6px;
@@ -101,7 +96,6 @@
     font-size: 18px;
     font-weight: 600;
     line-height: 36px;
-    margin-left: 6px;
     min-width: 120px;
     padding: 0 3px 0 0;
     position: relative;
@@ -142,6 +136,18 @@
 
 // build-stream
 #build-stream-header {
+
+  h1 {
+    max-width: 210px;
+
+    input {
+      text-align: left;
+    }
+  }
+
+  .popover {
+    left: -36px;
+  }
 
   .btn-group,
   > .search {

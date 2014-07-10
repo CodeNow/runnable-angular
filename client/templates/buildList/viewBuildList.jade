@@ -1,19 +1,25 @@
 nav#build-stream-header.sub-header
-  h1 Built in
-    button.btn.silver.config(
-      ng-class = "{active: dataBuildList.showChangeRecipe}"
-      ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event);"
-      type = "button"
+  h1
+    input.form-control.inline-edit(
+      spellcheck = "false"
+      value = "project-name"
     )
-      svg.iconnables.icons-recipe
-        use(xlink:href = "#icons-recipe")
-      | {{ dataApp.stateParams.branchName }}
-      svg.iconnables.icons-arrow-down
-        use(xlink:href = "#icons-arrow-down")
-      .popover.menu.bottom.fade(
-        ng-class = "{in: dataBuildList.showChangeRecipe}"
-        ng-include = "'viewBuildListPopoverChangeRecipe'"
-      )
+    svg.iconnables.icons-edit
+      use(xlink:href = "#icons-edit")
+  button.btn.silver.config(
+    ng-class = "{active: dataBuildList.showChangeRecipe}"
+    ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event);"
+    type = "button"
+  )
+    svg.iconnables.icons-recipe
+      use(xlink:href = "#icons-recipe")
+    | {{ dataApp.stateParams.branchName }}
+    svg.iconnables.icons-arrow-down
+      use(xlink:href = "#icons-arrow-down")
+    .popover.menu.bottom.fade(
+      ng-class = "{in: dataBuildList.showChangeRecipe}"
+      ng-include = "'viewBuildListPopoverChangeRecipe'"
+    )
   //- h1(ng-click = "dataBuildList.show404()") show 404
   form.search
     input.form-control(

@@ -4,27 +4,27 @@ html.no-js(
   ng-controller = "ControllerApp"
 )
   head
-  meta(charset = "utf-8")
-  meta(
-    content = "width=device-width, initial-scale=1"
-    name = "viewport"
-  )
-  title sandbox.runnable
-  link(
-    href = "/build/css/index.css?v=#{locals.version}"
-    media = "screen"
-    rel = "stylesheet"
-  )
-  //- ios
-  link(
-    href = "/build/images/icons/icons-ios.png"
-    rel = "apple-touch-icon"
-  )
-  meta(
-    console = "Runnable"
-    name = "apple-mobile-web-app-title"
-  )
-  script(src = "/build/js/bundle.js?v=#{locals.version}")
+    meta(charset = "utf-8")
+    meta(
+      content = "width=device-width, initial-scale=1"
+      name = "viewport"
+    )
+    title sandbox.runnable
+    link(
+      href = "/build/css/index.css?v=#{locals.version}"
+      media = "screen"
+      rel = "stylesheet"
+    )
+    //- ios
+    link(
+      href = "/build/images/icons/icons-ios.png"
+      rel = "apple-touch-icon"
+    )
+    meta(
+      console = "Runnable"
+      name = "apple-mobile-web-app-title"
+    )
+    script(src = "/build/js/bundle.js?v=#{locals.version}")
   body
     ng-include#svg-defs(src = "'svgDefs'")
     #wrapper(

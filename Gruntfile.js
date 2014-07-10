@@ -86,8 +86,6 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
-          'client/assets/styles/bootstrap/bootstrap.min.css',
-          'client/assets/styles/jquery-ui/jquery-ui-1.10.4.custom.css',
           'client/build/css/index.css'
         ],
         //dest: 'public/build/<%= pkg.name %>.css'
