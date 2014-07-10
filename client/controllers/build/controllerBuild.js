@@ -151,7 +151,7 @@ function ControllerBuild (
     function fetchVersion (cb) {
       var build = dataBuild.data.build;
       var contextId = build.toJSON().contexts[0];
-      var versionId = build.toJSON().versions[0];
+      var versionId = build.toJSON().contextVersions[0];
       var version = user.newContext(contextId).fetchVersion(versionId, function (err) {
         if (err) {
           return cb(err);

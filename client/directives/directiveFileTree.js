@@ -41,17 +41,15 @@ function fileTree (
       };
 
       actions.createFile = function () {
-        $scope.version.createFile({
+        var file = $scope.version.createFile({
           name: 'untitled'+Math.ceil((Math.random()*100000)),
           path: '/',
           body: ''
-        }, function () {
-          $scope.version.fetchFiles(function () {
-            $timeout(function () {
-              actions.togglePopover();
-              $scope.$apply();
-            });
-          });
+        }, function () {});
+        var coll = $scope.version.fetchFiles(function () {});
+        coll.add(file);
+        $timeout(function () {
+          $scope.$apply();
         });
       };
 
