@@ -20,7 +20,7 @@ function factory () {
     this.setActiveFile(model);
   };
 
-  ShareFilesCollection.prototype.setActiveFile = function (model) {
+  SharedFilesCollection.prototype.setActiveFile = function (model) {
     if (!(model instanceof this.collection.FileModel)) {
       throw new Error('model is not corrent type');
     }
@@ -42,7 +42,6 @@ function factory () {
       );
     } catch (e) {}
   };
-
   return SharedFilesCollection;
 }
 
