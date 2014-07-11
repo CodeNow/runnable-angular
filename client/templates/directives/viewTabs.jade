@@ -1,13 +1,13 @@
 #editor-toolbar
   ul#tabs-wrapper
-    li(ng-repeat = "buildFile in actions.getActiveFiles()")
+    li(ng-repeat = "file in openFiles.collection.models")
       a(
-        ng-attr-data-title = "{{ buildFile.attrs.id }}"
-        title = "{{ buildFile.fullPath() }}"
-        ng-class = "{active: (buildFile.state.activeTime === actions.getLastActiveFileTime())}"
-      ) {{ buildFile.fullPath() }}
+        ng-attr-data-title = "{{ file.filename() }}"
+        title = "{{ file.filename() }}"
+        ng-class = "{'active': file.state.active}"
+      ) {{ file.filename() }}
       button.btn-icon(
-        ng-click = "buildFile.state.active = false"
+        ng-click = "openFiles.remove(file); $event.stopPropagation();"
       )
         svg.iconnables.icons-close
           use(xlink:href = "#icons-close")

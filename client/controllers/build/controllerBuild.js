@@ -14,7 +14,7 @@ function ControllerBuild(
   async,
   keypather,
   extendDeep,
-  sharedFilesCollection
+  SharedFilesCollection
 ) {
 
   var self = ControllerBuild;
@@ -75,6 +75,7 @@ function ControllerBuild(
   $scope.$on('app-document-click', function () {
     dataBuild.actions.togglePopover();
   });
+
 
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
@@ -163,18 +164,10 @@ function ControllerBuild(
         cb();
       });
     },
-    function fetchRootFiles(cb) {
+    function newFilesCollOpenFiles(cb) {
       var version = dataBuild.data.version;
-      var rootFiles = version.fetchFiles({
-        Prefix: '/'
-      }, function (err) {
-        if (err) {
-          return cb(err);
-        }
-        dataBuild.data.rootFiles = rootFiles;
-        dataBuild.data.openFiles = version.newFiles([], {client: true});
-        cb();
-      });
+      dataBuild.data.openFiles = new SharedFilesCollection(version.newFiles([], {client: true}));
+      cb();
     }
   ], function () {
     $scope.$apply();

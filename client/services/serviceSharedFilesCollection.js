@@ -1,15 +1,24 @@
-var keypather = require('keypather')();
-
 require('app')
-  .factory('sharedFilesCollection', factory);
+  .factory('SharedFilesCollection', factory);
 /**
  * @ngInject
  */
-function factory() {
+function factory(
+  keypather
+) {
 
   function SharedFilesCollection(filesCollection) {
     this.collection = filesCollection;
   }
+
+  SharedFilesCollection.prototype.remove = function (model) {
+    var i = this.collection.models.indexOf(model);
+    if (i === -1) return;
+    keypather.set(model, 'state.active', false);
+    keypather.set(model, 'state.open', false);
+    this.collection.models.splice(i, 1);
+    delete this.collection.modelsHash[model.id()];
+  };
 
   SharedFilesCollection.prototype.add = function (model) {
     if (!(model instanceof this.collection.FileModel)) {

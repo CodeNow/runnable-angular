@@ -21,6 +21,8 @@ li.folder(
     li(
       ng-repeat = "file in data.dirFiles.models"
       ng-if = "!file.attrs.isDir"
+      ng-click = "openFiles.add(file); $event.stopPropagation();"
+      ng-class = "{'active': file.state.open}"
     )
       object.iconnables.filetypes(
         data = "/build/images/icons/filetypes/icons-file.svg"

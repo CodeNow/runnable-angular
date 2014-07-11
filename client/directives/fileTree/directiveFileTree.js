@@ -13,7 +13,8 @@ function fileTree(
     templateUrl: 'viewFileTree',
     replace: true,
     scope: {
-      version: '='
+      version: '=',
+      openFiles: '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};

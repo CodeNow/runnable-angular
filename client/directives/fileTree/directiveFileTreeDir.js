@@ -14,8 +14,10 @@ function fileTreeDir(
     scope: {
       dir: '=',
       open: '=',
-      version: '='
+      version: '=',
+      openFiles: '='
     },
+    template: '',
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
       var data = $scope.data = {};
@@ -45,8 +47,8 @@ function fileTreeDir(
       var $template = angular.element(template);
       $compile($template)($scope);
 
-      // element.replaceWith($template);
-      element.append($template);
+      element.replaceWith($template);
+      //element.append($template);
 
     }
   };

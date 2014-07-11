@@ -184,6 +184,7 @@ section.sidebar
         .theme
     file-tree(
       version = "dataBuild.data.version"
+      open-files = "dataBuild.data.openFiles"
     )
     #repo-list.explorer-header
       h6
@@ -227,13 +228,14 @@ section.sidebar
   )
     svg.iconnables.icons-folder-open
       use(xlink:href = "#icons-folder-open")
-  //- file_explorer
+
   tabs(
-    open-files = "buildData.data.openFiles"
+    open-files = "dataBuild.data.openFiles"
   )
   tabs-dropdown(
-    open-files = "buildData.data.openFiles"
+    open-files = "dataBuild.data.openFiles"
   )
+
   #editor-container
     //- code
     pre(ui-ace, ng-click = "dataBuild.data.isClean = !dataBuild.data.isClean") Test
