@@ -15,7 +15,6 @@ legend {
 
 label {
   display: inline-block;
-  font-weight: bold;
 }
 
 input[type="radio"],
@@ -235,7 +234,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 1;
   padding: 6px 12px;
   text-align: center;
@@ -300,28 +299,4 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group-btn > .btn:hover,
 .input-group-btn > .btn:active {
   z-index: 2;
-}
-
-.label {
-  border-radius: .25em;
-  color: #fff;
-  display: inline;
-  font-size: 75%;
-  font-weight: bold;
-  line-height: 1;
-  padding: .2em .6em .3em;
-  text-align: center;
-  vertical-align: baseline;
-  white-space: nowrap;
-}
-
-.label[href]:hover,
-.label[href]:focus {
-  color: #fff;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.label:empty {
-  display: none;
 }

@@ -113,6 +113,10 @@
       &.active {
         background: #fff;
       }
+
+      &.active {
+        font-weight: 500;
+      }
     }
   }
 
@@ -388,7 +392,7 @@
 
   > h6 {
     color: $gray-darker;
-    font-weight: 700;
+    font-weight: 500;
     margin: 0;
     padding: 10px 0 5px 24px;
     text-transform: uppercase;

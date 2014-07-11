@@ -1,5 +1,10 @@
 .setup {
 
+  .sidebar {
+    overflow-y: auto;
+    padding-bottom: 30px;
+  }
+
   .sidebar.out {
 
     form {
