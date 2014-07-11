@@ -4,7 +4,7 @@ require('app')
  * fileTree Directive
  * @ngInject
  */
-function fileTree (
+function fileTree(
   $timeout,
   keypather
 ) {
@@ -13,8 +13,8 @@ function fileTree (
     templateUrl: 'viewFileTree',
     replace: true,
     scope: {
-      'version': '=',
-      'buildFiles': '='
+      'rootFiles': '=',
+      'openFiles': '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
@@ -42,7 +42,7 @@ function fileTree (
 
       actions.createFile = function () {
         var file = $scope.version.createFile({
-          name: 'untitled'+Math.ceil((Math.random()*100000)),
+          name: 'untitled' + Math.ceil((Math.random() * 100000)),
           path: '/',
           body: ''
         }, function () {});

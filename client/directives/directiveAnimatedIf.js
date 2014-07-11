@@ -1,5 +1,5 @@
 var app = require('app');
-app.directive('animatedIf', function($animate) {
+app.directive('animatedIf', function ($animate) {
   return {
     transclude: 'element',
     priority: 600,
@@ -23,7 +23,7 @@ app.directive('animatedIf', function($animate) {
               block = {
                 clone: clone
               };
-              var callback = !oldValue && $scope.animatedIfEnterCallback ? $scope.animatedIfEnterCallback : (function() {});
+              var callback = !oldValue && $scope.animatedIfEnterCallback ? $scope.animatedIfEnterCallback : (function () {});
               $animate.enter(clone, $element.parent(), $element, callback);
             });
           }
@@ -33,7 +33,7 @@ app.directive('animatedIf', function($animate) {
             childScope = null;
           }
           if (block) {
-            $animate.leave(block.clone, ($scope.animatedIfLeaveCallback || (function() {})));
+            $animate.leave(block.clone, ($scope.animatedIfLeaveCallback || (function () {})));
             block = null;
           }
         }

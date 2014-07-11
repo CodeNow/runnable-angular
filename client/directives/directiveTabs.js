@@ -4,7 +4,7 @@ require('app')
  * tabs Directive
  * @ngInject
  */
-function tabs (
+function tabs(
   keypather
 ) {
   return {
@@ -12,8 +12,7 @@ function tabs (
     templateUrl: 'viewTabs',
     replace: true,
     scope: {
-      'version': '=',
-      'buildFiles': '='
+      'openFiles': '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};

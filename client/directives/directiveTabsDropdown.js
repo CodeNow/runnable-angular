@@ -4,7 +4,7 @@ require('app')
  * tabsDropdown Directive
  * @ngInject
  */
-function tabsDropdown (
+function tabsDropdown(
   keypather
 ) {
   return {
@@ -12,7 +12,7 @@ function tabsDropdown (
     templateUrl: 'viewTabsDropdown',
     replace: true,
     scope: {
-      'buildFiles': '='
+      'openFiles': '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};

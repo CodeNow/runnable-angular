@@ -274,6 +274,15 @@ module.exports = function(grunt) {
         configFile: './test/karma.conf.js'
       }
     },
+    jsbeautifier: {
+      files: ['client/**/*.js', '!client/build/**/*.js', '!client/assets/**/*.js'],
+      options: {
+        js: {
+          indentSize: 2,
+          jslintHappy: true
+        }
+      }
+    }
   });
 
   grunt.registerTask('autoBundleDependencies', '', function () {
@@ -329,6 +338,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-githooks');
+  grunt.loadNpmTasks('grunt-jsbeautifier');
 
   grunt.registerTask('test:watch', ['watch:tests']);
   grunt.registerTask('test:unit', ['bgShell:karma']);

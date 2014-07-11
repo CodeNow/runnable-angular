@@ -1,7 +1,9 @@
 require('app')
-  .factory('extendDeep', function () { return extendDeep; });
+  .factory('extendDeep', function () {
+    return extendDeep;
+  });
 
-function extendDeep (dst) {
+function extendDeep(dst) {
   angular.forEach(arguments, function (obj) {
     if (obj === dst) return;
     angular.forEach(obj, function (val, key) {

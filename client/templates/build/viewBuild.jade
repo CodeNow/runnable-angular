@@ -183,8 +183,8 @@ section.sidebar
       )
         .theme
     file-tree(
-      version = "dataBuild.data.version"
-      build-files = "dataBuild.data.buildFiles"
+      root-files = "dataBuild.data.rootFiles"
+      open-files = "dataBuild.data.openFiles"
     )
     #repo-list.explorer-header
       h6
@@ -230,10 +230,10 @@ section.sidebar
       use(xlink:href = "#icons-folder-open")
   //- file_explorer
   tabs(
-    build-files = "dataBuild.data.buildFiles"
+    open-files = "buildData.data.openFiles"
   )
   tabs-dropdown(
-    build-files = "dataBuild.data.buildFiles"
+    open-files = "buildData.data.openFiles"
   )
   #editor-container
     //- code

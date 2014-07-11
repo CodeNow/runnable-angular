@@ -6,7 +6,7 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerInstance (
+function ControllerInstance(
   $scope,
   async,
   $stateParams,
@@ -36,7 +36,8 @@ function ControllerInstance (
   };
 
   async.waterfall([
-    function tempHelper (cb) {
+
+    function tempHelper(cb) {
       if (user.id()) {
 
       }

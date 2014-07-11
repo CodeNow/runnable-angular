@@ -6,7 +6,7 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerJobs (
+function ControllerJobs(
   $scope
 ) {
   var dataJobs = $scope.dataJobs = {};

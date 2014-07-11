@@ -6,7 +6,7 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerApp (
+function ControllerApp(
   $rootScope,
   $scope,
   $timeout,
@@ -19,8 +19,8 @@ function ControllerApp (
 
   var self = ControllerApp;
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
-                                                                     $stateParams,
-                                                                     apiHost);
+    $stateParams,
+    apiHost);
 
   dataApp.click = function () {
     self.documentLevelClick($scope);
@@ -39,7 +39,7 @@ function ControllerApp (
     });
   };
 
-  $scope.safeApply = function(cb) {
+  $scope.safeApply = function (cb) {
     $timeout(function () {
       if (typeof cb === 'function') {
         $scope.$apply(cb);
@@ -55,8 +55,8 @@ ControllerApp.initState = function ($state, $stateParams, apiHost) {
     state: $state,
     stateParams: $stateParams,
     user: null,
-    loginURL: apiHost+'/auth/github?redirect='+encodeURI('http://localhost:3001'),
-    logoutURL: apiHost+'/auth/logout?redirect='+encodeURI('http://localhost:3001')
+    loginURL: apiHost + '/auth/github?redirect=' + encodeURI('http://localhost:3001'),
+    logoutURL: apiHost + '/auth/logout?redirect=' + encodeURI('http://localhost:3001')
   };
 };
 

@@ -58,6 +58,7 @@
     "grunt-execute": "~0.2.1",
     "grunt-githooks": "~0.3.1",
     "grunt-jade-plugin": "git://github.com/Runnable/grunt-jade-plugin.git#604fba490db0c8cf9ee4ce0c51ef91acf44ac573",
+    "grunt-jsbeautifier": "^0.2.7",
     "grunt-karma": "~0.8.3",
     "grunt-nodemon": "~0.2.1",
     "karma": "~0.12.16",

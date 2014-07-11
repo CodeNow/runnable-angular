@@ -7,7 +7,7 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerBuildList (
+function ControllerBuildList(
   $scope,
   user,
   $stateParams,
@@ -39,7 +39,7 @@ function ControllerBuildList (
   dataBuildList.show404 = function () {
     $state.go('error', {}, {
       location: false,
-      inherit:  true
+      inherit: true
     });
   };
   dataBuildList.togglePopover = function (popoverName, event) {
@@ -51,22 +51,22 @@ function ControllerBuildList (
   dataBuildList.getBuildHref = function (buildId) {
     return '/' + $stateParams.userName + '/' + $stateParams.projectName + '/' + $stateParams.branchName + '/' + buildId + '/';
   };
-  dataBuildList.stateToInstance= function (buildId) {
+  dataBuildList.stateToInstance = function (buildId) {
     var state = {
-      userName:    $scope.dataApp.user.attrs.username,
+      userName: $scope.dataApp.user.attrs.username,
       projectName: dataBuildList.project.attrs.name,
-      branchName:  dataBuildList.environment.attrs.name,
-      buildName:   build.attrs.id,
-      instanceId:  '12345'
+      branchName: dataBuildList.environment.attrs.name,
+      buildName: build.attrs.id,
+      instanceId: '12345'
     };
     $state.go('projects.instance', state);
   };
   dataBuildList.stateToBuild = function (build) {
     var state = {
-      userName:    $scope.dataApp.user.attrs.username,
+      userName: $scope.dataApp.user.attrs.username,
       projectName: dataBuildList.project.attrs.name,
-      branchName:  dataBuildList.environment.attrs.name,
-      buildName:   build.attrs.id
+      branchName: dataBuildList.environment.attrs.name,
+      buildName: build.attrs.id
     };
     $state.go('projects.build', state);
   };
@@ -77,17 +77,17 @@ function ControllerBuildList (
   dataBuildList.getBuildSortClass = function () {
     var res = (dataBuildList.predicate === 'attrs.id' && dataBuildList.ascending) ?
       'ascending' : (dataBuildList.predicate === 'attrs.id' && !dataBuildList.ascending) ?
-        'descending' : '';
+      'descending' : '';
     return res;
   };
 
   // seed data
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
-    function fetchProject (thisUser, cb) {
+    function fetchProject(thisUser, cb) {
       var projects = thisUser.fetchProjects({
         ownerUsername: $stateParams.userName,
-        name:          $stateParams.projectName
+        name: $stateParams.projectName
       }, function (err, body) {
         if (err) {
           // project not found
@@ -104,10 +104,10 @@ function ControllerBuildList (
         cb = angular.noop;
       }
     },
-    function fetchEnvironments (project, cb) {
+    function fetchEnvironments(project, cb) {
       var environments = project.fetchEnvironments({
         ownerUsername: $stateParams.userName,
-        name:          $stateParams.branchName // <-- should be environmentName
+        name: $stateParams.branchName // <-- should be environmentName
       }, function (err) {
         if (err) {
           // no environments found
@@ -124,7 +124,7 @@ function ControllerBuildList (
         cb = angular.noop;
       }
     },
-    function fetchBuilds (project, environments, environment, cb) {
+    function fetchBuilds(project, environments, environment, cb) {
       var builds = environment.fetchBuilds(function (err) {
         if (err) {
           return cb(err);
@@ -135,7 +135,7 @@ function ControllerBuildList (
       dataBuildList.builds = builds;
       $scope.safeApply();
     },
-    function fetchBuildsOwners (project, environments, environment, builds, cb) {
+    function fetchBuildsOwners(project, environments, environment, builds, cb) {
       var ownerIds = builds.models
         .map(function (item) {
           return item.attrs.owner;

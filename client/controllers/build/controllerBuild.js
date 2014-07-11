@@ -6,14 +6,15 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerBuild (
+function ControllerBuild(
   $scope,
   $stateParams,
   $state,
   user,
   async,
   keypather,
-  extendDeep
+  extendDeep,
+  sharedFilesCollection
 ) {
 
   var self = ControllerBuild;
@@ -55,9 +56,9 @@ function ControllerBuild (
       event.stopPropagation();
     }
     var state = {
-      userName:    $stateParams.userName,
+      userName: $stateParams.userName,
       projectName: $stateParams.projectName,
-      branchName:  $stateParams.branchName
+      branchName: $stateParams.branchName
     };
     $state.go('projects.buildList', state);
   };
@@ -77,8 +78,8 @@ function ControllerBuild (
 
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
-    function fetchProject (thisUser, cb) {
-      function updateDom () {
+    function fetchProject(thisUser, cb) {
+      function updateDom() {
         if (projects.models.length) {
           dataBuild.data.project = projects.models[0];
           $scope.safeApply();
@@ -86,7 +87,7 @@ function ControllerBuild (
       }
       var projects = thisUser.fetchProjects({
         ownerUsername: $stateParams.userName,
-        name:          $stateParams.projectName
+        name: $stateParams.projectName
       }, function (err, body) {
         if (err) {
           return cb(err); // error handling
@@ -96,9 +97,10 @@ function ControllerBuild (
       });
       updateDom();
     },
-    function fetchEnvironment (cb) {
+    function fetchEnvironment(cb) {
       var project = dataBuild.data.project;
-      function updateDom () {
+
+      function updateDom() {
         if (environments.models.length) {
           dataBuild.data.environment = environments.models[0];
           $scope.safeApply();
@@ -106,7 +108,7 @@ function ControllerBuild (
       }
       var environments = project.fetchEnvironments({
         ownerUsername: $stateParams.userName,
-        name:          $stateParams.branchName
+        name: $stateParams.branchName
       }, function (err, results) {
         if (err) {
           return cb(err);
@@ -116,9 +118,10 @@ function ControllerBuild (
       });
       updateDom();
     },
-    function fetchBuild (cb) {
+    function fetchBuild(cb) {
       var environment = dataBuild.data.environment;
-      function updateDom () {
+
+      function updateDom() {
         if (build) {
           dataBuild.data.build = build;
           $scope.safeApply();
@@ -133,9 +136,10 @@ function ControllerBuild (
       });
       updateDom();
     },
-    function fetchBuildOwner (cb) {
+    function fetchBuildOwner(cb) {
       var build = dataBuild.data.build;
-      function updateDom () {
+
+      function updateDom() {
         dataBuild.data.buildOwner = buildOwner;
         $scope.safeApply();
       }
@@ -148,7 +152,7 @@ function ControllerBuild (
       });
       cb();
     },
-    function fetchVersion (cb) {
+    function fetchVersion(cb) {
       var build = dataBuild.data.build;
       var contextId = build.toJSON().contexts[0];
       var versionId = build.toJSON().contextVersions[0];
@@ -160,20 +164,21 @@ function ControllerBuild (
         cb();
       });
     },
-    function fetchBuildFiles (cb) {
+    function fetchRootFiles(cb) {
       var version = dataBuild.data.version;
-      var buildFiles = version.fetchFiles(function (err) {
+      var rootFiles = version.fetchFiles({
+        Prefix: '/'
+      }, function (err) {
         if (err) {
           return cb(err);
         }
-        dataBuild.data.buildFiles = buildFiles;
+        dataBuild.data.rootFiles = rootFiles;
         cb();
       });
     }
   ], function () {
     $scope.$apply();
   });
-
 }
 
 ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
@@ -182,7 +187,7 @@ ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
   }
   if (!inputHasBeenClicked) {
     return {
-      data:{
+      data: {
         buildName: '',
         inputHasBeenClicked: true
       }
@@ -192,10 +197,10 @@ ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
 
 ControllerBuild.initState = function ($stateParams) {
   return {
-   data:    {
-     isClean: true
-   },
-   actions: {}
+    data: {
+      isClean: true
+    },
+    actions: {}
   };
 };
 
@@ -205,15 +210,15 @@ ControllerBuild.initPopoverState = function ($stateParams) {
       showBuildOptionsDirty: false,
       showBuildOptionsClean: false,
       // showExplorer:          true,
-      showForm:              false,
-      buildName:             $stateParams.buildName,
-      inputHasBeenClicked:   false
+      showForm: false,
+      buildName: $stateParams.buildName,
+      inputHasBeenClicked: false
     }
   };
 };
 
 ControllerBuild.getPopoverButtonText = function (name) {
-  return 'Build' + ((name && name.length) ? 's in '+name : '');
+  return 'Build' + ((name && name.length) ? 's in ' + name : '');
 };
 
 ControllerBuild.togglePopover = function (popoverName, event, $stateParams) {

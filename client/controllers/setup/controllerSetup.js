@@ -7,7 +7,7 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerSetup (
+function ControllerSetup(
   $scope
 ) {
   var self = ControllerSetup;

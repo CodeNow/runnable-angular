@@ -7,7 +7,7 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerError (
+function ControllerError(
   $scope
 ) {
   var dataError = $scope.dataError = {};

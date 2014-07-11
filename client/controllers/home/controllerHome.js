@@ -6,7 +6,7 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerHome (
+function ControllerHome(
   $scope,
   user
 ) {
@@ -20,13 +20,12 @@ function ControllerHome (
 }
 
 ControllerHome.initState = function () {
-  return {
-  };
+  return {};
 };
 
 ControllerHome.checkIfAuth = function (holdUntilAuth,
-                                       $state,
-                                       user) {
+  $state,
+  user) {
   holdUntilAuth(function (err, thisUser) {
     if (!err && thisUser) {
       var projects = thisUser.fetchProjects({
@@ -38,9 +37,9 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
         }
         var firstProject = projects.models[0];
         $state.go('projects.buildList', {
-          userName:    thisUser.attrs.username,
+          userName: thisUser.attrs.username,
           projectName: firstProject.attrs.name,
-          branchName:  'master'
+          branchName: 'master'
         });
       });
     }

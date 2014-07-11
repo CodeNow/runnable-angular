@@ -4,7 +4,7 @@ require('app')
  * holdUntilAuth
  * @ngInject
  */
-function holdUntilAuth (user) {
+function holdUntilAuth(user) {
   return function (cb) {
     var called = false;
     if (!angular.isFunction(cb)) {

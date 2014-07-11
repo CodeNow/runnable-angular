@@ -5,9 +5,9 @@ require('app')
 /**
  * @ngInject
  */
-function factory () {
+function factory() {
 
-  function SharedFilesCollection (filesCollection) {
+  function SharedFilesCollection(filesCollection) {
     this.collection = filesCollection;
   }
 
@@ -29,7 +29,9 @@ function factory () {
     }
     try {
       keypather.set(
-        this.collection.find({'state.active': true}),
+        this.collection.find({
+          'state.active': true
+        }),
         'state.active',
         false
       );
@@ -44,4 +46,3 @@ function factory () {
   };
   return SharedFilesCollection;
 }
-

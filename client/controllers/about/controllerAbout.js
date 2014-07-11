@@ -6,7 +6,7 @@ require('app')
  * @export
  * @ngInject
  */
-function ControllerAbout (
+function ControllerAbout(
   $scope
 ) {
   var dataAbout = $scope.dataAbout = {};
