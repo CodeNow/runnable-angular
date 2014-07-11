@@ -305,11 +305,6 @@ module.exports = function(grunt) {
                 return previous += 'require(\'' + current + '\');\n';
               }, '');
 
-            fileString += '\n';
-            fileString += 'module.exports=' + JSON.stringify(files.map(function (item) {
-              return item.substr(item.lastIndexOf('/')+1).replace(/\.js$/, '');
-            }));
-            fileString += ';';
             fs.writeFileSync(path.join(workingPath, 'index.js'), fileString);
             cb();
           });
