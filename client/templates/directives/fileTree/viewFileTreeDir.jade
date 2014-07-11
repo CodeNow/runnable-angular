@@ -1,12 +1,15 @@
 li.folder(
   ng-class = "{'in': data.open}"
-  ng-click = "data.open = !data.open"
+  ng-click = "data.open = !data.open; $event.stopPropagation();"
 )
   object.iconnables.filetypes(
     data = "/build/images/icons/filetypes/icons-folder.svg"
     type = "image/svg+xml"
   )
-  | {{ dir.filepath() }}
+  input(
+    readonly
+    value = "{{ file.filename() }}"
+  )
 
   ul(
     ng-if = "data.dirFiles.models.length"
@@ -28,5 +31,7 @@ li.folder(
         data = "/build/images/icons/filetypes/icons-file.svg"
         type = "image/svg+xml"
       )
-      | {{ file.filename() }}
-
+      input(
+        readonly
+        value = "{{ file.filename() }}"
+      )
