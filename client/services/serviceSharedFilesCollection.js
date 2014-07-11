@@ -37,13 +37,11 @@ function factory(
       throw new Error('file is not open');
     }
     try {
-      keypather.set(
-        this.collection.find({
-          'state.active': true
-        }),
-        'state.active',
-        false
-      );
+      this.collection.models.filter(function (model) {
+        return keypather.get(model, 'state.active');
+      }).forEach(function (model) {
+        keypather.set(model, 'state.active', false);
+      });
     } catch (e) {}
     try {
       keypather.set(

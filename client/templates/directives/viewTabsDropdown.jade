@@ -4,7 +4,8 @@
       use(xlink:href = "#icons-select")
   select
     option(
-      ng-repeat = "buildFile in actions.getActiveFiles()"
-    ) {{ buildFile.fullPath() }}
+      ng-repeat = "file in openFiles.collection.models"
+      ng-click = "openFiles.setActiveFile(file);"
+    ) {{ file.filepath() + file.filename() }}
 
 
