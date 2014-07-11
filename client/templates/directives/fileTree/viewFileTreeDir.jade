@@ -1,0 +1,30 @@
+li.folder(
+  ng-class = "{'in': data.open}"
+  ng-click = "data.open = !data.open"
+)
+  object.iconnables.filetypes(
+    data = "/build/images/icons/filetypes/icons-folder.svg"
+    type = "image/svg+xml"
+  )
+  | {{ dir.filepath() }}
+
+  ul(
+    ng-if = "data.dirFiles.models.length"
+  )
+    file-tree-dir(
+      ng-repeat = "dir in data.dirFiles.models"
+      ng-if = "dir.attrs.isDir"
+      open = "false"
+      dir = "dir"
+      version = "version"
+    )
+    li(
+      ng-repeat = "file in data.dirFiles.models"
+      ng-if = "!file.attrs.isDir"
+    )
+      object.iconnables.filetypes(
+        data = "/build/images/icons/filetypes/icons-file.svg"
+        type = "image/svg+xml"
+      )
+      | {{ file.filename() }}
+

@@ -13,15 +13,40 @@
       )
 
   ul.file-tree
-    li(
-      ng-repeat = "buildFile in buildFiles.models"
-      ng-click = "buildFile.state.active = true; buildFile.state.activeTime = data.date.now()"
+    //- this is the root dir, there can be only one.
+    file-tree-dir(
+      open = "true"
+      dir = "data.rootDir"
+      version = "version"
+    )
+
+  //
+    li.folder(
+      ng-class = "{'in': data.rootOpen}"
+      ng-click = "data.rootOpen=!data.rootOpen"
     )
       object.iconnables.filetypes(
-        data = "/build/images/icons/filetypes/icons-file.svg"
+        data = "/build/images/icons/filetypes/icons-folder.svg"
         type = "image/svg+xml"
       )
-      | {{ buildFile.fullPath() }}
+      | /
+      ul
+        li(
+          ng-repeat = "file in rootFiles.models"
+          ng-class = "{'folder': file.attrs.isDir}"
+        )
+          object.iconnables.filetypes(
+            data = "/build/images/icons/filetypes/icons-file.svg"
+            type = "image/svg+xml"
+            ng-if = "!file.attrs.isDir"
+          )
+          span(ng-if = "!file.attrs.isDir") {{ file.filename() }}
+          object.iconnables.filetypes(
+            data = "/build/images/icons/filetypes/icons-folder.svg"
+            type = "image/svg+xml"
+            ng-if = "file.attrs.isDir"
+          )
+
 
     //-li.folder(
         //-ng-click = "dataBuild.folderTestOpen = !dataBuild.folderTestOpen"

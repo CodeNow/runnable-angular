@@ -13,13 +13,27 @@ function fileTree(
     templateUrl: 'viewFileTree',
     replace: true,
     scope: {
-      'rootFiles': '=',
-      'openFiles': '='
+      version: '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
       var data = $scope.data = {};
       data.date = Date;
+
+      function init () {
+        data.rootDir = $scope.version.newDir({
+          id: $scope.version.id()+'newdir',
+          isDir: true,
+          Key: (new Array(31).join(' ')) + '//' // bs for now
+        }, {
+          idAttribute: 'id'
+        });
+      }
+      $scope.$watch('version.attrs.owner', function (newval, oldval) {
+        if (newval) {
+          init();
+        }
+      });
 
       actions.togglePopover = function (popoverName, event) {
         var popovers = [
@@ -56,7 +70,7 @@ function fileTree(
       $scope.$on('app-document-click', function () {
         actions.togglePopover();
       });
-
+/*j
       $scope.actions.getActiveFiles = function () {
         return (keypather.get($scope, 'buildFiles.getActiveFiles()') || []);
       };
@@ -64,6 +78,7 @@ function fileTree(
       $scope.actions.getLastActiveFileTime = function () {
         return (keypather.get($scope, 'buildFiles.getLastActiveFileTime()') || 0);
       };
+*/
 
     }
   };

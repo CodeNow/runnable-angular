@@ -138,7 +138,6 @@ function ControllerBuild(
     },
     function fetchBuildOwner(cb) {
       var build = dataBuild.data.build;
-
       function updateDom() {
         dataBuild.data.buildOwner = buildOwner;
         $scope.safeApply();
@@ -172,7 +171,9 @@ function ControllerBuild(
         if (err) {
           return cb(err);
         }
+        debugger;
         dataBuild.data.rootFiles = rootFiles;
+        dataBuild.data.openFiles = version.newFiles([], {client: true});
         cb();
       });
     }
