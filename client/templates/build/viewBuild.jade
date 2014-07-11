@@ -235,7 +235,10 @@ section.sidebar
   tabs-dropdown(
     open-files = "dataBuild.data.openFiles"
   )
-
   #editor-container
     //- code
-    pre(ui-ace, ng-click = "dataBuild.data.isClean = !dataBuild.data.isClean") Test
+    pre(
+      ui-ace
+      ng-model = "dataBuild.data.openFiles.activeFile.attrs.Key"
+      ng-keyup = "dataBuild.data.isClean = false"
+    )

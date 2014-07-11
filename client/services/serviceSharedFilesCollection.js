@@ -4,11 +4,14 @@ require('app')
  * @ngInject
  */
 function factory(
-  keypather
+  keypather,
+  $timeout
 ) {
 
-  function SharedFilesCollection(filesCollection) {
+  function SharedFilesCollection(filesCollection, $scope) {
+    this.$scope = $scope;
     this.collection = filesCollection;
+    this.activeFile = null;
   }
 
   SharedFilesCollection.prototype.remove = function (model) {
@@ -49,6 +52,13 @@ function factory(
         'state.active',
         true
       );
+      this.activeFile = model;
+      var _this = this;
+      model = model.fetch(function () {
+        $timeout(function () {
+          _this.$scope.$apply();
+        });
+      });
     } catch (e) {}
   };
   return SharedFilesCollection;

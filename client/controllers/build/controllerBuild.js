@@ -166,7 +166,10 @@ function ControllerBuild(
     },
     function newFilesCollOpenFiles(cb) {
       var version = dataBuild.data.version;
-      dataBuild.data.openFiles = new SharedFilesCollection(version.newFiles([], {client: true}));
+      dataBuild.data.openFiles = new SharedFilesCollection(
+        version.newFiles([], {client: true}),
+        $scope
+      );
       cb();
     }
   ], function () {
