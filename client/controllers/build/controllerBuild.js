@@ -171,7 +171,6 @@ function ControllerBuild(
         if (err) {
           return cb(err);
         }
-        debugger;
         dataBuild.data.rootFiles = rootFiles;
         dataBuild.data.openFiles = version.newFiles([], {client: true});
         cb();
