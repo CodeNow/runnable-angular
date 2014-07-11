@@ -1,6 +1,6 @@
 var app = require('app');
+var $ = require('jquery');
 var angular = require('angular');
-var $ = require('jquery'); //required: places $ on window
 
 require('./controllers/index');
 require('./services/index');

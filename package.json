@@ -29,6 +29,7 @@
     "jquery": "~2.1.1",
     "keypather": "^1.7.1",
     "moment": "~2.7.0",
+    "primus": "^2.3.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.11.12",
     "underscore": "~1.6.0"
   },
@@ -83,6 +84,7 @@
   "browser": {
     "app": "./client/lib/app.js",
     "main": "./client/main.js",
+    "primus-client": "./client/assets/js/primus-client.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js"
   },
