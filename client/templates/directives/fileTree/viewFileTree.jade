@@ -1,5 +1,6 @@
 .explorer-header
-  h6(ng-if = "buildFiles.models.length")
+  //- h6(ng-if = "buildFiles.models.length")
+  h6
     | CONFIG FILES
     button.silver.btn-sm.file-explorer-menu.btn-icon(
       ng-class = "{active: data.showFileMenu}"
@@ -13,7 +14,7 @@
       )
 
   ul.file-tree
-    //- this is the root dir, there can be only one.
+    //- this is the root dir; there can be only one.
     file-tree-dir(
       open = "true"
       dir = "data.rootDir"
