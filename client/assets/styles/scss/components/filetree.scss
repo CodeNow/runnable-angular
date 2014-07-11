@@ -1,0 +1,113 @@
+.explorer-header > ul {
+  font-size: 12px;
+  font-weight: 400;
+  overflow: auto;
+
+  li {
+    padding: 0;
+    position: relative;
+    text-indent: 20px;
+    transition: height .2s;
+
+    > ul > li {
+      text-indent: 40px;
+
+      > ul > li {
+        text-indent: 60px;
+      }
+    }
+  }
+}
+
+.repo-tree li {
+  height: 45px; // default height
+  line-height: 28px;
+}
+
+.file-tree {
+
+  li {
+    cursor: pointer;
+    height: 28px; // default height
+    line-height: 28px;
+
+    &:active,
+    &.active {
+      background: #fff;
+
+      li {
+        background: $gray-lighter;
+      }
+    }
+
+    &.active {
+      font-weight: 500;
+    }
+  }
+
+  // folders
+  .folder {
+    height: auto;
+    min-height: 28px;
+    transition: min-height .2s;
+
+    &::after {
+      @extend .arrow-right;
+      border-left-color: rgba(0,0,0,.2);
+      content: '';
+      left: 7px;
+      top: 10px;
+      transition: transform .2s;
+    }
+
+    > ul {
+      overflow: hidden;
+
+      > li {
+        height: 0; // hide items within folders by default
+      }
+
+      > .folder {
+
+        &::after {
+          left: 27px;
+        }
+
+        > ul > .folder {
+
+          &::after {
+            left: 47px;
+          }
+        }
+      }
+    }
+
+    // additional nested folders hidden
+    .folder {
+      height: 0;
+      min-height: 0;
+    }
+
+    &.in {
+      min-height: 28px; // min-height b/c height cannot be set on folders
+
+      &::after {
+        transform: rotate3d(0,0,1,90deg);
+      }
+
+      &:active,
+      &.active {
+        background: none;
+      }
+
+      .folder {
+        height: auto; // allow folder to expand
+        min-height: 28px;
+      }
+
+      > ul > li {
+        height: 28px; //show items within folder
+      }
+    }
+  }
+}

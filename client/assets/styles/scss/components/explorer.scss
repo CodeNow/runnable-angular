@@ -1,128 +1,15 @@
 #explorer {
   background: $gray-lighter;
   border-right: 1px solid rgba(0,0,0,.1);
-  height:  100%;
+  height: 100%;
   position: absolute;
-    z-index: 1;
   transform: translate3d(-240px,0,0);
   transition: transform .2s ease-in-out;
   width: 240px;
+  z-index: 1;
 
   .in & {
     transform: translate3d(0,0,0);
-  }
-
-  // file tree
-  .explorer-header > ul {
-    font-size: 12px;
-    font-weight: 400;
-    overflow: auto;
-
-    li {
-      // padding: 0 9px 0 20px;
-      padding: 0;
-      position: relative;
-      text-indent: 20px;
-      transition: height .2s;
-
-      > ul > li {
-        text-indent: 40px;
-
-        > ul > li {
-          text-indent: 60px;
-        }
-      }
-    }
-
-
-    // folders
-    .folder {
-      height: auto;
-      min-height: 28px;
-      transition: min-height .2s;
-
-      &::after {
-        @extend .arrow-right;
-        border-left-color: rgba(0,0,0,.2);
-        content: '';
-        left: 7px;
-        top: 10px;
-        transition: transform .2s;
-      }
-
-      > ul {
-        overflow: hidden;
-
-        > li {
-          height: 0; // hide items within folders by default
-        }
-
-        > .folder {
-
-          &::after {
-            left: 27px;
-          }
-
-          > ul > .folder {
-
-            &::after {
-              left: 47px;
-            }
-          }
-        }
-      }
-
-      // additional nested folders hidden
-      .folder {
-        height: 0;
-        min-height: 0;
-      }
-
-      &.in {
-        min-height: 28px; // min-height b/c height cannot be set on folders
-
-        &::after {
-          transform: rotate3d(0,0,1,90deg);
-        }
-
-        &:active,
-        &.active {
-          background: none;
-        }
-
-        .folder {
-          height: auto; // allow folder to expand
-          min-height: 28px;
-        }
-
-        > ul > li {
-          height: 28px; //show items within folder
-        }
-      }
-    }
-  }
-
-  .file-tree {
-
-    li {
-      cursor: pointer;
-      height: 28px; // default height
-      line-height: 28px;
-
-      &:active,
-      &.active {
-        background: #fff;
-      }
-
-      &.active {
-        font-weight: 500;
-      }
-    }
-  }
-
-  .repo-tree li {
-    height: 45px; // default height
-    line-height: 28px;
   }
 }
 
@@ -136,8 +23,8 @@
   float: left;
   height: 36px;
   position: absolute;
-    z-index: $z-show;
   width: 36px;
+  z-index: $z-show;
 
   &:hover,
   &:active,
@@ -208,10 +95,10 @@
   height: 36px;
   overflow: visible;
   position: relative;
-    z-index: $zpopover;
   transform: translate3d(36px,0,0);
   transition: transform .15s ease-in-out, width 0s ease-in-out;
   width: calc(100% - 72px);
+  z-index: $zpopover;
 
   .setup & {
     transform: none;
@@ -223,8 +110,8 @@
   }
 
   .in & {
-    transition: transform .225s ease-in-out, width .275s ease-in-out;
     transform: translate3d(240px,0,0);
+    transition: transform .225s ease-in-out, width .275s ease-in-out;
     width: calc(100% - 276px);
   }
 
@@ -263,8 +150,8 @@
   border-left: 1px solid #d5d5d5;
   color: $gray-dark;
   position: absolute;
-    top: 0;
-    z-index: $z-show;
+  top: 0;
+  z-index: $z-show;
 }
 
 // add-tab
@@ -276,7 +163,7 @@
   float: right;
   margin-top: -36px;
   position: relative;
-    right: 36px;
+  right: 36px;
   width: 36px;
 
   &:hover,
@@ -541,8 +428,8 @@
 }
 
 .add-repo-form {
+  bottom: 0;
   position: absolute;
-    bottom: 0;
 }
 
 .show-form {
@@ -678,7 +565,7 @@
   }
 }
 
-#shortcuts  {
+#shortcuts {
   border-bottom: 1px solid rgba(0,0,0,.1);
   max-height: 290px;
   overflow: scroll;

@@ -3,11 +3,12 @@
     li(
       ng-repeat = "file in openFiles.collection.models"
     )
+      //- title should show the full file path
       a(
         ng-attr-data-title = "{{ file.filename() }}"
-        title = "{{ file.filename() }}"
-        ng-click = "openFiles.setActiveFile(file); $event.stopPropagation();"
         ng-class = "{'active': file.state.active}"
+        ng-click = "openFiles.setActiveFile(file); $event.stopPropagation();"
+        title = "{{ file.filename() }}"
       ) {{ file.filename() }}
       button.btn-icon(
         ng-click = "openFiles.remove(file); $event.stopPropagation();"
