@@ -9,7 +9,7 @@
       svg.iconnables.icons-gear
         use(xlink:href = "#icons-gear")
       .popover.menu.bottom.fade(
-        ng-class = "{in: data.showFileMenu, 'show-add-repo': data.showAddRepo, 'show-form': data.showForm}"
+        ng-class = "{in: data.showFileMenu, 'show-add-repo': data.actions.showAddRepo, 'show-form': data.actions.showForm}"
         ng-include = "'viewBuildPopoverFileMenu'"
       )
 

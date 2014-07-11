@@ -43,6 +43,31 @@
     &.active {
       font-weight: 500;
     }
+
+    &.edit {
+
+      input,
+      input:focus {
+        border-color: rgba(0,0,0,.1);
+        cursor: text;
+      }
+    }
+  }
+
+  input {
+    background: none !important;
+    border: 1px solid transparent;
+    box-shadow: none;
+    cursor: default;
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 6px;
+    width: auto;
+
+    &:hover {
+      border-color: transparent;
+    }
   }
 
   // folders
