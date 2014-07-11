@@ -1,6 +1,6 @@
 li.folder(
   ng-class = "{'in': data.open}"
-  ng-click = "data.open = !data.open"
+  ng-click = "data.open = !data.open; $event.stopPropagation();"
 )
   object.iconnables.filetypes(
     data = "/build/images/icons/filetypes/icons-folder.svg"
