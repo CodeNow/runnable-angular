@@ -71,7 +71,7 @@ function fileTree(
       $scope.$on('app-document-click', function () {
         actions.togglePopover();
       });
-/*j
+/*
       $scope.actions.getActiveFiles = function () {
         return (keypather.get($scope, 'buildFiles.getActiveFiles()') || []);
       };
