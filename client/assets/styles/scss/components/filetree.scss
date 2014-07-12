@@ -43,31 +43,24 @@
     &.active {
       font-weight: 500;
     }
-
-    &.edit {
-
-      input,
-      input:focus {
-        border-color: rgba(0,0,0,.1);
-        cursor: text;
-      }
-    }
   }
 
-  input {
+  input,
+  input:focus {
     background: none !important;
-    border: 1px solid transparent;
+    border-color: rgba(0,0,0,.1);
     box-shadow: none;
-    cursor: default;
+    cursor: text;
     display: inline-block;
     height: 22px;
     line-height: 22px;
-    padding: 0 6px;
+    padding: 0 3px;
     width: auto;
+  }
 
-    &:hover {
-      border-color: transparent;
-    }
+  input[readonly] {
+    border: 1px solid transparent;
+    pointer-events: none;
   }
 
   // folders
