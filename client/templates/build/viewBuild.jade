@@ -190,14 +190,14 @@ section.sidebar
       h6
         | REPOSITORIES
         button.silver.btn-sm.file-explorer-menu.btn-icon(
-          ng-class = "{active: dataInstance.showFileMenu}"
-          ng-click = "dataInstance.actions.togglePopover('FileMenu', $event)"
+          ng-class = "{active: dataBuild.data.showRepoMenu}"
+          ng-click = "dataBuild.actions.togglePopover('RepoMenu', $event)"
         )
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
           .popover.menu.bottom.fade(
-            ng-class = "{in: dataInstance.data.PopoverRepoMenu}"
-            ng-include = "'viewInstancePopoverFileMenu'"
+            ng-class = "{in: dataBuild.data.showRepoMenu}"
+            ng-include = "'viewBuildPopoverRepoMenu'"
           )
       ul.repo-tree
         li

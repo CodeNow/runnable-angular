@@ -205,6 +205,7 @@ ControllerBuild.initPopoverState = function ($stateParams) {
     data: {
       showBuildOptionsDirty: false,
       showBuildOptionsClean: false,
+      showRepoMenu: false,
       // showExplorer:          true,
       showForm: false,
       buildName: $stateParams.buildName,
@@ -220,7 +221,8 @@ ControllerBuild.getPopoverButtonText = function (name) {
 ControllerBuild.togglePopover = function (popoverName, event, $stateParams) {
   var popovers = [
     'BuildOptionsClean',
-    'BuildOptionsDirty'
+    'BuildOptionsDirty',
+    'RepoMenu'
   ];
   if (typeof event !== 'undefined' && typeof event.stopPropagation === 'function') {
     event.stopPropagation();
