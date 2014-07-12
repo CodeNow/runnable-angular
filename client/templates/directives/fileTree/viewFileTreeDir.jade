@@ -19,6 +19,7 @@ li.folder(
       open = "false"
       version = "version"
     )
+    //- add class edit if editing name & remove readonly property from input element
     li(
       ng-repeat = "file in data.dirFiles.models"
       ng-if = "!file.attrs.isDir"
