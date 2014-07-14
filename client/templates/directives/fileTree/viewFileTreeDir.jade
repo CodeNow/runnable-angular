@@ -2,7 +2,7 @@ li.folder(
   ng-class = "{'in': data.open}"
   ng-click = "data.open = !data.open; $event.stopPropagation();"
 )
-  svg.iconnables.filetypes
+  svg.iconnables.filetypes.icons-folder
     use(xlink:href = "#icons-folder")
   input(
     readonly
@@ -25,7 +25,7 @@ li.folder(
       ng-click = "openFiles.add(file); $event.stopPropagation();"
       ng-class = "{'active': file.state.open}"
     )
-      svg.iconnables.filetypes
+      svg.iconnables.filetypes.icons-file
         use(xlink:href = "#icons-file")
       input(
         readonly
