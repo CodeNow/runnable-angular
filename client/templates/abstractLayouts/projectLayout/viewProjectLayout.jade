@@ -55,23 +55,25 @@ header(
         svg.iconnables.icons-add
           use(xlink:href = "#icons-add")
     ul#apps.btn-group-vertical
-      li.btn.white.animations-off(
+      li.btn(
         ng-repeat = "project in dataProjectLayout.projects.models"
         ng-class = "dataProjectLayout.getProjectLiClass(project)"
         ng-click = "dataProjectLayout.stateToBuildList(project, $event);"
       )
-        svg.iconnables.icons-arrow-down
-          use(xlink:href = "#icons-arrow-down")
-        | {{ project.attrs.name }}
+        a.white
+          svg.iconnables.icons-arrow-down
+            use(xlink:href = "#icons-arrow-down")
+          | {{ project.attrs.name }}
         ul.config-list(
           ng-repeat = "environment in project.attrs.environments"
         )
           li.active(
             ng-click = "dataProjectLayout.stateToBuildList(project, environment, $event)"
           )
-            svg.iconnables.icons-recipe
-              use(xlink:href = "#icons-recipe")
-            | {{ environment.name }}
+            a.white
+              svg.iconnables.icons-recipe
+                use(xlink:href = "#icons-recipe")
+              | {{ environment.name }}
     h3 INSTANCES
     ul#instances.btn-group-vertical
       li.btn.white My App
