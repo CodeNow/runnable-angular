@@ -4,10 +4,8 @@
     li(
       ng-click = "dataBuild.data.showAddRepo = true"
     )
-      object.iconnables(
-        data = "/build/images/icons/icons-octocat.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables
+        use(xlink:href = "#icons-git-new")
       | Add Repo
 
   #add-repo.popover-body

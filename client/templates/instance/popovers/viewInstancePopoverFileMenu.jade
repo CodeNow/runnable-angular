@@ -1,15 +1,13 @@
 .arrow.white
 .popover-content
   ul#file-explorer-options.popover-body
-    li
-      object.iconnables(
-        data = "/build/images/icons/icons-new-file.svg"
-        type = "image/svg+xml"
-      )
+    li(
+      ng-click = "actions.createFile()"
+    )
+      svg.iconnables
+        use(xlink:href = "#icons-file-new")
       | New File
     li
-      object.iconnables(
-        data = "/build/images/icons/icons-new-folder.svg"
-        type = "image/svg+xml"
-      )
+      svg.iconnables
+        use(xlink:href = "#icons-folder-new")
       | New Folder
