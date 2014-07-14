@@ -16,14 +16,10 @@
         required
       )
       button.submit
-        object.inactive(
-          data = "/build/images/icons/icons-search.svg"
-          type = "image/svg+xml"
-        )
-        object.active(
-          data = "/build/images/icons/icons-search-active.svg"
-          type = "image/svg+xml"
-        )
+        svg.iconnables.icons-search
+          use(xlink:href = "#icons-search")
+        svg.iconnables.icons-search-active
+          use(xlink:href = "#icons-search-active")
     ul.popover-list
       li(
         ng-class = "{in: dataBuild.data.showForm}"

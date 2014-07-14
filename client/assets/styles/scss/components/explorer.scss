@@ -314,6 +314,7 @@
     // add repo form
     &.show-add-repo {
       max-height: 300px;
+      width: 300px;
 
       .popover-content {
         max-height: 300px;
@@ -399,6 +400,7 @@
     border-top: 1px solid rgba(0,0,0,.1);
     cursor: pointer;
     height: 36px;
+    line-height: 36px;
     overflow: hidden;
     padding: 0 15px;
     position: relative;
