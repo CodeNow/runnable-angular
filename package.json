@@ -35,14 +35,17 @@
     "underscore": "~1.6.0"
   },
   "devDependencies": {
+    "body-parser": "^1.4.3",
     "browserify": "~4.1.6",
     "browserify-angular-mocks": "0.0.0",
     "browserify-shim": "~3.5.0",
     "chai": "~1.9.1",
     "cli-table": "~0.3.0",
     "colors": "~0.6.2",
+    "cors": "^2.4.1",
     "coverify": "~1.0.7",
     "exec": "~0.1.1",
+    "express": "https://registry.npmjs.org/express/-/express-4.3.2.tgz",
     "find": "~0.1.5",
     "git-tools": "~0.1.1",
     "grunt": "~0.4.5",
@@ -63,6 +66,7 @@
     "grunt-jsbeautifier": "^0.2.7",
     "grunt-karma": "~0.8.3",
     "grunt-nodemon": "~0.2.1",
+    "http-browserify": "^1.4.1",
     "karma": "~0.12.16",
     "karma-browserify": "~0.2.1",
     "karma-chrome-launcher": "~0.1.4",
@@ -74,12 +78,14 @@
     "karma-mocha-reporter": "~0.2.5",
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-sauce-launcher": "~0.2.8",
+    "karma-sinon": "^1.0.3",
     "karma-sourcemap-loader": "~0.2.0",
     "mocha": "~1.20.1",
     "ng-midway-tester": "^2.0.5",
-    "nock": "^0.42.1",
+    "nock": "https://registry.npmjs.org/nock/-/nock-0.42.1.tgz",
     "nodemon": "~1.1.1",
     "protractor": "~1.0.0-rc1",
+    "request": "^2.37.0",
     "sinon": "~1.10.3",
     "stringify": "~2.1.0"
   },
@@ -88,7 +94,8 @@
     "main": "./client/main.js",
     "primus-client": "./client/assets/js/primus-client.js",
     "config/routes": "./client/config/routes.js",
-    "config/api": "./client/config/api.js"
+    "config/api": "./client/config/api.js",
+    "http": "http-browserify"
   },
   "browserify-shim": {},
   "browserify": {
