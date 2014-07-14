@@ -71,7 +71,6 @@ function ControllerBuild(
     }, function (err, body, code) {
       // code === 201 ok
       // body to have _id ok
-      debugger;
     });
   };
   dataBuild.actions.rebuild = function () {};
