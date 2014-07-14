@@ -196,7 +196,7 @@ section.sidebar
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
           .popover.file-menu.bottom.fade(
-            ng-class = "{in: dataBuild.data.showRepoMenu}"
+            ng-class = "{in: dataBuild.data.showRepoMenu, 'show-add-repo': dataBuild.data.showAddRepo}"
             ng-include = "'viewBuildPopoverRepoMenu'"
           )
       ul.repo-tree

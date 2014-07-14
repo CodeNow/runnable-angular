@@ -398,6 +398,15 @@
     &:first-child {
       border-top: 0;
     }
+
+    &.in {
+      cursor: default;
+      height: 120px;
+
+      > span {
+        font-weight: 500;
+      }
+    }
   }
 
   .btn-icon {
@@ -419,7 +428,12 @@
 
 .add-repo-form {
   bottom: 0;
+  margin: 0 -15px;
   position: absolute;
+
+  > input.form-control {
+    border-bottom: 0;
+  }
 }
 
 .show-form {
