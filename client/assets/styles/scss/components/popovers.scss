@@ -158,7 +158,8 @@
   }
 
   // menu
-  &.menu {
+  &.menu,
+  &.file-menu {
     cursor: default;
     width: 300px;
 
@@ -206,6 +207,11 @@
         border-left: 0;
       }
     }
+  }
+
+  // .file-menu
+  &.file-menu {
+    width: 180px;
   }
 
   .form-control {

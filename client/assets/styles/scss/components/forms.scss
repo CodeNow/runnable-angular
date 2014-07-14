@@ -63,7 +63,7 @@ textarea,
   }
 
   > input {
-    text-indent: 19px;
+    text-indent: 21px; // +15px (padding) = total of 36px
   }
 }
 
@@ -98,6 +98,10 @@ input {
 .search {
   position: relative;
 
+  > input {
+    padding-left: 30px;
+  }
+
   .iconnables {
     height: 24px;
     margin: 6px 6px 0;
@@ -118,7 +122,7 @@ input {
   }
 
   > .submit {
-    right: 0;
+    left: 0;
   }
 
   > .add {
@@ -152,8 +156,8 @@ input {
 
   &.check-valid input:valid {
 
-    & ~ .submit {
-      transform: translate3d(36px,0,0);
+    & ~ .submit > .icons-search {
+      opacity: 1;
     }
 
     & ~ .add {
@@ -164,6 +168,10 @@ input {
 
 // different position in popovers
 .popover .search {
+
+  > input {
+    padding-left: 30px;
+  }
 
   > .add {
     right: -36px;

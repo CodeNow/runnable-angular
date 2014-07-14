@@ -314,6 +314,7 @@
     // add repo form
     &.show-add-repo {
       max-height: 300px;
+      width: 300px;
 
       .popover-content {
         max-height: 300px;
@@ -377,18 +378,6 @@
     transition: transform .2s;
   }
 
-  .search {
-
-    button {
-      margin: 0;
-      right: 6px;
-    }
-
-    object {
-      position: absolute;
-    }
-  }
-
   ul {
     max-height: 236px;
     overflow: scroll;
@@ -399,6 +388,7 @@
     border-top: 1px solid rgba(0,0,0,.1);
     cursor: pointer;
     height: 36px;
+    line-height: 36px;
     overflow: hidden;
     padding: 0 15px;
     position: relative;
@@ -407,6 +397,15 @@
 
     &:first-child {
       border-top: 0;
+    }
+
+    &.in {
+      cursor: default;
+      height: 120px;
+
+      > span {
+        font-weight: 500;
+      }
     }
   }
 
@@ -429,7 +428,12 @@
 
 .add-repo-form {
   bottom: 0;
+  margin: 0 -15px;
   position: absolute;
+
+  > input.form-control {
+    border-bottom: 0;
+  }
 }
 
 .show-form {
