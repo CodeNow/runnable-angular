@@ -147,19 +147,20 @@ function ControllerBuild(
       });
       updateDom();
     },
-    function fetchBuildOwner(cb) {
+    function fetchBuildOwners(cb) {
+      //TODO FIX fetchUser
       var build = dataBuild.data.build;
       function updateDom() {
         dataBuild.data.buildOwner = buildOwner;
         $scope.safeApply();
       }
-      var buildOwner = user.fetchUser(build.attrs.owner, function (err) {
-        if (err) {
-          return cb(err);
-        }
+      /*
+      var buildOwner = user.fetchUser({
+        id: build.attrs.owner
+      }, function (err) {
         updateDom();
-        cb();
       });
+      */
       cb();
     },
     function fetchVersion(cb) {

@@ -19,7 +19,6 @@ function fileTree(
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
       var data = $scope.data = {};
-      data.date = Date;
 
       function init () {
         data.rootDir = $scope.version.newDir({
@@ -57,11 +56,12 @@ function fileTree(
 
       actions.createFile = function () {
         var file = $scope.version.createFile({
-          name: 'untitled' + Math.ceil((Math.random() * 100000)),
-          path: '/',
-          body: ''
-        }, function () {});
-        var coll = $scope.version.fetchFiles(function () {});
+          name: '',
+          path: '/test/',
+          isDir: true
+        }, function () {
+        });
+        var coll = $scope.version.fetchFiles({path: '/'}, function () {});
         coll.add(file);
         $timeout(function () {
           $scope.$apply();
