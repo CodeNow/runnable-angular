@@ -80,7 +80,7 @@
     "nock": "^0.42.1",
     "nodemon": "~1.1.1",
     "protractor": "~1.0.0-rc1",
-    "sinon": "~1.10.2",
+    "sinon": "~1.10.3",
     "stringify": "~2.1.0"
   },
   "browser": {
