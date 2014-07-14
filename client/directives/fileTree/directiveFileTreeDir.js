@@ -25,7 +25,7 @@ function fileTreeDir(
 
       function fetchDirFiles () {
         data.dirFiles = $scope.version.fetchFiles({
-          Prefix: $scope.dir.filepath()
+          path: '' //$scope.dir.filepath()
         }, function () {
           $timeout(function () {
             $scope.$apply();

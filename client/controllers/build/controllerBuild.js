@@ -63,7 +63,17 @@ function ControllerBuild(
     $state.go('projects.buildList', state);
   };
 
-  dataBuild.actions.runInstance = function () {};
+  dataBuild.actions.runInstance = function () {
+    var buildId = dataBuild.data.build.id();
+    dataBuild.data.thisUser.createInstance({
+      name: 'testname',
+      build: buildId
+    }, function (err, body, code) {
+      // code === 201 ok
+      // body to have _id ok
+      debugger;
+    });
+  };
   dataBuild.actions.rebuild = function () {};
   dataBuild.actions.build = function () {};
   dataBuild.actions.discardChanges = function () {};
@@ -80,6 +90,7 @@ function ControllerBuild(
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
     function fetchProject(thisUser, cb) {
+      dataBuild.data.thisUser = thisUser;
       function updateDom() {
         if (projects.models.length) {
           dataBuild.data.project = projects.models[0];
