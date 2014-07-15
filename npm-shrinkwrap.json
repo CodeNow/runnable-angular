@@ -3848,18 +3848,6 @@
         }
       }
     },
-    "grunt-karma": {
-      "version": "0.8.3",
-      "from": "grunt-karma@~0.8.3",
-      "resolved": "https://registry.npmjs.org/grunt-karma/-/grunt-karma-0.8.3.tgz",
-      "dependencies": {
-        "lodash": {
-          "version": "2.4.1",
-          "from": "lodash@~2.4.1",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-2.4.1.tgz"
-        }
-      }
-    },
     "grunt-nodemon": {
       "version": "0.2.1",
       "from": "grunt-nodemon@~0.2.1",
