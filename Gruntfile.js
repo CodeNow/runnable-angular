@@ -133,8 +133,7 @@ module.exports = function(grunt) {
         options: {
           bundleOptions: {
             debug: true
-          },
-          transform: ['browserify-shim']
+          }
         }
       }
     },
@@ -266,7 +265,7 @@ module.exports = function(grunt) {
       },
       'npm-install': {
         bg: false,
-        cmd: 'echo \'installing dependencies...\n\' && npm install'
+        cmd: 'echo \'installing dependencies...\n\' && npm install --silent'
       }
     },
     karma: {

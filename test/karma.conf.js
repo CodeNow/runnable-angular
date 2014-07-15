@@ -80,9 +80,7 @@ module.exports = function(config) {
 
 
     browserify: {
-      debug: true,
-      //watch: true,
-      transform: ['browserify-shim']
+      debug: true
     },
 
 
