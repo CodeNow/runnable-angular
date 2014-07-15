@@ -268,11 +268,6 @@ module.exports = function(grunt) {
         cmd: 'echo \'installing dependencies...\n\' && npm install --silent'
       }
     },
-    karma: {
-      unit: {
-        configFile: './test/karma.conf.js'
-      }
-    },
     jsbeautifier: {
       files: ['client/**/*.js', '!client/build/**/*.js', '!client/assets/**/*.js'],
       options: {
@@ -335,7 +330,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-jsbeautifier');
 
