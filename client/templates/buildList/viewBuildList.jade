@@ -1,8 +1,10 @@
 nav#build-stream-header.sub-header
   h1
+    //- if empty, revert to project name
     input.form-control.inline-edit(
+      placeholder = "App Name"
       spellcheck = "false"
-      value = "project-name"
+      value = "MyApp"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
