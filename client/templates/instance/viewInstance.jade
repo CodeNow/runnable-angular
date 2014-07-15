@@ -66,14 +66,20 @@ section.sidebar
       h6
         | INSTANCE FILES
         button.silver.btn-sm.file-explorer-menu.btn-icon(
-          ng-class = "{active: dataInstance.showFileMenu}"
-          ng-click = "dataInstance.togglePopover('FileMenu', $event)"
+          toggle-pop-over
+          toggle-pop-over-model = "dataInstance.data.showFileMenu"
+          ng-class = "{active: dataInstance.data.showFileMenu}"
         )
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
-          .popover.file-menu.bottom.fade(
-            ng-class = "{in: dataInstance.showFileMenu}"
-            ng-include = "'viewInstancePopoverFileMenu'"
+          pop-over(
+            template = "viewInstancePopoverFileMenu"
+            actions = "{\
+              createFile: dataInstance.actions.createFile\
+            }"
+            data = "{\
+              show: dataInstance.data.showFileMenu\
+            }"
           )
       ul.file-tree
         li.folder

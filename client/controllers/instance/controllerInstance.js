@@ -12,7 +12,11 @@ function ControllerInstance(
   $stateParams,
   user
 ) {
-  var dataInstance = $scope.dataInstance = {};
+
+  var self = ControllerInstance;
+  var dataInstance = $scope.dataInstance = self.initData();
+  var data = dataInstance.data,
+      actions = dataInstance.actions;
 
   // init
   dataInstance.popoverAddTab = {
@@ -34,23 +38,17 @@ function ControllerInstance(
     dataInstance.showFileMenu = false;
     dataInstance['show' + popoverName] = true;
   };
-
-  async.waterfall([
-
-    function tempHelper(cb) {
-      if (user.id()) {
-
-      }
-    },
-    function (cb) {
-      var instance = user.fetchInstance($stateParams.instanceId, function () {
-        cb(null, instance);
-      });
-    },
-    function (instance, cb) {
-
-    }
-  ], function (err, results) {
-
-  });
 }
+
+ControllerInstance.initData = function () {
+  return {
+    data: {
+      popoverAddTab: {
+        filter: ''
+      },
+      showAddTab: false,
+      showFileMenu: false
+    },
+    actions: {}
+  };
+};
