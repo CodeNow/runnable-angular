@@ -146,14 +146,8 @@ section.sidebar
   )
     svg.iconnables.icons-add
       use(xlink:href = "#icons-add")
-    //- .popover.menu.bottom.fade(
-      ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut': dataInstance.showNewShortcut}"
-      ng-include = "'viewInstancePopoverAddTab'"
-    //- )
     pop-over(
-      data = "{\
-        show: dataInstance.data.showAddTab\
-      }"
+      data = "{show: dataInstance.data.showAddTab}"
       template = "viewInstancePopoverAddTab"
     )
   #select-tabs.dropdown
