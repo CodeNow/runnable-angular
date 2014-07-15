@@ -13,9 +13,10 @@ function ControllerProjectLayout(
   $stateParams,
   user
 ) {
-
   var self = ControllerProjectLayout;
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
+  var data = dataProjectLayout.data,
+      actions= dataProjectLayout.actions;
 
   dataProjectLayout.getProjectBuildListHref = function (projectName) {
     return self.getProjectBuildListHref($state.params.userName, projectName);

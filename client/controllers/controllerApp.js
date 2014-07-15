@@ -23,7 +23,7 @@ function ControllerApp(
     apiHost);
 
   dataApp.click = function () {
-    self.documentLevelClick($scope);
+    $scope.$broadcast('app-document-click');
   };
 
   dataApp.holdUntilAuth = function (cb) {
@@ -58,8 +58,4 @@ ControllerApp.initState = function ($state, $stateParams, apiHost) {
     loginURL: apiHost + '/auth/github?redirect=' + encodeURI('http://localhost:3001'),
     logoutURL: apiHost + '/auth/logout?redirect=' + encodeURI('http://localhost:3001')
   };
-};
-
-ControllerApp.documentLevelClick = function ($scope) {
-  $scope.$broadcast('app-document-click');
 };
