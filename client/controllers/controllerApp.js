@@ -13,14 +13,14 @@ function ControllerApp(
   $stateParams,
   $state,
   user,
-  apiHost,
+  apiConfig,
   holdUntilAuth
 ) {
 
   var self = ControllerApp;
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
-    apiHost);
+    apiConfig.host);
 
   dataApp.click = function () {
     self.documentLevelClick($scope);
