@@ -7,8 +7,9 @@ nav#build-stream-header.sub-header
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
   button.btn.silver.config(
-    ng-class = "{active: dataBuildList.showChangeRecipe}"
-    ng-click = "dataBuildList.togglePopover('ChangeRecipe', $event);"
+    ng-class = "{active: dataBuildList.data.showChangeRecipe}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataBuildList.data.showChangeRecipe"
     type = "button"
   )
     svg.iconnables.icons-recipe
@@ -16,6 +17,15 @@ nav#build-stream-header.sub-header
     | {{ dataApp.stateParams.branchName }}
     svg.iconnables.icons-arrow-down
       use(xlink:href = "#icons-arrow-down")
+    pop-over(
+      template = "viewBuildListPopoverChangeRecipe"
+      actions = "{}"
+      data = "{\
+        show: dataBuildList.data.showChangeRecipe\
+        filter: dataBuildList.data.filter\
+      }"
+    )
+  //
     .popover.menu.bottom.fade(
       ng-class = "{in: dataBuildList.showChangeRecipe}"
       ng-include = "'viewBuildListPopoverChangeRecipe'"
@@ -46,8 +56,8 @@ nav#build-stream-header.sub-header
       tr
         th
         th.sortable(
-          ng-click = "dataBuildList.toggleSortByBuild()"
-          ng-class = "dataBuildList.getBuildSortClass()"
+          ng-click = "dataBuildList.actions.toggleSortByBuild()"
+          ng-class = "dataBuildList.actions.getBuildSortClass()"
         )
           span Build
         th Triggered By
@@ -67,7 +77,7 @@ nav#build-stream-header.sub-header
           svg.iconnables.icons-check
             use(xlink:href = "#icons-check")
         td {{ build.attrs.id }}
-        td {{ dataBuildList.buildOwners.getById(build.attrs.owner).attrs.username }}
+        td {{ dataBuildList.data.buildOwners.getById(build.attrs.owner).attrs.username }}
         td {{ build.attrs.message }}
         td {{ dataBuildList.project.attrs.name }}
         td {{ build.attrs.duration }}

@@ -36,7 +36,7 @@ function ControllerBuild(
   actions.resetInputModelValue = function () {
     if (!data.inputHasBeenClicked) {
       data.buildName = '';
-      data.inputHasBeenClicked = false;
+      data.inputHasBeenClicked = true;
     }
   };
   actions.toggleExplorer = function () {
@@ -72,7 +72,6 @@ function ControllerBuild(
     var version = dataBuild.data.version;
     file = version.fetchFile(file.id(), function () {
       $scope.safeApply();
-      debugger;
     });
   });
 
