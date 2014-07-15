@@ -245,12 +245,18 @@
   padding: 0 15px;
   width: calc(100% - 270px);
 
+  // A/B Test: enable to move buttons to right
+  // > .green {
+  //   float: right;
+  //   margin: 9px 0 0 9px;
+  // }
+
   .clean,
   .dirty {
     @extend .clearfix;
     position: absolute;
     transition: transform .2s;
-    width: 100%;
+    width: calc(100% - 540px);
     z-index: 1;
 
     > .btn-group,
@@ -258,6 +264,9 @@
     > input {
       float: left;
       margin: 9px 9px 0 0;
+      // A/B Test: enable to move buttons to right
+      // float: right;
+      // margin: 9px 0 0 9px;
     }
 
     > input {
