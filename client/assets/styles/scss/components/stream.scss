@@ -111,7 +111,9 @@
     }
 
     .icons-arrow-down {
-      float: right;
+      left: auto;
+      position: absolute;
+      right: 3px;
       top: 6px;
     }
 
