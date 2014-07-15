@@ -25,6 +25,9 @@ Requirements
 
 Contributors
 ------------
+<img src="http://placehold.it/64">&nbsp;
+[Randall Koutnik ()](https://github.com/)
+San Francisco, CA, USA  
 <img src="http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64">&nbsp;
 [Tony Li (runnabro)](https://github.com/runnabro)
 San Francisco, CA, USA  
