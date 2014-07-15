@@ -1,14 +1,14 @@
 .popover.file-menu.bottom.fade(
   ng-class = "{\
     'in': data.show,\
-    'show-add-repo': data.show\
+    'show-add-repo': dataBuild.data.showAddRepo\
   }"
 )
   .arrow.white
   .popover-content
     ul#file-explorer-options.popover-body
       li(
-        ng-click = "data.show = true"
+        ng-click = "dataBuild.data.showAddRepo = true"
       )
         svg.iconnables
           use(xlink:href = "#icons-git-new")
