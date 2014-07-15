@@ -19,42 +19,31 @@ function ControllerBuild(
 
   var self = ControllerBuild;
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
-  extendDeep(dataBuild, self.initPopoverState($stateParams));
   // one-time initialization
   extendDeep(dataBuild.data, {
     showExplorer: true
   });
+  var data = dataBuild.data;
+  var actions = dataBuild.actions;
 
-  dataBuild.actions.getPopoverButtonText = self.getPopoverButtonText;
-  dataBuild.actions.resetInputModelValue = function (event) {
-    extendDeep(
-      dataBuild,
-      self.resetInputModelValue(
-        event,
-        dataBuild.data.inputHasBeenClicked
-      )
-    );
+  actions.initPopoverState = function () {
+    extendDeep(dataBuild, self.initPopoverState($stateParams));
   };
-  dataBuild.actions.togglePopover = function (popoverName, event) {
-    extendDeep(
-      dataBuild,
-      self.togglePopover(
-        popoverName,
-        event,
-        $stateParams
-      )
-    );
+  actions.initPopoverState();
+
+  actions.getPopoverButtonText = function (name) {
+    return 'Build' + ((name && name.length) ? 's in ' + name : '');
   };
-  dataBuild.actions.toggleExplorer = function (event) {
-    if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
-      event.stopPropagation();
+  actions.resetInputModelValue = function () {
+    if (!data.inputHasBeenClicked) {
+      data.buildName = '';
+      data.inputHasBeenClicked = false;
     }
-    dataBuild.data.showExplorer = !dataBuild.data.showExplorer;
   };
-  dataBuild.actions.stateToBuildList = function (event) {
-    if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
-      event.stopPropagation();
-    }
+  actions.toggleExplorer = function () {
+    data.showExplorer = !data.showExplorer;
+  };
+  actions.stateToBuildList = function () {
     var state = {
       userName: $stateParams.userName,
       projectName: $stateParams.projectName,
@@ -62,140 +51,126 @@ function ControllerBuild(
     };
     $state.go('projects.buildList', state);
   };
-
-  dataBuild.actions.runInstance = function () {
-    var buildId = dataBuild.data.build.id();
-    dataBuild.data.thisUser.createInstance({
+  actions.runInstance = function () {
+    var buildId = data.build.id();
+    data.thisUser.createInstance({
       name: 'testname',
       build: buildId
     }, function (err, body, code) {
-      // code === 201 ok
-      // body to have _id ok
     });
   };
-  dataBuild.actions.rebuild = function () {};
-  dataBuild.actions.build = function () {};
-  dataBuild.actions.discardChanges = function () {};
-
+  actions.rebuild = function () {};
+  actions.build = function () {};
+  actions.discardChanges = function () {};
   $scope.$watch('dataBuild.data.isClean', function () {
-    dataBuild.actions.togglePopover();
+    actions.initPopoverState();
   });
 
-  async.waterfall([
-    $scope.dataApp.holdUntilAuth,
-    function fetchProject(thisUser, cb) {
-      dataBuild.data.thisUser = thisUser;
-      function updateDom() {
-        if (projects.models.length) {
-          dataBuild.data.project = projects.models[0];
-          $scope.safeApply();
-        }
-      }
-      var projects = thisUser.fetchProjects({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.projectName
-      }, function (err, body) {
-        if (err) {
-          return cb(err); // error handling
-        }
-        updateDom();
-        cb();
-      });
-      updateDom();
-    },
-    function fetchEnvironment(cb) {
-      var project = dataBuild.data.project;
-
-      function updateDom() {
-        if (environments.models.length) {
-          dataBuild.data.environment = environments.models[0];
-          $scope.safeApply();
-        }
-      }
-      var environments = project.fetchEnvironments({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.branchName
-      }, function (err, results) {
-        if (err) {
-          return cb(err);
-        }
-        updateDom();
-        cb();
-      });
-      updateDom();
-    },
-    function fetchBuild(cb) {
-      var environment = dataBuild.data.environment;
-
-      function updateDom() {
-        if (build) {
-          dataBuild.data.build = build;
-          $scope.safeApply();
-        }
-      }
-      var build = environment.fetchBuild($stateParams.buildName, function (err, body) {
-        if (err) {
-          return cb(err);
-        }
-        updateDom();
-        cb();
-      });
-      updateDom();
-    },
-    function fetchBuildOwners(cb) {
-      //TODO FIX fetchUser
-      var build = dataBuild.data.build;
-      function updateDom() {
-        dataBuild.data.buildOwner = buildOwner;
+  /* ============================
+   *   API Fetch Methods
+   * ===========================*/
+  function fetchProject(thisUser, cb) {
+    data.thisUser = thisUser;
+    function updateDom() {
+      if (projects.models.length) {
+        data.project = projects.models[0];
         $scope.safeApply();
       }
-      /*
-      var buildOwner = user.fetchUser({
-        id: build.attrs.owner
-      }, function (err) {
-        updateDom();
-      });
-      */
-      cb();
-    },
-    function fetchVersion(cb) {
-      var build = dataBuild.data.build;
-      var contextId = build.toJSON().contexts[0];
-      var versionId = build.toJSON().contextVersions[0];
-      var version = user.newContext(contextId).fetchVersion(versionId, function (err) {
-        if (err) {
-          return cb(err);
-        }
-        dataBuild.data.version = version;
-        cb();
-      });
-    },
-    function newFilesCollOpenFiles(cb) {
-      var version = dataBuild.data.version;
-      dataBuild.data.openFiles = new SharedFilesCollection(
-        version.newFiles([], {client: true}),
-        $scope
-      );
-      cb();
     }
-  ], function () {
-    $scope.$apply();
-  });
-}
-
-ControllerBuild.resetInputModelValue = function (event, inputHasBeenClicked) {
-  if (event && typeof event.stopPropagation === 'function') {
-    event.stopPropagation();
-  }
-  if (!inputHasBeenClicked) {
-    return {
-      data: {
-        buildName: '',
-        inputHasBeenClicked: true
+    var projects = thisUser.fetchProjects({
+      ownerUsername: $stateParams.userName,
+      name: $stateParams.projectName
+    }, function (err, body) {
+      if (err) {
+        return cb(err); // error handling
       }
-    };
+      updateDom();
+      cb();
+    });
+    updateDom();
   }
-};
+  function fetchEnvironment(cb) {
+    var project = data.project;
+    function updateDom() {
+      if (environments.models.length) {
+        data.environment = environments.models[0];
+        $scope.safeApply();
+      }
+    }
+    var environments = project.fetchEnvironments({
+      ownerUsername: $stateParams.userName,
+      name: $stateParams.branchName
+    }, function (err, results) {
+      if (err) {
+        return cb(err);
+      }
+      updateDom();
+      cb();
+    });
+    updateDom();
+  }
+  function fetchBuild(cb) {
+    var environment = data.environment;
+    function updateDom() {
+      if (build) {
+        data.build = build;
+        $scope.safeApply();
+      }
+    }
+    var build = environment.fetchBuild($stateParams.buildName, function (err, body) {
+      if (err) {
+        return cb(err);
+      }
+      updateDom();
+      cb();
+    });
+    updateDom();
+  }
+  function fetchBuildOwners(cb) {
+    //TODO FIX fetchUser
+    var build = data.build;
+    function updateDom() {
+      data.buildOwner = buildOwner;
+      $scope.safeApply();
+    }
+    cb();
+  }
+  function fetchVersion(cb) {
+    var build = data.build;
+    var contextId = build.toJSON().contexts[0];
+    var versionId = build.toJSON().contextVersions[0];
+    var version = user.newContext(contextId).fetchVersion(versionId, function (err) {
+      if (err) {
+        return cb(err);
+      }
+      data.version = version;
+      cb();
+    });
+  }
+  function newFilesCollOpenFiles(cb) {
+    var version = data.version;
+    data.openFiles = new SharedFilesCollection(
+      version.newFiles([], {client: true}),
+      $scope
+    );
+    cb();
+  }
+  actions.seriesFetchAll = function () {
+    async.waterfall([
+      $scope.dataApp.holdUntilAuth,
+      fetchProject,
+      fetchEnvironment,
+      fetchBuild,
+      fetchBuildOwners,
+      fetchVersion,
+      newFilesCollOpenFiles
+    ], function () {
+      $scope.$apply();
+    });
+  };
+  actions.seriesFetchAll();
+
+}
 
 ControllerBuild.initState = function ($stateParams) {
   return {
@@ -212,35 +187,9 @@ ControllerBuild.initPopoverState = function ($stateParams) {
       showBuildOptionsDirty: false,
       showBuildOptionsClean: false,
       showRepoMenu: false,
-      // showExplorer:          true,
       showForm: false,
       buildName: $stateParams.buildName,
       inputHasBeenClicked: false
     }
   };
-};
-
-ControllerBuild.getPopoverButtonText = function (name) {
-  return 'Build' + ((name && name.length) ? 's in ' + name : '');
-};
-
-ControllerBuild.togglePopover = function (popoverName, event, $stateParams) {
-  var popovers = [
-    'BuildOptionsClean',
-    'BuildOptionsDirty',
-    'RepoMenu'
-  ];
-  if (typeof event !== 'undefined' && typeof event.stopPropagation === 'function') {
-    event.stopPropagation();
-  }
-  if (typeof popoverName !== 'string' && typeof popoverName !== 'undefined') {
-    throw new Error('invalid argument: ' + (typeof popoverName));
-  } else if (typeof popoverName === 'string' && popovers.indexOf(popoverName) === -1) {
-    throw new Error('invalid argument: ' + popoverName);
-  }
-  var newState = this.initPopoverState($stateParams);
-  if (typeof popoverName === 'string') {
-    newState.data['show' + popoverName] = true;
-  }
-  return newState;
 };
