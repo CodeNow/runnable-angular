@@ -71,10 +71,6 @@ nav.sub-header
               show: dataBuild.data.showBuildOptionsDirty\
             }"
           )
-          .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.data.showBuildOptionsDirty}"
-            ng-include = "'viewBuildPopoverBuildOptions'"
-          )
       button.silver(
         type = "button"
         ng-click = "dataBuild.actions.discardChanges()"
@@ -216,11 +212,11 @@ section.sidebar
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
           pop-over(
+            template = "viewBuildPopoverRepoMenu"
+            actions = "{}"
             data = "{\
-              showForm: dataBuild.data.showForm,\
               show: dataBuild.data.showRepoMenu\
             }"
-            template = "viewBuildPopoverRepoMenu"
           )
       ul.repo-tree
         li
