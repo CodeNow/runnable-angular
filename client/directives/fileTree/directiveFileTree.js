@@ -19,9 +19,10 @@ function fileTree(
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
       var data = $scope.data = {};
-      function init () {
+
+      function init() {
         data.rootDir = $scope.version.newDir({
-          id: $scope.version.id()+'newdir',
+          id: $scope.version.id() + 'newdir',
           isDir: true,
           Key: (new Array(31).join(' ')) + '//' // bs for now
         }, {

@@ -11,7 +11,6 @@ function term(
   return {
     restrict: 'E',
     scope: {},
-    link: function ($scope, element, attrs) {
-    }
+    link: function ($scope, element, attrs) {}
   };
 }

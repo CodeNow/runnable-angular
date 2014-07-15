@@ -23,7 +23,7 @@ function ControllerBuild(
     showExplorer: true
   });
   var data = dataBuild.data,
-      actions = dataBuild.actions;
+    actions = dataBuild.actions;
 
   actions.initPopoverState = function () {
     extendDeep(dataBuild, self.initPopoverState($stateParams));
@@ -55,8 +55,7 @@ function ControllerBuild(
     data.thisUser.createInstance({
       name: 'testname',
       build: buildId
-    }, function (err, body, code) {
-    });
+    }, function (err, body, code) {});
   };
   actions.rebuild = function () {};
   actions.build = function () {};
@@ -80,6 +79,7 @@ function ControllerBuild(
    * ===========================*/
   function fetchProject(thisUser, cb) {
     data.thisUser = thisUser;
+
     function updateDom() {
       if (projects.models.length) {
         data.project = projects.models[0];
@@ -98,8 +98,10 @@ function ControllerBuild(
     });
     updateDom();
   }
+
   function fetchEnvironment(cb) {
     var project = data.project;
+
     function updateDom() {
       if (environments.models.length) {
         data.environment = environments.models[0];
@@ -118,8 +120,10 @@ function ControllerBuild(
     });
     updateDom();
   }
+
   function fetchBuild(cb) {
     var environment = data.environment;
+
     function updateDom() {
       if (build) {
         data.build = build;
@@ -135,15 +139,18 @@ function ControllerBuild(
     });
     updateDom();
   }
+
   function fetchBuildOwners(cb) {
     //TODO FIX fetchUser
     var build = data.build;
+
     function updateDom() {
       data.buildOwner = buildOwner;
       $scope.safeApply();
     }
     cb();
   }
+
   function fetchVersion(cb) {
     var build = data.build;
     var contextId = build.toJSON().contexts[0];
@@ -156,10 +163,13 @@ function ControllerBuild(
       cb();
     });
   }
+
   function newFilesCollOpenFiles(cb) {
     var version = data.version;
     data.openFiles = new SharedFilesCollection(
-      version.newFiles([], {client: true}),
+      version.newFiles([], {
+        client: true
+      }),
       $scope
     );
     cb();
