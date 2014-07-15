@@ -1,5 +1,8 @@
 .popover.file-menu.bottom.fade(
-  ng-class = "{in: data.show}"
+  ng-class = "{\
+    'in': data.show,\
+    'show-add-repo': data.show\
+  }"
 )
   .arrow.white
   .popover-content
@@ -24,10 +27,7 @@
           svg.iconnables.icons-search-active
             use(xlink:href = "#icons-search-active")
       ul.popover-list
-        li(
-          ng-class = "{in: data.showForm}"
-          ng-click = "data.showForm = true"
-        )
+        li
           span
             button.btn-icon(
               ng-click = "data.showForm = false"

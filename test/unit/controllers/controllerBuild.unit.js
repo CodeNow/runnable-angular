@@ -115,100 +115,14 @@ describe('ControllerBuild'.bold.underline.blue, function () {
     });
 
     it('//outside click event on document hides popovers when they are displayed', function () {
-
-      //expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
-      //$appScope.dataApp.click();
-
-      // TODO: uses directive
-      //expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-
     });
 
-    it('togglePopover stops propagation of click event', function (done) {
-      var event = {
-        stopPropagation: sinon.spy()
-      };
-      dataBuild.actions.togglePopover('BuildOptionsClean', event);
-      expect(event.stopPropagation.callCount).to.equal(1);
-      setTimeout(function () {
-        expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
-        expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
-        done();
-      }, 1);
-    });
-
-    it('togglePopover displays popover and hides other active popovers', function () {
-      var event = {
-        stopPropagation: sinon.spy()
-      };
-      dataBuild.actions.togglePopover('BuildOptionsClean', event);
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
-      expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
-
-      dataBuild.actions.togglePopover('BuildOptionsDirty', event);
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-      expect(dataBuild.data).to.have.property('showBuildOptionsDirty', true);
-
-      expect(event.stopPropagation.callCount).to.equal(2);
-    });
-
-    it('togglePopover w/ no arguments hides any displayed popovers', function () {
-      var event = {
-        stopPropagation: sinon.spy()
-      };
-      dataBuild.actions.togglePopover('BuildOptionsClean', event);
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
-      expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
-      $buildScope.$apply(function () {
-        dataBuild.data.inputHasBeenClicked = true;
-      });
-      dataBuild.actions.togglePopover();
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-      expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
-    });
-
-    it('repeat invokations of togglePopover with identical arguments is idempotent', function () {
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-
-      dataBuild.actions.togglePopover('BuildOptionsClean', event);
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
-
-      dataBuild.actions.togglePopover('BuildOptionsClean', event);
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
-    });
   });
 
   describe('clean/dirty editing state'.blue, function () {
     it('state should be clean at initialization', function () {
       expect(dataBuild.data).to.have.property('isClean', true);
     });
-
-    it('should remove all popovers and reset their states when isClean changes', function () {
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-
-      $buildScope.$apply(function () {
-        dataBuild.data.isClean = false;
-      });
-      // remains hidden
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-
-      $buildScope.$apply(function () {
-        dataBuild.data.isClean = false;
-      });
-      // remains hidden
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-
-      dataBuild.actions.togglePopover('BuildOptionsClean', {stopPropagation: angular.noop});
-      // is shown after toggle
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
-
-      $buildScope.$apply(function () {
-        dataBuild.data.isClean = true;
-      });
-
-      // is hidden again after clean state change
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-    });;
   });
 
   describe('explorer menu'.blue, function () {
