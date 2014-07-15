@@ -1,13 +1,16 @@
-.arrow.white
-.popover-content
-  ul#file-explorer-options.popover-body
-    li(
-      ng-click = "actions.createFile()"
-    )
-      svg.iconnables
-        use(xlink:href = "#icons-file-new")
-      | New File
-    li
-      svg.iconnables
-        use(xlink:href = "#icons-folder-new")
-      | New Folder
+.popover.file-menu.bottom.fade(
+  ng-class = "{'in': data.show, 'show-add-repo': data.showAddRepo, 'show-form': data.showForm}"
+)
+  .arrow.white
+  .popover-content
+    ul#file-explorer-options.popover-body
+      li(
+        ng-click = "actions.createFile()"
+      )
+        svg.iconnables
+          use(xlink:href = "#icons-file-new")
+        | New File
+      li
+        svg.iconnables
+          use(xlink:href = "#icons-folder-new")
+        | New Folder

@@ -190,8 +190,8 @@ section.sidebar
 
 
 //- code_editor
-#editor.in(
-  ng-class="{'in': dataBuild.data.showExplorer, '': !dataBuild.data.showExplorer}"
+#editor(
+  ng-class="{'in': dataBuild.data.showExplorer}"
 )
   aside#explorer
     #controls
@@ -262,6 +262,6 @@ section.sidebar
     //- code
     pre(
       ui-ace
-      ng-model = "dataBuild.data.openFiles.activeFile.attrs.Key"
+      ng-model = "dataBuild.data.openFiles.activeFile.attrs.body"
       ng-keyup = "dataBuild.data.isClean = false"
     )

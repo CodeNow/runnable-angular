@@ -48,7 +48,9 @@ function fileTreeDir(
       $compile($template)($scope);
 
       element.replaceWith($template);
-      //element.append($template);
+      element.on('$destroy', function () {
+        // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS
+      });
 
     }
   };

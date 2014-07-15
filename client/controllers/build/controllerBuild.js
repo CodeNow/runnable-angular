@@ -12,7 +12,6 @@ function ControllerBuild(
   $state,
   user,
   async,
-  keypather,
   extendDeep,
   SharedFilesCollection
 ) {
@@ -23,8 +22,8 @@ function ControllerBuild(
   extendDeep(dataBuild.data, {
     showExplorer: true
   });
-  var data = dataBuild.data;
-  var actions = dataBuild.actions;
+  var data = dataBuild.data,
+      actions = dataBuild.actions;
 
   actions.initPopoverState = function () {
     extendDeep(dataBuild, self.initPopoverState($stateParams));
@@ -64,6 +63,17 @@ function ControllerBuild(
   actions.discardChanges = function () {};
   $scope.$watch('dataBuild.data.isClean', function () {
     actions.initPopoverState();
+  });
+  $scope.$watch('dataBuild.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
+    if (newval === oldval) {
+      return;
+    }
+    var file = dataBuild.data.openFiles.activeFile;
+    var version = dataBuild.data.version;
+    file = version.fetchFile(file.id(), function () {
+      $scope.safeApply();
+      debugger;
+    });
   });
 
   /* ============================
@@ -169,7 +179,6 @@ function ControllerBuild(
     });
   };
   actions.seriesFetchAll();
-
 }
 
 ControllerBuild.initState = function ($stateParams) {
