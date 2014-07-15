@@ -408,22 +408,6 @@
       }
     }
   }
-
-  .btn-icon {
-    display: none;
-    float: left;
-    margin-left: 6px;
-    opacity: .5;
-
-    &:hover {
-      opacity: .75;
-    }
-
-    &:active,
-    &.active {
-      opacity: 1;
-    }
-  }
 }
 
 .add-repo-form {
