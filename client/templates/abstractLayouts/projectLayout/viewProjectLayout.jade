@@ -1,14 +1,13 @@
 header(
-  ng-class = "dataProjectLayout.getInClass()"
+  ng-class = "dataProjectLayout.actions.getInClass()"
 )
   .startup-container
     a#logo(href = "/")
       span
       sup &lt;alpha&gt;
     button.white#user(
-      ng-class="{'active': dataProjectLayout.showChangeAccount, '': !dataProjectLayout.showChangeAccount}"
-      ng-click = "dataProjectLayout.showChangeAccount = !dataProjectLayout.showChangeAccount"
-      ng-disabled = "dataProjectLayout.disableNewButton"
+      ng-class="{'active': dataProjectLayout.actions.showChangeAccount}"
+      ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
       type = "button"
     )
       img(
@@ -43,11 +42,11 @@ header(
     form
       //- this field is optional. if blank, name the app for them: 'My App'
       input.form-control(
-        ng-model = "dataProjectLayout.newAppName"
+        ng-model = "dataProjectLayout.data.newAppName"
         placeholder = "Application Name"
       )
       button.orange.btn-block(
-        ng-click = "dataProjectLayout.createNewApp()"
+        ng-click = "dataProjectLayout.actions.createNewApp()"
       ) Create App
   .scroll-container
     h3 APPLICATIONS
@@ -56,9 +55,9 @@ header(
           use(xlink:href = "#icons-add")
     ul#apps.btn-group-vertical
       li.btn(
-        ng-repeat = "project in dataProjectLayout.projects.models"
-        ng-class = "dataProjectLayout.getProjectLiClass(project)"
-        ng-click = "dataProjectLayout.stateToBuildList(project, $event);"
+        ng-repeat = "project in dataProjectLayout.data.projects.models"
+        ng-class = "dataProjectLayout.actions.getProjectLiClass(project)"
+        ng-click = "dataProjectLayout.actions.stateToBuildList(project, $event);"
       )
         a.white
           svg.iconnables.icons-arrow-down
@@ -68,7 +67,7 @@ header(
           ng-repeat = "environment in project.attrs.environments"
         )
           li.active(
-            ng-click = "dataProjectLayout.stateToBuildList(project, environment, $event)"
+            ng-click = "dataProjectLayout.actions.stateToBuildList(project, environment, $event)"
           )
             a.white
               svg.iconnables.icons-recipe
