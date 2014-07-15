@@ -25,15 +25,32 @@ nav.sub-header
       .btn-group
         button.silver(
           type = "button"
-          ng-click = "dataBuild.actions.rebuild();"
+          ng-click = "dataBuild.actions.rebuild()"
         ) Rebuild
         button.silver.btn-icon(
+          toggle-pop-over
+          toggle-pop-over-model = "dataBuild.data.showBuildOptionsClean"
           ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
-          ng-click = "dataBuild.actions.togglePopover('BuildOptionsClean', $event)"
           type = "button"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
+
+
+          pop-over(
+            template = "viewBuildPopoverBuildOptions"
+            actions = "{\
+              getPopoverButtonText: dataBuild.actions.getPopoverButtonText,\
+              resetInputModelValue: dataBuild.actions.resetInputModelValue\
+            }"
+            data = "{\
+              buildName: dataBuild.data.buildName,\
+              show: dataBuild.data.showBuildOptionsClean\
+            }"
+          )
+
+
+        //
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.data.showBuildOptionsClean}"
             ng-include = "'viewBuildPopoverBuildOptions'"

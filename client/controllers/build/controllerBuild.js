@@ -82,7 +82,7 @@ function ControllerBuild(
   });
 
   $scope.$on('app-document-click', function () {
-    dataBuild.actions.togglePopover();
+    // dataBuild.actions.togglePopover();
   });
 
 
