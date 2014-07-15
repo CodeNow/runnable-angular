@@ -132,7 +132,8 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       dataBuild.actions.togglePopover('BuildOptionsClean', event);
       expect(dataBuild.data).to.have.property('showBuildOptionsClean', true);
       $appScope.dataApp.click();
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
+      // TODO: uses directive
+      //expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
     });
 
     it('togglePopover stops propagation of click event', function (done) {

@@ -35,8 +35,6 @@ nav.sub-header
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
-
-
           pop-over(
             template = "viewBuildPopoverBuildOptions"
             actions = "{\
@@ -48,14 +46,6 @@ nav.sub-header
               show: dataBuild.data.showBuildOptionsClean\
             }"
           )
-
-
-        //
-          .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.data.showBuildOptionsClean}"
-            ng-include = "'viewBuildPopoverBuildOptions'"
-          )
-
     .dirty(ng-class = "{in: dataBuild.data.showBuildOptionsDirty}")
       .btn-group
         button.green(
@@ -63,12 +53,24 @@ nav.sub-header
           ng-click = "dataBuild.actions.build()"
         ) Build
         button.green.btn-icon(
+          toggle-pop-over
+          toggle-pop-over-model = "dataBuild.data.showBuildOptionsDirty"
           ng-class = "{active: dataBuild.data.showBuildOptionsDirty}"
-          ng-click = "dataBuild.actions.togglePopover('BuildOptionsDirty', $event)"
           type = "button"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
+          pop-over(
+            template = "viewBuildPopoverBuildOptions"
+            actions = "{\
+              getPopoverButtonText: dataBuild.actions.getPopoverButtonText,\
+              resetInputModelValue: dataBuild.actions.resetInputModelValue\
+            }"
+            data = "{\
+              buildName: dataBuild.data.buildName,\
+              show: dataBuild.data.showBuildOptionsDirty\
+            }"
+          )
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.data.showBuildOptionsDirty}"
             ng-include = "'viewBuildPopoverBuildOptions'"

@@ -1,3 +1,4 @@
+var $ = require('jquery');
 require('app')
   .directive('popOver', popOver);
 /**
@@ -16,6 +17,13 @@ function popOver() {
       actions: '&'
     },
     link: function ($scope, element, attrs) {
+      var clickHandler = $.proxy(function (event) {
+        event.stopPropagation();
+      }, $scope);
+      element.on('click', clickHandler);
+      element.on('$destroy', function () {
+        element.off('click');
+      });
       $scope.actions = $scope.actions();
     }
   };

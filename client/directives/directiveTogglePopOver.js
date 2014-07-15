@@ -14,14 +14,10 @@ function togglePopOver(
     },
     link: function ($scope, element, attrs) {
       var clickHandler = $.proxy(function (event) {
-        if(this.model && event.currentTarget === event.target) {
-          return; // let propagate
-        } else if(!this.model && event.currentTarget === event.target) {
+        if(!this.model) {
           event.stopPropagation();
           this.model = true;
           this.$apply();
-        } else if(this.model && event.currentTarget !== event.target) {
-          event.stopPropagation();
         }
       }, $scope);
       element.on('click', clickHandler);

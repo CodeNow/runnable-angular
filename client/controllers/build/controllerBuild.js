@@ -81,11 +81,6 @@ function ControllerBuild(
     dataBuild.actions.togglePopover();
   });
 
-  $scope.$on('app-document-click', function () {
-    // dataBuild.actions.togglePopover();
-  });
-
-
   async.waterfall([
     $scope.dataApp.holdUntilAuth,
     function fetchProject(thisUser, cb) {
