@@ -1,4 +1,4 @@
-function QueryAssist(modelOrColl, asyncCB){
+function QueryAssist(modelOrColl, asyncCB) {
 
   var asyncCalled = false;
   this.modelOrColl = modelOrColl;
@@ -31,7 +31,7 @@ QueryAssist.prototype.go = function () {
   return QueryAssist.exec.call(this);
 };
 
-QueryAssist.exec = function() {
+QueryAssist.exec = function () {
   var _this = this;
   var modelOrColl;
   if (this.hasOwnProperty('query')) {
@@ -39,7 +39,8 @@ QueryAssist.exec = function() {
   } else {
     modelOrColl = this.modelOrColl[this.wrapFunc](asyncAPIComplete);
   }
-  function asyncAPIComplete (err) {
+
+  function asyncAPIComplete(err) {
     if (!err) {
       _this.cacheFetch(modelOrColl, false, _this.asyncCB);
     }
@@ -47,11 +48,11 @@ QueryAssist.exec = function() {
     _this.resolve(err, modelOrColl, _this.asyncCB);
   }
   if (Array.isArray(modelOrColl.models)) {
-    if(modelOrColl.models.length) {
+    if (modelOrColl.models.length) {
       this.cacheFetch(modelOrColl, true, this.asyncCB);
     }
   } else {
-    if(Object.keys(modelOrColl.attrs).length > 1) {
+    if (Object.keys(modelOrColl.attrs).length > 1) {
       this.cacheFetch(modelOrColl, true, this.asyncCB);
     }
   }

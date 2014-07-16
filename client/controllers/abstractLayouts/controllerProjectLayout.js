@@ -17,19 +17,19 @@ function ControllerProjectLayout(
   var self = ControllerProjectLayout;
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
   var data = dataProjectLayout.data,
-      actions = dataProjectLayout.actions;
+    actions = dataProjectLayout.actions;
 
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
   actions.getProjectBuildListHref = function (projectName) {
-    return '/'+$state.params.userName+'/'+projectName+'/master/';
+    return '/' + $state.params.userName + '/' + projectName + '/master/';
   };
   actions.getProjectLiClass = function (project) {
     return (project.attrs.name === $state.params.projectName) ? 'active' : '';
   };
   actions.createNewApp = function () {
-    function createProject (thisUser, cb) {
+    function createProject(thisUser, cb) {
       var project = thisUser.createProject({
         name: dataProjectLayout.data.newAppName,
         dockerfile: 'FROM ubuntu\n'
@@ -47,7 +47,7 @@ function ControllerProjectLayout(
       });
     });
   };
-  actions.stateToBuildList = function() {
+  actions.stateToBuildList = function () {
     var project, environment, event;
     project = arguments[0];
     if (arguments.length == 2) { // project, $event
@@ -65,12 +65,13 @@ function ControllerProjectLayout(
       branchName: ((environment) ? environment.name : 'master')
     });
   };
-  actions.initForState = function() {
-    function checkAuth(thisUser, cb){
+  actions.initForState = function () {
+    function checkAuth(thisUser, cb) {
       // TODO verify URL belongs to this user
       cb(null, thisUser);
     }
-    function fetchProjects(thisUser, cb){
+
+    function fetchProjects(thisUser, cb) {
       var projects = thisUser.fetchProjects({
         ownerUsername: $scope.dataApp.stateParams.userName
       }, function (err, response) {
@@ -111,4 +112,3 @@ ControllerProjectLayout.initState = function () {
     actions: {}
   };
 };
-

@@ -16,7 +16,7 @@ function ControllerInstance(
   var self = ControllerInstance;
   var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data,
-      actions = dataInstance.actions;
+    actions = dataInstance.actions;
 
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;

@@ -86,12 +86,12 @@ function ControllerBuild(
         ownerUsername: $stateParams.userName,
         name: $stateParams.projectName
       })
-      .cacheFetch(function updateDom(projects, cached, cb){
+      .cacheFetch(function updateDom(projects, cached, cb) {
         dataBuild.data.project = projects.models[0];
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, projects, cb){
+      .resolve(function (err, projects, cb) {
         if (err) {
           // TODO
           // 404
@@ -101,6 +101,7 @@ function ControllerBuild(
       })
       .go();
   }
+
   function fetchEnvironment(cb) {
     new QueryAssist(dataBuild.data.project, cb)
       .wrapFunc('fetchEnvironments')
@@ -108,32 +109,34 @@ function ControllerBuild(
         ownerUsername: $stateParams.userName,
         name: $stateParams.branchName
       })
-      .cacheFetch(function updateDom(environments, cached, cb){
+      .cacheFetch(function updateDom(environments, cached, cb) {
         dataBuild.data.environment = environments.models[0];
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, environments, cb){
+      .resolve(function (err, environments, cb) {
         $scope.safeApply();
         cb();
       })
       .go();
   }
+
   function fetchBuild(cb) {
     new QueryAssist(dataBuild.data.environment, cb)
       .wrapFunc('fetchBuild')
       .query($stateParams.buildName)
-      .cacheFetch(function updateDom(build, cached, cb){
+      .cacheFetch(function updateDom(build, cached, cb) {
         dataBuild.data.build = build;
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, build, cb){
+      .resolve(function (err, build, cb) {
         $scope.safeApply();
         cb();
       })
       .go();
   }
+
   function fetchBuildOwners(cb) {
     //TODO FIX fetchUser
     /*
@@ -145,6 +148,7 @@ function ControllerBuild(
     */
     cb();
   }
+
   function fetchVersion(cb) {
     var build = data.build;
     var contextId = build.toJSON().contexts[0];
@@ -154,17 +158,18 @@ function ControllerBuild(
     new QueryAssist(context, cb)
       .wrapFunc('fetchVersion')
       .query(versionId)
-      .cacheFetch(function updateDom(version, cached, cb){
+      .cacheFetch(function updateDom(version, cached, cb) {
         dataBuild.data.version = version;
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, build, cb){
+      .resolve(function (err, build, cb) {
         $scope.safeApply();
         cb();
       })
       .go();
   }
+
   function newFilesCollOpenFiles(cb) {
     var version = data.version;
     data.openFiles = new SharedFilesCollection(

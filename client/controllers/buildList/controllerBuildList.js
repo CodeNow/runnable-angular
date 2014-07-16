@@ -19,7 +19,7 @@ function ControllerBuildList(
   var self = ControllerBuildList;
   var dataBuildList = $scope.dataBuildList = self.initState();
   var data = dataBuildList.data,
-      actions = dataBuildList.actions;
+    actions = dataBuildList.actions;
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
@@ -67,12 +67,12 @@ function ControllerBuildList(
         ownerUsername: $stateParams.userName,
         name: $stateParams.projectName
       })
-      .cacheFetch(function updateDom(projects, cached, cb){
+      .cacheFetch(function updateDom(projects, cached, cb) {
         dataBuildList.data.project = projects.models[0];
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, projects, cb){
+      .resolve(function (err, projects, cb) {
         if (err) {
           // TODO
           // 404
@@ -82,6 +82,7 @@ function ControllerBuildList(
       })
       .go();
   }
+
   function fetchEnvironment(cb) {
     new QueryAssist(dataBuildList.data.project, cb)
       .wrapFunc('fetchEnvironments')
@@ -89,31 +90,33 @@ function ControllerBuildList(
         ownerUsername: $stateParams.userName,
         name: $stateParams.branchName
       })
-      .cacheFetch(function updateDom(environments, cached, cb){
+      .cacheFetch(function updateDom(environments, cached, cb) {
         dataBuildList.data.environment = environments.models[0];
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, environments, cb){
+      .resolve(function (err, environments, cb) {
         $scope.safeApply();
         cb();
       })
       .go();
   }
+
   function fetchBuilds(cb) {
     new QueryAssist(dataBuildList.data.environment, cb)
       .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb){
+      .cacheFetch(function updateDom(builds, cached, cb) {
         dataBuildList.data.builds = builds;
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err){
+      .resolve(function (err) {
         $scope.safeApply();
         cb();
       })
       .go();
   }
+
   function fetchBuildsOwners(cb) {
     //TODO FIX
     /*
