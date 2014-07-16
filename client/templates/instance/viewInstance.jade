@@ -127,6 +127,7 @@ section.sidebar
       )
         a(
           title = "{{tab.path}}"
+          ng-attr-data-title = "{{tab.title}}"
           ng-class = "{active: tab.active}"
           ng-click = "dataInstance.setActiveTab(tab)"
         ) {{tab.title}}

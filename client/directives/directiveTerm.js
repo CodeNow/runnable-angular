@@ -8,61 +8,43 @@ require('app')
 function term(
   Primus,
   apiConfig,
-  streams,
-  away
+  streams
 ) {
   return {
     restrict: 'E',
     scope: {},
-    template: '<div ng-class="{focused: focused}" ng-focus="focused = true" ng-blur="focused = false" class="term-container">' +
+    template: '<div class="term-container">' +
                 '' +/* loader here */
               '</div>',
     link: function ($scope, elem, attrs) {
       var CHAR_WIDTH = 8.5;
       var CHAR_HEIGHT = 15;
       var args = JSON.stringify(apiConfig);
-      var firstLoad = true;
-      var loading = true;
-      var primus, terminal, termStream, clientEvents;
+      var primus, termStream, clientEvents;
+      
+      $scope.loading = true;
       
       function resizeTerm() {
         // Any x value over 80 breaks newlines
+        // https://github.com/chjj/term.js/issues/38
         var x = 80;
         var y = Math.floor(terminal.element.offsetHeight / CHAR_HEIGHT);
-        console.log(x, y);
         terminal.resize(x, y);
-        console.log(terminal.cols);
         if (typeof remoteResize === 'function') {
           remoteResize(x, y);
         }
       }
-      
-      function reactivateConnection() {
-        console.log('RE');
-        if (terminal) {
-          try {
-            elem.removeChild(terminal.element);
-          }
-          catch (err) {} // throws error if window.term.element has already been removed.
-                         // which it has. term.js may change so handling both scenarios.
-        }
-        firstLoad = true;
-        showLoader();
-        setTimeout(initalize, 5000);
-      }
-      
-      function closeConnection() {
-        console.log('DIS');
-        termStream.removeListener('end', reactivateConnection);
-        termStream.end();
-      }
-      
-      var timer = away(1000 * 60 * 10);
-      timer.on('idle', closeConnection);
-      timer.on('active', reactivateConnection);
-      
+
       // FIXME this should all come from apiConfig
       var url = 'http://api.runnable3.net:3030?type=filibuster&args=' + args;
+      
+      // Initalize Termal
+      terminal = new Terminal({
+        cols: 80,
+        rows: 24,
+        useStyle: true,
+        screenKeys: true
+      });
       
       function initalize() {
         // Initalize link to server
@@ -70,21 +52,19 @@ function term(
         primus = new Primus(url);
         termStream = primus.substream('terminal');
         
-        termStream.on('end', reactivateConnection);
-        termStream.on('connect', function() {
-          $scope.loaded = true;
+        termStream.on('reconnect', function() {
+          terminal.writeln('');
+          terminal.writeln('Connection regained.  Thank you for your patience');
+        });
+        termStream.on('offline', function() {
+          terminal.writeln('');
+          terminal.writeln('****************************');
+          terminal.writeln('* LOST CONNECTION - retrying');
+          terminal.writeln('****************************');
         });
         
         // Used for things like window resizing
         clientEvents = primus.substream('clientEvents');
-        
-        // Initalize Termal
-        terminal = new Terminal({
-          cols: 80,
-          rows: 24,
-          useStyle: true,
-          screenKeys: true
-        });
         
         terminal.on('data', termStream.write.bind(termStream));
         terminal.once('data', function(data) {
@@ -96,7 +76,6 @@ function term(
         terminal.end = terminal.destroy;
         
         resizeTerm();
-        setTimeout(resizeTerm, 1000);
         elem[0].onresize = resizeTerm;
 
         // Initalize client events
@@ -110,9 +89,6 @@ function term(
           clientEvents.emit('resize', x, y);
         };
         clientEvents.emit('startTerminal', clientArgs, clientEnv);
-        setInterval(function ping () {
-          clientEvents.emit('ping', true);
-        }, 1000);
       }
       
       initalize();
