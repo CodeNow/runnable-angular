@@ -1,3 +1,4 @@
+var queryAssist = require('queryAssist');
 require('app')
   .controller('ControllerApp', ControllerApp);
 /**
@@ -50,9 +51,7 @@ function ControllerApp(
     });
   };
 
-  UTIL.QueryAssist = function () {
-    return new require('query-assist')();
-  };
+  UTIL.QueryAssist = queryAssist;
 
 }
 
