@@ -1,8 +1,10 @@
 nav#build-stream-header.sub-header
   h1
+    //- if empty, revert to project name
     input.form-control.inline-edit(
+      placeholder = "App Name"
       spellcheck = "false"
-      value = "project-name"
+      value = "MyApp"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
@@ -18,19 +20,12 @@ nav#build-stream-header.sub-header
     svg.iconnables.icons-arrow-down
       use(xlink:href = "#icons-arrow-down")
     pop-over(
-      template = "viewBuildListPopoverChangeRecipe"
-      actions = "{}"
       data = "{\
+        filter: dataBuildList.data.filter,\
         show: dataBuildList.data.showChangeRecipe\
-        filter: dataBuildList.data.filter\
       }"
+      template = "viewBuildListPopoverChangeRecipe"
     )
-  //
-    .popover.menu.bottom.fade(
-      ng-class = "{in: dataBuildList.showChangeRecipe}"
-      ng-include = "'viewBuildListPopoverChangeRecipe'"
-    )
-  //- h1(ng-click = "dataBuildList.show404()") show 404
   form.search
     input.form-control(
       type = "search"
@@ -71,7 +66,7 @@ nav#build-stream-header.sub-header
     tbody
       tr(
         ng-repeat = "build in dataBuildList.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
-        ng-click  = "dataBuildList.stateToBuild(build)"
+        ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
         td
           svg.iconnables.icons-check
@@ -84,7 +79,7 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
-            ng-click   = "dataBuildList.stateToInstance(build)"
+            ng-click   = "dataBuildList.actions.stateToInstance(build)"
             data-title = "Run Instance"
           )
             svg.iconnables.icons-run

@@ -18,12 +18,13 @@ function ControllerApp(
 ) {
 
   var self = ControllerApp;
+  var UTIL = $rootScope.UTIL = {};
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
     apiConfig.host);
 
   dataApp.click = function () {
-    self.documentLevelClick($scope);
+    $scope.$broadcast('app-document-click');
   };
 
   dataApp.holdUntilAuth = function (cb) {
@@ -39,7 +40,7 @@ function ControllerApp(
     });
   };
 
-  $scope.safeApply = function (cb) {
+  $rootScope.safeApply = function (cb) {
     $timeout(function () {
       if (typeof cb === 'function') {
         $scope.$apply(cb);
@@ -48,6 +49,11 @@ function ControllerApp(
       }
     });
   };
+
+  UTIL.QueryAssist = function () {
+    return new require('query-assist')();
+  };
+
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {
@@ -60,6 +66,3 @@ ControllerApp.initState = function ($state, $stateParams, apiHost) {
   };
 };
 
-ControllerApp.documentLevelClick = function ($scope) {
-  $scope.$broadcast('app-document-click');
-};

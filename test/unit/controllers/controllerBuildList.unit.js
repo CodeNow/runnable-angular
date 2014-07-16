@@ -45,49 +45,4 @@ describe('ControllerBuildList'.bold.underline.blue, function () {
   }
   beforeEach(initState);
 
-  describe('togglePopover'.blue, function () {
-    it('displays popover when invoking togglePopover', function () {
-      var event = {
-        stopPropagation: sinon.spy()
-      };
-      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('');
-      expect(dataBuildList.showChangeRecipe).to.equal(false);
-      dataBuildList.togglePopover('ChangeRecipe', event); // click 1
-      expect(dataBuildList.showChangeRecipe).to.equal(true);
-      expect(event.stopPropagation.callCount).to.equal(1);
-    });
-
-    it('togglePopover should be idempotent', function () {
-      var event = {
-        stopPropagation: sinon.spy()
-      };
-      dataBuildList.togglePopover('ChangeRecipe', event); // click 1
-      dataBuildList.togglePopover('ChangeRecipe', event); // click 2
-      expect(dataBuildList.showChangeRecipe).to.equal(true);
-      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('');
-      expect(event.stopPropagation.callCount).to.equal(2);
-      // type something into search
-      dataBuildList.popoverChangeRecipe.filter = '123';
-      expect(dataBuildList.showChangeRecipe).to.equal(true); // <-- technically a click to type... use protractor
-      dataBuildList.togglePopover('ChangeRecipe', event);         // click 3
-      expect(dataBuildList.showChangeRecipe).to.equal(true);
-      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('123');
-      expect(event.stopPropagation.callCount).to.equal(3);
-    });
-
-    it('outside click event on document hides popovers when they are displayed', function () {
-      var event = {
-        stopPropagation: sinon.spy()
-      };
-      // trigger click outside of popover button
-      $appScope.dataApp.click();
-      expect(dataBuildList.showChangeRecipe).to.equal(false);
-      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('');
-      dataBuildList.togglePopover('ChangeRecipe', event); // click 1
-      expect(dataBuildList.showChangeRecipe).to.equal(true); // popover is showing after click
-      $appScope.dataApp.click();
-      expect(dataBuildList.showChangeRecipe).to.equal(false);
-      expect(dataBuildList.popoverChangeRecipe.filter).to.equal('');
-    });
-  });
 });

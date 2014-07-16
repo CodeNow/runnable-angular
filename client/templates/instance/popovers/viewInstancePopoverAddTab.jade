@@ -1,72 +1,74 @@
-.arrow.white
-.popover-content
-  #add-tab-options
-    ol.popover-body.col-popover-3
-      li
-        object.iconnables.lg(
-          data = "/build/images/icons/icons-web.svg"
-          type = "image/svg+xml"
-        )
-        | Web View
-      li
-        object.iconnables.lg(
-          data = "/build/images/icons/icons-terminal.svg"
-          type = "image/svg+xml"
-        )
-        | Terminal
-      li
-        object.iconnables.lg(
-          data = "/build/images/icons/icons-logs.svg"
-          type = "image/svg+xml"
-        )
-        | Run Log
+.popover.menu.bottom.fade(
+  ng-class = "{\
+    in: data.show,\
+    'show-new-shortcut': showNewShortcut\
+  }"
+)
+  .arrow.white
+  .popover-content
+    #add-tab-options
+      ol.popover-body.col-popover-3
+        li
+          svg.iconnables.lg.icons-web
+            use(xlink:href = "#icons-web")
+          | Web View
+        li
+          svg.iconnables.lg.icons-terminal
+            use(xlink:href = "#icons-terminal")
+          | Terminal
+        li
+          svg.iconnables.lg.icons-logs
+            use(xlink:href = "#icons-logs")
+          | Run Log
 
-    ol#shortcuts.popover-body.popover-list
-      li Shortcut 1
-        button.btn-icon.delete(type = "button")
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-      li Shortcut 2
-        button.btn-icon.delete(type = "button")
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-      li Shortcut 3
-        button.btn-icon.delete(type = "button")
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-      li Shortcut 4
-        button.btn-icon.delete(type = "button")
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-    button#new-shortcut-button.silver.btn-block(
-      ng-click = "dataInstance.showNewShortcut = true"
-      type = "button"
-    ) New Shortcut
+      ol#shortcuts.popover-body.popover-list
+        li Shortcut 1
+          button.btn-icon.delete(type = "button")
+            svg.iconnables.icons-close
+              use(xlink:href = "#icons-close")
+        li Shortcut 2
+          button.btn-icon.delete(type = "button")
+            svg.iconnables.icons-close
+              use(xlink:href = "#icons-close")
+        li Shortcut 3
+          button.btn-icon.delete(type = "button")
+            svg.iconnables.icons-close
+              use(xlink:href = "#icons-close")
+        li Shortcut 4
+          button.btn-icon.delete(type = "button")
+            svg.iconnables.icons-close
+              use(xlink:href = "#icons-close")
+      button#new-shortcut-button.silver.btn-block(
+        ng-click = "showNewShortcut = true"
+        type = "button"
+      ) New Shortcut
 
-  form#new-shortcut
-    h3.popover-title Add New Shortcut
-    input.form-control(
-      placeholder = "Shortcut Name"
-      required
-    )
-    input.form-control(
-      placeholder = "Shortcut CMD"
-      required
-    )
-    .form-group.toggle-group
-      label.active
-        .sprite-icons-output
-        | Web View
-        input(
-          type = "radio"
-          name = "output_format"
-          checked
-        )
-      label
-        .sprite-icons-output
-        | Terminal View
-        input(
-          type = "radio"
-          name = "output_format"
-        )
-    button.silver.btn-block Create New Shortcut
+    form#new-shortcut
+      h3.popover-title Add New Shortcut
+      input.form-control(
+        placeholder = "Shortcut Name"
+        required
+      )
+      input.form-control(
+        placeholder = "Shortcut CMD"
+        required
+      )
+      .form-group.toggle-group
+        label.active
+          svg.iconnables.lg.icons-web
+            use(xlink:href = "#icons-web")
+          | Web View
+          input(
+            type = "radio"
+            name = "output_format"
+            checked
+          )
+        label
+          svg.iconnables.lg.icons-terminal
+            use(xlink:href = "#icons-terminal")
+          | Terminal View
+          input(
+            type = "radio"
+            name = "output_format"
+          )
+      button.silver.btn-block Create New Shortcut

@@ -190,7 +190,7 @@ module.exports = function(grunt) {
           'client/assets/images/**/*.jpg',
           'client/assets/images/**/*.jpeg',
           'client/assets/images/**/*.png',
-          'client/assets/images/**/*.svg'
+          'client/assets/images/*.svg'
         ],
         tasks: [
           'copy:images'

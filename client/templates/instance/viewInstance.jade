@@ -2,6 +2,7 @@ nav.sub-header
   //- runnable_title
   h1.divided-header
     input.form-control.inline-edit(
+      placeholder = "Instance Name"
       spellcheck = "false"
       value = "servername-1776"
     )
@@ -50,6 +51,7 @@ section.sidebar
   button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.showExplorer = !dataInstance.showExplorer"
     ng-init = "dataInstance.showExplorer = true"
+    type = "button"
   )
     svg.iconnables.icons-folder-open
       use(xlink:href = "#icons-folder-open")
@@ -60,71 +62,63 @@ section.sidebar
         data-title = "Change Theme"
         ng-class = "{dark: !dataBuild.toggleTheme, light: dataBuild.toggleTheme}"
         ng-click = "dataBuild.toggleTheme = !dataBuild.toggleTheme"
+        type = "button"
       )
         .theme
     .explorer-header
       h6
         | INSTANCE FILES
         button.silver.btn-sm.file-explorer-menu.btn-icon(
-          ng-class = "{active: dataInstance.showFileMenu}"
-          ng-click = "dataInstance.togglePopover('FileMenu', $event)"
+          ng-class = "{active: dataInstance.data.showFileMenu}"
+          toggle-pop-over
+          toggle-pop-over-model = "dataInstance.data.showFileMenu"
+          type = "button"
         )
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
-          .popover.file-menu.bottom.fade(
-            ng-class = "{in: dataInstance.showFileMenu}"
-            ng-include = "'viewInstancePopoverFileMenu'"
+          pop-over(
+            actions = "{\
+              createFile: dataInstance.actions.createFile\
+            }"
+            data = "{\
+              show: dataInstance.data.showFileMenu\
+            }"
+            template = "viewInstancePopoverFileMenu"
           )
       ul.file-tree
         li.folder
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-folder.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.filetypes.icons-folder
+            use(xlink:href = "#icons-folder")
           | css
           ul
             li.folder
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-folder.svg"
-                type = "image/svg+xml"
-              )
+              svg.iconnables.filetypes.icons-folder
+                use(xlink:href = "#icons-folder")
               | modules
               ul
                 li
-                  object.iconnables.filetypes(
-                    data = "/build/images/icons/filetypes/icons-file.svg"
-                    type = "image/svg+xml"
-                  )
+                  svg.iconnables.filetypes.icons-file
+                    use(xlink:href = "#icons-file")
                   | components.scss
             li
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-file.svg"
-                type = "image/svg+xml"
-              )
+              svg.iconnables.filetypes.icons-file
+                use(xlink:href = "#icons-file")
               | styles.css
             li
-              object.iconnables.filetypes(
-                data = "/build/images/icons/filetypes/icons-file.svg"
-                type = "image/svg+xml"
-              )
+              svg.iconnables.filetypes.icons-file
+                use(xlink:href = "#icons-file")
               | tables.css
         li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.filetypes.icons-file
+            use(xlink:href = "#icons-file")
           | favicon.png
         li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.filetypes.icons-file
+            use(xlink:href = "#icons-file")
           | index.html
         li
-          object.iconnables.filetypes(
-            data = "/build/images/icons/filetypes/icons-file.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.filetypes.icons-file
+            use(xlink:href = "#icons-file")
           | htc.access
   #editor-toolbar
     ul#tabs-wrapper
@@ -136,22 +130,23 @@ section.sidebar
           ng-class = "{active: tab.active}"
           ng-click = "dataInstance.setActiveTab(tab)"
         ) {{tab.title}}
-        button.btn-icon
+        button.btn-icon(type = "button")
           svg.iconnables.icons-close
             use(
               xlink:href = "#icons-close"
               ng-click = "closeTab($index)"
             )
   button#add-tab.btn-icon(
-    ng-class = "{active: dataInstance.showAddTab}"
-    ng-click = "dataInstance.togglePopover('AddTab', $event);"
+    ng-class = "{active: dataInstance.data.showAddTab}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataInstance.data.showAddTab"
     type = "button"
   )
     svg.iconnables.icons-add
       use(xlink:href = "#icons-add")
-    .popover.menu.bottom.fade(
-      ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut': dataInstance.showNewShortcut}"
-      ng-include = "'viewInstancePopoverAddTab'"
+    pop-over(
+      data = "{show: dataInstance.data.showAddTab}"
+      template = "viewInstancePopoverAddTab"
     )
   #select-tabs.dropdown
     button.btn-icon(type = "button")
