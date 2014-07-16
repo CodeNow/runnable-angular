@@ -506,7 +506,7 @@
 
     &.col-popover-3 {
       border-bottom: 1px solid rgba(0,0,0,.1);
-      height: 81px;
+      height: 72px;
       overflow: hidden;
     }
 
@@ -516,11 +516,8 @@
     }
   }
 
-  .popover-footer {
-
-    button {
-      width: 100%;
-    }
+  .popover-footer button {
+    width: 100%;
   }
 
   // shortcuts

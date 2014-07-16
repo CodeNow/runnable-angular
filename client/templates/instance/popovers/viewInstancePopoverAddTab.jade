@@ -9,22 +9,16 @@
     #add-tab-options
       ol.popover-body.col-popover-3
         li
-          object.iconnables.lg(
-            data = "/build/images/icons/icons-web.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.lg.icons-web
+            use(xlink:href = "#icons-web")
           | Web View
         li
-          object.iconnables.lg(
-            data = "/build/images/icons/icons-terminal.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.lg.icons-terminal
+            use(xlink:href = "#icons-terminal")
           | Terminal
         li
-          object.iconnables.lg(
-            data = "/build/images/icons/icons-logs.svg"
-            type = "image/svg+xml"
-          )
+          svg.iconnables.lg.icons-logs
+            use(xlink:href = "#icons-logs")
           | Run Log
 
       ol#shortcuts.popover-body.popover-list
