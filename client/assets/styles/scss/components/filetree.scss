@@ -69,7 +69,8 @@
     line-height: 28px;
 
     &:active,
-    &.active {
+    &.active,
+    &.in {
       background: #fff;
 
       li {
