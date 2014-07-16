@@ -19,8 +19,8 @@ nav.sub-header
   section#main-controls(ng-class = "{'in': !dataBuild.data.isClean}")
     .clean(ng-class = "{in: dataBuild.data.showBuildOptionsClean}")
       button.orange(
-        type = "button"
         ng-click = "dataBuild.actions.runInstance()"
+        type = "button"
       ) Run Instance
       .btn-group
         button.silver(
@@ -51,9 +51,9 @@ nav.sub-header
           ng-click = "dataBuild.actions.build()"
         ) Build
         a.btn.green.btn-icon(
+          ng-class = "{active: dataBuild.data.showBuildOptionsDirty}"
           toggle-pop-over
           toggle-pop-over-model = "dataBuild.data.showBuildOptionsDirty"
-          ng-class = "{active: dataBuild.data.showBuildOptionsDirty}"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
