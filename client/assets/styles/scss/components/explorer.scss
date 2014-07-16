@@ -237,12 +237,6 @@
 
 #repo-list {
   border-top: 1px solid rgba(0,0,0,.1);
-
-  small {
-    position: absolute;
-      bottom: 0;
-      left: 20px;
-  }
 }
 
 // .sub-tree
@@ -408,22 +402,6 @@
       }
     }
   }
-
-  .btn-icon {
-    display: none;
-    float: left;
-    margin-left: 6px;
-    opacity: .5;
-
-    &:hover {
-      opacity: .75;
-    }
-
-    &:active,
-    &.active {
-      opacity: 1;
-    }
-  }
 }
 
 .add-repo-form {
@@ -522,7 +500,7 @@
 
     &.col-popover-3 {
       border-bottom: 1px solid rgba(0,0,0,.1);
-      height: 81px;
+      height: 72px;
       overflow: hidden;
     }
 
@@ -532,20 +510,13 @@
     }
   }
 
-  .popover-footer {
-
-    button {
-      width: 100%;
-    }
+  .popover-footer button {
+    width: 100%;
   }
 
   // shortcuts
   #new-shortcut {
     display: none;
-
-    input[type='radio'] {
-      margin-top: 6px;
-    }
   }
 
   &.show-new-shortcut {

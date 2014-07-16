@@ -51,6 +51,7 @@ section.sidebar
   button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.showExplorer = !dataInstance.showExplorer"
     ng-init = "dataInstance.showExplorer = true"
+    type = "button"
   )
     svg.iconnables.icons-folder-open
       use(xlink:href = "#icons-folder-open")
@@ -61,26 +62,28 @@ section.sidebar
         data-title = "Change Theme"
         ng-class = "{dark: !dataBuild.toggleTheme, light: dataBuild.toggleTheme}"
         ng-click = "dataBuild.toggleTheme = !dataBuild.toggleTheme"
+        type = "button"
       )
         .theme
     .explorer-header
       h6
         | INSTANCE FILES
         button.silver.btn-sm.file-explorer-menu.btn-icon(
+          ng-class = "{active: dataInstance.data.showFileMenu}"
           toggle-pop-over
           toggle-pop-over-model = "dataInstance.data.showFileMenu"
-          ng-class = "{active: dataInstance.data.showFileMenu}"
+          type = "button"
         )
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
           pop-over(
-            template = "viewInstancePopoverFileMenu"
             actions = "{\
               createFile: dataInstance.actions.createFile\
             }"
             data = "{\
               show: dataInstance.data.showFileMenu\
             }"
+            template = "viewInstancePopoverFileMenu"
           )
       ul.file-tree
         li.folder
@@ -132,19 +135,20 @@ section.sidebar
           data-title = "main.config"
           title = "~/full/path/main.config"
         ) main.config
-        button.btn-icon
+        button.btn-icon(type = "button")
           svg.iconnables.icons-close
             use(xlink:href = "#icons-close")
   button#add-tab.btn-icon(
-    ng-class = "{active: dataInstance.showAddTab}"
-    ng-click = "dataInstance.togglePopover('AddTab', $event);"
+    ng-class = "{active: dataInstance.data.showAddTab}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataInstance.data.showAddTab"
     type = "button"
   )
     svg.iconnables.icons-add
       use(xlink:href = "#icons-add")
-    .popover.menu.bottom.fade(
-      ng-class = "{in: dataInstance.showAddTab, 'show-new-shortcut': dataInstance.showNewShortcut}"
-      ng-include = "'viewInstancePopoverAddTab'"
+    pop-over(
+      data = "{show: dataInstance.data.showAddTab}"
+      template = "viewInstancePopoverAddTab"
     )
   #select-tabs.dropdown
     button.btn-icon(type = "button")

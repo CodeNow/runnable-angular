@@ -20,12 +20,11 @@ nav#build-stream-header.sub-header
     svg.iconnables.icons-arrow-down
       use(xlink:href = "#icons-arrow-down")
     pop-over(
-      template = "viewBuildListPopoverChangeRecipe"
-      actions = "{}"
       data = "{\
-        show: dataBuildList.data.showChangeRecipe,\
-        filter: dataBuildList.data.filter\
+        filter: dataBuildList.data.filter,\
+        show: dataBuildList.data.showChangeRecipe\
       }"
+      template = "viewBuildListPopoverChangeRecipe"
     )
   form.search
     input.form-control(

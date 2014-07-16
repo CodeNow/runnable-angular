@@ -61,7 +61,6 @@ function ControllerBuildList(
    * ===========================*/
   function fetchProject(thisUser, cb) {
 
-    debugger;
 
     function updateDom() {
       if(projects.models.length){

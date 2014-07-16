@@ -4,7 +4,7 @@ li.folder(
 )
   svg.iconnables.filetypes.icons-folder
     use(xlink:href = "#icons-folder")
-  input(
+  input.tree-input(
     readonly
     value = "{{ dir.filepath() }}"
   )
@@ -27,7 +27,7 @@ li.folder(
     )
       svg.iconnables.filetypes.icons-file
         use(xlink:href = "#icons-file")
-      input(
+      input.tree-input(
         readonly
         value = "{{ file.filename() }}"
       )
