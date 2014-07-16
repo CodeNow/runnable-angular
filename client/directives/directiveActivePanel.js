@@ -13,6 +13,11 @@ function activePanel() {
       openFiles: '='
     },
     link: function ($scope, element, attrs) {
+      window.ss = $scope;
+      $scope.$watch('openFiles.activeFile.attrs.body', function (newval, oldval) {
+        if (typeof newval === 'string'){
+        }
+      });
     }
   };
 }

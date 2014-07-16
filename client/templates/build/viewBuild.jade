@@ -269,11 +269,3 @@ section.sidebar
   active-panel(
     open-files = "dataBuild.data.openFiles"
   )
-//
-  #editor-container
-    //- code
-    pre(
-      ng-model = "dataBuild.data.openFiles.activeFile.attrs.body"
-      ng-keyup = "dataBuild.data.isClean = false"
-      ui-ace
-    )
