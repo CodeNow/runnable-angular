@@ -31,10 +31,12 @@
     "moment": "~2.7.0",
     "primus": "^2.3.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.11.12",
-    "term.js": "0.0.4",
+    "term.js": "CodeNow/term.js",
     "underscore": "~1.6.0"
   },
   "devDependencies": {
+    "JSONStream": "^0.8.4",
+    "away": "^1.0.0",
     "body-parser": "^1.4.3",
     "browserify": "~4.1.6",
     "browserify-angular-mocks": "0.0.0",
@@ -44,6 +46,7 @@
     "colors": "~0.6.2",
     "cors": "^2.4.1",
     "coverify": "~1.0.7",
+    "emit-stream": "^0.1.2",
     "exec": "~0.1.1",
     "express": "https://registry.npmjs.org/express/-/express-4.3.2.tgz",
     "find": "~0.1.5",
@@ -87,7 +90,8 @@
     "protractor": "~1.0.0-rc1",
     "request": "^2.37.0",
     "sinon": "~1.10.3",
-    "stringify": "~2.1.0"
+    "stringify": "~2.1.0",
+    "which": "^1.0.5"
   },
   "browser": {
     "app": "./client/lib/app.js",
