@@ -252,6 +252,23 @@
       "from": "browserify@>=3.30.5",
       "resolved": "https://registry.npmjs.org/browserify/-/browserify-4.2.1.tgz",
       "dependencies": {
+        "JSONStream": {
+          "version": "0.8.4",
+          "from": "JSONStream@~0.8.3",
+          "resolved": "https://registry.npmjs.org/JSONStream/-/JSONStream-0.8.4.tgz",
+          "dependencies": {
+            "jsonparse": {
+              "version": "0.0.5",
+              "from": "jsonparse@0.0.5",
+              "resolved": "https://registry.npmjs.org/jsonparse/-/jsonparse-0.0.5.tgz"
+            },
+            "through": {
+              "version": "2.3.4",
+              "from": "through@>=2.2.7 <3",
+              "resolved": "https://registry.npmjs.org/through/-/through-2.3.4.tgz"
+            }
+          }
+        },
         "assert": {
           "version": "1.1.1",
           "from": "assert@~1.1.0",
@@ -378,7 +395,7 @@
             },
             "readable-stream": {
               "version": "1.1.13-1",
-              "from": "readable-stream@~1.1.10",
+              "from": "readable-stream@~1.1.9",
               "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.13-1.tgz",
               "dependencies": {
                 "core-util-is": {
@@ -402,7 +419,7 @@
         },
         "console-browserify": {
           "version": "1.1.0",
-          "from": "console-browserify@1.1.x",
+          "from": "console-browserify@^1.1.0",
           "resolved": "https://registry.npmjs.org/console-browserify/-/console-browserify-1.1.0.tgz",
           "dependencies": {
             "date-now": {
@@ -898,7 +915,7 @@
           "dependencies": {
             "readable-stream": {
               "version": "1.1.13-1",
-              "from": "readable-stream@~1.1.10",
+              "from": "readable-stream@~1.1.9",
               "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.13-1.tgz",
               "dependencies": {
                 "core-util-is": {
@@ -1108,7 +1125,7 @@
           "dependencies": {
             "mime-types": {
               "version": "1.0.1",
-              "from": "mime-types@~1.0.1",
+              "from": "mime-types@~1.0.0",
               "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-1.0.1.tgz"
             },
             "negotiator": {
@@ -1460,7 +1477,7 @@
           "dependencies": {
             "uglify-js": {
               "version": "2.4.15",
-              "from": "uglify-js@~2.4.12",
+              "from": "uglify-js@~2.4.0",
               "resolved": "https://registry.npmjs.org/uglify-js/-/uglify-js-2.4.15.tgz",
               "dependencies": {
                 "async": {

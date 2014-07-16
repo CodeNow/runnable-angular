@@ -30,7 +30,6 @@
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.11.14"
   },
   "devDependencies": {
-    "JSONStream": "^0.8.4",
     "body-parser": "^1.4.3",
     "browserify-angular-mocks": "0.0.0",
     "browserify-shim": "~3.5.0",
@@ -38,7 +37,6 @@
     "cli-table": "~0.3.0",
     "colors": "~0.6.2",
     "coverify": "~1.0.7",
-    "emit-stream": "^0.1.2",
     "exec": "~0.1.1",
     "express": "https://registry.npmjs.org/express/-/express-4.3.2.tgz",
     "find": "~0.1.5",

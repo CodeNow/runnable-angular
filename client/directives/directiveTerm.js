@@ -6,9 +6,7 @@ require('app')
  * @ngInject
  */
 function term(
-  Primus,
-  apiConfig,
-  streams
+  primus
 ) {
   return {
     restrict: 'E',
@@ -16,8 +14,7 @@ function term(
     link: function ($scope, elem, attrs) {
       var CHAR_WIDTH = 8.5;
       var CHAR_HEIGHT = 15;
-      var args = JSON.stringify(apiConfig);
-      var primus, termStream, clientEvents;
+      var termStream, clientEvents;
       
       $scope.loading = true;
       
@@ -32,10 +29,7 @@ function term(
         }
       }
 
-      // FIXME this should all come from apiConfig
-      var url = 'http://api.runnable3.net:3030?type=filibuster&args=' + args;
-      
-      // Initalize Termal
+      // Initalize Terminal
       terminal = new Terminal({
         cols: 80,
         rows: 24,
@@ -43,11 +37,12 @@ function term(
         screenKeys: true
       });
       
+      terminal.open(elem[0]);
+      terminal.write(primus.getCache());
+      
       function initalize() {
         // Initalize link to server
-        console.log('Attempting to connect to ' + url + ' via Primus');
-        primus = new Primus(url);
-        termStream = primus.substream('terminal');
+        termStream = primus.connection.substream('terminal');
         
         termStream.on('reconnect', function() {
           terminal.writeln('');
@@ -61,31 +56,27 @@ function term(
         });
         
         // Used for things like window resizing
-        clientEvents = primus.substream('clientEvents');
+        clientEvents = primus.connection.substream('clientEvents');
         
+        // Client enters data into the system, which registers as data event on terminal
+        // terminal then writes that to termStream, sending the data to the server
+        // The server then responds (tab-complete, command output, etc)
+        // The *response data* is what's eventually written to terminal.
         terminal.on('data', termStream.write.bind(termStream));
-        terminal.once('data', function(data) {
-          clientEvents.emit('enableLog');
-        });
-        
-        terminal.open(elem[0]);
         termStream.on('data', terminal.write.bind(terminal));
-        terminal.end = terminal.destroy;
         
         resizeTerm();
         elem[0].onresize = resizeTerm;
 
-        // Initalize client events
-        var clientQuery = require('querystring').parse(window.location.search.slice(1));
-        var clientOptions = clientQuery.options ? JSON.parse(clientQuery.options) : null;
-        var clientArgs = clientOptions && clientOptions.args ? clientOptions.args : [];
-        var clientEnv = clientOptions && clientOptions.env ? clientOptions.env : {};
-        streams.emit.toStream(clientEvents).pipe(streams.json.stringify()).pipe(clientEvents);
-      
         remoteResize = function (x, y) {
-          clientEvents.emit('resize', x, y);
+          clientEvents.emit({
+            event: 'resize',
+            data: {
+              x: x,
+              y: y
+            }
+          });
         };
-        clientEvents.emit('startTerminal', clientArgs, clientEnv);
       }
       
       initalize();

@@ -3,7 +3,6 @@ var chai    = require('chai');
 var sinon   = require('sinon');
 var colors  = require('colors');
 var angular = require('angular');
-var _       = require('underscore');
 require('browserify-angular-mocks');
 
 var expect = chai.expect;
