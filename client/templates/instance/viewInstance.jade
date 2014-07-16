@@ -68,7 +68,7 @@ section.sidebar
     .explorer-header
       h6
         | INSTANCE FILES
-        button.silver.btn-sm.file-explorer-menu.btn-icon(
+        a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
           ng-class = "{active: dataInstance.data.showFileMenu}"
           toggle-pop-over
           toggle-pop-over-model = "dataInstance.data.showFileMenu"
@@ -138,11 +138,10 @@ section.sidebar
         button.btn-icon(type = "button")
           svg.iconnables.icons-close
             use(xlink:href = "#icons-close")
-  button#add-tab.btn-icon(
+  a#add-tab.btn.btn-icon(
     ng-class = "{active: dataInstance.data.showAddTab}"
     toggle-pop-over
     toggle-pop-over-model = "dataInstance.data.showAddTab"
-    type = "button"
   )
     svg.iconnables.icons-add
       use(xlink:href = "#icons-add")
