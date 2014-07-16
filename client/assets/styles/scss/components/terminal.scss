@@ -1,79 +1,9 @@
-// terminal-view (wrapper)
-.terminal-view {
-  position: relative;
-
-  @include media(xxs) {
-    margin: 0 -15px;
-  }
+.terminal,
+.term-container {
+  height: 100%;
+  width: 100%;
 }
 
-// terminal
-.terminal-title {
-  color: $gray-dark;
-  font-size: 14px;
-  margin-top: 25px;
-
-  @include media(xxs) {
-    margin-top: 10px;
-    padding: 0 15px;
-  }
-
-  a:hover {
-    color: $gray-darker;
-    text-decoration: none;
-  }
-}
-
-// terminal-help
-#terminal-help {
-  border: 1px solid rgba(0, 0, 0, .1);
-  color: $gray-dark;
-  font-size: 12px;
-  height: 36px;
-  line-height: 36px;
-  position: absolute;
-    top: 28px;
-    right: 0;
-    z-index: 0;
-  transition: transform .1s;
-
-  &.in {
-    transform: translate3d(0,-36px,0);
-  }
-
-  a {
-    background: $gray-light;
-    color: $gray-dark;
-    cursor: pointer;
-    display: block;
-    float: left;
-    padding: 0 8px;
-
-    &:hover {
-      background: $gray-lighter;
-    }
-  }
-
-  a + a {
-    border-left: 1px solid rgba(0,0,0,.1);
-  }
-
-  span {
-    display: none;
-
-    @include media (lg) {
-      display: inline;
-    }
-  }
-}
-
-// ifram
-.terminal-view,
-#output-terminal-container {
-
-  iframe {
-    background: $gray-darkest;
-    min-height: 250px;
-    position: relative;
-  }
+.term-container {
+  cursor: text;
 }
