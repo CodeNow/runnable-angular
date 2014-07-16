@@ -19,9 +19,46 @@
   }
 }
 
+.tree-input,
+.tree-input:focus {
+  background: none !important;
+  border-color: rgba(0,0,0,.1);
+  box-shadow: none;
+  cursor: text;
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  padding: 0 3px;
+  width: auto;
+
+  &[readonly] {
+    border: 1px solid transparent;
+    pointer-events: none;
+  }
+}
+
 .repo-tree li {
-  height: 45px; // default height
-  line-height: 28px;
+  cursor: pointer;
+  height: 54px;
+
+  &.active {
+    background: #fff;
+  }
+
+  span {
+    display: inline-block;
+    height: 27px;
+    text-indent: 0;
+  }
+
+  input {
+    bottom: 0;
+    color: $gray-dark;
+    left: 32px;
+    margin-bottom: 5px;
+    position: absolute;
+    width: 197px !important;
+  }
 }
 
 .file-tree {
@@ -43,24 +80,6 @@
     &.active {
       font-weight: 500;
     }
-  }
-
-  input,
-  input:focus {
-    background: none !important;
-    border-color: rgba(0,0,0,.1);
-    box-shadow: none;
-    cursor: text;
-    display: inline-block;
-    height: 22px;
-    line-height: 22px;
-    padding: 0 3px;
-    width: auto;
-  }
-
-  input[readonly] {
-    border: 1px solid transparent;
-    pointer-events: none;
   }
 
   // folders

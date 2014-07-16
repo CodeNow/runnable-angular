@@ -61,7 +61,6 @@ nav.sub-header
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
           pop-over(
-            template = "viewBuildPopoverBuildOptions"
             actions = "{\
               getPopoverButtonText: dataBuild.actions.getPopoverButtonText,\
               resetInputModelValue: dataBuild.actions.resetInputModelValue\
@@ -70,16 +69,15 @@ nav.sub-header
               buildName: dataBuild.data.buildName,\
               show: dataBuild.data.showBuildOptionsDirty\
             }"
+            template = "viewBuildPopoverBuildOptions"
           )
       button.silver(
-        type = "button"
         ng-click = "dataBuild.actions.discardChanges()"
+        type = "button"
       ) Discard Changes
 
 section.sidebar
-  ul(
-    ng-show = "dataBuild.data.build.attrs.created"
-  )
+  ul(ng-show = "dataBuild.data.build.attrs.created")
     li
       svg.iconnables.icons-recipe
         use(xlink:href = "#icons-recipe")
@@ -198,42 +196,62 @@ section.sidebar
       )
         .theme
     file-tree(
-      version = "dataBuild.data.version"
       open-files = "dataBuild.data.openFiles"
+      version = "dataBuild.data.version"
     )
     #repo-list.explorer-header
       h6
         | REPOSITORIES
         button.silver.btn-sm.file-explorer-menu.btn-icon(
+          ng-class = "{active: dataBuild.data.showRepoMenu}"
           toggle-pop-over
           toggle-pop-over-model = "dataBuild.data.showRepoMenu"
-          ng-class = "{active: dataBuild.data.showRepoMenu}"
         )
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
           pop-over(
-            template = "viewBuildPopoverRepoMenu"
             actions = "{}"
             data = "{\
               show: dataBuild.data.showRepoMenu\
             }"
+            template = "viewBuildPopoverRepoMenu"
           )
       ul.repo-tree
+        //- for "edit mode":
+        //- * add class .active to <li>
+        //- * remove readonly property from input
+        //- * save on blur or enter key
+        //- * delete/editmode entered via context menu
         li
-          svg.iconnables.icons-git.filetypes
-            use(xlink:href = "#icons-git")
-          | org/reponame
-          small 02cfe5664f
+          span
+            svg.iconnables.icons-git.filetypes
+              use(xlink:href = "#icons-git")
+            | org/reponame
+          input.tree-input(
+            placeholder = "Specify Branch or SHA"
+            readonly
+            value = "@master"
+          )
         li
-          svg.iconnables.icons-git.filetypes
-            use(xlink:href = "#icons-git")
-          | org/reponame
-          small 02cfe5664f
+          span
+            svg.iconnables.icons-git.filetypes
+              use(xlink:href = "#icons-git")
+            | org/reponame
+          input.tree-input(
+            placeholder = "Specify Branch or SHA"
+            readonly
+            value = "#02cfe5664f"
+          )
         li
-          svg.iconnables.icons-git.filetypes
-            use(xlink:href = "#icons-git")
-          | org/reponame
-          small 02cfe5664f
+          span
+            svg.iconnables.icons-git.filetypes
+              use(xlink:href = "#icons-git")
+            | org/reponame
+          input.tree-input(
+            placeholder = "Specify Branch or SHA"
+            readonly
+            value = "#02cfe5664f"
+          )
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.actions.toggleExplorer()"
