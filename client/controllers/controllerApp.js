@@ -18,6 +18,7 @@ function ControllerApp(
 ) {
 
   var self = ControllerApp;
+  var UTIL = $rootScope.UTIL = {};
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
     apiHost);
@@ -39,7 +40,7 @@ function ControllerApp(
     });
   };
 
-  $scope.safeApply = function (cb) {
+  $rootScope.safeApply = function (cb) {
     $timeout(function () {
       if (typeof cb === 'function') {
         $scope.$apply(cb);
@@ -48,6 +49,11 @@ function ControllerApp(
       }
     });
   };
+
+  UTIL.QueryAssist = function () {
+    return new require('query-assist')();
+  };
+
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {
@@ -59,3 +65,4 @@ ControllerApp.initState = function ($state, $stateParams, apiHost) {
     logoutURL: apiHost + '/auth/logout?redirect=' + encodeURI('http://localhost:3001')
   };
 };
+

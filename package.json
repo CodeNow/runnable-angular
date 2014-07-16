@@ -86,7 +86,8 @@
     "main": "./client/main.js",
     "primus-client": "./client/assets/js/primus-client.js",
     "config/routes": "./client/config/routes.js",
-    "config/api": "./client/config/api.js"
+    "config/api": "./client/config/api.js",
+    "query-assist": "./client/lib/queryAssist.js"
   },
   "browserify": {
     "debug": true
