@@ -64,4 +64,3 @@ ControllerApp.initState = function ($state, $stateParams, apiHost) {
     logoutURL: apiHost + '/auth/logout?redirect=' + encodeURI('http://localhost:3001')
   };
 };
-
