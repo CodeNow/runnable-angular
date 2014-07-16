@@ -8,11 +8,10 @@ nav#build-stream-header.sub-header
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
-  button.btn.silver.config(
+  a.btn.silver.config(
     ng-class = "{active: dataBuildList.data.showChangeRecipe}"
     toggle-pop-over
     toggle-pop-over-model = "dataBuildList.data.showChangeRecipe"
-    type = "button"
   )
     svg.iconnables.icons-recipe
       use(xlink:href = "#icons-recipe")
@@ -65,7 +64,7 @@ nav#build-stream-header.sub-header
         th Actions
     tbody
       tr(
-        ng-repeat = "build in dataBuildList.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
+        ng-repeat = "build in dataBuildList.data.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
         ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
         td
@@ -74,7 +73,7 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.id }}
         td {{ dataBuildList.data.buildOwners.getById(build.attrs.owner).attrs.username }}
         td {{ build.attrs.message }}
-        td {{ dataBuildList.project.attrs.name }}
+        td {{ dataBuildList.data.project.attrs.name }}
         td {{ build.attrs.duration }}
         td {{ build.attrs.created | timeAgo }}
         td

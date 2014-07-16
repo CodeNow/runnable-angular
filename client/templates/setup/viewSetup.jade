@@ -28,7 +28,7 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
       )
       .input-container
         input.form-control(
-          ng-click = "dataSetup.repoMode = true"
+          ng-focus = "dataSetup.repoMode = true"
           placeholder = "Add Repository"
         )
         button.btn-icon.inactive(
@@ -72,8 +72,9 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
       h3 Choose a Docker Template
       .form-group.toggle-group
         //- the required attribute is needed on only one input
-        label Node.js + MongoDB
+        label.active Node.js + MongoDB
           input(
+            checked
             name = "docker-template"
             required
             type = "radio"
@@ -81,7 +82,6 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
         label Template 2
           input(
             name = "docker-template"
-            required
             type = "radio"
           )
         label Template 3
@@ -99,9 +99,8 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
             name = "docker-template"
             type = "radio"
           )
-        label.active Template 6
+        label Template 6
           input(
-            checked
             name = "docker-template"
             type = "radio"
           )
@@ -129,7 +128,10 @@ section.sidebar(ng-class = "{out: dataSetup.actions.isAdvanced}")
           data-title = "main.config"
           title = "~/full/path/main.config"
         ) main.config
-  pre(ui-ace readonly="true").
+  pre(
+    readonly = "true"
+    ui-ace
+  )
     ## Start from base Ubuntu 14.04
     FROM ubuntu:14.04
 

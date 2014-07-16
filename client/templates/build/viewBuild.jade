@@ -19,24 +19,21 @@ nav.sub-header
   section#main-controls(ng-class = "{'in': !dataBuild.data.isClean}")
     .clean(ng-class = "{in: dataBuild.data.showBuildOptionsClean}")
       button.orange(
-        type = "button"
         ng-click = "dataBuild.actions.runInstance()"
+        type = "button"
       ) Run Instance
       .btn-group
         button.silver(
-          type = "button"
           ng-click = "dataBuild.actions.rebuild()"
         ) Rebuild
-        button.silver.btn-icon(
+        a.btn.silver.btn-icon(
+          ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
           toggle-pop-over
           toggle-pop-over-model = "dataBuild.data.showBuildOptionsClean"
-          ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
-          type = "button"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
           pop-over(
-            template = "viewBuildPopoverBuildOptions"
             actions = "{\
               getPopoverButtonText: dataBuild.actions.getPopoverButtonText,\
               resetInputModelValue: dataBuild.actions.resetInputModelValue\
@@ -45,6 +42,7 @@ nav.sub-header
               buildName: dataBuild.data.buildName,\
               show: dataBuild.data.showBuildOptionsClean\
             }"
+            template = "viewBuildPopoverBuildOptions"
           )
     .dirty(ng-class = "{in: dataBuild.data.showBuildOptionsDirty}")
       .btn-group
@@ -52,11 +50,10 @@ nav.sub-header
           type = "button"
           ng-click = "dataBuild.actions.build()"
         ) Build
-        button.green.btn-icon(
+        a.btn.green.btn-icon(
+          ng-class = "{active: dataBuild.data.showBuildOptionsDirty}"
           toggle-pop-over
           toggle-pop-over-model = "dataBuild.data.showBuildOptionsDirty"
-          ng-class = "{active: dataBuild.data.showBuildOptionsDirty}"
-          type = "button"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
@@ -202,7 +199,7 @@ section.sidebar
     #repo-list.explorer-header
       h6
         | REPOSITORIES
-        button.silver.btn-sm.file-explorer-menu.btn-icon(
+        a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
           ng-class = "{active: dataBuild.data.showRepoMenu}"
           toggle-pop-over
           toggle-pop-over-model = "dataBuild.data.showRepoMenu"
@@ -218,10 +215,10 @@ section.sidebar
           )
       ul.repo-tree
         //- for "edit mode":
-        //- * add class .active to <li>
-        //- * remove readonly property from input
-        //- * save on blur or enter key
         //- * delete/editmode entered via context menu
+        //- * add class .active to <li> (class should be applied while context menu is open)
+        //- * remove readonly property from input and select all text
+        //- * save on blur or enter key
         li
           span
             svg.iconnables.icons-git.filetypes
@@ -266,6 +263,10 @@ section.sidebar
   tabs-dropdown(
     open-files = "dataBuild.data.openFiles"
   )
+  active-panel(
+    open-files = "dataBuild.data.openFiles"
+  )
+//
   #editor-container
     //- code
     pre(
