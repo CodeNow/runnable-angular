@@ -27,7 +27,6 @@
     "moment": "~2.7.0",
     "primus": "^2.3.0",
     "term.js": "CodeNow/term.js",
-    "underscore": "~1.6.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.11.14"
   },
   "devDependencies": {

@@ -13,9 +13,6 @@ function term(
   return {
     restrict: 'E',
     scope: {},
-    template: '<div class="term-container">' +
-                '' +/* loader here */
-              '</div>',
     link: function ($scope, elem, attrs) {
       var CHAR_WIDTH = 8.5;
       var CHAR_HEIGHT = 15;
@@ -71,7 +68,7 @@ function term(
           clientEvents.emit('enableLog');
         });
         
-        terminal.open(elem[0].firstChild);
+        terminal.open(elem[0]);
         termStream.on('data', terminal.write.bind(terminal));
         terminal.end = terminal.destroy;
         
