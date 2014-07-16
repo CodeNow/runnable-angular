@@ -16,6 +16,7 @@ function ControllerBuild(
   SharedFilesCollection
 ) {
 
+  var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerBuild;
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
   // one-time initialization
@@ -79,91 +80,91 @@ function ControllerBuild(
    * ===========================*/
   function fetchProject(thisUser, cb) {
     data.thisUser = thisUser;
-
-    function updateDom() {
-      if (projects.models.length) {
-        data.project = projects.models[0];
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchProjects')
+      .query({
+        ownerUsername: $stateParams.userName,
+        name: $stateParams.projectName
+      })
+      .cacheFetch(function updateDom(projects, cached, cb){
+        dataBuild.data.project = projects.models[0];
         $scope.safeApply();
-      }
-    }
-    var projects = thisUser.fetchProjects({
-      ownerUsername: $stateParams.userName,
-      name: $stateParams.projectName
-    }, function (err, body) {
-      if (err) {
-        return cb(err); // error handling
-      }
-      updateDom();
-      cb();
-    });
-    updateDom();
+        cb();
+      })
+      .resolve(function(err, projects, cb){
+        if (err) {
+          // TODO
+          // 404
+        }
+        $scope.safeApply();
+        cb();
+      })
+      .go();
   }
-
   function fetchEnvironment(cb) {
-    var project = data.project;
-
-    function updateDom() {
-      if (environments.models.length) {
-        data.environment = environments.models[0];
+    new QueryAssist(dataBuild.data.project, cb)
+      .wrapFunc('fetchEnvironments')
+      .query({
+        ownerUsername: $stateParams.userName,
+        name: $stateParams.branchName
+      })
+      .cacheFetch(function updateDom(environments, cached, cb){
+        dataBuild.data.environment = environments.models[0];
         $scope.safeApply();
-      }
-    }
-    var environments = project.fetchEnvironments({
-      ownerUsername: $stateParams.userName,
-      name: $stateParams.branchName
-    }, function (err, results) {
-      if (err) {
-        return cb(err);
-      }
-      updateDom();
-      cb();
-    });
-    updateDom();
+        cb();
+      })
+      .resolve(function(err, environments, cb){
+        $scope.safeApply();
+        cb();
+      })
+      .go();
   }
-
   function fetchBuild(cb) {
-    var environment = data.environment;
-
-    function updateDom() {
-      if (build) {
-        data.build = build;
+    new QueryAssist(dataBuild.data.environment, cb)
+      .wrapFunc('fetchBuild')
+      .query($stateParams.buildName)
+      .cacheFetch(function updateDom(build, cached, cb){
+        dataBuild.data.build = build;
         $scope.safeApply();
-      }
-    }
-    var build = environment.fetchBuild($stateParams.buildName, function (err, body) {
-      if (err) {
-        return cb(err);
-      }
-      updateDom();
-      cb();
-    });
-    updateDom();
+        cb();
+      })
+      .resolve(function(err, build, cb){
+        $scope.safeApply();
+        cb();
+      })
+      .go();
   }
-
   function fetchBuildOwners(cb) {
     //TODO FIX fetchUser
+    /*
     var build = data.build;
-
     function updateDom() {
       data.buildOwner = buildOwner;
       $scope.safeApply();
     }
+    */
     cb();
   }
-
   function fetchVersion(cb) {
     var build = data.build;
     var contextId = build.toJSON().contexts[0];
     var versionId = build.toJSON().contextVersions[0];
-    var version = user.newContext(contextId).fetchVersion(versionId, function (err) {
-      if (err) {
-        return cb(err);
-      }
-      data.version = version;
-      cb();
-    });
-  }
+    var context = user.newContext(contextId);
 
+    new QueryAssist(context, cb)
+      .wrapFunc('fetchVersion')
+      .query(versionId)
+      .cacheFetch(function updateDom(version, cached, cb){
+        dataBuild.data.version = version;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, build, cb){
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
   function newFilesCollOpenFiles(cb) {
     var version = data.version;
     data.openFiles = new SharedFilesCollection(

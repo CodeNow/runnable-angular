@@ -82,7 +82,7 @@ function ControllerBuildList(
       })
       .go();
   }
-  function fetchEnvironments(cb) {
+  function fetchEnvironment(cb) {
     new QueryAssist(dataBuildList.data.project, cb)
       .wrapFunc('fetchEnvironments')
       .query({
@@ -144,7 +144,7 @@ function ControllerBuildList(
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
       fetchProject,
-      fetchEnvironments,
+      fetchEnvironment,
       fetchBuilds,
       fetchBuildsOwners
     ], function (err, project, environments, environment, builds, buildOwners) {
