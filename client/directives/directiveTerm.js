@@ -58,9 +58,9 @@ function term(
         });
         termStream.on('offline', function() {
           terminal.writeln('');
-          terminal.writeln('****************************');
-          terminal.writeln('* LOST CONNECTION - retrying');
-          terminal.writeln('****************************');
+          terminal.writeln('******************************');
+          terminal.writeln('* LOST CONNECTION - retrying *');
+          terminal.writeln('******************************');
         });
         
         // Used for things like window resizing
