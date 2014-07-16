@@ -8,11 +8,10 @@ nav#build-stream-header.sub-header
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
-  button.btn.silver.config(
+  a.btn.silver.config(
     ng-class = "{active: dataBuildList.data.showChangeRecipe}"
     toggle-pop-over
     toggle-pop-over-model = "dataBuildList.data.showChangeRecipe"
-    type = "button"
   )
     svg.iconnables.icons-recipe
       use(xlink:href = "#icons-recipe")
