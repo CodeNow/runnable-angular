@@ -1,2 +1,2 @@
 require('app')
-  .service('Primus', [require('primus-client')]);
+  .service('Primus', function() { return require('primus-client'); });
