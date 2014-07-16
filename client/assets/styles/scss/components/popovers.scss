@@ -336,8 +336,8 @@
     cursor: pointer;
     display: block;
     font-weight: 400;
-    height: 50px;
-    line-height: 50px;
+    height: 45px;
+    line-height: 45px;
     margin: 0;
     overflow: hidden;
     padding: 0 10px;
@@ -349,38 +349,6 @@
       border-top: 1px solid rgba(0,0,0,.1);
     }
 
-    &:first-child  {
-      border-radius: 3px 3px 0 0;
-
-      .sprite-icons-output {
-        background-position: -61px -1px;
-
-        &::after {
-          height: 12px;
-        }
-      }
-    }
-
-    &:nth-child(2) {
-      .sprite-icons-output {
-        background-position: 0px -1px;
-      }
-    }
-
-    &:nth-child(3) {
-      .sprite-icons-output {
-        background-position: -31px -1px;
-
-        &::after {
-          height: 22px;
-        }
-      }
-    }
-
-    &:last-child {
-      border-radius: 0 0 3px 3px;
-    }
-
     &:hover {
       background: $gray-lighter;
     }
@@ -388,13 +356,35 @@
     &.active {
       font-weight: 500;
 
-      .sprite-icons-output::after {
-        animation: blinker 1s infinite;
+      &:last-child::after {
+        animation: blinker 2s infinite;
+      }
+    }
+
+    .iconnables {
+      float: left;
+      margin: 7px 9px 0 0;
+      position: relative;
+    }
+
+    &:last-child {
+
+      &::after {
+        background: $gray-dark;
+        content: '';
+        display: block;
+        height: 2px;
+        left: 22px;
+        opacity: 0;
+        position: absolute;
+        top: 26px;
+        width: 6px;
       }
     }
   }
 
   input[type="radio"] {
+    height: 100%;
     position: absolute;
       top: 0;
       right: 9px;
@@ -403,30 +393,6 @@
 
     &:focus {
       outline: none;
-    }
-  }
-
-  .sprite-icons-output {
-    background: url(/build/images/sprite-icons-output.svg) no-repeat;
-    background-size: 90px 30px;
-    border: 1px solid;
-    border-radius: 3px;
-    border-color: rgba(0,0,0,.15) rgba(0,0,0,.15) rgba(0,0,0,.2);
-    float: left;
-    height: 30px;
-    margin: 10px 10px 0 0;
-    overflow: hidden;
-    position: relative;
-    width: 30px;
-
-    &::after {
-      background: #383734;
-      content: '';
-      display: block;
-      opacity: 0;
-      position: absolute;
-        bottom: 0;
-      width: 100%;
     }
   }
 }

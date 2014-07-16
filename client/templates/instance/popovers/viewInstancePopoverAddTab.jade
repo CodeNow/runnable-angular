@@ -55,7 +55,8 @@
       )
       .form-group.toggle-group
         label.active
-          .sprite-icons-output
+          svg.iconnables.lg.icons-web
+            use(xlink:href = "#icons-web")
           | Web View
           input(
             type = "radio"
@@ -63,7 +64,8 @@
             checked
           )
         label
-          .sprite-icons-output
+          svg.iconnables.lg.icons-terminal
+            use(xlink:href = "#icons-terminal")
           | Terminal View
           input(
             type = "radio"
