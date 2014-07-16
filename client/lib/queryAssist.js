@@ -1,8 +1,8 @@
 function QueryAssist(modelOrColl, asyncCB){
-  this.modelOrColl = modelOrColl;
-  this.asyncCB = asyncCB;
 
   var asyncCalled = false;
+
+  this.modelOrColl = modelOrColl;
   this.asyncCB = function () {
     if (asyncCalled) {
       return;
@@ -10,7 +10,6 @@ function QueryAssist(modelOrColl, asyncCB){
     asyncCalled = true;
     asyncCB();
   };
-
   return this;
 }
 QueryAssist.prototype.wrapFunc = function (wrapFunc) {
