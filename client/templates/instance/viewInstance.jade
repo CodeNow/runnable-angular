@@ -121,19 +121,20 @@ section.sidebar
           | htc.access
   #editor-toolbar
     ul#tabs-wrapper
-      li(
-        ng-repeat = "tab in dataInstance.tabs"
-      )
+      li
+        a.active(
+          data-title = "dockerfile"
+          title = "~/full/path/dockerfile"
+        ) dockerfile
+        button.btn-icon
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
+      li
         a(
-          title = "{{tab.path}}"
-          ng-attr-data-title = "{{tab.title}}"
-          ng-class = "{active: tab.active}"
-          ng-click = "dataInstance.setActiveTab(tab)"
-        ) {{tab.title}}
-        button.btn-icon(
-          type = "button"
-          ng-click = "dataInstance.closeTab($index)"
-        )
+          data-title = "main.config"
+          title = "~/full/path/main.config"
+        ) main.config
+        button.btn-icon(type = "button")
           svg.iconnables.icons-close
             use(xlink:href = "#icons-close")
   a#add-tab.btn.btn-icon(
@@ -154,18 +155,10 @@ section.sidebar
     select
       option(selected) Tab 1
       option Tab 2
-  #editor-container(ng-switch = "dataInstance.activePanel")
-    
+  #editor-container
     //- code
     //- note: server log and terminal tab should open by default
-    pre(
-      ui-ace
-      ng-switch-when = "file"
-    ) Test
-    
-    term.term-container(
-      ng-switch-when = "terminal"
-    )
+    pre(ui-ace) Test
 
 //- error-log
 //- note: this should appear when an error happens on the server
