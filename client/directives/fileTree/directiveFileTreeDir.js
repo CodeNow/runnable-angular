@@ -23,7 +23,7 @@ function fileTreeDir(
       var data = $scope.data = {};
       data.open = $scope.open;
 
-      function fetchDirFiles () {
+      function fetchDirFiles() {
         data.dirFiles = $scope.version.fetchFiles({
           path: $scope.dir.filepath()
         }, function () {
@@ -34,11 +34,11 @@ function fileTreeDir(
       }
       // make sure version exists and open === true before fetching
       $scope.$watch('version', function (newval, oldval) {
-        if(!newval || !data.open) return;
+        if (!newval || !data.open) return;
         fetchDirFiles();
       });
       $scope.$watch('data.open', function (newval, oldval) {
-        if(!newval || !$scope.version) return;
+        if (!newval || !$scope.version) return;
         fetchDirFiles();
       });
 
@@ -48,7 +48,9 @@ function fileTreeDir(
       $compile($template)($scope);
 
       element.replaceWith($template);
-      //element.append($template);
+      element.on('$destroy', function () {
+        // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS
+      });
 
     }
   };

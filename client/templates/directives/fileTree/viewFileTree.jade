@@ -4,13 +4,21 @@
     | CONFIG FILES
     button.silver.btn-sm.file-explorer-menu.btn-icon(
       ng-class = "{active: data.showFileMenu}"
-      ng-click = "actions.togglePopover('FileMenu', $event)"
+      toggle-pop-over
+      toggle-pop-over-model = "data.showFileMenu"
     )
       svg.iconnables.icons-gear
         use(xlink:href = "#icons-gear")
-      .popover.file-menu.bottom.fade(
-        ng-class = "{in: data.showFileMenu, 'show-add-repo': data.showAddRepo, 'show-form': data.showForm}"
-        ng-include = "'viewBuildPopoverFileMenu'"
+      pop-over(
+        template = "viewBuildPopoverFileMenu"
+        actions = "{\
+          createFile: actions.createFile\
+        }"
+        data = "{\
+          showAddRepo: data.showAddRepo,\
+          showForm: data.showForm,\
+          show: data.showFileMenu\
+        }"
       )
 
   ul.file-tree

@@ -133,8 +133,7 @@ module.exports = function(grunt) {
         options: {
           bundleOptions: {
             debug: true
-          },
-          transform: ['browserify-shim']
+          }
         }
       }
     },
@@ -266,12 +265,7 @@ module.exports = function(grunt) {
       },
       'npm-install': {
         bg: false,
-        cmd: 'echo \'installing dependencies...\n\' && npm install'
-      }
-    },
-    karma: {
-      unit: {
-        configFile: './test/karma.conf.js'
+        cmd: 'echo \'installing dependencies...\n\' && npm install --silent'
       }
     },
     jsbeautifier: {
@@ -336,7 +330,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-jsbeautifier');
 

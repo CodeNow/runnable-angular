@@ -15,19 +15,8 @@ function ControllerBuildList(
   async,
   keypather
 ) {
-  // init data
   var self = ControllerBuildList;
-  var dataBuildList = $scope.dataBuildList = {}; // self.initState();
-
-  dataBuildList.popoverChangeRecipe = {
-    filter: ''
-  };
-
-  dataBuildList.showChangeRecipe = false;
-  dataBuildList.predicate = '';
-  dataBuildList.ascending = false;
-
-
+  var dataBuildList = $scope.dataBuildList = self.initState();
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
@@ -36,12 +25,13 @@ function ControllerBuildList(
   });
 
   // dom event callbacks
-  dataBuildList.show404 = function () {
+  dataBuildList.actions.show404 = function () {
     $state.go('error', {}, {
       location: false,
       inherit: true
     });
   };
+
   dataBuildList.togglePopover = function (popoverName, event) {
     if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
       event.stopPropagation();
@@ -164,11 +154,14 @@ function ControllerBuildList(
 
 ControllerBuildList.initState = function () {
   return {
-    popoverChangeRecipe: {
-      recipe: ''
+    data: {
+      popoverChangeRecipe: {
+        recipe: ''
+      },
+      showChangeRecipe: false,
+      predicate: '',
+      ascending: false
     },
-    showChangeRecipe: false,
-    predicate: '',
-    ascending: false
+    actions: {}
   };
 };

@@ -1,28 +1,31 @@
-.arrow
-h3.popover-title Choose Config
-.popover-content
-  form.search.check-valid
-    input.form-control(
-      ng-model = "dataBuildList.popoverChangeRecipe.filter"
-      placeholder = "Filter or Create Configs"
-      required
-    )
-    button.submit
-      svg.iconnables.icons-search
-        use(xlink:href = "#icons-search")
-    button.add
-      svg.iconnables.icons-add
-        use(xlink:href = "#icons-add")
-  ul.popover-body.popover-list
-    li Main
-      button.btn-icon.delete(type = "button")
-        svg.iconnables.icons-close
-          use(xlink:href = "#icons-close")
-    li Configs 2
-      button.btn-icon.delete(type = "button")
-        svg.iconnables.icons-close
-          use(xlink:href = "#icons-close")
-    li Configs 3
-      button.btn-icon.delete(type = "button")
-        svg.iconnables.icons-close
-          use(xlink:href = "#icons-close")
+.popover.menu.bottom.fade(
+  ng-class = "{'in': data.show}"
+)
+  .arrow
+  h3.popover-title Choose Config
+  .popover-content
+    form.search.check-valid
+      input.form-control(
+        ng-model = "data.filter"
+        placeholder = "Filter or Create Configs"
+        required
+      )
+      button.submit
+        svg.iconnables.icons-search
+          use(xlink:href = "#icons-search")
+      button.add
+        svg.iconnables.icons-add
+          use(xlink:href = "#icons-add")
+    ul.popover-body.popover-list
+      li Main
+        button.btn-icon.delete(type = "button")
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
+      li Configs 2
+        button.btn-icon.delete(type = "button")
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")
+      li Configs 3
+        button.btn-icon.delete(type = "button")
+          svg.iconnables.icons-close
+            use(xlink:href = "#icons-close")

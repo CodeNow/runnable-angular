@@ -20,41 +20,24 @@ function fileTree(
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
-      function init () {
+      function init() {
         data.rootDir = $scope.version.newDir({
-          id: $scope.version.id()+'newdir',
+          id: $scope.version.id() + 'newdir',
           isDir: true,
           Key: (new Array(31).join(' ')) + '//' // bs for now
         }, {
           idAttribute: 'id'
         });
       }
-      $scope.$watch('version.attrs.owner', function (newval, oldval) {
+      $scope.$watch('version', function (newval, oldval) {
         if (newval) {
           init();
         }
       });
 
-      actions.togglePopover = function (popoverName, event) {
-        var popovers = [
-          'FileMenu'
-        ];
-        if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
-          event.stopPropagation();
-        }
-        if (typeof popoverName !== 'string' && typeof popoverName !== 'undefined') {
-          throw new Error('invalid argument: ' + (typeof popoverName));
-        } else if (typeof popoverName === 'string' && popovers.indexOf(popoverName) === -1) {
-          throw new Error('invalid argument: ' + popoverName);
-        }
-        if (typeof popoverName === 'string') {
-          data['show' + popoverName] = true;
-        } else {
-          data.showFileMenu = false;
-        }
-      };
-
       actions.createFile = function () {
+        var name = prompt('please enter name');
+        /*
         var file = $scope.version.createFile({
           name: '',
           path: '/test/',
@@ -66,21 +49,8 @@ function fileTree(
         $timeout(function () {
           $scope.$apply();
         });
+        */
       };
-
-      $scope.$on('app-document-click', function () {
-        actions.togglePopover();
-      });
-/*
-      $scope.actions.getActiveFiles = function () {
-        return (keypather.get($scope, 'buildFiles.getActiveFiles()') || []);
-      };
-
-      $scope.actions.getLastActiveFileTime = function () {
-        return (keypather.get($scope, 'buildFiles.getLastActiveFileTime()') || 0);
-      };
-*/
-
     }
   };
 }

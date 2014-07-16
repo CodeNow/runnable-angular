@@ -4,7 +4,7 @@ nav.sub-header
   )
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
-      ng-click = "dataBuild.actions.stateToBuildList($event)"
+      ng-click = "dataBuild.actions.stateToBuildList()"
       type = "button"
     )
       svg.iconnables.icons-back-table
@@ -25,20 +25,27 @@ nav.sub-header
       .btn-group
         button.silver(
           type = "button"
-          ng-click = "dataBuild.actions.rebuild();"
+          ng-click = "dataBuild.actions.rebuild()"
         ) Rebuild
         button.silver.btn-icon(
+          toggle-pop-over
+          toggle-pop-over-model = "dataBuild.data.showBuildOptionsClean"
           ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
-          ng-click = "dataBuild.actions.togglePopover('BuildOptionsClean', $event)"
           type = "button"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
-          .popover.menu.bottom.fade(
-            ng-class = "{in: dataBuild.data.showBuildOptionsClean}"
-            ng-include = "'viewBuildPopoverBuildOptions'"
+          pop-over(
+            template = "viewBuildPopoverBuildOptions"
+            actions = "{\
+              getPopoverButtonText: dataBuild.actions.getPopoverButtonText,\
+              resetInputModelValue: dataBuild.actions.resetInputModelValue\
+            }"
+            data = "{\
+              buildName: dataBuild.data.buildName,\
+              show: dataBuild.data.showBuildOptionsClean\
+            }"
           )
-
     .dirty(ng-class = "{in: dataBuild.data.showBuildOptionsDirty}")
       .btn-group
         button.green(
@@ -46,12 +53,24 @@ nav.sub-header
           ng-click = "dataBuild.actions.build()"
         ) Build
         button.green.btn-icon(
+          toggle-pop-over
+          toggle-pop-over-model = "dataBuild.data.showBuildOptionsDirty"
           ng-class = "{active: dataBuild.data.showBuildOptionsDirty}"
-          ng-click = "dataBuild.actions.togglePopover('BuildOptionsDirty', $event)"
           type = "button"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
+          pop-over(
+            template = "viewBuildPopoverBuildOptions"
+            actions = "{\
+              getPopoverButtonText: dataBuild.actions.getPopoverButtonText,\
+              resetInputModelValue: dataBuild.actions.resetInputModelValue\
+            }"
+            data = "{\
+              buildName: dataBuild.data.buildName,\
+              show: dataBuild.data.showBuildOptionsDirty\
+            }"
+          )
           .popover.menu.bottom.fade(
             ng-class = "{in: dataBuild.data.showBuildOptionsDirty}"
             ng-include = "'viewBuildPopoverBuildOptions'"
@@ -171,8 +190,8 @@ section.sidebar
 
 
 //- code_editor
-#editor.in(
-  ng-class="{'in': dataBuild.data.showExplorer, '': !dataBuild.data.showExplorer}"
+#editor(
+  ng-class="{'in': dataBuild.data.showExplorer}"
 )
   aside#explorer
     #controls
@@ -190,14 +209,18 @@ section.sidebar
       h6
         | REPOSITORIES
         button.silver.btn-sm.file-explorer-menu.btn-icon(
+          toggle-pop-over
+          toggle-pop-over-model = "dataBuild.data.showRepoMenu"
           ng-class = "{active: dataBuild.data.showRepoMenu}"
-          ng-click = "dataBuild.actions.togglePopover('RepoMenu', $event)"
         )
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
-          .popover.file-menu.bottom.fade(
-            ng-class = "{in: dataBuild.data.showRepoMenu, 'show-add-repo': dataBuild.data.showAddRepo}"
-            ng-include = "'viewBuildPopoverRepoMenu'"
+          pop-over(
+            template = "viewBuildPopoverRepoMenu"
+            data = "{\
+              showForm: dataBuild.data.showForm,\
+              show: dataBuild.data.showRepoMenu\
+            }"
           )
       ul.repo-tree
         li
@@ -223,7 +246,7 @@ section.sidebar
           small 02cfe5664f
 
   button#explorer-toggle.btn-icon(
-    ng-click = "dataBuild.actions.toggleExplorer($event)"
+    ng-click = "dataBuild.actions.toggleExplorer()"
     type = "button"
   )
     svg.iconnables.icons-folder-open
@@ -239,6 +262,6 @@ section.sidebar
     //- code
     pre(
       ui-ace
-      ng-model = "dataBuild.data.openFiles.activeFile.attrs.Key"
+      ng-model = "dataBuild.data.openFiles.activeFile.attrs.body"
       ng-keyup = "dataBuild.data.isClean = false"
     )
