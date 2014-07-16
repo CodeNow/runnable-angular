@@ -130,11 +130,13 @@ section.sidebar
           ng-class = "{active: tab.active}"
           ng-click = "dataInstance.setActiveTab(tab)"
         ) {{tab.title}}
-        button.btn-icon(type = "button")
+        button.btn-icon(
+          type = "button"
+          ng-click = "dataInstance.closeTab($index)"
+        )
           svg.iconnables.icons-close
             use(
               xlink:href = "#icons-close"
-              ng-click = "closeTab($index)"
             )
   button#add-tab.btn-icon(
     ng-class = "{active: dataInstance.data.showAddTab}"

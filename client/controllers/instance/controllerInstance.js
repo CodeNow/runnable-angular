@@ -42,8 +42,9 @@ function ControllerInstance(
     }
   ];
   
-  // TODO
-  dataInstance.closeTab = angular.noop;
+  dataInstance.closeTab = function(idx) {
+    dataInstance.tabs = dataInstance.tabs.slice(0, idx).concat(dataInstance.tabs.slice(idx + 1));
+  };
   
   dataInstance.setActiveTab = function(tab) {
     dataInstance.tabs.forEach(function(tab) {
