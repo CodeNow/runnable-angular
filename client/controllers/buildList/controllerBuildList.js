@@ -60,6 +60,13 @@ function ControllerBuildList(
    *   API Fetch Methods
    * ===========================*/
   function fetchProject(thisUser, cb) {
+
+    debugger;
+
+    function updateDom() {
+      if(projects.models.length){
+      }
+    }
     var projects = thisUser.fetchProjects({
       ownerUsername: $stateParams.userName,
       name: $stateParams.projectName
@@ -69,7 +76,8 @@ function ControllerBuildList(
         $state.go('404', {});
         return cb(err);
       }
-      dataBuildList.project = projects.models[0];
+      // data.project = projects.models[0];
+      updateDom();
       cb(null, projects.models[0]);
     });
     if (projects.models.length) {
@@ -111,9 +119,10 @@ function ControllerBuildList(
     $scope.safeApply();
   }
   function fetchBuildsOwners(project, environments, environment, builds, cb) {
+    //TODO FIX
     var ownerIds = builds.models
       .map(function (item) {
-        return item.attrs.owner;
+        return item.attrs.owner.github;
       })
       .reduce(function (previous, current) {
         if (previous.indexOf(current) === -1) previous.push(current);
@@ -137,7 +146,7 @@ function ControllerBuildList(
       fetchProject,
       fetchEnvironments,
       fetchBuilds,
-      fetchBuildsOnwers
+      fetchBuildsOwners
     ], function (err, project, environments, environment, builds, buildOwners) {
       if (err) return;
       // TODO error handling
