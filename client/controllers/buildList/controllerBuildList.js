@@ -15,6 +15,7 @@ function ControllerBuildList(
   async,
   keypather
 ) {
+  var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerBuildList;
   var dataBuildList = $scope.dataBuildList = self.initState();
   var data = dataBuildList.data,
@@ -26,7 +27,7 @@ function ControllerBuildList(
     dataBuildList.data.popoverChangeRecipe.filter = '';
   });
 
-  dataBuildList.actions.stateToInstance = function (buildId) {
+  actions.stateToInstance = function (buildId) {
     var state = {
       userName: $scope.dataApp.user.attrs.username,
       projectName: dataBuildList.project.attrs.name,
@@ -36,7 +37,7 @@ function ControllerBuildList(
     };
     $state.go('projects.instance', state);
   };
-  dataBuildList.actions.stateToBuild = function (build) {
+  actions.stateToBuild = function (build) {
     var state = {
       userName: $scope.dataApp.user.attrs.username,
       projectName: dataBuildList.project.attrs.name,
@@ -45,11 +46,11 @@ function ControllerBuildList(
     };
     $state.go('projects.build', state);
   };
-  dataBuildList.actions.toggleSortByBuild = function () {
+  actions.toggleSortByBuild = function () {
     dataBuildList.predicate = 'attrs.id';
     dataBuildList.ascending = !dataBuildList.ascending;
   };
-  dataBuildList.actions.getBuildSortClass = function () {
+  actions.getBuildSortClass = function () {
     var res = (dataBuildList.predicate === 'attrs.id' && dataBuildList.ascending) ?
       'ascending' : (dataBuildList.predicate === 'attrs.id' && !dataBuildList.ascending) ?
       'descending' : '';
@@ -61,7 +62,22 @@ function ControllerBuildList(
    * ===========================*/
   function fetchProject(thisUser, cb) {
 
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchProjects')
+      .query({
+        ownerUsername: $stateParams.userName,
+        name: $stateParams.projectName
+      })
+      .cacheFetch(function updateDom(projects, cached, cb){
+        dataBuildList.data.project = projects.models[0];
+        cb();
+      })
+      .resolve(function(err, projects, cb){
+        cb();
+      })
+      .go();
 
+/*
     function updateDom() {
       if(projects.models.length){
       }
@@ -85,6 +101,7 @@ function ControllerBuildList(
       cb(null, dataBuildList.project);
       cb = angular.noop;
     }
+*/
   }
   function fetchEnvironments(project, cb) {
     var environments = project.fetchEnvironments({
