@@ -218,10 +218,10 @@ section.sidebar
           )
       ul.repo-tree
         //- for "edit mode":
-        //- * add class .active to <li>
-        //- * remove readonly property from input
-        //- * save on blur or enter key
         //- * delete/editmode entered via context menu
+        //- * add class .active to <li> (class should be applied while context menu is open)
+        //- * remove readonly property from input and select all text
+        //- * save on blur or enter key
         li
           span
             svg.iconnables.icons-git.filetypes
