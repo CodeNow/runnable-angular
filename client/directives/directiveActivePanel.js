@@ -33,8 +33,8 @@ function activePanel(
         updateFile();
       };
 
-      $scope.$watch('openFiles.activeFile.attrs.body', function (newval, oldval) {
-        if (typeof newval === 'string') {
+      $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
+        if (typeof newval === 'string'){
           $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
         }
       });
