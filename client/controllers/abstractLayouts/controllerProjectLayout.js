@@ -14,10 +14,11 @@ function ControllerProjectLayout(
   user,
   keypather
 ) {
+  var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerProjectLayout;
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
   var data = dataProjectLayout.data,
-    actions = dataProjectLayout.actions;
+      actions = dataProjectLayout.actions;
 
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
@@ -65,42 +66,43 @@ function ControllerProjectLayout(
       branchName: ((environment) ? environment.name : 'master')
     });
   };
-  actions.initForState = function () {
-    function checkAuth(thisUser, cb) {
-      // TODO verify URL belongs to this user
-      cb(null, thisUser);
-    }
 
-    function fetchProjects(thisUser, cb) {
-      var projects = thisUser.fetchProjects({
+  /* ============================
+   *   API Fetch Methods
+   * ===========================*/
+  function checkAuth(thisUser, cb){
+    // TODO
+    cb(null, thisUser);
+  }
+  function fetchProjects(thisUser, cb){
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchProjects')
+      .query({
         ownerUsername: $scope.dataApp.stateParams.userName
-      }, function (err, response) {
-        if (err) {
-          return cb(err);
-        }
-        cb(null, projects);
-      });
-    }
-    if ($state.current.name === 'projects') { // new project page, do nothign
-      $scope.dataApp.holdUntilAuth(angular.noop);
-    } else {
-      async.waterfall([
-        $scope.dataApp.holdUntilAuth,
-        checkAuth,
-        fetchProjects
-      ], function (err, projects) {
-        // TODO error handling
-        if (err) return;
-        data.projects = projects;
+      })
+      .cacheFetch(function updateDom(projects, cached, cb){
+        dataProjectLayout.data.projects = projects;
         $scope.safeApply();
-      });
-    }
+        cb();
+      })
+      .resolve(function(err, projects, cb){
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+  actions.initForState = function(){
+    async.waterfall([
+      $scope.dataApp.holdUntilAuth,
+      checkAuth,
+      fetchProjects
+    ], function(err){
+    });
   };
 
   $scope.$watch('dataApp.state.current.name', function () {
     actions.initForState();
   });
-
 }
 
 ControllerProjectLayout.initState = function () {
