@@ -102,6 +102,9 @@ function ControllerProjectLayout(
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
     if (newval === 'projects.buildList') {
       actions.initForState();
+    } else if (newval === 'projects') {
+      // send user home if here and not logged in
+      $scope.dataApp.holdUntilAuth();
     }
   });
 }
