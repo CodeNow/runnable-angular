@@ -57,9 +57,8 @@ function ControllerBuild(
         name: 'name1',
         build: data.build.id()
       }
-    }, function () {
-    });
-/*
+    }, function () {});
+    /*
     var buildId = data.build.id();
     data.thisUser.createInstance({
       name: 'testname',

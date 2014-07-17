@@ -12,7 +12,7 @@ function ControllerInstance(
   $stateParams,
   user
 ) {
-  
+
   var self = ControllerInstance;
   var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data,
