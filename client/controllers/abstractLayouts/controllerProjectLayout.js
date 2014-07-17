@@ -100,7 +100,7 @@ function ControllerProjectLayout(
   };
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
-    if (newval === 'projects.buildList') {
+    if (newval.indexOf('projects.') === 0) {
       actions.initForState();
     } else if (newval === 'projects') {
       // send user home if here and not logged in
