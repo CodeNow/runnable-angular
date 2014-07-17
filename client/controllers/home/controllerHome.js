@@ -29,7 +29,9 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
   holdUntilAuth(function (err, thisUser) {
     if (!err && thisUser) {
       var projects = thisUser.fetchProjects({
-        'owner.github': thisUser.attrs.accounts.github.id
+        owner: {
+          github: thisUser.attrs.accounts.github.id
+        }
       }, function () {
         if (!projects.models.length) {
           $state.go('projects', {});
@@ -37,7 +39,7 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
         }
         var firstProject = projects.models[0];
         $state.go('projects.buildList', {
-          userName: thisUser.attrs.username,
+          userName: thisUser.attrs.accounts.github.username,
           projectName: firstProject.attrs.name,
           branchName: 'master'
         });

@@ -7,7 +7,9 @@ function QueryAssist(modelOrColl, asyncCB) {
       return;
     }
     asyncCalled = true;
-    asyncCB();
+    if (angular.isFunction(asyncCB)) {
+      asyncCB();
+    }
   };
   return this;
 }

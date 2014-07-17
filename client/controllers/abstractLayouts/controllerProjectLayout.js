@@ -88,28 +88,22 @@ function ControllerProjectLayout(
    *   API Fetch Methods
    * ===========================*/
   function checkAuth(thisUser, cb){
-    // TODO
-    cb(null, thisUser);
+    cb();
   }
-  function fetchOrgs(thisUser, cb){
-    new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchGithubOrgs')
-      .cacheFetch(function (orgs, cached, cb){
-        dataProjectLayout.data.orgs = orgs;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, orgs, cb){
-        $scope.safeApply();
-        cb();
-      })
-      .go();
+  function fetchOrgs(cb){
+    var thisUser = $scope.dataApp.user;
+    thisUser.fetchGithubOrgs(function (err, orgs) {
+      dataProjectLayout.data.orgs = orgs;
+      $scope.safeApply();
+      cb();
+    });
   }
-  function fetchProjects(thisUser, cb){
+  function fetchProjects(cb){
+    var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
-        'githubUsername': $scope.dataApp.stateParams.userName
+        githubUsername: $scope.dataApp.stateParams.userName
       })
       .cacheFetch(function updateDom(projects, cached, cb){
         dataProjectLayout.data.projects = projects;
@@ -122,7 +116,7 @@ function ControllerProjectLayout(
       })
       .go();
   }
-  actions.initForState = function(){
+   actions.initForState = function(){
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
       checkAuth,
@@ -133,11 +127,12 @@ function ControllerProjectLayout(
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
     if (newval.indexOf('projects.') === 0) {
-      actions.initForSrate();
+      actions.initForState();
     } else if (newval === 'projects') {
       // send user home if here and not logged in
       async.waterfall([
         $scope.dataApp.holdUntilAuth,
+        checkAuth,
         fetchOrgs
       ], function () {});
       //$scope.dataApp.holdUntilAuth();
