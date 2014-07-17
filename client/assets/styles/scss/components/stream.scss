@@ -91,6 +91,27 @@
     }
   }
 
+  #delete-project {
+    color: $gray-dark;
+    float: left;
+    margin: 6px 9px 0 -9px;
+    opacity: .25;
+
+    &:hover {
+      opacity: .6;
+    }
+
+    &:active {
+      color: $orange;
+      opacity: 1;
+    }
+
+    > svg {
+      height: 20px;
+      width: 20px;
+    }
+  }
+
   .config {
     display: inline-block;
     font-size: 18px;
@@ -119,10 +140,10 @@
 
     .icons-recipe {
       float: left;
-      height: 20px;
-      margin: 8px 4px 0;
+      height: 24px;
+      margin: 6px 4px 0;
       opacity: .25;
-      width: 20px;
+      width: 24px;
     }
 
     .circle-remove {
