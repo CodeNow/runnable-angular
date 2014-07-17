@@ -1,7 +1,6 @@
 // Karma configuration
 // Generated on Mon Jun 16 2014 11:48:06 GMT-0700 (PDT)
 
-var _       = require('underscore');
 var package = require('../package');
 var path    = require('path');
 

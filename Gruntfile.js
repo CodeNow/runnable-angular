@@ -1,5 +1,4 @@
 var path    = require('path');
-var _       = require('underscore');
 var find    = require('find');
 var fs      = require('fs');
 var package = require('./package');

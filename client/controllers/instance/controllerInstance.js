@@ -12,11 +12,19 @@ function ControllerInstance(
   $stateParams,
   user
 ) {
-
+  
   var self = ControllerInstance;
   var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data,
     actions = dataInstance.actions;
+
+  // init
+  dataInstance.popoverAddTab = {
+    filter: ''
+  };
+
+  dataInstance.showAddTab = false;
+  dataInstance.showFileMenu = false;
 
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;

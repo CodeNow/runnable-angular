@@ -14,7 +14,7 @@ function ControllerApp(
   $stateParams,
   $state,
   user,
-  apiHost,
+  apiConfig,
   holdUntilAuth
 ) {
 
@@ -22,7 +22,7 @@ function ControllerApp(
   var UTIL = $rootScope.UTIL = {};
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
-    apiHost);
+    apiConfig.host);
 
   dataApp.click = function () {
     $scope.$broadcast('app-document-click');
