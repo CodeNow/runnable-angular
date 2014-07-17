@@ -29,7 +29,9 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
   holdUntilAuth(function (err, thisUser) {
     if (!err && thisUser) {
       var projects = thisUser.fetchProjects({
-        'owner.github': thisUser.attrs.accounts.github.id
+        owner: {
+          github: thisUser.attrs.accounts.github.id
+        }
       }, function () {
         if (!projects.models.length) {
           $state.go('projects', {});

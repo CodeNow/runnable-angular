@@ -71,6 +71,14 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
     #setup-template
       h3 Choose a Docker Template
       .form-group.toggle-group
+        label(ng-repeat = "context in dataSetup.data.seedContexts.models") {{ context.attrs.name }}
+          input(
+            name = "{{ context.attrs.name }}"
+            required
+            ng-click = "dataSetup.actions.setActiveContext(context)"
+            type = "radio"
+          )
+      //-
         //- the required attribute is needed on only one input
         label.active Node.js + MongoDB
           input(
@@ -109,7 +117,9 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
             name = "docker-template"
             type = "radio"
           )
-    button.btn-block.orange Build Application
+    button.btn-block.orange(
+      ng-click = "dataSetup.actions.buildApplication()"
+    ) Build Application
 
 #editor
   button#editor-status.silver(
