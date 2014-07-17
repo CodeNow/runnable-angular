@@ -36,6 +36,9 @@ header {
     }
 
     .accounts {
+      background: $purple;
+      position: absolute;
+      z-index: 1;
 
       li {
 
@@ -53,7 +56,7 @@ header {
   .startup-container {
     margin: 0 auto;
     position: relative;
-      top: 0;
+    top: 0;
     transition: all .3s ease-in-out;
     width: 210px;
   }
@@ -171,7 +174,7 @@ header {
     }
 
     & ~ .accounts {
-      max-height: 108px;
+      max-height: none;
       opacity: 1;
 
       a {
@@ -206,7 +209,7 @@ header {
   max-height: 0;
   opacity: .5;
   overflow: hidden;
-  transition: max-height .3s, opacity .2s;
+  transition: opacity .15s;
   width: 100%;
 
   li {
