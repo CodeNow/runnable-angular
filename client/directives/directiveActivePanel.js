@@ -18,7 +18,7 @@ function activePanel(
     link: function ($scope, element, attrs) {
       $scope.activeFileClone = {};
 
-      var updateFile = function updateFile () {
+      var updateFile = function updateFile() {
         if (!keypather.get($scope.openFiles, 'activeFile')) {
           return;
         }
@@ -26,8 +26,7 @@ function activePanel(
           json: {
             body: $scope.activeFileClone.body
           }
-        }, function () {
-        });
+        }, function () {});
       };
       updateFile = debounce(updateFile, 300);
       $scope.updateFile = function () {
