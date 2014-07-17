@@ -23,39 +23,6 @@ function ControllerInstance(
     filter: ''
   };
 
-  dataInstance.tabs = [
-    {
-      title: 'dockerfile',
-      path: '~/full/path/dockerfile',
-      type: 'file',
-      active: true
-    },
-    {
-      title: 'main.config',
-      path: '~/full/path/main.config',
-      type: 'file'
-    },
-    {
-      title: 'Terminal',
-      path: 'Terminal',
-      type: 'terminal'
-    }
-  ];
-  
-  dataInstance.closeTab = function(idx) {
-    dataInstance.tabs = dataInstance.tabs.slice(0, idx).concat(dataInstance.tabs.slice(idx + 1));
-  };
-  
-  dataInstance.setActiveTab = function(tab) {
-    dataInstance.tabs.forEach(function(tab) {
-      tab.active = false;
-    });
-    tab.active = true;
-    dataInstance.activePanel = tab.type;
-  };
-  
-  dataInstance.setActiveTab(dataInstance.tabs[0]);
-
   dataInstance.showAddTab = false;
   dataInstance.showFileMenu = false;
 
