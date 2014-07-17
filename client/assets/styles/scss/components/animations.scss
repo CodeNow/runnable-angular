@@ -105,40 +105,15 @@
   }
 }
 
-
-@keyframes heightUp {
-  0% {
-    height: 30%;
-  }
-  20% {
-    height: 103%;
-  }
-  40% {
-    height: 95%;
-  }
-  60% {
-    height: 100%;
-  }
-  80% {
-    height: 97%;
-  }
-  100% {
-    height: 100%;
-  }
-  80% {
-    height: 98%;
-  }
-  100% {
-    height: 100%;
-  }
-}
-
 @keyframes modalIn {
   0% {
-    transform: translate3d(0,-100%,0);
+    transform: scale3d(0,0,0);
+  }
+  80% {
+    transform: scale3d(1.1,1.1,1)
   }
   100% {
-    transform: translate3d(0,0,0);
+    transform: scale3d(1,1,1);
   }
 }
 

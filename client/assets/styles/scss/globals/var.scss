@@ -40,7 +40,9 @@ $dark-yellow:    darken(desaturate($light-yellow,65),45);
 $z-hide: -10000;
 $z-show: 10000;
 
-$zmodal-backdrop: 9996;
-$zmodal: 9997;
-$zpopover: 9998;
-$ztooltip: 9999;
+$z-header: 9000;
+
+$z-modal-backdrop: 9996;
+$z-modal: 9997;
+$z-popover: 9998;
+$z-tooltip: 9999;
