@@ -162,7 +162,6 @@ function ControllerBuild(
     var contextId = build.toJSON().contexts[0];
     var versionId = build.toJSON().contextVersions[0];
     var context = user.newContext(contextId);
-
     new QueryAssist(context, cb)
       .wrapFunc('fetchVersion')
       .query(versionId)

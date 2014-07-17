@@ -39,7 +39,7 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
         }
         var firstProject = projects.models[0];
         $state.go('projects.buildList', {
-          userName: thisUser.attrs.username,
+          userName: thisUser.attrs.accounts.github.username,
           projectName: firstProject.attrs.name,
           branchName: 'master'
         });

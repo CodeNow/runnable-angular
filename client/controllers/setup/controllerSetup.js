@@ -39,10 +39,16 @@ function ControllerSetup(
         environment: dataSetup.data.project.attrs.defaultEnvironment
       }
     }, function (err, version){
+      dataSetup.actions.stateToBuild();
     });
   };
   actions.stateToBuild = function(){
-
+    $state.go('projects.build', {
+      userName: $scope.dataApp.stateParams.userName,
+      projectName: $scope.dataApp.stateParams.projectName,
+      branchName: 'master',
+      buildName: data.build.id()
+    });
   };
   actions.initState = function(){
     async.waterfall([
