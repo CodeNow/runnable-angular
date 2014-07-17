@@ -39,7 +39,7 @@ function ControllerProjectLayout(
       });
     }
     async.waterfall([
-      $scope.dataApp.holdUnitAuth,
+      $scope.dataApp.holdUntilAuth,
       createProject
     ], function (err, thisUser, project) {
       $state.go('projects.setup', {
