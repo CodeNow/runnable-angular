@@ -33,10 +33,11 @@ function ControllerApp(
       if (err) {
         $state.go('home', {});
       } else {
-        $scope.safeApply(function () {
-          dataApp.user = thisUser;
+        dataApp.user = thisUser;
+        $scope.safeApply();
+        if(angular.isfunction(cb)) {
           cb(err, thisUser);
-        });
+        }
       }
     });
   };
@@ -52,7 +53,6 @@ function ControllerApp(
   };
 
   UTIL.QueryAssist = queryAssist;
-
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {
