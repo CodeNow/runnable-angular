@@ -122,7 +122,6 @@ function ControllerProjectLayout(
       })
       .go();
   }
-  function
   actions.initForState = function(){
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
