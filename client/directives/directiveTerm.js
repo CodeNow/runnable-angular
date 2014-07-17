@@ -21,7 +21,8 @@ function term(
       function resizeTerm() {
         // Any x value over 80 breaks newlines
         // https://github.com/chjj/term.js/issues/38
-        var x = 80;
+        var xPrime = Math.floor(terminal.element.offsetWidth / CHAR_WIDTH);
+        var x = xPrime > 80 ? xPrime : 80;
         var y = Math.floor(terminal.element.offsetHeight / CHAR_HEIGHT);
         terminal.resize(x, y);
         if (typeof remoteResize === 'function') {
