@@ -96,12 +96,13 @@ function ControllerProjectLayout(
       $scope.dataApp.holdUntilAuth,
       checkAuth,
       fetchProjects
-    ], function(err){
-    });
+    ], function(err){});
   };
 
-  $scope.$watch('dataApp.state.current.name', function () {
-    actions.initForState();
+  $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
+    if (newval === 'projects.buildList') {
+      actions.initForState();
+    }
   });
 }
 

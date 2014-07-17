@@ -19,7 +19,7 @@ function ControllerBuildList(
   var self = ControllerBuildList;
   var dataBuildList = $scope.dataBuildList = self.initState();
   var data = dataBuildList.data,
-    actions = dataBuildList.actions;
+      actions = dataBuildList.actions;
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
@@ -69,7 +69,6 @@ function ControllerBuildList(
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
         dataBuildList.data.project = projects.models[0];
-        $scope.safeApply();
         cb();
       })
       .resolve(function (err, projects, cb) {
