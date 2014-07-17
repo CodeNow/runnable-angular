@@ -35,7 +35,7 @@ function ControllerApp(
       } else {
         dataApp.user = thisUser;
         $scope.safeApply();
-        if(angular.isfunction(cb)) {
+        if(angular.isFunction(cb)) {
           cb(err, thisUser);
         }
       }
