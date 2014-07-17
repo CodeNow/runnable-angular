@@ -92,18 +92,24 @@ function ControllerProjectLayout(
     cb(null, thisUser);
   }
   function fetchOrgs(thisUser, cb){
-    // TODO use QueryAssist
-    thisUser.fetchGithubOrgs(function (err, orgs) {
-      dataProjectLayout.data.orgs = orgs;
-      $scope.safeApply();
-      cb(null, thisUser);
-    });
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchGithubOrgs')
+      .cacheFetch(function (orgs, cached, cb){
+        dataProjectLayout.data.orgs = orgs;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, orgs, cb){
+        $scope.safeApply();
+        cb();
+      })
+      .go();
   }
   function fetchProjects(thisUser, cb){
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
-        ownerUsername: $scope.dataApp.stateParams.userName
+        'githubUsername': $scope.dataApp.stateParams.userName
       })
       .cacheFetch(function updateDom(projects, cached, cb){
         dataProjectLayout.data.projects = projects;
@@ -116,6 +122,7 @@ function ControllerProjectLayout(
       })
       .go();
   }
+  function
   actions.initForState = function(){
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
@@ -127,7 +134,7 @@ function ControllerProjectLayout(
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
     if (newval.indexOf('projects.') === 0) {
-      actions.initForState();
+      actions.initForSrate();
     } else if (newval === 'projects') {
       // send user home if here and not logged in
       async.waterfall([
