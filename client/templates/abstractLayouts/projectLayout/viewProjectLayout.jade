@@ -15,26 +15,18 @@ header(
         ng-src = "{{ dataApp.user.attrs.gravitar }}"
         width = "19"
       )
-      | {{ dataApp.user.attrs.username }}
+      | {{ dataApp.user.attrs.accounts.github.username }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
     ul.accounts.btn-group-vertical
-      li.btn.white
+      li.btn.white(ng-repeat = "org in dataProjectLayout.data.orgs")
         a
           img(
             height = "19"
-            src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
+            ng-src = "{{ org.avatar_url }}"
             width = "19"
           )
-          | CodeNow
-      li.btn.white
-        a
-          img(
-            height = "19"
-            src = "https://avatars1.githubusercontent.com/u/2335750?s=64"
-            width = "19"
-          )
-          | Runnable
+          | {{ org.login }}
       li.btn.white
         a(
           href = "{{ dataApp.logoutURL }}"

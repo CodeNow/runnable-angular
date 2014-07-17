@@ -35,15 +35,32 @@ function ControllerProjectLayout(
         name: dataProjectLayout.data.newAppName,
         dockerfile: 'FROM ubuntu\n'
       }, function (err) {
+        if (err) {
+        }
         cb(err, thisUser, project);
+      });
+    }
+    function fetchEnvironments(thisUser, project, cb) {
+      var environments = project.fetchEnvironments(function (err){
+        var environment = environments.models[0];
+        cb(null, thisUser, project, environment);
+      });
+    }
+    function createBuild(thisUser, project, environment, cb) {
+      var build = environment.createBuild({
+        environment: environment.id()
+      }, function (err) {
+        cb(null, thisUser, project, build);
       });
     }
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
-      createProject
-    ], function (err, thisUser, project) {
+      createProject,
+      fetchEnvironments,
+      createBuild
+    ], function (err, thisUser, project, build) {
       $state.go('projects.setup', {
-        userName: thisUser.attrs.username,
+        userName: thisUser.attrs.accounts.github.username,
         projectName: project.attrs.name
       });
     });
@@ -74,6 +91,14 @@ function ControllerProjectLayout(
     // TODO
     cb(null, thisUser);
   }
+  function fetchOrgs(thisUser, cb){
+    // TODO use QueryAssist
+    thisUser.fetchGithubOrgs(function (err, orgs) {
+      dataProjectLayout.data.orgs = orgs;
+      $scope.safeApply();
+      cb(null, thisUser);
+    });
+  }
   function fetchProjects(thisUser, cb){
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
@@ -95,6 +120,7 @@ function ControllerProjectLayout(
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
       checkAuth,
+      fetchOrgs,
       fetchProjects
     ], function(err){});
   };
@@ -104,7 +130,11 @@ function ControllerProjectLayout(
       actions.initForState();
     } else if (newval === 'projects') {
       // send user home if here and not logged in
-      $scope.dataApp.holdUntilAuth();
+      async.waterfall([
+        $scope.dataApp.holdUntilAuth,
+        fetchOrgs
+      ], function () {});
+      //$scope.dataApp.holdUntilAuth();
     }
   });
 }
