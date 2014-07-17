@@ -4,7 +4,10 @@ require('app')
  * activePanel Directive
  * @ngInject
  */
-function activePanel() {
+function activePanel(
+  debounce,
+  keypather
+) {
   return {
     restrict: 'E',
     templateUrl: 'viewActivePanel',
@@ -13,6 +16,29 @@ function activePanel() {
       openFiles: '='
     },
     link: function ($scope, element, attrs) {
+      $scope.activeFileClone = {};
+
+      var updateFile = function updateFile () {
+        if (!keypather.get($scope.openFiles, 'activeFile')) {
+          return;
+        }
+        $scope.openFiles.activeFile.update({
+          json: {
+            body: $scope.activeFileClone.body
+          }
+        }, function () {
+        });
+      };
+      updateFile = debounce(updateFile, 300);
+      $scope.updateFile = function () {
+        updateFile();
+      };
+
+      $scope.$watch('openFiles.activeFile.attrs.body', function (newval, oldval) {
+        if (typeof newval === 'string'){
+          $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
+        }
+      });
     }
   };
 }

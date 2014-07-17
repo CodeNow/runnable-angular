@@ -52,11 +52,20 @@ function ControllerBuild(
     $state.go('projects.buildList', state);
   };
   actions.runInstance = function () {
+    var instance = user.createInstance({
+      json: {
+        name: 'name1',
+        build: data.build.id()
+      }
+    }, function () {
+    });
+/*
     var buildId = data.build.id();
     data.thisUser.createInstance({
       name: 'testname',
       build: buildId
     }, function (err, body, code) {});
+*/
   };
   actions.rebuild = function () {};
   actions.build = function () {};
