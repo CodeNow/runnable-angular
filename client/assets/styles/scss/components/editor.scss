@@ -11,7 +11,7 @@
     width: 100%;
 
     &[readonly],
-    &[readonly="true"] {
+    &[readonly='true'] {
       opacity: .5;
     }
   }
@@ -21,19 +21,39 @@
   box-shadow: none;
   pointer-events: none;
   position: absolute;
-    top: 50px;
-    right: 15px;
-    z-index: 1;
+  right: 15px;
+  top: 50px;
+  z-index: 1;
 }
 
 #logs {
   background: $gray-lighter;
-  height: 100%;
+  height: calc(100% - 54px);
+  padding-bottom: 66px;
   position: absolute;
-    top: 0;
-    right: 0;
-    z-index: $z-show;
+  right: 0;
+  top: 54px;
   width: calc(100% - 510px);
+  z-index: 2;
+
+  > button {
+    bottom: 15px;
+    left: 15px;
+    margin: 0 auto;
+    right: auto;
+    pointer-events: auto;
+    top: auto;
+  }
+
+  pre {
+    height: 100%;
+  }
+
+  &.full {
+    height: 100%;
+    padding: 0;
+    top: 0;
+  }
 }
 
 // default tabs

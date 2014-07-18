@@ -16,8 +16,10 @@ nav.sub-header
         use(xlink:href = "#icons-asterisk")
     | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
+  //- all buttons should be disabled during a build
   section#main-controls(ng-class = "{'in': !dataBuild.data.isClean}")
     .clean(ng-class = "{in: dataBuild.data.showBuildOptionsClean}")
+      //- on failed builds, run instance needs to be disabled
       button.orange(
         ng-click = "dataBuild.actions.runInstance()"
         type = "button"
@@ -25,6 +27,7 @@ nav.sub-header
       .btn-group
         button.silver(
           ng-click = "dataBuild.actions.rebuild()"
+          type = "button"
         ) Rebuild
         a.btn.silver.btn-icon(
           ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
@@ -260,6 +263,7 @@ section.sidebar
   tabs(
     open-files = "dataBuild.data.openFiles"
   )
+  button.btn.btn-icon(type = "button")
   tabs-dropdown(
     open-files = "dataBuild.data.openFiles"
   )
@@ -269,4 +273,4 @@ section.sidebar
   )
 
 //- logs
-build-stream#logs
+build-stream
