@@ -73,12 +73,29 @@
     line-height: 28px;
 
     &:active,
-    &.active,
-    &.in {
+    &.active {
       background: #fff;
 
       li {
         background: $gray-lighter;
+
+        &:active,
+        &.active {
+          background: #fff;
+
+          li {
+            background: $gray-lighter;
+
+            &:active,
+            &.active {
+              background: #fff;
+
+              li {
+                background: $gray-lighter;
+              }
+            }
+          }
+        }
       }
     }
 
