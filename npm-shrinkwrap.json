@@ -5701,9 +5701,9 @@
       }
     },
     "runnable": {
-      "version": "0.12.5",
-      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.12.5",
-      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#68b1df1b5261f67544b90daaf58466012de31a14",
+      "version": "0.13.0",
+      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.13.0",
+      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#c80a1298742356c4189a1ca5e9b6bef27eefdd1a",
       "dependencies": {
         "101": {
           "version": "0.3.4",
@@ -5827,6 +5827,11 @@
           "version": "0.8.1",
           "from": "debug@~0.8.1",
           "resolved": "https://registry.npmjs.org/debug/-/debug-0.8.1.tgz"
+        },
+        "extend": {
+          "version": "1.3.0",
+          "from": "extend@^1.3.0",
+          "resolved": "https://registry.npmjs.org/extend/-/extend-1.3.0.tgz"
         },
         "json-hash": {
           "version": "0.0.4",
