@@ -11,12 +11,20 @@ function buildStream(
     replace: true,
     templateUrl: 'buildStream',
     link: function($scope, elem) {
+      $scope.stream = {
+        finished: false
+      };
 
-      $scope.streamData = primusBuild.getCache();
+      $scope.stream.data = primusBuild.getCache();
 
       primusBuild.connection.on('data', function (data) {
-        $scope.streamData += data;
+        $scope.stream.data += data;
         $scope.safeApply();
+      });
+
+      primusBuild.connection.on('end', function () {
+        primusBuild.connection.destroy();
+        $scope.stream.finished = true;
       });
     }
   };
