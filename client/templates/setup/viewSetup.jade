@@ -47,7 +47,7 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
       ul#added-repos
         li
           .repo Org/Repo
-            button.btn-icon
+            button.btn-icon(type = "button")
               svg.iconnables.icons-delete
                 use(xlink:href = "#icons-delete")
           label
@@ -58,7 +58,7 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
             )
         li
           .repo Org/AnotherRepo
-            button.btn-icon
+            button.btn-icon(type = "button")
               svg.iconnables.icons-delete
                 use(xlink:href = "#icons-delete")
           label
