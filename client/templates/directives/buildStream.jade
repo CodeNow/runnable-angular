@@ -1,0 +1,8 @@
+#logs
+  pre
+    {{ stream.data }}
+  //- show close button when finished
+  button#editor-status.silver(
+    type = "button"
+    ng-disabled = "!stream.finished"
+  ) Close Log

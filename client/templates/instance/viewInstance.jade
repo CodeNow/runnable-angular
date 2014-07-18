@@ -65,60 +65,59 @@ section.sidebar
         type = "button"
       )
         .theme
-    .explorer-header
-      h6
-        | INSTANCE FILES
-        a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-          ng-class = "{active: dataInstance.data.showFileMenu}"
-          toggle-pop-over
-          toggle-pop-over-model = "dataInstance.data.showFileMenu"
+    h6.explorer-header
+      | INSTANCE FILES
+      a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
+        ng-class = "{active: dataInstance.data.showFileMenu}"
+        toggle-pop-over
+        toggle-pop-over-model = "dataInstance.data.showFileMenu"
+      )
+        svg.iconnables.icons-gear
+          use(xlink:href = "#icons-gear")
+        pop-over(
+          actions = "{\
+            createFile: dataInstance.actions.createFile\
+          }"
+          data = "{\
+            show: dataInstance.data.showFileMenu\
+          }"
+          template = "viewInstancePopoverFileMenu"
         )
-          svg.iconnables.icons-gear
-            use(xlink:href = "#icons-gear")
-          pop-over(
-            actions = "{\
-              createFile: dataInstance.actions.createFile\
-            }"
-            data = "{\
-              show: dataInstance.data.showFileMenu\
-            }"
-            template = "viewInstancePopoverFileMenu"
-          )
-      ul.file-tree
-        li.folder
-          svg.iconnables.filetypes.icons-folder
-            use(xlink:href = "#icons-folder")
-          | css
-          ul
-            li.folder
-              svg.iconnables.filetypes.icons-folder
-                use(xlink:href = "#icons-folder")
-              | modules
-              ul
-                li
-                  svg.iconnables.filetypes.icons-file
-                    use(xlink:href = "#icons-file")
-                  | components.scss
-            li
-              svg.iconnables.filetypes.icons-file
-                use(xlink:href = "#icons-file")
-              | styles.css
-            li
-              svg.iconnables.filetypes.icons-file
-                use(xlink:href = "#icons-file")
-              | tables.css
-        li
-          svg.iconnables.filetypes.icons-file
-            use(xlink:href = "#icons-file")
-          | favicon.png
-        li
-          svg.iconnables.filetypes.icons-file
-            use(xlink:href = "#icons-file")
-          | index.html
-        li
-          svg.iconnables.filetypes.icons-file
-            use(xlink:href = "#icons-file")
-          | htc.access
+    ul.file-tree
+      li.folder
+        svg.iconnables.filetypes.icons-folder
+          use(xlink:href = "#icons-folder")
+        | css
+        ul
+          li.folder
+            svg.iconnables.filetypes.icons-folder
+              use(xlink:href = "#icons-folder")
+            | modules
+            ul
+              li
+                svg.iconnables.filetypes.icons-file
+                  use(xlink:href = "#icons-file")
+                | components.scss
+          li
+            svg.iconnables.filetypes.icons-file
+              use(xlink:href = "#icons-file")
+            | styles.css
+          li
+            svg.iconnables.filetypes.icons-file
+              use(xlink:href = "#icons-file")
+            | tables.css
+      li
+        svg.iconnables.filetypes.icons-file
+          use(xlink:href = "#icons-file")
+        | favicon.png
+      li
+        svg.iconnables.filetypes.icons-file
+          use(xlink:href = "#icons-file")
+        | index.html
+      li
+        svg.iconnables.filetypes.icons-file
+          use(xlink:href = "#icons-file")
+        | htc.access
   #editor-toolbar
     ul#tabs-wrapper
       li
@@ -160,14 +159,15 @@ section.sidebar
     //- note: server log and terminal tab should open by default
     pre(ui-ace) Test
 
-//- error-log
+//- logs
 //- note: this should appear when an error happens on the server
-//- pre#error-log.
-  >> File "client/assets/styles/scss/pages/editor.scss" changed.
-  Running "sass:dev" (sass) task
-  NoMethodError: undefined method `count' for nil:NilClass
-    Use --trace for backtrace.
-  Warning: Exited with error code 1 Use --force to continue.
+//- #logs.full
+  pre.
+    >> File "client/assets/styles/scss/pages/editor.scss" changed.
+    Running "sass:dev" (sass) task
+    NoMethodError: undefined method `count' for nil:NilClass
+      Use --trace for backtrace.
+    Warning: Exited with error code 1 Use --force to continue.
 
-  Aborted due to warnings.
-  Completed in 2.311s at Wed Jun 25 2014 17:31:15 GMT-0700 (PDT) - Waiting...
+    Aborted due to warnings.
+    Completed in 2.311s at Wed Jun 25 2014 17:31:15 GMT-0700 (PDT) - Waiting...

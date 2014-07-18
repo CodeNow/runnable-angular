@@ -1,16 +1,17 @@
 var primusClient = require('primus-client');
 require('app')
-  .factory('primus', primus);
+  .factory('primusTerm', primusTerm);
 
 /**
  * @ngInject
  */
-function primus(
+function primusTerm(
   apiConfig
 ) {
   var args = JSON.stringify(apiConfig);
-  // FIXME this should all come from apiConfig
-  var url = 'http://api.runnable3.net:3030?type=filibuster&args=' + args;
+  
+  // TODO: Vary port on environment
+  var url = apiConfig.host + ':3030?type=filibuster&args=' + args;
 
   var cache = '';
 
