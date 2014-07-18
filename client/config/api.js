@@ -1,5 +1,4 @@
 module.exports = {
-  username: "root",
   ipaddress: "runnable3.net",
   port: "3111",
   type: "filibuster",
