@@ -1,8 +1,11 @@
-ul.file-tree
+ul.file-tree(
+  popover-file-explorer-menu
+)
   //- this is the root dir; there can be only one.
   file-tree-dir(
     open = "true"
     dir = "data.rootDir"
     version = "version"
     open-files = "openFiles"
+    is-clean = "isClean"
   )

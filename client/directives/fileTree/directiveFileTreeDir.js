@@ -15,7 +15,8 @@ function fileTreeDir(
       dir: '=',
       open: '=',
       version: '=',
-      openFiles: '='
+      openFiles: '=',
+      isClean: '='
     },
     template: '',
     link: function ($scope, element, attrs) {

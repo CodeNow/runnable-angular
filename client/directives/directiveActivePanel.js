@@ -6,36 +6,56 @@ require('app')
  */
 function activePanel(
   debounce,
-  keypather
+  keypather,
+  $timeout
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewActivePanel',
     replace: true,
     scope: {
-      openFiles: '='
+      openFiles: '=',
+      isClean: '='
     },
     link: function ($scope, element, attrs) {
       $scope.activeFileClone = {};
 
       var updateFile = function updateFile() {
-        if (!keypather.get($scope.openFiles, 'activeFile')) {
-          return;
-        }
+        $scope.isClean = false;
         $scope.openFiles.activeFile.update({
           json: {
             body: $scope.activeFileClone.body
           }
-        }, function () {});
+        }, function () {
+          console.log(arguments);
+        });
       };
       updateFile = debounce(updateFile, 300);
-      $scope.updateFile = function () {
-        updateFile();
-      };
+
+      function fetchFile() {
+        $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
+        $scope.openFiles.activeFile.fetch(function() {
+          $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
+          $scope.activeFileClone.delay = true;
+          $timeout(function(){
+            $scope.$apply();
+          });
+        });
+      }
+
+      $scope.$watch('activeFileClone.body', function (newval, oldval) {
+        if(typeof newval === 'string' && $scope.openFiles.activeFile) {
+          if ($scope.activeFileClone.delay){
+            delete $scope.activeFileClone.delay;
+            return;
+          }
+          updateFile();
+        }
+      });
 
       $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
         if (typeof newval === 'string'){
-          $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
+          fetchFile(newval);
         }
       });
     }

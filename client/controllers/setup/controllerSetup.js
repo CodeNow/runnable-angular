@@ -30,15 +30,26 @@ function ControllerSetup(
   };
   actions.buildApplication = function() {
     var context = dataSetup.data.context;
-    var version = context.createVersion({
-      qs: {
-        fromSource: dataSetup.data.activeVersion.attrs.infraCodeVersion,
-        toBuild: dataSetup.data.build.id()
+    async.waterfall([
+      function(cb){
+        var version = context.createVersion({
+          qs: {
+            fromSource: dataSetup.data.activeVersion.attrs.infraCodeVersion,
+            toBuild: dataSetup.data.build.id()
+          },
+          json: {
+            environment: dataSetup.data.project.attrs.defaultEnvironment
+          }
+        }, function (err, version){
+          cb(null, version);
+        });
       },
-      json: {
-        environment: dataSetup.data.project.attrs.defaultEnvironment
+      function(version, cb){
+        dataSetup.data.build.build(function(){
+          cb();
+        });
       }
-    }, function (err, version){
+    ], function(err, res){
       dataSetup.actions.stateToBuild();
     });
   };

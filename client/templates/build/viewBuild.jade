@@ -91,7 +91,7 @@ section.sidebar
     li
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
-      | Triggered by <a>{{ dataBuild.data.buildOwner.attrs.username }}</a>
+      | Triggered by <a>{{ dataBuild.data.buildOwner.attrs.accounts.github.username }}</a>
   h3 Message Log
   ol#messages
     li(ng-repeat = "commit in dataBuild.data.commits")
@@ -179,7 +179,6 @@ section.sidebar
             svg.iconnables.icons-git
               use(xlink:href = "#icons-git")
 
-
 //- code_editor
 #editor(
   ng-class="{'in': dataBuild.data.showExplorer}"
@@ -216,6 +215,7 @@ section.sidebar
     file-tree(
       open-files = "dataBuild.data.openFiles"
       version = "dataBuild.data.version"
+      is-clean = "dataBuild.data.isClean"
     )
     h6.explorer-header
       | REPOSITORIES
@@ -239,35 +239,15 @@ section.sidebar
       //- * add class .active to <li> (class should be applied while context menu is open)
       //- * remove readonly property from input and select all text
       //- * save on blur or enter key
-      li
+      li(ng-repeat = "repoModel in dataBuild.data.version.attrs.appCodeVersions")
         span
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
-          | org/reponame
+          | {{ repoModel.attrs.repo }}
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "@master"
-        )
-      li
-        span
-          svg.iconnables.icons-git.filetypes
-            use(xlink:href = "#icons-git")
-          | org/reponame
-        input.tree-input(
-          placeholder = "Specify Branch or SHA"
-          readonly
-          value = "#02cfe5664f"
-        )
-      li
-        span
-          svg.iconnables.icons-git.filetypes
-            use(xlink:href = "#icons-git")
-          | org/reponame
-        input.tree-input(
-          placeholder = "Specify Branch or SHA"
-          readonly
-          value = "#02cfe5664f"
+          value = "{{ repoModel.attrs.commit }}"
         )
 
   button#explorer-toggle.btn-icon(
@@ -285,4 +265,5 @@ section.sidebar
   )
   active-panel(
     open-files = "dataBuild.data.openFiles"
+    is-clean = "dataBuild.data.isClean"
   )

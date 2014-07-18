@@ -58,13 +58,17 @@ function ControllerBuild(
         build: data.build.id()
       }
     }, function () {});
-    /*
-    var buildId = data.build.id();
-    data.thisUser.createInstance({
-      name: 'testname',
-      build: buildId
-    }, function (err, body, code) {});
-*/
+  };
+  actions.createRepo = function () {
+    var version = dataBuild.data.version;
+    var repo = version.addGithubRepo({
+      repo: 'cflynn07/dotfiles'
+    }, function (err, res) {
+      console.log(arguments);
+      version.fetch(function () {
+        $scope.safeApply();
+      });
+    });
   };
   actions.rebuild = function () {};
   actions.build = function () {};
@@ -109,7 +113,6 @@ function ControllerBuild(
       })
       .go();
   }
-
   function fetchEnvironment(cb) {
     new QueryAssist(dataBuild.data.project, cb)
       .wrapFunc('fetchEnvironments')
@@ -128,7 +131,6 @@ function ControllerBuild(
       })
       .go();
   }
-
   function fetchBuild(cb) {
     new QueryAssist(dataBuild.data.environment, cb)
       .wrapFunc('fetchBuild')
@@ -144,7 +146,6 @@ function ControllerBuild(
       })
       .go();
   }
-
   function fetchBuildOwners(cb) {
     //TODO FIX fetchUser
     /*
@@ -156,7 +157,6 @@ function ControllerBuild(
     */
     cb();
   }
-
   function fetchVersion(cb) {
     var build = data.build;
     var contextId = build.toJSON().contexts[0];
@@ -176,7 +176,6 @@ function ControllerBuild(
       })
       .go();
   }
-
   function newFilesCollOpenFiles(cb) {
     var version = data.version;
     data.openFiles = new SharedFilesCollection(
