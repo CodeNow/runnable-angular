@@ -14,12 +14,14 @@ function activePanel(
     templateUrl: 'viewActivePanel',
     replace: true,
     scope: {
-      openFiles: '='
+      openFiles: '=',
+      isClean: '='
     },
     link: function ($scope, element, attrs) {
       $scope.activeFileClone = {};
 
       var updateFile = function updateFile() {
+        $scope.isClean = false;
         $scope.openFiles.activeFile.update({
           json: {
             body: $scope.activeFileClone.body
@@ -31,6 +33,7 @@ function activePanel(
       updateFile = debounce(updateFile, 300);
 
       function fetchFile() {
+        $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
         $scope.openFiles.activeFile.fetch(function() {
           $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
           $scope.activeFileClone.delay = true;

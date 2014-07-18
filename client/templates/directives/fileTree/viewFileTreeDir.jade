@@ -1,6 +1,7 @@
 li.folder(
   ng-class = "{'in': data.open}"
   ng-click = "data.open = !data.open; $event.stopPropagation();"
+  popover-file-explorer-menu
 )
   svg.iconnables.filetypes.icons-folder
     use(xlink:href = "#icons-folder")

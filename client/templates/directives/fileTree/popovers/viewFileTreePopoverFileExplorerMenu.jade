@@ -1,13 +1,19 @@
-.popover.file-menu.bottom.fade
+.popover.file-menu.bottom.fade(
+  ng-class = "{in: dPFEMenu.isOpen}"
+  ng-style = "dPFEMenu.eStyle"
+  right-click
+)
   .popover-content
     ul#file-explorer-options.popover-body
       li(
-        ng-click = "actions.createFile()"
+        ng-click = "dPFEMenu.actions.createFile(); $event.stopPropagation();"
       )
         svg.iconnables
           use(xlink:href = "#icons-file-new")
         | New File
-      li
+      li(
+        ng-click = "dPFEMenu.actions.createFolder(); $event.stopPropagation();"
+      )
         svg.iconnables
           use(xlink:href = "#icons-folder-new")
         | New Folder
