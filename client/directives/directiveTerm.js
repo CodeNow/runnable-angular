@@ -15,7 +15,7 @@ function term(
       var CHAR_WIDTH = 7.5;
       var CHAR_HEIGHT = 15.4;
       var termStream, clientEvents;
-      
+
       function resizeTerm() {
         var x = Math.floor(terminal.element.scrollWidth / CHAR_WIDTH);
         var y = Math.floor(terminal.element.scrollHeight / CHAR_HEIGHT);
@@ -40,13 +40,13 @@ function term(
         useStyle: true,
         screenKeys: true
       });
-      
+
       terminal.open(elem[0]);
       terminal.write(primusTerm.getCache());
-    
+
       // Initalize link to server
       termStream = primusTerm.connection.substream('terminal');
-      
+
       termStream.on('reconnect', function() {
         terminal.writeln('');
         terminal.writeln('Connection regained.  Thank you for your patience');
@@ -57,17 +57,17 @@ function term(
         terminal.writeln('* LOST CONNECTION - retrying *');
         terminal.writeln('******************************');
       });
-      
+
       // Used for window resizing
       clientEvents = primusTerm.connection.substream('clientEvents');
-      
+
       // Client enters data into the system, which registers as data event on terminal
       // terminal then writes that to termStream, sending the data to the server
       // The server then responds (tab-complete, command output, etc)
       // The *response data* is what's eventually written to terminal.
       terminal.on('data', termStream.write.bind(termStream));
       termStream.on('data', terminal.write.bind(terminal));
-      
+
       resizeTerm();
       if (typeof window.onresize === 'function') {
         var oldResize = window.onresize;
@@ -78,7 +78,7 @@ function term(
       } else {
         window.onresize = resizeTerm;
       }
-      
+
       $scope.$on('$destroy', function () {
         termStream.destroy();
         terminal.destroy();
