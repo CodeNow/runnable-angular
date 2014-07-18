@@ -15,7 +15,6 @@ function ControllerBuild(
   extendDeep,
   SharedFilesCollection
 ) {
-  window.ss = $scope;
 
   var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerBuild;
