@@ -226,3 +226,23 @@
   margin-left: -260px;
   margin-top: -330px;
 }
+
+// .browser-chrome
+.browser-chrome {
+  background: rgba(255,255,255,.75);
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  display: flex;
+  height: 36px;
+  padding: 0 3px;
+
+  .btn-icon {
+    float: left;
+  }
+
+  input {
+    background: transparent;
+    border: 0;
+    flex: 1 1 auto;
+    width: auto;
+  }
+}

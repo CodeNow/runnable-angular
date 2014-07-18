@@ -155,7 +155,22 @@ section.sidebar
       option(selected) Tab 1
       option Tab 2
   #editor-container
-    //- code
+    //- nav.browser-chrome
+      button.btn-icon(type = "button")
+        svg.iconnables.icons-close
+            use(xlink:href = "#icons-chevron-left")
+      button.btn-icon(type = "button")
+        svg.iconnables.icons-close
+            use(xlink:href = "#icons-chevron-right")
+      //- button.btn-icon(type = "button")
+      //-   svg.iconnables.icons-close
+      //-       use(xlink:href = "#icons-refresh")
+      //- button.btn-icon(type = "button")
+      //- select all text on click
+      input(
+        placeholder = "Enter an address"
+        value = "http://web-2673c32b.runnable.com"
+      )
     //- note: server log and terminal tab should open by default
     pre(ui-ace) Test
 

@@ -3,7 +3,6 @@ button,
   background: transparent;
   border: 0;
   border-radius: 3px;
-  color: #fff;
   cursor: pointer;
   display: inline-block;
   font-size: 15px;
@@ -66,6 +65,7 @@ button,
 .green,
 .orange,
 .purple {
+  color: #fff;
   letter-spacing: .3px;
 }
 
