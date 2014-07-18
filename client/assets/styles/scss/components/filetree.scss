@@ -1,7 +1,9 @@
-.explorer-header > ul {
+.repo-tree,
+.file-tree {
+  flex: 0 1 auto;
   font-size: 12px;
   font-weight: 400;
-  overflow: auto;
+  overflow-y: auto;
 
   li {
     padding: 0;
@@ -40,6 +42,7 @@
 .repo-tree li {
   cursor: pointer;
   height: 54px;
+  line-height: 36px;
 
   &.active {
     background: #fff;
@@ -62,6 +65,7 @@
 }
 
 .file-tree {
+  border-bottom: 1px solid rgba(0,0,0,.1);
 
   li {
     cursor: pointer;
@@ -69,12 +73,29 @@
     line-height: 28px;
 
     &:active,
-    &.active,
-    &.in {
+    &.active {
       background: #fff;
 
       li {
         background: $gray-lighter;
+
+        &:active,
+        &.active {
+          background: #fff;
+
+          li {
+            background: $gray-lighter;
+
+            &:active,
+            &.active {
+              background: #fff;
+
+              li {
+                background: $gray-lighter;
+              }
+            }
+          }
+        }
       }
     }
 
@@ -87,6 +108,7 @@
   .folder {
     height: auto;
     min-height: 28px;
+    overflow: hidden;
     transition: min-height .2s;
 
     &::after {

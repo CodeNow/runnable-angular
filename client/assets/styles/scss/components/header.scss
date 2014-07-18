@@ -174,8 +174,10 @@ header {
     }
 
     & ~ .accounts {
-      max-height: none;
+      border-radius: 0 0 3px 3px;
+      max-height: 216px;
       opacity: 1;
+      overflow-y: auto;
 
       a {
         opacity: 1;
@@ -209,7 +211,7 @@ header {
   max-height: 0;
   opacity: .5;
   overflow: hidden;
-  transition: opacity .15s;
+  transition: max-height .15s, opacity .15s;
   width: 100%;
 
   li {

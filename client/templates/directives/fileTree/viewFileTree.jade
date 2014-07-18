@@ -1,31 +1,8 @@
-.explorer-header
-  //- h6(ng-if = "buildFiles.models.length")
-  h6
-    | CONFIG FILES
-    a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-      ng-class = "{active: data.showFileMenu}"
-      toggle-pop-over
-      toggle-pop-over-model = "data.showFileMenu"
-    )
-      svg.iconnables.icons-gear
-        use(xlink:href = "#icons-gear")
-      pop-over(
-        template = "viewBuildPopoverFileMenu"
-        actions = "{\
-          createFile: actions.createFile\
-        }"
-        data = "{\
-          showAddRepo: data.showAddRepo,\
-          showForm: data.showForm,\
-          show: data.showFileMenu\
-        }"
-      )
-
-  ul.file-tree
-    //- this is the root dir; there can be only one.
-    file-tree-dir(
-      open = "true"
-      dir = "data.rootDir"
-      version = "version"
-      open-files = "openFiles"
-    )
+ul.file-tree
+  //- this is the root dir; there can be only one.
+  file-tree-dir(
+    open = "true"
+    dir = "data.rootDir"
+    version = "version"
+    open-files = "openFiles"
+  )
