@@ -139,9 +139,9 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
           title = "~/full/path/main.config"
         ) main.config
   pre(
-    readonly = "true"
+    readonly = "{{!dataSetup.data.isAdvanced}}"
     ui-ace
-  )
+  ).
     ## Start from base Ubuntu 14.04
     FROM ubuntu:14.04
 
