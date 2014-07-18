@@ -179,7 +179,6 @@ section.sidebar
             svg.iconnables.icons-git
               use(xlink:href = "#icons-git")
 
-
 //- code_editor
 #editor(
   ng-class="{'in': dataBuild.data.showExplorer}"
@@ -192,43 +191,64 @@ section.sidebar
         ng-click = "dataBuild.data.toggleTheme = !dataBuild.data.toggleTheme"
       )
         .theme
+    //- h6(ng-if = "buildFiles.models.length")
+    h6.explorer-header
+      | CONFIG FILES
+      a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
+        ng-class = "{active: data.showFileMenu}"
+        toggle-pop-over
+        toggle-pop-over-model = "data.showFileMenu"
+      )
+        svg.iconnables.icons-gear
+          use(xlink:href = "#icons-gear")
+        pop-over(
+          template = "viewBuildPopoverFileMenu"
+          actions = "{\
+            createFile: actions.createFile\
+          }"
+          data = "{\
+            showAddRepo: data.showAddRepo,\
+            showForm: data.showForm,\
+            show: data.showFileMenu\
+          }"
+        )
     file-tree(
       open-files = "dataBuild.data.openFiles"
       version = "dataBuild.data.version"
     )
-    #repo-list.explorer-header
-      h6
-        | REPOSITORIES
-        a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-          ng-class = "{active: dataBuild.data.showRepoMenu}"
-          toggle-pop-over
-          toggle-pop-over-model = "dataBuild.data.showRepoMenu"
+    h6.explorer-header
+      | REPOSITORIES
+      a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
+        ng-class = "{active: dataBuild.data.showRepoMenu}"
+        toggle-pop-over
+        toggle-pop-over-model = "dataBuild.data.showRepoMenu"
+      )
+        svg.iconnables.icons-gear
+          use(xlink:href = "#icons-gear")
+        pop-over(
+          actions = "{}"
+          data = "{\
+            show: dataBuild.data.showRepoMenu\
+          }"
+          template = "viewBuildPopoverRepoMenu"
         )
-          svg.iconnables.icons-gear
-            use(xlink:href = "#icons-gear")
-          pop-over(
-            actions = "dataBuild.data.createRepo()"
-            data = "{\
-              show: dataBuild.data.showRepoMenu\
-            }"
-            template = "viewBuildPopoverRepoMenu"
-          )
-      ul.repo-tree
-        //- for "edit mode":
-        //- * delete/editmode entered via context menu
-        //- * add class .active to <li> (class should be applied while context menu is open)
-        //- * remove readonly property from input and select all text
-        //- * save on blur or enter key
-        li(ng-repeat = "repoModel in dataBuild.data.version.attrs.appCodeVersions")
-          span
-            svg.iconnables.icons-git.filetypes
-              use(xlink:href = "#icons-git")
-            | test: {{ repoModel.attrs.repo }}
-          input.tree-input(
-            placeholder = "Specify Branch or SHA"
-            readonly
-            value = "{{ repoModel.attrs.commit }}"
-          )
+    ul.repo-tree
+      //- for "edit mode":
+      //- * delete/editmode entered via context menu
+      //- * add class .active to <li> (class should be applied while context menu is open)
+      //- * remove readonly property from input and select all text
+      //- * save on blur or enter key
+      li(ng-repeat = "repoModel in dataBuild.data.version.attrs.appCodeVersions")
+        span
+          svg.iconnables.icons-git.filetypes
+            use(xlink:href = "#icons-git")
+          | {{ repoModel.attrs.repo }}
+        input.tree-input(
+          placeholder = "Specify Branch or SHA"
+          readonly
+          value = "{{ repoModel.attrs.commit }}"
+        )
+
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.actions.toggleExplorer()"
     type = "button"

@@ -18,8 +18,15 @@
       pointer-events: none;
     }
 
-    & ~ #editor > button {
-      display: none;
+    & ~ #editor {
+
+      > button {
+        display: none;
+      }
+
+      > pre {
+        opacity: 1;
+      }
     }
   }
 
