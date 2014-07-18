@@ -91,7 +91,7 @@ section.sidebar
     li
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
-      | Triggered by <a>{{ dataBuild.data.buildOwner.attrs.username }}</a>
+      | Triggered by <a>{{ dataBuild.data.buildOwner.attrs.accounts.github.username }}</a>
   h3 Message Log
   ol#messages
     li(ng-repeat = "commit in dataBuild.data.commits")
@@ -207,7 +207,7 @@ section.sidebar
           svg.iconnables.icons-gear
             use(xlink:href = "#icons-gear")
           pop-over(
-            actions = "{}"
+            actions = "dataBuild.data.createRepo()"
             data = "{\
               show: dataBuild.data.showRepoMenu\
             }"
@@ -219,37 +219,16 @@ section.sidebar
         //- * add class .active to <li> (class should be applied while context menu is open)
         //- * remove readonly property from input and select all text
         //- * save on blur or enter key
-        li
+        li(ng-repeat = "repoModel in dataBuild.data.version.attrs.appCodeVersions")
           span
             svg.iconnables.icons-git.filetypes
               use(xlink:href = "#icons-git")
-            | org/reponame
+            | test: {{ repoModel.attrs.repo }}
           input.tree-input(
             placeholder = "Specify Branch or SHA"
             readonly
-            value = "@master"
+            value = "{{ repoModel.attrs.commit }}"
           )
-        li
-          span
-            svg.iconnables.icons-git.filetypes
-              use(xlink:href = "#icons-git")
-            | org/reponame
-          input.tree-input(
-            placeholder = "Specify Branch or SHA"
-            readonly
-            value = "#02cfe5664f"
-          )
-        li
-          span
-            svg.iconnables.icons-git.filetypes
-              use(xlink:href = "#icons-git")
-            | org/reponame
-          input.tree-input(
-            placeholder = "Specify Branch or SHA"
-            readonly
-            value = "#02cfe5664f"
-          )
-
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuild.actions.toggleExplorer()"
     type = "button"

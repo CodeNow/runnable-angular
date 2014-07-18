@@ -19,23 +19,37 @@ function activePanel(
       $scope.activeFileClone = {};
 
       var updateFile = function updateFile() {
-        if (!keypather.get($scope.openFiles, 'activeFile')) {
-          return;
-        }
         $scope.openFiles.activeFile.update({
           json: {
             body: $scope.activeFileClone.body
           }
-        }, function () {});
+        }, function () {
+          console.log(arguments);
+        });
       };
       updateFile = debounce(updateFile, 300);
-      $scope.updateFile = function () {
-        updateFile();
-      };
+
+      function fetchFile() {
+        $scope.openFiles.activeFile.fetch(function() {
+          $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
+          $scope.activeFileClone.delay = true;
+          $scope.safeApply();
+        });
+      }
+
+      $scope.$watch('activeFileClone.body', function (newval, oldval) {
+        if(typeof newval === 'string' && $scope.openFiles.activeFile) {
+          if ($scope.activeFileClone.delay){
+            delete $scope.activeFileClone.delay;
+            return;
+          }
+          updateFile();
+        }
+      });
 
       $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
         if (typeof newval === 'string'){
-          $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
+          fetchFile(newval);
         }
       });
     }
