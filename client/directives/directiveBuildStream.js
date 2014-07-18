@@ -4,6 +4,8 @@ require('app')
  * @ngInject
  */
 function buildStream(
+  $location,
+  $anchorScroll,
   primusBuild
 ) {
   return {
@@ -14,12 +16,14 @@ function buildStream(
       $scope.stream = {
         finished: false
       };
-
       $scope.stream.data = primusBuild.getCache();
+
+      $location.hash('scroll-to');
 
       primusBuild.connection.on('data', function (data) {
         $scope.stream.data += data;
         $scope.safeApply();
+        $anchorScroll();
       });
 
       primusBuild.connection.on('end', function () {
