@@ -6,7 +6,8 @@ require('app')
  */
 function activePanel(
   debounce,
-  keypather
+  keypather,
+  $timeout
 ) {
   return {
     restrict: 'E',
@@ -33,7 +34,9 @@ function activePanel(
         $scope.openFiles.activeFile.fetch(function() {
           $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
           $scope.activeFileClone.delay = true;
-          $scope.safeApply();
+          $timeout(function(){
+            $scope.$apply();
+          });
         });
       }
 

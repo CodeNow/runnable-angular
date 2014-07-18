@@ -59,13 +59,6 @@ function ControllerBuild(
         build: data.build.id()
       }
     }, function () {});
-    /*
-    var buildId = data.build.id();
-    data.thisUser.createInstance({
-      name: 'testname',
-      build: buildId
-    }, function (err, body, code) {});
-*/
   };
   actions.createRepo = function () {
     var version = dataBuild.data.version;
