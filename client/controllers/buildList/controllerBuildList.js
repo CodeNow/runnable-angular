@@ -29,7 +29,7 @@ function ControllerBuildList(
 
   actions.stateToInstance = function (buildId) {
     var state = {
-      userName: $scope.dataApp.user.attrs.username,
+      userName: $scope.dataApp.user.attrs.accounts.github.username,
       projectName: dataBuildList.data.project.attrs.name,
       branchName: dataBuildList.data.environment.attrs.name,
       buildName: build.attrs.id,
@@ -39,7 +39,7 @@ function ControllerBuildList(
   };
   actions.stateToBuild = function (build) {
     var state = {
-      userName: $scope.dataApp.user.attrs.username,
+      userName: $scope.dataApp.user.attrs.accounts.github.username,
       projectName: dataBuildList.data.project.attrs.name,
       branchName: dataBuildList.data.environment.attrs.name,
       buildName: build.id()
