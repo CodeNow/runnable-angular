@@ -155,8 +155,9 @@ section.sidebar
       option(selected) Tab 1
       option Tab 2
   #editor-container
-    //- apply .loading to toggle refresh/stop icon
-    //- nav.browser-chrome
+    //- .loading to toggle refresh/stop icon
+    //- .loading is also required for the progress bar, so remove it when loading is complete
+    nav.browser-chrome
       //- apply [disabled] to back/forward to disable
       button.btn-icon(
         disabled
@@ -182,6 +183,12 @@ section.sidebar
         placeholder = "Enter an address"
         value = "http://web-2673c32b.runnable.com"
       )
+      //- style="-webkit-transform: scale3d(%,1,1); transform: scale3d(%,1,1);" to move progress bar--% is the total progress out of 1.00
+      //- http://caniuse.com/#search=transform (Current and previous versions, July 2014):
+      //- * chrome 35
+      //- * safari 6.1, 7, 8
+      //- * android 4.2, 4.3, 4.4
+      .progress
     //- server log and terminal tab should open by default
     pre(ui-ace) Test
 
