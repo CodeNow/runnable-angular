@@ -155,17 +155,21 @@ section.sidebar
       option(selected) Tab 1
       option Tab 2
   #editor-container
+    //- apply .loading to toggle refresh/stop icon
     //- nav.browser-chrome
       button.btn-icon(type = "button")
-        svg.iconnables.icons-close
+        svg.iconnables.icons-chevron-left
             use(xlink:href = "#icons-chevron-left")
       button.btn-icon(type = "button")
-        svg.iconnables.icons-close
+        svg.iconnables.icons-chevron-right
             use(xlink:href = "#icons-chevron-right")
-      //- button.btn-icon(type = "button")
-      //-   svg.iconnables.icons-close
-      //-       use(xlink:href = "#icons-refresh")
-      //- button.btn-icon(type = "button")
+      .iconnables.iconnables-container
+        button.btn-icon(type = "button")
+          svg.iconnables.icons-refresh
+            use(xlink:href = "#icons-refresh")
+        button.btn-icon(type = "button")
+          svg.iconnables.icons-stop
+            use(xlink:href = "#icons-stop")
       //- select all text on click
       input(
         placeholder = "Enter an address"

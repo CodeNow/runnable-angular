@@ -235,8 +235,29 @@
   height: 36px;
   padding: 0 3px;
 
-  .btn-icon {
+  &.loading {
+
+    .icons-refresh {
+      transform: scale3d(0,0,0);
+    }
+
+    .icons-stop {
+      transform: scale3d(1,1,1);
+    }
+  }
+
+  .btn-icon,
+  .iconnables-container {
     float: left;
+    pointer-events: auto;
+
+    .btn-icon {
+      position: absolute;
+    }
+  }
+
+  .icons-stop {
+    transform: scale3d(0,0,0);
   }
 
   input {
