@@ -235,6 +235,10 @@
   height: 36px;
   padding: 0 3px;
 
+  & ~ pre {
+    height: calc(100% - 36px) !important;
+  }
+
   &.loading {
 
     .icons-refresh {
