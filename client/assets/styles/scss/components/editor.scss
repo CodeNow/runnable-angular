@@ -254,6 +254,11 @@
     .btn-icon {
       position: absolute;
     }
+
+    &[disabled] {
+      cursor: default;
+      opacity: .5;
+    }
   }
 
   .icons-stop {

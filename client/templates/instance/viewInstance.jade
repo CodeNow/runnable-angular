@@ -156,11 +156,18 @@ section.sidebar
       option Tab 2
   #editor-container
     //- apply .loading to toggle refresh/stop icon
-    //- nav.browser-chrome
-      button.btn-icon(type = "button")
+    nav.browser-chrome
+      //- apply [disabled] to back/forward to disable
+      button.btn-icon(
+        disabled
+        type = "button"
+      )
         svg.iconnables.icons-chevron-left
             use(xlink:href = "#icons-chevron-left")
-      button.btn-icon(type = "button")
+      button.btn-icon(
+        disabled
+        type = "button"
+      )
         svg.iconnables.icons-chevron-right
             use(xlink:href = "#icons-chevron-right")
       .iconnables.iconnables-container
