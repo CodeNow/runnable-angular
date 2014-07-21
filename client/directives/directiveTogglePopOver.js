@@ -13,7 +13,7 @@ function togglePopOver() {
     },
     link: function ($scope, element, attrs) {
       var clickHandler = $.proxy(function (event) {
-        if (!this.model) {
+        if (!this.model && !element.prop('disabled')) {
           event.stopPropagation();
           this.model = true;
           this.$apply();
