@@ -20,6 +20,12 @@ function buildStream(
         var build = $scope.dataBuild.data.build;
         var buildStream = primusBuild(build.attrs.contextVersions[0]);
 
+        elem.on('$destroy', function () {
+          if (buildStream && !$scope.dataBuild.data.finishedBuild) {
+            buildStream.connection.end();
+          }
+        });
+
         var addToStream = function (data) {
           $scope.stream.data += data;
           $scope.safeApply();
