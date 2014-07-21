@@ -19,7 +19,28 @@ function ControllerProjectLayout(
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
   var data = dataProjectLayout.data,
       actions = dataProjectLayout.actions;
-
+  function isUser (entity) {
+    return entity === $scope.dataApp.user;
+  }
+  actions.getEntityName = function (entity) {
+    if (entity) {
+      return isUser(entity) ?
+        entity.attrs.accounts.github.username: // user
+        entity.login; // org
+    }
+  };
+  actions.getEntityGravatar = function (entity) {
+    if (entity) {
+      return isUser(entity) ?
+        entity.attrs.gravitar : // user
+        entity.avatar_url; // org
+    }
+  };
+  actions.selectProjectOwner = function (userOrOrg) {
+    $scope.dataProjectLayout.data.newProjectOwner = userOrOrg;
+    dataProjectLayout.data.showChangeAccount = false;
+    $scope.safeApply();
+  };
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
@@ -29,24 +50,26 @@ function ControllerProjectLayout(
   actions.getProjectLiClass = function (project) {
     return (project.attrs.name === $state.params.projectName) ? 'active' : '';
   };
-  actions.createNewApp = function () {
+  actions.createNewProject = function () {
     function createProject(thisUser, cb) {
-      var project = thisUser.createProject({
-        name: dataProjectLayout.data.newAppName,
-        dockerfile: 'FROM ubuntu\n'
-      }, function (err) {
+      var body = {
+        name: dataProjectLayout.data.newProjectName
+      };
+      var owner = dataProjectLayout.data.newProjectOwner;
+      if (owner !== $scope.dataApp.user) { // org owner selected
+        body.owner = {
+          github: owner.id
+        };
+      }
+      var project = thisUser.createProject(body, function (err) {
         if (err) {
+          throw err;
         }
         cb(err, thisUser, project);
       });
     }
-    function fetchEnvironments(thisUser, project, cb) {
-      var environments = project.fetchEnvironments(function (err){
-        var environment = environments.models[0];
-        cb(null, thisUser, project, environment);
-      });
-    }
-    function createBuild(thisUser, project, environment, cb) {
+    function createBuild(thisUser, project, cb) {
+      var environment = project.environments.models[0];
       var build = environment.createBuild({
         environment: environment.id()
       }, function (err) {
@@ -56,7 +79,6 @@ function ControllerProjectLayout(
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
       createProject,
-      fetchEnvironments,
       createBuild
     ], function (err, thisUser, project, build) {
       $state.go('projects.setup', {
@@ -94,6 +116,7 @@ function ControllerProjectLayout(
     var thisUser = $scope.dataApp.user;
     thisUser.fetchGithubOrgs(function (err, orgs) {
       dataProjectLayout.data.orgs = orgs;
+      actions.selectProjectOwner(thisUser);
       $scope.safeApply();
       cb();
     });
@@ -144,7 +167,7 @@ ControllerProjectLayout.initState = function () {
   return {
     data: {
       showChangeAccount: false,
-      newAppName: ''
+      newProjectName: ''
     },
     actions: {}
   };
