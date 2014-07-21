@@ -12,8 +12,7 @@ function primusBuild(
 
   return function(contextVersionId) {
 
-    // TODO: Vary port on environment
-    var url = apiConfig.host + ':3030?type=build-stream&id=' + contextVersionId + '&args=' + args;
+    var url = apiConfig.host + ':' + apiConfig.proxyPort + '?type=build-stream&id=' + contextVersionId + '&args=' + args;
 
     var cache = '';
 
