@@ -22,15 +22,18 @@ nav.sub-header
       //- on failed builds, run instance needs to be disabled
       button.orange(
         ng-click = "dataBuild.actions.runInstance()"
+        ng-disabled = "!dataBuild.data.successfulBuild"
         type = "button"
       ) Run Instance
       .btn-group
         button.silver(
           ng-click = "dataBuild.actions.rebuild()"
+          ng-disabled = "!dataBuild.data.finishedBuild"
           type = "button"
         ) Rebuild
         a.btn.silver.btn-icon(
           ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
+          ng-disabled = "!dataBuild.data.finishedBuild"
           toggle-pop-over
           toggle-pop-over-model = "dataBuild.data.showBuildOptionsClean"
         )
