@@ -33,8 +33,20 @@
   position: absolute;
   right: 0;
   top: 54px;
+  transition: opacity .2s;
   width: calc(100% - 510px);
   z-index: 2;
+
+  &.full {
+    height: 100%;
+    padding: 0;
+    top: 0;
+  }
+
+  &.out {
+    opacity: 0;
+    pointer-events: none;
+  }
 
   > button {
     bottom: 15px;
@@ -47,12 +59,6 @@
 
   pre {
     height: 100%;
-  }
-
-  &.full {
-    height: 100%;
-    padding: 0;
-    top: 0;
   }
 }
 
