@@ -14,6 +14,8 @@ function buildStream(
     templateUrl: 'buildStream',
     link: function($scope, elem) {
 
+      $scope.closed = false;
+
       function init() {
         var build = $scope.dataBuild.data.build;
         var buildStream = primusBuild(build.attrs.contextVersions[0]);
