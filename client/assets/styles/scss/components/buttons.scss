@@ -142,7 +142,7 @@ button,
     background: rgba($silver-lighter,.75);
     border-color: rgba(0,0,0,.1);
     box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.01);
-    color: lighten($gray-dark,20);
+    color: rgba($gray-dark,.3);
   }
 
   &.no-states {
@@ -181,8 +181,8 @@ button,
   &[disabled]:hover,
   &[disabled]:active {
     background: rgba($orange-light,.4);
-    border-color: rgba($orange-darker,.6);
-    color: lighten($orange-light,38);
+    border-color: rgba($orange-darker,.2);
+    box-shadow: none;
   }
 }
 
