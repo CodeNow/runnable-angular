@@ -207,6 +207,7 @@ module.exports = function(grunt) {
       javascripts: {
         files: [
           'client/**/*.js',
+          'package.json',
           '!client/build/**/*.*'
         ],
         tasks: [
