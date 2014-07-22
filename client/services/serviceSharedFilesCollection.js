@@ -11,7 +11,7 @@ function factory(
   function SharedFilesCollection(filesCollection, $scope) {
     this.$scope = $scope;
     this.collection = filesCollection;
-    this.setActiveFile(filesCollection.models[0]);
+    this.activeFile = null;
   }
 
   SharedFilesCollection.prototype.remove = function (model) {

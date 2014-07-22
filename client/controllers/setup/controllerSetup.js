@@ -187,6 +187,9 @@ function ControllerSetup(
           files,
           $scope
         );
+        if (files.models && files.models[0]) {
+          dataSetup.data.contextFiles.setActiveFile(files.models[0]);
+        }
         $scope.safeApply();
         cb();
       })
