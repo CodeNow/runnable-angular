@@ -53,13 +53,6 @@ function ControllerApp(
     });
   };
 
-  // disable browser menu on certain elements
-  document.oncontextmenu = function (e) {
-    if (e.target.hasAttribute('right-click')) {
-      return false;
-    }
-  };
-
   UTIL.clickPos = function (e) {
     var x = 0,
       y = 0;
