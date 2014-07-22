@@ -18,7 +18,9 @@ html,
 body,
 #wrapper {
   height: 100%;
-  overflow: hidden;
+  min-width: 1120px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 main {
