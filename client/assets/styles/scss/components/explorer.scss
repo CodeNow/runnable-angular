@@ -100,7 +100,7 @@
   position: relative;
   transform: translate3d(36px,0,0);
   transition: transform .15s ease-in-out, width 0s ease-in-out;
-  width: calc(100% - 72px);
+  width: calc(100% - 71px);
   z-index: $z-popover;
 
   .setup & {
@@ -109,17 +109,17 @@
   }
 
   .with-addtab & {
-    width: calc(100% - 108px);
+    width: calc(100% - 107px);
   }
 
   .in & {
     transform: translate3d(240px,0,0);
     transition: transform .225s ease-in-out, width .275s ease-in-out;
-    width: calc(100% - 276px);
+    width: calc(100% - 275px);
   }
 
   .with-addtab.in & {
-    width: calc(100% - 312px);
+    width: calc(100% - 311px);
   }
 
   > a {

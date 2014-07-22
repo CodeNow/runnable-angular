@@ -72,7 +72,9 @@
   border-bottom: 1px solid rgba(0,0,0,.1);
   float: left;
   height: 36px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
   width: 100%;
 
   li {
@@ -82,10 +84,6 @@
     display: inline-block;
     margin-left: -1px;
     position: relative;
-
-    &:last-child {
-      margin-right: 1px;
-    }
   }
 
   a {
