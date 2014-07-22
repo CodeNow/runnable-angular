@@ -10,7 +10,8 @@ require('app')
 function ControllerSetup(
   $scope,
   $state,
-  async
+  async,
+  SharedFilesCollection
 ) {
 
   var QueryAssist = $scope.UTIL.QueryAssist;
@@ -20,13 +21,25 @@ function ControllerSetup(
     actions = dataSetup.actions;
   data.userClient = user;
 
+  // Determine readonly state
+  $scope.$watch(function() {
+    if (data.contextFiles) {
+      return !data.isAdvanced;
+    }
+    return true;
+  }, function (n) {
+    data.isReadOnly = n;
+  });
+
   actions.setActiveContext = function (context) {
     data.activeSeedContext = context;
     actions.fetchContextVersion();
   };
   actions.fetchContextVersion = function () {
     var context = data.activeSeedContext;
-    fetchContextVersion(context);
+    fetchContextVersion(context, function() {
+      fetchContextFiles(dataSetup.data.activeVersion);
+    });
   };
   actions.buildApplication = function () {
     var context = dataSetup.data.context;
@@ -82,9 +95,11 @@ function ControllerSetup(
       .cacheFetch(function updateDom(versions, cached, cb) {
         dataSetup.data.activeVersion = versions.models[0];
         $scope.safeApply();
+        cb();
       })
       .resolve(function (err, versions, cb) {
         $scope.safeApply();
+        cb();
       })
       .go();
   }
@@ -156,6 +171,32 @@ function ControllerSetup(
         cb();
       })
       .resolve(function (err, contexts, cb) {
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+  function fetchContextFiles(contextVersion, cb) {
+    new QueryAssist(contextVersion, cb)
+      .wrapFunc('fetchFiles')
+      .query({
+        path: '/'
+      })
+      .cacheFetch(function updateDom(files, cached, cb) {
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, files, cb) {
+        if (err) {
+          throw new Error(err);
+        }
+        dataSetup.data.contextFiles = new SharedFilesCollection(
+          files,
+          $scope
+        );
+        if (files.models && files.models[0]) {
+          dataSetup.data.contextFiles.setActiveFile(files.models[0]);
+        }
         $scope.safeApply();
         cb();
       })
