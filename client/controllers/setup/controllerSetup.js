@@ -187,6 +187,9 @@ function ControllerSetup(
         cb();
       })
       .resolve(function(err, files, cb) {
+        if (err) {
+          throw new Error(err);
+        }
         dataSetup.data.contextFiles = new SharedFilesCollection(
           files,
           $scope
