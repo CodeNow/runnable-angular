@@ -37,7 +37,7 @@ function ControllerProjectLayout(
     }
   };
   actions.selectProjectOwner = function (userOrOrg) {
-    $scope.dataProjectLayout.data.newProjectOwner = userOrOrg;
+    dataProjectLayout.data.newProjectOwner = userOrOrg;
     dataProjectLayout.data.showChangeAccount = false;
     $scope.safeApply();
   };
