@@ -183,6 +183,10 @@ function ControllerSetup(
         path: '/'
       })
       .cacheFetch(function updateDom(files, cached, cb) {
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, files, cb) {
         dataSetup.data.contextFiles = new SharedFilesCollection(
           files,
           $scope
@@ -190,10 +194,6 @@ function ControllerSetup(
         if (files.models && files.models[0]) {
           dataSetup.data.contextFiles.setActiveFile(files.models[0]);
         }
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function(err, contexts, cb) {
         $scope.safeApply();
         cb();
       })
