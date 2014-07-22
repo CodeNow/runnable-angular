@@ -434,9 +434,10 @@ header .popover {
 .delete {
   color: $gray-dark;
   opacity: .5;
+  padding: 0;
   position: absolute;
-    top: -3px;
-    right: 9px;
+  right: 9px;
+  top: 0;
 
   &:hover {
     opacity: .75;
@@ -448,6 +449,7 @@ header .popover {
 
   .iconnables {
     height: 18px;
+    top: 4px;
     width: 18px;
   }
 }

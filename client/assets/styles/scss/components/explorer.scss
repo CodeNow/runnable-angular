@@ -541,10 +541,12 @@
 
 #shortcuts {
   border-bottom: 1px solid rgba(0,0,0,.1);
-  max-height: 290px;
-  overflow: scroll;
+  max-height: 144px;
+  overflow: auto;
 
   li {
+    border: 0;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,.1);
     cursor: pointer;
     float: none;
     height: 36px;
@@ -554,7 +556,7 @@
     width: 100%;
 
     &:first-child {
-      border-top: 0;
+      box-shadow: none;
     }
   }
 }
