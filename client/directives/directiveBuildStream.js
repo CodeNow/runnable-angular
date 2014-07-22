@@ -11,7 +11,7 @@ function buildStream(
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: 'buildStream',
+    templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
       $scope.closed = false;
