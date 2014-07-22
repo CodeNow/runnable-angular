@@ -21,17 +21,17 @@ describe('servicePrimus'.bold.underline.blue, function () {
         host: 'http://api.runnable3.net'
       });
     });
-    
-    angular.mock.inject(function (_primus_) {
-      primus = _primus_;
+
+    angular.mock.inject(function (_primusTerm_) {
+      primus = _primusTerm_;
     });
   }
   beforeEach(initState);
-  
-  it('should connect to the server', function () {    
+
+  it('should connect to the server', function () {
     expect(primus.connection).to.be.ok;
   });
-  
+
   it('should have substreams', function () {
     var sub = primus.connection.substream('terminal');
     expect(sub).to.be.ok;

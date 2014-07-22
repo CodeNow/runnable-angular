@@ -21,8 +21,8 @@ describe('directiveTerm'.bold.underline.blue, function () {
     });
   }
   beforeEach(initState);
-  
-  it('should create the Terminal element', function () {    
+
+  it('should create the Terminal element', function () {
     var termEl = element[0].firstChild;
     expect(termEl).to.be.ok;
     expect(termEl.className).to.equal('terminal');
