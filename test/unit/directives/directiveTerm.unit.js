@@ -11,9 +11,6 @@ describe('directiveTerm'.bold.underline.blue, function () {
   var element;
   var $scope;
   function initState() {
-
-    
-
     angular.mock.module('app');
     angular.mock.inject(function($compile, $rootScope){
       $scope = $rootScope.$new();
@@ -30,5 +27,4 @@ describe('directiveTerm'.bold.underline.blue, function () {
     expect(termEl).to.be.ok;
     expect(termEl.className).to.equal('terminal');
   });
-  
 });
