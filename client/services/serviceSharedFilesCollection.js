@@ -11,7 +11,7 @@ function factory(
   function SharedFilesCollection(filesCollection, $scope) {
     this.$scope = $scope;
     this.collection = filesCollection;
-    this.activeFile = null;
+    this.setActiveFile(filesCollection.models[0]);
   }
 
   SharedFilesCollection.prototype.remove = function (model) {
@@ -25,7 +25,7 @@ function factory(
 
   SharedFilesCollection.prototype.add = function (model) {
     if (!(model instanceof this.collection.FileModel)) {
-      throw new Error('model is not corrent type');
+      throw new Error('model is not correct type');
     }
     keypather.set(model, 'state.open', true);
     this.collection.add(model);
@@ -34,7 +34,7 @@ function factory(
 
   SharedFilesCollection.prototype.setActiveFile = function (model) {
     if (!(model instanceof this.collection.FileModel)) {
-      throw new Error('model is not corrent type');
+      throw new Error('model is not correct type');
     }
     if (!(model.id() in this.collection.modelsHash)) {
       throw new Error('file is not open');

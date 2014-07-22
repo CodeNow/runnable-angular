@@ -15,12 +15,14 @@ function activePanel(
     replace: true,
     scope: {
       openFiles: '=',
-      isClean: '='
+      isClean: '=',
+      isReadOnly: '='
     },
     link: function ($scope, element, attrs) {
       $scope.activeFileClone = {};
 
       var updateFile = function updateFile() {
+        if (!$scope.openFiles.activeFile) { return; }
         $scope.isClean = false;
         $scope.openFiles.activeFile.update({
           json: {
