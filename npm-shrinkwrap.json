@@ -6535,9 +6535,9 @@
       }
     },
     "runnable": {
-      "version": "0.13.4",
-      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.13.4",
-      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#b1e8e3e57f1a6785f49008e285623ad17885b92a",
+      "version": "0.14.1",
+      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.14.1",
+      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#b9c543bc644a1408e1bfd8a4c5c7a40f8080eb29",
       "dependencies": {
         "101": {
           "version": "0.3.4",
@@ -6885,7 +6885,7 @@
     "term.js": {
       "version": "0.0.4",
       "from": "term.js@git+https://github.com/CodeNow/term.js",
-      "resolved": "git+https://github.com/CodeNow/term.js#a93f5603e333a2efc1fe8a35e7ec981964390360"
+      "resolved": "git+https://github.com/CodeNow/term.js#70a1957f3aa3ec479635ad3517f1b63caa031bb5"
     },
     "which": {
       "version": "1.0.5",
