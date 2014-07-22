@@ -80,7 +80,8 @@ function ControllerSetup(
       $scope.dataApp.holdUntilAuth,
       fetchProject,
       fetchSeedContexts,
-      fetchDefaultBuild,
+      fetchFirstBuild,
+      fetchOwnerRepos,
       fetchContext
     ], function (err) {});
   };
@@ -123,17 +124,50 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchDefaultBuild(cb) {
+  function fetchFirstBuild(cb){
     var project = dataSetup.data.project;
-    var environment = project.newEnvironment(project.attrs.defaultEnvironment);
+    var environment = project.defaultEnvironment;
     new QueryAssist(environment, cb)
       .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb) {
-        dataSetup.data.build = builds.models[0];
+      .cacheFetch(function updateDom(builds, cached, cb){
+        if (builds.models.length > 1) {
+          // FIXME: redirect
+        }
+        else {
+          // first build
+          dataSetup.data.build = builds.models[0];
+          $scope.safeApply();
+          cb();
+        }
+      })
+      .resolve(function(err, builds, cb){
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, builds, cb) {
+      .go();
+  }
+
+  function fetchOwnerRepos (cb) {
+    var thisUser = $scope.dataApp.user;
+    var build = dataSetup.data.build;
+    var query;
+    if (thisUser.isOwnerOf(dataSetup.data.project)) {
+      query = new QueryAssist(thisUser, cb)
+        .wrapFunc('fetchGithubRepos');
+    }
+    else {
+      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      query = new QueryAssist(githubOrg, cb)
+        .wrapFunc('fetchRepos');
+    }
+    query
+      .query({})
+      .cacheFetch(function updateDom(githubRepos, cached, cb){
+        dataSetup.data.githubRepos = githubRepos;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, context, cb){
         $scope.safeApply();
         cb();
       })
@@ -176,6 +210,7 @@ function ControllerSetup(
       })
       .go();
   }
+
   function fetchContextFiles(contextVersion, cb) {
     new QueryAssist(contextVersion, cb)
       .wrapFunc('fetchFiles')

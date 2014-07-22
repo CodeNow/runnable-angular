@@ -6,7 +6,11 @@
     ) Org/Repo
       svg.iconnables.icons-check
         use(xlink:href = "#icons-check")
-    li Org/Repo
+    li(
+      ng-repeat = "repo in dataSetup.data.githubRepos"
+      ng-if     = "!dataSetup.data.selectedGithubRepos(org)"
+      ng-click  = "dataSetup.data.addGithubRepo(repo.)"
+    )Org/Repo
       svg.iconnables.icons-check
         use(xlink:href = "#icons-check")
     li Org/Repo
