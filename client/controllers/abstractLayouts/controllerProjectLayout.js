@@ -69,7 +69,6 @@ function ControllerProjectLayout(
         cb(err, thisUser, project);
       });
     }
-
     function createBuild(thisUser, project, cb) {
       var environment = project.environments.models[0];
       var build = environment.createBuild({
@@ -102,7 +101,7 @@ function ControllerProjectLayout(
       event.stopPropagation();
     }
     $state.go('projects.buildList', {
-      userName: $scope.dataApp.user.attrs.username,
+      userName: $scope.dataApp.user.attrs.accounts.github.username,
       projectName: project.attrs.name,
       branchName: ((environment) ? environment.name : 'master')
     });

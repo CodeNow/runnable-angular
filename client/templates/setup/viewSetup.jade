@@ -126,60 +126,11 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
     disabled
     type = "button"
   ) Readonly
-  #editor-toolbar
-    ul#tabs-wrapper
-      li
-        a.active(
-          data-title = "dockerfile"
-          title = "~/full/path/dockerfile"
-        ) dockerfile
-      li
-        a(
-          data-title = "main.config"
-          title = "~/full/path/main.config"
-        ) main.config
-  pre(
-    readonly = "{{!dataSetup.data.isAdvanced}}"
-    ui-ace
-  ).
-    ## Start from base Ubuntu 14.04
-    FROM ubuntu:14.04
-
-    ## Update and install components
-    RUN \
-      apt-get update && \
-      apt-get -y upgrade && \
-      apt-get install -y curl man unzip
-
-    ## Set environment variables.
-    ENV HOME /root
-
-    ## Download Node.js v0.10.28 binary
-    RUN \
-      cd /usr/local && \
-      curl -o nodejs.tar.gz http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-x64.tar.gz && \
-      tar --strip-components 1 -xzf nodejs.tar.gz
-
-    ## Install NPM
-    RUN \
-      apt-get update -y && \
-      apt-get install npm -y
-
-
-    ## Specify the directory to work from
-    RUN mkdir app
-    WORKDIR /root/app
-
-    ## Add files to container
-    ADD <reponame> <dst>
-
-    ## Specify which ports to open
-    EXPOSE 80
-
-
-    ## Run NPM on package.json (if included)
-    RUN npm install
-
-
-    ## Specify the last command to run
-    CMD ["node", "server.js"]
+  tabs#editor-toolbar(
+    open-files = "dataSetup.data.contextFiles"
+  )
+  active-panel(
+    is-read-only = "dataSetup.data.isReadOnly"
+    open-files = "dataSetup.data.contextFiles"
+    is-clean = "dataSetup.data.isClean"
+  )
