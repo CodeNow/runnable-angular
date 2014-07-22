@@ -30,7 +30,9 @@ function ControllerSetup(
   }, function (n) {
     data.isReadOnly = n;
   });
-
+  /**
+   * set active context && fetch build files for display
+   */
   actions.setActiveContext = function (context) {
     data.activeSeedContext = context;
     actions.fetchContextVersion();
@@ -44,7 +46,6 @@ function ControllerSetup(
   actions.buildApplication = function () {
     var context = dataSetup.data.context;
     async.waterfall([
-
       function (cb) {
         var version = context.createVersion({
           qs: {
