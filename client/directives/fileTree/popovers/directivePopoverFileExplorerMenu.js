@@ -10,12 +10,12 @@ function popoverFileExplorerMenu(
   $timeout,
   $rootScope,
   keypather
-){
+) {
   return {
     restrict: 'A',
     scope: false,
     // templateUrl: 'viewFileTreePopoverFileExplorerMenu',
-    link: function($scope, element, attrs) {
+    link: function ($scope, element, attrs) {
 
       var clickPos = $rootScope.UTIL.clickPos;
       var dFEMenu = $scope.dPFEMenu = {};
@@ -28,9 +28,9 @@ function popoverFileExplorerMenu(
       };
       dFEMenu.isOpen = false;
 
-      actions.createFile = function(){
+      actions.createFile = function () {
         var name = prompt('filename?');
-        if(!name){
+        if (!name) {
           return;
         }
         $scope.version.createFile({
@@ -40,16 +40,16 @@ function popoverFileExplorerMenu(
         }, function () {
           $scope.version.fetchFiles({
             path: $scope.dir.filepath()
-          }, function(){
-            $timeout(function(){
+          }, function () {
+            $timeout(function () {
               $scope.$apply();
             });
           });
         });
       };
-      actions.createFolder = function(){
+      actions.createFolder = function () {
         var name = prompt('dirname?');
-        if(!name){
+        if (!name) {
           return;
         }
         $scope.version.createFile({
@@ -59,8 +59,8 @@ function popoverFileExplorerMenu(
         }, function () {
           $scope.version.fetchFiles({
             path: $scope.dir.filepath()
-          }, function(){
-            $timeout(function(){
+          }, function () {
+            $timeout(function () {
               $scope.$apply();
             });
           });
@@ -78,31 +78,31 @@ function popoverFileExplorerMenu(
           // not right click
           return;
         }
-        if(angular.isFunction(keypather.get(event, 'stopPropagation'))) {
+        if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
           event.stopPropagation();
         }
         // first close othe
         $rootScope.$broadcast('file-modal-open');
         dFEMenu.isOpen = true;
         var pos = clickPos(event);
-        $timeout(function(){
+        $timeout(function () {
           $scope.$apply();
         });
         return false;
       };
 
-      $scope.$on('file-modal-open', function(){
-        if(dFEMenu.isOpen) {
+      $scope.$on('file-modal-open', function () {
+        if (dFEMenu.isOpen) {
           dFEMenu.isOpen = false;
         }
       });
-      $scope.$on('app-document-click', function(){
-        if(dFEMenu.isOpen) {
+      $scope.$on('app-document-click', function () {
+        if (dFEMenu.isOpen) {
           dFEMenu.isOpen = false;
         }
       });
       element.bind('mousedown', clickHandler);
-      element.on('$destroy', function (){
+      element.on('$destroy', function () {
         element.off('contextmenu');
       });
 

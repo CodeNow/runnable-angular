@@ -9,7 +9,7 @@ function primusTerm(
   apiConfig
 ) {
   var args = JSON.stringify(apiConfig);
-  
+
   // TODO: Vary port on environment
   var url = apiConfig.host + ':3030?type=filibuster&args=' + args;
 

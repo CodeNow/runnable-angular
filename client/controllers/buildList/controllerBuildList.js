@@ -19,7 +19,7 @@ function ControllerBuildList(
   var self = ControllerBuildList;
   var dataBuildList = $scope.dataBuildList = self.initState();
   var data = dataBuildList.data,
-      actions = dataBuildList.actions;
+    actions = dataBuildList.actions;
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
