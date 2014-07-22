@@ -36,7 +36,7 @@ function ControllerApp(
       } else {
         dataApp.user = thisUser;
         $scope.safeApply();
-        if(angular.isFunction(cb)) {
+        if (angular.isFunction(cb)) {
           cb(err, thisUser);
         }
       }
@@ -54,14 +54,15 @@ function ControllerApp(
   };
 
   // disable browser menu on certain elements
-  document.oncontextmenu = function(e){
-    if(e.target.hasAttribute('right-click')){
+  document.oncontextmenu = function (e) {
+    if (e.target.hasAttribute('right-click')) {
       return false;
     }
   };
 
-  UTIL.clickPos = function(e){
-    var x = 0, y = 0;
+  UTIL.clickPos = function (e) {
+    var x = 0,
+      y = 0;
     if (e.pageX || e.pageY) {
       x = e.pageX;
       y = e.pageY;

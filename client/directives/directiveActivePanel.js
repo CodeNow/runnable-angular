@@ -34,18 +34,18 @@ function activePanel(
 
       function fetchFile() {
         $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
-        $scope.openFiles.activeFile.fetch(function() {
+        $scope.openFiles.activeFile.fetch(function () {
           $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
           $scope.activeFileClone.delay = true;
-          $timeout(function(){
+          $timeout(function () {
             $scope.$apply();
           });
         });
       }
 
       $scope.$watch('activeFileClone.body', function (newval, oldval) {
-        if(typeof newval === 'string' && $scope.openFiles.activeFile) {
-          if ($scope.activeFileClone.delay){
+        if (typeof newval === 'string' && $scope.openFiles.activeFile) {
+          if ($scope.activeFileClone.delay) {
             delete $scope.activeFileClone.delay;
             return;
           }
@@ -54,7 +54,7 @@ function activePanel(
       });
 
       $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
-        if (typeof newval === 'string'){
+        if (typeof newval === 'string') {
           fetchFile(newval);
         }
       });
