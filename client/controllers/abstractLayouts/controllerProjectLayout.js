@@ -110,10 +110,6 @@ function ControllerProjectLayout(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function checkAuth(thisUser, cb) {
-    cb();
-  }
-
   function fetchOrgs(cb) {
     var thisUser = $scope.dataApp.user;
     thisUser.fetchGithubOrgs(function (err, orgs) {
@@ -123,7 +119,6 @@ function ControllerProjectLayout(
       cb();
     });
   }
-
   function fetchProjects(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
@@ -142,26 +137,31 @@ function ControllerProjectLayout(
       })
       .go();
   }
+  /**
+   * All pages besides new project page
+   */
   actions.initForState = function () {
     async.waterfall([
       $scope.dataApp.holdUntilAuth,
-      checkAuth,
       fetchOrgs,
       fetchProjects
-    ], function (err) {});
+    ]);
+  };
+  /**
+   * New project page
+   */
+  actions.initForNewState = function () {
+    async.waterfall([
+      $scope.dataApp.holdUntilAuth,
+      fetchOrgs
+    ]);
   };
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
     if (newval.indexOf('projects.') === 0) {
       actions.initForState();
     } else if (newval === 'projects') {
-      // send user home if here and not logged in
-      async.waterfall([
-        $scope.dataApp.holdUntilAuth,
-        checkAuth,
-        fetchOrgs
-      ], function () {});
-      //$scope.dataApp.holdUntilAuth();
+      actions.initForNewState();
     }
   });
 }
