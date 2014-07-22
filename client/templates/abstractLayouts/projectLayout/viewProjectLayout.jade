@@ -12,14 +12,29 @@ header(
     )
       img(
         height = "19"
-        ng-src = "{{ dataApp.user.attrs.gravitar }}"
+        ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.newProjectOwner) }}"
         width = "19"
       )
-      | {{ dataApp.user.attrs.accounts.github.username }}
+      | {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.newProjectOwner) }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
     ul.accounts.btn-group-vertical
-      li.btn.white(ng-repeat = "org in dataProjectLayout.data.orgs")
+      li.btn.white(
+        ng-if     = "dataApp.user !== dataProjectLayout.data.newProjectOwner"
+        ng-click  = "dataProjectLayout.actions.selectProjectOwner(dataApp.user)"
+      )
+        a
+          img(
+            height = "19"
+            ng-src = "{{ dataApp.user.attrs.gravitar }}"
+            width = "19"
+          )
+          | {{ dataApp.user.attrs.accounts.github.username }}
+      li.btn.white(
+        ng-repeat = "org in dataProjectLayout.data.orgs"
+        ng-if     = "org !== dataProjectLayout.data.newProjectOwner"
+        ng-click  = "dataProjectLayout.actions.selectProjectOwner(org)"
+      )
         a
           img(
             height = "19"
@@ -34,11 +49,11 @@ header(
     form
       //- this field is optional. if blank, name the app for them: 'My App'
       input.form-control(
-        ng-model = "dataProjectLayout.data.newAppName"
+        ng-model = "dataProjectLayout.data.newProjectName"
         placeholder = "Application Name"
       )
       button.orange.btn-block(
-        ng-click = "dataProjectLayout.actions.createNewApp()"
+        ng-click = "dataProjectLayout.actions.createNewProject()"
       ) Create App
   .scroll-container
     h3 APPLICATIONS

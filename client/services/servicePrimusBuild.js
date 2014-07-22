@@ -10,7 +10,7 @@ function primusBuild(
 ) {
   var args = JSON.stringify(apiConfig);
 
-  return function(contextVersionId) {
+  return function (contextVersionId) {
 
     var url = apiConfig.host + ':' + apiConfig.proxyPort + '?type=build-stream&id=' + contextVersionId + '&args=' + args;
 

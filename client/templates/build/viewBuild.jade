@@ -266,7 +266,6 @@ section.sidebar
   tabs(
     open-files = "dataBuild.data.openFiles"
   )
-  button.btn.btn-icon(type = "button")
   tabs-dropdown(
     open-files = "dataBuild.data.openFiles"
   )
@@ -275,7 +274,7 @@ section.sidebar
     is-clean = "dataBuild.data.isClean"
   )
 
-//- logs
-build-stream(
-  ng-class = "{out: closed}"
-)
+  //- logs
+  build-stream(
+    ng-class = "{out: dataBuild.data.closed}"
+  )
