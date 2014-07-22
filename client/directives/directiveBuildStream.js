@@ -12,7 +12,7 @@ function buildStream(
     restrict: 'E',
     replace: true,
     templateUrl: 'buildStream',
-    link: function ($scope, elem) {
+    link: function($scope, elem) {
 
       $scope.closed = false;
 
@@ -60,10 +60,7 @@ function buildStream(
       }
 
       var initalizer = $scope.$watch('dataBuild.data.build', function (n) {
-        if (n) {
-          init();
-          initalizer();
-        }
+        if (n) { init(); initalizer(); }
       });
     }
   };

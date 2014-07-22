@@ -47,11 +47,11 @@ function term(
       // Initalize link to server
       termStream = primusTerm.connection.substream('terminal');
 
-      termStream.on('reconnect', function () {
+      termStream.on('reconnect', function() {
         terminal.writeln('');
         terminal.writeln('Connection regained.  Thank you for your patience');
       });
-      termStream.on('offline', function () {
+      termStream.on('offline', function() {
         terminal.writeln('');
         terminal.writeln('******************************');
         terminal.writeln('* LOST CONNECTION - retrying *');
@@ -71,7 +71,7 @@ function term(
       resizeTerm();
       if (typeof window.onresize === 'function') {
         var oldResize = window.onresize;
-        window.onresize = function () {
+        window.onresize = function() {
           oldResize();
           resizeTerm();
         };

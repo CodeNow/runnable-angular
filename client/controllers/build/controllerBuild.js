@@ -113,7 +113,6 @@ function ControllerBuild(
       })
       .go();
   }
-
   function fetchEnvironment(cb) {
     new QueryAssist(dataBuild.data.project, cb)
       .wrapFunc('fetchEnvironments')
@@ -132,7 +131,6 @@ function ControllerBuild(
       })
       .go();
   }
-
   function fetchBuild(cb) {
     new QueryAssist(dataBuild.data.environment, cb)
       .wrapFunc('fetchBuild')
@@ -148,7 +146,6 @@ function ControllerBuild(
       })
       .go();
   }
-
   function fetchBuildOwners(cb) {
     //TODO FIX fetchUser
     /*
@@ -160,7 +157,6 @@ function ControllerBuild(
     */
     cb();
   }
-
   function fetchVersion(cb) {
     var build = data.build;
     var contextId = build.toJSON().contexts[0];
@@ -180,7 +176,6 @@ function ControllerBuild(
       })
       .go();
   }
-
   function newFilesCollOpenFiles(cb) {
     var version = data.version;
     data.openFiles = new SharedFilesCollection(
