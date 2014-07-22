@@ -1,19 +1,11 @@
 .popover-content
   ul.vertical-list
     li(
+      ng-repeat = "repo in dataSetup.data.githubRepos.models"
       ng-class = "{in: dataSetup.repoSelected}"
-      ng-click = "dataSetup.repoSelected = !dataSetup.repoSelected"
-    ) Org/Repo
-      svg.iconnables.icons-check
-        use(xlink:href = "#icons-check")
-    li(
-      ng-repeat = "repo in dataSetup.data.githubRepos"
-      ng-if     = "!dataSetup.data.selectedGithubRepos(org)"
-      ng-click  = "dataSetup.data.addGithubRepo(repo.)"
-    )Org/Repo
-      svg.iconnables.icons-check
-        use(xlink:href = "#icons-check")
-    li Org/Repo
+      ng-if = "!dataSetup.actions.selectedGithubRepos(org)"
+      ng-click = "dataSetup.actions.addGithubRepo(repo, $index)"
+    ){{ repo.attrs.name }}
       svg.iconnables.icons-check
         use(xlink:href = "#icons-check")
   button.btn-block.silver(
