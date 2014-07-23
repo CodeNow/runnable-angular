@@ -78,7 +78,7 @@ function ControllerSetup(
   };
   actions.initState = function () {
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       fetchProject,
       fetchSeedContexts,
       fetchDefaultBuild,
