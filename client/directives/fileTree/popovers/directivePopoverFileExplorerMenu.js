@@ -1,3 +1,4 @@
+var $ = require('jquery');
 require('app')
   .directive('popoverFileExplorerMenu', popoverFileExplorerMenu);
 /**
@@ -13,18 +14,21 @@ function popoverFileExplorerMenu(
 ) {
   return {
     restrict: 'A',
-    scope: false,
+    scope: false, // latch on to file-tree && file-tree-dir isolate scope
+    // scope: {},
     link: function ($scope, element, attrs) {
 
+      window.ss = $scope;
       var clickPos = $rootScope.UTIL.clickPos;
       var dFEMenu = $scope.dPFEMenu = {};
       var actions = dFEMenu.actions = {};
 
       dFEMenu.eStyle = {
         position: 'fixed',
-        top: '10px',
-        left: '10px',
+        top: '0px',
+        left: '0px'
       };
+
       dFEMenu.isOpen = false;
 
       actions.createFile = function () {
@@ -72,25 +76,6 @@ function popoverFileExplorerMenu(
       $compile($template)($scope);
       element.prepend($template);
 
-      var clickHandler = function (event) {
-        if (event.which !== 3) {
-          // not right click
-          return;
-        }
-        if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
-          event.stopPropagation();
-        }
-        // first close other
-        $rootScope.$broadcast('file-modal-open');
-        dFEMenu.isOpen = true;
-        var pos = clickPos(event);
-        $timeout(function () {
-          $scope.$apply();
-        });
-        return false;
-      };
-
-      /*
       $scope.$on('file-modal-open', function () {
         if (dFEMenu.isOpen) {
           dFEMenu.isOpen = false;
@@ -102,10 +87,16 @@ function popoverFileExplorerMenu(
         }
       });
 
-      */
       // element.bind('mousedown', clickHandler);
       element[0].addEventListener('contextmenu', function(e){
-        debugger;
+        $scope.dPFEMenu.eStyle.top = e.offsetY+'px';
+        $scope.dPFEMenu.eStyle.left = e.offsetX+'px';
+        $scope.dPFEMenu.isOpen = true;
+
+        $timeout(function () {
+          $scope.$apply();
+        });
+
         e.preventDefault();
         e.stopPropagation();
       });
