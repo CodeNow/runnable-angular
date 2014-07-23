@@ -53,6 +53,7 @@ function ControllerProjectLayout(
     return (project.attrs.name === $state.params.projectName) ? 'active' : '';
   };
   actions.createNewProject = function () {
+    var thisUser = $scope.datApp.user;
     function createProject(thisUser, cb) {
       var body = {
         name: dataProjectLayout.data.newProjectName
