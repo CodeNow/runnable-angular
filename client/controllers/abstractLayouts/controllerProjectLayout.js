@@ -15,6 +15,7 @@ function ControllerProjectLayout(
   keypather
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
+  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerProjectLayout;
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
   var data = dataProjectLayout.data,
@@ -78,7 +79,7 @@ function ControllerProjectLayout(
       });
     }
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       createProject,
       createBuild
     ], function (err, thisUser, project, build) {
@@ -142,7 +143,7 @@ function ControllerProjectLayout(
    */
   actions.initForState = function () {
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       fetchOrgs,
       fetchProjects
     ]);
@@ -152,7 +153,7 @@ function ControllerProjectLayout(
    */
   actions.initForNewState = function () {
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       fetchOrgs
     ]);
   };
