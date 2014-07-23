@@ -71,45 +71,6 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
             ng-click = "dataSetup.actions.setActiveContext(context)"
             type = "radio"
           )
-      //-
-        //- the required attribute is needed on only one input
-        label.active Node.js + MongoDB
-          input(
-            checked
-            name = "docker-template"
-            required
-            type = "radio"
-          )
-        label Template 2
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 3
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 4
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 5
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 6
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 7
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
     button.btn-block.orange(
       ng-click = "dataSetup.actions.buildApplication()"
     ) Build Application
