@@ -1,7 +1,7 @@
 .popover-content
   ul.vertical-list
     li(
-      ng-repeat = "repo in dataSetup.data.githubRepos.models"
+      ng-repeat = "repo in dataSetup.data.githubRepos.models | repos:dataSetup.data.repoFilter"
       ng-class = "{in: dataSetup.repoSelected}"
       ng-if = "!dataSetup.actions.selectedGithubRepos(org)"
       ng-click = "dataSetup.actions.addGithubRepo(repo, $index)"
