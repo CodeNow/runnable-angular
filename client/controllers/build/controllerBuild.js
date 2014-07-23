@@ -15,8 +15,8 @@ function ControllerBuild(
   extendDeep,
   SharedFilesCollection
 ) {
-
   var QueryAssist = $scope.UTIL.QueryAssist;
+  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerBuild;
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
   // one-time initialization
@@ -90,8 +90,8 @@ function ControllerBuild(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchProject(thisUser, cb) {
-    data.thisUser = thisUser;
+  function fetchProject(cb) {
+    var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
@@ -193,7 +193,7 @@ function ControllerBuild(
   }
   actions.seriesFetchAll = function () {
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       fetchProject,
       fetchEnvironment,
       fetchBuild,
