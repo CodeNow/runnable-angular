@@ -38,19 +38,16 @@ function ControllerSetup(
     data.githubRepos.models.splice(idx, 1);
   };
   actions.removeGithubRepo = function (idx) {
-    data.githubRepos.models.push(
-      data.selectedRepos.splice(idx, 1)[0]
-    );
-    // TODO use log(n) solution
-    data.githubRepos.models.sort(function (a, b) {
-      if (a.attrs.name.toLowerCase() > b.attrs.name.toLowerCase()) {
-        return 1;
-      } else if (a.attrs.name.toLowerCase() < b.attrs.name.toLowerCase()) {
-        return -1;
-      } else {
-        return 0;
+    var repo = data.selectedRepos.splice(idx, 1)[0];
+    var lower = repo.attrs.name.toLowerCase();
+    var models = data.githubRepos.models;
+
+    for (var i = 0, len = models.length; i < len; i++) {
+      if (lower < models[i].attrs.name.toLowerCase()) {
+        models.splice(i, 0, repo);
+        break;
       }
-    });
+    }
   };
   actions.setActiveContext = function (context) {
     data.activeSeedContext = context;
