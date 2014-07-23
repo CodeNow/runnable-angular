@@ -106,14 +106,14 @@ describe('ControllerBuild'.bold.underline.blue, function () {
     });
 
     it('outside click event on document has no effect on popovers when not displayed', function () {
-      $appScope.dataApp.click();
+      $appScope.dataApp.documentClickEventHandler();
       expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
       expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
       expect(dataBuild.data).to.have.property('buildName', $stateParams.buildName);
       expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
     });
 
-    it('//outside click event on document hides popovers when they are displayed', function () {
+    it.skip('outside click event on document hides popovers when they are displayed', function () {
     });
 
   });
@@ -143,7 +143,7 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       expect(dataBuild.data.showExplorer).to.equal(false);
       dataBuild.actions.toggleExplorer();
       expect(dataBuild.data.showExplorer).to.equal(true);
-      $appScope.dataApp.click();
+      $appScope.dataApp.documentClickEventHandler();
       expect(dataBuild.data.showExplorer).to.equal(true);
     });
   });

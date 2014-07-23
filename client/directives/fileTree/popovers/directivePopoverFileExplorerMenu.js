@@ -105,7 +105,6 @@ function popoverFileExplorerMenu(
       */
       // element.bind('mousedown', clickHandler);
       element[0].addEventListener('contextmenu', function(e){
-        debugger;
         e.preventDefault();
         e.stopPropagation();
       });
