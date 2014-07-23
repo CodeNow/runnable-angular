@@ -1,10 +1,8 @@
-header(
-  ng-class = "dataProjectLayout.actions.getInClass()"
-)
+header(ng-class = "dataProjectLayout.actions.getInClass()")
   .startup-container
     a#logo(href = "/")
-      span
-      sup &lt;alpha&gt;
+      svg
+        use(xlink:href = "#runnable-logo")
     button.white#user(
       ng-class="{'active': dataProjectLayout.data.showChangeAccount}"
       ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
@@ -31,9 +29,9 @@ header(
           )
           | {{ dataApp.user.attrs.accounts.github.username }}
       li.btn.white(
-        ng-repeat = "org in dataProjectLayout.data.orgs"
-        ng-if     = "org !== dataProjectLayout.data.newProjectOwner"
         ng-click  = "dataProjectLayout.actions.selectProjectOwner(org)"
+        ng-if     = "org !== dataProjectLayout.data.newProjectOwner"
+        ng-repeat = "org in dataProjectLayout.data.orgs"
       )
         a
           img(

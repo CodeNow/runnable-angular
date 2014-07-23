@@ -1,3 +1,6 @@
+// themes
+@import "themes";
+
 #editor {
   background: $gray-light;
   height: calc(100% - 54px);
@@ -10,8 +13,7 @@
     position: absolute;
     width: 100%;
 
-    &[readonly],
-    &[readonly='true'] {
+    &.readonly {
       opacity: .5;
     }
   }

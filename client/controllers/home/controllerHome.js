@@ -8,34 +8,25 @@ require('app')
  */
 function ControllerHome(
   $scope,
-  user
+  $state,
+  async
 ) {
+  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
+  var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerHome;
   var dataHome = $scope.dataHome = self.initState();
-  self.checkIfAuth(
-    $scope.dataApp.holdUntilAuth,
-    $scope.dataApp.state,
-    user
-  );
-}
 
-ControllerHome.initState = function () {
-  return {};
-};
-
-ControllerHome.checkIfAuth = function (holdUntilAuth,
-  $state,
-  user) {
-  holdUntilAuth(function (err, thisUser) {
-    if (!err && thisUser) {
-      var projects = thisUser.fetchProjects({
-        owner: {
-          github: thisUser.attrs.accounts.github.id
-        }
-      }, function () {
+  function verifyUserIsAuth () {
+    async.series([
+      holdUntilAuth,
+      fetchProjects,
+      function sendUserSomewhere (cb) {
+        var thisUser = $scope.dataApp.user;
+        var projects = dataHome.data.projects;
         if (!projects.models.length) {
+          // new project
           $state.go('projects', {});
-          return;
+          return cb();
         }
         var firstProject = projects.models[0];
         $state.go('projects.buildList', {
@@ -43,8 +34,36 @@ ControllerHome.checkIfAuth = function (holdUntilAuth,
           projectName: firstProject.attrs.name,
           branchName: 'master'
         });
-      });
-    }
-  });
+        cb();
+      }
+    ]);
+  }
 
+  function fetchProjects (cb) {
+    var thisUser = $scope.dataApp.user;
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchProjects')
+      .query({
+        owner: {
+          github: thisUser.attrs.accounts.github.id
+        }
+      })
+      .cacheFetch(function (projects, cached, cb){
+        dataHome.data.projects = projects;
+        cb();
+      })
+      .resolve(function (err, projects, cb) {
+        cb();
+      })
+      .go();
+  }
+
+  verifyUserIsAuth();
+}
+
+ControllerHome.initState = function () {
+  return {
+    actions: {},
+    data: {}
+  };
 };

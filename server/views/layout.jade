@@ -32,6 +32,6 @@ html(
     ng-include#svg-defs(src = "'svgDefs'")
     #wrapper(
       ng-class = "dataApp.state.current.data.bodyClass"
-      ng-click = "dataApp.click($scope, this)"
+      ng-click = "dataApp.documentClickEventHandler($scope, this)"
       ui-view
     )

@@ -15,6 +15,7 @@ function ControllerProjectLayout(
   keypather
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
+  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerProjectLayout;
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
   var data = dataProjectLayout.data,
@@ -52,7 +53,8 @@ function ControllerProjectLayout(
     return (project.attrs.name === $state.params.projectName) ? 'active' : '';
   };
   actions.createNewProject = function () {
-    function createProject(thisUser, cb) {
+    var thisUser = $scope.dataApp.user;
+    function createProject(cb) {
       var body = {
         name: dataProjectLayout.data.newProjectName
       };
@@ -78,7 +80,7 @@ function ControllerProjectLayout(
       });
     }
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       createProject,
       createBuild
     ], function (err, thisUser, project, build) {
@@ -110,10 +112,6 @@ function ControllerProjectLayout(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function checkAuth(thisUser, cb) {
-    cb();
-  }
-
   function fetchOrgs(cb) {
     var thisUser = $scope.dataApp.user;
     thisUser.fetchGithubOrgs(function (err, orgs) {
@@ -123,7 +121,6 @@ function ControllerProjectLayout(
       cb();
     });
   }
-
   function fetchProjects(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
@@ -142,26 +139,31 @@ function ControllerProjectLayout(
       })
       .go();
   }
+  /**
+   * All pages besides new project page
+   */
   actions.initForState = function () {
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
-      checkAuth,
+      holdUntilAuth,
       fetchOrgs,
       fetchProjects
-    ], function (err) {});
+    ]);
+  };
+  /**
+   * New project page
+   */
+  actions.initForNewState = function () {
+    async.waterfall([
+      holdUntilAuth,
+      fetchOrgs
+    ]);
   };
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
     if (newval.indexOf('projects.') === 0) {
       actions.initForState();
     } else if (newval === 'projects') {
-      // send user home if here and not logged in
-      async.waterfall([
-        $scope.dataApp.holdUntilAuth,
-        checkAuth,
-        fetchOrgs
-      ], function () {});
-      //$scope.dataApp.holdUntilAuth();
+      actions.initForNewState();
     }
   });
 }

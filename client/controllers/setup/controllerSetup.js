@@ -13,7 +13,7 @@ function ControllerSetup(
   async,
   SharedFilesCollection
 ) {
-
+  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerSetup;
   var dataSetup = $scope.dataSetup = self.initState();
@@ -30,7 +30,6 @@ function ControllerSetup(
   }, function (n) {
     data.isReadOnly = n;
   });
-
 
   actions.addGithubRepo = function (repo, idx) {
     if (~data.selectedRepos.indexOf(repo)) { /* dupe */return; }
@@ -49,6 +48,10 @@ function ControllerSetup(
       }
     }
   };
+
+  /**
+   * set active context && fetch build files for display
+   */
   actions.setActiveContext = function (context) {
     data.activeSeedContext = context;
     actions.fetchContextVersion();
@@ -62,7 +65,6 @@ function ControllerSetup(
   actions.buildApplication = function () {
     var context = dataSetup.data.context;
     async.waterfall([
-
       function (cb) {
         var version = context.createVersion({
           qs: {
@@ -73,11 +75,12 @@ function ControllerSetup(
             environment: dataSetup.data.project.attrs.defaultEnvironment
           }
         }, function (err, version) {
+          if (err) { throw new Error(err); }
           cb(null, version);
         });
       },
       function (version, cb) {
-        dataSetup.data.build.build(function () {
+        dataSetup.data.build.build({message: 'test one two!'}, function () {
           cb();
         });
       }
@@ -95,7 +98,7 @@ function ControllerSetup(
   };
   actions.initState = function () {
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       fetchProject,
       fetchSeedContexts,
       fetchFirstBuild,
@@ -123,7 +126,8 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchProject(thisUser, cb) {
+  function fetchProject(cb) {
+    var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({

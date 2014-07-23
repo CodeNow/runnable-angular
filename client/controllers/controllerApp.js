@@ -25,22 +25,8 @@ function ControllerApp(
     $stateParams,
     apiConfig.host);
 
-  dataApp.click = function () {
+  dataApp.documentClickEventHandler = function () {
     $scope.$broadcast('app-document-click');
-  };
-
-  dataApp.holdUntilAuth = function (cb) {
-    holdUntilAuth(function (err, thisUser) {
-      if (err) {
-        $state.go('home', {});
-      } else {
-        dataApp.user = thisUser;
-        $scope.safeApply();
-        if (angular.isFunction(cb)) {
-          cb(err, thisUser);
-        }
-      }
-    });
   };
 
   $rootScope.safeApply = function (cb) {
@@ -53,13 +39,19 @@ function ControllerApp(
     });
   };
 
-  // disable browser menu on certain elements
-  document.oncontextmenu = function (e) {
-    if (e.target.hasAttribute('right-click')) {
-      return false;
-    }
+  UTIL.holdUntilAuth = function (cb) {
+    holdUntilAuth(function (err, thisUser) {
+      if (err) {
+        $state.go('home', {});
+      } else {
+        dataApp.user = thisUser;
+        $scope.safeApply();
+        if (angular.isFunction(cb)) {
+          cb(err);
+        }
+      }
+    });
   };
-
   UTIL.clickPos = function (e) {
     var x = 0,
       y = 0;
@@ -76,11 +68,12 @@ function ControllerApp(
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {
+  var redirect = encodeURI(window.location.protocol + '//' + window.location.host);
   return {
     state: $state,
     stateParams: $stateParams,
     user: null,
-    loginURL: apiHost + '/auth/github?redirect=' + encodeURI('http://localhost:3001'),
-    logoutURL: apiHost + '/auth/logout?redirect=' + encodeURI('http://localhost:3001')
+    loginURL: apiHost + '/auth/github?redirect=' + redirect,
+    logoutURL: apiHost + '/auth/logout?redirect=' + redirect
   };
 };
