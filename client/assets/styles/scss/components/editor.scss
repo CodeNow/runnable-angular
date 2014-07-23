@@ -10,8 +10,7 @@
     position: absolute;
     width: 100%;
 
-    &[readonly],
-    &[readonly='true'] {
+    &.readonly {
       opacity: .5;
     }
   }
