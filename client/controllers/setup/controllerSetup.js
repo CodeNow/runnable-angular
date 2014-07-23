@@ -54,14 +54,14 @@ function ControllerSetup(
    */
   actions.setActiveContext = function (context) {
     data.activeSeedContext = context;
-    actions.fetchContextVersion();
+    fetchSourceContextVersion();
   };
-  actions.fetchContextVersion = function () {
-    var context = data.activeSeedContext;
-    fetchContextVersion(context, function() {
-      fetchContextFiles(dataSetup.data.activeVersion);
-    });
-  };
+  // actions.fetchSourceContextVersion = function () {
+  //   var context = data.activeSeedContext;
+  //   fetchContextVersion(context, function() {
+  //     fetchContextFiles(dataSetup.data.activeVersion);
+  //   });
+  // };
   actions.buildApplication = function () {
     var context = dataSetup.data.context;
     async.waterfall([
@@ -103,7 +103,8 @@ function ControllerSetup(
       fetchSeedContexts,
       fetchFirstBuild,
       fetchOwnerRepos,
-      fetchContext
+      fetchContext,
+      fetchContextVersion
     ], function (err) {});
   };
   actions.initState();
@@ -111,8 +112,8 @@ function ControllerSetup(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchContextVersion(context, cb) {
-    new QueryAssist(context, cb)
+  function fetchSourceContextVersion (sourceContext, cb) {
+    new QueryAssist(sourceContext, cb)
       .wrapFunc('fetchVersions')
       .cacheFetch(function updateDom(versions, cached, cb) {
         dataSetup.data.activeVersion = versions.models[0];
@@ -146,7 +147,7 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchFirstBuild(cb){
+  function fetchFirstBuild(cb) {
     var project = dataSetup.data.project;
     var environment = project.defaultEnvironment;
     new QueryAssist(environment, cb)
@@ -199,15 +200,42 @@ function ControllerSetup(
   function fetchContext(cb) {
     var build = dataSetup.data.build;
     var thisUser = $scope.dataApp.user;
+    console.log(build.attrs);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchContext')
       .query(build.attrs.contexts[0])
       .cacheFetch(function updateDom(context, cached, cb) {
+        console.log('CONTEXT FETCHED', context);
         dataSetup.data.context = context;
         $scope.safeApply();
         cb();
       })
       .resolve(function (err, context, cb) {
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+
+  function fetchContextVersion (cb) {
+    var build = dataSetup.data.build;
+    var context = dataSetup.data.context;
+    var thisUser = $scope.dataApp.user;
+    new QueryAssist(context, cb)
+      .wrapFunc('fetchVersion')
+      .query(build.attrs.contextVersions[0])
+      .cacheFetch(function updateDom(contextVersion, cached, cb) {
+        dataSetup.data.contextVersion = contextVersion;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, context, cb) {
+        if (err) {
+          throw err;
+        }
         $scope.safeApply();
         cb();
       })

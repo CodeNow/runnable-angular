@@ -29,8 +29,8 @@ header(ng-class = "dataProjectLayout.actions.getInClass()")
           )
           | {{ dataApp.user.attrs.accounts.github.username }}
       li.btn.white(
-        ng-click  = "dataProjectLayout.actions.selectProjectOwner(org)"
-        ng-if     = "org !== dataProjectLayout.data.newProjectOwner"
+        ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
+        ng-if = "org !== dataProjectLayout.data.newProjectOwner"
         ng-repeat = "org in dataProjectLayout.data.orgs"
       )
         a

@@ -192,6 +192,7 @@ function ControllerBuild(
 
   function newFilesCollOpenFiles(cb) {
     var version = user.newContext().newVersion();
+    console.log('version', version);
     data.openFiles = new SharedFilesCollection(
       version.newFiles([], {
         client: true
