@@ -25,22 +25,8 @@ function ControllerApp(
     $stateParams,
     apiConfig.host);
 
-  dataApp.click = function () {
+  dataApp.documentClickEventHandler = function () {
     $scope.$broadcast('app-document-click');
-  };
-
-  dataApp.holdUntilAuth = function (cb) {
-    holdUntilAuth(function (err, thisUser) {
-      if (err) {
-        $state.go('home', {});
-      } else {
-        dataApp.user = thisUser;
-        $scope.safeApply();
-        if (angular.isFunction(cb)) {
-          cb(err, thisUser);
-        }
-      }
-    });
   };
 
   $rootScope.safeApply = function (cb) {
@@ -53,6 +39,19 @@ function ControllerApp(
     });
   };
 
+  UTIL.holdUntilAuth = function (cb) {
+    holdUntilAuth(function (err, thisUser) {
+      if (err) {
+        $state.go('home', {});
+      } else {
+        dataApp.user = thisUser;
+        $scope.safeApply();
+        if (angular.isFunction(cb)) {
+          cb(err);
+        }
+      }
+    });
+  };
   UTIL.clickPos = function (e) {
     var x = 0,
       y = 0;
