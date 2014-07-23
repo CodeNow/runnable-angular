@@ -56,11 +56,12 @@ function ControllerSetup(
             environment: dataSetup.data.project.attrs.defaultEnvironment
           }
         }, function (err, version) {
+          if (err) { throw new Error(err); }
           cb(null, version);
         });
       },
       function (version, cb) {
-        dataSetup.data.build.build(function () {
+        dataSetup.data.build.build({message: 'test one two!'}, function () {
           cb();
         });
       }
