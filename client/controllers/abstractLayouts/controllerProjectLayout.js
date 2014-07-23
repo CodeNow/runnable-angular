@@ -34,7 +34,7 @@ function ControllerProjectLayout(
   actions.getEntityGravatar = function (entity) {
     if (entity) {
       return isUser(entity) ?
-        entity.attrs.gravitar : // user
+        entity.attrs.gravatar : // user
         entity.avatar_url; // org
     }
   };

@@ -208,6 +208,8 @@ module.exports = function(grunt) {
         files: [
           'client/**/*.js',
           'package.json',
+          'node_modules/runnable/**/*.js',
+          '!node_modules/runnable/node_modules/**/*.*',
           '!client/build/**/*.*'
         ],
         tasks: [
