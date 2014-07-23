@@ -30,6 +30,25 @@ function ControllerSetup(
   }, function (n) {
     data.isReadOnly = n;
   });
+
+  actions.addGithubRepo = function (repo, idx) {
+    if (~data.selectedRepos.indexOf(repo)) { /* dupe */return; }
+    data.selectedRepos.push(repo);
+    data.githubRepos.models.splice(idx, 1);
+  };
+  actions.removeGithubRepo = function (idx) {
+    var repo = data.selectedRepos.splice(idx, 1)[0];
+    var lower = repo.attrs.name.toLowerCase();
+    var models = data.githubRepos.models;
+
+    for (var i = 0, len = models.length; i < len; i++) {
+      if (lower < models[i].attrs.name.toLowerCase()) {
+        models.splice(i, 0, repo);
+        break;
+      }
+    }
+  };
+
   /**
    * set active context && fetch build files for display
    */
@@ -82,7 +101,8 @@ function ControllerSetup(
       holdUntilAuth,
       fetchProject,
       fetchSeedContexts,
-      fetchDefaultBuild,
+      fetchFirstBuild,
+      fetchOwnerRepos,
       fetchContext
     ], function (err) {});
   };
@@ -126,17 +146,50 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchDefaultBuild(cb) {
+  function fetchFirstBuild(cb){
     var project = dataSetup.data.project;
-    var environment = project.newEnvironment(project.attrs.defaultEnvironment);
+    var environment = project.defaultEnvironment;
     new QueryAssist(environment, cb)
       .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb) {
-        dataSetup.data.build = builds.models[0];
+      .cacheFetch(function updateDom(builds, cached, cb){
+        if (builds.models.length > 1) {
+          // FIXME: redirect
+        }
+        else {
+          // first build
+          dataSetup.data.build = builds.models[0];
+          $scope.safeApply();
+          cb();
+        }
+      })
+      .resolve(function(err, builds, cb){
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, builds, cb) {
+      .go();
+  }
+
+  function fetchOwnerRepos (cb) {
+    var thisUser = $scope.dataApp.user;
+    var build = dataSetup.data.build;
+    var query;
+    if (thisUser.isOwnerOf(dataSetup.data.project)) {
+      query = new QueryAssist(thisUser, cb)
+        .wrapFunc('fetchGithubRepos');
+    }
+    else {
+      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      query = new QueryAssist(githubOrg, cb)
+        .wrapFunc('fetchRepos');
+    }
+    query
+      .query({})
+      .cacheFetch(function updateDom(githubRepos, cached, cb){
+        dataSetup.data.githubRepos = githubRepos;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, context, cb){
         $scope.safeApply();
         cb();
       })
@@ -179,6 +232,7 @@ function ControllerSetup(
       })
       .go();
   }
+
   function fetchContextFiles(contextVersion, cb) {
     new QueryAssist(contextVersion, cb)
       .wrapFunc('fetchFiles')
@@ -211,7 +265,8 @@ ControllerSetup.initState = function () {
   return {
     data: {
       isAdvanced: false,
-      isRepoMode: false
+      isRepoMode: false,
+      selectedRepos: []
     },
     actions: {}
   };
