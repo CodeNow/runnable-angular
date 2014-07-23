@@ -8,6 +8,7 @@ require('app')
  */
 function ControllerHome(
   $scope,
+  $state,
   async
 ) {
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
