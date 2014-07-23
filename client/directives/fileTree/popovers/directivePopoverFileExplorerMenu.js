@@ -14,17 +14,16 @@ function popoverFileExplorerMenu(
   return {
     restrict: 'A',
     scope: false,
-    // templateUrl: 'viewFileTreePopoverFileExplorerMenu',
     link: function ($scope, element, attrs) {
 
       var clickPos = $rootScope.UTIL.clickPos;
       var dFEMenu = $scope.dPFEMenu = {};
       var actions = dFEMenu.actions = {};
+
       dFEMenu.eStyle = {
         position: 'fixed',
         top: '10px',
         left: '10px',
-        display: 'block'
       };
       dFEMenu.isOpen = false;
 
@@ -81,7 +80,7 @@ function popoverFileExplorerMenu(
         if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
           event.stopPropagation();
         }
-        // first close othe
+        // first close other
         $rootScope.$broadcast('file-modal-open');
         dFEMenu.isOpen = true;
         var pos = clickPos(event);
@@ -91,6 +90,7 @@ function popoverFileExplorerMenu(
         return false;
       };
 
+      /*
       $scope.$on('file-modal-open', function () {
         if (dFEMenu.isOpen) {
           dFEMenu.isOpen = false;
@@ -101,7 +101,15 @@ function popoverFileExplorerMenu(
           dFEMenu.isOpen = false;
         }
       });
-      element.bind('mousedown', clickHandler);
+
+      */
+      // element.bind('mousedown', clickHandler);
+      element[0].addEventListener('contextmenu', function(e){
+        debugger;
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
       element.on('$destroy', function () {
         element.off('contextmenu');
       });

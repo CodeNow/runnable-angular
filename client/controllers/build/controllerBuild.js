@@ -140,7 +140,9 @@ function ControllerBuild(
       .cacheFetch(function updateDom(build, cached, cb) {
         dataBuild.data.build = build;
         $scope.safeApply();
-        cb();
+        if (build.attrs.contextVersions.length){
+          cb();
+        }
       })
       .resolve(function (err, build, cb) {
         $scope.safeApply();

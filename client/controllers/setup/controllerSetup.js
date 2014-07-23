@@ -13,7 +13,7 @@ function ControllerSetup(
   async,
   SharedFilesCollection
 ) {
-
+  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerSetup;
   var dataSetup = $scope.dataSetup = self.initState();
@@ -78,7 +78,7 @@ function ControllerSetup(
   };
   actions.initState = function () {
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       fetchProject,
       fetchSeedContexts,
       fetchDefaultBuild,
@@ -105,7 +105,8 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchProject(thisUser, cb) {
+  function fetchProject(cb) {
+    var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
