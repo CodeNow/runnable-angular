@@ -144,7 +144,9 @@ function ControllerBuild(
       .cacheFetch(function updateDom(build, cached, cb) {
         dataBuild.data.build = build;
         $scope.safeApply();
-        cb();
+        if (build.attrs.contextVersions.length){
+          cb();
+        }
       })
       .resolve(function (err, build, cb) {
         if (build.attrs.completed) {
@@ -189,7 +191,7 @@ function ControllerBuild(
   }
 
   function newFilesCollOpenFiles(cb) {
-    var version = data.version;
+    var version = user.newContext().newVersion();
     data.openFiles = new SharedFilesCollection(
       version.newFiles([], {
         client: true
