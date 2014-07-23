@@ -16,6 +16,7 @@ function ControllerBuildList(
   keypather
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
+  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerBuildList;
   var dataBuildList = $scope.dataBuildList = self.initState();
   var data = dataBuildList.data,
@@ -60,7 +61,8 @@ function ControllerBuildList(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchProject(thisUser, cb) {
+  function fetchProject(cb) {
+    var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
@@ -144,7 +146,7 @@ function ControllerBuildList(
   }
   actions.initState = function () {
     async.waterfall([
-      $scope.dataApp.holdUntilAuth,
+      holdUntilAuth,
       fetchProject,
       fetchEnvironment,
       fetchBuilds,
