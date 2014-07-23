@@ -26,6 +26,9 @@ function ControllerBuild(
   var data = dataBuild.data,
     actions = dataBuild.actions;
 
+  // Trigger digest cycle every minute to update 'Initiated'
+  setInterval($scope.safeApply, 60 * 1000);
+
   actions.initPopoverState = function () {
     extendDeep(dataBuild, self.initPopoverState($stateParams));
   };
@@ -73,6 +76,7 @@ function ControllerBuild(
   actions.rebuild = function () {};
   actions.build = function () {};
   actions.discardChanges = function () {};
+
   $scope.$watch('dataBuild.data.isClean', function () {
     actions.initPopoverState();
   });
@@ -143,6 +147,9 @@ function ControllerBuild(
         cb();
       })
       .resolve(function (err, build, cb) {
+        if (build.attrs.completed) {
+          dataBuild.data.buildTime = (new Date(build.attrs.completed) - new Date(build.attrs.started)) / 1000;
+        }
         $scope.safeApply();
         cb();
       })

@@ -86,10 +86,10 @@ section.sidebar
         use(xlink:href = "#icons-recipe")
       b {{ dataApp.stateParams.branchName }}
       | #{''} config
-    li
+    li(ng-show = "dataBuild.data.build.attrs.completed")
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
-      | Built in 87 seconds
+      | Built in {{ dataBuild.data.buildTime | number:2 }} seconds
     li
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
