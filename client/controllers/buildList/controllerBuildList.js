@@ -112,7 +112,8 @@ function ControllerBuildList(
   function fetchBuilds(cb) {
     new QueryAssist(dataBuildList.data.environment, cb)
       .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb) {
+      .cacheFetch(function updateDom(builds, cached, cb) {})
+      .resolve(function (err, builds, cb) {
         if (builds.models.length === 1 && !builds.models[0].attrs.started) {
           actions.stateToSetupFirstBuild();
         }
@@ -121,10 +122,6 @@ function ControllerBuildList(
           $scope.safeApply();
           cb();
         }
-      })
-      .resolve(function (err) {
-        $scope.safeApply();
-        cb();
       })
       .go();
   }
