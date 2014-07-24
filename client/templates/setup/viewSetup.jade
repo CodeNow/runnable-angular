@@ -7,15 +7,18 @@ nav.sub-header
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
-  section#main-controls(ng-class = "{in: dataSetup.data.isAdvanced}")
+  section#main-controls(
+    ng-class = "{in: dataSetup.data.isAdvanced}"
+    ng-if = "!!dataSetup.data.selectedSourceContext"
+  )
     .clean
       button.silver(
-        ng-click = "dataSetup.data.isAdvanced = true"
+        ng-click = "dataSetup.actions.enterAdvancedMode()"
         type = "button"
       ) Enter Advanced Setup
     .dirty
       button.silver(
-        ng-click = "dataSetup.data.isAdvanced = false"
+        ng-click = "dataSetup.actions.resetFilesToSource()"
         type = "button"
       ) Discard Changes and Return to Basic Setup
 
@@ -59,7 +62,7 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
             span dest:
             input.form-control(
               placeholder = "Destination"
-              value = "/root/{{ appCodeVersion.attrs.repo }}"
+              value = "{{ '/'+appCodeVersion.attrs.repo.split('/').pop() }}"
             )
     #setup-template
       h3 Choose a Docker Template
@@ -68,7 +71,7 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
           input(
             name = "{{ context.attrs.name }}"
             required
-            ng-click = "dataSetup.actions.setActiveContext(context)"
+            ng-click = "dataSetup.actions.selectSourceContext(context)"
             type = "radio"
           )
     button.btn-block.orange(
