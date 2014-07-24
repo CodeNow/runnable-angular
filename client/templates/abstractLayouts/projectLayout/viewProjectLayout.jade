@@ -44,16 +44,19 @@ header(ng-class = "dataProjectLayout.actions.getInClass()")
         a(
           href = "{{ dataApp.logoutURL }}"
         ) Log Out
-    form
+    form(
+      name = "dataProjectLayout.data.newProjectNameForm"
+    )
       //- this field is optional. if blank, name the app for them: 'My App'
       //- should not trigger on focus, but on the error that causes the validation error
       input.form-control(
         ng-focus = "dataProjectLayout.actions.showRules = true"
         ng-model = "dataProjectLayout.data.newProjectName"
+        ng-pattern = "/^[A-z0-9_-]+$/"
         placeholder = "Application Name"
       )
       //- if invalid character is entered
-      .the-rules(ng-class = "{in: dataProjectLayout.actions.showRules}") We accept #{''}
+      .the-rules(ng-class = "{'in': dataProjectLayout.data.newProjectNameForm.$invalid}") We accept #{''}
         b A-Z
         b a-z
         b 0-9
