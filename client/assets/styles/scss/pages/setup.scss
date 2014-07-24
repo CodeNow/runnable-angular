@@ -86,6 +86,11 @@
       opacity: 1;
     }
 
+    .vertical-list {
+      max-height: calc(100% - 51px);
+      overflow: auto;
+    }
+
     li {
       background: $gray-lighter;
       cursor: pointer;
@@ -110,6 +115,8 @@
   }
 
   .popover-content {
+    height: 100%;
+    overflow: hidden;
     padding: 66px 15px 15px;
   }
 }
