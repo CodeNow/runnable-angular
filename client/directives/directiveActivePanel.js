@@ -16,7 +16,8 @@ function activePanel(
     scope: {
       openFiles: '=',
       isClean: '=',
-      isReadOnly: '='
+      isReadOnly: '=',
+      isDarkTheme: '='
     },
     link: function ($scope, element, attrs) {
       $scope.activeFileClone = {};
