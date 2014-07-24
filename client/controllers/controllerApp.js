@@ -68,11 +68,12 @@ function ControllerApp(
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {
+  var redirect = encodeURI(window.location.protocol + '//' + window.location.host);
   return {
     state: $state,
     stateParams: $stateParams,
     user: null,
-    loginURL: apiHost + '/auth/github?redirect=' + encodeURI('http://localhost:3001'),
-    logoutURL: apiHost + '/auth/logout?redirect=' + encodeURI('http://localhost:3001')
+    loginURL: apiHost + '/auth/github?redirect=' + redirect,
+    logoutURL: apiHost + '/auth/logout?redirect=' + redirect
   };
 };

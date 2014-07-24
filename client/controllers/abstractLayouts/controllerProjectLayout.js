@@ -12,7 +12,8 @@ function ControllerProjectLayout(
   $state,
   $stateParams,
   user,
-  keypather
+  keypather,
+  callbackCount
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -34,7 +35,7 @@ function ControllerProjectLayout(
   actions.getEntityGravatar = function (entity) {
     if (entity) {
       return isUser(entity) ?
-        entity.attrs.gravitar : // user
+        entity.attrs.gravatar : // user
         entity.avatar_url; // org
     }
   };
@@ -71,18 +72,34 @@ function ControllerProjectLayout(
         cb(err, thisUser, project);
       });
     }
-    function createBuild(thisUser, project, cb) {
-      var environment = project.environments.models[0];
-      var build = environment.createBuild({
-        environment: environment.id()
-      }, function (err) {
-        cb(null, thisUser, project, build);
+    function createBuildAndContext (thisUser, project, cb) {
+      var count = callbackCount(2, done);
+      var build = project.defaultEnvironment.createBuild(count.next);
+      var context = thisUser.createContext({ name: project.attrs.name }, count.next);
+      function done (err) {
+        if (err) {
+          throw err;
+        }
+        cb(err, thisUser, project, build, context);
+      }
+    }
+    function createContextVersion (thisUser, project, build, context, cb) {
+      var opts = {};
+      opts.json = {
+        environment: project.defaultEnvironment.id(),
+      };
+      opts.qs = {
+        toBuild: build.id()
+      };
+      var contextVersion = context.createVersion(opts, function (err) {
+        cb(err, thisUser, project, build, context, contextVersion);
       });
     }
     async.waterfall([
       holdUntilAuth,
       createProject,
-      createBuild
+      createBuildAndContext,
+      createContextVersion
     ], function (err, thisUser, project, build) {
       $state.go('projects.setup', {
         userName: thisUser.attrs.accounts.github.username,

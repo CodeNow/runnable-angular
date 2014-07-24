@@ -7,15 +7,18 @@ nav.sub-header
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
-  section#main-controls(ng-class = "{in: dataSetup.data.isAdvanced}")
+  section#main-controls(
+    ng-class = "{in: dataSetup.data.isAdvanced}"
+    ng-if = "!!dataSetup.data.selectedSourceContext"
+  )
     .clean
       button.silver(
-        ng-click = "dataSetup.data.isAdvanced = true"
+        ng-click = "dataSetup.actions.enterAdvancedMode()"
         type = "button"
       ) Enter Advanced Setup
     .dirty
       button.silver(
-        ng-click = "dataSetup.data.isAdvanced = false"
+        ng-click = "dataSetup.actions.resetFilesToSource()"
         type = "button"
       ) Discard Changes and Return to Basic Setup
 
@@ -30,6 +33,7 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
         input.form-control(
           ng-focus = "dataSetup.data.isRepoMode = true"
           placeholder = "Add Repository"
+          ng-model = "dataSetup.data.repoFilter"
         )
         button.btn-icon.inactive(
           ng-click = "dataSetup.data.isRepoMode = true"
@@ -45,29 +49,21 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
             use(xlink:href = "#icons-close")
       //- if there are duplicate repo names, use name-2, name-3, and so on.
       ul#added-repos
-        li
-          .repo Org/Repo
-            button.btn-icon(type = "button")
+        li(
+          ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models"
+        )
+          .repo{{ appCodeVersion.attrs.repo.split('/')[1] }}
+            button.btn-icon(
+              ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
+              type = "button")
               svg.iconnables.icons-delete
                 use(xlink:href = "#icons-delete")
           label
             span dest:
             input.form-control(
               placeholder = "Destination"
-              value = "/root/reponame"
+              value = "{{ '/'+appCodeVersion.attrs.repo.split('/').pop() }}"
             )
-        li
-          .repo Org/AnotherRepo
-            button.btn-icon(type = "button")
-              svg.iconnables.icons-delete
-                use(xlink:href = "#icons-delete")
-          label
-            span dest:
-            input.form-control(
-              placeholder = "Destination"
-              value = "/root/anotherrepo"
-            )
-
     #setup-template
       h3 Choose a Docker Template
       .form-group.toggle-group
@@ -75,46 +71,7 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
           input(
             name = "{{ context.attrs.name }}"
             required
-            ng-click = "dataSetup.actions.setActiveContext(context)"
-            type = "radio"
-          )
-      //-
-        //- the required attribute is needed on only one input
-        label.active Node.js + MongoDB
-          input(
-            checked
-            name = "docker-template"
-            required
-            type = "radio"
-          )
-        label Template 2
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 3
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 4
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 5
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 6
-          input(
-            name = "docker-template"
-            type = "radio"
-          )
-        label Template 7
-          input(
-            name = "docker-template"
+            ng-click = "dataSetup.actions.selectSourceContext(context)"
             type = "radio"
           )
     button.btn-block.orange(

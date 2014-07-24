@@ -89,6 +89,9 @@ function popoverFileExplorerMenu(
 
       // element.bind('mousedown', clickHandler);
       element[0].addEventListener('contextmenu', function(e){
+<<<<<<< HEAD
+        // debugger;
+=======
         $scope.dPFEMenu.eStyle.top = e.offsetY+'px';
         $scope.dPFEMenu.eStyle.left = e.offsetX+'px';
         $scope.dPFEMenu.isOpen = true;
@@ -97,6 +100,7 @@ function popoverFileExplorerMenu(
           $scope.$apply();
         });
 
+>>>>>>> 5df2f63f52fa272806f4b95af40cfa641ac0df1b
         e.preventDefault();
         e.stopPropagation();
       });

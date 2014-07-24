@@ -1,33 +1,27 @@
 #home {
+  align-items: center;
   background-image: linear-gradient($purple,$purple-dark);
-  display: table;
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  justify-content: center;
   user-select: none;
   width: 100%;
 
-  .valign {
-    display: table-cell;
-    vertical-align: middle;
-  }
-
   #logomark {
-    display: block;
     height: 120px;
-    margin: -120px auto 0;
     width: 120px;
   }
 
-  #heading {
-    display: block;
-    margin: 15px auto 30px;
-    max-width: 540px;
+  #lettering {
+    height: 45px;
+    width: 450px;
   }
 
   a {
-    display: table;
     font-size: 16px;
     font-weight: 400;
-    margin: 0 auto;
+    margin-top: 30px;
 
     > .iconnables {
       height: 21px;

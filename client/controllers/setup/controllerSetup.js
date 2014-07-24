@@ -11,14 +11,15 @@ function ControllerSetup(
   $scope,
   $state,
   async,
+  keypather,
   SharedFilesCollection
 ) {
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerSetup;
   var dataSetup = $scope.dataSetup = self.initState();
-  var data = dataSetup.data,
-    actions = dataSetup.actions;
+  var data = dataSetup.data;
+  var actions = dataSetup.actions;
   data.userClient = user;
 
   // Determine readonly state
@@ -27,53 +28,115 @@ function ControllerSetup(
       return !data.isAdvanced;
     }
     return true;
-  }, function (n) {
-    data.isReadOnly = n;
+  }, function (bool) {
+    data.isReadOnly = bool;
   });
+  actions.selectGithubRepo = function (repo) {
+    if (data.selectedRepos.contains(repo)) {
+      data.selectedRepos.remove(repo);
+    }
+    else {
+      data.selectedRepos.add(repo);
+    }
+    $scope.safeApply();
+  };
+  actions.addGithubRepos = function () {
+    async.forEach(data.selectedRepos.models, function (repo, cb) {
+      var body = {
+        repo: repo.attrs.full_name
+      };
+      data.contextVersion.appCodeVersions.create(body, cb);
+    }, function (err) {
+      if (err) {
+        throw err;
+      }
+      data.selectedRepos.reset([]);
+      data.isRepoMode = false;
+      $scope.safeApply();
+    });
+  };
+  actions.removeGithubRepo = function (appCodeVersion) {
+    data.contextVersion.appCodeVersions.destroy(appCodeVersion, function (err) {
+      if (err) {
+        throw err;
+      }
+      $scope.safeApply();
+    });
+  };
   /**
    * set active context && fetch build files for display
    */
-  actions.setActiveContext = function (context) {
-    data.activeSeedContext = context;
-    actions.fetchContextVersion();
-  };
-  actions.fetchContextVersion = function () {
-    var context = data.activeSeedContext;
-    fetchContextVersion(context, function() {
-      fetchContextFiles(dataSetup.data.activeVersion);
+  actions.selectSourceContext = function (context) {
+    data.selectedSourceContext = context;
+    fetchSourceContextVersion(context, function () {
+      fetchContextVersionFiles(data.sourceContextVersion, function () {});
     });
   };
-  actions.buildApplication = function () {
-    var context = dataSetup.data.context;
-    async.waterfall([
-      function (cb) {
-        var version = context.createVersion({
-          qs: {
-            fromSource: dataSetup.data.activeVersion.attrs.infraCodeVersion,
-            toBuild: dataSetup.data.build.id()
-          },
-          json: {
-            environment: dataSetup.data.project.attrs.defaultEnvironment
+  actions.enterAdvancedMode = function () {
+    if (data.contextVersion.sourceInfraCodeVersion ===
+        data.sourceContextVersion.attrs.infraCodeVersion) {
+      fetchContextVersionFiles(data.contextVersion, function () {
+        data.isReadOnly = false;
+        data.isAdvanced = true;
+        $scope.safeApply();
+      });
+    }
+    else {
+      var sourceInfraCodeVersion =
+        data.sourceContextVersion.attrs.infraCodeVersion;
+      data.contextVersion.copyFilesFromSource(
+        sourceInfraCodeVersion,
+        function (err) {
+          if (err) {
+            throw err;
           }
-        }, function (err, version) {
-          cb(null, version);
+          data.contextVersion.sourceInfraCodeVersion = sourceInfraCodeVersion;
+          fetchContextVersionFiles(data.contextVersion, function () {
+            data.isReadOnly = false;
+            data.isAdvanced = true;
+            $scope.safeApply();
+          });
         });
-      },
-      function (version, cb) {
-        dataSetup.data.build.build(function () {
-          cb();
+    }
+  };
+  actions.resetFilesToSource = function () {
+    var sourceInfraCodeVersion =
+      data.sourceContextVersion.attrs.infraCodeVersion;
+    data.contextVersion.copyFilesFromSource(
+      sourceInfraCodeVersion,
+      function (err) {
+        if (err) {
+          throw err;
+        }
+        fetchContextVersionFiles(data.sourceContextVersion, function () {
+          data.isReadOnly = true;
+          data.isAdvanced = false;
+          $scope.safeApply();
         });
+      });
+  };
+  actions.buildApplication = function () {
+    data.build.build({message: 'Initial build'}, function (err, res) {
+      if (err) {
+        throw err;
       }
-    ], function (err, res) {
       dataSetup.actions.stateToBuild();
     });
   };
   actions.stateToBuild = function () {
     $state.go('projects.build', {
       userName: $scope.dataApp.stateParams.userName,
-      projectName: $scope.dataApp.stateParams.projectName,
-      branchName: 'master',
+      projectName: keypather.get(data, 'project.attrs.name') ||
+        $scope.dataApp.stateParams.projectName,
+      branchName: data.project.defaultEnvironment.attrs.name,
       buildName: data.build.id()
+    });
+  };
+  actions.stateToBuildList = function () {
+    $state.go('projects.buildList', {
+      userName: $scope.dataApp.stateParams.userName,
+      projectName: $scope.dataApp.stateParams.projectName,
+      branchName: data.project.defaultEnvironment.attrs.name
     });
   };
   actions.initState = function () {
@@ -81,8 +144,10 @@ function ControllerSetup(
       holdUntilAuth,
       fetchProject,
       fetchSeedContexts,
-      fetchDefaultBuild,
-      fetchContext
+      fetchFirstBuild,
+      fetchOwnerRepos,
+      fetchContext,
+      fetchContextVersion
     ], function (err) {});
   };
   actions.initState();
@@ -90,15 +155,18 @@ function ControllerSetup(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchContextVersion(context, cb) {
-    new QueryAssist(context, cb)
+  function fetchSourceContextVersion (sourceContext, cb) {
+    new QueryAssist(sourceContext, cb)
       .wrapFunc('fetchVersions')
       .cacheFetch(function updateDom(versions, cached, cb) {
-        dataSetup.data.activeVersion = versions.models[0];
+        data.sourceContextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
         $scope.safeApply();
         cb();
       })
       .resolve(function (err, versions, cb) {
+        if (err) {
+          throw err;
+        }
         $scope.safeApply();
         cb();
       })
@@ -114,7 +182,7 @@ function ControllerSetup(
         name: $scope.dataApp.stateParams.projectName
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
-        dataSetup.data.project = projects.models[0];
+        data.project = projects.models[0];
         $scope.safeApply();
         cb();
       })
@@ -125,17 +193,53 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchDefaultBuild(cb) {
-    var project = dataSetup.data.project;
-    var environment = project.newEnvironment(project.attrs.defaultEnvironment);
+  function fetchFirstBuild(cb) {
+    var project = data.project;
+    var environment = project.defaultEnvironment;
     new QueryAssist(environment, cb)
       .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb) {
-        dataSetup.data.build = builds.models[0];
+      .cacheFetch(function updateDom(builds, cached, cb){
+        if (builds.models.length > 1 || builds.models[0].attrs.started) {
+          actions.stateToBuildList();
+        }
+        else {
+          // first build
+          data.build = builds.models[0];
+          $scope.safeApply();
+          cb();
+        }
+      })
+      .resolve(function(err, builds, cb){
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, builds, cb) {
+      .go();
+  }
+
+  function fetchOwnerRepos (cb) {
+    var thisUser = $scope.dataApp.user;
+    var build = data.build;
+    var query;
+
+    if (thisUser.isOwnerOf(data.project)) {
+      data.selectedRepos = data.selectedRepos || thisUser.newGithubRepos([], { noStore: true });
+      query = new QueryAssist(thisUser, cb)
+        .wrapFunc('fetchGithubRepos');
+    }
+    else {
+      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      data.selectedRepos = data.selectedRepos || githubOrg.newGithubRepos([], { noStore: true });
+      query = new QueryAssist(githubOrg, cb)
+        .wrapFunc('fetchRepos');
+    }
+    query
+      .query({})
+      .cacheFetch(function updateDom(githubRepos, cached, cb){
+        data.githubRepos = githubRepos;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, context, cb){
         $scope.safeApply();
         cb();
       })
@@ -143,17 +247,42 @@ function ControllerSetup(
   }
 
   function fetchContext(cb) {
-    var build = dataSetup.data.build;
+    var build = data.build;
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchContext')
       .query(build.attrs.contexts[0])
       .cacheFetch(function updateDom(context, cached, cb) {
-        dataSetup.data.context = context;
+        data.context = context;
         $scope.safeApply();
         cb();
       })
       .resolve(function (err, context, cb) {
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+
+  function fetchContextVersion (cb) {
+    var build = data.build;
+    var context = data.context;
+    var thisUser = $scope.dataApp.user;
+    new QueryAssist(context, cb)
+      .wrapFunc('fetchVersion')
+      .query(build.attrs.contextVersions[0])
+      .cacheFetch(function updateDom(contextVersion, cached, cb) {
+        data.contextVersion = contextVersion;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, context, cb) {
+        if (err) {
+          throw err;
+        }
         $scope.safeApply();
         cb();
       })
@@ -168,7 +297,7 @@ function ControllerSetup(
         isSource: true
       })
       .cacheFetch(function updateDom(contexts, cached, cb) {
-        dataSetup.data.seedContexts = contexts;
+        data.seedContexts = contexts;
         $scope.safeApply();
         cb();
       })
@@ -178,7 +307,8 @@ function ControllerSetup(
       })
       .go();
   }
-  function fetchContextFiles(contextVersion, cb) {
+
+  function fetchContextVersionFiles(contextVersion, cb) {
     new QueryAssist(contextVersion, cb)
       .wrapFunc('fetchFiles')
       .query({
@@ -192,12 +322,12 @@ function ControllerSetup(
         if (err) {
           throw new Error(err);
         }
-        dataSetup.data.contextFiles = new SharedFilesCollection(
+        data.contextFiles = new SharedFilesCollection(
           files,
           $scope
         );
         if (files.models && files.models[0]) {
-          dataSetup.data.contextFiles.setActiveFile(files.models[0]);
+          data.contextFiles.setActiveFile(files.models[0]);
         }
         $scope.safeApply();
         cb();

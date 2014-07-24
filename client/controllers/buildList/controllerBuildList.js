@@ -19,8 +19,8 @@ function ControllerBuildList(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerBuildList;
   var dataBuildList = $scope.dataBuildList = self.initState();
-  var data = dataBuildList.data,
-    actions = dataBuildList.actions;
+  var data = dataBuildList.data;
+  var actions = dataBuildList.actions;
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
@@ -56,6 +56,12 @@ function ControllerBuildList(
       'ascending' : (dataBuildList.predicate === 'attrs.id' && !dataBuildList.ascending) ?
       'descending' : '';
     return res;
+  };
+  actions.stateToSetupFirstBuild = function () {
+    $state.go('projects.setup', {
+      userName: $scope.dataApp.stateParams.userName,
+      projectName: $scope.dataApp.stateParams.projectName
+    });
   };
 
   /* ============================
@@ -106,14 +112,16 @@ function ControllerBuildList(
   function fetchBuilds(cb) {
     new QueryAssist(dataBuildList.data.environment, cb)
       .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb) {
-        dataBuildList.data.builds = builds;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err) {
-        $scope.safeApply();
-        cb();
+      .cacheFetch(function updateDom(builds, cached, cb) {})
+      .resolve(function (err, builds, cb) {
+        if (builds.models.length === 1 && !builds.models[0].attrs.started) {
+          actions.stateToSetupFirstBuild();
+        }
+        else {
+          dataBuildList.data.builds = builds;
+          $scope.safeApply();
+          cb();
+        }
       })
       .go();
   }
