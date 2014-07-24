@@ -1586,7 +1586,7 @@
     },
     "compression": {
       "version": "1.0.9",
-      "from": "compression@1.0.9",
+      "from": "https://registry.npmjs.org/compression/-/compression-1.0.9.tgz",
       "resolved": "https://registry.npmjs.org/compression/-/compression-1.0.9.tgz",
       "dependencies": {
         "accepts": {
@@ -1596,7 +1596,7 @@
           "dependencies": {
             "mime-types": {
               "version": "1.0.1",
-              "from": "mime-types@~1.0.1",
+              "from": "mime-types@~1.0.0",
               "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-1.0.1.tgz"
             },
             "negotiator": {
