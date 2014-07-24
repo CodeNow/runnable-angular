@@ -24,7 +24,6 @@ function popoverFileExplorerMenu(
       var actions = dFEMenu.actions = {};
 
       dFEMenu.eStyle = {
-        position: 'fixed',
         top: '0px',
         left: '0px'
       };

@@ -157,6 +157,18 @@
     z-index: $z-popover;
   }
 
+  // context menu
+  &.context-menu {
+    position: fixed;
+    transform-origin: 0 0;
+    z-index: $z-show;
+
+    li {
+      font-size: 15px;
+      text-indent: 0;
+    }
+  }
+
   // menu
   &.menu,
   &.file-menu {
