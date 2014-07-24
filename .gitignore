@@ -1,12 +1,13 @@
 .DS_Store
 *.log
 *.dump
+*.orig
+*.rdb
+*.sass-cache/
 node_modules/
 client/build/
-*.sass-cache/
 client/controllers/index.js
 client/services/index.js
 client/filters/index.js
 client/directives/index.js
 client/animations/index.js
-*.rdb

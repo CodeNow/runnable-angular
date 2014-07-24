@@ -10,8 +10,8 @@ app.set('config', config);
 app.set('view engine', 'jade');
 app.locals.version = package.version;
 app.set('views', path.join(__dirname + '/views'));
-app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 app.use(compression());
+app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 
 // load same base view for all valid client-routes
 require('client/config/routes').forEach(function (item, index, arr) {
