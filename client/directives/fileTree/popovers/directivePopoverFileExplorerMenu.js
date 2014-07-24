@@ -1,4 +1,3 @@
-var $ = require('jquery');
 require('app')
   .directive('popoverFileExplorerMenu', popoverFileExplorerMenu);
 /**
@@ -10,16 +9,17 @@ function popoverFileExplorerMenu(
   $compile,
   $timeout,
   $rootScope,
+  jQuery,
   keypather
 ) {
   return {
     restrict: 'A',
-    scope: false, // latch on to file-tree && file-tree-dir isolate scope
+    scope: false, // latch on to file-tree && file-tree-dir isolate scope isolate scopes
     // scope: {},
     link: function ($scope, element, attrs) {
 
-      window.ss = $scope;
-      var clickPos = $rootScope.UTIL.clickPos;
+      $scope.jQuery = jQuery;
+
       var dFEMenu = $scope.dPFEMenu = {};
       var actions = dFEMenu.actions = {};
 
@@ -28,14 +28,10 @@ function popoverFileExplorerMenu(
         top: '0px',
         left: '0px'
       };
-
       dFEMenu.isOpen = false;
 
       actions.createFile = function () {
-        var name = prompt('filename?');
-        if (!name) {
-          return;
-        }
+        var name = 'undefined';
         $scope.version.createFile({
           name: name,
           path: $scope.dir.filepath(),
@@ -51,10 +47,7 @@ function popoverFileExplorerMenu(
         });
       };
       actions.createFolder = function () {
-        var name = prompt('dirname?');
-        if (!name) {
-          return;
-        }
+        var name = 'undefined';
         $scope.version.createFile({
           name: name,
           path: $scope.dir.filepath(),
@@ -74,6 +67,7 @@ function popoverFileExplorerMenu(
       var template = $templateCache.get('viewFileTreePopoverFileExplorerMenu');
       var $template = angular.element(template);
       $compile($template)($scope);
+      $scope.$popoverTemplate = $scope.jQuery($template);
       element.prepend($template);
 
       $scope.$on('file-modal-open', function () {
@@ -87,10 +81,10 @@ function popoverFileExplorerMenu(
         }
       });
 
-      // element.bind('mousedown', clickHandler);
-      element[0].addEventListener('contextmenu', function(e){
-        $scope.dPFEMenu.eStyle.top = e.offsetY+'px';
-        $scope.dPFEMenu.eStyle.left = e.offsetX+'px';
+      element[0].addEventListener('contextmenu', contextMenuListener);
+      function contextMenuListener (e){
+        $scope.dPFEMenu.eStyle.top = e.offsetY + $scope.$popoverTemplate.height() + 'px';
+        $scope.dPFEMenu.eStyle.left = e.offsetX + 'px';
         $scope.dPFEMenu.isOpen = true;
 
         $timeout(function () {
@@ -99,10 +93,9 @@ function popoverFileExplorerMenu(
 
         e.preventDefault();
         e.stopPropagation();
-      });
-
+      }
       element.on('$destroy', function () {
-        element.off('contextmenu');
+        element[0].removeEventListener('contextmenu', contextMenuListener);
       });
 
     }

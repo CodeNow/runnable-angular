@@ -3,8 +3,9 @@ nav#build-stream-header.sub-header
     //- if empty, revert to project name
     input.form-control.inline-edit(
       placeholder = "App Name"
+      ng-model = "dataBuildList.data.project.attrs.name"
+      ng-model-options = "{ debounce: 500 }"
       spellcheck = "false"
-      value = "MyApp"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")

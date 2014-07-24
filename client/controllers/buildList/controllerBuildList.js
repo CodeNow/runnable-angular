@@ -9,12 +9,14 @@ require('app')
  */
 function ControllerBuildList(
   $scope,
+  $window,
   user,
   $stateParams,
   $state,
   async,
   keypather
 ) {
+
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerBuildList;
@@ -26,6 +28,21 @@ function ControllerBuildList(
   $scope.$on('app-document-click', function () {
     dataBuildList.data.showChangeRecipe = false;
     dataBuildList.data.popoverChangeRecipe.filter = '';
+  });
+
+  $scope.$watch('dataBuildList.data.project.attrs.name', function (newval, oldval) {
+    if (typeof oldval !== 'string') {
+      return;
+    }
+    dataBuildList.data.project.update({
+      name: newval
+    }, function () {
+      $stateParams.projectName = newval;
+      $window.history.replaceState({}, '', '/project/'+
+                                            $stateParams.userName+'/'+
+                                            newval+'/'+
+                                            $stateParams.branchName+'/');
+    });
   });
 
   actions.stateToInstance = function (buildId) {
