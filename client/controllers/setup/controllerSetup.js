@@ -50,6 +50,7 @@ function ControllerSetup(
         throw err;
       }
       data.selectedRepos.reset([]);
+      data.isRepoMode = false;
       $scope.safeApply();
     });
   };
