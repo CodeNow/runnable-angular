@@ -1538,6 +1538,11 @@
         }
       }
     },
+    "callback-count": {
+      "version": "0.1.0",
+      "from": "callback-count@^0.1.0",
+      "resolved": "https://registry.npmjs.org/callback-count/-/callback-count-0.1.0.tgz"
+    },
     "chai": {
       "version": "1.9.1",
       "from": "chai@1.9.1",
@@ -7326,9 +7331,9 @@
       }
     },
     "runnable": {
-      "version": "0.14.8",
-      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.14.8",
-      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#0c542d3971b06e145f25a78ec4a1e8d74a002c6c",
+      "version": "0.14.9",
+      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.14.9",
+      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#60da97155daa06d30a59afec57d86a8bb4948040",
       "dependencies": {
         "101": {
           "version": "0.3.4",
