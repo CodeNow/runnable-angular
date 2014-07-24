@@ -19,12 +19,9 @@ function ControllerProjectLayout(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerProjectLayout;
   var dataProjectLayout = $scope.dataProjectLayout = self.initState();
-  var data = dataProjectLayout.data,
-    actions = dataProjectLayout.actions;
+  var data = dataProjectLayout.data;
+  var actions = dataProjectLayout.actions;
 
-  function isUser(entity) {
-    return entity === $scope.dataApp.user;
-  }
   actions.getEntityName = function (entity) {
     if (entity) {
       return isUser(entity) ?
