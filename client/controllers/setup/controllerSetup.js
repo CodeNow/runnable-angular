@@ -108,6 +108,7 @@ function ControllerSetup(
         if (err) {
           throw err;
         }
+        data.sourceFilesCopied = true;
         fetchContextVersionFiles(data.sourceContextVersion, function () {
           data.isReadOnly = true;
           data.isAdvanced = false;
@@ -116,10 +117,21 @@ function ControllerSetup(
       });
   };
   actions.buildApplication = function () {
-    data.build.build({message: 'Initial build'}, function (err, res) {
-      if (err) {
-        throw err;
+    async.series([
+      function (cb) {
+        if (!data.sourceFilesCopied) {
+          var sourceInfraCodeVersion =
+            data.sourceContextVersion.attrs.infraCodeVersion;
+          data.contextVersion.copyFilesFromSource(sourceInfraCodeVersion, cb);
+        } else {
+          cb();
+        }
+      },
+      function (cb) {
+        data.build.build({message: 'Initial build'}, cb);
       }
+    ], function (err, results) {
+      if (err) throw err;
       dataSetup.actions.stateToBuild();
     });
   };

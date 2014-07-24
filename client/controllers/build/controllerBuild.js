@@ -190,10 +190,10 @@ function ControllerBuild(
   }
 
   function newFilesCollOpenFiles(cb) {
-    var version = user.newContext().newVersion();
+    var version = dataBuild.data.version;
     data.openFiles = new SharedFilesCollection(
       version.newFiles([], {
-        client: true
+        noStore: true
       }),
       $scope
     );
