@@ -67,7 +67,6 @@ function ControllerBuild(
     var repo = version.addGithubRepo({
       repo: 'cflynn07/dotfiles'
     }, function (err, res) {
-      console.log(arguments);
       version.fetch(function () {
         $scope.safeApply();
       });

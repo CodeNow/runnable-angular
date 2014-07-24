@@ -9,7 +9,7 @@ function repoFilter() {
 
     filterBy = filterBy.toLowerCase();
 
-    return items.filter(function(item) {
+    return items.filter(function (item) {
       return ~item.attrs.name.toLowerCase().indexOf(filterBy);
     });
   };
