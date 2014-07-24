@@ -37,7 +37,7 @@ function buildStream(
         };
         $scope.stream.data = buildStream.getCache();
 
-        $location.hash('scroll-to');
+        $location.hash('log');
 
         buildStream.connection.on('data', addToStream);
 
