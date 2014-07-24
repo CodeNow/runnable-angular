@@ -20,11 +20,11 @@
 }
 
 .text-hide {
-  font: 0/0 a;
-  color: transparent;
-  text-shadow: none;
   background-color: transparent;
   border: 0;
+  color: transparent;
+  font: 0/0 a;
+  text-shadow: none;
 }
 
 .affix {
@@ -138,9 +138,11 @@ td.visible-sm {
   .visible-sm.visible-xs {
     display: block !important;
   }
+
   tr.visible-sm.visible-xs {
     display: table-row !important;
   }
+
   th.visible-sm.visible-xs,
   td.visible-sm.visible-xs {
     display: table-cell !important;
@@ -152,9 +154,11 @@ td.visible-sm {
   .visible-sm {
     display: block !important;
   }
+
   tr.visible-sm {
     display: table-row !important;
   }
+
   th.visible-sm,
   td.visible-sm {
     display: table-cell !important;
@@ -166,9 +170,11 @@ td.visible-sm {
   .visible-sm.visible-md {
     display: block !important;
   }
+
   tr.visible-sm.visible-md {
     display: table-row !important;
   }
+
   th.visible-sm.visible-md,
   td.visible-sm.visible-md {
     display: table-cell !important;
@@ -180,9 +186,11 @@ td.visible-sm {
   .visible-sm.visible-lg {
     display: block !important;
   }
+
   tr.visible-sm.visible-lg {
     display: table-row !important;
   }
+
   th.visible-sm.visible-lg,
   td.visible-sm.visible-lg {
     display: table-cell !important;
@@ -211,6 +219,7 @@ td.visible-md {
   tr.visible-md.visible-xs {
     display: table-row !important;
   }
+
   th.visible-md.visible-xs,
   td.visible-md.visible-xs {
     display: table-cell !important;

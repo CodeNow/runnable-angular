@@ -9,8 +9,8 @@ th {
 }
 
 .table {
-  width: 100%;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .table thead > tr > th,
@@ -190,8 +190,8 @@ table th[class*="col-"] {
   }
 
   .table-responsive > .table {
-    margin-bottom: 0;
     background-color: #fff;
+    margin-bottom: 0;
   }
 
   .table-responsive > .table > thead > tr > th,
