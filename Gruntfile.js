@@ -131,7 +131,7 @@ module.exports = function(grunt) {
         },
         options: {
           bundleOptions: {
-            debug: true
+            debug: true // source maps yes
           }
         }
       }
