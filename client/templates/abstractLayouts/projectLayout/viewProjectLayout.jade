@@ -52,7 +52,7 @@ header(ng-class = "dataProjectLayout.actions.getInClass()")
       input.form-control(
         ng-focus = "dataProjectLayout.actions.showRules = true"
         ng-model = "dataProjectLayout.data.newProjectName"
-        ng-pattern = "/^[A-z0-9_-]+$/"
+        ng-pattern = "/^[A-Za-z0-9_-]+$/"
         placeholder = "Application Name"
       )
       //- if invalid character is entered
