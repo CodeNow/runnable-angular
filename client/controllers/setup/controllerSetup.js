@@ -126,7 +126,7 @@ function ControllerSetup(
   actions.stateToBuild = function () {
     $state.go('projects.build', {
       userName: $scope.dataApp.stateParams.userName,
-      projectName: keypather().get(data, 'project.attrs.name') ||
+      projectName: keypather.get(data, 'project.attrs.name') ||
         $scope.dataApp.stateParams.projectName,
       branchName: data.project.defaultEnvironment.attrs.name,
       buildName: data.build.id()
