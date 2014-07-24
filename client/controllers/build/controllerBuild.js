@@ -67,7 +67,6 @@ function ControllerBuild(
     var repo = version.addGithubRepo({
       repo: 'cflynn07/dotfiles'
     }, function (err, res) {
-      console.log(arguments);
       version.fetch(function () {
         $scope.safeApply();
       });
@@ -192,7 +191,6 @@ function ControllerBuild(
 
   function newFilesCollOpenFiles(cb) {
     var version = user.newContext().newVersion();
-    console.log('version', version);
     data.openFiles = new SharedFilesCollection(
       version.newFiles([], {
         client: true

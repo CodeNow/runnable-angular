@@ -249,12 +249,10 @@ function ControllerSetup(
   function fetchContext(cb) {
     var build = data.build;
     var thisUser = $scope.dataApp.user;
-    console.log(build.attrs);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchContext')
       .query(build.attrs.contexts[0])
       .cacheFetch(function updateDom(context, cached, cb) {
-        console.log('CONTEXT FETCHED', context);
         data.context = context;
         $scope.safeApply();
         cb();
