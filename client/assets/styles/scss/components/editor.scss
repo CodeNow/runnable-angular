@@ -6,10 +6,14 @@
   height: calc(100% - 54px);
   overflow: hidden;
   position: relative;
-    z-index: 2;
+  z-index: 2;
 
   pre {
+    font-family: 'Source Code Pro', 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 400;
     height: 100%;
+    line-height: 1.4;
     position: absolute;
     width: 100%;
 
@@ -54,8 +58,8 @@
     bottom: 15px;
     left: 15px;
     margin: 0 auto;
-    right: auto;
     pointer-events: auto;
+    right: auto;
     top: auto;
   }
 
