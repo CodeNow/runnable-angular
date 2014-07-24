@@ -30,23 +30,36 @@ function ControllerSetup(
   }, function (n) {
     data.isReadOnly = n;
   });
-
-  actions.addGithubRepo = function (repo, idx) {
-    if (~data.selectedRepos.indexOf(repo)) { /* dupe */return; }
-    data.selectedRepos.push(repo);
-    data.githubRepos.models.splice(idx, 1);
-  };
-  actions.removeGithubRepo = function (idx) {
-    var repo = data.selectedRepos.splice(idx, 1)[0];
-    var lower = repo.attrs.name.toLowerCase();
-    var models = data.githubRepos.models;
-
-    for (var i = 0, len = models.length; i < len; i++) {
-      if (lower < models[i].attrs.name.toLowerCase()) {
-        models.splice(i, 0, repo);
-        break;
-      }
+  actions.selectGithubRepo = function (repo) {
+    if (data.selectedRepos.contains(repo)) {
+      data.selectedRepos.remove(repo);
     }
+    else {
+      data.selectedRepos.add(repo);
+    }
+    $scope.safeApply();
+  };
+  actions.addGithubRepos = function () {
+    async.forEach(data.selectedRepos.models, function (repo, cb) {
+      var body = {
+        repo: repo.attrs.full_name
+      };
+      data.contextVersion.appCodeVersions.create(body, cb);
+    }, function (err) {
+      if (err) {
+        throw err;
+      }
+      data.selectedRepos.reset([]);
+      $scope.safeApply();
+    });
+  };
+  actions.removeGithubRepo = function (appCodeVersion) {
+    data.contextVersion.appCodeVersions.destroy(appCodeVersion, function (err) {
+      if (err) {
+        throw err;
+      }
+      $scope.safeApply();
+    });
   };
 
   /**
@@ -174,12 +187,18 @@ function ControllerSetup(
     var thisUser = $scope.dataApp.user;
     var build = dataSetup.data.build;
     var query;
+
     if (thisUser.isOwnerOf(dataSetup.data.project)) {
+      data.selectedRepos = data.selectedRepos || thisUser.newGithubRepos([], { noStore: true });
+      console.log(data.selectedRepos);
+      console.log(thisUser.newGithubRepos([], { noStore: true }));
       query = new QueryAssist(thisUser, cb)
         .wrapFunc('fetchGithubRepos');
     }
     else {
       var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      data.selectedRepos = data.selectedRepos || githubOrg.newGithubRepos([], { noStore: true });
+      console.log(data.selectedRepos);
       query = new QueryAssist(githubOrg, cb)
         .wrapFunc('fetchRepos');
     }
@@ -293,8 +312,7 @@ ControllerSetup.initState = function () {
   return {
     data: {
       isAdvanced: false,
-      isRepoMode: false,
-      selectedRepos: []
+      isRepoMode: false
     },
     actions: {}
   };

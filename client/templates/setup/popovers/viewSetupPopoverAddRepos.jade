@@ -1,14 +1,15 @@
 .popover-content
   ul.vertical-list
     li(
-      ng-repeat = "repo in dataSetup.data.githubRepos.models | repos:dataSetup.data.repoFilter"
-      ng-class = "{in: dataSetup.repoSelected}"
-      ng-if = "!dataSetup.actions.selectedGithubRepos(org)"
-      ng-click = "dataSetup.actions.addGithubRepo(repo, $index)"
+      ng-repeat = "repo in dataSetup.data.githubRepos.models | \
+        unaddedRepos:dataSetup.data.contextVersion.appCodeVersions | \
+        repos:dataSetup.data.repoFilter"
+      ng-class = "{in: dataSetup.data.selectedRepos.contains(repo)}"
+      ng-click = "dataSetup.actions.selectGithubRepo(repo)"
     ){{ repo.attrs.name }}
       svg.iconnables.icons-check
         use(xlink:href = "#icons-check")
   button.btn-block.silver(
-    ng-click = "dataSetup.repoMode = false"
+    ng-click = "dataSetup.actions.addGithubRepos()"
     type = "button"
   ) Add [#] Repositor[y/ies]
