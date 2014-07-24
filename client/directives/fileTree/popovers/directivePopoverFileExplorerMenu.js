@@ -82,7 +82,7 @@ function popoverFileExplorerMenu(
 
       element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener (e){
-        $scope.dPFEMenu.eStyle.top = e.offsetY + $scope.$popoverTemplate.height() + 'px';
+        $scope.dPFEMenu.eStyle.top = e.offsetY + $scope.$popoverTemplate.height() - 30 + 'px';
         $scope.dPFEMenu.eStyle.left = e.offsetX + 'px';
         $scope.dPFEMenu.isOpen = true;
 
