@@ -262,6 +262,10 @@ button,
   vertical-align: middle;
 }
 
+.btn-group-vertical {
+  display: block;
+}
+
 .btn-group > .btn,
 .btn-group > button,
 .btn-group-vertical > .btn {
