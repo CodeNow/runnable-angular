@@ -1,9 +1,9 @@
 require('app')
-  .filter('triggeredAction', repoTriggeredAction);
+  .filter('triggeredAction', filterTriggeredAction);
 /**
  * @ngInject
  */
-function repoTriggeredAction() {
+function filterTriggeredAction() {
   return function (triggeredAction) {
     if (!triggeredAction) { return; }
     if (triggeredAction.manual) {
