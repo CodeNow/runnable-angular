@@ -14,7 +14,8 @@ function ControllerBuildList(
   $stateParams,
   $state,
   async,
-  keypather
+  keypather,
+  hasKeypaths
 ) {
 
   var QueryAssist = $scope.UTIL.QueryAssist;
@@ -26,8 +27,8 @@ function ControllerBuildList(
 
   // scope event listeners
   $scope.$on('app-document-click', function () {
-    dataBuildList.data.showChangeRecipe = false;
-    dataBuildList.data.popoverChangeRecipe.filter = '';
+    data.showChangeRecipe = false;
+    data.popoverChangeRecipe.filter = '';
   });
 
   $scope.$watch('dataBuildList.data.project.attrs.name', function (newval, oldval) {
@@ -48,8 +49,8 @@ function ControllerBuildList(
   actions.stateToInstance = function (buildId) {
     var state = {
       userName: $scope.dataApp.user.attrs.accounts.github.username,
-      projectName: dataBuildList.data.project.attrs.name,
-      branchName: dataBuildList.data.environment.attrs.name,
+      projectName: data.project.attrs.name,
+      branchName: data.environment.attrs.name,
       buildName: build.attrs.id,
       instanceId: '12345'
     };
@@ -58,8 +59,8 @@ function ControllerBuildList(
   actions.stateToBuild = function (build) {
     var state = {
       userName: $scope.dataApp.user.attrs.accounts.github.username,
-      projectName: dataBuildList.data.project.attrs.name,
-      branchName: dataBuildList.data.environment.attrs.name,
+      projectName: data.project.attrs.name,
+      branchName: data.environment.attrs.name,
       buildName: build.id()
     };
     $state.go('projects.build', state);
@@ -84,7 +85,7 @@ function ControllerBuildList(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchProject(cb) {
+  function fetchProject (cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
@@ -93,92 +94,65 @@ function ControllerBuildList(
         name: $stateParams.projectName
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
-        dataBuildList.data.project = projects.models[0];
-        cb();
+        var project = projects.models[0];
+        if (!project) {
+          // project not found redirect..
+        }
+        else {
+          data.project = project;
+          var env = project.environments.find(hasKeypaths({
+            'attrs.name.toLowerCase()': $stateParams.branchName
+          }));
+          if (!env) {
+            // environment not found redirect..
+          }
+          else {
+            data.environment = env;
+          }
+          cb();
+        }
       })
       .resolve(function (err, projects, cb) {
-        if (err) {
-          // TODO
-          // 404
-        }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
 
-  function fetchEnvironment(cb) {
-    new QueryAssist(dataBuildList.data.project, cb)
-      .wrapFunc('fetchEnvironments')
-      .query({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.branchName
-      })
-      .cacheFetch(function updateDom(environments, cached, cb) {
-        dataBuildList.data.environment = environments.models[0];
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, environments, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
-  function fetchBuilds(cb) {
-    new QueryAssist(dataBuildList.data.environment, cb)
+  function fetchBuilds (cb) {
+    new QueryAssist(data.environment, cb)
       .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb) {})
-      .resolve(function (err, builds, cb) {
-        if (builds.models.length === 1 && !builds.models[0].attrs.started) {
+      .query({ started: true })
+      .cacheFetch(function updateDom(builds, cached, cb) {
+        if (builds.models.length === 0) {
+          // redirect to create new build page
+        }
+        else if (builds.models.length === 1 && !builds.models[0].attrs.started) {
           actions.stateToSetupFirstBuild();
         }
         else {
-          dataBuildList.data.builds = builds;
+          data.builds = builds;
           $scope.safeApply();
           cb();
         }
       })
+      .resolve(function (err) {
+        $scope.safeApply();
+        cb(err);
+      })
       .go();
   }
 
-  function fetchBuildsOwners(cb) {
-    //TODO FIX
-    /*
-    var builds = dataBuildList.data.builds;
-    var ownerIds = builds.models
-      .map(function (item) {
-        return item.attrs.owner.github;
-      })
-      .reduce(function (previous, current) {
-        if (previous.indexOf(current) === -1) previous.push(current);
-        return previous;
-      }, []);
-    var buildOwners = user.fetchUsers({
-      _id: ownerIds
-    }, function (err) {
-      if (err) {
-        return;
-      }
-      dataBuildList.buildOwners = buildOwners;
-      cb();
-    });
-    dataBuildList.buildOwners = buildOwners;
-    $scope.safeApply();
-    */
-    cb();
-  }
   actions.initState = function () {
     async.waterfall([
       holdUntilAuth,
       fetchProject,
-      fetchEnvironment,
-      fetchBuilds,
-      fetchBuildsOwners
-    ], function (err, project, environments, environment, builds, buildOwners) {
-      if (err) return;
-      // TODO error handling
+      fetchBuilds
+    ], function (err, project, environments, environment, builds) {
+      if (err) {
+        // TODO error handling
+        throw err;
+      }
       $scope.safeApply();
     });
   };
