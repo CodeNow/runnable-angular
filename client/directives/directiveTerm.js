@@ -20,7 +20,7 @@ function term(
       var termStream, clientEvents;
 
       // Initalize link to server
-      var streamId = build.contextVersions[0]._id + '-' + (+new Date());
+      var streamId = build.contextVersions[0]._id + '-' + Date.now();
       var primusTerm = primus({
         id: 1,
         event: 'terminal-stream',

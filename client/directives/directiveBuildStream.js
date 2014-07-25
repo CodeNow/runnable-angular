@@ -19,7 +19,7 @@ function buildStream(
       function init() {
         var build = $scope.dataBuild.data.build;
 
-        var streamId = build._id + (+new Date());
+        var streamId = build._id + Date.now();
         var buildStream = primusTerm.connection.write({
           id: 1,
           event: 'build-stream',
