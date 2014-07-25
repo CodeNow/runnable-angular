@@ -25,12 +25,6 @@ function ControllerBuildList(
   var data = dataBuildList.data;
   var actions = dataBuildList.actions;
 
-  // scope event listeners
-  $scope.$on('app-document-click', function () {
-    data.showChangeRecipe = false;
-    data.popoverChangeRecipe.filter = '';
-  });
-
   $scope.$watch('dataBuildList.data.project.attrs.name', function (newval, oldval) {
     if (typeof oldval !== 'string') {
       return;
@@ -49,6 +43,19 @@ function ControllerBuildList(
 
     });
   });
+
+  actions.getTriggeredActionText = function (triggeredAction) {
+    if (!triggeredAction) { return; }
+    if (triggeredAction.manual) {
+      return 'Manual';
+    }
+    if (triggeredAction.rebuild) {
+      return 'Rebuild';
+    }
+    // assume github
+    var appCodeVersion = triggeredAction.appCodeVersion;
+    return appCodeVersion.repo+'#'+appCodeVersion.repo;
+  };
 
   actions.stateToInstance = function (buildId) {
     var state = {
@@ -166,10 +173,6 @@ function ControllerBuildList(
 ControllerBuildList.initState = function () {
   return {
     data: {
-      popoverChangeRecipe: {
-        recipe: ''
-      },
-      showChangeRecipe: false,
       predicate: '',
       ascending: false
     },
