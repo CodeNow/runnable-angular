@@ -29,7 +29,31 @@ function popoverFileExplorerMenu(
       };
       dFEMenu.isOpen = false;
 
+      function getNewName(collection, findForDir) {
+        var regexp1 = /^undefined$/;
+        var regexp2 = /^undefined \([0-9]+\)$/;
+
+        var models = collection.models
+          .slice()
+          .filter(function (model) {
+            // verify model is correct type and has undefined name
+            return (findForDir === model.attrs.isDir) &&
+              regexp1.test(model.attrs.name) &&
+                regexp2.test(model.attrs.name);
+          })
+          .sort(function (m1, m2) {
+            if (regexp1.test(m1)) {
+              return true;
+            } else if (regexp1.test(m2)) {
+              return false;
+            }
+
+          });
+
+      }
+
       actions.createFile = function () {
+
         var name = 'undefined';
         $scope.version.createFile({
           name: name,
