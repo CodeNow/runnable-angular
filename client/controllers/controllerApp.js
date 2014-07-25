@@ -1,4 +1,3 @@
-var queryAssist = require('queryAssist');
 require('app')
   .controller('ControllerApp', ControllerApp);
 /**
