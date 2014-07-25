@@ -6,7 +6,7 @@ require('app')
 function buildStream(
   $location,
   $anchorScroll,
-  primusBuild
+  primus
 ) {
   return {
     restrict: 'E',
@@ -18,7 +18,15 @@ function buildStream(
 
       function init() {
         var build = $scope.dataBuild.data.build;
-        var buildStream = primusBuild(build.attrs.contextVersions[0]);
+
+        var streamId = build._id + (+new Date());
+        var buildStream = primusTerm.connection.write({
+          id: 1,
+          event: 'build-stream',
+          data: {
+            streamId: streamId
+          }
+        }).substream(streamId);
 
         elem.on('$destroy', function () {
           if (buildStream && !$scope.dataBuild.data.finishedBuild) {

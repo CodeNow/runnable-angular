@@ -22,18 +22,18 @@ describe('servicePrimus'.bold.underline.blue, function () {
       });
     });
 
-    angular.mock.inject(function (_primusTerm_) {
-      primus = _primusTerm_;
+    angular.mock.inject(function (_primus_) {
+      primus = _primus_;
     });
   }
   beforeEach(initState);
 
   it('should connect to the server', function () {
-    expect(primus.connection).to.be.ok;
+    expect(primus).to.be.a('function');
   });
 
   it('should have substreams', function () {
-    var sub = primus.connection.substream('terminal');
+    var sub = primus().substream('terminal');
     expect(sub).to.be.ok;
   });
 
