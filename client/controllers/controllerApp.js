@@ -1,4 +1,3 @@
-var queryAssist = require('queryAssist');
 require('app')
   .controller('ControllerApp', ControllerApp);
 /**
@@ -16,7 +15,8 @@ function ControllerApp(
   $state,
   user,
   apiConfig,
-  holdUntilAuth
+  holdUntilAuth,
+  queryAssist
 ) {
 
   var self = ControllerApp;
