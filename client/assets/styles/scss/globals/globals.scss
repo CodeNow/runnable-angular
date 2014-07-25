@@ -12,6 +12,7 @@ body {
   font-size: 15px;
   font-weight: 300;
   line-height: 1.4;
+  min-width: 1120px;
 }
 
 html,
@@ -22,12 +23,8 @@ body,
   overflow-y: hidden;
 }
 
-#wrapper {
-  min-width: 1120px;
-
-  &.width-full {
-    min-width: 0;
-  }
+#wrapper.width-full {
+  min-width: 0;
 }
 
 main {
