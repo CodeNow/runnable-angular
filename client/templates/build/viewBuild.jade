@@ -89,7 +89,7 @@ section.sidebar
     li(ng-show = "dataBuild.data.build.attrs.completed")
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
-      | Built in {{ dataBuild.data.buildTime | number:2 }} seconds
+      | Built in {{ dataBuild.data.build.buildTime() | number:2 }} seconds
     li(ng-show = "dataBuild.data.build.attrs.started")
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")

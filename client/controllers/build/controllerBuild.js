@@ -160,7 +160,6 @@ function ControllerBuild(
       .resolve(function (err, build, cb) {
         if (build.attrs.completed) {
           data.finishedBuild = true;
-          data.buildTime = build.buildTime();
           if (!build.attrs.erroredContextVersions.length) {
             data.successfulBuild = true;
           }
