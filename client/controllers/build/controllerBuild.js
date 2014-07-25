@@ -169,18 +169,6 @@ function ControllerBuild(
       .go();
   }
 
-  function fetchBuildOwners(cb) {
-    //TODO FIX fetchUser
-    /*
-    var build = data.build;
-    function updateDom() {
-      data.buildOwner = buildOwner;
-      $scope.safeApply();
-    }
-    */
-    cb();
-  }
-
   function newFilesCollOpenFiles(cb) {
     var version = dataBuild.data.version;
     data.openFiles = new SharedFilesCollection(
@@ -197,7 +185,6 @@ function ControllerBuild(
       fetchProject,
       fetchEnvironment,
       fetchBuild,
-      fetchBuildOwners,
       newFilesCollOpenFiles
     ], function () {
       $scope.$apply();
