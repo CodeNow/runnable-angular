@@ -142,6 +142,7 @@ function ControllerBuild(
       .query($stateParams.buildName)
       .cacheFetch(function updateDom(build, cached, cb) {
         dataBuild.data.build = build;
+        dataBuild.data.version = build.contextVersions.models[0];
         $scope.safeApply();
         if (build.attrs.contextVersions.length){
           cb();
@@ -169,26 +170,6 @@ function ControllerBuild(
     cb();
   }
 
-  function fetchVersion(cb) {
-    var build = data.build;
-    var contextId = build.toJSON().contexts[0];
-    var versionId = build.toJSON().contextVersions[0];
-    var context = user.newContext(contextId);
-    new QueryAssist(context, cb)
-      .wrapFunc('fetchVersion')
-      .query(versionId)
-      .cacheFetch(function updateDom(version, cached, cb) {
-        dataBuild.data.version = version;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, build, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
   function newFilesCollOpenFiles(cb) {
     var version = dataBuild.data.version;
     data.openFiles = new SharedFilesCollection(
@@ -206,7 +187,6 @@ function ControllerBuild(
       fetchEnvironment,
       fetchBuild,
       fetchBuildOwners,
-      fetchVersion,
       newFilesCollOpenFiles
     ], function () {
       $scope.$apply();
