@@ -139,6 +139,7 @@ function ControllerProjectLayout(
     });
   }
   function fetchProjects(cb) {
+    debugger;
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
