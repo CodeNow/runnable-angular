@@ -1298,24 +1298,34 @@
           }
         },
         "rename-function-calls": {
-          "version": "0.1.0",
-          "from": "https://registry.npmjs.org/rename-function-calls/-/rename-function-calls-0.1.0.tgz",
-          "resolved": "https://registry.npmjs.org/rename-function-calls/-/rename-function-calls-0.1.0.tgz",
+          "version": "0.1.1",
+          "from": "https://registry.npmjs.org/rename-function-calls/-/rename-function-calls-0.1.1.tgz",
+          "resolved": "https://registry.npmjs.org/rename-function-calls/-/rename-function-calls-0.1.1.tgz",
           "dependencies": {
             "detective": {
-              "version": "2.4.0",
-              "from": "detective@git://github.com/thlorenz/node-detective#4dffbc2ccdf969538c7911b542250b65b8f148c5",
-              "resolved": "git://github.com/thlorenz/node-detective#4dffbc2ccdf969538c7911b542250b65b8f148c5",
+              "version": "3.1.0",
+              "from": "https://registry.npmjs.org/detective/-/detective-3.1.0.tgz",
+              "resolved": "https://registry.npmjs.org/detective/-/detective-3.1.0.tgz",
               "dependencies": {
                 "escodegen": {
-                  "version": "0.0.15",
-                  "from": "https://registry.npmjs.org/escodegen/-/escodegen-0.0.15.tgz",
-                  "resolved": "https://registry.npmjs.org/escodegen/-/escodegen-0.0.15.tgz",
+                  "version": "1.1.0",
+                  "from": "https://registry.npmjs.org/escodegen/-/escodegen-1.1.0.tgz",
+                  "resolved": "https://registry.npmjs.org/escodegen/-/escodegen-1.1.0.tgz",
                   "dependencies": {
                     "esprima": {
-                      "version": "1.2.2",
-                      "from": "https://registry.npmjs.org/esprima/-/esprima-1.2.2.tgz",
-                      "resolved": "https://registry.npmjs.org/esprima/-/esprima-1.2.2.tgz"
+                      "version": "1.0.4",
+                      "from": "https://registry.npmjs.org/esprima/-/esprima-1.0.4.tgz",
+                      "resolved": "https://registry.npmjs.org/esprima/-/esprima-1.0.4.tgz"
+                    },
+                    "estraverse": {
+                      "version": "1.5.1",
+                      "from": "https://registry.npmjs.org/estraverse/-/estraverse-1.5.1.tgz",
+                      "resolved": "https://registry.npmjs.org/estraverse/-/estraverse-1.5.1.tgz"
+                    },
+                    "esutils": {
+                      "version": "1.0.0",
+                      "from": "https://registry.npmjs.org/esutils/-/esutils-1.0.0.tgz",
+                      "resolved": "https://registry.npmjs.org/esutils/-/esutils-1.0.0.tgz"
                     },
                     "source-map": {
                       "version": "0.1.37",
@@ -1331,10 +1341,10 @@
                     }
                   }
                 },
-                "esprima-six": {
-                  "version": "0.0.3",
-                  "from": "https://registry.npmjs.org/esprima-six/-/esprima-six-0.0.3.tgz",
-                  "resolved": "https://registry.npmjs.org/esprima-six/-/esprima-six-0.0.3.tgz"
+                "esprima-fb": {
+                  "version": "3001.1.0-dev-harmony-fb",
+                  "from": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz",
+                  "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
                 }
               }
             }
@@ -1931,9 +1941,9 @@
               }
             },
             "caniuse-db": {
-              "version": "1.0.20140717",
-              "from": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.20140717.tgz",
-              "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.20140717.tgz"
+              "version": "1.0.20140722",
+              "from": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.20140722.tgz",
+              "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.20140722.tgz"
             }
           }
         },
@@ -2324,9 +2334,9 @@
               }
             },
             "phantomjs": {
-              "version": "1.9.7-14",
-              "from": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.7-14.tgz",
-              "resolved": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.7-14.tgz",
+              "version": "1.9.7-15",
+              "from": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.7-15.tgz",
+              "resolved": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.7-15.tgz",
               "dependencies": {
                 "adm-zip": {
                   "version": "0.2.1",
@@ -3119,9 +3129,9 @@
                   }
                 },
                 "semver": {
-                  "version": "2.3.1",
-                  "from": "https://registry.npmjs.org/semver/-/semver-2.3.1.tgz",
-                  "resolved": "https://registry.npmjs.org/semver/-/semver-2.3.1.tgz"
+                  "version": "2.3.2",
+                  "from": "https://registry.npmjs.org/semver/-/semver-2.3.2.tgz",
+                  "resolved": "https://registry.npmjs.org/semver/-/semver-2.3.2.tgz"
                 }
               }
             },
@@ -4344,9 +4354,9 @@
       "resolved": "https://registry.npmjs.org/karma-phantomjs-launcher/-/karma-phantomjs-launcher-0.1.4.tgz",
       "dependencies": {
         "phantomjs": {
-          "version": "1.9.7-14",
-          "from": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.7-14.tgz",
-          "resolved": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.7-14.tgz",
+          "version": "1.9.7-15",
+          "from": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.7-15.tgz",
+          "resolved": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.7-15.tgz",
           "dependencies": {
             "adm-zip": {
               "version": "0.2.1",
@@ -5188,9 +5198,9 @@
               }
             },
             "semver": {
-              "version": "2.3.1",
-              "from": "https://registry.npmjs.org/semver/-/semver-2.3.1.tgz",
-              "resolved": "https://registry.npmjs.org/semver/-/semver-2.3.1.tgz"
+              "version": "2.3.2",
+              "from": "https://registry.npmjs.org/semver/-/semver-2.3.2.tgz",
+              "resolved": "https://registry.npmjs.org/semver/-/semver-2.3.2.tgz"
             }
           }
         },
@@ -5725,9 +5735,9 @@
       }
     },
     "runnable": {
-      "version": "0.14.10",
-      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.14.10",
-      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#70b575cf65ec9ecf2583a45d18098c05237230f4",
+      "version": "0.15.0",
+      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.15.0",
+      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#f55c398291a9139c39d98067d573d3858d39d5df",
       "dependencies": {
         "101": {
           "version": "0.7.0",
@@ -5783,6 +5793,7 @@
         "simple-api-client": {
           "version": "0.5.8",
           "from": "simple-api-client@~0.5.8",
+          "resolved": "https://registry.npmjs.org/simple-api-client/-/simple-api-client-0.5.8.tgz",
           "dependencies": {
             "101": {
               "version": "0.3.4",
