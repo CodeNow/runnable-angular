@@ -24,6 +24,7 @@ function buildStream(
           id: 1,
           event: 'build-stream',
           data: {
+            id: build.contextVersions[0]._id,
             streamId: streamId
           }
         }).substream(streamId);
