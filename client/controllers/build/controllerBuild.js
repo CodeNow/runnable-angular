@@ -157,7 +157,11 @@ function ControllerBuild(
       })
       .resolve(function (err, build, cb) {
         if (build.attrs.completed) {
+          $scope.dataBuild.data.finishedBuild = true;
           dataBuild.data.buildTime = (new Date(build.attrs.completed) - new Date(build.attrs.started)) / 1000;
+          if (!build.attrs.erroredContextVersions.length) {
+            $scope.dataBuild.data.successfulBuild = true;
+          }
         }
         $scope.safeApply();
         cb();

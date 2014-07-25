@@ -14,9 +14,7 @@ function buildStream(
     templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
-      $scope.closed = false;
-
-      function init() {
+      function init () {
         var build = $scope.dataBuild.data.build;
 
         var streamId = build._id + Date.now();
