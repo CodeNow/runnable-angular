@@ -62,8 +62,8 @@ nav#build-stream-header.sub-header
         )
           span Build
         th Triggered By
-        th Commit Message
-        th Repo
+        th Message
+        th Triggered Action
         th.sortable
           span Duration
         th.sortable
@@ -75,18 +75,30 @@ nav#build-stream-header.sub-header
         ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
         td
-          svg.iconnables.icons-check
-            use(xlink:href = "#icons-check")
-        td {{ build.attrs.id }}
-        td {{ dataBuildList.data.buildOwners.getById(build.attrs.owner).attrs.username }}
-        td {{ build.attrs.message }}
-        td {{ dataBuildList.data.project.attrs.name }}
-        td {{ build.attrs.duration }}
+          svg.iconnables(
+              ng-class = "{\
+                'icons-check': !build.failed(), \
+                'icons-fail': build.failed() \
+              }"
+            )
+            use(
+              xlink:href = "{{ build.failed() ? '#icons-fail' : '#icons-check' }}"
+            )
+        td {{ build.attrs.buildNumber }}
+        td {{ build.contextVersions.models[0].attrs.build.triggeredBy.username }}
+        td {{ build.contextVersions.models[0].attrs.build.message }}
+        td {{ build.contextVersions.models[0].attrs.build.triggeredAction | triggeredAction }}
+        td {{ UTIL.duration(build.attrs.completed, build.attrs.started) }}
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
-            ng-click   = "dataBuildList.actions.stateToInstance(build)"
+            ng-if = "!build.failed()"
+            ng-click = "dataBuildList.actions.stateToInstance(build)"
             data-title = "Run Instance"
           )
             svg.iconnables.icons-run
               use(xlink:href = "#icons-run")
+          a(
+            ng-if = "build.failed()"
+          ) None
+
