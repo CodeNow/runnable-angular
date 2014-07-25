@@ -57,6 +57,7 @@ function ControllerApp(
       }
     });
   };
+
   UTIL.clickPos = function (e) {
     var x = 0,
       y = 0;
