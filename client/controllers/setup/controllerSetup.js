@@ -157,9 +157,7 @@ function ControllerSetup(
       fetchProject,
       fetchSeedContexts,
       fetchFirstBuild,
-      fetchOwnerRepos,
-      fetchContext,
-      fetchContextVersion
+      fetchOwnerRepos
     ], function (err) {});
   };
   actions.initState();
@@ -217,6 +215,7 @@ function ControllerSetup(
         else {
           // first build
           data.build = builds.models[0];
+          data.contextVersion = builds.models[0].contextVersions.models[0];
           $scope.safeApply();
           cb();
         }
@@ -266,28 +265,6 @@ function ControllerSetup(
       .query(build.attrs.contexts[0])
       .cacheFetch(function updateDom(context, cached, cb) {
         data.context = context;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, context, cb) {
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
-  function fetchContextVersion (cb) {
-    var build = data.build;
-    var context = data.context;
-    var thisUser = $scope.dataApp.user;
-    new QueryAssist(context, cb)
-      .wrapFunc('fetchVersion')
-      .query(build.attrs.contextVersions[0])
-      .cacheFetch(function updateDom(contextVersion, cached, cb) {
-        data.contextVersion = contextVersion;
         $scope.safeApply();
         cb();
       })
