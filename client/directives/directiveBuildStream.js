@@ -6,7 +6,7 @@ require('app')
 function buildStream(
   $location,
   $anchorScroll,
-  primusBuild
+  primus
 ) {
   return {
     restrict: 'E',
@@ -18,11 +18,20 @@ function buildStream(
 
       function init() {
         var build = $scope.dataBuild.data.build;
-        var buildStream = primusBuild(build.attrs.contextVersions[0]);
+
+        var streamId = build._id + Date.now();
+        var buildStream = primus.write({
+          id: 1,
+          event: 'build-stream',
+          data: {
+            id: build.contextVersions[0]._id,
+            streamId: streamId
+          }
+        }).substream(streamId);
 
         elem.on('$destroy', function () {
           if (buildStream && !$scope.dataBuild.data.finishedBuild) {
-            buildStream.connection.end();
+            buildStream.end();
           }
         });
 
@@ -35,13 +44,13 @@ function buildStream(
         $scope.stream = {
           finished: false
         };
-        $scope.stream.data = buildStream.getCache();
+        $scope.stream.data = '';
 
         $location.hash('log');
 
-        buildStream.connection.on('data', addToStream);
+        buildStream.on('data', addToStream);
 
-        buildStream.connection.on('end', function () {
+        buildStream.on('end', function () {
           build.fetch(function (err, data) {
             if (err) {
               alert('an error happened');
@@ -60,7 +69,7 @@ function buildStream(
             $scope.safeApply();
           });
 
-          buildStream.connection.end();
+          buildStream.end();
           $scope.stream.finished = true;
         });
       }

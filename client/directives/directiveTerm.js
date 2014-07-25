@@ -6,15 +6,32 @@ require('app')
  * @ngInject
  */
 function term(
-  primusTerm
+  primus
 ) {
   return {
     restrict: 'E',
+    scope: {
+      build: '='
+    },
     link: function ($scope, elem) {
       // Numbers chosen erring on the side of padding
       var CHAR_WIDTH = 7.5;
       var CHAR_HEIGHT = 15.4;
       var termStream, clientEvents;
+
+      // Initalize link to server
+      var streamId = build.contextVersions[0]._id + '-' + Date.now();
+      var primusTerm = primus({
+        id: 1,
+        event: 'terminal-stream',
+        data: {
+          dockHost: build.contextVersions[0].dockerHost,
+          type: 'filibuster',
+          containerId: instance.containers[0]._id,
+          terminalStreamId: streamId,
+          eventStreamId: streamId + 'events'
+        }
+      });
 
       function resizeTerm() {
         var x = Math.floor(terminal.element.scrollWidth / CHAR_WIDTH);
@@ -44,8 +61,7 @@ function term(
       terminal.open(elem[0]);
       terminal.write(primusTerm.getCache());
 
-      // Initalize link to server
-      termStream = primusTerm.connection.substream('terminal');
+      termStream = primusTerm.substream(streamId);
 
       termStream.on('reconnect', function () {
         terminal.writeln('');
@@ -59,7 +75,7 @@ function term(
       });
 
       // Used for window resizing
-      clientEvents = primusTerm.connection.substream('clientEvents');
+      clientEvents = primusTerm.substream(streamId + 'events');
 
       // Client enters data into the system, which registers as data event on terminal
       // terminal then writes that to termStream, sending the data to the server
