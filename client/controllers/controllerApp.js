@@ -16,8 +16,7 @@ function ControllerApp(
   user,
   apiConfig,
   holdUntilAuth,
-  queryAssist,
-  moment
+  queryAssist
 ) {
 
   var self = ControllerApp;
@@ -72,10 +71,6 @@ function ControllerApp(
     };
   };
   UTIL.QueryAssist = queryAssist;
-  UTIL.duration = function (end, start) {
-    var diff = new Date(end) - new Date(end);
-    return moment.duration(diff).humanize();
-  };
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {

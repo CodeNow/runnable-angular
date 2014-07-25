@@ -88,7 +88,7 @@ nav#build-stream-header.sub-header
         td {{ build.contextVersions.models[0].attrs.build.triggeredBy.username }}
         td {{ build.contextVersions.models[0].attrs.build.message }}
         td {{ build.contextVersions.models[0].attrs.build.triggeredAction | triggeredAction }}
-        td {{ UTIL.duration(build.attrs.completed, build.attrs.started) }}
+        td {{ build.buildTime() | humanizeTimeDuration }}
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
