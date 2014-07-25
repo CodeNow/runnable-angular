@@ -1,8 +1,10 @@
+// TODO include moment via service TJ made
+var moment = require('moment');
 require('app')
   .filter('timeAgo', timeAgo);
 
 function timeAgo() {
   return function (date) {
-    return require('moment')(date).fromNow();
+    return moment(date).fromNow();
   };
 }

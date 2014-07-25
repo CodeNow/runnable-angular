@@ -27,7 +27,7 @@ function ControllerBuild(
     actions = dataBuild.actions;
 
   // Trigger digest cycle every minute to update 'Initiated'
-  setInterval($scope.safeApply, 60 * 1000);
+  // setInterval($scope.safeApply, 60 * 1000);
 
   actions.initPopoverState = function () {
     extendDeep(dataBuild, self.initPopoverState($stateParams));
@@ -72,6 +72,13 @@ function ControllerBuild(
       });
     });
   };
+  actions.forkBuild = function () {
+    var build = dataBuild.data.build;
+    build.fork(function () {
+      console.log(arguments);
+    });
+  };
+
   actions.rebuild = function () {};
   actions.build = function () {};
   actions.discardChanges = function () {};
@@ -150,24 +157,16 @@ function ControllerBuild(
       })
       .resolve(function (err, build, cb) {
         if (build.attrs.completed) {
+          $scope.dataBuild.data.finishedBuild = true;
           dataBuild.data.buildTime = (new Date(build.attrs.completed) - new Date(build.attrs.started)) / 1000;
+          if (!build.attrs.erroredContextVersions.length) {
+            $scope.dataBuild.data.successfulBuild = true;
+          }
         }
         $scope.safeApply();
         cb();
       })
       .go();
-  }
-
-  function fetchBuildOwners(cb) {
-    //TODO FIX fetchUser
-    /*
-    var build = data.build;
-    function updateDom() {
-      data.buildOwner = buildOwner;
-      $scope.safeApply();
-    }
-    */
-    cb();
   }
 
   function newFilesCollOpenFiles(cb) {
@@ -186,7 +185,6 @@ function ControllerBuild(
       fetchProject,
       fetchEnvironment,
       fetchBuild,
-      fetchBuildOwners,
       newFilesCollOpenFiles
     ], function () {
       $scope.$apply();

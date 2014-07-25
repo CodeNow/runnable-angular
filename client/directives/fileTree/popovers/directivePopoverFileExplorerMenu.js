@@ -67,7 +67,8 @@ function popoverFileExplorerMenu(
       var $template = angular.element(template);
       $compile($template)($scope);
       $scope.$popoverTemplate = $scope.jQuery($template);
-      element.prepend($template);
+      //element.prepend($template);
+      $scope.jQuery('body').append($template);
 
       $scope.$on('file-modal-open', function () {
         if (dFEMenu.isOpen) {
@@ -82,8 +83,8 @@ function popoverFileExplorerMenu(
 
       element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener (e){
-        $scope.dPFEMenu.eStyle.top = e.offsetY + $scope.$popoverTemplate.height() - 30 + 'px';
-        $scope.dPFEMenu.eStyle.left = e.offsetX + 'px';
+        $scope.dPFEMenu.eStyle.top = e.pageY + 'px';
+        $scope.dPFEMenu.eStyle.left = e.pageX + 'px';
         $scope.dPFEMenu.isOpen = true;
 
         $timeout(function () {

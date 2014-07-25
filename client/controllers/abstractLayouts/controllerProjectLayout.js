@@ -146,6 +146,10 @@ function ControllerProjectLayout(
         githubUsername: $scope.dataApp.stateParams.userName
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
+        if (dataProjectLayout.data.projects === projects && cached) {
+          // slight performance enhancement avoid unnecessary digest
+          return cb();
+        }
         dataProjectLayout.data.projects = projects;
         $scope.safeApply();
         cb();

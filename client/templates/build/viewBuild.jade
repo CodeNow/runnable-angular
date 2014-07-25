@@ -97,7 +97,7 @@ section.sidebar
     li
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
-      | Triggered by <a>{{ dataBuild.data.buildOwner.attrs.accounts.github.username }}</a>
+      | Triggered by <a>{{ dataBuild.data.build.user.attrs.accounts.github.username }}</a>
   h3 Message Log
   ol#messages
     li(ng-repeat = "commit in dataBuild.data.commits")
