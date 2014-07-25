@@ -9,12 +9,11 @@ function filterTriggeredAction() {
     if (triggeredAction.manual) {
       return 'Manual';
     }
-    else if (triggeredAction.rebuild) {
+    if (triggeredAction.rebuild) {
       return 'Rebuild';
     }
-    else { // assume github
-      var appCodeVersion = triggeredAction.appCodeVersion;
-      return appCodeVersion.repo+'#'+appCodeVersion.repo;
-    }
+    // assume github
+    var appCodeVersion = triggeredAction.appCodeVersion;
+    return appCodeVersion.repo+'#'+appCodeVersion.repo;
   };
 }
