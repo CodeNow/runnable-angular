@@ -29,13 +29,18 @@ function ControllerApp(
     $scope.$broadcast('app-document-click');
   };
 
+  dataApp.applyCallbacks = [];
   $rootScope.safeApply = function (cb) {
+    if (dataApp.applyCallbacks.length) {
+      cb = cb || angular.noop;
+      dataApp.applyCallbacks.push(cb);
+    }
     $timeout(function () {
-      if (typeof cb === 'function') {
-        $scope.$apply(cb);
-      } else {
-        $scope.$apply();
-      }
+      $scope.$apply();
+      dataApp.applyCallbacks.forEach(function (cb) {
+        cb();
+      });
+      dataApp.applyCallbacks = [];
     });
   };
 
