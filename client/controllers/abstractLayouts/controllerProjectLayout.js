@@ -139,7 +139,6 @@ function ControllerProjectLayout(
     });
   }
   function fetchProjects(cb) {
-    debugger;
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
@@ -147,6 +146,10 @@ function ControllerProjectLayout(
         githubUsername: $scope.dataApp.stateParams.userName
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
+        if (dataBuildList.data.projects === projects && cached) {
+          // slight performance enhancement avoid unnecessary digest
+          return cb();
+        }
         dataProjectLayout.data.projects = projects;
         $scope.safeApply();
         cb();
