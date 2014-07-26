@@ -81,7 +81,9 @@ function ControllerBuild(
 
   actions.rebuild = function () {};
   actions.build = function () {};
-  actions.discardChanges = function () {};
+  actions.discardChanges = function () {
+    data.isClean = true;
+  };
 
   $scope.$watch('dataBuild.data.isClean', function () {
     actions.initPopoverState();
@@ -157,11 +159,12 @@ function ControllerBuild(
       })
       .resolve(function (err, build, cb) {
         if (build.attrs.completed) {
-          $scope.dataBuild.data.finishedBuild = true;
-          dataBuild.data.buildTime = (new Date(build.attrs.completed) - new Date(build.attrs.started)) / 1000;
+          data.finishedBuild = true;
           if (!build.attrs.erroredContextVersions.length) {
-            $scope.dataBuild.data.successfulBuild = true;
+            data.successfulBuild = true;
           }
+        } else if (!build.attrs.started) {
+          data.isClean = false;
         }
         $scope.safeApply();
         cb();
