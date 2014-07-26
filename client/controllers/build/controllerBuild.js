@@ -81,7 +81,9 @@ function ControllerBuild(
 
   actions.rebuild = function () {};
   actions.build = function () {};
-  actions.discardChanges = function () {};
+  actions.discardChanges = function () {
+    data.isClean = true;
+  };
 
   $scope.$watch('dataBuild.data.isClean', function () {
     actions.initPopoverState();

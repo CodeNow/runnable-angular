@@ -17,7 +17,7 @@ nav.sub-header
     | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
   //- all buttons should be disabled during a build
-  section#main-controls(ng-class = "{'in': !dataBuild.data.isClean}")
+  section#main-controls(ng-class = "{in: !dataBuild.data.isClean}")
     .clean(ng-class = "{in: dataBuild.data.showBuildOptionsClean}")
       //- on failed builds, run instance needs to be disabled
       button.orange(
@@ -89,8 +89,13 @@ section.sidebar
     li(ng-show = "dataBuild.data.build.attrs.completed")
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
+<<<<<<< HEAD
       | Built in {{ (dataBuild.data.build.buildTime() / 1000) | number:2 }} seconds
     li
+=======
+      | Built in {{ dataBuild.data.build.buildTime() | number:2 }} seconds
+    li(ng-show = "dataBuild.data.build.attrs.started")
+>>>>>>> master
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
       | Initiated {{ dataBuild.data.build.attrs.created | timeAgo }}
