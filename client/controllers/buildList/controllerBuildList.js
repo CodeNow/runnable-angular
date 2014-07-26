@@ -44,7 +44,8 @@ function ControllerBuildList(
     });
   });
 
-  actions.getTriggeredActionText = function (triggeredAction) {
+  actions.getTriggeredActionText = function (build) {
+    var triggeredAction = keypather.get(build, 'contextVersions.models[0].attrs.build.triggeredAction');
     if (!triggeredAction) { return; }
     if (triggeredAction.manual) {
       return 'Manual';
@@ -107,21 +108,18 @@ function ControllerBuildList(
       .cacheFetch(function updateDom(projects, cached, cb) {
         var project = projects.models[0];
         if (!project) {
-          // project not found redirect..
+          return cb(new Error('project not found in redirect'));
         }
-        else {
-          data.project = project;
-          var env = project.environments.find(hasKeypaths({
-            'attrs.name.toLowerCase()': $stateParams.branchName
-          }));
-          if (!env) {
-            // environment not found redirect..
-          }
-          else {
-            data.environment = env;
-          }
-          cb();
+        data.project = project;
+        var env = project.environments.find(hasKeypaths({
+          'attrs.name.toLowerCase()': $stateParams.branchName
+        }));
+        if (!env) {
+          return cb(new Error('Environment not found redirect'));
         }
+        data.environment = env;
+        cb();
+        $scope.safeApply();
       })
       .resolve(function (err, projects, cb) {
         $scope.safeApply();
@@ -137,15 +135,15 @@ function ControllerBuildList(
       .cacheFetch(function updateDom(builds, cached, cb) {
         if (builds.models.length === 0) {
           // redirect to create new build page
+          return cb(new Error('build not found'));
         }
-        else if (builds.models.length === 1 && !builds.models[0].attrs.started) {
+        if (builds.models.length === 1 && !builds.models[0].attrs.started) {
           actions.stateToSetupFirstBuild();
+          return cb();
         }
-        else {
-          data.builds = builds;
-          $scope.safeApply();
-          cb();
-        }
+        data.builds = builds;
+        $scope.safeApply();
+        cb();
       })
       .resolve(function (err) {
         $scope.safeApply();
