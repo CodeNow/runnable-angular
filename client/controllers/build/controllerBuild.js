@@ -158,14 +158,6 @@ function ControllerBuild(
         }
       })
       .resolve(function (err, build, cb) {
-        if (build.attrs.completed) {
-          data.finishedBuild = true;
-          if (!build.attrs.erroredContextVersions.length) {
-            data.successfulBuild = true;
-          }
-        } else if (!build.attrs.started) {
-          data.isClean = false;
-        }
         $scope.safeApply();
         cb();
       })
