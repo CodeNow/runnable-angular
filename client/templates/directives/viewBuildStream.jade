@@ -5,6 +5,6 @@
   //- show close button when finished
   button#editor-status.silver(
     type = "button"
-    ng-disabled = "!stream.finished"
-    ng-click = "closed = true"
+    ng-disabled = "!dataBuild.data.finishedBuild"
+    ng-click = "dataBuild.data.closed = true"
   ) Close Log

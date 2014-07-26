@@ -79,8 +79,21 @@ function ControllerBuild(
     });
   };
 
-  actions.rebuild = function () {};
-  actions.build = function () {};
+  actions.build = function () {
+    data.build.build($scope.safeApply);
+  };
+  actions.rebuild = function () {
+    var newBuild = data.build.rebuild(function (err, build) {
+      if (err) {
+        throw err;
+      }
+      // Throw up build log
+      data.build = newBuild;
+      actions.initStream();
+      data.closed = false;
+      $scope.safeApply();
+    });
+  };
   actions.discardChanges = function () {
     data.isClean = true;
   };
