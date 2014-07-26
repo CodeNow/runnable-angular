@@ -26,9 +26,6 @@ function ControllerBuild(
   var data = dataBuild.data,
     actions = dataBuild.actions;
 
-  // Trigger digest cycle every minute to update 'Initiated'
-  // setInterval($scope.safeApply, 60 * 1000);
-
   actions.initPopoverState = function () {
     extendDeep(dataBuild, self.initPopoverState($stateParams));
   };
