@@ -90,7 +90,10 @@ section.sidebar
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
       | Built in {{ (dataBuild.data.build.buildTime() / 1000) | number:2 }} seconds
-    li
+    li(
+      interval-update
+      interval-update-ms = "60000"
+    )
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
       | Initiated {{ dataBuild.data.build.attrs.created | timeAgo }}
