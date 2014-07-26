@@ -58,18 +58,6 @@ function ControllerApp(
     });
   };
 
-  UTIL.clickPos = function (e) {
-    var x = 0,
-      y = 0;
-    if (e.pageX || e.pageY) {
-      x = e.pageX;
-      y = e.pageY;
-    }
-    return {
-      x: x,
-      y: y
-    };
-  };
   UTIL.QueryAssist = queryAssist;
 }
 

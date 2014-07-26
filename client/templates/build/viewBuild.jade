@@ -22,18 +22,18 @@ nav.sub-header
       //- on failed builds, run instance needs to be disabled
       button.orange(
         ng-click = "dataBuild.actions.runInstance()"
-        ng-disabled = "!dataBuild.data.successfulBuild"
+        ng-disabled = "dataBuild.data.build.failed()"
         type = "button"
       ) Run Instance
       .btn-group
         button.silver(
           ng-click = "dataBuild.actions.rebuild()"
-          ng-disabled = "!dataBuild.data.finishedBuild"
+          ng-disabled = "!dataBuild.data.build.attrs.completed"
           type = "button"
         ) Rebuild
         a.btn.silver.btn-icon(
           ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
-          ng-disabled = "!dataBuild.data.finishedBuild"
+          ng-disabled = "!dataBuild.data.build.attrs.completed"
           toggle-pop-over
           toggle-pop-over-model = "dataBuild.data.showBuildOptionsClean"
         )
@@ -89,8 +89,13 @@ section.sidebar
     li(ng-show = "dataBuild.data.build.attrs.completed")
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
+<<<<<<< HEAD
+      | Built in {{ (dataBuild.data.build.buildTime() / 1000) | number:2 }} seconds
+    li
+=======
       | Built in {{ dataBuild.data.build.buildTime() | number:2 }} seconds
     li(ng-show = "dataBuild.data.build.attrs.started")
+>>>>>>> master
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
       | Initiated {{ dataBuild.data.build.attrs.created | timeAgo }}
