@@ -92,10 +92,10 @@ function ControllerBuild(
   };
 
   actions.build = function () {
-    runBuild(data.build.build);
+    runBuild(data.build.build.bind(data.build));
   };
   actions.rebuild = function () {
-    runBuild(data.build.rebuild);
+    runBuild(data.build.rebuild.bind(data.build));
   };
   actions.discardChanges = function () {
     data.isClean = true;
