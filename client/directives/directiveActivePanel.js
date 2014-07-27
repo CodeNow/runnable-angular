@@ -19,35 +19,22 @@ function activePanel(
       isClean: '=', // build.attrs.started
       isReadOnly: '=',
       isDarkTheme: '=',
-      fork: '&'
+      forkBuild: '&'
     },
     link: function ($scope, element, attrs) {
       $scope.activeFileClone = {};
 
-
-
-      var checkIfNeedFork = function (cb) {
-        if (!$scope.openFiles.activeFile) { return; }
-        if ($scope.isClean) {
-          //need to fork build
-        }
-      };
-
-      var updateFile = function updateFile() {
-
+      function updateFile (cb) {
         $scope.openFiles.activeFile.update({
           json: {
             body: $scope.activeFileClone.body
           }
         }, function () {
-          console.log(arguments);
           $timeout(function () {
             $scope.$apply();
           });
         });
-
-      };
-      updateFile = debounce(updateFile, 300);
+      }
 
       function fetchFile() {
         $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
@@ -67,13 +54,10 @@ function activePanel(
             delete $scope.activeFileClone.delay;
             return;
           }
-/*
-          async.waterfall([
-            checkIfNeedFork,
+          async.series([
+            $scope.fork,
             updateFile
-          ]);
-*/
-          updateFile();
+          ], function () {});
         }
       });
 

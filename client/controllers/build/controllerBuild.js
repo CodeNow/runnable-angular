@@ -78,13 +78,19 @@ function ControllerBuild(
     });
   };
 
-  actions.forkBuild = function () {
+  actions.forkBuild = function (cb) {
     var build = dataBuild.data.build;
-    /*
-    build.fork(function () {
+    var started = keypather.get(data, 'build.attrs.started');
+    if (!build) {
+      return cb(new Error('no build'));
+    }
+    if (!started) {
+      return cb();
+    }
+    var newBuild = build.fork(function () {
+      cb(null, newBuild);
       console.log(arguments);
     });
-    */
   };
 
   var runBuild = function(buildFunc) {
