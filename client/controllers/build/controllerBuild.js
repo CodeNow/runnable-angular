@@ -31,6 +31,7 @@ function ControllerBuild(
   actions.initPopoverState = function () {
     extendDeep(dataBuild, self.initPopoverState($stateParams));
   };
+
   actions.initPopoverState();
 
   actions.getPopoverButtonText = function (name) {

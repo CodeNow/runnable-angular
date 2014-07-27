@@ -5,6 +5,7 @@ require('app')
  * @ngInject
  */
 function activePanel(
+  async,
   debounce,
   keypather,
   $timeout
@@ -15,16 +16,25 @@ function activePanel(
     replace: true,
     scope: {
       openFiles: '=',
-      isClean: '=',
+      isClean: '=', // build.attrs.started
       isReadOnly: '=',
-      isDarkTheme: '='
+      isDarkTheme: '=',
+      fork: '&'
     },
     link: function ($scope, element, attrs) {
       $scope.activeFileClone = {};
 
-      var updateFile = function updateFile() {
+
+
+      var checkIfNeedFork = function (cb) {
         if (!$scope.openFiles.activeFile) { return; }
-        $scope.isClean = false;
+        if ($scope.isClean) {
+          //need to fork build
+        }
+      };
+
+      var updateFile = function updateFile() {
+
         $scope.openFiles.activeFile.update({
           json: {
             body: $scope.activeFileClone.body
@@ -32,6 +42,7 @@ function activePanel(
         }, function () {
           console.log(arguments);
         });
+
       };
       updateFile = debounce(updateFile, 300);
 
@@ -48,11 +59,15 @@ function activePanel(
 
       $scope.$watch('activeFileClone.body', function (newval, oldval) {
         if (typeof newval === 'string' && $scope.openFiles.activeFile) {
+          // prevent assignment to aFC.body triggering update
           if ($scope.activeFileClone.delay) {
             delete $scope.activeFileClone.delay;
             return;
           }
-          updateFile();
+          async.waterfall([
+            checkIfNeedFork,
+            updateFile
+          ]);
         }
       });
 
