@@ -34,6 +34,14 @@ function ControllerBuild(
 
   actions.initPopoverState();
 
+  actions.stateToBuildList = function () {
+    var state = {
+      userName: $stateParams.userName,
+      projectName: $stateParams.projectName,
+      branchName: $stateParams.branchName
+    };
+    $state.go('projects.buildList', state);
+  };
   actions.getPopoverButtonText = function (name) {
     return 'Build' + ((name && name.length) ? 's in ' + name : '');
   };
@@ -49,14 +57,6 @@ function ControllerBuild(
     data.showExplorer = !data.showExplorer;
   };
 
-  actions.stateToBuildList = function () {
-    var state = {
-      userName: $stateParams.userName,
-      projectName: $stateParams.projectName,
-      branchName: $stateParams.branchName
-    };
-    $state.go('projects.buildList', state);
-  };
 
   actions.runInstance = function () {
     var instance = user.createInstance({

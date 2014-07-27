@@ -21,4 +21,14 @@ function ControllerBuildNew(
   var dataBuildNew = $scope.dataBuildNew =  {};
   var actions = dataBuildNew.actions = {};
   var data = dataBuildNew.data = {};
+
+  actions.stateToBuildList = function () {
+    var state = {
+      userName: $stateParams.userName,
+      projectName: $stateParams.projectName,
+      branchName: $stateParams.branchName
+    };
+    $state.go('projects.buildList', state);
+  };
+
 }

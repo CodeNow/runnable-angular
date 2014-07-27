@@ -1,7 +1,5 @@
 nav.sub-header
-  h1.build-header.divided-header.animations-off(
-    ng-class = "{in: !dataBuild.data.build.attrs.started }"
-  )
+  h1.build-header.divided-header
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
       ng-click = "dataBuild.actions.stateToBuildList()"
@@ -17,7 +15,7 @@ nav.sub-header
     | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
   //- all buttons should be disabled during a build
-  section#main-controls(ng-class = "{in: !dataBuild.data.build.attrs.started}")
+  section#main-controls (ng-class = "{in: !dataBuild.data.build.attrs.started}")
     .clean(ng-class = "{in: dataBuild.data.build.attrs.started}")
       //- on failed builds, run instance needs to be disabled
       button.orange(
@@ -77,6 +75,10 @@ nav.sub-header
         ng-click = "dataBuild.actions.discardChanges()"
         type = "button"
       ) Discard Changes
+
+
+
+
 
 section.sidebar
   ul(ng-show = "dataBuild.data.build.attrs.created")

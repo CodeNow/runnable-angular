@@ -1,7 +1,5 @@
 nav.sub-header
-  h1.build-header.divided-header.animations-off(
-    ng-class = "{in: !dataBuild.data.build.attrs.started }"
-  )
+  h1.build-header.divided-header.in
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
       ng-click = "dataBuild.actions.stateToBuildList()"
