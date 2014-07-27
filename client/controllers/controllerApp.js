@@ -16,7 +16,7 @@ function ControllerApp(
   user,
   apiConfig,
   holdUntilAuth,
-  queryAssist
+  QueryAssist
 ) {
 
   var self = ControllerApp;
@@ -58,7 +58,7 @@ function ControllerApp(
     });
   };
 
-  UTIL.QueryAssist = queryAssist;
+  UTIL.QueryAssist = QueryAssist;
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {
