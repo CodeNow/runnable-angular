@@ -13,39 +13,42 @@ function ControllerBuild(
   user,
   async,
   extendDeep,
-  SharedFilesCollection
+  SharedFilesCollection,
+  keypather
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerBuild;
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
+  var data = dataBuild.data;
+  var actions = dataBuild.actions;
+
   // one-time initialization
   extendDeep(dataBuild.data, {
     showExplorer: true
   });
-  var data = dataBuild.data,
-    actions = dataBuild.actions;
-
-  // Trigger digest cycle every minute to update 'Initiated'
-  // setInterval($scope.safeApply, 60 * 1000);
 
   actions.initPopoverState = function () {
     extendDeep(dataBuild, self.initPopoverState($stateParams));
   };
+
   actions.initPopoverState();
 
   actions.getPopoverButtonText = function (name) {
     return 'Build' + ((name && name.length) ? 's in ' + name : '');
   };
+
   actions.resetInputModelValue = function () {
     if (!data.inputHasBeenClicked) {
       data.buildName = '';
       data.inputHasBeenClicked = true;
     }
   };
+
   actions.toggleExplorer = function () {
     data.showExplorer = !data.showExplorer;
   };
+
   actions.stateToBuildList = function () {
     var state = {
       userName: $stateParams.userName,
@@ -54,6 +57,7 @@ function ControllerBuild(
     };
     $state.go('projects.buildList', state);
   };
+
   actions.runInstance = function () {
     var instance = user.createInstance({
       json: {
@@ -62,6 +66,7 @@ function ControllerBuild(
       }
     }, function () {});
   };
+
   actions.createRepo = function () {
     var version = dataBuild.data.version;
     var repo = version.addGithubRepo({
@@ -72,24 +77,61 @@ function ControllerBuild(
       });
     });
   };
-  actions.forkBuild = function () {
+
+  actions.forkBuild = function (cb) {
     var build = dataBuild.data.build;
-    build.fork(function () {
+    var started = keypather.get(data, 'build.attrs.started');
+    if (!build) {
+      return cb(new Error('no build'));
+    }
+    if (!started) {
+      return cb();
+    }
+    var newBuild = build.fork(function () {
+      cb(null, newBuild);
       console.log(arguments);
     });
   };
 
-  actions.rebuild = function () {};
-  actions.build = function () {};
-  actions.discardChanges = function () {
-    data.isClean = true;
+  var runBuild = function(buildFunc) {
+    var newBuild = buildFunc(function (err, build) {
+      if (err) {
+        throw err;
+      }
+      data.build = newBuild;
+      actions.initStream();
+      data.closed = false;
+      $scope.safeApply();
+    });
   };
 
-  $scope.$watch('dataBuild.data.isClean', function () {
-    actions.initPopoverState();
+  actions.build = function () {
+    runBuild(data.build.build.bind(data.build));
+  };
+  actions.rebuild = function () {
+    runBuild(data.build.rebuild.bind(data.build));
+  };
+  actions.discardChanges = function () {
+  };
+
+  /**
+   * If this build is built, we want to wait for changes and then trigger a fork
+   */
+  $scope.$watch('dataBuild.data.openFiles.activeFile.attrs.body', function (newval, oldval) {
+    var started = keypather.get(dataBuild.data, 'build.attrs.started');
+    if (!started || (typeof started === 'string' && !started.length)) {
+      return;
+    }
+    if (oldval === undefined || (newval === oldval)) {
+      return;
+    }
+    dataBuild.actions.forkBuild();
   });
+
+/*
   $scope.$watch('dataBuild.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
     if (newval === oldval) {
+      // We've opened the same file
       return;
     }
     var file = dataBuild.data.openFiles.activeFile;
@@ -98,6 +140,7 @@ function ControllerBuild(
       $scope.safeApply();
     });
   });
+*/
 
   /* ============================
    *   API Fetch Methods
@@ -190,9 +233,7 @@ function ControllerBuild(
 
 ControllerBuild.initState = function ($stateParams) {
   return {
-    data: {
-      isClean: true
-    },
+    data: {},
     actions: {}
   };
 };
@@ -200,12 +241,11 @@ ControllerBuild.initState = function ($stateParams) {
 ControllerBuild.initPopoverState = function ($stateParams) {
   return {
     data: {
-      showBuildOptionsDirty: false,
-      showBuildOptionsClean: false,
+      showPopoverFileMenu: false,
+      showPopoverFileMenuForm: false,
+      showPopoverFileMenuAddReop: false,
 
-      showRepoMenu: false,
-      showForm: false,
-      showAddRepo: false,
+      showPopoverRepoMenu: false,
 
       buildName: $stateParams.buildName,
       inputHasBeenClicked: false

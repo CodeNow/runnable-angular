@@ -51,9 +51,15 @@ module.exports = [{
   templateUrl: 'viewBuild',
   controller: 'ControllerBuild'
 }, {
+  state: 'projects.buildNew',
+  abstract: false,
+  url: '^/project/:userName/:projectName/:branchName/:buildName/fork/:newBuildName',
+  templateUrl: 'viewBuildNew',
+  controller: 'ControllerBuildNew'
+}, {
   state: 'projects.instance',
   abstract: false,
-  url: '^/project/:userName/:projectName/:branchName/:buildName/:instanceId',
+  url: '^/project/:userName/:projectName/:branchName/:buildName/instance/:instanceId',
   templateUrl: 'viewInstance',
   controller: 'ControllerInstance'
 }, {

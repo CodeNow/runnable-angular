@@ -20,7 +20,7 @@ function togglePopOver() {
         }
       }, $scope);
       element.on('click', clickHandler);
-      element.on('$destroy', function () {
+      $scope.$on('$destroy', function () {
         element.off('click');
       });
       $scope.$on('app-document-click', function () {

@@ -1,5 +1,9 @@
 .popover.file-menu.bottom.fade(
-  ng-class = "{'in': data.show, 'show-add-repo': data.showAddRepo, 'show-form': data.showForm}"
+  ng-class = "{ \
+    'in': data.show, \
+    'show-add-repo': data.showPopoverFileMenuAddRepo, \
+    'show-form': data.showPopoverFileMenuForm \
+  }"
 )
   .arrow.white
   .popover-content

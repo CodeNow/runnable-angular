@@ -15,7 +15,7 @@ function fileTree(
     scope: {
       version: '=',
       openFiles: '=',
-      isClean: '='
+      build: '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
