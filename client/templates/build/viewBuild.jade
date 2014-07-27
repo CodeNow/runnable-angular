@@ -1,6 +1,6 @@
 nav.sub-header
   h1.build-header.divided-header.animations-off(
-    ng-class = "{'in': !dataBuild.data.build.attrs.started }"
+    ng-class = "{in: !dataBuild.data.build.attrs.started }"
   )
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
@@ -17,7 +17,7 @@ nav.sub-header
     | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
   //- all buttons should be disabled during a build
-  section#main-controls(ng-class = "{in: !dataBuild.data.build.attrs.started}")
+  section#main-controls(ng-class = "{in: dataBuild.data.build.attrs.started}")
     .clean(ng-class = "{in: !dataBuild.data.build.attrs.started}")
       //- on failed builds, run instance needs to be disabled
       button.orange(
@@ -32,10 +32,9 @@ nav.sub-header
           type = "button"
         ) Rebuild
         a.btn.silver.btn-icon(
-          ng-class = "{active: !dataBuild.data.build.attrs.started}"
-          ng-disabled = "!dataBuild.data.build.attrs.completed"
+          ng-class = "{active: !dataBuild.data.showCleanRebuildMenu}"
           toggle-pop-over
-          toggle-pop-over-model = "!dataBuild.data.build.attrs.started"
+          toggle-pop-over-model = "dataBuild.data.showCleanRebuildMenu"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
@@ -45,8 +44,8 @@ nav.sub-header
               resetInputModelValue: dataBuild.actions.resetInputModelValue\
             }"
             data = "{\
-              buildName: dataBuild.data.buildName,\
-              show: !dataBuild.data.build.attrs.started\
+              buildName: dataBuild.data.buildName, \
+              show: dataBuild.data.showCleanRebuildMenu \
             }"
             template = "viewBuildPopoverBuildOptions"
           )
@@ -57,20 +56,20 @@ nav.sub-header
           ng-click = "dataBuild.actions.build()"
         ) Build
         a.btn.green.btn-icon(
-          ng-class = "{active: dataBuild.data.build.attrs.started}"
+          ng-class = "{active: databuild.data.showDirtyBuildMenu }"
           toggle-pop-over
-          toggle-pop-over-model = "dataBuild.data.build.attrs.started"
+          toggle-pop-over-model = "dataBuild.data.showDirtyBuildMenu"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
           pop-over(
-            actions = "{\
-              getPopoverButtonText: dataBuild.actions.getPopoverButtonText,\
-              resetInputModelValue: dataBuild.actions.resetInputModelValue\
+            actions = "{ \
+              getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
+              resetInputModelValue: dataBuild.actions.resetInputModelValue \
             }"
-            data = "{\
-              buildName: dataBuild.data.buildName,\
-              show: dataBuild.data.build.attrs.started\
+            data = "{ \
+              buildName: dataBuild.data.buildName, \
+              show: dataBuild.data.showDirtyBuildMenu \
             }"
             template = "viewBuildPopoverBuildOptions"
           )
@@ -207,7 +206,7 @@ section.sidebar
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
         ng-class = "{active: dataBuild.data.showFileMenu}"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showFileMenu"
+        toggle-pop-over-model = "dataBuild.data.showPopoverFileMenu"
       )
         svg.iconnables.icons-gear
           use(xlink:href = "#icons-gear")
@@ -217,9 +216,9 @@ section.sidebar
             createFile: actions.createFile\
           }"
           data = "{\
-            showAddRepo: data.showAddRepo,\
-            showForm: data.showForm,\
-            show: dataBuild.data.showFileMenu\
+            showPopoverFileMenuAddRepo: data.showPopoverFileMenuAddRepo, \
+            showPopoverFileMenuForm: data.showPopoverFileMenuForm, \
+            show: dataBuild.data.showPopoverFileMenu \
           }"
         )
     file-tree(
@@ -232,16 +231,16 @@ section.sidebar
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
         ng-class = "{active: dataBuild.data.showRepoMenu}"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showRepoMenu"
+        toggle-pop-over-model = "dataBuild.data.showPopoverRepoMenu"
       )
         svg.iconnables.icons-gear
           use(xlink:href = "#icons-gear")
         pop-over(
+          template = "viewBuildPopoverRepoMenu"
           actions = "{}"
           data = "{\
-            show: dataBuild.data.showRepoMenu\
+            show: dataBuild.data.showPopoverRepoMenu\
           }"
-          template = "viewBuildPopoverRepoMenu"
         )
     ul.repo-tree
       //- for "edit mode":

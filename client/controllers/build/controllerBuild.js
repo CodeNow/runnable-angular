@@ -79,9 +79,11 @@ function ControllerBuild(
 
   actions.forkBuild = function () {
     var build = dataBuild.data.build;
+    /*
     build.fork(function () {
       console.log(arguments);
     });
+    */
   };
 
   actions.rebuild = function () {};
@@ -215,9 +217,11 @@ ControllerBuild.initState = function ($stateParams) {
 ControllerBuild.initPopoverState = function ($stateParams) {
   return {
     data: {
-      showRepoMenu: false,
-      showForm: false,
-      showAddRepo: false,
+      showPopoverFileMenu: false,
+      showPopoverFileMenuForm: false,
+      showPopoverFileMenuAddReop: false,
+
+      showPopoverRepoMenu: false,
 
       buildName: $stateParams.buildName,
       inputHasBeenClicked: false
