@@ -102,11 +102,11 @@ function ControllerBuild(
   };
 
   $scope.$watch('dataBuild.data.isClean', function () {
-    console.log('arguments', arguments);
     actions.initPopoverState();
   });
   $scope.$watch('dataBuild.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
     if (newval === oldval) {
+      // We've opened the same file
       return;
     }
     var file = dataBuild.data.openFiles.activeFile;
