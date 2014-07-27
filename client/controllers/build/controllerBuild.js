@@ -19,12 +19,13 @@ function ControllerBuild(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerBuild;
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
+  var data = dataBuild.data;
+  var actions = dataBuild.actions;
+
   // one-time initialization
   extendDeep(dataBuild.data, {
     showExplorer: true
   });
-  var data = dataBuild.data,
-    actions = dataBuild.actions;
 
   actions.initPopoverState = function () {
     extendDeep(dataBuild, self.initPopoverState($stateParams));
@@ -34,15 +35,18 @@ function ControllerBuild(
   actions.getPopoverButtonText = function (name) {
     return 'Build' + ((name && name.length) ? 's in ' + name : '');
   };
+
   actions.resetInputModelValue = function () {
     if (!data.inputHasBeenClicked) {
       data.buildName = '';
       data.inputHasBeenClicked = true;
     }
   };
+
   actions.toggleExplorer = function () {
     data.showExplorer = !data.showExplorer;
   };
+
   actions.stateToBuildList = function () {
     var state = {
       userName: $stateParams.userName,
@@ -51,6 +55,7 @@ function ControllerBuild(
     };
     $state.go('projects.buildList', state);
   };
+
   actions.runInstance = function () {
     var instance = user.createInstance({
       json: {
@@ -59,6 +64,7 @@ function ControllerBuild(
       }
     }, function () {});
   };
+
   actions.createRepo = function () {
     var version = dataBuild.data.version;
     var repo = version.addGithubRepo({
@@ -69,6 +75,7 @@ function ControllerBuild(
       });
     });
   };
+
   actions.forkBuild = function () {
     var build = dataBuild.data.build;
     build.fork(function () {
@@ -82,9 +89,21 @@ function ControllerBuild(
     data.isClean = true;
   };
 
-  $scope.$watch('dataBuild.data.isClean', function () {
-    actions.initPopoverState();
+  /**
+   * If this build is built, we want to wait for changes and then trigger a fork
+   */
+  $scope.$watch('dataBuild.data.openFiles.activeFile.attrs.body', function (newval, oldval) {
+    var started = keypather.get(dataBuild.data, 'build.attrs.started');
+    if (!started || (typeof started === 'string' && !started.length)) {
+      return;
+    }
+    if (oldval === undefined || (newval === oldval)) {
+      return;
+    }
+    dataBuild.actions.forkBuild();
   });
+
+/*
   $scope.$watch('dataBuild.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
     if (newval === oldval) {
       return;
@@ -95,6 +114,7 @@ function ControllerBuild(
       $scope.safeApply();
     });
   });
+*/
 
   /* ============================
    *   API Fetch Methods
