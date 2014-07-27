@@ -86,11 +86,15 @@ section.sidebar
         use(xlink:href = "#icons-recipe")
       b {{ dataApp.stateParams.branchName }}
       | #{''} config
-    li(ng-show = "dataBuild.data.build.attrs.completed")
+    li(ng-show = "!dataBuild.data.build.failed()")
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
-      | Built in {{ dataBuild.data.build.buildTime() | number:2 }} seconds
-    li(ng-show = "dataBuild.data.build.attrs.started")
+      | Built in {{ (dataBuild.data.build.buildTime() / 1000) | number:2 }} seconds
+    li(
+      interval-update
+      interval-update-ms = "60000"
+      ng-show = "dataBuild.data.build.attrs.started"
+    )
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
       | Initiated {{ dataBuild.data.build.attrs.created | timeAgo }}
