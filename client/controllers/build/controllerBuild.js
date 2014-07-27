@@ -86,7 +86,6 @@ function ControllerBuild(
   actions.rebuild = function () {};
   actions.build = function () {};
   actions.discardChanges = function () {
-    data.isClean = true;
   };
 
   /**
@@ -207,9 +206,7 @@ function ControllerBuild(
 
 ControllerBuild.initState = function ($stateParams) {
   return {
-    data: {
-      isClean: true
-    },
+    data: {},
     actions: {}
   };
 };
@@ -217,9 +214,6 @@ ControllerBuild.initState = function ($stateParams) {
 ControllerBuild.initPopoverState = function ($stateParams) {
   return {
     data: {
-      showBuildOptionsDirty: false,
-      showBuildOptionsClean: false,
-
       showRepoMenu: false,
       showForm: false,
       showAddRepo: false,
