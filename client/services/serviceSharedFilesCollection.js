@@ -32,6 +32,25 @@ function factory(
     this.setActiveFile(model);
   };
 
+  SharedFilesCollection.prototype.reset = function () {
+    this.collection.models.forEach(function (model) {
+      if (model.attrs.body) {
+        model.attrs.body = model.attrs.originalBody;
+      }
+      if (model.state.dirty) {
+        model.state.dirty = false;
+      }
+    });
+    this.$scope.safeApply();
+  };
+
+  SharedFilesCollection.prototype.checkActiveDirty = function (fileCloneBody) {
+    var dirty = fileCloneBody !== this.activeFile.originalBody;
+    keypather.set(this.activeFile, 'state.dirty', dirty);
+    this.$scope.safeApply();
+    return dirty;
+  };
+
   SharedFilesCollection.prototype.setActiveFile = function (model) {
     if (!(model instanceof this.collection.FileModel)) {
       throw new Error('model is not correct type');
@@ -54,12 +73,24 @@ function factory(
       );
       this.activeFile = model;
       var _this = this;
-      model = model.fetch(function () {
-        $timeout(function () {
-          _this.$scope.$apply();
-        });
+      model.fetch(function () {
+        model.originalBody = model.attrs.body;
+        _this.activeFile = model;
+
+        _this.$scope.safeApply();
       });
     } catch (e) {}
   };
+
+  SharedFilesCollection.prototype.isClean = function () {
+    var models = this.collection.models;
+    for (var i = 0; i < models.length; i++) {
+      if (models[i].attrs.body && models[i].state.dirty) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   return SharedFilesCollection;
 }

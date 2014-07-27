@@ -34,12 +34,19 @@ function ControllerInstance(
     dataInstance.data.popoverAddTab.filter = '';
   });
 
+  $scope.$watch(function () {
+    if (data.openFiles && data.openFiles.activeFile) {
+      return data.openFiles.activeFile.attrs.body;
+    }
+  }, function () {
+    $scope.safeApply();
+  });
+
   /* ============================
    *   API Fetch Methods
    * ===========================*/
   function fetchProject(cb) {
     var thisUser = $scope.dataApp.user;
-    console.log(thisUser);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
@@ -117,10 +124,7 @@ function ControllerInstance(
     fetchBuild,
     newFilesCollOpenFiles
   ], function() {
-    console.log(data.project);
-    console.log(data.environment);
-    console.log(data.build);
-    console.log(data.version);
+    $scope.safeApply();
   });
 }
 

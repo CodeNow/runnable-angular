@@ -24,14 +24,17 @@ function activePanel(
 
       var updateFile = function updateFile() {
         if (!$scope.openFiles.activeFile) { return; }
+        var fileCloneBody = $scope.activeFileClone.body;
         $scope.isClean = false;
-        $scope.openFiles.activeFile.update({
-          json: {
-            body: $scope.activeFileClone.body
-          }
-        }, function () {
-          console.log(arguments);
-        });
+        if ($scope.openFiles.checkActiveDirty(fileCloneBody)) {
+          $scope.openFiles.activeFile.update({
+            json: {
+              body: fileCloneBody
+            }
+          }, function () {
+            console.log(arguments);
+          });
+        }
       };
       updateFile = debounce(updateFile, 300);
 
