@@ -79,26 +79,30 @@ function ControllerBuild(
     });
   };
 
-  actions.build = function () {
-    data.build.build($scope.safeApply);
-  };
-  actions.rebuild = function () {
-    var newBuild = data.build.rebuild(function (err, build) {
+  var runBuild = function(buildFunc) {
+    var newBuild = buildFunc(function (err, build) {
       if (err) {
         throw err;
       }
-      // Throw up build log
       data.build = newBuild;
       actions.initStream();
       data.closed = false;
       $scope.safeApply();
     });
   };
+
+  actions.build = function () {
+    runBuild(data.build.build);
+  };
+  actions.rebuild = function () {
+    runBuild(data.build.rebuild);
+  };
   actions.discardChanges = function () {
     data.isClean = true;
   };
 
   $scope.$watch('dataBuild.data.isClean', function () {
+    console.log('arguments', arguments);
     actions.initPopoverState();
   });
   $scope.$watch('dataBuild.data.openFiles.activeFile.attrs._id', function (newval, oldval) {

@@ -31,6 +31,9 @@ function activePanel(
           }
         }, function () {
           console.log(arguments);
+          $timeout(function () {
+            $scope.$apply();
+          });
         });
       };
       updateFile = debounce(updateFile, 300);
@@ -46,8 +49,8 @@ function activePanel(
         });
       }
 
-      $scope.$watch('activeFileClone.body', function (newval, oldval) {
-        if (typeof newval === 'string' && $scope.openFiles.activeFile) {
+      $scope.$watch('activeFileClone.body', function (newVal, oldVal) {
+        if (typeof newVal === 'string' && $scope.openFiles.activeFile) {
           if ($scope.activeFileClone.delay) {
             delete $scope.activeFileClone.delay;
             return;
