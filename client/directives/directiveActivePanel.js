@@ -67,10 +67,13 @@ function activePanel(
             delete $scope.activeFileClone.delay;
             return;
           }
+/*
           async.waterfall([
             checkIfNeedFork,
             updateFile
           ]);
+*/
+          updateFile();
         }
       });
 
