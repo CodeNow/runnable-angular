@@ -13,7 +13,8 @@ function ControllerBuild(
   user,
   async,
   extendDeep,
-  SharedFilesCollection
+  SharedFilesCollection,
+  keypather
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
