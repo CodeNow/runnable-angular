@@ -1,6 +1,6 @@
 nav.sub-header
   h1.build-header.divided-header.animations-off(
-    ng-class = "{'in': !dataBuild.data.isClean }"
+    ng-class = "{'in': !dataBuild.data.build.attrs.started }"
   )
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
@@ -17,8 +17,8 @@ nav.sub-header
     | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
 
   //- all buttons should be disabled during a build
-  section#main-controls(ng-class = "{in: !dataBuild.data.isClean}")
-    .clean(ng-class = "{in: dataBuild.data.showBuildOptionsClean}")
+  section#main-controls(ng-class = "{in: !dataBuild.data.build.attrs.started}")
+    .clean(ng-class = "{in: !dataBuild.data.build.attrs.started}")
       //- on failed builds, run instance needs to be disabled
       button.orange(
         ng-click = "dataBuild.actions.runInstance()"
@@ -32,10 +32,10 @@ nav.sub-header
           type = "button"
         ) Rebuild
         a.btn.silver.btn-icon(
-          ng-class = "{active: dataBuild.data.showBuildOptionsClean}"
+          ng-class = "{active: !dataBuild.data.build.attrs.started}"
           ng-disabled = "!dataBuild.data.build.attrs.completed"
           toggle-pop-over
-          toggle-pop-over-model = "dataBuild.data.showBuildOptionsClean"
+          toggle-pop-over-model = "!dataBuild.data.build.attrs.started"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
@@ -46,20 +46,20 @@ nav.sub-header
             }"
             data = "{\
               buildName: dataBuild.data.buildName,\
-              show: dataBuild.data.showBuildOptionsClean\
+              show: !dataBuild.data.build.attrs.started\
             }"
             template = "viewBuildPopoverBuildOptions"
           )
-    .dirty(ng-class = "{in: dataBuild.data.showBuildOptionsDirty}")
+    .dirty(ng-class = "{in: dataBuild.data.build.attrs.started}")
       .btn-group
         button.green(
           type = "button"
           ng-click = "dataBuild.actions.build()"
         ) Build
         a.btn.green.btn-icon(
-          ng-class = "{active: dataBuild.data.showBuildOptionsDirty}"
+          ng-class = "{active: dataBuild.data.build.attrs.started}"
           toggle-pop-over
-          toggle-pop-over-model = "dataBuild.data.showBuildOptionsDirty"
+          toggle-pop-over-model = "dataBuild.data.build.attrs.started"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
@@ -70,7 +70,7 @@ nav.sub-header
             }"
             data = "{\
               buildName: dataBuild.data.buildName,\
-              show: dataBuild.data.showBuildOptionsDirty\
+              show: dataBuild.data.build.attrs.started\
             }"
             template = "viewBuildPopoverBuildOptions"
           )
@@ -224,7 +224,7 @@ section.sidebar
     file-tree(
       open-files = "dataBuild.data.openFiles"
       version = "dataBuild.data.version"
-      is-clean = "dataBuild.data.isClean"
+      build = "dataBuild.data.build"
     )
     h6.explorer-header
       | REPOSITORIES
@@ -273,8 +273,9 @@ section.sidebar
     open-files = "dataBuild.data.openFiles"
   )
   active-panel(
+    fork = "dataBuild.actions.forkBuild"
     open-files = "dataBuild.data.openFiles"
-    is-clean = "dataBuild.data.isClean"
+    is-clean = "dataBuild.data.build.attrs.started"
     is-dark-theme = "dataBuild.data.toggleTheme"
   )
 
