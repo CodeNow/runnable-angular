@@ -41,6 +41,9 @@ function activePanel(
           }
         }, function () {
           console.log(arguments);
+          $timeout(function () {
+            $scope.$apply();
+          });
         });
 
       };
@@ -64,10 +67,13 @@ function activePanel(
             delete $scope.activeFileClone.delay;
             return;
           }
+/*
           async.waterfall([
             checkIfNeedFork,
             updateFile
           ]);
+*/
+          updateFile();
         }
       });
 

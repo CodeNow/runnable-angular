@@ -87,8 +87,24 @@ function ControllerBuild(
     */
   };
 
-  actions.rebuild = function () {};
-  actions.build = function () {};
+  var runBuild = function(buildFunc) {
+    var newBuild = buildFunc(function (err, build) {
+      if (err) {
+        throw err;
+      }
+      data.build = newBuild;
+      actions.initStream();
+      data.closed = false;
+      $scope.safeApply();
+    });
+  };
+
+  actions.build = function () {
+    runBuild(data.build.build.bind(data.build));
+  };
+  actions.rebuild = function () {
+    runBuild(data.build.rebuild.bind(data.build));
+  };
   actions.discardChanges = function () {
   };
 
@@ -109,6 +125,7 @@ function ControllerBuild(
 /*
   $scope.$watch('dataBuild.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
     if (newval === oldval) {
+      // We've opened the same file
       return;
     }
     var file = dataBuild.data.openFiles.activeFile;

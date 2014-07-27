@@ -14,26 +14,31 @@ function buildStream(
     templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
-      function init () {
+      $scope.dataBuild.actions.initStream = function () {
         var build = $scope.dataBuild.data.build;
 
-        var streamId = build._id + Date.now();
-        var buildStream = primus.write({
+        if (build.attrs.completed) {
+          $scope.dataBuild.data.closed = true;
+          return;
+        }
+
+        var streamId = build.attrs._id + '-' + Date.now();
+        var buildPrimusStream = primus({
           id: 1,
           event: 'build-stream',
           data: {
-            id: build.contextVersions[0]._id,
+            id: build.contextVersions.models[0].attrs._id,
             streamId: streamId
           }
         }).substream(streamId);
 
         elem.on('$destroy', function () {
-          if (buildStream && !$scope.dataBuild.data.finishedBuild) {
-            buildStream.end();
+          if (buildPrimusStream && !$scope.dataBuild.data.finishedBuild) {
+            buildPrimusStream.end();
           }
         });
 
-        var addToStream = function (data) {
+        var addToStream = function (data) {console.log(data);
           $scope.stream.data += data;
           $scope.safeApply();
           $anchorScroll();
@@ -46,35 +51,30 @@ function buildStream(
 
         $location.hash('log');
 
-        buildStream.on('data', addToStream);
+        buildPrimusStream.on('data', addToStream);
 
-        buildStream.on('end', function () {
-          build.fetch(function (err, data) {
+        buildPrimusStream.on('end', function () {
+          build.fetch(function (err) {
             if (err) {
-              alert('an error happened');
-              console.log(err);
+              throw err;
+            }
+            if (build.attrs.erroredContextVersions.length) {
+              // bad things happened
+              addToStream('BUILD BROKEN: Please try again');
             } else {
-              $scope.dataBuild.data.finishedBuild = true;
-              if (data.erroredContextVersions.length) {
-                // bad things happened
-                addToStream('BUILD BROKEN: Please try again');
-              } else {
-                // we're all good
-                addToStream('BUILD SUCCESSFUL');
-                $scope.dataBuild.data.successfulBuild = true;
-              }
+              // we're all good
+              addToStream('BUILD SUCCESSFUL');
             }
             $scope.safeApply();
           });
 
-          buildStream.end();
-          $scope.stream.finished = true;
+          buildPrimusStream.end();
         });
-      }
+      };
 
       var initalizer = $scope.$watch('dataBuild.data.build', function (n) {
         if (n) {
-          init();
+          $scope.dataBuild.actions.initStream();
           initalizer();
         }
       });

@@ -1647,15 +1647,65 @@ if (
   }
 }
 Primus.prototype.ark["substream"] = function client(primus) {
-  var SubStream = substream(Primus.Stream);
+  var SubStream = substream(Primus.Stream)
+    , emit = Primus.Stream.prototype.emit
+    , hasOwn = Object.prototype.hasOwn;
 
   /**
-   * Collection of SubStreams.
+   * Return a preconfigured listener.
    *
-   * @type {Object}
+   * @param {String} event Name of the event.
+   * @returns {Function} listener
    * @api private
    */
-  primus.streams = {};
+  function listen(event) {
+    if ('end' === event) return function end() {
+      if (!primus.streams) return;
+
+      for (var stream in primus.streams) {
+        stream = primus.streams[stream];
+        if (stream.end) stream.end();
+      }
+    };
+
+    if ('readyStateChange' === event) return function change(reason) {
+      if (!primus.streams) return;
+
+      for (var stream in primus.streams) {
+        stream = primus.streams[stream];
+        stream.readyState = primus.readyState;
+        if (stream.emit) emit.call(stream, event, reason);
+      }
+    };
+
+    return function proxy() {
+      if (!primus.streams) return;
+
+      var args = Array.prototype.slice.call(arguments, 0);
+
+      for (var stream in primus.streams) {
+        if (stream.emit) emit.call(stream, [event].concat(args));
+      }
+    };
+  }
+
+  /**
+   * Setup the Primus instance so we can start creating substreams.
+   *
+   * @api private
+   */
+  function setup() {
+    primus.streams = {};
+
+    var events = [
+      'offline', 'online', 'timeout', 'reconnecting', 'open', 'reconnect',
+      'error', 'close', 'end', 'readyStateChange'
+    ];
+
+    for (var i = 0; i < events.length; i++) {
+      primus.on(events[i], listen(events[i]));
+    }
+  }
 
   /**
    * Create a new namespace.
@@ -1665,22 +1715,37 @@ Primus.prototype.ark["substream"] = function client(primus) {
    * @api private
    */
   primus.substream = function substream(name) {
-    return this.streams[name] || new SubStream(this, name, {
-      proxy: [ 'offline', 'online', 'timeout', 'reconnecting', 'open', 'reconnect' ]
+    //
+    // First time that we've been called, setup the additional data structure
+    // for this connection and make sure we set all our listeners once to reduce
+    // memory when using a large portion of listeners.
+    //
+    if (!primus.streams) setup();
+    if (!primus.streams[name]) primus.streams[name] = new SubStream(primus, name, {
+      primus: primus
     });
+
+    return primus.streams[name];
   };
 
   /**
-   * Incoming message.
+   * Intercept the incoming messages to see if they belong to a given substream.
    *
-   * @param {Object} packet The message packet
+   * @param {Object} packet The message packet.
    * @api private
    */
   primus.transform('incoming', function incoming(packet) {
     var next;
 
+    if (!this.streams) return;
+
     for (var stream in this.streams) {
-      if (this.streams[stream].mine(packet.data)) next = false;
+      stream = this.streams[stream];
+
+      if (stream.mine && stream.mine(packet.data)) {
+        next = false;
+        break;
+      }
     }
 
     return next;
@@ -1690,51 +1755,51 @@ Primus.prototype.ark["substream"] = function client(primus) {
 // Wrapper needed to switch between server side based Streams and client side
 // based EventEmitter3. This way, we can inherit from all of them.
 //
-function substream(Stream) {
+substream = function factory(Stream) {
   'use strict';
 
-  var manual;
+  var manual = false;
 
   /**
    * Streams provides a streaming, namespaced interface on top of a regular
    * stream.
    *
    * Options:
+   *
    * - proxy: Array of addition events that need to be re-emitted.
    *
    * @constructor
    * @param {Stream} stream The stream that needs we're streaming over.
    * @param {String} name The name of our stream.
-   * @param {object} option Streams configuration.
+   * @param {object} options SubStream configuration.
    * @api public
    */
   function SubStream(stream, name, options) {
     if (!(this instanceof SubStream)) return new SubStream(stream, name, options);
 
+    var self = this;
     options = options || {};
 
-    this.options = options;
-    this.stream = stream;               // The underlaying stream
-    this.name = name;                   // The stream namespace/name
-
-    //
-    // Proxy the events that are emitted through the streams interface.
-    //
-    this.stream.on('error', this.emits('error'));
-    this.stream.on('close', this.emits('close'));
-    this.stream.on('end', this.emits('end'));
+    this.readyState = stream.readyState;  // Copy the current readyState.
+    this.stream = stream;                 // The underlaying stream.
+    this.name = name;                     // The stream namespace/name.
+    this.primus = options.primus;         // Primus reference.
 
     //
     // Register the SubStream on the socket.
     //
     if (!stream.streams) stream.streams = {};
-    stream.streams[name] = this;
+    if (!stream.streams[name]) stream.streams[name] = this;
 
     //
     // We're doing "manual" invocation of module, as require('util') didn't work.
     //
     if (manual) Stream.call(this);
 
+    //
+    // No need to continue with the execution if we don't have any events that
+    // need to be proxied.
+    //
     if (!options.proxy) return;
 
     for (var i = 0, l = options.proxy.length, event; i < l; i++) {
@@ -1749,6 +1814,16 @@ function substream(Stream) {
     SubStream.prototype = new Stream();
     SubStream.prototype.constructor = SubStream;
   }
+
+  /**
+   * Mirror or Primus readyStates, used internally to set the correct ready state.
+   *
+   * @type {Number}
+   * @private
+   */
+  SubStream.OPENING = 1;   // We're opening the connection.
+  SubStream.CLOSED  = 2;   // No active connection.
+  SubStream.OPEN    = 3;   // The connection is open.
 
   /**
    * Simple emit wrapper that returns a function that emits an event once it's
@@ -1772,14 +1847,26 @@ function substream(Stream) {
   /**
    * Write a new message to the streams.
    *
-   * @param {Arguments} ..args.. Stuff that get's written.
+   * @param {Mixed} msg The data that needs to be written.
    * @returns {Boolean}
    * @api public
    */
   SubStream.prototype.write = function write(msg) {
-    return this.stream.write({
-      args: Array.prototype.slice.call(arguments),
-      name: this.name
+    this.stream.transforms(this.primus, this, 'outgoing', msg);
+    return true;
+  };
+
+  /**
+   * Actually write the message.
+   *
+   * @param {Mixed} msg The data that needs to be written.
+   * @returns {Boolean}
+   * @api private
+   */
+  SubStream.prototype._write = function write(msg) {
+    return this.stream._write({
+      substream: this.name,
+      args: msg
     });
   };
 
@@ -1787,10 +1874,20 @@ function substream(Stream) {
    * Close the connection.
    *
    * @param {Mixed} data last packet of data.
+   * @param {Boolean} received Send a substream::end message.
+   * @returns {SubStream}
    * @api public
    */
-  SubStream.prototype.end = function end(msg) {
+  SubStream.prototype.end = function end(msg, received) {
+    //
+    // The SubStream was already closed.
+    //
+    if (!(this.stream && this.stream.streams && this.stream.streams[this.name])) {
+      return this;
+    }
+
     if (msg) this.write(msg);
+    if (!received) this.write('substream::end');
 
     //
     // As we've closed the stream, unregister our selfs from the `streams`
@@ -1803,7 +1900,12 @@ function substream(Stream) {
     this.emit('close');
     this.emit('end');
 
-    return this;
+    //
+    // Release references.
+    //
+    this.stream = null;
+
+    return this.removeAllListeners();
   };
 
   /**
@@ -1814,11 +1916,13 @@ function substream(Stream) {
    * @api public
    */
   SubStream.prototype.mine = function mine(packet) {
-    if ('object' !== typeof packet || packet.name !== this.name) return false;
-    this.emit.apply(this, ['data'].concat(packet.args));
+    if ('object' !== typeof packet || packet.substream !== this.name) return false;
+    if ('substream::end' === packet.args) return this.end(null, true), true;
+
+    this.stream.transforms(this.primus, this, 'incoming', packet.args);
 
     return true;
   };
 
   return SubStream;
-}
+};

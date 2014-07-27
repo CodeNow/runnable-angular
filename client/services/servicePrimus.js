@@ -14,6 +14,12 @@ function primus(
 
     var conn = new primusClient(url);
 
+    conn.on('data', function(data) {
+      if (data.error) {
+        throw data.error;
+      }
+    });
+
     return function createSubstream(config) {
       conn.write(config);
 
