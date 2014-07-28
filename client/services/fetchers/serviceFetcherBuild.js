@@ -10,7 +10,9 @@ function factoryFetcherBuild (
   QueryAssist,
   $rootScope,
   $state,
-  $stateParams
+  $stateParams,
+  exists,
+  hasKeypaths
 ) {
 
   return function (
@@ -28,9 +30,12 @@ function factoryFetcherBuild (
         .cacheFetch(function updateDom(projects, cached, cb) {
           var project = data.project = projects.models[0];
           data.environment = exists($stateParams.branchName) ?
-            find(project.environments.models,
-              hasKeypaths({ 'name.toLowerCase()': $stateParams.branchName })):
+            project.environments.find(
+              hasKeypaths({ 'attrs.name.toLowerCase()': $stateParams.branchName })):
             project.defaultEnvironment;
+          if (!data.environment) {
+             $state.go('404');
+          }
           $rootScope.safeApply();
         })
         .resolve(function (err, projects, cb) {
