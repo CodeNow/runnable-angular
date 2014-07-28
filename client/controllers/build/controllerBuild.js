@@ -108,8 +108,6 @@ function ControllerBuild(
         throw err;
       }
       data.build = newBuild;
-      actions.initStream();
-      data.closed = false;
       $scope.safeApply();
     });
   };

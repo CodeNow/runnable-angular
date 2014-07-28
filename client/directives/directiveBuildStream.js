@@ -12,19 +12,20 @@ function buildStream(
     restrict: 'E',
     replace: true,
     scope:  {
-      initStream: '&',
       build: '='
     },
     templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
-      $scope.dataBuild.actions.initStream = function () {
-        var build = $scope.dataBuild.data.build;
+      var initStream = function () {
+        var build = $scope.build;
 
         if (build.attrs.completed) {
           elem.addClass('out');
           return;
         }
+
+        elem.removeClass('out');
 
         var streamId = build.attrs._id + '-' + Date.now();
         var buildPrimusStream = primus({
@@ -76,10 +77,9 @@ function buildStream(
         });
       };
 
-      var initalizer = $scope.$watch('dataBuild.data.build', function (n) {
-        if (n) {
-          $scope.dataBuild.actions.initStream();
-          initalizer();
+      $scope.$watch('dataBuild.data.build.attrs._id', function (buildId) {
+        if (buildId) {
+          initStream();
         }
       });
     }
