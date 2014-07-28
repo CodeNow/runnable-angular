@@ -16,10 +16,7 @@ function activePanel(
     replace: true,
     scope: {
       openFiles: '=',
-      isClean: '=', // build.attrs.started
-      isReadOnly: '=',
-      isDarkTheme: '=',
-      forkBuild: '&'
+      isDarkTheme: '='
     },
     link: function ($scope, element, attrs) {
       function updateFile (cb) {
