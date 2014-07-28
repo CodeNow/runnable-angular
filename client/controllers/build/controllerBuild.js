@@ -83,23 +83,10 @@ function ControllerBuild(
     });
   };
 
-  actions.forkBuild = function (cb) {
-    var build = dataBuild.data.build;
-    var started = keypather.get(data, 'build.attrs.started');
-    if (!build) {
-      return cb(new Error('no build'));
-    }
-    if (!started) {
-      return cb();
-    }
-    var newBuild = build.fork(function () {
-      cb(null, newBuild);
-      console.log(arguments);
-    });
-  };
-
   function runBuild () {
-    var newBuild = data.build.build(function (err, build) {
+    var newBuild = data.build.build({
+      message: 'test-message'
+    }, function (err, build) {
       if (err) {
         throw err;
       }
@@ -114,7 +101,11 @@ function ControllerBuild(
   };
 
   actions.edit = function () {
-    runBuild();
+    var build = dataBuild.data.build.fork(function (err, build, code) {
+      $state.go('projects.build', angular.copy({
+        buildName: build.id
+      }, $stateParams));
+    });
   };
 
   /**
