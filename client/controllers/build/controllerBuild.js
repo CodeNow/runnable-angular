@@ -28,6 +28,7 @@ function ControllerBuild(
     showPopoverFileMenuForm: false,
     showPopoverFileMenuAddReop: false,
     showPopoverRepoMenu: false,
+    showRebuildMenu: false,
     buildName: $stateParams.buildName,
     inputHasBeenClicked: false,
     showExplorer: true
@@ -52,18 +53,23 @@ function ControllerBuild(
     }
   };
 
-  actions.toggleExplorer = function () {
-    data.showExplorer = !data.showExplorer;
-  };
-
-
   actions.runInstance = function () {
     var instance = user.createInstance({
       json: {
         name: 'name1',
         build: data.build.id()
       }
-    }, function () {});
+    }, function (err) {
+      if (err) { throw err; }
+      var state = {
+        userName: $stateParams.userName,
+        projectName: $stateParams.projectName,
+        branchName: $stateParams.branchName,
+        buildName: data.build.id(),
+        instanceId: instance.id()
+      };
+      $state.go('projects.instance', state);
+    });
   };
 
   actions.createRepo = function () {
@@ -91,7 +97,6 @@ function ControllerBuild(
       console.log(arguments);
     });
   };
-  window.dataBuild = dataBuild;
 
   var runBuild = function(buildFunc) {
     var newBuild = buildFunc(function (err, build) {
@@ -99,8 +104,6 @@ function ControllerBuild(
         throw err;
       }
       data.build = newBuild;
-      actions.initStream();
-      data.closed = false;
       $scope.safeApply();
     });
   };
@@ -108,10 +111,9 @@ function ControllerBuild(
   actions.build = function () {
     runBuild(data.build.build.bind(data.build));
   };
+
   actions.rebuild = function () {
     runBuild(data.build.rebuild.bind(data.build));
-  };
-  actions.discardChanges = function () {
   };
 
   /**

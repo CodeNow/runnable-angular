@@ -90,6 +90,7 @@ function ControllerSetup(
           if (err) {
             throw err;
           }
+          data.sourceFilesCopied = true;
           data.contextVersion.sourceInfraCodeVersion = sourceInfraCodeVersion;
           fetchContextVersionFiles(data.contextVersion, function () {
             data.isReadOnly = false;
@@ -129,6 +130,9 @@ function ControllerSetup(
       },
       function (cb) {
         data.build.build({message: 'Initial build'}, cb);
+      },
+      function (cb) {
+        data.build.fetch(cb);
       }
     ], function (err, results) {
       if (err) throw err;
@@ -141,7 +145,7 @@ function ControllerSetup(
       projectName: keypather.get(data, 'project.attrs.name') ||
         $scope.dataApp.stateParams.projectName,
       branchName: data.project.defaultEnvironment.attrs.name,
-      buildName: data.build.id()
+      buildName: data.build.attrs.buildNumber
     });
   };
   actions.stateToBuildList = function () {

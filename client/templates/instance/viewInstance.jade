@@ -3,8 +3,9 @@ nav.sub-header
   h1.divided-header
     input.form-control.inline-edit(
       placeholder = "Instance Name"
+      required
       spellcheck = "false"
-      value = "servername-1776"
+      value = "{{dataInstance.data.instance.attrs.name}}"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")

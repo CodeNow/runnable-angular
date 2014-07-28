@@ -16,37 +16,37 @@ nav.sub-header
 
   //- all buttons should be disabled during a build
   section#main-controls
-    .clean.in
-      //- on failed builds, run instance needs to be disabled
-      button.orange(
-        ng-click = "dataBuild.actions.runInstance()"
-        ng-disabled = "dataBuild.data.build.failed()"
+    //- on failed builds, run instance needs to be disabled
+    button.orange(
+      ng-click = "dataBuild.actions.runInstance()"
+      ng-disabled = "dataBuild.data.build.failed()"
+      type = "button"
+    ) Run Instance
+    .btn-group
+      button.silver(
+        ng-click = "dataBuild.actions.rebuild()"
+        ng-disabled = "!dataBuild.data.build.attrs.completed"
         type = "button"
-      ) Run Instance
-      .btn-group
-        button.silver(
-          ng-click = "dataBuild.actions.rebuild()"
-          ng-disabled = "!dataBuild.data.build.attrs.completed"
-          type = "button"
-        ) Rebuild
-        a.btn.silver.btn-icon(
-          ng-class = "{active: !dataBuild.data.showCleanRebuildMenu}"
-          toggle-pop-over
-          toggle-pop-over-model = "dataBuild.data.showCleanRebuildMenu"
+      ) Rebuild
+      a.btn.silver.btn-icon(
+        ng-class = "{active: !dataBuild.data.showRebuildMenu}"
+        toggle-pop-over
+        toggle-pop-over-model = "dataBuild.data.showRebuildMenu"
+      )
+        svg.iconnables.icons-arrow-down
+          use(xlink:href = "#icons-arrow-down")
+        pop-over(
+          actions = "{ \
+            getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
+            resetInputModelValue: dataBuild.actions.resetInputModelValue \
+          }"
+          data = "{ \
+            buildName: dataBuild.data.buildName, \
+            show: dataBuild.data.showRebuildMenu \
+          }"
+          template = "viewBuildPopoverBuildOptions"
         )
-          svg.iconnables.icons-arrow-down
-            use(xlink:href = "#icons-arrow-down")
-          pop-over(
-            actions = "{ \
-              getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
-              resetInputModelValue: dataBuild.actions.resetInputModelValue \
-            }"
-            data = "{ \
-              buildName: dataBuild.data.buildName, \
-              show: dataBuild.data.showCleanRebuildMenu \
-            }"
-            template = "viewBuildPopoverBuildOptions"
-          )
+    button.silver(type = "button") Edit Build
 
 section.sidebar
   ul(ng-show = "dataBuild.data.build.attrs.created")
@@ -71,9 +71,7 @@ section.sidebar
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuild.data.build.user.attrs.accounts.github.username }}</a>
-  h3(
-    ng-if = "dataBuild.data.build.attrs.started"
-  ) Message Log
+  h3 Message Log
   ol#messages(
     ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
@@ -85,7 +83,7 @@ section.sidebar
           a
             img(
               height = "20"
-              src = "{{ commit.committer.gravatar }}?s=64"
+              ng-src = "{{ commit.committer.gravatar }}?s=64"
               width = "20"
             )
             | #{''} {{commit.committer.username}}
@@ -103,7 +101,7 @@ section.sidebar
           a
             img(
               height = "20"
-              src = "{{ dataBuild.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
+              ng-src = "{{ dataBuild.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
               width = "20"
             )
             | #{''} {{ dataBuild.data.version.attrs.build.triggeredBy.username }}
@@ -180,7 +178,7 @@ section.sidebar
         )
 
   button#explorer-toggle.btn-icon(
-    ng-click = "dataBuild.actions.toggleExplorer()"
+    ng-click = "dataBuild.data.showExplorer = !dataBuild.data.showExplorer"
     type = "button"
   )
     svg.iconnables.icons-folder-open
@@ -193,13 +191,11 @@ section.sidebar
     open-files = "dataBuild.data.openFiles"
   )
   active-panel(
-    fork-build = "dataBuild.actions.forkBuild"
     open-files = "dataBuild.data.openFiles"
-    is-clean = "dataBuild.data.build.attrs.started"
     is-dark-theme = "dataBuild.data.toggleTheme"
   )
 
 //- logs
 build-stream(
-  ng-class = "{out: dataBuild.data.closed}"
+  build = "dataBuild.data.build"
 )

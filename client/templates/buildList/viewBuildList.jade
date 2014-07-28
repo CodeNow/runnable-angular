@@ -5,6 +5,7 @@ nav#build-stream-header.sub-header
       placeholder = "App Name"
       ng-model = "dataBuildList.data.project.attrs.name"
       ng-model-options = "{ debounce: 500 }"
+      required
       spellcheck = "false"
     )
     svg.iconnables.icons-edit
@@ -82,7 +83,8 @@ nav#build-stream-header.sub-header
               }"
             )
             use(
-              xlink:href = "{{ build.failed() ? '#icons-fail' : '#icons-check' }}"
+              ng-href = "{{ build.failed() ? '#icons-fail' : '#icons-check' }}"
+              xlink:href = ""
             )
         td {{ build.attrs.buildNumber }}
         td {{ build.contextVersions.models[0].attrs.build.triggeredBy.username }}
