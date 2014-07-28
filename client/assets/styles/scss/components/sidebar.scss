@@ -100,6 +100,10 @@
 #messages {
   height: calc(100% - 201px);
   overflow-y: auto;
+
+  > li {
+    min-height: 59px;
+  }
 }
 
 .message {

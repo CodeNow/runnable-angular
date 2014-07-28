@@ -22,40 +22,40 @@ function activePanel(
       forkBuild: '&'
     },
     link: function ($scope, element, attrs) {
-      $scope.activeFileClone = {};
-
       function updateFile (cb) {
-        $scope.openFiles.activeFile.update({
-          json: {
-            body: $scope.activeFileClone.body
-          }
-        }, function () {
-          $timeout(function () {
-            $scope.$apply();
+        var activeFile = $scope.openFiles.activeFile;
+        if (!activeFile) { return; }
+        if (activeFile.state.isDirty()) {
+          activeFile.update({
+            json: {
+              body: activeFile.state.body
+            }
+          }, function (err) {
+            if (err) {
+              throw err;
+            }
+            $timeout(function () {
+              $scope.$apply();
+            });
           });
-        });
+        }
       }
 
       function fetchFile() {
-        $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
-        $scope.openFiles.activeFile.fetch(function () {
-          $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
-          $scope.activeFileClone.delay = true;
+        $scope.openFiles.activeFile.fetch(function (err) {
+          if (err) { throw err; }
+          if ($scope.openFiles.activeFile.state.body === undefined) {
+            $scope.openFiles.activeFile.state.reset(); // first population
+          }
           $timeout(function () {
             $scope.$apply();
           });
         });
       }
 
-      $scope.$watch('activeFileClone.body', function (newval, oldval) {
+      $scope.$watch('openFiles.activeFile.state.body', function (newval, oldval) {
         if (typeof newval === 'string' && $scope.openFiles.activeFile) {
-          // prevent assignment to aFC.body triggering update
-          if ($scope.activeFileClone.delay) {
-            delete $scope.activeFileClone.delay;
-            return;
-          }
           async.series([
-            $scope.fork,
             updateFile
           ], function () {});
         }

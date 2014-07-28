@@ -9,6 +9,7 @@ function factoryFetcherBuild (
   async,
   QueryAssist,
   $rootScope,
+  $state,
   $stateParams
 ) {
 
@@ -27,12 +28,10 @@ function factoryFetcherBuild (
         .cacheFetch(function updateDom(projects, cached, cb) {
           data.project = projects.models[0];
           $rootScope.safeApply();
-          cb();
         })
         .resolve(function (err, projects, cb) {
-          if (err) {
-            // TODO
-            // 404
+          if (err || !projects.length) {
+          //  $state.go('404');
           }
           $rootScope.safeApply();
           cb();
@@ -61,17 +60,26 @@ function factoryFetcherBuild (
 
     function fetchBuild(cb) {
       new QueryAssist(data.environment, cb)
-        .wrapFunc('fetchBuild')
-        .query($stateParams.buildName)
-        .cacheFetch(function updateDom(build, cached, cb) {
-          data.build = build;
-          data.version = build.contextVersions.models[0];
-          $rootScope.safeApply();
-          if (build.attrs.contextVersions.length){
-            cb();
+        .wrapFunc('fetchBuilds')
+        .query({
+          buildNumber: $stateParams.buildName,
+          environment: data.environment.id()
+        })
+        .cacheFetch(function updateDom(builds, cached, cb) {
+          if (!builds.models.length) {
+            actions.stateToBuildList();
+          }
+          else {
+            var build = builds.models[0];
+            data.build = build;
+            data.version = build.contextVersions.models[0];
+            $rootScope.safeApply();
+            if (build.attrs.contextVersions.length){
+              cb();
+            }
           }
         })
-        .resolve(function (err, build, cb) {
+        .resolve(function (err, builds, cb) {
           $rootScope.safeApply();
           cb();
        })

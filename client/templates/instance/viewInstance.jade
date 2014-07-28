@@ -4,12 +4,15 @@ nav.sub-header
     input.form-control.inline-edit(
       placeholder = "Instance Name"
       spellcheck = "false"
-      value = "servername-1776"
+      value = "{{dataInstance.data.instance.attrs.name}}"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
   section#main-controls
-    button.green(type = "button") Save Changes
+    button.green(
+      type = "button"
+      ng-disabled = "dataInstance.data.openFiles.isClean()"
+    ) Save Changes
 
 section.sidebar
   ul
@@ -83,114 +86,22 @@ section.sidebar
           }"
           template = "viewInstancePopoverFileMenu"
         )
-    ul.file-tree
-      li.folder
-        svg.iconnables.filetypes.icons-folder
-          use(xlink:href = "#icons-folder")
-        | css
-        ul
-          li.folder
-            svg.iconnables.filetypes.icons-folder
-              use(xlink:href = "#icons-folder")
-            | modules
-            ul
-              li
-                svg.iconnables.filetypes.icons-file
-                  use(xlink:href = "#icons-file")
-                | components.scss
-          li
-            svg.iconnables.filetypes.icons-file
-              use(xlink:href = "#icons-file")
-            | styles.css
-          li
-            svg.iconnables.filetypes.icons-file
-              use(xlink:href = "#icons-file")
-            | tables.css
-      li
-        svg.iconnables.filetypes.icons-file
-          use(xlink:href = "#icons-file")
-        | favicon.png
-      li
-        svg.iconnables.filetypes.icons-file
-          use(xlink:href = "#icons-file")
-        | index.html
-      li
-        svg.iconnables.filetypes.icons-file
-          use(xlink:href = "#icons-file")
-        | htc.access
-  #editor-toolbar
-    ul#tabs-wrapper
-      li
-        a.active(
-          data-title = "dockerfile"
-          title = "~/full/path/dockerfile"
-        ) dockerfile
-        button.btn-icon
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-      li
-        a(
-          data-title = "main.config"
-          title = "~/full/path/main.config"
-        ) main.config
-        button.btn-icon(type = "button")
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-  a#add-tab.btn.btn-icon(
-    ng-class = "{active: dataInstance.data.showAddTab}"
-    toggle-pop-over
-    toggle-pop-over-model = "dataInstance.data.showAddTab"
-  )
-    svg.iconnables.icons-add
-      use(xlink:href = "#icons-add")
-    pop-over(
-      data = "{show: dataInstance.data.showAddTab}"
-      template = "viewInstancePopoverAddTab"
+    file-tree(
+      open-files = "dataInstance.data.openFiles"
+      version = "dataInstance.data.version"
+      is-clean = "dataInstance.data.isClean"
     )
-  #select-tabs.dropdown
-    button.btn-icon(type = "button")
-      svg.iconnables.icons-select
-        use(xlink:href = "#icons-select")
-    select
-      option(selected) Tab 1
-      option Tab 2
-  #editor-container
-    //- .loading to toggle refresh/stop icon
-    //- .loading is also required for the progress bar, so remove it when loading is complete
-    //- nav.browser-chrome
-      //- apply [disabled] to back/forward to disable
-      button.btn-icon(
-        disabled
-        type = "button"
-      )
-        svg.iconnables.icons-chevron-left
-            use(xlink:href = "#icons-chevron-left")
-      button.btn-icon(
-        disabled
-        type = "button"
-      )
-        svg.iconnables.icons-chevron-right
-            use(xlink:href = "#icons-chevron-right")
-      .iconnables.iconnables-container
-        button.btn-icon(type = "button")
-          svg.iconnables.icons-refresh
-            use(xlink:href = "#icons-refresh")
-        button.btn-icon(type = "button")
-          svg.iconnables.icons-stop
-            use(xlink:href = "#icons-stop")
-      //- select all text on click
-      input(
-        placeholder = "Enter an address"
-        value = "http://web-2673c32b.runnable.com"
-      )
-      //- style="-webkit-transform: scale3d(%,1,1); transform: scale3d(%,1,1);" to move progress bar--% is the total progress out of 1.00
-      //- http://caniuse.com/#search=transform (Current and previous versions, July 2014):
-      //- * chrome 35
-      //- * safari 6.1, 7, 8
-      //- * android 4.2, 4.3, 4.4
-      .progress
-    //- server log and terminal tab should open by default
-    pre(ui-ace) Test
+  tabs(
+    open-files = "dataInstance.data.openFiles"
+  )
+  tabs-dropdown(
+    open-files = "dataInstance.data.openFiles"
+  )
+  active-panel(
+    open-files = "dataInstance.data.openFiles"
+    is-clean = "dataInstance.data.isClean"
+    is-dark-theme = "dataInstance.data.toggleTheme"
+  )
 
 //- logs
 //- note: this should appear when an error happens on the server

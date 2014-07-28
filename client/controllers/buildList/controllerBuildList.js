@@ -73,7 +73,7 @@ function ControllerBuildList(
       userName: $scope.dataApp.user.attrs.accounts.github.username,
       projectName: data.project.attrs.name,
       branchName: data.environment.attrs.name,
-      buildName: build.id()
+      buildName: build.attrs.buildNumber
     };
     $state.go('projects.build', state);
   };
@@ -131,7 +131,11 @@ function ControllerBuildList(
   function fetchBuilds (cb) {
     new QueryAssist(data.environment, cb)
       .wrapFunc('fetchBuilds')
-      .query({ started: true })
+      .query({
+        environment: data.environment.id(),
+        started: true,
+        sort: '-buildNumber'
+      })
       .cacheFetch(function updateDom(builds, cached, cb) {
         if (builds.models.length === 0) {
           // redirect to create new build page

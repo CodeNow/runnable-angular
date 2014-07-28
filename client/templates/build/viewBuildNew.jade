@@ -15,39 +15,34 @@ nav.sub-header
     | Build {{ dataBuildNew.data.build.attrs.id | limitTo:4 }}...
 
   //- all buttons should be disabled during a build
-  section#main-controls.in
-    .dirty.in
-      .btn-group
-        button.green(
-          type = "button"
-          ng-click = "dataBuild.actions.build()"
-        ) Build
-        a.btn.green.btn-icon(
-          ng-class = "{active: databuild.data.showBuildMenu }"
-          toggle-pop-over
-          toggle-pop-over-model = "dataBuild.data.showBuildMenu"
-        )
-          svg.iconnables.icons-arrow-down
-            use(xlink:href = "#icons-arrow-down")
-          pop-over(
-            actions = "{ \
-              getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
-              resetInputModelValue: dataBuild.actions.resetInputModelValue \
-            }"
-            data = "{ \
-              buildName: dataBuild.data.buildName, \
-              show: dataBuild.data.showDirtyBuildMenu \
-            }"
-            template = "viewBuildPopoverBuildOptions"
-          )
-      button.silver(
-        ng-click = "dataBuild.actions.discardChanges()"
+  section#main-controls
+    .btn-group
+      button.green(
         type = "button"
-      ) Discard Changes
-
-
-
-
+        ng-click = "dataBuild.actions.build()"
+      ) Build
+      a.btn.green.btn-icon(
+        ng-class = "{active: databuild.data.showBuildMenu }"
+        toggle-pop-over
+        toggle-pop-over-model = "dataBuild.data.showBuildMenu"
+      )
+        svg.iconnables.icons-arrow-down
+          use(xlink:href = "#icons-arrow-down")
+        pop-over(
+          actions = "{ \
+            getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
+            resetInputModelValue: dataBuild.actions.resetInputModelValue \
+          }"
+          data = "{ \
+            buildName: dataBuild.data.buildName, \
+            show: dataBuild.data.showDirtyBuildMenu \
+          }"
+          template = "viewBuildPopoverBuildOptions"
+        )
+    button.silver(
+      ng-click = "dataBuild.actions.discardChanges()"
+      type = "button"
+    ) Discard Changes
 
 section.sidebar
   ul(ng-show = "dataBuild.data.build.attrs.created")
