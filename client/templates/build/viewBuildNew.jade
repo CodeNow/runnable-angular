@@ -1,10 +1,8 @@
 nav.sub-header
-  h1.build-header.divided-header.animations-off(
-    ng-class = "{in: !dataBuild.data.build.attrs.started }"
-  )
+  h1.build-header.divided-header
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
-      ng-click = "dataBuild.actions.stateToBuildList()"
+      ng-click = "dataBuildNew.actions.stateToBuildList()"
       type = "button"
     )
       svg.iconnables.icons-back-table
@@ -14,51 +12,20 @@ nav.sub-header
         use(xlink:href = "#icons-check")
       svg.iconnables.icons-asterisk
         use(xlink:href = "#icons-asterisk")
-    | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
+    | Build {{ dataBuildNew.data.build.attrs.id | limitTo:4 }}...
 
   //- all buttons should be disabled during a build
-  section#main-controls(ng-class = "{in: !dataBuild.data.build.attrs.started}")
-    .clean(ng-class = "{in: dataBuild.data.build.attrs.started}")
-      //- on failed builds, run instance needs to be disabled
-      button.orange(
-        ng-click = "dataBuild.actions.runInstance()"
-        ng-disabled = "dataBuild.data.build.failed()"
-        type = "button"
-      ) Run Instance
-      .btn-group
-        button.silver(
-          ng-click = "dataBuild.actions.rebuild()"
-          ng-disabled = "!dataBuild.data.build.attrs.completed"
-          type = "button"
-        ) Rebuild
-        a.btn.silver.btn-icon(
-          ng-class = "{active: !dataBuild.data.showCleanRebuildMenu}"
-          toggle-pop-over
-          toggle-pop-over-model = "dataBuild.data.showCleanRebuildMenu"
-        )
-          svg.iconnables.icons-arrow-down
-            use(xlink:href = "#icons-arrow-down")
-          pop-over(
-            actions = "{ \
-              getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
-              resetInputModelValue: dataBuild.actions.resetInputModelValue \
-            }"
-            data = "{ \
-              buildName: dataBuild.data.buildName, \
-              show: dataBuild.data.showCleanRebuildMenu \
-            }"
-            template = "viewBuildPopoverBuildOptions"
-          )
-    .dirty(ng-class = "{in: !dataBuild.data.build.attrs.started}")
+  section#main-controls.in
+    .dirty.in
       .btn-group
         button.green(
           type = "button"
           ng-click = "dataBuild.actions.build()"
         ) Build
         a.btn.green.btn-icon(
-          ng-class = "{active: databuild.data.showDirtyBuildMenu }"
+          ng-class = "{active: databuild.data.showBuildMenu }"
           toggle-pop-over
-          toggle-pop-over-model = "dataBuild.data.showDirtyBuildMenu"
+          toggle-pop-over-model = "dataBuild.data.showBuildMenu"
         )
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
@@ -77,6 +44,10 @@ nav.sub-header
         ng-click = "dataBuild.actions.discardChanges()"
         type = "button"
       ) Discard Changes
+
+
+
+
 
 section.sidebar
   ul(ng-show = "dataBuild.data.build.attrs.created")

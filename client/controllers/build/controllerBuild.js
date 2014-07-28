@@ -14,26 +14,33 @@ function ControllerBuild(
   async,
   extendDeep,
   SharedFilesCollection,
-  keypather
+  keypather,
+  fetcherBuild
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerBuild;
-  var dataBuild = $scope.dataBuild = self.initState($stateParams);
-  var data = dataBuild.data;
-  var actions = dataBuild.actions;
+  var dataBuild = $scope.dataBuild = {};
 
-  // one-time initialization
-  extendDeep(dataBuild.data, {
+  var actions = dataBuild.actions = {};
+  var data = dataBuild.data = {
+    showPopoverFileMenu: false,
+    showPopoverFileMenuForm: false,
+    showPopoverFileMenuAddReop: false,
+    showPopoverRepoMenu: false,
+    buildName: $stateParams.buildName,
+    inputHasBeenClicked: false,
     showExplorer: true
-  });
-
-  actions.initPopoverState = function () {
-    extendDeep(dataBuild, self.initPopoverState($stateParams));
   };
 
-  actions.initPopoverState();
-
+  actions.stateToBuildList = function () {
+    var state = {
+      userName: $stateParams.userName,
+      projectName: $stateParams.projectName,
+      branchName: $stateParams.branchName
+    };
+    $state.go('projects.buildList', state);
+  };
   actions.getPopoverButtonText = function (name) {
     return 'Build' + ((name && name.length) ? 's in ' + name : '');
   };
@@ -49,14 +56,6 @@ function ControllerBuild(
     data.showExplorer = !data.showExplorer;
   };
 
-  actions.stateToBuildList = function () {
-    var state = {
-      userName: $stateParams.userName,
-      projectName: $stateParams.projectName,
-      branchName: $stateParams.branchName
-    };
-    $state.go('projects.buildList', state);
-  };
 
   actions.runInstance = function () {
     var instance = user.createInstance({
@@ -92,6 +91,7 @@ function ControllerBuild(
       console.log(arguments);
     });
   };
+  window.dataBuild = dataBuild;
 
   var runBuild = function(buildFunc) {
     var newBuild = buildFunc(function (err, build) {
@@ -145,76 +145,6 @@ function ControllerBuild(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchProject(cb) {
-    var thisUser = $scope.dataApp.user;
-    new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchProjects')
-      .query({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.projectName
-      })
-      .cacheFetch(function updateDom(projects, cached, cb) {
-        dataBuild.data.project = projects.models[0];
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, projects, cb) {
-        if (err) {
-          // TODO
-          // 404
-        }
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
-  function fetchEnvironment(cb) {
-    new QueryAssist(dataBuild.data.project, cb)
-      .wrapFunc('fetchEnvironments')
-      .query({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.branchName
-      })
-      .cacheFetch(function updateDom(environments, cached, cb) {
-        dataBuild.data.environment = environments.models[0];
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, environments, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
-  function fetchBuild(cb) {
-    new QueryAssist(dataBuild.data.environment, cb)
-      .wrapFunc('fetchBuilds')
-      .query({
-        buildNumber: $stateParams.buildName,
-        environment: data.environment.id()
-      })
-      .cacheFetch(function updateDom(builds, cached, cb) {
-        if (!builds.models.length) {
-          actions.stateToBuildList();
-        }
-        else {
-          var build = builds.models[0];
-          dataBuild.data.build = build;
-          dataBuild.data.version = build.contextVersions.models[0];
-          $scope.safeApply();
-          if (build.attrs.contextVersions.length){
-            cb();
-          }
-        }
-      })
-      .resolve(function (err, build, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
 
   function newFilesCollOpenFiles(cb) {
     var version = dataBuild.data.version;
@@ -226,38 +156,13 @@ function ControllerBuild(
     );
     cb();
   }
+
   actions.seriesFetchAll = function () {
-    async.waterfall([
-      holdUntilAuth,
-      fetchProject,
-      fetchEnvironment,
-      fetchBuild,
+    async.series([
+      fetcherBuild($scope.dataBuild.data),
       newFilesCollOpenFiles
-    ], function () {
-      $scope.$apply();
-    });
+    ], function(){});
   };
   actions.seriesFetchAll();
+
 }
-
-ControllerBuild.initState = function ($stateParams) {
-  return {
-    data: {},
-    actions: {}
-  };
-};
-
-ControllerBuild.initPopoverState = function ($stateParams) {
-  return {
-    data: {
-      showPopoverFileMenu: false,
-      showPopoverFileMenuForm: false,
-      showPopoverFileMenuAddReop: false,
-
-      showPopoverRepoMenu: false,
-
-      buildName: $stateParams.buildName,
-      inputHasBeenClicked: false
-    }
-  };
-};
