@@ -304,6 +304,7 @@ module.exports = function(grunt) {
                 return item.replace(workingPath, '.').replace(/\.js$/, '');
               })
               .reduce(function (previous, current) {
+                if (current === './index') { return previous; }
                 return previous += 'require(\'' + current + '\');\n';
               }, '');
             fs.readFile(indexPath, 'UTF-8', function (err, fileString) {
