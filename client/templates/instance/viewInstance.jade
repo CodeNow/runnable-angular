@@ -29,6 +29,7 @@ section.sidebar
         use(xlink:href = "#icons-back")
       | From #{''}
       a(title = "user/app/config/build") user/app/config/build
+    //- if started
     li
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
@@ -36,7 +37,22 @@ section.sidebar
         datatime = "2014-03-18 19:00"
         title = "Launched on 2014-03-18 @ 19:00"
       ) Launched 4 days ago
-      //- stopped state: text = 'Not Running', running timer starts over on restart
+    //- if stopped
+    li
+      svg.iconnables.icons-duration
+        use(xlink:href = "#icons-duration")
+      time(
+        datatime = "2014-03-18 19:00"
+        title = "Launched on 2014-03-18 @ 19:00"
+      ) Stopped 4 days ago
+    //- if manually stopped
+    li
+      svg.iconnables.icons-untriggered
+        use(xlink:href = "#icons-untriggered")
+      time(
+        datatime = "2014-03-18 19:00"
+        title = "Launched on 2014-03-18 @ 19:00"
+      ) Launched 4 days ago
   h3 Actions
   ol.actions
     //- stop instance changes to start instance if stopped
