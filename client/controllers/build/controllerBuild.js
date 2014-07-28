@@ -156,7 +156,7 @@ function ControllerBuild(
     cb();
   }
 
-  async.seriesFetchAll = function () {
+  actions.seriesFetchAll = function () {
     async.series([
       fetcherBuild(
         $scope.dataBuild.data
@@ -166,6 +166,6 @@ function ControllerBuild(
       // complete
     });
   };
-  async.seriesFetchAll();
+  actions.seriesFetchAll();
 
 }
