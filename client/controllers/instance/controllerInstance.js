@@ -28,6 +28,15 @@ function ControllerInstance(
   dataInstance.showAddTab = false;
   dataInstance.showFileMenu = false;
 
+  actions.restartInstance = function () {
+    var newInstance = data.instance.restart(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance = newInstance;
+    });
+  };
+
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
