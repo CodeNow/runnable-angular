@@ -101,10 +101,10 @@ function ControllerBuild(
   };
 
   actions.edit = function () {
-    var build = dataBuild.data.build.fork(function (err, build, code) {
-      $state.go('projects.build', angular.copy({
-        buildName: build.id
-      }, $stateParams));
+    var newBuild = dataBuild.data.build.fork(function (err, build, code) {
+      var sp = angular.copy($stateParams);
+      sp.newBuildName = newBuild.id();
+      $state.go('projects.buildNew', angular.copy(sp, $stateParams));
     });
   };
 

@@ -41,7 +41,19 @@ function ControllerBuildNew(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  actions.seriesFetchAll = function () {
+
+  function newFilesCollOpenFiles(cb) {
+    var version = dataBuildNew.data.version;
+    data.openFiles = new SharedFilesCollection(
+      version.newFiles([], {
+        noStore: true
+      }),
+      $scope
+    );
+    cb();
+  }
+
+ actions.seriesFetchAll = function () {
     async.series([
       fetcherBuild($scope.dataBuildNew.data),
       newFilesCollOpenFiles
