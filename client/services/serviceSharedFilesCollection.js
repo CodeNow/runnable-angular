@@ -86,10 +86,10 @@ function factory(
   return SharedFilesCollection;
 }
 
-function (g, f) {
+function compose (g, f) {
   return function (x) {
     return f(g(x));
-  }
+  };
 }
 
 function composeAll () {
