@@ -190,14 +190,23 @@ function ControllerBuild(
 
   function fetchBuild(cb) {
     new QueryAssist(dataBuild.data.environment, cb)
-      .wrapFunc('fetchBuild')
-      .query($stateParams.buildName)
-      .cacheFetch(function updateDom(build, cached, cb) {
-        dataBuild.data.build = build;
-        dataBuild.data.version = build.contextVersions.models[0];
-        $scope.safeApply();
-        if (build.attrs.contextVersions.length){
-          cb();
+      .wrapFunc('fetchBuilds')
+      .query({
+        buildNumber: $stateParams.buildName,
+        environment: data.environment.id()
+      })
+      .cacheFetch(function updateDom(builds, cached, cb) {
+        if (!builds.models.length) {
+          actions.stateToBuildList();
+        }
+        else {
+          var build = builds.models[0];
+          dataBuild.data.build = build;
+          dataBuild.data.version = build.contextVersions.models[0];
+          $scope.safeApply();
+          if (build.attrs.contextVersions.length){
+            cb();
+          }
         }
       })
       .resolve(function (err, build, cb) {

@@ -14,7 +14,7 @@ nav.sub-header
         use(xlink:href = "#icons-check")
       svg.iconnables.icons-asterisk
         use(xlink:href = "#icons-asterisk")
-    | Build {{ dataBuild.data.build.attrs.id | limitTo:4 }}...
+    | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4)+'...' }}
 
   //- all buttons should be disabled during a build
   section#main-controls(ng-class = "{in: !dataBuild.data.build.attrs.started}")
@@ -101,92 +101,42 @@ section.sidebar
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuild.data.build.user.attrs.accounts.github.username }}</a>
-  h3 Message Log
-  ol#messages
-    li(ng-repeat = "commit in dataBuild.data.commits")
+  h3(
+    ng-if = "dataBuild.data.build.attrs.started"
+  ) Message Log
+  ol#messages(
+    ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
+  )
+    li(ng-repeat = "commit in dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
           a {{commit.message}}
         li
           a
-            img
-            | #{''} {{commit.username}}
-          span {{commit.hash}}
+            img(
+              height = "20"
+              src = "{{ commit.committer.gravatar }}?s=64"
+              width = "20"
+            )
+            | #{''} {{commit.committer.username}}
+          a {{commit.id}}
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
+  ol#messages(
+    ng-if = "dataBuild.data.build.attrs.started && !dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
+  )
     li
       ol.message
         li
-          a removing comment
+          a {{ dataBuild.data.version.attrs.build.message }}
         li
           a
             img(
               height = "20"
-              src = "https://avatars0.githubusercontent.com/u/467885?s=64"
+              src = "{{ dataBuild.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
               width = "20"
             )
-            |&nbsp;cflynn07
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-    li
-      ol.message
-        li
-          a separate popover for branches
-        li
-          a
-            img(
-              height = "20"
-              src = "http://www.gravatar.com/avatar/49fa96bd569083f739e8f8e37264b6fc?s=64"
-              width = "20"
-            )
-            |&nbsp;prafulrana
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-    li
-      ol.message
-        li
-          a change project popover
-        li
-          a
-            img(
-              height = "20"
-              src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
-              width = "20"
-            )
-            |&nbsp;runnabro
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-    li
-      ol.message
-        li
-          a remove sign up, new, search from header
-        li
-          a
-            img(
-              height = "20"
-              src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
-              width = "20"
-            )
-            |&nbsp;runnabro
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-    li
-      ol.message
-        li
-          a sync with tony
-        li
-          a
-            img(
-              height = "20"
-              src = "https://avatars0.githubusercontent.com/u/467885?s=64"
-              width = "20"
-            )
-            |&nbsp;cflynn07
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
+            | #{''} {{ dataBuild.data.version.attrs.build.triggeredBy.username }}
 
 //- code_editor
 #editor(
