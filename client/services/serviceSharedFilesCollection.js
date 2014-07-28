@@ -5,13 +5,16 @@ require('app')
  */
 function factory(
   keypather,
-  $timeout
+  $timeout,
+  pluck,
+  equals
 ) {
 
   function SharedFilesCollection(filesCollection, $scope) {
     this.$scope = $scope;
     this.collection = filesCollection;
     this.activeFile = null;
+    this.fileStates = {};
   }
 
   SharedFilesCollection.prototype.remove = function (model) {
@@ -28,17 +31,17 @@ function factory(
       throw new Error('model is not correct type');
     }
     keypather.set(model, 'state.open', true);
+    if (!(model.id() in this.collection.modelsHash)) {
+      model.state = null; // reset state
+    }
     this.collection.add(model);
     this.setActiveFile(model);
   };
 
   SharedFilesCollection.prototype.reset = function () {
     this.collection.models.forEach(function (model) {
-      if (model.attrs.body) {
-        model.attrs.body = model.attrs.originalBody;
-      }
-      if (model.state.dirty) {
-        model.state.dirty = false;
+      if (model.state) {
+        model.state.reset();
       }
     });
     this.$scope.safeApply();
@@ -58,41 +61,40 @@ function factory(
     if (!(model.id() in this.collection.modelsHash)) {
       throw new Error('file is not open');
     }
-    /*
-    try {
-      this.collection.models.filter(function (model) {
-        return keypather.get(model, 'state.active');
-      }).forEach(function (model) {
-        keypather.set(model, 'state.active', false);
-      });
-    } catch (e) {}
-    try {
-      keypather.set(
-        model,
-        'state.active',
-        true
-      );
-      this.activeFile = model;
-      var _this = this;
-      model.fetch(function () {
-        model.originalBody = model.attrs.body;
-        _this.activeFile = model;
-
-        _this.$scope.safeApply();
-      });
-    } catch (e) {}
-    */
+    if (this.activeFile) {
+      delete this.activeFile.state.active;
+    }
+    this.activeFile = model;
+    if (!this.activeFile.state) {
+      this.activeFile.state = model.json();
+      this.activeFile.state.active = true;
+      this.activeFile.state.isDirty = function () {
+        return model.state.body !== model.attrs.body;
+      };
+      this.activeFile.state.reset = function () {
+        model.state.body = model.attrs.body;
+      };
+    }
+    this.$scope.safeApply();
   };
 
   SharedFilesCollection.prototype.isClean = function () {
-    var models = this.collection.models;
-    for (var i = 0; i < models.length; i++) {
-      if (models[i].attrs.body && models[i].state.dirty) {
-        return false;
-      }
-    }
-    return true;
+    return this.collection.models
+      .every(composeAll(pluck('state.isDirty()'), Boolean, equals(false)));
   };
 
   return SharedFilesCollection;
+}
+
+function (g, f) {
+  return function (x) {
+    return f(g(x));
+  }
+}
+
+function composeAll () {
+  var fns = Array.prototype.slice.call(arguments);
+  return function (x) {
+    return fns.reduce(compose, x);
+  };
 }

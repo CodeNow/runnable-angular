@@ -45,20 +45,18 @@ function ControllerInstance(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchProject(cb) {
+
+  function fetchInstance (cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchProjects')
-      .query({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.projectName
-      })
-      .cacheFetch(function updateDom(projects, cached, cb) {
-        data.project = projects.models[0];
+      .wrapFunc('fetchInstance')
+      .query($stateParams.instanceId)
+      .cacheFetch(function updateDom(instance, cached, cb) {
+        data.instance = instance;
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, projects, cb) {
+      .resolve(function (err, instance, cb) {
         if (err) {
           throw err;
         }
@@ -67,37 +65,18 @@ function ControllerInstance(
       })
       .go();
   }
-
-  function fetchEnvironment(cb) {
-    new QueryAssist(data.project, cb)
-      .wrapFunc('fetchEnvironments')
-      .query({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.branchName
-      })
-      .cacheFetch(function updateDom(environments, cached, cb) {
-        data.environment = environments.models[0];
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, environments, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
   function fetchBuild(cb) {
-    new QueryAssist(data.environment, cb)
+    var thisUser = $scope.dataApp.user;
+    var instance = data.instance;
+    var env = thisUser
+      .newProject(instance.attrs.project)
+      .newEnvironment(instance.attrs.environment);
+    new QueryAssist(env, cb)
       .wrapFunc('fetchBuild')
-      .query($stateParams.buildName)
+      .query(instance.attrs.build)
       .cacheFetch(function updateDom(build, cached, cb) {
         data.build = build;
-        data.version = build.contextVersions.models[0];
         $scope.safeApply();
-        if (build.attrs.contextVersions.length){
-          cb();
-        }
       })
       .resolve(function (err, build, cb) {
         $scope.safeApply();
@@ -107,6 +86,7 @@ function ControllerInstance(
   }
 
   function newFilesCollOpenFiles(cb) {
+    // tODO fetch container files
     var version = data.version;
     data.openFiles = new SharedFilesCollection(
       version.newFiles([], {
@@ -119,10 +99,8 @@ function ControllerInstance(
 
   async.waterfall([
     holdUntilAuth,
-    fetchProject,
-    fetchEnvironment,
-    fetchBuild,
-    newFilesCollOpenFiles
+    fetchInstance,
+    fetchBuild
   ], function() {
     $scope.safeApply();
   });
