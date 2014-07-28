@@ -19,160 +19,103 @@ nav.sub-header
     .btn-group
       button.green(
         type = "button"
-        ng-click = "dataBuild.actions.build()"
+        ng-click = "dataBuildNew.actions.build()"
       ) Build
       a.btn.green.btn-icon(
-        ng-class = "{active: databuild.data.showBuildMenu }"
+        ng-class = "{active: dataBuildNew.data.showBuildMenu }"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showBuildMenu"
+        toggle-pop-over-model = "dataBuildNew.data.showBuildMenu"
       )
         svg.iconnables.icons-arrow-down
           use(xlink:href = "#icons-arrow-down")
         pop-over(
           actions = "{ \
-            getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
-            resetInputModelValue: dataBuild.actions.resetInputModelValue \
+            getPopoverButtonText: dataBuildNew.actions.getPopoverButtonText, \
+            resetInputModelValue: dataBuildNew.actions.resetInputModelValue \
           }"
           data = "{ \
-            buildName: dataBuild.data.buildName, \
-            show: dataBuild.data.showDirtyBuildMenu \
+            buildName: dataBuildNew.data.buildName, \
+            show: dataBuildNew.data.showDirtyBuildMenu \
           }"
           template = "viewBuildPopoverBuildOptions"
         )
     button.silver(
-      ng-click = "dataBuild.actions.discardChanges()"
+      ng-click = "dataBuildNew.actions.discardChanges()"
       type = "button"
     ) Discard Changes
 
 section.sidebar
-  ul(ng-show = "dataBuild.data.build.attrs.created")
+  ul(ng-show = "dataBuildNew.data.build.attrs.created")
     li
       svg.iconnables.icons-recipe
         use(xlink:href = "#icons-recipe")
       b {{ dataApp.stateParams.branchName }}
       | #{''} config
-    li(ng-show = "!dataBuild.data.build.failed()")
-      svg.iconnables.icons-duration
-        use(xlink:href = "#icons-duration")
-      | Built in {{ (dataBuild.data.build.buildTime() / 1000) | number:2 }} seconds
     li(
       interval-update
       interval-update-ms = "60000"
-      ng-show = "dataBuild.data.build.attrs.started"
     )
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
-      | Initiated {{ dataBuild.data.build.attrs.created | timeAgo }}
+      | Initiated {{ dataBuildNew.data.build.attrs.created | timeAgo }}
     li
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
-      | Triggered by <a>{{ dataBuild.data.build.user.attrs.accounts.github.username }}</a>
+      | Triggered by <a>{{ dataBuildNew.data.build.user.attrs.accounts.github.username }}</a>
   h3 Message Log
-  ol#messages
-    li(ng-repeat = "commit in dataBuild.data.commits")
+  ol#messages(
+    ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
+  )
+    li(ng-repeat = "commit in dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
           a {{commit.message}}
         li
           a
-            img
-            | #{''} {{commit.username}}
-          span {{commit.hash}}
+            img(
+              height = "20"
+              ng-src = "{{ commit.committer.gravatar }}?s=64"
+              width = "20"
+            )
+            | #{''} {{commit.committer.username}}
+          a {{commit.id}}
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
+  ol#messages(
+    ng-if = "dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
+  )
     li
       ol.message
         li
-          a removing comment
+          a {{ dataBuildNew.data.version.attrs.build.message }}
         li
           a
             img(
               height = "20"
-              src = "https://avatars0.githubusercontent.com/u/467885?s=64"
+              ng-src = "{{ dataBuildNew.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
               width = "20"
             )
-            |&nbsp;cflynn07
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-    li
-      ol.message
-        li
-          a separate popover for branches
-        li
-          a
-            img(
-              height = "20"
-              src = "http://www.gravatar.com/avatar/49fa96bd569083f739e8f8e37264b6fc?s=64"
-              width = "20"
-            )
-            |&nbsp;prafulrana
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-    li
-      ol.message
-        li
-          a change project popover
-        li
-          a
-            img(
-              height = "20"
-              src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
-              width = "20"
-            )
-            |&nbsp;runnabro
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-    li
-      ol.message
-        li
-          a remove sign up, new, search from header
-        li
-          a
-            img(
-              height = "20"
-              src = "http://www.gravatar.com/avatar/452e4a4c93d2ffba9999b03cea258206?s=64"
-              width = "20"
-            )
-            |&nbsp;runnabro
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-    li
-      ol.message
-        li
-          a sync with tony
-        li
-          a
-            img(
-              height = "20"
-              src = "https://avatars0.githubusercontent.com/u/467885?s=64"
-              width = "20"
-            )
-            |&nbsp;cflynn07
-          a 37a8f1
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
+            | #{''} {{ dataBuildNew.data.version.attrs.build.triggeredBy.username }}
 
 //- code_editor
 #editor(
-  ng-class="{'in': dataBuild.data.showExplorer}"
+  ng-class="{'in': dataBuildNew.data.showExplorer}"
 )
   aside#explorer
     #controls
       button.toggle-theme.tooltip(
         data-title = "Change Theme"
-        ng-class = "{dark: !dataBuild.data.toggleTheme, light: dataBuild.data.toggleTheme}"
-        ng-click = "dataBuild.data.toggleTheme = !dataBuild.data.toggleTheme"
+        ng-class = "{dark: !dataBuildNew.data.toggleTheme, light: dataBuildNew.data.toggleTheme}"
+        ng-click = "dataBuildNew.data.toggleTheme = !dataBuildNew.data.toggleTheme"
       )
         .theme
     //- h6(ng-if = "buildFiles.models.length")
     h6.explorer-header
       | CONFIG FILES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataBuild.data.showFileMenu}"
+        ng-class = "{active: dataBuildNew.data.showFileMenu}"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showPopoverFileMenu"
+        toggle-pop-over-model = "dataBuildNew.data.showPopoverFileMenu"
       )
         svg.iconnables.icons-gear
           use(xlink:href = "#icons-gear")
@@ -184,20 +127,20 @@ section.sidebar
           data = "{\
             showPopoverFileMenuAddRepo: data.showPopoverFileMenuAddRepo, \
             showPopoverFileMenuForm: data.showPopoverFileMenuForm, \
-            show: dataBuild.data.showPopoverFileMenu \
+            show: dataBuildNew.data.showPopoverFileMenu \
           }"
         )
     file-tree(
-      open-files = "dataBuild.data.openFiles"
-      version = "dataBuild.data.version"
-      build = "dataBuild.data.build"
+      open-files = "dataBuildNew.data.openFiles"
+      version = "dataBuildNew.data.version"
+      build = "dataBuildNew.data.build"
     )
     h6.explorer-header
       | REPOSITORIES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataBuild.data.showRepoMenu}"
+        ng-class = "{active: dataBuildNew.data.showRepoMenu}"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showPopoverRepoMenu"
+        toggle-pop-over-model = "dataBuildNew.data.showPopoverRepoMenu"
       )
         svg.iconnables.icons-gear
           use(xlink:href = "#icons-gear")
@@ -205,7 +148,7 @@ section.sidebar
           template = "viewBuildPopoverRepoMenu"
           actions = "{}"
           data = "{\
-            show: dataBuild.data.showPopoverRepoMenu\
+            show: dataBuildNew.data.showPopoverRepoMenu\
           }"
         )
     ul.repo-tree
@@ -214,7 +157,7 @@ section.sidebar
       //- * add class .active to <li> (class should be applied while context menu is open)
       //- * remove readonly property from input and select all text
       //- * save on blur or enter key
-      li(ng-repeat = "repoModel in dataBuild.data.version.attrs.appCodeVersions")
+      li(ng-repeat = "repoModel in dataBuildNew.data.version.attrs.appCodeVersions")
         span
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
@@ -226,26 +169,19 @@ section.sidebar
         )
 
   button#explorer-toggle.btn-icon(
-    ng-click = "dataBuild.actions.toggleExplorer()"
+    ng-click = "dataBuild.data.showExplorer = !dataBuild.data.showExplorer"
     type = "button"
   )
     svg.iconnables.icons-folder-open
       use(xlink:href = "#icons-folder-open")
 
   tabs(
-    open-files = "dataBuild.data.openFiles"
+    open-files = "dataBuildNew.data.openFiles"
   )
   tabs-dropdown(
-    open-files = "dataBuild.data.openFiles"
+    open-files = "dataBuildNew.data.openFiles"
   )
   active-panel(
-    fork-build = "dataBuild.actions.forkBuild"
-    open-files = "dataBuild.data.openFiles"
-    is-clean = "dataBuild.data.build.attrs.started"
-    is-dark-theme = "dataBuild.data.toggleTheme"
+    open-files = "dataBuildNew.data.openFiles"
+    is-dark-theme = "dataBuildNew.data.toggleTheme"
   )
-
-//- logs
-build-stream(
-  ng-class = "{out: dataBuild.data.closed}"
-)
