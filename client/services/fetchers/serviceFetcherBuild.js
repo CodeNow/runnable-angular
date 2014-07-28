@@ -1,18 +1,23 @@
 require('app')
-  .factory('fetcherBuild', fetcherBuild);
+  .factory('fetcherBuild', factoryFetcherBuild);
 /**
  * factory fetcherBuild
  * @ngInject
  */
-function fetcherBuild (
+function factoryFetcherBuild (
   user,
   async,
-  QueryAssist
+  QueryAssist,
+  $rootScope,
+  $stateParams
 ) {
 
-  return function (thisUser, $scope) {
+  return function (
+    data
+  ) {
 
     function fetchProject(cb) {
+      var thisUser = $rootScope.dataApp.user;
       new QueryAssist(thisUser, cb)
         .wrapFunc('fetchProjects')
         .query({
@@ -20,8 +25,8 @@ function fetcherBuild (
           name: $stateParams.projectName
         })
         .cacheFetch(function updateDom(projects, cached, cb) {
-          dataBuild.data.project = projects.models[0];
-          $scope.safeApply();
+          data.project = projects.models[0];
+          $rootScope.safeApply();
           cb();
         })
         .resolve(function (err, projects, cb) {
@@ -29,49 +34,58 @@ function fetcherBuild (
             // TODO
             // 404
           }
-          $scope.safeApply();
+          $rootScope.safeApply();
           cb();
         })
         .go();
     }
 
     function fetchEnvironment(cb) {
-      new QueryAssist(dataBuild.data.project, cb)
+      new QueryAssist(data.project, cb)
         .wrapFunc('fetchEnvironments')
         .query({
           ownerUsername: $stateParams.userName,
           name: $stateParams.branchName
         })
         .cacheFetch(function updateDom(environments, cached, cb) {
-          dataBuild.data.environment = environments.models[0];
-          $scope.safeApply();
+          data.environment = environments.models[0];
+          $rootScope.safeApply();
           cb();
         })
         .resolve(function (err, environments, cb) {
-          $scope.safeApply();
+          $rootScope.safeApply();
           cb();
         })
         .go();
     }
 
     function fetchBuild(cb) {
-      new QueryAssist(dataBuild.data.environment, cb)
+      new QueryAssist(data.environment, cb)
         .wrapFunc('fetchBuild')
         .query($stateParams.buildName)
         .cacheFetch(function updateDom(build, cached, cb) {
-          dataBuild.data.build = build;
-          dataBuild.data.version = build.contextVersions.models[0];
-          $scope.safeApply();
+          data.build = build;
+          data.version = build.contextVersions.models[0];
+          $rootScope.safeApply();
           if (build.attrs.contextVersions.length){
             cb();
           }
         })
         .resolve(function (err, build, cb) {
-          $scope.safeApply();
+          $rootScope.safeApply();
           cb();
-        })
+       })
         .go();
     }
+
+    return function (cb) {
+      async.series([
+        $rootScope.UTIL.holdUntilAuth,
+        fetchProject,
+        fetchEnvironment,
+        fetchBuild
+      ], cb);
+    };
 
   };
 }
