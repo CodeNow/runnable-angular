@@ -14,25 +14,24 @@ function ControllerBuild(
   async,
   extendDeep,
   SharedFilesCollection,
-  keypather
+  keypather,
+  fetcherBuild
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerBuild;
-  var dataBuild = $scope.dataBuild = self.initState($stateParams);
-  var data = dataBuild.data;
-  var actions = dataBuild.actions;
+  var dataBuild = $scope.dataBuild = {};
 
-  // one-time initialization
-  extendDeep(dataBuild.data, {
+  var actions = dataBuild.actions = {};
+  var data = dataBuild.data = {
+    showPopoverFileMenu: false,
+    showPopoverFileMenuForm: false,
+    showPopoverFileMenuAddReop: false,
+    showPopoverRepoMenu: false,
+    buildName: $stateParams.buildName,
+    inputHasBeenClicked: false,
     showExplorer: true
-  });
-
-  actions.initPopoverState = function () {
-    extendDeep(dataBuild, self.initPopoverState($stateParams));
   };
-
-  actions.initPopoverState();
 
   actions.stateToBuildList = function () {
     var state = {
@@ -145,67 +144,6 @@ function ControllerBuild(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchProject(cb) {
-    var thisUser = $scope.dataApp.user;
-    new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchProjects')
-      .query({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.projectName
-      })
-      .cacheFetch(function updateDom(projects, cached, cb) {
-        dataBuild.data.project = projects.models[0];
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, projects, cb) {
-        if (err) {
-          // TODO
-          // 404
-        }
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
-  function fetchEnvironment(cb) {
-    new QueryAssist(dataBuild.data.project, cb)
-      .wrapFunc('fetchEnvironments')
-      .query({
-        ownerUsername: $stateParams.userName,
-        name: $stateParams.branchName
-      })
-      .cacheFetch(function updateDom(environments, cached, cb) {
-        dataBuild.data.environment = environments.models[0];
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, environments, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
-  function fetchBuild(cb) {
-    new QueryAssist(dataBuild.data.environment, cb)
-      .wrapFunc('fetchBuild')
-      .query($stateParams.buildName)
-      .cacheFetch(function updateDom(build, cached, cb) {
-        dataBuild.data.build = build;
-        dataBuild.data.version = build.contextVersions.models[0];
-        $scope.safeApply();
-        if (build.attrs.contextVersions.length){
-          cb();
-        }
-      })
-      .resolve(function (err, build, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
 
   function newFilesCollOpenFiles(cb) {
     var version = dataBuild.data.version;
@@ -217,38 +155,17 @@ function ControllerBuild(
     );
     cb();
   }
-  actions.seriesFetchAll = function () {
-    async.waterfall([
-      holdUntilAuth,
-      fetchProject,
-      fetchEnvironment,
-      fetchBuild,
+
+  async.seriesFetchAll = function () {
+    async.series([
+      fetcherBuild(
+        $scope.dataBuild.data
+      ),
       newFilesCollOpenFiles
     ], function () {
-      $scope.$apply();
+      // complete
     });
   };
-  actions.seriesFetchAll();
+  async.seriesFetchAll();
+
 }
-
-ControllerBuild.initState = function ($stateParams) {
-  return {
-    data: {},
-    actions: {}
-  };
-};
-
-ControllerBuild.initPopoverState = function ($stateParams) {
-  return {
-    data: {
-      showPopoverFileMenu: false,
-      showPopoverFileMenuForm: false,
-      showPopoverFileMenuAddReop: false,
-
-      showPopoverRepoMenu: false,
-
-      buildName: $stateParams.buildName,
-      inputHasBeenClicked: false
-    }
-  };
-};

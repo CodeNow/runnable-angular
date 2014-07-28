@@ -20,7 +20,9 @@ function ControllerBuildNew(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var dataBuildNew = $scope.dataBuildNew =  {};
   var actions = dataBuildNew.actions = {};
-  var data = dataBuildNew.data = {};
+  var data = dataBuildNew.data = {
+    showBuildMenu: false
+  };
 
   actions.stateToBuildList = function () {
     var state = {
@@ -30,5 +32,13 @@ function ControllerBuildNew(
     };
     $state.go('projects.buildList', state);
   };
+
+  function fetchBuild (cb) {
+  }
+
+  async.series([
+    holdUntilAuth,
+    fetchBuild
+  ]);
 
 }
