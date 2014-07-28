@@ -58,6 +58,7 @@ function factory(
     if (!(model.id() in this.collection.modelsHash)) {
       throw new Error('file is not open');
     }
+    /*
     try {
       this.collection.models.filter(function (model) {
         return keypather.get(model, 'state.active');
@@ -80,6 +81,7 @@ function factory(
         _this.$scope.safeApply();
       });
     } catch (e) {}
+    */
   };
 
   SharedFilesCollection.prototype.isClean = function () {
