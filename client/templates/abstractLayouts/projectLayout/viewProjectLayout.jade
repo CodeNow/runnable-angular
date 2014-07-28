@@ -69,7 +69,10 @@ header(ng-class = "dataProjectLayout.actions.getInClass()")
       ) Create App
   .scroll-container
     h3 APPLICATIONS
-      button.btn-icon(type = "button")
+      button.btn-icon(
+        type = "button"
+        ng-click = "dataProjectLayout.actions.stateToNewProject"
+      )
         svg.iconnables.icons-add
           use(xlink:href = "#icons-add")
     ul#apps.btn-group-vertical
@@ -94,21 +97,12 @@ header(ng-class = "dataProjectLayout.actions.getInClass()")
               | {{ environment.name }}
     h3 INSTANCES
     ul#instances.btn-group-vertical
-      li.btn.white My App
-        small user/app/config/build
-      li.btn.white Colorado
-        small user/app/config/build
-      li.btn.white California
-        small user/app/config/build
-      li.btn.white Idaho
-        small user/app/config/build
-      li.btn.white Rhode Island
-        small user/app/config/build
-      li.btn.white Montana
-        small user/app/config/build
-      li.btn.white Hawaii
-        small user/app/config/build
-      li.btn.white Alaska
+      li.btn.white(
+        ng-repeat = "instance in dataProjectLayout.data.instances.models"
+      )
+        a(
+          ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
+        ) {{instance.attrs.name}}
         small user/app/config/build
 
 //- 2nd level views (build, buildList, instance, etc...)

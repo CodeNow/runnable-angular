@@ -1,7 +1,7 @@
 #editor-container
   pre(
     ui-ace
-    ng-model = "activeFileClone.body"
+    ng-model = "openFiles.activeFile.state.body"
     readonly = "{{ isReadOnly }}"
     ng-class = "{\
       readonly: isReadOnly,\
