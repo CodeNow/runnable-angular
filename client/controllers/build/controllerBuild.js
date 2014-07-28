@@ -28,6 +28,7 @@ function ControllerBuild(
     showPopoverFileMenuForm: false,
     showPopoverFileMenuAddReop: false,
     showPopoverRepoMenu: false,
+    showRebuildMenu: false,
     buildName: $stateParams.buildName,
     inputHasBeenClicked: false,
     showExplorer: true
@@ -115,6 +116,7 @@ function ControllerBuild(
   actions.build = function () {
     runBuild(data.build.build.bind(data.build));
   };
+
   actions.rebuild = function () {
     runBuild(data.build.rebuild.bind(data.build));
   };

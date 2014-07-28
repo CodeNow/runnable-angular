@@ -29,9 +29,9 @@ nav.sub-header
         type = "button"
       ) Rebuild
       a.btn.silver.btn-icon(
-        ng-class = "{active: !dataBuild.data.showCleanRebuildMenu}"
+        ng-class = "{active: !dataBuild.data.showRebuildMenu}"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showCleanRebuildMenu"
+        toggle-pop-over-model = "dataBuild.data.showRebuildMenu"
       )
         svg.iconnables.icons-arrow-down
           use(xlink:href = "#icons-arrow-down")
@@ -42,7 +42,7 @@ nav.sub-header
           }"
           data = "{ \
             buildName: dataBuild.data.buildName, \
-            show: dataBuild.data.showCleanRebuildMenu \
+            show: dataBuild.data.showRebuildMenu \
           }"
           template = "viewBuildPopoverBuildOptions"
         )
