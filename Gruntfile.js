@@ -125,14 +125,20 @@ module.exports = function(grunt) {
       }
     },
     browserify: {
-      build: {
+      watch: {
         files: {
           'client/build/js/bundle.js': ['client/main.js']
         },
         options: {
+          watch: true,
           bundleOptions: {
             debug: true // source maps yes
           }
+        }
+      },
+      once: {
+        files: {
+          'client/build/js/bundle.js': ['client/main.js']
         }
       }
     },
@@ -215,7 +221,6 @@ module.exports = function(grunt) {
         tasks: [
           'jshint:dev',
           'autoBundleDependencies',
-          'browserify',
         //  'bgShell:karma'
         ]
       },
@@ -226,7 +231,6 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'jade2js',
-          'browserify',
         //  'bgShell:karma'
         ]
       },
@@ -296,22 +300,25 @@ module.exports = function(grunt) {
       return (function (subDir) {
         return function (cb) {
           var workingPath = path.join(clientPath, subDir);
-          try {
-            fs.unlinkSync(path.join(workingPath, 'index.js'));
-          } catch (e) {
-            //file doesn't exist
-          }
+          var indexPath = path.join(workingPath, 'index.js');
+
           find.file(/\.js$/, workingPath, function (files) {
-            var fileString = files
+            var newFileString = files
               .map(function (item) {
                 return item.replace(workingPath, '.').replace(/\.js$/, '');
               })
               .reduce(function (previous, current) {
+                if (current === './index') { return previous; }
                 return previous += 'require(\'' + current + '\');\n';
               }, '');
-
-            fs.writeFileSync(path.join(workingPath, 'index.js'), fileString);
-            cb();
+            fs.readFile(indexPath, 'UTF-8', function (err, fileString) {
+              if (err) { return cb(err); }
+              if (fileString.trim() === newFileString.trim()) {
+                return cb();
+              }
+              grunt.log.writeln('writing new', subDir, 'index.js');
+              fs.writeFile(indexPath, newFileString, cb);
+            });
           });
         };
       })(subDir);
@@ -349,8 +356,8 @@ module.exports = function(grunt) {
     'jade2js',
     'jshint:dev',
     'autoBundleDependencies',
-    'browserify'
+    'browserify:once'
   ]);
-  grunt.registerTask('default', ['build', 'concurrent']);
+  grunt.registerTask('default', ['build', 'browserify:watch', 'concurrent']);
 
 };
