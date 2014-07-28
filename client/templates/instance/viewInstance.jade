@@ -64,6 +64,13 @@ section.sidebar
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-stop-alt
           use(xlink:href = "#icons-stop-alt")
+    li Restart Instance
+      button.btn-sm.silver(
+        type = "button"
+        ng-click = "dataInstance.actions.restartInstance()"
+      )
+        svg.iconnables.icons-restart
+          use(xlink:href = "#icons-restart")
     li Delete Instance
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-delete

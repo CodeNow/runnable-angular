@@ -28,6 +28,15 @@ function ControllerInstance(
   dataInstance.showAddTab = false;
   dataInstance.showFileMenu = false;
 
+  actions.restartInstance = function () {
+    var newInstance = data.instance.restart(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance = newInstance;
+    });
+  };
+
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
@@ -53,7 +62,7 @@ function ControllerInstance(
       .query($stateParams.instanceId)
       .cacheFetch(function updateDom(instance, cached, cb) {
         data.instance = instance;
-        data.container = instance.containers.models[0];
+        data.version = data.container = instance.containers.models[0];
         $scope.safeApply();
         cb();
       })
