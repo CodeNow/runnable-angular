@@ -41,10 +41,15 @@ section.sidebar
       | Running for {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}
   h3 Actions
   ol.actions
-    li Restart Instance
+    //- stop instance changes to start instance if stopped
+    //- li Start Instance
       button.btn-sm.silver(type = "button")
-        svg.iconnables.icons-restart
-          use(xlink:href = "#icons-restart")
+        svg.iconnables.icons-launch
+          use(xlink:href = "#icons-launch")
+    li Stop Instance
+      button.btn-sm.silver(type = "button")
+        svg.iconnables.icons-stop-alt
+          use(xlink:href = "#icons-stop-alt")
     li Delete Instance
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-delete

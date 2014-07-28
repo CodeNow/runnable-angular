@@ -44,9 +44,7 @@ function ControllerHome(
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
-        owner: {
-          github: thisUser.attrs.accounts.github.id
-        }
+        githubUsername: thisUser.attrs.accounts.github.username
       })
       .cacheFetch(function (projects, cached, cb){
         dataHome.data.projects = projects;
