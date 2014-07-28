@@ -25,6 +25,9 @@ function ControllerBuildNew(
     showBuildMenu: false
   };
 
+  actions.discardChanges = function () {
+  };
+
   actions.stateToBuildList = function () {
     var state = {
       userName: $stateParams.userName,

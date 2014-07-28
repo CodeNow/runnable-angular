@@ -118,8 +118,6 @@ function ControllerBuild(
   actions.rebuild = function () {
     runBuild(data.build.rebuild.bind(data.build));
   };
-  actions.discardChanges = function () {
-  };
 
   /**
    * If this build is built, we want to wait for changes and then trigger a fork
