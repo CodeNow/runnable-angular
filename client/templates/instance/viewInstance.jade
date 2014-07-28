@@ -31,14 +31,30 @@ section.sidebar
       a(
         title = "{{dataInstance.data.instance.buildUrl()}}"
       ) {{ dataInstance.data.instance.buildUrl() }}
-    li
-      svg.iconnables.icons-calendar
-        use(xlink:href = "#icons-calendar")
-      | Started on <time datetime="{{ dataInstance.data.container.attrs.inspect.State.StartedAt }}" title="{{ dataInstance.data.container.attrs.inspect.State.StartedAt }}">{{ dataInstance.data.container.attrs.inspect.State.StartedAt }}</time>
+    //- if started
     li
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
-      | Running for {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}
+      time(
+        datatime = "{{ dataInstance.data.container.attrs.inspect.State.StartedAt }"
+        title = "Launched on {{ dataInstance.data.container.attrs.inspect.State.StartedAt }"
+      ) Launched 4 days ago
+    //- if stopped
+    li
+      svg.iconnables.icons-duration
+        use(xlink:href = "#icons-duration")
+      time(
+        datatime = "2014-03-18 19:00"
+        title = "Launched on 2014-03-18 @ 19:00"
+      ) Stopped 4 days ago
+    //- if manually stopped
+    li
+      svg.iconnables.icons-untriggered
+        use(xlink:href = "#icons-untriggered")
+      time(
+        datatime = "2014-03-18 19:00"
+        title = "Launched on 2014-03-18 @ 19:00"
+      ) Launched 4 days ago
   h3 Actions
   ol.actions
     //- stop instance changes to start instance if stopped
