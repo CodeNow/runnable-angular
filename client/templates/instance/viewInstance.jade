@@ -31,7 +31,7 @@ section.sidebar
     li
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
-      | Started on <time datetime="20014-03-18 19:00" title="20014-03-18 19:00">Mar 18</time>
+      | Created on <time datetime="20014-03-18 19:00" title="20014-03-18 19:00">{{ dataInstance.data.instance.attrs.created | date:'MMM d' }}</time>
     li
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
@@ -39,7 +39,10 @@ section.sidebar
   h3 Actions
   ol.actions
     li Restart Instance
-      button.btn-sm.silver(type = "button")
+      button.btn-sm.silver(
+        type = "button"
+        ng-click = "dataInstance.actions.restartInstance()"
+      )
         svg.iconnables.icons-restart
           use(xlink:href = "#icons-restart")
     li Delete Instance
