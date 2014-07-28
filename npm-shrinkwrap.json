@@ -5725,9 +5725,9 @@
       }
     },
     "runnable": {
-      "version": "0.15.5",
-      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.15.5",
-      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#b3afdcb880845706e9741cf8940d292200d16323",
+      "version": "0.15.7",
+      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.15.7",
+      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#95b42ba392f0894d613263d5eed78d55f5644c1a",
       "dependencies": {
         "101": {
           "version": "0.7.0",
