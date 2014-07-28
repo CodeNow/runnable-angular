@@ -16,6 +16,7 @@ function activePanel(
     replace: true,
     scope: {
       openFiles: '=',
+      update: '=',
       isDarkTheme: '='
     },
     link: function ($scope, element, attrs) {
@@ -50,13 +51,15 @@ function activePanel(
         });
       }
 
-      $scope.$watch('openFiles.activeFile.state.body', function (newval, oldval) {
-        if (typeof newval === 'string' && $scope.openFiles.activeFile) {
-          async.series([
-            updateFile
-          ], function () {});
-        }
-      });
+      if ($scope.update) {
+        $scope.$watch('openFiles.activeFile.state.body', function (newval, oldval) {
+          if (typeof newval === 'string' && $scope.openFiles.activeFile) {
+            async.series([
+              updateFile
+            ], function () {});
+          }
+        });
+      }
 
       $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
         if (typeof newval === 'string') {

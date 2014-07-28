@@ -9,7 +9,7 @@ nav.sub-header
       use(xlink:href = "#icons-edit")
   section#main-controls(
     ng-class = "{in: dataSetup.data.isAdvanced}"
-    ng-if = "!!dataSetup.data.selectedSourceContext"
+    ng-if = "!dataSetup.data.selectedSourceContext"
   )
     .clean
       button.silver(

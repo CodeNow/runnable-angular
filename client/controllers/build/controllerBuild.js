@@ -83,37 +83,29 @@ function ControllerBuild(
     });
   };
 
-  actions.forkBuild = function (cb) {
-    var build = dataBuild.data.build;
-    var started = keypather.get(data, 'build.attrs.started');
-    if (!build) {
-      return cb(new Error('no build'));
-    }
-    if (!started) {
-      return cb();
-    }
-    var newBuild = build.fork(function () {
-      cb(null, newBuild);
-      console.log(arguments);
-    });
-  };
-
-  var runBuild = function(buildFunc) {
-    var newBuild = buildFunc(function (err, build) {
+  function runBuild () {
+    var newBuild = data.build.build({
+      message: 'test-message'
+    }, function (err, build) {
       if (err) {
         throw err;
       }
-      data.build = newBuild;
-      $scope.safeApply();
+      $state.go('projects.build', angular.copy({
+        buildName: newBuild.id()
+      }, $stateParams));
     });
-  };
-
-  actions.build = function () {
-    runBuild(data.build.build.bind(data.build));
-  };
+  }
 
   actions.rebuild = function () {
-    runBuild(data.build.rebuild.bind(data.build));
+    runBuild();
+  };
+
+  actions.edit = function () {
+    var build = dataBuild.data.build.fork(function (err, build, code) {
+      $state.go('projects.build', angular.copy({
+        buildName: build.id
+      }, $stateParams));
+    });
   };
 
   /**

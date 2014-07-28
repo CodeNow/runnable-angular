@@ -10,7 +10,9 @@ function factoryFetcherBuild (
   QueryAssist,
   $rootScope,
   $state,
-  $stateParams
+  $stateParams,
+  exists,
+  hasKeypaths
 ) {
 
   return function (
@@ -26,32 +28,20 @@ function factoryFetcherBuild (
           name: $stateParams.projectName
         })
         .cacheFetch(function updateDom(projects, cached, cb) {
-          data.project = projects.models[0];
+          var project = data.project = projects.models[0];
+          data.environment = exists($stateParams.branchName) ?
+            project.environments.find(
+              hasKeypaths({ 'attrs.name.toLowerCase()': $stateParams.branchName })):
+            project.defaultEnvironment;
+          if (!data.environment) {
+             $state.go('404');
+          }
           $rootScope.safeApply();
         })
         .resolve(function (err, projects, cb) {
           if (err || !projects.length) {
           //  $state.go('404');
           }
-          $rootScope.safeApply();
-          cb();
-        })
-        .go();
-    }
-
-    function fetchEnvironment(cb) {
-      new QueryAssist(data.project, cb)
-        .wrapFunc('fetchEnvironments')
-        .query({
-          ownerUsername: $stateParams.userName,
-          name: $stateParams.branchName
-        })
-        .cacheFetch(function updateDom(environments, cached, cb) {
-          data.environment = environments.models[0];
-          $rootScope.safeApply();
-          cb();
-        })
-        .resolve(function (err, environments, cb) {
           $rootScope.safeApply();
           cb();
         })
@@ -90,7 +80,6 @@ function factoryFetcherBuild (
       async.series([
         $rootScope.UTIL.holdUntilAuth,
         fetchProject,
-        fetchEnvironment,
         fetchBuild
       ], cb);
     };
