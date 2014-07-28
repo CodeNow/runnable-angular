@@ -46,7 +46,10 @@ nav.sub-header
           }"
           template = "viewBuildPopoverBuildOptions"
         )
-    button.silver(type = "button") Edit Build
+    button.silver(
+      type = "button"
+      ng-click = "actions.edit()"
+    ) Edit Build
 
 section.sidebar
   ul(ng-show = "dataBuild.data.build.attrs.created")
