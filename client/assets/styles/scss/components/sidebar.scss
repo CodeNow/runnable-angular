@@ -85,14 +85,11 @@
     }
 
     .iconnables {
+      display: flex;
       height: 14px;
       margin: 0;
       position: static;
       width: 14px;
-    }
-
-    .icons-delete {
-      margin-top: 3px;
     }
   }
 }
