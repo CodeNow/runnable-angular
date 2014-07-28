@@ -22,21 +22,23 @@ section.sidebar
       input.form-control(
         ng-click = ""
         readonly
-        value = "runnable.url/1290ejdinkl32"
+        value = "runnable.com/{{dataInstance.data.instance.id()}}"
       )
     li
       svg.iconnables.icons-back
         use(xlink:href = "#icons-back")
       | From #{''}
-      a(title = "user/app/config/build") user/app/config/build
+      a(
+        title = "{{dataInstance.data.instance.buildUrl()}}"
+      ) {{ dataInstance.data.instance.buildUrl() }}
     li
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
-      | Started on <time datetime="20014-03-18 19:00" title="20014-03-18 19:00">Mar 18</time>
+      | Started on <time datetime="{{ dataInstance.data.container.attrs.inspect.State.StartedAt }}" title="{{ dataInstance.data.container.attrs.inspect.State.StartedAt }}">{{ dataInstance.data.container.attrs.inspect.State.StartedAt }}</time>
     li
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
-      | Running for 18 hours
+      | Running for {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}
   h3 Actions
   ol.actions
     li Restart Instance

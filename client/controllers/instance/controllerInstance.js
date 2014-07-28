@@ -53,6 +53,7 @@ function ControllerInstance(
       .query($stateParams.instanceId)
       .cacheFetch(function updateDom(instance, cached, cb) {
         data.instance = instance;
+        data.container = instance.containers.models[0];
         $scope.safeApply();
         cb();
       })
