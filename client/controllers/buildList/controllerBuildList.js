@@ -73,7 +73,7 @@ function ControllerBuildList(
       userName: $scope.dataApp.user.attrs.accounts.github.username,
       projectName: data.project.attrs.name,
       branchName: data.environment.attrs.name,
-      buildName:build.attrs.buildNumber
+      buildName: build.attrs.buildNumber
     };
     $state.go('projects.build', state);
   };
