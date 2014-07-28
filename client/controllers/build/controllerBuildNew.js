@@ -22,7 +22,8 @@ function ControllerBuildNew(
   var dataBuildNew = $scope.dataBuildNew =  {};
   var actions = dataBuildNew.actions = {};
   var data = dataBuildNew.data = {
-    showBuildMenu: false
+    showBuildMenu: false,
+    showExplorer: true
   };
 
   actions.discardChanges = function () {

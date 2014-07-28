@@ -74,7 +74,7 @@ section.sidebar
           a
             img(
               height = "20"
-              src = "{{ commit.committer.gravatar }}?s=64"
+              ng-src = "{{ commit.committer.gravatar }}?s=64"
               width = "20"
             )
             | #{''} {{commit.committer.username}}
@@ -92,7 +92,7 @@ section.sidebar
           a
             img(
               height = "20"
-              src = "{{ dataBuildNew.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
+              ng-src = "{{ dataBuildNew.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
               width = "20"
             )
             | #{''} {{ dataBuildNew.data.version.attrs.build.triggeredBy.username }}
@@ -169,7 +169,7 @@ section.sidebar
         )
 
   button#explorer-toggle.btn-icon(
-    ng-click = "dataBuildNew.actions.toggleExplorer()"
+    ng-click = "dataBuild.data.showExplorer = !dataBuild.data.showExplorer"
     type = "button"
   )
     svg.iconnables.icons-folder-open

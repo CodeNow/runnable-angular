@@ -53,11 +53,6 @@ function ControllerBuild(
     }
   };
 
-  actions.toggleExplorer = function () {
-    data.showExplorer = !data.showExplorer;
-  };
-
-
   actions.runInstance = function () {
     var instance = user.createInstance({
       json: {
