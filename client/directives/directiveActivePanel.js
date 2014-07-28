@@ -54,7 +54,6 @@ function activePanel(
       }
 
       $scope.$watch('openFiles.activeFile.state.body', function (newval, oldval) {
-        window.$scope = $scope;
         if (typeof newval === 'string' && $scope.openFiles.activeFile) {
           async.series([
             updateFile
