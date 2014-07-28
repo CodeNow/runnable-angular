@@ -80,10 +80,21 @@ function factory(
 
   SharedFilesCollection.prototype.isClean = function () {
     return this.collection.models
-      .map(pluck('state.isDirty()'))
-      .map(Boolean)
-      .every(equals(false));
+      .every(composeAll(pluck('state.isDirty()'), Boolean, equals(false)));
   };
 
   return SharedFilesCollection;
+}
+
+function (g, f) {
+  return function (x) {
+    return f(g(x));
+  }
+}
+
+function composeAll () {
+  var fns = Array.prototype.slice.call(arguments);
+  return function (x) {
+    return fns.reduce(compose, x);
+  };
 }
