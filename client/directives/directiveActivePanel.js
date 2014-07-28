@@ -25,15 +25,19 @@ function activePanel(
       $scope.activeFileClone = {};
 
       function updateFile (cb) {
-        $scope.openFiles.activeFile.update({
-          json: {
-            body: $scope.activeFileClone.body
-          }
-        }, function () {
-          $timeout(function () {
-            $scope.$apply();
+        if (!$scope.openFiles.activeFile) { return; }
+        var fileCloneBody = $scope.activeFileClone.body;
+        if ($scope.openFiles.checkActiveDirty(fileCloneBody)) {
+          $scope.openFiles.activeFile.update({
+            json: {
+              body: fileCloneBody
+            }
+          }, function () {
+            $timeout(function () {
+              $scope.$apply();
+            });
           });
-        });
+        }
       }
 
       function fetchFile() {
