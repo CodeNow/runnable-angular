@@ -22,7 +22,6 @@ function ControllerBuild(
   var dataBuild = $scope.dataBuild = self.initState($stateParams);
   var data = dataBuild.data;
   var actions = dataBuild.actions;
-  window.dataBuild = dataBuild;
 
   // one-time initialization
   extendDeep(dataBuild.data, {

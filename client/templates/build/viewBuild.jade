@@ -107,7 +107,7 @@ section.sidebar
   ol#messages(
     ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
-    li
+    li(ng-repeat = "commit in dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
           a {{commit.message}}
@@ -126,7 +126,7 @@ section.sidebar
     ng-if = "dataBuild.data.build.attrs.started && !dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li
-      ol.message.yolo
+      ol.message
         li
           a {{ dataBuild.data.version.attrs.build.message }}
         li
