@@ -14,7 +14,8 @@ function ControllerBuildNew(
   async,
   extendDeep,
   SharedFilesCollection,
-  keypather
+  keypather,
+  fetcherBuild
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -33,12 +34,15 @@ function ControllerBuildNew(
     $state.go('projects.buildList', state);
   };
 
-  function fetchBuild (cb) {
-  }
-
-  async.series([
-    holdUntilAuth,
-    fetchBuild
-  ]);
+  /* ============================
+   *   API Fetch Methods
+   * ===========================*/
+  actions.seriesFetchAll = function () {
+    async.series([
+      fetcherBuild($scope.dataBuildNew.data),
+      newFilesCollOpenFiles
+    ], function(){});
+  };
+  actions.seriesFetchAll();
 
 }

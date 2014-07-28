@@ -158,13 +158,9 @@ function ControllerBuild(
 
   actions.seriesFetchAll = function () {
     async.series([
-      fetcherBuild(
-        $scope.dataBuild.data
-      ),
+      fetcherBuild($scope.dataBuild.data),
       newFilesCollOpenFiles
-    ], function () {
-      // complete
-    });
+    ], function(){});
   };
   actions.seriesFetchAll();
 
