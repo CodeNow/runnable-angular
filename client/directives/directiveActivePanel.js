@@ -22,17 +22,18 @@ function activePanel(
       forkBuild: '&'
     },
     link: function ($scope, element, attrs) {
-      $scope.activeFileClone = {};
-
       function updateFile (cb) {
-        if (!$scope.openFiles.activeFile) { return; }
-        var fileCloneBody = $scope.activeFileClone.body;
-        if ($scope.openFiles.checkActiveDirty(fileCloneBody)) {
-          $scope.openFiles.activeFile.update({
+        var activeFile = $scope.openFiles.activeFile;
+        if (!activeFile) { return; }
+        if (activeFile.state.isDirty()) {
+          activeFile.update({
             json: {
-              body: fileCloneBody
+              body: activeFile.state.body
             }
-          }, function () {
+          }, function (err) {
+            if (err) {
+              throw err;
+            }
             $timeout(function () {
               $scope.$apply();
             });
@@ -41,25 +42,21 @@ function activePanel(
       }
 
       function fetchFile() {
-        $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
-        $scope.openFiles.activeFile.fetch(function () {
-          $scope.activeFileClone = angular.copy($scope.openFiles.activeFile.attrs);
-          $scope.activeFileClone.delay = true;
+        $scope.openFiles.activeFile.fetch(function (err) {
+          if (err) { throw err; }
+          if ($scope.openFiles.activeFile.state.body === undefined) {
+            $scope.openFiles.activeFile.state.reset(); // first population
+          }
           $timeout(function () {
             $scope.$apply();
           });
         });
       }
 
-      $scope.$watch('activeFileClone.body', function (newval, oldval) {
+      $scope.$watch('openFiles.activeFile.state.body', function (newval, oldval) {
+        window.$scope = $scope;
         if (typeof newval === 'string' && $scope.openFiles.activeFile) {
-          // prevent assignment to aFC.body triggering update
-          if ($scope.activeFileClone.delay) {
-            delete $scope.activeFileClone.delay;
-            return;
-          }
           async.series([
-            $scope.fork,
             updateFile
           ], function () {});
         }

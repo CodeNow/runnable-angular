@@ -107,6 +107,11 @@ function ControllerProjectLayout(
       });
     });
   };
+  actions.stateToInstance = function (instance) {
+    $state.go('projects.instance', {
+      instanceId: instance.id()
+    });
+  };
   actions.stateToBuildList = function () {
     var project, environment, event;
     project = arguments[0];
@@ -143,7 +148,7 @@ function ControllerProjectLayout(
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
-        githubUsername: $scope.dataApp.stateParams.userName
+        githubUsername: thisUser.attrs.accounts.github.username
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
         if (dataProjectLayout.data.projects === projects && cached) {
@@ -160,6 +165,26 @@ function ControllerProjectLayout(
       })
       .go();
   }
+  function fetchInstances (cb) {
+    var thisUser = $scope.dataApp.user;
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchInstances')
+      .query({
+        owner: {
+          github: thisUser.attrs.accounts.github.id
+        }
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        dataProjectLayout.data.instances = instances;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, projects, cb) {
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
   /**
    * All pages besides new project page
    */
@@ -167,7 +192,8 @@ function ControllerProjectLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
-      fetchProjects
+      fetchProjects,
+      fetchInstances
     ]);
   };
   /**
