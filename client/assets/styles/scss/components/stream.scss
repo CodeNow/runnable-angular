@@ -268,53 +268,18 @@
   padding: 0 15px;
   width: calc(100% - 270px);
 
-  // A/B Test: enable to move buttons to right
-  // > .green {
-  //   float: right;
-  //   margin: 9px 0 0 9px;
-  // }
-
-  .clean,
-  .dirty {
-    @extend .clearfix;
-    position: absolute;
-    transition: transform .2s;
-    width: calc(100% - 540px);
-    z-index: 1;
-
-    > .btn-group,
-    > button,
-    > input {
-      float: left;
-      margin: 9px 9px 0 0;
-      // A/B Test: enable to move buttons to right
-      // float: right;
-      // margin: 9px 0 0 9px;
-    }
-
-    > input {
-      width: 270px;
-    }
-
-    &.in {
-      z-index: $z-show;
-    }
+  > .btn-group,
+  > button,
+  > input {
+    float: left;
+    margin: 9px 9px 0 0;
   }
 
-  .dirty {
-    top: 54px;
+  > input {
+    width: 270px;
   }
 
-  &.in {
-    overflow: visible;
-
-    .clean,
-    .dirty {
-      transform: translate3d(0,-54px,0);
-    }
-  }
-
-  .btn-group {
+  > .btn-group {
 
     > button:last-child {
       width: 30px;
