@@ -7,7 +7,7 @@ dependencies:
     - grunt jade2js
     - grunt jshint:prod
     - grunt autoBundleDependencies
-    - grunt browserify
+    - grunt browserify:once
   cache_directories:
     - ~/nvm
 machine:

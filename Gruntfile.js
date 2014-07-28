@@ -125,7 +125,7 @@ module.exports = function(grunt) {
       }
     },
     browserify: {
-      build: {
+      watch: {
         files: {
           'client/build/js/bundle.js': ['client/main.js']
         },
@@ -134,6 +134,11 @@ module.exports = function(grunt) {
           bundleOptions: {
             debug: true // source maps yes
           }
+        }
+      },
+      once: {
+        files: {
+          'client/build/js/bundle.js': ['client/main.js']
         }
       }
     },
@@ -226,7 +231,6 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'jade2js',
-          'browserify',
         //  'bgShell:karma'
         ]
       },
@@ -352,8 +356,8 @@ module.exports = function(grunt) {
     'jade2js',
     'jshint:dev',
     'autoBundleDependencies',
-    'browserify'
+    'browserify:once'
   ]);
-  grunt.registerTask('default', ['build', 'concurrent']);
+  grunt.registerTask('default', ['build', 'browserify:watch', 'concurrent']);
 
 };
