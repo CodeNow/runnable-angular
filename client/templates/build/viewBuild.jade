@@ -71,9 +71,7 @@ section.sidebar
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuild.data.build.user.attrs.accounts.github.username }}</a>
-  h3(
-    ng-if = "dataBuild.data.build.attrs.started"
-  ) Message Log
+  h3 Message Log
   ol#messages(
     ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
@@ -201,5 +199,6 @@ section.sidebar
 
 //- logs
 build-stream(
-  ng-class = "{out: dataBuild.data.closed}"
+  build = "dataBuild.data.build"
+  init-stream = "dataBuild.data.initStream"
 )

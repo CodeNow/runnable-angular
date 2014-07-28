@@ -11,6 +11,10 @@ function buildStream(
   return {
     restrict: 'E',
     replace: true,
+    scope:  {
+      initStream: '&',
+      build: '='
+    },
     templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
@@ -18,7 +22,7 @@ function buildStream(
         var build = $scope.dataBuild.data.build;
 
         if (build.attrs.completed) {
-          $scope.dataBuild.data.closed = true;
+          elem.addClass('out');
           return;
         }
 

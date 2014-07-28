@@ -101,7 +101,6 @@ function ControllerBuild(
       console.log(arguments);
     });
   };
-  window.dataBuild = dataBuild;
 
   var runBuild = function(buildFunc) {
     var newBuild = buildFunc(function (err, build) {
