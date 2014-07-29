@@ -1,0 +1,62 @@
+// main-controls
+#main-controls {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  float: left;
+  height: 54px;
+  padding: 0 15px;
+  width: calc(100% - 270px);
+
+  > .btn-group,
+  > button,
+  > input {
+    float: left;
+    margin: 9px 9px 0 0;
+  }
+
+  .clean,
+  .dirty {
+    @extend .clearfix;
+    position: absolute;
+    transition: transform .2s;
+    width: calc(100% - 540px);
+    z-index: 1;
+
+    > input {
+      width: 270px;
+    }
+
+    &.in {
+      z-index: $z-show;
+    }
+  }
+
+  .dirty {
+    top: 54px;
+  }
+
+  &.in {
+    overflow: visible;
+
+    .clean,
+    .dirty {
+      transform: translate3d(0,-54px,0);
+    }
+  }
+
+  .btn-group {
+
+    > button:last-child {
+      width: 30px;
+
+      &.active > .iconnables {
+        transform: rotate3d(0,0,1,180deg);
+      }
+    }
+
+    .popover {
+      color: $gray-dark;
+      left: -124px;
+    }
+  }
+}
