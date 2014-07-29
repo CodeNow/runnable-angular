@@ -29,11 +29,19 @@ function ControllerInstance(
   dataInstance.showFileMenu = false;
 
   actions.restartInstance = function () {
-    var newInstance = data.instance.restart(function (err) {
+    data.instance.restart(function (err) {
       if (err) {
         throw err;
       }
-      data.instance = newInstance;
+      $scope.safeApply();
+    });
+  };
+
+  actions.addTerminal = function () {
+    data.openFiles.add({
+      Key: 'Terminal',
+      type: 'terminal',
+      connectionParams: data.instance.attrs.containers[0]
     });
   };
 

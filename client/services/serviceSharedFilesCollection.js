@@ -27,14 +27,20 @@ function factory(
   };
 
   SharedFilesCollection.prototype.add = function (model) {
-    if (!(model instanceof this.collection.FileModel)) {
-      throw new Error('model is not correct type');
-    }
+    // if (!(model instanceof this.collection.FileModel)) {
+    //   throw new Error('model is not correct type');
+    // }
     keypather.set(model, 'state.open', true);
-    if (!(model.id() in this.collection.modelsHash)) {
-      model.state = null; // reset state
+    if (!model.id) {
+      // Need to modelize it
+      this.collection.add(model);
+      // TODO: Find better way to do this
+      model = this.collection.models[this.collection.models.length - 1];
     }
-    this.collection.add(model);
+    else if (!(model.id() in this.collection.modelsHash)) {
+      model.state = null; // reset state
+      this.collection.add(model);
+    }
     this.setActiveFile(model);
   };
 
@@ -55,7 +61,7 @@ function factory(
   };
 
   SharedFilesCollection.prototype.setActiveFile = function (model) {
-    if (!(model instanceof this.collection.FileModel)) {
+    if (!(model instanceof this.collection.Model)) {
       throw new Error('model is not correct type');
     }
     if (!(model.id() in this.collection.modelsHash)) {

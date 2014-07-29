@@ -11,23 +11,24 @@ function term(
   return {
     restrict: 'E',
     scope: {
-      build: '='
+      connectionParams: '='
     },
     link: function ($scope, elem) {
       // Numbers chosen erring on the side of padding
       var CHAR_WIDTH = 7.5;
       var CHAR_HEIGHT = 15.4;
+      var params = $scope.connectionParams;
       var termStream, clientEvents;
 
       // Initalize link to server
-      var streamId = build.contextVersions[0]._id + '-' + Date.now();
+      var streamId = params._id + '-' + Date.now();
       var primusTerm = primus({
         id: 1,
         event: 'terminal-stream',
         data: {
-          dockHost: build.contextVersions[0].dockerHost,
+          dockHost: params.dockerHost,
           type: 'filibuster',
-          containerId: instance.containers[0]._id,
+          containerId: params.dockerContainer,
           terminalStreamId: streamId,
           eventStreamId: streamId + 'events'
         }

@@ -5,7 +5,7 @@ nav.sub-header
       placeholder = "Instance Name"
       required
       spellcheck = "false"
-      value = "{{dataInstance.data.instance.attrs.name}}"
+      value = "{{ dataInstance.data.instance.attrs.name }}"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
@@ -32,7 +32,7 @@ section.sidebar
     li
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
-      | Created on <time datetime="20014-03-18 19:00" title="20014-03-18 19:00">{{ dataInstance.data.instance.attrs.created | date:'MMM d' }}</time>
+      | Created on <time datetime="{{ dataInstance.data.instance.attrs.created }}" title="{{ dataInstance.data.instance.attrs.created }}">{{ dataInstance.data.instance.attrs.created | date:'MMM d' }}</time>
     li
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
@@ -90,14 +90,20 @@ section.sidebar
           }"
           template = "viewInstancePopoverFileMenu"
         )
-    file-tree(
-      open-files = "dataInstance.data.openFiles"
-      version = "dataInstance.data.version"
-      is-clean = "dataInstance.data.isClean"
-    )
   tabs(
     open-files = "dataInstance.data.openFiles"
   )
+  a#add-tab.btn.btn-icon(
+    ng-class = "{active: dataInstance.data.showAddTab}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataInstance.data.showAddTab"
+  )
+    svg.iconnables.icons-add
+      use(xlink:href = "#icons-add")
+    pop-over(
+      data = "{show: dataInstance.data.showAddTab}"
+      template = "viewInstancePopoverAddTab"
+    )
   tabs-dropdown(
     open-files = "dataInstance.data.openFiles"
   )
