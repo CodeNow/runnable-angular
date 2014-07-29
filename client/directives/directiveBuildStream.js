@@ -39,7 +39,7 @@ function buildStream(
         }).substream(streamId);
 
         elem.on('$destroy', function () {
-          if (buildPrimusStream && !$scope.dataBuild.data.finishedBuild) {
+          if (buildPrimusStream) {
             buildPrimusStream.end();
           }
         });
