@@ -25,6 +25,15 @@ function ControllerBuildList(
   var data = dataBuildList.data;
   var actions = dataBuildList.actions;
 
+  data.dataModalDelete = {};
+  actions.actionsModalDelete = {
+    deleteProject: function (cb) {
+      dataBuildList.data.project.destroy(function () {
+        $state.go('home');
+      });
+    }
+  };
+
   $scope.$watch('dataBuildList.data.project.attrs.name', function (newval, oldval) {
     if (typeof oldval !== 'string') {
       return;
@@ -103,6 +112,7 @@ function ControllerBuildList(
           return cb(new Error('project not found in redirect'));
         }
         data.project = project;
+        data.dataModalDelete.project = project;
         var env = project.environments.find(hasKeypaths({
           'attrs.name.toLowerCase()': $stateParams.branchName
         }));

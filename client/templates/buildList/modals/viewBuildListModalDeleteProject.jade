@@ -1,11 +1,19 @@
-.modal
+.modal(
+  ng-class = "{'in': in}"
+)
   .modal-dialog
     .modal-header
       svg.iconnables.icons-delete
         use(xlink:href = "#icons-delete")
     .modal-body Delete #{''}
-      em project
+      em {{ data.project.attrs.name }}
       |  for good?
     .modal-footer
-      button.silver(type = "button") Cancel
-      button.orange(type = "button") Delete for good.
+      button.silver(
+        type = "button"
+        ng-click = "cancel()"
+      ) Cancel
+      button.orange(
+        type = "button"
+        ng-click = "actions.deleteProject()"
+      ) Delete for good.
