@@ -6,7 +6,8 @@ require('app')
  * @ngInject
  */
 function term(
-  primus
+  primus,
+  $window
 ) {
   return {
     restrict: 'E',
@@ -17,8 +18,8 @@ function term(
       // Numbers chosen erring on the side of padding
       var CHAR_WIDTH = 7.5;
       var CHAR_HEIGHT = 15.4;
+      var termStream, clientEvents, terminal;
       var params = $scope.params;
-      var termStream, clientEvents;
 
       // Initalize link to server
       var streamId = params._id + '-' + Date.now();

@@ -102,7 +102,6 @@ function ControllerInstance(
     fetchInstance,
     newFilesCollOpenFiles
   ], function() {
-    console.log('loaded');
     $scope.safeApply();
   });
 }
