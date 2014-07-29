@@ -66,7 +66,7 @@ function ControllerBuildNew(
     var sc = angular.copy($stateParams);
     delete sc.newBuildName;
     sc.buildName = buildNumber;
-    $state.go('projects.buld', sc);
+    $state.go('projects.build', sc);
   };
 
   actions.build = function () {
