@@ -87,6 +87,9 @@ function ControllerBuild(
 
   actions.edit = function () {
     var newBuild = dataBuild.data.build.fork(function (err, build, code) {
+      if (err) {
+        throw err;
+      }
       var sp = angular.copy($stateParams);
       sp.newBuildName = newBuild.id();
       $state.go('projects.buildNew', angular.copy(sp, $stateParams));

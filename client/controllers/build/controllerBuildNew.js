@@ -62,6 +62,13 @@ function ControllerBuildNew(
     $state.go('projects.buildList', state);
   };
 
+  actions.stateToBuild = function (buildNumber) {
+    var sc = angular.copy($stateParams);
+    delete sc.newBuildName;
+    sc.buildName = buildNumber;
+    $state.go('projects.buld', sc);
+  };
+
   actions.build = function () {
     var buildData = data.buildPopoverBuildOptionsData;
     data.newBuild.build({
@@ -71,10 +78,7 @@ function ControllerBuildNew(
       if (err) {
         throw err;
       }
-      var sc = angular.copy($stateParams);
-      delete sc.newBuildName;
-      sc.buildName = build.buildNumber;
-      $state.go('projects.build', sc);
+      actions.stateToBuild(build.buildNumber);
     });
   };
 
@@ -145,6 +149,9 @@ function ControllerBuildNew(
       fetchOwnerRepos,
       newFilesCollOpenFiles
     ], function(){
+      if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
+        return actions.stateToBuild(data.newBuild.attrs.buildNumber);
+      }
       $scope.safeApply();
     });
   };
