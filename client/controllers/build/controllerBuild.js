@@ -30,7 +30,6 @@ function ControllerBuild(
     showPopoverRepoMenu: false,
     showRebuildMenu: false,
     buildName: $stateParams.buildName,
-    inputHasBeenClicked: false,
     showExplorer: true
   };
 
@@ -41,13 +40,6 @@ function ControllerBuild(
       branchName: $stateParams.branchName
     };
     $state.go('projects.buildList', state);
-  };
-
-  actions.resetInputModelValue = function () {
-    if (!data.inputHasBeenClicked) {
-      data.buildName = '';
-      data.inputHasBeenClicked = true;
-    }
   };
 
   actions.runInstance = function () {

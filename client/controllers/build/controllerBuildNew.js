@@ -28,14 +28,27 @@ function ControllerBuildNew(
     showExplorer: true
   };
 
+  /**************************************
+   * BuildPopoverBuildOptions
+   **************************************/
   data.buildPopoverBuildOptionsData = {
     buildName: '?',
-    showBuildMenu: false
+    showBuildMenu: false,
+    popoverInputHasBeenClicked: false
   };
 
   actions.getPopoverButtonText = function (name) {
     return 'Build' + ((name && name.length) ? 's in ' + name : '');
   };
+
+  actions.resetInputModelValue = function ($event) {
+    if (!dataBuildNew.data.popoverInputHasBeenClicked) { return; }
+    data.buildPopoverBuildOptionsData.buildName = '';
+    data.buildPopoverBuildOptionsData.popoverInputHasBeenClicked = true;
+  };
+  /**************************************
+   * // BuildPopoverBuildOptions
+   **************************************/
 
   actions.discardChanges = function () {
   };
@@ -48,6 +61,7 @@ function ControllerBuildNew(
     };
     $state.go('projects.buildList', state);
   };
+
 
   /* ============================
    *   API Fetch Methods
