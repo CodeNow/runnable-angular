@@ -1,11 +1,12 @@
-var $ = require('jquery');
 require('app')
   .directive('popOver', popOver);
 /**
  * popOver Directive
  * @ngInject
  */
-function popOver() {
+function popOver(
+  jQuery
+) {
   return {
     restrict: 'E',
     templateUrl: function ($element, attrs) {
@@ -17,6 +18,7 @@ function popOver() {
       actions: '&'
     },
     link: function ($scope, element, attrs) {
+      var $ = jQuery;
       var clickHandler = $.proxy(function (event) {
         event.stopPropagation();
       }, $scope);

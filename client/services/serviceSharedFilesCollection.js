@@ -10,11 +10,12 @@ function factory(
   equals
 ) {
 
-  function SharedFilesCollection(filesCollection, $scope) {
+  function SharedFilesCollection(filesCollection, $scope, opts) {
     this.$scope = $scope;
     this.collection = filesCollection;
     this.activeFile = null;
     this.fileStates = {};
+    this.opts = opts;
   }
 
   SharedFilesCollection.prototype.remove = function (model) {
