@@ -6,7 +6,8 @@ require('app')
 function buildStream(
   $location,
   $anchorScroll,
-  primus
+  primus,
+  $rootScope
 ) {
   return {
     restrict: 'E',
@@ -45,7 +46,7 @@ function buildStream(
 
         var addToStream = function (data) {console.log(data);
           $scope.stream.data += data;
-          $scope.safeApply();
+          $rootScope.safeApply();
           $anchorScroll();
         };
 
@@ -70,7 +71,7 @@ function buildStream(
               // we're all good
               addToStream('BUILD SUCCESSFUL');
             }
-            $scope.safeApply();
+            $rootScope.safeApply();
           });
 
           buildPrimusStream.end();
