@@ -33,6 +33,10 @@ function ControllerBuildList(
       });
     }
   };
+  data.sortState = {
+    column: false,
+    direction: 'ascending' //desc
+  };
 
   $scope.$watch('dataBuildList.data.project.attrs.name', function (newval, oldval) {
     if (typeof oldval !== 'string') {
@@ -69,6 +73,7 @@ function ControllerBuildList(
     };
     $state.go('projects.instance', state);
   };
+
   actions.stateToBuild = function (build) {
     var state = {
       userName: $scope.dataApp.user.attrs.accounts.github.username,
@@ -78,16 +83,26 @@ function ControllerBuildList(
     };
     $state.go('projects.build', state);
   };
-  actions.toggleSortByBuild = function () {
-    dataBuildList.predicate = 'attrs.id';
-    dataBuildList.ascending = !dataBuildList.ascending;
+
+  actions.toggleSortBy = function (columnName) {
+    if (columnName === data.sortState.column) {
+      data.sortState.direction = (data.sortState.direction === 'ascending') ? 'descending' : 'ascending';
+      return;
+    } 
+    data.sortState.column = columnName;
+    data.sortState.direction = 'ascending';
+    fetchBuilds();
   };
-  actions.getBuildSortClass = function () {
-    var res = (dataBuildList.predicate === 'attrs.id' && dataBuildList.ascending) ?
-      'ascending' : (dataBuildList.predicate === 'attrs.id' && !dataBuildList.ascending) ?
-      'descending' : '';
-    return res;
+
+  actions.getSortParam = function () {
+    var column = data.sortState.column;
+    var direction = data.sortState.direction;
+    if (!column) {
+      return '-buildNumber';
+    }
+    return ((direction === 'ascending') ? '-' : '') + column;
   };
+
   actions.stateToSetupFirstBuild = function () {
     $state.go('projects.setup', {
       userName: $scope.dataApp.stateParams.userName,
@@ -136,7 +151,7 @@ function ControllerBuildList(
       .query({
         environment: data.environment.id(),
         started: true,
-        sort: '-buildNumber'
+        sort: actions.getSortParam() //'-buildNumber'
       })
       .cacheFetch(function updateDom(builds, cached, cb) {
         if (builds.models.length === 0) {

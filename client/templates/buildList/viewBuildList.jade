@@ -66,16 +66,22 @@ nav#build-stream-header.sub-header
       tr
         th
         th.sortable(
-          ng-click = "dataBuildList.actions.toggleSortByBuild()"
-          ng-class = "dataBuildList.actions.getBuildSortClass()"
+          ng-click = "dataBuildList.actions.toggleSortBy('buildNumber')"
+          ng-class = "(dataBuildList.data.sortState.column === 'buildNumber') ? dataBuildList.data.sortState.direction : '' "
         )
           span Build
         th Triggered By
         th Message
         th Triggered Action
-        th.sortable
+        th.sortable(
+          ng-click = "dataBuildList.actions.toggleSortBy('duration')"
+          ng-class = "(dataBuildList.data.sortState.column === 'duration') ? dataBuildList.data.sortState.direction : '' "
+        )
           span Duration
-        th.sortable
+        th.sortable(
+          ng-click = "dataBuildList.actions.toggleSortBy('initiated')"
+          ng-class = "(dataBuildList.data.sortState.column === 'initiated') ? dataBuildList.data.sortState.direction : '' "
+        )
           span Initiated
         th Actions
     tbody
