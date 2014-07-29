@@ -166,7 +166,7 @@ function ControllerBuildList(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err) {
+      .resolve(function (err, builds, cb) {
         $scope.safeApply();
         cb(err);
       })
