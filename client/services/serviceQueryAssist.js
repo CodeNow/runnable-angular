@@ -56,6 +56,7 @@ require('app')
         // cb.call(arguments);
         _this.resolve(err, modelOrColl, _this.asyncCB);
       }
+
       if (Array.isArray(modelOrColl.models)) {
         if (modelOrColl.models.length) {
           this.cacheFetch(modelOrColl, true, this.asyncCB);
