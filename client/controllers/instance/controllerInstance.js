@@ -41,7 +41,7 @@ function ControllerInstance(
     data.openFiles.add({
       Key: 'Terminal',
       type: 'terminal',
-      connectionParams: data.instance.attrs.containers[0]
+      params: data.instance.attrs.containers[0]
     });
   };
 
@@ -83,25 +83,6 @@ function ControllerInstance(
       })
       .go();
   }
-  function fetchBuild(cb) {
-    var thisUser = $scope.dataApp.user;
-    var instance = data.instance;
-    var env = thisUser
-      .newProject(instance.attrs.project)
-      .newEnvironment(instance.attrs.environment);
-    new QueryAssist(env, cb)
-      .wrapFunc('fetchBuild')
-      .query(instance.attrs.build)
-      .cacheFetch(function updateDom(build, cached, cb) {
-        data.build = build;
-        $scope.safeApply();
-      })
-      .resolve(function (err, build, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
 
   function newFilesCollOpenFiles(cb) {
     // tODO fetch container files
@@ -118,8 +99,9 @@ function ControllerInstance(
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
-    fetchBuild
+    newFilesCollOpenFiles
   ], function() {
+    console.log('loaded');
     $scope.safeApply();
   });
 }

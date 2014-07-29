@@ -62,6 +62,7 @@ function factory(
 
   SharedFilesCollection.prototype.setActiveFile = function (model) {
     if (!(model instanceof this.collection.Model)) {
+      console.log(model);
       throw new Error('model is not correct type');
     }
     if (!(model.id() in this.collection.modelsHash)) {
