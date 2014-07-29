@@ -43,6 +43,7 @@ function ControllerInstance(
       type: 'terminal',
       params: data.instance.attrs.containers[0]
     });
+    data.showAddTab = false;
   };
 
   $scope.$on('app-document-click', function () {

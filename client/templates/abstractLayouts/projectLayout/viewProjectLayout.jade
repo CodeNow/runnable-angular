@@ -99,10 +99,9 @@ header(ng-class = "dataProjectLayout.actions.getInClass()")
     ul#instances.btn-group-vertical
       li.btn.white(
         ng-repeat = "instance in dataProjectLayout.data.instances.models"
+        ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
       )
-        a(
-          ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
-        ) {{ instance.attrs.name }}
+        a {{ instance.attrs.name }}
         small {{ instance.buildUrl() }}
 
 //- 2nd level views (build, buildList, instance, etc...)

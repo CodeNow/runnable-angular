@@ -39,6 +39,7 @@ function activePanel(
           });
         }
       }
+      updateFileDebounce = debounce(updateFile, 333);
 
       function fetchFile() {
         $scope.openFiles.activeFile.fetch(function (err) {
@@ -56,7 +57,7 @@ function activePanel(
         $scope.$watch('openFiles.activeFile.state.body', function (newval, oldval) {
           if (typeof newval === 'string' && $scope.openFiles.activeFile) {
             async.series([
-              updateFile
+              updateFileDebounce
             ], function () {});
           }
         });

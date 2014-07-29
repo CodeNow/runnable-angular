@@ -32,7 +32,7 @@ function ControllerBuildNew(
    * BuildPopoverBuildOptions
    **************************************/
   data.buildPopoverBuildOptionsData = {
-    buildName: '?',
+    buildName: '',
     showBuildMenu: false,
     popoverInputHasBeenClicked: false
   };
@@ -62,6 +62,25 @@ function ControllerBuildNew(
     $state.go('projects.buildList', state);
   };
 
+  actions.stateToBuild = function (buildNumber) {
+    var sc = angular.copy($stateParams);
+    delete sc.newBuildName;
+    sc.buildName = buildNumber;
+    $state.go('projects.build', sc);
+  };
+
+  actions.build = function () {
+    var buildData = data.buildPopoverBuildOptionsData;
+    data.newBuild.build({
+      message: buildData.buildName
+      // config: buildData.buildConfig ??
+    }, function (err, build, code) {
+      if (err) {
+        throw err;
+      }
+      actions.stateToBuild(build.buildNumber);
+    });
+  };
 
   /* ============================
    *   API Fetch Methods
@@ -77,6 +96,34 @@ function ControllerBuildNew(
         cb();
       })
       .resolve(function (err, build, cb) {
+        cb();
+      })
+      .go();
+  }
+
+  function fetchOwnerRepos (cb) {
+    var thisUser = $scope.dataApp.user;
+    var build = data.build;
+    var query;
+
+    if (thisUser.isOwnerOf(data.project)) {
+      query = new QueryAssist(thisUser, cb)
+        .wrapFunc('fetchGithubRepos');
+    }
+    else {
+      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      query = new QueryAssist(githubOrg, cb)
+        .wrapFunc('fetchRepos');
+    }
+    query
+      .query({})
+      .cacheFetch(function updateDom(githubRepos, cached, cb){
+        data.githubRepos = githubRepos;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, context, cb){
+        $scope.safeApply();
         cb();
       })
       .go();
@@ -99,8 +146,12 @@ function ControllerBuildNew(
     async.series([
       fetcherBuild($scope.dataBuildNew.data),
       fetchNewBuild,
+      fetchOwnerRepos,
       newFilesCollOpenFiles
     ], function(){
+      if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
+        return actions.stateToBuild(data.newBuild.attrs.buildNumber);
+      }
       $scope.safeApply();
     });
   };
