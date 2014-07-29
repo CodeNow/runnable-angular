@@ -1,0 +1,83 @@
+.spinner {
+  height: 16px;
+  top: 19px;
+  transition: transform .3s;
+  width: 16px;
+}
+
+.spinner::before,
+.spinner::after {
+  content: '';
+  position: absolute;
+}
+
+.spinner::before {
+  animation: rotate 1s infinite ease .25s;
+  background: $orange;
+  border-radius: 16px 0 0 16px;
+  height: 16px;
+  left: 0;
+  top: 0;
+  transform-origin: 8px 8px;
+  width: 8px;
+}
+
+.spinner::after {
+  animation: rotate 1s infinite ease;
+  background: $orange;
+  border-radius: 0 16px 16px 0;
+  height: 16px;
+  left: 8px;
+  top: 0;
+  transform-origin: 0 8px;
+  width: 8px;
+}
+
+.spinner-ring {
+  background: #fff;
+  border-radius: 50%;
+  height: 12px;
+  margin: 2px;
+  position: absolute;
+  width: 12px;
+  z-index: 1;
+}
+
+// build list spinner
+.spinner-inprogress {
+  display: flex;
+  position: relative;
+
+  > .iconnables,
+  > .spinner {
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+  }
+
+  &.pass,
+  &.fail {
+
+    > .spinner {
+      transform: scale3d(0,0,0);
+
+      &::before,
+      &::after {
+        animation: none;
+      }
+    }
+  }
+
+  &.pass > .icons-check {
+    transform: scale3d(1,1,1);
+  }
+
+  &.fail > .icons-fail {
+    transform: scale3d(1,1,1);
+  }
+
+  .iconnables {
+    transform: scale3d(0,0,0);
+  }
+}

@@ -10,9 +10,6 @@ nav#build-stream-header.sub-header
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
-  //- should open confirmation modal (see /modals)
-  //- all modals should appear as a direct child either <body> or <#wrapper>
-  //- modals can be toggled with .in on <.modal>
 
   button#delete-project.btn-icon(
     modal
@@ -64,7 +61,13 @@ nav#build-stream-header.sub-header
   table#build-stream.table.table-hover
     thead
       tr
-        th
+        th.spinner-inprogress
+          .spinner
+            .spinner-ring
+          svg.iconnables.icons-check
+            use(xlink:href = '#icons-check')
+          svg.iconnables.icons-fail
+            use(xlink:href = '#icons-fail')
         th.sortable(
           ng-click = "dataBuildList.actions.toggleSortByBuild()"
           ng-class = "dataBuildList.actions.getBuildSortClass()"
