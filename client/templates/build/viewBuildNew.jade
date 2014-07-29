@@ -135,18 +135,16 @@ section.sidebar
     h6.explorer-header
       | REPOSITORIES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataBuildNew.data.showRepoMenu}"
+        ng-class = "{ active: dataBuildNew.data.buildPopoverRepoMenu.data.show }"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuildNew.data.showPopoverRepoMenu"
+        toggle-pop-over-model = "dataBuildNew.data.buildPopoverRepoMenu.data.show"
       )
         svg.iconnables.icons-gear
           use(xlink:href = "#icons-gear")
         pop-over(
           template = "viewBuildPopoverRepoMenu"
-          actions = "{}"
-          data = "{\
-            show: dataBuildNew.data.showPopoverRepoMenu\
-          }"
+          actions = "dataBuildNew.data.buildPopoverRepoMenu.actions"
+          data = "dataBuildNew.data.buildPopoverRepoMenu.data"
         )
     ul.repo-tree
       //- for "edit mode":
