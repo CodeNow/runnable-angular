@@ -12,7 +12,9 @@
           svg.iconnables.lg.icons-web
             use(xlink:href = "#icons-web")
           | Web View
-        li
+        li(
+          ng-click = "actions.addTerminal()"
+        )
           svg.iconnables.lg.icons-terminal
             use(xlink:href = "#icons-terminal")
           | Terminal

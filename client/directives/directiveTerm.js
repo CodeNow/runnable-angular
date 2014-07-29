@@ -11,23 +11,24 @@ function term(
   return {
     restrict: 'E',
     scope: {
-      build: '='
+      params: '='
     },
     link: function ($scope, elem) {
       // Numbers chosen erring on the side of padding
       var CHAR_WIDTH = 7.5;
       var CHAR_HEIGHT = 15.4;
+      var params = $scope.params;
       var termStream, clientEvents;
 
       // Initalize link to server
-      var streamId = build.contextVersions[0]._id + '-' + Date.now();
+      var streamId = params._id + '-' + Date.now();
       var primusTerm = primus({
         id: 1,
         event: 'terminal-stream',
         data: {
-          dockHost: build.contextVersions[0].dockerHost,
+          dockHost: params.dockerHost,
           type: 'filibuster',
-          containerId: instance.containers[0]._id,
+          containerId: params.dockerContainer,
           terminalStreamId: streamId,
           eventStreamId: streamId + 'events'
         }
@@ -59,9 +60,15 @@ function term(
       });
 
       terminal.open(elem[0]);
-      terminal.write(primusTerm.getCache());
 
       termStream = primusTerm.substream(streamId);
+
+      // Client enters data into the system, which registers as data event on terminal
+      // terminal then writes that to termStream, sending the data to the server
+      // The server then responds (tab-complete, command output, etc)
+      // The *response data* is what's eventually written to terminal.
+      terminal.on('data', termStream.write.bind(termStream));
+      termStream.on('data', terminal.write.bind(terminal));
 
       termStream.on('reconnect', function () {
         terminal.writeln('');
@@ -76,13 +83,6 @@ function term(
 
       // Used for window resizing
       clientEvents = primusTerm.substream(streamId + 'events');
-
-      // Client enters data into the system, which registers as data event on terminal
-      // terminal then writes that to termStream, sending the data to the server
-      // The server then responds (tab-complete, command output, etc)
-      // The *response data* is what's eventually written to terminal.
-      terminal.on('data', termStream.write.bind(termStream));
-      termStream.on('data', terminal.write.bind(terminal));
 
       resizeTerm();
       if (typeof window.onresize === 'function') {

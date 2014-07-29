@@ -28,6 +28,23 @@ function ControllerInstance(
   dataInstance.showAddTab = false;
   dataInstance.showFileMenu = false;
 
+  actions.restartInstance = function () {
+    data.instance.restart(function (err) {
+      if (err) {
+        throw err;
+      }
+      $scope.safeApply();
+    });
+  };
+
+  actions.addTerminal = function () {
+    data.openFiles.add({
+      Key: 'Terminal',
+      type: 'terminal',
+      params: data.instance.attrs.containers[0]
+    });
+  };
+
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
@@ -53,6 +70,7 @@ function ControllerInstance(
       .query($stateParams.instanceId)
       .cacheFetch(function updateDom(instance, cached, cb) {
         data.instance = instance;
+        data.version = data.container = instance.containers.models[0];
         $scope.safeApply();
         cb();
       })
@@ -65,31 +83,12 @@ function ControllerInstance(
       })
       .go();
   }
-  function fetchBuild(cb) {
-    var thisUser = $scope.dataApp.user;
-    var instance = data.instance;
-    var env = thisUser
-      .newProject(instance.attrs.project)
-      .newEnvironment(instance.attrs.environment);
-    new QueryAssist(env, cb)
-      .wrapFunc('fetchBuild')
-      .query(instance.attrs.build)
-      .cacheFetch(function updateDom(build, cached, cb) {
-        data.build = build;
-        $scope.safeApply();
-      })
-      .resolve(function (err, build, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
 
   function newFilesCollOpenFiles(cb) {
     // tODO fetch container files
-    var version = data.version;
+    var container = data.container;
     data.openFiles = new SharedFilesCollection(
-      version.newFiles([], {
+      container.newFiles([], {
         noStore: true
       }),
       $scope
@@ -100,8 +99,9 @@ function ControllerInstance(
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
-    fetchBuild
+    newFilesCollOpenFiles
   ], function() {
+    console.log('loaded');
     $scope.safeApply();
   });
 }

@@ -102,8 +102,8 @@ header(ng-class = "dataProjectLayout.actions.getInClass()")
       )
         a(
           ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
-        ) {{instance.attrs.name}}
-        small user/app/config/build
+        ) {{ instance.attrs.name }}
+        small {{ instance.buildUrl() }}
 
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)

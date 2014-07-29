@@ -51,10 +51,6 @@ function ControllerBuild(
     }, function (err) {
       if (err) { throw err; }
       var state = {
-        userName: $stateParams.userName,
-        projectName: $stateParams.projectName,
-        branchName: $stateParams.branchName,
-        buildName: data.build.id(),
         instanceId: instance.id()
       };
       $state.go('projects.instance', state);
