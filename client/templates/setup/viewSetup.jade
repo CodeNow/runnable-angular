@@ -9,11 +9,11 @@ nav.sub-header
       use(xlink:href = "#icons-edit")
   section#main-controls(
     ng-class = "{in: dataSetup.data.isAdvanced}"
-    ng-if = "!dataSetup.data.selectedSourceContext"
   )
     .clean
       button.silver(
         ng-click = "dataSetup.actions.enterAdvancedMode()"
+        ng-disabled = "!dataSetup.data.selectedSourceContext"
         type = "button"
       ) Enter Advanced Setup
     .dirty
@@ -101,7 +101,7 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
     open-files = "dataSetup.data.contextFiles"
   )
   active-panel(
-    is-read-only = "dataSetup.data.isReadOnly"
+    read-only = "dataSetup.data.isReadOnly"
     open-files = "dataSetup.data.contextFiles"
     is-clean = "dataSetup.data.isClean"
   )

@@ -23,8 +23,32 @@ function ControllerBuildNew(
   var actions = dataBuildNew.actions = {};
   var data = dataBuildNew.data = {
     showBuildMenu: false,
+    newBuildName: '?',
+
     showExplorer: true
   };
+
+  /**************************************
+   * BuildPopoverBuildOptions
+   **************************************/
+  data.buildPopoverBuildOptionsData = {
+    buildName: '?',
+    showBuildMenu: false,
+    popoverInputHasBeenClicked: false
+  };
+
+  actions.getPopoverButtonText = function (name) {
+    return 'Build' + ((name && name.length) ? 's in ' + name : '');
+  };
+
+  actions.resetInputModelValue = function ($event) {
+    if (!dataBuildNew.data.popoverInputHasBeenClicked) { return; }
+    data.buildPopoverBuildOptionsData.buildName = '';
+    data.buildPopoverBuildOptionsData.popoverInputHasBeenClicked = true;
+  };
+  /**************************************
+   * // BuildPopoverBuildOptions
+   **************************************/
 
   actions.discardChanges = function () {
   };
@@ -38,14 +62,47 @@ function ControllerBuildNew(
     $state.go('projects.buildList', state);
   };
 
+
   /* ============================
    *   API Fetch Methods
    * ===========================*/
+
+  function fetchNewBuild(cb) {
+    var environment = dataBuildNew.data.environment;
+    new QueryAssist(environment, cb)
+      .wrapFunc('fetchBuild')
+      .query($stateParams.newBuildName)
+      .cacheFetch(function (build, cached, cb) {
+        dataBuildNew.data.newBuild = build;
+        cb();
+      })
+      .resolve(function (err, build, cb) {
+        cb();
+      })
+      .go();
+  }
+
+  function newFilesCollOpenFiles(cb) {
+    //var version = dataBuildNew.data.version;
+    var version = dataBuildNew.data.newBuild.contextVersions.models[0];
+    data.newVersion = version;
+    data.openFiles = new SharedFilesCollection(
+      version.newFiles([], {
+        noStore: true
+      }),
+      $scope
+    );
+    cb();
+  }
+
   actions.seriesFetchAll = function () {
     async.series([
       fetcherBuild($scope.dataBuildNew.data),
+      fetchNewBuild,
       newFilesCollOpenFiles
-    ], function(){});
+    ], function(){
+      $scope.safeApply();
+    });
   };
   actions.seriesFetchAll();
 

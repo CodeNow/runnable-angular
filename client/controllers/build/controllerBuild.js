@@ -30,7 +30,6 @@ function ControllerBuild(
     showPopoverRepoMenu: false,
     showRebuildMenu: false,
     buildName: $stateParams.buildName,
-    inputHasBeenClicked: false,
     showExplorer: true
   };
 
@@ -41,16 +40,6 @@ function ControllerBuild(
       branchName: $stateParams.branchName
     };
     $state.go('projects.buildList', state);
-  };
-  actions.getPopoverButtonText = function (name) {
-    return 'Build' + ((name && name.length) ? 's in ' + name : '');
-  };
-
-  actions.resetInputModelValue = function () {
-    if (!data.inputHasBeenClicked) {
-      data.buildName = '';
-      data.inputHasBeenClicked = true;
-    }
   };
 
   actions.runInstance = function () {
@@ -97,10 +86,10 @@ function ControllerBuild(
   };
 
   actions.edit = function () {
-    var build = dataBuild.data.build.fork(function (err, build, code) {
-      $state.go('projects.build', angular.copy({
-        buildName: build.id
-      }, $stateParams));
+    var newBuild = dataBuild.data.build.fork(function (err, build, code) {
+      var sp = angular.copy($stateParams);
+      sp.newBuildName = newBuild.id();
+      $state.go('projects.buildNew', angular.copy(sp, $stateParams));
     });
   };
 

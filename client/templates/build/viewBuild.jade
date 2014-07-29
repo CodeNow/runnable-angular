@@ -150,7 +150,7 @@ section.sidebar
     h6.explorer-header
       | REPOSITORIES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataBuild.data.showRepoMenu}"
+        ng-class = "{active: dataBuild.data.showPopoverRepoMenu}"
         toggle-pop-over
         toggle-pop-over-model = "dataBuild.data.showPopoverRepoMenu"
       )
@@ -195,6 +195,7 @@ section.sidebar
   )
   active-panel(
     update = "false"
+    read-only = "true"
     open-files = "dataBuild.data.openFiles"
     is-dark-theme = "dataBuild.data.toggleTheme"
   )

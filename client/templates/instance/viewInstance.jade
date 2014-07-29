@@ -123,14 +123,21 @@ section.sidebar
           }"
           template = "viewInstancePopoverFileMenu"
         )
-    file-tree(
-      open-files = "dataInstance.data.openFiles"
-      version = "dataInstance.data.version"
-      is-clean = "dataInstance.data.isClean"
-    )
   tabs(
     open-files = "dataInstance.data.openFiles"
   )
+  a#add-tab.btn.btn-icon(
+    ng-class = "{active: dataInstance.data.showAddTab}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataInstance.data.showAddTab"
+  )
+    svg.iconnables.icons-add
+      use(xlink:href = "#icons-add")
+    pop-over(
+      data = "{show: dataInstance.data.showAddTab}"
+      actions = "dataInstance.actions"
+      template = "viewInstancePopoverAddTab"
+    )
   tabs-dropdown(
     open-files = "dataInstance.data.openFiles"
   )
