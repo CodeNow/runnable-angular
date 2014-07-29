@@ -16,6 +16,7 @@ function activePanel(
     replace: true,
     scope: {
       openFiles: '=',
+      readOnly: '=',
       update: '=',
       isDarkTheme: '='
     },

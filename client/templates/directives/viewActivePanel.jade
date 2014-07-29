@@ -2,9 +2,9 @@
   pre(
     ui-ace
     ng-model = "openFiles.activeFile.state.body"
-    readonly = "{{ isReadOnly }}"
-    ng-class = "{\
-      readonly: isReadOnly,\
-      'ace-runnable-dark': isDarkTheme\
+    readonly = "{{ readOnly }}"
+    ng-class = "{ \
+      readonly: readOnly, \
+      'ace-runnable-dark': isDarkTheme \
     }"
   )
