@@ -14,8 +14,7 @@ function fileTree(
     replace: true,
     scope: {
       version: '=',
-      openFiles: '=',
-      build: '='
+      openFiles: '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
@@ -25,7 +24,8 @@ function fileTree(
         data.rootDir = $scope.version.newDir({
           id: $scope.version.id() + 'newdir',
           isDir: true,
-          Key: (new Array(31).join(' ')) + '//' // bs for now
+          path: '',
+          name: '/'
         }, {
           idAttribute: 'id'
         });
