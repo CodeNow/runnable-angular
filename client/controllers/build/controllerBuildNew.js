@@ -23,7 +23,18 @@ function ControllerBuildNew(
   var actions = dataBuildNew.actions = {};
   var data = dataBuildNew.data = {
     showBuildMenu: false,
+    newBuildName: '?',
+
     showExplorer: true
+  };
+
+  data.buildPopoverBuildOptionsData = {
+    buildName: '?',
+    showBuildMenu: false
+  };
+
+  actions.getPopoverButtonText = function (name) {
+    return 'Build' + ((name && name.length) ? 's in ' + name : '');
   };
 
   actions.discardChanges = function () {

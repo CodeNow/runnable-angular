@@ -42,9 +42,6 @@ function ControllerBuild(
     };
     $state.go('projects.buildList', state);
   };
-  actions.getPopoverButtonText = function (name) {
-    return 'Build' + ((name && name.length) ? 's in ' + name : '');
-  };
 
   actions.resetInputModelValue = function () {
     if (!data.inputHasBeenClicked) {
