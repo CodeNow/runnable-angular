@@ -61,13 +61,7 @@ nav#build-stream-header.sub-header
   table#build-stream.table.table-hover
     thead
       tr
-        th.spinner-inprogress
-          .spinner
-            .spinner-ring
-          svg.iconnables.icons-check
-            use(xlink:href = '#icons-check')
-          svg.iconnables.icons-fail
-            use(xlink:href = '#icons-fail')
+        th
         th.sortable(
           ng-click = "dataBuildList.actions.toggleSortByBuild()"
           ng-class = "dataBuildList.actions.getBuildSortClass()"
