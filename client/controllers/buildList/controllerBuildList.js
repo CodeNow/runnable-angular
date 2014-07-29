@@ -33,14 +33,6 @@ function ControllerBuildList(
       name: newval
     }, function () {
       $stateParams.projectName = newval;
-
-      /* Fks a lot of sht up
-      $window.history.replaceState({}, '', '/project/'+
-                                            $stateParams.userName+'/'+
-                                            newval+'/'+
-                                            $stateParams.branchName+'/');
-      */
-
     });
   });
 
