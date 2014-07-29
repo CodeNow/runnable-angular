@@ -13,9 +13,17 @@ nav#build-stream-header.sub-header
   //- should open confirmation modal (see /modals)
   //- all modals should appear as a direct child either <body> or <#wrapper>
   //- modals can be toggled with .in on <.modal>
-  button#delete-project.btn-icon(type = "button")
+
+  button#delete-project.btn-icon(
+    modal
+    modal-template = "viewBuildListModalDeleteProject"
+    modal-data     = "dataBuildList.data.dataModalDelete"
+    modal-actions  = "dataBuildList.actions.actionsModalDelete"
+    type = "button"
+  )
     svg.iconnables.icons-delete
       use(xlink:href = "#icons-delete")
+
   a.btn.silver.config(
     ng-class = "{active: dataBuildList.data.showChangeRecipe}"
     toggle-pop-over
