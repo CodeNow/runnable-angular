@@ -44,7 +44,7 @@ function buildStream(
           }
         });
 
-        var addToStream = function (data) {console.log(data);
+        var addToStream = function (data) {
           $scope.stream.data += data;
           $rootScope.safeApply();
           $anchorScroll();

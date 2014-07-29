@@ -2,7 +2,9 @@
   ng-class = "{'in': in}"
   ng-click = "cancel()"
 )
-  .modal-dialog
+  .modal-dialog(
+    ng-click = "$event.stopPropagation()"
+  )
     .modal-header
       svg.iconnables.icons-delete
         use(xlink:href = "#icons-delete")
