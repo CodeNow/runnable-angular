@@ -125,6 +125,35 @@ function ControllerBuild(
    *   API Fetch Methods
    * ===========================*/
 
+  function fetchOwnerRepos (cb) {
+    var thisUser = $scope.dataApp.user;
+    var build = data.build;
+    var query;
+
+    if (thisUser.isOwnerOf(data.project)) {
+      query = new QueryAssist(thisUser, cb)
+        .wrapFunc('fetchGithubRepos');
+    }
+    else {
+      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      query = new QueryAssist(githubOrg, cb)
+        .wrapFunc('fetchRepos');
+    }
+    query
+      .query({})
+      .cacheFetch(function updateDom(githubRepos, cached, cb){
+        data.githubRepos = githubRepos;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, context, cb){
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+
+
   function newFilesCollOpenFiles(cb) {
     var version = dataBuild.data.version;
     data.openFiles = new SharedFilesCollection(
@@ -139,6 +168,7 @@ function ControllerBuild(
   actions.seriesFetchAll = function () {
     async.series([
       fetcherBuild($scope.dataBuild.data),
+      fetchOwnerRepos,
       newFilesCollOpenFiles
     ], function(){});
   };

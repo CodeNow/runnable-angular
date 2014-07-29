@@ -1,5 +1,5 @@
 nav.sub-header
-  h1.build-header.divided-header.in
+  h1.build-header.divided-header
     button.btn-icon.silver.tooltip(
       data-title = "View All Builds"
       ng-click = "dataBuild.actions.stateToBuildList()"
@@ -169,7 +169,9 @@ section.sidebar
       //- * add class .active to <li> (class should be applied while context menu is open)
       //- * remove readonly property from input and select all text
       //- * save on blur or enter key
-      li(ng-repeat = "repoModel in dataBuild.data.version.attrs.appCodeVersions")
+      li(
+        ng-repeat = "repoModel in dataBuild.data.version.appCodeVersions.models"
+      )
         span
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
@@ -177,7 +179,7 @@ section.sidebar
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.attrs.commit }}"
+          value = "{{ repoModel.attrs.commit || repoModel.attrs.branch  }}"
         )
 
   button#explorer-toggle.btn-icon(

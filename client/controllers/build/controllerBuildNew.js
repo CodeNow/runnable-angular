@@ -82,6 +82,34 @@ function ControllerBuildNew(
       .go();
   }
 
+  function fetchOwnerRepos (cb) {
+    var thisUser = $scope.dataApp.user;
+    var build = data.build;
+    var query;
+
+    if (thisUser.isOwnerOf(data.project)) {
+      query = new QueryAssist(thisUser, cb)
+        .wrapFunc('fetchGithubRepos');
+    }
+    else {
+      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      query = new QueryAssist(githubOrg, cb)
+        .wrapFunc('fetchRepos');
+    }
+    query
+      .query({})
+      .cacheFetch(function updateDom(githubRepos, cached, cb){
+        data.githubRepos = githubRepos;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function(err, context, cb){
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+
   function newFilesCollOpenFiles(cb) {
     //var version = dataBuildNew.data.version;
     var version = dataBuildNew.data.newBuild.contextVersions.models[0];
@@ -99,6 +127,7 @@ function ControllerBuildNew(
     async.series([
       fetcherBuild($scope.dataBuildNew.data),
       fetchNewBuild,
+      fetchOwnerRepos,
       newFilesCollOpenFiles
     ], function(){
       $scope.safeApply();
