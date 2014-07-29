@@ -78,6 +78,10 @@ function buildStream(
         });
       };
 
+      $scope.close = function () {
+        elem.addClass('out');
+      };
+
       $scope.$watch('build.attrs._id', function (buildId) {
         if (buildId) {
           initStream();

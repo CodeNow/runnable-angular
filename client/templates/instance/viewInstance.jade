@@ -5,7 +5,7 @@ nav.sub-header
       placeholder = "Instance Name"
       required
       spellcheck = "false"
-      value = "{{dataInstance.data.instance.attrs.name}}"
+      value = "{{ dataInstance.data.instance.attrs.name }}"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
@@ -22,21 +22,37 @@ section.sidebar
       input.form-control(
         ng-click = ""
         readonly
-        value = "runnable.url/1290ejdinkl32"
+        value = "runnable.com/{{dataInstance.data.instance.id()}}"
       )
     li
       svg.iconnables.icons-back
         use(xlink:href = "#icons-back")
       | From #{''}
-      a(title = "user/app/config/build") user/app/config/build
+      a(
+        title = "{{dataInstance.data.instance.buildUrl()}}"
+      ) {{ dataInstance.data.instance.buildUrl() }}
+    //- if started
+    li
+      svg.iconnables.icons-duration
+        use(xlink:href = "#icons-duration")
+      time(
+        datatime = "{{ dataInstance.data.container.attrs.inspect.State.StartedAt }"
+        title = "Launched on {{ dataInstance.data.container.attrs.inspect.State.StartedAt }"
+      ) Launched 4 days ago
+    //- if stopped
     li
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
       time(
         datatime = "2014-03-18 19:00"
         title = "Launched on 2014-03-18 @ 19:00"
-      ) Launched 4 days ago
-      //- stopped state: text = 'Not Running', running timer starts over on restart
+      ) Stopped 4 days ago
+    //- if manually stopped
+    li
+      svg.iconnables.icons-untriggered
+        use(xlink:href = "#icons-untriggered")
+      | Stopped by #{''}
+      a TJ
   h3 Actions
   ol.actions
     //- stop instance changes to start instance if stopped
@@ -48,6 +64,13 @@ section.sidebar
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-stop-alt
           use(xlink:href = "#icons-stop-alt")
+    li Restart Instance
+      button.btn-sm.silver(
+        type = "button"
+        ng-click = "dataInstance.actions.restartInstance()"
+      )
+        svg.iconnables.icons-restart
+          use(xlink:href = "#icons-restart")
     li Delete Instance
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-delete
@@ -92,14 +115,21 @@ section.sidebar
           }"
           template = "viewInstancePopoverFileMenu"
         )
-    file-tree(
-      open-files = "dataInstance.data.openFiles"
-      version = "dataInstance.data.version"
-      is-clean = "dataInstance.data.isClean"
-    )
   tabs(
     open-files = "dataInstance.data.openFiles"
   )
+  a#add-tab.btn.btn-icon(
+    ng-class = "{active: dataInstance.data.showAddTab}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataInstance.data.showAddTab"
+  )
+    svg.iconnables.icons-add
+      use(xlink:href = "#icons-add")
+    pop-over(
+      data = "{show: dataInstance.data.showAddTab}"
+      actions = "dataInstance.actions"
+      template = "viewInstancePopoverAddTab"
+    )
   tabs-dropdown(
     open-files = "dataInstance.data.openFiles"
   )
