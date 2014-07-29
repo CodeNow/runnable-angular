@@ -46,8 +46,15 @@
 
   .btn-group {
 
-    > button:last-child {
+    > .btn {
+      margin-left: -1px;
       width: 30px;
+
+      &:hover,
+      &:active,
+      &.active {
+        color: #fff;
+      }
 
       &.active > .iconnables {
         transform: rotate3d(0,0,1,180deg);
