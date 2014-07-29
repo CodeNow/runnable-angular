@@ -32,7 +32,7 @@ function ControllerBuildNew(
    * BuildPopoverBuildOptions
    **************************************/
   data.buildPopoverBuildOptionsData = {
-    buildName: '?',
+    buildName: '',
     showBuildMenu: false,
     popoverInputHasBeenClicked: false
   };
@@ -62,6 +62,21 @@ function ControllerBuildNew(
     $state.go('projects.buildList', state);
   };
 
+  actions.build = function () {
+    var buildData = data.buildPopoverBuildOptionsData;
+    data.newBuild.build({
+      message: buildData.buildName
+      // config: buildData.buildConfig ??
+    }, function (err, build, code) {
+      if (err) {
+        throw err;
+      }
+      var sc = angular.copy($stateParams);
+      delete sc.newBuildName;
+      sc.buildName = build.buildNumber;
+      $state.go('projects.build', sc);
+    });
+  };
 
   /* ============================
    *   API Fetch Methods
