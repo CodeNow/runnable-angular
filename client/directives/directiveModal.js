@@ -23,8 +23,8 @@ function modal (
       $scope.actions = $scope.actions();
 
       element.on('click', function (event) {
-        $scope.in = true;
         event.stopPropagation();
+        $scope.in = true;
         $rootScope.safeApply();
       });
 
@@ -33,7 +33,7 @@ function modal (
       };
 
       $scope.$on('app-document-click', function () {
-        $scope.modal.removeClass('in');
+        $scope.in = false;
       });
 
       var template = $templateCache.get($scope.template);
