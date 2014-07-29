@@ -5,7 +5,7 @@ nav.sub-header
       placeholder = "Instance Name"
       required
       spellcheck = "false"
-      value = "{{dataInstance.data.instance.attrs.name}}"
+      value = "{{ dataInstance.data.instance.attrs.name }}"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
@@ -22,55 +22,63 @@ section.sidebar
       input.form-control(
         ng-click = ""
         readonly
-        value = "runnable.com/{{dataInstance.data.instance.id()}}"
+        value = "runnable.com/{{ dataInstance.data.instance.id() }}"
       )
     li
       svg.iconnables.icons-back
         use(xlink:href = "#icons-back")
       | From #{''}
       a(
-        title = "{{dataInstance.data.instance.buildUrl()}}"
+        title = "{{ dataInstance.data.instance.buildUrl() }}"
       ) {{ dataInstance.data.instance.buildUrl() }}
-    //- if started
-    li
+    li(
+      ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
+    )
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
       time(
-        datatime = "{{ dataInstance.data.container.attrs.inspect.State.StartedAt }"
-        title = "Launched on {{ dataInstance.data.container.attrs.inspect.State.StartedAt }"
-      ) Launched 4 days ago
-    //- if stopped
-    li
+        datatime = "{{ dataInstance.data.container.attrs.inspect.State.StartedAt }}"
+        title = "Launched on {{ dataInstance.data.container.attrs.inspect.State.StartedAt }}"
+      ) Launched {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}
+    li(
+      ng-if = "!dataInstance.data.container.attrs.inspect.State.Running"
+    )
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
       time(
-        datatime = "2014-03-18 19:00"
-        title = "Launched on 2014-03-18 @ 19:00"
-      ) Stopped 4 days ago
-    //- if manually stopped
-    li
+        datatime = "{{ dataInstance.data.container.attrs.inspect.State.FinishedAt }}"
+        title = "Stopped on {{ dataInstance.data.container.attrs.inspect.State.FinishedAt }}"
+      ) Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}
+    li(
+      ng-if = "dataInstance.data.container.attrs.stoppedBy.username"
+    )
       svg.iconnables.icons-untriggered
         use(xlink:href = "#icons-untriggered")
       | Stopped by #{''}
-      a TJ
+      a dataInstance.data.container.attrs.stoppedBy.username
   h3 Actions
   ol.actions
-    //- stop instance changes to start instance if stopped
-    //- li Start Instance
+    li(
+      ng-if = "!dataInstance.data.container.attrs.inspect.State.Running"
+    ) Start Instance
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-launch
           use(xlink:href = "#icons-launch")
-    li Stop Instance
+    li(
+      ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
+    ) Stop Instance
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-stop-alt
           use(xlink:href = "#icons-stop-alt")
-    li Restart Instance
-      button.btn-sm.silver(
-        type = "button"
-        ng-click = "dataInstance.actions.restartInstance()"
-      )
-        svg.iconnables.icons-restart
-          use(xlink:href = "#icons-restart")
+    //- li(
+    //-   ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
+    //- ) Restart Instance
+    //-   button.btn-sm.silver(
+    //-     type = "button"
+    //-     ng-click = "dataInstance.actions.restartInstance()"
+    //-   )
+    //-     svg.iconnables.icons-restart
+    //-       use(xlink:href = "#icons-restart")
     li Delete Instance
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-delete
