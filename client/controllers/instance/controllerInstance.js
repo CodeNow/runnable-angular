@@ -70,6 +70,7 @@ function ControllerInstance(
       .query($stateParams.instanceId)
       .cacheFetch(function updateDom(instance, cached, cb) {
         data.instance = instance;
+        data.version = data.container = instance.containers.models[0];
         $scope.safeApply();
         cb();
       })
@@ -104,9 +105,9 @@ function ControllerInstance(
 
   function newFilesCollOpenFiles(cb) {
     // tODO fetch container files
-    var version = data.version;
+    var container = data.container;
     data.openFiles = new SharedFilesCollection(
-      version.newFiles([], {
+      container.newFiles([], {
         noStore: true
       }),
       $scope
