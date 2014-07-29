@@ -32,7 +32,7 @@ function ControllerBuildNew(
    * BuildPopoverBuildOptions
    **************************************/
   data.buildPopoverBuildOptionsData = {
-    buildName: '?',
+    buildName: '',
     showBuildMenu: false,
     popoverInputHasBeenClicked: false
   };
@@ -62,6 +62,25 @@ function ControllerBuildNew(
     $state.go('projects.buildList', state);
   };
 
+  actions.stateToBuild = function (buildNumber) {
+    var sc = angular.copy($stateParams);
+    delete sc.newBuildName;
+    sc.buildName = buildNumber;
+    $state.go('projects.build', sc);
+  };
+
+  actions.build = function () {
+    var buildData = data.buildPopoverBuildOptionsData;
+    data.newBuild.build({
+      message: buildData.buildName
+      // config: buildData.buildConfig ??
+    }, function (err, build, code) {
+      if (err) {
+        throw err;
+      }
+      actions.stateToBuild(build.buildNumber);
+    });
+  };
 
   /* ============================
    *   API Fetch Methods
@@ -130,6 +149,9 @@ function ControllerBuildNew(
       fetchOwnerRepos,
       newFilesCollOpenFiles
     ], function(){
+      if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
+        return actions.stateToBuild(data.newBuild.attrs.buildNumber);
+      }
       $scope.safeApply();
     });
   };
