@@ -21,6 +21,10 @@
     .modal-dialog {
       animation: modalIn .3s ease-in-out forwards;
     }
+
+    .highlight::after {
+      animation: scaleX .3s .2s forwards;
+    }
   }
 }
 
@@ -66,16 +70,30 @@
   position: relative;
   text-align: center;
 
-  em {
-    border-bottom: 2px solid $gray-dark;
+  .highlight {
     font-style: normal;
+    position: relative;
+
+    &::after {
+      background: $gray-dark;
+      bottom: 0;
+      content: '';
+      display: block;
+      height: 2px;
+      left: 0;
+      position: absolute;
+      transform: scale3d(0,1,1);
+      transform-origin: 0 0;
+      transition: transform .3s 1s;
+      width: 100%;
+    }
   }
 }
 
 .modal-footer {
   display: flex;
-  padding: 0 15px 15px;
   justify-content: center;
+  padding: 0 15px 15px;
 
   button {
     margin: auto 6px;
