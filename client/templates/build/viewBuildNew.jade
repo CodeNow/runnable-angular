@@ -22,9 +22,9 @@ nav.sub-header
         ng-click = "dataBuildNew.actions.build()"
       ) Build
       a.btn.green.btn-icon(
-        ng-class = "{active: dataBuildNew.data.showBuildMenu }"
+        ng-class = "{active: dataBuildNew.data.buildPopoverBuildOptionsData.showBuildMenu }"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuildNew.data.showBuildMenu"
+        toggle-pop-over-model = "dataBuildNew.data.buildPopoverBuildOptionsData.showBuildMenu"
       )
         svg.iconnables.icons-arrow-down
           use(xlink:href = "#icons-arrow-down")
@@ -33,10 +33,7 @@ nav.sub-header
             getPopoverButtonText: dataBuildNew.actions.getPopoverButtonText, \
             resetInputModelValue: dataBuildNew.actions.resetInputModelValue \
           }"
-          data = "{ \
-            buildName: dataBuildNew.data.newBuildName, \
-            show: dataBuildNew.data.showDirtyBuildMenu \
-          }"
+          data = "dataBuildNew.data.buildPopoverBuildOptionsData"
           template = "viewBuildPopoverBuildOptions"
         )
     button.silver(
