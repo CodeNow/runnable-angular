@@ -39,8 +39,11 @@ function factoryFetcherBuild (
           $rootScope.safeApply();
         })
         .resolve(function (err, projects, cb) {
-          if (err || !projects.length) {
-          //  $state.go('404');
+          if (err) {
+            throw err;
+          }
+          else if (!projects.models.length) {
+            $state.go('404');
           }
           $rootScope.safeApply();
           cb();
@@ -70,6 +73,9 @@ function factoryFetcherBuild (
           }
         })
         .resolve(function (err, builds, cb) {
+          if (err) {
+            throw err;
+          }
           $rootScope.safeApply();
           cb();
        })

@@ -113,6 +113,7 @@ function ControllerSetup(
         fetchContextVersionFiles(data.sourceContextVersion, function () {
           data.isReadOnly = true;
           data.isAdvanced = false;
+          data.contextFiles.reset();
           $scope.safeApply();
         });
       });
