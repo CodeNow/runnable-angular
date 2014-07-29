@@ -24,9 +24,44 @@ function ControllerBuildNew(
   var data = dataBuildNew.data = {
     showBuildMenu: false,
     newBuildName: '?',
-
     showExplorer: true
   };
+
+  /**************************************
+   * BuildPopoverBuildOptions
+   **************************************/
+  function setupRepoPopover () {
+    var buildPopoverRepoMenu = data.buildPopoverRepoMenu = {};
+    var shaRegExp = /^[a-fA-F0-9]{40}$/;
+
+    buildPopoverRepoMenu.data = {
+      show: false,
+      githubRepos : data.githubRepos,
+      appCodeVersions : keypather.get(data, 'newVersion.appCodeVersions')
+    };
+    buildPopoverRepoMenu.actions = {
+      addGithubRepo: function (repo, branchOrSHA) {
+        var body = {
+          repo: repo.attrs.full_name
+        };
+        if (branchOrSHA) {
+          if (shaRegExp.test(branchOrSHA)) {
+            body.commit = branchOrSHA;
+          }
+          else {
+            body.branch = branchOrSHA;
+          }
+        }
+        data.newVersion.appCodeVersions.create(body, function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.safeApply();
+        });
+      }
+    };
+  }
+  setupRepoPopover();
 
   /**************************************
    * BuildPopoverBuildOptions
@@ -128,8 +163,9 @@ function ControllerBuildNew(
       fetcherBuild($scope.dataBuildNew.data),
       fetchNewBuild,
       fetchOwnerRepos,
-      newFilesCollOpenFiles
+      newFilesCollOpenFiles,
     ], function(){
+      setupRepoPopover();
       $scope.safeApply();
     });
   };
