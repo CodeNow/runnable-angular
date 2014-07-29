@@ -97,7 +97,7 @@ function term(
       }
 
       $scope.$on('$destroy', function () {
-        termStream.destroy();
+        termStream.end();
         terminal.destroy();
       });
     }
