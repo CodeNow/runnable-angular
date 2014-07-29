@@ -1,9 +1,13 @@
-.terminal,
-.term-container {
-  height: 100%;
-  width: 100%;
-}
-
 .term-container {
   cursor: text;
+}
+
+.term-container,
+.terminal {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
+  font-weight: 400;
+  height: 100%;
+  line-height: 1.4;
+  width: 100%;
 }
