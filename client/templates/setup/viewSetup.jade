@@ -9,7 +9,7 @@ nav.sub-header
       use(xlink:href = "#icons-edit")
   section#main-controls(
     ng-class = "{in: dataSetup.data.isAdvanced}"
-    ng-if = "!!dataSetup.data.selectedSourceContext"
+    ng-if = "!dataSetup.data.selectedSourceContext"
   )
     .clean
       button.silver(
@@ -58,6 +58,20 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
               type = "button")
               svg.iconnables.icons-delete
                 use(xlink:href = "#icons-delete")
+          label
+            span branch:
+            //- list needs to be unique to match datalist id
+            input.form-control(
+              list = "repo-branches"
+              placeholder = "Branch or commit (optional)"
+              value = "@master"
+            )
+            datalist(
+              id = "repo-branches"
+            )
+              option(value = "master")
+              option(value = "instance-page")
+              option(value = "instance-terminal")
           label
             span dest:
             input.form-control(

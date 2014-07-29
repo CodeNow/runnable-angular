@@ -46,13 +46,13 @@
 
   .input-container {
     position: relative;
-      z-index: $z-show;
+    z-index: $z-show;
 
     > .btn-icon {
       color: $gray-dark;
       position: absolute;
-        top: 0;
-        right: 6px;
+      right: 6px;
+      top: 0;
     }
 
     > .active {
@@ -128,7 +128,7 @@
     border: 1px solid rgba(0,0,0,.1);
     border-radius: 3px;
     margin-top: 15px;
-    max-height: 72px;
+    max-height: 108px;
     overflow: hidden;
   }
 
@@ -168,8 +168,12 @@
     line-height: 33px;
     margin: 0;
     position: relative;
-      z-index: 1;
     width: 100%;
+    z-index: 1;
+
+    &:last-child .form-control {
+      border-top: 1px solid rgba(0,0,0,.1);
+    }
 
     > span {
       line-height: 36px;
@@ -179,13 +183,13 @@
     }
   }
 
-  input {
+  .form-control {
     border: 0;
     border-radius: 0;
+    bottom: 0;
     margin: 0;
-    padding-left: 57px;
+    padding-left: 72px;
     position: absolute;
-      bottom: 0;
   }
 }
 

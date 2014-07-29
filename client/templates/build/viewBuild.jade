@@ -46,7 +46,10 @@ nav.sub-header
           }"
           template = "viewBuildPopoverBuildOptions"
         )
-    button.silver(type = "button") Edit Build
+    button.silver(
+      type = "button"
+      ng-click = "dataBuild.actions.edit()"
+    ) Edit Build
 
 section.sidebar
   ul(ng-show = "dataBuild.data.build.attrs.created")
@@ -191,6 +194,8 @@ section.sidebar
     open-files = "dataBuild.data.openFiles"
   )
   active-panel(
+    update = "false"
+    readonly = "readonly"
     open-files = "dataBuild.data.openFiles"
     is-dark-theme = "dataBuild.data.toggleTheme"
   )

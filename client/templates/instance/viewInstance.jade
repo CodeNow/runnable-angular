@@ -30,22 +30,24 @@ section.sidebar
       | From #{''}
       a(title = "user/app/config/build") user/app/config/build
     li
-      svg.iconnables.icons-calendar
-        use(xlink:href = "#icons-calendar")
-      | Created on <time datetime="{{ dataInstance.data.instance.attrs.created }}" title="{{ dataInstance.data.instance.attrs.created }}">{{ dataInstance.data.instance.attrs.created | date:'MMM d' }}</time>
-    li
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
-      | Running for 18 hours
+      time(
+        datatime = "2014-03-18 19:00"
+        title = "Launched on 2014-03-18 @ 19:00"
+      ) Launched 4 days ago
+      //- stopped state: text = 'Not Running', running timer starts over on restart
   h3 Actions
   ol.actions
-    li Restart Instance
-      button.btn-sm.silver(
-        type = "button"
-        ng-click = "dataInstance.actions.restartInstance()"
-      )
-        svg.iconnables.icons-restart
-          use(xlink:href = "#icons-restart")
+    //- stop instance changes to start instance if stopped
+    //- li Start Instance
+      button.btn-sm.silver(type = "button")
+        svg.iconnables.icons-launch
+          use(xlink:href = "#icons-launch")
+    li Stop Instance
+      button.btn-sm.silver(type = "button")
+        svg.iconnables.icons-stop-alt
+          use(xlink:href = "#icons-stop-alt")
     li Delete Instance
       button.btn-sm.silver(type = "button")
         svg.iconnables.icons-delete
