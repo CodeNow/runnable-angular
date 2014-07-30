@@ -31,7 +31,6 @@ function buildStream(
         };
 
         if (build.attrs.completed) {
-          if (!build.failed()) { return; }
           if (build.failed()) {
             $scope.stream.data = build.contextVersions.models[0].attrs.build.log;
           }
@@ -40,7 +39,6 @@ function buildStream(
             return;
           }
         }
-        $scope.out = false;
 
         var streamId = build.attrs._id + '-' + Date.now();
         var buildPrimusStream = primus({
