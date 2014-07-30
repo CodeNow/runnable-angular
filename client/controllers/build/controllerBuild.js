@@ -45,7 +45,6 @@ function ControllerBuild(
   actions.runInstance = function () {
     var instance = user.createInstance({
       json: {
-        name: 'name1',
         build: data.build.id()
       }
     }, function (err) {

@@ -63,6 +63,21 @@ function ControllerBuildList(
     return appCodeVersion.repo+'#'+appCodeVersion.repo;
   };
 
+  actions.runInstance = function (build) {
+    var user = $scope.dataApp.user;
+    var instance = user.createInstance({
+      json: {
+        build: build.id()
+      }
+    }, function (err) {
+      if (err) { throw err; }
+      var state = {
+        instanceId: instance.id()
+      };
+      $state.go('projects.instance', state);
+    });
+  };
+
   actions.stateToInstance = function (buildId) {
     var state = {
       userName: $scope.dataApp.user.attrs.accounts.github.username,
@@ -88,7 +103,7 @@ function ControllerBuildList(
     if (columnName === data.sortState.column) {
       data.sortState.direction = (data.sortState.direction === 'ascending') ? 'descending' : 'ascending';
       return;
-    } 
+    }
     data.sortState.column = columnName;
     data.sortState.direction = 'ascending';
     fetchBuilds();

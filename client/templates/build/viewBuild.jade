@@ -7,11 +7,13 @@ nav.sub-header
     )
       svg.iconnables.icons-back-table
         use(xlink:href = "#icons-back-table")
-    .iconnables.iconnables-container
+    .iconnables.iconnables-container.build-status
+      .spinner
+        .spinner-ring
       svg.iconnables.icons-check
         use(xlink:href = "#icons-check")
-      svg.iconnables.icons-asterisk
-        use(xlink:href = "#icons-asterisk")
+      svg.iconnables.icons-fail
+        use(xlink:href = "#icons-fail")
     | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4)+'...' }}
 
   //- all buttons should be disabled during a build
@@ -160,7 +162,7 @@ section.sidebar
           template = "viewBuildPopoverRepoMenu"
           actions = "{}"
           data = "{\
-            show: dataBuild.data.showPopoverRepoMenu \
+            show: dataBuild.data.showPopoverRepoMenu\
           }"
         )
     ul.repo-tree
