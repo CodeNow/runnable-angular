@@ -14,7 +14,7 @@ function fileTreeDir(
     scope: {
       dir: '=',
       open: '=',
-      version: '=',
+      versionOrContext: '=',
       openFiles: '=',
       isClean: '='
     },
@@ -25,7 +25,7 @@ function fileTreeDir(
       data.open = $scope.open;
 
       function fetchDirFiles() {
-        data.dirFiles = $scope.version.fetchFiles({
+        data.dirFiles = $scope.versionOrContext.fetchFiles({
           path: $scope.dir.filepath()
         }, function () {
           $timeout(function () {
@@ -34,7 +34,7 @@ function fileTreeDir(
         });
       }
       // make sure version exists and open === true before fetching
-      $scope.$watch('version', function (newval, oldval) {
+      $scope.$watch('versionOrContext', function (newval, oldval) {
         if (!newval || !data.open) return;
         fetchDirFiles();
       });
