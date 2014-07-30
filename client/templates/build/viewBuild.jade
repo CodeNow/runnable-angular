@@ -7,7 +7,9 @@ nav.sub-header
     )
       svg.iconnables.icons-back-table
         use(xlink:href = "#icons-back-table")
-    .iconnables.iconnables-container.build-status
+    .iconnables.iconnables-container.build-status(
+      ng-class = "{ pass: dataBuild.data.build.attrs.completed && !dataBuild.data.build.failed(), fail: dataBuild.data.build.failed() }"
+    )
       .spinner
         .spinner-ring
       svg.iconnables.icons-check
