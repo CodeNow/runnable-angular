@@ -238,15 +238,12 @@
     width: 24px;
   }
 
-  .icons-check {
-    color: $green;
-  }
-
+  .icons-check,
   .icons-run {
     color: $green;
   }
 
-  .icons-fail {
+  .icons-error {
     color: $orange;
   }
 
