@@ -201,7 +201,7 @@ function ControllerBuildNew(
       fetchNewBuild,
       fetchOwnerRepos,
       newFilesCollOpenFiles,
-    ], function(){
+    ], function(err){
       setupRepoPopover();
       if (err) {
         $state.go('404');
