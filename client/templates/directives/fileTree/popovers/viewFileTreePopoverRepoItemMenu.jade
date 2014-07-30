@@ -3,12 +3,7 @@
   ng-style = "popoverData.eStyle"
   right-click
 )
-  .arrow.white
   .popover-content
     ul#file-explorer-options.popover-body
-      li(
-        ng-click = "popoverData.actions.modify()"
-      ) Modify
-      li(
-        ng-click = "popoverData.actions.remove()"
-      ) Remove
+      li(ng-click = "popoverData.actions.modify()") Modify
+      li(ng-click = "popoverData.actions.remove()") Remove
