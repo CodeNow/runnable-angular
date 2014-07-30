@@ -11,10 +11,12 @@
       'ace-runnable-dark': isDarkTheme \
     }"
   )
-  term.terminal(
+  .term-container(
     ng-switch-when = "terminal"
-    params = "openFiles.activeFile.attrs.params"
   )
+    term.terminal(
+      params = "openFiles.activeFile.attrs.params"
+    )
 //- TODO
   output-stream(
     ng-switch-when = "outputStream"

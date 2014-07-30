@@ -41,6 +41,8 @@ function ControllerInstance(
     data.openFiles.add({
       Key: 'Terminal',
       type: 'terminal',
+      path: '/',
+      name: Date.now() + '',
       params: data.instance.attrs.containers[0]
     });
     data.showAddTab = false;

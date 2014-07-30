@@ -25,6 +25,9 @@ function factory(
     keypather.set(model, 'state.open', false);
     this.collection.models.splice(i, 1);
     delete this.collection.modelsHash[model.id()];
+    if (this.activeFile === model) {
+      this.activeFile = null;
+    }
   };
 
   SharedFilesCollection.prototype.add = function (model) {
@@ -33,7 +36,7 @@ function factory(
     // }
     keypather.set(model, 'state.open', true);
     if (!model.id) {
-      // Need to modelize it
+      // Not a file, need to modelize it
       this.collection.add(model);
       // TODO: Find better way to do this
       model = this.collection.models[this.collection.models.length - 1];
