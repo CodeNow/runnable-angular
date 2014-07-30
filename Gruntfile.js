@@ -381,7 +381,7 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', [
     'copy',
     'sass:dev',
-    'cancat',
+    'concat',
     'autoprefixer',
     'jade2js',
     'autoBundleDependencies',
