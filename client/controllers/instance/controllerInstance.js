@@ -32,6 +32,8 @@ function ControllerInstance(
     data.openFiles.add({
       Key: 'Terminal',
       type: 'terminal',
+      path: '/',
+      name: Date.now() + '',
       params: data.instance.attrs.containers[0]
     });
     data.showAddTab = false;
@@ -113,7 +115,6 @@ function ControllerInstance(
     fetchInstance,
     newFilesCollOpenFiles
   ], function() {
-    console.log('loaded');
     $scope.safeApply();
   });
 }

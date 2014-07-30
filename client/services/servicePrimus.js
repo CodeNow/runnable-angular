@@ -10,11 +10,11 @@ function primus(
 ) {
 
     // TODO: remove proxy port
-    var url = apiConfig.host + ':' + apiConfig.proxyPort;
+    var url = apiConfig.host;
 
     var conn = new primusClient(url);
 
-    conn.on('data', function(data) {
+    conn.on('data', function (data) {
       if (data.error) {
         throw data.error;
       }
