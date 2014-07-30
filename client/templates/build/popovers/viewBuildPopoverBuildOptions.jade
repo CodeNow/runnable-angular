@@ -1,5 +1,5 @@
 .popover.menu.bottom.fade(
-  ng-class = "{'in': data.showBuildMenu}"
+  ng-class = "{'in': data.show}"
 )
   .arrow
   h3.popover-title Set Config and Message
@@ -18,9 +18,14 @@
       datalist(
         id = "user-configs"
       )
-        option(value = "Main")
-        option(value = "Config 1")
-        option(value = "Config 2")
-        option(value = "Config 3")
-      textarea.form-control(placeholder = "Build Message")
-      button.btn-block.green {{ actions.getPopoverButtonText(data.buildName) }}
+        option(
+          ng-repeat = "env in data.project.environments.models"
+          value = "{{ env.attrs.name }}"
+        )
+      textarea.form-control(
+        placeholder = "Build Message"
+        ng-model = "data.buildMessage"
+      )
+      button.btn-block.green(
+        ng-click = "actions.build()"
+      ) {{ actions.getPopoverButtonText(data.buildName) }}
