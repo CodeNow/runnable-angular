@@ -152,7 +152,11 @@ section.sidebar
       //- * add class .active to <li> (class should be applied while context menu is open)
       //- * remove readonly property from input and select all text
       //- * save on blur or enter key
-      li(ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models")
+      li(
+        ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models"
+        ng-class = "{active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show}"
+        popover-repo-item-menu
+      )
         span
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")

@@ -28,6 +28,14 @@ function ControllerBuildNew(
   };
 
   /**************************************
+   * DataTreeFilePopoverRepoItemMenu
+   **************************************/
+  data.dataFileTreePopoverRepoItemMenu = {};
+  var repoCMData = data.dataFileTreePopoverRepoItemMenu.data = {};
+  var repoCMActions = data.dataFileTreePopoverRepoItemMenu.actions = {};
+  repoCMData.show = false;
+
+  /**************************************
    * BuildPopoverBuildOptions
    **************************************/
   function setupRepoPopover () {

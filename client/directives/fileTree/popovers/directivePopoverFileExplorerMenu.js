@@ -119,6 +119,7 @@ function popoverFileExplorerMenu(
         e.stopPropagation();
       }
       element.on('$destroy', function () {
+        $scope.$popoverTemplate.remove();
         element[0].removeEventListener('contextmenu', contextMenuListener);
       });
 
