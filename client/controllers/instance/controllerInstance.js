@@ -8,6 +8,7 @@ require('app')
  */
 function ControllerInstance(
   $scope,
+  $state,
   $stateParams,
   async,
   user,
@@ -28,22 +29,53 @@ function ControllerInstance(
   dataInstance.showAddTab = false;
   dataInstance.showFileMenu = false;
 
-  actions.restartInstance = function () {
-    data.instance.restart(function (err) {
-      if (err) {
-        throw err;
-      }
-      $scope.safeApply();
-    });
-  };
-
   actions.addTerminal = function () {
     data.openFiles.add({
       Key: 'Terminal',
       type: 'terminal',
+      path: '/',
+      name: Date.now() + '',
       params: data.instance.attrs.containers[0]
     });
     data.showAddTab = false;
+  };
+
+  actions.stopInstance = function () {
+    data.instance.stop(function (err) {
+      if (err) { throw err; }
+      data.instance.fetch(function (err) {
+        if (err) { throw err; }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  actions.startInstance = function () {
+    data.instance.start(function (err) {
+      if (err) { throw err; }
+      data.instance.fetch(function (err) {
+        if (err) { throw err; }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  actions.stateToBuildList = function (userName, projectName, branchName) {
+    var thisUser = $scope.dataApp.user;
+    var state = {
+      userName: userName,
+      projectName: projectName,
+      branchName: branchName
+    };
+    $state.go('projects.buildList', state);
+  };
+
+  actions.destroyInstance = function () {
+    var old = data.instance.json();
+    data.instance.destroy(function (err) {
+      if (err) { throw err; }
+      actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
+    });
   };
 
   $scope.$on('app-document-click', function () {
@@ -70,6 +102,9 @@ function ControllerInstance(
       .wrapFunc('fetchInstance')
       .query($stateParams.instanceId)
       .cacheFetch(function updateDom(instance, cached, cb) {
+        if (!instance) {
+          return $state.go(404);
+        }
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         $scope.safeApply();
@@ -102,7 +137,6 @@ function ControllerInstance(
     fetchInstance,
     newFilesCollOpenFiles
   ], function() {
-    console.log('loaded');
     $scope.safeApply();
   });
 }
