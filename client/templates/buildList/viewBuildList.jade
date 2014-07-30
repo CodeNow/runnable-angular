@@ -86,17 +86,15 @@ nav#build-stream-header.sub-header
         ng-repeat = "build in dataBuildList.data.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
         ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
-        td.build-status
-          svg.iconnables(
-              ng-class = "{\
-                'icons-check': !build.failed(), \
-                'icons-fail': build.failed() \
-              }"
-            )
-            use(
-              ng-href = "{{ build.failed() ? '#icons-fail' : '#icons-check' }}"
-              xlink:href = ""
-            )
+        td.build-status(
+          ng-class = "{ pass: build.attrs.completed && !build.failed(), fail: build.failed() }"
+        )
+          .spinner
+            .spinner-ring
+          svg.iconnables.icons-check
+            use(xlink:href = '#icons-check')
+          svg.iconnables.icons-fail
+            use(xlink:href = '#icons-fail')
         td {{ build.attrs.buildNumber }}
         td {{ build.contextVersions.models[0].attrs.build.triggeredBy.username }}
         td {{ build.contextVersions.models[0].attrs.build.message }}

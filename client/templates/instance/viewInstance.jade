@@ -63,7 +63,7 @@ section.sidebar
     ) Start Instance
       button.btn-sm.silver(
         type = "button"
-        ng-click = "dataInstances.actions.stopInstance()"
+        ng-click = "dataInstance.actions.startInstance()"
       )
         svg.iconnables.icons-launch
           use(xlink:href = "#icons-launch")
@@ -72,21 +72,15 @@ section.sidebar
     ) Stop Instance
       button.btn-sm.silver(
         type = "button"
-        ng-click = "dataInstances.actions.stopInstance()"
+        ng-click = "dataInstance.actions.stopInstance()"
       )
         svg.iconnables.icons-stop-alt
           use(xlink:href = "#icons-stop-alt")
-    //- li(
-    //-   ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
-    //- ) Restart Instance
-    //-   button.btn-sm.silver(
-    //-     type = "button"
-    //-     ng-click = "dataInstance.actions.restartInstance()"
-    //-   )
-    //-     svg.iconnables.icons-restart
-    //-       use(xlink:href = "#icons-restart")
     li Delete Instance
-      button.btn-sm.silver(type = "button")
+      button.btn-sm.silver(
+        type = "button"
+        ng-click = "dataInstance.actions.destroyInstance()"
+      )
         svg.iconnables.icons-delete
           use(xlink:href = "#icons-delete")
 
