@@ -311,13 +311,22 @@ module.exports = function(grunt) {
                 if (current === './index') { return previous; }
                 return previous += 'require(\'' + current + '\');\n';
               }, '');
-            fs.readFile(indexPath, 'UTF-8', function (err, fileString) {
-              if (err) { return cb(err); }
-              if (fileString.trim() === newFileString.trim()) {
-                return cb();
+
+            fs.exists(indexPath, function (exists) {
+              if (exists) {
+                // Only write if we need to
+                fs.readFile(indexPath, 'UTF-8', function (err, fileString) {
+                  if (err) { return cb(err); }
+                  if (fileString.trim() === newFileString.trim()) {
+                    return cb();
+                  }
+                  grunt.log.writeln('writing new', subDir, 'index.js');
+                  fs.writeFile(indexPath, newFileString, cb);
+                });
+              } else {
+                grunt.log.writeln('writing new', subDir, 'index.js');
+                fs.writeFile(indexPath, newFileString, cb);
               }
-              grunt.log.writeln('writing new', subDir, 'index.js');
-              fs.writeFile(indexPath, newFileString, cb);
             });
           });
         };
