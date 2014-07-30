@@ -297,6 +297,10 @@ header {
     a {
       border-radius: 0;
       display: block;
+      overflow: hidden;
+      padding-right: 6px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     &:first-child > a {
