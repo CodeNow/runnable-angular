@@ -15,7 +15,8 @@ function ControllerBuildNew(
   extendDeep,
   SharedFilesCollection,
   keypather,
-  fetcherBuild
+  fetcherBuild,
+  hasProps
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -26,6 +27,14 @@ function ControllerBuildNew(
     newBuildName: '?',
     showExplorer: true
   };
+
+  data.popoverBuildOptions = {
+    actions: {},
+    data: {}
+  };
+  var pbo = data.popoverBuildOptions;
+  pbo.data.show = false;
+
 
   /**************************************
    * DataTreeFilePopoverRepoItemMenu
@@ -75,20 +84,61 @@ function ControllerBuildNew(
   /**************************************
    * BuildPopoverBuildOptions
    **************************************/
-  data.buildPopoverBuildOptionsData = {
-    buildName: '',
-    showBuildMenu: false,
-    popoverInputHasBeenClicked: false
+  var bpbo = data.buildPopoverBuildOptions = {
+    data: {},
+    actions: {}
+  };
+  bpbo.data.buildName = '';
+  bpbo.data.buildMessage = '';
+  bpbo.data.show = false;
+  bpbo.data.popoverInputHasBeenClicked = false;
+
+  function setupBuildPopover () {
+    bpbo.data.project = data.project;
+  }
+
+  bpbo.actions.build = function () {
+    var project = dataBuildNew.data.project;
+    var env = project.environments.find(hasProps({
+      lowerName: bpbo.data.buildName
+    }));
+    if (!env) {
+      var body = {
+        name: bpbo.data.buildName
+      };
+      env = project.createEnvironment(body, done);
+    } else {
+      done();
+    }
+    function done (err) {
+      if (err) {
+        throw err;
+      }
+      var newBuild = dataBuildNew.data.newBuild;
+      newBuild.build({
+        message: bpbo.data.buildMessage,
+        environment: env.id()
+      }, function (err) {
+        if (err) {
+          throw err;
+        }
+        var sc = angular.copy($stateParams);
+        sc.branchName = env.attrs.name;
+        sc.buildName = newBuild.attrs.buildNumber;
+        delete sc.newBuildName;
+        $state.go('projects.build', sc);
+      });
+    }
   };
 
-  actions.getPopoverButtonText = function (name) {
+  bpbo.actions.getPopoverButtonText = function (name) {
     return 'Build' + ((name && name.length) ? 's in ' + name : '');
   };
 
-  actions.resetInputModelValue = function ($event) {
-    if (!dataBuildNew.data.popoverInputHasBeenClicked) { return; }
-    data.buildPopoverBuildOptionsData.buildName = '';
-    data.buildPopoverBuildOptionsData.popoverInputHasBeenClicked = true;
+  bpbo.actions.resetInputModelValue = function ($event) {
+    if (!bpbo.data.popoverInputHasBeenClicked) { return; }
+    bpbo.data.buildName = '';
+    bpbo.data.popoverInputHasBeenClicked = true;
   };
   /**************************************
    * // BuildPopoverBuildOptions
@@ -207,6 +257,7 @@ function ControllerBuildNew(
       fetchOwnerRepos,
       newFilesCollOpenFiles,
     ], function(err){
+      setupBuildPopover();
       setupRepoPopover();
       if (err) {
         $state.go('404');

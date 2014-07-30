@@ -1,10 +1,13 @@
-.popover.menu.bottom.fade(ng-class = "{in: data.show}")
+.popover.menu.bottom.fade(
+  ng-class = "{in: data.show}"
+)
   .arrow
   h3.popover-title Choose Config
   .popover-content
     form.search.check-valid
       input.form-control(
         ng-model = "data.filter"
+        ng-keyup = "$event.keyCode === 13 && actions.createNewEnvironment($event)"
         placeholder = "Filter or Create Configs"
         required
       )
@@ -15,15 +18,10 @@
         svg.iconnables.icons-add
           use(xlink:href = "#icons-add")
     ul.popover-body.popover-list
-      li Main
-        button.btn-icon.delete(type = "button")
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-      li Configs 2
-        button.btn-icon.delete(type = "button")
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-      li Configs 3
+      li(
+        ng-repeat = "env in data.environments.models | filter:{attrs: {name: data.filter}}",
+        ng-click = "actions.stateToEnvironment(env.attrs.name)"
+      ) {{ env.attrs.name }}
         button.btn-icon.delete(type = "button")
           svg.iconnables.icons-close
             use(xlink:href = "#icons-close")

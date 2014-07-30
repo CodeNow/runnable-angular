@@ -35,11 +35,15 @@ function fileTreeDir(
       }
       // make sure version exists and open === true before fetching
       $scope.$watch('versionOrContext', function (newval, oldval) {
-        if (!newval || !data.open) return;
+        if (!newval || !data.open) {
+          return;
+        }
         fetchDirFiles();
       });
       $scope.$watch('data.open', function (newval, oldval) {
-        if (!newval || !$scope.version) return;
+        if (!newval || !$scope.versionOrContext) {
+          return;
+        }
         fetchDirFiles();
       });
 

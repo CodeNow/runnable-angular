@@ -9,13 +9,15 @@ require('app')
  */
 function ControllerBuildList(
   $scope,
+  $rootScope,
   $window,
   user,
   $stateParams,
   $state,
   async,
   keypather,
-  hasKeypaths
+  hasKeypaths,
+  callbackCount
 ) {
 
   var QueryAssist = $scope.UTIL.QueryAssist;
@@ -24,6 +26,61 @@ function ControllerBuildList(
   var dataBuildList = $scope.dataBuildList = self.initState();
   var data = dataBuildList.data;
   var actions = dataBuildList.actions;
+
+
+
+
+  var pce = data.popoverChangeEnvironment = {
+    actions: {},
+    data: {}
+  };
+  pce.data.environments = null;
+  pce.data.filter = '';
+  pce.data.show = false;
+  pce.actions.createNewEnvironment = function (event) {
+    console.log(event);
+    if (event.keyCode !== 13) {
+      return;
+    }
+    var count = callbackCount(2, done);
+    var project = dataBuildList.data.project;
+    var body = {
+      name: pce.data.filter
+    };
+    var env = project.createEnvironment(body, count.next);
+    var query = {
+      sort: '-buildNumber'
+    };
+    var builds = project.defaultEnvironment.fetchBuilds(query, count.next);
+    function done (err) {
+      if (err) {
+        throw err;
+      }
+      var newBuild = env.createBuild({
+        parentBuild: builds.models[0].id()
+      }, function (err) {
+        if (err) {
+          throw err;
+        }
+        newBuild.build({
+          message: 'initial build'
+        //  environment: env.id()
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          var sc = angular.copy($stateParams);
+          sc.branchName = env.attrs.name;
+          sc.buildName = newBuild.attrs.buildNumber;
+          $state.go('projects.build', sc);
+        });
+      });
+    }
+  };
+
+
+
+
 
   data.dataModalDelete = {};
   actions.actionsModalDelete = {
@@ -150,6 +207,7 @@ function ControllerBuildList(
           return cb(new Error('Environment not found redirect'));
         }
         data.environment = env;
+        pce.data.environments = project.environments;
         cb();
         $scope.safeApply();
       })

@@ -22,9 +22,9 @@ nav#build-stream-header.sub-header
       use(xlink:href = "#icons-delete")
 
   a.btn.silver.config(
-    ng-class = "{active: dataBuildList.data.showChangeRecipe}"
+    ng-class = "{active: dataBuildList.data.popoverChangeEnvironment.data.show}"
     toggle-pop-over
-    toggle-pop-over-model = "dataBuildList.data.showChangeRecipe"
+    toggle-pop-over-model = "dataBuildList.data.popoverChangeEnvironment.data.show"
   )
     svg.iconnables.icons-recipe
       use(xlink:href = "#icons-recipe")
@@ -32,10 +32,8 @@ nav#build-stream-header.sub-header
     svg.iconnables.icons-arrow-down
       use(xlink:href = "#icons-arrow-down")
     pop-over(
-      data = "{\
-        filter: dataBuildList.data.filter,\
-        show: dataBuildList.data.showChangeRecipe\
-      }"
+      data = "dataBuildList.data.popoverChangeEnvironment.data"
+      actions = "dataBuildList.data.popoverChangeEnvironment.actions"
       template = "viewBuildListPopoverChangeRecipe"
     )
   //- TODO
