@@ -4,9 +4,8 @@ require('app')
  * @ngInject
  */
 function buildStream(
-  $location,
-  $anchorScroll,
   $rootScope,
+  jQuery,
   primus
 ) {
   return {
@@ -48,10 +47,9 @@ function buildStream(
         var addToStream = function (data) {
           $scope.stream.data += data;
           $rootScope.safeApply();
-          $anchorScroll();
-        };
+          jQuery('html, body').scrollTop(10000);
 
-        $location.hash('log');
+        };
 
         buildPrimusStream.on('data', addToStream);
 
