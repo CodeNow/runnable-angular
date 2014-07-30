@@ -46,18 +46,21 @@
 
   .btn-group {
 
-    > .btn {
+    > a {
       margin-left: -1px;
       width: 30px;
+
+      &.active > .iconnables {
+        transform: rotate3d(0,0,1,180deg);
+      }
+    }
+
+    .green {
 
       &:hover,
       &:active,
       &.active {
         color: #fff;
-      }
-
-      &.active > .iconnables {
-        transform: rotate3d(0,0,1,180deg);
       }
     }
 
