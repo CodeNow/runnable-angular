@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "dependencies": {
     "101": {
       "version": "0.5.0",
@@ -5725,9 +5725,9 @@
       }
     },
     "runnable": {
-      "version": "0.15.7",
-      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.15.7",
-      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#95b42ba392f0894d613263d5eed78d55f5644c1a",
+      "version": "0.17.0",
+      "from": "runnable@git+ssh://git@github.com:CodeNow/runnable-api-client#v0.17.0",
+      "resolved": "git+ssh://git@github.com:CodeNow/runnable-api-client#1ab858aa84f6b6422ef20d3cd47f43680f156a82",
       "dependencies": {
         "101": {
           "version": "0.7.0",
@@ -5915,7 +5915,7 @@
               "dependencies": {
                 "qs": {
                   "version": "0.6.6",
-                  "from": "qs@^0.6.6",
+                  "from": "qs@~0.6.0",
                   "resolved": "https://registry.npmjs.org/qs/-/qs-0.6.6.tgz"
                 },
                 "json-stringify-safe": {
