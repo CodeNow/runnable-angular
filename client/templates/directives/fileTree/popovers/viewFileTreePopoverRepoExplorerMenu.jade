@@ -1,9 +1,7 @@
 .popover.context-menu.file-menu.bottom.fade.in
   .popover-content
     ul#file-explorer-options.popover-body
-      li(
-        ng-click = "showAddRepo = !showAddRepo"
-      )
+      li(ng-click = "showAddRepo = !showAddRepo")
         svg.iconnables
           use(xlink:href = "#icons-git-new")
         | Add Repo
@@ -11,9 +9,9 @@
     #add-repo.popover-body
       form.search
         input.form-control(
-          type = "search"
           placeholder = "Filter Repositories"
           required
+          type = "search"
         )
         button.submit
           svg.iconnables.icons-search

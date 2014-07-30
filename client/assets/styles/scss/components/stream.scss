@@ -80,6 +80,7 @@
       font-size: 18px;
       font-weight: 600;
       margin-top: 8px;
+      text-overflow: ellipsis;
       text-align: center;
     }
 
@@ -249,6 +250,7 @@
 
   .tooltip {
     cursor: pointer;
+    height: 54px;
     float: right;
 
     &::before {
