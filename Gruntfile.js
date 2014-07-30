@@ -132,11 +132,21 @@ module.exports = function(grunt) {
         options: {
           watch: true,
           bundleOptions: {
-            debug: true // source maps yes
+            debug: true // source maps
           }
         }
       },
       once: {
+        files: {
+          'client/build/js/bundle.js': ['client/main.js']
+        },
+        options: {
+          bundleOptions: {
+            debug: true // source maps
+          }
+        }
+      },
+      deploy: {
         files: {
           'client/build/js/bundle.js': ['client/main.js']
         }
@@ -368,5 +378,14 @@ module.exports = function(grunt) {
     'browserify:once'
   ]);
   grunt.registerTask('default', ['build', 'browserify:watch', 'concurrent']);
+  grunt.registerTask('deploy', [
+    'copy',
+    'sass:dev',
+    'cancat',
+    'autoprefixer',
+    'jade2js',
+    'autoBundleDependencies',
+    'browserify:deploy'
+  ]);
 
 };
