@@ -31,8 +31,14 @@ function buildStream(
         };
 
         if (build.attrs.completed) {
-          $scope.out = true;
-          return;
+          if (!build.failed()) { return; }
+          if (build.failed()) {
+            $scope.stream.data = build.contextVersions.models[0].attrs.build.log;
+          }
+          else {
+            $scope.out = true;
+            return;
+          }
         }
         $scope.out = false;
 

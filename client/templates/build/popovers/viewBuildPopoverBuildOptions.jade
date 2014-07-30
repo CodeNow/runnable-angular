@@ -18,7 +18,9 @@
       datalist(
         id = "user-configs"
       )
-        option(value = "Main")
+        option(
+          ng-repeat = "env in data.environments"
+        )
         option(value = "Config 1")
         option(value = "Config 2")
         option(value = "Config 3")

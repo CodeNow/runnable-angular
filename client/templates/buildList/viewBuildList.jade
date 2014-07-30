@@ -38,25 +38,26 @@ nav#build-stream-header.sub-header
       }"
       template = "viewBuildListPopoverChangeRecipe"
     )
-  form.search
-    input.form-control(
-      type = "search"
-      placeholder = "Search Builds"
-      required
-    )
-    button.submit
-      svg.iconnables.icons-search
-        use(xlink:href = "#icons-search")
-      svg.iconnables.icons-search-active
-        use(xlink:href = "#icons-search-active")
-  .btn-group
-    button.silver(type = "button")
-      svg.iconnables.icons-chevron-left
-        use(xlink:href = "#icons-chevron-left")
-      | Prev 100
-    button.silver(type = "button") Next 100
-      svg.iconnables.icons-chevron-right
-        use(xlink:href = "#icons-chevron-right")
+  //- TODO
+  //- form.search
+  //-   input.form-control(
+  //-     type = "search"
+  //-     placeholder = "Search Builds"
+  //-     required
+  //-   )
+  //-   button.submit
+  //-     svg.iconnables.icons-search
+  //-       use(xlink:href = "#icons-search")
+  //-     svg.iconnables.icons-search-active
+  //-       use(xlink:href = "#icons-search-active")
+  //- .btn-group
+  //-   button.silver(type = "button")
+  //-     svg.iconnables.icons-chevron-left
+  //-       use(xlink:href = "#icons-chevron-left")
+  //-     | Prev 100
+  //-   button.silver(type = "button") Next 100
+  //-     svg.iconnables.icons-chevron-right
+  //-       use(xlink:href = "#icons-chevron-right")
 .table-scroll
   table#build-stream.table.table-hover
     thead
@@ -86,17 +87,15 @@ nav#build-stream-header.sub-header
         ng-repeat = "build in dataBuildList.data.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
         ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
-        td
-          svg.iconnables(
-              ng-class = "{\
-                'icons-check': !build.failed(), \
-                'icons-fail': build.failed() \
-              }"
-            )
-            use(
-              ng-href = "{{ build.failed() ? '#icons-fail' : '#icons-check' }}"
-              xlink:href = ""
-            )
+        td.build-status(
+          ng-class = "{ pass: build.attrs.completed && !build.failed(), fail: build.failed() }"
+        )
+          .spinner
+            .spinner-ring
+          svg.iconnables.icons-check
+            use(xlink:href = '#icons-check')
+          svg.iconnables.icons-fail
+            use(xlink:href = '#icons-fail')
         td {{ build.attrs.buildNumber }}
         td {{ build.contextVersions.models[0].attrs.build.triggeredBy.username }}
         td {{ build.contextVersions.models[0].attrs.build.message }}
@@ -106,12 +105,14 @@ nav#build-stream-header.sub-header
         td
           a.tooltip(
             ng-if = "!build.failed()"
-            ng-click = "dataBuildList.actions.stateToInstance(build)"
+            ng-click = "dataBuildList.actions.runInstance(build)"
             data-title = "Run Instance"
           )
             svg.iconnables.icons-run
               use(xlink:href = "#icons-run")
-          a(
+          a.tooltip(
+            data-title = "View Build Log"
             ng-if = "build.failed()"
-          ) None
-
+          )
+            svg.iconnables.icons-error
+              use(xlink:href = "#icons-error")
