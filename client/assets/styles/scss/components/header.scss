@@ -195,6 +195,7 @@ header {
 #user {
   position: relative;
   text-overflow: ellipsis;
+  transition: opacity .2s;
   white-space: nowrap;
   width: 100%;
 
@@ -298,7 +299,7 @@ header {
       border-radius: 0;
       display: block;
       overflow: hidden;
-      padding-right: 6px;
+      padding-right: 7px;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
