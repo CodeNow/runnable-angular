@@ -106,9 +106,14 @@ function ControllerBuildNew(
 
   actions.build = function () {
     var buildData = data.buildPopoverBuildOptionsData;
+    // TODO: if env patch env.
+    // var body = {
+    // };
+    // if (buildData.selectedEnvironment) {
+    //   body.environment
+    // }
     data.newBuild.build({
       message: buildData.buildName
-      // config: buildData.buildConfig ??
     }, function (err, build, code) {
       if (err) {
         throw err;
@@ -128,7 +133,7 @@ function ControllerBuildNew(
       .query($stateParams.newBuildName)
       .cacheFetch(function (build, cached, cb) {
         data.newBuild = build;
-	if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
+        if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
           return actions.stateToBuild(data.newBuild.attrs.buildNumber);
         }
         cb();

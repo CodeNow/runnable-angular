@@ -38,25 +38,26 @@ nav#build-stream-header.sub-header
       }"
       template = "viewBuildListPopoverChangeRecipe"
     )
-  form.search
-    input.form-control(
-      type = "search"
-      placeholder = "Search Builds"
-      required
-    )
-    button.submit
-      svg.iconnables.icons-search
-        use(xlink:href = "#icons-search")
-      svg.iconnables.icons-search-active
-        use(xlink:href = "#icons-search-active")
-  .btn-group
-    button.silver(type = "button")
-      svg.iconnables.icons-chevron-left
-        use(xlink:href = "#icons-chevron-left")
-      | Prev 100
-    button.silver(type = "button") Next 100
-      svg.iconnables.icons-chevron-right
-        use(xlink:href = "#icons-chevron-right")
+  //- TODO
+  //- form.search
+  //-   input.form-control(
+  //-     type = "search"
+  //-     placeholder = "Search Builds"
+  //-     required
+  //-   )
+  //-   button.submit
+  //-     svg.iconnables.icons-search
+  //-       use(xlink:href = "#icons-search")
+  //-     svg.iconnables.icons-search-active
+  //-       use(xlink:href = "#icons-search-active")
+  //- .btn-group
+  //-   button.silver(type = "button")
+  //-     svg.iconnables.icons-chevron-left
+  //-       use(xlink:href = "#icons-chevron-left")
+  //-     | Prev 100
+  //-   button.silver(type = "button") Next 100
+  //-     svg.iconnables.icons-chevron-right
+  //-       use(xlink:href = "#icons-chevron-right")
 .table-scroll
   table#build-stream.table.table-hover
     thead
@@ -104,7 +105,7 @@ nav#build-stream-header.sub-header
         td
           a.tooltip(
             ng-if = "!build.failed()"
-            ng-click = "dataBuildList.actions.stateToInstance(build)"
+            ng-click = "dataBuildList.actions.runInstance(build)"
             data-title = "Run Instance"
           )
             svg.iconnables.icons-run
