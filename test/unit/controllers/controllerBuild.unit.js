@@ -53,7 +53,7 @@ describe('ControllerBuild'.bold.underline.blue, function () {
   }
   beforeEach(initState);
 
-  describe('getPopoverButtonText'.blue, function () {
+  describe.skip('getPopoverButtonText'.blue, function () {
     it('correctly formats string', function () {
       var baseReturnStr = 'Build';
       expect(dataBuild.actions.getPopoverButtonText(''))
@@ -70,7 +70,7 @@ describe('ControllerBuild'.bold.underline.blue, function () {
     });
   });
 
-  describe('resetInputModelValue'.blue, function () {
+  describe.skip('resetInputModelValue'.blue, function () {
     it('should reset input model value to empty string if this is the first click', function () {
       expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
       expect(dataBuild.data).to.have.property('buildName', $stateParams.buildName);
@@ -129,7 +129,7 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       expect(dataBuild.data.showExplorer).to.equal(true);
     });
 
-    it('should toggle open/closed', function () {
+    it.skip('should toggle open/closed', function () {
       dataBuild.actions.toggleExplorer();
       expect(dataBuild.data.showExplorer).to.equal(false);
       dataBuild.actions.toggleExplorer();
@@ -138,7 +138,7 @@ describe('ControllerBuild'.bold.underline.blue, function () {
       expect(dataBuild.data.showExplorer).to.equal(false);
     });
 
-    it('should not toggle in response to external click events', function () {
+    it.skip('should not toggle in response to external click events', function () {
       dataBuild.actions.toggleExplorer();
       expect(dataBuild.data.showExplorer).to.equal(false);
       dataBuild.actions.toggleExplorer();
