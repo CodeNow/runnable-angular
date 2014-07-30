@@ -26,11 +26,6 @@
     }
 
     &.in {
-      color: #888; // dim when modified
-
-      .icons-check {
-        transform: scale3d(0,0,0);
-      }
 
       .icons-asterisk {
         color: #33d4ff;
@@ -40,9 +35,9 @@
 
     // back-stream
     > .btn-icon {
+      left: 9px;
       position: absolute;
-        left: 9px;
-        top: 8px;
+      top: 8px;
       width: 36px;
 
       &::before,
@@ -52,15 +47,19 @@
       }
     }
 
-    > .iconnables-container{
+    > .iconnables-container {
       margin-right: 3px;
       top: 6px;
       user-select: none;
 
+      .spinner {
+        top: 3px;
+      }
+
       .iconnables {
+        left: 0;
         position: absolute;
-          top: 0;
-          left: 0;
+        top: 0;
 
         &.icons-check {
           color: $green;
@@ -68,7 +67,10 @@
 
         &.icons-asterisk {
           left: 4px;
-          transform: scale3d(0,0,0);
+        }
+
+        &.icons-fail {
+          color: $orange;
         }
       }
     }
@@ -83,11 +85,11 @@
 
     > .icons-edit {
       color: $gray-dark;
+      left: auto;
       opacity: .25;
       position: absolute;
-        top: 14px;
-        right: 20px;
-        left: auto;
+      right: 20px;
+      top: 14px;
     }
   }
 
@@ -198,7 +200,7 @@
       height: 20px;
       margin: 0;
       position: relative;
-        top: 4px;
+      top: 4px;
       width: 20px;
     }
   }
@@ -218,6 +220,11 @@
 
   th:last-child {
     text-align: right;
+  }
+
+  .build-status {
+    display: flex;
+    min-width: 36px;
   }
 
   .btn-sm {
