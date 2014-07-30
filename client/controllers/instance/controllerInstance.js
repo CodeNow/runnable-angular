@@ -28,15 +28,6 @@ function ControllerInstance(
   dataInstance.showAddTab = false;
   dataInstance.showFileMenu = false;
 
-  actions.restartInstance = function () {
-    data.instance.restart(function (err) {
-      if (err) {
-        throw err;
-      }
-      $scope.safeApply();
-    });
-  };
-
   actions.addTerminal = function () {
     data.openFiles.add({
       Key: 'Terminal',
@@ -44,6 +35,26 @@ function ControllerInstance(
       params: data.instance.attrs.containers[0]
     });
     data.showAddTab = false;
+  };
+
+  actions.stopInstance = function () {
+    data.instance.stop(function (err) {
+      if (err) { throw err; }
+      data.instance.fetch(function (err) {
+        if (err) { throw err; }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  actions.startInstance = function () {
+    data.instance.start(function (err) {
+      if (err) { throw err; }
+      data.instance.fetch(function (err) {
+        if (err) { throw err; }
+        $scope.safeApply();
+      });
+    });
   };
 
   $scope.$on('app-document-click', function () {
