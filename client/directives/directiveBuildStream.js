@@ -21,6 +21,8 @@ function buildStream(
         $scope.out = true;
       };
 
+      var buildPrimusStream;
+
       var initStream = function () {
         var build = $scope.build;
         $scope.stream = {
@@ -48,7 +50,6 @@ function buildStream(
           $scope.stream.data += data;
           $rootScope.safeApply();
           jQuery('html, body').scrollTop(10000);
-
         };
 
         buildPrimusStream.on('data', addToStream);
@@ -80,7 +81,7 @@ function buildStream(
       });
 
       elem.on('$destroy', function () {
-        if (buildPrimusStream) {
+        if (buildPrimusStream && typeof buildPrimusStream.end === 'function') {
           buildPrimusStream.end();
         }
       });
