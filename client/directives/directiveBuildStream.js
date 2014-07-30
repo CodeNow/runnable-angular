@@ -22,8 +22,13 @@ function buildStream(
         var build = $scope.build;
 
         if (build.attrs.completed) {
-          elem.addClass('out');
-          return;
+          if (build.failed()) {
+            $scope.stream.data = build.contextVersions.models[0].attrs.build.log;
+          }
+          else {
+            elem.addClass('out');
+            return;
+          }
         }
 
         elem.removeClass('out');

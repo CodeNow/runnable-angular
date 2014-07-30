@@ -196,6 +196,7 @@ function ControllerBuildList(
     ], function (err, project, environments, environment, builds) {
       if (err) {
         // TODO error handling
+        $state.go('404');
         throw err;
       }
       $scope.safeApply();

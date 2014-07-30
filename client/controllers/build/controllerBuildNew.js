@@ -28,40 +28,49 @@ function ControllerBuildNew(
   };
 
   /**************************************
+   * DataTreeFilePopoverRepoItemMenu
+   **************************************/
+  data.dataFileTreePopoverRepoItemMenu = {};
+  var repoCMData = data.dataFileTreePopoverRepoItemMenu.data = {};
+  var repoCMActions = data.dataFileTreePopoverRepoItemMenu.actions = {};
+  repoCMData.show = false;
+
+  /**************************************
    * BuildPopoverBuildOptions
    **************************************/
-  function setupRepoPopover () {
-    var buildPopoverRepoMenu = data.buildPopoverRepoMenu = {};
-    var shaRegExp = /^[a-fA-F0-9]{40}$/;
+  var buildPopoverRepoMenu = data.buildPopoverRepoMenu = {};
 
+  function setupRepoPopover () {
     buildPopoverRepoMenu.data = {
       show: false,
       githubRepos : data.githubRepos,
       appCodeVersions : keypather.get(data, 'newVersion.appCodeVersions')
     };
-    buildPopoverRepoMenu.actions = {
-      addGithubRepo: function (repo, branchOrSHA) {
-        var body = {
-          repo: repo.attrs.full_name
-        };
-        if (branchOrSHA) {
-          if (shaRegExp.test(branchOrSHA)) {
-            body.commit = branchOrSHA;
-          }
-          else {
-            body.branch = branchOrSHA;
-          }
-        }
-        data.newVersion.appCodeVersions.create(body, function (err) {
-          if (err) {
-            throw err;
-          }
-          $scope.safeApply();
-        });
-      }
-    };
   }
   setupRepoPopover();
+
+  var shaRegExp = /^[a-fA-F0-9]{40}$/;
+  buildPopoverRepoMenu.actions = {
+    addGithubRepo: function (repo, branchOrSHA) {
+      var body = {
+        repo: repo.attrs.full_name
+      };
+      if (branchOrSHA) {
+        if (shaRegExp.test(branchOrSHA)) {
+          body.commit = branchOrSHA;
+        }
+        else {
+          body.branch = branchOrSHA;
+        }
+      }
+      data.newVersion.appCodeVersions.create(body, function (err) {
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    }
+  };
 
   /**************************************
    * BuildPopoverBuildOptions
@@ -139,7 +148,10 @@ function ControllerBuildNew(
         cb();
       })
       .resolve(function (err, build, cb) {
-        cb();
+        if (!build) {
+          return cb(new Error('Build not found'));
+        }
+        cb(err);
       })
       .go();
   }
@@ -165,9 +177,12 @@ function ControllerBuildNew(
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, context, cb){
+      .resolve(function (err, githubRepos, cb){
+        if (!githubRepos) {
+          return cb(new Error('GitHub Repos not found'));
+        }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -193,6 +208,13 @@ function ControllerBuildNew(
       newFilesCollOpenFiles,
     ], function(){
       setupRepoPopover();
+      if (err) {
+        $state.go('404');
+        throw err;
+      }
+      if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
+        return actions.stateToBuild(data.newBuild.attrs.buildNumber);
+      }
       $scope.safeApply();
     });
   };

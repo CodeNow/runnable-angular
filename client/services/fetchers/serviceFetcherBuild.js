@@ -39,14 +39,12 @@ function factoryFetcherBuild (
           $rootScope.safeApply();
         })
         .resolve(function (err, projects, cb) {
-          if (err) {
-            throw err;
-          }
-          else if (!projects.models.length) {
+          if (!projects.models.length) {
             $state.go('404');
+            return cb(new Error('No projects found'));
           }
           $rootScope.safeApply();
-          cb();
+          cb(err);
         })
         .go();
     }
@@ -60,7 +58,8 @@ function factoryFetcherBuild (
         })
         .cacheFetch(function updateDom(builds, cached, cb) {
           if (!builds.models.length) {
-            actions.stateToBuildList();
+            console.log('har');
+            return cb(new Error('build not found'));
           }
           else {
             var build = builds.models[0];
@@ -73,11 +72,12 @@ function factoryFetcherBuild (
           }
         })
         .resolve(function (err, builds, cb) {
-          if (err) {
-            throw err;
+          if (!builds.models.length) {
+            $state.go('404');
+            return cb(new Error('No builds found'));
           }
           $rootScope.safeApply();
-          cb();
+          cb(err);
        })
         .go();
     }
