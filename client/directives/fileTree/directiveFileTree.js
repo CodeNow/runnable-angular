@@ -29,7 +29,7 @@ function fileTree(
           idAttribute: 'id'
         });
       }
-      $scope.$watch('version', function (newval, oldval) {
+      $scope.$watch('versionOrContext', function (newval, oldval) {
         if (newval) {
           init();
         }
