@@ -86,7 +86,7 @@ nav#build-stream-header.sub-header
         ng-repeat = "build in dataBuildList.data.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
         ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
-        td
+        td.build-status
           svg.iconnables(
               ng-class = "{\
                 'icons-check': !build.failed(), \
