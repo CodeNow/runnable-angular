@@ -7,9 +7,7 @@ nav.sub-header
     )
       svg.iconnables.icons-back-table
         use(xlink:href = "#icons-back-table")
-    .iconnables.iconnables-container
-      svg.iconnables.icons-check
-        use(xlink:href = "#icons-check")
+    .iconnables.iconnables-container.build-status
       svg.iconnables.icons-asterisk
         use(xlink:href = "#icons-asterisk")
     | Build {{ dataBuildNew.data.newBuild.attrs.id | limitTo:4 }}...

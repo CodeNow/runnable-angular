@@ -110,7 +110,9 @@ nav#build-stream-header.sub-header
           )
             svg.iconnables.icons-run
               use(xlink:href = "#icons-run")
-          a(
+          a.tooltip(
+            data-title = "View Build Log"
             ng-if = "build.failed()"
-          ) None
-
+          )
+            svg.iconnables.icons-error
+              use(xlink:href = "#icons-error")
