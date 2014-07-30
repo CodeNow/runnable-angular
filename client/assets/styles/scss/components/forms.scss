@@ -30,16 +30,19 @@ textarea,
   }
 
   //validation
-  &.ng-valid {
-    background: url(/build/images/icons/icons-check.svg) #fff no-repeat center right;
-  }
+  .form-validate {
 
-  &.ng-invalid {
-    background: url(/build/images/icons/icons-error.svg) #fff no-repeat center right;
-  }
+    &.ng-valid {
+      background: url(/build/images/icons/icons-check.svg) #fff no-repeat center right;
+    }
 
-  &.ng-pristine {
-    background: #fff;
+    &.ng-invalid {
+      background: url(/build/images/icons/icons-error.svg) #fff no-repeat center right;
+    }
+
+    &.ng-pristine {
+      background: #fff;
+    }
   }
 
   @include retina() {

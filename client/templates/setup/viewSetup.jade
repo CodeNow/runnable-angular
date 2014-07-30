@@ -7,9 +7,7 @@ nav.sub-header
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
-  section#main-controls(
-    ng-class = "{in: dataSetup.data.isAdvanced}"
-  )
+  section#main-controls(ng-class = "{in: dataSetup.data.isAdvanced}")
     .clean
       button.silver(
         ng-click = "dataSetup.actions.enterAdvancedMode()"
@@ -21,7 +19,6 @@ nav.sub-header
         ng-click = "dataSetup.actions.resetFilesToSource()"
         type = "button"
       ) Discard Changes and Return to Basic Setup
-
 section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
   form
     #setup-repo
@@ -32,8 +29,8 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
       .input-container
         input.form-control(
           ng-focus = "dataSetup.data.isRepoMode = true"
-          placeholder = "Add Repository"
           ng-model = "dataSetup.data.repoFilter"
+          placeholder = "Add Repository"
         )
         button.btn-icon.inactive(
           ng-click = "dataSetup.data.isRepoMode = true"
@@ -55,7 +52,8 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
           .repo{{ appCodeVersion.attrs.repo.split('/')[1] }}
             button.btn-icon(
               ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
-              type = "button")
+              type = "button"
+            )
               svg.iconnables.icons-delete
                 use(xlink:href = "#icons-delete")
           label
@@ -66,9 +64,7 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
               placeholder = "Branch or commit (optional)"
               value = "@master"
             )
-            datalist(
-              id = "repo-branches"
-            )
+            datalist(id = "repo-branches")
               option(value = "master")
               option(value = "instance-page")
               option(value = "instance-terminal")
@@ -84,25 +80,20 @@ section.sidebar(ng-class = "{out: dataSetup.data.isAdvanced}")
         label(ng-repeat = "context in dataSetup.data.seedContexts.models") {{ context.attrs.name }}
           input(
             name = "{{ context.attrs.name }}"
-            required
             ng-click = "dataSetup.actions.selectSourceContext(context)"
+            required
             type = "radio"
           )
-    button.btn-block.orange(
-      ng-click = "dataSetup.actions.buildApplication()"
-    ) Build Application
-
+    button.btn-block.orange(ng-click = "dataSetup.actions.buildApplication()") Build Application
 #editor
   button#editor-status.silver(
     disabled
     type = "button"
   ) Readonly
-  tabs#editor-toolbar(
-    open-files = "dataSetup.data.contextFiles"
-  )
+  tabs#editor-toolbar(open-files = "dataSetup.data.contextFiles")
   active-panel(
-    read-only = "dataSetup.data.isReadOnly"
-    open-files = "dataSetup.data.contextFiles"
     is-clean = "dataSetup.data.isClean"
+    open-files = "dataSetup.data.contextFiles"
+    read-only = "dataSetup.data.isReadOnly"
     update = "true"
   )
