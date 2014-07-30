@@ -8,6 +8,7 @@ require('app')
  */
 function ControllerInstance(
   $scope,
+  $state,
   $stateParams,
   async,
   user,
@@ -59,6 +60,24 @@ function ControllerInstance(
     });
   };
 
+  actions.stateToBuildList = function (userName, projectName, branchName) {
+    var thisUser = $scope.dataApp.user;
+    var state = {
+      userName: userName,
+      projectName: projectName,
+      branchName: branchName
+    };
+    $state.go('projects.buildList', state);
+  };
+
+  actions.destroyInstance = function () {
+    var old = data.instance.json();
+    data.instance.destroy(function (err) {
+      if (err) { throw err; }
+      actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
+    });
+  };
+
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
@@ -83,6 +102,9 @@ function ControllerInstance(
       .wrapFunc('fetchInstance')
       .query($stateParams.instanceId)
       .cacheFetch(function updateDom(instance, cached, cb) {
+        if (!instance) {
+          return $state.go(404);
+        }
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         $scope.safeApply();
