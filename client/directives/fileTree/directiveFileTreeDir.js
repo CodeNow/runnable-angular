@@ -39,7 +39,7 @@ function fileTreeDir(
         fetchDirFiles();
       });
       $scope.$watch('data.open', function (newval, oldval) {
-        if (!newval || !$scope.version) return;
+        if (!newval || !$scope.versionOrContext) return;
         fetchDirFiles();
       });
 
