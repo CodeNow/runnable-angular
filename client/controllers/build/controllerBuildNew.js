@@ -96,7 +96,10 @@ function ControllerBuildNew(
         cb();
       })
       .resolve(function (err, build, cb) {
-        cb();
+        if (!build) {
+          return cb(new Error('Build not found'));
+        }
+        cb(err);
       })
       .go();
   }
@@ -122,9 +125,12 @@ function ControllerBuildNew(
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, context, cb){
+      .resolve(function (err, githubRepos, cb){
+        if (!githubRepos) {
+          return cb(new Error('GitHub Repos not found'));
+        }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -148,7 +154,11 @@ function ControllerBuildNew(
       fetchNewBuild,
       fetchOwnerRepos,
       newFilesCollOpenFiles
-    ], function(){
+    ], function (err) {
+      if (err) {
+        $state.go('404');
+        throw err;
+      }
       if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
         return actions.stateToBuild(data.newBuild.attrs.buildNumber);
       }

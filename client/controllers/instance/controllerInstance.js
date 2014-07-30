@@ -78,11 +78,11 @@ function ControllerInstance(
         cb();
       })
       .resolve(function (err, instance, cb) {
-        if (err) {
-          throw err;
+        if (!instance || !instance.containers.models.length) {
+          return cb(new Error('Instance not found'));
         }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -103,7 +103,11 @@ function ControllerInstance(
     holdUntilAuth,
     fetchInstance,
     newFilesCollOpenFiles
-  ], function() {
+  ], function (err) {
+    if (err) {
+      $state.go('404');
+      throw err;
+    }
     $scope.safeApply();
   });
 }

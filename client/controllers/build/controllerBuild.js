@@ -149,9 +149,12 @@ function ControllerBuild(
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, context, cb){
+      .resolve(function (err, githubRepos, cb) {
+        if (!githubRepos) {
+          return cb(new Error('GitHub repos not found'));
+        }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -173,7 +176,12 @@ function ControllerBuild(
       fetcherBuild($scope.dataBuild.data),
       fetchOwnerRepos,
       newFilesCollOpenFiles
-    ], function(){});
+    ], function (err) {
+      if (err) {
+        $state.go('404');
+        throw err;
+      }
+    });
   };
   actions.seriesFetchAll();
 

@@ -163,7 +163,13 @@ function ControllerSetup(
       fetchSeedContexts,
       fetchFirstBuild,
       fetchOwnerRepos
-    ], function (err) {});
+    ], function (err) {
+      if (err) {
+        $state.go('404');
+        throw err;
+      }
+      $scope.safeApply();
+    });
   };
   actions.initState();
 
@@ -179,11 +185,11 @@ function ControllerSetup(
         cb();
       })
       .resolve(function (err, versions, cb) {
-        if (err) {
-          throw err;
+        if (!versions.models.length) {
+          return cb(new Error('Source Context Versions not found'));
         }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -202,8 +208,11 @@ function ControllerSetup(
         cb();
       })
       .resolve(function (err, projects, cb) {
+        if (!projects.models.length) {
+          return cb(new Error('Projects not found'));
+        }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -226,8 +235,11 @@ function ControllerSetup(
         }
       })
       .resolve(function(err, builds, cb){
+        if (!builds.models.length) {
+          return cb(new Error('Build not found'));
+        }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -255,9 +267,12 @@ function ControllerSetup(
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, context, cb){
+      .resolve(function (err, githubRepos, cb) {
+        if (githubRepos) {
+          return cb(new Error('GitHub repos not found'));
+        }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -274,11 +289,11 @@ function ControllerSetup(
         cb();
       })
       .resolve(function (err, context, cb) {
-        if (err) {
-          throw err;
+        if (!context) {
+          return cb(new Error('Context not found'));
         }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -296,8 +311,11 @@ function ControllerSetup(
         cb();
       })
       .resolve(function (err, contexts, cb) {
+        if (!contexts) {
+          return cb(new Error('Seed Contexts not found'));
+        }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -313,8 +331,8 @@ function ControllerSetup(
         cb();
       })
       .resolve(function(err, files, cb) {
-        if (err) {
-          throw new Error(err);
+        if (!files) {
+          return cb(new Error('Context Version Files not found'));
         }
         data.contextFiles = new SharedFilesCollection(
           files,
@@ -324,7 +342,7 @@ function ControllerSetup(
           data.contextFiles.setActiveFile(files.models[0]);
         }
         $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
