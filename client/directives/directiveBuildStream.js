@@ -6,8 +6,8 @@ require('app')
 function buildStream(
   $location,
   $anchorScroll,
-  primus,
-  $rootScope
+  $rootScope,
+  primus
 ) {
   return {
     restrict: 'E',
@@ -18,15 +18,22 @@ function buildStream(
     templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
+      $scope.close = function () {
+        $scope.out = true;
+      };
+
       var initStream = function () {
         var build = $scope.build;
+        $scope.stream = {
+          finished: false,
+          data: ''
+        };
 
         if (build.attrs.completed) {
-          elem.addClass('out');
+          $scope.out = true;
           return;
         }
-
-        elem.removeClass('out');
+        $scope.out = false;
 
         var streamId = build.attrs._id + '-' + Date.now();
         var buildPrimusStream = primus({
@@ -38,22 +45,11 @@ function buildStream(
           }
         }).substream(streamId);
 
-        elem.on('$destroy', function () {
-          if (buildPrimusStream) {
-            buildPrimusStream.end();
-          }
-        });
-
         var addToStream = function (data) {
           $scope.stream.data += data;
           $rootScope.safeApply();
           $anchorScroll();
         };
-
-        $scope.stream = {
-          finished: false
-        };
-        $scope.stream.data = '';
 
         $location.hash('log');
 
@@ -78,13 +74,16 @@ function buildStream(
         });
       };
 
-      $scope.close = function () {
-        elem.addClass('out');
-      };
 
       $scope.$watch('build.attrs._id', function (buildId) {
         if (buildId) {
           initStream();
+        }
+      });
+
+      elem.on('$destroy', function () {
+        if (buildPrimusStream) {
+          buildPrimusStream.end();
         }
       });
     }
