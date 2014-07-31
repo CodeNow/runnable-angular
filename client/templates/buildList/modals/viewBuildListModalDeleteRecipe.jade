@@ -1,0 +1,22 @@
+.modal(
+  ng-class = "{'in': in}"
+  ng-click = "cancel()"
+)
+  .modal-dialog(
+    ng-click = "$event.stopPropagation()"
+  )
+    .modal-header
+      svg.iconnables.icons-delete
+        use(xlink:href = "#icons-delete")
+    .modal-body Delete #{''}
+      em.highlight {{ data.attrs.name }}
+      |  for good?
+    .modal-footer
+      button.silver(
+        ng-click = "cancel()"
+        type = "button"
+      ) Cancel
+      button.orange(
+        ng-click = "actions.deleteRecipe(data)"
+        type = "button"
+      ) Delete for good.

@@ -77,8 +77,22 @@ function ControllerBuildList(
       });
     }
   };
-
-
+  pce.actions.actionsModalDeleteEnvironment = {
+    deleteRecipe: function (env) {
+      env.destroy(function (err) {
+        if (!err) {
+          data.project.fetch(function (err, project) {
+            var defEnv = project.environments.filter(hasKeypaths({
+              _id: project.defaultEnvironment
+            }))[0];
+            var sc = angular.copy($stateParams);
+            sc.branchName = defEnv.name;
+            $state.go('projects.buildList', sc);
+          });
+        }
+      });
+    }
+  };
 
 
 

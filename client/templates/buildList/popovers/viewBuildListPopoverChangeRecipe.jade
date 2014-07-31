@@ -19,9 +19,15 @@
           use(xlink:href = "#icons-add")
     ul.popover-body.popover-list
       li(
-        ng-repeat = "env in data.environments.models | filter:{attrs: {name: data.filter}}",
+        ng-repeat = "env in data.environments.models | filter:{attrs: {name: data.filter}}"
         ng-click = "actions.stateToEnvironment(env.attrs.name)"
       ) {{ env.attrs.name }}
-        button.btn-icon.delete(type = "button")
+        button.btn-icon.delete(
+          modal
+          modal-actions  = "actions.actionsModalDeleteEnvironment"
+          modal-data     = "env"
+          modal-template = "viewBuildListModalDeleteRecipe"
+          type = "button"
+        )
           svg.iconnables.icons-close
             use(xlink:href = "#icons-close")
