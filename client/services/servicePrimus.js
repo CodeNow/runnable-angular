@@ -60,7 +60,6 @@ RunnablePrimus.prototype.createTermStreams = function (container) {
 RunnablePrimus.prototype.onBuildCompletedEvents = function (cb) {
   if (!cb) { throw new Error('cb is required'); }
   this.on('data', function (data) {
-    console.log(data);
     if (data && data.event === 'BUILD_STREAM_ENDED') {
       cb(data.data.build);
     }
