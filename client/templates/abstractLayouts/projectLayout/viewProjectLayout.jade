@@ -3,7 +3,7 @@ header(ng-class = "dataProjectLayout.actions.getInClass()")
     a#logo(href = "/")
       svg
         use(xlink:href = "#runnable-logo")
-    button#user.white.loading(
+    button#user.white(
       ng-class="{'active': dataProjectLayout.data.showChangeAccount}"
       ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
       type = "button"

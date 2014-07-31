@@ -16,18 +16,63 @@ function ControllerInstance(
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var self = ControllerInstance;
-  var dataInstance = $scope.dataInstance = self.initData();
-  var data = dataInstance.data,
-    actions = dataInstance.actions;
 
-  // init
-  dataInstance.popoverAddTab = {
+  var dataInstance = $scope.dataInstance = {};
+  var data = dataInstance.data = {};
+  var actions = dataInstance.actions = {};
+
+  /*********************************
+   * popoverFileMenu
+   *********************************/
+  var pfm = data.popoverFileMenu = {};
+  pfm.data = {};
+  pfm.data.show = false;
+  pfm.actions = {};
+  pfm.actions.createFile = function () {
+  };
+  pfm.actions.createFolder = function () {
+  };
+
+  /*********************************
+   * popoverAddTab
+   *********************************/
+  var pat = data.popoverAddTab = {};
+  pat.data = {};
+  pat.data.show = false;
+  pat.actions = {};
+
+
+  data.popoverAddTab = {
     filter: ''
   };
+  data.showAddTab = false;
+  data.showFileMenu = false;
 
   dataInstance.showAddTab = false;
   dataInstance.showFileMenu = false;
+
+
+
+
+  actions.addOutputStream = function () {
+    data.openFiles.add({
+      type: 'outputStream',
+      name: Date.now()+'',
+      filename: function () {
+        return 'output stream... meh';
+      }
+    });
+  };
+
+  actions.addWebView = function () {
+    data.openFiles.add({
+      type: 'webView',
+      name: Date.now()+'',
+      filename: function () {
+        return 'WEBVIEW!!!';
+      }
+    });
+  };
 
   actions.addTerminal = function () {
     data.openFiles.add({
@@ -35,7 +80,10 @@ function ControllerInstance(
       type: 'terminal',
       path: '/',
       name: Date.now() + '',
-      params: data.instance.attrs.containers[0]
+      params: data.instance.attrs.containers[0],
+      filename: function () {
+        return 'TERMINAL!';
+      }
     });
     data.showAddTab = false;
   };

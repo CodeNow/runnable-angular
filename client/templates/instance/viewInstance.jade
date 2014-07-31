@@ -86,11 +86,11 @@ section.sidebar
 
 //- code_editor
 #editor.with-addtab.in(
-  ng-class="{'in': dataInstance.showExplorer, '': !dataInstance.showExplorer}"
+  ng-class="{'in': dataInstance.data.showExplorer, '': !dataInstance.data.showExplorer}"
 )
   button#explorer-toggle.btn-icon(
-    ng-click = "dataInstance.showExplorer = !dataInstance.showExplorer"
-    ng-init = "dataInstance.showExplorer = true"
+    ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
+    ng-init = "dataInstance.data.showExplorer = true"
     type = "button"
   )
     svg.iconnables.icons-folder-open
@@ -100,27 +100,23 @@ section.sidebar
     #controls
       button.toggle-theme.tooltip(
         data-title = "Change Theme"
-        ng-class = "{dark: !dataBuild.toggleTheme, light: dataBuild.toggleTheme}"
-        ng-click = "dataBuild.toggleTheme = !dataBuild.toggleTheme"
+        ng-class = "{dark: !dataInstance.data.toggleTheme, light: dataInstance.data.toggleTheme}"
+        ng-click = "dataInstance.data.toggleTheme = !dataInstance.data.toggleTheme"
         type = "button"
       )
         .theme
     h6.explorer-header
       | INSTANCE FILES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataInstance.data.showFileMenu}"
+        ng-class = "{active: dataInstance.data.popoverFileMenu.data.show}"
         toggle-pop-over
-        toggle-pop-over-model = "dataInstance.data.showFileMenu"
+        toggle-pop-over-model = "dataInstance.data.popoverFileMenu.data.show"
       )
         svg.iconnables.icons-gear
           use(xlink:href = "#icons-gear")
         pop-over(
-          actions = "{\
-            createFile: dataInstance.actions.createFile\
-          }"
-          data = "{\
-            show: dataInstance.data.showFileMenu\
-          }"
+          actions = "dataInstance.data.popoverFileMenu.actions"
+          data = "dataInstance.data.popoverFileMenu.data"
           template = "viewInstancePopoverFileMenu"
         )
       file-tree(
