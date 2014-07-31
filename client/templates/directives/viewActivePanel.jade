@@ -1,27 +1,31 @@
 #editor-container(ng-switch on = "openFiles.activeFile.attrs.type")
-  //- pre(
-  //-   ng-model = "openFiles.activeFile.state.body"
-  //-   ng-switch-default
-  //-   ng-class = "{ \
-  //-     readonly: readOnly, \
-  //-     'ace-runnable-dark': isDarkTheme \
-  //-   }"
-  //-   readonly = "{{ readOnly }}"
-  //-   ui-ace
-  //- )
-  //- .term-container(
-  //-   ng-switch-when = "terminal"
-  //- )
-  //-   term.terminal(
-  //-     params = "openFiles.activeFile.attrs.params"
-  //-   )
+  //- ACE EDITOR
+  pre(
+    ng-model = "openFiles.activeFile.state.body"
+    ng-switch-default
+    ng-class = "{ \
+      readonly: readOnly, \
+      'ace-runnable-dark': isDarkTheme \
+    }"
+    readonly = "{{ readOnly }}"
+    ui-ace
+  )
 
-  //- TODO
-  //- output-stream(
-  //-   ng-switch-when = "outputStream"
-  //- )
+  //- TERMINAL
+  .term-container(
+    ng-switch-when = "terminal"
+  )
+    term.terminal(
+      params = "openFiles.activeFile.attrs.params"
+    )
+
+  //- OUTPUT STREAM
+  output-stream(
+    ng-switch-when = "outputStream"
+  )
 
   .web-container(
+    ng-switch-when = "webView"
   )
     //- .browser-loading to toggle refresh/stop icon
     //- .browser-loading is also required for the progress bar, so remove it when loading is complete

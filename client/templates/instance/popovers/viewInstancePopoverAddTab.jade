@@ -8,7 +8,9 @@
   .popover-content
     #add-tab-options
       ol.popover-body.col-popover-3
-        li
+        li(
+          ng-click = "actions.addWebView()"
+        )
           svg.iconnables.lg.icons-web
             use(xlink:href = "#icons-web")
           | Web View
@@ -18,7 +20,9 @@
           svg.iconnables.lg.icons-terminal
             use(xlink:href = "#icons-terminal")
           | Terminal
-        li
+        li(
+          ng-click = "actions.addRunLog()"
+        )
           svg.iconnables.lg.icons-logs
             use(xlink:href = "#icons-logs")
           | Run Log
