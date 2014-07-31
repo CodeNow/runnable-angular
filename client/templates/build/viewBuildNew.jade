@@ -43,10 +43,7 @@ section.sidebar
         use(xlink:href = "#icons-recipe")
       b {{ dataApp.stateParams.branchName }}
       | #{''} config
-    li(
-      interval-update
-      interval-update-ms = "60000"
-    )
+    li
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
       | Initiated {{ dataBuildNew.data.newBuild.attrs.created | timeAgo }}
