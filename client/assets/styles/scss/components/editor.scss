@@ -12,10 +12,7 @@
     font-family: 'Source Code Pro', monospace;
     font-size: 14px;
     font-weight: 400;
-    height: 100%;
     line-height: 1.4;
-    position: absolute;
-    width: 100%;
 
     &.readonly {
       opacity: .5;
@@ -120,12 +117,12 @@
       content: attr(data-title);
       font-size: 14px;
       font-weight: 500;
+      left: 0;
       line-height: 36px;
       padding-left: 9px;
       pointer-events: none;
       position: absolute;
-        top: 0;
-        left: 0;
+      top: 0;
     }
   }
 
@@ -211,6 +208,9 @@
 }
 
 #editor-container {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
   height: calc(100% - 36px);
   transform: translate3d(0,0,0);
   transition: transform .2s ease-in-out, width 0s ease-in-out;
@@ -228,6 +228,11 @@
 
   .ace_text-input {
     font-size: 16px;
+  }
+
+  pre,
+  iframe {
+    flex: 1 0 auto;
   }
 }
 
