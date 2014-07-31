@@ -54,12 +54,12 @@ function popoverFileExplorerMenu(
 
       actions.createFile = function () {
         var name = 'undefined';
-        $scope.version.createFile({
+        $scope.versionOrContext.createFile({
           name: name,
           path: $scope.dir.attrs.path,
           isDir: false
         }, function () {
-          $scope.version.fetchFiles({
+          $scope.versionOrContext.fetchFiles({
             path: $scope.dir.filepath()
           }, function () {
             $timeout(function () {
@@ -71,12 +71,12 @@ function popoverFileExplorerMenu(
 
       actions.createFolder = function () {
         var name = 'undefined';
-        $scope.version.createFile({
+        $scope.versionOrContext.createFile({
           name: name,
           path: $scope.dir.attrs.path,
           isDir: true
         }, function () {
-          $scope.version.fetchFiles({
+          $scope.versionOrContext.fetchFiles({
             path: $scope.dir.filepath()
           }, function () {
             $timeout(function () {

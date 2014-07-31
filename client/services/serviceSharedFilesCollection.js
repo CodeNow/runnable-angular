@@ -53,6 +53,9 @@ function factory(
       model.state = null; // reset state
       this.collection.add(model);
       model.type = 'file';
+      model.filename = function () {
+        return model.attrs.name;
+      };
     }
     this.setActiveFile(model);
   };

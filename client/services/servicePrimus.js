@@ -7,6 +7,21 @@ function RunnablePrimus () {
 
 util.inherits(RunnablePrimus, PrimusClient);
 
+RunnablePrimus.prototype.createLogStream = function (container) {
+  var dockerContainerId = container.attrs.dockerContainer;
+  var logStream = this.substream(dockerContainerId);
+  this.write({
+    id: 1,
+    event: 'log-stream',
+    data: {
+      substreamId: dockerContainerId,
+      dockHost: container.attrs.dockerHost,
+      containerId: dockerContainerId
+    }
+  });
+  return logStream;
+};
+
 RunnablePrimus.prototype.createBuildStream = function (build) {
   var contextVersionId = build.contextVersions.models[0].id();
   var buildStream = this.substream(contextVersionId);
