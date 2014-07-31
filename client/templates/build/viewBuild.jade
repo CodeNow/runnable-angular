@@ -129,24 +129,6 @@ section.sidebar
     //- h6(ng-if = "buildFiles.models.length")
     h6.explorer-header
       | CONFIG FILES
-      a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataBuild.data.showFileMenu}"
-        toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showPopoverFileMenu"
-      )
-        svg.iconnables.icons-gear
-          use(xlink:href = "#icons-gear")
-        pop-over(
-          template = "viewBuildPopoverFileMenu"
-          actions = "{\
-            createFile: actions.createFile\
-          }"
-          data = "{\
-            showPopoverFileMenuAddRepo: data.showPopoverFileMenuAddRepo, \
-            showPopoverFileMenuForm: data.showPopoverFileMenuForm, \
-            show: dataBuild.data.showPopoverFileMenu \
-          }"
-        )
     file-tree(
       open-files = "dataBuild.data.openFiles"
       version-or-context = "dataBuild.data.version"
@@ -154,20 +136,6 @@ section.sidebar
     )
     h6.explorer-header
       | REPOSITORIES
-      a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataBuild.data.showPopoverRepoMenu}"
-        toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showPopoverRepoMenu"
-      )
-        svg.iconnables.icons-gear
-          use(xlink:href = "#icons-gear")
-        pop-over(
-          template = "viewBuildPopoverRepoMenu"
-          actions = "{}"
-          data = "{\
-            show: dataBuild.data.showPopoverRepoMenu\
-          }"
-        )
     ul.repo-tree
       //- for "edit mode":
       //- * delete/editmode entered via context menu
