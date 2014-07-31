@@ -171,6 +171,10 @@ function ControllerInstance(
       }),
       $scope
     );
+    if (container.urls().length) {
+      pat.actions.addWebView();
+    }
+    pat.actions.addTerminal();
     cb();
   }
 
