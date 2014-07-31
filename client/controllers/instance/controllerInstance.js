@@ -28,8 +28,10 @@ function ControllerInstance(
   pfm.data = {};
   pfm.data.show = false;
   pfm.actions = {};
+
   pfm.actions.createFile = function () {
   };
+
   pfm.actions.createFolder = function () {
   };
 
@@ -41,51 +43,43 @@ function ControllerInstance(
   pat.data.show = false;
   pat.actions = {};
 
-
-  data.popoverAddTab = {
-    filter: ''
-  };
-  data.showAddTab = false;
-  data.showFileMenu = false;
-
-  dataInstance.showAddTab = false;
-  dataInstance.showFileMenu = false;
-
-
-
-
-  actions.addOutputStream = function () {
+  pat.actions.addOutputStream = function () {
+    pat.data.show = false;
     data.openFiles.add({
       type: 'outputStream',
       name: Date.now()+'',
+      _id: Date.now()+'',
       filename: function () {
-        return 'output stream... meh';
+        return '';
       }
     });
   };
 
-  actions.addWebView = function () {
+  pat.actions.addWebView = function () {
+    pat.data.show = false;
     data.openFiles.add({
       type: 'webView',
       name: Date.now()+'',
+      _id: Date.now()+'',
       filename: function () {
-        return 'WEBVIEW!!!';
+        return 'Web';
       }
     });
   };
 
-  actions.addTerminal = function () {
+  pat.actions.addTerminal = function () {
+    pat.data.show = false;
     data.openFiles.add({
       Key: 'Terminal',
       type: 'terminal',
       path: '/',
       name: Date.now() + '',
+      _id: Date.now()+'',
       params: data.instance.attrs.containers[0],
       filename: function () {
-        return 'TERMINAL!';
+        return 'Terminal';
       }
     });
-    data.showAddTab = false;
   };
 
   actions.stopInstance = function () {

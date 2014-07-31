@@ -53,7 +53,7 @@
       //- select all text on click
       input.form-control(
         placeholder = "Enter an address"
-        value = "http://web-2673c32b.runnable.com"
+        value = "{{ container.urls()[0] }}"
       )
       //- style="-webkit-transform: scale3d(%,1,1); transform: scale3d(%,1,1);" to move progress bar--% is the total progress out of 1.00
       //- http://caniuse.com/#search=transform (Current and previous versions, July 2014):
@@ -62,4 +62,6 @@
       //- * android 4.2, 4.3, 4.4
       .progress
     //- server log and terminal tab should open by default
-    iframe
+    iframe(
+      src = "{{ $sce.trustAsResourceUrl(container.urls()[0]) }}"
+    )

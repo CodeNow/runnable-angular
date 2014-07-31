@@ -127,21 +127,22 @@ section.sidebar
     open-files = "dataInstance.data.openFiles"
   )
   a#add-tab.btn.btn-icon(
-    ng-class = "{active: dataInstance.data.showAddTab}"
+    ng-class = "{active: dataInstance.data.popoverAddTab.data.show}"
     toggle-pop-over
-    toggle-pop-over-model = "dataInstance.data.showAddTab"
+    toggle-pop-over-model = "dataInstance.data.popoverAddTab.data.show"
   )
     svg.iconnables.icons-add
       use(xlink:href = "#icons-add")
     pop-over(
-      data = "{show: dataInstance.data.showAddTab}"
-      actions = "dataInstance.actions"
+      data = "dataInstance.data.popoverAddTab.data"
+      actions = "dataInstance.data.popoverAddTab.actions"
       template = "viewInstancePopoverAddTab"
     )
   tabs-dropdown(
     open-files = "dataInstance.data.openFiles"
   )
   active-panel(
+    container = "dataInstance.data.container"
     open-files = "dataInstance.data.openFiles"
     is-clean = "dataInstance.data.isClean"
     is-dark-theme = "dataInstance.data.toggleTheme"

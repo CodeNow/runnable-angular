@@ -40,10 +40,19 @@ function factory(
       this.collection.add(model);
       // TODO: Find better way to do this
       model = this.collection.models[this.collection.models.length - 1];
+
+      // hackery...
+      if (typeof model.attrs.filename === 'function') {
+        model.filename = model.attrs.filename;
+      }
+      if (model.attrs.type) {
+        model.type = model.attrs.type;
+      }
     }
     else if (!(model.id() in this.collection.modelsHash)) {
       model.state = null; // reset state
       this.collection.add(model);
+      model.type = 'file';
     }
     this.setActiveFile(model);
   };

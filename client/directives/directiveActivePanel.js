@@ -5,22 +5,27 @@ require('app')
  * @ngInject
  */
 function activePanel(
+  $timeout,
+  $sce,
   async,
   debounce,
-  keypather,
-  $timeout
+  keypather
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewActivePanel',
     replace: true,
     scope: {
+      container: '=',
       openFiles: '=',
       readOnly: '=',
       update: '=',
       isDarkTheme: '='
     },
     link: function ($scope, element, attrs) {
+
+      $scope.$sce = $sce;
+
       function updateFile (cb) {
         var activeFile = $scope.openFiles.activeFile;
         if (!activeFile) { return; }
@@ -64,7 +69,7 @@ function activePanel(
       }
 
       $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
-        if (typeof newval === 'string') {
+        if (typeof newval === 'string' && $scope.openFiles.activeFile.type === 'file') {
           fetchFile(newval);
         }
       });
