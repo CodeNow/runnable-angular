@@ -4,7 +4,8 @@
   "private": true,
   "description": "rewrite of runnable-web in angularjs",
   "scripts": {
-    "start": "npm install && ./node_modules/.bin/grunt deploy && NODE_ENV=production NODE_PATH=. PORT=15000 node ./server/main.js;"
+    "postinstall": "./node_modules/.bin/grunt deploy",
+    "start": "NODE_ENV=production NODE_PATH=. PORT=15000 node ./server/main.js;"
   },
   "engines": {
     "node": "~0.10.29",
