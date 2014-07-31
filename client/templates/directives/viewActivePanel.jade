@@ -1,45 +1,44 @@
-#editor-container(
-  ng-switch on = "openFiles.activeFile.attrs.type"
-)
-  pre(
-    ng-switch-default
-    ui-ace
-    ng-model = "openFiles.activeFile.state.body"
-    readonly = "{{ readOnly }}"
-    ng-class = "{ \
-      readonly: readOnly, \
-      'ace-runnable-dark': isDarkTheme \
-    }"
-  )
-  .term-container(
-    ng-switch-when = "terminal"
-  )
-    term.terminal(
-      params = "openFiles.activeFile.attrs.params"
-    )
-//- TODO
-  output-stream(
-    ng-switch-when = "outputStream"
-  )
+#editor-container(ng-switch on = "openFiles.activeFile.attrs.type")
+  //- pre(
+  //-   ng-model = "openFiles.activeFile.state.body"
+  //-   ng-switch-default
+  //-   ng-class = "{ \
+  //-     readonly: readOnly, \
+  //-     'ace-runnable-dark': isDarkTheme \
+  //-   }"
+  //-   readonly = "{{ readOnly }}"
+  //-   ui-ace
+  //- )
+  //- .term-container(
+  //-   ng-switch-when = "terminal"
+  //- )
+  //-   term.terminal(
+  //-     params = "openFiles.activeFile.attrs.params"
+  //-   )
 
-  //- Saved for Tony
-  #editor-container
-    //- .loading to toggle refresh/stop icon
-    //- .loading is also required for the progress bar, so remove it when loading is complete
-    //- nav.browser-chrome
+  //- TODO
+  //- output-stream(
+  //-   ng-switch-when = "outputStream"
+  //- )
+
+  .web-container(
+  )
+    //- .browser-loading to toggle refresh/stop icon
+    //- .browser-loading is also required for the progress bar, so remove it when loading is complete
+    nav.browser-chrome
       //- apply [disabled] to back/forward to disable
       button.btn-icon(
         disabled
         type = "button"
       )
         svg.iconnables.icons-chevron-left
-            use(xlink:href = "#icons-chevron-left")
+          use(xlink:href = "#icons-chevron-left")
       button.btn-icon(
         disabled
         type = "button"
       )
         svg.iconnables.icons-chevron-right
-            use(xlink:href = "#icons-chevron-right")
+          use(xlink:href = "#icons-chevron-right")
       .iconnables.iconnables-container
         button.btn-icon(type = "button")
           svg.iconnables.icons-refresh
@@ -48,7 +47,7 @@
           svg.iconnables.icons-stop
             use(xlink:href = "#icons-stop")
       //- select all text on click
-      input(
+      input.form-control(
         placeholder = "Enter an address"
         value = "http://web-2673c32b.runnable.com"
       )
@@ -59,3 +58,4 @@
       //- * android 4.2, 4.3, 4.4
       .progress
     //- server log and terminal tab should open by default
+    iframe

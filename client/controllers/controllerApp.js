@@ -10,6 +10,7 @@ function ControllerApp(
   $rootScope,
   $scope,
   $timeout,
+  $interval,
   $document,
   $stateParams,
   $state,
@@ -25,6 +26,10 @@ function ControllerApp(
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
     apiConfig.host);
+
+  $timeout(function () {
+    $rootScope.safeApply();
+  }, 1000*30); //30 seconds
 
   primus.onBuildCompletedEvents(function (buildData) {
     holdUntilAuth(function (err, thisUser) {

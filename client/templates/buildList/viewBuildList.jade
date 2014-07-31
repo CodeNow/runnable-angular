@@ -103,7 +103,7 @@ nav#build-stream-header.sub-header
         td
           a.tooltip(
             ng-if = "!build.failed()"
-            ng-click = "dataBuildList.actions.runInstance(build)"
+            ng-click = "$event.stopPropagation(); dataBuildList.actions.runInstance(build);"
             data-title = "Run Instance"
           )
             svg.iconnables.icons-run
