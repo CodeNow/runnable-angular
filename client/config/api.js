@@ -1,10 +1,10 @@
 var config = {
-  ipaddress: "runnable3.net",
+  ipaddress: "api.runnable.io",
   port: "3112",
-  proxyPort: 3000,
+  proxyPort: 80,
   type: "filibuster",
   pid: 896,
-  host: 'http://api.runnable3.net'
+  host: 'http://api.runnable.io'
 };
 
 Object.freeze(config);
