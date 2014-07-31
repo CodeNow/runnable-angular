@@ -130,6 +130,9 @@ function ControllerProjectLayout(
       branchName: ((environment) ? environment.name : 'master')
     });
   };
+  actions.stateToNewProject = function () {
+    $state.go('projects');
+  };
 
   /* ============================
    *   API Fetch Methods
