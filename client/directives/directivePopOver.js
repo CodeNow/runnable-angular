@@ -10,7 +10,6 @@ function popOver(
   return {
     restrict: 'E',
     templateUrl: function ($element, attrs) {
-      console.log(attrs);
       return attrs.template;
     },
     replace: true,

@@ -165,14 +165,8 @@ function ControllerBuildNew(
 
   actions.build = function () {
     var buildData = data.buildPopoverBuildOptionsData;
-    // TODO: if env patch env.
-    // var body = {
-    // };
-    // if (buildData.selectedEnvironment) {
-    //   body.environment
-    // }
     data.newBuild.build({
-      message: buildData.buildName
+      message: 'Manual Build'
     }, function (err, build, code) {
       if (err) {
         throw err;

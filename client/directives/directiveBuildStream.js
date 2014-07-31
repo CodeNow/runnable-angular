@@ -21,34 +21,38 @@ function buildStream(
         $scope.out = true;
       };
 
-      var buildPrimusStream;
+      $scope.$watch('build.attrs._id', function (buildId, oldVal) {
+        if (buildId) {
+          var build = $scope.build;
+          if (build.succeeded()) {
+            $scope.out = true;
+            $rootScope.safeApply();
+          }
+          else if (build.failed()) {
+            var contextVersion = build.contextVersions.models[0];
+            if (build.contextVersions.models)
+            $scope.stream = {
+              data: contextVersion.attrs.build.log ||
+                contextVersion.attrs.build.error.message ||
+                "Unknown Build Error Occurred"
+            };
+            // check contextVersions.attrs.build.error for unknown errors
+            $rootScope.safeApply();
+          }
+          else { // in progress
+            initStream();
+          }
+        }
+      });
 
-      var initStream = function () {
+      function initStream () {
         var build = $scope.build;
         $scope.stream = {
           finished: false,
           data: ''
         };
 
-        if (build.attrs.completed) {
-          if (build.failed()) {
-            $scope.stream.data = build.contextVersions.models[0].attrs.build.log;
-          }
-          else {
-            $scope.out = true;
-            return;
-          }
-        }
-
-        var streamId = build.attrs._id + '-' + Date.now();
-        var buildPrimusStream = primus({
-          id: 1,
-          event: 'build-stream',
-          data: {
-            id: build.contextVersions.models[0].attrs._id,
-            streamId: streamId
-          }
-        }).substream(streamId);
+        var buildStream = primus.createBuildStream(build);
 
         var addToStream = function (data) {
           $scope.stream.data += data;
@@ -56,9 +60,9 @@ function buildStream(
           jQuery('html, body').scrollTop(10000);
         };
 
-        buildPrimusStream.on('data', addToStream);
+        buildStream.on('data', addToStream);
 
-        buildPrimusStream.on('end', function () {
+        buildStream.on('end', function () {
           build.fetch(function (err) {
             if (err) {
               throw err;
@@ -72,23 +76,8 @@ function buildStream(
             }
             $rootScope.safeApply();
           });
-
-          buildPrimusStream.end();
         });
-      };
-
-
-      $scope.$watch('build.attrs._id', function (buildId) {
-        if (buildId) {
-          initStream();
-        }
-      });
-
-      elem.on('$destroy', function () {
-        if (buildPrimusStream && typeof buildPrimusStream.end === 'function') {
-          buildPrimusStream.end();
-        }
-      });
+      }
     }
   };
 }
