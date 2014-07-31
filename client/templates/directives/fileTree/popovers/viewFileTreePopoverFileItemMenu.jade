@@ -2,7 +2,16 @@
   .arrow.white
   .popover-content
     ul#file-explorer-options.popover-body
-      li Open
+      li
+        svg.iconnables
+          use(xlink:href = "#icons-file-open")
+        | Open
       li.divider
-      li Rename
-      li Delete
+      li
+        svg.iconnables
+          use(xlink:href = "#icons-file-modify")
+        | Rename
+      li
+        svg.iconnables
+          use(xlink:href = "#icons-file-delete")
+        | Delete
