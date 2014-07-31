@@ -108,19 +108,15 @@ section.sidebar
     h6.explorer-header
       | INSTANCE FILES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataInstance.data.showFileMenu}"
+        ng-class = "{active: dataInstance.data.popoverFileMenu.data.show}"
         toggle-pop-over
-        toggle-pop-over-model = "dataInstance.data.showFileMenu"
+        toggle-pop-over-model = "dataInstance.data.popoverFileMenu.data.show"
       )
         svg.iconnables.icons-gear
           use(xlink:href = "#icons-gear")
         pop-over(
-          actions = "{\
-            createFile: dataInstance.actions.createFile\
-          }"
-          data = "{\
-            show: dataInstance.data.showFileMenu\
-          }"
+          actions = "dataInstance.data.popoverFileMenu.actions"
+          data = "dataInstance.data.popoverFileMenu.data"
           template = "viewInstancePopoverFileMenu"
         )
       file-tree(

@@ -21,6 +21,26 @@ function ControllerInstance(
   var data = dataInstance.data = {};
   var actions = dataInstance.actions = {};
 
+  /*********************************
+   * popoverFileMenu
+   *********************************/
+  var pfm = data.popoverFileMenu = {};
+  pfm.data = {};
+  pfm.data.show = false;
+  pfm.actions = {};
+  pfm.actions.createFile = function () {
+  };
+  pfm.actions.createFolder = function () {
+  };
+
+  /*********************************
+   * popoverAddTab
+   *********************************/
+  var pat = data.popoverAddTab = {};
+  pat.data = {};
+  pat.data.show = false;
+  pat.actions = {};
+
 
   data.popoverAddTab = {
     filter: ''
