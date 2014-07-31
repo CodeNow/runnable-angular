@@ -84,6 +84,9 @@ function factory(
     if (!(model.id() in this.collection.modelsHash)) {
       throw new Error('file is not open');
     }
+    if (this.activeFile === model) {
+      return;
+    }
     if (this.activeFile) {
       delete this.activeFile.state.active;
     }
@@ -98,7 +101,11 @@ function factory(
         model.state.body = model.attrs.body;
       };
     }
-    this.$scope.safeApply();
+    var self = this;
+    this.activeFile.fetch(function () {
+      self.activeFile.state.reset();
+      self.$scope.safeApply();
+    });
   };
 
   SharedFilesCollection.prototype.isClean = function () {
