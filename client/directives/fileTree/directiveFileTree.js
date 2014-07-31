@@ -13,6 +13,7 @@ function fileTree(
     templateUrl: 'viewFileTree',
     replace: true,
     scope: {
+      readOnly: '=',
       versionOrContext: '=',
       openFiles: '='
     },

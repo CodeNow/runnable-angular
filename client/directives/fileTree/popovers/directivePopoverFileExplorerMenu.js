@@ -17,9 +17,10 @@ function popoverFileExplorerMenu(
     scope: false, // latch on to file-tree && file-tree-dir isolate scope isolate scopes
     // scope: {},
     link: function ($scope, element, attrs) {
-
+      if ($scope.readOnly) {
+        return;
+      }
       $scope.jQuery = jQuery;
-
       var dFEMenu = $scope.dPFEMenu = {};
       var actions = dFEMenu.actions = {};
 

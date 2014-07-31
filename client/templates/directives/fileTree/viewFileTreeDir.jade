@@ -14,10 +14,11 @@ li.folder(
     ng-if = "data.dirFiles.models.length"
   )
     file-tree-dir(
-      dir = "dir"
-      ng-repeat = "dir in data.dirFiles.models"
       ng-if = "dir.attrs.isDir"
+      read-only = "readOnly"
+      dir = "dir"
       open = "false"
+      ng-repeat = "dir in data.dirFiles.models"
       version-or-context = "versionOrContext"
     )
     li(
