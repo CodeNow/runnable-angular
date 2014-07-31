@@ -232,6 +232,7 @@
 
   pre,
   iframe {
+    border: 0;
     flex: 1 0 auto;
   }
 }
@@ -240,4 +241,11 @@
 .ace_tooltip {
   margin-left: -260px;
   margin-top: -330px;
+}
+
+// flex
+.web-container {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
 }
