@@ -4,10 +4,10 @@
     ng-model = "openFiles.activeFile.state.body"
     ng-switch-default
     ng-class = "{ \
-      readonly: readOnly, \
+      readonly: isReadOnly, \
       'ace-runnable-dark': isDarkTheme \
     }"
-    readonly = "{{ readOnly }}"
+    readonly = "{{ isReadOnly }}"
     ui-ace
   )
 

@@ -28,7 +28,10 @@ function activePanel(
 
       function updateFile (cb) {
         var activeFile = $scope.openFiles.activeFile;
-        if (!activeFile) { return; }
+        // Check to make sure it's a real file
+        // and not a stupid fake file that almost got me fired
+        // https://www.youtube.com/watch?v=CCrfzyRFMfg
+        if (!activeFile || activeFile.constructor.name !== 'File') { return; }
         if (activeFile.state.isDirty()) {
           activeFile.update({
             json: {
@@ -61,12 +64,24 @@ function activePanel(
       if ($scope.update) {
         $scope.$watch('openFiles.activeFile.state.body', function (newval, oldval) {
           if (typeof newval === 'string' && $scope.openFiles.activeFile) {
-            async.series([
-              updateFileDebounce
-            ], function () {});
+            updateFileDebounce();
           }
         });
+        $scope.$watchCollection('[readOnly, openFiles.activeFile]', function (newVal) {
+          if (!newVal) {
+            $scope.isReadOnly = newVal;
+          } else if (keypather.get($scope, 'openFiles.activeFile')) {
+            // We should be in readonly mode if we don't have an active file
+            $scope.isReadOnly = $scope.openFiles.activeFile.constructor.name !== 'File';
+          } else {
+            $scope.isReadOnly = true;
+          }
+        });
+      } else {
+        $scope.isReadOnly = true;
       }
+
+
 
       $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
         if (typeof newval === 'string' && $scope.openFiles.activeFile.type === 'file') {
