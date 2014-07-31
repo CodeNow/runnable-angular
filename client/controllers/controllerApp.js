@@ -16,7 +16,8 @@ function ControllerApp(
   user,
   apiConfig,
   holdUntilAuth,
-  QueryAssist
+  QueryAssist,
+  primus
 ) {
 
   var self = ControllerApp;
@@ -24,6 +25,19 @@ function ControllerApp(
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
     apiConfig.host);
+
+  primus.onBuildCompletedEvents(function (buildData) {
+    holdUntilAuth(function (err, thisUser) {
+      if (err) { throw err; }
+      thisUser
+        .newProject(buildData.project)
+        .newEnvironment(buildData.environment)
+        .fetchBuild(buildData._id, function (err) {
+          if (err) { throw err; }
+          $rootScope.safeApply(); // FIXME: in the future this could be handled by model store events
+        });
+    });
+  });
 
   dataApp.documentClickEventHandler = function () {
     $scope.$broadcast('app-document-click');

@@ -10,7 +10,7 @@ nav.sub-header
     .iconnables.iconnables-container.build-status
       svg.iconnables.icons-asterisk
         use(xlink:href = "#icons-asterisk")
-    | Build {{ dataBuildNew.data.newBuild.attrs.id | limitTo:4 }}...
+    | Build {{ dataBuildNew.data.build.attrs.buildNumber }}
 
   //- all buttons should be disabled during a build
   section#main-controls
@@ -18,7 +18,7 @@ nav.sub-header
       button.green(
         type = "button"
         ng-click = "dataBuildNew.actions.build()"
-      ) Build
+      ) Build New
       a.btn.green.btn-icon(
         ng-class = "{active: dataBuildNew.data.buildPopoverBuildOptions.data.show}"
         toggle-pop-over
@@ -37,28 +37,35 @@ nav.sub-header
     ) Discard Changes
 
 section.sidebar
-  ul(ng-show = "dataBuildNew.data.newBuild.attrs.created")
+  ul(ng-show = "dataBuildNew.data.build.attrs.created")
     li
       svg.iconnables.icons-recipe
         use(xlink:href = "#icons-recipe")
       b {{ dataApp.stateParams.branchName }}
       | #{''} config
     li(
+      ng-show = "dataBuildNew.data.build.attrs.completed"
+    )
+      svg.iconnables.icons-duration
+        use(xlink:href = "#icons-duration")
+      | {{ dataBuildNew.data.build.succeeded() ? 'Built' : 'Failed' }} in {{ (dataBuildNew.data.build.buildTime() / 1000) | number:2 }} seconds
+    li(
       interval-update
       interval-update-ms = "60000"
+      ng-show = "dataBuildNew.data.build.attrs.started"
     )
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
-      | Initiated {{ dataBuildNew.data.newBuild.attrs.created | timeAgo }}
+      | Initiated {{ dataBuildNew.data.build.attrs.started | timeAgo }}
     li
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
-      | Triggered by <a>{{ dataBuildNew.data.newBuild.user.attrs.accounts.github.username }}</a>
+      | Triggered by <a>{{ dataBuildNew.data.build.user.attrs.accounts.github.username }}</a>
   h3 Message Log
   ol#messages(
-    ng-if = "dataBuildNew.data.newBuild.attrs.started && dataBuildNew.data.newVersion.attrs.build.triggeredAction.appCodeVersion.repo"
+    ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
-    li(ng-repeat = "commit in dataBuildNew.data.newVersion.attrs.build.triggeredAction.appCodeVersion.commitLog")
+    li(ng-repeat = "commit in dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
           a {{commit.message}}
@@ -74,20 +81,20 @@ section.sidebar
             svg.iconnables.icons-git
               use(xlink:href = "#icons-git")
   ol#messages(
-    ng-if = "dataBuildNew.data.newBuild.attrs.started && !dataBuildNew.data.newVersion.attrs.build.triggeredAction.appCodeVersion.repo"
+    ng-if = "dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li
       ol.message
         li
-          a {{ dataBuildNew.data.newVersion.attrs.build.message }}
+          a {{ dataBuildNew.data.version.attrs.build.message }}
         li
           a
             img(
               height = "20"
-              ng-src = "{{ dataBuildNew.data.newVersion.attrs.build.triggeredBy.gravatar }}?s=64"
+              ng-src = "{{ dataBuildNew.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
               width = "20"
             )
-            | #{''} {{ dataBuildNew.data.newVersion.attrs.build.triggeredBy.username }}
+            | #{''} {{ dataBuildNew.data.version.attrs.build.triggeredBy.username }}
 
 //- code_editor
 #editor(
@@ -104,24 +111,6 @@ section.sidebar
     //- h6(ng-if = "buildFiles.models.length")
     h6.explorer-header
       | CONFIG FILES
-      a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{active: dataBuildNew.data.showFileMenu}"
-        toggle-pop-over
-        toggle-pop-over-model = "dataBuildNew.data.showPopoverFileMenu"
-      )
-        svg.iconnables.icons-gear
-          use(xlink:href = "#icons-gear")
-        pop-over(
-          template = "viewBuildPopoverFileMenu"
-          actions = "{\
-            createFile: actions.createFile\
-          }"
-          data = "{\
-            showPopoverFileMenuAddRepo: data.showPopoverFileMenuAddRepo, \
-            showPopoverFileMenuForm: data.showPopoverFileMenuForm, \
-            show: dataBuildNew.data.showPopoverFileMenu \
-          }"
-        )
     file-tree(
       open-files = "dataBuildNew.data.openFiles"
       version-or-context = "dataBuildNew.data.newVersion"
@@ -129,18 +118,6 @@ section.sidebar
     )
     h6.explorer-header
       | REPOSITORIES
-      a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-        ng-class = "{ active: dataBuildNew.data.buildPopoverRepoMenu.data.show }"
-        toggle-pop-over
-        toggle-pop-over-model = "dataBuildNew.data.buildPopoverRepoMenu.data.show"
-      )
-        svg.iconnables.icons-gear
-          use(xlink:href = "#icons-gear")
-        pop-over(
-          template = "viewBuildPopoverRepoMenu"
-          actions = "dataBuildNew.data.buildPopoverRepoMenu.actions"
-          data = "dataBuildNew.data.buildPopoverRepoMenu.data"
-        )
     ul.repo-tree
       //- for "edit mode":
       //- * delete/editmode entered via context menu

@@ -8,7 +8,8 @@ nav.sub-header
       svg.iconnables.icons-back-table
         use(xlink:href = "#icons-back-table")
     .iconnables.iconnables-container.build-status(
-      ng-class = "{ pass: dataBuild.data.build.attrs.completed && !dataBuild.data.build.failed(), fail: dataBuild.data.build.failed() }"
+      ng-if = "dataBuild.data.build.attrs.started"
+      ng-class = "{ pass: dataBuild.data.build.succeeded(), fail: dataBuild.data.build.failed() }"
     )
       .spinner
         .spinner-ring
@@ -23,13 +24,13 @@ nav.sub-header
     //- on failed builds, run instance needs to be disabled
     button.orange(
       ng-click = "dataBuild.actions.runInstance()"
-      ng-disabled = "dataBuild.data.build.attrs.failed"
+      ng-disabled = "dataBuild.data.build.inProgress()"
+      ng-if = "dataBuild.data.build.succeeded()"
       type = "button"
     ) Run Instance
     .btn-group
       button.silver(
         ng-click = "dataBuild.actions.rebuild()"
-        ng-disabled = "!dataBuild.data.build.attrs.completed"
         type = "button"
       ) Rebuild
       a.btn.silver.btn-icon(
@@ -62,10 +63,12 @@ section.sidebar
         use(xlink:href = "#icons-recipe")
       b {{ dataApp.stateParams.branchName }}
       | #{''} config
-    li(ng-show = "!dataBuild.data.build.attrs.failed")
+    li(
+      ng-show = "dataBuild.data.build.attrs.completed"
+    )
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
-      | Built in {{ (dataBuild.data.build.buildTime() / 1000) | number:2 }} seconds
+      | {{ dataBuild.data.build.succeeded() ? 'Built' : 'Failed' }} in {{ (dataBuild.data.build.buildTime() / 1000) | number:2 }} seconds
     li(
       interval-update
       interval-update-ms = "60000"
@@ -73,7 +76,7 @@ section.sidebar
     )
       svg.iconnables.icons-calendar
         use(xlink:href = "#icons-calendar")
-      | Initiated {{ dataBuild.data.build.attrs.created | timeAgo }}
+      | Initiated {{ dataBuild.data.build.attrs.started | timeAgo }}
     li
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")

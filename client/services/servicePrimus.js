@@ -1,4 +1,57 @@
-var primusClient = require('primus-client');
+var PrimusClient = require('primus-client');
+var util = require('util');
+
+function RunnablePrimus () {
+  PrimusClient.apply(this, arguments);
+}
+
+util.inherits(RunnablePrimus, PrimusClient);
+
+RunnablePrimus.prototype.createBuildStream = function (build) {
+  var contextVersionId = build.contextVersions.models[0].id();
+  var buildStream = this.substream(contextVersionId);
+  this.write({
+    id: 1,
+    event: 'build-stream',
+    data: {
+      id: contextVersionId,
+      build: build.json(),
+      streamId: contextVersionId
+    }
+  });
+  return buildStream;
+};
+
+RunnablePrimus.prototype.createTermStreams = function (container) {
+  container = container.json ? container.json() : container;
+  var streamId = container._id;
+  this.write({
+    id: 1,
+    event: 'terminal-stream',
+    data: {
+      dockHost: container.dockerHost,
+      type: 'filibuster',
+      containerId: container.dockerContainer,
+      terminalStreamId: streamId,
+      eventStreamId: streamId + 'events'
+    }
+  });
+  return {
+    termStream: this.substream(streamId),
+    eventStream: this.substream(streamId + 'events')
+  };
+};
+
+RunnablePrimus.prototype.onBuildCompletedEvents = function (cb) {
+  if (!cb) { throw new Error('cb is required'); }
+  this.on('data', function (data) {
+    console.log(data);
+    if (data && data.event === 'BUILD_STREAM_ENDED') {
+      cb(data.data.build);
+    }
+  });
+};
+
 require('app')
   .factory('primus', primus);
 
@@ -12,7 +65,7 @@ function primus(
     // TODO: remove proxy port
     var url = apiConfig.host;
 
-    var conn = new primusClient(url);
+    var conn = new RunnablePrimus(url);
 
     conn.on('data', function (data) {
       if (data.error) {
@@ -20,9 +73,5 @@ function primus(
       }
     });
 
-    return function createSubstream(config) {
-      conn.write(config);
-
-      return conn;
-    };
+    return conn;
 }

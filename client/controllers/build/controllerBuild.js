@@ -68,16 +68,15 @@ function ControllerBuild(
   };
 
   function runBuild () {
-    var newBuild = data.build.build({
-      message: 'test-message'
-    }, function (err, build) {
-      if (err) {
-        throw err;
-      }
-      $state.go('projects.build', angular.copy({
-        buildName: newBuild.id()
-      }, $stateParams));
-    });
+    var newBuild = data.build.rebuild(
+      function (err, build) {
+        if (err) {
+          throw err;
+        }
+        $state.go('projects.build', angular.copy({
+          buildName: newBuild.attrs.buildNumber
+        }, $stateParams));
+      });
   }
 
   actions.rebuild = function () {
