@@ -16,9 +16,11 @@ function ControllerInstance(
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
+
   var dataInstance = $scope.dataInstance = {};
   var data = dataInstance.data = {};
   var actions = dataInstance.actions = {};
+
 
   data.popoverAddTab = {
     filter: ''
@@ -28,6 +30,9 @@ function ControllerInstance(
 
   dataInstance.showAddTab = false;
   dataInstance.showFileMenu = false;
+
+
+
 
   actions.addOutputStream = function () {
     data.openFiles.add({
