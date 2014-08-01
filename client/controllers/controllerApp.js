@@ -27,7 +27,7 @@ function ControllerApp(
     $stateParams,
     apiConfig.host);
 
-  $timeout(function () {
+  $interval(function () {
     $rootScope.safeApply();
   }, 1000*30); //30 seconds
 
