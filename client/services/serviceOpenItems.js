@@ -30,11 +30,8 @@ function openItemsFactory(
     return;
   }
 
-  function OpenItems($scope, opts) {
-    this.$scope = $scope;
-    this.activeFile = null;
-    this.fileStates = {};
-    this.opts = opts;
+  function OpenItems (models, opts) {
+    BaseCollection.apply(this, arguments);
     this.activeHistory = new BaseCollection([], { noStore: true });
   }
 
