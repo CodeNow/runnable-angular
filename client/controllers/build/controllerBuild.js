@@ -157,15 +157,15 @@ function ControllerBuild(
       .go();
   }
 
-  function newOpenItemsCollection(cb) {
-    data.openItems = new OpenItems({noStore: true});
+  function newOpenItems(cb) {
+    data.openItems = new OpenItems();
   }
 
   actions.seriesFetchAll = function () {
     async.series([
       fetcherBuild($scope.dataBuild.data),
       fetchOwnerRepos,
-      newOpenItemsCollection
+      newOpenItems
     ], function (err) {
       if (err) {
         $state.go('404');
