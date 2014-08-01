@@ -131,8 +131,7 @@ section.sidebar
       | CONFIG FILES
     file-tree(
       read-only = "true"
-      open-files = "dataBuild.data.openFiles"
-      version-or-context = "dataBuild.data.version"
+      open-items = "dataBuild.data.openItems"
     )
     h6.explorer-header
       | REPOSITORIES
@@ -163,15 +162,15 @@ section.sidebar
       use(xlink:href = "#icons-folder-open")
 
   tabs(
-    open-files = "dataBuild.data.openFiles"
+    open-items= "dataBuild.data.openItems"
   )
   tabs-dropdown(
-    open-files = "dataBuild.data.openFiles"
+    open-items= "dataBuild.data.openItems"
   )
   active-panel(
     update = "false"
     read-only = "true"
-    open-files = "dataBuild.data.openFiles"
+    open-items = "dataBuild.data.openItems"
     is-dark-theme = "dataBuild.data.toggleTheme"
   )
 

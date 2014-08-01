@@ -1,17 +1,17 @@
 #editor-toolbar
   ul#tabs-wrapper
     li(
-      ng-repeat = "file in openFiles.collection.models"
+      ng-repeat = "item in openItems.models"
     )
       //- title should show the full file path
       a(
-        ng-attr-data-title = "{{ file.filename() }}"
-        ng-class = "{'active': file.state.active}"
-        ng-click = "openFiles.setActiveFile(file); $event.stopPropagation();"
-        title = "{{ file.filename() }}"
-      ) {{ file.filename() }}
+        ng-attr-data-title = "{{ item.attrs.name }}"
+        ng-class = "{'active': item.state.active}"
+        ng-click = "openItems.setActive(item); $event.stopPropagation();"
+        title = "{{ item.attrs.name }}"
+      ) {{ item.attrs.name  }}
       button.btn-icon(
-        ng-click = "openFiles.remove(file); $event.stopPropagation();"
+        ng-click = "openItems.remove(file); $event.stopPropagation();"
       )
         svg.iconnables.icons-close
           use(xlink:href = "#icons-close")

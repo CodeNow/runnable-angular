@@ -157,23 +157,15 @@ function ControllerBuild(
       .go();
   }
 
-
-  function newFilesCollOpenFiles(cb) {
-    var version = dataBuild.data.version;
-    data.openFiles = new SharedFilesCollection(
-      version.newFiles([], {
-        noStore: true
-      }),
-      $scope
-    );
-    cb();
+  function newOpenItemsCollection(cb) {
+    data.openItems = new OpenItems({noStore: true});
   }
 
   actions.seriesFetchAll = function () {
     async.series([
       fetcherBuild($scope.dataBuild.data),
       fetchOwnerRepos,
-      newFilesCollOpenFiles
+      newOpenItemsCollection
     ], function (err) {
       if (err) {
         $state.go('404');
