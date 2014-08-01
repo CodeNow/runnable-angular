@@ -1,11 +1,11 @@
 .popover-content
-  ul.vertical-list
-    li(
+  ul.list-group
+    li.list-group-item(
+      ng-class = "{in: dataSetup.data.selectedRepos.contains(repo)}"
+      ng-click = "dataSetup.actions.selectGithubRepo(repo)"
       ng-repeat = "repo in dataSetup.data.githubRepos.models | \
         unaddedRepos:dataSetup.data.contextVersion.appCodeVersions | \
         repos:dataSetup.data.repoFilter"
-      ng-class = "{in: dataSetup.data.selectedRepos.contains(repo)}"
-      ng-click = "dataSetup.actions.selectGithubRepo(repo)"
     ){{ repo.attrs.name }}
       svg.iconnables.icons-check
         use(xlink:href = "#icons-check")

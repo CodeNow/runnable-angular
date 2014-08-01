@@ -26,7 +26,7 @@
     > .btn-icon {
       color: $gray-dark;
       position: absolute;
-      right: 6px;
+      right: 9px;
       top: 0;
     }
 
@@ -66,18 +66,16 @@
       overflow: auto;
     }
 
-    li {
-      background: #fff;
+    .list-group-item {
       cursor: pointer;
-      padding: 0 15px;
 
       &.in .icons-check {
         transform: scale3d(1,1,1);
       }
     }
 
-    button {
-      margin: 15px 0;
+    .btn-block {
+      margin: 0;
       width: 100%;
     }
 
