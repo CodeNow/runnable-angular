@@ -13,9 +13,6 @@ dependencies:
 machine:
   node:
     version: v0.10.29
-checkout:
-  post:
-    - echo 'manually overriding posinstall to stop npm postinstall for tests'
 test:
   override:
     - karma start ./test/karma.conf.js --single-run
