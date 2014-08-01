@@ -17,7 +17,7 @@ function activePanel(
     replace: true,
     scope: {
       container: '=',
-      openFiles: '=',
+      openItems: '=',
       readOnly: '=',
       update: '=',
       isDarkTheme: '='
@@ -80,8 +80,6 @@ function activePanel(
       } else {
         $scope.isReadOnly = true;
       }
-
-
 
       $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
         if (typeof newval === 'string' && $scope.openFiles.activeFile.type === 'file') {
