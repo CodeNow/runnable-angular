@@ -166,7 +166,7 @@ function ControllerInstance(
     // tODO fetch container files
     var container = data.container;
     data.openFiles = new SharedFilesCollection(
-      container.newFiles([], {
+      container.newFsList([], {
         noStore: true
       }),
       $scope

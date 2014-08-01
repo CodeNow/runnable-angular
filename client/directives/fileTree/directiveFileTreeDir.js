@@ -7,14 +7,13 @@ require('app')
 function fileTreeDir(
   $templateCache,
   $compile,
-  $timeout
+  $timeout,
+  $rootScope
 ) {
   return {
     restrict: 'E',
     scope: {
       dir: '=',
-      open: '=',
-      versionOrContext: '=',
       openFiles: '=',
       readOnly: '='
     },
@@ -22,30 +21,21 @@ function fileTreeDir(
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
       var data = $scope.data = {};
-      data.open = $scope.open;
 
+      $scope.$watch('dir.state.open', function (newVal, oldval) {
+        if (newVal) {
+          fetchDirFiles();
+        }
+      });
       function fetchDirFiles() {
-        data.dirFiles = $scope.versionOrContext.fetchFiles({
-          path: $scope.dir.filepath()
-        }, function () {
-          $timeout(function () {
-            $scope.$apply();
-          });
+        data.dir = $scope.dir;
+        data.dir.contents.fetch(function (err) {
+          if (err) {
+            throw err;
+          }
+          $rootScope.safeApply();
         });
       }
-      // make sure version exists and open === true before fetching
-      $scope.$watch('versionOrContext', function (newval, oldval) {
-        if (!newval || !data.open) {
-          return;
-        }
-        fetchDirFiles();
-      });
-      $scope.$watch('data.open', function (newval, oldval) {
-        if (!newval || !$scope.versionOrContext) {
-          return;
-        }
-        fetchDirFiles();
-      });
 
       // avoid infinite loop w/ nested directories
       var template = $templateCache.get('viewFileTreeDir');
@@ -56,7 +46,6 @@ function fileTreeDir(
       element.on('$destroy', function () {
         // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS
       });
-
     }
   };
 }

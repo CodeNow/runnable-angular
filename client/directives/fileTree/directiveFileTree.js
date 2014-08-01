@@ -14,25 +14,17 @@ function fileTree(
     replace: true,
     scope: {
       readOnly: '=',
-      versionOrContext: '=',
+      rootDir: '=',
       openFiles: '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
       var data = $scope.data = {};
-      function init() {
-        data.rootDir = $scope.versionOrContext.newDir({
-          id: $scope.versionOrContext.id() + 'newdir',
-          isDir: true,
-          path: '',
-          name: '/'
-        }, {
-          idAttribute: 'id'
-        });
-      }
-      $scope.$watch('versionOrContext', function (newval, oldval) {
-        if (newval) {
-          init();
+      $scope.$watch('rootDir', function (newVal, oldVal) {
+        if (newVal) {
+          var rootDir = $scope.rootDir;
+          rootDir.state = rootDir.state || {};
+          rootDir.state.open = true;
         }
       });
     }

@@ -161,7 +161,7 @@ function ControllerBuild(
   function newFilesCollOpenFiles(cb) {
     var version = dataBuild.data.version;
     data.openFiles = new SharedFilesCollection(
-      version.newFiles([], {
+      version.newFsList([], {
         noStore: true
       }),
       $scope
