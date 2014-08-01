@@ -4,7 +4,7 @@
   "private": true,
   "description": "rewrite of runnable-web in angularjs",
   "scripts": {
-    "postinstall": "./node_modules/.bin/grunt deploy",
+    "postinstall": "if [ ! $CIRCLECI ] ; then ./node_modules/.bin/grunt deploy; fi;",
     "start": "NODE_ENV=production NODE_PATH=. PORT=15000 node ./server/main.js;"
   },
   "engines": {
