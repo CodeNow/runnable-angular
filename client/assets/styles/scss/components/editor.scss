@@ -8,6 +8,15 @@
   position: relative;
   z-index: 2;
 
+  &.full {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: calc(100% - 510px);
+    z-index: 2;
+  }
+
   pre {
     font-family: 'Source Code Pro', monospace;
     font-size: 14px;

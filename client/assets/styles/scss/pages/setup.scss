@@ -5,31 +5,6 @@
     padding-bottom: 30px;
   }
 
-  .sidebar.out {
-
-    form {
-      cursor: not-allowed;
-      user-select: none;
-    }
-
-    #setup-repo,
-    #setup-template {
-      opacity: .3;
-      pointer-events: none;
-    }
-
-    & ~ #editor {
-
-      > button {
-        display: none;
-      }
-
-      > pre {
-        opacity: 1;
-      }
-    }
-  }
-
   .orange {
     margin: 0 15px;
     width: calc(100% - 30px);
