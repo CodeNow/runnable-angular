@@ -33,18 +33,15 @@ section.sidebar
           svg.iconnables.icons-close
             use(xlink:href = "#icons-close")
       //- if there are duplicate repo names, use name-2, name-3, and so on.
-      ul#added-repos
-        li(
-          ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models"
-        )
-          .repo{{ appCodeVersion.attrs.repo.split('/')[1] }}
-            button.btn-icon(
-              ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
-              type = "button"
-            )
-              svg.iconnables.icons-delete
-                use(xlink:href = "#icons-delete")
-          label
+      ul#added-repos.list-group
+        li.list-group-item(ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models") {{ appCodeVersion.attrs.repo.split('/')[1] }}
+          button.btn-icon(
+            ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
+            type = "button"
+          )
+            svg.iconnables.icons-delete
+              use(xlink:href = "#icons-delete")
+          //- label
             span branch:
             //- list needs to be unique to match datalist id
             input.form-control(
@@ -56,7 +53,7 @@ section.sidebar
               option(value = "master")
               option(value = "instance-page")
               option(value = "instance-terminal")
-          label
+          //- label
             span dest:
             input.form-control(
               placeholder = "Destination"
@@ -74,10 +71,6 @@ section.sidebar
           )
     button.btn-block.orange(ng-click = "dataSetup.actions.buildApplication()") Build Application
 #editor.full
-  button#editor-status.silver(
-    disabled
-    type = "button"
-  ) Readonly
   tabs#editor-toolbar(open-files = "dataSetup.data.contextFiles")
   active-panel(
     is-clean = "dataSetup.data.isClean"
