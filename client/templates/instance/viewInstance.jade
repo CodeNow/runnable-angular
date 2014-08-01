@@ -120,8 +120,9 @@ section.sidebar
           template = "viewInstancePopoverFileMenu"
         )
       file-tree(
+        read-only = "true"
         open-files = "dataInstance.data.openFiles"
-        version-or-context = "dataInstance.data.container"
+        root-dir = "dataInstance.data.container.rootDir"
       )
   tabs(
     open-files = "dataInstance.data.openFiles"
