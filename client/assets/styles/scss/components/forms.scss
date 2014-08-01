@@ -28,7 +28,7 @@
   }
 
   //validation
-  .form-validate {
+  &.form-validate {
 
     &.ng-valid {
       background: url(/build/images/icons/icons-check.svg) #fff no-repeat center right;
