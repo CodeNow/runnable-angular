@@ -13,7 +13,7 @@ function ControllerBuild(
   user,
   async,
   extendDeep,
-  SharedFilesCollection,
+  OpenItems,
   keypather,
   fetcherBuild
 ) {
