@@ -2,13 +2,35 @@
   ul.list-group
     li.list-group-item(
       ng-class = "{in: dataSetup.data.selectedRepos.contains(repo)}"
-      ng-click = "dataSetup.actions.selectGithubRepo(repo)"
       ng-repeat = "repo in dataSetup.data.githubRepos.models | \
         unaddedRepos:dataSetup.data.contextVersion.appCodeVersions | \
         repos:dataSetup.data.repoFilter"
-    ){{ repo.attrs.name }}
-      svg.iconnables.icons-check
-        use(xlink:href = "#icons-check")
+    )
+      ol.repo-group
+        li.repo-group-item(ng-click = "dataSetup.actions.selectGithubRepo(repo)") {{ repo.attrs.name }}
+          svg.iconnables.icons-check
+            use(xlink:href = "#icons-check")
+        li.repo-group-item
+          label.form-label
+            span branch:
+            //- list needs to be unique to match datalist id
+            input.form-control(
+              list = "repo-branches"
+              placeholder = "Branch or commit (optional)"
+              value = "@master"
+            )
+            datalist(id = "repo-branches")
+              option(value = "master")
+              option(value = "instance-page")
+              option(value = "instance-terminal")
+        li.repo-group-item
+          label.form-label
+            span dest:
+            input.form-control(
+              placeholder = "Destination"
+              value = "{{ '/'+appCodeVersion.attrs.repo.split('/').pop() }}"
+            )
+
   button.btn-block.silver(
     ng-click = "dataSetup.actions.addGithubRepos()"
     type = "button"

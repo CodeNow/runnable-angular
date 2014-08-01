@@ -61,29 +61,68 @@
       opacity: 1;
     }
 
-    .vertical-list {
-      max-height: calc(100% - 51px);
-      overflow: auto;
-    }
-
-    .list-group-item {
-      cursor: pointer;
-
-      &.in .icons-check {
-        transform: scale3d(1,1,1);
-      }
-    }
-
-    .btn-block {
-      margin: 0;
-      width: 100%;
-    }
-
     .icons-check {
       color: $green;
       float: right;
       top: 6px;
       transform: scale3d(0,0,0);
+    }
+
+    .list-group-item {
+      cursor: pointer;
+      max-height: 36px;
+      overflow: hidden;
+      transition: max-height .2s;
+
+      &.in {
+        max-height: 108px;
+
+        .icons-check {
+          transform: scale3d(1,1,1);
+        }
+      }
+    }
+
+    .repo-group-item {
+      height: 36px;
+      overflow: hidden;
+
+      &:nth-child(n+2) {
+        margin: 0 -9px;
+      }
+    }
+
+    .form-label {
+      font-weight: 300;
+      height: 36px;
+      line-height: 33px;
+      margin: 0;
+      position: relative;
+      width: 100%;
+      z-index: 1;
+
+      > span {
+        line-height: 36px;
+        padding-left: 9px;
+        position: relative;
+        width: 72px;
+        z-index: $z-show;
+      }
+    }
+
+    .form-control {
+      border: 0;
+      border-radius: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 0 9px 0 72px;
+      position: absolute;
+      text-indent: 0;
+    }
+
+    .btn-block {
+      margin: 0;
+      width: 100%;
     }
   }
 

@@ -41,24 +41,6 @@ section.sidebar
           )
             svg.iconnables.icons-delete
               use(xlink:href = "#icons-delete")
-          //- label
-            span branch:
-            //- list needs to be unique to match datalist id
-            input.form-control(
-              list = "repo-branches"
-              placeholder = "Branch or commit (optional)"
-              value = "@master"
-            )
-            datalist(id = "repo-branches")
-              option(value = "master")
-              option(value = "instance-page")
-              option(value = "instance-terminal")
-          //- label
-            span dest:
-            input.form-control(
-              placeholder = "Destination"
-              value = "{{ '/'+appCodeVersion.attrs.repo.split('/').pop() }}"
-            )
     #setup-template
       h3 Choose a Docker Template
       .form-group.toggle-group
