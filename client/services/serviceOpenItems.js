@@ -30,12 +30,16 @@ function openItemsFactory(
     return;
   }
 
-  function OpenItems (models, opts) {
-    BaseCollection.apply(this, arguments);
+  function OpenItems (models) {
+    var opts = {};
+    opts.client = true;
+    BaseCollection.call(this, models, opts);
     this.activeHistory = new BaseCollection([], { noStore: true });
   }
 
   util.inherits(OpenItems, BaseCollection);
+
+  OpenItems.prototype.Model = true;
 
   OpenItems.prototype.instanceOfModel = function (model) {
     return (model instanceof this.DirModel ||
@@ -82,5 +86,7 @@ function openItemsFactory(
     }
     return this;
   };
+
+  return OpenItems;
 
 }

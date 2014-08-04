@@ -12,7 +12,7 @@ function ControllerSetup(
   $state,
   async,
   keypather,
-  SharedFilesCollection
+  OpenItems
 ) {
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var QueryAssist = $scope.UTIL.QueryAssist;
@@ -21,6 +21,7 @@ function ControllerSetup(
   var data = dataSetup.data;
   var actions = dataSetup.actions;
   data.userClient = user;
+  data.openItems = new OpenItems();
 
   // Determine readonly state
   $scope.$watch(function() {
@@ -334,14 +335,17 @@ function ControllerSetup(
         if (!files) {
           return cb(new Error('Context Version Files not found'));
         }
-        data.contextFiles = new SharedFilesCollection(
-          files,
-          $scope
-        );
-        if (files.models && files.models[0]) {
-          data.contextFiles.setActiveFile(files.models[0]);
-        }
-        $scope.safeApply();
+
+        async.forEach(files.models, function (model, cb) {
+          model.fetch(cb);
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          data.openFiles.add(files.models);
+          $scope.safeApply();
+        });
+
         cb(err);
       })
       .go();
