@@ -29,7 +29,7 @@ function popoverFileExplorerMenu(
       };
       dFEMenu.isOpen = false;
 
-      actions.getNewName = function (findForDir) {
+      actions.getNewName = function () {
         var regexp1 = /^undefined$/;
         var regexp2 = /^undefined \([0-9]+\)$/;
 
@@ -37,33 +37,43 @@ function popoverFileExplorerMenu(
           .slice()
           .filter(function (model) {
             // verify model is correct type and has undefined name
-            return (findForDir === model.attrs.isDir) &&
-              regexp1.test(model.attrs.name) &&
-                regexp2.test(model.attrs.name);
+            return regexp1.test(model.attrs.name) || regexp2.test(model.attrs.name);
           })
           .sort(function (m1, m2) {
-            var n1 = m1.match(/[0-9]+/);
-            var n2 = m2.match(/[0-9]+/);
+            var n1 = m1.attrs.name.match(/[0-9]+/);
+            var n2 = m2.attrs.name.match(/[0-9]+/);
             if (n1 === null) {
-              n1 = -1;
+              n1 = [-1];
             }
             if (n2 === null) {
-              n2 = -1;
+              n2 = [-1];
             }
             n1 = parseInt(n1[0]);
             n2 = parseInt(n2[0]);
-            return n1 -  n2;
+            return n1 < n2;
           });
+
+          var name = 'undefined';
+          if (models.length) {
+            var lastIndex = models[0].attrs.name.match(/[0-9]+/);
+            if (Array.isArray(lastIndex)) {
+              name += ' (' + (parseInt(lastIndex[0]) + 1) + ')';
+            } else {
+              name += ' (1)';
+            }
+          }
+          return name;
       };
 
       actions.createFile = function () {
-        this.getNewName(true);
-        var name = 'undefined';
+        var name = this.getNewName();
         $scope.dir.contents.create({
           name: name,
           path: $scope.dir.attrs.path,
           isDir: false
         }, function () {
+          dFEMenu.isOpen = false;
+          $rootScope.safeApply();
           $scope.dir.contents.fetch(function () {
             $rootScope.safeApply();
           });
@@ -71,12 +81,14 @@ function popoverFileExplorerMenu(
       };
 
       actions.createFolder = function () {
-        var name = 'undefined';
+        var name = this.getNewName();
         $scope.dir.contents.create({
           name: name,
           path: $scope.dir.attrs.path,
           isDir: true
         }, function () {
+          dFEMenu.isOpen = false;
+          $rootScope.safeApply();
           $scope.dir.contents.fetch(function () {
             $rootScope.safeApply();
           });
