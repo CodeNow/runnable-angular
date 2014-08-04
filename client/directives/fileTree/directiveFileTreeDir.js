@@ -28,8 +28,7 @@ function fileTreeDir(
         }
       });
       function fetchDirFiles() {
-        data.dir = $scope.dir;
-        data.dir.contents.fetch(function (err) {
+        $scope.dir.contents.fetch(function (err) {
           if (err) {
             throw err;
           }

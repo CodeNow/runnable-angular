@@ -190,6 +190,7 @@ function ControllerBuildNew(
           return actions.stateToBuild(data.newBuild.attrs.buildNumber);
         }
         data.newVersion = build.contextVersions.models[0];
+        data.newVersion.rootDir.attrs.isDir = false;
         cb();
       })
       .resolve(function (err, build, cb) {

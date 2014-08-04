@@ -29,11 +29,11 @@ function popoverFileExplorerMenu(
       };
       dFEMenu.isOpen = false;
 
-      function getNewName(findForDir) {
+      actions.getNewName = function (findForDir) {
         var regexp1 = /^undefined$/;
         var regexp2 = /^undefined \([0-9]+\)$/;
 
-        var models = $scope.dir.contents
+        var models = $scope.dir.contents.models
           .slice()
           .filter(function (model) {
             // verify model is correct type and has undefined name
@@ -54,9 +54,10 @@ function popoverFileExplorerMenu(
             n2 = parseInt(n2[0]);
             return n1 -  n2;
           });
-      }
+      };
 
       actions.createFile = function () {
+        this.getNewName(true);
         var name = 'undefined';
         $scope.dir.contents.create({
           name: name,
