@@ -6,6 +6,7 @@ require('app')
  */
 function activePanel(
   $timeout,
+  $rootScope,
   $sce,
   async,
   debounce,
@@ -50,15 +51,15 @@ function activePanel(
       updateFileDebounce = debounce(updateFile, 333);
 
       function fetchFile() {
-        $scope.openFiles.activeFile.fetch(function (err) {
-          if (err) { throw err; }
-          if ($scope.openFiles.activeFile.state.body === undefined) {
-            $scope.openFiles.activeFile.state.reset(); // first population
-          }
-          $timeout(function () {
-            $scope.$apply();
+        var openItems = $scope.openItems;
+        var last = openItems.activeHistory.last();
+
+        if (openItems.isFile(last)) {
+          last.fetch(function () {
+            last.state.reset();
+            $rootScope.safeApply();
           });
-        });
+        }
       }
 
       if ($scope.update) {
@@ -81,9 +82,9 @@ function activePanel(
         $scope.isReadOnly = true;
       }
 
-      $scope.$watch('openItems.activeFile.attrs._id', function (newval, oldval) {
-        if (typeof newval === 'string' && $scope.openFiles.activeFile.type === 'file') {
-          fetchFile(newval);
+      $scope.$watch('openItems.activeHistory.last().attrs._id', function (newVal, oldVal) {
+        if (newVal) {
+          fetchFile();
         }
       });
     }

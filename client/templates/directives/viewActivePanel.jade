@@ -1,10 +1,10 @@
-#editor-container(ng-switch on = "openFiles.activeFile.attrs.type")
+#editor-container(ng-switch on = "openItems.activeHistory.last().attrs.type")
   //- ACE EDITOR
   pre(
-    ng-model = "openFiles.activeFile.state.body"
+    ng-model = "openItems.activeHistory.last().state.body"
     ng-switch-default
     ng-class = "{ \
-      readonly: isReadOnly, \
+      readonly: readOnly, \
       'ace-runnable-dark': isDarkTheme \
     }"
     readonly = "{{ isReadOnly }}"

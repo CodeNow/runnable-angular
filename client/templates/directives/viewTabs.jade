@@ -7,11 +7,11 @@
       a(
         ng-attr-data-title = "{{ item.attrs.name }}"
         ng-class = "{'active': item.state.active}"
-        ng-click = "openItems.setActive(item); $event.stopPropagation();"
+        ng-click = "openItems.activeHistory.add(item); $event.stopPropagation();"
         title = "{{ item.attrs.name }}"
       ) {{ item.attrs.name  }}
       button.btn-icon(
-        ng-click = "openItems.remove(file); $event.stopPropagation();"
+        ng-click = "openItems.remove(item); $event.stopPropagation();"
       )
         svg.iconnables.icons-close
           use(xlink:href = "#icons-close")

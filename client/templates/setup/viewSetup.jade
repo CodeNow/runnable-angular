@@ -58,7 +58,9 @@ section.sidebar
           )
     button.btn-block.orange(ng-click = "dataSetup.actions.buildApplication()") Build Application
 #editor.full
-  tabs#editor-toolbar(open-files = "dataSetup.data.contextFiles")
+  tabs#editor-toolbar(
+    open-items = "dataSetup.data.openItems"
+  )
   active-panel(
     open-items = "dataSetup.data.openItems"
     read-only = "dataSetup.data.isReadOnly"
