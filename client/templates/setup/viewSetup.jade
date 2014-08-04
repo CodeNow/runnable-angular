@@ -56,7 +56,9 @@ section.sidebar
             required
             type = "radio"
           )
-    button.btn-block.orange(ng-click = "dataSetup.actions.buildApplication()") Build Application
+    button.btn-block.orange(
+      ng-submit = "dataSetup.actions.buildApplication()"
+    ) Build Application
 #editor.full
   tabs#editor-toolbar(
     open-items = "dataSetup.data.openItems"

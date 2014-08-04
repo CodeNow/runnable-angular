@@ -189,6 +189,7 @@ function ControllerBuildNew(
         if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
           return actions.stateToBuild(data.newBuild.attrs.buildNumber);
         }
+        data.newVersion = build.contextVersions.models[0];
         cb();
       })
       .resolve(function (err, build, cb) {
