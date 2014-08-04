@@ -15,7 +15,7 @@ function fileTree(
     scope: {
       readOnly: '=',
       rootDir: '=',
-      openFiles: '='
+      openItems: '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};

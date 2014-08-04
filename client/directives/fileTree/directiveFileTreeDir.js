@@ -14,7 +14,7 @@ function fileTreeDir(
     restrict: 'E',
     scope: {
       dir: '=',
-      openFiles: '=',
+      openItems: '=',
       readOnly: '='
     },
     template: '',

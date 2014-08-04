@@ -69,37 +69,27 @@ function ControllerSetup(
    */
   actions.selectSourceContext = function (context) {
     data.selectedSourceContext = context;
-    fetchSourceContextVersion(context, function () {
-      fetchContextVersionFiles(data.sourceContextVersion, function () {});
-    });
-  };
-  actions.enterAdvancedMode = function () {
-    if (data.contextVersion.sourceInfraCodeVersion ===
-        data.sourceContextVersion.attrs.infraCodeVersion) {
-      fetchContextVersionFiles(data.contextVersion, function () {
-        data.isReadOnly = false;
-        data.isAdvanced = true;
-        $scope.safeApply();
-      });
-    }
-    else {
-      var sourceInfraCodeVersion =
-        data.sourceContextVersion.attrs.infraCodeVersion;
-      data.contextVersion.copyFilesFromSource(
-        sourceInfraCodeVersion,
-        function (err) {
-          if (err) {
-            throw err;
-          }
-          data.sourceFilesCopied = true;
-          data.contextVersion.sourceInfraCodeVersion = sourceInfraCodeVersion;
-          fetchContextVersionFiles(data.contextVersion, function () {
-            data.isReadOnly = false;
-            data.isAdvanced = true;
-            $scope.safeApply();
+    fetchContextVersion(context, function (err) {
+      if (err) { throw err; }
+      if (data.contextVersion.source === data.sourceContextVersion.id()) {
+        // nothing
+      }
+      else {
+        var sourceInfraCodeVersion =
+          data.sourceContextVersion.attrs.infraCodeVersion;
+        data.contextVersion.copyFilesFromSource(
+          sourceInfraCodeVersion,
+          function (err) {
+            if (err) { throw err; }
+            data.sourceFilesCopied = true;
+            data.contextVersion.source = data.sourceContextVersion.id();
+            fetchContextVersionFiles(data.contextVersion, function () {
+              data.isReadOnly = false;
+              $scope.safeApply();
+            });
           });
-        });
-    }
+      }
+    });
   };
   actions.resetFilesToSource = function () {
     var sourceInfraCodeVersion =
@@ -177,11 +167,16 @@ function ControllerSetup(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchSourceContextVersion (sourceContext, cb) {
+  function fetchContextVersion (context, cb) {
     new QueryAssist(sourceContext, cb)
       .wrapFunc('fetchVersions')
       .cacheFetch(function updateDom(versions, cached, cb) {
-        data.sourceContextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
+        if (context.attrs.isSource) {
+          data.sourceContextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
+        }
+        else {
+          data.contextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
+        }
         $scope.safeApply();
         cb();
       })

@@ -20,8 +20,8 @@ li.folder(
       read-only = "readOnly"
     )
     li(
-      ng-repeat = "fs in data.dir.contents.models"
-      ng-click = "openFiles.add(fs); $event.stopPropagation();"
+      ng-repeat = "fs in data.dir.contents.models | filter:{ attrs: { isDir: false } }"
+      ng-click = "openItems.add(fs); $event.stopPropagation();"
       ng-class = "{ 'active': fs.state.open }"
     )
       svg.iconnables.filetypes.icons-file
