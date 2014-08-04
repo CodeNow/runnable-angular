@@ -81,7 +81,7 @@ function activePanel(
         $scope.isReadOnly = true;
       }
 
-      $scope.$watch('openFiles.activeFile.attrs._id', function (newval, oldval) {
+      $scope.$watch('openItems.activeFile.attrs._id', function (newval, oldval) {
         if (typeof newval === 'string' && $scope.openFiles.activeFile.type === 'file') {
           fetchFile(newval);
         }

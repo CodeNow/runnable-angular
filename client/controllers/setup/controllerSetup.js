@@ -323,7 +323,7 @@ function ControllerSetup(
 
   function fetchContextVersionFiles(contextVersion, cb) {
     new QueryAssist(contextVersion, cb)
-      .wrapFunc('fetchFiles')
+      .wrapFunc('fetchFsList')
       .query({
         path: '/'
       })
@@ -332,21 +332,19 @@ function ControllerSetup(
         cb();
       })
       .resolve(function(err, files, cb) {
+        if (err) {
+          throw err;
+        }
         if (!files) {
           return cb(new Error('Context Version Files not found'));
         }
 
-        async.forEach(files.models, function (model, cb) {
-          model.fetch(cb);
-        }, function (err) {
+        data.openItems.addFiles(files, function (err) {
           if (err) {
             throw err;
           }
-          data.openFiles.add(files.models);
           $scope.safeApply();
         });
-
-        cb(err);
       })
       .go();
   }
