@@ -25,35 +25,35 @@ function activePanel(
     },
     link: function ($scope, element, attrs) {
 
+      var skip = true;
+
       $scope.$sce = $sce;
 
       function updateFile (cb) {
-        var activeFile = $scope.openFiles.activeFile;
-        // Check to make sure it's a real file
-        // and not a stupid fake file that almost got me fired
-        // https://www.youtube.com/watch?v=CCrfzyRFMfg
-        if (!activeFile || activeFile.constructor.name !== 'File') { return; }
-        if (activeFile.state.isDirty()) {
-          activeFile.update({
-            json: {
-              body: activeFile.state.body
-            }
-          }, function (err) {
-            if (err) {
-              throw err;
-            }
-            $timeout(function () {
-              $scope.$apply();
-            });
-          });
+        if (skip) {
+          skip = false;
+          return;
         }
+        var activeFile = $scope.openItems.activeHistory.last();
+        if (!$scope.openItems.isFile(activeFile)) {
+          return;
+        }
+        activeFile.update({
+          json: {
+            body: activeFile.state.body
+          }
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          $rootScope.safeApply();
+        });
       }
-      updateFileDebounce = debounce(updateFile, 333);
+      var updateFileDebounce = debounce(updateFile, 333);
 
       function fetchFile() {
         var openItems = $scope.openItems;
         var last = openItems.activeHistory.last();
-
         if (openItems.isFile(last)) {
           last.fetch(function () {
             last.state.reset();
@@ -63,27 +63,16 @@ function activePanel(
       }
 
       if ($scope.update) {
-        $scope.$watch('openFiles.activeFile.state.body', function (newval, oldval) {
-          if (typeof newval === 'string' && $scope.openFiles.activeFile) {
+        $scope.$watch('openItems.activeHistory.last().state.body', function (newVal, oldVal) {
+          if (typeof newVal === 'string' && $scope.openItems.activeHistory.last()) {
             updateFileDebounce();
           }
         });
-        $scope.$watchCollection('[readOnly, openFiles.activeFile]', function (newVal) {
-          if (!newVal) {
-            $scope.isReadOnly = newVal;
-          } else if (keypather.get($scope, 'openFiles.activeFile')) {
-            // We should be in readonly mode if we don't have an active file
-            $scope.isReadOnly = $scope.openFiles.activeFile.constructor.name !== 'File';
-          } else {
-            $scope.isReadOnly = true;
-          }
-        });
-      } else {
-        $scope.isReadOnly = true;
       }
 
       $scope.$watch('openItems.activeHistory.last().attrs._id', function (newVal, oldVal) {
         if (newVal) {
+          skip = true;
           fetchFile();
         }
       });

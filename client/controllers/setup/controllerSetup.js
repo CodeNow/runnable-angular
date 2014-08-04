@@ -83,7 +83,8 @@ function ControllerSetup(
             if (err) { throw err; }
             data.sourceFilesCopied = true;
             data.contextVersion.source = data.sourceContextVersion.id();
-            fetchContextVersionFiles(data.contextVersion, function () {
+            fetchContextVersionFiles(data.contextVersion, function (err) {
+              if (err) { throw err; }
               data.isReadOnly = false;
               $scope.safeApply();
             });
@@ -91,34 +92,10 @@ function ControllerSetup(
       }
     });
   };
-  actions.resetFilesToSource = function () {
-    var sourceInfraCodeVersion =
-      data.sourceContextVersion.attrs.infraCodeVersion;
-    data.contextVersion.copyFilesFromSource(
-      sourceInfraCodeVersion,
-      function (err) {
-        if (err) {
-          throw err;
-        }
-        data.sourceFilesCopied = true;
-        fetchContextVersionFiles(data.sourceContextVersion, function () {
-          data.isReadOnly = true;
-          data.isAdvanced = false;
-          data.contextFiles.reset();
-          $scope.safeApply();
-        });
-      });
-  };
   actions.buildApplication = function () {
     async.series([
       function (cb) {
-        if (!data.sourceFilesCopied) {
-          var sourceInfraCodeVersion =
-            data.sourceContextVersion.attrs.infraCodeVersion;
-          data.contextVersion.copyFilesFromSource(sourceInfraCodeVersion, cb);
-        } else {
-          cb();
-        }
+
       },
       function (cb) {
         data.build.build({message: 'Initial build'}, cb);
@@ -168,7 +145,7 @@ function ControllerSetup(
    *   API Fetch Methods
    * ===========================*/
   function fetchContextVersion (context, cb) {
-    new QueryAssist(sourceContext, cb)
+    new QueryAssist(context, cb)
       .wrapFunc('fetchVersions')
       .cacheFetch(function updateDom(versions, cached, cb) {
         if (context.attrs.isSource) {
