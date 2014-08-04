@@ -13,7 +13,7 @@ function ControllerBuildNew(
   user,
   async,
   extendDeep,
-  SharedFilesCollection,
+  OpenItems,
   keypather,
   fetcherBuild,
   hasProps
@@ -231,17 +231,8 @@ function ControllerBuildNew(
       .go();
   }
 
-  function newFilesCollOpenFiles(cb) {
-    //var version = dataBuildNew.data.version;
-    var version = dataBuildNew.data.newBuild.contextVersions.models[0];
-    data.newVersion = version;
-    data.openFiles = new SharedFilesCollection(
-      version.newFiles([], {
-        noStore: true
-      }),
-      $scope
-    );
-    cb();
+  function newOpenItems(cb) {
+    data.openItems = new OpenItems();
   }
 
   actions.seriesFetchAll = function () {
@@ -249,7 +240,7 @@ function ControllerBuildNew(
       fetcherBuild($scope.dataBuildNew.data),
       fetchNewBuild,
       fetchOwnerRepos,
-      newFilesCollOpenFiles,
+      newOpenItems,
     ], function(err){
       setupBuildPopover();
       setupRepoPopover();

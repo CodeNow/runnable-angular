@@ -130,9 +130,9 @@ section.sidebar
            }"
          )
     file-tree(
-      read-only = "true"
-      open-files = "dataBuildNew.data.openFiles"
       root-dir = "dataBuildNew.data.newVersion.rootDir"
+      read-only = "false"
+      open-items = "dataBuildNew.data.openItems"
     )
     h6.explorer-header
       | REPOSITORIES
@@ -177,14 +177,14 @@ section.sidebar
       use(xlink:href = "#icons-folder-open")
 
   tabs(
-    open-files = "dataBuildNew.data.openFiles"
+    open-items = "dataBuildNew.data.openItems"
   )
   tabs-dropdown(
-    open-files = "dataBuildNew.data.openFiles"
+    open-items = "dataBuildNew.data.openItems"
   )
   active-panel(
     update = "true"
     read-only = "false"
-    open-files = "dataBuildNew.data.openFiles"
+    open-items = "dataBuildNew.data.openItems"
     is-dark-theme = "dataBuildNew.data.toggleTheme"
   )

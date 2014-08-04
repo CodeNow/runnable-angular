@@ -10,7 +10,7 @@ function tabsDropdown() {
     templateUrl: 'viewTabsDropdown',
     replace: true,
     scope: {
-      openFiles: '='
+      openItems: '='
     },
     link: function ($scope, element, attrs) {
       var actions = $scope.actions = {};
