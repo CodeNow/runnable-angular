@@ -1,5 +1,5 @@
 var BaseCollection = require('runnable/lib/collections/base');
-var utils = require('utils');
+var util = require('util');
 
 require('app')
   .factory('OpenItems', openItemsFactory);
@@ -35,7 +35,7 @@ function openItemsFactory(
     this.activeHistory = new BaseCollection([], { noStore: true });
   }
 
-  utils.inherits(OpenItems, BaseCollection);
+  util.inherits(OpenItems, BaseCollection);
 
   OpenItems.prototype.instanceOfModel = function (model) {
     return (model instanceof this.DirModel ||

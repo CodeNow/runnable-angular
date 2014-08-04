@@ -12,7 +12,7 @@ function ControllerInstance(
   $stateParams,
   async,
   user,
-  SharedFilesCollection
+  OpenItems
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -162,26 +162,20 @@ function ControllerInstance(
       .go();
   }
 
-  function newFilesCollOpenFiles(cb) {
-    // tODO fetch container files
+  function newOpenItems(cb) {
     var container = data.container;
-    data.openFiles = new SharedFilesCollection(
-      container.newFiles([], {
-        noStore: true
-      }),
-      $scope
-    );
     if (container.urls().length) {
       pat.actions.addWebView();
     }
     pat.actions.addTerminal();
+    data.openItems = new OpenItems();
     cb();
   }
 
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
-    newFilesCollOpenFiles
+    newOpenItems
   ], function (err) {
     if (err) {
       $state.go('404');

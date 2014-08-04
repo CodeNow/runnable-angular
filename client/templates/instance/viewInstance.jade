@@ -120,11 +120,12 @@ section.sidebar
           template = "viewInstancePopoverFileMenu"
         )
       file-tree(
-        open-files = "dataInstance.data.openFiles"
-        version-or-context = "dataInstance.data.container"
+        read-only = "true"
+        root-dir = "dataInstance.data.container.rootDir"
+        open-items = "dataInstance.data.openItems"
       )
   tabs(
-    open-files = "dataInstance.data.openFiles"
+    open-items = "dataInstance.data.openItems"
   )
   a#add-tab.btn.btn-icon(
     ng-class = "{active: dataInstance.data.popoverAddTab.data.show}"
@@ -139,13 +140,12 @@ section.sidebar
       template = "viewInstancePopoverAddTab"
     )
   tabs-dropdown(
-    open-files = "dataInstance.data.openFiles"
+    open-items = "dataInstance.data.openItems"
   )
   active-panel(
     update = "true"
     container = "dataInstance.data.container"
-    open-files = "dataInstance.data.openFiles"
-    is-clean = "dataInstance.data.isClean"
+    open-items = "dataInstance.data.openItems"
     is-dark-theme = "dataInstance.data.toggleTheme"
   )
 
