@@ -19,7 +19,7 @@ function activePanel(
       container: '=',
       openItems: '=',
       readOnly: '=',
-      update: '=',
+      update: '=',      // true: save file when content changes
       isDarkTheme: '='
     },
     link: function ($scope, element, attrs) {
