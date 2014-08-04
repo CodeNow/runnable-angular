@@ -15,7 +15,6 @@ function popoverFileExplorerMenu(
   return {
     restrict: 'A',
     scope: false, // latch on to file-tree && file-tree-dir isolate scope isolate scopes
-    // scope: {},
     link: function ($scope, element, attrs) {
       if ($scope.readOnly) {
         return;
@@ -30,11 +29,11 @@ function popoverFileExplorerMenu(
       };
       dFEMenu.isOpen = false;
 
-      function getNewName(collection, findForDir) {
+      function getNewName(findForDir) {
         var regexp1 = /^undefined$/;
         var regexp2 = /^undefined \([0-9]+\)$/;
 
-        var models = collection.models
+        var models = $scope.dir.contents
           .slice()
           .filter(function (model) {
             // verify model is correct type and has undefined name
@@ -43,46 +42,42 @@ function popoverFileExplorerMenu(
                 regexp2.test(model.attrs.name);
           })
           .sort(function (m1, m2) {
-            if (regexp1.test(m1)) {
-              return true;
-            } else if (regexp1.test(m2)) {
-              return false;
+            var n1 = m1.match(/[0-9]+/);
+            var n2 = m2.match(/[0-9]+/);
+            if (n1 === null) {
+              n1 = -1;
             }
-
+            if (n2 === null) {
+              n2 = -1;
+            }
+            n1 = parseInt(n1[0]);
+            n2 = parseInt(n2[0]);
+            return n1 -  n2;
           });
-
       }
 
       actions.createFile = function () {
         var name = 'undefined';
-        $scope.versionOrContext.createFile({
+        $scope.dir.contents.create({
           name: name,
           path: $scope.dir.attrs.path,
           isDir: false
         }, function () {
-          $scope.versionOrContext.fetchFiles({
-            path: $scope.dir.filepath()
-          }, function () {
-            $timeout(function () {
-              $scope.$apply();
-            });
+          $scope.dir.contents.fetch(function () {
+            $rootScope.safeApply();
           });
         });
       };
 
       actions.createFolder = function () {
         var name = 'undefined';
-        $scope.versionOrContext.createFile({
+        $scope.dir.contents.create({
           name: name,
           path: $scope.dir.attrs.path,
           isDir: true
         }, function () {
-          $scope.versionOrContext.fetchFiles({
-            path: $scope.dir.filepath()
-          }, function () {
-            $timeout(function () {
-              $scope.$apply();
-            });
+          $scope.dir.contents.fetch(function () {
+            $rootScope.safeApply();
           });
         });
       };
@@ -108,13 +103,14 @@ function popoverFileExplorerMenu(
 
       element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener (e){
+        if (e.currentTarget !== e.target) {
+          return false;
+        }
         $scope.dPFEMenu.eStyle.top = e.pageY - 18 + 'px';
         $scope.dPFEMenu.eStyle.left = e.pageX + 'px';
         $scope.dPFEMenu.isOpen = true;
 
-        $timeout(function () {
-          $scope.$apply();
-        });
+        $rootScope.safeApply();
 
         e.preventDefault();
         e.stopPropagation();
