@@ -19,8 +19,8 @@ function openItemsFactory(
   function instanceOfModel (model) {
     return (model instanceof VersionFileModel ||
             model instanceof ContainerFileModel ||
-            model instanceof TerminalModel ||
-            model instanceof WebViewModel);
+            model instanceof Terminal ||
+            model instanceof WebView);
   }
 
   function newModel (modelOrAttrs, opts) {

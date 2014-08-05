@@ -41,10 +41,19 @@ function ControllerSetup(
     }
     $scope.safeApply();
   };
+
+  function fetchBranches (repoModel) {
+    var branchesColl = repoModel.fetchBranches(function () {
+      // safeapply
+    });
+  }
+
+
   actions.addGithubRepos = function () {
     async.forEach(data.selectedRepos.models, function (repo, cb) {
       var body = {
         repo: repo.attrs.full_name
+        // branch: 'master' // TODO
       };
       data.contextVersion.appCodeVersions.create(body, cb);
     }, function (err) {
@@ -75,8 +84,7 @@ function ControllerSetup(
         // nothing
       }
       else {
-        var sourceInfraCodeVersion =
-          data.sourceContextVersion.attrs.infraCodeVersion;
+        var sourceInfraCodeVersion =data.sourceContextVersion.attrs.infraCodeVersion;
         data.contextVersion.copyFilesFromSource(
           sourceInfraCodeVersion,
           function (err) {
@@ -92,11 +100,9 @@ function ControllerSetup(
       }
     });
   };
+
   actions.buildApplication = function () {
     async.series([
-      function (cb) {
-
-      },
       function (cb) {
         data.build.build({message: 'Initial build'}, cb);
       },
@@ -108,6 +114,7 @@ function ControllerSetup(
       dataSetup.actions.stateToBuild();
     });
   };
+
   actions.stateToBuild = function () {
     $state.go('projects.build', {
       userName: $scope.dataApp.stateParams.userName,
@@ -117,6 +124,7 @@ function ControllerSetup(
       buildName: data.build.attrs.buildNumber
     });
   };
+
   actions.stateToBuildList = function () {
     $state.go('projects.buildList', {
       userName: $scope.dataApp.stateParams.userName,
@@ -124,6 +132,7 @@ function ControllerSetup(
       branchName: data.project.defaultEnvironment.attrs.name
     });
   };
+
   actions.initState = function () {
     async.waterfall([
       holdUntilAuth,
