@@ -38,6 +38,7 @@
     "term.js": "git+https://github.com/CodeNow/term.js"
   },
   "devDependencies": {
+    "browserify": "~3.31.0",
     "browserify-angular-mocks": "0.0.0",
     "browserify-shim": "~3.5.0",
     "chai": "~1.9.1",
@@ -65,7 +66,6 @@
     "grunt-jade-plugin": "git://github.com/Runnable/grunt-jade-plugin.git#604fba490db0c8cf9ee4ce0c51ef91acf44ac573",
     "grunt-jsbeautifier": "^0.2.7",
     "grunt-nodemon": "~0.2.1",
-    "http-browserify": "^1.4.1",
     "karma": "~0.12.16",
     "karma-browserify": "~0.2.1",
     "karma-chrome-launcher": "~0.1.4",
