@@ -85,7 +85,7 @@ function popoverFileExplorerMenu(
           path: $scope.dir.filepath(),
           isDir: false
         }, function () {
-          dirItemData.isOpen = false;
+          closeModal();
           $scope.dir.contents.fetch(function () {
             $rootScope.safeApply();
           });
@@ -99,7 +99,7 @@ function popoverFileExplorerMenu(
           path: $scope.dir.filepath(),
           isDir: true
         }, function () {
-          dirItemData.isOpen = false;
+          closeModal();
           $scope.dir.contents.fetch(function () {
             $rootScope.safeApply();
           });
@@ -128,7 +128,7 @@ function popoverFileExplorerMenu(
           return false;
         }
 
-        $rootScope.broadcast('file-modal-open');
+        $rootScope.$broadcast('file-modal-open');
 
         // insert element into dom
         var template = $templateCache.get('viewFileTreePopoverFileExplorerMenu');

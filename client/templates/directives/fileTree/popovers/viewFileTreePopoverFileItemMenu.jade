@@ -7,20 +7,20 @@
   .popover-content
     ul#file-explorer-options.popover-body
       li(
-        ng-click = "fileItemData.actions.open(); $event.stopPropagation();"
+        ng-click = "fileItemData.actions.openFile(); $event.stopPropagation();"
       )
         svg.iconnables
           use(xlink:href = "#icons-file-open")
         | Open
       li.divider
       li(
-        ng-click = "fileItemData.actions.rename(); $event.stopPropagation();"
+        ng-click = "fileItemData.actions.renameFile(); $event.stopPropagation();"
       )
         svg.iconnables
           use(xlink:href = "#icons-file-modify")
         | Rename
       li(
-        ng-click = "fileItemData.actions.delete(); $event.stopPropagation();"
+        ng-click = "fileItemData.actions.deleteFile(); $event.stopPropagation();"
       )
         svg.iconnables
           use(xlink:href = "#icons-file-delete")

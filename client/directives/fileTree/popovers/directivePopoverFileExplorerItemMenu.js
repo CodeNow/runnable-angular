@@ -7,8 +7,8 @@ require('app')
 function popoverFileExplorerItemMenu(
   $templateCache,
   $compile,
-  jQuery,
   $rootScope,
+  jQuery,
   keypather
 ) {
   return {
@@ -30,8 +30,14 @@ function popoverFileExplorerItemMenu(
       };
       fileItemData.isOpen = false;
 
+      actions.openFile = function () {
+        $scope.openItems.add($scope.fs);
+        closeModal();
+      };
+      actions.renameFile = function () {};
+      actions.deleteFile = function () {};
+
       // insert element into dom
-      var template = $templateCache.get('viewFileTreePopoverFileItemMenu');
       $scope.$on('file-modal-open', function () {
         closeModal();
       });
@@ -54,8 +60,9 @@ function popoverFileExplorerItemMenu(
           return false;
         }
 
-        $rootScope.broadcast('file-modal-open');
+        $rootScope.$broadcast('file-modal-open');
 
+        var template = $templateCache.get('viewFileTreePopoverFileItemMenu');
         var $template = angular.element(template);
         $compile($template)($scope);
         $scope.$popoverTemplate = $scope.jQuery($template);
