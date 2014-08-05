@@ -56,12 +56,12 @@ function popoverFileExplorerMenu(
           });
 
         // let would be nice
-        var index = 0;
+        var index = -1;
         for (var i=0, len=names.length; i < len; i++) {
           if (names[i] === 'undefined') {
             index = 0;
           } else {
-            index = names[i].match(/[0-9]+/)[0];
+            index = parseInt(names[i].match(/[0-9]+/)[0]);
           }
           // find skipped indexes
           if (index > i) {
@@ -71,8 +71,9 @@ function popoverFileExplorerMenu(
         }
 
         var name = 'undefined';
+        index++;
         if (index > 0) {
-          name += ' (' + (index+1) + ')';
+          name += ' (' + index + ')';
         }
 
         return name;

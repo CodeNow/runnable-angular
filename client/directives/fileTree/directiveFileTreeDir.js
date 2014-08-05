@@ -32,6 +32,7 @@ function fileTreeDir(
           if (err) {
             throw err;
           }
+          $scope.dir.contents.models.sort();
           $rootScope.safeApply();
         });
       }
