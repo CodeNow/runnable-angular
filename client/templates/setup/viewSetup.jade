@@ -8,7 +8,9 @@ nav.sub-header
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
 section.sidebar
-  form
+  form(
+    ng-submit = "dataSetup.actions.buildApplication()"
+  )
     #setup-repo
       .popover.bottom.fade(
         ng-class = "{in: dataSetup.data.isRepoMode}"
@@ -57,7 +59,7 @@ section.sidebar
             type = "radio"
           )
     button.btn-block.orange(
-      ng-submit = "dataSetup.actions.buildApplication()"
+      type = "submit"
     ) Build Application
 #editor.full
   tabs#editor-toolbar(
