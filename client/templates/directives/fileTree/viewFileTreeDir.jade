@@ -28,6 +28,7 @@ li.folder(
       svg.iconnables.filetypes.icons-file
         use(xlink:href = "#icons-file")
       input.tree-input(
+        ng-keyup = "($event.keyCode === 13) && fileItemData.actions.closeFileNameInput();"
         ng-readonly = "!fileItemData.editFileName"
         value = "{{ fs.attrs.name }}"
       )

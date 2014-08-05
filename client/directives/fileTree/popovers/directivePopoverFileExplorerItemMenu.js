@@ -60,6 +60,7 @@ function popoverFileExplorerItemMenu(
       function closeFileNameInput() {
         fileItemData.editFileName = false;
       }
+      fileItemData.actions.closeFileNameInput = closeFileNameInput;
 
       function closeModal() {
         if (fileItemData.isOpen) {
