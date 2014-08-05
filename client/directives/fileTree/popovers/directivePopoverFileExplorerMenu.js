@@ -20,14 +20,14 @@ function popoverFileExplorerMenu(
         return;
       }
       $scope.jQuery = jQuery;
-      var dFEMenu = $scope.dPFEMenu = {};
-      var actions = dFEMenu.actions = {};
+      var dirItemData = $scope.dirItemData = {};
+      var actions = dirItemData.actions = {};
 
-      dFEMenu.eStyle = {
+      dirItemData.eStyle = {
         top: '0px',
         left: '0px'
       };
-      dFEMenu.isOpen = false;
+      dirItemData.isOpen = false;
 
       actions.getNewName = function () {
         var regexp1 = /^undefined$/;
@@ -86,7 +86,7 @@ function popoverFileExplorerMenu(
           path: $scope.dir.filepath(),
           isDir: false
         }, function () {
-          dFEMenu.isOpen = false;
+          dirItemData.isOpen = false;
           $scope.dir.contents.fetch(function () {
             $rootScope.safeApply();
           });
@@ -100,7 +100,7 @@ function popoverFileExplorerMenu(
           path: $scope.dir.filepath(),
           isDir: true
         }, function () {
-          dFEMenu.isOpen = false;
+          dirItemData.isOpen = false;
           $scope.dir.contents.fetch(function () {
             $rootScope.safeApply();
           });
@@ -116,13 +116,13 @@ function popoverFileExplorerMenu(
       $scope.jQuery('body').append($template);
 
       $scope.$on('file-modal-open', function () {
-        if (dFEMenu.isOpen) {
-          dFEMenu.isOpen = false;
+        if (dirItemData.isOpen) {
+          dirItemData.isOpen = false;
         }
       });
       $scope.$on('app-document-click', function () {
-        if (dFEMenu.isOpen) {
-          dFEMenu.isOpen = false;
+        if (dirItemData.isOpen) {
+          dirItemData.isOpen = false;
         }
       });
 
@@ -131,9 +131,9 @@ function popoverFileExplorerMenu(
         if (e.currentTarget !== e.target) {
           return false;
         }
-        $scope.dPFEMenu.eStyle.top = e.pageY - 18 + 'px';
-        $scope.dPFEMenu.eStyle.left = e.pageX + 'px';
-        $scope.dPFEMenu.isOpen = true;
+        $scope.dirItemData.eStyle.top = e.pageY - 18 + 'px';
+        $scope.dirItemData.eStyle.left = e.pageX + 'px';
+        $scope.dirItemData.isOpen = true;
 
         $rootScope.safeApply();
 
