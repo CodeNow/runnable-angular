@@ -28,6 +28,6 @@ li.folder(
       svg.iconnables.filetypes.icons-file
         use(xlink:href = "#icons-file")
       input.tree-input(
-        readonly
+        ng-readonly = "!fileItemData.editFileName"
         value = "{{ fs.attrs.name }}"
       )

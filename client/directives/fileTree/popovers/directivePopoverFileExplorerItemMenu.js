@@ -15,14 +15,19 @@ function popoverFileExplorerItemMenu(
     restrict: 'A',
     scope: false,
     link: function ($scope, element, attrs) {
-
-      $scope.jQuery = jQuery;
       if ($scope.readOnly) {
         return;
       }
 
+      $scope.jQuery = jQuery;
+      var inputElement = element.find('input');
+      inputElement.on('blur', function () {
+        closeFileNameInput();
+      });
+
       var fileItemData =$scope.fileItemData = {};
       var actions = fileItemData.actions = {};
+      fileItemData.editFileName = false;
 
       fileItemData.eStyle = {
         top: '0px',
@@ -34,16 +39,27 @@ function popoverFileExplorerItemMenu(
         $scope.openItems.add($scope.fs);
         closeModal();
       };
-      actions.renameFile = function () {};
+      actions.renameFile = function () {
+        closeModal();
+        fileItemData.editFileName = true;
+        inputElement[0].focus();
+        inputElement[0].select();
+      };
       actions.deleteFile = function () {};
 
       // insert element into dom
       $scope.$on('file-modal-open', function () {
         closeModal();
+        closeFileNameInput();
       });
       $scope.$on('app-document-click', function () {
         closeModal();
+        closeFileNameInput();
       });
+
+      function closeFileNameInput() {
+        fileItemData.editFileName = false;
+      }
 
       function closeModal() {
         if (fileItemData.isOpen) {
@@ -78,6 +94,7 @@ function popoverFileExplorerItemMenu(
         e.stopPropagation();
       }
       element.on('$destroy', function () {
+        inputElement.off('blur');
         $scope.$popoverTemplate.remove();
         element[0].removeEventListener('contextmenu', contextMenuListener);
       });
