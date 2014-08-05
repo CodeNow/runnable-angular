@@ -83,11 +83,10 @@ function popoverFileExplorerMenu(
         var name = this.getNewName();
         $scope.dir.contents.create({
           name: name,
-          path: $scope.dir.attrs.path,
+          path: $scope.dir.filepath(),
           isDir: false
         }, function () {
           dFEMenu.isOpen = false;
-          $rootScope.safeApply();
           $scope.dir.contents.fetch(function () {
             $rootScope.safeApply();
           });
@@ -98,11 +97,10 @@ function popoverFileExplorerMenu(
         var name = this.getNewName();
         $scope.dir.contents.create({
           name: name,
-          path: $scope.dir.attrs.path,
+          path: $scope.dir.filepath(),
           isDir: true
         }, function () {
           dFEMenu.isOpen = false;
-          $rootScope.safeApply();
           $scope.dir.contents.fetch(function () {
             $rootScope.safeApply();
           });
