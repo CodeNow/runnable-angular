@@ -182,6 +182,7 @@ function popoverFileExplorerMenu(
         e.preventDefault();
         e.stopPropagation();
       }
+
       element.on('$destroy', function () {
         inputElement.off('blur');
         $scope.$popoverTemplate.remove();
