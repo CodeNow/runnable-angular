@@ -50,9 +50,9 @@ function popoverFileExplorerItemMenu(
         if (e.currentTarget !== e.target) {
           return false;
         }
-        $scope.dPFEMenu.eStyle.top = e.pageY - 18 + 'px';
-        $scope.dPFEMenu.eStyle.left = e.pageX + 'px';
-        $scope.dPFEMenu.isOpen = true;
+        $scope.fileItemData.eStyle.top = e.pageY - 18 + 'px';
+        $scope.fileItemData.eStyle.left = e.pageX + 'px';
+        $scope.fileItemData.isOpen = true;
 
         $rootScope.safeApply();
 
