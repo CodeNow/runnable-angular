@@ -106,30 +106,38 @@ function popoverFileExplorerMenu(
         });
       };
 
-      // insert element into dom
-      var template = $templateCache.get('viewFileTreePopoverFileExplorerMenu');
-      var $template = angular.element(template);
-      $compile($template)($scope);
-      $scope.$popoverTemplate = $scope.jQuery($template);
-      //element.prepend($template);
-      $scope.jQuery('body').append($template);
-
       $scope.$on('file-modal-open', function () {
-        if (dirItemData.isOpen) {
-          dirItemData.isOpen = false;
-        }
+        closeModal();
       });
       $scope.$on('app-document-click', function () {
+        closeModal();
+      });
+
+      function closeModal() {
         if (dirItemData.isOpen) {
           dirItemData.isOpen = false;
         }
-      });
+        if (keypather.get($scope, '$popoverTemplate.remove')) {
+          $scope.$popoverTemplate.remove();
+        }
+      }
 
       element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener (e){
         if (e.currentTarget !== e.target) {
           return false;
         }
+
+        $rootScope.broadcast('file-modal-open');
+
+        // insert element into dom
+        var template = $templateCache.get('viewFileTreePopoverFileExplorerMenu');
+        var $template = angular.element(template);
+        $compile($template)($scope);
+        $scope.$popoverTemplate = $scope.jQuery($template);
+        //element.prepend($template);
+        $scope.jQuery('body').append($template);
+
         $scope.dirItemData.eStyle.top = e.pageY - 18 + 'px';
         $scope.dirItemData.eStyle.left = e.pageX + 'px';
         $scope.dirItemData.isOpen = true;
