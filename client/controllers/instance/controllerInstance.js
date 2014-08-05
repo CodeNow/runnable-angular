@@ -137,7 +137,6 @@ function ControllerInstance(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-
   function fetchInstance (cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
@@ -163,12 +162,12 @@ function ControllerInstance(
   }
 
   function newOpenItems(cb) {
+    data.openItems = new OpenItems();
     var container = data.container;
     if (container.urls().length) {
       pat.actions.addWebView();
     }
     pat.actions.addTerminal();
-    data.openItems = new OpenItems();
     cb();
   }
 
