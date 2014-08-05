@@ -45,7 +45,16 @@ function popoverFileExplorerItemMenu(
         inputElement[0].focus();
         inputElement[0].select();
       };
-      actions.deleteFile = function () {};
+      actions.deleteFile = function () {
+        $scope.fs.destroy(function (err) {
+          if (err) {
+            throw err;
+          }
+          // destroy alone does not update collection
+          $scope.actions.fetchDirFiles();
+        });
+        closeModal();
+      };
 
       // insert element into dom
       $scope.$on('file-modal-open', function () {
@@ -58,7 +67,18 @@ function popoverFileExplorerItemMenu(
       });
 
       function closeFileNameInput() {
+        if (!fileItemData.editFileName) {
+          return;
+        }
         fileItemData.editFileName = false;
+        $scope.fs.update({
+          name: inputElement.val()
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.actions.sortDir();
+        });
       }
       fileItemData.actions.closeFileNameInput = closeFileNameInput;
 

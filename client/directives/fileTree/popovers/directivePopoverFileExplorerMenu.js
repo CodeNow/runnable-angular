@@ -19,8 +19,14 @@ function popoverFileExplorerMenu(
         return;
       }
       $scope.jQuery = jQuery;
+      var inputElement = element.find('input');
+      inputElement.on('blur', function () {
+        closeFolderNameInput();
+      });
+
       var dirItemData = $scope.dirItemData = {};
       var actions = dirItemData.actions = {};
+      dirItemData.editFolderName = false;
 
       dirItemData.eStyle = {
         top: '0px',
@@ -85,11 +91,9 @@ function popoverFileExplorerMenu(
           path: $scope.dir.filepath(),
           isDir: false
         }, function () {
-          closeModal();
-          $scope.dir.contents.fetch(function () {
-            $rootScope.safeApply();
-          });
+          $scope.actions.fetchDirFiles();
         });
+        closeModal();
       };
 
       actions.createFolder = function () {
@@ -99,19 +103,50 @@ function popoverFileExplorerMenu(
           path: $scope.dir.filepath(),
           isDir: true
         }, function () {
-          closeModal();
-          $scope.dir.contents.fetch(function () {
-            $rootScope.safeApply();
-          });
+          $scope.actions.fetchDirFiles();
         });
+        closeModal();
+      };
+
+      actions.deleteFolder = function () {
+        $scope.dir.destroy(function (err) {
+          if (err) {
+            throw err;
+          }
+        });
+        closeModal();
+      };
+
+      actions.renameFolder = function () {
+        closeModal();
+        dirItemData.editFolderName = true;
+        inputElement[0].focus();
+        inputElement[0].select();
       };
 
       $scope.$on('file-modal-open', function () {
         closeModal();
+        closeFolderNameInput();
       });
       $scope.$on('app-document-click', function () {
         closeModal();
+        closeFolderNameInput();
       });
+
+      dirItemData.actions.closeFolderNameInput = closeFolderNameInput;
+      function closeFolderNameInput() {
+        if (!dirItemData.editFolderName) {
+          return;
+        }
+        dirItemData.editFolderName = false;
+        $scope.dir.update({
+          name: inputElement.val()
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+        });
+      }
 
       function closeModal() {
         if (dirItemData.isOpen) {
@@ -148,6 +183,7 @@ function popoverFileExplorerMenu(
         e.stopPropagation();
       }
       element.on('$destroy', function () {
+        inputElement.off('blur');
         $scope.$popoverTemplate.remove();
         element[0].removeEventListener('contextmenu', contextMenuListener);
       });

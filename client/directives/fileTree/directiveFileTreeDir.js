@@ -22,6 +22,17 @@ function fileTreeDir(
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
+      actions.sortDir = function () {
+        $scope.dir.contents.models.sort(function (m1, m2) {
+          return m1.attrs.name > m2.attrs.name;
+        });
+        // prevents folders/dir mixing order in tree bug
+        $timeout(function(){
+          $rootScope.safeApply();
+        }, 10);
+      };
+      actions.fetchDirFiles = fetchDirFiles;
+
       $scope.$watch('dir.state.open', function (newVal, oldval) {
         if (newVal) {
           fetchDirFiles();
@@ -32,8 +43,7 @@ function fileTreeDir(
           if (err) {
             throw err;
           }
-          $scope.dir.contents.models.sort();
-          $rootScope.safeApply();
+          actions.sortDir();
         });
       }
 

@@ -45,7 +45,7 @@ function ControllerInstance(
 
   pat.actions.addOutputStream = function () {
     pat.data.show = false;
-    data.openFiles.add({
+    data.openItems.add({
       type: 'outputStream',
       name: Date.now()+'',
       _id: Date.now()+'',
@@ -57,7 +57,7 @@ function ControllerInstance(
 
   pat.actions.addWebView = function () {
     pat.data.show = false;
-    data.openFiles.add({
+    data.openItems.add({
       type: 'webView',
       name: Date.now()+'',
       _id: Date.now()+'',
@@ -69,7 +69,7 @@ function ControllerInstance(
 
   pat.actions.addTerminal = function () {
     pat.data.show = false;
-    data.openFiles.add({
+    data.openItems.add({
       Key: 'Terminal',
       type: 'terminal',
       path: '/',
@@ -127,8 +127,8 @@ function ControllerInstance(
   });
 
   $scope.$watch(function () {
-    if (data.openFiles && data.openFiles.activeFile) {
-      return data.openFiles.activeFile.attrs.body;
+    if (data.openItems && data.openItems.activeFile) {
+      return data.openItems.activeFile.attrs.body;
     }
   }, function () {
     $scope.safeApply();
