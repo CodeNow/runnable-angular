@@ -58,7 +58,18 @@ function popoverFileExplorerItemMenu(
       });
 
       function closeFileNameInput() {
+        if (!fileItemData.editFileName) {
+          return;
+        }
         fileItemData.editFileName = false;
+        $scope.fs.update({
+          name: inputElement.val()
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.actions.sortDir();
+        });
       }
       fileItemData.actions.closeFileNameInput = closeFileNameInput;
 

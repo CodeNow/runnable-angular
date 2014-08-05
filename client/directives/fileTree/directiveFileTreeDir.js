@@ -22,6 +22,13 @@ function fileTreeDir(
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
+      actions.sortDir = function () {
+        $scope.dir.contents.models.sort(function (m1, m2) {
+          return m1.attrs.name > m2.attrs.name;
+        });
+        $rootScope.safeApply();
+      };
+
       $scope.$watch('dir.state.open', function (newVal, oldval) {
         if (newVal) {
           fetchDirFiles();
@@ -32,8 +39,7 @@ function fileTreeDir(
           if (err) {
             throw err;
           }
-          $scope.dir.contents.models.sort();
-          $rootScope.safeApply();
+          actions.sortDir();
         });
       }
 
