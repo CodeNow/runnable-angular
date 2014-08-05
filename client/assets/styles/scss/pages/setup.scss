@@ -131,6 +131,11 @@
     overflow: hidden;
     padding: 66px 15px 15px;
   }
+
+  .list-group {
+    max-height: calc(100% - 51px);
+    overflow: auto;
+  }
 }
 
 #added-repos {
