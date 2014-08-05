@@ -7,7 +7,6 @@ require('app')
 function popoverFileExplorerMenu(
   $templateCache,
   $compile,
-  $timeout,
   $rootScope,
   jQuery,
   keypather

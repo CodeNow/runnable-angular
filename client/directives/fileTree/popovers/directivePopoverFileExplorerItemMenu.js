@@ -6,7 +6,10 @@ require('app')
  */
 function popoverFileExplorerItemMenu(
   $templateCache,
-  jQuery
+  $compile,
+  jQuery,
+  $rootScope,
+  keypather
 ) {
   return {
     restrict: 'A',
