@@ -21,9 +21,10 @@ Instructions
 
 Requirements
 ------------
-- node ~0.10.29
-- npm ~1.3.24
-- ruby ~2.0.0 (for building SASS)
+- node ~0.10.30
+- npm ~1.4.20
+- ruby ~2.0.0 (for SASS)
+- browserify@~5.9.1
 
 Contributors
 ------------
