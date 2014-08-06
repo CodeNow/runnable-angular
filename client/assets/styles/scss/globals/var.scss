@@ -6,18 +6,18 @@ $gray-dark:      #555;
 $gray-darker:    #3a3a3a;
 $gray-darkest:   #222;
 
-$green:          #4ca844;
-$green-dark:     darken($green,3);
-$green-darker:   darken($green,7);
+$green:          #3ccb5a;
+$green-dark:     darken($green,6%);
+$green-darker:   darken($green,12%);
 
-$green-light:    #85bd4c;
+$green-light:    #2bd94f;
 $green-lighter:  lighten($green-light,7);
 
-$silver:         #e4e4e4;
+$silver:         #fafafa;
 $silver-lighter: lighten($silver,8);
 $silver-light:   lighten($silver,5);
 $silver-dark:    darken($silver,9);
-$silver-darker:  darken($silver,12);
+$silver-darker:  darken($silver,18%);
 
 $purple:         #5b3777;
 $purple-lighter: saturate(lighten($purple, 60), 63);
@@ -27,11 +27,12 @@ $purple-darker:  darken($purple,17);
 
 $purple-logo:    #ccadd2;
 
-$orange:         #fd7022;
+$orange:         #ff8522;
+$orange-dark:    darken($orange,6%);
+$orange-darker:  darken($orange,12%);
+
+$orange-light:   #ff950d;
 $orange-lighter: lighten($orange,13);
-$orange-light:   lighten($orange,5);
-$orange-dark:    darken($orange,5);
-$orange-darker:  darken($orange,13);
 
 $light-yellow:   #ffffe0;
 $dark-yellow:    darken(desaturate($light-yellow,65),45);
