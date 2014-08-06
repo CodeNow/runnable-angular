@@ -2,6 +2,15 @@ pre.ace-tm {
   background-color: #fff;
   color: $gray-darker;
 
+  &.readonly,
+  &.readonly .ace_gutter {
+    background-color: darken(#fff,10%);
+
+    &.ace_gutter {
+      color: $gray-dark;
+    }
+  }
+
   .ace_gutter {
     background: #fff;
     color: $gray-dark;
@@ -19,7 +28,7 @@ pre.ace-tm {
   .ace_overwrite-cursors .ace_cursor {
     border-bottom: 1px solid #aeafad;
     border-left: 0;
-}
+  }
 
   .ace_marker-layer .ace_selection {
     background: #d6d6d6;
@@ -163,6 +172,15 @@ pre.ace-tm {
 pre.ace-runnable-dark {
   background-color: #311d40;
   color: #fff;
+
+  &.readonly,
+  &.readonly .ace_gutter {
+    background-color: rgba(#311d40,.6);
+
+    &.ace_gutter {
+      color: lighten(#5e4d6e,30%);
+    }
+  }
 
   .ace_gutter {
     background: #311d40;
