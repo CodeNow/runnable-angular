@@ -80,8 +80,8 @@
       font-size: 18px;
       font-weight: 600;
       margin-top: 8px;
-      text-overflow: ellipsis;
       text-align: center;
+      text-overflow: ellipsis;
     }
 
     > .icons-edit {
@@ -244,14 +244,15 @@
     color: $green;
   }
 
+  .icons-fail,
   .icons-error {
     color: $orange;
   }
 
   .tooltip {
     cursor: pointer;
-    height: 54px;
     float: right;
+    height: 54px;
 
     &::before {
       left: auto;

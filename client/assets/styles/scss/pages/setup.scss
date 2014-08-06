@@ -170,36 +170,6 @@
     top: -2px;
     width: 15px;
   }
-
-  // label {
-  //   font-weight: 300;
-  //   height: 36px;
-  //   line-height: 33px;
-  //   margin: 0;
-  //   position: relative;
-  //   width: 100%;
-  //   z-index: 1;
-
-  //   &:last-child .form-control {
-  //     border-top: 1px solid rgba(0,0,0,.1);
-  //   }
-
-  //   > span {
-  //     line-height: 36px;
-  //     padding-left: 15px;
-  //     position: relative;
-  //     z-index: $z-show;
-  //   }
-  // }
-
-  // .form-control {
-  //   border: 0;
-  //   border-radius: 0;
-  //   bottom: 0;
-  //   margin: 0;
-  //   padding-left: 72px;
-  //   position: absolute;
-  // }
 }
 
 #setup-template {
@@ -207,7 +177,7 @@
   .form-group {
     border: 1px solid rgba(0,0,0,.1);
     border-radius: 3px;
-    margin: 15px;
+    margin: 0 15px 15px;
   }
 
   label {
