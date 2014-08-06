@@ -28,16 +28,11 @@ module.exports = [{
   templateUrl: 'viewProjectLayout',
   controller: 'ControllerProjectLayout'
 }, {
-  state: 'projects.setup',
+  state: 'projects.setupNoSplash',
   abstract: false,
   url: '^/new/:userName',
   templateUrl: 'viewSetup',
-  controller: 'ControllerSetup',
-  data: {
-    bodyClass: {
-      setup: true
-    }
-  }
+  controller: 'ControllerSetup'
 }, {
   state: 'projects.setup',
   abstract: false,
