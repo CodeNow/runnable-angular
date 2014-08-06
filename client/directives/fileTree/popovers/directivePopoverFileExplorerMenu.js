@@ -183,7 +183,9 @@ function popoverFileExplorerMenu(
 
       element.on('$destroy', function () {
         inputElement.off('blur');
-        $scope.$popoverTemplate.remove();
+        if (keypather.get($scope, '$popoverTemplate.remove')) {
+          $scope.$popoverTemplate.remove();
+        }
         element[0].removeEventListener('contextmenu', contextMenuListener);
       });
 

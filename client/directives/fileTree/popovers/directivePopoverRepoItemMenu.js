@@ -70,7 +70,9 @@ function popoverRepoItemMenu(
         e.stopPropagation();
       }
       element.on('$destroy', function () {
-        $scope.$popoverTemplate.remove();
+        if (keypather.get($scope, '$popoverTemplate.remove')) {
+          $scope.$popoverTemplate.remove();
+        }
         element[0].removeEventListener('contextmenu', contextMenuListener);
       });
 

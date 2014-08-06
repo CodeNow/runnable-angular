@@ -34,13 +34,13 @@
     "keypather": "^1.7.1",
     "moment": "~2.7.0",
     "primus": "^2.3.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.22.1",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.23.0",
     "term.js": "git+https://github.com/CodeNow/term.js"
   },
   "devDependencies": {
-    "browserify": "~3.31.0",
+    "browserify": "~4.2.3",
     "browserify-angular-mocks": "0.0.0",
-    "browserify-shim": "~3.5.0",
+    "browserify-shim": "~3.6.0",
     "chai": "~1.9.1",
     "cli-table": "~0.3.0",
     "colors": "~0.6.2",
@@ -84,7 +84,6 @@
     "nock": "https://registry.npmjs.org/nock/-/nock-0.42.1.tgz",
     "nodemon": "~1.1.1",
     "protractor": "~1.0.0-rc1",
-    "request": "^2.37.0",
     "sinon": "~1.10.3",
     "stringify": "~2.1.0",
     "which": "^1.0.5"
