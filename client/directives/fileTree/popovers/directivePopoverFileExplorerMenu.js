@@ -88,7 +88,6 @@ function popoverFileExplorerMenu(
         var name = this.getNewName();
         $scope.dir.contents.create({
           name: name,
-          path: $scope.dir.filepath(),
           isDir: false
         }, function () {
           $scope.actions.fetchDirFiles();
@@ -100,7 +99,6 @@ function popoverFileExplorerMenu(
         var name = this.getNewName();
         $scope.dir.contents.create({
           name: name,
-          path: $scope.dir.filepath(),
           isDir: true
         }, function () {
           $scope.actions.fetchDirFiles();
