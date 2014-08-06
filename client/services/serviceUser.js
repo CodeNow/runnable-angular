@@ -1,2 +1,2 @@
 require('app')
-  .service('user', ['apiHost', require('runnable')]);
+  .service('user', ['apiConfigHost', require('runnable')]);

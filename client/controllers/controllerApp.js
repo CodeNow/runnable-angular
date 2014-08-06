@@ -15,7 +15,7 @@ function ControllerApp(
   $stateParams,
   $state,
   user,
-  apiConfig,
+  apiConfigHost,
   holdUntilAuth,
   QueryAssist,
   primus
@@ -25,7 +25,7 @@ function ControllerApp(
   var UTIL = $rootScope.UTIL = {};
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
-    apiConfig.host);
+    apiConfigHost);
 
   $interval(function () {
     $rootScope.safeApply();

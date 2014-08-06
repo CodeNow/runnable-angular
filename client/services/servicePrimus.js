@@ -73,11 +73,11 @@ require('app')
  * @ngInject
  */
 function primus(
-  apiConfig
+  apiConfigHost
 ) {
 
     // TODO: remove proxy port
-    var url = apiConfig.host;
+    var url = apiConfigHost;
 
     var conn = new RunnablePrimus(url);
 
