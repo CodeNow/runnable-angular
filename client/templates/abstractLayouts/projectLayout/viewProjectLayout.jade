@@ -65,7 +65,9 @@ header(
       button.orange.btn-block(ng-click = "dataProjectLayout.actions.createNewProject()") Create App
   .scroll-container
     h3 APPLICATIONS
-      a.btn.btn-icon(ng-click = "dataProjectLayout.actions.stateToNewProject()")
+      a.btn.btn-icon(
+        ng-click = "dataProjectLayout.actions.stateToNewProjectNoSplash()"
+      )
         svg.iconnables.icons-add
           use(xlink:href = "#icons-add")
     ul#apps.btn-group-vertical

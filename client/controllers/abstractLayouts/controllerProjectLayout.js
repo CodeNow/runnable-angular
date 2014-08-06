@@ -130,8 +130,15 @@ function ControllerProjectLayout(
       branchName: ((environment) ? environment.name : 'master')
     });
   };
+
   actions.stateToNewProject = function () {
     $state.go('projects');
+  };
+
+  actions.stateToNewProjectNoSplash = function () {
+    $state.go('projects.setupNoSplash', {
+      userName: $scope.dataApp.user.attrs.accounts.github.username
+    });
   };
 
   /* ============================
