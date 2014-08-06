@@ -32,6 +32,7 @@ function ControllerSetup(
   }, function (bool) {
     data.isReadOnly = bool;
   });
+
   actions.selectGithubRepo = function (repo) {
     if (data.selectedRepos.contains(repo)) {
       data.selectedRepos.remove(repo);
@@ -50,7 +51,6 @@ function ControllerSetup(
     });
   }
 
-
   actions.addGithubRepos = function () {
     async.forEach(data.selectedRepos.models, function (repo, cb) {
       var body = {
@@ -67,6 +67,7 @@ function ControllerSetup(
       $scope.safeApply();
     });
   };
+
   actions.removeGithubRepo = function (appCodeVersion) {
     data.contextVersion.appCodeVersions.destroy(appCodeVersion, function (err) {
       if (err) {
@@ -75,6 +76,7 @@ function ControllerSetup(
       $scope.safeApply();
     });
   };
+
   /**
    * set active context && fetch build files for display
    */
