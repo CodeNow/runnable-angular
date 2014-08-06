@@ -19,6 +19,15 @@ header {
     }
   }
 
+  .no-splash & {
+
+    .scroll-container {
+      opacity: 1;
+      pointer-events: auto;
+      transition: width .3s ease-in-out;
+    }
+  }
+
   &.in {
     transition: none;
     width: 100%;
