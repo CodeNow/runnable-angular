@@ -211,9 +211,7 @@ function ControllerProjectLayout(
   };
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
-    if (newval === 'projects.setupNoSplash') {
-      actions.initForState();
-    } else if (newval.indexOf('projects.') === 0) {
+    if (newval.indexOf('projects.') === 0) {
       actions.initForState();
     } else if (newval === 'projects') {
       actions.initForNewState();

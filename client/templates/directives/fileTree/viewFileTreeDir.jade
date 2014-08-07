@@ -2,7 +2,7 @@ li.folder(
   ng-class = "{ 'in': dir.state.open }"
 )
   a(
-    ng-click = "dir.state.open = !dir.state.open; $event.stopPropagation();"
+    ng-click = "actions.closeOpenModals(); dir.state.open = !dir.state.open; $event.stopPropagation();"
     popover-file-explorer-menu
   )
     svg.iconnables.filetypes.icons-folder
@@ -27,7 +27,7 @@ li.folder(
       ng-class = "{ 'active': fs.state.open }"
     )
       a(
-        ng-click = "openItems.add(fs); $event.stopPropagation();"
+        ng-click = "actions.closeOpenModals(); openItems.add(fs); $event.stopPropagation();"
         popover-file-explorer-item-menu
       )
         svg.iconnables.filetypes.icons-file

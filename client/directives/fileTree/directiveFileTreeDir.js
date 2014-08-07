@@ -22,6 +22,10 @@ function fileTreeDir(
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
+      actions.closeOpenModals = function () {
+        $rootScope.$broadcast('app-document-click');
+      };
+
       actions.sortDir = function () {
         $scope.dir.contents.models.sort(function (m1, m2) {
           return m1.attrs.name > m2.attrs.name;

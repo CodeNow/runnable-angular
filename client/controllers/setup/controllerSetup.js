@@ -41,8 +41,9 @@ function ControllerSetup(
       data.selectedRepos.add(repo);
     }
 
-    //repo.fetchBranches(function () {
-    //});
+    repo.branches = repo.fetchBranches({}, function () {
+      $scope.safeApply();
+    });
 
     $scope.safeApply();
   };
