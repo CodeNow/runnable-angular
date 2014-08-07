@@ -7,9 +7,7 @@
         repos:dataSetup.data.repoFilter"
     )
       ol.repo-group
-        li.repo-group-item(
-          ng-click = "dataSetup.actions.selectGithubRepo(repo)"
-        ) {{ repo.attrs.name }}
+        li.repo-group-item(ng-click = "dataSetup.actions.selectGithubRepo(repo)") {{ repo.attrs.name }}
           svg.iconnables.icons-check
             use(xlink:href = "#icons-check")
         li.repo-group-item
@@ -33,7 +31,6 @@
               placeholder = "Destination"
               value = "{{ '/'+appCodeVersion.attrs.repo.split('/').pop() }}"
             )
-
   button.btn-block.green(
     ng-click = "dataSetup.actions.addGithubRepos()"
     type = "button"
