@@ -135,12 +135,6 @@ function ControllerProjectLayout(
     $state.go('projects');
   };
 
-  actions.stateToNewProjectNoSplash = function () {
-    $state.go('projects.setupNoSplash', {
-      userName: $scope.dataApp.user.attrs.accounts.github.username
-    });
-  };
-
   /* ============================
    *   API Fetch Methods
    * ===========================*/
