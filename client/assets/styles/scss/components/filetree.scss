@@ -25,6 +25,10 @@
 
             > ul > li {
               text-indent: 120px;
+
+              > ul > li {
+                text-indent: 140px;
+              }
             }
           }
         }
@@ -122,9 +126,6 @@
   // folders
   .folder {
     height: auto;
-    min-height: 28px;
-    // overflow: hidden;
-    transition: min-height .2s;
 
     &::after {
       @extend .arrow-right;
@@ -136,16 +137,21 @@
       transition: transform .2s;
     }
 
-    &.in > ul {
-      overflow: visible;
+    &.in {
+
+      &::after {
+        transform: rotate3d(0,0,1,90deg);
+      }
+
+      > ul {
+        max-height: none;
+        overflow: visible;
+      }
     }
 
     > ul {
+      max-height: 0;
       overflow: hidden;
-
-      > li {
-        height: 0; // hide items within folders by default
-      }
 
       > .folder {
 
@@ -182,40 +188,18 @@
                   &::after {
                     left: 127px;
                   }
+
+                  > ul > .folder {
+
+                    &::after {
+                      left: 147px;
+                    }
+                  }
                 }
               }
             }
           }
         }
-      }
-    }
-
-    // additional nested folders hidden
-    .a {
-      height: 0;
-      min-height: 0;
-      opacity: 0;
-    }
-
-    &.in {
-      min-height: 28px; // min-height b/c height cannot be set on folders
-
-      &::after {
-        transform: rotate3d(0,0,1,90deg);
-      }
-
-      &:active,
-      &.active {
-        background: none;
-      }
-
-      .folder {
-        height: auto; // allow folder to expand
-        min-height: 28px;
-      }
-
-      > ul > li {
-        height: 28px; //show items within folder
       }
     }
   }
