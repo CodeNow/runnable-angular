@@ -40,16 +40,9 @@ function ControllerSetup(
     else {
       data.selectedRepos.add(repo);
     }
-    repo.fetchBranches(function () {
-    });
+
     $scope.safeApply();
   };
-
-  function fetchBranches (repoModel) {
-    var branchesColl = repoModel.fetchBranches(function () {
-      // safeapply
-    });
-  }
 
   actions.addGithubRepos = function () {
     async.forEach(data.selectedRepos.models, function (repo, cb) {
