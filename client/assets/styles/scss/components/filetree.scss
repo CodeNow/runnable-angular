@@ -3,6 +3,7 @@
   flex: 0 1 auto;
   font-size: 12px;
   font-weight: 400;
+  margin: 0 -9px;
   overflow-y: auto;
 
   li {
@@ -153,7 +154,7 @@
 
     &::after {
       @extend .arrow-right;
-      border-left-color: rgba(0,0,0,.2);
+      border-left-color: rgba(0,0,0,.2) !important;
       content: '';
       left: 7px;
       top: 10px;
