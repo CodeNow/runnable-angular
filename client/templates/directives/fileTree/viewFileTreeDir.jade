@@ -3,14 +3,14 @@ li.folder(
   ng-click = "dir.state.open = !dir.state.open; $event.stopPropagation();"
   popover-file-explorer-menu
 )
-  svg.iconnables.filetypes.icons-folder
-    use(xlink:href = "#icons-folder")
-  input.tree-input(
-    ng-keyup = "($event.keyCode === 13) && dirItemData.actions.closeFolderNameInput();"
-    ng-readonly = "!dirItemData.editFolderName"
-    value = "{{ dir.id() }}"
-  )
-
+  a
+    svg.iconnables.filetypes.icons-folder
+      use(xlink:href = "#icons-folder")
+    input.tree-input(
+      ng-keyup = "($event.keyCode === 13) && dirItemData.actions.closeFolderNameInput();"
+      ng-readonly = "!dirItemData.editFolderName"
+      value = "{{ dir.id() }}"
+    )
   ul(
     ng-if = "dir.contents.models.length"
   )
@@ -26,10 +26,11 @@ li.folder(
       ng-click = "openItems.add(fs); $event.stopPropagation();"
       ng-class = "{ 'active': fs.state.open }"
     )
-      svg.iconnables.filetypes.icons-file
-        use(xlink:href = "#icons-file")
-      input.tree-input(
-        ng-keyup = "($event.keyCode === 13) && fileItemData.actions.closeFileNameInput();"
-        ng-readonly = "!fileItemData.editFileName"
-        value = "{{ fs.attrs.name }}"
-      )
+      a
+        svg.iconnables.filetypes.icons-file
+          use(xlink:href = "#icons-file")
+        input.tree-input(
+          ng-keyup = "($event.keyCode === 13) && fileItemData.actions.closeFileNameInput();"
+          ng-readonly = "!fileItemData.editFileName"
+          value = "{{ fs.attrs.name }}"
+        )

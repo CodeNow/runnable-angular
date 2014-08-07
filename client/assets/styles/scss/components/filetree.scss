@@ -87,62 +87,21 @@
     height: 28px; // default height
     line-height: 28px;
 
-    &:active,
-    &.active {
-      background: #fff;
-
-      > li {
-        background: $gray-lighter;
-
-        &:active,
-        &.active {
-          background: #fff;
-
-          > li {
-            background: $gray-lighter;
-
-            &:active,
-            &.active {
-              background: #fff;
-
-              > li {
-                background: $gray-lighter;
-
-                &:active,
-                &.active {
-                  background: #fff;
-
-                  > li {
-                    background: $gray-lighter;
-
-                    &:active,
-                    &.active {
-                      background: #fff;
-
-                      > li {
-                        background: $gray-lighter;
-
-                        &:active,
-                        &.active {
-                          background: #fff;
-
-                          > li {
-                            background: $gray-lighter;
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
     &.active {
       font-weight: 500;
+    }
+
+    a {
+      display: block;
+
+      &:hover {
+        color: currentColor;
+      }
+
+      &:active,
+      &.active {
+        background: #fff;
+      }
     }
   }
 
