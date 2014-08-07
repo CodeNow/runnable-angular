@@ -92,6 +92,11 @@
       width: 14px;
     }
   }
+
+  .btn-block {
+    margin: 0 auto;
+    width: calc(100% - 30px);
+  }
 }
 
 #messages {
