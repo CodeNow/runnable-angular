@@ -12,6 +12,7 @@ li.folder(
       ng-readonly = "!dirItemData.editFolderName"
       value = "{{ dir.id() }}"
     )
+    span.item-name {{ dir.id() }}
   ul(
     ng-if = "dir.contents.models.length"
   )
@@ -36,3 +37,4 @@ li.folder(
           ng-readonly = "!fileItemData.editFileName"
           value = "{{ fs.attrs.name }}"
         )
+        span.item-name {{ fs.attrs.name }}
