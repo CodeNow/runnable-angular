@@ -15,9 +15,11 @@ function popoverFileExplorerMenu(
     restrict: 'A',
     scope: false, // latch on to file-tree && file-tree-dir isolate scope isolate scopes
     link: function ($scope, element, attrs) {
+
       if ($scope.readOnly) {
         return;
       }
+
       $scope.jQuery = jQuery;
       var inputElement = element.find('input');
       inputElement.on('blur', function () {
@@ -158,6 +160,11 @@ function popoverFileExplorerMenu(
       element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener (e){
         if (e.currentTarget !== e.target) {
+          return false;
+        }
+        if ($scope.dir.attrs.name === '/') {
+          //this is the root dir
+          e.preventDefault();
           return false;
         }
 
