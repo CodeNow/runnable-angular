@@ -35,23 +35,34 @@
 
 .tree-input,
 .tree-input:focus {
-  background: none !important;
+  background: none;
   border-color: rgba(0,0,0,.1);
   box-shadow: none;
   cursor: text;
   display: inline-block;
   height: 22px;
   line-height: 22px;
-  margin-left: -4px;
-  opacity: 0;
   padding: 0 3px;
   position: absolute;
   top: 3px;
 
   &[readonly] {
     border: 1px solid transparent;
+    opacity: 0;
     pointer-events: none;
+
+    & ~ .item-name {
+      opacity: 1;
+    }
   }
+
+  & ~ .item-name {
+    opacity: 0;
+  }
+}
+
+.item-name {
+  margin-left: 5px;
 }
 
 .repo-tree li {
@@ -106,10 +117,6 @@
         background: #fff;
       }
     }
-  }
-
-  .item-name {
-    pointer-events: none;
   }
 
   // folders
