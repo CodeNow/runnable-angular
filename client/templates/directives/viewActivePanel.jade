@@ -1,32 +1,27 @@
-#editor-container(ng-switch on = "openItems.activeHistory.last().attrs.type")
-  //- ACE EDITOR
+.editor-container(
+  ng-repeat = "item in openItems.models"
+  ng-show = "item === openItems.activeHistory.last()"
+)
   pre(
+    ui-ace
+    ng-if = "item.state.type === 'File'"
+    readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
     ng-model = "openItems.activeHistory.last().state.body"
-    ng-switch-default
     ng-class = "{ \
-      readonly: readOnly, \
+      readonly: data.readOnly, \
       'ace-runnable-dark': isDarkTheme \
     }"
-    readonly = "{{ isReadOnly }}"
-    ui-ace
   )
 
-  //- TERMINAL
   .term-container(
-    ng-switch-when = "terminal"
+    ng-if = "item.state.type === 'Terminal'"
   )
     term.terminal(
-      params = "openFiles.activeFile.attrs.params"
+      params = "item.attrs.params"
     )
 
-  //- OUTPUT STREAM
-  output-stream(
-    container = "container"
-    ng-switch-when = "outputStream"
-  )
-
   .web-container(
-    ng-switch-when = "webView"
+    ng-if = "item.state.type === 'WebView'"
   )
     //- .browser-loading to toggle refresh/stop icon
     //- .browser-loading is also required for the progress bar, so remove it when loading is complete
@@ -66,3 +61,82 @@
     iframe(
       src = "{{ $sce.trustAsResourceUrl(container.urls()[0]) }}"
     )
+
+
+
+
+
+
+//-
+  .editor-container(ng-switch on = "openItems.activeHistory.last().state.type")
+
+    div(
+      ng-switch-default
+    )
+    //- ACE EDITOR
+    pre(
+      ng-model = "openItems.activeHistory.last().state.body"
+      ng-switch-when = "File"
+      ng-class = "{ \
+        readonly: readOnly, \
+        'ace-runnable-dark': isDarkTheme \
+      }"
+      readonly = "{{ isReadOnly }}"
+      ui-ace
+    )
+
+    //- TERMINAL
+    .term-container(
+      ng-switch-when = "Terminal"
+    )
+      term.terminal(
+        params = "openItems.activeHistory.last().attrs.container"
+      )
+
+    //- OUTPUT STREAM
+    output-stream(
+      container = "container"
+      ng-switch-when = "OutputStream"
+    )
+
+    .web-container(
+      ng-switch-when = "WebView"
+    )
+      //- .browser-loading to toggle refresh/stop icon
+      //- .browser-loading is also required for the progress bar, so remove it when loading is complete
+      nav.browser-chrome
+        //- apply [disabled] to back/forward to disable
+        button.btn-icon(
+          disabled
+          type = "button"
+        )
+          svg.iconnables.icons-chevron-left
+            use(xlink:href = "#icons-chevron-left")
+        button.btn-icon(
+          disabled
+          type = "button"
+        )
+          svg.iconnables.icons-chevron-right
+            use(xlink:href = "#icons-chevron-right")
+        .iconnables.iconnables-container
+          button.btn-icon(type = "button")
+            svg.iconnables.icons-refresh
+              use(xlink:href = "#icons-refresh")
+          button.btn-icon(type = "button")
+            svg.iconnables.icons-stop
+              use(xlink:href = "#icons-stop")
+        //- select all text on click
+        input.form-control(
+          placeholder = "Enter an address"
+          value = "{{ container.urls()[0] }}"
+        )
+        //- style="-webkit-transform: scale3d(%,1,1); transform: scale3d(%,1,1);" to move progress bar--% is the total progress out of 1.00
+        //- http://caniuse.com/#search=transform (Current and previous versions, July 2014):
+        //- * chrome 35
+        //- * safari 6.1, 7, 8
+        //- * android 4.2, 4.3, 4.4
+        .progress
+      //- server log and terminal tab should open by default
+      iframe(
+        src = "{{ $sce.trustAsResourceUrl(container.urls()[0]) }}"
+      )
