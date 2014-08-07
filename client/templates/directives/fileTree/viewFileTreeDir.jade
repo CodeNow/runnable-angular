@@ -10,7 +10,7 @@ li.folder(
     input.tree-input(
       ng-keyup = "($event.keyCode === 13) && dirItemData.actions.closeFolderNameInput();"
       ng-readonly = "!dirItemData.editFolderName"
-      value = "{{ dir.id() }}"
+      value = "{{ dir.attrs.name }}"
     )
     span.item-name {{ dir.attrs.name }}
   ul(
