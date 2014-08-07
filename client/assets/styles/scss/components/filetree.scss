@@ -3,7 +3,7 @@
   flex: 0 1 auto;
   font-size: 12px;
   font-weight: 400;
-  overflow-y: auto;
+  overflow: auto;
 
   li {
     padding: 0;
@@ -25,6 +25,10 @@
 
             > ul > li {
               text-indent: 120px;
+
+              > ul > li {
+                text-indent: 140px;
+              }
             }
           }
         }
@@ -35,7 +39,7 @@
 
 .tree-input,
 .tree-input:focus {
-  background: none !important;
+  background: #fff;
   border-color: rgba(0,0,0,.1);
   box-shadow: none;
   cursor: text;
@@ -43,12 +47,28 @@
   height: 22px;
   line-height: 22px;
   padding: 0 3px;
-  width: auto;
+  position: absolute;
+  top: 3px;
 
   &[readonly] {
+    background: none;
     border: 1px solid transparent;
+    opacity: 0;
     pointer-events: none;
+
+    & ~ .item-name {
+      opacity: 1;
+    }
   }
+
+  & ~ .item-name {
+    opacity: 0;
+  }
+}
+
+.item-name {
+  margin-left: 5px;
+  pointer-events: none;
 }
 
 .repo-tree li {
@@ -63,6 +83,7 @@
   span {
     display: inline-block;
     height: 27px;
+    pointer-events: none;
     text-indent: 0;
   }
 
@@ -99,7 +120,7 @@
 
       &:active,
       &.active {
-        background: #fff;
+        color: $gray-darkest;
       }
     }
   }
@@ -107,9 +128,6 @@
   // folders
   .folder {
     height: auto;
-    min-height: 28px;
-    overflow: hidden;
-    transition: min-height .2s;
 
     &::after {
       @extend .arrow-right;
@@ -121,12 +139,21 @@
       transition: transform .2s;
     }
 
-    > ul {
-      overflow: hidden;
+    &.in {
 
-      > li {
-        height: 0; // hide items within folders by default
+      &::after {
+        transform: rotate3d(0,0,1,90deg);
       }
+
+      > ul {
+        max-height: none;
+        overflow: visible;
+      }
+    }
+
+    > ul {
+      max-height: 0;
+      overflow: hidden;
 
       > .folder {
 
@@ -163,39 +190,18 @@
                   &::after {
                     left: 127px;
                   }
+
+                  > ul > .folder {
+
+                    &::after {
+                      left: 147px;
+                    }
+                  }
                 }
               }
             }
           }
         }
-      }
-    }
-
-    // additional nested folders hidden
-    .folder {
-      height: 0;
-      min-height: 0;
-    }
-
-    &.in {
-      min-height: 28px; // min-height b/c height cannot be set on folders
-
-      &::after {
-        transform: rotate3d(0,0,1,90deg);
-      }
-
-      &:active,
-      &.active {
-        background: none;
-      }
-
-      .folder {
-        height: auto; // allow folder to expand
-        min-height: 28px;
-      }
-
-      > ul > li {
-        height: 28px; //show items within folder
       }
     }
   }
