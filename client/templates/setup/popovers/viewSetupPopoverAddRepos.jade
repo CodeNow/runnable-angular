@@ -33,7 +33,7 @@
               value = "{{ '/'+appCodeVersion.attrs.repo.split('/').pop() }}"
             )
 
-  button.btn-block.silver(
+  button.btn-block.green(
     ng-click = "dataSetup.actions.addGithubRepos()"
     type = "button"
   ) Add {{ dataSetup.data.selectedRepos.models.length }} Repositor{{ dataSetup.data.selectedRepos.models.length === 1 ? 'y' : 'ies' }}
