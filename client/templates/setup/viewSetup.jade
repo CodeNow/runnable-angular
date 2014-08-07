@@ -35,16 +35,14 @@ section.sidebar
           svg.iconnables.icons-close
             use(xlink:href = "#icons-close")
       //- if there are duplicate repo names, use name-2, name-3, and so on.
-      ul.added-repo.list-group(ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models")
-        li.list-group-item {{ appCodeVersion.attrs.repo.split('/')[1] }}
+      ul.added-repo.list-group
+        li.list-group-item(ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models") {{ appCodeVersion.attrs.repo.split('/')[1] }}
           button.btn-icon(
             ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
             type = "button"
           )
             svg.iconnables.icons-delete
               use(xlink:href = "#icons-delete")
-        li.list-group-item
-          @master
     #setup-template
       h3 Choose a Docker Template
       .form-group.toggle-group
