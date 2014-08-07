@@ -79,6 +79,7 @@
 
 .file-tree {
   border-bottom: 1px solid rgba(0,0,0,.1);
+  max-height: calc(100vh - 126px);
   white-space: nowrap;
 
   li {
