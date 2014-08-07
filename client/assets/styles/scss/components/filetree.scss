@@ -39,7 +39,7 @@
 
 .tree-input,
 .tree-input:focus {
-  background: none;
+  background: #fff;
   border-color: rgba(0,0,0,.1);
   box-shadow: none;
   cursor: text;
@@ -51,6 +51,7 @@
   top: 3px;
 
   &[readonly] {
+    background: none;
     border: 1px solid transparent;
     opacity: 0;
     pointer-events: none;
@@ -67,6 +68,7 @@
 
 .item-name {
   margin-left: 5px;
+  pointer-events: none;
 }
 
 .repo-tree li {
