@@ -45,6 +45,7 @@ function ControllerInstance(
 
   pat.actions.addOutputStream = function () {
     pat.data.show = false;
+    /*
     data.openItems.add({
       type: 'outputStream',
       name: Date.now()+'',
@@ -53,10 +54,16 @@ function ControllerInstance(
         return '';
       }
     });
+    */
   };
 
   pat.actions.addWebView = function () {
     pat.data.show = false;
+    data.openItems.addWebView({
+      name: 'Web View'
+    });
+
+    /*
     data.openItems.add({
       type: 'webView',
       name: Date.now()+'',
@@ -65,10 +72,17 @@ function ControllerInstance(
         return 'Web';
       }
     });
+    */
   };
 
   pat.actions.addTerminal = function () {
     pat.data.show = false;
+    data.openItems.addTerminal({
+      name: 'Terminal',
+      params: data.instance.attrs.containers[0]
+    });
+
+    /*
     data.openItems.add({
       Key: 'Terminal',
       type: 'terminal',
@@ -80,6 +94,7 @@ function ControllerInstance(
         return 'Terminal';
       }
     });
+    */
   };
 
   actions.stopInstance = function () {

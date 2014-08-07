@@ -25,6 +25,9 @@ function activePanel(
     },
     link: function ($scope, element, attrs) {
 
+      var data = $scope.data = {};
+      data.readOnly = $scope.readOnly;
+
       var skip = true;
 
       $scope.$sce = $sce;
