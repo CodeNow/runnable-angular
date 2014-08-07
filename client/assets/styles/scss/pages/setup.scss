@@ -63,7 +63,8 @@
 
     .icons-check {
       color: $green;
-      float: right;
+      position: absolute;
+      right: 6px;
       top: 6px;
       transform: scale3d(0,0,0);
     }
@@ -80,12 +81,18 @@
         .icons-check {
           transform: scale3d(1,1,1);
         }
+
+        .repo-group-item {
+          padding-right: 12px;
+        }
       }
     }
 
     .repo-group-item {
       height: 36px;
       overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       &:nth-child(n+2) {
         margin: 0 -9px;
