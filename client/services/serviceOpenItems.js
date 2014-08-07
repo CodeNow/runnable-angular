@@ -1,4 +1,5 @@
 var BaseCollection = require('runnable/lib/collections/base');
+var BaseModel = require('runnable/lib/models/base');
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 var ContainerFileModel = require('runnable/lib/models/instance/container/file');
 var util = require('util');
@@ -32,17 +33,19 @@ function openItemsFactory(
   // TODO split out
   function Terminal(data) {
     this.attrs = data;
-    this.state = {};
     this.attrs._id = i++;
     return this;
   }
 
   function WebView(data) {
-    this.attr = data;
-    this.state = {};
+    this.attrs = data;
     this.attrs._id = i++;
     return;
   }
+
+  util.inherits(Terminal, BaseModel);
+  util.inherits(WebView, BaseModel);
+
 
   function ActiveHistory(models) {
     BaseCollection.call(this, models, { noStore: true });
@@ -93,6 +96,14 @@ function openItemsFactory(
 
   util.inherits(OpenItems, BaseCollection);
 
+  OpenItems.prototype.addWebView = function (data) {
+    this.add(new WebView(data));
+  };
+
+  OpenItems.prototype.addTerminal = function (data) {
+    this.add(new Terminal(data));
+  };
+
   OpenItems.prototype.Model = true;
 
   OpenItems.prototype.instanceOfModel = instanceOfModel;
@@ -121,6 +132,13 @@ function openItemsFactory(
         model.state.body = model.attrs.body;
       }
     };
+    if (model instanceof Terminal) {
+      model.state.type = 'Terminal';
+    } else if (model instanceof WebView) {
+      model.state.type = 'WebView';
+    } else {
+      model.state.type = 'File';
+    }
     model.state.open = true;
     model.state.reset();
     this.activeHistory.add(model);

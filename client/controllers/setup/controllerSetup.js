@@ -41,6 +41,9 @@ function ControllerSetup(
       data.selectedRepos.add(repo);
     }
 
+    //repo.fetchBranches(function () {
+    //});
+
     $scope.safeApply();
   };
 

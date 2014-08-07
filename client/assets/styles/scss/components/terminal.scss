@@ -2,6 +2,10 @@
   cursor: text;
 }
 
+div.terminal { // div specifity required b/c there's a term.terminal
+  padding: 9px;
+}
+
 .term-container,
 .terminal {
   font-family: 'Source Code Pro', monospace;
