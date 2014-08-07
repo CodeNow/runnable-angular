@@ -3,7 +3,7 @@
   flex: 0 1 auto;
   font-size: 12px;
   font-weight: 400;
-  overflow-y: auto;
+  overflow: auto;
 
   li {
     padding: 0;
@@ -42,8 +42,11 @@
   display: inline-block;
   height: 22px;
   line-height: 22px;
+  margin-left: -4px;
+  opacity: 0;
   padding: 0 3px;
-  width: auto;
+  position: absolute;
+  top: 3px;
 
   &[readonly] {
     border: 1px solid transparent;
@@ -63,6 +66,7 @@
   span {
     display: inline-block;
     height: 27px;
+    pointer-events: none;
     text-indent: 0;
   }
 
@@ -104,11 +108,15 @@
     }
   }
 
+  .item-name {
+    pointer-events: none;
+  }
+
   // folders
   .folder {
     height: auto;
     min-height: 28px;
-    overflow: hidden;
+    // overflow: hidden;
     transition: min-height .2s;
 
     &::after {
@@ -119,6 +127,10 @@
       top: 10px;
       transform-origin: 3px 4px;
       transition: transform .2s;
+    }
+
+    &.in > ul {
+      overflow: visible;
     }
 
     > ul {
@@ -172,9 +184,10 @@
     }
 
     // additional nested folders hidden
-    .folder {
+    .a {
       height: 0;
       min-height: 0;
+      opacity: 0;
     }
 
     &.in {
