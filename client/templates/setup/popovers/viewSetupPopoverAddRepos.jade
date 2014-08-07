@@ -28,8 +28,9 @@
         li.repo-group-item
           label.form-label
             span dest:
-            input.form-control(
+            input.form-control.repo-destination(
               placeholder = "Destination"
+              readonly
               value = "{{ '/'+appCodeVersion.attrs.repo.split('/').pop() }}"
             )
 
