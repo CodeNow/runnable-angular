@@ -1,9 +1,10 @@
 li.folder(
   ng-class = "{ 'in': dir.state.open }"
-  ng-click = "dir.state.open = !dir.state.open; $event.stopPropagation();"
-  popover-file-explorer-menu
 )
-  a
+  a(
+    ng-click = "dir.state.open = !dir.state.open; $event.stopPropagation();"
+    popover-file-explorer-menu
+  )
     svg.iconnables.filetypes.icons-folder
       use(xlink:href = "#icons-folder")
     input.tree-input(
@@ -21,12 +22,13 @@ li.folder(
       read-only = "readOnly"
     )
     li(
-      popover-file-explorer-item-menu
       ng-repeat = "fs in dir.contents.models | isFile"
-      ng-click = "openItems.add(fs); $event.stopPropagation();"
       ng-class = "{ 'active': fs.state.open }"
     )
-      a
+      a(
+        ng-click = "openItems.add(fs); $event.stopPropagation();"
+        popover-file-explorer-item-menu
+      )
         svg.iconnables.filetypes.icons-file
           use(xlink:href = "#icons-file")
         input.tree-input(
