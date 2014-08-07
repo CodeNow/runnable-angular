@@ -90,42 +90,42 @@
     &.active {
       background: #fff;
 
-      li {
+      > li {
         background: $gray-lighter;
 
         &:active,
         &.active {
           background: #fff;
 
-          li {
+          > li {
             background: $gray-lighter;
 
             &:active,
             &.active {
               background: #fff;
 
-              li {
+              > li {
                 background: $gray-lighter;
 
                 &:active,
                 &.active {
                   background: #fff;
 
-                  li {
+                  > li {
                     background: $gray-lighter;
 
                     &:active,
                     &.active {
                       background: #fff;
 
-                      li {
+                      > li {
                         background: $gray-lighter;
 
                         &:active,
                         &.active {
                           background: #fff;
 
-                          li {
+                          > li {
                             background: $gray-lighter;
                           }
                         }
