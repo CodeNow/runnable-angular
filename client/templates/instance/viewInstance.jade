@@ -22,7 +22,7 @@ section.sidebar
       input.form-control(
         ng-click = ""
         readonly
-        value = "runnable.com/{{ dataInstance.data.instance.id() }}"
+        value = "{{ dataInstance.data.container.urls()[0] }}"
       )
     li
       svg.iconnables.icons-back
