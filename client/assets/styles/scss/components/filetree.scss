@@ -116,6 +116,7 @@
       border-left-color: rgba(0,0,0,.2) !important;
       content: '';
       left: 7px;
+      pointer-events: none;
       top: 10px;
       transform-origin: 3px 4px;
       transition: transform .2s;
