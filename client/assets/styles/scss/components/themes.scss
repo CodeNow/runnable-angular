@@ -4,10 +4,10 @@ pre.ace-tm {
 
   &.readonly,
   &.readonly .ace_gutter {
-    background-color: darken(#fff,10%);
+    background-color: $gray-light;
 
     &.ace_gutter {
-      color: $gray-dark;
+      color: $gray-light;
     }
   }
 
