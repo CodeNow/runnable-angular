@@ -11,6 +11,7 @@
         title = "{{ item.attrs.name }}"
       ) {{ item.attrs.name  }}
       button.btn-icon(
+        ng-if = "!item.state.alwaysOpen"
         ng-click = "openItems.remove(item); $event.stopPropagation();"
       )
         svg.iconnables.icons-close

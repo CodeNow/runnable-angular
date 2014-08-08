@@ -2,6 +2,12 @@
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
+
+  build-stream(
+    build = "build"
+    ng-if = "item.state.type === 'BuildStream'"
+  )
+
   pre(
     ui-ace
     ng-if = "item.state.type === 'File'"
