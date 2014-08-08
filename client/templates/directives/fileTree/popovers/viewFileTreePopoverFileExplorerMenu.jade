@@ -13,11 +13,18 @@
         svg.iconnables
           use(xlink:href = "#icons-folder-new")
         | New Folder
-      li(ng-click = "dirItemData.actions.deleteFolder(); $event.stopPropagation();")
+
+      li(
+        ng-if = "dir.attrs.name !== '/'"
+        ng-click = "dirItemData.actions.deleteFolder(); $event.stopPropagation();"
+      )
         svg.iconnables
           use(xlink:href = "#icons-file-delete")
         | Delete
-      li(ng-click = "dirItemData.actions.renameFolder(); $event.stopPropagation();")
+      li(
+        ng-if = "dir.attrs.name !== '/'"
+        ng-click = "dirItemData.actions.renameFolder(); $event.stopPropagation();"
+      )
         svg.iconnables
           use(xlink:href = "#icons-file-modify")
         | Rename

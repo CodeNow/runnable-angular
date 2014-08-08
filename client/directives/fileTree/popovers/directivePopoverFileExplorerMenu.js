@@ -128,6 +128,7 @@ function popoverFileExplorerMenu(
         closeModal();
         closeFolderNameInput();
       });
+
       $scope.$on('app-document-click', function () {
         closeModal();
         closeFolderNameInput();
@@ -160,11 +161,6 @@ function popoverFileExplorerMenu(
       element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener (e){
         if (e.currentTarget !== e.target) {
-          return false;
-        }
-        if ($scope.dir.attrs.name === '/') {
-          //this is the root dir
-          e.preventDefault();
           return false;
         }
 
