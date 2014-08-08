@@ -35,7 +35,6 @@ function ControllerBuildNew(
   var pbo = data.popoverBuildOptions;
   pbo.data.show = false;
 
-
   /**************************************
    * DataTreeFilePopoverRepoItemMenu
    **************************************/
@@ -220,6 +219,7 @@ function ControllerBuildNew(
       .query({})
       .cacheFetch(function updateDom(githubRepos, cached, cb){
         data.githubRepos = githubRepos;
+        buildPopoverRepoMenu.data.githubRepos = githubRepos;
         $scope.safeApply();
         cb();
       })
