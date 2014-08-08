@@ -21,7 +21,8 @@ function openItemsFactory(
     return (model instanceof VersionFileModel ||
             model instanceof ContainerFileModel ||
             model instanceof Terminal ||
-            model instanceof WebView);
+            model instanceof WebView ||
+            model instanceof BuildStream);
   }
 
   function newModel (modelOrAttrs, opts) {
@@ -32,19 +33,19 @@ function openItemsFactory(
 
   // TODO split out
   function Terminal(data) {
-    this.attrs = data;
+    this.attrs = data || {};
     this.attrs._id = i++;
     return this;
   }
 
   function WebView(data) {
-    this.attrs = data;
+    this.attrs = data || {};
     this.attrs._id = i++;
     return this;
   }
 
   function BuildStream(data) {
-    this.attrs = data;
+    this.attrs = data || {};
     this.attrs._id = i++;
     return this;
   }
@@ -111,9 +112,8 @@ function openItemsFactory(
     this.add(new Terminal(data));
   };
 
-  OpenItems.prototype.addBuildStream = function () {
-    var buildStream = new BuildStream();
-    buildStream.state.alwaysOpen = true;
+  OpenItems.prototype.addBuildStream = function (data) {
+    var buildStream = new BuildStream(data);
     this.add(buildStream);
     return buildStream;
   };
