@@ -159,6 +159,10 @@ function ControllerBuild(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
+    data
+      .openItems.addBuildStream()
+      .state.alwaysOpen = true;
+    $scope.safeApply();
     cb();
   }
 
