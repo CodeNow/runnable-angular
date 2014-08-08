@@ -51,7 +51,6 @@ function ControllerBuildNew(
   function setupRepoPopover () {
     buildPopoverRepoMenu.data = {
       show: false,
-      githubRepos : data.githubRepos,
       appCodeVersions : keypather.get(data, 'newVersion.appCodeVersions')
     };
   }
