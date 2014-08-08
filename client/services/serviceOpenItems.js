@@ -111,6 +111,13 @@ function openItemsFactory(
     this.add(new Terminal(data));
   };
 
+  OpenItems.prototype.addBuildStream = function () {
+    var buildStream = new BuildStream();
+    buildStream.state.alwaysOpen = true;
+    this.add(buildStream);
+    return buildStream;
+  };
+
   OpenItems.prototype.Model = true;
 
   OpenItems.prototype.instanceOfModel = instanceOfModel;
@@ -143,6 +150,8 @@ function openItemsFactory(
       model.state.type = 'Terminal';
     } else if (model instanceof WebView) {
       model.state.type = 'WebView';
+    } else if (model instanceof BuildStream) {
+      model.state.type = 'BuildStream';
     } else {
       model.state.type = 'File';
     }
