@@ -40,11 +40,18 @@ function openItemsFactory(
   function WebView(data) {
     this.attrs = data;
     this.attrs._id = i++;
-    return;
+    return this;
+  }
+
+  function BuildStream(data) {
+    this.attrs = data;
+    this.attrs._id = i++;
+    return this;
   }
 
   util.inherits(Terminal, BaseModel);
   util.inherits(WebView, BaseModel);
+  util.inherits(BuildStream, BaseModel);
 
 
   function ActiveHistory(models) {
