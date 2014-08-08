@@ -27,9 +27,6 @@ function ControllerBuildList(
   var data = dataBuildList.data;
   var actions = dataBuildList.actions;
 
-
-
-
   var pce = data.popoverChangeEnvironment = {
     actions: {},
     data: {}
@@ -93,8 +90,6 @@ function ControllerBuildList(
       });
     }
   };
-
-
 
   data.dataModalDelete = {};
   actions.actionsModalDelete = {
