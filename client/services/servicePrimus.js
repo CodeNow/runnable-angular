@@ -92,5 +92,5 @@ function primus(
 }
 
 function makeUniqueId(streamId) {
-  return Math.floor(Math.random() * (100000000));
+  return streamId + Math.floor(Math.random() * (100000000));
 }
