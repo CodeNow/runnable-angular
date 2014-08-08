@@ -70,6 +70,7 @@ function ControllerBuildNew(
           body.branch = branchOrSHA;
         }
       }
+      buildPopoverRepoMenu.data.show = false;
       data.newVersion.appCodeVersions.create(body, function (err) {
         if (err) {
           throw err;
