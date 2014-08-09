@@ -17,15 +17,16 @@ function buildStream(
     templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
-      $scope.close = function () {
-        $scope.out = true;
+      $scope.stream = {
+        finished: false,
+        data: ''
       };
 
       $scope.$watch('build.attrs._id', function (buildId, oldVal) {
         if (buildId) {
           var build = $scope.build;
           if (build.succeeded()) {
-            $scope.out = true;
+            $scope.stream.data = $scope.build.attrs.contextVersions[0].build.log;
             $rootScope.safeApply();
           }
           else if (build.failed()) {
@@ -47,21 +48,13 @@ function buildStream(
 
       function initStream () {
         var build = $scope.build;
-        $scope.stream = {
-          finished: false,
-          data: ''
-        };
-
         var buildStream = primus.createBuildStream(build);
-
         var addToStream = function (data) {
           $scope.stream.data += data;
           $rootScope.safeApply();
           jQuery('html, body').scrollTop(10000);
         };
-
         buildStream.on('data', addToStream);
-
         buildStream.on('end', function () {
           build.fetch(function (err) {
             if (err) {
