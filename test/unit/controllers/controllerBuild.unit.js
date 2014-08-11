@@ -80,12 +80,12 @@ describe('ControllerBuild'.bold.underline.blue, function () {
     });
 
     it('should not reset input model value if dataBuild.inputHasBeenClick === true', function () {
-      var event = {
+      var mockEvent = {
         stopPropagation: angular.noop
       };
-      dataBuild.actions.resetInputModelValue(event);
+      dataBuild.actions.resetInputModelValue(mockEvent);
       dataBuild.data.buildName = 'test';
-      dataBuild.actions.resetInputModelValue(event);
+      dataBuild.actions.resetInputModelValue(mockEvent);
       expect(dataBuild.data.buildName).to.equal('test');
     });
   });
