@@ -15,3 +15,11 @@ WORKDIR node-v0.10.29/
 RUN ./configure
 RUN make -j16
 RUN make install
+
+# hacks for SASS
+RUN locale-gen en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+# Ruby and Sass needed for grunt
+RUN apt-get install -y ruby
+RUN gem install sass
