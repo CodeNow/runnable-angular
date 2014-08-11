@@ -51,11 +51,11 @@ function openItemsFactory(
     return this;
   }
 
-  var LogView = function LogView(data) {
+  function LogView(data) {
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;
-  };
+  }
 
   util.inherits(Terminal, BaseModel);
   util.inherits(WebView, BaseModel);
