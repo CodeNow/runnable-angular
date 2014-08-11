@@ -11,14 +11,16 @@
           svg.iconnables.icons-check
             use(xlink:href = "#icons-check")
         li.repo-group-item
+          //- list and ID properties need to be unique per repo
           input.form-control(
             list = "repo-branches"
             placeholder = "Branch/SHA (default: @master)"
           )
           datalist(id = "repo-branches")
-            option(value = "master")
-            option(value = "instance-page")
-            option(value = "instance-terminal")
+            option(
+              ng-repeat = "branch in repo.branches.models"
+              value = "{{ branch.attrs.name }}"
+            )
   button.btn-block.green(
     ng-click = "dataSetup.actions.addGithubRepos()"
     type = "button"
