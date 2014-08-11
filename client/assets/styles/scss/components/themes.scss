@@ -5,10 +5,6 @@ pre.ace-tm {
   &.readonly,
   &.readonly .ace_gutter {
     background-color: $gray-light;
-
-    &.ace_gutter {
-      color: $gray-light;
-    }
   }
 
   .ace_gutter {
