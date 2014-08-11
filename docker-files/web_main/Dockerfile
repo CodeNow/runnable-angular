@@ -13,6 +13,7 @@ RUN git clone git@github.com:CodeNow/runnable-angular.git
 
 WORKDIR /runnable-angular
 RUN npm install
+RUN npm run grunt
 
 # Expose port to Host
 EXPOSE 3000
