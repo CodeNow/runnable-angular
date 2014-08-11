@@ -1,6 +1,5 @@
 .spinner {
   height: 16px;
-  top: 19px;
   transition: transform .3s;
   width: 16px;
 }
@@ -13,7 +12,7 @@
 
 .spinner::before {
   animation: rotate 1s infinite ease .25s;
-  background: $orange;
+  background: currentColor;
   border-radius: 16px 0 0 16px;
   height: 16px;
   left: 0;
@@ -24,7 +23,7 @@
 
 .spinner::after {
   animation: rotate 1s infinite ease;
-  background: $orange;
+  background: currentColor;
   border-radius: 0 16px 16px 0;
   height: 16px;
   left: 8px;
@@ -46,6 +45,11 @@
 // build list spinner
 .build-status {
   position: relative;
+
+  > .spinner {
+    color: currentColor;
+    top: 19px;
+  }
 
   > .iconnables,
   > .spinner {
