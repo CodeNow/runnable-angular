@@ -19,7 +19,7 @@
               placeholder = "Branch or commit (optional)"
               value = "@master"
             )
-            datalist(id = "repo-branches")]
+            datalist(id = "repo-branches")
               option(
                 ng-repeat = "branch in repo.branches.models"
                 value = "{{ branch.attrs.name }}"
