@@ -40,6 +40,7 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
 RunnablePrimus.prototype.createTermStreams = function (container) {
   container = container.json ? container.json() : container;
   var streamId = container._id;
+  var uniqueId = makeUniqueId(streamId);
   this.write({
     id: 1,
     event: 'terminal-stream',
@@ -47,13 +48,13 @@ RunnablePrimus.prototype.createTermStreams = function (container) {
       dockHost: container.dockerHost,
       type: 'filibuster',
       containerId: container.dockerContainer,
-      terminalStreamId: streamId,
-      eventStreamId: streamId + 'events'
+      terminalStreamId: uniqueId,
+      eventStreamId: uniqueId
     }
   });
   return {
-    termStream: this.substream(streamId),
-    eventStream: this.substream(streamId + 'events')
+    termStream: this.substream(uniqueId),
+    eventStream: this.substream(uniqueId + 'events')
   };
 };
 
@@ -88,4 +89,8 @@ function primus(
     });
 
     return conn;
+}
+
+function makeUniqueId(streamId) {
+  return streamId + Math.floor(Math.random() * (100000000));
 }
