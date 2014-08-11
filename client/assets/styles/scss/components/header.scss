@@ -68,7 +68,7 @@ header {
 
   // the rules
   .the-rules {
-    color: #fff;
+    color: $white;
     font-size: 15px;
     height: 0;
     opacity: 0;
@@ -110,13 +110,13 @@ header {
   }
 
   .form-control {
-    border-color: #fff;
+    border-color: $white;
     box-shadow: none !important;
     margin: 9px 0;
     padding-right: 30px;
 
     &:focus {
-      border-color: #fff;
+      border-color: $white;
     }
   }
 
@@ -232,7 +232,7 @@ header {
   }
 
   img {
-    background: #fff;
+    background: $white;
     border-radius: 50%;
     display: block;
     float: left;
@@ -268,7 +268,7 @@ header {
     }
 
     img {
-      background: #fff;
+      background: $white;
       border-radius: 50%;
       float: left;
       margin: 7px 8px 0;

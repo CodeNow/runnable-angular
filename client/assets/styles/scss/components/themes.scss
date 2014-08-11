@@ -1,5 +1,5 @@
 pre.ace-tm {
-  background-color: #fff;
+  background-color: $white;
   color: $gray-darker;
 
   &.readonly,
@@ -8,7 +8,7 @@ pre.ace-tm {
   }
 
   .ace_gutter {
-    background: #fff;
+    background: $white;
     color: $gray-dark;
   }
 
@@ -112,12 +112,12 @@ pre.ace-tm {
 
   .ace_invalid {
     background-color: #c82829;
-    color: #fff;
+    color: $white;
   }
 
   .ace_invalid.ace_deprecated {
     background-color: #8959a8;
-    color: #fff;
+    color: $white;
   }
 
   .ace_string {
@@ -167,7 +167,7 @@ pre.ace-tm {
 
 pre.ace-runnable-dark {
   background-color: #311d40;
-  color: #fff;
+  color: $white;
 
   &.readonly,
   &.readonly .ace_gutter {
@@ -189,11 +189,11 @@ pre.ace-runnable-dark {
   }
 
   .ace_cursor {
-    border-left: 2px solid #fff;
+    border-left: 2px solid $white;
   }
 
   .ace_overwrite-cursors .ace_cursor {
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid $white;
     border-left: 0;
   }
 
@@ -231,7 +231,7 @@ pre.ace-runnable-dark {
 
   .ace_fold {
     background-color: #efefef;
-    border-color: #fff;
+    border-color: $white;
   }
 
   .ace_keyword,
@@ -266,12 +266,12 @@ pre.ace-runnable-dark {
 
   .ace_invalid {
     background-color: #ffafb8;
-    color: #fff;
+    color: $white;
   }
 
   .ace_invalid.ace_deprecated {
     background-color: #ffd0ff;
-    color: #fff;
+    color: $white;
   }
 
   .ace_markup.ace_heading,

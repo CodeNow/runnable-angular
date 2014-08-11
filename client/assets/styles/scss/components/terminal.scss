@@ -6,8 +6,13 @@ div.terminal { // div specifity required b/c there's a term.terminal
   padding: 9px;
 }
 
+pre.terminal { // for logs
+  background: $black;
+}
+
 .term-container,
 .terminal {
+  color: $white;
   font-family: 'Source Code Pro', monospace;
   font-size: 14px;
   font-weight: 400;

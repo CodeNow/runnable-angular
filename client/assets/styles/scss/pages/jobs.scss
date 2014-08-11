@@ -24,7 +24,7 @@
   background-image: url(../images/jobs-header.jpg);
   @include background-retina('../images/jobs-header@2x.jpg');
   background-size: cover;
-  color: #fff;
+  color: $white;
   height: 700px;
   text-align: center;
 
@@ -64,7 +64,7 @@
   background-image: url(../images/jobs-you.jpg);
   @include background-retina('../images/jobs-you@2x.jpg');
   background-size: cover;
-  color: #fff;
+  color: $white;
   height: 700px;
 
   h2 {
@@ -79,7 +79,7 @@
 }
 
 #jobs-open-positions-list {
-  background: #fff;
+  background: $white;
   border-radius: 3px;
   box-shadow: 0 2px 6px rgba(0,0,0,.1);
   margin: 25px 0 75px;

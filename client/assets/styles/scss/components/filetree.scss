@@ -39,7 +39,7 @@
 
 .tree-input,
 .tree-input:focus {
-  background: #fff;
+  background: $white;
   border-color: rgba(0,0,0,.1);
   box-shadow: none;
   cursor: text;
@@ -77,7 +77,7 @@
   line-height: 36px;
 
   &.active {
-    background: #fff;
+    background: $white;
   }
 
   span {

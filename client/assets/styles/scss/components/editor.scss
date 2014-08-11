@@ -91,19 +91,19 @@
     position: relative;
 
     &:hover {
-      background: #fff;
+      background: $white;
     }
 
     &:active,
     &.active {
-      background: #fff;
+      background: $white;
       color: $gray-darker;
     }
 
     &.active > a {
 
       &::after {
-        background: #fff;
+        background: $white;
         color: $gray-darker;
         content: attr(data-title);
         font-size: 14px;
