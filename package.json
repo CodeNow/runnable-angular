@@ -5,7 +5,7 @@
   "description": "rewrite of runnable-web in angularjs",
   "scripts": {
     "postinstall": "if [ \"$NODE_ENV\" = \"production\" ] ; then ./node_modules/.bin/grunt deploy; fi;",
-    "start": "NODE_ENV=production NODE_PATH=. PORT=15000 node ./server/main.js;"
+    "start": "NODE_PATH=. node ./server/main.js;"
   },
   "engines": {
     "node": "~0.10.29",
