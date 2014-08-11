@@ -21,5 +21,5 @@ RUN locale-gen en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 # Ruby and Sass needed for grunt
-RUN apt-get install ruby
+RUN apt-get install -y ruby
 RUN gem install sass
