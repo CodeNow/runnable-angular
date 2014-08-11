@@ -23,8 +23,7 @@ function popoverRepoItemMenu(
       var popoverData = $scope.popoverData = {};
       var actions = popoverData.actions = {};
 
-      actions.modify = function () {
-      };
+      actions.modify = function () {};
       actions.remove = function () {
         $scope.repoModel.destroy(function () {
           $rootScope.safeApply();
@@ -57,7 +56,8 @@ function popoverRepoItemMenu(
       });
 
       element[0].addEventListener('contextmenu', contextMenuListener);
-      function contextMenuListener (e){
+
+      function contextMenuListener(e) {
         $scope.popoverData.eStyle.top = e.pageY - 18 + 'px';
         $scope.popoverData.eStyle.left = e.pageX + 'px';
         $scope.popoverData.isOpen = true;

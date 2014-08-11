@@ -25,7 +25,7 @@ function popoverFileExplorerItemMenu(
         closeFileNameInput();
       });
 
-      var fileItemData =$scope.fileItemData = {};
+      var fileItemData = $scope.fileItemData = {};
       var actions = fileItemData.actions = {};
       fileItemData.editFileName = false;
 
@@ -92,7 +92,8 @@ function popoverFileExplorerItemMenu(
       }
 
       element[0].addEventListener('contextmenu', contextMenuListener);
-      function contextMenuListener (e){
+
+      function contextMenuListener(e) {
         if (e.currentTarget !== e.target) {
           return false;
         }

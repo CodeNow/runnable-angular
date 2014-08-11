@@ -36,7 +36,7 @@ function fileTreeDir(
           return m1.attrs.name > m2.attrs.name;
         });
         // prevents folders/dir mixing order in tree bug
-        $timeout(function(){
+        $timeout(function () {
           $rootScope.safeApply();
           if (!$scope.readOnly) {
             actions.makeSortable();
@@ -54,6 +54,7 @@ function fileTreeDir(
           fetchDirFiles();
         }
       });
+
       function fetchDirFiles() {
         $scope.dir.contents.fetch(function (err) {
           if (err) {

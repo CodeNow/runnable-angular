@@ -16,7 +16,9 @@ function term(
     },
     link: function ($scope, elem) {
       $scope.$watch('params._id', function (containerId) {
-        if (!containerId) { return; }
+        if (!containerId) {
+          return;
+        }
         // Numbers chosen erring on the side of padding
         var CHAR_WIDTH = 7.5;
         var CHAR_HEIGHT = 15.4;

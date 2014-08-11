@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function filterIsDir () {
+function filterIsDir() {
   return function (models) {
     return models.filter(function (model) {
       return model.attrs.isDir;

@@ -23,7 +23,7 @@ function dynamicAttr(
       };
 
       properties.forEach(function (prop) {
-        $scope.$watch(parsedAttrs[prop], function(val) {
+        $scope.$watch(parsedAttrs[prop], function (val) {
           if (val) {
             jQuery(element).attr(prop, keypather.get($scope, parsedAttrs[prop]));
           } else {
