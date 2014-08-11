@@ -6,7 +6,7 @@
     )
       //- title should show the full file path
       a(
-        ng-attr-data-title = "{{ item.attrs.name }}"
+        dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
         ng-click = "openItems.activeHistory.add(item); $event.stopPropagation();"
         title = "{{ item.attrs.name }}"
       ) {{ item.attrs.name  }}
