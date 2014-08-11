@@ -49,7 +49,7 @@ RunnablePrimus.prototype.createTermStreams = function (container) {
       type: 'filibuster',
       containerId: container.dockerContainer,
       terminalStreamId: uniqueId,
-      eventStreamId: uniqueId
+      eventStreamId: uniqueId + 'events'
     }
   });
   return {
@@ -91,5 +91,5 @@ function primus(
 }
 
 function makeUniqueId(streamId) {
-  return streamId + Math.floor(Math.random() * (100000000));
+  return streamId + Math.random();
 }
