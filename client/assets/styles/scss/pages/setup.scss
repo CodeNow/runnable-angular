@@ -91,6 +91,10 @@
           padding-right: 12px;
         }
       }
+
+      &:only-child {
+        border-bottom-width: 2px;
+      }
     }
 
     .repo-group-item {
