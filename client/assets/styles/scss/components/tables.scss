@@ -5,8 +5,7 @@
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  border-left: 0;
-  border-right: 0;
+  border: 0;
   height: 54px;
   line-height: 54px;
   padding: 0 15px;
@@ -17,8 +16,7 @@
   }
 }
 
-.table > thead > tr > th,
-.table > thead > tr > td {
+.table > thead > tr > th {
   border-bottom-width: 1px;
 }
 
@@ -44,7 +42,6 @@ table {
   }
 
   td {
-    border-bottom: 1px solid rgba(0,0,0,.025);
     cursor: pointer;
 
     &:nth-child(2) {
