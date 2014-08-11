@@ -1,7 +1,35 @@
 .spinner {
   height: 16px;
+  margin: auto;
+  position: relative;
   transition: transform .3s;
   width: 16px;
+
+  &.lg {
+    height: 60px;
+    width: 60px;
+
+    &::before {
+      border-radius: 60px 0 0 60px;
+      height: 60px;
+      transform-origin: 30px 30px;
+      width: 30px;
+    }
+
+    &::after {
+      border-radius: 0 60px 60px 0;
+      height: 60px;
+      left: 30px;
+      transform-origin: 0 30px;
+      width: 30px;
+    }
+
+    .spinner-ring {
+      height: 48px;
+      margin: 6px;
+      width: 48px;
+    }
+  }
 }
 
 .spinner::before,
@@ -11,7 +39,7 @@
 }
 
 .spinner::before {
-  animation: rotate 1s infinite ease .25s;
+  animation: rotate 1s infinite ease;
   background: currentColor;
   border-radius: 16px 0 0 16px;
   height: 16px;
@@ -22,7 +50,7 @@
 }
 
 .spinner::after {
-  animation: rotate 1s infinite ease;
+  animation: rotate 1s infinite ease -.25s;
   background: currentColor;
   border-radius: 0 16px 16px 0;
   height: 16px;
@@ -42,12 +70,18 @@
   z-index: 1;
 }
 
+// main spinner
+main > .spinner {
+  color: $purple;
+  top: calc(50% - 30px);
+}
+
 // build list spinner
 .build-status {
   position: relative;
 
   > .spinner {
-    color: currentColor;
+    color: $orange;
     top: 19px;
   }
 
