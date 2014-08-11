@@ -31,7 +31,7 @@
   &:hover,
   &:active,
   &.active {
-    background: #fff;
+    background: $white;
   }
 }
 
@@ -172,7 +172,7 @@
   &:hover,
   &.active,
   &:active {
-    background: #fff;
+    background: $white;
   }
 
   &.active .icons-add {
@@ -241,7 +241,7 @@
 // .sub-tree
 .sub-tree {
   border-bottom: 1px solid rgba(0,0,0,.1);
-  box-shadow: inset 0 1px 0 #fff;
+  box-shadow: inset 0 1px 0 $white;
   position: relative;
 
   &:last-child {

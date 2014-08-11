@@ -71,6 +71,7 @@
     width: auto;
 
     &:hover,
+    &:focus,
     &:active,
     &.active {
       box-shadow: none;

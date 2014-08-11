@@ -21,7 +21,7 @@
 .tooltip::before {
   background: rgba(0,0,0,.75);
   border-radius: 3px;
-  color: #fff;
+  color: $white;
   content: attr(data-title);
   font-size: 14px;
   font-weight: 300;
@@ -40,7 +40,7 @@
   content: '';
   height: 0;
   left: 6px;
-  top: 20px;
+  top: 21px;
   width: 0;
 }
 

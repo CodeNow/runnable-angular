@@ -9,14 +9,14 @@
   )
 
   pre(
-    ui-ace
-    ng-if = "item.state.type === 'File'"
-    readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
-    ng-model = "openItems.activeHistory.last().state.body"
     ng-class = "{ \
       readonly: data.readOnly, \
       'ace-runnable-dark': isDarkTheme \
     }"
+    ng-if = "item.state.type === 'File'"
+    ng-model = "openItems.activeHistory.last().state.body"
+    readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
+    ui-ace
   )
 
   .term-container(

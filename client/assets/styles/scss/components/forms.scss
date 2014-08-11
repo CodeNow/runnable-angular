@@ -3,7 +3,7 @@
   -webkit-appearance: none;
   border: 1px solid rgba(0,0,0,.15);
   border-radius: 3px;
-  box-shadow: 0 1px 0 #fff;
+  box-shadow: 0 1px 0 $white;
   color: $gray-darkest;
   display: block;
   height: 36px;
@@ -17,7 +17,7 @@
   }
 
   &:focus {
-    box-shadow: 0 1px 0 #fff;
+    box-shadow: 0 1px 0 $white;
     border-color: $orange;
     outline: 0;
   }
@@ -31,15 +31,15 @@
   &.form-validate {
 
     &.ng-valid {
-      background: url(/build/images/icons/icons-check.svg) #fff no-repeat center right;
+      background: url(/build/images/icons/icons-check.svg) $white no-repeat center right;
     }
 
     &.ng-invalid {
-      background: url(/build/images/icons/icons-error.svg) #fff no-repeat center right;
+      background: url(/build/images/icons/icons-error.svg) $white no-repeat center right;
     }
 
     &.ng-pristine {
-      background: #fff;
+      background: $white;
     }
   }
 
@@ -214,7 +214,7 @@ form.inline {
     background: transparent;
     border: 1px solid transparent;
     border-radius: 0;
-    box-shadow: 0 1px 0 rgba(0,0,0,.1), 0 2px 0 #fff;
+    box-shadow: 0 1px 0 rgba(0,0,0,.1), 0 2px 0 $white;
     color: $gray-darker;
     height: 36px;
     line-height: 36px;
@@ -223,12 +223,12 @@ form.inline {
     width: 100%;
 
     &:hover {
-      background: #fff;
+      background: $white;
       cursor: pointer;
     }
 
     &:focus {
-      background: #fff;
+      background: $white;
       border-color: $orange;
       cursor: text;
     }
