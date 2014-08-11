@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function modal (
+function modal(
   $templateCache,
   $compile,
   $timeout,

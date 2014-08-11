@@ -29,11 +29,9 @@ function ControllerInstance(
   pfm.data.show = false;
   pfm.actions = {};
 
-  pfm.actions.createFile = function () {
-  };
+  pfm.actions.createFile = function () {};
 
-  pfm.actions.createFolder = function () {
-  };
+  pfm.actions.createFolder = function () {};
 
   /*********************************
    * popoverAddTab
@@ -107,9 +105,13 @@ function ControllerInstance(
 
   actions.stopInstance = function () {
     data.instance.stop(function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       data.instance.fetch(function (err) {
-        if (err) { throw err; }
+        if (err) {
+          throw err;
+        }
         $scope.safeApply();
       });
     });
@@ -117,9 +119,13 @@ function ControllerInstance(
 
   actions.startInstance = function () {
     data.instance.start(function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       data.instance.fetch(function (err) {
-        if (err) { throw err; }
+        if (err) {
+          throw err;
+        }
         $scope.safeApply();
       });
     });
@@ -138,7 +144,9 @@ function ControllerInstance(
   actions.destroyInstance = function () {
     var old = data.instance.json();
     data.instance.destroy(function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
     });
   };
@@ -160,7 +168,7 @@ function ControllerInstance(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchInstance (cb) {
+  function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstance')

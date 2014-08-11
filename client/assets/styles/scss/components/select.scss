@@ -7,13 +7,13 @@
   select {
     cursor: pointer;
     font-size: 16px;
-    min-height: 100%;
+    height: 100%;
+    left: 0;
     opacity: 0;
     position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2;
+    top: 0;
     width: 100%;
+    z-index: 2;
   }
 
   select[disabled] {
@@ -31,8 +31,8 @@
     line-height: 36px;
     padding: 0 24px 0 12px;
     position: absolute;
-      top: 0;
-      right: 0;
+    right: 0;
+    top: 0;
     width: 100%;
 
     &.in {
@@ -57,23 +57,23 @@
 
     &:before,
     &:after {
-      top: 14px;
-      right: auto;
       bottom: auto;
       left: auto;
+      right: auto;
+      top: 14px;
     }
 
     &:before {
-      border-top: 4px solid transparent;
       border-bottom: 4px solid transparent;
       border-right: 6px solid #bbb;
+      border-top: 4px solid transparent;
       left: 6px;
     }
 
     &:after {
-      border-top: 4px solid transparent;
       border-bottom: 4px solid transparent;
       border-left: 6px solid #bbb;
+      border-top: 4px solid transparent;
       right: 6px;
     }
   }

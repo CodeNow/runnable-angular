@@ -24,7 +24,7 @@ function ControllerSetup(
   data.openItems = new OpenItems();
 
   // Determine readonly state
-  $scope.$watch(function() {
+  $scope.$watch(function () {
     if (data.contextFiles) {
       return !data.isAdvanced;
     }
@@ -36,8 +36,7 @@ function ControllerSetup(
   actions.selectGithubRepo = function (repo) {
     if (data.selectedRepos.contains(repo)) {
       data.selectedRepos.remove(repo);
-    }
-    else {
+    } else {
       data.selectedRepos.add(repo);
     }
 
@@ -80,20 +79,25 @@ function ControllerSetup(
   actions.selectSourceContext = function (context) {
     data.selectedSourceContext = context;
     fetchContextVersion(context, function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       if (data.contextVersion.source === data.sourceContextVersion.id()) {
         // nothing
-      }
-      else {
-        var sourceInfraCodeVersion =data.sourceContextVersion.attrs.infraCodeVersion;
+      } else {
+        var sourceInfraCodeVersion = data.sourceContextVersion.attrs.infraCodeVersion;
         data.contextVersion.copyFilesFromSource(
           sourceInfraCodeVersion,
           function (err) {
-            if (err) { throw err; }
+            if (err) {
+              throw err;
+            }
             data.sourceFilesCopied = true;
             data.contextVersion.source = data.sourceContextVersion.id();
             fetchContextVersionFiles(data.contextVersion, function (err) {
-              if (err) { throw err; }
+              if (err) {
+                throw err;
+              }
               data.isReadOnly = false;
               $scope.safeApply();
             });
@@ -104,8 +108,11 @@ function ControllerSetup(
 
   actions.buildApplication = function () {
     async.series([
+
       function (cb) {
-        data.build.build({message: 'Initial build'}, cb);
+        data.build.build({
+          message: 'Initial build'
+        }, cb);
       },
       function (cb) {
         data.build.fetch(cb);
@@ -154,14 +161,13 @@ function ControllerSetup(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchContextVersion (context, cb) {
+  function fetchContextVersion(context, cb) {
     new QueryAssist(context, cb)
       .wrapFunc('fetchVersions')
       .cacheFetch(function updateDom(versions, cached, cb) {
         if (context.attrs.isSource) {
           data.sourceContextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
-        }
-        else {
+        } else {
           data.contextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
         }
         $scope.safeApply();
@@ -205,11 +211,10 @@ function ControllerSetup(
     var environment = project.defaultEnvironment;
     new QueryAssist(environment, cb)
       .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb){
+      .cacheFetch(function updateDom(builds, cached, cb) {
         if (builds.models.length > 1 || builds.models[0].attrs.started) {
           actions.stateToBuildList();
-        }
-        else {
+        } else {
           // first build
           data.build = builds.models[0];
           data.contextVersion = builds.models[0].contextVersions.models[0];
@@ -217,7 +222,7 @@ function ControllerSetup(
           cb();
         }
       })
-      .resolve(function(err, builds, cb){
+      .resolve(function (err, builds, cb) {
         if (!builds.models.length) {
           return cb(new Error('Build not found'));
         }
@@ -227,25 +232,28 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchOwnerRepos (cb) {
+  function fetchOwnerRepos(cb) {
     var thisUser = $scope.dataApp.user;
     var build = data.build;
     var query;
 
     if (thisUser.isOwnerOf(data.project)) {
-      data.selectedRepos = data.selectedRepos || thisUser.newGithubRepos([], { noStore: true });
+      data.selectedRepos = data.selectedRepos || thisUser.newGithubRepos([], {
+        noStore: true
+      });
       query = new QueryAssist(thisUser, cb)
         .wrapFunc('fetchGithubRepos');
-    }
-    else {
+    } else {
       var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
-      data.selectedRepos = data.selectedRepos || githubOrg.newGithubRepos([], { noStore: true });
+      data.selectedRepos = data.selectedRepos || githubOrg.newGithubRepos([], {
+        noStore: true
+      });
       query = new QueryAssist(githubOrg, cb)
         .wrapFunc('fetchRepos');
     }
     query
       .query({})
-      .cacheFetch(function updateDom(githubRepos, cached, cb){
+      .cacheFetch(function updateDom(githubRepos, cached, cb) {
         data.githubRepos = githubRepos;
         $scope.safeApply();
         cb();
@@ -313,7 +321,7 @@ function ControllerSetup(
         $scope.safeApply();
         cb();
       })
-      .resolve(function(err, files, cb) {
+      .resolve(function (err, files, cb) {
         if (err) {
           throw err;
         }

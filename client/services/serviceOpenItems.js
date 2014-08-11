@@ -17,18 +17,16 @@ function openItemsFactory(
   async
 ) {
 
-  var self = openItemsFactory;
-
   function instanceOfModel (model) {
     return (model instanceof VersionFileModel ||
-            model instanceof ContainerFileModel ||
-            model instanceof Terminal ||
-            model instanceof WebView ||
-            model instanceof LogView ||
-            model instanceof BuildStream);
+      model instanceof ContainerFileModel ||
+      model instanceof Terminal ||
+      model instanceof WebView ||
+      model instanceof LogView ||
+      model instanceof BuildStream);
   }
 
-  function newModel (modelOrAttrs, opts) {
+  function newModel(modelOrAttrs, opts) {
     throw new Error('you are doing it wrong');
   }
 
@@ -66,7 +64,9 @@ function openItemsFactory(
 
 
   function ActiveHistory(models) {
-    BaseCollection.call(this, models, { noStore: true });
+    BaseCollection.call(this, models, {
+      noStore: true
+    });
   }
 
   util.inherits(ActiveHistory, BaseCollection);
@@ -86,8 +86,7 @@ function openItemsFactory(
     model.state.active = true;
     if (!this.contains(model)) {
       BaseCollection.prototype.add.call(this, model);
-    }
-    else {
+    } else {
       this.remove(model);
       this.add(model);
     }
@@ -107,8 +106,10 @@ function openItemsFactory(
     }
   };
 
-  function OpenItems (models) {
-    BaseCollection.call(this, models, { noStore: true });
+  function OpenItems(models) {
+    BaseCollection.call(this, models, {
+      noStore: true
+    });
     this.activeHistory = new ActiveHistory();
   }
 
@@ -140,7 +141,7 @@ function openItemsFactory(
 
   OpenItems.prototype.isFile = function (model) {
     return (model instanceof VersionFileModel ||
-            model instanceof ContainerFileModel);
+      model instanceof ContainerFileModel);
   };
 
   OpenItems.prototype.newModel = newModel;

@@ -21,7 +21,7 @@ function activePanel(
       container: '=',
       openItems: '=',
       readOnly: '=',
-      update: '=',      // true: save file when content changes
+      update: '=', // true: save file when content changes
       isDarkTheme: '='
     },
     link: function ($scope, element, attrs) {
@@ -33,7 +33,7 @@ function activePanel(
 
       $scope.$sce = $sce;
 
-      function updateFile (cb) {
+      function updateFile(cb) {
         if (skip) {
           skip = false;
           return;

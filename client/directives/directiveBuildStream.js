@@ -11,7 +11,7 @@ function buildStream(
   return {
     restrict: 'E',
     replace: true,
-    scope:  {
+    scope: {
       build: '='
     },
     templateUrl: 'viewLogStream',
@@ -28,25 +28,23 @@ function buildStream(
           if (build.succeeded()) {
             $scope.stream.data = $scope.build.attrs.contextVersions[0].build.log;
             $rootScope.safeApply();
-          }
-          else if (build.failed()) {
+          } else if (build.failed()) {
             var contextVersion = build.contextVersions.models[0];
             if (build.contextVersions.models)
-            $scope.stream = {
-              data: contextVersion.attrs.build.log ||
-                contextVersion.attrs.build.error.message ||
-                "Unknown Build Error Occurred"
-            };
+              $scope.stream = {
+                data: contextVersion.attrs.build.log ||
+                  contextVersion.attrs.build.error.message ||
+                  "Unknown Build Error Occurred"
+              };
             // check contextVersions.attrs.build.error for unknown errors
             $rootScope.safeApply();
-          }
-          else { // in progress
+          } else { // in progress
             initStream();
           }
         }
       });
 
-      function initStream () {
+      function initStream() {
         var build = $scope.build;
         var buildStream = primus.createBuildStream(build);
         var addToStream = function (data) {

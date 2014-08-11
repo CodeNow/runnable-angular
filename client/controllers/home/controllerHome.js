@@ -16,11 +16,11 @@ function ControllerHome(
   var self = ControllerHome;
   var dataHome = $scope.dataHome = self.initState();
 
-  function verifyUserIsAuth () {
+  function verifyUserIsAuth() {
     async.series([
       holdUntilAuth,
       fetchProjects,
-      function sendUserSomewhere (cb) {
+      function sendUserSomewhere(cb) {
         var thisUser = $scope.dataApp.user;
         var projects = dataHome.data.projects;
         if (!projects.models.length) {
@@ -39,14 +39,14 @@ function ControllerHome(
     ]);
   }
 
-  function fetchProjects (cb) {
+  function fetchProjects(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
         githubUsername: thisUser.attrs.accounts.github.username
       })
-      .cacheFetch(function (projects, cached, cb){
+      .cacheFetch(function (projects, cached, cb) {
         dataHome.data.projects = projects;
         cb();
       })
