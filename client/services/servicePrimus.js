@@ -77,7 +77,6 @@ function primus(
   apiConfigHost
 ) {
 
-    // TODO: remove proxy port
     var url = apiConfigHost;
 
     var conn = new RunnablePrimus(url);
