@@ -26,17 +26,14 @@ header {
     .scroll-container {
       opacity: 1;
       pointer-events: auto;
-      transition: width .3s ease-in-out;
     }
   }
 
   &.in {
-    transition: none;
     width: 100%;
 
     .startup-container {
       top: calc(50% - 100px);
-      // transition: none;
       width: 270px;
     }
 
@@ -93,10 +90,10 @@ header {
 
   .startup-container {
     margin: 0 auto;
+    max-width: 270px;
     position: relative;
     top: 0;
     transition: all .3s ease-in-out;
-    // width: 210px;
   }
 
   // form initially hidden
@@ -141,7 +138,6 @@ header {
 
     &.active {
       background: rgba(255,255,255,.075);
-      // box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
 
       &:hover {
         background: rgba(255,255,255,.1);
