@@ -31,44 +31,6 @@
   z-index: 1;
 }
 
-#logs {
-  background: $gray-light;
-  height: 100%;
-  padding-bottom: 66px;
-  position: absolute;
-  top: 0;
-  transition: opacity .2s;
-  width: 100%;
-
-  &.full {
-    height: 100%;
-    padding: 0;
-    top: 0;
-  }
-
-  &.out {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  > button {
-    bottom: 15px;
-    left: 15px;
-    margin: 0 auto;
-    pointer-events: auto;
-    right: auto;
-    top: auto;
-  }
-
-  pre {
-    height: 100%;
-  }
-}
-
-#log {
-  height: 10px;
-}
-
 // default tabs
 #tabs-wrapper {
   background: $gray-light;
@@ -91,19 +53,19 @@
     position: relative;
 
     &:hover {
-      background: #fff;
+      background: $white;
     }
 
     &:active,
     &.active {
-      background: #fff;
+      background: $white;
       color: $gray-darker;
     }
 
     &.active > a {
 
       &::after {
-        background: #fff;
+        background: $white;
         color: $gray-darker;
         content: attr(data-title);
         font-size: 14px;

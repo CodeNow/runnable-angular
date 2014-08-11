@@ -62,7 +62,7 @@ button,
 .green,
 .orange,
 .purple {
-  color: #fff;
+  color: $white;
   letter-spacing: .3px;
 }
 
@@ -95,7 +95,7 @@ button,
   &:active,
   &.active {
     background-color: $green-light;
-    color: #fff;
+    color: $white;
   }
 
   &[disabled],
@@ -116,7 +116,7 @@ button,
   &:hover,
   &:active,
   &.active {
-    background-color: #fff;
+    background-color: $white;
     color: $gray-dark;
   }
 
@@ -135,7 +135,7 @@ button,
       background-color: $gray-lighter;
       background-image: linear-gradient(rgba($gray-lighter,0),$gray-lighter);
       border-color: rgba(0,0,0,.1);
-      box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.01);
+      box-shadow: inset 0 1px 0 $white, 0 1px 0 rgba(0,0,0,.01);
       color: $gray-dark;
       cursor: default;
     }
@@ -152,7 +152,7 @@ button,
     background: $orange-light;
     border-color: $orange-darker;
     border-top-color: $orange-dark;
-    color: #fff;
+    color: $white;
   }
 
   &[disabled],

@@ -4,7 +4,7 @@
 }
 
 .list-group-item {
-  background-color: #fff;
+  background-color: $white;
   border: 1px solid rgba(0,0,0,.1);
   display: block;
   font-weight: 400;
@@ -44,7 +44,7 @@ a.list-group-item:focus {
 .list-group-item.active,
 .list-group-item.active:hover,
 .list-group-item.active:focus {
-  color: #fff;
+  color: $white;
   background-color: #6e3e8e;
   border-color: #6e3e8e;
   z-index: 2;

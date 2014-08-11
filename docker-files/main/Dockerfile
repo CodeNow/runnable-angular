@@ -4,7 +4,7 @@
 # nothing here can be cached
 #
 
-FROM registry.runnable.com/runnable/web_base:latest
+FROM registry.runnable.com/runnableio/web_base:latest
 
 # Download Runnable-web Repo
 WORKDIR /

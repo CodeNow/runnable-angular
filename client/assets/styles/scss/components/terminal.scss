@@ -1,4 +1,5 @@
 .term-container {
+  box-shadow: 0 1px 0 $black;
   cursor: text;
 }
 
@@ -8,6 +9,7 @@ div.terminal { // div specifity required b/c there's a term.terminal
 
 .term-container,
 .terminal {
+  color: $white;
   font-family: 'Source Code Pro', monospace;
   font-size: 14px;
   font-weight: 400;
