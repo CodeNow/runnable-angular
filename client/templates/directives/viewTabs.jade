@@ -8,7 +8,7 @@
       a(
         dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
         ng-click = "openItems.activeHistory.add(item); $event.stopPropagation();"
-        title = "{{ item.attrs.name }}"
+        title = "{{ item.filepath() }}"
       ) {{ item.attrs.name  }}
       button.btn-icon(
         ng-if = "!item.state.alwaysOpen"

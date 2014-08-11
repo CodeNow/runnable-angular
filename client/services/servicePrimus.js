@@ -1,7 +1,7 @@
 var PrimusClient = require('primus-client');
 var util = require('util');
 
-function RunnablePrimus () {
+function RunnablePrimus() {
   PrimusClient.apply(this, arguments);
 }
 
@@ -59,7 +59,9 @@ RunnablePrimus.prototype.createTermStreams = function (container) {
 };
 
 RunnablePrimus.prototype.onBuildCompletedEvents = function (cb) {
-  if (!cb) { throw new Error('cb is required'); }
+  if (!cb) {
+    throw new Error('cb is required');
+  }
   this.on('data', function (data) {
     if (data && data.event === 'BUILD_STREAM_ENDED') {
       cb(data.data.build);
@@ -77,17 +79,17 @@ function primus(
   apiConfigHost
 ) {
 
-    var url = apiConfigHost;
+  var url = apiConfigHost;
 
-    var conn = new RunnablePrimus(url);
+  var conn = new RunnablePrimus(url);
 
-    conn.on('data', function (data) {
-      if (data.error) {
-        throw data.error;
-      }
-    });
+  conn.on('data', function (data) {
+    if (data.error) {
+      throw data.error;
+    }
+  });
 
-    return conn;
+  return conn;
 }
 
 function makeUniqueId(streamId) {

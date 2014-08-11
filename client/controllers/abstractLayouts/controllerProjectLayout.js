@@ -55,6 +55,7 @@ function ControllerProjectLayout(
   };
   actions.createNewProject = function () {
     var thisUser = $scope.dataApp.user;
+
     function createProject(cb) {
       var body = {
         name: dataProjectLayout.data.newProjectName
@@ -72,18 +73,23 @@ function ControllerProjectLayout(
         cb(err, thisUser, project);
       });
     }
-    function createBuildAndContext (thisUser, project, cb) {
+
+    function createBuildAndContext(thisUser, project, cb) {
       var count = callbackCount(2, done);
       var build = project.defaultEnvironment.createBuild(count.next);
-      var context = thisUser.createContext({ name: project.attrs.name }, count.next);
-      function done (err) {
+      var context = thisUser.createContext({
+        name: project.attrs.name
+      }, count.next);
+
+      function done(err) {
         if (err) {
           throw err;
         }
         cb(err, thisUser, project, build, context);
       }
     }
-    function createContextVersion (thisUser, project, build, context, cb) {
+
+    function createContextVersion(thisUser, project, build, context, cb) {
       var opts = {};
       opts.json = {
         environment: project.defaultEnvironment.id(),
@@ -147,6 +153,7 @@ function ControllerProjectLayout(
       cb();
     });
   }
+
   function fetchProjects(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
@@ -169,7 +176,8 @@ function ControllerProjectLayout(
       })
       .go();
   }
-  function fetchInstances (cb) {
+
+  function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstances')

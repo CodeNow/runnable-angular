@@ -1,2 +1,4 @@
 require('app')
-  .factory('jQuery', function () { return require('jquery'); });
+  .factory('jQuery', function () {
+    return require('jquery');
+  });

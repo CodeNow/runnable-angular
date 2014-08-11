@@ -20,7 +20,7 @@ function ControllerBuildNew(
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var dataBuildNew = $scope.dataBuildNew =  {};
+  var dataBuildNew = $scope.dataBuildNew = {};
   var actions = dataBuildNew.actions = {};
   var data = dataBuildNew.data = {
     showBuildMenu: false,
@@ -48,10 +48,10 @@ function ControllerBuildNew(
    **************************************/
   var buildPopoverRepoMenu = data.buildPopoverRepoMenu = {};
 
-  function setupRepoPopover () {
+  function setupRepoPopover() {
     buildPopoverRepoMenu.data = {
       show: false,
-      appCodeVersions : keypather.get(data, 'newVersion.appCodeVersions')
+      appCodeVersions: keypather.get(data, 'newVersion.appCodeVersions')
     };
   }
   setupRepoPopover();
@@ -65,8 +65,7 @@ function ControllerBuildNew(
       if (branchOrSHA) {
         if (shaRegExp.test(branchOrSHA)) {
           body.commit = branchOrSHA;
-        }
-        else {
+        } else {
           body.branch = branchOrSHA;
         }
       }
@@ -92,7 +91,7 @@ function ControllerBuildNew(
   bpbo.data.show = false;
   bpbo.data.popoverInputHasBeenClicked = false;
 
-  function setupBuildPopover () {
+  function setupBuildPopover() {
     bpbo.data.project = data.project;
   }
 
@@ -109,7 +108,8 @@ function ControllerBuildNew(
     } else {
       done();
     }
-    function done (err) {
+
+    function done(err) {
       if (err) {
         throw err;
       }
@@ -135,7 +135,9 @@ function ControllerBuildNew(
   };
 
   bpbo.actions.resetInputModelValue = function ($event) {
-    if (!bpbo.data.popoverInputHasBeenClicked) { return; }
+    if (!bpbo.data.popoverInputHasBeenClicked) {
+      return;
+    }
     bpbo.data.buildName = '';
     bpbo.data.popoverInputHasBeenClicked = true;
   };
@@ -143,8 +145,7 @@ function ControllerBuildNew(
    * // BuildPopoverBuildOptions
    **************************************/
 
-  actions.discardChanges = function () {
-  };
+  actions.discardChanges = function () {};
 
   actions.stateToBuildList = function () {
     var state = {
@@ -201,7 +202,7 @@ function ControllerBuildNew(
       .go();
   }
 
-  function fetchOwnerRepos (cb) {
+  function fetchOwnerRepos(cb) {
     var thisUser = $scope.dataApp.user;
     var build = data.build;
     var query;
@@ -209,21 +210,20 @@ function ControllerBuildNew(
     if (thisUser.isOwnerOf(data.project)) {
       query = new QueryAssist(thisUser, cb)
         .wrapFunc('fetchGithubRepos');
-    }
-    else {
+    } else {
       var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
       query = new QueryAssist(githubOrg, cb)
         .wrapFunc('fetchRepos');
     }
     query
       .query({})
-      .cacheFetch(function updateDom(githubRepos, cached, cb){
+      .cacheFetch(function updateDom(githubRepos, cached, cb) {
         data.githubRepos = githubRepos;
         buildPopoverRepoMenu.data.githubRepos = githubRepos;
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, githubRepos, cb){
+      .resolve(function (err, githubRepos, cb) {
         if (!githubRepos) {
           return cb(new Error('GitHub Repos not found'));
         }
@@ -243,7 +243,7 @@ function ControllerBuildNew(
       fetchNewBuild,
       fetchOwnerRepos,
       newOpenItems,
-    ], function(err){
+    ], function (err) {
       setupBuildPopover();
       setupRepoPopover();
       if (err) {
