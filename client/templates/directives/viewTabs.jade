@@ -1,12 +1,12 @@
 #editor-toolbar
   ul#tabs-wrapper
     li(
+      ng-class = "{'active': item.state.active}"
       ng-repeat = "item in openItems.models"
     )
       //- title should show the full file path
       a(
         ng-attr-data-title = "{{ item.attrs.name }}"
-        ng-class = "{'active': item.state.active}"
         ng-click = "openItems.activeHistory.add(item); $event.stopPropagation();"
         title = "{{ item.attrs.name }}"
       ) {{ item.attrs.name  }}
