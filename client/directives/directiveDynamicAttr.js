@@ -14,14 +14,10 @@ function dynamicAttr(
       var jQuery = require('jquery');
       var parsedAttrs = JSON.parse(attrs.dynamicAttr);
       var properties = Object.keys(parsedAttrs);
-      var values = properties.map(function (prop) {
-        return properties[prop];
-      });
 
       var scope = {
         parsedAttrs: parsedAttrs,
         properties: properties,
-        values: values,
         jQuery: jQuery,
         keypather: keypather
       };

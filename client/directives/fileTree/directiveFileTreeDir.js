@@ -22,6 +22,8 @@ function fileTreeDir(
     },
     template: '',
     link: function ($scope, element, attrs) {
+
+      var jQuery = require('jquery');
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
@@ -36,9 +38,16 @@ function fileTreeDir(
         // prevents folders/dir mixing order in tree bug
         $timeout(function(){
           $rootScope.safeApply();
+          if (!$scope.readOnly) {
+            actions.makeSortable();
+          }
         }, 10);
       };
       actions.fetchDirFiles = fetchDirFiles;
+
+      actions.makeSortable = function () {
+        jQuery($template).find('ul').sortable();
+      };
 
       $scope.$watch('dir.state.open', function (newVal, oldval) {
         if (newVal) {
@@ -51,6 +60,7 @@ function fileTreeDir(
             throw err;
           }
           actions.sortDir();
+          actions.makeSortable();
         });
       }
 
@@ -58,8 +68,8 @@ function fileTreeDir(
       var template = $templateCache.get('viewFileTreeDir');
       var $template = angular.element(template);
       $compile($template)($scope);
-
       element.replaceWith($template);
+
       element.on('$destroy', function () {
         // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS
       });
