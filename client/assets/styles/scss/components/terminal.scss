@@ -1,13 +1,10 @@
 .term-container {
+  box-shadow: 0 1px 0 $black;
   cursor: text;
 }
 
 div.terminal { // div specifity required b/c there's a term.terminal
   padding: 9px;
-}
-
-pre.terminal { // for logs
-  background: $black;
 }
 
 .term-container,
