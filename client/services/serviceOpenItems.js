@@ -17,11 +17,14 @@ function openItemsFactory(
   async
 ) {
 
+  var self = openItemsFactory;
+
   function instanceOfModel (model) {
     return (model instanceof VersionFileModel ||
             model instanceof ContainerFileModel ||
             model instanceof Terminal ||
             model instanceof WebView ||
+            model instanceof LogView ||
             model instanceof BuildStream);
   }
 
@@ -50,9 +53,16 @@ function openItemsFactory(
     return this;
   }
 
+  var LogView = function LogView(data) {
+    this.attrs = data || {};
+    this.attrs._id = i++;
+    return this;
+  };
+
   util.inherits(Terminal, BaseModel);
   util.inherits(WebView, BaseModel);
   util.inherits(BuildStream, BaseModel);
+  util.inherits(LogView, BaseModel);
 
 
   function ActiveHistory(models) {
@@ -118,6 +128,12 @@ function openItemsFactory(
     return buildStream;
   };
 
+  OpenItems.prototype.addLogs = function (data) {
+    var logView = new LogView(data);
+    this.add(logView);
+    return logView;
+  };
+
   OpenItems.prototype.Model = true;
 
   OpenItems.prototype.instanceOfModel = instanceOfModel;
@@ -152,6 +168,8 @@ function openItemsFactory(
       model.state.type = 'WebView';
     } else if (model instanceof BuildStream) {
       model.state.type = 'BuildStream';
+    } else if (model instanceof LogView) {
+      model.state.type = 'LogView';
     } else {
       model.state.type = 'File';
     }

@@ -67,3 +67,8 @@
     iframe(
       src = "{{ $sce.trustAsResourceUrl(container.urls()[0]) }}"
     )
+
+  log-view(
+    ng-if = "item.state.type === 'LogView'",
+    container = "container"
+  )

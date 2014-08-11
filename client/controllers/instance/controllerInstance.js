@@ -97,6 +97,14 @@ function ControllerInstance(
     */
   };
 
+  pat.actions.addLogs = function () {
+    pat.data.show = false;
+    data.openItems.addLogs({
+      name: 'Server Logs',
+      params: data.instance.attrs.containers[0]
+    });
+  };
+
   actions.stopInstance = function () {
     data.instance.stop(function (err) {
       if (err) { throw err; }
@@ -183,6 +191,7 @@ function ControllerInstance(
       pat.actions.addWebView();
     }
     pat.actions.addTerminal();
+    pat.actions.addLogs();
     cb();
   }
 
