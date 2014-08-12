@@ -1,5 +1,3 @@
-var config = {
-  host: 'http://api.runnable3.net'
-};
+var config = require('./json/api');
 Object.freeze(config);
 module.exports = config;
