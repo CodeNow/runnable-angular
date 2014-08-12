@@ -107,10 +107,15 @@
       overflow: hidden;
       padding: 0 9px;
       text-overflow: ellipsis;
+      transition: height .2s ease-in;
       white-space: nowrap;
 
       &:nth-child(n+2) {
         margin: 0 -9px;
+      }
+
+      &.invalid {
+        height: 54px;
       }
     }
 
@@ -121,6 +126,15 @@
       margin: 0;
       padding: 0 9px;
       text-indent: 0;
+    }
+
+    .form-validate {
+      background-position: 97% 50%;
+      background-size: 24px 24px;
+
+      &.ng-valid {
+        background: none;
+      }
     }
 
     .btn-block {
