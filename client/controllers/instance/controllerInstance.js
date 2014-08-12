@@ -141,6 +141,17 @@ function ControllerInstance(
     $state.go('projects.buildList', state);
   };
 
+  actions.goToBuild = function() {
+    var attrs = data.instance.attrs;
+    var state = {
+      userName: attrs.owner.username,
+      projectName: attrs.project.name,
+      branchName: attrs.environment.name,
+      buildName: attrs.build.buildNumber
+    };
+    $state.go('projects.build', state);
+  };
+
   actions.destroyInstance = function () {
     var old = data.instance.json();
     data.instance.destroy(function (err) {
