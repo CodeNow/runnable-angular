@@ -79,7 +79,7 @@ header {
 
     b {
       background: $purple;
-      border: 1px solid rgba(0,0,0,.5);
+      border: 1px solid rgba($black,.5);
       border-radius: 3px;
       display: inline-block;
       font-weight: 500;
@@ -117,78 +117,56 @@ header {
     }
   }
 
-  a {
-    color: $gray-light;
-
-    &:hover {
-      color: $gray-lighter;
-    }
-
-    &:active {
-      color: $gray-lighter;
-    }
-  }
-
-  .white {
+  .btn {
+    background: rgba($white,.1);
     box-shadow: none;
+    color: $white;
     height: auto;
     min-height: 36px;
     padding: 0;
     text-align: left;
 
-    &.active {
-      background: rgba(255,255,255,.075);
+    &:hover {
+      background: rgba($white,.15);
+    }
 
-      &:hover {
-        background: rgba(255,255,255,.1);
-        color: $gray-lighter;
-      }
+    &:active {
+      background: rgba($white,.2);
+    }
+
+    &.active {
+      background: rgba($white,.2);
 
       &:active {
-        background: transparent;
-        box-shadow: none;
-        color: $gray-lighter;
-        transition: none;
-
-        &::after {
-          background: rgba(0,0,0,.15);
-          box-shadow: none;
-        }
-
-        > ul {
-          background: #553a69;
-        }
-      }
-
-      &::after {
-        content: '';
-        display: block;
-        height: 36px;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 100%;
+        background: rgba($white,.1);
       }
     }
   }
 
   h3 {
-    color: rgba(255,255,255,.5);
+    color: rgba($white,.5);
     font-size: 12px;
     font-weight: 300;
     letter-spacing: .5px;
-    margin: 15px 0 6px 15px;
+    margin: 15px 0 9px 15px;
     position: relative;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+    text-shadow: 0 -1px 0 rgba($black,.2);
 
     > .btn {
+      background: none;
       opacity: .5;
       position: absolute;
       right: 11px;
       top: -16px;
 
       &:hover {
+        background: none;
         opacity: .75;
+      }
+
+      &:active {
+        background: none;
+        opacity: 1;
       }
     }
 
@@ -200,7 +178,8 @@ header {
   }
 }
 
-#user {
+.account {
+  font-weight: 300;
   position: relative;
   text-overflow: ellipsis;
   transition: opacity .2s;
@@ -253,9 +232,8 @@ header {
 
   li {
 
-    &:first-child {
-      border-radius: 0 0 3px 3px !important;
-      border-top: 0;
+    &.btn {
+      border-radius: 0 !important;
     }
 
     &:last-child {
@@ -285,55 +263,46 @@ header {
   transition: opacity .15s .3s ease-in-out;
 }
 
-#apps,
-#instances {
+.btn-link {
+  border-radius: 0;
+  color: $white;
+  display: block;
+  font-weight: 300;
+  overflow: hidden;
+  padding-right: 7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover,
+  &:active {
+    color: $white;
+  }
+}
+
+.applications,
+.instances {
   width: 100%;
 
-  > li {
-    border-bottom-color: rgba(0,0,0,.2);
-    border-color: rgba(0,0,0,.3);
-    border-top-color: rgba(0,0,0,.2);
+  > .btn {
     overflow: hidden;
     padding: 0;
     text-indent: 15px;
 
-    a {
-      border-radius: 0;
-      display: block;
-      overflow: hidden;
-      padding-right: 7px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    &.active {
 
-    &:first-child > a {
-      border-radius: 3px 3px 0 0;
-      border-top-color: rgba(0,0,0,.3);
-    }
+      > .btn-link {
+        cursor: default;
+      }
 
-    &:last-child > a {
-      border-bottom-color: rgba(0,0,0,.3);
-      border-radius: 0 0 3px 3px;
+      &:active {
+        background: rgba($white,.2);
+      }
     }
 
     &.active {
       height: auto;
 
-      &:last-child {
-
-        > a {
-          border-radius: 0;
-        }
-
-        .config-list {
-
-          > li:last-child > a {
-            border-radius: 0 0 3px 3px;
-          }
-        }
-      }
-
-      > a > .iconnables {
+      > .btn-link > .iconnables {
         transform: rotate3d(0,0,1,180deg);
       }
 
@@ -342,7 +311,7 @@ header {
       }
     }
 
-    > a > .iconnables {
+    > .btn-link > .iconnables {
       opacity: .5;
       position: absolute;
       right: 8px;
@@ -351,18 +320,20 @@ header {
   }
 }
 
-#instances {
+.instances {
 
-  > li {
-    font-size: 15px;
+  > .btn {
     height: 45px;
     line-height: 1;
-    padding-top: 6px;
   }
 
-  small {
+  .btn-link {
+    padding-top: 7px;
+  }
+
+  .build-url {
     bottom: 6px;
-    color: rgba(255,255,255,.5);
+    color: rgba($white,.5);
     left: 0;
     letter-spacing: .5px;
     position: absolute;
@@ -370,23 +341,25 @@ header {
 }
 
 .config-list {
-  background: rgba(0,0,0,.1);
-  box-shadow: inset 0 1px 0 rgba(0,0,0,.15);
-  font-size: 13px;
-  margin-top: -2px;
+  cursor: pointer;
   max-height: 0;
   transition: max-height .3s;
 
-  li {
+  .config {
 
-    &:hover {
-      background: rgba(0,0,0,.15);
-      color: $gray-lighter;
+    &:hover,
+    &.active,
+    &.active:active {
+      background: rgba($white,.1);
+    }
+
+    &.active,
+    &.active .btn-link {
+      cursor: default;
     }
 
     &:active {
-      background: rgba(0,0,0,.2);
-      color: $gray-lighter;
+      background: rgba($white,.15);
     }
   }
 

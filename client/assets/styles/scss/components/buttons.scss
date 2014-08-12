@@ -404,6 +404,13 @@ button,
   margin-top: -1px;
 }
 
+.btn-group-vertical.no-margin > .btn + .btn,
+.btn-group-vertical.no-margin > .btn + .btn-group,
+.btn-group-vertical.no-margin > .btn-group + .btn,
+.btn-group-vertical.no-margin > .btn-group + .btn-group {
+  margin-top: 0;
+}
+
 .btn-group-vertical > .btn:not(:first-child):not(:last-child) {
   border-radius: 0;
 }

@@ -29,11 +29,9 @@ function ControllerInstance(
   pfm.data.show = false;
   pfm.actions = {};
 
-  pfm.actions.createFile = function () {
-  };
+  pfm.actions.createFile = function () {};
 
-  pfm.actions.createFolder = function () {
-  };
+  pfm.actions.createFolder = function () {};
 
   /*********************************
    * popoverAddTab
@@ -97,11 +95,23 @@ function ControllerInstance(
     */
   };
 
+  pat.actions.addLogs = function () {
+    pat.data.show = false;
+    data.openItems.addLogs({
+      name: 'Server Logs',
+      params: data.instance.attrs.containers[0]
+    });
+  };
+
   actions.stopInstance = function () {
     data.instance.stop(function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       data.instance.fetch(function (err) {
-        if (err) { throw err; }
+        if (err) {
+          throw err;
+        }
         $scope.safeApply();
       });
     });
@@ -109,9 +119,13 @@ function ControllerInstance(
 
   actions.startInstance = function () {
     data.instance.start(function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       data.instance.fetch(function (err) {
-        if (err) { throw err; }
+        if (err) {
+          throw err;
+        }
         $scope.safeApply();
       });
     });
@@ -127,10 +141,23 @@ function ControllerInstance(
     $state.go('projects.buildList', state);
   };
 
+  actions.goToBuild = function() {
+    var attrs = data.instance.attrs;
+    var state = {
+      userName: attrs.owner.username,
+      projectName: attrs.project.name,
+      branchName: attrs.environment.name,
+      buildName: attrs.build.buildNumber
+    };
+    $state.go('projects.build', state);
+  };
+
   actions.destroyInstance = function () {
     var old = data.instance.json();
     data.instance.destroy(function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
     });
   };
@@ -152,7 +179,7 @@ function ControllerInstance(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchInstance (cb) {
+  function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstance')
@@ -183,6 +210,7 @@ function ControllerInstance(
       pat.actions.addWebView();
     }
     pat.actions.addTerminal();
+    pat.actions.addLogs();
     cb();
   }
 

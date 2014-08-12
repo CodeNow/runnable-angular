@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function filterHumanizeTimeDuration (
+function filterHumanizeTimeDuration(
   moment
 ) {
   return function (timeDiff) {

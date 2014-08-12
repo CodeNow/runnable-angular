@@ -16,7 +16,9 @@ function term(
     },
     link: function ($scope, elem) {
       $scope.$watch('params._id', function (containerId) {
-        if (!containerId) { return; }
+        if (!containerId) {
+          return;
+        }
         // Numbers chosen erring on the side of padding
         var CHAR_WIDTH = 7.5;
         var CHAR_HEIGHT = 15.4;
@@ -75,16 +77,19 @@ function term(
           var x = Math.floor(terminal.element.scrollWidth / CHAR_WIDTH);
           var y = Math.floor(terminal.element.scrollHeight / CHAR_HEIGHT);
 
-          terminal.resize(x, y);
+          if (x && y) {
+            terminal.resize(x, y);
 
-          if (clientEvents) {
-            clientEvents.write({
-              event: 'resize',
-              data: {
-                x: x,
-                y: y
-              }
-            });
+            if (clientEvents) {
+              console.log(x, y);
+              clientEvents.write({
+                event: 'resize',
+                data: {
+                  x: x,
+                  y: y
+                }
+              });
+            }
           }
         }
       });

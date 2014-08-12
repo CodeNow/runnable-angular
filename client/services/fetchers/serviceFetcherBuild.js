@@ -4,7 +4,7 @@ require('app')
  * factory fetcherBuild
  * @ngInject
  */
-function factoryFetcherBuild (
+function factoryFetcherBuild(
   user,
   async,
   QueryAssist,
@@ -31,11 +31,10 @@ function factoryFetcherBuild (
           var project = data.project = projects.models[0];
           data.environment = exists($stateParams.branchName) ?
             project.environments.find(
-              hasKeypaths({ 'attrs.name.toLowerCase()': $stateParams.branchName })):
+              hasKeypaths({
+                'attrs.name.toLowerCase()': $stateParams.branchName
+              })) :
             project.defaultEnvironment;
-          if (!data.environment) {
-             $state.go('404');
-          }
           $rootScope.safeApply();
         })
         .resolve(function (err, projects, cb) {
@@ -57,16 +56,12 @@ function factoryFetcherBuild (
           environment: data.environment.id()
         })
         .cacheFetch(function updateDom(builds, cached, cb) {
-          if (!builds.models.length) {
-            console.log('har');
-            return cb(new Error('build not found'));
-          }
-          else {
+          if (builds.models.length) {
             var build = builds.models[0];
             data.build = build;
             data.version = build.contextVersions.models[0];
             $rootScope.safeApply();
-            if (build.attrs.contextVersions.length){
+            if (build.attrs.contextVersions.length) {
               cb();
             }
           }
@@ -78,7 +73,7 @@ function factoryFetcherBuild (
           }
           $rootScope.safeApply();
           cb(err);
-       })
+        })
         .go();
     }
 

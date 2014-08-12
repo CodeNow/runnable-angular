@@ -34,7 +34,7 @@
     "keypather": "^1.7.1",
     "moment": "~2.7.0",
     "primus": "^2.3.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.23.3",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.23.7",
     "term.js": "git+https://github.com/CodeNow/term.js"
   },
   "devDependencies": {
@@ -93,7 +93,8 @@
     "main": "./client/main.js",
     "primus-client": "./client/assets/js/primus-client.js",
     "config/routes": "./client/config/routes.js",
-    "config/api": "./client/config/api.js"
+    "config/api": "./client/config/api.js",
+    "jquery-ui": "./client/assets/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.js"
   },
   "browserify": {
     "debug": true

@@ -19,13 +19,14 @@ function openItemsFactory(
 
   function instanceOfModel (model) {
     return (model instanceof VersionFileModel ||
-            model instanceof ContainerFileModel ||
-            model instanceof Terminal ||
-            model instanceof WebView ||
-            model instanceof BuildStream);
+      model instanceof ContainerFileModel ||
+      model instanceof Terminal ||
+      model instanceof WebView ||
+      model instanceof LogView ||
+      model instanceof BuildStream);
   }
 
-  function newModel (modelOrAttrs, opts) {
+  function newModel(modelOrAttrs, opts) {
     throw new Error('you are doing it wrong');
   }
 
@@ -50,13 +51,22 @@ function openItemsFactory(
     return this;
   }
 
+  function LogView(data) {
+    this.attrs = data || {};
+    this.attrs._id = i++;
+    return this;
+  }
+
   util.inherits(Terminal, BaseModel);
   util.inherits(WebView, BaseModel);
   util.inherits(BuildStream, BaseModel);
+  util.inherits(LogView, BaseModel);
 
 
   function ActiveHistory(models) {
-    BaseCollection.call(this, models, { noStore: true });
+    BaseCollection.call(this, models, {
+      noStore: true
+    });
   }
 
   util.inherits(ActiveHistory, BaseCollection);
@@ -76,8 +86,7 @@ function openItemsFactory(
     model.state.active = true;
     if (!this.contains(model)) {
       BaseCollection.prototype.add.call(this, model);
-    }
-    else {
+    } else {
       this.remove(model);
       this.add(model);
     }
@@ -97,8 +106,10 @@ function openItemsFactory(
     }
   };
 
-  function OpenItems (models) {
-    BaseCollection.call(this, models, { noStore: true });
+  function OpenItems(models) {
+    BaseCollection.call(this, models, {
+      noStore: true
+    });
     this.activeHistory = new ActiveHistory();
   }
 
@@ -118,13 +129,19 @@ function openItemsFactory(
     return buildStream;
   };
 
+  OpenItems.prototype.addLogs = function (data) {
+    var logView = new LogView(data);
+    this.add(logView);
+    return logView;
+  };
+
   OpenItems.prototype.Model = true;
 
   OpenItems.prototype.instanceOfModel = instanceOfModel;
 
   OpenItems.prototype.isFile = function (model) {
     return (model instanceof VersionFileModel ||
-            model instanceof ContainerFileModel);
+      model instanceof ContainerFileModel);
   };
 
   OpenItems.prototype.newModel = newModel;
@@ -152,6 +169,8 @@ function openItemsFactory(
       model.state.type = 'WebView';
     } else if (model instanceof BuildStream) {
       model.state.type = 'BuildStream';
+    } else if (model instanceof LogView) {
+      model.state.type = 'LogView';
     } else {
       model.state.type = 'File';
     }

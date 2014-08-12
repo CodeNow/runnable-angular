@@ -5,12 +5,14 @@ require('app')
  */
 function repoFilter() {
   return function (items, filterBy) {
-    if (!filterBy) { return items; }
+    if (!filterBy) {
+      return items;
+    }
 
     filterBy = filterBy.toLowerCase();
 
     return items.filter(function (item) {
-      return ~item.attrs.name.toLowerCase().indexOf(filterBy);
+      return~ item.attrs.name.toLowerCase().indexOf(filterBy);
     });
   };
 }

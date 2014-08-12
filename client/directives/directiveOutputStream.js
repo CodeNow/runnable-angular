@@ -11,7 +11,7 @@ function outputStream(
   return {
     restrict: 'E',
     replace: true,
-    scope:  {
+    scope: {
       container: '='
     },
     templateUrl: 'viewOutputStream',
@@ -37,7 +37,7 @@ function outputStream(
         initStream();
       });
 
-      function initStream () {
+      function initStream() {
         var container = $scope.container;
         $scope.stream = {
           finished: false,

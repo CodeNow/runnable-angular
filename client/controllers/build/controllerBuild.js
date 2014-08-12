@@ -48,7 +48,9 @@ function ControllerBuild(
         build: data.build.id()
       }
     }, function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       var state = {
         instanceId: instance.id()
       };
@@ -67,7 +69,7 @@ function ControllerBuild(
     });
   };
 
-  function runBuild () {
+  function runBuild() {
     var newBuild = data.build.rebuild(
       function (err, build) {
         if (err) {
@@ -108,7 +110,7 @@ function ControllerBuild(
     dataBuild.actions.forkBuild();
   });
 
-/*
+  /*
   $scope.$watch('dataBuild.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
     if (newval === oldval) {
       // We've opened the same file
@@ -126,7 +128,7 @@ function ControllerBuild(
    *   API Fetch Methods
    * ===========================*/
 
-  function fetchOwnerRepos (cb) {
+  function fetchOwnerRepos(cb) {
     var thisUser = $scope.dataApp.user;
     var build = data.build;
     var query;
@@ -134,15 +136,14 @@ function ControllerBuild(
     if (thisUser.isOwnerOf(data.project)) {
       query = new QueryAssist(thisUser, cb)
         .wrapFunc('fetchGithubRepos');
-    }
-    else {
+    } else {
       var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
       query = new QueryAssist(githubOrg, cb)
         .wrapFunc('fetchRepos');
     }
     query
       .query({})
-      .cacheFetch(function updateDom(githubRepos, cached, cb){
+      .cacheFetch(function updateDom(githubRepos, cached, cb) {
         data.githubRepos = githubRepos;
         $scope.safeApply();
         cb();

@@ -64,7 +64,7 @@ function popoverFileExplorerMenu(
 
         // let would be nice
         var index = -1;
-        for (var i=0, len=names.length; i < len; i++) {
+        for (var i = 0, len = names.length; i < len; i++) {
           if (names[i] === 'undefined') {
             index = 0;
           } else {
@@ -135,6 +135,7 @@ function popoverFileExplorerMenu(
       });
 
       dirItemData.actions.closeFolderNameInput = closeFolderNameInput;
+
       function closeFolderNameInput() {
         if (!dirItemData.editFolderName) {
           return;
@@ -159,7 +160,8 @@ function popoverFileExplorerMenu(
       }
 
       element[0].addEventListener('contextmenu', contextMenuListener);
-      function contextMenuListener (e){
+
+      function contextMenuListener(e) {
         if (e.currentTarget !== e.target) {
           return false;
         }

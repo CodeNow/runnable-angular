@@ -2,11 +2,11 @@ header(
   ng-class = "dataProjectLayout.actions.getInClass()"
 )
   .startup-container
-    a#logo(href = "/")
+    a.logo(href = "/")
       svg
         use(xlink:href = "#runnable-logo")
-    button#user.white(
-      ng-class="{active: dataProjectLayout.data.showChangeAccount}"
+    button.account.btn(
+      ng-class = "{active: dataProjectLayout.data.showChangeAccount}"
       ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
       type = "button"
     )
@@ -18,32 +18,34 @@ header(
       | {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.newProjectOwner) }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
-    ul.accounts.btn-group-vertical
-      li.btn.white(
+    ul.accounts.btn-group-vertical.no-margin
+      li.btn(
         ng-click = "dataProjectLayout.actions.selectProjectOwner(dataApp.user)"
         ng-if = "dataApp.user !== dataProjectLayout.data.newProjectOwner"
       )
-        a
+        a.btn-link
           img(
             height = "19"
             ng-src = "{{ dataApp.user.attrs.gravatar }}"
             width = "19"
           )
           | {{ dataApp.user.attrs.accounts.github.username }}
-      li.btn.white(
+      li.btn(
         ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
         ng-if = "org !== dataProjectLayout.data.newProjectOwner"
         ng-repeat = "org in dataProjectLayout.data.orgs"
       )
-        a
+        a.btn-link
           img(
             height = "19"
             ng-src = "{{ org.avatar_url }}"
             width = "19"
           )
           | {{ org.login }}
-      li.btn.white
-        a(href = "{{ dataApp.logoutURL }}") Log Out
+      li.btn
+        a.btn-link(
+          href = "{{ dataApp.logoutURL }}"
+        ) Log Out
     form(name = "dataProjectLayout.data.newProjectNameForm")
       //- this field is optional. if blank, name the app for them: 'My App'
       //- should not trigger on focus, but on the error that causes the validation error
@@ -70,30 +72,30 @@ header(
       )
         svg.iconnables.icons-add
           use(xlink:href = "#icons-add")
-    ul#apps.btn-group-vertical
+    ul.applications.btn-group-vertical.no-margin
       li.btn(
         ng-repeat = "project in dataProjectLayout.data.projects.models"
         ng-class = "dataProjectLayout.actions.getProjectLiClass(project)"
         ng-click = "dataProjectLayout.actions.stateToBuildList(project, $event);"
       )
-        a.white
+        a.btn-link
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
           | {{ project.attrs.name }}
         ul.config-list(ng-repeat = "environment in project.attrs.environments")
-          li.active(ng-click = "dataProjectLayout.actions.stateToBuildList(project, environment, $event)")
-            a.white
+          li.config.active(ng-click = "dataProjectLayout.actions.stateToBuildList(project, environment, $event)")
+            a.btn-link
               svg.iconnables.icons-recipe
                 use(xlink:href = "#icons-recipe")
               | {{ environment.name }}
     h3 INSTANCES
-    ul#instances.btn-group-vertical
-      li.btn.white(
+    ul.instances.btn-group-vertical.no-margin
+      li.btn(
         ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataProjectLayout.data.instances.models"
       )
-        a {{ instance.attrs.name }}
-        small {{ instance.buildUrl() }}
+        a.btn-link {{ instance.attrs.name }}
+        small.build-url {{ instance.buildUrl() }}
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
   .spinner.lg

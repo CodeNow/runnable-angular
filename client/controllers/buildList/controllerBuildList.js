@@ -49,7 +49,8 @@ function ControllerBuildList(
       sort: '-buildNumber'
     };
     var builds = project.defaultEnvironment.fetchBuilds(query, count.next);
-    function done (err) {
+
+    function done(err) {
       if (err) {
         throw err;
       }
@@ -61,7 +62,7 @@ function ControllerBuildList(
         }
         newBuild.build({
           message: 'initial build'
-        //  environment: env.id()
+          //  environment: env.id()
         }, function (err) {
           if (err) {
             throw err;
@@ -117,7 +118,9 @@ function ControllerBuildList(
 
   actions.getTriggeredActionText = function (build) {
     var triggeredAction = keypather.get(build, 'contextVersions.models[0].attrs.build.triggeredAction');
-    if (!triggeredAction) { return; }
+    if (!triggeredAction) {
+      return;
+    }
     if (triggeredAction.manual) {
       return 'Manual';
     }
@@ -126,7 +129,7 @@ function ControllerBuildList(
     }
     // assume github
     var appCodeVersion = triggeredAction.appCodeVersion;
-    return appCodeVersion.repo+'#'+appCodeVersion.repo;
+    return appCodeVersion.repo + '#' + appCodeVersion.repo;
   };
 
   actions.runInstance = function (build) {
@@ -136,7 +139,9 @@ function ControllerBuildList(
         build: build.id()
       }
     }, function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       var state = {
         instanceId: instance.id()
       };
@@ -194,7 +199,7 @@ function ControllerBuildList(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchProject (cb) {
+  function fetchProject(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
@@ -227,7 +232,7 @@ function ControllerBuildList(
       .go();
   }
 
-  function fetchBuilds (cb) {
+  function fetchBuilds(cb) {
     new QueryAssist(data.environment, cb)
       .wrapFunc('fetchBuilds')
       .query({
