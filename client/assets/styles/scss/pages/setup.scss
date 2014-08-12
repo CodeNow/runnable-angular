@@ -33,6 +33,10 @@
     > .active {
       transform: scale3d(0,0,0);
     }
+
+    > .form-control {
+      margin: 0;
+    }
   }
 
   .popover.in ~ .input-container {
@@ -130,6 +134,7 @@
   }
 
   .list-group {
+    margin: 0;
     max-height: calc(100% - 51px);
     overflow: auto;
   }
@@ -142,6 +147,10 @@
 
     &:first-child {
       margin-top: 15px;
+    }
+
+    &:last-child {
+      font-weight: 300;
     }
   }
 
