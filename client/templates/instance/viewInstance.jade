@@ -30,6 +30,7 @@ section.sidebar
       | From #{''}
       a(
         title = "{{ dataInstance.data.instance.buildUrl() }}"
+        ng-click = "dataInstance.actions.goToBuild()"
       ) {{ dataInstance.data.instance.buildUrl() }}
     li(
       ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
