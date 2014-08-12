@@ -1,4 +1,12 @@
 // bootstrap overrides
+th {
+  padding: 15px;
+}
+
+td {
+  padding: 0 15px;
+}
+
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
@@ -7,8 +15,6 @@
 .table > tfoot > tr > td {
   border: 0;
   height: 54px;
-  line-height: 54px;
-  padding: 0 15px;
 
   &:first-child {
     padding: 0 0 0 8px;
@@ -53,9 +59,11 @@ table {
 
 .sortable {
   cursor: pointer;
+  min-width: 104px;
 
   > span {
-    float: left;
+    // float: left;
+    // height: 54px;
 
     &::before,
     &::after {
@@ -68,38 +76,20 @@ table {
     &::before {
       @extend .arrow-up;
       left: -3px;
-      top: 20px;
     }
 
     &::after {
       @extend .arrow-down;
-      top: 30px;
+      top: 12px;
     }
   }
 
-  &.descending > span {
-
-    &::before {
-      display: none;
-    }
-
-    &::after {
-      border-top-color: $green;
-      top: 25px;
-    }
+  &.descending > span::after {
+    border-top-color: $green;
   }
 
-  &.ascending > span {
-
-    &::before {
-      border-bottom-color: $green;
-      left: 3px;
-      top: 23px;
-    }
-
-    &::after {
-      display: none;
-    }
+  &.ascending > span::before {
+    border-bottom-color: $green;
   }
 }
 
