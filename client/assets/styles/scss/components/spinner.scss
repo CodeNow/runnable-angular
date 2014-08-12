@@ -70,6 +70,27 @@
   z-index: 1;
 }
 
+// on buttons
+.btn-spinner {
+  text-indent: -16px;
+
+  > .spinner {
+    color: $white;
+    display: inline-block;
+    margin-right: 6px;
+    top: 2px;
+    transform: scale3d(0,0,0);
+  }
+
+  &.in > .spinner {
+    transform: scale3d(1,1,1);
+  }
+
+  &.green .spinner-ring {
+    background: $green;
+  }
+}
+
 // main spinner
 main > .spinner {
   color: $purple;

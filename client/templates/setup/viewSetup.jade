@@ -59,9 +59,12 @@ section.sidebar
             required
             type = "radio"
           )
-    button.btn-block.green(
+    button.btn-block.green.btn-spinner(
       type = "submit"
-    ) Build Application
+    )
+      .spinner
+        .spinner-ring
+      | Build Application
 #editor.full
   tabs#editor-toolbar(
     open-items = "dataSetup.data.openItems"
