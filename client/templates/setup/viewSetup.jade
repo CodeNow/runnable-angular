@@ -38,14 +38,14 @@ section.sidebar
       ul.added-repo.list-group(
         ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models"
       )
-        li.list-group-item{{ appCodeVersion.attrs.repo.split('/')[1] }}
+        li.list-group-item{{ appCodeVersion.attrs.repo }}
           button.btn-icon(
             ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
             type = "button"
           )
             svg.iconnables.icons-delete
               use(xlink:href = "#icons-delete")
-        li.list-group-item @branch/#SHA
+        li.list-group-item {{ appCodeVersion.attrs.lockCommit ? '#'+appCodeVersion.attrs.commit : '@'+appCodeVersion.attrs.branch }}
     #setup-template
       h3 Choose a Docker Template
       .form-group.toggle-group
@@ -54,8 +54,9 @@ section.sidebar
           ng-repeat = "context in dataSetup.data.seedContexts.models"
         ) {{ context.attrs.name }}
           input(
-            name = "{{ context.attrs.name }}"
+            name = "source-context"
             ng-click = "dataSetup.actions.selectSourceContext(context)"
+            ng-
             required
             type = "radio"
           )

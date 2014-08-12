@@ -33,8 +33,9 @@ function ControllerSetup(
     data.isReadOnly = bool;
   });
 
-  actions.selectGithubRepo = function (repo) {
+  actions.selectGithubRepo = function (repo, branchName) {
     if (data.selectedRepos.contains(repo)) {
+      delete repo.selectedBranch;
       data.selectedRepos.remove(repo);
     }
     else {
@@ -49,20 +50,43 @@ function ControllerSetup(
   };
 
   actions.addGithubRepos = function () {
+    var count = data.selectedRepos.models.length;
     async.forEach(data.selectedRepos.models, function (repo, cb) {
       var body = {
         repo: repo.attrs.full_name
-        // branch: 'master' // TODO
       };
+      if (repo.selectedBranch) {
+        body.branch = repo.selectedBranch;
+      }
+      else if (repo.selectedCommit) {
+        body.commit = repo.selectedCommit;
+      }
+      else {
+        body.branch = 'master';
+      }
+      count = count - 1;
+      if (count === 0) {
+        assumeSuccess();
+      }
       data.contextVersion.appCodeVersions.create(body, cb);
     }, function (err) {
       if (err) {
+        revertOnErr();
         throw err;
       }
+    });
+    var lastModels;
+    function assumeSuccess () {
+      lastModels = data.selectedRepos.models;
       data.selectedRepos.reset([]);
       data.isRepoMode = false;
       $scope.safeApply();
-    });
+    }
+    function revertOnErr () {
+      data.selectedRepos.reset(lastModels);
+      data.isRepoMode = true;
+      $scope.safeApply();
+    }
   };
 
   actions.removeGithubRepo = function (appCodeVersion) {
@@ -72,6 +96,25 @@ function ControllerSetup(
       }
       $scope.safeApply();
     });
+  };
+
+  actions.selectBranchOrCommit = function (repo) {
+    delete repo.selectedCommit;
+    delete repo.selectedBranch;
+    repo.invalid = true;
+    if (isBranch(repo.selectedBranchOrCommit)) {
+      repo.selectedBranch = repo.selectedBranchOrCommit;
+    }
+    else {
+      repo.selectedCommit = repo.selectedBranchOrCommit;
+    }
+    $scope.safeApply();
+
+    function isBranch (name) {
+      return repo.branches.models.some(function (name) {
+        return repo.name === name;
+      });
+    }
   };
 
   /**
