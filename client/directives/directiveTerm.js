@@ -77,16 +77,19 @@ function term(
           var x = Math.floor(terminal.element.scrollWidth / CHAR_WIDTH);
           var y = Math.floor(terminal.element.scrollHeight / CHAR_HEIGHT);
 
-          terminal.resize(x, y);
+          if (x && y) {
+            terminal.resize(x, y);
 
-          if (clientEvents) {
-            clientEvents.write({
-              event: 'resize',
-              data: {
-                x: x,
-                y: y
-              }
-            });
+            if (clientEvents) {
+              console.log(x, y);
+              clientEvents.write({
+                event: 'resize',
+                data: {
+                  x: x,
+                  y: y
+                }
+              });
+            }
           }
         }
       });
