@@ -43,10 +43,12 @@ function fileTreeDir(
           }
         }, 10);
       };
-      actions.fetchDirFiles = fetchDirFiles;
 
       actions.makeSortable = function () {
-        jQuery($template).find('ul').sortable();
+        var $t = jQuery($template);
+        $t.find('> ul > li').draggable({
+           revert: 0
+        });
       };
 
       $scope.$watch('dir.state.open', function (newVal, oldval) {
@@ -55,6 +57,7 @@ function fileTreeDir(
         }
       });
 
+      actions.fetchDirFiles = fetchDirFiles;
       function fetchDirFiles() {
         $scope.dir.contents.fetch(function (err) {
           if (err) {

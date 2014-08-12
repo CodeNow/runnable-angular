@@ -344,6 +344,19 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('generateConfigs', '', function () {
+    var done = this.async();
+    var clientPath = path.join(__dirname, 'client');
+    var configObj = {};
+    configObj.host = process.env.API_HOST;
+    var configJSON = JSON.stringify(configObj);
+    console.log('p1');
+    fs.writeFile(path.join(clientPath, 'config', 'json', 'api.json'), configJSON, function () {
+      console.log('p2');
+      done();
+    });
+  });
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
@@ -365,7 +378,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test:unit', ['bgShell:karma']);
   grunt.registerTask('test:e2e', ['bgShell:karma']);
   grunt.registerTask('test', ['bgShell:karma']);
-  grunt.registerTask('build', [
+  grunt.registerTask('build:dev', [
     'githooks',
     'bgShell:npm-install',
     'copy',
@@ -375,9 +388,14 @@ module.exports = function(grunt) {
     'jade2js',
     'jshint:dev',
     'autoBundleDependencies',
+    'generateConfigs',
     'browserify:once'
   ]);
-  grunt.registerTask('default', ['build', 'browserify:watch', 'concurrent']);
+  grunt.registerTask('default', [
+    'build:dev',
+    'browserify:watch',
+    'concurrent'
+  ]);
   grunt.registerTask('deploy', [
     'copy',
     'sass:dev',
@@ -385,6 +403,7 @@ module.exports = function(grunt) {
     'autoprefixer',
     'jade2js',
     'autoBundleDependencies',
+    'generateConfigs',
     'browserify:deploy'
   ]);
 
