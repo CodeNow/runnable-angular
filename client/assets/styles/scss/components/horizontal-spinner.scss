@@ -1,0 +1,30 @@
+.horizontal-spinner {
+  background: rgba(0,0,0,.1);
+  height: 3px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  top: 40%;
+  width: 150px;
+
+  &::before,
+  &::after {
+    background: rgba($purple,.5);
+    content: '';
+    display: block;
+    height: 3px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: translate3d(-100%,0,0);
+    width: 50%;
+  }
+
+  &::before {
+    animation: horizontal-spinner 1s infinite -.5s;
+  }
+
+  &::after {
+    animation: horizontal-spinner 1s infinite;
+  }
+}
