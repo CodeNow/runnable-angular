@@ -6,6 +6,7 @@
 *.sass-cache/
 node_modules/
 client/build/
+client/config/json/
 client/controllers/index.js
 client/services/index.js
 client/filters/index.js
