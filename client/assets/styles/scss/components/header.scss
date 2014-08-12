@@ -63,31 +63,6 @@ header {
     }
   }
 
-  // the rules
-  .the-rules {
-    color: $white;
-    font-size: 15px;
-    height: 0;
-    opacity: 0;
-    text-align: center;
-    transition: all .15s;
-
-    &.in {
-      height: 30px;
-      opacity: 1;
-    }
-
-    b {
-      background: $purple;
-      border: 1px solid rgba(0,0,0,.5);
-      border-radius: 3px;
-      display: inline-block;
-      font-weight: 500;
-      margin: 0 2px;
-      padding: 0 6px;
-    }
-  }
-
   .startup-container {
     margin: 0 auto;
     max-width: 270px;

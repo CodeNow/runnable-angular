@@ -12,7 +12,7 @@
             use(xlink:href = "#icons-check")
         li.repo-group-item
           //- list and ID properties need to be unique per repo
-          input.form-control(
+          input.form-control.form-validate(
             list = "repo-branches"
             placeholder = "Branch/SHA (default: @master)"
           )
@@ -21,6 +21,7 @@
               ng-repeat = "branch in repo.branches.models"
               value = "{{ branch.attrs.name }}"
             )
+          .the-rules.inline We can't find that branch or commit.
   button.btn-block.green(
     ng-click = "dataSetup.actions.addGithubRepos()"
     type = "button"
