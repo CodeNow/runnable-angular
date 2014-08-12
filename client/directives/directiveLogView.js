@@ -25,7 +25,7 @@ function logView(
           throw new Error('Container is required');
         }
         var logStream = primus.createLogStream($scope.container);
-        var $logBody = jQuery('#logs pre');
+        var $logBody = jQuery(elem).find('pre');
 
         logStream.on('data', function(data) {
           $scope.stream.data += data;
