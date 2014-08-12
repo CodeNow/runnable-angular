@@ -28,6 +28,9 @@ Requirements
 
 Contributors
 ------------
+<img src="https://s.gravatar.com/avatar/b613d7470bc5eb09b8c73223b4ee8a4e?s=64">&nbsp;
+[Anandkumar Patel (anandkumarpatel)](https://github.com/anandkumarpatel)
+San Francisco, CA, USA  
 <img src="http://www.gravatar.com/avatar/049d9ce7bb813b262d32f6ebe4bb6fe5?s=64">&nbsp;
 [Tejesh Mehta (tjmehta)](https://github.com/tjmehta)
 San Francisco, CA, USA  
