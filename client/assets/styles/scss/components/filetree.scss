@@ -108,7 +108,7 @@
     line-height: 28px;
 
     &.active {
-      font-weight: 500;
+      font-weight: 600;
     }
 
     a {
@@ -121,6 +121,7 @@
       &:active,
       &.active {
         color: $gray-darkest;
+        font-weight: 600;
       }
     }
   }
