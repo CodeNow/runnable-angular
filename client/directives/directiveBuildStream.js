@@ -38,7 +38,7 @@ function buildStream(
               };
             // check contextVersions.attrs.build.error for unknown errors
             $rootScope.safeApply();
-          } else { // in progress
+          } else { // build in progress
             initStream();
           }
         }

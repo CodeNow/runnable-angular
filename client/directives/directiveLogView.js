@@ -5,6 +5,7 @@ require('app')
  */
 function logView(
   $rootScope,
+  jQuery,
   primus
 ) {
   return {
@@ -24,9 +25,15 @@ function logView(
           throw new Error('Container is required');
         }
         var logStream = primus.createLogStream($scope.container);
+        var $logBody = jQuery('#logs pre');
+
         logStream.on('data', function(data) {
           $scope.stream.data += data;
-          $rootScope.safeApply();
+          $rootScope.safeApply(function() {
+            if($logBody.scrollTop() + $logBody.innerHeight() + 20 >= $logBody[0].scrollHeight) {
+              $logBody.scrollTop($logBody[0].scrollHeight);
+            }
+          });
         });
       };
 

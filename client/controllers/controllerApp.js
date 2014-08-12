@@ -54,8 +54,7 @@ function ControllerApp(
 
   dataApp.applyCallbacks = [];
   $rootScope.safeApply = function (cb) {
-    if (dataApp.applyCallbacks.length) {
-      cb = cb || angular.noop;
+    if (cb) {
       dataApp.applyCallbacks.push(cb);
     }
     $timeout(function () {
