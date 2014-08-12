@@ -7,7 +7,8 @@ require('app')
  */
 function term(
   primus,
-  $window
+  $window,
+  debounce
 ) {
   return {
     restrict: 'E',
@@ -57,22 +58,6 @@ function term(
           terminal.writeln('******************************');
         });
 
-        resizeTerm();
-        if (typeof $window.onresize === 'function') {
-          var oldResize = $window.onresize;
-          $window.onresize = function () {
-            oldResize();
-            resizeTerm();
-          };
-        } else {
-          $window.onresize = resizeTerm;
-        }
-
-        $scope.$on('$destroy', function () {
-          termStream.end();
-          terminal.destroy();
-        });
-
         function resizeTerm() {
           var x = Math.floor(terminal.element.scrollWidth / CHAR_WIDTH);
           var y = Math.floor(terminal.element.scrollHeight / CHAR_HEIGHT);
@@ -81,7 +66,6 @@ function term(
             terminal.resize(x, y);
 
             if (clientEvents) {
-              console.log(x, y);
               clientEvents.write({
                 event: 'resize',
                 data: {
@@ -92,6 +76,24 @@ function term(
             }
           }
         }
+
+        var dResizeTerm = debounce(resizeTerm, 300);
+
+        dResizeTerm();
+        if (typeof $window.onresize === 'function') {
+          var oldResize = $window.onresize;
+          $window.onresize = function () {
+            oldResize();
+            dResizeTerm();
+          };
+        } else {
+          $window.onresize = dResizeTerm;
+        }
+
+        $scope.$on('$destroy', function () {
+          termStream.end();
+          terminal.destroy();
+        });
       });
     }
   };
