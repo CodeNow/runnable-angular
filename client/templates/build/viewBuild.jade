@@ -19,7 +19,7 @@ nav.sub-header
         use(xlink:href = "#icons-fail")
     | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4)+'...' }}
 
-  //- all buttons should be disabled during a build
+  //- only show cancel build during a build
   section#main-controls
     //- on failed builds, run instance needs to be disabled
     button.green(
@@ -55,6 +55,7 @@ nav.sub-header
       type = "button"
       ng-click = "dataBuild.actions.edit()"
     ) Edit Build
+    //- button.silver Cancel Build
 
 section.sidebar
   ul(ng-show = "dataBuild.data.build.attrs.created")
