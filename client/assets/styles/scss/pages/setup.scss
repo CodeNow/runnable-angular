@@ -81,6 +81,7 @@
       cursor: pointer;
       max-height: 36px;
       overflow: hidden;
+      padding: 0;
       transition: max-height .2s;
 
       &.in {
@@ -104,6 +105,7 @@
     .repo-group-item {
       height: 36px;
       overflow: hidden;
+      padding: 0 9px;
       text-overflow: ellipsis;
       white-space: nowrap;
 
@@ -122,7 +124,7 @@
     }
 
     .btn-block {
-      margin: 0;
+      margin: 15px 0 0;
       width: 100%;
     }
   }
