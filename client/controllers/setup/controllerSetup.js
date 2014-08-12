@@ -20,7 +20,6 @@ function ControllerSetup(
   var dataSetup = $scope.dataSetup = self.initState();
   var data = dataSetup.data;
   var actions = dataSetup.actions;
-  data.userClient = user;
   data.openItems = new OpenItems();
 
   // Determine readonly state
