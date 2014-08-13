@@ -18,6 +18,7 @@
 .add-repo-form {
   border-radius: 0 0 3px 3px;
   bottom: auto;
+  box-shadow: 0 1px 10px rgba(0,0,0,.1), 0 1px 0 $white;
   display: flex;
   flex-direction: column;
   left: 0;
@@ -173,6 +174,7 @@
 
       &.in {
         border-radius: 3px 3px 0 0;
+        box-shadow: none;
 
         ~ {
 
