@@ -20,7 +20,7 @@ ul.list-group
         input.form-control.form-validate(
           check-commit-or-branch = "repo"
           list = "repo-branches-{{ repo.attrs.name }}"
-          name = "'repo-version-'+repo.attrs.name"
+          name = "{{ 'repo-version-'+repo.attrs.name }}"
           ng-model = "repo.selectedBranchOrCommit"
           placeholder = "Branch/SHA (default: @master)"
         )
