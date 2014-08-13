@@ -53,7 +53,7 @@ function ControllerSetup(
   };
 
   actions.addGithubRepos = function (valid) {
-    if(!$valid) {
+    if(!valid) {
       return;
     }
     var count = data.selectedRepos.models.length;
