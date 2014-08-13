@@ -40,7 +40,7 @@
 .tree-input,
 .tree-input:focus {
   background: $white;
-  border-color: rgba(0,0,0,.1);
+  border-color: rgba($black,.1);
   box-shadow: none;
   cursor: text;
   display: inline-block;
@@ -80,25 +80,29 @@
     background: $white;
   }
 
-  span {
+  .repo-name {
     display: inline-block;
     height: 27px;
     pointer-events: none;
     text-indent: 0;
   }
 
-  input {
-    bottom: 0;
+  .tree-input {
+    bottom: 5px;
     color: $gray-dark;
     left: 32px;
-    margin-bottom: 5px;
     position: absolute;
-    width: 197px !important;
+    top: auto;
+    width: 197px;
+
+    &[readonly] {
+      opacity: 1;
+    }
   }
 }
 
 .file-tree {
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   max-height: calc(100vh - 126px);
   white-space: nowrap;
 
@@ -132,7 +136,7 @@
 
     &::after {
       @extend .arrow-right;
-      border-left-color: rgba(0,0,0,.2) !important;
+      border-left-color: rgba($black,.2) !important;
       content: '';
       left: 7px;
       pointer-events: none;

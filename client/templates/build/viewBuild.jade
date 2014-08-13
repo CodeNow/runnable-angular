@@ -146,7 +146,7 @@ section.sidebar
       li(
         ng-repeat = "repoModel in dataBuild.data.version.appCodeVersions.models"
       )
-        span
+        span.repo-name
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
           | {{ repoModel.attrs.repo }}
