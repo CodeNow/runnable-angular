@@ -11,6 +11,7 @@ section.sidebar
   ng-form.popover.bottom.fade.add-repo-form(
     name = "githubReposForm"
     ng-class = "{in: dataSetup.data.isRepoMode}"
+    ng-click = "$event.stopPropagation();"
     ng-include = "'viewSetupPopoverAddRepos'"
   )
   form(
@@ -19,12 +20,9 @@ section.sidebar
     #setup-repo
       .input-container
         input.form-control(
+          ng-click = "$event.stopPropagation()"
           ng-class = "{in: dataSetup.data.isRepoMode}"
           ng-focus = "dataSetup.data.isRepoMode = true"
-          ng-blur = " \
-            dataSetup.data.isRepoMode = false; \
-            dataSetup.data.repoFilter = ''; \
-          "
           ng-model = "dataSetup.data.repoFilter"
           placeholder = "Add Repository"
         )

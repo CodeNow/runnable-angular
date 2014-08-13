@@ -34,6 +34,6 @@ ul.list-group
         .the-rules.inline We can't find that branch or commit.
 //- bonus points if we can apply class 'out' if: (no matching repos) && (no selected repos)
 button.btn-block.green(
-  ng-click = "dataSetup.actions.addGithubRepos()"
+  ng-click = "dataSetup.actions.addGithubRepos(githubReposForm.$valid)"
   type = "button"
 ) Add {{ dataSetup.data.selectedRepos.models.length }} Repositor{{ dataSetup.data.selectedRepos.models.length === 1 ? 'y' : 'ies' }}
