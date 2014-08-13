@@ -21,6 +21,8 @@ section.sidebar
         input.form-control(
           ng-class = "{in: dataSetup.data.isRepoMode}"
           ng-focus = "dataSetup.data.isRepoMode = true"
+          ng-blur = "dataSetup.data.isRepoMode = false; \
+                     dataSetup.data.repoFilter = '';"
           ng-model = "dataSetup.data.repoFilter"
           placeholder = "Add Repository"
         )

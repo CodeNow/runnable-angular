@@ -12,7 +12,6 @@ require('app')
         function (scope, element, attrs, injector) {
           var $interpolate = injector.get('$interpolate');
           attrs.$set('name', $interpolate(attrs.name || '')(scope));
-          console.log('name', attrs.name);
           injector.invoke(controller, this, {
             '$scope': scope,
             '$element': element,
