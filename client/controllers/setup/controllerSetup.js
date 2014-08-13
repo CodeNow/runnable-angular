@@ -32,6 +32,11 @@ function ControllerSetup(
     data.isReadOnly = bool;
   });
 
+  $scope.$on('app-document-click', function () {
+    data.isRepoMode = false;
+    data.repoFilter = '';
+  });
+
   actions.selectGithubRepo = function (repo, branchName) {
     if (data.selectedRepos.contains(repo)) {
       delete repo.selectedBranch;
@@ -47,7 +52,10 @@ function ControllerSetup(
     $scope.safeApply();
   };
 
-  actions.addGithubRepos = function () {
+  actions.addGithubRepos = function (valid) {
+    if(!$valid) {
+      return;
+    }
     var count = data.selectedRepos.models.length;
     async.forEach(data.selectedRepos.models, function (repo, cb) {
       var body = {
@@ -66,7 +74,10 @@ function ControllerSetup(
       if (count === 0) {
         assumeSuccess();
       }
-      data.contextVersion.appCodeVersions.create(body, cb);
+      data.contextVersion.appCodeVersions.create(body, function () {
+        $scope.safeApply();
+        cb();
+      });
     }, function (err) {
       if (err) {
         revertOnErr();
