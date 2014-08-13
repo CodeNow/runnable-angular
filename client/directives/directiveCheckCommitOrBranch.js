@@ -20,6 +20,7 @@ function checkCommitOrBranch(
 
       var checkValid = debounce(function (branchOrCommit) {
         if(!branchOrCommit || ctrl.$pristine) {
+          ctrl.$setValidity('commitFound', true);
           return branchOrCommit;
         }
         if (isBranch(branchOrCommit)) {
@@ -41,7 +42,6 @@ function checkCommitOrBranch(
 
         function isBranch (name) {
           return repo.branches.models.some(function (branch) {
-            console.log('isBranch', branch.name, name);
             return branch.attrs.name === name;
           });
         }
