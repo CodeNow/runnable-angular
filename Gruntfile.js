@@ -349,7 +349,7 @@ module.exports = function(grunt) {
     var done = this.async();
     var clientPath = path.join(__dirname, 'client');
     var configObj = {};
-    configObj.host = process.env.API_HOST || 'http://api.runnable3.net/';
+    configObj.host = process.env.API_HOST || 'http://api.runnable3.net';
     var configJSON = JSON.stringify(configObj);
     fs.writeFile(path.join(clientPath, 'config', 'json', 'api.json'), configJSON, function () {
       done();
