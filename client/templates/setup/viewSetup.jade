@@ -27,7 +27,7 @@ section.sidebar
           placeholder = "Add Repository"
         )
         button.btn-icon.inactive(
-          ng-click = "dataSetup.data.isRepoMode = true"
+          ng-click = "dataSetup.data.isRepoMode = true; $event.stopPropagation();"
           type = "button"
         )
           svg.iconnables.icons-arrow-down
