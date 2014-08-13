@@ -1,5 +1,5 @@
 require('app')
-  .config('$provide', function ($provide) {
+  .config(['$provide', function ($provide) {
     $provide.decorator('formDirective', ['$delegate', function ($delegate) {
       var form       = $delegate[0],
           controller = form.controller;
@@ -10,9 +10,9 @@ require('app')
         '$attrs',
         '$injector',
         function (scope, element, attrs, injector) {
-          var $interpolate = $injector.get('$interpolate');
+          var $interpolate = injector.get('$interpolate');
           attrs.$set('name', $interpolate(attrs.name || attrs.ngForm || '')(scope));
-          $injector.invoke(controller, this, {
+          injector.invoke(controller, this, {
             '$scope': scope,
             '$element': element,
             '$attrs': attrs
@@ -21,4 +21,4 @@ require('app')
 
       return $delegate;
     }]);
-  });
+  }]);
