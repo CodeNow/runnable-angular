@@ -71,8 +71,29 @@
       }
     }
 
+    &:first-child {
+      display: none;
+      font-size: 13px;
+      height: 63px;
+      max-height: 63px;
+      padding: 0 9px;
+      text-align: center;
+
+      em {
+        display: block;
+        line-height: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
     &:last-child {
       border-bottom: 0;
+    }
+
+    &:only-child {
+      display: block;
     }
   }
 
@@ -113,6 +134,10 @@
 
   .btn-block {
     flex: 0 0 auto;
+
+    &.out {
+      display: none;
+    }
   }
 
   .list-group {
@@ -144,6 +169,7 @@
 
     > .form-control {
       margin: 0;
+      padding-right: 30px;
 
       &.in {
         border-radius: 3px 3px 0 0;
