@@ -29,6 +29,7 @@
   position: absolute;
   right: 0;
   top: 15px;
+  transform: scale3d(1,1,1) translate3d(0,-50%,0);
   transform-origin: 50% 0;
   transition: all .2s ease-in;
   width: calc(100% - 30px);
@@ -146,20 +147,20 @@
 
       &.in {
         border-radius: 3px 3px 0 0;
+
+        ~ {
+
+          .active {
+            transform: scale3d(1,1,1);
+          }
+
+          .inactive {
+            transform: scale3d(0,0,0);
+          }
+        }
       }
     }
   }
-
-  // .popover.in ~ .input-container {
-
-  //   .active {
-  //     transform: scale3d(1,1,1);
-  //   }
-
-  //   .inactive {
-  //     transform: scale3d(0,0,0);
-  //   }
-  // }
 }
 
 .added-repo {
