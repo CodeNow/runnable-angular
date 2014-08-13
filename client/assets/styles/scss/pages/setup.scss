@@ -139,17 +139,23 @@
 
   > li {
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &:first-child {
       margin-top: 15px;
+      padding-right: 30px;
     }
   }
 
-  button {
+  .btn-icon {
     color: $gray-dark;
-    float: right;
-    height: 35px;
+    height: 36px;
     opacity: .5;
+    padding: 0;
+    position: absolute;
+    right: 3px;
+    top: 3px;
     width: 24px;
 
     &:hover {
