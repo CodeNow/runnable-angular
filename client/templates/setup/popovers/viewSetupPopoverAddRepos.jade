@@ -1,30 +1,29 @@
-.popover-content
-  ul.list-group
-    li.list-group-item(
-      ng-class = "{in: dataSetup.data.selectedRepos.contains(repo)}"
-      ng-repeat = "repo in dataSetup.data.githubRepos.models | \
-        unaddedRepos:dataSetup.data.contextVersion.appCodeVersions | \
-        repos:dataSetup.data.repoFilter"
-    )
-      ol.repo-group
-        li.repo-group-item(ng-click = "dataSetup.actions.selectGithubRepo(repo)") {{ repo.attrs.full_name }}
-          svg.iconnables.icons-check
-            use(xlink:href = "#icons-check")
-        li.repo-group-item
-          //- list and ID properties need to be unique per repo
-          input.form-control.form-validate(
-            list = "repo-branches-{{ repo.attrs.name }}"
-            placeholder = "Branch/SHA (default: @master)"
-            ng-model = "repo.selectedBranchOrCommit"
-            ng-change = "dataSetup.actions.selectBranchOrCommit(repo)"
+ul.list-group
+  li.list-group-item(
+    ng-class = "{in: dataSetup.data.selectedRepos.contains(repo)}"
+    ng-repeat = "repo in dataSetup.data.githubRepos.models | \
+      unaddedRepos:dataSetup.data.contextVersion.appCodeVersions | \
+      repos:dataSetup.data.repoFilter"
+  )
+    ol.repo-group
+      li.repo-group-item(ng-click = "dataSetup.actions.selectGithubRepo(repo)") {{ repo.attrs.full_name }}
+        svg.iconnables.icons-check
+          use(xlink:href = "#icons-check")
+      li.repo-group-item
+        //- list and ID properties need to be unique per repo
+        input.form-control.form-validate(
+          list = "repo-branches-{{ repo.attrs.name }}"
+          placeholder = "Branch/SHA (default: @master)"
+          ng-model = "repo.selectedBranchOrCommit"
+          ng-change = "dataSetup.actions.selectBranchOrCommit(repo)"
+        )
+        datalist(id="repo-branches-{{ repo.attrs.name }}")
+          option(
+            ng-repeat = "branch in repo.branches.models"
+            value = "{{ branch.attrs.name }}"
           )
-          datalist(id="repo-branches-{{ repo.attrs.name }}")
-            option(
-              ng-repeat = "branch in repo.branches.models"
-              value = "{{ branch.attrs.name }}"
-            )
-          .the-rules.inline We can't find that branch or commit.
-  button.btn-block.green(
-    ng-click = "dataSetup.actions.addGithubRepos()"
-    type = "button"
-  ) Add {{ dataSetup.data.selectedRepos.models.length }} Repositor{{ dataSetup.data.selectedRepos.models.length === 1 ? 'y' : 'ies' }}
+        .the-rules.inline We can't find that branch or commit.
+button.btn-block.green(
+  ng-click = "dataSetup.actions.addGithubRepos()"
+  type = "button"
+) Add {{ dataSetup.data.selectedRepos.models.length }} Repositor{{ dataSetup.data.selectedRepos.models.length === 1 ? 'y' : 'ies' }}

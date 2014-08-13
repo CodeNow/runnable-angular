@@ -8,16 +8,17 @@ nav.sub-header
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
 section.sidebar
+  .popover.bottom.fade.add-repo-form(
+    ng-class = "{in: dataSetup.data.isRepoMode}"
+    ng-include = "'viewSetupPopoverAddRepos'"
+  )
   form(
     ng-submit = "dataSetup.actions.buildApplication()"
   )
     #setup-repo
-      .popover.bottom.fade(
-        ng-class = "{in: dataSetup.data.isRepoMode}"
-        ng-include = "'viewSetupPopoverAddRepos'"
-      )
       .input-container
         input.form-control(
+          ng-class = "{in: dataSetup.data.isRepoMode}"
           ng-focus = "dataSetup.data.isRepoMode = true"
           ng-model = "dataSetup.data.repoFilter"
           placeholder = "Add Repository"
