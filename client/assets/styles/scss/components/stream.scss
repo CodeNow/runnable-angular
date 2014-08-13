@@ -223,6 +223,10 @@
     text-align: right;
   }
 
+  td:last-child {
+    overflow: visible;
+  }
+
   .build-status {
     display: flex;
     min-width: 36px;
