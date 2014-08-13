@@ -10,4 +10,5 @@ client/controllers/index.js
 client/services/index.js
 client/filters/index.js
 client/directives/index.js
+client/decorators/index.js
 client/animations/index.js
