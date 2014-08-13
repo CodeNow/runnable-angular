@@ -13,7 +13,8 @@ function ControllerProjectLayout(
   $stateParams,
   user,
   keypather,
-  callbackCount
+  callbackCount,
+  hasKeypaths
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -29,20 +30,56 @@ function ControllerProjectLayout(
     if (entity) {
       return isUser(entity) ?
         entity.attrs.accounts.github.username : // user
-        entity.login; // org
+        entity.attrs.login; // org
+    }
+  };
+  actions.getEntityId = function (entity) {
+    if (entity) {
+      return isUser(entity) ?
+        entity.attrs.accounts.github.id : //user
+        entity.attrs.id; //org
     }
   };
   actions.getEntityGravatar = function (entity) {
     if (entity) {
       return isUser(entity) ?
         entity.attrs.gravatar : // user
-        entity.avatar_url; // org
+        entity.attrs.avatar_url; // org
     }
   };
-  actions.selectProjectOwner = function (userOrOrg) {
-    dataProjectLayout.data.newProjectOwner = userOrOrg;
-    dataProjectLayout.data.showChangeAccount = false;
-    $scope.safeApply();
+  actions.selectProjectOwner = function (userOrOrg, cb) {
+    var name = actions.getEntityName(userOrOrg);
+    data.activeAccount = userOrOrg;
+    data.showChangeAccount = false;
+    data.projects = null;
+    data.instances = null;
+
+    if (cb) {
+      return cb();
+    }
+
+    async.parallel([
+      fetchProjects,
+      fetchInstances
+    ], function (err) {
+      if (err) {
+        return $state.go('404');
+      }
+      if (name === $state.params.userName || $scope.dataApp.state.current.name === 'projects') {
+        // First fetch for the page or we're on /new
+        return;
+      }
+      if (!data.projects.models.length) {
+        // new project
+        return $state.go('projects', {});
+      }
+      var firstProject = data.projects.models[0];
+      $state.go('projects.buildList', {
+        userName: name,
+        projectName: firstProject.attrs.name,
+        branchName: 'master'
+      });
+    });
   };
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
@@ -60,7 +97,7 @@ function ControllerProjectLayout(
       var body = {
         name: dataProjectLayout.data.newProjectName
       };
-      var owner = dataProjectLayout.data.newProjectOwner;
+      var owner = data.activeAccount;
       if (owner !== $scope.dataApp.user) { // org owner selected
         body.owner = {
           github: owner.id
@@ -108,7 +145,7 @@ function ControllerProjectLayout(
       createContextVersion
     ], function (err, thisUser, project, build) {
       $state.go('projects.setup', {
-        userName: thisUser.attrs.accounts.github.username,
+        userName: actions.getEntityName(data.activeAccount),
         projectName: project.attrs.name
       });
     });
@@ -146,20 +183,34 @@ function ControllerProjectLayout(
    * ===========================*/
   function fetchOrgs(cb) {
     var thisUser = $scope.dataApp.user;
-    thisUser.fetchGithubOrgs(function (err, orgs) {
-      dataProjectLayout.data.orgs = orgs;
-      actions.selectProjectOwner(thisUser);
+    data.orgs = thisUser.fetchGithubOrgs(function (err) {
       $scope.safeApply();
-      cb();
+      cb(err);
     });
+  }
+
+  function selectInitialProjectOwner(cb) {
+    var currentUserOrOrgName = $state.params.userName;
+    if (!currentUserOrOrgName ||
+      currentUserOrOrgName === actions.getEntityName($scope.dataApp.user)) {
+      return actions.selectProjectOwner($scope.dataApp.user, cb);
+    }
+    var currentOrg = data.orgs.find(hasKeypaths({
+      'attrs.login.toLowerCase()': currentUserOrOrgName.toLowerCase()
+    }));
+    if (currentOrg) {
+      return actions.selectProjectOwner(currentOrg, cb);
+    }
+    return cb(new Error('User or Org not found'));
   }
 
   function fetchProjects(cb) {
     var thisUser = $scope.dataApp.user;
+    var username = actions.getEntityName(data.activeAccount);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
-        githubUsername: thisUser.attrs.accounts.github.username
+        githubUsername: username
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
         if (dataProjectLayout.data.projects === projects && cached) {
@@ -179,11 +230,12 @@ function ControllerProjectLayout(
 
   function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
+    var id = actions.getEntityId(data.activeAccount);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstances')
       .query({
         owner: {
-          github: thisUser.attrs.accounts.github.id
+          github: id
         }
       })
       .cacheFetch(function updateDom(instances, cached, cb) {
@@ -204,9 +256,16 @@ function ControllerProjectLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
+      selectInitialProjectOwner,
       fetchProjects,
       fetchInstances
-    ]);
+    ], function (err) {
+      if (err) {
+        console.error(err);
+        $state.go('404');
+      }
+      $scope.safeApply();
+    });
   };
   /**
    * New project page
@@ -214,7 +273,8 @@ function ControllerProjectLayout(
   actions.initForNewState = function () {
     async.waterfall([
       holdUntilAuth,
-      fetchOrgs
+      fetchOrgs,
+      selectInitialProjectOwner
     ]);
   };
 
