@@ -89,11 +89,13 @@ function ControllerSetup(
       lastModels = data.selectedRepos.models;
       data.selectedRepos.reset([]);
       data.isRepoMode = false;
+      data.repoFilter = '';
       $scope.safeApply();
     }
     function revertOnErr () {
       data.selectedRepos.reset(lastModels);
       data.isRepoMode = true;
+      data.repoFilter = '';
       $scope.safeApply();
     }
   };
