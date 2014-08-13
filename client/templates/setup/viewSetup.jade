@@ -8,7 +8,8 @@ nav.sub-header
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
 section.sidebar
-  form.popover.bottom.fade.add-repo-form(
+  ng-form.popover.bottom.fade.add-repo-form(
+    name = "githubReposForm"
     ng-class = "{in: dataSetup.data.isRepoMode}"
     ng-include = "'viewSetupPopoverAddRepos'"
   )

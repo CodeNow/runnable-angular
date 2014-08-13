@@ -96,15 +96,22 @@ function ControllerSetup(
     });
   };
 
-  actions.selectBranchOrCommit = function (repo) {
+  actions.validateBranchOrCommit = function (repo) {
     delete repo.selectedCommit;
     delete repo.selectedBranch;
-    repo.invalid = true;
+    repo.valid = false;
     if (isBranch(repo.selectedBranchOrCommit)) {
       repo.selectedBranch = repo.selectedBranchOrCommit;
+      repo.valid = true;
     }
     else {
       repo.selectedCommit = repo.selectedBranchOrCommit;
+      repo.fetchCommit(repo.selectedCommit, function (err) {
+        if (!err) {
+          repo.valid = true;
+          $scope.safeApply();
+        }
+      });
     }
     $scope.safeApply();
 

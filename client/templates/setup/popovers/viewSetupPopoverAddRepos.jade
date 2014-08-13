@@ -9,13 +9,16 @@ ul.list-group
       li.repo-group-item(ng-click = "dataSetup.actions.selectGithubRepo(repo)") {{ repo.attrs.full_name }}
         svg.iconnables.icons-check
           use(xlink:href = "#icons-check")
-      li.repo-group-item
+      li.repo-group-item(
+        ng-class = "{invalid: githubReposForm['repo-version-' + repo.attrs.name].$invalid}"
+      )
         //- list and ID properties need to be unique per repo
         input.form-control.form-validate(
+          name = "'repo-version-'+repo.attrs.name"
           list = "repo-branches-{{ repo.attrs.name }}"
           placeholder = "Branch/SHA (default: @master)"
           ng-model = "repo.selectedBranchOrCommit"
-          ng-change = "dataSetup.actions.selectBranchOrCommit(repo)"
+          check-commit-or-branch = "repo"
         )
         datalist(id="repo-branches-{{ repo.attrs.name }}")
           option(
