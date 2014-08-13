@@ -54,6 +54,7 @@ header(
         ng-model = "dataProjectLayout.data.newProjectName"
         ng-pattern = "/^[A-Za-z0-9_-]+$/"
         placeholder = "Application Name"
+        spellcheck = "false"
       )
       //- if invalid character is entered
       .the-rules(ng-class = "{'in': dataProjectLayout.data.newProjectNameForm.$invalid}") We accept #{''}
@@ -98,3 +99,5 @@ header(
         small.build-url {{ instance.buildUrl() }}
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
+  .spinner.lg
+    .spinner-ring

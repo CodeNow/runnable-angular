@@ -8,16 +8,20 @@ nav.sub-header
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
 section.sidebar
+  ng-form.popover.bottom.fade.add-repo-form(
+    name = "githubReposForm"
+    ng-class = "{in: dataSetup.data.isRepoMode}"
+    ng-click = "$event.stopPropagation();"
+    ng-include = "'viewSetupPopoverAddRepos'"
+  )
   form(
     ng-submit = "dataSetup.actions.buildApplication()"
   )
     #setup-repo
-      .popover.bottom.fade(
-        ng-class = "{in: dataSetup.data.isRepoMode}"
-        ng-include = "'viewSetupPopoverAddRepos'"
-      )
       .input-container
         input.form-control(
+          ng-click = "$event.stopPropagation()"
+          ng-class = "{in: dataSetup.data.isRepoMode}"
           ng-focus = "dataSetup.data.isRepoMode = true"
           ng-model = "dataSetup.data.repoFilter"
           placeholder = "Add Repository"
@@ -35,14 +39,17 @@ section.sidebar
           svg.iconnables.icons-close
             use(xlink:href = "#icons-close")
       //- if there are duplicate repo names, use name-2, name-3, and so on.
-      ul.added-repo.list-group
-        li.list-group-item(ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models") {{ appCodeVersion.attrs.repo.split('/')[1] }}
+      ul.added-repo.list-group(
+        ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models"
+      )
+        li.list-group-item{{ appCodeVersion.attrs.repo }}
           button.btn-icon(
             ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
             type = "button"
           )
             svg.iconnables.icons-delete
               use(xlink:href = "#icons-delete")
+        li.list-group-item {{ appCodeVersion.attrs.lockCommit ? '#'+appCodeVersion.attrs.commit : '@'+appCodeVersion.attrs.branch }}
     #setup-template
       h3 Choose a Docker Template
       .form-group.toggle-group
@@ -51,14 +58,18 @@ section.sidebar
           ng-repeat = "context in dataSetup.data.seedContexts.models"
         ) {{ context.attrs.name }}
           input(
-            name = "{{ context.attrs.name }}"
+            name = "source-context"
             ng-click = "dataSetup.actions.selectSourceContext(context)"
+            ng-
             required
             type = "radio"
           )
-    button.btn-block.green(
+    button.btn-block.green.btn-spinner(
       type = "submit"
-    ) Build Application
+    )
+      .spinner
+        .spinner-ring
+      | Build Application
 #editor.full
   tabs#editor-toolbar(
     open-items = "dataSetup.data.openItems"
@@ -68,3 +79,4 @@ section.sidebar
     read-only = "dataSetup.data.isReadOnly"
     update = "true"
   )
+  .horizontal-spinner

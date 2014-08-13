@@ -9,6 +9,7 @@ function dynamicAttr(
 ) {
   return {
     restrict: 'A',
+    priority: -1,
     link: function ($scope, element, attrs) {
 
       var jQuery = require('jquery');

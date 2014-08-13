@@ -15,8 +15,141 @@
   }
 }
 
+.add-repo-form {
+  border-radius: 0 0 3px 3px;
+  bottom: auto;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  margin: 0 auto;
+  max-height: calc(100% - 36px);
+  opacity: 0;
+  overflow: hidden;
+  padding: 24px 0 0;
+  position: absolute;
+  right: 0;
+  top: 15px;
+  transform: scale3d(1,1,1) translate3d(0,-50%,0);
+  transform-origin: 50% 0;
+  transition: all .2s ease-in;
+  width: calc(100% - 30px);
+  z-index: $z-popover;
+
+  &.in {
+    transform: translate3d(0,0,0);
+  }
+
+  .icons-check {
+    color: $green;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    transform: scale3d(0,0,0);
+  }
+
+  .list-group-item {
+    border-color: rgba($black,.15);
+    border-left: 0;
+    border-radius: 0;
+    border-right: 0;
+    cursor: pointer;
+    max-height: 36px;
+    overflow: hidden;
+    padding: 0;
+    transition: max-height .2s;
+
+    &.in {
+      max-height: 108px;
+
+      .icons-check {
+        transform: scale3d(1,1,1);
+      }
+
+      .repo-group-item:first-child {
+        font-weight: 500;
+        padding-right: 12px;
+      }
+    }
+
+    &:first-child {
+      display: none;
+      font-size: 13px;
+      height: 63px;
+      max-height: 63px;
+      padding: 0 9px;
+      text-align: center;
+
+      em {
+        display: block;
+        line-height: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &:only-child {
+      display: block;
+    }
+  }
+
+  .repo-group-item {
+    height: 36px;
+    overflow: hidden;
+    padding: 0 9px;
+    text-overflow: ellipsis;
+    transition: height .2s ease-in;
+    white-space: nowrap;
+
+    &:nth-child(n+2) {
+      margin: 0 -9px;
+    }
+
+    &.invalid {
+      height: 54px;
+    }
+  }
+
+  .form-control {
+    border: 0;
+    border-radius: 0;
+    font-size: 14px;
+    margin: 0;
+    padding: 0 9px;
+    text-indent: 0;
+  }
+
+  .form-validate {
+    background-position: 97% 50% !important;
+    background-size: 24px 24px !important;
+
+    &.ng-valid {
+      background: none;
+    }
+  }
+
+  .btn-block {
+    flex: 0 0 auto;
+
+    &.out {
+      display: none;
+    }
+  }
+
+  .list-group {
+    border-bottom: 1px solid rgba($black,.1);
+    margin: 0;
+    max-height: calc(100% - 51px);
+    overflow: auto;
+  }
+}
+
 #setup-repo {
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   padding: 15px;
 
   .input-container {
@@ -33,105 +166,26 @@
     > .active {
       transform: scale3d(0,0,0);
     }
-  }
 
-  .popover.in ~ .input-container {
-
-    .active {
-      transform: scale3d(1,1,1);
-    }
-
-    .inactive {
-      transform: scale3d(0,0,0);
-    }
-  }
-
-  .popover {
-    background: rgba(255,255,255,.9);
-    border: 0;
-    box-shadow: none;
-    height: 100%;
-    margin: 0;
-    opacity: 0;
-    padding: 0;
-    transform: translate3d(0,-50%,0);
-    transition: opacity .3s ease-in-out, transform .6s;
-    width: 100%;
-    z-index: $z-popover;
-
-    &.in {
-      opacity: 1;
-      transform: translate3d(0,0,0);
-      transition: opacity .3s .1s ease-in-out, transform .3s;
-    }
-
-    .icons-check {
-      color: $green;
-      position: absolute;
-      right: 6px;
-      top: 6px;
-      transform: scale3d(0,0,0);
-    }
-
-    .list-group-item {
-      cursor: pointer;
-      max-height: 36px;
-      overflow: hidden;
-      transition: max-height .2s;
+    > .form-control {
+      margin: 0;
+      padding-right: 30px;
 
       &.in {
-        max-height: 108px;
+        border-radius: 3px 3px 0 0;
 
-        .icons-check {
-          transform: scale3d(1,1,1);
+        ~ {
+
+          .active {
+            transform: scale3d(1,1,1);
+          }
+
+          .inactive {
+            transform: scale3d(0,0,0);
+          }
         }
-
-        .repo-group-item:first-child {
-          font-weight: 500;
-          padding-right: 12px;
-        }
-      }
-
-      &:only-child {
-        border-bottom-width: 2px;
       }
     }
-
-    .repo-group-item {
-      height: 36px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      &:nth-child(n+2) {
-        margin: 0 -9px;
-      }
-    }
-
-    .form-control {
-      border: 0;
-      border-radius: 0;
-      font-size: 14px;
-      margin: 0;
-      padding: 0 9px;
-      text-indent: 0;
-    }
-
-    .btn-block {
-      margin: 0;
-      width: 100%;
-    }
-  }
-
-  .popover-content {
-    height: 100%;
-    overflow: hidden;
-    padding: 66px 15px 15px;
-  }
-
-  .list-group {
-    max-height: calc(100% - 51px);
-    overflow: auto;
   }
 }
 
@@ -145,6 +199,10 @@
     &:first-child {
       margin-top: 15px;
       padding-right: 30px;
+    }
+
+    &:last-child {
+      font-weight: 300;
     }
   }
 

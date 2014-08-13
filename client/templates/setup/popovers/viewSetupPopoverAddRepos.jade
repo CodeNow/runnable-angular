@@ -1,27 +1,39 @@
-.popover-content
-  ul.list-group
-    li.list-group-item(
-      ng-class = "{in: dataSetup.data.selectedRepos.contains(repo)}"
-      ng-repeat = "repo in dataSetup.data.githubRepos.models | \
-        unaddedRepos:dataSetup.data.contextVersion.appCodeVersions | \
-        repos:dataSetup.data.repoFilter"
-    )
-      ol.repo-group
-        li.repo-group-item(ng-click = "dataSetup.actions.selectGithubRepo(repo)") {{ repo.attrs.name }}
-          svg.iconnables.icons-check
-            use(xlink:href = "#icons-check")
-        li.repo-group-item
-          //- list and ID properties need to be unique per repo
-          input.form-control(
-            list = "repo-branches"
-            placeholder = "Branch/SHA (default: @master)"
+ul.list-group
+  li.list-group-item We couldn't find any repos matching
+    em &lsquo;{{ dataSetup.data.repoFilter }}&rsquo;.
+  li.list-group-item(
+    ng-class = "{in: dataSetup.data.selectedRepos.contains(repo)}"
+    ng-repeat = "repo in dataSetup.data.githubRepos.models | \
+      unaddedRepos:dataSetup.data.contextVersion.appCodeVersions | \
+      repos:dataSetup.data.repoFilter"
+  )
+    ol.repo-group
+      li.repo-group-item(
+        ng-click = "dataSetup.actions.selectGithubRepo(repo)"
+      ) {{ repo.attrs.full_name }}
+        svg.iconnables.icons-check
+          use(xlink:href = "#icons-check")
+      li.repo-group-item(
+        ng-class = "{invalid: githubReposForm['repo-version-' + repo.attrs.name].$invalid}"
+      )
+        //- list and ID properties need to be unique per repo
+        input.form-control.form-validate(
+          check-commit-or-branch = "repo"
+          list = "repo-branches-{{ repo.attrs.name }}"
+          name = "{{ 'repo-version-'+repo.attrs.name }}"
+          ng-model = "repo.selectedBranchOrCommit"
+          placeholder = "Branch/SHA (default: @master)"
+        )
+        datalist(
+          id="repo-branches-{{ repo.attrs.name }}"
+        )
+          option(
+            ng-repeat = "branch in repo.branches.models"
+            value = "{{ branch.attrs.name }}"
           )
-          datalist(id = "repo-branches")
-            option(
-              ng-repeat = "branch in repo.branches.models"
-              value = "{{ branch.attrs.name }}"
-            )
-  button.btn-block.green(
-    ng-click = "dataSetup.actions.addGithubRepos()"
-    type = "button"
-  ) Add {{ dataSetup.data.selectedRepos.models.length }} Repositor{{ dataSetup.data.selectedRepos.models.length === 1 ? 'y' : 'ies' }}
+        .the-rules.inline We can't find that branch or commit.
+//- bonus points if we can apply class 'out' if: (no matching repos) && (no selected repos)
+button.btn-block.green(
+  ng-click = "dataSetup.actions.addGithubRepos(githubReposForm.$valid)"
+  type = "button"
+) Add {{ dataSetup.data.selectedRepos.models.length }} Repositor{{ dataSetup.data.selectedRepos.models.length === 1 ? 'y' : 'ies' }}

@@ -303,6 +303,7 @@ module.exports = function(grunt) {
       bundle('services'),
       bundle('filters'),
       bundle('directives'),
+      bundle('decorators'),
       bundle('animations')
     ], function () { done(); });
 

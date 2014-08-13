@@ -1,8 +1,35 @@
 .spinner {
   height: 16px;
-  top: 19px;
+  margin: auto;
+  position: relative;
   transition: transform .3s;
   width: 16px;
+
+  &.lg {
+    height: 60px;
+    width: 60px;
+
+    &::before {
+      border-radius: 60px 0 0 60px;
+      height: 60px;
+      transform-origin: 30px 30px;
+      width: 30px;
+    }
+
+    &::after {
+      border-radius: 0 60px 60px 0;
+      height: 60px;
+      left: 30px;
+      transform-origin: 0 30px;
+      width: 30px;
+    }
+
+    .spinner-ring {
+      height: 48px;
+      margin: 6px;
+      width: 48px;
+    }
+  }
 }
 
 .spinner::before,
@@ -12,8 +39,8 @@
 }
 
 .spinner::before {
-  animation: rotate 1s infinite ease .25s;
-  background: $orange;
+  animation: rotate 1s infinite ease;
+  background: currentColor;
   border-radius: 16px 0 0 16px;
   height: 16px;
   left: 0;
@@ -23,8 +50,8 @@
 }
 
 .spinner::after {
-  animation: rotate 1s infinite ease;
-  background: $orange;
+  animation: rotate 1s infinite ease -.25s;
+  background: currentColor;
   border-radius: 0 16px 16px 0;
   height: 16px;
   left: 8px;
@@ -43,9 +70,47 @@
   z-index: 1;
 }
 
+// on buttons
+.btn-spinner {
+  text-indent: -16px;
+
+  > .spinner {
+    color: $white;
+    display: inline-block;
+    margin-right: 6px;
+    top: 2px;
+    transform: scale3d(0,0,0);
+  }
+
+  &.in > .spinner {
+    transform: scale3d(1,1,1);
+  }
+
+  &.green .spinner-ring {
+    background: $green;
+  }
+}
+
+// main spinner
+main > .spinner {
+  color: $purple;
+  top: calc(50% - 30px);
+  transform: translate3d(0,0,0);
+  transition: transform .3s ease-in;
+}
+
+header.in ~ main > .spinner {
+  transform: translate3d(50vw,0,0);
+}
+
 // build list spinner
 .build-status {
   position: relative;
+
+  > .spinner {
+    color: $orange;
+    top: 19px;
+  }
 
   > .iconnables,
   > .spinner {

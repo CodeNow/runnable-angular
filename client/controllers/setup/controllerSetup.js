@@ -32,8 +32,14 @@ function ControllerSetup(
     data.isReadOnly = bool;
   });
 
-  actions.selectGithubRepo = function (repo) {
+  $scope.$on('app-document-click', function () {
+    data.isRepoMode = false;
+    data.repoFilter = '';
+  });
+
+  actions.selectGithubRepo = function (repo, branchName) {
     if (data.selectedRepos.contains(repo)) {
+      delete repo.selectedBranch;
       data.selectedRepos.remove(repo);
     } else {
       data.selectedRepos.add(repo);
@@ -46,21 +52,52 @@ function ControllerSetup(
     $scope.safeApply();
   };
 
-  actions.addGithubRepos = function () {
+  actions.addGithubRepos = function (valid) {
+    if(!valid) {
+      return;
+    }
+    var count = data.selectedRepos.models.length;
     async.forEach(data.selectedRepos.models, function (repo, cb) {
       var body = {
         repo: repo.attrs.full_name
-        // branch: 'master' // TODO
       };
-      data.contextVersion.appCodeVersions.create(body, cb);
+      if (repo.selectedBranch) {
+        body.branch = repo.selectedBranch;
+      }
+      else if (repo.selectedCommit) {
+        body.commit = repo.selectedCommit;
+      }
+      else {
+        body.branch = 'master';
+      }
+      count = count - 1;
+      if (count === 0) {
+        assumeSuccess();
+      }
+      data.contextVersion.appCodeVersions.create(body, function () {
+        $scope.safeApply();
+        cb();
+      });
     }, function (err) {
       if (err) {
+        revertOnErr();
         throw err;
       }
+    });
+    var lastModels;
+    function assumeSuccess () {
+      lastModels = data.selectedRepos.models;
       data.selectedRepos.reset([]);
       data.isRepoMode = false;
+      data.repoFilter = '';
       $scope.safeApply();
-    });
+    }
+    function revertOnErr () {
+      data.selectedRepos.reset(lastModels);
+      data.isRepoMode = true;
+      data.repoFilter = '';
+      $scope.safeApply();
+    }
   };
 
   actions.removeGithubRepo = function (appCodeVersion) {
@@ -70,6 +107,32 @@ function ControllerSetup(
       }
       $scope.safeApply();
     });
+  };
+
+  actions.validateBranchOrCommit = function (repo) {
+    delete repo.selectedCommit;
+    delete repo.selectedBranch;
+    repo.valid = false;
+    if (isBranch(repo.selectedBranchOrCommit)) {
+      repo.selectedBranch = repo.selectedBranchOrCommit;
+      repo.valid = true;
+    }
+    else {
+      repo.selectedCommit = repo.selectedBranchOrCommit;
+      repo.fetchCommit(repo.selectedCommit, function (err) {
+        if (!err) {
+          repo.valid = true;
+          $scope.safeApply();
+        }
+      });
+    }
+    $scope.safeApply();
+
+    function isBranch (name) {
+      return repo.branches.models.some(function (name) {
+        return repo.name === name;
+      });
+    }
   };
 
   /**
