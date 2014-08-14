@@ -14,13 +14,13 @@
           use(xlink:href = "#icons-git-new")
         | Add Repo
 
-    #add-repo.popover-body
+    .explorer-add-repo.popover-body
       form.search
         input.form-control(
-          type = "search"
-          placeholder = "Filter Repositories"
           ng-model = "data.repoFilter"
+          placeholder = "Filter Repositories"
           required
+          type = "search"
         )
         button.submit
           svg.iconnables.icons-search
@@ -29,17 +29,17 @@
             use(xlink:href = "#icons-search-active")
       ul.popover-list
         li(
+          ng-class = "{ in: data.selectedRepo === repo }"
+          ng-click = "data.selectedRepo = repo; data.repoOrSHA = '';"
           ng-repeat = "repo in data.githubRepos.models | \
             unaddedRepos:data.appCodeVersions | \
             repos:data.repoFilter"
-          ng-class = "{ in: data.selectedRepo === repo }"
-          ng-click = "data.selectedRepo = repo; data.repoOrSHA = '';"
         )
           span {{ repo.attrs.full_name }}
-          form.add-repo-form
+          form.explorer-add-repo-form
             input.form-control(
               ng-model = "data.repoOrSHA"
-              placeholder = "Specify Branch or SHA (optional)"
+              placeholder = "Branch/SHA (default: @master)"
             )
             button.btn-block.green(
               ng-click = "actions.addGithubRepo(repo, data.repoOrSHA)"
