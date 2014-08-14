@@ -100,6 +100,12 @@ function popoverFileExplorerMenu(
           if (err) {
             throw err;
           }
+          $scope.dir.contents.fetch(function (err) {
+            if (err) {
+              throw err;
+            }
+            $scope.$safeApply();
+          });
         });
 
         //ex

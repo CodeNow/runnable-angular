@@ -39,12 +39,15 @@ function popoverFileExplorerItemMenu(
         $scope.openItems.add($scope.fs);
         closeModal();
       };
+
       actions.renameFile = function () {
         closeModal();
         fileItemData.editFileName = true;
         inputElement[0].focus();
         inputElement[0].select();
+        inputElement.val(inputElement.val());
       };
+
       actions.deleteFile = function () {
         $scope.fs.destroy(function (err) {
           if (err) {
@@ -61,6 +64,7 @@ function popoverFileExplorerItemMenu(
         closeModal();
         closeFileNameInput();
       });
+
       $scope.$on('app-document-click', function () {
         closeModal();
         closeFileNameInput();
