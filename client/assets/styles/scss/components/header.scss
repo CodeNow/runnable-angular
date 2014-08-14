@@ -184,15 +184,20 @@ header {
   &.active {
     border-radius: 3px 3px 0 0;
 
-    & ~ .accounts {
-      margin-bottom: 49px;
-      max-height: calc(100vh - 148px);
+    ~ .accounts {
+      max-height: calc(100vh - calc(100vh - 150px));
       opacity: 1;
       overflow-y: auto;
 
       .log-out {
         pointer-events: auto;
       }
+    }
+
+    ~ .log-out {
+      border-top: 1px solid rgba($white,.2);
+      height: auto;
+      padding: 6px 0;
     }
 
     .iconnables {
@@ -240,6 +245,8 @@ header {
 
 .accounts {
   background: rgba($white,.1);
+  display: flex;
+  flex-direction: column;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
@@ -248,6 +255,7 @@ header {
 
 .account {
   display: block;
+  flex: 0 0 auto;
   padding-bottom: 6px;
   width: 100%;
 
@@ -280,11 +288,10 @@ header {
 
 .log-out {
   background: rgba($white,.1);
-  border-top: 1px solid rgba($white,.2);
-  bottom: -40px;
-  padding: 6px 0;
+  border-radius: 0 0 3px 3px;
+  height: 0;
+  overflow: hidden;
   pointer-events: none;
-  position: absolute;
   width: 100%;
 
   > .btn-link {
@@ -321,7 +328,7 @@ header {
   }
 }
 
-.applications,
+.config-list,
 .instances {
   width: 100%;
 
@@ -331,37 +338,15 @@ header {
     text-indent: 15px;
 
     &.active {
-
-      > .btn-link {
-        cursor: default;
-      }
-
-      &:active {
-        background: rgba($white,.2);
-      }
-    }
-
-    &.active {
-
-      > .btn-link > .iconnables {
-        transform: rotate3d(0,0,1,180deg);
-      }
-
-      .config-list {
-        max-height: 300px;
-      }
+      background: rgba($white,.2);
     }
 
     > .btn-link > .iconnables {
+      left: 9px;
       position: absolute;
-      right: 8px;
-      top: 5px;
+      top: 9px;
     }
   }
-}
-
-.applications > .btn.active {
-  height: auto;
 }
 
 .instances {
@@ -386,25 +371,9 @@ header {
 
 .config-list {
   cursor: pointer;
-  max-height: 0;
-  transition: max-height .3s;
 
   .config {
-
-    &:hover,
-    &.active,
-    &.active:active {
-      background: rgba($white,.1);
-    }
-
-    &.active,
-    &.active .btn-link {
-      cursor: default;
-    }
-
-    &:active {
-      background: rgba($white,.15);
-    }
+    padding-left: 18px;
   }
 
   .iconnables {
@@ -415,3 +384,4 @@ header {
     width: 18px;
   }
 }
+
