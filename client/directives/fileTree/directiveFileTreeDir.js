@@ -66,7 +66,7 @@ function fileTreeDir(
           if (err) {
             throw err;
           }
-          //actions.sortDir();
+          actions.sortDir();
           actions.makeSortable();
         });
       }

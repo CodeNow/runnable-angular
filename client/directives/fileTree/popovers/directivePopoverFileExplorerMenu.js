@@ -96,13 +96,21 @@ function popoverFileExplorerMenu(
           return;
         }
         dirItemData.editFolderName = false;
-        $scope.dir.update({
-          name: inputElement.val()
-        }, function (err) {
+        $scope.dir.rename(inputElement.val(), function (err) {
           if (err) {
             throw err;
           }
         });
+
+        //ex
+        /*
+        $scope.dirReceiving;
+        $scope.dir.moveToDir($scope.dirReceiving, function () {
+          $scope.safeApply();
+        });
+        $scope.safeApply();
+        */
+
       }
 
       function closeModal() {
