@@ -53,10 +53,15 @@ function ControllerBuildNew(
         name: name,
         isDir: isDir
       }, function (err) {
-        $scope.safeApply();
         if (err) {
           throw err;
         }
+        dir.contents.fetch(function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.safeApply();
+        });
       });
     }
   };

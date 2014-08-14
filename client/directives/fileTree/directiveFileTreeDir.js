@@ -54,13 +54,19 @@ function fileTreeDir(
         }
       });
 
+      $scope.$watch('dir.contents.models', function (newVal) {
+        if (newVal) {
+          actions.sortDir();
+        }
+      });
+
       actions.fetchDirFiles = fetchDirFiles;
       function fetchDirFiles() {
         $scope.dir.contents.fetch(function (err) {
           if (err) {
             throw err;
           }
-          actions.sortDir();
+          //actions.sortDir();
           actions.makeSortable();
         });
       }
