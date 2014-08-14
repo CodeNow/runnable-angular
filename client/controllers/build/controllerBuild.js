@@ -52,7 +52,8 @@ function ControllerBuild(
         throw err;
       }
       var state = {
-        instanceId: instance.id()
+        instanceId: instance.id(),
+        userName: $state.params.userName
       };
       $state.go('projects.instance', state);
     });
@@ -137,7 +138,7 @@ function ControllerBuild(
       query = new QueryAssist(thisUser, cb)
         .wrapFunc('fetchGithubRepos');
     } else {
-      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      var githubOrg = thisUser.newGithubOrg($scope.dataApp.stateParams.userName);
       query = new QueryAssist(githubOrg, cb)
         .wrapFunc('fetchRepos');
     }

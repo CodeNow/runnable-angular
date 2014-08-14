@@ -59,7 +59,7 @@ module.exports = [{
 }, {
   state: 'projects.instance',
   abstract: false,
-  url: '^/instances/:instanceId',
+  url: '^/instances/:userName/:instanceId',
   templateUrl: 'viewInstance',
   controller: 'ControllerInstance'
 }, {
