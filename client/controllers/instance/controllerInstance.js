@@ -205,7 +205,7 @@ function ControllerInstance(
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
     var container = data.container;
-    if (container.urls().length) {
+    if (container && container.urls().length) {
       pat.actions.addWebView();
     }
     pat.actions.addTerminal();
