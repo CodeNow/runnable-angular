@@ -46,9 +46,6 @@ function fileTreeDir(
 
       actions.makeSortable = function () {
         var $t = jQuery($template);
-        // $t.find('> ul > li').draggable({
-        //    revert: 0
-        // });
       };
 
       $scope.$watch('dir.state.open', function (newVal, oldval) {
