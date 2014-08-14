@@ -163,7 +163,7 @@ function ControllerBuildList(
 
   actions.stateToBuild = function (build) {
     var state = {
-      userName: $scope.dataApp.user.attrs.accounts.github.username,
+      userName: $state.params.userName,
       projectName: data.project.attrs.name,
       branchName: data.environment.attrs.name,
       buildName: build.attrs.buildNumber
