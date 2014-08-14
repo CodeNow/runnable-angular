@@ -49,5 +49,5 @@ function getNewFileFolderName() {
       name += ' (' + index + ')';
     }
     return name;
-  }
+  };
 }
