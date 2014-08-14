@@ -22,7 +22,10 @@
 
     &.divided-header {
       border-right: 1px solid rgba(0,0,0,.1);
+      overflow: hidden;
+      text-overflow: ellipsis;
       width: 270px;
+      white-space: nowrap;
     }
 
     &.in {
