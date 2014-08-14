@@ -207,8 +207,8 @@ function ControllerInstance(
     var container = data.container;
     if (container && container.urls().length) {
       pat.actions.addWebView();
+      pat.actions.addTerminal();
     }
-    pat.actions.addTerminal();
     pat.actions.addLogs();
     cb();
   }
