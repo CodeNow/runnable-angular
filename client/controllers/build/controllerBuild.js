@@ -52,7 +52,8 @@ function ControllerBuild(
         throw err;
       }
       var state = {
-        instanceId: instance.id()
+        instanceId: instance.id(),
+        userName: $state.params.userName
       };
       $state.go('projects.instance', state);
     });

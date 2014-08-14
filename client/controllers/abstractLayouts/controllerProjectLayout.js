@@ -100,7 +100,7 @@ function ControllerProjectLayout(
       var owner = data.activeAccount;
       if (owner !== $scope.dataApp.user) { // org owner selected
         body.owner = {
-          github: owner.id
+          github: actions.getEntityId(owner)
         };
       }
       var project = thisUser.createProject(body, function (err) {
@@ -152,7 +152,8 @@ function ControllerProjectLayout(
   };
   actions.stateToInstance = function (instance) {
     $state.go('projects.instance', {
-      instanceId: instance.id()
+      instanceId: instance.id(),
+      userName: $state.params.userName
     });
   };
   actions.stateToBuildList = function () {

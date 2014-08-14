@@ -143,7 +143,8 @@ function ControllerBuildList(
         throw err;
       }
       var state = {
-        instanceId: instance.id()
+        instanceId: instance.id(),
+        userName: $state.params.userName
       };
       $state.go('projects.instance', state);
     });
@@ -151,7 +152,7 @@ function ControllerBuildList(
 
   actions.stateToInstance = function (buildId) {
     var state = {
-      userName: $scope.dataApp.user.attrs.accounts.github.username,
+      userName: $state.params.userName,
       projectName: data.project.attrs.name,
       branchName: data.environment.attrs.name,
       buildName: build.attrs.id,
