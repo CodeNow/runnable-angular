@@ -31,15 +31,15 @@
 @import "components/logo";
 @import "components/header";
 @import "components/stream";
-@import "components/maincontrols";
+@import "components/main-controls";
 @import "components/sidebar";
 
 // components (editor)
 @import "components/explorer";
-@import "components/filetree";
+@import "components/file-tree";
 @import "components/editor";
 @import "components/logs";
-@import "components/browserchrome";
+@import "components/browser-chrome";
 @import "components/terminal";
 @import "components/themes";
 
@@ -56,6 +56,9 @@
 @import "components/menu";
 @import "components/tooltips";
 @import "components/errors";
+
+// popovers
+@import "components/popover-add-repo";
 
 // components (forms)
 @import "components/forms";

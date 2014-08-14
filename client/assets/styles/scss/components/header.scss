@@ -300,7 +300,6 @@ header {
     }
 
     &.active {
-      height: auto;
 
       > .btn-link > .iconnables {
         transform: rotate3d(0,0,1,180deg);
@@ -318,6 +317,10 @@ header {
       top: 5px;
     }
   }
+}
+
+.applications > .btn.active {
+  height: auto;
 }
 
 .instances {

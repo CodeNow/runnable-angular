@@ -7,7 +7,9 @@ require('app')
  */
 function term(
   primus,
-  $window
+  $window,
+  debounce,
+  jQuery
 ) {
   return {
     restrict: 'E',
@@ -20,8 +22,8 @@ function term(
           return;
         }
         // Numbers chosen erring on the side of padding
-        var CHAR_WIDTH = 7.5;
-        var CHAR_HEIGHT = 15.4;
+        var CHAR_WIDTH = 8;
+        var CHAR_HEIGHT = 19;
         var params = $scope.params;
 
         // Initalize link to server
@@ -38,6 +40,7 @@ function term(
         });
 
         terminal.open(elem[0]);
+        var $termElem = jQuery(terminal.element);
 
         // Client enters data into the system, which registers as data event on terminal
         // terminal then writes that to termStream, sending the data to the server
@@ -57,41 +60,36 @@ function term(
           terminal.writeln('******************************');
         });
 
-        resizeTerm();
-        if (typeof $window.onresize === 'function') {
-          var oldResize = $window.onresize;
-          $window.onresize = function () {
-            oldResize();
-            resizeTerm();
-          };
-        } else {
-          $window.onresize = resizeTerm;
+        function resizeTerm() {
+          // Tab not selected
+          if ($termElem.width() === 100) { return; }
+          var x = Math.floor($termElem.width() / CHAR_WIDTH);
+          var y = Math.floor($termElem.height() / CHAR_HEIGHT);
+
+          terminal.resize(x, y);
+
+          if (clientEvents) {
+            clientEvents.write({
+              event: 'resize',
+              data: {
+                x: x,
+                y: y
+              }
+            });
+          }
         }
+
+        var dResizeTerm = debounce(resizeTerm, 300);
+
+        dResizeTerm();
+        jQuery($window).on('resize', dResizeTerm);
+        terminal.on('focus', dResizeTerm);
 
         $scope.$on('$destroy', function () {
           termStream.end();
           terminal.destroy();
+          jQuery($window).off('resize', dResizeTerm);
         });
-
-        function resizeTerm() {
-          var x = Math.floor(terminal.element.scrollWidth / CHAR_WIDTH);
-          var y = Math.floor(terminal.element.scrollHeight / CHAR_HEIGHT);
-
-          if (x && y) {
-            terminal.resize(x, y);
-
-            if (clientEvents) {
-              console.log(x, y);
-              clientEvents.write({
-                event: 'resize',
-                data: {
-                  x: x,
-                  y: y
-                }
-              });
-            }
-          }
-        }
       });
     }
   };

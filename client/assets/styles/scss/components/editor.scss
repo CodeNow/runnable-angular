@@ -20,15 +20,16 @@
     font-weight: 400;
     line-height: 1.4;
   }
-}
 
-#editor-status {
-  box-shadow: none;
-  pointer-events: none;
-  position: absolute;
-  right: 15px;
-  top: 50px;
-  z-index: 1;
+  .editor-status {
+    box-shadow: none;
+    pointer-events: none;
+    position: absolute;
+    right: 9px;
+    top: 9px;
+    transition: none;
+    z-index: 1;
+  }
 }
 
 // default tabs
@@ -98,7 +99,7 @@
     float: right;
     opacity: .5;
     padding-top: 2px;
-    width: 30px;
+    width: 21px;
 
     &:hover {
       opacity: .75;
