@@ -2,16 +2,17 @@
   ng-class = "{'in': data.show}"
 )
   .arrow
-  h3.popover-title Set Config and Message
+  h3.popover-title Build As...
   .popover-content
     form
       //- needs to revert on close
+      //- should be blank initially
       .form-label
         input.form-control(
           list = "user-configs"
           ng-click = "actions.resetInputModelValue($event)"
           ng-model = "data.buildName"
-          placeholder = "Choose or Create Config"
+          placeholder = "Choose or create Config."
         )
         svg.iconnables.icons-recipe
           use(xlink:href = "#icons-recipe")
@@ -23,7 +24,7 @@
           value = "{{ env.attrs.name }}"
         )
       textarea.form-control(
-        placeholder = "Build Message"
+        placeholder = "Add a build message."
         ng-model = "data.buildMessage"
       )
       button.btn-block.green(
