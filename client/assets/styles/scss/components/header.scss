@@ -45,7 +45,7 @@ header {
       transition: none;
     }
 
-    .accounts {
+    .account {
       background: $purple;
       position: absolute;
       z-index: 1;
@@ -134,13 +134,13 @@ header {
       background: rgba($white,.2);
     }
 
-    &.active {
-      background: rgba($white,.2);
+    // &.active {
+    //   background: rgba($white,.2);
 
-      &:active {
-        background: rgba($white,.1);
-      }
-    }
+    //   &:active {
+    //     background: rgba($white,.1);
+    //   }
+    // }
   }
 
   h3 {
@@ -178,8 +178,11 @@ header {
   }
 }
 
-.account {
+// account/project dropdown
+.switcher {
   font-weight: 300;
+  letter-spacing: .5px;
+  max-height: 36px;
   position: relative;
   text-overflow: ellipsis;
   transition: opacity .2s;
@@ -193,7 +196,7 @@ header {
       transform: rotate3d(0,0,1,180deg);
     }
 
-    & ~ .accounts {
+    & ~ .account {
       border-radius: 0 0 3px 3px;
       max-height: 216px;
       opacity: 1;
@@ -206,14 +209,6 @@ header {
     }
   }
 
-  img {
-    background: $white;
-    border-radius: 50%;
-    display: block;
-    float: left;
-    margin: 8px;
-  }
-
   .iconnables {
     opacity: .5;
     position: absolute;
@@ -222,30 +217,65 @@ header {
   }
 }
 
-.accounts {
+.account-image {
+  background: $white;
+  border-radius: 50%;
+  display: inline-block;
+  float: left;
+  height: 21px;
+  margin: 7px 9px;
+  width: 21px;
+}
+
+.account-name {
+  display: block;
+  font-weight: 500;
+  overflow: hidden;
+  padding: 0 27px 0 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 171px;
+}
+
+.project-name {
+  display: block;
+  font-weight: 300;
+  overflow: hidden;
+  padding: 0 0 0 39px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 171px;
+}
+
+.account {
+  background: rgba($white,.1);
   display: block;
   max-height: 0;
   opacity: .5;
   overflow: hidden;
+  padding-bottom: 6px;
   transition: max-height .15s, opacity .15s;
   width: 100%;
 
-  li {
+  &.border-top {
+    border-top: 1px solid rgba($white,.2);
+  }
 
-    &.btn {
-      border-radius: 0 !important;
+  .btn {
+    background: none;
+    border-radius: 0 !important;
+
+    &:hover {
+      background: rgba($white,.12);
     }
 
-    &:last-child {
-      font-size: 12px;
-      text-align: center;
-    }
+    &.account-info {
+      cursor: default;
 
-    img {
-      background: $white;
-      border-radius: 50%;
-      float: left;
-      margin: 7px 8px 0;
+      &:hover,
+      &:active {
+        background: none;
+      }
     }
   }
 
@@ -254,6 +284,18 @@ header {
     opacity: 0;
     transform: translate3d(0,-9px,0);
     transition: opacity .2s, transform .2s;
+  }
+}
+
+.log-out {
+  font-size: 14px;
+  padding-top: 6px;
+
+  .btn {
+    height: 27px;
+    line-height: 27px;
+    min-height: 0;
+    text-align: center;
   }
 }
 

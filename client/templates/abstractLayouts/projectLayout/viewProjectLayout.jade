@@ -5,43 +5,45 @@ header(
     a.logo(href = "/")
       svg
         use(xlink:href = "#runnable-logo")
-    button.account.btn(
+    button.switcher.btn(
       ng-class = "{active: dataProjectLayout.data.showChangeAccount}"
       ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
       type = "button"
     )
-      img(
+      img.account-image(
         height = "19"
         ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.newProjectOwner) }}"
         width = "19"
       )
-      | {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.newProjectOwner) }}
+      span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.newProjectOwner) }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
-    ul.accounts.btn-group-vertical.no-margin
-      li.btn(
-        ng-click = "dataProjectLayout.actions.selectProjectOwner(dataApp.user)"
-        ng-if = "dataApp.user !== dataProjectLayout.data.newProjectOwner"
-      )
+    ul.account.btn-group-vertical.no-margin
+      li.btn
         a.btn-link
-          img(
-            height = "19"
-            ng-src = "{{ dataApp.user.attrs.gravatar }}"
-            width = "19"
-          )
-          | {{ dataApp.user.attrs.accounts.github.username }}
-      li.btn(
-        ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
-        ng-if = "org !== dataProjectLayout.data.newProjectOwner"
-        ng-repeat = "org in dataProjectLayout.data.orgs"
-      )
+          span.project-name api
+      li.btn
         a.btn-link
-          img(
-            height = "19"
-            ng-src = "{{ org.avatar_url }}"
-            width = "19"
-          )
-          | {{ org.login }}
+          span.project-name runnable-angular
+      li.btn
+        a.btn-link
+          span.project-name runnable-api-client
+    ul.account.btn-group-vertical.no-margin.border-top(
+      ng-repeat = "org in dataProjectLayout.data.orgs"
+    )
+      li.btn.account-info
+        img.account-image.tooltip(
+          alt = "{{ org.login }}"
+          height = "19"
+          src = "{{ org.avatar_url }}"
+          width = "19"
+        )
+        span.account-name {{ org.login }}
+      li.btn
+        span.project-name runnable-web
+      li.btn
+        span.project-name runnabot
+    ul.account.btn-group-vertical.no-margin.border-top.log-out
       li.btn
         a.btn-link(
           href = "{{ dataApp.logoutURL }}"
