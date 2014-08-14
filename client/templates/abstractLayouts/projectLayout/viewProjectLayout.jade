@@ -18,36 +18,36 @@ header(
       span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.newProjectOwner) }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
-    ul.account.btn-group-vertical.no-margin
-      li.btn
-        a.btn-link
-          span.project-name api
-      li.btn
-        a.btn-link
-          span.project-name runnable-angular
-      li.btn
-        a.btn-link
-          span.project-name runnable-api-client
-    ul.account.btn-group-vertical.no-margin.border-top(
-      ng-repeat = "org in dataProjectLayout.data.orgs"
-    )
-      li.btn.account-info
-        img.account-image.tooltip(
-          alt = "{{ org.login }}"
-          height = "19"
-          src = "{{ org.avatar_url }}"
-          width = "19"
-        )
-        span.account-name {{ org.login }}
-      li.btn
-        span.project-name runnable-web
-      li.btn
-        span.project-name runnabot
-    ul.account.btn-group-vertical.no-margin.border-top.log-out
-      li.btn
-        a.btn-link(
-          href = "{{ dataApp.logoutURL }}"
-        ) Log Out
+    .accounts
+      ul.account.btn-group-vertical.no-margin
+        li.btn
+          a.btn-link
+            span.project-name api
+        li.btn
+          a.btn-link
+            span.project-name runnable-angular
+        li.btn
+          a.btn-link
+            span.project-name runnable-api-client
+      ul.account.btn-group-vertical.no-margin.border-top(
+        ng-repeat = "org in dataProjectLayout.data.orgs"
+      )
+        li.btn.account-info
+          img.account-image.tooltip(
+            alt = "{{ org.login }}"
+            height = "19"
+            src = "{{ org.avatar_url }}"
+            width = "19"
+          )
+          span.account-name {{ org.login }}
+        li.btn
+          span.project-name runnable-web
+        li.btn
+          span.project-name runnabot
+      .no-margin.border-top.log-out(
+        href = "{{ dataApp.logoutURL }}"
+      )
+        a.btn.btn-link Log Out
     form(name = "dataProjectLayout.data.newProjectNameForm")
       //- this field is optional. if blank, name the app for them: 'My App'
       //- should not trigger on focus, but on the error that causes the validation error
