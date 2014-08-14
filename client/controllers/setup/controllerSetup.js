@@ -306,8 +306,8 @@ function ControllerSetup(
       query = new QueryAssist(thisUser, cb)
         .wrapFunc('fetchGithubRepos');
     } else {
-      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
-      data.selectedRepos = data.selectedRepos || githubOrg.newGithubRepos([], {
+      var githubOrg = thisUser.newGithubOrg($scope.dataApp.stateParams.userName);
+      data.selectedRepos = data.selectedRepos || githubOrg.newRepos([], {
         noStore: true
       });
       query = new QueryAssist(githubOrg, cb)

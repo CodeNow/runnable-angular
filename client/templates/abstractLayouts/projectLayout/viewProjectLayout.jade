@@ -12,16 +12,16 @@ header(
     )
       img(
         height = "19"
-        ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.newProjectOwner) }}"
+        ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.activeAccount) }}"
         width = "19"
       )
-      | {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.newProjectOwner) }}
+      | {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
     ul.accounts.btn-group-vertical.no-margin
       li.btn(
         ng-click = "dataProjectLayout.actions.selectProjectOwner(dataApp.user)"
-        ng-if = "dataApp.user !== dataProjectLayout.data.newProjectOwner"
+        ng-if = "dataApp.user !== dataProjectLayout.data.activeAccount"
       )
         a.btn-link
           img(
@@ -32,16 +32,16 @@ header(
           | {{ dataApp.user.attrs.accounts.github.username }}
       li.btn(
         ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
-        ng-if = "org !== dataProjectLayout.data.newProjectOwner"
-        ng-repeat = "org in dataProjectLayout.data.orgs"
+        ng-if = "org !== dataProjectLayout.data.activeAccount"
+        ng-repeat = "org in dataProjectLayout.data.orgs.models"
       )
         a.btn-link
           img(
             height = "19"
-            ng-src = "{{ org.avatar_url }}"
+            ng-src = "{{ org.attrs.avatar_url }}"
             width = "19"
           )
-          | {{ org.login }}
+          | {{ org.attrs.login }}
       li.btn
         a.btn-link(
           href = "{{ dataApp.logoutURL }}"

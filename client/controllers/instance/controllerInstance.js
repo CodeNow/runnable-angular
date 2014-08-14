@@ -132,7 +132,6 @@ function ControllerInstance(
   };
 
   actions.stateToBuildList = function (userName, projectName, branchName) {
-    var thisUser = $scope.dataApp.user;
     var state = {
       userName: userName,
       projectName: projectName,
