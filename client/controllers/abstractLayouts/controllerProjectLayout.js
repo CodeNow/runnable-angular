@@ -169,7 +169,7 @@ function ControllerProjectLayout(
       event.stopPropagation();
     }
     $state.go('projects.buildList', {
-      userName: $scope.dataApp.user.attrs.accounts.github.username,
+      userName: $state.params.userName,
       projectName: project.attrs.name,
       branchName: ((environment) ? environment.name : 'master')
     });
