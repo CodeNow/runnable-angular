@@ -194,7 +194,8 @@ function ControllerProjectLayout(
     var currentUserOrOrgName = $state.params.userName;
     if (!currentUserOrOrgName ||
       currentUserOrOrgName === actions.getEntityName($scope.dataApp.user)) {
-      return actions.selectProjectOwner($scope.dataApp.user, cb);
+      var toSet = data.activeAccount || $scope.dataApp.user;
+      return actions.selectProjectOwner(toSet, cb);
     }
     var currentOrg = data.orgs.find(hasKeypaths({
       'attrs.login.toLowerCase()': currentUserOrOrgName.toLowerCase()
