@@ -178,6 +178,12 @@ pre.ace-runnable-dark {
     }
   }
 
+  ~ .editor-status {
+    background: rgba($white,.25);
+    border-color: rgba($white,.3);
+    color: $white;
+  }
+
   .ace_gutter {
     background: #311d40;
     color: #5e4d6e;
