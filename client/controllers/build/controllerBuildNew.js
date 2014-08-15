@@ -36,7 +36,6 @@ function ControllerBuildNew(
   var pbo = data.popoverBuildOptions;
   pbo.data.show = false;
 
-
   /**************************************
    * File Tree Gear Modal Menu
    **************************************/
