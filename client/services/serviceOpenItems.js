@@ -34,24 +34,28 @@ function openItemsFactory(
 
   // TODO split out
   function Terminal(data) {
+    this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;
   }
 
   function WebView(data) {
+    this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;
   }
 
   function BuildStream(data) {
+    this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;
   }
 
   function LogView(data) {
+    this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;
@@ -61,7 +65,6 @@ function openItemsFactory(
   util.inherits(WebView, BaseModel);
   util.inherits(BuildStream, BaseModel);
   util.inherits(LogView, BaseModel);
-
 
   function ActiveHistory(models) {
     BaseCollection.call(this, models, {

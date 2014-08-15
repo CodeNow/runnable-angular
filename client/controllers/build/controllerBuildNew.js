@@ -16,7 +16,8 @@ function ControllerBuildNew(
   OpenItems,
   keypather,
   fetcherBuild,
-  hasProps
+  hasProps,
+  getNewFileFolderName
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -34,6 +35,40 @@ function ControllerBuildNew(
   };
   var pbo = data.popoverBuildOptions;
   pbo.data.show = false;
+
+
+  /**************************************
+   * File Tree Gear Modal Menu
+   **************************************/
+  var ftgm = data.fileTreeGearMenu = {};
+  ftgm.actions = {
+    create: function (isDir) {
+      if(!keypather.get(dataBuildNew, 'data.newVersion.rootDir')) {
+        return;
+      }
+      ftgm.data.show = false;
+      var dir = dataBuildNew.data.newVersion.rootDir;
+      var name = getNewFileFolderName(dir);
+      dir.contents.create({
+        name: name,
+        isDir: isDir
+      }, function (err) {
+        if (err) {
+          throw err;
+        }
+        dir.contents.fetch(function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.safeApply();
+        });
+      });
+    }
+  };
+  ftgm.data = {
+    show: false
+  };
+
 
   /**************************************
    * DataTreeFilePopoverRepoItemMenu
@@ -211,7 +246,7 @@ function ControllerBuildNew(
       query = new QueryAssist(thisUser, cb)
         .wrapFunc('fetchGithubRepos');
     } else {
-      var githubOrg = thisUser.newGithubOrg(build.attrs.owner.username);
+      var githubOrg = thisUser.newGithubOrg($state.params.userName);
       query = new QueryAssist(githubOrg, cb)
         .wrapFunc('fetchRepos');
     }
