@@ -177,6 +177,7 @@ header {
   max-height: 36px;
   position: relative;
   text-overflow: ellipsis;
+  top: 5px;
   transition: opacity .2s;
   white-space: nowrap;
   width: 100%;
@@ -197,7 +198,7 @@ header {
       pointer-events: auto;
     }
 
-    .iconnables {
+    .icons-arrow-down {
       transform: rotate3d(0,0,1,180deg);
     }
 
@@ -211,20 +212,23 @@ header {
     }
   }
 
-  .iconnables {
+  .icons-arrow-down {
     position: absolute;
     right: 8px;
     top: 5px;
   }
+}
 
-  > .btn-add-project {
+.btn-add-project.btn-add-project {
+  background: none;
+  color: $white;
+  float: left;
+  opacity: 0;
+  width: 36px;
+
+  &:hover,
+  &:active {
     background: none;
-    color: $white;
-    opacity: 0;
-    position: absolute;
-    right: 24px;
-    top: 0;
-    width: 36px;
   }
 }
 
@@ -239,17 +243,18 @@ header {
 }
 
 .account-name {
-  display: block;
+  display: inline-block;
+  float: left;
   font-weight: 500;
+  max-width: 171px;
   overflow: hidden;
-  padding: 0 27px 0 0;
+  padding: 0 3px 0 0;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 171px;
 }
 
 .project-name {
-  display: block;
+  display: inline-block;
   font-weight: 300;
   overflow: hidden;
   padding: 0 0 0 39px;
@@ -281,6 +286,7 @@ header {
   .btn {
     background: none;
     border-radius: 0 !important;
+    height: 36px;
 
     &:hover {
       background: rgba($white,.12);
@@ -302,9 +308,9 @@ header {
 
   .btn-icon {
     opacity: .75;
-    position: absolute;
-    right: 9px;
-    top: 0;
+    // position: absolute;
+    // right: 9px;
+    // top: 0;
 
     &:hover,
     &:active {
