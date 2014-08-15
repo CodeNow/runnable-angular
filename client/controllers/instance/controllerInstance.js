@@ -43,16 +43,7 @@ function ControllerInstance(
 
   pat.actions.addOutputStream = function () {
     pat.data.show = false;
-    /*
-    data.openItems.add({
-      type: 'outputStream',
-      name: Date.now()+'',
-      _id: Date.now()+'',
-      filename: function () {
-        return '';
-      }
-    });
-    */
+    //TODO
   };
 
   pat.actions.addWebView = function () {
@@ -60,17 +51,6 @@ function ControllerInstance(
     data.openItems.addWebView({
       name: 'Web View'
     });
-
-    /*
-    data.openItems.add({
-      type: 'webView',
-      name: Date.now()+'',
-      _id: Date.now()+'',
-      filename: function () {
-        return 'Web';
-      }
-    });
-    */
   };
 
   pat.actions.addTerminal = function () {
@@ -79,20 +59,6 @@ function ControllerInstance(
       name: 'Terminal',
       params: data.instance.attrs.containers[0]
     });
-
-    /*
-    data.openItems.add({
-      Key: 'Terminal',
-      type: 'terminal',
-      path: '/',
-      name: Date.now() + '',
-      _id: Date.now()+'',
-      params: data.instance.attrs.containers[0],
-      filename: function () {
-        return 'Terminal';
-      }
-    });
-    */
   };
 
   pat.actions.addLogs = function () {
@@ -225,16 +191,3 @@ function ControllerInstance(
     $scope.safeApply();
   });
 }
-
-ControllerInstance.initData = function () {
-  return {
-    data: {
-      popoverAddTab: {
-        filter: ''
-      },
-      showAddTab: false,
-      showFileMenu: false
-    },
-    actions: {}
-  };
-};
