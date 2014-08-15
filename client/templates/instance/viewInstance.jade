@@ -23,6 +23,7 @@ section.sidebar
       //- should select all text on click
       input.form-control(
         ng-click = ""
+        ng-class = "{ running: dataInstance.data.container.running() }"
         readonly
         value = "{{ dataInstance.data.container.urls()[0] }}"
       )
