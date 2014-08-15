@@ -33,7 +33,6 @@ function fileTreeDir(
 
       // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
       function normalizeMixedDataValue(value) {
-        debugger;
         var padding = '000000000000000';
         // Loop over all numeric values in the string and
         // replace them with a value of a fixed-width for
