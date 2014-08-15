@@ -38,6 +38,14 @@
 
   &.in {
     transform: translate3d(0,0,0);
+
+    ~ form {
+
+      #setup-template,
+      .btn-spinner {
+        opacity: 0;
+      }
+    }
   }
 
   .icons-check {
