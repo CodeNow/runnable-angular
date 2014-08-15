@@ -74,7 +74,7 @@ function activePanel(
         });
       }
 
-      $scope.$watch('openItems.activeHistory.last().attrs._id', function (newVal, oldVal) {
+      $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {
         if (newVal) {
           skip = true;
           fetchFile();
