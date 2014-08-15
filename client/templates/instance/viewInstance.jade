@@ -11,8 +11,8 @@ nav.sub-header
       use(xlink:href = "#icons-edit")
   section#main-controls
     button.green(
+      ng-disabled = "dataInstance.data.openFiles.isClean() || !dataInstance.data.container.running()"
       type = "button"
-      ng-disabled = "dataInstance.data.openFiles.isClean()"
     ) Save Changes
 
 section.sidebar
