@@ -64,8 +64,8 @@ function fileTreeDir(
 
       actions.sortDir = function () {
         $scope.dir.contents.models.sort(function (m1, m2) {
-          var s1 = normalizeMixedDataValue(m1.attrs.name);
-          var s2 = normalizeMixedDataValue(m2.attrs.name);
+          var s1 = normalizeMixedDataValue(m1.attrs.name.toLowerCase());
+          var s2 = normalizeMixedDataValue(m2.attrs.name.toLowerCase());
           if (s1 < s2) {
             return -1;
           } else if (s1 > s2) {
