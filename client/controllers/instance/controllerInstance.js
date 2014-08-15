@@ -18,7 +18,7 @@ function ControllerInstance(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerInstance;
 
-  var dataInstance = $scope.dataInstance = self.initState();
+  var dataInstance = $scope.dataInstance = {};
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
