@@ -68,7 +68,12 @@ section.sidebar
     li(ng-repeat = "commit in dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
-          a {{commit.message}}
+          a(
+            title = "{{commit.id}}"
+          )
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
+            {{commit.message}}
         li
           a
             img(
@@ -77,9 +82,6 @@ section.sidebar
               width = "20"
             )
             | #{''} {{commit.committer.username}}
-          a {{commit.id}}
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
   ol#messages(
     ng-if = "dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
@@ -112,22 +114,16 @@ section.sidebar
     h6.explorer-header
       | CONFIG FILES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
-         ng-class = "{active: dataBuildNew.data.showFileMenu}"
+         ng-class = "{active: dataBuildNew.data.fileTreeGearMenu.data.show}"
          toggle-pop-over
-         toggle-pop-over-model = "dataBuildNew.data.showPopoverFileMenu"
+         toggle-pop-over-model = "dataBuildNew.data.fileTreeGearMenu.data.show"
        )
          svg.iconnables.icons-gear
            use(xlink:href = "#icons-gear")
          pop-over(
            template = "viewBuildPopoverFileMenu"
-           actions = "{\
-             createFile: actions.createFile\
-           }"
-           data = "{\
-             showPopoverFileMenuAddRepo: data.showPopoverFileMenuAddRepo, \
-             showPopoverFileMenuForm: data.showPopoverFileMenuForm, \
-             show: dataBuildNew.data.showPopoverFileMenu \
-           }"
+           actions = "dataBuildNew.data.fileTreeGearMenu.actions"
+           data = "dataBuildNew.data.fileTreeGearMenu.data"
          )
     file-tree(
       root-dir = "dataBuildNew.data.newVersion.rootDir"

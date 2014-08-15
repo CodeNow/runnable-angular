@@ -66,7 +66,6 @@ function openItemsFactory(
   util.inherits(BuildStream, BaseModel);
   util.inherits(LogView, BaseModel);
 
-
   function ActiveHistory(models) {
     BaseCollection.call(this, models, {
       noStore: true

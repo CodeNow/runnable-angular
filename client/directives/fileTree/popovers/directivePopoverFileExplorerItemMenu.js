@@ -39,12 +39,14 @@ function popoverFileExplorerItemMenu(
         $scope.openItems.add($scope.fs);
         closeModal();
       };
+
       actions.renameFile = function () {
         closeModal();
         fileItemData.editFileName = true;
         inputElement[0].focus();
         inputElement[0].select();
       };
+
       actions.deleteFile = function () {
         $scope.fs.destroy(function (err) {
           if (err) {
@@ -61,6 +63,7 @@ function popoverFileExplorerItemMenu(
         closeModal();
         closeFileNameInput();
       });
+
       $scope.$on('app-document-click', function () {
         closeModal();
         closeFileNameInput();
@@ -71,13 +74,16 @@ function popoverFileExplorerItemMenu(
           return;
         }
         fileItemData.editFileName = false;
-        $scope.fs.update({
-          name: inputElement.val()
-        }, function (err) {
+        if (inputElement.val() === $scope.fs.attrs.name) {
+          return;
+        }
+        var cachedName = $scope.fs.attrs.name;
+        $scope.fs.rename(inputElement.val(), function (err) {
           if (err) {
+            //$scope.fs.attrs.name = cachedName;
+            $rootScope.safeApply();
             throw err;
           }
-          $scope.actions.sortDir();
         });
       }
       fileItemData.actions.closeFileNameInput = closeFileNameInput;

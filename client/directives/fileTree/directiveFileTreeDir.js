@@ -31,18 +31,35 @@ function fileTreeDir(
         $rootScope.$broadcast('app-document-click');
       };
 
-      actions.sortDir = function () {
-        $scope.dir.contents.models.sort(function (m1, m2) {
-          return m1.attrs.name > m2.attrs.name;
-        });
-        // prevents folders/dir mixing order in tree bug
-        $timeout(function () {
-          $rootScope.safeApply();
-          if (!$scope.readOnly) {
-            actions.makeSortable();
+      // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
+      function normalizeMixedDataValue(file) {
+        var padding = '000000000000000';
+        // Loop over all numeric values in the string and
+        // replace them with a value of a fixed-width for
+        // both leading (integer) and trailing (decimal)
+        // padded zeroes.
+        value = file.attrs.name.replace(
+          /(\d+)((\.\d+)+)?/g,
+          function($0, integer, decimal, $3) {
+            if (decimal !== $3) {
+              return(
+                padding.slice(integer.length) +
+                integer +
+                decimal
+              );
+            }
+            decimal = (decimal || ".0");
+            return(
+              padding.slice(integer.length) +
+              integer +
+              decimal +
+              padding.slice(decimal.length)
+            );
           }
-        }, 10);
-      };
+        );
+        return value;
+      }
+      actions.normalizeMixedDataValue = normalizeMixedDataValue;
 
       actions.makeSortable = function () {
         var $t = jQuery($template);
@@ -60,7 +77,6 @@ function fileTreeDir(
           if (err) {
             throw err;
           }
-          actions.sortDir();
           actions.makeSortable();
         });
       }
