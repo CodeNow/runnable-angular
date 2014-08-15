@@ -72,7 +72,6 @@ function activePanel(
             updateFileDebounce();
           } else {
             // mark as dirty?
-
           }
         }
       });

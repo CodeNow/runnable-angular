@@ -1,7 +1,10 @@
 #editor-toolbar
   ul#tabs-wrapper
     li(
-      ng-class = "{'active': item.state.active}"
+      ng-class = "{ \
+          'active': item.state.active, \
+          'dirty': (item.state.body !== item.attrs.body) \
+        }"
       ng-repeat = "item in openItems.models"
     )
       //- title should show the full file path
