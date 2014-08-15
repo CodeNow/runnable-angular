@@ -13,6 +13,7 @@ nav.sub-header
     button.green(
       type = "button"
       ng-disabled = "dataInstance.data.openFiles.isClean()"
+      ng-click = "dataInstance.actions.saveChanges()"
     ) Save Changes
 
 section.sidebar

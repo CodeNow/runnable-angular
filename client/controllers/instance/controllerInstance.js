@@ -69,6 +69,9 @@ function ControllerInstance(
     });
   };
 
+  actions.saveChanges = function () {
+  };
+
   actions.stopInstance = function () {
     data.instance.stop(function (err) {
       if (err) {
