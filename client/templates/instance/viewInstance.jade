@@ -33,7 +33,7 @@ section.sidebar
         ng-click = "dataInstance.actions.goToBuild()"
       ) {{ dataInstance.data.instance.buildUrl() }}
     li(
-      ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
+      ng-if = "dataInstance.data.container.running()"
     )
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
@@ -42,7 +42,7 @@ section.sidebar
         title = "Launched on {{ dataInstance.data.container.attrs.inspect.State.StartedAt }}"
       ) Launched {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}
     li(
-      ng-if = "!dataInstance.data.container.attrs.inspect.State.Running"
+      ng-if = "!dataInstance.data.container.running()"
     )
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
@@ -60,7 +60,7 @@ section.sidebar
   h3 Actions
   ol.actions
     li(
-      ng-if = "!dataInstance.data.container.attrs.inspect.State.Running"
+      ng-if = "!dataInstance.data.container.running()"
     ) Start Instance
       button.btn-sm.silver(
         type = "button"
@@ -69,7 +69,7 @@ section.sidebar
         svg.iconnables.icons-launch
           use(xlink:href = "#icons-launch")
     li(
-      ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
+      ng-if = "dataInstance.data.container.running()"
     ) Stop Instance
       button.btn-sm.silver(
         type = "button"
@@ -86,12 +86,12 @@ section.sidebar
           use(xlink:href = "#icons-delete")
 
 //- code_editor
-#editor.with-addtab.in(
-  ng-class="{'in': dataInstance.data.showExplorer, '': !dataInstance.data.showExplorer}"
+#editor.with-addtab(
+  ng-class = "{ in: dataInstance.data.showExplorer }"
 )
   button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
-    ng-init = "dataInstance.data.showExplorer = true"
+    ng-if = "dataInstance.data.container.running()"
     type = "button"
   )
     svg.iconnables.icons-folder-open

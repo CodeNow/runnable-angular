@@ -55,6 +55,7 @@ function openItemsFactory(
   }
 
   function LogView(data) {
+    this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;
