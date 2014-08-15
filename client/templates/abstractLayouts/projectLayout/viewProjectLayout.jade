@@ -15,10 +15,12 @@ header(
         ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.activeAccount) }}"
         width = "19"
       )
-      span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
-      a.btn.btn-icon.btn-add-project
-        svg.iconnables.icons-add
-          use(xlink:href = "#icons-add")
+      span.project-name current-project
+      span.name-switcher
+        span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
+        a.btn.btn-icon.btn-add-project
+          svg.iconnables.icons-add
+            use(xlink:href = "#icons-add")
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
     .accounts

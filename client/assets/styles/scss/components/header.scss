@@ -210,12 +210,35 @@ header {
         opacity: 1;
       }
     }
+
+    > .project-name {
+      opacity: 0;
+    }
+
+    > .name-switcher, {
+      opacity: 1;
+    }
+
+    .btn-add-project {
+      opacity: .75;
+    }
   }
 
   .icons-arrow-down {
     position: absolute;
     right: 8px;
     top: 5px;
+  }
+
+  > .project-name {
+    font-weight: 500;
+    padding: 0;
+  }
+
+  > .name-switcher {
+    left: 39px;
+    opacity: 0;
+    position: absolute;
   }
 }
 
