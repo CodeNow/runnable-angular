@@ -18,7 +18,10 @@ function ControllerInstance(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerInstance;
 
-  var dataInstance = $scope.dataInstance = {};
+  var dataInstance = $scope.dataInstance = {
+    data: {},
+    actions: {}
+  };
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
@@ -37,7 +40,11 @@ function ControllerInstance(
   /*********************************
    * popoverAddTab
    *********************************/
-  var pat = data.opoverAddTab.filter = '';
+  data.popoverAddTab = {
+    data: {},
+    actions: {}
+  };
+  var pat = data.popoverAddTab;
 
   pat.actions.addOutputStream = function () {
     pat.data.show = false;
