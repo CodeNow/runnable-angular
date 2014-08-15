@@ -5,10 +5,10 @@ button,
   border-radius: 3px;
   cursor: pointer;
   display: inline-block;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   height: 36px;
-  line-height: 36px;
+  line-height: 35px;
   padding: 0 18px 0 16px;
   position: relative;
   text-align: center;
@@ -63,7 +63,7 @@ button,
 .orange,
 .purple {
   color: $white;
-  letter-spacing: .3px;
+  letter-spacing: .5px;
 }
 
 .green,
@@ -146,6 +146,7 @@ button,
 .orange {
   background-color: $orange;
   border-color: $orange-darker;
+  color: $gray-darker;
 
   &:hover,
   &:active,
@@ -153,7 +154,7 @@ button,
     background: $orange-light;
     border-color: $orange-darker;
     border-top-color: $orange-dark;
-    color: $white;
+    color: $gray-darker;
   }
 
   &[disabled],

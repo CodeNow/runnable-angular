@@ -18,10 +18,7 @@ function ControllerInstance(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerInstance;
 
-  var dataInstance = $scope.dataInstance = {
-    data: {},
-    actions: {}
-  };
+  var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
@@ -29,8 +26,9 @@ function ControllerInstance(
    * popoverFileMenu
    *********************************/
   var pfm = data.popoverFileMenu = {};
-  pfm.data = {};
-  pfm.data.show = false;
+  pfm.data = {
+    show: false
+  };
   pfm.actions = {};
 
   pfm.actions.createFile = function () {};
@@ -40,11 +38,11 @@ function ControllerInstance(
   /*********************************
    * popoverAddTab
    *********************************/
-  data.popoverAddTab = {
-    data: {},
-    actions: {}
-  };
   var pat = data.popoverAddTab;
+  pat.data = {
+    show: false
+  };
+  pat.actions = {};
 
   pat.actions.addOutputStream = function () {
     pat.data.show = false;
@@ -137,3 +135,16 @@ function ControllerInstance(
     $scope.safeApply();
   });
 }
+
+ControllerInstance.initData = function () {
+  return {
+    data: {
+      popoverAddTab: {
+        filter: ''
+      },
+      showAddTab: false,
+      showFileMenu: false
+    },
+    actions: {}
+  };
+};
