@@ -45,7 +45,6 @@ function popoverFileExplorerItemMenu(
         fileItemData.editFileName = true;
         inputElement[0].focus();
         inputElement[0].select();
-        inputElement.val(inputElement.val());
       };
 
       actions.deleteFile = function () {
@@ -75,9 +74,10 @@ function popoverFileExplorerItemMenu(
           return;
         }
         fileItemData.editFileName = false;
-        $scope.fs.update({
-          name: inputElement.val()
-        }, function (err) {
+        if (inputElement.val() === $scope.fs.attrs.name) {
+          return;
+        }
+        $scope.fs.rename(inputElement.val(), function (err) {
           if (err) {
             throw err;
           }

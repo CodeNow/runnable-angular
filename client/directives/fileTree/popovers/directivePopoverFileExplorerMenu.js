@@ -49,6 +49,7 @@ function popoverFileExplorerMenu(
         }, function () {
           $scope.actions.fetchDirFiles();
         });
+
         closeModal();
       };
 
@@ -96,16 +97,15 @@ function popoverFileExplorerMenu(
           return;
         }
         dirItemData.editFolderName = false;
+        if (inputElement.val() === $scope.fs.attrs.name) {
+          return;
+        }
         $scope.dir.rename(inputElement.val(), function (err) {
           if (err) {
             throw err;
           }
-          $scope.dir.contents.fetch(function (err) {
-            if (err) {
-              throw err;
-            }
-            $scope.$safeApply();
-          });
+          console.log('sorting dir');
+          $scope.actions.sortDir();
         });
 
         //ex
