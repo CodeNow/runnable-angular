@@ -18,7 +18,7 @@ function ControllerInstance(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerInstance;
 
-  var dataInstance = $scope.dataInstance = self.initState();
+  var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
@@ -26,8 +26,9 @@ function ControllerInstance(
    * popoverFileMenu
    *********************************/
   var pfm = data.popoverFileMenu = {};
-  pfm.data = {};
-  pfm.data.show = false;
+  pfm.data = {
+    show: false
+  };
   pfm.actions = {};
 
   pfm.actions.createFile = function () {};
@@ -37,7 +38,39 @@ function ControllerInstance(
   /*********************************
    * popoverAddTab
    *********************************/
-  var pat = data.opoverAddTab.filter = '';
+  var pat = data.popoverAddTab;
+  pat.data = {
+    show: false
+  };
+  pat.actions = {};
+
+  pat.actions.addOutputStream = function () {
+    pat.data.show = false;
+    //TODO
+  };
+
+  pat.actions.addWebView = function () {
+    pat.data.show = false;
+    data.openItems.addWebView({
+      name: 'Web View'
+    });
+  };
+
+  pat.actions.addTerminal = function () {
+    pat.data.show = false;
+    data.openItems.addTerminal({
+      name: 'Terminal',
+      params: data.instance.attrs.containers[0]
+    });
+  };
+
+  pat.actions.addLogs = function () {
+    pat.data.show = false;
+    data.openItems.addLogs({
+      name: 'Server Logs',
+      params: data.instance.attrs.containers[0]
+    });
+  };
 
   $scope.$watch(function () {
     if (data.openItems && data.openItems.activeFile) {
@@ -102,3 +135,16 @@ function ControllerInstance(
     $scope.safeApply();
   });
 }
+
+ControllerInstance.initData = function () {
+  return {
+    data: {
+      popoverAddTab: {
+        filter: ''
+      },
+      showAddTab: false,
+      showFileMenu: false
+    },
+    actions: {}
+  };
+};
