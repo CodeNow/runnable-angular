@@ -70,6 +70,7 @@ function ControllerInstance(
   };
 
   actions.saveChanges = function () {
+    
   };
 
   actions.stopInstance = function () {
