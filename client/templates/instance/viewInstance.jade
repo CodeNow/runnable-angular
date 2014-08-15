@@ -12,6 +12,7 @@ nav.sub-header
   section#main-controls
     button.green(
       type = "button"
+      ng-class = "{ running: dataInstance.data.container.running() }"
       ng-disabled = "dataInstance.data.openFiles.isClean()"
     ) Save Changes
 
@@ -21,6 +22,7 @@ section.sidebar
       //- should select all text on click
       input.form-control(
         ng-click = ""
+        ng-class = "{ running: dataInstance.data.container.running() }"
         readonly
         value = "{{ dataInstance.data.container.urls()[0] }}"
       )
@@ -91,7 +93,7 @@ section.sidebar
 )
   button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
-    ng-if = "dataInstance.data.container.running()"
+    ng-class = "{ running: dataInstance.data.container.running() }"
     type = "button"
   )
     svg.iconnables.icons-folder-open
@@ -106,9 +108,8 @@ section.sidebar
         type = "button"
       )
         .theme
-    h6.explorer-header(
-      ng-if = "dataInstance.data.container.running()"
-    ) INSTANCE FILES
+    h6.explorer-header
+      | INSTANCE FILES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
         ng-class = "{active: dataInstance.data.popoverFileMenu.data.show}"
         toggle-pop-over
@@ -125,7 +126,6 @@ section.sidebar
       read-only = "false"
       root-dir = "dataInstance.data.container.rootDir"
       open-items = "dataInstance.data.openItems"
-      ng-if = "dataInstance.data.container.running()"
     )
   tabs(
     open-items = "dataInstance.data.openItems"
