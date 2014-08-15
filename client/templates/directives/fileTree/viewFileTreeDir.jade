@@ -24,13 +24,19 @@ li.folder(
                    | orderBy:actions.normalizeMixedDataValue"
       dir = "fs"
       open = "fs.state.open"
+      open-items = "openItems"
       read-only = "readOnly"
     )
+    //- 'dirty' state checking only on instance page
     li(
       ng-repeat = "fs in dir.contents.models \
                    | isFile \
                    | orderBy:actions.normalizeMixedDataValue"
-      ng-class = "{ 'active': fs.state.open }"
+      ng-class = "{ \
+          'active': fs.state.open, \
+          'dirty': (dataApp.state.current.name === 'projects.instance' && \
+                    fs.state.body !== fs.attrs.body) \
+        }"
     )
       a(
         ng-click = "actions.closeOpenModals(); \

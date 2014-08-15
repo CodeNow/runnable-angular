@@ -13,6 +13,8 @@ nav.sub-header
     button.green(
       ng-disabled = "dataInstance.data.openFiles.isClean() || !dataInstance.data.container.running()"
       type = "button"
+      ng-disabled = "dataInstance.data.openFiles.isClean()"
+      ng-click = "dataInstance.actions.saveChanges()"
     ) Save Changes
 
 section.sidebar
@@ -145,7 +147,7 @@ section.sidebar
     open-items = "dataInstance.data.openItems"
   )
   active-panel(
-    update = "true"
+    update = "false"
     container = "dataInstance.data.container"
     open-items = "dataInstance.data.openItems"
     is-dark-theme = "dataInstance.data.toggleTheme"

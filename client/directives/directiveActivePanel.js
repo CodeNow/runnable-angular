@@ -29,10 +29,10 @@ function activePanel(
       var data = $scope.data = {};
       data.readOnly = $scope.readOnly;
 
-      var skip = true;
-
+      // allow iframe to load url
       $scope.$sce = $sce;
 
+      var skip = true;
       function updateFile(cb) {
         if (skip) {
           skip = false;
@@ -66,18 +66,29 @@ function activePanel(
         }
       }
 
-      if ($scope.update) {
-        $scope.$watch('openItems.activeHistory.last().state.body', function (newVal, oldVal) {
-          if (typeof newVal === 'string' && $scope.openItems.activeHistory.last()) {
+      $scope.$watch('openItems.activeHistory.last().state.body', function (newVal, oldVal) {
+        if (typeof newVal === 'string' && $scope.openItems.activeHistory.last()) {
+          if ($scope.update) {
             updateFileDebounce();
+          } else {
+            // mark as dirty?
           }
-        });
-      }
+        }
+      });
 
-      $scope.$watch('openItems.activeHistory.last().attrs._id', function (newVal, oldVal) {
+      $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {
         if (newVal) {
-          skip = true;
-          fetchFile();
+          if (!$scope.update) {
+            var file = $scope.openItems.activeHistory.last();
+            if (!(file.state && (typeof file.state.body === 'string'))) {
+              //fetch only on first select
+              skip = false;
+              fetchFile();
+            }
+          } else {
+            skip = true;
+            fetchFile();
+          }
         }
       });
     }

@@ -74,6 +74,7 @@ function fileTreeDir(
       actions.fetchDirFiles = fetchDirFiles;
       function fetchDirFiles() {
         $scope.dir.contents.fetch(function (err) {
+          $rootScope.safeApply();
           if (err) {
             throw err;
           }
