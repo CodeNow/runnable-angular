@@ -54,6 +54,7 @@ nav.sub-header
     button.silver(
       type = "button"
       ng-click = "dataBuild.actions.edit()"
+      ng-disabled = "!dataBuild.data.build.attrs.completed"
     ) Edit Build
     //- button.silver Cancel Build
 
