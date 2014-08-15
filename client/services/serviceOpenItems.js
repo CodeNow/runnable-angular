@@ -93,7 +93,6 @@ function openItemsFactory(
       this.remove(model);
       this.add(model);
     }
-
     return this;
   };
 

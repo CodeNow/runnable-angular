@@ -26,8 +26,14 @@ function ControllerBuildNew(
   var data = dataBuildNew.data = {
     showBuildMenu: false,
     newBuildName: '?',
-    showExplorer: true
+    showExplorer: false
   };
+
+  $scope.$watch('dataBuildNew.data.build.attrs.completed', function(n) {
+    if (n) {
+      data.showExplorer = true;
+    }
+  });
 
   data.popoverBuildOptions = {
     actions: {},
