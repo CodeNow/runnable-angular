@@ -68,7 +68,12 @@ section.sidebar
     li(ng-repeat = "commit in dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
-          a {{commit.message}}
+          a(
+            title = "{{commit.id}}"
+          )
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
+            {{commit.message}}
         li
           a
             img(
@@ -77,9 +82,6 @@ section.sidebar
               width = "20"
             )
             | #{''} {{commit.committer.username}}
-          a {{commit.id}}
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
   ol#messages(
     ng-if = "dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
