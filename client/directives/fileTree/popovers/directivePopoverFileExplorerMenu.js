@@ -100,8 +100,11 @@ function popoverFileExplorerMenu(
         if (inputElement.val() === $scope.fs.attrs.name) {
           return;
         }
+        var cachedName = $scope.dir.attrs.name;
         $scope.dir.rename(inputElement.val(), function (err) {
           if (err) {
+            $scope.dir.attrs.name = cachedName;
+            $rootScope.safeApply();
             throw err;
           }
           console.log('sorting dir');

@@ -77,8 +77,11 @@ function popoverFileExplorerItemMenu(
         if (inputElement.val() === $scope.fs.attrs.name) {
           return;
         }
+        var cachedName = $scope.fs.attrs.name;
         $scope.fs.rename(inputElement.val(), function (err) {
           if (err) {
+            $scope.fs.attrs.name = cachedName;
+            $rootScope.safeApply();
             throw err;
           }
           $scope.actions.sortDir();
