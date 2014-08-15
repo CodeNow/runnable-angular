@@ -31,7 +31,7 @@
 .modal-dialog {
   background: $gray-lighter;
   border-radius: 6px;
-  box-shadow: 0 0 90px rgba(0,0,0,.3);
+  box-shadow: 0 0 90px rgba($black,.3);
   margin: auto;
   max-width: 480px;
   min-width: 320px;
@@ -47,7 +47,7 @@
 .modal-header {
   background: $orange;
   border-radius: 5px 5px 0 0;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+  box-shadow: inset 0 1px 0 rgba($white,.3);
   color: $white;
   display: flex;
   height: 120px;
@@ -62,7 +62,7 @@
 }
 
 .modal-body {
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+  box-shadow: inset 0 1px 0 rgba($white,.2);
   color: $gray-dark;
   font-size: 21px;
   font-weight: 500;

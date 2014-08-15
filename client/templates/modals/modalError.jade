@@ -1,0 +1,14 @@
+.modal.error(
+  ng-class = "{'in': in}"
+  ng-click = "cancel()"
+)
+  .modal-dialog(
+    ng-click = "$event.stopPropagation()"
+  )
+    .modal-body Something went wrong.
+      p.modal-text [insert error message]
+      p.modal-text Refresh the tab or reach out to us at #{''}
+        a(
+          href = "mailto: support@runnable.io"
+        ) support@runnable.io
+        | .

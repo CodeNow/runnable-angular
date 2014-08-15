@@ -1,12 +1,26 @@
 // errors
-#error {
-  align-items: center;
-  background-image: linear-gradient($purple,$purple-dark);
-  color: $white;
-  display: flex;
-  font-size: 30vw;
-  font-weight: 100;
-  height: 100vh;
-  justify-content: center;
-  width: 100vw;
+.modal.error {
+  background: $white;
+
+  .modal-dialog {
+    align-items: center;
+    background: none;
+    box-shadow: none;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    max-width: none;
+    width: 100vw;
+  }
+
+  .modal-text {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    position: relative;
+
+    &::after {
+      animation: none;
+    }
+  }
 }
