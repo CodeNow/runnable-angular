@@ -34,18 +34,21 @@ function openItemsFactory(
 
   // TODO split out
   function Terminal(data) {
+    this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;
   }
 
   function WebView(data) {
+    this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;
   }
 
   function BuildStream(data) {
+    this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
     return this;

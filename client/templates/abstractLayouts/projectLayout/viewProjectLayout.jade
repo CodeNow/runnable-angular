@@ -12,10 +12,10 @@ header(
     )
       img.account-image(
         height = "19"
-        ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.newProjectOwner) }}"
+        ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.activeAccount) }}"
         width = "19"
       )
-      span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.newProjectOwner) }}
+      span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
     .accounts
@@ -30,16 +30,16 @@ header(
           a.btn-link
             span.project-name runnable-api-client
       ul.account.btn-group-vertical.no-margin.border-top(
-        ng-repeat = "org in dataProjectLayout.data.orgs"
+        ng-repeat = "org in dataProjectLayout.data.orgs.models"
       )
         li.btn.account-info
           img.account-image.tooltip(
             alt = "{{ org.login }}"
             height = "19"
-            src = "{{ org.avatar_url }}"
+            ng-src = "{{ org.attrs.avatar_url }}"
             width = "19"
           )
-          span.account-name {{ org.login }}
+          span.account-name {{ org.attrs.login }}
         li.btn
           span.project-name runnable-web
         li.btn

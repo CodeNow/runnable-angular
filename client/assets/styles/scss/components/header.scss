@@ -185,7 +185,7 @@ header {
     border-radius: 3px 3px 0 0;
 
     ~ .accounts {
-      max-height: calc(100vh - calc(100vh - 150px));
+      max-height: calc(100vh - 150px);
       opacity: 1;
       overflow-y: auto;
 

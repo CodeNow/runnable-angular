@@ -132,7 +132,6 @@ function ControllerInstance(
   };
 
   actions.stateToBuildList = function (userName, projectName, branchName) {
-    var thisUser = $scope.dataApp.user;
     var state = {
       userName: userName,
       projectName: projectName,
@@ -206,10 +205,10 @@ function ControllerInstance(
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
     var container = data.container;
-    if (container.urls().length) {
+    if (container && container.urls().length) {
       pat.actions.addWebView();
+      pat.actions.addTerminal();
     }
-    pat.actions.addTerminal();
     pat.actions.addLogs();
     cb();
   }
