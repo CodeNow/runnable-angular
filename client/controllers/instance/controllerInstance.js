@@ -16,10 +16,11 @@ function ControllerInstance(
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
+  var self = ControllerInstance;
 
-  var dataInstance = $scope.dataInstance = {};
-  var data = dataInstance.data = {};
-  var actions = dataInstance.actions = {};
+  var dataInstance = $scope.dataInstance = self.initState();
+  var data = dataInstance.data;
+  var actions = dataInstance.actions;
 
   /*********************************
    * popoverFileMenu
@@ -97,10 +98,13 @@ function ControllerInstance(
 
   pat.actions.addLogs = function () {
     pat.data.show = false;
-    data.openItems.addLogs({
+    var logs = data.openItems.addLogs({
       name: 'Server Logs',
       params: data.instance.attrs.containers[0]
     });
+    if (!data.container || !data.container.running()) {
+      logs.state.alwaysOpen = true;
+    }
   };
 
   actions.stopInstance = function () {
@@ -189,6 +193,11 @@ function ControllerInstance(
         }
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
+        if (data.container && data.container.running()) {
+          data.showExplorer = true;
+        } else {
+          data.showExplorer = false;
+        }
         $scope.safeApply();
         cb();
       })
@@ -226,7 +235,7 @@ function ControllerInstance(
   });
 }
 
-ControllerInstance.initData = function () {
+ControllerInstance.initState = function () {
   return {
     data: {
       popoverAddTab: {

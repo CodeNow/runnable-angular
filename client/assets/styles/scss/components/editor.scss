@@ -35,7 +35,7 @@
 // default tabs
 #tabs-wrapper {
   background: $gray-light;
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   float: left;
   height: 36px;
   overflow-x: auto;
@@ -45,7 +45,7 @@
 
   li {
     background: $gray-lighter;
-    border: 1px solid rgba(0,0,0,.1);
+    border: 1px solid rgba($black,.1);
     border-bottom: 0;
     border-top: 0;
     color: $gray-dark;
