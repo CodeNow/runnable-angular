@@ -103,6 +103,7 @@ button,
   &[disabled]:active {
     background: rgba($green,.75);
     border-color: rgba($green-darker,.75);
+    opacity: .75;
   }
 }
 
