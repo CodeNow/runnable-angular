@@ -107,9 +107,8 @@ section.sidebar
         type = "button"
       )
         .theme
-    h6.explorer-header(
-      ng-if = "dataInstance.data.container.running()"
-    ) INSTANCE FILES
+    h6.explorer-header
+      | INSTANCE FILES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
         ng-class = "{active: dataInstance.data.popoverFileMenu.data.show}"
         toggle-pop-over
@@ -126,7 +125,6 @@ section.sidebar
       read-only = "false"
       root-dir = "dataInstance.data.container.rootDir"
       open-items = "dataInstance.data.openItems"
-      ng-if = "dataInstance.data.container.running()"
     )
   tabs(
     open-items = "dataInstance.data.openItems"
