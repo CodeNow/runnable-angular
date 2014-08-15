@@ -16,6 +16,9 @@ header(
         width = "19"
       )
       span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
+      a.btn.btn-icon.btn-add-project
+        svg.iconnables.icons-add
+          use(xlink:href = "#icons-add")
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
     .accounts
@@ -40,6 +43,9 @@ header(
             width = "19"
           )
           span.account-name {{ org.attrs.login }}
+          button.btn-icon
+            svg.iconnables.icons-add
+              use(xlink:href = "#icons-add")
         li.btn
           span.project-name runnable-web
         li.btn
