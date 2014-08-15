@@ -88,12 +88,11 @@ section.sidebar
           use(xlink:href = "#icons-delete")
 
 //- code_editor
-#editor.with-addtab(
+#editor.with-add-tab(
   ng-class = "{in: dataInstance.data.showExplorer, out: !dataInstance.data.container.running()}"
 )
   button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
-    ng-if = "dataInstance.data.container.running()"
     type = "button"
   )
     svg.iconnables.icons-folder-open
