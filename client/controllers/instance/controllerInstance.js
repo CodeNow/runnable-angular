@@ -39,6 +39,34 @@ function ControllerInstance(
    *********************************/
   var pat = data.opoverAddTab.filter = '';
 
+  pat.actions.addOutputStream = function () {
+    pat.data.show = false;
+    //TODO
+  };
+
+  pat.actions.addWebView = function () {
+    pat.data.show = false;
+    data.openItems.addWebView({
+      name: 'Web View'
+    });
+  };
+
+  pat.actions.addTerminal = function () {
+    pat.data.show = false;
+    data.openItems.addTerminal({
+      name: 'Terminal',
+      params: data.instance.attrs.containers[0]
+    });
+  };
+
+  pat.actions.addLogs = function () {
+    pat.data.show = false;
+    data.openItems.addLogs({
+      name: 'Server Logs',
+      params: data.instance.attrs.containers[0]
+    });
+  };
+
   $scope.$watch(function () {
     if (data.openItems && data.openItems.activeFile) {
       return data.openItems.activeFile.attrs.body;
