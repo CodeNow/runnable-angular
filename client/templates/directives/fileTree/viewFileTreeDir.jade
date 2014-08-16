@@ -28,7 +28,7 @@ li.folder(
       read-only = "readOnly"
     )
     //- 'dirty' state checking only on instance page
-    li(
+    li.file(
       ng-repeat = "fs in dir.contents.models \
                    | isFile \
                    | orderBy:actions.normalizeMixedDataValue"
