@@ -128,6 +128,7 @@ function popoverFileExplorerMenu(
 
       element[0].addEventListener('contextmenu', contextMenuListener);
 
+      // dynamically creates and inserts DOM element
       function contextMenuListener(e) {
         if (e.currentTarget !== e.target) {
           return false;
@@ -140,7 +141,6 @@ function popoverFileExplorerMenu(
         var $template = angular.element(template);
         $compile($template)($scope);
         $scope.$popoverTemplate = $scope.jQuery($template);
-        //element.prepend($template);
         $scope.jQuery('body').append($template);
 
         $scope.dirItemData.eStyle.top = e.pageY - 18 + 'px';
