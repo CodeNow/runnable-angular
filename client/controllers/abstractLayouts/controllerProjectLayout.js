@@ -263,8 +263,8 @@ function ControllerProjectLayout(
       fetchInstances
     ], function (err) {
       if (err) {
-        console.error(err);
         $state.go('404');
+        throw err;
       }
       $scope.safeApply();
     });
