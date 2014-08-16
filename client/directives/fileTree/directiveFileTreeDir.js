@@ -1,5 +1,5 @@
 var jQuery = require('jquery');
-require('jquery-ui');
+//require('jquery-ui');
 
 require('app')
   .directive('fileTreeDir', fileTreeDir);
@@ -11,7 +11,8 @@ function fileTreeDir(
   $templateCache,
   $compile,
   $timeout,
-  $rootScope
+  $rootScope,
+  $state
 ) {
   return {
     restrict: 'E',
@@ -26,6 +27,7 @@ function fileTreeDir(
       var jQuery = require('jquery');
       var actions = $scope.actions = {};
       var data = $scope.data = {};
+      $scope.state = $state;
 
       actions.closeOpenModals = function () {
         $rootScope.$broadcast('app-document-click');
@@ -63,7 +65,7 @@ function fileTreeDir(
 
       actions.makeSortable = function () {
         var $t = jQuery($template);
-        $t.find('> ul > li.file').draggable();
+        //$t.find('> ul > li.file').draggable();
       };
 
       $scope.$watch('dir.state.open', function (newVal, oldval) {
