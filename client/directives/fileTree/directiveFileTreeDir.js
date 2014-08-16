@@ -1,5 +1,5 @@
 var jQuery = require('jquery');
-//require('jquery-ui');
+require('jquery-ui');
 
 require('app')
   .directive('fileTreeDir', fileTreeDir);

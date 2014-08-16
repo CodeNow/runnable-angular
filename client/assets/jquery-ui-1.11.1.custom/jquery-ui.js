@@ -10,6 +10,8 @@
 		define([ "jquery" ], factory );
 	} else {
 
+    var jQuery = require('jquery');
+
 		// Browser globals
 		factory( jQuery );
 	}
