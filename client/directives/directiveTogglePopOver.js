@@ -5,7 +5,9 @@ require('app')
  * togglePopOver Directive
  * @ngInject
  */
-function togglePopOver() {
+function togglePopOver(
+  $rootScope
+) {
   return {
     restrict: 'A',
     scope: {
@@ -15,6 +17,7 @@ function togglePopOver() {
       var clickHandler = $.proxy(function (event) {
         if (!this.model && !element.prop('disabled')) {
           event.stopPropagation();
+          $rootScope.$broadcast('app-document-click');
           this.model = true;
           this.$apply();
         }
