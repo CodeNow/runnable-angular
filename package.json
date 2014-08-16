@@ -94,7 +94,7 @@
     "primus-client": "./client/assets/js/primus-client.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js",
-    "jquery-ui": "./client/assets/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.js"
+    "jquery-ui": "./client/assets/jquery-ui-1.11.1.custom/jquery-ui.js"
   },
   "browserify": {
     "debug": true

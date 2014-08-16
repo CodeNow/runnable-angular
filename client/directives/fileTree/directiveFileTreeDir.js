@@ -11,7 +11,8 @@ function fileTreeDir(
   $templateCache,
   $compile,
   $timeout,
-  $rootScope
+  $rootScope,
+  $state
 ) {
   return {
     restrict: 'E',
@@ -26,6 +27,7 @@ function fileTreeDir(
       var jQuery = require('jquery');
       var actions = $scope.actions = {};
       var data = $scope.data = {};
+      $scope.state = $state;
 
       actions.closeOpenModals = function () {
         $rootScope.$broadcast('app-document-click');
@@ -63,6 +65,20 @@ function fileTreeDir(
 
       actions.makeSortable = function () {
         var $t = jQuery($template);
+        $t.find('> ul > li.file').draggable({
+          revert: 'invalid',
+          revertDuration: 100
+        });
+        $t.droppable({
+          greedy: true,
+          drop: function (event, item) {
+            var file = angular.element(item.draggable).scope().fs;
+            file.moveToDir($scope.dir);
+            $rootScope.safeApply(function () {
+              actions.makeSortable();
+            });
+          },
+        });
       };
 
       $scope.$watch('dir.state.open', function (newVal, oldval) {
@@ -74,11 +90,12 @@ function fileTreeDir(
       actions.fetchDirFiles = fetchDirFiles;
       function fetchDirFiles() {
         $scope.dir.contents.fetch(function (err) {
-          $rootScope.safeApply();
+          $rootScope.safeApply(function () {
+            actions.makeSortable();
+          });
           if (err) {
             throw err;
           }
-          actions.makeSortable();
         });
       }
 
