@@ -10,6 +10,7 @@ function ControllerInstance(
   $scope,
   $state,
   $stateParams,
+  keypather,
   async,
   user,
   OpenItems
@@ -70,7 +71,28 @@ function ControllerInstance(
   };
 
   actions.saveChanges = function () {
-    
+    var updateModels = data.openItems.models
+      .filter(function (model) {
+        if (typeof keypather.get(model, 'attrs.body') !== 'string') {
+          return false;
+        }
+        return (model.attrs.body !== model.state.body);
+      });
+    async.each(updateModels,
+    function iterate (file, cb) {
+      file.update({
+        json: {
+          body: file.state.body
+        }
+      }, function (err) {
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+        cb();
+      });
+    },
+    function complete (err) {});
   };
 
   actions.stopInstance = function () {
