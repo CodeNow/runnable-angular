@@ -74,8 +74,9 @@ function fileTreeDir(
           drop: function (event, item) {
             var file = angular.element(item.draggable).scope().fs;
             file.moveToDir($scope.dir);
-            $rootScope.safeApply();
-            actions.makeSortable();
+            $rootScope.safeApply(function () {
+              actions.makeSortable();
+            });
           },
         });
       };
