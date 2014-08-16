@@ -30,7 +30,7 @@ function ControllerBuild(
     showPopoverRepoMenu: false,
     showRebuildMenu: false,
     buildName: $stateParams.buildName,
-    showExplorer: true
+    showExplorer: false
   };
 
   actions.stateToBuildList = function () {
@@ -109,6 +109,12 @@ function ControllerBuild(
       return;
     }
     dataBuild.actions.forkBuild();
+  });
+
+  $scope.$watch('dataBuild.data.build.attrs.completed', function(n) {
+    if (n) {
+      data.showExplorer = true;
+    }
   });
 
   /*

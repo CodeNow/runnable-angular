@@ -32,13 +32,13 @@ function fileTreeDir(
       };
 
       // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
-      function normalizeMixedDataValue(value) {
+      function normalizeMixedDataValue(file) {
         var padding = '000000000000000';
         // Loop over all numeric values in the string and
         // replace them with a value of a fixed-width for
         // both leading (integer) and trailing (decimal)
         // padded zeroes.
-        value = value.replace(
+        value = file.attrs.name.replace(
           /(\d+)((\.\d+)+)?/g,
           function($0, integer, decimal, $3) {
             if (decimal !== $3) {
@@ -48,9 +48,7 @@ function fileTreeDir(
                 decimal
               );
             }
-
             decimal = (decimal || ".0");
-
             return(
               padding.slice(integer.length) +
               integer +
@@ -61,28 +59,7 @@ function fileTreeDir(
         );
         return value;
       }
-
-      actions.sortDir = function () {
-        $scope.dir.contents.models.sort(function (m1, m2) {
-          var s1 = normalizeMixedDataValue(m1.attrs.name.toLowerCase());
-          var s2 = normalizeMixedDataValue(m2.attrs.name.toLowerCase());
-          if (s1 < s2) {
-            return -1;
-          } else if (s1 > s2) {
-            return 1;
-          } else {
-            return 0;
-          }
-
-        });
-        // prevents folders/dir mixing order in tree bug
-        $timeout(function () {
-          $rootScope.safeApply();
-          if (!$scope.readOnly) {
-            actions.makeSortable();
-          }
-        }, 10);
-      };
+      actions.normalizeMixedDataValue = normalizeMixedDataValue;
 
       actions.makeSortable = function () {
         var $t = jQuery($template);
@@ -94,19 +71,13 @@ function fileTreeDir(
         }
       });
 
-      $scope.$watch('dir.contents.models', function (newVal) {
-        if (newVal) {
-          actions.sortDir();
-        }
-      });
-
       actions.fetchDirFiles = fetchDirFiles;
       function fetchDirFiles() {
         $scope.dir.contents.fetch(function (err) {
+          $rootScope.safeApply();
           if (err) {
             throw err;
           }
-          actions.sortDir();
           actions.makeSortable();
         });
       }

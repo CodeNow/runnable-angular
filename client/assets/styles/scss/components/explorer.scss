@@ -33,6 +33,10 @@
   &.active {
     background: $white;
   }
+
+  .out & {
+    transform: translate3d(-36px,0,0);
+  }
 }
 
 // controls
@@ -108,18 +112,23 @@
     width: 100%;
   }
 
-  .with-addtab & {
+  .with-add-tab & {
     width: calc(100% - 107px);
+  }
+
+  .with-add-tab.out & {
+    transform: translate3d(0,0,0);
+    width: calc(100% - 35px);
+  }
+
+  .with-add-tab.in & {
+    width: calc(100% - 311px);
   }
 
   .in & {
     transform: translate3d(240px,0,0);
     transition: transform .225s ease-in-out, width .275s ease-in-out;
     width: calc(100% - 275px);
-  }
-
-  .with-addtab.in & {
-    width: calc(100% - 311px);
   }
 
   > a {
@@ -177,6 +186,10 @@
 
   &.active .icons-add {
     transform: rotate3d(0,0,1,135deg);
+  }
+
+  .out & {
+    transform: translate3d(36px,0,0);
   }
 }
 

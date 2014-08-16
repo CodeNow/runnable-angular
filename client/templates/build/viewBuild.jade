@@ -54,6 +54,7 @@ nav.sub-header
     button.silver(
       type = "button"
       ng-click = "dataBuild.actions.edit()"
+      ng-disabled = "!dataBuild.data.build.attrs.completed"
     ) Edit Build
     //- button.silver Cancel Build
 
@@ -87,7 +88,12 @@ section.sidebar
     li(ng-repeat = "commit in dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
-          a {{commit.message}}
+          a(
+            title = "{{commit.id}}"
+          )
+            svg.iconnables.icons-git
+              use(xlink:href = "#icons-git")
+            {{commit.message}}
         li
           a
             img(
@@ -96,9 +102,6 @@ section.sidebar
               width = "20"
             )
             | #{''} {{commit.committer.username}}
-          //- a {{commit.id}}
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
   ol#messages(
     ng-if = "dataBuild.data.build.attrs.started && !dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
