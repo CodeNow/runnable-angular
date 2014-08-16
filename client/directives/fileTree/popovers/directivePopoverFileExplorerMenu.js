@@ -22,10 +22,6 @@ function popoverFileExplorerMenu(
       }
 
       $scope.jQuery = jQuery;
-      var inputElement = element.find('input');
-      inputElement.on('blur', function () {
-        closeFolderNameInput();
-      });
 
       var dirItemData = $scope.dirItemData = {};
       var actions = dirItemData.actions = {};
@@ -157,8 +153,7 @@ function popoverFileExplorerMenu(
         e.stopPropagation();
       }
 
-      element.on('$destroy', function () {
-        inputElement.off('blur');
+      $scope.$on('$destroy', function () {
         if (keypather.get($scope, '$popoverTemplate.remove')) {
           $scope.$popoverTemplate.remove();
         }
