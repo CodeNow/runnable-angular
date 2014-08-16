@@ -3,7 +3,8 @@
     li(
       ng-class = "{ \
           'active': item.state.active, \
-          'dirty': (item.state.body !== item.attrs.body) \
+          'dirty': (dataApp.state.current.name === 'projects.instance' \
+                   && item.state.body !== item.attrs.body) \
         }"
       ng-repeat = "item in openItems.models"
     )
