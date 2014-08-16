@@ -24,14 +24,22 @@
 
     > li {
       color: $gray-dark;
+      max-height: 45px;
+      transition: max-height .15s ease-in, opacity .2s ease-in;
 
       > span {
         width: 24px;
       }
+
+      &.out {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
     }
   }
 
-  input {
+  .form-control {
     margin-bottom: 9px;
   }
 
@@ -45,7 +53,6 @@
 
     > li {
       line-height: 36px;
-      min-height: 36px;
       overflow: hidden;
       padding: 0 15px;
       text-overflow: ellipsis;
@@ -111,10 +118,10 @@
 .message {
 
   .icons-git {
-    float: right;
-    height: 18px;
+    height: 15px;
     margin-left: 3px;
-    width: 18px;
+    top: 2px;
+    width: 15px;
   }
 
   img {

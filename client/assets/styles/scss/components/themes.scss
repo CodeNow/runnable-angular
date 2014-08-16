@@ -2,9 +2,25 @@ pre.ace-tm {
   background-color: $white;
   color: $gray-darker;
 
-  &.readonly,
-  &.readonly .ace_gutter {
+  &.readonly {
     background-color: $gray-light;
+
+    .ace_gutter {
+      background-color: $gray-light;
+    }
+
+    .ace_active-line {
+      background: none;
+    }
+
+    .ace_cursor {
+      border-color: transparent;
+    }
+
+    .ace_marker-layer .ace_selected-word {
+      background: transparent;
+      border: 0;
+    }
   }
 
   .ace_gutter {
@@ -169,12 +185,20 @@ pre.ace-runnable-dark {
   background-color: #311d40;
   color: $white;
 
-  &.readonly,
-  &.readonly .ace_gutter {
+  &.readonly, {
     background-color: rgba(#311d40,.6);
 
     &.ace_gutter {
       color: lighten(#5e4d6e,30%);
+    }
+
+    .ace_gutter {
+      background-color: rgba(#311d40,.6);
+    }
+
+    .ace_marker-layer .ace_active-line,
+    .ace_gutter-active-line {
+      background: none;
     }
   }
 

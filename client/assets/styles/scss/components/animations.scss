@@ -105,6 +105,15 @@
   }
 }
 
+@keyframes horizontal-spinner {
+  0% {
+    transform: translate3d(-100%,0,0);
+  }
+  100% {
+    transform: translate3d(200%,0,0);
+  }
+}
+
 @keyframes modalIn {
   0% {
     transform: scale3d(0,0,0);
@@ -150,21 +159,12 @@
   }
 }
 
-@keyframes horizontal-spinner {
-  0% {
-    transform: translate3d(-100%,0,0);
-  }
-  100% {
-    transform: translate3d(200%,0,0);
-  }
-}
-
 @keyframes rotate {
   0% {
-    transform: rotate3d(0,0,1,0);
+    transform: rotate(0);
   }
   100% {
-    transform: rotate3d(0,0,1,360deg);
+    transform: rotate(360deg);
   }
 }
 

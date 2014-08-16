@@ -84,7 +84,6 @@ function popoverFileExplorerItemMenu(
             $rootScope.safeApply();
             throw err;
           }
-          $scope.actions.sortDir();
         });
       }
       fileItemData.actions.closeFileNameInput = closeFileNameInput;
