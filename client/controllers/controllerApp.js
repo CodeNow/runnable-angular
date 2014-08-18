@@ -27,7 +27,11 @@ function ControllerApp(
     $stateParams,
     apiConfigHost);
   var data = dataApp.data = {};
+
   data.loading = false;
+  $rootScope.$on('$stateChangeStart', function () {
+    data.loading = false;
+  });
 
   $interval(function () {
     $rootScope.safeApply();
