@@ -164,7 +164,7 @@ section.sidebar.load
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.commit || repoModel.branch  }}"
+          value = "{{ repoModel.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch  }}"
         )
 
   button#explorer-toggle.btn-icon(
