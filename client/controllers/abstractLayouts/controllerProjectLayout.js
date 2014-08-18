@@ -150,12 +150,16 @@ function ControllerProjectLayout(
       });
     });
   };
+
   actions.stateToInstance = function (instance) {
-    $state.go('projects.instance', {
-      instanceId: instance.id(),
-      userName: $state.params.userName
-    });
+    if (instance && instance.id && instance.id()){
+      $state.go('projects.instance', {
+        instanceId: instance.id(),
+        userName: $state.params.userName
+      });
+    }
   };
+
   actions.stateToBuildList = function () {
     var project, environment, event;
     project = arguments[0];
