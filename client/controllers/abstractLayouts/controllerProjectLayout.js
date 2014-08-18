@@ -105,6 +105,7 @@ function ControllerProjectLayout(
       }
       var project = thisUser.createProject(body, function (err) {
         if (err) {
+          data.newNameTaken = true;
           throw err;
         }
         cb(err, thisUser, project);
