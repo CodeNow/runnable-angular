@@ -18,7 +18,7 @@ function ControllerInstance(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerInstance;
 
-  var dataInstance = $scope.dataInstance = self.initState();
+  var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
@@ -26,8 +26,9 @@ function ControllerInstance(
    * popoverFileMenu
    *********************************/
   var pfm = data.popoverFileMenu = {};
-  pfm.data = {};
-  pfm.data.show = false;
+  pfm.data = {
+    show: false
+  };
   pfm.actions = {};
 
   pfm.actions.createFile = function () {};
@@ -37,23 +38,15 @@ function ControllerInstance(
   /*********************************
    * popoverAddTab
    *********************************/
-  var pat = data.popoverAddTab = {};
-  pat.data = {};
-  pat.data.show = false;
+  var pat = data.popoverAddTab;
+  pat.data = {
+    show: false
+  };
   pat.actions = {};
 
   pat.actions.addOutputStream = function () {
     pat.data.show = false;
-    /*
-    data.openItems.add({
-      type: 'outputStream',
-      name: Date.now()+'',
-      _id: Date.now()+'',
-      filename: function () {
-        return '';
-      }
-    });
-    */
+    //TODO
   };
 
   pat.actions.addWebView = function () {
@@ -61,17 +54,6 @@ function ControllerInstance(
     data.openItems.addWebView({
       name: 'Web View'
     });
-
-    /*
-    data.openItems.add({
-      type: 'webView',
-      name: Date.now()+'',
-      _id: Date.now()+'',
-      filename: function () {
-        return 'Web';
-      }
-    });
-    */
   };
 
   pat.actions.addTerminal = function () {
@@ -80,96 +62,15 @@ function ControllerInstance(
       name: 'Terminal',
       params: data.instance.attrs.containers[0]
     });
-
-    /*
-    data.openItems.add({
-      Key: 'Terminal',
-      type: 'terminal',
-      path: '/',
-      name: Date.now() + '',
-      _id: Date.now()+'',
-      params: data.instance.attrs.containers[0],
-      filename: function () {
-        return 'Terminal';
-      }
-    });
-    */
   };
 
   pat.actions.addLogs = function () {
     pat.data.show = false;
-    var logs = data.openItems.addLogs({
+    data.openItems.addLogs({
       name: 'Server Logs',
       params: data.instance.attrs.containers[0]
     });
-    if (!data.container || !data.container.running()) {
-      logs.state.alwaysOpen = true;
-    }
   };
-
-  actions.stopInstance = function () {
-    data.instance.stop(function (err) {
-      if (err) {
-        throw err;
-      }
-      data.instance.fetch(function (err) {
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-      });
-    });
-  };
-
-  actions.startInstance = function () {
-    data.instance.start(function (err) {
-      if (err) {
-        throw err;
-      }
-      data.instance.fetch(function (err) {
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-      });
-    });
-  };
-
-  actions.stateToBuildList = function (userName, projectName, branchName) {
-    var state = {
-      userName: userName,
-      projectName: projectName,
-      branchName: branchName
-    };
-    $state.go('projects.buildList', state);
-  };
-
-  actions.goToBuild = function() {
-    var attrs = data.instance.attrs;
-    var state = {
-      userName: attrs.owner.username,
-      projectName: attrs.project.name,
-      branchName: attrs.environment.name,
-      buildName: attrs.build.buildNumber
-    };
-    $state.go('projects.build', state);
-  };
-
-  actions.destroyInstance = function () {
-    var old = data.instance.json();
-    data.instance.destroy(function (err) {
-      if (err) {
-        throw err;
-      }
-      actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
-    });
-  };
-
-  $scope.$on('app-document-click', function () {
-    dataInstance.data.showAddTab = false;
-    dataInstance.data.showFileMenu = false;
-    dataInstance.data.popoverAddTab.filter = '';
-  });
 
   $scope.$watch(function () {
     if (data.openItems && data.openItems.activeFile) {
@@ -235,7 +136,7 @@ function ControllerInstance(
   });
 }
 
-ControllerInstance.initState = function () {
+ControllerInstance.initData = function () {
   return {
     data: {
       popoverAddTab: {

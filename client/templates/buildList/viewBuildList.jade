@@ -2,9 +2,9 @@ nav#build-stream-header.sub-header
   h1
     //- if empty, revert to project name
     input.form-control.inline-edit(
-      placeholder = "App Name"
       ng-model = "dataBuildList.data.project.attrs.name"
       ng-model-options = "{ debounce: 500 }"
+      placeholder = "App Name"
       required
       spellcheck = "false"
     )
@@ -13,9 +13,9 @@ nav#build-stream-header.sub-header
 
   button#delete-project.btn-icon(
     modal
+    modal-actions = "dataBuildList.actions.actionsModalDelete"
+    modal-data = "dataBuildList.data.dataModalDelete"
     modal-template = "viewBuildListModalDeleteProject"
-    modal-data     = "dataBuildList.data.dataModalDelete"
-    modal-actions  = "dataBuildList.actions.actionsModalDelete"
     type = "button"
   )
     svg.iconnables.icons-delete

@@ -29,7 +29,7 @@ function ControllerBuildNew(
     showExplorer: false
   };
 
-  $scope.$watch('dataBuild.data.build.attrs.completed', function(n) {
+  $scope.$watch('dataBuildNew.data.build.attrs.completed', function(n) {
     if (n) {
       data.showExplorer = true;
     }
@@ -185,7 +185,9 @@ function ControllerBuildNew(
    * // BuildPopoverBuildOptions
    **************************************/
 
-  actions.discardChanges = function () {};
+  actions.discardChanges = function () {
+    $state.go('projects.build', $stateParams);
+  };
 
   actions.stateToBuildList = function () {
     var state = {
