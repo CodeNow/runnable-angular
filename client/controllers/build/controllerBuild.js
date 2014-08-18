@@ -102,9 +102,7 @@ function ControllerBuild(
         build: data.build.id()
       }
     }, function (err) {
-      if (err) {
-        throw err;
-      }
+      if (err) throw err;
       $scope.dataApp.data.loading = false;
       var state = {
         instanceId: instance.id(),
@@ -112,6 +110,8 @@ function ControllerBuild(
       };
       $state.go('projects.instance', state);
     });
+    $scope.dataProjectLayout.data.instances.add(instance);
+    $scope.safeApply();
   };
 
   actions.createRepo = function () {
