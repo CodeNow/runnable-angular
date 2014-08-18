@@ -134,6 +134,7 @@ function popoverFileExplorerMenu(
           return false;
         }
 
+        $rootScope.$broadcast('app-document-click');
         $rootScope.$broadcast('file-modal-open');
 
         // insert element into dom
