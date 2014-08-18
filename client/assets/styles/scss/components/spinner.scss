@@ -1,3 +1,12 @@
+.spinner-container {
+  display: flex;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(100vw - 240px);
+}
+
 .spinner {
   height: 16px;
   margin: auto;
@@ -92,14 +101,13 @@
 }
 
 // main spinner
-main > .spinner {
+main ~ .spinner-container {
   color: $purple;
-  top: calc(50% - 30px);
   transform: translate3d(0,0,0);
   transition: transform .3s ease-in;
 }
 
-header.in ~ main > .spinner {
+header.in ~ .spinner-container {
   transform: translate3d(50vw,0,0);
 }
 
