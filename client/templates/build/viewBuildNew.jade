@@ -12,7 +12,6 @@ nav.sub-header
         use(xlink:href = "#icons-asterisk")
     | Build {{ dataBuildNew.data.build.attrs.buildNumber }}
 
-  //- only show cancel build during a build
   section#main-controls
     .btn-group
       button.green(
@@ -35,7 +34,6 @@ nav.sub-header
       ng-click = "dataBuildNew.actions.discardChanges()"
       type = "button"
     ) Discard Changes
-    //- button.silver Cancel Build
 
 section.sidebar.load
   ul(

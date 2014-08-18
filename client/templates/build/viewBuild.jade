@@ -19,7 +19,6 @@ nav.sub-header
         use(xlink:href = "#icons-fail")
     | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4) }}
 
-  //- only show cancel build during a build
   section#main-controls
     button.green(
       ng-click = "dataBuild.actions.runInstance()"
@@ -45,11 +44,9 @@ nav.sub-header
           template = "viewBuildPopoverBuildOptions"
         )
     button.silver(
-      type = "button"
       ng-click = "dataBuild.actions.edit()"
-      ng-disabled = "!dataBuild.data.build.attrs.completed"
+      type = "button"
     ) Edit Build
-    //- button.silver Cancel Build
 
 section.sidebar
   ul.load(
