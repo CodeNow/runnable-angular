@@ -58,7 +58,7 @@ function buildStream(
             if (err) {
               throw err;
             }
-            if (build.failed()) {
+            if (!build.successful()) {
               // bad things happened
               addToStream('BUILD BROKEN: Please try again');
             } else {
