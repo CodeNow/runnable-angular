@@ -1,10 +1,15 @@
 .spinner-container {
-  display: flex;
+  background: $white;
+  display: none;
   height: 100vh;
   position: absolute;
   right: 0;
   top: 0;
   width: calc(100vw - 240px);
+
+  &.in {
+    display: flex;
+  }
 }
 
 .spinner {
