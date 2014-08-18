@@ -22,6 +22,9 @@ function validateName(
           return name;
         }
         function testName() {
+          if (!$scope.projects) {
+            return;
+          }
           var match = $scope.projects.find(function (m) {
             return (m.attrs.name === name);
           });
