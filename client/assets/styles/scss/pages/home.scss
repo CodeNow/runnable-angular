@@ -97,3 +97,26 @@
     width: 60px;
   }
 }
+
+footer {
+  background-image: linear-gradient($white,rgba($gray-dark,.1));
+  height: 450px;
+  position: relative;
+  width: 100vw;
+  z-index: 0;
+}
+
+footer::after {
+  background: url(../images/hero-icons.svg) 50% 100% no-repeat;
+  bottom: 0;
+  content: '';
+  display: block;
+  height: 450px;
+  left: 0;
+  margin: auto;
+  opacity: .3;
+  position: absolute;
+  right: 0;
+  width: 100vw;
+  z-index: 1;
+}
