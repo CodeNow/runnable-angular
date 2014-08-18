@@ -17,7 +17,7 @@ nav.sub-header
         use(xlink:href = "#icons-check")
       svg.iconnables.icons-fail
         use(xlink:href = "#icons-fail")
-    | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4)+'...' }}
+    | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4) }}
 
   //- only show cancel build during a build
   section#main-controls
@@ -59,7 +59,7 @@ nav.sub-header
     //- button.silver Cancel Build
 
 section.sidebar
-  ul(ng-show = "dataBuild.data.build.attrs.created")
+  ul.load(ng-show = "dataBuild.data.build.attrs.created")
     li
       svg.iconnables.icons-recipe
         use(xlink:href = "#icons-recipe")
@@ -82,7 +82,7 @@ section.sidebar
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuild.data.build.user.attrs.accounts.github.username }}</a>
   h3 Message Log
-  ol#messages(
+  ol#messages.load(
     ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li(ng-repeat = "commit in dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
@@ -102,7 +102,7 @@ section.sidebar
               width = "20"
             )
             | #{''} {{commit.committer.username}}
-  ol#messages(
+  ol#messages.load(
     ng-if = "dataBuild.data.build.attrs.started && !dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li
