@@ -28,11 +28,15 @@ function validateName(
           ctrl.$setValidity('nameAvailable', !!!match);
           $rootScope.safeApply();
         }
-        $scope.projects.fetch(function () {
-          testName();
-        });
+        debounce(function () {
+          $scope.projects.fetch(function () {
+            testName();
+          });
+        }, 200, false);
         testName();
-      }, 200, false);
+
+        return name;
+      });
 
       // called when value changes via code/controller
       ctrl.$formatters.unshift(checkValid);
