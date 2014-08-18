@@ -28,10 +28,63 @@ function ControllerBuild(
     showPopoverFileMenuForm: false,
     showPopoverFileMenuAddReop: false,
     showPopoverRepoMenu: false,
-    showRebuildMenu: false,
     buildName: $stateParams.buildName,
     showExplorer: false
   };
+
+  /***************************************
+   * Rebuild Popover
+   **************************************/
+  var rbpo = dataBuild.data.rbpo = {};
+  rbpo.data = {};
+  rbpo.actions = {};
+
+  rbpo.data.show = false;
+  rbpo.data.environmentName = '';
+  rbpo.data.buildMessage = '';
+  rbpo.data.popoverInputHasBeenClicked = false;
+
+  function setupBuildPopover () {
+    rbpo.data.project = dataBuild.data.project;
+  }
+
+  rbpo.actions.build = function () {
+    if (rbpo.data.environmentName === '') {
+      return;
+    }
+    var environment = dataBuild.data.project.environments.find(function (m) {
+      return m.attrs.name === rbpo.data.environmentName;
+    });
+    function createEnvironment () {
+      dataBuild.data.forkedEnvironment = dataBuildNew.data
+      .project.environments.create({
+        name: rbpo.data.environmentName
+      }, function (err) {
+        if (err) throw err;
+        dataBuild.actions.rebuild();
+      });
+    }
+    if (environment) {
+      dataBuild.data.forkedEnvironment = environment;
+      dataBuild.actions.build();
+    } else {
+      createEnvironment();
+    }
+  };
+
+  rbpo.actions.getPopoverButtonText = function (name) {
+    return 'Build' + ((name && name.length) ? 's in ' + name : '');
+  };
+
+  rbpo.actions.resetInputModelValue = function ($event) {
+    if (!rbpo.data.popoverInputHasBeenClicked) {
+      return;
+    }
+    rbpo.data.environmentName = '';
+    rbpo.data.popoverInputHasBeenClicked = true;
+  };
+
+  /**************************************/
 
   actions.stateToBuildList = function () {
     var state = {
@@ -182,6 +235,7 @@ function ControllerBuild(
       fetchOwnerRepos,
       newOpenItems
     ], function (err) {
+      setupBuildPopover();
       if (err) {
         $state.go('404');
         throw err;

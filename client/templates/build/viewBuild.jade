@@ -34,21 +34,15 @@ nav.sub-header
         type = "button"
       ) Rebuild
       a.btn.silver.btn-icon(
-        ng-class = "{active: dataBuild.data.showRebuildMenu}"
+        ng-class = "{active: dataBuild.data.rbpo.data.show}"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showRebuildMenu"
+        toggle-pop-over-model = "dataBuild.data.rbpo.data.show"
       )
         svg.iconnables.icons-arrow-down
           use(xlink:href = "#icons-arrow-down")
         pop-over(
-          actions = "{ \
-            getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
-            resetInputModelValue: dataBuild.actions.resetInputModelValue \
-          }"
-          data = "{ \
-            buildName: dataBuild.data.buildName, \
-            show: dataBuild.data.showRebuildMenu \
-          }"
+          actions = "dataBuild.data.rbpo.actions"
+          data = "dataBuild.data.rbpo.data"
           template = "viewBuildPopoverBuildOptions"
         )
     button.silver(

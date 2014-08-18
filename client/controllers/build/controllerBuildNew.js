@@ -166,7 +166,7 @@ function ControllerBuildNew(
     if (!bpbo.data.popoverInputHasBeenClicked) {
       return;
     }
-    bpbo.data.buildName = '';
+    bpbo.data.environmentName = '';
     bpbo.data.popoverInputHasBeenClicked = true;
   };
   /**************************************
