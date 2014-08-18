@@ -71,11 +71,11 @@ section.sidebar.load
       ol.message
         li
           a(
-            title = "{{commit.id}}"
+            title = "{{commit.sha}}"
           )
             svg.iconnables.icons-git
               use(xlink:href = "#icons-git")
-            {{commit.message}}
+            {{commit.commit.message}}
         li
           a
             img(
