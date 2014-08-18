@@ -52,6 +52,9 @@ function ControllerProjectLayout(
   };
 
   actions.checkName = function () {
+    if (!dataProjectLayout.data.projects) {
+      return;
+    }
     var match = dataProjectLayout.data.projects.find(function (m) {
       return (m.attrs.name === dataProjectLayout.data.newProjectName);
     });
@@ -296,7 +299,8 @@ function ControllerProjectLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
-      selectInitialProjectOwner
+      selectInitialProjectOwner,
+      fetchProjects
     ]);
   };
 
