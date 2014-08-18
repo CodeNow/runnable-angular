@@ -109,6 +109,9 @@ function ControllerProjectLayout(
   };
 
   actions.createNewProject = function () {
+    if (dataProjectLayout.data.newProjectNameForm.$invalid) {
+      return;
+    }
     var thisUser = $scope.dataApp.user;
 
     function createProject(cb) {
