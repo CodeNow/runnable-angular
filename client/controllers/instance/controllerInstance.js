@@ -72,6 +72,71 @@ function ControllerInstance(
     });
   };
 
+  actions.stopInstance = function () {
+    data.instance.stop(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.fetch(function (err) {
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  actions.startInstance = function () {
+    data.instance.start(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.fetch(function (err) {
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  actions.stateToBuildList = function (userName, projectName, branchName) {
+    var thisUser = $scope.dataApp.user;
+    var state = {
+      userName: userName,
+      projectName: projectName,
+      branchName: branchName
+    };
+    $state.go('projects.buildList', state);
+  };
+
+  actions.goToBuild = function() {
+    var attrs = data.instance.attrs;
+    var state = {
+      userName: attrs.owner.username,
+      projectName: attrs.project.name,
+      branchName: attrs.environment.name,
+      buildName: attrs.build.buildNumber
+    };
+    $state.go('projects.build', state);
+  };
+
+  actions.destroyInstance = function () {
+    var old = data.instance.json();
+    data.instance.destroy(function (err) {
+      if (err) {
+        throw err;
+      }
+      actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
+    });
+  };
+
+  $scope.$on('app-document-click', function () {
+    dataInstance.data.showAddTab = false;
+    dataInstance.data.showFileMenu = false;
+    dataInstance.data.popoverAddTab.filter = '';
+  });
+
   $scope.$watch(function () {
     if (data.openItems && data.openItems.activeFile) {
       return data.openItems.activeFile.attrs.body;
