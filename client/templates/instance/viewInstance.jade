@@ -63,7 +63,7 @@ section.sidebar
       a dataInstance.data.container.attrs.stoppedBy.username
   h3 Actions
   ol.actions
-    li(
+    li.action(
       ng-if = "!dataInstance.data.container.running()"
     ) Start Instance
       button.btn-sm.silver(
@@ -72,7 +72,7 @@ section.sidebar
       )
         svg.iconnables.icons-launch
           use(xlink:href = "#icons-launch")
-    li(
+    li.action(
       ng-if = "dataInstance.data.container.running()"
     ) Stop Instance
       button.btn-sm.silver(
@@ -81,7 +81,7 @@ section.sidebar
       )
         svg.iconnables.icons-stop-alt
           use(xlink:href = "#icons-stop-alt")
-    li Delete Instance
+    li.action Delete Instance
       button.btn-sm.silver(
         type = "button"
         ng-click = "dataInstance.actions.destroyInstance()"
