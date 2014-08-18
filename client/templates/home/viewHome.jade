@@ -1,31 +1,29 @@
-//- main#home
-//-   svg#logomark.iconnables
-//-     use(xlink:href = "#runnable-logomark")
-//-   svg#lettering.iconnables
-//-     use(xlink:href = "#runnable-lettering")
-//-   a.btn.white(
-//-     href = "{{ dataApp.loginURL }}"
-//-   )
-//-     svg.iconnables.icons-git
-//-       use(xlink:href = "#icons-git")
-//-     | Log In with Github
-
-header.container
-  a.logo(href = "/")
-    svg
-      use(xlink:href = "#runnable-logo")
-  a.btn.white(
-    href = "{{ dataApp.loginURL }}"
-  ) Log In
-
 main.hero
-  h1.tag-line Sandboxes. Sandboxes. Sandboxes.
-  h2.sub-line /ˈsan(d)ˌbäks/—a shallow box or hollow in the ground partly filled with sand for children to play in.
-  a.btn.white(
-    href = "{{ dataApp.loginURL }}"
-  )
-    svg.iconnables.icons-git
-      use(xlink:href = "#icons-git")
-    | Sign Up with Github
+  header.container
+    a.logo(href = "/")
+      svg
+        use(xlink:href = "#runnable-logo")
+    a.btn.white(
+      href = "{{ dataApp.loginURL }}"
+    ) Log In
+  .content-wrapper
+    h1.tag-line Sandboxes. Sandboxes. Sandboxes.
+    h2.sub-line /ˈsan(d)ˌbäks/—a shallow box or hollow in the ground partly filled with sand for children to play in.
+    a.btn.white(
+      href = "{{ dataApp.loginURL }}"
+    )
+      svg.iconnables.icons-git
+        use(xlink:href = "#icons-git")
+      | Sign Up with Github
 
-section.feature
+section.container
+  .feature.col-sm-4.col-sm-offset-2
+    svg.iconnables.icons-folder-open(viewBox='0 0 30 30')
+      use(xlink:href = "#icons-folder-open")
+    h3 We've Got Folders
+    p To store your files, and additional folders. They come in black and white, and can hold up to 2 files at once.
+  .feature.col-sm-4
+    svg.iconnables.icons-file
+      use(xlink:href = "#icons-file")
+    h3 Files Too!
+    p Your first 10 files are free. At only $100 per additional file, you can afford to have dozens!

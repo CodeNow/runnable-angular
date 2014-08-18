@@ -25,6 +25,8 @@ body,
 
 #wrapper.width-full {
   min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 main {
