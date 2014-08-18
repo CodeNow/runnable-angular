@@ -79,4 +79,6 @@ section.sidebar
     read-only = "dataSetup.data.isReadOnly"
     update = "true"
   )
-  .horizontal-spinner
+  .horizontal-spinner(
+    ng-show = "dataSetup.data.fetchingContext"
+  )

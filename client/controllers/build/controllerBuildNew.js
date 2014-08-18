@@ -185,7 +185,9 @@ function ControllerBuildNew(
    * // BuildPopoverBuildOptions
    **************************************/
 
-  actions.discardChanges = function () {};
+  actions.discardChanges = function () {
+    $state.go('projects.build', $stateParams);
+  };
 
   actions.stateToBuildList = function () {
     var state = {

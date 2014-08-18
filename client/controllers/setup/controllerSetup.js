@@ -140,10 +140,12 @@ function ControllerSetup(
    */
   actions.selectSourceContext = function (context) {
     data.selectedSourceContext = context;
+    data.fetchingContext = true;
     fetchContextVersion(context, function (err) {
       if (err) {
         throw err;
       }
+      data.fetchingContext = false;
       if (data.contextVersion.source === data.sourceContextVersion.id()) {
         // nothing
       } else {
@@ -401,7 +403,8 @@ ControllerSetup.initState = function () {
   return {
     data: {
       isAdvanced: false,
-      isRepoMode: false
+      isRepoMode: false,
+      fetchingContext: false
     },
     actions: {}
   };
