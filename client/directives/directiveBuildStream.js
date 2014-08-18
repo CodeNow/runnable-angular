@@ -51,7 +51,7 @@ function buildStream(
         var build = $scope.build;
         var buildStream = primus.createBuildStream(build);
         var addToStream = function (data) {
-          $scope.stream.data = parseReturns($scope.stream.data + data);
+          $scope.stream.data = addToTotal(data, $scope.stream.data);
           $rootScope.safeApply();
           jQuery('html, body').scrollTop(10000);
         };
@@ -80,31 +80,31 @@ function parseReturns(data) {
   if (!data) {
     return null;
   }
-  console.log(data);
   // Split the data by the \n.
   var splitData= data.split('\n');
   var parsedData= '';
   // Each of the strings in the array may have a \r at the end of them
   splitData.forEach(function (line, index){
     if (line) {
-      var firstReturn = line.indexOf('\r');
+      var startCheck = 0;
       // Remove all \r from the beginning of the line
-      while(firstReturn === 0) {
-        line = line.slice(1);
-        firstReturn = line.indexOf('\r');
+      while(line.charAt(startCheck) === '\r') {
+        startCheck++;
       }
+      var firstReturn = line.indexOf('\r', startCheck);
       // If the first found return is at the end, or not in it at all, then skip this
       if (line && firstReturn !== -1) {
         // remove the \r from the end of the line
-        var lastIndex= line.lastIndexOf('\r');
-        while(lastIndex === line.length - 1) {
-          line = line.slice(0, -1);
-          lastIndex = line.lastIndexOf('\r');
+        var endCheck = line.length - 1;
+        while (line.charAt(endCheck) === '\r') {
+          endCheck--;
         }
+        var lastIndex= line.lastIndexOf('\r', endCheck);
         // Now find the last index (which isn't at the beginning or end), and cut off
         // everything before it
         if (lastIndex > 0) {
-          line = line.slice(lastIndex + 1);
+          // +1 for the last letter, + 1 for the \r at the end
+          line = line.slice(lastIndex + 1, endCheck + 2);
         }
       }
       // Since split will cause the last item to be an empty string
@@ -115,4 +115,25 @@ function parseReturns(data) {
     }
   });
   return parsedData || data;
+}
+
+/**
+ * This function looks for the last occurrence of \n to reduce what needs to be sent to
+ * parseReturns.  This takes all data after the last \n and sends it to be parsed with the new
+ * incoming data.  This reduces the amount of text the parser has to go through, since we know
+ * we only care about stuff that may be wiped out, and everything that has been through this
+ * step before is guaranteed clean.
+ * @param data fresh data from the stream
+ * @param onScreen currently onscreen data
+ * @returns {*} data to be placed on the screen.
+ */
+function addToTotal(data, onScreen) {
+  var lastIndex= onScreen.lastIndexOf('\n');
+  if (lastIndex > 0 && lastIndex !== onScreen.length - 1) {
+    data = onScreen.slice(lastIndex) + data;
+    // +1 to include the \n, since it's the last one on the screen
+    onScreen = onScreen.slice(0, lastIndex + 1);
+  }
+  onScreen += parseReturns(data);
+  return onScreen;
 }
