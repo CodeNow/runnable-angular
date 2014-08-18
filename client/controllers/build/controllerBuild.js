@@ -127,18 +127,33 @@ function ControllerBuild(
     var buildObj = {
       message: (rbpo.data.buildMessage || 'Manual Rebuild')
     };
-    var method = 'rebuild';
     if (data.forkedEnvironment) {
       buildObj.environment = data.forkedEnvironment.id();
-      method = 'build';
+      buildObj.parentBuild = data.build.id();
+      var forkedBuild = data.forkedEnvironment.createBuild(buildObj,
+        function (err) {
+          if (err) throw err;
+
+          forkedBuild.build({
+            message: buildObj.message
+          }, function (err) {
+            if (err) throw err;
+
+            $state.go('projects.build', angular.copy({
+              buildName: forkedBuild.attrs.buildNumber,
+              branchName: data.forkedEnvironment.attrs.name
+            }, $stateParams));
+          });
+        });
+    } else {
+      var newBuild = data.build.rebuild(buildObj,
+        function (err, build) {
+          if (err) throw err;
+          $state.go('projects.build', angular.copy({
+            buildName: newBuild.attrs.buildNumber
+          }, $stateParams));
+        });
     }
-    var newBuild = data.build[method](buildObj,
-      function (err, build) {
-        if (err) throw err;
-        $state.go('projects.build', angular.copy({
-          buildName: newBuild.attrs.buildNumber
-        }, $stateParams));
-      });
   };
 
   actions.edit = function () {
