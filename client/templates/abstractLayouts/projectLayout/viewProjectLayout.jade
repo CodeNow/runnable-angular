@@ -95,11 +95,10 @@ header(
         ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataProjectLayout.data.instances.models"
       )
-        a.btn-link {{ instance.attrs.name }}
-        small.build-url {{ instance.buildUrl() }}
+        a.btn-link {{ instance.attrs.name || 'LOADING...' }}
+        small.build-url {{ instance.buildUrl() || dataProjectLayout.data.tempBuildUrl }}
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
-
 .spinner-container(
   ng-class = "{in: dataApp.data.loading}"
 )

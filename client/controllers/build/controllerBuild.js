@@ -110,6 +110,7 @@ function ControllerBuild(
       };
       $state.go('projects.instance', state);
     });
+    $scope.dataProjectLayout.data.tempBuildUrl = $state.href('projects.build').replace(/^\/project\//, '');
     $scope.dataProjectLayout.data.instances.add(instance);
     $scope.safeApply();
   };
