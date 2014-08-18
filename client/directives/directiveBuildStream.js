@@ -51,7 +51,7 @@ function buildStream(
         var build = $scope.build;
         var buildStream = primus.createBuildStream(build);
         var addToStream = function (data) {
-          $scope.stream.data += parseReturns(data);
+          $scope.stream.data = parseReturns($scope.stream.data + data);
           $rootScope.safeApply();
           jQuery('html, body').scrollTop(10000);
         };
@@ -77,26 +77,34 @@ function buildStream(
 }
 
 function parseReturns(data) {
+  if (!data) {
+    return null;
+  }
+  console.log(data);
   // Split the data by the \n.
   var splitData= data.split('\n');
   var parsedData= '';
   // Each of the strings in the array may have a \r at the end of them
   splitData.forEach(function (line, index){
     if (line) {
-      var firstReturn= line.indexOf('\r');
-      if (firstReturn === 0) {
+      var firstReturn = line.indexOf('\r');
+      // Remove all \r from the beginning of the line
+      while(firstReturn === 0) {
         line = line.slice(1);
+        firstReturn = line.indexOf('\r');
       }
       // If the first found return is at the end, or not in it at all, then skip this
-      if (firstReturn !== -1 && firstReturn !== line.length - 1) {
-        // remove the \r from the end
-        var tempLine = line;
-        while(tempLine && tempLine.lastIndexOf('\r') === tempLine.length - 1) {
-          tempLine = tempLine.slice(0, -1);
+      if (line && firstReturn !== -1) {
+        // remove the \r from the end of the line
+        var lastIndex= line.lastIndexOf('\r');
+        while(lastIndex === line.length - 1) {
+          line = line.slice(0, -1);
+          lastIndex = line.lastIndexOf('\r');
         }
-        var lastIndex= tempLine.lastIndexOf('\r');
+        // Now find the last index (which isn't at the beginning or end), and cut off
+        // everything before it
         if (lastIndex > 0) {
-          line = line.slice(lastIndex);
+          line = line.slice(lastIndex + 1);
         }
       }
       // Since split will cause the last item to be an empty string
