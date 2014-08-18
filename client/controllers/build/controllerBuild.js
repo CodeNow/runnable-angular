@@ -56,7 +56,7 @@ function ControllerBuild(
       return m.attrs.name === rbpo.data.environmentName;
     });
     function createEnvironment () {
-      dataBuild.data.forkedEnvironment = dataBuildNew.data
+      dataBuild.data.forkedEnvironment = dataBuild.data
       .project.environments.create({
         name: rbpo.data.environmentName
       }, function (err) {
@@ -66,7 +66,7 @@ function ControllerBuild(
     }
     if (environment) {
       dataBuild.data.forkedEnvironment = environment;
-      dataBuild.actions.build();
+      dataBuild.actions.rebuild();
     } else {
       createEnvironment();
     }
@@ -123,20 +123,22 @@ function ControllerBuild(
     });
   };
 
-  function runBuild() {
-    var newBuild = data.build.rebuild(
+  actions.rebuild = function () {
+    var buildObj = {
+      message: (rbpo.data.buildMessage || 'Manual Rebuild')
+    };
+    var method = 'rebuild';
+    if (data.forkedEnvironment) {
+      buildObj.environment = data.forkedEnvironment.id();
+      method = 'build';
+    }
+    var newBuild = data.build[method](buildObj,
       function (err, build) {
-        if (err) {
-          throw err;
-        }
+        if (err) throw err;
         $state.go('projects.build', angular.copy({
           buildName: newBuild.attrs.buildNumber
         }, $stateParams));
       });
-  }
-
-  actions.rebuild = function () {
-    runBuild();
   };
 
   actions.edit = function () {

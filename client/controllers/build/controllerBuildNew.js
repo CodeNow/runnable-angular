@@ -192,7 +192,6 @@ function ControllerBuildNew(
   };
 
   actions.build = function () {
-    var buildData = data.buildPopoverBuildOptionsData;
     var buildObj = {
       message: (bpbo.data.buildMessage || 'Manual Build')
     };
