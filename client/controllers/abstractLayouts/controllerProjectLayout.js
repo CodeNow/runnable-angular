@@ -26,6 +26,7 @@ function ControllerProjectLayout(
   function isUser(entity) {
     return entity === $scope.dataApp.user;
   }
+
   actions.getEntityName = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -33,6 +34,7 @@ function ControllerProjectLayout(
         entity.attrs.login; // org
     }
   };
+
   actions.getEntityId = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -40,6 +42,7 @@ function ControllerProjectLayout(
         entity.attrs.id; //org
     }
   };
+
   actions.getEntityGravatar = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -47,6 +50,14 @@ function ControllerProjectLayout(
         entity.attrs.avatar_url; // org
     }
   };
+
+  actions.checkName = function () {
+    var match = dataProjectLayout.data.projects.find(function (m) {
+      return (m.attrs.name === dataProjectLayout.data.newProjectName);
+    });
+    dataProjectLayout.data.newNameTaken = !!match;
+  };
+
   actions.selectProjectOwner = function (userOrOrg, cb) {
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
@@ -81,15 +92,19 @@ function ControllerProjectLayout(
       });
     });
   };
+
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
+
   actions.getProjectBuildListHref = function (projectName) {
     return '/' + $state.params.userName + '/' + projectName + '/master/';
   };
+
   actions.getProjectLiClass = function (project) {
     return (project.attrs.name === $state.params.projectName) ? 'active' : '';
   };
+
   actions.createNewProject = function () {
     var thisUser = $scope.dataApp.user;
 
