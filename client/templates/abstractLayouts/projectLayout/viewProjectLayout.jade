@@ -100,6 +100,8 @@ header(
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
 
-.spinner-container
+.spinner-container(
+  ng-class = "{in: dataApp.data.loading}"
+)
   .spinner.lg
     .spinner-ring

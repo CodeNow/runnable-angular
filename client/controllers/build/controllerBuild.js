@@ -96,6 +96,7 @@ function ControllerBuild(
   };
 
   actions.runInstance = function () {
+    $scope.dataApp.data.loading = true;
     var instance = user.createInstance({
       json: {
         build: data.build.id()
@@ -104,6 +105,7 @@ function ControllerBuild(
       if (err) {
         throw err;
       }
+      $scope.dataApp.data.loading = false;
       var state = {
         instanceId: instance.id(),
         userName: $state.params.userName
