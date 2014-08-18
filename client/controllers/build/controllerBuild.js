@@ -102,8 +102,8 @@ function ControllerBuild(
         build: data.build.id()
       }
     }, function (err) {
-      if (err) throw err;
       $scope.dataApp.data.loading = false;
+      if (err) throw err;
       var state = {
         instanceId: instance.id(),
         userName: $state.params.userName

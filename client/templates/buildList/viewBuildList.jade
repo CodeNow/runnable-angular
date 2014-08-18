@@ -102,8 +102,9 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
-            ng-if = "!build.failed()"
-            ng-click = "$event.stopPropagation(); dataBuildList.actions.runInstance(build);"
+            ng-if = "!build.failed() && build.attrs.completed"
+            ng-click = "$event.stopPropagation(); \
+                        dataBuildList.actions.runInstance(build);"
             data-title = "Run Instance"
           )
             svg.iconnables.icons-run

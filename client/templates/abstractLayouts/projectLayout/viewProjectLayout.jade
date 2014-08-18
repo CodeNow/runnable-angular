@@ -18,7 +18,7 @@ header(
       | {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
-    ul.accounts.btn-group-vertical.no-margin
+    uljaccounts.btn-group-vertical.no-margin
       li.btn(
         ng-click = "dataProjectLayout.actions.selectProjectOwner(dataApp.user)"
         ng-if = "dataApp.user !== dataProjectLayout.data.activeAccount"
@@ -50,21 +50,28 @@ header(
       //- this field is optional. if blank, name the app for them: 'My App'
       //- should not trigger on focus, but on the error that causes the validation error
       input.form-control.form-validate(
-        ng-focus = "dataProjectLayout.actions.showRules = true"
+        ng-keyup = "dataProjectLayout.data.newNameTaken = false; \
+                    dataProjectLayout.actions.checkName()"
         ng-model = "dataProjectLayout.data.newProjectName"
         ng-pattern = "/^[A-Za-z0-9_-]+$/"
         placeholder = "Application Name"
         spellcheck = "false"
       )
       //- if invalid character is entered
-      .the-rules(ng-class = "{'in': dataProjectLayout.data.newProjectNameForm.$invalid}") We accept #{''}
+      .the-rules(
+        ng-class = "{in: dataProjectLayout.data.newProjectNameForm.$invalid}"
+      ) We accept #{''}
         b A-Z
         b a-z
         b 0-9
         b _
         b -
       //- if the name is taken
-      //- .the-rules(ng-class = "{in: dataProjectLayout.actions.showRules}") That's a pretty name, but it's taken.
+      .the-rules(
+        ng-class = "{ \
+          in: dataProjectLayout.data.newNameTaken \
+        }"
+      ) That's a pretty name, but it's taken.
       button.green.btn-block(ng-click = "dataProjectLayout.actions.createNewProject()") Create App
   .scroll-container
     h3 APPLICATIONS
