@@ -5,7 +5,7 @@ require('app')
  * @ngInject
  */
 function webView (
-
+  $sce
 ) {
   return {
     restrict: 'E',
@@ -28,7 +28,7 @@ function webView (
         $scope.iframeUrl = $sce.trustAsResourceUrl($scope.iframeUrl);
       };
 
-      $scope.iframeUrl = $sce.trustAsResourceUrl($scope.containercontainer.urls()[0]);
+      $scope.iframeUrl = $sce.trustAsResourceUrl($scope.container.urls()[0]);
 
     }
   };
