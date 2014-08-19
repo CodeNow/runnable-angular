@@ -154,18 +154,20 @@ section.sidebar
       //- * remove readonly property from input and select all text
       //- * save on blur or enter key
       li(
-        ng-repeat = "repoModel in dataBuildNew.data.newVersion.attrs.appCodeVersions"
-        ng-class = "{active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show}"
+        ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models"
+        ng-class = "{ \
+          active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show \
+        }"
         popover-repo-item-menu
       )
         span
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
-          | {{ repoModel.repo }}
+          | {{ repoModel.attrs.repo }}
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.lockCommit ? repoModel.commit : repoModel.branch }}"
+          value = "{{ repoModel.attrs.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch }}"
         )
 
   button#explorer-toggle.btn-icon(

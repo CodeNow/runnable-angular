@@ -23,11 +23,14 @@ function popoverRepoItemMenu(
       var popoverData = $scope.popoverData = {};
       var actions = popoverData.actions = {};
 
-      actions.modify = function () {};
+      actions.modify = function () {
+        $scope.dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show = true;
+      };
       actions.remove = function () {
         $scope.repoModel.destroy(function () {
           $rootScope.safeApply();
         });
+        $rootScope.safeApply();
       };
 
       popoverData.eStyle = {
