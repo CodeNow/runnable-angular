@@ -36,8 +36,10 @@ nav.sub-header
       type = "button"
     ) Discard Changes
 
-section.sidebar
-  ul(ng-show = "dataBuildNew.data.build.attrs.created")
+section.sidebar.load
+  ul(
+    ng-show = "dataBuildNew.data.build.attrs.created"
+  )
     li
       svg.iconnables.icons-recipe
         use(xlink:href = "#icons-recipe")
@@ -62,18 +64,18 @@ section.sidebar
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuildNew.data.build.user.attrs.accounts.github.username }}</a>
   h3 Message Log
-  ol#messages(
+  ol#messages.load(
     ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li(ng-repeat = "commit in dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
           a(
-            title = "{{commit.id}}"
+            title = "{{commit.sha}}"
           )
             svg.iconnables.icons-git
               use(xlink:href = "#icons-git")
-            {{commit.message}}
+            {{commit.commit.message}}
         li
           a
             img(
@@ -82,7 +84,7 @@ section.sidebar
               width = "20"
             )
             | #{''} {{commit.committer.username}}
-  ol#messages(
+  ol#messages.load(
     ng-if = "dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li
@@ -151,18 +153,18 @@ section.sidebar
       //- * remove readonly property from input and select all text
       //- * save on blur or enter key
       li(
-        ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models"
+        ng-repeat = "repoModel in dataBuildNew.data.newVersion.attrs.appCodeVersions"
         ng-class = "{active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show}"
         popover-repo-item-menu
       )
         span
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
-          | {{ repoModel.attrs.repo }}
+          | {{ repoModel.repo }}
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.attrs.commit || repoModel.attrs.branch  }}"
+          value = "{{ repoModel.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch  }}"
         )
 
   button#explorer-toggle.btn-icon(

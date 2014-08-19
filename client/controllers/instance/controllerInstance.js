@@ -17,17 +17,19 @@ function ControllerInstance(
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
+  var self = ControllerInstance;
 
-  var dataInstance = $scope.dataInstance = {};
-  var data = dataInstance.data = {};
-  var actions = dataInstance.actions = {};
+  var dataInstance = $scope.dataInstance = self.initData();
+  var data = dataInstance.data;
+  var actions = dataInstance.actions;
 
   /*********************************
    * popoverFileMenu
    *********************************/
   var pfm = data.popoverFileMenu = {};
-  pfm.data = {};
-  pfm.data.show = false;
+  pfm.data = {
+    show: false
+  };
   pfm.actions = {};
 
   pfm.actions.createFile = function () {};
@@ -37,9 +39,10 @@ function ControllerInstance(
   /*********************************
    * popoverAddTab
    *********************************/
-  var pat = data.popoverAddTab = {};
-  pat.data = {};
-  pat.data.show = false;
+  var pat = data.popoverAddTab;
+  pat.data = {
+    show: false
+  };
   pat.actions = {};
 
   pat.actions.addOutputStream = function () {
@@ -181,6 +184,11 @@ function ControllerInstance(
         }
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
+        if (data.container && data.container.running()) {
+          data.showExplorer = true;
+        } else {
+          data.showExplorer = false;
+        }
         $scope.safeApply();
         cb();
       })
@@ -217,3 +225,16 @@ function ControllerInstance(
     $scope.safeApply();
   });
 }
+
+ControllerInstance.initData = function () {
+  return {
+    data: {
+      popoverAddTab: {
+        filter: ''
+      },
+      showAddTab: false,
+      showFileMenu: false
+    },
+    actions: {}
+  };
+};

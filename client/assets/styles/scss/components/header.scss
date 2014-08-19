@@ -1,6 +1,6 @@
 header {
   background-image: linear-gradient($purple,$purple-dark);
-  height: 100%;
+  height: 100vh;
   overflow-y: auto;
   padding: 0 15px;
   position: absolute;
@@ -8,7 +8,7 @@ header {
   width: 240px;
   z-index: $z-header;
 
-  // new app mode
+  // new app
   &.in,
   .setup & {
     overflow-y: hidden;
@@ -346,6 +346,7 @@ header {
 .config-list {
   cursor: pointer;
   max-height: 0;
+  overflow: hidden;
   transition: max-height .3s;
 
   .config {

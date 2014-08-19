@@ -17,11 +17,10 @@ nav.sub-header
         use(xlink:href = "#icons-check")
       svg.iconnables.icons-fail
         use(xlink:href = "#icons-fail")
-    | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4)+'...' }}
+    | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4) }}
 
   //- only show cancel build during a build
   section#main-controls
-    //- on failed builds, run instance needs to be disabled
     button.green(
       ng-click = "dataBuild.actions.runInstance()"
       ng-disabled = "dataBuild.data.build.inProgress()"
@@ -34,31 +33,28 @@ nav.sub-header
         type = "button"
       ) Rebuild
       a.btn.silver.btn-icon(
-        ng-class = "{active: dataBuild.data.showRebuildMenu}"
+        ng-class = "{active: dataBuild.data.rbpo.data.show}"
         toggle-pop-over
-        toggle-pop-over-model = "dataBuild.data.showRebuildMenu"
+        toggle-pop-over-model = "dataBuild.data.rbpo.data.show"
       )
         svg.iconnables.icons-arrow-down
           use(xlink:href = "#icons-arrow-down")
         pop-over(
-          actions = "{ \
-            getPopoverButtonText: dataBuild.actions.getPopoverButtonText, \
-            resetInputModelValue: dataBuild.actions.resetInputModelValue \
-          }"
-          data = "{ \
-            buildName: dataBuild.data.buildName, \
-            show: dataBuild.data.showRebuildMenu \
-          }"
+          actions = "dataBuild.data.rbpo.actions"
+          data = "dataBuild.data.rbpo.data"
           template = "viewBuildPopoverBuildOptions"
         )
     button.silver(
       type = "button"
       ng-click = "dataBuild.actions.edit()"
+      ng-disabled = "!dataBuild.data.build.attrs.completed"
     ) Edit Build
     //- button.silver Cancel Build
 
 section.sidebar
-  ul(ng-show = "dataBuild.data.build.attrs.created")
+  ul.load(
+    ng-show = "dataBuild.data.build.attrs.created"
+  )
     li
       svg.iconnables.icons-recipe
         use(xlink:href = "#icons-recipe")
@@ -80,19 +76,21 @@ section.sidebar
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuild.data.build.user.attrs.accounts.github.username }}</a>
-  h3 Message Log
-  ol#messages(
+  h3.load(
+    ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo || dataBuild.data.build.attrs.started && !dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
+  ) Message Log
+  ol#messages.load(
     ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li(ng-repeat = "commit in dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
           a(
-            title = "{{commit.id}}"
+            title = "{{commit.sha}}"
           )
             svg.iconnables.icons-git
               use(xlink:href = "#icons-git")
-            {{commit.message}}
+            {{commit.commit.message}}
         li
           a
             img(
@@ -101,7 +99,7 @@ section.sidebar
               width = "20"
             )
             | #{''} {{commit.committer.username}}
-  ol#messages(
+  ol#messages.load(
     ng-if = "dataBuild.data.build.attrs.started && !dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li
@@ -155,7 +153,7 @@ section.sidebar
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.attrs.commit || repoModel.attrs.branch  }}"
+          value = "{{ repoModel.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch  }}"
         )
 
   button#explorer-toggle.btn-icon(

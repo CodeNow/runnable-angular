@@ -125,8 +125,8 @@ describe('ControllerBuild'.bold.underline.blue, function () {
   });
 
   describe('explorer menu'.blue, function () {
-    it('should initialize to open', function () {
-      expect(dataBuild.data.showExplorer).to.equal(true);
+    it('should initialize to closed', function () {
+      expect(dataBuild.data.showExplorer).to.equal(false);
     });
 
     it.skip('should toggle open/closed', function () {

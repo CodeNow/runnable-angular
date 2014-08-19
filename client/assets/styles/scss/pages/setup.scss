@@ -104,6 +104,13 @@
     &:only-child {
       display: block;
     }
+
+    &.spinning {
+      color: $purple;
+      display: flex;
+      height: 90px;
+      max-height: none;
+    }
   }
 
   .repo-group-item {

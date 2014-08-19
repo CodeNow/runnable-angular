@@ -11,6 +11,7 @@ nav.sub-header
       use(xlink:href = "#icons-edit")
   section#main-controls
     button.green(
+      ng-disabled = "dataInstance.data.openFiles.isClean() || !dataInstance.data.container.running()"
       type = "button"
       ng-disabled = "dataInstance.data.openFiles.isClean()"
       ng-click = "dataInstance.actions.saveChanges()"
@@ -18,7 +19,9 @@ nav.sub-header
 
 section.sidebar
   ul
-    li
+    li(
+      ng-class = "{out: !dataInstance.data.container.running()}"
+    )
       //- should select all text on click
       input.form-control(
         ng-click = ""
@@ -34,7 +37,7 @@ section.sidebar
         ng-click = "dataInstance.actions.goToBuild()"
       ) {{ dataInstance.data.instance.buildUrl() }}
     li(
-      ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
+      ng-if = "dataInstance.data.container.running()"
     )
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
@@ -43,7 +46,7 @@ section.sidebar
         title = "Launched on {{ dataInstance.data.container.attrs.inspect.State.StartedAt }}"
       ) Launched {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}
     li(
-      ng-if = "!dataInstance.data.container.attrs.inspect.State.Running"
+      ng-if = "!dataInstance.data.container.running()"
     )
       svg.iconnables.icons-duration
         use(xlink:href = "#icons-duration")
@@ -61,7 +64,7 @@ section.sidebar
   h3 Actions
   ol.actions
     li(
-      ng-if = "!dataInstance.data.container.attrs.inspect.State.Running"
+      ng-if = "!dataInstance.data.container.running()"
     ) Start Instance
       button.btn-sm.silver(
         type = "button"
@@ -70,7 +73,7 @@ section.sidebar
         svg.iconnables.icons-launch
           use(xlink:href = "#icons-launch")
     li(
-      ng-if = "dataInstance.data.container.attrs.inspect.State.Running"
+      ng-if = "dataInstance.data.container.running()"
     ) Stop Instance
       button.btn-sm.silver(
         type = "button"
@@ -87,12 +90,11 @@ section.sidebar
           use(xlink:href = "#icons-delete")
 
 //- code_editor
-#editor.with-addtab.in(
-  ng-class="{'in': dataInstance.data.showExplorer, '': !dataInstance.data.showExplorer}"
+#editor.with-add-tab(
+  ng-class = "{in: dataInstance.data.showExplorer, out: !dataInstance.data.container.running()}"
 )
   button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
-    ng-init = "dataInstance.data.showExplorer = true"
     type = "button"
   )
     svg.iconnables.icons-folder-open
@@ -107,9 +109,8 @@ section.sidebar
         type = "button"
       )
         .theme
-    h6.explorer-header(
-      ng-if = "dataInstance.data.container.running()"
-    ) INSTANCE FILES
+    h6.explorer-header
+      | INSTANCE FILES
       a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
         ng-class = "{active: dataInstance.data.popoverFileMenu.data.show}"
         toggle-pop-over
@@ -126,7 +127,6 @@ section.sidebar
       read-only = "false"
       root-dir = "dataInstance.data.container.rootDir"
       open-items = "dataInstance.data.openItems"
-      ng-if = "dataInstance.data.container.running()"
     )
   tabs(
     open-items = "dataInstance.data.openItems"

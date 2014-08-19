@@ -26,8 +26,14 @@ function ControllerBuildNew(
   var data = dataBuildNew.data = {
     showBuildMenu: false,
     newBuildName: '?',
-    showExplorer: true
+    showExplorer: false
   };
+
+  $scope.$watch('dataBuildNew.data.build.attrs.completed', function(n) {
+    if (n) {
+      data.showExplorer = true;
+    }
+  });
 
   data.popoverBuildOptions = {
     actions: {},
@@ -68,7 +74,6 @@ function ControllerBuildNew(
     show: false
   };
 
-
   /**************************************
    * DataTreeFilePopoverRepoItemMenu
    **************************************/
@@ -78,7 +83,7 @@ function ControllerBuildNew(
   repoCMData.show = false;
 
   /**************************************
-   * BuildPopoverBuildOptions
+   * BuildPopoverRepoMenu
    **************************************/
   var buildPopoverRepoMenu = data.buildPopoverRepoMenu = {};
 
@@ -120,47 +125,36 @@ function ControllerBuildNew(
     data: {},
     actions: {}
   };
-  bpbo.data.buildName = '';
+  bpbo.data.environmentName = '';
   bpbo.data.buildMessage = '';
   bpbo.data.show = false;
   bpbo.data.popoverInputHasBeenClicked = false;
 
   function setupBuildPopover() {
-    bpbo.data.project = data.project;
+    bpbo.data.project = dataBuildNew.data.project;
   }
 
   bpbo.actions.build = function () {
-    var project = dataBuildNew.data.project;
-    var env = project.environments.find(hasProps({
-      lowerName: bpbo.data.buildName
-    }));
-    if (!env) {
-      var body = {
-        name: bpbo.data.buildName
-      };
-      env = project.createEnvironment(body, done);
-    } else {
-      done();
+    if (bpbo.data.environmentName === '') {
+      return;
     }
-
-    function done(err) {
-      if (err) {
-        throw err;
-      }
-      var newBuild = dataBuildNew.data.newBuild;
-      newBuild.build({
-        message: bpbo.data.buildMessage,
-        environment: env.id()
+    var environment = dataBuildNew.data.project.environments.find(function (m) {
+      return m.attrs.name === bpbo.data.environmentName;
+    });
+    function createEnvironment() {
+      dataBuildNew.data.forkedEnvironment = dataBuildNew.data
+      .project.environments.create({
+        name: bpbo.data.environmentName,
       }, function (err) {
-        if (err) {
-          throw err;
-        }
-        var sc = angular.copy($stateParams);
-        sc.branchName = env.attrs.name;
-        sc.buildName = newBuild.attrs.buildNumber;
-        delete sc.newBuildName;
-        $state.go('projects.build', sc);
+        if (err) throw err;
+        dataBuildNew.actions.build();
       });
+    }
+    if (environment) {
+      dataBuildNew.data.forkedEnvironment = environment;
+      dataBuildNew.actions.build();
+    } else {
+      createEnvironment();
     }
   };
 
@@ -172,14 +166,16 @@ function ControllerBuildNew(
     if (!bpbo.data.popoverInputHasBeenClicked) {
       return;
     }
-    bpbo.data.buildName = '';
+    bpbo.data.environmentName = '';
     bpbo.data.popoverInputHasBeenClicked = true;
   };
   /**************************************
    * // BuildPopoverBuildOptions
    **************************************/
 
-  actions.discardChanges = function () {};
+  actions.discardChanges = function () {
+    $state.go('projects.build', $stateParams);
+  };
 
   actions.stateToBuildList = function () {
     var state = {
@@ -198,13 +194,14 @@ function ControllerBuildNew(
   };
 
   actions.build = function () {
-    var buildData = data.buildPopoverBuildOptionsData;
-    data.newBuild.build({
-      message: 'Manual Build'
-    }, function (err, build, code) {
-      if (err) {
-        throw err;
-      }
+    var buildObj = {
+      message: (bpbo.data.buildMessage || 'Manual Build')
+    };
+    if (data.forkedEnvironment) {
+      buildObj.environment = data.forkedEnvironment.id();
+    }
+    data.newBuild.build(buildObj, function (err, build, code) {
+      if (err) throw err;
       actions.stateToBuild(build.buildNumber);
     });
   };
@@ -269,6 +266,7 @@ function ControllerBuildNew(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
+    cb();
   }
 
   actions.seriesFetchAll = function () {
