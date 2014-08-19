@@ -64,23 +64,31 @@ section.sidebar
   h3 Actions
   ol.actions
     li.action(
+      ng-class = "{active: dataInstance.data.loading}"
       ng-if = "!dataInstance.data.container.running()"
     ) Resume Instance
       button.btn-sm.silver(
         type = "button"
-        ng-click = "dataInstance.actions.startInstance()"
+        ng-click = "dataInstance.actions.startInstance();"
       )
-        svg.iconnables.icons-launch
-          use(xlink:href = "#icons-launch")
+        svg.iconnables.icons-start
+          use(xlink:href = "#icons-start")
+      .spinner
+        .spinner-ring
     li.action(
+      ng-class = "{ \
+        active: dataInstance.data.loading \
+      }"
       ng-if = "dataInstance.data.container.running()"
-    ) Stop Instance
+    ) Pause Instance
       button.btn-sm.silver(
         type = "button"
-        ng-click = "dataInstance.actions.stopInstance()"
+        ng-click = "dataInstance.actions.stopInstance();"
       )
-        svg.iconnables.icons-stop-alt
-          use(xlink:href = "#icons-stop-alt")
+        svg.iconnables.icons-pause
+          use(xlink:href = "#icons-pause")
+      .spinner
+        .spinner-ring
     li.action Delete Instance
       button.btn-sm.silver(
         type = "button"
