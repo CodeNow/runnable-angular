@@ -34,7 +34,7 @@
     "keypather": "^1.7.1",
     "moment": "~2.7.0",
     "primus": "^2.3.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.24.3",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.25.1",
     "term.js": "git+https://github.com/CodeNow/term.js"
   },
   "devDependencies": {
