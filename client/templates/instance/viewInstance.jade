@@ -66,24 +66,24 @@ section.sidebar
     li.action(
       ng-class = "{active: dataInstance.data.loading}"
       ng-if = "!dataInstance.data.container.running()"
-      ng-init = "dataInstance.data.loading = false"
     ) Resume Instance
       button.btn-sm.silver(
         type = "button"
-        ng-click = "dataInstance.actions.startInstance(); dataInstance.data.loading = true;"
+        ng-click = "dataInstance.actions.startInstance();"
       )
         svg.iconnables.icons-start
           use(xlink:href = "#icons-start")
       .spinner
         .spinner-ring
     li.action(
-      ng-class = "{active: dataInstance.data.loading}"
+      ng-class = "{ \
+        active: dataInstance.data.loading \
+      }"
       ng-if = "dataInstance.data.container.running()"
-      ng-init = "dataInstance.data.loading = false"
     ) Pause Instance
       button.btn-sm.silver(
         type = "button"
-        ng-click = "dataInstance.actions.stopInstance(); dataInstance.data.loading = true;"
+        ng-click = "dataInstance.actions.stopInstance();"
       )
         svg.iconnables.icons-pause
           use(xlink:href = "#icons-pause")

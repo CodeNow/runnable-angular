@@ -73,11 +73,13 @@ function ControllerInstance(
   };
 
   actions.stopInstance = function () {
+    data.loading = true;
     data.instance.stop(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
+        data.loading = false;
         if (err) {
           throw err;
         }
@@ -87,11 +89,13 @@ function ControllerInstance(
   };
 
   actions.startInstance = function () {
+    data.loading = true;
     data.instance.start(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
+        data.loading = false;
         if (err) {
           throw err;
         }
@@ -124,11 +128,13 @@ function ControllerInstance(
   actions.destroyInstance = function () {
     var old = data.instance.json();
     data.instance.destroy(function (err) {
+      $scope.safeApply();
       if (err) {
         throw err;
       }
-      actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
     });
+    $scope.safeApply();
+    actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
   };
 
   $scope.$on('app-document-click', function () {
