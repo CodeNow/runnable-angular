@@ -29,7 +29,6 @@ function webView (
       };
 
       $scope.actions.refresh = function () {
-        console.log('asdfdsadfsa');
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
         $rootScope.safeApply(function() {
           $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.data.iframeUrl);
