@@ -95,6 +95,7 @@
   .btn-sm {
     float: right;
     margin-top: 6px;
+    transition: all .15s ease-in;
   }
 
   .iconnables {
@@ -108,6 +109,37 @@
     &.icons-stop-alt {
       margin-top: 3px;
     }
+  }
+
+  .spinner {
+    opacity: .3;
+    position: absolute;
+    right: 21px;
+    top: 10px;
+    transform: scale3d(0,0,0);
+  }
+}
+
+.action {
+  position: relative;
+
+  &.active {
+
+    .btn-sm {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      transform: scale3d(1,1,1);
+    }
+  }
+
+  .icons-pause,
+  .icons-start {
+    height: 17px;
+    margin-top: 2px;
+    width: 17px;
   }
 }
 
