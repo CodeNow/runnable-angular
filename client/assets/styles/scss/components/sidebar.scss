@@ -24,7 +24,6 @@
 
     > li {
       color: $gray-dark;
-      max-height: 45px;
       transition: max-height .15s ease-in, opacity .2s ease-in;
 
       > span {
@@ -88,6 +87,7 @@
   }
 }
 
+// actions
 .actions {
   border-bottom: 0;
   padding: 0;
@@ -111,37 +111,56 @@
   }
 }
 
-#messages {
+// messages
+.messages {
   height: calc(100% - 201px);
   overflow-y: auto;
-
-  > li {
-    min-height: 59px;
-  }
 }
 
 .message {
+  min-height: 59px;
+}
+
+.message-content,
+.message-author {
+  color: $gray-dark;
+  display: block;
+  min-height: 24px;
+  padding-top: 6px;
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    color: $gray-darker;
+  }
+}
+
+.message-content {
+  font-weight: 500;
 
   .icons-git {
     height: 15px;
     margin-left: 3px;
+    opacity: .45;
     top: 2px;
     width: 15px;
   }
+}
 
-  img {
-    border-radius: 50%;
+.message-author {
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  .gravatar {
     float: left;
     height: 20px;
     margin: 1px 4px 0 0;
     width: 20px;
   }
+}
 
-  > li {
-    padding: 2px 0;
-
-    &:last-child {
-      font-weight: 600;
-    }
-  }
+.gravatar {
+  border-radius: 50%;
 }

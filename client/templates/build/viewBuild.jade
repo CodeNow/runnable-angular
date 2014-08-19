@@ -76,46 +76,41 @@ section.sidebar
   h3.load(
     ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo || dataBuild.data.build.attrs.started && !dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   ) Message Log
-  ol#messages.load(
+  ol.messages.load(
     ng-if = "dataBuild.data.build.attrs.started && dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
-    li(ng-repeat = "commit in dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
-      ol.message
-        li
-          a(
-            title = "{{commit.sha}}"
-            ng-href = "{{ commit.html_url }}"
-            target = "_blank"
-          )
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-            {{commit.commit.message}}
-        li
-          a(
-            ng-href = "{{ commit.committer.html_url }}"
-            target = "_blank"
-          )
-            img(
-              height = "20"
-              ng-src = "{{ commit.committer.gravatar }}?s=64"
-              width = "20"
-            )
-            | #{''} {{commit.committer.username}}
-  ol#messages.load(
+    li.message(
+      ng-repeat = "commit in dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog"
+    )
+      a.message-content(
+        title = "{{commit.sha}}"
+        ng-href = "{{ commit.html_url }}"
+        target = "_blank"
+      ) {{commit.commit.message}}
+        svg.iconnables.icons-git
+          use(xlink:href = "#icons-git")
+      a.message-author(
+        ng-href = "{{ commit.committer.html_url }}"
+        target = "_blank"
+      )
+        img.gravatar(
+          height = "20"
+          ng-src = "{{ commit.committer.gravatar }}?s=64"
+          width = "20"
+        )
+        | #{''} {{commit.committer.username}}
+  ol.messages.load(
     ng-if = "dataBuild.data.build.attrs.started && !dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
-    li
-      ol.message
-        li
-          a {{ dataBuild.data.version.attrs.build.message }}
-        li
-          a
-            img(
-              height = "20"
-              ng-src = "{{ dataBuild.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
-              width = "20"
-            )
-            | #{''} {{ dataBuild.data.version.attrs.build.triggeredBy.username }}
+    li.message
+      a.message-content {{ dataBuild.data.version.attrs.build.message }}
+      a.message-author
+        img.gravatar(
+          height = "20"
+          ng-src = "{{ dataBuild.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
+          width = "20"
+        )
+        | #{''} {{ dataBuild.data.version.attrs.build.triggeredBy.username }}
 
 //- code_editor
 #editor(
