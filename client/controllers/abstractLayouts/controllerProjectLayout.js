@@ -113,6 +113,7 @@ function ControllerProjectLayout(
       return;
     }
     var thisUser = $scope.dataApp.user;
+    data.creatingProject = true;
 
     function createProject(cb) {
       var body = {
@@ -125,6 +126,7 @@ function ControllerProjectLayout(
         };
       }
       var project = thisUser.createProject(body, function (err) {
+        data.creatingProject = false;
         if (err) {
           data.newNameTaken = true;
           throw err;

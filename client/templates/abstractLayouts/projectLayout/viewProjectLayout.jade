@@ -75,7 +75,10 @@ header(
           in: dataProjectLayout.data.newProjectNameForm.$error.nameAvailable.length \
         }"
       ) That's a pretty name, but it's taken.
-      button.green.btn-block(ng-click = "dataProjectLayout.actions.createNewProject()") Create App
+      button.green.btn-block(
+        ng-click = "dataProjectLayout.actions.createNewProject()"
+        ng-disabled = "dataProjectLayout.data.creatingProject"
+      ) Create App
   .scroll-container
     h3 APPLICATIONS
       a.btn.btn-icon(
