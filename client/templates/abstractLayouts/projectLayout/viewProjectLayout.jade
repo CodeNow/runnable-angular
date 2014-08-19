@@ -15,7 +15,7 @@ header(
         ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.activeAccount) }}"
         width = "19"
       )
-      span.project-name current-project
+      span.project-name {{ dataProjectLayout.actions.getActiveProjectName() }}
       span.name-switcher
         span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
         a.btn.btn-icon.btn-add-project
@@ -24,18 +24,39 @@ header(
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
     .accounts
+      //- Active user's projects
       ul.account.btn-group-vertical.no-margin
-        li.btn
+        li.btn(
+          ng-repeat = "project in dataProjectLayout.data.activeAccount.attrs.projects.models"
+        )
           a.btn-link
-            span.project-name api
-        li.btn
-          a.btn-link
-            span.project-name runnable-angular
-        li.btn
-          a.btn-link
-            span.project-name current-project
+            span.project-name {{ project.attrs.name }}
+      //- current user (if user is not active)
+      ul.account.btn-group-vertical.no-margin.border-top(
+        ng-if = "dataApp.user !== dataProjectLayout.data.activeAccount"
+        ng-click = "dataProjectLayout.actions.selectProjectOwner(dataApp.user)"
+      )
+        li.btn.account-info
+          img.account-image.tooltip(
+            alt = "{{ dataApp.user.accounts.github.username }}"
+            height = "19"
+            ng-src = "{{ dataApp.user.attrs.gravatar }}"
+            width = "19"
+          )
+          span.account-name {{ dataApp.user.attrs.accounts.github.username }}
+          button.btn-icon
+            svg.iconnables.icons-add
+              use(xlink:href = "#icons-add")
+        li.btn(
+          ng-repeat = "project in dataApp.user.attrs.projects.models"
+          ng-click = "dataProjectLayout.actions.setActiveProject(dataApp.user, project)"
+        )
+          span.project-name {{ project.attrs.name }}
+      //- Orgs that are not the active account
       ul.account.btn-group-vertical.no-margin.border-top(
         ng-repeat = "org in dataProjectLayout.data.orgs.models"
+        ng-if = "org !== dataProjectLayout.data.activeAccount"
+        ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
       )
         li.btn.account-info
           img.account-image.tooltip(
@@ -48,10 +69,11 @@ header(
           button.btn-icon
             svg.iconnables.icons-add
               use(xlink:href = "#icons-add")
-        li.btn
-          span.project-name runnable-web
-        li.btn
-          span.project-name runnabot
+        li.btn(
+          ng-repeat = "project in org.attrs.projects.models"
+          ng-click = "dataProjectLayout.actions.setActiveProject(org, project)"
+        )
+          span.project-name {{ project.attrs.name }}
     .no-margin.border-top.log-out(
       href = "{{ dataApp.logoutURL }}"
     )
@@ -96,16 +118,14 @@ header(
       //-     use(xlink:href = "#icons-add")
     ul.config-list.btn-group-vertical.no-margin
       //- apply class active if active
-      li.btn.config
+      li.btn.config(
+        ng-repeat = "branch in dataProjectLayout.data.activeProject.environments.models"
+        ng-click = "dataProjectLayout.actions.stateToEnvironment(branch)"
+      )
         a.btn-link
           svg.iconnables.icons-recipe
             use(xlink:href = "#icons-recipe")
-          | Prod
-      li.btn.config
-        a.btn-link
-          svg.iconnables.icons-recipe
-            use(xlink:href = "#icons-recipe")
-          | Staging
+          | {{ branch.attrs.name }}
       //-
           svg.iconnables.icons-arrow-down
             use(xlink:href = "#icons-arrow-down")
