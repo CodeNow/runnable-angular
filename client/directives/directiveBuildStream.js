@@ -33,7 +33,7 @@ function buildStream(
             if (build.contextVersions.models)
               $scope.stream = {
                 data: contextVersion.attrs.build.log ||
-                  contextVersion.attrs.build.error.message ||
+                  (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
                   "Unknown Build Error Occurred"
               };
             // check contextVersions.attrs.build.error for unknown errors
