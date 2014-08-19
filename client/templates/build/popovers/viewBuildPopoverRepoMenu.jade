@@ -29,11 +29,14 @@
             use(xlink:href = "#icons-search-active")
       ul.popover-list
         li(
-          ng-class = "{ in: data.selectedRepo === repo }"
-          ng-click = "data.selectedRepo = repo; data.repoOrSHA = '';"
+          ng-class = "{ \
+            in: data.selectedRepo === repo \
+          }"
+          ng-click = "data.selectedRepo = repo; \
+                      data.repoOrSHA = '';"
           ng-repeat = "repo in data.githubRepos.models | \
-            unaddedRepos:data.appCodeVersions | \
-            repos:data.repoFilter"
+                       unaddedRepos:data.appCodeVersions | \
+                       repos:data.repoFilter"
         )
           span {{ repo.attrs.full_name }}
           form.explorer-add-repo-form

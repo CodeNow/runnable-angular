@@ -273,7 +273,6 @@ function ControllerBuildNew(
     });
     if (dockerfile) {
       data.openItems.addOne(dockerfile);
-      opened = true;
     }
     cb();
   }

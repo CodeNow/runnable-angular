@@ -106,6 +106,21 @@ header(
           svg.iconnables.icons-recipe
             use(xlink:href = "#icons-recipe")
           | Staging
+      //-
+          svg.iconnables.icons-arrow-down
+            use(xlink:href = "#icons-arrow-down")
+          | {{ project.attrs.name }}
+        ul.config-list(ng-repeat = "environment in project.attrs.environments")
+          li.config(
+            ng-class = "{ \
+              active: (environment.name === dataApp.stateParams.branchName) \
+            }"
+            ng-click = "dataProjectLayout.actions.stateToBuildList(project, environment, $event)"
+          )
+            a.btn-link
+              svg.iconnables.icons-recipe
+                use(xlink:href = "#icons-recipe")
+              | {{ environment.name }}
     h3 INSTANCES
     ul.instances.btn-group-vertical.no-margin
       li.btn(
