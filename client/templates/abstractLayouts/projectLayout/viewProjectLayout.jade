@@ -52,16 +52,16 @@ header(
       //- this field is optional. if blank, name the app for them: 'My App'
       //- should not trigger on focus, but on the error that causes the validation error
       input.form-control.form-validate(
-        ng-model = "dataProjectLayout.data.newProjectName"
-        ng-pattern = "/^[A-Za-z0-9_-]+$/"
         placeholder = "Application Name"
+        ng-model = "dataProjectLayout.data.newProjectName"
+        validate-name-pattern
         validate-name = "dataProjectLayout.data.projects"
         spellcheck = "false"
       )
       //- if invalid character is entered
       .the-rules(
         ng-class = "{ \
-          in: dataProjectLayout.data.newProjectNameForm.$error.pattern.length \
+          in: dataProjectLayout.data.newProjectNameForm.$error.namePattern.length \
         }"
       ) We accept #{''}
         b A-Z

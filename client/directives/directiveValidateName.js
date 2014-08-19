@@ -4,8 +4,7 @@ require('app')
  * @ngInject
  */
 function validateName(
-  $rootScope,
-  debounce
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -16,7 +15,7 @@ function validateName(
     link: function ($scope, element, attrs, ctrl) {
       ctrl.$setValidity('nameAvailable', true);
 
-      var checkValid = debounce(function (name) {
+      function checkValid (name) {
         if (!name || ctrl.$pristine) {
           ctrl.$setValidity('nameAvailable', true);
           return name;
@@ -31,15 +30,9 @@ function validateName(
           ctrl.$setValidity('nameAvailable', !!!match);
           $rootScope.safeApply();
         }
-        debounce(function () {
-          $scope.projects.fetch(function () {
-            testName();
-          });
-        }, 200, false);
         testName();
-
         return name;
-      });
+      }
 
       // called when value changes via code/controller
       ctrl.$formatters.unshift(checkValid);
