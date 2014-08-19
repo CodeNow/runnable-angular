@@ -155,7 +155,9 @@ section.sidebar
       //- * save on blur or enter key
       li(
         ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models"
-        ng-class = "{active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show}"
+        ng-class = "{ \
+          active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show \
+        }"
         popover-repo-item-menu
       )
         span
