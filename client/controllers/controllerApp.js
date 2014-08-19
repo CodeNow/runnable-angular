@@ -26,6 +26,12 @@ function ControllerApp(
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
     apiConfigHost);
+  var data = dataApp.data = {};
+
+  data.loading = false;
+  $rootScope.$on('$stateChangeStart', function () {
+    data.loading = false;
+  });
 
   $interval(function () {
     $rootScope.safeApply();

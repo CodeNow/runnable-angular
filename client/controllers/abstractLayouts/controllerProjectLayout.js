@@ -26,6 +26,7 @@ function ControllerProjectLayout(
   function isUser(entity) {
     return entity === $scope.dataApp.user;
   }
+
   actions.getEntityName = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -33,6 +34,7 @@ function ControllerProjectLayout(
         entity.attrs.login; // org
     }
   };
+
   actions.getEntityId = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -40,6 +42,7 @@ function ControllerProjectLayout(
         entity.attrs.id; //org
     }
   };
+
   actions.getEntityGravatar = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -47,6 +50,17 @@ function ControllerProjectLayout(
         entity.attrs.avatar_url; // org
     }
   };
+
+  actions.checkName = function () {
+    if (!dataProjectLayout.data.projects) {
+      return;
+    }
+    var match = dataProjectLayout.data.projects.find(function (m) {
+      return (m.attrs.name === dataProjectLayout.data.newProjectName);
+    });
+    dataProjectLayout.data.newNameTaken = !!match;
+  };
+
   actions.selectProjectOwner = function (userOrOrg, cb) {
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
@@ -81,16 +95,23 @@ function ControllerProjectLayout(
       });
     });
   };
+
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
+
   actions.getProjectBuildListHref = function (projectName) {
     return '/' + $state.params.userName + '/' + projectName + '/master/';
   };
+
   actions.getProjectLiClass = function (project) {
     return (project.attrs.name === $state.params.projectName) ? 'active' : '';
   };
+
   actions.createNewProject = function () {
+    if (dataProjectLayout.data.newProjectNameForm.$invalid) {
+      return;
+    }
     var thisUser = $scope.dataApp.user;
 
     function createProject(cb) {
@@ -105,6 +126,7 @@ function ControllerProjectLayout(
       }
       var project = thisUser.createProject(body, function (err) {
         if (err) {
+          data.newNameTaken = true;
           throw err;
         }
         cb(err, thisUser, project);
@@ -150,12 +172,16 @@ function ControllerProjectLayout(
       });
     });
   };
+
   actions.stateToInstance = function (instance) {
-    $state.go('projects.instance', {
-      instanceId: instance.id(),
-      userName: $state.params.userName
-    });
+    if (instance && instance.id && instance.id()){
+      $state.go('projects.instance', {
+        instanceId: instance.id(),
+        userName: $state.params.userName
+      });
+    }
   };
+
   actions.stateToBuildList = function () {
     var project, environment, event;
     project = arguments[0];
@@ -276,7 +302,8 @@ function ControllerProjectLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
-      selectInitialProjectOwner
+      selectInitialProjectOwner,
+      fetchProjects
     ]);
   };
 

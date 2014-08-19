@@ -14,7 +14,7 @@ function buildStream(
     scope: {
       build: '='
     },
-    templateUrl: 'viewLogStream',
+    templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
       $scope.stream = {

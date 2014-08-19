@@ -96,20 +96,23 @@ function ControllerBuild(
   };
 
   actions.runInstance = function () {
+    $scope.dataApp.data.loading = true;
     var instance = user.createInstance({
       json: {
         build: data.build.id()
       }
     }, function (err) {
-      if (err) {
-        throw err;
-      }
+      $scope.dataApp.data.loading = false;
+      if (err) throw err;
       var state = {
         instanceId: instance.id(),
         userName: $state.params.userName
       };
       $state.go('projects.instance', state);
     });
+    $scope.dataProjectLayout.data.tempBuildUrl = $state.href('projects.build').replace(/^\/project\//, '');
+    $scope.dataProjectLayout.data.instances.add(instance);
+    $scope.safeApply();
   };
 
   actions.createRepo = function () {
