@@ -28,6 +28,7 @@ function popoverRepoItemMenu(
         $scope.repoModel.destroy(function () {
           $rootScope.safeApply();
         });
+        $rootScope.safeApply();
       };
 
       popoverData.eStyle = {
