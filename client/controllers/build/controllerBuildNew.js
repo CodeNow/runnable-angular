@@ -194,6 +194,7 @@ function ControllerBuildNew(
   };
 
   actions.build = function () {
+    $scope.dataApp.data.loading = true;
     var buildObj = {
       message: (bpbo.data.buildMessage || 'Manual Build')
     };
@@ -201,6 +202,7 @@ function ControllerBuildNew(
       buildObj.environment = data.forkedEnvironment.id();
     }
     data.newBuild.build(buildObj, function (err, build, code) {
+      $scope.dataApp.data.loading = false;
       if (err) throw err;
       actions.stateToBuild(build.buildNumber);
     });

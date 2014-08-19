@@ -127,6 +127,7 @@ function ControllerBuild(
   };
 
   actions.rebuild = function () {
+    $scope.dataApp.data.loading = true;
     var buildObj = {
       message: (rbpo.data.buildMessage || 'Manual Rebuild')
     };
@@ -140,6 +141,7 @@ function ControllerBuild(
           forkedBuild.build({
             message: buildObj.message
           }, function (err) {
+            $scope.dataApp.data.loading = false;
             if (err) throw err;
 
             $state.go('projects.build', angular.copy({
@@ -151,6 +153,7 @@ function ControllerBuild(
     } else {
       var newBuild = data.build.rebuild(buildObj,
         function (err, build) {
+          $scope.dataApp.data.loading = false;
           if (err) throw err;
           $state.go('projects.build', angular.copy({
             buildName: newBuild.attrs.buildNumber
