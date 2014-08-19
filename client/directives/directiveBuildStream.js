@@ -47,10 +47,12 @@ function buildStream(
       function initStream() {
         var build = $scope.build;
         var buildStream = primus.createBuildStream(build);
+        var $streamElem = jQuery(elem).find('pre');
         var addToStream = function (data) {
           $scope.stream.data += data;
-          $rootScope.safeApply();
-          jQuery('html, body').scrollTop(10000);
+          $rootScope.safeApply(function () {
+            $streamElem.scrollTop(10000);
+          });
         };
         buildStream.on('data', addToStream);
         buildStream.on('end', function () {
