@@ -32,9 +32,9 @@ section.sidebar
       svg.iconnables.icons-back
         use(xlink:href = "#icons-back")
       | From #{''}
-      a(
-        title = "{{ dataInstance.data.instance.buildUrl() }}"
+      a.link(
         ng-click = "dataInstance.actions.goToBuild()"
+        title = "{{ dataInstance.data.instance.buildUrl() }}"
       ) {{ dataInstance.data.instance.buildUrl() }}
     li(
       ng-if = "dataInstance.data.container.running()"
@@ -63,16 +63,16 @@ section.sidebar
       a dataInstance.data.container.attrs.stoppedBy.username
   h3 Actions
   ol.actions
-    li(
+    li.action(
       ng-if = "!dataInstance.data.container.running()"
-    ) Start Instance
+    ) Resume Instance
       button.btn-sm.silver(
         type = "button"
         ng-click = "dataInstance.actions.startInstance()"
       )
         svg.iconnables.icons-launch
           use(xlink:href = "#icons-launch")
-    li(
+    li.action(
       ng-if = "dataInstance.data.container.running()"
     ) Stop Instance
       button.btn-sm.silver(
@@ -81,7 +81,7 @@ section.sidebar
       )
         svg.iconnables.icons-stop-alt
           use(xlink:href = "#icons-stop-alt")
-    li Delete Instance
+    li.action Delete Instance
       button.btn-sm.silver(
         type = "button"
         ng-click = "dataInstance.actions.destroyInstance()"

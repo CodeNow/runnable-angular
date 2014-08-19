@@ -2,9 +2,9 @@ nav#build-stream-header.sub-header
   h1
     //- if empty, revert to project name
     input.form-control.inline-edit(
-      placeholder = "App Name"
       ng-model = "dataBuildList.data.project.attrs.name"
       ng-model-options = "{ debounce: 500 }"
+      placeholder = "App Name"
       required
       spellcheck = "false"
     )
@@ -86,7 +86,7 @@ nav#build-stream-header.sub-header
         ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
         td.build-status(
-          ng-class = "{ pass: build.attrs.completed && !build.failed(), fail: build.failed() }"
+          ng-class = "{ pass: build.succeeded(), fail: build.failed() }"
         )
           .spinner
             .spinner-ring
@@ -102,8 +102,9 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
-            ng-if = "!build.failed()"
-            ng-click = "$event.stopPropagation(); dataBuildList.actions.runInstance(build);"
+            ng-if = "build.succeeded()"
+            ng-click = "$event.stopPropagation(); \
+                        dataBuildList.actions.runInstance(build);"
             data-title = "Run Instance"
           )
             svg.iconnables.icons-run

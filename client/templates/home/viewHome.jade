@@ -1,12 +1,17 @@
-main#home
-  svg#logomark.iconnables
-    use(xlink:href = "#runnable-logomark")
-  svg#lettering.iconnables
-    use(xlink:href = "#runnable-lettering")
-  a.btn.white(
-    href = "{{ dataApp.loginURL }}"
-    type = "button"
-  )
-    svg.iconnables.icons-git
-      use(xlink:href = "#icons-git")
-    | Log In with Github
+main.hero
+  header.container
+    a.logo(href = "/")
+      svg
+        use(xlink:href = "#runnable-logo")
+    a.btn.white(
+      href = "{{ dataApp.loginURL }}"
+    ) Log In
+  .content-wrapper
+    h1.tag-line Sandboxes. Sandboxes. Sandboxes.
+    h2.sub-line /ˈsan(d)ˌbäks/—a shallow box or hollow in the ground partly filled with sand for children to play in.
+    a.btn.white(
+      href = "{{ dataApp.loginURL }}"
+    )
+      svg.iconnables.icons-git
+        use(xlink:href = "#icons-git")
+      | Log In with Github

@@ -1,3 +1,23 @@
+.spinner-container {
+  background: $white;
+  display: flex;
+  height: 100vh;
+  left: 240px;
+  opacity: 0;
+  pointer-events: none;
+  position: relative;
+  top: -100vh;
+  transition: all .3s ease-in;
+  width: calc(100% - 240px);
+  z-index: $z-header - 1;
+
+  &.in {
+    animation: modalIn .3s ease-in-out forwards;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
 .spinner {
   height: 16px;
   margin: auto;
@@ -92,14 +112,13 @@
 }
 
 // main spinner
-main > .spinner {
+main ~ .spinner-container {
   color: $purple;
-  top: calc(50% - 30px);
   transform: translate3d(0,0,0);
-  transition: transform .3s ease-in;
+  transition: all .3s ease-in;
 }
 
-header.in ~ main > .spinner {
+header.in ~ .spinner-container {
   transform: translate3d(50vw,0,0);
 }
 

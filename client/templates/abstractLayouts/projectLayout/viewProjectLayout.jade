@@ -60,22 +60,33 @@ header(
       //- this field is optional. if blank, name the app for them: 'My App'
       //- should not trigger on focus, but on the error that causes the validation error
       input.form-control.form-validate(
-        ng-focus = "dataProjectLayout.actions.showRules = true"
-        ng-model = "dataProjectLayout.data.newProjectName"
-        ng-pattern = "/^[A-Za-z0-9_-]+$/"
         placeholder = "Application Name"
+        ng-model = "dataProjectLayout.data.newProjectName"
+        validate-name-pattern
+        validate-name = "dataProjectLayout.data.projects"
         spellcheck = "false"
       )
       //- if invalid character is entered
-      .the-rules(ng-class = "{'in': dataProjectLayout.data.newProjectNameForm.$invalid}") We accept #{''}
+      .the-rules(
+        ng-class = "{ \
+          in: dataProjectLayout.data.newProjectNameForm.$error.namePattern.length \
+        }"
+      ) We accept #{''}
         b A-Z
         b a-z
         b 0-9
         b _
         b -
       //- if the name is taken
-      //- .the-rules(ng-class = "{in: dataProjectLayout.actions.showRules}") That's a pretty name, but it's taken.
-      button.green.btn-block(ng-click = "dataProjectLayout.actions.createNewProject()") Create App
+      .the-rules(
+        ng-class = "{ \
+          in: dataProjectLayout.data.newProjectNameForm.$error.nameAvailable.length \
+        }"
+      ) That's a pretty name, but it's taken.
+      button.green.btn-block(
+        ng-click = "dataProjectLayout.actions.createNewProject()"
+        ng-disabled = "dataProjectLayout.data.creatingProject"
+      ) Create App
   .scroll-container
     h3 CONFIGS
       //- a.btn.btn-icon(
@@ -98,12 +109,19 @@ header(
     h3 INSTANCES
     ul.instances.btn-group-vertical.no-margin
       li.btn(
+        ng-class = "{ \
+          active: ((!instance.attrs.name && !!dataProjectLayout.data.tempBuildUrl) \
+                   || (dataApp.stateParams.instanceId === instance.id() && !dataProjectLayout.data.tempBuildUrl)) \
+        }"
         ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataProjectLayout.data.instances.models"
       )
-        a.btn-link {{ instance.attrs.name }}
-        small.build-url {{ instance.buildUrl() }}
+        a.btn-link {{ instance.attrs.name || 'Starting Instance' }}
+        small.build-url {{ instance.buildUrl() || dataProjectLayout.data.tempBuildUrl }}
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
+.spinner-container(
+  ng-class = "{in: dataApp.data.loading}"
+)
   .spinner.lg
     .spinner-ring

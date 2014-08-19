@@ -14,7 +14,7 @@ function buildStream(
     scope: {
       build: '='
     },
-    templateUrl: 'viewLogStream',
+    templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
       $scope.stream = {
@@ -33,7 +33,7 @@ function buildStream(
             if (build.contextVersions.models)
               $scope.stream = {
                 data: contextVersion.attrs.build.log ||
-                  contextVersion.attrs.build.error.message ||
+                  (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
                   "Unknown Build Error Occurred"
               };
             // check contextVersions.attrs.build.error for unknown errors
@@ -47,10 +47,12 @@ function buildStream(
       function initStream() {
         var build = $scope.build;
         var buildStream = primus.createBuildStream(build);
+        var $streamElem = jQuery(elem).find('pre');
         var addToStream = function (data) {
           $scope.stream.data += data;
-          $rootScope.safeApply();
-          jQuery('html, body').scrollTop(10000);
+          $rootScope.safeApply(function () {
+            $streamElem.scrollTop(10000);
+          });
         };
         buildStream.on('data', addToStream);
         buildStream.on('end', function () {
@@ -58,7 +60,7 @@ function buildStream(
             if (err) {
               throw err;
             }
-            if (build.failed()) {
+            if (!build.succeeded()) {
               // bad things happened
               addToStream('BUILD BROKEN: Please try again');
             } else {
