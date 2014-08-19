@@ -5,12 +5,14 @@
     //- apply [disabled] to back/forward to disable
     button.btn-icon(
       disabled
+      ng-click = "forward()"
       type = "button"
     )
       svg.iconnables.icons-chevron-left
         use(xlink:href = "#icons-chevron-left")
     button.btn-icon(
       disabled
+      ng-click = "back()"
       type = "button"
     )
       svg.iconnables.icons-chevron-right
