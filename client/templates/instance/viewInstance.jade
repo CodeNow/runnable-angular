@@ -99,7 +99,7 @@ section.sidebar
 
 //- code_editor
 #editor.with-add-tab(
-  ng-class = "{in: dataInstance.data.showExplorer || dataInstance.data.container.running(), out: !dataInstance.data.container.running()}"
+  ng-class = "{in: dataInstance.data.showExplorer, out: !dataInstance.data.container.running()}"
 )
   button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
