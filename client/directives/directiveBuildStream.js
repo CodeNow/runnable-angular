@@ -1,8 +1,5 @@
 require('app')
   .directive('buildStream', buildStream);
-
-
-
 /**
  * @ngInject
  */
