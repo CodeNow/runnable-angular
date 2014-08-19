@@ -2,13 +2,13 @@
   background: $white;
   display: flex;
   height: 100vh;
+  left: 240px;
   opacity: 0;
   pointer-events: none;
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: relative;
+  top: -100vh;
   transition: all .3s ease-in;
-  width: calc(100vw - 240px);
+  width: calc(100% - 240px);
   z-index: $z-header - 1;
 
   &.in {
