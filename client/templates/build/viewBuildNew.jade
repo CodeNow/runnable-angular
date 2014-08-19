@@ -164,11 +164,14 @@ section.sidebar
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
           | {{ repoModel.attrs.repo }}
+        //- use datalist the same we use in viewSetupPopoverAddRepos.jade
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
           value = "{{ repoModel.attrs.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch }}"
         )
+        //- datalist
+          option
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuildNew.data.showExplorer = !dataBuildNew.data.showExplorer"
