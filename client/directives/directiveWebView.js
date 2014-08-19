@@ -15,21 +15,26 @@ function webView (
       container: '='
     },
     link: function ($scope, elem) {
-      var iframe = elem.find('iframe');
+      var iframe = elem.find('iframe')[0];
+      var data = $scope.data = {};
+      var actions = $scope.actions = {};
 
-      $scope.forward = function () {
-        iframe.history.forward();
+      $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.container.urls()[0]);
+
+      $scope.actions.forward = function () {
+        iframe.contentWindow.history.forward();
       };
-      $scope.back = function () {
-        iframe.history.back();
+      $scope.actions.back = function () {
+        iframe.contentWindow.history.back();
       };
 
-      $scope.refresh = function () {
-        $scope.iframeUrl = $sce.trustAsResourceUrl($scope.iframeUrl);
+      $scope.actions.refresh = function () {
+        console.log('asdfdsadfsa');
+        $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
+        $rootScope.safeApply(function() {
+          $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.data.iframeUrl);
+        });
       };
-
-      $scope.iframeUrl = $sce.trustAsResourceUrl($scope.container.urls()[0]);
-
     }
   };
 }

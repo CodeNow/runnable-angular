@@ -1,34 +1,48 @@
 .web-container
   //- .browser-loading to toggle refresh/stop icon
   //- .browser-loading is also required for the progress bar, so remove it when loading is complete
+  //- nav buttons removed until we can resolve cross-origin issues
   nav.browser-chrome
     //- apply [disabled] to back/forward to disable
     button.btn-icon(
-      disabled
-      ng-click = "forward()"
+      ng-click = "actions.back()"
+      ng-if = "false"
       type = "button"
     )
       svg.iconnables.icons-chevron-left
         use(xlink:href = "#icons-chevron-left")
     button.btn-icon(
-      disabled
-      ng-click = "back()"
+      ng-click = "actions.forward()"
+      ng-if = "false"
       type = "button"
     )
       svg.iconnables.icons-chevron-right
         use(xlink:href = "#icons-chevron-right")
-    .iconnables.iconnables-container
-      button.btn-icon(type = "button")
+    .iconnables.iconnables-container(
+      ng-if = "false"
+    )
+      button.btn-icon(
+        type = "button"
+        ng-click = "actions.refresh()"
+      )
         svg.iconnables.icons-refresh
           use(xlink:href = "#icons-refresh")
       button.btn-icon(type = "button")
         svg.iconnables.icons-stop
           use(xlink:href = "#icons-stop")
     //- select all text on click
-    input.form-control(
-      placeholder = "Enter an address"
-      value = "{{ iframeUrl }}"
+    //- inline styles with apologies to Tony
+    a(
+      ng-href = "{{ data.iframeUrl }}"
+      target = "_blank"
+      style = "width: 100%"
     )
+      input.form-control(
+        placeholder = "Enter an address"
+        readonly
+        value = "{{ data.iframeUrl }}"
+        style = "width: inherit"
+      )
     //- style="-webkit-transform: scale3d(%,1,1); transform: scale3d(%,1,1);" to move progress bar--% is the total progress out of 1.00
     //- http://caniuse.com/#search=transform (Current and previous versions, July 2014):
     //- * chrome 35
@@ -37,5 +51,5 @@
     .progress
   //- server log and terminal tab should open by default
   iframe(
-    src = "{{ iframeUrl }}"
+    ng-src = "{{ data.iframeUrl }}"
   )
