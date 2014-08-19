@@ -29,14 +29,14 @@ function buildStream(
         if (buildId) {
           var build = $scope.build;
           if (build.succeeded()) {
-            $scope.stream.data = parseReturns($scope.build.attrs.contextVersions[0].build.log);
+            $scope.stream.data = $scope.build.attrs.contextVersions[0].build.log;
             $rootScope.safeApply();
           } else if (build.failed()) {
             var contextVersion = build.contextVersions.models[0];
             if (build.contextVersions.models)
               $scope.stream = {
-                data: parseReturns(contextVersion.attrs.build.log) ||
-                  contextVersion.attrs.build.error.message ||
+                data: contextVersion.attrs.build.log ||
+                  (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
                   "Unknown Build Error Occurred"
               };
             // check contextVersions.attrs.build.error for unknown errors
@@ -51,7 +51,7 @@ function buildStream(
         var build = $scope.build;
         var buildStream = primus.createBuildStream(build);
         var addToStream = function (data) {
-          $scope.stream.data = addToTotal(data, $scope.stream.data);
+          $scope.stream.data += data;
           $rootScope.safeApply();
           jQuery('html, body').scrollTop(10000);
         };

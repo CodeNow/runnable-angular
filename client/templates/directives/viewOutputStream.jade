@@ -2,7 +2,7 @@
   ng-class = "{out: out}"
 )
   pre
-    {{ stream.data }}
+    {{ stream.data | buildStreamCleaner }}
   //- show close button when finished
   button#editor-status.silver(
     type = "button"
