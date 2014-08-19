@@ -102,7 +102,7 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
-            ng-if = "!build.failed() && build.attrs.completed"
+            ng-if = "!build.failed() && build.completed()"
             ng-click = "$event.stopPropagation(); \
                         dataBuildList.actions.runInstance(build);"
             data-title = "Run Instance"
