@@ -72,37 +72,42 @@
     > li {
       border-bottom: 1px solid rgba(0,0,0,.1);
       padding: 5px 15px 6px;
-    }
-  }
 
-  > .actions {
-    border-bottom: 0;
-    padding: 0;
-
-    li {
-      font-size: 16px;
-      height: 36px;
-      line-height: 36px;
-      padding: 0 15px;
-    }
-
-    button {
-      float: right;
-      margin-top: 6px;
-    }
-
-    .iconnables {
-      display: flex;
-      height: 14px;
-      margin: 0;
-      position: static;
-      width: 14px;
+      &.action {
+        font-size: 16px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 15px;
+      }
     }
   }
 
   .btn-block {
     margin: 0 auto;
     width: calc(100% - 30px);
+  }
+}
+
+.actions {
+  border-bottom: 0;
+  padding: 0;
+
+  .btn-sm {
+    float: right;
+    margin-top: 6px;
+  }
+
+  .iconnables {
+    display: flex;
+    height: 14px;
+    margin: 0;
+    position: static;
+    width: 14px;
+
+    &.icons-launch,
+    &.icons-stop-alt {
+      margin-top: 3px;
+    }
   }
 }
 

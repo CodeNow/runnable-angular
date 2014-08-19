@@ -19,7 +19,6 @@ nav.sub-header
         use(xlink:href = "#icons-fail")
     | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4) }}
 
-  //- only show cancel build during a build
   section#main-controls
     button.green(
       ng-click = "dataBuild.actions.runInstance()"
@@ -45,9 +44,8 @@ nav.sub-header
           template = "viewBuildPopoverBuildOptions"
         )
     button.silver(
-      type = "button"
       ng-click = "dataBuild.actions.edit()"
-      ng-disabled = "!dataBuild.data.build.attrs.completed"
+      type = "button"
     ) Edit Build
 
 section.sidebar
@@ -143,16 +141,18 @@ section.sidebar
       //- * remove readonly property from input and select all text
       //- * save on blur or enter key
       li(
-        ng-repeat = "repoModel in dataBuild.data.version.appCodeVersions.models"
+        ng-repeat = "repoModel in dataBuild.data.version.attrs.appCodeVersions"
+        ng-class = "{active: dataBuild.data.dataFileTreePopoverRepoItemMenu.data.show}"
+        popover-repo-item-menu
       )
-        span.repo-name
+        span
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
-          | {{ repoModel.attrs.repo }}
+          | {{ repoModel.repo }}
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch  }}"
+          value = "{{ repoModel.lockCommit ? repoModel.commit : repoModel.branch }}"
         )
 
   button#explorer-toggle.btn-icon(

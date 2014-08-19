@@ -12,7 +12,6 @@ nav.sub-header
         use(xlink:href = "#icons-asterisk")
     | Build {{ dataBuildNew.data.build.attrs.buildNumber }}
 
-  //- all buttons should be disabled during a build
   section#main-controls
     .btn-group
       button.green(
@@ -36,8 +35,8 @@ nav.sub-header
       type = "button"
     ) Discard Changes
 
-section.sidebar.load
-  ul(
+section.sidebar
+  ul.load(
     ng-show = "dataBuildNew.data.build.attrs.created"
   )
     li
@@ -63,7 +62,9 @@ section.sidebar.load
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuildNew.data.build.user.attrs.accounts.github.username }}</a>
-  h3 Message Log
+  h3.load(
+    ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo || dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
+  ) Message Log
   ol#messages.load(
     ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
@@ -164,7 +165,7 @@ section.sidebar.load
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch  }}"
+          value = "{{ repoModel.lockCommit ? repoModel.commit : repoModel.branch }}"
         )
 
   button#explorer-toggle.btn-icon(
