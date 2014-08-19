@@ -32,7 +32,10 @@
 @import "components/header";
 @import "components/stream";
 @import "components/main-controls";
+
+// components (sidebar)
 @import "components/sidebar";
+@import "components/sidebar-messages";
 
 // components (editor)
 @import "components/explorer";
@@ -55,13 +58,13 @@
 @import "components/menu";
 @import "components/tooltips";
 
-// popovers
+// components (popovers)
 @import "components/popovers";
 @import "components/popover-add-repo";
 
 // components (forms)
 @import "components/forms";
-@import "components/toggles";
+@import "components/forms-toggles";
 
 // pages
 @import "pages/home";
