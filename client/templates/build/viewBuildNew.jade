@@ -12,7 +12,6 @@ nav.sub-header
         use(xlink:href = "#icons-asterisk")
     | Build {{ dataBuildNew.data.build.attrs.buildNumber }}
 
-  //- all buttons should be disabled during a build
   section#main-controls
     .btn-group
       button.green(
@@ -37,7 +36,9 @@ nav.sub-header
     ) Discard Changes
 
 section.sidebar
-  ul(ng-show = "dataBuildNew.data.build.attrs.created")
+  ul.load(
+    ng-show = "dataBuildNew.data.build.attrs.created"
+  )
     li
       svg.iconnables.icons-recipe
         use(xlink:href = "#icons-recipe")
@@ -61,19 +62,21 @@ section.sidebar
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuildNew.data.build.user.attrs.accounts.github.username }}</a>
-  h3 Message Log
-  ol#messages(
+  h3.load(
+    ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo || dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
+  ) Message Log
+  ol#messages.load(
     ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li(ng-repeat = "commit in dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
       ol.message
         li
           a(
-            title = "{{commit.id}}"
+            title = "{{commit.sha}}"
           )
             svg.iconnables.icons-git
               use(xlink:href = "#icons-git")
-            {{commit.message}}
+            {{commit.commit.message}}
         li
           a
             img(
@@ -82,7 +85,7 @@ section.sidebar
               width = "20"
             )
             | #{''} {{commit.committer.username}}
-  ol#messages(
+  ol#messages.load(
     ng-if = "dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
     li
@@ -162,7 +165,7 @@ section.sidebar
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.commit || repoModel.branch  }}"
+          value = "{{ repoModel.lockCommit ? repoModel.commit : repoModel.branch }}"
         )
 
   button#explorer-toggle.btn-icon(

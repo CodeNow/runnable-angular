@@ -58,6 +58,9 @@ function popoverRepoItemMenu(
       element[0].addEventListener('contextmenu', contextMenuListener);
 
       function contextMenuListener(e) {
+        $rootScope.$broadcast('app-document-click');
+        $rootScope.$broadcast('file-modal-open');
+
         $scope.popoverData.eStyle.top = e.pageY - 18 + 'px';
         $scope.popoverData.eStyle.left = e.pageX + 'px';
         $scope.popoverData.isOpen = true;

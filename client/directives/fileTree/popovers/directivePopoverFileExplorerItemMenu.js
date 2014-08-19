@@ -105,6 +105,7 @@ function popoverFileExplorerItemMenu(
         }
 
         $rootScope.$broadcast('file-modal-open');
+        $rootScope.$broadcast('app-document-click');
 
         var template = $templateCache.get('viewFileTreePopoverFileItemMenu');
         var $template = angular.element(template);

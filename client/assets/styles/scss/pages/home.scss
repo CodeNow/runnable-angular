@@ -60,13 +60,17 @@
   .tag-line {
     color: $white;
     font-size: 45px;
+    padding: 0 15px;
+    text-align: center;
   }
 
   .sub-line {
     color: $white;
     font-size: 21px;
     font-weight: 300;
+    line-height: 1.4;
     margin: 15px 0 0;
+    padding: 0 15px;
     text-align: center;
   }
 
@@ -82,41 +86,4 @@
     line-height: 54px;
     margin-top: 30px;
   }
-}
-
-.container {
-
-  .feature {
-    margin-bottom: 30px;
-    margin-top: 30px;
-    text-align: center;
-  }
-
-  .iconnables {
-    height: 60px;
-    width: 60px;
-  }
-}
-
-footer {
-  background-image: linear-gradient($white,rgba($gray,.3));
-  height: 450px;
-  position: relative;
-  width: 100vw;
-  z-index: 0;
-}
-
-footer::after {
-  background: url(../images/hero-icons.svg) 50% 100% no-repeat;
-  bottom: 0;
-  content: '';
-  display: block;
-  height: 450px;
-  left: 0;
-  margin: auto;
-  opacity: .6;
-  position: absolute;
-  right: 0;
-  width: 100vw;
-  z-index: 1;
 }
