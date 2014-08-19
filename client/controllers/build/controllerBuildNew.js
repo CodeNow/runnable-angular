@@ -268,6 +268,12 @@ function ControllerBuildNew(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
+    var dockerfile = data.newVersion.rootDir.contents.find(function (m) {
+      return m.attrs.name === 'Dockerfile';
+    });
+    if (dockerfile) {
+      data.openItems.addOne(dockerfile);
+    }
     cb();
   }
 
