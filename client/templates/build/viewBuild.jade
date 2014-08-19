@@ -84,12 +84,17 @@ section.sidebar
         li
           a(
             title = "{{commit.sha}}"
+            ng-href = "{{ commit.html_url }}"
+            target = "_blank"
           )
             svg.iconnables.icons-git
               use(xlink:href = "#icons-git")
             {{commit.commit.message}}
         li
-          a
+          a(
+            ng-href = "{{ commit.committer.html_url }}"
+            target = "_blank"
+          )
             img(
               height = "20"
               ng-src = "{{ commit.committer.gravatar }}?s=64"
