@@ -102,6 +102,10 @@ header(
     h3 INSTANCES
     ul.instances.btn-group-vertical.no-margin
       li.btn(
+        ng-class = "{ \
+          active: ((!instance.attrs.name && !!dataProjectLayout.data.tempBuildUrl) \
+                   || (dataApp.stateParams.instanceId === instance.id() && !dataProjectLayout.data.tempBuildUrl)) \
+        }"
         ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataProjectLayout.data.instances.models"
       )
