@@ -1,9 +1,9 @@
 require('app')
-  .filter('buildStreamCleaner', buildStreamCleaner);
+  .filter('buildStreamCleaner', filterBuildStreamCleaner);
 /**
  * @ngInject
  */
-function buildStreamCleaner() {
+function filterBuildStreamCleaner() {
   return function (stream) {
     return parseReturns(stream);
   };
