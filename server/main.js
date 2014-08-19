@@ -9,6 +9,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('config', config);
 app.set('view engine', 'jade');
 app.locals.version = package.version;
+app.locals.env = config.env;
 app.set('views', path.join(__dirname + '/views'));
 app.use(compression());
 app.use('/build', express.static(path.join(__dirname + '/../client/build')));
