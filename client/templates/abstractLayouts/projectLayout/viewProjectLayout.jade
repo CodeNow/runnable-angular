@@ -97,7 +97,12 @@ header(
             use(xlink:href = "#icons-arrow-down")
           | {{ project.attrs.name }}
         ul.config-list(ng-repeat = "environment in project.attrs.environments")
-          li.config.active(ng-click = "dataProjectLayout.actions.stateToBuildList(project, environment, $event)")
+          li.config(
+            ng-class = "{ \
+              active: (environment.name === dataApp.stateParams.branchName) \
+            }"
+            ng-click = "dataProjectLayout.actions.stateToBuildList(project, environment, $event)"
+          )
             a.btn-link
               svg.iconnables.icons-recipe
                 use(xlink:href = "#icons-recipe")
