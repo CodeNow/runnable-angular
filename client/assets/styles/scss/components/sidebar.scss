@@ -1,5 +1,5 @@
 .sidebar {
-  border-right: 1px solid rgba(0,0,0,.1);
+  border-right: 1px solid rgba($black,.1);
   float: left;
   height: calc(100% - 54px);
   overflow: hidden;
@@ -8,7 +8,7 @@
   width: 270px;
 
   h3 {
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba($black,.1);
     color: $gray-dark;
     font-size: 14px;
     font-weight: 600;
@@ -43,7 +43,7 @@
   }
 
   > ul {
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba($black,.1);
     padding: 15px 0;
 
     a {
@@ -69,7 +69,7 @@
   > ol {
 
     > li {
-      border-bottom: 1px solid rgba(0,0,0,.1);
+      border-bottom: 1px solid rgba($black,.1);
       padding: 5px 15px 6px;
 
       &.action {
@@ -143,7 +143,11 @@
   }
 }
 
-// messages
+// messages html layout:
+// ol.messages
+//   lo.message
+//     a.message-content
+//     a.message-author
 .messages {
   height: calc(100% - 201px);
   overflow-y: auto;
