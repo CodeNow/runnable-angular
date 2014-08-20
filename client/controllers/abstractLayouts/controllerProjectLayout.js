@@ -327,6 +327,30 @@ function ControllerProjectLayout(
     cb();
   }
 
+  function fetchProjectInstances (cb) {
+    var thisUser = $scope.dataApp.user;
+    var entityId = actions.getEntityId(data.activeAccount);
+    var projectId = data.activeProject.id();
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchInstances')
+      .query({
+        owner: {
+          github: entityId
+        },
+        project: projectId
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        dataProjectLayout.data.projectInstances = instances;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, projects, cb) {
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+
   /**
    * All pages besides new project page
    */
@@ -337,7 +361,8 @@ function ControllerProjectLayout(
       selectInitialProjectOwner,
       fetchAllProjects,
       fetchInstances,
-      setInitialActiveProject
+      setInitialActiveProject,
+      fetchProjectInstances
     ], function (err) {
       if (err) {
         $state.go('404');
