@@ -148,7 +148,7 @@ header(
         ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
       )
         a.btn-link {{ instance.attrs.name || 'Starting Instance' }}
-        small.build-url {{ instance.buildUrl() || dataProjectLayout.data.tempBuildUrl }}
+        small.build-url {{ instance.shortBuildUrl() || dataProjectLayout.data.tempBuildUrl }}
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
 .spinner-container(
