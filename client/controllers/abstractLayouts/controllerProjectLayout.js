@@ -65,13 +65,13 @@ function ControllerProjectLayout(
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
     data.showChangeAccount = false;
-    data.instances = null;
+    data.projectInstances = null;
 
     if (cb) {
       return cb();
     }
 
-    fetchInstances(function (err) {
+    fetchProjectInstances(function (err) {
       if (err) {
         return $state.go('404');
       }
@@ -228,7 +228,9 @@ function ControllerProjectLayout(
       projectName: project.attrs.name,
       branchName: project.defaultEnvironment.attrs.name
     };
-    $state.go('projects.buildList', state);
+    fetchProjectInstances(function() {
+      $state.go('projects.buildList', state);
+    });
   };
 
   actions.getActiveProjectName = function() {
