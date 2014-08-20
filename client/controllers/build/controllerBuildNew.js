@@ -111,6 +111,7 @@ function ControllerBuildNew(
         }
       }
       //TODO safety branch
+      // repo.fetchCommit...
       buildPopoverRepoMenu.data.show = false;
       data.newVersion.appCodeVersions.create(body, function (err) {
         if (err) {
@@ -229,6 +230,7 @@ function ControllerBuildNew(
       .cacheFetch(function (build, cached, cb) {
         data.newBuild = build;
         if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
+          // this is a built-build. Can't edit.
           return actions.stateToBuild(data.newBuild.attrs.buildNumber);
         }
         data.newVersion = build.contextVersions.models[0];
