@@ -301,6 +301,7 @@ function ControllerProjectLayout(
     data.activeProject = data.activeAccount.attrs.projects.find(function (project) {
       return project.attrs.name === $state.params.projectName;
     });
+    cb();
   }
 
   function fetchInstances(cb) {

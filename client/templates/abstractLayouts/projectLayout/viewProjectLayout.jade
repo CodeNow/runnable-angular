@@ -136,30 +136,15 @@ header(
           svg.iconnables.icons-recipe
             use(xlink:href = "#icons-recipe")
           | {{ branch.attrs.name }}
-      //-
-          svg.iconnables.icons-arrow-down
-            use(xlink:href = "#icons-arrow-down")
-          | {{ project.attrs.name }}
-        ul.config-list(ng-repeat = "environment in project.attrs.environments")
-          li.config(
-            ng-class = "{ \
-              active: (environment.name === dataApp.stateParams.branchName) \
-            }"
-            ng-click = "dataProjectLayout.actions.stateToBuildList(project, environment, $event)"
-          )
-            a.btn-link
-              svg.iconnables.icons-recipe
-                use(xlink:href = "#icons-recipe")
-              | {{ environment.name }}
     h3 INSTANCES
     ul.instances.btn-group-vertical.no-margin
       li.btn(
+        ng-repeat = "instance in dataProjectLayout.data.instances.models"
         ng-class = "{ \
           active: ((!instance.attrs.name && !!dataProjectLayout.data.tempBuildUrl) \
                    || (dataApp.stateParams.instanceId === instance.id() && !dataProjectLayout.data.tempBuildUrl)) \
         }"
         ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
-        ng-repeat = "instance in dataProjectLayout.data.instances.models"
       )
         a.btn-link {{ instance.attrs.name || 'Starting Instance' }}
         small.build-url {{ instance.buildUrl() || dataProjectLayout.data.tempBuildUrl }}
