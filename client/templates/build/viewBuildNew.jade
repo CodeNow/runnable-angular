@@ -177,7 +177,7 @@ section.sidebar
           id = "repo-branches-edit-{{ repoModel.id() }}"
         )
           option(
-            ng-repeat = "branch in repo.branches.models"
+            ng-repeat = "branch in repoModel.branches.models"
             value = "{{ branch.attrs.name }}"
           )
 

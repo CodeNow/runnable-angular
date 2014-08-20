@@ -24,12 +24,11 @@ function popoverRepoItemMenu(
       var actions = popoverData.actions = {};
 
       actions.modify = function () {
-        debugger;
         var githubRepo = $scope.repoModel.githubRepo();
         $scope.repoModel.branches = githubRepo.fetchBranches({}, function () {
-          debugger;
           $rootScope.safeApply();
         });
+        $rootScope.safeApply();
         keypather.set($scope, 'repoModel.state.editing', true);
         popoverData.isOpen = false;
         var input = jQuery(element).find('> input.tree-input')[0];
