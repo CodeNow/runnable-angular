@@ -297,13 +297,6 @@ function ControllerProjectLayout(
       .go();
   }
 
-  function setInitialActiveProject (cb) {
-    data.activeProject = data.activeAccount.attrs.projects.find(function (project) {
-      return project.attrs.name === $state.params.projectName;
-    });
-    cb();
-  }
-
   function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
     var id = actions.getEntityId(data.activeAccount);
@@ -325,6 +318,15 @@ function ControllerProjectLayout(
       })
       .go();
   }
+
+  function setInitialActiveProject (cb) {
+    var projectName = actions.getActiveProjectName();
+    data.activeProject = data.activeAccount.attrs.projects.find(function (project) {
+      return project.attrs.name === projectName;
+    });
+    cb();
+  }
+
   /**
    * All pages besides new project page
    */
@@ -334,8 +336,8 @@ function ControllerProjectLayout(
       fetchOrgs,
       selectInitialProjectOwner,
       fetchAllProjects,
-      setInitialActiveProject,
-      fetchInstances
+      fetchInstances,
+      setInitialActiveProject
     ], function (err) {
       if (err) {
         $state.go('404');
