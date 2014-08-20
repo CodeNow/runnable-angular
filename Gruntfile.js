@@ -22,10 +22,10 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     githooks: {
       all: {
-        'pre-commit':    'jshint:prod',
-        'pre-push':      'bgShell:karma',
-        'post-merge':    'bgShell:npm-install',
-        'post-checkout': 'bgShell:npm-install'
+        'pre-commit':    'jshint:prod'
+      //  'pre-push':      'bgShell:karma',
+      //  'post-merge':    'bgShell:npm-install',
+      //  'post-checkout': 'bgShell:npm-install'
       }
     },
     concurrent: {
