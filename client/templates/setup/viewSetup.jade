@@ -42,7 +42,7 @@ section.sidebar
       ul.added-repo.list-group(
         ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models"
       )
-        li.list-group-item{{ appCodeVersion.attrs.repo }}
+        li.list-group-item {{ appCodeVersion.attrs.repo }}
           button.btn-icon(
             ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
             type = "button"
