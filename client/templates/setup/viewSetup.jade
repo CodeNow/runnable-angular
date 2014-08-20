@@ -20,8 +20,8 @@ section.sidebar
     #setup-repo
       .input-container
         input.form-control(
-          ng-click = "$event.stopPropagation()"
           ng-class = "{in: dataSetup.data.isRepoMode}"
+          ng-click = "$event.stopPropagation()"
           ng-focus = "dataSetup.data.isRepoMode = true"
           ng-model = "dataSetup.data.repoFilter"
           placeholder = "Add Repository"
