@@ -63,14 +63,15 @@ function popoverRepoItemMenu(
         }
       });
 
-      $scope.$on('file-modal-open', function () {
+      popoverData.actions.exit = exit;
+      function exit () {
         popoverData.isOpen = false;
         keypather.set($scope, 'repoModel.state.editing', false);
-      });
-      $scope.$on('app-document-click', function () {
-        popoverData.isOpen = false;
-        keypather.set($scope, 'repoModel.state.editing', false);
-      });
+        // TODO
+        // Save changes
+      }
+      $scope.$on('file-modal-open', exit);
+      $scope.$on('app-document-click', exit);
 
       element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener(e) {

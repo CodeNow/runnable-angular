@@ -167,6 +167,7 @@ section.sidebar
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           ng-readonly = "!repoModel.state.editing"
+          ng-keyup = "($event.keyCode === 13 && popoverData.actions.exit())"
           value = "{{ repoModel.attrs.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch }}"
         )
 
