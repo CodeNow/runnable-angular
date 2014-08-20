@@ -219,6 +219,7 @@ function ControllerProjectLayout(
 
   actions.setActiveProject = function (userOrOrg, project) {
     data.activeProject = project;
+    data.showChangeAccount = false;
     if (userOrOrg !== data.activeAccount) {
       actions.selectProjectOwner(userOrOrg, angular.noop);
     }
