@@ -35,8 +35,7 @@ function ControllerBuildList(
   pce.data.filter = '';
   pce.data.show = false;
   pce.actions.createNewEnvironment = function (event) {
-    console.log(event);
-    if (event.keyCode !== 13) {
+    if (event.keyCode && event.keyCode !== 13) {
       return;
     }
     var count = callbackCount(2, done);
@@ -44,7 +43,7 @@ function ControllerBuildList(
     var body = {
       name: pce.data.filter
     };
-    var env = project.createEnvironment(body, count.next);
+    var env = project.environments.create(body, count.next);
     var query = {
       sort: '-buildNumber'
     };
