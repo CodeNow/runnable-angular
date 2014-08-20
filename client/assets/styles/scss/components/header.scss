@@ -13,6 +13,10 @@ header {
   .setup & {
     overflow-y: hidden;
 
+    .icons-arrow-down {
+      right: 8px !important;
+    }
+
     // hides all non-relevant elements
     .scroll-container {
       opacity: 0;
@@ -46,6 +50,7 @@ header {
 
     .btn.account-info {
       cursor: pointer;
+      pointer-events: auto;
     }
   }
 
@@ -201,6 +206,13 @@ header {
   white-space: nowrap;
   width: 100%;
 
+  .btn-add-project {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(18px,0,0);
+    transition: all .15s ease-in;
+  }
+
   &.active {
     border-radius: 3px 3px 0 0;
 
@@ -219,28 +231,22 @@ header {
     }
 
     .icons-arrow-down {
+      right: 27px;
       transform: rotate3d(0,0,1,180deg);
-    }
-
-    > .btn-add-project {
-      opacity: .75;
-
-      &:hover,
-      &:active {
-        opacity: 1;
-      }
     }
 
     > .project-name {
       opacity: 0;
     }
 
-    > .name-switcher, {
+    .btn-add-project {
       opacity: 1;
+      pointer-events: auto;
+      transform: translate3d(0,0,0);
     }
 
-    .btn-add-project {
-      opacity: .75;
+    > .name-switcher, {
+      opacity: 1;
     }
   }
 
@@ -248,6 +254,7 @@ header {
     position: absolute;
     right: 8px;
     top: 7px;
+    transition: all .15s ease-in;
   }
 
   > .project-name {
@@ -264,14 +271,14 @@ header {
 
 .btn-add-project.btn-add-project {
   background: none;
-  color: $white;
-  float: left;
-  opacity: 0;
-  width: 36px;
+  pointer-events: auto;
+  position: absolute;
+  right: 6px;
+  top: 0;
 
   &:hover,
   &:active {
-    background: none;
+    background: none !important;
   }
 }
 
@@ -337,6 +344,7 @@ header {
 
     &.account-info {
       cursor: default;
+      pointer-events: none;
 
       &:hover,
       &:active {
