@@ -164,12 +164,15 @@ section.sidebar
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
           | {{ repoModel.attrs.repo }}
+        //- use datalist the same we use in viewSetupPopoverAddRepos.jade
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           ng-readonly = "!repoModel.state.editing"
           ng-keyup = "($event.keyCode === 13 && popoverData.actions.exit())"
           value = "{{ repoModel.attrs.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch }}"
         )
+        //- datalist
+          option
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuildNew.data.showExplorer = !dataBuildNew.data.showExplorer"
