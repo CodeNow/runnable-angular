@@ -1,5 +1,5 @@
 .sidebar {
-  border-right: 1px solid rgba(0,0,0,.1);
+  border-right: 1px solid rgba($black,.1);
   float: left;
   height: calc(100% - 54px);
   overflow: hidden;
@@ -8,7 +8,7 @@
   width: 270px;
 
   h3 {
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba($black,.1);
     color: $gray-dark;
     font-size: 14px;
     font-weight: 600;
@@ -43,7 +43,7 @@
   }
 
   > ul {
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba($black,.1);
     padding: 15px 0;
 
     a {
@@ -69,7 +69,7 @@
   > ol {
 
     > li {
-      border-bottom: 1px solid rgba(0,0,0,.1);
+      border-bottom: 1px solid rgba($black,.1);
       padding: 5px 15px 6px;
 
       &.action {
@@ -85,114 +85,4 @@
     margin: 0 auto;
     width: calc(100% - 30px);
   }
-}
-
-// actions
-.actions {
-  border-bottom: 0;
-  padding: 0;
-
-  .btn-sm {
-    float: right;
-    margin-top: 6px;
-    transition: all .15s ease-in;
-  }
-
-  .iconnables {
-    display: flex;
-    height: 14px;
-    margin: 0;
-    position: static;
-    width: 14px;
-
-    &.icons-launch,
-    &.icons-stop-alt {
-      margin-top: 3px;
-    }
-  }
-
-  .spinner {
-    opacity: .3;
-    position: absolute;
-    right: 21px;
-    top: 10px;
-    transform: scale3d(0,0,0);
-  }
-}
-
-.action {
-  position: relative;
-
-  &.active {
-
-    .btn-sm {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .spinner {
-      transform: scale3d(1,1,1);
-    }
-  }
-
-  .icons-pause,
-  .icons-start {
-    height: 17px;
-    margin-top: 2px;
-    width: 17px;
-  }
-}
-
-// messages
-.messages {
-  height: calc(100% - 201px);
-  overflow-y: auto;
-}
-
-.message {
-  min-height: 59px;
-}
-
-.message-content,
-.message-author {
-  color: $gray-dark;
-  display: block;
-  min-height: 24px;
-  padding-top: 6px;
-  text-decoration: none;
-
-  &:hover,
-  &:active {
-    color: $gray-darker;
-  }
-}
-
-.message-content {
-  font-weight: 500;
-
-  .icons-git {
-    height: 15px;
-    margin-left: 3px;
-    opacity: .45;
-    top: 2px;
-    width: 15px;
-  }
-}
-
-.message-author {
-  line-height: 24px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  .gravatar {
-    float: left;
-    height: 20px;
-    margin: 1px 4px 0 0;
-    width: 20px;
-  }
-}
-
-.gravatar {
-  border-radius: 50%;
 }

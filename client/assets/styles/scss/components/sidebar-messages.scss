@@ -1,0 +1,57 @@
+// messages html layout:
+// ol.messages
+//   li.message
+//     a.message-content
+//     a.message-author
+.messages {
+  height: calc(100% - 201px);
+  overflow-y: auto;
+}
+
+.message {
+  min-height: 59px;
+}
+
+.message-content,
+.message-author {
+  color: $gray-dark;
+  display: block;
+  min-height: 24px;
+  padding-top: 6px;
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    color: $gray-darker;
+  }
+}
+
+.message-content {
+  font-weight: 500;
+
+  .icons-git {
+    height: 15px;
+    margin-left: 3px;
+    opacity: .45;
+    top: 2px;
+    width: 15px;
+  }
+}
+
+.message-author {
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  .gravatar {
+    float: left;
+    height: 20px;
+    margin: 1px 4px 0 0;
+    width: 20px;
+  }
+}
+
+.gravatar {
+  border-radius: 50%;
+}
