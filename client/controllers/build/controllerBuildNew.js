@@ -268,13 +268,19 @@ function ControllerBuildNew(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
+    cb();
+  }
+
+  var interval;
+  function openDockerfile () {
     var dockerfile = data.newVersion.rootDir.contents.find(function (m) {
       return m.attrs.name === 'Dockerfile';
     });
     if (dockerfile) {
       data.openItems.addOne(dockerfile);
+      clearInterval(interval);
     }
-    cb();
+    return !!dockerfile;
   }
 
   actions.seriesFetchAll = function () {
@@ -292,6 +298,11 @@ function ControllerBuildNew(
       }
       if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
         return actions.stateToBuild(data.newBuild.attrs.buildNumber);
+      }
+      // Check if file data has loaded yet
+      if (!openDockerfile()) {
+        // Continue checking until it's loaded
+        interval = setInterval(openDockerfile, 500);
       }
       $scope.safeApply();
     });
