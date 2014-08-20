@@ -18,7 +18,9 @@ ul.list-group
         svg.iconnables.icons-check
           use(xlink:href = "#icons-check")
       li.repo-group-item(
-        ng-class = "{invalid: githubReposForm['repo-version-' + repo.attrs.name].$invalid}"
+        ng-class = "{ \
+          invalid: githubReposForm['repo-version-' + repo.attrs.name].$invalid \
+        }"
       )
         //- list and ID properties need to be unique per repo
         input.form-control.form-validate(

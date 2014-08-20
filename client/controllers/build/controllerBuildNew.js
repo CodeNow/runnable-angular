@@ -116,6 +116,12 @@ function ControllerBuildNew(
         }
         $scope.safeApply();
       });
+    },
+
+    selectGithubRepo: function (repo) {
+      repo.branches = repo.fetchBranches({}, function () {
+        $scope.safeApply();
+      });
     }
   };
 
