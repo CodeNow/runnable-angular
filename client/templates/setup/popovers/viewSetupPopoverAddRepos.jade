@@ -31,7 +31,7 @@ ul.list-group
           placeholder = "Branch/SHA (default: @master)"
         )
         datalist(
-          id="repo-branches-{{ repo.attrs.name }}"
+          id = "repo-branches-{{ repo.attrs.name }}"
         )
           option(
             ng-repeat = "branch in repo.branches.models"

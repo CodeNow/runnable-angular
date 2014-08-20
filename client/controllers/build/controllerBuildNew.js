@@ -98,6 +98,7 @@ function ControllerBuildNew(
 
   var shaRegExp = /^[a-fA-F0-9]{40}$/;
   buildPopoverRepoMenu.actions = {
+
     addGithubRepo: function (repo, branchOrSHA) {
       var body = {
         repo: repo.attrs.full_name
@@ -109,6 +110,7 @@ function ControllerBuildNew(
           body.branch = branchOrSHA;
         }
       }
+      //TODO safety branch
       buildPopoverRepoMenu.data.show = false;
       data.newVersion.appCodeVersions.create(body, function (err) {
         if (err) {
