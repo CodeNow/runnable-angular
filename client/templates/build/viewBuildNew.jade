@@ -156,7 +156,7 @@ section.sidebar
       li(
         ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models"
         ng-class = "{ \
-          active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show \
+          active: repoModel.state.editing \
         }"
         popover-repo-item-menu
       )
@@ -166,7 +166,7 @@ section.sidebar
           | {{ repoModel.attrs.repo }}
         input.tree-input(
           placeholder = "Specify Branch or SHA"
-          readonly
+          ng-readonly = "!repoModel.state.editing"
           value = "{{ repoModel.attrs.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch }}"
         )
 

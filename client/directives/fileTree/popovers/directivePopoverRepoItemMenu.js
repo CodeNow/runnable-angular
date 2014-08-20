@@ -24,8 +24,13 @@ function popoverRepoItemMenu(
       var actions = popoverData.actions = {};
 
       actions.modify = function () {
-        $scope.dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show = true;
+        keypather.set($scope, 'repoModel.state.editing', true);
+        popoverData.isOpen = false;
+        var input = jQuery(element).find('> input.tree-input')[0];
+        input.focus();
+        input.select();
       };
+
       actions.remove = function () {
         $scope.repoModel.destroy(function () {
           $rootScope.safeApply();
@@ -58,8 +63,16 @@ function popoverRepoItemMenu(
         }
       });
 
-      element[0].addEventListener('contextmenu', contextMenuListener);
+      $scope.$on('file-modal-open', function () {
+        popoverData.isOpen = false;
+        keypather.set($scope, 'repoModel.state.editing', false);
+      });
+      $scope.$on('app-document-click', function () {
+        popoverData.isOpen = false;
+        keypather.set($scope, 'repoModel.state.editing', false);
+      });
 
+      element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener(e) {
         $rootScope.$broadcast('app-document-click');
         $rootScope.$broadcast('file-modal-open');
