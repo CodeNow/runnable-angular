@@ -131,6 +131,7 @@ header(
       li.btn.config(
         ng-repeat = "branch in dataProjectLayout.data.activeProject.environments.models"
         ng-click = "dataProjectLayout.actions.stateToEnvironment(branch)"
+        ng-class = "{active: (dataApp.stateParams.branchName === branch.attrs.name)}"
       )
         a.btn-link
           svg.iconnables.icons-recipe
