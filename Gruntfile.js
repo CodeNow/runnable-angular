@@ -272,6 +272,10 @@ module.exports = function(grunt) {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js --single-run'
       },
+      'karma-watch': {
+        bg: false,
+        cmd: 'karma start ./test/karma.conf.js'
+      },
       server: {
         cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
         bg: true,
@@ -376,7 +380,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-jsbeautifier');
 
-  grunt.registerTask('test:watch', ['watch:tests']);
+  grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);
   grunt.registerTask('test:e2e', ['bgShell:karma']);
   grunt.registerTask('test', ['bgShell:karma']);
