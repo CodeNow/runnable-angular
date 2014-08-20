@@ -68,7 +68,7 @@
     "grunt-jsbeautifier": "^0.2.7",
     "grunt-nodemon": "~0.2.1",
     "karma": "~0.12.16",
-    "karma-browserify": "~0.2.1",
+    "karma-browserifast": "^0.7.0",
     "karma-chrome-launcher": "~0.1.4",
     "karma-commonjs": "0.0.8",
     "karma-coverage": "~0.2.4",
