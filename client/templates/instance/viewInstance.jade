@@ -15,13 +15,13 @@ nav.sub-header
       type = "button"
       ng-disabled = "dataInstance.data.openFiles.isClean()"
       ng-click = "dataInstance.actions.saveChanges()"
-    ) Save &amp; Restart
-    button.green(
-      ng-disabled = "dataInstance.data.openFiles.isClean() || !dataInstance.data.container.running()"
-      type = "button"
-      ng-disabled = "dataInstance.data.openFiles.isClean()"
-      ng-click = "dataInstance.actions.saveChanges()"
-    ) Save
+    ) Save Changes
+    label.btn.btn-check
+      input.form-checkbox(
+        checked
+        type = "checkbox"
+      )
+      | Restart instance on save.
 
 section.sidebar
   ul
