@@ -90,7 +90,8 @@ function ControllerBuildNew(
   function setupRepoPopover() {
     buildPopoverRepoMenu.data = {
       show: false,
-      appCodeVersions: keypather.get(data, 'newVersion.appCodeVersions')
+      appCodeVersions: keypather.get(data, 'newVersion.appCodeVersions'),
+      githubRepos: keypather.get(data, 'githubRepos')
     };
   }
   setupRepoPopover();
@@ -252,7 +253,6 @@ function ControllerBuildNew(
       .query({})
       .cacheFetch(function updateDom(githubRepos, cached, cb) {
         data.githubRepos = githubRepos;
-        buildPopoverRepoMenu.data.githubRepos = githubRepos;
         $scope.safeApply();
         cb();
       })
