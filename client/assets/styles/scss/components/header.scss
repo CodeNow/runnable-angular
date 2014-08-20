@@ -19,6 +19,34 @@ header {
       pointer-events: none;
       transition: none;
     }
+
+    .btn-add-project,
+    .project {
+      display: none;
+    }
+
+    .account {
+      cursor: pointer;
+      padding: 0;
+      pointer-events: auto;
+      z-index: 1;
+
+      &:first-child {
+        display: none;
+      }
+
+      &:hover {
+        background: rgba($white,.05);
+      }
+
+      &:active {
+        background: rgba($white,.1);
+      }
+    }
+
+    .btn.account-info {
+      cursor: pointer;
+    }
   }
 
   .no-splash & {
@@ -45,21 +73,12 @@ header {
       transition: none;
     }
 
-    .account {
-      background: $purple;
-      position: absolute;
-      z-index: 1;
+    .accounts {
+      border-radius: 0 0 3px 3px;
+    }
 
-      li {
-
-        &:nth-last-child(2) {
-          border-radius: 0 0 3px 3px !important;
-        }
-
-        &:last-child {
-          display: none;
-        }
-      }
+    .log-out {
+      display: none;
     }
   }
 
@@ -189,6 +208,7 @@ header {
       max-height: calc(100vh - 150px);
       opacity: 1;
       overflow-y: auto;
+      pointer-events: auto;
     }
 
     ~ .log-out {

@@ -19,8 +19,8 @@ header(
       span.name-switcher
         span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
         a.btn.btn-icon.btn-add-project(
-            ng-click = "dataProjectLayout.actions.stateToNewProject(dataProjectLayout.data.activeAccount);"
-          )
+          ng-click = "dataProjectLayout.actions.stateToNewProject(dataProjectLayout.data.activeAccount);"
+        )
           svg.iconnables.icons-add
             use(xlink:href = "#icons-add")
       svg.iconnables.icons-arrow-down
@@ -28,7 +28,7 @@ header(
     .accounts
       //- Active user's projects
       ul.account.btn-group-vertical.no-margin
-        li.btn(
+        li.btn.project(
           ng-repeat = "project in dataProjectLayout.data.activeAccount.attrs.projects.models"
           ng-click = "dataProjectLayout.actions.setActiveProject(dataApp.user, project)"
         )
@@ -47,20 +47,21 @@ header(
             width = "19"
           )
           span.account-name {{ dataApp.user.attrs.accounts.github.username }}
-          button.btn-icon(
+          button.btn-icon.btn-add-project(
             ng-click = "dataProjectLayout.actions.stateToNewProject(dataApp.user)"
           )
             svg.iconnables.icons-add
               use(xlink:href = "#icons-add")
-        li.btn(
+        li.btn.project(
           ng-repeat = "project in dataApp.user.attrs.projects.models"
           ng-click = "dataProjectLayout.actions.setActiveProject(dataApp.user, project)"
         )
           span.project-name {{ project.attrs.name }}
       //- Orgs that are not the active account
       ul.account.btn-group-vertical.no-margin.border-top(
-        ng-repeat = "org in dataProjectLayout.data.orgs.models"
+        ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
         ng-if = "org !== dataProjectLayout.data.activeAccount"
+        ng-repeat = "org in dataProjectLayout.data.orgs.models"
       )
         li.btn.account-info
           img.account-image.tooltip(
@@ -70,12 +71,12 @@ header(
             width = "19"
           )
           span.account-name {{ org.attrs.login }}
-          button.btn-icon(
+          button.btn-icon.btn-add-project(
             ng-click = "dataProjectLayout.actions.stateToNewProject(dataApp.user)"
           )
             svg.iconnables.icons-add
               use(xlink:href = "#icons-add")
-        li.btn(
+        li.btn.project(
           ng-repeat = "project in org.attrs.projects.models"
           ng-click = "dataProjectLayout.actions.setActiveProject(org, project)"
         )
