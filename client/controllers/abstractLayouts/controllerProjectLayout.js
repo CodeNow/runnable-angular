@@ -199,8 +199,13 @@ function ControllerProjectLayout(
     });
   };
 
-  actions.stateToNewProject = function () {
-    $state.go('projects');
+  actions.stateToNewProject = function (userOrOrg) {
+    if (!data.showChangeAccount) {
+      return;
+    }
+    actions.selectProjectOwner(userOrOrg, function () {
+      $state.go('projects');
+    });
   };
 
   actions.stateToEnvironment = function (branch) {
@@ -226,6 +231,9 @@ function ControllerProjectLayout(
   };
 
   actions.getActiveProjectName = function() {
+    if ($scope.dataApp.state.current.name === 'projects') {
+      return actions.getEntityName(data.activeAccount);
+    }
     if ($state.params.projectName) {
       return $state.params.projectName;
     } else if (data.instances) {

@@ -18,7 +18,9 @@ header(
       span.project-name {{ dataProjectLayout.actions.getActiveProjectName() }}
       span.name-switcher
         span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
-        a.btn.btn-icon.btn-add-project
+        a.btn.btn-icon.btn-add-project(
+            ng-click = "dataProjectLayout.actions.stateToNewProject(dataProjectLayout.data.activeAccount);"
+          )
           svg.iconnables.icons-add
             use(xlink:href = "#icons-add")
       svg.iconnables.icons-arrow-down
@@ -44,7 +46,9 @@ header(
             width = "19"
           )
           span.account-name {{ dataApp.user.attrs.accounts.github.username }}
-          button.btn-icon
+          button.btn-icon(
+            ng-click = "dataProjectLayout.actions.stateToNewProject(dataApp.user)"
+          )
             svg.iconnables.icons-add
               use(xlink:href = "#icons-add")
         li.btn(
@@ -66,7 +70,9 @@ header(
             width = "19"
           )
           span.account-name {{ org.attrs.login }}
-          button.btn-icon
+          button.btn-icon(
+            ng-click = "dataProjectLayout.actions.stateToNewProject(dataApp.user)"
+          )
             svg.iconnables.icons-add
               use(xlink:href = "#icons-add")
         li.btn(
