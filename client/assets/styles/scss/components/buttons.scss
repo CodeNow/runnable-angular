@@ -33,7 +33,8 @@ button,
     outline: none;
   }
 
-  &[disabled] {
+  &[disabled]
+  &.disabled {
     box-shadow: none;
     cursor: not-allowed;
   }

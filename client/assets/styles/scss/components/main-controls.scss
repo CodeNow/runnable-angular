@@ -71,6 +71,11 @@
     &:hover {
       border-color: rgba($black,.15);
     }
+
+    &.disabled:hover {
+      border-color: transparent;
+      cursor: not-allowed;
+    }
   }
 
   .form-checkbox {
