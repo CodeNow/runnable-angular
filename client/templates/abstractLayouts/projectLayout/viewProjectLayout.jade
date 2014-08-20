@@ -61,7 +61,6 @@ header(
       ul.account.btn-group-vertical.no-margin.border-top(
         ng-repeat = "org in dataProjectLayout.data.orgs.models"
         ng-if = "org !== dataProjectLayout.data.activeAccount"
-        ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
       )
         li.btn.account-info
           img.account-image.tooltip(
