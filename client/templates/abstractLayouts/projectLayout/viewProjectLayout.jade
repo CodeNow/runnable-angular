@@ -30,6 +30,7 @@ header(
       ul.account.btn-group-vertical.no-margin
         li.btn(
           ng-repeat = "project in dataProjectLayout.data.activeAccount.attrs.projects.models"
+          ng-click = "dataProjectLayout.actions.setActiveProject(dataApp.user, project)"
         )
           a.btn-link
             span.project-name {{ project.attrs.name }}
