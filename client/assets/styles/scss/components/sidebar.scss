@@ -1,5 +1,5 @@
 .sidebar {
-  border-right: 1px solid rgba(0,0,0,.1);
+  border-right: 1px solid rgba($black,.1);
   float: left;
   height: calc(100% - 54px);
   overflow: hidden;
@@ -8,7 +8,7 @@
   width: 270px;
 
   h3 {
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba($black,.1);
     color: $gray-dark;
     font-size: 14px;
     font-weight: 600;
@@ -24,7 +24,6 @@
 
     > li {
       color: $gray-dark;
-      max-height: 45px;
       transition: max-height .15s ease-in, opacity .2s ease-in;
 
       > span {
@@ -44,7 +43,7 @@
   }
 
   > ul {
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba($black,.1);
     padding: 15px 0;
 
     a {
@@ -70,73 +69,20 @@
   > ol {
 
     > li {
-      border-bottom: 1px solid rgba(0,0,0,.1);
+      border-bottom: 1px solid rgba($black,.1);
       padding: 5px 15px 6px;
-    }
-  }
 
-  > .actions {
-    border-bottom: 0;
-    padding: 0;
-
-    li {
-      font-size: 16px;
-      height: 36px;
-      line-height: 36px;
-      padding: 0 15px;
-    }
-
-    button {
-      float: right;
-      margin-top: 6px;
-    }
-
-    .iconnables {
-      display: flex;
-      height: 14px;
-      margin: 0;
-      position: static;
-      width: 14px;
+      &.action {
+        font-size: 16px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 15px;
+      }
     }
   }
 
   .btn-block {
     margin: 0 auto;
     width: calc(100% - 30px);
-  }
-}
-
-#messages {
-  height: calc(100% - 201px);
-  overflow-y: auto;
-
-  > li {
-    min-height: 59px;
-  }
-}
-
-.message {
-
-  .icons-git {
-    height: 15px;
-    margin-left: 3px;
-    top: 2px;
-    width: 15px;
-  }
-
-  img {
-    border-radius: 50%;
-    float: left;
-    height: 20px;
-    margin: 1px 4px 0 0;
-    width: 20px;
-  }
-
-  > li {
-    padding: 2px 0;
-
-    &:last-child {
-      font-weight: 600;
-    }
   }
 }

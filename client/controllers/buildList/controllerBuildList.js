@@ -35,8 +35,7 @@ function ControllerBuildList(
   pce.data.filter = '';
   pce.data.show = false;
   pce.actions.createNewEnvironment = function (event) {
-    console.log(event);
-    if (event.keyCode !== 13) {
+    if (event.keyCode && event.keyCode !== 13) {
       return;
     }
     var count = callbackCount(2, done);
@@ -44,7 +43,7 @@ function ControllerBuildList(
     var body = {
       name: pce.data.filter
     };
-    var env = project.createEnvironment(body, count.next);
+    var env = project.environments.create(body, count.next);
     var query = {
       sort: '-buildNumber'
     };
@@ -133,32 +132,28 @@ function ControllerBuildList(
   };
 
   actions.runInstance = function (build) {
+    $scope.dataApp.data.loading = true;
     var user = $scope.dataApp.user;
     var instance = user.createInstance({
       json: {
         build: build.id()
       }
     }, function (err) {
-      if (err) {
-        throw err;
-      }
+      $scope.dataApp.data.loading = false;
+      if (err) throw err;
       var state = {
         instanceId: instance.id(),
         userName: $state.params.userName
       };
       $state.go('projects.instance', state);
     });
-  };
-
-  actions.stateToInstance = function (buildId) {
-    var state = {
-      userName: $state.params.userName,
-      projectName: data.project.attrs.name,
-      branchName: data.environment.attrs.name,
-      buildName: build.attrs.id,
-      instanceId: '12345'
-    };
-    $state.go('projects.instance', state);
+    var buildRouteObj = angular.extend({
+      buildName: build.attrs.buildNumber
+    }, $stateParams);
+    $scope.dataProjectLayout.data.tempBuildUrl = $state.href('projects.build', buildRouteObj)
+                                                 .replace(/^\/project\//, '');
+    $scope.dataProjectLayout.data.instances.add(instance);
+    $scope.safeApply();
   };
 
   actions.stateToBuild = function (build) {

@@ -26,6 +26,13 @@ function ControllerApp(
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
     apiConfigHost);
+  var data = dataApp.data = {};
+  var authed = false;
+
+  data.loading = false;
+  $rootScope.$on('$stateChangeStart', function () {
+    data.loading = false;
+  });
 
   $interval(function () {
     $rootScope.safeApply();
@@ -67,10 +74,12 @@ function ControllerApp(
   };
 
   UTIL.holdUntilAuth = function (cb) {
+    if (authed) { return cb(); }
     holdUntilAuth(function (err, thisUser) {
       if (err) {
         $state.go('home', {});
       } else {
+        authed = true;
         dataApp.user = thisUser;
         $scope.safeApply();
         if (angular.isFunction(cb)) {

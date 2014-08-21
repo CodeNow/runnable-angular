@@ -194,6 +194,7 @@ function ControllerBuildNew(
   };
 
   actions.build = function () {
+    $scope.dataApp.data.loading = true;
     var buildObj = {
       message: (bpbo.data.buildMessage || 'Manual Build')
     };
@@ -201,6 +202,7 @@ function ControllerBuildNew(
       buildObj.environment = data.forkedEnvironment.id();
     }
     data.newBuild.build(buildObj, function (err, build, code) {
+      $scope.dataApp.data.loading = false;
       if (err) throw err;
       actions.stateToBuild(build.buildNumber);
     });
@@ -269,6 +271,18 @@ function ControllerBuildNew(
     cb();
   }
 
+  var interval;
+  function openDockerfile () {
+    var dockerfile = data.newVersion.rootDir.contents.find(function (m) {
+      return m.attrs.name === 'Dockerfile';
+    });
+    if (dockerfile) {
+      data.openItems.addOne(dockerfile);
+      clearInterval(interval);
+    }
+    return !!dockerfile;
+  }
+
   actions.seriesFetchAll = function () {
     async.series([
       fetcherBuild($scope.dataBuildNew.data),
@@ -284,6 +298,11 @@ function ControllerBuildNew(
       }
       if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
         return actions.stateToBuild(data.newBuild.attrs.buildNumber);
+      }
+      // Check if file data has loaded yet
+      if (!openDockerfile()) {
+        // Continue checking until it's loaded
+        interval = setInterval(openDockerfile, 500);
       }
       $scope.safeApply();
     });

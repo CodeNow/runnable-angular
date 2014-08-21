@@ -12,7 +12,6 @@ nav.sub-header
         use(xlink:href = "#icons-asterisk")
     | Build {{ dataBuildNew.data.build.attrs.buildNumber }}
 
-  //- all buttons should be disabled during a build
   section#main-controls
     .btn-group
       button.green(
@@ -36,8 +35,8 @@ nav.sub-header
       type = "button"
     ) Discard Changes
 
-section.sidebar.load
-  ul(
+section.sidebar
+  ul.load(
     ng-show = "dataBuildNew.data.build.attrs.created"
   )
     li
@@ -63,42 +62,44 @@ section.sidebar.load
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
       | Triggered by <a>{{ dataBuildNew.data.build.user.attrs.accounts.github.username }}</a>
-  h3 Message Log
-  ol#messages.load(
+  h3.load(
+    ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo || dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
+  ) Message Log
+  ol.messages.load(
     ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
-    li(ng-repeat = "commit in dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog")
-      ol.message
-        li
-          a(
-            title = "{{commit.sha}}"
-          )
-            svg.iconnables.icons-git
-              use(xlink:href = "#icons-git")
-            {{commit.commit.message}}
-        li
-          a
-            img(
-              height = "20"
-              ng-src = "{{ commit.committer.gravatar }}?s=64"
-              width = "20"
-            )
-            | #{''} {{commit.committer.username}}
-  ol#messages.load(
+    li(
+      ng-repeat = "commit in dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog"
+    )
+      a.message-content(
+        ng-href = "{{ commit.html_url }}"
+        target = "_blank"
+        title = "{{commit.sha}}"
+      ) {{commit.commit.message}}
+        svg.iconnables.icons-git
+          use(xlink:href = "#icons-git")
+      a.message-author(
+        ng-href = "{{ commit.committer.html_url }}"
+        target = "_blank"
+      )
+        img.gravatar(
+          height = "20"
+          ng-src = "{{ commit.committer.gravatar }}?s=64"
+          width = "20"
+        )
+        | #{''} {{commit.committer.username}}
+  ol.messages.load(
     ng-if = "dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   )
-    li
-      ol.message
-        li
-          a {{ dataBuildNew.data.version.attrs.build.message }}
-        li
-          a
-            img(
-              height = "20"
-              ng-src = "{{ dataBuildNew.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
-              width = "20"
-            )
-            | #{''} {{ dataBuildNew.data.version.attrs.build.triggeredBy.username }}
+    li.message
+      a.message-content {{ dataBuildNew.data.version.attrs.build.message }}
+      a.message-author
+        img.gravatar(
+          height = "20"
+          ng-src = "{{ dataBuildNew.data.version.attrs.build.triggeredBy.gravatar }}?s=64"
+          width = "20"
+        )
+        | #{''} {{ dataBuildNew.data.version.attrs.build.triggeredBy.username }}
 
 //- code_editor
 #editor(
@@ -153,19 +154,24 @@ section.sidebar.load
       //- * remove readonly property from input and select all text
       //- * save on blur or enter key
       li(
-        ng-repeat = "repoModel in dataBuildNew.data.newVersion.attrs.appCodeVersions"
-        ng-class = "{active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show}"
+        ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models"
+        ng-class = "{ \
+          active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show \
+        }"
         popover-repo-item-menu
       )
         span
           svg.iconnables.icons-git.filetypes
             use(xlink:href = "#icons-git")
-          | {{ repoModel.repo }}
+          | {{ repoModel.attrs.repo }}
+        //- use datalist the same we use in viewSetupPopoverAddRepos.jade
         input.tree-input(
           placeholder = "Specify Branch or SHA"
           readonly
-          value = "{{ repoModel.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch  }}"
+          value = "{{ repoModel.attrs.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch }}"
         )
+        //- datalist
+          option
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuildNew.data.showExplorer = !dataBuildNew.data.showExplorer"

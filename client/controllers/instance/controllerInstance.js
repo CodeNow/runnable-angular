@@ -67,7 +67,7 @@ function ControllerInstance(
 
   pat.actions.addLogs = function () {
     pat.data.show = false;
-    data.openItems.addLogs({
+    return data.openItems.addLogs({
       name: 'Server Logs',
       params: data.instance.attrs.containers[0]
     });
@@ -99,11 +99,13 @@ function ControllerInstance(
   };
 
   actions.stopInstance = function () {
+    data.loading = true;
     data.instance.stop(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
+        data.loading = false;
         if (err) {
           throw err;
         }
@@ -113,11 +115,13 @@ function ControllerInstance(
   };
 
   actions.startInstance = function () {
+    data.loading = true;
     data.instance.start(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
+        data.loading = false;
         if (err) {
           throw err;
         }
@@ -149,11 +153,13 @@ function ControllerInstance(
   actions.destroyInstance = function () {
     var old = data.instance.json();
     data.instance.destroy(function (err) {
+      $scope.safeApply();
       if (err) {
         throw err;
       }
-      actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
     });
+    $scope.safeApply();
+    actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
   };
 
   $scope.$on('app-document-click', function () {
@@ -169,6 +175,20 @@ function ControllerInstance(
   }, function () {
     $scope.safeApply();
   });
+
+  $scope.$watch('dataInstance.data.container.running()', function (n) {
+    if (data.openItems) {
+      if (n) {
+        if (data.container.urls().length) {
+          pat.actions.addWebView();
+        }
+        pat.actions.addTerminal();
+        data.openItems.activeHistory.add(data.logs);
+      } else {
+        data.openItems.removeAllButLogs();
+      }
+    }
+  }, true);
 
   /* ============================
    *   API Fetch Methods
@@ -205,11 +225,8 @@ function ControllerInstance(
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
     var container = data.container;
-    if (container && container.urls().length) {
-      pat.actions.addWebView();
-      pat.actions.addTerminal();
-    }
-    pat.actions.addLogs();
+    // save this so we can later set it active after adding terminal/web view
+    data.logs = pat.actions.addLogs();
     cb();
   }
 

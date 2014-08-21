@@ -32,9 +32,9 @@ section.sidebar
       svg.iconnables.icons-back
         use(xlink:href = "#icons-back")
       | From #{''}
-      a(
-        title = "{{ dataInstance.data.instance.buildUrl() }}"
+      a.link(
         ng-click = "dataInstance.actions.goToBuild()"
+        title = "{{ dataInstance.data.instance.buildUrl() }}"
       ) {{ dataInstance.data.instance.buildUrl() }}
     li(
       ng-if = "dataInstance.data.container.running()"
@@ -63,25 +63,33 @@ section.sidebar
       a dataInstance.data.container.attrs.stoppedBy.username
   h3 Actions
   ol.actions
-    li(
+    li.action(
+      ng-class = "{active: dataInstance.data.loading}"
       ng-if = "!dataInstance.data.container.running()"
-    ) Start Instance
+    ) Restart Instance
       button.btn-sm.silver(
         type = "button"
-        ng-click = "dataInstance.actions.startInstance()"
+        ng-click = "dataInstance.actions.startInstance();"
       )
-        svg.iconnables.icons-launch
-          use(xlink:href = "#icons-launch")
-    li(
+        svg.iconnables.icons-start
+          use(xlink:href = "#icons-start")
+      .spinner
+        .spinner-ring
+    li.action(
+      ng-class = "{ \
+        active: dataInstance.data.loading \
+      }"
       ng-if = "dataInstance.data.container.running()"
     ) Stop Instance
       button.btn-sm.silver(
         type = "button"
-        ng-click = "dataInstance.actions.stopInstance()"
+        ng-click = "dataInstance.actions.stopInstance();"
       )
-        svg.iconnables.icons-stop-alt
-          use(xlink:href = "#icons-stop-alt")
-    li Delete Instance
+        svg.iconnables.icons-pause
+          use(xlink:href = "#icons-pause")
+      .spinner
+        .spinner-ring
+    li.action Delete Instance
       button.btn-sm.silver(
         type = "button"
         ng-click = "dataInstance.actions.destroyInstance()"

@@ -7,14 +7,16 @@
     form.search.check-valid
       input.form-control(
         ng-model = "data.filter"
-        ng-keyup = "$event.keyCode === 13 && actions.createNewEnvironment($event)"
+        ng-keyup = "actions.createNewEnvironment($event)"
         placeholder = "Filter or Create Configs"
         required
       )
       button.submit
         svg.iconnables.icons-search
           use(xlink:href = "#icons-search")
-      button.add
+      button.add(
+        ng-click = "actions.createNewEnvironment($event)"
+      )
         svg.iconnables.icons-add
           use(xlink:href = "#icons-add")
     ul.popover-body.popover-list
