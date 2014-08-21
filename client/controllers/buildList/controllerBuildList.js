@@ -11,6 +11,7 @@ function ControllerBuildList(
   $scope,
   $rootScope,
   $window,
+  $interval,
   user,
   $stateParams,
   $state,
@@ -267,9 +268,13 @@ function ControllerBuildList(
         $state.go('404');
         throw err;
       }
-      setInterval(function () {
+      var newBuildsInterval = $interval(function () {
         fetchBuilds(angular.noop);
       }, 60 * 1000);
+
+      $scope.$on('$destroy', function () {
+        $interval.cancel(newBuildsInterval);
+      });
       $scope.safeApply();
     });
   };
