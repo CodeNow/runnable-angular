@@ -267,6 +267,9 @@ function ControllerBuildList(
         $state.go('404');
         throw err;
       }
+      setInterval(function () {
+        fetchBuilds(angular.noop);
+      }, 60 * 1000);
       $scope.safeApply();
     });
   };
