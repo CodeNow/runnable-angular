@@ -51,7 +51,7 @@ section.sidebar
               use(xlink:href = "#icons-delete")
         li.list-group-item {{ appCodeVersion.attrs.lockCommit ? '#'+appCodeVersion.attrs.commit : '@'+appCodeVersion.attrs.branch }}
     #setup-template
-      h3 Choose a Docker Template
+      h3.sidebar-title Choose a Docker Template
       .form-group.toggle-group
         //- dockerfile templates
         label(
