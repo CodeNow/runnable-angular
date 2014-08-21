@@ -33,6 +33,14 @@ function fileTreeDir(
         $rootScope.$broadcast('app-document-click');
       };
 
+      actions.openFile = function (file) {
+        if (data.dragging) {
+          data.dragging = false;
+          return;
+        }
+        $scope.openItems.add(file);
+      };
+
       // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
       function normalizeMixedDataValue(file) {
         var padding = '000000000000000';
@@ -67,7 +75,10 @@ function fileTreeDir(
         var $t = jQuery($template);
         $t.find('> ul > li.file').draggable({
           revert: 'invalid',
-          revertDuration: 100
+          revertDuration: 100,
+          drag: function () {
+            data.dragging = true;
+          }
         });
         $t.droppable({
           greedy: true,
