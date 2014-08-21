@@ -197,6 +197,15 @@ function openItemsFactory(
     return this;
   };
 
+  OpenItems.prototype.removeAllButLogs = function () {
+    var models = this.models.slice();
+    for (var i = 0; i < models.length; i++) {
+      if (!(models[i] instanceof LogView)) {
+        this.remove(models[i]);
+      }
+    }
+  };
+
   return OpenItems;
 
 }
