@@ -4,7 +4,9 @@ require('app')
  * tabs Directive
  * @ngInject
  */
-function tabs() {
+function tabs(
+  $state
+) {
   return {
     restrict: 'E',
     templateUrl: 'viewTabs',
@@ -13,6 +15,7 @@ function tabs() {
       openItems: '='
     },
     link: function ($scope, element, attrs) {
+      $scope.state = $state;
       var actions = $scope.actions = {};
       var data = $scope.data = {};
     }
