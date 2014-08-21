@@ -21,6 +21,7 @@ nav.sub-header
       input.form-checkbox(
         checked
         ng-disabled = "!dataInstance.data.container.running()"
+        ng-model = "dataInstance.data.restartOnSave"
         type = "checkbox"
       )
       | Restart instance on save.

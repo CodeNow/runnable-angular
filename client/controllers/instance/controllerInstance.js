@@ -23,6 +23,8 @@ function ControllerInstance(
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
+  data.restartOnSave = true;
+
   /*********************************
    * popoverFileMenu
    *********************************/
@@ -95,7 +97,11 @@ function ControllerInstance(
         cb();
       });
     },
-    function complete (err) {});
+    function complete (err) {
+      if (data.restartOnSave) {
+        actions.startInstance();
+      }
+    });
   };
 
   actions.stopInstance = function () {
