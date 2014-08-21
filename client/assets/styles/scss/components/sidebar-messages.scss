@@ -8,6 +8,14 @@
   color: $gray-dark;
   min-height: 59px;
   padding: 0 15px 6px;
+
+  .icons-git {
+    height: 15px;
+    margin-left: 3px;
+    opacity: .45;
+    top: 2px;
+    width: 15px;
+  }
 }
 
 .sidebar-message-content,
@@ -24,19 +32,8 @@
   }
 }
 
-.sidebar-message-content {
-  font-weight: 500;
-
-  .icons-git {
-    height: 15px;
-    margin-left: 3px;
-    opacity: .45;
-    top: 2px;
-    width: 15px;
-  }
-}
-
 .sidebar-message-author {
+  font-weight: 500;
   line-height: 24px;
   overflow: hidden;
   text-overflow: ellipsis;
