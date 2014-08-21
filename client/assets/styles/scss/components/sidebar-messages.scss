@@ -1,5 +1,6 @@
 .sidebar-messages {
-  height: calc(100% - 201px);
+  flex: 0 1 auto;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -30,6 +31,10 @@
   &:active {
     color: $gray-darker;
   }
+}
+
+.sidebar-message-content {
+  word-wrap: break-word;
 }
 
 .sidebar-message-author {
