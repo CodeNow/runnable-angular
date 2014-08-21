@@ -70,7 +70,7 @@ function ControllerProjectLayout(
       return cb();
     }
 
-    fetchProjectInstances(function (err) {
+    fetchInstances(function (err) {
       if (err) {
         return $state.go('404');
       }
@@ -219,23 +219,36 @@ function ControllerProjectLayout(
   actions.setActiveProject = function (userOrOrg, project) {
     data.activeProject = project;
     data.showChangeAccount = false;
-    if (userOrOrg !== data.activeAccount) {
-      actions.selectProjectOwner(userOrOrg, angular.noop);
-    }
-    var state = {
-      userName: actions.getEntityName(userOrOrg),
-      projectName: project.attrs.name,
-      branchName: project.defaultEnvironment.attrs.name
+
+    var finish = function () {
+      var state = {
+        userName: actions.getEntityName(userOrOrg),
+        projectName: project.attrs.name,
+        branchName: project.defaultEnvironment.attrs.name
+      };
+      setInitialActiveProject(function() {
+        $state.go('projects.buildList', state);
+      });
     };
-    fetchProjectInstances(function() {
-      $state.go('projects.buildList', state);
-    });
+
+    if (userOrOrg !== data.activeAccount) {
+      return async.series([
+        actions.selectProjectOwner,
+        fetchInstances
+      ], finish);
+    }
+    finish();
   };
 
   actions.getActiveProjectName = function() {
     if ($scope.dataApp.state.current.name === 'projects') {
       return actions.getEntityName(data.activeAccount);
     }
+    if (data.activeProject) {
+      // Useful when we've set a new project but haven't updated $state
+      return data.activeProject.attrs.name;
+    }
+
     if ($state.params.projectName) {
       return $state.params.projectName;
     } else if (data.instances) {
@@ -325,31 +338,10 @@ function ControllerProjectLayout(
     data.activeProject = data.activeAccount.attrs.projects.find(function (project) {
       return project.attrs.name === projectName;
     });
+    data.projectInstances = data.instances.filter(function (instance) {
+      return instance.attrs.project.name === projectName;
+    });
     cb();
-  }
-
-  function fetchProjectInstances (cb) {
-    var thisUser = $scope.dataApp.user;
-    var entityId = actions.getEntityId(data.activeAccount);
-    var projectId = data.activeProject.id();
-    new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchInstances')
-      .query({
-        owner: {
-          github: entityId
-        },
-        project: projectId
-      })
-      .cacheFetch(function updateDom(instances, cached, cb) {
-        dataProjectLayout.data.projectInstances = instances;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, projects, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
   }
 
   /**
@@ -362,8 +354,7 @@ function ControllerProjectLayout(
       selectInitialProjectOwner,
       fetchAllProjects,
       fetchInstances,
-      setInitialActiveProject,
-      fetchProjectInstances
+      setInitialActiveProject
     ], function (err) {
       if (err) {
         $state.go('404');
