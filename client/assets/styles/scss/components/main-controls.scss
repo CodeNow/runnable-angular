@@ -55,18 +55,33 @@
       }
     }
 
-    // .green {
-
-    //   &:hover,
-    //   &:active,
-    //   &.active {
-    //     color: $white;
-    //   }
-    // }
-
     .popover {
       color: $gray-dark;
       left: -124px;
     }
+  }
+
+  .btn-check {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 0 9px;
+
+    &:hover {
+      border-color: rgba($black,.15);
+    }
+
+    &.disabled:hover {
+      border-color: transparent;
+      cursor: not-allowed;
+    }
+  }
+
+  .form-checkbox {
+    cursor: pointer;
+    margin-right: 6px;
+    position: relative;
+    top: -1px;
   }
 }
