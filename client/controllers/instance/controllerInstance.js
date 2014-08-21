@@ -157,9 +157,11 @@ function ControllerInstance(
         if (data.container.urls().length) {
           pat.actions.addWebView();
         }
+        data.showExplorer = true;
         pat.actions.addTerminal();
         data.openItems.activeHistory.add(data.logs);
       } else {
+        data.showExplorer = false;
         data.openItems.removeAllButLogs();
       }
     }
