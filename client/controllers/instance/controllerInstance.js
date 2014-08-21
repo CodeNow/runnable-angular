@@ -66,7 +66,7 @@ function ControllerInstance(
 
   pat.actions.addLogs = function () {
     pat.data.show = false;
-    data.openItems.addLogs({
+    return data.openItems.addLogs({
       name: 'Server Logs',
       params: data.instance.attrs.containers[0]
     });
@@ -151,6 +151,20 @@ function ControllerInstance(
     $scope.safeApply();
   });
 
+  $scope.$watch('dataInstance.data.container.running()', function (n) {
+    if (data.openItems) {
+      if (n) {
+        if (data.container.urls().length) {
+          pat.actions.addWebView();
+        }
+        pat.actions.addTerminal();
+        data.openItems.activeHistory.add(data.logs);
+      } else {
+        data.openItems.removeAllButLogs();
+      }
+    }
+  }, true);
+
   /* ============================
    *   API Fetch Methods
    * ===========================*/
@@ -186,11 +200,8 @@ function ControllerInstance(
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
     var container = data.container;
-    if (container && container.urls().length) {
-      pat.actions.addWebView();
-      pat.actions.addTerminal();
-    }
-    pat.actions.addLogs();
+    // save this so we can later set it active after adding terminal/web view
+    data.logs = pat.actions.addLogs();
     cb();
   }
 
