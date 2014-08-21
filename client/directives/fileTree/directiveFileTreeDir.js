@@ -102,7 +102,9 @@ function fileTreeDir(
       function fetchDirFiles() {
         $scope.dir.contents.fetch(function (err) {
           $rootScope.safeApply(function () {
-            actions.makeSortable();
+            if (!$scope.readOnly) {
+              actions.makeSortable();
+            }
           });
           if (err) {
             throw err;
