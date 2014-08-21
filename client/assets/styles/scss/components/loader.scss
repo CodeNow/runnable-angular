@@ -2,6 +2,12 @@
   animation: fadeIn .3s ease-in forwards;
   transition: all .3s ease-in;
 
+  &.loading {
+    animation: none;
+    opacity: 0;
+    transition: all .3s ease-in;
+  }
+
   &.ng-hide {
     animation: none;
     opacity: 0;

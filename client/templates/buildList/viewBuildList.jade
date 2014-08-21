@@ -1,7 +1,10 @@
 nav#build-stream-header.sub-header
   h1
     //- if empty, revert to project name
-    input.form-control.inline-edit(
+    input.form-control.inline-edit.load.loading(
+      ng-class = "{ \
+        'loading': !dataBuildList.data.project.id() \
+      }"
       ng-model = "dataBuildList.data.project.attrs.name"
       ng-model-options = "{ debounce: 500 }"
       placeholder = "App Name"
