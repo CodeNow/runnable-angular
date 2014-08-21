@@ -65,17 +65,13 @@ function ControllerProjectLayout(
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
     data.showChangeAccount = false;
-    data.projects = null;
-    data.instances = null;
+    data.projectInstances = null;
 
     if (cb) {
       return cb();
     }
 
-    async.parallel([
-      fetchProjects,
-      fetchInstances
-    ], function (err) {
+    fetchProjectInstances(function (err) {
       if (err) {
         return $state.go('404');
       }
@@ -83,14 +79,14 @@ function ControllerProjectLayout(
         // First fetch for the page or we're on /new
         return;
       }
-      if (!data.projects.models.length) {
+      if (!data.activeAccount.attrs.projects.models.length) {
         // new project
         return $state.go('projects', {});
       }
-      var firstProject = data.projects.models[0];
+      data.activeProject = data.activeAccount.attrs.projects.models[0];
       $state.go('projects.buildList', {
         userName: name,
-        projectName: firstProject.attrs.name,
+        projectName: data.activeProject.attrs.name,
         branchName: 'master'
       });
     });
@@ -203,8 +199,52 @@ function ControllerProjectLayout(
     });
   };
 
-  actions.stateToNewProject = function () {
-    $state.go('projects');
+  actions.stateToNewProject = function (userOrOrg) {
+    if (!data.showChangeAccount) {
+      return;
+    }
+    actions.selectProjectOwner(userOrOrg, function () {
+      $state.go('projects');
+    });
+  };
+
+  actions.stateToEnvironment = function (branch) {
+    var state = {
+      userName: actions.getEntityName(data.activeAccount),
+      projectName: data.activeProject.attrs.name,
+      branchName: branch.attrs.name
+    };
+    $state.go('projects.buildList', state);
+  };
+
+  actions.setActiveProject = function (userOrOrg, project) {
+    data.activeProject = project;
+    data.showChangeAccount = false;
+    if (userOrOrg !== data.activeAccount) {
+      actions.selectProjectOwner(userOrOrg, angular.noop);
+    }
+    var state = {
+      userName: actions.getEntityName(userOrOrg),
+      projectName: project.attrs.name,
+      branchName: project.defaultEnvironment.attrs.name
+    };
+    fetchProjectInstances(function() {
+      $state.go('projects.buildList', state);
+    });
+  };
+
+  actions.getActiveProjectName = function() {
+    if ($scope.dataApp.state.current.name === 'projects') {
+      return actions.getEntityName(data.activeAccount);
+    }
+    if ($state.params.projectName) {
+      return $state.params.projectName;
+    } else if (data.instances) {
+      var activeInstance = data.instances.find(function (instance) {
+        return instance.id() === $state.params.instanceId;
+      });
+      return activeInstance.attrs.project.name;
+    }
   };
 
   /* ============================
@@ -234,20 +274,21 @@ function ControllerProjectLayout(
     return cb(new Error('User or Org not found'));
   }
 
-  function fetchProjects(cb) {
+  function fetchAllProjects(cb) {
+    var entities = data.orgs.models.concat([$scope.dataApp.user]);
+    async.each(entities, fetchUserOrOrgProjects, cb);
+  }
+
+  function fetchUserOrOrgProjects (userOrOrg, cb) {
     var thisUser = $scope.dataApp.user;
-    var username = actions.getEntityName(data.activeAccount);
+    var username = actions.getEntityName(userOrOrg);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
         githubUsername: username
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
-        if (dataProjectLayout.data.projects === projects && cached) {
-          // slight performance enhancement avoid unnecessary digest
-          return cb();
-        }
-        dataProjectLayout.data.projects = projects;
+        userOrOrg.attrs.projects = projects;
         $scope.safeApply();
         cb();
       })
@@ -279,6 +320,39 @@ function ControllerProjectLayout(
       })
       .go();
   }
+
+  function setInitialActiveProject (cb) {
+    var projectName = actions.getActiveProjectName();
+    data.activeProject = data.activeAccount.attrs.projects.find(function (project) {
+      return project.attrs.name === projectName;
+    });
+    cb();
+  }
+
+  function fetchProjectInstances (cb) {
+    var thisUser = $scope.dataApp.user;
+    var entityId = actions.getEntityId(data.activeAccount);
+    var projectId = data.activeProject.id();
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchInstances')
+      .query({
+        owner: {
+          github: entityId
+        },
+        project: projectId
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        dataProjectLayout.data.projectInstances = instances;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, projects, cb) {
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+
   /**
    * All pages besides new project page
    */
@@ -287,8 +361,10 @@ function ControllerProjectLayout(
       holdUntilAuth,
       fetchOrgs,
       selectInitialProjectOwner,
-      fetchProjects,
-      fetchInstances
+      fetchAllProjects,
+      fetchInstances,
+      setInitialActiveProject,
+      fetchProjectInstances
     ], function (err) {
       if (err) {
         $state.go('404');
@@ -305,7 +381,7 @@ function ControllerProjectLayout(
       holdUntilAuth,
       fetchOrgs,
       selectInitialProjectOwner,
-      fetchProjects
+      fetchAllProjects
     ]);
   };
 

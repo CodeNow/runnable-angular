@@ -5,50 +5,90 @@ header(
     a.logo(href = "/")
       svg
         use(xlink:href = "#runnable-logo")
-    button.account.btn(
+    button.switcher.btn(
       ng-class = "{active: dataProjectLayout.data.showChangeAccount}"
       ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
       type = "button"
     )
-      img(
+      img.account-image(
         height = "19"
         ng-src = "{{ dataProjectLayout.actions.getEntityGravatar(dataProjectLayout.data.activeAccount) }}"
         width = "19"
       )
-      | {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
+      span.project-name {{ dataProjectLayout.actions.getActiveProjectName() }}
+      span.name-switcher
+        span.account-name {{ dataProjectLayout.actions.getEntityName(dataProjectLayout.data.activeAccount) }}
       svg.iconnables.icons-arrow-down
         use(xlink:href = "#icons-arrow-down")
-    ul.accounts.btn-group-vertical.no-margin
-      li.btn(
-        ng-click = "dataProjectLayout.actions.selectProjectOwner(dataApp.user)"
+      .btn.btn-icon.btn-add-project(
+        ng-click = "dataProjectLayout.actions.stateToNewProject(dataProjectLayout.data.activeAccount);"
+      )
+        svg.iconnables.icons-add
+          use(xlink:href = "#icons-add")
+    .accounts
+      //- Active user's projects
+      ul.account.btn-group-vertical.no-margin
+        li.btn.project(
+          ng-repeat = "project in dataProjectLayout.data.activeAccount.attrs.projects.models"
+          ng-click = "dataProjectLayout.actions.setActiveProject(dataProjectLayout.data.activeAccount, project)"
+        )
+          a.btn-link
+            span.project-name {{ project.attrs.name }}
+      //- current user (if user is not active)
+      ul.account.btn-group-vertical.no-margin.border-top(
         ng-if = "dataApp.user !== dataProjectLayout.data.activeAccount"
       )
-        a.btn-link
-          img(
+        li.btn.account-info(
+          ng-click = "dataProjectLayout.actions.selectProjectOwner(dataApp.user)"
+        )
+          img.account-image.tooltip(
+            alt = "{{ dataApp.user.accounts.github.username }}"
             height = "19"
             ng-src = "{{ dataApp.user.attrs.gravatar }}"
             width = "19"
           )
-          | {{ dataApp.user.attrs.accounts.github.username }}
-      li.btn(
-        ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
+          span.account-name {{ dataApp.user.attrs.accounts.github.username }}
+          .btn.btn-icon.btn-add-project(
+            ng-click = "dataProjectLayout.actions.stateToNewProject(dataApp.user)"
+          )
+            svg.iconnables.icons-add
+              use(xlink:href = "#icons-add")
+        li.btn.project(
+          ng-repeat = "project in dataApp.user.attrs.projects.models"
+          ng-click = "dataProjectLayout.actions.setActiveProject(dataApp.user, project)"
+        )
+          span.project-name {{ project.attrs.name }}
+      //- Orgs that are not the active account
+      ul.account.btn-group-vertical.no-margin.border-top(
         ng-if = "org !== dataProjectLayout.data.activeAccount"
         ng-repeat = "org in dataProjectLayout.data.orgs.models"
       )
-        a.btn-link
-          img(
+        li.btn.account-info(
+          ng-click = "dataProjectLayout.actions.selectProjectOwner(org)"
+        )
+          img.account-image.tooltip(
+            alt = "{{ org.login }}"
             height = "19"
             ng-src = "{{ org.attrs.avatar_url }}"
             width = "19"
           )
-          | {{ org.attrs.login }}
-      li.btn
-        a.btn-link(
-          href = "{{ dataApp.logoutURL }}"
-        ) Log Out
-    form(
-      name = "dataProjectLayout.data.newProjectNameForm"
+          span.account-name {{ org.attrs.login }}
+          .btn.btn-icon.btn-add-project(
+            ng-click = "dataProjectLayout.actions.stateToNewProject(dataApp.user)"
+          )
+            svg.iconnables.icons-add
+              use(xlink:href = "#icons-add")
+        li.btn.project(
+          ng-repeat = "project in org.attrs.projects.models"
+          ng-click = "dataProjectLayout.actions.setActiveProject(org, project)"
+        )
+          span.project-name {{ project.attrs.name }}
+
+    .no-margin.border-top.log-out(
+      href = "{{ dataApp.logoutURL }}"
     )
+      a.btn.btn-link Log Out
+    form(name = "dataProjectLayout.data.newProjectNameForm")
       //- this field is optional. if blank, name the app for them: 'My App'
       //- should not trigger on focus, but on the error that causes the validation error
       input.form-control.form-validate(
@@ -80,45 +120,35 @@ header(
         ng-disabled = "dataProjectLayout.data.creatingProject"
       ) Create App
   .scroll-container
-    h3 APPLICATIONS
-      a.btn.btn-icon(
-        ng-click = "dataProjectLayout.actions.stateToNewProject()"
-      )
-        svg.iconnables.icons-add
-          use(xlink:href = "#icons-add")
-    ul.applications.btn-group-vertical.no-margin
-      li.btn(
-        ng-repeat = "project in dataProjectLayout.data.projects.models"
-        ng-class = "dataProjectLayout.actions.getProjectLiClass(project)"
-        ng-click = "dataProjectLayout.actions.stateToBuildList(project, $event);"
+    h3 CONFIGS
+      //- a.btn.btn-icon(
+      //-   ng-click = "dataProjectLayout.actions.stateToNewProject()"
+      //- )
+      //-   svg.iconnables.icons-add
+      //-     use(xlink:href = "#icons-add")
+    ul.config-list.btn-group-vertical.no-margin
+      //- apply class active if active
+      li.btn.config(
+        ng-repeat = "branch in dataProjectLayout.data.activeProject.environments.models"
+        ng-click = "dataProjectLayout.actions.stateToEnvironment(branch)"
+        ng-class = "{active: (dataApp.stateParams.branchName === branch.attrs.name)}"
       )
         a.btn-link
-          svg.iconnables.icons-arrow-down
-            use(xlink:href = "#icons-arrow-down")
-          | {{ project.attrs.name }}
-        ul.config-list(ng-repeat = "environment in project.attrs.environments")
-          li.config(
-            ng-class = "{ \
-              active: (environment.name === dataApp.stateParams.branchName) \
-            }"
-            ng-click = "dataProjectLayout.actions.stateToBuildList(project, environment, $event)"
-          )
-            a.btn-link
-              svg.iconnables.icons-recipe
-                use(xlink:href = "#icons-recipe")
-              | {{ environment.name }}
+          svg.iconnables.icons-recipe
+            use(xlink:href = "#icons-recipe")
+          | {{ branch.attrs.name }}
     h3 INSTANCES
     ul.instances.btn-group-vertical.no-margin
       li.btn(
+        ng-repeat = "instance in dataProjectLayout.data.projectInstances.models"
         ng-class = "{ \
           active: ((!instance.attrs.name && !!dataProjectLayout.data.tempBuildUrl) \
                    || (dataApp.stateParams.instanceId === instance.id() && !dataProjectLayout.data.tempBuildUrl)) \
         }"
         ng-click = "dataProjectLayout.actions.stateToInstance(instance)"
-        ng-repeat = "instance in dataProjectLayout.data.instances.models"
       )
         a.btn-link {{ instance.attrs.name || 'Starting Instance' }}
-        small.build-url {{ instance.buildUrl() || dataProjectLayout.data.tempBuildUrl }}
+        small.build-url {{ instance.shortBuildUrl() || dataProjectLayout.data.tempBuildUrl }}
 //- 2nd level views (build, buildList, instance, etc...)
 main(ui-view)
 .spinner-container(

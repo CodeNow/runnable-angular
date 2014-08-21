@@ -83,9 +83,9 @@ section.sidebar
       ng-repeat = "commit in dataBuild.data.version.attrs.build.triggeredAction.appCodeVersion.commitLog"
     )
       a.message-content(
-        title = "{{commit.sha}}"
         ng-href = "{{ commit.html_url }}"
         target = "_blank"
+        title = "{{commit.sha}}"
       ) {{commit.commit.message}}
         svg.iconnables.icons-git
           use(xlink:href = "#icons-git")
