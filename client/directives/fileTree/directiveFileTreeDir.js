@@ -84,10 +84,20 @@ function fileTreeDir(
           greedy: true,
           drop: function (event, item) {
             var file = angular.element(item.draggable).scope().fs;
-            file.moveToDir($scope.dir);
+            var fileOrigDir = angular.element(jQuery(item.draggable).parents('li.folder')).scope().dir;
+
+            file.moveToDir($scope.dir, function () {
+              $rootScope.safeApply();
+              fileOrigDir.contents.fetch(function () {
+                $rootScope.safeApply();
+              });
+            });
+            $rootScope.safeApply();
+            /*
             $rootScope.safeApply(function () {
               actions.makeSortable();
             });
+            */
           },
         });
       };
