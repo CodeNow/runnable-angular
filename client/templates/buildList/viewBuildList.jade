@@ -3,7 +3,7 @@ nav#build-stream-header.sub-header
     //- if empty, revert to project name
     input.form-control.inline-edit.load.loading(
       ng-class = "{ \
-        'loading': !dataBuildList.data.project.id() \
+        loading: !dataBuildList.data.project.id() \
       }"
       ng-model = "dataBuildList.data.project.attrs.name"
       ng-model-options = "{ debounce: 500 }"
@@ -59,7 +59,11 @@ nav#build-stream-header.sub-header
   //-   button.silver(type = "button") Next 100
   //-     svg.iconnables.icons-chevron-right
   //-       use(xlink:href = "#icons-chevron-right")
-.table-scroll
+.table-scroll(
+  ng-class = "{ \
+    loading: !dataBuildList.data.builds.model.length \
+  }"
+)
   table#build-stream.table.table-hover
     thead
       tr
