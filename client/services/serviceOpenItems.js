@@ -118,11 +118,15 @@ function openItemsFactory(
   util.inherits(OpenItems, BaseCollection);
 
   OpenItems.prototype.addWebView = function (data) {
-    this.add(new WebView(data));
+    var webView = new WebView(data);
+    this.add(webView);
+    return webView;
   };
 
   OpenItems.prototype.addTerminal = function (data) {
-    this.add(new Terminal(data));
+    var terminal = new Terminal(data);
+    this.add(terminal);
+    return terminal;
   };
 
   OpenItems.prototype.addBuildStream = function (data) {
@@ -191,6 +195,15 @@ function openItemsFactory(
     this.activeHistory.remove(model);
     model.state = null;
     return this;
+  };
+
+  OpenItems.prototype.removeAllButLogs = function () {
+    var models = this.models.slice();
+    for (var i = 0; i < models.length; i++) {
+      if (!(models[i] instanceof LogView)) {
+        this.remove(models[i]);
+      }
+    }
   };
 
   return OpenItems;
