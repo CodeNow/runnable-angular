@@ -1,19 +1,26 @@
-// messages html layout:
-// ol.messages
-//   li.message
-//     a.message-content
-//     a.message-author
-.messages {
-  height: calc(100% - 201px);
+.sidebar-messages {
+  flex: 0 1 auto;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
-.message {
+.sidebar-message {
+  border-bottom: 1px solid rgba($black,.1);
+  color: $gray-dark;
   min-height: 59px;
+  padding: 0 15px 6px;
+
+  .icons-git {
+    height: 15px;
+    margin-left: 3px;
+    opacity: .45;
+    top: 2px;
+    width: 15px;
+  }
 }
 
-.message-content,
-.message-author {
+.sidebar-message-content,
+.sidebar-message-author {
   color: $gray-dark;
   display: block;
   min-height: 24px;
@@ -26,19 +33,12 @@
   }
 }
 
-.message-content {
-  font-weight: 500;
-
-  .icons-git {
-    height: 15px;
-    margin-left: 3px;
-    opacity: .45;
-    top: 2px;
-    width: 15px;
-  }
+.sidebar-message-content {
+  word-wrap: break-word;
 }
 
-.message-author {
+.sidebar-message-author {
+  font-weight: 500;
   line-height: 24px;
   overflow: hidden;
   text-overflow: ellipsis;
