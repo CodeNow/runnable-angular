@@ -38,23 +38,6 @@ function ControllerApp(
     $rootScope.safeApply();
   }, 1000 * 30); //30 seconds
 
-  primus.onBuildCompletedEvents(function (buildData) {
-    holdUntilAuth(function (err, thisUser) {
-      if (err) {
-        throw err;
-      }
-      thisUser
-        .newProject(buildData.project)
-        .newEnvironment(buildData.environment)
-        .fetchBuild(buildData._id, function (err) {
-          if (err) {
-            throw err;
-          }
-          $rootScope.safeApply(); // FIXME: in the future this could be handled by model store events
-        });
-    });
-  });
-
   dataApp.documentClickEventHandler = function () {
     $scope.$broadcast('app-document-click');
   };
