@@ -118,11 +118,15 @@ function openItemsFactory(
   util.inherits(OpenItems, BaseCollection);
 
   OpenItems.prototype.addWebView = function (data) {
-    this.add(new WebView(data));
+    var webView = new WebView(data);
+    this.add(webView);
+    return webView;
   };
 
   OpenItems.prototype.addTerminal = function (data) {
-    this.add(new Terminal(data));
+    var terminal = new Terminal(data);
+    this.add(terminal);
+    return terminal;
   };
 
   OpenItems.prototype.addBuildStream = function (data) {
