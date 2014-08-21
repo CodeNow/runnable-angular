@@ -70,10 +70,13 @@ function popoverRepoItemMenu(
 
       popoverData.actions.exit = exit;
       function exit () {
+        if (!keypather.get($scope, 'repoModel.state.editing')) {
+          return;
+        }
         popoverData.isOpen = false;
         keypather.set($scope, 'repoModel.state.editing', false);
-        // TODO
-        // Save changes
+        $scope.dataBuildNew.actions.updateAppCodeVersion($scope.repoModel,
+                                                         jQuery(element).find('input.tree-input').val());
       }
       $scope.$on('file-modal-open', exit);
       $scope.$on('app-document-click', exit);

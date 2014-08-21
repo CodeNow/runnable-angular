@@ -183,6 +183,26 @@ function ControllerBuildNew(
    * // BuildPopoverBuildOptions
    **************************************/
 
+  actions.updateAppCodeVersion = function (appCodeVersion, branchOrSHA) {
+    var body = {};
+    if (branchOrSHA) {
+      if (shaRegExp.test(branchOrSHA)) {
+        body.commit = branchOrSHA;
+      } else {
+        body.branch = branchOrSHA;
+      }
+    }
+    //TODO safety branch
+    // repo.fetchCommit...
+    appCodeVersion.update(body, function (err) {
+      if (err) {
+        throw err;
+      }
+      $scope.safeApply();
+    });
+    $scope.safeApply();
+  };
+
   actions.discardChanges = function () {
     $state.go('projects.build', $stateParams);
   };
