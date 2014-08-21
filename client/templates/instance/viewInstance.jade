@@ -11,11 +11,20 @@ nav.sub-header
       use(xlink:href = "#icons-edit")
   section#main-controls
     button.green(
+      ng-click = "dataInstance.actions.saveChanges()"
       ng-disabled = "dataInstance.data.openFiles.isClean() || !dataInstance.data.container.running()"
       type = "button"
-      ng-disabled = "dataInstance.data.openFiles.isClean()"
-      ng-click = "dataInstance.actions.saveChanges()"
     ) Save Changes
+    label.btn.btn-check(
+      ng-class = "{disabled: !dataInstance.data.container.running()}"
+    )
+      input.form-checkbox(
+        checked
+        ng-disabled = "!dataInstance.data.container.running()"
+        ng-model = "dataInstance.data.restartOnSave"
+        type = "checkbox"
+      )
+      | Restart instance on save.
 
 section.sidebar
   ul.sidebar-ul.sidebar-info

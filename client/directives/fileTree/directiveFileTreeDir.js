@@ -11,7 +11,8 @@ function fileTreeDir(
   $templateCache,
   $compile,
   $timeout,
-  $rootScope
+  $rootScope,
+  $state
 ) {
   return {
     restrict: 'E',
@@ -26,9 +27,18 @@ function fileTreeDir(
       var jQuery = require('jquery');
       var actions = $scope.actions = {};
       var data = $scope.data = {};
+      $scope.state = $state;
 
       actions.closeOpenModals = function () {
         $rootScope.$broadcast('app-document-click');
+      };
+
+      actions.openFile = function (file) {
+        if (data.dragging) {
+          data.dragging = false;
+          return;
+        }
+        $scope.openItems.add(file);
       };
 
       // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
@@ -63,6 +73,33 @@ function fileTreeDir(
 
       actions.makeSortable = function () {
         var $t = jQuery($template);
+        $t.find('> ul > li.file').draggable({
+          revert: 'invalid',
+          revertDuration: 100,
+          drag: function () {
+            data.dragging = true;
+          }
+        });
+        $t.droppable({
+          greedy: true,
+          drop: function (event, item) {
+            var file = angular.element(item.draggable).scope().fs;
+            var fileOrigDir = angular.element(jQuery(item.draggable).parents('li.folder')).scope().dir;
+
+            file.moveToDir($scope.dir, function () {
+              $rootScope.safeApply();
+              fileOrigDir.contents.fetch(function () {
+                $rootScope.safeApply();
+              });
+            });
+            $rootScope.safeApply();
+            /*
+            $rootScope.safeApply(function () {
+              actions.makeSortable();
+            });
+            */
+          },
+        });
       };
 
       $scope.$watch('dir.state.open', function (newVal, oldval) {
@@ -74,11 +111,14 @@ function fileTreeDir(
       actions.fetchDirFiles = fetchDirFiles;
       function fetchDirFiles() {
         $scope.dir.contents.fetch(function (err) {
-          $rootScope.safeApply();
+          $rootScope.safeApply(function () {
+            if (!$scope.readOnly) {
+              actions.makeSortable();
+            }
+          });
           if (err) {
             throw err;
           }
-          actions.makeSortable();
         });
       }
 

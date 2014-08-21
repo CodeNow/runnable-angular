@@ -65,7 +65,6 @@ function ControllerProjectLayout(
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
     data.showChangeAccount = false;
-    data.projectInstances = null;
 
     if (cb) {
       return cb();
