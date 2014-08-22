@@ -25,6 +25,7 @@ function popoverFileExplorerMenu(
 
       var dirItemData = $scope.dirItemData = {};
       var actions = dirItemData.actions = {};
+      var inputElement = jQuery(element).find('> input.tree-input');
       dirItemData.editFolderName = false;
 
       dirItemData.eStyle = {
