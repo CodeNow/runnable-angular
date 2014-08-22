@@ -85,3 +85,13 @@
     top: -1px;
   }
 }
+
+// instance save .out
+.green,
+.btn-check {
+  transition: all .15s ease-in;
+
+  &.out {
+    transform: translate3d(0,-54px,0);
+  }
+}
