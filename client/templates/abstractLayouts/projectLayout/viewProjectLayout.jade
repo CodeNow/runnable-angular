@@ -5,7 +5,7 @@ header(
     a.logo(href = "/")
       svg
         use(xlink:href = "#runnable-logo")
-    button.switcher.btn(
+    button.switcher.btn.load(
       ng-class = "{active: dataProjectLayout.data.showChangeAccount}"
       ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
       type = "button"
@@ -120,13 +120,17 @@ header(
         ng-disabled = "dataProjectLayout.data.creatingProject"
       ) Create App
   .scroll-container
-    h3 CONFIGS
+    h3.load(
+      ng-show = "dataProjectLayout.data.activeProject.environments.models.length"
+    ) CONFIGS
       //- a.btn.btn-icon(
       //-   ng-click = "dataProjectLayout.actions.stateToNewProject()"
       //- )
       //-   svg.iconnables.icons-add
       //-     use(xlink:href = "#icons-add")
-    ul.config-list.btn-group-vertical.no-margin
+    ul.config-list.btn-group-vertical.no-margin.load(
+      ng-show = "dataProjectLayout.data.activeProject.environments.models.length"
+    )
       //- apply class active if active
       li.btn.config(
         ng-repeat = "branch in dataProjectLayout.data.activeProject.environments.models"
@@ -137,8 +141,12 @@ header(
           svg.iconnables.icons-recipe
             use(xlink:href = "#icons-recipe")
           | {{ branch.attrs.name }}
-    h3 INSTANCES
-    ul.instances.btn-group-vertical.no-margin
+    h3.load(
+      ng-show = "dataProjectLayout.data.projectInstances.length"
+    ) INSTANCES
+    ul.instances.btn-group-vertical.no-margin.load(
+      ng-show = "dataProjectLayout.data.projectInstances.length"
+    )
       li.btn(
         ng-repeat = "instance in dataProjectLayout.data.projectInstances \
                      | orderBy:'attrs.name'"

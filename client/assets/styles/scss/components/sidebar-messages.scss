@@ -10,6 +10,10 @@
   min-height: 59px;
   padding: 0 15px 6px;
 
+  &:last-child {
+    border: 0;
+  }
+
   .icons-git {
     height: 15px;
     margin-left: 3px;

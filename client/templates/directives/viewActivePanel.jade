@@ -1,6 +1,10 @@
+//- don't use ng-if here, use ng-show
 .editor-container(
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
+  ng-class = "{ \
+    loading: (item === openItems.activeHistory.last()) \
+  }"
 )
 
   build-stream(
