@@ -113,6 +113,9 @@ function fileTreeDir(
             async.series([
               function (cb) {
                 droppedFile.moveToDir($scope.dir, cb);
+                // TODO remove below after SAN-67 fix. Temp solution
+                var i = droppedFileOrigDir.contents.models.indexOf(droppedFile);
+                droppedFileOrigDir.contents.models.splice(i, 1);
               },
               function (cb) {
                 async.parallel([
