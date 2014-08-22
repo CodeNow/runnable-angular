@@ -5,11 +5,16 @@
   float: left;
   height: 54px;
   padding: 0 15px;
+  position: relative;
   width: calc(100% - 270px);
+  z-index: 1;
 
   > .btn-group,
   > button,
-  > input {
+  > input,
+  .slide-left > .btn-group,
+  .slide-left > button,
+  .slide-left > input {
     float: left;
     margin: 9px 9px 0 0;
   }
@@ -87,11 +92,10 @@
 }
 
 // instance save .out
-.green,
-.btn-check {
+.slide-left {
   transition: all .15s ease-in;
 
   &.out {
-    transform: translate3d(0,-54px,0);
+    transform: translate3d(-153px,0,0);
   }
 }

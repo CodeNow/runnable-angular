@@ -5,7 +5,7 @@ header(
     a.logo(href = "/")
       svg
         use(xlink:href = "#runnable-logo")
-    button.switcher.btn(
+    button.switcher.btn.load(
       ng-class = "{active: dataProjectLayout.data.showChangeAccount}"
       ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
       type = "button"
