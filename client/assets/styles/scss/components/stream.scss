@@ -4,7 +4,6 @@
   line-height: 54px;
 
   h1 {
-    background: $white;
     border-bottom: 1px solid rgba($black,.1);
     color: $gray-dark;
     display: inline-block;
@@ -24,6 +23,8 @@
     }
 
     &.divided-header {
+      background: $white;
+      border-bottom: 1px solid rgba($black,.1);
       border-right: 1px solid rgba(0,0,0,.1);
       width: 270px;
     }

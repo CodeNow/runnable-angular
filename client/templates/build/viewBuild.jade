@@ -20,7 +20,7 @@ nav.sub-header
     | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4) }}
 
   section#main-controls
-    .slide-left.out(
+    .slide-left.slide-instance.out(
       ng-class = "{out: !dataBuild.data.build.succeeded()}"
     )
       button.green(
