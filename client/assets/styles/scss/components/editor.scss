@@ -183,6 +183,10 @@
   transition: transform .2s ease-in-out, width 0s ease-in-out;
   width: 100%;
 
+  &.loaded ~ .horizontal-spinner {
+    display: none;
+  }
+
   .in & {
     transform: translate3d(240px,0,0);
     transition: transform .2s ease-in-out, width .225s ease-in-out;
@@ -201,6 +205,12 @@
   iframe {
     border: 0;
     flex: 1 0 auto;
+  }
+
+  ~ .horizontal-spinner {
+    left: 0;
+    position: absolute;
+    right: 0;
   }
 }
 
