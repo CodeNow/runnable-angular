@@ -10,7 +10,8 @@ function activePanel(
   $sce,
   async,
   debounce,
-  keypather
+  keypather,
+  modelist
 ) {
   return {
     restrict: 'E',
@@ -27,7 +28,14 @@ function activePanel(
     link: function ($scope, element, attrs) {
 
       var data = $scope.data = {};
+      var actions = $scope.actions = {};
       data.readOnly = $scope.readOnly;
+
+      actions.setAceMode = function (_editor) {
+        var filename = $scope.openItems.activeHistory.last().attrs.name;
+        var mode = modelist.getModeForPath(filename).mode;
+        _editor.getSession().setMode(mode);
+      };
 
       // allow iframe to load url
       $scope.$sce = $sce;
