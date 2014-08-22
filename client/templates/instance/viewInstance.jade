@@ -70,10 +70,9 @@ section.sidebar
     ng-show = "dataInstance.data.container.running()"
   )
     li.sidebar-li
-      //- should select all text on click
       input.form-control(
-        select-all
         readonly
+        select-all
         value = "{{ dataInstance.data.container.urls()[0] }}"
       )
   h3.sidebar-title.load(
@@ -87,8 +86,8 @@ section.sidebar
       ng-if = "!dataInstance.data.container.running()"
     ) Restart Instance
       button.btn-sm.silver(
-        type = "button"
         ng-click = "dataInstance.actions.startInstance();"
+        type = "button"
       )
         svg.iconnables.icons-start
           use(xlink:href = "#icons-start")
@@ -101,8 +100,8 @@ section.sidebar
       ng-if = "dataInstance.data.container.running()"
     ) Stop Instance
       button.btn-sm.silver(
-        type = "button"
         ng-click = "dataInstance.actions.stopInstance();"
+        type = "button"
       )
         svg.iconnables.icons-pause
           use(xlink:href = "#icons-pause")
@@ -110,8 +109,8 @@ section.sidebar
         .spinner-ring
     li.sidebar-action Delete Instance
       button.btn-sm.silver(
-        type = "button"
         ng-click = "dataInstance.actions.destroyInstance()"
+        type = "button"
       )
         svg.iconnables.icons-delete
           use(xlink:href = "#icons-delete")
@@ -174,10 +173,10 @@ section.sidebar
     open-items = "dataInstance.data.openItems"
   )
   active-panel(
-    update = "false"
     container = "dataInstance.data.container"
     open-items = "dataInstance.data.openItems"
     is-dark-theme = "dataInstance.data.toggleTheme"
+    update = "false"
   )
 
 //- logs
