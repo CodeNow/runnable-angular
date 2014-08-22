@@ -7,7 +7,6 @@
   padding: 0 15px;
   position: relative;
   width: calc(100% - 270px);
-  z-index: 1;
 
   > .btn-group,
   > button,
@@ -99,8 +98,12 @@
 .slide-left {
   transition: all .15s ease-in;
 
+  &.out {
+    z-index: 1;
+  }
+
   &.slide-instance.out {
-    transform: translate3d(-160px,0,0);
+    transform: translate3d(-153px,0,0);
   }
 
   &.slide-save.out {
