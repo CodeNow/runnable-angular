@@ -1,7 +1,7 @@
 nav.sub-header
   h1.divided-header
     input.form-control.inline-edit(
-      placeholder = "Application Name"
+      placeholder = "Project Name"
       spellcheck = "false"
       value = "{{ dataSetup.data.project.attrs.name }}"
     )
@@ -69,7 +69,7 @@ section.sidebar
     )
       .spinner
         .spinner-ring
-      | Build Application
+      | Build Project
 #editor.full
   tabs#editor-toolbar(
     open-items = "dataSetup.data.openItems"
