@@ -233,7 +233,9 @@ function ControllerProjectLayout(
 
     if (userOrOrg !== data.activeAccount) {
       return async.series([
-        actions.selectProjectOwner,
+        function (cb) {
+          actions.selectProjectOwner(userOrOrg, cb);
+        },
         fetchInstances
       ], finish);
     }
