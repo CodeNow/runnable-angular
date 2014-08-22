@@ -226,7 +226,6 @@ header {
     ~ .log-out {
       border-top: 1px solid rgba($white,.2);
       height: auto;
-      padding: 6px 0;
       pointer-events: auto;
     }
 
@@ -381,8 +380,8 @@ header {
     background: none;
     display: block;
     font-size: 14px;
-    height: 27px;
-    line-height: 27px;
+    height: 36px;
+    line-height: 36px;
     min-height: 0;
     text-align: center;
     width: 100%;
