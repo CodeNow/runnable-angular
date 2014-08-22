@@ -9,25 +9,32 @@ html(
       content = "width=device-width, initial-scale=1"
       name = "viewport"
     )
+
     title sandbox.runnable
+
+    //- css
     link(
       href = "/build/css/index.css?v=#{locals.version}"
       media = "screen"
       rel = "stylesheet"
     )
+
+    //- favicon
+    link(
+      href = "/build/images/favicon.png"
+      rel = "shortcut icon"
+    )
+
     //- ios
     link(
       href = "/build/images/icons-ios.png"
       rel = "apple-touch-icon"
     )
-    link(
-      href = "/build/images/favicon.ico"
-      rel = "shortcut icon"
-    )
     meta(
       console = "Runnable"
       name = "apple-mobile-web-app-title"
     )
+
     script(src = "/build/js/bundle.js?v=#{locals.version}")
     if env !== 'development'
       script.
