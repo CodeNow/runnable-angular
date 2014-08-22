@@ -13,7 +13,8 @@ function ControllerInstance(
   keypather,
   async,
   user,
-  OpenItems
+  OpenItems,
+  debounce
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -167,6 +168,13 @@ function ControllerInstance(
     $scope.safeApply();
     actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
   };
+
+  actions.updateInstance = debounce(function () {
+    console.log('debounce save');
+    data.instance.update({
+      name: data.instance.attrs.name
+    }, console.log.bind(console));
+  }, 333);
 
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
