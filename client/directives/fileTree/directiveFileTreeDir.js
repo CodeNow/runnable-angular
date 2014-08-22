@@ -12,7 +12,8 @@ function fileTreeDir(
   $compile,
   $timeout,
   $rootScope,
-  $state
+  $state,
+  async
 ) {
   return {
     restrict: 'E',
@@ -74,31 +75,64 @@ function fileTreeDir(
       actions.makeSortable = function () {
         var $t = jQuery($template);
         $t.find('> ul > li.file').draggable({
-          revert: 'invalid',
+          revert: function (droppable) {
+            var droppableScope = angular.element(droppable).scope();
+            if (droppable && droppableScope && droppableScope.dir) {
+              var fileOrigDir = angular.element(jQuery(this).parents('li.folder')).scope().dir;
+              if (fileOrigDir === droppableScope.dir) {
+                // dropping in same dir, revert
+                return true;
+              } else {
+                // dropping in a new dir, OK
+                return false;
+              }
+            } else {
+              // dropping not in a directory
+              return true;
+            }
+          },
           revertDuration: 100,
           drag: function () {
             data.dragging = true;
           }
         });
+
         $t.droppable({
           greedy: true,
           drop: function (event, item) {
-            var file = angular.element(item.draggable).scope().fs;
-            var fileOrigDir = angular.element(jQuery(item.draggable).parents('li.folder')).scope().dir;
 
-            file.moveToDir($scope.dir, function () {
-              $rootScope.safeApply();
-              fileOrigDir.contents.fetch(function () {
-                $rootScope.safeApply();
-              });
-            });
-            $rootScope.safeApply();
-            /*
-            $rootScope.safeApply(function () {
-              actions.makeSortable();
-            });
-            */
-          },
+            var droppedFileDirScope      = angular.element(item.draggable).scope(),
+                droppedFile              = droppedFileDirScope.fs,
+                droppedFileOrigDirScope = angular.element(jQuery(item.draggable).parents('li.folder')).scope(),
+                droppedFileOrigDir       = droppedFileOrigDirScope.dir;
+
+            if ($scope.dir === droppedFileOrigDir) {
+              return;
+            }
+
+            async.series([
+              function (cb) {
+                droppedFile.moveToDir($scope.dir, cb);
+                // TODO remove below after SAN-67 fix. Temp solution
+                var i = droppedFileOrigDir.contents.models.indexOf(droppedFile);
+                droppedFileOrigDir.contents.models.splice(i, 1);
+              },
+              function (cb) {
+                async.parallel([
+                  function (cb) {
+                    droppedFileOrigDir.contents.fetch(cb);
+                  },
+                  function (cb) {
+                    $scope.dir.contents.fetch(cb);
+                  }
+                ], function () {
+                  $rootScope.safeApply();
+                  cb();
+                });
+              }
+            ], function () {});
+
+          }
         });
       };
 
@@ -106,6 +140,14 @@ function fileTreeDir(
         if (newVal) {
           fetchDirFiles();
         }
+      });
+
+      $scope.$watch('dir.contents.models.length', function () {
+        $timeout(function () {
+          // timeout necessary to ensure rg-repeat completes
+          // before trying to apply draggable to li's
+          $scope.actions.makeSortable();
+        }, 1);
       });
 
       actions.fetchDirFiles = fetchDirFiles;
