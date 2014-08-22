@@ -108,11 +108,12 @@ function ControllerProjectLayout(
       return;
     }
     var thisUser = $scope.dataApp.user;
+    var body;
     $scope.dataApp.data.loading = true;
     data.creatingProject = true;
 
     function createProject(cb) {
-      var body = {
+      body = {
         name: dataProjectLayout.data.newProjectName
       };
       var owner = data.activeAccount;
@@ -135,9 +136,7 @@ function ControllerProjectLayout(
     function createBuildAndContext(thisUser, project, cb) {
       var count = callbackCount(2, done);
       var build = project.defaultEnvironment.createBuild(count.next);
-      var context = thisUser.createContext({
-        name: project.attrs.name
-      }, count.next);
+      var context = thisUser.createContext(body, count.next);
 
       function done(err) {
         if (err) {
