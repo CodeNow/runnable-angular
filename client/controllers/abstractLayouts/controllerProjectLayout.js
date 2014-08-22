@@ -386,6 +386,10 @@ function ControllerProjectLayout(
       actions.initForNewState();
     }
   });
+
+  $scope.$on('app-document-click', function () {
+    $scope.dataProjectLayout.data.showChangeAccount = false;
+  });
 }
 
 ControllerProjectLayout.initState = function () {

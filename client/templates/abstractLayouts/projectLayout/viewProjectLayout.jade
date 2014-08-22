@@ -7,7 +7,8 @@ header(
         use(xlink:href = "#runnable-logo")
     button.switcher.btn.load(
       ng-class = "{active: dataProjectLayout.data.showChangeAccount}"
-      ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount"
+      ng-click = "dataProjectLayout.data.showChangeAccount = !dataProjectLayout.data.showChangeAccount; \
+                  $event.stopPropagation();"
       type = "button"
     )
       img.account-image(
