@@ -148,7 +148,7 @@ header(
       ng-show = "dataProjectLayout.data.projectInstances.models.length"
     )
       li.btn(
-        ng-repeat = "instance in dataProjectLayout.data.projectInstances.models \
+        ng-repeat = "instance in dataProjectLayout.data.projectInstances \
                      | orderBy:'attrs.name'"
         ng-class = "{ \
           active: ((!instance.attrs.name && !!dataProjectLayout.data.tempBuildUrl) \

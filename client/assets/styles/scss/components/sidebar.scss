@@ -1,5 +1,11 @@
+// related:
+// sidebar-actions.scss
+// sidebar-messages.scss
+
 .sidebar {
   border-right: 1px solid rgba($black,.1);
+  display: flex;
+  flex-direction: column;
   float: left;
   height: calc(100% - 54px);
   overflow: hidden;
@@ -7,82 +13,69 @@
   position: relative;
   width: 270px;
 
-  h3 {
-    border-bottom: 1px solid rgba($black,.1);
-    color: $gray-dark;
-    font-size: 14px;
-    font-weight: 600;
-    height: 36px;
-    line-height: 36px;
-    padding: 0;
-    text-align: center;
-  }
-
-  > ul,
-  > ol {
-    font-size: 14px;
-
-    > li {
-      color: $gray-dark;
-      transition: max-height .15s ease-in, opacity .2s ease-in;
-
-      > span {
-        width: 24px;
-      }
-
-      &.out {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-      }
-    }
-  }
-
-  .form-control {
-    margin-bottom: 9px;
-  }
-
-  > ul {
-    border-bottom: 1px solid rgba($black,.1);
-    padding: 15px 0;
-
-    a {
-      font-weight: 600;
-    }
-
-    > li {
-      line-height: 36px;
-      overflow: hidden;
-      padding: 0 15px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      > .iconnables {
-        color: $purple;
-        float: left;
-        margin-right: 6px;
-        top: 6px;
-      }
-    }
-  }
-
-  > ol {
-
-    > li {
-      border-bottom: 1px solid rgba($black,.1);
-      padding: 5px 15px 6px;
-
-      &.action {
-        font-size: 16px;
-        height: 36px;
-        line-height: 36px;
-        padding: 0 15px;
-      }
-    }
-  }
-
   .btn-block {
     margin: 0 auto;
     width: calc(100% - 30px);
+  }
+}
+
+.sidebar-title {
+  color: $gray-dark;
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 500;
+  height: 36px;
+  line-height: 36px;
+  padding: 0;
+  text-align: center;
+}
+
+.sidebar-ul,
+.sidebar-ol {
+  border-bottom: 1px solid rgba($black,.1);
+  flex: 0 0 auto;
+  font-size: 14px;
+}
+
+.sidebar-li {
+  color: $gray-dark;
+  line-height: 36px;
+  overflow: hidden;
+  padding: 0 15px;
+  text-overflow: ellipsis;
+  transition: max-height .15s ease-in, opacity .2s ease-in;
+  white-space: nowrap;
+}
+
+// sidebar information
+// this section should contain as little interaction as possible
+.sidebar-info {
+  padding: 15px 0;
+
+  .link {
+    font-weight: 500;
+  }
+
+  .iconnables {
+    color: $purple;
+    float: left;
+    margin-right: 6px;
+    top: 6px;
+  }
+}
+
+// sidebar urls
+.sidebar-urls {
+  flex: 0 1 auto;
+  max-height: 162px; // shows 3.5 inputs
+  overflow-y: auto;
+  padding: 9px 0 15px;
+
+  .sidebar-li {
+    margin-bottom: 9px;
+
+    &:last-child {
+      margin: 0;
+    }
   }
 }
