@@ -12,7 +12,7 @@ nav.sub-header
   section#main-controls
     button.green(
       ng-click = "dataInstance.actions.saveChanges()"
-      ng-disabled = "dataInstance.data.openFiles.isClean() || !dataInstance.data.container.running()"
+      ng-disabled = "dataInstance.data.openFiles.isClean() || !dataInstance.data.container.running() || dataInstance.data.loading"
       type = "button"
     ) Save Changes
     label.btn.btn-check(
