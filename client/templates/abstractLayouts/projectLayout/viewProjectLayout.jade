@@ -142,10 +142,10 @@ header(
             use(xlink:href = "#icons-recipe")
           | {{ branch.attrs.name }}
     h3.load(
-      ng-show = "dataProjectLayout.data.projectInstances.models.length"
+      ng-show = "dataProjectLayout.data.projectInstances.length"
     ) INSTANCES
     ul.instances.btn-group-vertical.no-margin.load(
-      ng-show = "dataProjectLayout.data.projectInstances.models.length"
+      ng-show = "dataProjectLayout.data.projectInstances.length"
     )
       li.btn(
         ng-repeat = "instance in dataProjectLayout.data.projectInstances \
