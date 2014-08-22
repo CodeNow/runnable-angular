@@ -18,7 +18,7 @@
     ng-if = "item.state.type === 'File'"
     ng-model = "openItems.activeHistory.last().state.body"
     readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
-    ui-ace
+    ui-ace = "{ onLoad: actions.setAceMode }"
   )
 
   .term-container(

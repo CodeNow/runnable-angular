@@ -201,7 +201,7 @@ function ControllerBuildList(
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
-        ownerUsername: $stateParams.userName,
+        githubUsername: $stateParams.userName,
         name: $stateParams.projectName
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
