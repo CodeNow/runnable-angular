@@ -24,6 +24,7 @@ function fileTreeDir(
     template: '',
     link: function ($scope, element, attrs) {
 
+      /* ----- */
       var jQuery = require('jquery');
       var actions = $scope.actions = {};
       var data = $scope.data = {};
@@ -74,7 +75,22 @@ function fileTreeDir(
       actions.makeSortable = function () {
         var $t = jQuery($template);
         $t.find('> ul > li.file').draggable({
-          revert: 'invalid',
+          revert: function (droppable) {
+            var droppableScope = angular.element(droppable).scope();
+            if (droppable && droppableScope && droppableScope.dir) {
+              var fileOrigDir = angular.element(jQuery(this).parents('li.folder')).scope().dir;
+              if (fileOrigDir === droppableScope.dir) {
+                // dropping in same dir, revert
+                return true;
+              } else {
+                // dropping in a new dir, OK
+                return false;
+              }
+            } else {
+              // dropping not in a directory
+              return true;
+            }
+          },
           revertDuration: 100,
           drag: function () {
             data.dragging = true;
@@ -85,6 +101,15 @@ function fileTreeDir(
           drop: function (event, item) {
             var file = angular.element(item.draggable).scope().fs;
             var fileOrigDir = angular.element(jQuery(item.draggable).parents('li.folder')).scope().dir;
+
+            function hackRedraw() {
+              var temp = $scope.dir.contents;
+            }
+
+            if ($scope.dir === fileOrigDir) {
+              return;
+            }
+
 
             file.moveToDir($scope.dir, function () {
               $rootScope.safeApply();
