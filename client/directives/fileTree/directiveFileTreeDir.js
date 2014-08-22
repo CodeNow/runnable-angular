@@ -12,7 +12,8 @@ function fileTreeDir(
   $compile,
   $timeout,
   $rootScope,
-  $state
+  $state,
+  async
 ) {
   return {
     restrict: 'E',
@@ -24,7 +25,6 @@ function fileTreeDir(
     template: '',
     link: function ($scope, element, attrs) {
 
-      /* ----- */
       var jQuery = require('jquery');
       var actions = $scope.actions = {};
       var data = $scope.data = {};
@@ -96,34 +96,40 @@ function fileTreeDir(
             data.dragging = true;
           }
         });
+
         $t.droppable({
           greedy: true,
           drop: function (event, item) {
-            var file = angular.element(item.draggable).scope().fs;
-            var fileOrigDir = angular.element(jQuery(item.draggable).parents('li.folder')).scope().dir;
 
-            function hackRedraw() {
-              var temp = $scope.dir.contents;
-            }
+            var droppedFileDirScope      = angular.element(item.draggable).scope(),
+                droppedFile              = droppedFileDirScope.fs,
+                droppedFileOrigDirScope = angular.element(jQuery(item.draggable).parents('li.folder')).scope(),
+                droppedFileOrigDir       = droppedFileOrigDirScope.dir;
 
-            if ($scope.dir === fileOrigDir) {
+            if ($scope.dir === droppedFileOrigDir) {
               return;
             }
 
+            async.series([
+              function (cb) {
+                droppedFile.moveToDir($scope.dir, cb);
+              },
+              function (cb) {
+                async.parallel([
+                  function (cb) {
+                    droppedFileOrigDir.contents.fetch(cb);
+                  },
+                  function (cb) {
+                    $scope.dir.contents.fetch(cb);
+                  }
+                ], function () {
+                  $rootScope.safeApply();
+                  cb();
+                });
+              }
+            ], function () {});
 
-            file.moveToDir($scope.dir, function () {
-              $rootScope.safeApply();
-              fileOrigDir.contents.fetch(function () {
-                $rootScope.safeApply();
-              });
-            });
-            $rootScope.safeApply();
-            /*
-            $rootScope.safeApply(function () {
-              actions.makeSortable();
-            });
-            */
-          },
+          }
         });
       };
 
@@ -131,6 +137,14 @@ function fileTreeDir(
         if (newVal) {
           fetchDirFiles();
         }
+      });
+
+      $scope.$watch('dir.contents.models.length', function () {
+        $timeout(function () {
+          // timeout necessary to ensure rg-repeat completes
+          // before trying to apply draggable to li's
+          $scope.actions.makeSortable();
+        }, 1);
       });
 
       actions.fetchDirFiles = fetchDirFiles;
