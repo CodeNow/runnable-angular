@@ -22,7 +22,8 @@ function term(
           return;
         }
         // Numbers chosen erring on the side of padding
-        var CHAR_WIDTH = 8;
+        // TODO: http://jsfiddle.net/loktar/gcrkobdL/
+        var CHAR_WIDTH = 8.3;
         var CHAR_HEIGHT = 19;
         var params = $scope.params;
 
