@@ -187,6 +187,17 @@ function openItemsFactory(
     return this;
   };
 
+  OpenItems.prototype.isClean = function () {
+    var models = this.models;
+    for (var i = 0; i < models.length; i++) {
+      if (models[i].state.type === 'File' &&
+        models[i].state.body !== models[i].attrs.body) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   OpenItems.prototype.remove = function (model) {
     model.state.open = false;
     if (this.contains(model)) {
