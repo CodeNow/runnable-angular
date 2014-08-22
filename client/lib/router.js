@@ -27,7 +27,7 @@ app.config(['$stateProvider',
 
       params = [];
       angular.forEach(search, function (val, key) {
-        params.push(key + '=' + v);
+        params.push(key + '=' + val);
       });
       return path + '/?' + params.join('&');
     });
