@@ -114,14 +114,11 @@ function ControllerProjectLayout(
 
     function createProject(cb) {
       body = {
-        name: dataProjectLayout.data.newProjectName
+        name: dataProjectLayout.data.newProjectName,
+        owner: {
+          github: actions.getEntityId(data.activeAccount)
+        }
       };
-      var owner = data.activeAccount;
-      if (owner !== $scope.dataApp.user) { // org owner selected
-        body.owner = {
-          github: actions.getEntityId(owner)
-        };
-      }
       var project = thisUser.createProject(body, function (err) {
         $scope.dataApp.data.loading = false;
         data.creatingProject = false;
