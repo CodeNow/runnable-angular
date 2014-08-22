@@ -140,7 +140,8 @@ header(
     h3 INSTANCES
     ul.instances.btn-group-vertical.no-margin
       li.btn(
-        ng-repeat = "instance in dataProjectLayout.data.projectInstances.models"
+        ng-repeat = "instance in dataProjectLayout.data.projectInstances \
+                     | orderBy:'attrs.name'"
         ng-class = "{ \
           active: ((!instance.attrs.name && !!dataProjectLayout.data.tempBuildUrl) \
                    || (dataApp.stateParams.instanceId === instance.id() && !dataProjectLayout.data.tempBuildUrl)) \

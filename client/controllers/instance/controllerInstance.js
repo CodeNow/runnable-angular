@@ -10,6 +10,7 @@ function ControllerInstance(
   $scope,
   $state,
   $stateParams,
+  keypather,
   async,
   user,
   OpenItems
@@ -21,6 +22,8 @@ function ControllerInstance(
   var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data;
   var actions = dataInstance.actions;
+
+  data.restartOnSave = true;
 
   /*********************************
    * popoverFileMenu
@@ -72,6 +75,35 @@ function ControllerInstance(
     });
   };
 
+  actions.saveChanges = function () {
+    var updateModels = data.openItems.models
+      .filter(function (model) {
+        if (typeof keypather.get(model, 'attrs.body') !== 'string') {
+          return false;
+        }
+        return (model.attrs.body !== model.state.body);
+      });
+    async.each(updateModels,
+    function iterate (file, cb) {
+      file.update({
+        json: {
+          body: file.state.body
+        }
+      }, function (err) {
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+        cb();
+      });
+    },
+    function complete (err) {
+      if (data.restartOnSave) {
+        actions.startInstance();
+      }
+    });
+  };
+
   actions.stopInstance = function () {
     data.loading = true;
     data.instance.stop(function (err) {
@@ -105,7 +137,6 @@ function ControllerInstance(
   };
 
   actions.stateToBuildList = function (userName, projectName, branchName) {
-    var thisUser = $scope.dataApp.user;
     var state = {
       userName: userName,
       projectName: projectName,
@@ -157,9 +188,11 @@ function ControllerInstance(
         if (data.container.urls().length) {
           pat.actions.addWebView();
         }
+        data.showExplorer = true;
         pat.actions.addTerminal();
         data.openItems.activeHistory.add(data.logs);
       } else {
+        data.showExplorer = false;
         data.openItems.removeAllButLogs();
       }
     }
