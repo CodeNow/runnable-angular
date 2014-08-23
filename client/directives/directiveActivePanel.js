@@ -27,9 +27,6 @@ function activePanel(
     },
     link: function ($scope, element, attrs) {
 
-      // only display loaded class once
-      $scope.loaded = true;
-
       var data = $scope.data = {};
       var actions = $scope.actions = {};
       data.readOnly = $scope.readOnly;
@@ -88,9 +85,6 @@ function activePanel(
       });
 
       $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {
-        if (oldVal && newVal) {
-          $scope.loaded = false;
-        }
         if (newVal) {
           if (!$scope.update) {
             var file = $scope.openItems.activeHistory.last();
