@@ -53,7 +53,7 @@ module.exports = [{
 }, {
   state: 'projects.buildNew',
   abstract: false,
-  url: '^/project/:userName/:projectName/:branchName/:buildName/fork/:newBuildName',
+  url: '^/project/:userName/:projectName/:branchName/:buildName/edit',
   templateUrl: 'viewBuildNew',
   controller: 'ControllerBuildNew'
 }, {
