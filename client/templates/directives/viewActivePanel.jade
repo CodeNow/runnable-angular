@@ -1,6 +1,8 @@
 //- don't use ng-if here, use ng-show
-.editor-container.load(
-  ng-class = "{loaded: (item === openItems.activeHistory.last())}"
+.editor-container(
+  ng-class = "{ \
+    load: loaded \
+  }"
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
