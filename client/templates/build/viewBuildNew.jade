@@ -156,8 +156,9 @@ section.sidebar
       li(
         ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models"
         ng-class = "{ \
-          active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show \
+          active: repoModel.state.editing \
         }"
+        ng-click = "$event.stopPropagation();"
         popover-repo-item-menu
       )
         span
@@ -166,12 +167,19 @@ section.sidebar
           | {{ repoModel.attrs.repo }}
         //- use datalist the same we use in viewSetupPopoverAddRepos.jade
         input.tree-input(
+          list = "repo-branches-edit-{{ repoModel.id() }}"
           placeholder = "Specify Branch or SHA"
-          readonly
+          ng-readonly = "!repoModel.state.editing"
+          ng-keyup = "($event.keyCode === 13 && popoverData.actions.exit())"
           value = "{{ repoModel.attrs.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch }}"
         )
-        //- datalist
-          option
+        datalist(
+          id = "repo-branches-edit-{{ repoModel.id() }}"
+        )
+          option(
+            ng-repeat = "branch in repoModel.branches.models"
+            value = "{{ branch.attrs.name }}"
+          )
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuildNew.data.showExplorer = !dataBuildNew.data.showExplorer"

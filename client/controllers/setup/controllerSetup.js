@@ -37,7 +37,7 @@ function ControllerSetup(
     data.repoFilter = '';
   });
 
-  actions.selectGithubRepo = function (repo, branchName) {
+  actions.selectGithubRepo = function (repo) {
     if (data.selectedRepos.contains(repo)) {
       delete repo.selectedBranch;
       data.selectedRepos.remove(repo);
