@@ -171,6 +171,7 @@ function ControllerSetup(
   };
 
   actions.buildApplication = function () {
+    $scope.dataApp.data.loading = true;
     async.series([
 
       function (cb) {
@@ -183,6 +184,7 @@ function ControllerSetup(
       }
     ], function (err, results) {
       if (err) throw err;
+      $scope.dataApp.data.loading = false;
       dataSetup.actions.stateToBuild();
     });
   };
