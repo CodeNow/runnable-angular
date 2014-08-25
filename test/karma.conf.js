@@ -81,9 +81,10 @@ module.exports = function(config) {
 
     browserify: {
       // sourcemaps sir?
-      debug: false,
+      debug: true,
       files: [
-        'unit/**/*.unit.js'
+        // 'unit/**/*.unit.js'
+        'unit/controllers/ControllerBuildNew.unit.js'
       ]
     },
 

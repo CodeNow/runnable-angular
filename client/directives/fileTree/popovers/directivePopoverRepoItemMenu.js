@@ -24,8 +24,18 @@ function popoverRepoItemMenu(
       var actions = popoverData.actions = {};
 
       actions.modify = function () {
-        $scope.dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show = true;
+        var githubRepo = $scope.repoModel.githubRepo();
+        $scope.repoModel.branches = githubRepo.fetchBranches({}, function () {
+          $rootScope.safeApply();
+        });
+        $rootScope.safeApply();
+        keypather.set($scope, 'repoModel.state.editing', true);
+        popoverData.isOpen = false;
+        var input = jQuery(element).find('> input.tree-input')[0];
+        input.focus();
+        input.select();
       };
+
       actions.remove = function () {
         $scope.repoModel.destroy(function () {
           $rootScope.safeApply();
@@ -58,8 +68,20 @@ function popoverRepoItemMenu(
         }
       });
 
-      element[0].addEventListener('contextmenu', contextMenuListener);
+      popoverData.actions.exit = exit;
+      function exit () {
+        if (!keypather.get($scope, 'repoModel.state.editing')) {
+          return;
+        }
+        popoverData.isOpen = false;
+        keypather.set($scope, 'repoModel.state.editing', false);
+        $scope.dataBuildNew.actions.updateAppCodeVersion($scope.repoModel,
+                                                         jQuery(element).find('input.tree-input').val());
+      }
+      $scope.$on('file-modal-open', exit);
+      $scope.$on('app-document-click', exit);
 
+      element[0].addEventListener('contextmenu', contextMenuListener);
       function contextMenuListener(e) {
         $rootScope.$broadcast('app-document-click');
         $rootScope.$broadcast('file-modal-open');
