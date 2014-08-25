@@ -65,10 +65,11 @@ section.sidebar
           )
     button.btn-block.green.btn-spinner(
       type = "submit"
+      ng-disabled = "!dataSetup.data.validDockerfile.valid"
     )
       .spinner
         .spinner-ring
-      | Build Project
+      | {{ dataSetup.data.validDockerfile.message ? 'Bad Dockerfile: ' + dataSetup.data.validDockerfile.message : 'Build Project' }}
 #editor.full
   tabs#editor-toolbar(
     open-items = "dataSetup.data.openItems"

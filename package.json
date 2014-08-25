@@ -87,6 +87,7 @@
     "protractor": "~1.0.0-rc1",
     "sinon": "~1.10.3",
     "stringify": "~2.1.0",
+    "validate-dockerfile": "^1.0.1",
     "which": "^1.0.5"
   },
   "browser": {

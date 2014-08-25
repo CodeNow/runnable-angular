@@ -12,7 +12,10 @@ function ControllerSetup(
   $state,
   async,
   keypather,
-  OpenItems
+  hasKeypaths,
+  OpenItems,
+  debounce,
+  validateDockerfile
 ) {
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var QueryAssist = $scope.UTIL.QueryAssist;
@@ -205,22 +208,17 @@ function ControllerSetup(
     });
   };
 
-  actions.initState = function () {
-    async.waterfall([
-      holdUntilAuth,
-      fetchProject,
-      fetchSeedContexts,
-      fetchFirstBuild,
-      fetchOwnerRepos
-    ], function (err) {
-      if (err) {
-        $state.go('404');
-        throw err;
-      }
-      $scope.safeApply();
-    });
-  };
-  actions.initState();
+  var debounceValidate = debounce(function (n) {
+   console.log(n);
+    if (!n || n.attrs.name !== 'Dockerfile') {
+      return;
+    }
+    var isValid = validateDockerfile(n.attrs.body);
+    console.log(isValid);
+    data.validDockerfile = isValid;
+  });
+
+  $scope.$watchCollection('dataSetup.data.openItems.activeHistory.last()', debounceValidate);
 
   /* ============================
    *   API Fetch Methods
@@ -397,6 +395,23 @@ function ControllerSetup(
       })
       .go();
   }
+
+  actions.initState = function () {
+    async.waterfall([
+      holdUntilAuth,
+      fetchProject,
+      fetchSeedContexts,
+      fetchFirstBuild,
+      fetchOwnerRepos
+    ], function (err) {
+      if (err) {
+        $state.go('404');
+        throw err;
+      }
+      $scope.safeApply();
+    });
+  };
+  actions.initState();
 }
 
 ControllerSetup.initState = function () {
