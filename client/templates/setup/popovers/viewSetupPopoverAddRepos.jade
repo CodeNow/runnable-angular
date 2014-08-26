@@ -28,7 +28,7 @@ ul.list-group
           list = "repo-branches-{{ repo.attrs.name }}"
           name = "{{ 'repo-version-'+repo.attrs.name }}"
           ng-model = "repo.selectedBranchOrCommit"
-          placeholder = "Branch/SHA (default: @master)"
+          placeholder = "Branch/SHA (default: @{{ repo.defaultBranch() }})"
         )
         datalist(
           id = "repo-branches-{{ repo.attrs.name }}"
