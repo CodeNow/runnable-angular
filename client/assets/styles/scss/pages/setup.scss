@@ -1,20 +1,8 @@
-.setup {
-
-  .sidebar {
-    overflow-y: auto;
-    padding-bottom: 30px;
-  }
-
-  .orange {
-    margin: 0 15px;
-    width: calc(100% - 30px);
-  }
-
-  .tabs-wrapper a {
-    padding-right: 18px;
-  }
+.setup .tabs-wrapper a {
+  padding-right: 18px;
 }
 
+// viewSetupPopoverAddRepos
 .add-repo-form {
   border-radius: 0 0 3px 3px;
   bottom: auto;
@@ -41,9 +29,12 @@
 
     ~ form {
 
-      #setup-template,
-      .btn-spinner {
+      .sidebar-form-section {
         opacity: 0;
+      }
+
+      .sidebar-setup {
+        opacity: 1;
       }
     }
   }
@@ -164,7 +155,75 @@
   }
 }
 
-#setup-repo {
+// setup .sidebar-form
+// form element added here so we could have a separate form for viewSetupPopoverAddRepos
+.sidebar-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-form-section {
+  transition: all .2s ease-in;
+}
+
+// the sidebar setup is comprised of 3 sections:
+// .sidebar-setup
+// .sidebar-validation
+// .sidebar-submit
+.sidebar-setup {
+  flex: 0 1 auto;
+  overflow-y: auto;
+}
+
+.sidebar-validation {
+  border-top: 1px solid rgba($black,.1);
+  padding: 0 15px 15px;
+
+  .list-group {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 14px;
+    margin: 0 auto;
+  }
+
+  .list-group-item {
+    border-color: $orange-darker;
+    color: $orange-darker;
+  }
+
+  .the-rules {
+    color: $orange-darker;
+    display: table;
+    font-size: 12px;
+    margin: 15px auto 9px;
+    opacity: 1;
+  }
+}
+
+.sidebar-submit {
+  flex: 1 0 auto;
+
+  .btn-block {
+
+    &.invalid .icons-error {
+      height: 21px;
+      transform: scale3d(1,1,1);
+      width: 21px;
+    }
+
+    .icons-error {
+      height: 0;
+      margin-right: 6px;
+      top: 4px;
+      transform: scale3d(0,0,0);
+      transform-origin: 50% 0;
+      transition: all .3s ease-in;
+      width: 0;
+    }
+  }
+}
+
+// .sidebar-setup
+.setup-repo {
   border-bottom: 1px solid rgba($black,.1);
   padding: 15px;
 
@@ -249,7 +308,8 @@
   }
 }
 
-#setup-template {
+.setup-template {
+  padding-bottom: 15px;
 
   .form-group {
     border: 1px solid rgba(0,0,0,.1);
