@@ -76,7 +76,9 @@ function ControllerApp(
   UTIL.QueryAssist = QueryAssist;
 
   $rootScope.$on('$stateChangeSuccess', function () {
-    $localStorage.$stateParams = angular.copy($stateParams);
+    if ($stateParams.userName && $stateParams.projectName && $stateParams.branchName) {
+      $localStorage.stateParams = angular.copy($stateParams);
+    }
   });
 }
 
