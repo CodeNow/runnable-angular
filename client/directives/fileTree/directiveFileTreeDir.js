@@ -42,21 +42,40 @@ function fileTreeDir(
       actions.makeDroppable = function() {
         var $element = jQuery($template);
 
-        $element.on('dragenter', function () {
+        $element.on('dragenter', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
           $scope.dropping = true;
           $rootScope.safeApply();
-          return false;
         });
 
-        $element.on('dragleave', function () {
+        $element.on('dragover', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        });
+
+        $element.on('dragleave', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
           $scope.dropping = false;
           $rootScope.safeApply();
-          return false;
         });
 
-        $element.on('drop', function () {
+        $element.on('drop', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
           console.log('drop');
-          return false;
+
+          var files = event.dataTransfer.files;
+          var reader = new FileReader();
+          reader.onload = function(){};
+          console.log(files);
+          debugger;
+
+          $scope.dropping = false;
+          $rootScope.safeApply();
         });
       };
 
