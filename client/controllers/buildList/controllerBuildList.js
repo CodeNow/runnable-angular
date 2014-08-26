@@ -39,6 +39,8 @@ function ControllerBuildList(
     if (event.keyCode && event.keyCode !== 13) {
       return;
     }
+    pce.data.show = false;
+    $scope.dataApp.data.loading = true;
     var count = callbackCount(2, done);
     var project = dataBuildList.data.project;
     var body = {
@@ -70,6 +72,7 @@ function ControllerBuildList(
           var sc = angular.copy($stateParams);
           sc.branchName = env.attrs.name;
           sc.buildName = newBuild.attrs.buildNumber;
+          $scope.dataApp.data.loading = false;
           $state.go('projects.build', sc);
         });
       });
