@@ -18,7 +18,8 @@ function ControllerApp(
   apiConfigHost,
   holdUntilAuth,
   QueryAssist,
-  primus
+  primus,
+  $localStorage
 ) {
 
   var self = ControllerApp;
@@ -26,27 +27,17 @@ function ControllerApp(
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
     apiConfigHost);
+  var data = dataApp.data = {};
+  var authed = false;
+
+  data.loading = false;
+  $rootScope.$on('$stateChangeStart', function () {
+    data.loading = false;
+  });
 
   $interval(function () {
     $rootScope.safeApply();
   }, 1000 * 30); //30 seconds
-
-  primus.onBuildCompletedEvents(function (buildData) {
-    holdUntilAuth(function (err, thisUser) {
-      if (err) {
-        throw err;
-      }
-      thisUser
-        .newProject(buildData.project)
-        .newEnvironment(buildData.environment)
-        .fetchBuild(buildData._id, function (err) {
-          if (err) {
-            throw err;
-          }
-          $rootScope.safeApply(); // FIXME: in the future this could be handled by model store events
-        });
-    });
-  });
 
   dataApp.documentClickEventHandler = function () {
     $scope.$broadcast('app-document-click');
@@ -67,10 +58,12 @@ function ControllerApp(
   };
 
   UTIL.holdUntilAuth = function (cb) {
+    if (authed) { return cb(); }
     holdUntilAuth(function (err, thisUser) {
       if (err) {
         $state.go('home', {});
       } else {
+        authed = true;
         dataApp.user = thisUser;
         $scope.safeApply();
         if (angular.isFunction(cb)) {
@@ -81,6 +74,13 @@ function ControllerApp(
   };
 
   UTIL.QueryAssist = QueryAssist;
+
+  $rootScope.$on('$stateChangeSuccess', function () {
+    // store last visited project for auto-return in contHome
+    if ($stateParams.userName && $stateParams.projectName && $stateParams.branchName) {
+      $localStorage.stateParams = angular.copy($stateParams);
+    }
+  });
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {

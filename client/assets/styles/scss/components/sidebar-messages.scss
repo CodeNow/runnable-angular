@@ -1,0 +1,61 @@
+.sidebar-messages {
+  flex: 0 1 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar-message {
+  border-bottom: 1px solid rgba($black,.1);
+  color: $gray-dark;
+  min-height: 59px;
+  padding: 0 15px 6px;
+
+  &:last-child {
+    border: 0;
+  }
+
+  .icons-git {
+    height: 15px;
+    margin-left: 3px;
+    opacity: .45;
+    top: 2px;
+    width: 15px;
+  }
+}
+
+.sidebar-message-content,
+.sidebar-message-author {
+  color: $gray-dark;
+  display: block;
+  min-height: 24px;
+  padding-top: 6px;
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    color: $gray-darker;
+  }
+}
+
+.sidebar-message-content {
+  word-wrap: break-word;
+}
+
+.sidebar-message-author {
+  font-weight: 500;
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  .gravatar {
+    float: left;
+    height: 20px;
+    margin: 1px 4px 0 0;
+    width: 20px;
+  }
+}
+
+.gravatar {
+  border-radius: 50%;
+}

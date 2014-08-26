@@ -1,6 +1,6 @@
 #explorer {
   background: $gray-lighter;
-  border-right: 1px solid rgba(0,0,0,.1);
+  border-right: 1px solid rgba($black,.1);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -18,9 +18,9 @@
 #explorer-toggle {
   background: $gray-lighter;
   border: 0;
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   border-radius: 0;
-  border-right: 1px solid rgba(0,0,0,.1);
+  border-right: 1px solid rgba($black,.1);
   color: $gray-dark;
   float: left;
   height: 36px;
@@ -42,8 +42,8 @@
 // controls
 #controls {
   background: $gray-lighter;
-  border-bottom: 1px solid rgba(0,0,0,.1);
-  border-right: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
+  border-right: 1px solid rgba($black,.1);
   flex: 0 0 auto;
   height: 36px;
   margin: 0 0 0 36px;
@@ -98,7 +98,7 @@
 
 // toolbar
 #editor-toolbar {
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   height: 36px;
   overflow: visible;
   position: relative;
@@ -237,7 +237,7 @@
 // explorer header
 .explorer-header {
   background: $gray-lighter;
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   color: $gray-dark;
   flex: 0 0 auto;
   height: 36px;
@@ -253,7 +253,7 @@
 
 // .sub-tree
 .sub-tree {
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   box-shadow: inset 0 1px 0 $white;
   position: relative;
 
@@ -269,7 +269,7 @@
 
     &::after {
       @extend .arrow-down;
-      border-top-color: rgba(0,0,0,.2);
+      border-top-color: rgba($black,.2);
       content: '';
       cursor: pointer;
       left: 9px;
@@ -319,8 +319,14 @@
 
     // add repo form
     &.show-add-repo {
+      left: -125px;
       max-height: 300px;
+      transform-origin: 50% 0;
       width: 300px;
+
+      &.bottom > .arrow {
+        left: 50%;
+      }
 
       .popover-content {
         max-height: 300px;
@@ -351,7 +357,7 @@
     padding-left: 7px;
 
     &.divider {
-      background: rgba(0,0,0,.1);
+      background: rgba($black,.1);
       height: 1px;
       line-height: 1;
       margin: 4px 0;
@@ -395,7 +401,7 @@
   #add-tab-options > ol {
 
     &.col-popover-3 {
-      border-bottom: 1px solid rgba(0,0,0,.1);
+      border-bottom: 1px solid rgba($black,.1);
       height: 72px;
       overflow: hidden;
     }
@@ -437,13 +443,13 @@
 }
 
 #shortcuts {
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   max-height: 144px;
   overflow: auto;
 
   li {
     border: 0;
-    box-shadow: inset 0 1px 0 rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 rgba($black,.1);
     cursor: pointer;
     float: none;
     height: 36px;

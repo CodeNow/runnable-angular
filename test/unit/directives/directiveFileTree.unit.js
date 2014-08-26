@@ -28,6 +28,5 @@ describe('directiveFileTree'.bold.underline.blue, function () {
   }
   beforeEach(initState);
   it('first test', function () {
-    debugger;
   });
 });

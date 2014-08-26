@@ -13,11 +13,44 @@ header {
   .setup & {
     overflow-y: hidden;
 
+    .icons-arrow-down {
+      right: 8px !important;
+    }
+
     // hides all non-relevant elements
     .scroll-container {
       opacity: 0;
       pointer-events: none;
       transition: none;
+    }
+
+    .btn-add-project,
+    .project {
+      display: none;
+    }
+
+    .account {
+      cursor: pointer;
+      padding: 0;
+      pointer-events: auto;
+      z-index: 1;
+
+      &:first-child {
+        display: none;
+      }
+
+      &:hover {
+        background: rgba($white,.05);
+      }
+
+      &:active {
+        background: rgba($white,.1);
+      }
+    }
+
+    .btn.account-info {
+      cursor: pointer;
+      pointer-events: auto;
     }
   }
 
@@ -46,20 +79,11 @@ header {
     }
 
     .accounts {
-      background: $purple;
-      position: absolute;
-      z-index: 1;
+      border-radius: 0 0 3px 3px;
+    }
 
-      li {
-
-        &:nth-last-child(2) {
-          border-radius: 0 0 3px 3px !important;
-        }
-
-        &:last-child {
-          display: none;
-        }
-      }
+    .log-out {
+      display: none;
     }
   }
 
@@ -133,14 +157,6 @@ header {
     &:active {
       background: rgba($white,.2);
     }
-
-    &.active {
-      background: rgba($white,.2);
-
-      &:active {
-        background: rgba($white,.1);
-      }
-    }
   }
 
   h3 {
@@ -178,82 +194,197 @@ header {
   }
 }
 
-.account {
+// account/project dropdown
+.switcher {
   font-weight: 300;
+  letter-spacing: .5px;
+  max-height: 36px;
   position: relative;
   text-overflow: ellipsis;
+  top: 5px;
   transition: opacity .2s;
   white-space: nowrap;
   width: 100%;
 
+  .btn-add-project {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(18px,0,0);
+    transition: all .15s ease-in;
+  }
+
   &.active {
     border-radius: 3px 3px 0 0;
 
-    .iconnables {
+    ~ .accounts {
+      max-height: calc(100vh - 150px);
+      opacity: 1;
+      overflow-y: auto;
+      pointer-events: auto;
+    }
+
+    ~ .log-out {
+      border-top: 1px solid rgba($white,.2);
+      height: auto;
+      pointer-events: auto;
+    }
+
+    .icons-arrow-down {
+      right: 27px;
       transform: rotate3d(0,0,1,180deg);
     }
 
-    & ~ .accounts {
-      border-radius: 0 0 3px 3px;
-      max-height: 216px;
-      opacity: 1;
-      overflow-y: auto;
+    > .project-name {
+      opacity: 0;
+    }
 
-      a {
-        opacity: 1;
-        transform: translate3d(0,0,0);
+    .btn-add-project {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate3d(0,0,0);
+    }
+
+    > .name-switcher, {
+      opacity: 1;
+    }
+  }
+
+  .icons-arrow-down {
+    position: absolute;
+    right: 8px;
+    top: 7px;
+    transition: all .15s ease-in;
+  }
+
+  > .project-name {
+    font-weight: 500;
+    padding: 0 24px 0 0;
+  }
+
+  > .name-switcher {
+    left: 39px;
+    opacity: 0;
+    position: absolute;
+  }
+}
+
+.btn-add-project.btn-add-project {
+  background: none;
+  pointer-events: auto;
+  position: absolute;
+  right: 6px;
+  top: 0;
+
+  &:hover,
+  &:active {
+    background: none !important;
+  }
+}
+
+.account-image {
+  background: $white;
+  border-radius: 50%;
+  display: inline-block;
+  float: left;
+  height: 21px;
+  margin: 7px 9px;
+  width: 21px;
+}
+
+.account-name {
+  display: inline-block;
+  float: left;
+  font-weight: 500;
+  max-width: 139px;
+  overflow: hidden;
+  padding: 0 3px 0 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-name {
+  display: inline-block;
+  font-weight: 300;
+  overflow: hidden;
+  padding: 0 0 0 39px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 171px;
+}
+
+.accounts {
+  background: rgba($white,.1);
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height .3s, opacity .3s;
+}
+
+.account {
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+
+  &.border-top {
+    border-top: 1px solid rgba($white,.2);
+  }
+
+  .btn {
+    background: none;
+    border-radius: 0 !important;
+    height: 36px;
+
+    &:hover {
+      background: rgba($white,.12);
+    }
+
+    &.account-info {
+      cursor: default;
+      pointer-events: none;
+
+      &:hover,
+      &:active {
+        background: none;
       }
     }
   }
 
-  img {
-    background: $white;
-    border-radius: 50%;
+  .btn-link {
     display: block;
-    float: left;
-    margin: 8px;
   }
 
-  .iconnables {
-    opacity: .5;
-    position: absolute;
-    right: 8px;
-    top: 5px;
+  .btn-icon {
+    opacity: .75;
+    // position: absolute;
+    // right: 9px;
+    // top: 0;
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
   }
 }
 
-.accounts {
-  display: block;
-  max-height: 0;
-  opacity: .5;
+.log-out {
+  background: rgba($white,.1);
+  border-radius: 0 0 3px 3px;
+  height: 0;
   overflow: hidden;
-  transition: max-height .15s, opacity .15s;
+  pointer-events: none;
   width: 100%;
 
-  li {
-
-    &.btn {
-      border-radius: 0 !important;
-    }
-
-    &:last-child {
-      font-size: 12px;
-      text-align: center;
-    }
-
-    img {
-      background: $white;
-      border-radius: 50%;
-      float: left;
-      margin: 7px 8px 0;
-    }
-  }
-
-  a {
+  > .btn-link {
+    background: none;
     display: block;
-    opacity: 0;
-    transform: translate3d(0,-9px,0);
-    transition: opacity .2s, transform .2s;
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
+    min-height: 0;
+    text-align: center;
+    width: 100%;
   }
 }
 
@@ -279,7 +410,7 @@ header {
   }
 }
 
-.applications,
+.config-list,
 .instances {
   width: 100%;
 
@@ -289,38 +420,15 @@ header {
     text-indent: 15px;
 
     &.active {
-
-      > .btn-link {
-        cursor: default;
-      }
-
-      &:active {
-        background: rgba($white,.2);
-      }
-    }
-
-    &.active {
-
-      > .btn-link > .iconnables {
-        transform: rotate3d(0,0,1,180deg);
-      }
-
-      .config-list {
-        max-height: 300px;
-      }
+      background: rgba($white,.2);
     }
 
     > .btn-link > .iconnables {
-      opacity: .5;
+      left: 9px;
       position: absolute;
-      right: 8px;
-      top: 5px;
+      top: 9px;
     }
   }
-}
-
-.applications > .btn.active {
-  height: auto;
 }
 
 .instances {
@@ -345,26 +453,9 @@ header {
 
 .config-list {
   cursor: pointer;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .3s;
 
   .config {
-
-    &:hover,
-    &.active,
-    &.active:active {
-      background: rgba($white,.1);
-    }
-
-    &.active,
-    &.active .btn-link {
-      cursor: default;
-    }
-
-    &:active {
-      background: rgba($white,.15);
-    }
+    padding-left: 18px;
   }
 
   .iconnables {
@@ -375,3 +466,4 @@ header {
     width: 18px;
   }
 }
+

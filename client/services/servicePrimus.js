@@ -30,7 +30,6 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
     event: 'build-stream',
     data: {
       id: contextVersionId,
-      build: build.json(),
       streamId: contextVersionId
     }
   });
@@ -56,17 +55,6 @@ RunnablePrimus.prototype.createTermStreams = function (container) {
     termStream: this.substream(uniqueId),
     eventStream: this.substream(uniqueId + 'events')
   };
-};
-
-RunnablePrimus.prototype.onBuildCompletedEvents = function (cb) {
-  if (!cb) {
-    throw new Error('cb is required');
-  }
-  this.on('data', function (data) {
-    if (data && data.event === 'BUILD_STREAM_ENDED') {
-      cb(data.data.build);
-    }
-  });
 };
 
 require('app')

@@ -40,7 +40,7 @@ li.folder(
     )
       a(
         ng-click = "actions.closeOpenModals(); \
-                    openItems.add(fs); \
+                    actions.openFile(fs); \
                     $event.stopPropagation();"
         popover-file-explorer-item-menu
       )

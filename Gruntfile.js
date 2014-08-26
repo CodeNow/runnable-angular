@@ -22,10 +22,10 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     githooks: {
       all: {
-        'pre-commit':    'jshint:prod',
-        'pre-push':      'bgShell:karma',
-        'post-merge':    'bgShell:npm-install',
-        'post-checkout': 'bgShell:npm-install'
+        'pre-commit':    'jshint:prod'
+      //  'pre-push':      'bgShell:karma',
+      //  'post-merge':    'bgShell:npm-install',
+      //  'post-checkout': 'bgShell:npm-install'
       }
     },
     concurrent: {
@@ -272,6 +272,10 @@ module.exports = function(grunt) {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js --single-run'
       },
+      'karma-watch': {
+        bg: false,
+        cmd: 'karma start ./test/karma.conf.js'
+      },
       server: {
         cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
         bg: true,
@@ -299,6 +303,7 @@ module.exports = function(grunt) {
     var done       = this.async();
     var clientPath = path.join(__dirname, 'client');
     async.series([
+      bundle('polyfills'),
       bundle('controllers'),
       bundle('services'),
       bundle('filters'),
@@ -359,6 +364,41 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('loadSyntaxHighlighters', '', function () {
+    var cb = this.async();
+    var indexPath = path.join(__dirname, 'client', 'lib', 'modes.js');
+    var workingPath = path.join(__dirname, 'node_modules', 'brace', 'mode');
+
+    // TODO: DRY up with code above
+    find.file(/\.js$/, workingPath, function (files) {
+      var newFileString = files
+        .map(function (item) {
+          return item.replace(workingPath, 'brace/mode').replace(/\.js$/, '');
+        })
+        .reduce(function (previous, current) {
+          if (current === './index') { return previous; }
+          return previous += 'require(\'' + current + '\');\n';
+        }, '');
+
+      fs.exists(indexPath, function (exists) {
+        if (exists) {
+          // Only write if we need to
+          fs.readFile(indexPath, 'UTF-8', function (err, fileString) {
+            if (err) { return cb(err); }
+            if (fileString.trim() === newFileString.trim()) {
+              return cb();
+            }
+            grunt.log.writeln('writing new modes.js');
+            fs.writeFile(indexPath, newFileString, cb);
+          });
+        } else {
+          grunt.log.writeln('writing new modes.js');
+          fs.writeFile(indexPath, newFileString, cb);
+        }
+      });
+    });
+  });
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
@@ -376,7 +416,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-jsbeautifier');
 
-  grunt.registerTask('test:watch', ['watch:tests']);
+  grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);
   grunt.registerTask('test:e2e', ['bgShell:karma']);
   grunt.registerTask('test', ['bgShell:karma']);
@@ -391,6 +431,7 @@ module.exports = function(grunt) {
     'jshint:dev',
     'autoBundleDependencies',
     'generateConfigs',
+    'loadSyntaxHighlighters',
     'browserify:once'
   ]);
   grunt.registerTask('default', [

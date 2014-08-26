@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": true,
   "description": "rewrite of runnable-web in angularjs",
   "scripts": {
@@ -18,9 +18,10 @@
     "angular": "^1.2.19",
     "angular-ui-ace": "git://github.com/Runnable/ui-ace.git#1.1.4",
     "angular-ui-router": "~0.2.10",
+    "ansi-stripper": "0.0.1",
     "async": "~0.9.0",
     "body-parser": "^1.4.3",
-    "brace": "^0.2.1",
+    "brace": "~0.3.0",
     "browser-resolve": "^1.2.4",
     "browserify-angular-animate": "~1.2.18",
     "callback-count": "^0.1.0",
@@ -34,8 +35,9 @@
     "keypather": "^1.7.1",
     "moment": "~2.7.0",
     "primus": "^2.3.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.24.3",
-    "term.js": "git+https://github.com/CodeNow/term.js"
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.26.4",
+    "term.js": "git+https://github.com/CodeNow/term.js",
+    "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0"
   },
   "devDependencies": {
     "browserify": "~4.2.3",
@@ -67,7 +69,7 @@
     "grunt-jsbeautifier": "^0.2.7",
     "grunt-nodemon": "~0.2.1",
     "karma": "~0.12.16",
-    "karma-browserify": "~0.2.1",
+    "karma-browserifast": "^0.7.0",
     "karma-chrome-launcher": "~0.1.4",
     "karma-commonjs": "0.0.8",
     "karma-coverage": "~0.2.4",

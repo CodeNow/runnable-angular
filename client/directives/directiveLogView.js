@@ -14,7 +14,7 @@ function logView(
     scope: {
       container: '='
     },
-    templateUrl: 'viewLogStream',
+    templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
       $scope.stream = {
         data: ''

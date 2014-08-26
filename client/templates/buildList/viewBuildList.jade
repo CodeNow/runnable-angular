@@ -1,7 +1,10 @@
 nav#build-stream-header.sub-header
   h1
     //- if empty, revert to project name
-    input.form-control.inline-edit(
+    input.form-control.inline-edit.load.loading(
+      ng-class = "{ \
+        loading: !dataBuildList.data.project.id() \
+      }"
       ng-model = "dataBuildList.data.project.attrs.name"
       ng-model-options = "{ debounce: 500 }"
       placeholder = "App Name"
@@ -56,7 +59,11 @@ nav#build-stream-header.sub-header
   //-   button.silver(type = "button") Next 100
   //-     svg.iconnables.icons-chevron-right
   //-       use(xlink:href = "#icons-chevron-right")
-.table-scroll
+.table-scroll(
+  ng-class = "{ \
+    loading: !dataBuildList.data.builds.model.length \
+  }"
+)
   table#build-stream.table.table-hover
     thead
       tr
@@ -86,7 +93,7 @@ nav#build-stream-header.sub-header
         ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
         td.build-status(
-          ng-class = "{ pass: build.attrs.completed && !build.failed(), fail: build.failed() }"
+          ng-class = "{ pass: build.succeeded(), fail: build.failed() }"
         )
           .spinner
             .spinner-ring
@@ -102,8 +109,9 @@ nav#build-stream-header.sub-header
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
-            ng-if = "!build.failed()"
-            ng-click = "$event.stopPropagation(); dataBuildList.actions.runInstance(build);"
+            ng-if = "build.succeeded()"
+            ng-click = "$event.stopPropagation(); \
+                        dataBuildList.actions.runInstance(build);"
             data-title = "Run Instance"
           )
             svg.iconnables.icons-run

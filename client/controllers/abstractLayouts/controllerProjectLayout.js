@@ -26,6 +26,7 @@ function ControllerProjectLayout(
   function isUser(entity) {
     return entity === $scope.dataApp.user;
   }
+
   actions.getEntityName = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -33,6 +34,7 @@ function ControllerProjectLayout(
         entity.attrs.login; // org
     }
   };
+
   actions.getEntityId = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -40,6 +42,7 @@ function ControllerProjectLayout(
         entity.attrs.id; //org
     }
   };
+
   actions.getEntityGravatar = function (entity) {
     if (entity) {
       return isUser(entity) ?
@@ -47,21 +50,27 @@ function ControllerProjectLayout(
         entity.attrs.avatar_url; // org
     }
   };
+
+  actions.checkName = function () {
+    if (!dataProjectLayout.data.projects) {
+      return;
+    }
+    var match = dataProjectLayout.data.projects.find(function (m) {
+      return (m.attrs.name === dataProjectLayout.data.newProjectName);
+    });
+    dataProjectLayout.data.newNameTaken = !!match;
+  };
+
   actions.selectProjectOwner = function (userOrOrg, cb) {
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
     data.showChangeAccount = false;
-    data.projects = null;
-    data.instances = null;
 
     if (cb) {
       return cb();
     }
 
-    async.parallel([
-      fetchProjects,
-      fetchInstances
-    ], function (err) {
+    fetchInstances(function (err) {
       if (err) {
         return $state.go('404');
       }
@@ -69,42 +78,52 @@ function ControllerProjectLayout(
         // First fetch for the page or we're on /new
         return;
       }
-      if (!data.projects.models.length) {
+      if (!data.activeAccount.attrs.projects.models.length) {
         // new project
         return $state.go('projects', {});
       }
-      var firstProject = data.projects.models[0];
+      data.activeProject = data.activeAccount.attrs.projects.models[0];
       $state.go('projects.buildList', {
         userName: name,
-        projectName: firstProject.attrs.name,
+        projectName: data.activeProject.attrs.name,
         branchName: 'master'
       });
     });
   };
+
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
+
   actions.getProjectBuildListHref = function (projectName) {
     return '/' + $state.params.userName + '/' + projectName + '/master/';
   };
+
   actions.getProjectLiClass = function (project) {
     return (project.attrs.name === $state.params.projectName) ? 'active' : '';
   };
+
   actions.createNewProject = function () {
+    if (dataProjectLayout.data.newProjectNameForm.$invalid) {
+      return;
+    }
     var thisUser = $scope.dataApp.user;
+    var body;
+    $scope.dataApp.data.loading = true;
+    data.creatingProject = true;
 
     function createProject(cb) {
-      var body = {
-        name: dataProjectLayout.data.newProjectName
+      body = {
+        name: dataProjectLayout.data.newProjectName,
+        owner: {
+          github: actions.getEntityId(data.activeAccount)
+        }
       };
-      var owner = data.activeAccount;
-      if (owner !== $scope.dataApp.user) { // org owner selected
-        body.owner = {
-          github: actions.getEntityId(owner)
-        };
-      }
       var project = thisUser.createProject(body, function (err) {
+        $scope.dataApp.data.loading = false;
+        data.creatingProject = false;
         if (err) {
+          data.newNameTaken = true;
           throw err;
         }
         cb(err, thisUser, project);
@@ -114,9 +133,7 @@ function ControllerProjectLayout(
     function createBuildAndContext(thisUser, project, cb) {
       var count = callbackCount(2, done);
       var build = project.defaultEnvironment.createBuild(count.next);
-      var context = thisUser.createContext({
-        name: project.attrs.name
-      }, count.next);
+      var context = thisUser.createContext(body, count.next);
 
       function done(err) {
         if (err) {
@@ -150,12 +167,16 @@ function ControllerProjectLayout(
       });
     });
   };
+
   actions.stateToInstance = function (instance) {
-    $state.go('projects.instance', {
-      instanceId: instance.id(),
-      userName: $state.params.userName
-    });
+    if (instance && instance.id && instance.id()){
+      $state.go('projects.instance', {
+        instanceId: instance.id(),
+        userName: $state.params.userName
+      });
+    }
   };
+
   actions.stateToBuildList = function () {
     var project, environment, event;
     project = arguments[0];
@@ -175,8 +196,67 @@ function ControllerProjectLayout(
     });
   };
 
-  actions.stateToNewProject = function () {
-    $state.go('projects');
+  actions.stateToNewProject = function (userOrOrg) {
+    if (!data.showChangeAccount) {
+      return;
+    }
+    actions.selectProjectOwner(userOrOrg, function () {
+      $state.go('projects');
+    });
+  };
+
+  actions.stateToEnvironment = function (branch) {
+    var state = {
+      userName: actions.getEntityName(data.activeAccount),
+      projectName: data.activeProject.attrs.name,
+      branchName: branch.attrs.name
+    };
+    $state.go('projects.buildList', state);
+  };
+
+  actions.setActiveProject = function (userOrOrg, project) {
+    data.activeProject = project;
+    data.showChangeAccount = false;
+
+    var finish = function () {
+      var state = {
+        userName: actions.getEntityName(userOrOrg),
+        projectName: project.attrs.name,
+        branchName: project.defaultEnvironment.attrs.name
+      };
+      setInitialActiveProject(function() {
+        $state.go('projects.buildList', state);
+      });
+    };
+
+    if (userOrOrg !== data.activeAccount) {
+      return async.series([
+        function (cb) {
+          actions.selectProjectOwner(userOrOrg, cb);
+        },
+        fetchInstances
+      ], finish);
+    }
+    finish();
+  };
+
+  actions.getActiveProjectName = function() {
+    if ($scope.dataApp.state.current.name === 'projects') {
+      return actions.getEntityName(data.activeAccount);
+    }
+    if (data.activeProject) {
+      // Useful when we've set a new project but haven't updated $state
+      return data.activeProject.attrs.name;
+    }
+
+    if ($state.params.projectName) {
+      return $state.params.projectName;
+    } else if (data.instances) {
+      var activeInstance = data.instances.find(function (instance) {
+        return instance.id() === $state.params.instanceId;
+      });
+      return activeInstance.attrs.project.name;
+    }
   };
 
   /* ============================
@@ -206,20 +286,21 @@ function ControllerProjectLayout(
     return cb(new Error('User or Org not found'));
   }
 
-  function fetchProjects(cb) {
+  function fetchAllProjects(cb) {
+    var entities = data.orgs.models.concat([$scope.dataApp.user]);
+    async.each(entities, fetchUserOrOrgProjects, cb);
+  }
+
+  function fetchUserOrOrgProjects (userOrOrg, cb) {
     var thisUser = $scope.dataApp.user;
-    var username = actions.getEntityName(data.activeAccount);
+    var username = actions.getEntityName(userOrOrg);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
         githubUsername: username
       })
       .cacheFetch(function updateDom(projects, cached, cb) {
-        if (dataProjectLayout.data.projects === projects && cached) {
-          // slight performance enhancement avoid unnecessary digest
-          return cb();
-        }
-        dataProjectLayout.data.projects = projects;
+        userOrOrg.attrs.projects = projects;
         $scope.safeApply();
         cb();
       })
@@ -251,6 +332,18 @@ function ControllerProjectLayout(
       })
       .go();
   }
+
+  function setInitialActiveProject (cb) {
+    var projectName = actions.getActiveProjectName();
+    data.activeProject = data.activeAccount.attrs.projects.find(function (project) {
+      return project.attrs.name === projectName;
+    });
+    data.projectInstances = data.instances.filter(function (instance) {
+      return instance.attrs.project.name === projectName;
+    });
+    cb();
+  }
+
   /**
    * All pages besides new project page
    */
@@ -259,8 +352,9 @@ function ControllerProjectLayout(
       holdUntilAuth,
       fetchOrgs,
       selectInitialProjectOwner,
-      fetchProjects,
-      fetchInstances
+      fetchAllProjects,
+      fetchInstances,
+      setInitialActiveProject
     ], function (err) {
       if (err) {
         $state.go('404');
@@ -276,7 +370,8 @@ function ControllerProjectLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
-      selectInitialProjectOwner
+      selectInitialProjectOwner,
+      fetchAllProjects
     ]);
   };
 
@@ -286,6 +381,10 @@ function ControllerProjectLayout(
     } else if (newval === 'projects') {
       actions.initForNewState();
     }
+  });
+
+  $scope.$on('app-document-click', function () {
+    $scope.dataProjectLayout.data.showChangeAccount = false;
   });
 }
 

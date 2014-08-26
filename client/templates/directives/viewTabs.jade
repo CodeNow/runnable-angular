@@ -1,24 +1,24 @@
 #editor-toolbar
-  ul#tabs-wrapper
-    li(
-      ng-class = "{ \
-          'active': item.state.active, \
-          'dirty': (state.current.name === 'projects.instance' \
-                   && item.state.body !== item.attrs.body) \
-        }"
+  ul.tabs-wrapper
+    li.tab(
+      ng-class = "{\
+        'active': item.state.active,\
+        'dirty': (state.current.name === 'projects.instance'\
+          && item.state.body !== item.attrs.body)\
+      }"
       ng-repeat = "item in openItems.models"
     )
-      //- title should show the full file path
       a(
         dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
-        ng-click = "openItems.activeHistory.add(item); \
-                    $event.stopPropagation();"
+        ng-click = "openItems.activeHistory.add(item);\
+          $event.stopPropagation();"
         title = "{{ item.filepath() }}"
       ) {{ item.attrs.name  }}
+      .icons-dirty *
       button.btn-icon(
+        ng-click = "openItems.remove(item);\
+          $event.stopPropagation();"
         ng-if = "!item.state.alwaysOpen"
-        ng-click = "openItems.remove(item); \
-                    $event.stopPropagation();"
       )
         svg.iconnables.icons-close
           use(xlink:href = "#icons-close")

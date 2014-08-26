@@ -90,13 +90,15 @@ function ControllerBuildNew(
   function setupRepoPopover() {
     buildPopoverRepoMenu.data = {
       show: false,
-      appCodeVersions: keypather.get(data, 'newVersion.appCodeVersions')
+      appCodeVersions: keypather.get(data, 'newVersion.appCodeVersions'),
+      githubRepos: keypather.get(data, 'githubRepos')
     };
   }
   setupRepoPopover();
 
   var shaRegExp = /^[a-fA-F0-9]{40}$/;
   buildPopoverRepoMenu.actions = {
+
     addGithubRepo: function (repo, branchOrSHA) {
       var body = {
         repo: repo.attrs.full_name
@@ -108,11 +110,19 @@ function ControllerBuildNew(
           body.branch = branchOrSHA;
         }
       }
+      //TODO safety branch
+      // repo.fetchCommit...
       buildPopoverRepoMenu.data.show = false;
       data.newVersion.appCodeVersions.create(body, function (err) {
         if (err) {
           throw err;
         }
+        $scope.safeApply();
+      });
+    },
+
+    selectGithubRepo: function (repo) {
+      repo.branches = repo.fetchBranches({}, function () {
         $scope.safeApply();
       });
     }
@@ -173,6 +183,26 @@ function ControllerBuildNew(
    * // BuildPopoverBuildOptions
    **************************************/
 
+  actions.updateAppCodeVersion = function (appCodeVersion, branchOrSHA) {
+    var body = {};
+    if (branchOrSHA) {
+      if (shaRegExp.test(branchOrSHA)) {
+        body.commit = branchOrSHA;
+      } else {
+        body.branch = branchOrSHA;
+      }
+    }
+    //TODO safety branch
+    // repo.fetchCommit...
+    appCodeVersion.update(body, function (err) {
+      if (err) {
+        throw err;
+      }
+      $scope.safeApply();
+    });
+    $scope.safeApply();
+  };
+
   actions.discardChanges = function () {
     $state.go('projects.build', $stateParams);
   };
@@ -194,6 +224,7 @@ function ControllerBuildNew(
   };
 
   actions.build = function () {
+    $scope.dataApp.data.loading = true;
     var buildObj = {
       message: (bpbo.data.buildMessage || 'Manual Build')
     };
@@ -201,6 +232,7 @@ function ControllerBuildNew(
       buildObj.environment = data.forkedEnvironment.id();
     }
     data.newBuild.build(buildObj, function (err, build, code) {
+      $scope.dataApp.data.loading = false;
       if (err) throw err;
       actions.stateToBuild(build.buildNumber);
     });
@@ -218,6 +250,7 @@ function ControllerBuildNew(
       .cacheFetch(function (build, cached, cb) {
         data.newBuild = build;
         if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
+          // this is a built-build. Can't edit.
           return actions.stateToBuild(data.newBuild.attrs.buildNumber);
         }
         data.newVersion = build.contextVersions.models[0];
@@ -250,7 +283,6 @@ function ControllerBuildNew(
       .query({})
       .cacheFetch(function updateDom(githubRepos, cached, cb) {
         data.githubRepos = githubRepos;
-        buildPopoverRepoMenu.data.githubRepos = githubRepos;
         $scope.safeApply();
         cb();
       })
@@ -269,6 +301,18 @@ function ControllerBuildNew(
     cb();
   }
 
+  var interval;
+  function openDockerfile () {
+    var dockerfile = data.newVersion.rootDir.contents.find(function (m) {
+      return m.attrs.name === 'Dockerfile';
+    });
+    if (dockerfile) {
+      data.openItems.addOne(dockerfile);
+      clearInterval(interval);
+    }
+    return !!dockerfile;
+  }
+
   actions.seriesFetchAll = function () {
     async.series([
       fetcherBuild($scope.dataBuildNew.data),
@@ -284,6 +328,11 @@ function ControllerBuildNew(
       }
       if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
         return actions.stateToBuild(data.newBuild.attrs.buildNumber);
+      }
+      // Check if file data has loaded yet
+      if (!openDockerfile()) {
+        // Continue checking until it's loaded
+        interval = setInterval(openDockerfile, 500);
       }
       $scope.safeApply();
     });

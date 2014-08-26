@@ -4,6 +4,7 @@
   line-height: 54px;
 
   h1 {
+    border-bottom: 1px solid rgba($black,.1);
     color: $gray-dark;
     display: inline-block;
     float: left;
@@ -15,12 +16,15 @@
     position: relative;
     text-align: center;
     transition: color .2s;
+    z-index: 2;
 
     &.build-header {
       text-indent: -30px;
     }
 
     &.divided-header {
+      background: $white;
+      border-bottom: 1px solid rgba($black,.1);
       border-right: 1px solid rgba(0,0,0,.1);
       width: 270px;
     }
@@ -122,7 +126,7 @@
     font-weight: 600;
     line-height: 36px;
     min-width: 120px;
-    padding: 0 3px 0 0;
+    padding: 0 24px 0 0;
     position: relative;
     text-align: left;
 

@@ -10,25 +10,29 @@ nav.sub-header
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
   section#main-controls
-    button.green(
-      ng-disabled = "dataInstance.data.openFiles.isClean() || !dataInstance.data.container.running()"
-      type = "button"
-      ng-disabled = "dataInstance.data.openFiles.isClean()"
-      ng-click = "dataInstance.actions.saveChanges()"
-    ) Save Changes
+    .slide-left.slide-save.out(
+      ng-class = "{out: !dataInstance.data.container.running() || dataInstance.data.loading}"
+    )
+      button.green(
+        ng-click = "dataInstance.actions.saveChanges()"
+        type = "button"
+      ) Save Changes
+      label.btn.btn-check(
+        ng-class = "{out: !dataInstance.data.container.running() || dataInstance.data.loading}"
+      )
+        input.form-checkbox(
+          checked
+          ng-disabled = "!dataInstance.data.container.running()"
+          ng-model = "dataInstance.data.restartOnSave"
+          type = "checkbox"
+        )
+        | Restart instance on save.
 
 section.sidebar
-  ul
-    li(
-      ng-class = "{out: !dataInstance.data.container.running()}"
-    )
-      //- should select all text on click
-      input.form-control(
-        ng-click = ""
-        readonly
-        value = "{{ dataInstance.data.container.urls()[0] }}"
-      )
-    li
+  ul.sidebar-ul.sidebar-info.load(
+    ng-show = "dataInstance.data.instance.buildUrl()"
+  )
+    li.sidebar-li
       svg.iconnables.icons-back
         use(xlink:href = "#icons-back")
       | From #{''}
@@ -36,7 +40,7 @@ section.sidebar
         ng-click = "dataInstance.actions.goToBuild()"
         title = "{{ dataInstance.data.instance.buildUrl() }}"
       ) {{ dataInstance.data.instance.buildUrl() }}
-    li(
+    li.sidebar-li(
       ng-if = "dataInstance.data.container.running()"
     )
       svg.iconnables.icons-duration
@@ -45,7 +49,7 @@ section.sidebar
         datatime = "{{ dataInstance.data.container.attrs.inspect.State.StartedAt }}"
         title = "Launched on {{ dataInstance.data.container.attrs.inspect.State.StartedAt }}"
       ) Launched {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}
-    li(
+    li.sidebar-li(
       ng-if = "!dataInstance.data.container.running()"
     )
       svg.iconnables.icons-duration
@@ -54,44 +58,68 @@ section.sidebar
         datatime = "{{ dataInstance.data.container.attrs.inspect.State.FinishedAt }}"
         title = "Stopped on {{ dataInstance.data.container.attrs.inspect.State.FinishedAt }}"
       ) Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}
-    li(
+    li.sidebar-li(
       ng-if = "dataInstance.data.container.attrs.stoppedBy.username"
     )
       svg.iconnables.icons-untriggered
         use(xlink:href = "#icons-untriggered")
       | Stopped by #{''}
       a dataInstance.data.container.attrs.stoppedBy.username
-  h3 Actions
-  ol.actions
-    li.action(
-      ng-if = "!dataInstance.data.container.running()"
-    ) Start Instance
-      button.btn-sm.silver(
-        type = "button"
-        ng-click = "dataInstance.actions.startInstance()"
+  h3.sidebar-title.load(
+    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading"
+  ) Exposed URLs
+  ul.sidebar-ul.sidebar-urls.load(
+    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading"
+  )
+    li.sidebar-li
+      input.form-control(
+        readonly
+        select-all
+        value = "{{ dataInstance.data.container.urls()[0] }}"
       )
-        svg.iconnables.icons-launch
-          use(xlink:href = "#icons-launch")
-    li.action(
+  h3.sidebar-title.load(
+    ng-show = "dataInstance.data.instance.buildUrl()"
+  ) Actions
+  ul.sidebar-ul.load(
+    ng-show = "dataInstance.data.instance.buildUrl()"
+  )
+    li.sidebar-action(
+      ng-class = "{active: dataInstance.data.loading}"
+      ng-if = "!dataInstance.data.container.running()"
+    ) Restart Instance
+      button.btn-sm.silver(
+        ng-click = "dataInstance.actions.startInstance();"
+        type = "button"
+      )
+        svg.iconnables.icons-start
+          use(xlink:href = "#icons-start")
+      .spinner
+        .spinner-ring
+    li.sidebar-action(
+      ng-class = "{ \
+        active: dataInstance.data.loading \
+      }"
       ng-if = "dataInstance.data.container.running()"
     ) Stop Instance
       button.btn-sm.silver(
+        ng-click = "dataInstance.actions.stopInstance();"
         type = "button"
-        ng-click = "dataInstance.actions.stopInstance()"
       )
-        svg.iconnables.icons-stop-alt
-          use(xlink:href = "#icons-stop-alt")
-    li.action Delete Instance
+        svg.iconnables.icons-pause
+          use(xlink:href = "#icons-pause")
+      .spinner
+        .spinner-ring
+    li.sidebar-action Delete Instance
       button.btn-sm.silver(
-        type = "button"
         ng-click = "dataInstance.actions.destroyInstance()"
+        type = "button"
       )
         svg.iconnables.icons-delete
           use(xlink:href = "#icons-delete")
 
 //- code_editor
 #editor.with-add-tab(
-  ng-class = "{in: dataInstance.data.showExplorer, out: !dataInstance.data.container.running()}"
+  ng-class = "{in: dataInstance.data.showExplorer && !dataInstance.data.loading, out: !dataInstance.data.container.running() || dataInstance.data.loading}"
 )
   button#explorer-toggle.btn-icon(
     ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
@@ -147,21 +175,9 @@ section.sidebar
     open-items = "dataInstance.data.openItems"
   )
   active-panel(
-    update = "false"
     container = "dataInstance.data.container"
     open-items = "dataInstance.data.openItems"
     is-dark-theme = "dataInstance.data.toggleTheme"
+    update = "false"
   )
-
-//- logs
-//- note: this should appear when an error happens on the server
-//- #logs.full
-  pre.
-    >> File "client/assets/styles/scss/pages/editor.scss" changed.
-    Running "sass:dev" (sass) task
-    NoMethodError: undefined method `count' for nil:NilClass
-      Use --trace for backtrace.
-    Warning: Exited with error code 1 Use --force to continue.
-
-    Aborted due to warnings.
-    Completed in 2.311s at Wed Jun 25 2014 17:31:15 GMT-0700 (PDT) - Waiting...
+  .horizontal-spinner

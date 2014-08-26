@@ -37,7 +37,7 @@ function ControllerSetup(
     data.repoFilter = '';
   });
 
-  actions.selectGithubRepo = function (repo, branchName) {
+  actions.selectGithubRepo = function (repo) {
     if (data.selectedRepos.contains(repo)) {
       delete repo.selectedBranch;
       data.selectedRepos.remove(repo);
@@ -171,6 +171,7 @@ function ControllerSetup(
   };
 
   actions.buildApplication = function () {
+    $scope.dataApp.data.loading = true;
     async.series([
 
       function (cb) {
@@ -183,6 +184,7 @@ function ControllerSetup(
       }
     ], function (err, results) {
       if (err) throw err;
+      $scope.dataApp.data.loading = false;
       dataSetup.actions.stateToBuild();
     });
   };

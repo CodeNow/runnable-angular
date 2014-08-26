@@ -1,7 +1,7 @@
 nav.sub-header
   h1.divided-header
     input.form-control.inline-edit(
-      placeholder = "Application Name"
+      placeholder = "Project Name"
       spellcheck = "false"
       value = "{{ dataSetup.data.project.attrs.name }}"
     )
@@ -20,8 +20,8 @@ section.sidebar
     #setup-repo
       .input-container
         input.form-control(
-          ng-click = "$event.stopPropagation()"
           ng-class = "{in: dataSetup.data.isRepoMode}"
+          ng-click = "$event.stopPropagation()"
           ng-focus = "dataSetup.data.isRepoMode = true"
           ng-model = "dataSetup.data.repoFilter"
           placeholder = "Add Repository"
@@ -42,7 +42,7 @@ section.sidebar
       ul.added-repo.list-group(
         ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models"
       )
-        li.list-group-item{{ appCodeVersion.attrs.repo }}
+        li.list-group-item {{ appCodeVersion.attrs.repo }}
           button.btn-icon(
             ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
             type = "button"
@@ -51,7 +51,7 @@ section.sidebar
               use(xlink:href = "#icons-delete")
         li.list-group-item {{ appCodeVersion.attrs.lockCommit ? '#'+appCodeVersion.attrs.commit : '@'+appCodeVersion.attrs.branch }}
     #setup-template
-      h3 Choose a Docker Template
+      h3.sidebar-title Choose a Docker Template
       .form-group.toggle-group
         //- dockerfile templates
         label(
@@ -60,7 +60,6 @@ section.sidebar
           input(
             name = "source-context"
             ng-click = "dataSetup.actions.selectSourceContext(context)"
-            ng-
             required
             type = "radio"
           )
@@ -69,7 +68,7 @@ section.sidebar
     )
       .spinner
         .spinner-ring
-      | Build Application
+      | Build Project
 #editor.full
   tabs#editor-toolbar(
     open-items = "dataSetup.data.openItems"
