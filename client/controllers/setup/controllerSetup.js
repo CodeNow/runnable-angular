@@ -68,7 +68,7 @@ function ControllerSetup(
         body.commit = repo.selectedCommit;
       }
       else {
-        body.branch = 'master';
+        body.branch = repo.defaultBranch();
       }
       count = count - 1;
       if (count === 0) {
