@@ -27,7 +27,6 @@
     "callback-count": "^0.1.0",
     "compression": "https://registry.npmjs.org/compression/-/compression-1.0.9.tgz",
     "debounce": "https://registry.npmjs.org/debounce/-/debounce-1.0.0.tgz",
-    "dropzone": "^3.8.4",
     "express": "^4.3.2",
     "grunt": "https://registry.npmjs.org/grunt/-/grunt-0.4.5.tgz",
     "grunt-cli": "^0.1.13",
