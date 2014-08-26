@@ -40,7 +40,6 @@ function fileTreeDir(
       });
 
       actions.makeDroppable = function() {
-
         var $element = jQuery(element);
         console.log($element);
         console.log($element.html());
