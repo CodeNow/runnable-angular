@@ -161,6 +161,7 @@ function ControllerProjectLayout(
       createBuildAndContext,
       createContextVersion
     ], function (err, thisUser, project, build) {
+      data.activeProject = project;
       $state.go('projects.setup', {
         userName: actions.getEntityName(data.activeAccount),
         projectName: project.attrs.name
