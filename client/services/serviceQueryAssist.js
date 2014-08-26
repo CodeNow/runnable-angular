@@ -10,7 +10,7 @@ require('app')
         }
         asyncCalled = true;
         if (angular.isFunction(asyncCB)) {
-          asyncCB.apply(asyncCB, arguments);
+          asyncCB();
         }
       };
       return this;
