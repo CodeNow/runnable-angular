@@ -18,7 +18,8 @@ function ControllerApp(
   apiConfigHost,
   holdUntilAuth,
   QueryAssist,
-  primus
+  primus,
+  $localStorage
 ) {
 
   var self = ControllerApp;
@@ -73,6 +74,13 @@ function ControllerApp(
   };
 
   UTIL.QueryAssist = QueryAssist;
+
+  $rootScope.$on('$stateChangeSuccess', function () {
+    // store last visited project for auto-return in contHome
+    if ($stateParams.userName && $stateParams.projectName && $stateParams.branchName) {
+      $localStorage.stateParams = angular.copy($stateParams);
+    }
+  });
 }
 
 ControllerApp.initState = function ($state, $stateParams, apiHost) {

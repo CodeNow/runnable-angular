@@ -303,6 +303,7 @@ module.exports = function(grunt) {
     var done       = this.async();
     var clientPath = path.join(__dirname, 'client');
     async.series([
+      bundle('polyfills'),
       bundle('controllers'),
       bundle('services'),
       bundle('filters'),

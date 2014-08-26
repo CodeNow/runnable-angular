@@ -71,7 +71,7 @@ function ControllerSetup(
         body.commit = repo.selectedCommit;
       }
       else {
-        body.branch = 'master';
+        body.branch = repo.defaultBranch();
       }
       count = count - 1;
       if (count === 0) {
@@ -174,6 +174,7 @@ function ControllerSetup(
   };
 
   actions.buildApplication = function () {
+    $scope.dataApp.data.loading = true;
     async.series([
 
       function (cb) {
@@ -186,6 +187,7 @@ function ControllerSetup(
       }
     ], function (err, results) {
       if (err) throw err;
+      $scope.dataApp.data.loading = false;
       dataSetup.actions.stateToBuild();
     });
   };

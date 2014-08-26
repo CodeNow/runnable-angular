@@ -45,7 +45,7 @@
             input.form-control(
               list = "{{ 'repo-branches-' + repo.attrs.name }}"
               ng-model = "data.repoOrSHA"
-              placeholder = "Branch/SHA (default: @master)"
+              placeholder = "Branch/SHA (default: @{{ repo.defaultBranch() }})"
             )
             datalist(
               id = "{{ 'repo-branches-' + repo.attrs.name }}"

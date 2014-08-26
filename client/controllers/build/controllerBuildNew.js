@@ -109,6 +109,8 @@ function ControllerBuildNew(
         } else {
           body.branch = branchOrSHA;
         }
+      } else {
+        body.branch = repo.defaultBranch();
       }
       //TODO safety branch
       // repo.fetchCommit...
