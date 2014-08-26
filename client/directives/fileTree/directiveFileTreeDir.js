@@ -128,14 +128,6 @@ function fileTreeDir(
         $rootScope.$broadcast('app-document-click');
       };
 
-      actions.openFile = function (file) {
-        if (data.dragging) {
-          data.dragging = false;
-          return;
-        }
-        $scope.openItems.add(file);
-      };
-
       // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
       actions.normalizeMixedDataValue = function(file) {
         var padding = '000000000000000';
@@ -164,6 +156,7 @@ function fileTreeDir(
         );
         return value;
       };
+
       actions.fetchDirFiles = function() {
         $scope.dir.contents.fetch(function (err) {
           $rootScope.safeApply(function () {
