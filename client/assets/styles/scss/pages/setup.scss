@@ -177,17 +177,20 @@
 
 .sidebar-validation {
   border-top: 1px solid rgba($black,.1);
+  flex: 0 0 auto;
   padding: 0 15px 15px;
 
   .list-group {
     font-family: 'Source Code Pro', monospace;
     font-size: 14px;
+    letter-spacing: 0;
     margin: 0 auto;
   }
 
   .list-group-item {
     border-color: $orange-darker;
     color: $orange-darker;
+    white-space: nowrap;
   }
 
   .the-rules {
