@@ -64,17 +64,18 @@ section.sidebar
               required
               type = "radio"
             )
-    section.sidebar-form-section.sidebar-validation
+    section.sidebar-form-section.sidebar-validation(
+      ng-if = "dataSetup.data.validDockerfile.valid === false"
+    )
       small.the-rules You have validation errors in your dockerfile.
       ul.list-group
-        li.list-group-item Line 1: Invalid instruction
-        li.list-group-item Line 3: Bad parameters
-        li.list-group-item Line 3: Bad parameters
-        li.list-group-item Line 3: Bad parameters
-        li.list-group-item Line 3: Bad parameters
+        li.list-group-item(
+          ng-repeat = "error in dataSetup.data.validDockerfile.errors"
+        ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
     section.sidebar-form-section.sidebar-submit
       button.btn-block.green.btn-spinner(
         ng-class = "{invalid: dataSetup.data.validDockerfile.message}"
+        ng-disabled = "!dataSetup.data.validDockerfile.valid"
       )
         .spinner
           .spinner-ring

@@ -211,16 +211,15 @@ function ControllerSetup(
   };
 
   var debounceValidate = debounce(function (n) {
-   console.log(n);
-    if (!n || n.attrs.name !== 'Dockerfile') {
+    if (!n) {
       return;
     }
-    var isValid = validateDockerfile(n.attrs.body);
-    console.log(isValid);
+    var isValid = validateDockerfile(n);
     data.validDockerfile = isValid;
-  });
+    $scope.safeApply();
+  }, 333);
 
-  $scope.$watchCollection('dataSetup.data.openItems.activeHistory.last()', debounceValidate);
+  $scope.$watch('dataSetup.data.openItems.activeHistory.last().attrs.body', debounceValidate);
 
   /* ============================
    *   API Fetch Methods
