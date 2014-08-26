@@ -36,72 +36,28 @@ function fileTreeDir(
       $compile($template)($scope);
       element.replaceWith($template);
 
-      element.on('$destroy', function () {
+      $scope.$on('$destroy', function () {
       });
 
       actions.makeDroppable = function() {
-        var $element = jQuery(element);
-        console.log($element);
-        console.log($element.html());
+        var $element = jQuery($template);
 
         $element.on('dragenter', function () {
-          console.log('dragenter');
-          debugger;
+          $scope.dropping = true;
+          $rootScope.safeApply();
           return false;
         });
 
-        $element.on('dragover', function () {
-          console.log('dragover');
-          debugger;
+        $element.on('dragleave', function () {
+          $scope.dropping = false;
+          $rootScope.safeApply();
           return false;
         });
 
         $element.on('drop', function () {
           console.log('drop');
-          debugger;
           return false;
         });
-      };
-
-      actions.closeOpenModals = function () {
-        $rootScope.$broadcast('app-document-click');
-      };
-
-      actions.openFile = function (file) {
-        if (data.dragging) {
-          data.dragging = false;
-          return;
-        }
-        $scope.openItems.add(file);
-      };
-
-      // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
-      actions.normalizeMixedDataValue = function(file) {
-        var padding = '000000000000000';
-        // Loop over all numeric values in the string and
-        // replace them with a value of a fixed-width for
-        // both leading (integer) and trailing (decimal)
-        // padded zeroes.
-        value = file.attrs.name.replace(
-          /(\d+)((\.\d+)+)?/g,
-          function($0, integer, decimal, $3) {
-            if (decimal !== $3) {
-              return(
-                padding.slice(integer.length) +
-                integer +
-                decimal
-              );
-            }
-            decimal = (decimal || ".0");
-            return(
-              padding.slice(integer.length) +
-              integer +
-              decimal +
-              padding.slice(decimal.length)
-            );
-          }
-        );
-        return value;
       };
 
       actions.makeSortable = function () {
@@ -168,6 +124,46 @@ function fileTreeDir(
         });
       };
 
+      actions.closeOpenModals = function () {
+        $rootScope.$broadcast('app-document-click');
+      };
+
+      actions.openFile = function (file) {
+        if (data.dragging) {
+          data.dragging = false;
+          return;
+        }
+        $scope.openItems.add(file);
+      };
+
+      // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
+      actions.normalizeMixedDataValue = function(file) {
+        var padding = '000000000000000';
+        // Loop over all numeric values in the string and
+        // replace them with a value of a fixed-width for
+        // both leading (integer) and trailing (decimal)
+        // padded zeroes.
+        value = file.attrs.name.replace(
+          /(\d+)((\.\d+)+)?/g,
+          function($0, integer, decimal, $3) {
+            if (decimal !== $3) {
+              return(
+                padding.slice(integer.length) +
+                integer +
+                decimal
+              );
+            }
+            decimal = (decimal || ".0");
+            return(
+              padding.slice(integer.length) +
+              integer +
+              decimal +
+              padding.slice(decimal.length)
+            );
+          }
+        );
+        return value;
+      };
       actions.fetchDirFiles = function() {
         $scope.dir.contents.fetch(function (err) {
           $rootScope.safeApply(function () {
@@ -188,7 +184,6 @@ function fileTreeDir(
       });
 
       $scope.$watch('dir.contents.models.length', function () {
-        debugger;
         if ($scope.readOnly) {
           return;
         }
