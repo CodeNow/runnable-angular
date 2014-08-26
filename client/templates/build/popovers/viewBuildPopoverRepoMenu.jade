@@ -1,10 +1,11 @@
-.popover.file-menu.bottom.fade(
+.popover.file-menu.bottom.fade.show-add-repo(
   ng-class = "{\
     'in': data.show,\
     'show-add-repo': showAddRepo\
   }"
 )
-  .arrow.white
+  .arrow
+  h3.popover-title Add Repo
   .popover-content
     ul#file-explorer-options.popover-body
       li(

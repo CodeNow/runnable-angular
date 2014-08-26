@@ -319,8 +319,14 @@
 
     // add repo form
     &.show-add-repo {
+      left: -125px;
       max-height: 300px;
+      transform-origin: 50% 0;
       width: 300px;
+
+      &.bottom > .arrow {
+        left: 50%;
+      }
 
       .popover-content {
         max-height: 300px;
