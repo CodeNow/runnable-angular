@@ -129,7 +129,7 @@ function ControllerBuildList(
     }
     // assume github
     var appCodeVersion = triggeredAction.appCodeVersion;
-    return appCodeVersion.repo + '#' + appCodeVersion.repo;
+    return appCodeVersion.repo + '#' + appCodeVersion.commit.slice(0, 7);
   };
 
   actions.runInstance = function (build) {
