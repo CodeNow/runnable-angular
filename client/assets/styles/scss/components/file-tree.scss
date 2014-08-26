@@ -157,6 +157,10 @@
       }
     }
 
+    &.dropping {
+      background: $white;
+    }
+
     > ul {
       max-height: 0;
       overflow: hidden;

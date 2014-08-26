@@ -19,7 +19,7 @@ nav.sub-header
         use(xlink:href = "#icons-fail")
     | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4) }}
 
-  section#main-controls
+  section.main-controls
     .slide-left.slide-instance.out(
       ng-class = "{out: !dataBuild.data.build.succeeded()}"
     )

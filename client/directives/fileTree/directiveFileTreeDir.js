@@ -30,6 +30,28 @@ function fileTreeDir(
       var data = $scope.data = {};
       $scope.state = $state;
 
+      actions.makeDroppable = function() {
+
+        var $element = jQuery(element);
+        console.log($element);
+        console.log($element.html());
+
+        $element.on('dragenter', function () {
+          console.log('dragenter');
+          return false;
+        });
+
+        $element.on('dragover', function () {
+          console.log('dragover');
+          return false;
+        });
+
+        $element.on('drop', function () {
+          console.log('drop');
+          return false;
+        });
+      };
+
       actions.closeOpenModals = function () {
         $rootScope.$broadcast('app-document-click');
       };
@@ -143,10 +165,14 @@ function fileTreeDir(
       });
 
       $scope.$watch('dir.contents.models.length', function () {
+        if ($scope.readOnly) {
+          return;
+        }
         $timeout(function () {
           // timeout necessary to ensure rg-repeat completes
           // before trying to apply draggable to li's
           $scope.actions.makeSortable();
+          $scope.actions.makeDroppable();
         }, 1);
       });
 
