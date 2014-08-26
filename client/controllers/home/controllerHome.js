@@ -52,7 +52,7 @@ function ControllerHome(
         }
 
         function goToFirstProject() {
-          if (thisUser.projects.length === 0) {
+          if (thisUser.projects.models.length === 0) {
             return goToSetup();
           }
           var firstProject = thisUser.projects.models[0];
