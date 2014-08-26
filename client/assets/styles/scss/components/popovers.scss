@@ -1,7 +1,7 @@
 // arrows
 .popover.top .arrow {
   border-bottom-width: 0;
-  border-top-color: rgba(0,0,0,.1);
+  border-top-color: rgba($black,.1);
   bottom: -11px;
   left: 50%;
   margin-left: -11px;
@@ -17,7 +17,7 @@
 
 .popover.right .arrow {
   border-left-width: 0;
-  border-right-color: rgba(0,0,0,.1);
+  border-right-color: rgba($black,.1);
   left: -11px;
   margin-top: -11px;
   top: 50%;
@@ -32,7 +32,7 @@
 }
 
 .popover.bottom .arrow {
-  border-bottom-color: rgba(0,0,0,.1);
+  border-bottom-color: rgba($black,.1);
   border-top-width: 0;
   left: 50%;
   margin-left: -11px;
@@ -48,7 +48,7 @@
 }
 
 .popover.left .arrow {
-  border-left-color: rgba(0,0,0,.1);
+  border-left-color: rgba($black,.1);
   border-right-width: 0;
   margin-top: -11px;
   right: -11px;
@@ -67,17 +67,16 @@
 .popover {
   background: $white;
   background-clip: padding-box;
-  border: 1px solid rgba(0,0,0,.1);
+  border: 1px solid rgba($black,.1);
   border-radius: 3px;
-  box-shadow: 0 1px 10px rgba(0,0,0,.1);
+  box-shadow: 0 1px 10px rgba($black,.1);
   display: block;
-  opacity: 0;
+  left: 0;
   max-width: 276px;
+  opacity: 0;
   padding: 1px;
   pointer-events: none;
   position: absolute;
-    top: 0;
-    left: 0;
   text-align: left;
   transform: scale3d(0,0,1);
   transition:
@@ -86,6 +85,7 @@
     opacity .2s,
     transform .15s,
     width .2s ease-in-out;
+  top: 0;
   white-space: normal;
   z-index: -1;
 
@@ -126,7 +126,7 @@
   }
 
   &.top {
-    border-top-color: rgba(0,0,0,.05);
+    border-top-color: rgba($black,.05);
     margin-top: -10px;
 
     > .arrow.white::after {
@@ -188,7 +188,7 @@
 
       > li {
         border: 0;
-        border-top: 1px solid rgba(0,0,0,.1);
+        border-top: 1px solid rgba($black,.1);
         color: $gray-dark;
         cursor: pointer;
         font-size: 14px;
@@ -202,7 +202,7 @@
     }
 
     .col-popover-3 > li {
-      border-left: 1px solid rgba(0,0,0,.1);
+      border-left: 1px solid rgba($black,.1);
       cursor: pointer;
       float: left;
       font-size: 14px;
@@ -224,13 +224,13 @@
 
   .form-control {
     border: 0;
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba($black,.1);
     border-radius: 0;
     padding: 0 15px;
 
     &:hover,
     &:focus {
-      border-color: rgba(0,0,0,.1);
+      border-color: rgba($black,.1);
     }
   }
 
@@ -246,13 +246,13 @@
   }
 
   .green {
-    border-top: 1px solid rgba(0,0,0,.1);
+    border-top: 1px solid rgba($black,.1);
   }
 }
 
 .popover-title {
   background: $gray-lighter;
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-bottom: 1px solid rgba($black,.1);
   color: $gray-dark;
   font-size: 16px;
   font-weight: 500;
@@ -269,7 +269,7 @@
 }
 
 .popover-footer {
-  border-top: 1px solid rgba(0,0,0,.1);
+  border-top: 1px solid rgba($black,.1);
   padding: 9px 14px;
 }
 
@@ -323,7 +323,7 @@
 
     hr {
       border-bottom: 1px solid $white;
-      border-top-color: rgba(0,0,0,.1);
+      border-top-color: rgba($black,.1);
       margin: 15px -15px;
     }
   }
@@ -338,13 +338,13 @@
   color: $gray-dark;
   font-size: 13px;
   font-weight: 400;
+  left: auto;
   line-height: 1.2;
   margin-left: -130px;
   position: absolute;
-    top: 22px;
-    right: 12px;
-    left: auto;
+  right: 12px;
   text-transform: initial;
+  top: 22px;
   transform-origin: 80px 0;
   width: 180px;
 
