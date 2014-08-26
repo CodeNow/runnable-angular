@@ -29,16 +29,17 @@ function ControllerHome(
         var thisUser = $scope.dataApp.user;
 
         if (!keypather.get($localStorage, 'stateParams.projectName')) {
-          // no cached previously visited project.
+          // no cached previously visited project
           goToFirstProject();
         } else {
           goToLastVisitedProject();
         }
 
+        clean();
         return cb();
 
         function getEntityName(userOrOrg) {
-          var userName = (thisUser === userOrOrg) ?
+          return (thisUser === userOrOrg) ?
             thisUser.attrs.accounts.github.username : // user
             userOrOrg.attrs.login;                    // org
         }
@@ -52,13 +53,11 @@ function ControllerHome(
 
         function goToFirstProject() {
           if (thisUser.projects.length === 0) {
-            clean();
             return goToSetup();
           }
           var firstProject = thisUser.projects.models[0];
           var userName = thisUser.attrs.accounts.github.username;
           var projectName = firstProject.attrs.name;
-          clean();
           $state.go('projects.buildList', {
             userName: userName,
             projectName: projectName,
@@ -88,7 +87,6 @@ function ControllerHome(
           if(!project) {
             return goToFirstProject();
           }
-          clean();
           // we found the cached org & project
           $state.go('projects.buildList', {
             userName: userOrgName,
