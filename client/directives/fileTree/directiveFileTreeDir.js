@@ -30,6 +30,15 @@ function fileTreeDir(
       var data = $scope.data = {};
       $scope.state = $state;
 
+      // avoid infinite loop w/ nested directories
+      var template = $templateCache.get('viewFileTreeDir');
+      var $template = angular.element(template);
+      $compile($template)($scope);
+      element.replaceWith($template);
+
+      element.on('$destroy', function () {
+      });
+
       actions.makeDroppable = function() {
 
         var $element = jQuery(element);
@@ -68,7 +77,7 @@ function fileTreeDir(
       };
 
       // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
-      function normalizeMixedDataValue(file) {
+      actions.normalizeMixedDataValue = function(file) {
         var padding = '000000000000000';
         // Loop over all numeric values in the string and
         // replace them with a value of a fixed-width for
@@ -94,8 +103,7 @@ function fileTreeDir(
           }
         );
         return value;
-      }
-      actions.normalizeMixedDataValue = normalizeMixedDataValue;
+      };
 
       actions.makeSortable = function () {
         var $t = jQuery($template);
@@ -161,13 +169,27 @@ function fileTreeDir(
         });
       };
 
+      actions.fetchDirFiles = function() {
+        $scope.dir.contents.fetch(function (err) {
+          $rootScope.safeApply(function () {
+            if (!$scope.readOnly) {
+              actions.makeSortable();
+            }
+          });
+          if (err) {
+            throw err;
+          }
+        });
+      };
+
       $scope.$watch('dir.state.open', function (newVal, oldval) {
         if (newVal) {
-          fetchDirFiles();
+          actions.fetchDirFiles();
         }
       });
 
       $scope.$watch('dir.contents.models.length', function () {
+        debugger;
         if ($scope.readOnly) {
           return;
         }
@@ -179,29 +201,6 @@ function fileTreeDir(
         }, 1);
       });
 
-      actions.fetchDirFiles = fetchDirFiles;
-      function fetchDirFiles() {
-        $scope.dir.contents.fetch(function (err) {
-          $rootScope.safeApply(function () {
-            if (!$scope.readOnly) {
-              actions.makeSortable();
-            }
-          });
-          if (err) {
-            throw err;
-          }
-        });
-      }
-
-      // avoid infinite loop w/ nested directories
-      var template = $templateCache.get('viewFileTreeDir');
-      var $template = angular.element(template);
-      $compile($template)($scope);
-      element.replaceWith($template);
-
-      element.on('$destroy', function () {
-        // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS
-      });
     }
   };
 }
