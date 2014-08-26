@@ -38,19 +38,16 @@ function fileTreeDir(
 
         $element.on('dragenter', function () {
           console.log('dragenter');
-          debugger;
           return false;
         });
 
         $element.on('dragover', function () {
           console.log('dragover');
-          debugger;
           return false;
         });
 
         $element.on('drop', function () {
           console.log('drop');
-          debugger;
           return false;
         });
       };
