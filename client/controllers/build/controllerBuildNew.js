@@ -54,7 +54,7 @@ function ControllerBuildNew(
       ftgm.data.show = false;
       var dir = dataBuildNew.data.newVersion.rootDir;
       var name = getNewFileFolderName(dir);
-      dir.contents.create({
+      var file = dir.contents.create({
         name: name,
         isDir: isDir
       }, function (err) {
@@ -65,6 +65,7 @@ function ControllerBuildNew(
           if (err) {
             throw err;
           }
+          keypather.set(file, 'state.renaming', true);
           $scope.safeApply();
         });
       });
