@@ -16,4 +16,4 @@ machine:
     version: v0.10.30
 test:
   override:
-    - karma start ./test/karma.conf.js --single-run
+    - karma start ./test/karma.circle.conf.js --single-run
