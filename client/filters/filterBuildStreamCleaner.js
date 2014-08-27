@@ -1,4 +1,8 @@
 var ansiStrip = require('ansi-stripper');
+var Convert = require('ansi-to-html');
+
+var convert = new Convert();
+
 require('app')
   .filter('buildStreamCleaner', filterBuildStreamCleaner);
 /**
@@ -6,7 +10,7 @@ require('app')
  */
 function filterBuildStreamCleaner() {
   return function (stream) {
-    return parseReturns(stream);
+    return convert.toHtml(parseReturns(stream));
   };
 }
 
@@ -14,7 +18,6 @@ function parseReturns(data) {
   if (!data) {
     return null;
   }
-  data = ansiStrip(data);
   // Split the data by the \n.
   var splitData= data.split('\n');
   var parsedData= '';
