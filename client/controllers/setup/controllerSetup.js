@@ -211,7 +211,7 @@ function ControllerSetup(
   };
 
   var debounceValidate = debounce(function (n) {
-    if (!n) {
+    if (typeof n === 'undefined') {
       return;
     }
     var isValid = validateDockerfile(n);
