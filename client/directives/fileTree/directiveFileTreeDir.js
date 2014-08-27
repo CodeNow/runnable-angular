@@ -1,5 +1,6 @@
 var jQuery = require('jquery');
 require('jquery-ui');
+//TODO serviceize for testing later
 
 require('app')
   .directive('fileTreeDir', fileTreeDir);
@@ -39,7 +40,12 @@ function fileTreeDir(
       $scope.$on('$destroy', function () {
       });
 
+      $scope.fileDroppable = false;
       actions.makeDroppable = function() {
+        if ($scope.fileDroppable) {
+          return;
+        }
+        $scope.fileDroppable = true;
         var $element = jQuery($template);
 
         $element.on('dragenter', function (event) {
@@ -50,6 +56,7 @@ function fileTreeDir(
           $rootScope.safeApply();
         });
 
+        // necessary
         $element.on('dragover', function (event) {
           event.preventDefault();
           event.stopPropagation();
@@ -67,14 +74,40 @@ function fileTreeDir(
           event.preventDefault();
           event.stopPropagation();
 
+          var formData = new FormData();
+          var path = $scope.dir.opts.client.host + '/' + $scope.dir.contents.urlPath;
           // originalEvent; event is jQuery.event
           var files = event.originalEvent.dataTransfer.files;
           var reader = new FileReader();
-          reader.onload = function(){};
-          console.log(files);
+          reader.readAsText(files[0]);
+          // invoked when read operation completes
+          reader.onload = function () {
+            sendFile();
+          };
+
+          function sendFile () {
+            formData.append('file', reader.result);
+            jQuery.ajax({
+              url: path,
+              type: 'POST',
+              data: formData,
+              mimeType: 'multipart/form-data',
+              contentType: false,
+              cache: false,
+              processData: false,
+              xhrFields: {
+                withCredentials: true
+              },
+              success: function (data, textStatus, jqXHR) {
+              },
+              error: function (jqXHR, textStatus, error) {
+              }
+            });
+          }
 
           $scope.dropping = false;
           $rootScope.safeApply();
+          return false;
         });
       };
 
