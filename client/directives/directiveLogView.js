@@ -5,7 +5,9 @@ require('app')
  */
 function logView(
   $rootScope,
+  $filter,
   jQuery,
+  $sce,
   primus
 ) {
   return {
@@ -18,6 +20,10 @@ function logView(
     link: function ($scope, elem) {
       $scope.stream = {
         data: ''
+      };
+
+      $scope.getStream = function () {
+        return $sce.trustAsHtml($filter('buildStreamCleaner')($scope.stream.data || ''));
       };
 
       var init = function () {
