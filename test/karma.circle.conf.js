@@ -62,7 +62,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // 'unit/**/*.unit.js'
+      'unit/**/*.unit.js'
     ],
 
 
@@ -74,18 +74,12 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      // 'unit/**/*.js': ['browserify', 'sourcemap']
-      '/**/*.browserify': 'browserify'
+      'unit/**/*.js': ['browserify', 'sourcemap']
     },
 
 
     browserify: {
-      // sourcemaps are problematic on circleci
-      debug: false,
-      files: [
-        // 'unit/**/*.unit.js'
-        'unit/controllers/ControllerBuildNew.unit.js'
-      ]
+      debug: true
     },
 
 
