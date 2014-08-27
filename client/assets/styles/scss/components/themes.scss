@@ -207,12 +207,9 @@ pre.ace-runnable-dark {
   &.readonly, {
     background-color: rgba(#311d40,.6);
 
-    &.ace_gutter {
-      color: lighten(#5e4d6e,30%);
-    }
-
     .ace_gutter {
       background-color: rgba(#311d40,.6);
+      color: lighten(#5e4d6e,30%);
     }
 
     .ace_marker-layer .ace_active-line,
