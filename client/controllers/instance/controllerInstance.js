@@ -158,14 +158,24 @@ function ControllerInstance(
 
   actions.destroyInstance = function () {
     var old = data.instance.json();
-    data.instance.destroy(function (err) {
-      $scope.safeApply();
+    $scope.dataApp.data.loading = true;
+    async.series([
+      function (cb) {
+        $scope.dataProjectLayout.data.instances.remove(data.instance);
+        $scope.safeApply();
+        cb();
+      },
+      function (cb) {
+        data.instance.destroy(cb);
+      }
+    ], function (err) {
       if (err) {
         throw err;
       }
+      $scope.dataApp.data.loading = false;
+      $scope.safeApply();
+      actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
     });
-    $scope.safeApply();
-    actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
   };
 
   $scope.$on('app-document-click', function () {
