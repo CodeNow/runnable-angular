@@ -66,13 +66,12 @@ function fileTreeDir(
         $element.on('drop', function (event) {
           event.preventDefault();
           event.stopPropagation();
-          console.log('drop');
 
-          var files = event.dataTransfer.files;
+          // originalEvent; event is jQuery.event
+          var files = event.originalEvent.dataTransfer.files;
           var reader = new FileReader();
           reader.onload = function(){};
           console.log(files);
-          debugger;
 
           $scope.dropping = false;
           $rootScope.safeApply();
