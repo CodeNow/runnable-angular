@@ -176,6 +176,15 @@ function ControllerBuild(
     });
   };
 
+  actions.getTriggeringUser = function () {
+    if (keypather.get(data, 'version.attrs.build.triggeredAction.appCodeVersion.repo')) {
+      return data.version.attrs.build.triggeredAction.appCodeVersion.commitLog[0].committer.username;
+    } else if (keypather.get(data, 'version.attrs.build.triggeredBy.username')) {
+      return data.version.attrs.build.triggeredBy.username;
+    }
+    return '';
+  };
+
   /**
    * If this build is built, we want to wait for changes and then trigger a fork
    */
