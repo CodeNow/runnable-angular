@@ -157,8 +157,8 @@
       }
     }
 
-    &.dropping {
-      background: $white;
+    &.dropping > a {
+      font-weight: 600;
     }
 
     > ul {
