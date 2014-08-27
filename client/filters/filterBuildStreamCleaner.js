@@ -1,6 +1,5 @@
 var ansiStrip = require('ansi-stripper');
 var Convert = require('ansi-to-html');
-
 var convert = new Convert();
 
 require('app')
@@ -8,9 +7,11 @@ require('app')
 /**
  * @ngInject
  */
-function filterBuildStreamCleaner() {
-  return function (stream) {
-    return convert.toHtml(parseReturns(stream));
+function filterBuildStreamCleaner(
+  $sce
+) {
+  return function (data) {
+    return convert.toHtml(parseReturns(data));
   };
 }
 

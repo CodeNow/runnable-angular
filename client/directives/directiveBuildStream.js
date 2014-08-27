@@ -5,6 +5,8 @@ require('app')
  */
 function buildStream(
   $rootScope,
+  $filter,
+  $sce,
   jQuery,
   primus
 ) {
@@ -18,8 +20,11 @@ function buildStream(
     link: function ($scope, elem) {
 
       $scope.stream = {
-        finished: false,
         data: ''
+      };
+
+      $scope.getStream = function () {
+        return $sce.trustAsHtml($filter('buildStreamCleaner')($scope.stream.data || ''));
       };
 
       $scope.$watch('build.attrs._id', function (buildId, oldVal) {
