@@ -193,10 +193,13 @@ function ControllerInstance(
   };
 
   actions.updateInstance = debounce(function () {
-    console.log('debounce save');
     data.instance.update({
       name: data.instance.attrs.name
-    }, console.log.bind(console));
+    }, function (err) {
+      if (err) {
+        throw err;
+      }
+    });
   }, 333);
 
   $scope.$on('app-document-click', function () {
