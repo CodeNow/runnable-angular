@@ -122,12 +122,21 @@ function ControllerInstance(
     },
     function complete (err) {
       if (data.restartOnSave) {
-        actions.startInstance();
+        async.series([
+          actions.stopInstance,
+          actions.startInstance
+        ],
+          function (err) {
+            if (err) {
+              throw err;
+            }
+            $scope.safeApply();
+          });
       }
     });
   };
 
-  actions.stopInstance = function () {
+  actions.stopInstance = function (cb) {
     data.loading = true;
     data.instance.stop(function (err) {
       if (err) {
@@ -139,11 +148,14 @@ function ControllerInstance(
           throw err;
         }
         $scope.safeApply();
+        if (cb) {
+          cb();
+        }
       });
     });
   };
 
-  actions.startInstance = function () {
+  actions.startInstance = function (cb) {
     data.loading = true;
     data.instance.start(function (err) {
       if (err) {
@@ -155,6 +167,9 @@ function ControllerInstance(
           throw err;
         }
         $scope.safeApply();
+        if (cb) {
+          cb();
+        }
       });
     });
   };
