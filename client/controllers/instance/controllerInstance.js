@@ -13,7 +13,8 @@ function ControllerInstance(
   keypather,
   async,
   user,
-  OpenItems
+  OpenItems,
+  getNewFileFolderName
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -34,9 +35,29 @@ function ControllerInstance(
   };
   pfm.actions = {};
 
-  pfm.actions.createFile = function () {};
-
-  pfm.actions.createFolder = function () {};
+  pfm.actions.create = function (isDir) {
+    if(!keypather.get(dataInstance, 'data.version.rootDir')) {
+      return;
+    }
+    pfm.data.show = false;
+    var dir = dataInstance.data.version.rootDir;
+    var name = getNewFileFolderName(dir);
+    var file = dir.contents.create({
+      name: name,
+      isDir: isDir
+    }, function (err) {
+      if (err) {
+        throw err;
+      }
+      dir.contents.fetch(function (err) {
+        if (err) {
+          throw err;
+        }
+        keypather.set(file, 'state.renaming', true);
+        $scope.safeApply();
+      });
+    });
+  };
 
   /*********************************
    * popoverAddTab
