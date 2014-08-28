@@ -1,6 +1,5 @@
 #logs
-  pre
-    {{ stream.data | buildStreamCleaner }}
+  pre(ng-bind-html = "getStream()")
 //-
   //- show close button when finished
   button#editor-status.silver(

@@ -7,6 +7,7 @@
 node_modules/
 client/build/
 client/config/json/
+client/polyfills/index.js
 client/controllers/index.js
 client/services/index.js
 client/filters/index.js

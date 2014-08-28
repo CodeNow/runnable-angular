@@ -19,7 +19,7 @@ nav.sub-header
         use(xlink:href = "#icons-fail")
     | Build {{ dataBuild.data.build.attrs.buildNumber || (dataBuild.data.build.attrs.id | limitTo:4) }}
 
-  section#main-controls
+  section.main-controls
     .slide-left.slide-instance.out(
       ng-class = "{out: !dataBuild.data.build.succeeded()}"
     )
@@ -49,7 +49,6 @@ nav.sub-header
         ng-click = "dataBuild.actions.edit()"
         type = "button"
       ) Edit Build
-
 section.sidebar
   ul.sidebar-ul.sidebar-info.load(
     ng-show = "dataBuild.data.build.attrs.created"
@@ -177,3 +176,4 @@ section.sidebar
     open-items = "dataBuild.data.openItems"
     is-dark-theme = "dataBuild.data.toggleTheme"
   )
+  .horizontal-spinner

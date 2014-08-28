@@ -178,13 +178,27 @@ function openItemsFactory(
     } else if (model instanceof LogView) {
       model.state.type = 'LogView';
     } else {
-      model.state.type = 'File';
+      keypather.set(model, 'state.type', 'File');
+      model.state.reset = function () {
+        model.state.body = model.attrs.body;
+      };
     }
     model.state.open = true;
     model.state.reset();
     this.activeHistory.add(model);
     BaseCollection.prototype.add.apply(this, arguments);
     return this;
+  };
+
+  OpenItems.prototype.isClean = function () {
+    var models = this.models;
+    for (var i = 0; i < models.length; i++) {
+      if (models[i].state.type === 'File' &&
+        models[i].state.body !== models[i].attrs.body) {
+        return false;
+      }
+    }
+    return true;
   };
 
   OpenItems.prototype.remove = function (model) {

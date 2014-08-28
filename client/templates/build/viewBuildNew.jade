@@ -7,12 +7,12 @@ nav.sub-header
     )
       svg.iconnables.icons-back-table
         use(xlink:href = "#icons-back-table")
-    .iconnables.iconnables-container.build-status
+    //- .iconnables.iconnables-container.build-status
       svg.iconnables.icons-asterisk
         use(xlink:href = "#icons-asterisk")
     | Build {{ dataBuildNew.data.build.attrs.buildNumber }}
 
-  section#main-controls
+  section.main-controls
     .btn-group
       button.green(
         type = "button"
@@ -61,7 +61,8 @@ section.sidebar
     li.sidebar-li
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
-      | Triggered by <a>{{ dataBuildNew.data.build.user.attrs.accounts.github.username }}</a>
+      | Triggered by #{''}
+      a.link {{ dataBuildNew.data.build.user.attrs.accounts.github.username }}
   h3.sidebar-title.load(
     ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo || dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   ) Message Log
@@ -156,8 +157,9 @@ section.sidebar
       li(
         ng-repeat = "repoModel in dataBuildNew.data.newVersion.appCodeVersions.models"
         ng-class = "{ \
-          active: dataBuildNew.data.dataFileTreePopoverRepoItemMenu.data.show \
+          active: repoModel.state.editing \
         }"
+        ng-click = "$event.stopPropagation();"
         popover-repo-item-menu
       )
         span
@@ -166,12 +168,19 @@ section.sidebar
           | {{ repoModel.attrs.repo }}
         //- use datalist the same we use in viewSetupPopoverAddRepos.jade
         input.tree-input(
+          list = "repo-branches-edit-{{ repoModel.id() }}"
           placeholder = "Specify Branch or SHA"
-          readonly
+          ng-readonly = "!repoModel.state.editing"
+          ng-keyup = "($event.keyCode === 13 && popoverData.actions.exit())"
           value = "{{ repoModel.attrs.lockCommit ? repoModel.attrs.commit : repoModel.attrs.branch }}"
         )
-        //- datalist
-          option
+        datalist(
+          id = "repo-branches-edit-{{ repoModel.id() }}"
+        )
+          option(
+            ng-repeat = "branch in repoModel.branches.models"
+            value = "{{ branch.attrs.name }}"
+          )
 
   button#explorer-toggle.btn-icon(
     ng-click = "dataBuildNew.data.showExplorer = !dataBuildNew.data.showExplorer"
@@ -192,3 +201,4 @@ section.sidebar
     open-items = "dataBuildNew.data.openItems"
     is-dark-theme = "dataBuildNew.data.toggleTheme"
   )
+  .horizontal-spinner

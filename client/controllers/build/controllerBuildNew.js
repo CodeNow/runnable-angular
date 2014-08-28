@@ -54,9 +54,12 @@ function ControllerBuildNew(
       ftgm.data.show = false;
       var dir = dataBuildNew.data.newVersion.rootDir;
       var name = getNewFileFolderName(dir);
-      dir.contents.create({
+      var file = dir.contents.create({
         name: name,
-        isDir: isDir
+        isDir: isDir,
+        state: {
+          renaming: true
+        }
       }, function (err) {
         if (err) {
           throw err;
@@ -90,13 +93,15 @@ function ControllerBuildNew(
   function setupRepoPopover() {
     buildPopoverRepoMenu.data = {
       show: false,
-      appCodeVersions: keypather.get(data, 'newVersion.appCodeVersions')
+      appCodeVersions: keypather.get(data, 'newVersion.appCodeVersions'),
+      githubRepos: keypather.get(data, 'githubRepos')
     };
   }
   setupRepoPopover();
 
   var shaRegExp = /^[a-fA-F0-9]{40}$/;
   buildPopoverRepoMenu.actions = {
+
     addGithubRepo: function (repo, branchOrSHA) {
       var body = {
         repo: repo.attrs.full_name
@@ -107,12 +112,22 @@ function ControllerBuildNew(
         } else {
           body.branch = branchOrSHA;
         }
+      } else {
+        body.branch = repo.defaultBranch();
       }
+      //TODO safety branch
+      // repo.fetchCommit...
       buildPopoverRepoMenu.data.show = false;
       data.newVersion.appCodeVersions.create(body, function (err) {
         if (err) {
           throw err;
         }
+        $scope.safeApply();
+      });
+    },
+
+    selectGithubRepo: function (repo) {
+      repo.branches = repo.fetchBranches({}, function () {
         $scope.safeApply();
       });
     }
@@ -173,6 +188,26 @@ function ControllerBuildNew(
    * // BuildPopoverBuildOptions
    **************************************/
 
+  actions.updateAppCodeVersion = function (appCodeVersion, branchOrSHA) {
+    var body = {};
+    if (branchOrSHA) {
+      if (shaRegExp.test(branchOrSHA)) {
+        body.commit = branchOrSHA;
+      } else {
+        body.branch = branchOrSHA;
+      }
+    }
+    //TODO safety branch
+    // repo.fetchCommit...
+    appCodeVersion.update(body, function (err) {
+      if (err) {
+        throw err;
+      }
+      $scope.safeApply();
+    });
+    $scope.safeApply();
+  };
+
   actions.discardChanges = function () {
     $state.go('projects.build', $stateParams);
   };
@@ -220,6 +255,7 @@ function ControllerBuildNew(
       .cacheFetch(function (build, cached, cb) {
         data.newBuild = build;
         if (typeof keypather.get(data, 'newBuild.attrs.buildNumber') === 'number') {
+          // this is a built-build. Can't edit.
           return actions.stateToBuild(data.newBuild.attrs.buildNumber);
         }
         data.newVersion = build.contextVersions.models[0];
@@ -252,7 +288,6 @@ function ControllerBuildNew(
       .query({})
       .cacheFetch(function updateDom(githubRepos, cached, cb) {
         data.githubRepos = githubRepos;
-        buildPopoverRepoMenu.data.githubRepos = githubRepos;
         $scope.safeApply();
         cb();
       })

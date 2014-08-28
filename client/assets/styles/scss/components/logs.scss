@@ -24,7 +24,8 @@
     top: auto;
   }
 
-  pre {
+  pre,
+  .pre {
     @extend .terminal;
   }
 }

@@ -12,7 +12,10 @@ function ControllerSetup(
   $state,
   async,
   keypather,
-  OpenItems
+  hasKeypaths,
+  OpenItems,
+  debounce,
+  validateDockerfile
 ) {
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var QueryAssist = $scope.UTIL.QueryAssist;
@@ -37,7 +40,7 @@ function ControllerSetup(
     data.repoFilter = '';
   });
 
-  actions.selectGithubRepo = function (repo, branchName) {
+  actions.selectGithubRepo = function (repo) {
     if (data.selectedRepos.contains(repo)) {
       delete repo.selectedBranch;
       data.selectedRepos.remove(repo);
@@ -68,7 +71,7 @@ function ControllerSetup(
         body.commit = repo.selectedCommit;
       }
       else {
-        body.branch = 'master';
+        body.branch = repo.defaultBranch();
       }
       count = count - 1;
       if (count === 0) {
@@ -171,6 +174,7 @@ function ControllerSetup(
   };
 
   actions.buildApplication = function () {
+    $scope.dataApp.data.loading = true;
     async.series([
 
       function (cb) {
@@ -183,6 +187,7 @@ function ControllerSetup(
       }
     ], function (err, results) {
       if (err) throw err;
+      $scope.dataApp.data.loading = false;
       dataSetup.actions.stateToBuild();
     });
   };
@@ -205,22 +210,16 @@ function ControllerSetup(
     });
   };
 
-  actions.initState = function () {
-    async.waterfall([
-      holdUntilAuth,
-      fetchProject,
-      fetchSeedContexts,
-      fetchFirstBuild,
-      fetchOwnerRepos
-    ], function (err) {
-      if (err) {
-        $state.go('404');
-        throw err;
-      }
-      $scope.safeApply();
-    });
-  };
-  actions.initState();
+  var debounceValidate = debounce(function (n) {
+    if (typeof n === 'undefined') {
+      return;
+    }
+    var isValid = validateDockerfile(n);
+    data.validDockerfile = isValid;
+    $scope.safeApply();
+  }, 333);
+
+  $scope.$watch('dataSetup.data.openItems.activeHistory.last().attrs.body', debounceValidate);
 
   /* ============================
    *   API Fetch Methods
@@ -397,6 +396,23 @@ function ControllerSetup(
       })
       .go();
   }
+
+  actions.initState = function () {
+    async.waterfall([
+      holdUntilAuth,
+      fetchProject,
+      fetchSeedContexts,
+      fetchFirstBuild,
+      fetchOwnerRepos
+    ], function (err) {
+      if (err) {
+        $state.go('404');
+        throw err;
+      }
+      $scope.safeApply();
+    });
+  };
+  actions.initState();
 }
 
 ControllerSetup.initState = function () {

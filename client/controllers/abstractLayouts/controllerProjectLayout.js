@@ -108,19 +108,17 @@ function ControllerProjectLayout(
       return;
     }
     var thisUser = $scope.dataApp.user;
+    var body;
     $scope.dataApp.data.loading = true;
     data.creatingProject = true;
 
     function createProject(cb) {
-      var body = {
-        name: dataProjectLayout.data.newProjectName
+      body = {
+        name: dataProjectLayout.data.newProjectName,
+        owner: {
+          github: actions.getEntityId(data.activeAccount)
+        }
       };
-      var owner = data.activeAccount;
-      if (owner !== $scope.dataApp.user) { // org owner selected
-        body.owner = {
-          github: actions.getEntityId(owner)
-        };
-      }
       var project = thisUser.createProject(body, function (err) {
         $scope.dataApp.data.loading = false;
         data.creatingProject = false;
@@ -135,9 +133,7 @@ function ControllerProjectLayout(
     function createBuildAndContext(thisUser, project, cb) {
       var count = callbackCount(2, done);
       var build = project.defaultEnvironment.createBuild(count.next);
-      var context = thisUser.createContext({
-        name: project.attrs.name
-      }, count.next);
+      var context = thisUser.createContext(body, count.next);
 
       function done(err) {
         if (err) {
@@ -165,6 +161,7 @@ function ControllerProjectLayout(
       createBuildAndContext,
       createContextVersion
     ], function (err, thisUser, project, build) {
+      data.activeProject = project;
       $state.go('projects.setup', {
         userName: actions.getEntityName(data.activeAccount),
         projectName: project.attrs.name
@@ -385,6 +382,10 @@ function ControllerProjectLayout(
     } else if (newval === 'projects') {
       actions.initForNewState();
     }
+  });
+
+  $scope.$on('app-document-click', function () {
+    $scope.dataProjectLayout.data.showChangeAccount = false;
   });
 }
 

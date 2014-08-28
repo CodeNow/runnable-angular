@@ -39,6 +39,8 @@ function ControllerBuildList(
     if (event.keyCode && event.keyCode !== 13) {
       return;
     }
+    pce.data.show = false;
+    $scope.dataApp.data.loading = true;
     var count = callbackCount(2, done);
     var project = dataBuildList.data.project;
     var body = {
@@ -70,6 +72,7 @@ function ControllerBuildList(
           var sc = angular.copy($stateParams);
           sc.branchName = env.attrs.name;
           sc.buildName = newBuild.attrs.buildNumber;
+          $scope.dataApp.data.loading = false;
           $state.go('projects.build', sc);
         });
       });
@@ -129,7 +132,7 @@ function ControllerBuildList(
     }
     // assume github
     var appCodeVersion = triggeredAction.appCodeVersion;
-    return appCodeVersion.repo + '#' + appCodeVersion.repo;
+    return appCodeVersion.repo + '#' + appCodeVersion.commit.slice(0, 7);
   };
 
   actions.runInstance = function (build) {
@@ -201,7 +204,7 @@ function ControllerBuildList(
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchProjects')
       .query({
-        ownerUsername: $stateParams.userName,
+        githubUsername: $stateParams.userName,
         name: $stateParams.projectName
       })
       .cacheFetch(function updateDom(projects, cached, cb) {

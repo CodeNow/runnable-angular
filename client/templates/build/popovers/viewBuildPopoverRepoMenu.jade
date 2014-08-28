@@ -1,10 +1,11 @@
-.popover.file-menu.bottom.fade(
+.popover.file-menu.bottom.fade.show-add-repo(
   ng-class = "{\
     'in': data.show,\
     'show-add-repo': showAddRepo\
   }"
 )
-  .arrow.white
+  .arrow
+  h3.popover-title Add Repo
   .popover-content
     ul#file-explorer-options.popover-body
       li(
@@ -33,6 +34,7 @@
             in: data.selectedRepo === repo \
           }"
           ng-click = "data.selectedRepo = repo; \
+                      actions.selectGithubRepo(data.selectedRepo); \
                       data.repoOrSHA = '';"
           ng-repeat = "repo in data.githubRepos.models | \
                        unaddedRepos:data.appCodeVersions | \
@@ -41,9 +43,17 @@
           span {{ repo.attrs.full_name }}
           form.explorer-add-repo-form
             input.form-control(
+              list = "{{ 'repo-branches-' + repo.attrs.name }}"
               ng-model = "data.repoOrSHA"
-              placeholder = "Branch/SHA (default: @master)"
+              placeholder = "Branch/SHA (default: @{{ repo.defaultBranch() }})"
             )
+            datalist(
+              id = "{{ 'repo-branches-' + repo.attrs.name }}"
+            )
+              option(
+                ng-repeat = "branch in repo.branches.models"
+                value = "{{ branch.attrs.name }}"
+              )
             button.btn-block.green(
               ng-click = "actions.addGithubRepo(repo, data.repoOrSHA)"
             ) Add Repository

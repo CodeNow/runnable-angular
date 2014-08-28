@@ -2,11 +2,20 @@
   .arrow.white
   .popover-content
     ul#file-explorer-options.popover-body
-      li(ng-click = "actions.createFile()")
+      li(ng-click = "actions.create(false)")
         svg.iconnables
           use(xlink:href = "#icons-file-new")
         | New File
-      li
+      li(ng-click = "actions.create(true)")
         svg.iconnables
           use(xlink:href = "#icons-folder-new")
         | New Folder
+      li.divider
+      li
+        svg.iconnables
+          use(xlink:href = "#icons-file-upload")
+        | Upload File
+      li
+        svg.iconnables
+          use(xlink:href = "#icons-folder-upload")
+        | Upload Folder

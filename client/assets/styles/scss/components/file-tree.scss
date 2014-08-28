@@ -157,6 +157,10 @@
       }
     }
 
+    &.dropping > a {
+      font-weight: 600;
+    }
+
     > ul {
       max-height: 0;
       overflow: hidden;

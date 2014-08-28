@@ -10,13 +10,12 @@ nav.sub-header
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
-  section#main-controls
+  section.main-controls
     .slide-left.slide-save.out(
       ng-class = "{out: !dataInstance.data.container.running() || dataInstance.data.loading}"
     )
       button.green(
         ng-click = "dataInstance.actions.saveChanges()"
-        ng-disabled = "dataInstance.data.openFiles.isClean()"
         type = "button"
       ) Save Changes
       label.btn.btn-check(
@@ -68,10 +67,10 @@ section.sidebar
       | Stopped by #{''}
       a dataInstance.data.container.attrs.stoppedBy.username
   h3.sidebar-title.load(
-    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading"
+    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading && dataInstance.data.container.urls().length"
   ) Exposed URLs
   ul.sidebar-ul.sidebar-urls.load(
-    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading"
+    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading && dataInstance.data.container.urls().length"
   )
     li.sidebar-li
       input.form-control(
@@ -182,16 +181,4 @@ section.sidebar
     is-dark-theme = "dataInstance.data.toggleTheme"
     update = "false"
   )
-
-//- logs
-//- note: this should appear when an error happens on the server
-//- #logs.full
-  pre.
-    >> File "client/assets/styles/scss/pages/editor.scss" changed.
-    Running "sass:dev" (sass) task
-    NoMethodError: undefined method `count' for nil:NilClass
-      Use --trace for backtrace.
-    Warning: Exited with error code 1 Use --force to continue.
-
-    Aborted due to warnings.
-    Completed in 2.311s at Wed Jun 25 2014 17:31:15 GMT-0700 (PDT) - Waiting...
+  .horizontal-spinner
