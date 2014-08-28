@@ -34,21 +34,16 @@ function fileTreeDir(
       actions.makeDroppable = function() {
 
         var $element = jQuery(element);
-        console.log($element);
-        console.log($element.html());
 
         $element.on('dragenter', function () {
-          console.log('dragenter');
           return false;
         });
 
         $element.on('dragover', function () {
-          console.log('dragover');
           return false;
         });
 
         $element.on('drop', function () {
-          console.log('drop');
           return false;
         });
       };
