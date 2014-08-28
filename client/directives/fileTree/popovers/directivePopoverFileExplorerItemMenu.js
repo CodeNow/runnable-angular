@@ -27,7 +27,9 @@ function popoverFileExplorerItemMenu(
 
       var fileItemData = $scope.fileItemData = {};
       var actions = fileItemData.actions = {};
-      fileItemData.editFileName = false;
+      if (!$scope.fs.state) {
+        $scope.fs.state = {};
+      }
 
       fileItemData.eStyle = {
         top: '0px',
@@ -42,9 +44,7 @@ function popoverFileExplorerItemMenu(
 
       actions.renameFile = function () {
         closeModal();
-        fileItemData.editFileName = true;
-        inputElement[0].focus();
-        inputElement[0].select();
+        $scope.fs.state.renaming = true;
       };
 
       actions.deleteFile = function () {
@@ -70,10 +70,10 @@ function popoverFileExplorerItemMenu(
       });
 
       function closeFileNameInput() {
-        if (!fileItemData.editFileName) {
+        if (!$scope.fs.state.renaming) {
           return;
         }
-        fileItemData.editFileName = false;
+        $scope.fs.state.renaming = false;
         if (inputElement.val() === $scope.fs.attrs.name) {
           return;
         }

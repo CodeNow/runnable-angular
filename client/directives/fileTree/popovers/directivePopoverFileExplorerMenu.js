@@ -40,11 +40,11 @@ function popoverFileExplorerMenu(
 
       actions.createFile = function () {
         var name = this.getNewName();
-        $scope.dir.contents.create({
+        var file = $scope.dir.contents.create({
           name: name,
           isDir: false
         }, function () {
-          $scope.actions.fetchDirFiles();
+          $scope.actions.fetchDirFiles(file);
         });
 
         closeModal();

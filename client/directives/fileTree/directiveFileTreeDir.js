@@ -13,7 +13,8 @@ function fileTreeDir(
   $timeout,
   $rootScope,
   $state,
-  async
+  async,
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -169,7 +170,7 @@ function fileTreeDir(
           return;
         }
         $timeout(function () {
-          // timeout necessary to ensure rg-repeat completes
+          // timeout necessary to ensure ng-repeat completes
           // before trying to apply draggable to li's
           $scope.actions.makeSortable();
           $scope.actions.makeDroppable();
@@ -177,8 +178,11 @@ function fileTreeDir(
       });
 
       actions.fetchDirFiles = fetchDirFiles;
-      function fetchDirFiles() {
+      function fetchDirFiles(file) {
         $scope.dir.contents.fetch(function (err) {
+          if (file) {
+            keypather.set(file, 'state.renaming', true);
+          }
           $rootScope.safeApply(function () {
             if (!$scope.readOnly) {
               actions.makeSortable();

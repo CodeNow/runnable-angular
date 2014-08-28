@@ -178,7 +178,10 @@ function openItemsFactory(
     } else if (model instanceof LogView) {
       model.state.type = 'LogView';
     } else {
-      model.state.type = 'File';
+      keypather.set(model, 'state.type', 'File');
+      model.state.reset = function () {
+        model.state.body = model.attrs.body;
+      };
     }
     model.state.open = true;
     model.state.reset();
