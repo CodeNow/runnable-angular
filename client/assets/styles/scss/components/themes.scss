@@ -1,3 +1,16 @@
+// ace tooltip overrides
+.ace_tooltip {
+  background-image: none !important;
+  border: 1px solid rgba($black,.1) !important;
+  border-radius: 3px !important;
+  box-shadow: 0 1px 10px rgba($black,.1) !important;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: .3px !important;
+  margin-left: -750px;
+  margin-top: -90px;
+  padding: 6px 9px !important;
+}
+
 pre.ace-tm {
   background-color: $white;
   color: $gray-darker;
@@ -21,6 +34,12 @@ pre.ace-tm {
       background: transparent;
       border: 0;
     }
+  }
+
+  .ace_tooltip {
+    background: rgba($black,.75) !important;
+    color: $white !important;
+    font-weight: 300 !important;
   }
 
   .ace_gutter {
@@ -188,12 +207,9 @@ pre.ace-runnable-dark {
   &.readonly, {
     background-color: rgba(#311d40,.6);
 
-    &.ace_gutter {
-      color: lighten(#5e4d6e,30%);
-    }
-
     .ace_gutter {
       background-color: rgba(#311d40,.6);
+      color: lighten(#5e4d6e,30%);
     }
 
     .ace_marker-layer .ace_active-line,
@@ -206,6 +222,12 @@ pre.ace-runnable-dark {
     background: rgba($white,.25);
     border-color: rgba($white,.3);
     color: $white;
+  }
+
+  .ace_tooltip {
+    background: rgba($white,.9) !important;
+    color: $black !important;
+    font-weight: 400 !important;
   }
 
   .ace_gutter {

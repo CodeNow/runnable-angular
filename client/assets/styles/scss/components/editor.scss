@@ -14,7 +14,8 @@
     z-index: 2;
   }
 
-  pre {
+  pre,
+  .pre {
     font-family: 'Source Code Pro', monospace;
     font-size: 14px;
     font-weight: 400;
@@ -60,6 +61,7 @@
   }
 
   pre,
+  .pre,
   iframe {
     border: 0;
     flex: 1 0 auto;
@@ -70,12 +72,6 @@
     position: absolute;
     right: 0;
   }
-}
-
-// ace tooltip bug?
-.ace_tooltip {
-  margin-left: -260px;
-  margin-top: -330px;
 }
 
 // flex

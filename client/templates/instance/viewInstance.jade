@@ -66,10 +66,10 @@ section.sidebar
       | Stopped by #{''}
       a dataInstance.data.container.attrs.stoppedBy.username
   h3.sidebar-title.load(
-    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading"
+    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading && dataInstance.data.container.urls().length"
   ) Exposed URLs
   ul.sidebar-ul.sidebar-urls.load(
-    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading"
+    ng-show = "dataInstance.data.container.running() && !dataInstance.data.loading && dataInstance.data.container.urls().length"
   )
     li.sidebar-li
       input.form-control(

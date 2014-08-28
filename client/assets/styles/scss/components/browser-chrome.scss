@@ -9,7 +9,8 @@
   z-index: 1;
 
   // set height of editor
-  & ~ pre {
+  & ~ pre,
+  & ~ .pre {
     height: calc(100% - 36px) !important;
   }
 

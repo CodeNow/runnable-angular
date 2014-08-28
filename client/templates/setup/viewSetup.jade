@@ -14,61 +14,73 @@ section.sidebar
     ng-click = "$event.stopPropagation();"
     ng-include = "'viewSetupPopoverAddRepos'"
   )
-  form(
+  form.sidebar-form(
     ng-submit = "dataSetup.actions.buildApplication()"
   )
-    #setup-repo
-      .input-container
-        input.form-control(
-          ng-class = "{in: dataSetup.data.isRepoMode}"
-          ng-click = "$event.stopPropagation()"
-          ng-focus = "dataSetup.data.isRepoMode = true"
-          ng-model = "dataSetup.data.repoFilter"
-          placeholder = "Add Repository"
-        )
-        button.btn-icon.inactive(
-          ng-click = "dataSetup.data.isRepoMode = true; $event.stopPropagation();"
-          type = "button"
-        )
-          svg.iconnables.icons-arrow-down
-            use(xlink:href = "#icons-arrow-down")
-        button.btn-icon.active(
-          ng-click = "dataSetup.data.isRepoMode = false"
-          type = "button"
-        )
-          svg.iconnables.icons-close
-            use(xlink:href = "#icons-close")
-      //- if there are duplicate repo names, use name-2, name-3, and so on.
-      ul.added-repo.list-group(
-        ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models"
-      )
-        li.list-group-item {{ appCodeVersion.attrs.repo }}
-          button.btn-icon(
-            ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
+    section.sidebar-form-section.sidebar-setup
+      .setup-repo
+        .input-container
+          input.form-control(
+            ng-class = "{in: dataSetup.data.isRepoMode}"
+            ng-click = "$event.stopPropagation()"
+            ng-focus = "dataSetup.data.isRepoMode = true"
+            ng-model = "dataSetup.data.repoFilter"
+            placeholder = "Add Repository"
+          )
+          button.btn-icon.inactive(
+            ng-click = "dataSetup.data.isRepoMode = true; $event.stopPropagation();"
             type = "button"
           )
-            svg.iconnables.icons-delete
-              use(xlink:href = "#icons-delete")
-        li.list-group-item {{ appCodeVersion.attrs.lockCommit ? '#'+appCodeVersion.attrs.commit : '@'+appCodeVersion.attrs.branch }}
-    #setup-template
-      h3.sidebar-title Choose a Docker Template
-      .form-group.toggle-group
-        //- dockerfile templates
-        label(
-          ng-repeat = "context in dataSetup.data.seedContexts.models"
-        ) {{ context.attrs.name }}
-          input(
-            name = "source-context"
-            ng-click = "dataSetup.actions.selectSourceContext(context)"
-            required
-            type = "radio"
+            svg.iconnables.icons-arrow-down
+              use(xlink:href = "#icons-arrow-down")
+          button.btn-icon.active(
+            ng-click = "dataSetup.data.isRepoMode = false"
+            type = "button"
           )
-    button.btn-block.green.btn-spinner(
-      type = "submit"
+            svg.iconnables.icons-close
+              use(xlink:href = "#icons-close")
+        //- if there are duplicate repo names, use name-2, name-3, and so on.
+        ul.added-repo.list-group(
+          ng-repeat = "appCodeVersion in dataSetup.data.contextVersion.appCodeVersions.models"
+        )
+          li.list-group-item {{ appCodeVersion.attrs.repo }}
+            button.btn-icon(
+              ng-click = "dataSetup.actions.removeGithubRepo(appCodeVersion)"
+              type = "button"
+            )
+              svg.iconnables.icons-delete
+                use(xlink:href = "#icons-delete")
+          li.list-group-item {{ appCodeVersion.attrs.lockCommit ? '#'+appCodeVersion.attrs.commit : '@'+appCodeVersion.attrs.branch }}
+      .setup-template
+        h3.sidebar-title Choose a Docker Template
+        .form-group.toggle-group
+          //- dockerfile templates
+          label(
+            ng-repeat = "context in dataSetup.data.seedContexts.models"
+          ) {{ context.attrs.name }}
+            input(
+              name = "source-context"
+              ng-click = "dataSetup.actions.selectSourceContext(context)"
+              required
+              type = "radio"
+            )
+    section.sidebar-form-section.sidebar-validation(
+      ng-if = "dataSetup.data.validDockerfile.valid === false"
     )
-      .spinner
-        .spinner-ring
-      | Build Project
+      small.the-rules You have validation errors in your dockerfile.
+      ul.list-group
+        li.list-group-item(
+          ng-repeat = "error in dataSetup.data.validDockerfile.errors"
+        ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
+    section.sidebar-form-section.sidebar-submit
+      button.btn-block.green.btn-spinner(
+        ng-class = "{invalid: dataSetup.data.validDockerfile.message}"
+      )
+        .spinner
+          .spinner-ring
+        svg.iconnables.icons-error
+          use(xlink:href = "#icons-error")
+        | Build Project
 #editor.full
   tabs#editor-toolbar(
     open-items = "dataSetup.data.openItems"

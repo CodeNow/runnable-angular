@@ -61,7 +61,8 @@ section.sidebar
     li.sidebar-li
       svg.iconnables.icons-trigger
         use(xlink:href = "#icons-trigger")
-      | Triggered by <a>{{ dataBuildNew.data.build.user.attrs.accounts.github.username }}</a>
+      | Triggered by #{''}
+      a.link {{ dataBuildNew.data.build.user.attrs.accounts.github.username }}
   h3.sidebar-title.load(
     ng-if = "dataBuildNew.data.build.attrs.started && dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo || dataBuildNew.data.build.attrs.started && !dataBuildNew.data.version.attrs.build.triggeredAction.appCodeVersion.repo"
   ) Message Log
