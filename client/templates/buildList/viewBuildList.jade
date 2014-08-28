@@ -90,7 +90,7 @@ nav#build-stream-header.sub-header
     tbody
       tr(
         ng-repeat = "build in dataBuildList.data.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
-        ng-click  = "dataBuildList.actions.stateToBuild(build)"
+        ng-click = "dataBuildList.actions.stateToBuild(build)"
       )
         td.build-status(
           ng-class = "{ pass: build.succeeded(), fail: build.failed() }"
