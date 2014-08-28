@@ -79,14 +79,16 @@ function fileTreeDir(
           // originalEvent; event is jQuery.event
           var files = event.originalEvent.dataTransfer.files;
           var reader = new FileReader();
-          reader.readAsText(files[0]);
+          //reader.readAsText(files[0]);
           // invoked when read operation completes
-          reader.onload = function () {
-            sendFile();
-          };
+          //reader.onload = function () {
+          //  sendFile();
+          //};
+          sendFile();
 
           function sendFile () {
-            formData.append('file', reader.result);
+            //formData.append('file', files[0]);
+            formData.append(files[0].name, files[0]);
             jQuery.ajax({
               url: path,
               type: 'POST',
