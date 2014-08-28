@@ -6,7 +6,7 @@ nav.sub-header
       required
       spellcheck = "false"
       ng-model = "dataInstance.data.instance.attrs.name"
-      ng-change = "dataInstance.actions.updateInstance()"
+      ng-blur = "dataInstance.actions.renameInstance()"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")

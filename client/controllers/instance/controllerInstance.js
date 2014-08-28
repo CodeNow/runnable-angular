@@ -14,7 +14,6 @@ function ControllerInstance(
   async,
   user,
   OpenItems,
-  debounce,
   getNewFileFolderName
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
@@ -192,7 +191,7 @@ function ControllerInstance(
     actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
   };
 
-  actions.updateInstance = debounce(function () {
+  actions.renameInstance = function () {
     data.instance.update({
       name: data.instance.attrs.name
     }, function (err) {
@@ -200,7 +199,7 @@ function ControllerInstance(
         throw err;
       }
     });
-  }, 333);
+  };
 
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
