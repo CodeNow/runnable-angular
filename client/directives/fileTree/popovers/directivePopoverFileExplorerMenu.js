@@ -94,17 +94,15 @@ function popoverFileExplorerMenu(
           return;
         }
         dirItemData.editFolderName = false;
-        if (inputElement.val() === $scope.fs.attrs.name) {
+        if (inputElement.val() === $scope.dir.attrs.name) {
           return;
         }
         var cachedName = $scope.dir.attrs.name;
         $scope.dir.rename(inputElement.val(), function (err) {
           if (err) {
-            $rootScope.safeApply();
             throw err;
           }
-          console.log('sorting dir');
-          $scope.actions.sortDir();
+          $rootScope.safeApply();
         });
 
         //ex

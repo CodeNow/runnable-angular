@@ -67,7 +67,7 @@ function fileTreeDir(
         // replace them with a value of a fixed-width for
         // both leading (integer) and trailing (decimal)
         // padded zeroes.
-        value = file.attrs.name.replace(
+        var value = file.attrs.name.replace(
           /(\d+)((\.\d+)+)?/g,
           function($0, integer, decimal, $3) {
             if (decimal !== $3) {
