@@ -17,7 +17,7 @@ function ControllerBuildNew(
   keypather,
   fetcherBuild,
   hasProps,
-  getNewFileFolderName
+  helperCreateFS
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -52,23 +52,17 @@ function ControllerBuildNew(
         return;
       }
       ftgm.data.show = false;
+
       var dir = dataBuildNew.data.newVersion.rootDir;
-      var name = getNewFileFolderName(dir);
-      var file = dir.contents.create({
-        name: name,
+      var file = helperCreateFS(dir, {
         isDir: isDir
       }, function (err) {
+        $scope.safeApply();
         if (err) {
           throw err;
         }
-        dir.contents.fetch(function (err) {
-          if (err) {
-            throw err;
-          }
-          keypather.set(file, 'state.renaming', true);
-          $scope.safeApply();
-        });
       });
+
     }
   };
   ftgm.data = {
