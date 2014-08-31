@@ -44,6 +44,7 @@ function popoverFileExplorerMenu(
           name: name,
           isDir: false
         }, function () {
+          keypather.set(file, 'state.renaming', true);
           $scope.actions.fetchDirFiles(file);
         });
 
@@ -52,10 +53,11 @@ function popoverFileExplorerMenu(
 
       actions.createFolder = function () {
         var name = this.getNewName();
-        $scope.dir.contents.create({
+        var dir = $scope.dir.contents.create({
           name: name,
           isDir: true
         }, function () {
+          keypather.set(dir, 'state.renaming', true);
           $scope.actions.fetchDirFiles();
         });
         closeModal();
