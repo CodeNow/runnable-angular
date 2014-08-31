@@ -6,6 +6,7 @@ nav.sub-header
       required
       spellcheck = "false"
       ng-model = "dataInstance.data.instance.attrs.name"
+      ng-keyup = "($event.keyCode === 13) && dataInstance.actions.renameInstance()"
       ng-blur = "dataInstance.actions.renameInstance()"
     )
     svg.iconnables.icons-edit
