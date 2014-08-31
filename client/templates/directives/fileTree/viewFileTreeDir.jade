@@ -1,5 +1,8 @@
 li.folder(
-  ng-class = "{ 'in': dir.state.open }"
+  ng-class = "{ \
+    in: dir.state.open, \
+    dropping: dropping \
+  }"
 )
   a(
     ng-click = "actions.closeOpenModals(); \

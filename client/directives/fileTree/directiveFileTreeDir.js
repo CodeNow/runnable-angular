@@ -1,5 +1,6 @@
 var jQuery = require('jquery');
 require('jquery-ui');
+//TODO serviceize for testing later
 
 require('app')
   .directive('fileTreeDir', fileTreeDir);
@@ -31,64 +32,87 @@ function fileTreeDir(
       var data = $scope.data = {};
       $scope.state = $state;
 
+      // avoid infinite loop w/ nested directories
+      var template = $templateCache.get('viewFileTreeDir');
+      var $template = angular.element(template);
+      $compile($template)($scope);
+      element.replaceWith($template);
+
+      $scope.$on('$destroy', function () {
+      });
+
+      $scope.fileDroppable = false;
       actions.makeDroppable = function() {
-
-        var $element = jQuery(element);
-
-        $element.on('dragenter', function () {
-          return false;
-        });
-
-        $element.on('dragover', function () {
-          return false;
-        });
-
-        $element.on('drop', function () {
-          return false;
-        });
-      };
-
-      actions.closeOpenModals = function () {
-        $rootScope.$broadcast('app-document-click');
-      };
-
-      actions.openFile = function (file) {
-        if (data.dragging) {
-          data.dragging = false;
+        if ($scope.fileDroppable) {
           return;
         }
-        $scope.openItems.add(file);
-      };
+        $scope.fileDroppable = true;
+        var $element = jQuery($template);
 
-      // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
-      function normalizeMixedDataValue(file) {
-        var padding = '000000000000000';
-        // Loop over all numeric values in the string and
-        // replace them with a value of a fixed-width for
-        // both leading (integer) and trailing (decimal)
-        // padded zeroes.
-        var value = file.attrs.name.replace(
-          /(\d+)((\.\d+)+)?/g,
-          function($0, integer, decimal, $3) {
-            if (decimal !== $3) {
-              return(
-                padding.slice(integer.length) +
-                integer +
-                decimal
-              );
-            }
-            decimal = (decimal || ".0");
-            return(
-              padding.slice(integer.length) +
-              integer +
-              decimal +
-              padding.slice(decimal.length)
-            );
+        $element.on('dragenter', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          $scope.dropping = true;
+          $rootScope.safeApply();
+        });
+
+        // necessary
+        $element.on('dragover', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        });
+
+        $element.on('dragleave', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          $scope.dropping = false;
+          $rootScope.safeApply();
+        });
+
+        $element.on('drop', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          var formData = new FormData();
+          var path = $scope.dir.opts.client.host + '/' + $scope.dir.contents.urlPath;
+          // originalEvent; event is jQuery.event
+          var files = event.originalEvent.dataTransfer.files;
+          var reader = new FileReader();
+          //reader.readAsText(files[0]);
+          // invoked when read operation completes
+          //reader.onload = function () {
+          //  sendFile();
+          //};
+          sendFile();
+
+          function sendFile () {
+            //formData.append('file', files[0]);
+            formData.append(files[0].name, files[0]);
+            jQuery.ajax({
+              url: path,
+              type: 'POST',
+              data: formData,
+              mimeType: 'multipart/form-data',
+              contentType: false,
+              cache: false,
+              processData: false,
+              xhrFields: {
+                withCredentials: true
+              },
+              success: function (data, textStatus, jqXHR) {
+              },
+              error: function (jqXHR, textStatus, error) {
+              }
+            });
           }
-        );
-        return value;
-      }
-      actions.normalizeMixedDataValue = normalizeMixedDataValue;
+
+          $scope.dropping = false;
+          $rootScope.safeApply();
+          return false;
+        });
+      };
 
       actions.makeSortable = function () {
         var $t = jQuery($template);
@@ -154,9 +178,54 @@ function fileTreeDir(
         });
       };
 
+      actions.closeOpenModals = function () {
+        $rootScope.$broadcast('app-document-click');
+      };
+
+      // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
+      actions.normalizeMixedDataValue = function(file) {
+        var padding = '000000000000000';
+        // Loop over all numeric values in the string and
+        // replace them with a value of a fixed-width for
+        // both leading (integer) and trailing (decimal)
+        // padded zeroes.
+        return file.attrs.name.replace(
+          /(\d+)((\.\d+)+)?/g,
+          function($0, integer, decimal, $3) {
+            if (decimal !== $3) {
+              return(
+                padding.slice(integer.length) +
+                integer +
+                decimal
+              );
+            }
+            decimal = (decimal || ".0");
+            return(
+              padding.slice(integer.length) +
+              integer +
+              decimal +
+              padding.slice(decimal.length)
+            );
+          }
+        );
+      };
+
+      actions.fetchDirFiles = function() {
+        $scope.dir.contents.fetch(function (err) {
+          $rootScope.safeApply(function () {
+            if (!$scope.readOnly) {
+              actions.makeSortable();
+            }
+          });
+          if (err) {
+            throw err;
+          }
+        });
+      };
+
       $scope.$watch('dir.state.open', function (newVal, oldval) {
         if (newVal) {
-          fetchDirFiles();
+          actions.fetchDirFiles();
         }
       });
 
@@ -172,32 +241,6 @@ function fileTreeDir(
         }, 1);
       });
 
-      actions.fetchDirFiles = fetchDirFiles;
-      function fetchDirFiles(file) {
-        $scope.dir.contents.fetch(function (err) {
-          if (file) {
-            keypather.set(file, 'state.renaming', true);
-          }
-          $rootScope.safeApply(function () {
-            if (!$scope.readOnly) {
-              actions.makeSortable();
-            }
-          });
-          if (err) {
-            throw err;
-          }
-        });
-      }
-
-      // avoid infinite loop w/ nested directories
-      var template = $templateCache.get('viewFileTreeDir');
-      var $template = angular.element(template);
-      $compile($template)($scope);
-      element.replaceWith($template);
-
-      element.on('$destroy', function () {
-        // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS
-      });
     }
   };
 }
