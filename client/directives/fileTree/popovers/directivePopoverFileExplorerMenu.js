@@ -103,15 +103,6 @@ function popoverFileExplorerMenu(
           $rootScope.safeApply();
         });
 
-        //ex
-        /*
-        $scope.dirReceiving;
-        $scope.dir.moveToDir($scope.dirReceiving, function () {
-          $scope.safeApply();
-        });
-        $scope.safeApply();
-        */
-
       }
 
       function closeModal() {
