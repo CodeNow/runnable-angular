@@ -100,6 +100,7 @@ function popoverFileExplorerMenu(
         var cachedName = $scope.dir.attrs.name;
         $scope.dir.rename(inputElement.val(), function (err) {
           if (err) {
+            $rootScope.safeApply();
             throw err;
           }
           $rootScope.safeApply();
