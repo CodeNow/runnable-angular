@@ -20,5 +20,6 @@ function helperCreateFS(
       });
       cb.apply(this, arguments);
     });
+    return fs;
   };
 }
