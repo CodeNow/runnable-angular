@@ -15,15 +15,20 @@ describe('directiveTerm'.bold.underline.blue, function () {
     angular.mock.inject(function($compile, $rootScope){
       $scope = $rootScope.$new();
 
-      element = angular.element('<term></term>');
+      $scope.params = {
+        _id: 'pants'
+      };
+      element = angular.element('<term params="params"></term>');
+
       $compile(element)($scope);
-      $scope.$digest();
+      $scope.$apply();
     });
   }
   beforeEach(initState);
 
-  // Skipping, need to inject build
-  it.skip('should create the Terminal element', function () {
+  it('should create the Terminal element', function () {
+
+
     var termEl = element[0].firstChild;
     expect(termEl).to.be.ok;
     expect(termEl.className).to.equal('terminal');
