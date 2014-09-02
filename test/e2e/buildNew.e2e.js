@@ -17,4 +17,13 @@ describe('buildNew state', function () {
   it('should toggle selected file', function () {
   });
 
+  it('should list repositories', function () {
+  });
+
+  it('should delete repositories', function () {
+  });
+
+  it('should modify repositories', function () {
+  });
+
 });

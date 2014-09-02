@@ -29,5 +29,7 @@ describe('build state', function () {
   it('should toggle selected file', function () {
   });
 
+  it('should list repositories', function () {
+  });
 
 });
