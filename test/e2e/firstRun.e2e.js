@@ -1,4 +1,5 @@
 var login = require('./login');
+var SetupPage = require('./SetupPage');
 
 function processUrl (middle) {
   return 'http://localhost:3001' + middle + '/';
@@ -38,55 +39,39 @@ describe('project creation workflow', function () {
   });
 
   it('should allow the user to specify project details', function () {
+    var setupPage = new SetupPage('test-0');
     var repogroupSelector = by.css('#wrapper > main > section > ng-form > ul > li.list-group-item.ng-scope > ol > li.repo-group-item.ng-binding');
 
-    browser.get('/new/runnable-doobie/test-0');
-
+    setupPage.get();
 
     // Select GitHub repo
-    element(by.model('dataSetup.data.repoFilter')).sendKeys('node');
+    setupPage.repos.filter.sendKeys('node');
 
     browser.wait(function () {
-      return browser.isElementPresent(repogroupSelector);
+      return setupPage.reposLoaded();
     });
 
-    var repogroupEl = element(repogroupSelector);
-    repogroupEl.click();
+    setupPage.selectFirstRepo();
 
-    var addRepoButton = element(by.css('#wrapper > main > section > ng-form > button'));
+    expect(setupPage.repos.addButton.getText()).toBe('Add 1 Repository');
 
-    expect(addRepoButton.getText()).toBe('Add 1 Repository');
+    setupPage.repos.addButton.click();
 
-    addRepoButton.click();
-
-    // Dockerfile setup
-    var aceEl = element(by.css('#editor > div.editor-container.ng-scope.loaded > pre > div.ace_scroller > div'));
-
-    element(by.repeater('context in dataSetup.data.seedContexts.models').row(1)).click();
+    // Load "Blank" template
+    setupPage.selectBlankTemplate();
 
     browser.wait(function () {
-      return aceEl.isPresent();
+      return setupPage.aceLoaded();
     });
 
-    // Hackaround UI-ace and Protractor not getting along
-    // https://github.com/angular/protractor/issues/1273
-    browser.wait(function () {
-      return element(by.css('.sub-header')).evaluate('dataSetup.data.openItems.activeHistory.last().state.body').then(function (v) {
-        return v === '';
-      });
-    });
-
-    element(by.css('.sub-header')).evaluate('dataSetup.data.openItems.activeHistory.last().state.body = \'FROM dockerfile/nodejs\nCMD sleep 1000000\'');
+    setupPage.addToDockerfile('FROM dockerfile/nodejs\nCMD sleep 1000000');
     // element(by.css('#editor > div.editor-container.ng-scope.loaded > pre > textarea')).sendKeys('FROM dockerfile/nodejs\nCMD sleep 1000000');
 
-
     browser.wait(function () {
-      return element(by.css('#wrapper > main > section > form > section.sidebar-form-section.sidebar-validation.ng-scope')).isPresent().then(function (isPresent) {
-        return !isPresent
-      });
+      return setupPage.dockerfileValidates();
     });
 
-    element(by.css('#wrapper > main > section > form > section.sidebar-form-section.sidebar-submit > button')).click();
+    setupPage.build();
 
     waitForUrl(processUrl('/project/runnable-doobie/test-0/master/1'));
   });
@@ -96,7 +81,7 @@ describe('project creation workflow', function () {
 
     browser.wait(function () {
       return element(by.css('.sub-header')).evaluate('dataBuild.data.build.completed()');
-    }, 10);
+    });
 
     element(by.css('#wrapper > main > nav > section > div > button.green')).click();
 
