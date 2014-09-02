@@ -4,13 +4,13 @@ require('app')
     function QueryAssist(modelOrColl, asyncCB) {
       var asyncCalled = false;
       this.modelOrColl = modelOrColl;
-      this.asyncCB = function (err) {
+      this.asyncCB = function () {
         if (asyncCalled) {
           return;
         }
         asyncCalled = true;
         if (angular.isFunction(asyncCB)) {
-          asyncCB(err);
+          asyncCB.apply(this, arguments);
         }
       };
       return this;
