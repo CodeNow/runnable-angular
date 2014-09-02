@@ -69,6 +69,7 @@ describe('project creation workflow', function () {
     });
 
     // Hackaround UI-ace and Protractor not getting along
+    // https://github.com/angular/protractor/issues/1273
     browser.wait(function () {
       return element(by.css('.sub-header')).evaluate('dataSetup.data.openItems.activeHistory.last().state.body').then(function (v) {
         return v === '';
