@@ -90,7 +90,7 @@ nav#build-stream-header.sub-header
     tbody
       tr(
         ng-repeat = "build in dataBuildList.data.builds.models | orderBy:dataBuildList.predicate:dataBuildList.direction"
-        ng-click = "dataBuildList.actions.stateToBuild(build)"
+        ng-click  = "dataBuildList.actions.stateToBuild(build)"
       )
         td.build-status(
           ng-class = "{ pass: build.succeeded(), fail: build.failed() }"
@@ -105,7 +105,7 @@ nav#build-stream-header.sub-header
         td {{ build.contextVersions.models[0].attrs.build.triggeredBy.username }}
         td {{ build.contextVersions.models[0].attrs.build.message }}
         td {{ dataBuildList.actions.getTriggeredActionText(build) }}
-        td {{ build.buildTime() | humanizeTimeDuration }}
+        td {{ (!build.buildTime()) ? 'Still building...' : (build.buildTime() | humanizeTimeDuration) }}
         td {{ build.attrs.created | timeAgo }}
         td
           a.tooltip(
