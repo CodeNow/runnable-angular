@@ -44,10 +44,7 @@ function ControllerInstance(
     var name = getNewFileFolderName(dir);
     var file = dir.contents.create({
       name: name,
-      isDir: isDir,
-      state: {
-        renaming: true
-      }
+      isDir: isDir
     }, function (err) {
       if (err) {
         throw err;
@@ -56,6 +53,7 @@ function ControllerInstance(
         if (err) {
           throw err;
         }
+        keypather.set(file, 'state.renaming', true);
         $scope.safeApply();
       });
     });

@@ -2,8 +2,8 @@
   button.btn-icon(type = "button")
     svg.iconnables.icons-select
       use(xlink:href = "#icons-select")
-  select
-    option(
-      ng-repeat = "item in openItems.models"
-      ng-click = "openItems.setActive(item);"
-    ) {{ item.attrs.name }}
+  select(
+    ng-model = "activeItem"
+    ng-change = "openItems.activeHistory.add(activeItem)"
+    ng-options = "item.attrs.name for item in openItems.models"
+  )
