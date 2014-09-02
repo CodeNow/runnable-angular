@@ -10,7 +10,7 @@ function popoverFileExplorerMenu(
   $rootScope,
   jQuery,
   keypather,
-  getNewFileFolderName
+  helperCreateFS
 ) {
   return {
     restrict: 'A',
@@ -34,29 +34,26 @@ function popoverFileExplorerMenu(
       };
       dirItemData.isOpen = false;
 
-      actions.getNewName = function () {
-        return getNewFileFolderName($scope.dir);
-      };
-
       actions.createFile = function () {
-        var name = this.getNewName();
-        var file = $scope.dir.contents.create({
-          name: name,
+        var file = helperCreateFS($scope.dir, {
           isDir: false
-        }, function () {
-          $scope.actions.fetchDirFiles(file);
+        }, function (err) {
+          $rootScope.safeApply();
+          if (err) {
+            throw err;
+          }
         });
-
         closeModal();
       };
 
       actions.createFolder = function () {
-        var name = this.getNewName();
-        $scope.dir.contents.create({
-          name: name,
+        var dir = helperCreateFS($scope.dir, {
           isDir: true
-        }, function () {
-          $scope.actions.fetchDirFiles();
+        }, function (err) {
+          $rootScope.safeApply();
+          if (err) {
+            throw err;
+          }
         });
         closeModal();
       };
@@ -100,19 +97,11 @@ function popoverFileExplorerMenu(
         var cachedName = $scope.dir.attrs.name;
         $scope.dir.rename(inputElement.val(), function (err) {
           if (err) {
+            $rootScope.safeApply();
             throw err;
           }
           $rootScope.safeApply();
         });
-
-        //ex
-        /*
-        $scope.dirReceiving;
-        $scope.dir.moveToDir($scope.dirReceiving, function () {
-          $scope.safeApply();
-        });
-        $scope.safeApply();
-        */
 
       }
 
