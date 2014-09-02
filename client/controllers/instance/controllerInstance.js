@@ -189,6 +189,18 @@ function ControllerInstance(
     actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
   };
 
+  actions.renameInstance = function () {
+    data.instance.update({
+      name: data.instance.attrs.name
+    }, function (err) {
+      $scope.safeApply();
+      if (err) {
+        throw err;
+      }
+    });
+    $scope.safeApply();
+  };
+
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;

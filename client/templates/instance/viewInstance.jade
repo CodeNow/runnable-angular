@@ -5,7 +5,9 @@ nav.sub-header
       placeholder = "Instance Name"
       required
       spellcheck = "false"
-      value = "{{ dataInstance.data.instance.attrs.name }}"
+      ng-model = "dataInstance.data.instance.attrs.name"
+      ng-keyup = "($event.keyCode === 13) && dataInstance.actions.renameInstance()"
+      ng-blur = "dataInstance.actions.renameInstance()"
     )
     svg.iconnables.icons-edit
       use(xlink:href = "#icons-edit")
