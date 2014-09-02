@@ -195,10 +195,12 @@ function ControllerInstance(
     data.instance.update({
       name: data.instance.attrs.name
     }, function (err) {
+      $scope.safeApply();
       if (err) {
         throw err;
       }
     });
+    $scope.safeApply();
   };
 
   $scope.$on('app-document-click', function () {
