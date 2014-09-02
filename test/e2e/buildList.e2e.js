@@ -1,8 +1,19 @@
-describe('buildList dummy test', function () {
-  it('should allow me to play with protractor', function () {
-    //browser.get('/runnableUser9/test9/master/');
+describe('buildList state', function () {
+  it('should list builds of project and environment', function () {
+  });
 
-    //var header = element(by.css('form.search > input.form-control'));
+  it('should allow delete of project', function () {
+  });
 
+  it('should allow rename of project', function () {
+  });
+
+  it('should sort by build number', function () {
+  });
+
+  it('should sort by build time', function () {
+  });
+
+  it('should sort by ...', function () {
   });
 });
