@@ -103,6 +103,10 @@ function ControllerBuild(
       }
     }, function (err) {
       $scope.dataApp.data.loading = false;
+      $scope.safeApply();
+      $scope.dataProjectLayout.data.instances.fetch(function () {
+        $scope.safeApply();
+      });
       if (err) throw err;
       var state = {
         instanceId: instance.id(),

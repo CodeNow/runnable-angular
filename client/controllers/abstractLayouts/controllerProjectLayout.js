@@ -343,7 +343,7 @@ function ControllerProjectLayout(
       return project.attrs.name === projectName;
     });
     data.projectInstances = data.instances.filter(function (instance) {
-      return instance.attrs.project.name === projectName;
+      return keypather.get(instance, 'attrs.project.name') === projectName;
     });
     cb();
   }
@@ -384,6 +384,12 @@ function ControllerProjectLayout(
       actions.initForState();
     } else if (newval === 'projects') {
       actions.initForNewState();
+    }
+  });
+
+  $scope.$watch('dataProjectLayout.data.instances', function (current, previous) {
+    if (current) {
+      setInitialActiveProject(angular.noop);
     }
   });
 
