@@ -256,7 +256,10 @@ function ControllerProjectLayout(
       var activeInstance = data.instances.find(function (instance) {
         return instance.id() === $state.params.instanceId;
       });
-      return activeInstance.attrs.project.name;
+      if (activeInstance) {
+        return activeInstance.attrs.project.name;
+      }
+      return '';
     }
   };
 
