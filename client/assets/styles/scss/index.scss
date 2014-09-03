@@ -17,32 +17,17 @@
 @import "globals/grid";
 @import "globals/typography";
 @import "globals/images";
+@import "globals/loader";
+@import "globals/logo";
 
-// Bootstrap v3.0.0
-// Copyright 2013 Twitter, Inc
-// Licensed under the Apache License v2.0 http://www.apache.org/licenses/LICENSE-2.0
-// Designed and built with all the love in the world by @mdo and @fat.
-// @import "bootstrap/grid";
-@import "bootstrap/helpers";
-@import "bootstrap/lists";
-@import "bootstrap/tables";
-@import "bootstrap/forms";
+// sidebar
+@import "sidebar/sidebar";
+@import "sidebar/sidebar-accounts";
+@import "sidebar/sidebar-boxes";
 
-// components (structure)
-@import "components/loader";
-@import "components/logo";
-@import "components/header";
-@import "components/stream";
-@import "components/main-controls";
+// box
 
-// components (sidebar)
-@import "components/sidebar";
-@import "components/sidebar-accounts";
-@import "components/sidebar-boxes";
-// @import "components/sidebar-actions";
-// @import "components/sidebar-messages";
-
-// components (editor)
+// editor
 @import "components/explorer";
 @import "components/file-tree";
 @import "components/editor";
