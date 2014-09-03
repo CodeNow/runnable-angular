@@ -7,6 +7,16 @@
 .box-group-item {
   height: 45px;
   line-height: 45px;
+
+  // currently selected box
+  &.active {
+    font-weight: 500;
+  }
+
+  // currently running box
+  &.running .icons-trigger {
+    opacity: 1;
+  }
 }
 
 // a.box
@@ -24,10 +34,5 @@
     float: right;
     height: 45px;
     opacity: 0;
-
-    &.active {
-      opacity: 1;
-    }
   }
-
 }

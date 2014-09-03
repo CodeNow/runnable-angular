@@ -1,38 +1,41 @@
 header.box-header
-  h1.box-name
-    span.box-status
-  //- primary action
-  .pull-right
-    .btn-group
-      button.btn(
-        ng-click = "dataInstance.actions.saveChanges()"
-        type = "button"
-      ) Save
-      button.btn.btn-icon(
-        type = "button"
+  h1.box-name runnable-angular
+    svg.iconnables.icons-trigger.running
+      use(
+        xlink:href = "#icons-trigger"
       )
-        svg.iconnable.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      //- popover for save options
-  //- secondary actions
-  .pull-right
+  //- primary action
+  .primary-actions.pull-right
+    button.white(
+      ng-click = "dataInstance.actions.saveChanges()"
+      type = "button"
+    ) Save
     button.btn-icon(
       type = "button"
     )
-      svg.iconnable.icons-edit
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    //- popover for save options
+  //- secondary actions
+  .secondary-actions.pull-right
+    button.white.btn-icon(
+      type = "button"
+    )
+      svg.iconnables.icons-edit
         use(
           xlink:href = "#icons-edit"
         )
-    button.btn-icon(
+    button.white.btn-icon(
       type = "button"
     )
-      svg.iconnable.icons-gear
+      svg.iconnables.icons-gear
         use(
           xlink:href = "#icons-gear"
         )
       //- popover for rename, for, delete box
+
 //- sidebar with repositories and urls
 section.sidebar
   //- repositories

@@ -47,21 +47,30 @@ nav.sidebar
           )
     ul.box-group
       //- apply .active for currently selected box
+      //- apply .running for a running box
       li.box-group-item
         a.box runnable-api
           svg.iconnables.icons-trigger
             use(
               xlink:href = "#icons-trigger"
             )
-      li.box-group-item
+      li.box-group-item.running
         a.box runnable-web
-          svg.iconnables.icons-trigger.active
+          svg.iconnables.icons-trigger
+            use(
+              xlink:href = "#icons-trigger"
+            )
+      li.box-group-item.running.active
+        a.box runnable-angular
+          svg.iconnables.icons-trigger
             use(
               xlink:href = "#icons-trigger"
             )
 
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
 main(ui-view)
+
+//- global spinner
 .spinner-container(
   ng-class = "{in: dataApp.data.loading}"
 )
