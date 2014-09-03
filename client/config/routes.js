@@ -55,5 +55,22 @@ module.exports = [{
   abstract: false,
   templateUrl: 'viewError',
   controller: 'ControllerError'
+}, {
+  state: 'box',
+  abstract: true,
+  templateUrl: 'viewBoxLayout',
+  controller: 'ControllerBox'
+}, {
+  state: 'box.instance',
+  abstract: false,
+  url: '^/box/:shortHash',
+  templateUrl: 'viewBoxInstance',
+  controller: 'ControllerBoxInstance'
+}, {
+  state: 'box.editInstance',
+  abstract: false,
+  url: '^/box/:shortHash/edit/:buildId',
+  templateUrl: 'viewBoxInstanceEdit',
+  controller: 'ControllerBoxInstanceEdit'
 }];
 Object.freeze(module.exports);
