@@ -10,10 +10,10 @@ nav.sidebar
         a.account
           img.gravatar(
             height = "24"
-            ng-src = ""
+            ng-src = "{{ dataBoxLayout.actions.getEntityGravatar(dataBoxLayout.data.activeAccount) }}"
             width = "24"
           )
-          span runnabro
+          span {{ dataBoxLayout.actions.getEntityName(dataBoxLayout.data.activeAccount) }}
           //- icons-arrow-down only for first account
           svg.iconnables.icons-arrow-down
             use(
@@ -34,7 +34,7 @@ nav.sidebar
             ng-src = ""
             width = "24"
           )
-          span Runnable
+          span runnabro
   //- boxes
   section.boxes.row
     h2.sub-header Boxes
