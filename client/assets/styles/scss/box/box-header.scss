@@ -3,12 +3,6 @@
   border-bottom: 1px solid rgba($black,.1);
   height: 60px;
   padding: 0 15px;
-
-  .pull-right {
-    height: 60px;
-    line-height: 60px;
-    position: relative;
-  }
 }
 
 // h1.box-name
@@ -30,6 +24,18 @@
 }
 
 // header.box-header actions
+.primary-actions,
+.secondary-actions {
+  float: right;
+  height: 60px;
+  line-height: 60px;
+  position: relative;
+
+  .iconnables {
+    top: 6px;
+  }
+}
+
 .primary-actions {
   padding-left: 9px;
 }
@@ -46,14 +52,5 @@
     right: 0;
     top: 12px;
     width: 1px;
-  }
-
-  .btn-icon {
-    padding: 0;
-    width: 45px;
-  }
-
-  .iconnables {
-    top: 6px;
   }
 }

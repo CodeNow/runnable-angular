@@ -4,13 +4,12 @@ header.box-header
       use(
         xlink:href = "#icons-trigger"
       )
-  //- primary action
-  .primary-actions.pull-right
+  .primary-actions
     button.white(
       ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     ) Save
-    button.btn-icon(
+    button.white.btn-icon.btn-icon-sm(
       type = "button"
     )
       svg.iconnables.icons-arrow-down
@@ -18,8 +17,7 @@ header.box-header
           xlink:href = "#icons-arrow-down"
         )
     //- popover for save options
-  //- secondary actions
-  .secondary-actions.pull-right
+  .secondary-actions
     button.white.btn-icon(
       type = "button"
     )

@@ -40,7 +40,12 @@ button,
   }
 
   &.btn-icon {
-    padding: 6px 0 0;
+    padding: 0;
+    width: 45px;
+
+    &.btn-icon-sm {
+      width: 24px;
+    }
   }
 
   &.btn-sm {
