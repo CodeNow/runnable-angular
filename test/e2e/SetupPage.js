@@ -1,7 +1,6 @@
 function SetupPage (projectName) {
   this.attrs = {};
   this.attrs.projectName = projectName;
-  var _subHeader = element(by.css('.sub-header'));
 
   // TODO: this should be by model
   this.projectTitle = element(by.css('#wrapper > main > nav > h1 > input'));
@@ -61,9 +60,13 @@ function SetupPage (projectName) {
   };
 
   this.dockerfileValidates = function () {
-    return this.validationErrors.isPresent().then(function (isPresent) {
+    return element(by.css('#wrapper > main > section > form > section.sidebar-form-section.sidebar-validation.ng-scope')).isPresent().then(function (isPresent) {
       return !isPresent;
     });
+  };
+
+  this.dockerfileIsClean = function () {
+    return element(by.css('.sub-header')).evaluate('dataSetup.data.openItems.isClean()');
   };
 
   this.build = function () {

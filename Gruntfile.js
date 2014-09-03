@@ -276,6 +276,10 @@ module.exports = function(grunt) {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js'
       },
+      protractor: {
+        bg: false,
+        cmd: 'protractor test/protractor.conf.js'
+      },
       server: {
         cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
         bg: true,
@@ -418,7 +422,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);
-  grunt.registerTask('test:e2e', ['bgShell:karma']);
+  grunt.registerTask('test:e2e', ['bgShell:protractor']);
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('build:dev', [
     'githooks',

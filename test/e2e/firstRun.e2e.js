@@ -40,7 +40,6 @@ describe('project creation workflow', function () {
 
   it('should allow the user to specify project details', function () {
     var setupPage = new SetupPage('test-0');
-    var repogroupSelector = by.css('#wrapper > main > section > ng-form > ul > li.list-group-item.ng-scope > ol > li.repo-group-item.ng-binding');
 
     setupPage.get();
 
@@ -68,6 +67,10 @@ describe('project creation workflow', function () {
     // element(by.css('#editor > div.editor-container.ng-scope.loaded > pre > textarea')).sendKeys('FROM dockerfile/nodejs\nCMD sleep 1000000');
 
     browser.wait(function () {
+      return setupPage.dockerfileIsClean();
+    });
+
+    browser.wait(function () {
       return setupPage.dockerfileValidates();
     });
 
@@ -79,13 +82,26 @@ describe('project creation workflow', function () {
   it('should wait for the build to complete', function () {
     browser.get('/project/runnable-doobie/test-0/master/1');
 
+    // Extra-long timeout here because builds can take a while
     browser.wait(function () {
-      return element(by.css('.sub-header')).evaluate('dataBuild.data.build.completed()');
+      return element(by.css('.sub-header')).evaluate('dataBuild.data.build.succeeded()');
+    }, 60 * 1000);
+  });
+
+  it('should create a new instance', function () {
+    browser.get('/project/runnable-doobie/test-0/master/1');
+
+    browser.wait(function () {
+      return element(by.css('.sub-header')).evaluate('dataBuild.data.build.succeeded()');
     });
 
     element(by.css('#wrapper > main > nav > section > div > button.green')).click();
 
     waitForUrl(new RegExp(processUrl('/instances/runnable-doobie/[a-z0-9]{6}')));
+
+    browser.wait(function () {
+      return element(by.css('.sub-header')).evaluate('dataInstance.data.container.running()');
+    });
   });
 
   it('should allow the user to delete the project', function () {
