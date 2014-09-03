@@ -1,0 +1,185 @@
+nav.sub-header
+  //- runnable_title
+  h1.divided-header
+    input.form-control.inline-edit(
+      placeholder = "Instance Name"
+      required
+      spellcheck = "false"
+      ng-model = "dataBoxInstance.data.instance.attrs.name"
+      ng-keyup = "($event.keyCode === 13) && dataBoxInstance.actions.renameInstance()"
+      ng-blur = "dataBoxInstance.actions.renameInstance()"
+    )
+    svg.iconnables.icons-edit
+      use(xlink:href = "#icons-edit")
+  section.main-controls
+    .slide-left.slide-save.out(
+      ng-class = "{out: !dataBoxInstance.data.container.running() || dataBoxInstance.data.loading}"
+    )
+      button.green(
+        ng-click = "dataBoxInstance.actions.saveChanges()"
+        type = "button"
+      ) Save Changes
+      label.btn.btn-check(
+        ng-class = "{out: !dataBoxInstance.data.container.running() || dataBoxInstance.data.loading}"
+      )
+        input.form-checkbox(
+          checked
+          ng-disabled = "!dataBoxInstance.data.container.running()"
+          ng-model = "dataBoxInstance.data.restartOnSave"
+          type = "checkbox"
+        )
+        | Restart instance on save.
+
+section.sidebar
+  ul.sidebar-ul.sidebar-info.load(
+    ng-show = "dataBoxInstance.data.instance.buildUrl()"
+  )
+    li.sidebar-li
+      svg.iconnables.icons-back
+        use(xlink:href = "#icons-back")
+      | From #{''}
+      a.link(
+        ng-click = "dataBoxInstance.actions.goToBuild()"
+        title = "{{ dataBoxInstance.data.instance.buildUrl() }}"
+      ) {{ dataBoxInstance.data.instance.buildUrl() }}
+    li.sidebar-li(
+      ng-if = "dataBoxInstance.data.container.running()"
+    )
+      svg.iconnables.icons-duration
+        use(xlink:href = "#icons-duration")
+      time(
+        datatime = "{{ dataBoxInstance.data.container.attrs.inspect.State.StartedAt }}"
+        title = "Launched on {{ dataBoxInstance.data.container.attrs.inspect.State.StartedAt }}"
+      ) Launched {{ dataBoxInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}
+    li.sidebar-li(
+      ng-if = "!dataBoxInstance.data.container.running()"
+    )
+      svg.iconnables.icons-duration
+        use(xlink:href = "#icons-duration")
+      time(
+        datatime = "{{ dataBoxInstance.data.container.attrs.inspect.State.FinishedAt }}"
+        title = "Stopped on {{ dataBoxInstance.data.container.attrs.inspect.State.FinishedAt }}"
+      ) Stopped {{ dataBoxInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}
+    li.sidebar-li(
+      ng-if = "dataBoxInstance.data.container.attrs.stoppedBy.username"
+    )
+      svg.iconnables.icons-untriggered
+        use(xlink:href = "#icons-untriggered")
+      | Stopped by #{''}
+      a dataBoxInstance.data.container.attrs.stoppedBy.username
+  h3.sidebar-title.load(
+    ng-show = "dataBoxInstance.data.container.running() && !dataBoxInstance.data.loading && dataBoxInstance.data.container.urls().length"
+  ) Exposed URLs
+  ul.sidebar-ul.sidebar-urls.load(
+    ng-show = "dataBoxInstance.data.container.running() && !dataBoxInstance.data.loading && dataBoxInstance.data.container.urls().length"
+  )
+    li.sidebar-li
+      input.form-control(
+        readonly
+        select-all
+        value = "{{ dataBoxInstance.data.container.urls()[0] }}"
+      )
+  h3.sidebar-title.load(
+    ng-show = "dataBoxInstance.data.instance.buildUrl()"
+  ) Actions
+  ul.sidebar-ul.load(
+    ng-show = "dataBoxInstance.data.instance.buildUrl()"
+  )
+    li.sidebar-action(
+      ng-class = "{active: dataBoxInstance.data.loading}"
+      ng-if = "!dataBoxInstance.data.container.running()"
+    ) Restart Instance
+      button.btn-sm.silver(
+        ng-click = "dataBoxInstance.actions.startInstance();"
+        type = "button"
+      )
+        svg.iconnables.icons-start
+          use(xlink:href = "#icons-start")
+      .spinner
+        .spinner-ring
+    li.sidebar-action(
+      ng-class = "{ \
+        active: dataBoxInstance.data.loading \
+      }"
+      ng-if = "dataBoxInstance.data.container.running()"
+    ) Stop Instance
+      button.btn-sm.silver(
+        ng-click = "dataBoxInstance.actions.stopInstance();"
+        type = "button"
+      )
+        svg.iconnables.icons-pause
+          use(xlink:href = "#icons-pause")
+      .spinner
+        .spinner-ring
+    li.sidebar-action Delete Instance
+      button.btn-sm.silver(
+        ng-click = "dataBoxInstance.actions.destroyInstance()"
+        type = "button"
+      )
+        svg.iconnables.icons-delete
+          use(xlink:href = "#icons-delete")
+
+//- code_editor
+#editor.with-add-tab(
+  ng-class = "{in: dataBoxInstance.data.showExplorer && !dataBoxInstance.data.loading, out: !dataBoxInstance.data.container.running() || dataBoxInstance.data.loading}"
+)
+  button#explorer-toggle.btn-icon(
+    ng-click = "dataBoxInstance.data.showExplorer = !dataBoxInstance.data.showExplorer"
+    type = "button"
+  )
+    svg.iconnables.icons-folder-open
+      use(xlink:href = "#icons-folder-open")
+  //- file_explorer
+  aside#explorer
+    #controls
+      button.toggle-theme.tooltip(
+        data-title = "Change Theme"
+        ng-class = "{dark: !dataBoxInstance.data.toggleTheme, light: dataBoxInstance.data.toggleTheme}"
+        ng-click = "dataBoxInstance.data.toggleTheme = !dataBoxInstance.data.toggleTheme"
+        type = "button"
+      )
+        .theme
+    h6.explorer-header
+      | INSTANCE FILES
+      a.btn.silver.btn-sm.file-explorer-menu.btn-icon(
+        ng-class = "{active: dataBoxInstance.data.popoverFileMenu.data.show}"
+        toggle-pop-over
+        toggle-pop-over-model = "dataBoxInstance.data.popoverFileMenu.data.show"
+      )
+        svg.iconnables.icons-gear
+          use(xlink:href = "#icons-gear")
+        pop-over(
+          actions = "dataBoxInstance.data.popoverFileMenu.actions"
+          data = "dataBoxInstance.data.popoverFileMenu.data"
+          template = "viewInstancePopoverFileMenu"
+        )
+    file-tree(
+      read-only = "false"
+      root-dir = "dataBoxInstance.data.container.rootDir"
+      open-items = "dataBoxInstance.data.openItems"
+    )
+  tabs(
+    open-items = "dataBoxInstance.data.openItems"
+  )
+  a#add-tab.btn.btn-icon(
+    ng-class = "{active: dataBoxInstance.data.popoverAddTab.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataBoxInstance.data.popoverAddTab.data.show"
+  )
+    svg.iconnables.icons-add
+      use(xlink:href = "#icons-add")
+    pop-over(
+      data = "dataBoxInstance.data.popoverAddTab.data"
+      actions = "dataBoxInstance.data.popoverAddTab.actions"
+      template = "viewInstancePopoverAddTab"
+    )
+  tabs-dropdown(
+    open-items = "dataBoxInstance.data.openItems"
+  )
+  active-panel(
+    container = "dataBoxInstance.data.container"
+    open-items = "dataBoxInstance.data.openItems"
+    is-dark-theme = "dataBoxInstance.data.toggleTheme"
+    update = "false"
+  )
+  .horizontal-spinner
