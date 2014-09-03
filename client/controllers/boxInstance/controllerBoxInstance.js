@@ -250,7 +250,7 @@ function ControllerBoxInstance(
         cb();
       })
       .resolve(function (err, instance, cb) {
-        if (!instance || !instance.containers.models.length) {
+        if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           return cb(new Error('Instance not found'));
         }
         $scope.safeApply();

@@ -63,13 +63,13 @@ module.exports = [{
 }, {
   state: 'box.boxInstance',
   abstract: false,
-  url: '^/:userName/:shortHash',
+  url: '^/:userName/{shortHash:[a-z0-9]{6}}',
   templateUrl: 'viewBoxInstance',
   controller: 'ControllerBoxInstance'
 }, {
   state: 'box.boxInstanceEdit',
   abstract: false,
-  url: '^/:userName/:shortHash/edit/:buildId',
+  url: '^/:userName/{shortHash:[a-z0-9]{6}}/edit/:buildId',
   templateUrl: 'viewBoxInstanceEdit',
   controller: 'ControllerBoxInstanceEdit'
 }];
