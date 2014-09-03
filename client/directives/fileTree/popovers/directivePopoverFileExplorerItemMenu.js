@@ -70,7 +70,7 @@ function popoverFileExplorerItemMenu(
       });
 
       function closeFileNameInput() {
-        if (!$scope.fs.state.renaming) {
+        if (!keypather.get($scope, 'fs.state.renaming')) {
           return;
         }
         $scope.fs.state.renaming = false;
