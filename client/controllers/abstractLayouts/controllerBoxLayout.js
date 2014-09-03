@@ -377,14 +377,14 @@ function ControllerBoxLayout(
   };
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
-    if (newval.indexOf('projects.') === 0 && newval.indexOf('box.') === 0) {
+    if (newval.indexOf('projects.') === 0 || newval.indexOf('box.') === 0) {
       actions.initForState();
     } else if (newval === 'projects') {
       actions.initForNewState();
     }
   });
 
-  $scope.$watch('dataBoxLayout.data.instances', function (current, previous) {
+  $scope.$watch('dataBoxLayout.data.instances', function (current) {
     if (current) {
       setInitialActiveProject(angular.noop);
     }
