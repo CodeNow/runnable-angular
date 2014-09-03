@@ -15,7 +15,7 @@ function ControllerBoxInstance(
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var self = ControllerInstance;
+  var self = ControllerBoxInstance;
 
   var dataBoxInstance = $scope.dataBoxInstance = self.initData();
   var data = dataBoxInstance.data;
@@ -279,7 +279,7 @@ function ControllerBoxInstance(
   });
 }
 
-ControllerInstance.initData = function () {
+ControllerBoxInstance.initData = function () {
   return {
     data: {
       popoverAddTab: {
