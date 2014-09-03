@@ -202,7 +202,7 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.remove = function (model) {
-    model.state.open = false;
+    keypather.set(model, 'state.open', false);
     if (this.contains(model)) {
       BaseCollection.prototype.remove.call(this, model);
     }
