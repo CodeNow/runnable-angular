@@ -1,0 +1,36 @@
+//- sidebar for accounts and boxes
+nav.sidebar
+  //- accounts
+  header.accounts
+    a.account
+      img.gravatar(
+        height = ""
+        ng-src = ""
+        width = ""
+      )
+      span runnabro
+      svg.iconnable.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    //- placeholder for account-list
+  //- boxes
+  section.boxes
+    h2.sub-header Boxes
+      a
+        svg.iconnable.icons-add
+          use(
+            xlink:href = "#icons-add"
+          )
+    ul.box-group
+      //- apply .active for currently selected box
+      li.box-group-item runnable-api
+        span.box-status
+
+//- 2nd level views (boxInstnce, boxInstanceEdit...)
+main(ui-view
+.spinner-container(
+  ng-class = "{in: dataApp.data.loading}"
+)
+  .spinner.lg
+    .spinner-ring
