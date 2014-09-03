@@ -212,6 +212,7 @@ button,
 
 .white {
   background: transparent;
+  border: 1px solid transparent;
   border-radius: 3px;
   box-shadow: none;
   color: $gray-dark;
@@ -222,6 +223,7 @@ button,
   &:active,
   &.active {
     background: rgba($black,.05);
+    border-color: rgba($black,.1);
   }
 }
 

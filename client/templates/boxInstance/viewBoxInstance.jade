@@ -35,23 +35,33 @@ header.box-header
       //- popover for rename, for, delete box
 
 //- sidebar with repositories and urls
-section.sidebar
+section.sidebar.box-sidebar
   //- repositories
-  section
+  section.row
     h2.sub-header Repositories
     ul.repository-group
       li.repository-group-item
-        svg.iconnable.icons-git
+        svg.iconnables.icons-git
           use(
-            xlink:href = ""
+            xlink:href = "#icons-git"
           )
-        h3.repository-title
-        span.commit-message
-        .commit-details
-          span.commit-author
-          time.commit-time
+        h3.repository-title CodeNow/runnable-angular
+        .commit
+          .commit-message bugfix object keypath
+          span.commit-author cflynn07
+          time.commit-time 5 hours ago
+      li.repository-group-item
+        svg.iconnables.icons-git
+          use(
+            xlink:href = "#icons-git"
+          )
+        h3.repository-title CodeNow/api
+        .commit
+          .commit-message actually submit .env.local
+          span.commit-author anandkumarpatel
+          time.commit-time 2 hours ago
   //- urls
-  section
+  section.row
     h2.sub-header URLs
     ul.url-group
       li.url-group-item
@@ -65,8 +75,8 @@ section.sidebar
           href = ""
           target = "_blank"
         )
-          svg.iconnable
-section.views
+          svg.iconnables
+//- section.views
   section.explorer
     button.explorer-toggle.btn-icon(
       ng-click = "dataBuild.data.showExplorer = !dataBuild.data.showExplorer"

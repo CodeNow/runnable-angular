@@ -1,0 +1,43 @@
+// section.sidebar.box-sidebar
+.box-sidebar {
+  width: 300px;
+}
+
+// li.repository-group-item
+.repository-group-item {
+  padding: 15px 15px 15px 45px;
+
+  .icons-git {
+    color: $gray-light;
+    left: 15px;
+    position: absolute;
+  }
+}
+
+// h3.repository-title
+.repository-title {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.commit {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: $gray;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 3px -6px 0;
+  padding: 0 6px 3px;
+  transition: all .15s ease-in;
+
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+}
+
+// time.commit-time
+.commit-time {
+  color: $gray-light;
+  float: right;
+}
