@@ -237,7 +237,9 @@ function ControllerBoxInstance(
       .query($stateParams.shortHash)
       .cacheFetch(function updateDom(instance, cached, cb) {
         if (!instance) {
-          return $state.go(404);
+          return;
+          // TODO
+          // return $state.go(404);
         }
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
@@ -273,7 +275,7 @@ function ControllerBoxInstance(
     newOpenItems
   ], function (err) {
     if (err) {
-      $state.go('404');
+      // $state.go('404');
       throw err;
     }
     $scope.safeApply();
