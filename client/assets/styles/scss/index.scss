@@ -14,13 +14,15 @@
 @import "globals/var";
 @import "globals/reset";
 @import "globals/globals";
+@import "globals/grid";
 @import "globals/typography";
+@import "globals/images";
 
 // Bootstrap v3.0.0
 // Copyright 2013 Twitter, Inc
 // Licensed under the Apache License v2.0 http://www.apache.org/licenses/LICENSE-2.0
 // Designed and built with all the love in the world by @mdo and @fat.
-@import "bootstrap/grid";
+// @import "bootstrap/grid";
 @import "bootstrap/helpers";
 @import "bootstrap/lists";
 @import "bootstrap/tables";
@@ -35,8 +37,10 @@
 
 // components (sidebar)
 @import "components/sidebar";
-@import "components/sidebar-actions";
-@import "components/sidebar-messages";
+@import "components/sidebar-accounts";
+@import "components/sidebar-boxes";
+// @import "components/sidebar-actions";
+// @import "components/sidebar-messages";
 
 // components (editor)
 @import "components/explorer";

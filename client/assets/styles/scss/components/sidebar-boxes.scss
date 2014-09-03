@@ -1,0 +1,33 @@
+// section.boxes.row
+.boxes {
+  border: 0;
+}
+
+// li.box-group-item
+.box-group-item {
+  height: 45px;
+  line-height: 45px;
+}
+
+// a.box
+.box {
+  cursor: pointer;
+  display: block;
+  padding: 0 15px;
+
+  &:hover {
+    background: rgba($black,.025);
+  }
+
+  .icons-trigger {
+    color: $orange;
+    float: right;
+    height: 45px;
+    opacity: 0;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+}

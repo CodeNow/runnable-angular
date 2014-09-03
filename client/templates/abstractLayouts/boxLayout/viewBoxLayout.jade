@@ -1,31 +1,64 @@
 //- sidebar for accounts and boxes
 nav.sidebar
   //- accounts
-  header.accounts
-    a.account
-      img.gravatar(
-        height = ""
-        ng-src = ""
-        width = ""
-      )
-      span runnabro
-      svg.iconnable.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-    //- placeholder for account-list
+  header.row
+    ol.accounts-group(
+      ng-class = "{in: dataBoxLayout.data.showChangeAccount}"
+      ng-click = "dataBoxLayout.data.showChangeAccount = !dataBoxLayout.data.showChangeAccount"
+    )
+      li.accounts-group-item
+        a.account
+          img.gravatar(
+            height = "24"
+            ng-src = ""
+            width = "24"
+          )
+          span runnabro
+          //- icons-arrow-down only for first account
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+      li.accounts-group-item
+        a.account
+          img.gravatar(
+            height = "24"
+            ng-src = ""
+            width = "24"
+          )
+          span CodeNow
+      li.accounts-group-item
+        a.account
+          img.gravatar(
+            height = "24"
+            ng-src = ""
+            width = "24"
+          )
+          span Runnable
   //- boxes
-  section.boxes
+  section.boxes.row
     h2.sub-header Boxes
-      a
-        svg.iconnable.icons-add
+      a.sub-header-action.tooltip(
+        data-title = "Create New Box"
+      )
+        svg.iconnables.icons-add
           use(
             xlink:href = "#icons-add"
           )
     ul.box-group
       //- apply .active for currently selected box
-      li.box-group-item runnable-api
-        span.box-status
+      li.box-group-item
+        a.box runnable-api
+          svg.iconnables.icons-trigger
+            use(
+              xlink:href = "#icons-trigger"
+            )
+      li.box-group-item
+        a.box runnable-web
+          svg.iconnables.icons-trigger.active
+            use(
+              xlink:href = "#icons-trigger"
+            )
 
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
 main(ui-view)
