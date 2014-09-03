@@ -166,6 +166,7 @@ function ControllerBoxInstance(
   actions.goToBuild = function() {
     var attrs = data.instance.attrs;
     var state = {
+      userName: $state.params.userName,
       shortHash: $state.params.shortHash,
       buildId: data.instance.attrs.build.id
     };
