@@ -48,20 +48,10 @@ nav.sidebar
     ul.box-group
       //- apply .active for currently selected box
       //- apply .running for a running box
-      li.box-group-item
-        a.box runnable-api
-          svg.iconnables.icons-trigger
-            use(
-              xlink:href = "#icons-trigger"
-            )
-      li.box-group-item.running
-        a.box runnable-web
-          svg.iconnables.icons-trigger
-            use(
-              xlink:href = "#icons-trigger"
-            )
-      li.box-group-item.running.active
-        a.box runnable-angular
+      li.box-group-item(
+        ng-repeat = "box in dataBoxLayout.data.instances.models"
+      )
+        a.box {{ box.attrs.name }}
           svg.iconnables.icons-trigger
             use(
               xlink:href = "#icons-trigger"
