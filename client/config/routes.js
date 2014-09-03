@@ -10,18 +10,6 @@ module.exports = [{
     },
   }
 }, {
-  state: 'about',
-  abstract: false,
-  url: '^/about',
-  templateUrl: 'viewAbout',
-  controller: 'ControllerAbout'
-}, {
-  state: 'jobs',
-  abstract: false,
-  url: '^/jobs',
-  templateUrl: 'viewJobs',
-  controller: 'ControllerJobs'
-}, {
   state: 'projects',
   abstract: false,
   url: '^/new',
