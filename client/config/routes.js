@@ -56,18 +56,18 @@ module.exports = [{
   templateUrl: 'viewError',
   controller: 'ControllerError'
 }, {
-  state: 'box',
+  state: 'instance',
   abstract: true,
-  templateUrl: 'viewBoxLayout',
+  templateUrl: 'viewInstanceLayout',
   controller: 'ControllerBoxLayout'
 }, {
-  state: 'box.instance',
+  state: 'instance.instance',
   abstract: false,
   url: '^/:userName/:shortHash',
   templateUrl: 'viewInstance',
   controller: 'ControllerInstance'
 }, {
-  state: 'box.boxInstanceEdit',
+  state: 'instance.instanceEdit',
   abstract: false,
   url: '^/:userName/:shortHash/edit/:buildId',
   templateUrl: 'viewBoxInstanceEdit',
