@@ -6,6 +6,7 @@
   padding: 0 15px;
   position: relative;
   width: 240px;
+  z-index: $z-sidebar;
 
   .row {
     border-bottom: 1px solid rgba($black,.1);
@@ -33,13 +34,6 @@
   padding: 0;
   top: 6px;
   width: 36px;
-
-  // offset tooltip
-  &::before,
-  &::after {
-    margin-left: 6px;
-    margin-top: 15px;
-  }
 
   .icons-add {
     margin-left: -1px;

@@ -85,22 +85,25 @@ button,
 }
 
 .green {
-  background-color: $green;
-  border-color: $green-darker;
-  border-top-color: $green-dark;
+  box-shadow: none;
+  color: $green;
 
-  &:hover,
+  &:hover {
+    background: rgba($green,.1);
+    border-color: rgba($green,.3);
+  }
+
   &:active,
   &.active {
-    background-color: $green-light;
-    color: $white;
+    background: rgba($green,.1);
+    border-color: rgba($green,.6);
   }
 
   &[disabled],
   &[disabled]:hover,
   &[disabled]:active {
-    background: rgba($green,.75);
-    border-color: rgba($green-darker,.75);
+    // background: rgba($green,.75);
+    // border-color: rgba($green-darker,.75);
     opacity: .75;
   }
 }

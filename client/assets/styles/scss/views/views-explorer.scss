@@ -1,56 +1,49 @@
-#explorer {
-  background: $gray-lighter;
+// button.white.btn-icon.explorer-toggle
+.explorer-toggle {
+  border: 0;
+  border-radius: 0;
+  border-right: 1px solid rgba($black,.1);
+  color: $gray-dark;
+  height: 45px;
+  position: absolute;
+  width: 45px;
+  z-index: $z-show;
+
+  .icons-folder-open {
+    top: 6px;
+  }
+}
+
+// section.explorer
+.explorer {
   border-right: 1px solid rgba($black,.1);
   display: flex;
   flex-direction: column;
   height: 100%;
+  opacity: 0;
   position: absolute;
-  transform: translate3d(-240px,0,0);
-  transition: transform .2s ease-in-out;
-  width: 240px;
-  z-index: 1;
+  transform: translate3d(-270px,0,0);
+  transition: all .2s ease-in;
+  width: 270px;
+  z-index: $z-views-explorer;
 
   .in & {
+    opacity: 1;
     transform: translate3d(0,0,0);
   }
 }
 
-#explorer-toggle {
-  background: $gray-lighter;
-  border: 0;
+// .explorer-controls
+.explorer-controls {
   border-bottom: 1px solid rgba($black,.1);
-  border-radius: 0;
-  border-right: 1px solid rgba($black,.1);
-  color: $gray-dark;
-  float: left;
-  height: 36px;
-  position: absolute;
-  width: 36px;
-  z-index: $z-show;
-
-  &:hover,
-  &:active,
-  &.active {
-    background: $white;
-  }
-
-  .out & {
-    transform: translate3d(-36px,0,0);
-  }
-}
-
-// controls
-#controls {
-  background: $gray-lighter;
-  border-bottom: 1px solid rgba($black,.1);
-  border-right: 1px solid rgba($black,.1);
   flex: 0 0 auto;
-  height: 36px;
-  margin: 0 0 0 36px;
+  height: 45px;
+  padding: 0 0 0 45px;
   user-select: none;
-  width: 204px;
+  width: 270px;
 }
 
+// button.toggle-theme.tooltip
 .toggle-theme {
   padding: 0;
 
@@ -69,90 +62,89 @@
   &.dark > .theme::after {
     background: rgba($gray-dark,.75);
   }
+}
 
-  .theme {
+.theme {
+  height: 100%;
+  width: 45px;
 
-    &::before,
-    &::after {
-      border-radius: 50%;
-      content: '';
-      display: inline-block;
-      height: 18px;
-      margin: 8px auto;
-      width: 18px;
-    }
+  &::before,
+  &::after {
+    border-radius: 50%;
+    content: '';
+    display: inline-block;
+    height: 18px;
+    margin: 13px auto;
+    width: 18px;
+  }
 
-    &::before {
-      border: 2px solid $purple;
-      background: rgba($purple,.25);
-      margin-left: 9px;
-    }
+  &::before {
+    background: rgba($purple,.25);
+    border: 2px solid $purple;
+  }
 
-    &::after {
-      border: 2px solid $gray-dark;
-      background: rgba($gray-dark,.1);
-      margin-left: -6px;
-    }
+  &::after {
+    background: rgba($gray-dark,.1);
+    border: 2px solid $gray-dark;
+    margin-left: -6px;
   }
 }
 
 // toolbar
-#editor-toolbar {
+.editor-toolbar {
   border-bottom: 1px solid rgba($black,.1);
-  height: 36px;
+  height: 45px;
   overflow: visible;
   position: relative;
-  transform: translate3d(36px,0,0);
   transition: transform .15s ease-in-out, width 0s ease-in-out;
-  width: calc(100% - 71px);
   z-index: $z-popover;
 
-  .setup & {
-    transform: none;
-    width: 100%;
-  }
+  // .setup & {
+  //   transform: none;
+  //   width: 100%;
+  // }
 
-  .with-add-tab & {
-    width: calc(100% - 107px);
-  }
+  // .with-add-tab & {
+  //   width: calc(100% - 107px);
+  // }
 
-  .with-add-tab.out & {
-    transform: translate3d(0,0,0);
-    width: calc(100% - 35px);
-  }
+  // .with-add-tab.out & {
+  //   transform: translate3d(0,0,0);
+  //   width: calc(100% - 35px);
+  // }
 
-  .with-add-tab.in & {
-    width: calc(100% - 311px);
-  }
+  // .with-add-tab.in & {
+  //   width: calc(100% - 311px);
+  // }
 
   .in & {
-    transform: translate3d(240px,0,0);
-    transition: transform .225s ease-in-out, width .275s ease-in-out;
-    width: calc(100% - 275px);
+    transform: translate3d(270px,0,0);
+    transition: transform .2s ease-in, width .2s ease-in;
+    width: calc(100% - 270px); // 270px = width of .explorer
   }
 
-  > a {
-    cursor: pointer;
-    display: block;
-    float: left;
-    font-size: 18px;
-    height: 35px;
-    line-height: 36px;
-    text-align: center;
-    width: 36px;
-  }
+  // > a {
+  //   cursor: pointer;
+  //   display: block;
+  //   float: left;
+  //   font-size: 18px;
+  //   height: 35px;
+  //   line-height: 36px;
+  //   text-align: center;
+  //   width: 36px;
+  // }
 
-  .tooltip {
+  // .tooltip {
 
-    &:before {
-      top: 36px;
-    }
+  //   &:before {
+  //     top: 36px;
+  //   }
 
-    &:after {
-      top: 30px;
+  //   &:after {
+  //     top: 30px;
 
-    }
-  }
+  //   }
+  // }
 }
 
 // toolbar tabs
