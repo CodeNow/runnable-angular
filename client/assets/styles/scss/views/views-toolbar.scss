@@ -26,3 +26,32 @@
     transform: rotate3d(0,0,1,135deg);
   }
 }
+
+// .add-tab .popover
+.add-tab .popover {
+  left: auto;
+  max-height: 278px;
+  right: -3px;
+  top: 33px;
+  transform-origin: 250px -15px;
+
+  .arrow {
+    left: auto;
+    right: 7px;
+  }
+
+  .popover-content {
+    max-height: 274px;
+  }
+
+  .col-popover-3 {
+    border-bottom: 1px solid rgba($black,.1);
+    height: 72px;
+    overflow: hidden;
+  }
+
+  .iconnables.lg {
+    display: block;
+    margin: 12px auto 0;
+  }
+}
