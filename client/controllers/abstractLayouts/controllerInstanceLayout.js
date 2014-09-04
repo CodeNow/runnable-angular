@@ -344,9 +344,9 @@ function ControllerInstanceLayout(
   };
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
-    if (newval.indexOf('projects.') === 0 || newval.indexOf('box.') === 0) {
+    if (newval.indexOf('instance.') === 0) {
       actions.initForState();
-    } else if (newval === 'projects') {
+    } else if (newval === 'instance') {
       actions.initForNewState();
     }
   });
