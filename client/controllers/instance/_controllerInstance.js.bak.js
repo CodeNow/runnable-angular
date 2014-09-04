@@ -1,9 +1,12 @@
 require('app')
-  .controller('ControllerBoxInstance', ControllerBoxInstance);
+  .controller('ControllerInstance', ControllerInstance);
 /**
+ * ControllerInstance
+ * @constructor
+ * @export
  * @ngInject
  */
-function ControllerBoxInstance(
+function ControllerInstance(
   $scope,
   $state,
   $stateParams,
@@ -15,11 +18,11 @@ function ControllerBoxInstance(
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var self = ControllerBoxInstance;
+  var self = ControllerInstance;
 
-  var dataBoxInstance = $scope.dataBoxInstance = self.initData();
-  var data = dataBoxInstance.data;
-  var actions = dataBoxInstance.actions;
+  var dataInstance = $scope.dataInstance = self.initData();
+  var data = dataInstance.data;
+  var actions = dataInstance.actions;
 
   data.restartOnSave = true;
 
@@ -33,11 +36,11 @@ function ControllerBoxInstance(
   pfm.actions = {};
 
   pfm.actions.create = function (isDir) {
-    if(!keypather.get(dataBoxInstance, 'data.version.rootDir')) {
+    if(!keypather.get(dataInstance, 'data.version.rootDir')) {
       return;
     }
     pfm.data.show = false;
-    var dir = dataBoxInstance.data.version.rootDir;
+    var dir = dataInstance.data.version.rootDir;
     var name = getNewFileFolderName(dir);
     var file = dir.contents.create({
       name: name,
@@ -154,23 +157,24 @@ function ControllerBoxInstance(
     });
   };
 
-  // actions.stateToBuildList = function (userName, projectName, branchName) {
-  //   var state = {
-  //     userName: userName,
-  //     projectName: projectName,
-  //     branchName: branchName
-  //   };
-  //   $state.go('projects.buildList', state);
-  // };
+  actions.stateToBuildList = function (userName, projectName, branchName) {
+    var state = {
+      userName: userName,
+      projectName: projectName,
+      branchName: branchName
+    };
+    $state.go('projects.buildList', state);
+  };
 
   actions.goToBuild = function() {
     var attrs = data.instance.attrs;
     var state = {
-      userName: $state.params.userName,
-      shortHash: $state.params.shortHash,
-      buildId: data.instance.attrs.build.id
+      userName: attrs.owner.username,
+      projectName: attrs.project.name,
+      branchName: attrs.environment.name,
+      buildName: attrs.build.buildNumber
     };
-    $state.go('projects.boxInstanceEdit', state);
+    $state.go('projects.build', state);
   };
 
   actions.destroyInstance = function () {
@@ -198,9 +202,9 @@ function ControllerBoxInstance(
   };
 
   $scope.$on('app-document-click', function () {
-    dataBoxInstance.data.showAddTab = false;
-    dataBoxInstance.data.showFileMenu = false;
-    dataBoxInstance.data.popoverAddTab.filter = '';
+    dataInstance.data.showAddTab = false;
+    dataInstance.data.showFileMenu = false;
+    dataInstance.data.popoverAddTab.filter = '';
   });
 
   $scope.$watch(function () {
@@ -211,7 +215,7 @@ function ControllerBoxInstance(
     $scope.safeApply();
   });
 
-  $scope.$watch('dataBoxInstance.data.container.running()', function (n) {
+  $scope.$watch('dataInstance.data.container.running()', function (n) {
     if (data.openItems) {
       if (n) {
         if (data.container.urls().length) {
@@ -234,12 +238,10 @@ function ControllerBoxInstance(
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstance')
-      .query($stateParams.shortHash)
+      .query($stateParams.instanceId)
       .cacheFetch(function updateDom(instance, cached, cb) {
         if (!instance) {
-          return;
-          // TODO
-          // return $state.go(404);
+          return $state.go(404);
         }
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
@@ -252,7 +254,7 @@ function ControllerBoxInstance(
         cb();
       })
       .resolve(function (err, instance, cb) {
-        if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+        if (!instance || !instance.containers.models.length) {
           return cb(new Error('Instance not found'));
         }
         $scope.safeApply();
@@ -275,14 +277,14 @@ function ControllerBoxInstance(
     newOpenItems
   ], function (err) {
     if (err) {
-      // $state.go('404');
+      $state.go('404');
       throw err;
     }
     $scope.safeApply();
   });
 }
 
-ControllerBoxInstance.initData = function () {
+ControllerInstance.initData = function () {
   return {
     data: {
       popoverAddTab: {
