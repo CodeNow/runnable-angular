@@ -53,7 +53,8 @@
   }
 
   // icons with fill
-  &.icons-git {
+  &.icons-git,
+  &.icons-update {
     fill: currentColor;
     stroke: none;
   }

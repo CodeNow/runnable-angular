@@ -35,15 +35,6 @@ button,
     cursor: not-allowed;
   }
 
-  &.btn-icon {
-    padding: 0;
-    width: 45px;
-
-    &.btn-icon-sm {
-      width: 24px;
-    }
-  }
-
   &.btn-sm {
     font-weight: 400;
     height: 22px;
@@ -52,12 +43,17 @@ button,
 
     &.btn-icon {
       padding: 1px 0 0;
-
-      > .iconnables {
-        height: 18px;
-        width: 18px;
-      }
     }
+  }
+}
+
+.btn-icon {
+  padding: 0;
+  width: 45px;
+
+  &.btn-icon-sm {
+    min-width: 24px;
+    width: auto;
   }
 }
 

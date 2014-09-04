@@ -47,7 +47,7 @@ nav.sidebar
     h2.sub-header Boxes
       a.btn.white.tooltip.sub-header-action(
         data-title = "Create New Box"
-	ng-click = "dataBoxLayout.actions.stateToNewProject()"
+        ng-click = "dataBoxLayout.actions.stateToNewProject()"
       )
         svg.iconnables.icons-add
           use(
@@ -57,7 +57,7 @@ nav.sidebar
       //- apply .active for currently selected box
       //- apply .running for a running box
       li.box-group-item(
-	ng-repeat = "box in dataBoxLayout.data.instances.models"
+        ng-repeat = "box in dataBoxLayout.data.instances.models"
       )
         a.white.box {{ box.attrs.name }}
           svg.iconnables.icons-trigger
