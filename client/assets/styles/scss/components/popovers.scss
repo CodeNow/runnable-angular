@@ -201,7 +201,7 @@
       }
     }
 
-    .col-popover-3 > li {
+    .col-popover-4 > li {
       border-left: 1px solid rgba($black,.1);
       cursor: pointer;
       float: left;
@@ -209,10 +209,14 @@
       height: 100%;
       line-height: 1.6;
       text-align: center;
-      width: calc(100% / 3);
+      width: calc(100% / 4);
 
       &:first-child {
         border-left: 0;
+      }
+
+      &:hover {
+        background: rgba($black,.05);
       }
     }
   }

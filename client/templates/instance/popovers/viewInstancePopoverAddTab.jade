@@ -6,75 +6,27 @@
 )
   .arrow.white
   .popover-content
-    #add-tab-options
-      ol.popover-body.col-popover-3
-        li(
-          ng-click = "actions.addWebView()"
-        )
-          svg.iconnables.lg.icons-web
-            use(xlink:href = "#icons-web")
-          | Web View
-        li(
-          ng-click = "actions.addTerminal()"
-        )
-          svg.iconnables.lg.icons-terminal
-            use(xlink:href = "#icons-terminal")
-          | Terminal
-        li(
-          ng-click = "actions.addOutputStream()"
-        )
-          svg.iconnables.lg.icons-logs
-            use(xlink:href = "#icons-logs")
-          | Run Log
-
-      ol#shortcuts.popover-body.popover-list
-        li Shortcut 1
-          button.delete(type = "button")
-            svg.iconnables.icons-close
-              use(xlink:href = "#icons-close")
-        li Shortcut 2
-          button.delete(type = "button")
-            svg.iconnables.icons-close
-              use(xlink:href = "#icons-close")
-        li Shortcut 3
-          button.delete(type = "button")
-            svg.iconnables.icons-close
-              use(xlink:href = "#icons-close")
-        li Shortcut 4
-          button.delete(type = "button")
-            svg.iconnables.icons-close
-              use(xlink:href = "#icons-close")
-      button#new-shortcut-button.silver.btn-block(
-        ng-click = "showNewShortcut = true"
-        type = "button"
-      ) New Shortcut
-
-    form#new-shortcut
-      h3.popover-title Add New Shortcut
-      input.form-control(
-        placeholder = "Shortcut Name"
-        required
+    ol.popover-body.col-popover-4
+      li(
+        ng-click = "actions.addWebView()"
       )
-      input.form-control(
-        placeholder = "Shortcut CMD"
-        required
+        svg.iconnables.lg.icons-web
+          use(xlink:href = "#icons-web")
+        | Web View
+      li(
+        ng-click = "actions.addTerminal()"
       )
-      .form-group.toggle-group
-        label.active
-          svg.iconnables.lg.icons-web
-            use(xlink:href = "#icons-web")
-          | Web View
-          input(
-            type = "radio"
-            name = "output_format"
-            checked
-          )
-        label
-          svg.iconnables.lg.icons-terminal
-            use(xlink:href = "#icons-terminal")
-          | Terminal View
-          input(
-            type = "radio"
-            name = "output_format"
-          )
-      button.silver.btn-block Create New Shortcut
+        svg.iconnables.lg.icons-terminal
+          use(xlink:href = "#icons-terminal")
+        | Terminal
+      li(
+        ng-click = "actions.addOutputStream()"
+      )
+        svg.iconnables.lg.icons-logs
+          use(xlink:href = "#icons-logs")
+        | Server Logs
+      li
+        //- i need a new icon here
+        svg.iconnables.lg.icons-logs
+          use(xlink:href = "#icons-logs")
+        | Build Logs
