@@ -7,71 +7,16 @@
   white-space: nowrap;
 
   .with-add-tab & {
-    margin-left: 0;
     margin-right: 45px;
   }
 
-  a {
-    border: 0;
-    border-radius: 0;
-    cursor: pointer;
-    display: block;
-    float: left;
-    font-size: 14px;
-    height: 35px;
-    line-height: 36px;
-    margin: 0;
-    padding: 0 1px 0 9px;
-
-    &::before {
-      color: $gray-darker;
-      font-size: 14px;
-      font-weight: 500;
-      height: 100%;
-      left: 0;
-      line-height: 36px;
-      padding-left: 9px;
-      pointer-events: none;
-      position: absolute;
-      width: 100%;
-    }
-  }
-
-  .btn-icon {
-    color: $gray-dark;
-    float: right;
-    opacity: .5;
-    padding-top: 2px;
-    width: 21px;
-
-    &:hover {
-      opacity: .75;
-    }
-
-    &:active {
-      opacity: 1;
-    }
-  }
-
-  .icons-dirty {
-    display: inline-block;
-    font-size: 21px;
-    line-height: 1.9;
-    opacity: 0;
-    pointer-events: none;
-    position: relative;
-    z-index: 1;
-  }
-
-  .icons-close {
-    height: 15px;
-    width: 15px;
+  .with-add-tab.in & {
+    margin-left: 0;
   }
 }
 
 // li.tab-wrapper
 .tab-wrapper {
-  background: $gray-lighter;
   border: 1px solid rgba($black,.1);
   border-bottom: 0;
   border-top: 0;
@@ -92,8 +37,7 @@
 
   &.active {
 
-    > a {
-      padding-right: 8px;
+    > .tab {
 
       &::before {
         background: $white;
@@ -105,16 +49,60 @@
   &.dirty .icons-dirty {
     opacity: 1;
   }
+
+  .icons-dirty {
+    display: inline-block;
+    font-size: 21px;
+    line-height: 1.9;
+    opacity: 0;
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-icon {
+    color: $gray-dark;
+    float: right;
+    margin: 0 3px 0 9px;
+    opacity: .5;
+    padding-top: 2px;
+    width: 21px;
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  .icons-close {
+    height: 15px;
+    width: 15px;
+  }
 }
 
-// a.tab
-.tab {
+// span.tab-name
+.tab-name {
   cursor: pointer;
   display: block;
   float: left;
-  font-size: 18px;
-  height: 35px;
-  line-height: 36px;
+  font-size: 14px;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 1px 0 9px;
   text-align: center;
-  width: 36px;
+
+  &::before {
+    color: $gray-dark;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    left: 0;
+    line-height: 45px;
+    padding-left: 9px;
+    pointer-events: none;
+    position: absolute;
+  }
 }

@@ -1,7 +1,7 @@
 // toolbar
 .views-toolbar {
   border-bottom: 1px solid rgba($black,.1);
-  height: 45px;
+  height: 46px; // offset for even spacing of buttons
   overflow: visible;
   position: relative;
   transition: transform .15s ease-in-out, width 0s ease-in-out;
@@ -15,20 +15,13 @@
 
 // toolbar tabs
 .add-tab {
-  border: 0;
-  border-left: 1px solid rgba($black,.1);
-  border-radius: 0;
-  color: $gray-dark;
+  height: 36px;
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 45px;
+  right: 5px;
+  top: 5px;
+  width: 36px;
 
   &.active .icons-add {
     transform: rotate3d(0,0,1,135deg);
-  }
-
-  .icons-add {
-    top: 6px;
   }
 }

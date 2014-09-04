@@ -1,23 +1,21 @@
 // button.white.btn-icon.explorer-toggle
 .explorer-toggle {
-  background: $white;
-  border: 0;
-  border-radius: 0;
-  box-shadow: inset 0 -1px 0 #e6e6e6, 1px 0 0 #e6e6e6; // rgba($black,.1)
-  color: $gray-dark;
-  height: 45px; // offset for border
+  height: 36px;
+  left: 5px;
   position: absolute;
-  width: 45px;
-  z-index: $z-show;
+  top: 5px;
+  width: 36px;
+  z-index: $z-views-toggle;
+
+  .in & {
+    background: #f2f2f2; // rgba($black,.05)
+    border: 1px solid #dadada; // rgba ($black,.1) on rgba($black,.05)
+  }
 
   &:hover,
   &:active,
   &.active {
     background: #f2f2f2; // rgba($black,.05)
-  }
-
-  .icons-folder-open {
-    top: 6px;
   }
 }
 
@@ -40,7 +38,6 @@
 
 // .explorer-controls
 .explorer-controls {
-  border-bottom: 1px solid rgba($black,.1);
   flex: 0 0 auto;
   height: 45px;
   margin-left: 45px;
