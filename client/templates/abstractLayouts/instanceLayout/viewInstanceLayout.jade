@@ -3,17 +3,17 @@ nav.sidebar.global-sidebar
   //- accounts
   header.row
     ol.accounts-group(
-      ng-class = "{in: dataBoxLayout.data.showChangeAccount}"
-      ng-click = "dataBoxLayout.data.showChangeAccount = !dataBoxLayout.data.showChangeAccount"
+      ng-class = "{in: dataInstanceLayout.data.showChangeAccount}"
+      ng-click = "dataInstanceLayout.data.showChangeAccount = !dataInstanceLayout.data.showChangeAccount"
     )
       li.accounts-group-item
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "{{ dataBoxLayout.actions.getEntityGravatar(dataBoxLayout.data.activeAccount) }}"
+            ng-src = "{{ dataInstanceLayout.actions.getEntityGravatar(dataInstanceLayout.data.activeAccount) }}"
             width = "24"
           )
-          span {{ dataBoxLayout.actions.getEntityName(dataBoxLayout.data.activeAccount) }}
+          span {{ dataInstanceLayout.actions.getEntityName(dataInstanceLayout.data.activeAccount) }}
           //- icons-arrow-down only for first account
           svg.iconnables.icons-arrow-down
             use(
@@ -22,32 +22,32 @@ nav.sidebar.global-sidebar
       //- TODO ng-click
       //- current user (if user is not active)
       li.accounts-group-item(
-        ng-if = "dataApp.user !== dataBoxLayout.data.activeAccount"
+        ng-if = "dataApp.user !== dataInstanceLayout.data.activeAccount"
       )
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "{{ dataBoxLayout.actions.getEntityGravatar(dataApp.user) }}"
+            ng-src = "{{ dataInstanceLayout.actions.getEntityGravatar(dataApp.user) }}"
             width = "24"
           )
-          span {{ dataBoxLayout.actions.getEntityName(dataApp.user) }}
+          span {{ dataInstanceLayout.actions.getEntityName(dataApp.user) }}
       //- Orgs that are not the active account
       li.accounts-group-item(
-        ng-repeat = "org in dataBoxLayout.data.orgs.models"
-        ng-if = "org !== dataBoxLayout.data.activeAccount"
+        ng-repeat = "org in dataInstanceLayout.data.orgs.models"
+        ng-if = "org !== dataInstanceLayout.data.activeAccount"
       )
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "{{ dataBoxLayout.actions.getEntityGravatar(org) }}"
+            ng-src = "{{ dataInstanceLayout.actions.getEntityGravatar(org) }}"
             width = "24"
           )
-          span {{ dataBoxLayout.actions.getEntityName(org) }}
+          span {{ dataInstanceLayout.actions.getEntityName(org) }}
   //- boxes
   section.boxes.row
     h2.sub-header Boxes
       a.btn.white.sub-header-action(
-        ng-click = "dataBoxLayout.actions.stateToNewProject()"
+        ng-click = "dataInstanceLayout.actions.stateToNewProject()"
       )
         svg.iconnables.icons-add
           use(
@@ -59,8 +59,8 @@ nav.sidebar.global-sidebar
       li.box-group-item(
         //- TODO: ng-class placeholder property. Replace when API client ready
         ng-class = "{running: box.attrs.running}"
-        ng-click = "dataBoxLayout.actions.stateToInstance(box)"
-        ng-repeat = "box in dataBoxLayout.data.instances.models"
+        ng-click = "dataInstanceLayout.actions.stateToInstance(box)"
+        ng-repeat = "box in dataInstanceLayout.data.instances.models"
       )
         a.white.box {{ box.attrs.name }}
           svg.iconnables.icons-trigger
