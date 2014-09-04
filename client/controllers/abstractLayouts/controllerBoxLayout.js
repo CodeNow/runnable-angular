@@ -168,8 +168,8 @@ function ControllerBoxLayout(
 
   actions.stateToInstance = function (instance) {
     if (instance && instance.id && instance.id()){
-      $state.go('projects.instance', {
-        instanceId: instance.id(),
+      $state.go('box.boxInstance', {
+        shortHash: instance.id(),
         userName: $state.params.userName
       });
     }
@@ -198,15 +198,6 @@ function ControllerBoxLayout(
     actions.selectProjectOwner(userOrOrg, function () {
       $state.go('projects');
     });
-  };
-
-  actions.stateToEnvironment = function (branch) {
-    var state = {
-      userName: actions.getEntityName(data.activeAccount),
-      projectName: data.activeProject.attrs.name,
-      branchName: branch.attrs.name
-    };
-    $state.go('projects.buildList', state);
   };
 
   actions.setActiveProject = function (userOrOrg, project) {
