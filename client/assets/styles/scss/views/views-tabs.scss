@@ -1,9 +1,15 @@
 // default tabs
 .tabs-wrapper {
   height: 100%;
+  margin-left: 45px;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
+
+  .with-add-tab & {
+    margin-left: 0;
+    margin-right: 45px;
+  }
 
   a {
     border: 0;
@@ -63,7 +69,8 @@
   }
 }
 
-.tab {
+// li.tab-wrapper
+.tab-wrapper {
   background: $gray-lighter;
   border: 1px solid rgba($black,.1);
   border-bottom: 0;
@@ -98,4 +105,16 @@
   &.dirty .icons-dirty {
     opacity: 1;
   }
+}
+
+// a.tab
+.tab {
+  cursor: pointer;
+  display: block;
+  float: left;
+  font-size: 18px;
+  height: 35px;
+  line-height: 36px;
+  text-align: center;
+  width: 36px;
 }

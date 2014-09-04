@@ -1,13 +1,20 @@
 // button.white.btn-icon.explorer-toggle
 .explorer-toggle {
+  background: $white;
   border: 0;
   border-radius: 0;
-  border-right: 1px solid rgba($black,.1);
+  box-shadow: inset 0 -1px 0 #e6e6e6, 1px 0 0 #e6e6e6; // rgba($black,.1)
   color: $gray-dark;
-  height: 45px;
+  height: 45px; // offset for border
   position: absolute;
   width: 45px;
   z-index: $z-show;
+
+  &:hover,
+  &:active,
+  &.active {
+    background: #f2f2f2; // rgba($black,.05)
+  }
 
   .icons-folder-open {
     top: 6px;
@@ -20,15 +27,13 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  opacity: 0;
   position: absolute;
   transform: translate3d(-270px,0,0);
-  transition: all .2s ease-in;
+  transition: transform .2s ease-in;
   width: 270px;
   z-index: $z-views-explorer;
 
   .in & {
-    opacity: 1;
     transform: translate3d(0,0,0);
   }
 }
@@ -38,9 +43,9 @@
   border-bottom: 1px solid rgba($black,.1);
   flex: 0 0 auto;
   height: 45px;
-  padding: 0 0 0 45px;
+  margin-left: 45px;
   user-select: none;
-  width: 270px;
+  width: 270-45px;
 }
 
 // button.toggle-theme.tooltip
@@ -87,142 +92,6 @@
     background: rgba($gray-dark,.1);
     border: 2px solid $gray-dark;
     margin-left: -6px;
-  }
-}
-
-// toolbar
-.editor-toolbar {
-  border-bottom: 1px solid rgba($black,.1);
-  height: 45px;
-  overflow: visible;
-  position: relative;
-  transition: transform .15s ease-in-out, width 0s ease-in-out;
-  z-index: $z-popover;
-
-  // .setup & {
-  //   transform: none;
-  //   width: 100%;
-  // }
-
-  // .with-add-tab & {
-  //   width: calc(100% - 107px);
-  // }
-
-  // .with-add-tab.out & {
-  //   transform: translate3d(0,0,0);
-  //   width: calc(100% - 35px);
-  // }
-
-  // .with-add-tab.in & {
-  //   width: calc(100% - 311px);
-  // }
-
-  .in & {
-    transform: translate3d(270px,0,0);
-    transition: transform .2s ease-in, width .2s ease-in;
-    width: calc(100% - 270px); // 270px = width of .explorer
-  }
-
-  // > a {
-  //   cursor: pointer;
-  //   display: block;
-  //   float: left;
-  //   font-size: 18px;
-  //   height: 35px;
-  //   line-height: 36px;
-  //   text-align: center;
-  //   width: 36px;
-  // }
-
-  // .tooltip {
-
-  //   &:before {
-  //     top: 36px;
-  //   }
-
-  //   &:after {
-  //     top: 30px;
-
-  //   }
-  // }
-}
-
-// toolbar tabs
-#add-tab,
-#select-tabs {
-  border-bottom: 1px solid #d5d5d5;
-  border-left: 1px solid #d5d5d5;
-  color: $gray-dark;
-  position: absolute;
-  top: 0;
-  z-index: $z-show;
-}
-
-// add-tab
-#add-tab {
-  background: $gray-lighter;
-  border-radius: 0;
-  border-right: 0;
-  border-top: 0;
-  float: right;
-  margin-top: -36px;
-  position: relative;
-  right: 36px;
-  width: 36px;
-
-  &:hover,
-  &.active,
-  &:active {
-    background: $white;
-  }
-
-  &.active .icons-add {
-    transform: rotate3d(0,0,1,135deg);
-  }
-
-  .out & {
-    transform: translate3d(36px,0,0);
-  }
-}
-
-// select-tabs
-#select-tabs {
-  border-bottom: 1px solid #d5d5d5;
-  border-radius: 0;
-  overflow: hidden;
-  right: 0;
-  width: 36px;
-
-  button {
-    border: 0;
-    box-shadow: none;
-    height: 35px;
-    position: relative;
-
-    &:before {
-      border-bottom-color: $gray-dark;
-      right: 16px;
-    }
-
-    &:after {
-      border-top-color: $gray-dark;
-      right: 16px;
-    }
-  }
-
-  .iconnables {
-    margin-right: 1px;
-  }
-
-  &:hover > button {
-
-    &:before {
-      border-bottom-color: $gray-darker;
-    }
-
-    &:after {
-      border-top-color: $gray-darker;
-    }
   }
 }
 

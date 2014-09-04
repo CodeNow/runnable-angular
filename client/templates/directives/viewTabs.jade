@@ -1,6 +1,6 @@
-.editor-toolbar
+.views-toolbar
   ul.tabs-wrapper
-    li.tab(
+    li.tab-wrapper(
       ng-class = "{\
         'active': item.state.active,\
         'dirty': (state.current.name === 'projects.instance'\
@@ -8,7 +8,7 @@
       }"
       ng-repeat = "item in openItems.models"
     )
-      a(
+      a.tab(
         dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
         ng-click = "openItems.activeHistory.add(item); \
                     $event.stopPropagation();"
