@@ -1,9 +1,9 @@
 require('app')
-  .controller('ControllerBoxLayout', ControllerBoxLayout);
+  .controller('ControllerInstanceLayout', ControllerInstanceLayout);
 /**
  * @ngInject
  */
-function ControllerBoxLayout(
+function ControllerInstanceLayout(
   $scope,
   async,
   $state,
@@ -15,10 +15,10 @@ function ControllerBoxLayout(
 ){
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var self = ControllerBoxLayout;
-  var dataBoxLayout = $scope.dataBoxLayout = {};
-  var data = dataBoxLayout.data = {};
-  var actions = dataBoxLayout.actions = {};
+  var self = ControllerInstanceLayout;
+  var dataInstanceLayout = $scope.dataInstanceLayout = {};
+  var data = dataInstanceLayout.data = {};
+  var actions = dataInstanceLayout.actions = {};
 
   function isUser(entity) {
     return entity === $scope.dataApp.user;
@@ -49,13 +49,13 @@ function ControllerBoxLayout(
   };
 
   actions.checkName = function () {
-    if (!dataBoxLayout.data.projects) {
+    if (!dataInstanceLayout.data.projects) {
       return;
     }
-    var match = dataBoxLayout.data.projects.find(function (m) {
-      return (m.attrs.name === dataBoxLayout.data.newProjectName);
+    var match = dataInstanceLayout.data.projects.find(function (m) {
+      return (m.attrs.name === dataInstanceLayout.data.newProjectName);
     });
-    dataBoxLayout.data.newNameTaken = !!match;
+    dataInstanceLayout.data.newNameTaken = !!match;
   };
 
   actions.selectProjectOwner = function (userOrOrg, cb) {
@@ -100,7 +100,7 @@ function ControllerBoxLayout(
   };
 
   actions.createNewProject = function () {
-    if (dataBoxLayout.data.newProjectNameForm.$invalid) {
+    if (dataInstanceLayout.data.newProjectNameForm.$invalid) {
       return;
     }
     var thisUser = $scope.dataApp.user;
@@ -110,7 +110,7 @@ function ControllerBoxLayout(
 
     function createProject(cb) {
       body = {
-        name: dataBoxLayout.data.newProjectName,
+        name: dataInstanceLayout.data.newProjectName,
         owner: {
           github: actions.getEntityId(data.activeAccount)
         }
@@ -290,7 +290,7 @@ function ControllerBoxLayout(
         }
       })
       .cacheFetch(function updateDom(instances, cached, cb) {
-        dataBoxLayout.data.instances = instances;
+        dataInstanceLayout.data.instances = instances;
         $scope.safeApply();
         cb();
       })
@@ -344,21 +344,21 @@ function ControllerBoxLayout(
   };
 
   $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
-    if (newval.indexOf('projects.') === 0 || newval.indexOf('box.') === 0) {
+    if (newval.indexOf('instance.') === 0) {
       actions.initForState();
-    } else if (newval === 'projects') {
+    } else if (newval === 'instance') {
       actions.initForNewState();
     }
   });
 
-  $scope.$watch('dataBoxLayout.data.instances', function (current) {
+  $scope.$watch('dataInstanceLayout.data.instances', function (current) {
     if (current) {
       setInitialActiveProject(angular.noop);
     }
   });
 
   $scope.$on('app-document-click', function () {
-    $scope.dataBoxLayout.data.showChangeAccount = false;
+    $scope.dataInstanceLayout.data.showChangeAccount = false;
   });
 
 }
