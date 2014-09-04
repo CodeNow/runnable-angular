@@ -79,30 +79,17 @@ section.sidebar.box-sidebar
   section.row
     h2.sub-header URLs
     ul.url-group
-      li.url-group-item
+      li.url-group-item(
+        ng-repeat = "url in dataBoxInstance.data.container.urls()"
+      )
         input.url(
           readonly
           select-all
-          value = "runnable-angular-3001.runnable.io"
+          value = "{{ url }}"
         )
         //- link to the outside world
         a.url-link(
-          href = "{{ dataInstance.data.container.urls()[0] }}"
-          target = "_blank"
-        )
-          svg.iconnables.icons-link
-            use(
-              xlink:href = "#icons-link"
-            )
-      li.url-group-item
-        input.url(
-          readonly
-          select-all
-          value = "runnable-angular-3001.runnable.io"
-        )
-        //- link to the outside world
-        a.url-link(
-          href = "{{ dataInstance.data.container.urls()[0] }}"
+          href = "{{ url }}"
           target = "_blank"
         )
           svg.iconnables.icons-link
