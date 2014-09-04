@@ -123,8 +123,8 @@ section.views
     .explorer-controls
       button.toggle-theme.tooltip(
         data-title = "Change Theme"
-        ng-class = "{dark: !dataBuild.data.toggleTheme, light: dataBuild.data.toggleTheme}"
-        ng-click = "dataBuild.data.toggleTheme = !dataBuild.data.toggleTheme"
+        ng-class = "{dark: !dataBoxInstance.data.toggleTheme, light: dataBoxInstance.data.toggleTheme}"
+        ng-click = "dataBoxInstance.data.toggleTheme = !dataBoxInstance.data.toggleTheme"
       )
         .theme
     file-tree(

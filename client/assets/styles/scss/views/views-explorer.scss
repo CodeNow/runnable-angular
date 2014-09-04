@@ -1,3 +1,20 @@
+// button.white.btn-icon.explorer-toggle
+.explorer-toggle {
+  border: 0;
+  border-radius: 0;
+  border-right: 1px solid rgba($black,.1);
+  color: $gray-dark;
+  height: 45px;
+  position: absolute;
+  width: 45px;
+  z-index: $z-show;
+
+  .icons-folder-open {
+    top: 6px;
+  }
+}
+
+// section.explorer
 .explorer {
   border-right: 1px solid rgba($black,.1);
   display: flex;
@@ -16,32 +33,17 @@
   }
 }
 
-.explorer-toggle {
-  border-radius: 0;
-  border-right: 1px solid rgba($black,.1);
-  color: $gray-dark;
-  height: 45px;
-  position: absolute;
-  width: 45px;
-  z-index: $z-show;
-
-  .icons-folder-open {
-    top: 6px;
-  }
-}
-
-// controls
-#controls {
-  background: $gray-lighter;
+// .explorer-controls
+.explorer-controls {
   border-bottom: 1px solid rgba($black,.1);
-  border-right: 1px solid rgba($black,.1);
   flex: 0 0 auto;
-  height: 36px;
-  margin: 0 0 0 36px;
+  height: 45px;
+  padding: 0 0 0 45px;
   user-select: none;
-  width: 204px;
+  width: 270px;
 }
 
+// button.toggle-theme.tooltip
 .toggle-theme {
   padding: 0;
 
@@ -60,30 +62,31 @@
   &.dark > .theme::after {
     background: rgba($gray-dark,.75);
   }
+}
 
-  .theme {
+.theme {
+  height: 100%;
+  width: 45px;
 
-    &::before,
-    &::after {
-      border-radius: 50%;
-      content: '';
-      display: inline-block;
-      height: 18px;
-      margin: 8px auto;
-      width: 18px;
-    }
+  &::before,
+  &::after {
+    border-radius: 50%;
+    content: '';
+    display: inline-block;
+    height: 18px;
+    margin: 13px auto;
+    width: 18px;
+  }
 
-    &::before {
-      border: 2px solid $purple;
-      background: rgba($purple,.25);
-      margin-left: 9px;
-    }
+  &::before {
+    background: rgba($purple,.25);
+    border: 2px solid $purple;
+  }
 
-    &::after {
-      border: 2px solid $gray-dark;
-      background: rgba($gray-dark,.1);
-      margin-left: -6px;
-    }
+  &::after {
+    background: rgba($gray-dark,.1);
+    border: 2px solid $gray-dark;
+    margin-left: -6px;
   }
 }
 
