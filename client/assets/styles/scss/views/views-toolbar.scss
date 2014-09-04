@@ -30,21 +30,18 @@
 // .add-tab .popover
 .add-tab .popover {
   left: auto;
-  max-height: 278px;
-  right: -3px;
+  max-width: none;
+  right: 0;
   top: 33px;
   transform-origin: 250px -15px;
+  width: 360px;
 
   .arrow {
     left: auto;
-    right: 7px;
+    right: 5px;
   }
 
-  .popover-content {
-    max-height: 274px;
-  }
-
-  .col-popover-3 {
+  .col-popover-4 {
     border-bottom: 1px solid rgba($black,.1);
     height: 72px;
     overflow: hidden;

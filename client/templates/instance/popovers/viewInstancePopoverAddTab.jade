@@ -6,7 +6,7 @@
 )
   .arrow.white
   .popover-content
-    ol.popover-body.col-popover-3
+    ol.popover-body.col-popover-4
       li(
         ng-click = "actions.addWebView()"
       )
@@ -24,8 +24,9 @@
       )
         svg.iconnables.lg.icons-logs
           use(xlink:href = "#icons-logs")
-        | Run Log
+        | Server Logs
       li
+        //- i need a new icon here
         svg.iconnables.lg.icons-logs
           use(xlink:href = "#icons-logs")
-        | Build Log
+        | Build Logs
