@@ -58,6 +58,7 @@ function ControllerInstanceLayout(
     dataInstanceLayout.data.newNameTaken = !!match;
   };
 
+/*
   actions.selectProjectOwner = function (userOrOrg, cb) {
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
@@ -86,6 +87,7 @@ function ControllerInstanceLayout(
       });
     });
   };
+*/
 
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
@@ -254,11 +256,15 @@ function ControllerInstanceLayout(
     return cb(new Error('User or Org not found'));
   }
 
+  /*
   function fetchAllProjects(cb) {
     var entities = data.orgs.models.concat([$scope.dataApp.user]);
     async.each(entities, fetchUserOrOrgProjects, cb);
   }
+  */
 
+  // TODO: no more projects.
+  /*
   function fetchUserOrOrgProjects (userOrOrg, cb) {
     var thisUser = $scope.dataApp.user;
     var username = actions.getEntityName(userOrOrg);
@@ -278,10 +284,12 @@ function ControllerInstanceLayout(
       })
       .go();
   }
+  */
 
   function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
-    var id = actions.getEntityId(data.activeAccount);
+    //var id = actions.getEntityId(data.activeAccount);
+    var id = actions.getEntityId(thisUser);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstances')
       .query({
@@ -319,10 +327,10 @@ function ControllerInstanceLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
-      selectInitialProjectOwner,
-      fetchAllProjects,
-      fetchInstances,
-      setInitialActiveProject
+      //selectInitialProjectOwner,
+      //fetchAllProjects,
+      fetchInstances
+      //setInitialActiveProject
     ], function (err) {
       if (err) {
         $state.go('404');
@@ -338,8 +346,8 @@ function ControllerInstanceLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
-      selectInitialProjectOwner,
-      fetchAllProjects
+      //selectInitialProjectOwner,
+      //fetchAllProjects
     ]);
   };
 
@@ -351,11 +359,13 @@ function ControllerInstanceLayout(
     }
   });
 
+  /*
   $scope.$watch('dataInstanceLayout.data.instances', function (current) {
     if (current) {
       setInitialActiveProject(angular.noop);
     }
   });
+  */
 
   $scope.$on('app-document-click', function () {
     $scope.dataInstanceLayout.data.showChangeAccount = false;
