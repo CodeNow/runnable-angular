@@ -34,13 +34,6 @@
   top: 6px;
   width: 36px;
 
-  // offset tooltip
-  &::before,
-  &::after {
-    margin-left: 6px;
-    margin-top: 15px;
-  }
-
   .icons-add {
     margin-left: -1px;
   }

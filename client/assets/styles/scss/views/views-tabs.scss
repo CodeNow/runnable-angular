@@ -1,13 +1,10 @@
 // default tabs
 .tabs-wrapper {
-  background: $gray-light;
   border-bottom: 1px solid rgba($black,.1);
-  float: left;
-  height: 36px;
+  height: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  width: calc(100% + 1px);
 
   a {
     border: 0;

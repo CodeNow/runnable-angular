@@ -1,16 +1,17 @@
-#explorer {
-  background: $gray-lighter;
+.explorer {
   border-right: 1px solid rgba($black,.1);
   display: flex;
   flex-direction: column;
   height: 100%;
+  opacity: 0;
   position: absolute;
-  transform: translate3d(-240px,0,0);
-  transition: transform .2s ease-in-out;
-  width: 240px;
+  transform: translate3d(-270px,0,0);
+  transition: all .2s ease-in;
+  width: 270px;
   z-index: 1;
 
   .in & {
+    opacity: 1;
     transform: translate3d(0,0,0);
   }
 }
@@ -97,62 +98,60 @@
 }
 
 // toolbar
-#editor-toolbar {
+.editor-toolbar {
   border-bottom: 1px solid rgba($black,.1);
-  height: 36px;
+  height: 45px;
   overflow: visible;
   position: relative;
-  transform: translate3d(36px,0,0);
   transition: transform .15s ease-in-out, width 0s ease-in-out;
-  width: calc(100% - 71px);
   z-index: $z-popover;
 
-  .setup & {
-    transform: none;
-    width: 100%;
-  }
+  // .setup & {
+  //   transform: none;
+  //   width: 100%;
+  // }
 
-  .with-add-tab & {
-    width: calc(100% - 107px);
-  }
+  // .with-add-tab & {
+  //   width: calc(100% - 107px);
+  // }
 
-  .with-add-tab.out & {
-    transform: translate3d(0,0,0);
-    width: calc(100% - 35px);
-  }
+  // .with-add-tab.out & {
+  //   transform: translate3d(0,0,0);
+  //   width: calc(100% - 35px);
+  // }
 
-  .with-add-tab.in & {
-    width: calc(100% - 311px);
-  }
+  // .with-add-tab.in & {
+  //   width: calc(100% - 311px);
+  // }
 
   .in & {
-    transform: translate3d(240px,0,0);
-    transition: transform .225s ease-in-out, width .275s ease-in-out;
-    width: calc(100% - 275px);
+    transform: translate3d(270px,0,0);
+    transition: transform .2s ease-in, width .2s ease-in;
+    width: calc(100% - 270px); // 270px = width of .explorer
   }
 
-  > a {
-    cursor: pointer;
-    display: block;
-    float: left;
-    font-size: 18px;
-    height: 35px;
-    line-height: 36px;
-    text-align: center;
-    width: 36px;
-  }
+  // > a {
+  //   cursor: pointer;
+  //   display: block;
+  //   float: left;
+  //   font-size: 18px;
+  //   height: 35px;
+  //   line-height: 36px;
+  //   text-align: center;
+  //   width: 36px;
+  // }
 
-  .tooltip {
+  // .tooltip {
 
-    &:before {
-      top: 36px;
-    }
+  //   &:before {
+  //     top: 36px;
+  //   }
 
-    &:after {
-      top: 30px;
+  //   &:after {
+  //     top: 30px;
 
-    }
-  }
+  //   }
+  // }
 }
 
 // toolbar tabs

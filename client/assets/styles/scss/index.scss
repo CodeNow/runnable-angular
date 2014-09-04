@@ -29,11 +29,14 @@
 @import "box/box-header";
 @import "box/box-sidebar";
 
+// views
+@import "views/views";
+@import "views/views-explorer";
+@import "views/views-tabs";
+
 // editor
-@import "components/explorer";
 @import "components/file-tree";
 @import "components/editor";
-@import "components/tabs";
 @import "components/logs";
 @import "components/browser-chrome";
 @import "components/terminal";

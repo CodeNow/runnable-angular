@@ -5,7 +5,7 @@ header.box-header
         xlink:href = "#icons-trigger"
       )
   .primary-actions
-    button.white(
+    button.green(
       ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     ) Save
@@ -109,7 +109,8 @@ section.sidebar.box-sidebar
             use(
               xlink:href = "#icons-link"
             )
-//- section.views
+
+section.views
   section.explorer
     button.explorer-toggle.btn-icon(
       ng-click = "dataBuild.data.showExplorer = !dataBuild.data.showExplorer"
