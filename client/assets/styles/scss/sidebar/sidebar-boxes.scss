@@ -7,9 +7,10 @@
 .box-group-item {
   height: 45px;
   line-height: 45px;
+  padding: 0 15px;
 
   // currently selected box
-  &.active {
+  &.active .box {
     font-weight: 500;
   }
 
@@ -23,7 +24,11 @@
 .box {
   cursor: pointer;
   display: block;
-  padding: 0 15px;
+  height: 36px;
+  line-height: 36px;
+  margin: 0 -6px;
+  padding: 0 6px;
+  transition: all .15s ease-in;
 
   &:hover {
     background: rgba($black,.025);
@@ -32,7 +37,7 @@
   .icons-trigger {
     color: $orange;
     float: right;
-    height: 45px;
+    height: 36px;
     opacity: 0;
   }
 }

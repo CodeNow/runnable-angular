@@ -12,11 +12,7 @@ button,
   padding: 0 15px;
   position: relative;
   text-align: center;
-  transition:
-    background .15s ease-in,
-    border .15s ease-in,
-    box-shadow .15s ease-in,
-    transform .15s;
+  transition: all .15s ease-in;
   user-select: none;
   white-space: nowrap;
 
@@ -219,11 +215,15 @@ button,
   font-weight: 300;
   text-decoration: none;
 
-  &:hover,
+  &:hover {
+    background: rgba($black,.05);
+    border-color: rgba($black,.1);
+  }
+
   &:active,
   &.active {
     background: rgba($black,.05);
-    border-color: rgba($black,.1);
+    border-color: rgba($black,.2);
   }
 }
 

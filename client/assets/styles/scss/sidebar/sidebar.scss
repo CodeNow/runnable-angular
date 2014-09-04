@@ -20,15 +20,24 @@
 }
 
 // a.sub-header-action
-.sub-header-action {
+.sub-header-action.sub-header-action {
+  color: $gray;
   cursor: pointer;
   float: right;
-  height: 45px;
-  padding-top: 6px;
+  height: 36px;
+  margin-right: -6px;
+  padding: 0;
+  top: 6px;
+  width: 36px;
 
   // offset tooltip
   &::before,
   &::after {
-    margin-top: 9px;
+    margin-left: 6px;
+    margin-top: 15px;
+  }
+
+  .icons-add {
+    margin-left: -1px;
   }
 }

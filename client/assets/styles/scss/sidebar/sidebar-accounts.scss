@@ -37,9 +37,10 @@
   height: 60px;
   line-height: 60px;
   padding: 0 15px;
+  transition: background .15s ease-in;
 
   &:hover {
-    background: rgba($black,.025);
+    background: rgba($black,.05);
   }
 
   .gravatar {
