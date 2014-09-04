@@ -80,17 +80,35 @@ section.sidebar.box-sidebar
     h2.sub-header URLs
     ul.url-group
       li.url-group-item
-        input(
-          read-only
+        input.url(
+          readonly
           select-all
-          value = "{{ dataInstance.data.container.urls()[0] }}"
+          value = "runnable-angular-3001.runnable.io"
         )
         //- link to the outside world
-        a(
-          href = ""
+        a.url-link(
+          href = "{{ dataInstance.data.container.urls()[0] }}"
           target = "_blank"
         )
-          svg.iconnables
+          svg.iconnables.icons-link
+            use(
+              xlink:href = "#icons-link"
+            )
+      li.url-group-item
+        input.url(
+          readonly
+          select-all
+          value = "runnable-angular-3001.runnable.io"
+        )
+        //- link to the outside world
+        a.url-link(
+          href = "{{ dataInstance.data.container.urls()[0] }}"
+          target = "_blank"
+        )
+          svg.iconnables.icons-link
+            use(
+              xlink:href = "#icons-link"
+            )
 //- section.views
   section.explorer
     button.explorer-toggle.btn-icon(

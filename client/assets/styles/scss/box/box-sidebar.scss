@@ -98,3 +98,40 @@
   font-size: 12px;
   margin-top: 2px;
 }
+
+// li.url-group-item
+.url-group-item {
+  margin: 0 -6px 6px; // offset input padding
+  padding: 0 15px;
+  position: relative;
+
+  // a.url-link
+  .url-link {
+    background: $gray-lighter;
+    box-shadow: -6px 0 6px rgba($gray-lighter,.9);
+    color: $gray-light;
+    height: 43px;
+    line-height: 43px;
+    position: absolute;
+    right: 18px;
+    top: 1px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active,
+    &.active {
+      color: $gray-darker;
+    }
+
+    .icons-link {
+      top: 6px;
+    }
+  }
+}
+
+// input.url
+.url {
+  padding-right: 27px;
+}
