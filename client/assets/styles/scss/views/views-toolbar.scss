@@ -1,0 +1,27 @@
+// toolbar
+.views-toolbar {
+  border-bottom: 1px solid rgba($black,.1);
+  height: 46px; // offset for even spacing of buttons
+  overflow: visible;
+  position: relative;
+  transition: transform .15s ease-in-out;
+
+  .in & {
+    transform: translate3d(270px,0,0);
+    transition: transform .2s ease-in, width .2s ease-in;
+    width: calc(100% - 270px); // 270px = width of .explorer
+  }
+}
+
+// toolbar tabs
+.add-tab {
+  height: 36px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 36px;
+
+  &.active .icons-add {
+    transform: rotate3d(0,0,1,135deg);
+  }
+}

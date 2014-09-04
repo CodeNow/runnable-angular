@@ -1,0 +1,41 @@
+// .active-panel
+.active-panel {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 45px);
+  transform: translate3d(0,0,0);
+  transition: transform .2s ease-in;
+  width: 100%;
+
+  &.loaded ~ .horizontal-spinner {
+    display: none;
+  }
+
+  ~ .horizontal-spinner {
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  .in & {
+    transform: translate3d(270px,0,0);
+    transition: transform .2s ease-in, width .2s ease-in;
+    width: calc(100% - 270px);
+  }
+
+  .ace_scrollbar {
+    overflow: hidden;
+  }
+
+  .ace_text-input {
+    font-size: 16px;
+  }
+
+  pre,
+  .pre,
+  iframe {
+    border: 0;
+    flex: 1 0 auto;
+  }
+}

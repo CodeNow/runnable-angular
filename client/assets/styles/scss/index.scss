@@ -60,11 +60,10 @@
 // views
 @import "views/views";
 @import "views/views-explorer";
+@import "views/views-toolbar";
 @import "views/views-tabs";
+@import "views/views-panel";
 
 // pages
 @import "pages/home";
-@import "pages/providers";
-@import "pages/about";
-@import "pages/jobs";
 @import "pages/setup";

@@ -39,7 +39,8 @@
   padding: 0 15px;
   transition: background .15s ease-in;
 
-  &:hover {
+  &:hover,
+  &:active {
     background: rgba($black,.05);
   }
 
