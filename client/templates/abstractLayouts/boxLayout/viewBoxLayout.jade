@@ -61,8 +61,8 @@ nav.sidebar
       li.box-group-item(
         //- TODO: ng-class placeholder property. Replace when API client ready
         ng-class = "{running: box.attrs.running}"
-        ng-repeat = "box in dataBoxLayout.data.instances.models"
         ng-click = "dataBoxLayout.actions.stateToInstance(box)"
+        ng-repeat = "box in dataBoxLayout.data.instances.models"
       )
         a.white.box {{ box.attrs.name }}
           svg.iconnables.icons-trigger
