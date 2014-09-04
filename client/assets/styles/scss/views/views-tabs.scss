@@ -17,7 +17,7 @@
 
 // li.tab-wrapper
 .tab-wrapper {
-  border: 1px solid rgba($black,.1);
+  border: 1px solid #e6e6e6; // rgba($black,.1);
   border-bottom: 0;
   border-top: 0;
   color: $gray-dark;
@@ -35,19 +35,21 @@
     color: $gray-darker;
   }
 
-  &.active {
-
-    > .tab {
-
-      &::before {
-        background: $white;
-        content: attr(data-title);
-      }
-    }
+  &.active .tab-name::before {
+    background: $white;
+    content: attr(data-title);
   }
 
   &.dirty .icons-dirty {
     opacity: 1;
+  }
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  &:only-child {
+    border: 1px solid #e6e6e6; // rgba($black,.1);
   }
 
   .icons-dirty {

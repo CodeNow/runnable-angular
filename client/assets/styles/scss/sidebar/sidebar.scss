@@ -9,6 +9,10 @@
   width: 240px;
   z-index: $z-sidebar;
 
+  &.global-sidebar {
+    background: $gray-lighter;
+  }
+
   .row {
     border-bottom: 1px solid rgba($black,.1);
 

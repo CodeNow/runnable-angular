@@ -85,18 +85,18 @@ button,
 }
 
 .green {
+  background: rgba($green,.1);
+  border-color: rgba($green,.3);
   box-shadow: none;
   color: $green;
 
   &:hover {
-    background: rgba($green,.1);
-    border-color: rgba($green,.3);
+    border-color: rgba($green,.6);
   }
 
   &:active,
   &.active {
-    background: rgba($green,.1);
-    border-color: rgba($green,.6);
+    border-color: rgba($green,.75);
   }
 
   &[disabled],
