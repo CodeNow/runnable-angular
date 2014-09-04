@@ -64,7 +64,6 @@ describe('project creation workflow', function () {
     });
 
     setupPage.addToDockerfile('FROM dockerfile/nodejs\nCMD sleep 1000000');
-    // element(by.css('#editor > div.editor-container.ng-scope.loaded > pre > textarea')).sendKeys('FROM dockerfile/nodejs\nCMD sleep 1000000');
 
     browser.wait(function () {
       return setupPage.dockerfileIsClean();

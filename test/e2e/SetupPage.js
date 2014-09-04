@@ -45,18 +45,14 @@ function SetupPage (projectName) {
     return element(by.css('#editor > div.editor-container.ng-scope.loaded > pre > div.ace_scroller > div')).isPresent();
   };
 
-  // Hackaround UI-ace and Protractor not getting along
+  // http://stackoverflow.com/q/25675973/1216976
   // https://github.com/angular/protractor/issues/1273
   this.addToDockerfile = function (contents) {
-    return browser.wait(function () {
-      return element(by.css('.sub-header')).evaluate('dataSetup.data.openItems.activeHistory.last().state.body').then(function (v) {
-        return v === '# Empty Dockerfile!';
-      });
-    }).then(function () {
-      element(by.css('.sub-header')).evaluate('dataSetup.data.openItems.activeHistory.last().state.body = \'' + contents + '\'');
-    });
-    // proper way - possibly
-    // element(by.css('#editor > div.editor-container.ng-scope.loaded > pre > textarea')).sendKeys('FROM dockerfile/nodejs\nCMD sleep 1000000');
+    var aceDiv = element(by.css('div.ace_content'));
+    var inputElm = element(by.css('textarea.ace_text-input'));
+
+    browser.actions().doubleClick(aceDiv).perform();
+    inputElm.sendKeys('\nFROM dockerfile/nodejs\nCMD sleep 1000000');
   };
 
   this.dockerfileValidates = function () {
