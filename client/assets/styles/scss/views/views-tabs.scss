@@ -44,6 +44,14 @@
     opacity: 1;
   }
 
+  &:last-child {
+    border-right: 0;
+  }
+
+  &:only-child {
+    border: 1px solid #e6e6e6; // rgba($black,.1);
+  }
+
   .icons-dirty {
     display: inline-block;
     font-size: 21px;
