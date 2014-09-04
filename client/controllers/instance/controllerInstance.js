@@ -1,9 +1,9 @@
 require('app')
-  .controller('ControllerBoxInstance', ControllerBoxInstance);
+  .controller('ControllerInstance', ControllerInstance);
 /**
  * @ngInject
  */
-function ControllerBoxInstance(
+function ControllerInstance(
   $scope,
   $state,
   $stateParams,
@@ -15,11 +15,11 @@ function ControllerBoxInstance(
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var self = ControllerBoxInstance;
+  var self = ControllerInstance;
 
-  var dataBoxInstance = $scope.dataBoxInstance = self.initData();
-  var data = dataBoxInstance.data;
-  var actions = dataBoxInstance.actions;
+  var dataInstance = $scope.dataInstance = self.initData();
+  var data = dataInstance.data;
+  var actions = dataInstance.actions;
 
   data.restartOnSave = true;
 
@@ -33,11 +33,11 @@ function ControllerBoxInstance(
   pfm.actions = {};
 
   pfm.actions.create = function (isDir) {
-    if(!keypather.get(dataBoxInstance, 'data.version.rootDir')) {
+    if(!keypather.get(dataInstance, 'data.version.rootDir')) {
       return;
     }
     pfm.data.show = false;
-    var dir = dataBoxInstance.data.version.rootDir;
+    var dir = dataInstance.data.version.rootDir;
     var name = getNewFileFolderName(dir);
     var file = dir.contents.create({
       name: name,
@@ -198,9 +198,9 @@ function ControllerBoxInstance(
   };
 
   $scope.$on('app-document-click', function () {
-    dataBoxInstance.data.showAddTab = false;
-    dataBoxInstance.data.showFileMenu = false;
-    dataBoxInstance.data.popoverAddTab.filter = '';
+    dataInstance.data.showAddTab = false;
+    dataInstance.data.showFileMenu = false;
+    dataInstance.data.popoverAddTab.filter = '';
   });
 
   $scope.$watch(function () {
@@ -211,7 +211,7 @@ function ControllerBoxInstance(
     $scope.safeApply();
   });
 
-  $scope.$watch('dataBoxInstance.data.container.running()', function (n) {
+  $scope.$watch('dataInstance.data.container.running()', function (n) {
     if (data.openItems) {
       if (n) {
         if (data.container.urls().length) {
@@ -282,7 +282,7 @@ function ControllerBoxInstance(
   });
 }
 
-ControllerBoxInstance.initData = function () {
+ControllerInstance.initData = function () {
   return {
     data: {
       popoverAddTab: {
