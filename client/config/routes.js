@@ -59,7 +59,7 @@ module.exports = [{
   state: 'instance',
   abstract: true,
   templateUrl: 'viewInstanceLayout',
-  controller: 'ControllerBoxLayout'
+  controller: 'ControllerInstanceLayout'
 }, {
   state: 'instance.instance',
   abstract: false,
