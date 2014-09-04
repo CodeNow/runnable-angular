@@ -80,10 +80,9 @@ function ControllerBoxLayout(
         return $state.go('projects', {});
       }
       data.activeProject = data.activeAccount.attrs.projects.models[0];
-      $state.go('projects.buildList', {
+      $state.go('box.boxInstance', {
         userName: name,
-        projectName: data.activeProject.attrs.name,
-        branchName: 'master'
+        shortHash: data.activeProject.id()
       });
     });
   };
@@ -175,25 +174,6 @@ function ControllerBoxLayout(
     }
   };
 
-  actions.stateToBuildList = function () {
-    var project, environment, event;
-    project = arguments[0];
-    if (arguments.length == 2) { // project, $event
-      event = arguments[1];
-    } else { // project, environment, $event
-      environment = arguments[1];
-      event = arguments[2];
-    }
-    if (angular.isFunction(keypather.get(event, 'stopPropagation'))) {
-      event.stopPropagation();
-    }
-    $state.go('projects.buildList', {
-      userName: $state.params.userName,
-      projectName: project.attrs.name,
-      branchName: ((environment) ? environment.name : 'master')
-    });
-  };
-
   actions.stateToNewProject = function (userOrOrg) {
     actions.selectProjectOwner(userOrOrg, function () {
       $state.go('projects');
@@ -207,11 +187,10 @@ function ControllerBoxLayout(
     var finish = function () {
       var state = {
         userName: actions.getEntityName(userOrOrg),
-        projectName: project.attrs.name,
-        branchName: project.defaultEnvironment.attrs.name
+        shortHash: project.id()
       };
       setInitialActiveProject(function() {
-        $state.go('projects.buildList', state);
+        $state.go('box.boxInstance', state);
       });
     };
 
