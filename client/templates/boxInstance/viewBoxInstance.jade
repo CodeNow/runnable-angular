@@ -46,6 +46,13 @@ section.sidebar.box-sidebar
             xlink:href = "#icons-git"
           )
         h3.repository-title CodeNow/runnable-angular
+        button.white.repository-update.tooltip(
+          data-title = "Update to latest {branch} (currently 88 commits behind)."
+        ) 88
+          svg.iconnables.icons-update
+            use(
+              xlink:href = "#icons-update"
+            )
         .commit
           .commit-message bugfix object keypath
           svg.iconnables.icons-commit

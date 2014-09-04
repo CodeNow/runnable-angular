@@ -6,6 +6,7 @@
 // li.repository-group-item
 .repository-group-item {
   padding: 15px 15px 15px 45px;
+  position: relative;
 
   .icons-git {
     color: $gray-light;
@@ -18,6 +19,7 @@
 .repository-title {
   font-size: 16px;
   line-height: 1;
+  white-space: nowrap;
 }
 
 // .commit
@@ -50,6 +52,36 @@
     right: 6px;
     top: 1px;
     width: 18px;
+  }
+}
+
+// button.white.repository-update.tooltip
+.white.repository-update {
+  background: $white;
+  box-shadow: -9px 0 9px rgba($white,.9);
+  font-size: 12px;
+  height: 18px;
+  line-height: 18px;
+  margin-right: -6px;
+  padding: 0 6px 0 4px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+
+  &:hover {
+    // color of rgba($black,.1) on white
+    background: #f2f2f2;
+  }
+
+  // overwrite tooltip
+  &.tooltip {
+    position: absolute;
+  }
+
+  .icons-update {
+    height: 13px;
+    top: 2px;
+    width: 13px;
   }
 }
 
