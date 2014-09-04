@@ -33,47 +33,6 @@
   }
 }
 
-.editor-container {
-  align-items: stretch;
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 36px);
-  transform: translate3d(0,0,0);
-  transition: transform .2s ease-in-out, width 0s ease-in-out;
-  width: 100%;
-
-  &.loaded ~ .horizontal-spinner {
-    display: none;
-  }
-
-  .in & {
-    transform: translate3d(240px,0,0);
-    transition: transform .2s ease-in-out, width .225s ease-in-out;
-    width: calc(100% - 240px);
-  }
-
-  .ace_scrollbar {
-    overflow: hidden;
-  }
-
-  .ace_text-input {
-    font-size: 16px;
-  }
-
-  pre,
-  .pre,
-  iframe {
-    border: 0;
-    flex: 1 0 auto;
-  }
-
-  ~ .horizontal-spinner {
-    left: 0;
-    position: absolute;
-    right: 0;
-  }
-}
-
 // flex
 .web-container {
   display: flex;

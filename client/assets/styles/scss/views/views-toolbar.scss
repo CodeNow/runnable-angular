@@ -4,7 +4,7 @@
   height: 46px; // offset for even spacing of buttons
   overflow: visible;
   position: relative;
-  transition: transform .15s ease-in-out, width 0s ease-in-out;
+  transition: transform .15s ease-in-out;
 
   .in & {
     transform: translate3d(270px,0,0);
