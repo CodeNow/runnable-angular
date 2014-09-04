@@ -4,42 +4,50 @@ nav.sidebar
   header.row
     ol.accounts-group(
       ng-class = "{in: dataBoxLayout.data.showChangeAccount}"
-      ng-click = "dataBoxLayout.data.showChangeAccount = !dataBoxLayout.data.showChangeAccount"
+      ng-click = "dataBoxLayout.data.showChangeAccount = !dataBoxLayout.data.showChangeAccount && \
+                  $event.stopProagation()"
     )
       li.accounts-group-item
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "https://avatars3.githubusercontent.com/u/5341618?v=2&s=48"
+            ng-src = "{{ dataBoxLayout.actions.getEntityGravatar(dataBoxLayout.data.activeAccount) }}"
             width = "24"
           )
-          span runnabro
+          span {{ dataBoxLayout.actions.getEntityName(dataBoxLayout.data.activeAccount) }}
           //- icons-arrow-down only for first account
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
             )
-      li.accounts-group-item
+      //- current user (if user is not active)
+      li.accounts-group-item(
+        ng-if = "dataApp.user !== dataBoxLayout.data.activeAccount"
+      )
         a.account
           img.gravatar(
             height = "24"
-            ng-src = ""
+            ng-src = "{{ dataBoxLayout.actions.getEntityGravatar(dataApp.user) }}"
             width = "24"
           )
-          span CodeNow
-      li.accounts-group-item
+          span {{ dataBoxLayout.actions.getEntityName(dataApp.user) }}
+      li.accounts-group-item(
+        ng-repeat = "org in dataBoxLayout.data.orgs.models"
+        ng-if = "org !== dataBoxLayout.data.activeAccount"
+      )
         a.account
           img.gravatar(
             height = "24"
-            ng-src = ""
+            ng-src = "{{ dataBoxLayout.actions.getEntityGravatar(org) }}"
             width = "24"
           )
-          span Runnable
+          span {{ dataBoxLayout.actions.getEntityName(org) }}
   //- boxes
   section.boxes.row
     h2.sub-header Boxes
       a.btn.white.tooltip.sub-header-action(
         data-title = "Create New Box"
+	ng-click = "dataBoxLayout.actions.stateToNewProject()"
       )
         svg.iconnables.icons-add
           use(
@@ -48,20 +56,10 @@ nav.sidebar
     ul.box-group
       //- apply .active for currently selected box
       //- apply .running for a running box
-      li.box-group-item
-        a.white.box runnable-api
-          svg.iconnables.icons-trigger
-            use(
-              xlink:href = "#icons-trigger"
-            )
-      li.box-group-item.running
-        a.white.box runnable-web
-          svg.iconnables.icons-trigger
-            use(
-              xlink:href = "#icons-trigger"
-            )
-      li.box-group-item.running.active
-        a.white.box runnable-angular
+      li.box-group-item(
+	ng-repeat = "box in dataBoxLayout.data.instances.models"
+      )
+        a.white.box {{ box.attrs.name }}
           svg.iconnables.icons-trigger
             use(
               xlink:href = "#icons-trigger"
