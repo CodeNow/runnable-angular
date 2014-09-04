@@ -20,6 +20,7 @@ nav.sidebar
             use(
               xlink:href = "#icons-arrow-down"
             )
+      //- TODO ng-click
       //- current user (if user is not active)
       li.accounts-group-item(
         ng-if = "dataApp.user !== dataBoxLayout.data.activeAccount"
@@ -31,6 +32,7 @@ nav.sidebar
             width = "24"
           )
           span {{ dataBoxLayout.actions.getEntityName(dataApp.user) }}
+      //- Orgs that are not the active account
       li.accounts-group-item(
         ng-repeat = "org in dataBoxLayout.data.orgs.models"
         ng-if = "org !== dataBoxLayout.data.activeAccount"
@@ -60,6 +62,7 @@ nav.sidebar
         //- TODO: ng-class placeholder property. Replace when API client ready
         ng-class = "{running: box.attrs.running}"
         ng-repeat = "box in dataBoxLayout.data.instances.models"
+        ng-click = "dataBoxLayout.actions.stateToInstance(box)"
       )
         a.white.box {{ box.attrs.name }}
           svg.iconnables.icons-trigger
