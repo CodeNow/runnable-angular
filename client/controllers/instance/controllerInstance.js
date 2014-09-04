@@ -65,9 +65,11 @@ function ControllerInstance(
   };
   pat.actions = {};
 
-  pat.actions.addOutputStream = function () {
+  pat.actions.addBuildStream = function () {
     pat.data.show = false;
-    //TODO
+    data.openItems.addBuildStream({
+      name: 'Build Logs'
+    });
   };
 
   pat.actions.addWebView = function () {
@@ -243,6 +245,7 @@ function ControllerInstance(
         }
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
+        data.build = instance.build;
         if (data.container && data.container.running()) {
           data.showExplorer = true;
         } else {
@@ -263,9 +266,13 @@ function ControllerInstance(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-    var container = data.container;
-    // save this so we can later set it active after adding terminal/web view
-    data.logs = pat.actions.addLogs();
+    if (data.build.successful()) {
+      var container = data.container;
+      // save this so we can later set it active after adding terminal/web view
+      data.logs = pat.actions.addLogs();
+    } else {
+      pat.actions.addBuildStream();
+    }
     cb();
   }
 
