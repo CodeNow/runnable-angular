@@ -43,13 +43,23 @@ $black:          #000;
 $white:          #fff;
 
 // z-indexes
+// overrides
 $z-hide: -10000;
 $z-show: 10000;
 
+// sidebar
+$z-sidebar: 8000;
+
+// box
+$z-box: 7000;
+
+// views
+$z-views: 6000;
+$z-views-explorer: 6001;
+
+// other
 $z-header: 9000;
-
 $z-web-chrome: 8000;
-
 $z-modal-backdrop: 9996;
 $z-popover: 9997;
 $z-modal: 9998;

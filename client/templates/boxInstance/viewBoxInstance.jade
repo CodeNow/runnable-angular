@@ -6,7 +6,7 @@ header.box-header
       )
   .primary-actions
     button.green(
-      ng-click = "dataInstance.actions.saveChanges()"
+      ng-click = "dataBoxInstance.actions.saveChanges()"
       type = "button"
     ) Save
     button.white.btn-icon.btn-icon-sm(
@@ -111,15 +111,15 @@ section.sidebar.box-sidebar
             )
 
 section.views
+  button.white.btn-icon.explorer-toggle(
+    ng-click = "dataBoxInstance.data.showExplorer = !dataBoxInstance.data.showExplorer"
+    type = "button"
+  )
+    svg.iconnables.icons-folder-open
+      use(
+        xlink:href = "#icons-folder-open"
+      )
   section.explorer
-    button.explorer-toggle.btn-icon(
-      ng-click = "dataBuild.data.showExplorer = !dataBuild.data.showExplorer"
-      type = "button"
-    )
-      svg.iconnables.icons-folder-opens
-        use(
-          xlink:href = "#icons-folder-opens"
-        )
     .explorer-controls
       button.toggle-theme.tooltip(
         data-title = "Change Theme"

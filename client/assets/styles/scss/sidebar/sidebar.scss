@@ -6,6 +6,7 @@
   padding: 0 15px;
   position: relative;
   width: 240px;
+  z-index: $z-sidebar;
 
   .row {
     border-bottom: 1px solid rgba($black,.1);

@@ -8,7 +8,7 @@
   transform: translate3d(-270px,0,0);
   transition: all .2s ease-in;
   width: 270px;
-  z-index: 1;
+  z-index: $z-views-explorer;
 
   .in & {
     opacity: 1;
@@ -16,27 +16,17 @@
   }
 }
 
-#explorer-toggle {
-  background: $gray-lighter;
-  border: 0;
-  border-bottom: 1px solid rgba($black,.1);
+.explorer-toggle {
   border-radius: 0;
   border-right: 1px solid rgba($black,.1);
   color: $gray-dark;
-  float: left;
-  height: 36px;
+  height: 45px;
   position: absolute;
-  width: 36px;
+  width: 45px;
   z-index: $z-show;
 
-  &:hover,
-  &:active,
-  &.active {
-    background: $white;
-  }
-
-  .out & {
-    transform: translate3d(-36px,0,0);
+  .icons-folder-open {
+    top: 6px;
   }
 }
 

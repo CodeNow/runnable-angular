@@ -20,20 +20,6 @@
 @import "globals/loader";
 @import "globals/logo";
 
-// sidebar
-@import "sidebar/sidebar";
-@import "sidebar/sidebar-accounts";
-@import "sidebar/sidebar-boxes";
-
-// box
-@import "box/box-header";
-@import "box/box-sidebar";
-
-// views
-@import "views/views";
-@import "views/views-explorer";
-@import "views/views-tabs";
-
 // editor
 @import "components/file-tree";
 @import "components/editor";
@@ -61,6 +47,20 @@
 // components (forms)
 @import "components/forms";
 @import "components/forms-toggles";
+
+// sidebar
+@import "sidebar/sidebar";
+@import "sidebar/sidebar-accounts";
+@import "sidebar/sidebar-boxes";
+
+// box
+@import "box/box-header";
+@import "box/box-sidebar";
+
+// views
+@import "views/views";
+@import "views/views-explorer";
+@import "views/views-tabs";
 
 // pages
 @import "pages/home";
