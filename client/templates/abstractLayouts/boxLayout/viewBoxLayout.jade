@@ -4,7 +4,8 @@ nav.sidebar
   header.row
     ol.accounts-group(
       ng-class = "{in: dataBoxLayout.data.showChangeAccount}"
-      ng-click = "dataBoxLayout.data.showChangeAccount = !dataBoxLayout.data.showChangeAccount"
+      ng-click = "dataBoxLayout.data.showChangeAccount = !dataBoxLayout.data.showChangeAccount && \
+                  $event.stopProagation()"
     )
       li.accounts-group-item
         a.account
@@ -45,6 +46,7 @@ nav.sidebar
   section.boxes.row
     h2.sub-header Boxes
       a.sub-header-action.tooltip(
+        ng-click = "dataBoxLayout.actions.stateToNewProject()"
         data-title = "Create New Box"
       )
         svg.iconnables.icons-add

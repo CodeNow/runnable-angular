@@ -195,9 +195,6 @@ function ControllerBoxLayout(
   };
 
   actions.stateToNewProject = function (userOrOrg) {
-    if (!data.showChangeAccount) {
-      return;
-    }
     actions.selectProjectOwner(userOrOrg, function () {
       $state.go('projects');
     });
