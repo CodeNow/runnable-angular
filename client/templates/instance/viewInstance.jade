@@ -75,6 +75,7 @@ section.sidebar.box-sidebar
             )
           span.commit-author anandkumarpatel
           time.commit-time 2 hours ago
+
   //- urls
   section.row
     h2.sub-header URLs
@@ -97,7 +98,13 @@ section.sidebar.box-sidebar
               xlink:href = "#icons-link"
             )
 
-section.views
+section.views.with-add-tab(
+  ng-class = "{\
+    in: dataBoxInstance.data.showExplorer && !dataBoxInstance.data.loading,\
+    out: !dataBoxInstance.data.container.running() || dataBoxInstance.data.loading\
+  }"
+)
+  //- explorer
   button.white.btn-icon.explorer-toggle(
     ng-click = "dataBoxInstance.data.showExplorer = !dataBoxInstance.data.showExplorer"
     type = "button"
@@ -115,31 +122,37 @@ section.views
       )
         .theme
     file-tree(
-      open-items = "dataBuild.data.openItems"
+      open-items = "dataBoxInstance.data.openItems"
       read-only = "true"
-      root-dir = "dataBuild.data.version.rootDir"
+      root-dir = "dataBoxInstance.data.version.rootDir"
     )
+
+  //- tabs
   tabs(
-    open-items= "dataBuild.data.openItems"
+    open-items= "dataBoxInstance.data.openItems"
   )
-  a.add-tab.btn.btn-icon(
-    ng-class = "{active: dataInstance.data.popoverAddTab.data.show}"
+  a.btn.white.btn-icon.add-tab(
+    ng-class = "{active: dataBoxInstance.data.popoverAddTab.data.show}"
     toggle-pop-over
-    toggle-pop-over-model = "dataInstance.data.popoverAddTab.data.show"
+    toggle-pop-over-model = "dataBoxInstance.data.popoverAddTab.data.show"
   )
     svg.iconnables.icons-add
       use(
         xlink:href = "#icons-add"
       )
     pop-over(
-      actions = "dataInstance.data.popoverAddTab.actions"
-      data = "dataInstance.data.popoverAddTab.data"
+      actions = "dataBoxInstance.data.popoverAddTab.actions"
+      data = "dataBoxInstance.data.popoverAddTab.data"
       template = "viewInstancePopoverAddTab"
     )
+
+  //- active panel
   active-panel(
-    container = "dataInstance.data.container"
-    is-dark-theme = "dataInstance.data.toggleTheme"
-    open-items = "dataInstance.data.openItems"
+    container = "dataBoxInstance.data.container"
+    is-dark-theme = "dataBoxInstance.data.toggleTheme"
+    open-items = "dataBoxInstance.data.openItems"
     update = "false"
   )
+
+  //- spinner
   .horizontal-spinner
