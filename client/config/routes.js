@@ -44,13 +44,13 @@ module.exports = [{
   url: '^/project/:userName/:projectName/:branchName/:buildName/fork/:newBuildName',
   templateUrl: 'viewBuildNew',
   controller: 'ControllerBuildNew'
-}, {
+}, /*{
   state: 'projects.instance',
   abstract: false,
   url: '^/instances/:userName/:instanceId',
   templateUrl: 'viewInstance',
   controller: 'ControllerInstance'
-}, {
+}, */{
   state: '404',
   abstract: false,
   templateUrl: 'viewError',
@@ -61,11 +61,11 @@ module.exports = [{
   templateUrl: 'viewBoxLayout',
   controller: 'ControllerBoxLayout'
 }, {
-  state: 'box.boxInstance',
+  state: 'box.instance',
   abstract: false,
   url: '^/:userName/:shortHash',
-  templateUrl: 'viewBoxInstance',
-  controller: 'ControllerBoxInstance'
+  templateUrl: 'viewInstance',
+  controller: 'ControllerInstance'
 }, {
   state: 'box.boxInstanceEdit',
   abstract: false,
