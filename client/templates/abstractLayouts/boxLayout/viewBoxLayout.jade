@@ -10,7 +10,7 @@ nav.sidebar
         a.account
           img.gravatar(
             height = "24"
-            ng-src = ""
+            ng-src = "https://avatars3.githubusercontent.com/u/5341618?v=2&s=48"
             width = "24"
           )
           span runnabro
@@ -38,7 +38,7 @@ nav.sidebar
   //- boxes
   section.boxes.row
     h2.sub-header Boxes
-      a.sub-header-action.tooltip(
+      a.btn.white.tooltip.sub-header-action(
         data-title = "Create New Box"
       )
         svg.iconnables.icons-add
@@ -49,19 +49,19 @@ nav.sidebar
       //- apply .active for currently selected box
       //- apply .running for a running box
       li.box-group-item
-        a.box runnable-api
+        a.white.box runnable-api
           svg.iconnables.icons-trigger
             use(
               xlink:href = "#icons-trigger"
             )
       li.box-group-item.running
-        a.box runnable-web
+        a.white.box runnable-web
           svg.iconnables.icons-trigger
             use(
               xlink:href = "#icons-trigger"
             )
       li.box-group-item.running.active
-        a.box runnable-angular
+        a.white.box runnable-angular
           svg.iconnables.icons-trigger
             use(
               xlink:href = "#icons-trigger"

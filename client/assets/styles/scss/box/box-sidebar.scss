@@ -20,6 +20,7 @@
   line-height: 1;
 }
 
+// .commit
 .commit {
   border: 1px solid transparent;
   border-radius: 3px;
@@ -28,16 +29,40 @@
   font-size: 14px;
   margin: 3px -6px 0;
   padding: 0 6px 3px;
+  position: relative;
   transition: all .15s ease-in;
 
   &:hover {
     background: rgba($blue,.1);
     border-color: rgba($blue,.2);
   }
+
+  &:active,
+  &.active {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.4);
+  }
+
+  .icons-commit {
+    color: $gray-light;
+    height: 18px;
+    position: absolute;
+    right: 6px;
+    top: 1px;
+    width: 18px;
+  }
 }
 
-// time.commit-time
+// .commit line 1: .commit-message
+.commit-message {
+  // offset to prevent overlap with .icons-commit
+  padding-right: 18px;
+}
+
+//.commmit line 2: .span.commit-author, .time.copmmit-time
 .commit-time {
   color: $gray-light;
   float: right;
+  font-size: 12px;
+  margin-top: 2px;
 }
