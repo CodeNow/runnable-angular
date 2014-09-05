@@ -20,6 +20,20 @@
   font-size: 16px;
   line-height: 1;
   white-space: nowrap;
+
+  + .repository-update {
+    background: $white;
+    box-shadow: -9px 0 9px rgba($white,.9);
+    margin-right: -6px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+
+    &:hover {
+      // color of rgba($black,.1) on white
+      background: #f2f2f2;
+    }
+  }
 }
 
 // .commit
@@ -57,26 +71,10 @@
 
 // button.white.repository-update.tooltip
 .white.repository-update {
-  background: $white;
-  box-shadow: -9px 0 9px rgba($white,.9);
   font-size: 12px;
   height: 18px;
   line-height: 18px;
-  margin-right: -6px;
   padding: 0 6px 0 4px;
-  position: absolute;
-  right: 15px;
-  top: 15px;
-
-  &:hover {
-    // color of rgba($black,.1) on white
-    background: #f2f2f2;
-  }
-
-  // overwrite tooltip
-  &.tooltip {
-    position: absolute;
-  }
 
   .icons-update {
     height: 13px;

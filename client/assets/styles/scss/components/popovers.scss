@@ -66,7 +66,6 @@
 // popovers
 .popover {
   background: $white;
-  background-clip: padding-box;
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 1px 10px rgba($black,.1);
@@ -262,8 +261,7 @@
   font-weight: 500;
   line-height: 18px;
   margin: 0;
-  padding: 8px 14px;
-  text-align: center;
+  padding: 6px;
   text-shadow: none;
 }
 

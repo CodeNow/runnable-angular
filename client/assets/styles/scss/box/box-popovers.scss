@@ -1,0 +1,48 @@
+// .popover.commit-select
+.commit-select {
+  margin-left: 39px;
+  width: 251px;
+}
+
+.popover-toolbar {
+  padding-top: 6px;
+
+  .white {
+    height: 24px;
+    line-height: 24px;
+  }
+
+  // search button
+  .btn-icon {
+    width: 24px;
+  }
+
+  .icons-search {
+    left: -1px;
+    top: -1px;
+  }
+}
+
+// branch button
+.branch-btn {
+  font-size: 14px;
+  padding: 0 0 0 3px;
+
+  .icons-git {
+    float: left;
+    height: 15px;
+    left: 0;
+    margin-right: 6px;
+    position: relative;
+    top: 5px;
+    width: 15px;
+  }
+
+  .icons-arrow-down {
+    float: right;
+  }
+
+  .select {
+    font-size: 16px;
+  }
+}
