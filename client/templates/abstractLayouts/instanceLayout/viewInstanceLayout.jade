@@ -43,7 +43,8 @@ nav.sidebar.global-sidebar
             width = "24"
           )
           span {{ dataInstanceLayout.actions.getEntityName(org) }}
-  //- boxes
+
+  //- INSTANCES
   section.boxes.row
     h2.sub-header Boxes
       a.btn.white.sub-header-action(
@@ -58,7 +59,9 @@ nav.sidebar.global-sidebar
       //- apply .running for a running box
       li.box-group-item(
         //- TODO: ng-class placeholder property. Replace when API client ready
-        ng-class = "{running: box.attrs.running}"
+        ng-class = "{ \
+          running: box.attrs.running \
+        }"
         ng-click = "dataInstanceLayout.actions.stateToInstance(box)"
         ng-repeat = "box in dataInstanceLayout.data.instances.models"
       )
