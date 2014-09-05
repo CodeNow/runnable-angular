@@ -70,7 +70,7 @@ module.exports = [{
   state: 'instance.instanceEdit',
   abstract: false,
   url: '^/:userName/:shortHash/edit/:buildId',
-  templateUrl: 'viewBoxInstanceEdit',
-  controller: 'ControllerBoxInstanceEdit'
+  templateUrl: 'viewInstanceEdit',
+  controller: 'ControllerInstanceEdit'
 }];
 Object.freeze(module.exports);
