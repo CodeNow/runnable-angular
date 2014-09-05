@@ -4,7 +4,7 @@
 )
   h3.popover-title
     //- branch selector
-    button.white.btn-select.branch-btn
+    button.blue.btn-select.branch-btn
       //- change this to a branch icon
       svg.iconnables.icons-git
         use(
@@ -20,10 +20,10 @@
         option branch
         option other-branch
     //- search should search across all commits in that repo
-    button.white.btn-icon.pull-right
-      svg.iconnables.icons-search
+    button.blue.btn-icon.pull-right
+      svg.iconnables.icons-search-blue
         use(
-          xlink:href = "#icons-search"
+          xlink:href = "#icons-search-blue"
         )
   //- list of commits
   ul.commit-group
@@ -44,6 +44,22 @@
         )
       span.commit-author cflynn07
       time.commit-time 1 day ago
+    li.commit-group-item.commit
+      .commit-message actually submit .env.local
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author anandkumarpatel
+      time.commit-time 2 hours ago
+    li.commit-group-item.commit
+      .commit-message actually submit .env.local
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author anandkumarpatel
+      time.commit-time 2 hours ago
     li.commit-group-item.commit.active
       .commit-message bugfix object keypath
       svg.iconnables.icons-commit
@@ -76,21 +92,5 @@
         )
       span.commit-author anandkumarpatel
       time.commit-time 2 hours ago
-    li.commit-group-item.commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
-    li.commit-group-item.commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
     li.commit-group-item
-      button.white.btn-block Load Older
+      button.blue.btn-block Load Older

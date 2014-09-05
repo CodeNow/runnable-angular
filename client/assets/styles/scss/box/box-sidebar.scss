@@ -45,7 +45,7 @@
   margin: 3px -6px 0;
   padding: 0 6px 3px;
   position: relative;
-  transition: all .15s ease-in;
+  transition: background .15s ease-in, border-color .15s ease-in;
 
   &:hover {
     background: rgba($blue,.1);
@@ -56,9 +56,11 @@
   &.active {
     background: rgba($blue,.1);
     border-color: rgba($blue,.4);
+    color: $blue;
 
-    .icons-commit {
-      color: rgba($blue,.4);
+    .icons-commit,
+    .commit-time {
+      color: $blue;
     }
   }
 

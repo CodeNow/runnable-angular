@@ -226,6 +226,27 @@ button,
   }
 }
 
+.blue {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: none;
+  color: $blue;
+  font-weight: 300;
+  text-decoration: none;
+
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+
+  &:active,
+  &.active {
+    background: rgba($blue,.2);
+    border-color: rgba($blue,.4);
+  }
+}
+
 .btn-label {
   font-size: 12px;
   height: 22px;
