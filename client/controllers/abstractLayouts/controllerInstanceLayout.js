@@ -20,44 +20,6 @@ function ControllerInstanceLayout(
   var data = dataInstanceLayout.data = {};
   var actions = dataInstanceLayout.actions = {};
 
-  function isUser(entity) {
-    return entity === $scope.dataApp.user;
-  }
-
-  actions.getEntityName = function (entity) {
-    if (entity) {
-      return isUser(entity) ?
-        entity.attrs.accounts.github.username : // user
-        entity.attrs.login; // org
-    }
-  };
-
-  actions.getEntityId = function (entity) {
-    if (entity) {
-      return isUser(entity) ?
-        entity.attrs.accounts.github.id : //user
-        entity.attrs.id; //org
-    }
-  };
-
-  actions.getEntityGravatar = function (entity) {
-    if (entity) {
-      return isUser(entity) ?
-        entity.attrs.gravatar : // user
-        entity.attrs.avatar_url; // org
-    }
-  };
-
-  actions.checkName = function () {
-    if (!dataInstanceLayout.data.projects) {
-      return;
-    }
-    var match = dataInstanceLayout.data.projects.find(function (m) {
-      return (m.attrs.name === dataInstanceLayout.data.newProjectName);
-    });
-    dataInstanceLayout.data.newNameTaken = !!match;
-  };
-
 /*
   actions.selectProjectOwner = function (userOrOrg, cb) {
     var name = actions.getEntityName(userOrOrg);
@@ -114,7 +76,7 @@ function ControllerInstanceLayout(
       body = {
         name: dataInstanceLayout.data.newProjectName,
         owner: {
-          github: actions.getEntityId(data.activeAccount)
+          github: data.activeAccount.oauthId()
         }
       };
       var project = thisUser.createProject(body, function (err) {
@@ -161,7 +123,7 @@ function ControllerInstanceLayout(
     ], function (err, thisUser, project, build) {
       data.activeProject = project;
       $state.go('projects.setup', {
-        userName: actions.getEntityName(data.activeAccount),
+        userName: data.activeAccount.oauthName(),
         projectName: project.attrs.name
       });
     });
@@ -188,7 +150,7 @@ function ControllerInstanceLayout(
 
     var finish = function () {
       var state = {
-        userName: actions.getEntityName(userOrOrg),
+        userName: userOrOrg.oauthName(),
         shortHash: project.id()
       };
       setInitialActiveProject(function() {
@@ -207,6 +169,7 @@ function ControllerInstanceLayout(
     finish();
   };
 
+  /*
   actions.getActiveProjectName = function() {
     if ($scope.dataApp.state.current.name === 'projects') {
       return actions.getEntityName(data.activeAccount);
@@ -228,6 +191,7 @@ function ControllerInstanceLayout(
       return '';
     }
   };
+  */
 
   /* ============================
    *   API Fetch Methods
@@ -240,18 +204,19 @@ function ControllerInstanceLayout(
     });
   }
 
-  function selectInitialProjectOwner(cb) {
+  function setActiveAccount (cb) {
     var currentUserOrOrgName = $state.params.userName;
-    if (!currentUserOrOrgName ||
-      currentUserOrOrgName === actions.getEntityName($scope.dataApp.user)) {
-      var toSet = data.activeAccount || $scope.dataApp.user;
-      return actions.selectProjectOwner(toSet, cb);
+
+    if (!currentUserOrOrgName || currentUserOrOrgName === $scope.dataApp.user.oauthName()) {
+      data.activeAccount = $scope.dataApp.user;
+      return;
     }
     var currentOrg = data.orgs.find(hasKeypaths({
       'attrs.login.toLowerCase()': currentUserOrOrgName.toLowerCase()
     }));
     if (currentOrg) {
-      return actions.selectProjectOwner(currentOrg, cb);
+      data.activeAccount = currentOrg;
+      return;
     }
     return cb(new Error('User or Org not found'));
   }
@@ -288,13 +253,11 @@ function ControllerInstanceLayout(
 
   function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
-    //var id = actions.getEntityId(data.activeAccount);
-    var id = actions.getEntityId(thisUser);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstances')
       .query({
         owner: {
-          github: id
+          github: data.activeAccount.oauthId()
         }
       })
       .cacheFetch(function updateDom(instances, cached, cb) {
@@ -327,9 +290,10 @@ function ControllerInstanceLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
+      setActiveAccount,
+      fetchInstances
       //selectInitialProjectOwner,
       //fetchAllProjects,
-      fetchInstances
       //setInitialActiveProject
     ], function (err) {
       if (err) {
@@ -339,6 +303,7 @@ function ControllerInstanceLayout(
       $scope.safeApply();
     });
   };
+
   /**
    * New project page
    */
