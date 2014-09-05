@@ -154,7 +154,7 @@ function ControllerInstanceEdit(
         function (err, build) {
           $scope.dataApp.data.loading = false;
           if (err) throw err;
-          $state.go('projects.build', angular.copy({
+          $state.go('instance.instance', angular.copy({
             buildName: newBuild.attrs.buildNumber
           }, $stateParams));
         });
@@ -222,9 +222,9 @@ function ControllerInstanceEdit(
           // return $state.go(404);
         }
         data.instance = instance;
-        data.version = data.container = instance.containers.models[0];
         data.build = instance.build;
-        if (data.container && data.container.running()) {
+        data.version = data.build.contextVersions.models[0];
+        if (data.build && data.build.attrs.completed) {
           data.showExplorer = true;
         } else {
           data.showExplorer = false;
