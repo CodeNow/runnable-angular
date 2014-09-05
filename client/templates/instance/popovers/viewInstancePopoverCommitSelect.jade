@@ -2,7 +2,9 @@
 .popover.commit-select(
   ng-class = "{in: data.show}"
 )
-  h3.popover-title
+  h3.popover-title(
+    ng-class = "{'show-filter': data.toggleFilter}"
+  )
     //- branch selector
     button.blue.btn-select.branch-btn
       //- change this to a branch icon
@@ -19,12 +21,19 @@
         option master
         option branch
         option other-branch
-    //- search should search across all commits in that repo
-    button.blue.btn-icon.pull-right
+    //- filter across all commits in that repo
+    //- should clear on close
+    button.blue.btn-icon.pull-right.btn-search(
+      ng-click = "data.toggleFilter = !data.toggleFilter"
+      ng-class = "{'active': data.toggleFilter}"
+    )
       svg.iconnables.icons-search-blue
         use(
           xlink:href = "#icons-search-blue"
         )
+    input.title-filter(
+      placeholder = "filter commits"
+    )
   //- list of commits
   ul.commit-group
     //- .active class if currently selected commit
