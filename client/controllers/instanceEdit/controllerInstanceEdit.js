@@ -244,17 +244,12 @@ function ControllerInstanceEdit(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-    if (data.build.succeeded()) {
-      // TODO Go to regular instance page
-      actions.goToInstance();
-    } else {
-      data
-        .openItems.addBuildStream({
-          name: 'Build Stream'
-        })
-        .state.alwaysOpen = true;
-      $scope.safeApply();
-    }
+    data
+      .openItems.addBuildStream({
+        name: 'Build Stream'
+      })
+      .state.alwaysOpen = true;
+    $scope.safeApply();
     cb();
   }
 

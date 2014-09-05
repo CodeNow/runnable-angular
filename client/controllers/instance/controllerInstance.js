@@ -270,7 +270,7 @@ function ControllerInstance(
       // save this so we can later set it active after adding terminal/web view
       data.logs = pat.actions.addLogs();
     } else {
-      pat.actions.addBuildStream();
+      actions.goToEdit();
     }
     cb();
   }
