@@ -1,25 +1,15 @@
 // .popover.commit-select
 .commit-select {
+  background: #f0f8fb; // rgba($blue,.1);
   margin-left: 39px;
   top: 34px; // if first repo
   transform: scale3d(1,0,0);
   transform-origin: 50% 0;
   width: 251px;
 
-  .commit {
-    border-left: 0;
-    border-radius: 0;
-    border-right: 0;
-    padding: 6px;
-
-    &:hover,
-    &.active {
-      border-color: rgba($black,.1);
-    }
-
-    &:active {
-      border-color: #bbdeeb; // rgba($blue,.2)
-    }
+  .popover-title {
+    background: transparent;
+    border-color: #bbdeeb; // rgba($blue,.4)
   }
 }
 
@@ -31,36 +21,42 @@
 
 // li.commit-group-item
 .commit-group-item {
-  border-bottom-color: rgba($black,.1);
-  margin: -1px 0 0;
+  margin: 3px 6px;
+  padding: 6px 9px;
+
+  &:hover,
+  &:active,
+  &.active {
+    border-color: #bbdeeb; // rgba($blue,.4)
+  }
+
+  &:first-child {
+    margin: 6px 6px 3px;
+  }
 
   &:last-child {
     border: 0;
+    margin: 3px 6px 6px;
+    padding: 0;
   }
 
-  // button.white.btn-block Load Older
-  .white {
-    font-size: 14px;
+  // button.blue.btn-block Load Older
+  .blue {
+    height: 36px;
+    line-height: 36px;
+    margin: 0;
   }
 
   .icons-commit {
     top: 6px;
-
-    .active & {
-      color: #bbdeeb; // rgba($blue,.2);
-    }
   }
 }
 
 .popover-title {
 
-  .white {
+  .blue {
     height: 24px;
     line-height: 24px;
-
-    &:hover {
-      background: #f2f2f2; // rgba($black,.1)
-    }
   }
 
   // search button
@@ -68,7 +64,7 @@
     width: 24px;
   }
 
-  .icons-search {
+  .icons-search-blue {
     left: -1px;
     top: -1px;
   }
@@ -80,6 +76,7 @@
   padding: 0 0 0 3px;
 
   .icons-git {
+    color: $blue;
     float: left;
     height: 15px;
     left: 0;
