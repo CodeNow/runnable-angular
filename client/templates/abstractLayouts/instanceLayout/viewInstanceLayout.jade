@@ -3,17 +3,19 @@ nav.sidebar.global-sidebar
   //- accounts
   header.row
     ol.accounts-group(
-      ng-class = "{in: dataInstanceLayout.data.showChangeAccount}"
+      ng-class = "{ \
+        in: dataInstanceLayout.data.showChangeAccount \
+      }"
       ng-click = "dataInstanceLayout.data.showChangeAccount = !dataInstanceLayout.data.showChangeAccount"
     )
       li.accounts-group-item
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "{{ dataInstanceLayout.actions.getEntityGravatar(dataInstanceLayout.data.activeAccount) }}"
+            ng-src = "{{ dataInstanceLayout.data.activeAccount.gravitar() }}"
             width = "24"
           )
-          span {{ dataInstanceLayout.actions.getEntityName(dataInstanceLayout.data.activeAccount) }}
+          span {{ dataInstanceLayout.data.activeAccount.oauthName() }}
           //- icons-arrow-down only for first account
           svg.iconnables.icons-arrow-down
             use(
@@ -27,10 +29,10 @@ nav.sidebar.global-sidebar
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "{{ dataInstanceLayout.actions.getEntityGravatar(dataApp.user) }}"
+            ng-src = "{{ org.gravitar() }}"
             width = "24"
           )
-          span {{ dataInstanceLayout.actions.getEntityName(dataApp.user) }}
+          span {{ dataApp.user.oauthName() }}
       //- Orgs that are not the active account
       li.accounts-group-item(
         ng-repeat = "org in dataInstanceLayout.data.orgs.models"
@@ -39,10 +41,10 @@ nav.sidebar.global-sidebar
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "{{ dataInstanceLayout.actions.getEntityGravatar(org) }}"
+            ng-src = "{{ org.gravitar() }}"
             width = "24"
           )
-          span {{ dataInstanceLayout.actions.getEntityName(org) }}
+          span {{ org.oauthName() }}
 
   //- INSTANCES
   section.boxes.row
@@ -60,12 +62,15 @@ nav.sidebar.global-sidebar
       li.box-group-item(
         //- TODO: ng-class placeholder property. Replace when API client ready
         ng-class = "{ \
-          running: box.attrs.running \
+          running: !instance.build.attrs.complete, \
+          stopped: '', \
+          building: '', \
+          failed: '' \
         }"
         ng-click = "dataInstanceLayout.actions.stateToInstance(box)"
-        ng-repeat = "box in dataInstanceLayout.data.instances.models"
+        ng-repeat = "instance in dataInstanceLayout.data.instances.models"
       )
-        a.white.box {{ box.attrs.name }}
+        a.white.box {{ instance.attrs.name }}
           svg.iconnables.icons-trigger
             use(
               xlink:href = "#icons-trigger"
