@@ -21,10 +21,9 @@ function term(
         if (!containerId) {
           return;
         }
-        // Numbers chosen erring on the side of padding
-        // TODO: http://jsfiddle.net/loktar/gcrkobdL/
-        var CHAR_WIDTH = 8.3;
-        var CHAR_HEIGHT = 19;
+        // Numbers chosen erring on the side of padding, will be updated with more accurate numbers later
+        var charWidth = 8.3;
+        var charHeight = 19;
         var params = $scope.params;
 
         // Initalize link to server
@@ -64,8 +63,13 @@ function term(
         function resizeTerm() {
           // Tab not selected
           if ($termElem.width() === 100) { return; }
-          var x = Math.floor($termElem.width() / CHAR_WIDTH);
-          var y = Math.floor($termElem.height() / CHAR_HEIGHT);
+          var termLineEl = $termElem.find('div')[0];
+          var tBox = termLineEl.getBoundingClientRect();
+
+          charHeight = tBox.height;
+          charWidth = tBox.width / termLineEl.textContent.length;
+          var x = Math.floor($termElem.width() / charHeight);
+          var y = Math.floor($termElem.height() / charWidth);
 
           terminal.resize(x, y);
 
