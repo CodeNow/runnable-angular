@@ -305,16 +305,16 @@
 .title-filter {
   font-size: 14px;
   font-weight: 300;
-  height: 24px;
-  left: 5px;
+  height: 25px;
   line-height: 24px;
   opacity: 0;
-  padding-left: 9px;
   pointer-events: none;
   position: absolute;
+  right: 6px;
   top: 6px;
   transition: opacity .15s ease-in;
-  width: calc(100% - 41px);
+  width: calc(100% - 42px);
+  z-index: $z-popover-title-filter;
 
   .show-filter & {
     opacity: 1;
