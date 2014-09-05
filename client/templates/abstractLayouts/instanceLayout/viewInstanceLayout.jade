@@ -6,7 +6,8 @@ nav.sidebar.global-sidebar
       ng-class = "{ \
         in: dataInstanceLayout.data.showChangeAccount \
       }"
-      ng-click = "dataInstanceLayout.data.showChangeAccount = !dataInstanceLayout.data.showChangeAccount"
+      ng-click = "dataInstanceLayout.data.showChangeAccount = !dataInstanceLayout.data.showChangeAccount; \
+                  $event.stopPropagation()"
     )
       li.accounts-group-item
         a.account
