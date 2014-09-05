@@ -31,8 +31,13 @@ function buildStream(
         if (buildId) {
           var build = $scope.build;
           if (build.succeeded()) {
-            $scope.stream.data = $scope.build.attrs.contextVersions[0].build.log;
-            $rootScope.safeApply();
+            $scope.build.contextVersions.models[0].fetch(function (err, data) {
+              if (err) {
+                throw err;
+              }
+              $scope.stream.data = data.build.log;
+              $rootScope.safeApply();
+            });
           } else if (build.failed()) {
             var contextVersion = build.contextVersions.models[0];
             if (build.contextVersions.models)
