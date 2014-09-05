@@ -25,7 +25,9 @@
         svg.iconnables.lg.icons-logs
           use(xlink:href = "#icons-logs")
         | Server Logs
-      li
+      li(
+        ng-click = "actions.addBuildStream()"
+      )
         //- i need a new icon here
         svg.iconnables.lg.icons-logs
           use(xlink:href = "#icons-logs")
