@@ -26,6 +26,13 @@ Requirements
 - ruby ~2.0.0 (for SASS)
 - browserify@~5.9.1
 
+Testing
+-------
+```bash
+webdriver-manager start;
+npm test
+```
+
 Contributors
 ------------
 <img src="https://s.gravatar.com/avatar/b613d7470bc5eb09b8c73223b4ee8a4e?s=64">&nbsp;
