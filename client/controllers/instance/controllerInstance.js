@@ -166,13 +166,12 @@ function ControllerInstance(
   // };
 
   actions.goToBuild = function() {
-    var attrs = data.instance.attrs;
     var state = {
       userName: $state.params.userName,
       shortHash: $state.params.shortHash,
-      buildId: data.instance.attrs.build.id
+      buildId: data.build.id()
     };
-    $state.go('projects.boxInstanceEdit', state);
+    $state.go('instance.instanceEdit', state);
   };
 
   actions.destroyInstance = function () {
@@ -266,12 +265,12 @@ function ControllerInstance(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-    if (data.build.successful()) {
+    if (data.build.succeeded()) {
       var container = data.container;
       // save this so we can later set it active after adding terminal/web view
       data.logs = pat.actions.addLogs();
     } else {
-      pat.actions.addBuildStream();
+      actions.goToEdit();
     }
     cb();
   }

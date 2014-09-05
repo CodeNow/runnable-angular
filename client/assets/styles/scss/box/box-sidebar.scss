@@ -41,11 +41,11 @@
   border-radius: 3px;
   color: $gray;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   margin: 3px -6px 0;
   padding: 0 6px 3px;
   position: relative;
-  transition: all .15s ease-in;
+  transition: background .15s ease-in, border-color .15s ease-in;
 
   &:hover {
     background: rgba($blue,.1);
@@ -56,6 +56,12 @@
   &.active {
     background: rgba($blue,.1);
     border-color: rgba($blue,.4);
+    color: $blue;
+
+    .icons-commit,
+    .commit-time {
+      color: $blue;
+    }
   }
 
   .icons-commit {
@@ -84,16 +90,23 @@
 
 // .commit line 1: .commit-message
 .commit-message {
-  // offset to prevent overlap with .icons-commit
+  font-weight: 500;
+  overflow: hidden;
   padding-right: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-//.commmit line 2: .span.commit-author, .time.copmmit-time
+//.commmit line 2: span.commit-author, time.copmmit-time
+.commit-author,
+.commit-time {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
 .commit-time {
   color: $gray-light;
   float: right;
-  font-size: 12px;
-  margin-top: 2px;
 }
 
 // li.url-group-item
