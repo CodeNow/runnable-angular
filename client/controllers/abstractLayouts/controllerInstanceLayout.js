@@ -209,14 +209,14 @@ function ControllerInstanceLayout(
 
     if (!currentUserOrOrgName || currentUserOrOrgName === $scope.dataApp.user.oauthName()) {
       data.activeAccount = $scope.dataApp.user;
-      return;
+      return cb();
     }
     var currentOrg = data.orgs.find(hasKeypaths({
       'attrs.login.toLowerCase()': currentUserOrOrgName.toLowerCase()
     }));
     if (currentOrg) {
       data.activeAccount = currentOrg;
-      return;
+      return cb();
     }
     return cb(new Error('User or Org not found'));
   }
