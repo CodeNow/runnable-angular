@@ -1,7 +1,25 @@
 // .popover.commit-select
 .commit-select {
   margin-left: 39px;
+  top: -33px;
   width: 251px;
+
+  .commit {
+    border-left: 0;
+    border-radius: 0;
+    border-right: 0;
+    margin: -1px 0 0;
+    padding: 3px 6px;
+  }
+}
+
+// li.commit-group-item
+.commit-group-item {
+  border-bottom: 1px solid rgba($black,.1);
+
+  &:last-child {
+    border: 0;
+  }
 }
 
 .popover-toolbar {
@@ -10,6 +28,10 @@
   .white {
     height: 24px;
     line-height: 24px;
+
+    &:hover {
+      background: #f2f2f2; // rgba($black,.1)
+    }
   }
 
   // search button
