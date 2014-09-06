@@ -10,7 +10,6 @@
     button.blue.btn-icon.btn-search(
       ng-click = "data.toggleFilter = !data.toggleFilter"
       ng-class = "{'active': data.toggleFilter}"
-      title = "Filter All Commits"
     )
       svg.iconnables.icons-search-blue
         use(
@@ -37,6 +36,7 @@
         option other-branch
   //- list of commits
   ul.commit-group
+    //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit
       .commit-message bugfix object keypath

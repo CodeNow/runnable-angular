@@ -10,15 +10,15 @@
   float: left;
   font-size: 24px;
   line-height: 60px;
+  position: relative;
 
-  .icons-trigger {
-    color: $orange;
-    left: 3px;
-    opacity: 0;
-    top: 3px;
+  .icons-status {
+    left: 9px;
+    top: -5px;
 
-    &.running {
-      opacity: 1;
+    &::before,
+    &::after {
+      margin: -6px 0 0 -8px;
     }
   }
 }

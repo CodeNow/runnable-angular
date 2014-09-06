@@ -1,9 +1,10 @@
 header.box-header
   h1.box-name {{ dataInstance.data.instance.attrs.name }}
-    svg.iconnables.icons-trigger.running
-      use(
-        xlink:href = "#icons-trigger"
-      )
+    //- alternate text: "Stopped running 999 minutes ago."
+    span.icons-status.tooltip(
+      data-title = "Started running 999 minutes ago."
+      ng-class = "{running: dataInstance.data.container.running()}"
+    )
   .primary-actions
     button.green(
       ng-click = "dataInstance.actions.saveChanges()"

@@ -72,10 +72,10 @@ nav.sidebar.global-sidebar
         ng-repeat = "instance in dataInstanceLayout.data.instances.models"
       )
         a.white.box {{ instance.attrs.name }}
-          svg.iconnables.icons-trigger
-            use(
-              xlink:href = "#icons-trigger"
-            )
+          //- alternate text: "Started running 999 minutes ago."
+          span.icons-status(
+            title = "Stopped running 999 minutes ago."
+          )
 
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
 main(ui-view)
