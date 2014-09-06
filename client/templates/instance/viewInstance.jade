@@ -44,50 +44,9 @@ section.sidebar.box-sidebar
   //- repositories
   section.row
     h2.sub-header Repositories
-    ul.repository-group
-      li.repository-group-item
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        h3.repository-title CodeNow/runnable-angular
-        button.white.repository-update.tooltip(
-          data-title = "Fast-forward {branch} (88 commits behind)"
-        ) 88
-          svg.iconnables.icons-update
-            use(
-              xlink:href = "#icons-update"
-            )
-        .commit(
-          toggle-pop-over
-          toggle-pop-over-model = "dataInstance.data.popoverCommitSelect.data.show"
-        )
-          .commit-message bugfix object keypath
-          svg.iconnables.icons-commit
-            use(
-              xlink:href = "#icons-commit"
-            )
-          span.commit-author cflynn07
-          time.commit-time 5 hours ago
-        pop-over(
-          actions = "dataInstance.data.popoverCommitSelect.actions"
-          data = "dataInstance.data.popoverCommitSelect.data"
-          template = "viewInstancePopoverCommitSelect"
-        )
-      li.repository-group-item
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        h3.repository-title CodeNow/api
-        .commit
-          .commit-message actually submit .env.local
-          svg.iconnables.icons-commit
-            use(
-              xlink:href = "#icons-commit"
-            )
-          span.commit-author anandkumarpatel
-          time.commit-time 2 hours ago
+    repo-list(
+      instance = "dataInstanceEdit.data.instance"
+    )
 
   //- urls
   section.row
