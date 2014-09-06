@@ -57,4 +57,18 @@
     top: 12px;
     width: 1px;
   }
+
+  .btn-icon {
+    margin-left: 3px;
+  }
+}
+
+// more action position
+.btn-actions {
+
+  .popover {
+    left: -68px;
+    top: 36px;
+    transform-origin: 50% 0;
+  }
 }

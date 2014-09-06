@@ -29,8 +29,10 @@ header.box-header
         use(
           xlink:href = "#icons-edit"
         )
-    button.white.btn-icon(
-      title = "More Actions"
+    button.white.btn-icon.btn-actions(
+      ng-class = "{active: dataInstance.data.PopoverActions.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "dataInstance.data.PopoverActions.data.show"
       type = "button"
     )
       svg.iconnables.icons-gear
@@ -38,6 +40,11 @@ header.box-header
           xlink:href = "#icons-gear"
         )
       //- popover for rename, for, delete box
+      pop-over(
+        actions = "dataInstance.data.PopoverActions.actions"
+        data = "dataInstance.data.PopoverActions.data"
+        template = "viewInstancePopoverActions"
+      )
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
