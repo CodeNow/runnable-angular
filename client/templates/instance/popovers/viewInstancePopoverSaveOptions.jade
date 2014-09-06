@@ -1,0 +1,14 @@
+.popover.menu.bottom.fade.popover-save-options(
+  ng-class = "{'in': data.show}"
+)
+  .arrow.white
+  .popover-content
+    label.btn.btn-check(
+      ng-class = "{out: !dataInstance.data.container.running() || dataInstance.data.loading}"
+    ) Restart Instance on Save
+    input.form-checkbox(
+      checked
+      ng-disabled = "!dataInstance.data.container.running()"
+      ng-model = "dataInstance.data.restartOnSave"
+      type = "checkbox"
+    )

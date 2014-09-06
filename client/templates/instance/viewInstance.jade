@@ -11,13 +11,20 @@ header.box-header
       type = "button"
     ) Save
     button.white.btn-icon.btn-icon-sm(
-      title = "Save Options"
+      ng-class = "{active: dataInstance.data.PopoverSaveOptions.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "dataInstance.data.PopoverSaveOptions.data.show"
       type = "button"
     )
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
+      pop-over(
+        actions = "dataInstance.data.PopoverSaveOptions.actions"
+        data = "dataInstance.data.PopoverSaveOptions.data"
+        template = "viewInstancePopoverSaveOptions"
+      )
     //- popover for save options
   .secondary-actions
     button.white.btn-icon(

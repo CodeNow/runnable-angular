@@ -63,12 +63,20 @@
   }
 }
 
-// more action position
-.btn-actions {
+// popovers
+.popover-actions {
+  left: -68px;
+  top: 36px;
+  transform-origin: 50% 0;
+}
 
-  .popover {
-    left: -68px;
-    top: 36px;
-    transform-origin: 50% 0;
+.popover-save-options {
+  left: -154px;
+  top: 36px;
+  transform-origin: 167px 0;
+
+  .arrow.white {
+    left: auto;
+    right: 2px;
   }
 }
