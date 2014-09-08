@@ -1,15 +1,32 @@
 header.box-header
-  h1.box-name {{ dataInstanceEdit.actions.getTitle() }}
+  h1.box-name {{ dataInstanceEdit.data.instance.attrs.name }}
   .primary-actions
-    button.green(
+    button.orange(
       ng-click = "dataInstanceEdit.actions.rebuild()"
       type = "button"
     ) Build
   .secondary-actions
+    button.white.btn-icon.btn-actions(
+      ng-class = "{active: dataInstanceEdit.data.PopoverActions.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "dataInstanceEdit.data.PopoverActions.data.show"
+      type = "button"
+    )
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
+      //- popover for rename, for, delete box
+      pop-over(
+        actions = "dataInstanceEdit.data.PopoverActions.actions"
+        data = "dataInstanceEdit.data.PopoverActions.data"
+        template = "viewInstanceEditPopoverActions"
+      )
     button.white(
       ng-click = "dataInstanceEdit.actions.goToBuild()"
       type = "button"
     ) Discard Changes
+
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
