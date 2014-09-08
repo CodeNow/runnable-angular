@@ -82,7 +82,6 @@ function ControllerInstance(
   };
 
   pgm.actions.startInstance = function () {
-    console.log('starting');
     data.loading = true;
     data.instance.start(function (err) {
       if (err) {
