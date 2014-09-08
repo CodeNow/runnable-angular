@@ -199,6 +199,14 @@ function ControllerInstanceEdit(
     }
   });
 
+  $scope.$on('$stateChangeStart', function (e, n, c) {
+    if (n.url !== '^/:userName/:shortHash/edit/:buildId/' && // We're leaving the edit page
+        !data.openItems.isClean && // Files have been edited and not saved
+        confirm('You\'ve made unsaved changes to this page.\nAre you sure you want to leave?')) {
+      e.preventDefault();
+    }
+  });
+
   /*
   $scope.$watch('dataInstanceEdit.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
     if (newval === oldval) {
