@@ -62,14 +62,7 @@ nav.sidebar.global-sidebar
       //- apply .active for currently selected box
       //- apply .running for a running box
       li.box-group-item(
-        //- TODO: ng-class placeholder property. Replace when API client ready
-        ng-class = "{ \
-          active:   (instance.attrs.shortHash === dataApp.stateParams.shortHash), \
-          running:  !instance.build.attrs.complete, \
-          stopped:  false, \
-          building: false, \
-          failed:   false \
-        }"
+        ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataInstanceLayout.data.instances.models"
       )

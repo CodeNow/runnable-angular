@@ -20,6 +20,9 @@ function ControllerInstanceLayout(
   var data = dataInstanceLayout.data = {};
   var actions = dataInstanceLayout.actions = {};
 
+  /**
+   * Triggered when click instance in list on left panel
+   */
   actions.stateToInstance = function (instance) {
     if (instance && instance.id && instance.id()){
       $state.go('instance.instance', {
@@ -27,6 +30,20 @@ function ControllerInstanceLayout(
         userName: $state.params.userName
       });
     }
+  };
+
+  /**
+   * Fetches a hash of classes for each instance displayed
+   * in ng-repeat
+   */
+  actions.getInstanceClasses = function (instance) {
+    var h = {};
+    h.active = (instance.attrs.shortHash === $scope.dataApp.stateParams.shortHash);
+    h.running = !keypather.get(instance, 'build.attrs.complete');
+    h.stopped = false;
+    h.building = false;
+    h.failed = false;
+    return h;
   };
 
 /*
