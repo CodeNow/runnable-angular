@@ -46,27 +46,21 @@ function ControllerInstanceEdit(
   }
 
   rbpo.actions.build = function () {
-    if (rbpo.data.environmentName === '') {
-      return;
-    }
-    var environment = dataInstanceEdit.data.project.environments.find(function (m) {
-      return m.attrs.name === rbpo.data.environmentName;
-    });
-    function createEnvironment () {
-      dataInstanceEdit.data.forkedEnvironment = dataInstanceEdit.data
-      .project.environments.create({
-        name: rbpo.data.environmentName
+    data.build.build({
+      message: 'Manual build'
+    }, function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.update({
+        build: data.build.id()
       }, function (err) {
-        if (err) throw err;
-        dataInstanceEdit.actions.rebuild();
+        if (err) {
+          throw err;
+        }
+        // Display build logs
       });
-    }
-    if (environment) {
-      dataInstanceEdit.data.forkedEnvironment = environment;
-      dataInstanceEdit.actions.rebuild();
-    } else {
-      createEnvironment();
-    }
+    });
   };
 
   rbpo.actions.getPopoverButtonText = function (name) {
@@ -229,13 +223,6 @@ function ControllerInstanceEdit(
           // return $state.go(404);
         }
         data.instance = instance;
-        data.build = instance.build;
-        data.version = data.build.contextVersions.models[0];
-        if (data.build && data.build.attrs.completed) {
-          data.showExplorer = true;
-        } else {
-          data.showExplorer = false;
-        }
         $scope.safeApply();
         cb();
       })
@@ -244,6 +231,32 @@ function ControllerInstanceEdit(
           return cb(new Error('Instance not found'));
         }
         $scope.safeApply();
+        cb(err);
+      })
+      .go();
+  }
+
+  function fetchBuild(cb) {
+    var thisUser = $scope.dataApp.user;
+    var id = $state.params.buildId;
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchBuild')
+      .query(id)
+      .cacheFetch (function updateDom(build, cached, cb) {
+        if (!build) {
+          return;
+          // Also 404
+        }
+        data.build = build;
+        data.version = data.build.contextVersions.models[0];
+        if (data.build) {
+          data.showExplorer = true;
+        } else {
+          data.showExplorer = false;
+        }
+        cb();
+      })
+      .resolve(function (err, build, cb) {
         cb(err);
       })
       .go();
@@ -263,6 +276,7 @@ function ControllerInstanceEdit(
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
+    fetchBuild,
     newOpenItems
   ], function (err) {
     if (err) {

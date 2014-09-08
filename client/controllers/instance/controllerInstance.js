@@ -182,12 +182,17 @@ function ControllerInstance(
   };
 
   actions.goToBuild = function() {
-    var state = {
-      userName: $state.params.userName,
-      shortHash: $state.params.shortHash,
-      buildId: data.build.id()
-    };
-    $state.go('instance.instanceEdit', state);
+    var forkedBuild = data.build.fork(function (err) {
+      if (err) {
+        throw err;
+      }
+      var state = {
+        userName: $state.params.userName,
+        shortHash: $state.params.shortHash,
+        buildId: forkedBuild.id()
+      };
+      $state.go('instance.instanceEdit', state);
+    });
   };
 
   actions.destroyInstance = function () {
