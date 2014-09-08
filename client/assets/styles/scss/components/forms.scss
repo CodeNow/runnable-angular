@@ -12,6 +12,22 @@ input {
   &[readonly] {
     color: $gray;
   }
+
+  &[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    width: auto;
+  }
+}
+
+// label.btn.btn-checkbox
+.btn-checkbox {
+  font-size: 14px;
+}
+
+// input.checkbox
+.checkbox {
+  float: right;
+  margin-left: 12px;
 }
 
 // .form-control {
