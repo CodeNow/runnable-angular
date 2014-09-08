@@ -68,7 +68,7 @@ nav.sidebar.global-sidebar
           building: '', \
           failed: '' \
         }"
-        ng-click = "dataInstanceLayout.actions.stateToInstance(box)"
+        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataInstanceLayout.data.instances.models"
       )
         a.white.box {{ instance.attrs.name }}
