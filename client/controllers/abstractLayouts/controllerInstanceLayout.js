@@ -33,6 +33,43 @@ function ControllerInstanceLayout(
   };
 
   /**
+   * user clicks on user / org in dropdownA
+   */
+  actions.stateToAccount = function (userOrOrg) {
+    // need to look up user/org's instances first
+    // to navigate to 1st instance for user/org.
+    // This query should be cached via fetchInstances
+    // helper method on page load
+    function changeState (shortHash) {
+      $state.go('instance.instance', {
+        shortHash: shortHash,
+        userName: userOrOrg.oauthId()
+      });
+    }
+    new QueryAssist($scope.dataApp.user, angular.noop)
+      .wrapFunc('fetchInstances')
+      .query({
+        owner: {
+          github: userOrOrg.oauthId()
+        }
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        if (instances.models.length === 0){
+          throw new Error('TODO: determine action if 0 instances');
+        }
+        // will only be invoked once via QueryAssist
+        changeState(instances.models[0].attrs.shortHash);
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, projects, cb) {
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  };
+
+  /**
    * Fetches a hash of classes for each instance displayed
    * in ng-repeat
    */
@@ -286,6 +323,17 @@ function ControllerInstanceLayout(
         cb();
       })
       .go();
+
+    // for caching, fetch instances of all other orgs
+    async.map(data.orgs, function (org, cb) {
+      thisUser.fetchInstances({
+        owner: {
+          github: org.oauthId()
+        }
+      }, function () {
+        cb(null);
+      });
+    });
   }
 
   function setInitialActiveProject (cb) {

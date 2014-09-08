@@ -22,7 +22,6 @@ nav.sidebar.global-sidebar
             use(
               xlink:href = "#icons-arrow-down"
             )
-      //- TODO ng-click
       //- current user (if user is not active)
       li.accounts-group-item(
         ng-if = "dataApp.user !== dataInstanceLayout.data.activeAccount"
@@ -36,6 +35,7 @@ nav.sidebar.global-sidebar
           span {{ dataApp.user.oauthName() }}
       //- Orgs that are not the active account
       li.accounts-group-item(
+        ng-click = "dataInstanceLayout.actions.stateToAccount(org)"
         ng-repeat = "org in dataInstanceLayout.data.orgs.models"
         ng-if = "org !== dataInstanceLayout.data.activeAccount"
       )
@@ -75,6 +75,7 @@ nav.sidebar.global-sidebar
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
 main(ui-view)
 
+//- development info
 div(
   ng-include = "'viewDevelopmentInfo'"
 )
