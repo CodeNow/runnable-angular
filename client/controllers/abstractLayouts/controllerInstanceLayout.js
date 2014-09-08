@@ -58,7 +58,6 @@ function ControllerInstanceLayout(
     dataInstanceLayout.data.newNameTaken = !!match;
   };
 
-/*
   actions.selectProjectOwner = function (userOrOrg, cb) {
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
@@ -87,7 +86,6 @@ function ControllerInstanceLayout(
       });
     });
   };
-*/
 
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
@@ -169,7 +167,7 @@ function ControllerInstanceLayout(
 
   actions.stateToInstance = function (instance) {
     if (instance && instance.id && instance.id()){
-      $state.go('box.boxInstance', {
+      $state.go('instance.instance', {
         shortHash: instance.id(),
         userName: $state.params.userName
       });
@@ -192,7 +190,7 @@ function ControllerInstanceLayout(
         shortHash: project.id()
       };
       setInitialActiveProject(function() {
-        $state.go('box.boxInstance', state);
+        $state.go('instance.instance', state);
       });
     };
 
