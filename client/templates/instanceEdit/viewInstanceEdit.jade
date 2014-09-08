@@ -1,5 +1,9 @@
 header.box-header
   h1.box-name {{ dataInstanceEdit.data.instance.attrs.name }}
+    svg.iconnables.icons-edit
+      use(
+        xlink:href = "#icons-edit"
+      )
   .primary-actions
     button.orange(
       ng-click = "dataInstanceEdit.actions.rebuild()"
