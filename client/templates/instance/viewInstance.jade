@@ -1,15 +1,22 @@
 header.box-header
   h1.box-name {{ dataInstance.data.instance.attrs.name }}
-    //- alternate text: "Stopped running 999 minutes ago."
+    span.icons-status.tooltip.running(
+      data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }} ago."
+      ng-if = "dataInstance.data.container.running()"
+    )
     span.icons-status.tooltip(
-      data-title = "Started running 999 minutes ago."
-      ng-class = "{running: dataInstance.data.container.running()}"
+      data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}"
+      ng-if = "!dataInstance.data.container.running()"
     )
   .primary-actions
     button.green(
       ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     ) Save
+      //- show if restart is checked
+      span(
+        ng-if = ""
+      ) and Restart
     button.white.btn-icon.btn-icon-sm(
       ng-class = "{active: dataInstance.data.PopoverSaveOptions.data.show}"
       toggle-pop-over
@@ -25,7 +32,6 @@ header.box-header
         data = "dataInstance.data.PopoverSaveOptions.data"
         template = "viewInstancePopoverSaveOptions"
       )
-    //- popover for save options
   .secondary-actions
     button.white.btn-icon(
       ng-click = "dataInstance.actions.goToBuild()"
@@ -37,9 +43,9 @@ header.box-header
           xlink:href = "#icons-edit"
         )
     button.white.btn-icon.btn-actions(
-      ng-class = "{active: dataInstance.data.PopoverActions.data.show}"
+      ng-class = "{active: dataInstance.data.popoverGearMenu.data.show}"
       toggle-pop-over
-      toggle-pop-over-model = "dataInstance.data.PopoverActions.data.show"
+      toggle-pop-over-model = "dataInstance.data.popoverGearMenu.data.show"
       type = "button"
     )
       svg.iconnables.icons-gear
@@ -48,8 +54,8 @@ header.box-header
         )
       //- popover for rename, for, delete box
       pop-over(
-        actions = "dataInstance.data.PopoverActions.actions"
-        data = "dataInstance.data.PopoverActions.data"
+        actions = "dataInstance.data.popoverGearMenu.actions"
+        data = "dataInstance.data.popoverGearMenu.data"
         template = "viewInstancePopoverActions"
       )
 

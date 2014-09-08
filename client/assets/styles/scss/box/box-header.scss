@@ -70,13 +70,27 @@
   transform-origin: 50% 0;
 }
 
-.popover-save-options {
-  left: -154px;
+.popover.popover-save-options {
+  left: auto;
+  right: -1px;
   top: 36px;
-  transform-origin: 167px 0;
+  transform-origin: 200px 0;
+  width: 210px;
 
   .arrow.white {
     left: auto;
     right: 2px;
+  }
+
+  .label-checkbox {
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    padding: 0 15px;
+  }
+
+  .checkbox {
+    height: 36px;
+    margin-right: 12px;
   }
 }
