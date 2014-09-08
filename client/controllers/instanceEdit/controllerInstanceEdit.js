@@ -84,32 +84,6 @@ function ControllerInstanceEdit(
 
   /**************************************/
 
-  actions.runInstance = function () {
-    $scope.dataApp.data.loading = true;
-    var instance = user.createInstance({
-      json: {
-        build: data.build.id()
-      }
-    }, function (err) {
-      $scope.dataApp.data.loading = false;
-      $scope.safeApply();
-      $scope.dataProjectLayout.data.instances.fetch(function () {
-        $scope.safeApply();
-      });
-      if (err) throw err;
-      var state = {
-        instanceId: instance.id(),
-        userName: $state.params.userName
-      };
-      $state.go('projects.instance', state);
-    });
-    $scope.dataProjectLayout.data.tempBuildUrl = $state.href('projects.build').replace(/^\/project\//, '');
-    // edge case to satisfy Tony's request that a temporary
-    // instance LI for the yet-to-be-created instance
-    // appear in list on left panel
-    $scope.dataProjectLayout.data.instances.add(instance);
-    $scope.safeApply();
-  };
 
   actions.goToInstance = function (skipCheck) {
     if (skipCheck) {
