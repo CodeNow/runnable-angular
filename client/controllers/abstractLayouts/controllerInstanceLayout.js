@@ -20,6 +20,15 @@ function ControllerInstanceLayout(
   var data = dataInstanceLayout.data = {};
   var actions = dataInstanceLayout.actions = {};
 
+  actions.stateToInstance = function (instance) {
+    if (instance && instance.id && instance.id()){
+      $state.go('instance.instance', {
+        shortHash: instance.id(),
+        userName: $state.params.userName
+      });
+    }
+  };
+
 /*
   actions.selectProjectOwner = function (userOrOrg, cb) {
     var name = actions.getEntityName(userOrOrg);
@@ -126,15 +135,6 @@ function ControllerInstanceLayout(
         projectName: project.attrs.name
       });
     });
-  };
-
-  actions.stateToInstance = function (instance) {
-    if (instance && instance.id && instance.id()){
-      $state.go('instance.instance', {
-        shortHash: instance.id(),
-        userName: $state.params.userName
-      });
-    }
   };
 
   actions.stateToNewProject = function (userOrOrg) {
