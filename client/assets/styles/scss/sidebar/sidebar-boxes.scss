@@ -22,15 +22,20 @@
   height: 45px;
   line-height: 45px;
   margin: 0 -6px;
-  padding: 0 6px;
+  overflow: hidden;
+  padding: 0 17px 0 6px;
+  position: relative;
+  text-overflow: ellipsis;
   transition: all .15s ease-in;
+  white-space: hidden;
 
   &:hover {
     background: rgba($black,.025);
   }
 
   .icons-status {
-    float: right;
-    margin: 18px 7px 0 0;
+    position: absolute;
+    right: 7px;
+    top: 18px;
   }
 }
