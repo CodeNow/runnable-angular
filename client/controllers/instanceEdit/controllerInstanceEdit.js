@@ -111,7 +111,10 @@ function ControllerInstanceEdit(
     $scope.safeApply();
   };
 
-  actions.goToInstance = function () {
+  actions.goToInstance = function (skipCheck) {
+    if (skipCheck) {
+      data.skipCheck = true;
+    }
     $state.go('instance.instance', $state.params);
   };
 
@@ -209,7 +212,8 @@ function ControllerInstanceEdit(
   };
 
   $scope.$on('$stateChangeStart', function (e, n, c) {
-    if (n.url !== '^/:userName/:shortHash/edit/:buildId/' && // We're leaving the edit page
+    if (!data.skipCheck &&
+        n.url !== '^/:userName/:shortHash/edit/:buildId/' && // We're leaving the edit page
         !data.openItems.isClean() && // Files have been edited and not saved
         !confirm(confirmText + '\nAre you sure you want to leave?')) {
       e.preventDefault();
