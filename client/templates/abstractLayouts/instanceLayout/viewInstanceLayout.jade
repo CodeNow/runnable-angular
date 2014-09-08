@@ -82,8 +82,12 @@ main(ui-view)
 
 //- development only
 div(
-  ng-if = "dataApp.data.configEnvironment"
-  style = "position:absolute; bottom:0px; right:0px; width:200px; height:50px;"
+  ng-if = "dataApp.data.configEnvironment === 'development'"
+  style = "position: absolute; \
+           bottom: 0px; \
+           right: 0px; \
+           width: 200px; \
+           height: 50px;"
 )
   p API: {{ dataApp.data.configAPIHost }}
   p ENV: {{ dataApp.data.configEnvironment }}
