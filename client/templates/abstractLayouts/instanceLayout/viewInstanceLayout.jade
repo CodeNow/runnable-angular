@@ -80,17 +80,9 @@ nav.sidebar.global-sidebar
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
 main(ui-view)
 
-//- development only
 div(
-  ng-if = "dataApp.data.configEnvironment === 'development'"
-  style = "position: absolute; \
-           bottom: 0px; \
-           right: 0px; \
-           width: 200px; \
-           height: 50px;"
+  ng-include = "'viewDevelopmentInfo'"
 )
-  p API: {{ dataApp.data.configAPIHost }}
-  p ENV: {{ dataApp.data.configEnvironment }}
 
 //- global spinner
 .spinner-container(
