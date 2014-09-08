@@ -15,20 +15,24 @@ function ControllerApp(
   $stateParams,
   $state,
   user,
-  apiConfigHost,
+  configAPIHost,
   holdUntilAuth,
   QueryAssist,
   primus,
-  $localStorage
+  $localStorage,
+  configEnvironment
 ) {
 
   var self = ControllerApp;
   var UTIL = $rootScope.UTIL = {};
   var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
     $stateParams,
-    apiConfigHost);
+    configAPIHost);
   var data = dataApp.data = {};
   var authed = false;
+
+  dataApp.data.configEnvironment = configEnvironment;
+  dataApp.data.configAPIHost = configAPIHost;
 
   data.loading = false;
   $rootScope.$on('$stateChangeStart', function () {

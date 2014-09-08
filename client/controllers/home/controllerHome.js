@@ -23,16 +23,16 @@ function ControllerHome(
   function verifyUserIsAuth() {
     async.series([
       holdUntilAuth,
-      fetchProjects,
+      fetchInstances,
       function sendUserSomewhere(cb) {
 
         var thisUser = $scope.dataApp.user;
 
-        if (!keypather.get($localStorage, 'stateParams.projectName')) {
-          // no cached previously visited project
-          goToFirstProject();
+        if (!keypather.get($localStorage, 'stateParams.shortHash')) {
+          // no cached previously visited instance
+          goToFirstInstance();
         } else {
-          goToLastVisitedProject();
+          goToLastVisitedInstance();
         }
 
         clean();
@@ -44,54 +44,52 @@ function ControllerHome(
             userOrOrg.attrs.login;                    // org
         }
 
-        // remove attached projects property from user/org models
+        // remove attached instances property from user/org models
         function clean() {
           dataHome.data.orgs.forEach(function (org) {
-            delete org.projects;
+            delete org.instances;
           });
         }
 
-        function goToFirstProject() {
-          if (thisUser.projects.models.length === 0) {
+        function goToFirstInstance() {
+          if (thisUser.instances.models.length === 0) {
             return goToSetup();
           }
-          var firstProject = thisUser.projects.models[0];
+          var firstInstance = thisUser.instances.models[0];
           var userName = thisUser.attrs.accounts.github.username;
-          var projectName = firstProject.attrs.name;
-          $state.go('projects.buildList', {
+          var shortHash = firstInstance.attrs.shortHash;
+          $state.go('instance.instance', {
             userName: userName,
-            projectName: projectName,
-            branchName: 'master'
+            shortHash: shortHash
           });
         }
 
         function goToSetup() {
-          $state.go('projects', {});
+          // TODO
+          $state.go('instances.setup', {});
           return cb();
         }
 
-        function goToLastVisitedProject() {
-          var projectName = $localStorage.stateParams.projectName;
+        function goToLastVisitedInstance() {
+          var shortHash = $localStorage.stateParams.shortHash;
           var userOrgName = $localStorage.stateParams.userName;
-          var branchName = $localStorage.stateParams.branchName;
           //verify exists
           var org = dataHome.data.orgs.find(function (org) {
             return getEntityName(org) === userOrgName;
           });
           if(!org) {
-            return goToFirstProject();
+            return goToFirstInstance();
           }
-          var project = org.projects.find(function (project) {
-            return project.attrs.name === projectName;
+          var instance = org.instances.find(function (instance) {
+            return instance.attrs.shortHash === shortHash;
           });
-          if(!project) {
-            return goToFirstProject();
+          if(!instance) {
+            return goToFirstInstance();
           }
-          // we found the cached org & project
-          $state.go('projects.buildList', {
+          // we found the cached org & instance
+          $state.go('instance.instance', {
             userName: userOrgName,
-            projectName: projectName,
-            branchName: branchName
+            shortHash: shortHash
           });
         }
       }
@@ -99,47 +97,50 @@ function ControllerHome(
   }
 
   /**
-   * Fetch all user orgs and all projects for user + user-orgs
-   * temporarily attach 'projects' property to user & org models
+   * Fetch all user orgs and all instances for user + user-orgs
+   * temporarily attach 'instances' property to user & org models
    */
-  function fetchProjects(cb) {
+  function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
 
-    if (!keypather.get($localStorage, 'stateParams.projectName')) {
-      // dont bother finding all orgs, we're just going to send user to first user-project
+    if (!keypather.get($localStorage, 'stateParams.shortHash')) {
+      // dont bother finding all orgs, we're just going to send user to first user-instance
       dataHome.data.orgs = [thisUser];
-      fetchAllProjects(dataHome.data.orgs);
+      fetchAllInstances(dataHome.data.orgs);
     } else {
       var orgs = thisUser.fetchGithubOrgs(function (err) {
         if (err) throw err;
         dataHome.data.orgs = orgs.models;
         dataHome.data.orgs.unshift(thisUser);
-        fetchAllProjects(dataHome.data.orgs);
+        fetchAllInstances(dataHome.data.orgs);
       });
     }
 
-    function fetchAllProjects(orgs) {
-      async.map(orgs, fetchProjectsForOrg, function (err, projects) {
+    function fetchAllInstances(orgs) {
+      async.map(orgs, fetchInstancesForOrg, function (err) {
         if (err) throw err;
         cb();
       });
     }
 
-    function fetchProjectsForOrg(userOrOrg, cb) {
-      var userName = (thisUser === userOrOrg) ?
-        thisUser.attrs.accounts.github.username : // user
-        userOrOrg.attrs.login;                    // org
+    function fetchInstancesForOrg(userOrOrg, cb) {
+      var userId = (thisUser === userOrOrg) ?
+        thisUser.attrs.accounts.github.id : // user
+        userOrOrg.attrs.id;                 // org
 
       new QueryAssist(thisUser, cb)
-        .wrapFunc('fetchProjects')
+        .wrapFunc('fetchInstances')
         .query({
-          githubUsername: userName
+          owner: {
+            github: userId
+          }
         })
-        .cacheFetch(function (projects, cached, cb) {
-        })
-        .resolve(function (userOrOrg, err, projects, cb) {
-          userOrOrg.projects = projects;
-          cb(null, projects);
+        .resolve(function (userOrOrg, err, instances, cb) {
+          if (err) {
+            cb(err);
+          }
+          userOrOrg.instances = instances;
+          cb(null, instances);
         }.bind(this, userOrOrg))
         .go();
     }
