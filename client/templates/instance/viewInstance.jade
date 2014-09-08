@@ -10,6 +10,10 @@ header.box-header
       ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     ) Save
+      //- show if restart is checked
+      span(
+        ng-if = ""
+      ) and Restart
     button.white.btn-icon.btn-icon-sm(
       ng-class = "{active: dataInstance.data.PopoverSaveOptions.data.show}"
       toggle-pop-over
