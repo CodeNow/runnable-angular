@@ -1,183 +1,26 @@
 header.box-header
-  h1.box-name {{ dataInstanceEdit.data.instance.attrs.name + ' @ build ' + dataInstanceEdit.data.build.attrs.buildNumber }}
-    svg.iconnables.icons-trigger.running
-      use(
-        xlink:href = "#icons-trigger"
-      )
+  h1.box-name {{ dataInstanceEdit.actions.getTitle() }}
   .primary-actions
     button.green(
       ng-click = "dataInstanceEdit.actions.rebuild()"
       type = "button"
-    ) (Re)Build
-    button.white.btn-icon.btn-icon-sm(
-      type = "button"
-    )
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-    //- popover for save options
+    ) Build
   .secondary-actions
-    button.white.btn-icon(
-      ng-click = "dataInstanceEdit.actions.goToBuild()"
+    button.white(
+      ng-click = "dataInstanceEdit.actions.goToInstance()"
       type = "button"
-    )
-      svg.iconnables.icons-edit
-        use(
-          xlink:href = "#icons-edit"
-        )
-    button.white.btn-icon(
-      type = "button"
-    )
-      svg.iconnables.icons-gear
-        use(
-          xlink:href = "#icons-gear"
-        )
-      //- popover for rename, for, delete box
+    ) Discard Changes
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
   //- repositories
   section.row
     h2.sub-header Repositories
-    ul.repository-group
-      li.repository-group-item
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        h3.repository-title CodeNow/runnable-angular
-        button.white.repository-update.tooltip(
-          data-title = "Fast-forward {branch} (88 commits behind)"
-        ) 88
-          svg.iconnables.icons-update
-            use(
-              xlink:href = "#icons-update"
-            )
-        .commit
-          .commit-message bugfix object keypath
-          svg.iconnables.icons-commit
-            use(
-              xlink:href = "#icons-commit"
-            )
-          span.commit-author cflynn07
-          time.commit-time 5 hours ago
-        //- commit-select popover
-        .popover.commit-select
-          h3.popover-title CodeNow/runnable-angular
-            .popover-toolbar
-              //- branch selector
-              button.white.btn-select.branch-btn
-                //- change this to a branch icon
-                svg.iconnables.icons-git
-                  use(
-                    xlink:href = "#icons-git"
-                  )
-                | master
-                svg.iconnables.icons-arrow-down
-                  use(
-                    xlink:href = "#icons-arrow-down"
-                  )
-                select.select
-                  option master
-                  option branch
-                  option other-branch
-              button.white.repository-update.tooltip.pull-right(
-                data-title = "Fast-forward {branch} (88 commits behind)"
-              ) 88
-                svg.iconnables.icons-update
-                  use(
-                    xlink:href = "#icons-update"
-                  )
-              button.white.btn-icon.pull-right
-                svg.iconnables.icons-search
-                  use(
-                    xlink:href = "#icons-search"
-                  )
-          //- list of commits
-          ul.commit-group
-            //- .active class if currently selected commit
-            li.commit-group-item.commit
-              .commit-message bugfix object keypath
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              span.commit-author anandkumarpatel
-              time.commit-time 2 hours ago
-            li.commit-group-item.commit
-              .commit-message removing unused about &amp; jobs routes in app
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              span.commit-author cflynn07
-              time.commit-time 1 day ago
-            li.commit-group-item.commit.active
-              .commit-message actually submit .env.local
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              span.commit-author anandkumarpatel
-              time.commit-time 2 hours ago
-            li.commit-group-item.commit
-              .commit-message actually submit .env.local
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              span.commit-author anandkumarpatel
-              time.commit-time 2 hours ago
-            li.commit-group-item.commit
-              .commit-message actually submit .env.local
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              span.commit-author anandkumarpatel
-              time.commit-time 2 hours ago
-            li.commit-group-item.commit
-              .commit-message actually submit .env.local
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              span.commit-author anandkumarpatel
-              time.commit-time 2 hours ago
-            li.commit-group-item.commit
-              .commit-message actually submit .env.local
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              span.commit-author anandkumarpatel
-              time.commit-time 2 hours ago
-            li.commit-group-item.commit
-              .commit-message actually submit .env.local
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              span.commit-author anandkumarpatel
-              time.commit-time 2 hours ago
+    repo-list(
+      instance = "dataInstanceEdit.data.instance"
+    )
 
-      li.repository-group-item
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        h3.repository-title CodeNow/api
-        .commit
-          .commit-message actually submit .env.local
-          svg.iconnables.icons-commit
-            use(
-              xlink:href = "#icons-commit"
-            )
-          span.commit-author anandkumarpatel
-          time.commit-time 2 hours ago
-
-section.views.with-add-tab(
+section.views(
   ng-class = "{\
     in: dataInstanceEdit.data.showExplorer && !dataInstanceEdit.data.loading,\
     out: !dataInstanceEdit.data.container.running() || dataInstanceEdit.data.loading\
@@ -210,20 +53,6 @@ section.views.with-add-tab(
   tabs(
     open-items= "dataInstanceEdit.data.openItems"
   )
-  a.btn.white.btn-icon.add-tab(
-    ng-class = "{active: dataInstanceEdit.data.popoverAddTab.data.show}"
-    toggle-pop-over
-    toggle-pop-over-model = "dataInstanceEdit.data.popoverAddTab.data.show"
-  )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
-    pop-over(
-      actions = "dataInstanceEdit.data.popoverAddTab.actions"
-      data = "dataInstanceEdit.data.popoverAddTab.data"
-      template = "viewInstancePopoverAddTab"
-    )
 
   //- active panel
   active-panel(

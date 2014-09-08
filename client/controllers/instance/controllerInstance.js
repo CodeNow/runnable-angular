@@ -57,6 +57,64 @@ function ControllerInstance(
   };
 
   /*********************************
+  * popoverGearMenu
+  *********************************/
+  var pgm = data.popoverGearMenu = {};
+  pgm.data = {
+    show: false
+  };
+  pgm.actions = {};
+
+  pgm.actions.stopInstance = function () {
+    data.loading = true;
+    data.instance.stop(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.fetch(function (err) {
+        data.loading = false;
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  pgm.actions.startInstance = function () {
+    console.log('starting');
+    data.loading = true;
+    data.instance.start(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.fetch(function (err) {
+        data.loading = false;
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  pgm.actions.restartInstance = function () {
+    data.loading = true;
+    data.instance.restart(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.fetch(function (err) {
+        data.loading = false;
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  /*********************************
    * popoverAddTab
    *********************************/
   var pat = data.popoverAddTab;
@@ -123,47 +181,6 @@ function ControllerInstance(
       }
     });
   };
-
-  actions.stopInstance = function () {
-    data.loading = true;
-    data.instance.stop(function (err) {
-      if (err) {
-        throw err;
-      }
-      data.instance.fetch(function (err) {
-        data.loading = false;
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-      });
-    });
-  };
-
-  actions.startInstance = function () {
-    data.loading = true;
-    data.instance.start(function (err) {
-      if (err) {
-        throw err;
-      }
-      data.instance.fetch(function (err) {
-        data.loading = false;
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-      });
-    });
-  };
-
-  // actions.stateToBuildList = function (userName, projectName, branchName) {
-  //   var state = {
-  //     userName: userName,
-  //     projectName: projectName,
-  //     branchName: branchName
-  //   };
-  //   $state.go('projects.buildList', state);
-  // };
 
   actions.goToBuild = function() {
     var state = {

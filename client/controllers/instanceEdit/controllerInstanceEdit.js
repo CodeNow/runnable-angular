@@ -172,6 +172,13 @@ function ControllerInstanceEdit(
     });
   };
 
+  actions.getTitle = function () {
+    if (data.instance) {
+     return data.instance.attrs.name + ' @ build #' + data.build.attrs.buildNumber;
+    }
+    return '';
+  };
+
   /**
    * If this build is built, we want to wait for changes and then trigger a fork
    */

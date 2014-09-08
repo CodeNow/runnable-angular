@@ -2,9 +2,24 @@
 .popover.commit-select(
   ng-class = "{in: data.show}"
 )
-  h3.popover-title
+  h3.popover-title(
+    ng-class = "{'show-filter': data.toggleFilter}"
+  )
+    //- filter across all commits in that repo
+    //- should clear on close
+    button.blue.btn-icon.btn-search(
+      ng-click = "data.toggleFilter = !data.toggleFilter"
+      ng-class = "{'active': data.toggleFilter}"
+    )
+      svg.iconnables.icons-search-blue
+        use(
+          xlink:href = "#icons-search-blue"
+        )
+    input.title-filter(
+      placeholder = "Filter All Commits"
+    )
     //- branch selector
-    button.blue.btn-select.branch-btn
+    button.blue.btn-select.branch-btn.pull-right
       //- change this to a branch icon
       svg.iconnables.icons-git
         use(
@@ -19,14 +34,9 @@
         option master
         option branch
         option other-branch
-    //- search should search across all commits in that repo
-    button.blue.btn-icon.pull-right
-      svg.iconnables.icons-search-blue
-        use(
-          xlink:href = "#icons-search-blue"
-        )
   //- list of commits
   ul.commit-group
+    //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit
       .commit-message bugfix object keypath

@@ -49,7 +49,6 @@ function ControllerInstanceLayout(
       });
     });
   };
-*/
 
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
@@ -131,7 +130,7 @@ function ControllerInstanceLayout(
 
   actions.stateToInstance = function (instance) {
     if (instance && instance.id && instance.id()){
-      $state.go('box.boxInstance', {
+      $state.go('instance.instance', {
         shortHash: instance.id(),
         userName: $state.params.userName
       });
@@ -154,7 +153,7 @@ function ControllerInstanceLayout(
         shortHash: project.id()
       };
       setInitialActiveProject(function() {
-        $state.go('box.boxInstance', state);
+        $state.go('instance.instance', state);
       });
     };
 
@@ -323,14 +322,6 @@ function ControllerInstanceLayout(
       actions.initForNewState();
     }
   });
-
-  /*
-  $scope.$watch('dataInstanceLayout.data.instances', function (current) {
-    if (current) {
-      setInitialActiveProject(angular.noop);
-    }
-  });
-  */
 
   $scope.$on('app-document-click', function () {
     $scope.dataInstanceLayout.data.showChangeAccount = false;

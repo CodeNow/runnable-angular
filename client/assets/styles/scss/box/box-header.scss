@@ -10,15 +10,15 @@
   float: left;
   font-size: 24px;
   line-height: 60px;
+  position: relative;
 
-  .icons-trigger {
-    color: $orange;
-    left: 3px;
-    opacity: 0;
-    top: 3px;
+  .icons-status {
+    left: 9px;
+    top: -5px;
 
-    &.running {
-      opacity: 1;
+    &::before,
+    &::after {
+      margin: -6px 0 0 -8px;
     }
   }
 }
@@ -56,5 +56,41 @@
     right: 0;
     top: 12px;
     width: 1px;
+  }
+
+  .btn-icon {
+    margin-left: 3px;
+  }
+}
+
+// popovers
+.popover-actions {
+  left: -68px;
+  top: 36px;
+  transform-origin: 50% 0;
+}
+
+.popover.popover-save-options {
+  left: auto;
+  right: -1px;
+  top: 36px;
+  transform-origin: 200px 0;
+  width: 210px;
+
+  .arrow.white {
+    left: auto;
+    right: 2px;
+  }
+
+  .label-checkbox {
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    padding: 0 15px;
+  }
+
+  .checkbox {
+    height: 36px;
+    margin-right: 12px;
   }
 }

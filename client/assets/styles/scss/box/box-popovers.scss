@@ -1,6 +1,8 @@
 // .popover.commit-select
 .commit-select {
   background: #f0f8fb; // rgba($blue,.1);
+  border-color: rgba($blue,.4);
+  box-shadow: 0 0 21px rgba($blue,.21);
   margin-left: 39px;
   top: 34px; // if first repo
   transform: scale3d(1,0,0);
@@ -10,6 +12,10 @@
   .popover-title {
     background: transparent;
     border-color: #bbdeeb; // rgba($blue,.4)
+  }
+
+  .title-filter {
+    border-color: rgba($blue,.4);
   }
 }
 
@@ -22,7 +28,7 @@
 // li.commit-group-item
 .commit-group-item {
   margin: 3px 6px;
-  padding: 6px 9px;
+  padding: 3px 9px 6px;
 
   &:hover,
   &:active,
@@ -57,16 +63,6 @@
   .blue {
     height: 24px;
     line-height: 24px;
-  }
-
-  // search button
-  .btn-icon {
-    width: 24px;
-  }
-
-  .icons-search-blue {
-    left: -1px;
-    top: -1px;
   }
 }
 

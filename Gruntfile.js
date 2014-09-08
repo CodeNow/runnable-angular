@@ -353,13 +353,27 @@ module.exports = function(grunt) {
   grunt.registerTask('generateConfigs', '', function () {
     var done = this.async();
     var clientPath = path.join(__dirname, 'client');
-    var configObj = {};
-    configObj.host = process.env.API_HOST || 'http://api.runnable3.net';
-    if (configObj.host.charAt(configObj.host.length-1) === '/') {
-      configObj.host = configObj.host.substr(0, configObj.host.length-1);
-    }
-    var configJSON = JSON.stringify(configObj);
-    fs.writeFile(path.join(clientPath, 'config', 'json', 'api.json'), configJSON, function () {
+    async.parallel([
+      function (cb) {
+        var configObj = {};
+        configObj.host = process.env.API_HOST || 'http://api.runnable3.net';
+        if (configObj.host.charAt(configObj.host.length-1) === '/') {
+          configObj.host = configObj.host.substr(0, configObj.host.length-1);
+        }
+        var configJSON = JSON.stringify(configObj);
+        fs.writeFile(path.join(clientPath, 'config', 'json', 'api.json'), configJSON, function () {
+          cb();
+        });
+      },
+      function (cb) {
+        var configObj = {};
+        configObj.environment = process.env.ENVIRONMENT || 'development';
+        var configJSON = JSON.stringify(configObj);
+        fs.writeFile(path.join(clientPath, 'config', 'json', 'environment.json'), configJSON, function () {
+          cb();
+        });
+      }
+    ], function () {
       done();
     });
   });

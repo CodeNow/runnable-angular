@@ -78,9 +78,8 @@
   text-align: left;
   top: 0;
   transform: scale3d(0,0,1);
-  transition: all .2s ease-in;
+  transition: all .15s ease-in;
   white-space: normal;
-  z-index: -1;
 
   .arrow,
   .arrow::after {
@@ -94,6 +93,10 @@
 
   .arrow {
     border-width: 11px;
+
+    &:hover {
+      background: none;
+    }
   }
 
   .arrow::after {
@@ -161,36 +164,32 @@
   &.menu,
   &.file-menu {
     cursor: default;
-    width: 300px;
+    width: 180px;
 
     .popover-content {
-      margin: 0 -1px -1px;
       overflow: hidden;
       padding: 0;
-      transition: max-height .2s;
-    }
-
-    ol,
-    ul {
-      @extend .clearfix;
-      background: $white;
-      text-shadow: none;
     }
 
     .popover-list {
+      padding: 4px 0;
+    }
 
-      > li {
-        border: 0;
-        border-top: 1px solid rgba($black,.1);
-        color: $gray-dark;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 400;
-        padding-left: 15px;
+    .popover-list-item {
+      border-bottom: 1px solid transparent;
+      border-top: 1px solid transparent;
+      cursor: pointer;
+      font-size: 16px;
+      padding-left: 15px;
 
-        &:first-child {
-          border-top: 0;
-        }
+      &:hover {
+        background: rgba($blue,.1);
+        border-color: rgba($blue,.2);
+      }
+
+      &:active {
+        background: rgba($blue,.15);
+        border-color: rgba($blue,.3);
       }
     }
 
@@ -209,32 +208,13 @@
       }
 
       &:hover {
-        background: rgba($black,.05);
+        background: rgba($blue,.1);
+      }
+
+      &:active {
+        background: rgba($blue,.15);
       }
     }
-  }
-
-  // .file-menu
-  &.file-menu {
-    width: 180px;
-  }
-
-  .form-control {
-    border: 0;
-    border-bottom: 1px solid rgba($black,.1);
-    border-radius: 0;
-    padding: 0 15px;
-
-    &:hover,
-    &:focus {
-      border-color: rgba($black,.1);
-    }
-  }
-
-  textarea.form-control {
-    min-height: 60px;
-    padding: 6px 15px;
-    resize: none;
   }
 
   .btn-block {
@@ -242,21 +222,12 @@
     width: 100%;
   }
 
-  .green {
-    border-top: 1px solid rgba($black,.1);
+  // li.divider
+  .divider {
+    background: rgba($black,.1);
+    height: 1px;
+    margin: 3px 0;
   }
-}
-
-.popover-title {
-  background: $gray-lighter;
-  border-bottom: 1px solid rgba($black,.1);
-  color: $gray-dark;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 18px;
-  margin: 0;
-  padding: 6px;
-  text-shadow: none;
 }
 
 .popover-content {
@@ -290,38 +261,46 @@
   }
 }
 
-// popovers in header
-header .popover {
-  left: auto;
-  right: -115px;
-  top: 31px;
-  transform-origin: 50% 0;
+// h3.popover-title
+.popover-title {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba($black,.1);
+  color: $gray-dark;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
+  margin: 0;
+  padding: 6px;
+  text-shadow: none;
 
-  input {
-    margin-bottom: 10px;
+  // toggle search
+  .btn-search {
+    width: 24px;
+  }
+
+  .icons-search-blue {
+    left: -1px;
+    top: -1px;
   }
 }
 
-// delete
-.delete {
-  color: $gray-dark;
-  opacity: .5;
-  padding: 0;
+// input.title-filter
+.title-filter {
+  font-size: 14px;
+  font-weight: 300;
+  height: 25px;
+  line-height: 24px;
+  opacity: 0;
+  pointer-events: none;
   position: absolute;
-  right: 9px;
-  top: 0;
+  right: 6px;
+  top: 6px;
+  transition: opacity .15s ease-in;
+  width: calc(100% - 42px);
+  z-index: $z-popover-title-filter;
 
-  &:hover {
-    opacity: .75;
-  }
-
-  &:active {
+  .show-filter & {
     opacity: 1;
-  }
-
-  .iconnables {
-    height: 18px;
-    top: 4px;
-    width: 18px;
+    pointer-events: auto;
   }
 }

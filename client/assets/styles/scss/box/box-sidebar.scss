@@ -58,6 +58,7 @@
     border-color: rgba($blue,.4);
     color: $blue;
 
+    .commit-message,
     .icons-commit,
     .commit-time {
       color: $blue;
@@ -69,7 +70,7 @@
     height: 18px;
     position: absolute;
     right: 6px;
-    top: 1px;
+    top: 3px;
     width: 18px;
   }
 }
@@ -90,9 +91,10 @@
 
 // .commit line 1: .commit-message
 .commit-message {
+  color: $gray-dark;
   font-weight: 500;
   overflow: hidden;
-  padding-right: 18px;
+  padding: 2px 18px 2px 0;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

@@ -1,32 +1,51 @@
 header.box-header
   h1.box-name {{ dataInstance.data.instance.attrs.name }}
-    svg.iconnables.icons-trigger.running
-      use(
-        xlink:href = "#icons-trigger"
-      )
+    span.icons-status.tooltip.running(
+      data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }} ago."
+      ng-if = "dataInstance.data.container.running()"
+    )
+    span.icons-status.tooltip(
+      data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}"
+      ng-if = "!dataInstance.data.container.running()"
+    )
   .primary-actions
     button.green(
       ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     ) Save
+      //- show if restart is checked
+      span(
+        ng-if = ""
+      ) and Restart
     button.white.btn-icon.btn-icon-sm(
+      ng-class = "{active: dataInstance.data.PopoverSaveOptions.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "dataInstance.data.PopoverSaveOptions.data.show"
       type = "button"
     )
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-    //- popover for save options
+      pop-over(
+        actions = "dataInstance.data.PopoverSaveOptions.actions"
+        data = "dataInstance.data.PopoverSaveOptions.data"
+        template = "viewInstancePopoverSaveOptions"
+      )
   .secondary-actions
     button.white.btn-icon(
       ng-click = "dataInstance.actions.goToBuild()"
+      title = "Edit Build Files"
       type = "button"
     )
       svg.iconnables.icons-edit
         use(
           xlink:href = "#icons-edit"
         )
-    button.white.btn-icon(
+    button.white.btn-icon.btn-actions(
+      ng-class = "{active: dataInstance.data.popoverGearMenu.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "dataInstance.data.popoverGearMenu.data.show"
       type = "button"
     )
       svg.iconnables.icons-gear
@@ -34,56 +53,20 @@ header.box-header
           xlink:href = "#icons-gear"
         )
       //- popover for rename, for, delete box
+      pop-over(
+        actions = "dataInstance.data.popoverGearMenu.actions"
+        data = "dataInstance.data.popoverGearMenu.data"
+        template = "viewInstancePopoverActions"
+      )
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
   //- repositories
   section.row
     h2.sub-header Repositories
-    ul.repository-group
-      li.repository-group-item
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        h3.repository-title CodeNow/runnable-angular
-        button.white.repository-update.tooltip(
-          data-title = "Fast-forward {branch} (88 commits behind)"
-        ) 88
-          svg.iconnables.icons-update
-            use(
-              xlink:href = "#icons-update"
-            )
-        .commit(
-          toggle-pop-over
-          toggle-pop-over-model = "dataInstance.data.popoverCommitSelect.data.show"
-        )
-          .commit-message bugfix object keypath
-          svg.iconnables.icons-commit
-            use(
-              xlink:href = "#icons-commit"
-            )
-          span.commit-author cflynn07
-          time.commit-time 5 hours ago
-        pop-over(
-          actions = "dataInstance.data.popoverCommitSelect.actions"
-          data = "dataInstance.data.popoverCommitSelect.data"
-          template = "viewInstancePopoverCommitSelect"
-        )
-      li.repository-group-item
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        h3.repository-title CodeNow/api
-        .commit
-          .commit-message actually submit .env.local
-          svg.iconnables.icons-commit
-            use(
-              xlink:href = "#icons-commit"
-            )
-          span.commit-author anandkumarpatel
-          time.commit-time 2 hours ago
+    repo-list(
+      instance = "dataInstanceEdit.data.instance"
+    )
 
   //- urls
   section.row
