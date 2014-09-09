@@ -1,10 +1,12 @@
 ul.repository-group
-  li.repository-group-item
+  li.repository-group-item(
+    ng-repeat = "repo in build.contextVersions.models[0].appCodeVersions.models"
+  )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    h3.repository-title CodeNow/runnable-angular
+    h3.repository-title {{ repo.attrs.repo }}
     button.white.repository-update.tooltip(
       data-title = "Fast-forward {branch} (88 commits behind)"
     ) 88
@@ -29,17 +31,17 @@ ul.repository-group
       template = "viewInstancePopoverCommitSelect"
     )
 
-  li.repository-group-item
-    svg.iconnables.icons-git
-      use(
-        xlink:href = "#icons-git"
-      )
-    h3.repository-title CodeNow/api
-    .commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
+  //- li.repository-group-item
+  //-   svg.iconnables.icons-git
+  //-     use(
+  //-       xlink:href = "#icons-git"
+  //-     )
+  //-   h3.repository-title CodeNow/api
+  //-   .commit
+  //-     .commit-message actually submit .env.local
+  //-     svg.iconnables.icons-commit
+  //-       use(
+  //-         xlink:href = "#icons-commit"
+  //-       )
+  //-     span.commit-author anandkumarpatel
+  //-     time.commit-time 2 hours ago
