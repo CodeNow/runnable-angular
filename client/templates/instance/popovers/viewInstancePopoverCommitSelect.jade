@@ -16,6 +16,7 @@
           xlink:href = "#icons-search-blue"
         )
     input.title-filter(
+      ng-model = "data.state.commitFilter"
       placeholder = "Filter All Commits"
     )
     //- branch selector
@@ -31,16 +32,16 @@
           xlink:href = "#icons-arrow-down"
         )
       select.select
-        option master
-        option branch
-        option other-branch
+        option(
+          ng-repeat = "branch in data.attrs.branches"
+        ) {{ branch.name }}
   //- list of commits
   ul.commit-group
     //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit(
       ng-class = "{active: (commit.sha === data.attrs.commit)}"
-      ng-repeat = "commit in data.attrs.commits"
+      ng-repeat = "commit in data.attrs.commits | commitFilter:data.state.commitFilter"
     )
       .commit-message {{ commit.commit.message }}
       svg.iconnables.icons-commit

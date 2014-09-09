@@ -8,7 +8,7 @@ ul.repository-group
       )
     h3.repository-title {{ repo.attrs.repo }}
     button.white.repository-update.tooltip(
-      data-title = "Fast-forward {branch} ({{ repo.attrs.commitsBehind }} commits behind)"
+      data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
       ng-if = "repo.attrs.commitsBehind"
     ) {{ repo.attrs.commitsBehind }}
       svg.iconnables.icons-update
