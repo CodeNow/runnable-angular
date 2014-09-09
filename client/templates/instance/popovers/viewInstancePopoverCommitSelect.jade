@@ -39,6 +39,7 @@
     //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit(
+      ng-class = "{active: (commit.sha === data.attrs.commit)}"
       ng-repeat = "commit in data.attrs.commits"
     )
       .commit-message {{ commit.commit.message }}

@@ -15,16 +15,18 @@ ul.repository-group
           xlink:href = "#icons-update"
         )
     .commit(
+      ng-if = "commit.sha === repo.attrs.commit"
+      ng-repeat = "commit in repo.attrs.commits"
       toggle-pop-over
       toggle-pop-over-model = "repo.state.show"
     )
-      .commit-message bugfix object keypath
+      .commit-message {{ commit.commit.message }}
       svg.iconnables.icons-commit
         use(
           xlink:href = "#icons-commit"
         )
-      span.commit-author cflynn07
-      time.commit-time 5 hours ago
+      span.commit-author {{ commit.author.login }}
+      time.commit-time {{ commit.commit.author.date | timeAgo }}
     pop-over(
       data = "repo"
       template = "viewInstancePopoverCommitSelect"
