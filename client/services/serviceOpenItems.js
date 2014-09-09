@@ -30,7 +30,7 @@ function openItemsFactory(
     throw new Error('you are doing it wrong');
   }
 
-  var i = 0;
+  var i = 1;
 
   // TODO split out
   function Terminal(data) {
@@ -202,12 +202,11 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.remove = function (model) {
-    keypather.set(model, 'state.open', false);
+    model.state.open = false;
     if (this.contains(model)) {
       BaseCollection.prototype.remove.call(this, model);
     }
     this.activeHistory.remove(model);
-    model.state = null;
     return this;
   };
 
