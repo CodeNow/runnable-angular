@@ -118,4 +118,9 @@
 .modal-footer {
   display: flex;
   justify-content: center;
+
+  .white,
+  .green {
+    margin: 0 3px;
+  }
 }
