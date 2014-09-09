@@ -52,7 +52,6 @@ header.box-header
         use(
           xlink:href = "#icons-gear"
         )
-      //- popover for rename, for, delete box
       pop-over(
         actions = "dataInstance.data.popoverGearMenu.actions"
         data = "dataInstance.data.popoverGearMenu.data"
@@ -64,6 +63,15 @@ section.sidebar.box-sidebar
   //- repositories
   section.row
     h2.sub-header Repositories
+      //- if box doesn't rebuild instantly and a commit has changed by user
+      a.btn.btn-xs.orange.tooltip.sub-header-action(
+        data-title = "Update your box to see your changes."
+        ng-if = ""
+      ) Update
+        svg.iconnables.icons-update
+          use(
+            xlink:href = "#icons-update"
+          )
     repo-list(
       build = "dataInstance.data.build"
     )

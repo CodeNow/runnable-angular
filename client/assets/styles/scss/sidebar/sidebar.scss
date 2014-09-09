@@ -31,16 +31,29 @@
 
 // a.sub-header-action
 .sub-header-action.sub-header-action {
-  color: $gray;
-  cursor: pointer;
   float: right;
-  height: 36px;
   margin-right: -6px;
   padding: 0;
   top: 6px;
-  width: 36px;
 
-  .icons-add {
-    margin-left: -1px;
+  &.white {
+    width: 36px;
+  }
+
+  &.orange {
+    font-size: 14px;
+    padding-left: 9px;
+    top: 11px;
+  }
+
+  .iconnables {
+    float: right;
+    margin: 5px 6px 0 0;
+  }
+
+  .icons-update {
+    height: 14px;
+    margin: 5px 6px 0 3px;
+    width: 14px;
   }
 }

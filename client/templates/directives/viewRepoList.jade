@@ -7,7 +7,7 @@ ul.repository-group
         xlink:href = "#icons-git"
       )
     h3.repository-title {{ repo.attrs.repo }}
-    button.white.repository-update.tooltip(
+    button.btn-xs.white.repository-update.tooltip(
       data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
       ng-if = "repo.attrs.commitsBehind"
     ) {{ repo.attrs.commitsBehind }}
@@ -15,6 +15,7 @@ ul.repository-group
         use(
           xlink:href = "#icons-update"
         )
+    //- add .pending for orange
     .commit(
       toggle-pop-over
       toggle-pop-over-model = "repo.state.show"
