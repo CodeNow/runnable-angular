@@ -20,44 +20,72 @@ function ControllerInstanceLayout(
   var data = dataInstanceLayout.data = {};
   var actions = dataInstanceLayout.actions = {};
 
-  function isUser(entity) {
-    return entity === $scope.dataApp.user;
-  }
-
-  actions.getEntityName = function (entity) {
-    if (entity) {
-      return isUser(entity) ?
-        entity.attrs.accounts.github.username : // user
-        entity.attrs.login; // org
+  /**
+   * Triggered when click instance in list on left panel
+   */
+  actions.stateToInstance = function (instance) {
+    if (instance && instance.id && instance.id()){
+      $state.go('instance.instance', {
+        shortHash: instance.id(),
+        userName: $state.params.userName
+      });
     }
   };
 
-  actions.getEntityId = function (entity) {
-    if (entity) {
-      return isUser(entity) ?
-        entity.attrs.accounts.github.id : //user
-        entity.attrs.id; //org
+  /**
+   * user clicks on user / org in dropdown
+   */
+  actions.stateToAccount = function (userOrOrg) {
+    // need to look up user/org's instances first
+    // to navigate to 1st instance for user/org.
+    // This query should be cached via fetchInstances
+    // helper method on page load
+    function changeState (shortHash) {
+      $state.go('instance.instance', {
+        shortHash: shortHash,
+        userName: userOrOrg.oauthId()
+      });
     }
+    new QueryAssist($scope.dataApp.user, angular.noop)
+      .wrapFunc('fetchInstances')
+      .query({
+        owner: {
+          github: userOrOrg.oauthId()
+        }
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        if (instances.models.length === 0){
+          throw new Error('TODO: determine action if 0 instances');
+        }
+        // will only be invoked once via QueryAssist
+        changeState(instances.models[0].attrs.shortHash);
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, projects, cb) {
+        $scope.safeApply();
+        cb();
+      })
+      .go();
   };
 
-  actions.getEntityGravatar = function (entity) {
-    if (entity) {
-      return isUser(entity) ?
-        entity.attrs.gravatar : // user
-        entity.attrs.avatar_url; // org
-    }
+  /**
+   * Fetches a hash of classes for each instance displayed
+   * in ng-repeat
+   */
+  actions.getInstanceClasses = function (instance) {
+    var container = keypather.get(instance, 'containers.models[0]');
+    var build = keypather.get(instance, 'build');
+    var h = {};
+    h.active = (instance.attrs.shortHash === $scope.dataApp.stateParams.shortHash);
+    h.running = container && container.running();
+    h.stopped = !h.running;
+    h.building = build && build.attrs.completed;
+    h.failed = build && build.failed();
+    return h;
   };
 
-  actions.checkName = function () {
-    if (!dataInstanceLayout.data.projects) {
-      return;
-    }
-    var match = dataInstanceLayout.data.projects.find(function (m) {
-      return (m.attrs.name === dataInstanceLayout.data.newProjectName);
-    });
-    dataInstanceLayout.data.newNameTaken = !!match;
-  };
-
+/*
   actions.selectProjectOwner = function (userOrOrg, cb) {
     var name = actions.getEntityName(userOrOrg);
     data.activeAccount = userOrOrg;
@@ -112,7 +140,7 @@ function ControllerInstanceLayout(
       body = {
         name: dataInstanceLayout.data.newProjectName,
         owner: {
-          github: actions.getEntityId(data.activeAccount)
+          github: data.activeAccount.oauthId()
         }
       };
       var project = thisUser.createProject(body, function (err) {
@@ -159,19 +187,10 @@ function ControllerInstanceLayout(
     ], function (err, thisUser, project, build) {
       data.activeProject = project;
       $state.go('projects.setup', {
-        userName: actions.getEntityName(data.activeAccount),
+        userName: data.activeAccount.oauthName(),
         projectName: project.attrs.name
       });
     });
-  };
-
-  actions.stateToInstance = function (instance) {
-    if (instance && instance.id && instance.id()){
-      $state.go('instance.instance', {
-        shortHash: instance.id(),
-        userName: $state.params.userName
-      });
-    }
   };
 
   actions.stateToNewProject = function (userOrOrg) {
@@ -186,7 +205,7 @@ function ControllerInstanceLayout(
 
     var finish = function () {
       var state = {
-        userName: actions.getEntityName(userOrOrg),
+        userName: userOrOrg.oauthName(),
         shortHash: project.id()
       };
       setInitialActiveProject(function() {
@@ -205,6 +224,7 @@ function ControllerInstanceLayout(
     finish();
   };
 
+  /*
   actions.getActiveProjectName = function() {
     if ($scope.dataApp.state.current.name === 'projects') {
       return actions.getEntityName(data.activeAccount);
@@ -226,6 +246,7 @@ function ControllerInstanceLayout(
       return '';
     }
   };
+  */
 
   /* ============================
    *   API Fetch Methods
@@ -238,61 +259,30 @@ function ControllerInstanceLayout(
     });
   }
 
-  function selectInitialProjectOwner(cb) {
+  function setActiveAccount (cb) {
     var currentUserOrOrgName = $state.params.userName;
-    if (!currentUserOrOrgName ||
-      currentUserOrOrgName === actions.getEntityName($scope.dataApp.user)) {
-      var toSet = data.activeAccount || $scope.dataApp.user;
-      return actions.selectProjectOwner(toSet, cb);
+
+    if (!currentUserOrOrgName || currentUserOrOrgName === $scope.dataApp.user.oauthName()) {
+      data.activeAccount = $scope.dataApp.user;
+      return cb();
     }
     var currentOrg = data.orgs.find(hasKeypaths({
       'attrs.login.toLowerCase()': currentUserOrOrgName.toLowerCase()
     }));
     if (currentOrg) {
-      return actions.selectProjectOwner(currentOrg, cb);
+      data.activeAccount = currentOrg;
+      return cb();
     }
     return cb(new Error('User or Org not found'));
   }
 
-  /*
-  function fetchAllProjects(cb) {
-    var entities = data.orgs.models.concat([$scope.dataApp.user]);
-    async.each(entities, fetchUserOrOrgProjects, cb);
-  }
-  */
-
-  // TODO: no more projects.
-  /*
-  function fetchUserOrOrgProjects (userOrOrg, cb) {
-    var thisUser = $scope.dataApp.user;
-    var username = actions.getEntityName(userOrOrg);
-    new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchProjects')
-      .query({
-        githubUsername: username
-      })
-      .cacheFetch(function updateDom(projects, cached, cb) {
-        userOrOrg.attrs.projects = projects;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, projects, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-  */
-
   function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
-    //var id = actions.getEntityId(data.activeAccount);
-    var id = actions.getEntityId(thisUser);
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstances')
       .query({
         owner: {
-          github: id
+          github: data.activeAccount.oauthId()
         }
       })
       .cacheFetch(function updateDom(instances, cached, cb) {
@@ -305,6 +295,17 @@ function ControllerInstanceLayout(
         cb();
       })
       .go();
+
+    // for caching, fetch instances of all other orgs
+    async.map(data.orgs, function (org, cb) {
+      thisUser.fetchInstances({
+        owner: {
+          github: org.oauthId()
+        }
+      }, function () {
+        cb(null);
+      });
+    });
   }
 
   function setInitialActiveProject (cb) {
@@ -325,10 +326,8 @@ function ControllerInstanceLayout(
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
-      //selectInitialProjectOwner,
-      //fetchAllProjects,
+      setActiveAccount,
       fetchInstances
-      //setInitialActiveProject
     ], function (err) {
       if (err) {
         $state.go('404');
@@ -337,15 +336,14 @@ function ControllerInstanceLayout(
       $scope.safeApply();
     });
   };
+
   /**
    * New project page
    */
   actions.initForNewState = function () {
     async.waterfall([
       holdUntilAuth,
-      fetchOrgs,
-      //selectInitialProjectOwner,
-      //fetchAllProjects
+      fetchOrgs
     ]);
   };
 
@@ -356,14 +354,6 @@ function ControllerInstanceLayout(
       actions.initForNewState();
     }
   });
-
-  /*
-  $scope.$watch('dataInstanceLayout.data.instances', function (current) {
-    if (current) {
-      setInitialActiveProject(angular.noop);
-    }
-  });
-  */
 
   $scope.$on('app-document-click', function () {
     $scope.dataInstanceLayout.data.showChangeAccount = false;

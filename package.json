@@ -5,7 +5,8 @@
   "description": "rewrite of runnable-web in angularjs",
   "scripts": {
     "grunt": "./node_modules/.bin/grunt deploy",
-    "start": "NODE_PATH=. node ./server/main.js;"
+    "start": "NODE_PATH=. node ./server/main.js;",
+    "test": "protractor ./test/protractor.conf.js"
   },
   "engines": {
     "node": "~0.10.29",
