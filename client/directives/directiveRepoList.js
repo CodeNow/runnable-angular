@@ -15,6 +15,9 @@ function repoList (
     templateUrl: 'viewRepoList',
     replace: true,
     link: function ($scope, elem) {
+      // Should be populated with what to do on new branch/commit select
+      $scope.actions = {};
+
       $scope.$watch('build.contextVersions.models[0]', function (n) {
         if (n) {
           async.series([
@@ -27,10 +30,16 @@ function repoList (
               async.each(acvs, function (model, cb) {
                 var commits = model.fetchBranchCommits(function (err, commits) {
                   if (err) { return cb(err); }
+
                   model.attrs.commits = commits;
                   model.attrs.activeCommit = commits.filter(function (commit) {
                     return commit.sha === model.attrs.commit;
                   })[0];
+
+                  if (model.attrs.activeCommit !== commits[0]) {
+                    // We're behind
+                    model.attrs.commitsBehind = commits.indexOf(model.attrs.activeCommit);
+                  }
                   cb();
                 });
               }, cb);
