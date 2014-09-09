@@ -4,7 +4,8 @@ require('app')
  * @ngInject
  */
 function repoList (
-  $rootScope
+  $rootScope,
+  async
 ) {
   return {
     restrict: 'E',
@@ -15,13 +16,27 @@ function repoList (
     replace: true,
     link: function ($scope, elem) {
       $scope.$watch('build.contextVersions.models[0]', function (n) {
-        if (n && n.fetch) {
-          n.fetch(function (err) {
+        if (n) {
+          async.series([
+            function (cb) {
+              $scope.build.contextVersions.models[0].fetch(cb);
+            },
+            function (cb) {
+              $rootScope.safeApply();
+              var acvs = $scope.acvs = n.appCodeVersions.models;
+              async.each(acvs, function (model, cb) {
+                var commits = model.fetchBranchCommits(function (err, commits) {
+                  if (err) { return cb(err); }
+                  model.attrs.commits = commits;
+                  cb();
+                });
+              }, cb);
+            }
+          ], function (err) {
             if (err) {
               throw err;
             }
             $rootScope.safeApply();
-            console.log(n.appCodeVersions.models);
           });
         }
       });
