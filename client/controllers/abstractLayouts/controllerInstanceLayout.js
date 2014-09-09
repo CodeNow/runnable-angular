@@ -33,7 +33,7 @@ function ControllerInstanceLayout(
   };
 
   /**
-   * user clicks on user / org in dropdownA
+   * user clicks on user / org in dropdown
    */
   actions.stateToAccount = function (userOrOrg) {
     // need to look up user/org's instances first
@@ -74,12 +74,14 @@ function ControllerInstanceLayout(
    * in ng-repeat
    */
   actions.getInstanceClasses = function (instance) {
+    var container = keypather.get(instance, 'containers.models[0]');
+    var build = keypather.get(instance, 'build');
     var h = {};
     h.active = (instance.attrs.shortHash === $scope.dataApp.stateParams.shortHash);
-    h.running = !keypather.get(instance, 'build.attrs.complete');
-    h.stopped = false;
-    h.building = false;
-    h.failed = false;
+    h.running = container && container.running();
+    h.stopped = !h.running;
+    h.building = build && build.attrs.completed;
+    h.failed = build && build.failed();
     return h;
   };
 
@@ -274,36 +276,6 @@ function ControllerInstanceLayout(
     return cb(new Error('User or Org not found'));
   }
 
-  /*
-  function fetchAllProjects(cb) {
-    var entities = data.orgs.models.concat([$scope.dataApp.user]);
-    async.each(entities, fetchUserOrOrgProjects, cb);
-  }
-  */
-
-  // TODO: no more projects.
-  /*
-  function fetchUserOrOrgProjects (userOrOrg, cb) {
-    var thisUser = $scope.dataApp.user;
-    var username = actions.getEntityName(userOrOrg);
-    new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchProjects')
-      .query({
-        githubUsername: username
-      })
-      .cacheFetch(function updateDom(projects, cached, cb) {
-        userOrOrg.attrs.projects = projects;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, projects, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-  */
-
   function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
@@ -356,9 +328,6 @@ function ControllerInstanceLayout(
       fetchOrgs,
       setActiveAccount,
       fetchInstances
-      //selectInitialProjectOwner,
-      //fetchAllProjects,
-      //setInitialActiveProject
     ], function (err) {
       if (err) {
         $state.go('404');
@@ -374,9 +343,7 @@ function ControllerInstanceLayout(
   actions.initForNewState = function () {
     async.waterfall([
       holdUntilAuth,
-      fetchOrgs,
-      //selectInitialProjectOwner,
-      //fetchAllProjects
+      fetchOrgs
     ]);
   };
 
