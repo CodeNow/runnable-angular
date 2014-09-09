@@ -1,0 +1,166 @@
+// button.white.btn-icon.explorer-toggle
+.explorer-toggle {
+  height: 36px;
+  left: 5px;
+  position: absolute;
+  top: 5px;
+  width: 36px;
+  z-index: $z-views-toggle;
+
+  .in & {
+    background: #f2f2f2; // rgba($black,.05)
+    border: 1px solid #dadada; // rgba ($black,.1) on rgba($black,.05)
+  }
+
+  &:hover,
+  &:active,
+  &.active {
+    background: #f2f2f2; // rgba($black,.05)
+  }
+}
+
+// section.explorer
+.explorer {
+  border-right: 1px solid rgba($black,.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: absolute;
+  transform: translate3d(-270px,0,0);
+  transition: transform .2s ease-in;
+  width: 270px;
+  z-index: $z-views-explorer;
+
+  .in & {
+    transform: translate3d(0,0,0);
+  }
+}
+
+// .explorer-controls
+.explorer-controls {
+  flex: 0 0 auto;
+  height: 45px;
+  margin-left: 45px;
+  user-select: none;
+  width: 270-45px;
+}
+
+// button.toggle-theme.tooltip
+.toggle-theme {
+  padding: 0;
+
+  // tooltips
+  &::before,
+  &::after {
+    font-weight: 300;
+    margin-left: 12px;
+    margin-top: 9px;
+  }
+
+  &.light > .theme::before {
+    background: rgba($purple,.75);
+  }
+
+  &.dark > .theme::after {
+    background: rgba($gray-dark,.75);
+  }
+}
+
+.theme {
+  height: 100%;
+  width: 45px;
+
+  &::before,
+  &::after {
+    border-radius: 50%;
+    content: '';
+    display: inline-block;
+    height: 18px;
+    margin: 13px auto;
+    width: 18px;
+  }
+
+  &::before {
+    background: rgba($purple,.25);
+    border: 2px solid $purple;
+  }
+
+  &::after {
+    background: rgba($gray-dark,.1);
+    border: 2px solid $gray-dark;
+    margin-left: -6px;
+  }
+}
+
+// explorer header
+.explorer-header {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba($black,.1);
+  color: $gray-dark;
+  flex: 0 0 auto;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 9px;
+  position: relative;
+
+  > .btn {
+    float: right;
+    margin-top: 6px;
+  }
+}
+
+// .sub-tree
+.sub-tree {
+  border-bottom: 1px solid rgba($black,.1);
+  box-shadow: inset 0 1px 0 $white;
+  position: relative;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  > a {
+    display: block;
+    height: 28px;
+    position: absolute;
+    width: 20px;
+
+    &::after {
+      @extend .arrow-down;
+      border-top-color: rgba($black,.2);
+      content: '';
+      cursor: pointer;
+      left: 9px;
+      top: 13px;
+      transform: rotate3d(0,0,1,-90deg);
+      transition: transform .2s ease-in-out;
+    }
+  }
+
+  &.in a::after {
+    transform: rotate3d(0,0,1,0);
+  }
+
+  > h6 {
+    color: $gray-darker;
+    font-weight: 500;
+    margin: 0;
+    padding: 10px 0 5px 24px;
+    text-transform: uppercase;
+
+    > button {
+      position: absolute;
+        top: 6px;
+    }
+
+    > .branch-switcher,
+    > #rebuild,
+    > #tip {
+      right: 36px;
+    }
+
+    > button {
+      right: 5px;
+    }
+  }
+}

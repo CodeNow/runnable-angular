@@ -1,58 +1,84 @@
 // defaults
-.form-control {
+input {
   -webkit-appearance: none;
-  border: 1px solid rgba(0,0,0,.15);
+  border: 1px solid rgba($black,.15);
   border-radius: 3px;
-  box-shadow: 0 1px 0 $white;
-  color: $gray-darkest;
-  display: block;
-  height: 36px;
-  line-height: 1.4;
-  padding: 6px 12px;
-  transition: border .1s cubic-bezier(.19,1,.22,1), transform .15s;
+  color: $gray-darker;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 6px;
   width: 100%;
 
-  &:hover {
-    border-color: rgba(0,0,0,.2);
+  &[readonly] {
+    color: $gray;
   }
 
-  &:focus {
-    box-shadow: 0 1px 0 $white;
-    border-color: $orange;
-    outline: 0;
-  }
-
-  &[disabled] {
-    background: $gray-light;
-    cursor: not-allowed;
-  }
-
-  //validation
-  &.form-validate {
-    transition: border .1s cubic-bezier(.19,1,.22,1), color .15s ease-in-out, transform .15s;
-
-    &.ng-valid {
-      background: url(/build/images/icons/icons-check.svg) $white no-repeat center right;
-      color: $gray-darkest;
-    }
-
-    &.ng-invalid {
-      background: url(/build/images/icons/icons-error.svg) $white no-repeat center right;
-      color: $orange-darker;
-    }
-
-    &.ng-pristine {
-      background: $white;
-      color: $gray-darkest;
-    }
-  }
-
-  @include retina() {
-    @media (max-width: 500px) {
-      font-size: 16px;
-    }
+  &[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    width: auto;
   }
 }
+
+// label.btn.btn-checkbox
+.btn-checkbox {
+  font-size: 14px;
+}
+
+// input.checkbox
+.checkbox {
+  float: right;
+  margin-left: 12px;
+}
+
+// .form-control {
+//   box-shadow: 0 1px 0 $white;
+//   display: block;
+//   height: 36px;
+//   line-height: 1.4;
+//   padding: 6px 12px;
+//   transition: border .1s cubic-bezier(.19,1,.22,1), transform .15s;
+
+//   &:hover {
+//     border-color: rgba(0,0,0,.2);
+//   }
+
+//   &:focus {
+//     box-shadow: 0 1px 0 $white;
+//     border-color: $orange;
+//     outline: 0;
+//   }
+
+//   &[disabled] {
+//     background: $gray-light;
+//     cursor: not-allowed;
+//   }
+
+//   //validation
+//   &.form-validate {
+//     transition: border .1s cubic-bezier(.19,1,.22,1), color .15s ease-in-out, transform .15s;
+
+//     &.ng-valid {
+//       background: url(/build/images/icons/icons-check.svg) $white no-repeat center right;
+//       color: $gray-darkest;
+//     }
+
+//     &.ng-invalid {
+//       background: url(/build/images/icons/icons-error.svg) $white no-repeat center right;
+//       color: $orange-darker;
+//     }
+
+//     &.ng-pristine {
+//       background: $white;
+//       color: $gray-darkest;
+//     }
+//   }
+
+//   @include retina() {
+//     @media (max-width: 500px) {
+//       font-size: 16px;
+//     }
+//   }
+// }
 
 .form-control::placeholder {
   color: rgba(0,0,0,.5);

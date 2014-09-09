@@ -14,35 +14,15 @@
 @import "globals/var";
 @import "globals/reset";
 @import "globals/globals";
+@import "globals/grid";
 @import "globals/typography";
+@import "globals/images";
+@import "globals/loader";
+@import "globals/logo";
 
-// Bootstrap v3.0.0
-// Copyright 2013 Twitter, Inc
-// Licensed under the Apache License v2.0 http://www.apache.org/licenses/LICENSE-2.0
-// Designed and built with all the love in the world by @mdo and @fat.
-@import "bootstrap/grid";
-@import "bootstrap/helpers";
-@import "bootstrap/lists";
-@import "bootstrap/tables";
-@import "bootstrap/forms";
-
-// components (structure)
-@import "components/loader";
-@import "components/logo";
-@import "components/header";
-@import "components/stream";
-@import "components/main-controls";
-
-// components (sidebar)
-@import "components/sidebar";
-@import "components/sidebar-actions";
-@import "components/sidebar-messages";
-
-// components (editor)
-@import "components/explorer";
+// editor
 @import "components/file-tree";
 @import "components/editor";
-@import "components/tabs";
 @import "components/logs";
 @import "components/browser-chrome";
 @import "components/terminal";
@@ -68,9 +48,23 @@
 @import "components/forms";
 @import "components/forms-toggles";
 
+// sidebar
+@import "sidebar/sidebar";
+@import "sidebar/sidebar-accounts";
+@import "sidebar/sidebar-boxes";
+
+// box
+@import "box/box-header";
+@import "box/box-sidebar";
+@import "box/box-popovers";
+
+// views
+@import "views/views";
+@import "views/views-explorer";
+@import "views/views-toolbar";
+@import "views/views-tabs";
+@import "views/views-panel";
+
 // pages
 @import "pages/home";
-@import "pages/providers";
-@import "pages/about";
-@import "pages/jobs";
 @import "pages/setup";

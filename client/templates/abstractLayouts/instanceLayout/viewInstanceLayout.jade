@@ -1,0 +1,90 @@
+//- sidebar for accounts and boxes
+nav.sidebar.global-sidebar
+  //- accounts
+  header.row
+    ol.accounts-group(
+      ng-class = "{ \
+        in: dataInstanceLayout.data.showChangeAccount \
+      }"
+      ng-click = "dataInstanceLayout.data.showChangeAccount = !dataInstanceLayout.data.showChangeAccount; \
+                  $event.stopPropagation()"
+    )
+      li.accounts-group-item
+        a.account
+          img.gravatar(
+            height = "24"
+            ng-src = "{{ dataInstanceLayout.data.activeAccount.gravitar() }}"
+            width = "24"
+          )
+          span {{ dataInstanceLayout.data.activeAccount.oauthName() }}
+          //- icons-arrow-down only for first account
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+      //- current user (if user is not active)
+      li.accounts-group-item(
+        ng-if = "dataApp.user !== dataInstanceLayout.data.activeAccount"
+      )
+        a.account
+          img.gravatar(
+            height = "24"
+            ng-src = "{{ org.gravitar() }}"
+            width = "24"
+          )
+          span {{ dataApp.user.oauthName() }}
+      //- Orgs that are not the active account
+      li.accounts-group-item(
+        ng-click = "dataInstanceLayout.actions.stateToAccount(org)"
+        ng-repeat = "org in dataInstanceLayout.data.orgs.models"
+        ng-if = "org !== dataInstanceLayout.data.activeAccount"
+      )
+        a.account
+          img.gravatar(
+            height = "24"
+            ng-src = "{{ org.gravitar() }}"
+            width = "24"
+          )
+          span {{ org.oauthName() }}
+
+  //- INSTANCES
+  section.boxes.row
+    h2.sub-header Boxes
+      a.btn.btn-sm.white.sub-header-action(
+        ng-click = "dataInstanceLayout.actions.stateToNewProject()"
+        title = "Create a New Box"
+      )
+        svg.iconnables.icons-add
+          use(
+            xlink:href = "#icons-add"
+          )
+    ul.box-group
+      //- apply .active for currently selected box
+      //- apply .running for a running box
+      li.box-group-item(
+        ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
+        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+        ng-repeat = "instance in dataInstanceLayout.data.instances.models"
+      )
+        a.white.box(
+          title = "{{ instance.attrs.name }}"
+        ) {{ instance.attrs.name }}
+          //- alternate text: "Started running 999 minutes ago."
+          span.icons-status(
+            title = "Stopped running 999 minutes ago."
+          )
+
+//- 2nd level views (boxInstnce, boxInstanceEdit...)
+main(ui-view)
+
+//- development info
+div(
+  ng-include = "'viewDevelopmentInfo'"
+)
+
+//- global spinner
+.spinner-container(
+  ng-class = "{in: dataApp.data.loading}"
+)
+  .spinner.lg
+    .spinner-ring

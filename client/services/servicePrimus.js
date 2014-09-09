@@ -64,10 +64,10 @@ require('app')
  * @ngInject
  */
 function primus(
-  apiConfigHost
+  configAPIHost
 ) {
 
-  var url = apiConfigHost;
+  var url = configAPIHost;
 
   var conn = new RunnablePrimus(url);
 

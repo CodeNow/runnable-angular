@@ -1,0 +1,57 @@
+// ol.accounts-group
+.accounts-group {
+  cursor: pointer;
+  max-height: 59px;
+  overflow: hidden;
+  transition: max-height .3s ease-in-out;
+
+  &.in {
+    max-height: 600px;
+    transition: max-height .6s ease-in-out;
+
+    // reveal all accounts
+    .accounts-group-item {
+      opacity: 1;
+    }
+
+    // flip arrow
+    .icons-arrow-down {
+      transform: rotate3d(1,0,0,-180deg);
+    }
+  }
+}
+
+// li.accounts-group-item
+.accounts-group-item {
+  opacity: 0;
+  transition: opacity .3s ease-in;
+
+  &:first-child {
+    opacity: 1;
+  }
+}
+
+// a.account
+.account {
+  display: block;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 15px;
+  transition: background .15s ease-in;
+
+  &:hover,
+  &:active {
+    background: rgba($black,.05);
+  }
+
+  .gravatar {
+    float: left;
+    margin: 18px 9px 0 0;
+  }
+
+  .icons-arrow-down {
+    float: right;
+    margin-top: 18px;
+    transition: transform .3s ease-in;
+  }
+}

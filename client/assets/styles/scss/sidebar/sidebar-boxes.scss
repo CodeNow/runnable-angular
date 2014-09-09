@@ -1,0 +1,38 @@
+// li.box-group-item
+.box-group-item {
+  height: 45px;
+  line-height: 45px;
+  margin-bottom: 3px;
+  padding: 0 15px;
+
+  // currently selected box
+  &.active .box {
+    background: rgba($black,.05);
+    border-color: rgba($black,.1);
+  }
+}
+
+// a.box
+.box {
+  cursor: pointer;
+  display: block;
+  height: 45px;
+  line-height: 45px;
+  margin: 0 -6px;
+  overflow: hidden;
+  padding: 0 22px 0 6px;
+  position: relative;
+  text-overflow: ellipsis;
+  transition: all .15s ease-in;
+  white-space: hidden;
+
+  &:hover {
+    background: rgba($black,.025);
+  }
+
+  .icons-status {
+    position: absolute;
+    right: 13px;
+    top: 18px;
+  }
+}

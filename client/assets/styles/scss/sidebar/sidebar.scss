@@ -1,0 +1,59 @@
+// sidebar
+.sidebar {
+  background: $white;
+  border-right: 1px solid rgba($black,.1);
+  float: left;
+  height: 100vh;
+  padding: 0 15px;
+  position: relative;
+  width: 240px;
+  z-index: $z-sidebar;
+
+  &.global-sidebar {
+    background: $gray-lighter;
+  }
+
+  .row {
+    border-bottom: 1px solid rgba($black,.1);
+
+    &:last-child {
+      border: 0;
+    }
+  }
+}
+
+// h2.sub-header
+.sub-header {
+  height: 45px;
+  line-height: 45px;
+  padding: 0 15px;
+}
+
+// a.sub-header-action
+.sub-header-action.sub-header-action {
+  float: right;
+  margin-right: -6px;
+  padding: 0;
+  top: 6px;
+
+  &.white {
+    width: 36px;
+  }
+
+  &.orange {
+    font-size: 14px;
+    padding-left: 9px;
+    top: 11px;
+  }
+
+  .iconnables {
+    float: right;
+    margin: 5px 6px 0 0;
+  }
+
+  .icons-update {
+    height: 14px;
+    margin: 5px 6px 0 3px;
+    width: 14px;
+  }
+}

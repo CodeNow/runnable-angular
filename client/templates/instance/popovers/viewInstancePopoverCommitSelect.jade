@@ -1,0 +1,106 @@
+//- commit-select popover
+.popover.commit-select(
+  ng-class = "{in: data.show}"
+)
+  h3.popover-title(
+    ng-class = "{'show-filter': data.toggleFilter}"
+  )
+    //- filter across all commits in that repo
+    //- should clear on close
+    button.blue.btn-icon.btn-search(
+      ng-click = "data.toggleFilter = !data.toggleFilter"
+      ng-class = "{'active': data.toggleFilter}"
+    )
+      svg.iconnables.icons-search-blue
+        use(
+          xlink:href = "#icons-search-blue"
+        )
+    input.title-filter(
+      placeholder = "Filter All Commits"
+    )
+    //- branch selector
+    button.blue.btn-select.branch-btn.pull-right
+      //- change this to a branch icon
+      svg.iconnables.icons-git
+        use(
+          xlink:href = "#icons-git"
+        )
+      | master
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      select.select
+        option master
+        option branch
+        option other-branch
+  //- list of commits
+  ul.commit-group
+    //- show 35 commits per load
+    //- .active class if currently selected commit
+    li.commit-group-item.commit
+      .commit-message bugfix object keypath
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author anandkumarpatel
+      time.commit-time 2 hours ago
+    li.commit-group-item.commit
+      .commit-message removing unused about &amp; jobs routes in app
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author cflynn07
+      time.commit-time 1 day ago
+    li.commit-group-item.commit
+      .commit-message actually submit .env.local
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author anandkumarpatel
+      time.commit-time 2 hours ago
+    li.commit-group-item.commit
+      .commit-message actually submit .env.local
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author anandkumarpatel
+      time.commit-time 2 hours ago
+    li.commit-group-item.commit.active
+      .commit-message bugfix object keypath
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author cflynn07
+      time.commit-time 5 hours ago
+    li.commit-group-item.commit
+      .commit-message actually submit .env.local
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author anandkumarpatel
+      time.commit-time 2 hours ago
+    li.commit-group-item.commit
+      .commit-message actually submit .env.local
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author anandkumarpatel
+      time.commit-time 2 hours ago
+    li.commit-group-item.commit
+      .commit-message actually submit .env.local
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      span.commit-author anandkumarpatel
+      time.commit-time 2 hours ago
+    li.commit-group-item
+      button.blue.btn-block Load Older

@@ -1,0 +1,112 @@
+// ul.tabs
+.tabs {
+  height: 100%;
+  margin-left: 45px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  transition: all .2s ease-in;
+  white-space: nowrap;
+
+  .with-add-tab & {
+    margin-right: 45px;
+  }
+
+  .in & {
+    margin-left: 0;
+  }
+}
+
+// li.tab-wrapper
+.tab-wrapper {
+  border: 1px solid #e6e6e6; // rgba($black,.1);
+  border-bottom: 0;
+  border-top: 0;
+  color: $gray-dark;
+  display: inline-block;
+  margin-left: -1px;
+  position: relative;
+
+  &:hover {
+    background: $white;
+  }
+
+  &:active,
+  &.active {
+    background: $white;
+    color: $gray-darker;
+  }
+
+  &.active .tab-name::before {
+    background: $white;
+    content: attr(data-title);
+  }
+
+  &.dirty .icons-dirty {
+    opacity: 1;
+  }
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  &:only-child {
+    border: 1px solid #e6e6e6; // rgba($black,.1);
+    border-top: 0;
+  }
+
+  .icons-dirty {
+    display: inline-block;
+    font-size: 21px;
+    line-height: 1.9;
+    opacity: 0;
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-icon {
+    color: $gray-dark;
+    float: right;
+    margin: 0 3px 0 9px;
+    opacity: .5;
+    padding-top: 2px;
+    width: 21px;
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  .icons-close {
+    height: 15px;
+    width: 15px;
+  }
+}
+
+// span.tab-name
+.tab-name {
+  cursor: pointer;
+  display: block;
+  float: left;
+  font-size: 14px;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 1px 0 9px;
+  text-align: center;
+
+  &::before {
+    color: $gray-dark;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    left: 0;
+    line-height: 45px;
+    padding-left: 9px;
+    pointer-events: none;
+    position: absolute;
+  }
+}

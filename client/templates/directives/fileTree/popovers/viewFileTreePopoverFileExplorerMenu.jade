@@ -1,33 +1,49 @@
-.popover.context-menu.file-menu.bottom.fade(
+.popover.bottom.menu.context-menu(
   ng-class = "{in: dirItemData.isOpen}"
   ng-style = "dirItemData.eStyle"
   right-click
 )
   .popover-content
-    ul#file-explorer-options.popover-body
-      li(ng-click = "dirItemData.actions.createFile(); $event.stopPropagation();")
+    ul.popover-body.popover-list
+      li.popover-list-item(
+        ng-click = "dirItemData.actions.createFile();\
+          $event.stopPropagation();"
+      )
         svg.iconnables
-          use(xlink:href = "#icons-file-new")
+          use(
+            xlink:href = "#icons-file-new"
+          )
         | New File
-      li(ng-click = "dirItemData.actions.createFolder(); $event.stopPropagation();")
+      li.popover-list-item(
+        ng-click = "dirItemData.actions.createFolder();\
+          $event.stopPropagation();"
+      )
         svg.iconnables
-          use(xlink:href = "#icons-folder-new")
+          use(
+            xlink:href = "#icons-folder-new"
+          )
         | New Folder
       li.divider(
         ng-if = "dir.attrs.name !== '/'"
       )
-      li(
+      li.popover-list-item(
         ng-if = "dir.attrs.name !== '/'"
-        ng-click = "dirItemData.actions.deleteFolder(); $event.stopPropagation();"
+        ng-click = "dirItemData.actions.deleteFolder();\
+          $event.stopPropagation();"
       )
         svg.iconnables
-          use(xlink:href = "#icons-file-delete")
+          use(
+            xlink:href = "#icons-file-delete"
+          )
         | Delete
-      li(
+      li.popover-list-item(
         ng-if = "dir.attrs.name !== '/'"
-        ng-click = "dirItemData.actions.renameFolder(); $event.stopPropagation();"
+        ng-click = "dirItemData.actions.renameFolder();\
+          $event.stopPropagation();"
       )
         svg.iconnables
-          use(xlink:href = "#icons-file-modify")
+          use(
+            xlink:href = "#icons-file-modify"
+          )
         | Rename
 

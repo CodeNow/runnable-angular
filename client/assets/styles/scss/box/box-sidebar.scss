@@ -1,0 +1,182 @@
+// section.sidebar.box-sidebar
+.box-sidebar {
+  width: 300px;
+}
+
+// li.repository-group-item
+.repository-group-item {
+  padding: 15px 15px 15px 45px;
+  position: relative;
+
+  .icons-git {
+    color: $gray-light;
+    left: 15px;
+    position: absolute;
+  }
+}
+
+// h3.repository-title
+.repository-title {
+  font-size: 16px;
+  line-height: 1;
+  white-space: nowrap;
+
+  + .repository-update {
+    background: $white;
+    box-shadow: -9px 0 9px rgba($white,.9);
+    font-size: 12px;
+    margin-right: -6px;
+    position: absolute;
+    right: 15px;
+    top: 11px;
+
+    &:hover {
+      background: #f2f2f2; // rgba($black,.1)
+    }
+  }
+}
+
+// .commit
+.commit {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: $gray;
+  cursor: pointer;
+  font-size: 13px;
+  margin: 3px -6px 0;
+  padding: 0 6px 3px;
+  position: relative;
+  transition: background .15s ease-in, border-color .15s ease-in;
+
+  &.pending {
+    background: rgba($orange,.1);
+    border-color: rgba($orange,.3);
+    color: $orange-dark;
+
+    &:hover {
+      color: $gray;
+
+      .commit-message {
+        color: $gray-dark;
+      }
+
+      .icons-commit,
+      .commit-time {
+        color: $gray-light;
+      }
+    }
+
+    &:active,
+    &.active {
+      color: $blue;
+
+      .commit-message,
+      .icons-commit,
+      .commit-time {
+        color: $blue;
+      }
+    }
+
+    .commit-message {
+      color: $orange-dark;
+    }
+
+    .icons-commit,
+    .commit-time {
+      color: $orange;
+    }
+  }
+
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+
+  &:active,
+  &.active {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.4);
+    color: $blue;
+
+    .commit-message,
+    .icons-commit,
+    .commit-time {
+      color: $blue;
+    }
+  }
+
+  .icons-commit {
+    color: $gray-light;
+    height: 18px;
+    position: absolute;
+    right: 6px;
+    top: 3px;
+    width: 18px;
+  }
+}
+
+// button.white.repository-update.tooltip
+.white.repository-update .icons-update {
+  height: 13px;
+  top: 2px;
+  width: 13px;
+}
+
+// .commit line 1: .commit-message
+.commit-message {
+  color: $gray-dark;
+  font-weight: 500;
+  overflow: hidden;
+  padding: 2px 18px 2px 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+//.commmit line 2: span.commit-author, time.copmmit-time
+.commit-author,
+.commit-time {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.commit-time {
+  color: $gray-light;
+  float: right;
+}
+
+// li.url-group-item
+.url-group-item {
+  margin: 0 -6px 6px; // offset input padding
+  padding: 0 15px;
+  position: relative;
+
+  // a.url-link
+  .url-link {
+    background: $gray-lighter;
+    box-shadow: -6px 0 6px rgba($gray-lighter,.9);
+    color: $gray-light;
+    height: 43px;
+    line-height: 43px;
+    position: absolute;
+    right: 18px;
+    top: 1px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active,
+    &.active {
+      color: $gray-darker;
+    }
+
+    .icons-link {
+      top: 6px;
+    }
+  }
+}
+
+// input.url
+.url {
+  padding-right: 27px;
+}

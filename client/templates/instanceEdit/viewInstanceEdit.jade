@@ -1,0 +1,88 @@
+header.box-header
+  h1.box-name {{ dataInstanceEdit.data.instance.attrs.name }}
+    svg.iconnables.icons-edit
+      use(
+        xlink:href = "#icons-edit"
+      )
+  .primary-actions
+    button.orange(
+      ng-click = "dataInstanceEdit.actions.rebuild()"
+      type = "button"
+    ) Build
+  .secondary-actions
+    button.white.btn-icon.btn-actions(
+      ng-class = "{active: dataInstanceEdit.data.PopoverActions.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "dataInstanceEdit.data.PopoverActions.data.show"
+      type = "button"
+    )
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
+      //- popover for rename, for, delete box
+      pop-over(
+        actions = "dataInstanceEdit.data.PopoverActions.actions"
+        data = "dataInstanceEdit.data.PopoverActions.data"
+        template = "viewInstanceEditPopoverActions"
+      )
+    button.white(
+      ng-click = "dataInstanceEdit.actions.goToInstance(true)"
+      type = "button"
+    ) Discard Changes
+
+
+//- sidebar with repositories and urls
+section.sidebar.box-sidebar
+  //- repositories
+  section.row
+    h2.sub-header Repositories
+    repo-list(
+      instance = "dataInstanceEdit.data.instance"
+    )
+
+section.views(
+  ng-class = "{\
+    in: dataInstanceEdit.data.showExplorer && !dataInstanceEdit.data.loading,\
+    out: !dataInstanceEdit.data.container.running() || dataInstanceEdit.data.loading\
+  }"
+)
+  //- explorer
+  button.white.btn-icon.explorer-toggle(
+    ng-click = "dataInstanceEdit.data.showExplorer = !dataInstanceEdit.data.showExplorer"
+    type = "button"
+  )
+    svg.iconnables.icons-folder-open
+      use(
+        xlink:href = "#icons-folder-open"
+      )
+  section.explorer
+    .explorer-controls
+      button.toggle-theme.tooltip(
+        data-title = "Change Theme"
+        ng-class = "{dark: !dataInstanceEdit.data.toggleTheme, light: dataInstanceEdit.data.toggleTheme}"
+        ng-click = "dataInstanceEdit.data.toggleTheme = !dataInstanceEdit.data.toggleTheme"
+      )
+        .theme
+    file-tree(
+      open-items = "dataInstanceEdit.data.openItems"
+      read-only = "false"
+      root-dir = "dataInstanceEdit.data.version.rootDir"
+    )
+
+  //- tabs
+  tabs(
+    open-items= "dataInstanceEdit.data.openItems"
+  )
+
+  //- active panel
+  active-panel(
+    container = "dataInstanceEdit.data.container"
+    build = "dataInstanceEdit.data.build"
+    is-dark-theme = "dataInstanceEdit.data.toggleTheme"
+    open-items = "dataInstanceEdit.data.openItems"
+    update = "false"
+  )
+
+  //- spinner
+  .horizontal-spinner

@@ -5,7 +5,8 @@
   "description": "rewrite of runnable-web in angularjs",
   "scripts": {
     "grunt": "./node_modules/.bin/grunt deploy",
-    "start": "NODE_PATH=. node ./server/main.js;"
+    "start": "NODE_PATH=. node ./server/main.js;",
+    "test": "protractor ./test/protractor.conf.js"
   },
   "engines": {
     "node": "~0.10.29",
@@ -36,7 +37,7 @@
     "moment": "~2.7.0",
     "primus": "^2.3.0",
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.27.0",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.31.1",
     "term.js": "git+https://github.com/CodeNow/term.js#v0.1.0"
   },
   "devDependencies": {
@@ -88,7 +89,7 @@
     "protractor": "~1.0.0-rc1",
     "sinon": "~1.10.3",
     "stringify": "~2.1.0",
-    "validate-dockerfile": "1.3.x",
+    "validate-dockerfile": "1.4.x",
     "which": "^1.0.5"
   },
   "browser": {
@@ -97,6 +98,7 @@
     "primus-client": "./client/assets/js/primus-client.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js",
+    "config/environment": "./client/config/environment.js",
     "jquery-ui": "./client/assets/jquery-ui-1.11.1.custom/jquery-ui.js"
   },
   "browserify": {

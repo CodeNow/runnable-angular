@@ -35,6 +35,12 @@ pre,
   white-space: pre;
 }
 
+.sub-header {
+  color: $gray;
+  font-size: 14px;
+  font-weight: 300;
+}
+
 // links
 a.link {
   color: $gray-dark;

@@ -1,0 +1,14 @@
+//- development only
+div(
+  ng-if = "dataApp.data.configEnvironment === 'development'"
+  style = "position: absolute; \
+           bottom: 0px; \
+           right: 0px; \
+           width: 300px; \
+           z-index: 99999; \
+           color: red;"
+)
+  p API: {{ dataApp.data.configAPIHost }}
+  p ENV: {{ dataApp.data.configEnvironment }}
+
+

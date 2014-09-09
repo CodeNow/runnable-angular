@@ -1,0 +1,53 @@
+// toolbar
+.views-toolbar {
+  border-bottom: 1px solid rgba($black,.1);
+  height: 46px; // offset for even spacing of buttons
+  overflow: visible;
+  position: relative;
+  transition: all .2s ease-in;
+
+  .in & {
+    transform: translate3d(270px,0,0);
+    width: calc(100% - 270px); // 270px = width of .explorer
+  }
+}
+
+// toolbar tabs
+.add-tab {
+  box-shadow: -12px 0 12px rgba($white,.9);
+  height: 36px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 36px;
+
+  &.active .icons-add {
+    transform: rotate3d(0,0,1,135deg);
+  }
+}
+
+// .add-tab .popover
+.add-tab .popover {
+  left: auto;
+  max-width: none;
+  right: 0;
+  top: 33px;
+  transform-origin: 345px -15px;
+  width: 360px;
+
+  .arrow {
+    left: auto;
+    right: 5px;
+  }
+
+  .col-popover-4 {
+    border-bottom: 1px solid rgba($black,.1);
+    height: 72px;
+    overflow: hidden;
+  }
+
+  .iconnables.lg {
+    display: block;
+    margin: 12px auto 0;
+  }
+}

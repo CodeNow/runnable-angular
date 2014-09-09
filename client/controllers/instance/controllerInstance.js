@@ -1,9 +1,6 @@
 require('app')
   .controller('ControllerInstance', ControllerInstance);
 /**
- * ControllerInstance
- * @constructor
- * @export
  * @ngInject
  */
 function ControllerInstance(
@@ -60,6 +57,63 @@ function ControllerInstance(
   };
 
   /*********************************
+  * popoverGearMenu
+  *********************************/
+  var pgm = data.popoverGearMenu = {};
+  pgm.data = {
+    show: false
+  };
+  pgm.actions = {};
+
+  pgm.actions.stopInstance = function () {
+    data.loading = true;
+    data.instance.stop(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.fetch(function (err) {
+        data.loading = false;
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  pgm.actions.startInstance = function () {
+    data.loading = true;
+    data.instance.start(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.fetch(function (err) {
+        data.loading = false;
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  pgm.actions.restartInstance = function () {
+    data.loading = true;
+    data.instance.restart(function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.fetch(function (err) {
+        data.loading = false;
+        if (err) {
+          throw err;
+        }
+        $scope.safeApply();
+      });
+    });
+  };
+
+  /*********************************
    * popoverAddTab
    *********************************/
   var pat = data.popoverAddTab;
@@ -68,9 +122,11 @@ function ControllerInstance(
   };
   pat.actions = {};
 
-  pat.actions.addOutputStream = function () {
+  pat.actions.addBuildStream = function () {
     pat.data.show = false;
-    //TODO
+    data.openItems.addBuildStream({
+      name: 'Build Logs'
+    });
   };
 
   pat.actions.addWebView = function () {
@@ -90,7 +146,7 @@ function ControllerInstance(
 
   pat.actions.addLogs = function () {
     pat.data.show = false;
-    return data.openItems.addLogs({
+    data.openItems.addLogs({
       name: 'Server Logs',
       params: data.instance.attrs.containers[0]
     });
@@ -125,56 +181,13 @@ function ControllerInstance(
     });
   };
 
-  actions.stopInstance = function () {
-    data.loading = true;
-    data.instance.stop(function (err) {
-      if (err) {
-        throw err;
-      }
-      data.instance.fetch(function (err) {
-        data.loading = false;
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-      });
-    });
-  };
-
-  actions.startInstance = function () {
-    data.loading = true;
-    data.instance.start(function (err) {
-      if (err) {
-        throw err;
-      }
-      data.instance.fetch(function (err) {
-        data.loading = false;
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-      });
-    });
-  };
-
-  actions.stateToBuildList = function (userName, projectName, branchName) {
-    var state = {
-      userName: userName,
-      projectName: projectName,
-      branchName: branchName
-    };
-    $state.go('projects.buildList', state);
-  };
-
   actions.goToBuild = function() {
-    var attrs = data.instance.attrs;
     var state = {
-      userName: attrs.owner.username,
-      projectName: attrs.project.name,
-      branchName: attrs.environment.name,
-      buildName: attrs.build.buildNumber
+      userName: $state.params.userName,
+      shortHash: $state.params.shortHash,
+      buildId: data.build.id()
     };
-    $state.go('projects.build', state);
+    $state.go('instance.instanceEdit', state);
   };
 
   actions.destroyInstance = function () {
@@ -238,13 +251,16 @@ function ControllerInstance(
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstance')
-      .query($stateParams.instanceId)
+      .query($stateParams.shortHash)
       .cacheFetch(function updateDom(instance, cached, cb) {
         if (!instance) {
-          return $state.go(404);
+          return cb();
+          // TODO
+          // return $state.go(404);
         }
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
+        data.build = instance.build;
         if (data.container && data.container.running()) {
           data.showExplorer = true;
         } else {
@@ -254,7 +270,7 @@ function ControllerInstance(
         cb();
       })
       .resolve(function (err, instance, cb) {
-        if (!instance || !instance.containers.models.length) {
+        if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           return cb(new Error('Instance not found'));
         }
         $scope.safeApply();
@@ -265,9 +281,13 @@ function ControllerInstance(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-    var container = data.container;
-    // save this so we can later set it active after adding terminal/web view
-    data.logs = pat.actions.addLogs();
+    if (data.build.succeeded()) {
+      var container = data.container;
+      // save this so we can later set it active after adding terminal/web view
+      data.logs = pat.actions.addLogs();
+    } else {
+      actions.goToEdit();
+    }
     cb();
   }
 
@@ -277,7 +297,7 @@ function ControllerInstance(
     newOpenItems
   ], function (err) {
     if (err) {
-      $state.go('404');
+      // $state.go('404');
       throw err;
     }
     $scope.safeApply();

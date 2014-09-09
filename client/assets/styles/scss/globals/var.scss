@@ -1,17 +1,16 @@
-//colors
-$gray:           #e8e8e8;
+// colors
 $gray-lighter:   #f6f6f6;
-$gray-light:     #eee;
+$gray-light:     #ccc;
+$gray:           #888;
 $gray-dark:      #555;
 $gray-darker:    #3a3a3a;
 $gray-darkest:   #222;
 
 $green:          #3ccb5a;
-$green-dark:     darken($green,6%);
-$green-darker:   darken($green,12%);
-
 $green-light:    #2bd94f;
 $green-lighter:  lighten($green-light,7);
+$green-dark:     darken($green,6%);
+$green-darker:   darken($green,12%);
 
 $silver:         #fafafa;
 $silver-lighter: lighten($silver,8);
@@ -20,35 +19,55 @@ $silver-dark:    darken($silver,9);
 $silver-darker:  darken($silver,18%);
 
 $purple:         #5b3777;
+$purple-logo:    #ccadd2;
 $purple-lighter: saturate(lighten($purple, 60), 63);
 $purple-light:   lighten($purple,14);
 $purple-dark:    darken($purple,14);
 $purple-darker:  darken($purple,17);
 
-$purple-logo:    #ccadd2;
-
 $orange:         #f9c029;
-$orange-dark:    darken($orange,6%);
-$orange-darker:  darken($orange,12%);
-
-$orange-light:   #ffca3b;
 $orange-lighter: lighten($orange,13);
+$orange-light:   #ffca3b;
+$orange-dark:    darken($orange,9%);
+$orange-darker:  darken($orange,18%);
 
 $light-yellow:   #ffffe0;
 $dark-yellow:    darken(desaturate($light-yellow,65),45);
 
+$blue:           #6cb6d1;
+
 $black:          #000;
+
 $white:          #fff;
 
 // z-indexes
+// overrides (should phase out at some point)
 $z-hide: -10000;
 $z-show: 10000;
 
+// views
+$z-views: 4000;
+$z-views-explorer: 4001;
+$z-views-toggle: 4002;
+
+// boxes
+$z-box: 5000;
+
+// sidebars
+$z-sidebar: 6000;
+
+// popovers
+$z-popover: 7000;
+$z-popover-title-filter: 7001;
+$z-popover-context-menu: 7002;
+
+// modals
+$z-modal-backdrop: 8000;
+$z-modal: 8001;
+
+// tooltips
+$z-tooltip: 9000;
+
+// other
 $z-header: 9000;
-
 $z-web-chrome: 8000;
-
-$z-modal-backdrop: 9996;
-$z-popover: 9997;
-$z-modal: 9998;
-$z-tooltip: 9999;

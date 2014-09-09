@@ -53,7 +53,9 @@
   }
 
   // icons with fill
-  &.icons-git {
+  &.icons-git,
+  &.icons-link,
+  &.icons-update {
     fill: currentColor;
     stroke: none;
   }
@@ -68,6 +70,7 @@
   &.icons-chevron-left,
   &.icons-chevron-right,
   &.icons-close,
+  &.icons-commit,
   &.icons-delete,
   &.icons-edit,
   &.icons-error,
@@ -107,4 +110,19 @@
 
 .circle-fail {
   border-color: $orange;
+}
+
+// status
+.icons-status {
+  background: $gray-lighter;
+  border: 1px solid $gray-light;
+  border-radius: 50%;
+  display: inline-block;
+  height: 9px;
+  width: 9px;
+
+  &.running {
+    background: $green;
+    border: 0;
+  }
 }

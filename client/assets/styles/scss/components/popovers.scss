@@ -66,28 +66,20 @@
 // popovers
 .popover {
   background: $white;
-  background-clip: padding-box;
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
-  box-shadow: 0 1px 10px rgba($black,.1);
+  box-shadow: 0 0 30px rgba($black,.12);
   display: block;
   left: 0;
   max-width: 276px;
   opacity: 0;
-  padding: 1px;
   pointer-events: none;
   position: absolute;
   text-align: left;
-  transform: scale3d(0,0,1);
-  transition:
-    height .2s,
-    max-height .2s,
-    opacity .2s,
-    transform .15s,
-    width .2s ease-in-out;
   top: 0;
+  transform: scale3d(0,0,1);
+  transition: all .15s ease-in;
   white-space: normal;
-  z-index: -1;
 
   .arrow,
   .arrow::after {
@@ -101,6 +93,10 @@
 
   .arrow {
     border-width: 11px;
+
+    &:hover {
+      background: none;
+    }
   }
 
   .arrow::after {
@@ -157,51 +153,39 @@
     z-index: $z-popover;
   }
 
-  // context menu
-  &.context-menu {
-    position: fixed;
-    transform-origin: 0 0;
-    z-index: $z-show;
-  }
-
-  // menu
-  &.menu,
-  &.file-menu {
+  // .popover.menu
+  &.menu {
     cursor: default;
-    width: 300px;
+    width: 180px;
 
     .popover-content {
-      margin: 0 -1px -1px;
       overflow: hidden;
       padding: 0;
-      transition: max-height .2s;
-    }
-
-    ol,
-    ul {
-      @extend .clearfix;
-      background: $white;
-      text-shadow: none;
     }
 
     .popover-list {
+      padding: 4px 0;
+    }
 
-      > li {
-        border: 0;
-        border-top: 1px solid rgba($black,.1);
-        color: $gray-dark;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 400;
-        padding-left: 15px;
+    .popover-list-item {
+      border-bottom: 1px solid transparent;
+      border-top: 1px solid transparent;
+      cursor: pointer;
+      font-size: 16px;
+      padding-left: 15px;
 
-        &:first-child {
-          border-top: 0;
-        }
+      &:hover {
+        background: rgba($blue,.1);
+        border-color: rgba($blue,.2);
+      }
+
+      &:active {
+        background: rgba($blue,.15);
+        border-color: rgba($blue,.3);
       }
     }
 
-    .col-popover-3 > li {
+    .col-popover-4 > li {
       border-left: 1px solid rgba($black,.1);
       cursor: pointer;
       float: left;
@@ -209,58 +193,48 @@
       height: 100%;
       line-height: 1.6;
       text-align: center;
-      width: calc(100% / 3);
+      width: calc(100% / 4);
 
       &:first-child {
         border-left: 0;
       }
+
+      &:hover {
+        background: rgba($blue,.1);
+      }
+
+      &:active {
+        background: rgba($blue,.15);
+      }
     }
   }
 
-  // .file-menu
-  &.file-menu {
-    width: 180px;
-  }
+  // .popover.bottom.menu.context-menu
+  &.context-menu {
+    position: fixed;
+    transform-origin: 0 0;
+    transition: transform .15s ease-in;
+    z-index: $z-popover-context-menu;
 
-  .form-control {
-    border: 0;
-    border-bottom: 1px solid rgba($black,.1);
-    border-radius: 0;
-    padding: 0 15px;
-
-    &:hover,
-    &:focus {
-      border-color: rgba($black,.1);
+    .iconnables {
+      float: left;
+      height: 21px;
+      margin: 8px 6px 0 0;
+      width: 21px;
     }
-  }
-
-  textarea.form-control {
-    min-height: 60px;
-    padding: 6px 15px;
-    resize: none;
   }
 
   .btn-block {
-    margin: 6px;
-    width: calc(100% - 12px);
+    margin: 3px 6px 6px;
+    width: 100%;
   }
 
-  .green {
-    border-top: 1px solid rgba($black,.1);
+  // li.divider
+  .divider {
+    background: rgba($black,.1);
+    height: 1px;
+    margin: 3px 0;
   }
-}
-
-.popover-title {
-  background: $gray-lighter;
-  border-bottom: 1px solid rgba($black,.1);
-  color: $gray-dark;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 18px;
-  margin: 0;
-  padding: 8px 14px;
-  text-align: center;
-  text-shadow: none;
 }
 
 .popover-content {
@@ -294,38 +268,46 @@
   }
 }
 
-// popovers in header
-header .popover {
-  left: auto;
-  right: -115px;
-  top: 31px;
-  transform-origin: 50% 0;
+// h3.popover-title
+.popover-title {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba($black,.1);
+  color: $gray-dark;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
+  margin: 0;
+  padding: 6px;
+  text-shadow: none;
 
-  input {
-    margin-bottom: 10px;
+  // toggle search
+  .btn-search {
+    width: 24px;
+  }
+
+  .icons-search-blue {
+    left: -1px;
+    top: -1px;
   }
 }
 
-// delete
-.delete {
-  color: $gray-dark;
-  opacity: .5;
-  padding: 0;
+// input.title-filter
+.title-filter {
+  font-size: 14px;
+  font-weight: 300;
+  height: 25px;
+  line-height: 24px;
+  opacity: 0;
+  pointer-events: none;
   position: absolute;
-  right: 9px;
-  top: 0;
+  right: 6px;
+  top: 6px;
+  transition: opacity .15s ease-in;
+  width: calc(100% - 42px);
+  z-index: $z-popover-title-filter;
 
-  &:hover {
-    opacity: .75;
-  }
-
-  &:active {
+  .show-filter & {
     opacity: 1;
-  }
-
-  .iconnables {
-    height: 18px;
-    top: 4px;
-    width: 18px;
+    pointer-events: auto;
   }
 }
