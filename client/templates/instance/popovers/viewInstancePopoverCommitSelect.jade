@@ -26,12 +26,15 @@
         use(
           xlink:href = "#icons-git"
         )
-      | master
+      | {{ data.attrs.branch }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-      select.select
+      select.select(
+        ng-change = "actions.updateCommits(data)"
+        ng-model = "data.attrs.branch"
+      )
         option(
           ng-repeat = "branch in data.attrs.branches"
         ) {{ branch.name }}
