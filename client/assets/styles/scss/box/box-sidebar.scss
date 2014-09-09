@@ -47,6 +47,45 @@
   position: relative;
   transition: background .15s ease-in, border-color .15s ease-in;
 
+  &.pending {
+    background: rgba($orange,.1);
+    border-color: rgba($orange,.6);
+    color: $orange-dark;
+
+    &:hover {
+      color: $gray;
+
+      .commit-message {
+        color: $gray-dark;
+      }
+
+      .icons-commit,
+      .commit-time {
+        color: $gray-light;
+      }
+    }
+
+    &:active,
+    &.active {
+      color: $blue;
+
+      .commit-message,
+      .icons-commit,
+      .commit-time {
+        color: $blue;
+      }
+    }
+
+    .commit-message {
+      color: $orange-dark;
+    }
+
+    .icons-commit,
+    .commit-time {
+      color: $orange;
+    }
+  }
+
   &:hover {
     background: rgba($blue,.1);
     border-color: rgba($blue,.2);
