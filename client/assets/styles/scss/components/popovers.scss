@@ -153,16 +153,8 @@
     z-index: $z-popover;
   }
 
-  // context menu
-  &.context-menu {
-    position: fixed;
-    transform-origin: 0 0;
-    z-index: $z-show;
-  }
-
-  // menu
-  &.menu,
-  &.file-menu {
+  // .popover.menu
+  &.menu {
     cursor: default;
     width: 180px;
 
@@ -214,6 +206,21 @@
       &:active {
         background: rgba($blue,.15);
       }
+    }
+  }
+
+  // .popover.bottom.menu.context-menu
+  &.context-menu {
+    position: fixed;
+    transform-origin: 0 0;
+    transition: transform .15s ease-in;
+    z-index: $z-popover-context-menu;
+
+    .iconnables {
+      float: left;
+      height: 21px;
+      margin: 8px 6px 0 0;
+      width: 21px;
     }
   }
 
