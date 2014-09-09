@@ -17,4 +17,9 @@
       ) Restart
       li.divider
       li.popover-list-item Rename Box
-      li.popover-list-item Delete Box
+      li.popover-list-item(
+        modal
+        modal-actions = "actions.actionsModalDelete"
+        modal-data = "data.dataModalDelete"
+        modal-template = "modalDeleteBox"
+      ) Delete Box

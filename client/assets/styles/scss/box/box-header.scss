@@ -21,6 +21,13 @@
       margin: -6px 0 0 -8px;
     }
   }
+
+  .icons-edit {
+    color: $orange-dark;
+    height: 21px;
+    left: 5px;
+    width: 21px;
+  }
 }
 
 // header.box-header actions
@@ -58,7 +65,7 @@
     width: 1px;
   }
 
-  .btn-icon {
+  .white {
     margin-left: 3px;
   }
 }
@@ -75,7 +82,7 @@
   right: -1px;
   top: 36px;
   transform-origin: 200px 0;
-  width: 210px;
+  width: 240px;
 
   .arrow.white {
     left: auto;

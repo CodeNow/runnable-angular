@@ -3,6 +3,7 @@ button,
   background: transparent;
   border: 0;
   border-radius: 3px;
+  box-shadow: none;
   cursor: pointer;
   display: inline-block;
   font-size: 16px;
@@ -16,37 +17,38 @@ button,
   user-select: none;
   white-space: nowrap;
 
-  &:hover {
-    text-decoration: none;
-  }
-
+  // for <a> elemnts
+  &:hover,
   &:active,
   &.active {
     text-decoration: none;
   }
 
   &:focus {
-    outline: none;
+    outline: 0;
   }
 
   &[disabled]
   &.disabled {
-    box-shadow: none;
+    border-color: transparent;
     cursor: not-allowed;
+    opacity: .5;
   }
 
   &.btn-sm {
-    font-weight: 400;
-    height: 22px;
-    line-height: 21px;
+    height: 36px;
+    line-height: 36px;
     padding: 0 6px;
+  }
 
-    &.btn-icon {
-      padding: 1px 0 0;
-    }
+  &.btn-xs {
+    height: 24px;
+    line-height: 24px;
+    padding: 0 6px;
   }
 }
 
+// .btn-icon
 .btn-icon {
   padding: 0;
   width: 45px;
@@ -57,37 +59,41 @@ button,
   }
 }
 
+.blue,
 .green,
 .orange,
-.purple {
+// .purple,
+.white {
+  border: 1px solid transparent;
   color: $white;
   letter-spacing: .5px;
-}
-
-.green,
-.silver,
-.orange,
-.purple {
-  border: 1px solid transparent;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 1px rgba(0,0,0,.1);
+  text-decoration: none;
 
   &:active,
   &.active {
     box-shadow: none;
   }
+}
 
-  &[disabled],
-  &[disabled]:hover,
-  &[disabled]:active {
-    box-shadow: none;
-    color: rgba(255,255,255,.75);
+.blue {
+  color: $blue;
+  font-weight: 300;
+
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+
+  &:active,
+  &.active {
+    background: rgba($blue,.2);
+    border-color: rgba($blue,.4);
   }
 }
 
 .green {
   background: rgba($green,.1);
   border-color: rgba($green,.3);
-  box-shadow: none;
   color: $green;
 
   &:hover {
@@ -98,121 +104,26 @@ button,
   &.active {
     border-color: rgba($green,.75);
   }
-
-  &[disabled],
-  &[disabled]:hover,
-  &[disabled]:active {
-    // background: rgba($green,.75);
-    // border-color: rgba($green-darker,.75);
-    opacity: .75;
-  }
-}
-
-.silver {
-  @extend .btn;
-  background-color: $silver;
-  border-color: $silver-darker;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 1px 1px rgba(0,0,0,.05);
-  color: $gray-dark;
-
-  &:hover,
-  &:active,
-  &.active {
-    background-color: $white;
-    color: $gray-dark;
-  }
-
-  &[disabled],
-  &[disabled]:hover,
-  &[disabled]:active {
-    background: rgba($silver,.75);
-    border-color: rgba($silver-darker,.75);
-    color: rgba($gray-dark,.5);
-  }
-
-  &.no-states {
-
-    &:hover,
-    &:active {
-      background-color: $gray-lighter;
-      background-image: linear-gradient(rgba($gray-lighter,0),$gray-lighter);
-      border-color: rgba(0,0,0,.1);
-      box-shadow: inset 0 1px 0 $white, 0 1px 0 rgba(0,0,0,.01);
-      color: $gray-dark;
-      cursor: default;
-    }
-  }
 }
 
 .orange {
-  background-color: $orange;
-  border-color: $orange-darker;
-  color: $gray-darker;
-
-  &:hover,
-  &:active,
-  &.active {
-    background: $orange-light;
-    border-color: $orange-darker;
-    border-top-color: $orange-dark;
-    color: $gray-darker;
-  }
-
-  &[disabled],
-  &[disabled]:hover,
-  &[disabled]:active {
-    background: rgba($orange,.5);
-    border-color: rgba($orange-darker,.5);
-  }
-}
-
-.purple {
-  background-color: #9a58ba;
-  background-image: linear-gradient(rgba(#6b409b,.25),#6b409b);
-  border-color: #5b3777;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
+  background: rgba($orange,.1);
+  border-color: rgba($orange,.3);
+  color: $orange-dark;
 
   &:hover {
-    background-color: #ac67c6;
-    background-image: linear-gradient(rgba(#6b409b,.25),#6b409b);
-    border-color: #5b3777;
+    border-color: rgba($orange,.6);
   }
 
   &:active,
   &.active {
-    background-color: #ac67c6;
-    background-image: linear-gradient(rgba(#6b409b,.4),#6b409b);
-    border-color: #5b3777;
-  }
-
-  &[disabled],
-  &[disabled]:hover,
-  &[disabled]:active {
-    background: rgba(#9a58ba,.4);
-    border-color: rgba(#5b3777,.6);
-    color: lighten(#ac67c6,38);
-  }
-
-  &.no-states {
-
-    &:hover,
-    &:active {
-      background-color: #9a58ba;
-      background-image: linear-gradient(rgba(#6b409b,.25),#6b409b);
-      border-color: #5b3777;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
-    }
+    border-color: rgba($orange,.9);
   }
 }
 
 .white {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  box-shadow: none;
   color: $gray;
   font-weight: 300;
-  text-decoration: none;
 
   &:hover {
     background: rgba($black,.05);
@@ -226,26 +137,44 @@ button,
   }
 }
 
-.blue {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  box-shadow: none;
-  color: $blue;
-  font-weight: 300;
-  text-decoration: none;
+// .purple {
+//   background-color: #9a58ba;
+//   background-image: linear-gradient(rgba(#6b409b,.25),#6b409b);
+//   border-color: #5b3777;
+//   box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
 
-  &:hover {
-    background: rgba($blue,.1);
-    border-color: rgba($blue,.2);
-  }
+//   &:hover {
+//     background-color: #ac67c6;
+//     background-image: linear-gradient(rgba(#6b409b,.25),#6b409b);
+//     border-color: #5b3777;
+//   }
 
-  &:active,
-  &.active {
-    background: rgba($blue,.2);
-    border-color: rgba($blue,.4);
-  }
-}
+//   &:active,
+//   &.active {
+//     background-color: #ac67c6;
+//     background-image: linear-gradient(rgba(#6b409b,.4),#6b409b);
+//     border-color: #5b3777;
+//   }
+
+//   &[disabled],
+//   &[disabled]:hover,
+//   &[disabled]:active {
+//     background: rgba(#9a58ba,.4);
+//     border-color: rgba(#5b3777,.6);
+//     color: lighten(#ac67c6,38);
+//   }
+
+//   &.no-states {
+
+//     &:hover,
+//     &:active {
+//       background-color: #9a58ba;
+//       background-image: linear-gradient(rgba(#6b409b,.25),#6b409b);
+//       border-color: #5b3777;
+//       box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
+//     }
+//   }
+// }
 
 .btn-label {
   font-size: 12px;

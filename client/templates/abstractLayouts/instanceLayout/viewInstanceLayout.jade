@@ -66,7 +66,9 @@ nav.sidebar.global-sidebar
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataInstanceLayout.data.instances.models"
       )
-        a.white.box {{ instance.attrs.name }}
+        a.white.box(
+          title = "{{ instance.attrs.name }}"
+        ) {{ instance.attrs.name }}
           //- alternate text: "Started running 999 minutes ago."
           span.icons-status(
             title = "Stopped running 999 minutes ago."

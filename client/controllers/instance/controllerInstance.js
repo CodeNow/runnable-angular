@@ -82,7 +82,6 @@ function ControllerInstance(
   };
 
   pgm.actions.startInstance = function () {
-    console.log('starting');
     data.loading = true;
     data.instance.start(function (err) {
       if (err) {
@@ -147,7 +146,7 @@ function ControllerInstance(
 
   pat.actions.addLogs = function () {
     pat.data.show = false;
-    return data.openItems.addLogs({
+    data.openItems.addLogs({
       name: 'Server Logs',
       params: data.instance.attrs.containers[0]
     });
@@ -255,7 +254,7 @@ function ControllerInstance(
       .query($stateParams.shortHash)
       .cacheFetch(function updateDom(instance, cached, cb) {
         if (!instance) {
-          return;
+          return cb();
           // TODO
           // return $state.go(404);
         }
