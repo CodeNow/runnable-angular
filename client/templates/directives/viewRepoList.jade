@@ -5,13 +5,14 @@ ul.repository-group
         xlink:href = "#icons-git"
       )
     h3.repository-title CodeNow/runnable-angular
-    button.white.repository-update.tooltip(
+    button.btn-xs.white.repository-update.tooltip(
       data-title = "Fast-forward {branch} (88 commits behind)"
     ) 88
       svg.iconnables.icons-update
         use(
           xlink:href = "#icons-update"
         )
+    //- add .pending for orange
     .commit(
       toggle-pop-over
       toggle-pop-over-model = "dataInstance.data.popoverCommitSelect.data.show"

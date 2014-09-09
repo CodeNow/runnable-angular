@@ -24,10 +24,11 @@
   + .repository-update {
     background: $white;
     box-shadow: -9px 0 9px rgba($white,.9);
+    font-size: 12px;
     margin-right: -6px;
     position: absolute;
     right: 15px;
-    top: 15px;
+    top: 11px;
 
     &:hover {
       background: #f2f2f2; // rgba($black,.1)
@@ -49,7 +50,7 @@
 
   &.pending {
     background: rgba($orange,.1);
-    border-color: rgba($orange,.6);
+    border-color: rgba($orange,.3);
     color: $orange-dark;
 
     &:hover {
@@ -115,17 +116,10 @@
 }
 
 // button.white.repository-update.tooltip
-.white.repository-update {
-  font-size: 12px;
-  height: 18px;
-  line-height: 18px;
-  padding: 0 6px 0 4px;
-
-  .icons-update {
-    height: 13px;
-    top: 2px;
-    width: 13px;
-  }
+.white.repository-update .icons-update {
+  height: 13px;
+  top: 2px;
+  width: 13px;
 }
 
 // .commit line 1: .commit-message
