@@ -28,6 +28,9 @@ function repoList (
                 var commits = model.fetchBranchCommits(function (err, commits) {
                   if (err) { return cb(err); }
                   model.attrs.commits = commits;
+                  model.attrs.activeCommit = commits.filter(function (commit) {
+                    return commit.sha === model.attrs.commit;
+                  })[0];
                   cb();
                 });
               }, cb);

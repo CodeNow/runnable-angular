@@ -9,24 +9,23 @@ ul.repository-group
     h3.repository-title {{ repo.attrs.repo }}
     button.white.repository-update.tooltip(
       data-title = "Fast-forward {branch} (88 commits behind)"
+      ng-if = "repo.attrs.commit !== repo.attrs.commits[0].sha"
     ) 88
       svg.iconnables.icons-update
         use(
           xlink:href = "#icons-update"
         )
     .commit(
-      ng-if = "commit.sha === repo.attrs.commit"
-      ng-repeat = "commit in repo.attrs.commits"
       toggle-pop-over
       toggle-pop-over-model = "repo.state.show"
     )
-      .commit-message {{ commit.commit.message }}
+      .commit-message {{ repo.attrs.activeCommit.commit.message }}
       svg.iconnables.icons-commit
         use(
           xlink:href = "#icons-commit"
         )
-      span.commit-author {{ commit.author.login }}
-      time.commit-time {{ commit.commit.author.date | timeAgo }}
+      span.commit-author {{ repo.attrs.activeCommit.author.login }}
+      time.commit-time {{ repo.attrs.activeCommit.commit.author.date | timeAgo }}
     pop-over(
       data = "repo"
       template = "viewInstancePopoverCommitSelect"
