@@ -7,16 +7,18 @@
   )
     .modal-header
       svg.iconnables.icons-delete
-        use(xlink:href = "#icons-delete")
+        use(xlink:href = "#icons-rename")
     .modal-body
-      h1.header-thin Delete #{''}
-        em.highlight {{ data.project.attrs.name }}
-        | #{''} for good?
+      label Enter a new name for your Box:
+        //- fill value with instance name
+        input.modal-input(
+          value = ""
+        )
     .modal-footer
-      button.white(
-        ng-click = "actions.deleteProject()"
-      ) Delete Box
       button.white(
         ng-click = "cancel()"
         type = "button"
       ) Cancel
+      button.green(
+        ng-click = "actions.deleteProject()"
+      ) Rename Box
