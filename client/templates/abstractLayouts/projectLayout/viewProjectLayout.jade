@@ -118,7 +118,7 @@ header(
       ) That's a pretty name, but it's taken.
       button.green.btn-block(
         ng-click = "dataProjectLayout.actions.createNewProject()"
-        ng-disabled = "dataProjectLayout.data.creatingProject"
+        ng-disabled = "dataProjectLayout.data.creatingProject || dataProjectLayout.data.newProjectNameForm.$invalid"
       ) Create App
   .scroll-container
     h3.load(
