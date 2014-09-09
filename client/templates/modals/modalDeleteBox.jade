@@ -10,11 +10,11 @@
         use(xlink:href = "#icons-delete")
     .modal-body
       h1 Delete #{''}
-        em.highlight {{ data.project.attrs.name }}
+        em.highlight {{ data.instance.attrs.name }}
         | #{''} for good?
     .modal-footer
       button.white(
-        ng-click = "actions.deleteProject()"
+        ng-click = "actions.deleteInstance()"
       ) Delete
       button.white(
         ng-click = "cancel()"
