@@ -182,7 +182,7 @@ function ControllerInstance(
   };
 
   actions.goToBuild = function() {
-    var forkedBuild = data.build.fork(function (err) {
+    var forkedBuild = data.build.copy(function (err) {
       if (err) {
         throw err;
       }

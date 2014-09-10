@@ -97,10 +97,10 @@ function ControllerInstanceEdit(
     });
   };
 
-  actions.rebuild = function () {
+  actions.build = function () {
     $scope.dataApp.data.loading = true;
     var buildObj = {
-      message: (rbpo.data.buildMessage || 'Manual Rebuild')
+      message: (rbpo.data.buildMessage || 'Manual build')
     };
     if (data.forkedEnvironment) {
       buildObj.environment = data.forkedEnvironment.id();
@@ -122,13 +122,18 @@ function ControllerInstanceEdit(
           });
         });
     } else {
-      var newBuild = data.build.rebuild(buildObj,
+      var newBuild = data.build.build(buildObj,
         function (err, build) {
-          $scope.dataApp.data.loading = false;
           if (err) throw err;
-          $state.go('instance.instance', angular.copy({
-            buildName: newBuild.attrs.buildNumber
-          }, $stateParams));
+          data.instance.update({
+            build: newBuild.id()
+          }, function (err) {
+            if (err) {
+              throw err;
+            }
+            $scope.dataApp.data.loading = false;
+            $state.go('instance.instance', $stateParams);
+          });
         });
     }
   };
