@@ -107,7 +107,20 @@
   }
 }
 
+// input.modal-input
+.modal-input {
+  font-size: 24px;
+  font-weight: 500;
+  margin-top: 6px;
+  text-align: center;
+}
+
 .modal-footer {
   display: flex;
   justify-content: center;
+
+  .white,
+  .green {
+    margin: 0 3px;
+  }
 }

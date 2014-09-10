@@ -4,5 +4,15 @@
   .arrow.white
   .popover-content
     ul.popover-body.popover-list
-      li.popover-list-item Rename Box
-      li.popover-list-item Delete Box
+      li.popover-list-item(
+        modal
+        modal-actions = "actions.actionsModalRename"
+        modal-data = "data.dataModalRename"
+        modal-template = "modalRenameBox"
+      ) Rename Box
+      li.popover-list-item(
+        modal
+        modal-actions = "actions.actionsModalDelete"
+        modal-data = "data.dataModalDelete"
+        modal-template = "modalDeleteBox"
+      ) Delete Box

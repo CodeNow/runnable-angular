@@ -8,9 +8,8 @@ h6 {
   line-height: 1.1;
   margin: 0;
 
-  small {
+  &.header-thin {
     font-weight: 300;
-    line-height: 1;
   }
 }
 

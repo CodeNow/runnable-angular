@@ -275,13 +275,16 @@
   color: $gray-dark;
   font-size: 16px;
   font-weight: 500;
-  line-height: 18px;
+  height: 36px;
+  line-height: 36px;
   margin: 0;
-  padding: 6px;
+  padding: 0 6px;
+  text-align: center;
   text-shadow: none;
 
   // toggle search
   .btn-search {
+    float: left;
     width: 24px;
   }
 
