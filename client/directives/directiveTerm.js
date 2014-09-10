@@ -64,7 +64,7 @@ function term(
           // Tab not selected
           if ($termElem.width() === 100) { return; }
           var termLineEl = $termElem.find('span')[0];
-          if (termLineEl) { return; }
+          if (!termLineEl) { return; }
           var tBox = termLineEl.getBoundingClientRect();
 
           charHeight = tBox.height;
