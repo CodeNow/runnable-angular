@@ -10,16 +10,18 @@
     button.blue.btn-icon.btn-search(
       ng-click = "data.toggleFilter = !data.toggleFilter"
       ng-class = "{'active': data.toggleFilter}"
+      title = "Filter All Commits"
     )
       svg.iconnables.icons-search-blue
         use(
           xlink:href = "#icons-search-blue"
         )
+    //- focus on visible
     input.title-filter(
       placeholder = "Filter All Commits"
     )
     //- branch selector
-    button.blue.btn-select.branch-btn.pull-right
+    button.blue.btn-select.pull-right.branch-btn
       //- change this to a branch icon
       svg.iconnables.icons-git
         use(

@@ -16,7 +16,7 @@
   }
 
   .title-filter {
-    border-color: rgba($blue,.4);
+    border: 1px solid rgba($blue,.4);
   }
 }
 
@@ -61,7 +61,8 @@
 
 .popover-title {
 
-  .blue {
+  .blue,
+  .white {
     height: 24px;
     line-height: 24px;
   }

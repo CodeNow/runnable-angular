@@ -69,6 +69,7 @@
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
+  cursor: default; // if popover is within an element with a different cursor
   display: block;
   left: 0;
   max-width: 276px;
@@ -163,28 +164,6 @@
       padding: 0;
     }
 
-    .popover-list {
-      padding: 4px 0;
-    }
-
-    .popover-list-item {
-      border-bottom: 1px solid transparent;
-      border-top: 1px solid transparent;
-      cursor: pointer;
-      font-size: 16px;
-      padding-left: 15px;
-
-      &:hover {
-        background: rgba($blue,.1);
-        border-color: rgba($blue,.2);
-      }
-
-      &:active {
-        background: rgba($blue,.15);
-        border-color: rgba($blue,.3);
-      }
-    }
-
     .col-popover-4 > li {
       border-left: 1px solid rgba($black,.1);
       cursor: pointer;
@@ -223,6 +202,30 @@
       width: 21px;
     }
   }
+
+  // .popover-list
+  .popover-list {
+    padding: 4px 0;
+  }
+
+  .popover-list-item {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+    font-size: 16px;
+    padding-left: 15px;
+
+    &:hover {
+      background: rgba($blue,.1);
+      border-color: rgba($blue,.2);
+    }
+
+    &:active {
+      background: rgba($blue,.15);
+      border-color: rgba($blue,.3);
+    }
+  }
+
 
   .btn-block {
     margin: 3px 6px 6px;
