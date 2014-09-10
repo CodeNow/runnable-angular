@@ -9,13 +9,13 @@
       svg.iconnables.icons-delete
         use(xlink:href = "#icons-delete")
     .modal-body
-      h1 Delete #{''}
+      h1.header-thin Delete #{''}
         em.highlight {{ data.instance.attrs.name }}
         | #{''} for good?
     .modal-footer
       button.white(
         ng-click = "actions.deleteInstance()"
-      ) Delete
+      ) Delete Box
       button.white(
         ng-click = "cancel()"
         type = "button"
