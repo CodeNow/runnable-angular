@@ -1,21 +1,22 @@
 //- commit-select popover
 .popover.commit-select(
-  ng-class = "{in: data.show}"
+  ng-class = "{in: data.state.show}"
 )
   h3.popover-title(
-    ng-class = "{'show-filter': data.toggleFilter}"
+    ng-class = "{'show-filter': data.state.toggleFilter}"
   )
     //- filter across all commits in that repo
     //- should clear on close
     button.blue.btn-icon.btn-search(
-      ng-click = "data.toggleFilter = !data.toggleFilter"
-      ng-class = "{'active': data.toggleFilter}"
+      ng-click = "data.state.toggleFilter = !data.state.toggleFilter"
+      ng-class = "{'active': data.state.toggleFilter}"
     )
       svg.iconnables.icons-search-blue
         use(
           xlink:href = "#icons-search-blue"
         )
     input.title-filter(
+      ng-model = "data.state.commitFilter"
       placeholder = "Filter All Commits"
     )
     //- branch selector
@@ -25,82 +26,39 @@
         use(
           xlink:href = "#icons-git"
         )
-      | master
+      | {{ data.attrs.branch }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-      select.select
-        option master
-        option branch
-        option other-branch
+      select.select(
+        ng-change = "actions.updateCommits(data)"
+        ng-model = "data.attrs.branch"
+      )
+        option(
+          ng-repeat = "branch in data.attrs.branches"
+        ) {{ branch.name }}
   //- list of commits
   ul.commit-group
     //- show 35 commits per load
     //- .active class if currently selected commit
-    li.commit-group-item.commit
-      .commit-message bugfix object keypath
+    li.commit-group-item.commit(
+      ng-class = "{active: (commit.sha === data.attrs.commit)}"
+      ng-if = "data.attrs.commits.length"
+      ng-repeat = "commit in data.attrs.commits | commitFilter:data.state.commitFilter"
+    )
+      .commit-message {{ commit.commit.message }}
       svg.iconnables.icons-commit
         use(
           xlink:href = "#icons-commit"
         )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
-    li.commit-group-item.commit
-      .commit-message removing unused about &amp; jobs routes in app
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author cflynn07
-      time.commit-time 1 day ago
-    li.commit-group-item.commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
-    li.commit-group-item.commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
-    li.commit-group-item.commit.active
-      .commit-message bugfix object keypath
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author cflynn07
-      time.commit-time 5 hours ago
-    li.commit-group-item.commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
-    li.commit-group-item.commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
-    li.commit-group-item.commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
-    li.commit-group-item
+      span.commit-author {{ commit.author.login }}
+      time.commit-time {{ commit.commit.author.date | timeAgo }}
+    li.commit-group-item(
+      ng-if = "data.attrs.commits.length"
+    )
       button.blue.btn-block Load Older
+    li.commit-group-item(
+      ng-if = "!data.attrs.commits.length"
+    )
+      button.blue.btn-block Loading Commits
