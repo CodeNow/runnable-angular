@@ -54,6 +54,10 @@
     border-top: 0;
   }
 
+  &.always-open .tab-name {
+    padding-right: 9px;
+  }
+
   .icons-dirty {
     display: inline-block;
     font-size: 21px;

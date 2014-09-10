@@ -4,20 +4,21 @@
       ng-class = "{\
         'active': item.state.active,\
         'dirty': (state.current.name === 'projects.instance'\
-          && item.state.body !== item.attrs.body)\
+          && item.state.body !== item.attrs.body),\
+        'always-open': item.state.alwaysOpen\
       }"
       ng-repeat = "item in openItems.models"
     )
       span.tab-name(
         dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
-        ng-click = "openItems.activeHistory.add(item); \
+        ng-click = "openItems.activeHistory.add(item);\
           $event.stopPropagation();"
         title = "{{ item.filepath() }}"
       ) {{ item.attrs.name  }}
       .icons-dirty *
       button.btn-icon(
-        ng-click = "openItems.remove(item); \
-                    $event.stopPropagation();"
+        ng-click = "openItems.remove(item);\
+          $event.stopPropagation();"
         ng-if = "!item.state.alwaysOpen"
       )
         svg.iconnables.icons-close
