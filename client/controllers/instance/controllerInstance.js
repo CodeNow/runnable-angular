@@ -61,9 +61,16 @@ function ControllerInstance(
   *********************************/
   var pgm = data.popoverGearMenu = {};
   pgm.data = {
-    show: false
+    show: false,
+    // popover contains nested modal
+    dataModalDelete: {}
   };
-  pgm.actions = {};
+  pgm.actions = {
+    // popover contains nested modal
+    actionsModalDelete: {
+      deleteInstance: function () {}
+    }
+  };
 
   pgm.actions.stopInstance = function () {
     data.loading = true;
@@ -289,6 +296,10 @@ function ControllerInstance(
       })
       .go();
   }
+  // delete modal inside popover needs instance name
+  $scope.$watch('dataInstance.data.instance', function (i) {
+    pgm.data.dataModalDelete.instance = i;
+  });
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
