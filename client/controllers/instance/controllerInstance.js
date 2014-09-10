@@ -69,6 +69,14 @@ function ControllerInstance(
     // popover contains nested modal
     actionsModalDelete: {
       deleteInstance: function () {}
+    },
+    actionsModalFork: function () {
+      var newInstance = data.instance.fork(function () {
+        $state.go('instance.instance', {
+          userName: $stateParams.userName,
+          shortHash: newInstance.attrs.shortHash
+        });
+      });
     }
   };
 
