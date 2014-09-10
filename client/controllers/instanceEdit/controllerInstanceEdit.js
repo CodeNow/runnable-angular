@@ -122,11 +122,11 @@ function ControllerInstanceEdit(
           });
         });
     } else {
-      var newBuild = data.build.build(buildObj,
+      data.build.build(buildObj,
         function (err, build) {
           if (err) throw err;
           data.instance.update({
-            build: newBuild.id()
+            build: data.build.id()
           }, function (err) {
             if (err) {
               throw err;
@@ -266,13 +266,27 @@ function ControllerInstanceEdit(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-    data
-      .openItems.addBuildStream({
-        name: 'Build Stream'
-      })
-      .state.alwaysOpen = true;
+    if (data.build.attrs.started) {
+      data
+        .openItems.addBuildStream({
+          name: 'Build Stream'
+        })
+        .state.alwaysOpen = true;
+    }
     $scope.safeApply();
     cb();
+  }
+
+  var interval;
+  function openDockerfile () {
+    var dockerfile = data.version.rootDir.contents.find(function (m) {
+      return m.attrs.name === 'Dockerfile';
+    });
+    if (dockerfile) {
+      data.openItems.addOne(dockerfile);
+      clearInterval(interval);
+    }
+    return !!dockerfile;
   }
 
   async.waterfall([
@@ -284,6 +298,10 @@ function ControllerInstanceEdit(
     if (err) {
       // $state.go('404');
       throw err;
+    }
+    if (!openDockerfile()) {
+      // Continue checking until it's loaded
+      interval = setInterval(openDockerfile, 500);
     }
     $scope.safeApply();
   });

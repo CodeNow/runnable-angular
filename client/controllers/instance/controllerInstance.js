@@ -182,7 +182,7 @@ function ControllerInstance(
   };
 
   actions.goToBuild = function() {
-    var forkedBuild = data.build.copy(function (err) {
+    var forkedBuild = data.build.deepCopy(function (err) {
       if (err) {
         throw err;
       }
@@ -300,11 +300,9 @@ function ControllerInstance(
     if (data.build.succeeded()) {
       var container = data.container;
       // save this so we can later
-      // set it active after adding 
+      // set it active after adding
       // terminal/web view
       data.logs = pat.actions.addLogs();
-    } else {
-      actions.goToEdit();
     }
     cb();
   }
