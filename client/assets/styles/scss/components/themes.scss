@@ -196,7 +196,7 @@
   }
 
   .ace_scroller.ace_scroll-left {
-    box-shadow: inset 10px 0 9px -9px rgba(0,0,0,.3);
+    box-shadow: inset 10px 0 9px -9px rgba($black,.3);
   }
 }
 
@@ -231,12 +231,12 @@
   }
 
   .ace_gutter {
-    background: #311d40;
-    color: #5e4d6e;
+    background: darken(#311d40,3%);
+    color: lighten(#5e4d6e,12%);
   }
 
   .ace_print-margin {
-    background: rgba(0,0,0,.3);
+    background: rgba($black,.3);
     width: 1px;
   }
 
@@ -268,11 +268,11 @@
   }
 
   .ace_marker-layer .ace_active-line {
-    background: rgba(0,0,0,.3);
+    background: rgba($black,.6);
   }
 
   .ace_gutter-active-line {
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba($black,.6);
   }
 
   .ace_marker-layer .ace_selected-word {
@@ -344,6 +344,6 @@
   };
 
   .ace_scroller.ace_scroll-left {
-    box-shadow: 17px 0 16px -16px rgba(0,0,0,.4) inset;
+    box-shadow: 17px 0 16px -16px rgba($black,.4) inset;
   }
 }
