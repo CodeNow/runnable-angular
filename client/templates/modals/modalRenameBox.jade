@@ -1,0 +1,25 @@
+.modal(
+  ng-class = "{'in': in}"
+  ng-click = "cancel()"
+)
+  .modal-dialog(
+    ng-click = "$event.stopPropagation()"
+  )
+    .modal-header
+      svg.iconnables.icons-delete
+        use(xlink:href = "#icons-rename")
+    .modal-body
+      label Enter a new name for your Box:
+        //- fill value with instance name
+        //- autofocus on modal open
+        input.modal-input(
+          value = ""
+        )
+    .modal-footer
+      button.white(
+        ng-click = "cancel()"
+        type = "button"
+      ) Cancel
+      button.green(
+        ng-click = "actions.deleteProject()"
+      ) Rename Box

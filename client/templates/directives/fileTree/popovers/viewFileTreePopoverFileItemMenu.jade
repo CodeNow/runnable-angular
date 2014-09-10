@@ -1,29 +1,35 @@
-.popover.context-menu.file-menu.bottom.fade(
+.popover.bottom.menu.context-menu(
   ng-class = "{in: fileItemData.isOpen}"
   ng-style = "fileItemData.eStyle"
   right-click
 )
   .popover-content
-    ul#file-explorer-options.popover-body
-      li(
-        ng-click = "fileItemData.actions.openFile(); \
-                    $event.stopPropagation();"
+    ul.popover-body.popover-list
+      li.popover-list-item(
+        ng-click = "fileItemData.actions.openFile();\
+          $event.stopPropagation();"
       )
         svg.iconnables
-          use(xlink:href = "#icons-file-open")
+          use(
+            xlink:href = "#icons-file-open"
+          )
         | Open
       li.divider
-      li(
-        ng-click = "fileItemData.actions.renameFile(); \
-                    $event.stopPropagation();"
+      li.popover-list-item(
+        ng-click = "fileItemData.actions.renameFile();\
+          $event.stopPropagation();"
       )
         svg.iconnables
-          use(xlink:href = "#icons-file-modify")
+          use(
+            xlink:href = "#icons-file-modify"
+          )
         | Rename
-      li(
-        ng-click = "fileItemData.actions.deleteFile(); \
-                    $event.stopPropagation();"
+      li.popover-list-item(
+        ng-click = "fileItemData.actions.deleteFile();\
+          $event.stopPropagation();"
       )
         svg.iconnables
-          use(xlink:href = "#icons-file-delete")
+          use(
+            xlink:href = "#icons-file-delete"
+          )
         | Delete

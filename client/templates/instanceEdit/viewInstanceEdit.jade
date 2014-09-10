@@ -1,5 +1,9 @@
 header.box-header
   h1.box-name {{ dataInstanceEdit.data.instance.attrs.name }}
+    svg.iconnables.icons-edit
+      use(
+        xlink:href = "#icons-edit"
+      )
   .primary-actions
     button.orange(
       ng-click = "dataInstanceEdit.actions.rebuild()"
@@ -23,16 +27,30 @@ header.box-header
         template = "viewInstanceEditPopoverActions"
       )
     button.white(
-      ng-click = "dataInstanceEdit.actions.goToInstance()"
+      ng-click = "dataInstanceEdit.actions.goToInstance(true)"
       type = "button"
     ) Discard Changes
-
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
   //- repositories
   section.row
     h2.sub-header Repositories
+      a.btn.btn-sm.white.sub-header-action(
+        ng-class = "{active: dataInstanceEdit.data.popoverAddRepo.data.show}"
+        toggle-pop-over
+        toggle-pop-over-model = "dataInstanceEdit.data.popoverAddRepo.data.show"
+        type = "button"
+      )
+        svg.iconnables.icons-add
+          use(
+            xlink:href = "#icons-add"
+          )
+        pop-over(
+          actions = "dataInstanceEdit.data.popoverAddRepo.actions"
+          data = "dataInstanceEdit.data.popoverAddRepo.data"
+          template = "viewInstanceEditPopoverAddRepo"
+        )
     repo-list(
       instance = "dataInstanceEdit.data.instance"
     )
@@ -62,7 +80,7 @@ section.views(
         .theme
     file-tree(
       open-items = "dataInstanceEdit.data.openItems"
-      read-only = "true"
+      read-only = "false"
       root-dir = "dataInstanceEdit.data.version.rootDir"
     )
 

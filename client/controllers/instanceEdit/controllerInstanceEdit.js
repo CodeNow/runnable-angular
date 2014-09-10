@@ -7,6 +7,7 @@ function ControllerInstanceEdit(
   $scope,
   $stateParams,
   $state,
+  $window,
   user,
   async,
   extendDeep,
@@ -77,34 +78,11 @@ function ControllerInstanceEdit(
 
   /**************************************/
 
-  actions.runInstance = function () {
-    $scope.dataApp.data.loading = true;
-    var instance = user.createInstance({
-      json: {
-        build: data.build.id()
-      }
-    }, function (err) {
-      $scope.dataApp.data.loading = false;
-      $scope.safeApply();
-      $scope.dataProjectLayout.data.instances.fetch(function () {
-        $scope.safeApply();
-      });
-      if (err) throw err;
-      var state = {
-        instanceId: instance.id(),
-        userName: $state.params.userName
-      };
-      $state.go('projects.instance', state);
-    });
-    $scope.dataProjectLayout.data.tempBuildUrl = $state.href('projects.build').replace(/^\/project\//, '');
-    // edge case to satisfy Tony's request that a temporary
-    // instance LI for the yet-to-be-created instance
-    // appear in list on left panel
-    $scope.dataProjectLayout.data.instances.add(instance);
-    $scope.safeApply();
-  };
 
-  actions.goToInstance = function () {
+  actions.goToInstance = function (skipCheck) {
+    if (skipCheck) {
+      data.skipCheck = true;
+    }
     $state.go('instance.instance', $state.params);
   };
 
@@ -190,6 +168,25 @@ function ControllerInstanceEdit(
   $scope.$watch('dataInstanceEdit.data.build.attrs.completed', function(n) {
     if (n) {
       data.showExplorer = true;
+    }
+  });
+
+  var confirmText = 'You\'ve made unsaved changes to this page.';
+
+  $window.onbeforeunload = function () {
+    if (!data.openItems.isClean()) {
+      return confirmText;
+    }
+  };
+
+  $scope.$on('$stateChangeStart', function (e, n, c) {
+    if (!data.skipCheck &&
+        n.url !== '^/:userName/:shortHash/edit/:buildId/' && // We're leaving the edit page
+        !data.openItems.isClean() && // Files have been edited and not saved
+        !confirm(confirmText + '\nAre you sure you want to leave?')) {
+      e.preventDefault();
+    } else {
+      $window.onbeforeunload = null;
     }
   });
 

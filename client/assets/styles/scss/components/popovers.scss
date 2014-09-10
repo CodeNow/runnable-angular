@@ -153,16 +153,8 @@
     z-index: $z-popover;
   }
 
-  // context menu
-  &.context-menu {
-    position: fixed;
-    transform-origin: 0 0;
-    z-index: $z-show;
-  }
-
-  // menu
-  &.menu,
-  &.file-menu {
+  // .popover.menu
+  &.menu {
     cursor: default;
     width: 180px;
 
@@ -217,6 +209,21 @@
     }
   }
 
+  // .popover.bottom.menu.context-menu
+  &.context-menu {
+    position: fixed;
+    transform-origin: 0 0;
+    transition: transform .15s ease-in;
+    z-index: $z-popover-context-menu;
+
+    .iconnables {
+      float: left;
+      height: 21px;
+      margin: 8px 6px 0 0;
+      width: 21px;
+    }
+  }
+
   .btn-block {
     margin: 3px 6px 6px;
     width: 100%;
@@ -268,13 +275,16 @@
   color: $gray-dark;
   font-size: 16px;
   font-weight: 500;
-  line-height: 18px;
+  height: 36px;
+  line-height: 36px;
   margin: 0;
-  padding: 6px;
+  padding: 0 6px;
+  text-align: center;
   text-shadow: none;
 
   // toggle search
   .btn-search {
+    float: left;
     width: 24px;
   }
 

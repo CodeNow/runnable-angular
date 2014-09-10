@@ -1,4 +1,4 @@
-//colors
+// colors
 $gray-lighter:   #f6f6f6;
 $gray-light:     #ccc;
 $gray:           #888;
@@ -41,28 +41,33 @@ $black:          #000;
 $white:          #fff;
 
 // z-indexes
-// overrides
+// overrides (should phase out at some point)
 $z-hide: -10000;
 $z-show: 10000;
 
 // views
-$z-views: 6000;
-$z-views-explorer: 6001;
-$z-views-toggle: 6002;
+$z-views: 4000;
+$z-views-explorer: 4001;
+$z-views-toggle: 4002;
 
-// box
-$z-box: 7000;
+// boxes
+$z-box: 5000;
 
-// sidebar
-$z-sidebar: 8000;
+// sidebars
+$z-sidebar: 6000;
 
 // popovers
-$z-popover: 9000;
-$z-popover-title-filter: 9001;
+$z-popover: 7000;
+$z-popover-title-filter: 7001;
+$z-popover-context-menu: 7002;
+
+// modals
+$z-modal-backdrop: 8000;
+$z-modal: 8001;
+
+// tooltips
+$z-tooltip: 9000;
 
 // other
 $z-header: 9000;
 $z-web-chrome: 8000;
-$z-modal-backdrop: 9996;
-$z-modal: 9998;
-$z-tooltip: 9999;
