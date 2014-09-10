@@ -124,21 +124,21 @@ function ControllerInstance(
 
   pat.actions.addBuildStream = function () {
     pat.data.show = false;
-    data.openItems.addBuildStream({
+    return data.openItems.addBuildStream({
       name: 'Build Logs'
     });
   };
 
   pat.actions.addWebView = function () {
     pat.data.show = false;
-    data.openItems.addWebView({
+    return data.openItems.addWebView({
       name: 'Web View'
     });
   };
 
   pat.actions.addTerminal = function () {
     pat.data.show = false;
-    data.openItems.addTerminal({
+    return data.openItems.addTerminal({
       name: 'Terminal',
       params: data.instance.attrs.containers[0]
     });
@@ -146,7 +146,7 @@ function ControllerInstance(
 
   pat.actions.addLogs = function () {
     pat.data.show = false;
-    data.openItems.addLogs({
+    return data.openItems.addLogs({
       name: 'Server Logs',
       params: data.instance.attrs.containers[0]
     });
@@ -233,18 +233,29 @@ function ControllerInstance(
     $scope.safeApply();
   });
 
+
+  // instance is stopped => uncloseable server log
+  // instance is building => unclosable build log
   $scope.$watch('dataInstance.data.container.running()', function (n) {
-    if (data.openItems) {
-      if (n) {
-        if (data.container.urls().length) {
-          pat.actions.addWebView();
-        }
-        data.showExplorer = true;
-        pat.actions.addTerminal();
-        data.openItems.activeHistory.add(data.logs);
-      } else {
-        data.showExplorer = false;
-        data.openItems.removeAllButLogs();
+    if (!data.openItems) {
+      return;
+    }
+    data.showExplorer = !!n;
+    if (n) {
+      // instance is running
+      if (data.container.urls().length) {
+        pat.actions.addWebView();
+      }
+      pat.actions.addTerminal();
+      data.openItems.activeHistory.add(data.logs);
+    } else {
+      // instance is stopped
+      data.logs.state.alwaysOpen = true;
+      data.openItems.removeAllButLogs();
+      if (!dataInstance.data.instance.build.attrs.completed) {
+        // instance is building
+        var buildStream = pat.actions.addBuildStream();
+        buildStream.state.alwaysOpen = true;
       }
     }
   }, true);
@@ -288,7 +299,9 @@ function ControllerInstance(
     data.openItems = new OpenItems();
     if (data.build.succeeded()) {
       var container = data.container;
-      // save this so we can later set it active after adding terminal/web view
+      // save this so we can later
+      // set it active after adding 
+      // terminal/web view
       data.logs = pat.actions.addLogs();
     } else {
       actions.goToEdit();
