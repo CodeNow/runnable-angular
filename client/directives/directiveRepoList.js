@@ -16,6 +16,7 @@ function repoList (
     replace: true,
     link: function ($scope, elem) {
 
+      // On branch change, update ACV commits
       function updateCommits(acv, cb) {
         if (!cb) {
           cb = angular.noop;
@@ -76,8 +77,6 @@ function repoList (
           });
         }
       });
-
-      // On branch change, update ACV commits
     }
   };
 }

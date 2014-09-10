@@ -9,10 +9,12 @@ function commitFilter() {
       return commits;
     }
 
+    filter = filter.toLowerCase();
+
     return commits.filter(function (commit) {
-      return ~commit.commit.message.indexOf(filter) ||
-        ~commit.author.login.indexOf(filter) ||
-        ~commit.sha.indexOf(filter);
+      return ~commit.commit.message.toLowerCase().indexOf(filter) ||
+        ~commit.author.login.toLowerCase().indexOf(filter) ||
+        ~commit.sha.toLowerCase().indexOf(filter);
     });
   };
 }
