@@ -1,13 +1,16 @@
 ul.repository-group
-  li.repository-group-item
+  li.repository-group-item(
+    ng-repeat = "repo in acvs"
+  )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    h3.repository-title CodeNow/runnable-angular
+    h3.repository-title {{ repo.attrs.repo }}
     button.btn-xs.white.repository-update.tooltip(
-      data-title = "Fast-forward {branch} (88 commits behind)"
-    ) 88
+      data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
+      ng-if = "repo.attrs.commitsBehind"
+    ) {{ repo.attrs.commitsBehind }}
       svg.iconnables.icons-update
         use(
           xlink:href = "#icons-update"
@@ -15,32 +18,17 @@ ul.repository-group
     //- add .pending for orange
     .commit(
       toggle-pop-over
-      toggle-pop-over-model = "dataInstance.data.popoverCommitSelect.data.show"
+      toggle-pop-over-model = "repo.state.show"
     )
-      .commit-message bugfix object keypath
+      .commit-message {{ repo.attrs.activeCommit.commit.message }}
       svg.iconnables.icons-commit
         use(
           xlink:href = "#icons-commit"
         )
-      span.commit-author cflynn07
-      time.commit-time 5 hours ago
+      span.commit-author {{ repo.attrs.activeCommit.author.login }}
+      time.commit-time {{ repo.attrs.activeCommit.commit.author.date | timeAgo }}
     pop-over(
-      actions = "dataInstance.data.popoverCommitSelect.actions"
-      data = "dataInstance.data.popoverCommitSelect.data"
+      actions = "actions"
+      data = "repo"
       template = "viewInstancePopoverCommitSelect"
     )
-
-  li.repository-group-item
-    svg.iconnables.icons-git
-      use(
-        xlink:href = "#icons-git"
-      )
-    h3.repository-title CodeNow/api
-    .commit
-      .commit-message actually submit .env.local
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
-        )
-      span.commit-author anandkumarpatel
-      time.commit-time 2 hours ago
