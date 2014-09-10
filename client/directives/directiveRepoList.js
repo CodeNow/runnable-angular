@@ -15,8 +15,32 @@ function repoList (
     templateUrl: 'viewRepoList',
     replace: true,
     link: function ($scope, elem) {
+
+      function updateCommits(acv, cb) {
+        if (!cb) {
+          cb = angular.noop;
+        }
+        acv.attrs.commits = [];
+        acv.fetchBranchCommits(function (err, commits) {
+          if (err) { return cb(err); }
+
+          acv.attrs.commits = commits;
+          acv.attrs.activeCommit = commits.filter(function (commit) {
+            return commit.sha === acv.attrs.commit;
+          })[0];
+
+          if (acv.attrs.activeCommit !== commits[0]) {
+            // We're behind
+            acv.attrs.commitsBehind = commits.indexOf(acv.attrs.activeCommit);
+          }
+          $rootScope.safeApply();
+          cb();
+        });
+      }
       // Should be populated with what to do on new branch/commit select
-      $scope.actions = {};
+      $scope.actions =  {
+        updateRepos: updateCommits
+      };
 
       $scope.$watch('build.contextVersions.models[0]', function (n) {
         if (n) {
@@ -30,20 +54,7 @@ function repoList (
               async.each(acvs, function (model, cb) {
                 async.parallel([
                   function (cb) {
-                    model.fetchBranchCommits(function (err, commits) {
-                      if (err) { return cb(err); }
-
-                      model.attrs.commits = commits;
-                      model.attrs.activeCommit = commits.filter(function (commit) {
-                        return commit.sha === model.attrs.commit;
-                      })[0];
-
-                      if (model.attrs.activeCommit !== commits[0]) {
-                        // We're behind
-                        model.attrs.commitsBehind = commits.indexOf(model.attrs.activeCommit);
-                      }
-                      cb();
-                    });
+                    updateCommits(model, cb);
                   },
                   function (cb) {
                     model.githubRepo().fetchBranches(function (err, branches) {
