@@ -8,6 +8,7 @@ function ControllerInstanceEdit(
   $stateParams,
   $state,
   $window,
+  $interval,
   user,
   async,
   extendDeep,
@@ -47,27 +48,21 @@ function ControllerInstanceEdit(
   }
 
   rbpo.actions.build = function () {
-    if (rbpo.data.environmentName === '') {
-      return;
-    }
-    var environment = dataInstanceEdit.data.project.environments.find(function (m) {
-      return m.attrs.name === rbpo.data.environmentName;
-    });
-    function createEnvironment () {
-      dataInstanceEdit.data.forkedEnvironment = dataInstanceEdit.data
-      .project.environments.create({
-        name: rbpo.data.environmentName
+    data.build.build({
+      message: 'Manual build'
+    }, function (err) {
+      if (err) {
+        throw err;
+      }
+      data.instance.update({
+        build: data.build.id()
       }, function (err) {
-        if (err) throw err;
-        dataInstanceEdit.actions.rebuild();
+        if (err) {
+          throw err;
+        }
+        // Display build logs
       });
-    }
-    if (environment) {
-      dataInstanceEdit.data.forkedEnvironment = environment;
-      dataInstanceEdit.actions.rebuild();
-    } else {
-      createEnvironment();
-    }
+    });
   };
 
   rbpo.actions.getPopoverButtonText = function (name) {
@@ -103,10 +98,10 @@ function ControllerInstanceEdit(
     });
   };
 
-  actions.rebuild = function () {
+  actions.build = function () {
     $scope.dataApp.data.loading = true;
     var buildObj = {
-      message: (rbpo.data.buildMessage || 'Manual Rebuild')
+      message: (rbpo.data.buildMessage || 'Manual build')
     };
     if (data.forkedEnvironment) {
       buildObj.environment = data.forkedEnvironment.id();
@@ -128,13 +123,18 @@ function ControllerInstanceEdit(
           });
         });
     } else {
-      var newBuild = data.build.rebuild(buildObj,
+      data.build.build(buildObj,
         function (err, build) {
-          $scope.dataApp.data.loading = false;
           if (err) throw err;
-          $state.go('instance.instance', angular.copy({
-            buildName: newBuild.attrs.buildNumber
-          }, $stateParams));
+          data.instance.update({
+            build: data.build.id()
+          }, function (err) {
+            if (err) {
+              throw err;
+            }
+            $scope.dataApp.data.loading = false;
+            $state.go('instance.instance', $stateParams);
+          });
         });
     }
   };
@@ -226,13 +226,6 @@ function ControllerInstanceEdit(
           // return $state.go(404);
         }
         data.instance = instance;
-        data.build = instance.build;
-        data.version = data.build.contextVersions.models[0];
-        if (data.build && data.build.attrs.completed) {
-          data.showExplorer = true;
-        } else {
-          data.showExplorer = false;
-        }
         $scope.safeApply();
         cb();
       })
@@ -246,26 +239,75 @@ function ControllerInstanceEdit(
       .go();
   }
 
+  function fetchBuild(cb) {
+    var thisUser = $scope.dataApp.user;
+    var id = $state.params.buildId;
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchBuild')
+      .query(id)
+      .cacheFetch (function updateDom(build, cached, cb) {
+        if (!build) {
+          return;
+          // Also 404
+        }
+        data.build = build;
+        data.version = data.build.contextVersions.models[0];
+        if (data.build) {
+          data.showExplorer = true;
+        } else {
+          data.showExplorer = false;
+        }
+        cb();
+      })
+      .resolve(function (err, build, cb) {
+        cb(err);
+      })
+      .go();
+  }
+
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-    data
-      .openItems.addBuildStream({
-        name: 'Build Stream'
-      })
-      .state.alwaysOpen = true;
+    if (data.build.attrs.started) {
+      data
+        .openItems.addBuildStream({
+          name: 'Build Stream'
+        })
+        .state.alwaysOpen = true;
+    }
     $scope.safeApply();
     cb();
+  }
+
+  var interval;
+  function openDockerfile () {
+    var dockerfile = data.version.rootDir.contents.find(function (m) {
+      return m.attrs.name === 'Dockerfile';
+    });
+    if (dockerfile) {
+      data.openItems.addOne(dockerfile);
+      $interval.cancel(interval);
+    }
+    return !!dockerfile;
   }
 
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
+    fetchBuild,
     newOpenItems
   ], function (err) {
     if (err) {
       // $state.go('404');
       throw err;
     }
+    if (!openDockerfile()) {
+      // Continue checking until it's loaded
+      interval = $interval(openDockerfile, 500);
+    }
     $scope.safeApply();
+  });
+
+  $scope.$on('$destroy', function () {
+    $interval.cancel(interval);
   });
 }

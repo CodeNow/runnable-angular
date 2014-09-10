@@ -189,12 +189,17 @@ function ControllerInstance(
   };
 
   actions.goToBuild = function() {
-    var state = {
-      userName: $state.params.userName,
-      shortHash: $state.params.shortHash,
-      buildId: data.build.id()
-    };
-    $state.go('instance.instanceEdit', state);
+    var forkedBuild = data.build.deepCopy(function (err) {
+      if (err) {
+        throw err;
+      }
+      var state = {
+        userName: $state.params.userName,
+        shortHash: $state.params.shortHash,
+        buildId: forkedBuild.id()
+      };
+      $state.go('instance.instanceEdit', state);
+    });
   };
 
   actions.destroyInstance = function () {
@@ -306,11 +311,9 @@ function ControllerInstance(
     if (data.build.succeeded()) {
       var container = data.container;
       // save this so we can later
-      // set it active after adding 
+      // set it active after adding
       // terminal/web view
       data.logs = pat.actions.addLogs();
-    } else {
-      actions.goToEdit();
     }
     cb();
   }

@@ -6,7 +6,7 @@ header.box-header
       )
   .primary-actions
     button.orange(
-      ng-click = "dataInstanceEdit.actions.rebuild()"
+      ng-click = "dataInstanceEdit.actions.build()"
       type = "button"
     ) Build
   .secondary-actions
@@ -95,7 +95,7 @@ section.views(
     build = "dataInstanceEdit.data.build"
     is-dark-theme = "dataInstanceEdit.data.toggleTheme"
     open-items = "dataInstanceEdit.data.openItems"
-    update = "false"
+    update = "true"
   )
 
   //- spinner
