@@ -1,8 +1,7 @@
-.repo-tree,
 .file-tree {
-  flex: 0 1 auto;
   font-size: 12px;
   font-weight: 400;
+  height: 100%;
   overflow: auto;
 
   li {
@@ -69,36 +68,6 @@
 .item-name {
   margin-left: 5px;
   pointer-events: none;
-}
-
-.repo-tree li {
-  cursor: pointer;
-  height: 54px;
-  line-height: 36px;
-
-  &.active {
-    background: $white;
-  }
-
-  .repo-name {
-    display: inline-block;
-    height: 27px;
-    pointer-events: none;
-    text-indent: 0;
-  }
-
-  .tree-input {
-    bottom: 5px;
-    color: $gray-dark;
-    left: 32px;
-    position: absolute;
-    top: auto;
-    width: 197px;
-
-    &[readonly] {
-      opacity: 1;
-    }
-  }
 }
 
 .file-tree {

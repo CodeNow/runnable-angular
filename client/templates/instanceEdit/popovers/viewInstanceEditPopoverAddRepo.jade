@@ -6,7 +6,7 @@
 )
   .arrow
   h3.popover-title(
-    ng-class = "{'show-filter': data.toggleFilter}"
+    ng-class = "{'show-filter': data.state.toggleFilter}"
   )
     //- should clear on close
     button.white.btn-icon.btn-search(
@@ -29,29 +29,11 @@
       li.popover-list-item CodeNow/runnable-angular
       li.popover-list-item CodeNow/runnable-web
       li.popover-list-item CodeNow/runnable-API
-      //- li(
-      //-   ng-class = "{in: data.selectedRepo === repo}"
-      //-   ng-click = "data.selectedRepo = repo;\
+      //- li.popover-list-item(
+      //-   ng-click = "\
       //-     actions.selectGithubRepo(data.selectedRepo);\
       //-     data.repoOrSHA = '';"
       //-   ng-repeat = "repo in data.githubRepos.models | \
       //-     unaddedRepos:data.appCodeVersions | \
       //-     repos:data.repoFilter"
-      //- )
-      //-   span {{ repo.attrs.full_name }}
-      //-   form.explorer-add-repo-form
-      //-     input.form-control(
-      //-       list = "{{ 'repo-branches-' + repo.attrs.name }}"
-      //-       ng-model = "data.repoOrSHA"
-      //-       placeholder = "Branch/SHA (default: @{{ repo.defaultBranch() }})"
-      //-     )
-      //-     datalist(
-      //-       id = "{{ 'repo-branches-' + repo.attrs.name }}"
-      //-     )
-      //-       option(
-      //-         ng-repeat = "branch in repo.branches.models"
-      //-         value = "{{ branch.attrs.name }}"
-      //-       )
-      //-     button.btn-block.green(
-      //-       ng-click = "actions.addGithubRepo(repo, data.repoOrSHA)"
-      //-     ) Add Repository
+      //- )  {{ repo.attrs.full_name }}

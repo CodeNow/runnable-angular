@@ -11,7 +11,7 @@
   padding: 6px 9px !important;
 }
 
-pre.ace-tm {
+.ace-tm .pre {
   background-color: $white;
   color: $gray-darker;
 
@@ -200,7 +200,7 @@ pre.ace-tm {
   }
 }
 
-pre.ace-runnable-dark {
+.ace-runnable-dark .pre {
   background-color: #311d40;
   color: $white;
 

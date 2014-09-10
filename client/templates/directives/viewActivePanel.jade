@@ -1,6 +1,9 @@
 //- don't use ng-if here, use ng-show
 .active-panel(
-  ng-class = "{loaded: (item === openItems.activeHistory.last())}"
+  ng-class = "{\
+    'loaded': (item === openItems.activeHistory.last()),\
+    'ace-runnable-dark': isDarkTheme\
+  }"
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
@@ -10,11 +13,8 @@
     ng-if = "item.state.type === 'BuildStream'"
   )
 
-  pre(
-    ng-class = "{ \
-      readonly: data.readOnly, \
-      'ace-runnable-dark': isDarkTheme \
-    }"
+  pre.pre(
+    ng-class = "{readonly: data.readOnly}"
     ng-if = "item.state.type === 'File'"
     ng-model = "openItems.activeHistory.last().state.body"
     readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
