@@ -8,6 +8,7 @@ function ControllerInstanceEdit(
   $stateParams,
   $state,
   $window,
+  $interval,
   user,
   async,
   extendDeep,
@@ -284,7 +285,7 @@ function ControllerInstanceEdit(
     });
     if (dockerfile) {
       data.openItems.addOne(dockerfile);
-      clearInterval(interval);
+      $interval.cancel(interval);
     }
     return !!dockerfile;
   }
@@ -301,7 +302,7 @@ function ControllerInstanceEdit(
     }
     if (!openDockerfile()) {
       // Continue checking until it's loaded
-      interval = setInterval(openDockerfile, 500);
+      interval = $interval(openDockerfile, 500);
     }
     $scope.safeApply();
   });
