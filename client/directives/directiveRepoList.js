@@ -40,7 +40,7 @@ function repoList (
       }
       // Should be populated with what to do on new branch/commit select
       $scope.actions =  {
-        updateRepos: updateCommits
+        updateCommits: updateCommits
       };
 
       $scope.$watch('build.contextVersions.models[0]', function (n) {
