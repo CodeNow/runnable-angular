@@ -37,6 +37,13 @@ section.sidebar.box-sidebar
   //- repositories
   section.row
     h2.sub-header Repositories
+      a.btn.btn-sm.white.sub-header-action(
+        title = "Add Repository"
+      )
+        svg.iconnables.icons-add
+          use(
+            xlink:href = "#icons-add"
+          )
     repo-list(
       instance = "dataInstanceEdit.data.instance"
     )
