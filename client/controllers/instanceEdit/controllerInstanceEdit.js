@@ -306,4 +306,8 @@ function ControllerInstanceEdit(
     }
     $scope.safeApply();
   });
+
+  $scope.$on('$destroy', function () {
+    $interval.cancel(interval);
+  });
 }
