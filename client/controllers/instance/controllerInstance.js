@@ -314,6 +314,8 @@ function ControllerInstance(
       // set it active after adding
       // terminal/web view
       data.logs = pat.actions.addLogs();
+    } else {
+      data.logs = pat.actions.addBuildStream();
     }
     cb();
   }

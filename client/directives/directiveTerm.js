@@ -63,13 +63,15 @@ function term(
         function resizeTerm() {
           // Tab not selected
           if ($termElem.width() === 100) { return; }
-          var termLineEl = $termElem.find('div')[0];
+          var termLineEl = $termElem.find('span')[0];
+          if (!termLineEl) { return; }
           var tBox = termLineEl.getBoundingClientRect();
 
           charHeight = tBox.height;
           charWidth = tBox.width / termLineEl.textContent.length;
-          var x = Math.floor($termElem.width() / charHeight);
-          var y = Math.floor($termElem.height() / charWidth);
+
+          var x = Math.floor($termElem.width() / charWidth);
+          var y = Math.floor($termElem.height() / charHeight);
 
           terminal.resize(x, y);
 
