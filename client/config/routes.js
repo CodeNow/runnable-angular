@@ -50,12 +50,12 @@ module.exports = [{
   url: '^/instances/:userName/:instanceId',
   templateUrl: 'viewInstance',
   controller: 'ControllerInstance'
-}, */{
+}, {
   state: '404',
   abstract: false,
   templateUrl: 'viewError',
   controller: 'ControllerError'
-}, {
+}, */{
   state: 'instance',
   abstract: true,
   templateUrl: 'viewInstanceLayout',
