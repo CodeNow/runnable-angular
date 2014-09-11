@@ -20,10 +20,10 @@ $silver-darker:  darken($silver,18%);
 
 $purple:         #5b3777;
 $purple-logo:    #ccadd2;
-$purple-lighter: saturate(lighten($purple, 60), 63);
-$purple-light:   lighten($purple,14);
-$purple-dark:    darken($purple,14);
-$purple-darker:  darken($purple,17);
+$purple-lighter: lighten($purple, 20%);
+$purple-light:   lighten($purple,10%);
+$purple-dark:    darken($purple,10%);
+$purple-darker:  darken($purple,20%);
 
 $orange:         #f9c029;
 $orange-lighter: lighten($orange,13);
