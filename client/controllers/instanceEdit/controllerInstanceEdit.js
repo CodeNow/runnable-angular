@@ -31,55 +31,6 @@ function ControllerInstanceEdit(
     showExplorer: false
   };
 
-  /***************************************
-   * Rebuild Popover
-   **************************************/
-  var rbpo = dataInstanceEdit.data.rbpo = {};
-  rbpo.data = {};
-  rbpo.actions = {};
-
-  rbpo.data.show = false;
-  rbpo.data.environmentName = '';
-  rbpo.data.buildMessage = '';
-  rbpo.data.popoverInputHasBeenClicked = false;
-
-  function setupBuildPopover () {
-    rbpo.data.project = dataInstanceEdit.data.project;
-  }
-
-  rbpo.actions.build = function () {
-    data.build.build({
-      message: 'Manual build'
-    }, function (err) {
-      if (err) {
-        throw err;
-      }
-      data.instance.update({
-        build: data.build.id()
-      }, function (err) {
-        if (err) {
-          throw err;
-        }
-        // Display build logs
-      });
-    });
-  };
-
-  rbpo.actions.getPopoverButtonText = function (name) {
-    return 'Build' + ((name && name.length) ? 's in ' + name : '');
-  };
-
-  rbpo.actions.resetInputModelValue = function ($event) {
-    if (!rbpo.data.popoverInputHasBeenClicked) {
-      return;
-    }
-    rbpo.data.environmentName = '';
-    rbpo.data.popoverInputHasBeenClicked = true;
-  };
-
-  /**************************************/
-
-
   actions.goToInstance = function (skipCheck) {
     if (skipCheck) {
       data.skipCheck = true;
@@ -101,42 +52,21 @@ function ControllerInstanceEdit(
   actions.build = function () {
     $scope.dataApp.data.loading = true;
     var buildObj = {
-      message: (rbpo.data.buildMessage || 'Manual build')
+      message: 'Manual build'
     };
-    if (data.forkedEnvironment) {
-      buildObj.environment = data.forkedEnvironment.id();
-      buildObj.parentBuild = data.build.id();
-      var forkedBuild = data.forkedEnvironment.createBuild(buildObj,
-        function (err) {
-          if (err) throw err;
-
-          forkedBuild.build({
-            message: buildObj.message
-          }, function (err) {
-            $scope.dataApp.data.loading = false;
-            if (err) throw err;
-
-            $state.go('projects.build', angular.copy({
-              buildName: forkedBuild.attrs.buildNumber,
-              branchName: data.forkedEnvironment.attrs.name
-            }, $stateParams));
-          });
+    data.build.build(buildObj,
+      function (err, build) {
+        if (err) throw err;
+        data.instance.update({
+          build: data.build.id()
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.dataApp.data.loading = false;
+          $state.go('instance.instance', $stateParams);
         });
-    } else {
-      data.build.build(buildObj,
-        function (err, build) {
-          if (err) throw err;
-          data.instance.update({
-            build: data.build.id()
-          }, function (err) {
-            if (err) {
-              throw err;
-            }
-            $scope.dataApp.data.loading = false;
-            $state.go('instance.instance', $stateParams);
-          });
-        });
-    }
+      });
   };
 
   actions.edit = function () {
@@ -249,6 +179,9 @@ function ControllerInstanceEdit(
         if (!build) {
           return;
           // Also 404
+        }
+        if (build.id() !== $state.params.buildId) {
+          throw new Error('Incorrect build loaded');
         }
         data.build = build;
         data.version = data.build.contextVersions.models[0];
