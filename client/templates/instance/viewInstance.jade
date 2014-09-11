@@ -11,7 +11,6 @@ header.box-header
   .primary-actions
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
-    //- apply .in if saving
     button.green.btn-save(
       ng-class = "{in: dataInstance.data.saving}"
       ng-click = "dataInstance.actions.saveChanges(); dataInstance.data.saving = true"
@@ -22,8 +21,6 @@ header.box-header
           xlink:href = "#icons-update"
         )
       span.btn-text Save
-      .spinner
-        .spinner-ring
       //- show if restart is checked
       span(
         ng-if = ""
@@ -44,6 +41,15 @@ header.box-header
         template = "viewInstancePopoverSaveOptions"
       )
   .secondary-actions
+    //- apply class .in to .save-spinner to play animation
+    //- subsequent saves: remove .in and reapply .in
+    .save-spinner
+      .spinner
+        .spinner-ring
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
     button.white.btn-icon(
       ng-click = "dataInstance.actions.goToBuild()"
       title = "Edit Build Files"
