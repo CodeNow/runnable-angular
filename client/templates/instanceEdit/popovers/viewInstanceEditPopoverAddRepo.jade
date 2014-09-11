@@ -29,7 +29,7 @@
       li.popover-list-item(
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "repo in data.githubRepos.models | \
-          unaddedRepos:data.appCodeVersions | \
+          unaddedRepos:data.version.appCodeVersions | \
           repos:data.repoFilter"
       )
         span {{ repo.attrs.full_name }}

@@ -17,7 +17,7 @@ section.row
       )
   ul.repository-group
     li.repository-group-item(
-      ng-repeat = "repo in acvs"
+      ng-repeat = "repo in data.version.appCodeVersions.models"
     )
       svg.iconnables.icons-git
         use(

@@ -41,7 +41,12 @@ function repoList (
             body.branch = defaultBranch.name;
             body.commit = defaultBranch.commit.sha;
             data.version.createAppCodeVersion(body, function() {
-              $rootScope.safeApply();
+              data.version.fetch(function(err, version) {
+                populateContextVersions(function () {
+
+                  $rootScope.safeApply();
+                });
+              });
             });
           });
         }
@@ -111,9 +116,8 @@ function repoList (
             },
             function (cb) {
               $rootScope.safeApply();
-              var acvs = $scope.acvs = data.version.appCodeVersions.models;
 
-              async.each(acvs, function (model, cb) {
+              async.each(data.version.appCodeVersions.models, function (model, cb) {
 
                 async.parallel([
                   function (cb) {
