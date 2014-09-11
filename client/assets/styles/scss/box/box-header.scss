@@ -45,38 +45,6 @@
 
 .primary-actions {
   padding-left: 9px;
-
-  .green {
-    margin-right: 3px;
-  }
-
-  .btn-text {
-    transition: opacity .15s ease-in;
-  }
-
-  // save spinner
-  .spinner {
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 15px;
-    transform: scale3d(0,0,0);
-  }
-
-  .spinner-ring {
-    background: transparent;
-  }
-
-  .green.in {
-
-    .btn-text {
-      opacity: 0;
-    }
-
-    .spinner {
-      animation: save-spinner 1s ease-in;
-    }
-  }
 }
 
 .secondary-actions {
@@ -127,5 +95,56 @@
   .checkbox {
     height: 36px;
     margin-right: 12px;
+  }
+}
+
+// button.green.btn-save
+.btn-save {
+  margin-right: 3px;
+
+  // if saving
+  &.in {
+
+    .btn-text {
+      opacity: 0;
+    }
+
+    .spinner {
+      animation: save-spinner 1s ease-in;
+    }
+  }
+
+  // if save will restart the box
+  &.with-restart .icons-update {
+    margin-right: 3px;
+    transform: scale3d(1,1,1);
+    width: 18px;
+  }
+
+  // .icons-update
+  .icons-update {
+    height: 18px;
+    top: 3px;
+    transform: scale3d(0,0,0);
+    transition: all .15s ease-in;
+    width: 0;
+  }
+
+  // span.btn-text
+  .btn-text {
+    transition: opacity .15s ease-in;
+  }
+
+  // save spinner
+  .spinner {
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 15px;
+    transform: scale3d(0,0,0);
+  }
+
+  .spinner-ring {
+    background: transparent;
   }
 }

@@ -9,10 +9,18 @@ header.box-header
       ng-if = "!dataInstance.data.container.running()"
     )
   .primary-actions
-    button.green(
-      ng-click = "dataInstance.actions.saveChanges()"
+    //- apply .with-restart if save restarts box
+    //- add title = "Save and Restart Box" if save restarts box
+    //- apply .in if saving
+    button.green.btn-save(
+      ng-class = "{in: dataInstance.data.saving}"
+      ng-click = "dataInstance.actions.saveChanges(); dataInstance.data.saving = true"
       type = "button"
     )
+      svg.iconnables.icons-update
+        use(
+          xlink:href = "#icons-update"
+        )
       span.btn-text Save
       .spinner
         .spinner-ring
