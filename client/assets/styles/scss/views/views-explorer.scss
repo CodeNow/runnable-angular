@@ -7,6 +7,10 @@
   width: 36px;
   z-index: $z-views-toggle;
 
+  .out & {
+    transform: translate3d(-45px,0,0);
+  }
+
   .in & {
     background: #f2f2f2; // rgba($black,.05)
     border: 1px solid #dadada; // rgba ($black,.1) on rgba($black,.05)
