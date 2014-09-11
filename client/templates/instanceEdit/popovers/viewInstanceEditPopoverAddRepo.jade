@@ -26,14 +26,10 @@
     span.title Add Repository
   .popover-content
     ul.popover-body.popover-list
-      li.popover-list-item CodeNow/runnable-angular
-      li.popover-list-item CodeNow/runnable-web
-      li.popover-list-item CodeNow/runnable-API
-      //- li.popover-list-item(
-      //-   ng-click = "\
-      //-     actions.selectGithubRepo(data.selectedRepo);\
-      //-     data.repoOrSHA = '';"
-      //-   ng-repeat = "repo in data.githubRepos.models | \
-      //-     unaddedRepos:data.appCodeVersions | \
-      //-     repos:data.repoFilter"
-      //- )  {{ repo.attrs.full_name }}
+      li.popover-list-item(
+        ng-click = "actions.addRepo(repo)"
+        ng-repeat = "repo in data.githubRepos.models | \
+          unaddedRepos:data.version.appCodeVersions | \
+          repos:data.repoFilter"
+      )
+        span {{ repo.attrs.full_name }}

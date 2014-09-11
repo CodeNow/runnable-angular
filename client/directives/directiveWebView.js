@@ -5,7 +5,8 @@ require('app')
  * @ngInject
  */
 function webView (
-  $sce
+  $sce,
+  $rootScope
 ) {
   return {
     restrict: 'E',
