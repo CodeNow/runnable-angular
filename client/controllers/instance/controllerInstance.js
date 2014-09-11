@@ -80,6 +80,7 @@ function ControllerInstance(
       }
       data.instance.fetch(function (err) {
         data.loading = false;
+        pgm.data.show = false;
         if (err) {
           throw err;
         }
@@ -96,6 +97,7 @@ function ControllerInstance(
       }
       data.instance.fetch(function (err) {
         data.loading = false;
+        pgm.data.show = false;
         if (err) {
           throw err;
         }
@@ -112,6 +114,7 @@ function ControllerInstance(
       }
       data.instance.fetch(function (err) {
         data.loading = false;
+        pgm.data.show = false;
         if (err) {
           throw err;
         }

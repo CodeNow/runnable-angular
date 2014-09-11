@@ -6,14 +6,15 @@
     ul.popover-body.popover-list
       li.popover-list-item(
         ng-click = "actions.stopInstance()"
-        ng-if = "data.container.running()"
+        ng-if = "data.build.completed && data.container.running()"
       ) Stop Running
       li.popover-list-item(
         ng-click = "actions.startInstance()"
-        ng-if = "!data.container.running()"
+        ng-if = "data.build.completed && !data.container.running()"
       ) Start Running
       li.popover-list-item(
         ng-click = "actions.restartInstance()"
+        ng-if = "data.build.completed"
       ) Restart
       li.divider
       li.popover-list-item(
