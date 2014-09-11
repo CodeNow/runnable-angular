@@ -78,8 +78,12 @@ header.box-header
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
   //- repositories
+
+  //- edit === false means we're on instance page, no add/remove instances
+  //- but we can switch commit
   repo-list(
     build = "dataInstance.data.build"
+    edit = "false"
   )
 
   //- urls

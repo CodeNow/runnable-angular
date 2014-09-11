@@ -12,7 +12,8 @@ function repoList (
   return {
     restrict: 'E',
     scope: {
-      build: '='
+      build: '=',
+      edit: '='
     },
     templateUrl: 'viewRepoList',
     replace: true,
@@ -56,6 +57,23 @@ function repoList (
       $scope.actions.fetchRepoDisplayActiveCommit = function (repo) {
         return keypather.get(repo, 'state.activeCommit') || repo.attrs.activeCommit;
       };
+
+      if (!$scope.edit) {
+        // we are on instance page, not instanceEdit
+
+        // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
+        $scope.actions.selectActiveCommit = function (repo, commit) {
+          keypather.set(repo, 'state.activeCommit', commit);
+          keypather.set(repo, 'state.show', false); // hide commit select dropdown
+          // trigger save
+        };
+
+      } else {
+        // instanceEdit page
+
+        // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
+        $scope.actions.selectActiveCommit = function (repo, commit) {};
+      }
 
       // On branch change, update ACV commits
       function updateCommits(acv, cb) {

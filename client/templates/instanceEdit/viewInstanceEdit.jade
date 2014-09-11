@@ -34,8 +34,11 @@ header.box-header
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
   //- repositories
+
+  //- edit === true means directive is set to instanceEdit page
   repo-list(
     build = "dataInstanceEdit.data.build"
+    edit = "true"
   )
 
 section.views(
