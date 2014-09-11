@@ -28,19 +28,21 @@ function repoList (
           var body = {
             repo: repo.attrs.full_name
           };
-          if (repo.selectedBranch) {
-            body.branch = repo.selectedBranch;
-          }
-          else if (repo.selectedCommit) {
-            body.commit = repo.selectedCommit;
-          }
-          else {
-            body.branch = repo.defaultBranch() || repo.attrs.default_branch;
-          }
-          body.commit = 'latest';
-          console.log(body);
-          data.version.createAppCodeVersion(body, function() {
-            $rootScope.safeApply();
+          repo.fetchBranches(function (err, branches) {
+            if (err) {
+              throw err;
+            }
+            if (!branches.length) {
+              throw new Error('Branches not found');
+            }
+            var defaultBranch = branches.filter(function (branch) {
+              return branch.name === reop.attrs.default_branch;
+            })[0];
+            body.branch = defaultBranch.name;
+            body.commit = defaultBranch.commit.sha;
+            data.version.createAppCodeVersion(body, function() {
+              $rootScope.safeApply();
+            });
           });
         }
       };

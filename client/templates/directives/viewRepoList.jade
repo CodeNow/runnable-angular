@@ -1,49 +1,51 @@
-h2.sub-header Repositories
-  a.btn.btn-sm.white.sub-header-action(
-    ng-class = "{active: data.show}"
-    toggle-pop-over
-    toggle-pop-over-model = "data.show"
-    type = "button"
-  )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
-    pop-over(
-      actions = "actions"
-      data = "data"
-      template = "viewInstanceEditPopoverAddRepo"
-    )ul.repository-group
-  li.repository-group-item(
-    ng-repeat = "repo in acvs"
-  )
-    svg.iconnables.icons-git
-      use(
-        xlink:href = "#icons-git"
-      )
-    h3.repository-title {{ repo.attrs.repo }}
-    button.btn-xs.white.repository-update.tooltip(
-      data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
-      ng-if = "repo.attrs.commitsBehind"
-    ) {{ repo.attrs.commitsBehind }}
-      svg.iconnables.icons-update
-        use(
-          xlink:href = "#icons-update"
-        )
-    //- add .pending for orange
-    .commit(
+section.row
+  h2.sub-header Repositories
+    a.btn.btn-sm.white.sub-header-action(
+      ng-class = "{active: data.show}"
       toggle-pop-over
-      toggle-pop-over-model = "repo.state.show"
+      toggle-pop-over-model = "data.show"
+      type = "button"
     )
-      .commit-message {{ repo.attrs.activeCommit.commit.message }}
-      svg.iconnables.icons-commit
+      svg.iconnables.icons-add
         use(
-          xlink:href = "#icons-commit"
+          xlink:href = "#icons-add"
         )
-      span.commit-author {{ repo.attrs.activeCommit.author.login }}
-      time.commit-time {{ repo.attrs.activeCommit.commit.author.date | timeAgo }}
-    pop-over(
-      actions = "actions"
-      data = "repo"
-      template = "viewInstancePopoverCommitSelect"
+      pop-over(
+        actions = "actions"
+        data = "data"
+        template = "viewInstanceEditPopoverAddRepo"
+      )
+  ul.repository-group
+    li.repository-group-item(
+      ng-repeat = "repo in acvs"
     )
+      svg.iconnables.icons-git
+        use(
+          xlink:href = "#icons-git"
+        )
+      h3.repository-title {{ repo.attrs.repo }}
+      button.btn-xs.white.repository-update.tooltip(
+        data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
+        ng-if = "repo.attrs.commitsBehind"
+      ) {{ repo.attrs.commitsBehind }}
+        svg.iconnables.icons-update
+          use(
+            xlink:href = "#icons-update"
+          )
+      //- add .pending for orange
+      .commit(
+        toggle-pop-over
+        toggle-pop-over-model = "repo.state.show"
+      )
+        .commit-message {{ repo.attrs.activeCommit.commit.message }}
+        svg.iconnables.icons-commit
+          use(
+            xlink:href = "#icons-commit"
+          )
+        span.commit-author {{ repo.attrs.activeCommit.author.login }}
+        time.commit-time {{ repo.attrs.activeCommit.commit.author.date | timeAgo }}
+      pop-over(
+        actions = "actions"
+        data = "repo"
+        template = "viewInstancePopoverCommitSelect"
+      )
