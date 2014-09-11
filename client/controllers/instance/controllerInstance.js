@@ -76,6 +76,23 @@ function ControllerInstance(
           userName: $stateParams.userName,
           shortHash: newInstance.attrs.shortHash
         });
+        // refetch instance collection to update list in
+        // instance layout
+        var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
+        new QueryAssist($scope.dataApp.user, function () {
+          $scope.safeApply();
+        })
+        .wrapFunc('fetchInstances')
+        .query({
+          owner: {
+            github: oauthId
+          }
+        })
+        .cacheFetch(function (instances, cached, cb) {
+          cb();
+        })
+        .resolve(angular.noop)
+        .go();
       });
     }
   };
