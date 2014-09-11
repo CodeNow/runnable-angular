@@ -28,26 +28,17 @@
 
 // .add-tab .popover
 .add-tab .popover {
+  height: 72px;
   left: auto;
-  max-width: none;
+  max-width: 360px;
+  min-width: 72px;
   right: 0;
   top: 33px;
   transform-origin: 345px -15px;
-  width: 360px;
+  width: auto; // reset width
 
   .arrow {
     left: auto;
     right: 5px;
-  }
-
-  .col-popover-4 {
-    border-bottom: 1px solid rgba($black,.1);
-    height: 72px;
-    overflow: hidden;
-  }
-
-  .iconnables.lg {
-    display: block;
-    margin: 9px auto 3px;
   }
 }
