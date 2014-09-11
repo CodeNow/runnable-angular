@@ -12,7 +12,10 @@ header.box-header
     button.green(
       ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
-    ) Save
+    )
+      span.btn-text Save
+      .spinner
+        .spinner-ring
       //- show if restart is checked
       span(
         ng-if = ""

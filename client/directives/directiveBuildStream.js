@@ -40,12 +40,17 @@ function buildStream(
             });
           } else if (build.failed()) {
             var contextVersion = build.contextVersions.models[0];
-            if (build.contextVersions.models)
+            if (contextVersion && contextVersion.attrs.build) {
               $scope.stream = {
                 data: contextVersion.attrs.build.log ||
                   (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
-                  "Unknown Build Error Occurred"
+                  'Unknown Build Error Occurred'
               };
+            } else {
+              $scope.stream = {
+                data: 'Unknown Build Error Occurred'
+              };
+            }
             // check contextVersions.attrs.build.error for unknown errors
             $rootScope.safeApply();
           } else { // build in progress

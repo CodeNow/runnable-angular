@@ -1,9 +1,4 @@
-#logs
-  pre(ng-bind-html = "getStream()")
-//-
-  //- show close button when finished
-  button#editor-status.silver(
-    type = "button"
-    ng-disabled = "!build.attrs.completed"
-    ng-click = "close()"
-  ) Close Log
+.logs
+  pre.pre(
+    ng-bind-html = "getStream()"
+  )

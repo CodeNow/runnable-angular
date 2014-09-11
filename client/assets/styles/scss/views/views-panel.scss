@@ -32,10 +32,65 @@
     font-size: 16px;
   }
 
-  pre,
   .pre,
   iframe {
     border: 0;
+    height: 100%;
     flex: 1 0 auto;
+    width: 100%;
   }
+}
+
+// .logs
+.logs {
+  height: 100%;
+  width: 100%;
+
+  .pre {
+    background: $white;
+    color: $gray-darker;
+  }
+
+  .ace-runnable-dark & {
+
+    .pre {
+      background-color: $purple-darker;
+      color: $white;
+    }
+  }
+}
+
+#log {
+  height: 10px;
+}
+
+// terminal
+.term-container {
+  cursor: text;
+}
+
+div.terminal { // div specifity required b/c there's a term.terminal
+  @extend .pre;
+  background: $white !important; // override term
+  color: $gray-darker !important;
+  padding: 9px;
+
+  .ace-runnable-dark & {
+    background: $purple-darker !important; // override term
+    color: $white !important;
+  }
+}
+
+.terminal-cursor {
+  background: $gray-lighter !important;
+
+  .ace-runnable-dark & {
+    background: $gray-dark;
+  }
+}
+
+.term-container,
+.terminal {
+  height: 100%;
+  width: 100%;
 }
