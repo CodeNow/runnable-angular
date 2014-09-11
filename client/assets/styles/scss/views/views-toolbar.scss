@@ -4,7 +4,7 @@
   height: 46px; // offset for even spacing of buttons
   overflow: visible;
   position: relative;
-  transition: all .2s ease-in;
+  transition: all .15s ease-in;
 
   .in & {
     transform: translate3d(270px,0,0);
@@ -20,6 +20,10 @@
   right: 5px;
   top: 5px;
   width: 36px;
+
+  .out & {
+    transform: translate3d(45px,0,0);
+  }
 
   &.active .icons-add {
     transform: rotate3d(0,0,1,135deg);
