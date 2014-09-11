@@ -78,12 +78,16 @@ header.box-header
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
   //- repositories
+  //- Using ng-show here so it'll still fetch the repos
   repo-list(
-    build = "dataInstance.data.build"
+    build = "dataInstance.data.build",
+    ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
   )
 
   //- urls
-  section.row
+  section.row(
+    ng-if = "dataInstance.data.container.urls().length"
+  )
     h2.sub-header URLs
     ul.url-group
       li.url-group-item(

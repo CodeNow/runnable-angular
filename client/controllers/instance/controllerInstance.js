@@ -71,7 +71,10 @@ function ControllerInstance(
       deleteInstance: function () {}
     },
     actionsModalFork: function () {
-      var newInstance = data.instance.fork(function () {
+      var newInstance = data.instance.copy(function (err) {
+        if (err) {
+          throw err;
+        }
         $state.go('instance.instance', {
           userName: $stateParams.userName,
           shortHash: newInstance.attrs.shortHash
@@ -99,13 +102,13 @@ function ControllerInstance(
 
   pgm.actions.stopInstance = function () {
     data.loading = true;
+    pgm.data.show = false;
     data.instance.stop(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
         data.loading = false;
-        pgm.data.show = false;
         if (err) {
           throw err;
         }
@@ -116,16 +119,17 @@ function ControllerInstance(
 
   pgm.actions.startInstance = function () {
     data.loading = true;
+    pgm.data.show = false;
     data.instance.start(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
         data.loading = false;
-        pgm.data.show = false;
         if (err) {
           throw err;
         }
+        console.log(data.instance.containers.models[0].running());
         $scope.safeApply();
       });
     });
@@ -133,13 +137,13 @@ function ControllerInstance(
 
   pgm.actions.restartInstance = function () {
     data.loading = true;
+    pgm.data.show = false;
     data.instance.restart(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
         data.loading = false;
-        pgm.data.show = false;
         if (err) {
           throw err;
         }
@@ -312,6 +316,8 @@ function ControllerInstance(
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         data.build = instance.build;
+        pgm.data.build = data.build;
+        pgm.data.container = data.container;
         if (data.container && data.container.running()) {
           data.showExplorer = true;
         } else {
