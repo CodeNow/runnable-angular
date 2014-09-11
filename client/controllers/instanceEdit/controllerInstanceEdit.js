@@ -25,7 +25,7 @@ function ControllerInstanceEdit(
   var data = dataInstanceEdit.data = {
     showPopoverFileMenu: false,
     showPopoverFileMenuForm: false,
-    showPopoverFileMenuAddReop: false,
+    showPopoverFileMenuAddRepo: false,
     showPopoverRepoMenu: false,
     buildName: $stateParams.buildName,
     showExplorer: false
@@ -67,17 +67,6 @@ function ControllerInstanceEdit(
           $state.go('instance.instance', $stateParams);
         });
       });
-  };
-
-  actions.edit = function () {
-    var newBuild = dataInstanceEdit.data.build.fork(function (err, build, code) {
-      if (err) {
-        throw err;
-      }
-      var sp = angular.copy($stateParams);
-      sp.newBuildName = newBuild.id();
-      $state.go('projects.buildNew', sp);
-    });
   };
 
   actions.getTitle = function () {
