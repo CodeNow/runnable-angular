@@ -23,8 +23,6 @@ function repoList (
       $scope.actions =  {
         updateCommits: updateCommits,
         addRepo: function (repo) {
-          console.log(repo);
-          reop = repo;
           var body = {
             repo: repo.attrs.full_name
           };
