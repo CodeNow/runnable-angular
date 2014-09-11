@@ -37,13 +37,13 @@ section.row
         toggle-pop-over
         toggle-pop-over-model = "repo.state.show"
       )
-        .commit-message {{ repo.attrs.activeCommit.commit.message }}
+        .commit-message {{ actions.fetchRepoDisplayActiveCommit(repo).commit.message }}
         svg.iconnables.icons-commit
           use(
             xlink:href = "#icons-commit"
           )
-        span.commit-author {{ repo.attrs.activeCommit.author.login }}
-        time.commit-time {{ repo.attrs.activeCommit.commit.author.date | timeAgo }}
+        span.commit-author {{ actions.fetchRepoDisplayActiveCommit(repo).author.login }}
+        time.commit-time {{ actions.fetchRepoDisplayActiveCommit(repo).commit.author.date | timeAgo }}
       pop-over(
         actions = "actions"
         data = "repo"

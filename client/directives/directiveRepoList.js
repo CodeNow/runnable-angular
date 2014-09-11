@@ -6,7 +6,8 @@ require('app')
 function repoList (
   $rootScope,
   async,
-  QueryAssist
+  QueryAssist,
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -48,6 +49,12 @@ function repoList (
             });
           });
         }
+      };
+
+      // returns currently selected commit if user has selected a new commit but
+      // change hasn't been saved with API yet
+      $scope.actions.fetchRepoDisplayActiveCommit = function (repo) {
+        return keypather.get(repo, 'state.activeCommit') || repo.attrs.activeCommit;
       };
 
       // On branch change, update ACV commits
@@ -109,31 +116,29 @@ function repoList (
 
       function populateContextVersions (cb) {
         async.series([
-            function (cb) {
-              data.version.fetch(cb);
-            },
-            function (cb) {
-              $rootScope.safeApply();
-
-              async.each(data.version.appCodeVersions.models, function (model, cb) {
-
-                async.parallel([
-                  function (cb) {
-                    updateCommits(model, cb);
-                  },
-                  function (cb) {
-                    model.githubRepo().fetchBranches(function (err, branches) {
-                      if (err) {
-                        cb(err);
-                      }
-                      model.attrs.branches = branches;
-                      cb();
-                    });
-                  }
-                ], cb);
-              }, cb);
-            }
-          ], cb);
+          function (cb) {
+            data.version.fetch(cb);
+          },
+          function (cb) {
+            $rootScope.safeApply();
+            async.each(data.version.appCodeVersions.models, function (model, cb) {
+              async.parallel([
+                function (cb) {
+                  updateCommits(model, cb);
+                },
+                function (cb) {
+                  model.githubRepo().fetchBranches(function (err, branches) {
+                    if (err) {
+                      cb(err);
+                    }
+                    model.attrs.branches = branches;
+                    cb();
+                  });
+                }
+              ], cb);
+            }, cb);
+          }
+        ], cb);
       }
 
       $scope.$watch('build.contextVersions.models[0]', function (n) {
