@@ -107,12 +107,14 @@ module.exports = function(grunt) {
     jshint: {
       options: {
         debug: false,
+        node: true,
+        browser: true,
+        undef: true,
         globals: {
           jQuery: true,
-          console: true,
-          module: true,
-          document: true
-        },
+          angular: true,
+          confirm: true
+        }
       },
       prod: {
         files: {src: jshintFiles}

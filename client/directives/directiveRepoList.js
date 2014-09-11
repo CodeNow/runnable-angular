@@ -34,7 +34,7 @@ function repoList (
               throw new Error('Branches not found');
             }
             var defaultBranch = branches.filter(function (branch) {
-              return branch.name === reop.attrs.default_branch;
+              return branch.name === repo.attrs.default_branch;
             })[0];
             body.branch = defaultBranch.name;
             body.commit = defaultBranch.commit.sha;
