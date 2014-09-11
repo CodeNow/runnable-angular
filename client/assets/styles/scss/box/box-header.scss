@@ -49,6 +49,34 @@
   .green {
     margin-right: 3px;
   }
+
+  .btn-text {
+    transition: opacity .15s ease-in;
+  }
+
+  // save spinner
+  .spinner {
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 15px;
+    transform: scale3d(0,0,0);
+  }
+
+  .spinner-ring {
+    background: transparent;
+  }
+
+  .green.in {
+
+    .btn-text {
+      opacity: 0;
+    }
+
+    .spinner {
+      animation: save-spinner 1s ease-in;
+    }
+  }
 }
 
 .secondary-actions {
