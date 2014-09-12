@@ -88,6 +88,7 @@ nav.sidebar.global-sidebar(
         )
     button.btn-sm.btn-icon.white.btn-minimize(
       ng-click = "dataInstanceLayout.data.minimizeNav = !dataInstanceLayout.data.minimizeNav"
+      ng-class = "{active: dataInstanceLayout.data.minimizeNav}"
       title = "Minimize"
     )
       svg.iconnables.icons-arrow-left

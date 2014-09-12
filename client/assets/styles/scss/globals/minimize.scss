@@ -66,21 +66,12 @@
 
   // resize nav footer
   .global-footer {
-    flex-direction: column;
-    height: auto;
+    // flex-direction: column;
+    height: 102px;
     padding: 9px 12px;
 
     .btn-sm {
-      margin-top: 3px;
-    }
-
-    .btn-logout {
-      order: 2;
-    }
-
-    .btn-minimize {
-      order: 1;
-
+      margin-top: 6px;
     }
 
     .icons-arrow-left {
