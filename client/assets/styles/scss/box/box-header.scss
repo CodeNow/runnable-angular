@@ -97,22 +97,6 @@
 // button.green.btn-save
 .btn-save {
   margin-right: 3px;
-
-  // if save will restart the box
-  &.with-restart .icons-update {
-    margin-right: 3px;
-    transform: scale3d(1,1,1);
-    width: 18px;
-  }
-
-  // .icons-update
-  .icons-update {
-    height: 18px;
-    top: 3px;
-    transform: scale3d(0,0,0);
-    transition: all .15s ease-in;
-    width: 0;
-  }
 }
 
 // .spinner.save-spinner
