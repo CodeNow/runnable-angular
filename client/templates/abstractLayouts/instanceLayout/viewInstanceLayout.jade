@@ -76,16 +76,16 @@ nav.sidebar.global-sidebar(
           )
 
   footer.row.global-footer
-    button.btn-sm.btn-icon.white(
+    button.btn-sm.btn-icon.white.btn-logout(
       title = "Log Out"
     )
       svg.iconnables.icons-exit
         use(
           xlink:href = "#icons-exit"
         )
-    button.btn-sm.btn-icon.white.pull-right(
+    button.btn-sm.btn-icon.white.btn-minimize(
       ng-click = "dataInstanceLayout.data.minimizeNav = !dataInstanceLayout.data.minimizeNav"
-      title = "Log Out"
+      title = "Minimize"
     )
       svg.iconnables.icons-add
         use(

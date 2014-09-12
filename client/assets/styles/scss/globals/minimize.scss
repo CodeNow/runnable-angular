@@ -3,7 +3,27 @@
 .global-sidebar.minimize {
   width: 60px;
 
+  // resize main.content
   ~ .content {
     width: calc(100% - 60px);
+  }
+
+  // resize nav footer
+  .global-footer {
+    flex-direction: column;
+    height: auto;
+    padding: 9px 12px;
+
+    .btn-sm {
+      margin-top: 3px;
+    }
+
+    .btn-logout {
+      order: 2;
+    }
+
+    .btn-minimize {
+      order: 1;
+    }
   }
 }
