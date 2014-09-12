@@ -226,6 +226,12 @@ function ControllerInstance(
   /***************************************/
 
   actions.saveChanges = function () {
+    // Trigger a new spinner
+    dataInstance.data.saving = false;
+    $scope.safeApply(function () {
+      dataInstance.data.saving = true;
+      $scope.safeApply();
+    });
     var updateModels = data.openItems.models
       .filter(function (model) {
         if (typeof keypather.get(model, 'attrs.body') !== 'string') {

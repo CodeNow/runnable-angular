@@ -13,7 +13,7 @@ header.box-header
     //- add title = "Save and Restart Box" if save restarts box
     button.green.btn-save(
       ng-class = "{in: dataInstance.data.saving, 'with-restart': dataInstance.data.restartOnSave}"
-      ng-click = "dataInstance.actions.saveChanges(); dataInstance.data.saving = true"
+      ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     )
       svg.iconnables.icons-update
@@ -43,7 +43,9 @@ header.box-header
   .secondary-actions
     //- apply class .in to .save-spinner to play animation
     //- subsequent saves: remove .in and reapply .in
-    .save-spinner
+    .save-spinner(
+      ng-class = "{ in: dataInstance.data.saving }"
+    )
       .spinner
         .spinner-ring
       svg.iconnables.icons-check
