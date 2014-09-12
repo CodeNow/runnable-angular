@@ -15,11 +15,9 @@
 // toolbar tabs
 .add-tab {
   box-shadow: -12px 0 12px rgba($white,.9);
-  height: 36px;
   position: absolute;
   right: 5px;
   top: 5px;
-  width: 36px;
 
   .out & {
     transform: translate3d(45px,0,0);
