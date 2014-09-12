@@ -69,8 +69,10 @@ nav.sidebar.global-sidebar(
         ng-repeat = "instance in dataInstanceLayout.data.instances.models"
       )
         a.white.box(
+          data-title = "{{ instance.attrs.name }}"
           title = "{{ instance.attrs.name }}"
-        ) {{ instance.attrs.name }}
+        )
+          span.box-item-name {{ instance.attrs.name }}
           //- alternate text: "Started running 999 minutes ago."
           span.icons-status(
             title = "Stopped running 999 minutes ago."
@@ -84,14 +86,14 @@ nav.sidebar.global-sidebar(
         use(
           xlink:href = "#icons-exit"
         )
-    //- button.btn-sm.btn-icon.white.btn-minimize(
-    //-   ng-click = "dataInstanceLayout.data.minimizeNav = !dataInstanceLayout.data.minimizeNav"
-    //-   title = "Minimize"
-    //- )
-    //-   svg.iconnables.icons-add
-    //-     use(
-    //-       xlink:href = "#icons-add"
-    //-     )
+    button.btn-sm.btn-icon.white.btn-minimize(
+      ng-click = "dataInstanceLayout.data.minimizeNav = !dataInstanceLayout.data.minimizeNav"
+      title = "Minimize"
+    )
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
 
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
 main.content(ui-view)

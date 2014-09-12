@@ -1,6 +1,7 @@
 // global structure
 // nav.sidebar.global-sidebar.minimize
 .global-sidebar.minimize {
+  position: static;
   width: 60px;
 
   // resize main.content
@@ -20,6 +21,22 @@
   .sub-header-action {
     float: none;
     margin: 0;
+  }
+
+  // a.white.box
+  .box {
+    @extend .tooltip;
+    overflow: visible;
+  }
+
+  .box-item-name {
+    display: none;
+  }
+
+  .icons-status {
+    left: 0;
+    margin: 0 auto;
+    right: 0;
   }
 
   // resize nav footer
