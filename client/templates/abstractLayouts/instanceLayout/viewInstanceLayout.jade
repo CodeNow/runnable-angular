@@ -68,6 +68,7 @@ nav.sidebar.global-sidebar(
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataInstanceLayout.data.instances.models"
       )
+        //- show instance name in title property when not minimized
         a.white.box(
           data-title = "{{ instance.attrs.name }}"
         )
@@ -89,9 +90,9 @@ nav.sidebar.global-sidebar(
       ng-click = "dataInstanceLayout.data.minimizeNav = !dataInstanceLayout.data.minimizeNav"
       title = "Minimize"
     )
-      svg.iconnables.icons-add
+      svg.iconnables.icons-arrow-left
         use(
-          xlink:href = "#icons-add"
+          xlink:href = "#icons-arrow-left"
         )
 
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
