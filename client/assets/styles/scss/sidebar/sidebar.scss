@@ -7,6 +7,8 @@
 
   background: $white;
   border-right: 1px solid rgba($black,.1);
+  display: flex;
+  flex-direction: column;
   float: left;
   height: 100vh;
   padding: 0 15px;
@@ -21,7 +23,8 @@
   .row {
     border-bottom: 1px solid rgba($black,.1);
 
-    &:last-child {
+    &:last-child,
+    &.boxes {
       border: 0;
     }
   }

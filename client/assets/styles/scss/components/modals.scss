@@ -52,12 +52,10 @@
 .modal-dialog {
   border-radius: 6px;
   margin: auto;
-  max-width: 480px;
   min-height: 320px;
   min-width: 320px;
   position: relative;
   transform: scale3d(0,0,0);
-  width: 30%;
 
   @include media(xs) {
     width: calc(100% - 30px);

@@ -1,3 +1,8 @@
+// section.row.boxes
+.boxes {
+  flex: 1 0 auto;
+}
+
 // li.box-group-item
 .box-group-item {
   height: 45px;
@@ -14,11 +19,12 @@
 
 // a.box
 .box {
+  border-radius: 3px;
   cursor: pointer;
   display: block;
   height: 45px;
   line-height: 45px;
-  margin: 0 -6px;
+  margin: 0 -9px;
   overflow: hidden;
   padding: 0 22px 0 6px;
   position: relative;

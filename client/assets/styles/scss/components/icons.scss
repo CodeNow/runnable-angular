@@ -40,7 +40,7 @@
   transition: transform .15s;
   width: 24px;
 
-  &.lg {
+  &.iconnables-lg {
     height: 30px;
     width: 30px;
   }
@@ -74,6 +74,7 @@
   &.icons-delete,
   &.icons-edit,
   &.icons-error,
+  &.icons-exit,
   &.icons-fail,
   &.icons-file,
   &.icons-file-open,
@@ -81,6 +82,7 @@
   &.icons-folder,
   &.icons-folder-open,
   &.icons-launch,
+  &.icons-logs,
   &.icons-pause,
   &.icons-recipe,
   &.icons-rename,
@@ -89,7 +91,8 @@
   &.icons-start,
   &.icons-stop,
   &.icons-stop-alt,
-  &.icons-trigger {
+  &.icons-trigger,
+  &.icons-web {
     fill: none;
     stroke: currentColor;
   }
