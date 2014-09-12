@@ -16,7 +16,7 @@ nav.sidebar.global-sidebar(
             ng-src = "{{ dataInstanceLayout.data.activeAccount.gravitar() }}"
             width = "24"
           )
-          span {{ dataInstanceLayout.data.activeAccount.oauthName() }}
+          span.account-name {{ dataInstanceLayout.data.activeAccount.oauthName() }}
           //- icons-arrow-down only for first account
           svg.iconnables.icons-arrow-down
             use(
