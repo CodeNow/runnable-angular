@@ -198,6 +198,18 @@ function ControllerInstance(
     });
   };
 
+  /*********************************
+   * popoverSaveOptions
+   *********************************/
+
+  // What's "isolate" mean?
+  var pso = data.popoverSaveOptions = {};
+  pso.data = {
+    dataInstance: $scope.dataInstance
+  };
+
+  /***************************************/
+
   actions.saveChanges = function () {
     var updateModels = data.openItems.models
       .filter(function (model) {
@@ -222,7 +234,7 @@ function ControllerInstance(
     },
     function complete (err) {
       if (data.restartOnSave) {
-        actions.startInstance();
+        pgm.actions.restartInstance();
       }
     });
   };
@@ -323,8 +335,10 @@ function ControllerInstance(
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         data.build = instance.build;
+
+        // Popovers
         pgm.data.build = data.build;
-        pgm.data.container = data.container;
+        pso.data.container = pgm.data.container = data.container;
         if (data.container && data.container.running()) {
           data.showExplorer = true;
         } else {
