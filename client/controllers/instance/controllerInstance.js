@@ -81,7 +81,7 @@ function ControllerInstance(
     actionsModalRename: {
       renameInstance: function (cb) {
         data.instance.update({
-          name: data.instance.attrs.name
+          name: data.instance.state.name
         }, function (err) {
           $scope.safeApply();
           cb();
@@ -90,6 +90,9 @@ function ControllerInstance(
           }
         });
         $scope.safeApply();
+      },
+      cancel: function () {
+        data.instance.state.name = data.instance.attrs.name;
       }
     },
     forkInstance: function () {
@@ -341,6 +344,9 @@ function ControllerInstance(
           // TODO
           // return $state.go(404);
         }
+        instance.state = {
+          name: instance.attrs.name + ''
+        };
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         data.build = instance.build;

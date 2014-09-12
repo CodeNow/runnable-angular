@@ -28,11 +28,16 @@ function modal(
       });
 
       $scope.cancel = function () {
+        if ($scope.actions.cancel && typeof $scope.actions.cancel === 'function') {
+          $scope.actions.cancel();
+        }
         $scope.in = false;
       };
 
       $scope.$on('app-document-click', function () {
-        $scope.in = false;
+        if ($scope.in) {
+          $scope.cancel();
+        }
       });
 
       var template = $templateCache.get($scope.template);
@@ -44,7 +49,7 @@ function modal(
       if ($scope.modal.find('[autofocus]').length) {
         $scope.$watch('in', function (n) {
           if (n) {
-            $scope.modal.find('[autofocus]')[0].focus();
+            $scope.modal.find('[autofocus]')[0].select();
           }
         });
       }
