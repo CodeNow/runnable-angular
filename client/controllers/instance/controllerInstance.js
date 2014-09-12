@@ -63,7 +63,8 @@ function ControllerInstance(
   pgm.data = {
     show: false,
     // popover contains nested modal
-    dataModalDelete: {}
+    dataModalDelete: {},
+    dataModalRename: {}
   };
   pgm.actions = {
     // popover contains nested modal
@@ -75,6 +76,20 @@ function ControllerInstance(
           }
           $state.go('home');
         });
+      }
+    },
+    actionsModalRename: {
+      renameInstance: function (cb) {
+        data.instance.update({
+          name: data.instance.attrs.name
+        }, function (err) {
+          $scope.safeApply();
+          cb();
+          if (err) {
+            throw err;
+          }
+        });
+        $scope.safeApply();
       }
     },
     forkInstance: function () {
@@ -265,18 +280,6 @@ function ControllerInstance(
     actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
   };
 
-  actions.renameInstance = function () {
-    data.instance.update({
-      name: data.instance.attrs.name
-    }, function (err) {
-      $scope.safeApply();
-      if (err) {
-        throw err;
-      }
-    });
-    $scope.safeApply();
-  };
-
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
@@ -338,6 +341,9 @@ function ControllerInstance(
 
         // Popovers
         pgm.data.build = data.build;
+        pgm.data.container = data.container;
+        pgm.data.dataModalRename.instance = instance;
+        pgm.data.dataModalDelete.instance = instance;
         pso.data.container = pgm.data.container = data.container;
         if (data.container && data.container.running()) {
           data.showExplorer = true;
@@ -356,10 +362,6 @@ function ControllerInstance(
       })
       .go();
   }
-  // delete modal inside popover needs instance name
-  $scope.$watch('dataInstance.data.instance', function (i) {
-    pgm.data.dataModalDelete.instance = i;
-  });
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();

@@ -12,7 +12,7 @@
         //- fill value with instance name
         //- autofocus on modal open
         input.modal-input(
-          value = ""
+          ng-model = "data.instance.attrs.name"
         )
     .modal-footer
       button.white(
@@ -20,5 +20,5 @@
         type = "button"
       ) Cancel
       button.green(
-        ng-click = "actions.deleteProject()"
+        ng-click = "actions.renameInstance(cancel)"
       ) Rename Box
