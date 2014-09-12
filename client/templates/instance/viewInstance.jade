@@ -16,13 +16,9 @@ header.box-header
       ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     )
-      svg.iconnables.icons-update
-        use(
-          xlink:href = "#icons-update"
-        )
       span.btn-text Save
       //- show if restart is checked
-      span(
+      span.btn-text(
         ng-if = "dataInstance.data.restartOnSave"
       ) #{''} and Restart
     button.white.btn-icon.btn-icon-sm(
