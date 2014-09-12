@@ -12,7 +12,7 @@ header.box-header
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
     button.green.btn-save(
-      ng-class = "{in: dataInstance.data.saving}"
+      ng-class = "{in: dataInstance.data.saving, 'with-restart': dataInstance.data.restartOnSave}"
       ng-click = "dataInstance.actions.saveChanges(); dataInstance.data.saving = true"
       type = "button"
     )
@@ -23,8 +23,8 @@ header.box-header
       span.btn-text Save
       //- show if restart is checked
       span(
-        ng-if = ""
-      ) and Restart
+        ng-if = "dataInstance.data.restartOnSave"
+      ) #{''} and Restart
     button.white.btn-icon.btn-icon-sm(
       ng-class = "{active: dataInstance.data.popoverSaveOptions.data.show}"
       toggle-pop-over
