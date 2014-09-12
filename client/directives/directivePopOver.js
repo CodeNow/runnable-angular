@@ -27,6 +27,11 @@ function popOver(
         element.off('click');
       });
       $scope.actions = $scope.actions();
+
+if ($scope.actions && $scope.actions.actionsModalDelete) {
+  console.log('actions.actionsModalDelete', $scope.actions.actionsModalDelete.deleteInstance.toString());
+  console.log('data', $scope.data);
+}
     }
   };
 }

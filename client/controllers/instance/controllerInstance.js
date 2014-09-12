@@ -63,14 +63,26 @@ function ControllerInstance(
   pgm.data = {
     show: false,
     // popover contains nested modal
-    dataModalDelete: {}
+    dataModalDelete: {
+      deleteInstance: function () {
+        console.log('clicked from data');
+      }
+    }
   };
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
-      deleteInstance: function () {}
+      deleteInstance: function () {
+        console.log('clicked');
+        // data.instance.destroy(function (err) {
+        //   if (err) {
+        //     throw err;
+        //   }
+        //   $state.go('home');
+        // });
+      }
     },
-    actionsModalFork: function () {
+    forkInstance: function () {
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;
@@ -99,7 +111,7 @@ function ControllerInstance(
       });
     }
   };
-
+$scope.safeApply();
   pgm.actions.stopInstance = function () {
     data.loading = true;
     pgm.data.show = false;

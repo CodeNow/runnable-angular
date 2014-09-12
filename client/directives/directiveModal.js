@@ -42,6 +42,16 @@ function modal(
       $scope.modal = $($template);
       $('body').append($template);
 
+if ($scope.template === 'modalDeleteBox') {
+  $scope.$watch('actions', function () {
+    // debugger;
+  });
+  // $scope.$watch('data.instance', console.log.bind(console));
+  // $scope.actions.deleteInstance = function () {
+  //   console.log('here');
+  // };
+}
+
       $scope.$on('$destroy', function () {
         $scope.modal.remove();
       });
