@@ -14,13 +14,12 @@ function modal(
     restrict: 'A',
     scope: {
       data: '=modalData',
-      actions: '&modalActions',
+      actions: '=modalActions',
       template: '@modalTemplate'
     },
     link: function ($scope, element, attrs) {
       var $ = jQuery;
       $scope.in = false;
-      $scope.actions = $scope.actions();
 
       element.on('click', function (event) {
         event.stopPropagation();
@@ -41,16 +40,6 @@ function modal(
       $compile($template)($scope);
       $scope.modal = $($template);
       $('body').append($template);
-
-if ($scope.template === 'modalDeleteBox') {
-  $scope.$watch('actions', function () {
-    // debugger;
-  });
-  // $scope.$watch('data.instance', console.log.bind(console));
-  // $scope.actions.deleteInstance = function () {
-  //   console.log('here');
-  // };
-}
 
       $scope.$on('$destroy', function () {
         $scope.modal.remove();
