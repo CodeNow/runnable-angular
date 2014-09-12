@@ -26,9 +26,9 @@ header.box-header
         ng-if = ""
       ) and Restart
     button.white.btn-icon.btn-icon-sm(
-      ng-class = "{active: dataInstance.data.PopoverSaveOptions.data.show}"
+      ng-class = "{active: dataInstance.data.popoverSaveOptions.data.show}"
       toggle-pop-over
-      toggle-pop-over-model = "dataInstance.data.PopoverSaveOptions.data.show"
+      toggle-pop-over-model = "dataInstance.data.popoverSaveOptions.data.show"
       type = "button"
     )
       svg.iconnables.icons-arrow-down
@@ -36,8 +36,8 @@ header.box-header
           xlink:href = "#icons-arrow-down"
         )
       pop-over(
-        actions = "dataInstance.data.PopoverSaveOptions.actions"
-        data = "dataInstance.data.PopoverSaveOptions.data"
+        actions = "dataInstance.data.popoverSaveOptions.actions"
+        data = "dataInstance.data.popoverSaveOptions.data"
         template = "viewInstancePopoverSaveOptions"
       )
   .secondary-actions
