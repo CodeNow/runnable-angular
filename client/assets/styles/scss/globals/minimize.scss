@@ -8,6 +8,20 @@
     width: calc(100% - 60px);
   }
 
+  // h2.sub-header
+  .sub-header {
+    padding: 0 12px;
+  }
+
+  .sub-header-text {
+    display: none;
+  }
+
+  .sub-header-action {
+    float: none;
+    margin: 0;
+  }
+
   // resize nav footer
   .global-footer {
     flex-direction: column;
