@@ -31,6 +31,72 @@ function ControllerInstanceEdit(
     showExplorer: false
   };
 
+  /*********************************
+  * popoverGearMenu
+  *********************************/
+  var pgm = data.popoverGearMenu = {};
+  pgm.data = {
+    show: false,
+    // popover contains nested modal
+    dataModalDelete: {},
+    dataModalRename: {}
+  };
+  pgm.actions = {
+    // popover contains nested modal
+    actionsModalDelete: {
+      deleteInstance: function () {
+        data.instance.destroy(function (err) {
+          if (err) {
+            throw err;
+          }
+          $state.go('home');
+        });
+      }
+    },
+    actionsModalRename: {
+      renameInstance: function (cb) {
+        data.instance.update({
+          name: data.instance.attrs.name
+        }, function (err) {
+          $scope.safeApply();
+          cb();
+          if (err) {
+            throw err;
+          }
+        });
+        $scope.safeApply();
+      }
+    },
+    forkInstance: function () {
+      var newInstance = data.instance.copy(function (err) {
+        if (err) {
+          throw err;
+        }
+        $state.go('instance.instance', {
+          userName: $stateParams.userName,
+          shortHash: newInstance.attrs.shortHash
+        });
+        // refetch instance collection to update list in
+        // instance layout
+        var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
+        new QueryAssist($scope.dataApp.user, function () {
+          $scope.safeApply();
+        })
+        .wrapFunc('fetchInstances')
+        .query({
+          owner: {
+            github: oauthId
+          }
+        })
+        .cacheFetch(function (instances, cached, cb) {
+          cb();
+        })
+        .resolve(angular.noop)
+        .go();
+      });
+    }
+  };
+
   actions.goToInstance = function (skipCheck) {
     if (skipCheck) {
       data.skipCheck = true;
@@ -145,6 +211,8 @@ function ControllerInstanceEdit(
           // return $state.go(404);
         }
         data.instance = instance;
+        pgm.data.dataModalRename.instance = instance;
+        pgm.data.dataModalDelete.instance = instance;
         $scope.safeApply();
         cb();
       })
@@ -177,6 +245,8 @@ function ControllerInstanceEdit(
         }
         data.build = build;
         data.version = data.build.contextVersions.models[0];
+
+        pgm.data.build = data.build;
         if (data.build) {
           data.showExplorer = true;
         } else {
