@@ -63,7 +63,8 @@ function ControllerInstance(
   pgm.data = {
     show: false,
     // popover contains nested modal
-    dataModalDelete: {}
+    dataModalDelete: {},
+    dataModalRename: {}
   };
   pgm.actions = {
     // popover contains nested modal
@@ -75,6 +76,20 @@ function ControllerInstance(
           }
           $state.go('home');
         });
+      }
+    },
+    actionsModalRename: {
+      renameInstance: function (cb) {
+        data.instance.update({
+          name: data.instance.attrs.name
+        }, function (err) {
+          $scope.safeApply();
+          cb();
+          if (err) {
+            throw err;
+          }
+        });
+        $scope.safeApply();
       }
     },
     forkInstance: function () {
@@ -198,6 +213,18 @@ function ControllerInstance(
     });
   };
 
+  /*********************************
+   * popoverSaveOptions
+   *********************************/
+
+  // What's "isolate" mean?
+  var pso = data.popoverSaveOptions = {};
+  pso.data = {
+    dataInstance: $scope.dataInstance
+  };
+
+  /***************************************/
+
   actions.saveChanges = function () {
     var updateModels = data.openItems.models
       .filter(function (model) {
@@ -222,7 +249,7 @@ function ControllerInstance(
     },
     function complete (err) {
       if (data.restartOnSave) {
-        actions.startInstance();
+        pgm.actions.restartInstance();
       }
     });
   };
@@ -251,18 +278,6 @@ function ControllerInstance(
     });
     $scope.safeApply();
     actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
-  };
-
-  actions.renameInstance = function () {
-    data.instance.update({
-      name: data.instance.attrs.name
-    }, function (err) {
-      $scope.safeApply();
-      if (err) {
-        throw err;
-      }
-    });
-    $scope.safeApply();
   };
 
   $scope.$on('app-document-click', function () {
@@ -323,8 +338,13 @@ function ControllerInstance(
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         data.build = instance.build;
+
+        // Popovers
         pgm.data.build = data.build;
         pgm.data.container = data.container;
+        pgm.data.dataModalRename.instance = instance;
+        pgm.data.dataModalDelete.instance = instance;
+        pso.data.container = pgm.data.container = data.container;
         if (data.container && data.container.running()) {
           data.showExplorer = true;
         } else {
@@ -342,10 +362,6 @@ function ControllerInstance(
       })
       .go();
   }
-  // delete modal inside popover needs instance name
-  $scope.$watch('dataInstance.data.instance', function (i) {
-    pgm.data.dataModalDelete.instance = i;
-  });
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();

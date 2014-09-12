@@ -253,15 +253,10 @@ function ControllerInstanceLayout(
    * ===========================*/
   function fetchOrgs(cb) {
     var thisUser = $scope.dataApp.user;
-    //TODO remove when API fixed
-    data.orgs = [];
-    cb();
-    /*
     data.orgs = thisUser.fetchGithubOrgs(function (err) {
       $scope.safeApply();
       cb(err);
     });
-    */
   }
 
   function setActiveAccount (cb) {
