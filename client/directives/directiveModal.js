@@ -41,6 +41,14 @@ function modal(
       $scope.modal = $($template);
       $('body').append($template);
 
+      if ($scope.modal.find('[autofocus]').length) {
+        $scope.$watch('in', function (n) {
+          if (n) {
+            $scope.modal.find('[autofocus]')[0].focus();
+          }
+        });
+      }
+
       $scope.$on('$destroy', function () {
         $scope.modal.remove();
       });
