@@ -78,6 +78,20 @@ function ControllerInstance(
         });
       }
     },
+    actionsModalRename: {
+      renameInstance: function (cb) {
+        data.instance.update({
+          name: data.instance.attrs.name
+        }, function (err) {
+          $scope.safeApply();
+          cb();
+          if (err) {
+            throw err;
+          }
+        });
+        $scope.safeApply();
+      }
+    },
     forkInstance: function () {
       var newInstance = data.instance.copy(function (err) {
         if (err) {
@@ -252,18 +266,6 @@ function ControllerInstance(
     });
     $scope.safeApply();
     actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
-  };
-
-  actions.renameInstance = function () {
-    data.instance.update({
-      name: data.instance.attrs.name
-    }, function (err) {
-      $scope.safeApply();
-      if (err) {
-        throw err;
-      }
-    });
-    $scope.safeApply();
   };
 
   $scope.$on('app-document-click', function () {
