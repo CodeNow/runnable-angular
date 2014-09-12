@@ -24,11 +24,11 @@
         modal-template = "modalRenameBox"
       ) Rename Box
       li.popover-list-item(
-        ng-click = "actions.actionsModalFork()"
+        ng-click = "actions.forkInstance()"
       ) Fork to a New Box
       li.popover-list-item(
         modal
-        modal-actions = "data.actionsModalDelete"
+        modal-actions = "actions.actionsModalDelete"
         modal-data = "data.dataModalDelete"
         modal-template = "modalDeleteBox"
       ) Delete Box

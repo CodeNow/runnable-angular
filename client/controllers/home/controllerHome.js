@@ -135,6 +135,7 @@ function ControllerHome(
             github: userId
           }
         })
+        .cacheFetch(angular.noop)
         .resolve(function (userOrOrg, err, instances, cb) {
           if (err) {
             cb(err);

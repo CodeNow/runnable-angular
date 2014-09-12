@@ -68,9 +68,16 @@ function ControllerInstance(
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
-      deleteInstance: function () {}
+      deleteInstance: function () {
+        data.instance.destroy(function (err) {
+          if (err) {
+            throw err;
+          }
+          $state.go('home');
+        });
+      }
     },
-    actionsModalFork: function () {
+    forkInstance: function () {
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;
