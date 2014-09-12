@@ -23,11 +23,20 @@
     margin: 0;
   }
 
+  // li.box-group-item
+  .box-group-item {
+    height: 36px;
+    padding: 0;
+  }
+
   // a.white.box
   .box {
     @extend .tooltip;
     @extend .right;
+    height: 36px;
+    margin: 0 auto;
     overflow: visible;
+    width: 36px;
   }
 
   .box-item-name {
@@ -38,6 +47,7 @@
     left: 0;
     margin: 0 auto;
     right: 0;
+    top: 13px;
   }
 
   // resize nav footer
