@@ -44,7 +44,7 @@ function modal(
       if ($scope.modal.find('[autofocus]').length) {
         $scope.$watch('in', function (n) {
           if (n) {
-            $scope.modal.find('[autofocus]')[0].focus();
+            $scope.modal.find('[autofocus]')[0].select();
           }
         });
       }
