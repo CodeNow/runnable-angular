@@ -1,0 +1,43 @@
+// global structure
+// nav.sidebar.global-sidebar.minimize
+.global-sidebar.minimize {
+  width: 60px;
+
+  // resize main.content
+  ~ .content {
+    width: calc(100% - 60px);
+  }
+
+  // h2.sub-header
+  .sub-header {
+    padding: 0 12px;
+  }
+
+  .sub-header-text {
+    display: none;
+  }
+
+  .sub-header-action {
+    float: none;
+    margin: 0;
+  }
+
+  // resize nav footer
+  .global-footer {
+    flex-direction: column;
+    height: auto;
+    padding: 9px 12px;
+
+    .btn-sm {
+      margin-top: 3px;
+    }
+
+    .btn-logout {
+      order: 2;
+    }
+
+    .btn-minimize {
+      order: 1;
+    }
+  }
+}

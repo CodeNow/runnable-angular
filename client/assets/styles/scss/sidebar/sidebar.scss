@@ -13,6 +13,7 @@
   height: 100vh;
   padding: 0 15px;
   position: relative;
+  transition: width .2s ease-in;
   width: 240px;
   z-index: $z-sidebar;
 

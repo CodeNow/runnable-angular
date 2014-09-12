@@ -30,10 +30,11 @@ body,
   overflow-y: auto;
 }
 
-main {
+.content {
   float: right;
   height: 100%;
   overflow: hidden;
+  transition: width .2s ease-in;
   width: calc(100% - 240px);
 
   .width-full & {
