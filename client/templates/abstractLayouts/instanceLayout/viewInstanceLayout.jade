@@ -48,9 +48,10 @@ nav.sidebar.global-sidebar
           span {{ org.oauthName() }}
 
   //- INSTANCES
-  section.boxes.row
+  section.row.boxes
     h2.sub-header Boxes
       a.btn.btn-sm.white.sub-header-action(
+        href = "/new"
         ng-click = "dataInstanceLayout.actions.stateToNewProject()"
         title = "Create a New Box"
       )
@@ -73,6 +74,15 @@ nav.sidebar.global-sidebar
           span.icons-status(
             title = "Stopped running 999 minutes ago."
           )
+
+  footer.row.global-footer
+    button.btn-sm.btn-icon.white(
+      title = "Log Out"
+    )
+      svg.iconnables.icons-exit
+        use(
+          xlink:href = "#icons-exit"
+        )
 
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
 main(ui-view)
