@@ -63,7 +63,8 @@ function ControllerInstance(
   pgm.data = {
     show: false,
     // popover contains nested modal
-    dataModalDelete: {}
+    dataModalDelete: {},
+    dataModalRename: {}
   };
   pgm.actions = {
     // popover contains nested modal
@@ -325,6 +326,8 @@ function ControllerInstance(
         data.build = instance.build;
         pgm.data.build = data.build;
         pgm.data.container = data.container;
+        pgm.data.dataModalRename.instance = instance;
+        pgm.data.dataModalDelete.instance = instance;
         if (data.container && data.container.running()) {
           data.showExplorer = true;
         } else {
@@ -342,10 +345,6 @@ function ControllerInstance(
       })
       .go();
   }
-  // delete modal inside popover needs instance name
-  $scope.$watch('dataInstance.data.instance', function (i) {
-    pgm.data.dataModalDelete.instance = i;
-  });
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
