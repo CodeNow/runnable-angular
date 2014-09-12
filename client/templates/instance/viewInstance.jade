@@ -1,18 +1,18 @@
 header.box-header
   h1.box-name {{ dataInstance.data.instance.attrs.name }}
     span.icons-status.tooltip.bottom.running(
-      data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }} ago."
+      data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}."
       ng-if = "dataInstance.data.container.running()"
     )
     span.icons-status.tooltip.bottom(
-      data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}"
+      data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
       ng-if = "!dataInstance.data.container.running()"
     )
   .primary-actions
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
     button.green.btn-save(
-      ng-class = "{in: dataInstance.data.saving, 'with-restart': dataInstance.data.restartOnSave}"
+      ng-class = "{in: dataInstance.data.saving}"
       ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     )
