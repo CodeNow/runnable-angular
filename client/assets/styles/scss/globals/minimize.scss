@@ -1,0 +1,76 @@
+// global structure
+// nav.sidebar.global-sidebar.minimize
+.global-sidebar.minimize {
+  position: static;
+  width: 60px;
+
+  // resize main.content
+  ~ .content {
+    width: calc(100% - 60px);
+  }
+
+  // h2.sub-header
+  .sub-header {
+    padding: 0 12px;
+  }
+
+  .sub-header-text {
+    display: none;
+  }
+
+  .sub-header-action {
+    float: none;
+    margin: 0;
+  }
+
+  // li.box-group-item
+  .box-group-item {
+    height: 36px;
+    padding: 0;
+  }
+
+  // a.white.box
+  .box {
+    @extend .tooltip;
+    @extend .right;
+    height: 36px;
+    margin: 0 auto;
+    overflow: visible;
+    width: 36px;
+  }
+
+  .box-item-name {
+    display: none;
+  }
+
+  .icons-status {
+    left: 0;
+    margin: 0 auto;
+    right: 0;
+    top: 13px;
+  }
+
+  // resize nav footer
+  .global-footer {
+    flex-direction: column;
+    height: auto;
+    padding: 9px 12px;
+
+    .btn-sm {
+      margin-top: 3px;
+    }
+
+    .btn-logout {
+      order: 2;
+    }
+
+    .btn-minimize {
+      order: 1;
+
+    }
+
+    .icons-arrow-left {
+      transform: rotate3d(0, 1, 0, 180deg);
+    }
+  }
+}

@@ -68,10 +68,20 @@ function ControllerInstance(
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
-      deleteInstance: function () {}
+      deleteInstance: function () {
+        data.instance.destroy(function (err) {
+          if (err) {
+            throw err;
+          }
+          $state.go('home');
+        });
+      }
     },
-    actionsModalFork: function () {
-      var newInstance = data.instance.fork(function () {
+    forkInstance: function () {
+      var newInstance = data.instance.copy(function (err) {
+        if (err) {
+          throw err;
+        }
         $state.go('instance.instance', {
           userName: $stateParams.userName,
           shortHash: newInstance.attrs.shortHash
@@ -99,13 +109,13 @@ function ControllerInstance(
 
   pgm.actions.stopInstance = function () {
     data.loading = true;
+    pgm.data.show = false;
     data.instance.stop(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
         data.loading = false;
-        pgm.data.show = false;
         if (err) {
           throw err;
         }
@@ -116,16 +126,17 @@ function ControllerInstance(
 
   pgm.actions.startInstance = function () {
     data.loading = true;
+    pgm.data.show = false;
     data.instance.start(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
         data.loading = false;
-        pgm.data.show = false;
         if (err) {
           throw err;
         }
+        console.log(data.instance.containers.models[0].running());
         $scope.safeApply();
       });
     });
@@ -133,13 +144,13 @@ function ControllerInstance(
 
   pgm.actions.restartInstance = function () {
     data.loading = true;
+    pgm.data.show = false;
     data.instance.restart(function (err) {
       if (err) {
         throw err;
       }
       data.instance.fetch(function (err) {
         data.loading = false;
-        pgm.data.show = false;
         if (err) {
           throw err;
         }
@@ -187,6 +198,18 @@ function ControllerInstance(
     });
   };
 
+  /*********************************
+   * popoverSaveOptions
+   *********************************/
+
+  // What's "isolate" mean?
+  var pso = data.popoverSaveOptions = {};
+  pso.data = {
+    dataInstance: $scope.dataInstance
+  };
+
+  /***************************************/
+
   actions.saveChanges = function () {
     var updateModels = data.openItems.models
       .filter(function (model) {
@@ -211,7 +234,7 @@ function ControllerInstance(
     },
     function complete (err) {
       if (data.restartOnSave) {
-        actions.startInstance();
+        pgm.actions.restartInstance();
       }
     });
   };
@@ -312,6 +335,10 @@ function ControllerInstance(
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         data.build = instance.build;
+
+        // Popovers
+        pgm.data.build = data.build;
+        pso.data.container = pgm.data.container = data.container;
         if (data.container && data.container.running()) {
           data.showExplorer = true;
         } else {

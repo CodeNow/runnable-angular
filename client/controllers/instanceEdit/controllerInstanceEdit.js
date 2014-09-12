@@ -172,6 +172,9 @@ function ControllerInstanceEdit(
         if (build.id() !== $state.params.buildId) {
           throw new Error('Incorrect build loaded');
         }
+        if (build.attrs.started) {
+          $state.go('instance.instance', $state.params);
+        }
         data.build = build;
         data.version = data.build.contextVersions.models[0];
         if (data.build) {

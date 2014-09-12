@@ -43,13 +43,10 @@ section.sidebar.box-sidebar
   )
 
 section.views(
-  ng-class = "{\
-    in: dataInstanceEdit.data.showExplorer && !dataInstanceEdit.data.loading,\
-    out: !dataInstanceEdit.data.container.running() || dataInstanceEdit.data.loading\
-  }"
+  ng-class = "{in: dataInstanceEdit.data.showExplorer && !dataInstanceEdit.data.loading}"
 )
   //- explorer
-  button.white.btn-icon.explorer-toggle(
+  button.btn-sm.white.btn-icon.explorer-toggle(
     ng-click = "dataInstanceEdit.data.showExplorer = !dataInstanceEdit.data.showExplorer"
     type = "button"
   )
@@ -59,8 +56,9 @@ section.views(
       )
   section.explorer
     .explorer-controls
-      button.toggle-theme.tooltip(
+      button.toggle-theme.tooltip.bottom(
         data-title = "Change Theme"
+        ng-init = "dataInstanceEdit.data.toggleTheme = true"
         ng-class = "{dark: !dataInstanceEdit.data.toggleTheme, light: dataInstanceEdit.data.toggleTheme}"
         ng-click = "dataInstanceEdit.data.toggleTheme = !dataInstanceEdit.data.toggleTheme"
       )

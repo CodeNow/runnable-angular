@@ -19,6 +19,7 @@
 @import "globals/images";
 @import "globals/loader";
 @import "globals/logo";
+@import "globals/minimize";
 
 // editor
 @import "components/file-tree";
@@ -50,6 +51,7 @@
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-accounts";
 @import "sidebar/sidebar-boxes";
+@import "sidebar/sidebar-footer";
 
 // box
 @import "box/box-header";

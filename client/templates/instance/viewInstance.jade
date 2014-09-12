@@ -1,10 +1,10 @@
 header.box-header
   h1.box-name {{ dataInstance.data.instance.attrs.name }}
-    span.icons-status.tooltip.running(
+    span.icons-status.tooltip.bottom.running(
       data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }} ago."
       ng-if = "dataInstance.data.container.running()"
     )
-    span.icons-status.tooltip(
+    span.icons-status.tooltip.bottom(
       data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}"
       ng-if = "!dataInstance.data.container.running()"
     )
@@ -26,9 +26,9 @@ header.box-header
         ng-if = ""
       ) and Restart
     button.white.btn-icon.btn-icon-sm(
-      ng-class = "{active: dataInstance.data.PopoverSaveOptions.data.show}"
+      ng-class = "{active: dataInstance.data.popoverSaveOptions.data.show}"
       toggle-pop-over
-      toggle-pop-over-model = "dataInstance.data.PopoverSaveOptions.data.show"
+      toggle-pop-over-model = "dataInstance.data.popoverSaveOptions.data.show"
       type = "button"
     )
       svg.iconnables.icons-arrow-down
@@ -36,8 +36,8 @@ header.box-header
           xlink:href = "#icons-arrow-down"
         )
       pop-over(
-        actions = "dataInstance.data.PopoverSaveOptions.actions"
-        data = "dataInstance.data.PopoverSaveOptions.data"
+        actions = "dataInstance.data.popoverSaveOptions.actions"
+        data = "dataInstance.data.popoverSaveOptions.data"
         template = "viewInstancePopoverSaveOptions"
       )
   .secondary-actions
@@ -81,14 +81,18 @@ section.sidebar.box-sidebar
 
   //- edit === false means we're on instance page, no add/remove instances
   //- but we can switch commit
+  //- Using ng-show here so it'll still fetch the repos
   repo-list(
     instance = "dataInstance.data.instance"
-    build = "dataInstance.data.build"
+    build = "dataInstance.data.build",
+    ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
     edit = "false"
   )
 
   //- urls
-  section.row
+  section.row(
+    ng-if = "dataInstance.data.container.urls().length"
+  )
     h2.sub-header URLs
     ul.url-group
       li.url-group-item(
@@ -116,7 +120,7 @@ section.views.with-add-tab(
   }"
 )
   //- explorer
-  button.white.btn-icon.explorer-toggle(
+  button.btn-sm.white.btn-icon.explorer-toggle(
     ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
     type = "button"
   )
@@ -126,8 +130,9 @@ section.views.with-add-tab(
       )
   section.explorer
     .explorer-controls
-      button.toggle-theme.tooltip(
+      button.toggle-theme.tooltip.bottom(
         data-title = "Change Theme"
+        ng-init = "dataInstance.data.toggleTheme = true"
         ng-class = "{dark: !dataInstance.data.toggleTheme, light: dataInstance.data.toggleTheme}"
         ng-click = "dataInstance.data.toggleTheme = !dataInstance.data.toggleTheme"
       )

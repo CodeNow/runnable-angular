@@ -4,7 +4,7 @@
   height: 46px; // offset for even spacing of buttons
   overflow: visible;
   position: relative;
-  transition: all .2s ease-in;
+  transition: all .15s ease-in;
 
   .in & {
     transform: translate3d(270px,0,0);
@@ -21,6 +21,10 @@
   top: 5px;
   width: 36px;
 
+  .out & {
+    transform: translate3d(45px,0,0);
+  }
+
   &.active .icons-add {
     transform: rotate3d(0,0,1,135deg);
   }
@@ -28,26 +32,17 @@
 
 // .add-tab .popover
 .add-tab .popover {
+  height: 72px;
   left: auto;
-  max-width: none;
+  max-width: 360px;
+  min-width: 72px;
   right: 0;
   top: 33px;
   transform-origin: 345px -15px;
-  width: 360px;
+  width: auto; // reset width
 
   .arrow {
     left: auto;
     right: 5px;
-  }
-
-  .col-popover-4 {
-    border-bottom: 1px solid rgba($black,.1);
-    height: 72px;
-    overflow: hidden;
-  }
-
-  .iconnables.lg {
-    display: block;
-    margin: 12px auto 0;
   }
 }

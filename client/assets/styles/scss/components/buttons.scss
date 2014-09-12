@@ -53,9 +53,17 @@ button,
   padding: 0;
   width: 45px;
 
+  &.btn-sm {
+    width: 36px;
+  }
+
   &.btn-icon-sm {
     min-width: 24px;
     width: auto;
+  }
+
+  .iconnables {
+    top: 6px;
   }
 }
 

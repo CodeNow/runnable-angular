@@ -6,29 +6,28 @@
 )
   .arrow.white
   .popover-content
-    ol.popover-body.col-popover-4
-      li(
+    ol.popover-body.popover-columns
+      li.popover-column(
         ng-click = "actions.addWebView()"
       )
-        svg.iconnables.lg.icons-web
+        svg.iconnables.iconnables-lg.icons-web
           use(xlink:href = "#icons-web")
         | Web View
-      li(
+      li.popover-column(
         ng-click = "actions.addTerminal()"
       )
-        svg.iconnables.lg.icons-terminal
+        svg.iconnables.iconnables-lg.icons-terminal
           use(xlink:href = "#icons-terminal")
         | Terminal
-      li(
+      li.popover-column(
         ng-click = "actions.addLogs()"
       )
-        svg.iconnables.lg.icons-logs
+        svg.iconnables.iconnables-lg.icons-logs
           use(xlink:href = "#icons-logs")
-        | Server Logs
-      li(
+        | Build Log
+      li.popover-column(
         ng-click = "actions.addBuildStream()"
       )
-        //- i need a new icon here
-        svg.iconnables.lg.icons-logs
-          use(xlink:href = "#icons-logs")
-        | Build Logs
+        svg.iconnables.iconnables-lg.icons-server
+          use(xlink:href = "#icons-server")
+        | Server Log
