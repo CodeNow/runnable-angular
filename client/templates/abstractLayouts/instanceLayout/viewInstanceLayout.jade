@@ -79,7 +79,8 @@ nav.sidebar.global-sidebar(
           )
 
   footer.row.global-footer
-    button.btn-sm.btn-icon.white.btn-logout(
+    a.btn.btn-sm.btn-icon.white.btn-logout(
+      href = "{{ dataApp.logoutURL }}"
       title = "Log Out"
     )
       svg.iconnables.icons-exit
