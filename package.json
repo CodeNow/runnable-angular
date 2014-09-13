@@ -38,7 +38,7 @@
     "primus": "^2.3.0",
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.33.0",
-    "term.js": "git+https://github.com/CodeNow/term.js#v0.1.0"
+    "term.js": "git+https://github.com/CodeNow/term.js#v0.1.2"
   },
   "devDependencies": {
     "browserify": "~4.2.3",
