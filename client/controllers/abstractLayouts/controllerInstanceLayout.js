@@ -80,7 +80,7 @@ function ControllerInstanceLayout(
     h.active = (instance.attrs.shortHash === $scope.dataApp.stateParams.shortHash);
     h.running = container && container.running();
     h.stopped = !h.running;
-    h.building = build && build.attrs.completed;
+    h.building = build && !build.attrs.completed;
     h.failed = build && build.failed();
     return h;
   };
