@@ -29,36 +29,35 @@
     pointer-events: none;
   }
 
-  .sub-header-action {
+  .sub-header-action.sub-header-action {
     height: 36px;
-    right: 12px;
-  }
+    right: 7px;
+    width: 45px;
 
-  // li.box-group-item
-  .box-group-item {
-    height: 36px;
-    padding: 0;
+    .icons-add {
+      float: none;
+      margin: 5px auto;
+    }
   }
 
   // a.white.box
   .box {
     @extend .tooltip;
     @extend .right;
-    height: 36px;
-    margin: 0 auto;
+    margin: 0 -9px;
     overflow: visible;
-    width: 36px;
+    width: 45px;
   }
 
   .box-item-name {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .icons-status {
     left: 0;
     margin: 0 auto;
     right: 0;
-    top: 13px;
   }
 
   // resize nav footer
