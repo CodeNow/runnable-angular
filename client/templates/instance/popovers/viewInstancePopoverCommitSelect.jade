@@ -56,7 +56,7 @@
         )
       span.commit-author {{ commit.author.login }}
       time.commit-time {{ commit.commit.author.date | timeAgo }}
-    li.commit-group-item(
+    li.commit-group-item.commit-item-more(
       ng-if = "data.attrs.commits.length && !data.attrs.allCommitsLoaded"
     )
       button.blue.btn-block Load Older

@@ -62,38 +62,6 @@
   }
 }
 
-// popovers
-.popover-actions {
-  left: -68px;
-  top: 36px;
-  transform-origin: 50% 0;
-}
-
-.popover.popover-save-options {
-  left: auto;
-  right: -1px;
-  top: 36px;
-  transform-origin: 228px 0;
-  width: 240px;
-
-  .arrow.white {
-    left: auto;
-    right: 2px;
-  }
-
-  .label-checkbox {
-    cursor: pointer;
-    display: block;
-    font-size: 14px;
-    padding: 0 15px;
-  }
-
-  .checkbox {
-    height: 36px;
-    margin-right: 12px;
-  }
-}
-
 // button.green.btn-save
 .btn-save {
   margin-right: 3px;

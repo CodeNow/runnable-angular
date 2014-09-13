@@ -39,11 +39,6 @@
 @import "components/menu";
 @import "components/tooltips";
 
-// components (popovers)
-@import "components/popovers";
-@import "components/popover-add-repo";
-@import "components/popover-add-tab";
-
 // components (forms)
 @import "components/forms";
 @import "components/forms-toggles";
@@ -57,7 +52,6 @@
 // box
 @import "box/box-header";
 @import "box/box-sidebar";
-@import "box/box-popovers";
 
 // views
 @import "views/views";
@@ -69,3 +63,11 @@
 // pages
 @import "pages/home";
 @import "pages/setup";
+
+// components (popovers)
+@import "components/popovers";
+@import "components/popover-actions";
+@import "components/popover-save-options";
+@import "components/popover-add-repo";
+@import "components/popover-add-tab";
+@import "components/popover-commit-select";
