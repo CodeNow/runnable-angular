@@ -68,6 +68,10 @@ function repoList (
             // We're behind
             acv.attrs.commitsBehind = commits.indexOf(acv.attrs.activeCommit);
           }
+          if (!commits[commits.length - 1].parents.length) {
+            acv.attrs.allCommitsLoaded = true;
+          }
+
           $rootScope.safeApply();
           cb();
         });
