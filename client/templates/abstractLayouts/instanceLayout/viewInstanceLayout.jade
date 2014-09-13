@@ -32,7 +32,7 @@ nav.sidebar.global-sidebar(
             ng-src = "{{ org.gravitar() }}"
             width = "24"
           )
-          span {{ dataApp.user.oauthName() }}
+          span.account-name {{ dataApp.user.oauthName() }}
       //- Orgs that are not the active account
       li.accounts-group-item(
         ng-click = "dataInstanceLayout.actions.stateToAccount(org)"
@@ -45,7 +45,7 @@ nav.sidebar.global-sidebar(
             ng-src = "{{ org.gravitar() }}"
             width = "24"
           )
-          span {{ org.oauthName() }}
+          span.account-name {{ org.oauthName() }}
 
   //- INSTANCES
   section.row.boxes
