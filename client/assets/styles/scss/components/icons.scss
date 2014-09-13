@@ -126,7 +126,8 @@
   height: 9px;
   width: 9px;
 
-  &.running {
+  &.running,
+  .running & {
     background: $green;
     border: 0;
   }
