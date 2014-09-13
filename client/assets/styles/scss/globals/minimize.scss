@@ -12,13 +12,13 @@
   // accounts
   .account-name,
   .icons-arrow-down {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .gravatar {
     display: block;
-    float: none;
-    margin: 0 auto;
+    margin-top: 0;
     position: relative;
     top: 18px;
   }
