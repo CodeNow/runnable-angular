@@ -33,7 +33,7 @@ li.folder(
                    | isFile \
                    | orderBy:actions.normalizeMixedDataValue"
       ng-class = "{ \
-          'active': fs.state.open, \
+          'active': fs.state.active, \
           'dirty': (state.current.name === 'projects.instance' \
                     && fs.state.body !== fs.attrs.body) \
         }"
