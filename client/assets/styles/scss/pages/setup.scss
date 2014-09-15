@@ -3,196 +3,32 @@
   width: 450px;
 }
 
-// .repository-mock (in repo-list)
-.repository-mock {
+// .guide (in repo-list)
+.guide {
   background: rgba($blue,.1);
   border: 2px dashed rgba($blue,.2);
   border-radius: 3px;
-  color: $blue;
   cursor: pointer;
   font-size: 14px;
-  margin: 0 6px 15px;
+  margin: 9px 6px 15px;
 
-  &:active,
-  &.active {
-    background: rgba($blue,.1);
-    border-color: rgba($blue,.4);
-  }
-
-  .icons-git {
+  .iconnables {
     float: left;
     margin: 12px 9px 0;
   }
+
+  &.guide-no-help {
+    cursor: default;
+
+    &:hover,
+    &:active,
+    &.active {
+      background: rgba($blue,.1);
+      border-color: rgba($blue,.2);
+    }
+  }
 }
 
-// .setup add repo button
-.sub-header-action.blue {
-  background: rgba($blue,.1);
-  border-color: rgba($blue,.2);
-}
-
-/* temp--delete once the above works ^
-also see line 3 viewrepolist.jade
-*/
-.setup .sub-header-action.white {
-  @extend .blue;
-  background: rgba($blue,.1);
-  border-color: rgba($blue,.2);
-}
-/* end temp */
-
-// viewSetupPopoverAddRepos
-.add-repo-form {
-  border-radius: 0 0 3px 3px;
-  bottom: auto;
-  box-shadow: 0 1px 10px rgba(0,0,0,.1), 0 1px 0 $white;
-  display: flex;
-  flex-direction: column;
-  left: 0;
-  margin: 0 auto;
-  max-height: calc(100% - 36px);
-  opacity: 0;
-  overflow: hidden;
-  padding: 24px 0 0;
-  position: absolute;
-  right: 0;
-  top: 15px;
-  transform: scale3d(1,1,1) translate3d(0,-50%,0);
-  transform-origin: 50% 0;
-  transition: all .2s ease-in;
-  width: calc(100% - 30px);
-
-  &.in {
-    transform: translate3d(0,0,0);
-    z-index: $z-header - 2;
-
-    ~ form {
-
-      .sidebar-form-section {
-        opacity: 0;
-      }
-
-      .sidebar-setup {
-        opacity: 1;
-      }
-    }
-  }
-
-  .icons-check {
-    color: $green;
-    position: absolute;
-    right: 6px;
-    top: 6px;
-    transform: scale3d(0,0,0);
-  }
-
-  .list-group-item {
-    border-color: rgba($black,.15);
-    border-left: 0;
-    border-radius: 0;
-    border-right: 0;
-    cursor: pointer;
-    max-height: 36px;
-    overflow: hidden;
-    padding: 0;
-    transition: max-height .2s;
-
-    &.in {
-      max-height: 108px;
-
-      .icons-check {
-        transform: scale3d(1,1,1);
-      }
-
-      .repo-group-item:first-child {
-        font-weight: 500;
-        padding-right: 12px;
-      }
-    }
-
-    &:first-child {
-      display: none;
-      font-size: 13px;
-      height: 63px;
-      max-height: 63px;
-      padding: 0 9px;
-      text-align: center;
-
-      em {
-        display: block;
-        line-height: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
-
-    &:last-child {
-      border-bottom: 0;
-    }
-
-    &:only-child {
-      display: block;
-    }
-
-    &.spinning {
-      color: $purple;
-      display: flex;
-      height: 90px;
-      max-height: none;
-    }
-  }
-
-  .repo-group-item {
-    height: 36px;
-    overflow: hidden;
-    padding: 0 9px;
-    text-overflow: ellipsis;
-    transition: height .2s ease-in;
-    white-space: nowrap;
-
-    &:nth-child(n+2) {
-      margin: 0 -9px;
-    }
-
-    &.invalid {
-      height: 54px;
-    }
-  }
-
-  .form-control {
-    border: 0;
-    border-radius: 0;
-    font-size: 14px;
-    margin: 0;
-    padding: 0 9px;
-    text-indent: 0;
-  }
-
-  .form-validate {
-    background-position: 97% 50% !important;
-    background-size: 24px 24px !important;
-
-    &.ng-valid {
-      background: none;
-    }
-  }
-
-  .btn-block {
-    flex: 0 0 auto;
-
-    &.out {
-      display: none;
-    }
-  }
-
-  .list-group {
-    border-bottom: 1px solid rgba($black,.1);
-    margin: 0;
-    max-height: calc(100% - 51px);
-    overflow: auto;
-  }
-}
 
 // setup .sidebar-form
 // form element added here so we could have a separate form for viewSetupPopoverAddRepos

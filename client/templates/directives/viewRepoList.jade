@@ -1,6 +1,5 @@
 section.row
   h2.sub-header Repositories
-    //- use .blue instead of .white if this is /new
     a.btn.btn-sm.white.sub-header-action(
       ng-class = "{active: data.show}"
       toggle-pop-over
@@ -17,16 +16,16 @@ section.row
         template = "viewInstanceEditPopoverAddRepo"
       )
 
-  //- show .repository-mock if /new && no repositories have been added yet
-  //- .repository-mock(
-  //-   toggle-pop-over
-  //-   toggle-pop-over-model = "data.show"
-  //- )
+  //- show .guide if /new && no repositories have been added yet
+  .guide.blue(
+    toggle-pop-over
+    toggle-pop-over-model = "data.show"
+  )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    p Add a repository to get started.
+    p Add a repository to your box.
 
   ul.repository-group
     li.repository-group-item(

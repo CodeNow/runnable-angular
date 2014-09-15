@@ -15,17 +15,29 @@ section.sidebar.box-sidebar.setup
   repo-list
   section.row
     h2.sub-header Docker Templates
-    .form-group.toggle-group
-      //- dockerfile templates
-      label(
+    //- remove .in if template is selected
+    .label-group(
+      ng-class = "{in: dataSetup.actions.highlightTemplates}"
+    )
+      label.label-group-item(
         ng-repeat = "context in dataSetup.data.seedContexts.models"
       ) {{ context.attrs.name }}
-        input(
+        input.radio(
           name = "source-context"
           ng-click = "dataSetup.actions.selectSourceContext(context)"
           required
           type = "radio"
         )
+
+    //- show .guide if a template has not been selected
+    .guide.blue(
+      ng-click = "dataSetup.actions.highlightTemplates = true"
+    )
+      svg.iconnables.icons-docker
+        use(
+          xlink:href = "#icons-docker"
+        )
+      p Choose a template to generate your dockerfile.
 
   section.row.sidebar-validation(
     ng-if = "dataSetup.data.validDockerfile.valid === false"
