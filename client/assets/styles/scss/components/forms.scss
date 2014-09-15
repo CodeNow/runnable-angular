@@ -19,8 +19,13 @@ input {
   }
 
   &[type="checkbox"] {
+    cursor: pointer;
     -webkit-appearance: checkbox;
     width: auto;
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
   }
 }
 

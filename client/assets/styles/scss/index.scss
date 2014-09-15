@@ -64,10 +64,10 @@
 @import "pages/home";
 @import "pages/setup";
 
-// components (popovers)
-@import "components/popovers";
-@import "components/popover-actions";
-@import "components/popover-save-options";
-@import "components/popover-add-repo";
-@import "components/popover-add-tab";
-@import "components/popover-commit-select";
+// popovers
+@import "popover/popover";
+@import "popover/popover-actions";
+@import "popover/popover-save-options";
+@import "popover/popover-add-repo";
+@import "popover/popover-add-tab";
+@import "popover/popover-commit-select";
