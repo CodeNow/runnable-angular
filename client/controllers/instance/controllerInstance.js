@@ -310,7 +310,6 @@ function ControllerInstance(
     if (!data.openItems) {
       return;
     }
-    data.showExplorer = !!n;
     if (n) {
       // instance is running
       if (data.container.urls().length) {
