@@ -5,6 +5,7 @@ require('app')
  */
 function repoList (
   $rootScope,
+  $state,
   async,
   QueryAssist,
   keypather,
@@ -60,6 +61,80 @@ function repoList (
         return keypather.get(repo, 'state.activeCommit') || repo.attrs.activeCommit;
       };
 
+      // triggered when update button pressed for multiple repos,
+      // or when selected commit changes if single repo
+      function triggerInstanceUpdateOnRepoCommitChange () {
+        $rootScope.dataApp.data.loading = true;
+        var context              = $scope.build.contexts.models[0];
+        var contextVersion       = $scope.build.contextVersions.models[0];
+        var infraCodeVersionId   = contextVersion.attrs.infraCodeVersion;
+
+        // fetches current state of repos listed in DOM w/ selected commits
+        var appCodeVersionStates = contextVersion.appCodeVersions.models.map(function (model) {
+          return {
+            branch: model.attrs.branch,
+            repo: model.attrs.repo,
+            commit: $scope.actions.fetchRepoDisplayActiveCommit(model).sha
+          };
+        });
+
+        async.waterfall([
+          findOrCreateContextVersion,
+          createBuild,
+          buildBuild,
+          updateInstanceWithBuild
+        ], function () {
+          $rootScope.dataApp.data.loading = false;
+          $state.go('instance.instance');
+        });
+
+        // if we find this contextVersion, reuse it.
+        // otherwise create a new one
+        function findOrCreateContextVersion (cb) {
+          var foundCVs = context.fetchVersions({
+            infraCodeVersion: infraCodeVersionId,
+            appCodeVersions: appCodeVersionStates
+          }, function (err) {
+            if (err) {
+              return cb(err);
+            }
+            if (foundCVs.models.length) {
+              return cb(null, foundCVs.models[0]);
+            }
+            var body = {
+              infraCodeVersion: infraCodeVersionId,
+              appCodeVersions: appCodeVersionStates
+            };
+            var newContextVersion = context.createVersion(body, function (err) {
+              cb(err, newContextVersion);
+            });
+          });
+        }
+
+        function createBuild (contextVersion, cb) {
+          var build = $rootScope.dataApp.user.createBuild({
+            contextVersions: [contextVersion.id()],
+            owner: $scope.instance.attrs.owner
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+
+        function buildBuild (build, cb) {
+          build.build({
+            message: 'change appCodeVersion TODO change'
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+
+        function updateInstanceWithBuild (build, cb) {
+          $scope.instance.update({
+            build: build.id()
+          }, cb);
+        }
+      }
+
       if (!$scope.edit) {
         // we are on instance page, not instanceEdit
 
@@ -67,73 +142,12 @@ function repoList (
         $scope.actions.selectActiveCommit = function (repo, commit) {
           keypather.set(repo, 'state.activeCommit', commit);
           keypather.set(repo, 'state.show', false); // hide commit select dropdown
-          $rootScope.dataApp.data.loading = true;
-          var context              = $scope.build.contexts.models[0];
-          var contextVersion       = $scope.build.contextVersions.models[0];
-          var infraCodeVersionId   = contextVersion.attrs.infraCodeVersion;
-
-          // this needs to have new data yo.
-          //var appCodeVersionStates = contextVersion.attrs.appCodeVersions.map(pick('branch', 'commit', 'repo'));
-          var appCodeVersionStates = contextVersion.appCodeVersions.models.map(function (model) {
-            return {
-              branch: model.attrs.branch,
-              repo: model.attrs.repo,
-              commit: $scope.actions.fetchRepoDisplayActiveCommit(model).sha
-            };
-          });
-
-          async.waterfall([
-            findOrCreateContextVersion,
-            createBuild,
-            buildBuild,
-            updateInstanceWithBuild
-          ], function () {
-            console.log(arguments);
-          });
-
-          function findOrCreateContextVersion (cb) {
-            var foundCVs = context.fetchVersions({
-              infraCodeVersion: infraCodeVersionId,
-              appCodeVersions: appCodeVersionStates
-            }, function (err) {
-              if (err) {
-                return cb(err);
-              }
-              if (foundCVs.models.length) {
-                return cb(null, foundCVs.models[0]);
-              }
-              var body = {
-                infraCodeVersion: infraCodeVersionId
-              };
-              var newContextVersion = context.createVersion(body, function (err) {
-                cb(err, newContextVersion);
-              });
-            });
-          }
-
-          function createBuild (contextVersion, cb) {
-            var build = $rootScope.dataApp.user.createBuild({
-              contextVersions: [contextVersion.id()],
-              owner: $scope.instance.attrs.owner
-            }, function (err) {
-              cb(err, build);
-            });
-          }
-
-          function buildBuild (build, cb) {
-            build.build({
-              message: 'change appCodeVersion TODO change'
-            }, function (err) {
-              debugger;
-              cb(err, build);
-            });
-          }
-
-          function updateInstanceWithBuild (build, cb) {
-            debugger;
-            $scope.instance.update({
-              build: build.id()
-            }, cb);
+          // is this the only repo?
+          if ($scope.build.contextVersions.models[0].appCodeVersions.models.length > 1) {
+            // don't fire. Requires explicit update action from user
+          } else {
+            // fire away chief
+            triggerInstanceUpdateOnRepoCommitChange();
           }
         };
 
