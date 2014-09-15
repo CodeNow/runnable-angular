@@ -1,6 +1,45 @@
-.setup .tabs-wrapper a {
-  padding-right: 18px;
+// input.setup-box-name
+.setup-box-name {
+  width: 450px;
 }
+
+// .repository-mock (in repo-list)
+.repository-mock {
+  background: rgba($blue,.1);
+  border: 2px dashed rgba($blue,.2);
+  border-radius: 3px;
+  color: $blue;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 6px 15px;
+
+  &:active,
+  &.active {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.4);
+  }
+
+  .icons-git {
+    float: left;
+    margin: 12px 9px 0;
+  }
+}
+
+// .setup add repo button
+.sub-header-action.blue {
+  background: rgba($blue,.1);
+  border-color: rgba($blue,.2);
+}
+
+/* temp--delete once the above works ^
+also see line 3 viewrepolist.jade
+*/
+.setup .sub-header-action.white {
+  @extend .blue;
+  background: rgba($blue,.1);
+  border-color: rgba($blue,.2);
+}
+/* end temp */
 
 // viewSetupPopoverAddRepos
 .add-repo-form {

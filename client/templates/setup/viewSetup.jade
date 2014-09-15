@@ -1,6 +1,6 @@
 header.box-header
   h1.box-name
-    input(
+    input.setup-box-name(
       placeholder = "Box Name"
       spellcheck = "false"
       value = "{{ dataSetup.data.project.attrs.name }}"
@@ -10,26 +10,11 @@ header.box-header
       ng-click = "dataSetup.actions.buildApplication()"
     ) Create Box
 
-section.sidebar.box-sidebar
+section.sidebar.box-sidebar.setup
+  //- repositories
+  repo-list
   section.row
-    h2.sub-header Repositories
-      a.btn.btn-sm.white.sub-header-action(
-        ng-class = "{active: data.show}"
-        toggle-pop-over
-        toggle-pop-over-model = "data.show"
-        type = "button"
-      )
-        svg.iconnables.icons-add
-          use(
-            xlink:href = "#icons-add"
-          )
-        pop-over(
-          actions = "actions"
-          data = "data"
-          template = "viewInstanceEditPopoverAddRepo"
-        )
-  section.row
-    h2.sub-header Docker Template
+    h2.sub-header Docker Templates
     .form-group.toggle-group
       //- dockerfile templates
       label(
