@@ -46,12 +46,18 @@
 
   .gravatar {
     float: left;
-    margin: 18px 9px 0 0;
+    margin: 18px 9px 0 2px;
   }
 
   .icons-arrow-down {
-    float: right;
-    margin: 18px -3px 0 0;
-    transition: transform .3s ease-in;
+    position: absolute;
+    right: 13px;
+    top: 18px;
+    transition: opacity .2s ease-in, transform .3s ease-in;
+  }
+
+  .account-name {
+    position: absolute;
+    transition: opacity .2s ease-in;
   }
 }

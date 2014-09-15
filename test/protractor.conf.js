@@ -14,8 +14,6 @@ exports.config = {
 
   baseUrl: 'http://localhost:3001/',
 
-  framework: 'mocha',
-
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
   }

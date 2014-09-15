@@ -57,7 +57,8 @@ module.exports = function(config) {
     client: {
       mocha: {
         ui: 'bdd'
-      }
+      },
+      captureConsole: true
     },
 
     // list of files / patterns to load in the browser
@@ -83,8 +84,7 @@ module.exports = function(config) {
       // sourcemaps sir?
       debug: true,
       files: [
-        // 'unit/**/*.unit.js'
-        'unit/controllers/ControllerBuildNew.unit.js'
+        'unit/**/*.unit.js'
       ]
     },
 
@@ -110,6 +110,9 @@ module.exports = function(config) {
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_ERROR,
+    logList: [{
+      type: 'console'
+    }],
 
 
     // enable / disable watching file and executing tests whenever any file changes

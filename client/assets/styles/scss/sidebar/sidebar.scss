@@ -36,13 +36,20 @@
   height: 45px;
   line-height: 45px;
   padding: 0 15px;
+  position: relative;
+}
+
+// span.sub-header-text
+.sub-header-text {
+  position: absolute;
+  transition: opacity .2s ease-in;
 }
 
 // a.sub-header-action
 .sub-header-action.sub-header-action {
-  float: right;
-  margin-right: -9px;
   padding: 0;
+  position: absolute;
+  right: 6px;
   top: 6px;
 
   &.white {
