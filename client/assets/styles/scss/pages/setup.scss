@@ -29,34 +29,7 @@
   }
 }
 
-
-// setup .sidebar-form
-// form element added here so we could have a separate form for viewSetupPopoverAddRepos
-.sidebar-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-form-section {
-  transition: all .2s ease-in;
-}
-
-// the sidebar setup is comprised of 3 sections:
-// .sidebar-setup
-// .sidebar-validation
-// .sidebar-submit
-.sidebar-setup {
-  flex: 0 1 auto;
-  min-height: 180px;
-  overflow-y: auto;
-}
-
 .sidebar-validation {
-  border-top: 1px solid rgba($black,.1);
-  flex: 0 1 auto;
-  margin-bottom: 15px;
-  overflow-y: auto;
-  padding: 0 15px 15px;
 
   .list-group {
     font-family: 'Source Code Pro', monospace;
@@ -66,140 +39,21 @@
   }
 
   .list-group-item {
-    border-color: $orange-darker;
-    color: $orange-darker;
+    @extend .orange;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 3px 6px;
     white-space: nowrap;
-  }
-
-  .the-rules {
-    color: $orange-darker;
-    display: table;
-    font-size: 12px;
-    margin: 15px auto 9px;
-    opacity: 1;
-  }
-}
-
-.sidebar-submit {
-  flex: 1 0 auto;
-
-  .btn-block {
-
-    &.invalid .icons-error {
-      height: 21px;
-      transform: scale3d(1,1,1);
-      width: 21px;
-    }
-
-    .icons-error {
-      height: 0;
-      margin-right: 6px;
-      top: 4px;
-      transform: scale3d(0,0,0);
-      transform-origin: 50% 0;
-      transition: all .3s ease-in;
-      width: 0;
-    }
-  }
-}
-
-// .sidebar-setup
-.setup-repo {
-  border-bottom: 1px solid rgba($black,.1);
-  padding: 15px;
-
-  .input-container {
-    position: relative;
-    z-index: $z-header - 1;
-
-    > .btn-icon {
-      color: $gray-dark;
-      position: absolute;
-      right: 9px;
-      top: 0;
-    }
-
-    > .active {
-      transform: scale3d(0,0,0);
-    }
-
-    > .form-control {
-      margin: 0;
-      padding-right: 30px;
-
-      &.in {
-        border-radius: 3px 3px 0 0;
-        box-shadow: none;
-
-        ~ {
-
-          .active {
-            transform: scale3d(1,1,1);
-          }
-
-          .inactive {
-            transform: scale3d(0,0,0);
-          }
-        }
-      }
-    }
-  }
-}
-
-.added-repo {
-
-  > li {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    &:first-child {
-      margin-top: 15px;
-      padding-right: 30px;
-    }
 
     &:last-child {
-      font-weight: 300;
-    }
-  }
-
-  .btn-icon {
-    color: $gray-dark;
-    height: 36px;
-    opacity: .5;
-    padding-top: 3px;
-    position: absolute;
-    right: 6px;
-    width: 24px;
-
-    &:hover {
-      opacity: .75;
+      border-bottom: 1px solid rgba($orange,.3);
     }
 
-    &:active {
-      color: $orange;
-      opacity: 1;
+    &:hover,
+    &:active,
+    &.active {
+      border-color: rgba($orange,.3);
     }
-  }
-
-  .icons-delete {
-    height: 15px;
-    top: -2px;
-    width: 15px;
-  }
-}
-
-.setup-template {
-  padding-bottom: 15px;
-
-  .form-group {
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 3px;
-    margin: 6px 15px 15px;
-  }
-
-  label {
-    height: 36px;
-    line-height: 36px;
   }
 }
