@@ -41,6 +41,17 @@
 
 .primary-actions {
   padding-left: 9px;
+
+  .btn-icon-sm {
+
+    .icons-arrow-down {
+      transition: transform .15s ease-in;
+    }
+
+    &.active .icons-arrow-down {
+      transform: rotate3d(1,0,0,180deg);
+    }
+  }
 }
 
 .secondary-actions {
