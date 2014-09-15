@@ -20,6 +20,7 @@
   // svg.iconnables.icons-search
   .iconnables.icons-search {
     margin: 0; // remove offset
+    top: 0; // remove offset
   }
 
   .popover-content {
@@ -30,121 +31,5 @@
   .popover-list {
     max-height: 330px;
     overflow: auto;
-  }
-}
-
-// add repo form
-.explorer-add-repo {
-  display: none;
-
-  form {
-    position: relative;
-    transition: transform .2s;
-  }
-
-  ul {
-    max-height: 236px;
-    overflow: auto;
-    transition: transform .2s;
-  }
-
-  li {
-    border-top: 1px solid rgba(0,0,0,.1);
-    cursor: pointer;
-    height: 36px;
-    line-height: 36px;
-    overflow: hidden;
-    padding: 0 15px;
-    position: relative;
-    transition: height .2s, opacity .2s;
-    z-index: 2;
-
-    &:first-child {
-      border-top: 0;
-    }
-
-    &.in {
-      cursor: default;
-      height: 120px;
-
-      > span {
-        font-weight: 500;
-      }
-    }
-  }
-}
-
-.explorer-add-repo-form {
-  bottom: 0;
-  margin: 0 -15px;
-  position: absolute;
-
-  > input.form-control {
-    border-bottom: 0;
-  }
-}
-
-.show-form {
-  max-height: 126px !important;
-
-  .arrow::after {
-    border-bottom-color: $gray-lighter !important;
-  }
-
-  .popover-content {
-    max-height: 126px !important;
-  }
-
-  .popover-body {
-    max-height: 123px;
-  }
-
-  .explorer-add-repo {
-
-    > form {
-      transform: translate3d(0,-36px,0);
-    }
-
-    > ul {
-      max-height: 122px;
-      overflow: hidden;
-      transform: translate3d(0,-36px,0);
-    }
-
-    li {
-      cursor: default;
-      height: 0;
-      opacity: 0;
-      padding: 0;
-      pointer-events: none;
-      position: absolute;
-
-      .select-repo {
-        pointer-events: none;
-      }
-
-      &.in {
-        border-top: 0;
-        display: block;
-        height: auto;
-        opacity: 1;
-        pointer-events: auto;
-        position: relative;
-      }
-    }
-
-    span {
-      @extend .popover-title;
-      display: block;
-    }
-
-    .btn-icon {
-      display: inline-block;
-    }
-  }
-
-  .explorer-add-repo-form {
-    background: $gray-lighter;
-    border-top: 1px solid rgba(0,0,0,.05);
   }
 }
