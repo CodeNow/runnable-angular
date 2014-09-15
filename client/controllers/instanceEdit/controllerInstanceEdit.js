@@ -156,12 +156,6 @@ function ControllerInstanceEdit(
     dataInstanceEdit.actions.forkBuild();
   });
 
-  $scope.$watch('dataInstanceEdit.data.build.attrs.completed', function(n) {
-    if (n) {
-      data.showExplorer = true;
-    }
-  });
-
   var confirmText = 'You\'ve made unsaved changes to this page.';
 
   $window.onbeforeunload = function () {
@@ -247,11 +241,6 @@ function ControllerInstanceEdit(
         data.version = data.build.contextVersions.models[0];
 
         pgm.data.build = data.build;
-        if (data.build) {
-          data.showExplorer = true;
-        } else {
-          data.showExplorer = false;
-        }
         cb();
       })
       .resolve(function (err, build, cb) {
