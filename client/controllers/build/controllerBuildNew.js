@@ -235,6 +235,15 @@ function ControllerBuildNew(
     });
   };
 
+  actions.getTriggeringUser = function () {
+    if (keypather.get(data, 'version.attrs.build.triggeredAction.appCodeVersion.repo')) {
+      return data.version.attrs.build.triggeredAction.appCodeVersion.commitLog[0].committer.username;
+    } else if (keypather.get(data, 'version.attrs.build.triggeredBy.username')) {
+      return data.version.attrs.build.triggeredBy.username;
+    }
+    return '';
+  };
+
   /* ============================
    *   API Fetch Methods
    * ===========================*/
