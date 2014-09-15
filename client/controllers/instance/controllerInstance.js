@@ -357,11 +357,6 @@ function ControllerInstance(
         pgm.data.dataModalRename.instance = instance;
         pgm.data.dataModalDelete.instance = instance;
         pso.data.container = pgm.data.container = data.container;
-        if (data.container && data.container.running()) {
-          data.showExplorer = true;
-        } else {
-          data.showExplorer = false;
-        }
         $scope.safeApply();
         cb();
       })
@@ -409,7 +404,8 @@ ControllerInstance.initData = function () {
         filter: ''
       },
       showAddTab: false,
-      showFileMenu: false
+      showFileMenu: false,
+      showExplorer: false
     },
     actions: {}
   };
