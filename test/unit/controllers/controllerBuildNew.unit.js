@@ -16,7 +16,8 @@ describe('ControllerBuildNew'.bold.underline.blue, function () {
       $scopeControllerProjectLayout,
       $scopeControllerBuildNew,
       $stateParams,
-      $state;
+      $state,
+      dataBuildNew;
 
   function initState () {
     angular.mock.module(uiRouter);
@@ -43,13 +44,15 @@ describe('ControllerBuildNew'.bold.underline.blue, function () {
       $controller('ControllerBuildNew', {
         $scope: $scopeControllerBuildNew
       });
+
+      dataBuildNew = $scopeControllerBuildNew.dataBuildNew;
     });
   }
   beforeEach(initState);
 
   describe('repositories', function () {
     it('should list repositories of build', function () {
-      console.log($scopeControllerBuildNew);
+      // console.log($scopeControllerBuildNew);
 
     });
 
