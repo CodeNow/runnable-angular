@@ -80,7 +80,7 @@ function buildStream(
               addToStream('BUILD BROKEN: Please try again');
             } else {
               // we're all good
-              addToStream('BUILD SUCCESSFUL');
+              addToStream('Build completed, starting instance...');
             }
             $rootScope.safeApply();
           });
