@@ -120,16 +120,20 @@ function openItemsFactory(
     this.shortHash = shortHash;
     this.activeHistory = new ActiveHistory();
 
-    var models = $localStorage[shortHash];
-    if (models && models.length) {
-      this.fromCache = true;
-      models = models.map(function (model) {
-        var from = keypather.get(model, 'state.from');
-        if (tabTypes[from]) {
-          model = new tabTypes[model.state.from](model, { noStore: true });
-        }
-        return model;
-      });
+    var models;
+
+    if (this.shortHash) {
+      models = $localStorage[shortHash];
+      if (models && models.length) {
+        this.fromCache = true;
+        models = models.map(function (model) {
+          var from = keypather.get(model, 'state.from');
+          if (tabTypes[from]) {
+            model = new tabTypes[model.state.from](model, { noStore: true });
+          }
+          return model;
+        });
+      }
     }
     BaseCollection.call(this, models, {
       noStore: true
@@ -258,6 +262,7 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.saveState = function () {
+    if (!this.shortHash) { return; }
     $localStorage[this.shortHash] = this.toJSON();
   };
 

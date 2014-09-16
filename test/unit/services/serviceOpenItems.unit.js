@@ -37,6 +37,15 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       expect(oi.fromCache).to.be.falsy;
     });
 
+    it('can initalize without a shortHash', function () {
+      var oi = new OpenItems();
+      expect(oi).to.be.ok;
+      expect(oi.models).to.be.an('array');
+      expect(oi.models.length).to.eql(0);
+      expect(oi.activeHistory.constructor.name).to.eql('ActiveHistory');
+      expect(oi.fromCache).to.be.falsy;
+    });
+
     it('should throw errors when we misuse it', function () {
       var oi = new OpenItems('123456');
 
