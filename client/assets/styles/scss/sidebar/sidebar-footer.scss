@@ -1,8 +1,12 @@
 // footer.row.global-footer
 .global-footer {
+  box-shadow: 0 -12px 12px $gray-lighter;
+  flex: 0 0 auto;
   height: 54px;
   padding: 9px 6px;
+  position: relative;
   transition: all .2s ease-in;
+  z-index: $z-sidebar-footer;
 
   .btn-minimize {
     float: right;
