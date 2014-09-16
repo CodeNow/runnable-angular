@@ -102,11 +102,15 @@ function repoList (
               return cb(null, foundCVs.models[0]);
             }
             var body = {
-              infraCodeVersion: infraCodeVersionId,
-              appCodeVersions: appCodeVersionStates
+              infraCodeVersion: infraCodeVersionId
+              //appCodeVersions: appCodeVersionStates
             };
             var newContextVersion = context.createVersion(body, function (err) {
-              cb(err, newContextVersion);
+              async.each(appCodeVersionStates, function (acvs, cb) {
+                newContextVersion.appCodeVersions.create(acvs, cb);
+              }, function (err) {
+                cb(err, newContextVersion);
+              });
             });
           });
         }
