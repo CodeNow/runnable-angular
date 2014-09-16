@@ -27,6 +27,18 @@ input {
       cursor: not-allowed;
     }
   }
+
+  // min font-size for mobile
+  @include retina() {
+    @media (max-width: 500px) {
+      font-size: 16px;
+    }
+  }
+
+  // placeholder
+  &::placeholder {
+    color: $gray;
+  }
 }
 
 // label.btn.btn-checkbox
@@ -40,58 +52,26 @@ input {
   margin-left: 12px;
 }
 
-// .form-control {
-//   box-shadow: 0 1px 0 $white;
-//   display: block;
-//   height: 36px;
-//   line-height: 1.4;
-//   padding: 6px 12px;
-//   transition: border .1s cubic-bezier(.19,1,.22,1), transform .15s;
+// validation
+.validate {
+  padding-right: 36px;
+  transition: border .15s ease-in;
 
-//   &:hover {
-//     border-color: rgba(0,0,0,.2);
-//   }
+  &.ng-valid {
+    background: url(/build/images/icons/icons-check.svg) no-repeat center right;
+    color: $gray-darker;
+  }
 
-//   &:focus {
-//     box-shadow: 0 1px 0 $white;
-//     border-color: $orange;
-//     outline: 0;
-//   }
+  &.ng-invalid {
+    background: url(/build/images/icons/icons-error.svg) rgba($orange,.1) no-repeat center right;
+    border-color: rgba($orange,.3);
+    color: $orange-dark;
+  }
 
-//   &[disabled] {
-//     background: $gray-light;
-//     cursor: not-allowed;
-//   }
-
-//   //validation
-//   &.form-validate {
-//     transition: border .1s cubic-bezier(.19,1,.22,1), color .15s ease-in-out, transform .15s;
-
-//     &.ng-valid {
-//       background: url(/build/images/icons/icons-check.svg) $white no-repeat center right;
-//       color: $gray-darkest;
-//     }
-
-//     &.ng-invalid {
-//       background: url(/build/images/icons/icons-error.svg) $white no-repeat center right;
-//       color: $orange-darker;
-//     }
-
-//     &.ng-pristine {
-//       background: $white;
-//       color: $gray-darkest;
-//     }
-//   }
-
-//   @include retina() {
-//     @media (max-width: 500px) {
-//       font-size: 16px;
-//     }
-//   }
-// }
-
-.form-control::placeholder {
-  color: rgba(0,0,0,.5);
+  &.ng-pristine {
+    background: none;
+    color: $gray-darker;
+  }
 }
 
 .form-label {
@@ -138,10 +118,9 @@ input {
   }
 }
 
-// the rules
-.the-rules {
-  color: $white;
-  font-size: 15px;
+// .validate-rules
+.validate-rules {
+  font-size: 14px;
   height: 0;
   opacity: 0;
   text-align: center;
@@ -173,17 +152,6 @@ input {
   }
 }
 
-// inline editing
-.inline-edit {
-  background: none;
-  border-color: transparent;
-
-  &:hover,
-  &:focus {
-    @extend .form-control;
-  }
-}
-
 .search {
   position: relative;
 
@@ -205,7 +173,7 @@ input {
     overflow: hidden;
     padding: 0;
     position: absolute;
-      top: 0;
+    top: 0;
     transition: transform .2s;
     width: 36px;
   }
@@ -251,85 +219,6 @@ input {
 
     & ~ .add {
       transform: translate3d(-36px,0,0);
-    }
-  }
-}
-
-// different position in popovers
-.popover .search {
-
-  > input {
-    padding-left: 30px;
-  }
-
-  > .add {
-    right: -36px;
-  }
-}
-
-.form-group {
-  position: relative;
-}
-
-// inline editing
-form.inline {
-  margin-bottom: 1px;
-  position: relative;
-
-  > span {
-    color: $gray-dark;
-    font-size: 16px;
-    line-height: 34px;
-    position: absolute;
-      left: 10px;
-  }
-
-  > input {
-    -webkit-appearance: none;
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 0;
-    box-shadow: 0 1px 0 rgba(0,0,0,.1), 0 2px 0 $white;
-    color: $gray-darker;
-    height: 36px;
-    line-height: 36px;
-    outline: none;
-    padding: 0 15px 0 35px;
-    width: 100%;
-
-    &:hover {
-      background: $white;
-      cursor: pointer;
-    }
-
-    &:focus {
-      background: $white;
-      border-color: $orange;
-      cursor: text;
-    }
-
-    &[disabled],
-    &[disabled]:hover {
-      background: transparent;
-      cursor: text;
-      opacity: 1;
-      -webkit-text-fill-color: $gray-darker;
-    }
-  }
-
-  .menu {
-    position: absolute;
-      top: 0;
-      right: 0;
-
-    > a {
-      color: $gray-dark;
-      padding: 11px;
-    }
-
-    > ul {
-      margin-top: 0;
-      min-width: 190px;
     }
   }
 }
