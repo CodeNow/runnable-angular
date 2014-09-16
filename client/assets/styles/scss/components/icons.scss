@@ -53,6 +53,7 @@
   }
 
   // icons with fill
+  &.icons-docker,
   &.icons-git,
   &.icons-link,
   &.icons-update {
@@ -126,7 +127,8 @@
   height: 9px;
   width: 9px;
 
-  &.running {
+  &.running,
+  .running & {
     background: $green;
     border: 0;
   }

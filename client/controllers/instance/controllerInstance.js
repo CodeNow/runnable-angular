@@ -63,7 +63,8 @@ function ControllerInstance(
   pgm.data = {
     show: false,
     // popover contains nested modal
-    dataModalDelete: {}
+    dataModalDelete: {},
+    dataModalRename: {}
   };
   pgm.actions = {
     // popover contains nested modal
@@ -75,6 +76,23 @@ function ControllerInstance(
           }
           $state.go('home');
         });
+      }
+    },
+    actionsModalRename: {
+      renameInstance: function (cb) {
+        data.instance.update({
+          name: data.instance.state.name
+        }, function (err) {
+          $scope.safeApply();
+          cb();
+          if (err) {
+            throw err;
+          }
+        });
+        $scope.safeApply();
+      },
+      cancel: function () {
+        data.instance.state.name = data.instance.attrs.name;
       }
     },
     forkInstance: function () {
@@ -211,6 +229,12 @@ function ControllerInstance(
   /***************************************/
 
   actions.saveChanges = function () {
+    // Trigger a new spinner
+    dataInstance.data.saving = false;
+    $scope.safeApply(function () {
+      dataInstance.data.saving = true;
+      $scope.safeApply();
+    });
     var updateModels = data.openItems.models
       .filter(function (model) {
         if (typeof keypather.get(model, 'attrs.body') !== 'string') {
@@ -265,18 +289,6 @@ function ControllerInstance(
     actions.stateToBuildList(old.owner.username, old.project.name, old.environment.name);
   };
 
-  actions.renameInstance = function () {
-    data.instance.update({
-      name: data.instance.attrs.name
-    }, function (err) {
-      $scope.safeApply();
-      if (err) {
-        throw err;
-      }
-    });
-    $scope.safeApply();
-  };
-
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
@@ -298,7 +310,6 @@ function ControllerInstance(
     if (!data.openItems) {
       return;
     }
-    data.showExplorer = !!n;
     if (n) {
       // instance is running
       if (data.container.urls().length) {
@@ -332,18 +343,19 @@ function ControllerInstance(
           // TODO
           // return $state.go(404);
         }
+        instance.state = {
+          name: instance.attrs.name + ''
+        };
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         data.build = instance.build;
 
         // Popovers
         pgm.data.build = data.build;
+        pgm.data.container = data.container;
+        pgm.data.dataModalRename.instance = instance;
+        pgm.data.dataModalDelete.instance = instance;
         pso.data.container = pgm.data.container = data.container;
-        if (data.container && data.container.running()) {
-          data.showExplorer = true;
-        } else {
-          data.showExplorer = false;
-        }
         $scope.safeApply();
         cb();
       })
@@ -356,10 +368,6 @@ function ControllerInstance(
       })
       .go();
   }
-  // delete modal inside popover needs instance name
-  $scope.$watch('dataInstance.data.instance', function (i) {
-    pgm.data.dataModalDelete.instance = i;
-  });
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
@@ -395,7 +403,8 @@ ControllerInstance.initData = function () {
         filter: ''
       },
       showAddTab: false,
-      showFileMenu: false
+      showFileMenu: false,
+      showExplorer: false
     },
     actions: {}
   };

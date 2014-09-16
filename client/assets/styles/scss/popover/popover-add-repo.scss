@@ -1,0 +1,35 @@
+// .popover.bottom.popover-add-repo
+.popover.popover-add-repo {
+  left: -118px;
+  margin-top: 39px;
+  transform-origin: 50% 0;
+  width: 270px;
+
+  .popover-title {
+    padding: 6px;
+  }
+
+  .title {
+    left: 36px;
+    pointer-events: none;
+    position: absolute;
+    right: 36px;
+    top: 0;
+  }
+
+  // svg.iconnables.icons-search
+  .iconnables.icons-search {
+    margin: 0; // remove offset
+    top: 0; // remove offset
+  }
+
+  .popover-content {
+    padding: 0;
+  }
+
+  // ul.popover-list
+  .popover-list {
+    max-height: 330px;
+    overflow: auto;
+  }
+}

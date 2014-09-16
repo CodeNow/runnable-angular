@@ -1,16 +1,14 @@
 // footer.row.global-footer
 .global-footer {
-  display: flex;
   height: 54px;
-  justify-content: space-between;
   padding: 9px 6px;
   transition: all .2s ease-in;
 
-  .btn-logout {
-    order: 1;
+  .btn-minimize {
+    float: right;
   }
 
-  .btn-minimize {
-    order: 2;
+  .icons-arrow-left {
+    transition: transform .3s .2s;
   }
 }

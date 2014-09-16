@@ -11,9 +11,9 @@ header.box-header
     ) Build
   .secondary-actions
     button.white.btn-icon.btn-actions(
-      ng-class = "{active: dataInstanceEdit.data.PopoverActions.data.show}"
+      ng-class = "{active: dataInstanceEdit.data.popoverGearMenu.data.show}"
       toggle-pop-over
-      toggle-pop-over-model = "dataInstanceEdit.data.PopoverActions.data.show"
+      toggle-pop-over-model = "dataInstanceEdit.data.popoverGearMenu.data.show"
       type = "button"
     )
       svg.iconnables.icons-gear
@@ -22,8 +22,8 @@ header.box-header
         )
       //- popover for rename, for, delete box
       pop-over(
-        actions = "dataInstanceEdit.data.PopoverActions.actions"
-        data = "dataInstanceEdit.data.PopoverActions.data"
+        actions = "dataInstanceEdit.data.popoverGearMenu.actions"
+        data = "dataInstanceEdit.data.popoverGearMenu.data"
         template = "viewInstanceEditPopoverActions"
       )
     button.white(

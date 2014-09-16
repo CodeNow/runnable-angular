@@ -82,10 +82,10 @@ div.terminal { // div specifity required b/c there's a term.terminal
 }
 
 .terminal-cursor {
-  background: $gray-lighter !important;
+  background: $gray-dark !important;
 
   .ace-runnable-dark & {
-    background: $gray-dark;
+    background: $gray-light !important;
   }
 }
 
@@ -93,4 +93,11 @@ div.terminal { // div specifity required b/c there's a term.terminal
 .terminal {
   height: 100%;
   width: 100%;
+}
+
+// web view
+.web-container {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
 }

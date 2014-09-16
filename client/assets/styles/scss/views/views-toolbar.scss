@@ -15,11 +15,9 @@
 // toolbar tabs
 .add-tab {
   box-shadow: -12px 0 12px rgba($white,.9);
-  height: 36px;
   position: absolute;
   right: 5px;
   top: 5px;
-  width: 36px;
 
   .out & {
     transform: translate3d(45px,0,0);
@@ -27,22 +25,5 @@
 
   &.active .icons-add {
     transform: rotate3d(0,0,1,135deg);
-  }
-}
-
-// .add-tab .popover
-.add-tab .popover {
-  height: 72px;
-  left: auto;
-  max-width: 360px;
-  min-width: 72px;
-  right: 0;
-  top: 33px;
-  transform-origin: 345px -15px;
-  width: auto; // reset width
-
-  .arrow {
-    left: auto;
-    right: 5px;
   }
 }

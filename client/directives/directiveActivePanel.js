@@ -31,6 +31,10 @@ function activePanel(
       var actions = $scope.actions = {};
       data.readOnly = $scope.readOnly;
 
+      actions.onFocus = function () {
+        $rootScope.$broadcast('app-document-click');
+      };
+
       actions.setAceMode = function (_editor) {
         var filename = $scope.openItems.activeHistory.last().attrs.name;
         var mode = modelist.getModeForPath(filename).mode;

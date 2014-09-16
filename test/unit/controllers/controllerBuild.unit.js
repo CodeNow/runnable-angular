@@ -53,98 +53,66 @@ describe('ControllerBuild'.bold.underline.blue, function () {
   }
   beforeEach(initState);
 
-  describe.skip('getPopoverButtonText'.blue, function () {
-    it('correctly formats string', function () {
-      var baseReturnStr = 'Build';
-      expect(dataBuild.actions.getPopoverButtonText(''))
-        .to.equal(baseReturnStr);
-
-      expect(dataBuild.actions.getPopoverButtonText('a'))
-        .to.equal(baseReturnStr+'s in a');
-
-      expect(dataBuild.actions.getPopoverButtonText('ab'))
-        .to.equal(baseReturnStr+'s in ab');
-
-      expect(dataBuild.actions.getPopoverButtonText('ab ab ab'))
-        .to.equal(baseReturnStr+'s in ab ab ab');
+  describe('general popovers'.blue, function () {
+    var rbpo;
+    beforeEach(function () {
+      rbpo = dataBuild.data.rbpo;
+    });
+    it('should initalize correctly', function () {
+      expect(rbpo.data).to.have.property('show', false);
+      expect(rbpo.data).to.have.property('environmentName', '');
+      expect(rbpo.data).to.have.property('popoverInputHasBeenClicked', false);
     });
   });
 
-  describe.skip('resetInputModelValue'.blue, function () {
-    it('should reset input model value to empty string if this is the first click', function () {
-      expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
-      expect(dataBuild.data).to.have.property('buildName', $stateParams.buildName);
-      dataBuild.actions.resetInputModelValue();
-      expect(dataBuild.data).to.have.property('buildName', '');
-      expect(dataBuild.data).to.have.property('inputHasBeenClicked', true);
+  describe('rebuild popover', function () {
+    var rbpo;
+    beforeEach(function () {
+      rbpo = dataBuild.data.rbpo;
+    });
+    describe('getPopoverButtonText'.blue, function () {
+      it('correctly formats string', function () {
+        var baseReturnStr = 'Build';
+        expect(rbpo.actions.getPopoverButtonText(''))
+          .to.equal(baseReturnStr);
+
+        expect(rbpo.actions.getPopoverButtonText('a'))
+          .to.equal(baseReturnStr+'s in a');
+
+        expect(rbpo.actions.getPopoverButtonText('ab'))
+          .to.equal(baseReturnStr+'s in ab');
+
+        expect(rbpo.actions.getPopoverButtonText('ab ab ab'))
+          .to.equal(baseReturnStr+'s in ab ab ab');
+      });
     });
 
-    it('should not reset input model value if dataBuild.inputHasBeenClick === true', function () {
-      var mockEvent = {
-        stopPropagation: angular.noop
-      };
-      dataBuild.actions.resetInputModelValue(mockEvent);
-      dataBuild.data.buildName = 'test';
-      dataBuild.actions.resetInputModelValue(mockEvent);
-      expect(dataBuild.data.buildName).to.equal('test');
-    });
-  });
+    describe('resetInputModelValue'.blue, function () {
+      it('should reset input model value to empty string if this is the first click', function () {
+        expect(rbpo.data).to.have.property('popoverInputHasBeenClicked', false);
+        expect(rbpo.data).to.have.property('environmentName', '');
+        rbpo.data.environmentName = 'llamas';
+        rbpo.data.popoverInputHasBeenClicked = true;
+        rbpo.actions.resetInputModelValue();
+        expect(rbpo.data).to.have.property('environmentName', '');
+        expect(rbpo.data).to.have.property('popoverInputHasBeenClicked', true);
+      });
 
-  describe('popovers'.blue, function () {
-    it.skip('popovers are not displayed by default', function () {
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-      expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
-      expect(dataBuild.data).to.have.property('buildName', $stateParams.buildName);
-      expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
-
-      // confirm expected defaults ^
-      Object
-        .keys(ControllerBuild.constructor.initPopoverState($stateParams).data)
-        .forEach(function (prop) {
-          expect(dataBuild.data).to.have.property(prop, ControllerBuild.constructor.initPopoverState($stateParams).data[prop]);
-        });
-    });
-
-    it.skip('outside click event on document has no effect on popovers when not displayed', function () {
-      $appScope.dataApp.documentClickEventHandler();
-      expect(dataBuild.data).to.have.property('showBuildOptionsDirty', false);
-      expect(dataBuild.data).to.have.property('showBuildOptionsClean', false);
-      expect(dataBuild.data).to.have.property('buildName', $stateParams.buildName);
-      expect(dataBuild.data).to.have.property('inputHasBeenClicked', false);
-    });
-
-    it.skip('outside click event on document hides popovers when they are displayed', function () {
-    });
-
-  });
-
-  describe('clean/dirty editing state'.blue, function () {
-    it.skip('state should be clean at initialization', function () {
-      expect(dataBuild.data).to.have.property('isClean', true);
+      it('should not reset input model value if rbpo.inputHasBeenClick === true', function () {
+        var mockEvent = {
+          stopPropagation: angular.noop
+        };
+        rbpo.actions.resetInputModelValue(mockEvent);
+        rbpo.data.buildName = 'test';
+        rbpo.actions.resetInputModelValue(mockEvent);
+        expect(rbpo.data.buildName).to.equal('test');
+      });
     });
   });
 
   describe('explorer menu'.blue, function () {
     it('should initialize to closed', function () {
       expect(dataBuild.data.showExplorer).to.equal(false);
-    });
-
-    it.skip('should toggle open/closed', function () {
-      dataBuild.actions.toggleExplorer();
-      expect(dataBuild.data.showExplorer).to.equal(false);
-      dataBuild.actions.toggleExplorer();
-      expect(dataBuild.data.showExplorer).to.equal(true);
-      dataBuild.actions.toggleExplorer();
-      expect(dataBuild.data.showExplorer).to.equal(false);
-    });
-
-    it.skip('should not toggle in response to external click events', function () {
-      dataBuild.actions.toggleExplorer();
-      expect(dataBuild.data.showExplorer).to.equal(false);
-      dataBuild.actions.toggleExplorer();
-      expect(dataBuild.data.showExplorer).to.equal(true);
-      $appScope.dataApp.documentClickEventHandler();
-      expect(dataBuild.data.showExplorer).to.equal(true);
     });
   });
 });

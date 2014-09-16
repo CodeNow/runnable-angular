@@ -20,7 +20,8 @@ function ControllerApp(
   QueryAssist,
   primus,
   $localStorage,
-  configEnvironment
+  configEnvironment,
+  jQuery
 ) {
 
   var self = ControllerApp;
@@ -30,6 +31,17 @@ function ControllerApp(
     configAPIHost);
   var data = dataApp.data = {};
   var authed = false;
+
+  // detect when user presses escape and close modals
+  // rare violation of controller & dom isolation
+  // no need to unbind contApp is instantiated
+  // only once in app lifecycle
+  jQuery(document).on('keydown', function (e) {
+    if (e.keyCode === 27) {
+      $rootScope.$broadcast('app-document-click');
+      $rootScope.safeApply();
+    }
+  });
 
   dataApp.data.configEnvironment = configEnvironment;
   dataApp.data.configAPIHost = configAPIHost;

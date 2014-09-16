@@ -23,7 +23,6 @@
 
 // editor
 @import "components/file-tree";
-@import "components/editor";
 @import "components/browser-chrome";
 @import "components/themes";
 
@@ -39,10 +38,6 @@
 @import "components/menu";
 @import "components/tooltips";
 
-// components (popovers)
-@import "components/popovers";
-@import "components/popover-add-repo";
-
 // components (forms)
 @import "components/forms";
 @import "components/forms-toggles";
@@ -56,7 +51,6 @@
 // box
 @import "box/box-header";
 @import "box/box-sidebar";
-@import "box/box-popovers";
 
 // views
 @import "views/views";
@@ -68,3 +62,11 @@
 // pages
 @import "pages/home";
 @import "pages/setup";
+
+// popovers
+@import "popover/popover";
+@import "popover/popover-actions";
+@import "popover/popover-save-options";
+@import "popover/popover-add-repo";
+@import "popover/popover-add-tab";
+@import "popover/popover-commit-select";

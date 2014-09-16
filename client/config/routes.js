@@ -9,23 +9,18 @@ module.exports = [{
       'width-full': true
     },
   }
+// }, {
+//   state: 'projects',
+//   abstract: false,
+//   url: '^/new',
+//   templateUrl: 'viewProjectLayout',
+//   controller: 'ControllerProjectLayout'
 }, {
-  state: 'projects',
+  state: 'instance.setup',
   abstract: false,
-  url: '^/new',
-  templateUrl: 'viewProjectLayout',
-  controller: 'ControllerProjectLayout'
-}, {
-  state: 'projects.setup',
-  abstract: false,
-  url: '^/new/:userName/:projectName',
+  url: '^/new/',
   templateUrl: 'viewSetup',
-  controller: 'ControllerSetup',
-  data: {
-    bodyClass: {
-      setup: true
-    },
-  }
+  controller: 'ControllerSetup'
 }, {
   state: 'projects.buildList',
   abstract: false,

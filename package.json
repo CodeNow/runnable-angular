@@ -17,7 +17,7 @@
   "dependencies": {
     "101": "^0.5.0",
     "angular": "^1.2.19",
-    "angular-ui-ace": "git://github.com/Runnable/ui-ace.git#1.1.4",
+    "angular-ui-ace": "git://github.com/Runnable/ui-ace.git#v0.2.0",
     "angular-ui-router": "~0.2.10",
     "ansi-to-html": "^0.2.0",
     "async": "~0.9.0",
@@ -37,8 +37,8 @@
     "moment": "~2.7.0",
     "primus": "^2.3.0",
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.33.0",
-    "term.js": "git+https://github.com/CodeNow/term.js#v0.1.0"
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.33.2",
+    "term.js": "git+https://github.com/CodeNow/term.js#v0.1.2"
   },
   "devDependencies": {
     "browserify": "~4.2.3",

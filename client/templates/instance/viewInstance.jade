@@ -1,11 +1,11 @@
 header.box-header
   h1.box-name {{ dataInstance.data.instance.attrs.name }}
     span.icons-status.tooltip.bottom.running(
-      data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }} ago."
+      data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}."
       ng-if = "dataInstance.data.container.running()"
     )
     span.icons-status.tooltip.bottom(
-      data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}"
+      data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
       ng-if = "!dataInstance.data.container.running()"
     )
   .primary-actions
@@ -13,18 +13,14 @@ header.box-header
     //- add title = "Save and Restart Box" if save restarts box
     button.green.btn-save(
       ng-class = "{in: dataInstance.data.saving}"
-      ng-click = "dataInstance.actions.saveChanges(); dataInstance.data.saving = true"
+      ng-click = "dataInstance.actions.saveChanges()"
       type = "button"
     )
-      svg.iconnables.icons-update
-        use(
-          xlink:href = "#icons-update"
-        )
       span.btn-text Save
       //- show if restart is checked
-      span(
-        ng-if = ""
-      ) and Restart
+      span.btn-text(
+        ng-if = "dataInstance.data.restartOnSave"
+      ) #{''} and Restart
     button.white.btn-icon.btn-icon-sm(
       ng-class = "{active: dataInstance.data.popoverSaveOptions.data.show}"
       toggle-pop-over
@@ -43,7 +39,9 @@ header.box-header
   .secondary-actions
     //- apply class .in to .save-spinner to play animation
     //- subsequent saves: remove .in and reapply .in
-    .save-spinner
+    .save-spinner(
+      ng-class = "{ in: dataInstance.data.saving }"
+    )
       .spinner
         .spinner-ring
       svg.iconnables.icons-check
@@ -107,6 +105,7 @@ section.sidebar.box-sidebar
         a.url-link(
           href = "{{ url }}"
           target = "_blank"
+          title = "Open in a New Tab"
         )
           svg.iconnables.icons-link
             use(
@@ -147,7 +146,7 @@ section.views.with-add-tab(
   tabs(
     open-items= "dataInstance.data.openItems"
   )
-  a.btn.white.btn-icon.add-tab(
+  a.btn.btn-sm.white.btn-icon.add-tab(
     ng-class = "{active: dataInstance.data.popoverAddTab.data.show}"
     toggle-pop-over
     toggle-pop-over-model = "dataInstance.data.popoverAddTab.data.show"
