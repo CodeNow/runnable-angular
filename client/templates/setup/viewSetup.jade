@@ -29,7 +29,9 @@ header.box-header
 
 section.sidebar.box-sidebar.setup
   //- repositories
-  repo-list
+  repo-list(
+    build = "dataSetup.data.build"
+  )
   section.row
     h2.sub-header Docker Templates
     //- remove .in if template is selected
