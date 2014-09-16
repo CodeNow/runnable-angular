@@ -347,13 +347,14 @@ function ControllerInstanceLayout(
     ]);
   };
 
-  $scope.$watch('dataApp.state.current.name', function (newval, oldval) {
+  $scope.$watch('dataApp.state.params', function () {
+    var newval = $scope.dataApp.state.current.name;
     if (newval.indexOf('instance.') === 0) {
       actions.initForState();
     } else if (newval === 'instance') {
       actions.initForNewState();
     }
-  });
+  }, true); // true: uses angular.equals()
 
   $scope.$on('app-document-click', function () {
     $scope.dataInstanceLayout.data.showChangeAccount = false;

@@ -25,11 +25,12 @@ nav.sidebar.global-sidebar(
       //- current user (if user is not active)
       li.accounts-group-item(
         ng-if = "dataApp.user !== dataInstanceLayout.data.activeAccount"
+        ng-click = "dataInstanceLayout.actions.stateToAccount(dataApp.user)"
       )
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "{{ org.gravitar() }}"
+            ng-src = "{{ dataApp.user.gravitar() }}"
             width = "24"
           )
           span.account-name {{ dataApp.user.oauthName() }}
