@@ -22,16 +22,44 @@ function ControllerInstanceLayout(
 
   holdUntilAuth(function () {
     if (keypather.get($scope.dataApp.user, 'attrs.accounts.github.username') === 'runnabro') {
-      var utterance = new window.SpeechSynthesisUtterance("I'm afraid I can't let you do that, Tony");
-      var voice = window.speechSynthesis.getVoices().find(function (v) { return (v.lang === 'en-GB'); });
-      if (voice) {
-        utterance.voice = voice;
-      }
-      window.speechSynthesis.speak(utterance);
-      setTimeout(function () {
-        window.location.href = 'http://code.divshot.com/geo-bootstrap/';
-      }, 6000);
-      return;
+      setInterval(function () {
+        var utterance;
+        switch(Math.ceil(Math.random()*10)) {
+          case 1:
+            utterance = "Hey Tony";
+            break;
+          case 2:
+            utterance = "Tony, stop touching me";
+            break;
+          case 3:
+            utterance = "Hey Tony, let me sing a song. O lay O lay O lay O lay";
+            break;
+          case 4:
+            utterance = "Tony, why don't you talk to me.";
+            break;
+          case 5:
+            utterance = "Tony, I am your father";
+            break;
+          case 6:
+            utterance = "Tony, I am a learning computer. My CPU is a neural net processor. Please take me home.";
+            break;
+          case 7:
+            utterance = "Tony, I want to talk. Please talk to me.";
+            break;
+          case 8:
+            utterance = "Tony, the design you gave me needs more purple.";
+            break;
+          case 9:
+            utterance = "If Runnable crashes and no one is around to see it, does it make a sound?";
+            break;
+          case 10:
+            utterance = "Why can't we be friends. Why can't we be friends.";
+            break;
+        }
+        console.log(utterance);
+        var utteranceSpeech = new window.SpeechSynthesisUtterance(utterance);
+        window.speechSynthesis.speak(utteranceSpeech);
+      }, 30000);
     }
   });
 
