@@ -18,7 +18,7 @@ module.exports = [{
 }, {
   state: 'instance.setup',
   abstract: false,
-  url: '^/new/',
+  url: '^/new',
   templateUrl: 'viewSetup',
   controller: 'ControllerSetup'
 }, {

@@ -1,6 +1,8 @@
 // section.row.boxes
 .boxes {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-bottom: 12px; // offset for box-shadow on footer
 }
 
 // li.box-group-item

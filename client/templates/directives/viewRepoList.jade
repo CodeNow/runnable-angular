@@ -37,6 +37,8 @@ section.row
           xlink:href = "#icons-git"
         )
       h3.repository-title {{ repo.attrs.repo }}
+
+      //- if not editing and behind latest
       button.btn-xs.white.tooltip.bottom.repository-update(
         data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
         ng-if = "repo.attrs.commitsBehind"
@@ -45,6 +47,24 @@ section.row
           use(
             xlink:href = "#icons-update"
           )
+
+      //- if editing
+      //- button.btn-xs.white.repository-actions(
+      //-   ng-class = "{active: repo.data.popoverRepoActions.data.show}"
+      //-   toggle-pop-over
+      //-   toggle-pop-over-model = "repo.data.popoverRepoActions.data.show"
+      //-   type = "button"
+      //- )
+      //-   svg.iconnables.icons-gear
+      //-     use(
+      //-       xlink:href = "#icons-gear"
+      //-     )
+      //-   pop-over(
+      //-     actions = "repo.data.popoverRepoActions.actions"
+      //-     data = "repo.data.popoverRepoActions.data"
+      //-     template = "viewInstanceEditPopoverRepoActions"
+      //-   )
+
       //- add .pending for orange
       .commit(
         toggle-pop-over

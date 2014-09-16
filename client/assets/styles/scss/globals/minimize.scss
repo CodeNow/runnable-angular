@@ -40,9 +40,15 @@
     }
   }
 
+  // section.row.boxes
+  .boxes {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   // a.white.box
   .box {
-    @extend .tooltip;
+    // @extend .tooltip;
     @extend .right;
     margin: 0 -9px;
     overflow: visible;
