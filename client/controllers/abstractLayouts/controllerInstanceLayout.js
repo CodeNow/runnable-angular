@@ -21,6 +21,7 @@ function ControllerInstanceLayout(
   var actions = dataInstanceLayout.actions = {};
 
   holdUntilAuth(function () {
+
     if (keypather.get($scope.dataApp.user, 'attrs.accounts.github.username') === 'runnabro') {
       setInterval(function () {
         var utterance;
