@@ -76,10 +76,15 @@ header.box-header
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
   //- repositories
+
+  //- edit === false means we're on instance page, no add/remove instances
+  //- but we can switch commit
   //- Using ng-show here so it'll still fetch the repos
   repo-list(
+    instance = "dataInstance.data.instance"
     build = "dataInstance.data.build",
     ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
+    edit = "false"
   )
 
   //- urls
