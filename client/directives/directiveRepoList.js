@@ -16,7 +16,8 @@ function repoList (
     scope: {
       instance: '=',
       build: '=',
-      edit: '='
+      edit: '=',
+      showGuide: '='
     },
     templateUrl: 'viewRepoList',
     replace: true,
