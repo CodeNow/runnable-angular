@@ -142,8 +142,8 @@ function ControllerSetup(
    * set active context && fetch build files for display
    */
   actions.selectSourceContext = function (context) {
-    data.selectedSourceContext = context;
     data.fetchingContext = true;
+    data.contextSelected = true;
     fetchContextVersion(context, function (err) {
       if (err) {
         throw err;
@@ -159,7 +159,6 @@ function ControllerSetup(
             if (err) {
               throw err;
             }
-            data.sourceFilesCopied = true;
             data.contextVersion.source = data.sourceContextVersion.id();
             fetchContextVersionFiles(data.contextVersion, function (err) {
               if (err) {
@@ -175,6 +174,7 @@ function ControllerSetup(
 
   actions.buildApplication = function () {
     $scope.dataApp.data.loading = true;
+    data.creatingProject = true;
     async.series([
 
       function (cb) {
@@ -197,6 +197,7 @@ function ControllerSetup(
   };
 
   actions.stateToBuild = function () {
+    data.creatingProject = true;
     $state.go('instance.instance', {
       userName: $scope.dataApp.user.oauthName(),
       shortHash: data.instance.id()

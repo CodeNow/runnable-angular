@@ -1,31 +1,35 @@
 header.box-header
   h1.box-name
-    input.validate.setup-box-name(
-      ng-model = "dataSetup.data.newProjectName"
-      placeholder = "Box Name"
-      spellcheck = "false"
-      validate-name-pattern
-      validate-name = "dataSetup.data.projects"
-      value = "{{ dataSetup.data.project.attrs.name }}"
+    form(
+      name = "dataSetup.data.newProjectNameForm"
     )
-    //- if invalid character is entered
-    .validate-wrapper
-      span.validate-rules(
-        ng-class = "{in: dataSetup.data.newProjectNameForm.$error.namePattern.length}"
-      ) We accept #{''}
-        b.btn.btn-xs.orange A-Z
-        b.btn.btn-xs.orange a-z
-        b.btn.btn-xs.orange 0-9
-        b.btn.btn-xs.orange _
-        b.btn.btn-xs.orange -
-      //- if the name is taken
-      span.validate-rules(
-        ng-class = "{in: dataSetup.data.newProjectNameForm.$error.nameAvailable.length}"
-      ) That's a pretty name, but it's taken.
+      input.validate.setup-box-name(
+        ng-model = "dataSetup.data.newProjectName"
+        placeholder = "Box Name"
+        spellcheck = "false"
+        validate-name-pattern
+        validate-name = "dataInstanceLayout.data.instances"
+        value = "{{ dataSetup.data.project.attrs.name }}"
+      )
+      //- if invalid character is entered
+      .validate-wrapper
+        span.validate-rules(
+          ng-class = "{in: dataSetup.data.newProjectNameForm.$error.namePattern.length}"
+        ) We accept #{''}
+          b.btn.btn-xs.orange A-Z
+          b.btn.btn-xs.orange a-z
+          b.btn.btn-xs.orange 0-9
+          b.btn.btn-xs.orange _
+          b.btn.btn-xs.orange -
+        //- if the name is taken
+        span.validate-rules(
+          ng-class = "{in: dataSetup.data.newProjectNameForm.$error.nameAvailable.length}"
+        ) That's a pretty name, but it's taken.
   .primary-actions
     //- remove .orange, add .green when validation passes
     button.orange(
       ng-click = "dataSetup.actions.buildApplication()"
+      ng-disabled = "dataSetup.data.creatingProject || dataSetup.data.newProjectNameForm.$invalid"
     ) Create Box
 
 section.sidebar.box-sidebar.setup
@@ -53,6 +57,7 @@ section.sidebar.box-sidebar.setup
     //- show .guide if a template has not been selected
     .guide.blue(
       ng-click = "dataSetup.actions.highlightTemplates = true"
+      ng-if = "!dataSetup.data.contextSelected"
     )
       svg.iconnables.icons-docker
         use(
