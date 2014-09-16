@@ -87,7 +87,7 @@ function ControllerInstanceLayout(
     function changeState (shortHash) {
       $state.go('instance.instance', {
         shortHash: shortHash,
-        userName: userOrOrg.oauthId()
+        userName: userOrOrg.oauthName()
       });
     }
     new QueryAssist($scope.dataApp.user, angular.noop)
