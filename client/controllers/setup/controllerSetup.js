@@ -183,9 +183,13 @@ function ControllerSetup(
         }, cb);
       },
       function (cb) {
-        data.build.fetch(cb);
+        var thisUser = $scope.dataApp.user;
+        data.instance = thisUser.createInstance({
+          build: data.build.id(),
+          name: data.newProjectName
+        }, cb);
       }
-    ], function (err, results) {
+    ], function (err) {
       if (err) throw err;
       $scope.dataApp.data.loading = false;
       dataSetup.actions.stateToBuild();
@@ -193,12 +197,9 @@ function ControllerSetup(
   };
 
   actions.stateToBuild = function () {
-    $state.go('projects.build', {
-      userName: $scope.dataApp.stateParams.userName,
-      projectName: keypather.get(data, 'project.attrs.name') ||
-        $scope.dataApp.stateParams.projectName,
-      branchName: data.project.defaultEnvironment.attrs.name,
-      buildName: data.build.attrs.buildNumber
+    $state.go('instance.instance', {
+      userName: $scope.dataApp.user.oauthName(),
+      shortHash: data.instance.id()
     });
   };
 
