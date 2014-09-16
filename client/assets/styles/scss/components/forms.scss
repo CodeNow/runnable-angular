@@ -37,9 +37,10 @@ input {
 
   // placeholder
   &::placeholder {
-    color: $gray;
+    color: $gray-light;
   }
 }
+
 
 // label.btn.btn-checkbox
 .btn-checkbox {
