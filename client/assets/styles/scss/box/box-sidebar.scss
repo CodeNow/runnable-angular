@@ -21,7 +21,8 @@
   line-height: 1;
   white-space: nowrap;
 
-  + .repository-update {
+  + .repository-update,
+  + .repository-actions {
     background: $white;
     box-shadow: -9px 0 9px rgba($white,.9);
     font-size: 12px;
@@ -33,7 +34,23 @@
     &:hover {
       background: #f2f2f2; // rgba($black,.1)
     }
+
+    &.active {
+      background: #f2f2f2; // rgba($black,.1)
+    }
   }
+}
+
+.repository-update .iconnables {
+  height: 13px;
+  top: 2px;
+  width: 13px;
+}
+
+.repository-actions .iconnables {
+  height: 18px;
+  top: 2px;
+  width: 18px;
 }
 
 // .commit
@@ -113,13 +130,6 @@
     top: 3px;
     width: 18px;
   }
-}
-
-// button.white.repository-update.tooltip
-.white.repository-update .icons-update {
-  height: 13px;
-  top: 2px;
-  width: 13px;
 }
 
 // .commit line 1: .commit-message
