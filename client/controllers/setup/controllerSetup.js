@@ -400,10 +400,17 @@ function ControllerSetup(
   actions.initState = function () {
     async.waterfall([
       holdUntilAuth,
-      fetchProject,
-      fetchSeedContexts,
-      fetchFirstBuild,
-      fetchOwnerRepos
+      function (cb) {
+        async.parallel([
+          fetchSeedContexts,
+          fetchOwnerRepos,
+          function (cb) {
+            async.waterfall([
+              fetchProject,
+              fetchFirstBuild
+            ], cb);
+          }], cb);
+      }
     ], function (err) {
       if (err) {
         $state.go('404');
