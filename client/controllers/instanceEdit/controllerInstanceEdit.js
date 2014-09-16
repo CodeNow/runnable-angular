@@ -250,7 +250,7 @@ function ControllerInstanceEdit(
   }
 
   function newOpenItems(cb) {
-    data.openItems = new OpenItems();
+    data.openItems = new OpenItems(data.instance.id());
     if (data.build.attrs.started) {
       data
         .openItems.addBuildStream({

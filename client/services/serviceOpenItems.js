@@ -10,7 +10,7 @@ require('app')
  * @ngInject
  */
 function openItemsFactory(
-  $timeout,
+  $localStorage,
   keypather,
   pluck,
   equals,
@@ -66,6 +66,14 @@ function openItemsFactory(
   util.inherits(BuildStream, BaseModel);
   util.inherits(LogView, BaseModel);
 
+  var tabTypes = {
+    Terminal: Terminal,
+    WebView: WebView,
+    BuildStream: BuildStream,
+    LogView: LogView,
+    File: VersionFileModel
+  };
+
   function ActiveHistory(models) {
     BaseCollection.call(this, models, {
       noStore: true
@@ -108,11 +116,24 @@ function openItemsFactory(
     }
   };
 
-  function OpenItems(models) {
+  function OpenItems(shortHash) {
+    this.shortHash = shortHash;
+    this.activeHistory = new ActiveHistory();
+
+    var models = $localStorage[shortHash];
+    if (models && models.length) {
+      this.fromCache = true;
+      models = models.map(function (model) {
+        var from = keypather.get(model, 'state.from');
+        if (tabTypes[from]) {
+          model = new tabTypes[model.state.from](model, { noStore: true });
+        }
+        return model;
+      });
+    }
     BaseCollection.call(this, models, {
       noStore: true
     });
-    this.activeHistory = new ActiveHistory();
   }
 
   util.inherits(OpenItems, BaseCollection);
@@ -161,9 +182,13 @@ function openItemsFactory(
       return;
     }
     this.addOne(model);
+    this.saveState();
   };
 
   OpenItems.prototype.addOne = function (model) {
+    if (!this.instanceOfModel(model)) {
+      throw new Error('Trying to add a non-model');
+    }
     model.state = model.state || {
       reset: function () {
         model.state.body = model.attrs.body;
@@ -207,6 +232,7 @@ function openItemsFactory(
       BaseCollection.prototype.remove.call(this, model);
     }
     this.activeHistory.remove(model);
+    this.saveState();
     return this;
   };
 
@@ -217,6 +243,22 @@ function openItemsFactory(
         this.remove(models[i]);
       }
     }
+  };
+
+  OpenItems.prototype.toJSON = function () {
+    var json = [];
+    this.models.forEach(function (model) {
+      var modelJSON = model.toJSON();
+      // The following brought to you by IE not supporting Function.prototype.name
+      var modelConstructor = model.constructor.toString().match(/function\s(\w*)/)[1];
+      keypather.set(modelJSON, 'state.from', modelConstructor);
+      json.push(modelJSON);
+    });
+    return json;
+  };
+
+  OpenItems.prototype.saveState = function () {
+    $localStorage[this.shortHash] = this.toJSON();
   };
 
   return OpenItems;
