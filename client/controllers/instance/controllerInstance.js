@@ -316,10 +316,14 @@ function ControllerInstance(
         pat.actions.addWebView();
       }
       pat.actions.addTerminal();
-      data.openItems.activeHistory.add(data.logs);
+      if (data.logs) {
+        data.openItems.activeHistory.add(data.logs);
+      }
     } else {
       // instance is stopped
-      data.logs.state.alwaysOpen = true;
+      if (data.logs) {
+        data.logs.state.alwaysOpen = true;
+      }
       data.openItems.removeAllButLogs();
       if (!dataInstance.data.instance.build.attrs.completed) {
         // instance is building
@@ -370,13 +374,15 @@ function ControllerInstance(
   }
 
   function newOpenItems(cb) {
-    data.openItems = new OpenItems();
+    data.openItems = new OpenItems(data.instance.id());
     if (data.build.succeeded()) {
       var container = data.container;
       // save this so we can later
       // set it active after adding
       // terminal/web view
-      data.logs = pat.actions.addLogs();
+      if (!data.openItems.fromCache) {
+        data.logs = pat.actions.addLogs();
+      }
     } else {
       data.logs = pat.actions.addBuildStream();
     }
