@@ -30,7 +30,7 @@ nav.sidebar.global-sidebar(
         a.account
           img.gravatar(
             height = "24"
-            ng-src = "{{ org.gravitar() }}"
+            ng-src = "{{ dataApp.user.gravitar() }}"
             width = "24"
           )
           span.account-name {{ dataApp.user.oauthName() }}
