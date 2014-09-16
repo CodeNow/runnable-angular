@@ -16,9 +16,15 @@ module.exports = [{
 //   templateUrl: 'viewProjectLayout',
 //   controller: 'ControllerProjectLayout'
 }, {
-  state: 'instance.setup',
+  state: 'instance.new',
   abstract: false,
   url: '^/new',
+  templateUrl: 'viewSetup',
+  controller: 'ControllerNew'
+}, {
+  state: 'instance.setup',
+  abstract: false,
+  url: '^/new/:buildId',
   templateUrl: 'viewSetup',
   controller: 'ControllerSetup'
 }, {

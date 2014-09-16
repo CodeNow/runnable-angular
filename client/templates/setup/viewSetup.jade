@@ -30,7 +30,10 @@ header.box-header
 
 section.sidebar.box-sidebar.setup
   //- repositories
-  repo-list
+  repo-list(
+    build = "dataSetup.data.build",
+    edit = "true"
+  )
   section.row
     h2.sub-header Docker Templates
     //- remove .in if template is selected
@@ -67,7 +70,32 @@ section.sidebar.box-sidebar.setup
           ng-repeat = "error in dataSetup.data.validDockerfile.errors"
         ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
 
-section.views
+section.views(
+  ng-class = "{in: dataSetup.data.showExplorer && !dataSetup.data.loading}"
+)
+  //- explorer
+  button.btn-sm.white.btn-icon.explorer-toggle(
+    ng-click = "dataSetup.data.showExplorer = !dataSetup.data.showExplorer"
+    type = "button"
+  )
+    svg.iconnables.icons-folder-open
+      use(
+        xlink:href = "#icons-folder-open"
+      )
+  section.explorer
+    .explorer-controls
+      button.toggle-theme.tooltip.bottom(
+        data-title = "Change Theme"
+        ng-init = "dataSetup.data.toggleTheme = true"
+        ng-class = "{dark: !dataSetup.data.toggleTheme, light: dataSetup.data.toggleTheme}"
+        ng-click = "dataSetup.data.toggleTheme = !dataSetup.data.toggleTheme"
+      )
+        .theme
+    file-tree(
+      open-items = "dataSetup.data.openItems"
+      read-only = "false"
+      root-dir = "dataSetup.data.version.rootDir"
+    )
 
   //- tabs
   tabs(
@@ -76,6 +104,7 @@ section.views
 
   //- active panel
   active-panel(
+    is-dark-theme = "dataSetup.data.toggleTheme"
     open-items = "dataSetup.data.openItems"
     read-only = "dataSetup.data.isReadOnly"
     update = "true"

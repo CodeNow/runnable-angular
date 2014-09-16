@@ -192,13 +192,11 @@ function ControllerInstanceLayout(
       });
     });
   };
-
-  actions.stateToNewProject = function (userOrOrg) {
-    actions.selectProjectOwner(userOrOrg, function () {
-      $state.go('projects');
-    });
+*/
+  actions.stateToNew = function () {
+    $state.go('instance.new');
   };
-
+/*
   actions.setActiveProject = function (userOrOrg, project) {
     data.activeProject = project;
     data.showChangeAccount = false;

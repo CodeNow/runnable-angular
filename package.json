@@ -85,6 +85,7 @@
     "mocha": "~1.20.1",
     "ng-midway-tester": "^2.0.5",
     "nock": "https://registry.npmjs.org/nock/-/nock-0.42.1.tgz",
+    "node-uuid": "^1.4.1",
     "nodemon": "~1.1.1",
     "protractor": "~1.0.0-rc1",
     "sinon": "~1.10.3",

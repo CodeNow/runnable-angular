@@ -5,13 +5,18 @@ require('app')
  */
 function repoList (
   $rootScope,
+  $state,
   async,
-  QueryAssist
+  QueryAssist,
+  keypather,
+  pick
 ) {
   return {
     restrict: 'E',
     scope: {
-      build: '='
+      instance: '=',
+      build: '=',
+      edit: '='
     },
     templateUrl: 'viewRepoList',
     replace: true,
@@ -41,7 +46,6 @@ function repoList (
             data.version.createAppCodeVersion(body, function() {
               data.version.fetch(function(err, version) {
                 populateContextVersions(function () {
-
                   $rootScope.safeApply();
                 });
               });
@@ -49,6 +53,109 @@ function repoList (
           });
         }
       };
+
+      // returns currently selected commit if user has selected a new commit but
+      // change hasn't been saved with API yet
+      $scope.actions.fetchRepoDisplayActiveCommit = function (repo) {
+        return keypather.get(repo, 'state.activeCommit') || repo.attrs.activeCommit;
+      };
+
+      // triggered when update button pressed for multiple repos,
+      // or when selected commit changes if single repo
+      function triggerInstanceUpdateOnRepoCommitChange () {
+        $rootScope.dataApp.data.loading = true;
+        var context              = $scope.build.contexts.models[0];
+        var contextVersion       = $scope.build.contextVersions.models[0];
+        var infraCodeVersionId   = contextVersion.attrs.infraCodeVersion;
+
+        // fetches current state of repos listed in DOM w/ selected commits
+        var appCodeVersionStates = contextVersion.appCodeVersions.models.map(function (model) {
+          return {
+            branch: model.attrs.branch,
+            repo: model.attrs.repo,
+            commit: $scope.actions.fetchRepoDisplayActiveCommit(model).sha
+          };
+        });
+
+        async.waterfall([
+          findOrCreateContextVersion,
+          createBuild,
+          buildBuild,
+          updateInstanceWithBuild
+        ], function () {
+          $rootScope.dataApp.data.loading = false;
+          $state.go('instance.instance');
+        });
+
+        // if we find this contextVersion, reuse it.
+        // otherwise create a new one
+        function findOrCreateContextVersion (cb) {
+          var foundCVs = context.fetchVersions({
+            infraCodeVersion: infraCodeVersionId,
+            appCodeVersions: appCodeVersionStates
+          }, function (err) {
+            if (err) {
+              return cb(err);
+            }
+            if (foundCVs.models.length) {
+              return cb(null, foundCVs.models[0]);
+            }
+            var body = {
+              infraCodeVersion: infraCodeVersionId,
+              appCodeVersions: appCodeVersionStates
+            };
+            var newContextVersion = context.createVersion(body, function (err) {
+              cb(err, newContextVersion);
+            });
+          });
+        }
+
+        function createBuild (contextVersion, cb) {
+          var build = $rootScope.dataApp.user.createBuild({
+            contextVersions: [contextVersion.id()],
+            owner: $scope.instance.attrs.owner
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+
+        function buildBuild (build, cb) {
+          build.build({
+            message: 'change appCodeVersion TODO change'
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+
+        function updateInstanceWithBuild (build, cb) {
+          $scope.instance.update({
+            build: build.id()
+          }, cb);
+        }
+      }
+
+      if (!$scope.edit) {
+        // we are on instance page, not instanceEdit
+
+        // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
+        $scope.actions.selectActiveCommit = function (repo, commit) {
+          keypather.set(repo, 'state.activeCommit', commit);
+          keypather.set(repo, 'state.show', false); // hide commit select dropdown
+          // is this the only repo?
+          if ($scope.build.contextVersions.models[0].appCodeVersions.models.length > 1) {
+            // don't fire. Requires explicit update action from user
+          } else {
+            // fire away chief
+            triggerInstanceUpdateOnRepoCommitChange();
+          }
+        };
+
+      } else {
+        // instanceEdit page
+
+        // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
+        $scope.actions.selectActiveCommit = function (repo, commit) {};
+      }
 
       // On branch change, update ACV commits
       function updateCommits(acv, cb) {
@@ -60,9 +167,9 @@ function repoList (
           if (err) { return cb(err); }
 
           acv.attrs.commits = commits;
-          acv.attrs.activeCommit = commits.filter(function (commit) {
+          acv.attrs.activeCommit = commits.find(function (commit) {
             return commit.sha === acv.attrs.commit;
-          })[0];
+          });
 
           if (acv.attrs.activeCommit !== commits[0]) {
             // We're behind
@@ -113,31 +220,29 @@ function repoList (
 
       function populateContextVersions (cb) {
         async.series([
-            function (cb) {
-              data.version.fetch(cb);
-            },
-            function (cb) {
-              $rootScope.safeApply();
-
-              async.each(data.version.appCodeVersions.models, function (model, cb) {
-
-                async.parallel([
-                  function (cb) {
-                    updateCommits(model, cb);
-                  },
-                  function (cb) {
-                    model.githubRepo().fetchBranches(function (err, branches) {
-                      if (err) {
-                        cb(err);
-                      }
-                      model.attrs.branches = branches;
-                      cb();
-                    });
-                  }
-                ], cb);
-              }, cb);
-            }
-          ], cb);
+          function (cb) {
+            data.version.fetch(cb);
+          },
+          function (cb) {
+            $rootScope.safeApply();
+            async.each(data.version.appCodeVersions.models, function (model, cb) {
+              async.parallel([
+                function (cb) {
+                  updateCommits(model, cb);
+                },
+                function (cb) {
+                  model.githubRepo().fetchBranches(function (err, branches) {
+                    if (err) {
+                      cb(err);
+                    }
+                    model.attrs.branches = branches;
+                    cb();
+                  });
+                }
+              ], cb);
+            }, cb);
+          }
+        ], cb);
       }
 
       $scope.$watch('build.contextVersions.models[0]', function (n) {
