@@ -16,4 +16,17 @@ util.waitForUrl = function (url) {
   });
 };
 
+util.createGetter = function (by) {
+  return {
+    get: function () {
+      return element(by);
+    }
+  };
+};
+
+util.regex = {};
+
+util.regex.shortHash = '[a-z0-9]{6}';
+util.regex.objectId = '[0-9a-fA-F]{24}';
+
 module.exports = util;

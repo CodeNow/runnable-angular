@@ -1,6 +1,12 @@
+/**
+ * Tests a user's onboarding experience
+ * login => setup => running instance
+ */
+
 var login = require('./helpers/oauth-github');
-var SetupPage = require('./SetupPage');
 var util = require('./helpers/util');
+
+var SetupPage = require('./pages/SetupPage');
 
 describe('home', function () {
   it('should allow navigation to /', function () {
@@ -11,11 +17,18 @@ describe('home', function () {
 
 login();
 
+describe('project creation workflow', function () {
+  it('should direct the user to the setup page', function () {
+    var setup = new SetupPage();
+    setup.get();
+  });
+});
+/*
 // Creation
 describe('project creation workflow', function () {
   it('should allow the user to create a new project', function () {
-    util.waitForUrl(util.processUrl('/new'));
-    expect(browser.getCurrentUrl()).toBe(util.processUrl('/new'));
+    util.waitForUrl(new RegExp(util.processUrl('/new/' + util.regex.objectId)));
+    expect(browser.getCurrentUrl()).toMatch(util.processUrl('/new'));
 
     element(by.model('dataProjectLayout.data.newProjectName')).sendKeys('test-0');
     element(by.css('#wrapper > header > div.startup-container > form > button')).click();
@@ -81,7 +94,7 @@ describe('project creation workflow', function () {
 
     element(by.css('#wrapper > main > nav > section > div > button.green')).click();
 
-    util.waitForUrl(new RegExp(util.processUrl('/instances/runnable-doobie/[a-z0-9]{6}')));
+    util.waitForUrl(new RegExp(util.processUrl('/instances/runnable-doobie/' + util.regex.shortHash)));
 
     browser.wait(function () {
       return element(by.css('.sub-header')).evaluate('dataInstance.data.container.running()');
@@ -102,3 +115,4 @@ describe('project creation workflow', function () {
     });
   });
 });
+*/

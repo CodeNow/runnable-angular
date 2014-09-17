@@ -1,7 +1,7 @@
 function login () {
     browser.driver.get('http://localhost:3001');
 
-    browser.driver.findElement(by.css('.btn.white')).click();
+    browser.driver.findElement(by.css('#wrapper > main > a.btn')).click();
 
     // at this point my server redirects to google's auth page, so let's log in
     var emailInput = browser.driver.findElement(by.id('login_field'));
