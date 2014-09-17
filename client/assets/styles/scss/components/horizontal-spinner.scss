@@ -1,5 +1,5 @@
 .horizontal-spinner {
-  background: rgba(0,0,0,.1);
+  background: rgba($purple-light,.1);
   height: 3px;
   margin: auto;
   overflow: hidden;
@@ -9,7 +9,7 @@
 
   &::before,
   &::after {
-    background: rgba($black,.5);
+    background: $purple-light;
     content: '';
     display: block;
     height: 3px;

@@ -142,14 +142,14 @@ function ControllerSetup(
    * set active context && fetch build files for display
    */
   actions.selectSourceContext = function (context) {
-    data.selectedSourceContext = context;
     data.fetchingContext = true;
+    data.contextSelected = true;
     fetchContextVersion(context, function (err) {
       if (err) {
         throw err;
       }
       data.fetchingContext = false;
-      if (data.contextVersion.source === data.sourceContextVersion.id()) {
+      if (keypather.get(data, 'contextVersion.source') === data.sourceContextVersion.id()) {
         // nothing
       } else {
         var sourceInfraCodeVersion = data.sourceContextVersion.attrs.infraCodeVersion;
@@ -159,7 +159,6 @@ function ControllerSetup(
             if (err) {
               throw err;
             }
-            data.sourceFilesCopied = true;
             data.contextVersion.source = data.sourceContextVersion.id();
             fetchContextVersionFiles(data.contextVersion, function (err) {
               if (err) {
@@ -175,6 +174,7 @@ function ControllerSetup(
 
   actions.buildApplication = function () {
     $scope.dataApp.data.loading = true;
+    data.creatingProject = true;
     async.series([
 
       function (cb) {
@@ -183,9 +183,13 @@ function ControllerSetup(
         }, cb);
       },
       function (cb) {
-        data.build.fetch(cb);
+        var thisUser = $scope.dataApp.user;
+        data.instance = thisUser.createInstance({
+          build: data.build.id(),
+          name: data.newProjectName
+        }, cb);
       }
-    ], function (err, results) {
+    ], function (err) {
       if (err) throw err;
       $scope.dataApp.data.loading = false;
       dataSetup.actions.stateToBuild();
@@ -193,12 +197,10 @@ function ControllerSetup(
   };
 
   actions.stateToBuild = function () {
-    $state.go('projects.build', {
-      userName: $scope.dataApp.stateParams.userName,
-      projectName: keypather.get(data, 'project.attrs.name') ||
-        $scope.dataApp.stateParams.projectName,
-      branchName: data.project.defaultEnvironment.attrs.name,
-      buildName: data.build.attrs.buildNumber
+    data.creatingProject = true;
+    $state.go('instance.instance', {
+      userName: $scope.dataApp.user.oauthName(),
+      shortHash: data.instance.id()
     });
   };
 
@@ -224,127 +226,29 @@ function ControllerSetup(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-  function fetchContextVersion(context, cb) {
-    new QueryAssist(context, cb)
-      .wrapFunc('fetchVersions')
-      .cacheFetch(function updateDom(versions, cached, cb) {
-        if (context.attrs.isSource) {
-          data.sourceContextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
-        } else {
-          data.contextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
-        }
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, versions, cb) {
-        if (!versions.models.length) {
-          return cb(new Error('Source Context Versions not found'));
-        }
-        $scope.safeApply();
-        cb(err);
-      })
-      .go();
-  }
 
-  function fetchProject(cb) {
+   /*** INIT ***/
+  function fetchBuild(cb) {
     var thisUser = $scope.dataApp.user;
+    var id = $state.params.buildId;
     new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchProjects')
-      .query({
-        githubUsername: $scope.dataApp.stateParams.userName,
-        name: $scope.dataApp.stateParams.projectName
-      })
-      .cacheFetch(function updateDom(projects, cached, cb) {
-        data.project = projects.models[0];
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, projects, cb) {
-        if (!projects.models.length) {
-          return cb(new Error('Projects not found'));
-        }
-        $scope.safeApply();
-        cb(err);
-      })
-      .go();
-  }
-
-  function fetchFirstBuild(cb) {
-    var project = data.project;
-    var environment = project.defaultEnvironment;
-    new QueryAssist(environment, cb)
-      .wrapFunc('fetchBuilds')
-      .cacheFetch(function updateDom(builds, cached, cb) {
-        if (builds.models.length > 1 || builds.models[0].attrs.started) {
-          actions.stateToBuildList();
+      .wrapFunc('fetchBuild')
+      .query(id)
+      .cacheFetch(function updateDom(build, cached, cb) {
+        if (!build || build.attrs.started) {
+          // TODO
+          // actions.stateToBuildList();
         } else {
           // first build
-          data.build = builds.models[0];
-          data.contextVersion = builds.models[0].contextVersions.models[0];
+          data.build = build;
+          data.contextVersion = build.contextVersions.models[0];
           $scope.safeApply();
           cb();
         }
       })
-      .resolve(function (err, builds, cb) {
-        if (!builds.models.length) {
+      .resolve(function (err, build, cb) {
+        if (!build) {
           return cb(new Error('Build not found'));
-        }
-        $scope.safeApply();
-        cb(err);
-      })
-      .go();
-  }
-
-  function fetchOwnerRepos(cb) {
-    var thisUser = $scope.dataApp.user;
-    var build = data.build;
-    var query;
-
-    if (thisUser.isOwnerOf(data.project)) {
-      data.selectedRepos = data.selectedRepos || thisUser.newGithubRepos([], {
-        noStore: true
-      });
-      query = new QueryAssist(thisUser, cb)
-        .wrapFunc('fetchGithubRepos');
-    } else {
-      var githubOrg = thisUser.newGithubOrg($scope.dataApp.stateParams.userName);
-      data.selectedRepos = data.selectedRepos || githubOrg.newRepos([], {
-        noStore: true
-      });
-      query = new QueryAssist(githubOrg, cb)
-        .wrapFunc('fetchRepos');
-    }
-    query
-      .query({})
-      .cacheFetch(function updateDom(githubRepos, cached, cb) {
-        data.githubRepos = githubRepos;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, githubRepos, cb) {
-        if (githubRepos) {
-          return cb(new Error('GitHub repos not found'));
-        }
-        $scope.safeApply();
-        cb(err);
-      })
-      .go();
-  }
-
-  function fetchContext(cb) {
-    var build = data.build;
-    var thisUser = $scope.dataApp.user;
-    new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchContext')
-      .query(build.attrs.contexts[0])
-      .cacheFetch(function updateDom(context, cached, cb) {
-        data.context = context;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, context, cb) {
-        if (!context) {
-          return cb(new Error('Context not found'));
         }
         $scope.safeApply();
         cb(err);
@@ -367,6 +271,51 @@ function ControllerSetup(
       .resolve(function (err, contexts, cb) {
         if (!contexts) {
           return cb(new Error('Seed Contexts not found'));
+        }
+        $scope.safeApply();
+        cb(err);
+      })
+      .go();
+  }
+
+  /*** AFTER PAGE INIT ***/
+
+  function fetchContext(cb) {
+    var build = data.build;
+    var thisUser = $scope.dataApp.user;
+    new QueryAssist(thisUser, cb)
+      .wrapFunc('fetchContext')
+      .query(build.attrs.contexts[0])
+      .cacheFetch(function updateDom(context, cached, cb) {
+        data.context = context;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, context, cb) {
+        if (!context) {
+          return cb(new Error('Context not found'));
+        }
+        $scope.safeApply();
+        cb(err);
+      })
+      .go();
+  }
+
+  function fetchContextVersion(context, cb) {
+    new QueryAssist(context, cb)
+      .wrapFunc('fetchVersions')
+      .cacheFetch(function updateDom(versions, cached, cb) {
+        if (context.attrs.isSource) {
+          data.sourceContextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
+        } else {
+          data.contextVersion = versions.models[0]; // assume only 1 version exists for sources, for now.
+        }
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, versions, cb) {
+        if (!versions.models.length) {
+          return cb(new Error('Source Context Versions not found'));
         }
         $scope.safeApply();
         cb(err);
@@ -400,10 +349,8 @@ function ControllerSetup(
   actions.initState = function () {
     async.waterfall([
       holdUntilAuth,
-      fetchProject,
       fetchSeedContexts,
-      fetchFirstBuild,
-      fetchOwnerRepos
+      fetchBuild
     ], function (err) {
       if (err) {
         $state.go('404');

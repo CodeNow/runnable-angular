@@ -1,40 +1,54 @@
 header.box-header
   h1.box-name
-    input.validate.setup-box-name(
-      ng-model = "dataSetup.data.newProjectName"
-      placeholder = "Box Name"
-      spellcheck = "false"
-      validate-name-pattern
-      validate-name = "dataSetup.data.projects"
-      value = "{{ dataSetup.data.project.attrs.name }}"
+    form(
+      name = "dataSetup.data.newProjectNameForm"
     )
-    //- if invalid character is entered
-    //- .validate-rules(
-    //-   ng-class = "{in: dataSetup.data.newProjectNameForm.$error.namePattern.length}"
-    //- ) We accept #{''}
-    //-   b A-Z
-    //-   b a-z
-    //-   b 0-9
-    //-   b _
-    //-   b -
-    //- //- if the name is taken
-    //- .validate-rules(
-    //-   ng-class = "{in: dataSetup.data.newProjectNameForm.$error.nameAvailable.length}"
-    //- ) That's a pretty name, but it's taken.
+      input.validate.setup-box-name(
+        ng-model = "dataSetup.data.newProjectName"
+        placeholder = "Box Name"
+        spellcheck = "false"
+        validate-name-pattern
+        validate-name = "dataInstanceLayout.data.instances"
+        value = "{{ dataSetup.data.project.attrs.name }}"
+      )
+      //- if invalid character is entered
+      .validate-wrapper
+        span.validate-rules(
+          ng-class = "{in: dataSetup.data.newProjectNameForm.$error.namePattern.length}"
+        ) We accept #{''}
+          b.btn.btn-xs.orange A-Z
+          b.btn.btn-xs.orange a-z
+          b.btn.btn-xs.orange 0-9
+          b.btn.btn-xs.orange _
+          b.btn.btn-xs.orange -
+        //- if the name is taken
+        span.validate-rules(
+          ng-class = "{in: dataSetup.data.newProjectNameForm.$error.nameAvailable.length}"
+        ) That's a pretty name, but it's taken.
   .primary-actions
     //- remove .orange, add .green when validation passes
-    button.orange(
+    button(
+      ng-class = "{\
+        orange: dataSetup.data.newProjectNameForm.$invalid,\
+        green: !dataSetup.data.newProjectNameForm.$invalid\
+      }"
       ng-click = "dataSetup.actions.buildApplication()"
+      ng-disabled = "dataSetup.data.creatingProject || dataSetup.data.newProjectNameForm.$invalid"
     ) Create Box
 
 section.sidebar.box-sidebar.setup
   //- repositories
-  repo-list
+  repo-list(
+    build = "dataSetup.data.build",
+    edit = "true",
+    show-guide = "true"
+  )
   section.row
     h2.sub-header Docker Templates
     //- remove .in if template is selected
     .label-group(
       ng-class = "{in: dataSetup.actions.highlightTemplates}"
+      ng-click = "dataSetup.actions.highlightTemplates = false"
     )
       label.label-group-item(
         ng-repeat = "context in dataSetup.data.seedContexts.models"
@@ -49,6 +63,7 @@ section.sidebar.box-sidebar.setup
     //- show .guide if a template has not been selected
     .guide.blue(
       ng-click = "dataSetup.actions.highlightTemplates = true"
+      ng-if = "!dataSetup.data.contextSelected"
     )
       svg.iconnables.icons-docker
         use(
@@ -66,7 +81,32 @@ section.sidebar.box-sidebar.setup
           ng-repeat = "error in dataSetup.data.validDockerfile.errors"
         ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
 
-section.views
+section.views(
+  ng-class = "{in: dataSetup.data.showExplorer && !dataSetup.data.loading}"
+)
+  //- explorer
+  button.btn-sm.white.btn-icon.explorer-toggle(
+    ng-click = "dataSetup.data.showExplorer = !dataSetup.data.showExplorer"
+    type = "button"
+  )
+    svg.iconnables.icons-folder-open
+      use(
+        xlink:href = "#icons-folder-open"
+      )
+  section.explorer
+    .explorer-controls
+      button.toggle-theme.tooltip.bottom(
+        data-title = "Change Theme"
+        ng-init = "dataSetup.data.toggleTheme = true"
+        ng-class = "{dark: !dataSetup.data.toggleTheme, light: dataSetup.data.toggleTheme}"
+        ng-click = "dataSetup.data.toggleTheme = !dataSetup.data.toggleTheme"
+      )
+        .theme
+    file-tree(
+      open-items = "dataSetup.data.openItems"
+      read-only = "false"
+      root-dir = "dataSetup.data.version.rootDir"
+    )
 
   //- tabs
   tabs(
@@ -75,6 +115,7 @@ section.views
 
   //- active panel
   active-panel(
+    is-dark-theme = "dataSetup.data.toggleTheme"
     open-items = "dataSetup.data.openItems"
     read-only = "dataSetup.data.isReadOnly"
     update = "true"

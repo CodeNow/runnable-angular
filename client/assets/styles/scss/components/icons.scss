@@ -132,4 +132,10 @@
     background: $green;
     border: 0;
   }
+
+  &.building,
+  .building & {
+    background: $orange;
+    border: 0;
+  }
 }

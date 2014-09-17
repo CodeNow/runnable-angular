@@ -19,7 +19,7 @@ section.row
 
   //- show .guide if /new && no repositories have been added yet
   .guide.blue(
-    ng-if = "data.version.appCodeVersions.models.length === 0"
+    ng-if = "showGuide && data.version.appCodeVersions.models.length === 0"
     toggle-pop-over
     toggle-pop-over-model = "data.show"
   )

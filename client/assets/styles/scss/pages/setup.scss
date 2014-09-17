@@ -1,7 +1,7 @@
 // input.setup-box-name
 .setup-box-name {
   margin-left: -9px;
-  width: 450px;
+  width: 390px;
 }
 
 // .guide (in repo-list)
@@ -57,4 +57,14 @@
       border-color: rgba($orange,.3);
     }
   }
+}
+
+// .validate-wrapper
+.validate-wrapper {
+  display: inline-block;
+  height: 36px;
+  left: 9px;
+  position: relative;
+  top: -3px;
+  width: 270px;
 }

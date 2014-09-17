@@ -1,77 +1,35 @@
-.width-full {
-
-  header {
-    background: none;
-    height: auto;
-    left: 0;
-    padding: 0;
-    right: 0;
-    width: 100vw;
-  }
-
-  .logo {
-    float: left;
-    width: 240px;
-  }
-
-  .container > .btn {
-    color: $white;
-    display: inline-block;
-    float: right;
-    height: 36px;
-    line-height: 36px;
-    margin-top: 9px;
-    padding: 0 15px;
-
-    &:hover,
-    &:active {
-      color: $white;
-    }
-  }
-}
-
-.hero::after {
-  background-image: linear-gradient(rgba($purple,.6),rgba($purple-dark,.3));
-  content: '';
-  display: block;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  width: 100vw;
-  z-index: 0;
-}
-
-.content-wrapper {
+.hero {
   align-items: center;
+  background: url(../images/hero.jpg) center center no-repeat;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   height: 100vh;
   justify-content: center;
   position: relative;
-  z-index: 1;
-}
-
-.hero {
-  background: url(../images/hero.jpg) center center no-repeat;
-  background-size: cover;
-  position: relative;
   width: 100vw;
 
-  .tag-line {
-    color: $white;
-    font-size: 45px;
-    padding: 0 15px;
-    text-align: center;
+  &::after {
+    background-image: linear-gradient(rgba($purple,.5),rgba($white,.3));
+    content: '';
+    display: block;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    z-index: $z-hero-overlay;
   }
 
-  .sub-line {
+  .logo,
+  .btn {
+    position: relative;
+    z-index: $z-hero-content;
+  }
+
+  .logo {
     color: $white;
-    font-size: 21px;
-    font-weight: 300;
-    line-height: 1.4;
-    margin: 15px 0 0;
-    padding: 0 15px;
-    text-align: center;
+    margin-top: -150px;
+    width: 450px;
   }
 
   .icons-git {
@@ -81,9 +39,17 @@
   }
 
   .btn {
+    background: rgba($white,.15);
+    border: 2px solid $white;
+    color: $white;
     font-size: 18px;
     height: 54px;
     line-height: 54px;
     margin-top: 30px;
+    text-decoration: none;
+
+    &:hover {
+      background: rgba($white,.3);
+    }
   }
 }

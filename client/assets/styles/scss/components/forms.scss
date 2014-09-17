@@ -37,9 +37,10 @@ input {
 
   // placeholder
   &::placeholder {
-    color: $gray;
+    color: $gray-light;
   }
 }
+
 
 // label.btn.btn-checkbox
 .btn-checkbox {
@@ -120,35 +121,24 @@ input {
 
 // .validate-rules
 .validate-rules {
+  color: $orange-dark;
   font-size: 14px;
-  height: 0;
+  font-weight: 300;
+  left: 0;
   opacity: 0;
-  text-align: center;
-  transition: all .15s;
+  position: absolute;
+  top: 0;
+  transition: opacity .15s ease-in;
 
   &.in {
-    height: 30px;
     opacity: 1;
   }
 
-  b {
-    background: $purple;
-    border: 1px solid rgba(0,0,0,.5);
-    border-radius: 3px;
-    display: inline-block;
-    font-weight: 500;
+  .btn-xs {
+    cursor: default;
     margin: 0 2px;
     padding: 0 6px;
-  }
-
-  &.inline {
-    color: $orange;
-    font-size: 11px;
-    height: 18px;
-    line-height: 1;
-    opacity: 1;
-    padding-left: 9px;
-    text-align: left;
+    top: 2px;
   }
 }
 

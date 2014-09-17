@@ -20,6 +20,7 @@
         )
     //- focus on visible
     input.title-filter(
+      ng-model = "data.state.repoFilter"
       placeholder = "Filter Repositories"
     )
     //- title
@@ -30,6 +31,6 @@
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "repo in data.githubRepos.models | \
           unaddedRepos:data.version.appCodeVersions | \
-          repos:data.repoFilter"
+          repos:data.state.repoFilter"
       )
         span {{ repo.attrs.full_name }}

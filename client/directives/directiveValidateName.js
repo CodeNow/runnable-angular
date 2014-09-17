@@ -10,7 +10,7 @@ function validateName(
     restrict: 'A',
     require: 'ngModel',
     scope: {
-      projects: '=validateName'
+      instances: '=validateName'
     },
     link: function ($scope, element, attrs, ctrl) {
       ctrl.$setValidity('nameAvailable', true);
@@ -21,13 +21,13 @@ function validateName(
           return name;
         }
         function testName() {
-          if (!$scope.projects) {
+          if (!$scope.instances) {
             return;
           }
-          var match = $scope.projects.find(function (m) {
+          var match = $scope.instances.find(function (m) {
             return (m.attrs.name === name);
           });
-          ctrl.$setValidity('nameAvailable', !!!match);
+          ctrl.$setValidity('nameAvailable', !match);
           $rootScope.safeApply();
         }
         testName();

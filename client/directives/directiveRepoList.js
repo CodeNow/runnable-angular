@@ -17,7 +17,8 @@ function repoList (
     scope: {
       instance: '=',
       build: '=',
-      edit: '='
+      edit: '=',
+      showGuide: '='
     },
     templateUrl: 'viewRepoList',
     replace: true,
@@ -47,7 +48,6 @@ function repoList (
             data.version.createAppCodeVersion(body, function() {
               data.version.fetch(function(err, version) {
                 populateContextVersions(function () {
-
                   $rootScope.safeApply();
                 });
               });
