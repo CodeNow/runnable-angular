@@ -82,7 +82,8 @@ function repoList (
           findOrCreateContextVersion,
           createBuild,
           buildBuild,
-          updateInstanceWithBuild
+          updateInstanceWithBuild,
+          refetchBuildAndChildData
         ], function () {
           $rootScope.dataApp.data.loading = false;
           $state.go('instance.instance');
@@ -135,7 +136,15 @@ function repoList (
         function updateInstanceWithBuild (build, cb) {
           $scope.instance.update({
             build: build.id()
-          }, cb);
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+
+        function refetchBuildAndChildData () {
+          $scope.instacne.build.fetch(function () {
+            $rootScope.safeApply();
+          });
         }
       }
 

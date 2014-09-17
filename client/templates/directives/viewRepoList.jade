@@ -67,6 +67,9 @@ section.row
 
       //- add .pending for orange
       .commit(
+        ng-class = "{ \
+          pending: ((repo.attrs.activeCommit !== repo.state.activeCommit) && repo.state.activeCommit) \
+        }"
         toggle-pop-over
         toggle-pop-over-model = "repo.state.show"
       )
