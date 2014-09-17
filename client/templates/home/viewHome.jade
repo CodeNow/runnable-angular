@@ -1,20 +1,13 @@
 main.hero
-  header.container
-    a.logo(href = "/")
-      svg
-        use(xlink:href = "#runnable-logo")
-    a.btn.white(
-      href = "{{ dataApp.loginURL }}"
-    ) Log In
-  .content-wrapper
-    h1.tag-line Sandboxes. Sandboxes. Sandboxes.
-    h2.sub-line /ˈsan(d)ˌbäks/—a shallow box or hollow in the ground partly filled with sand for children to play in.
-    a.btn.white(
-      href = "{{ dataApp.loginURL }}"
-    )
-      svg.iconnables.icons-git
-        use(xlink:href = "#icons-git")
-      | Log In with Github
+  a.logo
+    svg
+      use(xlink:href = "#runnable-logo")
+  a.btn(
+    href = "{{ dataApp.loginURL }}"
+  )
+    svg.iconnables.icons-git
+      use(xlink:href = "#icons-git")
+    | Log In with Github
 
 div(
   ng-include = "'viewDevelopmentInfo'"
