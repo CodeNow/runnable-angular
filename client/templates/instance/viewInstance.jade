@@ -8,6 +8,10 @@ header.box-header
       data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
       ng-if = "!dataInstance.data.container.running()"
     )
+    span.icons-status.tooltip.bottom(
+      data-title = "Building"
+      ng-if = "!dataInstance.data.instance.build.attrs.completed"
+    )
   .primary-actions
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
