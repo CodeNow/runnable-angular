@@ -45,7 +45,7 @@
     //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit(
-      ng-class = "{active: (commit.sha === data.attrs.commit)}"
+      ng-class = "{active: (commit.sha === (data.state.activeCommit.sha || data.attrs.commit))}"
       ng-if = "data.attrs.commits.length"
       ng-repeat = "commit in data.attrs.commits | commitFilter:data.state.commitFilter"
       ng-click = "actions.selectActiveCommit(data, commit)"
