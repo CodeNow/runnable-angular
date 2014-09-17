@@ -25,7 +25,6 @@ function repoList (
       var build;
 
       var data = $scope.data = {};
-
       $scope.$on('app-document-click', function () {
         // clear filter in add-repo popover when popover closes
         keypather.set(data, 'state.repoFilter', '');
@@ -36,6 +35,7 @@ function repoList (
       $scope.actions =  {
         updateCommits: updateCommits,
         addRepo: function (repo) {
+          $rootScope.$broadcast('app-document-click');
           var body = {
             repo: repo.attrs.full_name
           };
