@@ -75,7 +75,11 @@
 // branch button
 .branch-btn {
   font-size: 14px;
-  padding: 0 0 0 3px;
+  max-width: 207px;
+  overflow: hidden;
+  padding: 0 24px 0 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   .icons-git {
     color: $blue;
@@ -89,7 +93,8 @@
   }
 
   .icons-arrow-down {
-    float: right;
+    position: absolute;
+    right: 0;
   }
 
   .select {

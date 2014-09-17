@@ -25,6 +25,7 @@
   width: 16px;
 
   &.lg {
+    color: $purple-light;
     height: 60px;
     width: 60px;
 
@@ -44,9 +45,9 @@
     }
 
     .spinner-ring {
-      height: 48px;
-      margin: 6px;
-      width: 48px;
+      height: 54px;
+      margin: 3px;
+      width: 54px;
     }
   }
 }
@@ -91,12 +92,13 @@
 
 // on buttons
 .btn-spinner {
-  text-indent: -16px;
 
   > .spinner {
     color: $white;
-    display: inline-block;
-    margin-right: 6px;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
     top: 2px;
     transform: scale3d(0,0,0);
   }
@@ -105,61 +107,7 @@
     transform: scale3d(1,1,1);
   }
 
-  &.green .spinner-ring {
-    background: $green;
-  }
-}
-
-// main spinner
-main ~ .spinner-container {
-  color: $purple;
-  transform: translate3d(0,0,0);
-  transition: all .3s ease-in;
-}
-
-header.in ~ .spinner-container {
-  transform: translate3d(50vw,0,0);
-}
-
-// build list spinner
-.build-status {
-  position: relative;
-
-  > .spinner {
-    color: $orange;
-    top: 19px;
-  }
-
-  > .iconnables,
-  > .spinner {
-    left: 0;
-    margin: auto;
-    position: absolute;
-    right: 0;
-  }
-
-  &.pass,
-  &.fail {
-
-    > .spinner {
-      transform: scale3d(0,0,0);
-
-      &::before,
-      &::after {
-        animation: none;
-      }
-    }
-  }
-
-  &.pass > .icons-check {
-    transform: scale3d(1,1,1);
-  }
-
-  &.fail > .icons-fail {
-    transform: scale3d(1,1,1);
-  }
-
-  .iconnables {
-    transform: scale3d(0,0,0);
+  &.blue .spinner-ring {
+    color: $blue;
   }
 }

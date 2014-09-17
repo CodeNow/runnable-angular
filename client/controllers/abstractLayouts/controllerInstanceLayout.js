@@ -33,43 +33,6 @@ function ControllerInstanceLayout(
   };
 
   /**
-   * user clicks on user / org in dropdown
-   */
-  actions.stateToAccount = function (userOrOrg) {
-    // need to look up user/org's instances first
-    // to navigate to 1st instance for user/org.
-    // This query should be cached via fetchInstances
-    // helper method on page load
-    function changeState (shortHash) {
-      $state.go('instance.instance', {
-        shortHash: shortHash,
-        userName: userOrOrg.oauthName()
-      });
-    }
-    new QueryAssist($scope.dataApp.user, angular.noop)
-      .wrapFunc('fetchInstances')
-      .query({
-        owner: {
-          github: userOrOrg.oauthId()
-        }
-      })
-      .cacheFetch(function updateDom(instances, cached, cb) {
-        if (instances.models.length === 0){
-          throw new Error('TODO: determine action if 0 instances');
-        }
-        // will only be invoked once via QueryAssist
-        changeState(instances.models[0].attrs.shortHash);
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, projects, cb) {
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  };
-
-  /**
    * Fetches a hash of classes for each instance displayed
    * in ng-repeat
    */
@@ -85,36 +48,39 @@ function ControllerInstanceLayout(
     return h;
   };
 
-/*
-  actions.selectProjectOwner = function (userOrOrg, cb) {
-    var name = actions.getEntityName(userOrOrg);
+
+  actions.selectActiveAccount = function (userOrOrg, cb) {
+    var name = userOrOrg.oauthName();
     data.activeAccount = userOrOrg;
     data.showChangeAccount = false;
+    $scope.safeApply();
 
     if (cb) {
       return cb();
     }
 
     fetchInstances(function (err) {
+      $scope.safeApply();
       if (err) {
         return $state.go('404');
       }
-      if (name === $state.params.userName || $scope.dataApp.state.current.name === 'projects') {
+      if (name === $state.params.userName) {
         // First fetch for the page or we're on /new
         return;
       }
-      if (!data.activeAccount.attrs.projects.models.length) {
+      if (!data.instances.models.length) {
         // new project
-        return $state.go('projects', {});
+        return $state.go('instance.new', {
+          userName: name
+        });
       }
-      data.activeProject = data.activeAccount.attrs.projects.models[0];
-      $state.go('box.boxInstance', {
+      $state.go('instance.instance', {
         userName: name,
-        shortHash: data.activeProject.id()
+        shortHash: data.instances.models[0].id()
       });
     });
   };
-
+/*
   actions.getInClass = function () {
     return ($state.current.name === 'projects') ? 'in' : '';
   };
@@ -194,7 +160,9 @@ function ControllerInstanceLayout(
   };
 */
   actions.stateToNew = function () {
-    $state.go('instance.new');
+    $state.go('instance.new', {
+      userName: data.activeAccount.oauthName()
+    });
   };
 /*
   actions.setActiveProject = function (userOrOrg, project) {
@@ -284,7 +252,7 @@ function ControllerInstanceLayout(
         }
       })
       .cacheFetch(function updateDom(instances, cached, cb) {
-        dataInstanceLayout.data.instances = instances;
+        data.instances = instances;
         $scope.safeApply();
         cb();
       })
@@ -320,7 +288,6 @@ function ControllerInstanceLayout(
   /**
    * All pages besides new project page
    */
-  actions.initForState = function () {
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
@@ -333,26 +300,6 @@ function ControllerInstanceLayout(
       }
       $scope.safeApply();
     });
-  };
-
-  /**
-   * New project page
-   */
-  actions.initForNewState = function () {
-    async.waterfall([
-      holdUntilAuth,
-      fetchOrgs
-    ]);
-  };
-
-  $scope.$watch('dataApp.state.params', function () {
-    var newval = $scope.dataApp.state.current.name;
-    if (newval.indexOf('instance.') === 0) {
-      actions.initForState();
-    } else if (newval === 'instance') {
-      actions.initForNewState();
-    }
-  }, true); // true: uses angular.equals()
 
   $scope.$on('app-document-click', function () {
     $scope.dataInstanceLayout.data.showChangeAccount = false;

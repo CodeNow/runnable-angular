@@ -45,6 +45,7 @@ function ControllerNew(
       throw err;
     }
     $state.go('instance.setup', {
+      userName: $state.params.userName,
       buildId: build.id()
     });
   });
