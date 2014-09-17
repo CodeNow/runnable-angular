@@ -201,6 +201,17 @@
       background: rgba($blue,.15);
       border-color: rgba($blue,.3);
     }
+
+    &.no-actions {
+      cursor: default;
+      text-align: center;
+
+      &:hover,
+      &:active {
+        background: transparent;
+        border-color: transparent;
+      }
+    }
   }
 
   // ul.popover-columns
