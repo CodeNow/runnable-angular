@@ -10,7 +10,8 @@
   )
     //- should clear on close
     button.white.btn-icon.btn-search(
-      ng-click = "data.state.toggleFilter = !data.state.toggleFilter"
+      ng-click = "data.state.toggleFilter = !data.state.toggleFilter; /
+                  data.state.repoFilter = '';"
       ng-class = "{'active': data.state.toggleFilter}"
       title = "Filter Repositories"
     )
