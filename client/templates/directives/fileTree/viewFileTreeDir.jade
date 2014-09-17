@@ -51,6 +51,6 @@ li.folder(
           ng-keyup = "($event.keyCode === 13) && fileItemData.actions.closeFileNameInput();"
           ng-readonly = "!fs.state.renaming"
           value = "{{ fs.attrs.name }}"
-          select-on-writeable
+          select-on = "fs.state.renaming"
         ) {{ fs.attrs.name }}
         span.item-name {{ fs.attrs.name }}
