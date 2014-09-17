@@ -18,15 +18,16 @@ section.row
       )
 
   //- show .guide if /new && no repositories have been added yet
-  //- .guide.blue(
-  //-   toggle-pop-over
-  //-   toggle-pop-over-model = "data.show"
-  //- )
-  //-   svg.iconnables.icons-git
-  //-     use(
-  //-       xlink:href = "#icons-git"
-  //-     )
-  //-   p Add a repository to your box.
+  .guide.blue(
+    ng-if = "data.version.appCodeVersions.models.length === 0"
+    toggle-pop-over
+    toggle-pop-over-model = "data.show"
+  )
+    svg.iconnables.icons-git
+      use(
+        xlink:href = "#icons-git"
+      )
+    p Add a repository to your box.
 
   ul.repository-group
     li.repository-group-item(
