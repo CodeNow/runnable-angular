@@ -26,7 +26,8 @@ function repoList (
       var build;
 
       var data = $scope.data = {};
-      // TODO: Should be populated with what to do on new branch/commit select
+      data.showUpdateButton = false;
+
       $scope.actions =  {
         updateCommits: updateCommits,
         addRepo: function (repo) {
@@ -64,6 +65,7 @@ function repoList (
 
       // triggered when update button pressed for multiple repos,
       // or when selected commit changes if single repo
+      $scope.actions.triggerInstanceUpdateOnRepoCommitChange = triggerInstanceUpdateOnRepoCommitChange;
       function triggerInstanceUpdateOnRepoCommitChange () {
         $rootScope.dataApp.data.loading = true;
         var context              = $scope.build.contexts.models[0];
@@ -160,6 +162,7 @@ function repoList (
           // is this the only repo?
           if ($scope.build.contextVersions.models[0].appCodeVersions.models.length > 1) {
             // don't fire. Requires explicit update action from user
+            data.showUpdateButton = true;
           } else {
             // fire away chief
             triggerInstanceUpdateOnRepoCommitChange();
