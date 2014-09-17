@@ -6,6 +6,7 @@ require('app')
 function repoList (
   $rootScope,
   $state,
+  $stateParams,
   async,
   QueryAssist,
   keypather,
@@ -83,7 +84,7 @@ function repoList (
           createBuild,
           buildBuild,
           updateInstanceWithBuild,
-          refetchBuildAndChildData
+          reloadController
         ], function () {
           $rootScope.dataApp.data.loading = false;
           $state.go('instance.instance');
@@ -141,10 +142,11 @@ function repoList (
           });
         }
 
-        function refetchBuildAndChildData () {
-          $scope.instacne.build.fetch(function () {
-            $rootScope.safeApply();
-          });
+        function reloadController (build, cb) {
+          cb();
+          var current = $state.current;
+          var params = angular.copy($stateParams);
+          $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
         }
       }
 
@@ -259,7 +261,7 @@ function repoList (
         ], cb);
       }
 
-      $scope.$watch('build.contextVersions.models[0]', function (n) {
+      $scope.$watch('build.contextVersions.models[0].id()', function (n) {
         if (n) {
           data.build = $scope.build;
           data.version = $scope.build.contextVersions.models[0];
