@@ -9,6 +9,11 @@
     width: calc(100% - 60px);
   }
 
+  // resize .spinner-container
+  ~ .spinner-container {
+    width: calc(100vw - 60px);
+  }
+
   // accounts
   .account-name,
   .icons-arrow-down {
