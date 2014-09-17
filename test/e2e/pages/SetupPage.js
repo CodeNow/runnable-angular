@@ -4,7 +4,7 @@ var RepoList = require('../directives/RepoList');
 
 function SetupPage () {
   this.attrs = {};
-  this.attrs.urlRegex = new RegExp(util.processUrl('/new/' + util.regex.objectId));
+  this.attrs.urlRegex = new RegExp(util.processUrl('/runnable-doobie/new/' + util.regex.objectId));
 
   this.boxName = util.createGetter(by.model('dataSetup.data.newProjectName'));
   this.createButton = util.createGetter(by.buttonText('Create Box'));
@@ -14,13 +14,19 @@ function SetupPage () {
   this.templates = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section:nth-child(2)'));
   this.templateGuide = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section:nth-child(2) > div.guide.blue.ng-scope'));
 
+  this.validationErrors = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section.row.ng-scope > div'));
+
+  this.ace = util.createGetter(by.css('#editor > div.editor-container.ng-scope.loaded > pre > div.ace_scroller > div'));
+
   this.get = function () {
     var self = this;
-    return browser.get('/runnable-doobie/new').then(function() {
+    return browser.get('/runnable-doobie/new');/*.then(function() {
       return util.waitForUrl(self.attrs.urlRegex);
     }).then(function() {
-      self.attrs.id = util.regex.objectId.exec(browser.getCurrentUrl());
-    });
+      self.attrs.id = util.regex.objectId.exec(browser.getCurrentUrl())[0];
+      console.log(self.attrs.id);
+      return;
+    });*/
   };
 
   this.setBoxName = function (newName) {
@@ -30,6 +36,41 @@ function SetupPage () {
   this.createBox = function () {
     return this.createButton.get().click();
   };
+
+  this.selectBlankTemplate = function() {
+    var blankTemplate = element(by.repeater('context in dataSetup.data.seedContexts.models').row(0));
+    return blankTemplate.click();
+  };
+
+  this.aceLoaded = function () {
+    return this.ace.get().isPresent();
+  };
+
+  // http://stackoverflow.com/q/25675973/1216976
+  // https://github.com/angular/protractor/issues/1273
+  this.addToDockerfile = function (contents) {
+    var aceDiv = element(by.css('div.ace_content'));
+    var inputElm = element(by.css('textarea.ace_text-input'));
+
+    browser.actions().doubleClick(aceDiv).perform();
+    inputElm.sendKeys('\nFROM dockerfile/nodejs\nCMD sleep 1000000');
+  };
+
+  this.dockerfileValidates = function () {
+    return this.validationErrors.get().isPresent().then(function (isPresent) {
+      return !isPresent;
+    });
+  };
+
+  this.dockerfileIsClean = function () {
+    return element(by.css('.sub-header')).evaluate('dataSetup.data.openItems.isClean()');
+  };
+
+  this.build = function () {
+    return this.buildButton.click();
+  };
+
+
 }
 
 

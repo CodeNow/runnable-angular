@@ -8,12 +8,12 @@ var util = require('./helpers/util');
 
 var SetupPage = require('./pages/SetupPage');
 
-describe('home', function () {
-  it('should allow navigation to /', function () {
-    browser.get('/');
-    browser.sleep(100);
-  });
-});
+// describe('home', function () {
+//   it('should allow navigation to /', function () {
+//     browser.get('/');
+//     browser.sleep(100);
+//   });
+// });
 
 login();
 
@@ -21,6 +21,21 @@ describe('project creation workflow', function () {
   it('should direct the user to the setup page', function () {
     var setup = new SetupPage();
     setup.get();
+    util.waitForUrl(setup.attrs.urlRegex);
+
+    setup.setBoxName('test-0');
+
+    setup.repoList.openAddDropdown();
+
+    setup.repoList.selectFirstRepo();
+
+    browser.wait(function() {
+      return setup.repoList.numSelectedRepos().then(function(numRepos) {
+        return numRepos === 1;
+      });
+    });
+
+    setup.repoList.selectBlankTemplate();
   });
 });
 /*
