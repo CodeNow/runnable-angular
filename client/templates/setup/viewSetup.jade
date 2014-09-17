@@ -27,7 +27,11 @@ header.box-header
         ) That's a pretty name, but it's taken.
   .primary-actions
     //- remove .orange, add .green when validation passes
-    button.orange(
+    button(
+      ng-class = "{\
+        orange: dataSetup.data.newProjectNameForm.$invalid,\
+        green: !dataSetup.data.newProjectNameForm.$invalid\
+      }"
       ng-click = "dataSetup.actions.buildApplication()"
       ng-disabled = "dataSetup.data.creatingProject || dataSetup.data.newProjectNameForm.$invalid"
     ) Create Box
