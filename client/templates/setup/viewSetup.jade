@@ -48,6 +48,7 @@ section.sidebar.box-sidebar.setup
     //- remove .in if template is selected
     .label-group(
       ng-class = "{in: dataSetup.actions.highlightTemplates}"
+      ng-click = "dataSetup.actions.highlightTemplates = false"
     )
       label.label-group-item(
         ng-repeat = "context in dataSetup.data.seedContexts.models"
