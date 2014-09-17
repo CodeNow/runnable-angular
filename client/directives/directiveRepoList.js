@@ -6,6 +6,7 @@ require('app')
 function repoList (
   $rootScope,
   $state,
+  $stateParams,
   async,
   QueryAssist,
   keypather,
@@ -25,7 +26,8 @@ function repoList (
       var build;
 
       var data = $scope.data = {};
-      // TODO: Should be populated with what to do on new branch/commit select
+      data.showUpdateButton = false;
+
       $scope.actions =  {
         updateCommits: updateCommits,
         addRepo: function (repo) {
@@ -63,6 +65,7 @@ function repoList (
 
       // triggered when update button pressed for multiple repos,
       // or when selected commit changes if single repo
+      $scope.actions.triggerInstanceUpdateOnRepoCommitChange = triggerInstanceUpdateOnRepoCommitChange;
       function triggerInstanceUpdateOnRepoCommitChange () {
         $rootScope.dataApp.data.loading = true;
         var context              = $scope.build.contexts.models[0];
@@ -82,7 +85,8 @@ function repoList (
           findOrCreateContextVersion,
           createBuild,
           buildBuild,
-          updateInstanceWithBuild
+          updateInstanceWithBuild,
+          reloadController
         ], function () {
           $rootScope.dataApp.data.loading = false;
           $state.go('instance.instance');
@@ -102,11 +106,15 @@ function repoList (
               return cb(null, foundCVs.models[0]);
             }
             var body = {
-              infraCodeVersion: infraCodeVersionId,
-              appCodeVersions: appCodeVersionStates
+              infraCodeVersion: infraCodeVersionId
+              //appCodeVersions: appCodeVersionStates
             };
             var newContextVersion = context.createVersion(body, function (err) {
-              cb(err, newContextVersion);
+              async.each(appCodeVersionStates, function (acvs, cb) {
+                newContextVersion.appCodeVersions.create(acvs, cb);
+              }, function (err) {
+                cb(err, newContextVersion);
+              });
             });
           });
         }
@@ -131,7 +139,16 @@ function repoList (
         function updateInstanceWithBuild (build, cb) {
           $scope.instance.update({
             build: build.id()
-          }, cb);
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+
+        function reloadController (build, cb) {
+          cb();
+          var current = $state.current;
+          var params = angular.copy($stateParams);
+          $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
         }
       }
 
@@ -145,6 +162,7 @@ function repoList (
           // is this the only repo?
           if ($scope.build.contextVersions.models[0].appCodeVersions.models.length > 1) {
             // don't fire. Requires explicit update action from user
+            data.showUpdateButton = true;
           } else {
             // fire away chief
             triggerInstanceUpdateOnRepoCommitChange();
@@ -246,7 +264,7 @@ function repoList (
         ], cb);
       }
 
-      $scope.$watch('build.contextVersions.models[0]', function (n) {
+      $scope.$watch('build.contextVersions.models[0].id()', function (n) {
         if (n) {
           data.build = $scope.build;
           data.version = $scope.build.contextVersions.models[0];

@@ -1,5 +1,14 @@
 section.row
   h2.sub-header Repositories
+    a.btn.btn-xs.orange.tooltip.bottom.sub-header-action(
+      data-title = "Update your box to see your changes"
+      ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
+      ng-if = "data.showUpdateButton"
+    ) Update
+      svg.iconnables.icons-update
+        use(
+          xlink:href = "#icons-update"
+        )
     a.btn.btn-sm.white.sub-header-action(
       ng-if = "edit"
       ng-class = "{active: data.show}"
@@ -19,7 +28,7 @@ section.row
 
   //- show .guide if /new && no repositories have been added yet
   .guide.blue(
-    ng-if = "showGuide && !data.version.appCodeVersions.models.length"
+    ng-if = "showGuide && data.version.appCodeVersions.models.length === 0"
     toggle-pop-over
     toggle-pop-over-model = "data.show"
   )
@@ -68,6 +77,9 @@ section.row
 
       //- add .pending for orange
       .commit(
+        ng-class = "{ \
+          pending: ((repo.attrs.activeCommit !== repo.state.activeCommit) && repo.state.activeCommit) \
+        }"
         toggle-pop-over
         toggle-pop-over-model = "repo.state.show"
       )
