@@ -1,10 +1,10 @@
 section.row
   h2.sub-header Repositories
-    a.btn.btn-xs.orange.tooltip.sub-header-action(
+    a.btn.btn-xs.orange.tooltip.bottom.sub-header-action(
       data-title = "Update your box to see your changes"
       ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
       ng-if = "data.showUpdateButton"
-    )
+    ) Update
       svg.iconnables.icons-update
         use(
           xlink:href = "#icons-update"
