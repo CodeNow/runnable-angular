@@ -18,13 +18,13 @@ module.exports = [{
 }, {
   state: 'instance.new',
   abstract: false,
-  url: '^/new',
+  url: '^/:userName/new',
   templateUrl: 'viewSetup',
   controller: 'ControllerNew'
 }, {
   state: 'instance.setup',
   abstract: false,
-  url: '^/new/:buildId',
+  url: '^/:userName/new/:buildId',
   templateUrl: 'viewSetup',
   controller: 'ControllerSetup'
 }, {
