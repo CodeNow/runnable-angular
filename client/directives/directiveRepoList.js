@@ -26,11 +26,19 @@ function repoList (
       var build;
 
       var data = $scope.data = {};
+      $scope.$on('app-document-click', function () {
+        // clear filter in add-repo popover when popover closes
+        keypather.set(data, 'state.repoFilter', '');
+        keypather.set(data, 'state.toggleFilter', false);
+      });
+
+      // TODO: Should be populated with what to do on new branch/commit select
       data.showUpdateButton = false;
 
       $scope.actions =  {
         updateCommits: updateCommits,
         addRepo: function (repo) {
+          $rootScope.$broadcast('app-document-click');
           var body = {
             repo: repo.attrs.full_name
           };
