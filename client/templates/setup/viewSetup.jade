@@ -87,6 +87,7 @@ section.views(
   //- explorer
   button.btn-sm.white.btn-icon.explorer-toggle(
     ng-click = "dataSetup.data.showExplorer = !dataSetup.data.showExplorer"
+    ng-if = "dataSetup.data.contextVersion.source"
     type = "button"
   )
     svg.iconnables.icons-folder-open
