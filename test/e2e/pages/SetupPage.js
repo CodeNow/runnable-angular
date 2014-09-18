@@ -3,9 +3,6 @@ var util = require('../helpers/util');
 var RepoList = require('../directives/RepoList');
 
 function SetupPage () {
-  this.attrs = {};
-  this.attrs.urlRegex = new RegExp(util.processUrl('/runnable-doobie/new/' + util.regex.objectId));
-
   this.boxName = util.createGetter(by.model('dataSetup.data.newProjectName'));
   this.createButton = util.createGetter(by.buttonText('Create Box'));
 
@@ -16,7 +13,8 @@ function SetupPage () {
 
   this.validationErrors = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section.row.ng-scope > div'));
 
-  this.ace = util.createGetter(by.css('#editor > div.editor-container.ng-scope.loaded > pre > div.ace_scroller > div'));
+  this.ace = util.createGetter(by.css('#wrapper > main > section.views.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark > pre > div.ace_scroller > div'));
+  this.aceComment = util.createGetter(by.css('#wrapper > main > section.views.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark > pre > div.ace_scroller > div > div.ace_layer.ace_text-layer > div > span'));
 
   this.get = function () {
     var self = this;
@@ -46,6 +44,12 @@ function SetupPage () {
     return this.ace.get().isPresent();
   };
 
+  this.blankTemplateLoaded = function() {
+    return this.ace.get().getText().then(function(text) {
+      return text === '# Empty Dockerfile!';
+    });
+  };
+
   // http://stackoverflow.com/q/25675973/1216976
   // https://github.com/angular/protractor/issues/1273
   this.addToDockerfile = function (contents) {
@@ -53,7 +57,7 @@ function SetupPage () {
     var inputElm = element(by.css('textarea.ace_text-input'));
 
     browser.actions().doubleClick(aceDiv).perform();
-    inputElm.sendKeys('\nFROM dockerfile/nodejs\nCMD sleep 1000000');
+    return inputElm.sendKeys(contents);
   };
 
   this.dockerfileValidates = function () {
@@ -63,15 +67,11 @@ function SetupPage () {
   };
 
   this.dockerfileIsClean = function () {
-    return element(by.css('.sub-header')).evaluate('dataSetup.data.openItems.isClean()');
+    return element(by.css('.box-header')).evaluate('dataSetup.data.openItems.isClean()');
   };
-
-  this.build = function () {
-    return this.buildButton.click();
-  };
-
-
 }
+
+SetupPage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/new/' + util.regex.objectId));
 
 
 

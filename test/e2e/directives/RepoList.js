@@ -17,6 +17,8 @@ function RepoList () {
       return browser.wait(function() {
         return self.addDropdown.get().isPresent();
       });
+    }).then(function() {
+      return self.addDropdown.get().evaluate('data.githubRepos.models.length > 0');
     });
   };
 
