@@ -10,7 +10,8 @@
   )
     //- should clear on close
     button.white.btn-icon.btn-search(
-      ng-click = "data.state.toggleFilter = !data.state.toggleFilter"
+      ng-click = "data.state.toggleFilter = !data.state.toggleFilter; \
+                  data.state.repoFilter = '';"
       ng-class = "{'active': data.state.toggleFilter}"
       title = "Filter Repositories"
     )
@@ -21,6 +22,7 @@
     //- focus on visible
     input.title-filter(
       ng-model = "data.state.repoFilter"
+      select-on = "data.state.toggleFilter"
       placeholder = "Filter Repositories"
     )
     //- title
@@ -34,3 +36,4 @@
           repos:data.state.repoFilter"
       )
         span {{ repo.attrs.full_name }}
+      //- li.popover-list-item.no-actions No matches.

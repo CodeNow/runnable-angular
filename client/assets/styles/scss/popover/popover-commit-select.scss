@@ -65,6 +65,7 @@
 
 .popover-title {
 
+  .branch-btn,
   .blue,
   .white {
     height: 24px;
@@ -74,30 +75,38 @@
 
 // branch button
 .branch-btn {
-  font-size: 14px;
-  max-width: 207px;
-  overflow: hidden;
-  padding: 0 24px 0 3px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  float: right;
 
-  .icons-git {
-    color: $blue;
-    float: left;
-    height: 15px;
-    left: 0;
-    margin-right: 6px;
-    position: relative;
-    top: 5px;
-    width: 15px;
+  &:hover .blue {
+    @extend .blue:hover;
   }
 
-  .icons-arrow-down {
-    position: absolute;
-    right: 0;
-  }
+  .blue {
+    font-size: 14px;
+    max-width: 207px;
+    overflow: hidden;
+    padding: 0 24px 0 3px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-  .select {
-    font-size: 16px;
+    .icons-git {
+      color: $blue;
+      float: left;
+      height: 15px;
+      left: 0;
+      margin-right: 6px;
+      position: relative;
+      top: 5px;
+      width: 15px;
+    }
+
+    .icons-arrow-down {
+      position: absolute;
+      right: 0;
+    }
+
+    .select {
+      font-size: 16px;
+    }
   }
 }
