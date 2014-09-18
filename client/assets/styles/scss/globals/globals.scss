@@ -24,6 +24,13 @@ body,
   overflow-y: hidden;
 }
 
+.width-full {
+
+  @include media(xxs) {
+    min-width: 0;
+  }
+}
+
 .content {
   float: right;
   height: 100%;
