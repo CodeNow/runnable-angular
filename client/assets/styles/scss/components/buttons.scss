@@ -30,7 +30,6 @@ button,
 
   &[disabled],
   &.disabled {
-    border-color: transparent;
     cursor: not-allowed;
     opacity: .5;
   }
@@ -111,6 +110,16 @@ button,
   &:active,
   &.active {
     border-color: rgba($green,.75);
+  }
+
+  &[disabled],
+  &.disabled {
+
+    &:hover,
+    &:active,
+    &.active {
+      border-color: rgba($green,.3);
+    }
   }
 }
 
