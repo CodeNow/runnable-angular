@@ -46,7 +46,9 @@ section.row
         use(
           xlink:href = "#icons-git"
         )
-      h3.repository-title {{ repo.attrs.repo }}
+      h3.repository-title(
+        title = "{{ repo.attrs.repo }}"
+      ) {{ repo.attrs.repo }}
 
       //- if not editing and behind latest
       button.btn-xs.white.tooltip.bottom.repository-update(
