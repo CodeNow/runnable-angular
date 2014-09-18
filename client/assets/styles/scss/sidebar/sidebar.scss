@@ -1,9 +1,6 @@
 // sidebar
 .sidebar {
-  // webkit flicker bug:
-  // https://code.google.com/p/chromium/issues/detail?id=138415
-  // https://code.google.com/p/chromium/issues/detail?id=311583
-  -webkit-backface-visibility: hidden;
+  @extend .webkit-flicker;
 
   background: $white;
   border-right: 1px solid rgba($black,.1);
@@ -33,6 +30,7 @@
 
 // header.row.account-header
 .account-header {
+  @extend .webkit-flicker;
   flex: 0 0 auto;
 }
 
