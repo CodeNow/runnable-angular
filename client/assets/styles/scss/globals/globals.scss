@@ -1,7 +1,7 @@
 // global layout
 html {
+  -webkit-tap-highlight-color: rgba($black,0);
   font-size: 62.5%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body {
@@ -47,22 +47,12 @@ body,
 .clearfix:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 
 .clearfix:after {
   clear: both;
-}
-
-.pull-left {
-  float: left !important;
-}
-
-.pull-right {
-  float: right !important;
 }
 
 .row {
