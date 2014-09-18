@@ -152,6 +152,17 @@ button,
     background: rgba($black,.05);
     border-color: rgba($black,.2);
   }
+
+  &[disabled],
+  &.disabled {
+
+    &:hover,
+    &:active,
+    &.active {
+      background: transparent;
+      border-color: transparent;
+    }
+  }
 }
 
 // .purple {
