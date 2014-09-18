@@ -21,7 +21,7 @@ header.box-header
       span.btn-text(
         ng-if = "dataInstance.data.restartOnSave"
       ) #{''} and Restart
-    button.white.btn-icon.btn-icon-sm(
+    a.btn.white.btn-icon.btn-icon-sm(
       ng-class = "{active: dataInstance.data.popoverSaveOptions.data.show}"
       toggle-pop-over
       toggle-pop-over-model = "dataInstance.data.popoverSaveOptions.data.show"
@@ -57,7 +57,7 @@ header.box-header
         use(
           xlink:href = "#icons-edit"
         )
-    button.white.btn-icon.btn-actions(
+    a.btn.white.btn-icon.btn-actions(
       ng-class = "{active: dataInstance.data.popoverGearMenu.data.show}"
       toggle-pop-over
       toggle-pop-over-model = "dataInstance.data.popoverGearMenu.data.show"
