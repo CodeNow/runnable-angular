@@ -19,9 +19,9 @@
   right: 5px;
   top: 5px;
 
-  .out & {
-    transform: translate3d(45px,0,0);
-  }
+  // .out & {
+  //   transform: translate3d(45px,0,0);
+  // }
 
   &.active .icons-add {
     transform: rotate3d(0,0,1,135deg);
