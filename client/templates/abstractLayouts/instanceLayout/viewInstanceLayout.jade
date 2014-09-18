@@ -37,7 +37,8 @@ nav.sidebar.global-sidebar(
           span.account-name {{ dataApp.user.oauthName() }}
       //- Orgs that are not the active account
       li.accounts-group-item(
-        ng-click = "dataInstanceLayout.actions.selectActiveAccount(org)"
+        ng-click = "dataInstanceLayout.actions.selectActiveAccount(org); \
+                    dataInstanceLayout.data.showChangeAccount = false;"
         ng-repeat = "org in dataInstanceLayout.data.orgs.models"
         ng-if = "org !== dataInstanceLayout.data.activeAccount"
       )
