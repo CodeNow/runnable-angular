@@ -9,16 +9,10 @@ var util = require('./helpers/util');
 var SetupPage = require('./pages/SetupPage');
 var InstancePage = require('./pages/InstancePage');
 
-// describe('home', function () {
-//   it('should allow navigation to /', function () {
-//     browser.get('/');
-//     browser.sleep(100);
-//   });
-// });
-
 login();
 
 describe('project creation workflow', function () {
+  var instanceHash;
   it('should direct the user to the setup page', function () {
     var setup = new SetupPage();
     setup.get();
@@ -49,6 +43,41 @@ describe('project creation workflow', function () {
     setup.createBox();
 
     util.waitForUrl(InstancePage.urlRegex);
+
+    browser.getCurrentUrl().then(function(url) {
+      var results = new RegExp(util.regex.shortHash + '/$').exec(url);
+
+      if (results && results.length) {
+        instanceHash = results[0].replace('/', '');
+      } else {
+        throw new Error('Could not load instance page ' + url);
+      }
+    });
+  });
+
+  it('should load a building instance', function() {
+    var instance = new InstancePage(instanceHash);
+
+    instance.get();
+
+    browser.wait(instance.buildLogsOpen.bind(instance));
+
+    browser.wait(function() {
+      instance.activeTabContains(/Build completed/);
+    });
+  });
+
+  it('should load a running instance', function () {
+    var instance = new InstancePage(instanceHash);
+
+    instance.get();
+
+    // Confirm it's running
+    expect(util.hasClass(instance.status, 'running')).toBe(true);
+    // Delete the instance
+    instance.gearMenu.deleteBox();
+    // Confirm we're on new page
+    util.waitForUrl(SetupPage.urlRegex);
   });
 });
 /*

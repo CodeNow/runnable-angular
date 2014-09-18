@@ -16,12 +16,28 @@ util.waitForUrl = function (url) {
   });
 };
 
+util.containsText = function (elem, expected) {
+  return elem.get().getText().then(function (elemText) {
+    if (typeof expected === 'object' && typeof expected.test === 'function') {
+      // It's a regex
+      return expected.test(elemText);
+    }
+    return elemText === expected;
+  });
+};
+
 util.createGetter = function (by) {
   return {
     get: function () {
       return element(by);
     }
   };
+};
+
+util.hasClass = function(elem, klass) {
+  return elem.get().getAttribute('class').then(function (classes) {
+    return classes.split(' ').indexOf(klass) > -1;
+  });
 };
 
 util.regex = {};
