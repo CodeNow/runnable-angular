@@ -28,7 +28,7 @@ button,
     outline: 0;
   }
 
-  &[disabled]
+  &[disabled],
   &.disabled {
     border-color: transparent;
     cursor: not-allowed;
