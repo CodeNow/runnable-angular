@@ -84,6 +84,8 @@ section.row
         }"
         toggle-pop-over
         toggle-pop-over-model = "repo.state.show"
+        ng-click = "repo.state.toggleFilter = false; \
+                    repo.state.commitFilter = '';"
       )
         .commit-message {{ actions.fetchRepoDisplayActiveCommit(repo).commit.message }}
         svg.iconnables.icons-commit
