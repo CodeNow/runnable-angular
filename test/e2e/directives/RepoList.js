@@ -22,9 +22,9 @@ function RepoList () {
     });
   };
 
-  this.selectFirstRepo = function () {
-    var firstRepo = element(by.repeater('repo in data.githubRepos.models').row(0));
-    return firstRepo.click();
+  this.selectRepo = function (idx) {
+    var repo = element(by.repeater('repo in data.githubRepos.models').row(idx));
+    return repo.click();
   };
 
   this.numSelectedRepos = function() {

@@ -3,6 +3,9 @@
  * login => setup => running instance
  */
 
+// https://github.com/angular/protractor/issues/1068
+ElementFinder.prototype.isPending = function () {return false;};
+
 var login = require('./helpers/oauth-github');
 var util = require('./helpers/util');
 
@@ -22,7 +25,7 @@ describe('project creation workflow', function () {
 
     setup.repoList.openAddDropdown();
 
-    setup.repoList.selectFirstRepo();
+    setup.repoList.selectRepo(0);
 
     browser.wait(function() {
       return setup.repoList.numSelectedRepos().then(function(numRepos) {
@@ -61,9 +64,16 @@ describe('project creation workflow', function () {
     instance.get();
 
     browser.wait(instance.buildLogsOpen.bind(instance));
+    browser.wait(instance.activePanelLoaded.bind(instance));
 
-    browser.wait(function() {
-      instance.activeTabContains(/Build completed/);
+    browser.wait(function () {
+      return browser.refresh().then(function () {
+        return browser.wait(function() {
+          browser.wait(instance.activePanelLoaded.bind(instance));
+        });
+      }).then(function() {
+        return util.hasClass(instance.statusIcon, 'running');
+      });
     });
   });
 
@@ -73,9 +83,16 @@ describe('project creation workflow', function () {
     instance.get();
 
     // Confirm it's running
-    expect(util.hasClass(instance.status, 'running')).toBe(true);
+    browser.wait(function () {
+      return util.hasClass(instance.statusIcon, 'running');
+    });
     // Delete the instance
     instance.gearMenu.deleteBox();
+
+    // Hacky
+    browser.sleep(550).then(function() {
+      element(by.css('body > div.modal.ng-scope.in > div > div.modal-footer > button:nth-child(1)')).click();
+    });
     // Confirm we're on new page
     util.waitForUrl(SetupPage.urlRegex);
   });
