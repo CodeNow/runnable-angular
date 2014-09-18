@@ -11,7 +11,7 @@
     //- should clear on close
     button.white.btn-icon.btn-search(
       ng-click = "data.state.toggleFilter = !data.state.toggleFilter; \
-                  data.state.repoFilter = '';"
+        data.state.repoFilter = '';"
       ng-class = "{'active': data.state.toggleFilter}"
       title = "Filter Repositories"
     )
@@ -42,3 +42,4 @@
           unaddedRepos:data.version.appCodeVersions | \
           repos:data.state.repoFilter).length === 0"
       ) No matches.
+      //- li.popover-list-item.no-actions There's nothing left to add.
