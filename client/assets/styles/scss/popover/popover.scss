@@ -271,27 +271,6 @@
   padding: 9px 14px;
 }
 
-// preview popover
-#preview-popover {
-  color: $gray-dark;
-  font-size: 13px;
-  font-weight: 400;
-  left: auto;
-  line-height: 1.2;
-  margin-left: -130px;
-  position: absolute;
-  right: 12px;
-  text-transform: initial;
-  top: 22px;
-  transform-origin: 80px 0;
-  width: 180px;
-
-  > .arrow {
-    left: auto;
-    right: 25px;
-  }
-}
-
 // h3.popover-title
 .popover-title {
   background: $gray-lighter;
