@@ -26,7 +26,7 @@ nav.sidebar.global-sidebar(
       li.accounts-group-item(
         ng-if = "dataApp.user !== dataInstanceLayout.data.activeAccount"
         ng-click = "dataInstanceLayout.actions.selectActiveAccount(dataApp.user); \
-                    dataInstanceLayout.data.showChangeaccount = false;"
+                    dataInstanceLayout.data.showChangeAccount = false;"
       )
         a.account
           img.gravatar(
