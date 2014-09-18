@@ -1,6 +1,11 @@
 .btn-select {
   position: relative;
 
+  button,
+  .btn {
+    pointer-events: none;
+  }
+
   select {
     cursor: pointer;
     height: 100%;

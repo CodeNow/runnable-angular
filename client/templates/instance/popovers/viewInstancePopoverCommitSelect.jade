@@ -22,17 +22,18 @@
       placeholder = "Filter All Commits"
     )
     //- branch selector
-    button.blue.btn-select.pull-right.branch-btn
-      //- change this to a branch icon
-      svg.iconnables.icons-git
-        use(
-          xlink:href = "#icons-git"
-        )
-      | {{ data.attrs.branch }}
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
+    .btn-select.branch-btn
+      button.blue.pull-right
+        //- change this to a branch icon
+        svg.iconnables.icons-git
+          use(
+            xlink:href = "#icons-git"
+          )
+        | {{ data.attrs.branch }}
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
       select.select(
         ng-change = "actions.updateCommits(data)"
         ng-model = "data.attrs.branch"
