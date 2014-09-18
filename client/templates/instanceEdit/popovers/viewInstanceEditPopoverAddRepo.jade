@@ -34,10 +34,11 @@
         ng-repeat = "repo in data.githubRepos.models | \
           unaddedRepos:data.version.appCodeVersions | \
           repos:data.state.repoFilter"
+        title = "{{ repo.attrs.full_name }}"
       )
         span {{ repo.attrs.full_name }}
       li.popover-list-item.no-actions(
         ng-if = "(data.githubRepos.models | \
-                  unaddedRepos:data.version.appCodeVersions | \
-                  repos:data.state.repoFilter).length === 0"
+          unaddedRepos:data.version.appCodeVersions | \
+          repos:data.state.repoFilter).length === 0"
       ) No matches.

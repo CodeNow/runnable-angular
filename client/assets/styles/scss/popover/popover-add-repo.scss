@@ -33,6 +33,14 @@
     overflow: auto;
   }
 
+  // li.popover-list-item
+  .popover-list-item {
+    overflow: hidden;
+    padding-right: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .no-actions {
     text-align: center;
   }
