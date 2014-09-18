@@ -61,6 +61,15 @@
   .icons-commit {
     top: 6px;
   }
+
+  // .spinner
+  .spinner {
+    color: $blue;
+  }
+
+  .spinner-ring {
+    background: #f0f8fb; // rgba($blue,.1);
+  }
 }
 
 .popover-title {
