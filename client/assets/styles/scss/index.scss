@@ -14,24 +14,16 @@
 @import "globals/var";
 @import "globals/reset";
 @import "globals/globals";
-@import "globals/grid";
 @import "globals/typography";
 @import "globals/images";
 @import "globals/loader";
-@import "globals/logo";
 @import "globals/minimize";
-
-// editor
-@import "components/file-tree";
-@import "components/browser-chrome";
-@import "components/themes";
+@import "globals/animations";
 
 // components (elements)
-@import "components/animations";
+@import "components/logo";
 @import "components/icons";
 @import "components/spinner";
-@import "components/horizontal-spinner";
-@import "components/tables";
 @import "components/buttons";
 @import "components/select";
 @import "components/modals";
@@ -55,13 +47,12 @@
 // views
 @import "views/views";
 @import "views/views-explorer";
+@import "views/views-file-tree";
 @import "views/views-toolbar";
 @import "views/views-tabs";
 @import "views/views-panel";
-
-// pages
-@import "pages/home";
-@import "pages/setup";
+@import "views/views-themes";
+@import "views/views-browser-chrome";
 
 // popovers
 @import "popover/popover";
@@ -71,3 +62,7 @@
 @import "popover/popover-add-tab";
 @import "popover/popover-commit-select";
 @import "popover/popover-repo-actions";
+
+// pages
+@import "pages/home";
+@import "pages/setup";
