@@ -1,7 +1,7 @@
 .popover.bottom.popover-add-repo(
-  ng-class = "{\
-    'in': data.show,\
-    'show-add-repo': showAddRepo\
+  ng-class = "{ \
+    'in': data.show, \
+    'show-add-repo': showAddRepo \
   }"
 )
   .arrow
@@ -36,4 +36,8 @@
           repos:data.state.repoFilter"
       )
         span {{ repo.attrs.full_name }}
-      //- li.popover-list-item.no-actions No matches.
+      li.popover-list-item.no-actions(
+        ng-if = "(data.githubRepos.models | \
+                  unaddedRepos:data.version.appCodeVersions | \
+                  repos:data.state.repoFilter).length === 0"
+      ) No matches.

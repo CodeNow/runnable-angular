@@ -11,6 +11,7 @@
 
   // resize .spinner-container
   ~ .spinner-container {
+    width: calc(100% - 240px); // safari does not support vw and calc
     width: calc(100vw - 60px);
   }
 

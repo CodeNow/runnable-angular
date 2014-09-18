@@ -8,6 +8,7 @@
   right: 0;
   top: 0;
   transition: opacity .3s ease-in, transform .15s ease-in, width .15s ease-in;
+  width: calc(100% - 240px); // safari does not support vw and calc
   width: calc(100vw - 240px);
   z-index: $z-modal-backdrop;
 

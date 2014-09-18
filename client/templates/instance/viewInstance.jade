@@ -6,7 +6,11 @@ header.box-header
     )
     span.icons-status.tooltip.bottom(
       data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
-      ng-if = "!dataInstance.data.container.running()"
+      ng-if = "!dataInstance.data.container.running() && dataInstance.data.instance.build.attrs.completed"
+    )
+    span.icons-status.tooltip.bottom.building(
+      data-title = "Build in Progress"
+      ng-if = "!dataInstance.data.instance.build.attrs.completed"
     )
   .primary-actions
     //- apply .with-restart if save restarts box
