@@ -3,9 +3,6 @@
  * login => setup => running instance
  */
 
-// https://github.com/angular/protractor/issues/1068
-ElementFinder.prototype.isPending = function () {return false;};
-
 var login = require('./helpers/oauth-github');
 var util = require('./helpers/util');
 
