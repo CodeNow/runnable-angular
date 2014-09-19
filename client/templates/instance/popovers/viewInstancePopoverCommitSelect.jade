@@ -1,6 +1,7 @@
 //- commit-select popover
 .popover.commit-select(
   ng-class = "{in: data.state.show}"
+  ng-init = "activeBranch = data.githubRepo.state.activeBranch;"
 )
   h3.popover-title(
     ng-class = "{'show-filter': data.state.toggleFilter}"
@@ -31,41 +32,40 @@
           use(
             xlink:href = "#icons-git"
           )
-        | {{ data.attrs.branch }}
+        | {{ activeBranch.attrs.name }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
           )
       select.select(
-        ng-change = "actions.updateCommits(data)"
-        ng-model = "data.attrs.branch"
+        ng-model = "data.githubRepo.state.selectedBranch"
+        ng-change = "actions.selectBranch(data, data.githubRepo.state.selectedBranch)"
+        ng-options = "branch.attrs.name for branch in data.githubRepo.branches.models"
       )
-        option(
-          ng-repeat = "branch in data.attrs.branches"
-        ) {{ branch.name }}
   //- list of commits
   ul.commit-group
     //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit(
-      ng-class = "{active: (commit.sha === (data.state.activeCommit.sha || data.attrs.commit))}"
-      ng-if = "data.attrs.commits.length"
-      ng-repeat = "commit in data.attrs.commits | commitFilter:data.state.commitFilter"
-      ng-click = "actions.selectActiveCommit(data, commit)"
+      ng-repeat = "commit in activeBranch.commits.models | commitFilter:data.state.commitFilter"
+      ng-class = "{ active: commit.attrs.sha === activeBranch.state.activeCommit.attrs.sha }"
+      ng-if = "activeBranch.commits.models.length"
+      ng-click = "actions.selectActiveBranchAndCommit(data, data.githubRepo.state.selectedBranch, commit)"
     )
-      .commit-message {{ commit.commit.message }}
+      .commit-message {{ commit.attrs.commit.message }}
+      .commit-message {{ activeBranch.state.activeCommit.attrs.sha }}
       svg.iconnables.icons-commit
         use(
           xlink:href = "#icons-commit"
         )
-      span.commit-author {{ commit.author.login }}
-      time.commit-time {{ commit.commit.author.date | timeAgo }}
-    li.commit-group-item.commit-item-more(
-      ng-if = "data.attrs.commits.length && !data.attrs.allCommitsLoaded"
-    )
-      button.blue.btn-block Load Older
-    li.commit-group-item(
-      ng-if = "!data.attrs.commits.length"
-    )
+      span.commit-author {{ commit.attrs.author.login }}
+      time.commit-time {{ commit.attrs.commit.author.date | timeAgo }}
+    //- li.commit-group-item.commit-item-more(
+    //-   ng-if = "data.state.commits.length && !data.state.allCommitsLoaded"
+    //- )
+    //-   button.blue.btn-block Load Older
+    //- li.commit-group-item(
+    //-   ng-if = "!data.state.commits.length"
+    //- )
       .spinner
         .spinner-ring

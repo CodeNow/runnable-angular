@@ -15,7 +15,7 @@ function popOver(
     replace: true,
     scope: {
       data: '=',
-      actions: '&'
+      actions: '&',
     },
     link: function ($scope, element, attrs) {
       var $ = jQuery;
