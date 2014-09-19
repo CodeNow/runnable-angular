@@ -36,7 +36,7 @@ function SetupPage () {
   };
 
   this.selectBlankTemplate = function() {
-    var blankTemplate = element(by.repeater('context in dataSetup.data.seedContexts.models').row(0));
+    var blankTemplate = element(by.repeater('context in dataSetup.data.seedContexts.models').row(1));
     return blankTemplate.click();
   };
 

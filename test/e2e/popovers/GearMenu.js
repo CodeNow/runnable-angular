@@ -22,7 +22,11 @@ function GearMenu () {
   this.deleteBox = function() {
     var self = this;
     return this.openIfClosed().then(function () {
-      return self.deleteItem.get().click();
+      return browser.wait(function() {
+        return self.deleteItem.get().isPresent();
+      }).then(function() {
+        return self.deleteItem.get().click();
+      });
     });
   };
 }

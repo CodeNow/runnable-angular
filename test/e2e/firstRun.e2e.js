@@ -64,13 +64,7 @@ describe('project creation workflow', function () {
     browser.wait(instance.activePanelLoaded.bind(instance));
 
     browser.wait(function () {
-      return browser.refresh().then(function () {
-        return browser.wait(function() {
-          browser.wait(instance.activePanelLoaded.bind(instance));
-        });
-      }).then(function() {
-        return util.hasClass(instance.statusIcon, 'running');
-      });
+      return util.hasClass(instance.statusIcon, 'running');
     });
   });
 
@@ -78,6 +72,10 @@ describe('project creation workflow', function () {
     var instance = new InstancePage(instanceHash);
 
     instance.get();
+
+    browser.wait(function() {
+      return instance.statusIcon.get().isPresent();
+    });
 
     // Confirm it's running
     browser.wait(function () {
@@ -88,7 +86,7 @@ describe('project creation workflow', function () {
 
     // Hacky
     browser.sleep(550).then(function() {
-      element(by.css('body > div.modal.ng-scope.in > div > div.modal-footer > button:nth-child(1)')).click();
+      return element(by.css('body > div.modal.ng-scope.in > div > div.modal-footer > button:nth-child(1)')).click();
     });
     // Confirm we're on new page
     util.waitForUrl(SetupPage.urlRegex);

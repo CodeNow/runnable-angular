@@ -16,7 +16,7 @@ function login () {
     // we're about to authorize some permissions, but the button isn't enabled for a second
     browser.driver.sleep(1500);
 
-    expect(browser.getTitle()).toBe('sandbox.runnable');
+    expect(browser.getTitle()).toBe('Runnable');
 }
 
 module.exports = login;
