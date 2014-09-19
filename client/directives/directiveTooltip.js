@@ -17,10 +17,10 @@ function tooltip(
     scope: false,
     link: function ($scope, element, attrs) {
 
-      var template = $templateCache.get('viewToolTip');
+      var template = $templateCache.get('viewTooltip');
       var $template = angular.element(template);
-      var $toolTipElement;
-      var toolTipText;
+      var $tooltipElement;
+      var tooltipText;
       var $body = jQuery('body');
 
       function position () {
@@ -32,37 +32,37 @@ function tooltip(
         return eStyle;
       }
 
-      function updateToolTip () {
-        if(!$toolTipElement) {
+      function updateTooltip () {
+        if(!$tooltipElement) {
           return;
         }
-        jQuery($toolTipElement).find('.tooltip-text').html(toolTipText);
+        jQuery($tooltipElement).find('.tooltip-text').html(tooltipText);
       }
 
       jQuery(element).on('mouseover', function () {
-        if ($toolTipElement) {
+        if ($tooltipElement) {
           return;
         }
-        $toolTipElement = $compile($template)($scope);
-        $toolTipElement.css(position());
-        updateToolTip();
-        $body.append($toolTipElement);
+        $tooltipElement = $compile($template)($scope);
+        $tooltipElement.css(position());
+        updateTooltip();
+        $body.append($tooltipElement);
       });
       jQuery(element).on('mouseout', function () {
-        if(!$toolTipElement) {
+        if(!$tooltipElement) {
           return;
         }
-        $toolTipElement.remove();
-        $toolTipElement = null;
+        $tooltipElement.remove();
+        $tooltipElement = null;
       });
 
-      attrs.$observe('toolTip', function (interpolatedValue) {
-        toolTipText = interpolatedValue;
-        updateToolTip();
+      attrs.$observe('tooltip', function (interpolatedValue) {
+        tooltipText = interpolatedValue;
+        updateTooltip();
       });
 
       $scope.$on('$destroy', function () {
-        $toolTipElement.remove();
+        $tooltipElement.remove();
       });
 
     }
