@@ -17,9 +17,15 @@ function toolTip(
     scope: false,
     link: function ($scope, element, attrs) {
 
+      var text = attrs.toolTip;
+      if(!text) {
+        return;
+      }
+
       var template = $templateCache.get('viewToolTip');
       var $template = angular.element(template);
       var $element = $compile($template)($scope);
+      $element.find('.tooltip-text').append(text);
       var $body = jQuery('body');
       $body.$append($element);
 
