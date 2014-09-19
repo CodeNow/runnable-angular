@@ -50,6 +50,7 @@ function ControllerInstanceLayout(
 
 
   actions.selectActiveAccount = function (userOrOrg, cb) {
+    data.showChangeAccount = false;
     var name = userOrOrg.oauthName();
     data.activeAccount = userOrOrg;
     data.showChangeAccount = false;
