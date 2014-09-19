@@ -17,20 +17,52 @@ function toolTip(
     scope: false,
     link: function ($scope, element, attrs) {
 
-      var text = attrs.toolTip;
-      if(!text) {
-        return;
-      }
-
       var template = $templateCache.get('viewToolTip');
       var $template = angular.element(template);
-      var $element = $compile($template)($scope);
-      $element.find('.tooltip-text').append(text);
+      var $toolTipElement;
+      var toolTipText;
       var $body = jQuery('body');
-      $body.$append($element);
+
+      function position () {
+        var $e = jQuery(element);
+        var eStyle = {
+          top: ($e.offset().top - 45) + 'px',
+          left: $e.offset().left + 'px'
+        };
+        return eStyle;
+      }
+
+      function updateToolTip () {
+        if(!$toolTipElement) {
+          return;
+        }
+        jQuery($toolTipElement).find('.tooltip-text').html(toolTipText);
+      }
+
+      jQuery(element).on('mouseover', function () {
+        if ($toolTipElement) {
+          return;
+        }
+        $toolTipElement = $compile($template)($scope);
+        $toolTipElement.css(position());
+        updateToolTip();
+        $body.append($toolTipElement);
+      });
+      jQuery(element).on('mouseout', function () {
+        if(!$toolTipElement) {
+          return;
+        }
+        $toolTipElement.remove();
+        $toolTipElement = null;
+      });
+
+      attrs.$observe('toolTip', function (interpolatedValue) {
+        toolTipText = interpolatedValue;
+        updateToolTip();
+      });
 
       $scope.$on('$destroy', function () {
-        $element.remove();
+        $toolTipElement.remove();
       });
 
     }
