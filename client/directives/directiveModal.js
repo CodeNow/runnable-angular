@@ -21,6 +21,13 @@ function modal(
       var $ = jQuery;
       $scope.in = false;
 
+      function keyDownEnter (e) {
+        if (e.keyCode === 13) {
+          $scope.modal.find('[data-action]').trigger('click');
+        }
+      }
+      jQuery(document).on('keydown', keyDownEnter);
+
       element.on('click', function (event) {
         event.stopPropagation();
         $scope.in = true;
@@ -56,6 +63,10 @@ function modal(
 
       $scope.$on('$destroy', function () {
         $scope.modal.remove();
+        element.off('click');
+        jQuery(document).off('keydown', keyDownEnter);
+
+
       });
     }
   };
