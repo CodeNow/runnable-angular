@@ -19,11 +19,12 @@ function toolTip(
 
       var template = $templateCache.get('viewToolTip');
       var $template = angular.element(template);
-      $compile($template)($scope);
-
+      var $element = $compile($template)($scope);
+      var $body = jQuery('body');
+      $body.$append($element);
 
       $scope.$on('$destroy', function () {
-        console.log('tooltip : ' + '');
+        $element.remove();
       });
 
     }
