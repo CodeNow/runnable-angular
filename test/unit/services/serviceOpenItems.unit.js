@@ -131,6 +131,51 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
     });
   });
 
+  describe('hasOpen'.blue, function () {
+    it('should return true when OI has that type open', function() {
+      var oi = new OpenItems();
+
+      oi.add(fileModel);
+
+      var result = oi.hasOpen('File');
+
+      expect(result).to.be.true;
+    });
+
+    it('should return false when OI does not have an item of that type open', function() {
+      var oi = new OpenItems();
+
+      oi.add(fileModel);
+
+      var result = oi.hasOpen('Terminal');
+
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('getFirst'.blue, function() {
+    it('should return the first item of that type in OpenItems', function() {
+      var oi = new OpenItems();
+
+      oi.add(fileModel);
+
+      var result = oi.getFirst('File');
+
+      expect(result).to.be.ok;
+      expect(result).to.deep.eql(fileModel);
+    });
+
+    it('should return false when there are no items of that type', function() {
+      var oi = new OpenItems();
+
+      oi.add(fileModel);
+
+      var result = oi.hasOpen('Terminal');
+
+      expect(result).to.be.false;
+    });
+  });
+
   describe('error states'.blue, function () {
     it('should throw an error when we try to add a non-model', function () {
       var oi = new OpenItems('123456');
