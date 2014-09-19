@@ -1,4 +1,4 @@
-describe('instance state', function () {
+xdescribe('instance state', function () {
   it('should restart instance', function () {
   });
 
