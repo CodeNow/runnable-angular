@@ -6,13 +6,13 @@
     ul.popover-body.popover-list
       //- hide fast-forward and .divider if already on latest
       li.popover-list-item(
-        ng-if = "repo.state.commitsBehind"
+        ng-if = "data.acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
         ng-click = "actions.selectLatestCommitForRepo(data.repo)"
       ) Fast-Forward
-        small.popover-list-item-details ({{ repo.state.commitsBehind }} Commits)
+        small.popover-list-item-details ({{ data.acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} Commits)
       li.divider(
-        ng-if = "repo.state.commitsBehind"
+        ng-if = "data.acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
       )
       li.popover-list-item(
-        ng-click = "actions.deleteRepo(data.repo)"
+        ng-click = "actions.deleteRepo(data.acv)"
       ) Delete
