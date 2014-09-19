@@ -1,17 +1,18 @@
 section.row
   h2.sub-header Repositories
     a.btn.btn-xs.orange.sub-header-action(
-      tooltip = "Update your box to see your changes"
       ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
       ng-if = "data.showUpdateButton"
+      tooltip = "Update your box to see your changes"
+      tooltip-options = "{\"class\":\"bottom\"}"
     ) Update
       svg.iconnables.icons-update
         use(
           xlink:href = "#icons-update"
         )
     a.btn.btn-sm.white.sub-header-action(
-      ng-if = "edit"
       ng-class = "{active: data.show}"
+      ng-if = "edit"
       toggle-pop-over
       toggle-pop-over-model = "data.show"
       type = "button"
