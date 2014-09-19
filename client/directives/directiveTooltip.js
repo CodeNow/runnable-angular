@@ -26,7 +26,7 @@ function tooltip(
       function position () {
         var $e = jQuery(element);
         var eStyle = {
-          top: ($e.offset().top - 45) + 'px',
+          top: $e.offset().top + 'px',
           left: $e.offset().left + 'px'
         };
         return eStyle;
@@ -62,9 +62,7 @@ function tooltip(
       });
 
       $scope.$on('$destroy', function () {
-        if ($toolTipElement) {
-          $toolTipElement.remove();
-        }
+        $toolTipElement.remove();
       });
 
     }

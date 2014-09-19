@@ -1,8 +1,7 @@
 section.row
   h2.sub-header Repositories
     a.btn.btn-xs.orange.sub-header-action(
-      data-title = "Update your box to see your changes"
-      tooltip = "Testing123"
+      tooltip = "Update your box to see your changes"
       ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
       ng-if = "data.showUpdateButton"
     ) Update
@@ -52,7 +51,7 @@ section.row
       ) {{ repo.attrs.repo }}
 
       //- if not editing and behind latest
-      button.btn-xs.white.tooltip.bottom.repository-update(
+      button.btn-xs.white.repository-update(
         data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
         ng-if = "repo.attrs.commitsBehind"
       ) {{ repo.attrs.commitsBehind }}
