@@ -7,7 +7,7 @@ nav.sidebar.global-sidebar(
     ol.accounts-group(
       ng-class = "{in: dataInstanceLayout.data.showChangeAccount}"
       ng-click = "dataInstanceLayout.data.showChangeAccount = !dataInstanceLayout.data.showChangeAccount; \
-        $event.stopPropagation()"
+                  $event.stopPropagation()"
     )
       li.accounts-group-item
         a.account
@@ -25,8 +25,7 @@ nav.sidebar.global-sidebar(
       //- current user (if user is not active)
       li.accounts-group-item(
         ng-if = "dataApp.user !== dataInstanceLayout.data.activeAccount"
-        ng-click = "dataInstanceLayout.actions.selectActiveAccount(dataApp.user); \
-                    dataInstanceLayout.data.showChangeAccount = false;"
+        ng-click = "$event.stopPropagation(); dataInstanceLayout.actions.selectActiveAccount(dataApp.user)"
       )
         a.account
           img.gravatar(
@@ -37,8 +36,7 @@ nav.sidebar.global-sidebar(
           span.account-name {{ dataApp.user.oauthName() }}
       //- Orgs that are not the active account
       li.accounts-group-item(
-        ng-click = "dataInstanceLayout.actions.selectActiveAccount(org); \
-                    dataInstanceLayout.data.showChangeAccount = false;"
+        ng-click = "$event.stopPropagation(); dataInstanceLayout.actions.selectActiveAccount(org)"
         ng-repeat = "org in dataInstanceLayout.data.orgs.models"
         ng-if = "org !== dataInstanceLayout.data.activeAccount"
       )
