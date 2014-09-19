@@ -3,6 +3,7 @@
   animation: tooltip .2s ease-in forwards;
   opacity: 0;
   position: absolute;
+  pointer-events: none;
   z-index: $z-tooltip;
 
   // .bottom
