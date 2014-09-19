@@ -8,7 +8,8 @@
     //- filter across all commits in that repo
     //- should clear on close
     button.blue.btn-icon.btn-search(
-      ng-click = "data.state.toggleFilter = !data.state.toggleFilter"
+      ng-click = "data.state.toggleFilter = !data.state.toggleFilter; \
+                  data.state.commitFilter = '';"
       ng-class = "{active: data.state.toggleFilter}"
       title = "Filter All Commits"
     )
@@ -18,6 +19,7 @@
         )
     //- focus on visible
     input.title-filter(
+      select-on = "data.state.toggleFilter"
       ng-model = "data.state.commitFilter"
       placeholder = "Filter All Commits"
     )
@@ -65,6 +67,5 @@
     li.commit-group-item(
       ng-if = "!data.attrs.commits.length"
     )
-      button.blue.btn-block.btn-spinner.in
-        .spinner
-          .spinner-ring
+      .spinner
+        .spinner-ring

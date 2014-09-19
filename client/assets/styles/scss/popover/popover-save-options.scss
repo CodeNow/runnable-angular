@@ -17,6 +17,10 @@
     padding: 0 15px;
   }
 
+  .no-actions .label-checkbox {
+    cursor: not-allowed;
+  }
+
   .checkbox {
     height: 36px;
     margin-right: 12px;

@@ -1,8 +1,21 @@
 // section.row.boxes
 .boxes {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+
+  .sub-header {
+    box-shadow: 0 6px 6px $gray-lighter;
+    flex: 0 0 auto;
+    z-index: $z-sidebar-sub-header;
+  }
+}
+
+//  ul.boxes
+.box-group {
   flex: 1 1 auto;
   overflow-y: auto;
-  padding-bottom: 12px; // offset for box-shadow on footer
+  padding: 9px 0; // offset for box-shadow on footer
 }
 
 // li.box-group-item

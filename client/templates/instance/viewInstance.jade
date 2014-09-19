@@ -18,6 +18,7 @@ header.box-header
     button.green.btn-save(
       ng-class = "{in: dataInstance.data.saving}"
       ng-click = "dataInstance.actions.saveChanges()"
+      ng-disabled = "!dataInstance.data.container.running() || dataInstance.data.loading"
       type = "button"
     )
       span.btn-text Save
@@ -27,6 +28,7 @@ header.box-header
       ) #{''} and Restart
     a.btn.white.btn-icon.btn-icon-sm(
       ng-class = "{active: dataInstance.data.popoverSaveOptions.data.show}"
+      ng-disabled = "!dataInstance.data.container.running() || dataInstance.data.loading"
       toggle-pop-over
       toggle-pop-over-model = "dataInstance.data.popoverSaveOptions.data.show"
       type = "button"
@@ -152,6 +154,7 @@ section.views.with-add-tab(
   )
   a.btn.btn-sm.white.btn-icon.add-tab(
     ng-class = "{active: dataInstance.data.popoverAddTab.data.show}"
+    ng-disabled = "!dataInstance.data.container.running() || dataInstance.data.loading"
     toggle-pop-over
     toggle-pop-over-model = "dataInstance.data.popoverAddTab.data.show"
   )

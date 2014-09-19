@@ -12,12 +12,6 @@ $green-lighter: lighten($green-light,7);
 $green-dark: darken($green,6%);
 $green-darker: darken($green,12%);
 
-$silver: #fafafa;
-$silver-lighter: lighten($silver,8);
-$silver-light: lighten($silver,5);
-$silver-dark: darken($silver,9);
-$silver-darker: darken($silver,18%);
-
 $purple: #5b3777;
 $purple-logo: #ccadd2;
 $purple-lighter: lighten($purple, 20%);
@@ -30,9 +24,6 @@ $orange-lighter: lighten($orange,13);
 $orange-light: #ffca3b;
 $orange-dark: darken($orange,9%);
 $orange-darker: darken($orange,18%);
-
-$light-yellow: #ffffe0;
-$dark-yellow: darken(desaturate($light-yellow,65),45);
 
 $blue: #6cb6d1;
 
@@ -59,6 +50,7 @@ $z-box: 5000;
 
 // sidebars
 $z-sidebar: 6000;
+$z-sidebar-sub-header: 6001;
 $z-sidebar-footer: 6001;
 
 // popovers
@@ -72,7 +64,3 @@ $z-modal: 8001;
 
 // tooltips
 $z-tooltip: 9000;
-
-// other
-$z-header: 9000;
-$z-web-chrome: 8000;

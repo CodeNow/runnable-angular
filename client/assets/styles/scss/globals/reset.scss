@@ -164,12 +164,6 @@ input[type="submit"] {
   cursor: pointer; // Improve usability and consistency of cursor style between image-type `input` and others.
 }
 
-// Re-set default cursor for disabled elements.
-button[disabled],
-html input[disabled] {
-  cursor: default;
-}
-
 // Remove inner padding and border in Firefox 4+.
 button::-moz-focus-inner,
 input::-moz-focus-inner {
