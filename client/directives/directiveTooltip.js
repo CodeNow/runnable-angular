@@ -1,10 +1,10 @@
 require('app')
-  .directive('toolTip', toolTip);
+  .directive('tooltip', tooltip);
 /**
- * directive toolTip
+ * directive tooltip
  * @ngInject
  */
-function toolTip(
+function tooltip(
   $templateCache,
   $compile,
   $rootScope,
