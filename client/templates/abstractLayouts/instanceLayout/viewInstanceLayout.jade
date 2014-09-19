@@ -71,7 +71,8 @@ nav.sidebar.global-sidebar(
       )
         //- show instance name in title property when not minimized
         a.white.box(
-          tool-tip = "{{ instance.attrs.name }}"
+          tooltip = "{{ instance.attrs.name }}"
+          tooltip-options = "{\"class\":\"right\"}"
         )
           span.box-item-name {{ instance.attrs.name }}
           //- alternate text: "Started running 999 minutes ago."
