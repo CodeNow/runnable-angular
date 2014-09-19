@@ -1,14 +1,14 @@
 header.box-header
   h1.box-name {{ dataInstance.data.instance.attrs.name }}
-    span.icons-status.tooltip.bottom.running(
+    span.icons-status.running(
       data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}."
       ng-if = "dataInstance.data.container.running()"
     )
-    span.icons-status.tooltip.bottom(
+    span.icons-status(
       data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
       ng-if = "!dataInstance.data.container.running() && dataInstance.data.instance.build.attrs.completed"
     )
-    span.icons-status.tooltip.bottom.building(
+    span.icons-status.building(
       data-title = "Build in Progress"
       ng-if = "!dataInstance.data.instance.build.attrs.completed"
     )
@@ -135,7 +135,7 @@ section.views.with-add-tab(
       )
   section.explorer
     .explorer-controls
-      button.toggle-theme.tooltip.bottom(
+      button.toggle-theme(
         data-title = "Change Theme"
         ng-init = "dataInstance.data.toggleTheme = true"
         ng-class = "{dark: !dataInstance.data.toggleTheme, light: dataInstance.data.toggleTheme}"
