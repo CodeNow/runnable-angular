@@ -62,7 +62,9 @@ function toolTip(
       });
 
       $scope.$on('$destroy', function () {
-        $toolTipElement.remove();
+        if ($toolTipElement) {
+          $toolTipElement.remove();
+        }
       });
 
     }
