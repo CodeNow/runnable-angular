@@ -7,6 +7,7 @@ function ControllerInstance(
   $scope,
   $state,
   $stateParams,
+  $timeout,
   keypather,
   async,
   user,
@@ -332,6 +333,34 @@ function ControllerInstance(
       }
     }
   }, true);
+
+  function recursiveFetchInstance () {
+    fetchInstance(function(err) {
+      if (err) {
+        throw err;
+      }
+      if (data.instance.containers.models[0]) {
+        $scope.safeApply();
+      } else {
+        $timeout(recursiveFetchInstance, 250);
+      }
+    });
+  }
+
+  var building;
+  // This watch helps us detect if we're loading or building
+  $scope.$watch('dataInstance.data.build.attrs.started', function (n, o) {
+    if (n && !keypather.get(data, 'build.attrs.completed')) {
+      building = true;
+    }
+  });
+  $scope.$watch('dataInstance.data.build.attrs.completed', function (n, o) {
+    if (n && building) {
+      // We're finished building
+      building = false;
+      $timeout(recursiveFetchInstance, 500);
+    }
+  });
 
   /* ============================
    *   API Fetch Methods

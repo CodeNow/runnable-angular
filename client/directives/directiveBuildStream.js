@@ -73,16 +73,6 @@ function buildStream(
         };
         buildStream.on('data', addToStream);
         buildStream.on('end', function () {
-          // trying out simply reloading the page state when the build
-          // completes...
-          var c = $state.current;
-          var p = angular.copy($stateParams);
-          $state.transitionTo(c, p, {
-            reload: true,
-            inherit: true,
-            notify: true
-          });
-          /*
           build.fetch(function (err) {
             if (err) {
               throw err;
@@ -96,7 +86,6 @@ function buildStream(
             }
             $rootScope.safeApply();
           });
-          */
         });
       }
     }
