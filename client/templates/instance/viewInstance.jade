@@ -12,6 +12,9 @@ header.box-header
       data-title = "Build in Progress"
       ng-if = "!dataInstance.data.instance.build.attrs.completed"
     )
+    span.building(
+      ng-if = "!dataInstance.data.instance.build.attrs.completed"
+    ) Building
   .primary-actions
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
