@@ -6,7 +6,7 @@
   z-index: $z-views-toggle;
 
   .out & {
-    transform: translate3d(-45px,0,0);
+    z-index: $z-views;
   }
 
   .in & {

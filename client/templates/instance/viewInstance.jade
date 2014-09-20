@@ -154,7 +154,6 @@ section.views.with-add-tab(
   )
   a.btn.btn-sm.white.btn-icon.add-tab(
     ng-class = "{active: dataInstance.data.popoverAddTab.data.show}"
-    ng-disabled = "!dataInstance.data.container.running() || dataInstance.data.loading"
     toggle-pop-over
     toggle-pop-over-model = "dataInstance.data.popoverAddTab.data.show"
   )
