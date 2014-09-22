@@ -54,6 +54,7 @@ section.row.repo-list
       //- if not editing and behind latest
       button.btn-xs.white.repository-update(
         tooltip = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
+        tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
         ng-if = "repo.attrs.commitsBehind"
       ) {{ repo.attrs.commitsBehind }}
         svg.iconnables.icons-update
