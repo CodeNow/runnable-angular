@@ -14,6 +14,7 @@
 
   .icons-status {
     left: 9px;
+    position: relative;
     top: -5px;
 
     &::before,
@@ -28,6 +29,16 @@
     left: 5px;
     width: 21px;
   }
+}
+
+// span.text-status
+.text-status {
+  color: $orange;
+  float: right;
+  font-size: 12px;
+  font-weight: 300;
+  left: 14px;
+  position: relative;
 }
 
 // header.box-header actions

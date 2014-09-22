@@ -1,17 +1,18 @@
-section.row
+section.row.repo-list
   h2.sub-header Repositories
-    a.btn.btn-xs.orange.tooltip.bottom.sub-header-action(
-      data-title = "Update your box to see your changes"
+    a.btn.btn-xs.orange.sub-header-action(
       ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
       ng-if = "data.showUpdateButton"
+      tooltip = "Update your box to see your changes"
+      tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
     ) Update
       svg.iconnables.icons-update
         use(
           xlink:href = "#icons-update"
         )
     a.btn.btn-sm.white.sub-header-action(
-      ng-if = "edit"
       ng-class = "{active: data.show}"
+      ng-if = "edit"
       toggle-pop-over
       toggle-pop-over-model = "data.show"
       type = "button"
@@ -55,7 +56,8 @@ section.row
 
       //- if not editing and behind latest
       button.btn-xs.white.tooltip.bottom.repository-update(
-        data-title = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} commits behind)"
+	tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} commits behind)"
+        tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
         ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
         ng-click = "actions.selectLatestCommit(acv)"
       ) {{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}

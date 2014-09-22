@@ -61,6 +61,28 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
         expect(oi['add' + tab]()).to.be.ok;
       });
     });
+
+    describe('should not add a log tab if one is already open'.blue, function() {
+      it('BuildStream', function() {
+        var oi = new OpenItems();
+
+        oi.addBuildStream();
+
+        var result = oi.addBuildStream();
+
+        expect(result).to.be.false;
+      });
+
+      it('LogView', function() {
+        var oi = new OpenItems();
+
+        oi.addLogs();
+
+        var result = oi.addLogs();
+
+        expect(result).to.be.false;
+      });
+    })
   });
 
   describe('hitting cache'.blue, function () {
@@ -128,6 +150,51 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       expect(oi).to.be.ok;
       expect(oi.models.length).to.eql(0);
       expect(oi.activeHistory.models.length).to.eql(0);
+    });
+  });
+
+  describe('hasOpen'.blue, function () {
+    it('should return true when OI has that type open', function() {
+      var oi = new OpenItems();
+
+      oi.add(fileModel);
+
+      var result = oi.hasOpen('File');
+
+      expect(result).to.be.true;
+    });
+
+    it('should return false when OI does not have an item of that type open', function() {
+      var oi = new OpenItems();
+
+      oi.add(fileModel);
+
+      var result = oi.hasOpen('Terminal');
+
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('getFirst'.blue, function() {
+    it('should return the first item of that type in OpenItems', function() {
+      var oi = new OpenItems();
+
+      oi.add(fileModel);
+
+      var result = oi.getFirst('File');
+
+      expect(result).to.be.ok;
+      expect(result).to.deep.eql(fileModel);
+    });
+
+    it('should return false when there are no items of that type', function() {
+      var oi = new OpenItems();
+
+      oi.add(fileModel);
+
+      var result = oi.hasOpen('Terminal');
+
+      expect(result).to.be.false;
     });
   });
 

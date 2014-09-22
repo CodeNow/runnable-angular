@@ -1,17 +1,23 @@
 header.box-header
   h1.box-name {{ dataInstance.data.instance.attrs.name }}
-    span.icons-status.tooltip.bottom.running(
-      data-title = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}."
+    span.icons-status.running(
       ng-if = "dataInstance.data.container.running()"
+      tooltip = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}."
+      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
     )
-    span.icons-status.tooltip.bottom(
-      data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
+    span.icons-status(
       ng-if = "!dataInstance.data.container.running() && dataInstance.data.instance.build.attrs.completed"
+      tooltip = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
+      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
     )
-    span.icons-status.tooltip.bottom.building(
-      data-title = "Build in Progress"
+    span.icons-status.building(
       ng-if = "!dataInstance.data.instance.build.attrs.completed"
+      tooltip = "Build in Progress"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
     )
+    span.text-status(
+      ng-if = "!dataInstance.data.instance.build.attrs.completed"
+    ) Building
   .primary-actions
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
@@ -135,11 +141,12 @@ section.views.with-add-tab(
       )
   section.explorer
     .explorer-controls
-      button.toggle-theme.tooltip.bottom(
-        data-title = "Change Theme"
-        ng-init = "dataInstance.data.toggleTheme = true"
+      button.toggle-theme(
         ng-class = "{dark: !dataInstance.data.toggleTheme, light: dataInstance.data.toggleTheme}"
         ng-click = "dataInstance.data.toggleTheme = !dataInstance.data.toggleTheme"
+        ng-init = "dataInstance.data.toggleTheme = true"
+        tooltip = "Change Theme"
+        tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
       )
         .theme
     file-tree(
@@ -154,7 +161,6 @@ section.views.with-add-tab(
   )
   a.btn.btn-sm.white.btn-icon.add-tab(
     ng-class = "{active: dataInstance.data.popoverAddTab.data.show}"
-    ng-disabled = "!dataInstance.data.container.running() || dataInstance.data.loading"
     toggle-pop-over
     toggle-pop-over-model = "dataInstance.data.popoverAddTab.data.show"
   )

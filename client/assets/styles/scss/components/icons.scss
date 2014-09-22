@@ -125,6 +125,7 @@
   border-radius: 50%;
   display: inline-block;
   height: 9px;
+  position: relative;
   width: 9px;
 
   &.running,
@@ -137,5 +138,26 @@
   .building & {
     background: $orange;
     border: 0;
+  }
+
+  &.building {
+
+    &::before {
+      background: $white;
+      border: 2px solid $orange;
+      border-radius: 50%;
+      content: '';
+      display: block;
+      height: 17px;
+      left: 4px;
+      position: absolute;
+      top: 2px;
+      transform: scale3d(.3,.3,.3);
+      width: 17px;
+    }
+
+    &::before {
+      animation: building-spinner 2s infinite ease;
+    }
   }
 }

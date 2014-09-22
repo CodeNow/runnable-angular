@@ -1,30 +1,4 @@
 // general animations
-@keyframes alertIn {
-  0% {
-    opacity: 0;
-    transform: scale3d(.5,.5,1);
-  }
-  60% {
-    opacity: 1;
-    transform: scale3d(1.1,1.1,1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale3d(1,1,1);
-  }
-}
-
-@keyframes alertOut {
-  0% {
-    opacity: 1;
-    transform: scale3d(1,1,1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale3d(.5,.5,1);
-  }
-}
-
 @keyframes bearUp {
   0% {
     transform: translate3d(0,0,0);
@@ -49,6 +23,25 @@
   }
   100% {
     opacity: .1;
+  }
+}
+
+@keyframes building-spinner {
+  0% {
+    opacity: 0;
+    transform: scale3d(.3,.3,.3);
+  }
+  45% {
+    opacity: 1;
+    transform: scale3d(.65,.65,.65);
+  }
+  55% {
+    opacity: 1;
+    transform: scale3d(.6,.6,.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale3d(.3,.3,.3);
   }
 }
 
@@ -205,5 +198,12 @@
   100% {
     opacity: 0;
     transform: scale3d(1,1,1);
+  }
+}
+
+@keyframes tooltip {
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0);
   }
 }
