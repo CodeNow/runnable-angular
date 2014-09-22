@@ -61,6 +61,28 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
         expect(oi['add' + tab]()).to.be.ok;
       });
     });
+
+    describe('should not add a log tab if one is already open'.blue, function() {
+      it('BuildStream', function() {
+        var oi = new OpenItems();
+
+        oi.addBuildStream();
+
+        var result = oi.addBuildStream();
+
+        expect(result).to.be.false;
+      });
+
+      it('LogView', function() {
+        var oi = new OpenItems();
+
+        oi.addLogs();
+
+        var result = oi.addLogs();
+
+        expect(result).to.be.false;
+      });
+    })
   });
 
   describe('hitting cache'.blue, function () {

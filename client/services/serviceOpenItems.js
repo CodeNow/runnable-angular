@@ -155,12 +155,18 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addBuildStream = function (data) {
+    if (this.hasOpen('BuildStream')) {
+      return false;
+    }
     var buildStream = new BuildStream(data);
     this.add(buildStream);
     return buildStream;
   };
 
   OpenItems.prototype.addLogs = function (data) {
+    if (this.hasOpen('LogView')) {
+      return false;
+    }
     var logView = new LogView(data);
     this.add(logView);
     return logView;
