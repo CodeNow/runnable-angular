@@ -75,7 +75,9 @@ function tooltip(
       });
 
       $scope.$on('$destroy', function () {
-        $tooltipElement.remove();
+        if ($tooltipElement) {
+          $tooltipElement.remove();
+        }
       });
 
     }

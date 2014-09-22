@@ -253,10 +253,9 @@ function repoList (
         $scope.actions.selectLatestCommit = function (acv) {
           var activeBranch = acv.githubRepo.state.activeBranch;
           var latestCommit = activeBranch.commits.models[0];
-          $scope.actions.selectActiveBranchAndCommit(acv, activeBranch, latestCommit, function (err) {
-            if (err) { throw err; }
-            triggerInstanceUpdateOnRepoCommitChange();
-          });
+          setActiveBranch(acv, activeBranch);
+          setActiveCommit(activeBranch, latestCommit);
+          triggerInstanceUpdateOnRepoCommitChange();
         };
       } else {
         // instanceEdit page
