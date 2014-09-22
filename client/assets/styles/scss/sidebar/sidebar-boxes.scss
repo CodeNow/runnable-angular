@@ -14,6 +14,7 @@
 //  ul.boxes
 .box-group {
   flex: 1 1 auto;
+  overflow-x: hidden;
   overflow-y: auto;
   padding: 9px 0; // offset for box-shadow on footer
 }
