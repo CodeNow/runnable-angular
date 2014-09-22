@@ -21,21 +21,16 @@ function buildStream(
     templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
-      $scope.stream = {};
-      $scope.stream.data = '';
-      Object.defineProperty($scope.stream, 'data', {
-        set: function () {
-          parseData();
-        }
-      });
-      $scope.stream.parsedData = '';
+      $scope.stream = {
+        data: ''
+      };
 
-      function parseData() {
-        $scope.stream.parsedData = $filter('buildStreamCleaner')($scope.stream.data || '');
+      function parseData(data) {
+        $scope.stream.data = $filter('buildStreamCleaner')(data);
       }
 
       $scope.getStream = function () {
-        return $sce.trustAsHtml($scope.stream.parsedData);
+        return $sce.trustAsHtml($scope.stream.data);
       };
 
       $scope.$watch('build.attrs._id', function (buildId, oldVal) {
@@ -47,7 +42,7 @@ function buildStream(
                 throw err;
               }
               $scope.stream.data = data.build.log;
-              $rootScope.safeApply();
+              parseData();
             });
           } else if (build.failed()) {
             var contextVersion = build.contextVersions.models[0];
@@ -57,13 +52,12 @@ function buildStream(
                   (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
                   'Unknown Build Error Occurred'
               };
+              parseData();
             } else {
               $scope.stream = {
                 data: 'Unknown Build Error Occurred'
               };
             }
-            // check contextVersions.attrs.build.error for unknown errors
-            $rootScope.safeApply();
           } else { // build in progress
             initStream();
           }
@@ -76,6 +70,7 @@ function buildStream(
         var $streamElem = jQuery(elem).find('pre');
         var addToStream = function (data) {
           $scope.stream.data += data;
+          parseData();
           $rootScope.safeApply(function () {
             $streamElem.scrollTop(10000);
           });
