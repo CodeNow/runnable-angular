@@ -98,10 +98,11 @@ section.views(
   section.explorer
     .explorer-controls
       button.toggle-theme(
-        data-title = "Change Theme"
-        ng-init = "dataSetup.data.toggleTheme = true"
         ng-class = "{dark: !dataSetup.data.toggleTheme, light: dataSetup.data.toggleTheme}"
         ng-click = "dataSetup.data.toggleTheme = !dataSetup.data.toggleTheme"
+        ng-init = "dataSetup.data.toggleTheme = true"
+        tooltip = "Change Theme"
+        tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
       )
         .theme
     file-tree(
