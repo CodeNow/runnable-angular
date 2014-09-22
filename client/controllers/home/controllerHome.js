@@ -65,7 +65,6 @@ function ControllerHome(
         }
 
         function goToSetup() {
-          // TODO
           $state.go('instance.new', {
             userName: thisUser.oauthName()
           });

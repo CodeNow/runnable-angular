@@ -1,4 +1,4 @@
-describe('new state', function () {
+xdescribe('new state', function () {
   it('should list available repositories', function () {
   });
 

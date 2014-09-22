@@ -1,4 +1,4 @@
-describe('projectLayout', function () {
+xdescribe('projectLayout', function () {
   it('should list projects and environments', function () {
   });
 
