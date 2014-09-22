@@ -69,32 +69,41 @@ function repoList (
         fetchCommitsForBranch: fetchCommitsForBranch,
         fetchBranchesForRepo: fetchBranchesForRepo,
         resetSelectedBranch: resetSelectedBranch,
-        addRepo: function (repo) {
+        addRepo: function (githubRepo) {
           $rootScope.$broadcast('app-document-click');
-          var body = {
-            repo: repo.attrs.full_name
-          };
-          repo.fetchBranches(function (err, branches) {
-            if (err) {
-              throw err;
-            }
-            if (!branches.length) {
-              throw new Error('Branches not found');
-            }
-            var defaultBranch = branches.filter(function (branch) {
-              return branch.name === repo.attrs.default_branch;
-            })[0];
-            body.branch = defaultBranch.name;
-            body.commit = defaultBranch.commit.sha;
-            data.version.createAppCodeVersion(body, function() {
-              data.version.fetch(function(err, version) {
-                if (err) throw err;
-                populateContextVersions(function () {
-                  $rootScope.safeApply();
-                });
-              });
-            });
+          var tempAcv = data.version.newAppCodeVersion({
+            repo  : githubRepo.attrs.full_name,
+            branch: githubRepo.attrs.default_branch
           });
+          tempAcv.githubRepo.reset(githubRepo.json());
+          var defaultBranch = tempAcv.githubRepo.newBranch(githubRepo.attrs.default_branch);
+          setActiveBranch(tempAcv, defaultBranch);
+          async.series([
+            fetchCommits,
+            createAppCodeVersion
+          ], function (err) {
+            $rootScope.safeApply();
+            if (err) { throw err; }
+          });
+          function fetchCommits (cb) {
+            // fetchCommits also sets tempAcv.attrs.commit to the latest commit
+            // if it does not exist
+            fetchCommitsForBranch(tempAcv, defaultBranch, function (err) {
+              $rootScope.safeApply();
+              cb(err);
+            });
+            $rootScope.safeApply();
+          }
+          function createAppCodeVersion (cb) {
+            var body = pick(tempAcv.json(), ['repo', 'branch', 'commit']); // commit was set to latest above
+            // appCodeVersion.githubRepo will match tempAcv.githubRepo bc of cache,
+            // so githubRepo.state.activeBranch.state.activeCommit will all be set.
+            data.version.appCodeVersions.create(body, function (err) {
+              $rootScope.safeApply();
+              cb(err);
+            });
+            $rootScope.safeApply();
+          }
         }
       };
 
@@ -220,7 +229,6 @@ function repoList (
           var lastActiveCommit = acv.githubRepo.state.activeBranch.state.activeCommit;
           // assume success
           setActiveBranch(acv, selectedBranch);
-          setActiveCommit(selectedBranch, selectedCommit);
           acv.update({
             repo: acv.attrs.repo,
             branch: selectedBranch.attrs.name,
@@ -249,6 +257,13 @@ function repoList (
         }
       }
       // set active branch and state (commitsBehind)
+      //
+      function setActiveBranchByName (acv, activeBranchName) {
+        var activeBranch = acv.githubRepo.newBranch(activeBranchName);
+        setActiveBranch(acv, activeBranch);
+        return activeBranch;
+      }
+
       function setActiveBranch (acv, activeBranch) {
         var githubRepo = acv.githubRepo;
         // selected branch
@@ -271,21 +286,34 @@ function repoList (
       function fetchCommitsForBranch (appCodeVersion, activeBranch, cb) {
         cb = cb || function () {};
         activeBranch.commits.fetch(function (err) {
+          if (err) {
+            $rootScope.safeApply();
+            return cb(err);
+          }
+          if (!appCodeVersion.attrs.commit) { // set to latest
+            var latestCommit = activeBranch.commits.models[0];
+            appCodeVersion.extend({
+              commit: latestCommit.attrs.sha
+            });
+          }
           // active commit
           var activeCommit =
             activeBranch.commits.find(
               hasKeypaths({ 'attrs.sha': appCodeVersion.attrs.commit }));
-           // reset commit state
+          // rest branch state
+          setActiveBranch(appCodeVersion, activeBranch);
+          // reset commit state
           setActiveCommit(activeBranch, activeCommit);
           $rootScope.safeApply();
-          cb(err);
+          cb();
         });
       }
 
       function fetchBranchesForRepo (githubRepo, cb) {
         cb = cb || function () {};
-        githubRepo.branches.fetch(function () {
+        githubRepo.branches.fetch(function (err) {
           $rootScope.safeApply();
+          cb(err);
         });
       }
 
@@ -341,8 +369,33 @@ function repoList (
         function setupActiveBranches (callback) {
           // active branches - not async just creates branch models
           data.version.appCodeVersions.forEach(function (appCodeVersion) {
-            var activeBranch = appCodeVersion.githubRepo.newBranch(appCodeVersion.attrs.branch);
-            setActiveBranch(appCodeVersion, activeBranch);
+            setActiveBranchByName(appCodeVersion, appCodeVersion.attrs.branch);
+          });
+          callback();
+        }
+        function fetchCommits (callback) {
+          // fetch all commits for branch and set activeCommit state
+          async.each(data.version.appCodeVersions.models,
+            function (appCodeVersion, cb) {
+              var activeBranch = appCodeVersion.githubRepo.state.activeBranch;
+              fetchCommitsForBranch(appCodeVersion, activeBranch, function (err) {
+                if (err) { return cb(err); } // FIXME: handle branch 404 error
+                $rootScope.safeApply();
+                cb();
+              });
+            }, callback);
+        }
+      }
+
+      function populateAppCodeVersion (acv, cb) {
+        async.series([
+          setupActiveBranches,
+          fetchCommits
+        ], cb);
+        function setupActiveBranches (callback) {
+          // active branches - not async just creates branch models
+          data.version.appCodeVersions.forEach(function (appCodeVersion) {
+            setActiveBranchByName(appCodeVersion, appCodeVersion.attrs.branch);
           });
           callback();
         }
