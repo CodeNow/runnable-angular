@@ -23,11 +23,21 @@ function tooltip(
       var tooltipText;
       var $body = jQuery('body');
 
+      var options;
+      try {
+        options = JSON.parse(attrs.tooltipOptions);
+      } catch (e) {
+        options = {};
+      }
+      options.left = (typeof options.left !== 'undefined') ? options.left : 0;
+      options.top = (typeof options.top !== 'undefined') ? options.top : 0;
+      options.class = (typeof options.class !== 'undefined') ? options.class : false;
+
       function position () {
         var $e = jQuery(element);
         var eStyle = {
-          top: $e.offset().top + 'px',
-          left: $e.offset().left + 'px'
+          top: ($e.offset().top + options.top) + 'px',
+          left: ($e.offset().left + options.left) + 'px'
         };
         return eStyle;
       }
@@ -45,6 +55,9 @@ function tooltip(
         }
         $tooltipElement = $compile($template)($scope);
         $tooltipElement.css(position());
+        if (options.class) {
+          $tooltipElement.addClass(options.class);
+        }
         updateTooltip();
         $body.append($tooltipElement);
       });
