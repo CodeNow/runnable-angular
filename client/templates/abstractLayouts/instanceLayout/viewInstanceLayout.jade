@@ -1,6 +1,6 @@
 //- sidebar for accounts and boxes
 nav.sidebar.global-sidebar(
-  ng-class = "{minimize: dataInstanceLayout.data.minimizeNav}"
+  ng-class = "{minimize: dataApp.data.minimizeNav}"
 )
   //- accounts
   header.row.account-header
@@ -72,7 +72,7 @@ nav.sidebar.global-sidebar(
         //- show instance name in title property when not minimized
         a.white.box(
           tooltip = "{{ instance.attrs.name }}"
-          tooltip-options = "{\"class\":\"right\",\"left\":31,\"top\":10}"
+          tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
         )
           span.box-item-name {{ instance.attrs.name }}
           //- alternate text: "Started running 999 minutes ago."
@@ -90,8 +90,8 @@ nav.sidebar.global-sidebar(
           xlink:href = "#icons-exit"
         )
     button.btn-sm.btn-icon.white.btn-minimize(
-      ng-click = "dataInstanceLayout.data.minimizeNav = !dataInstanceLayout.data.minimizeNav"
-      ng-class = "{active: dataInstanceLayout.data.minimizeNav}"
+      ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
+      ng-class = "{active: dataApp.data.minimizeNav}"
       title = "Toggle Navigation"
     )
       svg.iconnables.icons-arrow-left
