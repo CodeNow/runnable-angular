@@ -55,9 +55,9 @@ function tooltip(
         }
         $tooltipElement = $compile($template)($scope);
         $tooltipElement.css(position());
-        //if (options.class) {
-        //  $tooltipElement.addClass(options.class);
-        //}
+        if (options.class) {
+          $tooltipElement.addClass(options.class);
+        }
         updateTooltip();
         $body.append($tooltipElement);
       });
