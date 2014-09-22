@@ -37,16 +37,27 @@ function repoList (
               if (err) throw err;
             });
           },
-          selectLatestCommitForRepo: function (repo) {
-            // repo is actually acv
-            repo.update({
-              repo: repo.attrs.repo,
-              branch: repo.attrs.branch,
-              commit: repo.attrs.commits[0].sha //latest
+          selectLatestCommitForRepo: function (acv, data) {
+            var githubRepo = acv.githubRepo;
+            var activeBranch = githubRepo.state.activeBranch;
+            var latestCommit = activeBranch.commits.models[0];
+            data.show = false;
+            // update appCodeVersion
+            acv.update({
+              repo: acv.attrs.acv,
+              branch: acv.attrs.branch,
+              commit: latestCommit.attrs.sha //latest
             }, function (err) {
-              $scope.safeApply();
+              $rootScope.safeApply();
               if (err) { throw err; }
             });
+            // set active commit
+            setActiveCommit(activeBranch, latestCommit);
+            // fetch latest
+            fetchCommitsForBranch(acv, activeBranch, function (err) {
+              if (err) { throw err; }
+            });
+            $rootScope.safeApply();
           }
         }
       };
@@ -88,10 +99,7 @@ function repoList (
           function fetchCommits (cb) {
             // fetchCommits also sets tempAcv.attrs.commit to the latest commit
             // if it does not exist
-            fetchCommitsForBranch(tempAcv, defaultBranch, function (err) {
-              $rootScope.safeApply();
-              cb(err);
-            });
+            fetchCommitsForBranch(tempAcv, defaultBranch, cb);
             $rootScope.safeApply();
           }
           function createAppCodeVersion (cb) {
