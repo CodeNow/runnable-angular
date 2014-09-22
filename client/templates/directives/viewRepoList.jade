@@ -57,6 +57,7 @@ section.row
       button.btn-xs.white.tooltip.bottom.repository-update(
         data-title = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} commits behind)"
         ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
+        ng-click = "actions.selectLatestCommit(acv)"
       ) {{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}
         svg.iconnables.icons-update
           use(

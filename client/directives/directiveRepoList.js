@@ -238,6 +238,11 @@ function repoList (
           }
         };
 
+        $scope.actions.selectLatestCommit = function (acv) {
+          var activeBranch = acv.githubRepo.state.activeBranch;
+          var latestCommit = activeBranch.commits.models[0];
+          $scope.actions.selectActiveBranchAndCommit(acv, activeBranch, latestCommit);
+        };
       } else {
         // instanceEdit page
 
@@ -265,6 +270,8 @@ function repoList (
           $rootScope.safeApply();
         };
       }
+
+
 
       // Set State Helpers
 
