@@ -55,8 +55,8 @@ section.row.repo-list
       h3.repository-title {{ acv.attrs.repo }}
 
       //- if not editing and behind latest
-      button.btn-xs.white.tooltip.bottom.repository-update(
-	tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} commits behind)"
+      button.btn-xs.white.repository-update(
+	      tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} commits behind)"
         tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
         ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
         ng-click = "actions.selectLatestCommit(acv)"
@@ -94,7 +94,7 @@ section.row.repo-list
         ng-click = " \
           acv.state.toggleFilter = false; \
           acv.state.commitFilter = ''; \
-          actions.resetSelectedBranch(acv.githubRepo); \
+          githubRepo.state.selectedBranch = githubRepo.state.activeBranch; \
           actions.fetchBranchesForRepo(acv.githubRepo); \
           actions.fetchCommitsForBranch(acv, githubRepo.state.activeBranch); \
         "

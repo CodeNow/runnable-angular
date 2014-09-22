@@ -73,13 +73,14 @@ function repoList (
       data.showUpdateButton = false;
 
       $scope.actions =  {
-        selectBranch: function (acv, branchName) {
-          var activeBranch = setActiveBranch(acv, branchName);
-          fetchCommitsForBranch(acv, activeBranch);
+        selectBranch: function (acv, selectedBranch) {
+          fetchCommitsForBranch(acv, selectedBranch, function (err) {
+            $rootScope.safeApply();
+            if (err) { throw err; }
+          });
         },
         fetchCommitsForBranch: fetchCommitsForBranch,
         fetchBranchesForRepo: fetchBranchesForRepo,
-        resetSelectedBranch: resetSelectedBranch,
         addRepo: function (githubRepo) {
           $rootScope.$broadcast('app-document-click');
           var tempAcv = data.version.newAppCodeVersion({
@@ -89,6 +90,7 @@ function repoList (
           tempAcv.githubRepo.reset(githubRepo.json());
           var defaultBranch = tempAcv.githubRepo.newBranch(githubRepo.attrs.default_branch);
           setActiveBranch(tempAcv, defaultBranch);
+          var activeBranch = defaultBranch;
           async.series([
             fetchCommits,
             createAppCodeVersion
@@ -99,8 +101,18 @@ function repoList (
           function fetchCommits (cb) {
             // fetchCommits also sets tempAcv.attrs.commit to the latest commit
             // if it does not exist
-            fetchCommitsForBranch(tempAcv, defaultBranch, cb);
-            $rootScope.safeApply();
+            fetchCommitsForBranch(tempAcv, activeBranch, function (err) {
+              if (err) { cb(err); }
+              // get latest commit
+              var latestCommit = activeBranch.commits.models[0];
+              tempAcv.extend({
+                commit: latestCommit.attrs.sha
+              });
+              // set active commit to latest
+              setActiveCommit(activeBranch, latestCommit);
+              $rootScope.safeApply();
+              cb();
+            });
           }
           function createAppCodeVersion (cb) {
             var body = pick(tempAcv.json(), ['repo', 'branch', 'commit']); // commit was set to latest above
@@ -241,13 +253,19 @@ function repoList (
         $scope.actions.selectLatestCommit = function (acv) {
           var activeBranch = acv.githubRepo.state.activeBranch;
           var latestCommit = activeBranch.commits.models[0];
-          $scope.actions.selectActiveBranchAndCommit(acv, activeBranch, latestCommit);
+          $scope.actions.selectActiveBranchAndCommit(acv, activeBranch, latestCommit, function (err) {
+            if (err) { throw err; }
+            triggerInstanceUpdateOnRepoCommitChange();
+          });
         };
       } else {
         // instanceEdit page
 
         // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
-        $scope.actions.selectActiveBranchAndCommit = function (acv, selectedBranch, selectedCommit) {
+        $scope.actions.selectActiveBranchAndCommit = function (acv, selectedBranch, selectedCommit, cb) {
+          cb = cb || function (err) {
+            if (err) { throw err; }
+          };
           keypather.set(acv, 'state.show', false); // hide commit select dropdown
           var lastActiveBranch = acv.githubRepo.state.activeBranch;
           var lastActiveCommit = lastActiveBranch.state.activeCommit;
@@ -263,11 +281,11 @@ function repoList (
               // revert on failure
               setActiveBranch(acv, lastActiveBranch);
               setActiveCommit(lastActiveBranch, lastActiveCommit);
-              throw err;
+              cb(err);
             }
             $rootScope.safeApply();
+            cb();
           });
-          $rootScope.safeApply();
         };
       }
 
@@ -313,34 +331,15 @@ function repoList (
         return activeBranch;
       }
 
-      function resetSelectedBranch (githubRepo) {
-        githubRepo.state.selectedBranch = githubRepo.state.activeBranch;
-      }
-
       // Fetch Helpers
 
       function fetchCommitsForBranch (appCodeVersion, activeBranch, cb) {
         cb = cb || function () {};
         activeBranch.commits.fetch(function (err) {
+          $rootScope.safeApply();
           if (err) {
-            $rootScope.safeApply();
             return cb(err);
           }
-          if (!appCodeVersion.attrs.commit) { // set to latest
-            var latestCommit = activeBranch.commits.models[0];
-            appCodeVersion.extend({
-              commit: latestCommit.attrs.sha
-            });
-          }
-          // active commit
-          var activeCommit =
-            activeBranch.commits.find(
-              hasKeypaths({ 'attrs.sha': appCodeVersion.attrs.commit }));
-          // rest branch state
-          setActiveBranch(appCodeVersion, activeBranch);
-          // reset commit state
-          setActiveCommit(activeBranch, activeCommit);
-          $rootScope.safeApply();
           cb();
         });
       }
@@ -416,32 +415,12 @@ function repoList (
               var activeBranch = appCodeVersion.githubRepo.state.activeBranch;
               fetchCommitsForBranch(appCodeVersion, activeBranch, function (err) {
                 if (err) { return cb(err); } // FIXME: handle branch 404 error
-                $rootScope.safeApply();
-                cb();
-              });
-            }, callback);
-        }
-      }
-
-      function populateAppCodeVersion (acv, cb) {
-        async.series([
-          setupActiveBranches,
-          fetchCommits
-        ], cb);
-        function setupActiveBranches (callback) {
-          // active branches - not async just creates branch models
-          data.version.appCodeVersions.forEach(function (appCodeVersion) {
-            setActiveBranchByName(appCodeVersion, appCodeVersion.attrs.branch);
-          });
-          callback();
-        }
-        function fetchCommits (callback) {
-          // fetch all commits for branch and set activeCommit state
-          async.each(data.version.appCodeVersions.models,
-            function (appCodeVersion, cb) {
-              var activeBranch = appCodeVersion.githubRepo.state.activeBranch;
-              fetchCommitsForBranch(appCodeVersion, activeBranch, function (err) {
-                if (err) { return cb(err); } // FIXME: handle branch 404 error
+                // active commit
+                var activeCommit =
+                  activeBranch.commits.find(
+                    hasKeypaths({ 'attrs.sha': appCodeVersion.attrs.commit }));
+                // reset commit state
+                setActiveCommit(activeBranch, activeCommit);
                 $rootScope.safeApply();
                 cb();
               });

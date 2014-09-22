@@ -1,7 +1,6 @@
 //- commit-select popover
 .popover.commit-select(
   ng-class = "{in: data.state.show}"
-  ng-init = "activeBranch = data.githubRepo.state.activeBranch;"
 )
   h3.popover-title(
     ng-class = "{'show-filter': data.state.toggleFilter}"
@@ -32,7 +31,7 @@
           use(
             xlink:href = "#icons-git"
           )
-        | {{ activeBranch.attrs.name }}
+        | {{ data.githubRepo.state.selectedBranch.attrs.name }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
@@ -47,13 +46,13 @@
     //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit(
-      ng-repeat = "commit in activeBranch.commits.models | commitFilter:data.state.commitFilter"
-      ng-class = "{ active: commit.attrs.sha === activeBranch.state.activeCommit.attrs.sha }"
-      ng-if = "activeBranch.commits.models.length"
+      ng-repeat = "commit in data.githubRepo.state.selectedBranch.commits.models | commitFilter:data.state.commitFilter"
+      ng-class = "{ active: commit.attrs.sha === data.githubRepo.state.selectedBranch.state.activeCommit.attrs.sha }"
+      ng-if = "data.githubRepo.state.selectedBranch.commits.models.length"
       ng-click = "actions.selectActiveBranchAndCommit(data, data.githubRepo.state.selectedBranch, commit)"
     )
       .commit-message {{ commit.attrs.commit.message }}
-      .commit-message {{ activeBranch.state.activeCommit.attrs.sha }}
+      .commit-message {{ data.githubRepo.state.selectedBranch.state.activeCommit.attrs.sha }}
       svg.iconnables.icons-commit
         use(
           xlink:href = "#icons-commit"
