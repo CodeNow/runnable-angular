@@ -87,3 +87,8 @@
     }
   }
 }
+
+// hide .nav-tooltips when not minimized
+.nav-open ~ .nav-tooltips {
+  display: none;
+}

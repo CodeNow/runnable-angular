@@ -1,17 +1,18 @@
 section.row.repo-list
   h2.sub-header Repositories
-    a.btn.btn-xs.orange.tooltip.bottom.sub-header-action(
-      data-title = "Update your box to see your changes"
+    a.btn.btn-xs.orange.sub-header-action(
       ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
       ng-if = "data.showUpdateButton"
+      tooltip = "Update your box to see your changes"
+      tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
     ) Update
       svg.iconnables.icons-update
         use(
           xlink:href = "#icons-update"
         )
     a.btn.btn-sm.white.sub-header-action(
-      ng-if = "edit"
       ng-class = "{active: data.show}"
+      ng-if = "edit"
       toggle-pop-over
       toggle-pop-over-model = "data.show"
       type = "button"
@@ -51,8 +52,9 @@ section.row.repo-list
       ) {{ repo.attrs.repo }}
 
       //- if not editing and behind latest
-      button.btn-xs.white.tooltip.bottom.repository-update(
-        data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
+      button.btn-xs.white.repository-update(
+        tooltip = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
+        tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
         ng-if = "repo.attrs.commitsBehind"
       ) {{ repo.attrs.commitsBehind }}
         svg.iconnables.icons-update
