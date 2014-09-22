@@ -1,119 +1,87 @@
-var login = require('./login');
-var SetupPage = require('./SetupPage');
 
-function processUrl (middle) {
-  return 'http://localhost:3001' + middle + '/';
-}
+/**
+ * Tests a user's onboarding experience
+ * login => setup => running instance
+ */
 
-function waitForUrl (url) {
-  return browser.wait(function () {
-    return browser.getCurrentUrl().then(function (currentUrl) {
-      if (typeof url === 'object') {
-        // It's a regex
-        return url.test(currentUrl);
-      }
-      return currentUrl === url;
-    });
-  });
-}
+var login = require('./helpers/oauth-github');
+var util = require('./helpers/util');
 
-describe('home', function () {
-  it('should allow navigation to /', function () {
-    browser.get('/');
-    browser.sleep(100);
-  });
-});
+var SetupPage = require('./pages/SetupPage');
+var InstancePage = require('./pages/InstancePage');
 
-login();
-
-// Creation
 describe('project creation workflow', function () {
-  it('should allow the user to create a new project', function () {
-    waitForUrl(processUrl('/new'));
-    expect(browser.getCurrentUrl()).toBe(processUrl('/new'));
+  var instanceHash;
+  it('should direct the user to the setup page', function () {
+    login();
 
-    element(by.model('dataProjectLayout.data.newProjectName')).sendKeys('test-0');
-    element(by.css('#wrapper > header > div.startup-container > form > button')).click();
+    var setup = new SetupPage();
+    setup.get();
+    util.waitForUrl(SetupPage.urlRegex);
 
-    waitForUrl(processUrl('/new/runnable-doobie/test-0'));
-  });
+    setup.setBoxName('test-0');
 
-  it('should allow the user to specify project details', function () {
-    var setupPage = new SetupPage('test-0');
+    setup.repoList.openAddDropdown();
 
-    setupPage.get();
+    setup.repoList.selectRepo(0);
 
-    // Select GitHub repo
-    setupPage.repos.filter.sendKeys('node');
-
-    browser.wait(function () {
-      return setupPage.reposLoaded();
+    browser.wait(function() {
+      return setup.repoList.numSelectedRepos().then(function(numRepos) {
+        return numRepos === 1;
+      });
     });
 
-    setupPage.selectFirstRepo();
+    setup.selectBlankTemplate();
 
-    expect(setupPage.repos.addButton.getText()).toBe('Add 1 Repository');
+    browser.wait(setup.aceLoaded.bind(setup));
+    browser.wait(setup.blankTemplateLoaded.bind(setup));
 
-    setupPage.repos.addButton.click();
+    setup.addToDockerfile('\nFROM dockerfile/nodejs\nCMD sleep 1000000\n');
 
-    // Load "Blank" template
-    setupPage.selectBlankTemplate();
+    browser.wait(setup.dockerfileValidates.bind(setup));
+    browser.wait(setup.dockerfileIsClean.bind(setup));
 
-    browser.wait(function () {
-      return setupPage.aceLoaded();
-    });
+    setup.createBox();
 
-    setupPage.addToDockerfile('FROM dockerfile/nodejs\nCMD sleep 1000000');
+    util.waitForUrl(InstancePage.urlRegex);
 
-    browser.wait(function () {
-      return setupPage.dockerfileIsClean();
-    });
+    browser.getCurrentUrl().then(function(url) {
+      var results = new RegExp(util.regex.shortHash + '/$').exec(url);
 
-    browser.wait(function () {
-      return setupPage.dockerfileValidates();
-    });
-
-    setupPage.build();
-
-    waitForUrl(processUrl('/project/runnable-doobie/test-0/master/1'));
-  });
-
-  it('should wait for the build to complete', function () {
-    browser.get('/project/runnable-doobie/test-0/master/1');
-
-    // Extra-long timeout here because builds can take a while
-    browser.wait(function () {
-      return element(by.css('.sub-header')).evaluate('dataBuild.data.build.succeeded()');
-    }, 60 * 1000);
-  });
-
-  it('should create a new instance', function () {
-    browser.get('/project/runnable-doobie/test-0/master/1');
-
-    browser.wait(function () {
-      return element(by.css('.sub-header')).evaluate('dataBuild.data.build.succeeded()');
-    });
-
-    element(by.css('#wrapper > main > nav > section > div > button.green')).click();
-
-    waitForUrl(new RegExp(processUrl('/instances/runnable-doobie/[a-z0-9]{6}')));
-
-    browser.wait(function () {
-      return element(by.css('.sub-header')).evaluate('dataInstance.data.container.running()');
+      if (results && results.length) {
+        instanceHash = results[0].replace('/', '');
+      } else {
+        throw new Error('Could not load instance page ' + url);
+      }
     });
   });
 
-  it('should allow the user to delete the project', function () {
+  it('should load a building instance', function() {
+    var instance = new InstancePage(instanceHash);
 
-    browser.get('/project/runnable-doobie/test-0/master');
+    instance.get();
 
-    element(by.css('#delete-project')).click();
+    browser.wait(instance.buildLogsOpen.bind(instance));
+    browser.wait(instance.activePanelLoaded.bind(instance));
 
-    browser.sleep(550).then(function () {
-
-      element(by.css('body > div.modal.confirm.ng-scope.in > div > div.modal-footer > button:nth-child(1)')).click();
-
-      waitForUrl(processUrl('/new'));
+    browser.wait(function () {
+      return util.hasClass(instance.statusIcon, 'running');
     });
+  });
+
+  it('should load & delete a running instance', function () {
+    var instance = new InstancePage(instanceHash);
+
+    instance.get();
+
+    browser.wait(function() {
+      return instance.statusIcon.get().isPresent();
+    });
+
+    // Delete the instance
+    instance.gearMenu.deleteBox();
+
+    // Confirm we're on new page
+    util.waitForUrl(SetupPage.urlRegex);
   });
 });
