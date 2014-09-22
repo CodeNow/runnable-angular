@@ -8,12 +8,12 @@ header.box-header
       data-title = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
       ng-if = "!dataInstance.data.container.running() && dataInstance.data.instance.build.attrs.completed"
     )
-    span.icons-status.tooltip.bottom.building(
+    span.icons-status.building(
       data-title = "Build in Progress"
       ng-if = "!dataInstance.data.instance.build.attrs.completed"
     )
-    span.building(
-      ng-if = "!dataInstance.data.instance.build.attrs.completed"
+    span.text-status(
+      //- ng-if = "!dataInstance.data.instance.build.attrs.completed"
     ) Building
   .primary-actions
     //- apply .with-restart if save restarts box
