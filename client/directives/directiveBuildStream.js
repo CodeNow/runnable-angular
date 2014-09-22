@@ -21,12 +21,21 @@ function buildStream(
     templateUrl: 'viewBuildStream',
     link: function ($scope, elem) {
 
-      $scope.stream = {
-        data: ''
-      };
+      $scope.stream = {};
+      $scope.stream.data = '';
+      Object.defineProperty($scope.stream, 'data', {
+        set: function () {
+          parseData();
+        }
+      });
+      $scope.stream.parsedData = '';
+
+      function parseData() {
+        $scope.stream.parsedData = $filter('buildStreamCleaner')($scope.stream.data || '');
+      }
 
       $scope.getStream = function () {
-        return $sce.trustAsHtml($filter('buildStreamCleaner')($scope.stream.data || ''));
+        return $sce.trustAsHtml($scope.stream.parsedData);
       };
 
       $scope.$watch('build.attrs._id', function (buildId, oldVal) {
