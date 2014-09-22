@@ -37,11 +37,11 @@ function repoList (
               if (err) throw err;
             });
           },
-          selectLatestCommitForRepo: function (acv, data) {
+          selectLatestCommitForRepo: function (acv, repoActionsData) {
             var githubRepo = acv.githubRepo;
             var activeBranch = githubRepo.state.activeBranch;
             var latestCommit = activeBranch.commits.models[0];
-            data.show = false;
+            repoActionsData.show = false;
             // update appCodeVersion
             acv.update({
               repo: acv.attrs.acv,
