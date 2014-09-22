@@ -23,8 +23,8 @@ function logView(
       $scope.stream = {
         data: ''
       };
-      function parseData(data) {
-        $scope.stream.data = $filter('buildStreamCleaner')(data);
+      function parseData() {
+        $scope.stream.data = $filter('buildStreamCleaner')($scope.stream.data);
       }
       $scope.getStream = function () {
         return $sce.trustAsHtml($scope.stream.data);
