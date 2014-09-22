@@ -155,12 +155,18 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addBuildStream = function (data) {
+    if (this.hasOpen('BuildStream')) {
+      return false;
+    }
     var buildStream = new BuildStream(data);
     this.add(buildStream);
     return buildStream;
   };
 
   OpenItems.prototype.addLogs = function (data) {
+    if (this.hasOpen('LogView')) {
+      return false;
+    }
     var logView = new LogView(data);
     this.add(logView);
     return logView;
@@ -264,6 +270,24 @@ function openItemsFactory(
   OpenItems.prototype.saveState = function () {
     if (!this.shortHash) { return; }
     $localStorage[this.shortHash] = this.toJSON();
+  };
+
+  OpenItems.prototype.hasOpen = function(type) {
+    for (var i = this.models.length - 1; i >= 0; i--) {
+      if (this.models[i].constructor.toString().match(/function\s(\w*)/)[1] === type) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  OpenItems.prototype.getFirst = function(type) {
+    for (var i = this.models.length - 1; i >= 0; i--) {
+      if (this.models[i].constructor.toString().match(/function\s(\w*)/)[1] === type) {
+        return this.models[i];
+      }
+    }
+    return false;
   };
 
   return OpenItems;

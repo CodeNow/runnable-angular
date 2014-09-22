@@ -155,7 +155,6 @@ function ControllerInstance(
         if (err) {
           throw err;
         }
-        console.log(data.instance.containers.models[0].running());
         $scope.safeApply();
       });
     });
@@ -313,13 +312,13 @@ function ControllerInstance(
     }
     if (n) {
       // instance is running
-      if (data.container.urls().length) {
+      if (data.container.urls().length && !data.openItems.hasOpen('WebView')) {
         pat.actions.addWebView();
       }
-      pat.actions.addTerminal();
-      if (data.logs) {
-        data.openItems.activeHistory.add(data.logs);
+      if (!data.openItems.hasOpen('Terminal')) {
+        pat.actions.addTerminal();
       }
+      data.openItems.activeHistory.add(data.logs);
     } else {
       // instance is stopped
       if (data.logs) {
@@ -409,11 +408,17 @@ function ControllerInstance(
       // save this so we can later
       // set it active after adding
       // terminal/web view
-      if (!data.openItems.fromCache) {
+      if (!data.openItems.hasOpen('LogView')) {
         data.logs = pat.actions.addLogs();
+      } else {
+        data.logs = data.openItems.getFirst('LogView');
       }
     } else {
-      data.logs = pat.actions.addBuildStream();
+      if (!data.openItems.hasOpen('BuildStream')) {
+        data.logs = pat.actions.addBuildStream();
+      } else {
+        data.logs = data.openItems.getFirst('BuildStream');
+      }
     }
     cb();
   }
