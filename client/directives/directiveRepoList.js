@@ -229,6 +229,7 @@ function repoList (
           var lastActiveCommit = acv.githubRepo.state.activeBranch.state.activeCommit;
           // assume success
           setActiveBranch(acv, selectedBranch);
+          setActiveCommit(selectedBranch, selectedCommit);
           acv.update({
             repo: acv.attrs.repo,
             branch: selectedBranch.attrs.name,
@@ -267,10 +268,10 @@ function repoList (
       function setActiveBranch (acv, activeBranch) {
         var githubRepo = acv.githubRepo;
         // selected branch
-        keypather.set(acv.githubRepo, 'state.selectedBranch', activeBranch);
         githubRepo.branches.add(activeBranch);
         // reset githubRepo state
-        githubRepo.state = { activeBranch: activeBranch };
+        keypather.set(githubRepo, 'state.activeBranch', activeBranch);
+        keypather.set(githubRepo, 'state.selectedBranch', activeBranch);
         // reset branch state
         activeBranch.state = {};
         $rootScope.safeApply();
