@@ -1,6 +1,14 @@
 // section.sidebar.box-sidebar
 .box-sidebar {
+  height: calc(100% - 60px);
+  height: calc(100vh - 60px);
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 300px;
+
+  .row {
+    flex: 0 0 auto;
+  }
 }
 
 // li.repository-group-item
@@ -41,6 +49,11 @@
       background: #f2f2f2; // rgba($black,.1)
     }
   }
+}
+
+// a.btn.btn-sm.white.sub-header-action.btn-add-repo
+.btn-add-repo.active .icons-add {
+  transform: rotate3d(0,0,1,135deg);
 }
 
 .repository-update .iconnables {

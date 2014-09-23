@@ -46,12 +46,6 @@
     }
   }
 
-  // section.row.boxes
-  .boxes {
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
   // a.white.box
   .box {
     // @extend .tooltip;
@@ -86,4 +80,9 @@
       transform: rotate3d(0, 1, 0, 180deg);
     }
   }
+}
+
+// hide .nav-tooltips when not minimized
+.nav-open ~ .nav-tooltips {
+  display: none;
 }

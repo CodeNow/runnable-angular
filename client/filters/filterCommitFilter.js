@@ -12,9 +12,9 @@ function commitFilter() {
     filter = filter.toLowerCase();
 
     return commits.filter(function (commit) {
-      return ~commit.commit.message.toLowerCase().indexOf(filter) ||
-        ~commit.author.login.toLowerCase().indexOf(filter) ||
-        ~commit.sha.toLowerCase().indexOf(filter);
+      return ~commit.attrs.commit.message.toLowerCase().indexOf(filter) ||
+        ~commit.attrs.author.login.toLowerCase().indexOf(filter) ||
+        ~commit.attrs.sha.toLowerCase().indexOf(filter);
     });
   };
 }

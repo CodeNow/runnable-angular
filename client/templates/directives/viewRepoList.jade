@@ -1,17 +1,18 @@
 section.row.repo-list
   h2.sub-header Repositories
-    a.btn.btn-xs.orange.tooltip.bottom.sub-header-action(
-      data-title = "Update your box to see your changes"
+    a.btn.btn-xs.orange.sub-header-action(
       ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
       ng-if = "data.showUpdateButton"
+      tooltip = "Update your box to see your changes"
+      tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
     ) Update
       svg.iconnables.icons-update
         use(
           xlink:href = "#icons-update"
         )
-    a.btn.btn-sm.white.sub-header-action(
-      ng-if = "edit"
+    a.btn.btn-sm.white.sub-header-action.btn-add-repo(
       ng-class = "{active: data.show}"
+      ng-if = "edit"
       toggle-pop-over
       toggle-pop-over-model = "data.show"
       type = "button"
@@ -40,62 +41,73 @@ section.row.repo-list
 
   ul.repository-group
     li.repository-group-item(
-      ng-repeat = "repo in data.version.appCodeVersions.models"
+      ng-repeat = "acv in data.version.appCodeVersions.models"
+      ng-init = " \
+        githubRepo = acv.githubRepo; \
+        state = {}; \
+        state.repoData = { acv: acv }; \
+      "
     )
       svg.iconnables.icons-git
         use(
           xlink:href = "#icons-git"
         )
-      h3.repository-title(
-        title = "{{ repo.attrs.repo }}"
-      ) {{ repo.attrs.repo }}
+      h3.repository-title {{ acv.attrs.repo }}
 
       //- if not editing and behind latest
-      button.btn-xs.white.tooltip.bottom.repository-update(
-        data-title = "Fast-forward {{ repo.attrs.branch }} ({{ repo.attrs.commitsBehind }} commits behind)"
-        ng-if = "repo.attrs.commitsBehind"
-      ) {{ repo.attrs.commitsBehind }}
+      button.btn-xs.white.repository-update(
+	      tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} commits behind)"
+        tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
+        ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
+        ng-click = "actions.selectLatestCommit(acv)"
+      ) {{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}
         svg.iconnables.icons-update
           use(
             xlink:href = "#icons-update"
           )
 
       //- if editing
-      //- button.btn-xs.white.repository-actions(
-      //-   ng-class = "{active: repo.data.popoverRepoActions.data.show}"
-      //-   toggle-pop-over
-      //-   toggle-pop-over-model = "repo.data.popoverRepoActions.data.show"
-      //-   type = "button"
-      //- )
-      //-   svg.iconnables.icons-gear
-      //-     use(
-      //-       xlink:href = "#icons-gear"
-      //-     )
-      //-   pop-over(
-      //-     actions = "repo.data.popoverRepoActions.actions"
-      //-     data = "repo.data.popoverRepoActions.data"
-      //-     template = "viewInstanceEditPopoverRepoActions"
-      //-   )
+      button.btn-xs.white.repository-actions(
+        ng-class = "{ active: state.repoData.show }"
+        toggle-pop-over
+        toggle-pop-over-model = "state.repoData.show"
+        type = "button"
+        ng-if = "edit"
+      )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear"
+          )
+        pop-over(
+          actions = "data.popoverRepoActions.actions"
+          data = "state.repoData"
+          template = "viewInstanceEditPopoverRepoActions"
+        )
 
       //- add .pending for orange
       .commit(
         ng-class = "{ \
-          pending: ((repo.attrs.activeCommit !== repo.state.activeCommit) && repo.state.activeCommit) \
+          pending: githubRepo.state.activeBranch.state.activeCommit && (acv.attrs.commit !== githubRepo.state.activeBranch.state.activeCommit.attrs.sha) \
         }"
         toggle-pop-over
-        toggle-pop-over-model = "repo.state.show"
-        ng-click = "repo.state.toggleFilter = false; \
-                    repo.state.commitFilter = '';"
+        toggle-pop-over-model = "acv.state.show"
+        ng-click = " \
+          acv.state.toggleFilter = false; \
+          acv.state.commitFilter = ''; \
+          githubRepo.state.selectedBranch = githubRepo.state.activeBranch; \
+          actions.fetchBranchesForRepo(acv.githubRepo); \
+          actions.fetchCommitsForBranch(acv, githubRepo.state.activeBranch); \
+        "
       )
-        .commit-message {{ actions.fetchRepoDisplayActiveCommit(repo).commit.message }}
+        .commit-message {{ githubRepo.state.activeBranch.state.activeCommit.attrs.commit.message }}
         svg.iconnables.icons-commit
           use(
             xlink:href = "#icons-commit"
           )
-        span.commit-author {{ actions.fetchRepoDisplayActiveCommit(repo).author.login }}
-        time.commit-time {{ actions.fetchRepoDisplayActiveCommit(repo).commit.author.date | timeAgo }}
+        span.commit-author {{ githubRepo.state.activeBranch.state.activeCommit.attrs.author.login }}
+        time.commit-time {{ githubRepo.state.activeBranch.state.activeCommit.attrs.commit.author.date | timeAgo }}
       pop-over(
         actions = "actions"
-        data = "repo"
+        data = "acv"
         template = "viewInstancePopoverCommitSelect"
       )
