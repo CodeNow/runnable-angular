@@ -29,7 +29,6 @@ app.use(function (req, res, next) {
   }
 });
 
-
 app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 
 // load same base view for all valid client-routes
