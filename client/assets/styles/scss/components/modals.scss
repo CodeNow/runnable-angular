@@ -125,3 +125,22 @@
     margin: 0 3px;
   }
 }
+
+// modal validation
+.modal {
+
+  .validate-wrapper {
+    display: block;
+    height: 0;
+    margin: 9px auto 0;
+    transition: height .2s ease-in;
+  }
+
+  .validate-rules {
+    right: 0;
+  }
+}
+
+.modal-input.ng-invalid ~ .validate-wrapper {
+  height: 36px;
+}

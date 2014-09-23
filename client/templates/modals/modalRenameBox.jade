@@ -14,12 +14,28 @@
         label Enter a new name for your Box:
           //- fill value with instance name
           //- autofocus on modal open
-          input.modal-input(
+          input.validate.modal-input(
             autofocus
             ng-model = "data.instance.state.name"
+            placeholder = "Box Name"
+            spellcheck = "false"
             validate-name-pattern
             validate-name = "data.instances"
           )
+          //- if invalid character is entered
+          .validate-wrapper
+            span.validate-rules(
+              ng-class = "{in: false}"
+            ) We accept #{''}
+              b.btn.btn-xs.orange A-Z
+              b.btn.btn-xs.orange a-z
+              b.btn.btn-xs.orange 0-9
+              b.btn.btn-xs.orange _
+              b.btn.btn-xs.orange -
+            //- if the name is taken
+            span.validate-rules(
+              ng-class = "{in: false}"
+            ) That's a pretty name, but it's taken.
     .modal-footer
       button.white(
         ng-click = "cancel()"
@@ -33,4 +49,4 @@
         ng-click = "actions.renameInstance(cancel)"
         data-action
         ng-disabled = "data.renameForm.$invalid"
-      ) {{ data.renameForm.$valid ? 'Rename Box' : 'Invalid Name' }}
+      ) Rename Box
