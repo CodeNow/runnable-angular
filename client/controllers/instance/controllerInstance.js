@@ -362,7 +362,6 @@ function ControllerInstance(
   });
   $scope.$watch('dataInstanceLayout.data.instances', function(n) {
     if (n) {
-      console.log(n);
       pgm.data.dataModalRename.instances = n;
     }
   });
