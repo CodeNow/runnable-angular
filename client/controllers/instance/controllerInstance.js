@@ -82,7 +82,7 @@ function ControllerInstance(
     actionsModalRename: {
       renameInstance: function (cb) {
         data.instance.update({
-          name: data.instance.state.name
+          name: data.instance.state.name.trim()
         }, function (err) {
           $scope.safeApply();
           cb();
@@ -358,6 +358,11 @@ function ControllerInstance(
       // We're finished building
       building = false;
       $timeout(recursiveFetchInstance, 500);
+    }
+  });
+  $scope.$watch('dataInstanceLayout.data.instances', function(n) {
+    if (n) {
+      pgm.data.dataModalRename.instances = n;
     }
   });
 

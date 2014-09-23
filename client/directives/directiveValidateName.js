@@ -20,17 +20,14 @@ function validateName(
           ctrl.$setValidity('nameAvailable', true);
           return name;
         }
-        function testName() {
-          if (!$scope.instances) {
-            return;
-          }
-          var match = $scope.instances.find(function (m) {
-            return (m.attrs.name === name);
-          });
-          ctrl.$setValidity('nameAvailable', !match);
-          $rootScope.safeApply();
+        if (!$scope.instances) {
+          return name;
         }
-        testName();
+        var match = $scope.instances.find(function (m) {
+          return (m.attrs.name === name);
+        });
+        ctrl.$setValidity('nameAvailable', !match);
+        $rootScope.safeApply();
         return name;
       }
 
