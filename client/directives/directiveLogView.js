@@ -69,7 +69,7 @@ function logView(
             $scope.stream.data += data;
             parseData();
             $rootScope.safeApply(function () {
-              $streamElem.scrollTop(10000);
+              $streamElem.scrollTop($streamElem[0].scrollHeight);
             });
           };
           buildStream.on('data', addToStream);
