@@ -1,3 +1,4 @@
+require('jquery-ui');
 require('app')
   .directive('logView', logView);
 /**
@@ -19,6 +20,16 @@ function logView(
     },
     templateUrl: 'viewLogView',
     link: function ($scope, elem, attrs) {
+
+      var $elem = jQuery(elem);
+      $elem.find('.slider-vertical').slider({
+        orientation: 'vertical',
+        range: 'min',
+        min: 0,
+        max: 100,
+        value: 0,
+        slide: function () {}
+      });
 
       $scope.stream = {
         data: ''

@@ -95,73 +95,68 @@ jqui .ui-draggable-handle {
 	-ms-touch-action: none;
 	touch-action: none;
 }
-jqui .ui-resizable {
+jqui .ui-slider {
 	position: relative;
+	text-align: left;
 }
-jqui .ui-resizable-handle {
+jqui .ui-slider .ui-slider-handle {
 	position: absolute;
-	font-size: 0.1px;
-	display: block;
+	z-index: 2;
+	width: 1.2em;
+	height: 1.2em;
+	cursor: default;
 	-ms-touch-action: none;
 	touch-action: none;
 }
-jqui .ui-resizable-disabled .ui-resizable-handle,
-jqui .ui-resizable-autohide .ui-resizable-handle {
-	display: none;
+jqui .ui-slider .ui-slider-range {
+	position: absolute;
+	z-index: 1;
+	font-size: .7em;
+	display: block;
+	border: 0;
+	background-position: 0 0;
 }
-jqui .ui-resizable-n {
-	cursor: n-resize;
-	height: 7px;
-	width: 100%;
-	top: -5px;
-	left: 0;
+
+/* support: IE8 - See #6727 */
+jqui .ui-slider.ui-state-disabled .ui-slider-handle,
+jqui .ui-slider.ui-state-disabled .ui-slider-range {
+	filter: inherit;
 }
-jqui .ui-resizable-s {
-	cursor: s-resize;
-	height: 7px;
-	width: 100%;
-	bottom: -5px;
-	left: 0;
+
+jqui .ui-slider-horizontal {
+	height: .8em;
 }
-jqui .ui-resizable-e {
-	cursor: e-resize;
-	width: 7px;
-	right: -5px;
+jqui .ui-slider-horizontal .ui-slider-handle {
+	top: -.3em;
+	margin-left: -.6em;
+}
+jqui .ui-slider-horizontal .ui-slider-range {
 	top: 0;
 	height: 100%;
 }
-jqui .ui-resizable-w {
-	cursor: w-resize;
-	width: 7px;
-	left: -5px;
+jqui .ui-slider-horizontal .ui-slider-range-min {
+	left: 0;
+}
+jqui .ui-slider-horizontal .ui-slider-range-max {
+	right: 0;
+}
+
+jqui .ui-slider-vertical {
+	width: .8em;
+	height: 100px;
+}
+jqui .ui-slider-vertical .ui-slider-handle {
+	left: -.3em;
+	margin-left: 0;
+	margin-bottom: -.6em;
+}
+jqui .ui-slider-vertical .ui-slider-range {
+	left: 0;
+	width: 100%;
+}
+jqui .ui-slider-vertical .ui-slider-range-min {
+	bottom: 0;
+}
+jqui .ui-slider-vertical .ui-slider-range-max {
 	top: 0;
-	height: 100%;
-}
-jqui .ui-resizable-se {
-	cursor: se-resize;
-	width: 12px;
-	height: 12px;
-	right: 1px;
-	bottom: 1px;
-}
-jqui .ui-resizable-sw {
-	cursor: sw-resize;
-	width: 9px;
-	height: 9px;
-	left: -5px;
-	bottom: -5px;
-}
-jqui .ui-resizable-nw {
-	cursor: nw-resize;
-	width: 9px;
-	height: 9px;
-	left: -5px;
-	top: -5px;
-}
-jqui .ui-resizable-ne {
-	cursor: ne-resize;
-	width: 9px;
-	height: 9px;
-	right: -5px;
-	top: -5px;
 }
