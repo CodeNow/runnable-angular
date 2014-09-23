@@ -6,11 +6,11 @@ header.box-header
       input.validate.setup-box-name(
         ng-model = "dataSetup.data.newProjectName"
         placeholder = "Box Name"
+        select-on
         spellcheck = "false"
         validate-name-pattern
         validate-name = "dataInstanceLayout.data.instances"
         value = "{{ dataSetup.data.project.attrs.name }}"
-        select-on
       )
       //- if invalid character is entered
       .validate-wrapper
