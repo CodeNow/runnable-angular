@@ -184,7 +184,11 @@ function ControllerSetup(
       },
       function (cb) {
         var thisUser = $scope.dataApp.user;
+        var instanceOwner = $scope.dataInstanceLayout.data.activeAccount.oauthId();
         data.instance = thisUser.createInstance({
+          owner: {
+            github: instanceOwner
+          },
           build: data.build.id(),
           name: data.newProjectName
         }, cb);
@@ -199,7 +203,7 @@ function ControllerSetup(
   actions.stateToBuild = function () {
     data.creatingProject = true;
     $state.go('instance.instance', {
-      userName: $scope.dataApp.user.oauthName(),
+      userName: $state.params.userName,
       shortHash: data.instance.id()
     });
   };
