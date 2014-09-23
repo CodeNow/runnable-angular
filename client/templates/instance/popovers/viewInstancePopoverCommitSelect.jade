@@ -52,7 +52,7 @@
       ng-click = "actions.selectActiveBranchAndCommit(data, data.githubRepo.state.selectedBranch, commit)"
     )
       .commit-message {{ commit.attrs.commit.message }}
-      .commit-message {{ data.githubRepo.state.selectedBranch.state.activeCommit.attrs.sha }}
+      .commit-message {{ commit.attrs.sha }}
       svg.iconnables.icons-commit
         use(
           xlink:href = "#icons-commit"
