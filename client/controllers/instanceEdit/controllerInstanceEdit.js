@@ -39,9 +39,7 @@ function ControllerInstanceEdit(
     show: false,
     // popover contains nested modal
     dataModalDelete: {},
-    dataModalRename: {
-      instances: $scope.dataInstanceLayout.data.instances
-    }
+    dataModalRename: {}
   };
   pgm.actions = {
     // popover contains nested modal
@@ -58,7 +56,7 @@ function ControllerInstanceEdit(
     actionsModalRename: {
       renameInstance: function (cb) {
         data.instance.update({
-          name: data.instance.attrs.name.trim()
+          name: data.instance.state.name.trim()
         }, function (err) {
           $scope.safeApply();
           cb();
@@ -176,6 +174,11 @@ function ControllerInstanceEdit(
       $window.onbeforeunload = null;
     }
   });
+  $scope.$watch('dataInstanceLayout.data.instances', function(n) {
+    if (n) {
+      pgm.data.dataModalRename.instances = n;
+    }
+  });
 
   /*
   $scope.$watch('dataInstanceEdit.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
@@ -206,6 +209,10 @@ function ControllerInstanceEdit(
           // TODO
           // return $state.go(404);
         }
+        instance.state = {
+          name: instance.attrs.name + ''
+        };
+
         data.instance = instance;
         pgm.data.dataModalRename.instance = instance;
         pgm.data.dataModalDelete.instance = instance;
