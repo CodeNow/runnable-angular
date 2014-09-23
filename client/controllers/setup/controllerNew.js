@@ -31,8 +31,7 @@ function ControllerNew(
     var build = thisUser.createBuild({
       contextVersions: [version.id()],
       owner: {
-        github: ($scope.dataInstanceLayout.data.activeAccount) ?
-          $scope.dataInstanceLayout.data.activeAccount.oauthId() : $scope.dataApp.user.oauthId()
+        github: $scope.dataInstanceLayout.data.activeAccount.oauthId()
       }
     }, function (err) {
       cb(err, build);
