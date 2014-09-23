@@ -2,13 +2,20 @@
 .box-sidebar {
   height: calc(100% - 60px);
   height: calc(100vh - 60px);
-  overflow-x: hidden;
-  overflow-y: auto;
   width: 300px;
 
   .row {
-    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
   }
+}
+
+// ul.repository-group
+// ul.url-group
+.repository-group,
+.url-group {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 // li.repository-group-item
