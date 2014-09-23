@@ -25,7 +25,7 @@
           //- if invalid character is entered
           .validate-wrapper
             span.validate-rules(
-              ng-class = "{in: false}"
+              ng-class = "{in: data.renameForm.$error.namePattern.length}"
             ) We accept #{''}
               b.btn.btn-xs.orange A-Z
               b.btn.btn-xs.orange a-z
@@ -34,7 +34,7 @@
               b.btn.btn-xs.orange -
             //- if the name is taken
             span.validate-rules(
-              ng-class = "{in: false}"
+              ng-class = "{in: data.renameForm.$error.nameAvailable.length}"
             ) That's a pretty name, but it's taken.
     .modal-footer
       button.white(
