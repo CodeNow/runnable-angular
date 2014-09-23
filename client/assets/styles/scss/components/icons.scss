@@ -132,32 +132,34 @@
   .running & {
     background: $green;
     border: 0;
+
+    &.in-progress::before {
+      border-color: $green;
+    }
   }
 
   &.building,
   .building & {
     background: $orange;
     border: 0;
+
+    &.in-progress::before {
+      border-color: $orange;
+    }
   }
 
-  &.building {
-
-    &::before {
-      background: $white;
-      border: 2px solid $orange;
-      border-radius: 50%;
-      content: '';
-      display: block;
-      height: 17px;
-      left: 4px;
-      position: absolute;
-      top: 2px;
-      transform: scale3d(.3,.3,.3);
-      width: 17px;
-    }
-
-    &::before {
-      animation: building-spinner 2s infinite ease;
-    }
+  &.in-progress::before {
+    animation: in-progress 2s infinite ease;
+    background: $white;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    content: '';
+    display: block;
+    height: 17px;
+    left: 4px;
+    position: absolute;
+    top: 2px;
+    transform: scale3d(.3,.3,.3);
+    width: 17px;
   }
 }
