@@ -21,7 +21,6 @@ app.use(function (req, res, next) {
     });
     next();
   } else {
-    console.log(req);
     if (!req.cookies|| !req.cookies.password) {
       res.status(404).end();
     } else {
