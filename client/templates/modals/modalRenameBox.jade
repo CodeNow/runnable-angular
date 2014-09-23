@@ -8,19 +8,29 @@
       svg.iconnables.icons-delete
         use(xlink:href = "#icons-rename")
     .modal-body
-      label Enter a new name for your Box:
-        //- fill value with instance name
-        //- autofocus on modal open
-        input.modal-input(
-          autofocus
-          ng-model = "data.instance.state.name"
-        )
+      form(
+        name = "data.renameForm"
+      )
+        label Enter a new name for your Box:
+          //- fill value with instance name
+          //- autofocus on modal open
+          input.modal-input(
+            autofocus
+            ng-model = "data.instance.state.name"
+            validate-name-pattern
+            validate-name = "data.instances"
+          )
     .modal-footer
       button.white(
         ng-click = "cancel()"
         type = "button"
       ) Cancel
-      button.green(
+      button(
+        ng-class = "{\
+          green: data.renameForm.$valid,\
+          orange: data.renameForm.$invalid\
+        }"
         ng-click = "actions.renameInstance(cancel)"
         data-action
-      ) Rename Box
+        ng-disabled = "data.renameForm.$invalid"
+      ) {{ data.renameForm.$valid ? 'Rename Box' : 'Invalid Name' }}

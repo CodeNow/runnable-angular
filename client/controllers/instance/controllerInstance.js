@@ -65,7 +65,9 @@ function ControllerInstance(
     show: false,
     // popover contains nested modal
     dataModalDelete: {},
-    dataModalRename: {}
+    dataModalRename: {
+      instances: $scope.dataInstanceLayout.data.instances
+    }
   };
   pgm.actions = {
     // popover contains nested modal
@@ -82,7 +84,7 @@ function ControllerInstance(
     actionsModalRename: {
       renameInstance: function (cb) {
         data.instance.update({
-          name: data.instance.state.name
+          name: data.instance.state.name.trim()
         }, function (err) {
           $scope.safeApply();
           cb();
