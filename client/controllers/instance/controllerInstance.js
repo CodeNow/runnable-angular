@@ -65,9 +65,7 @@ function ControllerInstance(
     show: false,
     // popover contains nested modal
     dataModalDelete: {},
-    dataModalRename: {
-      instances: $scope.dataInstanceLayout.data.instances
-    }
+    dataModalRename: {}
   };
   pgm.actions = {
     // popover contains nested modal
@@ -360,6 +358,12 @@ function ControllerInstance(
       // We're finished building
       building = false;
       $timeout(recursiveFetchInstance, 500);
+    }
+  });
+  $scope.$watch('dataInstanceLayout.data.instances', function(n) {
+    if (n) {
+      console.log(n);
+      pgm.data.dataModalRename.instances = n;
     }
   });
 
