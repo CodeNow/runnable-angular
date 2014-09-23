@@ -29,7 +29,11 @@ function ControllerNew(
 
   function createBuild (context, version, cb) {
     var build = thisUser.createBuild({
-      contextVersions: [version.id()]
+      contextVersions: [version.id()],
+      owner: {
+        github: ($scope.dataInstanceLayout.data.activeAccount) ?
+          $scope.dataInstanceLayout.data.activeAccount.oauthId() : $scope.dataApp.user.oauthId()
+      }
     }, function (err) {
       cb(err, build);
     });
