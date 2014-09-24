@@ -22,6 +22,8 @@ function ControllerInstance(
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
+  var timeouts = [];
+
   data.restartOnSave = true;
 
   /*********************************
@@ -340,7 +342,7 @@ function ControllerInstance(
       if (data.instance.containers.models[0]) {
         $scope.safeApply();
       } else {
-        $timeout(recursiveFetchInstance, 250);
+        timeouts.push($timeout(recursiveFetchInstance, 250));
       }
     });
   }
@@ -356,7 +358,7 @@ function ControllerInstance(
     if (n && building) {
       // We're finished building
       building = false;
-      $timeout(recursiveFetchInstance, 500);
+      timeouts.push($timeout(recursiveFetchInstance, 500));
     }
   });
   $scope.$watch('dataInstanceLayout.data.instances', function(n) {
@@ -437,6 +439,14 @@ function ControllerInstance(
       throw err;
     }
     $scope.safeApply();
+  });
+
+  // prevent any timeouts from completing if user leaves
+  // page
+  $scope.$on('$destroy', function () {
+    timeouts.each(function (t) {
+      keypather.get(t, 'cancel()');
+    });
   });
 }
 
