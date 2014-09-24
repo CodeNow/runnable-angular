@@ -56,7 +56,7 @@ section.row.repo-list
 
       //- if not editing and behind latest
       button.btn-xs.white.repository-update(
-	      tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} commits behind)"
+	      tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' commits behind' : 'To latest' }})"
         tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
         ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
         ng-click = "actions.selectLatestCommit(acv)"
