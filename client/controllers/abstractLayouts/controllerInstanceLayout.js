@@ -48,6 +48,8 @@ function ControllerInstanceLayout(
     return h;
   };
 
+  // invoked from controllerSetup when new instance is created
+  actions.fetchInstances = fetchInstances;
 
   actions.selectActiveAccount = function (userOrOrg, cb) {
     data.showChangeAccount = false;
