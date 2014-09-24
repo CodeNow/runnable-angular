@@ -442,10 +442,10 @@ function ControllerInstance(
     $scope.safeApply();
   });
 
-  // prevent any timeouts from completing if user leaves
-  // page
+  // prevent any timeouts from completing
+  // if user leaves page
   $scope.$on('$destroy', function () {
-    timeouts.each(function (t) {
+    timeouts.forEach(function (t) {
       keypather.get(t, 'cancel()');
     });
   });
