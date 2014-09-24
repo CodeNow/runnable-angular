@@ -1,0 +1,28 @@
+.alert {
+  border-radius: 3px;
+  cursor: pointer;
+  height: 36px;
+  left: 0;
+  line-height: 36px;
+  margin: 0 auto;
+  opacity: .5;
+  padding: 0 6px;
+  perspective: 1000px;
+  position: fixed;
+  right: 0;
+  top: 12px;
+  transform: rotate3d(1,0,0,90deg);
+  transition: opacity .2s ease-in, transform .2s ease-in;
+  width: 270px;
+  z-index: $z-alert;
+
+  &.in {
+    opacity: 1;
+    transform: rotate3d(1,0,0,0);
+  }
+
+  .iconnables {
+    margin-right: 6px;
+    top: 6px;
+  }
+}
