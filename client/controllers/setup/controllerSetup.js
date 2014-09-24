@@ -208,14 +208,6 @@ function ControllerSetup(
     });
   };
 
-  actions.stateToBuildList = function () {
-    $state.go('projects.buildList', {
-      userName: $scope.dataApp.stateParams.userName,
-      projectName: $scope.dataApp.stateParams.projectName,
-      branchName: data.project.defaultEnvironment.attrs.name
-    });
-  };
-
   var debounceValidate = debounce(function (n) {
     if (typeof n === 'undefined') {
       return;
