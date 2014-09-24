@@ -10,7 +10,9 @@ nav.sidebar.global-sidebar(
         $event.stopPropagation()"
     )
       li.accounts-group-item
-        a.account
+        a.account.load(
+          ng-show = "dataInstanceLayout.data.activeAccount.gravitar()"
+        )
           img.gravatar(
             height = "24"
             ng-src = "{{ dataInstanceLayout.data.activeAccount.gravitar() }}"
@@ -64,10 +66,11 @@ nav.sidebar.global-sidebar(
     ul.box-group
       //- apply .active for currently selected box
       //- apply .running for a running box
-      li.box-group-item(
+      li.box-group-item.load(
         ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataInstanceLayout.data.instances.models"
+        ng-show = "dataInstanceLayout.data.instances.models"
       )
         //- show instance name in title property when not minimized
         a.white.box(

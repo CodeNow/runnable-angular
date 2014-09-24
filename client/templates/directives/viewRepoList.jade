@@ -56,10 +56,10 @@ section.row.repo-list
 
       //- if not editing and behind latest
       button.btn-xs.white.repository-update(
-	      tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} commits behind)"
-        tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-        ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
         ng-click = "actions.selectLatestCommit(acv)"
+        ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
+	      tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' commits behind' : 'To latest' }})"
+        tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
       ) {{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}
         svg.iconnables.icons-update
           use(
@@ -85,12 +85,10 @@ section.row.repo-list
         )
 
       //- add .pending for orange
-      .commit(
+      .commit.load(
         ng-class = "{ \
           pending: githubRepo.state.activeBranch.state.activeCommit && (acv.attrs.commit !== githubRepo.state.activeBranch.state.activeCommit.attrs.sha) \
         }"
-        toggle-pop-over
-        toggle-pop-over-model = "acv.state.show"
         ng-click = " \
           acv.state.toggleFilter = false; \
           acv.state.commitFilter = ''; \
@@ -98,6 +96,8 @@ section.row.repo-list
           actions.fetchBranchesForRepo(acv.githubRepo); \
           actions.fetchCommitsForBranch(acv, githubRepo.state.activeBranch); \
         "
+        toggle-pop-over
+        toggle-pop-over-model = "acv.state.show"
       )
         .commit-message {{ githubRepo.state.activeBranch.state.activeCommit.attrs.commit.message }}
         svg.iconnables.icons-commit

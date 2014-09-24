@@ -9,7 +9,7 @@
         ng-if = "data.acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
         ng-click = "actions.selectLatestCommitForRepo(data.acv, data)"
       ) Fast-Forward
-        small.popover-list-item-details ({{ data.acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }} Commits)
+        small.popover-list-item-details ({{ data.acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? data.acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' Commits' : 'To latest' }})
       li.divider(
         ng-if = "data.acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
       )
