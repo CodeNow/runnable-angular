@@ -196,6 +196,10 @@ function ControllerSetup(
     ], function (err) {
       if (err) throw err;
       $scope.dataApp.data.loading = false;
+      // we need to refetch instances collection
+      // to update list of instances
+      $scope.dataInstanceLayout.actions.fetchInstances(angular.noop);
+
       dataSetup.actions.stateToBuild();
     });
   };
