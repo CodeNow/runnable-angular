@@ -1,6 +1,7 @@
 .alert {
   border-radius: 3px;
   cursor: pointer;
+  font-weight: 400;
   height: 36px;
   left: 0;
   line-height: 36px;
@@ -11,13 +12,12 @@
   right: 0;
   top: 12px;
   transform: rotate3d(1,0,0,90deg);
-  transition: opacity .2s ease-in, transform .2s ease-in;
-  width: 270px;
+  // transition: opacity .2s ease-in, transform .2s ease-in;
+  width: 276px;
   z-index: $z-alert;
 
   &.in {
-    opacity: 1;
-    transform: rotate3d(1,0,0,0);
+    animation: alert 6s;
   }
 
   .iconnables {
