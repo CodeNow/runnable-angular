@@ -1,5 +1,7 @@
 header.box-header
-  h1.box-name {{ dataInstance.data.instance.attrs.name }}
+  h1.box-name.load(
+    ng-show = "dataInstance.data.instance.attrs.name"
+  ) {{ dataInstance.data.instance.attrs.name }}
     span.icons-status.running(
       ng-class = "{'in-progress': dataInstance.data.loading}"
       ng-if = "dataInstance.data.container.running()"
@@ -87,22 +89,22 @@ header.box-header
       )
 
 //- sidebar with repositories and urls
-section.sidebar.box-sidebar
-  //- repositories
+section.sidebar.box-sidebar.load
 
+  //- repositories
   //- edit === false means we're on instance page, no add/remove instances
   //- but we can switch commit
   //- Using ng-show here so it'll still fetch the repos
-  repo-list(
-    instance = "dataInstance.data.instance"
+  repo-list.load(
     build = "dataInstance.data.build",
-    ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
     edit = "false"
+    instance = "dataInstance.data.instance"
+    ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
   )
 
   //- urls
-  section.row(
-    ng-if = "dataInstance.data.container.urls().length"
+  section.row.load(
+    ng-show = "dataInstance.data.container.urls().length"
   )
     h2.sub-header URLs
     ul.url-group
