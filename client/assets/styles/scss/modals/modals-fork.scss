@@ -1,7 +1,7 @@
 .modal-fork {
 
   .modal-dialog {
-    top: -90px;
+    top: -45px;
   }
 
   .modal-input {
@@ -16,6 +16,7 @@
     margin-top: 6px; // matches .modal-input
     padding: 0 9px 0 0;
     text-align: left;
+    user-select: none;
   }
 
   .ace_gutter-cell {
@@ -58,6 +59,11 @@
   }
 }
 
+// span.variable-text
+.variable-text {
+  user-select: text;
+}
+
 // input.environment-input
 .environment-input {
   background: $purple;
@@ -67,6 +73,7 @@
   height: 24px;
   line-height: 24px;
   margin: 6px 0;
+  user-select: text;
   width: auto;
 
   &:focus {
