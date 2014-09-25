@@ -213,7 +213,7 @@ function ControllerInstance(
   pat.actions.addLogs = function () {
     pat.data.show = false;
     return data.openItems.addLogs({
-      name: 'Server Logs',
+      name: 'Box Logs',
       params: data.instance.attrs.containers[0]
     });
   };
