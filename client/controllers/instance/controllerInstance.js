@@ -83,16 +83,18 @@ function ControllerInstance(
     },
     actionsModalRename: {
       renameInstance: function (cb) {
+        pgm.data.show = false;
+        $scope.dataApp.data.loading = true;
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
+          $scope.dataApp.data.loading = false;
           $scope.safeApply();
-          cb();
           if (err) {
             throw err;
           }
+          cb();
         });
-        $scope.safeApply();
       },
       cancel: function () {
         data.instance.state.name = data.instance.attrs.name;
@@ -308,11 +310,8 @@ function ControllerInstance(
 
   // instance is stopped => uncloseable server log
   // instance is building => unclosable build log
-  $scope.$watch('dataInstance.data.container.running()', function (n) {
-    if (!data.openItems) {
-      return;
-    }
-    if (n) {
+  function updateTabs (instanceRunning) {
+    if (instanceRunning) {
       // instance is running
       if (data.container.urls().length && !data.openItems.hasOpen('WebView')) {
         pat.actions.addWebView();
@@ -322,18 +321,18 @@ function ControllerInstance(
       }
       data.openItems.activeHistory.add(data.logs);
     } else {
-      // instance is stopped
+      // instance is stopped or building
       if (data.logs) {
         data.logs.state.alwaysOpen = true;
       }
       data.openItems.removeAllButLogs();
-      if (!dataInstance.data.instance.build.attrs.completed) {
+      if (!data.instance.build.attrs.completed) {
         // instance is building
         var buildStream = pat.actions.addBuildStream();
         buildStream.state.alwaysOpen = true;
       }
     }
-  }, true);
+  }
 
   function recursiveFetchInstance () {
     fetchInstance(function(err) {
@@ -427,6 +426,8 @@ function ControllerInstance(
         data.logs = data.openItems.getFirst('BuildStream');
       }
     }
+    // Watch needs to be fired *after* OpenItems is initalized
+    $scope.$watch('dataInstance.data.container.running()', updateTabs, true);
     cb();
   }
 
