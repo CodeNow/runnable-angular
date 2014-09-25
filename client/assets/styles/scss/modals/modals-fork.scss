@@ -7,9 +7,60 @@
 
   .pre {
     border-radius: 3px;
+    font-size: 16px !important;
+    line-height: 2 !important;
     margin-top: 6px; // matches .modal-input
-
-    // temp
+    padding: 0;
     text-align: left;
   }
+
+  .ace_gutter-cell {
+    background: darken(#311d40,3%); // inherit from theme
+    color: lighten(#5e4d6e,12%); // inherit from theme
+    float: left;
+    height: 36px;
+    line-height: 36px;
+    margin-right: 4px;
+    padding-right: 13px; // match folding style
+    width: 42px; // width of single digit col size
+  }
+}
+
+// span.environment-variable
+.environment-variable {
+  display: block;
+  height: 36px;
+
+  &:first-child {
+    height: 45px;
+    padding-top: 9px;
+
+    .ace_gutter-cell {
+      height: 45px;
+      margin-top: -9px;
+      padding-top: 9px;
+    }
+  }
+
+  &:last-child {
+    height: 45px;
+    padding-bottom: 9px;
+
+    .ace_gutter-cell {
+      height: 45px;
+      margin-bottom: -9px;
+      padding-bottom: 9px;
+    }
+  }
+}
+
+// input.environment-input
+.environment-input {
+  background: $purple;
+  border-color: #77607d; // mimic ace
+  color: $white;
+  height: 24px;
+  line-height: 24px;
+  margin: 6px 0;
+  width: auto;
 }
