@@ -1,4 +1,5 @@
 var Terminal = require('term.js');
+var streamCleanser = require('docker-stream-cleanser');
 require('app')
   .directive('logView', logView);
 /**
@@ -29,27 +30,14 @@ function logView(
         screenKeys: true
       });
       terminal.open(elem[0]);
-      window.write = terminal.write.bind(terminal);
 
-      var $streamElem = jQuery(elem).find('pre');
       $scope.stream = {
         data: ''
       };
-      function onDataCallback (data) {
-        parseData($scope.stream.data + data);
+      function writeToTerm (data) {
+        data = data.replace(/\r?\n/g, '\r\n');
+        terminal.write(data);
       }
-      // invoked via directive when data has changed
-      function parseData(data) {
-        $scope.stream.data = $filter('buildStreamCleaner')(data);
-        $rootScope.safeApply();
-      }
-      // invoked via angular every digest cycle
-      $scope.getStream = function () {
-        $timeout(function () {
-          $streamElem.scrollTop($streamElem[0].scrollHeight);
-        }, 1);
-        return $sce.trustAsHtml($scope.stream.data);
-      };
 
       if (attrs.build) {
         $scope.$watch('build.attrs._id', function (buildId, oldVal) {
@@ -62,7 +50,7 @@ function logView(
               if (err) {
                 throw err;
               }
-              parseData(data.build.log);
+              writeToTerm(data.build.log);
             });
           } else if (build.failed()) {
             var contextVersion = build.contextVersions.models[0];
@@ -70,9 +58,9 @@ function logView(
               var data = contextVersion.attrs.build.log ||
                 (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
                 'Unknown Build Error Occurred';
-              parseData(data);
+              writeToTerm(data);
             } else {
-              parseData('Unknown Build Error Occurred');
+              writeToTerm('Unknown Build Error Occurred');
             }
           } else { // build in progress
             initBuildStream();
@@ -81,7 +69,7 @@ function logView(
         var initBuildStream = function () {
           var build = $scope.build;
           var buildStream = primus.createBuildStream($scope.build);
-          buildStream.on('data', onDataCallback);
+          streamCleanser.cleanStreams(buildStream, terminal);
           buildStream.on('end', function () {
             build.fetch(function (err) {
               if (err) {
@@ -89,10 +77,10 @@ function logView(
               }
               if (!build.succeeded()) {
                 // bad things happened
-                parseData('BUILD BROKEN: Please try again');
+                writeToTerm('BUILD BROKEN: Please try again');
               } else {
                 // we're all good
-                parseData('Build completed, starting instance...');
+                writeToTerm('Build completed, starting instance...');
               }
             });
           });
@@ -100,9 +88,9 @@ function logView(
 
       } else if (attrs.container) {
         var initBoxStream = function () {
-          var container = $scope.container;
           var boxStream = primus.createLogStream($scope.container);
-          boxStream.on('data', onDataCallback);
+          streamCleanser.cleanStreams(boxStream, terminal);
+
         };
         $scope.$watch('container.attrs._id', function (containerId) {
           if (containerId) {
