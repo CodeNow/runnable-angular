@@ -83,16 +83,18 @@ function ControllerInstance(
     },
     actionsModalRename: {
       renameInstance: function (cb) {
+        pgm.data.show = false;
+        $scope.dataApp.data.loading = true;
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
+          $scope.dataApp.data.loading = false;
           $scope.safeApply();
-          cb();
           if (err) {
             throw err;
           }
+          cb();
         });
-        $scope.safeApply();
       },
       cancel: function () {
         data.instance.state.name = data.instance.attrs.name;
