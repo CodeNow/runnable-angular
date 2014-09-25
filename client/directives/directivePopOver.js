@@ -6,6 +6,7 @@ require('app')
  */
 function popOver(
   $templateCache,
+  $timeout,
   $compile,
   jQuery
 ) {
@@ -43,8 +44,22 @@ function popOver(
           $body.append($element);
         } else {
           if ($element) {
-            $element.remove();
+            /**
+             * Synchronously removing reference to element
+             * in $element so if data.show becomes true again
+             * before this element is removed, the UI will create
+             * a different popover and the original popover will be
+             * removed in the background
+             */
+            var $t = $element;
             $element = null;
+            $timeout(function () {
+              if ($t) {
+                // will trigger nested directives to remove themselves from DOM
+                angular.element($t).scope().$broadcast('$destroy');
+                $t.remove();
+              }
+            }, 150);
           }
         }
       });
