@@ -156,7 +156,9 @@ function openItemsFactory(
 
   OpenItems.prototype.addBuildStream = function (data) {
     if (this.hasOpen('BuildStream')) {
-      return false;
+      var currStream = this.getFirst('BuildStream');
+      this.activeHistory.add(currStream);
+      return currStream;
     }
     var buildStream = new BuildStream(data);
     this.add(buildStream);
@@ -165,7 +167,9 @@ function openItemsFactory(
 
   OpenItems.prototype.addLogs = function (data) {
     if (this.hasOpen('LogView')) {
-      return false;
+      var currStream = this.getFirst('LogView');
+      this.activeHistory.add(currStream);
+      return currStream;
     }
     var logView = new LogView(data);
     this.add(logView);
@@ -249,7 +253,7 @@ function openItemsFactory(
   OpenItems.prototype.removeAllButLogs = function () {
     var models = this.models.slice();
     for (var i = 0; i < models.length; i++) {
-      if (!(models[i] instanceof LogView)) {
+      if (!(models[i] instanceof BuildStream)) {
         this.remove(models[i]);
       }
     }
