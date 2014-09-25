@@ -69,7 +69,8 @@ function logView(
         var initBuildStream = function () {
           var build = $scope.build;
           var buildStream = primus.createBuildStream($scope.build);
-          streamCleanser.cleanStreams(buildStream, terminal);
+          writeToTerm('Build completed, starting instance...');
+          streamCleanser.cleanStreams(buildStream, terminal, null, true);
           buildStream.on('end', function () {
             build.fetch(function (err) {
               if (err) {
@@ -89,7 +90,7 @@ function logView(
       } else if (attrs.container) {
         var initBoxStream = function () {
           var boxStream = primus.createLogStream($scope.container);
-          streamCleanser.cleanStreams(boxStream, terminal);
+          streamCleanser.cleanStreams(boxStream, terminal, null, true);
 
         };
         $scope.$watch('container.attrs._id', function (containerId) {
