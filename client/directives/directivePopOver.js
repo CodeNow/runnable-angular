@@ -26,13 +26,23 @@ function popOver(
       var templateJADE = $templateCache.get(attrs.template);
       var $template = angular.element(templateJADE);
       var $element;
+      var options;
       var $body = $('body');
+
+      try {
+        options = JSON.parse(attrs.popOverOptions);
+      } catch (e) {
+        options = {};
+      }
+      options.left = (typeof options.left !== 'undefined') ? options.left : 0;
+      options.top = (typeof options.top !== 'undefined') ? options.top : 0;
+      options.class = (typeof options.class !== 'undefined') ? options.class : false;
 
       function position () {
         var $e = $(element);
         var eStyle = {
-          top: ($e.offset().top) + 'px',
-          left: ($e.offset().left) + 'px'
+          top: ($e.offset().top + options.top) + 'px',
+          left: ($e.offset().left + options.left) + 'px'
         };
         return eStyle;
       }
