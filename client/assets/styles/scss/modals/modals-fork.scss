@@ -1,5 +1,9 @@
 .modal-fork {
 
+  .modal-dialog {
+    top: -90px;
+  }
+
   .modal-input {
     margin-bottom: 30px;
     max-width: 540px;
@@ -10,7 +14,7 @@
     font-size: 16px !important;
     line-height: 2 !important;
     margin-top: 6px; // matches .modal-input
-    padding: 0;
+    padding: 0 9px 0 0;
     text-align: left;
   }
 
@@ -28,7 +32,7 @@
 
 // span.environment-variable
 .environment-variable {
-  display: block;
+  display: flex;
   height: 36px;
 
   &:first-child {
@@ -59,8 +63,13 @@
   background: $purple;
   border-color: #77607d; // mimic ace
   color: $white;
+  flex: 1 0 auto;
   height: 24px;
   line-height: 24px;
   margin: 6px 0;
   width: auto;
+
+  &:focus {
+    background: $purple-light;
+  }
 }

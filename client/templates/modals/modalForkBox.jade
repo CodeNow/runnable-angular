@@ -36,40 +36,33 @@
         //- env vars
         label.ace-runnable-dark Set environment variables:
           pre.pre.ace_editor.ace-tm
-            //- .ace_gutter
-              .ace_layer.ace_gutter-layer
-                .ace_gutter-cell 1
-                .ace_gutter-cell 2
-                .ace_gutter-cell 3
-                .ace_gutter-cell 4
-                .ace_gutter-cell 5
             label.environment-variable
               .ace_gutter-cell 1
-              | GITHUB_CLIENT_ID = #{''}
+              span GITHUB_CLIENT_ID = #{''}
               input.environment-input(
                 value = "7a2b50212a5598ba3cf5"
               )
             label.environment-variable
               .ace_gutter-cell 2
-              | GITHUB_CLIENT_SECRET = #{''}
+              span GITHUB_CLIENT_SECRET = #{''}
               input.environment-input(
                 value = "eece03e4cf3a18162512ed2f6b85d8d3ae65a164"
               )
             label.environment-variable
               .ace_gutter-cell 3
-              | FULL_API_DOMAIN = #{''}
+              span FULL_API_DOMAIN = #{''}
               input.environment-input(
                 value = "http://mewl10-3030.runnable.io"
               )
             label.environment-variable
               .ace_gutter-cell 4
-              | GITHUB_CALLBACK_URL = #{''}
+              span GITHUB_CALLBACK_URL = #{''}
               input.environment-input(
                 value = "http://mewl10-3030.runnable.io/auth/github/callback"
               )
             label.environment-variable
               .ace_gutter-cell 5
-              | GITHUB_HOOK_URL = #{''}
+              span GITHUB_HOOK_URL = #{''}
               input.environment-input(
                 value = "http://mewl10-3030.runnable.io/actions/github"
               )
