@@ -55,6 +55,7 @@ function popOver(
             $element.addClass(options.class);
           }
           $body.append($element);
+          $element.addClass('in');
         } else {
           if ($element) {
             /**
@@ -65,6 +66,7 @@ function popOver(
              * removed in the background
              */
             var $t = $element;
+            $element.removeClass('in');
             $element = null;
             $timeout(function () {
               if ($t) {
