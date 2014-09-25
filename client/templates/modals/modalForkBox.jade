@@ -1,0 +1,54 @@
+.modal(
+  ng-class = "{'in': in}"
+)
+  .modal-dialog(
+    ng-click = "$event.stopPropagation()"
+  )
+    .modal-header
+      svg.iconnables.icons-edit
+        use(xlink:href = "#icons-edit")
+    .modal-body
+      form(
+        name = "data.renameForm"
+      )
+        label Enter a new name for your Box:
+          //- fill value with instance name
+          //- autofocus on modal open
+          input.validate.modal-input(
+            autofocus
+            ng-model = "data.instance.state.name"
+            placeholder = "Box Name"
+            spellcheck = "false"
+            validate-name-pattern
+            validate-name = "data.instances"
+          )
+          //- if invalid character is entered
+          .validate-wrapper
+            span.validate-rules(
+              ng-class = "{in: data.renameForm.$error.namePattern.length}"
+            ) We accept #{''}
+              b.btn.btn-xs.orange A-Z
+              b.btn.btn-xs.orange a-z
+              b.btn.btn-xs.orange 0-9
+              b.btn.btn-xs.orange _
+              b.btn.btn-xs.orange -
+            //- if the name is taken
+            span.validate-rules(
+              ng-class = "{in: data.renameForm.$error.nameAvailable.length}"
+            ) That's a pretty name, but it's taken.
+    //- env vars
+    label Set environment variables
+      textarea.pre
+    .modal-footer
+      button.white(
+        ng-click = "cancel()"
+        type = "button"
+      ) Cancel
+      button(
+        ng-class = "{\
+          green: data.renameForm.$valid,\
+          orange: data.renameForm.$invalid\
+        }"
+        data-action
+        ng-disabled = "data.renameForm.$invalid"
+      ) Fork Box
