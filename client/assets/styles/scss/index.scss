@@ -26,7 +26,6 @@
 @import "components/spinner";
 @import "components/buttons";
 @import "components/select";
-@import "components/modals";
 @import "components/menu";
 @import "components/tooltips";
 
@@ -53,6 +52,10 @@
 @import "views/views-panel";
 @import "views/views-themes";
 @import "views/views-browser-chrome";
+
+// modals
+@import "modals/modals";
+@import "modals/modals-fork";
 
 // popovers
 @import "popover/popover";

@@ -1,5 +1,6 @@
 // defaults
-input {
+input,
+textarea {
   -webkit-appearance: none;
   border: 1px solid rgba($black,.15);
   border-radius: 3px;
@@ -7,6 +8,7 @@ input {
   height: 45px;
   line-height: 45px;
   padding: 0 6px;
+  resize: none;
   width: 100%;
 
   &:focus {

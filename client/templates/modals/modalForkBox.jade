@@ -1,4 +1,4 @@
-.modal(
+.modal.modal-fork(
   ng-class = "{'in': in}"
 )
   .modal-dialog(
@@ -8,24 +8,21 @@
       svg.iconnables.icons-edit
         use(xlink:href = "#icons-edit")
     .modal-body
-      form(
-        name = "data.renameForm"
-      )
+      form
         label Enter a new name for your Box:
           //- fill value with instance name
           //- autofocus on modal open
           input.validate.modal-input(
             autofocus
-            ng-model = "data.instance.state.name"
             placeholder = "Box Name"
             spellcheck = "false"
             validate-name-pattern
-            validate-name = "data.instances"
+            validate-name = ""
           )
           //- if invalid character is entered
           .validate-wrapper
             span.validate-rules(
-              ng-class = "{in: data.renameForm.$error.namePattern.length}"
+              ng-class = "{in: false}"
             ) We accept #{''}
               b.btn.btn-xs.orange A-Z
               b.btn.btn-xs.orange a-z
@@ -34,21 +31,19 @@
               b.btn.btn-xs.orange -
             //- if the name is taken
             span.validate-rules(
-              ng-class = "{in: data.renameForm.$error.nameAvailable.length}"
+              ng-class = "{in: false}"
             ) That's a pretty name, but it's taken.
-    //- env vars
-    label Set environment variables
-      textarea.pre
+        //- env vars
+        label.ace-runnable-dark Set environment variables:
+          pre.pre.ace_editor.ace-tm.
+            GITHUB_CLIENT_ID="7a2b50212a5598ba3cf5"
+            GITHUB_CLIENT_SECRET="eece03e4cf3a18162512ed2f6b85d8d3ae65a164"
+            FULL_API_DOMAIN="http://mewl10-3030.runnable.io"
+            GITHUB_CALLBACK_URL="http://mewl10-3030.runnable.io/auth/github/callback"
+            GITHUB_HOOK_URL="http://mewl10-3030.runnable.io/actions/github"
     .modal-footer
       button.white(
         ng-click = "cancel()"
         type = "button"
       ) Cancel
-      button(
-        ng-class = "{\
-          green: data.renameForm.$valid,\
-          orange: data.renameForm.$invalid\
-        }"
-        data-action
-        ng-disabled = "data.renameForm.$invalid"
-      ) Fork Box
+      button.green Fork Box
