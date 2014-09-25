@@ -322,7 +322,7 @@ function ControllerInstance(
       }
       data.openItems.activeHistory.add(data.logs);
     } else {
-      // instance is stopped
+      // instance is stopped or building
       if (data.logs) {
         data.logs.state.alwaysOpen = true;
       }
