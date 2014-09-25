@@ -51,6 +51,9 @@ function popOver(
         if (show) {
           $element = $compile($template)($scope);
           $element.css(position());
+          if (options.class) {
+            $element.addClass(options.class);
+          }
           $body.append($element);
         } else {
           if ($element) {
