@@ -1,3 +1,4 @@
+var Terminal = require('term.js');
 require('app')
   .directive('logView', logView);
 /**
@@ -20,6 +21,15 @@ function logView(
     },
     templateUrl: 'viewLogView',
     link: function ($scope, elem, attrs) {
+
+      var terminal = new Terminal({
+        cols: 80,
+        rows: 24,
+        useStyle: true,
+        screenKeys: true
+      });
+      terminal.open(elem[0]);
+      window.write = terminal.write.bind(terminal);
 
       var $streamElem = jQuery(elem).find('pre');
       $scope.stream = {
