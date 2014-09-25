@@ -1,4 +1,7 @@
 var Terminal = require('term.js');
+var debounce = require('debounce');
+var CHAR_WIDTH = 8;
+var CHAR_HEIGHT = 19;
 var streamCleanser = require('docker-stream-cleanser');
 require('app')
   .directive('logView', logView);
@@ -34,9 +37,28 @@ function logView(
       $scope.stream = {
         data: ''
       };
+      var $termElem = jQuery(terminal.element);
+      var dResizeTerm = debounce(resizeTerm, 300);
+
+      dResizeTerm();
+      jQuery(window).on('resize', dResizeTerm);
+      terminal.on('focus', dResizeTerm);
       function writeToTerm (data) {
         data = data.replace(/\r?\n/g, '\r\n');
         terminal.write(data);
+      }
+      function resizeTerm() {
+        // Tab not selected
+        if ($termElem.width() === 100) { return; }
+        var x = Math.floor($termElem.width() / CHAR_WIDTH);
+        var y = Math.floor($termElem.height() / CHAR_HEIGHT);
+
+//          if (x < 80) {
+//            x = 80;
+//          }
+
+        terminal.resize(x, y);
+        terminal.refresh();
       }
 
       if (attrs.build) {
@@ -69,8 +91,7 @@ function logView(
         var initBuildStream = function () {
           var build = $scope.build;
           var buildStream = primus.createBuildStream($scope.build);
-          writeToTerm('Build completed, starting instance...');
-          streamCleanser.cleanStreams(buildStream, terminal, null, true);
+          streamCleanser.cleanStreams(buildStream, terminal, 'hex', true);
           buildStream.on('end', function () {
             build.fetch(function (err) {
               if (err) {
@@ -90,7 +111,7 @@ function logView(
       } else if (attrs.container) {
         var initBoxStream = function () {
           var boxStream = primus.createLogStream($scope.container);
-          streamCleanser.cleanStreams(boxStream, terminal, null, true);
+          streamCleanser.cleanStreams(boxStream, terminal, 'hex', true);
 
         };
         $scope.$watch('container.attrs._id', function (containerId) {
