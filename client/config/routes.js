@@ -10,6 +10,16 @@ module.exports = [{
     },
   }
 }, {
+  state: '404',
+  abstract: false,
+  templateUrl: 'viewError',
+  controller: 'ControllerError'
+}, {
+  state: 'instance',
+  abstract: true,
+  templateUrl: 'viewInstanceLayout',
+  controller: 'ControllerInstanceLayout'
+}, {
   state: 'instance.new',
   abstract: false,
   url: '^/:userName/new',
@@ -21,22 +31,6 @@ module.exports = [{
   url: '^/:userName/new/:buildId',
   templateUrl: 'viewSetup',
   controller: 'ControllerSetup'
-},/*{
-  state: 'projects.instance',
-  abstract: false,
-  url: '^/instances/:userName/:instanceId',
-  templateUrl: 'viewInstance',
-  controller: 'ControllerInstance'
-}, */{
-  state: '404',
-  abstract: false,
-  templateUrl: 'viewError',
-  controller: 'ControllerError'
-}, {
-  state: 'instance',
-  abstract: true,
-  templateUrl: 'viewInstanceLayout',
-  controller: 'ControllerInstanceLayout'
 }, {
   state: 'instance.instance',
   abstract: false,
