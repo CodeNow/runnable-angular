@@ -8,21 +8,29 @@
       svg.iconnables.icons-fork
         use(xlink:href = "#icons-fork")
     .modal-body
-      form
-        label Enter a new name for your Box:
-          //- fill value with instance name
+      form.ace-runnable-dark(
+        name = "data.forkForm"
+      )
+        label Give your box a name
           //- autofocus on modal open
-          input.validate.modal-input(
-            autofocus
-            placeholder = "Box Name"
-            spellcheck = "false"
-            validate-name-pattern
-            validate-name = ""
+          .input-group
+            input.validate.validate-left.modal-input(
+              autofocus
+              ng-model = "data.instance.state.name"
+              placeholder = "project-purple"
+              spellcheck = "false"
+              validate-name = "data.instances"
+              validate-name-pattern
+            )
+            .input-suffix.validate(
+              ng-class = "{'ng-invalid': data.forkForm.$invalid}"
+            ) .username.runnable.io
+          .validate-wrapper(
+            ng-class = "{in: data.forkForm.$invalid}"
           )
-          //- if invalid character is entered
-          .validate-wrapper
+            //- if invalid character is entered
             span.validate-rules(
-              ng-class = "{in: false}"
+              ng-class = "{in: data.forkForm.$error.namePattern.length}"
             ) We accept #{''}
               b.btn.btn-xs.orange A-Z
               b.btn.btn-xs.orange a-z
@@ -31,49 +39,57 @@
               b.btn.btn-xs.orange -
             //- if the name is taken
             span.validate-rules(
-              ng-class = "{in: false}"
+              ng-class = "{in: data.forkForm.$error.nameAvailable.length}"
             ) That's a pretty name, but it's taken.
-        //- env vars
-        label.ace-runnable-dark Set environment variables:
-          pre.pre.ace_editor.ace-tm
-            label.environment-variable
-              .ace_gutter-cell 1
-              span.variable-text GITHUB_CLIENT_ID
-              span #{''} = #{''}
-              input.environment-input(
-                value = "7a2b50212a5598ba3cf5"
-              )
-            label.environment-variable
-              .ace_gutter-cell 2
-              span.variable-text GITHUB_CLIENT_SECRET
-              span #{''} = #{''}
-              input.environment-input(
-                value = "eece03e4cf3a18162512ed2f6b85d8d3ae65a164"
-              )
-            label.environment-variable
-              .ace_gutter-cell 3
-              span.variable-text FULL_API_DOMAIN
-              span #{''} = #{''}
-              input.environment-input(
-                value = "http://mewl10-3030.runnable.io"
-              )
-            label.environment-variable
-              .ace_gutter-cell 4
-              span.variable-text GITHUB_CALLBACK_URL
-              span #{''} = #{''}
-              input.environment-input(
-                value = "http://mewl10-3030.runnable.io/auth/github/callback"
-              )
-            label.environment-variable
-              .ace_gutter-cell 5
-              span.variable-text GITHUB_HOOK_URL
-              span #{''} = #{''}
-              input.environment-input(
-                value = "http://mewl10-3030.runnable.io/actions/github"
-              )
+          //- env vars
+        pre.pre.ace_editor.ace-tm
+          label.environment-variable.ace_comment
+            .ace_gutter-cell 1
+            | // Environment Variables:
+          label.environment-variable
+            .ace_gutter-cell 2
+            span.variable-text GITHUB_CLIENT_ID
+            span #{''} = #{''}
+            input.environment-input(
+              value = "7a2b50212a5598ba3cf5"
+            )
+          label.environment-variable
+            .ace_gutter-cell 3
+            span.variable-text GITHUB_CLIENT_SECRET
+            span #{''} = #{''}
+            input.environment-input(
+              value = "eece03e4cf3a18162512ed2f6b85d8d3ae65a164"
+            )
+          label.environment-variable
+            .ace_gutter-cell 4
+            span.variable-text FULL_API_DOMAIN
+            span #{''} = #{''}
+            input.environment-input(
+              value = "http://mewl10-3030.runnable.io"
+            )
+          label.environment-variable
+            .ace_gutter-cell 5
+            span.variable-text GITHUB_CALLBACK_URL
+            span #{''} = #{''}
+            input.environment-input(
+              value = "http://mewl10-3030.runnable.io/auth/github/callback"
+            )
+          label.environment-variable
+            .ace_gutter-cell 6
+            span.variable-text GITHUB_HOOK_URL
+            span #{''} = #{''}
+            input.environment-input(
+              value = "http://mewl10-3030.runnable.io/actions/github"
+            )
     .modal-footer
       button.white(
         ng-click = "cancel()"
         type = "button"
       ) Cancel
-      button.green Fork Box
+      button(
+        ng-class = "{\
+          green: data.forkBox.$valid,\
+          orange: data.forkBox.$invalid\
+        }"
+        ng-disabled = "data.forkBox.$invalid"
+      ) Fork Box

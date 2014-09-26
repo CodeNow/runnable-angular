@@ -13,19 +13,25 @@
       form(
         name = "data.renameForm"
       )
-        label Enter a new name for your Box:
+        label Give your box a new name
           //- fill value with instance name
           //- autofocus on modal open
-          input.validate.modal-input(
-            autofocus
-            ng-model = "data.instance.state.name"
-            placeholder = "Box Name"
-            spellcheck = "false"
-            validate-name-pattern
-            validate-name = "data.instances"
+          .input-group
+            input.validate.validate-left.modal-input(
+              autofocus
+              ng-model = "data.instance.state.name"
+              placeholder = "project-purple"
+              spellcheck = "false"
+              validate-name = "data.instances"
+              validate-name-pattern
+            )
+            .input-suffix.validate(
+              ng-class = "{'ng-invalid': data.renameForm.$invalid}"
+            ) .username.runnable.io
+            //- if invalid character is entered
+          .validate-wrapper(
+            ng-class = "{in: data.renameForm.$invalid}"
           )
-          //- if invalid character is entered
-          .validate-wrapper
             span.validate-rules(
               ng-class = "{in: data.renameForm.$error.namePattern.length}"
             ) We accept #{''}

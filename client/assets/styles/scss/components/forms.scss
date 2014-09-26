@@ -12,7 +12,7 @@ textarea {
   width: 100%;
 
   &:focus {
-    box-shadow: inset 0 0 3px rgba($blue,.3);
+    box-shadow: none;
     outline: none;
   }
 
@@ -57,23 +57,45 @@ textarea {
 
 // validation
 .validate {
-  padding-right: 36px;
+  position: relative;
   transition: border .15s ease-in;
 
   &.ng-valid {
-    background: url(/build/images/icons/icons-check.svg) no-repeat center right;
+    background: url(/build/images/icons/icons-check.svg) no-repeat;
     color: $gray-darker;
+
+    .modal & {
+      background: url(/build/images/icons/icons-check.svg) $white no-repeat;
+    }
   }
 
   &.ng-invalid {
-    background: url(/build/images/icons/icons-error.svg) rgba($orange,.1) no-repeat center right;
+    background: url(/build/images/icons/icons-error.svg) #fef8e9 no-repeat; // rgba($orange,.1)
     border-color: rgba($orange,.3);
     color: $orange-dark;
+
+    &.input-suffix {
+      background: #fef8e9; // rgba($orange,.1)
+    }
   }
 
   &.ng-pristine {
     background: none;
     color: $gray-darker;
+
+    .modal & {
+      background: $white;
+    }
+  }
+
+  &.validate-right {
+    background-position: center right;
+    padding-right: 36px;
+  }
+
+  &.validate-left {
+    background-position: center left;
+    padding-left: 36px;
   }
 }
 

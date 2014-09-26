@@ -4,16 +4,17 @@
     top: -45px;
   }
 
-  .modal-input {
-    margin-bottom: 30px;
-    max-width: 540px;
+  // label.ace-runnable-dark
+  .ace-runnable-dark {
+    display: block;
+    margin-top: 15px;
   }
 
   .pre {
     border-radius: 3px;
     font-size: 16px !important;
     line-height: 2 !important;
-    margin-top: 6px; // matches .modal-input
+    margin-top: 30px;
     padding: 0 9px 0 0;
     text-align: left;
     user-select: none;

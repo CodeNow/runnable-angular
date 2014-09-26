@@ -1,0 +1,32 @@
+// .input-group
+.input-group {
+  display: flex;
+
+  input {
+    flex: 1 1 auto;
+  }
+
+  input:first-child {
+    border-radius: 3px 0 0 3px;
+    border-right: 0;
+    padding-right: 0;
+    text-align: right;
+  }
+
+  input:last-child {
+    border-radius: 0 3px 3px 0;
+    text-align: left;
+  }
+}
+
+// .input-suffix
+.input-suffix {
+  background: $white;
+  border: 1px solid rgba($black,.15);
+  border-left: 0;
+  border-radius: 0 3px 3px 0;
+  flex: 1 0 auto;
+  font-size: 18px;
+  height: 100%;
+  padding: 0 15px 0 0;
+}
