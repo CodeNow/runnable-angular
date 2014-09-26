@@ -362,7 +362,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || 'http://api.runnable3.net';
+        configObj.host = process.env.API_HOST || 'http://mewl10-3030.runnable.io';
         if (configObj.host.charAt(configObj.host.length-1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length-1);
         }

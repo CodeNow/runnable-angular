@@ -304,9 +304,8 @@ function ControllerInstance(
       return data.openItems.activeFile.attrs.body;
     }
   }, function () {
-    $scope.safeApply();
+    //$scope.safeApply();
   });
-
 
   // instance is stopped => uncloseable server log
   // instance is building => unclosable build log
