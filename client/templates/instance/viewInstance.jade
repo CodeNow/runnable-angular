@@ -1,5 +1,9 @@
 //- add class .in to display
-.alert.purple
+.alert.purple(
+  ng-class = "{ \
+    in: dataInstance.data.instance.build.succeeded() \
+  }"
+)
   svg.iconnables.icons-check
     use(
       xlink:href = "#icons-check"
