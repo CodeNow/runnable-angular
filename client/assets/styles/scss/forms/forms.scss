@@ -12,9 +12,10 @@ textarea {
   resize: none;
   width: 100%;
 
+  &.focus,
   &:focus {
-    box-shadow: none;
     border-color: $purple;
+    box-shadow: none;
     outline: none;
   }
 
@@ -23,8 +24,8 @@ textarea {
   }
 
   &[type="checkbox"] {
-    cursor: pointer;
     -webkit-appearance: checkbox;
+    cursor: pointer;
     width: auto;
 
     &[disabled] {
@@ -98,29 +99,6 @@ input {
 
   &[readonly] {
     cursor: pointer;
-  }
-}
-
-// .validate-rules
-.validate-rules {
-  color: $orange-dark;
-  font-size: 14px;
-  font-weight: 300;
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  transition: opacity .15s ease-in;
-
-  &.in {
-    opacity: 1;
-  }
-
-  .btn-xs {
-    cursor: default;
-    margin: 0 2px;
-    padding: 0 6px;
-    top: 2px;
   }
 }
 

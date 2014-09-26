@@ -25,30 +25,30 @@
             }"
             ng-click = ""
           )
-            .input-prefix.validate http://
+            .input-prefix http://
             span.input.modal-input(
               contenteditable
               ng-model = "data.instance.state.name"
               validate-name = "data.instances"
               validate-name-pattern
             ) instance6
-            .input-suffix.validate .username.runnable.io
-          //- .validate-wrapper(
-          //-   ng-class = "{in: data.renameForm.$invalid}"
-          //- )
-          //-   //- if invalid character is entered
-          //-   span.validate-rules(
-          //-     ng-class = "{in: data.renameForm.$error.namePattern.length}"
-          //-   ) We accept #{''}
-          //-     b.btn.btn-xs.orange A-Z
-          //-     b.btn.btn-xs.orange a-z
-          //-     b.btn.btn-xs.orange 0-9
-          //-     b.btn.btn-xs.orange _
-          //-     b.btn.btn-xs.orange -
-          //-   //- if the name is taken
-          //-   span.validate-rules(
-          //-     ng-class = "{in: data.renameForm.$error.nameAvailable.length}"
-          //-   ) That's a pretty name, but it's taken.
+            .input-suffix .username.runnable.io
+          .validate-wrapper(
+            ng-class = "{\
+              in: data.renameForm.$invalid,\
+              'invalid-pattern': data.renameForm.$error.namePattern.length,\
+              'invalid-name': data.renameForm.$error.nameAvailable.length\
+            }"
+          )
+            //- if invalid character is entered
+            span.validate-rules.invalid-pattern We accept #{''}
+              b.btn.btn-xs.orange A-Z
+              b.btn.btn-xs.orange a-z
+              b.btn.btn-xs.orange 0-9
+              b.btn.btn-xs.orange _
+              b.btn.btn-xs.orange -
+            //- if the name is taken
+            span.validate-rules.invalid-name That's a pretty name, but it's taken.
     .modal-footer
       button.white(
         ng-click = "cancel()"

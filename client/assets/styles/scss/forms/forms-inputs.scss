@@ -4,6 +4,10 @@
   border-radius: 3px;
   display: flex;
 
+  &.input-group.focus {
+    border-color: $purple;
+  }
+
   input,
   .input {
     border: 0;

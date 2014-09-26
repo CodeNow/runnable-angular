@@ -11,3 +11,27 @@
     border-color: $orange;
   }
 }
+
+// .validate-rules
+.validate-rules {
+  color: $orange-dark;
+  font-size: 14px;
+  font-weight: 300;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: opacity .15s ease-in;
+
+  .btn-xs {
+    cursor: default;
+    margin: 0 2px;
+    padding: 0 6px;
+    top: 2px;
+  }
+}
+
+.invalid-pattern .invalid-pattern,
+.invalid-name .invalid-name {
+  opacity: 1;
+}
