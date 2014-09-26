@@ -20,7 +20,7 @@
 @import "globals/minimize";
 @import "globals/animations";
 
-// components (elements)
+// components
 @import "components/logo";
 @import "components/icons";
 @import "components/spinner";
@@ -29,10 +29,11 @@
 @import "components/menu";
 @import "components/tooltips";
 
-// components (forms)
-@import "components/forms";
-@import "components/forms-inputs";
-@import "components/forms-toggles";
+// forms
+@import "forms/forms";
+@import "forms/forms-inputs";
+@import "forms/forms-toggles";
+@import "forms/forms-validation";
 
 // sidebar
 @import "sidebar/sidebar";

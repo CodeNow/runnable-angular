@@ -1,0 +1,13 @@
+// validation
+.validate {
+  position: relative;
+  transition: border .15s ease-in;
+
+  &.ng-valid {
+    border-color: $green;
+  }
+
+  &.ng-invalid {
+    border-color: $orange;
+  }
+}

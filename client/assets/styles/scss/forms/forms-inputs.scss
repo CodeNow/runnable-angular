@@ -1,22 +1,20 @@
 // .input-group
 .input-group {
+  border: 1px solid rgba($black,.15);
+  border-radius: 3px;
   display: flex;
 
   input,
   .input {
-    border-left: 0;
-    border-right: 0;
+    border: 0;
     flex: 1 1 auto;
   }
 
   [contenteditable] {
-    border-bottom: 1px solid rgba($black,.15);
-    border-top: 1px solid rgba($black,.15);
+    color: $gray-darker;
     cursor: text;
     flex: 0 0 auto;
     font-weight: 500;
-    height: 45px;
-    line-height: 43px;
 
     &:focus {
       outline: 0;
@@ -28,7 +26,6 @@
 .input-prefix,
 .input-suffix {
   background: $white;
-  border: 1px solid rgba($black,.15);
   flex: 1 0 auto;
   font-size: 18px;
   height: 100%;

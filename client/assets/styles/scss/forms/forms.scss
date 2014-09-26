@@ -1,5 +1,6 @@
 // defaults
 input,
+.input
 textarea {
   -webkit-appearance: none;
   border: 1px solid rgba($black,.15);
@@ -13,6 +14,7 @@ textarea {
 
   &:focus {
     box-shadow: none;
+    border-color: $purple;
     outline: none;
   }
 
@@ -53,51 +55,6 @@ textarea {
 .checkbox {
   float: right;
   margin-left: 12px;
-}
-
-// validation
-.validate {
-  position: relative;
-  transition: border .15s ease-in;
-
-  &.ng-valid {
-    background: url(/build/images/icons/icons-check.svg) no-repeat;
-    color: $gray-darker;
-
-    .modal & {
-      background: url(/build/images/icons/icons-check.svg) $white no-repeat;
-    }
-  }
-
-  &.ng-invalid {
-    background: url(/build/images/icons/icons-error.svg) #fef8e9 no-repeat; // rgba($orange,.1)
-    border-color: rgba($orange,.3);
-    color: $orange-dark;
-
-    &.input-prefix,
-    &.input-suffix {
-      background: #fef8e9; // rgba($orange,.1)
-    }
-  }
-
-  &.ng-pristine {
-    background: none;
-    color: $gray-darker;
-
-    .modal & {
-      background: $white;
-    }
-  }
-
-  &.validate-right {
-    background-position: center right;
-    padding-right: 36px;
-  }
-
-  &.validate-left {
-    background-position: center left;
-    padding-left: 36px;
-  }
 }
 
 .form-label {

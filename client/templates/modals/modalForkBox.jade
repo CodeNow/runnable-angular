@@ -12,39 +12,41 @@
         name = "data.forkForm"
       )
         label Give your box a name
-          //- autofocus on modal open
-          .input-group
-            .input-prefix.validate(
-              ng-class = "{'ng-invalid': data.forkForm.$invalid}"
-            ) http://
-            span.validate.validate-left.input.modal-input(
+          //- add .focus on click on span.input.modal-input AND on modal open
+          //- clicks should act as a click on span.input.modal-input
+          .input-group.validate(
+            ng-class = "{\
+              'focus': '',\
+              'ng-invalid': data.forkForm.$invalid,\
+              'ng-valid': data.forkForm.$valid\
+            }"
+            ng-click = ""
+          )
+            .input-prefix.validate http://
+            span.input.modal-input(
               autofocus
               contenteditable
               ng-model = "data.instance.state.name"
-              placeholder = "project-purple"
-              spellcheck = "false"
               validate-name = "data.instances"
               validate-name-pattern
             ) instance6
-            .input-suffix.validate(
-              ng-class = "{'ng-invalid': data.forkForm.$invalid}"
-            ) .username.runnable.io
-          .validate-wrapper(
-            ng-class = "{in: data.forkForm.$invalid}"
-          )
-            //- if invalid character is entered
-            span.validate-rules(
-              ng-class = "{in: data.forkForm.$error.namePattern.length}"
-            ) We accept #{''}
-              b.btn.btn-xs.orange A-Z
-              b.btn.btn-xs.orange a-z
-              b.btn.btn-xs.orange 0-9
-              b.btn.btn-xs.orange _
-              b.btn.btn-xs.orange -
-            //- if the name is taken
-            span.validate-rules(
-              ng-class = "{in: data.forkForm.$error.nameAvailable.length}"
-            ) That's a pretty name, but it's taken.
+            .input-suffix.validate .username.runnable.io
+          //- .validate-wrapper(
+          //-   ng-class = "{in: data.forkForm.$invalid}"
+          //- )
+          //-   //- if invalid character is entered
+          //-   span.validate-rules(
+          //-     ng-class = "{in: data.forkForm.$error.namePattern.length}"
+          //-   ) We accept #{''}
+          //-     b.btn.btn-xs.orange A-Z
+          //-     b.btn.btn-xs.orange a-z
+          //-     b.btn.btn-xs.orange 0-9
+          //-     b.btn.btn-xs.orange _
+          //-     b.btn.btn-xs.orange -
+          //-   //- if the name is taken
+          //-   span.validate-rules(
+          //-     ng-class = "{in: data.forkForm.$error.nameAvailable.length}"
+          //-   ) That's a pretty name, but it's taken.
         //- env vars
         pre.pre.ace_editor.ace-tm
           label.environment-variable.ace_comment

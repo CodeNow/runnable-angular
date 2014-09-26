@@ -107,11 +107,16 @@
     }
   }
 
+  // inputs
   .input-prefix,
   .input-suffix {
     height: 45px;
+    line-height: 45px;
+  }
+
+  [contenteditable] {
+    height: 45px;
     line-height: 44px;
-    margin-top: 6px;
   }
 }
 
@@ -119,7 +124,6 @@
 .modal-input {
   background: $white;
   font-size: 18px;
-  margin-top: 6px;
   text-align: center;
 }
 
