@@ -39,10 +39,10 @@ function logView(
       };
       var $termElem = jQuery(terminal.element);
       var dResizeTerm = debounce(resizeTerm, 300);
-
       dResizeTerm();
-      jQuery(window).on('resize', dResizeTerm);
-      terminal.on('focus', dResizeTerm);
+      // jQuery(window).on('resize', dResizeTerm);
+      //terminal.on('focus', dResizeTerm);
+
       function writeToTerm (data) {
         data = data.replace(/\r?\n/g, '\r\n');
         terminal.write(data);
