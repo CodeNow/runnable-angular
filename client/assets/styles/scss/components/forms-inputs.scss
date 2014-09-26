@@ -2,23 +2,24 @@
 .input-group {
   display: flex;
 
-  input {
-    border-right: 0;
+  input,
+  .input {
     border-left: 0;
+    border-right: 0;
     flex: 1 1 auto;
   }
 
-  // input:first-child {
-  //   border-radius: 3px 0 0 3px;
-  //   border-right: 0;
-  //   padding-right: 0;
-  //   text-align: right;
-  // }
+  [contenteditable] {
+    border-bottom: 1px solid rgba($black,.15);
+    border-top: 1px solid rgba($black,.15);
+    flex: 0 0 auto;
+    height: 45px;
+    line-height: 44px;
 
-  // input:last-child {
-  //   border-radius: 0 3px 3px 0;
-  //   text-align: left;
-  // }
+    &:focus {
+      outline: 0;
+    }
+  }
 }
 
 // prefixes and suffixes
@@ -36,6 +37,7 @@
   border-radius: 3px 0 0 3px;
   border-right: 0;
   padding: 0;
+  text-align: right;
 }
 
 // .input-suffix
@@ -43,4 +45,5 @@
   border-left: 0;
   border-radius: 0 3px 3px 0;
   padding: 0 15px 0 0;
+  text-align: left;
 }

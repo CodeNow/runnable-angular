@@ -17,7 +17,7 @@
             .input-prefix.validate(
               ng-class = "{'ng-invalid': data.forkForm.$invalid}"
             ) http://
-            span.validate.validate-left.modal-input(
+            span.validate.validate-left.input.modal-input(
               autofocus
               contenteditable
               ng-model = "data.instance.state.name"
@@ -45,7 +45,7 @@
             span.validate-rules(
               ng-class = "{in: data.forkForm.$error.nameAvailable.length}"
             ) That's a pretty name, but it's taken.
-          //- env vars
+        //- env vars
         pre.pre.ace_editor.ace-tm
           label.environment-variable.ace_comment
             .ace_gutter-cell 1
