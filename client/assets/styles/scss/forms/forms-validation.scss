@@ -10,6 +10,15 @@
   &.ng-invalid {
     border-color: $orange;
   }
+
+  &.ng-pristine {
+    border-color: rgba($black,.15);
+  }
+
+  &:focus,
+  &.focus {
+    border-color: $blue;
+  }
 }
 
 // .validate-rules
