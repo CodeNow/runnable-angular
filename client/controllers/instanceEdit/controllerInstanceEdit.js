@@ -260,13 +260,10 @@ function ControllerInstanceEdit(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-    if (data.build.attrs.started) {
-      data
-        .openItems.addBuildStream({
-          name: 'Build Stream'
-        })
-        .state.alwaysOpen = true;
-    }
+
+    data.openItems.addBuildStream({
+      name: 'Previous build'
+    }).state.alwaysOpen = true;
     $scope.safeApply();
     cb();
   }

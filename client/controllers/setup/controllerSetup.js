@@ -196,6 +196,10 @@ function ControllerSetup(
     ], function (err) {
       if (err) throw err;
       $scope.dataApp.data.loading = false;
+      // we need to refetch instances collection
+      // to update list of instances
+      $scope.dataInstanceLayout.actions.fetchInstances(angular.noop);
+
       dataSetup.actions.stateToBuild();
     });
   };
@@ -205,14 +209,6 @@ function ControllerSetup(
     $state.go('instance.instance', {
       userName: $state.params.userName,
       shortHash: data.instance.id()
-    });
-  };
-
-  actions.stateToBuildList = function () {
-    $state.go('projects.buildList', {
-      userName: $scope.dataApp.stateParams.userName,
-      projectName: $scope.dataApp.stateParams.projectName,
-      branchName: data.project.defaultEnvironment.attrs.name
     });
   };
 
