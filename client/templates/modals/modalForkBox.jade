@@ -88,8 +88,8 @@
       ) Cancel
       button(
         ng-class = "{\
-          green: data.forkBox.$valid,\
-          orange: data.forkBox.$invalid\
+          green: data.forkForm.$valid,\
+          orange: data.forkForm.$invalid\
         }"
-        ng-disabled = "data.forkBox.$invalid"
+        ng-disabled = "data.forkForm.$invalid"
       ) Fork Box
