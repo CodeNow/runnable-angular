@@ -65,8 +65,6 @@ function modal(
         $scope.modal.remove();
         element.off('click');
         jQuery(document).off('keydown', keyDownEnter);
-
-
       });
     }
   };

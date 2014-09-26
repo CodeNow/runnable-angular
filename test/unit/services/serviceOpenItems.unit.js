@@ -66,21 +66,21 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       it('BuildStream', function() {
         var oi = new OpenItems();
 
-        oi.addBuildStream();
+        var oldStream = oi.addBuildStream();
 
         var result = oi.addBuildStream();
 
-        expect(result).to.be.false;
+        expect(result).to.deep.eql(oldStream);
       });
 
       it('LogView', function() {
         var oi = new OpenItems();
 
-        oi.addLogs();
+        var oldStream = oi.addLogs();
 
         var result = oi.addLogs();
 
-        expect(result).to.be.false;
+        expect(result).to.deep.eql(oldStream);
       });
     })
   });
