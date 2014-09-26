@@ -74,6 +74,7 @@ textarea {
     border-color: rgba($orange,.3);
     color: $orange-dark;
 
+    &.input-prefix,
     &.input-suffix {
       background: #fef8e9; // rgba($orange,.1)
     }

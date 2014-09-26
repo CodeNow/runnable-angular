@@ -14,14 +14,18 @@
         label Give your box a name
           //- autofocus on modal open
           .input-group
-            input.validate.validate-left.modal-input(
+            .input-prefix.validate(
+              ng-class = "{'ng-invalid': data.forkForm.$invalid}"
+            ) http://
+            span.validate.validate-left.modal-input(
               autofocus
+              contenteditable
               ng-model = "data.instance.state.name"
               placeholder = "project-purple"
               spellcheck = "false"
               validate-name = "data.instances"
               validate-name-pattern
-            )
+            ) instance6
             .input-suffix.validate(
               ng-class = "{'ng-invalid': data.forkForm.$invalid}"
             ) .username.runnable.io
