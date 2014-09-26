@@ -353,7 +353,9 @@ function ControllerSetup(
       fetchBuild
     ], function (err) {
       if (err) {
-        $state.go('404');
+        $state.go('error', {
+          err: err
+        });
         throw err;
       }
       $scope.safeApply();

@@ -72,7 +72,9 @@ function ControllerProjectLayout(
 
     fetchInstances(function (err) {
       if (err) {
-        return $state.go('404');
+        return $state.go('err', {
+          err: err
+        });
       }
       if (name === $state.params.userName || $scope.dataApp.state.current.name === 'projects') {
         // First fetch for the page or we're on /new
@@ -361,7 +363,9 @@ function ControllerProjectLayout(
       setInitialActiveProject
     ], function (err) {
       if (err) {
-        $state.go('404');
+        $state.go('error', {
+          err: err
+        });
         throw err;
       }
       $scope.safeApply();
