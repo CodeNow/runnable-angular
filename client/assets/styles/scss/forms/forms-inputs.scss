@@ -51,6 +51,7 @@ textarea {
   border: 1px solid rgba($black,.15);
   border-radius: 3px;
   display: flex;
+  justify-content: center;
 
   &.input-group.focus {
     border-color: $blue;
@@ -59,13 +60,13 @@ textarea {
   input,
   .input {
     border: 0;
-    flex: 1 1 auto;
+    padding: 0;
+    width: auto;
   }
 
   [contenteditable] {
     color: $gray-darker;
     cursor: text;
-    flex: 0 0 auto;
     font-weight: 500;
 
     &:focus {
@@ -77,8 +78,6 @@ textarea {
 // prefixes and suffixes
 .input-prefix,
 .input-suffix {
-  background: $white;
-  flex: 1 0 auto;
   font-size: 18px;
   height: 100%;
 }

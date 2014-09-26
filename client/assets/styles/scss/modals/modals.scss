@@ -108,6 +108,12 @@
   }
 
   // inputs
+  .input-group {
+    background: $white;
+    margin-top: 9px;
+    min-width: 450px;
+  }
+
   .input-prefix,
   .input-suffix {
     height: 45px;
@@ -118,16 +124,10 @@
     height: 45px;
     line-height: 44px;
   }
-
-  .input-group {
-    margin-top: 9px;
-    min-width: 450px;
-  }
 }
 
 // input.modal-input
 .modal-input {
-  background: $white;
   font-size: 18px;
   text-align: center;
 }
