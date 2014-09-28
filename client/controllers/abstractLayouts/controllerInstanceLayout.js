@@ -5,6 +5,7 @@ require('app')
  */
 function ControllerInstanceLayout(
   $scope,
+  $filter,
   async,
   $state,
   $stateParams,
@@ -48,6 +49,25 @@ function ControllerInstanceLayout(
     return h;
   };
 
+  /**
+   * Gets alternate text for instance based on instance state
+   */
+  actions.getInstanceAltTitle = function (instance) {
+    var state = actions.getInstanceClasses(instance);
+    if (state.running) {
+      return "Instance started " + $filter('timeAgo')(Date.now());
+    }
+    if (state.stopped) {
+      return "Instance stopped " + $filter('timeAgo')(Date.now());
+    }
+    if (state.building) {
+      return "Instance is building";
+    }
+    if (state.failed) {
+      return "Build failed";
+    }
+  };
+
   // invoked from controllerSetup when new instance is created
   actions.fetchInstances = fetchInstances;
 
@@ -83,141 +103,14 @@ function ControllerInstanceLayout(
       });
     });
   };
-/*
-  actions.getInClass = function () {
-    return ($state.current.name === 'projects') ? 'in' : '';
-  };
 
-  actions.getProjectBuildListHref = function (projectName) {
-    return '/' + $state.params.userName + '/' + projectName + '/master/';
-  };
-
-  actions.getProjectLiClass = function (project) {
-    return (project.attrs.name === $state.params.projectName) ? 'active' : '';
-  };
-
-  actions.createNewProject = function () {
-    if (dataInstanceLayout.data.newProjectNameForm.$invalid) {
-      return;
-    }
-    var thisUser = $scope.dataApp.user;
-    var body;
-    $scope.dataApp.data.loading = true;
-    data.creatingProject = true;
-
-    function createProject(cb) {
-      body = {
-        name: dataInstanceLayout.data.newProjectName,
-        owner: {
-          github: data.activeAccount.oauthId()
-        }
-      };
-      var project = thisUser.createProject(body, function (err) {
-        $scope.dataApp.data.loading = false;
-        data.creatingProject = false;
-        if (err) {
-          data.newNameTaken = true;
-          throw err;
-        }
-        cb(err, thisUser, project);
-      });
-    }
-
-    function createBuildAndContext(thisUser, project, cb) {
-      var count = callbackCount(2, done);
-      var build = project.defaultEnvironment.createBuild(count.next);
-      var context = thisUser.createContext(body, count.next);
-
-      function done(err) {
-        if (err) {
-          throw err;
-        }
-        cb(err, thisUser, project, build, context);
-      }
-    }
-
-    function createContextVersion(thisUser, project, build, context, cb) {
-      var opts = {};
-      opts.json = {
-        environment: project.defaultEnvironment.id(),
-      };
-      opts.qs = {
-        toBuild: build.id()
-      };
-      var contextVersion = context.createVersion(opts, function (err) {
-        cb(err, thisUser, project, build, context, contextVersion);
-      });
-    }
-    async.waterfall([
-      holdUntilAuth,
-      createProject,
-      createBuildAndContext,
-      createContextVersion
-    ], function (err, thisUser, project, build) {
-      data.activeProject = project;
-      $state.go('projects.setup', {
-        userName: data.activeAccount.oauthName(),
-        projectName: project.attrs.name
-      });
-    });
-  };
-*/
   actions.stateToNew = function () {
     $state.go('instance.new', {
       userName: data.activeAccount.oauthName()
     });
   };
-/*
-  actions.setActiveProject = function (userOrOrg, project) {
-    data.activeProject = project;
-    data.showChangeAccount = false;
 
-    var finish = function () {
-      var state = {
-        userName: userOrOrg.oauthName(),
-        shortHash: project.id()
-      };
-      setInitialActiveProject(function() {
-        $state.go('instance.instance', state);
-      });
-    };
-
-    if (userOrOrg !== data.activeAccount) {
-      return async.series([
-        function (cb) {
-          actions.selectProjectOwner(userOrOrg, cb);
-        },
-        fetchInstances
-      ], finish);
-    }
-    finish();
-  };
-
-  /*
-  actions.getActiveProjectName = function() {
-    if ($scope.dataApp.state.current.name === 'projects') {
-      return actions.getEntityName(data.activeAccount);
-    }
-    if (data.activeProject) {
-      // Useful when we've set a new project but haven't updated $state
-      return data.activeProject.attrs.name;
-    }
-
-    if ($state.params.projectName) {
-      return $state.params.projectName;
-    } else if (data.instances) {
-      var activeInstance = data.instances.find(function (instance) {
-        return instance.id() === $state.params.instanceId;
-      });
-      if (activeInstance) {
-        return activeInstance.attrs.project.name;
-      }
-      return '';
-    }
-  };
-  */
-
-  /* ============================
+/* ============================
    *   API Fetch Methods
    * ===========================*/
   function fetchOrgs(cb) {
