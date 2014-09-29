@@ -10,7 +10,8 @@ function validateName(
     restrict: 'A',
     require: 'ngModel',
     scope: {
-      instances: '=validateName'
+      instances: '=validateName',
+      instance: '=instance'
     },
     link: function ($scope, element, attrs, ctrl) {
       ctrl.$setValidity('nameAvailable', true);
@@ -23,10 +24,16 @@ function validateName(
         if (!$scope.instances) {
           return name;
         }
-        var match = $scope.instances.find(function (m) {
-          return (m.attrs.name === name);
-        });
-        ctrl.$setValidity('nameAvailable', !match);
+        if (name === $scope.instance.attrs.name) {
+          // if user enters same name as current instance,
+          // set validity to true. SAN-288
+          ctrl.$setValidity('nameAvailable', true);
+        } else {
+          var match = $scope.instances.find(function (m) {
+            return (m.attrs.name === name);
+          });
+          ctrl.$setValidity('nameAvailable', !match);
+        }
         $rootScope.safeApply();
         return name;
       }
