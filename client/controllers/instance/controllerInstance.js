@@ -84,12 +84,16 @@ function ControllerInstance(
     actionsModalRename: {
       renameInstance: function (cb) {
         pgm.data.show = false;
-        data.saving = true;
+        // Need class to be removed and
+        // re-added
+        $timeout(function(){
+          data.saving = true;
+        }, 1);
+        data.saving = false;
         cb(); //removes modal
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
-          data.saving = false;
           $scope.safeApply();
           if (err) {
             throw err;
