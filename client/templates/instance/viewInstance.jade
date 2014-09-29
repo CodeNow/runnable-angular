@@ -5,12 +5,12 @@ header.box-header
     span.icons-status.running(
       ng-class = "{'in-progress': dataInstance.data.loading}"
       ng-if = "dataInstance.data.container.running()"
-      tooltip = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}."
+      tooltip = "Started {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}"
       tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
     )
     span.icons-status(
       ng-if = "!dataInstance.data.container.running() && dataInstance.data.instance.build.attrs.completed"
-      tooltip = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
+      tooltip = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}"
       tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
     )
     span.icons-status.building(

@@ -55,13 +55,13 @@ function ControllerInstanceLayout(
   actions.getInstanceAltTitle = function (instance) {
     var state = actions.getInstanceClasses(instance);
     if (state.running) {
-      return "Instance started " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.StartedAt'));
+      return "Started " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.StartedAt'));
     }
     if (state.stopped) {
-      return "Instance stopped " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt'));
+      return "Stopped " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt'));
     }
     if (state.building) {
-      return "Instance is building";
+      return "Build in Progress";
     }
     if (state.failed) {
       return "Build failed";
