@@ -38,6 +38,9 @@ function ControllerInstanceLayout(
    * in ng-repeat
    */
   actions.getInstanceClasses = function (instance) {
+    if (!instance) {
+      return {}; //async loading handling
+    }
     var container = keypather.get(instance, 'containers.models[0]');
     var build = keypather.get(instance, 'build');
     var h = {};
@@ -66,6 +69,7 @@ function ControllerInstanceLayout(
     if (state.building) {
       return "Build in progress";
     }
+    return "";
   };
 
   // invoked from controllerSetup when new instance is created
