@@ -4,7 +4,8 @@ require('app')
  * @ngInject
  */
 function validateName(
-  $rootScope
+  $rootScope,
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -24,7 +25,7 @@ function validateName(
         if (!$scope.instances) {
           return name;
         }
-        if (name === $scope.instance.attrs.name) {
+        if (name === keypather.get($scope, 'instance.attrs.name')) {
           // if user enters same name as current instance,
           // set validity to true. SAN-288
           ctrl.$setValidity('nameAvailable', true);
