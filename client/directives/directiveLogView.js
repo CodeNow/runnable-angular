@@ -90,7 +90,6 @@ function logView(
               writeToTerm('Unknown Build Error Occurred');
             }
           } else { // build in progress
-            console.log('Creating a build stream for build: ', buildId);
             initBuildStream();
           }
         });
