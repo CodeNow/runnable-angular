@@ -338,6 +338,8 @@ function ControllerInstance(
     data.instance.deployed(function (err, deployed) {
       if (!deployed) {
         timeouts.push($timeout(recursiveFetchInstance, 250));
+      } else {
+        fetchInstance(angular.noop);
       }
       $scope.safeApply();
     });
