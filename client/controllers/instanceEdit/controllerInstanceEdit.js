@@ -55,9 +55,12 @@ function ControllerInstanceEdit(
     },
     actionsModalRename: {
       renameInstance: function (cb) {
+        pgm.data.show = false;
+        data.saving = true;
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
+          data.saving = false;
           $scope.safeApply();
           cb();
           if (err) {
