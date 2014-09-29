@@ -57,17 +57,16 @@ function ControllerInstanceEdit(
       renameInstance: function (cb) {
         pgm.data.show = false;
         data.saving = true;
+        cb(); //removes modal
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
           data.saving = false;
           $scope.safeApply();
-          cb();
           if (err) {
             throw err;
           }
         });
-        $scope.safeApply();
       }
     },
     forkInstance: function () {

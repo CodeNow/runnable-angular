@@ -85,6 +85,7 @@ function ControllerInstance(
       renameInstance: function (cb) {
         pgm.data.show = false;
         data.saving = true;
+        cb(); //removes modal
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
@@ -93,7 +94,6 @@ function ControllerInstance(
           if (err) {
             throw err;
           }
-          cb();
         });
       },
       cancel: function () {
