@@ -93,6 +93,7 @@ function logView(
               } else {
                 writeToTerm('Unknown Build Error Occurred');
               }
+              $rootScope.safeApply();
             });
           } else { // build in progress
             initBuildStream();
