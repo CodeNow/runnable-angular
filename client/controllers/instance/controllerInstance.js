@@ -343,6 +343,8 @@ function ControllerInstance(
       if (!deployed) {
         timeouts.push($timeout(recursiveFetchInstance, 250));
       } else {
+        // display build completed alert in DOM
+        dataInstance.data.showBuildCompleted = true;
         fetchInstance(angular.noop);
       }
       $scope.safeApply();
