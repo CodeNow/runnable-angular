@@ -40,7 +40,7 @@ function logView(
       };
       var $termElem = jQuery(terminal.element);
       var dResizeTerm = debounce(resizeTerm, 300);
-      dResizeTerm();
+      resizeTerm();
       jQuery($window).on('resize', dResizeTerm);
       terminal.on('focus', dResizeTerm);
       function writeToTerm (data) {
