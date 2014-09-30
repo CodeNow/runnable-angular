@@ -24,13 +24,15 @@ RunnablePrimus.prototype.createLogStream = function (container) {
 
 RunnablePrimus.prototype.createBuildStream = function (build) {
   var contextVersionId = build.contextVersions.models[0].id();
-  var buildStream = this.substream(contextVersionId);
+  var uniqueId = makeUniqueId(contextVersionId);
+  var buildStream = this.substream(uniqueId);
   this.write({
     id: 1,
     event: 'build-stream',
     data: {
       id: contextVersionId,
-      streamId: contextVersionId
+      streamId: uniqueId,
+      substreamId: uniqueId
     }
   });
   return buildStream;
