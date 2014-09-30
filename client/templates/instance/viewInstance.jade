@@ -1,27 +1,12 @@
 header.box-header
   h1.box-info.load(
     ng-show = "dataInstance.data.instance.attrs.name"
-  )
-    .box-name {{ dataInstance.data.instance.attrs.name }}
-      span.icons-status.running(
-        ng-class = "{'in-progress': dataInstance.data.loading}"
-        ng-if = "dataInstance.data.container.running()"
-        tooltip = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}."
-        tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-      )
-      span.icons-status(
-        ng-if = "!dataInstance.data.container.running() && dataInstance.data.instance.build.attrs.completed"
-        tooltip = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
-        tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-      )
-      span.icons-status.building(
-        ng-if = "!dataInstance.data.instance.build.attrs.completed"
-        tooltip = "Build in Progress"
-        tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-      )
-      span.text-status(
-        ng-if = "!dataInstance.data.instance.build.attrs.completed"
-      ) Building
+  ) {{ dataInstance.data.instance.attrs.name }}
+    span.icons-status(
+      ng-class = "dataInstanceLayout.actions.getInstanceClasses(dataInstance.data.instance)"
+      tooltip = "{{ dataInstanceLayout.actions.getInstanceAltTitle(dataInstance.data.instance) }}"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+    )
     input.box-url(
       readonly
       select-all
@@ -112,8 +97,8 @@ section.sidebar.box-sidebar.load
 
 section.views.with-add-tab(
   ng-class = "{\
-    in: dataInstance.data.showExplorer && !dataInstance.data.loading,\
-    out: !dataInstance.data.container.running() || dataInstance.data.loading\
+    in: dataInstance.data.showExplorer && !dataInstance.data.loading, \
+    out: !dataInstance.data.container.running() || dataInstance.data.loading \
   }"
 )
   //- explorer

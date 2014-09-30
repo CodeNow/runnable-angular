@@ -334,15 +334,14 @@ function ControllerInstance(
   }
 
   function recursiveFetchInstance () {
-    fetchInstance(function(err) {
-      if (err) {
-        throw err;
-      }
-      if (data.instance.containers.models[0]) {
-        $scope.safeApply();
-      } else {
+    // temporary, lightweight check route
+    data.instance.deployed(function (err, deployed) {
+      if (!deployed) {
         timeouts.push($timeout(recursiveFetchInstance, 250));
+      } else {
+        fetchInstance(angular.noop);
       }
+      $scope.safeApply();
     });
   }
 

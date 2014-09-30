@@ -14,6 +14,7 @@ function logView(
   $timeout,
   jQuery,
   $sce,
+  $window,
   primus
 ) {
   return {
@@ -39,9 +40,8 @@ function logView(
       };
       var $termElem = jQuery(terminal.element);
       var dResizeTerm = debounce(resizeTerm, 300);
-
       dResizeTerm();
-      jQuery(window).on('resize', dResizeTerm);
+      jQuery($window).on('resize', dResizeTerm);
       terminal.on('focus', dResizeTerm);
       function writeToTerm (data) {
         data = data.replace(/\r?\n/g, '\r\n');
@@ -55,9 +55,19 @@ function logView(
         terminal.resize(x, y);
         terminal.refresh();
       }
+      $scope.$on('$destroy', function () {
+        if ($scope.buildStream) {
+          $scope.buildStream.end();
+          $scope.buildStream = null;
+        }
+        terminal.off('focus', dResizeTerm);
+        jQuery($window).off('resize', dResizeTerm);
+        terminal.destroy();
+      });
 
       if (attrs.build) {
         $scope.$watch('build.attrs._id', function (buildId, oldVal) {
+          terminal.reset();
           if (!buildId) {
             return;
           }
@@ -86,6 +96,7 @@ function logView(
         var initBuildStream = function () {
           var build = $scope.build;
           var buildStream = primus.createBuildStream($scope.build);
+          $scope.buildStream = buildStream;
           streamCleanser.cleanStreams(buildStream, terminal, 'hex', true);
           buildStream.on('end', function () {
             build.fetch(function (err) {
