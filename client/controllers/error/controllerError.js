@@ -8,7 +8,9 @@ require('app')
  * @ngInject
  */
 function ControllerError(
-  $scope
+  $scope,
+  $state
 ) {
-  var dataError = $scope.dataError = {};
+  console.log($state.params);
+  var dataError = $scope.dataError = $state.params.err;
 }
