@@ -9,12 +9,11 @@ module.exports = [{
       'width-full': true
     },
   }
-// }, {
-//   state: 'projects',
-//   abstract: false,
-//   url: '^/new',
-//   templateUrl: 'viewProjectLayout',
-//   controller: 'ControllerProjectLayout'
+}, {
+  state: 'instance',
+  abstract: true,
+  templateUrl: 'viewInstanceLayout',
+  controller: 'ControllerInstanceLayout'
 }, {
   state: 'instance.new',
   abstract: false,
@@ -27,25 +26,7 @@ module.exports = [{
   url: '^/:userName/new/:buildId',
   templateUrl: 'viewSetup',
   controller: 'ControllerSetup'
-}, {
-  state: 'projects.buildList',
-  abstract: false,
-  url: '^/project/:userName/:projectName/:branchName',
-  templateUrl: 'viewBuildList',
-  controller: 'ControllerBuildList'
-}, {
-  state: 'projects.build',
-  abstract: false,
-  url: '^/project/:userName/:projectName/:branchName/:buildName',
-  templateUrl: 'viewBuild',
-  controller: 'ControllerBuild'
-}, {
-  state: 'projects.buildNew',
-  abstract: false,
-  url: '^/project/:userName/:projectName/:branchName/:buildName/fork/:newBuildName',
-  templateUrl: 'viewBuildNew',
-  controller: 'ControllerBuildNew'
-}, /*{
+},/*{
   state: 'projects.instance',
   abstract: false,
   url: '^/instances/:userName/:instanceId',
@@ -62,11 +43,6 @@ module.exports = [{
   url: '^/error/:err',
   templateUrl: 'viewError',
   controller: 'ControllerError'
-}, {
-  state: 'instance',
-  abstract: true,
-  templateUrl: 'viewInstanceLayout',
-  controller: 'ControllerInstanceLayout'
 }, {
   state: 'instance.instance',
   abstract: false,
