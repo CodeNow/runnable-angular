@@ -55,6 +55,10 @@ function ControllerInstanceEdit(
     },
     actionsModalRename: {
       renameInstance: function (cb) {
+        if (data.instance.attrs.name === data.instance.state.name.trim()) {
+          // no need to make API call if name didn't change
+          return;
+        }
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {

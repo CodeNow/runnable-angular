@@ -83,6 +83,10 @@ function ControllerInstance(
     },
     actionsModalRename: {
       renameInstance: function (cb) {
+        if (data.instance.attrs.name === data.instance.state.name.trim()) {
+          // no need to make API call if name didn't change
+          return;
+        }
         pgm.data.show = false;
         $scope.dataApp.data.loading = true;
         data.instance.update({
