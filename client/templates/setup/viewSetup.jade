@@ -30,8 +30,8 @@ header.box-header
     //- remove .orange, add .green when validation passes
     button(
       ng-class = "{\
-        orange: !dataSetup.actions.valid(),\
-        green: dataSetup.actions.valid()\
+        orange: !dataSetup.actions.valid(true),\
+        green: dataSetup.actions.valid(true)\
       }"
       ng-click = "dataSetup.actions.buildApplication()"
       ng-disabled = "dataSetup.data.creatingProject || !dataSetup.actions.valid()"

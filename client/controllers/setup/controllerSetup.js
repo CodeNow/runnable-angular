@@ -204,8 +204,12 @@ function ControllerSetup(
     });
   };
 
-  actions.valid = function () {
-    return !keypather.get(data, 'newProjectNameForm.$invalid') && data.contextSelected && !keypather.get(data, 'validDockerfile.errors.length');
+  actions.valid = function (strict) {
+    var valid = !keypather.get(data, 'newProjectNameForm.$invalid') && data.contextSelected;
+    if (strict) {
+      return valid && !keypather.get(data, 'validDockerfile.errors.length');
+    }
+    return valid;
   };
 
   actions.stateToBuild = function () {
