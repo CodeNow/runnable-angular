@@ -3,20 +3,20 @@
   cursor: pointer;
   font-weight: 400;
   height: 36px;
-  left: 0;
+  left: 240px;
   line-height: 36px;
   margin: 0 auto;
-  opacity: .5;
+  opacity: 0;
   padding: 0 6px;
   position: fixed;
   right: 0;
   top: 12px;
-  transform: rotate3d(1,0,0,90deg);
+  transform: scale3d(0,0,0);
   width: 276px;
   z-index: $z-alert;
 
   &.in {
-    animation: alert 6s;
+    animation: alert 4s ease-in;
   }
 
   .iconnables {

@@ -1,20 +1,24 @@
 // general animations
 @keyframes alert {
   0% {
-    opacity: .5;
-    transform: rotate3d(1,0,0,90deg);
+    opacity: 0;
+    transform: scale3d(0,0,0);
   }
-  10% {
+  9% {
+    opacity: .9;
+    transform: scale3d(1.1,1.1,1.1);
+  }
+  12% {
     opacity: 1;
-    transform: rotate3d(1,0,0,0);
+    transform: scale3d(1,1,1);
   }
   90% {
     opacity: 1;
-    transform: rotate3d(1,0,0,0);
+    transform: scale3d(1,1,1);
   }
   100% {
-    opacity: .5;
-    transform: rotate3d(1,0,0,90deg);
+    opacity: 0;
+    transform: scale3d(1,1,1);
   }
 }
 
