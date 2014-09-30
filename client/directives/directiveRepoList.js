@@ -42,20 +42,21 @@ function repoList (
             var activeBranch = githubRepo.state.activeBranch;
             var latestCommit = activeBranch.commits.models[0];
             repoActionsData.show = false;
-            // update appCodeVersion
-            acv.update({
-              repo: acv.attrs.acv,
-              branch: acv.attrs.branch,
-              commit: latestCommit.attrs.sha //latest
-            }, function (err) {
-              $rootScope.safeApply();
-              if (err) { throw err; }
-            });
-            // set active commit
-            setActiveCommit(acv, activeBranch, latestCommit);
-            // fetch latest
+
+            // fetch latest commits
             fetchCommitsForBranch(acv, activeBranch, function (err) {
               if (err) { throw err; }
+              // update appCodeVersion
+              acv.update({
+                repo: acv.attrs.acv,
+                branch: acv.attrs.branch,
+                commit: latestCommit.attrs.sha //latest
+              }, function (err) {
+                $rootScope.safeApply();
+                if (err) { throw err; }
+              });
+              // set active commit
+              setActiveCommit(acv, activeBranch, latestCommit);
             });
             $rootScope.safeApply();
           }
@@ -252,10 +253,13 @@ function repoList (
 
         $scope.actions.selectLatestCommit = function (acv) {
           var activeBranch = acv.githubRepo.state.activeBranch;
-          var latestCommit = activeBranch.commits.models[0];
-          setActiveBranch(acv, activeBranch);
-          setActiveCommit(acv, activeBranch, latestCommit);
-          triggerInstanceUpdateOnRepoCommitChange();
+          // fetch latest
+          fetchCommitsForBranch(acv, activeBranch, function (err) {
+            if (err) { throw err; }
+            var latestCommit = activeBranch.commits.models[0];
+            setActiveCommit(acv, activeBranch, latestCommit);
+            triggerInstanceUpdateOnRepoCommitChange();
+          });
         };
       } else {
         // instanceEdit page
