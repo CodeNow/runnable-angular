@@ -23,13 +23,18 @@
   border-bottom: 0;
   border-top: 0;
   color: $gray;
+  cursor: pointer;
   display: inline-block;
   margin-left: -1px;
   position: relative;
 
+  &:hover {
+    color: $gray-dark;
+  }
+
   &:active,
   &.active {
-    color: $gray-dark;
+    color: $gray-darker;
   }
 
   &.active .tab-name::before {
@@ -103,7 +108,6 @@
 
 // span.tab-name
 .tab-name {
-  cursor: pointer;
   display: block;
   float: left;
   font-size: 14px;
