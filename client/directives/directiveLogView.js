@@ -81,14 +81,19 @@ function logView(
             });
           } else if (build.failed()) {
             var contextVersion = build.contextVersions.models[0];
-            if (contextVersion && contextVersion.attrs.build) {
-              var data = contextVersion.attrs.build.log ||
-                (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
-                'Unknown Build Error Occurred';
-              writeToTerm(data);
-            } else {
-              writeToTerm('Unknown Build Error Occurred');
-            }
+            contextVersion.fetch(function (err) {
+              if (err) {
+                throw err;
+              }
+              if (contextVersion && contextVersion.attrs.build) {
+                var data = contextVersion.attrs.build.log ||
+                  (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
+                  'Unknown Build Error Occurred';
+                writeToTerm(data);
+              } else {
+                writeToTerm('Unknown Build Error Occurred');
+              }
+            });
           } else { // build in progress
             initBuildStream();
           }
