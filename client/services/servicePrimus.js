@@ -26,6 +26,8 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
   var contextVersionId = build.contextVersions.models[0].id();
   var uniqueId = makeUniqueId(contextVersionId);
   var buildStream = this.substream(uniqueId);
+
+  // If in room, don't send
   this.write({
     id: 1,
     event: 'build-stream',
