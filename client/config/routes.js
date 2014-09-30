@@ -26,13 +26,7 @@ module.exports = [{
   url: '^/:userName/new/:buildId',
   templateUrl: 'viewSetup',
   controller: 'ControllerSetup'
-},/*{
-  state: 'projects.instance',
-  abstract: false,
-  url: '^/instances/:userName/:instanceId',
-  templateUrl: 'viewInstance',
-  controller: 'ControllerInstance'
-}, */{
+}, {
   state: '404',
   abstract: false,
   templateUrl: 'view404',
