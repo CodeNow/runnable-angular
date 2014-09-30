@@ -22,24 +22,31 @@
   border: 1px solid #e6e6e6; // rgba($black,.1);
   border-bottom: 0;
   border-top: 0;
-  color: $gray-dark;
+  color: $gray;
   display: inline-block;
   margin-left: -1px;
   position: relative;
 
-  &:hover {
-    background: $white;
-  }
-
   &:active,
   &.active {
-    background: $white;
-    color: $gray-darker;
+    color: $gray-dark;
   }
 
   &.active .tab-name::before {
     background: $white;
     content: attr(data-title);
+  }
+
+  &.active {
+    box-shadow: 0 0 9px rgba($black,.075);
+
+    &:first-child {
+      box-shadow: -9px 0 0 $white, 0 0 9px rgba($black,.075);
+    }
+
+    &:last-child {
+      box-shadow: 9px 0 0 $white, 0 0 9px rgba($black,.075);
+    }
   }
 
   &.dirty .icons-dirty {
@@ -70,25 +77,26 @@
   }
 
   .btn-icon {
-    color: $gray-dark;
     float: right;
-    margin: 0 3px 0 9px;
-    opacity: .5;
-    padding-top: 2px;
-    width: 21px;
+    height: 15px;
+    margin: 15px 6px 15px 9px;
+    width: 15px;
 
-    &:hover {
-      opacity: .75;
+    &:hover .icons-close {
+      background: rgba($black,.05);
     }
 
-    &:active {
-      opacity: 1;
+    &:active .icons-close {
+      background: rgba($black,.1);
+      color: $gray-dark;
     }
   }
 
   .icons-close {
+    border-radius: 50%;
+    color: $gray;
     height: 15px;
-    top: 0;
+    top: -12px;
     width: 15px;
   }
 }
