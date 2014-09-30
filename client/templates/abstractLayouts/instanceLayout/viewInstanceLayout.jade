@@ -78,9 +78,9 @@ nav.sidebar.global-sidebar(
           tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
         )
           span.box-item-name {{ instance.attrs.name }}
-          //- alternate text: "Started running 999 minutes ago."
+          //- alt text running container
           span.icons-status(
-            title = "Stopped running 999 minutes ago."
+            title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
           )
 
   footer.row.global-footer

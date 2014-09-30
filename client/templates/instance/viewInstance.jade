@@ -2,25 +2,11 @@ header.box-header
   h1.box-name.load(
     ng-show = "dataInstance.data.instance.attrs.name"
   ) {{ dataInstance.data.instance.attrs.name }}
-    span.icons-status.running(
-      ng-class = "{'in-progress': dataInstance.data.loading}"
-      ng-if = "dataInstance.data.container.running()"
-      tooltip = "Started running {{ dataInstance.data.container.attrs.inspect.State.StartedAt | timeAgo }}."
-      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-    )
     span.icons-status(
-      ng-if = "!dataInstance.data.container.running() && dataInstance.data.instance.build.attrs.completed"
-      tooltip = "Stopped {{ dataInstance.data.container.attrs.inspect.State.FinishedAt | timeAgo }}."
+      ng-class = "dataInstanceLayout.actions.getInstanceClasses(dataInstance.data.instance)"
+      tooltip = "{{ dataInstanceLayout.actions.getInstanceAltTitle(dataInstance.data.instance) }}"
       tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
     )
-    span.icons-status.building(
-      ng-if = "!dataInstance.data.instance.build.attrs.completed"
-      tooltip = "Build in Progress"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-    )
-    span.text-status(
-      ng-if = "!dataInstance.data.instance.build.attrs.completed"
-    ) Building
   .primary-actions
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
