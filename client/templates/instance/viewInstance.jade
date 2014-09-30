@@ -1,12 +1,13 @@
 header.box-header
   h1.box-info.load(
     ng-show = "dataInstance.data.instance.attrs.name"
-  ) {{ dataInstance.data.instance.attrs.name }}
-    span.icons-status(
-      ng-class = "dataInstanceLayout.actions.getInstanceClasses(dataInstance.data.instance)"
-      tooltip = "{{ dataInstanceLayout.actions.getInstanceAltTitle(dataInstance.data.instance) }}"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-    )
+  )
+    .box-name {{ dataInstance.data.instance.attrs.name }}
+      span.icons-status(
+        ng-class = "dataInstanceLayout.actions.getInstanceClasses(dataInstance.data.instance)"
+        tooltip = "{{ dataInstanceLayout.actions.getInstanceAltTitle(dataInstance.data.instance) }}"
+        tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+      )
     input.box-url(
       readonly
       select-all
