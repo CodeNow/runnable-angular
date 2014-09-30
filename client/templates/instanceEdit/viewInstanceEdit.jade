@@ -1,9 +1,17 @@
 header.box-header
-  h1.box-name {{ dataInstanceEdit.data.instance.attrs.name }}
-    svg.iconnables.icons-edit
-      use(
-        xlink:href = "#icons-edit"
-      )
+  h1.box-info
+    .box-name {{ dataInstanceEdit.data.instance.attrs.name }}
+      svg.iconnables.icons-edit
+        use(
+          xlink:href = "#icons-edit"
+        )
+    input.box-url(
+      readonly
+      select-all
+      value = "{{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io"
+    )
+    //- sets layout on h1.box-name for .box-url
+    span.box-name-ghost {{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io
   .primary-actions
     button.orange(
       ng-click = "dataInstanceEdit.actions.build()"
