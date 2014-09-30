@@ -30,11 +30,11 @@ header.box-header
     //- remove .orange, add .green when validation passes
     button(
       ng-class = "{\
-        orange: dataSetup.data.newProjectNameForm.$invalid,\
-        green: !dataSetup.data.newProjectNameForm.$invalid\
+        orange: !dataSetup.actions.valid(),\
+        green: dataSetup.actions.valid()\
       }"
       ng-click = "dataSetup.actions.buildApplication()"
-      ng-disabled = "dataSetup.data.creatingProject || dataSetup.data.newProjectNameForm.$invalid"
+      ng-disabled = "dataSetup.data.creatingProject || !dataSetup.actions.valid()"
     ) Create Box
 
 section.sidebar.box-sidebar.setup

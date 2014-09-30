@@ -204,6 +204,10 @@ function ControllerSetup(
     });
   };
 
+  actions.valid = function () {
+    return !keypather.get(data, 'newProjectNameForm.$invalid') && data.contextSelected && !keypather.get(data, 'validDockerfile.errors.length');
+  };
+
   actions.stateToBuild = function () {
     data.creatingProject = true;
     $state.go('instance.instance', {
