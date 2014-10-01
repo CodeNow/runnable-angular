@@ -2,23 +2,15 @@
 @keyframes alert {
   0% {
     opacity: 0;
-    transform: scale3d(0,0,0);
   }
-  9% {
-    opacity: .9;
-    transform: scale3d(1.1,1.1,1.1);
-  }
-  12% {
+  10% {
     opacity: 1;
-    transform: scale3d(1,1,1);
   }
   90% {
     opacity: 1;
-    transform: scale3d(1,1,1);
   }
   100% {
     opacity: 0;
-    transform: scale3d(1,1,1);
   }
 }
 
