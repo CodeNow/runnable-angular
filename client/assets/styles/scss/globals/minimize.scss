@@ -85,3 +85,8 @@
 .nav-open ~ .nav-tooltips {
   display: none;
 }
+
+// offset alerts
+.nav-open .alert {
+  left: 60px;
+}
