@@ -83,6 +83,10 @@ function ControllerInstance(
     },
     actionsModalRename: {
       renameInstance: function (cb) {
+        if (data.instance.attrs.name === data.instance.state.name.trim()) {
+          // no need to make API call if name didn't change
+          return;
+        }
         pgm.data.show = false;
         // Need class to be removed and
         // re-added
@@ -338,15 +342,14 @@ function ControllerInstance(
   }
 
   function recursiveFetchInstance () {
-    fetchInstance(function(err) {
-      if (err) {
-        throw err;
-      }
-      if (data.instance.containers.models[0]) {
-        $scope.safeApply();
-      } else {
+    // temporary, lightweight check route
+    data.instance.deployed(function (err, deployed) {
+      if (!deployed) {
         timeouts.push($timeout(recursiveFetchInstance, 250));
+      } else {
+        fetchInstance(angular.noop);
       }
+      $scope.safeApply();
     });
   }
 
@@ -440,7 +443,9 @@ function ControllerInstance(
     newOpenItems
   ], function (err) {
     if (err) {
-      // $state.go('404');
+      $state.go('error', {
+        err: err
+      });
       throw err;
     }
     $scope.safeApply();
