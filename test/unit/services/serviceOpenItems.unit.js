@@ -151,6 +151,26 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       expect(oi.models.length).to.eql(0);
       expect(oi.activeHistory.models.length).to.eql(0);
     });
+
+    it('Should reset collection', function () {
+      var oi = new OpenItems();
+
+      var fileObj2 = {"path":"/home2","name":"defined2","isDir":false,"body":"adsf","state":{"from":"File"}};
+      var fileModel2 = new VersionFileModel(fileObj2, { noStore: true });
+
+      oi.add(fileModel2);
+      expect(oi).to.be.ok;
+      expect(oi.models.length).to.eql(1);
+      expect(oi.activeHistory.models.length).to.eql(1);
+
+      oi.reset([]);
+      expect(oi.models.length).to.eql(0);
+      expect(oi.activeHistory.models.length).to.eql(0);
+
+      oi.reset([fileModel, fileModel2]);
+      expect(oi.models.length).to.eql(2);
+      expect(oi.activeHistory.models.length).to.eql(2);
+    });
   });
 
   describe('hasOpen'.blue, function () {
