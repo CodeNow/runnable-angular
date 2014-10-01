@@ -77,7 +77,17 @@ function ControllerInstance(
           if (err) {
             throw err;
           }
-          $state.go('home');
+          var instances = $scope.dataInstanceLayout.data.instances.models;
+          if (instances.length) {
+            $state.go('instance.instance', {
+              userName: $state.params.userName,
+              shortHash: instances[0].id()
+            });
+          } else {
+            $state.go('instance.new', {
+              userName: $state.params.userName
+            });
+          }
         });
       }
     },
