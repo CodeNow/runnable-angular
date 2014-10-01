@@ -18,7 +18,9 @@ header.box-header
       type = "button"
     ) Build
   .secondary-actions
-    .save-spinner
+    .save-spinner(
+      ng-class = "{ in: dataInstanceEdit.data.saving }"
+    )
     a.btn.white.btn-icon.btn-actions(
       ng-class = "{active: dataInstanceEdit.data.popoverGearMenu.data.show}"
       toggle-pop-over

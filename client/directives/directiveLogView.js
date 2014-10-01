@@ -40,7 +40,7 @@ function logView(
       };
       var $termElem = jQuery(terminal.element);
       var dResizeTerm = debounce(resizeTerm, 300);
-      dResizeTerm();
+      resizeTerm();
       jQuery($window).on('resize', dResizeTerm);
       terminal.on('focus', dResizeTerm);
       function writeToTerm (data) {
@@ -81,14 +81,20 @@ function logView(
             });
           } else if (build.failed()) {
             var contextVersion = build.contextVersions.models[0];
-            if (contextVersion && contextVersion.attrs.build) {
-              var data = contextVersion.attrs.build.log ||
-                (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
-                'Unknown Build Error Occurred';
-              writeToTerm(data);
-            } else {
-              writeToTerm('Unknown Build Error Occurred');
-            }
+            contextVersion.fetch(function (err) {
+              if (err) {
+                throw err;
+              }
+              if (contextVersion && contextVersion.attrs.build) {
+                var data = contextVersion.attrs.build.log ||
+                  (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
+                  'Unknown Build Error Occurred';
+                writeToTerm(data);
+              } else {
+                writeToTerm('Unknown Build Error Occurred');
+              }
+              $rootScope.safeApply();
+            });
           } else { // build in progress
             initBuildStream();
           }
