@@ -1,5 +1,6 @@
 var PrimusClient = require('primus-client');
 var util = require('util');
+var uuid = require('uuid');
 
 function RunnablePrimus() {
   PrimusClient.apply(this, arguments);
@@ -85,5 +86,5 @@ function primus(
 }
 
 function makeUniqueId(streamId) {
-  return streamId + Math.random();
+  return streamId + uuid();
 }
