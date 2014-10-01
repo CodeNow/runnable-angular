@@ -143,7 +143,7 @@ function openItemsFactory(
   util.inherits(OpenItems, BaseCollection);
 
   OpenItems.prototype.reset = function () {
-    this.activeHistory.reset.apply(this, arguments);
+    BaseCollection.prototype.reset.apply(this.activeHistory, arguments);
     BaseCollection.prototype.reset.apply(this, arguments);
   };
 
