@@ -348,6 +348,7 @@ function ControllerSetup(
         if (!files) {
           return cb(new Error('Context Version Files not found'));
         }
+        data.openItems.reset([]);
         data.openItems.add(files.models);
         $scope.safeApply();
       })

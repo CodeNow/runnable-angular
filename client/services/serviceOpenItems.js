@@ -142,6 +142,11 @@ function openItemsFactory(
 
   util.inherits(OpenItems, BaseCollection);
 
+  OpenItems.prototype.reset = function () {
+    BaseCollection.prototype.reset.apply(this.activeHistory, arguments);
+    BaseCollection.prototype.reset.apply(this, arguments);
+  };
+
   OpenItems.prototype.addWebView = function (data) {
     var webView = new WebView(data);
     this.add(webView);
