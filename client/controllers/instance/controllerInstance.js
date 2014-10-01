@@ -88,16 +88,20 @@ function ControllerInstance(
           return;
         }
         pgm.data.show = false;
-        $scope.dataApp.data.loading = true;
+        // Need class to be removed and
+        // re-added
+        $timeout(function(){
+          data.saving = true;
+        }, 1);
+        data.saving = false;
+        cb(); //removes modal
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
-          $scope.dataApp.data.loading = false;
           $scope.safeApply();
           if (err) {
             throw err;
           }
-          cb();
         });
       },
       cancel: function () {
