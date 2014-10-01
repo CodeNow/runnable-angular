@@ -17,8 +17,8 @@ function term(
       params: '='
     },
     link: function ($scope, elem) {
-      $scope.$watch('params._id', function (containerId) {
-        if (!containerId) {
+      $scope.$watch('params.running()', function (running) {
+        if (!running) {
           return;
         }
         // Numbers chosen erring on the side of padding, will be updated with more accurate numbers later

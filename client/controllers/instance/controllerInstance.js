@@ -215,8 +215,7 @@ function ControllerInstance(
   pat.actions.addTerminal = function () {
     pat.data.show = false;
     return data.openItems.addTerminal({
-      name: 'Terminal',
-      params: data.instance.attrs.containers[0]
+      name: 'Terminal'
     });
   };
 
