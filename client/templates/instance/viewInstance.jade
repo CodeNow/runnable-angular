@@ -1,3 +1,15 @@
+//- add class .in to display
+.alert.purple(
+  ng-class = "{ \
+    in: dataInstance.data.showBuildCompleted \
+  }"
+)
+  svg.iconnables.icons-check
+    use(
+      xlink:href = "#icons-check"
+    )
+  | Your build is now running
+
 header.box-header
   h1.box-name.load(
     ng-show = "dataInstance.data.instance.attrs.name"

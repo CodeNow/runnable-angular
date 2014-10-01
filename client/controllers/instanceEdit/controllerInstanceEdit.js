@@ -141,6 +141,9 @@ function ControllerInstanceEdit(
             throw err;
           }
           $scope.dataApp.data.loading = false;
+          // will trigger display of completed message if build completes
+          // before reaching next state
+          $scope.dataInstanceLayout.data.showBuildCompleted = true;
           $state.go('instance.instance', $stateParams);
         });
       });
