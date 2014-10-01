@@ -1,5 +1,6 @@
 var PrimusClient = require('primus-client');
 var util = require('util');
+var uuid = require('uuid');
 
 function RunnablePrimus() {
   PrimusClient.apply(this, arguments);
@@ -24,13 +25,16 @@ RunnablePrimus.prototype.createLogStream = function (container) {
 
 RunnablePrimus.prototype.createBuildStream = function (build) {
   var contextVersionId = build.contextVersions.models[0].id();
-  var buildStream = this.substream(contextVersionId);
+  var uniqueId = makeUniqueId(contextVersionId);
+  var buildStream = this.substream(uniqueId);
+
+  // If in room, don't send
   this.write({
     id: 1,
     event: 'build-stream',
     data: {
       id: contextVersionId,
-      streamId: contextVersionId
+      streamId: uniqueId
     }
   });
   return buildStream;
@@ -81,5 +85,5 @@ function primus(
 }
 
 function makeUniqueId(streamId) {
-  return streamId + Math.random();
+  return streamId + uuid();
 }

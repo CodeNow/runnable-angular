@@ -12,6 +12,8 @@ function ControllerNew(
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var thisUser;
 
+  $scope.dataApp.data.loading = true;
+
   function createContext (cb) {
     thisUser = $scope.dataApp.user;
     var context = thisUser.createContext({
@@ -44,6 +46,7 @@ function ControllerNew(
     createVersion,
     createBuild
   ], function (err, build) {
+    $scope.dataApp.data.loading = false;
     if (err) {
       throw err;
     }

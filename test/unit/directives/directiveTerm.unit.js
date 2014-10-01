@@ -16,7 +16,9 @@ describe('directiveTerm'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
 
       $scope.params = {
-        _id: 'pants'
+        running: function () {
+          return true;
+        }
       };
       element = angular.element('<term params="params"></term>');
 
@@ -27,8 +29,6 @@ describe('directiveTerm'.bold.underline.blue, function () {
   beforeEach(initState);
 
   it('should create the Terminal element', function () {
-
-
     var termEl = element[0].firstChild;
     expect(termEl).to.be.ok;
     expect(termEl.className).to.equal('terminal');
