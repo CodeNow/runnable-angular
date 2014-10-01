@@ -34,8 +34,7 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
     event: 'build-stream',
     data: {
       id: contextVersionId,
-      streamId: uniqueId,
-      substreamId: uniqueId
+      streamId: uniqueId
     }
   });
   return buildStream;
