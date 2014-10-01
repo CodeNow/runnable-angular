@@ -83,17 +83,25 @@ function ControllerInstance(
     },
     actionsModalRename: {
       renameInstance: function (cb) {
+        if (data.instance.attrs.name === data.instance.state.name.trim()) {
+          // no need to make API call if name didn't change
+          return;
+        }
         pgm.data.show = false;
-        $scope.dataApp.data.loading = true;
+        // Need class to be removed and
+        // re-added
+        $timeout(function(){
+          data.saving = true;
+        }, 1);
+        data.saving = false;
+        cb(); //removes modal
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
-          $scope.dataApp.data.loading = false;
           $scope.safeApply();
           if (err) {
             throw err;
           }
-          cb();
         });
       },
       cancel: function () {
@@ -232,6 +240,29 @@ function ControllerInstance(
 
   /***************************************/
 
+  // returns class(s) for section.views-with-add-tab
+  // depending on various conditions. Classes control
+  // presence of tabs-bar
+  actions.getSectionViewsClass = function () {
+    var instance = keypather.get(data, 'instance');
+    var container = keypather.get(data, 'container');
+    if (!instance || !container) {
+      return {
+        out: true
+      };
+    }
+    if (dataInstance.data.showExplorer && !dataInstance.data.loading) {
+      return {
+        in: true
+      };
+    }
+    if (!container.running() || dataInstance.data.loading) {
+      return {
+        out: true
+      };
+    }
+  };
+
   actions.saveChanges = function () {
     // Trigger a new spinner
     dataInstance.data.saving = false;
@@ -334,15 +365,14 @@ function ControllerInstance(
   }
 
   function recursiveFetchInstance () {
-    fetchInstance(function(err) {
-      if (err) {
-        throw err;
-      }
-      if (data.instance.containers.models[0]) {
-        $scope.safeApply();
-      } else {
+    // temporary, lightweight check route
+    data.instance.deployed(function (err, deployed) {
+      if (!deployed) {
         timeouts.push($timeout(recursiveFetchInstance, 250));
+      } else {
+        fetchInstance(angular.noop);
       }
+      $scope.safeApply();
     });
   }
 
@@ -436,7 +466,9 @@ function ControllerInstance(
     newOpenItems
   ], function (err) {
     if (err) {
-      // $state.go('404');
+      $state.go('error', {
+        err: err
+      });
       throw err;
     }
     $scope.safeApply();

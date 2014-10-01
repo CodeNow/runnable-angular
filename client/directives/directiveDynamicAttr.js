@@ -9,6 +9,7 @@ function dynamicAttr(
 ) {
   return {
     restrict: 'A',
+    // -1 will run before other directives, necessary
     priority: -1,
     link: function ($scope, element, attrs) {
 

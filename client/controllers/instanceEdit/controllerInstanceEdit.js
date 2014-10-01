@@ -5,6 +5,7 @@ require('app')
  */
 function ControllerInstanceEdit(
   $scope,
+  $timeout,
   $stateParams,
   $state,
   $window,
@@ -55,16 +56,26 @@ function ControllerInstanceEdit(
     },
     actionsModalRename: {
       renameInstance: function (cb) {
+        pgm.data.show = false;
+        // Need class to be removed and
+        // re-added
+        $timeout(function(){
+          data.saving = true;
+        }, 1);
+        data.saving = false;
+        cb(); //removes modal
+        if (data.instance.attrs.name === data.instance.state.name.trim()) {
+          // no need to make API call if name didn't change
+          return;
+        }
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
           $scope.safeApply();
-          cb();
           if (err) {
             throw err;
           }
         });
-        $scope.safeApply();
       }
     },
     forkInstance: function () {
@@ -287,7 +298,9 @@ function ControllerInstanceEdit(
     newOpenItems
   ], function (err) {
     if (err) {
-      // $state.go('404');
+      $state.go('error', {
+        err: err
+      });
       throw err;
     }
     if (!openDockerfile()) {
