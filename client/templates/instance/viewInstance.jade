@@ -114,10 +114,7 @@ section.sidebar.box-sidebar.load
             )
 
 section.views.with-add-tab(
-  ng-class = "{\
-    in: dataInstance.data.showExplorer && !dataInstance.data.loading, \
-    out: !dataInstance.data.container.running() || dataInstance.data.loading \
-  }"
+  ng-class = "dataInstance.actions.getSectionViewsClass()"
 )
   //- explorer
   button.btn-sm.white.btn-icon.explorer-toggle(
