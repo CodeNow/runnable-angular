@@ -204,6 +204,14 @@ function ControllerSetup(
     });
   };
 
+  actions.valid = function (strict) {
+    var valid = !keypather.get(data, 'newProjectNameForm.$invalid') && data.contextSelected;
+    if (strict) {
+      return valid && !keypather.get(data, 'validDockerfile.errors.length');
+    }
+    return valid;
+  };
+
   actions.stateToBuild = function () {
     data.creatingProject = true;
     $state.go('instance.instance', {
@@ -340,6 +348,7 @@ function ControllerSetup(
         if (!files) {
           return cb(new Error('Context Version Files not found'));
         }
+        data.openItems.reset([]);
         data.openItems.add(files.models);
         $scope.safeApply();
       })
@@ -353,7 +362,9 @@ function ControllerSetup(
       fetchBuild
     ], function (err) {
       if (err) {
-        $state.go('404');
+        $state.go('error', {
+          err: err
+        });
         throw err;
       }
       $scope.safeApply();

@@ -7,12 +7,12 @@
           && item.state.body !== item.attrs.body),\
         'always-open': item.state.alwaysOpen\
       }"
+      ng-click = "openItems.activeHistory.add(item);\
+        $event.stopPropagation();"
       ng-repeat = "item in openItems.models"
     )
       span.tab-name(
         dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
-        ng-click = "openItems.activeHistory.add(item);\
-          $event.stopPropagation();"
         title = "{{ item.filepath() }}"
       ) {{ item.attrs.name  }}
       .icons-dirty *

@@ -89,7 +89,9 @@ function ControllerInstanceLayout(
     fetchInstances(function (err) {
       $scope.safeApply();
       if (err) {
-        return $state.go('404');
+        return $state.go('error', {
+          err: err
+        });
       }
       if (name === $state.params.userName) {
         // First fetch for the page or we're on /new
@@ -195,7 +197,9 @@ function ControllerInstanceLayout(
       fetchInstances
     ], function (err) {
       if (err) {
-        $state.go('404');
+        $state.go('error', {
+          err: err
+        });
         throw err;
       }
       $scope.safeApply();
