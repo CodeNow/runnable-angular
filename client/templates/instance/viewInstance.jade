@@ -11,14 +11,22 @@
   | Your build is now running
 
 header.box-header
-  h1.box-name.load(
+  h1.box-info.load(
     ng-show = "dataInstance.data.instance.attrs.name"
-  ) {{ dataInstance.data.instance.attrs.name }}
-    span.icons-status(
-      ng-class = "dataInstanceLayout.actions.getInstanceClasses(dataInstance.data.instance)"
-      tooltip = "{{ dataInstanceLayout.actions.getInstanceAltTitle(dataInstance.data.instance) }}"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+  )
+    .box-name {{ dataInstance.data.instance.attrs.name }}
+      span.icons-status(
+        ng-class = "dataInstanceLayout.actions.getInstanceClasses(dataInstance.data.instance)"
+        tooltip = "{{ dataInstanceLayout.actions.getInstanceAltTitle(dataInstance.data.instance) }}"
+        tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+      )
+    input.box-url(
+      readonly
+      select-all
+      value = "{{ dataInstance.data.instance.attrs.name }}.username.runnable.io"
     )
+    //- sets layout on h1.box-name for .box-url
+    span.box-name-ghost {{ dataInstance.data.instance.attrs.name }}.username.runnable.io
   .primary-actions
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
@@ -99,31 +107,6 @@ section.sidebar.box-sidebar.load
     instance = "dataInstance.data.instance"
     ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
   )
-
-  //- urls
-  section.row.load(
-    ng-show = "dataInstance.data.container.urls().length"
-  )
-    h2.sub-header URLs
-    ul.url-group
-      li.url-group-item(
-        ng-repeat = "url in dataInstance.data.container.urls()"
-      )
-        input.url(
-          readonly
-          select-all
-          value = "{{ url }}"
-        )
-        //- link to the outside world
-        a.url-link(
-          href = "{{ url }}"
-          target = "_blank"
-          title = "Open in a New Tab"
-        )
-          svg.iconnables.icons-link
-            use(
-              xlink:href = "#icons-link"
-            )
 
 section.views.with-add-tab(
   ng-class = "dataInstance.actions.getSectionViewsClass()"

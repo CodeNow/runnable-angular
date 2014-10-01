@@ -5,17 +5,52 @@
   padding: 0 5px 0 15px;
 }
 
-// h1.box-name
-.box-name {
+// h1.box-info
+.box-info {
   float: left;
   font-size: 24px;
+  height: 60px;
   line-height: 60px;
   position: relative;
 
+  .box-name {
+    font-size: 23px;
+    height: 45px;
+    line-height: 45px;
+  }
+
+  .box-url {
+    background: none;
+    border: 0;
+    cursor: default;
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+    height: auto;
+    line-height: 1;
+    padding: 0;
+    position: relative;
+    top: -9px;
+    white-space: nowrap;
+    width: 100%;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  // sets layout on h1.box-name for .box-url
+  .box-name-ghost {
+    font-size: 14px;
+    font-weight: 300;
+    opacity: 0;
+    pointer-events: none;
+    z-index: $z-hide;
+  }
+
   .icons-status {
     left: 9px;
-    position: relative;
-    top: -5px;
+    top: -4px;
 
     &::before,
     &::after {
@@ -25,9 +60,9 @@
 
   .icons-edit {
     color: $orange-dark;
-    height: 21px;
+    height: 18px;
     left: 5px;
-    width: 21px;
+    width: 18px;
   }
 }
 
