@@ -12,7 +12,8 @@ function ControllerInstance(
   async,
   user,
   OpenItems,
-  getNewFileFolderName
+  getNewFileFolderName,
+  dataModalFork
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -69,6 +70,12 @@ function ControllerInstance(
     dataModalDelete: {},
     dataModalRename: {}
   };
+  /**
+   * Shared service, provisions fork modal data
+   */
+  pgm.data.dataModalFork = {};
+  dataModalFork(pgm.data.dataModalFork);
+
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {

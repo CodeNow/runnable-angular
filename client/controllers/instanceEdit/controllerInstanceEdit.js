@@ -15,7 +15,8 @@ function ControllerInstanceEdit(
   extendDeep,
   OpenItems,
   keypather,
-  fetcherBuild
+  fetcherBuild,
+  dataModalFork
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -42,6 +43,13 @@ function ControllerInstanceEdit(
     dataModalDelete: {},
     dataModalRename: {}
   };
+
+  /**
+   * Shared service, provisions fork modal data
+   */
+  pgm.data.dataModalFork = {};
+  dataModalFork(pgm.data.dataModalFork);
+
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
