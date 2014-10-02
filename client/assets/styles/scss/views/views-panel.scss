@@ -117,7 +117,7 @@ div.terminal { // div specifity required b/c there's a term.terminal
   height: calc(100% - 45px);
   justify-content: center;
   margin-top: -90px;
-  transition: width .2s ease-in;
+  transition: width .15s ease-in;
   width: 100%;
 
   .in & {
@@ -132,7 +132,7 @@ div.terminal { // div specifity required b/c there's a term.terminal
     display: inline-block;
     font-size: 16px;
     height: 90px;
-    margin: 0 3px;
+    margin: 3px;
     text-align: center;
     width: 108px;
 
