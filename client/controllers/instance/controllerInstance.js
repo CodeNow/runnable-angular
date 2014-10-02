@@ -8,6 +8,7 @@ function ControllerInstance(
   $state,
   $stateParams,
   $timeout,
+  $interval,
   keypather,
   async,
   user,
@@ -21,8 +22,6 @@ function ControllerInstance(
   var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data;
   var actions = dataInstance.actions;
-
-  var timeouts = [];
 
   data.restartOnSave = true;
 
@@ -373,15 +372,16 @@ function ControllerInstance(
     }
   }
 
-  function recursiveFetchInstance () {
+
+  var instanceFetchInterval;
+  function checkDeploy () {
     // temporary, lightweight check route
     data.instance.deployed(function (err, deployed) {
-      if (!deployed) {
-        timeouts.push($timeout(recursiveFetchInstance, 250));
-      } else {
+      if (deployed) {
         // display build completed alert in DOM
         dataInstance.data.showBuildCompleted = true;
         fetchInstance(angular.noop);
+        $interval.cancel(instanceFetchInterval);
       }
       $scope.safeApply();
     });
@@ -401,7 +401,7 @@ function ControllerInstance(
     if (building) {
       // We're finished building
       building = false;
-      timeouts.push($timeout(recursiveFetchInstance, 500));
+      instanceFetchInterval = $interval(checkDeploy, 500);
       $scope.dataInstanceLayout.data.showBuildCompleted = false;
     } else {
       // Do we have instructions to show a complete icon on this page
@@ -496,12 +496,9 @@ function ControllerInstance(
     $scope.safeApply();
   });
 
-  // prevent any timeouts from completing
-  // if user leaves page
+  // Manually cancel the interval
   $scope.$on('$destroy', function () {
-    timeouts.forEach(function (t) {
-      keypather.get(t, 'cancel()');
-    });
+    $interval.cancel(instanceFetchInterval);
   });
 }
 
