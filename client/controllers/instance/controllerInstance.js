@@ -82,6 +82,7 @@ function ControllerInstance(
         });
       }
     },
+
     actionsModalRename: {
       renameInstance: function (cb) {
         if (data.instance.attrs.name === data.instance.state.name.trim()) {
@@ -109,18 +110,30 @@ function ControllerInstance(
         data.instance.state.name = data.instance.attrs.name;
       }
     },
+
     forkInstance: function (env) {
-      if(!env) {
-        env = [];
-      }
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;
         }
-        $state.go('instance.instance', {
-          userName: $stateParams.userName,
-          shortHash: newInstance.attrs.shortHash
-        });
+        if (env) {
+          env = env.map(function (e) {
+            return e.key + '=' + e.value;
+          });
+          newInstance.update({
+            env: env
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              shortHash: newInstance.attrs.shortHash
+            });
+          });
+        } else {
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            shortHash: newInstance.attrs.shortHash
+          });
+        }
         // refetch instance collection to update list in
         // instance layout
         var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
@@ -198,7 +211,7 @@ function ControllerInstance(
   function asyncInitDataModalFork() {
     dmf.instance = data.instance;
     amf.fork = function (env) {
-      console.log(env);
+      pgm.actions.forkInstance(env);
     };
   }
 

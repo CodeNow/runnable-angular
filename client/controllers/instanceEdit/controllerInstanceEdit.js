@@ -79,15 +79,29 @@ function ControllerInstanceEdit(
         });
       }
     },
-    forkInstance: function () {
+    forkInstance: function (env) {
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;
         }
-        $state.go('instance.instance', {
-          userName: $stateParams.userName,
-          shortHash: newInstance.attrs.shortHash
-        });
+        if (env) {
+          env = env.map(function (e) {
+            return e.key + '=' + e.value;
+          });
+          newInstance.update({
+            env: env
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              shortHash: newInstance.attrs.shortHash
+            });
+          });
+        } else {
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            shortHash: newInstance.attrs.shortHash
+          });
+        }
         // refetch instance collection to update list in
         // instance layout
         var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
@@ -161,7 +175,9 @@ function ControllerInstanceEdit(
   var amf = pgm.actions.actionsModalFork = {};
   function asyncInitDataModalFork() {
     dmf.instance = data.instance;
-    amf.fork = function (env) {};
+    amf.fork = function (env) {
+      pgm.actions.forkInstance(env);
+    };
   }
 
   /**
@@ -196,6 +212,7 @@ function ControllerInstanceEdit(
       $window.onbeforeunload = null;
     }
   });
+
   $scope.$watch('dataInstanceLayout.data.instances', function(n) {
     if (n) {
       pgm.data.dataModalRename.instances = n;
