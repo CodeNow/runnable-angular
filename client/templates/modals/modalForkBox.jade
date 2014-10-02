@@ -51,13 +51,21 @@
           label.environment-variable.ace_comment
             .ace_gutter-cell 1
             | // Environment Variables:
+
+          label.environment-variable(
+            ng-repeat = "env in data.instance.attrs.env"
+          )
+            .ace_gutter-cell {{ $index+1 }}
+            span.variable-text {{ env }}
+            span #{''} = #{''}
+            input.environment-input(
+              value = "{{ env }}"
+            )
+
+        //-
           label.environment-variable
             .ace_gutter-cell 2
             span.variable-text GITHUB_CLIENT_ID
-            span #{''} = #{''}
-            input.environment-input(
-              value = "7a2b50212a5598ba3cf5"
-            )
           label.environment-variable
             .ace_gutter-cell 3
             span.variable-text GITHUB_CLIENT_SECRET
@@ -88,7 +96,7 @@
             )
     .modal-footer
       button.white(
-        ng-click = "cancel()"
+        ng-click = "data.cancel()"
         type = "button"
       ) Cancel
       button(
@@ -97,4 +105,5 @@
           orange: data.forkForm.$invalid\
         }"
         ng-disabled = "data.forkForm.$invalid"
+        ng-click = "data.fork()"
       ) Fork Box
