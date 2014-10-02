@@ -47,7 +47,9 @@
             //- if the name is taken
             span.validate-rules.invalid-name That's a pretty name, but it's taken.
         //- env vars
-        pre.pre.ace_editor.ace-tm
+        pre.pre.ace_editor.ace-tm(
+          ng-init = "data.env = [];"
+        )
           label.environment-variable.ace_comment
             .ace_gutter-cell 1
             | // Environment Variables:
@@ -55,48 +57,16 @@
           label.environment-variable(
             ng-repeat = "env in data.instance.attrs.env"
           )
-            .ace_gutter-cell {{ $index+1 }}
-            span.variable-text {{ env }}
+            .ace_gutter-cell {{ $index+2 }}
+            span.variable-text {{ env.split('=')[0] }}
             span #{''} = #{''}
             input.environment-input(
-              value = "{{ env }}"
-            )
-
-        //-
-          label.environment-variable
-            .ace_gutter-cell 2
-            span.variable-text GITHUB_CLIENT_ID
-          label.environment-variable
-            .ace_gutter-cell 3
-            span.variable-text GITHUB_CLIENT_SECRET
-            span #{''} = #{''}
-            input.environment-input(
-              value = "eece03e4cf3a18162512ed2f6b85d8d3ae65a164"
-            )
-          label.environment-variable
-            .ace_gutter-cell 4
-            span.variable-text FULL_API_DOMAIN
-            span #{''} = #{''}
-            input.environment-input(
-              value = "http://mewl10-3030.runnable.io"
-            )
-          label.environment-variable
-            .ace_gutter-cell 5
-            span.variable-text GITHUB_CALLBACK_URL
-            span #{''} = #{''}
-            input.environment-input(
-              value = "http://mewl10-3030.runnable.io/auth/github/callback"
-            )
-          label.environment-variable
-            .ace_gutter-cell 6
-            span.variable-text GITHUB_HOOK_URL
-            span #{''} = #{''}
-            input.environment-input(
-              value = "http://mewl10-3030.runnable.io/actions/github"
+              ng-init = "data.env[$index] = {key: env.split('=')[0], value: env.split('=')[1]}"
+              ng-model = "data.env[$index].value"
             )
     .modal-footer
       button.white(
-        ng-click = "data.cancel()"
+        ng-click = "cancel()"
         type = "button"
       ) Cancel
       button(
@@ -105,5 +75,5 @@
           orange: data.forkForm.$invalid\
         }"
         ng-disabled = "data.forkForm.$invalid"
-        ng-click = "data.fork()"
+        ng-click = "data.fork(data.env)"
       ) Fork Box

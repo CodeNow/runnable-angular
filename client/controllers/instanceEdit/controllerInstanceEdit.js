@@ -43,13 +43,6 @@ function ControllerInstanceEdit(
     dataModalRename: {}
   };
 
-  var dmf = pgm.data.dataModalFork = {};
-  function asyncInitDataModalFork() {
-    dmf.instance = data.instance;
-    dmf.cancel = function () {};
-    dmf.fork = function () {};
-  }
-
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
@@ -163,6 +156,13 @@ function ControllerInstanceEdit(
     }
     return '';
   };
+
+  var dmf = pgm.data.dataModalFork = {};
+  var amf = pgm.actions.actionsModalFork = {};
+  function asyncInitDataModalFork() {
+    dmf.instance = data.instance;
+    amf.fork = function (env) {};
+  }
 
   /**
    * If this build is built, we want to wait for changes and then trigger a fork

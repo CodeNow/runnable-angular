@@ -70,13 +70,6 @@ function ControllerInstance(
     dataModalRename: {}
   };
 
-  var dmf = pgm.data.dataModalFork = {};
-  function asyncInitDataModalFork() {
-    dmf.instance = data.instance;
-    dmf.cancel = function () {};
-    dmf.fork = function () {};
-  }
-
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
@@ -196,6 +189,15 @@ function ControllerInstance(
       });
     });
   };
+
+  var dmf = pgm.data.dataModalFork = {};
+  var amf = pgm.actions.actionsModalFork = {};
+  function asyncInitDataModalFork() {
+    dmf.instance = data.instance;
+    amf.fork = function (env) {
+      console.log(env);
+    };
+  }
 
   /*********************************
    * popoverAddTab
