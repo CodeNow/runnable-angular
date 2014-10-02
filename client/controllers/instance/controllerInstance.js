@@ -215,8 +215,7 @@ function ControllerInstance(
   pat.actions.addTerminal = function () {
     pat.data.show = false;
     return data.openItems.addTerminal({
-      name: 'Terminal',
-      params: data.instance.attrs.containers[0]
+      name: 'Terminal'
     });
   };
 
@@ -370,6 +369,8 @@ function ControllerInstance(
       if (!deployed) {
         timeouts.push($timeout(recursiveFetchInstance, 250));
       } else {
+        // display build completed alert in DOM
+        dataInstance.data.showBuildCompleted = true;
         fetchInstance(angular.noop);
       }
       $scope.safeApply();
@@ -384,10 +385,21 @@ function ControllerInstance(
     }
   });
   $scope.$watch('dataInstance.data.build.attrs.completed', function (n, o) {
-    if (n && building) {
+    if (!n) {
+      return;
+    }
+    if (building) {
       // We're finished building
       building = false;
       timeouts.push($timeout(recursiveFetchInstance, 500));
+      $scope.dataInstanceLayout.data.showBuildCompleted = false;
+    } else {
+      // Do we have instructions to show a complete icon on this page
+      // from a previous page?
+      if ($scope.dataInstanceLayout.data.showBuildCompleted) {
+        $scope.dataInstanceLayout.data.showBuildCompleted = false;
+        dataInstance.data.showBuildCompleted = true;
+      }
     }
   });
   $scope.$watch('dataInstanceLayout.data.instances', function(n) {
