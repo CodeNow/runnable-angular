@@ -109,7 +109,10 @@ function ControllerInstance(
         data.instance.state.name = data.instance.attrs.name;
       }
     },
-    forkInstance: function () {
+    forkInstance: function (env) {
+      if(!env) {
+        env = [];
+      }
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;

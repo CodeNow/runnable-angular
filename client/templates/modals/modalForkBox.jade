@@ -49,6 +49,7 @@
         //- env vars
         pre.pre.ace_editor.ace-tm(
           ng-init = "data.env = [];"
+          ng-if = "data.instance.attrs.env.length"
         )
           label.environment-variable.ace_comment
             .ace_gutter-cell 1
@@ -75,5 +76,5 @@
           orange: data.forkForm.$invalid\
         }"
         ng-disabled = "data.forkForm.$invalid"
-        ng-click = "data.fork(data.env)"
+        ng-click = "actions.fork(data.env)"
       ) Fork Box
