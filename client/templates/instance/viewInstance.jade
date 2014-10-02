@@ -164,5 +164,33 @@ section.views.with-add-tab(
     update = "false"
   )
 
+  //- blank state
+  .blank-panel
+    ul.blank-panel-group
+      li.blank-panel-item(
+        ng-click = "actions.addWebView()"
+      )
+        svg.iconnables.iconnables-lg.icons-web
+          use(xlink:href = "#icons-web")
+        | Web View
+      li.blank-panel-item(
+        ng-click = "actions.addTerminal()"
+      )
+        svg.iconnables.iconnables-lg.icons-terminal
+          use(xlink:href = "#icons-terminal")
+        | Terminal
+      li.blank-panel-item(
+        ng-click = "actions.addBuildStream()"
+      )
+        svg.iconnables.iconnables-lg.icons-logs
+          use(xlink:href = "#icons-logs")
+        | Build Log
+      li.blank-panel-item(
+        ng-click = "actions.addLogs()"
+      )
+        svg.iconnables.iconnables-lg.icons-server
+          use(xlink:href = "#icons-server")
+        | Box Log
+
   //- spinner
   .horizontal-spinner
