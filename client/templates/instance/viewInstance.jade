@@ -165,7 +165,9 @@ section.views.with-add-tab(
   )
 
   //- blank state
-  .blank-panel
+  .blank-panel(
+    ng-show = "dataInstance.data.container"
+  )
     ul.blank-panel-group
       li.blank-panel-item(
         ng-click = "actions.addWebView()"
