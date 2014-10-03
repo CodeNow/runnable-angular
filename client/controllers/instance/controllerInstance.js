@@ -261,6 +261,13 @@ function ControllerInstance(
     });
   };
 
+  pat.actions.addEnvVars = function () {
+    pat.data.show = false;
+    return data.openItems.addEnvVars({
+      name: 'Env Vars'
+    });
+  };
+
   /*********************************
    * popoverSaveOptions
    *********************************/
