@@ -6,6 +6,7 @@ require('app')
 function ControllerInstanceLayout(
   $scope,
   $filter,
+  $window,
   async,
   $state,
   $stateParams,
@@ -123,6 +124,14 @@ function ControllerInstanceLayout(
     var thisUser = $scope.dataApp.user;
     data.orgs = thisUser.fetchGithubOrgs(function (err) {
       $scope.safeApply();
+      if ($window.heap) {
+        // Heap will only be loaded when env !== developm
+        $window.heap.identify({
+          name: thisUser.oauthName(),
+          email: thisUser.email,
+          orgs: $window.JSON.stringify(data.orgs)
+        });
+      }
       cb(err);
     });
   }
