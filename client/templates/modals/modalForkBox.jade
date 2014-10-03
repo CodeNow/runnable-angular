@@ -28,7 +28,8 @@
               ng-model = "data.instance.state.name"
               validate-name = "data.instances"
               validate-name-pattern
-            ) instance6
+              select-on
+            ) {{ data.instance.attrs.name }}
             .input-suffix .username.runnable.io
           .validate-wrapper(
             ng-class = "{\
