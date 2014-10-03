@@ -317,25 +317,39 @@ function ControllerInstance(
         }
         return (model.attrs.body !== model.state.body);
       });
-    async.each(updateModels,
-    function iterate (file, cb) {
-      file.update({
-        json: {
-          body: file.state.body
+    async.each(
+      updateModels,
+      function iterate (file, cb) {
+        file.update({
+          json: {
+            body: file.state.body
+          }
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.safeApply();
+          cb();
+        });
+      },
+      function complete (err) {
+        if (keypather.get(data, 'instance.state.env')) {
+          // env vars modified in EnvVars dir
+          data.instance.update({
+            env: data.instance.state.env
+          }, function () {
+            if (data.restartOnSave) {
+              pgm.actions.restartInstance();
+            }
+          });
+        } else {
+          // no env vars modified in EnvVars dir
+          if (data.restartOnSave) {
+            pgm.actions.restartInstance();
+          }
         }
-      }, function (err) {
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-        cb();
-      });
-    },
-    function complete (err) {
-      if (data.restartOnSave) {
-        pgm.actions.restartInstance();
       }
-    });
+    );
   };
 
   actions.goToBuild = function() {

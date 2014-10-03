@@ -1,2 +1,7 @@
-div
-  p env vars
+pre.pre(
+  ng-model = "environmentalVars"
+  ui-ace = "{ \
+    onLoad: actions.setAceMode, \
+    onFocus: actions.onFocus \
+  }"
+)

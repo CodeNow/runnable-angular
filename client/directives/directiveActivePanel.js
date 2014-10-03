@@ -18,6 +18,7 @@ function activePanel(
     templateUrl: 'viewActivePanel',
     replace: true,
     scope: {
+      instance: '=',
       build: '=',
       container: '=',
       openItems: '=',
