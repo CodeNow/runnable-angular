@@ -23,6 +23,7 @@ function openItemsFactory(
       model instanceof Terminal ||
       model instanceof WebView ||
       model instanceof LogView ||
+      model instanceof EnvVars ||
       model instanceof BuildStream);
   }
 
@@ -61,10 +62,18 @@ function openItemsFactory(
     return this;
   }
 
+  function EnvVars(data) {
+    this.collections = [];
+    this.attrs = data || {};
+    this.attrs._id = i++;
+    return this;
+  }
+
   util.inherits(Terminal, BaseModel);
   util.inherits(WebView, BaseModel);
   util.inherits(BuildStream, BaseModel);
   util.inherits(LogView, BaseModel);
+  util.inherits(EnvVars, BaseModel);
 
   var tabTypes = {
     Terminal: Terminal,

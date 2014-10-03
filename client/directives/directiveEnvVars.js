@@ -11,6 +11,7 @@ function envVars(
     scope: {},
     templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
+
     }
   };
 }
