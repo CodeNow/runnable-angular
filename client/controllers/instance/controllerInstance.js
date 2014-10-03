@@ -231,8 +231,7 @@ function ControllerInstance(
   pat.actions.addLogs = function () {
     pat.data.show = false;
     return data.openItems.addLogs({
-      name: 'Box Logs',
-      params: data.instance.attrs.containers[0]
+      name: 'Box Logs'
     });
   };
 
@@ -357,7 +356,7 @@ function ControllerInstance(
       if (!data.openItems.hasOpen('Terminal')) {
         pat.actions.addTerminal();
       }
-      data.openItems.activeHistory.add(data.logs);
+      pat.actions.addLogs();
     } else {
       // instance is stopped or building
       if (data.logs) {
@@ -370,6 +369,7 @@ function ControllerInstance(
         buildStream.state.alwaysOpen = true;
       }
     }
+    $scope.safeApply();
   }
 
 
@@ -380,7 +380,13 @@ function ControllerInstance(
       if (deployed) {
         // display build completed alert in DOM
         dataInstance.data.showBuildCompleted = true;
-        fetchInstance(angular.noop);
+        fetchInstance(function (err) {
+          if (err) {
+            throw err;
+          }
+
+          $scope.safeApply();
+        });
         $interval.cancel(instanceFetchInterval);
       }
       $scope.safeApply();
@@ -399,7 +405,6 @@ function ControllerInstance(
       return;
     }
     if (building) {
-      // We're finished building
       building = false;
       instanceFetchInterval = $interval(checkDeploy, 500);
       $scope.dataInstanceLayout.data.showBuildCompleted = false;
