@@ -241,6 +241,8 @@ function openItemsFactory(
       model.state.type = 'BuildStream';
     } else if (model instanceof LogView) {
       model.state.type = 'LogView';
+    } else if (model instanceof EnvVars) {
+      model.state.type = 'EnvVars';
     } else {
       keypather.set(model, 'state.type', 'File');
       model.state.reset = function () {
