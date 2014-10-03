@@ -80,7 +80,8 @@ function openItemsFactory(
     WebView: WebView,
     BuildStream: BuildStream,
     LogView: LogView,
-    File: VersionFileModel
+    File: VersionFileModel,
+    EnvVars: EnvVars
   };
 
   function ActiveHistory(models) {
