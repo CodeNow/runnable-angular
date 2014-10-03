@@ -14,7 +14,8 @@ function openItemsFactory(
   keypather,
   pluck,
   equals,
-  async
+  async,
+  user
 ) {
 
   function instanceOfModel (model) {
@@ -80,8 +81,8 @@ function openItemsFactory(
     WebView: WebView,
     BuildStream: BuildStream,
     LogView: LogView,
-    File: VersionFileModel,
-    EnvVars: EnvVars
+    EnvVars: EnvVars,
+    File: ContainerFileModel
   };
 
   function ActiveHistory(models) {
@@ -139,7 +140,14 @@ function openItemsFactory(
         models = models.map(function (model) {
           var from = keypather.get(model, 'state.from');
           if (tabTypes[from]) {
-            model = new tabTypes[model.state.from](model, { noStore: true });
+            if (from === 'File') {
+              model = new ContainerFileModel(model, {
+                client: user.client,
+                parentPath: model.state.parentPath
+              });
+            } else {
+              model = new tabTypes[model.state.from](model, { noStore: true });
+            }
           }
           return model;
         });
@@ -294,6 +302,9 @@ function openItemsFactory(
       // The following brought to you by IE not supporting Function.prototype.name
       var modelConstructor = model.constructor.toString().match(/function\s(\w*)/)[1];
       keypather.set(modelJSON, 'state.from', modelConstructor);
+      if (modelConstructor === 'File') {
+        keypather.set(modelJSON, 'state.parentPath', model.urlPath.replace('/files', ''));
+      }
       json.push(modelJSON);
     });
     return json;

@@ -15,7 +15,8 @@ function logView(
   jQuery,
   $sce,
   $window,
-  primus
+  primus,
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -128,6 +129,8 @@ function logView(
         };
         $scope.$watch('container.attrs._id', function (containerId) {
           if (containerId) {
+            // prepend log command to terminal
+            terminal.write(keypather.get($scope, 'container.attrs.inspect.Args[1]') + '\n\r');
             initBoxStream();
           }
         });
