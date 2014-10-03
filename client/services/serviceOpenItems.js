@@ -190,6 +190,17 @@ function openItemsFactory(
     return logView;
   };
 
+  OpenItems.prototype.addEnvVars = function (data) {
+    if (this.hasOpen('EnvVars')) {
+      var currentEnvVars = this.getFirst('EnvVars');
+      this.activeHistory.add(currentEnvVars);
+      return currentEnvVars;
+    }
+    var envVars = new EnvVars(data);
+    this.add(envVars);
+    return envVars;
+  };
+
   OpenItems.prototype.Model = true;
 
   OpenItems.prototype.instanceOfModel = instanceOfModel;
