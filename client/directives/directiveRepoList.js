@@ -239,6 +239,10 @@ function repoList (
         // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
         $scope.actions.selectActiveBranchAndCommit = function (acv, selectedBranch, selectedCommit) {
           keypather.set(acv, 'state.show', false); // hide commit select dropdown
+          // do nothing if user selects currectly active commit
+          if (selectedCommit === acv.githubRepo.state.selectedBranch.state.activeCommit) {
+            return;
+          }
           setActiveBranch(acv, selectedBranch);
           setActiveCommit(acv, selectedBranch, selectedCommit);
           // is this the only repo?
@@ -270,6 +274,10 @@ function repoList (
             if (err) { throw err; }
           };
           keypather.set(acv, 'state.show', false); // hide commit select dropdown
+          // do nothing if user selects currectly active commit
+          if (selectedCommit === acv.githubRepo.state.selectedBranch.state.activeCommit) {
+            return;
+          }
           var lastActiveBranch = acv.githubRepo.state.activeBranch;
           var lastActiveCommit = lastActiveBranch.state.activeCommit;
           // assume success
