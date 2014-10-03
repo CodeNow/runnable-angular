@@ -1,5 +1,5 @@
 require('app')
-  .directive('EnvVars', envVars);
+  .directive('envVars', envVars);
 /**
  * @ngInject
  */
