@@ -142,6 +142,7 @@ function ControllerSetup(
    * set active context && fetch build files for display
    */
   actions.selectSourceContext = function (context) {
+    data.openItems.reset([]);
     data.fetchingContext = true;
     data.contextSelected = true;
     fetchContextVersion(context, function (err) {
