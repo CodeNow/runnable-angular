@@ -82,15 +82,11 @@ function activePanel(
         if (typeof newVal === 'string' && $scope.openItems.activeHistory.last()) {
           if ($scope.update) {
             updateFileDebounce();
-          } else {
-            // mark as dirty?
           }
         }
       });
 
-      // model.id() for files can lead to duplicates w/ setup page
-      // ex: "/Dockerfile"
-      $scope.$watch('openItems.activeHistory.last().attrs._id', function (newVal, oldVal) {
+      $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {console.log(newVal, oldVal);
         if (newVal) {
           if (!$scope.update) {
             var file = $scope.openItems.activeHistory.last();
