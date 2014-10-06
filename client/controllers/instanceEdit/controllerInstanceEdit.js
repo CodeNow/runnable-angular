@@ -63,7 +63,6 @@ function ControllerInstanceEdit(
           data.saving = true;
         }, 1);
         data.saving = false;
-        cb(); //removes modal
         if (data.instance.attrs.name === data.instance.state.name.trim()) {
           // no need to make API call if name didn't change
           return;
@@ -76,6 +75,9 @@ function ControllerInstanceEdit(
             throw err;
           }
         });
+        // cb() will reset data.instance.state
+        // important to call after PATCH
+        cb(); //removes modal
       }
     },
     forkInstance: function () {
