@@ -363,10 +363,12 @@ function ControllerInstance(
         data.logs.state.alwaysOpen = true;
       }
       data.openItems.removeAllButLogs();
-      if (!data.instance.build.attrs.completed) {
-        // instance is building
+      if (!data.instance.build.succeeded()) {
+        // instance is building or broken
         var buildStream = pat.actions.addBuildStream();
         buildStream.state.alwaysOpen = true;
+      } else {
+        pat.actions.addLogs().state.alwaysOpen = true;
       }
     }
     $scope.safeApply();
