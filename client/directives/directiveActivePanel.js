@@ -87,7 +87,7 @@ function activePanel(
         }
       });
 
-      $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {console.log(newVal, oldVal);
+      $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {
         if (newVal) {
           if (!$scope.update) {
             var file = $scope.openItems.activeHistory.last();
