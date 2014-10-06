@@ -20,7 +20,6 @@ function validateEnvVars () {
         response.errors.push(index);
       }
     });
-    console.log(response);
     return response;
   };
 }

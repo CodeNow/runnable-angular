@@ -7,6 +7,11 @@ require('browserify-angular-mocks');
 
 var expect = chai.expect;
 
+function helperGenericTests (result) {
+  expect(result).to.be.ok;
+  expect(result).to.be.an('object');
+}
+
 describe('serviceValidateEnvVars'.bold.underline.blue, function () {
   var validateEnvVars;
   beforeEach(function () {
@@ -19,13 +24,21 @@ describe('serviceValidateEnvVars'.bold.underline.blue, function () {
     it('should handle empty array', function () {
       var env = [];
       var result = validateEnvVars(env);
-      expect(result).to.be.ok;
-      expect(result).to.be.an('object');
+      helperGenericTests(result);
       expect(result).to.have.property('valid', true);
       expect(result).to.have.property('errors');
     });
 
     it('should correctly identifiy valid/invalid lines', function () {
-    })
+      var env = [
+        'PROPERTY1=test', //valid
+        '$1!!!'           //invalid
+      ];
+      var result = validateEnvVars(env);
+      helperGenericTests(result);
+      expect(result).to.have.property('valid', false);
+      expect(result).to.have.deep.property('errors[0]', 1); // first invalid === line 2
+      expect(result).to.have.deep.property('errors.length', 1);
+    });
   });
 });
