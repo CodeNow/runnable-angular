@@ -333,7 +333,7 @@ function ControllerInstance(
         });
       },
       function complete (err) {
-        if (keypather.get(data, 'instance.state.env')) {
+        if (Array.isArray(keypather.get(data, 'instance.state.env'))) {
           // env vars modified in EnvVars dir
           data.instance.update({
             env: data.instance.state.env
@@ -341,12 +341,14 @@ function ControllerInstance(
             if (data.restartOnSave) {
               pgm.actions.restartInstance();
             }
+            $scope.safeApply();
           });
         } else {
           // no env vars modified in EnvVars dir
           if (data.restartOnSave) {
             pgm.actions.restartInstance();
           }
+          $scope.safeApply();
         }
       }
     );
