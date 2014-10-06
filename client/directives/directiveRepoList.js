@@ -240,7 +240,7 @@ function repoList (
         $scope.actions.selectActiveBranchAndCommit = function (acv, selectedBranch, selectedCommit) {
           keypather.set(acv, 'state.show', false); // hide commit select dropdown
           // do nothing if user selects currectly active commit
-          if (selectedBranch === acv.githubRepo.state.selectedBranch) {
+          if (selectedBranch === acv.githubRepo.state.selectedBranch && acv.githubRepo.state.selectedBranch.state) {
             if (selectedCommit === acv.githubRepo.state.selectedBranch.state.activeCommit) {
               return;
             }
