@@ -15,7 +15,8 @@ function ControllerInstanceEdit(
   extendDeep,
   OpenItems,
   keypather,
-  fetcherBuild
+  fetcherBuild,
+  validateEnvVars
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -342,4 +343,10 @@ function ControllerInstanceEdit(
   $scope.$on('$destroy', function () {
     $interval.cancel(interval);
   });
+
+  // property controlled by directiveEnvVars
+  $scope.$watch('dataInstanceEdit.data.instance.state.env', function (newEnvVal, oldEnvVal) {
+    data.envValidation = validateEnvVars(newEnvVal);
+  });
+
 }

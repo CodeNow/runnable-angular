@@ -28,13 +28,14 @@ function envVars(
           return environmentalVars + env + '\n';
         }, '');
 
+        $scope.validity = {valid: true, errors: []};
+
         $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
           if (!newEnv) {
             return;
           }
-          keypather.set($scope, 'instance.state.env', newEnv.split('\n').filter(function (env) {
-            return (env.indexOf('=') !== -1);
-          }));
+
+          keypather.set($scope, 'instance.state.env', newEnv.split('\n'));
         });
       });
 

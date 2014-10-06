@@ -13,7 +13,8 @@ function ControllerInstance(
   async,
   user,
   OpenItems,
-  getNewFileFolderName
+  getNewFileFolderName,
+  validateEnvVars
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -554,6 +555,11 @@ function ControllerInstance(
   // Manually cancel the interval
   $scope.$on('$destroy', function () {
     $interval.cancel(instanceFetchInterval);
+  });
+
+  // property controlled by directiveEnvVars
+  $scope.$watch('dataInstance.data.instance.state.env', function (newEnvVal, oldEnvVal) {
+    data.envValidation = validateEnvVars(newEnvVal);
   });
 }
 
