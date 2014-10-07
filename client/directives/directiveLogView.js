@@ -32,7 +32,8 @@ function logView(
         cols: 80,
         rows: 24,
         useStyle: true,
-        screenKeys: true
+        screenKeys: true,
+        scrollback: 0
       });
       terminal.open(elem[0]);
 
