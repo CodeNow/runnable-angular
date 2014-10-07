@@ -11,7 +11,10 @@
         modal-template = "modalRenameBox"
       ) Rename Box
       li.popover-list-item(
-        ng-click = "actions.forkInstance()"
+        modal
+        modal-actions = "actions.actionsModalFork"
+        modal-data = "data.dataModalFork"
+        modal-template = "modalForkBox"
       ) Fork to a New Box
       li.popover-list-item(
         modal

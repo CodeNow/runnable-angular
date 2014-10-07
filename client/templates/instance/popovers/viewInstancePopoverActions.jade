@@ -12,10 +12,6 @@
         ng-click = "actions.startInstance()"
         ng-if = "data.build.attrs.completed && !data.container.running()"
       ) Start Running
-      //- li.popover-list-item(
-      //-   ng-click = "actions.restartInstance()"
-      //-   ng-if = "data.build.attrs.completed"
-      //- ) Restart
       li.divider
       li.popover-list-item(
         modal
@@ -24,7 +20,10 @@
         modal-template = "modalRenameBox"
       ) Rename Box
       li.popover-list-item(
-        ng-click = "actions.forkInstance()"
+        modal
+        modal-actions = "actions.actionsModalFork"
+        modal-data = "data.dataModalFork"
+        modal-template = "modalForkBox"
       ) Fork to a New Box
       li.popover-list-item(
         modal

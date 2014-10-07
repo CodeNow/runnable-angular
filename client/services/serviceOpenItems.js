@@ -24,6 +24,7 @@ function openItemsFactory(
       model instanceof Terminal ||
       model instanceof WebView ||
       model instanceof LogView ||
+      model instanceof EnvVars ||
       model instanceof BuildStream);
   }
 
@@ -62,16 +63,25 @@ function openItemsFactory(
     return this;
   }
 
+  function EnvVars(data) {
+    this.collections = [];
+    this.attrs = data || {};
+    this.attrs._id = i++;
+    return this;
+  }
+
   util.inherits(Terminal, BaseModel);
   util.inherits(WebView, BaseModel);
   util.inherits(BuildStream, BaseModel);
   util.inherits(LogView, BaseModel);
+  util.inherits(EnvVars, BaseModel);
 
   var tabTypes = {
     Terminal: Terminal,
     WebView: WebView,
     BuildStream: BuildStream,
     LogView: LogView,
+    EnvVars: EnvVars,
     File: ContainerFileModel
   };
 
@@ -189,6 +199,17 @@ function openItemsFactory(
     return logView;
   };
 
+  OpenItems.prototype.addEnvVars = function (data) {
+    if (this.hasOpen('EnvVars')) {
+      var currentEnvVars = this.getFirst('EnvVars');
+      this.activeHistory.add(currentEnvVars);
+      return currentEnvVars;
+    }
+    var envVars = new EnvVars(data);
+    this.add(envVars);
+    return envVars;
+  };
+
   OpenItems.prototype.Model = true;
 
   OpenItems.prototype.instanceOfModel = instanceOfModel;
@@ -229,6 +250,8 @@ function openItemsFactory(
       model.state.type = 'BuildStream';
     } else if (model instanceof LogView) {
       model.state.type = 'LogView';
+    } else if (model instanceof EnvVars) {
+      model.state.type = 'EnvVars';
     } else {
       keypather.set(model, 'state.type', 'File');
       model.state.reset = function () {

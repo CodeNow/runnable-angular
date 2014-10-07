@@ -20,20 +20,21 @@
 @import "globals/minimize";
 @import "globals/animations";
 
-// components (elements)
+// components
 @import "components/logo";
 @import "components/icons";
 @import "components/spinner";
 @import "components/buttons";
 @import "components/select";
-@import "components/modals";
 @import "components/menu";
 @import "components/tooltips";
 @import "components/alerts";
 
-// components (forms)
-@import "components/forms";
-@import "components/forms-toggles";
+// forms
+@import "forms/forms";
+@import "forms/forms-inputs";
+@import "forms/forms-toggles";
+@import "forms/forms-validation";
 
 // sidebar
 @import "sidebar/sidebar";
@@ -54,6 +55,10 @@
 @import "views/views-panel";
 @import "views/views-themes";
 @import "views/views-browser-chrome";
+
+// modals
+@import "modals/modals";
+@import "modals/modals-fork";
 
 // popovers
 @import "popover/popover";

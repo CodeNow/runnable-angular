@@ -13,7 +13,8 @@ function ControllerInstance(
   async,
   user,
   OpenItems,
-  getNewFileFolderName
+  getNewFileFolderName,
+  validateEnvVars
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -68,6 +69,7 @@ function ControllerInstance(
     dataModalDelete: {},
     dataModalRename: {}
   };
+
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
@@ -90,6 +92,7 @@ function ControllerInstance(
         });
       }
     },
+
     actionsModalRename: {
       renameInstance: function (cb) {
         if (data.instance.attrs.name === data.instance.state.name.trim()) {
@@ -119,15 +122,30 @@ function ControllerInstance(
         data.instance.state.name = data.instance.attrs.name;
       }
     },
-    forkInstance: function () {
+
+    forkInstance: function (env) {
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;
         }
-        $state.go('instance.instance', {
-          userName: $stateParams.userName,
-          shortHash: newInstance.attrs.shortHash
-        });
+        if (env) {
+          env = env.map(function (e) {
+            return e.key + '=' + e.value;
+          });
+          newInstance.update({
+            env: env
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              shortHash: newInstance.attrs.shortHash
+            });
+          });
+        } else {
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            shortHash: newInstance.attrs.shortHash
+          });
+        }
         // refetch instance collection to update list in
         // instance layout
         var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
@@ -200,6 +218,15 @@ function ControllerInstance(
     });
   };
 
+  var dmf = pgm.data.dataModalFork = {};
+  var amf = pgm.actions.actionsModalFork = {};
+  function asyncInitDataModalFork() {
+    dmf.instance = data.instance;
+    amf.fork = function (env) {
+      pgm.actions.forkInstance(env);
+    };
+  }
+
   /*********************************
    * popoverAddTab
    *********************************/
@@ -234,6 +261,13 @@ function ControllerInstance(
     pat.data.show = false;
     return data.openItems.addLogs({
       name: 'Box Logs'
+    });
+  };
+
+  pat.actions.addEnvVars = function () {
+    pat.data.show = false;
+    return data.openItems.addEnvVars({
+      name: 'Env Vars'
     });
   };
 
@@ -286,25 +320,41 @@ function ControllerInstance(
         }
         return (model.attrs.body !== model.state.body);
       });
-    async.each(updateModels,
-    function iterate (file, cb) {
-      file.update({
-        json: {
-          body: file.state.body
+    async.each(
+      updateModels,
+      function iterate (file, cb) {
+        file.update({
+          json: {
+            body: file.state.body
+          }
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.safeApply();
+          cb();
+        });
+      },
+      function complete (err) {
+        if (Array.isArray(keypather.get(data, 'instance.state.env'))) {
+          // env vars modified in EnvVars dir
+          data.instance.update({
+            env: data.instance.state.env
+          }, function () {
+            if (data.restartOnSave) {
+              pgm.actions.restartInstance();
+            }
+            $scope.safeApply();
+          });
+        } else {
+          // no env vars modified in EnvVars dir
+          if (data.restartOnSave) {
+            pgm.actions.restartInstance();
+          }
+          $scope.safeApply();
         }
-      }, function (err) {
-        if (err) {
-          throw err;
-        }
-        $scope.safeApply();
-        cb();
-      });
-    },
-    function complete (err) {
-      if (data.restartOnSave) {
-        pgm.actions.restartInstance();
       }
-    });
+    );
   };
 
   actions.goToBuild = function() {
@@ -454,6 +504,7 @@ function ControllerInstance(
         pgm.data.dataModalRename.instance = instance;
         pgm.data.dataModalDelete.instance = instance;
         pso.data.container = pgm.data.container = data.container;
+        asyncInitDataModalFork();
         $scope.safeApply();
         cb();
       })
@@ -508,6 +559,11 @@ function ControllerInstance(
   // Manually cancel the interval
   $scope.$on('$destroy', function () {
     $interval.cancel(instanceFetchInterval);
+  });
+
+  // property controlled by directiveEnvVars
+  $scope.$watch('dataInstance.data.instance.state.env', function (newEnvVal, oldEnvVal) {
+    data.envValidation = validateEnvVars(newEnvVal);
   });
 }
 

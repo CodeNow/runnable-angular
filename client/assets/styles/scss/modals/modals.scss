@@ -106,13 +106,30 @@
       width: 100%;
     }
   }
+
+  // inputs
+  .input-group {
+    background: $white;
+    margin-top: 9px;
+    min-width: 450px;
+  }
+
+  .input-prefix,
+  .input-suffix {
+    height: 45px;
+    line-height: 45px;
+  }
+
+  [contenteditable] {
+    height: 45px;
+    line-height: 44px;
+    min-width: 24px;
+  }
 }
 
 // input.modal-input
 .modal-input {
-  font-size: 24px;
-  font-weight: 500;
-  margin-top: 6px;
+  font-size: 18px;
   text-align: center;
 }
 
@@ -134,6 +151,11 @@
     height: 0;
     margin: 9px auto 0;
     transition: height .2s ease-in;
+    width: 100%;
+
+    &.in {
+      height: 36px;
+    }
   }
 
   .validate-rules {
@@ -141,8 +163,4 @@
     line-height: 24px;
     right: 0;
   }
-}
-
-.modal-input.ng-invalid ~ .validate-wrapper {
-  height: 36px;
 }

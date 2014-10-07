@@ -1,0 +1,99 @@
+// defaults
+input,
+.input,
+textarea {
+  -webkit-appearance: none;
+  border: 1px solid rgba($black,.15);
+  border-radius: 3px;
+  color: $gray-darker;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 6px;
+  resize: none;
+  width: 100%;
+
+  &.focus,
+  &:focus {
+    border-color: $blue;
+    box-shadow: none;
+    outline: none;
+  }
+
+  &[readonly] {
+    color: $gray;
+  }
+
+  &[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    cursor: pointer;
+    width: auto;
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
+  }
+
+  // min font-size for mobile
+  @include retina() {
+    @media (max-width: 500px) {
+      font-size: 16px;
+    }
+  }
+
+  // placeholder
+  &::placeholder {
+    color: $gray-light;
+  }
+}
+
+// .input-group
+.input-group {
+  border: 1px solid rgba($black,.15);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+
+  &.input-group.focus {
+    border-color: $blue;
+  }
+
+  input,
+  .input {
+    border: 0;
+    padding: 0;
+    width: auto;
+  }
+
+  [contenteditable] {
+    color: $gray-darker;
+    cursor: text;
+    font-weight: 500;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+// prefixes and suffixes
+.input-prefix,
+.input-suffix {
+  font-size: 18px;
+  height: 100%;
+}
+
+// .input-prefix
+.input-prefix {
+  border-radius: 3px 0 0 3px;
+  border-right: 0;
+  padding: 0 0 0 15px;
+  text-align: right;
+}
+
+// .input-suffix
+.input-suffix {
+  border-left: 0;
+  border-radius: 0 3px 3px 0;
+  padding: 0 15px 0 0;
+  text-align: left;
+}
