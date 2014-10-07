@@ -36,10 +36,20 @@ function activePanel(
         $rootScope.$broadcast('app-document-click');
       };
 
-      actions.setAceMode = function (_editor) {
-        var filename = $scope.openItems.activeHistory.last().attrs.name;
-        var mode = modelist.getModeForPath(filename).mode;
-        _editor.getSession().setMode(mode);
+      // Wrapper function so we can call setAceMode with both
+      //   item *and* _editor
+      actions.wrapWithItem = function(item) {
+        return function (_editor) {
+          actions.setAceMode(_editor, item);
+        };
+      };
+
+      actions.setAceMode = function (_editor, item) {
+        var name = keypather.get(item, 'attrs.name');
+        if (name) {
+          var mode = modelist.getModeForPath(name).mode;
+          _editor.getSession().setMode(mode);
+        }
       };
 
       // allow iframe to load url
