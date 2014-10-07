@@ -1,7 +1,6 @@
 var Terminal = require('term.js');
 var debounce = require('debounce');
-var CHAR_WIDTH = 8;
-var CHAR_HEIGHT = 19;
+var CHAR_HEIGHT = 17;
 var streamCleanser = require('docker-stream-cleanser');
 require('app')
   .directive('logView', logView);
@@ -51,10 +50,17 @@ function logView(
       function resizeTerm() {
         // Tab not selected
         if ($termElem.width() === 100) { return; }
-        var x = Math.floor($termElem.width() / CHAR_WIDTH);
-        var y = Math.floor($termElem.height() / CHAR_HEIGHT);
+        var termLineEl = $termElem.find('span')[0];
+        if (!termLineEl) { return; }
+        var tBox = termLineEl.getBoundingClientRect();
+
+        var scale = CHAR_HEIGHT/tBox.height;
+        var newCharHeight = CHAR_HEIGHT * scale;
+        var charWidth = tBox.width / termLineEl.textContent.length;
+
+        var x = Math.floor($termElem.width() / charWidth);
+        var y = Math.floor(($termElem.height() - (tBox.top * scale)) / newCharHeight);
         terminal.resize(x, y);
-        terminal.refresh();
       }
       $scope.$on('$destroy', function () {
         if ($scope.buildStream) {
