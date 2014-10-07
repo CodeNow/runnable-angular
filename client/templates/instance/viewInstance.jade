@@ -23,10 +23,10 @@ header.box-header
     input.box-url(
       readonly
       select-all
-      value = "{{ dataInstance.data.instance.attrs.name }}.username.runnable.io"
+      value = "{{ dataInstance.data.instance.attrs.name }}.{{ dataInstance.data.instance.attrs.owner.username }}.runnable.io"
     )
     //- sets layout on h1.box-name for .box-url
-    span.box-name-ghost {{ dataInstance.data.instance.attrs.name }}.username.runnable.io
+    span.box-name-ghost {{ dataInstance.data.instance.attrs.name }}.{{ dataInstance.data.instance.attrs.owner.username }}.runnable.io
   .primary-actions
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
