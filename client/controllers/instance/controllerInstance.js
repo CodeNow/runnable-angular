@@ -103,7 +103,6 @@ function ControllerInstance(
           data.saving = true;
         }, 1);
         data.saving = false;
-        cb(); //removes modal
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
@@ -112,6 +111,9 @@ function ControllerInstance(
             throw err;
           }
         });
+        // cb() will reset data.instance.state
+        // important to call after PATCH
+        cb(); //removes modal
       },
       cancel: function () {
         data.instance.state.name = data.instance.attrs.name;
