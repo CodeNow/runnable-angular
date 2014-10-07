@@ -433,6 +433,7 @@ function repoList (
         function fetchVersion (callback) {
           data.version.fetch(function (err) {
             $rootScope.safeApply();
+            callback(err);
           });
           $rootScope.safeApply();
         }
