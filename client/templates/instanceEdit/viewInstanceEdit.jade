@@ -53,12 +53,15 @@ section.sidebar.box-sidebar
     edit = "true"
   )
 
-  .sidebar-validation
-    h2.sub-header Environmental Variables Validation Errors
-    ul.list-group
-      li.list-group-item(
-        ng-repeat = "errorLine in dataInstanceEdit.data.envValidation.errors"
-      ) Invalid line {{ errorLine + 1 }}
+  section.row(
+    ng-if = "dataInstanceEdit.data.envValidation.errors"
+  )
+    .sidebar-validation
+      h2.sub-header Environmental Var Errors
+      ul.list-group
+        li.list-group-item(
+          ng-repeat = "errorLine in dataInstanceEdit.data.envValidation.errors"
+        ) Invalid line {{ errorLine + 1 }}
 
 section.views(
   ng-class = "{in: dataInstanceEdit.data.showExplorer && !dataInstanceEdit.data.loading}"
