@@ -1,4 +1,5 @@
 var Terminal = require('term.js');
+var CHAR_HEIGHT = 20;
 require('app')
   .directive('term', term);
 /**
@@ -22,8 +23,6 @@ function term(
           return;
         }
         // Numbers chosen erring on the side of padding, will be updated with more accurate numbers later
-        var charWidth = 8.3;
-        var charHeight = 17;
         var params = $scope.params;
 
         // Initalize link to server
@@ -67,12 +66,11 @@ function term(
           if (!termLineEl) { return; }
           var tBox = termLineEl.getBoundingClientRect();
 
-          var scale = charHeight/tBox.height;
-          var newCharHeight = charHeight * scale;
-          charWidth = tBox.width / termLineEl.textContent.length;
+          var charWidth = tBox.width / termLineEl.textContent.length;
 
           var x = Math.floor($termElem.width() / charWidth);
-          var y = Math.floor(($termElem.height() - (tBox.top * scale)) / newCharHeight);
+          if (x < 80) { x = 80; }
+          var y = Math.floor($termElem.height() / CHAR_HEIGHT);
           terminal.resize(x, y);
 
           if (clientEvents) {
