@@ -153,7 +153,8 @@ function ControllerInstanceEdit(
       function (err, build) {
         if (err) throw err;
         data.instance.update({
-          build: data.build.id()
+          build: data.build.id(),
+          env: data.instance.state.env
         }, function (err) {
           if (err) {
             throw err;

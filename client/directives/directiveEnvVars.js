@@ -36,7 +36,9 @@ function envVars(
             return;
           }
 
-          keypather.set($scope, 'instance.state.env', newEnv.split('\n'));
+          keypather.set($scope, 'instance.state.env', newEnv.split('\n').filter(function (v) {
+            return v.length;
+          }));
         });
       });
 
