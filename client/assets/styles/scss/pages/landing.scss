@@ -1,3 +1,12 @@
+// .landing
+.landing,
+.landing #wrapper {
+  height: auto;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 // header.landing-hero
 .landing-hero {
   background: url(../images/hero-grid-static.png) $purple center center;
@@ -10,7 +19,7 @@
 
 // div.hero-grid
 .hero-grid {
-  position: absolute;
+  position: relative;
 }
 
 // div.grid-layer
@@ -60,6 +69,11 @@
 // h1.hero-text
 .hero-text {
   font-weight: 500;
+}
+
+// section.landing-section
+.landing-section {
+  height: 400px;
 }
 
 // .hero {

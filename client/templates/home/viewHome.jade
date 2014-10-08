@@ -1,8 +1,17 @@
 header.landing-hero
   .hero-grid
-    .grid-layer
-    .grid-layer
-    .grid-layer
+    .grid-layer(
+      data-0 = "transform: translate3d(0,0,0);"
+      data-400 = "transform: translate3d(0,100px,0);"
+    )
+    .grid-layer(
+      data-0 = "transform: translate3d(0,0,0);"
+      data-400 = "transform: translate3d(0,200px,0);"
+    )
+    .grid-layer(
+      data-0 = "transform: translate3d(0,0,0);"
+      data-400 = "transform: translate3d(0,300px,0);"
+    )
   nav.landing-nav
     a.logo(
       href = "/"
@@ -11,19 +20,19 @@ header.landing-hero
         use(
           xlink:href = "#runnable-logo"
         )
-    a.link(
-      href = "{{ dataApp.loginURL }}"
-    )
-      svg.iconnables.icons-git
-      use(
-        xlink:href = "#icons-git"
-      )
-      | Log In
-  h1.hero-text I need a box to #{''}
-    span.hero-text-swap debug
-    | .
-  p.hero-text-sub Launch boxes on demand in seconds.
-  div
+  //-   a.link(
+  //-     href = "{{ dataApp.loginURL }}"
+  //-   )
+  //-     svg.iconnables.icons-git
+  //-     use(
+  //-       xlink:href = "#icons-git"
+  //-     )
+  //-     | Log In
+  //- h1.hero-text I need a box to #{''}
+  //-   span.hero-text-swap debug
+  //-   | .
+  //- p.hero-text-sub Launch boxes on demand in seconds.
+  //- div
     button Learn More
     button
       svg.iconnables.icons-git
