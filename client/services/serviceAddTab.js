@@ -5,7 +5,7 @@ require('app')
  */
 function addTab() {
   var openItems;
-  return function(config) {
+  return function(config, openItems) {
     if (!config) {
       // default to all available
       config = {
