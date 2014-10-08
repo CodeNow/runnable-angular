@@ -14,7 +14,8 @@ function ControllerInstance(
   user,
   OpenItems,
   getNewFileFolderName,
-  validateEnvVars
+  validateEnvVars,
+  addTab
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -230,46 +231,7 @@ function ControllerInstance(
   /*********************************
    * popoverAddTab
    *********************************/
-  var pat = data.popoverAddTab;
-  pat.data = {
-    show: false
-  };
-  pat.actions = {};
-
-  pat.actions.addBuildStream = function () {
-    pat.data.show = false;
-    return data.openItems.addBuildStream({
-      name: 'Build Logs'
-    });
-  };
-
-  pat.actions.addWebView = function () {
-    pat.data.show = false;
-    return data.openItems.addWebView({
-      name: 'Web View'
-    });
-  };
-
-  pat.actions.addTerminal = function () {
-    pat.data.show = false;
-    return data.openItems.addTerminal({
-      name: 'Terminal'
-    });
-  };
-
-  pat.actions.addLogs = function () {
-    pat.data.show = false;
-    return data.openItems.addLogs({
-      name: 'Box Logs'
-    });
-  };
-
-  pat.actions.addEnvVars = function () {
-    pat.data.show = false;
-    return data.openItems.addEnvVars({
-      name: 'Env Vars'
-    });
-  };
+  var pat = data.popoverAddTab = new addTab();
 
   /*********************************
    * popoverSaveOptions
@@ -386,7 +348,6 @@ function ControllerInstance(
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
-    dataInstance.data.popoverAddTab.filter = '';
   });
 
   $scope.$watch(function () {
@@ -520,6 +481,7 @@ function ControllerInstance(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems(data.instance.id());
+    pat.addOpenItems(data.openItems);
     if (data.build.succeeded()) {
       var container = data.container;
       // save this so we can later
@@ -570,9 +532,6 @@ function ControllerInstance(
 ControllerInstance.initData = function () {
   return {
     data: {
-      popoverAddTab: {
-        filter: ''
-      },
       showAddTab: false,
       showFileMenu: false,
       showExplorer: false
