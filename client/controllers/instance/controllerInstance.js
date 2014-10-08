@@ -26,17 +26,6 @@ function ControllerInstance(
 
   data.restartOnSave = true;
 
-  /**
-   * Add an EnvVars view-only tab
-   */
-  function addEnvVars () {
-    // idempotent after first invokation,
-    // will only add once
-    data.openItems.addEnvVars({
-      name: 'Env Vars'
-    });
-  }
-
   /*********************************
    * popoverFileMenu
    *********************************/
@@ -509,12 +498,6 @@ function ControllerInstance(
         pgm.data.dataModalDelete.instance = instance;
         pso.data.container = pgm.data.container = data.container;
         asyncInitDataModalFork();
-
-        // if instance has environmental variables display them in Env Vars tab
-        if (keypather.get(instance, 'attrs.env.length')) {
-          addEnvVars();
-        }
-
         $scope.safeApply();
         cb();
       })
@@ -552,10 +535,27 @@ function ControllerInstance(
     cb();
   }
 
+  /**
+   * Add an EnvVars view-only tab
+   */
+  function addEnvVars (cb) {
+    // if instance has environmental variables display them in Env Vars tab
+    if (!keypather.get(data, 'instance.attrs.env.length')) {
+      return cb();
+    }
+    // idempotent after first invokation,
+    // will only add once
+    data.openItems.addEnvVars({
+      name: 'Env Vars'
+    });
+    cb();
+  }
+
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
-    newOpenItems
+    newOpenItems,
+    addEnvVars
   ], function (err) {
     if (err) {
       $state.go('error', {
