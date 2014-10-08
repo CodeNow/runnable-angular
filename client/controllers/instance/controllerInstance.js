@@ -26,6 +26,17 @@ function ControllerInstance(
 
   data.restartOnSave = true;
 
+  /**
+   * Add an EnvVars view-only tab
+   */
+  function addEnvVars () {
+    // idempotent after first invokation,
+    // will only add once
+    data.openItems.addEnvVars({
+      name: 'Env Vars'
+    });
+  }
+
   /*********************************
    * popoverFileMenu
    *********************************/
@@ -264,13 +275,6 @@ function ControllerInstance(
     });
   };
 
-  pat.actions.addEnvVars = function () {
-    pat.data.show = false;
-    return data.openItems.addEnvVars({
-      name: 'Env Vars'
-    });
-  };
-
   /*********************************
    * popoverSaveOptions
    *********************************/
@@ -505,6 +509,12 @@ function ControllerInstance(
         pgm.data.dataModalDelete.instance = instance;
         pso.data.container = pgm.data.container = data.container;
         asyncInitDataModalFork();
+
+        // if instance has environmental variables display them in Env Vars tab
+        if (keypather.get(instance, 'attrs.env.length')) {
+          addEnvVars();
+        }
+
         $scope.safeApply();
         cb();
       })
