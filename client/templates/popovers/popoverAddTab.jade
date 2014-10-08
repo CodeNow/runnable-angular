@@ -3,32 +3,40 @@
   style = "max-width:500px"
   ng-class = "{ \
     in: data.show, \
-    'show-new-shortcut': data.showNewShortcut \
   }"
 )
   .arrow.white
   .popover-content
+    //- all options appear on box page
+    //- on edit, only build log and env vars appear
+    //- on setup, only env vars appear
     ol.popover-body.popover-columns
       li.popover-column(
         ng-click = "actions.addWebView()"
         ng-if = "data.options.webView"
       )
         svg.iconnables.iconnables-lg.icons-web
-          use(xlink:href = "#icons-web")
+          use(
+            xlink:href = "#icons-web"
+          )
         | Web View
       li.popover-column(
         ng-click = "actions.addTerminal()"
         ng-if = "data.options.terminal"
       )
         svg.iconnables.iconnables-lg.icons-terminal
-          use(xlink:href = "#icons-terminal")
+          use(
+            xlink:href = "#icons-terminal"
+          )
         | Terminal
       li.popover-column(
         ng-click = "actions.addBuildStream()"
         ng-if = "data.options.buildStream"
       )
         svg.iconnables.iconnables-lg.icons-logs
-          use(xlink:href = "#icons-logs")
+          use(
+            xlink:href = "#icons-logs"
+          )
         | Build Log
       li.popover-column(
         ng-click = "actions.addLogs()"
@@ -40,6 +48,7 @@
       li.popover-column(
         ng-click = "actions.addEnvVars()"
         ng-if = "data.options.envVars"
+        title = "Environmental Variables"
       )
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")

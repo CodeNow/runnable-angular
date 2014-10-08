@@ -84,7 +84,7 @@ section.sidebar.box-sidebar.setup
           ng-repeat = "error in dataSetup.data.validDockerfile.errors"
         ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
 
-section.views(
+section.views.with-add-tab(
   ng-class = "{in: dataSetup.data.showExplorer && !dataSetup.data.loading}"
 )
   //- explorer
@@ -129,7 +129,7 @@ section.views(
     pop-over(
       actions = "dataSetup.data.popoverAddTab.actions"
       data = "dataSetup.data.popoverAddTab.data"
-      template = "viewInstancePopoverAddTab"
+      template = "popoverAddTab"
     )
 
   //- active panel
