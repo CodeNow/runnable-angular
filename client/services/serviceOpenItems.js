@@ -166,18 +166,36 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addWebView = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Web View';
+    }
     var webView = new WebView(data);
     this.add(webView);
     return webView;
   };
 
   OpenItems.prototype.addTerminal = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Terminal';
+    }
     var terminal = new Terminal(data);
     this.add(terminal);
     return terminal;
   };
 
   OpenItems.prototype.addBuildStream = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Build Stream';
+    }
     if (this.hasOpen('BuildStream')) {
       var currStream = this.getFirst('BuildStream');
       this.activeHistory.add(currStream);
@@ -189,6 +207,12 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addLogs = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Box Logs';
+    }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');
       this.activeHistory.add(currStream);
@@ -200,6 +224,12 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addEnvVars = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Env Vars';
+    }
     if (this.hasOpen('EnvVars')) {
       var currentEnvVars = this.getFirst('EnvVars');
       this.activeHistory.add(currentEnvVars);
