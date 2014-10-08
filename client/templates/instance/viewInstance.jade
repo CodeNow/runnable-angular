@@ -108,13 +108,6 @@ section.sidebar.box-sidebar.load
     ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
   )
 
-  .sidebar-validation
-    h2.sub-header Environmental Variables Validation Errors
-    ul.list-group
-      li.list-group-item(
-        ng-repeat = "errorLine in dataInstance.data.envValidation.errors"
-      ) Invalid line {{ errorLine + 1 }}
-
 section.views.with-add-tab(
   ng-class = "dataInstance.actions.getSectionViewsClass()"
 )
