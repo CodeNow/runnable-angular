@@ -1,13 +1,53 @@
-main.hero
-  a.logo
-    svg
-      use(xlink:href = "#runnable-logo")
-  a.btn(
-    href = "{{ dataApp.loginURL }}"
-  )
-    svg.iconnables.icons-git
-      use(xlink:href = "#icons-git")
-    | Log In with Github
+header.landing-hero
+  nav.landing-nav
+    a.logo
+      svg
+        use(
+          xlink:href = "#runnable-logo"
+        )
+    a(
+      href = "{{ dataApp.loginURL }}"
+    ) Log In
+  h1.hero-text
+    span.hero-text-swap
+  p.hero-text-sub
+  div
+    button
+    button
+section.landing-section
+  div
+  h2.section-header
+  p.section-description
+section.landing-section
+  div
+  h2.section-header
+  p.section-description
+section.landing-section
+  div
+  h2.section-header
+  p.section-description
+section.landing-section
+  div
+  h2.section-header
+  p.section-description
+section.landing-cta
+  h3.cta-hero-text
+  button
+footer.landing-footer
+  a
+  img
+  a
+
+//- main.hero
+//-   a.logo
+//-     svg
+//-       use(xlink:href = "#runnable-logo")
+//-   a.btn(
+//-     href = "{{ dataApp.loginURL }}"
+//-   )
+//-     svg.iconnables.icons-git
+//-       use(xlink:href = "#icons-git")
+//-     | Log In with Github
 
 div(
   ng-include = "'viewDevelopmentInfo'"
