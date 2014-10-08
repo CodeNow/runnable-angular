@@ -547,7 +547,7 @@ function ControllerInstance(
     // will only add once
     data.openItems.addEnvVars({
       name: 'Env Vars'
-    });
+    }).state.readOnly = true;
     cb();
   }
 

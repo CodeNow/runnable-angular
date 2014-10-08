@@ -10,7 +10,8 @@ function envVars(
     restrict: 'E',
     replace: true,
     scope: {
-      instance: '='
+      instance: '=',
+      item: '='
     },
     templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {

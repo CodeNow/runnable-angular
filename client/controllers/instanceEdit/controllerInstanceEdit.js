@@ -331,7 +331,7 @@ function ControllerInstanceEdit(
     // will only add once
     data.openItems.addEnvVars({
       name: 'Env Vars'
-    });
+    }).state.readOnly = false;
     cb();
   }
 
