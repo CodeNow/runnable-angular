@@ -1,5 +1,65 @@
-.landing {
+// header.landing-hero
+.landing-hero {
+  background: url(../images/hero-grid-static.png) $purple center center;
+  background-size: 1440px 600px;
+  color: $white;
+  height: 40vh;
+  min-height: 400px;
+  width: 100vw;
+}
 
+// div.hero-grid
+.hero-grid {
+  position: absolute;
+}
+
+// div.grid-layer
+.grid-layer {
+  background-size: 1440px 600px;
+  height: 40vh;
+  min-height: 400px;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+
+  &:first-child {
+    background: url(../images/hero-grid-layer-1.png) center center;
+  }
+
+  &:nth-child(2) {
+    background: url(../images/hero-grid-layer-2.png) center center;
+  }
+
+  &:last-child {
+    background: url(../images/hero-grid-layer-3.png) center center;
+  }
+}
+
+// nav.landing-nav
+.landing-nav {
+  height: 60px;
+  width: 100%;
+
+  // a.link
+  .link {
+    color: $white;
+    display: inline-block;
+    float: right;
+    height: 60px;
+    line-height: 60px;
+  }
+}
+
+// a.logo
+.logo {
+  float: left;
+  height: 40px;
+  margin: 10px 0;
+}
+
+// h1.hero-text
+.hero-text {
+  font-weight: 500;
 }
 
 // .hero {

@@ -6,8 +6,7 @@ module.exports = [{
   controller: 'ControllerHome',
   data: {
     bodyClass: {
-      'landing': true,
-      'width-full': true
+      'landing': true
     },
   }
 }, {

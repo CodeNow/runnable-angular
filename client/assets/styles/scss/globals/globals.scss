@@ -24,24 +24,12 @@ body,
   overflow-y: hidden;
 }
 
-.width-full {
-
-  @include media(xxs) {
-    min-width: 0;
-  }
-}
-
 .content {
   float: right;
   height: 100%;
   overflow: hidden;
   transition: width .2s ease-in;
   width: calc(100% - 240px);
-
-  .width-full & {
-    float: none;
-    width: 100%;
-  }
 }
 
 // svg files
