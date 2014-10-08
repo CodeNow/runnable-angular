@@ -1,6 +1,6 @@
 var Terminal = require('term.js');
 var debounce = require('debounce');
-var CHAR_HEIGHT = 17;
+var CHAR_HEIGHT = 20;
 var streamCleanser = require('docker-stream-cleanser');
 require('app')
   .directive('logView', logView);
@@ -28,11 +28,15 @@ function logView(
     link: function ($scope, elem, attrs) {
 
       var terminal = new Terminal({
-        cols: 80,
-        rows: 24,
+        cols: 130,
+        rows: 80,
         useStyle: true,
         screenKeys: true,
-        scrollback: 0
+        scrollback: 0,
+        hideCursor: true,
+        cursorHidden: true,
+        wraparoundMode: true,
+        cursorState: 0
       });
       terminal.open(elem[0]);
 
@@ -41,7 +45,6 @@ function logView(
       };
       var $termElem = jQuery(terminal.element);
       var dResizeTerm = debounce(resizeTerm, 300);
-      resizeTerm();
       jQuery($window).on('resize', dResizeTerm);
       terminal.on('focus', dResizeTerm);
       function writeToTerm (data) {
@@ -55,12 +58,11 @@ function logView(
         if (!termLineEl) { return; }
         var tBox = termLineEl.getBoundingClientRect();
 
-        var scale = CHAR_HEIGHT/tBox.height;
-        var newCharHeight = CHAR_HEIGHT * scale;
         var charWidth = tBox.width / termLineEl.textContent.length;
 
         var x = Math.floor($termElem.width() / charWidth);
-        var y = Math.floor(($termElem.height() - (tBox.top * scale)) / newCharHeight);
+        if (x < 80) { x = 80; }
+        var y = Math.floor($termElem.height() / CHAR_HEIGHT);
         terminal.resize(x, y);
       }
       $scope.$on('$destroy', function () {
@@ -73,6 +75,7 @@ function logView(
         terminal.destroy();
       });
 
+      resizeTerm();
       if (attrs.build) {
         $scope.$watch('build.attrs._id', function (buildId, oldVal) {
           terminal.reset();
