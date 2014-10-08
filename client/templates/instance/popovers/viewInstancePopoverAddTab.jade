@@ -1,6 +1,5 @@
 //- TODO cleanup temp inline styles
 .popover.menu.bottom.fade(
-  style = "max-width:500px"
   ng-class = "{ \
     in: data.show, \
     'show-new-shortcut': data.showNewShortcut \
@@ -33,9 +32,3 @@
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")
         | Box Log
-      li.popover-column(
-        ng-click = "actions.addEnvVars()"
-      )
-        svg.iconnables.iconnables-lg.icons-server
-          use(xlink:href = "#icons-server")
-        | Env Vars
