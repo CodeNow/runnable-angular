@@ -1,7 +1,6 @@
 var Terminal = require('term.js');
 var debounce = require('debounce');
-var CHAR_WIDTH = 8;
-var CHAR_HEIGHT = 19;
+var CHAR_HEIGHT = 17;
 var streamCleanser = require('docker-stream-cleanser');
 require('app')
   .directive('logView', logView);
@@ -15,7 +14,8 @@ function logView(
   jQuery,
   $sce,
   $window,
-  primus
+  primus,
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -31,7 +31,8 @@ function logView(
         cols: 80,
         rows: 24,
         useStyle: true,
-        screenKeys: true
+        screenKeys: true,
+        scrollback: 0
       });
       terminal.open(elem[0]);
 
@@ -50,10 +51,17 @@ function logView(
       function resizeTerm() {
         // Tab not selected
         if ($termElem.width() === 100) { return; }
-        var x = Math.floor($termElem.width() / CHAR_WIDTH);
-        var y = Math.floor($termElem.height() / CHAR_HEIGHT);
+        var termLineEl = $termElem.find('span')[0];
+        if (!termLineEl) { return; }
+        var tBox = termLineEl.getBoundingClientRect();
+
+        var scale = CHAR_HEIGHT/tBox.height;
+        var newCharHeight = CHAR_HEIGHT * scale;
+        var charWidth = tBox.width / termLineEl.textContent.length;
+
+        var x = Math.floor($termElem.width() / charWidth);
+        var y = Math.floor(($termElem.height() - (tBox.top * scale)) / newCharHeight);
         terminal.resize(x, y);
-        terminal.refresh();
       }
       $scope.$on('$destroy', function () {
         if ($scope.buildStream) {
@@ -128,6 +136,9 @@ function logView(
         };
         $scope.$watch('container.attrs._id', function (containerId) {
           if (containerId) {
+            // prepend log command to terminal
+
+            terminal.write('\x1b[33;1mroot@'+keypather.get($scope, 'container.attrs.inspect.Config.Hostname')+'\x1b[0m: ' + keypather.get($scope, 'container.attrs.inspect.Args[1]') + '\n\r');
             initBoxStream();
           }
         });

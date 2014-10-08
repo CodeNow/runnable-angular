@@ -30,7 +30,7 @@ Testing
 -------
 ```bash
 webdriver-manager start;
-npm test
+karma start ./test/karma.conf.js [--single-run] (optional)
 ```
 
 Contributors

@@ -7,17 +7,43 @@ function ControllerNew(
   $scope,
   $state,
   async,
+  hasKeypaths,
   uuid
 ) {
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var thisUser;
+  var owner;
 
   $scope.dataApp.data.loading = true;
 
-  function createContext (cb) {
+  function setOwner (cb) {
+    var currentUserOrOrgName = $state.params.userName;
     thisUser = $scope.dataApp.user;
+
+    if (!currentUserOrOrgName || currentUserOrOrgName === $scope.dataApp.user.oauthName()) {
+      owner = $scope.dataApp.user;
+      return cb();
+    }
+    var orgs = thisUser.fetchGithubOrgs(function (err) {
+      $scope.safeApply();
+      cb(err);
+      var currentOrg = orgs.find(hasKeypaths({
+        'attrs.login.toLowerCase()': currentUserOrOrgName.toLowerCase()
+      }));
+      if (currentOrg) {
+        owner = currentOrg;
+        return cb();
+      }
+      return cb(new Error('User or Org not found'));
+    });
+  }
+
+  function createContext (cb) {
     var context = thisUser.createContext({
-      name: uuid.v4()
+      name: uuid.v4(),
+      owner: {
+        github: owner.oauthId()
+      }
     }, function (err) {
       cb(err, context);
     });
@@ -33,7 +59,7 @@ function ControllerNew(
     var build = thisUser.createBuild({
       contextVersions: [version.id()],
       owner: {
-        github: $scope.dataInstanceLayout.data.activeAccount.oauthId()
+        github: owner.oauthId()
       }
     }, function (err) {
       cb(err, build);
@@ -42,6 +68,7 @@ function ControllerNew(
 
   async.waterfall([
     holdUntilAuth,
+    setOwner,
     createContext,
     createVersion,
     createBuild

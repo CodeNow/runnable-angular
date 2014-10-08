@@ -15,7 +15,8 @@ function ControllerInstanceEdit(
   extendDeep,
   OpenItems,
   keypather,
-  fetcherBuild
+  fetcherBuild,
+  validateEnvVars
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -42,6 +43,7 @@ function ControllerInstanceEdit(
     dataModalDelete: {},
     dataModalRename: {}
   };
+
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
@@ -63,7 +65,6 @@ function ControllerInstanceEdit(
           data.saving = true;
         }, 1);
         data.saving = false;
-        cb(); //removes modal
         if (data.instance.attrs.name === data.instance.state.name.trim()) {
           // no need to make API call if name didn't change
           return;
@@ -76,17 +77,34 @@ function ControllerInstanceEdit(
             throw err;
           }
         });
+        // cb() will reset data.instance.state
+        // important to call after PATCH
+        cb(); //removes modal
       }
     },
-    forkInstance: function () {
+    forkInstance: function (env) {
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;
         }
-        $state.go('instance.instance', {
-          userName: $stateParams.userName,
-          shortHash: newInstance.attrs.shortHash
-        });
+        if (env) {
+          env = env.map(function (e) {
+            return e.key + '=' + e.value;
+          });
+          newInstance.update({
+            env: env
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              shortHash: newInstance.attrs.shortHash
+            });
+          });
+        } else {
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            shortHash: newInstance.attrs.shortHash
+          });
+        }
         // refetch instance collection to update list in
         // instance layout
         var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
@@ -156,6 +174,15 @@ function ControllerInstanceEdit(
     return '';
   };
 
+  var dmf = pgm.data.dataModalFork = {};
+  var amf = pgm.actions.actionsModalFork = {};
+  function asyncInitDataModalFork() {
+    dmf.instance = data.instance;
+    amf.fork = function (env) {
+      pgm.actions.forkInstance(env);
+    };
+  }
+
   /**
    * If this build is built, we want to wait for changes and then trigger a fork
    */
@@ -188,6 +215,7 @@ function ControllerInstanceEdit(
       $window.onbeforeunload = null;
     }
   });
+
   $scope.$watch('dataInstanceLayout.data.instances', function(n) {
     if (n) {
       pgm.data.dataModalRename.instances = n;
@@ -230,6 +258,7 @@ function ControllerInstanceEdit(
         data.instance = instance;
         pgm.data.dataModalRename.instance = instance;
         pgm.data.dataModalDelete.instance = instance;
+        asyncInitDataModalFork();
         $scope.safeApply();
         cb();
       })
@@ -316,4 +345,10 @@ function ControllerInstanceEdit(
   $scope.$on('$destroy', function () {
     $interval.cancel(interval);
   });
+
+  // property controlled by directiveEnvVars
+  $scope.$watch('dataInstanceEdit.data.instance.state.env', function (newEnvVal, oldEnvVal) {
+    data.envValidation = validateEnvVars(newEnvVal);
+  });
+
 }
