@@ -43,15 +43,15 @@
   )
 
   env-vars(
-    ng-if = "item.state.type === 'EnvVars'"
     item = "item"
     instance = "instance"
+    ng-if = "item.state.type === 'EnvVars'"
   )
 
   button.silver.editor-status(
     disabled
-    type = "button"
     ng-if = "(data.readOnly && item.state.type === 'File') \
              || \
              (item.state.type === 'EnvVars' && item.state.readOnly)"
+    type = "button"
   ) Readonly
