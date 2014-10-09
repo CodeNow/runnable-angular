@@ -102,10 +102,10 @@ function logView(
               if (contextVersion && contextVersion.attrs.build) {
                 var data = contextVersion.attrs.build.log ||
                   (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
-                  'Unknown Build Error Occurred';
+                  'unknown build error occured';
                 writeToTerm(data);
               } else {
-                writeToTerm('Unknown Build Error Occurred');
+                writeToTerm('unknown build error occurred');
               }
               $rootScope.safeApply();
             });
@@ -125,7 +125,7 @@ function logView(
               }
               if (!build.succeeded()) {
                 // bad things happened
-                writeToTerm('BUILD BROKEN: Please try again');
+                writeToTerm('please build again');
               } else {
                 // we're all good
                 writeToTerm('Build completed, starting instance...');

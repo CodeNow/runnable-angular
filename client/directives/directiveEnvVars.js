@@ -10,7 +10,8 @@ function envVars(
     restrict: 'E',
     replace: true,
     scope: {
-      instance: '='
+      instance: '=',
+      item: '='
     },
     templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
@@ -35,7 +36,9 @@ function envVars(
             return;
           }
 
-          keypather.set($scope, 'instance.state.env', newEnv.split('\n'));
+          keypather.set($scope, 'instance.state.env', newEnv.split('\n').filter(function (v) {
+            return v.length;
+          }));
         });
       });
 

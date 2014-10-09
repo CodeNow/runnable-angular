@@ -1,6 +1,5 @@
 //- TODO cleanup temp inline styles
 .popover.menu.bottom.fade(
-  style = "max-width:500px"
   ng-class = "{ \
     in: data.show, \
   }"
@@ -45,11 +44,3 @@
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")
         | Box Log
-      li.popover-column(
-        ng-click = "actions.addEnvVars()"
-        ng-if = "data.options.envVars"
-        title = "Environmental Variables"
-      )
-        svg.iconnables.iconnables-lg.icons-server
-          use(xlink:href = "#icons-server")
-        | Env Vars
