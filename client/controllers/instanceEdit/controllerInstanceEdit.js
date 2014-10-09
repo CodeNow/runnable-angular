@@ -16,7 +16,8 @@ function ControllerInstanceEdit(
   OpenItems,
   keypather,
   fetcherBuild,
-  validateEnvVars
+  validateEnvVars,
+  addTab
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -125,6 +126,14 @@ function ControllerInstanceEdit(
       });
     }
   };
+
+  /*********************************
+   * popoverAddTab
+   *********************************/
+  var pat = data.popoverAddTab = new addTab({
+    buildStream: true,
+    envVars: true
+  });
 
   actions.goToInstance = function (skipCheck) {
     if (skipCheck) {
@@ -304,7 +313,7 @@ function ControllerInstanceEdit(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-
+    pat.addOpenItems(data.openItems);
     data.openItems.addBuildStream({
       name: 'Previous build'
     }).state.alwaysOpen = true;
