@@ -194,7 +194,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Build Stream';
+      data.name = 'Build Logs';
     }
     if (this.hasOpen('BuildStream')) {
       var currStream = this.getFirst('BuildStream');
