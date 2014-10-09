@@ -12,34 +12,36 @@
   background: url(../images/hero-grid-static.png) $purple center center;
   background-size: 1440px 600px;
   color: $white;
-  height: 40vh;
-  min-height: 400px;
+  height: 500px;
   width: 100vw;
 }
 
 // div.hero-grid
 .hero-grid {
+  height: 500px;
+  overflow: hidden;
   position: relative;
+  width: 100vw;
 }
 
 // div.grid-layer
 .grid-layer {
   background-size: 1440px 600px;
   height: 40vh;
-  min-height: 400px;
+  min-height: 500px;
   position: absolute;
   top: 0;
   width: 100vw;
 
-  &:first-child {
+  &.layer-one {
     background: url(../images/hero-grid-layer-1.png) center center;
   }
 
-  &:nth-child(2) {
+  &.layer-two {
     background: url(../images/hero-grid-layer-2.png) center center;
   }
 
-  &:last-child {
+  &.layer-three {
     background: url(../images/hero-grid-layer-3.png) center center;
   }
 }
@@ -73,7 +75,7 @@
 
 // section.landing-section
 .landing-section {
-  height: 400px;
+  height: 500px;
 }
 
 // .hero {

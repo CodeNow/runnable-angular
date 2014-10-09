@@ -1,5 +1,5 @@
 //- development only
-marquee(
+div(
   ng-if = "dataApp.data.configEnvironment === 'development'"
   style = "\
      bottom: 0; \
@@ -7,9 +7,8 @@ marquee(
      font-weight: 500; \
      right: 0; \
      position: absolute; \
-     width: 300px; \
      z-index: 9999;"
-)
-  | API: {{ dataApp.data.configAPIHost }}   #{''}
+) API: {{ dataApp.data.configAPIHost }}
+  br
   | ENV: {{ dataApp.data.configEnvironment }}
 

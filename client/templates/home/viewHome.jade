@@ -1,34 +1,27 @@
 header.landing-hero
   .hero-grid
-    .grid-layer(
-      data-0 = "transform: translate3d(0,0,0);"
-      data-400 = "transform: translate3d(0,100px,0);"
+    //- skrollr requires units on all transitions (even 0)
+    .grid-layer.layer-one(
+      data-0 = "transform: translate3d(0,0px,0);"
+      data-400 = "transform: translate3d(0,30px,0);"
     )
-    .grid-layer(
-      data-0 = "transform: translate3d(0,0,0);"
-      data-400 = "transform: translate3d(0,200px,0);"
+    .grid-layer.layer-two(
+      data-0 = "transform: translate3d(0,0px,0);"
+      data-400 = "transform: translate3d(0,60px,0);"
     )
-    .grid-layer(
-      data-0 = "transform: translate3d(0,0,0);"
-      data-400 = "transform: translate3d(0,300px,0);"
+    .grid-layer.layer-three(
+      data-0 = "transform: translate3d(0,0px,0);"
+      data-400 = "transform: translate3d(0,90px,0);"
     )
-  nav.landing-nav
-    a.logo(
-      href = "/"
-    )
-      svg
-        use(
-          xlink:href = "#runnable-logo"
-        )
-  //-   a.link(
-  //-     href = "{{ dataApp.loginURL }}"
-  //-   )
-  //-     svg.iconnables.icons-git
-  //-     use(
-  //-       xlink:href = "#icons-git"
-  //-     )
-  //-     | Log In
-  //- h1.hero-text I need a box to #{''}
+    nav.landing-nav
+      a.logo(
+        href = "/"
+      )
+        svg
+          use(
+            xlink:href = "#runnable-logo"
+          )
+    //- h1.hero-text I need a box to #{''}
   //-   span.hero-text-swap debug
   //-   | .
   //- p.hero-text-sub Launch boxes on demand in seconds.
