@@ -1,5 +1,5 @@
 var Runnable = require('runnable');
-var qs = require('querystring');
+var qs = require('qs');
 
 require('app')
   .factory('user', function ($http, configAPIHost) {
@@ -34,7 +34,9 @@ methods.forEach(function (method) {
     opts.data = opts.json || opts.body;
     delete opts.json;
     delete opts.body;
-    opts.url += '?'+qs.stringify(opts.qs);
+    if (opts.qs) {
+      opts.url += '?'+qs.stringify(opts.qs);
+    }
     delete opts.qs;
 
     this.$http(opts)
