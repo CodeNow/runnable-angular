@@ -13,25 +13,21 @@
   background-size: 1440px 600px;
   color: $white;
   height: 500px;
-  width: 100vw;
-}
-
-// div.hero-grid
-.hero-grid {
-  height: 500px;
   overflow: hidden;
   position: relative;
   width: 100vw;
 }
 
-// div.grid-layer
-.grid-layer {
+// div.landing-hero-bg
+.landing-hero-bg {
   background-size: 1440px 600px;
   height: 40vh;
   min-height: 500px;
+  pointer-events: none;
   position: absolute;
   top: 0;
   width: 100vw;
+  z-index: $z-hero-layers;
 
   &.layer-one {
     background: url(../images/hero-grid-layer-1.png) center center;
@@ -43,6 +39,38 @@
 
   &.layer-three {
     background: url(../images/hero-grid-layer-3.png) center center;
+  }
+}
+
+// div.landing-content
+.landing-content {
+  height: 320px;
+  margin-top: 120px;
+  position: relative;
+  z-index: $z-hero-content;
+
+  button,
+  .btn {
+    background: rgba($white,.15);
+    color: $white;
+    font-size: 16px;
+    font-weight: 300;
+    height: 36px;
+    line-height: 36px;
+    margin: 30px 3px 0;
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+      background: rgba($white,.3);
+    }
+
+    .icons-git {
+      float: left;
+      height: 36px;
+      margin-right: 9px;
+      width: 21px;
+    }
   }
 }
 
@@ -70,7 +98,18 @@
 
 // h1.hero-text
 .hero-text {
+  font-size: 39px;
   font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+// p.hero-text-sub
+.hero-text-sub {
+  color: $white;
+  font-size: 16px;
+  margin: 0;
+  text-align: center;
 }
 
 // section.landing-section
@@ -116,31 +155,6 @@
 //     @include media(xxs) {
 //       height: auto;
 //       max-width: 100%;
-//     }
-//   }
-
-//   .icons-git {
-//     float: left;
-//     height: 54px;
-//     margin-right: 6px;
-//   }
-
-//   .btn {
-//     background: rgba($white,.15);
-//     border: 2px solid $white;
-//     color: $white;
-//     font-size: 18px;
-//     height: 54px;
-//     line-height: 54px;
-//     margin-top: 30px;
-//     text-decoration: none;
-
-//     @include media(xxs) {
-//       margin-top: 0;
-//     }
-
-//     &:hover {
-//       background: rgba($white,.3);
 //     }
 //   }
 // }

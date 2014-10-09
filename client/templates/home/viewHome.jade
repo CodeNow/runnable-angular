@@ -1,19 +1,18 @@
 header.landing-hero
-  .hero-grid
-    //- skrollr requires units on all transitions (even 0)
-    .grid-layer.layer-one(
-      data-0 = "transform: translate3d(0,0px,0);"
-      data-400 = "transform: translate3d(0,30px,0);"
-    )
-    .grid-layer.layer-two(
-      data-0 = "transform: translate3d(0,0px,0);"
-      data-400 = "transform: translate3d(0,60px,0);"
-    )
-    .grid-layer.layer-three(
-      data-0 = "transform: translate3d(0,0px,0);"
-      data-400 = "transform: translate3d(0,90px,0);"
-    )
-    nav.landing-nav
+  //- skrollr requires units on all transitions (even 0)
+  .landing-hero-bg.layer-one(
+    data-0 = "transform: translate3d(0,0px,0);"
+    data-400 = "transform: translate3d(0,30px,0);"
+  )
+  .landing-hero-bg.layer-two(
+    data-0 = "transform: translate3d(0,0px,0);"
+    data-400 = "transform: translate3d(0,60px,0);"
+  )
+  .landing-hero-bg.layer-three(
+    data-0 = "transform: translate3d(0,0px,0);"
+    data-400 = "transform: translate3d(0,90px,0);"
+  )
+  nav.landing-nav
       a.logo(
         href = "/"
       )
@@ -21,18 +20,21 @@ header.landing-hero
           use(
             xlink:href = "#runnable-logo"
           )
-    //- h1.hero-text I need a box to #{''}
-  //-   span.hero-text-swap debug
-  //-   | .
-  //- p.hero-text-sub Launch boxes on demand in seconds.
-  //- div
-    button Learn More
-    button
-      svg.iconnables.icons-git
-      use(
-        xlink:href = "#icons-git"
-      )
-      | Sign Up with Github
+  .landing-content
+    h1.hero-text I need a box to #{''}
+      span.hero-text-swap debug
+      | .
+    p.hero-text-sub Launch boxes on demand in seconds.
+    p.hero-text-sub
+      button(
+        type = "button"
+      ) Learn More
+      a.btn
+        svg.iconnables.icons-git
+          use(
+            xlink:href = "#icons-git"
+          )
+        | Sign Up with Github
 section.landing-section
   div
   h2.section-header
