@@ -1,4 +1,5 @@
 var Runnable = require('runnable');
+var qs = require('querystring');
 
 require('app')
   .factory('user', function ($http, configAPIHost) {
@@ -16,8 +17,8 @@ var AngularHttpRequest = function AngularHttpRequest ($http) {
   this.$http = $http;
 };
 
-AngularHttpRequest.prototype.defaults = function () {
-
+AngularHttpRequest.prototype.defaults = function (opts) {
+  this.defautOpts = opts;
 };
 
 methods.forEach(function (method) {
@@ -27,12 +28,13 @@ methods.forEach(function (method) {
       this._formatQueryArgs(arguments);
 
     var opts = args.opts;
+    opts     = angular.extend(opts || {}, this.defaultOpts);
     var cb   = args.cb;
     opts.method = method;
     opts.data = opts.json || opts.body;
     delete opts.json;
     delete opts.body;
-    opts.params = opts.qs;
+    opts.url += '?'+qs.stringify(opts.qs);
     delete opts.qs;
 
     this.$http(opts)
@@ -72,7 +74,6 @@ AngularHttpRequest.prototype._formatArgs = function (args) {
   }
   else {}
 
-  opts = angular.extend(opts || {}, this.defaultOpts);
   opts.url = opts.url || opts.uri;
 
   return {
@@ -86,11 +87,11 @@ AngularHttpRequest.prototype._formatBodyArgs = function (args) {
   args = this._formatArgs(args);
   if (args.url) {
     // assume opts is body if doesnt look like opts
-    if (!args.opts.url || !args.opts.json || !args.opts.query) {
+    if (!args.opts.url && !args.opts.json && !args.opts.qs) {
       args.opts = { json: args.opts };
     }
   }
-  args.opts.url = args.url;
+  args.opts.url = args.url || args.opts.url;
   return args;
 };
 
@@ -98,12 +99,12 @@ AngularHttpRequest.prototype._formatBodyArgs = function (args) {
 AngularHttpRequest.prototype._formatQueryArgs = function (args) {
   args = this._formatArgs(args);
   if (args.url) {
-    // assume opts is body if doesnt look like opts
-    if (!args.opts.url || !args.opts.json || !args.opts.query) {
+    // assume opts is query if doesnt look like opts
+    if (!args.opts.url && !args.opts.json && !args.opts.qs) {
       args.opts = { qs: args.opts };
     }
   }
-  args.opts.url = args.url;
+  args.opts.url = args.url || args.opts.url;
   return args;
 };
 
