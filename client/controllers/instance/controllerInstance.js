@@ -467,7 +467,7 @@ function ControllerInstance(
   }
 
   function newOpenItems(cb) {
-    data.openItems = new OpenItems(data.instance.id());
+    data.openItems = new OpenItems(data.instance.id() + data.instance.build.id());
     pat.addOpenItems(data.openItems);
     if (data.build.succeeded()) {
       var container = data.container;
