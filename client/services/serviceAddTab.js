@@ -13,7 +13,8 @@ function addTab() {
         terminal: true,
         buildStream: true,
         logs: true,
-        envVars: true
+        envVars: true,
+        envVarsReadOnly: true
       };
     }
     var pat = {
@@ -45,7 +46,9 @@ function addTab() {
         addEnvVars: function () {
           if (!openItems) { return; }
           pat.data.show = false;
-          return openItems.addEnvVars();
+          var envVars = openItems.addEnvVars();
+          envVars.state.readOnly = config.envVarsReadOnly;
+          return envVars;
         }
       },
       addOpenItems: function (_openItems) {

@@ -132,7 +132,8 @@ function ControllerInstanceEdit(
    *********************************/
   var pat = data.popoverAddTab = new addTab({
     buildStream: true,
-    envVars: true
+    envVars: true,
+    envVarsReadOnly: false
   });
 
   actions.goToInstance = function (skipCheck) {
