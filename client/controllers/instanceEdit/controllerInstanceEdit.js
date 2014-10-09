@@ -162,7 +162,8 @@ function ControllerInstanceEdit(
       function (err, build) {
         if (err) throw err;
         data.instance.update({
-          build: data.build.id()
+          build: data.build.id(),
+          env: data.instance.state.env
         }, function (err) {
           if (err) {
             throw err;
@@ -332,11 +333,24 @@ function ControllerInstanceEdit(
     return !!dockerfile;
   }
 
+  /**
+   * Add an EnvVars view-only tab
+   */
+  function addEnvVars (cb) {
+    // idempotent after first invokation,
+    // will only add once
+    data.openItems.addEnvVars({
+      name: 'Env Vars'
+    }).state.readOnly = false;
+    cb();
+  }
+
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
     fetchBuild,
-    newOpenItems
+    newOpenItems,
+    addEnvVars
   ], function (err) {
     if (err) {
       $state.go('error', {

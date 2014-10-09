@@ -298,23 +298,10 @@ function ControllerInstance(
         });
       },
       function complete (err) {
-        if (Array.isArray(keypather.get(data, 'instance.state.env'))) {
-          // env vars modified in EnvVars dir
-          data.instance.update({
-            env: data.instance.state.env
-          }, function () {
-            if (data.restartOnSave) {
-              pgm.actions.restartInstance();
-            }
-            $scope.safeApply();
-          });
-        } else {
-          // no env vars modified in EnvVars dir
-          if (data.restartOnSave) {
-            pgm.actions.restartInstance();
-          }
-          $scope.safeApply();
+        if (data.restartOnSave) {
+          pgm.actions.restartInstance();
         }
+        $scope.safeApply();
       }
     );
   };
@@ -504,10 +491,27 @@ function ControllerInstance(
     cb();
   }
 
+  /**
+   * Add an EnvVars view-only tab
+   */
+  function addEnvVars (cb) {
+    // if instance has environmental variables display them in Env Vars tab
+    if (!keypather.get(data, 'instance.attrs.env.length')) {
+      return cb();
+    }
+    // idempotent after first invokation,
+    // will only add once
+    data.openItems.addEnvVars({
+      name: 'Env Vars'
+    }).state.readOnly = true;
+    cb();
+  }
+
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
-    newOpenItems
+    newOpenItems,
+    addEnvVars
   ], function (err) {
     if (err) {
       $state.go('error', {
