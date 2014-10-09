@@ -91,6 +91,7 @@
     "node-uuid": "^1.4.1",
     "nodemon": "~1.1.1",
     "protractor": "~1.0.0-rc1",
+    "qs": "^2.2.4",
     "sinon": "~1.10.3",
     "stringify": "~2.1.0",
     "validate-dockerfile": "1.4.x",
