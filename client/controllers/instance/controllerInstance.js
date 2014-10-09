@@ -467,10 +467,17 @@ function ControllerInstance(
   }
 
   function newOpenItems(cb) {
-    data.openItems = new OpenItems(data.instance.id());
+    data.openItems = new OpenItems(data.instance.id() + data.instance.build.id());
     pat.addOpenItems(data.openItems);
     if (data.build.succeeded()) {
       var container = data.container;
+
+      if (keypather.get(data, 'instance.attrs.env.length')) {
+        data.openItems.addEnvVars({
+          name: 'Environment'
+        }).state.readOnly = true;
+      }
+
       // save this so we can later
       // set it active after adding
       // terminal/web view
@@ -491,27 +498,10 @@ function ControllerInstance(
     cb();
   }
 
-  /**
-   * Add an EnvVars view-only tab
-   */
-  function addEnvVars (cb) {
-    // if instance has environmental variables display them in Env Vars tab
-    if (!keypather.get(data, 'instance.attrs.env.length')) {
-      return cb();
-    }
-    // idempotent after first invokation,
-    // will only add once
-    data.openItems.addEnvVars({
-      name: 'Env Vars'
-    }).state.readOnly = true;
-    cb();
-  }
-
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
-    newOpenItems,
-    addEnvVars
+    newOpenItems
   ], function (err) {
     if (err) {
       $state.go('error', {

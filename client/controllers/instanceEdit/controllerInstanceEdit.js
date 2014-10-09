@@ -132,7 +132,8 @@ function ControllerInstanceEdit(
    *********************************/
   var pat = data.popoverAddTab = new addTab({
     buildStream: true,
-    envVars: true
+    envVars: true,
+    envVarsReadOnly: false
   });
 
   actions.goToInstance = function (skipCheck) {
@@ -316,7 +317,7 @@ function ControllerInstanceEdit(
     pat.addOpenItems(data.openItems);
     data.openItems.addBuildStream({
       name: 'Previous build'
-    }).state.alwaysOpen = true;
+    });
     $scope.safeApply();
     cb();
   }
