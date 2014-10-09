@@ -317,7 +317,7 @@ function ControllerInstanceEdit(
     pat.addOpenItems(data.openItems);
     data.openItems.addBuildStream({
       name: 'Previous build'
-    }).state.alwaysOpen = true;
+    });
     $scope.safeApply();
     cb();
   }
