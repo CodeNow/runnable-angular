@@ -49,7 +49,7 @@ function fileTreeDir(
                 jQuery.ajax({
                   url: configAPIHost + '/' + $scope.dir.urlPath,
                   type: 'POST',
-                  contentType: 'multipart/form-data',
+                  contentType: false,
                   processData: false,
                   data: formData,
                   xhrFields: {
