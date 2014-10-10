@@ -20,8 +20,8 @@
           .input-group.validate(
             ng-class = "{\
               'focus': '',\
-              'ng-invalid': data.forkForm.$invalid,\
-              'ng-valid': data.forkForm.$valid\
+              'ng-invalid': data.renameForm.$invalid, \
+              'ng-valid': data.renameForm.$valid \
             }"
             ng-click = ""
           )
@@ -31,6 +31,7 @@
               name = "name"
               ng-model = "data.instance.state.name"
               validate-name = "data.instances"
+              instance = "data.instance"
               validate-name-pattern
             ) {{ data.instance.state.name }}
             .input-suffix .username.runnable.io
@@ -57,8 +58,8 @@
       ) Cancel
       button(
         ng-class = "{\
-          green: data.renameForm.$valid,\
-          orange: data.renameForm.$invalid\
+          green: data.renameForm.$valid, \
+          orange: data.renameForm.$invalid \
         }"
         data-action
         ng-click = "actions.renameInstance(cancel)"
