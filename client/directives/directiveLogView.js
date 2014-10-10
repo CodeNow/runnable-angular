@@ -101,10 +101,11 @@ function logView(
               if (contextVersion && contextVersion.attrs.build) {
                 var data = contextVersion.attrs.build.log ||
                   (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
-                  'unknown build error occured';
+                  '\x1b[33;1mbuild failed\x1b[0m';
                 writeToTerm(data);
               } else {
-                writeToTerm('unknown build error occurred');
+                // red text, last ascii escape resets red.
+                writeToTerm('\x1b[33;1mbuild failed\x1b[0m');
               }
               $rootScope.safeApply();
             });
