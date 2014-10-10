@@ -83,7 +83,7 @@ function ControllerInstance(
           if (instances.length) {
             $state.go('instance.instance', {
               userName: $state.params.userName,
-              shortHash: instances[0].id()
+              instanceName: instances[0].attrs.name
             });
           } else {
             $state.go('instance.new', {
@@ -138,13 +138,13 @@ function ControllerInstance(
           }, function () {
             $state.go('instance.instance', {
               userName: $stateParams.userName,
-              shortHash: newInstance.attrs.shortHash
+              instanceName: newInstance.attrs.name
             });
           });
         } else {
           $state.go('instance.instance', {
             userName: $stateParams.userName,
-            shortHash: newInstance.attrs.shortHash
+            instanceName: newInstance.attrs.name
           });
         }
         // refetch instance collection to update list in
@@ -313,7 +313,7 @@ function ControllerInstance(
       }
       var state = {
         userName: $state.params.userName,
-        shortHash: $state.params.shortHash,
+        instanceName: $state.params.instanceName,
         buildId: forkedBuild.id()
       };
       $state.go('instance.instanceEdit', state);
@@ -432,7 +432,10 @@ function ControllerInstance(
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
       .wrapFunc('fetchInstance')
-      .query($stateParams.shortHash)
+      .query({
+        githubUsername: $state.params.userName,
+        name: $state.params.instanceName
+      })
       .cacheFetch(function updateDom(instance, cached, cb) {
         if (!instance) {
           return cb();
