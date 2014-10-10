@@ -275,7 +275,7 @@ function repoList (
           };
           keypather.set(acv, 'state.show', false); // hide commit select dropdown
           // do nothing if user selects currectly active commit
-          if (selectedCommit === acv.githubRepo.state.selectedBranch.state.activeCommit) {
+          if (selectedCommit === keypather.get(acv, 'githubRepo.state.selectedBranch.state.activeCommit')) {
             return;
           }
           var lastActiveBranch = acv.githubRepo.state.activeBranch;
