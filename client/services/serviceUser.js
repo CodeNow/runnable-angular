@@ -4,9 +4,7 @@ var qs = require('qs');
 require('app')
   .factory('user', function ($http, configAPIHost) {
     var runnable = new Runnable(configAPIHost);
-
     runnable.client.request = new AngularHttpRequest($http);
-
     return runnable;
   });
 
