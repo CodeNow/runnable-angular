@@ -4,13 +4,11 @@ var qs = require('qs');
 require('app')
   .factory('user', function ($http, configAPIHost) {
     var runnable = new Runnable(configAPIHost);
-
     runnable.client.request = new AngularHttpRequest($http);
-
     return runnable;
   });
 
-var methods = ['get', 'post', 'patch', 'delete'];
+var methods = ['get', 'post', 'patch', 'delete', 'put'];
 var bodyMethods = ['post', 'patch', 'delete'];
 
 var AngularHttpRequest = function AngularHttpRequest ($http) {
