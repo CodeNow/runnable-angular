@@ -57,7 +57,6 @@ function logView(
         if (x < 80) { x = 80; }
         var y = Math.floor($termElem.height() / CHAR_HEIGHT);
         terminal.resize(x, y);
-        terminal.refresh();
       }
       var dResizeTerm = debounce(resizeTerm, 300);
       dResizeTerm();
