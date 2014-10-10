@@ -62,7 +62,7 @@ function term(
         function resizeTerm() {
           // Tab not selected
           if ($termElem.width() === 100) { return; }
-          var termLineEl = $termElem.find('span')[0];
+          var termLineEl = $termElem.find('div')[0];
           if (!termLineEl) { return; }
           var tBox = termLineEl.getBoundingClientRect();
 
