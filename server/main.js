@@ -11,6 +11,7 @@ app.set('view engine', 'jade');
 app.locals.version = package.version;
 app.locals.env = config.env;
 app.locals.commitHash = require('../client/config/json/commit.json').commitHash;
+app.locals.commitTime = require('../client/config/json/commit.json').commitTime;
 app.set('views', path.join(__dirname + '/views'));
 app.use(compression());
 app.use(require('cookie-parser')());
