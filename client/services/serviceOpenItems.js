@@ -14,7 +14,8 @@ function openItemsFactory(
   keypather,
   pluck,
   equals,
-  async
+  async,
+  user
 ) {
 
   function instanceOfModel (model) {
@@ -23,6 +24,7 @@ function openItemsFactory(
       model instanceof Terminal ||
       model instanceof WebView ||
       model instanceof LogView ||
+      model instanceof EnvVars ||
       model instanceof BuildStream);
   }
 
@@ -61,17 +63,26 @@ function openItemsFactory(
     return this;
   }
 
+  function EnvVars(data) {
+    this.collections = [];
+    this.attrs = data || {};
+    this.attrs._id = i++;
+    return this;
+  }
+
   util.inherits(Terminal, BaseModel);
   util.inherits(WebView, BaseModel);
   util.inherits(BuildStream, BaseModel);
   util.inherits(LogView, BaseModel);
+  util.inherits(EnvVars, BaseModel);
 
   var tabTypes = {
     Terminal: Terminal,
     WebView: WebView,
     BuildStream: BuildStream,
     LogView: LogView,
-    File: VersionFileModel
+    EnvVars: EnvVars,
+    File: ContainerFileModel
   };
 
   function ActiveHistory(models) {
@@ -129,7 +140,14 @@ function openItemsFactory(
         models = models.map(function (model) {
           var from = keypather.get(model, 'state.from');
           if (tabTypes[from]) {
-            model = new tabTypes[model.state.from](model, { noStore: true });
+            if (from === 'File') {
+              model = new ContainerFileModel(model, {
+                client: user.client,
+                parentPath: model.state.parentPath
+              });
+            } else {
+              model = new tabTypes[model.state.from](model, { noStore: true });
+            }
           }
           return model;
         });
@@ -148,18 +166,36 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addWebView = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Web View';
+    }
     var webView = new WebView(data);
     this.add(webView);
     return webView;
   };
 
   OpenItems.prototype.addTerminal = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Terminal';
+    }
     var terminal = new Terminal(data);
     this.add(terminal);
     return terminal;
   };
 
   OpenItems.prototype.addBuildStream = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Build Logs';
+    }
     if (this.hasOpen('BuildStream')) {
       var currStream = this.getFirst('BuildStream');
       this.activeHistory.add(currStream);
@@ -171,6 +207,12 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addLogs = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Box Logs';
+    }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');
       this.activeHistory.add(currStream);
@@ -179,6 +221,23 @@ function openItemsFactory(
     var logView = new LogView(data);
     this.add(logView);
     return logView;
+  };
+
+  OpenItems.prototype.addEnvVars = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Env Vars';
+    }
+    if (this.hasOpen('EnvVars')) {
+      var currentEnvVars = this.getFirst('EnvVars');
+      this.activeHistory.add(currentEnvVars);
+      return currentEnvVars;
+    }
+    var envVars = new EnvVars(data);
+    this.add(envVars);
+    return envVars;
   };
 
   OpenItems.prototype.Model = true;
@@ -221,6 +280,8 @@ function openItemsFactory(
       model.state.type = 'BuildStream';
     } else if (model instanceof LogView) {
       model.state.type = 'LogView';
+    } else if (model instanceof EnvVars) {
+      model.state.type = 'EnvVars';
     } else {
       keypather.set(model, 'state.type', 'File');
       model.state.reset = function () {
@@ -271,6 +332,9 @@ function openItemsFactory(
       // The following brought to you by IE not supporting Function.prototype.name
       var modelConstructor = model.constructor.toString().match(/function\s(\w*)/)[1];
       keypather.set(modelJSON, 'state.from', modelConstructor);
+      if (modelConstructor === 'File') {
+        keypather.set(modelJSON, 'state.parentPath', model.urlPath.replace('/files', ''));
+      }
       json.push(modelJSON);
     });
     return json;

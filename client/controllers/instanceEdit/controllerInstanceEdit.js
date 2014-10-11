@@ -15,7 +15,9 @@ function ControllerInstanceEdit(
   extendDeep,
   OpenItems,
   keypather,
-  fetcherBuild
+  fetcherBuild,
+  validateEnvVars,
+  addTab
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -42,6 +44,7 @@ function ControllerInstanceEdit(
     dataModalDelete: {},
     dataModalRename: {}
   };
+
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
@@ -63,7 +66,6 @@ function ControllerInstanceEdit(
           data.saving = true;
         }, 1);
         data.saving = false;
-        cb(); //removes modal
         if (data.instance.attrs.name === data.instance.state.name.trim()) {
           // no need to make API call if name didn't change
           return;
@@ -76,17 +78,34 @@ function ControllerInstanceEdit(
             throw err;
           }
         });
+        // cb() will reset data.instance.state
+        // important to call after PATCH
+        cb(); //removes modal
       }
     },
-    forkInstance: function () {
+    forkInstance: function (env) {
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;
         }
-        $state.go('instance.instance', {
-          userName: $stateParams.userName,
-          shortHash: newInstance.attrs.shortHash
-        });
+        if (env) {
+          env = env.map(function (e) {
+            return e.key + '=' + e.value;
+          });
+          newInstance.update({
+            env: env
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              shortHash: newInstance.attrs.shortHash
+            });
+          });
+        } else {
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            shortHash: newInstance.attrs.shortHash
+          });
+        }
         // refetch instance collection to update list in
         // instance layout
         var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
@@ -107,6 +126,15 @@ function ControllerInstanceEdit(
       });
     }
   };
+
+  /*********************************
+   * popoverAddTab
+   *********************************/
+  var pat = data.popoverAddTab = new addTab({
+    buildStream: true,
+    envVars: true,
+    envVarsReadOnly: false
+  });
 
   actions.goToInstance = function (skipCheck) {
     if (skipCheck) {
@@ -135,7 +163,8 @@ function ControllerInstanceEdit(
       function (err, build) {
         if (err) throw err;
         data.instance.update({
-          build: data.build.id()
+          build: data.build.id(),
+          env: data.instance.state.env
         }, function (err) {
           if (err) {
             throw err;
@@ -155,6 +184,15 @@ function ControllerInstanceEdit(
     }
     return '';
   };
+
+  var dmf = pgm.data.dataModalFork = {};
+  var amf = pgm.actions.actionsModalFork = {};
+  function asyncInitDataModalFork() {
+    dmf.instance = data.instance;
+    amf.fork = function (env) {
+      pgm.actions.forkInstance(env);
+    };
+  }
 
   /**
    * If this build is built, we want to wait for changes and then trigger a fork
@@ -188,25 +226,12 @@ function ControllerInstanceEdit(
       $window.onbeforeunload = null;
     }
   });
+
   $scope.$watch('dataInstanceLayout.data.instances', function(n) {
     if (n) {
       pgm.data.dataModalRename.instances = n;
     }
   });
-
-  /*
-  $scope.$watch('dataInstanceEdit.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
-    if (newval === oldval) {
-      // We've opened the same file
-      return;
-    }
-    var file = dataInstanceEdit.data.openFiles.activeFile;
-    var version = dataInstanceEdit.data.version;
-    file = version.fetchFile(file.id(), function () {
-      $scope.safeApply();
-    });
-  });
-*/
 
   /* ============================
    *   API Fetch Methods
@@ -230,6 +255,7 @@ function ControllerInstanceEdit(
         data.instance = instance;
         pgm.data.dataModalRename.instance = instance;
         pgm.data.dataModalDelete.instance = instance;
+        asyncInitDataModalFork();
         $scope.safeApply();
         cb();
       })
@@ -274,10 +300,10 @@ function ControllerInstanceEdit(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-
+    pat.addOpenItems(data.openItems);
     data.openItems.addBuildStream({
       name: 'Previous build'
-    }).state.alwaysOpen = true;
+    });
     $scope.safeApply();
     cb();
   }
@@ -294,11 +320,24 @@ function ControllerInstanceEdit(
     return !!dockerfile;
   }
 
+  /**
+   * Add an EnvVars view-only tab
+   */
+  function addEnvVars (cb) {
+    // idempotent after first invokation,
+    // will only add once
+    data.openItems.addEnvVars({
+      name: 'Env Vars'
+    }).state.readOnly = false;
+    cb();
+  }
+
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
     fetchBuild,
-    newOpenItems
+    newOpenItems,
+    addEnvVars
   ], function (err) {
     if (err) {
       $state.go('error', {
@@ -316,4 +355,10 @@ function ControllerInstanceEdit(
   $scope.$on('$destroy', function () {
     $interval.cancel(interval);
   });
+
+  // property controlled by directiveEnvVars
+  $scope.$watch('dataInstanceEdit.data.instance.state.env', function (newEnvVal, oldEnvVal) {
+    data.envValidation = validateEnvVars(newEnvVal);
+  });
+
 }

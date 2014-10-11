@@ -1,47 +1,3 @@
-// defaults
-input {
-  -webkit-appearance: none;
-  border: 1px solid rgba($black,.15);
-  border-radius: 3px;
-  color: $gray-darker;
-  height: 45px;
-  line-height: 45px;
-  padding: 0 6px;
-  width: 100%;
-
-  &:focus {
-    box-shadow: inset 0 0 3px rgba($blue,.3);
-    outline: none;
-  }
-
-  &[readonly] {
-    color: $gray;
-  }
-
-  &[type="checkbox"] {
-    cursor: pointer;
-    -webkit-appearance: checkbox;
-    width: auto;
-
-    &[disabled] {
-      cursor: not-allowed;
-    }
-  }
-
-  // min font-size for mobile
-  @include retina() {
-    @media (max-width: 500px) {
-      font-size: 16px;
-    }
-  }
-
-  // placeholder
-  &::placeholder {
-    color: $gray-light;
-  }
-}
-
-
 // label.btn.btn-checkbox
 .btn-checkbox {
   font-size: 14px;
@@ -51,28 +7,6 @@ input {
 .checkbox {
   float: right;
   margin-left: 12px;
-}
-
-// validation
-.validate {
-  padding-right: 36px;
-  transition: border .15s ease-in;
-
-  &.ng-valid {
-    background: url(/build/images/icons/icons-check.svg) no-repeat center right;
-    color: $gray-darker;
-  }
-
-  &.ng-invalid {
-    background: url(/build/images/icons/icons-error.svg) rgba($orange,.1) no-repeat center right;
-    border-color: rgba($orange,.3);
-    color: $orange-dark;
-  }
-
-  &.ng-pristine {
-    background: none;
-    color: $gray-darker;
-  }
 }
 
 .form-label {
@@ -116,29 +50,6 @@ input {
 
   &[readonly] {
     cursor: pointer;
-  }
-}
-
-// .validate-rules
-.validate-rules {
-  color: $orange-dark;
-  font-size: 14px;
-  font-weight: 300;
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  transition: opacity .15s ease-in;
-
-  &.in {
-    opacity: 1;
-  }
-
-  .btn-xs {
-    cursor: default;
-    margin: 0 2px;
-    padding: 0 6px;
-    top: 2px;
   }
 }
 

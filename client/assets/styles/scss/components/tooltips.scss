@@ -2,8 +2,8 @@
 .tooltip {
   animation: tooltip .2s ease-in forwards;
   opacity: 0;
-  position: absolute;
   pointer-events: none;
+  position: absolute;
   z-index: $z-tooltip;
 
   // .bottom

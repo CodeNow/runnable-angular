@@ -373,6 +373,31 @@ module.exports = function(grunt) {
       },
       function (cb) {
         var configObj = {};
+        var exec = require('child_process').exec;
+        // git log -1 --format=%cd
+        async.parallel({
+          time: function (cb) {
+            exec('git log -1 --format=%cd', {cwd: __dirname}, function (err, stdout, stderr) {
+              cb(null, stdout.split('\n').join(''));
+            });
+          },
+          hash: function (cb) {
+            exec('git rev-parse HEAD', {cwd: __dirname}, function (err, stdout, stderr) {
+              cb(null, stdout.split('\n').join(''));
+            });
+          }
+        }, function (err, results) {
+          if (err) throw err;
+          configObj.commitHash = results.hash;
+          configObj.commitTime = results.time;
+          var configJSON = JSON.stringify(configObj);
+          fs.writeFile(path.join(clientPath, 'config', 'json', 'commit.json'), configJSON, function () {
+            cb();
+          });
+        });
+      },
+      function (cb) {
+        var configObj = {};
         configObj.environment = process.env.ENVIRONMENT || 'development';
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'environment.json'), configJSON, function () {

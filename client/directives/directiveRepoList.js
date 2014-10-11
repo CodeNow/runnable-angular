@@ -239,6 +239,10 @@ function repoList (
         // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
         $scope.actions.selectActiveBranchAndCommit = function (acv, selectedBranch, selectedCommit) {
           keypather.set(acv, 'state.show', false); // hide commit select dropdown
+          // do nothing if user selects currectly active commit
+          if (selectedCommit === keypather.get(acv, 'githubRepo.state.selectedBranch.state.activeCommit')) {
+            return;
+          }
           setActiveBranch(acv, selectedBranch);
           setActiveCommit(acv, selectedBranch, selectedCommit);
           // is this the only repo?
@@ -270,6 +274,10 @@ function repoList (
             if (err) { throw err; }
           };
           keypather.set(acv, 'state.show', false); // hide commit select dropdown
+          // do nothing if user selects currectly active commit
+          if (selectedCommit === keypather.get(acv, 'githubRepo.state.selectedBranch.state.activeCommit')) {
+            return;
+          }
           var lastActiveBranch = acv.githubRepo.state.activeBranch;
           var lastActiveCommit = lastActiveBranch.state.activeCommit;
           // assume success
@@ -366,7 +374,12 @@ function repoList (
 
       // Initial Page load functions
 
-      function fetchOwnerRepos(cb) {
+      function fetchOwnerRepos(page, cb) {
+        if (typeof page === 'function') {
+          cb = page;
+          page = 1;
+          $scope.data.githubRepos = null;
+        }
         var thisUser = $rootScope.dataApp.user;
         var query;
         if (thisUser.isOwnerOf($scope.build)) {
@@ -384,11 +397,22 @@ function repoList (
             .wrapFunc('fetchRepos');
         }
         query
-          .query({})
+          .query({page: page, sort: 'updated'})
           .cacheFetch(function updateDom(githubRepos, cached, cb) {
-            $scope.data.githubRepos = githubRepos;
+            if (!$scope.data.githubRepos) {
+              $scope.data.githubRepos = githubRepos;
+            } else {
+              var temp = $scope.data.githubRepos.models.concat(githubRepos.models);
+              $scope.data.githubRepos = thisUser.newGithubRepos(temp, {
+                noStore: true
+              });
+            }
             $rootScope.safeApply();
-            cb();
+            if (githubRepos && githubRepos.models.length === 100) {
+              fetchOwnerRepos(page + 1, cb);
+            } else {
+              cb();
+            }
           })
           .resolve(function (err, githubRepos, cb) {
             if (githubRepos) {

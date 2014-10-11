@@ -8,11 +8,14 @@ function ControllerInstance(
   $state,
   $stateParams,
   $timeout,
+  $interval,
   keypather,
   async,
   user,
   OpenItems,
-  getNewFileFolderName
+  getNewFileFolderName,
+  validateEnvVars,
+  addTab
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -21,8 +24,6 @@ function ControllerInstance(
   var dataInstance = $scope.dataInstance = self.initData();
   var data = dataInstance.data;
   var actions = dataInstance.actions;
-
-  var timeouts = [];
 
   data.restartOnSave = true;
 
@@ -69,6 +70,7 @@ function ControllerInstance(
     dataModalDelete: {},
     dataModalRename: {}
   };
+
   pgm.actions = {
     // popover contains nested modal
     actionsModalDelete: {
@@ -91,6 +93,7 @@ function ControllerInstance(
         });
       }
     },
+
     actionsModalRename: {
       renameInstance: function (cb) {
         if (data.instance.attrs.name === data.instance.state.name.trim()) {
@@ -104,7 +107,6 @@ function ControllerInstance(
           data.saving = true;
         }, 1);
         data.saving = false;
-        cb(); //removes modal
         data.instance.update({
           name: data.instance.state.name.trim()
         }, function (err) {
@@ -113,20 +115,38 @@ function ControllerInstance(
             throw err;
           }
         });
+        // cb() will reset data.instance.state
+        // important to call after PATCH
+        cb(); //removes modal
       },
       cancel: function () {
         data.instance.state.name = data.instance.attrs.name;
       }
     },
-    forkInstance: function () {
+
+    forkInstance: function (env) {
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;
         }
-        $state.go('instance.instance', {
-          userName: $stateParams.userName,
-          shortHash: newInstance.attrs.shortHash
-        });
+        if (env) {
+          env = env.map(function (e) {
+            return e.key + '=' + e.value;
+          });
+          newInstance.update({
+            env: env
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              shortHash: newInstance.attrs.shortHash
+            });
+          });
+        } else {
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            shortHash: newInstance.attrs.shortHash
+          });
+        }
         // refetch instance collection to update list in
         // instance layout
         var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
@@ -199,43 +219,19 @@ function ControllerInstance(
     });
   };
 
+  var dmf = pgm.data.dataModalFork = {};
+  var amf = pgm.actions.actionsModalFork = {};
+  function asyncInitDataModalFork() {
+    dmf.instance = data.instance;
+    amf.fork = function (env) {
+      pgm.actions.forkInstance(env);
+    };
+  }
+
   /*********************************
    * popoverAddTab
    *********************************/
-  var pat = data.popoverAddTab;
-  pat.data = {
-    show: false
-  };
-  pat.actions = {};
-
-  pat.actions.addBuildStream = function () {
-    pat.data.show = false;
-    return data.openItems.addBuildStream({
-      name: 'Build Logs'
-    });
-  };
-
-  pat.actions.addWebView = function () {
-    pat.data.show = false;
-    return data.openItems.addWebView({
-      name: 'Web View'
-    });
-  };
-
-  pat.actions.addTerminal = function () {
-    pat.data.show = false;
-    return data.openItems.addTerminal({
-      name: 'Terminal'
-    });
-  };
-
-  pat.actions.addLogs = function () {
-    pat.data.show = false;
-    return data.openItems.addLogs({
-      name: 'Box Logs',
-      params: data.instance.attrs.containers[0]
-    });
-  };
+  var pat = data.popoverAddTab = new addTab();
 
   /*********************************
    * popoverSaveOptions
@@ -286,25 +282,28 @@ function ControllerInstance(
         }
         return (model.attrs.body !== model.state.body);
       });
-    async.each(updateModels,
-    function iterate (file, cb) {
-      file.update({
-        json: {
-          body: file.state.body
-        }
-      }, function (err) {
-        if (err) {
-          throw err;
+    async.each(
+      updateModels,
+      function iterate (file, cb) {
+        file.update({
+          json: {
+            body: file.state.body
+          }
+        }, function (err) {
+          if (err) {
+            throw err;
+          }
+          $scope.safeApply();
+          cb();
+        });
+      },
+      function complete (err) {
+        if (data.restartOnSave) {
+          pgm.actions.restartInstance();
         }
         $scope.safeApply();
-        cb();
-      });
-    },
-    function complete (err) {
-      if (data.restartOnSave) {
-        pgm.actions.restartInstance();
       }
-    });
+    );
   };
 
   actions.goToBuild = function() {
@@ -336,7 +335,6 @@ function ControllerInstance(
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
-    dataInstance.data.popoverAddTab.filter = '';
   });
 
   $scope.$watch(function () {
@@ -358,30 +356,40 @@ function ControllerInstance(
       if (!data.openItems.hasOpen('Terminal')) {
         pat.actions.addTerminal();
       }
-      data.openItems.activeHistory.add(data.logs);
+      pat.actions.addLogs();
     } else {
       // instance is stopped or building
       if (data.logs) {
         data.logs.state.alwaysOpen = true;
       }
       data.openItems.removeAllButLogs();
-      if (!data.instance.build.attrs.completed) {
-        // instance is building
+      if (!data.instance.build.succeeded()) {
+        // instance is building or broken
         var buildStream = pat.actions.addBuildStream();
         buildStream.state.alwaysOpen = true;
+      } else {
+        pat.actions.addLogs().state.alwaysOpen = true;
       }
     }
+    $scope.safeApply();
   }
 
-  function recursiveFetchInstance () {
+
+  var instanceFetchInterval;
+  function checkDeploy () {
     // temporary, lightweight check route
     data.instance.deployed(function (err, deployed) {
-      if (!deployed) {
-        timeouts.push($timeout(recursiveFetchInstance, 250));
-      } else {
+      if (deployed) {
         // display build completed alert in DOM
         dataInstance.data.showBuildCompleted = true;
-        fetchInstance(angular.noop);
+        fetchInstance(function (err) {
+          if (err) {
+            throw err;
+          }
+
+          $scope.safeApply();
+        });
+        $interval.cancel(instanceFetchInterval);
       }
       $scope.safeApply();
     });
@@ -399,9 +407,8 @@ function ControllerInstance(
       return;
     }
     if (building) {
-      // We're finished building
       building = false;
-      timeouts.push($timeout(recursiveFetchInstance, 500));
+      instanceFetchInterval = $interval(checkDeploy, 500);
       $scope.dataInstanceLayout.data.showBuildCompleted = false;
     } else {
       // Do we have instructions to show a complete icon on this page
@@ -445,6 +452,7 @@ function ControllerInstance(
         pgm.data.dataModalRename.instance = instance;
         pgm.data.dataModalDelete.instance = instance;
         pso.data.container = pgm.data.container = data.container;
+        asyncInitDataModalFork();
         $scope.safeApply();
         cb();
       })
@@ -459,9 +467,17 @@ function ControllerInstance(
   }
 
   function newOpenItems(cb) {
-    data.openItems = new OpenItems(data.instance.id());
+    data.openItems = new OpenItems(data.instance.id() + data.instance.build.id());
+    pat.addOpenItems(data.openItems);
     if (data.build.succeeded()) {
       var container = data.container;
+
+      if (keypather.get(data, 'instance.attrs.env.length')) {
+        data.openItems.addEnvVars({
+          name: 'Environment'
+        }).state.readOnly = true;
+      }
+
       // save this so we can later
       // set it active after adding
       // terminal/web view
@@ -496,21 +512,20 @@ function ControllerInstance(
     $scope.safeApply();
   });
 
-  // prevent any timeouts from completing
-  // if user leaves page
+  // Manually cancel the interval
   $scope.$on('$destroy', function () {
-    timeouts.forEach(function (t) {
-      keypather.get(t, 'cancel()');
-    });
+    $interval.cancel(instanceFetchInterval);
+  });
+
+  // property controlled by directiveEnvVars
+  $scope.$watch('dataInstance.data.instance.state.env', function (newEnvVal, oldEnvVal) {
+    data.envValidation = validateEnvVars(newEnvVal);
   });
 }
 
 ControllerInstance.initData = function () {
   return {
     data: {
-      popoverAddTab: {
-        filter: ''
-      },
       showAddTab: false,
       showFileMenu: false,
       showExplorer: false

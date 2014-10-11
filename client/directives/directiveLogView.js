@@ -1,7 +1,6 @@
 var Terminal = require('term.js');
 var debounce = require('debounce');
-var CHAR_WIDTH = 8;
-var CHAR_HEIGHT = 19;
+var CHAR_HEIGHT = 20;
 var streamCleanser = require('docker-stream-cleanser');
 require('app')
   .directive('logView', logView);
@@ -15,7 +14,8 @@ function logView(
   jQuery,
   $sce,
   $window,
-  primus
+  primus,
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -26,35 +26,44 @@ function logView(
     },
     templateUrl: 'viewLogView',
     link: function ($scope, elem, attrs) {
-
       var terminal = new Terminal({
         cols: 80,
-        rows: 24,
+        rows: Math.floor(elem[0].clientHeight/CHAR_HEIGHT),
         useStyle: true,
-        screenKeys: true
+        screenKeys: true,
+        scrollback: 0,
+        hideCursor: true,
+        cursorHidden: true,
+        wraparoundMode: true,
+        cursorState: 0
       });
       terminal.open(elem[0]);
 
       $scope.stream = {
         data: ''
       };
+      // Terminal sizing
       var $termElem = jQuery(terminal.element);
-      var dResizeTerm = debounce(resizeTerm, 300);
-      resizeTerm();
-      jQuery($window).on('resize', dResizeTerm);
-      terminal.on('focus', dResizeTerm);
-      function writeToTerm (data) {
-        data = data.replace(/\r?\n/g, '\r\n');
-        terminal.write(data);
-      }
       function resizeTerm() {
         // Tab not selected
         if ($termElem.width() === 100) { return; }
-        var x = Math.floor($termElem.width() / CHAR_WIDTH);
+        var termLineEl = $termElem.find('div')[0];
+        if (!termLineEl) { return; }
+        var tBox = termLineEl.getBoundingClientRect();
+
+        var charWidth = tBox.width / termLineEl.textContent.length;
+
+        var x = Math.floor($termElem.width() / charWidth);
+        if (x < 80) { x = 80; }
         var y = Math.floor($termElem.height() / CHAR_HEIGHT);
         terminal.resize(x, y);
-        terminal.refresh();
       }
+      var dResizeTerm = debounce(resizeTerm, 300);
+      dResizeTerm();
+
+      jQuery($window).on('resize', dResizeTerm);
+      terminal.on('focus', dResizeTerm);
+
       $scope.$on('$destroy', function () {
         if ($scope.buildStream) {
           $scope.buildStream.end();
@@ -65,9 +74,13 @@ function logView(
         terminal.destroy();
       });
 
+      // Getting data to Term
+      function writeToTerm (data) {
+        data = data.replace(/\r?\n/g, '\r\n');
+        terminal.write(data);
+      }
       if (attrs.build) {
         $scope.$watch('build.attrs._id', function (buildId, oldVal) {
-          terminal.reset();
           if (!buildId) {
             return;
           }
@@ -88,10 +101,11 @@ function logView(
               if (contextVersion && contextVersion.attrs.build) {
                 var data = contextVersion.attrs.build.log ||
                   (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
-                  'Unknown Build Error Occurred';
+                  '\x1b[33;1mbuild failed\x1b[0m';
                 writeToTerm(data);
               } else {
-                writeToTerm('Unknown Build Error Occurred');
+                // red text, last ascii escape resets red.
+                writeToTerm('\x1b[33;1mbuild failed\x1b[0m');
               }
               $rootScope.safeApply();
             });
@@ -111,7 +125,7 @@ function logView(
               }
               if (!build.succeeded()) {
                 // bad things happened
-                writeToTerm('BUILD BROKEN: Please try again');
+                writeToTerm('please build again');
               } else {
                 // we're all good
                 writeToTerm('Build completed, starting instance...');
@@ -128,6 +142,9 @@ function logView(
         };
         $scope.$watch('container.attrs._id', function (containerId) {
           if (containerId) {
+            // prepend log command to terminal
+
+            terminal.write('\x1b[33;1mroot@'+keypather.get($scope, 'container.attrs.inspect.Config.Hostname')+'\x1b[0m: ' + keypather.get($scope, 'container.attrs.inspect.Args[1]') + '\n\r');
             initBoxStream();
           }
         });

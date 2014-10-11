@@ -13,7 +13,10 @@ require('./lib/router');
 
 // Cache all views
 var views = require('./build/views/viewBundle');
-app.run(['$rootScope', '$templateCache',
+app.config(function($httpProvider) {
+  $httpProvider.defaults.withCredentials = true;
+})
+.run(['$rootScope', '$templateCache',
   function ($rootScope, $templateCache) {
     Object.keys(views.Templates).forEach(function (viewName) {
       $templateCache.put(viewName, views.Templates[viewName]());
