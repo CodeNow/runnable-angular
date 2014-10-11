@@ -233,20 +233,6 @@ function ControllerInstanceEdit(
     }
   });
 
-  /*
-  $scope.$watch('dataInstanceEdit.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
-    if (newval === oldval) {
-      // We've opened the same file
-      return;
-    }
-    var file = dataInstanceEdit.data.openFiles.activeFile;
-    var version = dataInstanceEdit.data.version;
-    file = version.fetchFile(file.id(), function () {
-      $scope.safeApply();
-    });
-  });
-*/
-
   /* ============================
    *   API Fetch Methods
    * ===========================*/
