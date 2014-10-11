@@ -431,7 +431,7 @@ function ControllerInstance(
   function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchInstance')
+      .wrapFunc('fetchInstances')
       .query({
         githubUsername: $state.params.userName,
         name: $state.params.instanceName
