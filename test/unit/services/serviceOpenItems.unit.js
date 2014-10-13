@@ -125,7 +125,7 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
 
       var oi2 = new OpenItems('abc123');
       oi2.restoreActiveTab();
-      expect(oi2.previouslyActiveTab._id).to.eql(fileModel2.id());
+      expect(oi2.previouslyActiveTab.name).to.eql(fileModel2.attrs.name);
 
       // switch up active tab && preserve state
       oi.activeHistory.add(fileModel);
@@ -133,6 +133,7 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
 
       var oi3 = new OpenItems('abc123');
       expect(oi3.previouslyActiveTab.name).to.eql(fileModel.attrs.name);
+
     });
 
   });
