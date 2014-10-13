@@ -5,7 +5,6 @@ var colors  = require('colors');
 var angular = require('angular');
 var modelStore = require('runnable/lib/stores/model-store');
 var mocks = require('../api-mocks');
-var userJSON = require('../api-mocks/user');
 require('browserify-angular-mocks');
 
 var expect = chai.expect;
@@ -19,13 +18,16 @@ describe('directiveRepoList'.bold.underline.blue, function () {
   var ctx = {};
   function initGlobalState() {
     angular.mock.module('app');
-    angular.mock.inject(function($compile, _$rootScope_, $timeout, _$httpBackend_, user, _jQuery_){
-      jQuery = _jQuery_;
+    angular.mock.inject(function($compile, _$rootScope_, $timeout, _$httpBackend_, user){
       $rootScope = _$rootScope_;
       $httpBackend = _$httpBackend_;
       $scope = $rootScope.$new();
       thisUser = user;
-      thisUser.reset(userJSON);
+      thisUser.reset(mocks.user);
+
+      // Using whenGET here and elsewhere because it's indeterminate as to which will fire first
+      $httpBackend.whenGET('http://mewl10-3030.runnable.io/github/user/repos?page=1&sort=updated&type=owner&per_page=100')
+        .respond(mocks.gh.repos);
 
       $rootScope.dataApp = {
         user: thisUser,
@@ -34,61 +36,88 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       };
       $rootScope.safeApply = function(cb) {
         $timeout(function() {
-          $scope.$apply();
+          $scope.$digest();
         });
       };
     });
+    modelStore.reset();
   }
   beforeEach(initGlobalState);
+
+  describe('build only'.bold.blue, function () {
+    function initState() {
+      angular.mock.inject(function($compile) {
+        $httpBackend.whenGET('http://mewl10-3030.runnable.io/contexts/54398933f5afb6410069bc33/versions/54398934f5afb6410069bc34?')
+        .respond(mocks.contextVersions.setup);
+
+        $scope.build = thisUser.newBuild(mocks.builds.setup);
+        $scope.edit = true;
+        $scope.showGuide = true;
+
+        var tpl = '<repo-list ' +
+          'build="build" ' +
+          'edit="edit" ' +
+          'show-guide="showGuide"' +
+          '></repo-list>';
+
+        element = $compile(tpl)($scope);
+        $scope.$digest();
+      });
+    }
+    beforeEach(initState);
+    beforeEach(function() {
+      $httpBackend.flush();
+      $rootScope.$digest();
+    });
+
+    it('should create the element', function () {
+      expect(element[0].classList.contains('row')).to.be.ok;
+    });
+
+    it('should show guide', function() {
+      expect(element[0].querySelector('.guide')).to.be.ok;
+    });
+  });
 
   describe('running instance with repo'.bold.blue, function() {
     function initState() {
       angular.mock.inject(function($compile) {
-        // Using wheGET for these first two because it's indeterminate as to which will fire first
-        $httpBackend.whenGET('http://mewl10-3030.runnable.io/github/user/repos?page=1&sort=updated&type=owner&per_page=100')
-        .respond(mocks.gh.repos);
         $httpBackend.whenGET('http://mewl10-3030.runnable.io/contexts/543861deaebe190e0077c24b/versions/543988508f75990e008d2c74?')
-        .respond(mocks.contextVersion.running);
+        .respond(mocks.contextVersions.running);
         $httpBackend.expectGET('http://mewl10-3030.runnable.io/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?')
         .respond(mocks.gh.commits);
         $httpBackend.expectGET('http://mewl10-3030.runnable.io/github/repos/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711')
         .respond(mocks.gh.commits);
 
-        ctx.instance = thisUser.newInstance(mocks.instance.running);
+        ctx.instance = thisUser.newInstance(mocks.instances.running);
         $scope.instance = ctx.instance;
         $scope.build = ctx.instance.build;
         $scope.edit = false;
         $scope.showGuide = false;
 
-        element = angular.element('<repo-list ' +
+        var tpl = '<repo-list ' +
           'instance="instance" ' +
           'build="build" ' +
           'edit="edit" ' +
-          'showGuide="showGuide"' +
-          '></repo-list>'
-        );
+          'show-guide="showGuide"' +
+          '></repo-list>';
 
-        $compile(element)($scope);
-        $scope.$apply();
+        element = $compile(tpl)($scope);
+        $scope.$digest();
       });
     }
-    beforeEach(function () {
-      modelStore.reset();
-    });
     beforeEach(initState);
     beforeEach(function() {
       $httpBackend.flush();
+      $rootScope.$digest();
     });
 
     it('should create the element', function () {
       expect(element[0].classList.contains('row')).to.be.ok;
-      expect(ctx.instance).to.be.ok;
-      expect(ctx.instance.build).to.be.ok;
     });
 
     it('should not display the guide', function() {
-      $rootScope.$apply();
-      expect(jQuery(element).find('.guide').length).to.not.be.ok;
+      expect(element.find('.guide').length).to.not.be.ok;
     });
   });
 });
