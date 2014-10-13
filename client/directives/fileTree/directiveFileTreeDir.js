@@ -189,6 +189,13 @@ function fileTreeDir(
         });
       };
 
+      // needed to observe change seed context version on setup page
+      $scope.$watch('openItems.state.reset', function (newVal, oldVal) {
+        if(!newVal) return;
+        fetchDirFiles();
+        $scope.actions.makeDroppable();
+      });
+
       $scope.$watch('dir.state.open', function (newVal, oldval) {
         if (newVal) {
           fetchDirFiles();
