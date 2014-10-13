@@ -362,6 +362,8 @@ function ControllerSetup(
         }
         data.openItems.reset([]);
         data.openItems.add(files.models);
+        // hacky trigger to let file-tree know change has occured and it needs to refetch
+        keypather.set(data.openItems, 'state.reset', new Date());
         $scope.safeApply();
       })
       .go();
