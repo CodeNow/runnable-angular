@@ -1,16 +1,12 @@
 header.landing-hero
   //- skrollr requires units on all transitions (even 0)
   .landing-hero-bg.layer-one(
-    data-0 = "opacity: 1; transform: translate3d(0,0px,0);"
-    data-400 = "opacity: .9; transform: translate3d(0,30px,0);"
+    data-0 = "transform: translate3d(0,0px,0);"
+    data-400 = "transform: translate3d(0,45px,0);"
   )
   .landing-hero-bg.layer-two(
-    data-0 = "opacity: 1; transform: translate3d(0,0px,0);"
-    data-400 = "opacity: .75; transform: translate3d(0,60px,0);"
-  )
-  .landing-hero-bg.layer-three(
-    data-0 = "opacity: 1; transform: translate3d(0,0px,0);"
-    data-400 = "opacity: .6; transform: translate3d(0,90px,0);"
+    data-0 = "transform: translate3d(0,0px,0);"
+    data-400 = "transform: translate3d(0,30px,0);"
   )
   nav.landing-nav
       a.logo(
@@ -29,28 +25,47 @@ header.landing-hero
       button(
         type = "button"
       ) Learn More
-      a.btn
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        | Sign Up with Github
+      //- a.btn(
+      //-   href = "{{ dataApp.loginURL }}"
+      //- )
+      //-   svg.iconnables.icons-git
+      //-     use(
+      //-       xlink:href = "#icons-git"
+      //-     )
+      //-   | Sign Up with Github
 section.landing-section
   div
-  h2.section-header
-  p.section-description
+    img(
+      alt = ""
+      height = "72"
+      src = "/build/images/home/feature-icon-1.svg"
+      width = "96"
+    )
+  h2.section-header Quickly Run Any Repo
+  p.section-description.
+    Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
 section.landing-section
   div
-  h2.section-header
-  p.section-description
+    img(
+      alt = ""
+      height = "72"
+      src = "/build/images/home/feature-icon-1.svg"
+      width = "96"
+    )
+  h2.section-header Quickly Run Any Repo
+  p.section-description.
+    Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
 section.landing-section
   div
-  h2.section-header
-  p.section-description
-section.landing-section
-  div
-  h2.section-header
-  p.section-description
+    img(
+      alt = ""
+      height = "72"
+      src = "/build/images/home/feature-icon-1.svg"
+      width = "96"
+    )
+  h2.section-header Quickly Run Any Repo
+  p.section-description.
+    Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
 section.landing-cta
   h3.cta-hero-text
   button
@@ -58,18 +73,3 @@ footer.landing-footer
   a
   img
   a
-
-//- main.hero
-//-   a.logo
-//-     svg
-//-       use(xlink:href = "#runnable-logo")
-//-   a.btn(
-//-     href = "{{ dataApp.loginURL }}"
-//-   )
-    //- svg.iconnables.icons-git
-    //-   use(xlink:href = "#icons-git")
-    //- | Log In with Github
-
-div(
-  ng-include = "'viewDevelopmentInfo'"
-)

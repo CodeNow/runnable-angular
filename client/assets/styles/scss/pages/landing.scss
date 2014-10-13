@@ -9,7 +9,7 @@
 
 // header.landing-hero
 .landing-hero {
-  background: url(../images/hero-grid-static.png) $purple center center;
+  background: url(../images/home/hero-grid-static.png) $purple center center;
   background-size: 1440px 600px;
   color: $white;
   height: 500px;
@@ -21,8 +21,7 @@
 // div.landing-hero-bg
 .landing-hero-bg {
   background-size: 1440px 600px;
-  height: 40vh;
-  min-height: 500px;
+  height: 500px;
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -30,15 +29,11 @@
   z-index: $z-hero-layers;
 
   &.layer-one {
-    background: url(../images/hero-grid-layer-1.png) center center;
+    background: url(../images/home/hero-grid-layer-1.png) center center;
   }
 
   &.layer-two {
-    background: url(../images/hero-grid-layer-2.png) center center;
-  }
-
-  &.layer-three {
-    background: url(../images/hero-grid-layer-3.png) center center;
+    background: url(../images/home/hero-grid-layer-2.png) center center;
   }
 }
 
@@ -57,7 +52,7 @@
     font-weight: 300;
     height: 36px;
     line-height: 36px;
-    margin: 30px 3px 0;
+    margin: 15px 3px 0;
     text-decoration: none;
 
     &:hover,
@@ -112,49 +107,18 @@
   text-align: center;
 }
 
+// **********
+// after hero
+// **********
 // section.landing-section
 .landing-section {
-  height: 500px;
+  display: inline-block;
+  padding: 30px;
+  text-align: center;
+  width: calc(100%/3);
 }
 
-// .hero {
-//   align-items: center;
-//   background: url(../images/hero.jpg) center center no-repeat;
-//   background-size: cover;
-//   display: flex;
-//   flex-direction: column;
-//   height: 100vh;
-//   justify-content: center;
-//   position: relative;
-//   width: 100vw;
-
-//   &::after {
-//     background-image: linear-gradient(rgba($purple,.5),rgba($white,.3));
-//     content: '';
-//     display: block;
-//     height: 100vh;
-//     left: 0;
-//     position: absolute;
-//     top: 0;
-//     width: 100vw;
-//     z-index: $z-hero-overlay;
-//   }
-
-//   .logo,
-//   .btn {
-//     position: relative;
-//     z-index: $z-hero-content;
-//   }
-
-//   .logo {
-//     color: $white;
-//     height: 150px;
-//     margin-top: -150px;
-//     width: 450px;
-
-//     @include media(xxs) {
-//       height: auto;
-//       max-width: 100%;
-//     }
-//   }
-// }
+// h2.section-header
+.section-header {
+  margin: 9px 0 0;
+}
