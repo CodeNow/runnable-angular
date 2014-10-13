@@ -45,13 +45,13 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     function initState() {
       angular.mock.inject(function($compile) {
         // Using wheGET for these first two because it's indeterminate as to which will fire first
-        $httpBackend.whenGET('http://api-kittens.codenow.runnable.io/github/user/repos?page=1&sort=updated&type=owner&per_page=100')
+        $httpBackend.whenGET('http://mewl10-3030.runnable.io/github/user/repos?page=1&sort=updated&type=owner&per_page=100')
         .respond(mocks.gh.repos);
-        $httpBackend.whenGET('http://api-kittens.codenow.runnable.io/contexts/543861deaebe190e0077c24b/versions/543988508f75990e008d2c74?')
+        $httpBackend.whenGET('http://mewl10-3030.runnable.io/contexts/543861deaebe190e0077c24b/versions/543988508f75990e008d2c74?')
         .respond(mocks.contextVersion.running);
-        $httpBackend.expectGET('http://api-kittens.codenow.runnable.io/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?')
+        $httpBackend.expectGET('http://mewl10-3030.runnable.io/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?')
         .respond(mocks.gh.commits);
-        $httpBackend.expectGET('http://api-kittens.codenow.runnable.io/github/repos/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711')
+        $httpBackend.expectGET('http://mewl10-3030.runnable.io/github/repos/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711')
         .respond(mocks.gh.commits);
 
         ctx.instance = thisUser.newInstance(mocks.instance.running);

@@ -464,7 +464,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);
   grunt.registerTask('test:e2e', ['bgShell:protractor']);
-  grunt.registerTask('test', ['bgShell:karma']);
+  grunt.registerTask('test', ['generateConfigs', 'bgShell:karma']);
   grunt.registerTask('build:dev', [
     'githooks',
     'bgShell:npm-install',

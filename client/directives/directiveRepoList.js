@@ -480,7 +480,6 @@ function repoList (
               throw err;
             }
             $rootScope.safeApply();
-            console.log($scope.data.version.appCodeVersions.models.length);
           });
         }
       });
