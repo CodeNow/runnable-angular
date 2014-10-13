@@ -331,6 +331,7 @@ function openItemsFactory(
       var modelJSON = model.toJSON();
       // The following brought to you by IE not supporting Function.prototype.name
       var modelConstructor = model.constructor.toString().match(/function\s(\w*)/)[1];
+      modelJSON.state = model.state;
       keypather.set(modelJSON, 'state.from', modelConstructor);
       if (modelConstructor === 'File') {
         keypather.set(modelJSON, 'state.parentPath', model.urlPath.replace('/files', ''));
