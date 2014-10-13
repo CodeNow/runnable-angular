@@ -69,7 +69,7 @@ nav.sidebar.global-sidebar(
       li.box-group-item.load(
         ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-        ng-repeat = "instance in dataInstanceLayout.data.instances.models"
+        ng-repeat = "instance in dataInstanceLayout.data.instances.models | orderBy:'attrs.name'"
         ng-show = "dataInstanceLayout.data.instances.models"
       )
         //- show instance name in title property when not minimized
