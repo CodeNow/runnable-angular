@@ -130,4 +130,50 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       expect(element[0].querySelector('.icons-add'));
     });
   });
+
+  describe('editing instance with repo'.bold.blue, function() {
+    function initState() {
+      angular.mock.inject(function($compile) {
+        $httpBackend.whenGET(host + '/contexts/543861deaebe190e0077c24b/versions/543988508f75990e008d2c74?')
+        .respond(mocks.contextVersions.running);
+        $httpBackend.expectGET(host + '/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?')
+        .respond(mocks.gh.commits);
+        $httpBackend.expectGET(host + '/github/repos/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711')
+        .respond(mocks.gh.compare);
+
+        ctx.instance = thisUser.newInstance(mocks.instances.running);
+        $scope.instance = ctx.instance;
+        $scope.build = ctx.instance.build;
+        $scope.edit = true;
+        $scope.showGuide = false;
+
+        var tpl = '<repo-list ' +
+          'instance="instance" ' +
+          'build="build" ' +
+          'edit="edit" ' +
+          'show-guide="showGuide"' +
+          '></repo-list>';
+
+        element = $compile(tpl)($scope);
+        $scope.$digest();
+      });
+    }
+    beforeEach(initState);
+    beforeEach(function() {
+      $httpBackend.flush();
+      $rootScope.$digest();
+    });
+
+    it('should create the element', function () {
+      expect(element[0].classList.contains('row')).to.be.ok;
+    });
+
+    it('should not display the guide', function() {
+      expect(element.find('.guide').length).to.not.be.ok;
+    });
+
+    it('should not show plus', function() {
+      expect(element[0].querySelector('.icons-add'));
+    });
+  });
 });
