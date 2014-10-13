@@ -144,7 +144,7 @@ function logView(
           if (containerId) {
             // prepend log command to terminal
 
-            terminal.write('\x1b[33;1mroot@'+keypather.get($scope, 'container.attrs.inspect.Config.Hostname')+'\x1b[0m: ' + keypather.get($scope, 'container.attrs.inspect.Args[1]') + '\n\r');
+            terminal.write('\x1b[33;1mroot@'+keypather.get($scope, 'container.attrs.inspect.Config.Hostname')+'\x1b[0m: ' + keypather.get($scope, 'container.attrs.inspect.Config.Cmd.join(" ")') + '\n\r');
             initBoxStream();
           }
         });
