@@ -7,6 +7,8 @@ var modelStore = require('runnable/lib/stores/model-store');
 var mocks = require('../api-mocks');
 require('browserify-angular-mocks');
 
+var host = require('../../../client/config/json/api.json').host;
+
 var expect = chai.expect;
 
 describe('directiveRepoList'.bold.underline.blue, function () {
@@ -26,7 +28,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       thisUser.reset(mocks.user);
 
       // Using whenGET here and elsewhere because it's indeterminate as to which will fire first
-      $httpBackend.whenGET('http://mewl10-3030.runnable.io/github/user/repos?page=1&sort=updated&type=owner&per_page=100')
+      $httpBackend.whenGET(host + '/github/user/repos?page=1&sort=updated&type=owner&per_page=100')
         .respond(mocks.gh.repos);
 
       $rootScope.dataApp = {
@@ -47,7 +49,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
   describe('build only'.bold.blue, function () {
     function initState() {
       angular.mock.inject(function($compile) {
-        $httpBackend.whenGET('http://mewl10-3030.runnable.io/contexts/54398933f5afb6410069bc33/versions/54398934f5afb6410069bc34?')
+        $httpBackend.whenGET(host + '/contexts/54398933f5afb6410069bc33/versions/54398934f5afb6410069bc34?')
         .respond(mocks.contextVersions.setup);
 
         $scope.build = thisUser.newBuild(mocks.builds.setup);
@@ -82,11 +84,11 @@ describe('directiveRepoList'.bold.underline.blue, function () {
   describe('running instance with repo'.bold.blue, function() {
     function initState() {
       angular.mock.inject(function($compile) {
-        $httpBackend.whenGET('http://mewl10-3030.runnable.io/contexts/543861deaebe190e0077c24b/versions/543988508f75990e008d2c74?')
+        $httpBackend.whenGET(host + '/contexts/543861deaebe190e0077c24b/versions/543988508f75990e008d2c74?')
         .respond(mocks.contextVersions.running);
-        $httpBackend.expectGET('http://mewl10-3030.runnable.io/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?')
+        $httpBackend.expectGET(host + '/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?')
         .respond(mocks.gh.commits);
-        $httpBackend.expectGET('http://mewl10-3030.runnable.io/github/repos/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711')
+        $httpBackend.expectGET(host + '/github/repos/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711')
         .respond(mocks.gh.commits);
 
         ctx.instance = thisUser.newInstance(mocks.instances.running);
