@@ -79,6 +79,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     it('should show guide', function() {
       expect(element[0].querySelector('.guide')).to.be.ok;
     });
+
+    it('should show plus', function() {
+      expect(element[0].querySelector('.icons-add'));
+    });
   });
 
   describe('running instance with repo'.bold.blue, function() {
@@ -89,7 +93,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         $httpBackend.expectGET(host + '/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?')
         .respond(mocks.gh.commits);
         $httpBackend.expectGET(host + '/github/repos/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711')
-        .respond(mocks.gh.commits);
+        .respond(mocks.gh.compare);
 
         ctx.instance = thisUser.newInstance(mocks.instances.running);
         $scope.instance = ctx.instance;
@@ -120,6 +124,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
 
     it('should not display the guide', function() {
       expect(element.find('.guide').length).to.not.be.ok;
+    });
+
+    it('should not show plus', function() {
+      expect(element[0].querySelector('.icons-add'));
     });
   });
 });
