@@ -16,7 +16,8 @@ function ControllerInstanceEdit(
   OpenItems,
   keypather,
   fetcherBuild,
-  validateEnvVars
+  validateEnvVars,
+  addTab
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -126,6 +127,15 @@ function ControllerInstanceEdit(
     }
   };
 
+  /*********************************
+   * popoverAddTab
+   *********************************/
+  var pat = data.popoverAddTab = new addTab({
+    buildStream: true,
+    envVars: true,
+    envVarsReadOnly: false
+  });
+
   actions.goToInstance = function (skipCheck) {
     if (skipCheck) {
       data.skipCheck = true;
@@ -153,7 +163,8 @@ function ControllerInstanceEdit(
       function (err, build) {
         if (err) throw err;
         data.instance.update({
-          build: data.build.id()
+          build: data.build.id(),
+          env: data.instance.state.env
         }, function (err) {
           if (err) {
             throw err;
@@ -222,20 +233,6 @@ function ControllerInstanceEdit(
     }
   });
 
-  /*
-  $scope.$watch('dataInstanceEdit.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
-    if (newval === oldval) {
-      // We've opened the same file
-      return;
-    }
-    var file = dataInstanceEdit.data.openFiles.activeFile;
-    var version = dataInstanceEdit.data.version;
-    file = version.fetchFile(file.id(), function () {
-      $scope.safeApply();
-    });
-  });
-*/
-
   /* ============================
    *   API Fetch Methods
    * ===========================*/
@@ -303,10 +300,10 @@ function ControllerInstanceEdit(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-
+    pat.addOpenItems(data.openItems);
     data.openItems.addBuildStream({
       name: 'Previous build'
-    }).state.alwaysOpen = true;
+    });
     $scope.safeApply();
     cb();
   }
@@ -323,11 +320,24 @@ function ControllerInstanceEdit(
     return !!dockerfile;
   }
 
+  /**
+   * Add an EnvVars view-only tab
+   */
+  function addEnvVars (cb) {
+    // idempotent after first invokation,
+    // will only add once
+    data.openItems.addEnvVars({
+      name: 'Env Vars'
+    }).state.readOnly = false;
+    cb();
+  }
+
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
     fetchBuild,
-    newOpenItems
+    newOpenItems,
+    addEnvVars
   ], function (err) {
     if (err) {
       $state.go('error', {

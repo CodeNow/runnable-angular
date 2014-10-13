@@ -26,10 +26,9 @@ function logView(
     },
     templateUrl: 'viewLogView',
     link: function ($scope, elem, attrs) {
-
       var terminal = new Terminal({
-        cols: 130,
-        rows: 80,
+        cols: 80,
+        rows: Math.floor(elem[0].clientHeight/CHAR_HEIGHT),
         useStyle: true,
         screenKeys: true,
         scrollback: 0,
@@ -43,18 +42,12 @@ function logView(
       $scope.stream = {
         data: ''
       };
+      // Terminal sizing
       var $termElem = jQuery(terminal.element);
-      var dResizeTerm = debounce(resizeTerm, 300);
-      jQuery($window).on('resize', dResizeTerm);
-      terminal.on('focus', dResizeTerm);
-      function writeToTerm (data) {
-        data = data.replace(/\r?\n/g, '\r\n');
-        terminal.write(data);
-      }
       function resizeTerm() {
         // Tab not selected
         if ($termElem.width() === 100) { return; }
-        var termLineEl = $termElem.find('span')[0];
+        var termLineEl = $termElem.find('div')[0];
         if (!termLineEl) { return; }
         var tBox = termLineEl.getBoundingClientRect();
 
@@ -65,6 +58,12 @@ function logView(
         var y = Math.floor($termElem.height() / CHAR_HEIGHT);
         terminal.resize(x, y);
       }
+      var dResizeTerm = debounce(resizeTerm, 300);
+      dResizeTerm();
+
+      jQuery($window).on('resize', dResizeTerm);
+      terminal.on('focus', dResizeTerm);
+
       $scope.$on('$destroy', function () {
         if ($scope.buildStream) {
           $scope.buildStream.end();
@@ -75,10 +74,13 @@ function logView(
         terminal.destroy();
       });
 
-      resizeTerm();
+      // Getting data to Term
+      function writeToTerm (data) {
+        data = data.replace(/\r?\n/g, '\r\n');
+        terminal.write(data);
+      }
       if (attrs.build) {
         $scope.$watch('build.attrs._id', function (buildId, oldVal) {
-          terminal.reset();
           if (!buildId) {
             return;
           }
@@ -99,10 +101,11 @@ function logView(
               if (contextVersion && contextVersion.attrs.build) {
                 var data = contextVersion.attrs.build.log ||
                   (contextVersion.attrs.build.error && contextVersion.attrs.build.error.message) ||
-                  'Unknown Build Error Occurred';
+                  '\x1b[33;1mbuild failed\x1b[0m';
                 writeToTerm(data);
               } else {
-                writeToTerm('Unknown Build Error Occurred');
+                // red text, last ascii escape resets red.
+                writeToTerm('\x1b[33;1mbuild failed\x1b[0m');
               }
               $rootScope.safeApply();
             });
@@ -122,7 +125,7 @@ function logView(
               }
               if (!build.succeeded()) {
                 // bad things happened
-                writeToTerm('BUILD BROKEN: Please try again');
+                writeToTerm('please build again');
               } else {
                 // we're all good
                 writeToTerm('Build completed, starting instance...');

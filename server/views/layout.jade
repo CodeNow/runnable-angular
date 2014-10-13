@@ -57,9 +57,10 @@ html(
   body(
     ng-class = "dataApp.state.current.data.bodyClass"
   )
-    ng-include#svg-defs(
-      src = "'svgDefs'"
-    )
+    //
+      TIME: #{locals.commitTime}
+      HASH: #{locals.commitHash}
+    ng-include#svg-defs(src = "'svgDefs'")
     #wrapper(
       ng-class = "{'nav-open': !dataApp.data.minimizeNav}"
       ng-click = "dataApp.documentClickEventHandler($scope, this)"
