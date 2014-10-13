@@ -363,6 +363,11 @@ function ControllerInstance(
         pat.actions.addTerminal();
       }
       pat.actions.addLogs();
+
+      // restore previously active tab user selected
+      // on last visit to this instance+build
+      data.openItems.restoreActiveTab();
+
     } else {
       // instance is stopped or building
       if (data.logs) {
@@ -492,6 +497,7 @@ function ControllerInstance(
       } else {
         data.logs = data.openItems.getFirst('LogView');
       }
+
     } else {
       if (!data.openItems.hasOpen('BuildStream')) {
         data.logs = pat.actions.addBuildStream();
