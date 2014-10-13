@@ -8,8 +8,11 @@ require('app')
     return runnable;
   });
 
-var methods = ['get', 'post', 'patch', 'delete', 'put'];
-var bodyMethods = ['post', 'patch', 'delete'];
+var methods = ['get', 'post', 'patch', 'del', 'put'];
+var bodyMethods = ['post', 'patch', 'del'];
+var methodAliases = {
+  del: 'delete'
+};
 
 var AngularHttpRequest = function AngularHttpRequest ($http) {
   this.$http = $http;
@@ -28,7 +31,7 @@ methods.forEach(function (method) {
     var opts = args.opts;
     opts     = angular.extend(opts || {}, this.defaultOpts);
     var cb   = args.cb;
-    opts.method = method;
+    opts.method = methodAliases[method] || method;
     opts.data = opts.json || opts.body;
     delete opts.json;
     delete opts.body;

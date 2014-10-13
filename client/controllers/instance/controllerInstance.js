@@ -134,6 +134,7 @@ function ControllerInstance(
             return e.key + '=' + e.value;
           });
           newInstance.update({
+            name: data.instance.state.name.trim(),
             env: env
           }, function () {
             $state.go('instance.instance', {
@@ -142,9 +143,13 @@ function ControllerInstance(
             });
           });
         } else {
-          $state.go('instance.instance', {
-            userName: $stateParams.userName,
-            instanceName: newInstance.attrs.name
+          newInstance.update({
+            name: data.instance.state.name.trim()
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              instanceName: newInstance.attrs.name
+            });
           });
         }
         // refetch instance collection to update list in
@@ -223,6 +228,7 @@ function ControllerInstance(
   var amf = pgm.actions.actionsModalFork = {};
   function asyncInitDataModalFork() {
     dmf.instance = data.instance;
+    pgm.instance = data.instance;
     amf.fork = function (env) {
       pgm.actions.forkInstance(env);
     };

@@ -147,6 +147,10 @@ function ControllerSetup(
    * set active context && fetch build files for display
    */
   actions.selectSourceContext = function (context) {
+    if (keypather.get(data, 'sourceContextVersion.attrs.context') === context.id()) {
+      // They selected the same template
+      return;
+    }
     data.openItems.reset([]);
     data.fetchingContext = true;
     data.contextSelected = true;
@@ -358,6 +362,8 @@ function ControllerSetup(
         }
         data.openItems.reset([]);
         data.openItems.add(files.models);
+        // hacky trigger to let file-tree know change has occured and it needs to refetch
+        keypather.set(data.openItems, 'state.reset', new Date());
         $scope.safeApply();
       })
       .go();
