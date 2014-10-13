@@ -24,12 +24,12 @@
           )
             .input-prefix http://
             span.input.modal-input(
-              contenteditable
+              contenteditable = "true"
               ng-model = "data.instance.state.name"
               validate-name = "data.instances"
               validate-name-pattern
               select-on
-            ) {{ data.instance.attrs.name }}
+            ) {{ data.instance.state.name }}
             .input-suffix .username.runnable.io
           .validate-wrapper(
             ng-class = "{\
