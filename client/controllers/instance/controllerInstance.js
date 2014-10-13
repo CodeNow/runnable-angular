@@ -143,9 +143,13 @@ function ControllerInstance(
             });
           });
         } else {
-          $state.go('instance.instance', {
-            userName: $stateParams.userName,
-            shortHash: newInstance.attrs.shortHash
+          newInstance.update({
+            name: data.instance.state.name.trim()
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              shortHash: newInstance.attrs.shortHash
+            });
           });
         }
         // refetch instance collection to update list in
