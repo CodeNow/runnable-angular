@@ -81,7 +81,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     });
 
     it('should show plus', function() {
-      expect(element[0].querySelector('.icons-add'));
+      expect(element[0].querySelector('.icons-add')).to.be.ok;
     });
   });
 
@@ -127,7 +127,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     });
 
     it('should not show plus', function() {
-      expect(element[0].querySelector('.icons-add'));
+      expect(element[0].querySelector('.icons-add')).to.not.be.ok;
     });
   });
 
@@ -172,8 +172,8 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       expect(element.find('.guide').length).to.not.be.ok;
     });
 
-    it('should not show plus', function() {
-      expect(element[0].querySelector('.icons-add'));
+    it('should show plus', function() {
+      expect(element[0].querySelector('.icons-add')).to.be.ok;
     });
   });
 });
