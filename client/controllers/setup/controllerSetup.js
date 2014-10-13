@@ -147,6 +147,10 @@ function ControllerSetup(
    * set active context && fetch build files for display
    */
   actions.selectSourceContext = function (context) {
+    if (keypather.get(data, 'sourceContextVersion.attrs.context') === context.id()) {
+      // They selected the same template
+      return;
+    }
     data.openItems.reset([]);
     data.fetchingContext = true;
     data.contextSelected = true;
