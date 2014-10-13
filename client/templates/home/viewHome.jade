@@ -1,7 +1,6 @@
 header.hero
 
   //- background layers (non-content)
-  //- skrollr requires units on all transitions (even 0)
   .hero-bg.layer-one(
     data-0 = "transform: translate3d(0,0px,0);"
     data-400 = "transform: translate3d(0,45px,0);"
@@ -24,13 +23,16 @@ header.hero
         href = "{{ dataApp.loginURL }}"
       ) Sign In
   .hero-wrapper
-    h1.hero-text I need a box to #{''}
-      span debug
-      | .
-    p.hero-text-sub Launch boxes on demand in seconds.
+    h1.hero-text There's a Box for That
+    p.hero-text-sub Launch a box to #{''}
+      span.text-swap
+        span debug
+        //- span share
+        //- span verify
+      |  in seconds.
     button.btn-hero Learn More
 
-section.landing-features
+section.clearfix.landing-features
   .feature
     img(
       height = "72"
@@ -39,25 +41,25 @@ section.landing-features
     )
     h2.feature-header Quickly Run Any Repo
     p.feature-description.
-      Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
+      Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida.
+  .feature
+    img(
+      height = "72"
+      src = "/build/images/home/feature-icon-2.svg"
+      width = "96"
+    )
+    h2.section-header Noncommittal
+    p.section-description.
+      Change commits on the fly.
   .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-    h2.section-header Quickly Run Any Repo
+    h2.section-header Something Else
     p.section-description.
-      Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
-  .feature
-    img(
-      height = "72"
-      src = "/build/images/home/feature-icon-1.svg"
-      width = "96"
-    )
-    h2.section-header Quickly Run Any Repo
-    p.section-description.
-      Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
+      Donec dictum iaculis aliquam.
 
 section.landing-callout
   img
