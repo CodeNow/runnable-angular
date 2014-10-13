@@ -1,14 +1,18 @@
-header.landing-hero
+header.hero
+
+  //- background layers (non-content)
   //- skrollr requires units on all transitions (even 0)
-  .landing-hero-bg.layer-one(
+  .hero-bg.layer-one(
     data-0 = "transform: translate3d(0,0px,0);"
     data-400 = "transform: translate3d(0,45px,0);"
   )
-  .landing-hero-bg.layer-two(
+  .hero-bg.layer-two(
     data-0 = "transform: translate3d(0,0px,0);"
     data-400 = "transform: translate3d(0,30px,0);"
   )
-  nav.landing-nav
+
+  //- header content
+  nav.hero-nav
       a.logo(
         href = "/"
       )
@@ -16,60 +20,59 @@ header.landing-hero
           use(
             xlink:href = "#runnable-logo"
           )
-  .landing-content
+      a.link(
+        href = "{{ dataApp.loginURL }}"
+      ) Sign In
+  .hero-wrapper
     h1.hero-text I need a box to #{''}
-      span.hero-text-swap debug
+      span debug
       | .
     p.hero-text-sub Launch boxes on demand in seconds.
-    p.hero-text-sub
-      button(
-        type = "button"
-      ) Learn More
-      //- a.btn(
-      //-   href = "{{ dataApp.loginURL }}"
-      //- )
-      //-   svg.iconnables.icons-git
-      //-     use(
-      //-       xlink:href = "#icons-git"
-      //-     )
-      //-   | Sign Up with Github
-section.landing-section
-  div
+    button.btn-hero Learn More
+
+section.landing-features
+  .feature
     img(
-      alt = ""
       height = "72"
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-  h2.section-header Quickly Run Any Repo
-  p.section-description.
-    Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
-section.landing-section
-  div
+    h2.feature-header Quickly Run Any Repo
+    p.feature-description.
+      Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
+  .feature
     img(
-      alt = ""
       height = "72"
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-  h2.section-header Quickly Run Any Repo
-  p.section-description.
-    Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
-section.landing-section
-  div
+    h2.section-header Quickly Run Any Repo
+    p.section-description.
+      Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
+  .feature
     img(
-      alt = ""
       height = "72"
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-  h2.section-header Quickly Run Any Repo
-  p.section-description.
-    Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
+    h2.section-header Quickly Run Any Repo
+    p.section-description.
+      Donec vehicula nunc ut orci varius, sit amet accumsan urna gravida. Donec dictum iaculis aliquam.
+
+section.landing-callout
+  img
+  h2
+  p
+
 section.landing-cta
   h3.cta-hero-text
   button
+
 footer.landing-footer
   a
-  img
+  img(
+    height = "30"
+    src = ""
+    width = "30"
+  )
   a

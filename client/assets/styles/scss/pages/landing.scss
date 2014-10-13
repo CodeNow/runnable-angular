@@ -1,4 +1,4 @@
-// .landing
+// reset overflow for .landing
 .landing,
 .landing #wrapper {
   height: auto;
@@ -7,8 +7,9 @@
   overflow-y: auto;
 }
 
-// header.landing-hero
-.landing-hero {
+// landing header
+// header.hero
+.hero {
   background: url(../images/home/hero-grid-static.png) $purple center center;
   background-size: 1440px 600px;
   color: $white;
@@ -18,8 +19,8 @@
   width: 100vw;
 }
 
-// div.landing-hero-bg
-.landing-hero-bg {
+// div.hero-bg
+.hero-bg {
   background-size: 1440px 600px;
   height: 500px;
   pointer-events: none;
@@ -37,40 +38,8 @@
   }
 }
 
-// div.landing-content
-.landing-content {
-  height: 320px;
-  margin-top: 120px;
-  position: relative;
-  z-index: $z-hero-content;
-
-  button,
-  .btn {
-    background: rgba($white,.15);
-    color: $white;
-    font-size: 16px;
-    font-weight: 300;
-    height: 36px;
-    line-height: 36px;
-    margin: 15px 3px 0;
-    text-decoration: none;
-
-    &:hover,
-    &:active {
-      background: rgba($white,.3);
-    }
-
-    .icons-git {
-      float: left;
-      height: 36px;
-      margin-right: 9px;
-      width: 21px;
-    }
-  }
-}
-
-// nav.landing-nav
-.landing-nav {
+// nav.hero-nav
+.hero-nav {
   height: 60px;
   width: 100%;
 
@@ -81,6 +50,12 @@
     float: right;
     height: 60px;
     line-height: 60px;
+    margin-right: 30px;
+
+    &:hover,
+    &:active {
+      color: $white;
+    }
   }
 }
 
@@ -89,6 +64,14 @@
   float: left;
   height: 40px;
   margin: 10px 0;
+}
+
+// div.hero-wrapper
+.hero-wrapper {
+  height: 320px;
+  margin-top: 120px;
+  position: relative;
+  z-index: $z-hero-content;
 }
 
 // h1.hero-text
@@ -107,18 +90,49 @@
   text-align: center;
 }
 
-// **********
-// after hero
-// **********
-// section.landing-section
-.landing-section {
+// button.btn-hero
+.btn-hero {
+  background: rgba($white,.15);
+  color: $white;
+  display: table;
+  font-size: 16px;
+  font-weight: 300;
+  height: 36px;
+  line-height: 36px;
+  margin: 15px auto 0;
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    background: rgba($white,.3);
+  }
+
+  // .icons-git {
+  //   float: left;
+  //   height: 36px;
+  //   margin-right: 9px;
+  //   width: 21px;
+  // }
+}
+
+// landing features
+// section.landing-features
+.landing-features {
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+// div.feature
+.feature {
   display: inline-block;
   padding: 30px;
   text-align: center;
   width: calc(100%/3);
 }
 
-// h2.section-header
-.section-header {
+// h2.feature-header
+.feature-header {
   margin: 9px 0 0;
 }
+
+// landing footer
