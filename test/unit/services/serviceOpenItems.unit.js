@@ -13,8 +13,11 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
   var $localStorage, keypather, pluck, equals, async, OpenItems;
   var fileObj = {"path":"/home","name":"defined","isDir":false,"body":"adsf","state":{"from":"File"}};
   var fileModel = new VersionFileModel(fileObj, { noStore: true });
-  function initState () {
 
+  var fileObj2 = {"path":"/home2","name":"defined2","isDir":false,"body":"adsf","state":{"from":"File"}};
+  var fileModel2 = new VersionFileModel(fileObj2, { noStore: true });
+
+  function initState () {
     angular.mock.module('app', function ($provide) {
       $provide.value('$localStorage', {
         test: [fileObj]
@@ -111,6 +114,27 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
 
       expect(oi.fromCache).to.be.true;
     });
+
+    it('Should preserve active state of each tab', function () {
+      var oi = new OpenItems('abc123');
+      oi.add(fileModel);
+      oi.add(fileModel2); //fileModel2.state.active = true
+
+      expect(fileModel.state.active).to.eql(false);
+      expect(fileModel2.state.active).to.eql(true);
+
+      var oi2 = new OpenItems('abc123');
+      oi2.restoreActiveTab();
+      expect(oi2.previouslyActiveTab._id).to.eql(fileModel2.id());
+
+      // switch up active tab && preserve state
+      oi.activeHistory.add(fileModel);
+      oi.saveState();
+
+      var oi3 = new OpenItems('abc123');
+      expect(oi3.previouslyActiveTab.name).to.eql(fileModel.attrs.name);
+    });
+
   });
 
   describe('adding and removing files'.blue, function () {
@@ -154,9 +178,6 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
 
     it('Should reset collection', function () {
       var oi = new OpenItems();
-
-      var fileObj2 = {"path":"/home2","name":"defined2","isDir":false,"body":"adsf","state":{"from":"File"}};
-      var fileModel2 = new VersionFileModel(fileObj2, { noStore: true });
 
       oi.add(fileModel2);
       expect(oi).to.be.ok;
@@ -229,4 +250,5 @@ describe('serviceOpenItems'.bold.underline.blue, function () {
       expect(badAdd).to.throw('Trying to add a non-model');
     });
   });
+
 });
