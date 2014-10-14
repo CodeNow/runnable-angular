@@ -22,31 +22,34 @@ header.hero
         href = "{{ dataApp.loginURL }}"
       ) Sign In
   .hero-wrapper
-    h1.hero-text There's a Box for That
+    h1.hero-text Faster Development with Boxes
     p.hero-text-sub Launch a box to #{''}
       span.text-swap
         span debug
         //- span share
         //- span verify
-      |  in seconds.
+      |  in seconds
 
 section.clearfix.landing-features
-  .feature
+  .feature.animate
     img(
+      data-start = "@class\: paused"
+      data-bottom = "@class\: running"
+      data-top-bottom = "@class\: paused"
       height = "72"
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-    h2.feature-header Quickly Run Any Repo
+    h2.feature-header Octocat Friendly
     p.feature-description.
-      Spin up your projects in seconds.
+      Spin up existing repositories in seconds.
   .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-2.svg"
       width = "96"
     )
-    h2.feature-header Noncommittal
+    h2.feature-header For the Commitment-phobic
     p.feature-description.
       Changing repositories and commits are easy.
   .feature
@@ -55,9 +58,9 @@ section.clearfix.landing-features
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-    h2.feature-header Something Else
+    h2.feature-header From 0 to 1
     p.feature-description.
-      Donec dictum iaculis aliquam.
+      Integration and staging in one place.
 
 section.landing-callout
   img(
@@ -65,8 +68,8 @@ section.landing-callout
     src = "/build/images/home/feature-banner-1.svg"
     width = "600"
   )
-  h2 Debug Here
-  p We have some tools for this. I would tell you about them, but I don't know how.
+  h2 You've Got the Power
+  p We provide you the tools you need to debug issues.
 
 section.landing-cta
   a.btn.green(
