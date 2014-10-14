@@ -177,24 +177,29 @@ section.views.with-add-tab(
           use(xlink:href = "#icons-web")
         | Web View
       li.blank-panel-item(
-        ng-click = "actions.addTerminal()"
+        ng-click = "dataInstance.data.popoverAddTab.actions.addTerminal()"
       )
         svg.iconnables.iconnables-lg.icons-terminal
           use(xlink:href = "#icons-terminal")
         | Terminal
       li.blank-panel-item(
-        ng-click = "actions.addBuildStream()"
+        ng-click = "dataInstance.data.popoverAddTab.actions.addBuildStream()"
       )
         svg.iconnables.iconnables-lg.icons-logs
           use(xlink:href = "#icons-logs")
         | Build Log
       li.blank-panel-item(
-        ng-click = "actions.addLogs()"
+        ng-click = "dataInstance.data.popoverAddTab.actions.addLogs()"
       )
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")
         | Box Log
-
+      li.blank-panel-item(
+        ng-click = "dataInstance.data.popoverAddTab.actions.addEnvVars()"
+      )
+        svg.iconnables.iconnables-lg.icons-server
+          use(xlink:href = "#icons-server")
+        | Env Vars
 
   //- spinner
   .horizontal-spinner(
