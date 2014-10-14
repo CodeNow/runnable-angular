@@ -9,6 +9,7 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   $interval,
+  $rootScope,
   keypather,
   async,
   user,
@@ -125,6 +126,8 @@ function ControllerInstance(
     },
 
     forkInstance: function (env) {
+      $rootScope.$broadcast('app-document-click');
+      $scope.dataApp.data.loading = true;
       var newInstance = data.instance.copy(function (err) {
         if (err) {
           throw err;

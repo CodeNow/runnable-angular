@@ -2,16 +2,16 @@ var util = require('../helpers/util');
 
 var GearMenu = require('../popovers/GearMenu');
 
-function InstancePage (shortHash) {
+function InstancePage (name) {
 
   this.gearMenu = new GearMenu();
 
   this.activePanel = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark'));
   this.buildLogs = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li.tab-wrapper.ng-scope.active > span'));
-  this.statusIcon = util.createGetter(by.css('#wrapper > main > header > h1 > span'));
+  this.statusIcon = util.createGetter(by.css('#wrapper > main > header > h1 > div > span'));
 
   this.get = function() {
-    return browser.get('/runnable-doobie/' + shortHash);
+    return browser.get('/runnable-doobie/' + name);
   };
 
   this.buildLogsOpen = function() {
@@ -27,6 +27,6 @@ function InstancePage (shortHash) {
   };
 }
 
-InstancePage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/' + util.regex.shortHash));
+InstancePage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/[A-z0-9_-]+'));
 
 module.exports = InstancePage;
