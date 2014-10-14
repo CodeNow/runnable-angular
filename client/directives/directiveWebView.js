@@ -36,7 +36,7 @@ function webView (
       };
 
       $scope.actions.refresh = function () {
-        if (!$scope.data.iframeUrl){
+        if (!$scope.data.iframeUrl || !$scope.data.iframeUrl.toString){
           /**
            * will be undefined if container exposes no ports, and has no urls
            */
