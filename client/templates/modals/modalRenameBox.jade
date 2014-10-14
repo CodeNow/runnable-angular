@@ -34,7 +34,7 @@
               instance = "data.instance"
               validate-name-pattern
             ) {{ data.instance.state.name }}
-            .input-suffix .username.runnable.io
+            .input-suffix .{{ data.instance.attrs.owner.username }}.runnable.io
           .validate-wrapper(
             ng-class = "{ \
               in: data.renameForm.$invalid, \

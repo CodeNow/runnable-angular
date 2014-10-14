@@ -30,7 +30,7 @@
               validate-name-pattern
               select-on
             ) {{ data.instance.state.name }}
-            .input-suffix .username.runnable.io
+            .input-suffix .{{ data.instance.attrs.owner.username }}.runnable.io
           .validate-wrapper(
             ng-class = "{\
               in: data.forkForm.$invalid,\
