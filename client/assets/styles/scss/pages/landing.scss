@@ -231,7 +231,7 @@
 .feature {
   display: block;
   float: left;
-  padding: 30px;
+  padding: 60px 30px 30px;
   text-align: center;
   width: calc(100%/3);
 }
@@ -248,4 +248,14 @@
   text-align: center;
 }
 
-// landing footer
+// footer.landing footer
+.landing-footer {
+  height: 60px;
+  line-height: 60px;
+  margin-top: 30px;
+  text-align: center;
+
+  .icons-runnable {
+    color: $gray-light;
+  }
+}
