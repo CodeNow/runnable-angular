@@ -19,9 +19,9 @@ function ControllerHome(
   var dataHome = $scope.dataHome = self.initState();
 
   //- refresh skrollr on load
-  window.s.refresh();
+  //window.s.refresh();
 
-  verifyUserIsAuth();
+  //verifyUserIsAuth();
 
   function verifyUserIsAuth() {
     async.series([
