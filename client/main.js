@@ -1,6 +1,6 @@
 var app = require('app');
 var $ = require('jquery');
-var angular = require('angular');
+require('angular');
 
 require('./polyfills/index');
 require('./controllers/index');

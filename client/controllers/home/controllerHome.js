@@ -31,7 +31,7 @@ function ControllerHome(
 
         var thisUser = $scope.dataApp.user;
 
-        if (!keypather.get($localStorage, 'stateParams.shortHash')) {
+        if (!keypather.get($localStorage, 'stateParams.instanceName')) {
           // no cached previously visited instance
           goToFirstInstance();
         } else {
@@ -60,10 +60,10 @@ function ControllerHome(
           }
           var firstInstance = thisUser.instances.models[0];
           var userName = thisUser.attrs.accounts.github.username;
-          var shortHash = firstInstance.attrs.shortHash;
+          var instanceName = firstInstance.attrs.name;
           $state.go('instance.instance', {
             userName: userName,
-            shortHash: shortHash
+            instanceName: instanceName
           });
         }
 
@@ -75,7 +75,7 @@ function ControllerHome(
         }
 
         function goToLastVisitedInstance() {
-          var shortHash = $localStorage.stateParams.shortHash;
+          var instanceName = $localStorage.stateParams.instanceName;
           var userOrgName = $localStorage.stateParams.userName;
           //verify exists
           var org = dataHome.data.orgs.find(function (org) {
@@ -85,7 +85,7 @@ function ControllerHome(
             return goToFirstInstance();
           }
           var instance = org.instances.find(function (instance) {
-            return instance.attrs.shortHash === shortHash;
+            return instance.attrs.name === instanceName;
           });
           if(!instance) {
             return goToFirstInstance();
@@ -93,7 +93,7 @@ function ControllerHome(
           // we found the cached org & instance
           $state.go('instance.instance', {
             userName: userOrgName,
-            shortHash: shortHash
+            instanceName: instanceName
           });
         }
       }
@@ -107,7 +107,7 @@ function ControllerHome(
   function fetchInstances(cb) {
     var thisUser = $scope.dataApp.user;
 
-    if (!keypather.get($localStorage, 'stateParams.shortHash')) {
+    if (!keypather.get($localStorage, 'stateParams.instanceName')) {
       // dont bother finding all orgs, we're just going to send user to first user-instance
       dataHome.data.orgs = [thisUser];
       fetchAllInstances(dataHome.data.orgs);

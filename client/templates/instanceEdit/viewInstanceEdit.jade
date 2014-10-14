@@ -8,7 +8,7 @@ header.box-header
     input.box-url(
       readonly
       select-all
-      value = "{{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io"
+      value = "{{ dataInstanceEdit.data.instance.attrs.name }}.{{ dataInstanceEdit.data.instance.attrs.owner.username }}.runnable.io"
     )
     //- sets layout on h1.box-name for .box-url
     span.box-name-ghost {{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io

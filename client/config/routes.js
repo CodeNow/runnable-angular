@@ -40,13 +40,13 @@ module.exports = [{
 }, {
   state: 'instance.instance',
   abstract: false,
-  url: '^/:userName/:shortHash',
+  url: '^/:userName/:instanceName',
   templateUrl: 'viewInstance',
   controller: 'ControllerInstance'
 }, {
   state: 'instance.instanceEdit',
   abstract: false,
-  url: '^/:userName/:shortHash/edit/:buildId',
+  url: '^/:userName/:instanceName/edit/:buildId',
   templateUrl: 'viewInstanceEdit',
   controller: 'ControllerInstanceEdit'
 }];
