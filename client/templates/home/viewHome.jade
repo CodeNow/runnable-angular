@@ -1,5 +1,4 @@
 header.hero
-
   //- background layers (non-content)
   .hero-bg.layer-one(
     data-0 = "transform: translate3d(0,0px,0);"
@@ -19,7 +18,7 @@ header.hero
           use(
             xlink:href = "#runnable-logo"
           )
-      a.link(
+      a.btn.btn-hero(
         href = "{{ dataApp.loginURL }}"
       ) Sign In
   .hero-wrapper
@@ -30,7 +29,6 @@ header.hero
         //- span share
         //- span verify
       |  in seconds.
-    button.btn-hero Learn More
 
 section.clearfix.landing-features
   .feature
@@ -69,9 +67,16 @@ section.landing-callout
   )
   h2 Debug Here
   p We have some tools for this. I would tell you about them, but I don't know how.
+
 section.landing-cta
-  h3.cta-hero-text
-  button
+  a.btn.green(
+    href = "{{ dataApp.loginURL }}"
+  )
+    svg.iconnables.icons-git
+      use(
+        xlink:href = "#icons-git"
+      )
+    | Sign Up with Github
 
 footer.landing-footer
   svg.iconnables.icons-runnable

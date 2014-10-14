@@ -13,7 +13,7 @@
   background: url(../images/home/hero-grid-static.png) $purple center center;
   background-size: 1440px 600px;
   color: $white;
-  height: 500px;
+  height: 450px;
   overflow: hidden;
   position: relative;
   width: 100vw;
@@ -22,7 +22,7 @@
 // div.hero-bg
 .hero-bg {
   background-size: 1440px 600px;
-  height: 500px;
+  height: 450px;
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -45,19 +45,11 @@
   width: 100%;
   z-index: $z-hero-content;
 
-  // a.link
-  .link {
-    color: $white;
+  // a.btn-hero
+  .btn-hero {
     display: inline-block;
     float: right;
-    height: 60px;
-    line-height: 60px;
     margin-right: 30px;
-
-    &:hover,
-    &:active {
-      color: $white;
-    }
   }
 }
 
@@ -200,7 +192,6 @@
   background: rgba($white,.15);
   color: $white;
   display: table;
-  font-size: 19px;
   font-weight: 300;
   height: 36px;
   line-height: 36px;
@@ -211,13 +202,6 @@
   &:active {
     background: rgba($white,.3);
   }
-
-  // .icons-git {
-  //   float: left;
-  //   height: 36px;
-  //   margin-right: 9px;
-  //   width: 21px;
-  // }
 }
 
 // landing features
@@ -248,11 +232,24 @@
   text-align: center;
 }
 
+// section.landing-cta
+.landing-cta {
+  padding: 60px 0;
+  text-align: center;
+
+  .icons-git {
+    float: left;
+    height: 45px;
+    margin-right: 9px;
+    width: 21px;
+  }
+}
+
 // footer.landing footer
 .landing-footer {
   height: 60px;
   line-height: 60px;
-  margin-top: 30px;
+  margin-top: 60px;
   text-align: center;
 
   .icons-runnable {
