@@ -208,7 +208,7 @@
 // section.landing-features
 .landing-features {
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 1020px;
 }
 
 // div.feature
@@ -218,10 +218,32 @@
   padding: 60px 30px 30px;
   text-align: center;
   width: calc(100%/3);
+
+  .animate img {
+    animation: things 2s infinite;
+
+    &.running {
+      animation-play-state: running;
+    }
+
+    &.paused {
+      animation-play-state: paused;
+    }
+  }
+}
+
+@keyframes things {
+  0% {
+    transform: transform3d(0,0,0);
+  }
+  100% {
+    transform: transform3d(10px,0,0);
+  }
 }
 
 // h2.feature-header
 .feature-header {
+  font-size: 21px;
   margin: 12px 0 0;
 }
 
