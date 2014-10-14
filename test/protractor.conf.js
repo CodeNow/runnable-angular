@@ -7,7 +7,8 @@ exports.config = {
   // Order is important
   specs: [
     'e2e/helpers/login.js',
-    'e2e/firstRun.e2e.js'
+    'e2e/firstRun.e2e.js',
+    'e2e/deleteBox.e2e.js'
   ],
 
   capabilities: {
