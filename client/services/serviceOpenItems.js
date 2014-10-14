@@ -130,11 +130,17 @@ function openItemsFactory(
   function OpenItems(shortHash) {
     this.shortHash = shortHash;
     this.activeHistory = new ActiveHistory();
+    this.previouslyActiveTab = null;
 
     var models;
 
     if (this.shortHash) {
       models = $localStorage[shortHash];
+      if (Array.isArray(models)) {
+        this.previouslyActiveTab = models.find(function (m) {
+          return keypather.get(m, 'state.active');
+        });
+      }
       if (models && models.length) {
         this.fromCache = true;
         models = models.map(function (model) {
@@ -159,6 +165,19 @@ function openItemsFactory(
   }
 
   util.inherits(OpenItems, BaseCollection);
+
+  // Set item in localStorage serialized cache to active
+  // after other tabs have been added
+  OpenItems.prototype.restoreActiveTab = function () {
+    if (this.previouslyActiveTab) {
+      var model = this.models.find(function (m) {
+        return (m.id() === keypather.get(this, 'previouslyActiveTab._id'));
+      }.bind(this));
+      if (model) {
+        this.activeHistory.add(model);
+      }
+    }
+  };
 
   OpenItems.prototype.reset = function () {
     BaseCollection.prototype.reset.apply(this.activeHistory, arguments);
@@ -331,6 +350,7 @@ function openItemsFactory(
       var modelJSON = model.toJSON();
       // The following brought to you by IE not supporting Function.prototype.name
       var modelConstructor = model.constructor.toString().match(/function\s(\w*)/)[1];
+      modelJSON.state = model.state;
       keypather.set(modelJSON, 'state.from', modelConstructor);
       if (modelConstructor === 'File') {
         keypather.set(modelJSON, 'state.parentPath', model.urlPath.replace('/files', ''));

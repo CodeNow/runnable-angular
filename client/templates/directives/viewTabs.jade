@@ -7,8 +7,9 @@
           && item.state.body !== item.attrs.body),\
         'always-open': item.state.alwaysOpen\
       }"
-      ng-click = "openItems.activeHistory.add(item);\
-        $event.stopPropagation();"
+      ng-click = "openItems.activeHistory.add(item); \
+                  openItems.saveState(); \
+                  $event.stopPropagation();"
       ng-repeat = "item in openItems.models"
     )
       span.tab-name(
