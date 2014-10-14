@@ -1,0 +1,157 @@
+{
+  "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711",
+  "html_url": "https://github.com/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711",
+  "permalink_url": "https://github.com/SomeKittens/SPACESHIPS/compare/SomeKittens:440d407...SomeKittens:440d407",
+  "diff_url": "https://github.com/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711.diff",
+  "patch_url": "https://github.com/SomeKittens/SPACESHIPS/compare/master...440d4075e71c01734118d312fc3e3cd6c326f711.patch",
+  "base_commit": {
+    "sha": "440d4075e71c01734118d312fc3e3cd6c326f711",
+    "commit": {
+      "author": {
+        "name": "SomeKittens",
+        "email": "rkoutnik@gmail.com",
+        "date": "2014-10-08T01:03:23Z"
+      },
+      "committer": {
+        "name": "SomeKittens",
+        "email": "rkoutnik@gmail.com",
+        "date": "2014-10-08T01:03:23Z"
+      },
+      "message": "all ships have trails of same color",
+      "tree": {
+        "sha": "ce3cb9eb0c944c07797e7a94595436b30bcf065d",
+        "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/git/trees/ce3cb9eb0c944c07797e7a94595436b30bcf065d"
+      },
+      "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/git/commits/440d4075e71c01734118d312fc3e3cd6c326f711",
+      "comment_count": 0
+    },
+    "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711",
+    "html_url": "https://github.com/SomeKittens/SPACESHIPS/commit/440d4075e71c01734118d312fc3e3cd6c326f711",
+    "comments_url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711/comments",
+    "author": {
+      "login": "SomeKittens",
+      "id": 1616464,
+      "avatar_url": "https://avatars.githubusercontent.com/u/1616464?v=2",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/SomeKittens",
+      "html_url": "https://github.com/SomeKittens",
+      "followers_url": "https://api.github.com/users/SomeKittens/followers",
+      "following_url": "https://api.github.com/users/SomeKittens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/SomeKittens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/SomeKittens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/SomeKittens/subscriptions",
+      "organizations_url": "https://api.github.com/users/SomeKittens/orgs",
+      "repos_url": "https://api.github.com/users/SomeKittens/repos",
+      "events_url": "https://api.github.com/users/SomeKittens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/SomeKittens/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "SomeKittens",
+      "id": 1616464,
+      "avatar_url": "https://avatars.githubusercontent.com/u/1616464?v=2",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/SomeKittens",
+      "html_url": "https://github.com/SomeKittens",
+      "followers_url": "https://api.github.com/users/SomeKittens/followers",
+      "following_url": "https://api.github.com/users/SomeKittens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/SomeKittens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/SomeKittens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/SomeKittens/subscriptions",
+      "organizations_url": "https://api.github.com/users/SomeKittens/orgs",
+      "repos_url": "https://api.github.com/users/SomeKittens/repos",
+      "events_url": "https://api.github.com/users/SomeKittens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/SomeKittens/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "62fbb0a96ebd346bc5fcb6b672047d5f877768c8",
+        "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/62fbb0a96ebd346bc5fcb6b672047d5f877768c8",
+        "html_url": "https://github.com/SomeKittens/SPACESHIPS/commit/62fbb0a96ebd346bc5fcb6b672047d5f877768c8"
+      }
+    ]
+  },
+  "merge_base_commit": {
+    "sha": "440d4075e71c01734118d312fc3e3cd6c326f711",
+    "commit": {
+      "author": {
+        "name": "SomeKittens",
+        "email": "rkoutnik@gmail.com",
+        "date": "2014-10-08T01:03:23Z"
+      },
+      "committer": {
+        "name": "SomeKittens",
+        "email": "rkoutnik@gmail.com",
+        "date": "2014-10-08T01:03:23Z"
+      },
+      "message": "all ships have trails of same color",
+      "tree": {
+        "sha": "ce3cb9eb0c944c07797e7a94595436b30bcf065d",
+        "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/git/trees/ce3cb9eb0c944c07797e7a94595436b30bcf065d"
+      },
+      "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/git/commits/440d4075e71c01734118d312fc3e3cd6c326f711",
+      "comment_count": 0
+    },
+    "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711",
+    "html_url": "https://github.com/SomeKittens/SPACESHIPS/commit/440d4075e71c01734118d312fc3e3cd6c326f711",
+    "comments_url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711/comments",
+    "author": {
+      "login": "SomeKittens",
+      "id": 1616464,
+      "avatar_url": "https://avatars.githubusercontent.com/u/1616464?v=2",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/SomeKittens",
+      "html_url": "https://github.com/SomeKittens",
+      "followers_url": "https://api.github.com/users/SomeKittens/followers",
+      "following_url": "https://api.github.com/users/SomeKittens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/SomeKittens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/SomeKittens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/SomeKittens/subscriptions",
+      "organizations_url": "https://api.github.com/users/SomeKittens/orgs",
+      "repos_url": "https://api.github.com/users/SomeKittens/repos",
+      "events_url": "https://api.github.com/users/SomeKittens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/SomeKittens/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "SomeKittens",
+      "id": 1616464,
+      "avatar_url": "https://avatars.githubusercontent.com/u/1616464?v=2",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/SomeKittens",
+      "html_url": "https://github.com/SomeKittens",
+      "followers_url": "https://api.github.com/users/SomeKittens/followers",
+      "following_url": "https://api.github.com/users/SomeKittens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/SomeKittens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/SomeKittens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/SomeKittens/subscriptions",
+      "organizations_url": "https://api.github.com/users/SomeKittens/orgs",
+      "repos_url": "https://api.github.com/users/SomeKittens/repos",
+      "events_url": "https://api.github.com/users/SomeKittens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/SomeKittens/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "62fbb0a96ebd346bc5fcb6b672047d5f877768c8",
+        "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/62fbb0a96ebd346bc5fcb6b672047d5f877768c8",
+        "html_url": "https://github.com/SomeKittens/SPACESHIPS/commit/62fbb0a96ebd346bc5fcb6b672047d5f877768c8"
+      }
+    ]
+  },
+  "status": "identical",
+  "ahead_by": 0,
+  "behind_by": 0,
+  "total_commits": 0,
+  "commits": [
+
+  ],
+  "files": [
+
+  ]
+}

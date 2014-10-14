@@ -1,0 +1,101 @@
+{
+  "sha": "440d4075e71c01734118d312fc3e3cd6c326f711",
+  "commit": {
+    "author": {
+      "name": "SomeKittens",
+      "email": "rkoutnik@gmail.com",
+      "date": "2014-10-08T01:03:23Z"
+    },
+    "committer": {
+      "name": "SomeKittens",
+      "email": "rkoutnik@gmail.com",
+      "date": "2014-10-08T01:03:23Z"
+    },
+    "message": "all ships have trails of same color",
+    "tree": {
+      "sha": "ce3cb9eb0c944c07797e7a94595436b30bcf065d",
+      "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/git/trees/ce3cb9eb0c944c07797e7a94595436b30bcf065d"
+    },
+    "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/git/commits/440d4075e71c01734118d312fc3e3cd6c326f711",
+    "comment_count": 0
+  },
+  "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711",
+  "html_url": "https://github.com/SomeKittens/SPACESHIPS/commit/440d4075e71c01734118d312fc3e3cd6c326f711",
+  "comments_url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711/comments",
+  "author": {
+    "login": "SomeKittens",
+    "id": 1616464,
+    "avatar_url": "https://avatars.githubusercontent.com/u/1616464?v=2",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/SomeKittens",
+    "html_url": "https://github.com/SomeKittens",
+    "followers_url": "https://api.github.com/users/SomeKittens/followers",
+    "following_url": "https://api.github.com/users/SomeKittens/following{/other_user}",
+    "gists_url": "https://api.github.com/users/SomeKittens/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/SomeKittens/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/SomeKittens/subscriptions",
+    "organizations_url": "https://api.github.com/users/SomeKittens/orgs",
+    "repos_url": "https://api.github.com/users/SomeKittens/repos",
+    "events_url": "https://api.github.com/users/SomeKittens/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/SomeKittens/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "SomeKittens",
+    "id": 1616464,
+    "avatar_url": "https://avatars.githubusercontent.com/u/1616464?v=2",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/SomeKittens",
+    "html_url": "https://github.com/SomeKittens",
+    "followers_url": "https://api.github.com/users/SomeKittens/followers",
+    "following_url": "https://api.github.com/users/SomeKittens/following{/other_user}",
+    "gists_url": "https://api.github.com/users/SomeKittens/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/SomeKittens/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/SomeKittens/subscriptions",
+    "organizations_url": "https://api.github.com/users/SomeKittens/orgs",
+    "repos_url": "https://api.github.com/users/SomeKittens/repos",
+    "events_url": "https://api.github.com/users/SomeKittens/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/SomeKittens/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "62fbb0a96ebd346bc5fcb6b672047d5f877768c8",
+      "url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/commits/62fbb0a96ebd346bc5fcb6b672047d5f877768c8",
+      "html_url": "https://github.com/SomeKittens/SPACESHIPS/commit/62fbb0a96ebd346bc5fcb6b672047d5f877768c8"
+    }
+  ],
+  "stats": {
+    "total": 53,
+    "additions": 29,
+    "deletions": 24
+  },
+  "files": [
+    {
+      "sha": "326bfc3b1e49ca578f632e832ef78b39533f81bb",
+      "filename": "static/index.html",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 4,
+      "changes": 5,
+      "blob_url": "https://github.com/SomeKittens/SPACESHIPS/blob/440d4075e71c01734118d312fc3e3cd6c326f711/static/index.html",
+      "raw_url": "https://github.com/SomeKittens/SPACESHIPS/raw/440d4075e71c01734118d312fc3e3cd6c326f711/static/index.html",
+      "contents_url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/contents/static/index.html?ref=440d4075e71c01734118d312fc3e3cd6c326f711",
+      "patch": "@@ -45,10 +45,7 @@\n       position: absolute;\n       background-color: black;\n     }\n-    #controls {\n-      text-align: center;\n-    }\n-    h1, p {\n+    h1, p, #controls {\n       text-align: center;\n     }\n   </style>"
+    },
+    {
+      "sha": "a2e1587e1d40d70b136a1c18852e4904484c621d",
+      "filename": "static/ships.js",
+      "status": "modified",
+      "additions": 28,
+      "deletions": 20,
+      "changes": 48,
+      "blob_url": "https://github.com/SomeKittens/SPACESHIPS/blob/440d4075e71c01734118d312fc3e3cd6c326f711/static/ships.js",
+      "raw_url": "https://github.com/SomeKittens/SPACESHIPS/raw/440d4075e71c01734118d312fc3e3cd6c326f711/static/ships.js",
+      "contents_url": "https://api.github.com/repos/SomeKittens/SPACESHIPS/contents/static/ships.js?ref=440d4075e71c01734118d312fc3e3cd6c326f711",
+      "patch": "@@ -101,7 +101,7 @@ Player.prototype.update = function () {\n       x: xx,\n       y: yy,\n       r: 5,\n-      c: 'rgb(0,0,200)',\n+      c: 'rgb(130,100,0)',\n       decay: 0.015\n     });\n   }\n@@ -156,6 +156,11 @@ function FBPlayer (params) {\n   this.connected = true;\n   this.exploded = !!params.exploded;\n \n+  this.particleRate = 200;\n+  this.lastParticle = {\n+    time: Date.now()\n+  };\n+\n   this.img = new Image();\n   this.img.src = 'http://retroships.com/generate.png?&size=3&seed=' + this.name;\n \n@@ -165,8 +170,28 @@ function FBPlayer (params) {\n inherits(FBPlayer, CanvasItem);\n \n FBPlayer.prototype.update = function () {\n-  if (this.firing && !this.exploded) {\n-    this.fire();\n+  var radians = (this.angle + 0.055) * (180/Math.PI);\n+\n+  var xx = this.x - (this.w/2 * Math.cos(-(this.angle + 0.0275) * (180/Math.PI)));\n+  var yy = this.y - (this.w/2 * Math.sin(-(this.angle + 0.0275) * (180/Math.PI)));\n+\n+  var r = this.w/2;\n+  // Particle trails\n+  if (Date.now() - this.particleRate >= this.lastParticle.time &&\n+      (!within(this.lastParticle.x, xx, 5) ||\n+      !within(this.lastParticle.y, yy, 5))) {\n+    this.lastParticle = {\n+      time: Date.now(),\n+      x: xx,\n+      y: yy\n+    };\n+    particles.create({\n+      x: xx,\n+      y: yy,\n+      r: 5,\n+      c: 'rgb(130,100,0)',\n+      decay: 0.015\n+    });\n   }\n };\n FBPlayer.prototype.destroyed = function () {\n@@ -197,20 +222,3 @@ FBPlayer.prototype.reset = Player.prototype.reset = function (params) {\n   }\n   this.constructor(params);\n };\n-FBPlayer.prototype.fire = function () {\n-  var radians = (this.angle + 0.055) * (180/Math.PI);\n-\n-  var xx = this.x + (this.w/2 * Math.cos(-(this.angle + 0.0275) * (180/Math.PI)));\n-  var yy = this.y + (this.w/2 * Math.sin(-(this.angle + 0.0275) * (180/Math.PI)));\n-\n-  var r = this.w/2;\n-  particles.create({\n-    x: xx,\n-    y: yy,\n-    dx: Math.sin(radians) * 10,\n-    dy: Math.cos(radians) * 10,\n-    c: 'rgba(287,3,24,1)',\n-    r: 7,\n-    decay: 0.06\n-  });\n-};\n\\ No newline at end of file"
+    }
+  ]
+}

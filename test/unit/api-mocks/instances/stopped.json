@@ -1,0 +1,141 @@
+{
+  "_id": "542aec309322872e00bd390d",
+  "shortHash": "zeqj20",
+  "createdBy": {
+    "github": 1616464
+  },
+  "build": {
+    "_id": "542c5c059322872e00bd3a5a",
+    "createdBy": {
+      "github": 1616464
+    },
+    "owner": {
+      "github": 1616464
+    },
+    "__v": 0,
+    "buildNumber": 42,
+    "started": "2014-10-01T19:54:46.051Z",
+    "completed": "2014-10-01T19:54:46.073Z",
+    "duration": 22,
+    "failed": false,
+    "created": "2014-10-01T19:54:45.893Z",
+    "erroredContextVersions": [],
+    "contextVersions": ["542b79e89322872e00bd3a0b"],
+    "contexts": ["542a14449322872e00bd3904"],
+    "successful": true,
+    "id": "542c5c059322872e00bd3a5a"
+  },
+  "name": "space",
+  "owner": {
+    "username": "SomeKittens",
+    "github": 1616464
+  },
+  "__v": 10,
+  "outputViews": [],
+  "contextVersions": [{
+    "_id": "542b79e89322872e00bd3a0b",
+    "appCodeVersions": [],
+    "id": "542b79e89322872e00bd3a0b"
+  }],
+  "containers": [{
+    "inspect": {
+      "State": {
+        "StartedAt": "2014-10-01T20:04:40.785150582Z",
+        "Running": false,
+        "Restarting": false,
+        "Pid": 0,
+        "Paused": false,
+        "FinishedAt": "2014-10-01T20:04:41.368319827Z",
+        "ExitCode": 1
+      },
+      "ResolvConfPath": "/var/lib/docker/containers/831a10704b907acb91e0252d6707c9559e2e6c4f2b07d66076c11c41febfcd4d/resolv.conf",
+      "ProcessLabel": "",
+      "Path": "/bin/sh",
+      "NetworkSettings": {
+        "Ports": null,
+        "PortMapping": null,
+        "IPPrefixLen": 0,
+        "IPAddress": "",
+        "Gateway": "",
+        "Bridge": ""
+      },
+      "Name": "/silly_darwin",
+      "MountLabel": "",
+      "Image": "08f25bff6c1b26c02b92fc943dcc1ce8f44e7e837dfca0aabcbfd6b13e158122",
+      "Id": "831a10704b907acb91e0252d6707c9559e2e6c4f2b07d66076c11c41febfcd4d",
+      "HostsPath": "/var/lib/docker/containers/831a10704b907acb91e0252d6707c9559e2e6c4f2b07d66076c11c41febfcd4d/hosts",
+      "HostnamePath": "/var/lib/docker/containers/831a10704b907acb91e0252d6707c9559e2e6c4f2b07d66076c11c41febfcd4d/hostname",
+      "HostConfig": {
+        "VolumesFrom": null,
+        "RestartPolicy": {
+          "Name": "",
+          "MaximumRetryCount": 0
+        },
+        "PublishAllPorts": true,
+        "Privileged": false,
+        "PortBindings": null,
+        "NetworkMode": "",
+        "LxcConf": null,
+        "Links": null,
+        "DnsSearch": null,
+        "Dns": null,
+        "Devices": null,
+        "ContainerIDFile": "",
+        "CapDrop": null,
+        "CapAdd": null,
+        "Binds": null
+      },
+      "ExecDriver": "native-0.2",
+      "Driver": "aufs",
+      "Created": "2014-10-01T19:54:46.223343896Z",
+      "Config": {
+        "WorkingDir": "/space",
+        "Volumes": null,
+        "User": "",
+        "Tty": false,
+        "StdinOnce": false,
+        "PortSpecs": null,
+        "OpenStdin": false,
+        "OnBuild": null,
+        "NetworkDisabled": false,
+        "MemorySwap": 0,
+        "Memory": 0,
+        "Image": "08f25bff6c1b",
+        "Hostname": "831a10704b90",
+        "Env": ["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "HOME=/root"],
+        "Entrypoint": null,
+        "Domainname": "",
+        "Cpuset": "",
+        "CpuShares": 0,
+        "Cmd": ["/bin/sh", "-c", "npm start"],
+        "AttachStdout": false,
+        "AttachStdin": false,
+        "AttachStderr": false
+      },
+      "Args": ["-c", "npm start"]
+    },
+    "context": "542a14449322872e00bd3904",
+    "version": "542b79e89322872e00bd3a0b",
+    "dockerHost": "http://9e3xeq.runnable.io:4242",
+    "dockerContainer": "831a10704b907acb91e0252d6707c9559e2e6c4f2b07d66076c11c41febfcd4d",
+    "ports": {
+      "8080/tcp": [{
+        "HostPort": "49178",
+        "HostIp": "0.0.0.0"
+      }]
+    },
+    "createdBy": {
+      "github": 1616464
+    },
+    "startedBy": {
+      "github": 1616464
+    },
+    "_id": "542c5c069322872e00bd3a5b",
+    "created": "2014-10-01T19:54:46.386Z",
+    "id": "542c5c069322872e00bd3a5b"
+  }],
+  "env": [],
+  "created": "2014-09-30T17:45:20.601Z",
+  "public": false,
+  "id": "542aec309322872e00bd390d"
+}
