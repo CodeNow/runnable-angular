@@ -30,11 +30,18 @@ function webView (
       $scope.actions.forward = function () {
         iframe.contentWindow.history.forward();
       };
+
       $scope.actions.back = function () {
         iframe.contentWindow.history.back();
       };
 
       $scope.actions.refresh = function () {
+        if (!$scope.data.iframeUrl){
+          /**
+           * will be undefined if container exposes no ports, and has no urls
+           */
+          return;
+        }
         var oldURL = $scope.data.iframeUrl.toString();
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
         $rootScope.safeApply(function() {
