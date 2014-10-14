@@ -14,9 +14,9 @@ module.exports = [
 }, 
 
 {
-  state: 'Test1',
+  state: 'home1',
   abstract: false,
-  url: '^/test1',
+  url: '^/home1',
   templateUrl: 'viewHome',
   controller: 'ControllerHome',
   data: {
@@ -27,10 +27,49 @@ module.exports = [
 }, 
 
 {
-  state: 'Test2',
+  state: 'home2',
   abstract: false,
-  url: '^/test2',
-  templateUrl: 'viewHome',
+  url: '^/home2',
+  templateUrl: 'viewHome1',
+  controller: 'ControllerHome',
+  data: {
+    bodyClass: {
+      'landing': true
+    },
+  }
+}, 
+
+{
+  state: 'home3',
+  abstract: false,
+  url: '^/home3',
+  templateUrl: 'viewHome2',
+  controller: 'ControllerHome',
+  data: {
+    bodyClass: {
+      'landing': true
+    },
+  }
+}, 
+
+{
+  state: 'home4',
+  abstract: false,
+  url: '^/home4',
+  templateUrl: 'viewHome3',
+  controller: 'ControllerHome',
+  data: {
+    bodyClass: {
+      'landing': true
+    },
+  }
+}, 
+
+{
+  state: 'home5',
+  abstract: false,
+  url: '^/home5',
+  templateUrl: 'viewHome5',
   controller: 'ControllerHome',
   data: {
     bodyClass: {
