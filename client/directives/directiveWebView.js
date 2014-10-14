@@ -19,14 +19,13 @@ function webView (
       var iframe = elem.find('iframe')[0];
       var data = $scope.data = {};
       var actions = $scope.actions = {};
+      $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.container.urls()[0]);
 
       // reload web view when container restarts
       $scope.$watch('container.attrs.inspect.State.StartedAt', function (val) {
         if (!val) return;
-        iframe.contentDocument.location.reload(true);
+        $scope.actions.refresh();
       });
-
-      $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.container.urls()[0]);
 
       $scope.actions.forward = function () {
         iframe.contentWindow.history.forward();
@@ -36,9 +35,10 @@ function webView (
       };
 
       $scope.actions.refresh = function () {
+        var oldURL = $scope.data.iframeUrl.toString();
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
         $rootScope.safeApply(function() {
-          $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.data.iframeUrl);
+          $scope.data.iframeUrl = $sce.trustAsResourceUrl(oldURL);
         });
       };
     }
