@@ -18,13 +18,7 @@ function SetupPage () {
 
   this.get = function () {
     var self = this;
-    return browser.get('/runnable-doobie/new');/*.then(function() {
-      return util.waitForUrl(self.attrs.urlRegex);
-    }).then(function() {
-      self.attrs.id = util.regex.objectId.exec(browser.getCurrentUrl())[0];
-      console.log(self.attrs.id);
-      return;
-    });*/
+    return browser.get('/runnable-doobie/new');
   };
 
   this.setBoxName = function (newName) {

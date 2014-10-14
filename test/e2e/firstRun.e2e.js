@@ -11,7 +11,7 @@ var SetupPage = require('./pages/SetupPage');
 var InstancePage = require('./pages/InstancePage');
 
 describe('project creation workflow', function () {
-  var instanceHash;
+  var instanceName = 'Test-0';
   it('should direct the user to the setup page', function () {
     login();
 
@@ -19,17 +19,11 @@ describe('project creation workflow', function () {
     setup.get();
     util.waitForUrl(SetupPage.urlRegex);
 
-    setup.setBoxName('test-0');
+    setup.setBoxName(instanceName);
 
     setup.repoList.openAddDropdown();
 
     setup.repoList.selectRepo(0);
-
-    browser.wait(function() {
-      return setup.repoList.numSelectedRepos().then(function(numRepos) {
-        return numRepos === 1;
-      });
-    });
 
     setup.selectBlankTemplate();
 
@@ -44,25 +38,12 @@ describe('project creation workflow', function () {
     setup.createBox();
 
     util.waitForUrl(InstancePage.urlRegex);
-
-    browser.getCurrentUrl().then(function(url) {
-      var results = new RegExp(util.regex.shortHash + '/$').exec(url);
-
-      if (results && results.length) {
-        instanceHash = results[0].replace('/', '');
-      } else {
-        throw new Error('Could not load instance page ' + url);
-      }
-    });
   });
 
   it('should load a building instance', function() {
-    var instance = new InstancePage(instanceHash);
+    var instance = new InstancePage(instanceName);
 
     instance.get();
-
-    browser.wait(instance.buildLogsOpen.bind(instance));
-    browser.wait(instance.activePanelLoaded.bind(instance));
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
@@ -70,7 +51,7 @@ describe('project creation workflow', function () {
   });
 
   it('should load & delete a running instance', function () {
-    var instance = new InstancePage(instanceHash);
+    var instance = new InstancePage(instanceName);
 
     instance.get();
 
