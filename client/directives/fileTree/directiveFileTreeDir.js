@@ -14,7 +14,8 @@ function fileTreeDir(
   $rootScope,
   $state,
   async,
-  keypather
+  keypather,
+  configAPIHost
 ) {
   return {
     restrict: 'E',
@@ -32,19 +33,53 @@ function fileTreeDir(
       $scope.state = $state;
 
       actions.makeDroppable = function() {
+        if (!$template) return;
 
-        var $element = jQuery(element);
+        $template[0].addEventListener('drop', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          var files = event.dataTransfer.files;
 
-        $element.on('dragenter', function () {
-          return false;
+          var asyncCallbacks = [];
+          Array.prototype.forEach.call(files, function (file, index) {
+            (function (file, asyncCallbacks) {
+              asyncCallbacks.push(function (file, cb) {
+                var formData = new FormData();
+                formData.append('file', file);
+                jQuery.ajax({
+                  url: configAPIHost + '/' + $scope.dir.urlPath,
+                  type: 'POST',
+                  contentType: false,
+                  processData: false,
+                  data: formData,
+                  xhrFields: {
+                    withCredentials: true
+                  },
+                  complete: function () {
+                    cb();
+                  },
+                  error: function () {
+                  },
+                  success: function () {
+                  }
+                });
+              }.bind(this, file));
+            })(file, asyncCallbacks);
+          });
+
+          async.parallel(asyncCallbacks, function () {
+            actions.fetchDirFiles();
+          });
+        }, true);
+
+        $template[0].addEventListener('dragenter', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
         });
 
-        $element.on('dragover', function () {
-          return false;
-        });
-
-        $element.on('drop', function () {
-          return false;
+        $template[0].addEventListener('dragover', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
         });
       };
 
@@ -154,9 +189,17 @@ function fileTreeDir(
         });
       };
 
+      // needed to observe change seed context version on setup page
+      $scope.$watch('openItems.state.reset', function (newVal, oldVal) {
+        if(!newVal) return;
+        fetchDirFiles();
+        $scope.actions.makeDroppable();
+      });
+
       $scope.$watch('dir.state.open', function (newVal, oldval) {
         if (newVal) {
           fetchDirFiles();
+          $scope.actions.makeDroppable();
         }
       });
 
@@ -168,7 +211,7 @@ function fileTreeDir(
           // timeout necessary to ensure ng-repeat completes
           // before trying to apply draggable to li's
           $scope.actions.makeSortable();
-          $scope.actions.makeDroppable();
+          //$scope.actions.makeDroppable();
         }, 1);
       });
 

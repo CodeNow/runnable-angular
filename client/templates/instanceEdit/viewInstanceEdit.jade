@@ -8,7 +8,7 @@ header.box-header
     input.box-url(
       readonly
       select-all
-      value = "{{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io"
+      value = "{{ dataInstanceEdit.data.instance.attrs.name }}.{{ dataInstanceEdit.data.instance.attrs.owner.username }}.runnable.io"
     )
     //- sets layout on h1.box-name for .box-url
     span.box-name-ghost {{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io
@@ -53,14 +53,17 @@ section.sidebar.box-sidebar
     edit = "true"
   )
 
-  .sidebar-validation
-    h2.sub-header Environmental Variables Validation Errors
-    ul.list-group
-      li.list-group-item(
-        ng-repeat = "errorLine in dataInstanceEdit.data.envValidation.errors"
-      ) Invalid line {{ errorLine + 1 }}
+  section.row(
+    ng-if = "dataInstanceEdit.data.envValidation.errors"
+  )
+    .sidebar-validation
+      h2.sub-header Environmental Var Errors
+      ul.list-group
+        li.list-group-item(
+          ng-repeat = "errorLine in dataInstanceEdit.data.envValidation.errors"
+        ) Invalid line {{ errorLine + 1 }}
 
-section.views(
+section.views.with-add-tab(
   ng-class = "{in: dataInstanceEdit.data.showExplorer && !dataInstanceEdit.data.loading}"
 )
   //- explorer
@@ -92,10 +95,25 @@ section.views(
   tabs(
     open-items= "dataInstanceEdit.data.openItems"
   )
+  a.btn.btn-sm.white.btn-icon.add-tab(
+    ng-class = "{active: dataInstanceEdit.data.popoverAddTab.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataInstanceEdit.data.popoverAddTab.data.show"
+  )
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
+    pop-over(
+      actions = "dataInstanceEdit.data.popoverAddTab.actions"
+      data = "dataInstanceEdit.data.popoverAddTab.data"
+      template = "popoverAddTab"
+    )
 
   //- active panel
   //- Passing in old build to access it's logs
   active-panel(
+    instance = "dataInstanceEdit.data.instance"
     container = "dataInstanceEdit.data.container"
     build = "dataInstanceEdit.data.instance.build"
     is-dark-theme = "dataInstanceEdit.data.toggleTheme"

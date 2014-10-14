@@ -14,7 +14,6 @@ function ControllerApp(
   $document,
   $stateParams,
   $state,
-  user,
   configAPIHost,
   holdUntilAuth,
   QueryAssist,

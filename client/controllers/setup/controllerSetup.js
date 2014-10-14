@@ -15,7 +15,8 @@ function ControllerSetup(
   hasKeypaths,
   OpenItems,
   debounce,
-  validateDockerfile
+  validateDockerfile,
+  addTab
 ) {
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var QueryAssist = $scope.UTIL.QueryAssist;
@@ -24,6 +25,10 @@ function ControllerSetup(
   var data = dataSetup.data;
   var actions = dataSetup.actions;
   data.openItems = new OpenItems();
+
+  data.popoverAddTab = addTab({
+    envVars: true
+  }, data.openItems);
 
   // Determine readonly state
   $scope.$watch(function () {
@@ -142,6 +147,10 @@ function ControllerSetup(
    * set active context && fetch build files for display
    */
   actions.selectSourceContext = function (context) {
+    if (keypather.get(data, 'sourceContextVersion.attrs.context') === context.id()) {
+      // They selected the same template
+      return;
+    }
     data.openItems.reset([]);
     data.fetchingContext = true;
     data.contextSelected = true;
@@ -217,7 +226,7 @@ function ControllerSetup(
     data.creatingProject = true;
     $state.go('instance.instance', {
       userName: $state.params.userName,
-      shortHash: data.instance.id()
+      instanceName: data.instance.attrs.name
     });
   };
 
@@ -225,8 +234,10 @@ function ControllerSetup(
     if (typeof n === 'undefined') {
       return;
     }
-    var isValid = validateDockerfile(n);
-    data.validDockerfile = isValid;
+    if (data.openItems.activeHistory.last().id() !== '/Dockerfile') {
+      return;
+    }
+    data.validDockerfile = validateDockerfile(n);
     $scope.safeApply();
   }, 333);
 
@@ -351,6 +362,8 @@ function ControllerSetup(
         }
         data.openItems.reset([]);
         data.openItems.add(files.models);
+        // hacky trigger to let file-tree know change has occured and it needs to refetch
+        keypather.set(data.openItems, 'state.reset', new Date());
         $scope.safeApply();
       })
       .go();

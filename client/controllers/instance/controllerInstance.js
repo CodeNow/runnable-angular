@@ -14,7 +14,8 @@ function ControllerInstance(
   user,
   OpenItems,
   getNewFileFolderName,
-  validateEnvVars
+  validateEnvVars,
+  addTab
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -82,7 +83,7 @@ function ControllerInstance(
           if (instances.length) {
             $state.go('instance.instance', {
               userName: $state.params.userName,
-              shortHash: instances[0].id()
+              instanceName: instances[0].attrs.name
             });
           } else {
             $state.go('instance.new', {
@@ -133,17 +134,22 @@ function ControllerInstance(
             return e.key + '=' + e.value;
           });
           newInstance.update({
+            name: data.instance.state.name.trim(),
             env: env
           }, function () {
             $state.go('instance.instance', {
               userName: $stateParams.userName,
-              shortHash: newInstance.attrs.shortHash
+              instanceName: newInstance.attrs.name
             });
           });
         } else {
-          $state.go('instance.instance', {
-            userName: $stateParams.userName,
-            shortHash: newInstance.attrs.shortHash
+          newInstance.update({
+            name: data.instance.state.name.trim()
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              instanceName: newInstance.attrs.name
+            });
           });
         }
         // refetch instance collection to update list in
@@ -222,6 +228,7 @@ function ControllerInstance(
   var amf = pgm.actions.actionsModalFork = {};
   function asyncInitDataModalFork() {
     dmf.instance = data.instance;
+    pgm.instance = data.instance;
     amf.fork = function (env) {
       pgm.actions.forkInstance(env);
     };
@@ -230,46 +237,7 @@ function ControllerInstance(
   /*********************************
    * popoverAddTab
    *********************************/
-  var pat = data.popoverAddTab;
-  pat.data = {
-    show: false
-  };
-  pat.actions = {};
-
-  pat.actions.addBuildStream = function () {
-    pat.data.show = false;
-    return data.openItems.addBuildStream({
-      name: 'Build Logs'
-    });
-  };
-
-  pat.actions.addWebView = function () {
-    pat.data.show = false;
-    return data.openItems.addWebView({
-      name: 'Web View'
-    });
-  };
-
-  pat.actions.addTerminal = function () {
-    pat.data.show = false;
-    return data.openItems.addTerminal({
-      name: 'Terminal'
-    });
-  };
-
-  pat.actions.addLogs = function () {
-    pat.data.show = false;
-    return data.openItems.addLogs({
-      name: 'Box Logs'
-    });
-  };
-
-  pat.actions.addEnvVars = function () {
-    pat.data.show = false;
-    return data.openItems.addEnvVars({
-      name: 'Env Vars'
-    });
-  };
+  var pat = data.popoverAddTab = new addTab();
 
   /*********************************
    * popoverSaveOptions
@@ -336,23 +304,10 @@ function ControllerInstance(
         });
       },
       function complete (err) {
-        if (Array.isArray(keypather.get(data, 'instance.state.env'))) {
-          // env vars modified in EnvVars dir
-          data.instance.update({
-            env: data.instance.state.env
-          }, function () {
-            if (data.restartOnSave) {
-              pgm.actions.restartInstance();
-            }
-            $scope.safeApply();
-          });
-        } else {
-          // no env vars modified in EnvVars dir
-          if (data.restartOnSave) {
-            pgm.actions.restartInstance();
-          }
-          $scope.safeApply();
+        if (data.restartOnSave) {
+          pgm.actions.restartInstance();
         }
+        $scope.safeApply();
       }
     );
   };
@@ -364,7 +319,7 @@ function ControllerInstance(
       }
       var state = {
         userName: $state.params.userName,
-        shortHash: $state.params.shortHash,
+        instanceName: $state.params.instanceName,
         buildId: forkedBuild.id()
       };
       $state.go('instance.instanceEdit', state);
@@ -386,7 +341,6 @@ function ControllerInstance(
   $scope.$on('app-document-click', function () {
     dataInstance.data.showAddTab = false;
     dataInstance.data.showFileMenu = false;
-    dataInstance.data.popoverAddTab.filter = '';
   });
 
   $scope.$watch(function () {
@@ -409,6 +363,11 @@ function ControllerInstance(
         pat.actions.addTerminal();
       }
       pat.actions.addLogs();
+
+      // restore previously active tab user selected
+      // on last visit to this instance+build
+      data.openItems.restoreActiveTab();
+
     } else {
       // instance is stopped or building
       if (data.logs) {
@@ -483,14 +442,18 @@ function ControllerInstance(
   function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchInstance')
-      .query($stateParams.shortHash)
-      .cacheFetch(function updateDom(instance, cached, cb) {
-        if (!instance) {
+      .wrapFunc('fetchInstances')
+      .query({
+        githubUsername: $state.params.userName,
+        name: $state.params.instanceName
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        if (!instances.models.length) {
           return cb();
           // TODO
           // return $state.go(404);
         }
+        var instance = instances.models[0];
         instance.state = {
           name: instance.attrs.name + ''
         };
@@ -508,7 +471,8 @@ function ControllerInstance(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, instance, cb) {
+      .resolve(function (err, instances, cb) {
+        var instance = instances.models[0];
         if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           return cb(new Error('Instance not found'));
         }
@@ -519,9 +483,17 @@ function ControllerInstance(
   }
 
   function newOpenItems(cb) {
-    data.openItems = new OpenItems(data.instance.id());
+    data.openItems = new OpenItems(data.instance.id() + data.instance.build.id());
+    pat.addOpenItems(data.openItems);
     if (data.build.succeeded()) {
       var container = data.container;
+
+      if (keypather.get(data, 'instance.attrs.env.length')) {
+        data.openItems.addEnvVars({
+          name: 'Environment'
+        }).state.readOnly = true;
+      }
+
       // save this so we can later
       // set it active after adding
       // terminal/web view
@@ -530,6 +502,7 @@ function ControllerInstance(
       } else {
         data.logs = data.openItems.getFirst('LogView');
       }
+
     } else {
       if (!data.openItems.hasOpen('BuildStream')) {
         data.logs = pat.actions.addBuildStream();
@@ -570,9 +543,6 @@ function ControllerInstance(
 ControllerInstance.initData = function () {
   return {
     data: {
-      popoverAddTab: {
-        filter: ''
-      },
       showAddTab: false,
       showFileMenu: false,
       showExplorer: false

@@ -130,11 +130,17 @@ function openItemsFactory(
   function OpenItems(shortHash) {
     this.shortHash = shortHash;
     this.activeHistory = new ActiveHistory();
+    this.previouslyActiveTab = null;
 
     var models;
 
     if (this.shortHash) {
       models = $localStorage[shortHash];
+      if (Array.isArray(models)) {
+        this.previouslyActiveTab = models.find(function (m) {
+          return keypather.get(m, 'state.active');
+        });
+      }
       if (models && models.length) {
         this.fromCache = true;
         models = models.map(function (model) {
@@ -160,24 +166,55 @@ function openItemsFactory(
 
   util.inherits(OpenItems, BaseCollection);
 
+  // Set item in localStorage serialized cache to active
+  // after other tabs have been added
+  OpenItems.prototype.restoreActiveTab = function () {
+    if (this.previouslyActiveTab) {
+      var model = this.models.find(function (m) {
+        return (m.id() === keypather.get(this, 'previouslyActiveTab._id'));
+      }.bind(this));
+      if (model) {
+        this.activeHistory.add(model);
+      }
+    }
+  };
+
   OpenItems.prototype.reset = function () {
     BaseCollection.prototype.reset.apply(this.activeHistory, arguments);
     BaseCollection.prototype.reset.apply(this, arguments);
   };
 
   OpenItems.prototype.addWebView = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Web View';
+    }
     var webView = new WebView(data);
     this.add(webView);
     return webView;
   };
 
   OpenItems.prototype.addTerminal = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Terminal';
+    }
     var terminal = new Terminal(data);
     this.add(terminal);
     return terminal;
   };
 
   OpenItems.prototype.addBuildStream = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Build Logs';
+    }
     if (this.hasOpen('BuildStream')) {
       var currStream = this.getFirst('BuildStream');
       this.activeHistory.add(currStream);
@@ -189,6 +226,12 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addLogs = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Box Logs';
+    }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');
       this.activeHistory.add(currStream);
@@ -200,6 +243,12 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.addEnvVars = function (data) {
+    if (!data) {
+      data = {};
+    }
+    if (!data.name) {
+      data.name = 'Env Vars';
+    }
     if (this.hasOpen('EnvVars')) {
       var currentEnvVars = this.getFirst('EnvVars');
       this.activeHistory.add(currentEnvVars);
@@ -301,6 +350,7 @@ function openItemsFactory(
       var modelJSON = model.toJSON();
       // The following brought to you by IE not supporting Function.prototype.name
       var modelConstructor = model.constructor.toString().match(/function\s(\w*)/)[1];
+      modelJSON.state = model.state;
       keypather.set(modelJSON, 'state.from', modelConstructor);
       if (modelConstructor === 'File') {
         keypather.set(modelJSON, 'state.parentPath', model.urlPath.replace('/files', ''));

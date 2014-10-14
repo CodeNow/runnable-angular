@@ -43,6 +43,9 @@ html(
   body(
     ng-class = "dataApp.state.current.data.bodyClass"
   )
+    //
+      TIME: #{locals.commitTime}
+      HASH: #{locals.commitHash}
     ng-include#svg-defs(src = "'svgDefs'")
     #wrapper(
       ng-class = "{'nav-open': !dataApp.data.minimizeNav}"

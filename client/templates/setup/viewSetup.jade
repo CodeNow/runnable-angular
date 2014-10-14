@@ -84,7 +84,7 @@ section.sidebar.box-sidebar.setup
           ng-repeat = "error in dataSetup.data.validDockerfile.errors"
         ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
 
-section.views(
+section.views.with-add-tab(
   ng-class = "{in: dataSetup.data.showExplorer && !dataSetup.data.loading}"
 )
   //- explorer
@@ -110,13 +110,27 @@ section.views(
     file-tree(
       open-items = "dataSetup.data.openItems"
       read-only = "false"
-      root-dir = "dataSetup.data.version.rootDir"
+      root-dir = "dataSetup.data.contextVersion.rootDir"
     )
 
   //- tabs
   tabs(
     open-items = "dataSetup.data.openItems"
   )
+  a.btn.btn-sm.white.btn-icon.add-tab(
+    ng-class = "{active: dataSetup.data.popoverAddTab.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "dataSetup.data.popoverAddTab.data.show"
+  )
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
+    pop-over(
+      actions = "dataSetup.data.popoverAddTab.actions"
+      data = "dataSetup.data.popoverAddTab.data"
+      template = "popoverAddTab"
+    )
 
   //- active panel
   active-panel(

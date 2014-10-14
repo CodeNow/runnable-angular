@@ -16,7 +16,8 @@ function ControllerInstanceEdit(
   OpenItems,
   keypather,
   fetcherBuild,
-  validateEnvVars
+  validateEnvVars,
+  addTab
 ) {
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
@@ -92,17 +93,22 @@ function ControllerInstanceEdit(
             return e.key + '=' + e.value;
           });
           newInstance.update({
+            name: data.instance.state.name.trim(),
             env: env
           }, function () {
             $state.go('instance.instance', {
               userName: $stateParams.userName,
-              shortHash: newInstance.attrs.shortHash
+              instanceName: newInstance.attrs.name
             });
           });
         } else {
-          $state.go('instance.instance', {
-            userName: $stateParams.userName,
-            shortHash: newInstance.attrs.shortHash
+          newInstance.update({
+            name: data.instance.state.name.trim()
+          }, function () {
+            $state.go('instance.instance', {
+              userName: $stateParams.userName,
+              instanceName: newInstance.attrs.name
+            });
           });
         }
         // refetch instance collection to update list in
@@ -125,6 +131,15 @@ function ControllerInstanceEdit(
       });
     }
   };
+
+  /*********************************
+   * popoverAddTab
+   *********************************/
+  var pat = data.popoverAddTab = new addTab({
+    buildStream: true,
+    envVars: true,
+    envVarsReadOnly: false
+  });
 
   actions.goToInstance = function (skipCheck) {
     if (skipCheck) {
@@ -153,7 +168,8 @@ function ControllerInstanceEdit(
       function (err, build) {
         if (err) throw err;
         data.instance.update({
-          build: data.build.id()
+          build: data.build.id(),
+          env: data.instance.state.env
         }, function (err) {
           if (err) {
             throw err;
@@ -207,7 +223,7 @@ function ControllerInstanceEdit(
 
   $scope.$on('$stateChangeStart', function (e, n, c) {
     if (!data.skipCheck &&
-        n.url !== '^/:userName/:shortHash/edit/:buildId/' && // We're leaving the edit page
+        n.url !== '^/:userName/:instanceName/edit/:buildId/' && // We're leaving the edit page
         data.openItems && !data.openItems.isClean() && // Files have been edited and not saved
         !confirm(confirmText + '\nAre you sure you want to leave?')) {
       e.preventDefault();
@@ -222,20 +238,6 @@ function ControllerInstanceEdit(
     }
   });
 
-  /*
-  $scope.$watch('dataInstanceEdit.data.openFiles.activeFile.attrs._id', function (newval, oldval) {
-    if (newval === oldval) {
-      // We've opened the same file
-      return;
-    }
-    var file = dataInstanceEdit.data.openFiles.activeFile;
-    var version = dataInstanceEdit.data.version;
-    file = version.fetchFile(file.id(), function () {
-      $scope.safeApply();
-    });
-  });
-*/
-
   /* ============================
    *   API Fetch Methods
    * ===========================*/
@@ -243,14 +245,18 @@ function ControllerInstanceEdit(
   function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchInstance')
-      .query($stateParams.shortHash)
-      .cacheFetch(function updateDom(instance, cached, cb) {
-        if (!instance) {
-          return;
+      .wrapFunc('fetchInstances')
+      .query({
+        githubUsername: $state.params.userName,
+        name: $state.params.instanceName
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        if (!instances.models.length) {
+          return cb();
           // TODO
           // return $state.go(404);
         }
+        var instance = instances.models[0];
         instance.state = {
           name: instance.attrs.name + ''
         };
@@ -262,7 +268,8 @@ function ControllerInstanceEdit(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, instance, cb) {
+      .resolve(function (err, instances, cb) {
+        var instance = instances.models[0];
         if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           return cb(new Error('Instance not found'));
         }
@@ -303,10 +310,10 @@ function ControllerInstanceEdit(
 
   function newOpenItems(cb) {
     data.openItems = new OpenItems();
-
+    pat.addOpenItems(data.openItems);
     data.openItems.addBuildStream({
       name: 'Previous build'
-    }).state.alwaysOpen = true;
+    });
     $scope.safeApply();
     cb();
   }
@@ -323,11 +330,24 @@ function ControllerInstanceEdit(
     return !!dockerfile;
   }
 
+  /**
+   * Add an EnvVars view-only tab
+   */
+  function addEnvVars (cb) {
+    // idempotent after first invokation,
+    // will only add once
+    data.openItems.addEnvVars({
+      name: 'Env Vars'
+    }).state.readOnly = false;
+    cb();
+  }
+
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
     fetchBuild,
-    newOpenItems
+    newOpenItems,
+    addEnvVars
   ], function (err) {
     if (err) {
       $state.go('error', {
