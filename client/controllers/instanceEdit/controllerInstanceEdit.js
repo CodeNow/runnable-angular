@@ -245,17 +245,18 @@ function ControllerInstanceEdit(
   function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchInstance')
+      .wrapFunc('fetchInstances')
       .query({
         githubUsername: $state.params.userName,
         name: $state.params.instanceName
       })
-      .cacheFetch(function updateDom(instance, cached, cb) {
-        if (!instance) {
-          return;
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        if (!instances.models.length) {
+          return cb();
           // TODO
           // return $state.go(404);
         }
+        var instance = instances.models[0];
         instance.state = {
           name: instance.attrs.name + ''
         };
@@ -267,7 +268,8 @@ function ControllerInstanceEdit(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, instance, cb) {
+      .resolve(function (err, instances, cb) {
+        var instance = instances.models[0];
         if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           return cb(new Error('Instance not found'));
         }
