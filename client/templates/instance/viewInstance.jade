@@ -167,11 +167,11 @@ section.views.with-add-tab(
 
   //- blank state
   .blank-panel(
-    ng-show = "dataInstance.data.container"
+    ng-if= "dataInstance.data.openItems.activeHistory.models.length === 0"
   )
     ul.blank-panel-group
       li.blank-panel-item(
-        ng-click = "actions.addWebView()"
+        ng-click = "dataInstance.data.popoverAddTab.actions.addWebView()"
       )
         svg.iconnables.iconnables-lg.icons-web
           use(xlink:href = "#icons-web")
@@ -194,6 +194,7 @@ section.views.with-add-tab(
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")
         | Box Log
+
 
   //- spinner
   .horizontal-spinner(
