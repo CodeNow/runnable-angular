@@ -1,5 +1,6 @@
 
 var util = require('./helpers/util');
+var sidebar = require('./helpers/sidebar');
 
 var InstancePage = require('./pages/InstancePage');
 var SetupPage = require('./pages/SetupPage');
@@ -20,5 +21,7 @@ describe('delete', function() {
 
     // Confirm we're on new page
     util.waitForUrl(SetupPage.urlRegex);
+
+    expect(sidebar.numBoxes()).toEqual(0);
   });
 });
