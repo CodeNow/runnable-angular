@@ -98,7 +98,7 @@ function ControllerInstanceEdit(
           }, function () {
             $state.go('instance.instance', {
               userName: $stateParams.userName,
-              shortHash: newInstance.attrs.shortHash
+              instanceName: newInstance.attrs.name
             });
           });
         } else {
@@ -107,7 +107,7 @@ function ControllerInstanceEdit(
           }, function () {
             $state.go('instance.instance', {
               userName: $stateParams.userName,
-              shortHash: newInstance.attrs.shortHash
+              instanceName: newInstance.attrs.name
             });
           });
         }
@@ -223,7 +223,7 @@ function ControllerInstanceEdit(
 
   $scope.$on('$stateChangeStart', function (e, n, c) {
     if (!data.skipCheck &&
-        n.url !== '^/:userName/:shortHash/edit/:buildId/' && // We're leaving the edit page
+        n.url !== '^/:userName/:instanceName/edit/:buildId/' && // We're leaving the edit page
         data.openItems && !data.openItems.isClean() && // Files have been edited and not saved
         !confirm(confirmText + '\nAre you sure you want to leave?')) {
       e.preventDefault();
@@ -245,14 +245,18 @@ function ControllerInstanceEdit(
   function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchInstance')
-      .query($stateParams.shortHash)
-      .cacheFetch(function updateDom(instance, cached, cb) {
-        if (!instance) {
-          return;
+      .wrapFunc('fetchInstances')
+      .query({
+        githubUsername: $state.params.userName,
+        name: $state.params.instanceName
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        if (!instances.models.length) {
+          return cb();
           // TODO
           // return $state.go(404);
         }
+        var instance = instances.models[0];
         instance.state = {
           name: instance.attrs.name + ''
         };
@@ -264,7 +268,8 @@ function ControllerInstanceEdit(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, instance, cb) {
+      .resolve(function (err, instances, cb) {
+        var instance = instances.models[0];
         if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           return cb(new Error('Instance not found'));
         }

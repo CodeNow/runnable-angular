@@ -83,7 +83,7 @@ function ControllerInstance(
           if (instances.length) {
             $state.go('instance.instance', {
               userName: $state.params.userName,
-              shortHash: instances[0].id()
+              instanceName: instances[0].attrs.name
             });
           } else {
             $state.go('instance.new', {
@@ -139,7 +139,7 @@ function ControllerInstance(
           }, function () {
             $state.go('instance.instance', {
               userName: $stateParams.userName,
-              shortHash: newInstance.attrs.shortHash
+              instanceName: newInstance.attrs.name
             });
           });
         } else {
@@ -148,7 +148,7 @@ function ControllerInstance(
           }, function () {
             $state.go('instance.instance', {
               userName: $stateParams.userName,
-              shortHash: newInstance.attrs.shortHash
+              instanceName: newInstance.attrs.name
             });
           });
         }
@@ -319,7 +319,7 @@ function ControllerInstance(
       }
       var state = {
         userName: $state.params.userName,
-        shortHash: $state.params.shortHash,
+        instanceName: $state.params.instanceName,
         buildId: forkedBuild.id()
       };
       $state.go('instance.instanceEdit', state);
@@ -442,14 +442,18 @@ function ControllerInstance(
   function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
-      .wrapFunc('fetchInstance')
-      .query($stateParams.shortHash)
-      .cacheFetch(function updateDom(instance, cached, cb) {
-        if (!instance) {
+      .wrapFunc('fetchInstances')
+      .query({
+        githubUsername: $state.params.userName,
+        name: $state.params.instanceName
+      })
+      .cacheFetch(function updateDom(instances, cached, cb) {
+        if (!instances.models.length) {
           return cb();
           // TODO
           // return $state.go(404);
         }
+        var instance = instances.models[0];
         instance.state = {
           name: instance.attrs.name + ''
         };
@@ -467,7 +471,8 @@ function ControllerInstance(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, instance, cb) {
+      .resolve(function (err, instances, cb) {
+        var instance = instances.models[0];
         if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           return cb(new Error('Instance not found'));
         }

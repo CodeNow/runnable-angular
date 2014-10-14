@@ -226,7 +226,7 @@ function ControllerSetup(
     data.creatingProject = true;
     $state.go('instance.instance', {
       userName: $state.params.userName,
-      shortHash: data.instance.id()
+      instanceName: data.instance.attrs.name
     });
   };
 

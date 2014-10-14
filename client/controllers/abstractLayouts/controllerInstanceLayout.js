@@ -28,7 +28,7 @@ function ControllerInstanceLayout(
   actions.stateToInstance = function (instance) {
     if (instance && instance.id && instance.id()){
       $state.go('instance.instance', {
-        shortHash: instance.id(),
+        instanceName: instance.attrs.name,
         userName: $state.params.userName
       });
     }
@@ -45,7 +45,7 @@ function ControllerInstanceLayout(
     var container = keypather.get(instance, 'containers.models[0]');
     var build = keypather.get(instance, 'build');
     var h = {};
-    h.active = (instance.attrs.shortHash === $scope.dataApp.stateParams.shortHash);
+    h.active = (instance.attrs.name === $scope.dataApp.stateParams.instanceName);
     h.running = container && container.running();
     h.stopped = !h.running;
     h.building = build && !build.attrs.completed;
@@ -106,7 +106,7 @@ function ControllerInstanceLayout(
       }
       $state.go('instance.instance', {
         userName: name,
-        shortHash: data.instances.models[0].id()
+        instanceName: data.instances.models[0].attrs.name
       });
     });
   };
