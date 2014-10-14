@@ -1,5 +1,5 @@
 function login () {
-    browser.driver.get('http://localhost:3001');
+    browser.driver.get('http://localhost:3001?password=runnable');
 
     browser.driver.findElement(by.css('#wrapper > main > a.btn')).click();
 
