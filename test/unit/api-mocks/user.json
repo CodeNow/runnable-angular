@@ -1,0 +1,60 @@
+{
+  "_id": "542a0e93354f0639525f6e4d",
+  "accounts": {
+    "github": {
+      "refreshToken": null,
+      "accessToken": "4d87df389d147880425262a3ba9688d2786c6326",
+      "_json": {
+        "updated_at": "2014-09-30T22:30:51Z",
+        "created_at": "2012-04-05T18:45:24Z",
+        "following": 6,
+        "followers": 26,
+        "public_gists": 24,
+        "public_repos": 32,
+        "bio": null,
+        "hireable": false,
+        "email": "@rkoutnik",
+        "location": "San Francisco, CA",
+        "blog": "recoding.blogspot.com",
+        "company": "",
+        "name": "Randall Koutnik",
+        "site_admin": false,
+        "type": "User",
+        "received_events_url": "https://api.github.com/users/SomeKittens/received_events",
+        "events_url": "https://api.github.com/users/SomeKittens/events{/privacy}",
+        "repos_url": "https://api.github.com/users/SomeKittens/repos",
+        "organizations_url": "https://api.github.com/users/SomeKittens/orgs",
+        "subscriptions_url": "https://api.github.com/users/SomeKittens/subscriptions",
+        "starred_url": "https://api.github.com/users/SomeKittens/starred{/owner}{/repo}",
+        "gists_url": "https://api.github.com/users/SomeKittens/gists{/gist_id}",
+        "following_url": "https://api.github.com/users/SomeKittens/following{/other_user}",
+        "followers_url": "https://api.github.com/users/SomeKittens/followers",
+        "html_url": "https://github.com/SomeKittens",
+        "url": "https://api.github.com/users/SomeKittens",
+        "gravatar_id": "",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1616464?v=2",
+        "id": 1616464,
+        "login": "SomeKittens"
+      },
+      "_raw": "{\"login\":\"SomeKittens\",\"id\":1616464,\"avatar_url\":\"https://avatars.githubusercontent.com/u/1616464?v=2\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/SomeKittens\",\"html_url\":\"https://github.com/SomeKittens\",\"followers_url\":\"https://api.github.com/users/SomeKittens/followers\",\"following_url\":\"https://api.github.com/users/SomeKittens/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/SomeKittens/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/SomeKittens/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/SomeKittens/subscriptions\",\"organizations_url\":\"https://api.github.com/users/SomeKittens/orgs\",\"repos_url\":\"https://api.github.com/users/SomeKittens/repos\",\"events_url\":\"https://api.github.com/users/SomeKittens/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/SomeKittens/received_events\",\"type\":\"User\",\"site_admin\":false,\"name\":\"Randall Koutnik\",\"company\":\"\",\"blog\":\"recoding.blogspot.com\",\"location\":\"San Francisco, CA\",\"email\":\"@rkoutnik\",\"hireable\":false,\"bio\":null,\"public_repos\":32,\"public_gists\":24,\"followers\":26,\"following\":6,\"created_at\":\"2012-04-05T18:45:24Z\",\"updated_at\":\"2014-09-30T22:30:51Z\"}",
+      "emails": [{
+        "value": "@rkoutnik"
+      }],
+      "profileUrl": "https://github.com/SomeKittens",
+      "username": "SomeKittens",
+      "displayName": "Randall Koutnik",
+      "id": 1616464,
+      "provider": "github"
+    }
+  },
+  "email": "rkoutnik@gmail.com",
+  "gravatar": "https://avatars.githubusercontent.com/u/1616464?v=2",
+  "created": "2014-10-01T22:32:39.414Z",
+  "permissionLevel": 1,
+  "showEmail": false,
+  "isModerator": false,
+  "isVerified": false,
+  "registered": true,
+  "id": "542a0e93354f0639525f6e4d"
+}
+""
