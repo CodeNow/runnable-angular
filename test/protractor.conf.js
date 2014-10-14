@@ -4,8 +4,10 @@ exports.config = {
 
   allScriptsTimeout: 11000,
 
+  // Order is important
   specs: [
-    'e2e/**/*e2e.js'
+    'e2e/helpers/login.js',
+    'e2e/firstRun.e2e.js'
   ],
 
   capabilities: {
