@@ -254,10 +254,9 @@
   text-align: center;
 }
 
-// section.landing-cta
-.landing-cta {
-  padding: 60px 0;
-  text-align: center;
+// a.btn.green.btn-cta
+.btn-cta {
+  margin: 0 0 150px;
 
   .icons-git {
     float: left;
@@ -269,12 +268,19 @@
 
 // footer.landing footer
 .landing-footer {
-  height: 60px;
-  line-height: 60px;
-  margin-top: 60px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 60px;
   text-align: center;
+
+  .footer-text,
+  .link {
+    color: $gray-light;
+  }
 
   .icons-runnable {
     color: $gray-light;
+    margin: 0 30px;
   }
 }
