@@ -9,7 +9,9 @@ function RunnableInstanceList (
   user,
   async,
   QueryAssist,
-  determineActiveAccount
+  determineActiveAccount,
+  getInstanceClasses,
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -17,9 +19,8 @@ function RunnableInstanceList (
     replace: true,
     scope: {},
     link: function ($scope, elem, attrs) {
-      var QueryAssist = $rootScope.UTIL.QueryAssist;
 
-      $scope.getInstanceClasses = function () {};
+      $scope.getInstanceClasses = getInstanceClasses;
       $scope.getInstanceAltTitle = function () {};
 
       function fetchUser (cb) {
@@ -70,9 +71,7 @@ function RunnableInstanceList (
         fetchUser,
         fetchOrgs,
         fetchInstances
-      ], function () {
-
-      });
+      ]);
 
     }
   };
