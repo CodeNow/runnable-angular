@@ -458,7 +458,7 @@ function ControllerInstance(
         }
         var instance = instances.models[0];
         instance.state = {
-          name: instance.attrs.name + ''
+          name: instance.attrs.name + '-copy'
         };
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];

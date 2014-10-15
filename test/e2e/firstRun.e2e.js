@@ -1,10 +1,9 @@
 
 /**
  * Tests a user's onboarding experience
- * login => setup => running instance
+ * setup => running instance => delete
  */
 
-var login = require('./helpers/oauth-github');
 var util = require('./helpers/util');
 
 var SetupPage = require('./pages/SetupPage');
@@ -13,8 +12,6 @@ var InstancePage = require('./pages/InstancePage');
 describe('project creation workflow', function () {
   var instanceName = 'Test-0';
   it('should direct the user to the setup page', function () {
-    login();
-
     var setup = new SetupPage();
     setup.get();
     util.waitForUrl(SetupPage.urlRegex);
@@ -48,21 +45,5 @@ describe('project creation workflow', function () {
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
     });
-  });
-
-  it('should load & delete a running instance', function () {
-    var instance = new InstancePage(instanceName);
-
-    instance.get();
-
-    browser.wait(function() {
-      return instance.statusIcon.get().isPresent();
-    });
-
-    // Delete the instance
-    instance.gearMenu.deleteBox();
-
-    // Confirm we're on new page
-    util.waitForUrl(SetupPage.urlRegex);
   });
 });

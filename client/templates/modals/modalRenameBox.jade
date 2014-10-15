@@ -28,13 +28,14 @@
             .input-prefix http://
             span.input.modal-input(
               contenteditable = "true"
+              instance = "data.instance"
               name = "name"
               ng-model = "data.instance.state.name"
               validate-name = "data.instances"
-              instance = "data.instance"
               validate-name-pattern
+              validate-name-current-instance-valid = "false"
             ) {{ data.instance.state.name }}
-            .input-suffix .username.runnable.io
+            .input-suffix .{{ data.instance.attrs.owner.username }}.runnable.io
           .validate-wrapper(
             ng-class = "{ \
               in: data.renameForm.$invalid, \

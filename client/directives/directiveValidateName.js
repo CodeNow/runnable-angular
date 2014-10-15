@@ -12,12 +12,13 @@ function validateName(
     require: 'ngModel',
     scope: {
       instances: '=validateName',
-      instance: '=instance'
+      instance: '=instance',
+      currentInstanceValid: '=validateNameCurrentInstanceValid'
     },
     link: function ($scope, element, attrs, ctrl) {
       ctrl.$setValidity('nameAvailable', true);
 
-      function checkValid (name) {
+      function checkValidNameAvailable (name) {
         if (!name || ctrl.$pristine) {
           ctrl.$setValidity('nameAvailable', true);
           return name;
@@ -28,7 +29,11 @@ function validateName(
         if (name === keypather.get($scope, 'instance.attrs.name')) {
           // if user enters same name as current instance,
           // set validity to true. SAN-288
-          ctrl.$setValidity('nameAvailable', true);
+
+          // UPDATE: OR if $scope.currentInstanceValid
+          // then current name is not a valid option
+          ctrl.$setValidity('nameAvailable', $scope.currentInstanceValid);
+
         } else {
           var match = $scope.instances.find(function (m) {
             return (m.attrs.name === name);
@@ -40,9 +45,9 @@ function validateName(
       }
 
       // called when value changes via code/controller
-      ctrl.$formatters.unshift(checkValid);
+      ctrl.$formatters.unshift(checkValidNameAvailable);
       // called when value changes in input element
-      ctrl.$parsers.unshift(checkValid);
+      ctrl.$parsers.unshift(checkValidNameAvailable);
     }
   };
 }
