@@ -58,7 +58,6 @@ function RunnableInstanceList (
           .query('me')
           .cacheFetch(function (user, cached, cb) {
             $scope.user = user;
-            console.log('$scope.user', user);
             $rootScope.safeApply();
             cb();
           })
@@ -70,9 +69,11 @@ function RunnableInstanceList (
       function fetchOrgs (cb) {
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
           if (err) throw err;
-          // heap
-          $scope.activeAccount = determineActiveAccount($state.params.userName, $scope.orgs, $scope.user);
-          console.log('$scope.activeAccount', $scope.activeAccount);
+          // TODO: heap
+          determineActiveAccount(function (activeAccount) {
+            $scope.activeAccount = activeAccount;
+            cb();
+          });
           cb();
         });
       }
@@ -86,7 +87,6 @@ function RunnableInstanceList (
             }
           })
           .cacheFetch(function (instances, cached, cb) {
-            console.log('$scope.instances', instances);
             $scope.instances = instances;
             $rootScope.safeApply();
             cb();
