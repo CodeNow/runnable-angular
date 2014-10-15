@@ -117,30 +117,25 @@
   text-align: center;
   width: calc(100%/3);
 
+  @include media(xxs) {
+    width: 100%;
+  }
+
   @include media(xs) {
     width: 100%;
   }
 
-  .animate img {
-    animation: things 2s infinite;
+  // &.animate img {
+  //   animation: things 2s infinite;
 
-    &.running {
-      animation-play-state: running;
-    }
+  //   &.running {
+  //     animation-play-state: running;
+  //   }
 
-    &.paused {
-      animation-play-state: paused;
-    }
-  }
-}
-
-@keyframes things {
-  0% {
-    transform: transform3d(0,0,0);
-  }
-  100% {
-    transform: transform3d(10px,0,0);
-  }
+  //   &.paused {
+  //     animation-play-state: paused;
+  //   }
+  // }
 }
 
 // h2.feature-header
@@ -151,9 +146,15 @@
 
 // section.landing-callout
 .landing-callout {
-  margin: 0 auto;
+  margin: 30px auto 0;
   max-width: 600px;
   text-align: center;
+
+  @include media(xxs) {
+    img {
+      width: 100%;
+    }
+  }
 
   @include media(xs) {
     img {
