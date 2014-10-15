@@ -4,22 +4,25 @@ require('app')
  * holdUntilAuth
  * @ngInject
  */
-function holdUntilAuth(user) {
+function holdUntilAuth(
+  user
+) {
+  /**
+   * Requires api-client to consider in-progress requests
+   * and not make duplicate HTTP requests for the same
+   * resource
+   */
+  var thisUser;
   return function (cb) {
-    var called = false;
     if (!angular.isFunction(cb)) {
       cb = angular.noop;
     }
-    var thisUser = user.fetchUser('me', function (err, result) {
-      if (called) {
-        return;
-      }
-      cb(err, thisUser);
-    });
-    if (thisUser.id() && thisUser.id() !== 'me') {
+    if (thisUser) {
       cb(null, thisUser);
-      called = true;
-      //cb = angular.noop;
+    } else {
+      thisUser = user.fetch('me', function (err) {
+        cb(err, thisUser);
+      });
     }
   };
 }

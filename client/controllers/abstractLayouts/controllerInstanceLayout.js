@@ -74,7 +74,7 @@ function ControllerInstanceLayout(
   };
 
   // invoked from controllerSetup when new instance is created
-  actions.fetchInstances = fetchInstances;
+  // actions.fetchInstances = fetchInstances;
 
   actions.selectActiveAccount = function (userOrOrg, cb) {
     data.showChangeAccount = false;
@@ -87,6 +87,7 @@ function ControllerInstanceLayout(
       return cb();
     }
 
+    /*
     fetchInstances(function (err) {
       $scope.safeApply();
       if (err) {
@@ -109,6 +110,7 @@ function ControllerInstanceLayout(
         instanceName: data.instances.models[0].attrs.name
       });
     });
+    */
   };
 
   actions.stateToNew = function () {
@@ -120,6 +122,7 @@ function ControllerInstanceLayout(
 /* ============================
    *   API Fetch Methods
    * ===========================*/
+  /*
   function fetchOrgs(cb) {
     var thisUser = $scope.dataApp.user;
     data.orgs = thisUser.fetchGithubOrgs(function (err) {
@@ -184,6 +187,7 @@ function ControllerInstanceLayout(
       });
     });
   }
+  */
 
   function setInitialActiveProject (cb) {
     var projectName = actions.getActiveProjectName();
@@ -199,6 +203,7 @@ function ControllerInstanceLayout(
   /**
    * All pages besides new project page
    */
+  /*
     async.waterfall([
       holdUntilAuth,
       fetchOrgs,
@@ -213,6 +218,7 @@ function ControllerInstanceLayout(
       }
       $scope.safeApply();
     });
+  */
 
   $scope.$on('app-document-click', function () {
     $scope.dataInstanceLayout.data.showChangeAccount = false;

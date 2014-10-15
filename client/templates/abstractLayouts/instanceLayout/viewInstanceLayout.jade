@@ -63,25 +63,29 @@ nav.sidebar.global-sidebar(
           use(
             xlink:href = "#icons-add"
           )
-    ul.box-group
-      //- apply .active for currently selected box
-      //- apply .running for a running box
-      li.box-group-item.load(
-        ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
-        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-        ng-repeat = "instance in dataInstanceLayout.data.instances.models | orderBy:'attrs.name'"
-        ng-show = "dataInstanceLayout.data.instances.models"
-      )
-        //- show instance name in title property when not minimized
-        a.white.box(
-          tooltip = "{{ instance.attrs.name }}"
-          tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+
+    runnable-instance-list
+
+    //-
+      ul.box-group
+        //- apply .active for currently selected box
+        //- apply .running for a running box
+        li.box-group-item.load(
+          ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
+          ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+          ng-repeat = "instance in dataInstanceLayout.data.instances.models | orderBy:'attrs.name'"
+          ng-show = "dataInstanceLayout.data.instances.models"
         )
-          span.box-item-name {{ instance.attrs.name }}
-          //- alt text running container
-          span.icons-status(
-            title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+          //- show instance name in title property when not minimized
+          a.white.box(
+            tooltip = "{{ instance.attrs.name }}"
+            tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
           )
+            span.box-item-name {{ instance.attrs.name }}
+            //- alt text running container
+            span.icons-status(
+              title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+            )
 
   footer.row.global-footer
     a.btn.btn-sm.btn-icon.white.btn-logout(

@@ -161,7 +161,8 @@ module.exports = function(grunt) {
         },
         files: {
           './client/build/views/viewBundle.js': [
-            './client/templates/**/*.jade'
+            './client/templates/**/*.jade',
+            './client/directives/**/*.jade'
           ]
         }
       }
