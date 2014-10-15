@@ -51,22 +51,21 @@ nav.sidebar.global-sidebar(
           span.account-name {{ org.oauthName() }}
 
   //- INSTANCES
-  section.row.boxes
-    h2.sub-header
-      span.sub-header-text Boxes
-      a.btn.btn-sm.white.sub-header-action(
-        href = "/new"
-        ng-click = "dataInstanceLayout.actions.stateToNew()"
-        title = "Create a New Box"
-      )
-        svg.iconnables.icons-add
-          use(
-            xlink:href = "#icons-add"
-          )
-
-    runnable-instance-list
+  runnable-instance-list
 
     //-
+      section.row.boxes
+        h2.sub-header
+          span.sub-header-text Boxes
+          a.btn.btn-sm.white.sub-header-action(
+            href = "/new"
+            ng-click = "dataInstanceLayout.actions.stateToNew()"
+            title = "Create a New Box"
+          )
+            svg.iconnables.icons-add
+              use(
+                xlink:href = "#icons-add"
+              )
       ul.box-group
         //- apply .active for currently selected box
         //- apply .running for a running box
