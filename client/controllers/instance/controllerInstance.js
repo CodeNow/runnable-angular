@@ -115,6 +115,10 @@ function ControllerInstance(
           if (err) {
             throw err;
           }
+          $state.go('instance.instance', {
+            userName: data.instance.attrs.owner.username,
+            instanceName: data.instance.attrs.name
+          });
         });
         // cb() will reset data.instance.state
         // important to call after PATCH
