@@ -4,7 +4,7 @@ var sidebar = require('./helpers/sidebar');
 
 var InstancePage = require('./pages/InstancePage');
 var SetupPage = require('./pages/SetupPage');
-var instanceName = 'Test-0';
+var instanceName = 'Test-Rename';
 
 describe('delete', function() {
   it('should load & delete a running instance', function () {
