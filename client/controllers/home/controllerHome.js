@@ -21,7 +21,7 @@ function ControllerHome(
   //- refresh skrollr on load
   window.s.refresh();
 
-  //verifyUserIsAuth();
+  verifyUserIsAuth();
 
   function verifyUserIsAuth() {
     async.series([
