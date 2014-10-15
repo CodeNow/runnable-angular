@@ -10,9 +10,7 @@ function determineActiveAccount (
   QueryAssist,
   user
 ) {
-  return function (
-    cb
-  ) {
+  return function (cb) {
 
     if(!angular.isFunction(cb)) throw new Error();
 

@@ -21,9 +21,6 @@ header.row.account-header
           use(
             xlink:href = "#icons-arrow-down"
           )
-
-
-
     //- current user (if user is not active)
     li.accounts-group-item(
       ng-if = "user !== activeAccount"
@@ -37,7 +34,6 @@ header.row.account-header
           width = "24"
         )
         span.account-name {{ user.oauthName() }}
-
     //- Orgs that are not the active account
     li.accounts-group-item(
       ng-click = "$event.stopPropagation(); \
