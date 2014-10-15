@@ -21,6 +21,12 @@ function RunnableInstanceList (
     scope: {},
     link: function ($scope, elem, attrs) {
 
+      async.series([
+        fetchUser,
+        fetchOrgs,
+        fetchInstances
+      ]);
+
       $scope.getInstanceClasses = getInstanceClasses;
 
       $scope.getInstanceAltTitle = function (instance) {
@@ -83,12 +89,6 @@ function RunnableInstanceList (
           })
           .go();
       }
-
-      async.series([
-        fetchUser,
-        fetchOrgs,
-        fetchInstances
-      ]);
 
     }
   };
