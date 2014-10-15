@@ -6,6 +6,7 @@ require('app')
 function RunnableInstanceList (
   $rootScope,
   $state,
+  $filter,
   user,
   async,
   QueryAssist,
@@ -21,7 +22,23 @@ function RunnableInstanceList (
     link: function ($scope, elem, attrs) {
 
       $scope.getInstanceClasses = getInstanceClasses;
-      $scope.getInstanceAltTitle = function () {};
+
+      $scope.getInstanceAltTitle = function (instance) {
+        var state = $scope.getInstanceClasses(instance);
+        if (state.failed) {
+          return "Build failed";
+        }
+        if (state.running) {
+          return "Started " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.StartedAt'));
+        }
+        if (state.stopped) {
+          return "Stopped " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt'));
+        }
+        if (state.building) {
+          return "Build in progress";
+        }
+        return "";
+      };
 
       function fetchUser (cb) {
         new QueryAssist(user, cb)
