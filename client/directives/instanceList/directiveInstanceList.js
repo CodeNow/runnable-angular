@@ -27,6 +27,12 @@ function RunnableInstanceList (
         fetchInstances
       ]);
 
+      $scope.stateToNew = function () {
+        $state.go('instance.new', {
+          userName: $scope.activeAccount.oauthId()
+        });
+      };
+
       $scope.getInstanceClasses = getInstanceClasses;
 
       $scope.getInstanceAltTitle = function (instance) {
