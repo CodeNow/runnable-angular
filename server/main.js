@@ -16,6 +16,20 @@ app.set('views', path.join(__dirname + '/views'));
 app.use(compression());
 app.use(require('cookie-parser')());
 
+app.use(function (req, res, next) {
+  if (req.query && req.query.password) {
+    res.cookie('password', 'runnable', {
+      expires: new Date(Date.now() + 90000000)
+    });
+    next();
+  } else {
+    if (!req.cookies|| !req.cookies.password) {
+      res.status(404).end();
+    } else {
+      next();
+    }
+  }
+});
 
 app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 
