@@ -118,24 +118,20 @@
   width: calc(100%/3);
 
   @include media(xxs) {
+    float: none;
     width: 100%;
   }
 
   @include media(xs) {
+    float: none;
     width: 100%;
   }
+}
 
-  // &.animate img {
-  //   animation: things 2s infinite;
-
-  //   &.running {
-  //     animation-play-state: running;
-  //   }
-
-  //   &.paused {
-  //     animation-play-state: paused;
-  //   }
-  // }
+//- feature-repo-book icon
+.feature-repo {
+  height: 72px;
+  width: 92px;
 }
 
 // h2.feature-header
