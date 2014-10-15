@@ -21,12 +21,6 @@ function RunnableInstanceList (
     scope: {},
     link: function ($scope, elem, attrs) {
 
-      async.series([
-        fetchUser,
-        fetchOrgs,
-        fetchInstances
-      ]);
-
       $scope.stateToNew = function () {
         $state.go('instance.new', {
           userName: $scope.activeAccount.oauthId()
@@ -70,31 +64,36 @@ function RunnableInstanceList (
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
           if (err) throw err;
           // TODO: heap
-          determineActiveAccount(function (activeAccount) {
-            $scope.activeAccount = activeAccount;
-            cb();
-          });
           cb();
         });
       }
 
       function fetchInstances (cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances', cb)
-          .query({
-            owner: {
-              github: $scope.activeAccount.oauthId()
-            }
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            $scope.instances = instances;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, projects, cb) {
-          })
-          .go();
+        determineActiveAccount(function (activeAccount) {
+          $scope.activeAccount = activeAccount;
+          new QueryAssist($scope.user, cb)
+            .wrapFunc('fetchInstances', cb)
+            .query({
+              owner: {
+                github: $scope.activeAccount.oauthId()
+              }
+            })
+            .cacheFetch(function (instances, cached, cb) {
+              $scope.instances = instances;
+              $rootScope.safeApply();
+              cb();
+            })
+            .resolve(function (err, projects, cb) {
+            })
+            .go();
+        });
       }
+
+      async.series([
+        fetchUser,
+        fetchOrgs,
+        fetchInstances
+      ]);
 
     }
   };

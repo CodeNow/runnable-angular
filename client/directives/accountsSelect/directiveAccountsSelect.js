@@ -4,23 +4,53 @@ require('app')
  * @ngInject
  */
 function RunnableAccountsSelect (
+  async,
+  determineActiveAccount,
   $rootScope,
+  QueryAssist,
   $state,
-  user,
-  async
+  user
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewAccountsSelect',
     replace: true,
-    scope: {
-      activeAccount: '='
-    },
+    scope: {},
     link: function ($scope, elem, attrs) {
-      async.series([
-      ]);
 
-      $scope.showChangeAccount = false;
+      $scope.isChangeAccount = false;
+
+      $scope.selectActiveAccount = function (userOrOrg) {};
+
+      determineActiveAccount(function (activeAccount) {
+        $scope.activeAccount = activeAccount;
+        $rootScope.safeApply();
+      });
+
+      function fetchUser (cb) {
+        new QueryAssist(user, cb)
+          .wrapFunc('fetchUser')
+          .query('me')
+          .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
+          })
+          .resolve(function (err, user, cb) {
+          })
+          .go();
+      }
+
+      function fetchOrgs (cb) {
+        $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
+          if (err) throw err;
+          // TODO: heap
+          cb();
+        });
+      }
+
+      async.series([
+        fetchUser,
+        fetchOrgs
+      ]);
 
     }
   };
