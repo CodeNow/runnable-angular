@@ -28,6 +28,12 @@ function ControllerInstance(
 
   data.restartOnSave = true;
 
+  function instanceDefaultState (instance) {
+    instance.state = {
+      name: instance.attrs.name + '-copy'
+    };
+  }
+
   /*********************************
    * popoverFileMenu
    *********************************/
@@ -121,7 +127,7 @@ function ControllerInstance(
         cb(); //removes modal
       },
       cancel: function () {
-        data.instance.state.name = data.instance.attrs.name;
+        instanceDefaultState(data.instance);
       }
     },
 
@@ -457,9 +463,7 @@ function ControllerInstance(
           // return $state.go(404);
         }
         var instance = instances.models[0];
-        instance.state = {
-          name: instance.attrs.name + '-copy'
-        };
+        instanceDefaultState(instance);
         data.instance = instance;
         data.version = data.container = instance.containers.models[0];
         data.build = instance.build;
