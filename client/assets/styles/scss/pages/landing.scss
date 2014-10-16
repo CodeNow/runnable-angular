@@ -51,6 +51,14 @@
     display: inline-block;
     float: right;
     margin-right: 30px;
+
+    @include media(xxs) {
+      display: none;
+    }
+
+    @include media(xs) {
+      display: none;
+    }
   }
 }
 
@@ -59,6 +67,14 @@
   float: left;
   height: 40px;
   margin: 10px 0;
+
+  @include media(xxs) {
+    float: none;
+  }
+
+  @include media(xs) {
+    float: none;
+  }
 }
 
 // div.hero-wrapper
@@ -75,6 +91,14 @@
   font-weight: 500;
   margin: 0;
   text-align: center;
+
+  @include media(xs) {
+    padding: 0 15px;
+  }
+
+  @include media(xxs) {
+    padding: 0 15px;
+  }
 }
 
 // p.hero-text-sub
@@ -84,6 +108,14 @@
   font-weight: 300;
   margin: 0;
   text-align: center;
+
+  @include media(xs) {
+    padding: 0 15px;
+  }
+
+  @include media(xxs) {
+    padding: 0 15px;
+  }
 }
 
 // button.btn-hero

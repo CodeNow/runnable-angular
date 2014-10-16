@@ -75,5 +75,8 @@ html(
     //- init skrollr
     script.
       window.s = skrollr.init({
-        forceHeight: false
+        forceHeight: false,
+        mobileCheck: function(){
+          return  false;
+        }
       });
