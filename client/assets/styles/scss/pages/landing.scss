@@ -2,7 +2,7 @@
 .landing,
 .landing #wrapper {
   height: auto;
-  min-width: 0;
+  min-width: 360px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -14,6 +14,7 @@
   background-size: 1440px 600px;
   color: $white;
   height: 450px;
+  min-width: 360px;
   overflow: hidden;
   position: relative;
   width: 100vw;
