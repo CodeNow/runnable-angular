@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableSetupBoxInfo', RunnableSetupBoxInfo);
+  .directive('runnableSetupBoxName', RunnableSetupBoxName);
 /**
  * @ngInject
  */
-function RunnableSetupBoxInfo (
+function RunnableSetupBoxName (
   async,
   determineActiveAccount,
   QueryAssist,
@@ -12,7 +12,7 @@ function RunnableSetupBoxInfo (
 ) {
   return {
     restrict: 'E',
-    templateUrl: 'viewSetupBoxInfo',
+    templateUrl: 'viewSetupBoxName',
     replace: true,
     scope: {},
     link: function ($scope, elem, attrs) {

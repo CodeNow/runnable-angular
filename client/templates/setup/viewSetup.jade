@@ -1,18 +1,19 @@
 header.box-header
 
   //- name instance input
-  runnable-setup-box-info
-
-  .primary-actions
-    //- remove .orange, add .green when validation passes
-    button(
-      ng-class = "{\
-        orange: !dataSetup.actions.valid(true),\
-        green: dataSetup.actions.valid(true)\
-      }"
-      ng-click = "dataSetup.actions.buildApplication()"
-      ng-disabled = "dataSetup.data.creatingProject || !dataSetup.actions.valid()"
-    ) Create Box
+  runnable-setup-box-name
+  runnable-setup-primary-actions
+  //-
+    .primary-actions
+      //- remove .orange, add .green when validation passes
+      button(
+        ng-class = "{\
+          orange: !dataSetup.actions.valid(true),\
+          green: dataSetup.actions.valid(true)\
+        }"
+        ng-click = "dataSetup.actions.buildApplication()"
+        ng-disabled = "dataSetup.data.creatingProject || !dataSetup.actions.valid()"
+      ) Create Box
 
 section.sidebar.box-sidebar.setup
   //- repositories
