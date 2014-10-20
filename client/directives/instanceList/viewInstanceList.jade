@@ -15,6 +15,7 @@ section.row.boxes
     //- apply .running for a running box
     li.box-group-item.load(
       ng-class = "getInstanceClasses(instance)"
+      ng-click = "stateToInstance(instance)"
       ng-repeat = "instance in instances.models"
       ng-show = "instances.models.length"
     )

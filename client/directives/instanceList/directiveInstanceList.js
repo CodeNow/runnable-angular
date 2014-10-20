@@ -27,6 +27,13 @@ function RunnableInstanceList (
         });
       };
 
+      $scope.stateToInstance = function (instance) {
+        $state.go('instance.instance', {
+          instanceName: instance.attrs.name,
+          userName: instance.attrs.owner.github.username
+        });
+      };
+
       $scope.getInstanceClasses = getInstanceClasses;
 
       $scope.getInstanceAltTitle = function (instance) {
