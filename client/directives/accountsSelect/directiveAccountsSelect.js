@@ -18,6 +18,7 @@ function RunnableAccountsSelect (
     scope: {},
     link: function ($scope, elem, attrs) {
 
+      // control collapse/expand accounts list
       $scope.isChangeAccount = false;
 
       var selectInProgress = false;
@@ -27,8 +28,9 @@ function RunnableAccountsSelect (
           return;
         }
         selectInProgress = true;
+        // close list
         $scope.isChangeAccount = false;
-        var name = userOrOrg.oauthName();
+        // synchronously display new active account
         $scope.activeAccount = userOrOrg;
         // fetch userOrOrg instances
         // send to first result
@@ -91,6 +93,11 @@ function RunnableAccountsSelect (
         fetchUser,
         fetchOrgs
       ]);
+
+      // outside click, close list
+      $scope.$on('app-document-click', function () {
+        $scope.isChangeAccount = false;
+      });
 
     }
   };
