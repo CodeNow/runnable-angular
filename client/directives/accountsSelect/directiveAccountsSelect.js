@@ -22,7 +22,7 @@ function RunnableAccountsSelect (
 
       $scope.selectActiveAccount = function (userOrOrg) {};
 
-      determineActiveAccount(function (activeAccount) {
+      determineActiveAccount(function (err, activeAccount) {
         $scope.activeAccount = activeAccount;
         $rootScope.safeApply();
       });
