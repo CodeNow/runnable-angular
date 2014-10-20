@@ -462,9 +462,7 @@ function ControllerInstance(
       })
       .cacheFetch(function updateDom(instances, cached, cb) {
         if (!instances.models.length) {
-          return cb();
-          // TODO
-          // return $state.go(404);
+          return cb(new Error('Instance not found'));
         }
         var instance = instances.models[0];
         instanceDefaultState(instance);
@@ -494,7 +492,7 @@ function ControllerInstance(
   }
 
   function newOpenItems(cb) {
-    data.openItems = new OpenItems(data.instance.id() + data.instance.build.id());
+    data.openItems = new OpenItems(data.instance.id() + '-' + data.instance.build.id());
     pat.addOpenItems(data.openItems);
     if (data.build.succeeded()) {
       var container = data.container;
