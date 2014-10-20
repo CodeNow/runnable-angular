@@ -11,10 +11,11 @@ function ControllerHome(
   $state,
   async,
   $localStorage,
-  keypather
+  keypather,
+  QueryAssist,
+  user
 ) {
-  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var QueryAssist = $scope.UTIL.QueryAssist;
+
   var self = ControllerHome;
   var dataHome = $scope.dataHome = self.initState();
 
@@ -22,11 +23,23 @@ function ControllerHome(
 
   function verifyUserIsAuth() {
     async.series([
-      holdUntilAuth,
+      function fetchUser (cb) {
+        new QueryAssist(user, cb)
+          .wrapFunc('fetchUser')
+          .query('me')
+          .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
+            $scope.safeApply();
+            cb();
+          })
+          .resolve(function (err, user, cb) {
+          })
+          .go();
+      },
       fetchInstances,
       function sendUserSomewhere(cb) {
 
-        var thisUser = $scope.dataApp.user;
+        var thisUser = $scope.user;
 
         if (!keypather.get($localStorage, 'stateParams.instanceName')) {
           // no cached previously visited instance
@@ -102,7 +115,7 @@ function ControllerHome(
    * temporarily attach 'instances' property to user & org models
    */
   function fetchInstances(cb) {
-    var thisUser = $scope.dataApp.user;
+    var thisUser = $scope.user;
 
     if (!keypather.get($localStorage, 'stateParams.instanceName')) {
       // dont bother finding all orgs, we're just going to send user to first user-instance
