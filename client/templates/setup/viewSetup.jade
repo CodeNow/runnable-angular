@@ -1,27 +1,26 @@
 header.box-header
 
   //- name instance input
-  runnable-setup-box-name
-  runnable-setup-primary-actions
-  //-
-    .primary-actions
-      //- remove .orange, add .green when validation passes
-      button(
-        ng-class = "{\
-          orange: !dataSetup.actions.valid(true),\
-          green: dataSetup.actions.valid(true)\
-        }"
-        ng-click = "dataSetup.actions.buildApplication()"
-        ng-disabled = "dataSetup.data.creatingProject || !dataSetup.actions.valid()"
-      ) Create Box
+  runnable-setup-box-name(
+    valid = "dataSetup.data.isValid"
+    name  = "dataSetup.data.newInstanceName"
+  )
+  runnable-setup-primary-actions(
+    build   = "dataSetup.data.build"
+    loading = "dataApp.data.loading"
+    name    = "dataSetup.data.newInstanceName"
+    valid   = "dataSetup.data.isValid"
+  )
 
 section.sidebar.box-sidebar.setup
+
   //- repositories
   repo-list(
-    build = "dataSetup.data.build",
-    edit = "true",
+    build      = "dataSetup.data.build"
+    edit       = "true"
     show-guide = "true"
   )
+
   section.row
     h2.sub-header Docker Templates
     //- remove .in if template is selected

@@ -14,7 +14,10 @@ function RunnableSetupBoxName (
     restrict: 'E',
     templateUrl: 'viewSetupBoxName',
     replace: true,
-    scope: {},
+    scope: {
+      'newInstanceNameForm.$valid': '=valid',
+      'newInstanceName': '=name'
+    },
     link: function ($scope, elem, attrs) {
 
       $scope.newInstanceName = '';
