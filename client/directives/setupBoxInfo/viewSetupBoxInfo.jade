@@ -1,22 +1,21 @@
 h1.box-info
   form.box-name(
-    name = "dataSetup.data.newProjectNameForm"
+    name = "newInstanceNameForm"
   )
     input.validate.setup-box-name(
-      ng-model = "dataSetup.data.newProjectName"
+      ng-model = "newInstanceName"
       placeholder = "Box Name"
       select-on
       spellcheck = "false"
       validate-name-pattern
-      validate-name = "dataInstanceLayout.data.instances"
-      value = "{{ dataSetup.data.project.attrs.name }}"
+      validate-name = "instances"
     )
     //- if invalid character is entered
     .validate-wrapper(
       ng-class = "{\
-        in: data.renameForm.$invalid,\
-        'invalid-pattern': dataSetup.data.newProjectNameForm.$error.namePattern.length,\
-        'invalid-name': dataSetup.data.newProjectNameForm.$error.nameAvailable.length\
+        in: newInstanceNameForm.$invalid,\
+        'invalid-pattern': newInstanceNameForm.$error.namePattern.length,\
+        'invalid-name': newInstanceNameForm.$error.nameAvailable.length\
       }"
     )
       span.validate-rules.invalid-pattern We accept #{''}

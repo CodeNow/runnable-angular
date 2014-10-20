@@ -4,14 +4,14 @@ require('app')
  * @ngInject
  */
 function RunnableInstanceList (
+  async,
+  determineActiveAccount,
+  $filter,
+  getInstanceClasses,
+  QueryAssist,
   $rootScope,
   $state,
-  $filter,
   user,
-  async,
-  QueryAssist,
-  determineActiveAccount,
-  getInstanceClasses,
   keypather
 ) {
   return {
