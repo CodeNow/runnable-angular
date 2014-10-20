@@ -40,7 +40,10 @@ function RunnableAccountsSelect (
             }
           })
           .cacheFetch(function (instances, cached, cb) {
-            if (cached) return;
+            cb();
+            $rootScope.safeApply();
+          })
+          .resolve(function (err, instances, cb) {
             if (instances.models.length) {
               $state.go('instance.instance', {
                 userName: userOrOrg.oauthName(),
@@ -52,9 +55,7 @@ function RunnableAccountsSelect (
                 userName: userOrOrg.oauthName()
               });
             }
-            $rootScope.safeApply();
-          })
-          .resolve(function (err, projects, cb) {
+            selectInProgress = false;
             cb();
           })
           .go();
