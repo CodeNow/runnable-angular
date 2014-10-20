@@ -33,6 +33,7 @@ function RunnableAccountsSelect (
           .query('me')
           .cacheFetch(function (user, cached, cb) {
             $scope.user = user;
+            cb();
           })
           .resolve(function (err, user, cb) {
           })
