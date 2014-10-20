@@ -147,6 +147,16 @@ function logView(
             initBoxStream();
           }
         });
+        // If the container stops, display exit code
+        $scope.$watch('container.attrs.inspect.State.Running', function (n) {
+          // Strict comparison to false to avoid falsy values
+          if (n === false) {
+            var exitCode = $scope.container.attrs.inspect.State.ExitCode;
+            if (exitCode > 0) {
+              terminal.writeln('Exited with code: ' + exitCode);
+            }
+          }
+        });
       } else {
         throw new Error('improper use of directiveLogView');
       }
