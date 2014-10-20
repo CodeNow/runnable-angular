@@ -6,6 +6,7 @@ require('app')
 function RunnableSetupBoxName (
   async,
   determineActiveAccount,
+  keypather,
   QueryAssist,
   $rootScope,
   user
@@ -15,12 +16,17 @@ function RunnableSetupBoxName (
     templateUrl: 'viewSetupBoxName',
     replace: true,
     scope: {
-      'newInstanceNameForm.$valid': '=valid',
-      'newInstanceName': '=name'
+      newInstanceName: '=name',
+      valid: '='
     },
     link: function ($scope, elem, attrs) {
 
       $scope.newInstanceName = '';
+      keypather.set($scope, '', false);
+
+      $scope.$watch('newInstanceNameForm.$valid', function () {
+        $scope.valid = arguments[0];
+      });
 
       function fetchUser (cb) {
         new QueryAssist(user, cb)

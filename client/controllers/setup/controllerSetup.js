@@ -24,6 +24,7 @@ function ControllerSetup(
   var dataSetup = $scope.dataSetup = self.initState();
   var data = dataSetup.data;
   var actions = dataSetup.actions;
+
   data.openItems = new OpenItems();
 
   data.popoverAddTab = addTab({
