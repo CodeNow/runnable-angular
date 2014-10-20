@@ -34,6 +34,12 @@ function ControllerInstanceEdit(
     showExplorer: false
   };
 
+  function instanceDefaultState (instance) {
+    instance.state = {
+      name: instance.attrs.name + '-copy'
+    };
+  }
+
   /*********************************
   * popoverGearMenu
   *********************************/
@@ -77,10 +83,17 @@ function ControllerInstanceEdit(
           if (err) {
             throw err;
           }
+          $state.go('instance.instance', {
+            userName: data.instance.attrs.owner.username,
+            instanceName: data.instance.attrs.name
+          });
         });
         // cb() will reset data.instance.state
         // important to call after PATCH
         cb(); //removes modal
+      },
+      cancel: function () {
+        instanceDefaultState(data.instance);
       }
     },
     forkInstance: function (env) {
@@ -257,10 +270,7 @@ function ControllerInstanceEdit(
           // return $state.go(404);
         }
         var instance = instances.models[0];
-        instance.state = {
-          name: instance.attrs.name + ''
-        };
-
+        instanceDefaultState(instance);
         data.instance = instance;
         pgm.data.dataModalRename.instance = instance;
         pgm.data.dataModalDelete.instance = instance;
