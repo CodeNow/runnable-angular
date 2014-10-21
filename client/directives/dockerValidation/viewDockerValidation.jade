@@ -1,5 +1,5 @@
 section.row(
-  ng-if = "validDockerfile.valid === false"
+  ng-if = "openItems.models.length && validDockerfile.valid === false"
 )
   .sidebar-validation
     h2.sub-header Dockerfile Validation Errors

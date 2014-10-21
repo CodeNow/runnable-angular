@@ -29,6 +29,8 @@ function ControllerSetup(
   var actions = dataSetup.actions;
 
   data.openItems = new OpenItems();
+  data.showExplorer = false;
+  data.loding = false;
 
 
 

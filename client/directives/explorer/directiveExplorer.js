@@ -1,0 +1,62 @@
+require('app')
+  .directive('runnableExplorer', RunnableExplorer);
+/**
+ * @ngInject
+ */
+function RunnableExplorer (
+  async,
+  QueryAssist,
+  $rootScope,
+  $stateParams,
+  user
+) {
+  return {
+    restrict: 'E',
+    templateUrl: 'viewExplorer',
+    replace: true,
+    scope: {
+      openItems: '=',
+      toggleTheme: '='
+    },
+    link: function ($scope, elem, attrs) {
+
+      function fetchUser (cb) {
+        new QueryAssist(user, cb)
+          .wrapFunc('fetchUser')
+          .query('me')
+          .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, user, cb) {
+            if (err) throw err;
+            cb();
+          })
+          .go();
+      }
+
+      function fetchBuild (cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchBuild')
+          .query($stateParams.buildId)
+          .cacheFetch(function (build, cached, cb) {
+            $scope.build = build;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, build, cb) {
+            if (err) throw err;
+            cb();
+          })
+          .go();
+      }
+
+      async.series([
+        fetchUser,
+        fetchBuild
+      ]);
+
+    }
+  };
+}

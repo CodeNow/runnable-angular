@@ -1,0 +1,20 @@
+section.explorer
+  .explorer-controls
+    button.toggle-theme(
+      ng-class = "{ \
+        dark: !toggleTheme, \
+        light: toggleTheme \
+      }"
+      ng-click = "toggleTheme = !toggleTheme"
+      ng-init = "toggleTheme = true"
+      tooltip = "Change Theme"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
+    )
+      .theme
+  file-tree(
+    open-items = "openItems"
+    read-only = "false"
+    root-dir = "build.contextVersions.models[0].rootDir"
+  )
+//-root-dir = "build.contextVersions.models[0].rootDir"
+//- root-dir = "dataSetup.data.contextVersion.rootDir"
