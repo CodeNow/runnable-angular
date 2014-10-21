@@ -132,6 +132,7 @@ function RunnableDockerTemplates (
           })
           .cacheFetch(function (contexts, cached, cb) {
             $scope.seedContexts = contexts;
+            debugger;
             $rootScope.safeApply();
             cb();
           })

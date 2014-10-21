@@ -70,7 +70,6 @@ function RunnableInstanceList (
       function fetchOrgs (cb) {
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
           if (err) throw err;
-          // TODO: heap
           cb();
         });
       }

@@ -26,6 +26,7 @@ function RunnableAccountsSelect (
       // control collapse/expand accounts list
       $scope.isChangeAccount = false;
 
+      // prevent concurrent operations from multiple clicks
       var selectInProgress = false;
       $scope.selectActiveAccount = function (userOrOrg) {
         // prevent multiple clicks

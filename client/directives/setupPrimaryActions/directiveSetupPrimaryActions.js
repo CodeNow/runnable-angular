@@ -69,7 +69,7 @@ function RunnableSetupPrimaryActions (
           .go();
       }
 
-      async.series([
+      async.waterfall([
         determineActiveAccount,
         function (activeAccount, cb) {
           $scope.activeAccount = activeAccount;
