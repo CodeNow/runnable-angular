@@ -146,6 +146,7 @@ function RunnableDockerTemplates (
         determineActiveAccount,
         function (activeAccount, cb) {
           $scope.activeAccount = activeAccount;
+          $rootScope.safeApply();
           cb();
         },
         fetchUser,
