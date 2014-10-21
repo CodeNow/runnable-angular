@@ -15,7 +15,7 @@ function fakeInstance (name) {
   };
 }
 
-describe('directiveValidateName'.bold.underline.blue, function() {
+describe('directiveValidateNamePattern'.bold.underline.blue, function() {
   var $scope;
   var element;
   var form;
@@ -55,18 +55,12 @@ describe('directiveValidateName'.bold.underline.blue, function() {
         });
       };
 
-      $scope.instance = fakeInstance('Test-Instance');
-      $scope.instances = {
-        find: function (func) {
-          return ['Test-Instance', 'Test-Instance0', 'Test-Instance1'].map(fakeInstance).some(func);
-        }
-      };
       $scope.model = {
         instanceName: ''
       };
+
       var tmpl = angular.element('<form name="form">' +
-        '<input ng-model="model.instanceName" name="instanceName" validate-name="instances"' +
-        '  instance="instance" current-instance-valid="false">' +
+        '<input ng-model="model.instanceName" name="instanceName" validate-name-pattern>' +
         '</form>'
       );
 
@@ -76,12 +70,6 @@ describe('directiveValidateName'.bold.underline.blue, function() {
     });
   }
   beforeEach(initState);
-
-  testBoth_it('should allow a brand new name', function() {
-    this.setName('New-Name');
-    expect($scope.model.instanceName).to.equal('New-Name');
-    expect(form.instanceName.$valid).to.be.true;
-  });
 
   it('should allow a pristine state', function() {
     expect(form.$pristine).to.be.true;
@@ -99,47 +87,35 @@ describe('directiveValidateName'.bold.underline.blue, function() {
     expect(form.instanceName.$valid).to.be.true;
   });
 
-  testBoth_it('should complain about an identical name', function() {
-    this.setName('Test-Instance');
-    expect($scope.model.instanceName).to.equal('Test-Instance');
+  testBoth_it('should allow a generic name', function() {
+    this.setName('name');
+    expect(form.instanceName.$valid).to.be.true;
+  });
+
+  testBoth_it('should allow dashes', function() {
+    this.setName('instance-name');
+    expect(form.instanceName.$valid).to.be.true;
+  });
+
+  testBoth_it('should allow multiple cases', function() {
+    this.setName('NaMe');
+    expect(form.instanceName.$valid).to.be.true;
+  });
+
+  testBoth_it('should allow numbers', function() {
+    this.setName('name01239');
+    expect(form.instanceName.$valid).to.be.true;
+  });
+
+  testBoth_it('should reject whitespace', function() {
+    this.setName('name    ');
     expect(form.instanceName.$valid).to.be.false;
-    expect(form.instanceName.$error.nameAvailable).to.be.true;
+    expect(form.instanceName.$error.namePattern).to.be.true;
   });
 
-  testBoth_it('should complain about an identical name to a different instance', function() {
-    this.setName('Test-Instance1');
-    expect($scope.model.instanceName).to.equal('Test-Instance1');
+  testBoth_it('should reject non-dash/underscore punctuation', function() {
+    this.setName('name^&*$^&*#@^&*');
     expect(form.instanceName.$valid).to.be.false;
-    expect(form.instanceName.$error.nameAvailable).to.be.true;
-  });
-
-  testBoth_it('should complain about names with different cases', function() {
-    this.setName('test-instance1');
-    expect($scope.model.instanceName).to.equal('test-instance1');
-    expect(form.instanceName.$valid).to.be.false;
-    expect(form.instanceName.$error.nameAvailable).to.be.true;
-  });
-
-  describe('no instances', function () {
-    beforeEach(function () {
-      $scope.instances = undefined;
-    });
-
-    testBoth_it('should ok any name with no instances', function() {
-      this.setName('asdf');
-      expect(form.instanceName.$valid).to.be.true;
-    });
-  });
-
-  describe('currentInstanceValid', function() {
-    beforeEach(function() {
-      $scope.currentInstanceValid = true;
-    });
-
-    testBoth_it('should allow the same name', function() {
-      this.setName('asdf');
-      this.setName('');
-      expect(form.instanceName.$valid).to.be.true;
-    });
+    expect(form.instanceName.$error.namePattern).to.be.true;
   });
 });
