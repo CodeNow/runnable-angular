@@ -81,6 +81,23 @@ function primus(
     }
   });
 
+  conn.on('reconnect', function (data) {
+    console.log('reconnect', data);
+  });
+  conn.on('open', function (data) {
+    console.log('open', data);
+  });
+  conn.on('close', function (data) {
+    console.log('close', data);
+  });
+
+  conn.on('offline', function (data) {
+    console.log('offline', data);
+  });
+  conn.on('online', function (data) {
+    console.log('online', data);
+  });
+
   return conn;
 }
 
