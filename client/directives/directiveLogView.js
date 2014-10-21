@@ -170,8 +170,6 @@ function logView(
                 // bad things happened
                 writeToTerm('please build again');
               } else {
-                terminal.reset();
-                writeToTerm(build.contextVersions.models[0].build.log);
                 // we're all good
                 writeToTerm('Build completed, starting instance...');
               }
