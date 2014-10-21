@@ -21,33 +21,9 @@ section.sidebar.box-sidebar.setup
     show-guide = "true"
   )
 
-  section.row
-    h2.sub-header Docker Templates
-    //- remove .in if template is selected
-    .label-group(
-      ng-class = "{ in: dataSetup.actions.highlightTemplates }"
-      ng-click = "dataSetup.actions.highlightTemplates = false"
-    )
-      label.label-group-item(
-        ng-repeat = "context in dataSetup.data.seedContexts.models"
-      ) {{ context.attrs.name }}
-        input.radio(
-          name = "source-context"
-          ng-click = "dataSetup.actions.selectSourceContext(context)"
-          required
-          type = "radio"
-        )
-
-    //- show .guide if a template has not been selected
-    .guide.blue(
-      ng-click = "dataSetup.actions.highlightTemplates = true"
-      ng-if = "!dataSetup.data.contextSelected"
-    )
-      svg.iconnables.icons-docker
-        use(
-          xlink:href = "#icons-docker"
-        )
-      p Choose a template to generate your dockerfile.
+  runnable-docker-templates(
+    open-items = "dataSetup.data.openItems"
+  )
 
   section.row(
     ng-if = "dataSetup.data.validDockerfile.valid === false"
@@ -58,6 +34,45 @@ section.sidebar.box-sidebar.setup
         li.list-group-item(
           ng-repeat = "error in dataSetup.data.validDockerfile.errors"
         ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
+
+  //-
+    section.row
+      h2.sub-header Docker Templates
+      //- remove .in if template is selected
+      .label-group(
+        ng-class = "{ in: dataSetup.actions.highlightTemplates }"
+        ng-click = "dataSetup.actions.highlightTemplates = false"
+      )
+        label.label-group-item(
+          ng-repeat = "context in dataSetup.data.seedContexts.models"
+        ) {{ context.attrs.name }}
+          input.radio(
+            name = "source-context"
+            ng-click = "dataSetup.actions.selectSourceContext(context)"
+            required
+            type = "radio"
+          )
+
+      //- show .guide if a template has not been selected
+      .guide.blue(
+        ng-click = "dataSetup.actions.highlightTemplates = true"
+        ng-if = "!dataSetup.data.contextSelected"
+      )
+        svg.iconnables.icons-docker
+          use(
+            xlink:href = "#icons-docker"
+          )
+        p Choose a template to generate your dockerfile.
+
+    section.row(
+      ng-if = "dataSetup.data.validDockerfile.valid === false"
+    )
+      .sidebar-validation
+        h2.sub-header Dockerfile Validation Errors
+        ul.list-group
+          li.list-group-item(
+            ng-repeat = "error in dataSetup.data.validDockerfile.errors"
+          ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
 
 section.views.with-add-tab(
   ng-class = "{in: dataSetup.data.showExplorer && !dataSetup.data.loading}"

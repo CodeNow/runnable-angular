@@ -8,16 +8,18 @@ require('app')
  * @ngInject
  */
 function ControllerSetup(
+  addTab,
   $scope,
   $state,
+  $stateParams,
   async,
   keypather,
   hasKeypaths,
   OpenItems,
   debounce,
-  validateDockerfile,
-  addTab
+  validateDockerfile
 ) {
+
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerSetup;
@@ -25,7 +27,11 @@ function ControllerSetup(
   var data = dataSetup.data;
   var actions = dataSetup.actions;
 
+
+
   data.openItems = new OpenItems();
+
+
 
   data.popoverAddTab = addTab({
     envVars: true
@@ -163,7 +169,7 @@ function ControllerSetup(
       if (keypather.get(data, 'contextVersion.source') === data.sourceContextVersion.id()) {
         // nothing
       } else {
-        var sourceInfraCodeVersion = data.sourceContextVersion.attrs.infraCodeVersion;
+        var sourceInfraCodeVersion = data.sourceContextVersionbattrs.infraCodeVersion;
         data.contextVersion.copyFilesFromSource(
           sourceInfraCodeVersion,
           function (err) {
@@ -385,7 +391,7 @@ function ControllerSetup(
       $scope.safeApply();
     });
   };
-  actions.initState();
+  // actions.initState();
 }
 
 ControllerSetup.initState = function () {

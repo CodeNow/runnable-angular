@@ -76,7 +76,14 @@ function RunnableInstanceList (
       }
 
       function fetchInstances (cb) {
-        determineActiveAccount(function (activeAccount) {
+        async.waterfall([
+          determineActiveAccount,
+          function (activeAccount, cb) {
+          }
+        ]);
+        /*
+        determineActiveAccount(function (err, activeAccount) {
+          if (err) throw err;
           $scope.activeAccount = activeAccount;
           new QueryAssist($scope.user, cb)
             .wrapFunc('fetchInstances', cb)
@@ -94,6 +101,7 @@ function RunnableInstanceList (
             })
             .go();
         });
+        */
       }
 
       async.series([

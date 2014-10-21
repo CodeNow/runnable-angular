@@ -16,11 +16,11 @@ function determineActiveAccount (
 
     var _user, _orgs;
 
-    async.series([
+    async.waterfall([
       fetchUser,
       fetchOrgs,
       match
-    ]);
+    ], cb);
 
     function fetchUser (cb) {
       new QueryAssist(user, cb)
@@ -43,14 +43,15 @@ function determineActiveAccount (
       });
     }
 
-    function match () {
+    function match (cb) {
       if (!$state.params.userName || $state.params.userName === _user.oauthName()) {
-        return cb(null, _user);
+        cb(null, _user);
+        return;
       }
       var currentOrg = _orgs.find(hasKeypaths({
         'attrs.login.toLowerCase()': $state.params.userName.toLowerCase()
       }));
-      return cb(null, currentOrg);
+      cb(null, currentOrg);
     }
 
   };
