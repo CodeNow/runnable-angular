@@ -29,6 +29,8 @@ function RunnableSetupPrimaryActions (
 
       function goToInstance () {
         $state.go('instance.instance', {
+          // TODO: replace w/
+          // userName: $scope.instance.attrs.owner.username,
           userName: $scope.activeAccount.oauthName(),
           instanceName: $scope.instance.attrs.name
         });
