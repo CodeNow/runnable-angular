@@ -91,6 +91,7 @@ describe('directiveValidateName'.bold.underline.blue, function() {
   it('should allow an empty string', function() {
     form.instanceName.$setViewValue('newName');
     form.instanceName.$setViewValue('');
+    $scope.$digest();
     expect(form.$dirty).to.be.true;
     expect(form.instanceName.$valid).to.be.true;
   });
