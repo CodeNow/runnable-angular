@@ -95,6 +95,7 @@ function RunnableAccountsSelect (
         function (activeAccount, cb) {
           $scope.activeAccount = activeAccount;
           $rootScope.safeApply();
+          cb();
         },
         fetchUser,
         fetchOrgs
