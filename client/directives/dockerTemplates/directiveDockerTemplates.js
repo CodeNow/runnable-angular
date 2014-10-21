@@ -112,13 +112,13 @@ function RunnableDockerTemplates (
               cb(new Error('build already built'));
             } else {
               $scope.build = build;
-              $scope.safeApply();
+              $rootScope.safeApply();
               cb();
             }
           })
           .resolve(function (err, build, cb) {
             if (err) throw err;
-            $scope.safeApply();
+            $rootScope.safeApply();
             cb();
           })
           .go();
