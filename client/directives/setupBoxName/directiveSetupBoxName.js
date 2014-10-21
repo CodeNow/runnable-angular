@@ -22,7 +22,6 @@ function RunnableSetupBoxName (
     link: function ($scope, elem, attrs) {
 
       $scope.newInstanceName = '';
-      keypather.set($scope, '', false);
 
       $scope.$watch('newInstanceNameForm.$valid', function () {
         $scope.valid = arguments[0];

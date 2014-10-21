@@ -2,9 +2,9 @@
   //- remove .orange, add .green when validation passes
   button(
     ng-class = "{ \
-      orange: !newForm.$valid, \
-      green: newForm.$valid \
+      orange: (!valid || !name), \
+      green: (valid && name) \
     }"
     ng-click = "buildAndAttach()"
-    ng-disabled = "loading || !valid"
+    ng-disabled = "loading || !valid || !name"
   ) Create Box
