@@ -87,12 +87,6 @@ function RunnableDockerTemplates (
         ]);
       };
 
-      function stateToNew () {
-        $state.go('instance.new', {
-          userName: $scope.activeAccount.oauthId()
-        });
-      }
-
       function fetchUser (cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
@@ -114,16 +108,9 @@ function RunnableDockerTemplates (
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
-            if (keypather.get(build, 'attrs.started')) {
-              // this build has been built.
-              // redirect to new?
-              stateToNew();
-              cb(new Error('build already built'));
-            } else {
-              $scope.build = build;
-              $rootScope.safeApply();
-              cb();
-            }
+            $scope.build = build;
+            $rootScope.safeApply();
+            cb();
           })
           .resolve(function (err, build, cb) {
             if (err) throw err;

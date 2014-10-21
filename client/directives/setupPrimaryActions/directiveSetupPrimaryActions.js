@@ -8,6 +8,7 @@ function RunnableSetupPrimaryActions (
   determineActiveAccount,
   QueryAssist,
   $rootScope,
+  $stateParams,
   user
 ) {
   return {
@@ -69,6 +70,23 @@ function RunnableSetupPrimaryActions (
           .go();
       }
 
+      function fetchBuild (cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchBuild')
+          .query($stateParams.buildId)
+          .cacheFetch(function (build, cached, cb) {
+            $scope.build = build;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, build, cb) {
+            if (err) throw err;
+            $rootScope.safeApply();
+            cb();
+          })
+          .go();
+      }
+
       async.waterfall([
         determineActiveAccount,
         function (activeAccount, cb) {
@@ -76,7 +94,8 @@ function RunnableSetupPrimaryActions (
           $rootScope.safeApply();
           cb();
         },
-        fetchUser
+        fetchUser,
+        fetchBuild
       ]);
 
     }

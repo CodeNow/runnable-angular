@@ -525,7 +525,7 @@ function ControllerInstance(
     $scope.$watch('dataInstance.data.container.running()', updateTabs, true);
     cb();
   }
-
+/*
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
@@ -539,7 +539,7 @@ function ControllerInstance(
     }
     $scope.safeApply();
   });
-
+*/
   // Manually cancel the interval
   $scope.$on('$destroy', function () {
     $interval.cancel(instanceFetchInterval);
