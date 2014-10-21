@@ -8,6 +8,7 @@ function RunnableSetupPrimaryActions (
   determineActiveAccount,
   QueryAssist,
   $rootScope,
+  $state,
   $stateParams,
   user
 ) {
@@ -26,7 +27,11 @@ function RunnableSetupPrimaryActions (
       function updateInstancesCollection () {
       }
 
-      function goToBuild () {
+      function goToInstance () {
+        $state.go('instance.instance', {
+          userName: $scope.activeAccount.oauthName(),
+          instanceName: $scope.instance.attrs.name
+        });
       }
 
       $scope.buildAndAttach = function () {
@@ -37,7 +42,7 @@ function RunnableSetupPrimaryActions (
           }, cb);
         }
         function attach (cb) {
-          var instance = $scope.user.createInstance({
+          $scope.instance = $scope.user.createInstance({
             owner: {
               github: $scope.activeAccount.oauthId()
             },
@@ -52,7 +57,7 @@ function RunnableSetupPrimaryActions (
           if (err) throw err;
           $scope.loading = false;
           updateInstancesCollection();
-          goToBuild();
+          goToInstance();
         });
       };
 
