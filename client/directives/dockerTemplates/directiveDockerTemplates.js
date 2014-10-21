@@ -30,6 +30,55 @@ function RunnableDockerTemplates (
         $scope.openItems.reset([]);
         $scope.selectedSourceContext = context;
 
+        function fetchContextVersion (cb) {
+          var context = $scope.selectedSourceContext;
+          new QueryAssist(context, cb)
+            .wrapFunc('fetchVersions')
+            .cacheFetch(function (versions, cached, cb) {
+              $scope.versions = versions;
+              $rootScope.safeApply();
+              cb();
+            })
+            .resolve(function (err, versions, cb) {
+              if (err) throw err;
+              $rootScope.safeApply();
+              cb(err);
+            })
+            .go();
+        }
+
+        function copyFilesFromSource (cb) {
+          var sourceInfraCodeVersion = $scope.versions.models[0].attrs.infraCodeVersion;
+          var contextVersion = $scope.build.contextVersions.models[0];
+          var sourceContextVersion = $scope.versions.models[0];
+          contextVersion.copyFilesFromSource(sourceInfraCodeVersion, function (err) {
+            if (err) throw err;
+            contextVersion.source = sourceContextVersion.id();
+            cb();
+          });
+        }
+
+        function fetchContextVersionFiles (cb) {
+          var contextVersion = $scope.build.contextVersions.models[0];
+          new QueryAssist(contextVersion, cb)
+            .wrapFunc('fetchFsList')
+            .query({
+              path: '/'
+            })
+            .cacheFetch(function updateDom(files, cached, cb) {
+              $scope.openItems.add(files.models);
+              $rootScope.safeApply();
+              cb();
+            })
+            .resolve(function (err, files, cb) {
+              if (err) throw err;
+              $scope.openItems.add(files.models);
+              $rootScope.safeApply();
+              cb();
+            })
+            .go();
+        }
+
         async.series([
           fetchContextVersion,
           copyFilesFromSource,
@@ -42,47 +91,6 @@ function RunnableDockerTemplates (
           userName: $scope.activeAccount.oauthId()
         });
       }
-
-      function fetchContextVersion (context, cb) {
-        new QueryAssist(context, cb)
-          .wrapFunc('fetchVersions')
-          .cacheFetch(function (versions, cached, cb) {
-            $scope.versions = versions;
-            $scope.safeApply();
-            cb();
-          })
-          .resolve(function (err, versions, cb) {
-            if (err) throw err;
-            $scope.safeApply();
-            cb(err);
-          })
-          .go();
-      }
-
-      function copyFilesFromSource (cb) {
-      }
-
-      function fetchContextVersionFiles (contextVersion, cb) {
-        new QueryAssist(contextVersion, cb)
-          .wrapFunc('fetchFsList')
-          .query({
-            path: '/'
-          })
-          .cacheFetch(function updateDom(files, cached, cb) {
-            $scope.safeApply();
-            cb();
-          })
-          .resolve(function (err, files, cb) {
-            if (err) throw err;
-            $scope.openItems.add(files.models);
-            $scope.safeApply();
-            cb();
-          })
-          .go();
-      }
-
-
-
 
       function fetchUser (cb) {
         new QueryAssist(user, cb)
