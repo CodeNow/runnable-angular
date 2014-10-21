@@ -219,6 +219,7 @@ function ControllerSetup(
   };
 
 */
+/*
   actions.valid = function (strict) {
     var valid = !keypather.get(data, 'newProjectNameForm.$invalid') && data.contextSelected;
     if (strict) {
@@ -226,6 +227,7 @@ function ControllerSetup(
     }
     return valid;
   };
+*/
 /*
   actions.stateToBuild = function () {
     data.creatingProject = true;
@@ -235,6 +237,7 @@ function ControllerSetup(
     });
   };
 */
+/*
   var debounceValidate = debounce(function (n) {
     if (typeof n === 'undefined') {
       return;
@@ -247,7 +250,7 @@ function ControllerSetup(
   }, 333);
 
   $scope.$watch('dataSetup.data.openItems.activeHistory.last().attrs.body', debounceValidate);
-
+*/
   /* ============================
    *   API Fetch Methods
    * ===========================*/

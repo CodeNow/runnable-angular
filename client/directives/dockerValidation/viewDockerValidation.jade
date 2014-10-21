@@ -1,11 +1,11 @@
 section.row(
-  ng-if = "dataSetup.data.validDockerfile.valid === false"
+  ng-if = "validDockerfile.valid === false"
 )
   .sidebar-validation
     h2.sub-header Dockerfile Validation Errors
     ul.list-group
       li.list-group-item(
-        ng-repeat = "error in dataSetup.data.validDockerfile.errors"
+        ng-repeat = "error in validDockerfile.errors"
       ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
 
 
