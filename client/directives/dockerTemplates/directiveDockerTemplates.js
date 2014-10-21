@@ -66,6 +66,7 @@ function RunnableDockerTemplates (
               path: '/'
             })
             .cacheFetch(function updateDom(files, cached, cb) {
+              if (cached) return; // cached response contains old files
               $scope.openItems.add(files.models);
               $rootScope.safeApply();
               cb();

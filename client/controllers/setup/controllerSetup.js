@@ -17,17 +17,16 @@ function ControllerSetup(
   hasKeypaths,
   OpenItems,
   debounce,
-  validateDockerfile
+  validateDockerfile,
+  QueryAssist
 ) {
 
-  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var QueryAssist = $scope.UTIL.QueryAssist;
-  var self = ControllerSetup;
-  var dataSetup = $scope.dataSetup = self.initState();
+  var dataSetup = $scope.dataSetup = {
+    data: {},
+    actions: {}
+  };
   var data = dataSetup.data;
   var actions = dataSetup.actions;
-
-
 
   data.openItems = new OpenItems();
 
@@ -150,9 +149,7 @@ function ControllerSetup(
     }
   };
 
-  /**
-   * set active context && fetch build files for display
-   */
+/*
   actions.selectSourceContext = function (context) {
     if (keypather.get(data, 'sourceContextVersion.attrs.context') === context.id()) {
       // They selected the same template
@@ -221,6 +218,7 @@ function ControllerSetup(
     });
   };
 
+*/
   actions.valid = function (strict) {
     var valid = !keypather.get(data, 'newProjectNameForm.$invalid') && data.contextSelected;
     if (strict) {
@@ -228,7 +226,7 @@ function ControllerSetup(
     }
     return valid;
   };
-
+/*
   actions.stateToBuild = function () {
     data.creatingProject = true;
     $state.go('instance.instance', {
@@ -236,7 +234,7 @@ function ControllerSetup(
       instanceName: data.instance.attrs.name
     });
   };
-
+*/
   var debounceValidate = debounce(function (n) {
     if (typeof n === 'undefined') {
       return;
@@ -253,8 +251,7 @@ function ControllerSetup(
   /* ============================
    *   API Fetch Methods
    * ===========================*/
-
-   /*** INIT ***/
+/*
   function fetchBuild(cb) {
     var thisUser = $scope.dataApp.user;
     var id = $state.params.buildId;
@@ -304,8 +301,6 @@ function ControllerSetup(
       })
       .go();
   }
-
-  /*** AFTER PAGE INIT ***/
 
   function fetchContext(cb) {
     var build = data.build;
@@ -378,7 +373,7 @@ function ControllerSetup(
 
   actions.initState = function () {
     async.waterfall([
-      holdUntilAuth,
+      // holdUntilAuth,
       fetchSeedContexts,
       fetchBuild
     ], function (err) {
@@ -392,15 +387,5 @@ function ControllerSetup(
     });
   };
   // actions.initState();
+*/
 }
-
-ControllerSetup.initState = function () {
-  return {
-    data: {
-      isAdvanced: false,
-      isRepoMode: false,
-      fetchingContext: false
-    },
-    actions: {}
-  };
-};

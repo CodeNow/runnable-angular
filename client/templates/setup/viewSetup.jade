@@ -5,6 +5,7 @@ header.box-header
     name = "dataSetup.data.newInstanceName"
     valid = "dataSetup.data.isValid"
   )
+
   runnable-setup-primary-actions(
     build   = "dataSetup.data.build"
     loading = "dataApp.data.loading"
@@ -25,15 +26,9 @@ section.sidebar.box-sidebar.setup
     open-items = "dataSetup.data.openItems"
   )
 
-  section.row(
-    ng-if = "dataSetup.data.validDockerfile.valid === false"
+  runnable-docker-validation(
+    open-items = "dataSetup.data.openItems"
   )
-    .sidebar-validation
-      h2.sub-header Dockerfile Validation Errors
-      ul.list-group
-        li.list-group-item(
-          ng-repeat = "error in dataSetup.data.validDockerfile.errors"
-        ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
 
 section.views.with-add-tab(
   ng-class = "{in: dataSetup.data.showExplorer && !dataSetup.data.loading}"
