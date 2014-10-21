@@ -42,24 +42,31 @@ function RunnableSetupBoxName (
       }
 
       function fetchInstances (cb) {
-        determineActiveAccount(function (activeAccount) {
-          $scope.activeAccount = activeAccount;
-          new QueryAssist($scope.user, cb)
-            .wrapFunc('fetchInstances', cb)
-            .query({
-              owner: {
-                github: $scope.activeAccount.oauthId()
-              }
-            })
-            .cacheFetch(function (instances, cached, cb) {
-              $scope.instances = instances;
-              $rootScope.safeApply();
-              cb();
-            })
-            .resolve(function (err, projects, cb) {
-            })
-            .go();
-        });
+        async.waterfall([
+          determineActiveAccount,
+          function (activeAccount, cb) {
+            $scope.activeAccount = activeAccount;
+            $rootScope.safeApply();
+            cb();
+          },
+          function (cb) {
+            new QueryAssist($scope.user, cb)
+              .wrapFunc('fetchInstances', cb)
+              .query({
+                owner: {
+                  github: $scope.activeAccount.oauthId()
+                }
+              })
+              .cacheFetch(function (instances, cached, cb) {
+                $scope.instances = instances;
+                $rootScope.safeApply();
+                cb();
+              })
+              .resolve(function (err, projects, cb) {
+              })
+              .go();
+          }
+        ]);
       }
 
       async.series([

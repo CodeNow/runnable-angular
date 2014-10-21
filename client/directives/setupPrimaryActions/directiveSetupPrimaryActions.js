@@ -55,12 +55,6 @@ function RunnableSetupPrimaryActions (
         });
       };
 
-      determineActiveAccount(function (err, activeAccount) {
-        if (err) throw err;
-        $scope.activeAccount = activeAccount;
-        $rootScope.safeApply();
-      });
-
       function fetchUser (cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
@@ -76,6 +70,12 @@ function RunnableSetupPrimaryActions (
       }
 
       async.series([
+        determineActiveAccount,
+        function (activeAccount, cb) {
+          $scope.activeAccount = activeAccount;
+          $rootScope.safeApply();
+          cb();
+        },
         fetchUser
       ]);
 

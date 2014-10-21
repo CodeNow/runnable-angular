@@ -18,6 +18,11 @@ function RunnableAccountsSelect (
     scope: {},
     link: function ($scope, elem, attrs) {
 
+      // outside click, close list
+      $scope.$on('app-document-click', function () {
+        $scope.isChangeAccount = false;
+      });
+
       // control collapse/expand accounts list
       $scope.isChangeAccount = false;
 
@@ -63,11 +68,6 @@ function RunnableAccountsSelect (
           .go();
       };
 
-      determineActiveAccount(function (err, activeAccount) {
-        $scope.activeAccount = activeAccount;
-        $rootScope.safeApply();
-      });
-
       function fetchUser (cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
@@ -89,15 +89,15 @@ function RunnableAccountsSelect (
         });
       }
 
-      async.series([
+      async.waterfall([
+        determineActiveAccount,
+        function (activeAccount, cb) {
+          $scope.activeAccount = activeAccount;
+          $rootScope.safeApply();
+        },
         fetchUser,
         fetchOrgs
       ]);
-
-      // outside click, close list
-      $scope.$on('app-document-click', function () {
-        $scope.isChangeAccount = false;
-      });
 
     }
   };

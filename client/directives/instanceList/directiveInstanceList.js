@@ -79,29 +79,24 @@ function RunnableInstanceList (
         async.waterfall([
           determineActiveAccount,
           function (activeAccount, cb) {
+            $scope.activeAccount = activeAccount;
+            new QueryAssist($scope.user, cb)
+              .wrapFunc('fetchInstances', cb)
+              .query({
+                owner: {
+                  github: $scope.activeAccount.oauthId()
+                }
+              })
+              .cacheFetch(function (instances, cached, cb) {
+                $scope.instances = instances;
+                $rootScope.safeApply();
+                cb();
+              })
+              .resolve(function (err, projects, cb) {
+              })
+              .go();
           }
         ]);
-        /*
-        determineActiveAccount(function (err, activeAccount) {
-          if (err) throw err;
-          $scope.activeAccount = activeAccount;
-          new QueryAssist($scope.user, cb)
-            .wrapFunc('fetchInstances', cb)
-            .query({
-              owner: {
-                github: $scope.activeAccount.oauthId()
-              }
-            })
-            .cacheFetch(function (instances, cached, cb) {
-              $scope.instances = instances;
-              $rootScope.safeApply();
-              cb();
-            })
-            .resolve(function (err, projects, cb) {
-            })
-            .go();
-        });
-        */
       }
 
       async.series([

@@ -142,20 +142,20 @@ function RunnableDockerTemplates (
           .go();
       }
 
-      determineActiveAccount(function(err, activeAccount) {
-        if (err) throw err;
-        $scope.activeAccount = activeAccount;
-        $rootScope.safeApply();
-        async.series([
-          fetchUser,
-          function (cb) {
-            async.parallel([
-              fetchBuild,
-              fetchSeedContexts
-            ], cb);
-          }
-        ]);
-      });
+      async.waterfall([
+        determineActiveAccount,
+        function (activeAccount, cb) {
+          $scope.activeAccount = activeAccount;
+          cb();
+        },
+        fetchUser,
+        function (cb) {
+          async.parallel([
+            fetchBuild,
+            fetchSeedContexts
+          ], cb);
+        }
+      ]);
 
     }
   };
