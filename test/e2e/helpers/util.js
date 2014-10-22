@@ -43,6 +43,7 @@ util.hasClass = function(elem, klass) {
 util.regex = {};
 
 util.regex.shortHash = '[a-z0-9]{6}';
+util.regex.instanceName = '[A-z0-9_-]+';
 util.regex.objectId = '[0-9a-fA-F]{24}';
 
 module.exports = util;

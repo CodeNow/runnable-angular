@@ -32,6 +32,6 @@ function InstancePage (name) {
   };
 }
 
-InstancePage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/[A-z0-9_-]+'));
+InstancePage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/' + util.regex.instanceName));
 
 module.exports = InstancePage;
