@@ -57,7 +57,8 @@ nav.sidebar.global-sidebar(
       a.btn.btn-sm.white.sub-header-action(
         href = "/new"
         ng-click = "dataInstanceLayout.actions.stateToNew()"
-        title = "Create a New Box"
+        tooltip = "New Box"
+        tooltip-options = "{\"class\":\"bottom\",\"left\":6,\"top\":30}"
       )
         svg.iconnables.icons-add
           use(
