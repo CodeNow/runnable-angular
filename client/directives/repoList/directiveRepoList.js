@@ -38,6 +38,45 @@ function RunnableRepoList (
       $scope.showUpdateButton = false;
       $scope.showAddRepoPopover = false;
 
+      function initInstanceNew () {
+        async.series([
+          fetchUser,
+          fetchBuild
+        ]);
+      }
+
+      function fetchUser (cb) {
+        new QueryAssist(user, cb)
+          .wrapFunc('fetchUser')
+          .query('me')
+          .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, user, cb) {
+          })
+          .go();
+      }
+
+      function fetchBuild (cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchBuild')
+          .query($stateParams.buildId)
+          .cacheFetch(function (build, cached, cb) {
+            $scope.build = build;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, build, cb) {
+            if (err) throw err;
+            $rootScope.safeApply();
+            cb();
+          })
+          .go();
+      }
+
+      /*
       $scope.selectLatestCommit = function (acv) {
         var activeBranch = acv.githubRepo.state.activeBranch;
         // fetch latest
@@ -136,52 +175,14 @@ function RunnableRepoList (
           $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
         }
       };
-
-      function initInstanceNew () {
-        async.series([
-          fetchUser,
-          fetchBuild
-        ]);
-      }
-
-      function fetchUser (cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {
-          })
-          .go();
-      }
-
-      function fetchBuild (cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) throw err;
-            $rootScope.safeApply();
-            cb();
-          })
-          .go();
-      }
+      */
 
 
 
 
 
 
-
-
+/*
       var data = $scope.data = {};
 
       data.popoverRepoActions  = {
@@ -641,7 +642,7 @@ function RunnableRepoList (
           });
         }
       });
-
+*/
     }
   };
 }

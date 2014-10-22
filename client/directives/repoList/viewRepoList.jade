@@ -1,7 +1,7 @@
 section.row.repo-list
   h2.sub-header Repositories
 
-    runnable-update-instance-repos
+    runnable-button-update-instance-repos
     //-
       //- update / build button
       a.btn.btn-xs.orange.sub-header-action(
@@ -59,24 +59,28 @@ section.row.repo-list
         )
       h3.repository-title {{ acv.attrs.repo }}
 
-      //- if not editing and behind latest
-      button.btn-xs.white.repository-update(
-        ng-click = "selectLatestCommit(acv)"
-        ng-if = "!edit && acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
-        tooltip = "Fast-forward {{ acv.githubRepo.state.activeBranch.attrs.name }} \
-                   ({{ acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? \
-                     acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' commits behind' : \
-                     'To latest' }})"
-        tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-      ) {{ acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}
-        svg.iconnables.icons-update
-          use(
-            xlink:href = "#icons-update"
-          )
+      runnable-button-fast-forward-repo
+      //-
+        //- if not editing and behind latest
+        button.btn-xs.white.repository-update(
+          ng-click = "selectLatestCommit(acv)"
+          ng-if = "!edit && acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
+          tooltip = "Fast-forward {{ acv.githubRepo.state.activeBranch.attrs.name }} \
+                     ({{ acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? \
+                       acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' commits behind' : \
+                       'To latest' }})"
+          tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
+        ) {{ acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}
+          svg.iconnables.icons-update
+            use(
+              xlink:href = "#icons-update"
+            )
 
       //- if editing
       button.btn-xs.white.repository-actions(
-        ng-class = "{ active: state.repoData.show }"
+        ng-class = "{ \
+          active: state.repoData.show \
+        }"
         toggle-pop-over
         toggle-pop-over-model = "state.repoData.show"
         type = "button"
