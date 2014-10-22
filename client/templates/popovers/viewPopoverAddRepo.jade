@@ -1,18 +1,22 @@
 .popover.bottom.popover-add-repo(
   ng-class = "{ \
-    'in': data.show, \
+    in: data.show, \
     'show-add-repo': showAddRepo \
   }"
 )
   .arrow
   h3.popover-title(
-    ng-class = "{'show-filter': data.state.toggleFilter}"
+    ng-class = "{ \
+      'show-filter': data.state.toggleFilter \
+    }"
   )
     //- should clear on close
     button.white.btn-icon.btn-search(
       ng-click = "data.state.toggleFilter = !data.state.toggleFilter; \
-        data.state.repoFilter = '';"
-      ng-class = "{'active': data.state.toggleFilter}"
+                  data.state.repoFilter = '';"
+      ng-class = "{ \
+        active: data.state.toggleFilter \
+      }"
       title = "Filter Repositories"
     )
       svg.iconnables.icons-search
@@ -32,8 +36,8 @@
       li.popover-list-item(
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "repo in data.githubRepos.models | \
-          unaddedRepos:data.version.appCodeVersions | \
-          repos:data.state.repoFilter"
+                     unaddedRepos:data.version.appCodeVersions | \
+                     repos:data.state.repoFilter"
         title = "{{ repo.attrs.full_name }}"
       )
         span {{ repo.attrs.full_name }}

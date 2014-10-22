@@ -38,6 +38,11 @@ function repoList (
           break;
       }
 
+      // display guide if no repos added
+      $scope.showGuide = true;
+      $scope.showUpdateButton = false;
+      $scope.showAddRepoPopover = false;
+
       $scope.selectLatestCommit = function (acv) {
         var activeBranch = acv.githubRepo.state.activeBranch;
         // fetch latest
@@ -136,10 +141,6 @@ function repoList (
           $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
         }
       };
-
-      // display guide if no repos added
-      $scope.showGuide = true;
-      $scope.showUpdateButton = false;
 
       function initInstanceNew () {
         async.series([
