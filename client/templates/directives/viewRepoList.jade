@@ -2,8 +2,8 @@ section.row.repo-list
   h2.sub-header Repositories
     //- update / build button
     a.btn.btn-xs.orange.sub-header-action(
-      ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
-      ng-if = "data.showUpdateButton"
+      ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
+      ng-if = "showUpdateButton"
       tooltip = "Update your box to see your changes"
       tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
     ) Update
@@ -11,6 +11,7 @@ section.row.repo-list
         use(
           xlink:href = "#icons-update"
         )
+
     //- add repo button
     a.btn.btn-sm.white.sub-header-action.btn-add-repo(
       ng-class = "{active: data.show}"
@@ -26,7 +27,7 @@ section.row.repo-list
       pop-over(
         actions = "actions"
         data = "data"
-        template = "viewInstanceEditPopoverAddRepo"
+        template = "viewPopoverAddRepo"
       )
 
   //- show .guide if /new && no repositories have been added yet
@@ -43,12 +44,7 @@ section.row.repo-list
 
   ul.repository-group
     li.repository-group-item(
-      ng-repeat = "acv in data.version.appCodeVersions.models"
-      ng-init = " \
-        githubRepo = acv.githubRepo; \
-        state = {}; \
-        state.repoData = { acv: acv }; \
-      "
+      ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
     )
       svg.iconnables.icons-git
         use(
@@ -58,11 +54,14 @@ section.row.repo-list
 
       //- if not editing and behind latest
       button.btn-xs.white.repository-update(
-        ng-click = "actions.selectLatestCommit(acv)"
-        ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
-        tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' commits behind' : 'To latest' }})"
+        ng-click = "selectLatestCommit(acv)"
+        ng-if = "!edit && acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
+        tooltip = "Fast-forward {{ acv.githubRepo.state.activeBranch.attrs.name }} \
+                   ({{ acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? \
+                     acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' commits behind' : \
+                     'To latest' }})"
         tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-      ) {{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}
+      ) {{ acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}
         svg.iconnables.icons-update
           use(
             xlink:href = "#icons-update"
@@ -89,25 +88,25 @@ section.row.repo-list
       //- add .pending for orange
       .commit.load(
         ng-class = "{ \
-          pending: githubRepo.state.activeBranch.state.activeCommit && (acv.attrs.commit !== githubRepo.state.activeBranch.state.activeCommit.attrs.sha) \
+          pending: acv.githubRepo.state.activeBranch.state.activeCommit && (acv.attrs.commit !== acv.githubRepo.state.activeBranch.state.activeCommit.attrs.sha) \
         }"
         ng-click = " \
           acv.state.toggleFilter = false; \
           acv.state.commitFilter = ''; \
-          githubRepo.state.selectedBranch = githubRepo.state.activeBranch; \
+          acv.githubRepo.state.selectedBranch = acv.githubRepo.state.activeBranch; \
           actions.fetchBranchesForRepo(acv.githubRepo); \
           actions.fetchCommitsForBranch(acv, githubRepo.state.activeBranch); \
         "
         toggle-pop-over
         toggle-pop-over-model = "acv.state.show"
       )
-        .commit-message {{ githubRepo.state.activeBranch.state.activeCommit.attrs.commit.message }}
+        .commit-message {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.commit.message }}
         svg.iconnables.icons-commit
           use(
             xlink:href = "#icons-commit"
           )
-        span.commit-author {{ githubRepo.state.activeBranch.state.activeCommit.attrs.author.login }}
-        time.commit-time {{ githubRepo.state.activeBranch.state.activeCommit.attrs.commit.author.date | timeAgo }}
+        span.commit-author {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.author.login }}
+        time.commit-time {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.commit.author.date | timeAgo }}
       pop-over(
         actions = "actions"
         data = "acv"

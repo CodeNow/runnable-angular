@@ -26,20 +26,120 @@ function repoList (
     replace: true,
     link: function ($scope, elem) {
 
-      // display guide if no repos added
-      $scope.showGuide = true;
-
       // fetch appCodeVersions (repos) for display
       switch ($state.$current.name) {
         case 'instance.instance':
           break;
         case 'instance.edit':
           break;
-        case 'instance.new':
+        case 'instance.setup':
           // fetch build
           initInstanceNew();
           break;
       }
+
+      $scope.selectLatestCommit = function (acv) {
+        var activeBranch = acv.githubRepo.state.activeBranch;
+        // fetch latest
+        fetchCommitsForBranch(acv, activeBranch, function (err) {
+          if (err) throw err;
+          var latestCommit = activeBranch.commits.models[0];
+          setActiveCommit(acv, activeBranch, latestCommit);
+          $scope.triggerInstanceUpdateOnRepoCommitChange();
+        });
+      };
+
+      $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
+        $rootScope.dataApp.data.loading = true;
+        var context              = $scope.build.contexts.models[0];
+        var contextVersion       = $scope.build.contextVersions.models[0];
+        var infraCodeVersionId   = contextVersion.attrs.infraCodeVersion;
+        // fetches current state of repos listed in DOM w/ selected commits
+        var appCodeVersionStates = contextVersion.appCodeVersions.models.map(function (acv) {
+          var githubRepo = acv.githubRepo;
+          var activeBranch = githubRepo.state.activeBranch;
+          var activeCommit = activeBranch.state.activeCommit;
+          return {
+            repo:   acv.attrs.repo,
+            branch: activeBranch.attrs.name,
+            commit: activeCommit.attrs.sha
+          };
+        });
+        async.waterfall([
+          findOrCreateContextVersion,
+          createBuild,
+          buildBuild,
+          updateInstanceWithBuild,
+          reloadController
+        ], function (err) {
+          if (err) {
+            // reset appCodeVersions state
+            data.version.appCodeVersions.models.forEach(function (acv) {
+              resetAppCodeVersionState(acv);
+            });
+            $rootScope.safeApply();
+          }
+          $rootScope.dataApp.data.loading = false;
+          $state.go('instance.instance');
+        });
+        // if we find this contextVersion, reuse it.
+        // otherwise create a new one
+        function findOrCreateContextVersion (cb) {
+          var foundCVs = context.fetchVersions({
+            infraCodeVersion: infraCodeVersionId,
+            appCodeVersions: appCodeVersionStates
+          }, function (err) {
+            if (err) {
+              return cb(err);
+            }
+            if (foundCVs.models.length) {
+              return cb(null, foundCVs.models[0]);
+            }
+            var body = {
+              infraCodeVersion: infraCodeVersionId
+            };
+            var newContextVersion = context.createVersion(body, function (err) {
+              async.each(appCodeVersionStates, function (acvState, cb) {
+                newContextVersion.appCodeVersions.create(acvState, cb);
+              }, function (err) {
+                cb(err, newContextVersion);
+              });
+            });
+          });
+        }
+        function createBuild (contextVersion, cb) {
+          var build = $rootScope.dataApp.user.createBuild({
+            contextVersions: [contextVersion.id()],
+            owner: $scope.instance.attrs.owner
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+        function buildBuild (build, cb) {
+          build.build({
+            message: 'Update application code version(s)' // TODO: better message
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+        function updateInstanceWithBuild (build, cb) {
+          $scope.instance.update({
+            build: build.id()
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+        function reloadController (build, cb) {
+          cb();
+          var current = $state.current;
+          var params = angular.copy($stateParams);
+          $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
+        }
+      };
+
+      // display guide if no repos added
+      $scope.showGuide = true;
+      $scope.showUpdateButton = false;
 
       function initInstanceNew () {
         async.series([
@@ -78,6 +178,11 @@ function repoList (
           })
           .go();
       }
+
+
+
+
+
 
 
 
