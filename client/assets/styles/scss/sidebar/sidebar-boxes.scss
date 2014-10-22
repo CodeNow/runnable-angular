@@ -36,7 +36,7 @@
   line-height: 1;
   margin: 0 auto 6px;
   overflow: hidden;
-  padding: 6px 23px 0 9px;
+  padding: 8px 23px 0 9px;
   position: relative;
   text-overflow: ellipsis;
   transition: all .15s ease-in;
@@ -54,7 +54,7 @@
     padding-bottom: 3px;
 
     .box-item-name {
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
   }
 
@@ -72,7 +72,7 @@
 // a.box-item-name
 .box-item-name {
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   transition: opacity .2s ease-in;
 }
@@ -85,7 +85,7 @@
 // a.box-item-clustered
 .box-item-clustered {
   display: block;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 21px;
 
   &:hover {
