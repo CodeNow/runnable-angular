@@ -24,11 +24,7 @@ function term(
         }
         // Numbers chosen erring on the side of padding, will be updated with more accurate numbers later
         var params = $scope.params;
-
-        // Initalize link to server
-        var streams = primus.createTermStreams(params);
-        var termStream = streams.termStream;
-        var clientEvents = streams.eventStream;
+        var streams, termStream, clientEvents;
 
         // Initalize Terminal
         var terminal = new Terminal({
@@ -41,23 +37,38 @@ function term(
         terminal.open(elem[0]);
         var $termElem = jQuery(terminal.element);
 
-        // Client enters data into the system, which registers as data event on terminal
-        // terminal then writes that to termStream, sending the data to the server
-        // The server then responds (tab-complete, command output, etc)
-        // The *response data* is what's eventually written to terminal.
-        terminal.on('data', termStream.write.bind(termStream));
-        termStream.on('data', terminal.write.bind(terminal));
+        function createSubstreams(reconnect) {
+          if (reconnect) {
+            terminal.removeAllListeners('data');
+            termStream.removeAllListeners('data');
+          }
+          // Initalize link to server
+          streams = primus.createTermStreams(params);
+          termStream = streams.termStream;
+          clientEvents = streams.eventStream;
 
-        termStream.on('reconnect', function () {
+          // Client enters data into the system, which registers as data event on terminal
+          // terminal then writes that to termStream, sending the data to the server
+          // The server then responds (tab-complete, command output, etc)
+          // The *response data* is what's eventually written to terminal.
+          terminal.on('data', termStream.write.bind(termStream));
+          termStream.on('data', terminal.write.bind(terminal));
+        }
+
+        createSubstreams();
+        function regainedMessage() {
+          createSubstreams(true);
           terminal.writeln('');
           terminal.writeln('Connection regained.  Thank you for your patience');
-        });
-        termStream.on('offline', function () {
+        }
+        primus.on('reconnect', regainedMessage);
+        function offlineMessage() {
           terminal.writeln('');
           terminal.writeln('******************************');
           terminal.writeln('* LOST CONNECTION - retrying *');
           terminal.writeln('******************************');
-        });
+        }
+        primus.on('offline', offlineMessage);
 
         function resizeTerm() {
           // Tab not selected
@@ -93,6 +104,12 @@ function term(
         $scope.$on('$destroy', function () {
           termStream.end();
           terminal.destroy();
+          terminal.removeAllListeners('data');
+          termStream.removeAllListeners('data');
+          terminal.removeAllListeners('end');
+          termStream.removeAllListeners('end');
+          primus.off('reconnect', regainedMessage);
+          primus.off('offline', offlineMessage);
           jQuery($window).off('resize', dResizeTerm);
         });
       });

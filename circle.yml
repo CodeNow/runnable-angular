@@ -4,18 +4,17 @@ dependencies:
     - npm install -g karma-cli
     - npm install -g jade
     - npm install
-    - npm uninstall karma-browserifast
-    - npm install karma-browserify@0.2.1
     - grunt jade2js
     - grunt jshint:prod
     - grunt autoBundleDependencies
     - grunt generateConfigs
     - grunt browserify:once
+    - npm uninstall karma-browserify
   cache_directories:
     - ~/nvm
 machine:
   node:
-    version: v0.10.30
+    version: v0.10.32
 test:
   override:
-    - karma start ./test/karma.circle.conf.js --single-run
+    - karma start ./test/karma.circle.conf.js
