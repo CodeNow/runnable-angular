@@ -121,7 +121,12 @@
 
 // button.green.btn-save
 .btn-save {
-  margin-right: 3px;
+  border-right-color: rgba($green,.15);
+}
+
+// button.green.btn-icon.btn-icon-sm.btn-save-options
+.btn-save-options {
+  border-left-color: rgba($green,.15);
 }
 
 // .spinner.save-spinner
