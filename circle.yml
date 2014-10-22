@@ -14,7 +14,7 @@ dependencies:
     - ~/nvm
 machine:
   node:
-    version: v0.10.30
+    version: v0.10.32
 test:
   override:
     - karma start ./test/karma.circle.conf.js
