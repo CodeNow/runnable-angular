@@ -26,7 +26,6 @@ function modal(
           $scope.modal.find('[data-action]').trigger('click');
         }
       }
-      jQuery(document).on('keydown', keyDownEnter);
 
       element.on('click', function (event) {
         event.stopPropagation();
@@ -53,13 +52,17 @@ function modal(
       $scope.modal = $($template);
       $('body').append($template);
 
-      if ($scope.modal.find('[autofocus]').length) {
-        $scope.$watch('in', function (n) {
-          if (n) {
-            $scope.modal.find('[autofocus]')[0].select();
+      $scope.$watch('in', function (n) {
+        if (n) {
+          jQuery(document).on('keydown', keyDownEnter);
+          var autofocus = $scope.modal.find('[autofocus]');
+          if (autofocus.length) {
+            autofocus[0].select();
           }
-        });
-      }
+        } else {
+          jQuery(document).off('keydown', keyDownEnter);
+        }
+      });
 
       $scope.$on('$destroy', function () {
         $scope.modal.remove();
