@@ -120,7 +120,7 @@ describe('directiveValidateName'.bold.underline.blue, function() {
     expect(form.instanceName.$error.nameAvailable).to.be.true;
   });
 
-  describe('no instances', function () {
+  describe('no instances'.blue, function () {
     beforeEach(function () {
       $scope.instances = undefined;
     });
@@ -131,7 +131,7 @@ describe('directiveValidateName'.bold.underline.blue, function() {
     });
   });
 
-  describe('currentInstanceValid', function() {
+  describe('currentInstanceValid'.blue, function() {
     beforeEach(function() {
       $scope.currentInstanceValid = true;
     });
