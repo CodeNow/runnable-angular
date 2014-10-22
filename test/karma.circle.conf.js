@@ -60,33 +60,24 @@ module.exports = function(config) {
       }
     },
 
-    // list of files / patterns to load in the browser
-    files: [
-      'unit/**/*.unit.js'
-    ],
-
-
-    // list of files to exclude
-    exclude: [
-    ],
-
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    // Browserifast hack: https://github.com/cjohansen/karma-browserifast
     preprocessors: {
-      'unit/**/*.js': ['browserify', 'sourcemap']
+      '/**/*.browserify': 'browserify'
     },
 
 
     browserify: {
-      debug: true
+      debug: true,
+      files: [
+        'unit/**/*.unit.js'
+      ]
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['saucelabs', 'mocha', 'growl'],
+    reporters: ['mocha'],
 
     coverageReporter: {
       type: 'html',
@@ -106,18 +97,8 @@ module.exports = function(config) {
     logLevel: config.LOG_ERROR,
 
 
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
-    autoWatchBatchDelay: 2000,
-
-
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    // browsers: ['PhantomJS'],
-
-
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: true
   });
 };

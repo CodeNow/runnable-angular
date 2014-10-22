@@ -4,23 +4,36 @@ var sidebar = require('./helpers/sidebar');
 
 var InstancePage = require('./pages/InstancePage');
 var SetupPage = require('./pages/SetupPage');
-var instanceName = 'Test-0';
+
+var instanceNames = ['Test-Rename', 'Test-Fork'];
 
 describe('delete', function() {
-  it('should load & delete a running instance', function () {
-    var instance = new InstancePage(instanceName);
+  // Instances that were created during e2e tests
+  instanceNames.forEach(function(name, idx) {
+    it('should load & delete ' + name, function () {
+      var instance = new InstancePage(name);
 
-    instance.get();
+      instance.get();
 
-    browser.wait(function() {
-      return instance.statusIcon.get().isPresent();
+      browser.wait(function() {
+        return instance.statusIcon.get().isPresent();
+      });
+
+      // Delete the instance
+      instance.gearMenu.deleteBox();
+
+      // Confirm we're on the right page
+      if (idx === instanceNames.length - 1) {
+        util.waitForUrl(SetupPage.urlRegex);
+      } else {
+        util.waitForUrl(InstancePage.urlRegex);
+      }
     });
+  });
 
-    // Delete the instance
-    instance.gearMenu.deleteBox();
-
-    // Confirm we're on new page
-    util.waitForUrl(SetupPage.urlRegex);
+  it('should confirm everything was deleted', function() {
+    var setup = new SetupPage();
+    setup.get();
 
     expect(sidebar.numBoxes()).toEqual(0);
   });
