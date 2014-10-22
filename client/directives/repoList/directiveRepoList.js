@@ -16,14 +16,9 @@ function RunnableRepoList (
 ) {
   return {
     restrict: 'E',
-    scope: {
-      instance: '=',
-      build: '=',
-      edit: '=',
-      showGuide: '='
-    },
     templateUrl: 'viewRepoList',
     replace: true,
+    scope: {},
     link: function ($scope, elem) {
 
       // fetch appCodeVersions (repos) for display
