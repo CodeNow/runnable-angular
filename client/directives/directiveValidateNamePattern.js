@@ -17,8 +17,9 @@ function validateNamePattern(
           ctrl.$setValidity('namePattern', true);
           return name;
         }
-        var test = new RegExp(/^[A-Za-z0-9_-]+$/);
+        var test = /^[A-Za-z0-9_-]+$/;
         ctrl.$setValidity('namePattern', test.test(name));
+        $rootScope.safeApply();
         return name;
       }
 
