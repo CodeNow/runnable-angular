@@ -64,25 +64,95 @@ nav.sidebar.global-sidebar(
           use(
             xlink:href = "#icons-add"
           )
+
+    //- *
+    //- LINKED NAV LAYOUT
+    //- *
+
+    //- 0.2 box-group layout (old):
+    //- ul.box-group
+    //-   //- apply .active for currently selected box
+    //-   //- apply .running for a running box
+    //-   li.box-group-item.load(
+    //-     ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
+    //-     ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+    //-     ng-repeat = "instance in dataInstanceLayout.data.instances.models | orderBy:'attrs.name'"
+    //-     ng-show = "dataInstanceLayout.data.instances.models"
+    //-   )
+    //-     a.white.box(
+    //-       tooltip = "{{ instance.attrs.name }}"
+    //-       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+    //-     )
+    //-       span.box-item-name {{ instance.attrs.name }}
+    //-       //- alt text running container
+    //-       span.icons-status(
+    //-         title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+    //-       )
+
+    //- 0.3 box-group layout (new):
     ul.box-group
-      //- apply .active for currently selected box
-      //- apply .running for a running box
-      li.box-group-item.load(
-        ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
+      //- .active for current active box
+      //- .runnning for running box
+      //- if not .active
+      li.box-group-item.white.load(
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-        ng-repeat = "instance in dataInstanceLayout.data.instances.models | orderBy:'attrs.name'"
         ng-show = "dataInstanceLayout.data.instances.models"
+        tooltip = "{{ instance.attrs.name }}"
+        tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
       )
-        //- show instance name in title property when not minimized
-        a.white.box(
-          tooltip = "{{ instance.attrs.name }}"
-          tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+        a.box-item-name Web-PRana
+        span.icons-status(
+          title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
         )
-          span.box-item-name {{ instance.attrs.name }}
-          //- alt text running container
-          span.icons-status(
-            title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
-          )
+        //- boxes need to be listed in the order that they are dependent
+        span.box-item-description(
+          title = "api, mongo, apple"
+        ) api, mongo
+      li.box-group-item.white.load(
+        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+        ng-show = "dataInstanceLayout.data.instances.models"
+        tooltip = "{{ instance.attrs.name }}"
+        tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+      )
+        a.box-item-name API-Nefarious
+        span.icons-status(
+          title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+        )
+        //- boxes need to be listed in the order that they are dependent
+        span.box-item-description(
+          title = "doobie, dobbie"
+        ) doobie, dobbie
+      li.box-group-item.white.load(
+        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+        ng-show = "dataInstanceLayout.data.instances.models"
+        tooltip = "{{ instance.attrs.name }}"
+        tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+      )
+        a.box-item-name API-APatel
+        span.icons-status(
+          title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+        )
+        //- boxes need to be listed in the order that they are dependent
+        span.box-item-description(
+          title = "no, flex, zone"
+        ) no, flex, zone
+
+      //- if .active
+      //- li.box-group-item.load.active(
+      //-   ng-show = "dataInstanceLayout.data.instances.models"
+      //- )
+      //-   .white.box(
+      //-     tooltip = "{{ instance.attrs.name }}"
+      //-     tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+      //-   )
+      //-     h2.box-item-name API-YKumar
+      //-     span.icons-status(
+      //-       title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+      //-     )
+      //-     .cluster-group
+      //-       a.cluster-group-item api
+      //-       a.cluster-group-item mongo
+      //-       a.cluster-group-item walrus
 
   footer.row.global-footer
     a.btn.btn-sm.btn-icon.white.btn-logout(
