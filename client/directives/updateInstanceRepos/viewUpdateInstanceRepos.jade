@@ -1,0 +1,13 @@
+//- update / build button
+a.btn.btn-xs.orange.sub-header-action(
+  ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
+  ng-if = "showUpdateButton"
+  tooltip = "Update your box to see your changes"
+  tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
+) Update
+  svg.iconnables.icons-update
+    use(
+      xlink:href = "#icons-update"
+    )
+
+
