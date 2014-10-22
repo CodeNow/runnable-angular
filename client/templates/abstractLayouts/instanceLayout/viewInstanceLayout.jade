@@ -138,24 +138,18 @@ nav.sidebar.global-sidebar(
         ) no, flex, zone
 
       //- if .active
-      //- li.box-group-item.white.load.active(
-      //-   ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-      //-   ng-show = "dataInstanceLayout.data.instances.models"
-      //-   tooltip = "{{ instance.attrs.name }}"
-      //-   tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
-      //- )
-      //-   .white.box(
-      //-     tooltip = "{{ instance.attrs.name }}"
-      //-     tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
-      //-   )
-      //-     h2.box-item-name API-YKumar
-      //-     span.icons-status(
-      //-       title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
-      //-     )
-      //-     .cluster-group
-      //-       a.cluster-group-item api
-      //-       a.cluster-group-item mongo
-      //-       a.cluster-group-item walrus
+      li.box-group-item.white.load.active(
+        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+        ng-show = "dataInstanceLayout.data.instances.models"
+        tooltip = "{{ instance.attrs.name }}"
+        tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+      )
+        a.box-item-name API-YKumar
+        span.icons-status(
+          title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+        )
+        a.box-item-clustered api
+        a.box-item-clustered mongo
 
   footer.row.global-footer
     a.btn.btn-sm.btn-icon.white.btn-logout(

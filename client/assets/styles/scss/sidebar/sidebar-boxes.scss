@@ -51,6 +51,11 @@
     background: rgba($black,.05);
     border-color: rgba($black,.1);
     height: auto;
+    padding-bottom: 3px;
+
+    .box-item-name {
+      margin-bottom: 3px;
+    }
   }
 
   .icons-status {
@@ -75,4 +80,15 @@
 // span.box-item-description
 .box-item-description {
   font-size: 12px;
+}
+
+// a.box-item-clustered
+.box-item-clustered {
+  display: block;
+  font-size: 14px;
+  line-height: 21px;
+
+  &:hover {
+    color: $gray-darker;
+  }
 }
