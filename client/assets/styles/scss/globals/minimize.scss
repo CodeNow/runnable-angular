@@ -46,13 +46,16 @@
     }
   }
 
-  // a.white.box
+  // li.box-group-item.white.load
   .box-group-item {
+    height: 45px;
+    overflow: hidden;
     width: 45px;
   }
 
   .box-item-name,
-  .box-item-description {
+  .box-item-description,
+  .box-item-clustered {
     opacity: 0;
     pointer-events: none;
   }
