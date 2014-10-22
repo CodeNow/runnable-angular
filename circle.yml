@@ -9,6 +9,7 @@ dependencies:
     - grunt autoBundleDependencies
     - grunt generateConfigs
     - grunt browserify:once
+    - npm uninstall karma-browserify
   cache_directories:
     - ~/nvm
 machine:
