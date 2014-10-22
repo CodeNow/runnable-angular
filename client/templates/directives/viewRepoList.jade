@@ -1,5 +1,6 @@
 section.row.repo-list
   h2.sub-header Repositories
+    //- update / build button
     a.btn.btn-xs.orange.sub-header-action(
       ng-click = "actions.triggerInstanceUpdateOnRepoCommitChange()"
       ng-if = "data.showUpdateButton"
@@ -10,6 +11,7 @@ section.row.repo-list
         use(
           xlink:href = "#icons-update"
         )
+    //- add repo button
     a.btn.btn-sm.white.sub-header-action.btn-add-repo(
       ng-class = "{active: data.show}"
       ng-if = "edit"

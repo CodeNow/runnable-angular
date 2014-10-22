@@ -33,8 +33,6 @@ function ControllerSetup(
   data.showExplorer = false;
   data.loding = false;
 
-
-
   // Redirect to /new if this build has already been built
   function fetchUser (cb) {
     new QueryAssist(user, cb)

@@ -4,14 +4,15 @@ require('app')
  * @ngInject
  */
 function repoList (
+  async,
+  hasKeypaths,
+  keypather,
+  pick,
+  QueryAssist,
   $rootScope,
   $state,
   $stateParams,
-  async,
-  QueryAssist,
-  keypather,
-  pick,
-  hasKeypaths
+  user
 ) {
   return {
     restrict: 'E',
@@ -24,9 +25,64 @@ function repoList (
     templateUrl: 'viewRepoList',
     replace: true,
     link: function ($scope, elem) {
-      var build;
+
+      // display guide if no repos added
+      $scope.showGuide = true;
+
+      // fetch appCodeVersions (repos) for display
+      switch ($state.$current.name) {
+        case 'instance.instance':
+          break;
+        case 'instance.edit':
+          break;
+        case 'instance.new':
+          // fetch build
+          initInstanceNew();
+          break;
+      }
+
+      function initInstanceNew () {
+        async.series([
+          fetchUser,
+          fetchBuild
+        ]);
+      }
+
+      function fetchUser (cb) {
+        new QueryAssist(user, cb)
+          .wrapFunc('fetchUser')
+          .query('me')
+          .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, user, cb) {
+          })
+          .go();
+      }
+
+      function fetchBuild (cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchBuild')
+          .query($stateParams.buildId)
+          .cacheFetch(function (build, cached, cb) {
+            $scope.build = build;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, build, cb) {
+            if (err) throw err;
+            $rootScope.safeApply();
+            cb();
+          })
+          .go();
+      }
+
+
 
       var data = $scope.data = {};
+
       data.popoverRepoActions  = {
         actions: {
           deleteRepo: function (repo) {
@@ -62,6 +118,7 @@ function repoList (
           }
         }
       };
+
       $scope.$watch('data.show', function (n) {
         // when add repo popover is shown, reset filter
         if (n) {
@@ -483,6 +540,7 @@ function repoList (
           });
         }
       });
+
     }
   };
 }
