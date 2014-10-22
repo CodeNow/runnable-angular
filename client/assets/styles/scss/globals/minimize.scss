@@ -47,15 +47,12 @@
   }
 
   // a.white.box
-  .box {
-    // @extend .tooltip;
-    // @extend .right;
-    margin: 0 -9px;
-    overflow: visible;
+  .box-group-item {
     width: 45px;
   }
 
-  .box-item-name {
+  .box-item-name,
+  .box-item-description {
     opacity: 0;
     pointer-events: none;
   }

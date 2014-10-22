@@ -138,8 +138,11 @@ nav.sidebar.global-sidebar(
         ) no, flex, zone
 
       //- if .active
-      //- li.box-group-item.load.active(
+      //- li.box-group-item.white.load.active(
+      //-   ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
       //-   ng-show = "dataInstanceLayout.data.instances.models"
+      //-   tooltip = "{{ instance.attrs.name }}"
+      //-   tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
       //- )
       //-   .white.box(
       //-     tooltip = "{{ instance.attrs.name }}"
