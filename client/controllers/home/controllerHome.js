@@ -30,11 +30,7 @@ function ControllerHome(
   });
   $window.s.refresh();
 
-  if ($location.search().password) {
-    $scope.dataHome.data.message = 'Sign up with Github';
-  } else {
-    $scope.dataHome.data.message = 'Request Access';
-  }
+  $scope.dataHome.data.hasPass = !!$location.search().password;
 
   verifyUserIsAuth();
 
