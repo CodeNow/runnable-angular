@@ -31,11 +31,10 @@ function logView(
         rows: Math.floor(elem[0].clientHeight/CHAR_HEIGHT),
         useStyle: true,
         screenKeys: true,
-        scrollback: 0,
-        hideCursor: true,
-        cursorHidden: true,
+        scrollback: 1000,
         wraparoundMode: true,
-        cursorState: 0
+        hideCursor: true,
+        cursorBlink: false
       });
       terminal.open(elem[0]);
 
@@ -58,27 +57,78 @@ function logView(
         var y = Math.floor($termElem.height() / CHAR_HEIGHT);
         terminal.resize(x, y);
       }
+      function createBuildStream() {
+        return primus.createBuildStream($scope.build);
+      }
+      function createLogStream() {
+        return primus.createLogStream($scope.container);
+      }
       var dResizeTerm = debounce(resizeTerm, 300);
       dResizeTerm();
 
       jQuery($window).on('resize', dResizeTerm);
-      terminal.on('focus', dResizeTerm);
 
       $scope.$on('$destroy', function () {
         if ($scope.buildStream) {
+          primus.off('reconnect', createStreams(createBuildStream));
+          $scope.buildStream.removeAllListeners('end');
+          $scope.buildStream.removeAllListeners('data');
           $scope.buildStream.end();
           $scope.buildStream = null;
         }
-        terminal.off('focus', dResizeTerm);
+        if ($scope.boxStream) {
+          primus.off('reconnect', createStreams(createLogStream));
+          $scope.boxStream.removeAllListeners('end');
+          $scope.boxStream.removeAllListeners('data');
+          $scope.boxStream.end();
+          $scope.boxStream = null;
+        }
+
+        primus.off('offline', offlineMessage);
         jQuery($window).off('resize', dResizeTerm);
         terminal.destroy();
       });
-
       // Getting data to Term
       function writeToTerm (data) {
-        data = data.replace(/\r?\n/g, '\r\n');
-        terminal.write(data);
+        if (data) {
+          data = data.replace(/\r?\n/g, '\r\n');
+          terminal.writeln(data);
+        }
       }
+      var stream;
+      function offlineMessage() {
+        terminal.writeln('');
+        terminal.writeln('******************************');
+        terminal.writeln('* LOST CONNECTION - retrying *');
+        terminal.writeln('******************************');
+      }
+      primus.on('offline', offlineMessage);
+
+      function showSpinner() {
+        terminal.hideCursor = false;
+        terminal.cursorBlink = true;
+        terminal.cursorSpinner = true;
+        terminal.cursorState = -1;
+        terminal.startBlink();
+      }
+      function createStreams(createStreamMethod, shouldShowSpinner) {
+        return function (reconnect) {
+          if (reconnect) {
+            stream.removeAllListeners('data');
+            // since the streams will contain all of the logs from the beginning, we need to erase
+            // everything in term
+            terminal.reset();
+          }
+          if (shouldShowSpinner) {
+            showSpinner();
+          }
+          // Initalize link to server
+          stream = createStreamMethod();
+          streamCleanser.cleanStreams(stream, terminal, 'hex', true);
+          return stream;
+        };
+      }
+
       if (attrs.build) {
         $scope.$watch('build.attrs._id', function (buildId, oldVal) {
           if (!buildId) {
@@ -115,10 +165,14 @@ function logView(
         });
         var initBuildStream = function () {
           var build = $scope.build;
-          var buildStream = primus.createBuildStream($scope.build);
+          var buildStream = createStreams(createBuildStream, true)();
           $scope.buildStream = buildStream;
-          streamCleanser.cleanStreams(buildStream, terminal, 'hex', true);
+          primus.on('reconnect', createStreams(createBuildStream, true));
           buildStream.on('end', function () {
+            terminal.hideCursor = true;
+            terminal.cursorBlink = false;
+            terminal.cursorSpinner = false;
+            terminal.cursorState = 0;
             build.fetch(function (err) {
               if (err) {
                 throw err;
@@ -136,14 +190,15 @@ function logView(
 
       } else if (attrs.container) {
         var initBoxStream = function () {
-          var boxStream = primus.createLogStream($scope.container);
-          streamCleanser.cleanStreams(boxStream, terminal, 'hex', true);
-
+          $scope.boxStream = createStreams(createLogStream)();
+          primus.on('reconnect', createStreams(createLogStream));
         };
         $scope.$watch('container.attrs._id', function (containerId) {
           if (containerId) {
             // prepend log command to terminal
-            terminal.write('\x1b[33;1mroot@'+keypather.get($scope, 'container.attrs.inspect.Config.Hostname')+'\x1b[0m: ' + keypather.get($scope, 'container.attrs.inspect.Config.Cmd.join(" ")') + '\n\r');
+            terminal.write('\x1b[33;1mroot@'+keypather.get($scope,
+              'container.attrs.inspect.Config.Hostname')+'\x1b[0m: ' +
+              keypather.get($scope, 'container.attrs.inspect.Config.Cmd.join(" ")') + '\n\r');
             initBoxStream();
           }
         });

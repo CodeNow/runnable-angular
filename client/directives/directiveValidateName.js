@@ -36,7 +36,7 @@ function validateName(
 
         } else {
           var match = $scope.instances.find(function (m) {
-            return (m.attrs.name === name);
+            return (m.attrs.name.toLowerCase() === name.toLowerCase());
           });
           ctrl.$setValidity('nameAvailable', !match);
         }

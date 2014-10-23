@@ -238,7 +238,11 @@ function ControllerInstance(
   };
 
   var dmf = pgm.data.dataModalFork = {};
-  var amf = pgm.actions.actionsModalFork = {};
+  var amf = pgm.actions.actionsModalFork = {
+    cancel: function () {
+      instanceDefaultState(data.instance);
+    }
+  };
   function asyncInitDataModalFork() {
     dmf.instance = data.instance;
     pgm.instance = data.instance;
@@ -446,6 +450,7 @@ function ControllerInstance(
   $scope.$watch('dataInstanceLayout.data.instances', function(n) {
     if (n) {
       pgm.data.dataModalRename.instances = n;
+      pgm.data.dataModalFork.instances = n;
     }
   });
 
