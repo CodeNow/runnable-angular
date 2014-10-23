@@ -9,6 +9,7 @@ require('app')
 function ControllerHome(
   $scope,
   $state,
+  $location,
   $window,
   skrollr,
   async,
@@ -28,6 +29,12 @@ function ControllerHome(
     }
   });
   $window.s.refresh();
+
+  if ($location.search().password) {
+    $scope.dataHome.data.message = 'Sign up with Github';
+  } else {
+    $scope.dataHome.data.message = 'Request Access';
+  }
 
   verifyUserIsAuth();
 
