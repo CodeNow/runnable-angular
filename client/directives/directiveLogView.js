@@ -107,7 +107,6 @@ function logView(
 
       function showSpinner() {
         terminal.hideCursor = false;
-        terminal.cursorHidden = false;
         terminal.cursorBlink = true;
         terminal.cursorSpinner = true;
         terminal.cursorState = -1;
@@ -171,9 +170,7 @@ function logView(
           $scope.buildStream = buildStream;
           primus.on('reconnect', createStreams(createBuildStream, true));
           buildStream.on('end', function () {
-
             terminal.hideCursor = true;
-            terminal.cursorHidden = true;
             terminal.cursorBlink = false;
             terminal.cursorSpinner = false;
             terminal.cursorState = 0;
