@@ -34,7 +34,6 @@ function logView(
         scrollback: 1000,
         wraparoundMode: true,
         hideCursor: true,
-        cursorHidden: true,
         cursorBlink: false
       });
       terminal.open(elem[0]);
