@@ -175,14 +175,7 @@ function RunnableRepoList (
           $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
         }
       };
-      */
 
-
-
-
-
-
-/*
       var data = $scope.data = {};
 
       data.popoverRepoActions  = {
