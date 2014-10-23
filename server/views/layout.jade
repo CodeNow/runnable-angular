@@ -41,14 +41,6 @@ html(
       src = "/build/js/bundle.js?v=#{locals.version}"
     )
 
-    //- skrollr plugin
-    //- https://github.com/Prinzhorn/skrollr
-    //- layout.jade L68
-    //- controllerHome.js L22
-    script(
-      src = "//cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.27/skrollr.min.js"
-    )
-
     //- heap analytics
     if env !== 'development'
       script.
@@ -71,12 +63,3 @@ html(
       ng-click = "dataApp.documentClickEventHandler($scope, this)"
       ui-view
     )
-
-    //- init skrollr
-    script.
-      window.s = skrollr.init({
-        forceHeight: false,
-        mobileCheck: function(){
-          return  false;
-        }
-      });
