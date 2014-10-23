@@ -7,15 +7,15 @@
   .arrow
   h3.popover-title(
     ng-class = "{ \
-      'show-filter': data.state.toggleFilter \
+      'show-filter': data.showFilter \
     }"
   )
     //- should clear on close
     button.white.btn-icon.btn-search(
-      ng-click = "data.state.toggleFilter = !data.state.toggleFilter; \
-                  data.state.repoFilter = '';"
+      ng-click = "data.showFilter = !data.showFilter; \
+                  data.repoFilter = '';"
       ng-class = "{ \
-        active: data.state.toggleFilter \
+        active: data.showFilter \
       }"
       title = "Filter Repositories"
     )
@@ -25,8 +25,8 @@
         )
     //- focus on visible
     input.title-filter(
-      ng-model = "data.state.repoFilter"
-      select-on = "data.state.toggleFilter"
+      ng-model = "data.repoFilter"
+      select-on = "data.showFilter"
       placeholder = "Filter Repositories"
     )
     //- title
@@ -37,13 +37,13 @@
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "repo in data.githubRepos.models | \
                      unaddedRepos:data.version.appCodeVersions | \
-                     repos:data.state.repoFilter"
+                     repos:data.repoFilter"
         title = "{{ repo.attrs.full_name }}"
       )
         span {{ repo.attrs.full_name }}
       li.popover-list-item.no-actions(
         ng-if = "(data.githubRepos.models | \
           unaddedRepos:data.version.appCodeVersions | \
-          repos:data.state.repoFilter).length === 0"
+          repos:data.repoFilter).length === 0"
       ) No matches.
       //- li.popover-list-item.no-actions There's nothing left to add.

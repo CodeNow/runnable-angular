@@ -36,7 +36,6 @@ function RunnableRepoList (
       // display guide if no repos added
       $scope.showGuide = true;
       $scope.showUpdateButton = false;
-      $scope.showAddRepoPopover = false;
 
       function initInstanceNew () {
         async.series([
