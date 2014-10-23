@@ -1,27 +1,28 @@
-//- add .pending for orange
-.commit.load(
-  ng-class = "{ \
-    pending: acv.githubRepo.state.activeBranch.state.activeCommit && (acv.attrs.commit !== acv.githubRepo.state.activeBranch.state.activeCommit.attrs.sha) \
-  }"
-  ng-click = " \
-    acv.state.toggleFilter = false; \
-    acv.state.commitFilter = ''; \
-    acv.githubRepo.state.selectedBranch = acv.githubRepo.state.activeBranch; \
-    actions.fetchBranchesForRepo(acv.githubRepo); \
-    actions.fetchCommitsForBranch(acv, githubRepo.state.activeBranch); \
-  "
-  toggle-pop-over
-  toggle-pop-over-model = "acv.state.show"
-)
-  .commit-message {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.commit.message }}
-  svg.iconnables.icons-commit
-    use(
-      xlink:href = "#icons-commit"
-    )
-  span.commit-author {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.author.login }}
-  time.commit-time {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.commit.author.date | timeAgo }}
-pop-over(
-  actions = "actions"
-  data = "acv"
-  template = "viewPopoverCommitSelect"
-)
+div
+  //- add .pending for orange
+  .commit.load(
+    ng-class = "{ \
+      pending: acv.githubRepo.state.activeBranch.state.activeCommit && (acv.attrs.commit !== acv.githubRepo.state.activeBranch.state.activeCommit.attrs.sha) \
+    }"
+    ng-click = " \
+      acv.state.toggleFilter = false; \
+      acv.state.commitFilter = ''; \
+      acv.githubRepo.state.selectedBranch = acv.githubRepo.state.activeBranch; \
+      actions.fetchBranchesForRepo(acv.githubRepo); \
+      actions.fetchCommitsForBranch(acv, githubRepo.state.activeBranch); \
+    "
+    toggle-pop-over
+    toggle-pop-over-model = "acv.state.show"
+  )
+    .commit-message {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.commit.message }}
+    svg.iconnables.icons-commit
+      use(
+        xlink:href = "#icons-commit"
+      )
+    span.commit-author {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.author.login }}
+    time.commit-time {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.commit.author.date | timeAgo }}
+  pop-over(
+    actions = "actions"
+    data = "acv"
+    template = "viewPopoverCommitSelect"
+  )
