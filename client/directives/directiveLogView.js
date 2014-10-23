@@ -68,7 +68,6 @@ function logView(
       dResizeTerm();
 
       jQuery($window).on('resize', dResizeTerm);
-//      terminal.on('focus', dResizeTerm);
 
       $scope.$on('$destroy', function () {
         if ($scope.buildStream) {
@@ -85,7 +84,6 @@ function logView(
           $scope.boxStream.end();
           $scope.boxStream = null;
         }
-//        terminal.off('focus', dResizeTerm);
 
         primus.off('offline', offlineMessage);
         jQuery($window).off('resize', dResizeTerm);
@@ -128,7 +126,6 @@ function logView(
           }
           // Initalize link to server
           stream = createStreamMethod();
-//            stream.on('data', writeToTerm);
           streamCleanser.cleanStreams(stream, terminal, 'hex', true);
           return stream;
         };
