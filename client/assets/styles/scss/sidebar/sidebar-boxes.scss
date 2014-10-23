@@ -54,7 +54,11 @@
     padding-bottom: 3px;
 
     .box-item-name {
-      margin-bottom: 2px;
+      margin-bottom: 3px;
+    }
+
+    .icons-status {
+      top: 10px;
     }
   }
 
@@ -84,11 +88,43 @@
 
 // a.box-item-clustered
 .box-item-clustered {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
   display: block;
   font-size: 12px;
   line-height: 21px;
+  margin: -1px -23px 0 -9px;
+  padding: 0 0 0 9px;
+  position: relative;
 
   &:hover {
-    color: $gray-darker;
+    background: rgba($white,.3);
+    border-bottom: 1px solid rgba($black,.05);
+    border-top: 1px solid rgba($black,.05);
+
+    .icons-status.icons-status {
+      opacity: 1;
+    }
+  }
+
+  .icons-status.icons-status {
+    float: right;
+    height: 7px;
+    opacity: .45;
+    position: relative;
+    right: 15px;
+    top: 7px;
+    width: 7px;
+
+    &::before {
+      background: rgba($black,.1);
+      content: '';
+      display: block;
+      height: 10px;
+      margin: 0 auto;
+      position: relative;
+      top: -12px;
+      width: 1px;
+    }
   }
 }

@@ -101,7 +101,7 @@ nav.sidebar.global-sidebar(
         tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
       )
         a.box-item-name Web-PRana
-        span.icons-status(
+        span.icons-status.running(
           title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
         )
         //- boxes need to be listed in the order that they are dependent
@@ -144,12 +144,18 @@ nav.sidebar.global-sidebar(
         tooltip = "{{ instance.attrs.name }}"
         tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
       )
-        a.box-item-name API-YKumar
-        span.icons-status(
+        a.box-item-name Web-YKumar
+        span.icons-status.running(
           title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
         )
-        a.box-item-clustered api
-        a.box-item-clustered mongo
+        a.box-item-clustered demo-api
+          span.icons-status.running(
+            title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+          )
+        a.box-item-clustered demo-mongo
+          span.icons-status.running(
+            title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+          )
 
   footer.row.global-footer
     a.btn.btn-sm.btn-icon.white.btn-logout(
