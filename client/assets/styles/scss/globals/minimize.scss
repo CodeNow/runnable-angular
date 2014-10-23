@@ -51,6 +51,10 @@
     height: 45px;
     overflow: hidden;
     width: 45px;
+
+    &.active .icons-status {
+      top: 18px;
+    }
   }
 
   .box-item-name,
