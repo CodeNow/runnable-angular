@@ -88,8 +88,6 @@
 
 // a.box-item-clustered
 .box-item-clustered {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
   display: block;
   font-size: 12px;
   line-height: 21px;
@@ -98,26 +96,21 @@
   position: relative;
 
   &:hover {
-    background: rgba($white,.3);
-    border-bottom: 1px solid rgba($black,.05);
-    border-top: 1px solid rgba($black,.05);
-
-    .icons-status.icons-status {
-      opacity: 1;
-    }
+    color: $gray-darker;
+    text-decoration: underline;
   }
 
   .icons-status.icons-status {
+    background: rgba($gray-lighter,.45);
     float: right;
-    height: 7px;
-    opacity: .45;
+    height: 5px;
     position: relative;
-    right: 15px;
-    top: 7px;
-    width: 7px;
+    right: 16px;
+    top: 9px;
+    width: 5px;
 
     &::before {
-      background: rgba($black,.1);
+      background: rgba($black,.15);
       content: '';
       display: block;
       height: 10px;
@@ -125,6 +118,14 @@
       position: relative;
       top: -12px;
       width: 1px;
+    }
+
+    &.running {
+      background: rgba($green,.45);
+    }
+
+    &.building {
+      background: rgba($orange,.45);
     }
   }
 }
