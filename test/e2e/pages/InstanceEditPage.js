@@ -1,15 +1,24 @@
 var util = require('../helpers/util');
 
 var GearMenu = require('../popovers/GearMenu');
+var RepoList = require('../directives/RepoList');
 
 function InstanceEditPage (instanceName) {
   this.gearMenu = new GearMenu();
+  this.repoList = new RepoList();
+
+  this.discard = util.createGetter(by.buttonText('Discard Changes'));
+  this.build = util.createGetter(by.buttonText('Build'));
 
   this.get = function() {
     // We need to create a new build each time, thus the workaround
     browser.get('/runnable-doobie/' + instanceName);
     element(by.css('#wrapper > main > header > div.secondary-actions > button')).click();
     util.waitForUrl(InstanceEditPage.urlRegex);
+  };
+
+  this.buildChanges = function() {
+    this.build.get().click();
   };
 }
 
