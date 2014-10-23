@@ -33,10 +33,10 @@
   cursor: pointer;
   display: block;
   height: 45px;
-  line-height: 1;
+  line-height: 45px;
   margin: 0 auto 6px;
   overflow: hidden;
-  padding: 8px 23px 0 9px;
+  padding: 0 23px 0 9px;
   position: relative;
   text-overflow: ellipsis;
   transition: all .15s ease-in;
@@ -59,6 +59,14 @@
 
     .icons-status {
       top: 10px;
+    }
+  }
+
+  &.clustered {
+    line-height: 1;
+
+    .box-item-name {
+      margin-top: 8px;
     }
   }
 
@@ -86,8 +94,8 @@
   font-size: 12px;
 }
 
-// a.box-item-clustered
-.box-item-clustered {
+// a.box-item-cluster
+.box-item-cluster {
   display: block;
   font-size: 12px;
   line-height: 21px;

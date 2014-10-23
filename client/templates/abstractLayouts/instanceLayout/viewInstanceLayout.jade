@@ -93,8 +93,10 @@ nav.sidebar.global-sidebar(
     ul.box-group
       //- .active for current active box
       //- .runnning for running box
+      //- .clustered if clustered
+
       //- if not .active
-      li.box-group-item.white.load(
+      li.box-group-item.white.clustered.load(
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-show = "dataInstanceLayout.data.instances.models"
         tooltip = "{{ instance.attrs.name }}"
@@ -107,21 +109,27 @@ nav.sidebar.global-sidebar(
         //- boxes need to be listed in the order that they are dependent
         span.box-item-description(
           title = "api, mongo, apple"
-        ) api, mongo
+        ) Api-PRana, Mongo-PRana
       li.box-group-item.white.load(
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-show = "dataInstanceLayout.data.instances.models"
         tooltip = "{{ instance.attrs.name }}"
         tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
       )
-        a.box-item-name API-Nefarious
+        a.box-item-name Api-PRana
         span.icons-status(
           title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
         )
-        //- boxes need to be listed in the order that they are dependent
-        span.box-item-description(
-          title = "doobie, dobbie"
-        ) doobie, dobbie
+      li.box-group-item.white.load(
+        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+        ng-show = "dataInstanceLayout.data.instances.models"
+        tooltip = "{{ instance.attrs.name }}"
+        tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+      )
+        a.box-item-name Mongo-PRana
+        span.icons-status(
+          title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+        )
       li.box-group-item.white.load(
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-show = "dataInstanceLayout.data.instances.models"
@@ -132,13 +140,9 @@ nav.sidebar.global-sidebar(
         span.icons-status(
           title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
         )
-        //- boxes need to be listed in the order that they are dependent
-        span.box-item-description(
-          title = "no, flex, zone"
-        ) no, flex, zone
 
       //- if .active
-      li.box-group-item.white.load.active(
+      li.box-group-item.white.clustered.load.active(
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-show = "dataInstanceLayout.data.instances.models"
         tooltip = "{{ instance.attrs.name }}"
@@ -148,11 +152,11 @@ nav.sidebar.global-sidebar(
         span.icons-status.running(
           title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
         )
-        a.box-item-clustered demo-api
+        a.box-item-cluster Api-Prana
           span.icons-status.running(
             title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
           )
-        a.box-item-clustered demo-mongo
+        a.box-item-cluster Mongo-PRana
           span.icons-status.running(
             title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
           )
