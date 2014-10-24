@@ -23,7 +23,11 @@ header.hero
       ) Sign In
   .hero-wrapper
     h1.hero-text A Server for Every Commit
-    p.hero-text-sub Run any and every version of your code as it's developed.
+    p.hero-text-sub Run 
+      strong any 
+      | and 
+      strong every 
+      | version of your code as it's developed.
 
 section.clearfix.landing-features
   .feature
@@ -32,21 +36,24 @@ section.clearfix.landing-features
       src = "/build/images/home/feature-icon-2.svg"
       width = "96"
     )
-    h2.feature-header Launch your full app from any commit
-   .feature
+    h2.feature-header Launch 
+    p.feature-description your full app from any commit
+  .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-    h2.feature-header Customize your environment for any stack
+    h2.feature-header Customize 
+    p.feature-description your environment for any stack
   .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-3.svg"
       width = "96"
     )
-    h2.feature-header Snapshot and share your app at any state
+    h2.feature-header Snapshot
+    p.feature-description  and share your app at any state
 
 section.landing-callout
   img(
@@ -56,14 +63,19 @@ section.landing-callout
   )
   h2 Refreshingly Straightforward
   p Full environmental configuration, file, and terminal access are always within a reach. 
-  a.btn.green.btn-cta(
-    href = "{{ dataApp.loginURL }}"
+  a.btn.btn-cta(
+    ng-class = "{ \
+      green: dataHome.data.hasPass, \
+      orange: !dataHome.data.hasPass \
+    }"
+    ng-disabled = "!dataHome.data.hasPass"
+    ng-href = "{{ dataHome.data.hasPass ? dataApp.loginURL : '' }}"
   )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    | Sign Up with Github
+    | {{ dataHome.data.hasPass ? 'Sign up with Github' : 'Coming Soon' }}
 
 footer.landing-footer
   small.footer-text &copy; 2014
