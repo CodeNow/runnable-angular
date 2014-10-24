@@ -125,11 +125,20 @@ function ControllerInstanceLayout(
     data.orgs = thisUser.fetchGithubOrgs(function (err) {
       $scope.safeApply();
       if ($window.heap) {
-        // Heap will only be loaded when env !== developm
+        // Heap will only be loaded when env !== development
         $window.heap.identify({
           name: thisUser.oauthName(),
           email: thisUser.email,
           orgs: $window.JSON.stringify(data.orgs)
+        });
+      }
+      if ($window.initIntercom) {
+        $window.initIntercom({
+          name: thisUser.oauthName(),
+          email: thisUser.email,
+          // Convert ISO8601 to Unix timestamp
+          created_at: +(new Date(thisUser.attrs.created)),
+          app_id: 'wqzm3rju'
         });
       }
       cb(err);

@@ -9,6 +9,9 @@ require('app')
 function ControllerHome(
   $scope,
   $state,
+  $location,
+  $window,
+  skrollr,
   async,
   $localStorage,
   keypather
@@ -17,6 +20,17 @@ function ControllerHome(
   var QueryAssist = $scope.UTIL.QueryAssist;
   var self = ControllerHome;
   var dataHome = $scope.dataHome = self.initState();
+
+  //- refresh skrollr on load
+  $window.s = skrollr.init({
+    forceHeight: false,
+    mobileCheck: function(){
+      return  false;
+    }
+  });
+  $window.s.refresh();
+
+  $scope.dataHome.data.hasPass = !!$location.search().password;
 
   verifyUserIsAuth();
 
