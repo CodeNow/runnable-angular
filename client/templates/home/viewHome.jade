@@ -18,7 +18,9 @@ header.hero
           use(
             xlink:href = "#runnable-logo"
           )
-      a.btn.btn-hero Sign In
+      a.btn.btn-hero(
+        href = "{{ dataApp.loginURL }}"
+      ) Sign In
   .hero-wrapper
     h1.hero-text A Server for Every Commit
     p.hero-text-sub Integrated with Github so you can checkout your project as you write it.
@@ -57,7 +59,9 @@ section.landing-callout
   )
   h2 Bug Stomper
   p We provide you the tools you need to debug issues.
-  a.btn.green.btn-cta
+  a.btn.green.btn-cta(
+    href = "{{ dataApp.loginURL }}"
+  )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
