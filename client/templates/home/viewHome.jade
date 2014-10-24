@@ -19,7 +19,7 @@ header.hero
             xlink:href = "#runnable-logo"
           )
       a.btn.btn-hero(
-        href = "{{ dataApp.loginURL }}"
+        ng-href = "{{ dataApp.loginURL }}"
         ng-if = "dataHome.data.hasPass"
       ) Sign In
       a.btn.btn-hero(
@@ -35,14 +35,7 @@ header.hero
       | version of your code as it's developed.
 
 section.clearfix.landing-features
-  .feature
-    img(
-      height = "72"
-      src = "/build/images/home/feature-icon-2.svg"
-      width = "96"
-    )
-    h2.feature-header Launch
-    p.feature-description your full app from any commit
+
   .feature
     img(
       height = "72"
@@ -50,15 +43,25 @@ section.clearfix.landing-features
       width = "96"
     )
     h2.feature-header Customize
-    p.feature-description your environment for any stack
+    p.feature-description your server for any stack
+
+  .feature
+    img(
+      height = "72"
+      src = "/build/images/home/feature-icon-2.svg"
+      width = "96"
+    )
+    h2.feature-header Launch
+    p.feature-description your entire app from any commit
+
   .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-3.svg"
       width = "96"
     )
-    h2.feature-header Snapshot
-    p.feature-description  and share your app at any state
+    h2.feature-header Fork
+    p.feature-description  multiple boxes to speed up your development
 
 section.landing-callout
   img(
