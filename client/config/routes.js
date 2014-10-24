@@ -1,4 +1,6 @@
-module.exports = [{
+module.exports = [
+
+{
   state: 'home',
   abstract: false,
   url: '^/',
@@ -6,10 +8,12 @@ module.exports = [{
   controller: 'ControllerHome',
   data: {
     bodyClass: {
-      'width-full': true
+      'landing': true
     },
   }
-}, {
+},
+
+{
   state: 'instance',
   abstract: true,
   templateUrl: 'viewInstanceLayout',

@@ -40,7 +40,7 @@
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
     "primus": "^2.3.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.35.6",
-    "term.js": "git://github.com/Runnable/term.js.git#12b8102058d2a652b073c80b2d4b70ba577a4a43",
+    "term.js": "git://github.com/Runnable/term.js.git#aba0ed2aa7c49900442d3cae513730188bfc452b",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
@@ -99,6 +99,7 @@
     "app": "./client/lib/app.js",
     "main": "./client/main.js",
     "primus-client": "./client/assets/js/primus-client.js",
+    "skrollr": "./client/assets/js/skrollr.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js",
     "config/environment": "./client/config/environment.js",

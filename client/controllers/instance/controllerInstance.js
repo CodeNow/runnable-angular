@@ -238,11 +238,7 @@ function ControllerInstance(
   };
 
   var dmf = pgm.data.dataModalFork = {};
-  var amf = pgm.actions.actionsModalFork = {
-    cancel: function () {
-      instanceDefaultState(data.instance);
-    }
-  };
+  var amf = pgm.actions.actionsModalFork = {};
   function asyncInitDataModalFork() {
     dmf.instance = data.instance;
     pgm.instance = data.instance;
