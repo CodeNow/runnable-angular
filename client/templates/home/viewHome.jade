@@ -18,7 +18,9 @@ header.hero
           use(
             xlink:href = "#runnable-logo"
           )
-      a.btn.btn-hero Sign In
+      a.btn.btn-hero(
+        href = "{{ dataApp.loginURL }}"
+      ) Sign In
   .hero-wrapper
     h1.hero-text A Server for Every Commit
     p.hero-text-sub Integrated with Github so you can checkout your project as you write it.
