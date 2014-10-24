@@ -48,52 +48,59 @@ textarea {
 
 // .input-group
 .input-group {
+  background: $white;
   border: 1px solid rgba($black,.15);
   border-radius: 3px;
   display: flex;
-  justify-content: center;
+  height: 45px;
+  line-height: 45px;
+  margin: 0 6px;
+  overflow: hidden;
+  position: relative;
 
-  &.input-group.focus {
+  &.focus {
     border-color: $blue;
   }
 
-  input,
-  .input {
-    border: 0;
-    padding: 0;
-    width: auto;
+  &.ng-valid {
+    border-color: $green;
   }
 
-  [contenteditable] {
-    color: $gray-darker;
-    cursor: text;
-    font-weight: 500;
+  &.ng-invalid {
+    border-color: $orange;
+  }
 
-    &:focus {
-      outline: 0;
+  &.with-description {
+    height: 54px;
+    line-height: 54px;
+
+    .input {
+      height: 39px;
+      line-height: 39px;
     }
   }
-}
 
-// prefixes and suffixes
-.input-prefix,
-.input-suffix {
-  font-size: 18px;
-  height: 100%;
-}
+  .input-label {
+    color: $gray;
+    font-size: 14px;
+    padding: 0 15px;
+  }
 
-// .input-prefix
-.input-prefix {
-  border-radius: 3px 0 0 3px;
-  border-right: 0;
-  padding: 0 0 0 15px;
-  text-align: right;
-}
+  .input-description {
+    color: $gray;
+    font-size: 12px;
+    height: 12px;
+    line-height: 12px;
+    position: absolute;
+    top: 33px;
+    white-space: nowrap;
+  }
 
-// .input-suffix
-.input-suffix {
-  border-left: 0;
-  border-radius: 0 3px 3px 0;
-  padding: 0 15px 0 0;
-  text-align: left;
+  .input {
+    border: 0;
+    flex: 1 0 auto;
+    height: 43px;
+    padding: 0 6px 0 0;
+    width: auto;
+  }
 }
