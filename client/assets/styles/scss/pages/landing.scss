@@ -209,6 +209,29 @@
   }
 }
 
+// form.input-group.input-cta
+.input-cta {
+  height: 54px;
+  margin: 60px auto 120px;
+  position: relative;
+  width: 450px;
+
+  .input {
+    height: 100%;
+    padding-left: 9px;
+    padding-right: 100px;
+    text-align: center;
+    width: 100%;;
+  }
+
+  .btn-cta {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 93px;
+  }
+}
+
 // footer.landing footer
 .landing-footer {
   align-items: center;

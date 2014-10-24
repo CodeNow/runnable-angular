@@ -20,13 +20,18 @@ header.hero
           )
       a.btn.btn-hero(
         href = "{{ dataApp.loginURL }}"
+        ng-if = "dataHome.data.hasPass"
       ) Sign In
+      a.btn.btn-hero(
+        href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+        ng-if = "!dataHome.data.hasPass"
+      ) Request an Invite
   .hero-wrapper
     h1.hero-text A Server for Every Commit
-    p.hero-text-sub Run 
-      strong any 
-      | and 
-      strong every 
+    p.hero-text-sub Run
+      strong any
+      | and
+      strong every
       | version of your code as it's developed.
 
 section.clearfix.landing-features
@@ -36,7 +41,7 @@ section.clearfix.landing-features
       src = "/build/images/home/feature-icon-2.svg"
       width = "96"
     )
-    h2.feature-header Launch 
+    h2.feature-header Launch
     p.feature-description your full app from any commit
   .feature
     img(
@@ -44,7 +49,7 @@ section.clearfix.landing-features
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-    h2.feature-header Customize 
+    h2.feature-header Customize
     p.feature-description your environment for any stack
   .feature
     img(
@@ -62,20 +67,20 @@ section.landing-callout
     width = "600"
   )
   h2 Refreshingly Straightforward
-  p Full environmental configuration, file, and terminal access are always within a reach. 
-  a.btn.btn-cta(
-    ng-class = "{ \
-      green: dataHome.data.hasPass, \
-      orange: !dataHome.data.hasPass \
-    }"
-    ng-disabled = "!dataHome.data.hasPass"
-    ng-href = "{{ dataHome.data.hasPass ? dataApp.loginURL : '' }}"
+  p Full environmental configuration, file, and terminal access are always within a reach.
+  a.btn.btn-cta.green(
+    ng-href = "{{ dataApp.loginURL }}"
+    ng-if = "dataHome.data.hasPass"
   )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    | {{ dataHome.data.hasPass ? 'Sign up with GitHub' : 'Coming Soon' }}
+    | Sign up with GitHub
+  a.btn.btn-cta.green(
+    href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+    ng-if = "!dataHome.data.hasPass"
+  ) Request an Invite
 
 footer.landing-footer
   small.footer-text &copy; 2014
