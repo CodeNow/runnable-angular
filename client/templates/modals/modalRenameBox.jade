@@ -10,10 +10,6 @@
       form(
         name = "data.renameForm"
       )
-        //- *
-        //- MODAL REVISIONS
-        //- *
-        //- 0.3 layout (new):
         label.input-group.with-description(
           ng-class = "{\
             focus: data.renameForm.showFocus,\
@@ -52,45 +48,6 @@
             b.btn.btn-xs.orange -
           //- if the name is taken
           span.validate-rules.invalid-name That's a pretty name, but it's taken.
-
-        //- 0.2 layout (old):
-        //- label Give your box a new name
-        //-   .input-group.validate(
-        //-     ng-class = "{\
-        //-       'focus': '',\
-        //-       'ng-invalid': data.renameForm.$invalid, \
-        //-       'ng-valid': data.renameForm.$valid \
-        //-     }"
-        //-     ng-click = ""
-        //-   )
-        //-     .input-prefix http://
-        //-     span.input.modal-input(
-        //-       contenteditable = "true"
-        //-       instance = "data.instance"
-        //-       name = "name"
-        //-       ng-model = "data.instance.state.name"
-        //-       validate-name = "data.instances"
-        //-       validate-name-pattern
-        //-       validate-name-current-instance-valid = "false"
-        //-     ) {{ data.instance.state.name }}
-        //-     .input-suffix .{{ data.instance.attrs.owner.username }}.runnable.io
-        //-   .validate-wrapper(
-        //-     ng-class = "{ \
-        //-       in: data.renameForm.$invalid, \
-        //-       'invalid-pattern': data.renameForm.$error.namePattern.length, \
-        //-       'invalid-name': data.renameForm.$error.nameAvailable.length \
-        //-     }"
-        //-   )
-        //-     //- if invalid character is entered
-        //-     span.validate-rules.invalid-pattern We accept #{''}
-        //-       b.btn.btn-xs.orange A-Z
-        //-       b.btn.btn-xs.orange a-z
-        //-       b.btn.btn-xs.orange 0-9
-        //-       b.btn.btn-xs.orange _
-        //-       b.btn.btn-xs.orange -
-        //-     //- if the name is taken
-        //-     span.validate-rules.invalid-name That's a pretty name, but it's taken.
-
     footer.modal-footer
       button(
         ng-class = "{\
