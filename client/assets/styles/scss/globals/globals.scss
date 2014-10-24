@@ -16,19 +16,11 @@ body {
   min-width: 1120px;
 }
 
-html,
 body,
 #wrapper {
   height: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-}
-
-.width-full {
-
-  @include media(xxs) {
-    min-width: 0;
-  }
 }
 
 .content {
@@ -37,11 +29,6 @@ body,
   overflow: hidden;
   transition: width .2s ease-in;
   width: calc(100% - 240px);
-
-  .width-full & {
-    float: none;
-    width: 100%;
-  }
 }
 
 // svg files
