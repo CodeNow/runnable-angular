@@ -1,9 +1,12 @@
-.modal.in
-  .modal-dialog
-    .modal-body
-      h1.modal-title Something went wrong.
-      p.modal-text {{ error }}
-      p.modal-text Refresh this tab or reach out to us at #{''}
+.modal-backdrop.in
+  .modal-dialog(
+    ng-click = "$event.stopPropagation()"
+  )
+    header.modal-header
+      h1.modal-heading Something went wrong.
+    main.modal-body
+      p.modal-description {{ error }}
+      p.modal-description Refresh this tab or reach out to us at #{''}
         a.modal-link(
           href = "mailto: support@runnable.io"
         ) support@runnable.io
