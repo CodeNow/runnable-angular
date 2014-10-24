@@ -566,7 +566,7 @@ function RunnableRepoList (
             }
           })
           .resolve(function (err, githubRepos, cb) {
-            if (githubRepos) {
+            if (!githubRepos) {
               return cb(new Error('GitHub repos not found'));
             }
             $rootScope.safeApply();
