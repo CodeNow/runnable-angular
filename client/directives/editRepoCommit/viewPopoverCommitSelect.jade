@@ -1,16 +1,16 @@
 //- commit-select popover
 .popover.commit-select(
-  ng-class = "{in: data.state.show}"
+  ng-class = "{in: data.show}"
 )
   h3.popover-title(
-    ng-class = "{'show-filter': data.state.toggleFilter}"
+    ng-class = "{'show-filter': data.toggleFilter}"
   )
     //- filter across all commits in that repo
     //- should clear on close
     button.blue.btn-icon.btn-search(
-      ng-click = "data.state.toggleFilter = !data.state.toggleFilter; \
-                  data.state.commitFilter = '';"
-      ng-class = "{active: data.state.toggleFilter}"
+      ng-click = "data.toggleFilter = !data.toggleFilter; \
+                  data.commitFilter = '';"
+      ng-class = "{active: data.toggleFilter}"
       title = "Filter All Commits"
     )
       svg.iconnables.icons-search-blue
@@ -19,10 +19,11 @@
         )
     //- focus on visible
     input.title-filter(
-      select-on = "data.state.toggleFilter"
-      ng-model = "data.state.commitFilter"
+      select-on = "data.toggleFilter"
+      ng-model = "data.commitFilter"
       placeholder = "Filter All Commits"
     )
+
     //- branch selector
     .btn-select.branch-btn
       button.blue.pull-right
@@ -31,24 +32,28 @@
           use(
             xlink:href = "#icons-git"
           )
-        | {{ data.githubRepo.state.selectedBranch.attrs.name }}
+        | {{ data.activeCommit.attrs.name }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
           )
       select.select(
-        ng-model = "data.githubRepo.state.selectedBranch"
+        ng-model = "data.activeBranch"
         ng-change = "actions.selectBranch(data, data.githubRepo.state.selectedBranch)"
         ng-options = "branch.attrs.name for branch in data.githubRepo.branches.models"
       )
+
   //- list of commits
-  ul.commit-group
+  ul.commit-group(
+    ng-if = "data.activeBranch.commits.models.length"
+  )
     //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit(
-      ng-repeat = "commit in data.githubRepo.state.selectedBranch.commits.models | commitFilter:data.state.commitFilter"
-      ng-class = "{ active: commit.attrs.sha === data.githubRepo.state.selectedBranch.state.activeCommit.attrs.sha }"
-      ng-if = "data.githubRepo.state.selectedBranch.commits.models.length"
+      ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
+      ng-class = "{ \
+        active: commit.attrs.sha === data.activeCommit.attrs.sha \
+      }"
       ng-click = "actions.selectActiveBranchAndCommit(data, data.githubRepo.state.selectedBranch, commit)"
     )
       .commit-message {{ commit.attrs.commit.message }}
@@ -59,6 +64,7 @@
         )
       span.commit-author {{ commit.attrs.author.login }}
       time.commit-time {{ commit.attrs.commit.author.date | timeAgo }}
+
     //- li.commit-group-item.commit-item-more(
     //-   ng-if = "data.state.commits.length && !data.state.allCommitsLoaded"
     //- )

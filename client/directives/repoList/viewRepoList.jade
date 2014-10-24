@@ -54,9 +54,7 @@ section.row.repo-list
       ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
     )
       svg.iconnables.icons-git
-        use(
-          xlink:href = "#icons-git"
-        )
+        use(xlink:href = "#icons-git")
       h3.repository-title {{ acv.attrs.repo }}
 
       runnable-button-fast-forward-repo
@@ -98,34 +96,10 @@ section.row.repo-list
             template = "viewInstanceEditPopoverRepoActions"
           )
 
+      //-
+        display selected commit
+        pending state if selected commit !== actual saved commit
+        popover for selecting new commit
       runnable-edit-repo-commit(
         app-code-version = "acv"
       )
-      //-
-        //- add .pending for orange
-        .commit.load(
-          ng-class = "{ \
-            pending: acv.githubRepo.state.activeBranch.state.activeCommit && (acv.attrs.commit !== acv.githubRepo.state.activeBranch.state.activeCommit.attrs.sha) \
-          }"
-          ng-click = " \
-            acv.state.toggleFilter = false; \
-            acv.state.commitFilter = ''; \
-            acv.githubRepo.state.selectedBranch = acv.githubRepo.state.activeBranch; \
-            actions.fetchBranchesForRepo(acv.githubRepo); \
-            actions.fetchCommitsForBranch(acv, githubRepo.state.activeBranch); \
-          "
-          toggle-pop-over
-          toggle-pop-over-model = "acv.state.show"
-        )
-          .commit-message {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.commit.message }}
-          svg.iconnables.icons-commit
-            use(
-              xlink:href = "#icons-commit"
-            )
-          span.commit-author {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.author.login }}
-          time.commit-time {{ acv.githubRepo.state.activeBranch.state.activeCommit.attrs.commit.author.date | timeAgo }}
-        pop-over(
-          actions = "actions"
-          data = "acv"
-          template = "viewPopoverCommitSelect"
-        )

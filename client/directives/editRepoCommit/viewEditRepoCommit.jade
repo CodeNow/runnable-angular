@@ -15,7 +15,7 @@ div
     span.commit-author {{ activeCommit.attrs.author.login }}
     time.commit-time {{ activeCommit.attrs.commit.author.date | timeAgo }}
   pop-over(
-    actions = "actions"
-    data = "popoverCommitSelect.data.show"
+    actions = "popoverCommitSelect.actions"
+    data = "popoverCommitSelect.data"
     template = "viewPopoverCommitSelect"
   )

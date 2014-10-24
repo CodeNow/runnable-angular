@@ -20,6 +20,19 @@ function RunnableAddRepoPopover (
     scope: {},
     link: function ($scope, elem, attrs) {
 
+      // rules for display based on state name
+      switch ($state.$current.name) {
+        case 'instance.instance':
+          $scope.enabled = false;
+          break;
+        case 'instance.edit':
+          $scope.enabled = true;
+          break;
+        case 'instance.setup':
+          $scope.enabled = true;
+          break;
+      }
+
       $scope.repoListPopover = {
         data: {},
         actions: {}
@@ -72,19 +85,6 @@ function RunnableAddRepoPopover (
           });
         }
       };
-
-      // rules for display based on state name
-      switch ($state.$current.name) {
-        case 'instance.instance':
-          $scope.enabled = false;
-          break;
-        case 'instance.edit':
-          $scope.enabled = true;
-          break;
-        case 'instance.setup':
-          $scope.enabled = true;
-          break;
-      }
 
       function setActiveBranch (acv, activeBranch) {
         var githubRepo = acv.githubRepo;

@@ -19,23 +19,35 @@ function RunnableEditRepoCommit (
       $scope.activeCommit = null;
       $scope.commitsBehind = null;
 
+      // use watchers to share branch/commit between
+      // this scope and popover + keep sync
+      $scope.$watch('activeBranch', function (n) {
+        if (n) $scope.popoverCommitSelect.data.activeBranch = n;
+      });
+      $scope.$watch('activeCommit', function (n) {
+        if (n) $scope.popoverCommitSelect.data.activeCommit = n;
+      });
+
       $scope.popoverCommitSelect = {
         data: {},
         actions: {}
       };
       // share appCodeVersion with popover to display branches/commits in popover
       $scope.popoverCommitSelect.data.acv = $scope.acv;
+      $scope.popoverCommitSelect.data.toggleFilter = false;
+      $scope.popoverCommitSelect.data.commitFilter = '';
+      // $scope.popoverCommitSelect.actions. = function () {};
 
       setActiveBranch($scope.acv, $scope.acv.attrs.branch);
       setActiveCommit($scope.acv);
       fetchCommitOffset($scope.acv, $scope.activeCommit);
+      fetchBranchCommits($scope.activeBranch);
 
       function setActiveBranch (acv, activeBranchName) {
         var githubRepo = acv.githubRepo;
         var activeBranch = githubRepo.newBranch(activeBranchName);
         // why client-side populate collection?
         githubRepo.branches.add(activeBranch);
-        activeBranch.state = {};
         $scope.activeBranch = activeBranch;
         $rootScope.safeApply();
       }
@@ -59,6 +71,13 @@ function RunnableEditRepoCommit (
             }
             $rootScope.safeApply();
           });
+        });
+      }
+
+      function fetchBranchCommits (branch) {
+        branch.commits.fetch(function (err) {
+          if (err) throw err;
+          $rootScope.safeApply();
         });
       }
 
