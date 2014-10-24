@@ -5,6 +5,8 @@ require('app')
  */
 function RunnableAddRepoPopover (
   async,
+  keypather,
+  pick,
   QueryAssist,
   $rootScope,
   $state,
@@ -27,7 +29,47 @@ function RunnableAddRepoPopover (
       $scope.repoListPopover.data.showFilter = false;
       $scope.repoListPopover.data.repoFilter = '';
 
+      /**
+       * Create a new contextVersion->appCodeVersion
+       * representing the repo we just selected
+       */
       $scope.repoListPopover.actions.addRepo = function (repo) {
+        // close this and other popover
+        $rootScope.$broadcast('app-document-click');
+        var cv = $scope.repoListPopover.data.build.contextVersions.models[0];
+        var acv = cv.newAppCodeVersion({
+          repo: repo.attrs.full_name,
+          branch: repo.attrs.default_branch
+        });
+        acv.githubRepo.reset(repo.json());
+        var branch = acv.githubRepo.newBranch(repo.attrs.default_branch);
+        async.series([
+          fetchLatestCommit,
+          createAppCodeVersion
+        ]);
+        function fetchLatestCommit (cb) {
+          var commits = branch.commits.fetch(function (err) {
+            if (err) throw err;
+            // latest commit
+            var latestCommit = commits.models[0];
+            acv.extend({
+              commit: latestCommit.attrs.sha
+            });
+            cb();
+          });
+        }
+        function createAppCodeVersion (cb) {
+          var body = pick(acv.json(), [
+            'repo',
+            'branch',
+            'commit'
+          ]);
+          // acv
+          cv.appCodeVersions.create(body, function (err) {
+            if (err) throw err;
+            $rootScope.safeApply();
+          });
+        }
       };
 
       // rules for display based on state name
@@ -43,12 +85,24 @@ function RunnableAddRepoPopover (
           break;
       }
 
+      function setActiveBranch (acv, activeBranch) {
+        var githubRepo = acv.githubRepo;
+        githubRepo.branches.add(activeBranch);
+        // reset githubRepo state
+        keypather.set(githubRepo, 'state.activeBranch', activeBranch);
+        keypather.set(githubRepo, 'state.selectedBranch', activeBranch);
+        // reset branch state
+        activeBranch.state = {};
+        $rootScope.safeApply();
+        return activeBranch;
+      }
+
       function fetchUser (cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
           .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
+            $scope.repoListPopover.data.user = user;
             $rootScope.safeApply();
             cb();
           })
@@ -58,11 +112,11 @@ function RunnableAddRepoPopover (
       }
 
       function fetchBuild (cb) {
-        new QueryAssist($scope.user, cb)
+        new QueryAssist($scope.repoListPopover.data.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
+            $scope.repoListPopover.data.build = build;
             $rootScope.safeApply();
             cb();
           })
@@ -85,8 +139,8 @@ function RunnableAddRepoPopover (
       function fetchAllOwnerRepos (cb) {
         function fetchPage (page) {
           var userOrOrg = getOwnerRepoQuery(
-            $scope.user,
-            $scope.build,
+            $scope.repoListPopover.data.user,
+            $scope.repoListPopover.data.build,
             $stateParams.userName,
             cb
           );

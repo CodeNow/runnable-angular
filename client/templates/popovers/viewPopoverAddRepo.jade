@@ -36,14 +36,14 @@
       li.popover-list-item(
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "repo in data.githubRepos.models | \
-                     unaddedRepos:data.version.appCodeVersions | \
+                     unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
                      repos:data.repoFilter"
         title = "{{ repo.attrs.full_name }}"
       )
         span {{ repo.attrs.full_name }}
       li.popover-list-item.no-actions(
         ng-if = "(data.githubRepos.models | \
-          unaddedRepos:data.version.appCodeVersions | \
+          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
           repos:data.repoFilter).length === 0"
       ) No matches.
       //- li.popover-list-item.no-actions There's nothing left to add.
