@@ -1,12 +1,22 @@
 .modal-backdrop(
   ng-class = "{'in': in}"
 )
-  .modal-dialog(
+  .modal-dialog.modal-environment(
     ng-click = "$event.stopPropagation()"
   )
     header.modal-header
       h1.modal-heading Edit Environment
-    main.modal-body
+      button.btn.btn-icon.white(
+        type = "button"
+      )
+        svg.iconnables.icons-trigger
+          use(
+            xlink:href = "#icons-trigger"
+          )
+    main.modal-body.ace-runnable-dark
+      pre.pre.ace_editor.ace-tm(
+        ng-init = "data.env = [];"
+      )
     footer.modal-footer
       button.orange Rebuild
       //- button.green Save

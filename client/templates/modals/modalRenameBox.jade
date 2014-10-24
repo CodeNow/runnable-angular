@@ -20,6 +20,7 @@
           span.input-label Name
           span.input-description {{ data.instance.state.name }}.runnable.io
           input.input(
+            autofocus
             instance = "data.instance"
             name = "name"
             ng-blur = "data.renameForm.showFocus = false"

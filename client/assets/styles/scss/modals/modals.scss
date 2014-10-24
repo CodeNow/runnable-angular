@@ -51,6 +51,12 @@
 .modal-header {
   color: $gray-dark;
   height: 60px;
+
+  .btn {
+    float: right;
+    right: 6px;
+    top: 6px;
+  }
 }
 
 //- p.modal-description
@@ -60,6 +66,7 @@
 
 //- h1.modal-heading
 .modal-heading {
+  float: left;
   font-size: 23px;
   line-height: 60px;
   padding: 0 21px;
