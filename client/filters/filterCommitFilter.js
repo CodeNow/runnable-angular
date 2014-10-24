@@ -3,9 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function commitFilter(
-  keypather
-) {
+function commitFilter() {
   return function (commits, filter) {
     if (!filter) {
       return commits;
@@ -15,8 +13,7 @@ function commitFilter(
 
     return commits.filter(function (commit) {
       return ~commit.attrs.commit.message.toLowerCase().indexOf(filter) ||
-        // attrs.author will == null for merge commits
-        ~keypather.get(commit, 'attrs.author.login.toLowerCase().indexOf(filter)') ||
+        (commit.attrs.author && ~commit.attrs.author.login.toLowerCase().indexOf(filter)) ||
         ~commit.attrs.sha.toLowerCase().indexOf(filter);
     });
   };
