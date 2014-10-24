@@ -48,10 +48,11 @@ function RunnableAddRepoPopover (
           createAppCodeVersion
         ]);
         function fetchLatestCommit (cb) {
-          var commits = branch.commits.fetch(function (err) {
+          branch.commits.fetch(function (err) {
             if (err) throw err;
-            // latest commit
-            var latestCommit = commits.models[0];
+            // TODO: how to handle?
+            if (branch.commits.models.length === 0) throw new Error('repo has 0 commits');
+            var latestCommit = branch.commits.models[0];
             acv.extend({
               commit: latestCommit.attrs.sha
             });
@@ -128,6 +129,21 @@ function RunnableAddRepoPopover (
           .go();
       }
 
+      /**
+       * Models in build.contextVersions collection will
+       * have empty appCodeVersion collections by default.
+       * Perform fetch on each contextVersion to populate
+       * appCodeVersions collection
+       */
+      function fetchBuildContextVersions (cb) {
+        var build = $scope.repoListPopover.data.build;
+        if (!build.contextVersions.models[0]) throw new Error('build has 0 contextVersions');
+        build.contextVersions.models[0].fetch(function (err) {
+          if (err) throw err;
+          cb();
+        });
+      }
+
       function getOwnerRepoQuery (user, build, userName, cb) {
         if (user.isOwnerOf(build)) {
           return new QueryAssist(user, cb).wrapFunc('fetchGithubRepos');
@@ -181,6 +197,7 @@ function RunnableAddRepoPopover (
       async.series([
         fetchUser,
         fetchBuild,
+        fetchBuildContextVersions,
         fetchAllOwnerRepos
       ]);
 

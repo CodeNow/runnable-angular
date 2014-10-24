@@ -9,7 +9,9 @@ function RunnableEditRepoCommit (
     restrict: 'E',
     templateUrl: 'viewEditRepoCommit',
     replace: true,
-    scope: {},
+    scope: {
+      acv: '=appCodeVersion'
+    },
     link: function ($scope, elem, attrs) {
     }
   };

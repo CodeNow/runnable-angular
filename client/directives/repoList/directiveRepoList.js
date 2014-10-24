@@ -75,6 +75,20 @@ function RunnableRepoList (
           .go();
       }
 
+      /**
+       * Models in build.contextVersions collection will
+       * have empty appCodeVersion collections by default.
+       * Perform fetch on each contextVersion to populate
+       * appCodeVersions collection
+       */
+      function fetchBuildContextVersions (cb) {
+        if (!$scope.build.contextVersions.models[0]) throw new Error('build has 0 contextVersions');
+        $scope.build.contextVersions.models[0].fetch(function (err) {
+          if (err) throw err;
+          cb();
+        });
+      }
+
       /*
       $scope.selectLatestCommit = function (acv) {
         var activeBranch = acv.githubRepo.state.activeBranch;
