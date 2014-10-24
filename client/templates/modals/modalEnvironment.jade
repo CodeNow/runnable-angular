@@ -1,0 +1,16 @@
+.modal-backdrop(
+  ng-class = "{'in': in}"
+)
+  .modal-dialog(
+    ng-click = "$event.stopPropagation()"
+  )
+    header.modal-header
+      h1.modal-heading Edit Environment
+    main.modal-body
+    footer.modal-footer
+      button.orange Rebuild
+      //- button.green Save
+      button.white(
+        ng-click = "cancel()"
+        type = "button"
+      ) Go Back
