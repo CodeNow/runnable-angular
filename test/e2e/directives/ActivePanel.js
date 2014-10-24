@@ -19,7 +19,9 @@ function ActivePanel () {
   };
 
   this.clearActiveFile = function () {
-    this.writeToFile(/* cmd + a, delete */);
+    // testola
+    browser.actions().doubleClick(this.aceDiv.get()).perform();
+    return this.inputElm.get().clear();
   };
 
   this.getFileContents = function() {
