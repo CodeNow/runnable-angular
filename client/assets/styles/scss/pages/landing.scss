@@ -106,7 +106,7 @@
   color: $white;
   font-size: 19px;
   font-weight: 300;
-  margin: 0;
+  margin: 9px 0 0;
   text-align: center;
 
   @include media(xs) {
@@ -206,6 +206,29 @@
     height: 45px;
     margin-right: 9px;
     width: 21px;
+  }
+}
+
+// form.input-group.input-cta
+.input-cta {
+  height: 54px;
+  margin: 60px auto 120px;
+  position: relative;
+  width: 450px;
+
+  .input {
+    height: 100%;
+    padding-left: 9px;
+    padding-right: 100px;
+    text-align: center;
+    width: 100%;;
+  }
+
+  .btn-cta {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 93px;
   }
 }
 

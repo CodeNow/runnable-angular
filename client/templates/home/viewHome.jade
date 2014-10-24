@@ -19,37 +19,49 @@ header.hero
             xlink:href = "#runnable-logo"
           )
       a.btn.btn-hero(
-        href = "{{ dataApp.loginURL }}"
+        ng-href = "{{ dataApp.loginURL }}"
+        ng-if = "dataHome.data.hasPass"
       ) Sign In
+      a.btn.btn-hero(
+        href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+        ng-if = "!dataHome.data.hasPass"
+      ) Request an Invite
   .hero-wrapper
     h1.hero-text A Server for Every Commit
-    p.hero-text-sub Integrated with Github so you can checkout your project as you write it.
+    p.hero-text-sub Run #{''}
+      strong any #{''}
+      | and #{''}
+      strong every #{''}
+      | version of your code as it's developed.
 
 section.clearfix.landing-features
-  .feature
-    img(
-      height = "72"
-      src = "/build/images/home/feature-icon-2.svg"
-      width = "96"
-    )
-    h2.feature-header Don't be Committed
-    p.feature-description Integrated with your existing code on Github, so changing commits are fast and easy.
+
   .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-1.svg"
       width = "96"
     )
-    h2.feature-header Stacks on Stacks on Stacks
-    p.feature-description Run your entire stack from Node to Mongo.
+    h2.feature-header Customize
+    p.feature-description your server for any stack.
+
+  .feature
+    img(
+      height = "72"
+      src = "/build/images/home/feature-icon-2.svg"
+      width = "96"
+    )
+    h2.feature-header Launch
+    p.feature-description your entire app from any commit.
+
   .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-3.svg"
       width = "96"
     )
-    h2.feature-header Instant Verification
-    p.feature-description Checkout pull requests and merge conflicts on the fly.
+    h2.feature-header Fork
+    p.feature-description  multiple boxes to speed up your development.
 
 section.landing-callout
   img(
@@ -57,16 +69,21 @@ section.landing-callout
     src = "/build/images/home/feature-banner-1.svg"
     width = "600"
   )
-  h2 Bug Stomper
-  p We provide you the tools you need to debug issues.
-  a.btn.green.btn-cta(
-    href = "{{ dataApp.loginURL }}"
+  h2 Refreshingly Straightforward
+  p Full environmental configuration, file, and terminal access are always within a reach.
+  a.btn.btn-cta.green(
+    ng-href = "{{ dataApp.loginURL }}"
+    ng-if = "dataHome.data.hasPass"
   )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    | Sign Up with Github
+    | Sign up with GitHub
+  a.btn.btn-cta.green(
+    href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+    ng-if = "!dataHome.data.hasPass"
+  ) Request an Invite
 
 footer.landing-footer
   small.footer-text &copy; 2014
