@@ -4,7 +4,9 @@ require('app')
  * @ngInject
  */
 function RunnableEditRepoCommit (
-  $rootScope
+  $rootScope,
+  $state,
+  $stateParams
 ) {
   return {
     restrict: 'E',
@@ -26,6 +28,9 @@ function RunnableEditRepoCommit (
       });
       $scope.$watch('activeCommit', function (n) {
         if (n) $scope.popoverCommitSelect.data.activeCommit = n;
+      });
+      $scope.$watch('build', function (n) {
+        if (n) $scope.popoverCommitSelect.data.build = n;
       });
 
       $scope.popoverCommitSelect = {
