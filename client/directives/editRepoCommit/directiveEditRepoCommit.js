@@ -41,7 +41,11 @@ function RunnableEditRepoCommit (
       $scope.popoverCommitSelect.data.acv = $scope.acv;
       $scope.popoverCommitSelect.data.toggleFilter = false;
       $scope.popoverCommitSelect.data.commitFilter = '';
-      // $scope.popoverCommitSelect.actions. = function () {};
+
+      $scope.popoverCommitSelect.actions.selectBranch = function () {
+        $scope.activeBranch = $scope.popoverCommitSelect.data.activeBranch;
+        fetchBranchCommits($scope.activeBranch);
+      };
 
       setActiveBranch($scope.acv, $scope.acv.attrs.branch);
       setActiveCommit($scope.acv);
@@ -51,9 +55,12 @@ function RunnableEditRepoCommit (
       function setActiveBranch (acv, activeBranchName) {
         var githubRepo = acv.githubRepo;
         var activeBranch = githubRepo.newBranch(activeBranchName);
-        // why client-side populate collection?
-        githubRepo.branches.add(activeBranch);
         $scope.activeBranch = activeBranch;
+        githubRepo.branches.fetch(function (err) {
+          if (err) throw err;
+          githubRepo.branches.add(activeBranch);
+          $rootScope.safeApply();
+        });
         $rootScope.safeApply();
       }
 

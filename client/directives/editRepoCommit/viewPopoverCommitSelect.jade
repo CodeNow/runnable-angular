@@ -38,8 +38,9 @@
             xlink:href = "#icons-arrow-down"
           )
       select.select(
-        ng-model = "data.activeBranch"
-        ng-change = "actions.selectBranch(data, data.githubRepo.state.selectedBranch)"
+        name       = "activeBranch"
+        ng-model   = "data.activeBranch"
+        ng-change  = "actions.selectBranch()"
         ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
       )
 
