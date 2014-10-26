@@ -1,0 +1,17 @@
+//- use ng-show instead of ng-if for css loading effect
+h1.box-info.load(
+  ng-show = "dataInstance.data.instance.attrs.name"
+)
+  .box-name {{ dataInstance.data.instance.attrs.name }}
+    span.icons-status(
+      ng-class = "dataInstanceLayout.actions.getInstanceClasses(dataInstance.data.instance)"
+      tooltip = "{{ dataInstanceLayout.actions.getInstanceAltTitle(dataInstance.data.instance) }}"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+    )
+  input.box-url(
+    readonly
+    select-all
+    value = "{{ dataInstance.data.instance.attrs.name }}.{{ dataInstance.data.instance.attrs.owner.username }}.runnable.io"
+  )
+  //- sets layout on h1.box-name for .box-url
+  span.box-name-ghost {{ dataInstance.data.instance.attrs.name }}.{{ dataInstance.data.instance.attrs.owner.username }}.runnable.io

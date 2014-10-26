@@ -1,0 +1,31 @@
+.primary-actions
+  .btn-group
+    //- apply .with-restart if save restarts box
+    //- add title = "Save and Restart Box" if save restarts box
+    button.green.btn-save(
+      ng-class = "{in: dataInstance.data.saving}"
+      ng-click = "dataInstance.actions.saveChanges()"
+      ng-disabled = "!dataInstance.data.container.running() || dataInstance.data.loading"
+      type = "button"
+    )
+      span.btn-text Save
+      //- show if restart is checked
+      span.btn-text(
+        ng-if = "dataInstance.data.restartOnSave"
+      ) #{''} and Restart
+    button.green.btn-icon.btn-icon-sm.btn-save-options(
+      ng-class = "{active: dataInstance.data.popoverSaveOptions.data.show}"
+      ng-disabled = "!dataInstance.data.container.running() || dataInstance.data.loading"
+      toggle-pop-over
+      toggle-pop-over-model = "dataInstance.data.popoverSaveOptions.data.show"
+      type = "button"
+    )
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      pop-over(
+        actions = "dataInstance.data.popoverSaveOptions.actions"
+        data = "dataInstance.data.popoverSaveOptions.data"
+        template = "viewInstancePopoverSaveOptions"
+      )
