@@ -6,7 +6,6 @@ require('app')
 function RunnableSetupBoxName (
   async,
   determineActiveAccount,
-  keypather,
   QueryAssist,
   $rootScope,
   user
@@ -63,6 +62,7 @@ function RunnableSetupBoxName (
                 cb();
               })
               .resolve(function (err, projects, cb) {
+                if (err) throw err;
               })
               .go();
           }

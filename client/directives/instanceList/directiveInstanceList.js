@@ -8,6 +8,7 @@ function RunnableInstanceList (
   determineActiveAccount,
   $filter,
   getInstanceClasses,
+  getInstanceAltTitle,
   QueryAssist,
   $rootScope,
   $state,
@@ -36,22 +37,7 @@ function RunnableInstanceList (
 
       $scope.getInstanceClasses = getInstanceClasses;
 
-      $scope.getInstanceAltTitle = function (instance) {
-        var state = $scope.getInstanceClasses(instance);
-        if (state.failed) {
-          return "Build failed";
-        }
-        if (state.running) {
-          return "Started " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.StartedAt'));
-        }
-        if (state.stopped) {
-          return "Stopped " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt'));
-        }
-        if (state.building) {
-          return "Build in progress";
-        }
-        return "";
-      };
+      $scope.getInstanceAltTitle = getInstanceAltTitle;
 
       function fetchUser (cb) {
         new QueryAssist(user, cb)
