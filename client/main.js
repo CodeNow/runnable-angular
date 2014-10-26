@@ -66,8 +66,21 @@ app.run(['$rootScope',
     Object.keys(views.Templates).forEach(function (viewName) {
       $templateCache.put(viewName, views.Templates[viewName]());
     });
-  }
-]);
+}]);
+
+/**
+ * Broadcast to all child scops when keydown key is escape
+ */
+app.run([
+  '$rootScope',
+  function ($rootScope) {
+    $(document).on('keydown', function (e) {
+      if (e.keyCode === 27) {
+        $rootScope.$broadcast('app-document-click');
+        $rootScope.safeApply();
+      }
+    });
+}]);
 
 /**
  * DOM-ready event, start app
