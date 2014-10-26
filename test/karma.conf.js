@@ -43,8 +43,8 @@ module.exports = function(config) {
     customLaunchers: customLaunchers,
 
     // browsers: Object.keys(customLaunchers),
-    // browsers: ['Chrome'],
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
+    //browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
@@ -82,7 +82,8 @@ module.exports = function(config) {
       // sourcemaps sir?
       debug: true,
       files: [
-        'unit/**/*.unit.js'
+        //'unit/**/*.unit.js'
+        'unit/directives/directiveRunnable*.js'
       ]
     },
 

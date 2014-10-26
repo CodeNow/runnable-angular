@@ -40,7 +40,7 @@
       select.select(
         ng-model = "data.activeBranch"
         ng-change = "actions.selectBranch(data, data.githubRepo.state.selectedBranch)"
-        ng-options = "branch.attrs.name for branch in data.githubRepo.branches.models"
+        ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
       )
 
   //- list of commits

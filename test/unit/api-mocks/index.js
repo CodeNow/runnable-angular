@@ -16,5 +16,8 @@ module.exports = {
     commits: require('./gh/commits.json'),
     compare: require('./gh/compare.json')
   },
+  appCodeVersions: {
+    index: require('./appCodeVersions/index.json')
+  },
   user: require('./user')
 };
