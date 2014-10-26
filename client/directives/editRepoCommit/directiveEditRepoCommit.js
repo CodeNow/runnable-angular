@@ -54,7 +54,6 @@ function RunnableEditRepoCommit (
         // why client-side populate collection?
         githubRepo.branches.add(activeBranch);
         $scope.activeBranch = activeBranch;
-        debugger;
         $rootScope.safeApply();
       }
 
@@ -65,18 +64,16 @@ function RunnableEditRepoCommit (
       }
 
       function fetchCommitOffset (acv, activeCommit) {
-        activeCommit.fetch(function (err) {
-          activeCommit.commitOffset(acv.attrs.branch, function (err, diff) {
-            if (err) {
-              // not a throw situation
-              // 404 could mean the commit doesn't exist on that branch anymore (git reset)
-              // view will display 'update to latest' message if commitsBehind falsy
-              $scope.commitsBehind = false;
-            } else {
-              $scope.commitsBehind = diff.behind_by;
-            }
-            $rootScope.safeApply();
-          });
+        activeCommit.commitOffset(acv.attrs.branch, function (err, diff) {
+          if (err) {
+            // not a throw situation
+            // 404 could mean the commit doesn't exist on that branch anymore (git reset)
+            // view will display 'update to latest' message if commitsBehind falsy
+            $scope.commitsBehind = false;
+          } else {
+            $scope.commitsBehind = diff.behind_by;
+          }
+          $rootScope.safeApply();
         });
       }
 

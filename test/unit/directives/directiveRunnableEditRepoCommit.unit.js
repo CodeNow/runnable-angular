@@ -3,7 +3,7 @@ var chai    = require('chai');
 var sinon   = require('sinon');
 var colors  = require('colors');
 var angular = require('angular');
-var mocks   = require('../api-mocks');
+var mocks   = require('../apiMocks');
 var expect  = chai.expect;
 var directiveTemplate = require('../../fixtures/directiveTemplate');
 var host = require('../../../client/config/json/api.json').host;
@@ -45,26 +45,15 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
         .newAppCodeVersion(mocks.appCodeVersions.index);
       $scope.acv = ctx.acv;
     });
-
-    /*
-    beforeEach(function (done) {
-      var acvUrl = host + '/' + ctx.acv.path();
+    beforeEach(function () {
+      var commitOffsetUrl = host + '/github/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90?';
       $httpBackend
-        .when('GET', acvUrl)
-        .respond(mocks.appCodeVersions.index);
-      $httpBackend.expectGET(acvUrl);
-      debugger;
-      ctx.acv.fetch(function () {
-        console.log(arguments);
-        console.log(ctx.acv.attrs);
-        done();
-      });
+        .when('GET', commitOffsetUrl)
+        .respond();
+      $httpBackend.expectGET(commitOffsetUrl);
     });
-    */
-
     beforeEach(function () {
       $compile(ctx.element)($scope);
-      debugger;
       $scope.$digest();
     });
     it('should display', function () {
