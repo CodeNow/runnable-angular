@@ -54,6 +54,7 @@ function RunnableEditRepoCommit (
         // why client-side populate collection?
         githubRepo.branches.add(activeBranch);
         $scope.activeBranch = activeBranch;
+        debugger;
         $rootScope.safeApply();
       }
 

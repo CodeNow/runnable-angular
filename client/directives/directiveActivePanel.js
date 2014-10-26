@@ -1,3 +1,9 @@
+var $ = require('jquery'); // required by brace
+require('brace');
+require('brace/ext/modelist');
+require('brace/ext/searchbox');
+require('lib/brace-modes');
+
 require('app')
   .directive('activePanel', activePanel);
 /**

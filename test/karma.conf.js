@@ -44,7 +44,7 @@ module.exports = function(config) {
 
     // browsers: Object.keys(customLaunchers),
     browsers: ['Chrome'],
-    //browsers: ['PhantomJS'],
+    // browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',

@@ -45,6 +45,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
         .newAppCodeVersion(mocks.appCodeVersions.index);
       $scope.acv = ctx.acv;
     });
+
     /*
     beforeEach(function (done) {
       var acvUrl = host + '/' + ctx.acv.path();
@@ -60,12 +61,14 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
       });
     });
     */
+
     beforeEach(function () {
       $compile(ctx.element)($scope);
       debugger;
       $scope.$digest();
     });
     it('should display', function () {
+      expect(true).to.equal(true);
 
       // verify populated fields are showing after $scope.apply has been called
       // expect(element.child.text).to.equal('hello');
