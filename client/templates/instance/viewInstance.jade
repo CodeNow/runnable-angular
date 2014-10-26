@@ -11,6 +11,7 @@
   | Your build is now running
 
 header.box-header
+  //- use ng-show instead of ng-if for css loading effect
   h1.box-info.load(
     ng-show = "dataInstance.data.instance.attrs.name"
   )
@@ -58,6 +59,9 @@ header.box-header
           data = "dataInstance.data.popoverSaveOptions.data"
           template = "viewInstancePopoverSaveOptions"
         )
+
+
+
   .secondary-actions
     //- apply class .in to .save-spinner to play animation
     //- subsequent saves: remove .in and reapply .in

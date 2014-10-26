@@ -4,7 +4,7 @@ require('app')
  * @ngInject
  */
 function determineActiveAccount (
-  $state,
+  $stateParams,
   async,
   hasKeypaths,
   QueryAssist,
@@ -44,12 +44,12 @@ function determineActiveAccount (
     }
 
     function match (cb) {
-      if (!$state.params.userName || $state.params.userName === _user.oauthName()) {
+      if (!$stateParams.userName || $stateParams.userName === _user.oauthName()) {
         cb(null, _user);
         return;
       }
       var currentOrg = _orgs.find(hasKeypaths({
-        'attrs.login.toLowerCase()': $state.params.userName.toLowerCase()
+        'attrs.login.toLowerCase()': $stateParams.userName.toLowerCase()
       }));
       cb(null, currentOrg);
     }

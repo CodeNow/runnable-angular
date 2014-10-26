@@ -22,16 +22,15 @@ function ControllerSetup(
   QueryAssist
 ) {
 
-  var dataSetup = $scope.dataSetup = {
+  var dataSetup = {
     data: {},
     actions: {}
   };
   var data = dataSetup.data;
-  var actions = dataSetup.actions;
 
   data.openItems = new OpenItems();
   data.showExplorer = false;
-  data.loding = false;
+  data.loading = false;
 
   // Redirect to /new if this build has already been built
   function fetchUser (cb) {
@@ -87,6 +86,9 @@ function ControllerSetup(
     fetchBuild
   ]);
 
+  data.popoverAddTab = addTab({
+    envVars: true
+  }, data.openItems);
 
 
 
@@ -94,7 +96,7 @@ function ControllerSetup(
 
 
 
-
+  /*
   data.popoverAddTab = addTab({
     envVars: true
   }, data.openItems);
@@ -211,5 +213,6 @@ function ControllerSetup(
       });
     }
   };
+  */
 
 }

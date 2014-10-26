@@ -4,20 +4,86 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
+  addTab,
+  async,
+  determineActiveAccount,
+  getNewFileFolderName,
+  $interval,
+  keypather,
+  QueryAssist,
+  OpenItems,
+  $rootScope,
   $scope,
   $state,
   $stateParams,
   $timeout,
-  $interval,
-  $rootScope,
-  keypather,
-  async,
   user,
-  OpenItems,
-  getNewFileFolderName,
-  validateEnvVars,
-  addTab
+  validateEnvVars
 ) {
+
+  var dataInstance = $scope.dataInstance = {data: {}, actions: {}};
+  var data = dataInstance.data;
+  var actions = dataInstance.actions;
+
+  data.openItems = new OpenItems();
+  // displays message saying build has completed
+  data.showBuildCompleted = false;
+
+  // Redirect to /new if this build has already been built
+  function fetchUser (cb) {
+    new QueryAssist(user, cb)
+      .wrapFunc('fetchUser')
+      .query('me')
+      .cacheFetch(function (user, cached, cb) {
+        data.user = user;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, user, cb) {
+        if (err) throw err;
+        cb();
+      })
+      .go();
+  }
+
+  function fetchInstance(cb) {
+    new QueryAssist(data.user, cb)
+      .wrapFunc('fetchInstances')
+      .query({
+        githubUsername: $stateParams.userName,
+        name: $stateParams.instanceName
+      })
+      .cacheFetch(function (instances, cached, cb) {
+        if (!cached && !instances.models.length) {
+          return cb(new Error('Instance not found'));
+        }
+        var instance = instances.models[0];
+        data.instance = instance;
+        $scope.safeApply();
+      })
+      .resolve(function (err, instances, cb) {
+        var instance = instances.models[0];
+        if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+          return cb(new Error('instance has no containers'));
+        }
+        $scope.safeApply();
+        cb(err);
+      })
+      .go();
+  }
+
+  async.waterfall([
+    determineActiveAccount,
+    function (activeAccount, cb) {
+      data.activeAccount = activeAccount;
+      $scope.safeApply();
+      cb();
+    },
+    fetchUser,
+    fetchInstance
+  ]);
+
+  /*
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerInstance;
@@ -33,10 +99,12 @@ function ControllerInstance(
       name: instance.attrs.name + '-copy'
     };
   }
+  */
 
   /*********************************
    * popoverFileMenu
    *********************************/
+  /*
   var pfm = data.popoverFileMenu = {};
   pfm.data = {
     show: false
@@ -66,10 +134,11 @@ function ControllerInstance(
       });
     });
   };
-
+  */
   /*********************************
   * popoverGearMenu
   *********************************/
+  /*
   var pgm = data.popoverGearMenu = {};
   pgm.data = {
     show: false,
@@ -246,27 +315,29 @@ function ControllerInstance(
       pgm.actions.forkInstance(env);
     };
   }
-
+  */
   /*********************************
    * popoverAddTab
    *********************************/
-  var pat = data.popoverAddTab = new addTab();
+  //var pat = data.popoverAddTab = new addTab();
 
   /*********************************
    * popoverSaveOptions
    *********************************/
 
-  // What's "isolate" mean?
+  /*
   var pso = data.popoverSaveOptions = {};
   pso.data = {
     dataInstance: $scope.dataInstance
   };
+  */
 
   /***************************************/
 
   // returns class(s) for section.views-with-add-tab
   // depending on various conditions. Classes control
   // presence of tabs-bar
+  /*
   actions.getSectionViewsClass = function () {
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'container');
@@ -449,10 +520,11 @@ function ControllerInstance(
       pgm.data.dataModalFork.instances = n;
     }
   });
-
+  */
   /* ============================
    *   API Fetch Methods
    * ===========================*/
+  /*
   function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
     new QueryAssist(thisUser, cb)
@@ -524,7 +596,6 @@ function ControllerInstance(
     $scope.$watch('dataInstance.data.container.running()', updateTabs, true);
     cb();
   }
-/*
   async.waterfall([
     holdUntilAuth,
     fetchInstance,
@@ -538,7 +609,6 @@ function ControllerInstance(
     }
     $scope.safeApply();
   });
-*/
   // Manually cancel the interval
   $scope.$on('$destroy', function () {
     $interval.cancel(instanceFetchInterval);
@@ -548,8 +618,10 @@ function ControllerInstance(
   $scope.$watch('dataInstance.data.instance.state.env', function (newEnvVal, oldEnvVal) {
     data.envValidation = validateEnvVars(newEnvVal);
   });
+  */
 }
 
+/*
 ControllerInstance.initData = function () {
   return {
     data: {
@@ -560,3 +632,4 @@ ControllerInstance.initData = function () {
     actions: {}
   };
 };
+*/
