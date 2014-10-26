@@ -55,7 +55,7 @@
       ng-class = "{ \
         active: commit.attrs.sha === data.activeCommit.attrs.sha \
       }"
-      ng-click = "actions.selectActiveBranchAndCommit(data, data.githubRepo.state.selectedBranch, commit)"
+      ng-click = "actions.selectCommit(commit)"
     )
       .commit-message {{ commit.attrs.commit.message }}
       .commit-message {{ commit.attrs.sha }}

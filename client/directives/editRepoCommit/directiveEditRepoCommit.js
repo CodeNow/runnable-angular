@@ -38,13 +38,17 @@ function RunnableEditRepoCommit (
         actions: {}
       };
       // share appCodeVersion with popover to display branches/commits in popover
+      $scope.popoverCommitSelect.data.show = false;
       $scope.popoverCommitSelect.data.acv = $scope.acv;
       $scope.popoverCommitSelect.data.toggleFilter = false;
       $scope.popoverCommitSelect.data.commitFilter = '';
-
       $scope.popoverCommitSelect.actions.selectBranch = function () {
         $scope.activeBranch = $scope.popoverCommitSelect.data.activeBranch;
         fetchBranchCommits($scope.activeBranch);
+      };
+      $scope.popoverCommitSelect.actions.selectCommit = function (commit) {
+        $scope.popoverCommitSelect.data.show = false;
+        $scope.activeCommit = commit;
       };
 
       setActiveBranch($scope.acv, $scope.acv.attrs.branch);
