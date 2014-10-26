@@ -1,23 +1,27 @@
 module.exports = {
-  instances: {
-    running: require('./instances/running.json'),
-    building: require('./instances/building.json'),
-    stopped: require('./instances/stopped.json')
+  appCodeVersions: {
+    index: require('./appCodeVersions/index')
   },
   builds: {
-    setup: require('./builds/setup.json')
+    setup: require('./builds/setup')
+  },
+  commitCompare: {
+    zeroBehind: require('./commitCompare/zeroBehind')
   },
   contextVersions: {
-    running: require('./contextVersions/running.json'),
-    setup: require('./contextVersions/setup.json')
+    running: require('./contextVersions/running'),
+    setup: require('./contextVersions/setup')
   },
   gh: {
-    repos: require('./gh/repos.json'),
-    commits: require('./gh/commits.json'),
-    compare: require('./gh/compare.json')
+    bitcoinRepoCommits: require('./gh/bitcoinRepoCommits'),
+    repos: require('./gh/repos'),
+    commits: require('./gh/commits'),
+    compare: require('./gh/compare')
   },
-  appCodeVersions: {
-    index: require('./appCodeVersions/index.json')
+  instances: {
+    running: require('./instances/running'),
+    building: require('./instances/building'),
+    stopped: require('./instances/stopped')
   },
   user: require('./user')
 };
