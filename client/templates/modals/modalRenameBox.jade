@@ -30,11 +30,12 @@
               contenteditable = "true"
               instance = "data.instance"
               name = "name"
-              ng-model = "data.instance.state.name"
+              ng-model = "newName"
+              ng-init = "newName = data.instance.attrs.name"
               validate-name = "data.instances"
               validate-name-pattern
               validate-name-current-instance-valid = "false"
-            ) {{ data.instance.state.name }}
+            ) {{ data.instance.attrs.name }}
             .input-suffix .{{ data.instance.attrs.owner.username }}.runnable.io
           .validate-wrapper(
             ng-class = "{ \
@@ -54,7 +55,10 @@
             span.validate-rules.invalid-name That's a pretty name, but it's taken.
     .modal-footer
       button.white(
-        ng-click = "cancel()"
+        ng-click = "newName = data.instance.attrs.name; \
+                    data.renameForm.$setPristine(); \
+                    cancel(); \
+                    actions.cancel();"
         type = "button"
       ) Cancel
       button(
@@ -63,6 +67,6 @@
           orange: data.renameForm.$invalid \
         }"
         data-action
-        ng-click = "actions.renameInstance(cancel)"
+        ng-click = "actions.renameInstance(newName)"
         ng-disabled = "data.renameForm.$invalid"
       ) Rename Box
