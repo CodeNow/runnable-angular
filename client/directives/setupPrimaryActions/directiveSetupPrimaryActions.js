@@ -24,9 +24,6 @@ function RunnableSetupPrimaryActions (
     },
     link: function ($scope, elem, attrs) {
 
-      function updateInstancesCollection () {
-      }
-
       function goToInstance () {
         $state.go('instance.instance', {
           // TODO: replace w/
@@ -58,7 +55,6 @@ function RunnableSetupPrimaryActions (
         ], function (err) {
           if (err) throw err;
           $scope.loading = false;
-          updateInstancesCollection();
           goToInstance();
         });
       };
