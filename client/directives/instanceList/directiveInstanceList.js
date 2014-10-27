@@ -22,6 +22,18 @@ function RunnableInstanceList (
     scope: {},
     link: function ($scope, elem, attrs) {
 
+      /**
+       * Refetch list of instances on state changes.
+       * Useful after delete, fork, copy
+       */
+      $scope.$on('$locationChangeSuccess', function () {
+        async.series([
+          fetchUser,
+          fetchOrgs,
+          fetchInstances
+        ]);
+      });
+
       $scope.stateToNew = function () {
         $state.go('instance.new', {
           userName: $scope.activeAccount.oauthId()

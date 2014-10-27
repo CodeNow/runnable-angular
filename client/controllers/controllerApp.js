@@ -7,20 +7,9 @@ require('app')
  * @ngInject
  */
 function ControllerApp(
-  $rootScope,
   $scope,
-  $timeout,
-  $interval,
-  $document,
-  $stateParams,
-  $state,
   configAPIHost,
-  holdUntilAuth,
-  QueryAssist,
-  primus,
-  $localStorage,
-  configEnvironment,
-  jQuery
+  configEnvironment
 ) {
 
   /*

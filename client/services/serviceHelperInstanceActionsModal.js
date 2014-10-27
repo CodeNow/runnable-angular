@@ -35,7 +35,7 @@ function HelperInstanceActionsModal (
     $scope.popoverGearMenu.data.dataModalFork   = data;
     $scope.popoverGearMenu.data.dataModalDelete = data;
 
-    $scope.popoverGearMenu.data.actionsModalRename = {
+    $scope.popoverGearMenu.actions.actionsModalRename = {
       renameInstance: function (newName, cb) {
         $scope.popoverGearMenu.data.show = false;
         newName = newName.trim();
@@ -65,7 +65,7 @@ function HelperInstanceActionsModal (
       }
     };
 
-    $scope.popoverGearMenu.data.actionsModalFork = {
+    $scope.popoverGearMenu.actions.actionsModalFork = {
       forkInstance: function (newName, env, cb) {
         $scope.popoverGearMenu.data.show = false;
         newName = newName.trim();
@@ -83,6 +83,8 @@ function HelperInstanceActionsModal (
           newInstance.update(opts, function (err) {
             $rootScope.safeApply();
             if (err) throw err;
+            // update instances collection to update
+            // viewInstanceList
             $state.go('instance.instance', {
               userName: $stateParams.userName,
               instanceName: newInstance.attrs.name
@@ -95,7 +97,7 @@ function HelperInstanceActionsModal (
       }
     };
 
-    $scope.popoverGearMenu.data.actionsModalDelete = {
+    $scope.popoverGearMenu.actions.actionsModalDelete = {
       deleteInstance: function () {
         data.instance.destroy(function (err) {
           $rootScope.safeApply();

@@ -32,7 +32,7 @@
               validate-name = "data.instances"
               validate-name-pattern
               validate-name-current-instance-valid = "false"
-            ) {{ data.instance.state.name }}
+            ) {{ data.instance.attrs.name }}
             .input-suffix .{{ data.instance.attrs.owner.username }}.runnable.io
           .validate-wrapper(
             ng-class = "{\

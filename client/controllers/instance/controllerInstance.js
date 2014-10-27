@@ -367,7 +367,6 @@ function ControllerInstance(
       dataInstance.data.saving = true;
       $scope.safeApply();
     });
-
     var updateModels = data.openItems.models
       .filter(function (model) {
         if (typeof keypather.get(model, 'attrs.body') !== 'string') {
