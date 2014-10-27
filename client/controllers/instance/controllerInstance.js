@@ -4,7 +4,6 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  addTab,
   async,
   determineActiveAccount,
   getNewFileFolderName,
@@ -26,6 +25,7 @@ function ControllerInstance(
   var actions = dataInstance.actions;
 
   data.openItems = new OpenItems();
+
   // displays message saying build has completed
   data.showBuildCompleted = false;
   // loader if saving fs changes

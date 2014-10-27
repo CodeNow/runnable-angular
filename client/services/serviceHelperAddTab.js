@@ -1,10 +1,9 @@
 require('app')
-  .factory('addTab', addTab);
+  .factory('helperAddTab', helperAddTab);
 /**
  * @ngInject
  */
-function addTab() {
-  var openItems;
+function helperAddTab() {
   return function(config, openItems) {
     if (!config) {
       // default to all available
@@ -50,9 +49,6 @@ function addTab() {
           envVars.state.readOnly = config.envVarsReadOnly;
           return envVars;
         }
-      },
-      addOpenItems: function (_openItems) {
-        openItems = _openItems;
       }
     };
     return pat;
