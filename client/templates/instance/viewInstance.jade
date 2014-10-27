@@ -27,17 +27,6 @@ header.box-header
 section.sidebar.box-sidebar.load
 
   runnable-repo-list
-  //-
-    //- repositories
-    //- edit === false means we're on instance page, no add/remove instances
-    //- but we can switch commit
-    //- Using ng-show here so it'll still fetch the repos
-    repo-list(
-      build = "dataInstance.data.build",
-      edit = "false"
-      instance = "dataInstance.data.instance"
-      ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
-    )
 
 section.views.with-add-tab(
   ng-class = "dataInstance.actions.getSectionViewsClass()"
@@ -51,21 +40,27 @@ section.views.with-add-tab(
       use(
         xlink:href = "#icons-folder-open"
       )
-  section.explorer
-    .explorer-controls
-      button.toggle-theme(
-        ng-class = "{dark: !dataInstance.data.toggleTheme, light: dataInstance.data.toggleTheme}"
-        ng-click = "dataInstance.data.toggleTheme = !dataInstance.data.toggleTheme"
-        ng-init = "dataInstance.data.toggleTheme = true"
-        tooltip = "Change Theme"
-        tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
+
+  runnable-explorer(
+    open-items = "dataInstance.data.openItems"
+    toggle-theme = "dataInstance.data.toggleTheme"
+  )
+  //-
+    section.explorer
+      .explorer-controls
+        button.toggle-theme(
+          ng-class = "{dark: !dataInstance.data.toggleTheme, light: dataInstance.data.toggleTheme}"
+          ng-click = "dataInstance.data.toggleTheme = !dataInstance.data.toggleTheme"
+          ng-init = "dataInstance.data.toggleTheme = true"
+          tooltip = "Change Theme"
+          tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
+        )
+          .theme
+      file-tree(
+        open-items = "dataInstance.data.openItems"
+        read-only = "false"
+        root-dir = "dataInstance.data.version.rootDir"
       )
-        .theme
-    file-tree(
-      open-items = "dataInstance.data.openItems"
-      read-only = "false"
-      root-dir = "dataInstance.data.version.rootDir"
-    )
 
   //- tabs
   tabs(

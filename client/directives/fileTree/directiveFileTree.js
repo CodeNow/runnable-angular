@@ -106,7 +106,11 @@ function fileTree(
         fetchBuild
       ], function (err) {
         if (err) throw err;
-        $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
+        if ($stateParams.buildId) {
+          $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
+        } else {
+          $scope.rootDir = $scope.instance.containers.models[0].rootDir;
+        }
         $rootScope.safeApply();
       });
 

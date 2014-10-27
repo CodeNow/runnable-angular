@@ -30,6 +30,32 @@ function ControllerInstance(
   data.showBuildCompleted = false;
   // loader if saving fs changes
   data.saving = false;
+  data.loading = false;
+  data.showExplorer = false;
+
+  // returns class(s) for section.views-with-add-tab
+  // depending on various conditions. Classes control
+  // presence of tabs-bar
+  actions.getSectionViewsClass = function () {
+    var instance = keypather.get(data, 'instance');
+    var container = keypather.get(data, 'instance.containers.models[0]');
+    if (!instance || !container) {
+      return {
+        out: true
+      };
+    }
+    if (dataInstance.data.showExplorer && !dataInstance.data.loading) {
+      return {
+        in: true
+      };
+    }
+    if (!container.running() || dataInstance.data.loading) {
+      return {
+        out: true
+      };
+    }
+  };
+
 
   // Redirect to /new if this build has already been built
   function fetchUser (cb) {
