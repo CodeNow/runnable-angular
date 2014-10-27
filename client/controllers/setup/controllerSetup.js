@@ -22,7 +22,7 @@ function ControllerSetup(
   QueryAssist
 ) {
 
-  var dataSetup = {
+  var dataSetup = $scope.dataSetup = {
     data: {},
     actions: {}
   };

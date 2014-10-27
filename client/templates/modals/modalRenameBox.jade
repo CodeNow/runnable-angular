@@ -31,7 +31,8 @@
               instance = "data.instance"
               name = "name"
               ng-model = "newName"
-              ng-init = "newName = data.instance.attrs.name"
+              ng-init = "newName = data.instance.attrs.name; \
+                         data.renameForm.$setPristine();"
               validate-name = "data.instances"
               validate-name-pattern
               validate-name-current-instance-valid = "false"
