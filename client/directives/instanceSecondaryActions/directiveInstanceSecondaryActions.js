@@ -25,6 +25,7 @@ function RunnableInstanceSecondaryActions (
 
       $scope.popoverGearMenu = {data:{}, actions:{}};
       $scope.popoverGearMenu.data.show = false;
+
       $scope.popoverGearMenu.actions.stopInstance = function () {
         modInstance('stop');
       };
@@ -45,19 +46,6 @@ function RunnableInstanceSecondaryActions (
           });
         });
       };
-
-      $scope.$watch('instances', function (n) {
-        if (n) {
-          $scope.popoverGearMenu.data.dataModalRename.instances = n;
-          $scope.popoverGearMenu.data.dataModalFork.instances = n;
-        }
-      });
-      $scope.$watch('instance', function (n) {
-        if (n) {
-          $scope.popoverGearMenu.data.dataModalRename.instance = n;
-          $scope.popoverGearMenu.data.dataModalFork.instance = n;
-        }
-      });
 
       function modInstance (action) {
         $scope.loading = true;

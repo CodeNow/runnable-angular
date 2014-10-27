@@ -25,7 +25,7 @@ function RunnableAddRepoPopover (
         case 'instance.instance':
           $scope.enabled = false;
           break;
-        case 'instance.edit':
+        case 'instance.instanceEdit':
           $scope.enabled = true;
           break;
         case 'instance.setup':
@@ -112,7 +112,37 @@ function RunnableAddRepoPopover (
           .go();
       }
 
+      function fetchInstance(cb) {
+        new QueryAssist($scope.repoListPopover.data.user, cb)
+          .wrapFunc('fetchInstances')
+          .query({
+            githubUsername: $stateParams.userName,
+            name: $stateParams.instanceName
+          })
+          .cacheFetch(function (instances, cached, cb) {
+            if (!cached && !instances.models.length) {
+              return cb(new Error('Instance not found'));
+            }
+            var instance = instances.models[0];
+            $scope.repoListPopover.data.instance = instance;
+            $scope.repoListPopover.data.build    = instance.build;
+            $rootScope.safeApply();
+          })
+          .resolve(function (err, instances, cb) {
+            var instance = instances.models[0];
+            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+              return cb(new Error('instance has no containers'));
+            }
+            $rootScope.safeApply();
+            cb(err);
+          })
+          .go();
+      }
+
       function fetchBuild (cb) {
+        if (!$stateParams.buildId) {
+          return fetchInstance(cb);
+        }
         new QueryAssist($scope.repoListPopover.data.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)

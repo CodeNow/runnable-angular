@@ -22,57 +22,22 @@ header.box-header
   runnable-instance-secondary-actions(
     saving = "dataInstance.data.saving"
   )
-  //-
-    .secondary-actions
-      //- apply class .in to .save-spinner to play animation
-      //- subsequent saves: remove .in and reapply .in
-      .save-spinner(
-        ng-class = "{ in: dataInstance.data.saving }"
-      )
-        .spinner
-          .spinner-ring
-        svg.iconnables.icons-check
-          use(
-            xlink:href = "#icons-check"
-          )
-      button.white.btn-icon(
-        ng-click = "dataInstance.actions.goToBuild()"
-        title = "Edit Build Files"
-        type = "button"
-      )
-        svg.iconnables.icons-edit
-          use(
-            xlink:href = "#icons-edit"
-          )
-      a.btn.white.btn-icon.btn-actions(
-        ng-class = "{active: dataInstance.data.popoverGearMenu.data.show}"
-        toggle-pop-over
-        toggle-pop-over-model = "dataInstance.data.popoverGearMenu.data.show"
-        type = "button"
-      )
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-gear"
-          )
-        pop-over(
-          actions = "dataInstance.data.popoverGearMenu.actions"
-          data = "dataInstance.data.popoverGearMenu.data"
-          template = "viewInstancePopoverActions"
-        )
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar.load
 
-  //- repositories
-  //- edit === false means we're on instance page, no add/remove instances
-  //- but we can switch commit
-  //- Using ng-show here so it'll still fetch the repos
-  repo-list.load(
-    build = "dataInstance.data.build",
-    edit = "false"
-    instance = "dataInstance.data.instance"
-    ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
-  )
+  runnable-repo-list
+  //-
+    //- repositories
+    //- edit === false means we're on instance page, no add/remove instances
+    //- but we can switch commit
+    //- Using ng-show here so it'll still fetch the repos
+    repo-list(
+      build = "dataInstance.data.build",
+      edit = "false"
+      instance = "dataInstance.data.instance"
+      ng-show = "dataInstance.data.build.contextVersions.models[0].appCodeVersions.models.length"
+    )
 
 section.views.with-add-tab(
   ng-class = "dataInstance.actions.getSectionViewsClass()"

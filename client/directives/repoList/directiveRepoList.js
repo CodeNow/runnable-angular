@@ -21,28 +21,14 @@ function RunnableRepoList (
     scope: {},
     link: function ($scope, elem) {
 
-      // fetch appCodeVersions (repos) for display
-      switch ($state.$current.name) {
-        case 'instance.instance':
-          break;
-        case 'instance.edit':
-          break;
-        case 'instance.setup':
-          // fetch build
-          initInstanceNew();
-          break;
-      }
-
       // display guide if no repos added
       $scope.showGuide = true;
       $scope.showUpdateButton = false;
 
-      function initInstanceNew () {
-        async.series([
-          fetchUser,
-          fetchBuild
-        ]);
-      }
+      async.series([
+        fetchUser,
+        fetchBuild
+      ]);
 
       function fetchUser (cb) {
         new QueryAssist(user, cb)
@@ -58,7 +44,37 @@ function RunnableRepoList (
           .go();
       }
 
+      function fetchInstance(cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchInstances')
+          .query({
+            githubUsername: $stateParams.userName,
+            name: $stateParams.instanceName
+          })
+          .cacheFetch(function (instances, cached, cb) {
+            if (!cached && !instances.models.length) {
+              return cb(new Error('Instance not found'));
+            }
+            var instance = instances.models[0];
+            $scope.instance = instance;
+            $scope.build    = instance.build;
+            $rootScope.safeApply();
+          })
+          .resolve(function (err, instances, cb) {
+            var instance = instances.models[0];
+            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+              return cb(new Error('instance has no containers'));
+            }
+            $rootScope.safeApply();
+            cb(err);
+          })
+          .go();
+      }
+
       function fetchBuild (cb) {
+        if (!$stateParams.buildId) {
+          return fetchInstance(cb);
+        }
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
