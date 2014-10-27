@@ -27,7 +27,8 @@
               contenteditable = "true"
               instance = "data.instance"
               name = "name"
-              ng-model = "data.instance.state.name"
+              ng-init = "newName = data.instance.attrs.name"
+              ng-model = "newName"
               validate-name = "data.instances"
               validate-name-pattern
               validate-name-current-instance-valid = "false"
@@ -69,8 +70,11 @@
               ng-model = "data.env[$index].value"
             )
     .modal-footer
+      //- cancel is modalDirective
+        - actions.cancel is parent controller
       button.white(
-        ng-click = "cancel()"
+        ng-click = "actions.cancel(); \
+                    cancel();"
         type = "button"
       ) Cancel
       button(
@@ -79,5 +83,5 @@
           orange: data.forkForm.$invalid\
         }"
         ng-disabled = "data.forkForm.$invalid"
-        ng-click = "actions.fork(data.env)"
+        ng-click = "actions.forkInstance(newName, data.env)"
       ) Fork Box

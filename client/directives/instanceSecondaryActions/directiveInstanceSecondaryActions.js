@@ -5,11 +5,11 @@ require('app')
  */
 function RunnableInstanceSecondaryActions (
   async,
+  helperInstanceActionsModal,
   QueryAssist,
   $rootScope,
   $state,
   $stateParams,
-  $timeout,
   user
 ) {
   return {
@@ -31,40 +31,9 @@ function RunnableInstanceSecondaryActions (
       $scope.popoverGearMenu.actions.startInstance = function () {
         modInstance('start');
       };
-      // scope properties for rename modal
-      $scope.popoverGearMenu.data.dataModalRename = {
-        instance: null,
-        instances: null
-      };
-      $scope.popoverGearMenu.actions.actionsModalRename = {
-        renameInstance: function (newName, cb) {
-          $scope.popoverGearMenu.data.show = false;
-          newName = newName.trim();
-          if (newName === $scope.instance.attrs.name) {
-            return;
-          }
-          cb = cb || angular.noop;
-          // hacky, class remove + add
-          $timeout(function () {
-            $scope.saving = true;
-          }, 1);
-          $scope.saving = false;
-          $scope.instance.update({
-            name: newName
-          }, function (err) {
-            $rootScope.safeApply();
-            if (err) throw err;
-            $state.go('instance.instance', {
-              userName: $stateParams.userName,
-              instanceName: $scope.instance.attrs.name
-            });
-          });
-          cb();
-        },
-        cancel: function () {
-          $scope.popoverGearMenu.data.show = false;
-        }
-      };
+
+      // mutate scope, shared-multiple-states properties & logic for actions-modal
+      helperInstanceActionsModal($scope);
 
       $scope.goToEdit = function () {
         var forkedBuild = $scope.instance.build.deepCopy(function (err) {
@@ -80,11 +49,13 @@ function RunnableInstanceSecondaryActions (
       $scope.$watch('instances', function (n) {
         if (n) {
           $scope.popoverGearMenu.data.dataModalRename.instances = n;
+          $scope.popoverGearMenu.data.dataModalFork.instances = n;
         }
       });
       $scope.$watch('instance', function (n) {
         if (n) {
           $scope.popoverGearMenu.data.dataModalRename.instance = n;
+          $scope.popoverGearMenu.data.dataModalFork.instance = n;
         }
       });
 
