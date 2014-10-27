@@ -93,10 +93,10 @@ nav.sidebar.global-sidebar(
     ul.box-group
       //- .active for current active box
       //- .runnning for running box
-      //- .clustered if clustered
+      //- .expanded if clustered
 
       //- if not .active
-      li.box-group-item.white.clustered.load(
+      li.box-group-item.white.expanded.load(
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-show = "dataInstanceLayout.data.instances.models"
         tooltip = "{{ instance.attrs.name }}"
@@ -142,7 +142,7 @@ nav.sidebar.global-sidebar(
         )
 
       //- if .active
-      li.box-group-item.white.clustered.load.active(
+      li.box-group-item.white.expanded.load.active(
         ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-show = "dataInstanceLayout.data.instances.models"
         tooltip = "{{ instance.attrs.name }}"

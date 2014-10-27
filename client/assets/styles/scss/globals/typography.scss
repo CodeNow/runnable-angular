@@ -57,3 +57,10 @@ input ~ small {
     transform: translate(0,1px,0); // only works if inline-block
   }
 }
+
+// single line overflow
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

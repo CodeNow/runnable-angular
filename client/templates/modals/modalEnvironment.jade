@@ -1,0 +1,65 @@
+.modal-backdrop(
+  ng-class = "{'in': in}"
+)
+  .modal-dialog.modal-environment(
+    ng-class = "{'show-sidebar': data.toggleSidebar}"
+    ng-click = "$event.stopPropagation()"
+  )
+    .modal-container
+      header.modal-header
+        h1.modal-heading Edit Environment
+        button.btn.btn-icon.white(
+          ng-class = "{active: data.toggleSidebar}"
+          ng-click = "data.toggleSidebar = !data.toggleSidebar"
+          tooltip = "View List of Boxes"
+          tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":30}"
+          type = "button"
+        )
+          svg.iconnables.icons-sidebar
+            use(
+              xlink:href = "#icons-sidebar"
+            )
+      main.modal-body
+        pre.pre.ace_editor.ace-tm(
+          ng-init = "data.env = [];"
+        )
+      footer.modal-footer
+        button.orange Rebuild
+        //- button.green Save
+        button.white(
+          ng-click = "cancel()"
+          type = "button"
+        ) Go Back
+    aside.modal-sidebar
+      ul.box-group
+        //- boxes should appear in the same order as they appear on the navbar
+        //- apply .expanded if box has exposed ports
+        //- double-click on li.box-group-item should paste url (no ports) into the last cursor position in the env file
+        //- double-click on b.btn should paste url (with specified port) into the last cursor position in the env file
+        li.box-group-item.expanded
+          .text-overflow box-name.org-name.runnable.io
+          b.btn.btn-xs.gray :3000
+          b.btn.btn-xs.gray :3001
+        li.box-group-item.expanded
+          .text-overflow box-name-2.org-name.runnable.io
+          b.btn.btn-xs.gray :8000
+        li.box-group-item.expanded
+          .text-overflow box-name-2.org-name.runnable.io
+          b.btn.btn-xs.gray :80
+          b.btn.btn-xs.gray :8080
+        li.box-group-item.expanded
+          .text-overflow box-name.org-name.runnable.io
+          b.btn.btn-xs.gray :3000
+          b.btn.btn-xs.gray :3001
+        li.box-group-item.expanded
+          .text-overflow box-name.org-name.runnable.io
+          b.btn.btn-xs.gray :3000
+          b.btn.btn-xs.gray :3001
+        li.box-group-item.expanded
+          .text-overflow box-name.org-name.runnable.io
+          b.btn.btn-xs.gray :3000
+          b.btn.btn-xs.gray :3001
+        li.box-group-item
+          .text-overflow box-name-2.org-name.runnable.io
+        li.box-group-item
+          .text-overflow box-name-2.org-name.runnable.io

@@ -37,7 +37,7 @@ section.row.repo-list
       use(
         xlink:href = "#icons-git"
       )
-    p Add a repository to your box.
+    p.guide-text Add a repository to your box.
 
   ul.repository-group
     li.repository-group-item(
@@ -55,9 +55,9 @@ section.row.repo-list
       h3.repository-title {{ acv.attrs.repo }}
 
       //- if not editing and behind latest
+        ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
       button.btn-xs.white.repository-update(
         ng-click = "actions.selectLatestCommit(acv)"
-        ng-if = "!edit && githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
         tooltip = "Fast-forward {{ githubRepo.state.activeBranch.attrs.name }} ({{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' commits behind' : 'To latest' }})"
         tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
       ) {{ githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}

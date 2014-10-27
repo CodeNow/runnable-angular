@@ -1,10 +1,16 @@
-// input.setup-box-name
-.setup-box-name {
+// form.box-name.setup-name
+.setup-name {
+  height: 60px;
+  line-height: 60px;
+}
+
+// input.setup-name-input
+.setup-name-input {
   margin-left: -9px;
   width: 390px;
 }
 
-// .guide (in repo-list)
+// .guide (in repoList and viewSetup)
 .guide {
   background: rgba($blue,.1);
   border: 2px dashed rgba($blue,.2);
@@ -12,10 +18,11 @@
   cursor: pointer;
   font-size: 14px;
   margin: 9px 6px 15px;
+  padding: 14px;
 
   .iconnables {
     float: left;
-    margin: 12px 9px 0;
+    margin: 0 9px;
   }
 
   &.guide-no-help {

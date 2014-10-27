@@ -1,21 +1,19 @@
-.modal(
+.modal-backdrop(
   ng-class = "{'in': in}"
 )
   .modal-dialog(
     ng-click = "$event.stopPropagation()"
   )
-    .modal-header
-      svg.iconnables.icons-delete
-        use(xlink:href = "#icons-delete")
-    .modal-body
-      h1.header-thin Delete #{''}
-        em.highlight {{ data.instance.attrs.name }}
-        | #{''} for good?
-    .modal-footer
-      button.white(
+    header.modal-header
+      h1.modal-heading Delete Box
+    main.modal-body
+      p.modal-description Your box, #{''}
+        strong {{ data.instance.attrs.name }}
+        | , will be permanently removed.
+    footer.modal-footer
+      button.orange(
         ng-click = "actions.deleteInstance()"
       ) Delete Box
       button.white(
         ng-click = "cancel()"
-        type = "button"
-      ) Cancel
+      ) Go Back
