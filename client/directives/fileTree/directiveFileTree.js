@@ -95,7 +95,7 @@ function fileTree(
             if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
               return cb(new Error('instance has no containers'));
             }
-            $scope.safeApply();
+            $rootScope.safeApply();
             cb(err);
           })
           .go();
