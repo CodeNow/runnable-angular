@@ -78,10 +78,11 @@
         type = "button"
       ) Cancel
       button(
-        ng-class = "{\
-          green: data.forkForm.$valid,\
-          orange: data.forkForm.$invalid\
+        ng-class = "{ \
+          green: data.forkForm.$valid, \
+          orange: data.forkForm.$invalid \
         }"
         ng-disabled = "data.forkForm.$invalid"
-        ng-click = "actions.forkInstance(newName, data.env)"
+        ng-click = "actions.forkInstance(newName, data.env); \
+                    cancel();"
       ) Fork Box
