@@ -26,9 +26,11 @@ function fileTree(
       var data = $scope.data = {};
 
       switch($state.$current.name) {
-        case 'instance.edit':
+        case 'instance.instanceEdit':
+          $scope.readOnly = false;
           break;
         case 'instance.instance':
+          $scope.readOnly = false;
           break;
         case 'instance.setup':
           $scope.readOnly = false;
