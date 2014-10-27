@@ -19,10 +19,6 @@ describe('deleteRepo', function() {
       });
     });
 
-    browser.wait(function() {
-
-    });
-
     instanceEdit.activePanel.writeToFile('\n#');
 
     instanceEdit.buildChanges();
