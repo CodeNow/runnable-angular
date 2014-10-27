@@ -1,62 +1,55 @@
-.modal(
+.modal-backdrop(
   ng-class = "{'in': in}"
 )
   .modal-dialog(
     ng-click = "$event.stopPropagation()"
   )
-    .modal-header
-      svg.iconnables.icons-delete
-        use(
-          xlink:href = "#icons-rename"
-        )
-    .modal-body
+    header.modal-header
+      h1.modal-heading Rename Box
+    main.modal-body
       form(
         name = "data.renameForm"
       )
-        label Give your box a new name
-          //- fill value with instance name
-          //- add .focus on click on span.input.modal-input AND on modal open
-          //- clicks should act as a click on span.input.modal-input
-          .input-group.validate(
-            ng-class = "{\
-              'focus': '',\
-              'ng-invalid': data.renameForm.$invalid, \
-              'ng-valid': data.renameForm.$valid \
-            }"
-            ng-click = ""
+        label.input-group.with-description(
+          ng-class = "{\
+            focus: data.renameForm.showFocus,\
+            'ng-invalid': data.renameForm.$invalid,\
+            'ng-valid': data.renameForm.$valid\
+          }"
+        )
+          span.input-label Name
+          span.input-description {{ data.instance.state.name }}.runnable.io
+          input.input(
+            autofocus
+            instance = "data.instance"
+            name = "name"
+            ng-blur = "data.renameForm.showFocus = false"
+            ng-focus = "data.renameForm.showFocus = true"
+            ng-model = "data.instance.state.name"
+            placeholder = "My-Box"
+            select-all
+            validate-name = "data.instances"
+            validate-name-pattern
+            validate-name-current-instance-valid = "false"
+            value = "{{ data.instance.state.name }}"
           )
-            .input-prefix http://
-            span.input.modal-input(
-              contenteditable = "true"
-              instance = "data.instance"
-              name = "name"
-              ng-model = "data.instance.state.name"
-              validate-name = "data.instances"
-              validate-name-pattern
-              validate-name-current-instance-valid = "false"
-            ) {{ data.instance.state.name }}
-            .input-suffix .{{ data.instance.attrs.owner.username }}.runnable.io
-          .validate-wrapper(
-            ng-class = "{ \
-              in: data.renameForm.$invalid, \
-              'invalid-pattern': data.renameForm.$error.namePattern.length, \
-              'invalid-name': data.renameForm.$error.nameAvailable.length \
-            }"
-          )
-            //- if invalid character is entered
-            span.validate-rules.invalid-pattern We accept #{''}
-              b.btn.btn-xs.orange A-Z
-              b.btn.btn-xs.orange a-z
-              b.btn.btn-xs.orange 0-9
-              b.btn.btn-xs.orange _
-              b.btn.btn-xs.orange -
-            //- if the name is taken
-            span.validate-rules.invalid-name That's a pretty name, but it's taken.
-    .modal-footer
-      button.white(
-        ng-click = "cancel()"
-        type = "button"
-      ) Cancel
+        .validate-wrapper(
+          ng-class = "{\
+            in: data.renameForm.$invalid,\
+            'invalid-pattern': data.renameForm.$error.namePattern.length,\
+            'invalid-name': data.renameForm.$error.nameAvailable.length\
+          }"
+        )
+          //- if invalid character is entered
+          span.validate-rules.invalid-pattern Please use #{''}
+            b.btn.btn-xs.orange A-Z
+            b.btn.btn-xs.orange a-z
+            b.btn.btn-xs.orange 0-9
+            b.btn.btn-xs.orange _
+            b.btn.btn-xs.orange -
+          //- if the name is taken
+          span.validate-rules.invalid-name That's a pretty name, but it's taken.
+    footer.modal-footer
       button(
         ng-class = "{\
           green: data.renameForm.$valid, \
@@ -66,3 +59,7 @@
         ng-click = "actions.renameInstance(cancel)"
         ng-disabled = "data.renameForm.$invalid"
       ) Rename Box
+      button.white(
+        ng-click = "cancel()"
+        type = "button"
+      ) Go Back

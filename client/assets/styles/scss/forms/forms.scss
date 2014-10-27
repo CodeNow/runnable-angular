@@ -36,7 +36,9 @@
   }
 }
 
-input {
+input,
+.input {
+  background: transparent;
 
   &[type=radio] {
     -webkit-appearance: radio;

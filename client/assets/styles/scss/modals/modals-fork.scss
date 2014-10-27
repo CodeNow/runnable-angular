@@ -1,87 +1,73 @@
-.modal-fork {
+// .modal-fork {
 
-  .modal-dialog {
-    top: -45px;
-  }
+//   .pre {
+//     border-radius: 3px;
+//     font-size: 16px !important;
+//     line-height: 2 !important;
+//     margin-top: 30px;
+//     padding: 0 9px 0 0;
+//     text-align: left;
+//     user-select: none;
+//   }
 
-  // label.ace-runnable-dark
-  .ace-runnable-dark {
-    display: block;
-    margin-top: 15px;
-  }
+//   .ace_gutter-cell {
+//     background: darken(#311d40,3%); // inherit from theme
+//     color: lighten(#5e4d6e,12%); // inherit from theme
+//     float: left;
+//     height: 36px;
+//     line-height: 36px;
+//     margin-right: 4px;
+//     padding-right: 13px; // match folding style
+//     width: 42px; // width of single digit col size
+//   }
+// }
 
-  .modal-input {
-    padding: 0;
-  }
+// // span.environment-variable
+// .environment-variable {
+//   display: flex;
+//   height: 36px;
 
-  .pre {
-    border-radius: 3px;
-    font-size: 16px !important;
-    line-height: 2 !important;
-    margin-top: 30px;
-    padding: 0 9px 0 0;
-    text-align: left;
-    user-select: none;
-  }
+//   &:first-child {
+//     height: 45px;
+//     padding-top: 9px;
 
-  .ace_gutter-cell {
-    background: darken(#311d40,3%); // inherit from theme
-    color: lighten(#5e4d6e,12%); // inherit from theme
-    float: left;
-    height: 36px;
-    line-height: 36px;
-    margin-right: 4px;
-    padding-right: 13px; // match folding style
-    width: 42px; // width of single digit col size
-  }
-}
+//     .ace_gutter-cell {
+//       height: 45px;
+//       margin-top: -9px;
+//       padding-top: 9px;
+//     }
+//   }
 
-// span.environment-variable
-.environment-variable {
-  display: flex;
-  height: 36px;
+//   &:last-child {
+//     height: 45px;
+//     padding-bottom: 9px;
 
-  &:first-child {
-    height: 45px;
-    padding-top: 9px;
+//     .ace_gutter-cell {
+//       height: 45px;
+//       margin-bottom: -9px;
+//       padding-bottom: 9px;
+//     }
+//   }
+// }
 
-    .ace_gutter-cell {
-      height: 45px;
-      margin-top: -9px;
-      padding-top: 9px;
-    }
-  }
+// // span.variable-text
+// .variable-text {
+//   user-select: text;
+// }
 
-  &:last-child {
-    height: 45px;
-    padding-bottom: 9px;
+// // input.environment-input
+// .environment-input {
+//   background: $purple;
+//   border-color: #77607d; // mimic ace
+//   color: $white;
+//   flex: 1 0 auto;
+//   height: 24px;
+//   line-height: 24px;
+//   margin: 6px 0;
+//   user-select: text;
+//   width: auto;
 
-    .ace_gutter-cell {
-      height: 45px;
-      margin-bottom: -9px;
-      padding-bottom: 9px;
-    }
-  }
-}
-
-// span.variable-text
-.variable-text {
-  user-select: text;
-}
-
-// input.environment-input
-.environment-input {
-  background: $purple;
-  border-color: #77607d; // mimic ace
-  color: $white;
-  flex: 1 0 auto;
-  height: 24px;
-  line-height: 24px;
-  margin: 6px 0;
-  user-select: text;
-  width: auto;
-
-  &:focus {
-    background: $purple-light;
-  }
-}
+//   &:focus {
+//     background: $purple-light;
+//   }
+// }

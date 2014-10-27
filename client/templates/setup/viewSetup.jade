@@ -1,9 +1,9 @@
 header.box-header
   h1.box-info
-    form.box-name(
+    form.box-name.setup-name(
       name = "dataSetup.data.newProjectNameForm"
     )
-      input.validate.setup-box-name(
+      input.validate.setup-name-input(
         ng-model = "dataSetup.data.newProjectName"
         placeholder = "Box Name"
         select-on
@@ -39,7 +39,7 @@ header.box-header
       ng-disabled = "dataSetup.data.creatingProject || !dataSetup.actions.valid()"
     ) Create Box
 
-section.sidebar.box-sidebar.setup
+section.sidebar.box-sidebar
   //- repositories
   repo-list(
     build = "dataSetup.data.build",
@@ -72,7 +72,7 @@ section.sidebar.box-sidebar.setup
         use(
           xlink:href = "#icons-docker"
         )
-      p Choose a template to generate your dockerfile.
+      p.guide-text Choose a template to generate your dockerfile.
 
   section.row(
     ng-if = "dataSetup.data.validDockerfile.valid === false"

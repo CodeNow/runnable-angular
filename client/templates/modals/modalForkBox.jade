@@ -1,78 +1,81 @@
-.modal.modal-fork(
+.modal-backdrop(
   ng-class = "{'in': in}"
 )
   .modal-dialog(
     ng-click = "$event.stopPropagation()"
   )
-    .modal-header
-      svg.iconnables.icons-fork
-        use(xlink:href = "#icons-fork")
-    .modal-body
+    header.modal-header
+      h1.modal-heading Fork Box
+    main.modal-body
       form.ace-runnable-dark(
         name = "data.forkForm"
       )
-        label Give your box a name
-          //- add .focus on click on span.input.modal-input AND on modal open
-          //- clicks should act as a click on span.input.modal-input
-          .input-group.validate(
-            ng-class = "{\
-              'focus': '',\
-              'ng-invalid': data.forkForm.$invalid,\
-              'ng-valid': data.forkForm.$valid\
-            }"
-            ng-click = ""
-          )
-            .input-prefix http://
-            span.input.modal-input(
-              contenteditable = "true"
-              instance = "data.instance"
-              name = "name"
-              ng-model = "data.instance.state.name"
-              validate-name = "data.instances"
-              validate-name-pattern
-              validate-name-current-instance-valid = "false"
-            ) {{ data.instance.state.name }}
-            .input-suffix .{{ data.instance.attrs.owner.username }}.runnable.io
-          .validate-wrapper(
-            ng-class = "{\
-              in: data.forkForm.$invalid,\
-              'invalid-pattern': data.forkForm.$error.namePattern.length,\
-              'invalid-name': data.forkForm.$error.nameAvailable.length\
-            }"
-          )
-            //- if invalid character is entered
-            span.validate-rules.invalid-pattern We accept #{''}
-              b.btn.btn-xs.orange A-Z
-              b.btn.btn-xs.orange a-z
-              b.btn.btn-xs.orange 0-9
-              b.btn.btn-xs.orange _
-              b.btn.btn-xs.orange -
-            //- if the name is taken
-            span.validate-rules.invalid-name That's a pretty name, but it's taken.
-        //- env vars
-        pre.pre.ace_editor.ace-tm(
-          ng-init = "data.env = [];"
-          ng-if = "data.instance.attrs.env.length"
+        label.input-group.with-description(
+          ng-class = "{\
+            focus: data.forkForm.showFocus,\
+            'ng-invalid': data.forkForm.$invalid,\
+            'ng-valid': data.forkForm.$valid\
+          }"
         )
-          label.environment-variable.ace_comment
-            .ace_gutter-cell 1
-            | // Environment Variables:
-
-          label.environment-variable(
-            ng-repeat = "env in data.instance.attrs.env"
+          span.input-label Name
+          span.input-description {{ data.instance.state.name }}.runnable.io
+          input.input(
+            autofocus
+            instance = "data.instance"
+            name = "name"
+            ng-blur = "data.forkForm.showFocus = false"
+            ng-focus = "data.forkForm.showFocus = true"
+            ng-model = "data.instance.state.name"
+            placeholder = "My-Box"
+            select-all
+            validate-name = "data.instances"
+            validate-name-pattern
+            validate-name-current-instance-valid = "false"
+            value = "{{ data.instance.state.name }}"
           )
-            .ace_gutter-cell {{ $index+2 }}
-            span.variable-text {{ env.split('=')[0] }}
-            span #{''} = #{''}
-            input.environment-input(
-              ng-init = "data.env[$index] = {key: env.split('=')[0], value: env.split('=')[1]}"
-              ng-model = "data.env[$index].value"
-            )
-    .modal-footer
-      button.white(
-        ng-click = "cancel()"
-        type = "button"
-      ) Cancel
+          button.btn-sm.gray(
+            tooltip = "Edit Environment"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
+            type = "button"
+          ) ev
+        .validate-wrapper(
+          ng-class = "{\
+            in: data.forkForm.$invalid,\
+            'invalid-pattern': data.forkForm.$error.namePattern.length,\
+            'invalid-name': data.forkForm.$error.nameAvailable.length\
+          }"
+        )
+          //- if invalid character is entered
+          span.validate-rules.invalid-pattern Please use #{''}
+            b.btn.btn-xs.orange A-Z
+            b.btn.btn-xs.orange a-z
+            b.btn.btn-xs.orange 0-9
+            b.btn.btn-xs.orange _
+            b.btn.btn-xs.orange -
+          //- if the name is taken
+          span.validate-rules.invalid-name That's a pretty name, but it's taken.
+
+        //- //- env vars
+        //- pre.pre.ace_editor.ace-tm(
+        //-   ng-init = "data.env = [];"
+        //-   ng-if = "data.instance.attrs.env.length"
+        //- )
+        //-   label.environment-variable.ace_comment
+        //-     .ace_gutter-cell 1
+        //-     | // Environment Variables:
+
+        //-   label.environment-variable(
+        //-     ng-repeat = "env in data.instance.attrs.env"
+        //-   )
+        //-     .ace_gutter-cell {{ $index+2 }}
+        //-     span.variable-text {{ env.split('=')[0] }}
+        //-     span #{''} = #{''}
+        //-     input.environment-input(
+        //-       ng-init = "data.env[$index] = {key: env.split('=')[0], value: env.split('=')[1]}"
+        //-       ng-model = "data.env[$index].value"
+        //-     )
+
+    footer.modal-footer
       button(
         ng-class = "{\
           green: data.forkForm.$valid,\
@@ -81,3 +84,7 @@
         ng-disabled = "data.forkForm.$invalid"
         ng-click = "actions.fork(data.env)"
       ) Fork Box
+      button.white(
+        ng-click = "cancel()"
+        type = "button"
+      ) Go Back
