@@ -74,6 +74,29 @@ function RunnableInstanceSecondaryActions (
           .go();
       }
 
+      /**
+       * use buildId if stateParams.buildId (instance.setup)
+       * otherwise fetch instance & build (instance.instance && instance.edit)
+       */
+      function fetchBuild (cb) {
+        if (!$stateParams.buildId) {
+          return fetchInstance(cb);
+        }
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchBuild')
+          .query($stateParams.buildId)
+          .cacheFetch(function (build, cached, cb) {
+            $scope.build = build;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, build, cb) {
+            if (err) throw err;
+            cb();
+          })
+          .go();
+      }
+
       function fetchInstance (cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
@@ -87,6 +110,7 @@ function RunnableInstanceSecondaryActions (
             }
             $scope.instances = instances;
             $scope.instance = instances.models[0];
+            $scope.build = $scope.instance.build;
             $rootScope.safeApply();
             cb();
           })
@@ -98,7 +122,7 @@ function RunnableInstanceSecondaryActions (
 
       async.series([
         fetchUser,
-        fetchInstance
+        fetchBuild
       ]);
 
     }

@@ -15,21 +15,31 @@ function HelperInstanceActionsModal (
    */
   return function ($scope) {
 
+    if (!$scope.popoverGearMenu || !$scope.popoverGearMenu.data) {
+      throw new Error('helperInstanceActionsModal $scope popoverGearMenu not defined');
+    }
+
     var data = {};
     data.instance  = null;
     data.instances = null;
 
     $scope.$watch('instance', function (n) {
-      if (n) data.instance = n;
+      if (!n) return;
+      data.instance = n;
+      $scope.popoverGearMenu.data.instance = n;
     });
 
     $scope.$watch('instances', function (n) {
-      if (n) data.instances = n;
+      if (!n) return;
+      data.instances = n;
+      $scope.popoverGearMenu.data.instances = n;
     });
 
-    if (!$scope.popoverGearMenu || !$scope.popoverGearMenu.data) {
-      throw new Error('helperInstanceActionsModal $scope popoverGearMenu not defined');
-    }
+    $scope.$watch('build', function (n) {
+      if (!n) return;
+      data.build = n;
+      $scope.popoverGearMenu.data.build = n;
+    });
 
     $scope.popoverGearMenu.data.dataModalRename = data;
     $scope.popoverGearMenu.data.dataModalFork   = data;

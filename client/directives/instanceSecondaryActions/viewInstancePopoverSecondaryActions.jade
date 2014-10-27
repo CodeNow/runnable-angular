@@ -6,13 +6,15 @@
     ul.popover-body.popover-list
       li.popover-list-item(
         ng-click = "actions.stopInstance()"
-        ng-if = "data.build.attrs.completed && data.container.running()"
+        ng-if = "data.build.attrs.completed && data.instance.containers[0].running()"
       ) Stop Running
       li.popover-list-item(
         ng-click = "actions.startInstance()"
-        ng-if = "data.build.attrs.completed && !data.container.running()"
+        ng-if = "data.build.attrs.completed && !data.instance.containers[0].running()"
       ) Start Running
-      li.divider
+      li.divider(
+        ng-if = "data.build.attrs.completed"
+      )
       li.popover-list-item(
         modal
         modal-actions = "actions.actionsModalRename"
