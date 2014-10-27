@@ -8,7 +8,6 @@ require('app')
  * @ngInject
  */
 function ControllerSetup(
-  addTab,
   async,
   determineActiveAccount,
   $scope,
@@ -85,16 +84,6 @@ function ControllerSetup(
     fetchUser,
     fetchBuild
   ]);
-
-  data.popoverAddTab = addTab({
-    envVars: true
-  }, data.openItems);
-
-
-
-
-
-
 
   /*
   data.popoverAddTab = addTab({

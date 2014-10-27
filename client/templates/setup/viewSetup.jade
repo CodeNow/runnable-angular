@@ -54,20 +54,9 @@ section.views.with-add-tab(
     open-items = "dataSetup.data.openItems"
   )
 
-  a.btn.btn-sm.white.btn-icon.add-tab(
-    ng-class = "{active: dataSetup.data.popoverAddTab.data.show}"
-    toggle-pop-over
-    toggle-pop-over-model = "dataSetup.data.popoverAddTab.data.show"
+  runnable-add-tab(
+    open-items = "dataInstance.data.openItems"
   )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
-    pop-over(
-      actions = "dataSetup.data.popoverAddTab.actions"
-      data = "dataSetup.data.popoverAddTab.data"
-      template = "popoverAddTab"
-    )
 
   //- active panel
   active-panel(
