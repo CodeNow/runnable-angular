@@ -1,0 +1,16 @@
+.modal-sidebar {
+  background: $gray-lighter;
+  border-radius: 0 3px 3px 0;
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate3d(0,0,0);
+  transition: transform .2s ease-in;
+  width: 210px;
+  z-index: $z-modal-sidebar;
+
+  .show-sidebar & {
+    transform: translate3d(210px,0,0);
+  }
+}
