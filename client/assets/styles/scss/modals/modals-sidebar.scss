@@ -20,15 +20,14 @@
     padding: 0;
   }
 
-
   .box-group-item {
     border-radius: 0;
     color: $gray;
     font-size: 12px;
-    height: auto;
     margin: 0;
     min-height: 45px;
-    padding: 0;
+    padding: 0 12px;
+    user-select: none;
     width: 100%;
 
     + .box-group-item {
@@ -36,35 +35,18 @@
     }
 
     &.expanded {
+      height: auto;
       line-height: 18px;
-
-      .box-item-wrapper {
-        padding-top: 12px;
-      }
+      padding: 12px;
 
       .btn {
         font-size: 12px;
-        margin: 33px 0 12px 12px;
+        margin-top: 3px;
 
         + .btn {
           margin-left: 3px;
         }
       }
     }
-  }
-
-  // label.box-item-wrapper
-  .box-item-wrapper {
-    cursor: pointer;
-    display: block;
-    height: 100%;
-    padding: 15px 12px 9px;
-    position: absolute;
-    width: 100%;
-  }
-
-  // input.input-text.text-overflow.box-item-copy
-  .box-item-copy {
-    display: block;
   }
 }

@@ -34,70 +34,32 @@
       ul.box-group
         //- boxes should appear in the same order as they appear on the navbar
         //- apply .expanded if box has exposed ports
+        //- double-click on li.box-group-item should paste url (no ports) into the last cursor position in the env file
+        //- double-click on b.btn should paste url (with specified port) into the last cursor position in the env file
         li.box-group-item.expanded
-          label.box-item-wrapper
-            input.input-text.text-overflow.box-item-copy(
-              readonly
-              select-all
-              value = "box-name.org-name.runnable.io"
-            )
+          .text-overflow box-name.org-name.runnable.io
           b.btn.btn-xs.gray :3000
           b.btn.btn-xs.gray :3001
         li.box-group-item.expanded
-          label.box-item-wrapper
-            input.input-text.text-overflow.box-item-copy(
-              readonly
-              select-all
-              value = "box-name-2.org-name.runnable.io"
-            )
+          .text-overflow box-name-2.org-name.runnable.io
           b.btn.btn-xs.gray :8000
         li.box-group-item.expanded
-          label.box-item-wrapper
-            input.input-text.text-overflow.box-item-copy(
-              readonly
-              select-all
-              value = "box-name-2.org-name.runnable.io"
-            )
+          .text-overflow box-name-2.org-name.runnable.io
           b.btn.btn-xs.gray :80
           b.btn.btn-xs.gray :8080
         li.box-group-item.expanded
-          label.box-item-wrapper
-            input.input-text.text-overflow.box-item-copy(
-              readonly
-              select-all
-              value = "box-name.org-name.runnable.io"
-            )
+          .text-overflow box-name.org-name.runnable.io
           b.btn.btn-xs.gray :3000
           b.btn.btn-xs.gray :3001
         li.box-group-item.expanded
-          label.box-item-wrapper
-            input.input-text.text-overflow.box-item-copy(
-              readonly
-              select-all
-              value = "box-name.org-name.runnable.io"
-            )
+          .text-overflow box-name.org-name.runnable.io
           b.btn.btn-xs.gray :3000
           b.btn.btn-xs.gray :3001
         li.box-group-item.expanded
-          label.box-item-wrapper
-            input.input-text.text-overflow.box-item-copy(
-              readonly
-              select-all
-              value = "box-name.org-name.runnable.io"
-            )
+          .text-overflow box-name.org-name.runnable.io
           b.btn.btn-xs.gray :3000
           b.btn.btn-xs.gray :3001
         li.box-group-item
-          label.box-item-wrapper
-            input.input-text.text-overflow.box-item-copy(
-              readonly
-              select-all
-              value = "box-name-2.org-name.runnable.io"
-            )
+          .text-overflow box-name-2.org-name.runnable.io
         li.box-group-item
-          label.box-item-wrapper
-            input.input-text.text-overflow.box-item-copy(
-              readonly
-              select-all
-              value = "box-name-2.org-name.runnable.io"
-            )
+          .text-overflow box-name-2.org-name.runnable.io

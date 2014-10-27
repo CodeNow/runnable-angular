@@ -1,4 +1,5 @@
 .modal-environment {
+  min-width: 450px;
   top: 0;
 
   .modal-body {
@@ -6,7 +7,7 @@
   }
 
   .pre {
-    height: 50vh;
+    min-height: 40vh;
     min-width: 30vw;
   }
 }
