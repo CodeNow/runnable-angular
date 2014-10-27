@@ -30,7 +30,7 @@ describe('project creation workflow', function () {
     setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 1000000\n');
 
     browser.wait(setup.dockerfileValidates.bind(setup));
-    browser.wait(setup.dockerfileIsClean.bind(setup));
+    browser.wait(setup.activePanel.fileIsClean.bind(setup));
 
     setup.createBox();
 

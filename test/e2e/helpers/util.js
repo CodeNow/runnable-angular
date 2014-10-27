@@ -34,6 +34,18 @@ util.createGetter = function (by) {
   };
 };
 
+util.createGetterAll = function(by) {
+  return {
+    get: function (idx) {
+      if (idx !== undefined) {
+        return element(by.row(idx));
+      } else {
+        return element.all(by);
+      }
+    }
+  };
+};
+
 util.hasClass = function(elem, klass) {
   return elem.get().getAttribute('class').then(function (classes) {
     return classes.split(' ').indexOf(klass) > -1;

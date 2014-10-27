@@ -45,10 +45,6 @@ function SetupPage () {
       return !isPresent;
     });
   };
-
-  this.dockerfileIsClean = function () {
-    return element(by.css('.box-header')).evaluate('dataSetup.data.openItems.isClean()');
-  };
 }
 
 SetupPage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/new/' + util.regex.objectId));

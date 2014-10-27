@@ -2,12 +2,13 @@ var util = require('../helpers/util');
 
 var GearMenu = require('../popovers/GearMenu');
 var RepoList = require('../directives/RepoList');
+var ActivePanel = require('../directives/ActivePanel');
 
 function InstanceEditPage (instanceName) {
   this.gearMenu = new GearMenu();
   this.repoList = new RepoList();
+  this.activePanel = new ActivePanel();
 
-  this.activePanel = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark'));
   this.discard = util.createGetter(by.buttonText('Discard Changes'));
   this.build = util.createGetter(by.buttonText('Build'));
 
@@ -19,17 +20,7 @@ function InstanceEditPage (instanceName) {
   };
 
   this.activeTabContains = function(expectedText) {
-    return util.containsText(this.activePanel, expectedText);
-  };
-
-  // http://stackoverflow.com/q/25675973/1216976
-  // https://github.com/angular/protractor/issues/1273
-  this.addToDockerfile = function (contents) {
-    var aceDiv = element(by.css('div.ace_content'));
-    var inputElm = element(by.css('textarea.ace_text-input'));
-
-    browser.actions().doubleClick(aceDiv).perform();
-    return inputElm.sendKeys(contents);
+    return util.containsText(this.activePanel.getFileContents(), expectedText);
   };
 
   this.buildChanges = function() {

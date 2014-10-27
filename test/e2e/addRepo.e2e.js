@@ -16,6 +16,11 @@ describe('addRepo', function() {
     util.waitForUrl(InstancePage.urlRegex);
 
     // Technically this works but it's a little unorthodox
+    browser.wait(function() {
+      return instanceEdit.repoList.numSelectedRepos().then(function(numSelected) {
+        return numSelected === 2;
+      });
+    });
     expect(instanceEdit.repoList.numSelectedRepos()).toEqual(2);
   });
 });
