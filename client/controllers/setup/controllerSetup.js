@@ -86,9 +86,6 @@ function ControllerSetup(
   ]);
 
   /*
-  data.popoverAddTab = addTab({
-    envVars: true
-  }, data.openItems);
 
   // Determine readonly state
   $scope.$watch(function () {
@@ -104,69 +101,6 @@ function ControllerSetup(
     data.isRepoMode = false;
     data.repoFilter = '';
   });
-
-  actions.selectGithubRepo = function (repo) {
-    if (data.selectedRepos.contains(repo)) {
-      delete repo.selectedBranch;
-      data.selectedRepos.remove(repo);
-    } else {
-      data.selectedRepos.add(repo);
-    }
-
-    repo.branches = repo.fetchBranches({}, function () {
-      $scope.safeApply();
-    });
-
-    $scope.safeApply();
-  };
-
-  actions.addGithubRepos = function (valid) {
-    if(!valid) {
-      return;
-    }
-    var count = data.selectedRepos.models.length;
-    async.forEach(data.selectedRepos.models, function (repo, cb) {
-      var body = {
-        repo: repo.attrs.full_name
-      };
-      if (repo.selectedBranch) {
-        body.branch = repo.selectedBranch;
-      }
-      else if (repo.selectedCommit) {
-        body.commit = repo.selectedCommit;
-      }
-      else {
-        body.branch = repo.defaultBranch();
-      }
-      count = count - 1;
-      if (count === 0) {
-        assumeSuccess();
-      }
-      data.contextVersion.appCodeVersions.create(body, function () {
-        $scope.safeApply();
-        cb();
-      });
-    }, function (err) {
-      if (err) {
-        revertOnErr();
-        throw err;
-      }
-    });
-    var lastModels;
-    function assumeSuccess () {
-      lastModels = data.selectedRepos.models;
-      data.selectedRepos.reset([]);
-      data.isRepoMode = false;
-      data.repoFilter = '';
-      $scope.safeApply();
-    }
-    function revertOnErr () {
-      data.selectedRepos.reset(lastModels);
-      data.isRepoMode = true;
-      data.repoFilter = '';
-      $scope.safeApply();
-    }
-  };
 
   actions.removeGithubRepo = function (appCodeVersion) {
     data.contextVersion.appCodeVersions.destroy(appCodeVersion, function (err) {
