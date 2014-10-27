@@ -19,34 +19,49 @@ header.hero
             xlink:href = "#runnable-logo"
           )
       a.btn.btn-hero(
-        href = "{{ dataApp.loginURL }}"
+        ng-href = "{{ dataApp.loginURL }}"
+        ng-if = "dataHome.data.hasPass"
       ) Sign In
+      a.btn.btn-hero(
+        href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+        ng-if = "!dataHome.data.hasPass"
+      ) Request an Invite
   .hero-wrapper
     h1.hero-text A Server for Every Commit
-    p.hero-text-sub Run any and every version of your code as it's developed.
+    p.hero-text-sub Run #{''}
+      strong any #{''}
+      | and #{''}
+      strong every #{''}
+      | version of your code as it's developed.
 
 section.clearfix.landing-features
+
+  .feature
+    img(
+      height = "72"
+      src = "/build/images/home/feature-icon-1.svg"
+      width = "96"
+    )
+    h2.feature-header Customize
+    p.feature-description your server for any stack.
+
   .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-2.svg"
       width = "96"
     )
-    h2.feature-header Launch your full app from any commit
-   .feature
-    img(
-      height = "72"
-      src = "/build/images/home/feature-icon-1.svg"
-      width = "96"
-    )
-    h2.feature-header Customize your environment for any stack
+    h2.feature-header Launch
+    p.feature-description your entire app from any commit.
+
   .feature
     img(
       height = "72"
       src = "/build/images/home/feature-icon-3.svg"
       width = "96"
     )
-    h2.feature-header Snapshot and share your app at any state
+    h2.feature-header Fork
+    p.feature-description  multiple boxes to speed up your development.
 
 section.landing-callout
   img(
@@ -55,15 +70,20 @@ section.landing-callout
     width = "600"
   )
   h2 Refreshingly Straightforward
-  p Full environmental configuration, file, and terminal access are always within a reach. 
-  a.btn.green.btn-cta(
-    href = "{{ dataHome.loginURL }}"
+  p Full environmental configuration, file, and terminal access are always within a reach.
+  a.btn.btn-cta.green(
+    ng-href = "{{ dataHome.loginURL }}"
+    ng-if = "dataHome.data.hasPass"
   )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    | Sign Up with Github
+    | Sign up with GitHub
+  a.btn.btn-cta.green(
+    href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+    ng-if = "!dataHome.data.hasPass"
+  ) Request an Invite
 
 footer.landing-footer
   small.footer-text &copy; 2014

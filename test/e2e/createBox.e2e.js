@@ -24,10 +24,10 @@ describe('project creation workflow', function () {
 
     setup.selectBlankTemplate();
 
-    browser.wait(setup.aceLoaded.bind(setup));
+    browser.wait(setup.activePanel.aceLoaded.bind(setup.activePanel));
     browser.wait(setup.blankTemplateLoaded.bind(setup));
 
-    setup.addToDockerfile('\nFROM dockerfile/nodejs\nCMD sleep 1000000\n');
+    setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 1000000\n');
 
     browser.wait(setup.dockerfileValidates.bind(setup));
     browser.wait(setup.dockerfileIsClean.bind(setup));

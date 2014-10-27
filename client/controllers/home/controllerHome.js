@@ -10,6 +10,7 @@ function ControllerHome(
   configLoginURL,
   $scope,
   $state,
+  $location,
   $window,
   skrollr,
   async,
@@ -34,6 +35,8 @@ function ControllerHome(
     }
   });
   $window.s.refresh();
+
+  $scope.dataHome.data.hasPass = !!$location.search().password;
 
   verifyUserIsAuth();
 
