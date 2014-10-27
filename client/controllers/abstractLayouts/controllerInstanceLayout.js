@@ -141,6 +141,9 @@ function ControllerInstanceLayout(
           app_id: 'wqzm3rju'
         });
       }
+      if ($window.olark) {
+        $window.olark('api.box.show');
+      }
       cb(err);
     });
   }
