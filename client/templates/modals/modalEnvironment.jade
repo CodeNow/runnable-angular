@@ -30,6 +30,33 @@
           type = "button"
         ) Go Back
     aside.modal-sidebar
-      h2.sub-header Box List
-      ul
-        li
+      ul.box-group
+        //- boxes should appear in the same order as they appear on the navbar
+        //- apply .expanded if box has exposed ports
+        li.box-group-item.expanded
+          div.text-overflow box-name.org-name.runnable.io
+          b.btn.btn-xs.gray :3000
+          b.btn.btn-xs.gray :3001
+        li.box-group-item.expanded
+          div.text-overflow box-name-2.org-name.runna
+          b.btn.btn-xs.gray :8000
+        li.box-group-item.expanded
+          div.text-overflow box-name-2.org-name.runna
+          b.btn.btn-xs.gray :80
+          b.btn.btn-xs.gray :8080
+        li.box-group-item.expanded
+          div.text-overflow box-name.org-name.runnable.io
+          b.btn.btn-xs.gray :3000
+          b.btn.btn-xs.gray :3001
+        li.box-group-item.expanded
+          div.text-overflow box-name.org-name.runnable.io
+          b.btn.btn-xs.gray :3000
+          b.btn.btn-xs.gray :3001
+        li.box-group-item.expanded
+          div.text-overflow box-name.org-name.runnable.io
+          b.btn.btn-xs.gray :3000
+          b.btn.btn-xs.gray :3001
+        li.box-group-item
+          div.text-overflow box-name-2.org-name.runnable.io
+        li.box-group-item
+          div.text-overflow box-name-2.org-name.runnable.io
