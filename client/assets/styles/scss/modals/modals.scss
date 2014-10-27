@@ -20,11 +20,9 @@
     z-index: $z-modal;
 
     .modal-dialog {
-      animation: modalIn .3s ease-in-out forwards;
-    }
-
-    .highlight::after {
-      animation: scaleX .3s .2s forwards;
+      opacity: 1;
+      transform: scale3d(1,1,1);
+      transition: opacity .2s ease-in, transform .2s ease-in;
     }
   }
 }
@@ -56,27 +54,16 @@
   min-width: 320px;
   position: relative;
   transform: scale3d(0,0,0);
+  transition: opacity .2s ease-in, transform 0 .2s ease-in;
 
   @include media(xs) {
     width: calc(100% - 30px);
   }
-}
 
-.modal-header {
-  background: $white;
-  border-radius: 50%;
-  box-shadow: 0 0 30px rgba($black,.12);
-  display: flex;
-  height: 90px;
-  justify-content: center;
-  margin: 0 auto;
-  width: 90px;
-
-  > .iconnables {
-    color: $gray;
-    height: 50%;
-    margin: auto;
-    width: 50%;
+  &.show-sidebar.show-sidebar {
+    border-radius: 3px 0 0 3px;
+    transition: all .2s ease-in;
+    transform: scale3d(1,1,1) translate3d(-120px,0,0);
   }
 }
 
