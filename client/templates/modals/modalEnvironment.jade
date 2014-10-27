@@ -9,6 +9,7 @@
       header.modal-header
         h1.modal-heading Edit Environment
         button.btn.btn-icon.white(
+          ng-class = "{active: data.toggleSidebar}"
           ng-click = "data.toggleSidebar = !data.toggleSidebar"
           tooltip = "View List of Boxes"
           tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":30}"
@@ -34,29 +35,69 @@
         //- boxes should appear in the same order as they appear on the navbar
         //- apply .expanded if box has exposed ports
         li.box-group-item.expanded
-          div.text-overflow box-name.org-name.runnable.io
+          label.box-item-wrapper
+            input.input-text.text-overflow.box-item-copy(
+              readonly
+              select-all
+              value = "box-name.org-name.runnable.io"
+            )
           b.btn.btn-xs.gray :3000
           b.btn.btn-xs.gray :3001
         li.box-group-item.expanded
-          div.text-overflow box-name-2.org-name.runna
+          label.box-item-wrapper
+            input.input-text.text-overflow.box-item-copy(
+              readonly
+              select-all
+              value = "box-name-2.org-name.runnable.io"
+            )
           b.btn.btn-xs.gray :8000
         li.box-group-item.expanded
-          div.text-overflow box-name-2.org-name.runna
+          label.box-item-wrapper
+            input.input-text.text-overflow.box-item-copy(
+              readonly
+              select-all
+              value = "box-name-2.org-name.runnable.io"
+            )
           b.btn.btn-xs.gray :80
           b.btn.btn-xs.gray :8080
         li.box-group-item.expanded
-          div.text-overflow box-name.org-name.runnable.io
+          label.box-item-wrapper
+            input.input-text.text-overflow.box-item-copy(
+              readonly
+              select-all
+              value = "box-name.org-name.runnable.io"
+            )
           b.btn.btn-xs.gray :3000
           b.btn.btn-xs.gray :3001
         li.box-group-item.expanded
-          div.text-overflow box-name.org-name.runnable.io
+          label.box-item-wrapper
+            input.input-text.text-overflow.box-item-copy(
+              readonly
+              select-all
+              value = "box-name.org-name.runnable.io"
+            )
           b.btn.btn-xs.gray :3000
           b.btn.btn-xs.gray :3001
         li.box-group-item.expanded
-          div.text-overflow box-name.org-name.runnable.io
+          label.box-item-wrapper
+            input.input-text.text-overflow.box-item-copy(
+              readonly
+              select-all
+              value = "box-name.org-name.runnable.io"
+            )
           b.btn.btn-xs.gray :3000
           b.btn.btn-xs.gray :3001
         li.box-group-item
-          div.text-overflow box-name-2.org-name.runnable.io
+          label.box-item-wrapper
+            input.input-text.text-overflow.box-item-copy(
+              readonly
+              select-all
+              value = "box-name-2.org-name.runnable.io"
+            )
         li.box-group-item
-          div.text-overflow box-name-2.org-name.runnable.io
+          label.box-item-wrapper
+            input.input-text.text-overflow.box-item-copy(
+              readonly
+              select-all
+              value = "box-name-2.org-name.runnable.io"
+            )
