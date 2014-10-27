@@ -5,7 +5,6 @@ require('app')
  */
 function RunnableInstanceBoxName (
   async,
-  determineActiveAccount,
   getInstanceAltTitle,
   getInstanceClasses,
   QueryAssist,

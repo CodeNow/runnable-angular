@@ -28,6 +28,8 @@ function ControllerInstance(
   data.openItems = new OpenItems();
   // displays message saying build has completed
   data.showBuildCompleted = false;
+  // loader if saving fs changes
+  data.saving = false;
 
   // Redirect to /new if this build has already been built
   function fetchUser (cb) {
