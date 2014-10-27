@@ -21,6 +21,7 @@ function RunnableInstanceBoxName (
     link: function ($scope, elem, attrs) {
 
       $scope.getInstanceClasses = getInstanceClasses;
+
       $scope.getInstanceAltTitle = getInstanceAltTitle;
 
       function fetchUser (cb) {

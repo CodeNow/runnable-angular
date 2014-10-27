@@ -31,7 +31,7 @@ function RunnableInstanceList (
       $scope.stateToInstance = function (instance) {
         $state.go('instance.instance', {
           instanceName: instance.attrs.name,
-          userName: instance.attrs.owner.github.username
+          userName: instance.attrs.owner.username
         });
       };
 
