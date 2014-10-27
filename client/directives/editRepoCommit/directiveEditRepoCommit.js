@@ -13,9 +13,16 @@ function RunnableEditRepoCommit (
     templateUrl: 'viewEditRepoCommit',
     replace: true,
     scope: {
-      acv: '=appCodeVersion'
+      acv: '=appCodeVersion',
+      sharedState: '='
     },
     link: function ($scope, elem, attrs) {
+
+      // runnable-repo-actions can update selected commit
+      $scope.$watch('sharedState.activeCommit', function (n) {
+        if (!n || n === $scope.activeCommit) return;
+        $scope.activeCommit = n;
+      });
 
       $scope.activeBranch = null;
       $scope.activeCommit = null;
@@ -32,7 +39,6 @@ function RunnableEditRepoCommit (
       $scope.$watch('build', function (n) {
         if (n) $scope.popoverCommitSelect.data.build = n;
       });
-
       $scope.popoverCommitSelect = {
         data: {},
         actions: {}
@@ -48,7 +54,10 @@ function RunnableEditRepoCommit (
       };
       $scope.popoverCommitSelect.actions.selectCommit = function (commit) {
         $scope.popoverCommitSelect.data.show = false;
-        $scope.activeCommit = commit;
+        // watcher in runnable-repo-actions
+        $scope.sharedState.activeCommit =
+          $scope.activeCommit =
+          commit;
       };
 
       setActiveBranch($scope.acv, $scope.acv.attrs.branch);

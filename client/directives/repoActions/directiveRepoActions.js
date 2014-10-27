@@ -12,26 +12,38 @@ function RunnableRepoActions (
     replace: true,
     scope: {
       acv: '=appCodeVersion',
-      activeCommit: '='
+      sharedState: '='
     },
     link: function ($scope, elem, attrs) {
+
+      // change occurs runnable-edit-repo-commit selectCommit
+      $scope.$watch('sharedState.activeCommit', function (n) {
+        if (!n || n === $scope.activeCommit) return;
+        $scope.activeCommit = n;
+        fetchCommitOffset($scope.acv, $scope.activeCommit);
+      });
+
+      // fast-forward & delete popover menu
+      $scope.edit = true;
 
       $scope.popoverData = {data:{}, actions:{}};
       $scope.popoverData.data.show = false;
       $scope.popoverData.data.acv = $scope.acv;
 
       $scope.popoverData.actions.selectLatestCommit = function () {
+        $scope.popoverData.data.show = false;
         var latestCommit = $scope.activeBranch.commits.models[0];
+        $scope.sharedState.activeCommit = latestCommit;
       };
 
       $scope.deleteRepo = function () {
+
       };
 
       $scope.$watch('commitsBehind', function (n) {
         if (!n) return;
         $scope.popoverData.data.commitsBehind = n;
       });
-
       setActiveBranch($scope.acv, $scope.acv.attrs.branch);
       setActiveCommit($scope.acv);
       fetchCommitOffset($scope.acv, $scope.activeCommit);
