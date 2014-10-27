@@ -7,12 +7,12 @@
       //- hide fast-forward and .divider if already on latest
       li.popover-list-item(
         ng-if = "data.commitsBehind"
-        ng-click = "actions.selectLatestCommit(data.acv)"
+        ng-click = "actions.selectLatestCommit()"
       ) Fast-Forward
         small.popover-list-item-details ({{ data.commitsBehind ? data.commitsBehind +' Commits' : 'To latest' }})
       li.divider(
         ng-if = "data.commitsBehind"
       )
       li.popover-list-item(
-        ng-click = "actions.deleteRepo(data.acv)"
+        ng-click = "actions.deleteRepo()"
       ) Delete

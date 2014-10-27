@@ -11,7 +11,8 @@ function RunnableRepoActions (
     templateUrl: 'viewRepoActions',
     replace: true,
     scope: {
-      acv: '=appCodeVersion'
+      acv: '=appCodeVersion',
+      activeCommit: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -19,10 +20,11 @@ function RunnableRepoActions (
       $scope.popoverData.data.show = false;
       $scope.popoverData.data.acv = $scope.acv;
 
-      $scope.popoverData.actions.selectLatestCommit = function (acv) {
+      $scope.popoverData.actions.selectLatestCommit = function () {
+        var latestCommit = $scope.activeBranch.commits.models[0];
       };
 
-      $scope.deleteRepo = function (acv) {
+      $scope.deleteRepo = function () {
       };
 
       $scope.$watch('commitsBehind', function (n) {
