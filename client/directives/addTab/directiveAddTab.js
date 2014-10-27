@@ -4,7 +4,8 @@ require('app')
  * @ngInject
  */
 function RunnableAddTab (
-  helperAddTab
+  helperAddTab,
+  $state
 ) {
   return {
     restrict: 'E',
@@ -14,7 +15,33 @@ function RunnableAddTab (
       openItems: '='
     },
     link: function ($scope, elem, attrs) {
-      $scope.popoverAddTab = helperAddTab(null, $scope.openItems);
+
+      var opts = {};
+
+      switch ($state.$current.name) {
+        case 'instance.setup':
+          opts = {
+            envVars: true
+          };
+          break;
+        case 'instance.instanceEdit':
+          opts = {
+            envVars: true
+          };
+          break;
+        case 'instance.instance':
+          opts = {
+            envVars:     true,
+            logs:        true,
+            buildStream: true,
+            terminal:    true,
+            webView:     true
+          };
+          break;
+      }
+
+      $scope.popoverAddTab = helperAddTab(opts, $scope.openItems);
+
     }
   };
 }
