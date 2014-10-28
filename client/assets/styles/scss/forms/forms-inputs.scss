@@ -5,6 +5,7 @@ textarea {
   -webkit-appearance: none;
   border: 1px solid rgba($black,.15);
   border-radius: 3px;
+  box-shadow: inset 0 0 3px rgba($black,.15);
   color: $gray-darker;
   height: 45px;
   line-height: 45px;
@@ -15,7 +16,7 @@ textarea {
   &.focus,
   &:focus {
     border-color: $blue;
-    box-shadow: none;
+    box-shadow: inset 0 0 3px rgba($blue,.15);
     outline: none;
   }
 
@@ -25,12 +26,26 @@ textarea {
 
   &[type="checkbox"] {
     -webkit-appearance: checkbox;
+    box-shadow: none;
     cursor: pointer;
     width: auto;
 
     &[disabled] {
       cursor: not-allowed;
     }
+  }
+
+  &[type="radio"] {
+    box-shadow: none;
+  }
+
+  &.input-text {
+    background: none;
+    border: 0;
+    box-shadow: none;
+    height: auto;
+    line-height: 1;
+    padding: 0;
   }
 
   // min font-size for mobile
@@ -46,54 +61,83 @@ textarea {
   }
 }
 
+// label.btn-checkbox
+.btn.btn-checkbox {
+  padding: 0 12px;
+  text-align: left;
+}
+
+.input-checkbox {
+  float: left;
+  height: 100%;
+  margin-right: 12px;
+}
+
 // .input-group
 .input-group {
+  background: $white;
   border: 1px solid rgba($black,.15);
   border-radius: 3px;
+  box-shadow: inset 0 0 3px rgba($black,.15);
   display: flex;
-  justify-content: center;
+  height: 45px;
+  line-height: 45px;
+  margin: 0 6px;
+  overflow: hidden;
+  position: relative;
 
-  &.input-group.focus {
+  &.focus {
     border-color: $blue;
+    box-shadow: inset 0 0 3px rgba($blue,.15);
   }
 
-  input,
+  &.ng-valid {
+    border-color: $green;
+    box-shadow: inset 0 0 3px rgba($green,.15);
+  }
+
+  &.ng-invalid {
+    border-color: $orange;
+    box-shadow: inset 0 0 3px rgba($orange,.15);
+  }
+
+  &.with-description {
+    height: 54px;
+    line-height: 54px;
+
+    .input {
+      height: 39px;
+      line-height: 39px;
+    }
+  }
+
+  .input-label {
+    color: $gray;
+    font-size: 14px;
+    padding: 0 15px;
+  }
+
+  .input-description {
+    color: $gray;
+    font-size: 12px;
+    height: 12px;
+    line-height: 12px;
+    position: absolute;
+    top: 33px;
+    white-space: nowrap;
+  }
+
   .input {
     border: 0;
-    padding: 0;
+    box-shadow: none;
+    flex: 1 0 auto;
+    height: 43px;
+    padding: 0 6px 0 0;
     width: auto;
   }
 
-  [contenteditable] {
-    color: $gray-darker;
-    cursor: text;
-    font-weight: 500;
-
-    &:focus {
-      outline: 0;
-    }
+  .btn-sm {
+    right: 6px;
+    top: 9px;
   }
-}
-
-// prefixes and suffixes
-.input-prefix,
-.input-suffix {
-  font-size: 18px;
-  height: 100%;
-}
-
-// .input-prefix
-.input-prefix {
-  border-radius: 3px 0 0 3px;
-  border-right: 0;
-  padding: 0 0 0 15px;
-  text-align: right;
-}
-
-// .input-suffix
-.input-suffix {
-  border-left: 0;
-  border-radius: 0 3px 3px 0;
-  padding: 0 15px 0 0;
-  text-align: left;
 }

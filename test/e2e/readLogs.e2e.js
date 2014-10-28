@@ -1,0 +1,25 @@
+var InstancePage = require('./pages/InstancePage');
+
+describe('logs', function() {
+  it('should output the proper logs', function() {
+    var instance = new InstancePage('Test-0');
+    instance.get();
+
+    instance.activePanel.setActiveTab('Build Logs');
+
+    instance.activePanel.currentContent.get().getText().then(function (text) {
+      expect(text).toMatch('Cloning \'runnable-doobie/node-hello-world\' into \'./node-hello-world\'...');
+      expect(text).toMatch('FROM dockerfile/nodejs');
+      expect(text).toMatch('Build completed successfully!');
+    });
+
+    instance.activePanel.setActiveTab('Box Logs');
+
+    instance.activePanel.currentContent.get().getText().then(function (text) {
+      // Test that we're properly showing the command
+      expect(text).toMatch('node /hello/server.js');
+      // Test that we're properly outputting the logs
+      expect(text).toMatch('Server running at http://127.0.0.1:80/');
+    });
+  });
+});

@@ -15,6 +15,13 @@
       li.divider
       li.popover-list-item(
         modal
+        modal-actions = "actions.actionsModalEnvironment"
+        modal-data = "data.dataModalEnvironment"
+        modal-template = "modalEnvironment"
+      ) Edit Environment
+      li.divider
+      li.popover-list-item(
+        modal
         modal-actions = "actions.actionsModalRename"
         modal-data = "data.dataModalRename"
         modal-template = "modalRenameBox"
@@ -24,7 +31,7 @@
         modal-actions = "actions.actionsModalFork"
         modal-data = "data.dataModalFork"
         modal-template = "modalForkBox"
-      ) Fork to a New Box
+      ) Fork Box
       li.popover-list-item(
         modal
         modal-actions = "actions.actionsModalDelete"

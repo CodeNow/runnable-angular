@@ -1,9 +1,10 @@
-.modal.error.in
+.modal-backdrop.in
   .modal-dialog
-    .modal-body
-      h1.modal-title {{ dataError }}
-      p.modal-text Check the URL or #{''}
+    header.modal-header
+      h1.modal-heading {{ dataError }}
+    main.modal-body
+      p.modal-description Check the URL or go #{''}
         a.modal-link(
           href = "/"
-        ) go back
+        ) back to home
         | .
