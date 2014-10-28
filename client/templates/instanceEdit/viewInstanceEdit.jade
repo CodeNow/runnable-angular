@@ -1,57 +1,65 @@
 header.box-header
-  h1.box-info
-    .box-name {{ dataInstanceEdit.data.instance.attrs.name }}
-      svg.iconnables.icons-edit
-        use(
-          xlink:href = "#icons-edit"
-        )
-    input.box-url(
-      readonly
-      select-all
-      value = "{{ dataInstanceEdit.data.instance.attrs.name }}.{{ dataInstanceEdit.data.instance.attrs.owner.username }}.runnable.io"
-    )
-    //- sets layout on h1.box-name for .box-url
-    span.box-name-ghost {{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io
-  .primary-actions
-    button.orange(
-      ng-click = "dataInstanceEdit.actions.build()"
-      type = "button"
-    ) Build
-  .secondary-actions
-    .save-spinner(
-      ng-class = "{ in: dataInstanceEdit.data.saving }"
-    )
-    a.btn.white.btn-icon.btn-actions(
-      ng-class = "{active: dataInstanceEdit.data.popoverGearMenu.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "dataInstanceEdit.data.popoverGearMenu.data.show"
-      type = "button"
-    )
-      svg.iconnables.icons-gear
-        use(
-          xlink:href = "#icons-gear"
-        )
-      //- popover for rename, for, delete box
-      pop-over(
-        actions = "dataInstanceEdit.data.popoverGearMenu.actions"
-        data = "dataInstanceEdit.data.popoverGearMenu.data"
-        template = "viewInstanceEditPopoverActions"
+
+  //- name instance input
+  runnable-setup-box-name(
+    name = "dataSetup.data.newInstanceName"
+    valid = "dataSetup.data.isValid"
+  )
+
+  runnable-setup-primary-actions(
+    build   = "dataSetup.data.build"
+    loading = "dataApp.data.loading"
+    name    = "dataSetup.data.newInstanceName"
+    valid   = "dataSetup.data.isValid"
+  )
+  //-
+    h1.box-info
+      .box-name {{ dataInstanceEdit.data.instance.attrs.name }}
+        svg.iconnables.icons-edit
+          use(
+            xlink:href = "#icons-edit"
+          )
+      input.box-url(
+        readonly
+        select-all
+        value = "{{ dataInstanceEdit.data.instance.attrs.name }}.{{ dataInstanceEdit.data.instance.attrs.owner.username }}.runnable.io"
       )
-    button.white(
-      ng-click = "dataInstanceEdit.actions.goToInstance(true)"
-      type = "button"
-    ) Discard Changes
+      //- sets layout on h1.box-name for .box-url
+      span.box-name-ghost {{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io
+    .primary-actions
+      button.orange(
+        ng-click = "dataInstanceEdit.actions.build()"
+        type = "button"
+      ) Build
+    .secondary-actions
+      .save-spinner(
+        ng-class = "{ in: dataInstanceEdit.data.saving }"
+      )
+      a.btn.white.btn-icon.btn-actions(
+        ng-class = "{active: dataInstanceEdit.data.popoverGearMenu.data.show}"
+        toggle-pop-over
+        toggle-pop-over-model = "dataInstanceEdit.data.popoverGearMenu.data.show"
+        type = "button"
+      )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear"
+          )
+        //- popover for rename, for, delete box
+        pop-over(
+          actions = "dataInstanceEdit.data.popoverGearMenu.actions"
+          data = "dataInstanceEdit.data.popoverGearMenu.data"
+          template = "viewInstanceEditPopoverActions"
+        )
+      button.white(
+        ng-click = "dataInstanceEdit.actions.goToInstance(true)"
+        type = "button"
+      ) Discard Changes
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
-  //- repositories
 
-  //- edit === true means directive is set to instanceEdit page
-  repo-list(
-    instance = "dataInstanceEdit.data.instance"
-    build = "dataInstanceEdit.data.build"
-    edit = "true"
-  )
+  runnable-repo-list
 
   section.row(
     ng-if = "dataInstanceEdit.data.envValidation.errors"
@@ -64,7 +72,10 @@ section.sidebar.box-sidebar
         ) Invalid line {{ errorLine + 1 }}
 
 section.views.with-add-tab(
-  ng-class = "{in: dataInstanceEdit.data.showExplorer && !dataInstanceEdit.data.loading}"
+  ng-class = "{ \
+    in: (dataInstanceEdit.data.showExplorer && \
+         !dataInstanceEdit.data.loading) \
+  }"
 )
   //- explorer
   button.btn-sm.white.btn-icon.explorer-toggle(
