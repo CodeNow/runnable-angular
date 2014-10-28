@@ -82,12 +82,27 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
     beforeEach(function () {
       $compile(ctx.element)($scope);
       $scope.$digest();
+      ctx.$element = jQuery(ctx.element);
       $httpBackend.flush();
     });
-    it('should display commit author', function () {
-      debugger;
-      // jQuery(ctx.element).find('div > span.commit-author').html() === 'sipa'
-      expect(true).to.equal(true);
+
+    it('loads', function () {
+      expect(ctx.$element.is('li.repository-group-item')).to.be.true;
+    });
+
+    it('commit author', function () {
+      var $el = ctx.$element
+        .find('> .commit.load > span.commit-author');
+      expect($el).to.be.ok;
+      expect($el.html()).to.equal('sipa');
+    });
+
+    it('commit time', function () {
+      var $el = ctx.$element
+        .find('> .commit.load > time.commit-time');
+      expect($el).to.be.ok;
+      // formatted via timeAgo
+      expect($el.html()).to.equal('');
     });
 
   });
