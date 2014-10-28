@@ -209,23 +209,6 @@ function RunnableRepoList (
           .go();
       }
 
-      /**
-       * Models in build.contextVersions collection will
-       * have empty appCodeVersion collections by default.
-       * Perform fetch on each contextVersion to populate
-       * appCodeVersions collection
-       */
-      function fetchBuildContextVersions (cb) {
-        if (!$scope.build.contextVersions.models[0]) {
-          // TODO finish
-          return;
-        }
-        $scope.build.contextVersions.models[0].fetch(function (err) {
-          if (err) throw err;
-          cb();
-        });
-      }
-
       async.series([
         fetchUser,
         fetchBuild
