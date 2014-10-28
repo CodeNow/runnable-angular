@@ -48,7 +48,7 @@
   &.show-sidebar.show-sidebar {
     border-radius: 3px 0 0 3px;
     transition: all .2s ease-in;
-    transform: scale3d(1,1,1) translate3d(-120px,0,0);
+    transform: scale3d(1,1,1) translate3d(-105px,0,0);
   }
 }
 
@@ -124,6 +124,22 @@
 
   .btn-checkbox {
     margin: 6px;
+  }
+
+  .guide {
+    border: 0;
+    border-left: 1px solid rgba($blue,.2);
+    border-radius: 0;
+    border-right: 1px solid rgba($blue,.2);
+    margin: 0;
+    padding: 15px 36px 15px 21px;
+
+    .btn {
+      padding: 0;
+      position: absolute;
+      right: 15px;
+      top: 12px;
+    }
   }
 }
 
