@@ -7,11 +7,11 @@
   top: 0;
   transform: translate3d(0,0,0);
   transition: transform .2s ease-in;
-  width: 240px;
+  width: 210px;
   z-index: $z-modal-sidebar;
 
   .show-sidebar & {
-    transform: translate3d(240px,0,0);
+    transform: translate3d(210px,0,0);
   }
 
   .box-group {
@@ -24,12 +24,13 @@
     border-radius: 0;
     color: $gray;
     cursor: default;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     min-height: 45px;
-    padding: 0 12px;
+    padding: 0 15px;
     user-select: none;
     width: 100%;
+    white-space: normal;
 
     + .box-group-item {
       border-top: 1px solid rgba($black,.1);
@@ -41,8 +42,8 @@
 
     &.expanded {
       height: auto;
-      line-height: 18px;
-      padding: 12px;
+      line-height: 24px;
+      padding: 9px 15px 12px;
 
       .btn {
         font-size: 12px;

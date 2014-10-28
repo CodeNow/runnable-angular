@@ -8,6 +8,7 @@
     .modal-container
       header.modal-header
         h1.modal-heading Edit Environment
+        //- do not show if there are no boxes in .modal-sidebar
         button.btn.btn-icon.white(
           ng-class = "{active: data.toggleSidebar}"
           ng-click = "data.toggleSidebar = !data.toggleSidebar"
@@ -32,33 +33,65 @@
         ) Go Back
     aside.modal-sidebar
       ul.box-group
+        h2.sub-header
+          span.sub-header-text
         //- boxes should appear in the same order as they appear on the navbar
+        //- do not show boxes with no exposed ports
         //- apply .expanded if box has exposed ports
-        //- clicks on b.btn should paste url (with specified port) into the last cursor position in the env file
+        //- clicks on b.btn should paste "$ENTER_ENV_VAR={{url}}+':'+{{port}}" (with specified port) into the last cursor position in the env file
         li.box-group-item.expanded
-          .text-overflow box-name.org-name.runnable.io
-          b.btn.btn-xs.gray :3000
-          b.btn.btn-xs.gray :3001
+          .text-overflow box-name
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:3000"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :3000
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:3001"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :3001
         li.box-group-item.expanded
-          .text-overflow box-name-2.org-name.runnable.io
-          b.btn.btn-xs.gray :8000
+          .text-overflow box-name-2
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name-2.org-name.runnable.io:8000"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :8000
         li.box-group-item.expanded
-          .text-overflow box-name-2.org-name.runnable.io
-          b.btn.btn-xs.gray :80
-          b.btn.btn-xs.gray :8080
+          .text-overflow box-name-2
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name-2.org-name.runnable.io:80"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :80
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:8080"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :8080
         li.box-group-item.expanded
-          .text-overflow box-name.org-name.runnable.io
-          b.btn.btn-xs.gray :3000
-          b.btn.btn-xs.gray :3001
+          .text-overflow box-name
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:3000"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :3000
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:3001"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :3001
         li.box-group-item.expanded
-          .text-overflow box-name.org-name.runnable.io
-          b.btn.btn-xs.gray :3000
-          b.btn.btn-xs.gray :3001
+          .text-overflow box-name
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:3000"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :3000
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:3001"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :3001
         li.box-group-item.expanded
-          .text-overflow box-name.org-name.runnable.io
-          b.btn.btn-xs.gray :3000
-          b.btn.btn-xs.gray :3001
-        li.box-group-item
-          .text-overflow box-name-2.org-name.runnable.io
-        li.box-group-item
-          .text-overflow box-name-2.org-name.runnable.io
+          .text-overflow box-name
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:3000"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :3000
+          b.btn.btn-xs.gray(
+            tooltip = "Link to: box-name.org-name.runnable.io:3001"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          ) :3001
