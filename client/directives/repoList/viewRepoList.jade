@@ -7,7 +7,7 @@ section.row.repo-list
 
   //- show .guide if instance.setup && no repositories have been added yet
   .guide.blue(
-    ng-if = "showGuide && data.version.appCodeVersions.models.length === 0"
+    ng-if = "showGuide && build.contextVersions.models[0].appCodeVersions.models.length === 0"
     toggle-pop-over
     toggle-pop-over-model = "data.show"
   )

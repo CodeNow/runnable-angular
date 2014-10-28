@@ -95,6 +95,10 @@ function RunnableEditRepoCommit (
       $scope.popoverRepoActions.data.acv = $scope.acv;
       $scope.popoverRepoActions.data.unsavedAcv = $scope.unsavedAcv;
       $scope.popoverRepoActions.actions.deleteRepo = function () {
+        $scope.acv.destroy(function (err) {
+          $rootScope.safeApply();
+          if (err) throw err;
+        });
       };
 
       $scope.selectLatestCommit = function () {
