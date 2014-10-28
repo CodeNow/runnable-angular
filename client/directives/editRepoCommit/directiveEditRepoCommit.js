@@ -18,6 +18,21 @@ function RunnableEditRepoCommit (
     },
     link: function ($scope, elem, attrs) {
 
+      // controlls appearance of
+      // gear-menu popover
+      // to fast-forward/delete
+      switch($state.$current.name) {
+        case 'instance.setup':
+          $scope.edit = false;
+          break;
+        case 'instance.instance':
+          $scope.edit = false;
+          break;
+        case 'instance.instanceEdit':
+          $scope.edit = true;
+          break;
+      }
+
       $scope.activeBranch = null;
       $scope.activeCommit = null;
       $scope.commitsBehind = null;
@@ -34,20 +49,14 @@ function RunnableEditRepoCommit (
         if (n) $scope.popoverCommitSelect.data.build = n;
       });
 
-      $scope.$watch('commitsBehind', function (n) {
-        if (!n) return;
-        $scope.popoverRepoActions.data.commitsBehind = n;
-      });
-
       $scope.popoverCommitSelect = {data:{}, actions:{}};
-      // share appCodeVersion with popover to display branches/commits in popover
       $scope.popoverCommitSelect.data.show = false;
       $scope.popoverCommitSelect.data.acv = $scope.acv;
       $scope.popoverCommitSelect.data.unsavedAcv = $scope.unsavedAcv;
       $scope.popoverCommitSelect.data.toggleFilter = false;
       $scope.popoverCommitSelect.data.commitFilter = '';
+
       $scope.popoverCommitSelect.actions.selectBranch = function (activeBranch) {
-        //$scope.activeBranch = $scope.popoverCommitSelect.data.activeBranch;
         $scope.activeBranch = activeBranch;
         fetchBranchCommits($scope.activeBranch);
       };
@@ -58,19 +67,28 @@ function RunnableEditRepoCommit (
         setActiveCommit($scope.unsavedAcv);
         fetchCommitOffset($scope.unsavedAcv, $scope.activeCommit);
       };
-      // reset filter w/ opening popover
+
+      // reset filter when opening popover
       $scope.$watch('popoverCommitSelect.data.show', function (n) {
         if (!n) return;
         $scope.popoverCommitSelect.data.toggleFilter = false;
         $scope.popoverCommitSelect.data.commitFilter = '';
       });
-      // reset branch if selected commit does not belong to selected branch
+
+      // reset branch if selected commit does
+      // not belong to selected branch
       // on popoverCommitSelect close
       $scope.$watch('popoverCommitSelect.data.show', function (n, p) {
         if (n === false && p === true) {
           // was open, is now closed
           setActiveBranch($scope.unsavedAcv);
         }
+      });
+
+      // keep scopes in sync
+      $scope.$watch('commitsBehind', function (n) {
+        if (!n) return;
+        $scope.popoverRepoActions.data.commitsBehind = n;
       });
 
       $scope.popoverRepoActions = {data:{}, actions:{}};

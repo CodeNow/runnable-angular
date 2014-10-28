@@ -5,7 +5,7 @@ section.row.repo-list
 
     runnable-add-repo-popover
 
-    //- show .guide if /new && no repositories have been added yet
+  //- show .guide if instance.setup && no repositories have been added yet
   .guide.blue(
     ng-if = "showGuide && data.version.appCodeVersions.models.length === 0"
     toggle-pop-over
@@ -18,8 +18,6 @@ section.row.repo-list
     p Add a repository to your box.
 
   ul.repository-group
-    //-
-      activeCommit - local shared state object
     li.repository-group-item(
       ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
       ng-init   = "unsavedAcv = newUnsavedAcv(acv);"
@@ -44,12 +42,6 @@ section.row.repo-list
             use(
               xlink:href = "#icons-update"
             )
-
-      //-
-        runnable-repo-actions(
-          app-code-version = "acv"
-          unsaved-app-code-version = "unsavedAcv"
-        )
 
       //-
         - display selected commit
