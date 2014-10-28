@@ -1,4 +1,7 @@
-div
+li.repository-group-item
+  svg.iconnables.icons-git
+    use(xlink:href = "#icons-git")
+  h3.repository-title {{ acv.attrs.repo }}
 
   //- if instance.instance and behind latest
   button.btn-xs.white.repository-update(
