@@ -1,9 +1,15 @@
 module.exports = {
   appCodeVersions: {
-    index: require('./appCodeVersions/index')
+    bitcoinAppCodeVersion: require('./appCodeVersions/bitcoinAppCodeVersion')
   },
   builds: {
     setup: require('./builds/setup')
+  },
+  branches: {
+    bitcoinRepoBranches: require('./branches/bitcoinRepoBranches')
+  },
+  commit: {
+    bitcoinRepoCommit1: require('./commit/bitcoinRepoCommit1')
   },
   commitCompare: {
     zeroBehind: require('./commitCompare/zeroBehind')

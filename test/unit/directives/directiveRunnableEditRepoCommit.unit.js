@@ -43,15 +43,30 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
       ctx.acv = user
         .newContext('contextId')
         .newVersion('versionId')
-        .newAppCodeVersion(mocks.appCodeVersions.index);
+        .newAppCodeVersion(mocks.appCodeVersions.bitcoinAppCodeVersion);
       $scope.acv = ctx.acv;
     });
     beforeEach(function () {
       /**
-       * directive fetches on initialization
-       * - commit-offset of active commit
-       * - commits of active branch
+       * API Requests
+       * - GET branches
+       * - GET commit
+       * - GET commitOffset
+       * - GET commits
        */
+
+      var branchesUrl = host + '/github/repos/cflynn07/bitcoin/branches?per_page=100';
+      $httpBackend
+        .when('GET', branchesUrl)
+        .respond(mocks.branches.bitcoinRepoBranches);
+      $httpBackend.expectGET(branchesUrl);
+
+      var commitUrl = host + '/github/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90?';
+      $httpBackend
+        .when('GET', commitUrl)
+        .respond(mocks.commit.bitcoinRepoCommit1);
+      $httpBackend.expectGET(commitUrl);
+
       var commitOffsetUrl = host + '/github/repos/cflynn07/bitcoin/compare/master...1f27c310a4bcca758f708358601fa25976d56d90';
       $httpBackend
         .when('GET', commitOffsetUrl)
@@ -71,7 +86,6 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
     });
     it('should display commit author', function () {
       debugger;
-      console.log(jQuery);
       // jQuery(ctx.element).find('div > span.commit-author').html() === 'sipa'
       expect(true).to.equal(true);
     });
