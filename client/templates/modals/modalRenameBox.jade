@@ -33,7 +33,7 @@
             validate-name-current-instance-valid = "false"
             value = "{{ data.instance.state.name }}"
           )
-        .validate-wrapper(
+        .validate-wrapper.btn.btn-sm.orange(
           ng-class = "{\
             in: data.renameForm.$invalid,\
             'invalid-pattern': data.renameForm.$error.namePattern.length,\
