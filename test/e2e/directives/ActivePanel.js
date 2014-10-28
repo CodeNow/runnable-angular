@@ -22,7 +22,7 @@ function ActivePanel (pageType) {
 
   this.setActiveTab = function(text) {
     this.tabTitle = text;
-    this.tab = element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li > span', 'text'));
+    this.tab = element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li > span', text));
     this.tab.click();
   };
 
