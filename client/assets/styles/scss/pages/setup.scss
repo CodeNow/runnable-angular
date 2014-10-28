@@ -2,6 +2,17 @@
 .setup-name {
   height: 60px;
   line-height: 60px;
+
+  // .validate-wrapper
+  .validate-wrapper {
+    display: inline-block;
+    font-size: 16px;
+    height: 36px;
+    line-height: 36px;
+    position: relative;
+    top: 11px;
+    width: 300px;
+  }
 }
 
 // input.setup-name-input
@@ -35,14 +46,4 @@
       border-color: rgba($blue,.2);
     }
   }
-}
-
-// .validate-wrapper
-.validate-wrapper {
-  display: inline-block;
-  height: 36px;
-  left: 9px;
-  position: relative;
-  top: -3px;
-  width: 270px;
 }

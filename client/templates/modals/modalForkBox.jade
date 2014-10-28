@@ -38,7 +38,7 @@
             tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
             type = "button"
           ) ev
-        .validate-wrapper(
+        .validate-wrapper.btn.btn-sm.orange(
           ng-class = "{\
             in: data.forkForm.$invalid,\
             'invalid-pattern': data.forkForm.$error.namePattern.length,\
@@ -74,6 +74,12 @@
         //-       ng-init = "data.env[$index] = {key: env.split('=')[0], value: env.split('=')[1]}"
         //-       ng-model = "data.env[$index].value"
         //-     )
+
+        label.btn.btn-sm.white.btn-checkbox
+          input.input-checkbox(
+            type = "checkbox"
+          )
+          | Include dependencies
 
     footer.modal-footer
       button(

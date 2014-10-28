@@ -99,13 +99,11 @@
   .validate-wrapper {
     display: block;
     height: 0;
-    left: 0;
-    margin: 0 auto;
-    right: 0;
-    top: 6px;
+    margin: 6px;
     transition: height .2s ease-in;
 
     &.in {
+      border: 1px solid rgba($orange,.3);
       height: 36px;
     }
 
@@ -118,15 +116,19 @@
     }
 
     .btn:first-child {
-      margin-left: 9px;
+      margin-left: 6px;
     }
+  }
+
+  .btn-checkbox {
+    margin: 6px;
   }
 }
 
 // footer.modal-footer
 .modal-footer {
   height: 57px;
-  padding: 6px 6px;
+  padding: 6px;
 
   .green,
   .orange,
