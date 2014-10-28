@@ -20,7 +20,7 @@ describe('project creation workflow', function () {
 
     setup.repoList.openAddDropdown();
 
-    setup.repoList.selectRepo(1);
+    setup.repoList.selectRepo(2);
 
     setup.selectTemplate('Blank');
 
