@@ -4,19 +4,18 @@ require('app')
  * @ngInject
  */
 function ControllerInstanceEdit(
-  $scope,
-  $timeout,
-  $stateParams,
-  $state,
-  $window,
-  $interval,
-  user,
   async,
-  extendDeep,
-  OpenItems,
+  $interval,
   keypather,
+  OpenItems,
+  QueryAssist,
+  $scope,
+  $state,
+  $stateParams,
+  $timeout,
+  user,
   validateEnvVars,
-  addTab
+  $window
 ) {
 
   var dataInstanceEdit = $scope.dataInstanceEdit = {data:{}, actions:{}};
@@ -34,7 +33,7 @@ function ControllerInstanceEdit(
       .query('me')
       .cacheFetch(function (user, cached, cb) {
         $scope.user = user;
-        $rootScope.safeApply();
+        $scope.safeApply();
         cb();
       })
       .resolve(function (err, user, cb) {
@@ -43,20 +42,17 @@ function ControllerInstanceEdit(
   }
 
   function fetchBuild (cb) {
-    if (!$stateParams.buildId) {
-      return fetchInstance(cb);
-    }
     new QueryAssist($scope.user, cb)
       .wrapFunc('fetchBuild')
       .query($stateParams.buildId)
       .cacheFetch(function (build, cached, cb) {
         $scope.build = build;
-        $rootScope.safeApply();
+        $scope.safeApply();
         cb();
       })
       .resolve(function (err, build, cb) {
         if (err) throw err;
-        $rootScope.safeApply();
+        $scope.safeApply();
         cb();
       })
       .go();
@@ -66,8 +62,6 @@ function ControllerInstanceEdit(
     fetchUser,
     fetchBuild
   ]);
-
-
 
   /*
   var QueryAssist = $scope.UTIL.QueryAssist;

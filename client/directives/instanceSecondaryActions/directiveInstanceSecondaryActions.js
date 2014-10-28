@@ -32,7 +32,6 @@ function RunnableInstanceSecondaryActions (
       $scope.popoverGearMenu.actions.startInstance = function () {
         modInstance('start');
       };
-
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
 
