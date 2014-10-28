@@ -39,8 +39,8 @@
           )
       select.select(
         name       = "activeBranch"
-        ng-model   = "data.activeBranch"
-        ng-change  = "actions.selectBranch()"
+        ng-model   = "activeBranch"
+        ng-change  = "actions.selectBranch(activeBranch)"
         ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
       )
 
@@ -53,9 +53,9 @@
     li.commit-group-item.commit(
       ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
       ng-class = "{ \
-        active: commit.attrs.sha === data.activeCommit.attrs.sha \
+        active: (commit.attrs.sha === data.activeCommit.attrs.sha) \
       }"
-      ng-click = "actions.selectCommit(commit)"
+      ng-click = "actions.selectCommit(commit.attrs.sha)"
     )
       .commit-message {{ commit.attrs.commit.message }}
       .commit-message {{ commit.attrs.sha }}

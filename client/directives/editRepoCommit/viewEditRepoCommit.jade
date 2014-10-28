@@ -1,8 +1,29 @@
 div
+
+  //- if editing
+  button.btn-xs.white.repository-actions(
+    ng-class = "{ \
+      active: popoverRepoActions.data.show \
+    }"
+    toggle-pop-over
+    toggle-pop-over-model = "popoverRepoActions.data.show"
+    type = "button"
+    ng-if = "edit"
+  )
+    svg.iconnables.icons-gear
+      use(
+        xlink:href = "#icons-gear"
+      )
+    pop-over(
+      actions = "popoverRepoActions.actions"
+      data = "popoverRepoActions.data"
+      template = "viewPopoverRepoActions"
+    )
+
   //- add .pending for orange
   .commit.load(
     ng-class = "{ \
-      pending: (acv.attrs.commit !== activeCommit.attrs.sha) \
+      pending: (acv.attrs.commit !== unsavedAcv.attrs.commit) \
     }"
     toggle-pop-over
     toggle-pop-over-model = "popoverCommitSelect.data.show"

@@ -14,15 +14,9 @@ function RunnableEditRepoCommit (
     replace: true,
     scope: {
       acv: '=appCodeVersion',
-      sharedState: '='
+      unsavedAcv: '=unsavedAppCodeVersion'
     },
     link: function ($scope, elem, attrs) {
-
-      // runnable-repo-actions can update selected commit
-      $scope.$watch('sharedState.activeCommit', function (n) {
-        if (!n || n === $scope.activeCommit) return;
-        $scope.activeCommit = n;
-      });
 
       $scope.activeBranch = null;
       $scope.activeCommit = null;
@@ -39,47 +33,71 @@ function RunnableEditRepoCommit (
       $scope.$watch('build', function (n) {
         if (n) $scope.popoverCommitSelect.data.build = n;
       });
-      $scope.popoverCommitSelect = {
-        data: {},
-        actions: {}
-      };
+
+      $scope.$watch('commitsBehind', function (n) {
+        if (!n) return;
+        $scope.popoverRepoActions.data.commitsBehind = n;
+      });
+
+      $scope.popoverCommitSelect = {data:{}, actions:{}};
       // share appCodeVersion with popover to display branches/commits in popover
       $scope.popoverCommitSelect.data.show = false;
       $scope.popoverCommitSelect.data.acv = $scope.acv;
+      $scope.popoverCommitSelect.data.unsavedAcv = $scope.unsavedAcv;
       $scope.popoverCommitSelect.data.toggleFilter = false;
       $scope.popoverCommitSelect.data.commitFilter = '';
-      $scope.popoverCommitSelect.actions.selectBranch = function () {
-        $scope.activeBranch = $scope.popoverCommitSelect.data.activeBranch;
+      $scope.popoverCommitSelect.actions.selectBranch = function (activeBranch) {
+        //$scope.activeBranch = $scope.popoverCommitSelect.data.activeBranch;
+        $scope.activeBranch = activeBranch;
         fetchBranchCommits($scope.activeBranch);
       };
-      $scope.popoverCommitSelect.actions.selectCommit = function (commit) {
+      $scope.popoverCommitSelect.actions.selectCommit = function (commitSha) {
         $scope.popoverCommitSelect.data.show = false;
-        // watcher in runnable-repo-actions
-        $scope.sharedState.activeCommit =
-          $scope.activeCommit =
-          commit;
+        $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
+        $scope.unsavedAcv.attrs.commit = commitSha;
+        setActiveCommit($scope.unsavedAcv);
+        fetchCommitOffset($scope.unsavedAcv, $scope.activeCommit);
       };
+      // reset filter w/ opening popover
+      $scope.$watch('popoverCommitSelect.data.show', function (n) {
+        if (!n) return;
+        $scope.popoverCommitSelect.data.toggleFilter = false;
+        $scope.popoverCommitSelect.data.commitFilter = '';
+      });
+      // reset branch if selected commit does not belong to selected branch
+      // on popoverCommitSelect close
+      $scope.$watch('popoverCommitSelect.data.show', function (n, p) {
+        if (n === false && p === true) {
+          // was open, is now closed
+          setActiveBranch($scope.unsavedAcv);
+        }
+      });
 
-      setActiveBranch($scope.acv, $scope.acv.attrs.branch);
+      $scope.popoverRepoActions = {data:{}, actions:{}};
+      $scope.popoverRepoActions.data.acv = $scope.acv;
+      $scope.popoverRepoActions.data.unsavedAcv = $scope.unsavedAcv;
+
+      setActiveBranch($scope.acv);
       setActiveCommit($scope.acv);
       fetchCommitOffset($scope.acv, $scope.activeCommit);
       fetchBranchCommits($scope.activeBranch);
 
-      function setActiveBranch (acv, activeBranchName) {
-        var githubRepo = acv.githubRepo;
-        var activeBranch = githubRepo.newBranch(activeBranchName);
-        $scope.activeBranch = activeBranch;
-        githubRepo.branches.fetch(function (err) {
+      function setActiveBranch (acv) {
+        $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
+        acv.githubRepo.branches.fetch(function (err) {
           if (err) throw err;
-          githubRepo.branches.add(activeBranch);
+          // githubRepo.branches.add(activeBranch);
           $rootScope.safeApply();
         });
         $rootScope.safeApply();
       }
 
       function setActiveCommit (acv) {
-        var githubRepo = acv.githubRepo;
-        $scope.activeCommit = githubRepo.newCommit(acv.attrs.commit);
+        $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
+        $scope.activeCommit.fetch(function (err) {
+          if (err) throw err;
+          $rootScope.safeApply();
+        });
         $rootScope.safeApply();
       }
 

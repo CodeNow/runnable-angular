@@ -21,6 +21,16 @@ function RunnableRepoList (
     scope: {},
     link: function ($scope, elem) {
 
+      $scope.unsavedAcvs = [];
+      $scope.newUnsavedAcv = function (acv) {
+        var cv = $scope.build.contextVersions.models[0];
+        var newAcv = cv.newAppCodeVersion(acv.toJSON(), {
+          noStore: true
+        });
+        $scope.unsavedAcvs.push(newAcv);
+        return newAcv;
+      };
+
       // display guide if no repos added
       $scope.showGuide = true;
       $scope.showUpdateButton = false;
