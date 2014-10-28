@@ -17,7 +17,9 @@ function RunnableAddRepoPopover (
     restrict: 'E',
     templateUrl: 'viewAddRepoPopover',
     replace: true,
-    scope: {},
+    scope: {
+      show: '='
+    },
     link: function ($scope, elem, attrs) {
 
       // rules for display based on state name
@@ -32,13 +34,16 @@ function RunnableAddRepoPopover (
           $scope.enabled = true;
           break;
       }
-
       $scope.repoListPopover = {
         data: {},
         actions: {}
       };
 
       $scope.repoListPopover.data.show = false;
+      // sync w/ shared scope property
+      $scope.$watch('show', function (n) {
+        $scope.repoListPopover.data.show = n;
+      });
       $scope.repoListPopover.data.showFilter = false;
       $scope.repoListPopover.data.repoFilter = '';
       // reset modal filter when opening (not when closing)

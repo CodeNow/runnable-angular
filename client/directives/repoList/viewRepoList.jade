@@ -3,13 +3,15 @@ section.row.repo-list
 
     runnable-button-update-instance-repos
 
-    runnable-add-repo-popover
+    runnable-add-repo-popover(
+      show = "data.show"
+    )
 
   //- show .guide if instance.setup && no repositories have been added yet
   .guide.blue(
     ng-if = "showGuide && build.contextVersions.models[0].appCodeVersions.models.length === 0"
-    toggle-pop-over
-    toggle-pop-over-model = "data.show"
+    ng-click = "data.show = !data.show; \
+                $event.stopPropagation();"
   )
     svg.iconnables.icons-git
       use(

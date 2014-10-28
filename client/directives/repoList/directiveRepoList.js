@@ -21,10 +21,15 @@ function RunnableRepoList (
     scope: {},
     link: function ($scope, elem) {
 
+      // add-repo-popover
+      $scope.data = {
+        show: false
+      };
+
       // display guide if no repos added
       $scope.showGuide = true;
 
-      $scope.unsavedAcvs = [];
+      window.uacvs = $scope.unsavedAcvs = [];
       $scope.newUnsavedAcv = function (acv) {
         var cv = $scope.build.contextVersions.models[0];
         var newAcv = cv.newAppCodeVersion(acv.toJSON(), {
