@@ -8,7 +8,9 @@ describe('edit dockerfile', function() {
     instanceEdit.get();
 
     browser.wait(function() {
-      return instanceEdit.activeTabContains('Dockerfile');
+      return instanceEdit.activePanel.getActiveTab.then(function (tabText) {
+        return tabText === 'Dockerfile';
+      });
     });
 
     instanceEdit.addToDockerfile('\n#a comment');
