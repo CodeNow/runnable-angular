@@ -19,10 +19,6 @@ function InstanceEditPage (instanceName) {
     util.waitForUrl(InstanceEditPage.urlRegex);
   };
 
-  this.activeTabContains = function(expectedText) {
-    return util.containsText(this.activePanel.getFileContents(), expectedText);
-  };
-
   this.buildChanges = function() {
     this.build.get().click();
   };
