@@ -11,52 +11,6 @@ header.box-header
     saving = "dataInstanceEdit.data.saving"
   )
 
-  //-
-    h1.box-info
-      .box-name {{ dataInstanceEdit.data.instance.attrs.name }}
-        svg.iconnables.icons-edit
-          use(
-            xlink:href = "#icons-edit"
-          )
-      input.box-url(
-        readonly
-        select-all
-        value = "{{ dataInstanceEdit.data.instance.attrs.name }}.{{ dataInstanceEdit.data.instance.attrs.owner.username }}.runnable.io"
-      )
-      //- sets layout on h1.box-name for .box-url
-      span.box-name-ghost {{ dataInstanceEdit.data.instance.attrs.name }}.username.runnable.io
-
-    .primary-actions
-      button.orange(
-        ng-click = "dataInstanceEdit.actions.build()"
-        type = "button"
-      ) Build
-
-    .secondary-actions
-      .save-spinner(
-        ng-class = "{ in: dataInstanceEdit.data.saving }"
-      )
-      a.btn.white.btn-icon.btn-actions(
-        ng-class = "{active: dataInstanceEdit.data.popoverGearMenu.data.show}"
-        toggle-pop-over
-        toggle-pop-over-model = "dataInstanceEdit.data.popoverGearMenu.data.show"
-        type = "button"
-      )
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-gear"
-          )
-        //- popover for rename, for, delete box
-        pop-over(
-          actions = "dataInstanceEdit.data.popoverGearMenu.actions"
-          data = "dataInstanceEdit.data.popoverGearMenu.data"
-          template = "viewInstanceEditPopoverActions"
-        )
-      button.white(
-        ng-click = "dataInstanceEdit.actions.goToInstance(true)"
-        type = "button"
-      ) Discard Changes
-
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
 
@@ -94,25 +48,9 @@ section.views.with-add-tab(
       )
 
   runnable-explorer(
-    open-items = "dataSetup.data.openItems"
-    toggle-theme = "dataSetup.data.toggleTheme"
+    open-items = "dataInstanceEdit.data.openItems"
+    toggle-theme = "dataInstanceEdit.data.toggleTheme"
   )
-  //-
-    section.explorer
-      .explorer-controls
-        button.toggle-theme(
-          ng-class = "{dark: !dataInstanceEdit.data.toggleTheme, light: dataInstanceEdit.data.toggleTheme}"
-          ng-click = "dataInstanceEdit.data.toggleTheme = !dataInstanceEdit.data.toggleTheme"
-          ng-init = "dataInstanceEdit.data.toggleTheme = true"
-          tooltip = "Change Theme"
-          tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
-        )
-          .theme
-      file-tree(
-        open-items = "dataInstanceEdit.data.openItems"
-        read-only = "false"
-        root-dir = "dataInstanceEdit.data.version.rootDir"
-      )
 
   //- tabs
   tabs(
@@ -122,21 +60,6 @@ section.views.with-add-tab(
   runnable-add-tab(
     open-items = "dataInstanceEdit.data.openItems"
   )
-  //-
-    a.btn.btn-sm.white.btn-icon.add-tab(
-      ng-class = "{active: dataInstanceEdit.data.popoverAddTab.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "dataInstanceEdit.data.popoverAddTab.data.show"
-    )
-      svg.iconnables.icons-add
-        use(
-          xlink:href = "#icons-add"
-        )
-      pop-over(
-        actions = "dataInstanceEdit.data.popoverAddTab.actions"
-        data = "dataInstanceEdit.data.popoverAddTab.data"
-        template = "popoverAddTab"
-      )
 
   //- active panel
   //- Passing in old build to access it's logs

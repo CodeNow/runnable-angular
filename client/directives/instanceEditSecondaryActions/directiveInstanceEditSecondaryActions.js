@@ -9,6 +9,7 @@ function RunnableInstanceEditSecondaryActions (
   keypather,
   QueryAssist,
   $rootScope,
+  $state,
   $stateParams,
   $timeout,
   user
@@ -27,6 +28,10 @@ function RunnableInstanceEditSecondaryActions (
       $scope.popoverGearMenu.data.show = false;
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
+
+      $scope.goToInstance = function () {
+        $state.go('instance.instance', $stateParams);
+      };
 
       function fetchUser (cb) {
         new QueryAssist(user, cb)
