@@ -26,12 +26,17 @@ textarea {
 
   &[type="checkbox"] {
     -webkit-appearance: checkbox;
+    box-shadow: none;
     cursor: pointer;
     width: auto;
 
     &[disabled] {
       cursor: not-allowed;
     }
+  }
+
+  &[type="radio"] {
+    box-shadow: none;
   }
 
   &.input-text {
