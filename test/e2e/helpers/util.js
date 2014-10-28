@@ -54,6 +54,8 @@ util.hasClass = function(elem, klass) {
 
 util.regex = {};
 
+// Regexes are strings here because they will be concatenated later
+// var reg = RegExp('/SomeKittens/' + util.regex.shortHash);
 util.regex.shortHash = '[a-z0-9]{6}';
 util.regex.instanceName = '[A-z0-9_-]+';
 util.regex.objectId = '[0-9a-fA-F]{24}';

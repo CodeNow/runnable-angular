@@ -5,7 +5,7 @@ var ActivePanel = require('../directives/ActivePanel');
 
 function SetupPage () {
   this.repoList = new RepoList();
-  this.activePanel = new ActivePanel();
+  this.activePanel = new ActivePanel('Setup');
 
   this.boxName = util.createGetter(by.model('dataSetup.data.newProjectName'));
   this.createButton = util.createGetter(by.buttonText('Create Box'));
@@ -29,9 +29,9 @@ function SetupPage () {
     return this.createButton.get().click();
   };
 
-  this.selectBlankTemplate = function() {
-    var blankTemplate = element(by.repeater('context in dataSetup.data.seedContexts.models').row(0));
-    return blankTemplate.click();
+  this.selectTemplate = function(text) {
+    var template = element(by.cssContainingText('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section:nth-child(2) > div.label-group > label', text));
+    return template.click();
   };
 
   this.blankTemplateLoaded = function() {

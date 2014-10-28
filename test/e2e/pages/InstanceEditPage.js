@@ -7,7 +7,7 @@ var ActivePanel = require('../directives/ActivePanel');
 function InstanceEditPage (instanceName) {
   this.gearMenu = new GearMenu();
   this.repoList = new RepoList();
-  this.activePanel = new ActivePanel();
+  this.activePanel = new ActivePanel('InstanceEdit');
 
   this.discard = util.createGetter(by.buttonText('Discard Changes'));
   this.build = util.createGetter(by.buttonText('Build'));

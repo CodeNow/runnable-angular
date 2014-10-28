@@ -22,7 +22,7 @@ describe('project creation workflow', function () {
 
     setup.repoList.selectRepo(1);
 
-    setup.selectBlankTemplate();
+    setup.selectTemplate('Blank');
 
     browser.wait(setup.activePanel.aceLoaded.bind(setup.activePanel));
     browser.wait(setup.blankTemplateLoaded.bind(setup));
@@ -30,7 +30,7 @@ describe('project creation workflow', function () {
     setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 1000000\n');
 
     browser.wait(setup.dockerfileValidates.bind(setup));
-    browser.wait(setup.activePanel.fileIsClean.bind(setup));
+    browser.wait(setup.activePanel.isClean.bind(setup.activePanel));
 
     setup.createBox();
 

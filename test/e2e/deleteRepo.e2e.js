@@ -21,6 +21,10 @@ describe('deleteRepo', function() {
 
     instanceEdit.activePanel.writeToFile('\n#');
 
+    browser.wait(function() {
+      return instanceEdit.activePanel.isClean();
+    });
+
     instanceEdit.buildChanges();
 
     // Technically this works but it's a little unorthodox
