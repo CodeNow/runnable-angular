@@ -94,6 +94,16 @@ function RunnableEditRepoCommit (
       $scope.popoverRepoActions = {data:{}, actions:{}};
       $scope.popoverRepoActions.data.acv = $scope.acv;
       $scope.popoverRepoActions.data.unsavedAcv = $scope.unsavedAcv;
+      $scope.popoverRepoActions.actions.deleteRepo = function () {
+      };
+
+      $scope.selectLatestCommit = function () {
+        var latestCommit = $scope.activeBranch.commits.models[0];
+        $scope.unsavedAcv.attrs.commit = latestCommit.attrs.sha;
+        $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
+        setActiveBranch($scope.unsavedAcv);
+        setActiveCommit($scope.unsavedAcv);
+      };
 
       setActiveBranch($scope.acv);
       setActiveCommit($scope.acv);
