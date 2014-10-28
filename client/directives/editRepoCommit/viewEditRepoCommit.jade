@@ -1,9 +1,22 @@
 div
 
+  //- if instance.instance and behind latest
+  button.btn-xs.white.repository-update(
+    ng-click = "selectLatestCommit(acv)"
+    ng-if = "!showEditGearMenu && commitsBehind"
+    tooltip = "Fast-forward {{ unsavedAcv.attrs.branch }} \
+               ({{ commitsBehind ? \
+                 commitsBehind+' commits behind' : \
+                 'To latest' }})"
+    tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
+  ) {{ commitsBehind }}
+    svg.iconnables.icons-update
+      use(
+        xlink:href = "#icons-update"
+      )
+
   //-
-    if editing
-    editing state on instance.instanceEdit
-    non-editing state on instance.instance
+    if instance.setup || instance.instanceEdit
   button.btn-xs.white.repository-actions(
     ng-class = "{ \
       active: popoverRepoActions.data.show \
@@ -11,7 +24,7 @@ div
     toggle-pop-over
     toggle-pop-over-model = "popoverRepoActions.data.show"
     type = "button"
-    ng-if = "edit"
+    ng-if = "showEditGearMenu"
   )
     svg.iconnables.icons-gear
       use(

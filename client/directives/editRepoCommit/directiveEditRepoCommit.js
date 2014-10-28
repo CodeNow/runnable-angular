@@ -23,13 +23,13 @@ function RunnableEditRepoCommit (
       // to fast-forward/delete
       switch($state.$current.name) {
         case 'instance.setup':
-          $scope.edit = false;
+          $scope.showEditGearMenu = true;
           break;
         case 'instance.instance':
-          $scope.edit = false;
+          $scope.showEditGearMenu = false;
           break;
         case 'instance.instanceEdit':
-          $scope.edit = true;
+          $scope.showEditGearMenu = true;
           break;
       }
 

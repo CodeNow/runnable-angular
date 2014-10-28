@@ -26,28 +26,12 @@ section.row.repo-list
         use(xlink:href = "#icons-git")
       h3.repository-title {{ acv.attrs.repo }}
 
-      runnable-button-fast-forward-repo
-      //-
-        //- if not editing and behind latest
-        button.btn-xs.white.repository-update(
-          ng-click = "selectLatestCommit(acv)"
-          ng-if = "!edit && acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind"
-          tooltip = "Fast-forward {{ acv.githubRepo.state.activeBranch.attrs.name }} \
-                     ({{ acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind ? \
-                       acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind +' commits behind' : \
-                       'To latest' }})"
-          tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-        ) {{ acv.githubRepo.state.activeBranch.state.activeCommit.state.commitsBehind }}
-          svg.iconnables.icons-update
-            use(
-              xlink:href = "#icons-update"
-            )
-
       //-
         - display selected commit
           - pending state if selected commit !== actual saved commit
         - popover for selecting new commit
         - repo-options (delete, fast-forward commit)
+        - fast-forward
       runnable-edit-repo-commit(
         app-code-version = "acv"
         unsaved-app-code-version = "unsavedAcv"
