@@ -3,17 +3,20 @@ var util = require('../helpers/util');
 var GearMenu = require('../popovers/GearMenu');
 var CommitMenu = require('../popovers/GithubCommitMenu');
 var RepoList = require('../directives/RepoList');
+var ActivePanel = require('../directives/ActivePanel');
 
 function InstancePage (name) {
 
   this.gearMenu = new GearMenu();
   this.commitMenu = new CommitMenu();
   this.repoList = new RepoList();
+  this.activePanel = new ActivePanel('Instance');
 
   this.repoGroup = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope > section > ul'));
 
   this.commitLog = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope > section > ul'));
   this.activePanel = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark'));
+
   this.buildLogs = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li.tab-wrapper.ng-scope.active > span'));
   this.statusIcon = util.createGetter(by.css('#wrapper > main > header > h1 > div > span'));
   this.instanceName = util.createGetter(by.css('#wrapper > main > header > h1 > div'));
@@ -29,14 +32,6 @@ function InstancePage (name) {
 
   this.buildLogsOpen = function () {
     return this.buildLogs.get().isPresent();
-  };
-
-  this.activePanelLoaded = function () {
-    return this.activePanel.get().isPresent();
-  };
-
-  this.activeTabContains = function (expectedText) {
-    return util.containsText(this.activePanel, expectedText);
   };
 }
 

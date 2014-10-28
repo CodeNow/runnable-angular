@@ -3,14 +3,19 @@ var util = require('../helpers/util');
 function ActivePanel (pageType) {
   this.pageType = pageType;
 
-  this.activePanel = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark'));
+  this.addTab = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > a'));
+
+  this.currentContent = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark'));
 
   this.ace = util.createGetter(by.css('#wrapper > main > section.views.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark > pre > div.ace_scroller > div'));
   this.aceDiv = util.createGetterAll(by.css('div.ace_content'));
   this.inputElm = util.createGetterAll(by.css('textarea.ace_text-input'));
 
   this.activeTab = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li.tab-wrapper.ng-scope.active > span'));
-  this.tab = null;
+
+  this.isLoaded = function() {
+    return this.currentContent.get().isPresent();
+  };
 
   this.aceLoaded = function () {
     return this.ace.get().isPresent();
@@ -20,10 +25,23 @@ function ActivePanel (pageType) {
     return this.activeTab.get().getText();
   };
 
+  this.openTab = function (tabType) {
+    this.addTab.get().click();
+    element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > a > div > div.popover-content > ol > li', tabType)).click();
+  };
+
   this.setActiveTab = function(text) {
+    var self = this;
     this.tabTitle = text;
-    this.tab = element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li > span', text));
-    this.tab.click();
+    var tab = element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li > span', text));
+    tab.isPresent().then(function(displayed) {
+      if (displayed) {
+        return tab.click();
+      } else {
+        // This'll break when trying to open an unopened file
+        return self.openTab(text);
+      }
+    });
   };
 
   // http://stackoverflow.com/q/25675973/1216976

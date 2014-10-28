@@ -28,7 +28,7 @@ describe('project creation workflow', function () {
     browser.wait(setup.activePanel.aceLoaded.bind(setup.activePanel));
     browser.wait(setup.blankTemplateLoaded.bind(setup));
 
-    setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 1000000\n');
+    setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nADD ./node-hello-world /hello\nEXPOSE 80\nCMD node /hello/server.js\n');
 
     browser.wait(setup.dockerfileValidates.bind(setup));
     browser.wait(setup.activePanel.isClean.bind(setup.activePanel));
