@@ -33,6 +33,13 @@ function RunnableEditRepoCommit (
           break;
       }
 
+      // emits (broadcast up DOM tree) event to be
+      // intercepted by directive-runnable-repo-list
+      // when ACV selected commit changes
+      function emitACVChange() {
+        $scope.$emit('acv-change');
+      }
+
       $scope.activeBranch = null;
       $scope.activeCommit = null;
       $scope.commitsBehind = null;
@@ -66,6 +73,7 @@ function RunnableEditRepoCommit (
         $scope.unsavedAcv.attrs.commit = commitSha;
         setActiveCommit($scope.unsavedAcv);
         fetchCommitOffset($scope.unsavedAcv, $scope.activeCommit);
+        emitACVChange();
       };
 
       // reset filter when opening popover
@@ -108,6 +116,7 @@ function RunnableEditRepoCommit (
         setActiveBranch($scope.unsavedAcv);
         setActiveCommit($scope.unsavedAcv);
         fetchCommitOffset($scope.unsavedAcv, $scope.activeCommit);
+        emitACVChange();
       };
 
       setActiveBranch($scope.acv);

@@ -22,6 +22,8 @@ function RunnableRepoList (
     link: function ($scope, elem) {
 
       // add-repo-popover
+      // Object to pass reference instead of value
+      // into child directive
       $scope.data = {
         show: false
       };
@@ -29,15 +31,123 @@ function RunnableRepoList (
       // display guide if no repos added
       $scope.showGuide = true;
 
-      window.uacvs = $scope.unsavedAcvs = [];
+      // track all temp acvs generated
+      // for each repo/child-scope
+      $scope.unsavedAcvs = [];
       $scope.newUnsavedAcv = function (acv) {
         var cv = $scope.build.contextVersions.models[0];
         var newAcv = cv.newAppCodeVersion(acv.toJSON(), {
           noStore: true
         });
-        $scope.unsavedAcvs.push(newAcv);
+        $scope.unsavedAcvs.push({
+          unsavedAcv: newAcv,
+          acv: acv
+        });
         return newAcv;
       };
+
+      // selected repo commit change
+      $scope.$on('acv-change', function (event) {
+        event.stopPropagation();
+        if ($scope.unsavedAcvs.length === 1) {
+          // Immediately update/rebuild if user only has 1 repo
+          $scope.triggerInstanceUpdateOnRepoCommitChange();
+        }
+      });
+
+      // if we find 1 repo w/ an unsaved
+      // commit, show update button
+      $scope.showUpdateButton = function () {
+        return !!$scope.unsavedAcvs.find(function (obj) {
+          return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
+        });
+      };
+
+      $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
+        var context              = $scope.build.contexts.models[0];
+        var contextVersion       = $scope.build.contextVersions.models[0];
+        var infraCodeVersionId   = contextVersion.attrs.infraCodeVersion;
+        // fetches current state of repos listed in DOM w/ selected commits
+        var appCodeVersionStates = $scope.unsavedAcvs.map(function (obj) {
+          var acv = obj.unsavedAcv;
+          return {
+            repo:   acv.attrs.repo,
+            branch: acv.attrs.branch,
+            commit: acv.attrs.sha
+          };
+        });
+        async.waterfall([
+          findOrCreateContextVersion,
+          createBuild,
+          buildBuild,
+          updateInstanceWithBuild,
+          reloadController
+        ], function (err) {
+          $rootScope.safeApply();
+          if (err) throw err;
+          //$rootScope.dataApp.data.loading = false;
+          $state.go('instance.instance');
+        });
+        // if we find this contextVersion, reuse it.
+        // otherwise create a new one
+        function findOrCreateContextVersion (cb) {
+          var foundCVs = context.fetchVersions({
+            infraCodeVersion: infraCodeVersionId,
+            appCodeVersions: appCodeVersionStates
+          }, function (err) {
+            if (err) {
+              return cb(err);
+            }
+            if (foundCVs.models.length) {
+              return cb(null, foundCVs.models[0]);
+            }
+            var body = {
+              infraCodeVersion: infraCodeVersionId
+            };
+            var newContextVersion = context.createVersion(body, function (err) {
+              async.each(appCodeVersionStates, function (acvState, cb) {
+                newContextVersion.appCodeVersions.create(acvState, cb);
+              }, function (err) {
+                cb(err, newContextVersion);
+              });
+            });
+          });
+        }
+        function createBuild (contextVersion, cb) {
+          var build = $scope.user.createBuild({
+            contextVersions: [contextVersion.id()],
+            owner: $scope.instance.attrs.owner
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+        function buildBuild (build, cb) {
+          build.build({
+            message: 'Update application code version(s)' // TODO: better message
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+        function updateInstanceWithBuild (build, cb) {
+          $scope.instance.update({
+            build: build.id()
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+        /**
+         * Trigger a forced refresh
+         * Alternatives cumbersome/buggy
+         * This best/easiest solution for now
+         */
+        function reloadController (build, cb) {
+          cb();
+          var current = $state.current;
+          var params = angular.copy($stateParams);
+          $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
+        }
+      };
+
       function fetchUser (cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
@@ -121,268 +231,6 @@ function RunnableRepoList (
         fetchBuild
       ]);
 
-      /*
-      $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
-        $rootScope.dataApp.data.loading = true;
-        var context              = $scope.build.contexts.models[0];
-        var contextVersion       = $scope.build.contextVersions.models[0];
-        var infraCodeVersionId   = contextVersion.attrs.infraCodeVersion;
-        // fetches current state of repos listed in DOM w/ selected commits
-        var appCodeVersionStates = contextVersion.appCodeVersions.models.map(function (acv) {
-          var githubRepo = acv.githubRepo;
-          var activeBranch = githubRepo.state.activeBranch;
-          var activeCommit = activeBranch.state.activeCommit;
-          return {
-            repo:   acv.attrs.repo,
-            branch: activeBranch.attrs.name,
-            commit: activeCommit.attrs.sha
-          };
-        });
-        async.waterfall([
-          findOrCreateContextVersion,
-          createBuild,
-          buildBuild,
-          updateInstanceWithBuild,
-          reloadController
-        ], function (err) {
-          if (err) {
-            // reset appCodeVersions state
-            data.version.appCodeVersions.models.forEach(function (acv) {
-              resetAppCodeVersionState(acv);
-            });
-            $rootScope.safeApply();
-          }
-          $rootScope.dataApp.data.loading = false;
-          $state.go('instance.instance');
-        });
-        // if we find this contextVersion, reuse it.
-        // otherwise create a new one
-        function findOrCreateContextVersion (cb) {
-          var foundCVs = context.fetchVersions({
-            infraCodeVersion: infraCodeVersionId,
-            appCodeVersions: appCodeVersionStates
-          }, function (err) {
-            if (err) {
-              return cb(err);
-            }
-            if (foundCVs.models.length) {
-              return cb(null, foundCVs.models[0]);
-            }
-            var body = {
-              infraCodeVersion: infraCodeVersionId
-            };
-            var newContextVersion = context.createVersion(body, function (err) {
-              async.each(appCodeVersionStates, function (acvState, cb) {
-                newContextVersion.appCodeVersions.create(acvState, cb);
-              }, function (err) {
-                cb(err, newContextVersion);
-              });
-            });
-          });
-        }
-        function createBuild (contextVersion, cb) {
-          var build = $rootScope.dataApp.user.createBuild({
-            contextVersions: [contextVersion.id()],
-            owner: $scope.instance.attrs.owner
-          }, function (err) {
-            cb(err, build);
-          });
-        }
-        function buildBuild (build, cb) {
-          build.build({
-            message: 'Update application code version(s)' // TODO: better message
-          }, function (err) {
-            cb(err, build);
-          });
-        }
-        function updateInstanceWithBuild (build, cb) {
-          $scope.instance.update({
-            build: build.id()
-          }, function (err) {
-            cb(err, build);
-          });
-        }
-        function reloadController (build, cb) {
-          cb();
-          var current = $state.current;
-          var params = angular.copy($stateParams);
-          $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
-        }
-      };
-
-
-
-
-
-
-
-
-      // triggered when update button pressed for multiple repos,
-      // or when selected commit changes if single repo
-      $scope.actions.triggerInstanceUpdateOnRepoCommitChange = triggerInstanceUpdateOnRepoCommitChange;
-
-      function triggerInstanceUpdateOnRepoCommitChange () {
-        $rootScope.dataApp.data.loading = true;
-        var context              = $scope.build.contexts.models[0];
-        var contextVersion       = $scope.build.contextVersions.models[0];
-        var infraCodeVersionId   = contextVersion.attrs.infraCodeVersion;
-
-        // fetches current state of repos listed in DOM w/ selected commits
-        var appCodeVersionStates = contextVersion.appCodeVersions.models.map(function (acv) {
-          var githubRepo = acv.githubRepo;
-          var activeBranch = githubRepo.state.activeBranch;
-          var activeCommit = activeBranch.state.activeCommit;
-          return {
-            repo:   acv.attrs.repo,
-            branch: activeBranch.attrs.name,
-            commit: activeCommit.attrs.sha
-          };
-        });
-
-        async.waterfall([
-          findOrCreateContextVersion,
-          createBuild,
-          buildBuild,
-          updateInstanceWithBuild,
-          reloadController
-        ], function (err) {
-          if (err) {
-            // reset appCodeVersions state
-            data.version.appCodeVersions.models.forEach(function (acv) {
-              resetAppCodeVersionState(acv);
-            });
-            $rootScope.safeApply();
-          }
-          $rootScope.dataApp.data.loading = false;
-          $state.go('instance.instance');
-        });
-
-        // if we find this contextVersion, reuse it.
-        // otherwise create a new one
-        function findOrCreateContextVersion (cb) {
-          var foundCVs = context.fetchVersions({
-            infraCodeVersion: infraCodeVersionId,
-            appCodeVersions: appCodeVersionStates
-          }, function (err) {
-            if (err) {
-              return cb(err);
-            }
-            if (foundCVs.models.length) {
-              return cb(null, foundCVs.models[0]);
-            }
-            var body = {
-              infraCodeVersion: infraCodeVersionId
-            };
-            var newContextVersion = context.createVersion(body, function (err) {
-              async.each(appCodeVersionStates, function (acvState, cb) {
-                newContextVersion.appCodeVersions.create(acvState, cb);
-              }, function (err) {
-                cb(err, newContextVersion);
-              });
-            });
-          });
-        }
-
-        function createBuild (contextVersion, cb) {
-          var build = $rootScope.dataApp.user.createBuild({
-            contextVersions: [contextVersion.id()],
-            owner: $scope.instance.attrs.owner
-          }, function (err) {
-            cb(err, build);
-          });
-        }
-
-        function buildBuild (build, cb) {
-          build.build({
-            message: 'Update application code version(s)' // TODO: better message
-          }, function (err) {
-            cb(err, build);
-          });
-        }
-
-        function updateInstanceWithBuild (build, cb) {
-          $scope.instance.update({
-            build: build.id()
-          }, function (err) {
-            cb(err, build);
-          });
-        }
-
-        function reloadController (build, cb) {
-          cb();
-          var current = $state.current;
-          var params = angular.copy($stateParams);
-          $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
-        }
-      }
-
-      if (!$scope.edit) {
-        // we are on instance page, not instanceEdit
-
-        // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
-        $scope.actions.selectActiveBranchAndCommit = function (acv, selectedBranch, selectedCommit) {
-          keypather.set(acv, 'state.show', false); // hide commit select dropdown
-          // do nothing if user selects currectly active commit
-          if (selectedCommit === keypather.get(acv, 'githubRepo.state.selectedBranch.state.activeCommit')) {
-            return;
-          }
-          setActiveBranch(acv, selectedBranch);
-          setActiveCommit(acv, selectedBranch, selectedCommit);
-          // is this the only repo?
-          if (data.version.appCodeVersions.models.length > 1) {
-            // don't fire. Requires explicit update action from user
-            data.showUpdateButton = true;
-          } else {
-            // update active models
-            triggerInstanceUpdateOnRepoCommitChange();
-          }
-        };
-
-        $scope.actions.selectLatestCommit = function (acv) {
-          var activeBranch = acv.githubRepo.state.activeBranch;
-          // fetch latest
-          fetchCommitsForBranch(acv, activeBranch, function (err) {
-            if (err) { throw err; }
-            var latestCommit = activeBranch.commits.models[0];
-            setActiveCommit(acv, activeBranch, latestCommit);
-            triggerInstanceUpdateOnRepoCommitChange();
-          });
-        };
-      } else {
-        // instanceEdit page
-
-        // invoked via ng-click in list of commits from this branch (viewInstancePopoverCommitSelect)
-        $scope.actions.selectActiveBranchAndCommit = function (acv, selectedBranch, selectedCommit, cb) {
-          cb = cb || function (err) {
-            if (err) { throw err; }
-          };
-          keypather.set(acv, 'state.show', false); // hide commit select dropdown
-          // do nothing if user selects currectly active commit
-          if (selectedCommit === keypather.get(acv, 'githubRepo.state.selectedBranch.state.activeCommit')) {
-            return;
-          }
-          var lastActiveBranch = acv.githubRepo.state.activeBranch;
-          var lastActiveCommit = lastActiveBranch.state.activeCommit;
-          // assume success
-          setActiveBranch(acv, selectedBranch);
-          setActiveCommit(acv, selectedBranch, selectedCommit);
-          acv.update({
-            repo: acv.attrs.repo,
-            branch: selectedBranch.attrs.name,
-            commit: selectedCommit.attrs.sha
-          }, function (err) {
-            if (err) {
-              // revert on failure
-              setActiveBranch(acv, lastActiveBranch);
-              setActiveCommit(acv, lastActiveBranch, lastActiveCommit);
-              cb(err);
-            }
-            $rootScope.safeApply();
-            cb();
-          });
-        };
-      }
-*/
     }
   };
 }

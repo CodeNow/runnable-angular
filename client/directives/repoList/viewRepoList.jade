@@ -1,7 +1,16 @@
 section.row.repo-list
   h2.sub-header Repositories
 
-    runnable-button-update-instance-repos
+    //- update / build button
+    a.btn.btn-xs.orange.sub-header-action(
+      ng-if = "showUpdateButton()"
+      tooltip = "Update your box to see your changes"
+      tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
+    ) Update
+      svg.iconnables.icons-update
+        use(
+          xlink:href = "#icons-update"
+        )
 
     runnable-add-repo-popover(
       show = "data.show"
