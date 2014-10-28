@@ -34,6 +34,10 @@ function GithubCommitMenu() {
     repo.$('#wrapper > main > section.sidebar.box-sidebar.ng-scope > section > ul > li:nth-child(2) > button').click();
   };
 
+  this.getRepoCommitTitle = function (repo) {
+    return repo.element(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope > section > ul > li > div.commit.load.ng-isolate-scope > div'))
+  };
+
   this.deleteSelectedRepo = function (repo) {
     var menu = this.openRepoMenuGearMenu(repo);
     menu.element('ul > li:nth-child(1) > button > div > div.popover-content > ul > li').click();
@@ -44,7 +48,7 @@ function GithubCommitMenu() {
   };
 
   this.getRepoCommitMenuButton = function (repo) {
-    return repo.element(by.css('.commit'));
+    return repo.element(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope > section > ul > li > div.commit.load.ng-isolate-scope'));
   };
 
   this.filterCommits = function (repo, contents) {
@@ -57,6 +61,9 @@ function GithubCommitMenu() {
   };
   
   this.changeCommit = function (repo, index) {
+    browser.wait(function () {
+      return repo.element(by.className("commit-group")).isDisplayed();
+    });
     var commit = repo.element(by.repeater('commit in data.githubRepo.state.selectedBranch.commits.models').row(index));
     return commit.click();
   };
@@ -77,10 +84,19 @@ function GithubCommitMenu() {
   };
 
   this.changeBranch = function (repo, branchName, commitIndex) {
+    var self = this;
     var branch = this.getBranchSelector(repo);
     branch.click();
     var testBranch = branch.element(by.cssContainingText('option', branchName));
     testBranch.click();
+    browser.wait(function () {
+      return self.getSelectedBranch(repo).getText(function (text) {
+        return text === branchName;
+      });
+    });
+    browser.wait(function () {
+      return repo.element(by.className("commit-group")).isDisplayed();
+    });
     this.changeCommit(repo, commitIndex);
   };
 
