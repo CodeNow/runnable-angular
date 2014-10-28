@@ -1,4 +1,3 @@
-
 /**
  * Tests a user's onboarding experience
  * setup => running instance => delete
@@ -20,7 +19,9 @@ describe('project creation workflow', function () {
 
     setup.repoList.openAddDropdown();
 
-    setup.repoList.selectRepo(1);
+    setup.repoList.searchRepos('node-hello-world', 1);
+
+    setup.repoList.selectRepo(0);
 
     setup.selectTemplate('Blank');
 

@@ -4,6 +4,8 @@ function RepoList () {
   this.repos = util.createGetterAll(by.repeater('acv in data.version.appCodeVersions.models'));
 
   this.addButton = util.createGetter(by.css('.repo-list > h2 > a'));
+  this.searchButton = util.createGetter(by.css('.repo-list > h2 > a > div > h3 > button'));
+  this.searchField = util.createGetter(by.model('data.state.repoFilter'));
   this.addDropdown = util.createGetter(by.css('section.row.repo-list > h2 > a > div'));
 
   this.guide = util.createGetter(by.css('.repo-list > .guide'));
@@ -25,6 +27,20 @@ function RepoList () {
       });
     }).then(function() {
       return self.addDropdown.get().evaluate('data.githubRepos.models.length > 0');
+    });
+  };
+
+  this.searchRepos = function (contents, expectedRepoListLength) {
+    // First, click the search button
+    var self = this;
+    return this.searchButton.get().click().then(function() {
+      return browser.wait(function() {
+        return self.searchField.get().isPresent();
+      });
+    }).then(function() {
+      return self.searchField.get().sendKeys(contents);
+    }).then(function() {
+      return self.addDropdown.get().evaluate('data.githubRepos.models.length === ' + expectedRepoListLength);
     });
   };
 
