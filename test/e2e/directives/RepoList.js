@@ -1,11 +1,17 @@
 var util = require('../helpers/util');
 
 function RepoList () {
+  this.repos = util.createGetterAll(by.repeater('acv in data.version.appCodeVersions.models'));
+
   this.addButton = util.createGetter(by.css('.repo-list > h2 > a'));
   this.addDropdown = util.createGetter(by.css('section.row.repo-list > h2 > a > div'));
 
   this.guide = util.createGetter(by.css('.repo-list > .guide'));
 
+  this.add = {
+    repos: util.createGetterAll(by.repeater('repo in data.githubRepos.models')),
+    filter: 'todo'
+  };
 
   this.showingGuide = function() {
     return this.guide.get().isPresent();
@@ -23,12 +29,20 @@ function RepoList () {
   };
 
   this.selectRepo = function (idx) {
-    var repo = element(by.repeater('repo in data.githubRepos.models').row(idx));
-    return repo.click();
+    this.add.repos.get(idx).click();
+  };
+
+  this.deleteRepo = function (idx) {
+    this.repos.get(idx).element(by.css('.repository-actions')).click();
+    var elem = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.ng-scope > section > ul > li > button > div > div.popover-content'));
+    browser.wait(function() {
+      return elem.get().isPresent();
+    });
+    elem.get().click();
   };
 
   this.numSelectedRepos = function() {
-    return element.all(by.repeater('repo in data.version.appCodeVersions.models')).then(function(elements) {
+    return element.all(by.repeater('acv in data.version.appCodeVersions.models')).then(function(elements) {
       return elements.length;
     });
   };

@@ -10,6 +10,7 @@ function InstancePage (name) {
   this.buildLogs = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li.tab-wrapper.ng-scope.active > span'));
   this.statusIcon = util.createGetter(by.css('#wrapper > main > header > h1 > div > span'));
   this.instanceName = util.createGetter(by.css('#wrapper > main > header > h1 > div'));
+  this.editButton = util.createGetter(by.css('#wrapper > main > header > div.secondary-actions > button'));
 
   this.get = function() {
     return browser.get('/runnable-doobie/' + name);
@@ -32,6 +33,6 @@ function InstancePage (name) {
   };
 }
 
-InstancePage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/[A-z0-9_-]+'));
+InstancePage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/' + util.regex.instanceName));
 
 module.exports = InstancePage;
