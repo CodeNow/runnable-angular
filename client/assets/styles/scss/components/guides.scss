@@ -1,0 +1,27 @@
+// .guide
+.guide {
+  background: rgba($blue,.1);
+  border: 2px dashed rgba($blue,.2);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 9px 6px 15px;
+  padding: 14px;
+  position: relative;
+
+  > .iconnables {
+    float: left;
+    margin: 0 9px;
+  }
+
+  &.guide-no-help {
+    cursor: default;
+
+    &:hover,
+    &:active,
+    &.active {
+      background: rgba($blue,.1);
+      border-color: rgba($blue,.2);
+    }
+  }
+}

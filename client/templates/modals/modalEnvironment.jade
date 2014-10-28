@@ -21,6 +21,13 @@
               xlink:href = "#icons-sidebar"
             )
       main.modal-body
+        .guide.guide-no-help.blue
+          p.guide-text Environmental files are good at protecting our fires from trees. Use it for linking boxes or setting up environment variables.
+          button.btn.blue.btn-xs
+            svg.iconnables.icons-close
+              use(
+                xlink:href = "#icons-close"
+              )
         pre.pre.ace_editor.ace-tm(
           ng-init = "data.env = [];"
         )
