@@ -41,6 +41,14 @@ function RunnableAddRepoPopover (
       $scope.repoListPopover.data.show = false;
       $scope.repoListPopover.data.showFilter = false;
       $scope.repoListPopover.data.repoFilter = '';
+      // reset modal filter when opening (not when closing)
+      $scope.$watch('repoListPopover.data.show', function (n, p) {
+        if (n === true && p === false) {
+          // was hidden, is now showing
+          $scope.repoListPopover.data.showFilter = false;
+          $scope.repoListPopover.data.repoFilter = '';
+        }
+      });
 
       /**
        * Create a new contextVersion->appCodeVersion

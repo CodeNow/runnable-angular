@@ -28,6 +28,7 @@ function ControllerInstance(
 
   // displays message saying build has completed
   data.showBuildCompleted = false;
+
   // loader if saving fs changes
   data.saving = false;
   data.loading = false;
@@ -55,7 +56,6 @@ function ControllerInstance(
       };
     }
   };
-
 
   // Redirect to /new if this build has already been built
   function fetchUser (cb) {

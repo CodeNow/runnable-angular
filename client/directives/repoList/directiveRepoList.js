@@ -21,6 +21,9 @@ function RunnableRepoList (
     scope: {},
     link: function ($scope, elem) {
 
+      // display guide if no repos added
+      $scope.showGuide = true;
+
       $scope.unsavedAcvs = [];
       $scope.newUnsavedAcv = function (acv) {
         var cv = $scope.build.contextVersions.models[0];
@@ -30,16 +33,6 @@ function RunnableRepoList (
         $scope.unsavedAcvs.push(newAcv);
         return newAcv;
       };
-
-      // display guide if no repos added
-      $scope.showGuide = true;
-      $scope.showUpdateButton = false;
-
-      async.series([
-        fetchUser,
-        fetchBuild
-      ]);
-
       function fetchUser (cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
@@ -108,25 +101,22 @@ function RunnableRepoList (
        * appCodeVersions collection
        */
       function fetchBuildContextVersions (cb) {
-        if (!$scope.build.contextVersions.models[0]) throw new Error('build has 0 contextVersions');
+        if (!$scope.build.contextVersions.models[0]) {
+          // TODO finish
+          return;
+        }
         $scope.build.contextVersions.models[0].fetch(function (err) {
           if (err) throw err;
           cb();
         });
       }
 
-      /*
-      $scope.selectLatestCommit = function (acv) {
-        var activeBranch = acv.githubRepo.state.activeBranch;
-        // fetch latest
-        fetchCommitsForBranch(acv, activeBranch, function (err) {
-          if (err) throw err;
-          var latestCommit = activeBranch.commits.models[0];
-          setActiveCommit(acv, activeBranch, latestCommit);
-          $scope.triggerInstanceUpdateOnRepoCommitChange();
-        });
-      };
+      async.series([
+        fetchUser,
+        fetchBuild
+      ]);
 
+      /*
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
         $rootScope.dataApp.data.loading = true;
         var context              = $scope.build.contexts.models[0];
@@ -215,115 +205,12 @@ function RunnableRepoList (
         }
       };
 
-      var data = $scope.data = {};
 
-      data.popoverRepoActions  = {
-        actions: {
-          deleteRepo: function (repo) {
-            // repo is actually acv
-            repo.destroy(function (err) {
-              // safeApply should happen before throw, bc error reverts state
-              $rootScope.safeApply();
-              if (err) throw err;
-            });
-          },
-          selectLatestCommitForRepo: function (acv, repoActionsData) {
-            var githubRepo = acv.githubRepo;
-            var activeBranch = githubRepo.state.activeBranch;
-            var latestCommit = activeBranch.commits.models[0];
-            repoActionsData.show = false;
 
-            // fetch latest commits
-            fetchCommitsForBranch(acv, activeBranch, function (err) {
-              if (err) { throw err; }
-              // update appCodeVersion
-              acv.update({
-                repo: acv.attrs.acv,
-                branch: acv.attrs.branch,
-                commit: latestCommit.attrs.sha //latest
-              }, function (err) {
-                $rootScope.safeApply();
-                if (err) { throw err; }
-              });
-              // set active commit
-              setActiveCommit(acv, activeBranch, latestCommit);
-            });
-            $rootScope.safeApply();
-          }
-        }
-      };
 
-      $scope.$watch('data.show', function (n) {
-        // when add repo popover is shown, reset filter
-        if (n) {
-          keypather.set(data, 'state.toggleFilter', false);
-          keypather.set(data, 'state.repoFilter', '');
-        }
-      });
 
-      // TODO: Should be populated with what to do on new branch/commit select
-      data.showUpdateButton = false;
 
-      $scope.actions =  {
-        selectBranch: function (acv, selectedBranch) {
-          fetchCommitsForBranch(acv, selectedBranch, function (err) {
-            $rootScope.safeApply();
-            if (err) { throw err; }
-          });
-        },
-        fetchCommitsForBranch: fetchCommitsForBranch,
-        fetchBranchesForRepo: fetchBranchesForRepo,
-        addRepo: function (githubRepo) {
-          $rootScope.$broadcast('app-document-click');
-          var tempAcv = data.version.newAppCodeVersion({
-            repo  : githubRepo.attrs.full_name,
-            branch: githubRepo.attrs.default_branch
-          });
-          tempAcv.githubRepo.reset(githubRepo.json());
-          var defaultBranch = tempAcv.githubRepo.newBranch(githubRepo.attrs.default_branch);
-          setActiveBranch(tempAcv, defaultBranch);
-          var activeBranch = defaultBranch;
-          async.series([
-            fetchCommits,
-            createAppCodeVersion
-          ], function (err) {
-            $rootScope.safeApply();
-            if (err) { throw err; }
-          });
-          function fetchCommits (cb) {
-            // fetchCommits also sets tempAcv.attrs.commit to the latest commit
-            // if it does not exist
-            fetchCommitsForBranch(tempAcv, activeBranch, function (err) {
-              if (err) { cb(err); }
-              // get latest commit
-              var latestCommit = activeBranch.commits.models[0];
-              tempAcv.extend({
-                commit: latestCommit.attrs.sha
-              });
-              // set active commit to latest
-              setActiveCommit(tempAcv, activeBranch, latestCommit);
-              $rootScope.safeApply();
-              cb();
-            });
-          }
-          function createAppCodeVersion (cb) {
-            var body = pick(tempAcv.json(), ['repo', 'branch', 'commit']); // commit was set to latest above
-            // appCodeVersion.githubRepo will match tempAcv.githubRepo bc of cache,
-            // so githubRepo.state.activeBranch.state.activeCommit will all be set.
-            data.version.appCodeVersions.create(body, function (err) {
-              $rootScope.safeApply();
-              cb(err);
-            });
-            $rootScope.safeApply();
-          }
-        }
-      };
 
-      // returns currently selected commit if user has selected a new commit but
-      // change hasn't been saved with API yet
-      $scope.actions.fetchRepoDisplayActiveCommit = function (repo) {
-        return keypather.get(repo, 'state.activeCommit') || repo.attrs.activeCommit;
-      };
 
       // triggered when update button pressed for multiple repos,
       // or when selected commit changes if single repo
@@ -490,190 +377,6 @@ function RunnableRepoList (
           });
         };
       }
-
-
-
-      // Set State Helpers
-
-      // set active commit and state (commitsBehind)
-      function setActiveCommit (acv, activeBranch, activeCommit, cb) {
-        cb = cb || function(){};
-        keypather.set(activeBranch, 'state.activeCommit', activeCommit);
-        activeCommit.commitOffset(acv.attrs.branch, function (err, diff) {
-          if (err) {
-            // 404 could mean the commit doesnt exist on that branch anymore (git reset)
-            // the view should show generic "update to latest" message if the
-            // commitsBehind value is falsy
-            keypather.set(activeCommit, 'state.commitsBehind', false);
-          }
-          else {
-            keypather.set(activeCommit, 'state.commitsBehind', diff.behind_by);
-          }
-          $rootScope.safeApply();
-          cb();
-        });
-      }
-      // set active branch and state (commitsBehind)
-      //
-      function setActiveBranchByName (acv, activeBranchName) {
-        var activeBranch = acv.githubRepo.newBranch(activeBranchName);
-        setActiveBranch(acv, activeBranch);
-        return activeBranch;
-      }
-
-      function resetAppCodeVersionState (acv) {
-        var activeBranch = setActiveBranchByName(acv.attrs.branch);
-        var activeCommit =
-          activeBranch.commits.models.find(
-            hasKeypaths({ 'attrs.sha': acv.attrs.commit }));
-        setActiveCommit(acv, activeBranch, activeCommit);
-      }
-
-      function setActiveBranch (acv, activeBranch) {
-        var githubRepo = acv.githubRepo;
-        // selected branch
-        githubRepo.branches.add(activeBranch);
-        // reset githubRepo state
-        keypather.set(githubRepo, 'state.activeBranch', activeBranch);
-        keypather.set(githubRepo, 'state.selectedBranch', activeBranch);
-        // reset branch state
-        activeBranch.state = {};
-        $rootScope.safeApply();
-        return activeBranch;
-      }
-
-      // Fetch Helpers
-
-      function fetchCommitsForBranch (appCodeVersion, activeBranch, cb) {
-        cb = cb || function () {};
-        activeBranch.commits.fetch(function (err) {
-          $rootScope.safeApply();
-          if (err) {
-            return cb(err);
-          }
-          cb();
-        });
-      }
-
-      function fetchBranchesForRepo (githubRepo, cb) {
-        cb = cb || function () {};
-        githubRepo.branches.fetch(function (err) {
-          $rootScope.safeApply();
-          cb(err);
-        });
-      }
-
-      // Initial Page load functions
-
-      function fetchOwnerRepos(page, cb) {
-        if (typeof page === 'function') {
-          cb = page;
-          page = 1;
-          $scope.data.githubRepos = null;
-        }
-        var thisUser = $rootScope.dataApp.user;
-        var query;
-        if (thisUser.isOwnerOf($scope.build)) {
-          $scope.data.selectedRepos = $scope.data.selectedRepos || thisUser.newGithubRepos([], {
-            noStore: true
-          });
-          query = new QueryAssist(thisUser, cb)
-            .wrapFunc('fetchGithubRepos');
-        } else {
-          var githubOrg = thisUser.newGithubOrg($rootScope.dataApp.stateParams.userName);
-          $scope.data.selectedRepos = $scope.data.selectedRepos || githubOrg.newRepos([], {
-            noStore: true
-          });
-          query = new QueryAssist(githubOrg, cb)
-            .wrapFunc('fetchRepos');
-        }
-        query
-          .query({page: page, sort: 'updated'})
-          .cacheFetch(function updateDom(githubRepos, cached, cb) {
-            if (!$scope.data.githubRepos) {
-              $scope.data.githubRepos = githubRepos;
-            } else {
-              var temp = $scope.data.githubRepos.models.concat(githubRepos.models);
-              $scope.data.githubRepos = thisUser.newGithubRepos(temp, {
-                noStore: true
-              });
-            }
-            $rootScope.safeApply();
-            if (githubRepos && githubRepos.models.length === 100) {
-              fetchOwnerRepos(page + 1, cb);
-            } else {
-              cb();
-            }
-          })
-          .resolve(function (err, githubRepos, cb) {
-            if (!githubRepos) {
-              return cb(new Error('GitHub repos not found'));
-            }
-            $rootScope.safeApply();
-            cb(err);
-          })
-          .go();
-      }
-
-      function populateContextVersions (cb) {
-        async.series([
-          fetchVersion,
-          setupActiveBranches,
-          fetchCommits
-        ], cb);
-        function fetchVersion (callback) {
-          data.version.fetch(function (err) {
-            $rootScope.safeApply();
-            callback(err);
-          });
-          $rootScope.safeApply();
-        }
-        function setupActiveBranches (callback) {
-          // active branches - not async just creates branch models
-          data.version.appCodeVersions.forEach(function (acv) {
-            setActiveBranchByName(acv, acv.attrs.branch);
-          });
-          callback();
-        }
-        function fetchCommits (callback) {
-          // fetch all commits for branch and set activeCommit state
-          async.each(data.version.appCodeVersions.models,
-            function (acv, cb) {
-              var githubRepo = acv.githubRepo;
-              var activeBranch = githubRepo.state.activeBranch;
-              var activeCommit = githubRepo.newCommit(acv.attrs.commit);
-              async.parallel([
-                fetchCommit,
-                fetchCommitDiff
-              ], cb);
-              function fetchCommit (cb) {
-                activeCommit.fetch(function (err) {
-                  $rootScope.safeApply();
-                  cb(err);
-                });
-              }
-              function fetchCommitDiff (cb) {
-                setActiveCommit(acv, activeBranch, activeCommit, cb);
-              }
-            }, callback);
-        }
-      }
-
-      $scope.$watch('build.contextVersions.models[0].id()', function (n) {
-        if (n) {
-          data.build = $scope.build;
-          data.version = $scope.build.contextVersions.models[0];
-          async.parallel([
-            fetchOwnerRepos,
-            populateContextVersions
-          ], function (err) {
-            if (err) {
-              throw err;
-            }
-            $rootScope.safeApply();
-          });
-        }
-      });
 */
     }
   };

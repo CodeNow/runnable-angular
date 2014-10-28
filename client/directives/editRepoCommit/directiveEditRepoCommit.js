@@ -107,6 +107,7 @@ function RunnableEditRepoCommit (
         $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
         setActiveBranch($scope.unsavedAcv);
         setActiveCommit($scope.unsavedAcv);
+        fetchCommitOffset($scope.unsavedAcv, $scope.activeCommit);
       };
 
       setActiveBranch($scope.acv);
