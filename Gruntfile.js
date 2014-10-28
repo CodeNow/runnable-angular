@@ -412,7 +412,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('loadSyntaxHighlighters', '', function () {
     var cb = this.async();
-    var indexPath = path.join(__dirname, 'client', 'lib', 'modes.js');
+    var indexPath = path.join(__dirname, 'client', 'lib', 'braceModes.js');
     var workingPath = path.join(__dirname, 'node_modules', 'brace', 'mode');
 
     // TODO: DRY up with code above
