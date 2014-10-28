@@ -104,7 +104,7 @@
     "config/api": "./client/config/api.js",
     "config/environment": "./client/config/environment.js",
     "jquery-ui": "./client/assets/jquery-ui-1.11.1.custom/jquery-ui.js",
-    "lib/brace-modes": "./client/lib/brace-modes.js"
+    "lib/braceModes": "./client/lib/braceModes.js"
   },
   "browserify": {
     "debug": true
