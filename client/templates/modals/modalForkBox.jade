@@ -1,7 +1,7 @@
 .modal-backdrop(
   ng-class = "{'in': in}"
 )
-  .modal-dialog(
+  .modal-dialog.modal-fork(
     ng-click = "$event.stopPropagation()"
   )
     header.modal-header
@@ -18,7 +18,7 @@
           }"
         )
           span.input-label Name
-          span.input-description {{ data.instance.state.name }}.runnable.io
+          span.input-description.text-overflow {{ data.instance.state.name }}.runnable.io
           input.input(
             autofocus
             instance = "data.instance"
@@ -34,10 +34,17 @@
             value = "{{ data.instance.state.name }}"
           )
           button.btn-sm.gray(
+            toggle-pop-over
+            toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
             tooltip = "Edit Environment"
             tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
             type = "button"
           ) ev
+            pop-over(
+              actions = "dataModalForkBox.data.popoverEnvironment.actions"
+              data = "dataModalForkBox.data.popoverEnvironment.data"
+              template = "popoverEnvironment"
+            )
         .validate-wrapper.btn.btn-sm.orange(
           ng-class = "{\
             in: data.forkForm.$invalid,\
@@ -54,26 +61,6 @@
             b.btn.btn-xs.orange -
           //- if the name is taken
           span.validate-rules.invalid-name That's a pretty name, but it's taken.
-
-        //- //- env vars
-        //- pre.pre.ace_editor.ace-tm(
-        //-   ng-init = "data.env = [];"
-        //-   ng-if = "data.instance.attrs.env.length"
-        //- )
-        //-   label.environment-variable.ace_comment
-        //-     .ace_gutter-cell 1
-        //-     | // Environment Variables:
-
-        //-   label.environment-variable(
-        //-     ng-repeat = "env in data.instance.attrs.env"
-        //-   )
-        //-     .ace_gutter-cell {{ $index+2 }}
-        //-     span.variable-text {{ env.split('=')[0] }}
-        //-     span #{''} = #{''}
-        //-     input.environment-input(
-        //-       ng-init = "data.env[$index] = {key: env.split('=')[0], value: env.split('=')[1]}"
-        //-       ng-model = "data.env[$index].value"
-        //-     )
 
         label.btn.btn-sm.white.btn-checkbox
           input.input-checkbox(

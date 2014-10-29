@@ -1,5 +1,20 @@
-.popover.right(
+.popover.bottom.popover-environment(
   ng-class = "{in: data.show}"
 )
-  .arrow.white
+  .arrow
+  h3.popover-title
+    span.title Environment Variables
   .popover-content
+    label.input-group(
+      ng-class = "{focus: data.state.showFocus}"
+    )
+      span.input-label Var1
+      input.input(
+        ng-blur = "data.state.showFocus = false"
+        ng-focus = "data.state.showFocus = true"
+        select-all
+        value = "Exiting Value"
+      )
+    footer.popover-footer
+      button.btn.green Save
+      button.btn.white Cancel
