@@ -16,7 +16,6 @@ var $compile,
     user;
 
 describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
-
   var ctx = {};
 
   describe('basic', function () {
@@ -87,9 +86,8 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
 
     beforeEach(function () {
       $compile(ctx.element)($scope);
-      console.log('digest');
       $scope.$digest();
-      debugger;
+      console.log('digest');
       console.log('flush');
       try {
         $httpBackend.flush();
