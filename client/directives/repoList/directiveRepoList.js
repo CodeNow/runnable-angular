@@ -29,7 +29,17 @@ function RunnableRepoList (
       };
 
       // display guide if no repos added
-      $scope.showGuide = true;
+      switch ($state.$current.name) {
+        case 'instance.setup':
+          $scope.showGuide = true;
+          break;
+        case 'instance.instanceEdit':
+          $scope.showGuide = true;
+          break;
+        case 'instance.instance':
+          $scope.showGuide = false;
+          break;
+      }
 
       // track all temp acvs generated
       // for each repo/child-scope
