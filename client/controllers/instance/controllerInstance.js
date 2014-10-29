@@ -91,7 +91,8 @@ function ControllerInstance(
       .resolve(function (err, instances, cb) {
         var instance = instances.models[0];
         if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-          return cb(new Error('instance has no containers'));
+          //return cb(new Error('instance has no containers'));
+          return cb();
         }
         $scope.safeApply();
         cb(err);

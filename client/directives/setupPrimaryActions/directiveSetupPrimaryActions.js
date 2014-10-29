@@ -17,7 +17,6 @@ function RunnableSetupPrimaryActions (
     templateUrl: 'viewSetupPrimaryActions',
     replace: true,
     scope: {
-      build: '=',
       loading: '=',
       name: '=',
       valid: '='
