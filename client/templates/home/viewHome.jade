@@ -19,7 +19,7 @@ header.hero
             xlink:href = "#runnable-logo"
           )
       a.btn.btn-hero(
-        ng-href = "{{ dataApp.loginURL }}"
+        ng-href = "{{ dataApp.data.loginURL }}"
         ng-if = "dataHome.data.hasPass"
       ) Sign In
       a.btn.btn-hero(
@@ -72,7 +72,7 @@ section.landing-callout
   h2 Refreshingly Straightforward
   p Full environmental configuration, file, and terminal access are always within a reach.
   a.btn.btn-cta.green(
-    ng-href = "{{ dataHome.loginURL }}"
+    ng-href = "{{ dataApp.data.loginURL }}"
     ng-if = "dataHome.data.hasPass"
   )
     svg.iconnables.icons-git

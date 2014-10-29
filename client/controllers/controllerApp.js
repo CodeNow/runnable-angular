@@ -9,29 +9,26 @@ require('app')
 function ControllerApp(
   $scope,
   configAPIHost,
-  configEnvironment
+  configEnvironment,
+  configLoginURL,
+  configLogoutURL
 ) {
 
-  /*
-  var dataApp = $scope.dataApp = $rootScope.dataApp = self.initState($state,
-    $stateParams,
-    configAPIHost);
-  */
-  var dataApp = $scope.dataApp = {
-    data: {},
-    actions: {}
-  };
+  var dataApp = $scope.dataApp = {data:{}, actions:{}};
 
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
-  dataApp.data.configAPIHost = configAPIHost;
+  dataApp.data.configAPIHost     = configAPIHost;
 
-  /*
-  data.loading = false;
-  $rootScope.$on('$stateChangeStart', function () {
-    data.loading = false;
+  dataApp.data.minimizeNav = false;
+  dataApp.data.loginURL    = configLoginURL();
+  dataApp.data.logoutURL   = configLogoutURL();
+
+  // shows spinner overlay
+  dataApp.data.loading = false;
+  $scope.$on('$stateChangeStart', function () {
+    dataApp.data.loading = false;
   });
-  */
 
   /**
    * broadcast to child scopes when click event propagates up
@@ -41,25 +38,4 @@ function ControllerApp(
   dataApp.documentClickEventHandler = function () {
     $scope.$broadcast('app-document-click');
   };
-
-  /*
-  $rootScope.$on('$stateChangeSuccess', function () {
-    // store last visited project for auto-return in contHome
-    if ($stateParams.userName && $stateParams.projectName && $stateParams.branchName) {
-      $localStorage.stateParams = angular.copy($stateParams);
-    }
-  });
-  */
 }
-/*
-ControllerApp.initState = function ($state, $stateParams, apiHost) {
-  var redirect = encodeURI(window.location.protocol + '//' + window.location.host);
-  return {
-    state: $state,
-    stateParams: $stateParams,
-    user: null,
-    loginURL: apiHost + '/auth/github?redirect=' + redirect,
-    logoutURL: apiHost + '/auth/logout?redirect=' + redirect
-  };
-};
-*/

@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function ControllerHome(
-  configLoginURL,
   $scope,
   $state,
   $location,
@@ -20,12 +19,7 @@ function ControllerHome(
   user
 ) {
 
-  var self = ControllerHome;
-  var dataHome = $scope.dataHome = self.initState();
-
-  // redirect GET query param will equal current state url
-  // user will be redirected back to this page after successful login
-  $scope.dataHome.loginURL = configLoginURL();
+  var dataHome = $scope.dataHome = {data:{}, actions:{}};
 
   //- refresh skrollr on load
   $window.s = skrollr.init({
@@ -36,7 +30,7 @@ function ControllerHome(
   });
   $window.s.refresh();
 
-  $scope.dataHome.data.hasPass = !!$location.search().password;
+  dataHome.data.hasPass = !!$location.search().password;
 
   verifyUserIsAuth();
 
@@ -182,10 +176,3 @@ function ControllerHome(
   }
 
 }
-
-ControllerHome.initState = function () {
-  return {
-    actions: {},
-    data: {}
-  };
-};

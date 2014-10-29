@@ -30,7 +30,6 @@ function ControllerInstance(
 
   // loader if saving fs changes
   data.saving = false;
-  data.loading = false;
   data.showExplorer = false;
 
   // returns class(s) for section.views-with-add-tab
@@ -44,14 +43,14 @@ function ControllerInstance(
         out: true
       };
     }
-    if (dataInstance.data.showExplorer && !dataInstance.data.loading) {
-      return {
-        in: true
-      };
-    }
-    if (!container.running() || dataInstance.data.loading) {
+    if (!container.running()) {
       return {
         out: true
+      };
+    }
+    if (dataInstance.data.showExplorer) {
+      return {
+        in: true
       };
     }
   };
