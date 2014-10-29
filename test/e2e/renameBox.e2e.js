@@ -1,4 +1,3 @@
-
 /**
  * Tests box renaming
  */
