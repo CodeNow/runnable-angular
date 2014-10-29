@@ -40,13 +40,13 @@ section.row.boxes
   //- 0.3 box-group layout (new):
   ul.box-group
     //- .active for current active box
+    //- .active.expanded for current active box with links
     //- .runnning for running box
-    //- .expanded if clustered
 
     //- if not .active
-    li.box-group-item.white.expanded.load(
+    li.box-group-item.white.load(
       ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-      ng-show = "dataInstanceLayout.data.instances.models"
+      ng-show = "instances.models.length"
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )
@@ -54,13 +54,9 @@ section.row.boxes
       span.icons-status.running(
         title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
       )
-      //- boxes need to be listed in the order that they are dependent
-      span.box-item-description(
-        title = "api, mongo, apple"
-      ) Api-PRana, Mongo-PRana
     li.box-group-item.white.load(
       ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-      ng-show = "dataInstanceLayout.data.instances.models"
+      ng-show = "instances.models.length"
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )
@@ -70,7 +66,7 @@ section.row.boxes
       )
     li.box-group-item.white.load(
       ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-      ng-show = "dataInstanceLayout.data.instances.models"
+      ng-show = "instances.models.length"
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )
@@ -80,7 +76,7 @@ section.row.boxes
       )
     li.box-group-item.white.load(
       ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-      ng-show = "dataInstanceLayout.data.instances.models"
+      ng-show = "instances.models.length"
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )
@@ -92,7 +88,7 @@ section.row.boxes
     //- if .active
     li.box-group-item.white.expanded.load.active(
       ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-      ng-show = "dataInstanceLayout.data.instances.models"
+      ng-show = "instances.models.length"
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )
