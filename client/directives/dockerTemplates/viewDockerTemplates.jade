@@ -1,11 +1,11 @@
-section.row
+section.row(
+  ng-init = "data.highlightTemplates = false;"
+)
   h2.sub-header Docker Templates
   //- remove .in if template is selected
   .label-group(
-    ng-class = "{ \
-      in: highlightTemplates \
-    }"
-    ng-click = "highlightTemplates = false"
+    ng-class = "{in: data.highlightTemplates}"
+    ng-click = "data.highlightTemplates = false"
   )
     label.label-group-item(
       ng-repeat = "context in seedContexts.models"
@@ -13,14 +13,13 @@ section.row
       input.radio(
         name = "source-context"
         ng-click = "(selectedSourceContext !== context) \
-          && selectSourceContext(context)"
+                    && selectSourceContext(context)"
         required
         type = "radio"
       )
-
   //- show .guide if a template has not been selected
   .guide.blue(
-    ng-click = "highlightTemplates = true"
+    ng-click = "data.highlightTemplates = true"
     ng-if = "!selectedSourceContext"
   )
     svg.iconnables.icons-docker
