@@ -16,14 +16,19 @@ var $compile,
     user;
 
 describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
+
   var ctx = {};
+
   describe('basic', function () {
+
     beforeEach(angular.mock.module('app'));
+
     beforeEach(function () {
       ctx.template = directiveTemplate('runnable-edit-repo-commit', {
         'app-code-version': 'acv'
       });
     });
+
     beforeEach(function () {
       angular.mock.inject(function (
         _$compile_,
@@ -38,14 +43,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
       });
       ctx.element = angular.element(ctx.template);
     });
-    beforeEach(function () {
-      user.reset(mocks.user);
-      ctx.acv = user
-        .newContext('contextId')
-        .newVersion('versionId')
-        .newAppCodeVersion(mocks.appCodeVersions.bitcoinAppCodeVersion);
-      $scope.acv = ctx.acv;
-    });
+
     beforeEach(function () {
       /**
        * API Requests
@@ -55,46 +53,57 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
        * - GET commits
        */
 
+      $httpBackend.resetExpectations();
+
       var branchesUrl = host + '/github/repos/cflynn07/bitcoin/branches?per_page=100';
       $httpBackend
-        .when('GET', branchesUrl)
+        .expectGET(branchesUrl)
         .respond(mocks.branches.bitcoinRepoBranches);
-      $httpBackend.expectGET(branchesUrl);
 
       var commitUrl = host + '/github/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90?';
       $httpBackend
-        .when('GET', commitUrl)
+        .expectGET(commitUrl)
         .respond(mocks.commit.bitcoinRepoCommit1);
-      $httpBackend.expectGET(commitUrl);
 
       var commitOffsetUrl = host + '/github/repos/cflynn07/bitcoin/compare/master...1f27c310a4bcca758f708358601fa25976d56d90';
       $httpBackend
-        .when('GET', commitOffsetUrl)
+        .expectGET(commitOffsetUrl)
         .respond(mocks.commitCompare.zeroBehind);
-      $httpBackend.expectGET(commitOffsetUrl);
 
       var commitsUrl = host + '/github/repos/cflynn07/bitcoin/commits?sha=master&per_page=100';
       $httpBackend
-        .when('GET', commitsUrl)
+        .expectGET(commitsUrl)
         .respond(mocks.gh.bitcoinRepoCommits);
-      $httpBackend.expectGET(commitsUrl);
+    });
+
+    beforeEach(function () {
+      user.reset(mocks.user);
+      ctx.acv = user
+        .newContext('contextId')
+        .newVersion('versionId')
+        .newAppCodeVersion(mocks.appCodeVersions.bitcoinAppCodeVersion);
+      $scope.acv = ctx.acv;
     });
 
     beforeEach(function () {
       $compile(ctx.element)($scope);
+      console.log('digest');
       $scope.$digest();
+      debugger;
+      console.log('flush');
+      try {
+        $httpBackend.flush();
+      } catch(e) {
+        debugger;
+      }
       ctx.$element = jQuery(ctx.element);
     });
 
-/*
     it('loads', function () {
-
       expect(ctx.$element.is('li.repository-group-item')).to.be.true;
     });
-*/
 
     it('commit author', function () {
-      $httpBackend.flush();
       var $el = ctx.$element
         .find('> .commit.load > span.commit-author');
       expect($el).to.be.ok;

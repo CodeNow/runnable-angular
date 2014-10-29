@@ -3,9 +3,9 @@ section.row
   //- remove .in if template is selected
   .label-group(
     ng-class = "{ \
-      in: dataSetup.actions.highlightTemplates \
+      in: highlightTemplates \
     }"
-    ng-click = "dataSetup.actions.highlightTemplates = false"
+    ng-click = "highlightTemplates = false"
   )
     label.label-group-item(
       ng-repeat = "context in seedContexts.models"
@@ -20,8 +20,8 @@ section.row
 
   //- show .guide if a template has not been selected
   .guide.blue(
-    ng-click = "dataSetup.actions.highlightTemplates = true"
-    ng-if = "!dataSetup.data.contextSelected"
+    ng-click = "highlightTemplates = true"
+    ng-if = "!selectedSourceContext"
   )
     svg.iconnables.icons-docker
       use(
