@@ -49,12 +49,13 @@ function RepoList () {
   };
 
   this.deleteRepo = function (idx) {
-    this.repos.get(idx).element(by.css('.repository-actions')).click();
-    var elem = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.ng-scope > section > ul > li > button > div > div.popover-content'));
+    var curRepo = this.repos.get(idx);
+    curRepo.element(by.css('.repository-actions')).click();
+    var deleteBtn = curRepo.element(by.cssContainingText('li', 'Delete'));
     browser.wait(function() {
-      return elem.get().isPresent();
+      return deleteBtn.isPresent();
     });
-    elem.get().click();
+    deleteBtn.click();
   };
 
   this.numSelectedRepos = function() {
