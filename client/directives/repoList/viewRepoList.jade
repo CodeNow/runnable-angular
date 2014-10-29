@@ -27,7 +27,7 @@ section.row.repo-list
       use(
         xlink:href = "#icons-git"
       )
-    p Add a repository to your box.
+    p.guide-text Add a repository to your box.
 
   ul.repository-group
     //-
@@ -38,7 +38,7 @@ section.row.repo-list
       - fast-forward
     runnable-edit-repo-commit(
       ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
-      ng-init   = "unsavedAcv = newUnsavedAcv(acv);"
+      ng-init = "unsavedAcv = newUnsavedAcv(acv);"
       app-code-version = "acv"
       unsaved-app-code-version = "unsavedAcv"
     )

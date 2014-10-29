@@ -36,7 +36,7 @@
           use(
             xlink:href = "#icons-logs"
           )
-        | Build Log
+        | Build Logs
       li.popover-column(
         ng-click = "actions.addLogs()"
         ng-if = "data.options.logs"
@@ -44,10 +44,3 @@
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")
         | Box Log
-      li.popover-column(
-        ng-click = "actions.addEnvVars()"
-        ng-if = "data.options.envVars"
-      )
-        svg.iconnables.iconnables-lg.icons-env-vars
-          use(xlink:href = "#icons-env-vars")
-        | Env Vars

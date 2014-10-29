@@ -1,41 +1,22 @@
-// input.setup-box-name
-.setup-box-name {
+// form.box-name.setup-name
+.setup-name {
+  height: 60px;
+  line-height: 60px;
+
+  // .validate-wrapper
+  .validate-wrapper {
+    display: inline-block;
+    font-size: 16px;
+    height: 36px;
+    line-height: 36px;
+    position: relative;
+    top: 11px;
+    width: 300px;
+  }
+}
+
+// input.setup-name-input
+.setup-name-input {
   margin-left: -9px;
   width: 390px;
-}
-
-// .guide (in repo-list)
-.guide {
-  background: rgba($blue,.1);
-  border: 2px dashed rgba($blue,.2);
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 14px;
-  margin: 9px 6px 15px;
-
-  .iconnables {
-    float: left;
-    margin: 12px 9px 0;
-  }
-
-  &.guide-no-help {
-    cursor: default;
-
-    &:hover,
-    &:active,
-    &.active {
-      background: rgba($blue,.1);
-      border-color: rgba($blue,.2);
-    }
-  }
-}
-
-// .validate-wrapper
-.validate-wrapper {
-  display: inline-block;
-  height: 36px;
-  left: 9px;
-  position: relative;
-  top: -3px;
-  width: 270px;
 }
