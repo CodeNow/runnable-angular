@@ -18,20 +18,22 @@
           }"
         )
           span.input-label Name
-          span.input-description {{ data.instance.state.name }}.runnable.io
+          span.input-description {{ newName }}.runnable.io
           input.input(
             autofocus
             instance = "data.instance"
             name = "name"
             ng-blur = "data.renameForm.showFocus = false"
             ng-focus = "data.renameForm.showFocus = true"
-            ng-model = "data.instance.state.name"
+            ng-model = "newName"
+            ng-init = "newName = data.instance.attrs.name; \
+                         data.renameForm.$setPristine();"
             placeholder = "My-Box"
             select-all
             validate-name = "data.instances"
             validate-name-pattern
             validate-name-current-instance-valid = "false"
-            value = "{{ data.instance.state.name }}"
+            value = "{{ data.instance.attrs.name }}"
           )
         .validate-wrapper.btn.btn-sm.orange(
           ng-class = "{\
@@ -56,10 +58,14 @@
           orange: data.renameForm.$invalid \
         }"
         data-action
-        ng-click = "actions.renameInstance(cancel)"
+        ng-click = "actions.renameInstance(newName); \
+                    cancel();"
         ng-disabled = "data.renameForm.$invalid"
       ) Rename Box
       button.white(
-        ng-click = "cancel()"
+        ng-click = "newName = data.instance.attrs.name; \
+                    data.renameForm.$setPristine(); \
+                    cancel(); \
+                    actions.cancel();"
         type = "button"
       ) Go Back

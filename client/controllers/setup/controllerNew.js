@@ -4,24 +4,40 @@ require('app')
  * @ngInject
  */
 function ControllerNew(
-  $scope,
-  $state,
   async,
   hasKeypaths,
-  uuid
+  QueryAssist,
+  $scope,
+  $state,
+  uuid,
+  user
 ) {
-  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
+
   var thisUser;
   var owner;
 
   $scope.dataApp.data.loading = true;
 
+  function fetchUser (cb) {
+    new QueryAssist(user, cb)
+      .wrapFunc('fetchUser')
+      .query('me')
+      .cacheFetch(function (user, cached, cb) {
+        $scope.user = user;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, user, cb) {
+      })
+      .go();
+  }
+
   function setOwner (cb) {
     var currentUserOrOrgName = $state.params.userName;
-    thisUser = $scope.dataApp.user;
+    thisUser = $scope.user;
 
-    if (!currentUserOrOrgName || currentUserOrOrgName === $scope.dataApp.user.oauthName()) {
-      owner = $scope.dataApp.user;
+    if (!currentUserOrOrgName || currentUserOrOrgName === $scope.user.oauthName()) {
+      owner = $scope.user;
       return cb();
     }
     var orgs = thisUser.fetchGithubOrgs(function (err) {
@@ -67,7 +83,7 @@ function ControllerNew(
   }
 
   async.waterfall([
-    holdUntilAuth,
+    fetchUser,
     setOwner,
     createContext,
     createVersion,

@@ -18,20 +18,21 @@
           }"
         )
           span.input-label Name
-          span.input-description.text-overflow {{ data.instance.state.name }}.runnable.io
+          span.input-description {{ newName }}.runnable.io
           input.input(
             autofocus
             instance = "data.instance"
             name = "name"
             ng-blur = "data.forkForm.showFocus = false"
             ng-focus = "data.forkForm.showFocus = true"
-            ng-model = "data.instance.state.name"
+            ng-init = "newName = data.instance.attrs.name"
+            ng-model = "newName"
             placeholder = "My-Box"
             select-all
             validate-name = "data.instances"
             validate-name-pattern
             validate-name-current-instance-valid = "false"
-            value = "{{ data.instance.state.name }}"
+            value = "{{ data.instance.attrs.name }}"
           )
           button.btn-sm.gray(
             toggle-pop-over
@@ -69,15 +70,19 @@
           | Include dependencies
 
     footer.modal-footer
+      //- cancel is modalDirective
+        - actions.cancel is parent controller
       button(
-        ng-class = "{\
-          green: data.forkForm.$valid,\
-          orange: data.forkForm.$invalid\
+        ng-class = "{ \
+          green: data.forkForm.$valid, \
+          orange: data.forkForm.$invalid \
         }"
         ng-disabled = "data.forkForm.$invalid"
-        ng-click = "actions.fork(data.env)"
+        ng-click = "actions.forkInstance(newName, data.env); \
+                    cancel();"
       ) Fork Box
       button.white(
-        ng-click = "cancel()"
+        ng-click = "actions.cancel(); \
+                     cancel();"
         type = "button"
       ) Go Back

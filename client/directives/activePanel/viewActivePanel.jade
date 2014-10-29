@@ -1,0 +1,56 @@
+//- don't use ng-if here, use ng-show
+.active-panel(
+  ng-class = "{\
+    'loaded': (item === openItems.activeHistory.last()),\
+    'ace-runnable-dark': isDarkTheme\
+  }"
+  ng-repeat = "item in openItems.models"
+  ng-show = "item === openItems.activeHistory.last()"
+)
+
+  log-view(
+    ng-if = "item.state.type === 'BuildStream'"
+    build = "build"
+  )
+
+  log-view(
+    ng-if = "item.state.type === 'LogView'"
+    container = "container"
+  )
+
+  pre.pre(
+    ng-class = "{readonly: data.readOnly}"
+    ng-if = "item.state.type === 'File'"
+    ng-init = "wrapperFunc = actions.wrapWithItem(item)"
+    ng-model = "openItems.activeHistory.last().state.body"
+    readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
+    ui-ace = "{ \
+      onLoad: wrapperFunc, \
+      onFocus: actions.onFocus \
+    }"
+  )
+
+  .term-container(
+    ng-if = "item.state.type === 'Terminal'"
+  )
+    term.terminal(
+      params = "container"
+    )
+
+  web-view(
+    ng-if = "item.state.type === 'WebView'"
+    container = "container"
+  )
+
+  env-vars(
+    item = "item"
+    ng-if = "item.state.type === 'EnvVars'"
+  )
+
+  button.silver.editor-status(
+    disabled
+    ng-if = "(data.readOnly && item.state.type === 'File') \
+             || \
+             (item.state.type === 'EnvVars' && item.state.readOnly)"
+    type = "button"
+  ) Readonly

@@ -43,12 +43,11 @@ module.exports = function(config) {
     customLaunchers: customLaunchers,
 
     // browsers: Object.keys(customLaunchers),
-    // browsers: ['Chrome'],
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
+    //browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
-
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -82,7 +81,8 @@ module.exports = function(config) {
       // sourcemaps sir?
       debug: true,
       files: [
-        'unit/**/*.unit.js'
+        //'unit/**/*.unit.js'
+        'unit/directives/directiveRunnable*.js'
       ]
     },
 
@@ -107,7 +107,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_ERROR,
+    logLevel: config.LOG_DEBUG,
     logList: [{
       type: 'console'
     }],
