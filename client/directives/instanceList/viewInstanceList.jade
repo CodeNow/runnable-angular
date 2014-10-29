@@ -24,7 +24,7 @@ section.row.boxes
 
     //- if not .active
     li.box-group-item.white.load(
-      ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+      ng-click = "stateToInstance(instance)"
       ng-show = "instances.models.length"
       ng-repeat = "instance in instances.models"
       tooltip = "{{ instance.attrs.name }}"
