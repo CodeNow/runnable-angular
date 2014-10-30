@@ -16,6 +16,8 @@ var $compile,
     $httpBackend,
     $rootScope,
     $scope,
+    $state,
+    $stateParams,
     user;
 
 var $elScope;
@@ -38,12 +40,16 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
       _$filter_,
       _$httpBackend_,
       _$rootScope_,
+      _$state_,
+      _$stateParams_,
       _user_
     ) {
       $compile = _$compile_;
       $filter = _$filter_;
       $httpBackend = _$httpBackend_;
       $rootScope = _$rootScope_;
+      $state = _$state_;
+      $stateParams = _$stateParams_;
       $scope = _$rootScope_.$new();
       user = _user_;
     });
@@ -99,11 +105,11 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
 
   beforeEach(function () {
     ctx.element = angular.element(ctx.template);
-    $compile(ctx.element)($scope);
+    ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
     $httpBackend.flush();
     ctx.$element = jQuery(ctx.element);
-    $elScope = angular.element(ctx.$element.find(':first')).scope();
+    $elScope = ctx.element.isolateScope();
   });
 
   it('basic', function () {
