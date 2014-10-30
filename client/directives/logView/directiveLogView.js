@@ -165,7 +165,7 @@ function logView(
                   '\x1b[33;1mbuild failed\x1b[0m';
                 writeToTerm(data);
               } else {
-                // red text, last ascii escape resets red.
+                // yellow text, last ascii escape resets yellow.
                 writeToTerm('\x1b[33;1mbuild failed\x1b[0m');
               }
               $rootScope.safeApply();
@@ -190,7 +190,7 @@ function logView(
               }
               if (!build.succeeded()) {
                 // bad things happened
-                writeToTerm('please build again');
+                writeToTerm('\x1b[31;1mPlease build again\x1b[0m');
               } else {
                 // we're all good
                 writeToTerm('Build completed, starting instance...');

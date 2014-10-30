@@ -7,7 +7,7 @@ describe('deleteRepo', function() {
     var instanceEdit = new InstanceEditPage('Test-0');
     instanceEdit.get();
 
-    instanceEdit.repoList.deleteRepo(0);
+    instanceEdit.repoList.deleteRepo(1);
 
     browser.wait(function() {
       return instanceEdit.activePanel.aceLoaded();

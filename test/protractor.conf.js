@@ -9,6 +9,7 @@ exports.config = {
     'e2e/helpers/login.js',
     'e2e/createBox.e2e.js',
     'e2e/readLogs.e2e.js',
+    'e2e/changeCommit.e2e.js',
     'e2e/addRepo.e2e.js',
     'e2e/deleteRepo.e2e.js',
     'e2e/renameBox.e2e.js',
@@ -24,7 +25,8 @@ exports.config = {
     'browserName': 'chrome'
   },
 
-  baseUrl: 'http://localhost:3001/',
+  // No trailing slash
+  baseUrl: 'http://localhost:3001',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
