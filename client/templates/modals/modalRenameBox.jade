@@ -1,7 +1,7 @@
 .modal-backdrop(
   ng-class = "{'in': in}"
 )
-  .modal-dialog(
+  .modal-dialog.modal-rename(
     ng-click = "$event.stopPropagation()"
   )
     header.modal-header
@@ -19,7 +19,7 @@
           }"
         )
           span.input-label Name
-          span.input-description {{ newName }}.runnable.io
+          span.input-description.text-overflow {{ newName }}.runnable.io
           input.input(
             autofocus
             instance = "data.instance"

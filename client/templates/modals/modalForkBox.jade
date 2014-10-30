@@ -19,7 +19,7 @@
           }"
         )
           span.input-label Name
-          span.input-description {{ newName }}.runnable.io
+          span.input-description.text-overflow {{ newName }}.runnable.io
           input.input(
             autofocus
             instance = "data.instance"
@@ -97,7 +97,7 @@
             ng-if = "linkedBoxesChecked"
           )
             span.input-label Name
-            span.input-description {{ newName }}.runnable.io
+            span.input-description.text-overflow {{ newName }}.runnable.io
             //- 0.3 SAN-435
               - to do:
               - fix ng-focus/ng-blur
@@ -155,7 +155,7 @@
               ng-if = "linkedBoxesChecked"
             )
               span.input-label Name
-              span.input-description {{ newName }}.runnable.io
+              span.input-description.text-overflow {{ newName }}.runnable.io
               input.input(
                 autofocus
                 instance = "data.instance"
@@ -211,10 +211,10 @@
         }"
         ng-disabled = "data.forkForm.$invalid"
         ng-click = "actions.forkInstance(newName, data.env); \
-                    cancel();"
+          cancel();"
       ) Fork Box
       button.white(
         ng-click = "actions.cancel(); \
-                     cancel();"
+          cancel();"
         type = "button"
       ) Go Back

@@ -1,7 +1,12 @@
 .modal-fork {
+  max-width: 420px;
 
   .input-description {
-    width: 240px;
+    max-width: 290px;
+
+    @include media(xs) {
+      max-width: 240px;
+    }
   }
 
   .well {
