@@ -33,14 +33,20 @@ function ControllerInstance(
 
   // toggle explorer menu
   data.showExplorer = false;
+  data.sectionClasses = {
+    out: true,
+    in: false
+  };
 
   // returns class(s) for section.views-with-add-tab
   // depending on various conditions. Classes control
   // presence of tabs-bar
+/*
   actions.getSectionViewsClass = function () {
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
-    if (!instance || !container || !container.running()) {
+    console.log('container', container);
+    if (!instance || !container || !container.junning()) {
       return {
         out: true
       };
@@ -51,7 +57,7 @@ function ControllerInstance(
       };
     }
   };
-
+*/
   // Redirect to /new if this build has already been built
   function fetchUser(cb) {
     new QueryAssist(user, cb)
@@ -105,9 +111,39 @@ function ControllerInstance(
   //     - show explorer
   //     - show terminal
   //     - show box logs (has focus)
-  function calculateInstanceDisplayState(instance, cb) {
-
+  function updateDisplayedTabs() {
+    var instance = keypather.get(data, 'instance');
+    var container = keypather.get(data, 'instance.containers.models[0]');
+    if (!instance) {
+      return;
+    }
+    if (!container) {
+      data.showExplorer = false;
+      data.sectionClasses = {'out':true, 'in':false};
+      // show only build logs
+      data.openItems.addBuildStream();
+    } else if (!container.running()) {
+      data.showExplorer = false;
+      data.sectionClasses = {'out':true, 'in':false};
+      // show only build logs
+      data.openItems.addBuildStream();
+    } else if (container.running()) {
+      data.showExplorer = true;
+      data.sectionClasses = {'out':false, 'in':true};
+      data.openItems.reset([]);
+      if (!data.openItems.hasOpen('Terminal')) {
+        data.openItems.addTerminal();
+      }
+      if (!data.openItems.hasOpen('LogView')) {
+        data.openItems.addLogs();
+        console.log('addLogs');
+      }
+    }
   }
+
+  // watch for deployed/started/stopped instance
+  $scope.$watch('dataInstance.data.instance.containers.models[0]', updateDisplayedTabs);
+  $scope.$watch('dataInstance.data.instance.containers.models[0].running()', updateDisplayedTabs);
 
   async.waterfall([
     determineActiveAccount,
@@ -231,27 +267,6 @@ function ControllerInstance(
       }
     }
     $scope.safeApply();
-  }
-
-
-  var instanceFetchInterval;
-  function checkDeploy () {
-    // temporary, lightweight check route
-    data.instance.deployed(function (err, deployed) {
-      if (deployed) {
-        // display build completed alert in DOM
-        dataInstance.data.showBuildCompleted = true;
-        fetchInstance(function (err) {
-          if (err) {
-            throw err;
-          }
-
-          $scope.safeApply();
-        });
-        $interval.cancel(instanceFetchInterval);
-      }
-      $scope.safeApply();
-    });
   }
 
   var building;

@@ -4,7 +4,8 @@ require('app')
  * @ngInject
  */
 function helperFetchInstanceDeployStatus (
-  $rootScope
+  $rootScope,
+  $timeout
 ) {
   /**
    * If instance is not yet deployed, Polls server
@@ -16,7 +17,7 @@ function helperFetchInstanceDeployStatus (
     function checkDeployed () {
       instance.deployed(function (err, isDeployed) {
         if (!isDeployed) {
-          return pollFetchContainer();
+          return $timeout(pollFetchContainer, 200);
         }
         /**
          * Fetch 1 more time, 1st instance fetch may have returned result
