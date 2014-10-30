@@ -195,14 +195,17 @@ function ControllerSetup(
       function (cb) {
         var thisUser = $scope.dataApp.user;
         var instanceOwner = $scope.dataInstanceLayout.data.activeAccount.oauthId();
-        data.instance = thisUser.createInstance({
+        var instanceParams = {
           owner: {
             github: instanceOwner
           },
           build: data.build.id(),
-          name: data.newProjectName,
-          env: (data.state) ? data.state.env : null
-        }, cb);
+          name: data.newProjectName
+        };
+        if (data.state) {
+          instanceParams.env = data.state.env;
+        }
+        data.instance = thisUser.createInstance(instanceParams, cb);
       }
     ], function (err) {
       if (err) throw err;
