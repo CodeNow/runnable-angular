@@ -109,13 +109,6 @@ function ControllerInstance(
 
   }
 
-  // watch for deployed instance
-  $scope.$watch('dataInstance.data.instance.containers.models[0]', function (container) {
-    console.log('p1', container);
-    if (!container) return;
-    var instance = $scope.dataInstance.data.instance;
-  });
-
   async.waterfall([
     determineActiveAccount,
     function (activeAccount, cb) {
