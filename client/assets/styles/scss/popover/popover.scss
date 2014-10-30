@@ -282,8 +282,14 @@
 
 //- footer.popover-footer
 .popover-footer {
-  height: 51px;
-  padding: 6px 0 0;
+  height: 36px;
+  margin: 0 6px 6px;
+
+  .btn-sm {
+    padding: 0 12px;
+    right: 0;
+    top: 0;
+  }
 
   .green,
   .orange,
