@@ -200,7 +200,8 @@ function ControllerSetup(
             github: instanceOwner
           },
           build: data.build.id(),
-          name: data.newProjectName
+          name: data.newProjectName,
+          env: data.state.env
         }, cb);
       }
     ], function (err) {
