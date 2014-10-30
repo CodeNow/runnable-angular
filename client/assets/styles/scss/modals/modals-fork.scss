@@ -4,3 +4,10 @@
     width: 240px;
   }
 }
+
+.modal-body-section {
+  background: $gray-lighter;
+  border-bottom: 1px solid rgba($black,.1);
+  border-top: 1px solid rgba($black,.1);
+  padding: 15px 0;
+}
