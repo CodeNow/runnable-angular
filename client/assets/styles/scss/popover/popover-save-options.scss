@@ -11,18 +11,11 @@
     right: 2px;
   }
 
-  .label-checkbox {
-    cursor: pointer;
-    display: block;
-    font-size: 14px;
-    padding: 0 15px;
-  }
-
   .no-actions .label-checkbox {
     cursor: not-allowed;
   }
 
-  .checkbox {
+  .input-checkbox {
     height: 36px;
     margin-right: 12px;
   }

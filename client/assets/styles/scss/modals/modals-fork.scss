@@ -4,11 +4,7 @@
     width: 240px;
   }
 
-  .btn-checkbox {
-    transition: margin .2s ease-in;
-
-    &.active {
-      margin-bottom: 15px;
-    }
+  .well {
+    margin-top: 6px;
   }
 }

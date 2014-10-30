@@ -248,6 +248,19 @@
     }
   }
 
+  // li.divider
+  .divider {
+    background: rgba($black,.1);
+    height: 1px;
+    margin: 3px 0;
+  }
+
+  // form elements in popovers:
+  // label.label-checkbox
+  .label-checkbox {
+    padding: 0 15px;
+  }
+
   .btn-block {
     margin: 3px 6px 6px;
     width: 100%;
@@ -259,13 +272,6 @@
     + .input-group {
       margin-top: 3px;
     }
-  }
-
-  // li.divider
-  .divider {
-    background: rgba($black,.1);
-    height: 1px;
-    margin: 3px 0;
   }
 }
 

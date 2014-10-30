@@ -62,15 +62,23 @@ textarea {
 }
 
 // label.btn-checkbox
-.btn.btn-checkbox {
+.btn-checkbox {
   padding: 0 12px;
   text-align: left;
 }
 
+// label.label-checkbox
+.label-checkbox {
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+}
+
+// input[type="checkbox"].input-checkbox
 .input-checkbox {
   float: left;
   height: 100%;
-  margin-right: 12px;
+  margin: 0 15px 0 3px;
 }
 
 // .input-group

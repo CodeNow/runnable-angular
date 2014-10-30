@@ -82,6 +82,10 @@
 // p.modal-description
 .modal-description {
   padding: 0 21px;
+
+  &:last-child {
+    padding-bottom: 15px;
+  }
 }
 
 // h1.modal-heading
@@ -104,8 +108,8 @@
 
 // main.modal-body
 .modal-body {
-  padding-bottom: 15px;
 
+  // validation in modals:
   .validate-wrapper {
     cursor: default;
     display: block;
@@ -117,7 +121,7 @@
     &.invalid-name {
       border: 1px solid rgba($orange,.3);
       height: 36px;
-      margin: 6px 6px 0;
+      margin: 6px 9px 0;
     }
 
     .validate-rules {
@@ -133,10 +137,22 @@
     }
   }
 
-  .btn-checkbox {
-    margin: 6px;
+  // form elements in modals:
+  .input-group {
+    margin: 0 9px;
   }
 
+  .btn-checkbox {
+    display: block;
+    margin: 9px;
+  }
+
+  // wells in modals
+  .well {
+    margin: 0 9px
+  }
+
+  // guides in modals:
   .guide {
     border: 0;
     border-left: 1px solid rgba($blue,.2);
@@ -169,8 +185,8 @@
 
 // footer.modal-footer
 .modal-footer {
-  height: 57px;
-  padding: 6px;
+  height: 63px;
+  padding: 9px;
 
   .green,
   .orange,

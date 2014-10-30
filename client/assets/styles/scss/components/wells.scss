@@ -1,0 +1,13 @@
+.well {
+  background: $gray-lighter;
+  border: 1px solid rgba($black,.1);
+  border-radius: 3px;
+  color: $gray;
+  margin: 0 6px;
+  padding: 0 6px;
+
+  .label-checkbox {
+    height: 36px;
+    line-height: 36px;
+  }
+}
