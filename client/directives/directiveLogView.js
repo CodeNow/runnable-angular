@@ -193,7 +193,7 @@ function logView(
           $scope.boxStream = createStreams(createLogStream)();
           primus.on('reconnect', createStreams(createLogStream));
         };
-        $scope.$watch('container.attrs._id', function (containerId) {
+        $scope.$watch('container.id()', function (containerId) {
           if (containerId) {
             // prepend log command to terminal
             terminal.write('\x1b[33;1mroot@'+keypather.get($scope,

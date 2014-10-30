@@ -11,7 +11,8 @@ function envVars(
     replace: true,
     scope: {
       instance: '=',
-      item: '='
+      item: '=',
+      setupData: '='
     },
     templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
@@ -35,13 +36,23 @@ function envVars(
           if (!newEnv) {
             return;
           }
-
           keypather.set($scope, 'instance.state.env', newEnv.split('\n').filter(function (v) {
             return v.length;
           }));
         });
       });
 
+      if ($scope.setupData) {
+        $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
+          if (!newEnv) {
+            return;
+          }
+
+          keypather.set($scope, 'setupData.state.env', newEnv.split('\n').filter(function (v) {
+            return v.length;
+          }));
+        });
+      }
     }
   };
 }
