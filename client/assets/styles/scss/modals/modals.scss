@@ -155,7 +155,15 @@
 
 // section.modal-body-section
 .modal-body-section {
-  border-top: 1px solid rgba($black,.15);
+  box-shadow: inset 0 1px 0 rgba($black,.15);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .2s ease-in;
+
+  &.in {
+    max-height: 300px;
+    overflow-y: auto;
+  }
 }
 
 // footer.modal-footer
