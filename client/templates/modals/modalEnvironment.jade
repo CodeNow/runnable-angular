@@ -38,10 +38,10 @@
           ng-click = "cancel()"
           type = "button"
         ) Go Back
-    aside.modal-sidebar
+    aside.modal-sidebar.boxes
+      h2.sub-header
+        span.sub-header-text Boxes
       ul.box-group
-        h2.sub-header
-          span.sub-header-text
         //- boxes should appear in the same order as they appear on the navbar
         //- do not show boxes with no exposed ports
         //- apply .expanded if box has exposed ports
