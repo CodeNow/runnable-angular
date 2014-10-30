@@ -52,6 +52,14 @@ util.hasClass = function(elem, klass) {
   });
 };
 
+util.getOSCommandKey = function() {
+  if (browser.inOSX()) {
+    return protractor.Key.COMMAND;
+  } else {
+    return protractor.Key.CONTROL;
+  }
+};
+
 util.regex = {};
 
 // Regexes are strings here because they will be concatenated later

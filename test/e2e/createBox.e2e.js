@@ -28,7 +28,7 @@ describe('project creation workflow', function () {
     browser.wait(setup.activePanel.aceLoaded.bind(setup.activePanel));
     browser.wait(setup.blankTemplateLoaded.bind(setup));
 
-    setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nADD ./node-hello-world /hello\nEXPOSE 80\nCMD node /hello/server.js\n');
+    setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 123456789\n');
 
     browser.wait(setup.dockerfileValidates.bind(setup));
     browser.wait(setup.activePanel.isClean.bind(setup.activePanel));
@@ -46,5 +46,9 @@ describe('project creation workflow', function () {
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
     });
+
+    instance.activePanel.setActiveTab('Box Logs');
+
+    expect(instance.activePanel.getContents()).toMatch('sleep 123456789');
   });
 });
