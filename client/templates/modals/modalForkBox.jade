@@ -66,11 +66,72 @@
           //- if the name is taken
           span.validate-rules.invalid-name That's a pretty name, but it's taken.
 
-        label.btn.btn-sm.white.btn-checkbox
+        label.btn.btn-sm.white.btn-checkbox(
+          ng-class = "{active: linkedBoxesChecked}"
+        )
           input.input-checkbox(
+            ng-click = "linkedBoxesChecked = !linkedBoxesChecked"
             type = "checkbox"
           )
-          | Include dependencies
+          | Include linked boxes
+
+      //- section
+        h1.modal-heading Linked Boxes
+        label.input-group.with-description(
+          ng-class = "{\
+            focus: data.forkForm.showFocus,\
+            'ng-invalid': data.forkForm.$invalid,\
+            'ng-valid': data.forkForm.$valid\
+          }"
+        )
+          span.input-label Name
+          span.input-description {{ newName }}.runnable.io
+          input.input(
+            autofocus
+            instance = "data.instance"
+            name = "name"
+            ng-blur = "data.forkForm.showFocus = false"
+            ng-focus = "data.forkForm.showFocus = true"
+            ng-init = "newName = data.instance.attrs.name"
+            ng-model = "newName"
+            placeholder = "My-Box"
+            select-all
+            validate-name = "data.instances"
+            validate-name-pattern
+            validate-name-current-instance-valid = "false"
+            value = "{{ data.instance.attrs.name }}"
+          )
+          //- issues to fix:
+          //- popover isn't actually toggled
+          //- hovering over the popover also triggers tooltip (related: SAN-267)
+          button.btn-sm.gray(
+            toggle-pop-over
+            toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
+            tooltip = "Edit Environment"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
+            type = "button"
+          ) ev
+            pop-over(
+              actions = "dataModalForkBox.data.popoverEnvironment.actions"
+              data = "dataModalForkBox.data.popoverEnvironment.data"
+              template = "popoverEnvironment"
+            )
+        .validate-wrapper.btn.btn-sm.orange(
+          ng-class = "{\
+            in: data.forkForm.$invalid,\
+            'invalid-pattern': data.forkForm.$error.namePattern.length,\
+            'invalid-name': data.forkForm.$error.nameAvailable.length\
+          }"
+        )
+          //- if invalid character is entered
+          span.validate-rules.invalid-pattern Please use #{''}
+            b.btn.btn-xs.orange A-Z
+            b.btn.btn-xs.orange a-z
+            b.btn.btn-xs.orange 0-9
+            b.btn.btn-xs.orange _
+            b.btn.btn-xs.orange -
+          //- if the name is taken
+          span.validate-rules.invalid-name That's a pretty name, but it's taken.
 
     footer.modal-footer
       //- cancel is modalDirective
