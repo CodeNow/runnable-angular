@@ -201,7 +201,7 @@ function ControllerSetup(
           },
           build: data.build.id(),
           name: data.newProjectName,
-          env: data.state.env
+          env: (data.state) ? data.state.env : null
         }, cb);
       }
     ], function (err) {
