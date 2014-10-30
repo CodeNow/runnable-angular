@@ -235,6 +235,10 @@ function ControllerSetup(
       return;
     }
     if (data.openItems.activeHistory.last().id() !== '/Dockerfile') {
+      data.validDockerfile = {
+        valid: true
+      };
+      $scope.safeApply();
       return;
     }
     data.validDockerfile = validateDockerfile(n);
