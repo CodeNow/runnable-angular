@@ -1,8 +1,8 @@
 require('app')
   .config(['$provide', function ($provide) {
     $provide.decorator('formDirective', ['$delegate', function ($delegate) {
-      var form       = $delegate[0],
-          controller = form.controller;
+      var form = $delegate[0],
+        controller = form.controller;
 
       form.controller = [
         '$scope',
@@ -17,7 +17,8 @@ require('app')
             '$element': element,
             '$attrs': attrs
           });
-      }];
+        }
+      ];
 
       return $delegate;
     }]);

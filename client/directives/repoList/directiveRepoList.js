@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableRepoList (
+function RunnableRepoList(
   async,
   hasKeypaths,
   keypather,
@@ -30,15 +30,15 @@ function RunnableRepoList (
 
       // display guide if no repos added
       switch ($state.$current.name) {
-        case 'instance.setup':
-          $scope.showGuide = true;
-          break;
-        case 'instance.instanceEdit':
-          $scope.showGuide = true;
-          break;
-        case 'instance.instance':
-          $scope.showGuide = false;
-          break;
+      case 'instance.setup':
+        $scope.showGuide = true;
+        break;
+      case 'instance.instanceEdit':
+        $scope.showGuide = true;
+        break;
+      case 'instance.instance':
+        $scope.showGuide = false;
+        break;
       }
 
       // track all temp acvs generated
@@ -74,14 +74,14 @@ function RunnableRepoList (
       };
 
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
-        var context              = $scope.build.contexts.models[0];
-        var contextVersion       = $scope.build.contextVersions.models[0];
-        var infraCodeVersionId   = contextVersion.attrs.infraCodeVersion;
+        var context = $scope.build.contexts.models[0];
+        var contextVersion = $scope.build.contextVersions.models[0];
+        var infraCodeVersionId = contextVersion.attrs.infraCodeVersion;
         // fetches current state of repos listed in DOM w/ selected commits
         var appCodeVersionStates = $scope.unsavedAcvs.map(function (obj) {
           var acv = obj.unsavedAcv;
           return {
-            repo:   acv.attrs.repo,
+            repo: acv.attrs.repo,
             branch: acv.attrs.branch,
             commit: acv.attrs.sha
           };
@@ -100,7 +100,7 @@ function RunnableRepoList (
         });
         // if we find this contextVersion, reuse it.
         // otherwise create a new one
-        function findOrCreateContextVersion (cb) {
+        function findOrCreateContextVersion(cb) {
           var foundCVs = context.fetchVersions({
             infraCodeVersion: infraCodeVersionId,
             appCodeVersions: appCodeVersionStates
@@ -123,7 +123,8 @@ function RunnableRepoList (
             });
           });
         }
-        function createBuild (contextVersion, cb) {
+
+        function createBuild(contextVersion, cb) {
           var build = $scope.user.createBuild({
             contextVersions: [contextVersion.id()],
             owner: $scope.instance.attrs.owner
@@ -131,34 +132,40 @@ function RunnableRepoList (
             cb(err, build);
           });
         }
-        function buildBuild (build, cb) {
+
+        function buildBuild(build, cb) {
           build.build({
             message: 'Update application code version(s)' // TODO: better message
           }, function (err) {
             cb(err, build);
           });
         }
-        function updateInstanceWithBuild (build, cb) {
-          $scope.instance.update({
-            build: build.id()
-          }, function (err) {
-            cb(err, build);
-          });
-        }
-        /**
-         * Trigger a forced refresh
-         * Alternatives cumbersome/buggy
-         * This best/easiest solution for now
-         */
-        function reloadController (build, cb) {
+
+        function updateInstanceWithBuild(build, cb) {
+            $scope.instance.update({
+              build: build.id()
+            }, function (err) {
+              cb(err, build);
+            });
+          }
+          /**
+           * Trigger a forced refresh
+           * Alternatives cumbersome/buggy
+           * This best/easiest solution for now
+           */
+        function reloadController(build, cb) {
           cb();
           var current = $state.current;
           var params = angular.copy($stateParams);
-          $state.transitionTo(current, params, { reload: true, inherit: true, notify: true });
+          $state.transitionTo(current, params, {
+            reload: true,
+            inherit: true,
+            notify: true
+          });
         }
       };
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -167,8 +174,7 @@ function RunnableRepoList (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
@@ -185,7 +191,7 @@ function RunnableRepoList (
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $scope.build    = instance.build;
+            $scope.build = instance.build;
             $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
@@ -199,7 +205,7 @@ function RunnableRepoList (
           .go();
       }
 
-      function fetchBuild (cb) {
+      function fetchBuild(cb) {
         if (!$stateParams.buildId) {
           return fetchInstance(cb);
         }

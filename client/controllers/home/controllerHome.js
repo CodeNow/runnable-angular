@@ -19,13 +19,16 @@ function ControllerHome(
   user
 ) {
 
-  var dataHome = $scope.dataHome = {data:{}, actions:{}};
+  var dataHome = $scope.dataHome = {
+    data: {},
+    actions: {}
+  };
 
   //- refresh skrollr on load
   $window.s = skrollr.init({
     forceHeight: false,
-    mobileCheck: function(){
-      return  false;
+    mobileCheck: function () {
+      return false;
     }
   });
   $window.s.refresh();
@@ -36,7 +39,7 @@ function ControllerHome(
 
   function verifyUserIsAuth() {
     async.series([
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -45,8 +48,7 @@ function ControllerHome(
             $scope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       },
       fetchInstances,
@@ -67,7 +69,7 @@ function ControllerHome(
         function getEntityName(userOrOrg) {
           return (thisUser === userOrOrg) ?
             thisUser.attrs.accounts.github.username : // user
-            userOrOrg.attrs.login;                    // org
+            userOrOrg.attrs.login; // org
         }
 
         // remove attached instances property from user/org models
@@ -104,13 +106,13 @@ function ControllerHome(
           var org = dataHome.data.orgs.find(function (org) {
             return getEntityName(org) === userOrgName;
           });
-          if(!org) {
+          if (!org) {
             return goToFirstInstance();
           }
           var instance = org.instances.find(function (instance) {
             return instance.attrs.name === instanceName;
           });
-          if(!instance) {
+          if (!instance) {
             return goToFirstInstance();
           }
           // we found the cached org & instance
@@ -153,7 +155,7 @@ function ControllerHome(
     function fetchInstancesForOrg(userOrOrg, cb) {
       var userId = (thisUser === userOrOrg) ?
         thisUser.attrs.accounts.github.id : // user
-        userOrOrg.attrs.id;                 // org
+        userOrOrg.attrs.id; // org
 
       new QueryAssist(thisUser, cb)
         .wrapFunc('fetchInstances')

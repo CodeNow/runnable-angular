@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableDockerTemplates (
+function RunnableDockerTemplates(
   async,
   determineActiveAccount,
   keypather,
@@ -30,7 +30,7 @@ function RunnableDockerTemplates (
         $scope.openItems.reset([]);
         $scope.selectedSourceContext = context;
 
-        function fetchContextVersion (cb) {
+        function fetchContextVersion(cb) {
           var context = $scope.selectedSourceContext;
           new QueryAssist(context, cb)
             .wrapFunc('fetchVersions')
@@ -47,7 +47,7 @@ function RunnableDockerTemplates (
             .go();
         }
 
-        function copyFilesFromSource (cb) {
+        function copyFilesFromSource(cb) {
           var sourceInfraCodeVersion = $scope.versions.models[0].attrs.infraCodeVersion;
           var contextVersion = $scope.build.contextVersions.models[0];
           var sourceContextVersion = $scope.versions.models[0];
@@ -58,7 +58,7 @@ function RunnableDockerTemplates (
           });
         }
 
-        function fetchContextVersionFiles (cb) {
+        function fetchContextVersionFiles(cb) {
           var contextVersion = $scope.build.contextVersions.models[0];
           new QueryAssist(contextVersion, cb)
             .wrapFunc('fetchFsList')
@@ -87,7 +87,7 @@ function RunnableDockerTemplates (
         ]);
       };
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -103,7 +103,7 @@ function RunnableDockerTemplates (
           .go();
       }
 
-      function fetchBuild (cb) {
+      function fetchBuild(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
@@ -120,7 +120,7 @@ function RunnableDockerTemplates (
           .go();
       }
 
-      function fetchSeedContexts (cb) {
+      function fetchSeedContexts(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchContexts')
           .query({

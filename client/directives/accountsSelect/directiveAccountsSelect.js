@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableAccountsSelect (
+function RunnableAccountsSelect(
   async,
   determineActiveAccount,
   $rootScope,
@@ -69,7 +69,7 @@ function RunnableAccountsSelect (
           .go();
       };
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -77,12 +77,11 @@ function RunnableAccountsSelect (
             $scope.user = user;
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
-      function fetchOrgs (cb) {
+      function fetchOrgs(cb) {
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
           if (err) throw err;
           // TODO: heap

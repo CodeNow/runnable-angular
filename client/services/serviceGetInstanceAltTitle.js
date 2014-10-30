@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function getInstanceAltTitle (
+function getInstanceAltTitle(
   $filter,
   getInstanceClasses,
   keypather
@@ -25,4 +25,3 @@ function getInstanceAltTitle (
     return "";
   };
 }
-

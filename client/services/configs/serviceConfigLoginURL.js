@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function configLoginURL (
+function configLoginURL(
   $window,
   configAPIHost
 ) {

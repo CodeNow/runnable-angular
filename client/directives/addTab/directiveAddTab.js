@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableAddTab (
+function RunnableAddTab(
   helperAddTab,
   $state
 ) {
@@ -19,25 +19,25 @@ function RunnableAddTab (
       var opts = {};
 
       switch ($state.$current.name) {
-        case 'instance.setup':
-          opts = {
-            envVars: true
-          };
-          break;
-        case 'instance.instanceEdit':
-          opts = {
-            envVars: true
-          };
-          break;
-        case 'instance.instance':
-          opts = {
-            envVars:     true,
-            logs:        true,
-            buildStream: true,
-            terminal:    true,
-            webView:     true
-          };
-          break;
+      case 'instance.setup':
+        opts = {
+          envVars: true
+        };
+        break;
+      case 'instance.instanceEdit':
+        opts = {
+          envVars: true
+        };
+        break;
+      case 'instance.instance':
+        opts = {
+          envVars: true,
+          logs: true,
+          buildStream: true,
+          terminal: true,
+          webView: true
+        };
+        break;
       }
 
       $scope.popoverAddTab = helperAddTab(opts, $scope.openItems);

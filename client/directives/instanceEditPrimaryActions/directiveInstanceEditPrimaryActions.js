@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableInstanceEditPrimaryActions (
+function RunnableInstanceEditPrimaryActions(
   async,
   keypather,
   QueryAssist,
@@ -32,7 +32,7 @@ function RunnableInstanceEditPrimaryActions (
             if (err) throw err;
             $scope.instance.update({
               build: $scope.newBuild.id()
-              //env: data.instance.state.env
+                //env: data.instance.state.env
             }, function (err) {
               if (err) throw err;
               // will trigger display of completed message if build completes
@@ -43,7 +43,7 @@ function RunnableInstanceEditPrimaryActions (
           });
       };
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -52,12 +52,11 @@ function RunnableInstanceEditPrimaryActions (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
-      function fetchInstance (cb) {
+      function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
           .query({
@@ -78,7 +77,7 @@ function RunnableInstanceEditPrimaryActions (
           .go();
       }
 
-      function fetchNewBuild (cb) {
+      function fetchNewBuild(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)

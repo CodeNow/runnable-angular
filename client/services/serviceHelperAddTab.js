@@ -4,7 +4,7 @@ require('app')
  * @ngInject
  */
 function helperAddTab() {
-  return function(config, openItems) {
+  return function (config, openItems) {
     if (!config) {
       // default to all available
       config = {
@@ -23,27 +23,37 @@ function helperAddTab() {
       },
       actions: {
         addBuildStream: function () {
-          if (!openItems) { return; }
+          if (!openItems) {
+            return;
+          }
           pat.data.show = false;
           return openItems.addBuildStream();
         },
         addWebView: function () {
-          if (!openItems) { return; }
+          if (!openItems) {
+            return;
+          }
           pat.data.show = false;
           return openItems.addWebView();
         },
         addTerminal: function () {
-        if (!openItems) { return; }
+          if (!openItems) {
+            return;
+          }
           pat.data.show = false;
           return openItems.addTerminal();
         },
         addLogs: function () {
-          if (!openItems) { return; }
+          if (!openItems) {
+            return;
+          }
           pat.data.show = false;
           return openItems.addLogs();
         },
         addEnvVars: function () {
-          if (!openItems) { return; }
+          if (!openItems) {
+            return;
+          }
           pat.data.show = false;
           var envVars = openItems.addEnvVars();
           envVars.state.readOnly = config.envVarsReadOnly;

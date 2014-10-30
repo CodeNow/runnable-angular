@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function HelperInstanceActionsModal (
+function HelperInstanceActionsModal(
   $rootScope,
   $state,
   $stateParams,
@@ -20,7 +20,7 @@ function HelperInstanceActionsModal (
     }
 
     var data = {};
-    data.instance  = null;
+    data.instance = null;
     data.instances = null;
 
     $scope.$watch('instance', function (n) {
@@ -42,7 +42,7 @@ function HelperInstanceActionsModal (
     });
 
     $scope.popoverGearMenu.data.dataModalRename = data;
-    $scope.popoverGearMenu.data.dataModalFork   = data;
+    $scope.popoverGearMenu.data.dataModalFork = data;
     $scope.popoverGearMenu.data.dataModalDelete = data;
 
     $scope.popoverGearMenu.actions.actionsModalRename = {

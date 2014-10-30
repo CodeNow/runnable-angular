@@ -6,9 +6,12 @@ require('app')
 function ControllerInstanceLayout(
   configLogoutURL,
   $scope
-){
+) {
 
-  var dataInstanceLayout = $scope.dataInstanceLayout = {data:{}, actions:{}};
+  var dataInstanceLayout = $scope.dataInstanceLayout = {
+    data: {},
+    actions: {}
+  };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
 
   /*

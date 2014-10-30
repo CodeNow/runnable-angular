@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableSetupBoxName (
+function RunnableSetupBoxName(
   async,
   determineActiveAccount,
   QueryAssist,
@@ -26,7 +26,7 @@ function RunnableSetupBoxName (
         $scope.valid = arguments[0];
       });
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -35,12 +35,11 @@ function RunnableSetupBoxName (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
-      function fetchInstances (cb) {
+      function fetchInstances(cb) {
         async.waterfall([
           determineActiveAccount,
           function (activeAccount, cb) {

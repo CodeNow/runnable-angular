@@ -32,7 +32,7 @@ function fileTreeDir(
       var data = $scope.data = {};
       $scope.state = $state;
 
-      actions.makeDroppable = function() {
+      actions.makeDroppable = function () {
         if (!$template) return;
 
         $template[0].addEventListener('drop', function (event) {
@@ -58,10 +58,8 @@ function fileTreeDir(
                   complete: function () {
                     cb();
                   },
-                  error: function () {
-                  },
-                  success: function () {
-                  }
+                  error: function () {},
+                  success: function () {}
                 });
               }.bind(this, file));
             })(file, asyncCallbacks);
@@ -104,16 +102,16 @@ function fileTreeDir(
         // padded zeroes.
         var value = file.attrs.name.replace(
           /(\d+)((\.\d+)+)?/g,
-          function($0, integer, decimal, $3) {
+          function ($0, integer, decimal, $3) {
             if (decimal !== $3) {
-              return(
+              return (
                 padding.slice(integer.length) +
                 integer +
                 decimal
               );
             }
             decimal = (decimal || ".0");
-            return(
+            return (
               padding.slice(integer.length) +
               integer +
               decimal +
@@ -154,10 +152,10 @@ function fileTreeDir(
           greedy: true,
           drop: function (event, item) {
 
-            var droppedFileDirScope      = angular.element(item.draggable).scope(),
-                droppedFile              = droppedFileDirScope.fs,
-                droppedFileOrigDirScope = angular.element(jQuery(item.draggable).parents('li.folder')).scope(),
-                droppedFileOrigDir       = droppedFileOrigDirScope.dir;
+            var droppedFileDirScope = angular.element(item.draggable).scope(),
+              droppedFile = droppedFileDirScope.fs,
+              droppedFileOrigDirScope = angular.element(jQuery(item.draggable).parents('li.folder')).scope(),
+              droppedFileOrigDir = droppedFileOrigDirScope.dir;
 
             if ($scope.dir === droppedFileOrigDir) {
               return;
@@ -191,7 +189,7 @@ function fileTreeDir(
 
       // needed to observe change seed context version on setup page
       $scope.$watch('openItems.state.reset', function (newVal, oldVal) {
-        if(!newVal) return;
+        if (!newVal) return;
         fetchDirFiles();
         $scope.actions.makeDroppable();
       });
@@ -216,6 +214,7 @@ function fileTreeDir(
       });
 
       actions.fetchDirFiles = fetchDirFiles;
+
       function fetchDirFiles(file) {
         $scope.dir.contents.fetch(function (err) {
           if (file) {

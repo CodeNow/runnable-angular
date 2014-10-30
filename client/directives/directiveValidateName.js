@@ -18,7 +18,7 @@ function validateName(
     link: function ($scope, element, attrs, ctrl) {
       ctrl.$setValidity('nameAvailable', true);
 
-      function checkValidNameAvailable (name) {
+      function checkValidNameAvailable(name) {
         if (!name || ctrl.$pristine) {
           ctrl.$setValidity('nameAvailable', true);
           return name;

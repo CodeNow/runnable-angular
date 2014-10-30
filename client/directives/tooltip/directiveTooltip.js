@@ -33,7 +33,7 @@ function tooltip(
       options.top = (typeof options.top !== 'undefined') ? options.top : 0;
       options.class = (typeof options.class !== 'undefined') ? options.class : false;
 
-      function position () {
+      function position() {
         var $e = jQuery(element);
         var eStyle = {
           top: ($e.offset().top + options.top) + 'px',
@@ -42,8 +42,8 @@ function tooltip(
         return eStyle;
       }
 
-      function updateTooltip () {
-        if(!$tooltipElement) {
+      function updateTooltip() {
+        if (!$tooltipElement) {
           return;
         }
         jQuery($tooltipElement).find('.tooltip-text').html(tooltipText);
@@ -62,7 +62,7 @@ function tooltip(
         $body.append($tooltipElement);
       });
       jQuery(element).on('mouseout', function () {
-        if(!$tooltipElement) {
+        if (!$tooltipElement) {
           return;
         }
         $tooltipElement.remove();

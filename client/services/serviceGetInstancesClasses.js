@@ -3,7 +3,7 @@ require('app')
 /**
  * @njInject
  */
-function getInstanceClasses (
+function getInstanceClasses(
   $stateParams,
   keypather
 ) {

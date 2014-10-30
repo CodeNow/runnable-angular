@@ -14,15 +14,18 @@ function ControllerApp(
   configLogoutURL
 ) {
 
-  var dataApp = $scope.dataApp = {data:{}, actions:{}};
+  var dataApp = $scope.dataApp = {
+    data: {},
+    actions: {}
+  };
 
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
-  dataApp.data.configAPIHost     = configAPIHost;
+  dataApp.data.configAPIHost = configAPIHost;
 
   dataApp.data.minimizeNav = false;
-  dataApp.data.loginURL    = configLoginURL();
-  dataApp.data.logoutURL   = configLogoutURL();
+  dataApp.data.loginURL = configLoginURL();
+  dataApp.data.logoutURL = configLogoutURL();
 
   // shows spinner overlay
   dataApp.data.loading = false;

@@ -28,7 +28,7 @@ function logView(
     link: function ($scope, elem, attrs) {
       var terminal = new Terminal({
         cols: 80,
-        rows: Math.floor(elem[0].clientHeight/CHAR_HEIGHT),
+        rows: Math.floor(elem[0].clientHeight / CHAR_HEIGHT),
         useStyle: true,
         screenKeys: true,
         scrollback: 1000,
@@ -43,23 +43,32 @@ function logView(
       };
       // Terminal sizing
       var $termElem = jQuery(terminal.element);
+
       function resizeTerm() {
         // Tab not selected
-        if ($termElem.width() === 100) { return; }
+        if ($termElem.width() === 100) {
+          return;
+        }
         var termLineEl = $termElem.find('div')[0];
-        if (!termLineEl) { return; }
+        if (!termLineEl) {
+          return;
+        }
         var tBox = termLineEl.getBoundingClientRect();
 
         var charWidth = tBox.width / termLineEl.textContent.length;
 
         var x = Math.floor($termElem.width() / charWidth);
-        if (x < 80) { x = 80; }
+        if (x < 80) {
+          x = 80;
+        }
         var y = Math.floor($termElem.height() / CHAR_HEIGHT);
         terminal.resize(x, y);
       }
+
       function createBuildStream() {
         return primus.createBuildStream($scope.build);
       }
+
       function createLogStream() {
         return primus.createLogStream($scope.container);
       }
@@ -89,13 +98,14 @@ function logView(
         terminal.destroy();
       });
       // Getting data to Term
-      function writeToTerm (data) {
+      function writeToTerm(data) {
         if (data) {
           data = data.replace(/\r?\n/g, '\r\n');
           terminal.writeln(data);
         }
       }
       var stream;
+
       function offlineMessage() {
         terminal.writeln('');
         terminal.writeln('******************************');
@@ -111,6 +121,7 @@ function logView(
         terminal.cursorState = -1;
         terminal.startBlink();
       }
+
       function createStreams(createStreamMethod, shouldShowSpinner) {
         return function (reconnect) {
           if (reconnect) {
@@ -154,7 +165,7 @@ function logView(
                   '\x1b[33;1mbuild failed\x1b[0m';
                 writeToTerm(data);
               } else {
-                // red text, last ascii escape resets red.
+                // yellow text, last ascii escape resets yellow.
                 writeToTerm('\x1b[33;1mbuild failed\x1b[0m');
               }
               $rootScope.safeApply();
@@ -179,7 +190,7 @@ function logView(
               }
               if (!build.succeeded()) {
                 // bad things happened
-                writeToTerm('please build again');
+                writeToTerm('\x1b[31;1mPlease build again\x1b[0m');
               } else {
                 // we're all good
                 writeToTerm('Build completed, starting instance...');
@@ -196,8 +207,8 @@ function logView(
         $scope.$watch('container.attrs._id', function (containerId) {
           if (containerId) {
             // prepend log command to terminal
-            terminal.write('\x1b[33;1mroot@'+keypather.get($scope,
-              'container.attrs.inspect.Config.Hostname')+'\x1b[0m: ' +
+            terminal.write('\x1b[33;1mroot@' + keypather.get($scope,
+                'container.attrs.inspect.Config.Hostname') + '\x1b[0m: ' +
               keypather.get($scope, 'container.attrs.inspect.Config.Cmd.join(" ")') + '\n\r');
             initBoxStream();
           }

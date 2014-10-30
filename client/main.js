@@ -27,7 +27,7 @@ var views = require('./build/views/viewBundle');
  * to pass authentication cookie
  * w/ HTTP requests
  */
-app.config(function($httpProvider) {
+app.config(function ($httpProvider) {
   $httpProvider.defaults.withCredentials = true;
 });
 
@@ -37,36 +37,38 @@ app.config(function($httpProvider) {
  * function callback
  */
 app.run(['$rootScope',
-         '$timeout',
-         function($rootScope,
-                  $timeout) {
-  var applyCallbacks = [];
-  $rootScope.safeApply = function (cb) {
-    if (cb) {
-      applyCallbacks.push(cb);
-    }
-    $timeout(function () {
-      $rootScope.$apply();
-      applyCallbacks.forEach(function (cb) {
-        cb();
+  '$timeout',
+  function ($rootScope,
+    $timeout) {
+    var applyCallbacks = [];
+    $rootScope.safeApply = function (cb) {
+      if (cb) {
+        applyCallbacks.push(cb);
+      }
+      $timeout(function () {
+        $rootScope.$apply();
+        applyCallbacks.forEach(function (cb) {
+          cb();
+        });
+        applyCallbacks = [];
       });
-      applyCallbacks = [];
-    });
-  };
-}]);
+    };
+  }
+]);
 
 /**
  * Pre-load template cache with compiled
  * jade templates included in JS bundle
  */
 app.run(['$rootScope',
-         '$templateCache',
-         function ($rootScope,
-                   $templateCache) {
+  '$templateCache',
+  function ($rootScope,
+    $templateCache) {
     Object.keys(views.Templates).forEach(function (viewName) {
       $templateCache.put(viewName, views.Templates[viewName]());
     });
-}]);
+  }
+]);
 
 /**
  * Broadcast to all child scops when keydown key is escape
@@ -80,7 +82,8 @@ app.run([
         $rootScope.safeApply();
       }
     });
-}]);
+  }
+]);
 
 /**
  * DOM-ready event, start app

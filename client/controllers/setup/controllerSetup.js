@@ -32,7 +32,7 @@ function ControllerSetup(
   data.loading = false;
 
   // Redirect to /new if this build has already been built
-  function fetchUser (cb) {
+  function fetchUser(cb) {
     new QueryAssist(user, cb)
       .wrapFunc('fetchUser')
       .query('me')
@@ -48,7 +48,7 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchBuild (cb) {
+  function fetchBuild(cb) {
     new QueryAssist($scope.user, cb)
       .wrapFunc('fetchBuild')
       .query($stateParams.buildId)
@@ -137,5 +137,4 @@ function ControllerSetup(
     }
   };
   */
-
 }

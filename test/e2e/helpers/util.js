@@ -1,7 +1,7 @@
 var util = {};
 
 util.processUrl = function (middle) {
-  return 'http://localhost:3001' + middle + '/';
+  return browser.baseUrl + middle + '/';
 };
 
 util.waitForUrl = function (url) {

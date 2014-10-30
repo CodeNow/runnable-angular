@@ -5,58 +5,41 @@ require('app')
  */
 function ControllerInstance(
   async,
-
   determineActiveAccount,
-  getNewFileFolderName,
-
+  helperFetchInstanceDeployStatus,
   keypather,
   QueryAssist,
   OpenItems,
   $scope,
   $state,
   $stateParams,
-  user,
-  validateEnvVars
+  user
 ) {
 
-  var dataInstance = $scope.dataInstance = {data:{}, actions:{}};
+  var dataInstance = $scope.dataInstance = {
+    data: {},
+    actions: {}
+  };
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
   data.openItems = new OpenItems();
 
   // displays message saying build has completed
-  data.showBuildCompleted = false;
+  // data.showBuildCompleted = false;
 
   // loader if saving fs changes
   data.saving = false;
-  data.showExplorer = false;
 
-  // returns class(s) for section.views-with-add-tab
-  // depending on various conditions. Classes control
-  // presence of tabs-bar
-  actions.getSectionViewsClass = function () {
-    var instance = keypather.get(data, 'instance');
-    var container = keypather.get(data, 'instance.containers.models[0]');
-    if (!instance || !container) {
-      return {
-        out: true
-      };
-    }
-    if (!container.running()) {
-      return {
-        out: true
-      };
-    }
-    if (dataInstance.data.showExplorer) {
-      return {
-        in: true
-      };
-    }
+  // toggle explorer menu
+  data.showExplorer = false;
+  data.sectionClasses = {
+    out: true,
+    in: false
   };
 
   // Redirect to /new if this build has already been built
-  function fetchUser (cb) {
+  function fetchUser(cb) {
     new QueryAssist(user, cb)
       .wrapFunc('fetchUser')
       .query('me')
@@ -80,24 +63,80 @@ function ControllerInstance(
         name: $stateParams.instanceName
       })
       .cacheFetch(function (instances, cached, cb) {
-        if (!cached && !instances.models.length) {
-          return cb(new Error('Instance not found'));
-        }
         var instance = instances.models[0];
         data.instance = instance;
         $scope.safeApply();
       })
       .resolve(function (err, instances, cb) {
-        var instance = instances.models[0];
-        if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-          //return cb(new Error('instance has no containers'));
-          return cb();
+        if (!instances.models.length) {
+          return cb(new Error('Instance not found'));
         }
+        if (err) throw err;
+        var instance = instances.models[0];
+        data.instance = instance;
         $scope.safeApply();
-        cb(err);
+        cb(null, instance);
       })
       .go();
   }
+
+  // If instance:
+  //   !deployed (includes time when building, and short time after building completes before containers initiated)
+  //     - hide explorer
+  //     - display build logs
+  //   deployed && stopped
+  //     - hide explorer
+  //     - display box logs
+  //   deployed && running
+  //     - show explorer
+  //     - show terminal
+  //     - show box logs (has focus)
+  function updateDisplayedTabs() {
+    var instance = keypather.get(data, 'instance');
+    var container = keypather.get(data, 'instance.containers.models[0]');
+    if (!instance) {
+      return;
+    }
+    if (!container) {
+      // instance not deployed yet
+      if (!data.openItems.hasOpen('BuildStream')) {
+        data.openItems.addBuildStream();
+      }
+      return;
+    }
+
+    if (!container.running()) {
+      data.showExplorer = false;
+      data.sectionClasses = {'out':true, 'in':false};
+      // show only build logs
+      if (!data.openItems.hasOpen('BuildStream')) {
+        data.openItems.addBuildStream();
+      }
+      if (data.openItems.hasOpen('LogView')) {
+        // make it selected
+        var logView = data.openItems.find(function (m) {
+          return m.constructor.name === 'LogView';
+        });
+        data.openItems.activeHistory.add(logView);
+      } else {
+        // add it
+        data.openItems.addLogs();
+      }
+    } else {
+      data.showExplorer = true;
+      data.sectionClasses = {'out':false, 'in':true};
+      if (!data.openItems.hasOpen('Terminal')) {
+        data.openItems.addTerminal();
+      }
+      if (!data.openItems.hasOpen('LogView')) {
+        data.openItems.addLogs();
+      }
+    }
+  }
+
+  // watch for deployed/started/stopped instance
+  $scope.$watch('dataInstance.data.instance.containers.models[0]', updateDisplayedTabs);
+  $scope.$watch('dataInstance.data.instance.containers.models[0].running()', updateDisplayedTabs);
 
   async.waterfall([
     determineActiveAccount,
@@ -107,10 +146,19 @@ function ControllerInstance(
       cb();
     },
     fetchUser,
-    fetchInstance
+    fetchInstance,
+    helperFetchInstanceDeployStatus
   ]);
 
+
+
+
+
+
+
+
   /*
+
   var pfm = data.popoverFileMenu = {};
   pfm.data = {
     show: false
@@ -215,27 +263,6 @@ function ControllerInstance(
     $scope.safeApply();
   }
 
-
-  var instanceFetchInterval;
-  function checkDeploy () {
-    // temporary, lightweight check route
-    data.instance.deployed(function (err, deployed) {
-      if (deployed) {
-        // display build completed alert in DOM
-        dataInstance.data.showBuildCompleted = true;
-        fetchInstance(function (err) {
-          if (err) {
-            throw err;
-          }
-
-          $scope.safeApply();
-        });
-        $interval.cancel(instanceFetchInterval);
-      }
-      $scope.safeApply();
-    });
-  }
-
   var building;
   // This watch helps us detect if we're loading or building
   $scope.$watch('dataInstance.data.build.attrs.started', function (n, o) {
@@ -272,4 +299,3 @@ function ControllerInstance(
   });
   */
 }
-

@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableInstanceEditSecondaryActions (
+function RunnableInstanceEditSecondaryActions(
   async,
   helperInstanceActionsModal,
   keypather,
@@ -24,7 +24,10 @@ function RunnableInstanceEditSecondaryActions (
     },
     link: function ($scope, elem, attrs) {
 
-      $scope.popoverGearMenu = {data:{}, actions:{}};
+      $scope.popoverGearMenu = {
+        data: {},
+        actions: {}
+      };
       $scope.popoverGearMenu.data.show = false;
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
@@ -33,7 +36,7 @@ function RunnableInstanceEditSecondaryActions (
         $state.go('instance.instance', $stateParams);
       };
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -42,12 +45,11 @@ function RunnableInstanceEditSecondaryActions (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
-      function fetchInstance (cb) {
+      function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
           .query({
@@ -68,7 +70,7 @@ function RunnableInstanceEditSecondaryActions (
           .go();
       }
 
-      function fetchNewBuild (cb) {
+      function fetchNewBuild(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)

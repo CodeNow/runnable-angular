@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function determineActiveAccount (
+function determineActiveAccount(
   $stateParams,
   async,
   hasKeypaths,
@@ -12,7 +12,7 @@ function determineActiveAccount (
 ) {
   return function (cb) {
 
-    if(!angular.isFunction(cb)) throw new Error();
+    if (!angular.isFunction(cb)) throw new Error();
 
     var _user, _orgs;
 
@@ -22,7 +22,7 @@ function determineActiveAccount (
       match
     ], cb);
 
-    function fetchUser (cb) {
+    function fetchUser(cb) {
       new QueryAssist(user, cb)
         .wrapFunc('fetchUser')
         .query('me')
@@ -36,14 +36,14 @@ function determineActiveAccount (
         .go();
     }
 
-    function fetchOrgs (cb) {
+    function fetchOrgs(cb) {
       _orgs = _user.fetchGithubOrgs(function (err) {
         if (err) throw err;
         cb();
       });
     }
 
-    function match (cb) {
+    function match(cb) {
       if (!$stateParams.userName || $stateParams.userName === _user.oauthName()) {
         cb(null, _user);
         return;

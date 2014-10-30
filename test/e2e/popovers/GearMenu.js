@@ -36,7 +36,6 @@ function GearMenu () {
       if (!isOpen) {
         return self.gear.get().click();
       }
-      return;
     }).then(function() {
       return browser.wait(function() {
         return self.renameItem.get().isDisplayed();

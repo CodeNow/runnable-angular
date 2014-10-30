@@ -20,7 +20,7 @@ function envVars(
     templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -40,7 +40,7 @@ function envVars(
        * use buildId if stateParams.buildId (instance.setup)
        * otherwise fetch instance & build (instance.instance && instance.edit)
        */
-      function fetchBuild (cb) {
+      function fetchBuild(cb) {
         if (!$stateParams.buildId) {
           return fetchInstance(cb);
         }
@@ -72,7 +72,7 @@ function envVars(
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $scope.build    = instance.build;
+            $scope.build = instance.build;
             $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
@@ -113,7 +113,10 @@ function envVars(
           return environmentalVars + env + '\n';
         }, '');
 
-        $scope.validity = {valid: true, errors: []};
+        $scope.validity = {
+          valid: true,
+          errors: []
+        };
 
         $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
           if (!newEnv) {
@@ -129,4 +132,3 @@ function envVars(
     }
   };
 }
-
