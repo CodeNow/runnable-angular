@@ -25,7 +25,8 @@ exports.config = {
     'browserName': 'chrome'
   },
 
-  baseUrl: 'http://localhost:3001/',
+  // No trailing slash
+  baseUrl: 'http://localhost:3001',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
