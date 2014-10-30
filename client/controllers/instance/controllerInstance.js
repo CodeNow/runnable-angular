@@ -90,31 +90,40 @@ function ControllerInstance(
         $scope.safeApply();
       })
       .resolve(function (err, instances, cb) {
+        if (err) throw err;
         var instance = instances.models[0];
-        instance.deployed(function (err, deployed) {
-          if (err) throw err;
-          if (!deployed) {
-            pollInstanceForDeployed();
-          }
-        });
-        if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-          //return cb(new Error('instance has no containers'));
-          return cb();
-        }
         $scope.safeApply();
-        cb(err);
+        cb();
       })
       .go();
   }
 
   /**
-   * If instance model has no containers
+   * If instance is not yet deployed, Polls server
+   * requesting instance model until response indicates
+   * instance has been deployed.
    */
-  function pollInstanceForDeployed() {
-    poll();
-
-    function poll() {
-
+  function fetchInstanceDeployStatus(cb) {
+    checkDeployed();
+    function checkDeployed () {
+      data.instance.deployed(function (err, isDeployed) {
+        if (!isDeployed) {
+          return pollFetchContainer();
+        }
+        /**
+         * Fetch 1 more time, 1st instance fetch may have returned result
+         * with 0 containers. Another fetch necessary to update model
+         */
+        data.instance.fetch(function () {
+          $scope.safeApply();
+        });
+        cb();
+      });
+    }
+    function pollFetchContainer() {
+      data.instance.fetch(function () {
+        checkDeployed();
+      });
     }
   }
 
@@ -126,7 +135,8 @@ function ControllerInstance(
       cb();
     },
     fetchUser,
-    fetchInstance
+    fetchInstance,
+    fetchInstanceDeployStatus
   ]);
 
   /*
