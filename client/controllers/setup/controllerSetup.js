@@ -21,10 +21,7 @@ function ControllerSetup(
   QueryAssist
 ) {
 
-  var dataSetup = $scope.dataSetup = {
-    data: {},
-    actions: {}
-  };
+  var dataSetup = $scope.dataSetup = {data:{}, actions:{}};
   var data = dataSetup.data;
 
   data.openItems = new OpenItems();

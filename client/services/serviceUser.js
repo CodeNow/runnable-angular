@@ -39,6 +39,7 @@ methods.forEach(function (method) {
       opts.url += '?'+qs.stringify(opts.qs);
     }
     delete opts.qs;
+    opts.cache = false;
 
     this.$http(opts)
       .success(callback)
