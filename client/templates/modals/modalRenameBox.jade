@@ -6,6 +6,7 @@
   )
     header.modal-header
       h1.modal-heading Rename Box
+
     main.modal-body
       form(
         name = "data.renameForm"
@@ -27,7 +28,7 @@
             ng-focus = "data.renameForm.showFocus = true"
             ng-model = "newName"
             ng-init = "newName = data.instance.attrs.name; \
-                         data.renameForm.$setPristine();"
+              data.renameForm.$setPristine();"
             placeholder = "My-Box"
             select-all
             validate-name = "data.instances"
@@ -35,37 +36,37 @@
             validate-name-current-instance-valid = "false"
             value = "{{ data.instance.attrs.name }}"
           )
+        //- .invalid-pattern for names with invalid characters
+          - .invalid-name for names that are taken
         .validate-wrapper.btn.btn-sm.orange(
           ng-class = "{\
-            in: data.renameForm.$invalid,\
             'invalid-pattern': data.renameForm.$error.namePattern.length,\
             'invalid-name': data.renameForm.$error.nameAvailable.length\
           }"
         )
-          //- if invalid character is entered
           span.validate-rules.invalid-pattern Please use #{''}
             b.btn.btn-xs.orange A-Z
             b.btn.btn-xs.orange a-z
             b.btn.btn-xs.orange 0-9
             b.btn.btn-xs.orange _
             b.btn.btn-xs.orange -
-          //- if the name is taken
           span.validate-rules.invalid-name That's a pretty name, but it's taken.
+
     footer.modal-footer
       button(
+        data-action
         ng-class = "{\
           green: data.renameForm.$valid, \
           orange: data.renameForm.$invalid \
         }"
-        data-action
         ng-click = "actions.renameInstance(newName); \
-                    cancel();"
+          cancel();"
         ng-disabled = "data.renameForm.$invalid"
       ) Rename Box
       button.white(
         ng-click = "newName = data.instance.attrs.name; \
-                    data.renameForm.$setPristine(); \
-                    cancel(); \
-                    actions.cancel();"
+          data.renameForm.$setPristine(); \
+          cancel(); \
+          actions.cancel();"
         type = "button"
       ) Go Back

@@ -6,6 +6,7 @@
   )
     header.modal-header
       h1.modal-heading Fork Box
+
     main.modal-body
       form(
         name = "data.forkForm"
@@ -34,9 +35,10 @@
             validate-name-current-instance-valid = "false"
             value = "{{ data.instance.attrs.name }}"
           )
-          //- issues to fix:
-          //- popover isn't actually toggled
-          //- hovering over the popover also triggers tooltip (related: SAN-267)
+          //- 0.3 SAN-435
+            - to do:
+            - popover isn't actually toggled
+            - hovering over the popover also triggers tooltip (semi-related: SAN-267)
           button.btn-sm.gray(
             toggle-pop-over
             toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
@@ -49,6 +51,8 @@
               data = "dataModalForkBox.data.popoverEnvironment.data"
               template = "popoverEnvironment"
             )
+        //- .invalid-pattern for names with invalid characters
+          - .invalid-name for names that are taken
         .validate-wrapper.btn.btn-sm.orange(
           ng-class = "{\
             in: data.forkForm.$invalid,\
@@ -56,16 +60,15 @@
             'invalid-name': data.forkForm.$error.nameAvailable.length\
           }"
         )
-          //- if invalid character is entered
           span.validate-rules.invalid-pattern Please use #{''}
             b.btn.btn-xs.orange A-Z
             b.btn.btn-xs.orange a-z
             b.btn.btn-xs.orange 0-9
             b.btn.btn-xs.orange _
             b.btn.btn-xs.orange -
-          //- if the name is taken
           span.validate-rules.invalid-name That's a pretty name, but it's taken.
 
+        //- show if there are linked boxes
         label.btn.btn-sm.white.btn-checkbox(
           ng-class = "{active: linkedBoxesChecked}"
         )
@@ -106,8 +109,8 @@
               value = "{{ data.instance.attrs.name }}"
             )
             //- issues to fix:
-            //- popover isn't actually toggled
-            //- hovering over the popover also triggers tooltip (related: SAN-267)
+              - popover isn't actually toggled
+              - hovering over the popover also triggers tooltip (related: SAN-267)
             button.btn-sm.gray(
               toggle-pop-over
               toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
@@ -120,6 +123,8 @@
                 data = "dataModalForkBox.data.popoverEnvironment.data"
                 template = "popoverEnvironment"
               )
+          //- .invalid-pattern for names with invalid characters
+            - .invalid-name for names that are taken
           .validate-wrapper.btn.btn-sm.orange(
             ng-class = "{\
               in: data.forkForm.$invalid,\
@@ -127,14 +132,12 @@
               'invalid-name': data.forkForm.$error.nameAvailable.length\
             }"
           )
-            //- if invalid character is entered
             span.validate-rules.invalid-pattern Please use #{''}
               b.btn.btn-xs.orange A-Z
               b.btn.btn-xs.orange a-z
               b.btn.btn-xs.orange 0-9
               b.btn.btn-xs.orange _
               b.btn.btn-xs.orange -
-            //- if the name is taken
             span.validate-rules.invalid-name That's a pretty name, but it's taken.
 
     footer.modal-footer

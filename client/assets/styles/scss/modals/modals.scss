@@ -113,7 +113,8 @@
     margin: 0;
     transition: all .2s ease-in;
 
-    &.in {
+    &.invalid-pattern,
+    &.invalid-name {
       border: 1px solid rgba($orange,.3);
       height: 36px;
       margin: 6px 6px 0;
