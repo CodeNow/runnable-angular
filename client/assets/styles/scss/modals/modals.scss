@@ -47,8 +47,8 @@
 
   &.show-sidebar.show-sidebar {
     border-radius: 3px 0 0 3px;
-    transition: all .2s ease-in;
     transform: scale3d(1,1,1) translate3d(-105px,0,0);
+    transition: all .2s ease-in;
   }
 }
 
@@ -147,9 +147,38 @@
     margin: 9px;
   }
 
+  .label-checkbox {
+    font-size: 14px;
+    letter-spacing: .5px;
+    transition: padding .15s ease-in;
+  }
+
   // wells in modals
   .well {
-    margin: 0 9px
+    display: block;
+    margin-left: 6px;
+    margin-right: 6px;
+    max-height: 180px; // will show up to 3.5 input-groups
+    text-align: left;
+    transition: margin .15s ease-in, max-height .15s ease-in;
+
+    &.btn {
+      margin-left: 9px;
+      margin-right: 9px;
+      max-height: 36px;
+
+      .label-checkbox {
+        padding-left: 0;
+      }
+    }
+
+    .input-group {
+      margin: 0 0 3px;
+    }
+
+    .label-checkbox {
+      padding-left: 3px;
+    }
   }
 
   // guides in modals:
@@ -167,19 +196,6 @@
       right: 15px;
       top: 12px;
     }
-  }
-}
-
-// section.modal-body-section
-.modal-body-section {
-  box-shadow: inset 0 1px 0 rgba($black,.15);
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .2s ease-in;
-
-  &.in {
-    max-height: 300px;
-    overflow-y: auto;
   }
 }
 
