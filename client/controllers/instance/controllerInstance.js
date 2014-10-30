@@ -5,18 +5,15 @@ require('app')
  */
 function ControllerInstance(
   async,
-
   determineActiveAccount,
-  getNewFileFolderName,
-
+  helperFetchInstanceDeployStatus,
   keypather,
   QueryAssist,
   OpenItems,
   $scope,
   $state,
   $stateParams,
-  user,
-  validateEnvVars
+  user
 ) {
 
   var dataInstance = $scope.dataInstance = {
@@ -29,10 +26,12 @@ function ControllerInstance(
   data.openItems = new OpenItems();
 
   // displays message saying build has completed
-  data.showBuildCompleted = false;
+  // data.showBuildCompleted = false;
 
   // loader if saving fs changes
   data.saving = false;
+
+  // toggle explorer menu
   data.showExplorer = false;
 
   // returns class(s) for section.views-with-add-tab
@@ -41,18 +40,14 @@ function ControllerInstance(
   actions.getSectionViewsClass = function () {
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
-    if (!instance || !container) {
-      return {
-        out: true
-      };
-    }
-    if (!container.running()) {
+    if (!instance || !container || !container.running()) {
       return {
         out: true
       };
     }
     if (dataInstance.data.showExplorer) {
-      return { in : true
+      return {
+        in: true
       };
     }
   };
@@ -82,50 +77,44 @@ function ControllerInstance(
         name: $stateParams.instanceName
       })
       .cacheFetch(function (instances, cached, cb) {
-        if (!cached && !instances.models.length) {
-          return cb(new Error('Instance not found'));
-        }
         var instance = instances.models[0];
         data.instance = instance;
         $scope.safeApply();
       })
       .resolve(function (err, instances, cb) {
+        if (!instances.models.length) {
+          return cb(new Error('Instance not found'));
+        }
         if (err) throw err;
         var instance = instances.models[0];
+        data.instance = instance;
         $scope.safeApply();
-        cb();
+        cb(null, instance);
       })
       .go();
   }
 
-  /**
-   * If instance is not yet deployed, Polls server
-   * requesting instance model until response indicates
-   * instance has been deployed.
-   */
-  function fetchInstanceDeployStatus(cb) {
-    checkDeployed();
-    function checkDeployed () {
-      data.instance.deployed(function (err, isDeployed) {
-        if (!isDeployed) {
-          return pollFetchContainer();
-        }
-        /**
-         * Fetch 1 more time, 1st instance fetch may have returned result
-         * with 0 containers. Another fetch necessary to update model
-         */
-        data.instance.fetch(function () {
-          $scope.safeApply();
-        });
-        cb();
-      });
-    }
-    function pollFetchContainer() {
-      data.instance.fetch(function () {
-        checkDeployed();
-      });
-    }
+  // If instance:
+  //   !deployed (includes time when building, and short time after building completes before containers initiated)
+  //     - hide explorer
+  //     - display build logs
+  //   deployed && stopped
+  //     - hide explorer
+  //     - display box logs
+  //   deployed && running
+  //     - show explorer
+  //     - show terminal
+  //     - show box logs (has focus)
+  function calculateInstanceDisplayState(instance, cb) {
+
   }
+
+  // watch for deployed instance
+  $scope.$watch('dataInstance.data.instance.containers.models[0]', function (container) {
+    console.log('p1', container);
+    if (!container) return;
+    var instance = $scope.dataInstance.data.instance;
+  });
 
   async.waterfall([
     determineActiveAccount,
@@ -136,8 +125,15 @@ function ControllerInstance(
     },
     fetchUser,
     fetchInstance,
-    fetchInstanceDeployStatus
+    helperFetchInstanceDeployStatus
   ]);
+
+
+
+
+
+
+
 
   /*
   var pfm = data.popoverFileMenu = {};

@@ -1,7 +1,9 @@
 //- add class .in to display
+//- .in if model's containers collection populated;
+    indicates model is deployed
 .alert.purple(
   ng-class = "{ \
-    in: dataInstance.data.showBuildCompleted \
+    in: dataInstance.data.instance.containers.models.length \
   }"
 )
   svg.iconnables.icons-check
@@ -28,6 +30,7 @@ section.sidebar.box-sidebar.load
 
   runnable-repo-list
 
+//- in / out control presence of header-bar
 section.views.with-add-tab(
   ng-class = "dataInstance.actions.getSectionViewsClass()"
 )
