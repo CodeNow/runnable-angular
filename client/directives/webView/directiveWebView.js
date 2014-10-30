@@ -4,7 +4,7 @@ require('app')
 /**
  * @ngInject
  */
-function webView (
+function webView(
   $sce,
   $rootScope
 ) {
@@ -36,7 +36,7 @@ function webView (
       };
 
       $scope.actions.refresh = function () {
-        if (!$scope.data.iframeUrl || !$scope.data.iframeUrl.toString){
+        if (!$scope.data.iframeUrl || !$scope.data.iframeUrl.toString) {
           /**
            * will be undefined if container exposes no ports, and has no urls
            */
@@ -44,7 +44,7 @@ function webView (
         }
         var oldURL = $scope.data.iframeUrl.toString();
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
-        $rootScope.safeApply(function() {
+        $rootScope.safeApply(function () {
           $scope.data.iframeUrl = $sce.trustAsResourceUrl(oldURL);
         });
       };

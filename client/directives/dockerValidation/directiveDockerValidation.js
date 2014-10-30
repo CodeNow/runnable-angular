@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableDockerValidation (
+function RunnableDockerValidation(
   debounce,
   $rootScope,
   validateDockerfile

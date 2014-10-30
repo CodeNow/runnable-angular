@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableAddRepoPopover (
+function RunnableAddRepoPopover(
   async,
   keypather,
   pick,
@@ -24,15 +24,15 @@ function RunnableAddRepoPopover (
 
       // rules for display based on state name
       switch ($state.$current.name) {
-        case 'instance.instance':
-          $scope.enabled = false;
-          break;
-        case 'instance.instanceEdit':
-          $scope.enabled = true;
-          break;
-        case 'instance.setup':
-          $scope.enabled = true;
-          break;
+      case 'instance.instance':
+        $scope.enabled = false;
+        break;
+      case 'instance.instanceEdit':
+        $scope.enabled = true;
+        break;
+      case 'instance.setup':
+        $scope.enabled = true;
+        break;
       }
       $scope.repoListPopover = {
         data: {},
@@ -73,7 +73,8 @@ function RunnableAddRepoPopover (
           fetchLatestCommit,
           createAppCodeVersion
         ]);
-        function fetchLatestCommit (cb) {
+
+        function fetchLatestCommit(cb) {
           branch.commits.fetch(function (err) {
             if (err) throw err;
             // TODO: how to handle?
@@ -85,7 +86,8 @@ function RunnableAddRepoPopover (
             cb();
           });
         }
-        function createAppCodeVersion (cb) {
+
+        function createAppCodeVersion(cb) {
           var body = pick(acv.json(), [
             'repo',
             'branch',
@@ -99,7 +101,7 @@ function RunnableAddRepoPopover (
         }
       };
 
-      function setActiveBranch (acv, activeBranch) {
+      function setActiveBranch(acv, activeBranch) {
         var githubRepo = acv.githubRepo;
         githubRepo.branches.add(activeBranch);
         // reset githubRepo state
@@ -111,7 +113,7 @@ function RunnableAddRepoPopover (
         return activeBranch;
       }
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -120,8 +122,7 @@ function RunnableAddRepoPopover (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
@@ -138,7 +139,7 @@ function RunnableAddRepoPopover (
             }
             var instance = instances.models[0];
             $scope.repoListPopover.data.instance = instance;
-            $scope.repoListPopover.data.build    = instance.build;
+            $scope.repoListPopover.data.build = instance.build;
             $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
@@ -152,7 +153,7 @@ function RunnableAddRepoPopover (
           .go();
       }
 
-      function fetchBuild (cb) {
+      function fetchBuild(cb) {
         if (!$stateParams.buildId) {
           return fetchInstance(cb);
         }
@@ -178,7 +179,7 @@ function RunnableAddRepoPopover (
        * Perform fetch on each contextVersion to populate
        * appCodeVersions collection
        */
-      function fetchBuildContextVersions (cb) {
+      function fetchBuildContextVersions(cb) {
         var build = $scope.repoListPopover.data.build;
         if (!build.contextVersions.models[0]) throw new Error('build has 0 contextVersions');
         build.contextVersions.models[0].fetch(function (err) {
@@ -187,7 +188,7 @@ function RunnableAddRepoPopover (
         });
       }
 
-      function getOwnerRepoQuery (user, build, userName, cb) {
+      function getOwnerRepoQuery(user, build, userName, cb) {
         if (user.isOwnerOf(build)) {
           return new QueryAssist(user, cb).wrapFunc('fetchGithubRepos');
         } else {
@@ -195,8 +196,8 @@ function RunnableAddRepoPopover (
         }
       }
 
-      function fetchAllOwnerRepos (cb) {
-        function fetchPage (page) {
+      function fetchAllOwnerRepos(cb) {
+        function fetchPage(page) {
           var userOrOrg = getOwnerRepoQuery(
             $scope.repoListPopover.data.user,
             $scope.repoListPopover.data.build,
@@ -208,8 +209,7 @@ function RunnableAddRepoPopover (
               page: page,
               sort: 'updated'
             })
-            .cacheFetch(function (githubRepos, cached, cb) {
-            })
+            .cacheFetch(function (githubRepos, cached, cb) {})
             .resolve(function (err, githubRepos, cb) {
               /**
                * Double concat to models arr
@@ -229,7 +229,7 @@ function RunnableAddRepoPopover (
               if (githubRepos.models.length < 100) {
                 cb();
               } else {
-                fetchPage(page+1);
+                fetchPage(page + 1);
               }
             })
             .go();

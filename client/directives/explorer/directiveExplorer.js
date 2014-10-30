@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableExplorer (
+function RunnableExplorer(
   async,
   keypather,
   QueryAssist,
@@ -21,7 +21,7 @@ function RunnableExplorer (
     },
     link: function ($scope, elem, attrs) {
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -50,7 +50,7 @@ function RunnableExplorer (
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $scope.build    = instance.build;
+            $scope.build = instance.build;
             $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
@@ -64,7 +64,7 @@ function RunnableExplorer (
           .go();
       }
 
-      function fetchBuild (cb) {
+      function fetchBuild(cb) {
         if (!$stateParams.buildId) {
           return fetchInstance(cb);
         }

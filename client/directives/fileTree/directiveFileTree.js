@@ -25,19 +25,19 @@ function fileTree(
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
-      switch($state.$current.name) {
-        case 'instance.instanceEdit':
-          $scope.readOnly = false;
-          break;
-        case 'instance.instance':
-          $scope.readOnly = false;
-          break;
-        case 'instance.setup':
-          $scope.readOnly = false;
-          break;
+      switch ($state.$current.name) {
+      case 'instance.instanceEdit':
+        $scope.readOnly = false;
+        break;
+      case 'instance.instance':
+        $scope.readOnly = false;
+        break;
+      case 'instance.setup':
+        $scope.readOnly = false;
+        break;
       }
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -57,7 +57,7 @@ function fileTree(
        * use buildId if stateParams.buildId (instance.setup)
        * otherwise fetch instance & build (instance.instance && instance.edit)
        */
-      function fetchBuild (cb) {
+      function fetchBuild(cb) {
         if (!$stateParams.buildId) {
           return fetchInstance(cb);
         }
@@ -89,7 +89,7 @@ function fileTree(
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $scope.build    = instance.build;
+            $scope.build = instance.build;
             $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {

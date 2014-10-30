@@ -19,7 +19,10 @@ function ControllerInstance(
   validateEnvVars
 ) {
 
-  var dataInstance = $scope.dataInstance = {data:{}, actions:{}};
+  var dataInstance = $scope.dataInstance = {
+    data: {},
+    actions: {}
+  };
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
@@ -49,14 +52,13 @@ function ControllerInstance(
       };
     }
     if (dataInstance.data.showExplorer) {
-      return {
-        in: true
+      return { in : true
       };
     }
   };
 
   // Redirect to /new if this build has already been built
-  function fetchUser (cb) {
+  function fetchUser(cb) {
     new QueryAssist(user, cb)
       .wrapFunc('fetchUser')
       .query('me')
@@ -89,6 +91,12 @@ function ControllerInstance(
       })
       .resolve(function (err, instances, cb) {
         var instance = instances.models[0];
+        instance.deployed(function (err, deployed) {
+          if (err) throw err;
+          if (!deployed) {
+            pollInstanceForDeployed();
+          }
+        });
         if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           //return cb(new Error('instance has no containers'));
           return cb();
@@ -97,6 +105,17 @@ function ControllerInstance(
         cb(err);
       })
       .go();
+  }
+
+  /**
+   * If instance model has no containers
+   */
+  function pollInstanceForDeployed() {
+    poll();
+
+    function poll() {
+
+    }
   }
 
   async.waterfall([
@@ -272,4 +291,3 @@ function ControllerInstance(
   });
   */
 }
-

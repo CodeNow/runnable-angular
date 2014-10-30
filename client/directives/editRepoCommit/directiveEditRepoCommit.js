@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableEditRepoCommit (
+function RunnableEditRepoCommit(
   $rootScope,
   $state,
   $stateParams
@@ -21,16 +21,16 @@ function RunnableEditRepoCommit (
       // controlls appearance of
       // gear-menu popover
       // to fast-forward/delete
-      switch($state.$current.name) {
-        case 'instance.setup':
-          $scope.showEditGearMenu = true;
-          break;
-        case 'instance.instance':
-          $scope.showEditGearMenu = false;
-          break;
-        case 'instance.instanceEdit':
-          $scope.showEditGearMenu = true;
-          break;
+      switch ($state.$current.name) {
+      case 'instance.setup':
+        $scope.showEditGearMenu = true;
+        break;
+      case 'instance.instance':
+        $scope.showEditGearMenu = false;
+        break;
+      case 'instance.instanceEdit':
+        $scope.showEditGearMenu = true;
+        break;
       }
 
       // emits (broadcast up DOM tree) event to be
@@ -56,7 +56,10 @@ function RunnableEditRepoCommit (
         if (n) $scope.popoverCommitSelect.data.build = n;
       });
 
-      $scope.popoverCommitSelect = {data:{}, actions:{}};
+      $scope.popoverCommitSelect = {
+        data: {},
+        actions: {}
+      };
       $scope.popoverCommitSelect.data.show = false;
       $scope.popoverCommitSelect.data.acv = $scope.acv;
       $scope.popoverCommitSelect.data.unsavedAcv = $scope.unsavedAcv;
@@ -99,7 +102,10 @@ function RunnableEditRepoCommit (
         $scope.popoverRepoActions.data.commitsBehind = n;
       });
 
-      $scope.popoverRepoActions = {data:{}, actions:{}};
+      $scope.popoverRepoActions = {
+        data: {},
+        actions: {}
+      };
       $scope.popoverRepoActions.data.acv = $scope.acv;
       $scope.popoverRepoActions.data.unsavedAcv = $scope.unsavedAcv;
       $scope.popoverRepoActions.actions.deleteRepo = function () {
@@ -124,7 +130,7 @@ function RunnableEditRepoCommit (
       fetchCommitOffset($scope.acv, $scope.activeCommit);
       fetchBranchCommits($scope.activeBranch);
 
-      function setActiveBranch (acv) {
+      function setActiveBranch(acv) {
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
         acv.githubRepo.branches.fetch(function (err) {
           if (err) throw err;
@@ -134,7 +140,7 @@ function RunnableEditRepoCommit (
         $rootScope.safeApply();
       }
 
-      function setActiveCommit (acv) {
+      function setActiveCommit(acv) {
         $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
         $scope.activeCommit.fetch(function (err) {
           if (err) throw err;
@@ -143,7 +149,7 @@ function RunnableEditRepoCommit (
         $rootScope.safeApply();
       }
 
-      function fetchCommitOffset (acv, activeCommit) {
+      function fetchCommitOffset(acv, activeCommit) {
         activeCommit.commitOffset(acv.attrs.branch, function (err, diff) {
           if (err) {
             // not a throw situation
@@ -157,7 +163,7 @@ function RunnableEditRepoCommit (
         });
       }
 
-      function fetchBranchCommits (branch) {
+      function fetchBranchCommits(branch) {
         branch.commits.fetch(function (err) {
           if (err) throw err;
           $rootScope.safeApply();

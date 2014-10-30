@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableInstanceEditBoxName (
+function RunnableInstanceEditBoxName(
   async,
   getInstanceAltTitle,
   getInstanceClasses,
@@ -23,7 +23,7 @@ function RunnableInstanceEditBoxName (
 
       $scope.getInstanceAltTitle = getInstanceAltTitle;
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -32,12 +32,11 @@ function RunnableInstanceEditBoxName (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
-      function fetchInstance (cb) {
+      function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
           .query({
@@ -62,6 +61,6 @@ function RunnableInstanceEditBoxName (
         fetchUser,
         fetchInstance
       ]);
-   }
+    }
   };
 }

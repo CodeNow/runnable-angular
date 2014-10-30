@@ -4,14 +4,17 @@ require('app')
  * @ngInject
  * @return {valid: bool, errors: object}
  */
-function validateEnvVars () {
+function validateEnvVars() {
   return function (input) {
-    if(typeof input === 'string') {
+    if (typeof input === 'string') {
       input = input.split('\n');
-    } else if(!Array.isArray(input)) {
+    } else if (!Array.isArray(input)) {
       input = [];
     }
-    var response = {valid: true, errors: []};
+    var response = {
+      valid: true,
+      errors: []
+    };
     input.forEach(function (line, index) {
       if (line.trim() === '') {
         //empty line, ignore

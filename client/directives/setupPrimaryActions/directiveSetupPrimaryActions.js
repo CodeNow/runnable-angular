@@ -3,7 +3,7 @@ require('app')
 /**
  * @njInject
  */
-function RunnableSetupPrimaryActions (
+function RunnableSetupPrimaryActions(
   async,
   determineActiveAccount,
   QueryAssist,
@@ -23,7 +23,7 @@ function RunnableSetupPrimaryActions (
     },
     link: function ($scope, elem, attrs) {
 
-      function goToInstance () {
+      function goToInstance() {
         $state.go('instance.instance', {
           // TODO: replace w/
           // userName: $scope.instance.attrs.owner.username,
@@ -34,12 +34,14 @@ function RunnableSetupPrimaryActions (
 
       $scope.buildAndAttach = function () {
         $scope.loading = true;
-        function build (cb) {
+
+        function build(cb) {
           $scope.build.build({
             message: 'Initial Build'
           }, cb);
         }
-        function attach (cb) {
+
+        function attach(cb) {
           $scope.instance = $scope.user.createInstance({
             owner: {
               github: $scope.activeAccount.oauthId()
@@ -58,7 +60,7 @@ function RunnableSetupPrimaryActions (
         });
       };
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -67,12 +69,11 @@ function RunnableSetupPrimaryActions (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
-      function fetchBuild (cb) {
+      function fetchBuild(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)

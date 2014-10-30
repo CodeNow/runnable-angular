@@ -18,7 +18,7 @@ function openItemsFactory(
   user
 ) {
 
-  function instanceOfModel (model) {
+  function instanceOfModel(model) {
     return (model instanceof VersionFileModel ||
       model instanceof ContainerFileModel ||
       model instanceof Terminal ||
@@ -152,7 +152,9 @@ function openItemsFactory(
                 parentPath: model.state.parentPath
               });
             } else {
-              model = new tabTypes[model.state.from](model, { noStore: true });
+              model = new tabTypes[model.state.from](model, {
+                noStore: true
+              });
             }
           }
           return model;
@@ -361,11 +363,13 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.saveState = function () {
-    if (!this.shortHash) { return; }
+    if (!this.shortHash) {
+      return;
+    }
     $localStorage[this.shortHash] = this.toJSON();
   };
 
-  OpenItems.prototype.hasOpen = function(type) {
+  OpenItems.prototype.hasOpen = function (type) {
     for (var i = this.models.length - 1; i >= 0; i--) {
       if (this.models[i].constructor.toString().match(/function\s(\w*)/)[1] === type) {
         return true;
@@ -374,7 +378,7 @@ function openItemsFactory(
     return false;
   };
 
-  OpenItems.prototype.getFirst = function(type) {
+  OpenItems.prototype.getFirst = function (type) {
     for (var i = this.models.length - 1; i >= 0; i--) {
       if (this.models[i].constructor.toString().match(/function\s(\w*)/)[1] === type) {
         return this.models[i];

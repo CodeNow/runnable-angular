@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableInstanceList (
+function RunnableInstanceList(
   async,
   determineActiveAccount,
   $filter,
@@ -51,7 +51,7 @@ function RunnableInstanceList (
 
       $scope.getInstanceAltTitle = getInstanceAltTitle;
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -66,14 +66,14 @@ function RunnableInstanceList (
           .go();
       }
 
-      function fetchOrgs (cb) {
+      function fetchOrgs(cb) {
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
           if (err) throw err;
           cb();
         });
       }
 
-      function fetchInstances (cb) {
+      function fetchInstances(cb) {
         async.waterfall([
           determineActiveAccount,
           function (activeAccount, cb) {
@@ -90,8 +90,7 @@ function RunnableInstanceList (
                 $rootScope.safeApply();
                 cb();
               })
-              .resolve(function (err, projects, cb) {
-              })
+              .resolve(function (err, projects, cb) {})
               .go();
           }
         ]);

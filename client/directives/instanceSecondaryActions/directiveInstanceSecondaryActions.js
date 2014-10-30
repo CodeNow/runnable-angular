@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableInstanceSecondaryActions (
+function RunnableInstanceSecondaryActions(
   async,
   helperInstanceActionsModal,
   QueryAssist,
@@ -23,7 +23,10 @@ function RunnableInstanceSecondaryActions (
 
       $scope.saving = false;
 
-      $scope.popoverGearMenu = {data:{}, actions:{}};
+      $scope.popoverGearMenu = {
+        data: {},
+        actions: {}
+      };
       $scope.popoverGearMenu.data.show = false;
 
       $scope.popoverGearMenu.actions.stopInstance = function () {
@@ -39,14 +42,14 @@ function RunnableInstanceSecondaryActions (
         var forkedBuild = $scope.instance.build.deepCopy(function (err) {
           if (err) throw err;
           $state.go('instance.instanceEdit', {
-            userName:     $stateParams.userName,
+            userName: $stateParams.userName,
             instanceName: $stateParams.instanceName,
-            buildId:      forkedBuild.id()
+            buildId: forkedBuild.id()
           });
         });
       };
 
-      function modInstance (action) {
+      function modInstance(action) {
         $scope.loading = true;
         $scope.popoverGearMenu.data.show = false;
         $scope.instance[action](function (err) {
@@ -59,7 +62,7 @@ function RunnableInstanceSecondaryActions (
         });
       }
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -68,8 +71,7 @@ function RunnableInstanceSecondaryActions (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
@@ -77,7 +79,7 @@ function RunnableInstanceSecondaryActions (
        * use buildId if stateParams.buildId (instance.setup)
        * otherwise fetch instance & build (instance.instance && instance.edit)
        */
-      function fetchBuild (cb) {
+      function fetchBuild(cb) {
         if (!$stateParams.buildId) {
           return fetchInstance(cb);
         }
@@ -96,7 +98,7 @@ function RunnableInstanceSecondaryActions (
           .go();
       }
 
-      function fetchInstance (cb) {
+      function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
           .query({

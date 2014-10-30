@@ -47,7 +47,7 @@ function activePanel(
 
       // Wrapper function so we can call setAceMode with both
       //   item *and* _editor
-      actions.wrapWithItem = function(item) {
+      actions.wrapWithItem = function (item) {
         return function (_editor) {
           actions.setAceMode(_editor, item);
         };
@@ -65,6 +65,7 @@ function activePanel(
       $scope.$sce = $sce;
 
       var skip = true;
+
       function updateFile(cb) {
         if (skip) {
           skip = false;

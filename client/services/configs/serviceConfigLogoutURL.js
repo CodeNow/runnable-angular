@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function configLogoutURL (
+function configLogoutURL(
   $window,
   configAPIHost
 ) {

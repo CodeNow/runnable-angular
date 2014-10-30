@@ -21,7 +21,7 @@ function modal(
       var $ = jQuery;
       $scope.in = false;
 
-      function keyDownEnter (e) {
+      function keyDownEnter(e) {
         if (e.keyCode === 13) {
           $scope.modal.find('[data-action]').trigger('click');
         }

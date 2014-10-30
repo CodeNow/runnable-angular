@@ -3,7 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function RunnableInstancePrimaryActions (
+function RunnableInstancePrimaryActions(
   async,
   keypather,
   QueryAssist,
@@ -22,7 +22,10 @@ function RunnableInstancePrimaryActions (
     },
     link: function ($scope, elem, attrs) {
 
-      $scope.popoverSaveOptions = {data: {}, actions: {}};
+      $scope.popoverSaveOptions = {
+        data: {},
+        actions: {}
+      };
       $scope.popoverSaveOptions.data.show = false;
       $scope.popoverSaveOptions.data.restartOnSave = false;
 
@@ -55,7 +58,7 @@ function RunnableInstancePrimaryActions (
           });
         async.each(
           updateModels,
-          function iterate (file, cb) {
+          function iterate(file, cb) {
             file.update({
               json: {
                 body: file.state.body
@@ -68,7 +71,7 @@ function RunnableInstancePrimaryActions (
               cb();
             });
           },
-          function complete (err) {
+          function complete(err) {
             if ($scope.restartOnSave) {
               //pgm.actions.restartInstance();
             }
@@ -77,7 +80,7 @@ function RunnableInstancePrimaryActions (
         );
       };
 
-      function fetchUser (cb) {
+      function fetchUser(cb) {
         new QueryAssist(user, cb)
           .wrapFunc('fetchUser')
           .query('me')
@@ -86,12 +89,11 @@ function RunnableInstancePrimaryActions (
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {
-          })
+          .resolve(function (err, user, cb) {})
           .go();
       }
 
-      function fetchInstance (cb) {
+      function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
           .query({

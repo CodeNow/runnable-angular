@@ -18,7 +18,10 @@ function ControllerInstanceEdit(
   $window
 ) {
 
-  var dataInstanceEdit = $scope.dataInstanceEdit = {data:{}, actions:{}};
+  var dataInstanceEdit = $scope.dataInstanceEdit = {
+    data: {},
+    actions: {}
+  };
   var data = dataInstanceEdit.data;
   var actions = dataInstanceEdit.actions;
 
@@ -27,7 +30,7 @@ function ControllerInstanceEdit(
   data.loading = false;
   data.showExplorer = false;
 
-  function fetchUser (cb) {
+  function fetchUser(cb) {
     new QueryAssist(user, cb)
       .wrapFunc('fetchUser')
       .query('me')
@@ -36,12 +39,11 @@ function ControllerInstanceEdit(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, user, cb) {
-      })
+      .resolve(function (err, user, cb) {})
       .go();
   }
 
-  function fetchBuild (cb) {
+  function fetchBuild(cb) {
     new QueryAssist($scope.user, cb)
       .wrapFunc('fetchBuild')
       .query($stateParams.buildId)

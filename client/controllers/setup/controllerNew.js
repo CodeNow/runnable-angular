@@ -18,7 +18,7 @@ function ControllerNew(
 
   $scope.dataApp.data.loading = true;
 
-  function fetchUser (cb) {
+  function fetchUser(cb) {
     new QueryAssist(user, cb)
       .wrapFunc('fetchUser')
       .query('me')
@@ -27,12 +27,11 @@ function ControllerNew(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, user, cb) {
-      })
+      .resolve(function (err, user, cb) {})
       .go();
   }
 
-  function setOwner (cb) {
+  function setOwner(cb) {
     var currentUserOrOrgName = $state.params.userName;
     thisUser = $scope.user;
 
@@ -54,7 +53,7 @@ function ControllerNew(
     });
   }
 
-  function createContext (cb) {
+  function createContext(cb) {
     var context = thisUser.createContext({
       name: uuid.v4(),
       owner: {
@@ -65,13 +64,13 @@ function ControllerNew(
     });
   }
 
-  function createVersion (context, cb) {
+  function createVersion(context, cb) {
     var version = context.createVersion(function (err) {
       cb(err, context, version);
     });
   }
 
-  function createBuild (context, version, cb) {
+  function createBuild(context, version, cb) {
     var build = thisUser.createBuild({
       contextVersions: [version.id()],
       owner: {
