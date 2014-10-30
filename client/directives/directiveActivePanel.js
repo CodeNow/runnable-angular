@@ -20,6 +20,7 @@ function activePanel(
     scope: {
       instance: '=',
       build: '=',
+      setupData: '=',
       container: '=',
       openItems: '=',
       readOnly: '=',
