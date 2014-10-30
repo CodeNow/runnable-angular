@@ -87,7 +87,6 @@
             | Include linked boxes
 
           //- forking linked boxes
-            ng-class = "{in: linkedBoxesChecked}"
           label.input-group.with-description(
             ng-class = "{\
               focus: data.forkForm.showFocus,\
@@ -101,6 +100,7 @@
             //- 0.3 SAN-435
               - to do:
               - fix ng-focus/ng-blur
+              - fix validation
             input.input(
               autofocus
               instance = "data.instance"
