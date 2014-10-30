@@ -2,7 +2,7 @@ h1.box-info
   form.box-name.setup-name(
     name = "newInstanceNameForm"
   )
-    input.validate.setup-name-input(
+    input.input-validate.setup-name-input(
       ng-model = "newInstanceName"
       placeholder = "Box Name"
       select-on
@@ -10,10 +10,10 @@ h1.box-info
       validate-name-pattern
       validate-name = "instances"
     )
-    //- if invalid character is entered
+    //- .invalid-pattern for names with invalid characters
+      - .invalid-name for names that are taken
     .validate-wrapper(
       ng-class = "{\
-        in: newInstanceNameForm.$invalid,\
         'invalid-pattern': newInstanceNameForm.$error.namePattern.length,\
         'invalid-name': newInstanceNameForm.$error.nameAvailable.length\
       }"
@@ -24,5 +24,4 @@ h1.box-info
         b.btn.btn-xs.orange 0-9
         b.btn.btn-xs.orange _
         b.btn.btn-xs.orange -
-      //- if the name is taken
       span.validate-rules.invalid-name That's a pretty name, but it's taken.
