@@ -92,6 +92,16 @@
   padding: 0 21px;
 }
 
+// h2.modal-sub-heading
+.modal-sub-heading {
+  color: $gray;
+  font-size: 14px;
+  font-weight: 300;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 21px;
+}
+
 // main.modal-body
 .modal-body {
   padding-bottom: 15px;
@@ -141,6 +151,11 @@
       top: 12px;
     }
   }
+}
+
+// section.modal-body-section
+.modal-body-section {
+  border-top: 1px solid rgba($black,.15);
 }
 
 // footer.modal-footer
