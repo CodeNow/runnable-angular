@@ -20,7 +20,7 @@ describe('edit dockerfile', function() {
 
     browser.wait(function() {
       return instanceEdit.activePanel.isClean();
-    };)
+    });
 
     instanceEdit.buildChanges();
 
