@@ -38,26 +38,6 @@ function ControllerInstance(
     in: false
   };
 
-  // returns class(s) for section.views-with-add-tab
-  // depending on various conditions. Classes control
-  // presence of tabs-bar
-/*
-  actions.getSectionViewsClass = function () {
-    var instance = keypather.get(data, 'instance');
-    var container = keypather.get(data, 'instance.containers.models[0]');
-    console.log('container', container);
-    if (!instance || !container || !container.junning()) {
-      return {
-        out: true
-      };
-    }
-    if (dataInstance.data.showExplorer) {
-      return {
-        in: true
-      };
-    }
-  };
-*/
   // Redirect to /new if this build has already been built
   function fetchUser(cb) {
     new QueryAssist(user, cb)
@@ -118,25 +98,35 @@ function ControllerInstance(
       return;
     }
     if (!container) {
+      // instance not deployed yet
+      if (!data.openItems.hasOpen('BuildStream')) {
+        data.openItems.addBuildStream();
+      }
+      return;
+    }
+
+    if (!container.running()) {
       data.showExplorer = false;
       data.sectionClasses = {'out':true, 'in':false};
       // show only build logs
-      data.openItems.addBuildStream();
-    } else if (!container.running()) {
-      data.showExplorer = false;
-      data.sectionClasses = {'out':true, 'in':false};
-      // show only build logs
-      data.openItems.addBuildStream();
-    } else if (container.running()) {
+      if (!data.openItems.hasOpen('BuildStream')) {
+        data.openItems.addBuildStream();
+      }
+      if (data.openItems.hasOpen('LogView')) {
+        // make it selected
+        data.openItems.activeHistory.add();
+      } else {
+        // add it
+        data.openItems.addLogs();
+      }
+    } else {
       data.showExplorer = true;
       data.sectionClasses = {'out':false, 'in':true};
-      data.openItems.reset([]);
       if (!data.openItems.hasOpen('Terminal')) {
         data.openItems.addTerminal();
       }
       if (!data.openItems.hasOpen('LogView')) {
         data.openItems.addLogs();
-        console.log('addLogs');
       }
     }
   }
