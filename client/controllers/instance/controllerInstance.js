@@ -114,7 +114,10 @@ function ControllerInstance(
       }
       if (data.openItems.hasOpen('LogView')) {
         // make it selected
-        data.openItems.activeHistory.add();
+        var logView = data.openItems.find(function (m) {
+          return m.constructor.name === 'LogView';
+        });
+        data.openItems.activeHistory.add(logView);
       } else {
         // add it
         data.openItems.addLogs();
@@ -155,6 +158,7 @@ function ControllerInstance(
 
 
   /*
+
   var pfm = data.popoverFileMenu = {};
   pfm.data = {
     show: false
