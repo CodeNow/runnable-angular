@@ -25,7 +25,7 @@
 
 .popover.right .arrow:after {
   border-left-width: 0;
-  border-right-color: $white;
+  border-right-color: $gray-lighter;
   bottom: -10px;
   content: ' ';
   left: 1px;
@@ -137,6 +137,7 @@
 
   &.bottom {
     margin-top: 10px;
+    transform-origin: 50% 0;
 
     > .arrow.white::after {
       border-bottom-color: $white;
@@ -247,28 +248,58 @@
     }
   }
 
-
-  .btn-block {
-    margin: 3px 6px 6px;
-    width: 100%;
-  }
-
   // li.divider
   .divider {
     background: rgba($black,.1);
     height: 1px;
     margin: 3px 0;
   }
+
+  // form elements in popovers:
+  // label.label-checkbox
+  .label-checkbox {
+    padding: 0 15px;
+  }
+
+  .btn-block {
+    margin: 3px 6px 6px;
+    width: 100%;
+  }
+
+  .input-group {
+    margin: 0;
+
+    + .input-group {
+      margin-top: 3px;
+    }
+  }
 }
 
 .popover-content {
   font-weight: 300;
-  padding: 9px 14px;
+  padding: 6px;
 }
 
+//- footer.popover-footer
 .popover-footer {
-  border-top: 1px solid rgba($black,.1);
-  padding: 9px 14px;
+  height: 36px;
+  margin: 0 6px 6px;
+
+  .btn-sm {
+    padding: 0 12px;
+    right: 0;
+    top: 0;
+  }
+
+  .green,
+  .orange,
+  .white {
+    float: right;
+
+    &:first-child {
+      margin-left: 6px;
+    }
+  }
 }
 
 // h3.popover-title
@@ -281,8 +312,7 @@
   height: 36px;
   line-height: 36px;
   margin: 0;
-  padding: 0 6px;
-  text-align: center;
+  padding: 0 6px 0 21px;
   text-shadow: none;
 
   // toggle search

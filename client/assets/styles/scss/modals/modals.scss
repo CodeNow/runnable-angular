@@ -34,7 +34,7 @@
   box-shadow: 0 0 30px rgba($black,.12);
   color: $gray-dark;
   margin: auto;
-  min-width: 360px;
+  min-width: 420px;
   opacity: 0;
   position: relative;
   top: -90px;
@@ -42,13 +42,14 @@
   transition: opacity .2s ease-in, transform 0 .2s ease-in;
 
   @include media(xs) {
+    min-width: 360px;
     width: calc(100% - 30px);
   }
 
   &.show-sidebar.show-sidebar {
     border-radius: 3px 0 0 3px;
-    transition: all .2s ease-in;
     transform: scale3d(1,1,1) translate3d(-105px,0,0);
+    transition: all .2s ease-in;
   }
 }
 
@@ -82,6 +83,10 @@
 // p.modal-description
 .modal-description {
   padding: 0 21px;
+
+  &:last-child {
+    padding-bottom: 15px;
+  }
 }
 
 // h1.modal-heading
@@ -92,10 +97,20 @@
   padding: 0 21px;
 }
 
+// h2.modal-sub-heading
+.modal-sub-heading {
+  color: $gray;
+  font-size: 14px;
+  font-weight: 300;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 21px;
+}
+
 // main.modal-body
 .modal-body {
-  padding-bottom: 15px;
 
+  // validation in modals:
   .validate-wrapper {
     cursor: default;
     display: block;
@@ -103,10 +118,11 @@
     margin: 0;
     transition: all .2s ease-in;
 
-    &.in {
+    &.invalid-pattern,
+    &.invalid-name {
       border: 1px solid rgba($orange,.3);
       height: 36px;
-      margin: 6px 6px 0;
+      margin: 6px 9px 0;
     }
 
     .validate-rules {
@@ -122,10 +138,52 @@
     }
   }
 
-  .btn-checkbox {
-    margin: 6px;
+  // form elements in modals:
+  .input-group {
+    margin: 0 9px;
   }
 
+  .btn-checkbox {
+    display: block;
+    margin: 9px;
+  }
+
+  .label-checkbox {
+    font-size: 14px;
+    letter-spacing: .5px;
+    transition: padding .15s ease-in;
+  }
+
+  // wells in modals
+  .well {
+    display: block;
+    margin-left: 6px;
+    margin-right: 6px;
+    max-height: 180px; // will show up to 3.5 input-groups
+    overflow-y: auto;
+    text-align: left;
+    transition: margin .15s ease-in, max-height .15s ease-in;
+
+    &.btn {
+      margin-left: 9px;
+      margin-right: 9px;
+      max-height: 36px;
+
+      .label-checkbox {
+        padding-left: 0;
+      }
+    }
+
+    .input-group {
+      margin: 0 0 3px;
+    }
+
+    .label-checkbox {
+      padding-left: 3px;
+    }
+  }
+
+  // guides in modals:
   .guide {
     border: 0;
     border-left: 1px solid rgba($blue,.2);
@@ -145,8 +203,8 @@
 
 // footer.modal-footer
 .modal-footer {
-  height: 57px;
-  padding: 6px;
+  height: 63px;
+  padding: 9px;
 
   .green,
   .orange,

@@ -1,0 +1,19 @@
+.modal-fork {
+  max-width: 420px;
+
+  .input-description {
+    max-width: 290px;
+
+    @include media(xs) {
+      max-width: 240px;
+    }
+  }
+
+  .well {
+    margin-top: 9px;
+
+    &.btn {
+      margin-top: 6px;
+    }
+  }
+}
