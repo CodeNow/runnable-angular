@@ -34,6 +34,9 @@
             validate-name-current-instance-valid = "false"
             value = "{{ data.instance.attrs.name }}"
           )
+          //- issues to fix:
+          //- popover isn't actually toggled
+          //- hovering over the popover also triggers tooltip (related: SAN-267)
           button.btn-sm.gray(
             toggle-pop-over
             toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
