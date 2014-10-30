@@ -7,7 +7,7 @@ describe('logs', function() {
 
     instance.activePanel.setActiveTab('Build Logs');
 
-    instance.activePanel.currentContent.get().getText().then(function (text) {
+    instance.activePanel.getContents().then(function (text) {
       expect(text).toMatch('Cloning \'runnable-doobie/node-hello-world\' into \'./node-hello-world\'...');
       expect(text).toMatch('FROM dockerfile/nodejs');
       expect(text).toMatch('Build completed successfully!');

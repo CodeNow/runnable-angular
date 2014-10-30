@@ -48,20 +48,32 @@ function ActivePanel (pageType) {
   // https://github.com/angular/protractor/issues/1273
   this.writeToFile = function (contents) {
     var self = this;
-    _getAceDiv.call(this).then(function(elem) {
+    this._getAceDiv().then(function(elem) {
       browser.actions().doubleClick(elem).perform();
-      return _getInputElement.call(self);
+      return self._getInputElement();
     }).then(function(elem) {
       return elem.sendKeys(contents);
     });
   };
 
   this.clearActiveFile = function () {
-    // testola
-    browser.actions().doubleClick(this.aceDiv.get()).perform();
-    return this.inputElm.get().clear();
+    var self = this;
+    this._getAceDiv().then(function(elem) {
+      browser.actions().doubleClick(elem).perform();
+      return self._getInputElement();
+    }).then(function(elem) {
+      var cmd = util.getOSCommandKey();
+      elem.sendKeys(protractor.Key.chord(cmd, "a"));
+      elem.sendKeys(protractor.Key.BACK_SPACE);
+      return elem.clear();
+    });
   };
 
+  this.getContents = function () {
+    return this.currentContent.get().getText();
+  };
+
+  // Gets the actual contents of the file (without Ace's line numbers, etc)
   this.getFileContents = function() {
     return this.ace.get().getText();
   };
@@ -71,7 +83,7 @@ function ActivePanel (pageType) {
   };
 
   var activeIdx;
-  function _getAceDiv () {
+  this._getAceDiv = function () {
     // currently only works for file types
     var self = this;
     var idx = 0;
@@ -90,7 +102,7 @@ function ActivePanel (pageType) {
     });
   }
 
-  function _getInputElement () {
+  this._getInputElement = function () {
     // currently only works for file types
     return this.inputElm.get().get(activeIdx);
   }
