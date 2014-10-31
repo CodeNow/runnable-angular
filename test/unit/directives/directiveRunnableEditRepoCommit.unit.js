@@ -10,12 +10,17 @@ var directiveTemplate = require('../../fixtures/directiveTemplate');
 var host = require('../../../client/config/json/api.json').host;
 require('browserify-angular-mocks');
 
+var modelStore = require('runnable/lib/stores/model-store');
+
 // injector-provided
 var $compile,
     $filter,
     $httpBackend,
     $rootScope,
     $scope,
+    $state,
+    $stateParams,
+    $timeout,
     user;
 
 var $elScope;
@@ -38,13 +43,19 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
       _$filter_,
       _$httpBackend_,
       _$rootScope_,
+      _$state_,
+      _$stateParams_,
+      _$timeout_,
       _user_
     ) {
       $compile = _$compile_;
       $filter = _$filter_;
       $httpBackend = _$httpBackend_;
       $rootScope = _$rootScope_;
+      $state = _$state_;
+      $stateParams = _$stateParams_;
       $scope = _$rootScope_.$new();
+      $timeout = _$timeout_;
       user = _user_;
     });
   });
@@ -60,22 +71,22 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
 
     var branchesUrl = host + '/github/repos/cflynn07/bitcoin/branches?per_page=100';
     $httpBackend
-      .expectGET(branchesUrl)
+      .whenGET(branchesUrl)
       .respond(mocks.branches.bitcoinRepoBranches);
 
     var commitUrl = host + '/github/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90?';
     $httpBackend
-      .expectGET(commitUrl)
+      .whenGET(commitUrl)
       .respond(mocks.commit.bitcoinRepoCommit1);
 
     var commitOffsetUrl = host + '/github/repos/cflynn07/bitcoin/compare/master...1f27c310a4bcca758f708358601fa25976d56d90';
     $httpBackend
-      .expectGET(commitOffsetUrl)
+      .whenGET(commitOffsetUrl)
       .respond(mocks.commitCompare.zeroBehind);
 
     var commitsUrl = host + '/github/repos/cflynn07/bitcoin/commits?sha=master&per_page=100';
     $httpBackend
-      .expectGET(commitsUrl)
+      .whenGET(commitsUrl)
       .respond(mocks.gh.bitcoinRepoCommits);
   });
 
@@ -98,15 +109,42 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
   });
 
   beforeEach(function () {
+    modelStore.reset();
     ctx.element = angular.element(ctx.template);
-    $compile(ctx.element)($scope);
+    ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
     $httpBackend.flush();
     ctx.$element = jQuery(ctx.element);
-    $elScope = angular.element(ctx.$element.find(':first')).scope();
+    $elScope = ctx.element.isolateScope();
   });
 
+  //afterEach(function () {
+    //$httpBackend.verifyNoOutstandingExpectation();
+    //$httpBackend.verifyNoOutstandingRequest();
+    //$httpBackend.resetExpectations();
+  //});
+
   it('basic', function () {
+    // scope properties
+    expect($elScope).to.have.property('acv');
+    expect($elScope).to.have.property('unsavedAcv');
+    expect($elScope).to.have.property('activeBranch');
+    expect($elScope).to.have.property('activeCommit');
+
+    // commit author
+    var $el = ctx.$element
+      .find('> .commit.load > span.commit-author');
+    expect($el).to.be.ok;
+    expect($el.html()).to.equal('sipa');
+
+    // commit time
+    $el = ctx.$element
+      .find('> .commit.load > time.commit-time');
+    expect($el).to.be.ok;
+    expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
+  });
+
+  it('basic 2', function () {
     // scope properties
     console.log('scope properties');
     expect($elScope).to.have.property('acv');
@@ -128,5 +166,6 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
     expect($el).to.be.ok;
     expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
   });
+
 
 });

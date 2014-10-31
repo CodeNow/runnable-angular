@@ -22,15 +22,15 @@ function RunnableEditRepoCommit(
       // gear-menu popover
       // to fast-forward/delete
       switch ($state.$current.name) {
-      case 'instance.setup':
-        $scope.showEditGearMenu = true;
-        break;
-      case 'instance.instance':
-        $scope.showEditGearMenu = false;
-        break;
-      case 'instance.instanceEdit':
-        $scope.showEditGearMenu = true;
-        break;
+        case 'instance.setup':
+          $scope.showEditGearMenu = true;
+          break;
+        case 'instance.instance':
+          $scope.showEditGearMenu = false;
+          break;
+        case 'instance.instanceEdit':
+          $scope.showEditGearMenu = true;
+          break;
       }
 
       // emits (broadcast up DOM tree) event to be
@@ -131,8 +131,10 @@ function RunnableEditRepoCommit(
       fetchBranchCommits($scope.activeBranch);
 
       function setActiveBranch(acv) {
+        console.log('branches fetch');
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
         acv.githubRepo.branches.fetch(function (err) {
+          console.log('cb', err);
           if (err) throw err;
           // githubRepo.branches.add(activeBranch);
           $rootScope.safeApply();
@@ -141,6 +143,7 @@ function RunnableEditRepoCommit(
       }
 
       function setActiveCommit(acv) {
+        console.log('commit fetch');
         $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
         $scope.activeCommit.fetch(function (err) {
           if (err) throw err;
