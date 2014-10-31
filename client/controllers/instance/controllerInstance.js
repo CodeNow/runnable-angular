@@ -180,45 +180,6 @@ function ControllerInstance(
   };
 
 
-
-  actions.saveChanges = function () {
-    // Trigger a new spinner
-    dataInstance.data.saving = false;
-    $scope.safeApply(function () {
-      dataInstance.data.saving = true;
-      $scope.safeApply();
-    });
-    var updateModels = data.openItems.models
-      .filter(function (model) {
-        if (typeof keypather.get(model, 'attrs.body') !== 'string') {
-          return false;
-        }
-        return (model.attrs.body !== model.state.body);
-      });
-    async.each(
-      updateModels,
-      function iterate (file, cb) {
-        file.update({
-          json: {
-            body: file.state.body
-          }
-        }, function (err) {
-          if (err) {
-            throw err;
-          }
-          $scope.safeApply();
-          cb();
-        });
-      },
-      function complete (err) {
-        if (data.restartOnSave) {
-          pgm.actions.restartInstance();
-        }
-        $scope.safeApply();
-      }
-    );
-  };
-
   // instance is stopped => uncloseable server log
   // instance is building => unclosable build log
   function updateTabs (instanceRunning) {
@@ -253,36 +214,6 @@ function ControllerInstance(
     $scope.safeApply();
   }
 
-  var building;
-  // This watch helps us detect if we're loading or building
-  $scope.$watch('dataInstance.data.build.attrs.started', function (n, o) {
-    if (n && !keypather.get(data, 'build.attrs.completed')) {
-      building = true;
-    }
-  });
-  $scope.$watch('dataInstance.data.build.attrs.completed', function (n, o) {
-    if (!n) {
-      return;
-    }
-    if (building) {
-      building = false;
-      instanceFetchInterval = $interval(checkDeploy, 500);
-      $scope.dataInstanceLayout.data.showBuildCompleted = false;
-    } else {
-      // Do we have instructions to show a complete icon on this page
-      // from a previous page?
-      if ($scope.dataInstanceLayout.data.showBuildCompleted) {
-        $scope.dataInstanceLayout.data.showBuildCompleted = false;
-        dataInstance.data.showBuildCompleted = true;
-      }
-    }
-  });
-  $scope.$watch('dataInstanceLayout.data.instances', function(n) {
-    if (n) {
-      pgm.data.dataModalRename.instances = n;
-      pgm.data.dataModalFork.instances = n;
-    }
-  });
   // property controlled by directiveEnvVars
   $scope.$watch('dataInstance.data.instance.state.env', function (newEnvVal, oldEnvVal) {
     data.envValidation = validateEnvVars(newEnvVal);
