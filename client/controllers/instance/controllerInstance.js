@@ -8,8 +8,8 @@ function ControllerInstance(
   determineActiveAccount,
   helperFetchInstanceDeployStatus,
   keypather,
-  QueryAssist,
   OpenItems,
+  QueryAssist,
   $scope,
   $state,
   $stateParams,
@@ -24,9 +24,6 @@ function ControllerInstance(
   var actions = dataInstance.actions;
 
   data.openItems = new OpenItems();
-
-  // displays message saying build has completed
-  // data.showBuildCompleted = false;
 
   // loader if saving fs changes
   data.saving = false;
@@ -150,14 +147,7 @@ function ControllerInstance(
     helperFetchInstanceDeployStatus
   ]);
 
-
-
-
-
-
-
-
-  /*
+  /**
 
   var pfm = data.popoverFileMenu = {};
   pfm.data = {
