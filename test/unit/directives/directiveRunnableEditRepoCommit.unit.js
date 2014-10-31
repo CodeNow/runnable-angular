@@ -103,7 +103,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
     $scope.$digest();
     $httpBackend.flush();
     ctx.$element = jQuery(ctx.element);
-    $elScope = angular.element(ctx.$element.find(':first')).scope();
+    $elScope = ctx.element.isolateScope();
   });
 
   it('basic', function () {
