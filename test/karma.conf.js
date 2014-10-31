@@ -43,8 +43,8 @@ module.exports = function(config) {
     customLaunchers: customLaunchers,
 
     // browsers: Object.keys(customLaunchers),
-    browsers: ['Chrome'],
-    //browsers: ['PhantomJS'],
+    //browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
@@ -73,7 +73,8 @@ module.exports = function(config) {
 
     // Browserifast hack: https://github.com/cjohansen/karma-browserifast
     preprocessors: {
-      '/**/*.browserify': 'browserify'
+      '/**/*.browserify': ['coverage', 'browserify'],
+      'client/**/*.js': 'coverage'
     },
 
 
@@ -81,9 +82,9 @@ module.exports = function(config) {
       // sourcemaps sir?
       debug: true,
       files: [
-        //'unit/**/*.unit.js'
+        'unit/**/directiveRunnable*.unit.js'
         //'unit/directives/directiveRunnableDockerValidation.unit.js',
-       'unit/directives/directiveRunnableEditRepoCommit.unit.js'
+       //'unit/directives/directiveRunnableEditRepoCommit.unit.js'
       ]
     },
 
@@ -91,11 +92,14 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['saucelabs', 'mocha', 'growl'],
+    reporters: ['saucelabs', 'mocha', 'growl', 'coverage'],
 
     coverageReporter: {
-      type: 'html',
-      dir: '.'
+      type: 'text',
+      dir : 'coverage/',
+      instrumenter: {
+        '**/*.js': 'istanbul' // Force the use of the Istanbul instrumenter to cover CoffeeScript files
+      }
     },
 
     // web server port
