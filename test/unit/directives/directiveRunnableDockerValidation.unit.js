@@ -7,7 +7,7 @@ require('browserify-angular-mocks');
 
 var expect = chai.expect;
 
-describe.only('directiveDockerValidation'.bold.underline.blue, function() {
+describe('directiveDockerValidation'.bold.underline.blue, function() {
   var element;
   var $scope;
   var $rootScope;
