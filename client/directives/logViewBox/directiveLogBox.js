@@ -3,11 +3,11 @@ var debounce = require('debounce');
 var CHAR_HEIGHT = 20;
 var streamCleanser = require('docker-stream-cleanser');
 require('app')
-  .directive('logView', logView);
+  .directive('logBox', logBox);
 /**
  * @ngInject
  */
-function logView(
+function logBox(
   $rootScope,
   $filter,
   $timeout,
@@ -24,7 +24,7 @@ function logView(
       container: '=',
       build: '='
     },
-    templateUrl: 'viewLogView',
+    templateUrl: 'viewLogBox',
     link: function ($scope, elem, attrs) {
       var terminal = new Terminal({
         cols: 80,
