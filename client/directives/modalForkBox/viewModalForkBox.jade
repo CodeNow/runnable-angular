@@ -27,7 +27,8 @@
             name = "name"
             ng-blur = "data.forkForm.showFocus = false"
             ng-focus = "data.forkForm.showFocus = true"
-            ng-init = "newName = data.instance.attrs.name"
+            ng-init = "newName = data.instance.attrs.name;\
+              data.forkForm.showFocus = true;"
             ng-model = "newName"
             placeholder = "My-Box"
             select-all
