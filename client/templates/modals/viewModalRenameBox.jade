@@ -29,7 +29,8 @@
             ng-focus = "data.renameForm.showFocus = true"
             ng-model = "newName"
             ng-init = "newName = data.instance.attrs.name; \
-              data.renameForm.$setPristine();"
+              data.renameForm.$setPristine();\
+              data.renameForm.showFocus = true;"
             placeholder = "My-Box"
             select-all
             validate-name = "data.instances"
