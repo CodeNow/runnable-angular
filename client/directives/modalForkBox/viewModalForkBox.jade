@@ -10,6 +10,7 @@
     section.modal-body
       form(
         name = "data.forkForm"
+        ng-submit = "actions.forkInstance(newName, data.env);"
       )
         label.input-group.input-validate.with-description(
           ng-class = "{\

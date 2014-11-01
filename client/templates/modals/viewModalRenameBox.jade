@@ -10,6 +10,7 @@
     section.modal-body
       form(
         name = "data.renameForm"
+        ng-submit = "actions.renameInstance(newName);"
       )
         label.input-group.input-validate.with-description.validate(
           ng-class = "{\
