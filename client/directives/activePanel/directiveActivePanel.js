@@ -30,6 +30,7 @@ function activePanel(
       isDarkTheme: '=',
       instance: '=',
       build: '=',
+      setupData: '=',
       container: '=',
       openItems: '=',
       readOnly: '=',

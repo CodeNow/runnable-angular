@@ -3,7 +3,9 @@
   cursor: pointer;
   max-height: 59px;
   overflow: hidden;
+  position: relative;
   transition: max-height .3s ease-in-out;
+  z-index: $z-sidebar-header;
 
   &.in {
     max-height: 600px;

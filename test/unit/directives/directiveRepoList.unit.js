@@ -4,7 +4,7 @@ var sinon   = require('sinon');
 var colors  = require('colors');
 var angular = require('angular');
 var modelStore = require('runnable/lib/stores/model-store');
-var mocks = require('../api-mocks');
+var mocks = require('../apiMocks');
 require('browserify-angular-mocks');
 
 var host = require('../../../client/config/json/api.json').host;

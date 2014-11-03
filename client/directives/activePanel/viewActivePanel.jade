@@ -8,14 +8,12 @@
   ng-show = "item === openItems.activeHistory.last()"
 )
 
-  log-view(
+  log-build(
     ng-if = "item.state.type === 'BuildStream'"
-    build = "build"
   )
 
-  log-view(
+  log-box(
     ng-if = "item.state.type === 'LogView'"
-    container = "container"
   )
 
   pre.pre(
