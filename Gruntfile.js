@@ -295,6 +295,13 @@ module.exports = function(grunt) {
         cmd: 'echo \'installing dependencies...\n\' && npm install --silent'
       }
     },
+    instrument: {
+      files: 'client/**/*.js',
+      options: {
+        lazy: true,
+        basePath: 'test/coverage/instrument/'
+      }
+    },
     jsbeautifier: {
       files: ['client/**/*.js', '!client/build/**/*.js', '!client/assets/**/*.js'],
       options: {
@@ -461,6 +468,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-jsbeautifier');
+  grunt.loadNpmTasks('grunt-istanbul');
+
+  grunt.registerTask('istanbul', ['instrument']);
 
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);

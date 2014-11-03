@@ -4,6 +4,7 @@ var sinon   = require('sinon');
 var colors  = require('colors');
 var angular = require('angular');
 require('browserify-angular-mocks');
+require('../../coverage/instrument/client/services/servicePrimus.js');
 
 var expect = chai.expect;
 

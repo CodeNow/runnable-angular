@@ -74,7 +74,8 @@ module.exports = function(config) {
     // Browserifast hack: https://github.com/cjohansen/karma-browserifast
     preprocessors: {
       '/**/*.browserify': ['coverage', 'browserify'],
-      'client/**/*.js': 'coverage'
+      'client/**/*.js': ['coverage', 'sourcemap'],
+      '/Users/nathan/runnable/runnable-angular/test/coverage/instrument/client/**/*.js': ['coverage', 'sourcemap'],
     },
 
 
@@ -82,7 +83,9 @@ module.exports = function(config) {
       // sourcemaps sir?
       debug: true,
       files: [
-        'unit/**/directiveRunnable*.unit.js'
+        //'unit/**/directiveRunnable*.unit.js'
+        'unit/services/*.unit.js',
+        //'unit/**/directiveRunnable*.unit.js'
         //'unit/directives/directiveRunnableDockerValidation.unit.js',
        //'unit/directives/directiveRunnableEditRepoCommit.unit.js'
       ]
