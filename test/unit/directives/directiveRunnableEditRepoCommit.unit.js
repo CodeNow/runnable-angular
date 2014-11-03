@@ -140,5 +140,4 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
     expect($el).to.be.ok;
     expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
   });
-
 });
