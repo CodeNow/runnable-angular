@@ -15,7 +15,7 @@ function logBuild(
   $rootScope,
   $sce,
   $stateParams,
-  streamCleanser,
+  dockerStreamCleanser,
   termjs,
   $timeout,
   user,
@@ -87,10 +87,10 @@ function logBuild(
         // binds to buildStream.on('data')
         // important to unbind 'data' listener
         // before reinvoking this
-        streamCleanser.cleanStreams(buildStream,
-                                    terminal,
-                                    'hex',
-                                    true);
+        dockerStreamCleanser.cleanStreams(buildStream,
+                                          terminal,
+                                          'hex',
+                                          true);
       }
 
       function writeToTerm(output) {
@@ -152,7 +152,37 @@ function logBuild(
           .go();
       }
 
+      function fetchInstance(cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchInstances')
+          .query({
+            githubUsername: $stateParams.userName,
+            name: $stateParams.instanceName
+          })
+          .cacheFetch(function (instances, cached, cb) {
+            if (!cached && !instances.models.length) {
+              return cb(new Error('Instance not found'));
+            }
+            var instance = instances.models[0];
+            $scope.instance = instance;
+            $scope.build = instance.build;
+            $rootScope.safeApply();
+          })
+          .resolve(function (err, instances, cb) {
+            var instance = instances.models[0];
+            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+              return cb(new Error('instance has no containers'));
+            }
+            $rootScope.safeApply();
+            cb(err);
+          })
+          .go();
+      }
+
       function fetchBuild(cb) {
+        if (!$stateParams.buildId) {
+          return fetchInstance(cb);
+        }
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
