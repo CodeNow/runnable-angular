@@ -1,0 +1,52 @@
+header.row.account-header
+  ol.accounts-group(
+    ng-class = "{ \
+      in: isChangeAccount \
+    }"
+    ng-click = "isChangeAccount = !isChangeAccount; \
+                $event.stopPropagation();"
+  )
+    li.accounts-group-item
+      a.account.load(
+        ng-show = "activeAccount.gravitar()"
+      )
+        img.gravatar(
+          height = "24"
+          ng-src = "{{ activeAccount.gravitar() }}"
+          width = "24"
+        )
+        span.account-name {{ activeAccount.oauthName() }}
+        //- icons-arrow-down only for first account
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+    //- current user (if user is not active)
+    li.accounts-group-item(
+      ng-if = "user !== activeAccount"
+      ng-click = "$event.stopPropagation(); \
+                  selectActiveAccount(user)"
+    )
+      a.account
+        img.gravatar(
+          height = "24"
+          ng-src = "{{ user.gravitar() }}"
+          width = "24"
+        )
+        span.account-name {{ user.oauthName() }}
+    //- Orgs that are not the active account
+    li.accounts-group-item(
+      ng-click = "$event.stopPropagation(); \
+                  selectActiveAccount(org)"
+      ng-if = "org !== activeAccount"
+      ng-repeat = "org in orgs.models"
+    )
+      a.account
+        img.gravatar(
+          height = "24"
+          ng-src = "{{ org.gravitar() }}"
+          width = "24"
+        )
+        span.account-name {{ org.oauthName() }}
+
+

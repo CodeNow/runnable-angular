@@ -1,0 +1,38 @@
+.secondary-actions(
+  ng-if = "instance"
+)
+  //- apply class .in to .save-spinner to play animation
+  //- subsequent saves: remove .in and reapply .in
+  .save-spinner(
+    ng-class = "{in: saving}"
+  )
+    .spinner
+      .spinner-ring
+    svg.iconnables.icons-check
+      use(
+        xlink:href = "#icons-check"
+      )
+  button.white.btn-icon(
+    ng-click = "goToEdit()"
+    title = "Edit Build Files"
+    type = "button"
+  )
+    svg.iconnables.icons-edit
+      use(
+        xlink:href = "#icons-edit"
+      )
+  a.btn.white.btn-icon.btn-actions(
+    ng-class = "{active: popoverGearMenu.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "popoverGearMenu.data.show"
+    type = "button"
+  )
+    svg.iconnables.icons-gear
+      use(
+        xlink:href = "#icons-gear"
+      )
+    pop-over(
+      actions = "popoverGearMenu.actions"
+      data = "popoverGearMenu.data"
+      template = "viewInstancePopoverSecondaryActions"
+    )

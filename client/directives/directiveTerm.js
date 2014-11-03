@@ -56,12 +56,14 @@ function term(
         }
 
         createSubstreams();
+
         function regainedMessage() {
           createSubstreams(true);
           terminal.writeln('');
           terminal.writeln('Connection regained.  Thank you for your patience');
         }
         primus.on('reconnect', regainedMessage);
+
         function offlineMessage() {
           terminal.writeln('');
           terminal.writeln('******************************');
@@ -72,15 +74,21 @@ function term(
 
         function resizeTerm() {
           // Tab not selected
-          if ($termElem.width() === 100) { return; }
+          if ($termElem.width() === 100) {
+            return;
+          }
           var termLineEl = $termElem.find('div')[0];
-          if (!termLineEl) { return; }
+          if (!termLineEl) {
+            return;
+          }
           var tBox = termLineEl.getBoundingClientRect();
 
           var charWidth = tBox.width / termLineEl.textContent.length;
 
           var x = Math.floor($termElem.width() / charWidth);
-          if (x < 80) { x = 80; }
+          if (x < 80) {
+            x = 80;
+          }
           var y = Math.floor($termElem.height() / CHAR_HEIGHT);
           terminal.resize(x, y);
 

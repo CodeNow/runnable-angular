@@ -29,28 +29,14 @@
 
 // li.box-group-item
 .box-group-item {
-  height: 45px;
-  line-height: 45px;
-  margin-bottom: 3px;
-  padding: 0 15px;
-
-  // currently selected box
-  &.active .box {
-    background: rgba($black,.05);
-    border-color: rgba($black,.1);
-  }
-}
-
-// a.box
-.box {
   border-radius: 3px;
   cursor: pointer;
   display: block;
   height: 45px;
   line-height: 45px;
-  margin: 0 -9px;
+  margin: 0 auto 6px;
   overflow: hidden;
-  padding: 0 22px 0 6px;
+  padding: 0 23px 0 9px;
   position: relative;
   text-overflow: ellipsis;
   transition: all .15s ease-in;
@@ -61,9 +47,32 @@
     background: rgba($black,.025);
   }
 
+  &.active {
+    background: rgba($black,.05);
+    border-color: rgba($black,.1);
+    height: auto;
+    padding-bottom: 3px;
+
+    .box-item-name {
+      margin-bottom: 3px;
+    }
+
+    .icons-status {
+      top: 10px;
+    }
+  }
+
+  &.expanded {
+    line-height: 1;
+
+    .box-item-name {
+      margin-top: 8px;
+    }
+  }
+
   .icons-status {
     position: absolute;
-    right: 13px;
+    right: 14px;
     top: 18px;
   }
 
@@ -72,7 +81,56 @@
   }
 }
 
-// span.box-item-name
+// a.box-item-name
 .box-item-name {
+  display: block;
   transition: opacity .2s ease-in;
+}
+
+// span.box-item-description
+.box-item-description {
+  font-size: 12px;
+}
+
+// a.box-item-cluster
+.box-item-cluster {
+  display: block;
+  font-size: 12px;
+  line-height: 21px;
+  margin: -1px -23px 0 -9px;
+  padding: 0 0 0 9px;
+  position: relative;
+
+  &:hover {
+    color: $gray-darker;
+  }
+
+  .icons-status.icons-status {
+    background: rgba($gray-lighter,.45);
+    float: right;
+    height: 5px;
+    position: relative;
+    right: 16px;
+    top: 9px;
+    width: 5px;
+
+    &::before {
+      background: rgba($black,.15);
+      content: '';
+      display: block;
+      height: 10px;
+      margin: 0 auto;
+      position: relative;
+      top: -12px;
+      width: 1px;
+    }
+
+    &.running {
+      background: rgba($green,.45);
+    }
+
+    &.building {
+      background: rgba($orange,.45);
+    }
+  }
 }

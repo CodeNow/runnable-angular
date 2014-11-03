@@ -4,21 +4,68 @@ require('app')
  * @ngInject
  */
 function ControllerInstanceEdit(
-  $scope,
-  $timeout,
-  $stateParams,
-  $state,
-  $window,
-  $interval,
-  user,
   async,
-  extendDeep,
-  OpenItems,
+  $interval,
   keypather,
-  fetcherBuild,
+  OpenItems,
+  QueryAssist,
+  $scope,
+  $state,
+  $stateParams,
+  $timeout,
+  user,
   validateEnvVars,
-  addTab
+  $window
 ) {
+
+  var dataInstanceEdit = $scope.dataInstanceEdit = {
+    data: {},
+    actions: {}
+  };
+  var data = dataInstanceEdit.data;
+  var actions = dataInstanceEdit.actions;
+
+  data.openItems = new OpenItems();
+
+  data.loading = false;
+  data.showExplorer = false;
+
+  function fetchUser(cb) {
+    new QueryAssist(user, cb)
+      .wrapFunc('fetchUser')
+      .query('me')
+      .cacheFetch(function (user, cached, cb) {
+        $scope.user = user;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, user, cb) {})
+      .go();
+  }
+
+  function fetchBuild(cb) {
+    new QueryAssist($scope.user, cb)
+      .wrapFunc('fetchBuild')
+      .query($stateParams.buildId)
+      .cacheFetch(function (build, cached, cb) {
+        $scope.build = build;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, build, cb) {
+        if (err) throw err;
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+
+  async.series([
+    fetchUser,
+    fetchBuild
+  ]);
+
+  /*
   var QueryAssist = $scope.UTIL.QueryAssist;
   var holdUntilAuth = $scope.UTIL.holdUntilAuth;
   var self = ControllerInstanceEdit;
@@ -40,9 +87,6 @@ function ControllerInstanceEdit(
     };
   }
 
-  /*********************************
-  * popoverGearMenu
-  *********************************/
   var pgm = data.popoverGearMenu = {};
   pgm.data = {
     show: false,
@@ -145,9 +189,6 @@ function ControllerInstanceEdit(
     }
   };
 
-  /*********************************
-   * popoverAddTab
-   *********************************/
   var pat = data.popoverAddTab = new addTab({
     buildStream: true,
     envVars: true,
@@ -212,9 +253,6 @@ function ControllerInstanceEdit(
     };
   }
 
-  /**
-   * If this build is built, we want to wait for changes and then trigger a fork
-   */
   $scope.$watch('dataInstanceEdit.data.openFiles.activeFile.attrs.body', function (newval, oldval) {
     var started = keypather.get(dataInstanceEdit.data, 'build.attrs.started');
     if (!started || (typeof started === 'string' && !started.length)) {
@@ -250,10 +288,6 @@ function ControllerInstanceEdit(
       pgm.data.dataModalRename.instances = n;
     }
   });
-
-  /* ============================
-   *   API Fetch Methods
-   * ===========================*/
 
   function fetchInstance(cb) {
     var thisUser = $scope.dataApp.user;
@@ -340,9 +374,6 @@ function ControllerInstanceEdit(
     return !!dockerfile;
   }
 
-  /**
-   * Add an EnvVars view-only tab
-   */
   function addEnvVars (cb) {
     // idempotent after first invokation,
     // will only add once
@@ -380,5 +411,7 @@ function ControllerInstanceEdit(
   $scope.$watch('dataInstanceEdit.data.instance.state.env', function (newEnvVal, oldEnvVal) {
     data.envValidation = validateEnvVars(newEnvVal);
   });
+
+  */
 
 }

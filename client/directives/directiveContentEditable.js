@@ -3,8 +3,7 @@ require('app')
 /**
  * @ngInject
  */
-function contenteditable(
-) {
+function contenteditable() {
   return {
     restrict: 'A',
     require: '?ngModel',

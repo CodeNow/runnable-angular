@@ -1,0 +1,74 @@
+.modal-backdrop(
+  ng-class = "{'in': in}"
+)
+  .modal-dialog.modal-rename(
+    ng-click = "$event.stopPropagation()"
+  )
+    header.modal-header
+      h1.modal-heading Rename Box
+
+    section.modal-body
+      form(
+        name = "data.renameForm"
+        ng-submit = "actions.renameInstance(newName);"
+      )
+        label.input-group.input-validate.with-description.validate(
+          ng-class = "{\
+            focus: data.renameForm.showFocus,\
+            'ng-invalid': data.renameForm.$invalid,\
+            'ng-valid': data.renameForm.$valid\
+          }"
+        )
+          span.input-label Name
+          span.input-description.text-overflow {{ newName }}.runnable.io
+          input.input(
+            autofocus
+            instance = "data.instance"
+            name = "name"
+            ng-blur = "data.renameForm.showFocus = false"
+            ng-focus = "data.renameForm.showFocus = true"
+            ng-model = "newName"
+            ng-init = "newName = data.instance.attrs.name; \
+              data.renameForm.$setPristine();\
+              data.renameForm.showFocus = true;"
+            placeholder = "My-Box"
+            select-all
+            validate-name = "data.instances"
+            validate-name-pattern
+            validate-name-current-instance-valid = "false"
+            value = "{{ data.instance.attrs.name }}"
+          )
+        //- .invalid-pattern for names with invalid characters
+          - .invalid-name for names that are taken
+        .validate-wrapper.btn.btn-sm.orange(
+          ng-class = "{\
+            'invalid-pattern': data.renameForm.$error.namePattern.length,\
+            'invalid-name': data.renameForm.$error.nameAvailable.length\
+          }"
+        )
+          span.validate-rules.invalid-pattern Please use #{''}
+            b.btn.btn-xs.orange A-Z
+            b.btn.btn-xs.orange a-z
+            b.btn.btn-xs.orange 0-9
+            b.btn.btn-xs.orange _
+            b.btn.btn-xs.orange -
+          span.validate-rules.invalid-name That's a pretty name, but it's taken.
+
+    footer.modal-footer
+      button(
+        data-action
+        ng-class = "{\
+          green: data.renameForm.$valid, \
+          orange: data.renameForm.$invalid \
+        }"
+        ng-click = "actions.renameInstance(newName); \
+          cancel();"
+        ng-disabled = "data.renameForm.$invalid"
+      ) Rename Box
+      button.white(
+        ng-click = "newName = data.instance.attrs.name; \
+          data.renameForm.$setPristine(); \
+          cancel(); \
+          actions.cancel();"
+        type = "button"
+      ) Go Back

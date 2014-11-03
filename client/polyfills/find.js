@@ -3,7 +3,7 @@ if (!Array.prototype.find) {
     enumerable: false,
     configurable: true,
     writable: true,
-    value: function(predicate) {
+    value: function (predicate) {
       if (this === null) {
         throw new TypeError('Array.prototype.find called on null or undefined');
       }

@@ -11,4 +11,3 @@ function filterBuildStreamCleaner() {
     return (data) ? convert.toHtml(data) : '';
   };
 }
-

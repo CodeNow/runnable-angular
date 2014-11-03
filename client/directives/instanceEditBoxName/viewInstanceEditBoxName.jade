@@ -1,0 +1,14 @@
+h1.box-info
+  .box-name {{ instance.attrs.name }}
+    svg.iconnables.icons-edit
+      use(
+        xlink:href = "#icons-edit"
+      )
+  input.box-url(
+    readonly
+    select-all
+    value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
+  )
+  //- sets layout on h1.box-name for .box-url
+  span.box-name-ghost {{ instance.attrs.name }}.username.runnable.io
+
