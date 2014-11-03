@@ -25,19 +25,19 @@ var $compile,
 
 var $elScope;
 
-describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
+describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
   var ctx = {};
 
   beforeEach(angular.mock.module('app'));
 
-  beforeEach(function () {
+  beforeEach(function() {
     ctx.template = directiveTemplate('runnable-edit-repo-commit', {
       'app-code-version': 'acv',
       'unsaved-app-code-version': 'unsavedAcv'
     });
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
@@ -60,7 +60,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
     });
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     /**
      * API Requests
      * - GET branches
@@ -68,7 +68,6 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
      * - GET commitOffset
      * - GET commits
      */
-
     var branchesUrl = host + '/github/repos/cflynn07/bitcoin/branches?per_page=100';
     $httpBackend
       .whenGET(branchesUrl)
@@ -90,7 +89,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
       .respond(mocks.gh.bitcoinRepoCommits);
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     user.reset(mocks.user);
     ctx.acv = user
       .newContext('contextId')
@@ -108,7 +107,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
     $scope.unsavedAcv = ctx.unsavedAcv;
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     modelStore.reset();
     ctx.element = angular.element(ctx.template);
     ctx.element = $compile(ctx.element)($scope);
@@ -118,48 +117,28 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
     $elScope = ctx.element.isolateScope();
   });
 
-  it('basic', function () {
+  it('has expected scope properties', function() {
     // scope properties
     expect($elScope).to.have.property('acv');
     expect($elScope).to.have.property('unsavedAcv');
     expect($elScope).to.have.property('activeBranch');
     expect($elScope).to.have.property('activeCommit');
+  });
 
+  it('displays commit author', function() {
     // commit author
     var $el = ctx.$element
       .find('> .commit.load > span.commit-author');
     expect($el).to.be.ok;
     expect($el.html()).to.equal('sipa');
+  });
 
+  it('displays commit time (through timeAgo filter)', function() {
     // commit time
     $el = ctx.$element
       .find('> .commit.load > time.commit-time');
     expect($el).to.be.ok;
     expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
   });
-
-  it('basic 2', function () {
-    // scope properties
-    console.log('scope properties');
-    expect($elScope).to.have.property('acv');
-    expect($elScope).to.have.property('unsavedAcv');
-    expect($elScope).to.have.property('activeBranch');
-    expect($elScope).to.have.property('activeCommit');
-
-    // commit author
-    console.log('commit author');
-    var $el = ctx.$element
-      .find('> .commit.load > span.commit-author');
-    expect($el).to.be.ok;
-    expect($el.html()).to.equal('sipa');
-
-    // commit time
-    console.log('commit time');
-    $el = ctx.$element
-      .find('> .commit.load > time.commit-time');
-    expect($el).to.be.ok;
-    expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
-  });
-
 
 });

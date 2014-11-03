@@ -82,9 +82,10 @@ module.exports = function(config) {
       // sourcemaps sir?
       debug: true,
       files: [
-        'unit/**/directiveRunnable*.unit.js'
-        //'unit/directives/directiveRunnableDockerValidation.unit.js',
-       //'unit/directives/directiveRunnableEditRepoCommit.unit.js'
+        'unit/directives/directiveRunnable*.unit.js'
+        // 'unit/**/directiveRunnable*.unit.js'
+        // 'unit/directives/directiveRunnableDockerValidation.unit.js',
+        // 'unit/directives/directiveRunnableEditRepoCommit.unit.js'
       ]
     },
 

@@ -1,5 +1,3 @@
-var Terminal = require('term.js');
-var CHAR_HEIGHT = 20;
 require('app')
   .directive('term', term);
 /**
@@ -7,17 +5,105 @@ require('app')
  * @ngInject
  */
 function term(
+  async,
+  helperSetupTerminal,
   primus,
-  $window,
-  debounce,
-  jQuery
+  keypather,
+  QueryAssist,
+  $rootScope,
+  $stateParams,
+  user
 ) {
   return {
     restrict: 'E',
-    scope: {
-      params: '='
-    },
+    scope: {},
     link: function ($scope, elem) {
+
+      var termStream;
+      /**
+       * creates instance of terminal w/ default 
+       * settings and attaches to elem.
+       * - unbinds events on $destroy
+       */
+      var terminal = helperSetupTerminal($scope, elem);
+
+      bind(primus, 'offline', function () {
+        terminal.writeln('');
+        terminal.writeln('******************************');
+        terminal.writeln('* LOST CONNECTION - retrying *');
+        terminal.writeln('******************************');
+      });
+
+      /**
+       * helper to always unbind on $destroy
+       */
+      function bind(obj, event, fn) {
+        obj.on(event, fn);
+        $scope.$on('$destroy', function () {
+          obj.off(event, fn);
+        });
+      }
+
+      $scope.$on('$destroy', function () {
+        termStream.end();
+        termStream.removeAllListeners();
+      });
+
+      function fetchUser(cb) {
+        new QueryAssist(user, cb)
+          .wrapFunc('fetchUser')
+          .query('me')
+          .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, user, cb) {})
+          .go();
+      }
+
+      function fetchInstance(cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchInstances')
+          .query({
+            githubUsername: $stateParams.userName,
+            name: $stateParams.instanceName
+          })
+          .cacheFetch(function (instances, cached, cb) {
+            if (!cached && !instances.models.length) {
+              return cb(new Error('Instance not found'));
+            }
+            var instance = instances.models[0];
+            $scope.instance = instance;
+            $scope.build = instance.build;
+            $rootScope.safeApply();
+          })
+          .resolve(function (err, instances, cb) {
+            var instance = instances.models[0];
+            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+              return cb(new Error('instance has no containers'));
+            }
+            $rootScope.safeApply();
+            cb(err);
+          })
+          .go();
+      }
+
+      async.series([
+        fetchUser,
+        fetchInstance
+      ], function () {
+        initializeTerminal();
+      });
+
+      function initializeTerminal() {
+      }
+    }
+  };
+}
+
+
+/*
       $scope.$watch('params.running()', function (running) {
         if (!running) {
           return;
@@ -26,17 +112,7 @@ function term(
         var params = $scope.params;
         var streams, termStream, clientEvents;
 
-        // Initalize Terminal
-        var terminal = new Terminal({
-          cols: 80,
-          rows: 24,
-          useStyle: true,
-          screenKeys: true
-        });
-
-        terminal.open(elem[0]);
-        var $termElem = jQuery(terminal.element);
-
+        
         function createSubstreams(reconnect) {
           if (reconnect) {
             terminal.removeAllListeners('data');
@@ -70,44 +146,7 @@ function term(
           terminal.writeln('* LOST CONNECTION - retrying *');
           terminal.writeln('******************************');
         }
-        primus.on('offline', offlineMessage);
 
-        function resizeTerm() {
-          // Tab not selected
-          if ($termElem.width() === 100) {
-            return;
-          }
-          var termLineEl = $termElem.find('div')[0];
-          if (!termLineEl) {
-            return;
-          }
-          var tBox = termLineEl.getBoundingClientRect();
-
-          var charWidth = tBox.width / termLineEl.textContent.length;
-
-          var x = Math.floor($termElem.width() / charWidth);
-          if (x < 80) {
-            x = 80;
-          }
-          var y = Math.floor($termElem.height() / CHAR_HEIGHT);
-          terminal.resize(x, y);
-
-          if (clientEvents) {
-            clientEvents.write({
-              event: 'resize',
-              data: {
-                x: x,
-                y: y
-              }
-            });
-          }
-        }
-
-        var dResizeTerm = debounce(resizeTerm, 300);
-
-        dResizeTerm();
-        jQuery($window).on('resize', dResizeTerm);
-        terminal.on('focus', dResizeTerm);
 
         $scope.$on('$destroy', function () {
           termStream.end();
@@ -124,3 +163,4 @@ function term(
     }
   };
 }
+*/
