@@ -5,7 +5,6 @@ require('app')
  */
 function logBox(
   async,
-  debounce,
   helperSetupTerminal,
   primus,
   keypather,
@@ -13,7 +12,6 @@ function logBox(
   $rootScope,
   $stateParams,
   dockerStreamCleanser,
-  termjs,
   user
 ) {
   return {
@@ -59,14 +57,6 @@ function logBox(
       ], function () {
         initializeBoxLogs($scope.instance.containers.models[0]);
       });
-
-      function showTerminalSpinner() {
-        terminal.hideCursor = false;
-        terminal.cursorBlink = true;
-        terminal.cursorSpinner = true;
-        terminal.cursorState = -1;
-        terminal.startBlink();
-      }
 
       /**
        * helper to always unbind on $destroy

@@ -5,7 +5,6 @@ require('app')
  */
 function logBuild(
   async,
-  debounce,
   helperSetupTerminal,
   primus,
   keypather,
@@ -13,7 +12,6 @@ function logBuild(
   $rootScope,
   $stateParams,
   dockerStreamCleanser,
-  termjs,
   user
 ) {
   return {
@@ -95,6 +93,7 @@ function logBuild(
 
       function initializeBuildStream(build) {
         subscribeToSubstream(build);
+        showTerminalSpinner();
         bind(primus, 'reconnect', function () {
           subscribeToSubstream(build);
         });
