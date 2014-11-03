@@ -8,7 +8,9 @@
     .modal-container
       header.modal-header
         h1.modal-heading Edit Environment
-        //- do not show if there are no boxes in .modal-sidebar
+        //- 0.3 SAN-436
+          - to do:
+          - do not show if there are no boxes with exposed ports to link
         button.btn.btn-icon.white(
           ng-class = "{active: data.toggleSidebar}"
           ng-click = "data.toggleSidebar = !data.toggleSidebar"
@@ -21,6 +23,7 @@
               xlink:href = "#icons-sidebar"
             )
       main.modal-body
+        //- guide text should only appear once until dismissed
         .guide.guide-no-help.blue
           p.guide-text Environmental files are good at protecting our fires from trees. Use it for linking boxes or setting up environment variables.
           button.btn.blue.btn-xs
@@ -32,6 +35,9 @@
           ng-init = "data.env = [];"
         )
       footer.modal-footer
+        //- 0.3 SAN-436
+          - to do:
+          - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
         button.orange Rebuild
         //- button.green Save
         button.white(
@@ -42,10 +48,11 @@
       h2.sub-header
         span.sub-header-text Boxes
       ul.box-group
-        //- boxes should appear in the same order as they appear on the navbar
-        //- do not show boxes with no exposed ports
-        //- apply .expanded if box has exposed ports
-        //- clicks on b.btn should paste "$ENTER_ENV_VAR={{url}}+':'+{{port}}" (with specified port) into the last cursor position in the env file
+        //- 0.3 SAN-436
+          - to do:
+          - boxes should appear in the same order as they appear on the navbar
+          - do not show boxes with no exposed ports
+          - clicks on b.btn should paste "$ENTER_ENV_VAR={{url}}+':'+{{port}}" (with specified port) into the last cursor position in the env file
         li.box-group-item.expanded
           .text-overflow box-name
           b.btn.btn-xs.gray(
