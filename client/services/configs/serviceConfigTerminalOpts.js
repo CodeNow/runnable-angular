@@ -1,5 +1,3 @@
-require('app')
-  .config('configTerminalOpts', configTerminalOpts);
 var configTerminalOpts = {
   cols: 80,
   rows: 20,
@@ -11,3 +9,5 @@ var configTerminalOpts = {
   cursorBlink: false
 };
 Object.freeze(configTerminalOpts);
+require('app')
+  .value('configTerminalOpts', configTerminalOpts);
