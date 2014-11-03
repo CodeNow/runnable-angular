@@ -11,10 +11,10 @@
   log-build(
     ng-if = "item.state.type === 'BuildStream'"
   )
-  //-
-    log-box(
-      ng-if = "item.state.type === 'LogView'"
-    )
+
+  log-box(
+    ng-if = "item.state.type === 'LogView'"
+  )
 
   pre.pre(
     ng-class = "{readonly: data.readOnly}"

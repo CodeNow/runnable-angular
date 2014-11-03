@@ -6,20 +6,15 @@ require('app')
 function logBuild(
   async,
   debounce,
-  $filter,
   helperSetupTerminal,
   primus,
   keypather,
-  jQuery,
   QueryAssist,
   $rootScope,
-  $sce,
   $stateParams,
   dockerStreamCleanser,
   termjs,
-  $timeout,
-  user,
-  $window
+  user
 ) {
   return {
     restrict: 'E',
