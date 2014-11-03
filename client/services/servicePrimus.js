@@ -42,7 +42,7 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
 
 RunnablePrimus.prototype.createTermStreams = function (container) {
   container = container.json ? container.json() : container;
-  var streamId = container._id;
+  var streamId = container.dockerContainer;
   var uniqueId = makeUniqueId(streamId);
   this.write({
     id: 1,
