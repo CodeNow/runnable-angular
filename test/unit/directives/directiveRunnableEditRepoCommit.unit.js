@@ -118,12 +118,6 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function () {
     $elScope = ctx.element.isolateScope();
   });
 
-  //afterEach(function () {
-    //$httpBackend.verifyNoOutstandingExpectation();
-    //$httpBackend.verifyNoOutstandingRequest();
-    //$httpBackend.resetExpectations();
-  //});
-
   it('basic', function () {
     // scope properties
     expect($elScope).to.have.property('acv');
