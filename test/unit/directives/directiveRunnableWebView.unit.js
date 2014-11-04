@@ -122,6 +122,7 @@ describe('directiveRunnableWebView'.bold.underline.blue, function() {
     expect($elScope).to.have.deep.property('actions.back');
     expect($elScope).to.have.deep.property('actions.refresh');
     expect($elScope).to.have.property('data');
+    expect($elScope).to.have.deep.property('data.iframeUrl');
   });
 
 });
