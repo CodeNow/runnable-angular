@@ -18,6 +18,7 @@ function activePanel(
   QueryAssist,
   $rootScope,
   $sce,
+  $state,
   $stateParams,
   $timeout,
   user
@@ -28,19 +29,33 @@ function activePanel(
     replace: true,
     scope: {
       isDarkTheme: '=',
-      instance: '=',
-      build: '=',
-      setupData: '=',
-      container: '=',
-      openItems: '=',
-      readOnly: '=',
-      update: '=' // true: save file when content changes
+      // instance: '=',
+      // build: '=',
+      // setupData: '=',
+      // container: '=',
+      openItems: '='
+      // readOnly: '=',
+      // update: '=' // true: save file when content changes
     },
     link: function ($scope, element, attrs) {
 
       var data = $scope.data = {};
       var actions = $scope.actions = {};
-      data.readOnly = $scope.readOnly;
+
+      switch($state.$current.name) {
+        case 'instance.setup':
+          data.readOnly = false;
+          $scope.update = true;
+          break;
+        case 'instance.instance':
+          data.readOnly = false;
+          $scope.update = false;
+          break;
+        case 'instance.instanceEdit':
+          data.readOnly = false;
+          $scope.update = true;
+          break;
+      }
 
       actions.onFocus = function () {
         $rootScope.$broadcast('app-document-click');

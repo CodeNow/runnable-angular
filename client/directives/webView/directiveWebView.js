@@ -70,7 +70,6 @@ function webView(
       var data = $scope.data = {};
       var actions = $scope.actions = {};
 
-
       // reload web view when container restarts
       $scope.$watch('instance.containers.models[0].attrs.inspect.State.StartedAt', function (val) {
         if (!val) return;
