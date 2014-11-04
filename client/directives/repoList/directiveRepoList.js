@@ -34,7 +34,7 @@ function RunnableRepoList(
           $scope.showAddFirstRepoMessage = true;
           break;
         case 'instance.instanceEdit':
-          $scope.showAddFirstRepoMessage = true;
+          $scope.showAddFirstRepoMessage = false;
           break;
         case 'instance.instance':
           $scope.showAddFirstRepoMessage = false;
