@@ -3,8 +3,8 @@
     li.tab-wrapper(
       ng-class = "{\
         'active': item.state.active,\
-        'dirty': (state.current.name === 'projects.instance'\
-          && item.state.body !== item.attrs.body),\
+        'dirty': (state.$current.name === 'projects.instance' \
+          && item.state.body !== item.attrs.body), \
         'always-open': item.state.alwaysOpen\
       }"
       ng-click = "openItems.activeHistory.add(item); \
