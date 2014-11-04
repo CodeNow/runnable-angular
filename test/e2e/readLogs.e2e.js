@@ -16,7 +16,7 @@ describe('logs', function() {
     instance.activePanel.setActiveTab('Box Logs');
 
     browser.wait(function() {
-      return instanceEdit.activePanel.isClean();
+      return instance.activePanel.isClean();
     });
     instance.activePanel.currentContent.get().getText().then(function (text) {
       // Test that we're properly showing the command

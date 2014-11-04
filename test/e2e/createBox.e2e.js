@@ -41,7 +41,7 @@ describe('project creation workflow', function () {
           setup.activePanel.openTab('Env Vars');
           browser.wait(setup.activePanel.aceLoaded.bind(setup.activePanel));
 
-          setup.activePanel.writeToFile(ENV_VARS);
+          setup.activePanel.writeToFile(ENV_VARS[index]);
 
           browser.wait(setup.activePanel.isClean.bind(setup.activePanel));
         }

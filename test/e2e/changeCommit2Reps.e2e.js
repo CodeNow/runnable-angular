@@ -45,7 +45,7 @@ describe('Changing commit with multiple repos', function () {
       expect(instance.commitMenu.getCommitsBehind(repo)).toEqual('2');
       instance.commitMenu.fastForward(repo);
       waitForRepos(instance);
-      expect(instance.commitMenu.getFastForwardButton(repo).isPresent()).toBe(false);
+      expect(instance.commitMenu.getFastForwardButton(repo).isDisplayed()).toBe(false);
     });
   });
 
