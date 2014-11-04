@@ -29,6 +29,10 @@ Requirements
 Testing
 -------
 ```bash
+# Unit Tests
+karma start ./test/karma.conf.js
+
+# E2E tests
 webdriver-manager start;
 karma start ./test/karma.conf.js [--single-run] (optional)
 ```
