@@ -30,15 +30,15 @@ function RunnableRepoList(
 
       // display guide if no repos added
       switch ($state.$current.name) {
-      case 'instance.setup':
-        $scope.showGuide = true;
-        break;
-      case 'instance.instanceEdit':
-        $scope.showGuide = true;
-        break;
-      case 'instance.instance':
-        $scope.showGuide = false;
-        break;
+        case 'instance.setup':
+          $scope.showGuide = true;
+          break;
+        case 'instance.instanceEdit':
+          $scope.showGuide = true;
+          break;
+        case 'instance.instance':
+          $scope.showGuide = false;
+          break;
       }
 
       // track all temp acvs generated
