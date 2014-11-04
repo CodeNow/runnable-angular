@@ -77,10 +77,12 @@ function ControllerInstanceLayout(
   actions.fetchInstances = fetchInstances;
 
   actions.selectActiveAccount = function (userOrOrg, cb) {
+    if (!data.showChangeAccount) {
+      return;
+    }
     data.showChangeAccount = false;
     var name = userOrOrg.oauthName();
     data.activeAccount = userOrOrg;
-    data.showChangeAccount = false;
     $scope.safeApply();
 
     if (cb) {
