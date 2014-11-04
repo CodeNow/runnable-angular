@@ -45,6 +45,13 @@ function logBuild(
         buildStream.end();
       });
 
+      async.series([
+        fetchUser,
+        fetchInstance
+      ], function () {
+        initializeBuildLogs($scope.build);
+      });
+
       /**
        * helper to always unbind on $destroy
        */
@@ -59,13 +66,6 @@ function logBuild(
         if (typeof output !== 'string') return;
         terminal.write(output.replace(/\r?\n/g, '\r\n'));
       }
-
-      async.series([
-        fetchUser,
-        fetchInstance
-      ], function () {
-        initializeBuildLogs($scope.build);
-      });
 
       function showTerminalSpinner() {
         terminal.hideCursor = false;
