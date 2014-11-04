@@ -25,7 +25,10 @@ function term(
        * settings and attaches to elem.
        * - unbinds events on $destroy
        */
-      var terminal = helperSetupTerminal($scope, elem);
+      var terminal = helperSetupTerminal($scope, elem, {
+        hideCursor: false,
+        cursorBlink: true
+      });
 
       async.series([
         fetchUser,
