@@ -74,6 +74,10 @@ function GithubCommitMenu() {
   };
 
   this.getCommitsBehind = function (repo) {
+    var self = this;
+    browser.wait(function () {
+      return self.getFastForwardButton(repo).isPresent();
+    });
     return this.getFastForwardButton(repo).getText();
   };
 
@@ -81,7 +85,8 @@ function GithubCommitMenu() {
     browser.wait(function () {
       return repo.isDisplayed();
     });
-    return repo.element(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope > section > ul > li > button'));
+    return repo.element(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope ' +
+      '> section > ul > li > button'));
   };
 
   this.fastForward = function (repo) {
