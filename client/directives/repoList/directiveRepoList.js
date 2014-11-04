@@ -66,11 +66,14 @@ function RunnableRepoList(
       });
 
       // if we find 1 repo w/ an unsaved
-      // commit, show update button
+      // commit, show update button (if there is > 1 repos for this project)
       $scope.showUpdateButton = function () {
-        return !!$scope.unsavedAcvs.find(function (obj) {
-          return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
-        });
+        // update button only present on instance.instance
+        return ($state.$current.name === 'instance.instance') &&
+                $scope.unsavedAcvs.length > 1 &&
+                !!$scope.unsavedAcvs.find(function (obj) {
+                  return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
+                });
       };
 
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
