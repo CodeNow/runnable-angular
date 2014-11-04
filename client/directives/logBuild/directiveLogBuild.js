@@ -45,9 +45,24 @@ function logBuild(
         buildStream.end();
       });
 
+      /**
+       * helper to always unbind on $destroy
+       */
+      function bind(obj, event, fn) {
+        obj.on(event, fn);
+        $scope.$on('$destroy', function () {
+          obj.off(event, fn);
+        });
+      }
+
+      function writeToTerm(output) {
+        if (typeof output !== 'string') return;
+        terminal.write(output.replace(/\r?\n/g, '\r\n'));
+      }
+
       async.series([
         fetchUser,
-        fetchBuild
+        fetchInstance
       ], function () {
         initializeBuildLogs($scope.build);
       });
@@ -58,16 +73,6 @@ function logBuild(
         terminal.cursorSpinner = true;
         terminal.cursorState = -1;
         terminal.startBlink();
-      }
-
-      /**
-       * helper to always unbind on $destroy
-       */
-      function bind(obj, event, fn) {
-        obj.on(event, fn);
-        $scope.$on('$destroy', function () {
-          obj.off(event, fn);
-        });
       }
 
       function subscribeToSubstream(build) {
@@ -84,11 +89,6 @@ function logBuild(
                                           terminal,
                                           'hex',
                                           true);
-      }
-
-      function writeToTerm(output) {
-        if (typeof output !== 'string') return;
-        terminal.write(output.replace(/\r?\n/g, '\r\n'));
       }
 
       function initializeBuildStream(build) {
@@ -169,25 +169,6 @@ function logBuild(
             }
             $rootScope.safeApply();
             cb(err);
-          })
-          .go();
-      }
-
-      function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
-        }
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            $rootScope.safeApply();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) throw err;
-            $rootScope.safeApply();
-            cb();
           })
           .go();
       }
