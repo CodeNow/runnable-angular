@@ -31,13 +31,13 @@ function RunnableRepoList(
       // display guide if no repos added
       switch ($state.$current.name) {
         case 'instance.setup':
-          $scope.showGuide = true;
+          $scope.showAddFirstRepoMessage = true;
           break;
         case 'instance.instanceEdit':
-          $scope.showGuide = true;
+          $scope.showAddFirstRepoMessage = true;
           break;
         case 'instance.instance':
-          $scope.showGuide = false;
+          $scope.showAddFirstRepoMessage = false;
           break;
       }
 
@@ -89,6 +89,7 @@ function RunnableRepoList(
             commit: acv.attrs.sha
           };
         });
+
         async.waterfall([
           findOrCreateContextVersion,
           createBuild,
@@ -101,6 +102,7 @@ function RunnableRepoList(
           //$rootScope.dataApp.data.loading = false;
           $state.go('instance.instance');
         });
+
         // if we find this contextVersion, reuse it.
         // otherwise create a new one
         function findOrCreateContextVersion(cb) {

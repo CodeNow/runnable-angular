@@ -19,7 +19,7 @@ section.row.repo-list
 
   //- show .guide if instance.setup && no repositories have been added yet
   .guide.blue(
-    ng-if = "showGuide && build.contextVersions.models[0].appCodeVersions.models.length === 0"
+    ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
     ng-click = "data.show = !data.show; \
                 $event.stopPropagation();"
   )
