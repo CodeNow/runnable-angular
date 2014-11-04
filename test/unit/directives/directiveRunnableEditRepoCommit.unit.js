@@ -164,7 +164,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
     // commit author
     var $el = ctx.$element
       .find('> .commit.load > span.commit-author');
-    expect($el).to.be.ok;
+    expect($el.length).to.be.ok;
     expect($el.html()).to.equal('sipa');
   });
 
@@ -174,7 +174,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
     // commit time
     var $el = ctx.$element
       .find('> .commit.load > time.commit-time');
-    expect($el).to.be.ok;
+    expect($el.length).to.be.ok;
     expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
   });
 

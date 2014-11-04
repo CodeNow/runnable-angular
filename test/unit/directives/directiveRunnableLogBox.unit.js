@@ -97,8 +97,10 @@ describe('directiveLogBox'.bold.underline.blue, function() {
     });
 
     injectSetupCompile();
-    var $el = ctx.$element.find('> term.terminal.ng-isolate-scope');
-    expect($el).to.be.ok;
+    expect(ctx.$element).to.be.ok;
+    expect(ctx.$element.hasClass('ng-isolate-scope')).to.equal(true);
+    var $el = ctx.$element.find('> div.terminal');
+    expect($el.length).to.be.ok;
   });
 
   it('basic scope', function() {

@@ -24,7 +24,7 @@ var $compile,
     user;
 var $elScope;
 
-describe('directiveLogBuild'.bold.underline.blue, function() {
+describe('directiveRunnableWebView'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
@@ -78,7 +78,7 @@ describe('directiveLogBuild'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('log-build', {});
+    ctx.template = directiveTemplate('web-view', {});
   });
 
   it('basic dom', function() {
@@ -97,9 +97,7 @@ describe('directiveLogBuild'.bold.underline.blue, function() {
 
     injectSetupCompile();
     expect(ctx.$element).to.be.ok;
-    expect(ctx.$element.hasClass('ng-isolate-scope')).to.equal(true);
-    var $el = ctx.$element.find('> div.terminal');
-    expect($el.length).to.be.ok;
+    expect(ctx.$element.find('> iframe').length).to.be.ok;
   });
 
   it('basic scope', function() {
@@ -119,6 +117,11 @@ describe('directiveLogBuild'.bold.underline.blue, function() {
     injectSetupCompile();
     expect($elScope).to.have.property('user');
     expect($elScope).to.have.property('instance');
+    expect($elScope).to.have.property('actions');
+    expect($elScope).to.have.deep.property('actions.forward');
+    expect($elScope).to.have.deep.property('actions.back');
+    expect($elScope).to.have.deep.property('actions.refresh');
+    expect($elScope).to.have.property('data');
   });
 
 });
