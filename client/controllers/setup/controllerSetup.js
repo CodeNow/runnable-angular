@@ -235,10 +235,7 @@ function ControllerSetup(
   };
 
   var debounceValidate = debounce(function (n) {
-    if (typeof n === 'undefined') {
-      return;
-    }
-    if (data.openItems.activeHistory.last().id() !== '/Dockerfile') {
+    if (n === undefined || data.openItems.activeHistory.last().id() !== '/Dockerfile') {
       data.validDockerfile = {
         valid: true
       };
