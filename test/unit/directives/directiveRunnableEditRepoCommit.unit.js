@@ -172,7 +172,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
     injectSetupCompile();
 
     // commit time
-    $el = ctx.$element
+    var $el = ctx.$element
       .find('> .commit.load > time.commit-time');
     expect($el).to.be.ok;
     expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));

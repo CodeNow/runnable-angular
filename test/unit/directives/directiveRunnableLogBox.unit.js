@@ -82,7 +82,7 @@ describe('directiveLogBox'.bold.underline.blue, function() {
     ctx.template = directiveTemplate('log-box', {});
   });
 
-  it('basic', function() {
+  it('basic dom', function() {
     angular.mock.module(function ($provide) {
       $provide.value('$state', {
         '$current': {
@@ -97,9 +97,27 @@ describe('directiveLogBox'.bold.underline.blue, function() {
     });
 
     injectSetupCompile();
+    var $el = ctx.$element.find('> term.terminal.ng-isolate-scope');
+    expect($el).to.be.ok;
+  });
 
-    expect(true).to.equal(true);
+  it('basic scope', function() {
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instance'
+        }
+      });
 
+      $provide.value('$stateParams', {
+        userName: 'username',
+        instanceName: 'instancename'
+      });
+    });
+
+    injectSetupCompile();
+    expect($elScope).to.have.property('user');
+    expect($elScope).to.have.property('instance');
   });
 
 });

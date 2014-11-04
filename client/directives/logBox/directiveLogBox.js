@@ -129,7 +129,6 @@ function logBox(
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $scope.build = instance.build;
             $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {

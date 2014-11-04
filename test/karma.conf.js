@@ -83,9 +83,9 @@ module.exports = function(config) {
       debug: true,
       files: [
         // 'unit/directives/directiveRunnable*.unit.js'
-        // 'unit/**/directiveRunnable*.unit.js'
+        'unit/**/directiveRunnable*.unit.js'
         // 'unit/directives/directiveRunnableDockerValidation.unit.js',
-        'unit/directives/directiveRunnableLogBox.unit.js'
+        // 'unit/directives/directiveRunnableLogBox.unit.js'
       ]
     },
 
