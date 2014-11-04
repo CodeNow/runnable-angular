@@ -68,9 +68,10 @@ function RunnableRepoList(
       // if we find 1 repo w/ an unsaved
       // commit, show update button
       $scope.showUpdateButton = function () {
-        return !!$scope.unsavedAcvs.find(function (obj) {
-          return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
-        });
+        return !$scope.showGuide && $scope.unsavedAcvs.length > 1 &&
+          !!$scope.unsavedAcvs.find(function (obj) {
+            return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
+          });
       };
 
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
