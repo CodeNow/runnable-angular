@@ -12,6 +12,7 @@ exports.config = {
     'e2e/readLogs.e2e.js',
     'e2e/changeCommit.e2e.js',
     'e2e/addRepo.e2e.js',
+    'e2e/changeCommit2Reps.e2e.js',
     'e2e/deleteRepo.e2e.js',
     'e2e/renameBox.e2e.js',
     'e2e/forkBox.e2e.js',
@@ -26,9 +27,8 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
-
-  // No trailing slash
   baseUrl: 'http://localhost:3001',
+//  baseUrl: 'http://runnable3.net',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
