@@ -28,13 +28,21 @@ describe('project creation workflow', function () {
 
         setup.selectTemplate('Blank');
 
-        browser.wait(setup.activePanel.aceLoaded.bind(setup.activePanel));
-        browser.wait(setup.blankTemplateLoaded.bind(setup));
+        browser.wait(function () {
+          return setup.activePanel.aceLoaded();
+        });
+        browser.wait(function () {
+          return setup.blankTemplateLoaded();
+        });
 
         setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 123456789\n');
 
-        browser.wait(setup.dockerfileValidates.bind(setup));
-        browser.wait(setup.activePanel.isClean.bind(setup.activePanel));
+        browser.wait(function () {
+          return setup.dockerfileValidates()
+        });
+        browser.wait(function () {
+          return setup.activePanel.isClean();
+        });
 
         if (ENV_VARS[index]) {
           // Now enter some envs

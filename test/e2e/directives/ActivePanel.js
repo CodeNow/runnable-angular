@@ -70,7 +70,7 @@ function ActivePanel (pageType) {
   };
 
   this.getContents = function () {
-    return this.currentContent.get().getText().then(function(a) {console.log(a); return a;});
+    return this.currentContent.get().getText();
   };
 
   // Gets the actual contents of the file (without Ace's line numbers, etc)
