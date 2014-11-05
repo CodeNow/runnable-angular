@@ -5,7 +5,7 @@
     button.green.btn-save(
       ng-class = "{in: saving}"
       ng-click = "saveChanges()"
-      ng-disabled = "!instance.containers[0].running() || loading"
+      ng-disabled = "!instance.containers.models[0].running() || loading"
       type = "button"
     )
       span.btn-text Save
@@ -15,7 +15,7 @@
       ) #{''} and Restart
     button.green.btn-icon.btn-icon-sm.btn-save-options(
       ng-class = "{active: popoverSaveOptions.data.show}"
-      ng-disabled = "!instance.containers[0].running() || loading"
+      ng-disabled = "!instance.containers.models[0].running() || loading"
       toggle-pop-over
       toggle-pop-over-model = "popoverSaveOptions.data.show"
       type = "button"

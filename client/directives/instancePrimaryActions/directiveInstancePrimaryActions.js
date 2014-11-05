@@ -47,7 +47,7 @@ function RunnableInstancePrimaryActions(
         $scope.saving = false;
         $timeout(function () {
           $scope.saving = true;
-          $scope.$safeApply();
+          $rootScope.$safeApply();
         }, 1);
         var updateModels = $scope.openItems.models
           .filter(function (model) {
@@ -75,7 +75,7 @@ function RunnableInstancePrimaryActions(
             if ($scope.restartOnSave) {
               //pgm.actions.restartInstance();
             }
-            $scope.safeApply();
+            $rootScope.safeApply();
           }
         );
       };
