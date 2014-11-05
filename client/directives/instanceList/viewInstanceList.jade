@@ -24,6 +24,7 @@ section.row.boxes
 
     //- if not .active
     li.box-group-item.white.load(
+      ng-class = "getInstanceClasses(instance)"
       ng-click = "stateToInstance(instance)"
       ng-show = "instances.models.length"
       ng-repeat = "instance in instances.models"
@@ -32,7 +33,7 @@ section.row.boxes
     )
       a.box-item-name {{ instance.attrs.name }}
       span.icons-status.running(
-        title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+        title = "{{ getInstanceAltTitle(instance) }}"
       )
 
     //- *
