@@ -110,7 +110,7 @@ function ControllerInstanceEdit(
         forkOpts.env = env;
       }
 
-      var newInstance = data.instance.copy(forkOpts, function (err) {
+      var newInstance = data.instance.copy({json: forkOpts}, function (err) {
         if (err) throw err;
         // fetch instances to update list
         var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
