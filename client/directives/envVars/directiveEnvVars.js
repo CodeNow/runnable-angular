@@ -14,7 +14,10 @@ function envVars(
   return {
     restrict: 'E',
     replace: true,
-    scope: {},
+    scope: {
+      // item carries readonly state
+      item: '='
+    },
     templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
 

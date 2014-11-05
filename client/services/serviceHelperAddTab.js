@@ -3,7 +3,9 @@ require('app')
 /**
  * @ngInject
  */
-function helperAddTab() {
+function helperAddTab(
+  $state
+) {
   return function (config, openItems) {
     if (!config) {
       // default to all available
@@ -56,7 +58,9 @@ function helperAddTab() {
           }
           pat.data.show = false;
           var envVars = openItems.addEnvVars();
-          envVars.state.readOnly = config.envVarsReadOnly;
+          if ($state.$current.name === 'instance.instance') {
+            envVars.state.readOnly = true;
+          }
           return envVars;
         }
       }
