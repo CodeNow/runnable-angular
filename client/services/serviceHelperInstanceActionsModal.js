@@ -49,6 +49,12 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.data.dataModalRename = data;
     $scope.popoverGearMenu.data.dataModalFork = data;
     $scope.popoverGearMenu.data.dataModalDelete = data;
+    $scope.popoverGearMenu.data.dataModalEnvironment= data;
+
+    $scope.popoverGearMenu.actions.actionsModalEnvironment = {
+      cancel: function() {
+      }
+    };
 
     $scope.popoverGearMenu.actions.actionsModalRename = {
       renameInstance: function (newName, cb) {
