@@ -63,6 +63,8 @@ describe('project creation workflow', function () {
 
         instance.get();
 
+        util.waitForUrl(InstancePage.urlRegex);
+
         browser.wait(function () {
           return util.hasClass(instance.statusIcon, 'running');
         });
