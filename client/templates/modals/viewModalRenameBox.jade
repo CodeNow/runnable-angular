@@ -60,7 +60,7 @@
           green: data.renameForm.$valid, \
           orange: data.renameForm.$invalid \
         }"
-        ng-click = "actions.renameInstance(newName); \
+        ng-click = "actions.renameInstance(data.newName); \
           cancel();"
         ng-disabled = "data.renameForm.$invalid"
       ) Rename Box
