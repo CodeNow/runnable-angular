@@ -138,35 +138,19 @@ function ControllerInstance(
     forkInstance: function (env) {
       $rootScope.$broadcast('app-document-click');
       $scope.dataApp.data.loading = true;
-      var newInstance = data.instance.copy(function (err) {
-        if (err) {
-          throw err;
-        }
-        if (env) {
-          env = env.map(function (e) {
-            return e.key + '=' + e.value;
-          });
-          newInstance.update({
-            name: data.instance.state.name.trim(),
-            env: env
-          }, function () {
-            $state.go('instance.instance', {
-              userName: $stateParams.userName,
-              instanceName: newInstance.attrs.name
-            });
-          });
-        } else {
-          newInstance.update({
-            name: data.instance.state.name.trim()
-          }, function () {
-            $state.go('instance.instance', {
-              userName: $stateParams.userName,
-              instanceName: newInstance.attrs.name
-            });
-          });
-        }
-        // refetch instance collection to update list in
-        // instance layout
+
+      var forkOpts = {};
+      forkOpts.name = data.instance.state.name.trim();
+      if (env) {
+        env = env.map(function (e) {
+          return e.key + '=' + e.value;
+        });
+        forkOpts.env = env;
+      }
+
+      var newInstance = data.instance.copy(forkOpts, function (err) {
+        if (err) throw err;
+        // fetch instances to update list
         var oauthId = $scope.dataInstanceLayout.data.activeAccount.oauthId();
         new QueryAssist($scope.dataApp.user, function () {
           $scope.safeApply();
@@ -178,11 +162,18 @@ function ControllerInstance(
           }
         })
         .cacheFetch(function (instances, cached, cb) {
+          $scope.safeApply();
           cb();
         })
         .resolve(angular.noop)
         .go();
+
+        $state.go('instance.instance', {
+          userName: $stateParams.userName,
+          instanceName: newInstance.attrs.name
+        });
       });
+
     }
   };
 
