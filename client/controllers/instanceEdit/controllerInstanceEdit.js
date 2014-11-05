@@ -60,10 +60,28 @@ function ControllerInstanceEdit(
       .go();
   }
 
+  // open "Dockerfile" build file by default
+  function setDefaultTabs() {
+    var rootDir = keypather.get($scope, 'build.contextVersions.models[0].rootDir');
+    if (!rootDir) throw new Error();
+    rootDir.contents.fetch(function(err) {
+      if (err) throw err;
+      var file = rootDir.contents.models.find(function(file) {
+        return (file.attrs.name === 'Dockerfile');
+      });
+      if (file) {
+        data.openItems.add(file);
+      }
+    });
+  }
+
   async.series([
     fetchUser,
     fetchBuild
-  ]);
+  ], function(err) {
+    if (err) throw err;
+    setDefaultTabs();
+  });
 
   /*
   var QueryAssist = $scope.UTIL.QueryAssist;
