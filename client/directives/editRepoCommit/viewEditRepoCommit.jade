@@ -43,6 +43,7 @@ li.repository-group-item
   .commit.load(
     ng-class = "{ \
       pending: (showPendingClassWhenSelectedOutdatedCommit && \
+      (build.contextVersions.models.length > 1) && \
       acv.attrs.commit !== unsavedAcv.attrs.commit) \
     }"
     toggle-pop-over
