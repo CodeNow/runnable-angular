@@ -5,9 +5,7 @@ require('app')
  */
 function RunnableRepoList(
   async,
-  hasKeypaths,
   keypather,
-  pick,
   QueryAssist,
   $rootScope,
   $state,
