@@ -14,9 +14,7 @@ function envVars(
   return {
     restrict: 'E',
     replace: true,
-    scope: {
-      item: '='
-    },
+    scope: {},
     templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
 
@@ -30,29 +28,6 @@ function envVars(
             cb();
           })
           .resolve(function (err, user, cb) {
-            if (err) throw err;
-            cb();
-          })
-          .go();
-      }
-
-      /**
-       * use buildId if stateParams.buildId (instance.setup)
-       * otherwise fetch instance & build (instance.instance && instance.edit)
-       */
-      function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
-        }
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, build, cb) {
             if (err) throw err;
             cb();
           })
@@ -88,17 +63,11 @@ function envVars(
 
       async.series([
         fetchUser,
-        fetchBuild
+        fetchInstance
       ], function (err) {
         $rootScope.safeApply();
         if (err) throw err;
       });
-
-
-
-
-
-
 
       $scope.environmentalVars = '';
 
@@ -119,9 +88,7 @@ function envVars(
         };
 
         $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
-          if (!newEnv) {
-            return;
-          }
+          if (!newEnv) return;
 
           keypather.set($scope, 'instance.state.env', newEnv.split('\n').filter(function (v) {
             return v.length;
