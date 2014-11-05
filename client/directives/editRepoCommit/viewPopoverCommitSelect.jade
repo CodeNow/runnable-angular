@@ -32,7 +32,7 @@
           use(
             xlink:href = "#icons-git"
           )
-        | {{ data.activeBranch.attrs.name }}
+        | {{ data.activeCommit.attrs.name }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
@@ -41,7 +41,7 @@
         name       = "activeBranch"
         ng-model   = "activeBranch"
         ng-change  = "actions.selectBranch(activeBranch)"
-        ng-options = "branch.value as branch.attrs.name for branch in data.acv.githubRepo.branches.models"
+        ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
       )
 
   //- list of commits

@@ -137,6 +137,7 @@ function RunnableEditRepoCommit(
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
         acv.githubRepo.branches.fetch(function (err) {
           if (err) throw err;
+          // githubRepo.branches.add(activeBranch);
           $rootScope.safeApply();
         });
         $rootScope.safeApply();
