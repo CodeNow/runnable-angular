@@ -73,6 +73,7 @@ function RunnableEditRepoCommit(
         $scope.activeBranch = activeBranch;
         fetchBranchCommits($scope.activeBranch);
       };
+
       $scope.popoverCommitSelect.actions.selectCommit = function (commitSha) {
         $scope.popoverCommitSelect.data.show = false;
         $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
@@ -135,12 +136,12 @@ function RunnableEditRepoCommit(
 
       function setActiveBranch(acv) {
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
+        acv.githubRepo.branches.add($scope.activeBranch);
         acv.githubRepo.branches.fetch(function (err) {
           if (err) throw err;
-          // githubRepo.branches.add(activeBranch);
+          //githubRepo.branches.add(activeBranch);
           $rootScope.safeApply();
         });
-        $rootScope.safeApply();
       }
 
       function setActiveCommit(acv) {
@@ -149,7 +150,6 @@ function RunnableEditRepoCommit(
           if (err) throw err;
           $rootScope.safeApply();
         });
-        $rootScope.safeApply();
       }
 
       function fetchCommitOffset(acv, activeCommit) {
