@@ -31,7 +31,9 @@ function ControllerInstance(
   // toggle explorer menu
   data.showExplorer = false;
   data.sectionClasses = {
+    // out shows/hides entire toolbar
     out: true,
+    // in shows/hides file-menu
     in: false
   };
 
@@ -104,7 +106,7 @@ function ControllerInstance(
 
     if (!container.running()) {
       data.showExplorer = false;
-      data.sectionClasses = {'out':true, 'in':false};
+      data.sectionClasses = {out:true, in:false};
       // show only build logs
       if (!data.openItems.hasOpen('BuildStream')) {
         data.openItems.addBuildStream();
@@ -121,7 +123,7 @@ function ControllerInstance(
       }
     } else {
       data.showExplorer = true;
-      data.sectionClasses = {'out':false, 'in':true};
+      data.sectionClasses = {out:false, in:true};
       if (!data.openItems.hasOpen('Terminal')) {
         data.openItems.addTerminal();
       }
