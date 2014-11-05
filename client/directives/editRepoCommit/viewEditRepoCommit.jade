@@ -42,7 +42,8 @@ li.repository-group-item
   //- add .pending for orange
   .commit.load(
     ng-class = "{ \
-      pending: (acv.attrs.commit !== unsavedAcv.attrs.commit) \
+      pending: (showPendingClassWhenSelectedOutdatedCommit && \
+      acv.attrs.commit !== unsavedAcv.attrs.commit) \
     }"
     toggle-pop-over
     toggle-pop-over-model = "popoverCommitSelect.data.show"

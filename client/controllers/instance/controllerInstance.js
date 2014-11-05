@@ -131,6 +131,17 @@ function ControllerInstance(
     }
   }
 
+  // watch showExplorer (toggle when user clicks file menu)
+  // if no running container, return early (user shouldn't be able to even click
+  // button in this situation)
+  $scope.$watch('dataInstance.data.showExplorer', function(n, p) {
+    var runningContainer = keypather.get(data, 'instance.containers.models[0].running()');
+    if (!runningContainer) {
+      return;
+    }
+    data.sectionClasses.in = n;
+  });
+
   // watch for deployed/started/stopped instance
   $scope.$watch('dataInstance.data.instance.containers.models[0]', updateDisplayedTabs);
   $scope.$watch('dataInstance.data.instance.containers.models[0].running()', updateDisplayedTabs);
