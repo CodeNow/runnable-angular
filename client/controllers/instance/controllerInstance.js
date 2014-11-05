@@ -93,10 +93,7 @@ function ControllerInstance(
   function updateDisplayedTabs() {
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
-    if (!instance) {
-      return;
-    }
-    if (!container) {
+    if (!instance || !container) {
       // instance not deployed yet
       if (!data.openItems.hasOpen('BuildStream')) {
         data.openItems.addBuildStream();
