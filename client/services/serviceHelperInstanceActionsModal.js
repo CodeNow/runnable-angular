@@ -15,6 +15,8 @@ function HelperInstanceActionsModal(
    */
   return function ($scope) {
 
+    var COPY_SUFFIX = '-copy';
+
     if (!$scope.popoverGearMenu || !$scope.popoverGearMenu.data) {
       throw new Error('helperInstanceActionsModal $scope popoverGearMenu not defined');
     }
@@ -28,6 +30,7 @@ function HelperInstanceActionsModal(
       data.instance = n;
       // data.newName used in renameInstance popover
       data.newName = n.attrs.name;
+      data.newForkName = data.newName + COPY_SUFFIX;
       $scope.popoverGearMenu.data.instance = n;
     });
 
@@ -105,6 +108,7 @@ function HelperInstanceActionsModal(
         });
       },
       cancel: function () {
+        data.newForkName = data.newName + COPY_SUFFIX;
         $scope.popoverGearMenu.data.show = false;
       }
     };
