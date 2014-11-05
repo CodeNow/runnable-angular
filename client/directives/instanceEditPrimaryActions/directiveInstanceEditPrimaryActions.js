@@ -26,9 +26,7 @@ function RunnableInstanceEditPrimaryActions(
       // prevent multiple clicks
       var building = false;
       $scope.build = function () {
-        if (building) {
-          return;
-        }
+        if (building) return;
         building = true;
         var buildObj = {
           message: 'Manual build'
