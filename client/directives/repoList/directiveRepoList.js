@@ -86,7 +86,7 @@ function RunnableRepoList(
           return {
             repo: acv.attrs.repo,
             branch: acv.attrs.branch,
-            commit: acv.attrs.sha
+            commit: acv.attrs.commit
           };
         });
 
