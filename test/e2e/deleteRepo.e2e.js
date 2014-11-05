@@ -19,9 +19,6 @@ describe('deleteRepo', function() {
       });
     });
 
-    // Dockerfile needs to change in order for a full build to be triggered
-    instanceEdit.activePanel.writeToFile('\n#');
-
     browser.wait(function() {
       return instanceEdit.activePanel.isClean();
     });

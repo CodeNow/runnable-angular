@@ -21,6 +21,14 @@ describe('addRepo', function() {
         return numSelected === 2;
       });
     });
+  });
+
+  it('should now have 2 repos', function() {
+    var instanceEdit = new InstanceEditPage('Test-0');
+    instanceEdit.get();
+
+    util.waitForUrl(InstancePage.urlRegex);
+
     expect(instanceEdit.repoList.numSelectedRepos()).toEqual(2);
   });
 });
