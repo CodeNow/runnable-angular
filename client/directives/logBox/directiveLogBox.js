@@ -38,6 +38,7 @@ function logBox(
       });
 
       $scope.$on('$destroy', function () {
+        if (!boxStream) return;
         boxStream.removeAllListeners();
         boxStream.end();
       });

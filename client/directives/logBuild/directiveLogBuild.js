@@ -41,6 +41,7 @@ function logBuild(
       });
 
       $scope.$on('$destroy', function () {
+        if (!buildStream) return;
         buildStream.removeAllListeners();
         buildStream.end();
       });
