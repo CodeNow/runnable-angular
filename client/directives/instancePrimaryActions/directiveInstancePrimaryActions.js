@@ -47,7 +47,7 @@ function RunnableInstancePrimaryActions(
         $scope.saving = false;
         $timeout(function () {
           $scope.saving = true;
-          $rootScope.$safeApply();
+          $rootScope.safeApply();
         }, 1);
         var updateModels = $scope.openItems.models
           .filter(function (model) {
