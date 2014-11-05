@@ -24,12 +24,15 @@ function RunnableEditRepoCommit(
       switch ($state.$current.name) {
         case 'instance.setup':
           $scope.showEditGearMenu = true;
+          $scope.showPendingClassWhenSelectedOutdatedCommit = false;
           break;
         case 'instance.instance':
           $scope.showEditGearMenu = false;
+          $scope.showPendingClassWhenSelectedOutdatedCommit = true;
           break;
         case 'instance.instanceEdit':
           $scope.showEditGearMenu = true;
+          $scope.showPendingClassWhenSelectedOutdatedCommit = false;
           break;
       }
 

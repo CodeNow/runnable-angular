@@ -26,6 +26,8 @@ function HelperInstanceActionsModal(
     $scope.$watch('instance', function (n) {
       if (!n) return;
       data.instance = n;
+      // data.newName used in renameInstance popover
+      data.newName = n.attrs.name;
       $scope.popoverGearMenu.data.instance = n;
     });
 
