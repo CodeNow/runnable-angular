@@ -57,7 +57,9 @@ function modal(
           jQuery(document).on('keydown', keyDownEnter);
           var autofocus = $scope.modal.find('[autofocus]');
           if (autofocus.length) {
-            autofocus[0].select();
+            $rootScope.safeApply(function() {
+              autofocus[0].select();
+            });
           }
         } else {
           jQuery(document).off('keydown', keyDownEnter);
