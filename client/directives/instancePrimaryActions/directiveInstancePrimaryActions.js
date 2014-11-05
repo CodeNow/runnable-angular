@@ -39,7 +39,7 @@ function RunnableInstancePrimaryActions(
       });
 
       $scope.$watch('instance', function (n) {
-        if (n) $scope.popoverSaveOptions.instance = n;
+        if (n) $scope.popoverSaveOptions.data.instance = n;
       });
 
       $scope.saveChanges = function () {
