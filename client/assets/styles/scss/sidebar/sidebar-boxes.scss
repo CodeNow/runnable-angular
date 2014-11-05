@@ -50,23 +50,20 @@
   &.active {
     background: rgba($black,.05);
     border-color: rgba($black,.1);
+  }
+
+  &.expanded {
     height: auto;
+    line-height: 1;
     padding-bottom: 3px;
 
     .box-item-name {
+      margin-top: 8px;
       margin-bottom: 3px;
     }
 
     .icons-status {
       top: 10px;
-    }
-  }
-
-  &.expanded {
-    line-height: 1;
-
-    .box-item-name {
-      margin-top: 8px;
     }
   }
 
