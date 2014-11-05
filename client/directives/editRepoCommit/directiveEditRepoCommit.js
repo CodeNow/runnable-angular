@@ -135,6 +135,9 @@ function RunnableEditRepoCommit(
       fetchBranchCommits($scope.activeBranch);
 
       function setActiveBranch(acv) {
+        // API client caches models by URL
+        // $scope.activeBranch will === acv.githubRepo.branches.models[x]
+        // after the fetch
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
         acv.githubRepo.branches.add($scope.activeBranch);
         acv.githubRepo.branches.fetch(function (err) {
