@@ -7,48 +7,77 @@ var util = require('./helpers/util');
 
 var SetupPage = require('./pages/SetupPage');
 var InstancePage = require('./pages/InstancePage');
+var instances = ['Test-0', 'Test-1'];
+var ENV_VARS = [null, 'a=b\nbasd=asasdasdasd'];
 
 describe('project creation workflow', function () {
-  var instanceName = 'Test-0';
-  it('should direct the user to the setup page', function () {
-    var setup = new SetupPage();
-    setup.get();
-    util.waitForUrl(SetupPage.urlRegex);
+  instances.forEach(function (instanceName, index) {
+    describe('with' + ((ENV_VARS[index]) ? ' ' : 'out ') + 'Envs', function () {
+      it('should direct the user to the setup page', function () {
+        var setup = new SetupPage();
+        setup.get();
+        util.waitForUrl(SetupPage.urlRegex);
 
-    setup.setBoxName(instanceName);
+        setup.setBoxName(instanceName);
 
-    setup.repoList.openAddDropdown();
+        setup.repoList.openAddDropdown();
 
-    setup.repoList.searchRepos('node-hello-world', 1);
+        setup.repoList.searchRepos('node-hello-world', 1);
 
-    setup.repoList.selectRepo(0);
+        setup.repoList.selectRepo(0);
 
-    setup.selectTemplate('Blank');
+        setup.selectTemplate('Blank');
 
-    browser.wait(setup.activePanel.aceLoaded.bind(setup.activePanel));
-    browser.wait(setup.blankTemplateLoaded.bind(setup));
+        browser.wait(function () {
+          return setup.activePanel.aceLoaded();
+        });
+        browser.wait(function () {
+          return setup.blankTemplateLoaded();
+        });
 
-    setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 123456789\n');
+        setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 123456789\n');
 
-    browser.wait(setup.dockerfileValidates.bind(setup));
-    browser.wait(setup.activePanel.isClean.bind(setup.activePanel));
+        browser.wait(function () {
+          return setup.dockerfileValidates()
+        });
+        browser.wait(function () {
+          return setup.activePanel.isClean();
+        });
 
-    setup.createBox();
+        if (ENV_VARS[index]) {
+          // Now enter some envs
+          setup.activePanel.openTab('Env Vars');
+          browser.wait(setup.activePanel.aceLoaded.bind(setup.activePanel));
 
-    util.waitForUrl(InstancePage.urlRegex);
-  });
+          setup.activePanel.writeToFile(ENV_VARS[index]);
 
-  it('should load a building instance', function() {
-    var instance = new InstancePage(instanceName);
+          browser.wait(setup.activePanel.isClean.bind(setup.activePanel));
+        }
+        setup.createBox();
 
-    instance.get();
+        util.waitForUrl(InstancePage.urlRegex);
+      });
 
-    browser.wait(function () {
-      return util.hasClass(instance.statusIcon, 'running');
+      it('should load a building instance', function () {
+        var instance = new InstancePage(instanceName);
+
+        instance.get();
+
+        browser.wait(function () {
+          return util.hasClass(instance.statusIcon, 'running');
+        });
+
+        instance.activePanel.setActiveTab('Box Logs');
+
+        expect(instance.activePanel.getContents()).toMatch('sleep 123456789');
+
+        if (ENV_VARS[index]) {
+          instance.activePanel.openTab('Env Vars');
+          browser.wait(instance.activePanel.aceLoaded.bind(instance.activePanel));
+
+          expect(instance.activePanel.getContents()).toMatch(ENV_VARS[index]);
+        }
+      });
     });
-
-    instance.activePanel.setActiveTab('Box Logs');
-
-    expect(instance.activePanel.getContents()).toMatch('sleep 123456789');
   });
 });

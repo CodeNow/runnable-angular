@@ -1,11 +1,10 @@
-
 var util = require('./helpers/util');
 var sidebar = require('./helpers/sidebar');
 
 var InstancePage = require('./pages/InstancePage');
 var SetupPage = require('./pages/SetupPage');
 
-var instanceNames = ['Test-Rename', 'Test-Fork'];
+var instanceNames = ['Test-Rename', 'Test-Fork', 'Test-1'];
 
 describe('delete', function() {
   // Instances that were created during e2e tests
@@ -34,7 +33,6 @@ describe('delete', function() {
   it('should confirm everything was deleted', function() {
     var setup = new SetupPage();
     setup.get();
-
     expect(sidebar.numBoxes()).toEqual(0);
   });
 });

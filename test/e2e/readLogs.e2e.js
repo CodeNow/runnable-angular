@@ -15,6 +15,9 @@ describe('logs', function() {
 
     instance.activePanel.setActiveTab('Box Logs');
 
+    browser.wait(function() {
+      return instance.activePanel.isClean();
+    });
     instance.activePanel.currentContent.get().getText().then(function (text) {
       // Test that we're properly showing the command
       expect(text).toMatch('node /hello/server.js');
