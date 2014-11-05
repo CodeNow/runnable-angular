@@ -23,11 +23,18 @@ function RunnableInstanceEditPrimaryActions(
     },
     link: function ($scope, elem, attrs) {
 
+      // prevent multiple clicks
+      var building = false;
       $scope.build = function () {
+        if (building) {
+          return;
+        }
+        building = true;
         var buildObj = {
           message: 'Manual build'
         };
-        $scope.newBuild.build(buildObj,
+        $scope.newBuild.build(
+          buildObj,
           function (err, build) {
             if (err) throw err;
             $scope.instance.update({
