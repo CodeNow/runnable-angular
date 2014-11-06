@@ -41,13 +41,13 @@
             - to do:
             - popover isn't actually toggled
             - hovering over the popover also triggers tooltip (semi-related: SAN-267)
-          button.btn-sm.gray(
-            toggle-pop-over
-            toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
-            tooltip = "Edit Environment"
-            tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
-            type = "button"
-          ) ev
+          //- button.btn-sm.gray(
+          //-   toggle-pop-over
+          //-   toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
+          //-   tooltip = "Edit Environment"
+          //-   tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
+          //-   type = "button"
+          //- ) ev
             pop-over(
               actions = "dataModalForkBox.data.popoverEnvironment.actions"
               data = "dataModalForkBox.data.popoverEnvironment.data"
@@ -73,14 +73,14 @@
         //- 0.3 SAN-435
             - to do:
             - .well if there are linked boxes
-        .well(
-          ng-class = "{\
-            btn: !linkedBoxesChecked,\
-            'btn-sm': !linkedBoxesChecked,\
-            in: linkedBoxesChecked,\
-            white: !linkedBoxesChecked,\
-          }"
-        )
+        //- .well(
+        //-   ng-class = "{\
+        //-     btn: !linkedBoxesChecked,\
+        //-     'btn-sm': !linkedBoxesChecked,\
+        //-     in: linkedBoxesChecked,\
+        //-     white: !linkedBoxesChecked,\
+        //-   }"
+        //- )
           label.label-checkbox
             input.input-checkbox(
               ng-click = "linkedBoxesChecked = !linkedBoxesChecked"
@@ -202,7 +202,7 @@
     footer.modal-footer
       //- cancel is modalDirective
         - actions.cancel is parent controller
-      button(
+      button.green(
         ng-class = "{ \
           green: data.forkForm.$valid, \
           orange: data.forkForm.$invalid \

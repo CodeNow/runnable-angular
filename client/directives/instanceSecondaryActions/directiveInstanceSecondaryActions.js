@@ -38,7 +38,7 @@ function RunnableInstanceSecondaryActions(
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
 
-      $scope.goToEdit = function () {
+      $scope.popoverGearMenu.actions.goToEdit = function () {
         var forkedBuild = $scope.instance.build.deepCopy(function (err) {
           if (err) throw err;
           $state.go('instance.instanceEdit', {

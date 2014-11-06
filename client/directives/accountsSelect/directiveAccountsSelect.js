@@ -26,14 +26,7 @@ function RunnableAccountsSelect(
       // control collapse/expand accounts list
       $scope.isChangeAccount = false;
 
-      // prevent concurrent operations from multiple clicks
-      var selectInProgress = false;
       $scope.selectActiveAccount = function (userOrOrg) {
-        // prevent multiple clicks
-        if (selectInProgress) {
-          return;
-        }
-        selectInProgress = true;
         // close list
         $scope.isChangeAccount = false;
         // synchronously display new active account
@@ -63,7 +56,6 @@ function RunnableAccountsSelect(
                 userName: userOrOrg.oauthName()
               });
             }
-            selectInProgress = false;
             cb();
           })
           .go();

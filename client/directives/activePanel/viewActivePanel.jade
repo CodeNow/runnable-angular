@@ -31,7 +31,9 @@
   .term-container(
     ng-if = "item.state.type === 'Terminal'"
   )
-    term.terminal
+    term.terminal(
+      item = "item"
+    )
 
   web-view(
     ng-if = "item.state.type === 'WebView'"

@@ -8,6 +8,7 @@ function term(
   async,
   helperSetupTerminal,
   primus,
+  jQuery,
   keypather,
   QueryAssist,
   $rootScope,
@@ -16,7 +17,9 @@ function term(
 ) {
   return {
     restrict: 'E',
-    scope: {},
+    scope: {
+      item: '='
+    },
     link: function ($scope, elem) {
 
       var streams, termStream, eventsStream;
@@ -28,6 +31,12 @@ function term(
       var terminal = helperSetupTerminal($scope, elem, {
         hideCursor: false,
         cursorBlink: true
+      });
+
+      // monitor item, determine when terminal tab active, resize
+      // to stop bug
+      $scope.$watch('item.state.active', function () {
+        jQuery(elem).trigger('resize');
       });
 
       async.series([

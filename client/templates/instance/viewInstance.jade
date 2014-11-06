@@ -1,7 +1,7 @@
 //- add class .in to display
 //- .in if model's containers collection populated;
     indicates model is deployed
-.alert.purple(
+.alert.green(
   ng-class = "{ \
     in: dataInstance.data.instance.containers.models.length \
   }"
@@ -10,7 +10,7 @@
     use(
       xlink:href = "#icons-check"
     )
-  | Your build is now running
+  | Your box has finished building.
 
 header.box-header
 
