@@ -55,8 +55,8 @@ nav.sidebar.global-sidebar(
     h2.sub-header
       span.sub-header-text Boxes
       a.btn.btn-sm.white.sub-header-action(
-        href = "/new"
         ng-click = "dataInstanceLayout.actions.stateToNew()"
+        ng-href = "/{{ dataInstanceLayout.data.activeAccount.oauthName() }}/new"
         title = "Create a New Box"
       )
         svg.iconnables.icons-add
@@ -68,12 +68,13 @@ nav.sidebar.global-sidebar(
       //- apply .running for a running box
       li.box-group-item.load(
         ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
-        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
         ng-repeat = "instance in dataInstanceLayout.data.instances.models | orderBy:'attrs.name'"
         ng-show = "dataInstanceLayout.data.instances.models"
       )
         //- show instance name in title property when not minimized
         a.white.box(
+          ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+          ng-href = "/{{ dataInstanceLayout.data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
           tooltip = "{{ instance.attrs.name }}"
           tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
         )
