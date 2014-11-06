@@ -193,6 +193,26 @@ function RunnableEditRepoCommit(
           .go();
       }
 
+      function fetchBuild(cb) {
+        if (!$stateParams.buildId) {
+          return fetchInstance(cb);
+        }
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchBuild')
+          .query($stateParams.buildId)
+          .cacheFetch(function (build, cached, cb) {
+            $scope.build = build;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, build, cb) {
+            if (err) throw err;
+            $rootScope.safeApply();
+            cb();
+          })
+          .go();
+      }
+
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances')
@@ -222,7 +242,7 @@ function RunnableEditRepoCommit(
 
       async.series([
         fetchUser,
-        fetchInstance
+        fetchBuild
       ]);
 
     }
