@@ -103,7 +103,10 @@ function ControllerInstance(
 
     if (!container.running()) {
       data.showExplorer = false;
-      data.sectionClasses = {out:true, in:false};
+      data.sectionClasses = {
+        out: true,
+        in: false
+      };
       // show only build logs
       if (!data.openItems.hasOpen('BuildStream')) {
         data.openItems.addBuildStream();
@@ -119,8 +122,10 @@ function ControllerInstance(
         data.openItems.addLogs();
       }
     } else {
-      data.showExplorer = true;
-      data.sectionClasses = {out:false, in:true};
+      data.sectionClasses = {
+        out: false,
+        in: true
+      };
       if (!data.openItems.hasOpen('Terminal')) {
         data.openItems.addTerminal();
       }
@@ -142,7 +147,6 @@ function ControllerInstance(
   });
 
   // watch for deployed/started/stopped instance
-  $scope.$watch('dataInstance.data.instance.containers.models[0]', updateDisplayedTabs);
   $scope.$watch('dataInstance.data.instance.containers.models[0].running()', updateDisplayedTabs);
 
   async.waterfall([
