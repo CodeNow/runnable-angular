@@ -21,6 +21,11 @@ function GithubCommitMenu() {
     });
   };
 
+  this.getAllRepos = function () {
+    var repos = element.all(by.repeater('acv in data.version.appCodeVersions.models'));
+    return repos;
+  };
+
   this.getRepo = function (index) {
     var repo = element(by.repeater('acv in data.version.appCodeVersions.models').row(index || 0));
 
@@ -69,18 +74,30 @@ function GithubCommitMenu() {
   };
 
   this.getCommitsBehind = function (repo) {
+    var self = this;
+    browser.wait(function () {
+      return self.getFastForwardButton(repo).isPresent();
+    });
     return this.getFastForwardButton(repo).getText();
   };
 
   this.getFastForwardButton = function (repo) {
-    return repo.element(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope > section > ul > li > button'));
+    browser.wait(function () {
+      return repo.isDisplayed();
+    });
+    return repo.element(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope ' +
+      '> section > ul > li > button'));
   };
 
   this.fastForward = function (repo) {
     var ffbutton = this.getFastForwardButton(repo);
-    if (ffbutton.isPresent()) {
-      ffbutton.click();
-    }
+    browser.wait(function () {
+      return ffbutton.isPresent();
+    });
+    browser.wait(function () {
+      return ffbutton.isDisplayed();
+    });
+    ffbutton.click();
   };
 
   this.changeBranch = function (repo, branchName, commitIndex) {

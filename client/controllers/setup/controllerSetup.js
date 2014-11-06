@@ -14,10 +14,8 @@ function ControllerSetup(
   $state,
   $stateParams,
   keypather,
-  hasKeypaths,
   OpenItems,
   user,
-  validateDockerfile,
   QueryAssist
 ) {
 
@@ -84,58 +82,5 @@ function ControllerSetup(
     fetchUser,
     fetchBuild
   ]);
-
-  /*
-
-  // Determine readonly state
-  $scope.$watch(function () {
-    if (data.contextFiles) {
-      return !data.isAdvanced;
-    }
-    return true;
-  }, function (bool) {
-    data.isReadOnly = bool;
-  });
-
-  $scope.$on('app-document-click', function () {
-    data.isRepoMode = false;
-    data.repoFilter = '';
-  });
-
-  actions.removeGithubRepo = function (appCodeVersion) {
-    data.contextVersion.appCodeVersions.destroy(appCodeVersion, function (err) {
-      if (err) {
-        throw err;
-      }
-      $scope.safeApply();
-    });
-  };
-
-  actions.validateBranchOrCommit = function (repo) {
-    delete repo.selectedCommit;
-    delete repo.selectedBranch;
-    repo.valid = false;
-    if (isBranch(repo.selectedBranchOrCommit)) {
-      repo.selectedBranch = repo.selectedBranchOrCommit;
-      repo.valid = true;
-    }
-    else {
-      repo.selectedCommit = repo.selectedBranchOrCommit;
-      repo.fetchCommit(repo.selectedCommit, function (err) {
-        if (!err) {
-          repo.valid = true;
-          $scope.safeApply();
-        }
-      });
-    }
-    $scope.safeApply();
-
-    function isBranch (name) {
-      return repo.branches.models.some(function (name) {
-        return repo.name === name;
-      });
-    }
-  };
-  */
 
 }

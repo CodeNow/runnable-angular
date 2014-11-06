@@ -10,9 +10,10 @@ function helperSetupTerminal(
   termjs,
   $window
 ) {
-  return function ($scope, elem) {
+  return function ($scope, elem, opts) {
     var CHAR_HEIGHT = 20;
     var config = angular.extend({}, configTerminalOpts);
+    config = angular.extend(config, (opts || {}));
     config.rows = Math.floor(elem[0].clientHeight / CHAR_HEIGHT);
     var terminal = new termjs(config);
     terminal.open(elem[0]);

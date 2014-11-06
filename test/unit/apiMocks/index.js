@@ -27,7 +27,8 @@ module.exports = {
   instances: {
     running: require('./instances/running'),
     building: require('./instances/building'),
-    stopped: require('./instances/stopped')
+    stopped: require('./instances/stopped'),
+    runningWithContainers: require('./instances/runningWithContainers')
   },
   user: require('./user')
 };

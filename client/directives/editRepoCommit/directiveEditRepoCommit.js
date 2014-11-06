@@ -4,9 +4,13 @@ require('app')
  * @ngInject
  */
 function RunnableEditRepoCommit(
+  async,
+  QueryAssist,
+  keypather,
   $rootScope,
   $state,
-  $stateParams
+  $stateParams,
+  user
 ) {
   return {
     restrict: 'E',
@@ -24,12 +28,15 @@ function RunnableEditRepoCommit(
       switch ($state.$current.name) {
         case 'instance.setup':
           $scope.showEditGearMenu = true;
+          $scope.showPendingClassWhenSelectedOutdatedCommit = false;
           break;
         case 'instance.instance':
           $scope.showEditGearMenu = false;
+          $scope.showPendingClassWhenSelectedOutdatedCommit = true;
           break;
         case 'instance.instanceEdit':
           $scope.showEditGearMenu = true;
+          $scope.showPendingClassWhenSelectedOutdatedCommit = false;
           break;
       }
 
@@ -70,6 +77,7 @@ function RunnableEditRepoCommit(
         $scope.activeBranch = activeBranch;
         fetchBranchCommits($scope.activeBranch);
       };
+
       $scope.popoverCommitSelect.actions.selectCommit = function (commitSha) {
         $scope.popoverCommitSelect.data.show = false;
         $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
@@ -131,25 +139,24 @@ function RunnableEditRepoCommit(
       fetchBranchCommits($scope.activeBranch);
 
       function setActiveBranch(acv) {
-        console.log('branches fetch');
+        // API client caches models by URL
+        // $scope.activeBranch will === acv.githubRepo.branches.models[x]
+        // after the fetch
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
+        acv.githubRepo.branches.add($scope.activeBranch);
         acv.githubRepo.branches.fetch(function (err) {
-          console.log('cb', err);
           if (err) throw err;
-          // githubRepo.branches.add(activeBranch);
+          //githubRepo.branches.add(activeBranch);
           $rootScope.safeApply();
         });
-        $rootScope.safeApply();
       }
 
       function setActiveCommit(acv) {
-        console.log('commit fetch');
         $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
         $scope.activeCommit.fetch(function (err) {
           if (err) throw err;
           $rootScope.safeApply();
         });
-        $rootScope.safeApply();
       }
 
       function fetchCommitOffset(acv, activeCommit) {
@@ -172,6 +179,51 @@ function RunnableEditRepoCommit(
           $rootScope.safeApply();
         });
       }
+
+      function fetchUser(cb) {
+        new QueryAssist(user, cb)
+          .wrapFunc('fetchUser')
+          .query('me')
+          .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err, user, cb) {})
+          .go();
+      }
+
+      function fetchInstance(cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchInstances')
+          .query({
+            githubUsername: $stateParams.userName,
+            name: $stateParams.instanceName
+          })
+          .cacheFetch(function (instances, cached, cb) {
+            if (!cached && !instances.models.length) {
+              return cb(new Error('Instance not found'));
+            }
+            var instance = instances.models[0];
+            $scope.instance = instance;
+            $scope.build = instance.build;
+            $rootScope.safeApply();
+          })
+          .resolve(function (err, instances, cb) {
+            var instance = instances.models[0];
+            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+              return cb(new Error('instance has no containers'));
+            }
+            $rootScope.safeApply();
+            cb(err);
+          })
+          .go();
+      }
+
+      async.series([
+        fetchUser,
+        fetchInstance
+      ]);
 
     }
   };

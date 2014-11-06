@@ -5,7 +5,6 @@ require('app')
  */
 function logBuild(
   async,
-  debounce,
   helperSetupTerminal,
   primus,
   keypather,
@@ -13,7 +12,6 @@ function logBuild(
   $rootScope,
   $stateParams,
   dockerStreamCleanser,
-  termjs,
   user
 ) {
   return {
@@ -43,24 +41,17 @@ function logBuild(
       });
 
       $scope.$on('$destroy', function () {
+        if (!buildStream) return;
         buildStream.removeAllListeners();
         buildStream.end();
       });
 
       async.series([
         fetchUser,
-        fetchBuild
+        fetchInstance
       ], function () {
         initializeBuildLogs($scope.build);
       });
-
-      function showTerminalSpinner() {
-        terminal.hideCursor = false;
-        terminal.cursorBlink = true;
-        terminal.cursorSpinner = true;
-        terminal.cursorState = -1;
-        terminal.startBlink();
-      }
 
       /**
        * helper to always unbind on $destroy
@@ -70,6 +61,19 @@ function logBuild(
         $scope.$on('$destroy', function () {
           obj.off(event, fn);
         });
+      }
+
+      function writeToTerm(output) {
+        if (typeof output !== 'string') return;
+        terminal.write(output.replace(/\r?\n/g, '\r\n'));
+      }
+
+      function showTerminalSpinner() {
+        terminal.hideCursor = false;
+        terminal.cursorBlink = true;
+        terminal.cursorSpinner = true;
+        terminal.cursorState = -1;
+        terminal.startBlink();
       }
 
       function subscribeToSubstream(build) {
@@ -88,13 +92,9 @@ function logBuild(
                                           true);
       }
 
-      function writeToTerm(output) {
-        if (typeof output !== 'string') return;
-        terminal.write(output.replace(/\r?\n/g, '\r\n'));
-      }
-
       function initializeBuildStream(build) {
         subscribeToSubstream(build);
+        showTerminalSpinner();
         bind(primus, 'reconnect', function () {
           subscribeToSubstream(build);
         });
@@ -170,25 +170,6 @@ function logBuild(
             }
             $rootScope.safeApply();
             cb(err);
-          })
-          .go();
-      }
-
-      function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
-        }
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            $rootScope.safeApply();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) throw err;
-            $rootScope.safeApply();
-            cb();
           })
           .go();
       }

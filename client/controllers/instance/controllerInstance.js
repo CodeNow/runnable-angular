@@ -31,7 +31,9 @@ function ControllerInstance(
   // toggle explorer menu
   data.showExplorer = false;
   data.sectionClasses = {
+    // out shows/hides entire toolbar
     out: true,
+    // in shows/hides file-menu
     in: false
   };
 
@@ -91,10 +93,7 @@ function ControllerInstance(
   function updateDisplayedTabs() {
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
-    if (!instance) {
-      return;
-    }
-    if (!container) {
+    if (!instance || !container) {
       // instance not deployed yet
       if (!data.openItems.hasOpen('BuildStream')) {
         data.openItems.addBuildStream();
@@ -104,7 +103,7 @@ function ControllerInstance(
 
     if (!container.running()) {
       data.showExplorer = false;
-      data.sectionClasses = {'out':true, 'in':false};
+      data.sectionClasses = {out:true, in:false};
       // show only build logs
       if (!data.openItems.hasOpen('BuildStream')) {
         data.openItems.addBuildStream();
@@ -121,7 +120,7 @@ function ControllerInstance(
       }
     } else {
       data.showExplorer = true;
-      data.sectionClasses = {'out':false, 'in':true};
+      data.sectionClasses = {out:false, in:true};
       if (!data.openItems.hasOpen('Terminal')) {
         data.openItems.addTerminal();
       }
@@ -130,6 +129,17 @@ function ControllerInstance(
       }
     }
   }
+
+  // watch showExplorer (toggle when user clicks file menu)
+  // if no running container, return early (user shouldn't be able to even click
+  // button in this situation)
+  $scope.$watch('dataInstance.data.showExplorer', function(n, p) {
+    var runningContainer = keypather.get(data, 'instance.containers.models[0].running()');
+    if (!runningContainer) {
+      return;
+    }
+    data.sectionClasses.in = n;
+  });
 
   // watch for deployed/started/stopped instance
   $scope.$watch('dataInstance.data.instance.containers.models[0]', updateDisplayedTabs);

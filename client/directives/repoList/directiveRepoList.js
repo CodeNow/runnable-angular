@@ -5,9 +5,7 @@ require('app')
  */
 function RunnableRepoList(
   async,
-  hasKeypaths,
   keypather,
-  pick,
   QueryAssist,
   $rootScope,
   $state,
@@ -30,15 +28,15 @@ function RunnableRepoList(
 
       // display guide if no repos added
       switch ($state.$current.name) {
-      case 'instance.setup':
-        $scope.showGuide = true;
-        break;
-      case 'instance.instanceEdit':
-        $scope.showGuide = true;
-        break;
-      case 'instance.instance':
-        $scope.showGuide = false;
-        break;
+        case 'instance.setup':
+          $scope.showAddFirstRepoMessage = true;
+          break;
+        case 'instance.instanceEdit':
+          $scope.showAddFirstRepoMessage = false;
+          break;
+        case 'instance.instance':
+          $scope.showAddFirstRepoMessage = false;
+          break;
       }
 
       // track all temp acvs generated
@@ -66,11 +64,14 @@ function RunnableRepoList(
       });
 
       // if we find 1 repo w/ an unsaved
-      // commit, show update button
+      // commit, show update button (if there is > 1 repos for this project)
       $scope.showUpdateButton = function () {
-        return !!$scope.unsavedAcvs.find(function (obj) {
-          return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
-        });
+        // update button only present on instance.instance
+        return ($state.$current.name === 'instance.instance') &&
+                $scope.unsavedAcvs.length > 1 &&
+                !!$scope.unsavedAcvs.find(function (obj) {
+                  return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
+                });
       };
 
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
@@ -83,9 +84,10 @@ function RunnableRepoList(
           return {
             repo: acv.attrs.repo,
             branch: acv.attrs.branch,
-            commit: acv.attrs.sha
+            commit: acv.attrs.commit
           };
         });
+
         async.waterfall([
           findOrCreateContextVersion,
           createBuild,
@@ -98,6 +100,7 @@ function RunnableRepoList(
           //$rootScope.dataApp.data.loading = false;
           $state.go('instance.instance');
         });
+
         // if we find this contextVersion, reuse it.
         // otherwise create a new one
         function findOrCreateContextVersion(cb) {

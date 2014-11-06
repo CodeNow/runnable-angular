@@ -24,6 +24,8 @@ section.sidebar.box-sidebar
     open-items = "dataSetup.data.openItems"
   )
 
+  runnable-env-validation
+
 section.views.with-add-tab(
   ng-class = "{ \
     in: (dataSetup.data.openItems.models.length && \
@@ -60,9 +62,6 @@ section.views.with-add-tab(
   active-panel(
     is-dark-theme = "dataSetup.data.toggleTheme"
     open-items = "dataSetup.data.openItems"
-    read-only = "dataSetup.data.isReadOnly"
-    setup-data = "dataSetup.data"
-    update = "true"
   )
 
   //- spinner

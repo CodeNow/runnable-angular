@@ -10,6 +10,8 @@ function RepoList () {
 
   this.guide = util.createGetter(by.css('.repo-list > .guide'));
 
+  this.updateButton = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope > section > h2 > a'));
+
   this.add = {
     repos: util.createGetterAll(by.repeater('repo in data.githubRepos.models')),
     filter: 'todo'

@@ -1,5 +1,5 @@
 .modal-backdrop(
-  ng-class = "{'in': in}"
+  ng-class = "{in: in}"
 )
   .modal-dialog.modal-rename(
     ng-click = "$event.stopPropagation()"
@@ -27,9 +27,8 @@
             name = "name"
             ng-blur = "data.renameForm.showFocus = false"
             ng-focus = "data.renameForm.showFocus = true"
-            ng-model = "newName"
-            ng-init = "newName = data.instance.attrs.name; \
-              data.renameForm.$setPristine();\
+            ng-model = "data.newName"
+            ng-init = "data.renameForm.$setPristine(); \
               data.renameForm.showFocus = true;"
             placeholder = "My-Box"
             select-all
@@ -61,12 +60,12 @@
           green: data.renameForm.$valid, \
           orange: data.renameForm.$invalid \
         }"
-        ng-click = "actions.renameInstance(newName); \
+        ng-click = "actions.renameInstance(data.newName); \
           cancel();"
         ng-disabled = "data.renameForm.$invalid"
       ) Rename Box
       button.white(
-        ng-click = "newName = data.instance.attrs.name; \
+        ng-click = "data.newName = data.instance.attrs.name; \
           data.renameForm.$setPristine(); \
           cancel(); \
           actions.cancel();"

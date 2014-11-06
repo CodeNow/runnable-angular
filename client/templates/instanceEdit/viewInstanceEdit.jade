@@ -19,16 +19,8 @@ section.sidebar.box-sidebar
   runnable-docker-validation(
     open-items = "dataInstanceEdit.data.openItems"
   )
-  //-
-    section.row(
-      ng-if = "dataInstanceEdit.data.envValidation.errors"
-    )
-      .sidebar-validation
-        h2.sub-header Environmental Var Errors
-        ul.list-group
-          li.list-group-item(
-            ng-repeat = "errorLine in dataInstanceEdit.data.envValidation.errors"
-          ) Invalid line {{ errorLine + 1 }}
+
+  runnable-env-validation
 
 section.views.with-add-tab(
   ng-class = "{ \
@@ -64,12 +56,8 @@ section.views.with-add-tab(
   //- active panel
   //- Passing in old build to access it's logs
   active-panel(
-    instance = "dataInstanceEdit.data.instance"
-    container = "dataInstanceEdit.data.container"
-    build = "dataInstanceEdit.data.instance.build"
     is-dark-theme = "dataInstanceEdit.data.toggleTheme"
     open-items = "dataInstanceEdit.data.openItems"
-    update = "true"
   )
 
   //- blank state

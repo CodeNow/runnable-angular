@@ -15,6 +15,8 @@ function HelperInstanceActionsModal(
    */
   return function ($scope) {
 
+    var COPY_SUFFIX = '-copy';
+
     if (!$scope.popoverGearMenu || !$scope.popoverGearMenu.data) {
       throw new Error('helperInstanceActionsModal $scope popoverGearMenu not defined');
     }
@@ -26,6 +28,9 @@ function HelperInstanceActionsModal(
     $scope.$watch('instance', function (n) {
       if (!n) return;
       data.instance = n;
+      // data.newName used in renameInstance popover
+      data.newName = n.attrs.name;
+      data.newForkName = data.newName + COPY_SUFFIX;
       $scope.popoverGearMenu.data.instance = n;
     });
 
@@ -44,6 +49,12 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.data.dataModalRename = data;
     $scope.popoverGearMenu.data.dataModalFork = data;
     $scope.popoverGearMenu.data.dataModalDelete = data;
+    $scope.popoverGearMenu.data.dataModalEnvironment= data;
+
+    $scope.popoverGearMenu.actions.actionsModalEnvironment = {
+      cancel: function() {
+      }
+    };
 
     $scope.popoverGearMenu.actions.actionsModalRename = {
       renameInstance: function (newName, cb) {
@@ -103,6 +114,7 @@ function HelperInstanceActionsModal(
         });
       },
       cancel: function () {
+        data.newForkName = data.newName + COPY_SUFFIX;
         $scope.popoverGearMenu.data.show = false;
       }
     };

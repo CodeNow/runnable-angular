@@ -6,7 +6,7 @@ describe('login', function() {
   it('should allow the user to login via GitHub', function() {
     browser.driver.get(browser.baseUrl + '?password=e2e');
 
-    browser.driver.findElement(by.css('#wrapper > section.landing-callout.ng-scope > a')).click();
+    browser.driver.findElement(by.css('#wrapper > header > nav > a.btn.btn-hero.ng-scope')).click();
 
     // We're at GitHub
     var emailInput = browser.driver.findElement(by.id('login_field'));

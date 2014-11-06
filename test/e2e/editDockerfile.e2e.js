@@ -24,8 +24,10 @@ describe('edit dockerfile', function() {
 
     instanceEdit.buildChanges();
 
+    util.waitForUrl(InstancePage.urlRegex);
+
     var instance = new InstancePage('Test-0');
-    // No need to get, we're already there
+
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
     });

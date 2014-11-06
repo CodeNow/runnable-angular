@@ -31,13 +31,10 @@
   .term-container(
     ng-if = "item.state.type === 'Terminal'"
   )
-    term.terminal(
-      params = "container"
-    )
+    term.terminal
 
   web-view(
     ng-if = "item.state.type === 'WebView'"
-    container = "container"
   )
 
   env-vars(
@@ -47,8 +44,7 @@
 
   button.silver.editor-status(
     disabled
-    ng-if = "(data.readOnly && item.state.type === 'File') \
-             || \
+    ng-if = "(data.readOnly && item.state.type === 'File') || \
              (item.state.type === 'EnvVars' && item.state.readOnly)"
     type = "button"
   ) Readonly

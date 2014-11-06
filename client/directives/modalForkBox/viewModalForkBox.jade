@@ -1,5 +1,6 @@
 .modal-backdrop(
-  ng-class = "{'in': in}"
+  ng-init = "data.newForkName = data.instance.attrs.name + '-copy'"
+  ng-class = "{in: in}"
 )
   .modal-dialog.modal-fork(
     ng-click = "$event.stopPropagation()"
@@ -10,7 +11,7 @@
     section.modal-body
       form(
         name = "data.forkForm"
-        ng-submit = "actions.forkInstance(newName, data.env);"
+        ng-submit = "actions.forkInstance(data.newForkName, data.env);"
       )
         label.input-group.input-validate.with-description(
           ng-class = "{\
@@ -20,22 +21,21 @@
           }"
         )
           span.input-label Name
-          span.input-description.text-overflow {{ newName }}.runnable.io
+          span.input-description.text-overflow {{ data.newForkName }}.runnable.io
           input.input(
             autofocus
             instance = "data.instance"
             name = "name"
             ng-blur = "data.forkForm.showFocus = false"
             ng-focus = "data.forkForm.showFocus = true"
-            ng-init = "newName = data.instance.attrs.name;\
-              data.forkForm.showFocus = true;"
-            ng-model = "newName"
+            ng-init = "data.forkForm.showFocus = true; \
+              data.renameForm.showFocus = true;"
+            ng-model = "data.newForkName"
             placeholder = "My-Box"
             select-all
             validate-name = "data.instances"
             validate-name-pattern
             validate-name-current-instance-valid = "false"
-            value = "{{ data.instance.attrs.name }}"
           )
           //- 0.3 SAN-435
             - to do:
@@ -98,7 +98,7 @@
             ng-if = "linkedBoxesChecked"
           )
             span.input-label Name
-            span.input-description.text-overflow {{ newName }}.runnable.io
+            span.input-description.text-overflow {{ data.newForkName }}.runnable.io
             //- 0.3 SAN-435
               - to do:
               - fix ng-focus/ng-blur
@@ -107,14 +107,12 @@
               autofocus
               instance = "data.instance"
               name = "name"
-              ng-init = "newName = data.instance.attrs.name"
-              ng-model = "newName"
+              ng-model = "data.newForkName"
               placeholder = "My-Box"
               select-all
               validate-name = "data.instances"
               validate-name-pattern
               validate-name-current-instance-valid = "false"
-              value = "{{ data.instance.attrs.name }}"
             )
             //- issues to fix:
               - popover isn't actually toggled
@@ -157,19 +155,17 @@
               ng-if = "linkedBoxesChecked"
             )
               span.input-label Name
-              span.input-description.text-overflow {{ newName }}.runnable.io
+              span.input-description.text-overflow {{ data.newForkName }}.runnable.io
               input.input(
                 autofocus
                 instance = "data.instance"
                 name = "name"
-                ng-init = "newName = data.instance.attrs.name"
-                ng-model = "newName"
+                ng-model = "data.newForkName"
                 placeholder = "My-Box"
                 select-all
                 validate-name = "data.instances"
                 validate-name-pattern
                 validate-name-current-instance-valid = "false"
-                value = "{{ data.instance.attrs.name }}"
               )
               //- issues to fix:
                 - popover isn't actually toggled
@@ -212,11 +208,12 @@
           orange: data.forkForm.$invalid \
         }"
         ng-disabled = "data.forkForm.$invalid"
-        ng-click = "actions.forkInstance(newName, data.env); \
+        ng-click = "actions.forkInstance(data.newForkName, data.env); \
           cancel();"
       ) Fork Box
       button.white(
-        ng-click = "actions.cancel(); \
-          cancel();"
+        ng-click = "data.forkForm.$setPristine(); \
+          cancel(); \
+          actions.cancel();"
         type = "button"
       ) Go Back
