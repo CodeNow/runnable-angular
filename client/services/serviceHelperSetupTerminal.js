@@ -20,7 +20,8 @@ function helperSetupTerminal(
 
     // Terminal sizing
     var $termElem = jQuery(terminal.element);
-
+    var oldX = 0;
+    var oldY = 0;
     function resizeTerm() {
       // Tab not selected
       if ($termElem.width() === 100) {
@@ -37,7 +38,11 @@ function helperSetupTerminal(
         x = 80;
       }
       var y = Math.floor($termElem.height() / CHAR_HEIGHT);
-      terminal.resize(x, y);
+      if (!(oldX === x && oldY === y)) {
+        oldX = x;
+        oldY = y;
+        terminal.resize(x, y);
+      }
     }
 
     var dResizeTerm = debounce(resizeTerm, 300);
