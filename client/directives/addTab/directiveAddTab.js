@@ -26,7 +26,8 @@ function RunnableAddTab(
         break;
       case 'instance.instanceEdit':
         opts = {
-          envVars: true
+          envVars: true,
+          buildStream: true
         };
         break;
       case 'instance.instance':
