@@ -24,7 +24,7 @@ function logBox(
       var boxStream;
 
       /**
-       * Creates instance of Terminal w/ default 
+       * Creates instance of Terminal w/ default
        * settings and attaches to elem.
        * - Unbinds events on $destroy
        */
@@ -45,7 +45,7 @@ function logBox(
 
       $scope.$watch('instance.containers.models[0].attrs.inspect.State.Running', function (n) {
         if (n === false) {
-          var exitCode = $scope.container.attrs.inspect.State.ExitCode;
+          var exitCode = $scope.instance.containers.models[0].attrs.inspect.State.ExitCode;
           if (exitCode > 0) {
             terminal.writeln('Exited with code: ' + exitCode);
           }
