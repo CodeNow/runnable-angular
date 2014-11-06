@@ -158,7 +158,6 @@ function ControllerInstance(
   ]);
 
   /**
-
   var pfm = data.popoverFileMenu = {};
   pfm.data = {
     show: false
@@ -188,7 +187,6 @@ function ControllerInstance(
       });
     });
   };
-
 
   // instance is stopped => uncloseable server log
   // instance is building => unclosable build log
