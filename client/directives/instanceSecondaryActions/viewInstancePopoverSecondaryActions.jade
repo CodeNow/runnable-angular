@@ -15,25 +15,22 @@
       li.divider(
         ng-if = "data.build.attrs.completed"
       )
+      li.popover-list-item(
+        ng-click = "actions.goToEdit()"
+      ) Edit Build
       //- li.popover-list-item(
       //-   modal
       //-   modal-actions = "actions.actionsModalEnvironment"
       //-   modal-data = "data.dataModalEnvironment"
       //-   modal-template = "viewModalEnvironment"
       //- ) Edit Environment
-      //- li.divider
+      li.divider
       li.popover-list-item(
         modal
         modal-actions = "actions.actionsModalRename"
         modal-data = "data.dataModalRename"
         modal-template = "viewModalRenameBox"
       ) Rename Box
-      li.popover-list-item(
-        modal
-        modal-actions = "actions.actionsModalFork"
-        modal-data = "data.dataModalFork"
-        modal-template = "viewModalForkBox"
-      ) Fork Box
       li.popover-list-item(
         modal
         modal-actions = "actions.actionsModalDelete"
