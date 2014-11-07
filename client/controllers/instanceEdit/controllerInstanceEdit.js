@@ -82,26 +82,4 @@ function ControllerInstanceEdit(
     setDefaultTabs();
   });
 
-  /*
-  var confirmText = 'You\'ve made unsaved changes to this page.';
-
-  $window.onbeforeunload = function () {
-    if (!data.openItems.isClean()) {
-      return confirmText;
-    }
-  };
-
-  $scope.$on('$stateChangeStart', function (e, n, c) {
-    if (!data.skipCheck &&
-        n.url !== '^/:userName/:instanceName/edit/:buildId/' && // We're leaving the edit page
-        data.openItems && !data.openItems.isClean() && // Files have been edited and not saved
-        !confirm(confirmText + '\nAre you sure you want to leave?')) {
-      e.preventDefault();
-    } else {
-      $window.onbeforeunload = null;
-    }
-  });
-
-*/
-
 }
