@@ -30,8 +30,6 @@ function ControllerInstance(
   // loader if saving fs changes
   data.saving = false;
 
-  // toggle explorer menu
-  data.showExplorer = false;
   data.sectionClasses = {
     // out shows/hides entire toolbar
     out: true,
