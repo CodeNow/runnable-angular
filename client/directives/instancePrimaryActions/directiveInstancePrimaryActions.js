@@ -75,6 +75,8 @@ function RunnableInstancePrimaryActions(
                   $rootScope.safeApply();
                 });
               });
+              // need container !running here
+              keypather.set($scope.instance, 'containers.models[0].attrs.inspect.State.Running', false);
             }
             $rootScope.safeApply();
           }
