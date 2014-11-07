@@ -43,8 +43,8 @@ function RunnableEditRepoCommit(
       // emits (broadcast up DOM tree) event to be
       // intercepted by directive-runnable-repo-list
       // when ACV selected commit changes
-      function emitACVChange() {
-        $scope.$emit('acv-change');
+      function emitACVChange(opts) {
+        $scope.$emit('acv-change', opts);
       }
 
       $scope.activeBranch = null;
@@ -130,7 +130,7 @@ function RunnableEditRepoCommit(
         setActiveBranch($scope.unsavedAcv);
         setActiveCommit($scope.unsavedAcv);
         fetchCommitOffset($scope.unsavedAcv, $scope.activeCommit);
-        emitACVChange();
+        emitACVChange({triggerBuild: true});
       };
 
       setActiveBranch($scope.acv);

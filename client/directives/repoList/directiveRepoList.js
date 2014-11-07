@@ -57,10 +57,12 @@ function RunnableRepoList(
       };
 
       // selected repo commit change
-      $scope.$on('acv-change', function (event) {
+      $scope.$on('acv-change', function (event, opts) {
         event.stopPropagation();
         if ($scope.unsavedAcvs.length === 1) {
           // Immediately update/rebuild if user only has 1 repo
+          $scope.triggerInstanceUpdateOnRepoCommitChange();
+        } else if (opts && opts.triggerBuild) {
           $scope.triggerInstanceUpdateOnRepoCommitChange();
         }
       });
