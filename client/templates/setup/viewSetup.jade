@@ -141,8 +141,21 @@ section.views.with-add-tab(
     update = "true"
   )
 
-  .embed-video
-    iframe(
+  .embed-wrapper
+    .embed-guide
+      h2.embed-heading Watch this video
+      p it'll help you and stuff
+      button.btn.btn-run
+        svg.iconnables.icons-run
+          use(
+            xlink:href = "#icons-run"
+          )
+      button.btn.btn-close
+        svg.iconnables.icons-close
+          use(
+            xlink:href = "#icons-close"
+          )
+    iframe.embed-iframe(
       allowfullscreen
       frameborder="0"
       height = "100%"

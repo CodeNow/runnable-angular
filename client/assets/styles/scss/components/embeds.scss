@@ -1,0 +1,50 @@
+// .embed-wrapper
+.embed-wrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+
+  // offset for toolbar
+  .views & {
+    top: -46px;
+  }
+}
+
+.embed-guide {
+  align-items: center;
+  background: $white;
+  color: $gray-light;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.embed-heading {
+  font-weight: 300;
+}
+
+.btn-run {
+  height: 150px;
+  width: 150px;
+
+  .iconnables {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.btn-close {
+  height: 45px;
+  padding: 0;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 45px;
+
+  .iconnables {
+    height: 100%;
+    width: 100%;
+  }
+}
