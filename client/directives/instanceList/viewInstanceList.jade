@@ -31,7 +31,7 @@ section.row.boxes
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )
-      a.box-item-name {{ instance.attrs.name }}
+      a.box-item-name.text-overflow {{ instance.attrs.name }}
       span.icons-status(
         title = "{{ getInstanceAltTitle(instance) }}"
       )
