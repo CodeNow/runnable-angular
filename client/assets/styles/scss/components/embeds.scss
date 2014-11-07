@@ -8,6 +8,19 @@
   .views & {
     top: -46px;
   }
+
+  &.fixed {
+    bottom: 0;
+    height: 315px;
+    position: fixed;
+    right: 0;
+    top: auto;
+    width: 560px;
+
+    .embed-guide {
+      display: none;
+    }
+  }
 }
 
 .embed-guide {

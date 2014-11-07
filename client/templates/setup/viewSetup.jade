@@ -141,7 +141,9 @@ section.views.with-add-tab(
     update = "true"
   )
 
-  .embed-wrapper
+  .embed-wrapper(
+    ng-class = "{fixed: dataSetup.data.showVideoFixed}"
+  )
     .embed-guide(
       ng-class = "{out: dataSetup.data.showVideo}"
     )
@@ -162,8 +164,16 @@ section.views.with-add-tab(
       width = "100%"
     )
 
-  .alert.guide Lost? Here's a video.
-    button.btn.btn-xs.btn-close
+  .alert.guide(
+    ng-click = "dataSetup.data.showVideoFixed = true"
+    ng-hide = "dataSetup.data.closeVideoAlert"
+  ) Lost? Here's a video.
+    button.btn.btn-xs.btn-close(
+      ng-click = "\
+        dataSetup.data.closeVideoAlert = true;\
+        $event.stopPropagation()\
+      "
+    )
       svg.iconnables.icons-close
         use(
           xlink:href = "#icons-close"
