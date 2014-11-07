@@ -3,7 +3,8 @@
     indicates model is deployed
 .alert.green(
   ng-class = "{ \
-    in: dataInstance.data.instance.containers.models.length \
+    in: (dataInstance.data.showFinishMessageWhenContainerFetched && \
+         dataInstance.data.instance.containers.models.length) \
   }"
 )
   svg.iconnables.icons-check

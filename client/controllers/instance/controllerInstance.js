@@ -98,6 +98,9 @@ function ControllerInstance(
     if (!instance) return;
 
     if (!container) {
+      // Set to true if we see the instance in an undeployed state
+      // DOM will have message when instance w/ containers fetched
+      data.showFinishMessageWhenContainerFetched = true;
       // instance not deployed yet
       if (!data.openItems.hasOpen('BuildStream')) {
         data.openItems.addBuildStream();
