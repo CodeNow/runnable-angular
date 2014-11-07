@@ -157,9 +157,9 @@ function openItemsFactory(
           }
           return model;
         });
+        this.reset([]);
+        this.add(models);
       }
-      this.reset([]);
-      this.add(models);
     };
 
     BaseCollection.call(this, models, {
