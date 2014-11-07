@@ -5,7 +5,7 @@ h1.box-info.load(
   .box-name {{ instance.attrs.name }}
     span.icons-status(
       ng-class = "getInstanceClasses(instance)"
-      tooltip = "{{ getInstanceAltTitle(dataInstance.data.instance) }}"
+      tooltip = "{{ getInstanceAltTitle(instance) }}"
       tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
     )
   input.box-url(
