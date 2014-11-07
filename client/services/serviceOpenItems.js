@@ -133,9 +133,8 @@ function openItemsFactory(
     this.previouslyActiveTab = null;
 
     var models;
-
-    if (this.shortHash) {
-      models = $localStorage[shortHash];
+    this.retrieveTabs = function() {
+      models = $localStorage[this.shortHash];
       if (Array.isArray(models)) {
         this.previouslyActiveTab = models.find(function (m) {
           return keypather.get(m, 'state.active');
@@ -160,7 +159,14 @@ function openItemsFactory(
           return model;
         });
       }
+      this.reset([]);
+      this.add(models);
+    };
+
+    if (this.shortHash) {
+      this.retrieveTabs();
     }
+
     BaseCollection.call(this, models, {
       noStore: true
     });
@@ -179,6 +185,11 @@ function openItemsFactory(
         this.activeHistory.add(model);
       }
     }
+  };
+
+  OpenItems.prototype.restoreTabs = function(shortHash) {
+    this.shortHash = shortHash;
+    this.retrieveTabs();
   };
 
   OpenItems.prototype.reset = function () {
