@@ -69,7 +69,8 @@ section.views.with-add-tab(
 
   //- blank state
   .blank-panel(
-    ng-if= "dataInstance.data.openItems.models.length === 0"
+    ng-if= "dataInstance.data.instance.containers.models[0] && \
+            dataInstance.data.openItems.models.length === 0"
   )
     ul.blank-panel-group
       li.blank-panel-item(
