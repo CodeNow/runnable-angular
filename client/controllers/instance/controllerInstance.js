@@ -23,8 +23,6 @@ function ControllerInstance(
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
-  data.openItems = new OpenItems();
-
   // loader if saving fs changes
   data.saving = false;
 
@@ -90,7 +88,10 @@ function ControllerInstance(
   //     - show explorer
   //     - show terminal
   //     - show box logs (has focus)
-  function updateDisplayedTabs() {
+  function updateDisplayedTabs(n) {
+    if (n === undefined || !data.openItems) {
+      return;
+    }
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
     if (!instance || !container) {
@@ -133,6 +134,7 @@ function ControllerInstance(
         data.openItems.addLogs();
       }
     }
+    data.openItems.restoreActiveTab();
   }
 
   // watch showExplorer (toggle when user clicks file menu)
@@ -144,6 +146,13 @@ function ControllerInstance(
       return;
     }
     data.sectionClasses.in = n;
+  });
+
+  $scope.$watch('dataInstance.data.instance.build', function(n) {
+    if (n) {
+      data.openItems = new OpenItems(data.instance.id() + '-' + data.instance.build.id());
+      $scope.safeApply();
+    }
   });
 
   // watch for deployed/started/stopped instance
