@@ -18,8 +18,48 @@
     animation: alert 5s ease-in;
   }
 
-  .iconnables {
+  > .iconnables {
     margin-right: 6px;
     top: 6px;
+  }
+
+  .btn-close {
+    float: right;
+    opacity: .5;
+    padding: 0;
+    top: 6px;
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
+  }
+}
+
+.alert.guide {
+  background: rgba($black,.75);
+  border: 0;
+  bottom: 0;
+  color: $white;
+  font-weight: 300;
+  left: 12px;
+  opacity: 1;
+  position: absolute;
+  top: auto;
+  width: 210px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  > .iconnables {
+    color: $blue;
+    height: 100%;
+    margin: 0 6px 0 0;
+    top: 0;
+  }
+
+  .icons-close {
+    margin: 0;
   }
 }

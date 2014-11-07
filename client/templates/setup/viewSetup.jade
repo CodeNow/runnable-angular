@@ -72,7 +72,7 @@ section.sidebar.box-sidebar.setup
         use(
           xlink:href = "#icons-docker"
         )
-      p Choose a template to generate your dockerfile.
+      p.guide-text Choose a template to generate your dockerfile.
 
   section.row(
     ng-if = "dataSetup.data.validDockerfile.valid === false"
@@ -142,18 +142,17 @@ section.views.with-add-tab(
   )
 
   .embed-wrapper
-    .embed-guide
+    .embed-guide(
+      ng-class = "{out: dataSetup.data.showVideo}"
+    )
       h2.embed-heading Watch this video
-      p it'll help you and stuff
-      button.btn.btn-run
+      p It'll help you and stuff
+      button.btn.btn-embed-play(
+        ng-click = "dataSetup.data.showVideo = true"
+      )
         svg.iconnables.icons-run
           use(
             xlink:href = "#icons-run"
-          )
-      button.btn.btn-close
-        svg.iconnables.icons-close
-          use(
-            xlink:href = "#icons-close"
           )
     iframe.embed-iframe(
       allowfullscreen
@@ -162,6 +161,13 @@ section.views.with-add-tab(
       src="//www.youtube.com/embed/oiSn4-A8Qpw"
       width = "100%"
     )
+
+  .alert.guide Lost? Here's a video.
+    button.btn.btn-xs.btn-close
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
 
   //- spinner
   .horizontal-spinner(

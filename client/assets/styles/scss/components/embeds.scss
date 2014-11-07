@@ -18,30 +18,30 @@
   flex-direction: column;
   height: 100%;
   justify-content: center;
+  position: relative;
+  transition: all .2s ease-in;
   width: 100%;
+  z-index: $z-views-embed-guide;
+
+  &.out {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 .embed-heading {
   font-weight: 300;
 }
 
-.btn-run {
-  height: 150px;
-  width: 150px;
-
-  .iconnables {
-    height: 100%;
-    width: 100%;
-  }
+.embed-iframe {
+  position: absolute;
+  top: 0;
+  z-index: $z-views-embed-video;
 }
 
-.btn-close {
-  height: 45px;
-  padding: 0;
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  width: 45px;
+.btn-embed-play {
+  height: 150px;
+  width: 150px;
 
   .iconnables {
     height: 100%;
