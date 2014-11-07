@@ -93,6 +93,8 @@ function ControllerInstance(
   function updateDisplayedTabs() {
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
+    console.log('instance', instance);
+    console.log('container', container);
     if (!instance) return;
 
     if (!container) {
@@ -145,6 +147,10 @@ function ControllerInstance(
   });
 
   // watch for deployed/started/stopped instance
+  // all watches necessary, updateDisplayedTabs expectst to be invoked
+  // after fetching instance, fetching container, and cointainer start
+  $scope.$watch('dataInstance.data.instance', updateDisplayedTabs);
+  $scope.$watch('dataInstance.data.instance.containers.modles[0]', updateDisplayedTabs);
   $scope.$watch('dataInstance.data.instance.containers.models[0].running()', updateDisplayedTabs);
 
   async.waterfall([

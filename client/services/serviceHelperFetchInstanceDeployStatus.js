@@ -26,6 +26,7 @@ function helperFetchInstanceDeployStatus (
         instance.fetch(function () {
           $rootScope.safeApply();
         });
+        $rootScope.safeApply();
         cb(null, instance);
       });
     }
