@@ -93,7 +93,9 @@ function ControllerInstance(
   function updateDisplayedTabs() {
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
-    if (!instance || !container) {
+    if (!instance) return;
+
+    if (!container) {
       // instance not deployed yet
       if (!data.openItems.hasOpen('BuildStream')) {
         data.openItems.addBuildStream();
@@ -107,10 +109,6 @@ function ControllerInstance(
         out: true,
         in: false
       };
-      // show only build logs
-      if (!data.openItems.hasOpen('BuildStream')) {
-        data.openItems.addBuildStream();
-      }
       if (data.openItems.hasOpen('LogView')) {
         // make it selected
         var logView = data.openItems.find(function (m) {
