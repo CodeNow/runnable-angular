@@ -118,6 +118,7 @@ function RunnableAddRepoPopover(
           .wrapFunc('fetchUser')
           .query('me')
           .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
             $scope.repoListPopover.data.user = user;
             $rootScope.safeApply();
             cb();
