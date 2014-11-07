@@ -16,7 +16,9 @@ function RunnableRepoList(
     restrict: 'E',
     templateUrl: 'viewRepoList',
     replace: true,
-    scope: {},
+    scope: {
+      loading: '='
+    },
     link: function ($scope, elem) {
 
       // add-repo-popover
@@ -75,6 +77,8 @@ function RunnableRepoList(
       };
 
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
+        // display loading spinner
+        $scope.loading = true;
         var context = $scope.build.contexts.models[0];
         var contextVersion = $scope.build.contextVersions.models[0];
         var infraCodeVersionId = contextVersion.attrs.infraCodeVersion;

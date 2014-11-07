@@ -28,7 +28,9 @@ header.box-header
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar.load
 
-  runnable-repo-list
+  runnable-repo-list(
+    loading = "dataApp.data.loading"
+  )
 
 //- in / out control presence of header-bar
 section.views.with-add-tab(
