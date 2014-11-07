@@ -18,7 +18,7 @@ function RunnableInstanceEditPrimaryActions(
     templateUrl: 'viewInstanceEditPrimaryActions',
     replace: true,
     scope: {
-      saving: '=',
+      loading: '=',
       openItems: '='
     },
     link: function ($scope, elem, attrs) {
@@ -28,6 +28,7 @@ function RunnableInstanceEditPrimaryActions(
       $scope.build = function () {
         if (building) return;
         building = true;
+        $scope.loading = true;
         var buildObj = {
           message: 'Manual build'
         };
