@@ -67,8 +67,13 @@ function RunnableInstancePrimaryActions(
           },
           function complete(err) {
             if ($scope.popoverSaveOptions.data.restartOnSave) {
-              $scope.instance.restart(function() {
+              $scope.instance.restart(function(err) {
+                if (err) throw err;
                 $rootScope.safeApply();
+                $scope.instance.fetch(function(err) {
+                  if (err) throw err;
+                  $rootScope.safeApply();
+                });
               });
             }
             $rootScope.safeApply();

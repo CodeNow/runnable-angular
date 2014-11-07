@@ -74,6 +74,10 @@ function tabs(
           fetchInstance,
           helperFetchInstanceDeployStatus
         ], function() {
+          // don't restore tabs if box not running
+          if (!data.instance.containers.models[0].running()) {
+            return;
+          }
           $scope.openItems.restoreTabs(data.instance.id() + '-' + data.instance.build.id(),
                                        data.instance.containers.models[0]);
           $scope.openItems.restoreActiveTab();
