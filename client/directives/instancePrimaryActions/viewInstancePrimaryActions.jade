@@ -11,7 +11,7 @@
       span.btn-text Save
       //- show if restart is checked
       span.btn-text(
-        ng-if = "restartOnSave"
+        ng-if = "popoverSaveOptions.data.restartOnSave"
       ) #{''} and Restart
     button.green.btn-icon.btn-icon-sm.btn-save-options(
       ng-class = "{active: popoverSaveOptions.data.show}"

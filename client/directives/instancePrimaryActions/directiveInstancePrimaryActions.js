@@ -31,12 +31,6 @@ function RunnableInstancePrimaryActions(
 
       $scope.saving = false;
       $scope.loading = false;
-      $scope.restartOnSave = false;
-
-      // update local $scope property restartOnSave when popover changes
-      $scope.$watch('popoverSaveOptions.data.restartOnSave', function (n) {
-        $scope.restartOnSave = !!n;
-      });
 
       $scope.$watch('instance', function (n) {
         if (n) $scope.popoverSaveOptions.data.instance = n;
@@ -72,8 +66,10 @@ function RunnableInstancePrimaryActions(
             });
           },
           function complete(err) {
-            if ($scope.restartOnSave) {
-              //pgm.actions.restartInstance();
+            if ($scope.popoverSaveOptions.data.restartOnSave) {
+              $scope.instance.restart(function() {
+                $rootScope.safeApply();
+              });
             }
             $rootScope.safeApply();
           }
