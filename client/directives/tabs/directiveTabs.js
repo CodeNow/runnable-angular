@@ -6,6 +6,7 @@ require('app')
  */
 function tabs(
   async,
+  helperFetchInstanceDeployStatus,
   $rootScope,
   $state,
   $stateParams,
@@ -61,18 +62,20 @@ function tabs(
             var instance = instances.models[0];
             data.instance = instance;
             $rootScope.safeApply();
-            cb();
+            cb(null, instance);
           })
           .go();
       }
 
       if ($state.$current.name === 'instance.instance') {
         // restore previously active tabs
-        async.series([
+        async.waterfall([
           fetchUser,
-          fetchInstance
+          fetchInstance,
+          helperFetchInstanceDeployStatus
         ], function() {
-          $scope.openItems.restoreTabs(data.instance.id() + '-' + data.instance.build.id());
+          $scope.openItems.restoreTabs(data.instance.id() + '-' + data.instance.build.id(),
+                                       data.instance.containers.models[0]);
           $scope.openItems.restoreActiveTab();
         });
       }

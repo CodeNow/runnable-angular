@@ -127,13 +127,13 @@ function openItemsFactory(
     }
   };
 
-  function OpenItems(shortHash) {
-    this.shortHash = shortHash;
+  function OpenItems() {
+    this.shortHash = null;
     this.activeHistory = new ActiveHistory();
     this.previouslyActiveTab = null;
 
     var models;
-    this.retrieveTabs = function() {
+    this.retrieveTabs = function(container) {
       models = $localStorage[this.shortHash];
       if (Array.isArray(models)) {
         this.previouslyActiveTab = models.find(function (m) {
@@ -146,12 +146,11 @@ function openItemsFactory(
           var from = keypather.get(model, 'state.from');
           if (tabTypes[from]) {
             if (from === 'File') {
-              model = new ContainerFileModel(model, {
-                client: user.client,
-                parentPath: model.state.parentPath
-              });
+              // safe to assume ContainerFileModel,
+              // caching not present on instance.instanceEdit
+              model = container.newFile(model);
             } else {
-              model = new tabTypes[model.state.from](model, {
+              model = new tabTypes[from](model, {
                 noStore: true
               });
             }
@@ -162,10 +161,6 @@ function openItemsFactory(
       this.reset([]);
       this.add(models);
     };
-
-    if (this.shortHash) {
-      this.retrieveTabs();
-    }
 
     BaseCollection.call(this, models, {
       noStore: true
@@ -187,9 +182,9 @@ function openItemsFactory(
     }
   };
 
-  OpenItems.prototype.restoreTabs = function(shortHash) {
+  OpenItems.prototype.restoreTabs = function(shortHash, container) {
     this.shortHash = shortHash;
-    this.retrieveTabs();
+    this.retrieveTabs(container);
   };
 
   OpenItems.prototype.reset = function () {
