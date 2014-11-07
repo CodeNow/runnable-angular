@@ -25,6 +25,8 @@ function ControllerInstance(
 
   data.openItems = new OpenItems();
 
+  // shows/hides the file menu
+  data.showExplorer = false;
   // loader if saving fs changes
   data.saving = false;
 
@@ -93,8 +95,6 @@ function ControllerInstance(
   function updateDisplayedTabs() {
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
-    console.log('instance', instance);
-    console.log('container', container);
     if (!instance) return;
 
     if (!container) {
@@ -124,7 +124,7 @@ function ControllerInstance(
     } else {
       data.sectionClasses = {
         out: false,
-        in: true
+        in: false
       };
       if (!data.openItems.hasOpen('Terminal')) {
         data.openItems.addTerminal();
