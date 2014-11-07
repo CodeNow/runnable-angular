@@ -25,9 +25,13 @@ function helperFetchInstanceDeployStatus (
          */
         instance.fetch(function () {
           $rootScope.safeApply();
+          if (instance.containers.models.length) {
+            cb(null, instance);
+          } else {
+            checkDeployed();
+          }
         });
         $rootScope.safeApply();
-        cb(null, instance);
       });
     }
     function pollFetchContainer() {
