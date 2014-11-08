@@ -1,8 +1,17 @@
 .secondary-actions
-  .save-spinner(
-    ng-class = "{ in: saving }"
+  button.white.btn-icon(
+    modal
+    modal-actions = "popoverGearMenu.actions.actionsModalFork"
+    modal-data = "popoverGearMenu.data.dataModalFork"
+    modal-template = "viewModalForkBox"
+    title = "Fork Box"
+    type = "button"
   )
-  a.btn.white.btn-icon.btn-actions(
+    svg.iconnables.icons-fork
+      use(
+        xlink:href = "#icons-fork"
+      )
+  button.btn.white.btn-icon.btn-actions(
     ng-class = "{active: popoverGearMenu.data.show}"
     toggle-pop-over
     toggle-pop-over-model = "popoverGearMenu.data.show"
