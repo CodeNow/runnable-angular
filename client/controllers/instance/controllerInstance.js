@@ -133,6 +133,9 @@ function ControllerInstance(
       if (!data.openItems.hasOpen('LogView')) {
         data.openItems.addLogs();
       }
+      if (!data.openItems.hasOpen('WebView')) {
+        data.openItems.addWebView();
+      }
     }
   }
 
