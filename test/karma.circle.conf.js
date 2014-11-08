@@ -63,6 +63,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'unit/globals.js',
       'unit/**/*.unit.js'
     ],
 
@@ -98,10 +99,6 @@ module.exports = function(config) {
 
     // web server port
     port: 9876,
-
-
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
 
 
     // level of logging

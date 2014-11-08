@@ -11,7 +11,7 @@ var $compile,
     user;
 var $elScope;
 
-describe.skip('directiveRunnableSetupPrimaryActions'.bold.underline.blue, function() {
+describe('directiveRunnableSetupPrimaryActions'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
