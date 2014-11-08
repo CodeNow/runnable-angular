@@ -1,0 +1,91 @@
+// .embed-wrapper
+.embed-wrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+
+  // offset for toolbar
+  .views & {
+    top: -46px;
+  }
+
+  &.fixed {
+    bottom: 0;
+    height: 315px;
+    position: fixed;
+    right: 0;
+    top: auto;
+    width: 560px;
+    z-index: $z-alert;
+
+    .embed-guide {
+      display: none;
+    }
+  }
+}
+
+.embed-guide {
+  align-items: center;
+  background: $white;
+  color: $gray-light;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  transition: all .2s ease-in;
+  width: 100%;
+  z-index: $z-views-embed-guide;
+
+  &.out {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.embed-heading {
+  font-weight: 300;
+}
+
+.embed-iframe {
+  position: absolute;
+  top: 0;
+  z-index: $z-views-embed-video;
+}
+
+.btn-xs.btn-embed-iframe-close {
+  height: 24px;
+  padding: 0;
+  position: absolute;
+  right: 6px;
+  top: -30px;
+  width: 24px;
+  z-index: $z-views-embed-close;
+
+  &:hover {
+    background: $white;
+  }
+
+  .iconnables {
+    height: 100%;
+  }
+}
+
+// refactor this
+.ace-runnable-dark ~ .embed-wrapper .btn-embed-iframe-close {
+  color: $white;
+
+  &:hover {
+    background: none;
+  }
+}
+
+.btn-embed-play {
+  height: 150px;
+  width: 150px;
+
+  .iconnables {
+    height: 100%;
+    width: 100%;
+  }
+}
