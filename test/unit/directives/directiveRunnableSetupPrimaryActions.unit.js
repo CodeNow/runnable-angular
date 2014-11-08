@@ -51,6 +51,8 @@ describe('directiveRunnableSetupPrimaryActions'.bold.underline.blue, function() 
       .whenGET(buildUrl)
       .respond(mocks.instances.runningWithContainers);
 
+    modelStore.reset();
+
     $scope.loading = false;
     $scope.name = '';
     $scope.valid = false;

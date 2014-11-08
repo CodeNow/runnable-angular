@@ -14,13 +14,4 @@ window.expect = require('chai').expect;
 window.sinon = require('sinon'); // Stuff to create spyable functions (unused)
 window.mocks = require('./apiMocks'); // JSON mocks for API responses
 window.directiveTemplate = require('./fixtures/directiveTemplate');
-
-
-
-// Still not sure about keeping this one in
-// It's not used in every test, but extra calls don't break anything.
-var modelStore = require('runnable/lib/stores/model-store');
-
-beforeEach(function () {
-  modelStore.reset();
-});
+window.modelStore = require('runnable/lib/stores/model-store');

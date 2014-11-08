@@ -53,6 +53,8 @@ describe('directiveRunnableWebView'.bold.underline.blue, function() {
       .whenGET(instanceUrl)
       .respond(mocks.instances.runningWithContainers);
 
+    modelStore.reset();
+
     ctx.element = angular.element(ctx.template);
     ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();

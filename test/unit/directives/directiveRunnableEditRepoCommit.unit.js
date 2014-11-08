@@ -92,6 +92,8 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
     $scope.acv = ctx.acv;
     $scope.unsavedAcv = ctx.unsavedAcv;
 
+    modelStore.reset();
+
     ctx.element = angular.element(ctx.template);
     ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
