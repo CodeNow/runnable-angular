@@ -103,14 +103,6 @@ module.exports = function(config) {
       ]
     },
 
-    //coverageReporter: {
-    //  type: 'text',
-    //  dir : 'coverage/',
-    //  instrumenter: {
-    //    '**/*.js': 'istanbul' // Force the use of the Istanbul instrumenter to cover CoffeeScript files
-    //  }
-    //},
-
     // web server port
     port: 9876,
 
