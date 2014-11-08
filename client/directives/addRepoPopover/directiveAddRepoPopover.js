@@ -189,8 +189,9 @@ function RunnableAddRepoPopover(
         });
       }
 
-      function getOwnerRepoQuery(user, build, userName, cb) {
-        if (user.isOwnerOf(build)) {
+      function getOwnerRepoQuery(user, userName, cb) {
+        if (userName === user.attrs.accounts.github.username) {
+          // does $stateParam.username match this user's username
           return new QueryAssist(user, cb).wrapFunc('fetchGithubRepos');
         } else {
           return new QueryAssist(user.newGithubOrg(userName), cb).wrapFunc('fetchRepos');
@@ -201,7 +202,6 @@ function RunnableAddRepoPopover(
         function fetchPage(page) {
           var userOrOrg = getOwnerRepoQuery(
             $scope.repoListPopover.data.user,
-            $scope.repoListPopover.data.build,
             $stateParams.userName,
             cb
           );

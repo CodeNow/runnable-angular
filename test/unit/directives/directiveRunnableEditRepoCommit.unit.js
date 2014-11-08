@@ -6,7 +6,6 @@ var angular = require('angular');
 var jQuery  = require('jquery');
 var mocks   = require('../apiMocks');
 var expect  = chai.expect;
-var directiveTemplate = require('../../fixtures/directiveTemplate');
 var host = require('../../../client/config/json/api.json').host;
 require('browserify-angular-mocks');
 
@@ -177,5 +176,4 @@ describe.skip('directiveRunnableEditRepoCommit'.bold.underline.blue, function() 
     expect($el.length).to.be.ok;
     expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
   });
-
 });

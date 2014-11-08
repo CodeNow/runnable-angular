@@ -12,12 +12,9 @@
         ng-click = "actions.startInstance()"
         ng-if = "data.build.attrs.completed && !data.instance.containers.models[0].running()"
       ) Start Running
-      li.divider(
-        ng-if = "data.build.attrs.completed"
-      )
-      li.popover-list-item(
-        ng-click = "actions.goToEdit()"
-      ) Edit Build
+      //- li.divider(
+      //-   ng-if = "data.build.attrs.completed"
+      //- )
       //- li.popover-list-item(
       //-   modal
       //-   modal-actions = "actions.actionsModalEnvironment"

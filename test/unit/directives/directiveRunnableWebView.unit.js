@@ -1,15 +1,4 @@
-var chai    = require('chai');
-var sinon   = require('sinon');
-var colors  = require('colors');
-var angular = require('angular');
 var jQuery  = require('jquery');
-var mocks   = require('../apiMocks');
-var expect  = chai.expect;
-var directiveTemplate = require('../../fixtures/directiveTemplate');
-var host = require('../../../client/config/json/api.json').host;
-require('browserify-angular-mocks');
-
-var modelStore = require('runnable/lib/stores/model-store');
 
 // injector-provided
 var $compile,
