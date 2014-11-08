@@ -61,6 +61,11 @@ module.exports = function(config) {
       }
     },
 
+    // list of files / patterns to load in the browser
+    files: [
+      'unit/**/*.unit.js'
+    ],
+
     preprocessors: {
       'unit/**/*.js': ['browserify', 'coverage']
     },
