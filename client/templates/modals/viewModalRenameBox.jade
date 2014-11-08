@@ -20,7 +20,7 @@
           }"
         )
           span.input-label Name
-          span.input-description.text-overflow {{ newName }}.runnable.io
+          span.input-description.text-overflow {{ newName }}.{{ data.instance.attrs.owner.username }}.runnable.io
           input.input(
             autofocus
             instance = "data.instance"
