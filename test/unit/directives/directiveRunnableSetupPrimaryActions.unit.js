@@ -1,16 +1,3 @@
-var chai    = require('chai');
-var sinon   = require('sinon');
-var colors  = require('colors');
-var angular = require('angular');
-var jQuery  = require('jquery');
-var mocks   = require('../apiMocks');
-var expect  = chai.expect;
-var directiveTemplate = require('../../fixtures/directiveTemplate');
-var host = require('../../../client/config/json/api.json').host;
-require('browserify-angular-mocks');
-
-var modelStore = require('runnable/lib/stores/model-store');
-
 // injector-provided
 var $compile,
     $filter,
@@ -70,15 +57,15 @@ describe('directiveRunnableSetupPrimaryActions'.bold.underline.blue, function() 
     $scope.name = '';
     $scope.valid = false;
 
-    ctx.element = angular.element(ctx.template);
-    ctx.element = $compile(ctx.element)($scope);
+    ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
-    $httpBackend.flush();
-    ctx.$element = jQuery(ctx.element);
+    // $httpBackend.flush();
     $elScope = ctx.element.isolateScope();
   };
 
-  beforeEach(angular.mock.module('app'));
+  beforeEach(function () {
+    angular.mock.module('app');
+  });
 
   beforeEach(function() {
     ctx = {};
@@ -88,6 +75,9 @@ describe('directiveRunnableSetupPrimaryActions'.bold.underline.blue, function() 
       valid: ''
     });
   });
+
+  // afterEach($httpBackend.verifyNoOutstandingRequest);
+  // afterEach($httpBackend.verifyNoOutstandingExpectation);
 
   it('basic dom', function() {
     angular.mock.module(function ($provide) {
@@ -103,7 +93,7 @@ describe('directiveRunnableSetupPrimaryActions'.bold.underline.blue, function() 
     });
 
     injectSetupCompile();
-    expect(ctx.$element).to.be.ok;
+    expect(ctx.element).to.be.ok;
     //expect(ctx.$element.find('> iframe').length).to.be.ok;
   });
 

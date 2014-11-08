@@ -13,6 +13,15 @@
         xlink:href = "#icons-check"
       )
   button.white.btn-icon(
+    ng-click = "goToEdit()"
+    title = "Edit Box"
+    type = "button"
+  )
+    svg.iconnables.icons-edit
+      use(
+        xlink:href = "#icons-edit"
+      )
+  button.white.btn-icon(
     modal
     modal-actions = "popoverGearMenu.actions.actionsModalFork"
     modal-data = "popoverGearMenu.data.dataModalFork"
