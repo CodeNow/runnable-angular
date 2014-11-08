@@ -69,6 +69,7 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       files: [
+        'unit/globals.js',
         'unit/**/*.unit.js'
       ]
     },
