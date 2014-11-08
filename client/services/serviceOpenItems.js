@@ -159,8 +159,6 @@ function openItemsFactory(
           return model;
         });
       }
-      this.reset([]);
-      this.add(models);
     };
 
     if (this.shortHash) {
