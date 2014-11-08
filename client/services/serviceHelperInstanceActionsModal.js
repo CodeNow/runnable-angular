@@ -89,6 +89,7 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.actions.actionsModalFork = {
       forkInstance: function (newName, env, cb) {
         $scope.popoverGearMenu.data.show = false;
+        $rootScope.dataApp.data.loading = true;
         newName = newName.trim();
         cb = cb || angular.noop;
         // TODO display loading overlay

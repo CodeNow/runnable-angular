@@ -11,10 +11,11 @@ function ControllerApp(
   configAPIHost,
   configEnvironment,
   configLoginURL,
-  configLogoutURL
+  configLogoutURL,
+  $rootScope
 ) {
 
-  var dataApp = $scope.dataApp = {
+  var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {},
     actions: {}
   };
