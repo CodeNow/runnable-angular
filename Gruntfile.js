@@ -423,6 +423,30 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('deleteOldCoverage', '', function () {
+    function deleteFolderRecursive(path) {
+      var files = [];
+      if( fs.existsSync(path) ) {
+        files = fs.readdirSync(path);
+        files.forEach(function(file,index){
+          var curPath = path + "/" + file;
+          if(fs.lstatSync(curPath).isDirectory()) { // recurse
+            deleteFolderRecursive(curPath);
+          } else { // delete file
+            fs.unlinkSync(curPath);
+          }
+        });
+        fs.rmdirSync(path);
+      }
+    }
+
+    if (fs.existsSync('test/coverage')) {
+      deleteFolderRecursive('test/coverage');
+    }
+  });
+
+
+
   grunt.registerTask('loadSyntaxHighlighters', '', function () {
     var cb = this.async();
     var indexPath = path.join(__dirname, 'client', 'lib', 'braceModes.js');
@@ -479,6 +503,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);
+
+  grunt.registerTask('test:unit&coverage', [
+    'deleteOldCoverage',
+    'bgShell:karma',
+    'coverage'
+  ]);
+
   grunt.registerTask('test:e2e', ['bgShell:protractor']);
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('build:dev', [

@@ -75,7 +75,8 @@ module.exports = function(config) {
 
 
     preprocessors: {
-      'unit/**/*.js': ['browserify', 'coverage']
+      'unit/**/*.js': ['browserify'],
+      'client/**/*.js': ['coverage']
     },
 
     browserify: {
