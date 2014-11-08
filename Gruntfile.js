@@ -303,6 +303,18 @@ module.exports = function(grunt) {
           jslintHappy: true
         }
       }
+    },
+    coverage: {
+      options: {
+        thresholds: {
+          'statements': 80,
+          'branches': 80,
+          'lines': 80,
+          'functions': 80
+        },
+        dir: 'coverage',
+        root: 'test'
+      }
     }
   });
 
@@ -363,7 +375,8 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || 'http://mewl10-3030.runnable.io';
+        configObj.host = process.env.API_HOST || 'http://stage-api.codenow.runnable.io';
+
         if (configObj.host.charAt(configObj.host.length-1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length-1);
         }
@@ -461,6 +474,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-jsbeautifier');
+  grunt.loadNpmTasks('grunt-istanbul');
+  grunt.loadNpmTasks('grunt-istanbul-coverage');
 
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);

@@ -3,6 +3,7 @@
 
 var package = require('../package');
 var path    = require('path');
+var istanbul = require('browserify-istanbul');
 
 var customLaunchers = {
   sl_chrome: {
@@ -43,11 +44,12 @@ module.exports = function(config) {
     customLaunchers: customLaunchers,
 
     // browsers: Object.keys(customLaunchers),
-    browsers: ['Chrome'],
-    // browsers: ['PhantomJS'],
+    // browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
+
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -62,32 +64,27 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // 'unit/**/*.unit.js'
+      'unit/**/*.unit.js'
     ],
 
 
     // list of files to exclude
     exclude: [
+      //'../client/**/*.json'
     ],
 
 
-    // Browserifast hack: https://github.com/cjohansen/karma-browserifast
     preprocessors: {
-      '/**/*.browserify': ['coverage', 'browserify'],
-      'client/**/*.js': 'coverage'
+      'unit/**/*.js': ['browserify', 'coverage']
     },
 
 
     browserify: {
-      // sourcemaps sir?
       debug: true,
-      files: [
-        // 'unit/directives/directiveRunnable*.unit.js'
-        // 'unit/**/directiveRunnable*.unit.js'
-        // 'unit/directives/directiveRunnableDockerValidation.unit.js',
-        // 'unit/directives/directiveRunnableLogBox.unit.js'
-        'unit/directives/directiveRunnableSetupPrimaryActions.unit.js'
-      ]
+      transform: [istanbul({
+        ignore: ['**/node_modules/**', '**/*.unit.js',  '**/test/**', '**/config/**/*.json']
+      })],
+      extensions: ['.js']
     },
 
 
@@ -99,10 +96,20 @@ module.exports = function(config) {
     coverageReporter: {
       type: 'text',
       dir : 'coverage/',
-      instrumenter: {
-        '**/*.js': 'istanbul' // Force the use of the Istanbul instrumenter to cover CoffeeScript files
-      }
+      reporters: [
+        { type: 'text', subdir: '.', file: 'text.txt' },
+        { type: 'json', subdir: '.' },
+        { type: 'html', subdir: 'html' }
+      ]
     },
+
+    //coverageReporter: {
+    //  type: 'text',
+    //  dir : 'coverage/',
+    //  instrumenter: {
+    //    '**/*.js': 'istanbul' // Force the use of the Istanbul instrumenter to cover CoffeeScript files
+    //  }
+    //},
 
     // web server port
     port: 9876,

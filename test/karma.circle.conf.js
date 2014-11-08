@@ -3,6 +3,7 @@
 
 var package = require('../package');
 var path    = require('path');
+var istanbul = require('browserify-istanbul');
 
 var customLaunchers = {
   sl_chrome: {
@@ -60,17 +61,16 @@ module.exports = function(config) {
       }
     },
 
-    // Browserifast hack: https://github.com/cjohansen/karma-browserifast
     preprocessors: {
-      '/**/*.browserify': 'browserify'
+      'unit/**/*.js': ['browserify', 'coverage']
     },
-
 
     browserify: {
       debug: true,
-      files: [
-        'unit/**/*.unit.js'
-      ]
+      transform: [istanbul({
+        ignore: ['**/node_modules/**', '**/*.unit.js',  '**/test/**', '**/config/**/*.json']
+      })],
+      extensions: ['.js']
     },
 
 
@@ -80,8 +80,8 @@ module.exports = function(config) {
     reporters: ['mocha'],
 
     coverageReporter: {
-      type: 'html',
-      dir: '.'
+      type: 'json',
+      dir : 'coverage/'
     },
 
     // web server port
