@@ -66,6 +66,13 @@ module.exports = function(config) {
       'unit/**/*.unit.js'
     ],
 
+
+    // list of files to exclude
+    exclude: [
+      //'../client/**/*.json'
+    ],
+
+
     preprocessors: {
       'unit/**/*.js': ['browserify', 'coverage']
     },
@@ -100,7 +107,6 @@ module.exports = function(config) {
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_ERROR,
-
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

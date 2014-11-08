@@ -25,7 +25,7 @@ var $compile,
     user;
 var $elScope;
 
-describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
+describe.skip('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
