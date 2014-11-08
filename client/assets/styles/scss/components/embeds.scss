@@ -16,6 +16,7 @@
     right: 0;
     top: auto;
     width: 560px;
+    z-index: $z-alert;
 
     .embed-guide {
       display: none;
@@ -50,6 +51,33 @@
   position: absolute;
   top: 0;
   z-index: $z-views-embed-video;
+}
+
+.btn-xs.btn-embed-iframe-close {
+  height: 24px;
+  padding: 0;
+  position: absolute;
+  right: 6px;
+  top: -30px;
+  width: 24px;
+  z-index: $z-views-embed-close;
+
+  &:hover {
+    background: $white;
+  }
+
+  .iconnables {
+    height: 100%;
+  }
+}
+
+// refactor this
+.ace-runnable-dark ~ .embed-wrapper .btn-embed-iframe-close {
+  color: $white;
+
+  &:hover {
+    background: none;
+  }
 }
 
 .btn-embed-play {
