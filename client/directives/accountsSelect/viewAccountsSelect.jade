@@ -15,7 +15,7 @@ header.row.account-header
           ng-src = "{{ activeAccount.gravitar() }}"
           width = "24"
         )
-        span.account-name {{ activeAccount.oauthName() }}
+        span.account-name.text-overflow {{ activeAccount.oauthName() }}
         //- icons-arrow-down only for first account
         svg.iconnables.icons-arrow-down
           use(
