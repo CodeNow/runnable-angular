@@ -433,10 +433,11 @@ module.exports = function(grunt) {
           if(fs.lstatSync(curPath).isDirectory()) { // recurse
             deleteFolderRecursive(curPath);
           } else { // delete file
-            fs.unlinkSync(curPath);
+            if (file !== '.gitkeep') {
+              fs.unlinkSync(curPath);
+            }
           }
         });
-        fs.rmdirSync(path);
       }
     }
 
