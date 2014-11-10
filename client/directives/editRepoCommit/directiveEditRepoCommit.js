@@ -138,6 +138,11 @@ function RunnableEditRepoCommit(
       fetchCommitOffset($scope.acv, $scope.activeCommit);
       fetchBranchCommits($scope.activeBranch);
 
+      async.series([
+        fetchUser,
+        fetchBuild
+      ]);
+
       function setActiveBranch(acv) {
         // API client caches models by URL
         // $scope.activeBranch will === acv.githubRepo.branches.models[x]
@@ -239,11 +244,6 @@ function RunnableEditRepoCommit(
           })
           .go();
       }
-
-      async.series([
-        fetchUser,
-        fetchBuild
-      ]);
 
     }
   };
