@@ -85,10 +85,10 @@ section.views.with-add-tab(
       allowfullscreen
       frameborder="0"
       height = "100%"
-      src="//www.youtube.com/embed/oiSn4-A8Qpw"
+      src = "//www.youtube.com/embed/oiSn4-A8Qpw"
       width = "100%"
     )
-    button.btn.btn-xs.btn-embed-iframe-close(
+    button.btn.btn-icon.btn-embed-close(
       ng-click = "dataSetup.data.hideVideo = true"
     )
       svg.iconnables.icons-close
@@ -100,10 +100,13 @@ section.views.with-add-tab(
     ng-click = "dataSetup.data.showVideoFixed = true"
     ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"
   ) Lost? Here's a video.
+    //- shrink olark on click
+    //- https://www.olark.com/documentation/javascript/api.box.shrink
     button.btn.btn-xs.btn-close(
       ng-click = "\
         dataSetup.data.closeVideoAlert = true;\
-        $event.stopPropagation()\
+        $event.stopPropagation();\
+        olark('api.box.shrink');\
       "
     )
       svg.iconnables.icons-close

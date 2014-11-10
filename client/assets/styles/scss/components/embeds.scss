@@ -24,6 +24,7 @@
   }
 }
 
+// .embed-guide
 .embed-guide {
   align-items: center;
   background: $white;
@@ -43,43 +44,19 @@
   }
 }
 
+// h2.embed-heading
 .embed-heading {
   font-weight: 300;
 }
 
+// iframe.embed-iframe
 .embed-iframe {
   position: absolute;
   top: 0;
   z-index: $z-views-embed-video;
 }
 
-.btn-xs.btn-embed-iframe-close {
-  height: 24px;
-  padding: 0;
-  position: absolute;
-  right: 6px;
-  top: -30px;
-  width: 24px;
-  z-index: $z-views-embed-close;
-
-  &:hover {
-    background: $white;
-  }
-
-  .iconnables {
-    height: 100%;
-  }
-}
-
-// refactor this
-.ace-runnable-dark ~ .embed-wrapper .btn-embed-iframe-close {
-  color: $white;
-
-  &:hover {
-    background: none;
-  }
-}
-
+// button.btn.btn-embed-play
 .btn-embed-play {
   height: 150px;
   width: 150px;
@@ -87,5 +64,34 @@
   .iconnables {
     height: 100%;
     width: 100%;
+  }
+}
+
+// button.btn.btn-icon.btn-embed-close
+.btn-embed-close {
+  color: $gray-dark;
+  position: absolute;
+  right: 0;
+  top: -45px;
+  z-index: $z-views-embed-close;
+
+  &:hover,
+  &:active {
+    background: none;
+    color: $gray-darker;
+  }
+
+  .iconnables {
+    height: 100%;
+  }
+}
+
+.ace-runnable-dark ~ .embed-wrapper .btn-embed-close {
+  color: $purple-lighter;
+
+  &:hover,
+  &:active {
+    background: none;
+    color: $white;
   }
 }
