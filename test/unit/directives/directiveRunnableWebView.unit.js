@@ -13,7 +13,7 @@ var $compile,
     user;
 var $elScope;
 
-describe('directiveRunnableWebView'.bold.underline.blue, function() {
+describe.skip('directiveRunnableWebView'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {

@@ -1,17 +1,4 @@
-var main    = require('main');
-var chai    = require('chai');
-var sinon   = require('sinon');
-var colors  = require('colors');
-var angular = require('angular');
-var modelStore = require('runnable/lib/stores/model-store');
-var mocks = require('../apiMocks');
-require('browserify-angular-mocks');
-
-var host = require('../../../client/config/json/api.json').host;
-
-var expect = chai.expect;
-
-describe('directiveRepoList'.bold.underline.blue, function () {
+describe.skip('directiveRepoList'.bold.underline.blue, function () {
   var element;
   var $scope;
   var $rootScope;
