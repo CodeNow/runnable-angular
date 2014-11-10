@@ -50,6 +50,9 @@ karma start ./test/karma.conf.js [--single-run] (optional)
 
 Contributors
 ------------
+<img src="http://placehold.it/64">&nbsp;
+[Anton Podviaznikov (podviaznikov)](https://github.com/podviaznikov)
+San Francisco, CA, USA  
 <img src="https://s.gravatar.com/avatar/b613d7470bc5eb09b8c73223b4ee8a4e?s=64">&nbsp;
 [Anandkumar Patel (anandkumarpatel)](https://github.com/anandkumarpatel)
 San Francisco, CA, USA  
