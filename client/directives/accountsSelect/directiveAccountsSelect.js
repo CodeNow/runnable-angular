@@ -45,6 +45,7 @@ function RunnableAccountsSelect(
             $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
+            if (userOrOrg !== $scope.activeAccount) { return; }
             if (instances.models.length) {
               $state.go('instance.instance', {
                 userName: userOrOrg.oauthName(),
