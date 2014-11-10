@@ -1,0 +1,19 @@
+//- show after selecting a template
+.alert.guide(
+  ng-click = " \
+    showVideoFixed = true; \
+    showVideo = true;"
+  ng-hide = "closeVideoAlert || showVideoFixed"
+  ng-if = ""
+) Lost? Here's a video.
+  //- shrink olark on click
+  //- https://www.olark.com/documentation/javascript/api.box.shrink
+  button.btn.btn-xs.btn-close(
+    ng-click = " \
+      closeVideoAlert = true; \
+      $event.stopPropagation();"
+  )
+    svg.iconnables.icons-close
+      use(
+        xlink:href = "#icons-close"
+      )
