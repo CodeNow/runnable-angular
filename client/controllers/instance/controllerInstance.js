@@ -90,7 +90,12 @@ function ControllerInstance(
   //     - show explorer
   //     - show terminal
   //     - show box logs (has focus)
+  var startedOnce = false;
   function updateDisplayedTabs() {
+
+    // Prevent loading LogView tab when restarting container
+    if (startedOnce) return;
+
     var instance = keypather.get(data, 'instance');
     var container = keypather.get(data, 'instance.containers.models[0]');
     if (!instance) return;
@@ -123,6 +128,7 @@ function ControllerInstance(
         data.openItems.addLogs();
       }
     } else {
+      startedOnce = true;
       data.sectionClasses = {
         out: false,
         in: false
@@ -132,6 +138,9 @@ function ControllerInstance(
       }
       if (!data.openItems.hasOpen('LogView')) {
         data.openItems.addLogs();
+      }
+      if (!data.openItems.hasOpen('WebView')) {
+        data.openItems.addWebView();
       }
     }
   }
