@@ -1,4 +1,3 @@
-require('./services/serviceOlark');
 var app = require('app');
 var $ = require('jquery');
 require('angular');
