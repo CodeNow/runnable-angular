@@ -88,6 +88,7 @@ function activePanel(
           return;
         }
         var activeFile = $scope.openItems.activeHistory.last();
+        activeFile.state.isDirty = true;
         if (!$scope.openItems.isFile(activeFile)) {
           return;
         }
@@ -99,6 +100,7 @@ function activePanel(
           if (err) {
             throw err;
           }
+          delete activeFile.state.isDirty;
           $rootScope.safeApply();
         });
       }
