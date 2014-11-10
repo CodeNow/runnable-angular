@@ -19,7 +19,8 @@ function RunnableSetupPrimaryActions(
     scope: {
       loading: '=',
       name: '=',
-      valid: '='
+      valid: '=',
+      openItems: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -36,9 +37,13 @@ function RunnableSetupPrimaryActions(
         $scope.loading = true;
 
         function build(cb) {
-          $scope.build.build({
-            message: 'Initial Build'
-          }, cb);
+          var unwatch = $scope.$watch('openItems.isClean()', function (n) {
+            if (!n) { return; }
+            unwatch();
+            $scope.build.build({
+              message: 'Initial Build'
+            }, cb);
+          });
         }
 
         function attach(cb) {
