@@ -504,7 +504,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);
 
-  grunt.registerTask('test:unit&coverage', [
+  grunt.registerTask('test:unit-coverage', [
     'deleteOldCoverage',
     'bgShell:karma',
     'coverage'
