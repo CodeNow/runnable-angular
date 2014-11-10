@@ -76,6 +76,16 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
       .whenGET(commitsUrl)
       .respond(mocks.gh.bitcoinRepoCommits);
 
+    var userUrl = host + '/users/me?';
+    $httpBackend
+      .whenGET(userUrl)
+      .respond(mocks.user);
+
+    var instanceUrl = host + '/instances?githubUsername=cflynn07&name=box1';
+    $httpBackend
+      .whenGET(instanceUrl)
+      .respond(mocks.instances.runningWithContainers);
+
     user.reset(mocks.user);
     ctx.acv = user
       .newContext('contextId')
@@ -113,6 +123,7 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
   });
 
   describe('has expected scope properties'.blue, function () {
+
    it('$state.$current.name instance.setup', function() {
       angular.mock.module(function ($provide) {
         $provide.value('$state', {
@@ -120,13 +131,17 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
             name: 'instance.setup'
           }
         });
+
+        $provide.value('$stateParams', {
+          userName: 'cflynn07',
+          instanceName: 'box1'
+        });
       });
       injectSetupCompile();
 
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', true);
     });
-
 
     it('$state.$current.name instance.instance', function() {
       angular.mock.module(function ($provide) {
@@ -135,6 +150,11 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
             name: 'instance.instance'
           }
         });
+
+        $provide.value('$stateParams', {
+          userName: 'cflynn07',
+          instanceName: 'box1'
+        });
       });
       injectSetupCompile();
 
@@ -142,12 +162,17 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
       expect($elScope).to.have.property('showEditGearMenu', false);
     });
 
-   it('$state.$current.name instance.instanceEdit', function() {
+    it('$state.$current.name instance.instanceEdit', function() {
       angular.mock.module(function ($provide) {
         $provide.value('$state', {
           '$current': {
             name: 'instance.instanceEdit'
           }
+        });
+
+        $provide.value('$stateParams', {
+          userName: 'cflynn07',
+          instanceName: 'box1'
         });
       });
       injectSetupCompile();
@@ -155,9 +180,22 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', true);
     });
+
   });
 
   it('displays commit author', function() {
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instanceEdit'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'cflynn07',
+        instanceName: 'box1'
+      });
+    });
     injectSetupCompile();
 
     // commit author
@@ -168,6 +206,18 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
   });
 
   it('displays commit time (through timeAgo filter)', function() {
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instanceEdit'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'cflynn07',
+        instanceName: 'box1'
+      });
+    });
     injectSetupCompile();
 
     // commit time
@@ -176,4 +226,5 @@ describe('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
     expect($el.length).to.be.ok;
     expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
   });
+
 });
