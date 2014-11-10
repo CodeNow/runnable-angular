@@ -65,6 +65,10 @@ section.views.with-add-tab(
     open-items = "dataSetup.data.openItems"
   )
 
+  //- dataSetup.data.showVideo
+  //- dataSetup.data.hideVideo
+  //- dataSetup.data.showVideoFixed
+  //- dataSetup.data.closeVideoAlert
   .embed-wrapper(
     ng-class = "{fixed: dataSetup.data.showVideoFixed}"
     ng-if = "!dataSetup.data.hideVideo"
@@ -85,7 +89,8 @@ section.views.with-add-tab(
       allowfullscreen
       frameborder="0"
       height = "100%"
-      src = "//www.youtube.com/embed/oiSn4-A8Qpw"
+      ng-if = "dataSetup.data.showVideo"
+      src = "//www.youtube.com/embed/oiSn4-A8Qpw?rel=0&amp;showinfo=0&amp;autoplay=1"
       width = "100%"
     )
     button.btn.btn-icon.btn-embed-close(
@@ -96,8 +101,12 @@ section.views.with-add-tab(
           xlink:href = "#icons-close"
         )
 
+  //- show after selecting a template
   .alert.guide(
-    ng-click = "dataSetup.data.showVideoFixed = true"
+    ng-click = "\
+      dataSetup.data.showVideoFixed = true;\
+      dataSetup.data.showVideo = true;\
+    "
     ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"
   ) Lost? Here's a video.
     //- shrink olark on click
@@ -106,7 +115,6 @@ section.views.with-add-tab(
       ng-click = "\
         dataSetup.data.closeVideoAlert = true;\
         $event.stopPropagation();\
-        olark('api.box.shrink');\
       "
     )
       svg.iconnables.icons-close
