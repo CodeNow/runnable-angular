@@ -9,8 +9,13 @@ function RunnableSetupAlert(
     restrict: 'E',
     templateUrl: 'viewSetupAlert',
     replace: true,
-    scope: {},
+    scope: {
+      showVideoFixed: '=',
+      closeVideoAlert: '='
+    },
     link: function($scope, elem, attrs) {
+
+
     }
   };
 }

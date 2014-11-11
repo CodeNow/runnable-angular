@@ -15,7 +15,10 @@ function RunnableSetupEmbed(
     restrict: 'E',
     templateUrl: 'viewSetupEmbed',
     replace: true,
-    scope: {},
+    scope: {
+      showVideoFixed: '=',
+      closeVideoAlert: '='
+    },
     link: function($scope, elem, attrs) {
 
       async.waterfall([
