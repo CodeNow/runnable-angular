@@ -46,16 +46,20 @@
     }
   }
 
-  // a.white.box
-  .box {
-    // @extend .tooltip;
-    // @extend .right;
-    margin: 0 -9px;
-    overflow: visible;
+  // li.box-group-item.white.load
+  .box-group-item {
+    height: 45px;
+    overflow: hidden;
     width: 45px;
+
+    &.active .icons-status {
+      top: 18px;
+    }
   }
 
-  .box-item-name {
+  .box-item-name,
+  .box-item-description,
+  .box-item-clustered {
     opacity: 0;
     pointer-events: none;
   }

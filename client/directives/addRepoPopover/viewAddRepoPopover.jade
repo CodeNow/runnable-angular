@@ -1,0 +1,21 @@
+//- add repo button
+a.btn.btn-sm.white.sub-header-action.btn-add-repo(
+  ng-class = "{ \
+    active: repoListPopover.data.show \
+  }"
+  ng-if = "enabled"
+  toggle-pop-over
+  toggle-pop-over-model = "repoListPopover.data.show"
+  type = "button"
+)
+  svg.iconnables.icons-add
+    use(
+      xlink:href = "#icons-add"
+    )
+  pop-over(
+    actions = "repoListPopover.actions"
+    data = "repoListPopover.data"
+    template = "viewPopoverAddRepo"
+  )
+
+

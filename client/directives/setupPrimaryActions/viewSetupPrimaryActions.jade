@@ -1,0 +1,10 @@
+.primary-actions
+  //- remove .orange, add .green when validation passes
+  button(
+    ng-class = "{ \
+      orange: (!valid || !name), \
+      green: (valid && name) \
+    }"
+    ng-click = "buildAndAttach()"
+    ng-disabled = "!build || loading || !valid || !name"
+  ) Create Box

@@ -7,13 +7,13 @@ function SetupPage () {
   this.repoList = new RepoList();
   this.activePanel = new ActivePanel('Setup');
 
-  this.boxName = util.createGetter(by.model('dataSetup.data.newProjectName'));
+  this.boxName = util.createGetter(by.model('newInstanceName'));
   this.createButton = util.createGetter(by.buttonText('Create Box'));
 
-  this.templates = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section:nth-child(2)'));
-  this.templateGuide = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section:nth-child(2) > div.guide.blue.ng-scope'));
+  this.templates = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.ng-scope > section:nth-child(2)'));
+  this.templateGuide = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.ng-scope > section:nth-child(2) > div.guide.blue.ng-scope'));
 
-  this.validationErrors = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section.row.ng-scope > div'));
+  this.validationErrors = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.ng-scope > section.row.ng-scope > div'));
 
 
   this.get = function () {
@@ -30,7 +30,7 @@ function SetupPage () {
   };
 
   this.selectTemplate = function(text) {
-    var template = element(by.cssContainingText('#wrapper > main > section.sidebar.box-sidebar.setup.ng-scope > section:nth-child(2) > div.label-group > label', text));
+    var template = this.templates.get().element(by.cssContainingText('div.label-group > label', text));
     return template.click();
   };
 

@@ -1,0 +1,18 @@
+.modal-environment {
+  max-width: 600px;
+  min-width: 450px;
+  top: 0;
+
+  .modal-body {
+    padding-bottom: 0;
+  }
+
+  .pre {
+    min-height: 40vh;
+  }
+
+  .box-group {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
