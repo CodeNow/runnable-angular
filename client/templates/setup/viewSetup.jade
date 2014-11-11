@@ -105,6 +105,7 @@ section.views.with-add-tab(
   //- show after selecting a template
   .alert.guide(
     ng-click = " \
+      dataSetup.actions.olarkShrink(); \
       dataSetup.data.showVideoFixed = true; \
       dataSetup.data.showVideo = true;"
     ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"

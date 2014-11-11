@@ -16,7 +16,8 @@ function ControllerSetup(
   keypather,
   OpenItems,
   user,
-  QueryAssist
+  QueryAssist,
+  $window
 ) {
 
   var dataSetup = $scope.dataSetup = {
@@ -24,6 +25,12 @@ function ControllerSetup(
     actions: {}
   };
   var data = dataSetup.data;
+
+  dataSetup.actions.olarkShrink = function() {
+    if (angular.isFunction($window.olark)) {
+      $window.olark('api.box.shrink');
+    }
+  };
 
   data.openItems = new OpenItems();
   data.showExplorer = false;
