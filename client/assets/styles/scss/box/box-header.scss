@@ -35,6 +35,9 @@
   font-size: 23px;
   height: 45px;
   line-height: 45px;
+  max-width: 540px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .box-url.box-url {
