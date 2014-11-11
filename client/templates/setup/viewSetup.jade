@@ -98,7 +98,9 @@ section.views.with-add-tab(
       width = "100%"
     )
     button.btn.btn-icon.btn-embed-close(
-      ng-click = "dataSetup.data.hideVideo = true"
+      ng-click = "dataSetup.data.hideVideo = true; \
+                  dataSetup.data.closeVideoAlert = false; \
+                  dataSetup.data.showVideoFixed = false;"
     )
       svg.iconnables.icons-close
         use(
@@ -110,7 +112,8 @@ section.views.with-add-tab(
     ng-click = " \
       dataSetup.actions.olarkShrink(); \
       dataSetup.data.showVideoFixed = true; \
-      dataSetup.data.showVideo = true;"
+      dataSetup.data.showVideo = true; \
+      dataSetup.data.hideVideo = false"
     ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"
     ng-if = "dataSetup.data.build.contextVersions.models[0].source"
   ) Lost? Here's a video.
