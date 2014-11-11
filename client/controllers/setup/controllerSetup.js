@@ -32,6 +32,17 @@ function ControllerSetup(
     }
   };
 
+  $scope.$watch('dataSetup.data.build.contextVersions.models[0].source', function(n, p) {
+    if (n && dataSetup.data.showVideo) {
+      dataSetup.data.showVideoFixed = true;
+    }
+    if (n && !p && data.showVideo) {
+      // first time user has selected a seed dockerfile, minimize olark if video is playing
+      //
+      dataSetup.actions.olarkShrink();
+    }
+  });
+
   data.openItems = new OpenItems();
   data.showExplorer = false;
   data.loading = false;

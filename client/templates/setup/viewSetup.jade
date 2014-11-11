@@ -72,8 +72,7 @@ section.views.with-add-tab(
   //- dataSetup.data.closeVideoAlert
   .embed-wrapper(
     ng-class = "{ \
-      fixed: (dataSetup.data.showVideoFixed || \
-              dataSetup.data.build.contextVersions.models[0].source) \
+      fixed: dataSetup.data.showVideoFixed \
     }"
     ng-if = "!dataSetup.data.hideVideo"
   )
@@ -83,7 +82,8 @@ section.views.with-add-tab(
       h2.embed-heading Watch this video
       p It'll help you and stuff
       button.btn.btn-embed-play(
-        ng-click = "dataSetup.data.showVideo = true"
+        ng-click = "dataSetup.data.showVideo = true; \
+                    dataSetup.actions.olarkShrink();"
       )
         svg.iconnables.icons-run
           use(
