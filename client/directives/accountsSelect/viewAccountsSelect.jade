@@ -33,7 +33,7 @@ header.row.account-header
           ng-src = "{{ user.gravitar() }}"
           width = "24"
         )
-        span.account-name {{ user.oauthName() }}
+        span.account-name.text-overflow {{ user.oauthName() }}
     //- Orgs that are not the active account
     li.accounts-group-item(
       ng-click = "$event.stopPropagation(); \
@@ -47,4 +47,4 @@ header.row.account-header
           ng-src = "{{ org.gravitar() }}"
           width = "24"
         )
-        span.account-name {{ org.oauthName() }}
+        span.account-name.text-overflow {{ org.oauthName() }}
