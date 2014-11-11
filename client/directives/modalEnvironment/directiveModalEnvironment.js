@@ -1,10 +1,10 @@
 require('app')
-  .directive('runnableModalEnvironment', RunnableModalEnvironment);
+  .directive('modalEnvironment', modalEnvironment);
 /**
- * directive RunnableModalEnvironment
+ * directive modalEnvironment
  * @ngInject
  */
-function RunnableModalEnvironment(
+function modalEnvironment(
 ) {
   return {
     restrict: 'E',

@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableDockerValidation', RunnableDockerValidation);
+  .directive('dockerValidation', dockerValidation);
 /**
  * @ngInject
  */
-function RunnableDockerValidation(
+function dockerValidation(
   debounce,
   $rootScope,
   validateDockerfile

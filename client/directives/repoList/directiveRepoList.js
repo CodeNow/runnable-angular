@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableRepoList', RunnableRepoList);
+  .directive('repoList', repoList);
 /**
  * @ngInject
  */
-function RunnableRepoList(
+function repoList(
   async,
   keypather,
   QueryAssist,

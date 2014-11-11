@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableAddTab', RunnableAddTab);
+  .directive('addTab', addTab);
 /**
  * @ngInject
  */
-function RunnableAddTab(
+function addTab(
   helperAddTab,
   $state
 ) {

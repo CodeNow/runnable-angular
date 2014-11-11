@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableDockerTemplates', RunnableDockerTemplates);
+  .directive('dockerTemplates', dockerTemplates);
 /**
  * @ngInject
  */
-function RunnableDockerTemplates(
+function dockerTemplates(
   async,
   determineActiveAccount,
   keypather,

@@ -1,10 +1,10 @@
 require('app')
-  .directive('runnableModalForkBox', RunnableModalForkBox);
+  .directive('modalForkBox', modalForkBox);
 /**
- * directive RunnableModalForkBox
+ * directive modalForkBox
  * @ngInject
  */
-function RunnableModalForkBox(
+function modalForkBox(
 ) {
   return {
     restrict: 'E',

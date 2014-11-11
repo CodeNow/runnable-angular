@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableInstanceEditPrimaryActions', RunnableInstanceEditPrimaryActions);
+  .directive('instanceEditPrimaryActions', instanceEditPrimaryActions);
 /**
  * @ngInject
  */
-function RunnableInstanceEditPrimaryActions(
+function instanceEditPrimaryActions(
   async,
   keypather,
   QueryAssist,

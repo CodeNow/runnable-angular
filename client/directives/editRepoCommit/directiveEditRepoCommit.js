@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableEditRepoCommit', RunnableEditRepoCommit);
+  .directive('editRepoCommit', editRepoCommit);
 /**
  * @ngInject
  */
-function RunnableEditRepoCommit(
+function editRepoCommit(
   async,
   QueryAssist,
   keypather,

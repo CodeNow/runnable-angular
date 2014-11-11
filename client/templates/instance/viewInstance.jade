@@ -15,21 +15,21 @@
 
 header.box-header
 
-  runnable-instance-box-name
+  instance-box-name
 
-  runnable-instance-primary-actions(
+  instance-primary-actions(
     saving = "dataInstance.data.saving"
     open-items = "dataInstance.data.openItems"
   )
 
-  runnable-instance-secondary-actions(
+  instance-secondary-actions(
     saving = "dataInstance.data.saving"
   )
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar.load
 
-  runnable-repo-list(
+  repo-list(
     loading = "dataApp.data.loading"
   )
 
@@ -47,7 +47,7 @@ section.views.with-add-tab(
         xlink:href = "#icons-folder-open"
       )
 
-  runnable-explorer(
+  explorer(
     open-items = "dataInstance.data.openItems"
     toggle-theme = "dataInstance.data.toggleTheme"
   )
@@ -57,7 +57,7 @@ section.views.with-add-tab(
     open-items= "dataInstance.data.openItems"
   )
 
-  runnable-add-tab(
+  add-tab(
     open-items = "dataInstance.data.openItems"
   )
 
