@@ -77,7 +77,7 @@ describe('project creation workflow', function () {
           instance.activePanel.openTab('Env Vars');
           browser.wait(instance.activePanel.aceLoaded.bind(instance.activePanel));
 
-          expect(instance.activePanel.getContents()).toMatch(ENV_VARS[index]);
+          expect(instance.activePanel.getFileContents()).toMatch(ENV_VARS[index]);
         }
       });
     });
