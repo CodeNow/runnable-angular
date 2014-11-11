@@ -27,6 +27,7 @@ function RunnableAccountsSelect(
       $scope.isChangeAccount = false;
 
       $scope.selectActiveAccount = function (userOrOrg) {
+        if (!$scope.isChangeAccount) { return; }
         // close list
         $scope.isChangeAccount = false;
         // synchronously display new active account
