@@ -1,26 +1,26 @@
 header.box-header
 
-  runnable-instance-edit-box-name
+  instance-edit-box-name
 
-  runnable-instance-edit-primary-actions(
+  instance-edit-primary-actions(
     loading = "dataApp.data.loading"
     open-items = "dataInstanceEdit.data.openItems"
   )
 
-  runnable-instance-edit-secondary-actions(
+  instance-edit-secondary-actions(
     saving = "dataInstanceEdit.data.saving"
   )
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
 
-  runnable-repo-list
+  repo-list
 
-  runnable-docker-validation(
+  docker-validation(
     open-items = "dataInstanceEdit.data.openItems"
   )
 
-  runnable-env-validation
+  env-validation
 
 section.views.with-add-tab(
   ng-class = "{ \
@@ -39,7 +39,7 @@ section.views.with-add-tab(
         xlink:href = "#icons-folder-open"
       )
 
-  runnable-explorer(
+  explorer(
     open-items = "dataInstanceEdit.data.openItems"
     toggle-theme = "dataInstanceEdit.data.toggleTheme"
   )
@@ -49,7 +49,7 @@ section.views.with-add-tab(
     open-items = "dataInstanceEdit.data.openItems"
   )
 
-  runnable-add-tab(
+  add-tab(
     open-items = "dataInstanceEdit.data.openItems"
   )
 

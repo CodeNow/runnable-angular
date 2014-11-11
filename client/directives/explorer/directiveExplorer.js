@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableExplorer', RunnableExplorer);
+  .directive('explorer', explorer);
 /**
  * @ngInject
  */
-function RunnableExplorer(
+function explorer(
   async,
   keypather,
   QueryAssist,

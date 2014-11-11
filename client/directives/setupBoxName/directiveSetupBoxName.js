@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableSetupBoxName', RunnableSetupBoxName);
+  .directive('setupBoxName', setupBoxName);
 /**
  * @ngInject
  */
-function RunnableSetupBoxName(
+function setupBoxName(
   async,
   determineActiveAccount,
   QueryAssist,
