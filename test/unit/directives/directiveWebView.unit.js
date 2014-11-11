@@ -1,3 +1,5 @@
+var jQuery  = require('jquery');
+
 // injector-provided
 var $compile,
     $filter,
@@ -11,7 +13,7 @@ var $compile,
     user;
 var $elScope;
 
-describe('directiveRunnableSetupPrimaryActions'.bold.underline.blue, function() {
+describe.skip('directiveWebView'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
@@ -46,73 +48,70 @@ describe('directiveRunnableSetupPrimaryActions'.bold.underline.blue, function() 
       .whenGET(userUrl)
       .respond(mocks.user);
 
-    var buildUrl = host + '/instances?githubUsername=username&name=instancename';
+    var instanceUrl = host + '/instances?githubUsername=username&name=instancename';
     $httpBackend
-      .whenGET(buildUrl)
+      .whenGET(instanceUrl)
       .respond(mocks.instances.runningWithContainers);
 
     modelStore.reset();
 
-    $scope.loading = false;
-    $scope.name = '';
-    $scope.valid = false;
-
-    ctx.element = $compile(ctx.template)($scope);
+    ctx.element = angular.element(ctx.template);
+    ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
-    // $httpBackend.flush();
+    $httpBackend.flush();
+    ctx.$element = jQuery(ctx.element);
     $elScope = ctx.element.isolateScope();
   };
 
-  beforeEach(function () {
-    angular.mock.module('app');
-  });
+  beforeEach(angular.mock.module('app'));
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('runnable-setup-primary-actions', {
-      loading: 'loading',
-      name: '',
-      valid: ''
-    });
+    ctx.template = directiveTemplate('web-view', {});
   });
-
-  // afterEach($httpBackend.verifyNoOutstandingRequest);
-  // afterEach($httpBackend.verifyNoOutstandingExpectation);
 
   it('basic dom', function() {
     angular.mock.module(function ($provide) {
       $provide.value('$state', {
         '$current': {
-          name: 'instance.setup'
+          name: 'instance.instance'
         }
       });
 
       $provide.value('$stateParams', {
-        buildId: '555'
+        userName: 'username',
+        instanceName: 'instancename'
       });
     });
 
     injectSetupCompile();
-    expect(ctx.element).to.be.ok;
-    //expect(ctx.$element.find('> iframe').length).to.be.ok;
+    expect(ctx.$element).to.be.ok;
+    expect(ctx.$element.find('> iframe').length).to.be.ok;
   });
 
   it('basic scope', function() {
     angular.mock.module(function ($provide) {
       $provide.value('$state', {
         '$current': {
-          name: 'instance.setup'
+          name: 'instance.instance'
         }
       });
 
       $provide.value('$stateParams', {
-        buildId: '555'
+        userName: 'username',
+        instanceName: 'instancename'
       });
     });
 
     injectSetupCompile();
-    expect(true).to.be.ok;
-    //expect($elScope).to.have.property('user');
+    expect($elScope).to.have.property('user');
+    expect($elScope).to.have.property('instance');
+    expect($elScope).to.have.property('actions');
+    expect($elScope).to.have.deep.property('actions.forward');
+    expect($elScope).to.have.deep.property('actions.back');
+    expect($elScope).to.have.deep.property('actions.refresh');
+    expect($elScope).to.have.property('data');
+    expect($elScope).to.have.deep.property('data.iframeUrl');
   });
 
 });

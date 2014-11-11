@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableEnvValidation', RunnableEnvValidation);
+  .directive('envValidation', envValidation);
 /**
  * @ngInject
  */
-function RunnableEnvValidation(
+function envValidation(
   async,
   keypather,
   QueryAssist,

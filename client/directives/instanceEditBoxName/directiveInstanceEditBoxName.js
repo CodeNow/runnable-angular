@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableInstanceEditBoxName', RunnableInstanceEditBoxName);
+  .directive('instanceEditBoxName', instanceEditBoxName);
 /**
  * @ngInject
  */
-function RunnableInstanceEditBoxName(
+function instanceEditBoxName(
   async,
   getInstanceAltTitle,
   getInstanceClasses,

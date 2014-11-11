@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableInstancePrimaryActions', RunnableInstancePrimaryActions);
+  .directive('instancePrimaryActions', instancePrimaryActions);
 /**
  * @ngInject
  */
-function RunnableInstancePrimaryActions(
+function instancePrimaryActions(
   async,
   keypather,
   QueryAssist,

@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableInstanceBoxName', RunnableInstanceBoxName);
+  .directive('instanceBoxName', instanceBoxName);
 /**
  * @ngInject
  */
-function RunnableInstanceBoxName(
+function instanceBoxName(
   async,
   getInstanceAltTitle,
   getInstanceClasses,
