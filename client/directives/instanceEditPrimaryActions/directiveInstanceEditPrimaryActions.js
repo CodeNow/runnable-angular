@@ -29,24 +29,28 @@ function RunnableInstanceEditPrimaryActions(
         if (building) return;
         building = true;
         $scope.loading = true;
-        var buildObj = {
-          message: 'Manual build'
-        };
-        $scope.newBuild.build(
-          buildObj,
-          function (err, build) {
-            if (err) throw err;
-            $scope.instance.update({
-              build: $scope.newBuild.id()
-                //env: data.instance.state.env
-            }, function (err) {
+        var unwatch = $scope.$watch('openItems.isClean()', function (n) {
+          if (!n) { return; }
+          unwatch();
+          var buildObj = {
+            message: 'Manual build'
+          };
+          $scope.newBuild.build(
+            buildObj,
+            function (err, build) {
               if (err) throw err;
-              // will trigger display of completed message if build completes
-              // before reaching next state
-              // $scope.dataInstanceLayout.data.showBuildCompleted = true;
-              $state.go('instance.instance', $stateParams);
+              $scope.instance.update({
+                build: $scope.newBuild.id()
+                //env: data.instance.state.env
+              }, function (err) {
+                if (err) throw err;
+                // will trigger display of completed message if build completes
+                // before reaching next state
+                // $scope.dataInstanceLayout.data.showBuildCompleted = true;
+                $state.go('instance.instance', $stateParams);
+              });
             });
-          });
+        });
       };
 
       function fetchUser(cb) {
