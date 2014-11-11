@@ -27,7 +27,7 @@ section.row.boxes
       ng-class = "getInstanceClasses(instance)"
       ng-click = "stateToInstance(instance)"
       ng-show = "instances.models.length"
-      ng-repeat = "instance in instances.models"
+      ng-repeat = "instance in instances.models | orderBy:'attrs.name'"
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )

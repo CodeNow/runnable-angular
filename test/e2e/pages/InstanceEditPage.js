@@ -15,7 +15,7 @@ function InstanceEditPage (instanceName) {
   this.get = function() {
     // We need to create a new build each time, thus the workaround
     browser.get('/runnable-doobie/' + instanceName);
-    element(by.css('#wrapper > main > header > div.secondary-actions > button')).click();
+    element(by.css('#wrapper > main > header > div.secondary-actions.ng-scope > button:nth-child(2)')).click();
     util.waitForUrl(InstanceEditPage.urlRegex);
   };
 
