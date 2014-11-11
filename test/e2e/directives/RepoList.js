@@ -1,11 +1,9 @@
 var util = require('../helpers/util');
 
 function RepoList () {
-  this.repos = util.createGetterAll(by.repeater('acv in data.version.appCodeVersions.models'));
+  this.repos = util.createGetterAll(by.repeater('acv in build.contextVersions.models[0].appCodeVersions.models'));
 
   this.addButton = util.createGetter(by.css('.repo-list > h2 > a'));
-  this.searchButton = util.createGetter(by.css('.repo-list > h2 > a > div > h3 > button'));
-  this.searchField = util.createGetter(by.model('data.state.repoFilter'));
   this.addDropdown = util.createGetter(by.css('section.row.repo-list > h2 > a > div'));
 
   this.guide = util.createGetter(by.css('.repo-list > .guide'));
@@ -14,7 +12,8 @@ function RepoList () {
 
   this.add = {
     repos: util.createGetterAll(by.repeater('repo in data.githubRepos.models')),
-    filter: 'todo'
+    searchBtn: util.createGetter(by.css('.repo-list > h2 > a > div > h3 > button')),
+    filter: util.createGetter(by.model('data.repoFilter'))
   };
 
   this.showingGuide = function() {
@@ -35,12 +34,12 @@ function RepoList () {
   this.searchRepos = function (contents, expectedRepoListLength) {
     // First, click the search button
     var self = this;
-    return this.searchButton.get().click().then(function() {
+    return this.add.searchBtn.get().click().then(function() {
       return browser.wait(function() {
-        return self.searchField.get().isPresent();
+        return self.add.filter.get().isPresent();
       });
     }).then(function() {
-      return self.searchField.get().sendKeys(contents);
+      return self.add.filter.get().sendKeys(contents);
     }).then(function() {
       return self.addDropdown.get().evaluate('data.githubRepos.models.length === ' + expectedRepoListLength);
     });
@@ -61,7 +60,7 @@ function RepoList () {
   };
 
   this.numSelectedRepos = function() {
-    return element.all(by.repeater('acv in data.version.appCodeVersions.models')).then(function(elements) {
+    return this.repos.get().then(function(elements) {
       return elements.length;
     });
   };
