@@ -42,7 +42,7 @@ function ControllerSetup(
       .wrapFunc('fetchUser')
       .query('me')
       .cacheFetch(function (user, cached, cb) {
-        $scope.user = user;
+        data.user = user;
         $scope.safeApply();
         cb();
       })
@@ -54,7 +54,7 @@ function ControllerSetup(
   }
 
   function fetchBuild(cb) {
-    new QueryAssist($scope.user, cb)
+    new QueryAssist(data.user, cb)
       .wrapFunc('fetchBuild')
       .query($stateParams.buildId)
       .cacheFetch(function (build, cached, cb) {
@@ -66,7 +66,7 @@ function ControllerSetup(
           });
           cb(new Error('build already built'));
         } else {
-          $scope.build = build;
+          data.build = build;
           $scope.safeApply();
           cb();
         }
