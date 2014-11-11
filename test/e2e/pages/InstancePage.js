@@ -6,6 +6,7 @@ var RepoList = require('../directives/RepoList');
 var ActivePanel = require('../directives/ActivePanel');
 
 function InstancePage (name) {
+  this.name = name;
 
   this.gearMenu = new GearMenu();
   this.commitMenu = new CommitMenu();
@@ -18,7 +19,7 @@ function InstancePage (name) {
   this.instanceName = util.createGetter(by.css('#wrapper > main > header > h1 > div'));
 
   this.get = function() {
-    return browser.get('/runnable-doobie/' + name);
+    return browser.get('/runnable-doobie/' + this.name);
   };
 
   this.getName = function () {
