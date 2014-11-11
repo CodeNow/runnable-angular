@@ -1,0 +1,64 @@
+section.row.boxes
+  h2.sub-header
+    span.sub-header-text Boxes
+    a.btn.btn-sm.white.sub-header-action(
+      ng-click = "stateToNew()"
+      ng-href = "/{{ activeAccount.oauthName() }}/new"
+      ng-if = "activeAccount"
+      title = "New Box"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":6,\"top\":30}"
+    )
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+
+  //- *
+  //- LINKED NAV LAYOUT
+  //- *
+
+  ul.box-group
+    //- .active for current active box
+    //- .active.expanded for current active box with links
+    //- .runnning for running box
+
+    //- if not .active
+    li.box-group-item.white.load(
+      ng-class = "getInstanceClasses(instance)"
+      ng-click = "stateToInstance(instance)"
+      ng-show = "instances.models.length"
+      ng-repeat = "instance in instances.models | orderBy:'attrs.name'"
+      tooltip = "{{ instance.attrs.name }}"
+      tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+    )
+      a.box-item-name.text-overflow {{ instance.attrs.name }}
+      span.icons-status(
+        title = "{{ getInstanceAltTitle(instance) }}"
+      )
+
+    //- *
+    //- 0.3 linked boxes
+    //- *
+    //- if .active
+    //- li.box-group-item.white.expanded.load.active(
+    //-   ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
+    //-   ng-show = "instances.models.length"
+    //-   tooltip = "{{ instance.attrs.name }}"
+    //-   tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+    //- )
+    //-   a.box-item-name Web-YKumar
+    //-   span.icons-status.running(
+    //-     title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+    //-   )
+    //-   a.box-item-cluster Api-Prana
+    //-     span.icons-status.running(
+    //-       title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+    //-     )
+    //-   a.box-item-cluster Mongo-PRana
+    //-     span.icons-status.running(
+    //-       title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
+    //-     )
+
+    //- *
+    //- END LINKED NAV LAYOUT
+    //- *

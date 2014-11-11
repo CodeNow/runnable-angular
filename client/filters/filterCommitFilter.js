@@ -13,7 +13,7 @@ function commitFilter() {
 
     return commits.filter(function (commit) {
       return ~commit.attrs.commit.message.toLowerCase().indexOf(filter) ||
-        ~commit.attrs.author.login.toLowerCase().indexOf(filter) ||
+        (commit.attrs.author && ~commit.attrs.author.login.toLowerCase().indexOf(filter)) ||
         ~commit.attrs.sha.toLowerCase().indexOf(filter);
     });
   };

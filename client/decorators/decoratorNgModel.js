@@ -2,7 +2,7 @@ require('app')
   .config(['$provide', function ($provide) {
     $provide.decorator('ngModelDirective', ['$delegate', function ($delegate) {
       var ngModel = $delegate[0],
-          controller = ngModel.controller;
+        controller = ngModel.controller;
 
       ngModel.controller = [
         '$scope',
@@ -17,7 +17,8 @@ require('app')
             '$element': element,
             '$attrs': attrs
           });
-      }];
+        }
+      ];
 
       return $delegate;
     }]);

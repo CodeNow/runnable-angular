@@ -4,7 +4,7 @@ require('app')
 /**
  * @ngInject
  */
-function selectAll () {
+function selectAll() {
   return {
     restrict: 'A',
     link: function ($scope, elem) {

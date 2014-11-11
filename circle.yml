@@ -18,3 +18,4 @@ machine:
 test:
   override:
     - karma start ./test/karma.circle.conf.js
+    - grunt coverage

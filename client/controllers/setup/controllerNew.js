@@ -4,24 +4,39 @@ require('app')
  * @ngInject
  */
 function ControllerNew(
-  $scope,
-  $state,
   async,
   hasKeypaths,
-  uuid
+  QueryAssist,
+  $scope,
+  $state,
+  uuid,
+  user
 ) {
-  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
+
   var thisUser;
   var owner;
 
   $scope.dataApp.data.loading = true;
 
-  function setOwner (cb) {
-    var currentUserOrOrgName = $state.params.userName;
-    thisUser = $scope.dataApp.user;
+  function fetchUser(cb) {
+    new QueryAssist(user, cb)
+      .wrapFunc('fetchUser')
+      .query('me')
+      .cacheFetch(function (user, cached, cb) {
+        $scope.user = user;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, user, cb) {})
+      .go();
+  }
 
-    if (!currentUserOrOrgName || currentUserOrOrgName === $scope.dataApp.user.oauthName()) {
-      owner = $scope.dataApp.user;
+  function setOwner(cb) {
+    var currentUserOrOrgName = $state.params.userName;
+    thisUser = $scope.user;
+
+    if (!currentUserOrOrgName || currentUserOrOrgName === $scope.user.oauthName()) {
+      owner = $scope.user;
       return cb();
     }
     var orgs = thisUser.fetchGithubOrgs(function (err) {
@@ -38,7 +53,7 @@ function ControllerNew(
     });
   }
 
-  function createContext (cb) {
+  function createContext(cb) {
     var context = thisUser.createContext({
       name: uuid.v4(),
       owner: {
@@ -49,13 +64,13 @@ function ControllerNew(
     });
   }
 
-  function createVersion (context, cb) {
+  function createVersion(context, cb) {
     var version = context.createVersion(function (err) {
       cb(err, context, version);
     });
   }
 
-  function createBuild (context, version, cb) {
+  function createBuild(context, version, cb) {
     var build = thisUser.createBuild({
       contextVersions: [version.id()],
       owner: {
@@ -67,7 +82,7 @@ function ControllerNew(
   }
 
   async.waterfall([
-    holdUntilAuth,
+    fetchUser,
     setOwner,
     createContext,
     createVersion,

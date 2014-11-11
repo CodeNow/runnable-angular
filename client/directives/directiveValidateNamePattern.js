@@ -12,7 +12,8 @@ function validateNamePattern(
     link: function ($scope, element, attrs, ctrl) {
 
       ctrl.$setValidity('namePattern', true);
-      function checkValid (name) {
+
+      function checkValid(name) {
         if (!name || ctrl.$pristine) {
           ctrl.$setValidity('namePattern', true);
           return name;

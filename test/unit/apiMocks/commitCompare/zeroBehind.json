@@ -1,0 +1,167 @@
+{
+  "url": "https://api.github.com/repos/cflynn07/bitcoin/compare/master...1f27c310a4bcca758f708358601fa25976d56d90",
+  "html_url": "https://github.com/cflynn07/bitcoin/compare/master...1f27c310a4bcca758f708358601fa25976d56d90",
+  "permalink_url": "https://github.com/cflynn07/bitcoin/compare/cflynn07:1f27c31...cflynn07:1f27c31",
+  "diff_url": "https://github.com/cflynn07/bitcoin/compare/master...1f27c310a4bcca758f708358601fa25976d56d90.diff",
+  "patch_url": "https://github.com/cflynn07/bitcoin/compare/master...1f27c310a4bcca758f708358601fa25976d56d90.patch",
+  "base_commit": {
+    "sha": "1f27c310a4bcca758f708358601fa25976d56d90",
+    "commit": {
+      "author": {
+        "name": "Pieter Wuille",
+        "email": "pieter.wuille@gmail.com",
+        "date": "2014-10-13T19:07:35Z"
+      },
+      "committer": {
+        "name": "Pieter Wuille",
+        "email": "pieter.wuille@gmail.com",
+        "date": "2014-10-13T19:11:50Z"
+      },
+      "message": "Merge pull request #5080\n\ne21b2e0 Typo in test (Luke)",
+      "tree": {
+        "sha": "76cf8654c1609b820f630a9fc29e6bbbfbc3aa38",
+        "url": "https://api.github.com/repos/cflynn07/bitcoin/git/trees/76cf8654c1609b820f630a9fc29e6bbbfbc3aa38"
+      },
+      "url": "https://api.github.com/repos/cflynn07/bitcoin/git/commits/1f27c310a4bcca758f708358601fa25976d56d90",
+      "comment_count": 0
+    },
+    "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90",
+    "html_url": "https://github.com/cflynn07/bitcoin/commit/1f27c310a4bcca758f708358601fa25976d56d90",
+    "comments_url": "https://api.github.com/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90/comments",
+    "author": {
+      "login": "sipa",
+      "id": 548488,
+      "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=2",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sipa",
+      "html_url": "https://github.com/sipa",
+      "followers_url": "https://api.github.com/users/sipa/followers",
+      "following_url": "https://api.github.com/users/sipa/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sipa/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sipa/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+      "organizations_url": "https://api.github.com/users/sipa/orgs",
+      "repos_url": "https://api.github.com/users/sipa/repos",
+      "events_url": "https://api.github.com/users/sipa/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sipa/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "sipa",
+      "id": 548488,
+      "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=2",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sipa",
+      "html_url": "https://github.com/sipa",
+      "followers_url": "https://api.github.com/users/sipa/followers",
+      "following_url": "https://api.github.com/users/sipa/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sipa/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sipa/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+      "organizations_url": "https://api.github.com/users/sipa/orgs",
+      "repos_url": "https://api.github.com/users/sipa/repos",
+      "events_url": "https://api.github.com/users/sipa/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sipa/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "d7e195048342afae9168377cebfc22ab000728a5",
+        "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/d7e195048342afae9168377cebfc22ab000728a5",
+        "html_url": "https://github.com/cflynn07/bitcoin/commit/d7e195048342afae9168377cebfc22ab000728a5"
+      },
+      {
+        "sha": "e21b2e0d5f621de5d8d5a9daae910ec512e29aa2",
+        "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/e21b2e0d5f621de5d8d5a9daae910ec512e29aa2",
+        "html_url": "https://github.com/cflynn07/bitcoin/commit/e21b2e0d5f621de5d8d5a9daae910ec512e29aa2"
+      }
+    ]
+  },
+  "merge_base_commit": {
+    "sha": "1f27c310a4bcca758f708358601fa25976d56d90",
+    "commit": {
+      "author": {
+        "name": "Pieter Wuille",
+        "email": "pieter.wuille@gmail.com",
+        "date": "2014-10-13T19:07:35Z"
+      },
+      "committer": {
+        "name": "Pieter Wuille",
+        "email": "pieter.wuille@gmail.com",
+        "date": "2014-10-13T19:11:50Z"
+      },
+      "message": "Merge pull request #5080\n\ne21b2e0 Typo in test (Luke)",
+      "tree": {
+        "sha": "76cf8654c1609b820f630a9fc29e6bbbfbc3aa38",
+        "url": "https://api.github.com/repos/cflynn07/bitcoin/git/trees/76cf8654c1609b820f630a9fc29e6bbbfbc3aa38"
+      },
+      "url": "https://api.github.com/repos/cflynn07/bitcoin/git/commits/1f27c310a4bcca758f708358601fa25976d56d90",
+      "comment_count": 0
+    },
+    "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90",
+    "html_url": "https://github.com/cflynn07/bitcoin/commit/1f27c310a4bcca758f708358601fa25976d56d90",
+    "comments_url": "https://api.github.com/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90/comments",
+    "author": {
+      "login": "sipa",
+      "id": 548488,
+      "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=2",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sipa",
+      "html_url": "https://github.com/sipa",
+      "followers_url": "https://api.github.com/users/sipa/followers",
+      "following_url": "https://api.github.com/users/sipa/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sipa/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sipa/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+      "organizations_url": "https://api.github.com/users/sipa/orgs",
+      "repos_url": "https://api.github.com/users/sipa/repos",
+      "events_url": "https://api.github.com/users/sipa/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sipa/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "sipa",
+      "id": 548488,
+      "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=2",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sipa",
+      "html_url": "https://github.com/sipa",
+      "followers_url": "https://api.github.com/users/sipa/followers",
+      "following_url": "https://api.github.com/users/sipa/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sipa/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sipa/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+      "organizations_url": "https://api.github.com/users/sipa/orgs",
+      "repos_url": "https://api.github.com/users/sipa/repos",
+      "events_url": "https://api.github.com/users/sipa/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sipa/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "d7e195048342afae9168377cebfc22ab000728a5",
+        "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/d7e195048342afae9168377cebfc22ab000728a5",
+        "html_url": "https://github.com/cflynn07/bitcoin/commit/d7e195048342afae9168377cebfc22ab000728a5"
+      },
+      {
+        "sha": "e21b2e0d5f621de5d8d5a9daae910ec512e29aa2",
+        "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/e21b2e0d5f621de5d8d5a9daae910ec512e29aa2",
+        "html_url": "https://github.com/cflynn07/bitcoin/commit/e21b2e0d5f621de5d8d5a9daae910ec512e29aa2"
+      }
+    ]
+  },
+  "status": "identical",
+  "ahead_by": 0,
+  "behind_by": 0,
+  "total_commits": 0,
+  "commits": [
+
+  ],
+  "files": [
+
+  ]
+}

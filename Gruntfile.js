@@ -22,8 +22,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     githooks: {
       all: {
-        'pre-commit':    'jshint:prod',
-        'pre-push':      'bgShell:karma'
+        'pre-commit':    'jshint:prod'
+        // 'pre-push':      'bgShell:karma'
       //  'post-merge':    'bgShell:npm-install',
       //  'post-checkout': 'bgShell:npm-install'
       }
@@ -161,7 +161,8 @@ module.exports = function(grunt) {
         },
         files: {
           './client/build/views/viewBundle.js': [
-            './client/templates/**/*.jade'
+            './client/templates/**/*.jade',
+            './client/directives/**/*.jade'
           ]
         }
       }
@@ -302,6 +303,18 @@ module.exports = function(grunt) {
           jslintHappy: true
         }
       }
+    },
+    coverage: {
+      options: {
+        thresholds: {
+          'statements': 80,
+          'branches': 80,
+          'lines': 80,
+          'functions': 80
+        },
+        dir: 'coverage',
+        root: 'test'
+      }
     }
   });
 
@@ -362,7 +375,8 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || 'http://mewl10-3030.runnable.io';
+        configObj.host = process.env.API_HOST || 'http://stage-api.codenow.runnable.io';
+
         if (configObj.host.charAt(configObj.host.length-1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length-1);
         }
@@ -409,9 +423,34 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('deleteOldCoverage', '', function () {
+    function deleteFolderRecursive(path) {
+      var files = [];
+      if( fs.existsSync(path) ) {
+        files = fs.readdirSync(path);
+        files.forEach(function(file,index){
+          var curPath = path + "/" + file;
+          if(fs.lstatSync(curPath).isDirectory()) { // recurse
+            deleteFolderRecursive(curPath);
+          } else { // delete file
+            if (file !== '.gitkeep') {
+              fs.unlinkSync(curPath);
+            }
+          }
+        });
+      }
+    }
+
+    if (fs.existsSync('test/coverage')) {
+      deleteFolderRecursive('test/coverage');
+    }
+  });
+
+
+
   grunt.registerTask('loadSyntaxHighlighters', '', function () {
     var cb = this.async();
-    var indexPath = path.join(__dirname, 'client', 'lib', 'modes.js');
+    var indexPath = path.join(__dirname, 'client', 'lib', 'braceModes.js');
     var workingPath = path.join(__dirname, 'node_modules', 'brace', 'mode');
 
     // TODO: DRY up with code above
@@ -460,9 +499,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-jsbeautifier');
+  grunt.loadNpmTasks('grunt-istanbul');
+  grunt.loadNpmTasks('grunt-istanbul-coverage');
 
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);
+
+  grunt.registerTask('test:unit-coverage', [
+    'deleteOldCoverage',
+    'bgShell:karma',
+    'coverage'
+  ]);
+
   grunt.registerTask('test:e2e', ['bgShell:protractor']);
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('build:dev', [

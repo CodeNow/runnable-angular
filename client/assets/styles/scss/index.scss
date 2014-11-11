@@ -29,6 +29,8 @@
 @import "components/menu";
 @import "components/tooltips";
 @import "components/alerts";
+@import "components/wells";
+@import "components/guides";
 
 // forms
 @import "forms/forms";
@@ -59,16 +61,20 @@
 
 // modals
 @import "modals/modals";
+@import "modals/modals-environment";
 @import "modals/modals-fork";
+@import "modals/modals-rename";
+@import "modals/modals-sidebar";
 
 // popovers
 @import "popover/popover";
 @import "popover/popover-actions";
-@import "popover/popover-save-options";
 @import "popover/popover-add-repo";
 @import "popover/popover-add-tab";
 @import "popover/popover-commit-select";
+@import "popover/popover-environment";
 @import "popover/popover-repo-actions";
+@import "popover/popover-save-options";
 
 // pages
 @import "pages/landing";

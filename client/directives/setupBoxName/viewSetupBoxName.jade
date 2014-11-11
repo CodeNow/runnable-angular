@@ -1,0 +1,27 @@
+h1.box-info
+  form.box-name.setup-name(
+    name = "newInstanceNameForm"
+  )
+    input.input-validate.setup-name-input(
+      ng-model = "newInstanceName"
+      placeholder = "Box Name"
+      select-on
+      spellcheck = "false"
+      validate-name-pattern
+      validate-name = "instances"
+    )
+    //- .invalid-pattern for names with invalid characters
+      - .invalid-name for names that are taken
+    .validate-wrapper(
+      ng-class = "{\
+        'invalid-pattern': newInstanceNameForm.$error.namePattern.length,\
+        'invalid-name': newInstanceNameForm.$error.nameAvailable.length\
+      }"
+    )
+      span.validate-rules.invalid-pattern We accept #{''}
+        b.btn.btn-xs.orange A-Z
+        b.btn.btn-xs.orange a-z
+        b.btn.btn-xs.orange 0-9
+        b.btn.btn-xs.orange _
+        b.btn.btn-xs.orange -
+      span.validate-rules.invalid-name That's a pretty name, but it's taken.

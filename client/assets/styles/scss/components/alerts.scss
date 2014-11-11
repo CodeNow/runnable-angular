@@ -1,21 +1,25 @@
 .alert {
   border-radius: 3px;
-  cursor: pointer;
-  font-weight: 400;
+  font-weight: 300;
   height: 36px;
   left: 240px;
   line-height: 36px;
   margin: 0 auto;
   opacity: 0;
   padding: 0 6px;
+  pointer-events: none;
   position: fixed;
   right: 0;
   top: 12px;
-  width: 249px;
+  width: 276px;
   z-index: $z-alert;
 
   &.in {
     animation: alert 5s ease-in;
+  }
+
+  &.green {
+    background: #ecfaef; // rgba($green,.1);
   }
 
   .iconnables {
