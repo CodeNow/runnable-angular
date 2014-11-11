@@ -71,7 +71,10 @@ section.views.with-add-tab(
   //- dataSetup.data.showVideoFixed
   //- dataSetup.data.closeVideoAlert
   .embed-wrapper(
-    ng-class = "{fixed: dataSetup.data.showVideoFixed}"
+    ng-class = "{ \
+      fixed: (dataSetup.data.showVideoFixed || \
+              dataSetup.data.build.contextVersions.models[0].source) \
+    }"
     ng-if = "!dataSetup.data.hideVideo"
   )
     .embed-guide(
