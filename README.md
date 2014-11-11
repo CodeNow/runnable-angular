@@ -19,6 +19,21 @@ Instructions
 - `grunt test`: run tests
 - `npm start`: build & start production environment
 
+
+First time instructions
+-----------------------
+ - fork `CodeNow/stage-api` on runnable.io. Name your box `${YOUR_NAME}-api` e.x. `anton-api`. This would be your `${BOX_NAME}`
+ - create your own GitHub App and
+    - set `Homepage URL` to `http://${BOX_NAME}.codenow.runnable.io/`
+    - set `Authorization callback URL` to `http://${BOX_NAME}.codenow.runnable.io/auth/github/callback`
+ - update Dockerfile for your API box
+    - set `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` to the values from your GitHub app
+    - set `FULL_API_DOMAIN` to `http://${BOX_NAME}.codenow.runnable.io`
+    - set `GITHUB_CALLBACK_URL` to `http://${BOX_NAME}.codenow.runnable.io/auth/github/callback`
+    - set `GITHUB_HOOK_URL` to `http://${BOX_NAME}.codenow.runnable.io/actions/github`
+ - run web app locally with `API_HOST=http://${BOX_NAME}.codenow.runnable.io grunt`
+ - go to `http://localhost:3001?password=local` and signin with your GitHub
+
 Requirements
 ------------
 - node ~0.10.30
@@ -39,6 +54,9 @@ karma start ./test/karma.conf.js [--single-run] (optional)
 
 Contributors
 ------------
+<img src="https://avatars1.githubusercontent.com/u/429706?v=3&s=64">&nbsp;
+[Anton Podviaznikov (podviaznikov)](https://github.com/podviaznikov)
+San Francisco, CA, USA  
 <img src="https://s.gravatar.com/avatar/b613d7470bc5eb09b8c73223b4ee8a4e?s=64">&nbsp;
 [Anandkumar Patel (anandkumarpatel)](https://github.com/anandkumarpatel)
 San Francisco, CA, USA  
