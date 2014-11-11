@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableAddRepoPopover', RunnableAddRepoPopover);
+  .directive('addRepoPopover', addRepoPopover);
 /**
  * @ngInject
  */
-function RunnableAddRepoPopover(
+function addRepoPopover(
   async,
   keypather,
   pick,

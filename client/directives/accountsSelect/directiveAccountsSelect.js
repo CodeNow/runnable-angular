@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableAccountsSelect', RunnableAccountsSelect);
+  .directive('accountsSelect', accountsSelect);
 /**
  * @ngInject
  */
-function RunnableAccountsSelect(
+function accountsSelect(
   async,
   determineActiveAccount,
   $rootScope,

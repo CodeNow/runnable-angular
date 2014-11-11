@@ -1,12 +1,12 @@
 header.box-header
 
   //- name instance input
-  runnable-setup-box-name(
+  setup-box-name(
     name = "dataSetup.data.newInstanceName"
     valid = "dataSetup.data.isValid"
   )
 
-  runnable-setup-primary-actions(
+  setup-primary-actions(
     loading = "dataApp.data.loading"
     name = "dataSetup.data.newInstanceName"
     valid = "dataSetup.data.isValid"
@@ -15,18 +15,18 @@ header.box-header
 
 section.sidebar.box-sidebar
 
-  runnable-repo-list
+  repo-list
 
-  runnable-docker-templates(
+  docker-templates(
     open-items = "dataSetup.data.openItems"
   )
 
-  runnable-docker-validation(
+  docker-validation(
     open-items = "dataSetup.data.openItems"
   )
 
   //-
-    runnable-env-validation
+    env-validation
 
 section.views.with-add-tab(
   ng-class = "{ \
@@ -46,7 +46,7 @@ section.views.with-add-tab(
         xlink:href = "#icons-folder-open"
       )
 
-  runnable-explorer(
+  explorer(
     open-items = "dataSetup.data.openItems"
     toggle-theme = "dataSetup.data.toggleTheme"
   )
@@ -56,7 +56,7 @@ section.views.with-add-tab(
     open-items = "dataSetup.data.openItems"
   )
 
-  runnable-add-tab(
+  add-tab(
     open-items = "dataSetup.data.openItems"
   )
 

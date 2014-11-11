@@ -11,7 +11,7 @@ var $compile,
     user;
 var $elScope;
 
-describe.skip('directiveRunnableEditRepoCommit'.bold.underline.blue, function() {
+describe.skip('directiveEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
@@ -80,7 +80,7 @@ describe.skip('directiveRunnableEditRepoCommit'.bold.underline.blue, function() 
       .newAppCodeVersion(mocks.appCodeVersions.bitcoinAppCodeVersion);
 
     // unsavedAcv passed to directive from
-    // parent directive: runnableRepoList
+    // parent directive: repoList
     ctx.unsavedAcv = user
       .newContext('contextId')
       .newVersion('versionId')
@@ -103,7 +103,7 @@ describe.skip('directiveRunnableEditRepoCommit'.bold.underline.blue, function() 
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('runnable-edit-repo-commit', {
+    ctx.template = directiveTemplate('edit-repo-commit', {
       'app-code-version': 'acv',
       'unsaved-app-code-version': 'unsavedAcv'
     });
