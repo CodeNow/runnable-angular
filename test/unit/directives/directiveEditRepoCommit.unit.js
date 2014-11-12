@@ -11,7 +11,7 @@ var $compile,
     user;
 var $elScope;
 
-describe.skip('directiveEditRepoCommit'.bold.underline.blue, function() {
+describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
@@ -95,7 +95,6 @@ describe.skip('directiveEditRepoCommit'.bold.underline.blue, function() {
     ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
     $httpBackend.flush();
-    ctx.$element = jQuery(ctx.element);
     $elScope = ctx.element.isolateScope();
   };
 
@@ -186,10 +185,10 @@ describe.skip('directiveEditRepoCommit'.bold.underline.blue, function() {
     injectSetupCompile();
 
     // commit author
-    var $el = ctx.$element
-      .find('> .commit.load > span.commit-author');
-    expect($el.length).to.be.ok;
-    expect($el.html()).to.equal('sipa');
+    var $el = ctx.element[0]
+      .querySelector('.commit.load > span.commit-author');
+    expect($el).to.be.ok;
+    expect($el.innerText).to.equal('sipa');
   });
 
   it('displays commit time (through timeAgo filter)', function() {
@@ -208,10 +207,10 @@ describe.skip('directiveEditRepoCommit'.bold.underline.blue, function() {
     injectSetupCompile();
 
     // commit time
-    var $el = ctx.$element
-      .find('> .commit.load > time.commit-time');
-    expect($el.length).to.be.ok;
-    expect($el.html()).to.equal($filter('timeAgo')($elScope.activeCommit.attrs.commit.author.date));
+    var $el = ctx.element[0]
+      .querySelector('.commit.load > time.commit-time');
+    expect($el).to.be.ok;
+    expect($el.innerText).to.equal('a month ago');
   });
 
 });
