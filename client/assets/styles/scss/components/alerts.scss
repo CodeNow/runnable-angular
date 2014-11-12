@@ -22,8 +22,53 @@
     background: #ecfaef; // rgba($green,.1);
   }
 
-  .iconnables {
+  > .iconnables {
     margin-right: 6px;
     top: 6px;
+  }
+
+  .btn-close {
+    float: right;
+    opacity: .5;
+    padding: 0;
+    top: 6px;
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
+  }
+}
+
+.alert.guide {
+  background: rgba($black,.75);
+  border: 0;
+  bottom: 0;
+  color: $white;
+  cursor: pointer;
+  font-weight: 300;
+  height: 36px;
+  left: 12px;
+  line-height: 36px;
+  opacity: 1;
+  padding: 0 6px 0 12px;
+  pointer-events: auto;
+  position: absolute;
+  top: auto;
+  width: 210px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  > .iconnables {
+    color: $blue;
+    height: 100%;
+    margin: 0 6px 0 0;
+    top: 0;
+  }
+
+  .icons-close {
+    margin: 0;
   }
 }

@@ -66,6 +66,69 @@ section.views.with-add-tab(
     open-items = "dataSetup.data.openItems"
   )
 
+  //- dataSetup.data.showVideo
+  //- dataSetup.data.hideVideo
+  //- dataSetup.data.showVideoFixed
+  //- dataSetup.data.closeVideoAlert
+  .embed-wrapper(
+    ng-class = "{ \
+      fixed: dataSetup.data.showVideoFixed \
+    }"
+    ng-if = "!dataSetup.data.hideVideo"
+  )
+    .embed-guide(
+      ng-class = "{out: dataSetup.data.showVideo}"
+    )
+      h2.embed-heading Need help?
+      p Watch this video to get started.
+      button.btn.btn-embed-play(
+        ng-click = "dataSetup.data.showVideo = true; \
+                    dataSetup.actions.olarkShrink();"
+      )
+        svg.iconnables.icons-run
+          use(
+            xlink:href = "#icons-run"
+          )
+    iframe.embed-iframe(
+      allowfullscreen
+      frameborder="0"
+      height = "100%"
+      ng-if = "dataSetup.data.showVideo"
+      src = "//www.youtube.com/embed/oiSn4-A8Qpw?rel=0&amp;showinfo=0&amp;autoplay=1"
+      width = "100%"
+    )
+    button.btn.btn-icon.btn-embed-close(
+      ng-click = "dataSetup.data.hideVideo = true; \
+                  dataSetup.data.closeVideoAlert = false; \
+                  dataSetup.data.showVideoFixed = false;"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+
+  //- show after selecting a template
+  .alert.guide(
+    ng-click = " \
+      dataSetup.actions.olarkShrink(); \
+      dataSetup.data.showVideoFixed = true; \
+      dataSetup.data.showVideo = true; \
+      dataSetup.data.hideVideo = false"
+    ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"
+    ng-if = "dataSetup.data.build.contextVersions.models[0].source"
+  ) Lost? Here's a video.
+    //- shrink olark on click
+    //- https://www.olark.com/documentation/javascript/api.box.shrink
+    button.btn.btn-xs.btn-close(
+      ng-click = " \
+        dataSetup.data.closeVideoAlert = true; \
+        $event.stopPropagation();"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+
   //- spinner
   .horizontal-spinner(
     ng-show = "dataSetup.data.fetchingContext"
