@@ -1,0 +1,22 @@
+.popover.popover-primary-options {
+  color: $gray;
+  left: auto;
+  right: -1px;
+  top: 36px;
+  transform-origin: 219px 0;
+  width: 231px;
+
+  .arrow.white {
+    left: auto;
+    right: 2px;
+  }
+
+  .no-actions .label-checkbox {
+    cursor: not-allowed;
+  }
+
+  .input-checkbox {
+    height: 36px;
+    margin-right: 12px;
+  }
+}

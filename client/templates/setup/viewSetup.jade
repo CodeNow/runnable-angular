@@ -1,145 +1,133 @@
 header.box-header
-  h1.box-info
-    form.box-name(
-      name = "dataSetup.data.newProjectNameForm"
-    )
-      input.validate.setup-box-name(
-        ng-model = "dataSetup.data.newProjectName"
-        placeholder = "Box Name"
-        select-on
-        spellcheck = "false"
-        validate-name-pattern
-        validate-name = "dataInstanceLayout.data.instances"
-        value = "{{ dataSetup.data.project.attrs.name }}"
-      )
-      //- if invalid character is entered
-      .validate-wrapper(
-        ng-class = "{\
-          in: data.renameForm.$invalid,\
-          'invalid-pattern': dataSetup.data.newProjectNameForm.$error.namePattern.length,\
-          'invalid-name': dataSetup.data.newProjectNameForm.$error.nameAvailable.length\
-        }"
-      )
-        span.validate-rules.invalid-pattern We accept #{''}
-          b.btn.btn-xs.orange A-Z
-          b.btn.btn-xs.orange a-z
-          b.btn.btn-xs.orange 0-9
-          b.btn.btn-xs.orange _
-          b.btn.btn-xs.orange -
-        //- if the name is taken
-        span.validate-rules.invalid-name That's a pretty name, but it's taken.
-  .primary-actions
-    //- remove .orange, add .green when validation passes
-    button(
-      ng-class = "{\
-        orange: !dataSetup.actions.valid(true),\
-        green: dataSetup.actions.valid(true)\
-      }"
-      ng-click = "dataSetup.actions.buildApplication()"
-      ng-disabled = "dataSetup.data.creatingProject || !dataSetup.actions.valid()"
-    ) Create Box
 
-section.sidebar.box-sidebar.setup
-  //- repositories
-  repo-list(
-    build = "dataSetup.data.build",
-    edit = "true",
-    show-guide = "true"
+  //- name instance input
+  setup-box-name(
+    name = "dataSetup.data.newInstanceName"
+    valid = "dataSetup.data.isValid"
   )
-  section.row
-    h2.sub-header Docker Templates
-    //- remove .in if template is selected
-    .label-group(
-      ng-class = "{ in: dataSetup.actions.highlightTemplates }"
-      ng-click = "dataSetup.actions.highlightTemplates = false"
-    )
-      label.label-group-item(
-        ng-repeat = "context in dataSetup.data.seedContexts.models"
-      ) {{ context.attrs.name }}
-        input.radio(
-          name = "source-context"
-          ng-click = "dataSetup.actions.selectSourceContext(context)"
-          required
-          type = "radio"
-        )
 
-    //- show .guide if a template has not been selected
-    .guide.blue(
-      ng-click = "dataSetup.actions.highlightTemplates = true"
-      ng-if = "!dataSetup.data.contextSelected"
-    )
-      svg.iconnables.icons-docker
-        use(
-          xlink:href = "#icons-docker"
-        )
-      p Choose a template to generate your dockerfile.
-
-  section.row(
-    ng-if = "dataSetup.data.validDockerfile.valid === false"
+  setup-primary-actions(
+    loading = "dataApp.data.loading"
+    name = "dataSetup.data.newInstanceName"
+    valid = "dataSetup.data.isValid"
+    open-items = "dataSetup.data.openItems"
   )
-    .sidebar-validation
-      h2.sub-header Dockerfile Validation Errors
-      ul.list-group
-        li.list-group-item(
-          ng-repeat = "error in dataSetup.data.validDockerfile.errors"
-        ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
+
+section.sidebar.box-sidebar
+
+  repo-list
+
+  docker-templates(
+    open-items = "dataSetup.data.openItems"
+  )
+
+  docker-validation(
+    open-items = "dataSetup.data.openItems"
+  )
+
+  //-
+    env-validation
 
 section.views.with-add-tab(
-  ng-class = "{in: dataSetup.data.showExplorer && !dataSetup.data.loading}"
+  ng-class = "{ \
+    in: (dataSetup.data.openItems.models.length && \
+         dataSetup.data.showExplorer && \
+         !dataSetup.data.loading) \
+  }"
 )
   //- explorer
   button.btn-sm.white.btn-icon.explorer-toggle(
     ng-click = "dataSetup.data.showExplorer = !dataSetup.data.showExplorer"
-    ng-if = "dataSetup.data.contextVersion.source"
+    ng-if = "dataSetup.data.openItems.models.length"
     type = "button"
   )
     svg.iconnables.icons-folder-open
       use(
         xlink:href = "#icons-folder-open"
       )
-  section.explorer
-    .explorer-controls
-      button.toggle-theme(
-        ng-class = "{dark: !dataSetup.data.toggleTheme, light: dataSetup.data.toggleTheme}"
-        ng-click = "dataSetup.data.toggleTheme = !dataSetup.data.toggleTheme"
-        ng-init = "dataSetup.data.toggleTheme = true"
-        tooltip = "Change Theme"
-        tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
-      )
-        .theme
-    file-tree(
-      open-items = "dataSetup.data.openItems"
-      read-only = "false"
-      root-dir = "dataSetup.data.contextVersion.rootDir"
-    )
+
+  explorer(
+    open-items = "dataSetup.data.openItems"
+    toggle-theme = "dataSetup.data.toggleTheme"
+  )
 
   //- tabs
   tabs(
     open-items = "dataSetup.data.openItems"
   )
-  a.btn.btn-sm.white.btn-icon.add-tab(
-    ng-class = "{active: dataSetup.data.popoverAddTab.data.show}"
-    toggle-pop-over
-    toggle-pop-over-model = "dataSetup.data.popoverAddTab.data.show"
+
+  add-tab(
+    open-items = "dataSetup.data.openItems"
   )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
-    pop-over(
-      actions = "dataSetup.data.popoverAddTab.actions"
-      data = "dataSetup.data.popoverAddTab.data"
-      template = "popoverAddTab"
-    )
 
   //- active panel
   active-panel(
     is-dark-theme = "dataSetup.data.toggleTheme"
     open-items = "dataSetup.data.openItems"
-    read-only = "dataSetup.data.isReadOnly"
-    setup-data = "dataSetup.data"
-    update = "true"
   )
+
+  //- dataSetup.data.showVideo
+  //- dataSetup.data.hideVideo
+  //- dataSetup.data.showVideoFixed
+  //- dataSetup.data.closeVideoAlert
+  .embed-wrapper(
+    ng-class = "{ \
+      fixed: dataSetup.data.showVideoFixed \
+    }"
+    ng-if = "!dataSetup.data.hideVideo"
+  )
+    .embed-guide(
+      ng-class = "{out: dataSetup.data.showVideo}"
+    )
+      h2.embed-heading Need help?
+      p Watch this video to get started.
+      button.btn.btn-embed-play(
+        ng-click = "dataSetup.data.showVideo = true; \
+                    dataSetup.actions.olarkShrink();"
+      )
+        svg.iconnables.icons-run
+          use(
+            xlink:href = "#icons-run"
+          )
+    iframe.embed-iframe(
+      allowfullscreen
+      frameborder="0"
+      height = "100%"
+      ng-if = "dataSetup.data.showVideo"
+      src = "//www.youtube.com/embed/oiSn4-A8Qpw?rel=0&amp;showinfo=0&amp;autoplay=1"
+      width = "100%"
+    )
+    button.btn.btn-icon.btn-embed-close(
+      ng-click = "dataSetup.data.hideVideo = true; \
+                  dataSetup.data.closeVideoAlert = false; \
+                  dataSetup.data.showVideoFixed = false;"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+
+  //- show after selecting a template
+  .alert.guide(
+    ng-click = " \
+      dataSetup.actions.olarkShrink(); \
+      dataSetup.data.showVideoFixed = true; \
+      dataSetup.data.showVideo = true; \
+      dataSetup.data.hideVideo = false"
+    ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"
+    ng-if = "dataSetup.data.build.contextVersions.models[0].source"
+  ) Lost? Here's a video.
+    //- shrink olark on click
+    //- https://www.olark.com/documentation/javascript/api.box.shrink
+    button.btn.btn-xs.btn-close(
+      ng-click = " \
+        dataSetup.data.closeVideoAlert = true; \
+        $event.stopPropagation();"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
 
   //- spinner
   .horizontal-spinner(

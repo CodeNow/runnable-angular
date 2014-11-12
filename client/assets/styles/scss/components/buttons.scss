@@ -67,6 +67,7 @@ button,
 }
 
 .blue,
+.gray,
 .green,
 .orange,
 .purple,
@@ -95,6 +96,32 @@ button,
   &.active {
     background: rgba($blue,.2);
     border-color: rgba($blue,.4);
+  }
+}
+
+.gray {
+  background: rgba($black,.05);
+  border-color: rgba($black,.1);
+  color: $gray;
+  font-weight: 300;
+
+  &:hover {
+    border-color: rgba($black,.2);
+  }
+
+  &:active,
+  &.active {
+    border-color: rgba($black,.3);
+  }
+
+  &[disabled],
+  &.disabled {
+
+    &:hover,
+    &:active,
+    &.active {
+      border-color: rgba($black,.05);;
+    }
   }
 }
 

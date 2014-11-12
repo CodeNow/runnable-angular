@@ -9,7 +9,7 @@ dependencies:
     - grunt autoBundleDependencies
     - grunt generateConfigs
     - grunt browserify:once
-    - npm uninstall karma-browserify
+    - npm uninstall karma-browserifast
   cache_directories:
     - ~/nvm
 machine:
@@ -18,3 +18,4 @@ machine:
 test:
   override:
     - karma start ./test/karma.circle.conf.js
+    - grunt coverage

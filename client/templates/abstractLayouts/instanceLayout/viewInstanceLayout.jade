@@ -3,89 +3,12 @@ nav.sidebar.global-sidebar(
   ng-class = "{minimize: dataApp.data.minimizeNav}"
 )
   //- accounts
-  header.row.account-header
-    ol.accounts-group(
-      ng-class = "{in: dataInstanceLayout.data.showChangeAccount}"
-      ng-click = "dataInstanceLayout.data.showChangeAccount = !dataInstanceLayout.data.showChangeAccount; \
-        $event.stopPropagation()"
-    )
-      li.accounts-group-item
-        a.account.load(
-          ng-show = "dataInstanceLayout.data.activeAccount.gravitar()"
-        )
-          img.gravatar(
-            height = "24"
-            ng-src = "{{ dataInstanceLayout.data.activeAccount.gravitar() }}"
-            width = "24"
-          )
-          span.account-name {{ dataInstanceLayout.data.activeAccount.oauthName() }}
-          //- icons-arrow-down only for first account
-          svg.iconnables.icons-arrow-down
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-      //- current user (if user is not active)
-      li.accounts-group-item(
-        ng-if = "dataApp.user !== dataInstanceLayout.data.activeAccount"
-        ng-click = "$event.stopPropagation(); dataInstanceLayout.actions.selectActiveAccount(dataApp.user)"
-      )
-        a.account
-          img.gravatar(
-            height = "24"
-            ng-src = "{{ dataApp.user.gravitar() }}"
-            width = "24"
-          )
-          span.account-name {{ dataApp.user.oauthName() }}
-      //- Orgs that are not the active account
-      li.accounts-group-item(
-        ng-click = "$event.stopPropagation(); dataInstanceLayout.actions.selectActiveAccount(org)"
-        ng-if = "org !== dataInstanceLayout.data.activeAccount"
-        ng-repeat = "org in dataInstanceLayout.data.orgs.models"
-      )
-        a.account
-          img.gravatar(
-            height = "24"
-            ng-src = "{{ org.gravitar() }}"
-            width = "24"
-          )
-          span.account-name {{ org.oauthName() }}
-
-  //- INSTANCES
-  section.row.boxes
-    h2.sub-header
-      span.sub-header-text Boxes
-      a.btn.btn-sm.white.sub-header-action(
-        href = "/new"
-        ng-click = "dataInstanceLayout.actions.stateToNew()"
-        title = "Create a New Box"
-      )
-        svg.iconnables.icons-add
-          use(
-            xlink:href = "#icons-add"
-          )
-    ul.box-group
-      //- apply .active for currently selected box
-      //- apply .running for a running box
-      li.box-group-item.load(
-        ng-class = "dataInstanceLayout.actions.getInstanceClasses(instance)"
-        ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-        ng-repeat = "instance in dataInstanceLayout.data.instances.models | orderBy:'attrs.name'"
-        ng-show = "dataInstanceLayout.data.instances.models"
-      )
-        //- show instance name in title property when not minimized
-        a.white.box(
-          tooltip = "{{ instance.attrs.name }}"
-          tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
-        )
-          span.box-item-name {{ instance.attrs.name }}
-          //- alt text running container
-          span.icons-status(
-            title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
-          )
+  accounts-select
+  instance-list
 
   footer.row.global-footer
     a.btn.btn-sm.btn-icon.white.btn-logout(
-      ng-href = "{{ dataApp.logoutURL }}"
+      ng-href = "{{ dataApp.data.logoutURL }}"
       title = "Log Out"
     )
       svg.iconnables.icons-exit
@@ -106,9 +29,9 @@ nav.sidebar.global-sidebar(
 main.content(ui-view)
 
 //- development info
-div(
-  ng-include = "'viewDevelopmentInfo'"
-)
+//- div(
+//-   ng-include = "'viewDevelopmentInfo'"
+//- )
 
 //- global spinner
 .spinner-container(

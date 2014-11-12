@@ -39,7 +39,7 @@ describe('servicePrimus'.bold.underline.blue, function () {
     expect(logStream).to.be.an('object');
   });
 
-  it('should create build streams', function() {
+  it.skip('should create build streams', function() {
     var stream = primus.createBuildStream({
       contextVersions: {
         models: [

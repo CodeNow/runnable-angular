@@ -15,7 +15,7 @@ function popOver(
     replace: true,
     scope: {
       data: '=',
-      actions: '&'
+      actions: '='
     },
     link: function ($scope, element, attrs) {
       var $ = jQuery;
@@ -26,7 +26,6 @@ function popOver(
       element.on('$destroy', function () {
         element.off('click');
       });
-      $scope.actions = $scope.actions();
     }
   };
 }

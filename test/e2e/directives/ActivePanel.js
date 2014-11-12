@@ -3,7 +3,7 @@ var util = require('../helpers/util');
 function ActivePanel (pageType) {
   this.pageType = pageType;
 
-  this.addTab = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > a'));
+  this.addTab = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab > div:nth-child(4) > a'));
 
   this.currentContent = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark'));
 
@@ -27,7 +27,7 @@ function ActivePanel (pageType) {
 
   this.openTab = function (tabType) {
     this.addTab.get().click();
-    element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > a > div > div.popover-content > ol > li', tabType)).click();
+    element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > div:nth-child(4) > a > div > div.popover-content > ol > li', tabType)).click();
   };
 
   this.setActiveTab = function(text) {
@@ -69,6 +69,7 @@ function ActivePanel (pageType) {
     });
   };
 
+  // With line numbers
   this.getContents = function () {
     return this.currentContent.get().getText();
   };

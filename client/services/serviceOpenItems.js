@@ -18,7 +18,7 @@ function openItemsFactory(
   user
 ) {
 
-  function instanceOfModel (model) {
+  function instanceOfModel(model) {
     return (model instanceof VersionFileModel ||
       model instanceof ContainerFileModel ||
       model instanceof Terminal ||
@@ -127,15 +127,14 @@ function openItemsFactory(
     }
   };
 
-  function OpenItems(shortHash) {
-    this.shortHash = shortHash;
+  function OpenItems() {
+    this.shortHash = null;
     this.activeHistory = new ActiveHistory();
     this.previouslyActiveTab = null;
 
     var models;
-
-    if (this.shortHash) {
-      models = $localStorage[shortHash];
+    this.retrieveTabs = function(container) {
+      models = $localStorage[this.shortHash];
       if (Array.isArray(models)) {
         this.previouslyActiveTab = models.find(function (m) {
           return keypather.get(m, 'state.active');
@@ -147,18 +146,22 @@ function openItemsFactory(
           var from = keypather.get(model, 'state.from');
           if (tabTypes[from]) {
             if (from === 'File') {
-              model = new ContainerFileModel(model, {
-                client: user.client,
-                parentPath: model.state.parentPath
-              });
+              // safe to assume ContainerFileModel,
+              // caching not present on instance.instanceEdit
+              model = container.newFile(model);
             } else {
-              model = new tabTypes[model.state.from](model, { noStore: true });
+              model = new tabTypes[from](model, {
+                noStore: true
+              });
             }
           }
           return model;
         });
+        this.reset([]);
+        this.add(models);
       }
-    }
+    };
+
     BaseCollection.call(this, models, {
       noStore: true
     });
@@ -177,6 +180,11 @@ function openItemsFactory(
         this.activeHistory.add(model);
       }
     }
+  };
+
+  OpenItems.prototype.restoreTabs = function(shortHash, container) {
+    this.shortHash = shortHash;
+    this.retrieveTabs(container);
   };
 
   OpenItems.prototype.reset = function () {
@@ -318,7 +326,7 @@ function openItemsFactory(
     var models = this.models;
     for (var i = 0; i < models.length; i++) {
       if (models[i].state.type === 'File' &&
-        models[i].state.body !== models[i].attrs.body) {
+        (models[i].state.isDirty || models[i].state.body !== models[i].attrs.body)) {
         return false;
       }
     }
@@ -361,11 +369,13 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.saveState = function () {
-    if (!this.shortHash) { return; }
+    if (!this.shortHash) {
+      return;
+    }
     $localStorage[this.shortHash] = this.toJSON();
   };
 
-  OpenItems.prototype.hasOpen = function(type) {
+  OpenItems.prototype.hasOpen = function (type) {
     for (var i = this.models.length - 1; i >= 0; i--) {
       if (this.models[i].constructor.toString().match(/function\s(\w*)/)[1] === type) {
         return true;
@@ -374,7 +384,7 @@ function openItemsFactory(
     return false;
   };
 
-  OpenItems.prototype.getFirst = function(type) {
+  OpenItems.prototype.getFirst = function (type) {
     for (var i = this.models.length - 1; i >= 0; i--) {
       if (this.models[i].constructor.toString().match(/function\s(\w*)/)[1] === type) {
         return this.models[i];

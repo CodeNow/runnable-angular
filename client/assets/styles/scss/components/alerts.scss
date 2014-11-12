@@ -1,25 +1,74 @@
 .alert {
   border-radius: 3px;
-  cursor: pointer;
-  font-weight: 400;
+  font-weight: 300;
   height: 36px;
   left: 240px;
   line-height: 36px;
   margin: 0 auto;
   opacity: 0;
   padding: 0 6px;
+  pointer-events: none;
   position: fixed;
   right: 0;
   top: 12px;
-  width: 249px;
+  width: 276px;
   z-index: $z-alert;
 
   &.in {
     animation: alert 5s ease-in;
   }
 
-  .iconnables {
+  &.green {
+    background: #ecfaef; // rgba($green,.1);
+  }
+
+  > .iconnables {
     margin-right: 6px;
     top: 6px;
+  }
+
+  .btn-close {
+    float: right;
+    opacity: .5;
+    padding: 0;
+    top: 6px;
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
+  }
+}
+
+.alert.guide {
+  background: rgba($black,.75);
+  border: 0;
+  bottom: 0;
+  color: $white;
+  cursor: pointer;
+  font-weight: 300;
+  height: 36px;
+  left: 12px;
+  line-height: 36px;
+  opacity: 1;
+  padding: 0 6px 0 12px;
+  pointer-events: auto;
+  position: absolute;
+  top: auto;
+  width: 210px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  > .iconnables {
+    color: $blue;
+    height: 100%;
+    margin: 0 6px 0 0;
+    top: 0;
+  }
+
+  .icons-close {
+    margin: 0;
   }
 }

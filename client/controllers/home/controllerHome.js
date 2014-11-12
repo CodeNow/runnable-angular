@@ -14,33 +14,47 @@ function ControllerHome(
   skrollr,
   async,
   $localStorage,
-  keypather
+  keypather,
+  QueryAssist,
+  user
 ) {
-  var holdUntilAuth = $scope.UTIL.holdUntilAuth;
-  var QueryAssist = $scope.UTIL.QueryAssist;
-  var self = ControllerHome;
-  var dataHome = $scope.dataHome = self.initState();
+
+  var dataHome = $scope.dataHome = {
+    data: {},
+    actions: {}
+  };
 
   //- refresh skrollr on load
   $window.s = skrollr.init({
     forceHeight: false,
-    mobileCheck: function(){
-      return  false;
+    mobileCheck: function () {
+      return false;
     }
   });
   $window.s.refresh();
 
-  $scope.dataHome.data.hasPass = !!$location.search().password;
+  dataHome.data.hasPass = !!$location.search().password;
 
   verifyUserIsAuth();
 
   function verifyUserIsAuth() {
     async.series([
-      holdUntilAuth,
+      function fetchUser(cb) {
+        new QueryAssist(user, cb)
+          .wrapFunc('fetchUser')
+          .query('me')
+          .cacheFetch(function (user, cached, cb) {
+            $scope.user = user;
+            $scope.safeApply();
+            cb();
+          })
+          .resolve(function (err, user, cb) {})
+          .go();
+      },
       fetchInstances,
       function sendUserSomewhere(cb) {
 
-        var thisUser = $scope.dataApp.user;
+        var thisUser = $scope.user;
 
         if (!keypather.get($localStorage, 'stateParams.instanceName')) {
           // no cached previously visited instance
@@ -55,7 +69,7 @@ function ControllerHome(
         function getEntityName(userOrOrg) {
           return (thisUser === userOrOrg) ?
             thisUser.attrs.accounts.github.username : // user
-            userOrOrg.attrs.login;                    // org
+            userOrOrg.attrs.login; // org
         }
 
         // remove attached instances property from user/org models
@@ -92,13 +106,13 @@ function ControllerHome(
           var org = dataHome.data.orgs.find(function (org) {
             return getEntityName(org) === userOrgName;
           });
-          if(!org) {
+          if (!org) {
             return goToFirstInstance();
           }
           var instance = org.instances.find(function (instance) {
             return instance.attrs.name === instanceName;
           });
-          if(!instance) {
+          if (!instance) {
             return goToFirstInstance();
           }
           // we found the cached org & instance
@@ -116,7 +130,7 @@ function ControllerHome(
    * temporarily attach 'instances' property to user & org models
    */
   function fetchInstances(cb) {
-    var thisUser = $scope.dataApp.user;
+    var thisUser = $scope.user;
 
     if (!keypather.get($localStorage, 'stateParams.instanceName')) {
       // dont bother finding all orgs, we're just going to send user to first user-instance
@@ -141,7 +155,7 @@ function ControllerHome(
     function fetchInstancesForOrg(userOrOrg, cb) {
       var userId = (thisUser === userOrOrg) ?
         thisUser.attrs.accounts.github.id : // user
-        userOrOrg.attrs.id;                 // org
+        userOrOrg.attrs.id; // org
 
       new QueryAssist(thisUser, cb)
         .wrapFunc('fetchInstances')
@@ -164,10 +178,3 @@ function ControllerHome(
   }
 
 }
-
-ControllerHome.initState = function () {
-  return {
-    actions: {},
-    data: {}
-  };
-};

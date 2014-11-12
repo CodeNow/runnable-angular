@@ -10,7 +10,7 @@ function selectOn(
     restrict: 'A',
     priority: -1,
     link: function ($scope, elem, attrs) {
-      if(!attrs.selectOn) {
+      if (!attrs.selectOn) {
         jQuery(elem[0]).focus();
         jQuery(elem[0]).select();
         return;

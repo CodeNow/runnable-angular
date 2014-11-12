@@ -1,0 +1,34 @@
+.secondary-actions
+  button.white(
+    ng-click = "goToInstance(true)"
+    type = "button"
+  ) Discard Changes
+  button.white.btn-action(
+    modal
+    modal-actions = "popoverGearMenu.actions.actionsModalFork"
+    modal-data = "popoverGearMenu.data.dataModalFork"
+    modal-template = "viewModalForkBox"
+    title = "Fork Box"
+    type = "button"
+  )
+    svg.iconnables.icons-fork
+      use(
+        xlink:href = "#icons-fork"
+      )
+    | Fork
+  button.btn.white.btn-icon.btn-actions(
+    ng-class = "{active: popoverGearMenu.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "popoverGearMenu.data.show"
+    type = "button"
+  )
+    svg.iconnables.icons-gear
+      use(
+        xlink:href = "#icons-gear"
+      )
+    //- popover for rename, for, delete box
+    pop-over(
+      actions = "popoverGearMenu.actions"
+      data = "popoverGearMenu.data"
+      template = "viewInstanceEditPopoverActions"
+    )

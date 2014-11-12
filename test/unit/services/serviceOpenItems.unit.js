@@ -1,15 +1,6 @@
-var main    = require('main');
-var chai    = require('chai');
-var sinon   = require('sinon');
-var colors  = require('colors');
-var angular = require('angular');
-require('browserify-angular-mocks');
-
-var expect = chai.expect;
-
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 
-describe('serviceOpenItems'.bold.underline.blue, function () {
+describe.skip('serviceOpenItems'.bold.underline.blue, function () {
   var $localStorage, keypather, pluck, equals, async, OpenItems;
   var fileObj = {"path":"/home","name":"defined","isDir":false,"body":"adsf","state":{"from":"File"}};
   var fileModel = new VersionFileModel(fileObj, { noStore: true });

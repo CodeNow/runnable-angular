@@ -19,7 +19,7 @@ function checkCommitOrBranch(
       var repo = $scope.repoModel;
 
       var checkValid = debounce(function (branchOrCommit) {
-        if(!branchOrCommit || ctrl.$pristine) {
+        if (!branchOrCommit || ctrl.$pristine) {
           ctrl.$setValidity('commitFound', true);
           return branchOrCommit;
         }
@@ -33,14 +33,13 @@ function checkCommitOrBranch(
         repo.fetchCommit(branchOrCommit, function (err) {
           if (err) {
             ctrl.$setValidity('commitFound', false); // invalid
-          }
-          else {
+          } else {
             ctrl.$setValidity('commitFound', true); // valid
           }
           $rootScope.safeApply();
         });
 
-        function isBranch (name) {
+        function isBranch(name) {
           return repo.branches.models.some(function (branch) {
             return branch.attrs.name === name;
           });

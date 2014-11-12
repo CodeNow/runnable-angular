@@ -13,41 +13,6 @@
   line-height: 60px;
   position: relative;
 
-  .box-name {
-    font-size: 23px;
-    height: 45px;
-    line-height: 45px;
-  }
-
-  .box-url {
-    background: none;
-    border: 0;
-    cursor: default;
-    display: block;
-    font-size: 14px;
-    font-weight: 300;
-    height: auto;
-    line-height: 1;
-    padding: 0;
-    position: relative;
-    top: -9px;
-    white-space: nowrap;
-    width: 100%;
-
-    &:focus {
-      box-shadow: none;
-    }
-  }
-
-  // sets layout on h1.box-name for .box-url
-  .box-name-ghost {
-    font-size: 14px;
-    font-weight: 300;
-    opacity: 0;
-    pointer-events: none;
-    z-index: $z-hide;
-  }
-
   .icons-status {
     left: 9px;
     top: -4px;
@@ -64,6 +29,42 @@
     left: 5px;
     width: 18px;
   }
+}
+
+.box-name {
+  font-size: 23px;
+  height: 45px;
+  line-height: 45px;
+}
+
+.box-url.box-url {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  cursor: default;
+  display: block;
+  font-size: 14px;
+  font-weight: 300;
+  height: auto;
+  line-height: 1;
+  padding: 0;
+  position: relative;
+  top: -9px;
+  white-space: nowrap;
+  width: 100%;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+// sets layout on h1.box-name for .box-url
+.box-name-ghost {
+  font-size: 14px;
+  font-weight: 300;
+  opacity: 0;
+  pointer-events: none;
+  z-index: $z-hide;
 }
 
 // span.text-status
@@ -116,6 +117,15 @@
 
   .white {
     margin-left: 3px;
+  }
+
+  .btn-action {
+
+    .iconnables {
+      margin-right: 4px;
+      top: 6px;
+      width: 21px;
+    }
   }
 }
 

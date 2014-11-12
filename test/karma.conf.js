@@ -3,6 +3,7 @@
 
 var package = require('../package');
 var path    = require('path');
+var istanbul = require('browserify-istanbul');
 
 var customLaunchers = {
   sl_chrome: {
@@ -63,38 +64,45 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // 'unit/**/*.unit.js'
+      'unit/globals.js',
+      'unit/**/*.unit.js'
     ],
 
 
     // list of files to exclude
     exclude: [
+      //'../client/**/*.json'
     ],
 
 
-    // Browserifast hack: https://github.com/cjohansen/karma-browserifast
     preprocessors: {
-      '/**/*.browserify': 'browserify'
+      'unit/**/*.js': ['browserify'],
+      'client/**/*.js': ['coverage']
     },
 
 
     browserify: {
-      // sourcemaps sir?
       debug: true,
-      files: [
-        'unit/**/*.unit.js'
-      ]
+      transform: [istanbul({
+        ignore: ['**/node_modules/**', '**/*.unit.js',  '**/test/**', '**/config/**/*.json']
+      })],
+      extensions: ['.js']
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['saucelabs', 'mocha', 'growl'],
+    reporters: ['saucelabs', 'mocha', 'growl', 'coverage'],
 
     coverageReporter: {
-      type: 'html',
-      dir: '.'
+      type: 'text',
+      dir : 'coverage/',
+      reporters: [
+        { type: 'text', subdir: '.', file: 'text.txt' },
+        { type: 'json', subdir: '.' },
+        { type: 'html', subdir: 'html' }
+      ]
     },
 
     // web server port
