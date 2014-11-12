@@ -4,4 +4,6 @@
   .arrow.white
   .popover-content
     ul.popover-body.popover-list
-      li.popover-list-item Build without Cache
+      li.popover-list-item(
+        ng-click = "actions.noCacheBuild()"
+      ) Build without Cache

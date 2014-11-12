@@ -25,7 +25,7 @@ function instanceEditPrimaryActions(
 
       // prevent multiple clicks
       var building = false;
-      $scope.build = function () {
+      $scope.build = function (noCache) {
         if (building) return;
         building = true;
         $scope.loading = true;
@@ -35,22 +35,49 @@ function instanceEditPrimaryActions(
           var buildObj = {
             message: 'Manual build'
           };
-          $scope.newBuild.build(
-            buildObj,
-            function (err, build) {
-              if (err) throw err;
-              $scope.instance.update({
-                build: $scope.newBuild.id()
-                //env: data.instance.state.env
-              }, function (err) {
-                if (err) throw err;
-                // will trigger display of completed message if build completes
-                // before reaching next state
-                // $scope.dataInstanceLayout.data.showBuildCompleted = true;
-                $state.go('instance.instance', $stateParams);
+          async.series([
+            function (cb) {
+              if (!noCache) {
+                return cb();
+              }
+              var cv = $scope.newBuild.contextVersions.models[0];
+              var file = cv.rootDir.contents.find(function(file) {
+                return (file.attrs.name === 'Dockerfile');
               });
-            });
+              file.update({
+                json: {
+                  body: file.attrs.body
+                }
+              }, cb);
+            },
+            function () {
+              $scope.newBuild.build(
+                buildObj,
+                function (err, build) {
+                  if (err) throw err;
+                  $scope.instance.update({
+                    build: $scope.newBuild.id()
+                    //env: data.instance.state.env
+                  }, function (err) {
+                    if (err) throw err;
+                    // will trigger display of completed message if build completes
+                    // before reaching next state
+                    // $scope.dataInstanceLayout.data.showBuildCompleted = true;
+                    $state.go('instance.instance', $stateParams);
+                  });
+                });
+            }]);
         });
+      };
+
+      $scope.popoverBuildOptions = {
+        data: {},
+        actions: {
+          noCacheBuild: function () {
+            $scope.popoverBuildOptions.data.show = false;
+            $scope.build(true);
+          }
+        }
       };
 
       function fetchUser(cb) {
