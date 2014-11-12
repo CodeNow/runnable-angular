@@ -55,10 +55,13 @@ function instanceEditPrimaryActions(
                 buildObj,
                 function (err, build) {
                   if (err) throw err;
-                  $scope.instance.update({
+                  var opts = {
                     build: $scope.newBuild.id()
-                    //env: data.instance.state.env
-                  }, function (err) {
+                  };
+                  if ($scope.instance.state && $scope.instance.state.env) {
+                    opts.env = $scope.instance.state.env;
+                  }
+                  $scope.instance.update(opts, function (err) {
                     if (err) throw err;
                     // will trigger display of completed message if build completes
                     // before reaching next state
