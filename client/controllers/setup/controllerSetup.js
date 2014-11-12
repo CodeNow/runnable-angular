@@ -16,7 +16,8 @@ function ControllerSetup(
   keypather,
   OpenItems,
   user,
-  QueryAssist
+  QueryAssist,
+  $window
 ) {
 
   var dataSetup = $scope.dataSetup = {
@@ -24,6 +25,23 @@ function ControllerSetup(
     actions: {}
   };
   var data = dataSetup.data;
+
+  dataSetup.actions.olarkShrink = function() {
+    if (angular.isFunction($window.olark)) {
+      $window.olark('api.box.shrink');
+    }
+  };
+
+  $scope.$watch('dataSetup.data.build.contextVersions.models[0].source', function(n, p) {
+    if (n && dataSetup.data.showVideo) {
+      dataSetup.data.showVideoFixed = true;
+    }
+    if (n && !p && data.showVideo) {
+      // first time user has selected a seed dockerfile, minimize olark if video is playing
+      //
+      dataSetup.actions.olarkShrink();
+    }
+  });
 
   data.openItems = new OpenItems();
   data.showExplorer = false;
@@ -35,7 +53,7 @@ function ControllerSetup(
       .wrapFunc('fetchUser')
       .query('me')
       .cacheFetch(function (user, cached, cb) {
-        $scope.user = user;
+        data.user = user;
         $scope.safeApply();
         cb();
       })
@@ -47,7 +65,7 @@ function ControllerSetup(
   }
 
   function fetchBuild(cb) {
-    new QueryAssist($scope.user, cb)
+    new QueryAssist(data.user, cb)
       .wrapFunc('fetchBuild')
       .query($stateParams.buildId)
       .cacheFetch(function (build, cached, cb) {
@@ -59,7 +77,7 @@ function ControllerSetup(
           });
           cb(new Error('build already built'));
         } else {
-          $scope.build = build;
+          data.build = build;
           $scope.safeApply();
           cb();
         }
