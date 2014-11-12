@@ -39,7 +39,7 @@
     "moment": "~2.7.0",
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
     "primus": "^2.3.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.37.1",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.37.2",
     "term.js": "git://github.com/Runnable/term.js.git#a6ad55713831a99b4db385f6787dae66654ac169",
     "uuid": "^2.0.1"
   },
