@@ -160,7 +160,7 @@ function ControllerInstance(
   // all watches necessary, updateDisplayedTabs expectst to be invoked
   // after fetching instance, fetching container, and cointainer start
   $scope.$watch('dataInstance.data.instance', updateDisplayedTabs);
-  $scope.$watch('dataInstance.data.instance.containers.modles[0]', updateDisplayedTabs);
+  $scope.$watch('dataInstance.data.instance.containers.models[0]', updateDisplayedTabs);
   $scope.$watch('dataInstance.data.instance.containers.models[0].running()', updateDisplayedTabs);
 
   async.waterfall([
