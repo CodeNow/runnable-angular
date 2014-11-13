@@ -9,7 +9,7 @@
 
 // main.hero
 .hero {
-  background: $purple;
+  background: $white;
   color: $white;
   height: 100vh;
   overflow: hidden;
@@ -84,3 +84,43 @@
   }
 }
 
+// section.template-list
+.template-list {
+  background: $white;
+  border: 1px solid rgba($black,.15);
+  border-radius: 3px;
+  margin: 10vh auto 0;
+  overflow: hidden;
+  width: 300px;
+}
+
+// a.template-list-item
+.template-list-item {
+  display: block;
+  height: 54px;
+  padding: 6px 15px;
+
+  + .template-list-item {
+    border-top: 1px solid rgba($black,.1);
+  }
+
+  &:hover {
+    background: rgba($blue,.1);
+  }
+}
+
+// img.template-image
+.template-image {
+  float: left;
+  height: 42px;
+}
+
+// h2.template-title
+.template-title {
+  color: $gray-dark;
+  display: inline-block;
+  font-weight: 300;
+  line-height: 42px;
+  margin-left: 12px;
+  text-decoration: none;
+}
