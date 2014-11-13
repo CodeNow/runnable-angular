@@ -54,123 +54,128 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       env: envs
     };
   }
+  describe('with no data in the current model'.bold.blue, function() {
+    it('Should not display anything on the page with no current model', function () {
+      initState({stateModel: {}});
+      $scope.$digest();
 
-  it('Should not display anything on the page with no current model', function () {
-    initState({stateModel: {}});
-    $scope.$digest();
-
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal('');
-    expect($scope.stateModel.env).to.equal(undefined);
-  });
-  it('Should not display anything on the page with no input', function () {
-    initState({currentModel: createEnvModel([])});
-    $scope.$digest();
-
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal('');
-  });
-
-  it('Should not display or save anything on the page with no input', function () {
-    initState({
-      currentModel: createEnvModel([]),
-      stateModel: {}
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal('');
+      expect($scope.stateModel.env).to.equal(undefined);
     });
-    $scope.$digest();
+    it('Should not display anything on the page with no input', function () {
+      initState({currentModel: createEnvModel([])});
+      $scope.$digest();
 
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal('');
-    expect($scope.stateModel.env).to.equal(undefined);
-  });
-
-  it('Should display envs from current model, no stateModel', function () {
-    var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
-    initState({
-      currentModel: createEnvModel(envs)
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal('');
     });
-    $scope.$digest();
 
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal(envs.join('\n') + '\n');
-  });
+    it('Should not display or save anything on the page with no input', function () {
+      initState({
+        currentModel: createEnvModel([]),
+        stateModel: {}
+      });
+      $scope.$digest();
 
-  it('Should display envs from current model', function () {
-    var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
-    initState({
-      currentModel: createEnvModel(envs),
-      stateModel: {}
-    });
-    $scope.$digest();
-
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal(envs.join('\n') + '\n');
-    expect($scope.stateModel.env).to.equal(undefined);
-  });
-
-  it('should add new envs to stateModel', function() {
-    initState({
-      stateModel: {}
-    });
-    var addedEnvs = ['lms=asd', 'db=awe'];
-    element.isolateScope().environmentalVars += addedEnvs.join('\n');
-    $scope.$digest();
-
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal(addedEnvs.join('\n'));
-    expect($scope.stateModel.env.length).to.equal(addedEnvs.length);
-    addedEnvs.forEach(function (env, index) {
-      expect($scope.stateModel.env[index]).to.equal(env);
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal('');
+      expect($scope.stateModel.env).to.equal(undefined);
     });
   });
 
-  it('should add current and new envs to stateModel', function() {
-    var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
-    initState({
-      currentModel: createEnvModel(envs),
-      stateModel: {}
-    });
-    var addedEnvs = ['lms=asd', 'db=awe'];
-    element.isolateScope().environmentalVars += addedEnvs.join('\n');
-    $scope.$digest();
-    var expectedEnvs = envs.concat(addedEnvs);
+  describe('with envs in the current model'.bold.blue, function() {
+    it('Should display envs from current model, no stateModel', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs)
+      });
+      $scope.$digest();
 
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal(expectedEnvs.join('\n'));
-    expect($scope.stateModel.env.length).to.equal(expectedEnvs.length);
-    expectedEnvs.forEach(function (env, index) {
-      expect($scope.stateModel.env[index]).to.equal(env);
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal(envs.join('\n') + '\n');
     });
-  });
 
-  it('should remove some envs, and set them in the stateModel', function() {
-    var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
-    initState({
-      currentModel: createEnvModel(envs),
-      stateModel: {}
-    });
-    var addedEnvs = ['a=b', 'x=y'];
-    element.isolateScope().environmentalVars = addedEnvs.join('\n');
-    $scope.$digest();
+    it('Should display envs from current model', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {}
+      });
+      $scope.$digest();
 
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal(addedEnvs.join('\n'));
-    expect($scope.stateModel.env.length).to.equal(addedEnvs.length);
-    addedEnvs.forEach(function (env, index) {
-      expect($scope.stateModel.env[index]).to.equal(env);
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal(envs.join('\n') + '\n');
+      expect($scope.stateModel.env).to.equal(undefined);
     });
   });
 
-  it('should remove all envs, and clear them in the stateModel', function() {
-    var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
-    initState({
-      currentModel: createEnvModel(envs),
-      stateModel: {}
-    });
-    element.isolateScope().environmentalVars = '';
-    $scope.$digest();
+  describe('modifying the envs'.bold.blue, function() {
+    it('should add new envs to stateModel', function () {
+      initState({
+        stateModel: {}
+      });
+      var addedEnvs = ['lms=asd', 'db=awe'];
+      element.isolateScope().environmentalVars += addedEnvs.join('\n');
+      $scope.$digest();
 
-    var environmentalVars = element.isolateScope().environmentalVars;
-    expect(environmentalVars).to.equal('');
-    expect($scope.stateModel.env.length).to.equal(0);
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal(addedEnvs.join('\n'));
+      expect($scope.stateModel.env.length).to.equal(addedEnvs.length);
+      addedEnvs.forEach(function (env, index) {
+        expect($scope.stateModel.env[index]).to.equal(env);
+      });
+    });
+
+    it('should add current and new envs to stateModel', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {}
+      });
+      var addedEnvs = ['lms=asd', 'db=awe'];
+      element.isolateScope().environmentalVars += addedEnvs.join('\n');
+      $scope.$digest();
+      var expectedEnvs = envs.concat(addedEnvs);
+
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal(expectedEnvs.join('\n'));
+      expect($scope.stateModel.env.length).to.equal(expectedEnvs.length);
+      expectedEnvs.forEach(function (env, index) {
+        expect($scope.stateModel.env[index]).to.equal(env);
+      });
+    });
+
+    it('should remove some envs, and set them in the stateModel', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {}
+      });
+      var addedEnvs = ['a=b', 'x=y'];
+      element.isolateScope().environmentalVars = addedEnvs.join('\n');
+      $scope.$digest();
+
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal(addedEnvs.join('\n'));
+      expect($scope.stateModel.env.length).to.equal(addedEnvs.length);
+      addedEnvs.forEach(function (env, index) {
+        expect($scope.stateModel.env[index]).to.equal(env);
+      });
+    });
+
+    it('should remove all envs, and clear them in the stateModel', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {}
+      });
+      element.isolateScope().environmentalVars = '';
+      $scope.$digest();
+
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal('');
+      expect($scope.stateModel.env.length).to.equal(0);
+    });
   });
 });
