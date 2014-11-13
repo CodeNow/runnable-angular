@@ -57,7 +57,7 @@ function instanceEditPrimaryActions(
                   var opts = {
                     build: $scope.newBuild.id()
                   };
-                  if ($scope.instance.state && $scope.instance.state.env.length) {
+                  if ($scope.instance.state && $scope.instance.state.env) {
                     opts.env = $scope.instance.state.env;
                   }
                   $scope.instance.update(opts, function (err) {

@@ -43,10 +43,11 @@ function envVars(
 
       $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
         unreg();
-        if (!newEnv) return;
+        if (newEnv === oldEnv) return;
         keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
           return v.length;
         }));
+        console.log($scope.stateModel.env);
       });
 
     }
