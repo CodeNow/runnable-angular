@@ -40,7 +40,7 @@ function envVars(
         // Since the user has inputed text, we don't need to listen to the current model anymore
         unreg();
         // If the envs haven't changed, (also takes care of first null/null occurrence)
-        if (newEnv === oldEnv) return;
+        if (newEnv === oldEnv) { return; }
         // Save them to the state model
         keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
           return v.length;

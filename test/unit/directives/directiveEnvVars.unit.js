@@ -10,14 +10,16 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       $scope = $rootScope.$new();
 
       $rootScope.safeApply = function(cb) {
-        $timeout(function() {
+        $timeout(function () {
           $scope.$digest();
         });
       };
 
-      var tpl = '<env-vars ' +
-        'items="items" current-model="currentModel" state-model="stateModel"' +
-        '></env-vars>';
+      var tpl = directiveTemplate('env-vars', {
+        'items': 'items',
+        'current-model': 'currentModel',
+        'state-model': 'stateModel'
+      });
 
       Object.keys(addToScope).forEach(function (key) {
         $scope[key] = addToScope[key];
