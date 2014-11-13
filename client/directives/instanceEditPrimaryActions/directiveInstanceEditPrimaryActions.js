@@ -22,7 +22,6 @@ function instanceEditPrimaryActions(
       openItems: '='
     },
     link: function ($scope, elem, attrs) {
-
       // prevent multiple clicks
       var building = false;
       $scope.build = function (noCache) {
@@ -58,7 +57,7 @@ function instanceEditPrimaryActions(
                   var opts = {
                     build: $scope.newBuild.id()
                   };
-                  if ($scope.instance.state && $scope.instance.state.env) {
+                  if ($scope.instance.state && $scope.instance.state.env.length) {
                     opts.env = $scope.instance.state.env;
                   }
                   $scope.instance.update(opts, function (err) {
