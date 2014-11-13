@@ -47,7 +47,6 @@ function envVars(
         keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
           return v.length;
         }));
-        console.log($scope.stateModel.env);
       });
 
     }
