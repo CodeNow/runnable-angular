@@ -33,7 +33,9 @@ function activePanel(
       // build: '=',
       // setupData: '=',
       // container: '=',
-      openItems: '='
+      openItems: '=',
+      currentModel: '=', // CurrentModel houses the original model without changes
+      stateModel: '=' // The StateModel is where changes will be applied
       // readOnly: '=',
       // update: '=' // true: save file when content changes
     },

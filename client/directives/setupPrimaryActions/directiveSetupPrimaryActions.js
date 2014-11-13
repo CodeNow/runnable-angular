@@ -20,7 +20,8 @@ function setupPrimaryActions(
       loading: '=',
       name: '=',
       valid: '=',
-      openItems: '='
+      openItems: '=',
+      instanceOpts: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -47,13 +48,12 @@ function setupPrimaryActions(
         }
 
         function attach(cb) {
-          $scope.instance = $scope.user.createInstance({
-            owner: {
-              github: $scope.activeAccount.oauthId()
-            },
-            build: $scope.build.id(),
-            name: $scope.name
-          }, cb);
+          $scope.instanceOpts.owner = {
+            github: $scope.activeAccount.oauthId()
+          };
+          $scope.instanceOpts.build = $scope.build.id();
+          $scope.instanceOpts.name = $scope.name;
+          $scope.instance = $scope.user.createInstance($scope.instanceOpts, cb);
         }
         async.series([
           build,
