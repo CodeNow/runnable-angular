@@ -22,7 +22,6 @@ function instanceEditPrimaryActions(
       openItems: '='
     },
     link: function ($scope, elem, attrs) {
-
       // prevent multiple clicks
       var building = false;
       $scope.build = function (noCache) {

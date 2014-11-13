@@ -11,6 +11,7 @@ header.box-header
     name = "dataSetup.data.newInstanceName"
     valid = "dataSetup.data.isValid"
     open-items = "dataSetup.data.openItems"
+    instance-opts = "dataSetup.data.instanceOpts"
   )
 
 section.sidebar.box-sidebar
@@ -62,8 +63,9 @@ section.views.with-add-tab(
 
   //- active panel
   active-panel(
-    is-dark-theme = "dataSetup.data.toggleTheme"
-    open-items = "dataSetup.data.openItems"
+    is-dark-theme = "dataSetup.data.toggleTheme",
+    open-items = "dataSetup.data.openItems",
+    state-model = "dataSetup.data.instanceOpts"
   )
 
   //- dataSetup.data.showVideo
