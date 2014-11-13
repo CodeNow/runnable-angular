@@ -1,5 +1,9 @@
 .secondary-actions
-  button.white.btn-icon(
+  button.white(
+    ng-click = "goToInstance(true)"
+    type = "button"
+  ) Discard Changes
+  button.white.btn-action(
     modal
     modal-actions = "popoverGearMenu.actions.actionsModalFork"
     modal-data = "popoverGearMenu.data.dataModalFork"
@@ -11,6 +15,7 @@
       use(
         xlink:href = "#icons-fork"
       )
+    | Fork
   button.btn.white.btn-icon.btn-actions(
     ng-class = "{active: popoverGearMenu.data.show}"
     toggle-pop-over
@@ -27,7 +32,3 @@
       data = "popoverGearMenu.data"
       template = "viewInstanceEditPopoverActions"
     )
-  button.white(
-    ng-click = "goToInstance(true)"
-    type = "button"
-  ) Discard Changes

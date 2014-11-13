@@ -23,9 +23,9 @@ describe('directiveDockerValidation'.bold.underline.blue, function() {
         });
       };
 
-      var tpl = '<runnable-docker-validation ' +
+      var tpl = '<docker-validation ' +
           'open-items="openItems"' +
-          '></runnable-docker-validation>';
+          '></docker-validation>';
 
         element = $compile(tpl)($scope);
         $scope.$digest();

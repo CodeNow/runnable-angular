@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableInstanceList', RunnableInstanceList);
+  .directive('instanceList', instanceList);
 /**
  * @ngInject
  */
-function RunnableInstanceList(
+function instanceList(
   async,
   determineActiveAccount,
   $filter,

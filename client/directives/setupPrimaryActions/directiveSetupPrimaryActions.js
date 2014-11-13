@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableSetupPrimaryActions', RunnableSetupPrimaryActions);
+  .directive('setupPrimaryActions', setupPrimaryActions);
 /**
  * @njInject
  */
-function RunnableSetupPrimaryActions(
+function setupPrimaryActions(
   async,
   determineActiveAccount,
   QueryAssist,
