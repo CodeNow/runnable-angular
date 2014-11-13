@@ -45,10 +45,16 @@ function logBox(
 
       $scope.$watch('instance.containers.models[0].attrs.inspect.State.Running', function (n) {
         if (n === false) {
-          var exitCode = $scope.instance.containers.models[0].attrs.inspect.State.ExitCode;
-          if (exitCode > 0) {
+          var exitCode = keypather.get($scope,'instance.containers.models[0].attrs.inspect.State.ExitCode');
+          if (!!exitCode && exitCode > 0) {
             terminal.writeln('Exited with code: ' + exitCode);
           }
+        }
+      });
+
+      $scope.$watch('instance.containers.model[0].error', function (n) {
+        if (n) {
+          terminal.writeln('\x1b[33;1m' + n.message + '\x1b[0m');
         }
       });
 
