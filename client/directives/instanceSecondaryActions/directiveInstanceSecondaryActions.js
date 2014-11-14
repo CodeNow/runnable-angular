@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableInstanceSecondaryActions', RunnableInstanceSecondaryActions);
+  .directive('instanceSecondaryActions', instanceSecondaryActions);
 /**
  * @ngInject
  */
-function RunnableInstanceSecondaryActions(
+function instanceSecondaryActions(
   async,
   helperInstanceActionsModal,
   QueryAssist,

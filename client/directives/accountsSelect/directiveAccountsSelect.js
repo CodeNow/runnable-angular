@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableAccountsSelect', RunnableAccountsSelect);
+  .directive('accountsSelect', accountsSelect);
 /**
  * @ngInject
  */
-function RunnableAccountsSelect(
+function accountsSelect(
   async,
   determineActiveAccount,
   $rootScope,
@@ -27,6 +27,7 @@ function RunnableAccountsSelect(
       $scope.isChangeAccount = false;
 
       $scope.selectActiveAccount = function (userOrOrg) {
+        if (!$scope.isChangeAccount) { return; }
         // close list
         $scope.isChangeAccount = false;
         // synchronously display new active account

@@ -1,9 +1,9 @@
 require('app')
-  .directive('runnableSetupPrimaryActions', RunnableSetupPrimaryActions);
+  .directive('setupPrimaryActions', setupPrimaryActions);
 /**
  * @njInject
  */
-function RunnableSetupPrimaryActions(
+function setupPrimaryActions(
   async,
   determineActiveAccount,
   QueryAssist,
@@ -20,7 +20,8 @@ function RunnableSetupPrimaryActions(
       loading: '=',
       name: '=',
       valid: '=',
-      openItems: '='
+      openItems: '=',
+      instanceOpts: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -47,13 +48,12 @@ function RunnableSetupPrimaryActions(
         }
 
         function attach(cb) {
-          $scope.instance = $scope.user.createInstance({
-            owner: {
-              github: $scope.activeAccount.oauthId()
-            },
-            build: $scope.build.id(),
-            name: $scope.name
-          }, cb);
+          $scope.instanceOpts.owner = {
+            github: $scope.activeAccount.oauthId()
+          };
+          $scope.instanceOpts.build = $scope.build.id();
+          $scope.instanceOpts.name = $scope.name;
+          $scope.instance = $scope.user.createInstance($scope.instanceOpts, cb);
         }
         async.series([
           build,
