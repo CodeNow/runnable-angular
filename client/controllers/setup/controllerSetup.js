@@ -21,7 +21,9 @@ function ControllerSetup(
 ) {
 
   var dataSetup = $scope.dataSetup = {
-    data: {},
+    data: {
+      instanceOpts: {}
+    },
     actions: {}
   };
   var data = dataSetup.data;

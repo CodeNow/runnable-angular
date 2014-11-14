@@ -86,6 +86,57 @@ app.run([
 ]);
 
 /**
+ * Fetch user and load heap analytics
+ */
+app.run([
+  'async',
+  'QueryAssist',
+  'user',
+  '$window',
+  function(async,
+           QueryAssist,
+           user,
+           $window) {
+    if (!$window.heap) return;
+    var thisUser,
+        thisUserOrgs;
+
+    function fetchUser(cb) {
+      new QueryAssist(user, cb)
+        .wrapFunc('fetchUser')
+        .query('me')
+        .cacheFetch(function (user, cached, cb) {
+          thisUser = user;
+          cb();
+        })
+        .resolve(function (err, user, cb) {
+          cb(err, user);
+        })
+        .go();
+    }
+
+    function fetchOrgs(cb) {
+      thisUserOrgs = thisUser.fetchGithubOrgs(function (err) {
+        cb(err, thisUserOrgs);
+      });
+    }
+
+    async.waterfall([
+      fetchUser,
+      fetchOrgs
+    ], function(err, results) {
+      if (err) return;
+      $window.heap.identify({
+        name:  thisUser.oauthName(),
+        email: thisUser.attrs.email,
+        orgs:  $window.JSON.stringify(thisUserOrgs)
+      });
+    });
+
+  }
+]);
+
+/**
  * DOM-ready event, start app
  */
 $(function () {

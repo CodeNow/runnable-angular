@@ -20,7 +20,9 @@ section.sidebar.box-sidebar
     open-items = "dataInstanceEdit.data.openItems"
   )
 
-  env-validation
+  env-validation(
+    state-model = "dataInstanceEdit.data.instance.state"
+  )
 
 section.views.with-add-tab(
   ng-class = "{ \
@@ -57,6 +59,8 @@ section.views.with-add-tab(
   //- Passing in old build to access it's logs
   active-panel(
     is-dark-theme = "dataInstanceEdit.data.toggleTheme"
+    current-model = "dataInstanceEdit.data.instance.attrs"
+    state-model = "dataInstanceEdit.data.instance.state"
     open-items = "dataInstanceEdit.data.openItems"
   )
 

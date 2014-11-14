@@ -7,11 +7,14 @@ header.box-header
   )
 
   setup-primary-actions(
+    instance-opts = "dataSetup.data.instanceOpts"
     loading = "dataApp.data.loading"
     name = "dataSetup.data.newInstanceName"
-    valid = "dataSetup.data.isValid"
     open-items = "dataSetup.data.openItems"
+    valid = "dataSetup.data.isValid"
   )
+
+  //- setup-secondary-actions
 
 section.sidebar.box-sidebar
 
@@ -25,8 +28,9 @@ section.sidebar.box-sidebar
     open-items = "dataSetup.data.openItems"
   )
 
-  //-
-    env-validation
+  env-validation(
+    state-model = "dataSetup.data.instanceOpts"
+  )
 
 section.views.with-add-tab(
   ng-class = "{ \
@@ -62,8 +66,9 @@ section.views.with-add-tab(
 
   //- active panel
   active-panel(
-    is-dark-theme = "dataSetup.data.toggleTheme"
-    open-items = "dataSetup.data.openItems"
+    is-dark-theme = "dataSetup.data.toggleTheme",
+    open-items = "dataSetup.data.openItems",
+    state-model = "dataSetup.data.instanceOpts"
   )
 
   //- dataSetup.data.showVideo

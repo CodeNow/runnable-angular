@@ -42,6 +42,32 @@ function ControllerInstanceEdit(
       .go();
   }
 
+  function fetchInstance(cb) {
+    new QueryAssist($scope.user, cb)
+      .wrapFunc('fetchInstances')
+      .query({
+        githubUsername: $stateParams.userName,
+        name: $stateParams.instanceName
+      })
+      .cacheFetch(function (instances, cached, cb) {
+        var instance = instances.models[0];
+        data.instance = instance;
+        data.instance.state = {};
+        $scope.safeApply();
+      })
+      .resolve(function (err, instances, cb) {
+        if (!instances.models.length) {
+          return cb(new Error('Instance not found'));
+        }
+        if (err) throw err;
+        var instance = instances.models[0];
+        data.instance = instance;
+        $scope.safeApply();
+        cb(null, instance);
+      })
+      .go();
+  }
+
   function fetchBuild(cb) {
     new QueryAssist($scope.user, cb)
       .wrapFunc('fetchBuild')
@@ -76,6 +102,7 @@ function ControllerInstanceEdit(
 
   async.series([
     fetchUser,
+    fetchInstance,
     fetchBuild
   ], function(err) {
     if (err) throw err;
