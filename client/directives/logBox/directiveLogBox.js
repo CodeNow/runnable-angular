@@ -43,18 +43,12 @@ function logBox(
         boxStream.end();
       });
 
-      $scope.$watch('instance.containers.models[0].attrs.inspect.State.Running', function (n) {
-        if (n === false) {
-          var exitCode = keypather.get($scope,'instance.containers.models[0].attrs.inspect.State.ExitCode');
-          if (!!exitCode && exitCode > 0) {
+      $scope.$watch('instance.containers.models[0].attrs.inspect.State.Running', function (containerRunning) {
+        if (containerRunning === false) {
+          var exitCode = $scope.instance.containers.models[0].attrs.inspect.State.ExitCode;
+          if (exitCode > 0) {
             terminal.writeln('Exited with code: ' + exitCode);
           }
-        }
-      });
-
-      $scope.$watch('instance.containers.model[0].error', function (n) {
-        if (n) {
-          terminal.writeln('\x1b[33;1m' + n.message + '\x1b[0m');
         }
       });
 
@@ -97,17 +91,24 @@ function logBox(
       }
 
       function initializeBoxLogs(container) {
-        if (!container) throw new Error('no container');
-        // prepend log command to terminal
-        terminal.write('\x1b[33;1mroot@' + keypather.get($scope,
-                       'container.attrs.inspect.Config.Hostname') +
-                       '\x1b[0m: ' +
-                       keypather.get($scope, 'instance.containers.models[0].attrs.inspect.Config.Cmd.join(" ")') +
-                       '\n\r');
-        subscribeToSubstream(container);
-        bind(primus, 'reconnect', function () {
+        if (!container) {
+          return console.log('no docker container for logs');
+        }
+        if (container.attrs.dockerContainer) {
+          // prepend log command to terminal
+          terminal.write('\x1b[33;1mroot@' + keypather.get($scope,
+                         'container.attrs.inspect.Config.Hostname') +
+                         '\x1b[0m: ' +
+                         keypather.get($scope, 'instance.containers.models[0].attrs.inspect.Config.Cmd.join(" ")') +
+                         '\n\r');
           subscribeToSubstream(container);
-        });
+          bind(primus, 'reconnect', function () {
+            subscribeToSubstream(container);
+          });
+        }
+        else if (container.attrs.error) {
+          terminal.writeln('\x1b[33;1m' + container.attrs.error.message + '\x1b[0m');
+        }
       }
 
       function fetchUser(cb) {
