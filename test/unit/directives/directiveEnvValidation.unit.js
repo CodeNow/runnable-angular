@@ -38,7 +38,6 @@ describe('directiveEnvValidation'.bold.underline.blue, function () {
   });
 
   it('Should return valid with valid envs', function () {
-    // Using an invalid dockerfile here - otherwise we can't be sure the validator was run
     initState({ stateModel: {
       env: ['as=hnds']
     }});
@@ -50,7 +49,6 @@ describe('directiveEnvValidation'.bold.underline.blue, function () {
   });
 
   it('Should return invalid with invalid envs', function () {
-    // Using an invalid dockerfile here - otherwise we can't be sure the validator was run
     initState({ stateModel: {
       env: ['as=hnds', '213123dsasd  fasd fasdf asd']
     }});
