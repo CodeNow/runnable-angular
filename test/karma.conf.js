@@ -65,8 +65,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'unit/globals.js',
-      // 'unit/**/*.unit.js'
-      'unit/directives/directiveRepoList.unit.js'
+      'unit/**/*.unit.js'
     ],
 
 

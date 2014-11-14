@@ -1,6 +1,9 @@
 module.exports = directiveTemplate;
 
 function directiveTemplate (templateName, attrs) {
+  if (!attrs) {
+    attrs = {};
+  }
   return [
     '<',
     templateName,

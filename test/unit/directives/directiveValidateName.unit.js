@@ -55,11 +55,10 @@ describe('directiveValidateName'.bold.underline.blue, function() {
       $scope.model = {
         instanceName: ''
       };
-      var tmpl = angular.element('<form name="form">' +
+      var tmpl = '<form name="form">' +
         '<input ng-model="model.instanceName" name="instanceName" validate-name="instances"' +
         '  instance="instance" current-instance-valid="false">' +
-        '</form>'
-      );
+        '</form>';
 
       element = $compile(tmpl)($scope);
       $scope.$apply();
