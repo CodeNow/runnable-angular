@@ -16,8 +16,8 @@ nav.sidebar.global-sidebar(
           xlink:href = "#icons-exit"
         )
     button.btn-sm.btn-icon.white.btn-minimize(
-      ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
       ng-class = "{active: dataApp.data.minimizeNav}"
+      ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
       title = "Toggle Navigation"
     )
       svg.iconnables.icons-arrow-left
@@ -26,7 +26,9 @@ nav.sidebar.global-sidebar(
         )
 
 //- 2nd level views (boxInstnce, boxInstanceEdit...)
-main.content(ui-view)
+main.content(
+  ui-view
+)
 
 //- development info
 //- div(

@@ -9,7 +9,7 @@
 
 // main.hero
 .hero {
-  background: $white;
+  background: $purple-dark;
   color: $white;
   height: 100vh;
   overflow: hidden;
@@ -20,16 +20,19 @@
 // header.hero-header
 .hero-header {
   height: 60px;
-  margin-bottom: 10vh;
+  margin: 9px auto 10vh;
+  max-width: 90vw;
   position: relative;
   width: 100%;
   z-index: $z-hero-content;
 
-  // a.btn-hero
-  .btn-hero {
-    display: inline-block;
-    float: right;
-    margin-right: 30px;
+  @include media(xs) {
+    margin-bottom: 5vh;
+    max-width: none;
+  }
+
+  @include media(xl) {
+    max-width: 1500px;
   }
 }
 
@@ -37,16 +40,22 @@
 .btn-hero {
   background: rgba($white,.15);
   color: $white;
-  display: table;
+  float: right;
+  font-size: 18px;
   font-weight: 300;
-  height: 36px;
-  line-height: 36px;
-  margin: 15px auto 0;
+  height: 45px;
+  line-height: 45px;
+  margin: 9px 30px 0 0;
   text-decoration: none;
 
   &:hover,
   &:active {
     background: rgba($white,.3);
+  }
+
+  .iconnables {
+    margin-right: 9px;
+    top: 6px;
   }
 }
 
@@ -59,46 +68,76 @@
 
 // section.hero-heading
 .hero-heading {
+  letter-spacing: 1px;
+  position: relative;
   text-align: center;
+  z-index: $z-hero-content;
 }
 
 // h1.hero-text
 .hero-text {
-  font-size: 39px;
-  font-weight: 500;
+  animation: fade-down 1s ease-in forwards;
+  font-size: 45px;
+  font-weight: 300;
   margin: 0 0 9px;
+  opacity: 0;
+  transform: translate3d(0,-30%,0);
 
   @include media(xs) {
+    font-size: 30px;
     padding: 0 15px;
   }
 }
 
 // p.hero-text-sub
 .hero-text-sub {
-  font-size: 19px;
-  font-weight: 300;
-  margin: 0;
+  animation: fade-down .5s .5s ease-in forwards;
+  font-size: 24px;
+  font-weight: 200;
+  margin: 0 auto;
+  max-width: 600px;
+  opacity: 0;
+  transform: translate3d(0,-30%,0);
 
   @include media(xs) {
+    font-size: 15px;
+    letter-spacing: .5px;
+    max-width: 400px;
     padding: 0 15px;
   }
 }
 
 // section.template-list
 .template-list {
-  background: $white;
+  animation: fade-up 1s ease-in forwards;
+  background: rgba($white,.93);
   border: 1px solid rgba($black,.15);
-  border-radius: 3px;
+  border-radius: 6px;
   margin: 10vh auto 0;
+  opacity: 0;
   overflow: hidden;
-  width: 300px;
+  position: relative;
+  transform: translate3d(0,30%,0);
+  width: 420px;
+  z-index: $z-hero-content;
+
+  @include media(xs) {
+    margin-top: 5vh;
+    width: 300px;
+  }
 }
 
 // a.template-list-item
 .template-list-item {
   display: block;
-  height: 54px;
-  padding: 6px 15px;
+  height: 72px;
+  opacity: 0;
+  padding: 12px 24px;
+
+  @include media(xs) {
+    height: 54px;
+    padding: 6px 15px;
+  }
 
   + .template-list-item {
     border-top: 1px solid rgba($black,.1);
@@ -107,12 +146,29 @@
   &:hover {
     background: rgba($blue,.1);
   }
+
+  &:active {
+    background: rgba($blue,.15);
+  }
+
 }
+
+// @for $i from 1 through 8 {
+//   .template-list-item:nth-child-#($i) {
+//     animation: fade-in .5s ($i*1.2) ease-in forwards;
+//   }
+// }
 
 // img.template-image
 .template-image {
   float: left;
-  height: 42px;
+  height: 48px;
+  width: 42px;
+
+  @include media(xs) {
+    height: 42px;
+    width: 30px;
+  }
 }
 
 // h2.template-title
@@ -120,7 +176,78 @@
   color: $gray-dark;
   display: inline-block;
   font-weight: 300;
-  line-height: 42px;
-  margin-left: 12px;
+  line-height: 48px;
+  margin-left: 21px;
   text-decoration: none;
+
+  @include media(xs) {
+    line-height: 42px;
+    margin-left: 18px;
+  }
+}
+
+
+
+
+
+
+// testing stuff
+
+$diameter: 45vmax;
+
+.aura {
+  border-radius: 50%;
+  height: .001vmin;
+  opacity: .75;
+  position: absolute;
+  width: .001vmin;
+  z-index: $z-hero-aura;
+
+  &:nth-child(1) {
+    animation: aura-first 18s 2s linear infinite;
+    box-shadow: 0 0 $diameter $diameter $purple;
+    transform: translate3d(50vw,0,0);
+  }
+
+  &:nth-child(2) {
+    animation: aura-second 24s 2s linear infinite;
+    box-shadow: 0 0 $diameter $diameter $purple-light;
+    transform: translate3d(100vw,50vh,0);
+  }
+}
+
+@keyframes aura-first {
+  0% {
+    transform: translate3d(50vw,0,0);
+  }
+  25% {
+    transform: translate3d(0,0,0);
+  }
+  50% {
+    transform: translate3d(0,100vh,0);
+  }
+  75% {
+    transform: translate3d(100vw,100vh,0);
+  }
+  100% {
+    transform: translate3d(50vw,0,0);
+  }
+}
+
+@keyframes aura-second {
+  0% {
+    transform: translate3d(100vw,50vh,0);
+  }
+  25% {
+    transform: translate3d(0,100vh,0);
+  }
+  50% {
+    transform: translate3d(0,100vh,0);
+  }
+  75% {
+    transform: translate3d(0,0,0);
+  }
+  100% {
+    transform: translate3d(100vw,50vh,0);
+  }
 }

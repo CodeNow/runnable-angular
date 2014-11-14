@@ -54,35 +54,34 @@
   }
 }
 
-@keyframes cogError {
-  0% {
-    transform: rotate3d(0,0,0,0);
-  }
-  80% {
-    transform: rotate3d(0,0,1,90deg);
-  }
-  100% {
-    transform: rotate3d(0,0,1,90deg);
-  }
-}
-
-@keyframes dropIn {
+@keyframes fade-down {
   0% {
     opacity: 0;
-    transform: translate3d(0,-100%,0);
+    transform: translate3d(0,-30%,0);
   }
   100% {
     opacity: 1;
-    transform: translate3d(0,-0%,0);
+    transform: translate3d(0,0,0);
   }
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translate3d(0,30%,0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0);
   }
 }
 
@@ -95,54 +94,12 @@
   }
 }
 
-@keyframes planeRotate {
-  0% {
-    transform: rotate(0);
-  }
-  40% {
-    transform: rotate(15deg);
-  }
-  50% {
-    transform: rotate(15deg);
-  }
-  60% {
-    transform: rotate(-10deg);
-  }
-  70% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(0);
-  }
-}
-
-@keyframes pulsate {
-  0% {
-    opacity: .5;
-  }
-  50% {
-    opacity: .8;
-  }
-  100% {
-    opacity: .5;
-  }
-}
-
 @keyframes rotate {
   0% {
     transform: rotate(0);
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes scaleX {
-  0% {
-    transform: scale3d(0,1,1);
-  }
-  100% {
-    transform: scale3d(1,1,1);
   }
 }
 
