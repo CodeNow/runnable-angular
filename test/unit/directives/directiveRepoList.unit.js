@@ -1,4 +1,4 @@
-describe.skip('directiveRepoList'.bold.underline.blue, function () {
+describe('directiveRepoList'.bold.underline.blue, function () {
   var element;
   var $scope;
   var $rootScope;
@@ -7,14 +7,31 @@ describe.skip('directiveRepoList'.bold.underline.blue, function () {
   var ctx = {};
   function initGlobalState() {
     angular.mock.module('app');
-    angular.mock.inject(function($compile, _$rootScope_, $timeout, _$httpBackend_, user){
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instance'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'SomeKittens',
+        instanceName: 'spaaace'
+      });
+    });
+    angular.mock.inject(function($compile, _$rootScope_, $timeout, _$httpBackend_, _$stateParams_, user){
       $rootScope = _$rootScope_;
       $httpBackend = _$httpBackend_;
       $scope = $rootScope.$new();
+      $stateParams = _$stateParams_;
       thisUser = user;
       thisUser.reset(mocks.user);
 
       // Using whenGET here and elsewhere because it's indeterminate as to which will fire first
+      var userUrl = host + '/users/me?';
+      $httpBackend
+        .whenGET(userUrl)
+        .respond(mocks.user);
       $httpBackend.whenGET(host + '/github/user/repos?page=1&sort=updated&type=owner&per_page=100')
         .respond(mocks.gh.repos);
 
@@ -33,7 +50,7 @@ describe.skip('directiveRepoList'.bold.underline.blue, function () {
   }
   beforeEach(initGlobalState);
 
-  describe('build only'.bold.blue, function () {
+  describe.only('build only'.bold.blue, function () {
     function initState() {
       angular.mock.inject(function($compile) {
         $httpBackend.whenGET(host + '/contexts/54398933f5afb6410069bc33/versions/54398934f5afb6410069bc34?')
@@ -75,6 +92,10 @@ describe.skip('directiveRepoList'.bold.underline.blue, function () {
   describe('running instance with repo'.bold.blue, function() {
     function initState() {
       angular.mock.inject(function($compile) {
+        var instanceUrl = host + '/instances?githubUsername=SomeKittens&name=spaaace';
+        $httpBackend
+          .whenGET(instanceUrl)
+          .respond(mocks.instances.running);
         $httpBackend.whenGET(host + '/contexts/543861deaebe190e0077c24b/versions/543988508f75990e008d2c74?')
         .respond(mocks.contextVersions.running);
         $httpBackend.expectGET(host + '/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?')

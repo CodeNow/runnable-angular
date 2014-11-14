@@ -44,8 +44,8 @@ module.exports = function(config) {
     customLaunchers: customLaunchers,
 
     // browsers: Object.keys(customLaunchers),
-    // browsers: ['Chrome'],
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
+    // browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
@@ -65,7 +65,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'unit/globals.js',
-      'unit/**/*.unit.js'
+      // 'unit/**/*.unit.js'
+      'unit/directives/directiveRepoList.unit.js'
     ],
 
 
@@ -93,7 +94,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['saucelabs', 'mocha', 'growl', 'coverage'],
+    reporters: ['saucelabs', 'mocha', 'coverage'],
 
     coverageReporter: {
       type: 'text',
@@ -124,11 +125,6 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
     autoWatchBatchDelay: 2000,
-
-
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    // browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode

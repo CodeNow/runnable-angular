@@ -95,6 +95,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
     $httpBackend.flush();
+    $scope.$digest();
     $elScope = ctx.element.isolateScope();
   };
 
