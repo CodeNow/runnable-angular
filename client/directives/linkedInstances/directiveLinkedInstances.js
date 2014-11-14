@@ -18,50 +18,17 @@ function linkedInstances (
     },
     replace: true,
     scope: {
-      linkedInstances: '='
+      instanceDependencies: '='
     },
     link: function ($scope, elem, attrs) {
-      if (!$scope.linkedInstances) {
+      if (!$scope.instanceDependencies) {
         // The instance did not have any dependencies
         return;
       }
 
-      $scope.deps = [];
+      $scope.linkedBoxesChecked = true;
 
-      function fetchInstances (instances, cb) {
-        async.each(Object.keys(linkedInstances),
-          function (instanceKey, cb) {
-            var instanceJSON = instances[instanceKey];
-            function fetchInstance (cb) {
-              var instance = user.newInstance(instanceJSON);
-              instance.fetch(function (err) {
-                if (err) {
-                  cb(err);
-                }
-                $scope.deps.push(instance);
-                cb();
-              });
-            }
-            if (instanceJSON.dependencies) {
-              async.parallel([
-                function (cb) {
-                  fetchInstances(instanceJSON.dependencies, cb);
-                },
-                fetchInstance
-              ], cb);
-              fetchInstances(instanceJSON.dependencies, cb);
-            } else {
-              fetchInstance(cb);
-            }
-          },
-          function (err) {
-            if (err) { throw err; }
-            console.log('all fetched');
-            cb();
-          });
-      }
-      fetchInstances($scope.linkedInstances, console.log.bind(console));
-
+      console.log('has deps');
     }
   };
 }
