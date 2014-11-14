@@ -11,15 +11,21 @@ function togglePopOver(
   return {
     restrict: 'A',
     scope: {
-      model: '=togglePopOverModel'
+      model: '=togglePopOverModel',
+      noBroadcast: '=togglePopOverNoBroadcast'
     },
     link: function ($scope, element, attrs) {
       var clickHandler = $.proxy(function (event) {
         if (!this.model && !element.prop('disabled')) {
           event.stopPropagation();
-          $rootScope.$broadcast('app-document-click');
+          // Skip broadcasting if we're in a modal
+          if (!$scope.noBroadcast) {
+            $rootScope.$broadcast('app-document-click');
+          }
           this.model = true;
           this.$apply();
+        } else if (this.model) {
+          $scope.model = false;
         }
       }, $scope);
       element.on('click', clickHandler);

@@ -28,6 +28,16 @@ function linkedInstances (
 
       $scope.linkedBoxesChecked = true;
 
+      $scope.$watch('instanceDependencies', function (n) {
+        if (!n) { return; }
+        $scope.instanceDependencies.models.forEach(function (model) {
+          // console.log(model);
+          model.fetch(function () {
+            console.log(model);
+          });
+        });
+      });
+
       console.log('has deps');
     }
   };
