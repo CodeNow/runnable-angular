@@ -86,7 +86,7 @@ app.run([
 ]);
 
 /**
- * Fetch user and load heap analytics
+ * Fetch user and load analytics
  */
 app.run([
   'async',
@@ -97,7 +97,6 @@ app.run([
            QueryAssist,
            user,
            $window) {
-    if (!$window.heap) return;
     var thisUser,
         thisUserOrgs;
 
@@ -126,11 +125,27 @@ app.run([
       fetchOrgs
     ], function(err, results) {
       if (err) return;
-      $window.heap.identify({
-        name:  thisUser.oauthName(),
-        email: thisUser.attrs.email,
-        orgs:  $window.JSON.stringify(thisUserOrgs)
-      });
+      if ($window.heap) {
+        $window.heap.identify({
+          name:  thisUser.oauthName(),
+          email: thisUser.attrs.email,
+          orgs:  $window.JSON.stringify(thisUserOrgs)
+        });
+      }
+      if ($window.initIntercom) {
+        $window.initIntercom({
+          name: thisUser.oauthName(),
+          email: thisUser.attrs.email,
+          // Convert ISO8601 to Unix timestamp
+          created_at: +(new Date(thisUser.attrs.created)),
+          app_id: 'wqzm3rju'
+       });
+      }
+      if ($window.olark) {
+        $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
+        $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
+        $window.olark('api.box.show');
+      }
     });
 
   }
