@@ -88,7 +88,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
     });
     $rootScope.$digest();
 
-    console.log('basic properties');
     expect($scope).to.have.property('dataInstance');
     expect($scope).to.have.deep.property('dataInstance.actions');
     expect($scope).to.have.deep.property('dataInstance.data');
