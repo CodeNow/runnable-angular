@@ -13,7 +13,7 @@ function HelperInstanceActionsModal(
    * Shared actions-modal logic.
    * Present on instance.instance & instance.instanceEdit
    */
-  return function ($scope) {
+  return function ($scope, modalType) {
 
     var COPY_SUFFIX = '-copy';
 
@@ -27,6 +27,7 @@ function HelperInstanceActionsModal(
 
     $scope.$watch('instance', function (n) {
       if (!n) return;
+
       data.instance = n;
       // data.newName used in renameInstance popover
       data.newName = n.attrs.name;
@@ -53,6 +54,7 @@ function HelperInstanceActionsModal(
 
     $scope.popoverGearMenu.actions.actionsModalEnvironment = {
       cancel: function() {
+        $scope.popoverGearMenu.data.show = false;
       }
     };
 

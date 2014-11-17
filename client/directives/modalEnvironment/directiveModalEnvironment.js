@@ -10,7 +10,10 @@ function modalEnvironment(
     restrict: 'E',
     templateUrl: 'viewModalEnvironment',
     replace: true,
-    scope: {},
+    scope: {
+      currentModel: '=modalCurrentModel',
+      stateModel: '=modalStateModel'
+    },
     link: function ($scope, element, attrs) {
     }
   };

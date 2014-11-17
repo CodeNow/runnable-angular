@@ -15,7 +15,9 @@ function modal(
     scope: {
       data: '=modalData',
       actions: '=modalActions',
-      template: '@modalTemplate'
+      template: '@modalTemplate',
+      currentModel: '=modalCurrentModel',
+      stateModel: '=modalStateModel'
     },
     link: function ($scope, element, attrs) {
       var $ = jQuery;
@@ -27,32 +29,35 @@ function modal(
         }
       }
 
+      function setupModal() {
+        var template = $templateCache.get($scope.template);
+        var $template = angular.element(template);
+        $compile($template)($scope);
+        $scope.modal = $($template);
+        $('body').append($template);
+        $scope.in = true;
+
+        var unregClick = $scope.$on('app-document-click', function () {
+          if ($scope.in) {
+            $scope.cancel();
+          }
+        });
+        $scope.cancel = function () {
+          if ($scope.actions.cancel && typeof $scope.actions.cancel === 'function') {
+            $scope.actions.cancel();
+          }
+          $scope.in = false;
+          unregClick();
+        };
+      }
+
       element.on('click', function (event) {
         event.stopPropagation();
-        $scope.in = true;
+        setupModal();
         $rootScope.safeApply();
       });
 
-      $scope.cancel = function () {
-        if ($scope.actions.cancel && typeof $scope.actions.cancel === 'function') {
-          $scope.actions.cancel();
-        }
-        $scope.in = false;
-      };
-
-      $scope.$on('app-document-click', function () {
-        if ($scope.in) {
-          $scope.cancel();
-        }
-      });
-
-      var template = $templateCache.get($scope.template);
-      var $template = angular.element(template);
-      $compile($template)($scope);
-      $scope.modal = $($template);
-      $('body').append($template);
-
-      $scope.$watch('in', function (n) {
+      var unregIn = $scope.$watch('in', function (n) {
         if (n) {
           jQuery(document).on('keydown', keyDownEnter);
           var autofocus = $scope.modal.find('[autofocus]');
@@ -69,6 +74,7 @@ function modal(
       $scope.$on('$destroy', function () {
         $scope.modal.remove();
         element.off('click');
+        unregIn();
         jQuery(document).off('keydown', keyDownEnter);
       });
     }

@@ -31,8 +31,9 @@
               use(
                 xlink:href = "#icons-close"
               )
-        pre.pre.ace_editor.ace-tm(
-          ng-init = "data.env = [];"
+        env-vars(
+          state-model = "stateModel"
+          current-model = "currentModel"
         )
       footer.modal-footer
         //- 0.3 SAN-436
