@@ -124,6 +124,18 @@
     margin-top: 5vh;
     width: 270px;
   }
+
+  &::after {
+    animation: fade-in .75s .25s reverse forwards;
+    background: linear-gradient($white,$purple);
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: $z-hero-list;
+  }
 }
 
 // a.template-list-item
@@ -131,6 +143,8 @@
   display: block;
   height: 72px;
   padding: 12px 24px;
+  position: relative;
+  z-index: $z-hero-list-content;
 
   @include media(xs) {
     height: 54px;
@@ -170,7 +184,7 @@
   float: left;
   height: 48px;
   opacity: 0;
-  transform: rotate3d(0,0,1,45deg) scale3d(.8,.8,1);
+  transform: rotate3d(0,0,1,0) scale3d(.8,.8,1);
   transition: transform .15s ease-in;
   width: 42px;
 
