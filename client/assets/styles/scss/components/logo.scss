@@ -1,14 +1,9 @@
 .logo {
-  color: $purple-logo;
+  color: $white;
   display: block;
   position: relative;
   user-select: none;
   z-index: $z-show;
-
-  &:hover {
-    color: $white;
-    text-decoration: none;
-  }
 
   svg {
     display: block;

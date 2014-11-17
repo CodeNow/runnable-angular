@@ -11,7 +11,6 @@ function ControllerHome(
   $state,
   $location,
   $window,
-  skrollr,
   async,
   $localStorage,
   keypather,
@@ -23,15 +22,6 @@ function ControllerHome(
     data: {},
     actions: {}
   };
-
-  //- refresh skrollr on load
-  $window.s = skrollr.init({
-    forceHeight: false,
-    mobileCheck: function () {
-      return false;
-    }
-  });
-  $window.s.refresh();
 
   dataHome.data.hasPass = !!$location.search().password;
 

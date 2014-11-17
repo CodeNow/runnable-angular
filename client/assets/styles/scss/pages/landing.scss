@@ -9,7 +9,7 @@
 
 // main.hero
 .hero {
-  background: $purple-dark;
+  background: $purple;
   color: $white;
   height: 100vh;
   overflow: hidden;
@@ -19,9 +19,11 @@
 
 // header.hero-header
 .hero-header {
+  animation: fade-in .5s .15s ease-in forwards;
   height: 60px;
-  margin: 9px auto 10vh;
+  margin: 9px auto 90px;
   max-width: 90vw;
+  opacity: 0;
   position: relative;
   width: 100%;
   z-index: $z-hero-content;
@@ -38,19 +40,21 @@
 
 // button.btn-hero
 .btn-hero {
-  background: rgba($white,.15);
-  color: $white;
+  background: $white;
+  color: $purple;
   float: right;
   font-size: 18px;
-  font-weight: 300;
   height: 45px;
   line-height: 45px;
   margin: 9px 30px 0 0;
   text-decoration: none;
 
-  &:hover,
+  &:hover {
+    background: rgba($white,.75);
+  }
+
   &:active {
-    background: rgba($white,.3);
+    background: rgba($white,.6);
   }
 
   .iconnables {
@@ -76,12 +80,11 @@
 
 // h1.hero-text
 .hero-text {
-  animation: fade-down 1s ease-in forwards;
+  animation: fade-in .5s .15s ease-in forwards;
   font-size: 45px;
-  font-weight: 300;
-  margin: 0 0 9px;
+  font-weight: 500;
+  margin: 0 0 12px;
   opacity: 0;
-  transform: translate3d(0,-30%,0);
 
   @include media(xs) {
     font-size: 30px;
@@ -91,13 +94,12 @@
 
 // p.hero-text-sub
 .hero-text-sub {
-  animation: fade-down .5s .5s ease-in forwards;
-  font-size: 24px;
+  animation: fade-in .5s .15s ease-in forwards;
+  font-size: 21px;
   font-weight: 200;
   margin: 0 auto;
   max-width: 600px;
   opacity: 0;
-  transform: translate3d(0,-30%,0);
 
   @include media(xs) {
     font-size: 15px;
@@ -109,21 +111,18 @@
 
 // section.template-list
 .template-list {
-  animation: fade-up 1s ease-in forwards;
-  background: rgba($white,.93);
-  border: 1px solid rgba($black,.15);
+  animation: fade-in .5s .15s ease-in forwards;
+  background: $white;
   border-radius: 6px;
-  margin: 10vh auto 0;
-  opacity: 0;
+  margin: 90px auto 0;
   overflow: hidden;
   position: relative;
-  transform: translate3d(0,30%,0);
-  width: 420px;
+  width: 360px;
   z-index: $z-hero-content;
 
   @include media(xs) {
     margin-top: 5vh;
-    width: 300px;
+    width: 270px;
   }
 }
 
@@ -131,7 +130,6 @@
 .template-list-item {
   display: block;
   height: 72px;
-  opacity: 0;
   padding: 12px 24px;
 
   @include media(xs) {
@@ -139,30 +137,41 @@
     padding: 6px 15px;
   }
 
-  + .template-list-item {
-    border-top: 1px solid rgba($black,.1);
-  }
-
   &:hover {
     background: rgba($blue,.1);
+
+    .template-image {
+      transform: rotate3d(0,0,1,0) scale3d(1,1,1);
+    }
   }
 
   &:active {
     background: rgba($blue,.15);
   }
 
+  @for $i from 1 through 8 {
+
+    &:nth-child(#{$i}) {
+
+      .template-image {
+        animation: scale-in .5s (.25s + ($i*.1)) ease-in forwards;
+      }
+
+      .template-title {
+        animation: fade-in .5s (.25s + ($i*.1)) ease-in forwards;
+      }
+    }
+  }
 }
 
-// @for $i from 1 through 8 {
-//   .template-list-item:nth-child-#($i) {
-//     animation: fade-in .5s ($i*1.2) ease-in forwards;
-//   }
-// }
 
 // img.template-image
 .template-image {
   float: left;
   height: 48px;
+  opacity: 0;
+  transform: rotate3d(0,0,1,45deg) scale3d(.8,.8,1);
+  transition: transform .15s ease-in;
   width: 42px;
 
   @include media(xs) {
@@ -178,76 +187,11 @@
   font-weight: 300;
   line-height: 48px;
   margin-left: 21px;
+  opacity: 0;
   text-decoration: none;
 
   @include media(xs) {
     line-height: 42px;
     margin-left: 18px;
-  }
-}
-
-
-
-
-
-
-// testing stuff
-
-$diameter: 45vmax;
-
-.aura {
-  border-radius: 50%;
-  height: .001vmin;
-  opacity: .75;
-  position: absolute;
-  width: .001vmin;
-  z-index: $z-hero-aura;
-
-  &:nth-child(1) {
-    animation: aura-first 18s 2s linear infinite;
-    box-shadow: 0 0 $diameter $diameter $purple;
-    transform: translate3d(50vw,0,0);
-  }
-
-  &:nth-child(2) {
-    animation: aura-second 24s 2s linear infinite;
-    box-shadow: 0 0 $diameter $diameter $purple-light;
-    transform: translate3d(100vw,50vh,0);
-  }
-}
-
-@keyframes aura-first {
-  0% {
-    transform: translate3d(50vw,0,0);
-  }
-  25% {
-    transform: translate3d(0,0,0);
-  }
-  50% {
-    transform: translate3d(0,100vh,0);
-  }
-  75% {
-    transform: translate3d(100vw,100vh,0);
-  }
-  100% {
-    transform: translate3d(50vw,0,0);
-  }
-}
-
-@keyframes aura-second {
-  0% {
-    transform: translate3d(100vw,50vh,0);
-  }
-  25% {
-    transform: translate3d(0,100vh,0);
-  }
-  50% {
-    transform: translate3d(0,100vh,0);
-  }
-  75% {
-    transform: translate3d(0,0,0);
-  }
-  100% {
-    transform: translate3d(100vw,50vh,0);
   }
 }
