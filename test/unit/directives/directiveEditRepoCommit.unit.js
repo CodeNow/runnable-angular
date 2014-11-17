@@ -117,7 +117,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     $elScope = ctx.element.isolateScope();
   };
 
-  describe.skip('has expected scope properties'.blue, function () {
+  describe('has expected scope properties'.blue, function () {
 
     it('$state.$current.name instance.setup', function() {
       injectSetupCompile('setup');
@@ -142,7 +142,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
   });
 
-  it.skip('displays commit author', function() {
+  it('displays commit author', function() {
     injectSetupCompile('instanceEdit');
 
     // commit author
