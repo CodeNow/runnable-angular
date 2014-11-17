@@ -20,9 +20,7 @@ function logBox(
     scope: {},
     templateUrl: 'viewLogBox',
     link: function ($scope, elem, attrs) {
-
-      var boxStream;
-
+      var noop = function () {};
       /**
        * Creates instance of Terminal w/ default
        * settings and attaches to elem.
@@ -38,25 +36,64 @@ function logBox(
       });
 
       $scope.$on('$destroy', function () {
+        var boxStream = $scope.boxStream;
         if (!boxStream) return;
         boxStream.removeAllListeners();
         boxStream.end();
       });
 
-      $scope.$watch('instance.containers.models[0].attrs.inspect.State.Running', function (containerRunning) {
-        if (containerRunning === false) {
-          var exitCode = $scope.instance.containers.models[0].attrs.inspect.State.ExitCode;
-          if (exitCode > 0) {
-            terminal.writeln('Exited with code: ' + exitCode);
-          }
+      /**
+       * watch for container changes - by watching running state
+       * [Initial Scenarios:]
+       * 1) container doesn't exist (build in progress or failed) - Running === undefined
+       * 2) build finished, deployment completed
+       *   A) container creation failed (container.error exists)  - Running === undefined
+       *   B) container creation succeeded                        - Running !== undefined
+       *     a) container is running                              - Running === true
+       *     b) container is not running                          - Running === false
+       * [Change Scenarios:]
+       * 1) User stops container      - Running === false
+       * 2) Container stops naturally - Running === true
+       */
+      $scope.$watch('instance.containers.models[0].attrs.inspect.State.Running', function (Running) {
+        var container = keypather.get($scope, 'instance.containers.models[0]');
+        if (!container) { return; }
+        if (container.attrs.dockerContainer) {
+          // prepend log command to terminal
+          terminal.write(
+            '\x1b[33;1mroot@' +
+            keypather.get(container, 'attrs.inspect.Config.Hostname') +
+            '\x1b[0m: ' +
+            keypather.get(container, 'attrs.inspect.Config.Cmd.join(" ")') +
+            '\n\r');
+          // connect stream
+          subscribeToSubstream(container);
+          bind(primus, 'reconnect', function () {
+            subscribeToSubstream(container);
+          });
+        }
+        else if (container.attrs.error) {
+          terminal.writeln('\x1b[33;1m' + container.attrs.error.message + '\x1b[0m');
+        }
+      });
+
+      // watch for container running changes
+      $scope.$watch('boxStream.ended', function (boxStreamEnded) {
+        var containerRunning = keypather.get($scope, 'instance.containers.models[0].attrs.inspect.State.Running');
+        if (boxStreamEnded === true && containerRunning === false) {
+          // if container stopped running
+          var container = $scope.instance.containers.models[0];
+          var exitCode = container.attrs.inspect.State.ExitCode;
+          terminal.writeln('Exited with code: ' + exitCode);
         }
       });
 
       async.series([
         fetchUser,
         fetchInstance
-      ], function () {
-        initializeBoxLogs($scope.instance.containers.models[0]);
+      ], function (err) {
+        // TODO: handle errors properly..
+        if (err) { return console.log(err); }
       });
 
       /**
@@ -75,40 +112,23 @@ function logBox(
       }
 
       function subscribeToSubstream(container) {
-        if (boxStream) {
-          boxStream.removeAllListeners('data');
+        if ($scope.boxStream) {
+          $scope.boxStream.removeAllListeners('data');
           terminal.reset();
         }
         //TODO spinner?
-        boxStream = primus.createLogStream(container);
+        $scope.boxStream = primus.createLogStream(container);
         // binds to boxStream.on('data')
         // important to unbind 'data' listener
         // before reinvoking this
-        dockerStreamCleanser.cleanStreams(boxStream,
-                                          terminal,
-                                          'hex',
-                                          true);
-      }
-
-      function initializeBoxLogs(container) {
-        if (!container) {
-          return console.log('no docker container for logs');
-        }
-        if (container.attrs.dockerContainer) {
-          // prepend log command to terminal
-          terminal.write('\x1b[33;1mroot@' + keypather.get($scope,
-                         'container.attrs.inspect.Config.Hostname') +
-                         '\x1b[0m: ' +
-                         keypather.get($scope, 'instance.containers.models[0].attrs.inspect.Config.Cmd.join(" ")') +
-                         '\n\r');
-          subscribeToSubstream(container);
-          bind(primus, 'reconnect', function () {
-            subscribeToSubstream(container);
+        dockerStreamCleanser.cleanStreams($scope.boxStream, terminal, 'hex', true);
+        // box log output ends... process exited
+        $scope.boxStream.on('end', function () {
+          $scope.boxStream.ended = true;
+          fetchInstance(function () {
+            $rootScope.safeApply();
           });
-        }
-        else if (container.attrs.error) {
-          terminal.writeln('\x1b[33;1m' + container.attrs.error.message + '\x1b[0m');
-        }
+        });
       }
 
       function fetchUser(cb) {

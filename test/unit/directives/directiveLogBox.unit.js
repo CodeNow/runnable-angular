@@ -1,4 +1,15 @@
 var jQuery  = require('jquery');
+var sinon = require('sinon');
+var DuplexStream = require('stream').Duplex;
+function MockTerminal () {
+  this.output = '';
+}
+MockTerminal.prototype.writeln = function (str) {
+  this.output += str + '\r\n';
+};
+MockTerminal.prototype.write = function (str) {
+  this.output += str;
+};
 
 // injector-provided
 var $compile,
@@ -12,11 +23,32 @@ var $compile,
     $timeout,
     user;
 var $elScope;
+var term;
 
 describe('directiveLogBox'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
+    angular.mock.module('app');
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instance'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'username',
+        instanceName: 'instancename'
+      });
+
+      // $provide.value('primus', new DuplexStream());
+
+      // $provide.value('helperSetupTerminal', function () {
+      //   term = new MockTerminal();
+      //   return term;
+      // });
+    });
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
@@ -61,30 +93,16 @@ describe('directiveLogBox'.bold.underline.blue, function() {
     $httpBackend.flush();
     ctx.$element = jQuery(ctx.element);
     $elScope = ctx.element.isolateScope();
-  };
-
-  beforeEach(angular.mock.module('app'));
+  }
 
   beforeEach(function() {
     ctx = {};
     ctx.template = directiveTemplate('log-box', {});
   });
 
+  beforeEach(injectSetupCompile);
+
   it('basic dom', function() {
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.instance'
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'username',
-        instanceName: 'instancename'
-      });
-    });
-
-    injectSetupCompile();
     expect(ctx.$element).to.be.ok;
     expect(ctx.$element.hasClass('ng-isolate-scope')).to.equal(true);
     var $el = ctx.$element.find('> div.terminal');
@@ -92,22 +110,33 @@ describe('directiveLogBox'.bold.underline.blue, function() {
   });
 
   it('basic scope', function() {
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.instance'
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'username',
-        instanceName: 'instancename'
-      });
-    });
-
-    injectSetupCompile();
     expect($elScope).to.have.property('user');
     expect($elScope).to.have.property('instance');
   });
 
+  // describe('destroy', function() {
+  //   var origBoxStream;
+  //   beforeEach(function () {
+  //     origBoxStream = $elScope.boxStream;
+  //     $elScope.boxStream = {}; // mock boxStream
+  //   });
+  //   afterEach(function () {
+  //     $elScope.boxStream = origBoxStream;
+  //   });
+  //   it('should clean up boxStream', function() {
+  //     // var removeAllSpy = sinon.spy();
+  //     // var endSpy = sinon.spy();
+  //     // $elScope.boxStream.removeAllListeners = removeAllSpy;
+  //     // $elScope.boxStream.end = endSpy;
+  //     $elScope.$destroy();
+  //     // expect(removeAllSpy.called).to.be.ok;
+  //     // expect(endSpy.called).to.be.ok;
+  //   });
+  // });
+  // describe('primus goes offline', function() {
+  //   it('should display disconnect message when primus goes offline', function() {
+  //     primus.emit('offline');
+  //     expect(term.output).match(/LOST CONNECTION/);
+  //   });
+  // });
 });

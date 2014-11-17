@@ -77,7 +77,7 @@ function primus(
 
   conn.on('data', function (data) {
     if (data.error) {
-      throw data.error;
+      console.log(data.error);
     }
   });
 

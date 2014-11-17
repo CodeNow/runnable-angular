@@ -12,6 +12,7 @@ function logBuild(
   $rootScope,
   $stateParams,
   dockerStreamCleanser,
+  createInstanceDeployedPoller,
   user
 ) {
   return {
@@ -20,14 +21,15 @@ function logBuild(
     scope: {},
     templateUrl: 'viewLogBuild',
     link: function ($scope, elem, attrs) {
-
+      var noop = function () {};
       var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
       var DEFAULT_INVALID_BUILD_MESSAGE = '\x1b[31;1mPlease build again\x1b[0m';
       var COMPLETE_SUCCESS_MESSAGE = 'Build completed, starting instance...';
       var buildStream;
+      var instanceDeployedPoller;
 
       /**
-       * Creates instance of Terminal w/ default 
+       * Creates instance of Terminal w/ default
        * settings and attaches to elem.
        * - Unbinds events on $destroy
        */
@@ -44,6 +46,10 @@ function logBuild(
         if (!buildStream) return;
         buildStream.removeAllListeners();
         buildStream.end();
+        // stop polling for container success
+        if (instanceDeployedPoller) {
+          instanceDeployedPoller.clear();
+        }
       });
 
       async.series([
@@ -109,6 +115,7 @@ function logBuild(
               writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
             } else {
               writeToTerm(COMPLETE_SUCCESS_MESSAGE);
+              instanceDeployedPoller = createInstanceDeployedPoller($scope.instance).start();
             }
           });
         });
@@ -118,7 +125,7 @@ function logBuild(
         var contextVersion = build.contextVersions.models[0];
         if (build.failed() || build.succeeded()) {
           contextVersion.fetch(function (err, data) {
-            if (err) throw err;
+            if (err) { return console.log(err); }
             if (build.succeeded()) {
               writeToTerm(data.build.log);
             }

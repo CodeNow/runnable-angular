@@ -60,6 +60,7 @@ function instanceSecondaryActions(
             $rootScope.safeApply();
           });
         });
+        $rootScope.safeApply();
       }
 
       function fetchUser(cb) {
