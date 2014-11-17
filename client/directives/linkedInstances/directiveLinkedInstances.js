@@ -2,6 +2,7 @@ require('app')
   .directive('linkedInstances', linkedInstances);
 
 function linkedInstances (
+  $rootScope,
   async,
   user
 ) {
@@ -25,6 +26,7 @@ function linkedInstances (
         // The instance did not have any dependencies
         return;
       }
+      console.log('has deps', $scope.instanceDependencies);
 
       $scope.linkedBoxesChecked = true;
 
@@ -34,11 +36,11 @@ function linkedInstances (
           // console.log(model);
           model.fetch(function () {
             console.log(model);
+            $rootScope.safeApply();
           });
         });
       });
 
-      console.log('has deps');
     }
   };
 }

@@ -37,7 +37,6 @@
         - fix ng-focus/ng-blur
         - fix validation
       input.input(
-        autofocus
         instance = "instance"
         name = "newName"
         ng-model = "newName"
@@ -50,7 +49,7 @@
       //- issues to fix:
         - hovering over the popover also triggers tooltip (related: SAN-267)
       button.btn-sm.gray(
-        ng-if = "instance.env"
+        ng-if = "instance.attrs.env"
         toggle-pop-over
         toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
         toggle-pop-over-no-broadcast = "true"
