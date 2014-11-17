@@ -58,6 +58,11 @@ describe('controllerInstance'.bold.underline.blue, function () {
      * - GET commits
      */
 
+    var userUrl = host + '/users/me?';
+    $httpBackend
+      .whenGET(userUrl)
+      .respond(mocks.user);
+
     var branchesUrl = host + '/github/repos/cflynn07/bitcoin/branches?per_page=100';
     $httpBackend
       .expectGET(branchesUrl)
