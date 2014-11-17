@@ -19,7 +19,8 @@ function linkedInstances (
     },
     replace: true,
     scope: {
-      instanceDependencies: '='
+      instanceDependencies: '=',
+      instances: '='
     },
     link: function ($scope, elem, attrs) {
       if (!$scope.instanceDependencies) {

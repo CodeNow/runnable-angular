@@ -1,6 +1,4 @@
 //- 0.3 SAN-435
-  - to do:
-  - .well if there are linked boxes
 .well(
   ng-class = "{\
     btn: !linkedBoxesChecked,\
@@ -12,69 +10,71 @@
 )
   label.label-checkbox
     input.input-checkbox(
-      ng-click = "linkedBoxesChecked = !linkedBoxesChecked"
+      ng-model = "linkedBoxesChecked"
       type = "checkbox"
     )
     | Include linked boxes
 
   div(
     ng-init = "newName = instance.attrs.name + '-copy'"
-    ng-repeat = "instance in instanceDependencies.models | orderBy:'instance.attrs.name'"
+    ng-repeat = "instance in instanceDependencies.models | orderBy:'attrs.name'"
   )
-    //- forking linked boxes
-    label.input-group.with-description(
-      ng-class = "{\
-        focus: data.forkForm.showFocus,\
-        'ng-invalid': data.forkForm.$invalid,\
-        'ng-valid': data.forkForm.$valid\
-      }"
-      ng-if = "linkedBoxesChecked"
+    ng-form(
+      name = "depForm"
     )
-      span.input-label Name
-      span.input-description.text-overflow {{ newName }}.runnable.io
-      //- 0.3 SAN-435
-        - to do:
-        - fix ng-focus/ng-blur
-        - fix validation
-      input.input(
-        instance = "instance"
-        name = "newName"
-        ng-model = "newName"
-        placeholder = "My-Box"
-        select-all
-        validate-name = "data.instances"
-        validate-name-pattern
-        validate-name-current-instance-valid = "false"
+      //- forking linked boxes
+      label.input-group.with-description(
+        ng-class = "{\
+          focus: depForm.showFocus,\
+          'ng-invalid': depForm.$invalid,\
+          'ng-valid': depForm.$valid\
+        }"
+        ng-if = "linkedBoxesChecked"
       )
-      //- issues to fix:
-        - hovering over the popover also triggers tooltip (related: SAN-267)
-      button.btn-sm.gray(
-        ng-if = "instance.attrs.env"
-        toggle-pop-over
-        toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
-        toggle-pop-over-no-broadcast = "true"
-        tooltip = "Edit Environment"
-        tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
-        type = "button"
-      ) ev
-        pop-over(
-          actions = "dataModalForkBox.data.popoverEnvironment.actions"
-          data = "dataModalForkBox.data.popoverEnvironment.data"
-          template = "viewPopoverEnvironment"
+        span.input-label Name
+        span.input-description.text-overflow {{ newName }}.{{ instance.attrs.owner.username.toLowerCase() }}.runnable.io
+        //- 0.3 SAN-435
+          - to do:
+          - fix ng-focus/ng-blur
+          - fix validation
+        input.input(
+          instance = "instance"
+          ng-model = "newName"
+          placeholder = "My-Box"
+          select-all
+          validate-name = "instances"
+          validate-name-pattern
+          validate-name-current-instance-valid = "false"
         )
-    //- .invalid-pattern for names with invalid characters
-      - .invalid-name for names that are taken
-    .validate-wrapper.btn.btn-sm.orange(
-      ng-class = "{\
-        in: data.forkForm.$invalid,\
-        'invalid-pattern': data.forkForm.$error.namePattern.length,\
-        'invalid-name': data.forkForm.$error.nameAvailable.length\
-      }"
-    )
-      span.validate-rules.invalid-pattern Please use #{''}
-        b.btn.btn-xs.orange A-Z
-        b.btn.btn-xs.orange a-z
-        b.btn.btn-xs.orange 0-9
-        b.btn.btn-xs.orange _
-        b.btn.btn-xs.orange -
-      span.validate-rules.invalid-name That's a pretty name, but it's taken.
+        //- issues to fix:
+          - hovering over the popover also triggers tooltip (related: SAN-267)
+        button.btn-sm.gray(
+          ng-if = "instance.attrs.env"
+          toggle-pop-over
+          toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
+          toggle-pop-over-no-broadcast = "true"
+          tooltip = "Edit Environment"
+          tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
+          type = "button"
+        ) ev
+          pop-over(
+            actions = "dataModalForkBox.data.popoverEnvironment.actions"
+            data = "dataModalForkBox.data.popoverEnvironment.data"
+            template = "viewPopoverEnvironment"
+          )
+      //- .invalid-pattern for names with invalid characters
+        - .invalid-name for names that are taken
+      .validate-wrapper.btn.btn-sm.orange(
+        ng-class = "{\
+          in: depForm.$invalid,\
+          'invalid-pattern': depForm.$error.namePattern.length,\
+          'invalid-name': depForm.$error.nameAvailable.length\
+        }"
+      )
+        span.validate-rules.invalid-pattern Please use #{''}
+          b.btn.btn-xs.orange A-Z
+          b.btn.btn-xs.orange a-z
+          b.btn.btn-xs.orange 0-9
+          b.btn.btn-xs.orange _
+          b.btn.btn-xs.orange -
+        span.validate-rules.invalid-name That's a pretty name, but it's taken.

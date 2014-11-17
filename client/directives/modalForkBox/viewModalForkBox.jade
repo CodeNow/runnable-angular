@@ -15,21 +15,21 @@
       )
         label.input-group.input-validate.with-description(
           ng-class = "{\
-            focus: data.forkForm.showFocus,\
-            'ng-invalid': data.forkForm.$invalid,\
-            'ng-valid': data.forkForm.$valid\
+            focus: data.forkForm.forkName.showFocus,\
+            'ng-invalid': data.forkForm.forkName.$invalid,\
+            'ng-valid': data.forkForm.forkName.$valid\
           }"
         )
           span.input-label Name
-          span.input-description.text-overflow {{ data.newForkName }}.{{ data.instance.attrs.owner.username }}.runnable.io
+          span.input-description.text-overflow {{ data.newForkName }}.{{ data.instance.attrs.owner.username.toLowerCase() }}.runnable.io
           input.input(
             autofocus
             instance = "data.instance"
-            name = "name"
-            ng-blur = "data.forkForm.showFocus = false"
-            ng-focus = "data.forkForm.showFocus = true"
-            ng-init = "data.forkForm.showFocus = true; \
-              data.renameForm.showFocus = true;"
+            name = "forkName"
+            ng-blur = "data.forkForm.forkName.showFocus = false"
+            ng-focus = "data.forkForm.forkName.showFocus = true"
+            ng-init = "data.forkForm.forkName.showFocus = true; \
+              data.renameForm.forkName.showFocus = true;"
             ng-model = "data.newForkName"
             placeholder = "My-Box"
             select-all
@@ -57,9 +57,9 @@
           - .invalid-name for names that are taken
         .validate-wrapper.btn.btn-sm.orange(
           ng-class = "{\
-            in: data.forkForm.$invalid,\
-            'invalid-pattern': data.forkForm.$error.namePattern.length,\
-            'invalid-name': data.forkForm.$error.nameAvailable.length\
+            in: data.forkForm.forkName.$invalid,\
+            'invalid-pattern': data.forkForm.forkName.$error.namePattern,\
+            'invalid-name': data.forkForm.forkName.$error.nameAvailable\
           }"
         )
           span.validate-rules.invalid-pattern Please use #{''}
@@ -74,6 +74,7 @@
           ng-show = "!false"
           type = "modal"
           instance-dependencies = "data.instance.dependencies"
+          instances = "data.instances"
         )
 
     footer.modal-footer
