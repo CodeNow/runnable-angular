@@ -29,7 +29,7 @@
   z-index: $z-hero-content;
 
   @include media(xs) {
-    margin-bottom: 5vh;
+    margin-bottom: 8vh;
     max-width: none;
   }
 
@@ -44,9 +44,7 @@
   color: $purple;
   float: right;
   font-size: 16px;
-  height: 45px;
-  line-height: 45px;
-  margin: 9px 30px 0 0;
+  margin: 9px 36px 0 0;
   text-decoration: none;
 
   &:hover {
@@ -67,6 +65,13 @@
     transform: scale3d(.8,.8,1);
     transition: transform .15s ease-in;
   }
+
+  @include media(xs) {
+    height: 36px;
+    line-height: 36px;
+    margin-top: 12px;
+    padding: 0 9px;
+  }
 }
 
 // a.logo
@@ -82,6 +87,10 @@
   position: relative;
   text-align: center;
   z-index: $z-hero-content;
+
+  @include media(xs) {
+    padding: 0 42px;
+  }
 }
 
 // h1.hero-text
@@ -93,8 +102,7 @@
   opacity: 0;
 
   @include media(xs) {
-    font-size: 30px;
-    padding: 0 15px;
+    font-size: 33px;
   }
 }
 
@@ -108,10 +116,9 @@
   opacity: 0;
 
   @include media(xs) {
-    font-size: 15px;
+    font-size: 18px;
     letter-spacing: .5px;
     max-width: 400px;
-    padding: 0 15px;
   }
 }
 
@@ -127,8 +134,8 @@
   z-index: $z-hero-content;
 
   @include media(xs) {
-    margin-top: 5vh;
-    width: 270px;
+    margin-top: 6vh;
+    width: 300px;
   }
 
   &::after {
