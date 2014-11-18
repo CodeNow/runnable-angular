@@ -1,19 +1,16 @@
 {
-  "_id": "54398934f5afb6410069bc34",
-  "infraCodeVersion": "54398934f5afb6410069bc35",
-  "context": "54398933f5afb6410069bc33",
+  "_id": "54668070531ae50e002c8503",
   "createdBy": {
     "github": 1616464
   },
-  "__v": 0,
-  "build": {
-    "triggeredAction": {
-      "appCodeVersion": {
-        "commitLog": []
-      }
-    }
+  "owner": {
+    "github": 1616464
   },
-  "appCodeVersions": [],
-  "created": "2014-10-11T19:47:00.236Z",
-  "id": "54398934f5afb6410069bc34"
+  "__v": 0,
+  "failed": false,
+  "created": "2014-11-14T22:21:36.022Z",
+  "erroredContextVersions": [],
+  "contextVersions": ["5466806f531ae50e002c84fd"],
+  "contexts": ["5466806f531ae50e002c84fb"],
+  "id": "54668070531ae50e002c8503"
 }

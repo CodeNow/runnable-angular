@@ -23,7 +23,7 @@ var $compile,
 var $elScope;
 var mockPrimus = new MockPrimus();
 
-describe('directiveLogBuild'.bold.underline.blue, function() {
+describe.skip('directiveLogBuild'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {

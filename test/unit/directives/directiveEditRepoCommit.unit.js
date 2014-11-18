@@ -106,6 +106,18 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
     modelStore.reset();
 
+    ctx.element = angular.element(ctx.template);
+    ctx.element = $compile(ctx.element)($scope);
+    $scope.$digest();
+    $httpBackend.flush();
+    $scope.$digest();
+    $elScope = ctx.element.isolateScope();
+  };
+
+  beforeEach(angular.mock.module('app'));
+
+  beforeEach(function() {
+    ctx = {};
     ctx.template = directiveTemplate('edit-repo-commit', {
       'app-code-version': 'acv',
       'unsaved-app-code-version': 'unsavedAcv'
