@@ -38,6 +38,8 @@ function instanceSecondaryActions(
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
 
+      $scope.popoverGearMenu.data.dataModalEnvironment.showRebuild = true;
+
       $scope.goToEdit = function () {
         var forkedBuild = $scope.instance.build.deepCopy(function (err) {
           if (err) throw err;
@@ -49,10 +51,10 @@ function instanceSecondaryActions(
         });
       };
 
-      function modInstance(action) {
+      function modInstance(action, opts) {
         $scope.loading = true;
         $scope.popoverGearMenu.data.show = false;
-        $scope.instance[action](function (err) {
+        $scope.instance[action](opts, function (err) {
           if (err) throw err;
           $scope.instance.fetch(function (err) {
             if (err) throw err;

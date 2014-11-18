@@ -7,7 +7,7 @@
       li.popover-list-item(
         modal
         modal-actions = "actions.actionsModalEnvironment"
-        modal-current-model = "data.instance.attrs"
+        modal-current-model = "(data.instance.state.env && data.instance.state.env.length) ? data.instance.state : data.instance.attrs "
         modal-state-model = "data.instance.state"
         modal-template = "viewModalEnvironment"
       ) Edit Environment

@@ -4,6 +4,7 @@ require('app')
  * @ngInject
  */
 function setupSecondaryActions(
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -14,7 +15,11 @@ function setupSecondaryActions(
       stateModel: '='
     },
     link: function ($scope, elem, attrs) {
-
+      keypather.set($scope, 'actions.actionsModalEnvironment', {
+        save: function () {
+          $scope.actions.actionsModalEnvironment.close();
+        }
+      });
     }
   };
 }

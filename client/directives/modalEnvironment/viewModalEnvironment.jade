@@ -39,8 +39,16 @@
         //- 0.3 SAN-436
           - to do:
           - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
-        button.orange Rebuild
-        //- button.green Save
+        button.orange(
+          ng-if = "data.showRebuild"
+          ng-click = "actions.saveEnvs(actions.rebuild(stateModel, actions.close()))"
+          type = "button"
+        ) Rebuild
+        button.green(
+          ng-if = "!currentModel.showRebuild"
+          ng-click = "actions.saveEnvs(actions.save())"
+          type = "button"
+        ) Save
         button.white(
           ng-click = "cancel()"
           type = "button"

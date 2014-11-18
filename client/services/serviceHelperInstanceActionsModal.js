@@ -7,13 +7,18 @@ function HelperInstanceActionsModal(
   $rootScope,
   $state,
   $stateParams,
+  keypather,
   $timeout
 ) {
   /**
    * Shared actions-modal logic.
    * Present on instance.instance & instance.instanceEdit
+   *
+   *
+   * modalArray is an array of modal names that are available on a selected screen.  If it is null,
+   * then it is assumed all should be added
    */
-  return function ($scope, modalType) {
+  return function ($scope, modalArray) {
 
     var COPY_SUFFIX = '-copy';
 
@@ -53,7 +58,30 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.data.dataModalEnvironment= data;
 
     $scope.popoverGearMenu.actions.actionsModalEnvironment = {
+      save: function () {
+        $scope.popoverGearMenu.data.show = false;
+        $scope.popoverGearMenu.actions.actionsModalEnvironment.close();
+      },
+      rebuild: function(opts, cb) {
+        $scope.popoverGearMenu.data.show = false;
+        $rootScope.dataApp.data.loading = true;
+        if (!opts.env) { return; }
+        $scope.instance.update(opts, function (err) {
+          $rootScope.safeApply();
+          if (err) throw err;
+          // update instances collection to update
+          // viewInstanceList
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            instanceName: $scope.instance.attrs.name
+          });
+        });
+        cb();
+      },
       cancel: function() {
+        if (keypather.get($scope, 'data.instance.state')) {
+          delete $scope.data.instance.state.env;
+        }
         $scope.popoverGearMenu.data.show = false;
       }
     };

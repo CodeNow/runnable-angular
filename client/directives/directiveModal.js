@@ -42,12 +42,16 @@ function modal(
             $scope.cancel();
           }
         });
+        $scope.actions.close = function () {
+          unregClick();
+          $scope.modal.remove();
+          $scope.in = false;
+        };
         $scope.cancel = function () {
           if ($scope.actions.cancel && typeof $scope.actions.cancel === 'function') {
             $scope.actions.cancel();
           }
-          $scope.in = false;
-          unregClick();
+          $scope.actions.close();
         };
       }
 
@@ -72,7 +76,9 @@ function modal(
       });
 
       $scope.$on('$destroy', function () {
-        $scope.modal.remove();
+        if ($scope.modal) {
+          $scope.modal.remove();
+        }
         element.off('click');
         unregIn();
         jQuery(document).off('keydown', keyDownEnter);
