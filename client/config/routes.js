@@ -1,5 +1,4 @@
 module.exports = [
-
   {
     state: 'home',
     abstract: false,
@@ -12,7 +11,6 @@ module.exports = [
       },
     }
   },
-
   {
     state: 'instance',
     abstract: true,
