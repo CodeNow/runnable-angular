@@ -44,8 +44,8 @@ module.exports = function(config) {
     customLaunchers: customLaunchers,
 
     // browsers: Object.keys(customLaunchers),
-    // browsers: ['Chrome'],
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
+    // browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
@@ -84,7 +84,7 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       transform: [istanbul({
-        ignore: ['**/node_modules/**', '**/*.unit.js',  '**/test/**', '**/config/**/*.json']
+        ignore: ['**/node_modules/**', '**/*.unit.js',  '**/test/**', '**/config/**/*.json', '**/client/assets/**', '**/client/build/**', '**/client/animations/**', '**/client/lib/**', '**/client/polyfills/**']
       })],
       extensions: ['.js']
     },
@@ -93,7 +93,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['saucelabs', 'mocha', 'growl', 'coverage'],
+    reporters: ['saucelabs', 'mocha', 'coverage'],
 
     coverageReporter: {
       type: 'text',
@@ -124,11 +124,6 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
     autoWatchBatchDelay: 2000,
-
-
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    // browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode

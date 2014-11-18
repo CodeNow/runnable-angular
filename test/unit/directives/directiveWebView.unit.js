@@ -1,5 +1,3 @@
-var jQuery  = require('jquery');
-
 // injector-provided
 var $compile,
     $filter,
@@ -13,10 +11,23 @@ var $compile,
     user;
 var $elScope;
 
-describe.skip('directiveWebView'.bold.underline.blue, function() {
+describe('directiveWebView'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
+    angular.mock.module('app');
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instance'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'username',
+        instanceName: 'instancename'
+      });
+    });
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
@@ -54,63 +65,83 @@ describe.skip('directiveWebView'.bold.underline.blue, function() {
       .respond(mocks.instances.runningWithContainers);
 
     modelStore.reset();
+    collectionStore.reset();
+
+    $rootScope.safeApply = function (cb) {
+      $timeout(function() {
+        $scope.$digest();
+        if (cb && cb.call) {
+          cb();
+        }
+      });
+    };
 
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $httpBackend.flush();
-    ctx.$element = jQuery(ctx.element);
     $elScope = ctx.element.isolateScope();
   };
 
-  beforeEach(angular.mock.module('app'));
-
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('web-view', {});
+    ctx.template = directiveTemplate('web-view');
   });
 
+  beforeEach(injectSetupCompile);
+
   it('basic dom', function() {
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.instance'
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'username',
-        instanceName: 'instancename'
-      });
-    });
-
-    injectSetupCompile();
-    expect(ctx.$element).to.be.ok;
-    expect(ctx.$element.find('> iframe').length).to.be.ok;
+    expect(ctx.element).to.be.ok;
+    expect(ctx.element.find('iframe')).to.be.ok;
   });
 
   it('basic scope', function() {
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.instance'
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'username',
-        instanceName: 'instancename'
-      });
-    });
-
-    injectSetupCompile();
     expect($elScope).to.have.property('user');
     expect($elScope).to.have.property('instance');
     expect($elScope).to.have.property('actions');
-    expect($elScope).to.have.deep.property('actions.forward');
-    expect($elScope).to.have.deep.property('actions.back');
     expect($elScope).to.have.deep.property('actions.refresh');
     expect($elScope).to.have.property('data');
     expect($elScope).to.have.deep.property('data.iframeUrl');
+  });
+
+  it('should replace the url with a new one when the instance changes', function () {
+    expect($elScope.data.iframeUrl.toString()).to.equal('about:blank');
+    $rootScope.$digest();
+    $timeout.flush();
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://anand-api.codenow.codenow.runnable.io');
+  });
+
+  it('should change the name when the instance starts', function () {
+    expect($elScope.data.iframeUrl.toString()).to.equal('about:blank');
+    $rootScope.$digest();
+    $timeout.flush();
+
+    // Use reset to update the containers
+    $elScope.instance.reset({
+      name: 'ruuuuunable'
+    });
+
+    $elScope.instance.containers.models[0].attrs.inspect.State.StartedAt = 'bananas';
+
+    $rootScope.$digest();
+    $timeout.flush();
+
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://ruuuuunable.codenow.codenow.runnable.io');
+  });
+
+  it('will not change if the only difference is capitalization', function () {
+    expect($elScope.data.iframeUrl.toString()).to.equal('about:blank');
+    expect($elScope.instance.attrs.name).to.equal('anand-api');
+    $rootScope.$digest();
+    $timeout.flush();
+
+    $elScope.instance.attrs.name = 'aNaNd-ApI';
+    $elScope.instance.reset({
+      name: 'aNaNd-ApI'
+    });
+
+    $rootScope.$digest();
+
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://anand-api.codenow.codenow.runnable.io');
   });
 
 });
