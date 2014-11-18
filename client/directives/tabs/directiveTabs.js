@@ -58,7 +58,7 @@ function tabs(
             if (!instances.models.length) {
               return cb(new Error('Instance not found'));
             }
-            if (err) throw err;
+            if (err) { throw err; }
             var instance = instances.models[0];
             data.instance = instance;
             $rootScope.safeApply();
@@ -73,7 +73,8 @@ function tabs(
           fetchUser,
           fetchInstance,
           helperFetchInstanceDeployStatus
-        ], function() {
+        ], function(err) {
+          if (err) { throw err; }
           // don't restore tabs if box not running
           if (!data.instance.containers.models[0].running()) {
             return;

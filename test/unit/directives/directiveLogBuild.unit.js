@@ -13,7 +13,7 @@ var $compile,
     user;
 var $elScope;
 
-describe('directiveLogBuild'.bold.underline.blue, function() {
+describe.skip('directiveLogBuild'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
