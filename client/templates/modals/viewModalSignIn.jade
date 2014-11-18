@@ -5,7 +5,8 @@
     ng-click = "$event.stopPropagation()"
   )
     header.modal-header
-      h1.modal-heading Sign In
+      h1.modal-heading Sign In to Fork
+      //- h1.modal-heading Sign In to Add
     section.modal-body
       p.well.blue You have to sign in to fork this box.
       //- p.well.blue You have to sign in to Github so we can add your repositories to this box
@@ -16,11 +17,5 @@
           use(
             xlink:href = "#icons-git"
           )
-        | Sign In
-      button.white(
-        ng-click = "\
-          cancel();\
-          actions.cancel();\
-        "
-        type = "button"
-      ) Go Back
+        | Sign In with Github
+      a.link I'm not ready yet.
