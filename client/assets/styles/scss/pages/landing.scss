@@ -83,7 +83,6 @@
 
 // section.hero-heading
 .hero-heading {
-  letter-spacing: 1px;
   position: relative;
   text-align: center;
   z-index: $z-hero-content;
@@ -98,6 +97,7 @@
   animation: fade-in .5s .15s ease-in forwards;
   font-size: 45px;
   font-weight: 500;
+  letter-spacing: 1px;
   margin: 0 0 12px;
   opacity: 0;
 
@@ -111,13 +111,13 @@
   animation: fade-in .5s .15s ease-in forwards;
   font-size: 21px;
   font-weight: 200;
+  letter-spacing: .5px;
   margin: 0 auto;
   max-width: 600px;
   opacity: 0;
 
   @include media(xs) {
     font-size: 18px;
-    letter-spacing: .5px;
     max-width: 400px;
   }
 }
