@@ -14,20 +14,7 @@ var $elScope;
 describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
 
-  function injectSetupCompile (pageState) {
-    angular.mock.module('app');
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.' + pageState
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'cflynn07',
-        instanceName: 'box1'
-      });
-    });
+  function injectSetupCompile () {
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
@@ -87,8 +74,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       .respond(mocks.instances.runningWithContainers);
 
     user.reset(mocks.user);
-
-    ctx = {};
     ctx.acv = user
       .newContext('contextId')
       .newVersion('versionId')
@@ -122,31 +107,62 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       'app-code-version': 'acv',
       'unsaved-app-code-version': 'unsavedAcv'
     });
-
-    ctx.element = $compile(ctx.template)($scope);
-    $scope.$digest();
-    $httpBackend.flush();
-    $elScope = ctx.element.isolateScope();
   });
 
   describe('has expected scope properties'.blue, function () {
 
-    it('$state.$current.name instance.setup', function() {
-      injectSetupCompile('setup');
+   it('$state.$current.name instance.setup', function() {
+      angular.mock.module(function ($provide) {
+        $provide.value('$state', {
+          '$current': {
+            name: 'instance.setup'
+          }
+        });
+
+        $provide.value('$stateParams', {
+          userName: 'cflynn07',
+          instanceName: 'box1'
+        });
+      });
+      injectSetupCompile();
 
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', true);
     });
 
     it('$state.$current.name instance.instance', function() {
-      injectSetupCompile('instance');
+      angular.mock.module(function ($provide) {
+        $provide.value('$state', {
+          '$current': {
+            name: 'instance.instance'
+          }
+        });
+
+        $provide.value('$stateParams', {
+          userName: 'cflynn07',
+          instanceName: 'box1'
+        });
+      });
+      injectSetupCompile();
 
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', false);
     });
 
     it('$state.$current.name instance.instanceEdit', function() {
-      injectSetupCompile('instanceEdit');
+      angular.mock.module(function ($provide) {
+        $provide.value('$state', {
+          '$current': {
+            name: 'instance.instanceEdit'
+          }
+        });
+
+        $provide.value('$stateParams', {
+          userName: 'cflynn07',
+          instanceName: 'box1'
+        });
+      });
+      injectSetupCompile();
 
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', true);
@@ -155,7 +171,19 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   });
 
   it('displays commit author', function() {
-    injectSetupCompile('instanceEdit');
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instanceEdit'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'cflynn07',
+        instanceName: 'box1'
+      });
+    });
+    injectSetupCompile();
 
     // commit author
     var $el = ctx.element[0]
@@ -165,7 +193,19 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   });
 
   it('displays commit time (through timeAgo filter)', function() {
-    injectSetupCompile('instanceEdit');
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instanceEdit'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'cflynn07',
+        instanceName: 'box1'
+      });
+    });
+    injectSetupCompile();
 
     // commit time
     var $el = ctx.element[0]
