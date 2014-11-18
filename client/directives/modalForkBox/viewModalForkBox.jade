@@ -71,10 +71,10 @@
           span.validate-rules.invalid-name That's a pretty name, but it's taken.
 
         linked-instances(
-          ng-show = "!false"
-          type = "modal"
           instance-dependencies = "data.instance.dependencies"
           instances = "data.instances"
+          ng-if = "data.instance.dependencies"
+          type = "modal"
         )
 
     footer.modal-footer

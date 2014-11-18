@@ -20,23 +20,15 @@ function linkedInstances (
     replace: true,
     scope: {
       instanceDependencies: '=',
-      instances: '='
+      instances: '=' // For dupe checking
     },
     link: function ($scope, elem, attrs) {
-      if (!$scope.instanceDependencies) {
-        // The instance did not have any dependencies
-        return;
-      }
-      console.log('has deps', $scope.instanceDependencies);
-
       $scope.linkedBoxesChecked = true;
 
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }
         $scope.instanceDependencies.models.forEach(function (model) {
-          // console.log(model);
           model.fetch(function () {
-            console.log(model);
             $rootScope.safeApply();
           });
         });
