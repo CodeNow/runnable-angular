@@ -144,3 +144,72 @@
     animation: horizontal-spinner 1s infinite;
   }
 }
+
+//- new spinner
+// .spinner-backdrop {
+//   background: $purple;
+//   bottom: 0;
+//   left: 0;
+//   margin: auto;
+//   position: absolute;
+//   right: 0;
+//   top: 0;
+//   z-index: $z-spinner;
+
+//   // to not fill page
+//   &.center {
+//     background: rgba($purple-dark,.96);
+//     border-radius: 9px;
+//     height: 75px;
+//     width: 75px;
+//   }
+// }
+
+// .spinner {
+//   bottom: 0;
+//   display: inline-block;
+//   font-size: 50px;
+//   height: 1em;
+//   left: 0;
+//   margin: auto;
+//   position: absolute;
+//   right: 0;
+//   top: 0;
+//   width: 1em;
+// }
+
+// .spinner-blade {
+//   animation: spinner-fade 1s infinite linear;
+//   background: transparent;
+//   border-radius: .5em;
+//   bottom: 0;
+//   height: .2777em;
+//   left: .4629em;
+//   position: absolute;
+//   transform-origin: center -.2222em;
+//   width: .074em;
+
+//   $delay: 0s;
+//   $rotation: 0deg;
+
+//   @for $i from 1 through 12 {
+
+//     &:nth-child(#{$i}) {
+//       animation-delay: $delay;
+//       transform: rotate($rotation);
+
+//       $rotation: $rotation + 30;
+//       $delay: $delay + .083;
+//     }
+//   }
+
+// }
+
+// @keyframes spinner-fade {
+//   0% {
+//     background: rgba($purple-lighter,.75);
+//   }
+//   100% {
+//     background: rgba($purple-lighter,0);
+//   }
+// }

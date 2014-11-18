@@ -43,35 +43,38 @@ $z-hero-list: 1002;
 $z-hero-list-content: 1003;
 
 // views
-$z-views: 3000;
-$z-views-explorer: 3001;
-$z-views-toggle: 3002;
-$z-views-embed-video: 3003;
-$z-views-embed-guide: 3004;
-$z-views-embed-close: 3005;
-$z-views-active-panel: 3006;
+$z-views: 2000;
+$z-views-explorer: 2001;
+$z-views-toggle: 2002;
+$z-views-embed-video: 2003;
+$z-views-embed-guide: 2004;
+$z-views-embed-close: 2005;
+$z-views-active-panel: 2006;
 
 // boxes
-$z-box: 4000;
+$z-box: 3000;
 
 // sidebars
-$z-sidebar: 5000;
-$z-sidebar-header: 5001;
-$z-sidebar-sub-header: 5002;
-$z-sidebar-footer: 5003;
+$z-sidebar: 4000;
+$z-sidebar-header: 4001;
+$z-sidebar-sub-header: 4002;
+$z-sidebar-footer: 4003;
 
 // popovers
-$z-popover: 6000;
-$z-popover-title-filter: 6001;
-$z-popover-context-menu: 6002;
+$z-popover: 5000;
+$z-popover-title-filter: 5001;
+$z-popover-context-menu: 5002;
 
 // modals
-$z-modal-backdrop: 7000;
-$z-modal-sidebar: 7001;
-$z-modal: 7002;
+$z-modal-backdrop: 6000;
+$z-modal-sidebar: 6001;
+$z-modal: 6002;
 
 // alerts
-$z-alert: 8000;
+$z-alert: 7000;
 
 // tooltips
-$z-tooltip: 9000;
+$z-tooltip: 8000;
+
+// spinners
+$z-spinner: 9000;
