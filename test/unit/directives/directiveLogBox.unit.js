@@ -1,6 +1,4 @@
 var jQuery  = require('jquery');
-var sinon = require('sinon');
-var MockPrimus = require('../fixtures/MockPrimus');
 var pluck = require('101/pluck');
 var find = require('101/find');
 var matches = function (regexp) {
@@ -21,7 +19,7 @@ var $compile,
     $timeout,
     user;
 var $elScope;
-var mockPrimus = new MockPrimus();
+var mockPrimus = new fixtures.MockPrimus();
 
 describe('directiveLogBox'.bold.underline.blue, function() {
   var ctx;

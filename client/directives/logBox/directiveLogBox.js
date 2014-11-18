@@ -55,7 +55,7 @@ function logBox(
        * 1) User stops container      - Running === false
        * 2) Container stops naturally - Running === true
        */
-      $scope.$watch('instance.containers.models[0].attrs.inspect.State.Running', function (Running) {
+      $scope.$watch('instance.containers.models[0].running()', function () {
         var container = keypather.get($scope, 'instance.containers.models[0]');
         if (!container) { return; }
         if (container.attrs.dockerContainer) {
@@ -79,7 +79,7 @@ function logBox(
 
       // watch for container running changes
       $scope.$watch('boxStream.ended', function (boxStreamEnded) {
-        var containerRunning = keypather.get($scope, 'instance.containers.models[0].attrs.inspect.State.Running');
+        var containerRunning = keypather.get($scope, 'instance.containers.models[0].running()');
         if (boxStreamEnded === true && containerRunning === false) {
           // if container stopped running
           var container = $scope.instance.containers.models[0];
