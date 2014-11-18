@@ -1,113 +1,111 @@
-//- sidebar for accounts and boxes
-nav.sidebar.global-sidebar
-  p This is a live box for you to do box things. Log in to save any changes or use your own Github repositories on this box.
-  button.btn.green
+nav.sidebar.global-sidebar.demo-sidebar
+  header.row.account-header
+    a.logo.logo-alt(
+      href = "#"
+    )
+      svg
+        use(
+          xlink:href = "#runnable-logo"
+        )
+  p.demo-sidebar-hint This is a live box for you to do box things. Log in to save any changes or use your own Github repositories on this box.
+  button.btn.gray
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    | Sign In
+    | Sign In with Github
 
-  footer.row.global-footer
-    a.btn.btn-sm.btn-icon.white.btn-logout(
-      href= "#"
-      title = "Log Out"
+main.content
+  header.box-header
+
+    h1.box-info.load(
+      ng-show = "instance.attrs.name"
     )
-      svg.iconnables.icons-exit
-        use(
-          xlink:href = "#icons-exit"
+      .box-name demo-name
+        span.icons-status(
+          ng-class = "running"
+          tooltip = "Started just now"
+          tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
         )
-
-header.box-header
-
-  h1.box-info.load(
-    ng-show = "instance.attrs.name"
-  )
-    .box-name demo-name
-      span.icons-status(
-        ng-class = "running"
-        tooltip = "Started just now"
-        tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+      input.box-url(
+        readonly
+        select-all
+        value = "demo-name.demo.runnable.io"
       )
-    input.box-url(
-      readonly
-      select-all
-      value = "demo-name.demo.runnable.io"
-    )
-    //- sets layout on h1.box-name for .box-url
-    span.box-name-ghost demo-name.demo.runnable.io
+      //- sets layout on h1.box-name for .box-url
+      span.box-name-ghost demo-name.demo.runnable.io
 
-  .primary-actions
-    .btn-group
-      button.green.btn-save(
-        type = "button"
-      )
-        span.btn-text Save
-      button.green.btn-icon.btn-icon-sm.btn-save-options(
-        type = "button"
-      )
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-
-  .secondary-actions
-    button.white.btn-action(
-      title = "Edit Box"
-      type = "button"
-    )
-      svg.iconnables.icons-edit
-        use(
-          xlink:href = "#icons-edit"
+    .primary-actions
+      .btn-group
+        button.green.btn-save(
+          type = "button"
         )
-      | Edit
-    button.white.btn-action(
-      modal
-      modal-actions = "popoverGearMenu.actions.actionsModalFork"
-      modal-data = "popoverGearMenu.data.dataModalFork"
-      modal-template = "viewModalForkBox"
-      title = "Fork Box"
-      type = "button"
-    )
-      svg.iconnables.icons-fork
-        use(
-          xlink:href = "#icons-fork"
+          span.btn-text Save
+        button.green.btn-icon.btn-icon-sm.btn-save-options(
+          type = "button"
         )
-      | Fork
-    a.btn.white.btn-icon.btn-actions(
-      type = "button"
-    )
-      svg.iconnables.icons-gear
-        use(
-          xlink:href = "#icons-gear"
-        )
-
-//- sidebar with repositories and urls
-section.sidebar.box-sidebar.load
-
-  section.row.repo-list
-    h2.sub-header Repositories
-      //- add repo button
-      a.btn.btn-sm.white.sub-header-action.btn-add-repo(
-        type = "button"
-      )
-        svg.iconnables.icons-add
-          use(
-            xlink:href = "#icons-add"
-          )
-    ul.repository-group
-      li.repository-group-item
-        svg.iconnables.icons-git
-          use(xlink:href = "#icons-git")
-        h3.repository-title demo-org/demo-repo
-        .commit.load(
-          toggle-pop-over
-          toggle-pop-over-model = "popoverCommitSelect.data.show"
-        )
-          .commit-message remove ned stark
-          svg.iconnables.icons-commit
+          svg.iconnables.icons-arrow-down
             use(
-              xlink:href = "#icons-commit"
+              xlink:href = "#icons-arrow-down"
             )
-          span.commit-author grrm
-          time.commit-time 16 years ago
+
+    .secondary-actions
+      button.white.btn-action(
+        title = "Edit Box"
+        type = "button"
+      )
+        svg.iconnables.icons-edit
+          use(
+            xlink:href = "#icons-edit"
+          )
+        | Edit
+      button.white.btn-action(
+        modal
+        modal-actions = "popoverGearMenu.actions.actionsModalFork"
+        modal-data = "popoverGearMenu.data.dataModalFork"
+        modal-template = "viewModalForkBox"
+        title = "Fork Box"
+        type = "button"
+      )
+        svg.iconnables.icons-fork
+          use(
+            xlink:href = "#icons-fork"
+          )
+        | Fork
+      a.btn.white.btn-icon.btn-actions(
+        type = "button"
+      )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear"
+          )
+
+  //- sidebar with repositories and urls
+  section.sidebar.box-sidebar.load
+
+    section.row.repo-list
+      h2.sub-header Repositories
+        //- add repo button
+        a.btn.btn-sm.white.sub-header-action.btn-add-repo(
+          type = "button"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+      ul.repository-group
+        li.repository-group-item
+          svg.iconnables.icons-git
+            use(xlink:href = "#icons-git")
+          h3.repository-title demo-org/demo-repo
+          .commit.load(
+            toggle-pop-over
+            toggle-pop-over-model = "popoverCommitSelect.data.show"
+          )
+            .commit-message remove ned stark
+            svg.iconnables.icons-commit
+              use(
+                xlink:href = "#icons-commit"
+              )
+            span.commit-author grrm
+            time.commit-time 16 years ago

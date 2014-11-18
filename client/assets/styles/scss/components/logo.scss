@@ -5,8 +5,13 @@
   user-select: none;
   z-index: $z-show;
 
+  &.logo-alt {
+    color: $gray-light;
+  }
+
   svg {
     display: block;
+    fill: currentColor;
     height: 100%;
     margin: 0 auto;
     width: 240px;
@@ -15,8 +20,4 @@
       width: 200px;
     }
   }
-}
-
-#logo-icon {
-  fill: currentColor;
 }
