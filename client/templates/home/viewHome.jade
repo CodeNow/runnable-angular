@@ -2,22 +2,22 @@ main.hero(
   ng-class = "{'no-flex': !dataHome.data.hasPass}"
 )
   header.hero-header
-      a.logo(
-        href = "/"
-      )
-        svg
-          use(
-            xlink:href = "#runnable-logo"
-          )
-      a.btn.btn-hero(
-        ng-href = "{{ dataApp.data.loginURL }}"
-        ng-if = "dataHome.data.hasPass"
-      )
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        | Sign In
+    a.logo(
+      href = "/"
+    )
+      svg
+        use(
+          xlink:href = "#runnable-logo"
+        )
+    a.btn.btn-hero(
+      ng-href = "{{ dataApp.data.loginURL }}"
+      ng-if = "dataHome.data.hasPass"
+    )
+      svg.iconnables.icons-git
+        use(
+          xlink:href = "#icons-git"
+        )
+      | Sign In
 
   section.hero-heading
     h1.hero-text A Server for Every Commit

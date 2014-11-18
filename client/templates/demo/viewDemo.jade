@@ -1,0 +1,116 @@
+//- sidebar for accounts and boxes
+nav.sidebar.global-sidebar
+  p This is a live box for you to do box things on. If you want to save any changes or add a repo, you'll have to log in.
+  button.btn.green
+    svg.iconnables.icons-git
+      use(
+        xlink:href = "#icons-git"
+      )
+    | Sign In
+
+  footer.row.global-footer
+    a.btn.btn-sm.btn-icon.white.btn-logout(
+      ng-href = "{{ dataApp.data.logoutURL }}"
+      title = "Log Out"
+    )
+      svg.iconnables.icons-exit
+        use(
+          xlink:href = "#icons-exit"
+        )
+
+header.box-header
+
+  instance-box-name
+
+  instance-primary-actions(
+    saving = "dataInstance.data.saving"
+    open-items = "dataInstance.data.openItems"
+  )
+
+  instance-secondary-actions(
+    saving = "dataInstance.data.saving"
+  )
+
+//- sidebar with repositories and urls
+section.sidebar.box-sidebar.load
+
+  repo-list(
+    loading = "dataApp.data.loading"
+  )
+
+//- in / out control presence of header-bar
+section.views.with-add-tab(
+  ng-class = "dataInstance.data.sectionClasses"
+)
+  //- explorer
+  button.btn-sm.white.btn-icon.explorer-toggle(
+    ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
+    type = "button"
+  )
+    svg.iconnables.icons-folder-open
+      use(
+        xlink:href = "#icons-folder-open"
+      )
+
+  explorer(
+    open-items = "dataInstance.data.openItems"
+    toggle-theme = "dataInstance.data.toggleTheme"
+  )
+
+  //- tabs
+  tabs(
+    open-items= "dataInstance.data.openItems"
+  )
+
+  add-tab(
+    open-items = "dataInstance.data.openItems"
+  )
+
+  //- active panel
+  active-panel(
+    is-dark-theme = "dataInstance.data.toggleTheme",
+    current-model = "dataInstance.data.instance.attrs"
+    open-items = "dataInstance.data.openItems"
+  )
+
+  //- blank state
+  .blank-panel(
+    ng-if= "dataInstance.data.instance.containers.models[0] && \
+            dataInstance.data.openItems.models.length === 0"
+  )
+    ul.blank-panel-group
+      li.blank-panel-item(
+        ng-click = "dataInstance.data.openItems.addWebView()"
+      )
+        svg.iconnables.iconnables-lg.icons-web
+          use(xlink:href = "#icons-web")
+        | Web View
+      li.blank-panel-item(
+        ng-click = "dataInstance.data.openItems.addTerminal()"
+      )
+        svg.iconnables.iconnables-lg.icons-terminal
+          use(xlink:href = "#icons-terminal")
+        | Terminal
+      li.blank-panel-item(
+        ng-click = "dataInstance.data.openItems.addBuildStream()"
+      )
+        svg.iconnables.iconnables-lg.icons-logs
+          use(xlink:href = "#icons-logs")
+        | Build Log
+      li.blank-panel-item(
+        ng-click = "dataInstance.data.openItems.addLogs()"
+      )
+        svg.iconnables.iconnables-lg.icons-server
+          use(xlink:href = "#icons-server")
+        | Box Log
+      li.blank-panel-item(
+        ng-click = "dataInstance.data.openItems.addEnvVars()"
+      )
+        svg.iconnables.iconnables-lg.icons-env-vars
+          use(xlink:href = "#icons-env-vars")
+        | Env Vars
+
+  //- spinner
+  .horizontal-spinner(
+    ng-hide = "dataInstance.data.instance.containers.models[0]"
+  )
