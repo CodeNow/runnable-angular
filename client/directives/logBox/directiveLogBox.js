@@ -9,6 +9,7 @@ function logBox(
   primus,
   keypather,
   QueryAssist,
+  $log,
   $rootScope,
   $stateParams,
   dockerStreamCleanser,
@@ -20,7 +21,6 @@ function logBox(
     scope: {},
     templateUrl: 'viewLogBox',
     link: function ($scope, elem, attrs) {
-      var noop = function () {};
       /**
        * Creates instance of Terminal w/ default
        * settings and attaches to elem.
@@ -92,8 +92,7 @@ function logBox(
         fetchUser,
         fetchInstance
       ], function (err) {
-        // TODO: handle errors properly..
-        if (err) { return console.log(err); }
+        if (err) { return $log.error(err); }
       });
 
       /**

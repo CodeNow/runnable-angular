@@ -9,6 +9,7 @@ function logBuild(
   primus,
   keypather,
   QueryAssist,
+  $log,
   $rootScope,
   $stateParams,
   dockerStreamCleanser,
@@ -21,7 +22,6 @@ function logBuild(
     scope: {},
     templateUrl: 'viewLogBuild',
     link: function ($scope, elem, attrs) {
-      var noop = function () {};
       var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
       var DEFAULT_INVALID_BUILD_MESSAGE = '\x1b[31;1mPlease build again\x1b[0m';
       var COMPLETE_SUCCESS_MESSAGE = 'Build completed, starting instance...';
@@ -55,7 +55,7 @@ function logBuild(
         fetchUser,
         fetchInstance
       ], function (err) {
-        if (err) { return console.log(err); }
+        if (err) { return $log.error(err); }
         initializeBuildLogs($scope.build);
       });
 
@@ -110,7 +110,7 @@ function logBuild(
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
           build.fetch(function (err) {
-            if (err) throw err;
+            if (err) { return $log.error(err); }
             if (!build.succeeded()) {
               writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
             } else {
@@ -125,7 +125,7 @@ function logBuild(
         if (build.failed() || build.succeeded()) {
           var contextVersion = build.contextVersions.models[0];
           contextVersion.fetch(function (err, data) {
-            if (err) { return console.log(err); }
+            if (err) { return $log.error(err); }
             if (build.succeeded()) {
               writeToTerm(data.build.log);
             }
@@ -151,7 +151,7 @@ function logBuild(
             cb();
           })
           .resolve(function (err, user, cb) {
-            if (err) { return cb(err); }
+            if (err) { return $log.error(err); }
             $scope.user = user;
             $rootScope.safeApply();
             cb();
@@ -177,7 +177,7 @@ function logBuild(
             cb();
           })
           .resolve(function (err, instances, cb) {
-            if (err) { return cb(err); }
+            if (err) { return $log.error(err); }
             if (!instances.models.length) {
               return cb(new Error('Instance not found'));
             }
