@@ -1,4 +1,6 @@
-main.hero
+main.hero(
+  ng-class = "{'no-flex': !dataHome.data.hasPass}"
+)
   header.hero-header
       a.logo(
         href = "/"
@@ -7,25 +9,28 @@ main.hero
           use(
             xlink:href = "#runnable-logo"
           )
-        //- ng-if = "dataHome.data.hasPass"
       a.btn.btn-hero(
         ng-href = "{{ dataApp.data.loginURL }}"
+        ng-if = "dataHome.data.hasPass"
       )
         svg.iconnables.icons-git
           use(
             xlink:href = "#icons-git"
           )
         | Sign In
-      //- a.btn.btn-hero(
-      //-   href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
-      //-   ng-if = "!dataHome.data.hasPass"
-      //- ) Request an Invite
 
   section.hero-heading
     h1.hero-text A Server for Every Commit
     p.hero-text-sub Run every version of your code as it's developed.
 
-  section.template-list
+  a.btn.btn-hero(
+    href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+    ng-if = "!dataHome.data.hasPass"
+  ) Request an Invite
+
+  section.template-list(
+    ng-if = "dataHome.data.hasPass"
+  )
     a.template-list-item(
       href = "#"
     )

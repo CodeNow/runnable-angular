@@ -227,3 +227,29 @@
     margin-left: 18px;
   }
 }
+
+// .no-flex (if no password)
+.no-flex {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  // reset
+  .btn-hero,
+  .logo {
+    float: none;
+  }
+
+  // header
+  header.hero-header {
+    margin-bottom: 30px;
+    margin-top: -10vh;
+  }
+
+  .btn-hero {
+    animation: fade-in .5s .15s ease-in forwards;
+    margin: 30px 0 0;
+    opacity: 0;
+  }
+}
