@@ -1,5 +1,6 @@
 var jQuery  = require('jquery');
 var sinon = require('sinon');
+var MockPrimus = require('../fixtures/MockPrimus');
 var pluck = require('101/pluck');
 var find = require('101/find');
 var matches = function (regexp) {
@@ -8,43 +9,6 @@ var matches = function (regexp) {
   };
 };
 
-// Mock Classes
-function MockTerm () {
-  this.reset();
-}
-MockTerm.prototype.reset = function () {
-  this.output = '';
-};
-MockTerm.prototype.writeln = function (str) {
-  this.output += str + '\r\n';
-};
-MockTerm.prototype.write = function (str) {
-  this.output += str;
-};
-var ReadableStream = require('stream').Readable;
-function MockBoxLogStream () {
-  ReadableStream.apply(this, arguments);
-}
-require('util').inherits(MockBoxLogStream, ReadableStream);
-MockBoxLogStream.prototype._read = function () {
-  var self = this;
-  setTimeout(function () {
-    var str = 'box logs\r\n';
-    var buf = new Buffer(str);
-    self.push(buf);
-  }, 50);
-};
-var EventEmitter = require('events').EventEmitter;
-function MockPrimus () {
-  EventEmitter.apply(this, arguments);
-}
-require('util').inherits(MockPrimus, EventEmitter);
-MockPrimus.prototype.createLogStream = function () {
-  return new MockBoxLogStream();
-};
-MockPrimus.prototype.off = function () {
-  this.removeListener.apply(this, arguments);
-};
 // injector-provided
 var $compile,
     $filter,
@@ -57,7 +21,6 @@ var $compile,
     $timeout,
     user;
 var $elScope;
-var mockTerm;
 var mockPrimus = new MockPrimus();
 
 describe('directiveLogBox'.bold.underline.blue, function() {
@@ -78,11 +41,6 @@ describe('directiveLogBox'.bold.underline.blue, function() {
       });
 
       $provide.value('primus', mockPrimus);
-
-      // $provide.value('helperSetupTerminal', function () {
-      //   mockTerm = new MockTerm();
-      //   return mockTerm;
-      // });
     });
     angular.mock.inject(function (
       _$compile_,
@@ -168,6 +126,7 @@ describe('directiveLogBox'.bold.underline.blue, function() {
       expect(endSpy.called).to.be.ok;
     });
   });
+
   describe('primus goes offline', function() {
     it('should display disconnect message when primus goes offline', function() {
       mockPrimus.emit('offline');
