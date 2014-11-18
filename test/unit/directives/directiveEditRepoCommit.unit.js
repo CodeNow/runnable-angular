@@ -112,7 +112,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     $httpBackend.flush();
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
-  };
+  }
 
   beforeEach(angular.mock.module('app'));
 
@@ -127,7 +127,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     $scope.$digest();
     $httpBackend.flush();
     $elScope = ctx.element.isolateScope();
-  };
+  });
 
   describe('has expected scope properties'.blue, function () {
 
