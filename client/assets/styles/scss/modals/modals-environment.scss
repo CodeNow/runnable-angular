@@ -4,6 +4,8 @@
   top: 0;
 
   .modal-body {
+    border-bottom: 1px solid rgba($black,.1);
+    border-top: 1px solid rgba($black,.1);
     padding-bottom: 0;
   }
 
