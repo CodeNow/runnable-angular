@@ -3,8 +3,8 @@ require('app')
 
 function linkedInstances (
   $rootScope,
-  async,
-  user
+  getInstanceClasses,
+  getInstanceAltTitle
 ) {
   return {
     restrict: 'E',
@@ -20,10 +20,15 @@ function linkedInstances (
     replace: true,
     scope: {
       instanceDependencies: '=',
+      isActive: '=',
       instances: '=' // For dupe checking
     },
     link: function ($scope, elem, attrs) {
+      // Since we should allow isActive to be null, we explicitly check against false
+      if ($scope.isActive === false) { return; }
       $scope.linkedBoxesChecked = true;
+      $scope.getInstanceAltTitle = getInstanceAltTitle;
+      $scope.getInstanceClasses = getInstanceClasses;
 
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }

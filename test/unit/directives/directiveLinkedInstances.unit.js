@@ -106,4 +106,20 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     expect(errCompile).to.throw('linkedInstances requires a type of modal or sidebar');
   });
 
+  it('should not fetch dependencies if ', function() {
+    injectSetupCompile();
+    var template = directiveTemplate('linked-instances', {
+      'instance-dependencies': 'scp.deps',
+      'instances': 'instances',
+      'type': 'modal',
+      'is-active': false
+    });
+
+    var element = $compile(template)($scope);
+    $scope.$digest();
+    $elScope = element.isolateScope();
+    // If this is false, we exited at the right time
+    expect($elScope.linkedBoxesChecked).to.equal(undefined);
+  });
+
 });
