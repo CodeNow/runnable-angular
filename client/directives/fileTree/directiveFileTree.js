@@ -124,7 +124,7 @@ function fileTree(
             $scope.rootDir = container.rootDir;
           }
           else {
-            instanceDeployedPoller = createInstanceDeployedPoller.start();
+            instanceDeployedPoller = createInstanceDeployedPoller($scope.instance).start();
             var clearWatch =
               $scope.$watch('instance.containers.models[0].rootDir', function (rootDir) {
                 clearWatch();
