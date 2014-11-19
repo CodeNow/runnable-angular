@@ -1,6 +1,7 @@
 // div.modal-backdrop
 .modal-backdrop {
   align-items: center;
+  animation: fade-in .3s ease-in forwards;
   background: rgba($black,.3);
   display: flex;
   flex-direction: column;
@@ -11,34 +12,24 @@
   pointer-events: none;
   position: fixed;
   top: 0;
-  transition: opacity .3s ease-in;
   width: 100vw;
   z-index: $z-modal;
 
   &.in {
-    opacity: 1;
     pointer-events: auto;
-
-    .modal-dialog {
-      opacity: 1;
-      transform: scale3d(1,1,1);
-      transition: opacity .2s ease-in, transform .2s ease-in;
-    }
   }
 }
 
 // div.modal-dialog
 .modal-dialog {
+  animation: modal-in .2s ease-in forwards;
   background: $white;
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
   color: $gray-dark;
   margin: auto;
   min-width: 420px;
-  opacity: 0;
   position: relative;
-  transform: scale3d(0,0,0);
-  transition: opacity .2s ease-in, transform 0 .2s ease-in;
 
   @include media(xs) {
     min-width: 360px;
