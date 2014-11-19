@@ -11,6 +11,7 @@ function fileTree(
   $rootScope,
   $state,
   $stateParams,
+  createInstanceDeployedPoller,
   user
 ) {
   return {
