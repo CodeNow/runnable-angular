@@ -15,7 +15,7 @@ function ControllerInstance(
   exists,
   user
 ) {
-
+  var containerWatch;
   var dataInstance = $scope.dataInstance = {
     data: {},
     actions: {}
@@ -116,6 +116,12 @@ function ControllerInstance(
   //     - show box logs (has focus)
   function displayTabsForContainerState (containerRunning) {
     data.openItems = new OpenItems();
+    var container = keypather.get(dataInstance, 'data.instance.containers.models[0]');
+    if (!container) {
+      // minor nit fix: build logs flash before box logs if container is not running
+      containerWatch = $scope.$watch('dataInstance.data.instance.containers.models[0]', watchForContainerBeforeDisplayTabs);
+      return;
+    }
     if (!exists(containerRunning)) {
       buildLogsOnly();
     }
@@ -125,6 +131,12 @@ function ControllerInstance(
     else if (containerRunning === true) {
       restoreOrOpenDefaultTabs();
     }
+  }
+
+  function watchForContainerBeforeDisplayTabs (container) {
+    containerWatch();
+    if (!container) { return; }
+    displayTabsForContainerState(keypather.get(container, 'running()'));
   }
 
   function buildLogsOnly () {
