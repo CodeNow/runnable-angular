@@ -3,7 +3,7 @@ var host = require('../../../client/config/json/api.json').host;
 var async,
     $controller,
     determineActiveAccount,
-    helperFetchInstanceDeployStatus,
+    createInstanceDeployedPoller,
     $httpBackend,
     keypather,
     OpenItems,
@@ -24,7 +24,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
       _async_,
       _$controller_,
       _determineActiveAccount_,
-      _helperFetchInstanceDeployStatus_,
+      _createInstanceDeployedPoller_,
       _$httpBackend_,
       _keypather_,
       _OpenItems_,
@@ -37,7 +37,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
       async = _async_;
       $controller = _$controller_;
       determineActiveAccount = _determineActiveAccount_;
-      helperFetchInstanceDeployStatus = _helperFetchInstanceDeployStatus_;
+      createInstanceDeployedPoller = _createInstanceDeployedPoller_;
       $httpBackend = _$httpBackend_;
       keypather = _keypather_;
       OpenItems = _OpenItems_;

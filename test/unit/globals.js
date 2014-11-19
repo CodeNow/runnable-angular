@@ -16,3 +16,6 @@ window.mocks = require('./apiMocks'); // JSON mocks for API responses
 window.directiveTemplate = require('./fixtures/directiveTemplate');
 window.modelStore = require('runnable/lib/stores/model-store');
 window.collectionStore = require('runnable/lib/stores/collection-store');
+window.fixtures = {
+  MockPrimus: require('./fixtures/MockPrimus')
+};
