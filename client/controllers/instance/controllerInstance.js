@@ -115,6 +115,12 @@ function ControllerInstance(
   //     - show terminal
   //     - show box logs (has focus)
   function displayTabsForContainerState (containerRunning) {
+    var container = keypather.get(dataInstance, 'data.instance.containers.models[0]');
+    if (!container) {
+      // minor nit fix: build logs flash before box logs if container is not running
+      $scope.watch(dataInstance.data.instance.containers.models[0], watchForContainerBeforeDisplayTabs);
+      return;
+    }
     data.openItems = new OpenItems();
     if (!exists(containerRunning)) {
       buildLogsOnly();
@@ -125,6 +131,11 @@ function ControllerInstance(
     else if (containerRunning === true) {
       restoreOrOpenDefaultTabs();
     }
+  }
+
+  function watchForContainerBeforeDisplayTabs (container) {
+    if (!container) { return; }
+    displayTabsForContainerState(keypather.get(container, 'running()'));
   }
 
   function buildLogsOnly () {
