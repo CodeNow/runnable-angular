@@ -11,6 +11,7 @@ function fileTree(
   $rootScope,
   $state,
   $stateParams,
+  createInstanceDeployedPoller,
   user
 ) {
   return {
@@ -21,7 +22,7 @@ function fileTree(
       openItems: '='
     },
     link: function ($scope, element, attrs) {
-
+      var instanceDeployedPoller;
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
@@ -36,6 +37,12 @@ function fileTree(
         $scope.readOnly = false;
         break;
       }
+
+      $scope.$on('$destroy', function () {
+        if (instanceDeployedPoller) {
+          instanceDeployedPoller.clear();
+        }
+      });
 
       function fetchUser(cb) {
         new QueryAssist(user, cb)
@@ -105,20 +112,34 @@ function fileTree(
       ], function (err) {
         if (err) throw err;
         if ($stateParams.buildId) {
+          // instance edit page
+          // build context version will always exist
           $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
-        } else {
-          $scope.rootDir = $scope.instance.containers.models[0].rootDir;
+          initRootDirState($scope.rootDir);
+        }
+        else {
+          // instance page
+          var container = keypather.get($scope.instance, 'containers.models[0]');
+          if (container) {
+            $scope.rootDir = container.rootDir;
+          }
+          else {
+            instanceDeployedPoller = createInstanceDeployedPoller.start();
+            var clearWatch =
+              $scope.$watch('instance.containers.models[0].rootDir', function (rootDir) {
+                clearWatch();
+                $scope.rootDir = rootDir;
+                initRootDirState($scope.rootDir);
+              });
+          }
         }
         $rootScope.safeApply();
       });
 
-      $scope.$watch('rootDir', function (newVal, oldVal) {
-        if (newVal) {
-          var rootDir = $scope.rootDir;
-          rootDir.state = rootDir.state || {};
-          rootDir.state.open = true;
-        }
-      });
+      function initRootDirState (rootDir) {
+        rootDir.state = rootDir.state || {};
+        rootDir.state.open = true;
+      }
     }
   };
 }
