@@ -6,12 +6,14 @@
   )
     header.modal-header
       h1.modal-heading Sign In to Fork
-      //- h1.modal-heading Sign In to Add
+      //- h1.modal-heading Sign In to Add Repos
     section.modal-body
       p You have to sign in to fork this box.
-      //- p You have to sign in to Github so we can add your repositories to this box
+      //- p You have to sign in to Github to your repositories to this box
 
     footer.modal-footer
+      //- if forking: signing in should fork and add the current box to the user's account
+      //- if adding repos: signing in should add the current box to the user's account
       a.btn.green
         svg.iconnables.icons-git
           use(
