@@ -125,6 +125,55 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     expect(result).to.deep.equal([]);
   });
 
+  describe('popover actions', function() {
+    it('should save popover values', function() {
+      var fakeInstance = {
+        extend: sinon.spy(),
+        state: {}
+      };
+      var fakeEvent = {
+        preventDefault: sinon.spy()
+      };
+      var fakeEnvToStrings = sinon.stub($elScope, 'envToStrings').returns(['a=b', 'c=d', 'e=f']);
+
+      $elScope.envPopover.actions.saveEnv(fakeInstance, fakeEvent);
+
+      expect(fakeEvent.preventDefault.called).to.be.true;
+      expect(fakeEnvToStrings.called).to.be.true;
+      expect(fakeInstance.extend.called).to.be.true;
+      expect(fakeInstance.extend.calledWith({
+        env: ['a=b', 'c=d', 'e=f']
+      })).to.be.true;
+      expect(fakeInstance.state.envShow).to.be.false;
+    });
+
+    it('should reset popover values on cancel', function() {
+      var fakeInstance = {
+        state: {},
+        attrs: {}
+      };
+      var fakeEvent = {
+        preventDefault: sinon.spy()
+      };
+      var fakeEnvToObjects = sinon.stub($elScope, 'envToObjects').returns([
+        {key: 'a', value: 'b'},
+        {key: 'c', value: 'd'},
+        {key: 'e', value: 'f'}
+      ]);
+
+      $elScope.envPopover.actions.cancelEnv(fakeInstance, fakeEvent);
+
+      expect(fakeEvent.preventDefault.called).to.be.true;
+      expect(fakeEnvToObjects.called).to.be.true;
+      expect(fakeInstance.state.envVars).to.deep.equal([
+        {key: 'a', value: 'b'},
+        {key: 'c', value: 'd'},
+        {key: 'e', value: 'f'}
+      ]);
+      expect(fakeInstance.state.envShow).to.be.false;
+    });
+  });
+
   it('should throw an error if we forget the type attribute', function() {
     var template = directiveTemplate('linked-instances', {});
 

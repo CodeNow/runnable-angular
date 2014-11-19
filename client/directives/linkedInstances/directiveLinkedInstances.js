@@ -63,7 +63,6 @@ function linkedInstances (
               env: $scope.envToStrings(instance.state.envVars)
             });
             instance.state.envShow = false;
-            console.log(instance);
           },
           cancelEnv: function (instance, event) {
             event.preventDefault();
