@@ -51,3 +51,14 @@
 .invalid-name .invalid-name {
   opacity: 1;
 }
+
+// .ace-validation
+.ace-validation {
+  background: $orange;
+  border-radius: 50%;
+  height: 10px;
+  left: 4px;
+  position: absolute;
+  width: 10px;
+  z-index: $z-tooltip;
+}

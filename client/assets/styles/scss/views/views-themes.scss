@@ -19,6 +19,7 @@
 .ace-tm .pre {
   background-color: $white;
   color: $gray-darker;
+  position: relative;
 
   &.readonly {
     background-color: $gray-light;
