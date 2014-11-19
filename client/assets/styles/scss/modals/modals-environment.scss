@@ -17,4 +17,24 @@
     margin-bottom: 0;
     padding-bottom: 0;
   }
+
+  // ace editor
+  .ace_gutter-layer {
+
+    &.ace-gutter-1 {
+      width: 42px !important;
+    }
+
+    &.ace-gutter-2 {
+      width: 49px !important;
+    }
+
+    &.ace-gutter-3 {
+      width: 59px !important;
+    }
+
+    &.ace-gutter-4 {
+      width: 68px !important;
+    }
+  }
 }
