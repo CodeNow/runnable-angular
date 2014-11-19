@@ -7,6 +7,7 @@ function instanceSecondaryActions(
   async,
   helperInstanceActionsModal,
   QueryAssist,
+  $log,
   $rootScope,
   $state,
   $stateParams,
@@ -40,7 +41,7 @@ function instanceSecondaryActions(
 
       $scope.goToEdit = function () {
         var forkedBuild = $scope.instance.build.deepCopy(function (err) {
-          if (err) throw err;
+          if (err) { return $log.error(err); }
           $state.go('instance.instanceEdit', {
             userName: $stateParams.userName,
             instanceName: $stateParams.instanceName,
@@ -53,13 +54,9 @@ function instanceSecondaryActions(
         $scope.loading = true;
         $scope.popoverGearMenu.data.show = false;
         $scope.instance[action](function (err) {
-          if (err) throw err;
-          $scope.instance.fetch(function (err) {
-            if (err) throw err;
-            $scope.loading = false;
-            $rootScope.safeApply();
-          });
+          if (err) { return $log.error(err); }
         });
+        $rootScope.safeApply();
       }
 
       function fetchUser(cb) {
@@ -92,7 +89,7 @@ function instanceSecondaryActions(
             cb();
           })
           .resolve(function (err, build, cb) {
-            if (err) throw err;
+            if (err) { return $log.error(err); }
             cb();
           })
           .go();
@@ -116,7 +113,7 @@ function instanceSecondaryActions(
             cb();
           })
           .resolve(function (err, projects, cb) {
-            if (err) throw err;
+            if (err) { return $log.error(err); }
           })
           .go();
       }

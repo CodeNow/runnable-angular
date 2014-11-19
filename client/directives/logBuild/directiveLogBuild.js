@@ -9,9 +9,11 @@ function logBuild(
   primus,
   keypather,
   QueryAssist,
+  $log,
   $rootScope,
   $stateParams,
   dockerStreamCleanser,
+  createInstanceDeployedPoller,
   user
 ) {
   return {
@@ -20,14 +22,13 @@ function logBuild(
     scope: {},
     templateUrl: 'viewLogBuild',
     link: function ($scope, elem, attrs) {
-
       var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
       var DEFAULT_INVALID_BUILD_MESSAGE = '\x1b[31;1mPlease build again\x1b[0m';
       var COMPLETE_SUCCESS_MESSAGE = 'Build completed, starting instance...';
-      var buildStream;
+      var instanceDeployedPoller;
 
       /**
-       * Creates instance of Terminal w/ default 
+       * Creates instance of Terminal w/ default
        * settings and attaches to elem.
        * - Unbinds events on $destroy
        */
@@ -41,15 +42,20 @@ function logBuild(
       });
 
       $scope.$on('$destroy', function () {
-        if (!buildStream) return;
-        buildStream.removeAllListeners();
-        buildStream.end();
+        if (!$scope.buildStream) return;
+        $scope.buildStream.removeAllListeners();
+        $scope.buildStream.end();
+        // stop polling for container success
+        if (instanceDeployedPoller) {
+          instanceDeployedPoller.clear();
+        }
       });
 
       async.series([
         fetchUser,
         fetchInstance
-      ], function () {
+      ], function (err) {
+        if (err) { return $log.error(err); }
         initializeBuildLogs($scope.build);
       });
 
@@ -77,16 +83,16 @@ function logBuild(
       }
 
       function subscribeToSubstream(build) {
-        if (buildStream) {
-          buildStream.removeAllListeners('data');
+        if ($scope.buildStream) {
+          $scope.buildStream.removeAllListeners('data');
           terminal.reset();
         }
         //TODO spinner
-        buildStream = primus.createBuildStream(build);
-        // binds to buildStream.on('data')
+        $scope.buildStream = primus.createBuildStream(build);
+        // binds to $scope.buildStream.on('data')
         // important to unbind 'data' listener
         // before reinvoking this
-        dockerStreamCleanser.cleanStreams(buildStream,
+        dockerStreamCleanser.cleanStreams($scope.buildStream,
                                           terminal,
                                           'hex',
                                           true);
@@ -98,27 +104,28 @@ function logBuild(
         bind(primus, 'reconnect', function () {
           subscribeToSubstream(build);
         });
-        bind(buildStream, 'end', function () {
+        bind($scope.buildStream, 'end', function () {
           terminal.hideCursor = true;
           terminal.cursorBlink = false;
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
           build.fetch(function (err) {
-            if (err) throw err;
+            if (err) { return $log.error(err); }
             if (!build.succeeded()) {
               writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
             } else {
               writeToTerm(COMPLETE_SUCCESS_MESSAGE);
+              instanceDeployedPoller = createInstanceDeployedPoller($scope.instance).start();
             }
           });
         });
       }
 
       function initializeBuildLogs(build) {
-        var contextVersion = build.contextVersions.models[0];
         if (build.failed() || build.succeeded()) {
+          var contextVersion = build.contextVersions.models[0];
           contextVersion.fetch(function (err, data) {
-            if (err) throw err;
+            if (err) { return $log.error(err); }
             if (build.succeeded()) {
               writeToTerm(data.build.log);
             }
@@ -143,7 +150,12 @@ function logBuild(
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, user, cb) {})
+          .resolve(function (err, user, cb) {
+            if (err) { return $log.error(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          })
           .go();
       }
 
@@ -162,14 +174,21 @@ function logBuild(
             $scope.instance = instance;
             $scope.build = instance.build;
             $rootScope.safeApply();
+            cb();
           })
           .resolve(function (err, instances, cb) {
+            if (err) { return $log.error(err); }
+            if (!instances.models.length) {
+              return cb(new Error('Instance not found'));
+            }
             var instance = instances.models[0];
             if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
               return cb(new Error('instance has no containers'));
             }
+            $scope.instance = instance;
+            $scope.build = instance.build;
             $rootScope.safeApply();
-            cb(err);
+            cb();
           })
           .go();
       }

@@ -34,8 +34,8 @@ function helperSetupTerminal(
       var tBox = termLineEl.getBoundingClientRect();
       var charWidth = tBox.width / termLineEl.textContent.length;
       var x = Math.floor($termElem.width() / charWidth);
-      if (x < 80) {
-        x = 80;
+      if (x < configTerminalOpts.cols) {
+        x = configTerminalOpts.cols;
       }
       var y = Math.floor($termElem.height() / CHAR_HEIGHT);
       if (!(oldX === x && oldY === y)) {
