@@ -33,7 +33,7 @@ function createInstanceDeployedPoller (
   };
   InstanceDeployedPoller.prototype.clear = function () {
     if (this.interval && this.instance) {
-      $interval.clear(this.interval);
+      $interval.cancel(this.interval);
       this.instance.fetch(function () {
         $rootScope.safeApply();
       });
