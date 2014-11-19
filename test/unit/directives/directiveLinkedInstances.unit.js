@@ -45,7 +45,7 @@ function makeDeps () {
 describe('directiveLinkedInstances'.bold.underline.blue, function() {
   var ctx;
 
-  function injectSetupCompile (deps) {
+  function injectSetupCompile () {
     angular.mock.module('app');
     angular.mock.inject(function (
       _$compile_,
@@ -69,9 +69,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     });
 
     ctx = {};
-    $scope.scp = {
-      deps: deps
-    };
+    $scope.scp = {};
     $scope.instances = {};
     ctx.template = directiveTemplate('linked-instances', {
       'instance-dependencies': 'scp.deps',
@@ -83,8 +81,9 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     $elScope = ctx.element.isolateScope();
   }
 
+  beforeEach(injectSetupCompile);
+
   it('should set up properly with instances', function() {
-    injectSetupCompile();
     expect($elScope.linkedBoxesChecked).to.be.true;
 
     $scope.scp.deps = makeDeps();
@@ -95,8 +94,38 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     expect(ctx.element[0].querySelector('input.input').value).to.equal('hello-copy');
   });
 
+  it('properly splits up dependencies', function () {
+    // console.log($elScope.envPopover.actions);
+    var result = $elScope.envToObjects(['a=b', 'c=d', 'e=f']);
+    expect(result).to.be.an.Array;
+    expect(result).to.deep.equal([
+      {key: 'a', value: 'b'},
+      {key: 'c', value: 'd'},
+      {key: 'e', value: 'f'}
+    ]);
+  });
+
+  it('properly sews dependencies back together', function() {
+    var result = $elScope.envPopover.actions.saveDeps([
+      {key: 'a', value: 'b'},
+      {key: 'c', value: 'd'},
+      {key: 'e', value: 'f'}
+    ]);
+
+    expect(result).to.be.an.Array;
+    expect(result).to.deep.equal(['a=b', 'c=d', 'e=f']);
+  });
+
+  it('returns an empty array when provided with a falsy value', function() {
+    var result = $elScope.envToObjects();
+    expect(result).to.be.an.Array;
+    expect(result).to.deep.equal([]);
+    var result = $elScope.envPopover.actions.saveDeps();
+    expect(result).to.be.an.Array;
+    expect(result).to.deep.equal([]);
+  });
+
   it('should throw an error if we forget the type attribute', function() {
-    injectSetupCompile();
     var template = directiveTemplate('linked-instances', {});
 
     function errCompile () {
