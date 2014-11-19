@@ -80,3 +80,25 @@ html(
       ng-click = "dataApp.documentClickEventHandler($scope, this)"
       ui-view
     )
+
+    .modal-backdrop(
+      ng-class = "{in: in}"
+    )
+      .modal-dialog.modal-sign-in(
+        ng-click = "$event.stopPropagation()"
+      )
+        header.modal-header
+          h1.modal-heading Sign In to Fork
+          //- h1.modal-heading Sign In to Add
+        section.modal-body
+          p You have to sign in to fork this box.
+          //- p You have to sign in to Github so we can add your repositories to this box
+
+        footer.modal-footer
+          a.btn.green
+            svg.iconnables.icons-git
+              use(
+                xlink:href = "#icons-git"
+              )
+            | Sign In with Github
+          a.link I'm not ready yet.

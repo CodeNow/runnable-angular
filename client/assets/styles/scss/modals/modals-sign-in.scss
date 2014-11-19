@@ -1,0 +1,42 @@
+.modal-sign-in {
+  padding: 45px 30px;
+
+  // reset
+  .modal-heading,
+  .modal-body,
+  .btn,
+  .link {
+    float: none;
+    text-align: center;
+  }
+
+  .btn.btn {
+    margin: 0 auto;
+  }
+
+  .modal-header {
+    height: auto;
+  }
+
+  .modal-heading {
+    line-height: 1.4;
+  }
+
+  // stacked footer
+  .modal-footer {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding-top: 15px;
+  }
+
+  .link {
+    color: $gray;
+    font-size: 14px;
+    margin: 6px 0 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
