@@ -106,7 +106,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
   });
 
   it('properly sews dependencies back together', function() {
-    var result = $elScope.envPopover.actions.saveDeps([
+    var result = $elScope.envToStrings([
       {key: 'a', value: 'b'},
       {key: 'c', value: 'd'},
       {key: 'e', value: 'f'}
@@ -120,7 +120,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     var result = $elScope.envToObjects();
     expect(result).to.be.an.Array;
     expect(result).to.deep.equal([]);
-    var result = $elScope.envPopover.actions.saveDeps();
+    var result = $elScope.envToStrings();
     expect(result).to.be.an.Array;
     expect(result).to.deep.equal([]);
   });

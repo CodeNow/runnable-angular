@@ -35,6 +35,14 @@ function linkedInstances (
         }, []);
       };
 
+      $scope.envToStrings = function (envArr) {
+        if (!envArr) { return []; }
+        return envArr.reduce(function (arr, obj) {
+          arr.push(obj.key + '=' + obj.value);
+          return arr;
+        }, []);
+      };
+
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }
         $scope.instanceDependencies.models.forEach(function (model) {
@@ -48,15 +56,21 @@ function linkedInstances (
       });
 
       $scope.envPopover = {
-        actions: {}
-      };
-
-      $scope.envPopover.actions.saveDeps = function (depsArr) {
-        if (!depsArr) { return []; }
-        return depsArr.reduce(function (arr, obj) {
-          arr.push(obj.key + '=' + obj.value);
-          return arr;
-        }, []);
+        actions: {
+          saveEnv: function (instance, event) {
+            event.preventDefault();
+            instance.extend({
+              env: $scope.envToStrings(instance.state.envVars)
+            });
+            instance.state.envShow = false;
+            console.log(instance);
+          },
+          cancelEnv: function (instance, event) {
+            event.preventDefault();
+            instance.state.envVars = $scope.envToObjects(instance.attrs.env);
+            instance.state.envShow = false;
+          }
+        }
       };
 
     }

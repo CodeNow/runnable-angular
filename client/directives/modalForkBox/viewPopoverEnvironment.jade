@@ -1,5 +1,6 @@
+//- data is an instance
 .popover.bottom.popover-environment(
-  ng-class = "{in: data.envShow}"
+  ng-class = "{in: data.state.envShow}"
 )
   .arrow
   h3.popover-title
@@ -7,7 +8,7 @@
   .popover-content
     label.input-group(
       ng-class = "{focus: data.state.showFocus}"
-      ng-repeat = "env in data.envVars"
+      ng-repeat = "env in data.state.envVars"
     )
       span.input-label {{ env.key }}
       input.input(
@@ -19,8 +20,8 @@
   footer.popover-footer
     //- TODO
     button.btn.btn-sm.green(
-      ng-click = "/* actions.saveDeps(data.envVars) */"
+      ng-click = "actions.saveEnv(data, $event)"
     ) Save
     button.btn.btn-sm.white(
-      ng-click = "data.envShow = false"
+      ng-click = "actions.cancelEnv(data, $event)"
     ) Cancel
