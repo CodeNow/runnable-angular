@@ -54,11 +54,34 @@
 
 // .ace-validation-error
 .ace-validation-error {
-  background: $orange;
-  border-radius: 50%;
-  height: 10px;
-  left: 4px;
-  position: absolute;
-  width: 10px;
-  z-index: $z-tooltip;
+  position: relative;
+
+  &:hover::before {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+
+  &::after {
+    background: $orange;
+    border-radius: 50%;
+    content: '';
+    height: 10px;
+    left: 4px;
+    position: absolute;
+    top: 4px;
+    width: 10px;
+    z-index: $z-tooltip;
+  }
+
+  &::before {
+    @extend .tooltip-text;
+    content: 'Invalid Env';
+    display: block;
+    left: -120px;
+    opacity: 0;
+    position: absolute;
+    top: -3px;
+    transform: translate3d(3px,0,0);
+    transition: all .2s ease-in;
+  }
 }
