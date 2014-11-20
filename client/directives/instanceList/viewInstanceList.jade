@@ -37,29 +37,18 @@ section.row.boxes
       span.icons-status(
         title = "{{ getInstanceAltTitle(instance) }}"
       )
-
+      linked-instances(
+        is-active = "getInstanceClasses(instance).expanded"
+        instance-dependencies = "instance.dependencies"
+        instances = 'instances'
+        type = "sidebar"
+      )
     //- *
     //- 0.3 linked boxes
     //- *
     //- if .active
-    //- li.box-group-item.white.expanded.load.active(
-    //-   ng-click = "dataInstanceLayout.actions.stateToInstance(instance)"
-    //-   ng-show = "instances.models.length"
-    //-   tooltip = "{{ instance.attrs.name }}"
-    //-   tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
-    //- )
-    //-   a.box-item-name Web-YKumar
-    //-   span.icons-status.running(
-    //-     title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
-    //-   )
-    //-   a.box-item-cluster Api-Prana
-    //-     span.icons-status.running(
-    //-       title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
-    //-     )
-    //-   a.box-item-cluster Mongo-PRana
-    //-     span.icons-status.running(
-    //-       title = "{{ dataInstanceLayout.actions.getInstanceAltTitle(instance) }}"
-    //-     )
+
+
 
     //- *
     //- END LINKED NAV LAYOUT

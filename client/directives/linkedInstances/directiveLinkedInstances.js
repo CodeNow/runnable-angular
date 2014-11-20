@@ -2,7 +2,9 @@ require('app')
   .directive('linkedInstances', linkedInstances);
 
 function linkedInstances (
-  $rootScope
+  $rootScope,
+  getInstanceClasses,
+  getInstanceAltTitle
 ) {
   return {
     restrict: 'E',
@@ -19,9 +21,14 @@ function linkedInstances (
     scope: {
       forkDependencies: '=',
       instanceDependencies: '=',
+      isActive: '=',
       instances: '=' // For dupe checking
     },
     link: function ($scope, elem, attrs) {
+      // Since we should allow isActive to be null, we explicitly check against false
+      if ($scope.isActive === false) { return; }
+      $scope.getInstanceAltTitle = getInstanceAltTitle;
+      $scope.getInstanceClasses = getInstanceClasses;
       $scope.forkDependencies = true;
 
       $scope.$watch('instanceDependencies', function (n) {

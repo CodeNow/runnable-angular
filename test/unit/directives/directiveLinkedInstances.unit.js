@@ -94,4 +94,31 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     expect(ctx.element[0].querySelector('input.input').value).to.equal('hello-copy');
   });
 
+  it('should throw an error if we forget the type attribute', function() {
+    injectSetupCompile();
+    var template = directiveTemplate('linked-instances', {});
+
+    function errCompile () {
+      $compile(template);
+    }
+
+    expect(errCompile).to.throw('linkedInstances requires a type of modal or sidebar');
+  });
+
+  it('should not fetch dependencies if ', function() {
+    injectSetupCompile();
+    var template = directiveTemplate('linked-instances', {
+      'instance-dependencies': 'scp.deps',
+      'instances': 'instances',
+      'type': 'modal',
+      'is-active': false
+    });
+
+    var element = $compile(template)($scope);
+    $scope.$digest();
+    $elScope = element.isolateScope();
+    // If this is false, we exited at the right time
+    expect($elScope.linkedBoxesChecked).to.equal(undefined);
+  });
+
 });

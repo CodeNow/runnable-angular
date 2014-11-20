@@ -1,0 +1,12 @@
+//- *
+//- 0.3 linked boxes
+//- *
+//- if .active
+a.box-item-cluster(
+    ng-show = "isActive && !!instanceDependencies"
+    ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
+) {{ depInstance.attrs.name }}
+    span.icons-status(
+        ng-class = "getInstanceClasses(depInstance)"
+        title = "{{ getInstanceAltTitle(depInstance) }}"
+    )
