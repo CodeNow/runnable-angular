@@ -196,7 +196,7 @@
   float: left;
   height: 48px;
   opacity: 0;
-  transform: rotate3d(0,0,1,0) scale3d(.8,.8,1);
+  transform: scale3d(.8,.8,1);
   width: 42px;
 
   @include media(xs) {
