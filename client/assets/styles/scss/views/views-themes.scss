@@ -11,10 +11,13 @@
   padding: 6px 9px !important;
 }
 
-.ace_editor,
 .ace_gutter,
 .ace_gutter-layer, {
   overflow: visible !important;
+}
+
+.ace_gutter-layer {
+  min-width: 42px;
 }
 
 // ace search
