@@ -17,11 +17,12 @@ function linkedInstances (
     },
     replace: true,
     scope: {
+      forkDependencies: '=',
       instanceDependencies: '=',
       instances: '=' // For dupe checking
     },
     link: function ($scope, elem, attrs) {
-      $scope.linkedBoxesChecked = true;
+      $scope.forkDependencies = true;
 
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }

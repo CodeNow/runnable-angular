@@ -1,21 +1,21 @@
 //- 0.3 SAN-435
 .well(
   ng-class = "{\
-    btn: !linkedBoxesChecked,\
-    'btn-sm': !linkedBoxesChecked,\
-    in: linkedBoxesChecked,\
-    white: !linkedBoxesChecked,\
+    btn: !forkDependencies,\
+    'btn-sm': !forkDependencies,\
+    in: forkDependencies,\
+    white: !forkDependencies,\
   }"
 )
   label.label-checkbox
     input.input-checkbox(
-      ng-model = "linkedBoxesChecked"
+      ng-model = "forkDependencies"
       type = "checkbox"
     )
     | Include linked boxes
 
   div(
-    ng-init = "newName = instance.attrs.name + '-copy'"
+    ng-init = "instance.state.name = instance.attrs.name + '-copy'"
     ng-repeat = "instance in instanceDependencies.models | orderBy:'attrs.name'"
   )
     ng-form(
@@ -28,17 +28,17 @@
           'ng-invalid': depForm.$invalid,\
           'ng-valid': depForm.$valid\
         }"
-        ng-if = "linkedBoxesChecked"
+        ng-if = "forkDependencies"
       )
         span.input-label Name
-        span.input-description.text-overflow {{ newName }}.{{ instance.attrs.owner.username.toLowerCase() }}.runnable.io
+        span.input-description.text-overflow {{ instance.state.name }}.{{ instance.attrs.owner.username.toLowerCase() }}.runnable.io
         //- 0.3 SAN-435
           - to do:
           - fix ng-focus/ng-blur
           - fix validation
         input.input(
           instance = "instance"
-          ng-model = "newName"
+          ng-model = "instance.state.name"
           placeholder = "My-Box"
           select-all
           validate-name = "instances"

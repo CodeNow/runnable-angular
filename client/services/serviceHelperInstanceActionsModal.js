@@ -7,7 +7,9 @@ function HelperInstanceActionsModal(
   $rootScope,
   $state,
   $stateParams,
-  $timeout
+  $timeout,
+  async,
+  keypather
 ) {
   /**
    * Shared actions-modal logic.
@@ -87,29 +89,48 @@ function HelperInstanceActionsModal(
     };
 
     $scope.popoverGearMenu.actions.actionsModalFork = {
-      forkInstance: function (newName, env, cb) {
+      // TODO: check instanceEdit page
+      forkInstance: function (newName, forkDeps, cb) {
+        //DEBUG
+        forkDeps = true;
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
         cb = cb || angular.noop;
         // TODO display loading overlay
-        var newInstance = $scope.instance.copy(function (err) {
-          if (err) throw err;
-          var opts = {};
-          opts.name = newName;
-          if (env) {
-            opts.env = env.map(function (e) {
-              return e.key + '=' + e.value;
+        function fork (instance, cb) {
+          var newInstance = $scope.instance.copy(function (err) {
+            if (err) { throw err; }
+            var opts = {};
+            opts.name = instance.state.name;
+            if (instance.attrs.env) {
+              opts.env = instance.attrs.env;
+            }
+            newInstance.update(opts, function (err) {
+              $rootScope.safeApply();
+              if (err) throw err;
+              // update instances collection to update
+              // viewInstanceList
+              cb();
             });
+          });
+        }
+        async.parallel([
+          function (cb) {
+            $scope.instance.state.name = newName;
+            fork($scope.instance, cb);
+          },
+          function (cb) {
+            if (forkDeps && keypather.get($scope, 'instance.dependencies.models.length')) {
+              async.each($scope.instance.dependencies.models, fork, cb);
+            } else {
+              cb();
+            }
           }
-          newInstance.update(opts, function (err) {
-            $rootScope.safeApply();
-            if (err) throw err;
-            // update instances collection to update
-            // viewInstanceList
-            $state.go('instance.instance', {
-              userName: $stateParams.userName,
-              instanceName: newInstance.attrs.name
-            });
+        ], function (err) {
+          if (err) { throw err; }
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            instanceName: newName
           });
         });
       },
