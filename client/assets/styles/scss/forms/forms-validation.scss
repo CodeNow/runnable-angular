@@ -2,11 +2,6 @@
 .input-validate {
   transition: border .15s ease-in;
 
-  // &.ng-valid {
-  //   border-color: $green;
-  //   box-shadow: inset 0 0 3px rgba($green,.15);
-  // }
-
   &.ng-invalid {
     border-color: $orange;
     box-shadow: inset 0 0 3px rgba($orange,.15);
@@ -78,6 +73,7 @@
     content: 'Invalid Env';
     display: block;
     opacity: 0;
+    pointer-events: none;
     position: absolute;
     right: -90px;
     top: 24px;
