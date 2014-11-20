@@ -4,16 +4,15 @@
   .modal-dialog.modal-sign-in(
     ng-click = "$event.stopPropagation()"
   )
+    //-
+    //- if prompted to sign in to fork:
+    //-
     header.modal-header
       h1.modal-heading Sign In to Fork
-      //- h1.modal-heading Sign In to Add Repos
     section.modal-body
       p You have to sign in to fork this box.
-      //- p You have to sign in to Github to your repositories to this box
-
     footer.modal-footer
-      //- if forking: signing in should fork and add the current box to the user's account
-      //- if adding repos: signing in should add the current box to the user's account
+      //- signing in should fork and add the current box to the user's account
       a.btn.green
         svg.iconnables.icons-git
           use(
@@ -21,3 +20,42 @@
           )
         | Sign In with Github
       a.link I'm not ready yet.
+
+    //-
+    //- if prompted to sign in to add repos:
+    //-
+    header.modal-header
+      h1.modal-heading Sign In to Add Repos
+    section.modal-body
+      p You have to sign in to Github to your repositories to this box.
+    footer.modal-footer
+      //- signing in should add the current box to the user's account
+      a.btn.green
+        svg.iconnables.icons-git
+          use(
+            xlink:href = "#icons-git"
+          )
+        | Sign In with Github
+      a.link I'm not ready yet.
+
+    //-
+    //- after signing in to fork:
+    //-
+    header.modal-header
+      h1.modal-heading You've forked your first box!
+    section.modal-body
+      p We've added the original box to your account as well.
+        br
+      | You can access them both in the sidebar.
+    footer.modal-footer
+      a.btn.gray Thanks!
+
+    //-
+    //- after signing in to save:
+    //-
+    header.modal-header
+      h1.modal-heading You've saved your first box!
+    section.modal-body
+      p We've saved this box to your account. Go nuts.
+    footer.modal-footer
+      a.btn.gray Nuts
