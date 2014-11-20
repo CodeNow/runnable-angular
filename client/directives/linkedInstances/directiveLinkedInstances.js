@@ -19,6 +19,7 @@ function linkedInstances (
     },
     replace: true,
     scope: {
+      forkDependencies: '=',
       instanceDependencies: '=',
       isActive: '=',
       instances: '=' // For dupe checking
@@ -26,9 +27,9 @@ function linkedInstances (
     link: function ($scope, elem, attrs) {
       // Since we should allow isActive to be null, we explicitly check against false
       if ($scope.isActive === false) { return; }
-      $scope.linkedBoxesChecked = true;
       $scope.getInstanceAltTitle = getInstanceAltTitle;
       $scope.getInstanceClasses = getInstanceClasses;
+      $scope.forkDependencies = true;
 
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }

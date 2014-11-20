@@ -1,0 +1,16 @@
+//- issues to fix:
+  - hovering over the popover also triggers tooltip (related: SAN-267)
+.btn-popover-wrapper
+  button.btn-sm.gray(
+    toggle-pop-over
+    toggle-pop-over-model = "instance.state.envShow"
+    toggle-pop-over-no-broadcast = "true"
+    tooltip = "Edit Environment"
+    tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
+    type = "button"
+  ) ev
+  pop-over(
+    actions = "envPopover.actions"
+    data = "instance"
+    template = "viewPopoverEnvironment"
+  )

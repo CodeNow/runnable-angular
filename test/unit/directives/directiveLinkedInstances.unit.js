@@ -45,7 +45,7 @@ function makeDeps () {
 describe('directiveLinkedInstances'.bold.underline.blue, function() {
   var ctx;
 
-  function injectSetupCompile (deps) {
+  function injectSetupCompile () {
     angular.mock.module('app');
     angular.mock.inject(function (
       _$compile_,
@@ -69,9 +69,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     });
 
     ctx = {};
-    $scope.scp = {
-      deps: deps
-    };
+    $scope.scp = {};
     $scope.instances = {};
     ctx.template = directiveTemplate('linked-instances', {
       'instance-dependencies': 'scp.deps',
@@ -83,8 +81,9 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     $elScope = ctx.element.isolateScope();
   }
 
+  beforeEach(injectSetupCompile);
+
   it('should set up properly with instances', function() {
-    injectSetupCompile();
     expect($elScope.linkedBoxesChecked).to.be.true;
 
     $scope.scp.deps = makeDeps();
