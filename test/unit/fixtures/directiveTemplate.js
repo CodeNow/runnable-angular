@@ -8,6 +8,7 @@ function directiveTemplate (templateName, attrs) {
     '<',
     templateName,
     Object.keys(attrs).reduce(function (str, key) {
+      if (typeof attrs[key] !== 'string') { throw new Error('Value must be a string'); }
       return str + " " + key + '="' + attrs[key] + '"';
     }, ''),
     '>',
