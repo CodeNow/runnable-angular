@@ -118,8 +118,7 @@ function ControllerInstance(
   //     - show terminal
   //     - show box logs (has focus)
   function displayTabsForContainerState (containerRunning) {
-    // ????
-    //data.openItems.reset([]);
+    data.openItems.reset([]);
     var container = keypather.get(dataInstance, 'data.instance.containers.models[0]');
     if (!container) {
       // minor nit fix: build logs flash before box logs if container is not running
