@@ -77,11 +77,11 @@
     @extend .tooltip-text;
     content: 'Invalid Env';
     display: block;
-    left: -120px;
     opacity: 0;
     position: absolute;
-    top: -3px;
-    transform: translate3d(3px,0,0);
+    right: -90px;
+    top: 24px;
+    transform: translate3d(-3px,-3px,0);
     transition: all .2s ease-in;
   }
 }
