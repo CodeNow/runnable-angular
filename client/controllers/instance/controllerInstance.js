@@ -23,6 +23,8 @@ function ControllerInstance(
   var data = dataInstance.data;
   var actions = dataInstance.actions;
 
+  data.openItems = new OpenItems();
+
   // shows/hides the file menu
   data.showExplorer = false;
   // loader if saving fs changes
@@ -103,6 +105,7 @@ function ControllerInstance(
       })
       .go();
   }
+
   // If instance:
   //   !deployed (includes time when building, and short time after building completes before containers initiated)
   //     - hide explorer
@@ -115,7 +118,8 @@ function ControllerInstance(
   //     - show terminal
   //     - show box logs (has focus)
   function displayTabsForContainerState (containerRunning) {
-    data.openItems = new OpenItems();
+    // ????
+    //data.openItems.reset([]);
     var container = keypather.get(dataInstance, 'data.instance.containers.models[0]');
     if (!container) {
       // minor nit fix: build logs flash before box logs if container is not running
