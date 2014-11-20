@@ -10,7 +10,7 @@ function envVars(
     restrict: 'E',
     replace: true,
     scope: {
-      item: '=',
+      in: '=',
       currentModel: '=',
       stateModel: '='
     },
@@ -18,9 +18,53 @@ function envVars(
     link: function ($scope, elem, attrs) {
 
       $scope.environmentalVars = '';
+      var editor, session;
+
+      function getEnvLength() {
+        return keypather.get($scope, 'stateModel.env.length') || keypather.get($scope, 'currentModel.env.length');
+      }
+
+      if ($scope.stateModel) {
+        // Add the validity checker
+        $scope.stateModel.envValidation = {
+          valid: true,
+          errors: []
+        };
+      }
+      $scope.aceLoaded = function(_editor){
+        // Editor part
+        editor = _editor;
+        session = _editor.session;
+        $scope.$watchCollection('stateModel.envValidation.errors', function (n, p) {
+          if (n !== p) {
+            if (p) {
+              p.forEach(function (error) {
+                session.removeGutterDecoration(error, 'ace-validation-error');
+              });
+            }
+            if (n) {
+              n.forEach(function (error) {
+                session.addGutterDecoration(error, 'ace-validation-error');
+              });
+            }
+          }
+        });
+
+        // Super hacky hack to basically make the gutter not flip out as much as on init
+        var _renderer = _editor.renderer;
+        if (_renderer.$gutterLayer.gutterWidth === 0) {
+          var envLength = getEnvLength();
+          _renderer.$gutterLayer.gutterWidth =
+            ((envLength > 100) ? 60 : (envLength > 10) ? 51 : 42) + 4;
+        }
+        if (_renderer.lineHeight === 0) {
+          _renderer.lineHeight = 19;
+        }
+        // Options
+      };
 
       // Watch the current model for envs
-      var unreg = $scope.$watch('currentModel.env', function (env) {
+      var unwatchCurrentModel = $scope.$watch('currentModel.env', function (env) {
         if (!Array.isArray(env)) {
           return;
         }
@@ -30,15 +74,10 @@ function envVars(
         }, '');
       });
 
-      // Add the validity checker
-      $scope.validity = {
-        valid: true,
-        errors: []
-      };
       // When the envs on the screen change
-      $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
+      var unwatchScreenEnvs = $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
         // Since the user has inputed text, we don't need to listen to the current model anymore
-        unreg();
+        unwatchCurrentModel();
         // If the envs haven't changed, (also takes care of first null/null occurrence)
         if (newEnv === oldEnv) { return; }
         // Save them to the state model
@@ -47,6 +86,19 @@ function envVars(
         }));
       });
 
+      var unwatchIn = $scope.$watch('in', function (n, p) {
+        if (n === false && n !== p) {
+          unwatchIn();
+          unwatchCurrentModel();
+          unwatchScreenEnvs();
+          editor.session.$stopWorker();
+          editor.destroy();
+          if ($scope.stateModel) {
+            $scope.stateModel.envValidation.errors = [];
+            delete $scope.stateModel.envValidation;
+          }
+        }
+      });
     }
   };
 }

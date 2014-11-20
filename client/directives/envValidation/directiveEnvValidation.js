@@ -12,11 +12,12 @@ function envValidation(
     scope: {
       stateModel: '='
     },
-    templateUrl: 'viewEnvValidation',
     link: function($scope) {
       // property controlled by directiveEnvVars
       $scope.$watch('stateModel.env', function (newEnvVal) {
-        $scope.envValidation = validateEnvVars(newEnvVal);
+        if ($scope.stateModel) {
+          $scope.stateModel.envValidation = validateEnvVars(newEnvVal);
+        }
       });
     }
   };

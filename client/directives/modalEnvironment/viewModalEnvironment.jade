@@ -34,25 +34,24 @@
         env-vars(
           state-model = "stateModel"
           current-model = "currentModel"
+          in = "in"
         )
-        .ace-validation-error(
-          style = "top: 4px"
-          tooltip = "Validation Error on Line 1"
-          tooltip-options = "{\"class\":\"left\",\"right\":31,\"top\":-8}"
-        )
+
       footer.modal-footer
         //- 0.3 SAN-436
           - to do:
           - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
         button.orange(
           ng-if = "data.showRebuild"
-          ng-click = "actions.saveEnvs(actions.rebuild(stateModel, actions.close()))"
+          ng-click = "actions.rebuild(stateModel, actions.close())"
           type = "button"
+          ng-disabled = "!stateModel.envValidation.valid"
         ) Rebuild
         button.green(
-          ng-if = "!currentModel.showRebuild"
-          ng-click = "actions.saveEnvs(actions.save())"
+          ng-if = "!data.showRebuild"
+          ng-click = "actions.save()"
           type = "button"
+          ng-disabled = "!stateModel.envValidation.valid"
         ) Save
         button.white(
           ng-click = "cancel()"
