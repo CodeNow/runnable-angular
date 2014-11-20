@@ -90,7 +90,6 @@ function HelperInstanceActionsModal(
       forkInstance: function (newName, env, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
-        newName = newName.trim();
         cb = cb || angular.noop;
         // TODO display loading overlay
         var newInstance = $scope.instance.copy(function (err) {

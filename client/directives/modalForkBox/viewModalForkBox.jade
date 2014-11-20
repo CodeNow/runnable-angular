@@ -37,22 +37,10 @@
             validate-name-pattern
             validate-name-current-instance-valid = "false"
           )
-          //- 0.3 SAN-435
-            - to do:
-            - popover isn't actually toggled
-            - hovering over the popover also triggers tooltip (semi-related: SAN-267)
-          //- button.btn-sm.gray(
-          //-   toggle-pop-over
-          //-   toggle-pop-over-model = "dataModalForkBox.data.popoverEnvironment.data.show"
-          //-   tooltip = "Edit Environment"
-          //-   tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
-          //-   type = "button"
-          //- ) ev
-            pop-over(
-              actions = "dataModalForkBox.data.popoverEnvironment.actions"
-              data = "dataModalForkBox.data.popoverEnvironment.data"
-              template = "viewPopoverEnvironment"
-            )
+          environment-button(
+            instance = "data.instance"
+            ng-if = "data.instance.attrs.env"
+          )
         //- .invalid-pattern for names with invalid characters
           - .invalid-name for names that are taken
         .validate-wrapper.btn.btn-sm.orange(

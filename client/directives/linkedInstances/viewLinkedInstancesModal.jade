@@ -45,22 +45,10 @@
           validate-name-pattern
           validate-name-current-instance-valid = "false"
         )
-        //- issues to fix:
-          - hovering over the popover also triggers tooltip (related: SAN-267)
-        button.btn-sm.gray(
+        environment-button(
+          instance = "instance"
           ng-if = "instance.attrs.env"
-          toggle-pop-over
-          toggle-pop-over-model = "instance.state.envShow"
-          toggle-pop-over-no-broadcast = "true"
-          tooltip = "Edit Environment"
-          tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
-          type = "button"
-        ) ev
-          pop-over(
-            actions = "envPopover.actions"
-            data = "instance"
-            template = "viewPopoverEnvironment"
-          )
+        )
       //- .invalid-pattern for names with invalid characters
         - .invalid-name for names that are taken
       .validate-wrapper.btn.btn-sm.orange(
