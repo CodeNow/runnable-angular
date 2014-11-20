@@ -1,4 +1,12 @@
 var jQuery  = require('jquery');
+var sinon = require('sinon');
+var pluck = require('101/pluck');
+var find = require('101/find');
+var matches = function (regexp) {
+  return function (v) {
+    return regexp.test(v);
+  };
+};
 
 // injector-provided
 var $compile,
@@ -12,11 +20,26 @@ var $compile,
     $timeout,
     user;
 var $elScope;
+var mockPrimus = new fixtures.MockPrimus();
 
 describe.skip('directiveLogBuild'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instance'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'username',
+        instanceName: 'instancename'
+      });
+
+      $provide.value('primus', mockPrimus);
+    });
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
@@ -51,7 +74,7 @@ describe.skip('directiveLogBuild'.bold.underline.blue, function() {
     var instanceUrl = host + '/instances?githubUsername=username&name=instancename';
     $httpBackend
       .whenGET(instanceUrl)
-      .respond(mocks.instances.runningWithContainers);
+      .respond([mocks.instances.building]);
 
     modelStore.reset();
 
@@ -61,7 +84,7 @@ describe.skip('directiveLogBuild'.bold.underline.blue, function() {
     $httpBackend.flush();
     ctx.$element = jQuery(ctx.element);
     $elScope = ctx.element.isolateScope();
-  };
+  }
 
   beforeEach(angular.mock.module('app'));
 
@@ -69,22 +92,9 @@ describe.skip('directiveLogBuild'.bold.underline.blue, function() {
     ctx = {};
     ctx.template = directiveTemplate('log-build', {});
   });
+  beforeEach(injectSetupCompile);
 
   it('basic dom', function() {
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.instance'
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'username',
-        instanceName: 'instancename'
-      });
-    });
-
-    injectSetupCompile();
     expect(ctx.$element).to.be.ok;
     expect(ctx.$element.hasClass('ng-isolate-scope')).to.equal(true);
     var $el = ctx.$element.find('> div.terminal');
@@ -92,22 +102,37 @@ describe.skip('directiveLogBuild'.bold.underline.blue, function() {
   });
 
   it('basic scope', function() {
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.instance'
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'username',
-        instanceName: 'instancename'
-      });
-    });
-
-    injectSetupCompile();
     expect($elScope).to.have.property('user');
     expect($elScope).to.have.property('instance');
   });
 
+  describe('destroy', function() {
+    var origBuildStream;
+    beforeEach(function () {
+      origBuildStream = $elScope.buildStream;
+      $elScope.buildStream = {}; // mock buildStream
+    });
+    afterEach(function () {
+      $elScope.buildStream = origBuildStream;
+    });
+    it('should clean up buildStream', function() {
+      var removeAllSpy = sinon.spy();
+      var endSpy = sinon.spy();
+      $elScope.buildStream.removeAllListeners = removeAllSpy;
+      $elScope.buildStream.end = endSpy;
+      $elScope.$destroy();
+      expect(removeAllSpy.called).to.be.ok;
+      expect(endSpy.called).to.be.ok;
+    });
+  });
+
+  describe('primus goes offline', function() {
+    it('should display disconnect message when primus goes offline', function() {
+      mockPrimus.emit('offline');
+      var $el = ctx.$element.find('> div.terminal');
+      expect($el.length).to.be.ok;
+      var lostConnectionLine = $el.children().toArray().map(pluck('innerText')).find(matches(/LOST.*CONNECTION/));
+      expect(lostConnectionLine).to.be.ok;
+    });
+  });
 });

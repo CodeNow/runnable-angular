@@ -97,7 +97,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     $httpBackend.flush();
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
-  };
+  }
 
   beforeEach(angular.mock.module('app'));
 
