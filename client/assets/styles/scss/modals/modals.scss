@@ -201,8 +201,16 @@
   .white {
     float: right;
 
-    &:first-child {
-      margin-left: 6px;
+    + .green,
+    + .orange,
+    + .white {
+      margin-right: 6px;
     }
+  }
+
+  .modal-footer-warning {
+    color: $gray;
+    line-height: 45px;
+    padding-left: 12px;
   }
 }

@@ -32,8 +32,8 @@
             )
       main.modal-body
         env-vars(
-          state-model = "stateModel"
           current-model = "currentModel"
+          state-model = "stateModel"
           in = "in"
         )
 
@@ -42,21 +42,21 @@
           - to do:
           - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
         button.orange(
-          ng-if = "data.showRebuild"
           ng-click = "actions.rebuild(stateModel, actions.close())"
-          type = "button"
           ng-disabled = "!stateModel.envValidation.valid"
+          ng-if = "data.showRebuild"
+          type = "button"
         ) Rebuild
         button.green(
-          ng-if = "!data.showRebuild"
           ng-click = "actions.save()"
-          type = "button"
           ng-disabled = "!stateModel.envValidation.valid"
+          ng-if = "!data.showRebuild"
+          type = "button"
         ) Save
         button.white(
           ng-click = "cancel()"
           type = "button"
-        ) Go Back
+        ) Cancel
     aside.modal-sidebar.boxes
       h2.sub-header
         span.sub-header-text Boxes
