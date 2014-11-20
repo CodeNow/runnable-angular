@@ -52,6 +52,10 @@ function ControllerInstance(
   // all watches necessary, updateDisplayedTabs expectst to be invoked
   // after fetching instance, fetching container, and cointainer start
   $scope.$watch('dataInstance.data.instance.containers.models[0].running()', displayTabsForContainerState);
+  $scope.$watch('dataInstance.data.instance', function(n) {
+    if (!n) { return; }
+    displayTabsForContainerState(keypather.get(dataInstance.data, 'instance.containers.models[0].running()'));
+  });
 
   async.waterfall([
     determineActiveAccount,
@@ -119,14 +123,14 @@ function ControllerInstance(
   //     - show box logs (has focus)
   function displayTabsForContainerState (containerRunning) {
     data.openItems.reset([]);
+    if (!exists(containerRunning)) {
+      buildLogsOnly();
+    }
     var container = keypather.get(dataInstance, 'data.instance.containers.models[0]');
     if (!container) {
       // minor nit fix: build logs flash before box logs if container is not running
       containerWatch = $scope.$watch('dataInstance.data.instance.containers.models[0]', watchForContainerBeforeDisplayTabs);
       return;
-    }
-    if (!exists(containerRunning)) {
-      buildLogsOnly();
     }
     else if (containerRunning === false) {
       boxLogsOnly();
