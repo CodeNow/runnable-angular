@@ -15,9 +15,5 @@
     height: 100%;
     margin: 0 auto;
     width: 240px;
-
-    @include media(xs) {
-      width: 200px;
-    }
   }
 }

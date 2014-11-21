@@ -74,6 +74,12 @@
   float: left;
   height: 40px;
   margin: 10px 0;
+
+  .logo-svg {
+    @include media(xs) {
+      width: 200px;
+    }
+  }
 }
 
 // section.hero-heading

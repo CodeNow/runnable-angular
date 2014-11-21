@@ -1,5 +1,6 @@
 // .demo-sidebar
-.demo-sidebar {
+.demo-sidebar.demo-sidebar {
+  background: $purple;
 
   .logo {
     height: 39px;
@@ -9,12 +10,27 @@
     margin-right: 6px;
     top: 6px;
   }
+
+  .btn {
+
+    .iconnables {
+      transform: scale3d(.8,.8,1);
+    }
+
+    &:hover .iconnables {
+      transform: scale3d(1,1,1);
+    }
+  }
 }
 
 .demo-sidebar-hint {
-  color: $gray;
+  color: $white;
   font-size: 15px;
   line-height: 1.6;
-  padding: 30px 0 15px;
+  padding-top: 30px;
   text-align: center;
+
+  + .demo-sidebar-hint {
+    padding: 9px 0 15px;
+  }
 }

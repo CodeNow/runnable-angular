@@ -81,6 +81,10 @@ button,
   &.active {
     box-shadow: none;
   }
+
+  &.reversed {
+    letter-spacing: 0;
+  }
 }
 
 .blue {
@@ -203,6 +207,20 @@ button,
     &.active {
       background: transparent;
       border-color: transparent;
+    }
+  }
+
+  &.reversed {
+    background: $white;
+    border-color: transparent;
+    color: $purple;
+    font-weight: 500;
+
+    &:hover ,
+    &:active,
+    &.active {
+      background: rgba($white,.85);
+      color: $purple;
     }
   }
 }

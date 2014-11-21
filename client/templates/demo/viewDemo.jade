@@ -1,14 +1,20 @@
 nav.sidebar.global-sidebar.demo-sidebar
   header.row.account-header
-    a.logo.logo-alt(
+    a.logo.logo(
       href = "#"
     )
       svg
         use(
           xlink:href = "#runnable-logo"
         )
-  p.demo-sidebar-hint This is a live box for you to do box things. Sign in to save this box to your account and setup your own projects.
-  button.btn.green
+  p.demo-sidebar-hint This is a box running a #{''}
+    a.link.link-white.link-text(
+      href = "//github.com"
+      target = "_blank"
+    ) Github repo
+    |.
+  p.demo-sidebar-hint Use this box to run your own repos by signing in with Github.
+  button.btn.white.reversed
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
