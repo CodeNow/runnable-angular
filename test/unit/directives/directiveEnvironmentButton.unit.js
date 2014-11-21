@@ -5,41 +5,6 @@ var $compile,
     $timeout;
 var $elScope;
 
-function fetch (cb) {
-  cb();
-}
-
-function makeDeps () {
-  return {
-    models: [{
-      attrs: {
-        name: 'hello',
-        owner: {
-          username: 'runnable-doobie'
-        },
-        env: ['a=b']
-      },
-      fetch: fetch
-    }, {
-      attrs: {
-        name: 'hello',
-        owner: {
-          username: 'runnable-doobie'
-        }
-      },
-      fetch: fetch
-    }, {
-      attrs: {
-        name: 'hello',
-        owner: {
-          username: 'runnable-doobie'
-        }
-      },
-      fetch: fetch
-    }]
-  };
-}
-
 describe('directiveEnvironmentButton'.bold.underline.blue, function() {
   var ctx;
 

@@ -17,7 +17,10 @@ function linkedInstances (
         throw new Error('linkedInstances requires a type of modal or sidebar');
       }
     },
-    replace: true,
+    // Needs to be replace: false due to bug in Angular
+    // ng-repeat on root element is tricksy
+    // https://github.com/angular/angular.js/issues/2151
+    replace: false,
     scope: {
       forkDependencies: '=',
       instanceDependencies: '=',
@@ -29,7 +32,6 @@ function linkedInstances (
       if ($scope.isActive === false) { return; }
       $scope.getInstanceAltTitle = getInstanceAltTitle;
       $scope.getInstanceClasses = getInstanceClasses;
-      $scope.forkDependencies = true;
 
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }

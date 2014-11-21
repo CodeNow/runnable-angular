@@ -91,8 +91,6 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.actions.actionsModalFork = {
       // TODO: check instanceEdit page
       forkInstance: function (newName, forkDeps, cb) {
-        //DEBUG
-        forkDeps = true;
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
         cb = cb || angular.noop;

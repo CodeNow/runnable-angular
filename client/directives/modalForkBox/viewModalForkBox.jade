@@ -1,5 +1,6 @@
+//- Abusing ng-init until modal update
 .modal-backdrop(
-  ng-init = "data.newForkName = data.instance.attrs.name + '-copy'"
+  ng-init = "data.newForkName = data.instance.attrs.name + '-copy'; data.forkDependencies = true"
   ng-class = "{in: in}"
 )
   .modal-dialog.modal-fork(
@@ -63,7 +64,7 @@
           instances = "data.instances"
           ng-if = "data.instance.dependencies"
           type = "modal"
-          fork-dependencies = "forkDependencies"
+          fork-dependencies = "data.forkDependencies"
         )
 
     footer.modal-footer
@@ -75,7 +76,7 @@
           orange: data.forkForm.$invalid \
         }"
         ng-disabled = "data.forkForm.$invalid"
-        ng-click = "actions.forkInstance(data.newForkName, forkDependencies); \
+        ng-click = "actions.forkInstance(data.newForkName, data.forkDependencies); \
           cancel();"
       ) Fork Box
       button.white(
