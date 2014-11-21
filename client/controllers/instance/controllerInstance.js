@@ -6,16 +6,16 @@ require('app')
 function ControllerInstance(
   async,
   determineActiveAccount,
-  helperFetchInstanceDeployStatus,
   keypather,
   OpenItems,
   QueryAssist,
   $scope,
   $state,
   $stateParams,
+  exists,
   user
 ) {
-
+  var containerWatch;
   var dataInstance = $scope.dataInstance = {
     data: {},
     actions: {}
@@ -36,6 +36,37 @@ function ControllerInstance(
     // in shows/hides file-menu
     in: false
   };
+
+  // watch showExplorer (toggle when user clicks file menu)
+  // if no running container, return early (user shouldn't be able to even click
+  // button in this situation)
+  $scope.$watch('dataInstance.data.showExplorer', function(n, p) {
+    var runningContainer = keypather.get(data, 'instance.containers.models[0].running()');
+    if (!runningContainer) {
+      return;
+    }
+    data.sectionClasses.in = n;
+  });
+
+  // watch for deployed/started/stopped instance
+  // all watches necessary, updateDisplayedTabs expectst to be invoked
+  // after fetching instance, fetching container, and cointainer start
+  $scope.$watch('dataInstance.data.instance.containers.models[0].running()', displayTabsForContainerState);
+  $scope.$watch('dataInstance.data.instance', function(n) {
+    if (!n) { return; }
+    displayTabsForContainerState(keypather.get(dataInstance.data, 'instance.containers.models[0].running()'));
+  });
+
+  async.waterfall([
+    determineActiveAccount,
+    function (activeAccount, cb) {
+      data.activeAccount = activeAccount;
+      $scope.safeApply();
+      cb();
+    },
+    fetchUser,
+    fetchInstance
+  ]);
 
   // Redirect to /new if this build has already been built
   function fetchUser(cb) {
@@ -90,89 +121,80 @@ function ControllerInstance(
   //     - show explorer
   //     - show terminal
   //     - show box logs (has focus)
-  var startedOnce = false;
-  function updateDisplayedTabs() {
-
-    // Prevent loading LogView tab when restarting container
-    if (startedOnce) return;
-
-    var instance = keypather.get(data, 'instance');
-    var container = keypather.get(data, 'instance.containers.models[0]');
-    if (!instance) return;
-
+  function displayTabsForContainerState (containerRunning) {
+    data.openItems.reset([]);
+    if (!exists(containerRunning)) {
+      buildLogsOnly();
+    }
+    var container = keypather.get(dataInstance, 'data.instance.containers.models[0]');
     if (!container) {
-      // Set to true if we see the instance in an undeployed state
-      // DOM will have message when instance w/ containers fetched
-      data.showFinishMessageWhenContainerFetched = true;
-      // instance not deployed yet
-      if (!data.openItems.hasOpen('BuildStream')) {
-        data.openItems.addBuildStream();
-      }
+      // minor nit fix: build logs flash before box logs if container is not running
+      containerWatch = $scope.$watch('dataInstance.data.instance.containers.models[0]', watchForContainerBeforeDisplayTabs);
       return;
     }
-
-    if (!container.running()) {
-      data.showExplorer = false;
-      data.sectionClasses = {
-        out: true,
-        in: false
-      };
-      if (data.openItems.hasOpen('LogView')) {
-        // make it selected
-        var logView = data.openItems.find(function (m) {
-          return m.constructor.name === 'LogView';
-        });
-        data.openItems.activeHistory.add(logView);
-      } else {
-        // add it
-        data.openItems.addLogs();
-      }
-    } else {
-      startedOnce = true;
-      data.sectionClasses = {
-        out: false,
-        in: false
-      };
-      if (!data.openItems.hasOpen('Terminal')) {
-        data.openItems.addTerminal();
-      }
-      if (!data.openItems.hasOpen('LogView')) {
-        data.openItems.addLogs();
-      }
-      if (!data.openItems.hasOpen('WebView')) {
-        data.openItems.addWebView();
-      }
+    else if (containerRunning === false) {
+      boxLogsOnly();
+    }
+    else if (containerRunning === true) {
+      restoreOrOpenDefaultTabs();
     }
   }
 
-  // watch showExplorer (toggle when user clicks file menu)
-  // if no running container, return early (user shouldn't be able to even click
-  // button in this situation)
-  $scope.$watch('dataInstance.data.showExplorer', function(n, p) {
-    var runningContainer = keypather.get(data, 'instance.containers.models[0].running()');
-    if (!runningContainer) {
-      return;
+  function watchForContainerBeforeDisplayTabs (container) {
+    containerWatch();
+    if (!container) { return; }
+    displayTabsForContainerState(keypather.get(container, 'running()'));
+  }
+
+  function buildLogsOnly () {
+    // Set to true if we see the instance in an undeployed state
+    // DOM will have message when instance w/ containers fetched
+    data.showFinishMessageWhenContainerFetched = true;
+    // instance not deployed yet
+    if (!data.openItems.hasOpen('BuildStream')) {
+      data.openItems.addBuildStream();
     }
-    data.sectionClasses.in = n;
-  });
+    return;
+  }
 
-  // watch for deployed/started/stopped instance
-  // all watches necessary, updateDisplayedTabs expectst to be invoked
-  // after fetching instance, fetching container, and cointainer start
-  $scope.$watch('dataInstance.data.instance', updateDisplayedTabs);
-  $scope.$watch('dataInstance.data.instance.containers.models[0]', updateDisplayedTabs);
-  $scope.$watch('dataInstance.data.instance.containers.models[0].running()', updateDisplayedTabs);
+  function boxLogsOnly () {
+    data.showExplorer = false;
+    data.sectionClasses = {
+      out: true,
+      in: false
+    };
+    if (data.openItems.hasOpen('LogView')) {
+      // make it selected
+      var logView = data.openItems.find(function (m) {
+        return m.constructor.name === 'LogView';
+      });
+      data.openItems.activeHistory.add(logView);
+    } else {
+      // add it
+      data.openItems.addLogs();
+    }
+  }
 
-  async.waterfall([
-    determineActiveAccount,
-    function (activeAccount, cb) {
-      data.activeAccount = activeAccount;
-      $scope.safeApply();
-      cb();
-    },
-    fetchUser,
-    fetchInstance,
-    helperFetchInstanceDeployStatus
-  ]);
-
+  function restoreOrOpenDefaultTabs () {
+    data.sectionClasses = {
+      out: false,
+      in: false
+    };
+    if (!data.openItems.hasOpen('BuildStream')) {
+      data.openItems.addBuildStream();
+    }
+    if (!data.openItems.hasOpen('Terminal')) {
+      data.openItems.addTerminal();
+    }
+    if (!data.openItems.hasOpen('LogView')) {
+      data.openItems.addLogs();
+    }
+    if (!data.openItems.hasOpen('WebView')) {
+      data.openItems.addWebView();
+    }
+    data.openItems.restoreTabs(
+      data.instance.id() + '-' + data.instance.build.id(),
+      data.instance.containers.models[0]);
+    data.openItems.restoreActiveTab();
+  }
 }
