@@ -70,19 +70,25 @@ function webView(
       var data = $scope.data = {};
       var actions = $scope.actions = {};
 
-      // reload web view when container restarts
+      // reload web view when container restarts or is renamed
       $scope.$watch('instance.containers.models[0].attrs.inspect.State.StartedAt', function (val) {
         if (!val) return;
         $scope.actions.refresh();
       });
+      $scope.$watch('instance.attrs.name', function (val) {
+        if (!val) { return; }
 
-      $scope.actions.forward = function () {
-        iframe.contentWindow.history.forward();
-      };
+        var urlString = keypather.get($scope, 'data.iframeUrl.toString()');
+        if (urlString) {
+          var subdomain = urlString.match(/http:\/\/([^.]*)/);
+          if (subdomain && subdomain[1] === val.toLowerCase()) { return; }
+        }
 
-      $scope.actions.back = function () {
-        iframe.contentWindow.history.back();
-      };
+        $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
+        $rootScope.safeApply(function () {
+          $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls()[0]);
+        });
+      });
 
       $scope.actions.refresh = function () {
         if (!$scope.data.iframeUrl || !$scope.data.iframeUrl.toString) {
