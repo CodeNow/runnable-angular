@@ -1,12 +1,12 @@
 .modal-environment {
   max-width: 600px;
   min-width: 450px;
-  overflow: hidden;
   top: 0;
 
   .modal-body {
     border-bottom: 1px solid rgba($black,.1);
     border-top: 1px solid rgba($black,.1);
+    overflow: hidden;
     padding-bottom: 0;
     position: relative;
   }

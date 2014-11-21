@@ -39,13 +39,6 @@
     ng-if = "item.state.type === 'WebView'"
   )
 
-  env-vars(
-    item = "item"
-    current-model = "currentModel"
-    state-model = "stateModel"
-    ng-if = "item.state.type === 'EnvVars'"
-  )
-
   button.silver.editor-status(
     disabled
     ng-if = "(data.readOnly && item.state.type === 'File') || \

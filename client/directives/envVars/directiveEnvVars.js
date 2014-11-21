@@ -4,7 +4,8 @@ require('app')
  * @ngInject
  */
 function envVars(
-  keypather
+  keypather,
+  validateEnvVars
 ) {
   return {
     restrict: 'E',
@@ -12,7 +13,8 @@ function envVars(
     scope: {
       in: '=',
       currentModel: '=',
-      stateModel: '='
+      stateModel: '=',
+      validation: '='
     },
     templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
@@ -24,18 +26,11 @@ function envVars(
         return keypather.get($scope, 'stateModel.env.length') || keypather.get($scope, 'currentModel.env.length');
       }
 
-      if ($scope.stateModel) {
-        // Add the validity checker
-        $scope.stateModel.envValidation = {
-          valid: true,
-          errors: []
-        };
-      }
       $scope.aceLoaded = function(_editor){
         // Editor part
         editor = _editor;
         session = _editor.session;
-        $scope.$watchCollection('stateModel.envValidation.errors', function (n, p) {
+        $scope.$watchCollection('validation.errors', function (n, p) {
           if (n !== p) {
             if (p) {
               p.forEach(function (error) {
@@ -49,18 +44,11 @@ function envVars(
             }
           }
         });
-
-        // Super hacky hack to basically make the gutter not flip out as much as on init
         var _renderer = _editor.renderer;
-        if (_renderer.$gutterLayer.gutterWidth === 0) {
-          var envLength = getEnvLength();
-          _renderer.$gutterLayer.gutterWidth =
-            ((envLength > 100) ? 60 : (envLength > 10) ? 51 : 42) + 4;
-        }
         if (_renderer.lineHeight === 0) {
           _renderer.lineHeight = 19;
         }
-        // Options
+        //// Options
       };
 
       // Watch the current model for envs
@@ -78,8 +66,9 @@ function envVars(
       var unwatchScreenEnvs = $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
         // Since the user has inputed text, we don't need to listen to the current model anymore
         unwatchCurrentModel();
-        // If the envs haven't changed, (also takes care of first null/null occurrence)
+        // If the envs haven't changed, (also takes care of first null/null occurrence
         if (newEnv === oldEnv) { return; }
+        $scope.validation = validateEnvVars(newEnv);
         // Save them to the state model
         keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
           return v.length;
@@ -93,10 +82,6 @@ function envVars(
           unwatchScreenEnvs();
           editor.session.$stopWorker();
           editor.destroy();
-          if ($scope.stateModel) {
-            $scope.stateModel.envValidation.errors = [];
-            delete $scope.stateModel.envValidation;
-          }
         }
       });
     }

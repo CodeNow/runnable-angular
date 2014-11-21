@@ -58,9 +58,11 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.data.dataModalEnvironment= data;
 
     $scope.popoverGearMenu.actions.actionsModalEnvironment = {
-      save: function () {
+      save: function (cb) {
         $scope.popoverGearMenu.data.show = false;
-        $scope.popoverGearMenu.actions.actionsModalEnvironment.close();
+        if (cb) {
+          cb();
+        }
       },
       rebuild: function(opts, cb) {
         $scope.popoverGearMenu.data.show = false;
@@ -76,12 +78,11 @@ function HelperInstanceActionsModal(
             instanceName: $scope.instance.attrs.name
           });
         });
-        cb();
+        if (cb) {
+          cb();
+        }
       },
       cancel: function() {
-        if (keypather.get($scope, 'data.instance.state')) {
-          delete $scope.data.instance.state.env;
-        }
         $scope.popoverGearMenu.data.show = false;
       }
     };

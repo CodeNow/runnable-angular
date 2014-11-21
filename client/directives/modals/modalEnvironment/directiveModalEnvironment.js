@@ -11,10 +11,22 @@ function modalEnvironment(
     templateUrl: 'viewModalEnvironment',
     replace: true,
     scope: {
-      currentModel: '=modalCurrentModel',
-      stateModel: '=modalStateModel'
+      data: '=',
+      currentModel: '=',
+      stateModel: '=',
+      actions: '=',
+      defaultActions: '='
     },
     link: function ($scope, element, attrs) {
+      // Add thing
+      $scope.validation = {};
+      $scope.tempModel = {};
+      $scope.in = true;
+
+
+      $scope.$on('$destroy', function () {
+        $scope.in = false;
+      });
     }
   };
 }

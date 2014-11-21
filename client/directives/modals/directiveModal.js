@@ -6,6 +6,7 @@ require('app')
 function modal(
   $templateCache,
   $compile,
+  keypather,
   $timeout,
   $rootScope,
   jQuery
@@ -39,19 +40,33 @@ function modal(
 
         var unregClick = $scope.$on('app-document-click', function () {
           if ($scope.in) {
-            $scope.cancel();
+            $scope.defaultActions.cancel();
           }
         });
         $scope.actions.close = function () {
-          unregClick();
-          $scope.modal.remove();
-          $scope.in = false;
+          $scope.defaultActions.close();
         };
-        $scope.cancel = function () {
-          if ($scope.actions.cancel && typeof $scope.actions.cancel === 'function') {
-            $scope.actions.cancel();
+        $scope.defaultActions = {
+          save: function (state, paths, cb) {
+            paths.forEach(function (path) {
+              keypather.set($scope.stateModel, path, keypather.get(state, path));
+            });
+            if ($scope.actions.save && typeof $scope.actions.save === 'function') {
+              $scope.actions.save();
+            }
+            cb();
+          },
+          cancel: function () {
+            if ($scope.actions.cancel && typeof $scope.actions.cancel === 'function') {
+              $scope.actions.cancel();
+            }
+            $scope.defaultActions.close();
+          },
+          close: function () {
+            unregClick();
+            $scope.in = false;
+            $scope.modal.remove();
           }
-          $scope.actions.close();
         };
       }
 
