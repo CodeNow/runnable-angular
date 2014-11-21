@@ -23,7 +23,6 @@ function modalEnvironment(
       $scope.tempModel = {};
 
       $scope.$on('$destroy', function () {
-        //$scope.in = false;
       });
     }
   };
