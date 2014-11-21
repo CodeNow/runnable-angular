@@ -58,12 +58,6 @@ function ControllerInstance(
   });
 
   async.waterfall([
-    determineActiveAccount,
-    function (activeAccount, cb) {
-      data.activeAccount = activeAccount;
-      $scope.safeApply();
-      cb();
-    },
     fetchUser,
     fetchInstance
   ]);
@@ -132,7 +126,11 @@ function ControllerInstance(
       containerWatch = $scope.$watch('dataInstance.data.instance.containers.models[0]', watchForContainerBeforeDisplayTabs);
       return;
     }
-    else if (containerRunning === false) {
+    if (container.error) {
+      boxLogsOnly();
+      return;
+    }
+    if (containerRunning === false) {
       boxLogsOnly();
     }
     else if (containerRunning === true) {
