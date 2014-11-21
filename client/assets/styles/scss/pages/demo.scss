@@ -6,6 +6,10 @@
     height: 39px;
   }
 
+  .row {
+    border-bottom: 0;
+  }
+
   .icons-git {
     margin-right: 6px;
     top: 6px;
@@ -27,7 +31,7 @@
   color: $white;
   font-size: 15px;
   line-height: 1.6;
-  padding-top: 30px;
+  padding-top: 12px;
   text-align: center;
 
   + .demo-sidebar-hint {

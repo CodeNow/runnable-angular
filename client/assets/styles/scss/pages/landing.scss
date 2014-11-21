@@ -27,45 +27,14 @@
   @include media(xl) {
     max-width: 1500px;
   }
-}
 
-// button.btn-hero
-.btn-hero {
-  background: $white;
-  color: $purple;
-  float: right;
-  font-size: 16px;
-  margin: 9px 36px 0 0;
-  text-decoration: none;
-
-  &:hover {
-    background: #eff7fa; // rgba($blue,.1)
-
-    .iconnables {
-      transform: scale3d(1,1,1);
-    }
-  }
-
-  &:active {
-    background: #e8f3f7; // rgba($blue,.15)
-
-    .iconnables {
-      transform: scale3d(.8,.8,1);
-    }
-  }
-
-  .iconnables {
-    margin-right: 9px;
-    top: 6px;
-    transform: scale3d(.8,.8,1);
-    transition: transform .15s ease-in;
-  }
-
-  @include media(xs) {
-    height: 36px;
-    line-height: 36px;
-    margin-top: 12px;
-    padding: 0 9px;
+  // a.link.link-white.link-text
+  .link {
+    display: inline-block;
+    float: right;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 18px 36px 0 0;
   }
 }
 
@@ -166,19 +135,15 @@
   }
 
   &:hover {
-    background: rgba($blue,.1);
+    background: rgba($purple,.15);
 
     .image-wrapper {
       transform: scale3d(1.2,1.2,1);
     }
   }
 
-  &:active {
-    background: rgba($blue,.15);
-
-    .image-wrapper {
-      transform: scale3d(1,1,1);
-    }
+  &:active .image-wrapper {
+    transform: scale3d(1,1,1);
   }
 
   @for $i from 1 through 8 {

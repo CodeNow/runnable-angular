@@ -9,15 +9,10 @@ main.hero(
         use(
           xlink:href = "#runnable-logo"
         )
-    a.btn.btn-hero(
+    a.link.link-white.link-text(
       ng-href = "{{ dataApp.data.loginURL }}"
       ng-if = "dataHome.data.hasPass"
-    )
-      svg.iconnables.icons-git
-        use(
-          xlink:href = "#icons-git"
-        )
-      | Sign In
+    ) Sign In
 
   section.hero-heading
     h1.hero-text A Server for Every Commit
