@@ -30,22 +30,20 @@ function updateEnvName(
   keypather,
   regexpQuote
 ) {
-  return function (instance, rootInstance) {
-
+  return function (instance, newName, oldName, rootInstance) {
+    if (!newName || !oldName || newName === oldName) { return false; }
     function makeRegexp(instanceName) {
       //                  Checks for the = and http(s)
       // do it like this so the first match ($1) is always the same
       return new RegExp('(=\\s*|=\\s*https?:\/\/)' + regexpQuote(instanceName) +
-        '(\\.[^.]*\\.runnable\\.io|runnable3\\.net)', 'gim');
+        '(\\.[^.]*\\.(runnable\\.io|runnable3\\.net))', 'gim');
       //    Checks for a .SOMETHING. then either runnable.io or runnable3.net
     }
 
-    if (!rootInstance || !instance || !rootInstance.dependencies ||
-        !keypather.get(instance, 'state.name')) {
+    if (!rootInstance || !instance || !rootInstance.dependencies) {
       return false;
     }
-    var regex = makeRegexp(instance.attrs.name);
-    var newName = instance.state.name;
+    var regex = makeRegexp(oldName);
     var instancesArray = [rootInstance].concat(rootInstance.dependencies.models);
     instancesArray.forEach(function (dependency) {
       var envs = keypather.get(dependency, 'state.env') || dependency.attrs.env;

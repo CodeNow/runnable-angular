@@ -52,6 +52,12 @@ function modal(
       $scope.modal = $($template);
       $('body').append($template);
 
+      if ($scope.actions.watchers) {
+        $scope.actions.watchers.forEach(function(watcher) {
+          watcher($scope);
+        });
+      }
+
       $scope.$watch('in', function (n) {
         if (n) {
           jQuery(document).on('keydown', keyDownEnter);

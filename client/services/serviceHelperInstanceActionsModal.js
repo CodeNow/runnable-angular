@@ -9,7 +9,8 @@ function HelperInstanceActionsModal(
   $stateParams,
   $timeout,
   async,
-  keypather
+  keypather,
+  updateEnvName
 ) {
   /**
    * Shared actions-modal logic.
@@ -19,7 +20,7 @@ function HelperInstanceActionsModal(
 
     var COPY_SUFFIX = '-copy';
 
-    if (!$scope.popoverGearMenu || !$scope.popoverGearMenu.data) {
+    if (!$scope || !$scope.popoverGearMenu || !$scope.popoverGearMenu.data) {
       throw new Error('helperInstanceActionsModal $scope popoverGearMenu not defined');
     }
 
@@ -93,10 +94,9 @@ function HelperInstanceActionsModal(
       forkInstance: function (newName, forkDeps, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
-        cb = cb || angular.noop;
         // TODO display loading overlay
         function fork (instance, cb) {
-          var newInstance = $scope.instance.copy(function (err) {
+          var newInstance = instance.copy(function (err) {
             if (err) { throw err; }
             var opts = {};
             opts.name = instance.state.name;
@@ -105,7 +105,7 @@ function HelperInstanceActionsModal(
             }
             newInstance.update(opts, function (err) {
               $rootScope.safeApply();
-              if (err) throw err;
+              if (err) { throw err; }
               // update instances collection to update
               // viewInstanceList
               cb();
@@ -130,8 +130,33 @@ function HelperInstanceActionsModal(
             userName: $stateParams.userName,
             instanceName: newName
           });
+          if (cb) {
+            cb();
+          }
         });
       },
+      watchers: [
+        function ($scope) {
+          $scope.$watch('data.newForkName', function(n, o) {
+            if (!n || !keypather.get($scope, 'data.instance.dependencies.models.length')) { return; }
+
+            $scope.data.instance.dependencies.models.forEach(function(instance) {
+              updateEnvName(instance, n, o, $scope.data.instance);
+            });
+          });
+          var depWatch = $scope.$watch('data.instance.dependencies', function(n) {
+            if (!n) { return; }
+            // Cancel watch, it's served its purpose
+            depWatch();
+            $scope.data.instance.dependencies.models.forEach(function(instance, idx) {
+              updateEnvName(instance, instance.attrs.name + COPY_SUFFIX, instance.attrs.name, $scope.data.instance);
+              $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function(n, o) {
+                updateEnvName(instance, n, o, $scope.data.instance);
+              });
+            });
+          });
+        }
+      ],
       cancel: function () {
         data.newForkName = data.newName + COPY_SUFFIX;
         $scope.popoverGearMenu.data.show = false;

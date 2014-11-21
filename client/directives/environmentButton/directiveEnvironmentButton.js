@@ -53,6 +53,14 @@ function environmentButton (
 
       instance.state.envVars = $scope.envToObjects(instance.attrs.env);
 
+      $scope.$watch('instance.state.env', function (n) {
+        if (!n) { return; }
+
+        // Programatic update of env due to instance name change
+        instance.state.envVars = $scope.envToObjects(instance.state.env);
+        $rootScope.safeApply();
+      });
+
     }
   };
 }

@@ -91,12 +91,12 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
 
       $elScope.envPopover.actions.saveEnv(fakeInstance, fakeEvent);
 
-      expect(fakeEvent.preventDefault.called).to.be.true;
-      expect(fakeEnvToStrings.called).to.be.true;
-      expect(fakeInstance.extend.called).to.be.true;
-      expect(fakeInstance.extend.calledWith({
+      sinon.assert.called(fakeEvent.preventDefault);
+      sinon.assert.called(fakeEnvToStrings);
+      sinon.assert.called(fakeInstance.extend);
+      sinon.assert.calledWith(fakeInstance.extend, {
         env: ['a=b', 'c=d', 'e=f']
-      })).to.be.true;
+      });
       expect(fakeInstance.state.envShow).to.be.false;
     });
 
@@ -116,8 +116,8 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
 
       $elScope.envPopover.actions.cancelEnv(fakeInstance, fakeEvent);
 
-      expect(fakeEvent.preventDefault.called).to.be.true;
-      expect(fakeEnvToObjects.called).to.be.true;
+      sinon.assert.called(fakeEvent.preventDefault);
+      sinon.assert.called(fakeEnvToObjects);
       expect(fakeInstance.state.envVars).to.deep.equal([
         {key: 'a', value: 'b'},
         {key: 'c', value: 'd'},

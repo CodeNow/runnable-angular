@@ -143,11 +143,11 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
   describe('basic operations'.blue, function () {
     describe('testing invalid input', function () {
       [
-        ['empty everything', null, null],
-        ['empty instance', null, testRoot()],
-        ['empty rootInstance', testModels()[0], null],
-        ['empty dependencies', testModels()[0], testModels()[1]],
-        ['no name change', testModels()[1], testRoot()]
+        ['empty everything', null, null, null, null],
+        ['empty instance', null, 'a', 'b', testRoot()],
+        ['empty rootInstance', testModels()[0], 'a', 'b', null],
+        ['empty dependencies', testModels()[0], 'a', 'b', testModels()[1]],
+        ['no name change', testModels()[1], 'a', 'b', testRoot()]
       ].forEach(function (testArray) {
           it('should handle ' + testArray[0], function () {
             var result = updateEnvName(testArray[1], testArray[2]);
@@ -160,8 +160,7 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
     it('renaming apple should only affect root', function () {
       var instance = testModels()[0];
       var root = testRoot();
-      keypather.set(instance, 'state.name', 'chicken');
-      var result = updateEnvName(instance, root);
+      var result = updateEnvName(instance, 'chicken', 'apple', root);
       expect(result).to.be.true;
       expect(root.state).to.exist;
       expect(root.state.env).to.exist;
@@ -172,8 +171,7 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
     });
     it('renaming root should only affect itself', function () {
       var root = testRoot();
-      keypather.set(root, 'state.name', 'chicken');
-      var result = updateEnvName(root, root);
+      var result = updateEnvName(root, 'chicken', 'pineapple', root);
       expect(result).to.be.true;
       expect(root.state).to.exist;
       expect(root.state.env).to.exist;
@@ -187,8 +185,7 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
       // This instance already has an state change
       expect(originalInstance.state.env).to.exist;
       var root = testRoot();
-      keypather.set(originalInstance, 'state.name', 'chicken');
-      var result = updateEnvName(originalInstance, root);
+      var result = updateEnvName(originalInstance, 'chicken', 'morange', root);
       expect(result).to.be.true;
       var changedInstance = root.dependencies.models[1];
       expect(changedInstance.state).to.exist;
@@ -208,8 +205,7 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
       var instance = originalDependencies[INSTANCE_INDEX];
       expect(instance.attrs.name).to.eql(INSTANCE_NAME);
       var root = testRoot();
-      keypather.set(instance, 'state.name', 'chicken');
-      var result = updateEnvName(instance, root);
+      var result = updateEnvName(instance, 'chicken', 'banana', root);
       expect(result).to.be.true;
       originalDependencies.forEach(function (ogDeps, index) {
         var ogEnvs = keypather.get(ogDeps, 'state.env') || ogDeps.attrs.env;
@@ -227,8 +223,7 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
         var instance = originalDependencies[INSTANCE_INDEX];
         expect(instance.attrs.name).to.eql(INSTANCE_NAME);
         var root = testRoot();
-        keypather.set(instance, 'state.name', 'chicken');
-        var result = updateEnvName(instance, root);
+        var result = updateEnvName(instance, 'chicken', INSTANCE_NAME, root);
         expect(result).to.be.true;
         originalDependencies.forEach(function (ogDeps, index) {
           var ogEnvs = keypather.get(ogDeps, 'state.env') || ogDeps.attrs.env;
