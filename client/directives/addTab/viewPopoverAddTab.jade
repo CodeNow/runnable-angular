@@ -1,8 +1,6 @@
 //- TODO cleanup temp inline styles
 .popover.menu.bottom.fade(
-  ng-class = "{ \
-    in: data.show, \
-  }"
+  ng-class = "{in: data.show}"
 )
   .arrow.white
   .popover-content
@@ -44,10 +42,3 @@
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")
         | Box Log
-      li.popover-column(
-        ng-click = "actions.addEnvVars()"
-        ng-if = "data.options.envVars"
-      )
-        svg.iconnables.iconnables-lg.icons-env-vars
-          use(xlink:href = "#icons-env-vars")
-        | Env Vars
