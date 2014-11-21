@@ -21,11 +21,9 @@ function modalEnvironment(
       // Add thing
       $scope.validation = {};
       $scope.tempModel = {};
-      $scope.in = true;
-
 
       $scope.$on('$destroy', function () {
-        $scope.in = false;
+        //$scope.in = false;
       });
     }
   };

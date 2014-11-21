@@ -24,25 +24,18 @@ function modal(
       var $ = jQuery;
       $scope.in = false;
 
-      function keyDownEnter(e) {
-        if (e.keyCode === 13) {
-          $scope.modal.find('[data-action]').trigger('click');
-        }
-      }
-
       function setupModal() {
-        var template = $templateCache.get($scope.template);
+        var tempTemplate = checkTemplate($scope.template);
+        var template = $templateCache.get(tempTemplate);
+        // Here's a hack to replace the type attribute with the actual template name
+        if (tempTemplate !== $scope.template) {
+          template = template.replace('%%GENERIC_TEMPLATE_NAME%%', $scope.template);
+        }
         var $template = angular.element(template);
         $compile($template)($scope);
         $scope.modal = $($template);
         $('body').append($template);
         $scope.in = true;
-
-        var unregClick = $scope.$on('app-document-click', function () {
-          if ($scope.in) {
-            $scope.defaultActions.cancel();
-          }
-        });
         $scope.actions.close = function () {
           $scope.defaultActions.close();
         };
@@ -63,7 +56,6 @@ function modal(
             $scope.defaultActions.close();
           },
           close: function () {
-            unregClick();
             $scope.in = false;
             $scope.modal.remove();
           }
@@ -76,28 +68,17 @@ function modal(
         $rootScope.safeApply();
       });
 
-      var unregIn = $scope.$watch('in', function (n) {
-        if (n) {
-          jQuery(document).on('keydown', keyDownEnter);
-          var autofocus = $scope.modal.find('[autofocus]');
-          if (autofocus.length) {
-            $rootScope.safeApply(function() {
-              autofocus[0].select();
-            });
-          }
-        } else {
-          jQuery(document).off('keydown', keyDownEnter);
-        }
-      });
-
       $scope.$on('$destroy', function () {
         if ($scope.modal) {
           $scope.modal.remove();
         }
         element.off('click');
-        unregIn();
-        jQuery(document).off('keydown', keyDownEnter);
       });
     }
   };
+}
+
+var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox'];
+function checkTemplate(template) {
+  return (genericModals.indexOf(template) < 0) ? template : 'viewOpenModalGeneric';
 }

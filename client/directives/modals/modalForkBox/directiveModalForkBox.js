@@ -10,7 +10,11 @@ function modalForkBox(
     restrict: 'E',
     templateUrl: 'viewModalForkBox',
     replace: true,
-    scope: {},
+    scope: {
+      data: 'data',
+      actions: '=',
+      defaultActions: '='
+    },
     link: function ($scope, element, attrs) {
     }
   };

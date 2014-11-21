@@ -12,7 +12,8 @@ function setupSecondaryActions(
     replace: true,
     scope: {
       saving: '=',
-      stateModel: '='
+      stateModel: '=',
+      currentModel: '='
     },
     link: function ($scope, elem, attrs) {
       keypather.set($scope, 'actions.actionsModalEnvironment', {
