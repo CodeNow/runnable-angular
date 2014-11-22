@@ -14,7 +14,12 @@ nav.sidebar.global-sidebar.demo-sidebar
     ) Github
     |.
   p.demo-sidebar-hint Use this box to run your own repos by signing in with Github.
-  button.btn.white.reversed
+  button.btn.white.reversed(
+    modal
+    modal-actions = "actions.actionsModalSignIn"
+    modal-data = "data.dataModalSignIn"
+    modal-template = "viewModalSignIn"
+  )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"

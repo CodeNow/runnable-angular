@@ -12,14 +12,13 @@
     section.modal-body
       p You have to sign in to fork this box.
     footer.modal-footer
-      //- signing in should fork and add the current box to the user's account
       a.btn.green
         svg.iconnables.icons-git
           use(
             xlink:href = "#icons-git"
           )
         | Sign In with Github
-      a.link I&rsquo;m not ready yet.
+      a.link.link-text I&rsquo;m not ready yet.
 
     //-
     //- if prompted to sign in to add repos:
@@ -29,43 +28,23 @@
     section.modal-body
       p You have to sign in to Github to your repositories to this box.
     footer.modal-footer
-      //- signing in should add the current box to the user's account
       a.btn.green
         svg.iconnables.icons-git
           use(
             xlink:href = "#icons-git"
           )
         | Sign In with Github
-      a.link I&rsquo;m not ready yet.
+      a.link.link-text I&rsquo;m not ready yet.
 
     //-
-    //- after signing in to fork:
+    //- after signing in:
     //-
     header.modal-header
-      h1.modal-heading You&rsquo;ve forked your first box!
+      h1.modal-heading You&rsquo;re In!
     section.modal-body
-      p We&rsquo;ve added the original box to your account as well.
+      p Now that you're signed in, we can help you
         br
-      | You can access them both in the sidebar.
+      | get your own projects running.
     footer.modal-footer
-      a.btn.gray Thanks!
-
-    //-
-    //- after signing in to save:
-    //-
-    header.modal-header
-      h1.modal-heading You&rsquo;ve saved your first box!
-    section.modal-body
-      p We&rsquo;ve saved this box to your account. Go nuts.
-    footer.modal-footer
-      a.btn.gray Nuts
-
-    //-
-    //- after signing in to add repos:
-    //-
-    header.modal-header
-      h1.modal-heading You can now add repositories!
-    section.modal-body
-      p We&rsquo;ve saved this box to your account, close this modal to start adding repos.
-    footer.modal-footer
-      a.btn.gray Close
+      button.btn.green Get Started
+      a.link.link-text I don't want any help
