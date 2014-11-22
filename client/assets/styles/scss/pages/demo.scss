@@ -18,7 +18,7 @@
   .btn {
 
     .iconnables {
-      transform: scale3d(.8,.8,1);
+      transform: scale3d(.9,.9,1);
     }
 
     &:hover .iconnables {
@@ -28,13 +28,13 @@
 }
 
 .demo-sidebar-hint {
-  color: $white;
+  color: rgba($white,.9);
   font-size: 15px;
   line-height: 1.6;
-  padding-top: 12px;
+  padding: 30px 9px 9px;
   text-align: center;
 
   + .demo-sidebar-hint {
-    padding: 9px 0 15px;
+    padding: 9px 9px 21px;
   }
 }
