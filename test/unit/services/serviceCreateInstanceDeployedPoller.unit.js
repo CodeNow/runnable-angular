@@ -1,5 +1,3 @@
-var sinon = require('sinon');
-
 describe('serviceCreateInstanceDeployedPoller'.bold.underline.blue, function() {
   var createInstanceDeployedPoller,
       interval,
@@ -50,16 +48,16 @@ describe('serviceCreateInstanceDeployedPoller'.bold.underline.blue, function() {
     expect(i1.startCounter).to.equal(0);
     i1.start();
 
-    expect(mockInstance.deployed.calledOnce).to.equal(true);
+    sinon.assert.calledOnce(mockInstance.deployed);
     expect(i1.pollingStarted).to.equal(true);
     expect(i1.startCounter).to.equal(1);
-    expect(interval.calledOnce).to.equal(true);
+    sinon.assert.calledOnce(interval);
     i1.start();
 
-    expect(mockInstance.deployed.calledOnce).to.equal(true);
+    sinon.assert.calledOnce(mockInstance.deployed);
     expect(i1.pollingStarted).to.equal(true);
     expect(i1.startCounter).to.equal(2);
-    expect(interval.calledOnce).to.equal(true);
+    sinon.assert.calledOnce(interval);
   });
 
   it('clear only stops interval when startCounter reduced to 0', function(){
@@ -84,11 +82,11 @@ describe('serviceCreateInstanceDeployedPoller'.bold.underline.blue, function() {
     expect(i1.startCounter).to.equal(2);
     i1.clear();
     expect(i1.startCounter).to.equal(1);
-    expect(interval.cancel.called).to.equal(false);
+    sinon.assert.notCalled(interval.cancel);
     i1.clear();
     expect(i1.startCounter).to.equal(0);
-    expect(interval.cancel.calledOnce).to.equal(true);
-    expect(mockInstance.fetch.calledOnce).to.equal(true);
+    sinon.assert.calledOnce(interval.cancel);
+    sinon.assert.calledOnce(mockInstance.fetch);
   });
 
   it('should not poll if instance.build is failed', function(){
@@ -111,7 +109,7 @@ describe('serviceCreateInstanceDeployedPoller'.bold.underline.blue, function() {
     i1.start();
     expect(i1.startCounter).to.equal(0);
     expect(i1.pollingStarted).to.equal(false);
-    expect(interval.called).to.equal(false);
+    sinon.assert.notCalled(interval);
   });
 
   it('should not poll if instance.build is succeeded & has containers', function(){
@@ -137,7 +135,7 @@ describe('serviceCreateInstanceDeployedPoller'.bold.underline.blue, function() {
     i1.start();
     expect(i1.startCounter).to.equal(0);
     expect(i1.pollingStarted).to.equal(false);
-    expect(interval.called).to.equal(false);
+    sinon.assert.notCalled(interval);
   });
 
   it('should not poll more than 100 times', function(){
@@ -157,14 +155,13 @@ describe('serviceCreateInstanceDeployedPoller'.bold.underline.blue, function() {
       })
     };
     var i1 = createInstanceDeployedPoller(mockInstance);
-    i1.clear = sinon.spy();
     i1.start();
     expect(i1.startCounter).to.equal(1);
     expect(i1.pollingStarted).to.equal(true);
-    expect(interval.called).to.equal(true);
     for(var i=0; i < 102; i++) { // 101 iterations
       intervalCallback();
     }
+    sinon.assert.called(interval);
   });
 
   it('should clear if instance deployed returns true', function(){
@@ -186,7 +183,7 @@ describe('serviceCreateInstanceDeployedPoller'.bold.underline.blue, function() {
     var i1 = createInstanceDeployedPoller(mockInstance);
     i1.clear = sinon.spy();
     i1.start();
-    expect(i1.clear.calledOnce).to.equal(true);
+    sinon.assert.calledOnce(i1.clear);
   });
 
 });
