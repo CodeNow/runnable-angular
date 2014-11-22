@@ -53,14 +53,16 @@ function instanceEditSecondaryActions(
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
           .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
+            githubUsername: $stateParams.userName
           })
           .cacheFetch(function (instances, cached, cb) {
             if (!cached && instances.models.length === 0) {
               throw new Error('instance not found');
             }
-            $scope.instance = instances.models[0];
+            $scope.instances = instances;
+            $scope.instance = instances.models.find(function(instance) {
+              return instance.attrs.name === $stateParams.instanceName;
+            });
             $rootScope.safeApply();
             cb();
           })
@@ -75,7 +77,7 @@ function instanceEditSecondaryActions(
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
-            $scope.newBuild = build;
+            $scope.newBuild = $scope.build = build;
             $rootScope.safeApply();
             cb();
           })

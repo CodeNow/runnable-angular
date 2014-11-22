@@ -12,7 +12,6 @@ function environmentButton (
       instance: '='
     },
     link: function ($scope, elem, attrs) {
-      if (!$scope.instance.state) { $scope.instance.state = {}; }
 
       $scope.envToObjects = function (envArr) {
         if (!envArr) { return []; }
@@ -49,7 +48,11 @@ function environmentButton (
         }
       };
 
-      var instance = $scope.instance;
+      var instance;
+      instance = $scope.instance;
+      if (!$scope.instance.state) {
+        $scope.instance.state = {};
+      }
 
       instance.state.envVars = $scope.envToObjects(instance.attrs.env);
 

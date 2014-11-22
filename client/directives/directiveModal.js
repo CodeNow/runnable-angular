@@ -8,7 +8,8 @@ function modal(
   $compile,
   $timeout,
   $rootScope,
-  jQuery
+  jQuery,
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -52,7 +53,7 @@ function modal(
       $scope.modal = $($template);
       $('body').append($template);
 
-      if ($scope.actions.watchers) {
+      if (keypather.get($scope, 'actions.watchers')) {
         $scope.actions.watchers.forEach(function(watcher) {
           watcher($scope);
         });
