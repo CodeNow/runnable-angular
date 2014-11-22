@@ -6,6 +6,10 @@
   overflow: hidden;
   position: relative;
   width: 100vw;
+
+  .btn {
+    margin-top: 30px;
+  }
 }
 
 // header.hero-header
@@ -213,7 +217,7 @@
 
   // header
   header.hero-header {
-    margin-bottom: 30px;
+    margin-bottom: 9px;
     margin-top: -10vh;
   }
 
