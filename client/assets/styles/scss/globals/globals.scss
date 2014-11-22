@@ -31,6 +31,7 @@ body {
   float: right;
   height: 100%;
   overflow: hidden;
+  position: relative;
   transition: width .2s ease-in;
   width: calc(100% - 240px);
 }

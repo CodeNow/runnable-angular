@@ -60,21 +60,24 @@ $z-sidebar-header: 4001;
 $z-sidebar-sub-header: 4002;
 $z-sidebar-footer: 4003;
 
+// guides
+$z-guide: 5000;
+
 // popovers
-$z-popover: 5000;
-$z-popover-title-filter: 5001;
-$z-popover-context-menu: 5002;
+$z-popover: 6000;
+$z-popover-title-filter: 6001;
+$z-popover-context-menu: 6002;
 
 // modals
-$z-modal-backdrop: 6000;
-$z-modal-sidebar: 6001;
-$z-modal: 6002;
+$z-modal-backdrop: 7000;
+$z-modal-sidebar: 7001;
+$z-modal: 7002;
 
 // alerts
-$z-alert: 7000;
+$z-alert: 8000;
 
 // tooltips
-$z-tooltip: 8000;
+$z-tooltip: 9000;
 
 // spinners
-$z-spinner: 9000;
+$z-spinner: 10000;

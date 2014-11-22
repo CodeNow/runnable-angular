@@ -18,6 +18,12 @@ module.exports = [
     templateUrl: 'viewDemo',
     controller: 'controllerDemo'
   }, {
+    state: 'demo2',
+    abstract: false,
+    url: '^/demo2',
+    templateUrl: 'viewDemo2',
+    controller: 'controllerDemo2'
+  }, {
     state: 'instance',
     abstract: true,
     templateUrl: 'viewInstanceLayout',

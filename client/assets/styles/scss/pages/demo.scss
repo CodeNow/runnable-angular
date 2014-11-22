@@ -10,11 +10,7 @@
     border-bottom: 0;
   }
 
-  .icons-git {
-    margin-right: 6px;
-    top: 6px;
-  }
-
+  // a.btn.white.btn-icon.btn-actions
   .btn {
 
     .iconnables {
@@ -24,6 +20,19 @@
     &:hover .iconnables {
       transform: scale3d(1,1,1);
     }
+  }
+
+  .icons-git {
+    margin-right: 6px;
+    top: 6px;
+  }
+
+  // a.link.link-white.link-text
+  .link-text {
+    color: rgba($white,.6);
+    font-weight: 300;
+    margin-top: 9px;
+    text-align: center;
   }
 }
 
