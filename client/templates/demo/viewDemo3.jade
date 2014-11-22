@@ -7,8 +7,14 @@ nav.sidebar.global-sidebar.demo-sidebar
         use(
           xlink:href = "#runnable-logo"
         )
-  p.demo-sidebar-hint Add the repository you'd like to see running on this box.
-  a.link.link-white.link-text Skip this step
+  p.demo-sidebar-hint Adding a repo requires an #{''}
+    b.btn.btn-xxs.white.reversed ADD
+    | #{''} instruction which copies your repo files to the box.
+  p.demo-sidebar-hint We&rsquo;re using your previous template; change it if you want.
+  select
+    option Django
+    option Flask
+  a.link.link-white.link-text Continue
 
 main.content
   .guide-backdrop
