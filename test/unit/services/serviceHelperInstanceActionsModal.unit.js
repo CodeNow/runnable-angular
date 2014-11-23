@@ -5,6 +5,8 @@ var $rootScope,
     $stateParams,
     ctx;
 
+var COPY_SUFFIX = '-copy';
+
 function makeFakeInstance (env, deps) {
   var instance = {
     copy: angular.noop,
@@ -77,6 +79,51 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
       ctx.service($scope);
     });
   }
+
+  describe.only('watchers', function() {
+    var data;
+    var instance;
+    beforeEach(initState);
+    beforeEach(function() {
+      data = $scope.popoverGearMenu.data.dataModalRename;
+      instance = {
+        attrs: {
+          name: 'instance'
+        }
+      };
+    });
+    it('$scope.instance', function() {
+      expect(data.instance).to.be.null;
+
+      $scope.instance = instance
+      $scope.$digest();
+      expect(data.instance).to.deep.equal(instance);
+      expect(data.newName).to.equal('instance');
+      expect(data.newForkName).to.equal('instance' + COPY_SUFFIX);
+      expect($scope.popoverGearMenu.data.instance).to.deep.equal(instance);
+    });
+    it('$scope.instances', function() {
+      expect(data.instances).to.be.null;
+
+      $scope.instances = [instance];
+      $scope.$digest();
+      expect(data.instances).to.deep.equal([instance]);
+      expect($scope.popoverGearMenu.data.instances).to.deep.equal([instance]);
+    });
+    it('$scope.build', function() {
+      var build = {
+        attrs:{
+          name: 'build'
+        }
+      };
+      expect(data.build).to.be.undefined;
+
+      $scope.build = build;
+      $scope.$digest();
+      expect(data.build).to.deep.equal(build);
+      expect($scope.popoverGearMenu.data.build).to.deep.equal(build);
+    });
+  });
 
   describe('actionsModalFork'.blue, function() {
     var dmf;
