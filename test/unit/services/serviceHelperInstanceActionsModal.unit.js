@@ -3,7 +3,8 @@ var $rootScope,
     $timeout,
     $state,
     $stateParams,
-    ctx;
+    ctx,
+    updateEnvStub;
 
 var COPY_SUFFIX = '-copy';
 
@@ -41,14 +42,17 @@ function makeFakeInstance (env, deps) {
   return instance;
 }
 
-describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
+describe.only('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
   function initState () {
+    updateEnvStub = sinon.spy();
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.value('$stateParams', {
         userName: 'username',
         instanceName: 'instancename'
       });
+
+      $provide.value('updateEnvName', updateEnvStub);
     });
     angular.mock.inject(function (
         _$rootScope_,
@@ -80,7 +84,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
     });
   }
 
-  describe.only('watchers', function() {
+  describe('watchers', function() {
     var data;
     var instance;
     beforeEach(initState);
@@ -122,6 +126,61 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
       $scope.$digest();
       expect(data.build).to.deep.equal(build);
       expect($scope.popoverGearMenu.data.build).to.deep.equal(build);
+    });
+  });
+
+  describe('actionsModalRename', function() {
+    var mr;
+    beforeEach(initState);
+    beforeEach(function() {
+      mr = {
+        data: $scope.popoverGearMenu.data.dataModalRename,
+        actions: $scope.popoverGearMenu.actions.actionsModalRename
+      };
+    });
+    describe('renameInstance'.blue, function() {
+      var instance;
+      beforeEach(function() {
+        $scope.instance = {
+          attrs: {
+            name: 'properly'
+          },
+          update: sinon.spy(function(opts, cb) {
+            $scope.instance.attrs.name = opts.name;
+            $scope.$digest();
+            cb();
+          })
+        };
+        $scope.$digest();
+      });
+      it('renames properly', function(done) {
+        var fakeGo = sinon.stub($state, 'go');
+        mr.actions.renameInstance('test-rename', function() {
+          expect($scope.popoverGearMenu.data.show).to.be.false;
+          expect($scope.saving).to.be.false;
+          $timeout.flush();
+          expect($scope.saving).to.be.true;
+
+          sinon.assert.called(fakeGo);
+          sinon.assert.called($scope.instance.update);
+          sinon.assert.calledWith(fakeGo,'instance.instance', {
+            userName: 'username',
+            instanceName: 'test-rename'
+          });
+          done();
+        });
+      });
+      it('exits early if the name is the same', function() {
+        mr.actions.renameInstance('properly');
+        expect($scope.popoverGearMenu.data.show).to.be.false;
+        sinon.assert.notCalled($scope.instance.update);
+      });
+    });
+    describe('cancel'.blue, function() {
+      it('should properly set variables', function() {
+        mr.actions.cancel();
+        expect($scope.popoverGearMenu.data.show).to.be.false;
+      });
     });
   });
 
@@ -228,11 +287,117 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
       });
     });
 
+    describe('watchers', function() {
+      var watcherFunc;
+      var $wScope;
+      beforeEach(function() {
+        // only one to test
+        watcherFunc = dmf.actions.watchers[0];
+        $wScope = $rootScope.$new();
+      });
+      // tfw no deps :<
+      it('does not do much without dependencies', function() {
+        watcherFunc($wScope);
+        $wScope.data = {
+          newForkName: 'newForkName'
+        };
+        $wScope.$digest();
+        $scope.$digest();
+        sinon.assert.notCalled(updateEnvStub);
+      });
+      it('watches for an instance name change', function() {
+        watcherFunc($wScope);
+        $wScope.data = {
+          newForkName: 'newForkName',
+          instance: {
+            dependencies: {
+              models: [{
+                attrs: {
+                  name: 'dep'
+                }
+              }]
+            }
+          }
+        }
+        $wScope.$digest();
+        $scope.$digest();
+        sinon.assert.called(updateEnvStub);
+      });
+    });
+
     describe('cancel'.blue, function() {
       it('should properly set variables', function() {
         dmf.data.newName = 'test';
         dmf.actions.cancel();
         expect(dmf.data.newForkName).to.equal('test-copy');
+        expect($scope.popoverGearMenu.data.show).to.be.false;
+      });
+    });
+  });
+
+ describe('actionsModalDelete', function() {
+    var md;
+    beforeEach(initState);
+    beforeEach(function() {
+      md = {
+        data: $scope.popoverGearMenu.data.dataModalDelete,
+        actions: $scope.popoverGearMenu.actions.actionsModalDelete
+      };
+    });
+    describe('deleteInstance'.blue, function() {
+      var instance;
+      beforeEach(function() {
+        $scope.instance = {
+          attrs: {
+            name: 'properly'
+          },
+          destroy: sinon.spy(function(cb) {
+            cb();
+          })
+        };
+        $scope.$digest();
+      });
+      it('deletes properly with no other instances', function(done) {
+        var fakeGo = sinon.stub($state, 'go', function() {
+
+          sinon.assert.called(fakeGo);
+          sinon.assert.called($scope.instance.destroy);
+          sinon.assert.calledWith(fakeGo,'instance.new', {
+            userName: 'username'
+          });
+          done();
+        });
+        $scope.instances = {
+          models: []
+        };
+        $scope.$digest();
+        md.actions.deleteInstance();
+      });
+      it('deletes properly with other instances', function(done) {
+        var fakeGo = sinon.stub($state, 'go', function() {
+
+          sinon.assert.called(fakeGo);
+          sinon.assert.called($scope.instance.destroy);
+          sinon.assert.calledWith(fakeGo,'instance.instance', {
+            userName: 'username',
+            instanceName: 'other'
+          });
+          done();
+        });
+        $scope.instances = {
+          models: [{
+            attrs: {
+              name: 'other'
+            }
+          }]
+        };
+        $scope.$digest();
+        md.actions.deleteInstance();
+      });
+    });
+    describe('cancel'.blue, function() {
+      it('should properly set variables', function() {
+        md.actions.cancel();
         expect($scope.popoverGearMenu.data.show).to.be.false;
       });
     });

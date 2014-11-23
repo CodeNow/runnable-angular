@@ -62,7 +62,6 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.actions.actionsModalRename = {
       renameInstance: function (newName, cb) {
         $scope.popoverGearMenu.data.show = false;
-        newName = newName.trim();
         if (newName === $scope.instance.attrs.name) {
           return;
         }
@@ -76,7 +75,7 @@ function HelperInstanceActionsModal(
           name: newName
         }, function (err) {
           $rootScope.safeApply();
-          if (err) throw err;
+          if (err) { throw err; }
           $state.go('instance.instance', {
             userName: $stateParams.userName,
             instanceName: $scope.instance.attrs.name
@@ -167,7 +166,7 @@ function HelperInstanceActionsModal(
       deleteInstance: function () {
         data.instance.destroy(function (err) {
           $rootScope.safeApply();
-          if (err) throw err;
+          if (err) { throw err; }
           // redirect to next instance or new
           if (data.instances.models.length) {
             $state.go('instance.instance', {
