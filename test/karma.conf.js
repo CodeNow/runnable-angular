@@ -45,7 +45,7 @@ module.exports = function(config) {
 
     // browsers: Object.keys(customLaunchers),
     browsers: ['Chrome'],
-    // browsers: ['PhantomJS'],
+    //browsers: ['PhantomJS'],
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
@@ -66,6 +66,7 @@ module.exports = function(config) {
     files: [
       'unit/globals.js',
       'unit/**/*.unit.js'
+     // 'unit/services/serviceCreateInstanceDeployedPoller.unit.js'
     ],
 
 

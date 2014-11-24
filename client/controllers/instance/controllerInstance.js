@@ -58,6 +58,12 @@ function ControllerInstance(
   });
 
   async.waterfall([
+    determineActiveAccount,
+    function(activeAccount, cb) {
+      data.activeAccount = activeAccount;
+      $scope.safeApply();
+      cb();
+    },
     fetchUser,
     fetchInstance
   ]);
