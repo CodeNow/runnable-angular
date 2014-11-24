@@ -16,7 +16,7 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       };
 
       var tpl = directiveTemplate('env-vars', {
-        'items': 'items',
+        'validation': 'validation',
         'current-model': 'currentModel',
         'state-model': 'stateModel'
       });
