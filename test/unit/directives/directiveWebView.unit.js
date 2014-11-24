@@ -76,8 +76,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
       });
     };
 
-    ctx.element = angular.element(ctx.template);
-    ctx.element = $compile(ctx.element)($scope);
+    ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $httpBackend.flush();
     $elScope = ctx.element.isolateScope();

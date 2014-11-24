@@ -11,6 +11,12 @@
 
   .well {
     margin-top: 9px;
+    transition: none;
+
+    &.in {
+      max-height: 450px;
+      transition: margin .15s ease-in, max-height .15s ease-in;
+    }
 
     &.btn {
       margin-top: 6px;

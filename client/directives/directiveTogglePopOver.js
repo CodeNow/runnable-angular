@@ -1,4 +1,3 @@
-var $ = require('jquery');
 require('app')
   .directive('togglePopOver', togglePopOver);
 /**
@@ -11,17 +10,23 @@ function togglePopOver(
   return {
     restrict: 'A',
     scope: {
-      model: '=togglePopOverModel'
+      model: '=togglePopOverModel',
+      noBroadcast: '=togglePopOverNoBroadcast'
     },
     link: function ($scope, element, attrs) {
-      var clickHandler = $.proxy(function (event) {
-        if (!this.model && !element.prop('disabled')) {
+      function clickHandler (event) {
+        if (!$scope.model && !element.prop('disabled')) {
           event.stopPropagation();
-          $rootScope.$broadcast('app-document-click');
-          this.model = true;
-          this.$apply();
+          // Skip broadcasting if we're in a modal
+          if (!$scope.noBroadcast) {
+            $rootScope.$broadcast('app-document-click');
+          }
+          $scope.model = true;
+          $scope.$apply();
+        } else if ($scope.model) {
+          $scope.model = false;
         }
-      }, $scope);
+      }
       element.on('click', clickHandler);
       $scope.$on('$destroy', function () {
         element.off('click');
