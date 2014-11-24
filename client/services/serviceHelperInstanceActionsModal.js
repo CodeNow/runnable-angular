@@ -71,12 +71,9 @@ function HelperInstanceActionsModal(
         $scope.instance.update(opts, function (err) {
           $rootScope.safeApply();
           if (err) throw err;
+          $rootScope.dataApp.data.loading = false;
           // update instances collection to update
           // viewInstanceList
-          $state.go('instance.instance', {
-            userName: $stateParams.userName,
-            instanceName: $scope.instance.attrs.name
-          });
         });
         if (cb) {
           cb();

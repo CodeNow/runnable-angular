@@ -95,6 +95,26 @@ function setupPrimaryActions(
           .go();
       }
 
+      function fetchInstances(cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchInstances', cb)
+          .query({
+            githubUsername: $stateParams.userName
+          })
+          .cacheFetch(function (instances, cached, cb) {
+            if (!cached && instances.models.length === 0) {
+              throw new Error('instance not found');
+            }
+            $scope.instances = instances;
+            $rootScope.safeApply();
+            cb();
+          })
+          .resolve(function (err) {
+            if (err) { }
+          })
+          .go();
+      }
+
       async.waterfall([
         determineActiveAccount,
         function (activeAccount, cb) {
@@ -103,7 +123,8 @@ function setupPrimaryActions(
           cb();
         },
         fetchUser,
-        fetchBuild
+        fetchBuild,
+        fetchInstances
       ]);
 
     }

@@ -106,27 +106,30 @@ function instanceSecondaryActions(
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
           .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
+            githubUsername: $stateParams.userName
           })
           .cacheFetch(function (instances, cached, cb) {
             if (!cached && instances.models.length === 0) {
               throw new Error('instance not found');
             }
             $scope.instances = instances;
-            $scope.instance = instances.models[0];
+            $scope.instance = instances.models.find(function(instance) {
+              return instance.attrs.name === $stateParams.instanceName;
+            });
             $scope.build = $scope.instance.build;
             $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, projects, cb) {
             if (err) { return $log.error(err); }
+            cb();
           })
           .go();
       }
 
       async.series([
         fetchUser,
+        fetchInstance,
         fetchBuild
       ]);
 

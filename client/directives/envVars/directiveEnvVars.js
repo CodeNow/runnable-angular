@@ -5,7 +5,8 @@ require('app')
  */
 function envVars(
   keypather,
-  validateEnvVars
+  validateEnvVars,
+  $rootScope
 ) {
   return {
     restrict: 'E',
@@ -20,17 +21,18 @@ function envVars(
     link: function ($scope, elem, attrs) {
 
       $scope.environmentalVars = '';
-      var editor, session;
+      var editor, session, unwatchValidation;
 
-      function getEnvLength() {
-        return keypather.get($scope, 'stateModel.env.length') || keypather.get($scope, 'currentModel.env.length');
-      }
+      $scope.$on('eventPasteLinkedInstance', function (eventName, text) {
+        editor.insert(text);
+        editor.focus();
+      });
 
-      $scope.aceLoaded = function(_editor){
+      $scope.aceLoaded = function (_editor){
         // Editor part
         editor = _editor;
         session = _editor.session;
-        $scope.$watchCollection('validation.errors', function (n, p) {
+        unwatchValidation = $scope.$watchCollection('validation.errors', function (n, p) {
           if (n !== p) {
             if (p) {
               p.forEach(function (error) {
@@ -48,7 +50,7 @@ function envVars(
         if (_renderer.lineHeight === 0) {
           _renderer.lineHeight = 19;
         }
-        //// Options
+        editor.focus();
       };
 
       // Watch the current model for envs
@@ -75,14 +77,12 @@ function envVars(
         }));
       });
 
-      var unwatchIn = $scope.$watch('in', function (n, p) {
-        if (n === false && n !== p) {
-          unwatchIn();
-          unwatchCurrentModel();
-          unwatchScreenEnvs();
-          editor.session.$stopWorker();
-          editor.destroy();
-        }
+      $scope.$on('$destroy', function () {
+        unwatchCurrentModel();
+        unwatchScreenEnvs();
+        unwatchValidation();
+        editor.session.$stopWorker();
+        editor.destroy();
       });
     }
   };

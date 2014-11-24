@@ -22,6 +22,10 @@ function modalEnvironment(
       $scope.validation = {};
       $scope.tempModel = {};
 
+      $scope.pasteLinkedInstance = function (text, port) {
+        $scope.$broadcast('eventPasteLinkedInstance', text + ':' + port);
+      };
+
       $scope.$on('$destroy', function () {
       });
     }
