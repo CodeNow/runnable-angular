@@ -20,9 +20,13 @@
             xlink:href = "#icons-sidebar"
           )
     //- guide text should only appear once until dismissed
-    .guide.guide-no-help.blue
+    .guide.guide-no-help.blue(
+      ng-if = '!data.hideGuideHelpEnvModal'
+    )
       p.guide-text Environmental files are good at protecting our fires from trees. Use it for linking boxes or setting up environment variables.
-      button.btn.blue.btn-xs
+      button.btn.blue.btn-xs(
+        ng-click = "onChangeHideGuideEnv()"
+      )
         svg.iconnables.icons-close
           use(
             xlink:href = "#icons-close"

@@ -5,6 +5,8 @@ require('app')
  * @ngInject
  */
 function modalEnvironment(
+  $localStorage,
+  keypather
 ) {
   return {
     restrict: 'E',
@@ -25,9 +27,13 @@ function modalEnvironment(
       $scope.pasteLinkedInstance = function (text, port) {
         $scope.$broadcast('eventPasteLinkedInstance', text + ':' + port);
       };
+      $scope.data.hideGuideHelpEnvModal =
+          keypather.get($localStorage, 'guides.hideGuideHelpEnvModal') || false;
 
-      $scope.$on('$destroy', function () {
-      });
+      $scope.onChangeHideGuideEnv = function () {
+        $scope.data.hideGuideHelpEnvModal = true;
+        keypather.set($localStorage, 'guides.hideGuideHelpEnvModal', true);
+      };
     }
   };
 }
