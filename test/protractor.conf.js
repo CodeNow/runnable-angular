@@ -27,8 +27,9 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
-  baseUrl: 'http://localhost:3001',
-//  baseUrl: 'http://runnable3.net',
+  //baseUrl: 'http://localhost:3001',
+  //baseUrl: 'http://runnable3.net',
+  baseUrl: 'http://runnable.io',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000

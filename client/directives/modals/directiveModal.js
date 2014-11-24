@@ -36,6 +36,12 @@ function modal(
         $scope.modal = $($template);
         $('body').append($template);
         $scope.in = true;
+
+        if (keypather.get($scope, 'actions.watchers')) {
+          $scope.actions.watchers.forEach(function(watcher) {
+            watcher($scope);
+          });
+        }
         $scope.actions.close = function () {
           $scope.defaultActions.close();
         };
