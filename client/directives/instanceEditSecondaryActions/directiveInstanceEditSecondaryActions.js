@@ -47,8 +47,7 @@ function instanceEditSecondaryActions(
           .resolve(function (err, user, cb) {})
           .go();
       }
-
-
+      
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances', cb)
@@ -63,13 +62,11 @@ function instanceEditSecondaryActions(
             $scope.instance = instances.models.find(function(instance) {
               return instance.attrs.name === $stateParams.instanceName;
             });
-            $scope.build = $scope.instance.build;
             $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, projects, cb) {
             if (err) throw err;
-            cb();
           })
           .go();
       }
@@ -79,7 +76,7 @@ function instanceEditSecondaryActions(
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
-            $scope.newBuild = build;
+            $scope.newBuild = $scope.build = build;
             $rootScope.safeApply();
             cb();
           })

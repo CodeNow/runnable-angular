@@ -164,29 +164,20 @@
   // wells in modals
   .well {
     display: block;
-    margin-left: 6px;
-    margin-right: 6px;
-    max-height: 180px; // will show up to 3.5 input-groups
-    overflow-y: auto;
+    margin-left: 9px;
+    margin-right: 9px;
+    max-height: 36px;
     text-align: left;
     transition: margin .15s ease-in, max-height .15s ease-in;
 
-    &.btn {
-      margin-left: 9px;
-      margin-right: 9px;
-      max-height: 36px;
-
-      .label-checkbox {
-        padding-left: 0;
-      }
+    &.in {
+      margin-left: 6px;
+      margin-right: 6px;
+      max-height: 180px; // will show up to 3.5 input-groups
     }
 
     .input-group {
       margin: 0 0 3px;
-    }
-
-    .label-checkbox {
-      padding-left: 3px;
     }
   }
 }
