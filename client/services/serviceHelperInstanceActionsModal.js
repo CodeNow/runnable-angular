@@ -114,7 +114,7 @@ function HelperInstanceActionsModal(
         }
         async.parallel([
           function (cb) {
-            $scope.instance.state.name = newName;
+            keypather.set($scope, 'instance.state.name', newName);
             fork($scope.instance, cb);
           },
           function (cb) {
