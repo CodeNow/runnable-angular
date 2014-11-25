@@ -7,7 +7,10 @@ function HelperInstanceActionsModal(
   $rootScope,
   $state,
   $stateParams,
-  $timeout
+  $timeout,
+  async,
+  keypather,
+  updateEnvName
 ) {
   /**
    * Shared actions-modal logic.
@@ -17,7 +20,7 @@ function HelperInstanceActionsModal(
 
     var COPY_SUFFIX = '-copy';
 
-    if (!$scope.popoverGearMenu || !$scope.popoverGearMenu.data) {
+    if (!$scope || !$scope.popoverGearMenu || !$scope.popoverGearMenu.data) {
       throw new Error('helperInstanceActionsModal $scope popoverGearMenu not defined');
     }
 
@@ -87,33 +90,73 @@ function HelperInstanceActionsModal(
     };
 
     $scope.popoverGearMenu.actions.actionsModalFork = {
-      forkInstance: function (newName, env, cb) {
+      // TODO: check instanceEdit page
+      forkInstance: function (newName, forkDeps, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
-        newName = newName.trim();
-        cb = cb || angular.noop;
         // TODO display loading overlay
-        var newInstance = $scope.instance.copy(function (err) {
-          if (err) throw err;
-          var opts = {};
-          opts.name = newName;
-          if (env) {
-            opts.env = env.map(function (e) {
-              return e.key + '=' + e.value;
-            });
-          }
-          newInstance.update(opts, function (err) {
-            $rootScope.safeApply();
-            if (err) throw err;
-            // update instances collection to update
-            // viewInstanceList
-            $state.go('instance.instance', {
-              userName: $stateParams.userName,
-              instanceName: newInstance.attrs.name
+        function fork (instance, cb) {
+          var newInstance = instance.copy(function (err) {
+            if (err) { throw err; }
+            var opts = {};
+            opts.name = instance.state.name;
+            if (instance.attrs.env) {
+              opts.env = instance.attrs.env;
+            }
+            newInstance.update(opts, function (err) {
+              $rootScope.safeApply();
+              if (err) { throw err; }
+              // update instances collection to update
+              // viewInstanceList
+              cb();
             });
           });
+        }
+        async.parallel([
+          function (cb) {
+            $scope.instance.state.name = newName;
+            fork($scope.instance, cb);
+          },
+          function (cb) {
+            if (forkDeps && keypather.get($scope, 'instance.dependencies.models.length')) {
+              async.each($scope.instance.dependencies.models, fork, cb);
+            } else {
+              cb();
+            }
+          }
+        ], function (err) {
+          if (err) { throw err; }
+          $state.go('instance.instance', {
+            userName: $stateParams.userName,
+            instanceName: newName
+          });
+          if (cb) {
+            cb();
+          }
         });
       },
+      watchers: [
+        function ($scope) {
+          $scope.$watch('data.newForkName', function(n, o) {
+            if (!n || !keypather.get($scope, 'data.instance.dependencies.models.length')) { return; }
+
+            $scope.data.instance.dependencies.models.forEach(function(instance) {
+              updateEnvName(instance, n, o, $scope.data.instance);
+            });
+          });
+          var depWatch = $scope.$watch('data.instance.dependencies', function(n) {
+            if (!n) { return; }
+            // Cancel watch, it's served its purpose
+            depWatch();
+            $scope.data.instance.dependencies.models.forEach(function(instance, idx) {
+              updateEnvName(instance, instance.attrs.name + COPY_SUFFIX, instance.attrs.name, $scope.data.instance);
+              $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function(n, o) {
+                updateEnvName(instance, n, o, $scope.data.instance);
+              });
+            });
+          });
+        }
+      ],
       cancel: function () {
         data.newForkName = data.newName + COPY_SUFFIX;
         $scope.popoverGearMenu.data.show = false;
