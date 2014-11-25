@@ -31,6 +31,7 @@ section.row.boxes
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )
       a.box-item-name.text-overflow(
+        ng-model = "instance"
         ng-click = "stateToInstance(instance)"
         ng-href = "/{{ activeAccount.oauthName() }}/{{ instance.attrs.name }}"
       ) {{ instance.attrs.name }}
@@ -38,9 +39,10 @@ section.row.boxes
         title = "{{ getInstanceAltTitle(instance) }}"
       )
       linked-instances(
-        is-active = "getInstanceClasses(instance).expanded"
+        ng-if = "getInstanceClasses(instance).expanded"
         instance-dependencies = "instance.dependencies"
         instances = 'instances'
+        state-to-instance = 'stateToInstance'
         type = "sidebar"
       )
     //- *

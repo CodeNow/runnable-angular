@@ -3,10 +3,12 @@
 //- *
 //- if .active
 a.box-item-cluster(
-    ng-show = "isActive && !!instanceDependencies"
+    ng-show = "!!instanceDependencies"
     ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
+    ng-click = "stateToInstance(depInstance)"
 ) {{ depInstance.attrs.name }}
     span.icons-status(
         ng-class = "getInstanceClasses(depInstance)"
+        ng-click = "$event.stopPropagation()"
         title = "{{ getInstanceAltTitle(depInstance) }}"
     )

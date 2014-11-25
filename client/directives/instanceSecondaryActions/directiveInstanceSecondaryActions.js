@@ -116,7 +116,9 @@ function instanceSecondaryActions(
             $scope.instance = instances.models.find(function(instance) {
               return instance.attrs.name === $stateParams.instanceName;
             });
-            $scope.build = $scope.instance.build;
+            if (!$stateParams.buildId) {
+              $scope.build = $scope.instance.build;
+            }
             $rootScope.safeApply();
             cb();
           })
