@@ -13,6 +13,11 @@
 
   .pre {
     min-height: 40vh;
+    min-width: 600px;
+
+    @include media(sm) {
+      min-width: 0;
+    }
   }
 
   .box-group {
