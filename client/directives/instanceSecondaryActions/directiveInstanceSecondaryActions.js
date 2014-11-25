@@ -109,7 +109,6 @@ function instanceSecondaryActions(
             $scope.instance = instances.models.find(function(instance) {
               return instance.attrs.name === $stateParams.instanceName;
             });
-            $scope.build = $scope.instance.build;
             $rootScope.safeApply();
             cb();
           })
@@ -121,6 +120,7 @@ function instanceSecondaryActions(
 
       async.series([
         fetchUser,
+        fetchInstance,
         fetchBuild
       ]);
 
