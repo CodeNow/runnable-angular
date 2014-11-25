@@ -8,9 +8,9 @@
 }
 
 .popover.top .arrow:after {
-  bottom: 1px;
   border-bottom-width: 0;
   border-top-color: $white;
+  bottom: 1px;
   content: ' ';
   margin-left: -10px;
 }

@@ -53,6 +53,19 @@ button,
     line-height: 18px;
     padding: 0 3px;
   }
+
+  // if .arrow-down
+  .icons-arrow-down {
+    float: right;
+    top: 18px;
+    transition: opacity .2s ease-in, transform .3s ease-in;
+
+    // flip arrow
+    .in &,
+    .active & {
+      transform: rotate3d(1,0,0,-180deg);
+    }
+  }
 }
 
 // .btn-icon

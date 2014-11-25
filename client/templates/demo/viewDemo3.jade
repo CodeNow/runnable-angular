@@ -8,84 +8,27 @@ nav.sidebar.global-sidebar.demo-sidebar
           xlink:href = "#runnable-logo"
         )
   p.demo-sidebar-hint Adding a repo requires an #{''}
-    b.btn.btn-xxs.white.reversed ADD
-    | #{''} instruction which copies your repo files to the box.
-  p.demo-sidebar-hint We&rsquo;re using your previous template; change it if you want.
-  select
-    option Django
-    option Flask
-  a.link.link-white.link-text Continue
+    b.btn.btn-xxs.white.reversed(
+      title = "The ADD instruction copies new files, directories or remote file URLs from <src> and adds them to the filesystem of the container at the path <dest>.[1]"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":30}"
+    ) ADD
+    | #{''} instruction which copies your repository files to your box.
+  p.demo-sidebar-hint We&rsquo;re using your previous template&mdash;change it up if you want.
+  button.btn.template-list.white.reversed
+    img.template-image(
+      alt = "Django"
+      src = "/build/images/icons/templates/icons-node.js.svg"
+    )
+    h2.template-title node.js
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  button.btn.white.reversed Next
+  a.link.link-white.link-text Back to adding a repo
 
 main.content
   .guide-backdrop
-  a.btn.btn-sm.white.sub-header-action.btn-add-repo.active(
-    style = "left: 255px; top: 66px; z-index: 5000;"
-  )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
-    .popover.bottom.popover-add-repo.in
-      .arrow
-      h3.popover-title(
-        ng-class = "{ \
-          'show-filter': data.showFilter \
-        }"
-      )
-        //- should clear on close
-        button.white.btn-icon.btn-search(
-          ng-click = "data.showFilter = !data.showFilter; \
-                      data.repoFilter = '';"
-          ng-class = "{ \
-            active: data.showFilter \
-          }"
-          title = "Filter Repositories"
-        )
-          svg.iconnables.icons-search
-            use(
-              xlink:href = "#icons-search"
-            )
-        //- focus on visible
-        input.title-filter(
-          ng-model = "data.repoFilter"
-          select-on = "data.showFilter"
-          placeholder = "Filter Repositories"
-        )
-        //- title
-        span.title Add Repository
-      .popover-content
-        ul.popover-body.popover-list
-          li.popover-list-item(
-            ng-click = "actions.addRepo(repo)"
-            title = "{{ repo.attrs.full_name }}"
-          )
-            span repoName
-          li.popover-list-item(
-            ng-click = "actions.addRepo(repo)"
-            title = "{{ repo.attrs.full_name }}"
-          )
-            span repoName
-          li.popover-list-item(
-            ng-click = "actions.addRepo(repo)"
-            title = "{{ repo.attrs.full_name }}"
-          )
-            span repoName
-          li.popover-list-item(
-            ng-click = "actions.addRepo(repo)"
-            title = "{{ repo.attrs.full_name }}"
-          )
-            span repoName
-          li.popover-list-item(
-            ng-click = "actions.addRepo(repo)"
-            title = "{{ repo.attrs.full_name }}"
-          )
-            span repoName
-          li.popover-list-item(
-            ng-click = "actions.addRepo(repo)"
-            title = "{{ repo.attrs.full_name }}"
-          )
-            span repoName
-
   header.box-header
     h1.box-info.load(
       ng-show = "instance.attrs.name"
@@ -153,3 +96,128 @@ main.content
   section.sidebar.box-sidebar.load
     section.row.repo-list
       h2.sub-header Repositories
+        //- add repo button
+        a.btn.btn-sm.white.sub-header-action.btn-add-repo(
+          ng-class = "{active: repoListPopover.data.show}"
+          ng-if = "enabled"
+          toggle-pop-over
+          toggle-pop-over-model = "repoListPopover.data.show"
+          type = "button"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          pop-over(
+            actions = "repoListPopover.actions"
+            data = "repoListPopover.data"
+            template = "viewPopoverAddRepo"
+          )
+      ul.repository-group
+        li.repository-group-item
+          svg.iconnables.icons-git
+            use(
+              xlink:href = "#icons-git"
+            )
+          h3.repository-title node-hello-world
+          .commit.load
+            .commit-message initial commit
+            svg.iconnables.icons-commit
+              use(
+                xlink:href = "#icons-commit"
+              )
+            span.commit-author sundip
+            time.commit-time yesterday
+
+  section.views.with-add-tab(
+    ng-class = "{ \
+      in: (dataInstanceEdit.data.showExplorer && \
+           !dataInstanceEdit.data.loading) \
+    }"
+  )
+    //- explorer
+    button.btn-sm.white.btn-icon.explorer-toggle(
+      ng-click = "dataInstanceEdit.data.showExplorer = !dataInstanceEdit.data.showExplorer"
+      type = "button"
+    )
+      svg.iconnables.icons-folder-open
+        use(
+          xlink:href = "#icons-folder-open"
+        )
+    explorer(
+      open-items = "dataInstanceEdit.data.openItems"
+      toggle-theme = "dataInstanceEdit.data.toggleTheme"
+    )
+    //- tabs
+    tabs(
+      open-items = "dataInstanceEdit.data.openItems"
+    )
+    add-tab(
+      open-items = "dataInstanceEdit.data.openItems"
+    )
+
+  .active-panel.demo-active-panel
+    pre.pre(
+      ui-ace
+    )
+      | # Full list of versions available here: https://registry.hub.docker.com/_/node/tags/manage/
+      | FROM node:0.11.14
+      |
+      .ace_line ADD ./node-hello-world /root
+      | WORKDIR /root
+      |
+      | EXPOSE 80
+      | RUN npm install
+      | CMD npm start
+
+ul.popover.popover-templates.template-list(
+  style = "left: 15px; top: 275px;"
+)
+  li.template-list-item
+    img.template-image(
+      alt = "Django"
+      src = "/build/images/icons/templates/icons-django.svg"
+    )
+    h2.template-title Django
+  li.template-list-item
+    img.template-image(
+      alt = "Flask"
+      src = "/build/images/icons/templates/icons-flask.svg"
+    )
+    h2.template-title Flask
+  li.template-list-item
+    img.template-image(
+      alt = "MongoDB"
+      src = "/build/images/icons/templates/icons-mongodb.svg"
+    )
+    h2.template-title MongoDB
+  li.template-list-item
+    img.template-image(
+      alt = "MySQL"
+      src = "/build/images/icons/templates/icons-mysql.svg"
+    )
+    h2.template-title MySQL
+  li.template-list-item
+    img.template-image(
+      alt = "node.js"
+      src = "/build/images/icons/templates/icons-node.js.svg"
+    )
+    h2.template-title node.js
+  li.template-list-item
+    img.template-image(
+      alt = "PHP"
+      src = "/build/images/icons/templates/icons-php.svg"
+    )
+    h2.template-title PHP
+  li.template-list-item
+    img.template-image(
+      alt = "Redis"
+      src = "/build/images/icons/templates/icons-redis.svg"
+    )
+    h2.template-title Redis
+  li.template-list-item
+    img.template-image(
+      alt = "Ruby"
+      src = "/build/images/icons/templates/icons-ruby.svg"
+    )
+    h2.template-title Ruby

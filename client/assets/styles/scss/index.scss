@@ -77,8 +77,9 @@
 @import "popover/popover-environment";
 @import "popover/popover-repo-actions";
 @import "popover/popover-primary-options";
+@import "popover/popover-templates";
 
 // pages
-@import "pages/landing";
-@import "pages/setup";
 @import "pages/demo";
+@import "pages/home";
+@import "pages/setup";

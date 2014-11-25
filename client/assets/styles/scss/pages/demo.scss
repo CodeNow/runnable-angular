@@ -12,6 +12,7 @@
 
   // a.btn.white.btn-icon.btn-actions
   .btn {
+    width: 100%;
 
     .iconnables {
       transform: scale3d(.9,.9,1);
@@ -20,6 +21,14 @@
     &:hover .iconnables {
       transform: scale3d(1,1,1);
     }
+
+    + .btn {
+      margin-top: 9px;
+    }
+  }
+
+  .btn-xxs {
+    width: auto;
   }
 
   .icons-git {
@@ -27,9 +36,14 @@
     top: 6px;
   }
 
+  .template-list {
+    text-align: left;
+  }
+
   // a.link.link-white.link-text
   .link-text {
     color: rgba($white,.6);
+    font-size: 14px;
     font-weight: 300;
     margin-top: 9px;
     text-align: center;
@@ -40,10 +54,28 @@
   color: rgba($white,.9);
   font-size: 15px;
   line-height: 1.6;
-  padding: 30px 9px 9px;
-  text-align: center;
+  padding: 9px;
+
+  &:first-child {
+    padding-top: 30px;
+  }
 
   + .demo-sidebar-hint {
     padding: 9px 9px 21px;
+  }
+}
+
+// .demo-active-panel
+.demo-active-panel {
+  position: absolute;
+  right: 0;
+  top: 105px;
+  width: calc(100% - 300px);
+  z-index: $z-guide;
+
+  .ace_line {
+    background: $white;
+    margin: 0 -9px;
+    padding: 0 9px;
   }
 }
