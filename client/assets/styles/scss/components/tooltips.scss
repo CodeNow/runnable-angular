@@ -36,6 +36,15 @@
       margin-left: 6px;
     }
   }
+
+  &.tooltip-definition {
+    max-width: 300px;
+
+    .tooltip-text {
+      line-height: 1.6;
+      white-space: normal;
+    }
+  }
 }
 
 .tooltip::before {

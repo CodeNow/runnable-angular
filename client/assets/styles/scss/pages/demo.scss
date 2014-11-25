@@ -8,6 +8,7 @@
 
   .row {
     border-bottom: 0;
+    margin-bottom: 9px;
   }
 
   // a.btn.white.btn-icon.btn-actions
@@ -52,13 +53,9 @@
 
 .demo-sidebar-hint {
   color: rgba($white,.9);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
   padding: 9px;
-
-  &:first-child {
-    padding-top: 30px;
-  }
 
   + .demo-sidebar-hint {
     padding: 9px 9px 21px;
