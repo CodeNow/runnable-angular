@@ -209,6 +209,8 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       var environmentalVars = element.isolateScope().environmentalVars;
       expect(environmentalVars).to.equal('');
       expect($scope.stateModel.env.length).to.equal(0);
+      $scope.$apply();
+      $scope.$broadcast('$destroy');
     });
 
     // New stuff to test
@@ -229,6 +231,9 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       var mockAce = createMockAce();
       isolatedScope.aceLoaded(mockAce);
 
+      isolatedScope.validation.errors = [];
+      $scope.$apply();
+
       var firstErrors = [10, 13, 20];
       var secondErrors = [16];
       isolatedScope.validation.errors = firstErrors;
@@ -239,8 +244,16 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       });
 
       // Now we should remove them
+      isolatedScope.validation.errors = null;
+      $scope.$apply();
+
+      firstErrors.forEach(function(index) {
+        expect(mockAce.getCache().deco[index.toString()]).to.equal('deleted');
+      });
+
       isolatedScope.validation.errors = secondErrors;
       $scope.$apply();
+
       secondErrors.forEach(function(index) {
         expect(mockAce.getCache().deco[index.toString()]).to.equal('ace-validation-error');
       });
@@ -250,16 +263,6 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
 
       $scope.$broadcast('$destroy');
       $scope.$apply();
-
-      //isolatedScope.validation.errors = [];
-      //$scope.$apply();
-      //
-      //secondErrors.forEach(function(index) {
-      //  expect(mockAce.getCache().deco[index.toString()]).to.equal('ace-validation-error');
-      //});
-      //firstErrors.forEach(function(index) {
-      //  expect(mockAce.getCache().deco[index.toString()]).to.equal('deleted');
-      //});
 
     });
     it('should listen to the eventPasteLinkedInstance', function () {
@@ -272,6 +275,7 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       element.isolateScope().environmentalVars = '';
       $scope.$digest();
       var mockAce = createMockAce();
+      mockAce.renderer.lineHeight = 14;
 
       var isolatedScope = element.isolateScope();
       isolatedScope.aceLoaded(mockAce);
@@ -279,7 +283,24 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       var testedText = 'Hello, everybody!';
       $scope.$broadcast('eventPasteLinkedInstance', testedText);
       expect(mockAce.getCache().insert[0]).to.equal(testedText);
-      expect(mockAce.renderer.lineHeight).to.equal(19);
+      expect(mockAce.renderer.lineHeight).to.equal(14);
+
+      $scope.$apply();
+      $scope.$broadcast('$destroy');
+    });
+
+    it('should destroy scope before the ace is loaded', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {},
+        validation:  {}
+      });
+      element.isolateScope().environmentalVars = '';
+      $scope.$digest();
+
+      $scope.$apply();
+      $scope.$broadcast('$destroy');
 
     });
   });

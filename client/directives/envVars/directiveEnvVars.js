@@ -32,26 +32,27 @@ function envVars(
         // Editor part
         editor = _editor;
         session = _editor.session;
-        unwatchValidation = $scope.$watchCollection('validation.errors', function (n, p) {
-          if (n !== p) {
-            if (p) {
-              p.forEach(function (error) {
-                session.removeGutterDecoration(error, 'ace-validation-error');
-              });
-            }
-            if (n) {
-              n.forEach(function (error) {
-                session.addGutterDecoration(error, 'ace-validation-error');
-              });
-            }
-          }
-        });
         var _renderer = _editor.renderer;
         if (_renderer.lineHeight === 0) {
           _renderer.lineHeight = 19;
         }
         editor.focus();
       };
+
+      unwatchValidation = $scope.$watchCollection('validation.errors', function (n, p) {
+        if (n !== p) {
+          if (p) {
+            p.forEach(function (error) {
+              session.removeGutterDecoration(error, 'ace-validation-error');
+            });
+          }
+          if (n) {
+            n.forEach(function (error) {
+              session.addGutterDecoration(error, 'ace-validation-error');
+            });
+          }
+        }
+      });
 
       // Watch the current model for envs
       var unwatchCurrentModel = $scope.$watch('currentModel.env', function (env) {
@@ -78,9 +79,9 @@ function envVars(
       });
 
       $scope.$on('$destroy', function () {
-        if (unwatchValidation) { unwatchValidation(); }
-        if (unwatchCurrentModel) { unwatchCurrentModel(); }
-        if (unwatchScreenEnvs) { unwatchScreenEnvs(); }
+        unwatchValidation();
+        unwatchCurrentModel();
+        unwatchScreenEnvs();
         editor.session.$stopWorker();
         editor.destroy();
       });
