@@ -15,20 +15,22 @@ module.exports = [
     state: 'demo',
     abstract: false,
     url: '^/demo',
-    templateUrl: 'viewDemo',
-    controller: 'controllerDemo'
+    templateUrl: 'viewDemo'
   }, {
     state: 'demo2',
     abstract: false,
     url: '^/demo2',
-    templateUrl: 'viewDemo2',
-    controller: 'controllerDemo2'
+    templateUrl: 'viewDemo2'
   }, {
     state: 'demo3',
     abstract: false,
     url: '^/demo3',
-    templateUrl: 'viewDemo3',
-    controller: 'controllerDemo3'
+    templateUrl: 'viewDemo3'
+  }, {
+    state: 'demo4',
+    abstract: false,
+    url: '^/demo4',
+    templateUrl: 'viewDemo4'
   }, {
     state: 'instance',
     abstract: true,

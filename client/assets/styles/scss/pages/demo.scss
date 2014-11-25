@@ -65,17 +65,32 @@
   }
 }
 
-// .demo-active-panel
-.demo-active-panel {
+// .demo-active
+.active-panel.demo-active {
+  pointer-events: none;
   position: absolute;
   right: 0;
   top: 105px;
   width: calc(100% - 300px);
   z-index: $z-guide;
 
-  .ace_line {
-    background: $white;
-    margin: 0 -9px;
-    padding: 0 9px;
+  .ace-tm,
+  .ace-tm .ace_gutter,
+  .ace-tm .ace_gutter-active-line {
+    background: none;
   }
+
+  .ace_print-margin {
+    opacity: 0;
+  }
+
+  // highlight active line
+  .ace_active-line {
+    background: $white !important;
+  }
+}
+
+.primary-actions.demo-active {
+  opacity: 0;
+  pointer-events: none;
 }

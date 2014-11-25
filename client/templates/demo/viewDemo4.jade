@@ -7,34 +7,15 @@ nav.sidebar.global-sidebar.demo-sidebar
         use(
           xlink:href = "#runnable-logo"
         )
-  p.demo-sidebar-hint Adding a repo requires an #{''}
-    b.btn.btn-xxs.white.reversed(
-      title = "The ADD instruction copies new files, directories or remote file URLs from <src> and adds them to the filesystem of the container at the path <dest>.[1]"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":30}"
-    ) ADD
-    | #{''} instruction which copies your repository files to your box.
-  p.demo-sidebar-hint We&rsquo;re using your previous template&mdash;change it up if you want.
-  button.btn.template-list.white.reversed(
-    ng-click = "dataApp.data.showTemplates = true"
-  )
-    img.template-image(
-      alt = "node.js"
-      src = "/build/images/icons/templates/icons-node.js.svg"
-    )
-    h2.template-title node.js
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-  a.btn.white.reversed(
-    href = "/demo4"
-  ) Next
-  a.link.link-white.link-text(
-    href = "/demo2"
-  ) Back to adding a repo
+  p.demo-sidebar-hint Now that you've got a Dockerfile setup, you can start your build.
 
 main.content
   .guide-backdrop
+    .btn-group
+      button.btn.orange(
+        ng-click = "build()"
+        type = "button"
+      ) Build
   header.box-header
     h1.box-info.load
       .box-name demo-name
@@ -51,7 +32,7 @@ main.content
       //- sets layout on h1.box-name for .box-url
       span.box-name-ghost demo-name.demo.runnable.io
 
-    .primary-actions
+    .primary-actions.demo-active
       .btn-group
         button.orange(
           ng-click = "build()"
@@ -149,83 +130,14 @@ main.content
       open-items = "dataInstanceEdit.data.openItems"
     )
 
-  .active-panel.demo-active
-    pre.pre(
-      ui-ace
-    ).
-      # Full list of versions available here: https://registry.hub.docker.com/_/node/tags/manage/
-      FROM node:0.11.14
-      ADD ./node-hello-world /root
-      WORKDIR /root
-      EXPOSE 80
-      RUN npm install
-      CMD npm start
-
-ul.popover.popover-templates.template-list(
-  ng-class = "{in: dataApp.data.showTemplates}"
-  style = "left: 15px; top: 275px;"
-)
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "Django"
-      src = "/build/images/icons/templates/icons-django.svg"
-    )
-    h2.template-title Django
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "Flask"
-      src = "/build/images/icons/templates/icons-flask.svg"
-    )
-    h2.template-title Flask
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "MongoDB"
-      src = "/build/images/icons/templates/icons-mongodb.svg"
-    )
-    h2.template-title MongoDB
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "MySQL"
-      src = "/build/images/icons/templates/icons-mysql.svg"
-    )
-    h2.template-title MySQL
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "node.js"
-      src = "/build/images/icons/templates/icons-node.js.svg"
-    )
-    h2.template-title node.js
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "PHP"
-      src = "/build/images/icons/templates/icons-php.svg"
-    )
-    h2.template-title PHP
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "Redis"
-      src = "/build/images/icons/templates/icons-redis.svg"
-    )
-    h2.template-title Redis
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "Ruby"
-      src = "/build/images/icons/templates/icons-ruby.svg"
-    )
-    h2.template-title Ruby
+    .active-panel
+      pre.pre(
+        ui-ace
+      ).
+        # Full list of versions available here: https://registry.hub.docker.com/_/node/tags/manage/
+        FROM node:0.11.14
+        ADD ./node-hello-world /root
+        WORKDIR /root
+        EXPOSE 80
+        RUN npm install
+        CMD npm start

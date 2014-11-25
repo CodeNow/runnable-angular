@@ -275,6 +275,12 @@
   }
 }
 
+.popover-animate-in {
+  animation: popover-in .15s ease-in forwards;
+  pointer-events: auto;
+  z-index: $z-popover;
+}
+
 .popover-content {
   font-weight: 300;
   padding: 6px;

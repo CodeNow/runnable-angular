@@ -8,7 +8,9 @@ nav.sidebar.global-sidebar.demo-sidebar
           xlink:href = "#runnable-logo"
         )
   p.demo-sidebar-hint Add the repository you'd like to see running on this box.
-  a.link.link-white.link-text Skip adding a repo
+  a.link.link-white.link-text(
+    href = "/demo3"
+  ) Skip adding a repo
 
 main.content
   .guide-backdrop
@@ -19,7 +21,7 @@ main.content
       use(
         xlink:href = "#icons-add"
       )
-    .popover.bottom.popover-add-repo.in
+    .popover.bottom.popover-add-repo.popover-animate-in
       .arrow
       h3.popover-title(
         ng-class = "{ \
@@ -81,9 +83,7 @@ main.content
             span repoName
 
   header.box-header
-    h1.box-info.load(
-      ng-show = "instance.attrs.name"
-    )
+    h1.box-info.load
       .box-name demo-name
         span.icons-status(
           ng-class = "running"
@@ -104,17 +104,6 @@ main.content
           ng-click = "build()"
           type = "button"
         ) Build
-        button.orange.btn-icon.btn-icon-sm(
-          ng-class = "{active: popoverBuildOptions.data.show}"
-          toggle-pop-over
-          toggle-pop-over-model = "popoverBuildOptions.data.show"
-          type = "button"
-        )
-          svg.iconnables.icons-arrow-down
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-
     .secondary-actions
       button.white(
         ng-click = "goToInstance(true)"
