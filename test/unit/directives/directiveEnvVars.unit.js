@@ -30,6 +30,37 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
     });
   }
 
+  function createMockAce() {
+    var cache = {
+      insert: [],
+      deco: {}
+    };
+    return {
+      session: {
+        removeGutterDecoration : function (row) {
+          cache.deco[row.toString()] = 'deleted';
+        },
+        addGutterDecoration : function (row, className) {
+          cache.deco[row.toString()] = className;
+        },
+        $stopWorker: function() {}
+      },
+      renderer: {
+        lineHeight: 0
+      },
+      insert: function (text) {
+        cache.insert.push(text);
+      },
+      focus: function () {
+        cache.focus = true;
+      },
+      getCache: function () {
+        return cache;
+      },
+      destroy: function () {}
+    };
+  }
+
   /** Things that we need to test:
    *  3 use cases
    *    1 Setup         -> no currentModel
@@ -178,6 +209,78 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       var environmentalVars = element.isolateScope().environmentalVars;
       expect(environmentalVars).to.equal('');
       expect($scope.stateModel.env.length).to.equal(0);
+    });
+
+    // New stuff to test
+    // tests validations are added to the gutter
+    // test eventPaste
+
+    it('should add gutter decorations to mock editor', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {},
+        validation:  {}
+      });
+      element.isolateScope().environmentalVars = '';
+      $scope.$digest();
+
+      var isolatedScope = element.isolateScope();
+      var mockAce = createMockAce();
+      isolatedScope.aceLoaded(mockAce);
+
+      var firstErrors = [10, 13, 20];
+      var secondErrors = [16];
+      isolatedScope.validation.errors = firstErrors;
+      $scope.$apply();
+      var cache = mockAce.getCache();
+      firstErrors.forEach(function(index) {
+        expect(cache.deco[index.toString()]).to.equal('ace-validation-error');
+      });
+
+      // Now we should remove them
+      isolatedScope.validation.errors = secondErrors;
+      $scope.$apply();
+      secondErrors.forEach(function(index) {
+        expect(mockAce.getCache().deco[index.toString()]).to.equal('ace-validation-error');
+      });
+      firstErrors.forEach(function(index) {
+        expect(mockAce.getCache().deco[index.toString()]).to.equal('deleted');
+      });
+
+      $scope.$broadcast('$destroy');
+      $scope.$apply();
+
+      //isolatedScope.validation.errors = [];
+      //$scope.$apply();
+      //
+      //secondErrors.forEach(function(index) {
+      //  expect(mockAce.getCache().deco[index.toString()]).to.equal('ace-validation-error');
+      //});
+      //firstErrors.forEach(function(index) {
+      //  expect(mockAce.getCache().deco[index.toString()]).to.equal('deleted');
+      //});
+
+    });
+    it('should listen to the eventPasteLinkedInstance', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {},
+        validation:  {}
+      });
+      element.isolateScope().environmentalVars = '';
+      $scope.$digest();
+      var mockAce = createMockAce();
+
+      var isolatedScope = element.isolateScope();
+      isolatedScope.aceLoaded(mockAce);
+
+      var testedText = 'Hello, everybody!';
+      $scope.$broadcast('eventPasteLinkedInstance', testedText);
+      expect(mockAce.getCache().insert[0]).to.equal(testedText);
+      expect(mockAce.renderer.lineHeight).to.equal(19);
+
     });
   });
 });

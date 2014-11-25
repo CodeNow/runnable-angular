@@ -142,12 +142,10 @@ function HelperInstanceActionsModal(
             if (forkDeps && keypather.get($scope, 'instance.dependencies.models.length')) {
               async.each($scope.instance.dependencies.models, fork, cb);
             } else {
-              $rootScope.dataApp.data.loading = false;
               cb();
             }
           }
         ], function (err) {
-          $rootScope.dataApp.data.loading = false;
           if (err) { throw err; }
           $state.go('instance.instance', {
             userName: $stateParams.userName,

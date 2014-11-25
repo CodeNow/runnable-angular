@@ -16,6 +16,7 @@ function setupSecondaryActions(
       currentModel: '='
     },
     link: function ($scope, elem, attrs) {
+      $scope.data = {};
       keypather.set($scope, 'actions.actionsModalEnvironment', {
         save: function () {
           $scope.actions.actionsModalEnvironment.close();

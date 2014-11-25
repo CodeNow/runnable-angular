@@ -28,7 +28,7 @@ function envVars(
         editor.focus();
       });
 
-      $scope.aceLoaded = function (_editor){
+      $scope.aceLoaded = function (_editor) {
         // Editor part
         editor = _editor;
         session = _editor.session;
@@ -78,9 +78,9 @@ function envVars(
       });
 
       $scope.$on('$destroy', function () {
-        unwatchCurrentModel();
-        unwatchScreenEnvs();
-        unwatchValidation();
+        if (unwatchValidation) { unwatchValidation(); }
+        if (unwatchCurrentModel) { unwatchCurrentModel(); }
+        if (unwatchScreenEnvs) { unwatchScreenEnvs(); }
         editor.session.$stopWorker();
         editor.destroy();
       });
