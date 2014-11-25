@@ -44,12 +44,12 @@
       //- 0.3 SAN-436
         - to do:
         - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
-      button.orange(
+      button.green(
         ng-if = "data.showRebuild"
         ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
         ng-disabled = "!validation.valid"
         type = "button"
-      ) Rebuild
+      ) Save and Restart
       button.green(
         ng-if = "!data.showRebuild"
         ng-click = "defaultActions.save(tempModel, ['env'], defaultActions.cancel)"
@@ -78,5 +78,5 @@
           ng-repeat = "(port, value) in otherInstance.containers.models[0].attrs.ports"
           ng-click = "pasteLinkedInstance(otherInstance.containers.models[0].urls()[0], (port | filterCleanPorts ))"
           tooltip = "Link to: {{ otherInstance.containers.models[0].urls()[0] }}:{{ port | filterCleanPorts }}"
-          tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+          tooltip-options = "{\"class\":\"bottom\",\"top\":21}"
         ) {{ port | filterCleanPorts }}
