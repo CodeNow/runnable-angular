@@ -1,5 +1,5 @@
 .spinner-container {
-  background: rgba($white,.99);
+  background: $white;
   display: flex;
   height: 100vh;
   opacity: 0;
@@ -8,8 +8,7 @@
   right: 0;
   top: 0;
   transition: opacity .3s ease-in, transform .15s ease-in, width .15s ease-in;
-  width: calc(100% - 240px); // safari does not support vw and calc
-  width: calc(100vw - 240px);
+  width: calc(100% - 240px);
   z-index: $z-modal-backdrop;
 
   &.in {
@@ -26,29 +25,35 @@
   width: 16px;
 
   &.lg {
+    $spinner-lg: 60px;
+    $spinner-border: $spinner-lg*.1;
+
+    background: rgba($purple,.3);
+    border-radius: 50%;
     color: $purple-light;
-    height: 60px;
-    width: 60px;
+    height: $spinner-lg;
+    opacity: .9;
+    width: $spinner-lg;
 
     &::before {
-      border-radius: 60px 0 0 60px;
-      height: 60px;
-      transform-origin: 30px 30px;
-      width: 30px;
+      border-radius: $spinner-lg 0 0 $spinner-lg;
+      height: $spinner-lg;
+      transform-origin: $spinner-lg/2 $spinner-lg/2;
+      width: $spinner-lg/2;
     }
 
     &::after {
-      border-radius: 0 60px 60px 0;
-      height: 60px;
-      left: 30px;
-      transform-origin: 0 30px;
-      width: 30px;
+      border-radius: 0 $spinner-lg $spinner-lg 0;
+      height: $spinner-lg;
+      left: $spinner-lg/2;
+      transform-origin: 0 $spinner-lg/2;
+      width: $spinner-lg/2;
     }
 
     .spinner-ring {
-      height: 54px;
-      margin: 3px;
-      width: 54px;
+      height: $spinner-lg - $spinner-border;
+      margin: ($spinner-lg - ($spinner-lg - $spinner-border))/2;
+      width: $spinner-lg - $spinner-border;
     }
   }
 }
@@ -60,7 +65,7 @@
 }
 
 .spinner::before {
-  animation: rotate 1s infinite ease;
+  animation: rotate 1s infinite ease reverse;
   background: currentColor;
   border-radius: 16px 0 0 16px;
   height: 16px;
@@ -71,7 +76,7 @@
 }
 
 .spinner::after {
-  animation: rotate 1s infinite ease -.25s;
+  animation: rotate 1s infinite -.25s ease reverse;
   background: currentColor;
   border-radius: 0 16px 16px 0;
   height: 16px;
