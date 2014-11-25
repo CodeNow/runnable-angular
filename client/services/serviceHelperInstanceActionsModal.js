@@ -71,6 +71,7 @@ function HelperInstanceActionsModal(
           $rootScope.dataApp.data.loading = false;
           // update instances collection to update
           // viewInstanceList
+          $state.go('instance.instance', $stateParams);
         });
         if (cb) {
           cb();
