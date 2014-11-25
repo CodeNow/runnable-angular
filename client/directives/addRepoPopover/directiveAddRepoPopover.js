@@ -235,7 +235,7 @@ function addRepoPopover(
             })
             .go();
         }
-        fetchPage(0);
+        fetchPage(1);
       }
 
       async.series([
