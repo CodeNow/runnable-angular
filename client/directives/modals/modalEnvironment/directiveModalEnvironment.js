@@ -24,8 +24,8 @@ function modalEnvironment(
       $scope.validation = {};
       $scope.tempModel = {};
 
-      $scope.pasteLinkedInstance = function (text, port) {
-        $scope.$broadcast('eventPasteLinkedInstance', text + ':' + port);
+      $scope.pasteLinkedInstance = function (text) {
+        $scope.$broadcast('eventPasteLinkedInstance', text);
       };
       $scope.data.hideGuideHelpEnvModal =
           keypather.get($localStorage, 'guides.hideGuideHelpEnvModal') || false;

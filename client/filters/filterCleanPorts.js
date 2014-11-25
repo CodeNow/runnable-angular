@@ -12,7 +12,7 @@ require('app')
       ]
  */
 function filterCleanPorts() {
-  return function (portValue) {
-    return portValue.substring(0, portValue.indexOf('/'));
+  return function (url) {
+    return /:\d{1,5}/.test(url) ? url.substring(url.lastIndexOf(':') + 1) : '80';
   };
 }
