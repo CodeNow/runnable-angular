@@ -6,15 +6,10 @@
   width: 270px;
 
   .popover-content {
-    padding: 0;
-  }
-
-  // ul.popover-list
-  .popover-list {
-    margin-top: -90px;
-    max-height: 339px;
+    margin-top: -45px;
+    max-height: 415px;
     overflow: auto;
-    padding-top: 90px;
+    padding: 45px 0 0;
   }
 
   // li.popover-list-item

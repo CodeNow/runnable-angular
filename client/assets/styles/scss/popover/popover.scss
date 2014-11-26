@@ -282,7 +282,7 @@
   position: relative;
 
   .icons-search {
-    left: 15px;
+    left: 9px;
     position: absolute;
     top: 3px;
   }
@@ -296,9 +296,17 @@
   border-top: 1px solid transparent;
   box-shadow: none;
   left: 0;
-  padding-left: 45px;
+  padding-left: 36px;
   position: absolute;
   top: -1px;
+
+  &:focus {
+    border-color: rgba($black,.1);
+
+    ~ .icons-search {
+      color: $blue;
+    }
+  }
 }
 
 .popover-animate-in {
@@ -310,6 +318,8 @@
 .popover-content {
   font-weight: 300;
   padding: 6px;
+  position: relative;
+  z-index: $z-popover-content;
 }
 
 //- footer.popover-footer
@@ -336,7 +346,7 @@
 
 // h3.popover-title
 .popover-title {
-  background: rgba($gray-lighter,.96);
+  background: rgba($gray-lighter,.9);
   border-bottom: 1px solid rgba($black,.1);
   color: $gray-dark;
   font-size: 16px;
@@ -347,6 +357,7 @@
   padding: 0;
   position: relative;
   text-align: center;
+  z-index: $z-popover-title;
 
   // toggle search
   .btn-search {
