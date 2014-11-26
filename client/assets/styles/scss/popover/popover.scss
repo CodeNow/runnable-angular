@@ -275,6 +275,31 @@
   }
 }
 
+// form.popover-search
+.popover-search {
+  height: 45px;
+  position: relative;
+
+  .icons-search {
+    left: 15px;
+    position: absolute;
+    top: 3px;
+  }
+}
+
+// input.popover-search-input
+.popover-search-input {
+  border: 0;
+  border-bottom: 1px solid rgba($black,.1);
+  border-radius: 0;
+  border-top: 1px solid transparent;
+  box-shadow: none;
+  left: 0;
+  padding-left: 45px;
+  position: absolute;
+  top: -1px;
+}
+
 .popover-animate-in {
   animation: popover-in .15s ease-in forwards;
   pointer-events: auto;
@@ -315,11 +340,11 @@
   color: $gray-dark;
   font-size: 16px;
   font-weight: 500;
-  height: 36px;
-  line-height: 36px;
+  height: 45px;
+  line-height: 45px;
   margin: 0;
-  padding: 0 6px 0 21px;
-  text-shadow: none;
+  padding: 0;
+  text-align: center;
 
   // toggle search
   .btn-search {

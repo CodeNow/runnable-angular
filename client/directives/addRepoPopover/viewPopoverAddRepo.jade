@@ -4,33 +4,19 @@
   }"
 )
   .arrow
-  h3.popover-title(
-    ng-class = "{\
-      'show-filter': data.showFilter\
-    }"
-  )
-    //- should clear on close
-    button.white.btn-icon.btn-search(
-      ng-click = "data.showFilter = !data.showFilter;\
-        data.repoFilter = '';"
-      ng-class = "{\
-        active: data.showFilter\
-      }"
-      title = "Filter Repositories"
-    )
+  h3.popover-title Add Repository
+  .popover-content
+    form.popover-search
+      input.popover-search-input(
+        autofocus
+        ng-model = "data.repoFilter"
+        placeholder = "Filter repositories"
+        select-on = "data.showFilter"
+      )
       svg.iconnables.icons-search
         use(
           xlink:href = "#icons-search"
         )
-    //- focus on visible
-    input.title-filter(
-      ng-model = "data.repoFilter"
-      placeholder = "Filter Repositories"
-      select-on = "data.showFilter"
-    )
-    //- title
-    span.title Add Repository
-  .popover-content
     ul.popover-body.popover-list
       li.popover-list-item(
         ng-click = "actions.addRepo(repo)"
@@ -46,5 +32,5 @@
           (data.githubRepos.models | \
           unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
           repos:data.repoFilter).length === 0"
-      ) No matches.
+      ) No matches
       //- li.popover-list-item.no-actions There's nothing left to add.
