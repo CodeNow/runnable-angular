@@ -60,7 +60,22 @@
         ng-click = "defaultActions.cancel()"
         type = "button"
       ) Go Back
-  aside.modal-sidebar.boxes
+  //- if no boxes with exposed ports (empty state)
+  aside.modal-sidebar.boxes(
+    ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
+  )
+    //- Empty State
+    p.demo-sidebar-hint This text should explain what linking is and why it's useful.
+    p.demo-sidebar-hint This text should explain how #{''}
+      b.btn.btn-xxs.gray(
+        tooltip = "The EXPOSE instructions informs Docker that the container will listen on the specified network ports at runtime. Docker uses this information to interconnect containers using links. Note that EXPOSE only works for inter-container links. It doesn't make ports accessible from the host.[1]"
+        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":21}"
+      ) EXPOSE
+      | #{''} is used to link boxes.
+  //- if boxes with exposed ports
+  aside.modal-sidebar.boxes(
+    ng-if = "(data.instances.models | instancesWithOpenPorts:data.instance).length"
+  )
     h2.sub-header
       span.sub-header-text Boxes
     ul.box-group
@@ -71,7 +86,7 @@
         - clicks on b.btn should paste "$ENTER_ENV_VAR={{url}}+':'+{{port}}" (with specified port) into the last cursor position in the env file
       li.box-group-item.expanded(
         ng-repeat = "otherInstance in data.instances.models | \
-                    instancesWithOpenPorts:data.instance"
+          instancesWithOpenPorts:data.instance"
       )
         .text-overflow {{ otherInstance.attrs.name }}
         button.btn.btn-xs.gray(
