@@ -106,6 +106,7 @@
 
   .icons-status.icons-status {
     background: rgba($gray-lighter,.45);
+    border: 1px solid rgba($black,.15);
     float: right;
     height: 5px;
     position: relative;
@@ -126,10 +127,12 @@
 
     &.running {
       background: rgba($green,.45);
+      border: 1px solid transparent;
     }
 
     &.building {
       background: rgba($orange,.45);
+      border: 1px solid transparent;
     }
   }
 }
