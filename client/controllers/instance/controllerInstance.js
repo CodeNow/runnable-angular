@@ -15,7 +15,6 @@ function ControllerInstance(
   exists,
   user
 ) {
-  var containerWatch;
   var dataInstance = $scope.dataInstance = {
     data: {},
     actions: {}
@@ -48,14 +47,43 @@ function ControllerInstance(
     data.sectionClasses.in = n;
   });
 
+  // If instance:
+  //   !deployed (includes time when building, and short time after building completes before containers initiated)
+  //     - hide explorer
+  //     - display build logs
+  //   deployed && stopped
+  //     - hide explorer
+  //     - display box logs
+  //   deployed && running
+  //     - show explorer
+  //     - show terminal
+  //     - show box logs (has focus)
   // watch for deployed/started/stopped instance
   // all watches necessary, updateDisplayedTabs expectst to be invoked
   // after fetching instance, fetching container, and cointainer start
-  $scope.$watch('dataInstance.data.instance.containers.models[0].running()', displayTabsForContainerState);
-  $scope.$watch('dataInstance.data.instance', function(n) {
-    if (!n) { return; }
-    displayTabsForContainerState(keypather.get(dataInstance.data, 'instance.containers.models[0].running()'));
-  });
+  var containerWatch;
+  $scope.$watch('dataInstance.data.instance', handleInstance);
+  function handleInstance (instance) {
+    if (!instance) { return; } // instance still being fetched
+    containerWatch = $scope.$watch('dataInstance.data.instance.containers.models[0]', handleContainer);
+  }
+  function handleContainer (container) {
+    if (!container) {
+      buildLogsOnly();
+    }
+    else { // handles both container.error and container.dockerContainer states
+      containerWatch(); // once, got container
+      $scope.$watch('dataInstance.data.instance.containers.models[0].attrs.inspect.State.Running', displayTabsForContainerState); // once
+    }
+  }
+  function displayTabsForContainerState (containerRunning) {
+    if (!containerRunning) { // false or null (container.error)
+      boxLogsOnly();
+    }
+    else {
+      restoreOrOpenDefaultTabs();
+    }
+  }
 
   async.waterfall([
     determineActiveAccount,
@@ -110,40 +138,6 @@ function ControllerInstance(
       .go();
   }
 
-  // If instance:
-  //   !deployed (includes time when building, and short time after building completes before containers initiated)
-  //     - hide explorer
-  //     - display build logs
-  //   deployed && stopped
-  //     - hide explorer
-  //     - display box logs
-  //   deployed && running
-  //     - show explorer
-  //     - show terminal
-  //     - show box logs (has focus)
-  function displayTabsForContainerState (containerRunning) {
-    data.openItems.reset([]);
-    if (!exists(containerRunning)) {
-      buildLogsOnly();
-    }
-    var container = keypather.get(dataInstance, 'data.instance.containers.models[0]');
-    if (!container) {
-      // minor nit fix: build logs flash before box logs if container is not running
-      containerWatch = $scope.$watch('dataInstance.data.instance.containers.models[0]', watchForContainerBeforeDisplayTabs);
-      return;
-    }
-    if (container.error) {
-      boxLogsOnly();
-      return;
-    }
-    if (containerRunning === false) {
-      boxLogsOnly();
-    }
-    else if (containerRunning === true) {
-      restoreOrOpenDefaultTabs();
-    }
-  }
-
   function watchForContainerBeforeDisplayTabs (container) {
     containerWatch();
     if (!container) { return; }
@@ -151,6 +145,7 @@ function ControllerInstance(
   }
 
   function buildLogsOnly () {
+    data.openItems.reset([]);
     // Set to true if we see the instance in an undeployed state
     // DOM will have message when instance w/ containers fetched
     data.showFinishMessageWhenContainerFetched = true;
@@ -162,6 +157,7 @@ function ControllerInstance(
   }
 
   function boxLogsOnly () {
+    data.openItems.reset([]);
     data.showExplorer = false;
     data.sectionClasses = {
       out: true,
@@ -180,6 +176,7 @@ function ControllerInstance(
   }
 
   function restoreOrOpenDefaultTabs () {
+    data.openItems.reset([]);
     data.sectionClasses = {
       out: false,
       in: false
