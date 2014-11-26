@@ -1,6 +1,5 @@
 .spinner-container {
   align-items: center;
-  background: $white;
   display: flex;
   height: 100%;
   justify-content: center;
@@ -18,12 +17,20 @@
     pointer-events: auto;
   }
 
-  &.spinner-lg .spinner.lg {
-    display: block;
+  &.spinner-lg {
+    background: $white;
+
+    .spinner.lg {
+      display: block;
+    }
   }
 
   &.spinner-md .spinner.md {
     display: block;
+
+    .path {
+      stroke: $gray-light;
+    }
   }
 
   &.spinner-sm .spinner.sm {

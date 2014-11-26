@@ -3,6 +3,7 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  position: relative;
 
   .sub-header {
     background: rgba($gray-lighter,.75);
@@ -15,6 +16,11 @@
       background: rgba($gray-lighter,.9);
       box-shadow: 0 6px 6px rgba($gray-lighter,.75);
     }
+  }
+
+  .spinner-container {
+    align-items: flex-start;
+    top: 30px;
   }
 }
 

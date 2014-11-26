@@ -1,11 +1,18 @@
 section.row.boxes
-  h2.sub-header
+
+  .spinner-container.spinner-md.in(
+    ng-include = "'spinner'"
+    ng-if = "!instances.models.length"
+  )
+
+  h2.sub-header.load(
+    ng-show = "instances.models.length"
+  )
     span.sub-header-text Boxes
     a.btn.btn-sm.white.sub-header-action(
       ng-click = "stateToNew()"
       ng-href = "/{{ activeAccount.oauthName() }}/new"
-      ng-if = "activeAccount"
-      title = "New Box"
+      tooltip = "New Box"
       tooltip-options = "{\"class\":\"bottom\",\"left\":6,\"top\":30}"
     )
       svg.iconnables.icons-add
