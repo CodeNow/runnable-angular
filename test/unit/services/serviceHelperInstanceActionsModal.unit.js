@@ -42,7 +42,7 @@ function makeFakeInstance (env, deps) {
   return instance;
 }
 
-describe.only('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
+describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
   function initState () {
     updateEnvStub = sinon.spy();
     angular.mock.module('app');
