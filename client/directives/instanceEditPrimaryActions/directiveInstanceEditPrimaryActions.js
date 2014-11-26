@@ -18,6 +18,7 @@ function instanceEditPrimaryActions(
     templateUrl: 'viewInstanceEditPrimaryActions',
     replace: true,
     scope: {
+      instance: '=',
       loading: '=',
       openItems: '='
     },
@@ -35,6 +36,7 @@ function instanceEditPrimaryActions(
             message: 'Manual build'
           };
           async.series([
+            fetchNewBuild,
             function (cb) {
               if (!noCache) {
                 return cb();
@@ -82,40 +84,6 @@ function instanceEditPrimaryActions(
         }
       };
 
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
-
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances', cb)
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && instances.models.length === 0) {
-              throw new Error('instance not found');
-            }
-            $scope.instance = instances.models[0];
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, projects, cb) {
-            if (err) throw err;
-          })
-          .go();
-      }
-
       function fetchNewBuild(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
@@ -131,12 +99,6 @@ function instanceEditPrimaryActions(
           })
           .go();
       }
-
-      async.series([
-        fetchUser,
-        fetchInstance,
-        fetchNewBuild
-      ]);
 
     }
   };

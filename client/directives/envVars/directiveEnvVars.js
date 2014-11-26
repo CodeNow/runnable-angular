@@ -25,6 +25,7 @@ function envVars(
 
       $scope.$on('eventPasteLinkedInstance', function (eventName, text) {
         editor.insert(text);
+        $scope.validation = validateEnvVars($scope.environmentalVars);
         editor.focus();
       });
 
