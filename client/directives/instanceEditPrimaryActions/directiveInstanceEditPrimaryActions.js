@@ -5,19 +5,18 @@ require('app')
  */
 function instanceEditPrimaryActions(
   async,
-  keypather,
   QueryAssist,
   $rootScope,
   $state,
-  $stateParams,
-  $timeout,
-  user
+  $stateParams
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceEditPrimaryActions',
     replace: true,
     scope: {
+      user: '=',
+      instances: '=',
       instance: '=',
       loading: '=',
       openItems: '='
