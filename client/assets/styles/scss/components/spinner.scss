@@ -1,99 +1,47 @@
 .spinner-container {
+  align-items: center;
   background: $white;
   display: flex;
-  height: 100vh;
+  height: 100%;
+  justify-content: center;
   opacity: 0;
   pointer-events: none;
   position: absolute;
   right: 0;
   top: 0;
   transition: opacity .3s ease-in, transform .15s ease-in, width .15s ease-in;
-  width: calc(100% - 240px);
+  width: 100%;
   z-index: $z-modal-backdrop;
 
   &.in {
     opacity: 1;
     pointer-events: auto;
   }
-}
 
-.spinner {
-  height: 16px;
-  margin: auto;
-  position: relative;
-  transition: transform .3s;
-  width: 16px;
+  &.spinner-lg .spinner.lg {
+    display: block;
+  }
 
-  &.lg {
-    $spinner-lg: 60px;
-    $spinner-border: $spinner-lg*.1;
+  &.spinner-md .spinner.md {
+    display: block;
+  }
 
-    background: rgba($purple,.3);
-    border-radius: 50%;
-    color: $purple-light;
-    height: $spinner-lg;
-    opacity: .9;
-    width: $spinner-lg;
-
-    &::before {
-      border-radius: $spinner-lg 0 0 $spinner-lg;
-      height: $spinner-lg;
-      transform-origin: $spinner-lg/2 $spinner-lg/2;
-      width: $spinner-lg/2;
-    }
-
-    &::after {
-      border-radius: 0 $spinner-lg $spinner-lg 0;
-      height: $spinner-lg;
-      left: $spinner-lg/2;
-      transform-origin: 0 $spinner-lg/2;
-      width: $spinner-lg/2;
-    }
-
-    .spinner-ring {
-      height: $spinner-lg - $spinner-border;
-      margin: ($spinner-lg - ($spinner-lg - $spinner-border))/2;
-      width: $spinner-lg - $spinner-border;
-    }
+  &.spinner-sm .spinner.sm {
+    display: block;
   }
 }
 
-.spinner::before,
-.spinner::after {
-  content: '';
-  position: absolute;
+.spinner {
+  animation: spinner $spinner-duration linear infinite;
+  display: none;
 }
 
-.spinner::before {
-  animation: rotate 1s infinite ease reverse;
-  background: currentColor;
-  border-radius: 16px 0 0 16px;
-  height: 16px;
-  left: 0;
-  top: 0;
-  transform-origin: 8px 8px;
-  width: 8px;
-}
-
-.spinner::after {
-  animation: rotate 1s infinite -.25s ease reverse;
-  background: currentColor;
-  border-radius: 0 16px 16px 0;
-  height: 16px;
-  left: 8px;
-  top: 0;
-  transform-origin: 0 8px;
-  width: 8px;
-}
-
-.spinner-ring {
-  background: $white;
-  border-radius: 50%;
-  height: 12px;
-  margin: 2px;
-  position: absolute;
-  width: 12px;
-  z-index: 1;
+.path {
+  animation: spinner-path $spinner-duration ease-in-out infinite;
+  stroke: $purple-lighter;
+  stroke-dasharray: $spinner-offset;
+  stroke-dashoffset: 0;
+  transform-origin: center;
 }
 
 // on buttons
@@ -149,72 +97,3 @@
     animation: horizontal-spinner 1s infinite;
   }
 }
-
-//- new spinner
-// .spinner-backdrop {
-//   background: $purple;
-//   bottom: 0;
-//   left: 0;
-//   margin: auto;
-//   position: absolute;
-//   right: 0;
-//   top: 0;
-//   z-index: $z-spinner;
-
-//   // to not fill page
-//   &.center {
-//     background: rgba($purple-dark,.96);
-//     border-radius: 9px;
-//     height: 75px;
-//     width: 75px;
-//   }
-// }
-
-// .spinner {
-//   bottom: 0;
-//   display: inline-block;
-//   font-size: 50px;
-//   height: 1em;
-//   left: 0;
-//   margin: auto;
-//   position: absolute;
-//   right: 0;
-//   top: 0;
-//   width: 1em;
-// }
-
-// .spinner-blade {
-//   animation: spinner-fade 1s infinite linear;
-//   background: transparent;
-//   border-radius: .5em;
-//   bottom: 0;
-//   height: .2777em;
-//   left: .4629em;
-//   position: absolute;
-//   transform-origin: center -.2222em;
-//   width: .074em;
-
-//   $delay: 0s;
-//   $rotation: 0deg;
-
-//   @for $i from 1 through 12 {
-
-//     &:nth-child(#{$i}) {
-//       animation-delay: $delay;
-//       transform: rotate($rotation);
-
-//       $rotation: $rotation + 30;
-//       $delay: $delay + .083;
-//     }
-//   }
-
-// }
-
-// @keyframes spinner-fade {
-//   0% {
-//     background: rgba($purple-lighter,.75);
-//   }
-//   100% {
-//     background: rgba($purple-lighter,0);
-//   }
-// }

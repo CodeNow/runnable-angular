@@ -69,9 +69,10 @@ html(
     )
 
     //- spinner
-    //- div(
-    //-   ng-include = "'spinner'"
-    //- )
+    .spinner-container.spinner-lg(
+      ng-class = "{in: dataApp.data.loading}"
+      ng-include = "'spinner'"
+    )
 
     div(
       ng-class = "{'nav-open': !dataApp.data.minimizeNav}"
