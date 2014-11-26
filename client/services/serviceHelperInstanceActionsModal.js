@@ -28,7 +28,7 @@ function HelperInstanceActionsModal(
     data.instance = null;
     data.instances = null;
 
-    $scope.$watch('instance', function (n) {
+    var unwatchInstance = $scope.$watch('instance', function (n) {
       if (!n) return;
       data.instance = n;
       // data.newName used in renameInstance popover
@@ -37,16 +37,29 @@ function HelperInstanceActionsModal(
       $scope.popoverGearMenu.data.instance = n;
     });
 
-    $scope.$watch('instances', function (n) {
+    var unwatchInstances = $scope.$watch('instances', function (n) {
       if (!n) return;
       data.instances = n;
       $scope.popoverGearMenu.data.instances = n;
     });
 
-    $scope.$watch('build', function (n) {
+    var unwatchbuild = $scope.$watch('build', function (n) {
       if (!n) return;
       data.build = n;
       $scope.popoverGearMenu.data.build = n;
+    });
+
+    var unwatchUser = $scope.$watch('user', function (n) {
+      if (!n) return;
+      data.user = n;
+      $scope.popoverGearMenu.data.user = n;
+    });
+
+    $scope.$on('$destroy', function () {
+      unwatchUser();
+      unwatchbuild();
+      unwatchInstances();
+      unwatchInstance();
     });
 
     $scope.popoverGearMenu.data.dataModalRename = data;

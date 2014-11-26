@@ -11,6 +11,7 @@ function ControllerInstance(
   QueryAssist,
   $scope,
   $state,
+  $log,
   $stateParams,
   exists,
   user
@@ -66,7 +67,10 @@ function ControllerInstance(
     },
     fetchUser,
     fetchInstance
-  ]);
+  ], function(err) {
+    if (err) throw err;
+    fetchInstances(angular.noop);
+  });
 
   // Redirect to /new if this build has already been built
   function fetchUser(cb) {
@@ -85,6 +89,32 @@ function ControllerInstance(
       .go();
   }
 
+
+  // This is to fetch the list of instances.  This is separate so the page can load quickly
+  // since it will have its instance.  Only the modals use this list
+  function fetchInstances(cb) {
+    new QueryAssist(data.user, cb)
+      .wrapFunc('fetchInstances', cb)
+      .query({
+        githubUsername: $stateParams.userName
+      })
+      .cacheFetch(function (instances, cached, cb) {
+        if (!cached && instances.models.length === 0) {
+          throw new Error('instance not found');
+        }
+        data.instances = instances;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, instances, cb) {
+        if (err) { return $log.error(err); }
+        data.instances = instances;
+        $scope.safeApply();
+        cb();
+      })
+      .go();
+  }
+
   function fetchInstance(cb) {
     new QueryAssist(data.user, cb)
       .wrapFunc('fetchInstances')
@@ -95,7 +125,9 @@ function ControllerInstance(
       .cacheFetch(function (instances, cached, cb) {
         var instance = instances.models[0];
         data.instance = instance;
+        data.instance.state = {};
         $scope.safeApply();
+        cb(null, instance);
       })
       .resolve(function (err, instances, cb) {
         if (!instances.models.length) {
@@ -104,6 +136,7 @@ function ControllerInstance(
         if (err) throw err;
         var instance = instances.models[0];
         data.instance = instance;
+        data.instance.state = {};
         $scope.safeApply();
         cb(null, instance);
       })

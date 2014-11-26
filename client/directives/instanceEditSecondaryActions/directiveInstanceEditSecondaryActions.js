@@ -19,8 +19,8 @@ function instanceEditSecondaryActions(
     templateUrl: 'viewInstanceEditSecondaryActions',
     replace: true,
     scope: {
+      user: '=',
       instance: '=',
-      instances: '=',
       saving: '=',
       openItems: '='
     },
