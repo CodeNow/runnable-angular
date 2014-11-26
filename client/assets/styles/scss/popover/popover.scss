@@ -277,6 +277,7 @@
 
 // form.popover-search
 .popover-search {
+  background: rgba($white,.9);
   height: 45px;
   position: relative;
 
@@ -335,7 +336,7 @@
 
 // h3.popover-title
 .popover-title {
-  background: $gray-lighter;
+  background: rgba($gray-lighter,.96);
   border-bottom: 1px solid rgba($black,.1);
   color: $gray-dark;
   font-size: 16px;
@@ -344,6 +345,7 @@
   line-height: 45px;
   margin: 0;
   padding: 0;
+  position: relative;
   text-align: center;
 
   // toggle search
