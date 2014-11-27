@@ -1,10 +1,12 @@
-header.row.account-header
+header.row.account-header.load(
+  ng-show = "activeAccount"
+)
   ol.accounts-group(
     ng-class = "{ \
       in: isChangeAccount \
     }"
     ng-click = "isChangeAccount = !isChangeAccount; \
-                $event.stopPropagation();"
+      $event.stopPropagation();"
   )
     li.accounts-group-item
       a.account.load(
@@ -25,7 +27,7 @@ header.row.account-header
     li.accounts-group-item(
       ng-if = "user !== activeAccount"
       ng-click = "$event.stopPropagation(); \
-                  selectActiveAccount(user)"
+        selectActiveAccount(user)"
     )
       a.account
         img.gravatar(
@@ -37,7 +39,7 @@ header.row.account-header
     //- Orgs that are not the active account
     li.accounts-group-item(
       ng-click = "$event.stopPropagation(); \
-                  selectActiveAccount(org)"
+        selectActiveAccount(org)"
       ng-if = "org !== activeAccount"
       ng-repeat = "org in orgs.models"
     )
