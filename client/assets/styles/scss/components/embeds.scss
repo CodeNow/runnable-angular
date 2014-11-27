@@ -59,11 +59,21 @@
 // button.btn.btn-embed-play
 .btn-embed-play {
   height: 150px;
+  opacity: .75;
   width: 150px;
 
   .iconnables {
     height: 100%;
     width: 100%;
+  }
+
+  &:hover,
+  &:active {
+    opacity: 1;
+  }
+
+  &:active {
+    transform: scale3d(.9,.9,1);
   }
 }
 
