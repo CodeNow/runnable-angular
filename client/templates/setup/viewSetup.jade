@@ -133,7 +133,7 @@ section.views.with-add-tab(
           xlink:href = "#icons-close"
         )
 
-  //- spinner
-  .horizontal-spinner(
-    ng-show = "dataSetup.data.fetchingContext"
+  .spinner-container.spinner-backdrop.spinner-md(
+    ng-class = "{in: dataSetup.data.fetchingContext}"
+    ng-include = "'spinner'"
   )

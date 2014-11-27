@@ -1,3 +1,11 @@
+//- spinner options:
+//- &.in - displays spinner
+//- &.spinner-backdrop - covers ui
+//- &.spinner-lg - 60px by 60px
+//- &.spinner-mg - 30px by 3px
+//- &.spinner-sm - 15px by 15px
+//- &.spinner-purple - sets color to $purple-lighter
+
 .spinner-container {
   align-items: center;
   display: flex;
@@ -17,24 +25,24 @@
     pointer-events: auto;
   }
 
-  &.spinner-lg {
+  &.spinner-backdrop {
     background: $white;
+  }
 
-    .spinner.lg {
-      display: block;
-    }
+  &.spinner-lg .spinner.lg {
+    display: block;
   }
 
   &.spinner-md .spinner.md {
     display: block;
-
-    .path {
-      stroke: $gray-light;
-    }
   }
 
   &.spinner-sm .spinner.sm {
     display: block;
+  }
+
+  &.spinner-purple .path {
+    stroke: $purple-lighter;
   }
 }
 
@@ -45,7 +53,7 @@
 
 .path {
   animation: spinner-path $spinner-duration ease-in-out infinite;
-  stroke: $purple-lighter;
+  stroke: $gray-light;
   stroke-dasharray: $spinner-offset;
   stroke-dashoffset: 0;
   transform-origin: center;
