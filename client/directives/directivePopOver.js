@@ -31,13 +31,13 @@ function popOver(
       options.top = (typeof options.top !== 'undefined') ? options.top : 0;
       options.class = (typeof options.class !== 'undefined') ? options.class : false;
 
-      var gParent = $(element.parent().parent());
+      var parent = $(element.parent());
 
       var popEl = $compile(template)($scope);
 
       popEl.css({
-        top: (gParent.offset().top + options.top) + 'px',
-        left: (gParent.offset().left + options.left) + 'px'
+        top: (parent.offset().top + options.top) + 'px',
+        left: (parent.offset().left + options.left) + 'px'
       });
 
       $('body').append(popEl);
