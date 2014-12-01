@@ -2,7 +2,7 @@ section.row.boxes
 
   .spinner-container.spinner-md.in(
     ng-include = "'spinner'"
-    ng-if = "!instances.models.length"
+    ng-if = "showSpinner"
   )
 
   h2.sub-header.load(
@@ -33,7 +33,7 @@ section.row.boxes
     li.box-group-item.white.load(
       ng-class = "getInstanceClasses(instance)"
       ng-repeat = "instance in instances.models | orderBy:'attrs.name'"
-      ng-show = "instances.models.length"
+      ng-show = "instances.models.length && !showSpinner"
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )

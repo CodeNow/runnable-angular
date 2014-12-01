@@ -51,25 +51,29 @@ function instanceEditPrimaryActions(
               }, cb);
             },
             function () {
+              // Catch the update file error
               $scope.newBuild.build(
                 buildObj,
                 function (err, build) {
-                  if (err) throw err;
+                  if (err) { throw err; }
                   var opts = {
-                    build: $scope.newBuild.id()
+                    build: build.id()
                   };
                   if ($scope.instance.state && $scope.instance.state.env) {
                     opts.env = $scope.instance.state.env;
                   }
                   $scope.instance.update(opts, function (err) {
-                    if (err) throw err;
+                    if (err) { throw err; }
                     // will trigger display of completed message if build completes
                     // before reaching next state
                     // $scope.dataInstanceLayout.data.showBuildCompleted = true;
                     $state.go('instance.instance', $stateParams);
                   });
                 });
-            }]);
+            }
+          ], function (err) {
+            if (err) { throw err; }
+          });
         });
       };
 
@@ -84,6 +88,9 @@ function instanceEditPrimaryActions(
       };
 
       function fetchNewBuild(cb) {
+        if (!$scope.user) {
+          throw new Error('InstanceEditPrimaryActions can\'t find a user on the scope');
+        }
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
@@ -92,9 +99,8 @@ function instanceEditPrimaryActions(
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, build, cb) {
-            if (err) throw err;
-            cb();
+          .resolve(function (err) {
+            throw err;
           })
           .go();
       }

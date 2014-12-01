@@ -3,17 +3,15 @@ require('app')
 /**
  * @ngInject
  */
-function instanceList(
+function instanceList (
   async,
   determineActiveAccount,
-  $filter,
   getInstanceClasses,
   getInstanceAltTitle,
   QueryAssist,
   $rootScope,
   $state,
-  user,
-  keypather
+  user
 ) {
   return {
     restrict: 'E',
@@ -21,35 +19,6 @@ function instanceList(
     replace: true,
     scope: {},
     link: function ($scope, elem, attrs) {
-
-      /**
-       * Refetch list of instances on state changes.
-       * Useful after delete, fork, copy
-       */
-      $scope.$on('$locationChangeSuccess', function () {
-        async.series([
-          fetchUser,
-          fetchOrgs,
-          fetchInstances
-        ]);
-      });
-
-      $scope.stateToNew = function () {
-        $state.go('instance.new', {
-          userName: $scope.activeAccount.oauthId()
-        });
-      };
-
-      $scope.stateToInstance = function (instance) {
-        $state.go('instance.instance', {
-          instanceName: instance.attrs.name,
-          userName: instance.attrs.owner.username
-        });
-      };
-
-      $scope.getInstanceClasses = getInstanceClasses;
-
-      $scope.getInstanceAltTitle = getInstanceAltTitle;
 
       function fetchUser(cb) {
         new QueryAssist(user, cb)
@@ -68,7 +37,7 @@ function instanceList(
 
       function fetchOrgs(cb) {
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
-          if (err) throw err;
+          if (err) { throw err; }
           cb();
         });
       }
@@ -77,7 +46,14 @@ function instanceList(
         async.waterfall([
           determineActiveAccount,
           function (activeAccount, cb) {
-            $scope.activeAccount = activeAccount;
+            if (activeAccount !== $scope.activeAccount) {
+              $scope.activeAccount = activeAccount;
+              $scope.showSpinner = true;
+              $rootScope.safeApply();
+            }
+            cb();
+          },
+          function (cb) {
             new QueryAssist($scope.user, cb)
               .wrapFunc('fetchInstances', cb)
               .query({
@@ -93,15 +69,46 @@ function instanceList(
               .resolve(function (err, projects, cb) {})
               .go();
           }
-        ]);
+        ], cb);
+      }
+      function loadInstances () {
+        async.series([
+          fetchUser,
+          fetchOrgs,
+          fetchInstances
+        ],function (err) {
+          if ($scope.showSpinner) {
+            $scope.showSpinner = false;
+            $rootScope.safeApply();
+          }
+          if (err) { throw err; }
+        });
       }
 
-      async.series([
-        fetchUser,
-        fetchOrgs,
-        fetchInstances
-      ]);
+      /**
+       * Refetch list of instances on state changes.
+       * Useful after delete, fork, copy
+       */
+      $scope.$on('$locationChangeSuccess', loadInstances);
 
+      $scope.stateToNew = function () {
+        $state.go('instance.new', {
+          userName: $scope.activeAccount.oauthId()
+        });
+      };
+
+      $scope.stateToInstance = function (instance) {
+        $state.go('instance.instance', {
+          instanceName: instance.attrs.name,
+          userName: instance.attrs.owner.username
+        });
+      };
+
+      $scope.getInstanceClasses = getInstanceClasses;
+
+      $scope.getInstanceAltTitle = getInstanceAltTitle;
+
+      loadInstances();
     }
   };
 }
