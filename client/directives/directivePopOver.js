@@ -58,7 +58,7 @@ function popOver(
       });
       element.on('$destroy', function () {
         popEl.remove();
-        $($window).off(dSetCSS);
+        $($window).off('resize', dSetCSS);
         element.off('click');
       });
     }
