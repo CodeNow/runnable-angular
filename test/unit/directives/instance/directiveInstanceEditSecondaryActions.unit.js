@@ -52,6 +52,7 @@ describe('directiveInstanceEditSecondaryActions'.bold.underline.blue, function()
       _$state_,
       _$stateParams_,
       _$compile_,
+      _$timeout_,
       _$rootScope_
     ) {
       $state = _$state_;
@@ -59,6 +60,7 @@ describe('directiveInstanceEditSecondaryActions'.bold.underline.blue, function()
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
+      $timeout = _$timeout_;
 
       $rootScope.safeApply = function(cb) {
         $timeout(function() {

@@ -8,6 +8,7 @@ function instanceSecondaryActions(
   $log,
   $rootScope,
   $state,
+  keypather,
   $stateParams
 ) {
   return {
@@ -38,11 +39,14 @@ function instanceSecondaryActions(
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
 
-      $scope.popoverGearMenu.data.dataModalEnvironment.showRebuild = true;
+      keypather.set($scope, 'popoverGearMenu.data.dataModalEnvironment.showRebuild', true);
 
       $scope.goToEdit = function () {
         var forkedBuild = $scope.instance.build.deepCopy(function (err) {
-          if (err) { return $log.error(err); }
+          if (err) {
+            $log.error(err);
+            throw err;
+          }
           $state.go('instance.instanceEdit', {
             userName: $stateParams.userName,
             instanceName: $stateParams.instanceName,
@@ -52,13 +56,13 @@ function instanceSecondaryActions(
       };
 
       function modInstance(action, opts) {
-        $scope.loading = true;
+        $scope.saving = true;
         $scope.popoverGearMenu.data.show = false;
         $scope.instance[action](opts, function (err) {
           if (err) { throw err; }
           $scope.instance.fetch(function (err) {
             if (err) throw err;
-            $scope.loading = false;
+            $scope.saving = false;
             $rootScope.safeApply();
           });
         });
