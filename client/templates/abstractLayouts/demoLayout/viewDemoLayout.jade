@@ -1,0 +1,85 @@
+nav.sidebar.global-sidebar.demo-sidebar
+  header.row.account-header
+    a.logo.logo(
+      href = "#"
+    )
+      svg
+        use(
+          xlink:href = "#runnable-logo"
+        )
+  div(
+    ng-switch = "data.page"
+  )
+    div(
+      ng-switch-when = "1"
+    )
+      p.demo-sidebar-hint This is a box running a node.js example on #{''}
+      a.link.link-white.link-text(
+        href = "//github.com"
+        target = "_blank"
+      ) Github
+      |.
+      p.demo-sidebar-hint Use this box to run your own repos by signing in with Github.
+      button.btn.white.reversed(
+        modal
+        modal-actions = "actions.actionsModalSignIn"
+        modal-data = "data.dataModalSignIn"
+        modal-template = "viewModalSignIn"
+      )
+        svg.iconnables.icons-git
+          use(
+            xlink:href = "#icons-git"
+          )
+        | Sign In with Github
+
+    div(
+      ng-switch-when = "2"
+    )
+      p.demo-sidebar-hint Add the repository you'd like to see running on this box.
+      a.link.link-white.link-text(
+        ng-click = "actions.nextPage()"
+      ) Skip adding a repo
+
+    div(
+      ng-switch-when = "3"
+    )
+      p.demo-sidebar-hint Adding a repo requires an #{''}
+      b.btn.btn-xxs.white.reversed(
+        tooltip = "The ADD instruction copies new files, directories or remote file URLs from <src> and adds them to the filesystem of the container at the path <dest>.[1]"
+        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":21}"
+      ) ADD
+      | #{''} instruction which copies your repository files to your box.
+      p.demo-sidebar-hint We&rsquo;re using your previous template&mdash;change it up if you want.
+      button.btn.template-list.white.reversed(
+        ng-click = "dataApp.data.showTemplates = true"
+      )
+        img.template-image(
+          alt = "node.js"
+          src = "/build/images/icons/templates/icons-node.js.svg"
+        )
+        h2.template-title node.js
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+      a.btn.white.reversed(
+        href = "/demo4"
+      ) Next
+      a.link.link-white.link-text(
+        ng-click = "actions.previousPage()"
+      ) Back to adding a repo
+
+    div(
+      ng-switch-when = "4"
+    )
+      p.demo-sidebar-hint Now that you've got a Dockerfile setup, you can start your build.
+      a.link.link-white.link-text Close overlay
+
+    div(
+      ng-switch-default
+    )
+      p.demo-sidebar-hint Oops!  Something went wrong on our part.  Please refresh the page.
+
+main.content(
+  ui-view
+)

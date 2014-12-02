@@ -6,5 +6,5 @@ h1.box-info
     value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
   )
   //- sets layout on h1.box-name for .box-url
-  span.box-name-ghost {{ instance.attrs.name }}.username.runnable.io
+  span.box-name-ghost {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io
 

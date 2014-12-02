@@ -12,25 +12,36 @@ module.exports = [
     }
   },
   {
-    state: 'demo',
+    state: 'edemo',
     abstract: false,
     url: '^/demo',
     templateUrl: 'viewDemo'
   }, {
-    state: 'demo2',
+    state: 'edemo2',
     abstract: false,
     url: '^/demo2',
     templateUrl: 'viewDemo2'
   }, {
-    state: 'demo3',
+    state: 'edemo3',
     abstract: false,
     url: '^/demo3',
     templateUrl: 'viewDemo3'
   }, {
-    state: 'demo4',
+    state: 'edemo4',
     abstract: false,
     url: '^/demo4',
     templateUrl: 'viewDemo4'
+  }, {
+    state: 'demo',
+    abstract: true,
+    templateUrl: 'viewDemoLayout',
+    controller: 'ControllerDemoLayout'
+  }, {
+    state: 'demo.edit',
+    abstract: false,
+    url: '^/demo/:userName/:instanceName/edit/:buildId',
+    templateUrl: 'viewInstanceEdit',
+    controller: 'ControllerInstanceEdit'
   }, {
     state: 'instance',
     abstract: true,
