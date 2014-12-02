@@ -6,11 +6,7 @@ require('app')
  */
 function modalEnvironment(
   $localStorage,
-  QueryAssist,
-  $stateParams,
-  $rootScope,
-  keypather,
-  $log
+  keypather
 ) {
   return {
     restrict: 'E',

@@ -4,25 +4,18 @@ require('app')
  * @ngInject
  */
 function instanceEditSecondaryActions(
-  async,
   helperInstanceActionsModal,
-  keypather,
-  QueryAssist,
-  $rootScope,
   $state,
-  $stateParams,
-  $timeout,
-  user
+  $stateParams
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceEditSecondaryActions',
     replace: true,
     scope: {
-      user: '=',
       instance: '=',
-      saving: '=',
-      openItems: '='
+      instances: '=', // Added to the data scope of the modals through helper
+      saving: '='
     },
     link: function ($scope, elem, attrs) {
 

@@ -16,7 +16,6 @@ function instanceEditPrimaryActions(
     replace: true,
     scope: {
       user: '=',
-      instances: '=',
       instance: '=',
       loading: '=',
       openItems: '='

@@ -18,7 +18,6 @@ function makeDefaultScope () {
     instance: {
       attrs: angular.copy(apiMocks.instances.building)
     },
-    instances: [apiMocks.instances.building, apiMocks.instances.running],
     loading: false,
     openItems: {
       isClean: function () {
@@ -93,7 +92,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
     ctx.template = directiveTemplate('instance-edit-primary-actions', {
       user: 'user',
       instance: 'instance',
-      instances: 'instances',
       loading: 'loading',
       'open-items': 'openItems'
     });
@@ -152,7 +150,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
     it('should fail without a user on the scope', function() {
       expect($elScope.user).to.equal(thisUser);
       expect($elScope.instance).to.equal(inputScope.instance);
-      expect($elScope.instances).to.equal(inputScope.instances);
       expect($elScope.loading).to.equal(inputScope.loading);
       expect($elScope.openItems).to.equal(inputScope.openItems);
       expect($elScope.popoverBuildOptions).to.be.ok;

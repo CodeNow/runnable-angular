@@ -15,7 +15,6 @@ function instanceSecondaryActions(
     templateUrl: 'viewInstanceSecondaryActions',
     replace: true,
     scope: {
-      instances: '=',
       instance: '=',
       saving: '='
     },

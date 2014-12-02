@@ -49,14 +49,7 @@ function HelperInstanceActionsModal(
       $scope.popoverGearMenu.data.build = n;
     });
 
-    var unwatchUser = $scope.$watch('user', function (n) {
-      if (!n) return;
-      data.user = n;
-      $scope.popoverGearMenu.data.user = n;
-    });
-
     $scope.$on('$destroy', function () {
-      unwatchUser();
       unwatchbuild();
       unwatchInstances();
       unwatchInstance();
