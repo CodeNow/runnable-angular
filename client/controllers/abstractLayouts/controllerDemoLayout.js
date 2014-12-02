@@ -11,11 +11,9 @@ function demoLayout (
   };
   $scope.actions = {
     nextPage: function () {
-      console.log($scope.data.page);
-      $scope.data.page += 1;
+      $scope.data.page++;
     },
     previousPage: function () {
-      console.log($scope.data.page);
       $scope.data.page--;
     }
   };
