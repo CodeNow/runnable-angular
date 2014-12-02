@@ -5,9 +5,11 @@ require('app')
  * @ngInject
  */
 function popOver(
-  $templateCache,
+  debounce,
+  jQuery,
   $compile,
-  jQuery
+  $templateCache,
+  $window
 ) {
   return {
     restrict: 'E',
@@ -36,11 +38,18 @@ function popOver(
 
       var popEl = $compile(template)($scope);
 
-      popEl.css({
-        right: options.right + 'px',
-        left: (parent.offset().left + options.left) + 'px',
-        top: (parent.offset().top + options.top) + 'px'
-      });
+      function setCSS () {
+        popEl.css({
+          right: options.right + 'px',
+          left: (parent.offset().left + options.left) + 'px',
+          top: (parent.offset().top + options.top) + 'px'
+        });
+      }
+
+      setCSS();
+
+      var dSetCSS = debounce(setCSS, 100);
+      $($window).on('resize', dSetCSS);
 
       $('body').append(popEl);
 
@@ -48,6 +57,8 @@ function popOver(
         event.stopPropagation();
       });
       element.on('$destroy', function () {
+        popEl.remove();
+        $($window).off(dSetCSS);
         element.off('click');
       });
     }
