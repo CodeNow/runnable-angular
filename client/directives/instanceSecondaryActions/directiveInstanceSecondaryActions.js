@@ -16,6 +16,7 @@ function instanceSecondaryActions(
     replace: true,
     scope: {
       instance: '=',
+      instances: '=',
       saving: '='
     },
     link: function ($scope, elem, attrs) {
