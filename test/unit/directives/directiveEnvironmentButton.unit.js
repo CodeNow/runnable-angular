@@ -44,8 +44,7 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
   beforeEach(injectSetupCompile);
 
   it('should set up properly with an instance', function() {
-    // three buttons includes two in the popover
-    expect(ctx.element.find('button').length).to.equal(3);
+    expect(ctx.element.find('button').length).to.equal(1);
   });
 
   it('properly splits up dependencies', function () {
