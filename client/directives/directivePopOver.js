@@ -27,6 +27,7 @@ function popOver(
       } catch (e) {
         options = {};
       }
+      options.right = (typeof options.right !== 'undefined') ? options.right : 'auto';
       options.left = (typeof options.left !== 'undefined') ? options.left : 0;
       options.top = (typeof options.top !== 'undefined') ? options.top : 0;
       options.class = (typeof options.class !== 'undefined') ? options.class : false;
@@ -36,8 +37,9 @@ function popOver(
       var popEl = $compile(template)($scope);
 
       popEl.css({
-        top: (parent.offset().top + options.top) + 'px',
-        left: (parent.offset().left + options.left) + 'px'
+        right: options.right + 'px',
+        left: (parent.offset().left + options.left) + 'px',
+        top: (parent.offset().top + options.top) + 'px'
       });
 
       $('body').append(popEl);
