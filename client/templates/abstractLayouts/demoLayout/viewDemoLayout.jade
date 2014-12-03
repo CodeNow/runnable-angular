@@ -26,7 +26,6 @@ nav.sidebar.global-sidebar.demo-sidebar(
       modal-data = "dataDemoLayout.data.dataModalSignIn"
       modal-template = "viewModalSignIn"
       ng-switch-when = "1"
-      target = "_blank"
     ) sign in with your Github account
     | .
 
@@ -35,12 +34,15 @@ nav.sidebar.global-sidebar.demo-sidebar(
   //-
   p.sidebar-text(
     ng-switch-when = "2"
-  ) We've removed our demo repo for you. Select a repo of your own to get setup. #{''}
-    a.link.link-white.link-text(
-      ng-click = "dataDemoLayout.actions.nextPage()"
-      ng-switch-when = "2"
-    ) Skip adding a repo
-    | .
+  ) We've removed our demo repo for you so you can select a repo of your own.
+  a.btn.white.reversed(
+    href = "/demo4"
+    ng-switch-when = "2"
+  ) Review Box
+  a.link.link-white.link-text.sidebar-skip(
+    ng-click = "dataDemoLayout.actions.nextPage()"
+    ng-switch-when = "2"
+  ) Skip Step
 
   //-
   //- demo step 3
@@ -84,10 +86,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
   //-
   p.sidebar-text(
     ng-switch-when = "4"
-  ) Now that you've got a Dockerfile setup, you can start your build.
-  a.link.link-white.link-text(
-    ng-switch-when = "4"
-  ) Close overlay
+  ) That's it! If you want to make any changes now's your chance. Hit the Build button when you're ready to start your own box.
 
   //-
   //- demo error

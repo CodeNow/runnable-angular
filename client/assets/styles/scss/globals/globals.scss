@@ -18,8 +18,8 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
 
-  // reset overflow for .landing
-  &.landing {
+  // natural scroll
+  .vertical & {
     height: auto;
     min-width: 360px;
     overflow-x: hidden;

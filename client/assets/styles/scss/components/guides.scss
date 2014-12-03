@@ -31,7 +31,7 @@
 }
 
 // getting started guide
-.guide-backdrop::after {
+.guide-backdrop .content::after {
   background: rgba($black,.3);
   display: block;
   height: 100%;

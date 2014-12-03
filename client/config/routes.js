@@ -7,7 +7,7 @@ module.exports = [
     controller: 'ControllerHome',
     data: {
       bodyClass: {
-        'landing': true
+        'vertical': true
       },
     }
   },
