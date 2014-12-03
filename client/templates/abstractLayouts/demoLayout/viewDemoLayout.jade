@@ -1,5 +1,5 @@
 nav.sidebar.global-sidebar.demo-sidebar(
-  ng-switch = "data.page"
+  ng-switch = "dataDemoLayout.data.page"
 )
   a.logo.logo-icon(
     href = "#"
@@ -24,8 +24,8 @@ nav.sidebar.global-sidebar.demo-sidebar(
   a.btn.btn-block.green(
     href = "#"
     modal
-    modal-actions = "actions.actionsModalSignIn"
-    modal-data = "data.dataModalSignIn"
+    modal-actions = "dataDemoLayout.actions.actionsModalSignIn"
+    modal-data = "dataDemoLayout.data.dataModalSignIn"
     modal-template = "viewModalSignIn"
     ng-switch-when = "1"
   ) Next
@@ -40,7 +40,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
     ng-switch-when = "2"
   ) We've removed our demo repo for you. Add a repo of yours to run on this box.
   a.link.link-text.link-secondary(
-    ng-click = "actions.nextPage()"
+    ng-click = "dataDemoLayout.actions.nextPage()"
     ng-switch-when = "2"
   ) Skip adding a repo
 
@@ -74,7 +74,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
     ng-switch-when = "3"
   ) Next
   a.link.link-text.link-secondary(
-    ng-click = "actions.previousPage()"
+    ng-click = "dataDemoLayout.actions.previousPage()"
     ng-switch-when = "3"
   ) Add a different repo
 

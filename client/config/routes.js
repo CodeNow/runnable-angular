@@ -11,7 +11,7 @@ module.exports = [
       },
     }
   },
-  {
+  /*{
     state: 'edemo',
     abstract: false,
     url: '^/demo',
@@ -31,11 +31,17 @@ module.exports = [
     abstract: false,
     url: '^/demo4',
     templateUrl: 'viewDemo4'
-  }, {
+  }, */{
     state: 'demo',
     abstract: true,
     templateUrl: 'viewDemoLayout',
     controller: 'ControllerDemoLayout'
+  }, {
+    state: 'demo.anon',
+    abstract: false,
+    url: '^/demo/:userName/:instanceName',
+    templateUrl: 'viewInstanceAnon',
+    controller: 'ControllerInstanceAnon'
   }, {
     state: 'demo.edit',
     abstract: false,

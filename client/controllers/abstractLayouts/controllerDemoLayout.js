@@ -3,37 +3,50 @@ require('app')
 
 function demoLayout (
   editorCache,
+  $rootScope,
   $scope,
+  $state,
   $timeout,
   $window
 ) {
-  $scope.data = {
-    page: 1
+  var dataDemoLayout = $scope.dataDemoLayout = {
+    data: {},
+    actions: {}
   };
-  $scope.actions = {
-    nextPage: function () {
-      $scope.data.page++;
-    },
-    previousPage: function () {
-      $scope.data.page--;
-    }
+  var data = dataDemoLayout.data;
+  var actions = dataDemoLayout.actions;
+
+  // May not be the best system
+  if ($state.current.name === 'demo.anon') {
+    data.page = 1;
+  } else {
+    data.page = 2;
+  }
+
+  actions.nextPage = function () {
+    data.page++;
+  };
+  actions.previousPage = function () {
+    data.page--;
   };
 
-  $scope.actions.actionsModalSignIn = {
-    nextPage: $scope.actions.nextPage
+  actions.actionsModalSignIn = {
+    nextPage: actions.nextPage
   };
 
   // Hacky stuff, fix once we've got a solid idea of what's going in here
-  $scope.$watch('data.page', function(n) {
+  $scope.$watch('dataDemoLayout.data.page', function(n) {
     // Pages are 1-indexed, no need to worry about zero
     if (!n) { return; }
     if (n === 2) {
-      // Triggering a click here because the directive's isolate scope
-      // prevents us from modifying that
-      var el = $window.document.querySelector('main > section.sidebar.box-sidebar.ng-scope > section > h2 > a');
-      var $el = angular.element(el);
-      $timeout(function() {
-        $el.triggerHandler('click');
+      // Grab the isolate scope
+      var el = $window.document.querySelector('main > section.sidebar.box-sidebar.ng-scope > section > h2');
+      var elScope = angular.element(el).scope();
+      // Set it to false initially to ensure the change is triggered
+      // Otherwise the watch in dirAddRepoPopover won't run
+      elScope.data.show = false;
+      $rootScope.safeApply(function() {
+        elScope.data.show = true;
       });
     }
     if (n === 3) {
