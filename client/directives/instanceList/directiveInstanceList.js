@@ -48,8 +48,6 @@ function instanceList (
           function (activeAccount, cb) {
             if (activeAccount !== $scope.activeAccount) {
               $scope.activeAccount = activeAccount;
-              $scope.showSpinner = true;
-              $rootScope.safeApply();
             }
             cb();
           },
@@ -72,9 +70,16 @@ function instanceList (
         ], cb);
       }
       function loadInstances () {
+        $scope.loadingUsers = true;
+        $rootScope.safeApply();
         async.series([
           fetchUser,
           fetchOrgs,
+          function (cb) {
+            $scope.loadingUsers = false;
+            $scope.showSpinner = true;
+            $rootScope.safeApply(cb);
+          },
           fetchInstances
         ],function (err) {
           if ($scope.showSpinner) {

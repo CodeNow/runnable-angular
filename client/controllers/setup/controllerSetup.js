@@ -96,9 +96,6 @@ function ControllerSetup(
         githubUsername: $stateParams.userName
       })
       .cacheFetch(function (instances, cached, cb) {
-        if (!cached && instances.models.length === 0) {
-          throw new Error('instance not found');
-        }
         data.instances = instances;
         $scope.safeApply();
         cb();
