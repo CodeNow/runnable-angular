@@ -41,7 +41,12 @@ module.exports = [
     abstract: false,
     url: '^/demo/:userName/:instanceName/edit/:buildId',
     templateUrl: 'viewInstanceEdit',
-    controller: 'ControllerInstanceEdit'
+    controller: 'ControllerInstanceEdit',
+    data: {
+      bodyClass: {
+        'guide-backdrop': true
+      }
+    }
   }, {
     state: 'instance',
     abstract: true,

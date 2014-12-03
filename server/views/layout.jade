@@ -2,6 +2,7 @@ doctype html
 html(
   lang = "en"
   ng-controller = "ControllerApp"
+  ng-class = "dataApp.state.current.data.bodyClass"
 )
   head
     meta(
@@ -62,10 +63,7 @@ html(
         /* custom configuration goes here (www.olark.com/documentation) */
         olark.identify('1268-458-10-2188');
 
-  body(
-    ng-class = "dataApp.state.current.data.bodyClass"
-  )
-
+  body
     //
       TIME: #{locals.commitTime}
       HASH: #{locals.commitHash}

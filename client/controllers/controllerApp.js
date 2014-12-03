@@ -8,6 +8,7 @@ require('app')
  */
 function ControllerApp(
   $scope,
+  $state,
   $rootScope,
   $window,
   async,
@@ -31,6 +32,8 @@ function ControllerApp(
   dataApp.data.minimizeNav = false;
   dataApp.data.loginURL = configLoginURL();
   dataApp.data.logoutURL = configLogoutURL();
+
+  dataApp.state = $state;
 
   // shows spinner overlay
   dataApp.data.loading = false;
