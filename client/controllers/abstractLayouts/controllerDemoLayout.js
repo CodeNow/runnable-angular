@@ -38,7 +38,7 @@ function demoLayout (
     }
     if (n === 3) {
       // Set the active line to the one with ADD
-      var result = editorCache.Dockerfile.find('ADD').start.row;
+      editorCache.Dockerfile.find('ADD');
     }
   });
 }
