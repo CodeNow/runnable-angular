@@ -1,5 +1,5 @@
 nav.sidebar.global-sidebar.demo-sidebar(
-  ng-switch = "data.page"
+  ng-switch = "dataDemoLayout.data.page"
 )
   header.row.account-header
     a.logo.logo(
@@ -20,10 +20,10 @@ nav.sidebar.global-sidebar.demo-sidebar(
     ng-switch-when = "1"
   ) To save this box along with any changes you&rsquo;ve made, #{''}
     a.link.link-white.link-text(
-      href = "#"
+      href
       modal
-      modal-actions = "actions.actionsModalSignIn"
-      modal-data = "data.dataModalSignIn"
+      modal-actions = "dataDemoLayout.actions.actionsModalSignIn"
+      modal-data = "dataDemoLayout.data.dataModalSignIn"
       modal-template = "viewModalSignIn"
       ng-switch-when = "1"
       target = "_blank"
@@ -37,7 +37,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
     ng-switch-when = "2"
   ) We've removed our demo repo for you. Select a repo of your own to get setup. #{''}
     a.link.link-white.link-text(
-      ng-click = "actions.nextPage()"
+      ng-click = "dataDemoLayout.actions.nextPage()"
       ng-switch-when = "2"
     ) Skip adding a repo
     | .
@@ -75,7 +75,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
     ng-switch-when = "3"
   ) Next
   a.link.link-white.link-text(
-    ng-click = "actions.previousPage()"
+    ng-click = "dataDemoLayout.actions.previousPage()"
     ng-switch-when = "3"
   ) Back to adding a repo
 

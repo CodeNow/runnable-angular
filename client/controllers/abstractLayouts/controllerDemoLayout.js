@@ -4,23 +4,33 @@ require('app')
 function demoLayout (
   editorCache,
   $scope,
+  $state,
   $timeout,
   $window
 ) {
-  $scope.data = {
-    page: 1
+  var dataDemoLayout = $scope.dataDemoLayout = {
+    data: {},
+    actions: {}
   };
-  $scope.actions = {
-    nextPage: function () {
-      $scope.data.page++;
-    },
-    previousPage: function () {
-      $scope.data.page--;
-    }
+  var data = dataDemoLayout.data;
+  var actions = dataDemoLayout.actions;
+
+  // May not be the best system
+  if ($state.current.name === 'demo.anon') {
+    data.page = 1;
+  } else {
+    data.page = 2;
+  }
+
+  actions.nextPage = function () {
+    data.page++;
+  };
+  actions.previousPage = function () {
+    data.page--;
   };
 
-  $scope.actions.actionsModalSignIn = {
-    nextPage: $scope.actions.nextPage
+  actions.actionsModalSignIn = {
+    nextPage: actions.nextPage
   };
 
   // Hacky stuff, fix once we've got a solid idea of what's going in here
@@ -32,8 +42,16 @@ function demoLayout (
       // prevents us from modifying that
       var el = $window.document.querySelector('main > section.sidebar.box-sidebar.ng-scope > section > h2 > a');
       var $el = angular.element(el);
+      // triggerHandler needs to be run on nextTick
       $timeout(function() {
         $el.triggerHandler('click');
+      });
+      // Grab the parent scope so we can track repo add
+      var scp = $el.parent().scope();
+      scp.$watch('unsavedAcvs.length', function(n) {
+        if (n === 1) {
+          actions.nextPage();
+        }
       });
     }
     if (n === 3) {
