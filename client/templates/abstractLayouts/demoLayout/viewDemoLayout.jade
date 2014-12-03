@@ -28,7 +28,12 @@ nav.sidebar.global-sidebar.demo-sidebar(
     modal-data = "dataDemoLayout.data.dataModalSignIn"
     modal-template = "viewModalSignIn"
     ng-switch-when = "1"
-  ) Next
+  )
+    svg.iconnables.icons-git
+      use(
+        xlink:href = "#icons-git"
+      )
+    | Sign In
 
   //-
   //- demo step 2
