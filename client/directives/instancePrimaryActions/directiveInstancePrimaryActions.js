@@ -14,6 +14,7 @@ function instancePrimaryActions(
     templateUrl: 'viewInstancePrimaryActions',
     replace: true,
     scope: {
+      loading: '=',
       instance: '=',
       saving: '=',
       openItems: '='
@@ -29,10 +30,6 @@ function instancePrimaryActions(
 
       $scope.saving = false;
       $scope.loading = false;
-
-      $scope.$watch('instance', function (n) {
-        if (n) $scope.popoverSaveOptions.data.instance = n;
-      });
 
       $scope.saveChanges = function () {
         // weird hackiness to get the saving spinner to display
@@ -74,7 +71,8 @@ function instancePrimaryActions(
                 });
               });
               // need container !running here
-              keypather.set($scope.instance, 'containers.models[0].attrs.inspect.State.Running', false);
+              keypather.set($scope.instance,
+                'containers.models[0].attrs.inspect.State.Running', false);
             }
             $rootScope.safeApply();
           }

@@ -128,8 +128,8 @@ function HelperInstanceActionsModal(
             if (err) { throw err; }
             var opts = {};
             opts.name = instance.state.name;
-            if (instance.attrs.env) {
-              opts.env = instance.attrs.env;
+            if (instance.state.env) {
+              opts.env = instance.state.env;
             }
             newInstance.update(opts, function (err) {
               $rootScope.safeApply();
@@ -193,15 +193,20 @@ function HelperInstanceActionsModal(
 
     $scope.popoverGearMenu.actions.actionsModalDelete = {
       deleteInstance: function () {
+        var deletedInstanceName = data.instance.attrs.name;
         data.instance.destroy(function (err) {
           $rootScope.safeApply();
           if (err) { throw err; }
           // redirect to next instance or new
           if (data.instances.models.length) {
-            $state.go('instance.instance', {
-              userName: $stateParams.userName,
-              instanceName: data.instances.models[0].attrs.name
-            });
+            // Only change the location if we're still on the page
+            // If the user switched to a different instance in between, we shouldn't move
+            if ($stateParams.instanceName === deletedInstanceName) {
+              $state.go('instance.instance', {
+                userName: $stateParams.userName,
+                instanceName: data.instances.models[0].attrs.name
+              });
+            }
           } else {
             $state.go('instance.new', {
               userName: $stateParams.userName

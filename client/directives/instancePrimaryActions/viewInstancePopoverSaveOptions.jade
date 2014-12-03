@@ -5,12 +5,12 @@
   .popover-content
     ul.popover-body.popover-list
       li.popover-list-item(
-        ng-class = "{'no-actions': !data.instance.containers.models[0].running() || data.loading}"
+        ng-class = "{'no-actions': !instance.containers.models[0].running() || loading}"
       )
         label.row.label-checkbox Restart Instance on Save
           input.input-checkbox(
             checked
-            ng-disabled = "!data.instance.containers.models[0].running()"
+            ng-disabled = "!instance.containers.models[0].running()"
             ng-model = "data.restartOnSave"
             type = "checkbox"
           )
