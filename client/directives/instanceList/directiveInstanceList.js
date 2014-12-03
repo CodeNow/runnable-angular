@@ -48,6 +48,8 @@ function instanceList (
           function (activeAccount, cb) {
             if (activeAccount !== $scope.activeAccount) {
               $scope.activeAccount = activeAccount;
+              // Show spinner only if the user changed accounts
+              $scope.showSpinner = true;
             }
             cb();
           },
@@ -77,7 +79,6 @@ function instanceList (
           fetchOrgs,
           function (cb) {
             $scope.loadingUsers = false;
-            $scope.showSpinner = true;
             $rootScope.safeApply(cb);
           },
           fetchInstances
