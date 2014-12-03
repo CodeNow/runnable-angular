@@ -3,7 +3,7 @@
   background: $purple;
 
   .logo {
-    height: 39px;
+    margin-top: 30px;
   }
 
   .row {
@@ -41,24 +41,8 @@
     text-align: left;
   }
 
-  // a.link.link-white.link-text
-  .link-text {
-    color: rgba($white,.6);
-    font-size: 14px;
-    font-weight: 300;
-    margin-top: 9px;
-    text-align: center;
-  }
-}
-
-.demo-sidebar-hint {
-  color: rgba($white,.9);
-  font-size: 16px;
-  line-height: 1.6;
-  padding: 9px;
-
-  + .demo-sidebar-hint {
-    padding: 9px 9px 21px;
+  .sidebar-text {
+    color: rgba($white,.9);
   }
 }
 

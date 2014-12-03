@@ -13,46 +13,39 @@ nav.sidebar.global-sidebar.demo-sidebar(
   //-
   //- demo step 1
   //-
-  p.demo-sidebar-hint(
+  p.sidebar-text(
     ng-switch-when = "1"
-  ) This is a box running a node.js example on #{''}
+  ) Welcome to your first Runnable box. This text briefly describes what boxes are and what you can do with it.
+  p.sidebar-text(
+    ng-switch-when = "1"
+  ) To save this box along with any changes you&rsquo;ve made, #{''}
     a.link.link-white.link-text(
-      href = "//github.com"
+      href = "#"
+      modal
+      modal-actions = "actions.actionsModalSignIn"
+      modal-data = "data.dataModalSignIn"
+      modal-template = "viewModalSignIn"
       ng-switch-when = "1"
       target = "_blank"
-    ) Github
-    |.
-  p.demo-sidebar-hint(
-    ng-switch-when = "1"
-  ) Use this box to run your own repos by signing in with Github.
-  button.btn.white.reversed(
-    modal
-    modal-actions = "actions.actionsModalSignIn"
-    modal-data = "data.dataModalSignIn"
-    modal-template = "viewModalSignIn"
-    ng-switch-when = "1"
-  )
-    svg.iconnables.icons-git
-      use(
-        xlink:href = "#icons-git"
-      )
-    | Sign In with Github
+    ) sign in with your Github account
+    | .
 
   //-
   //- demo step 2
   //-
-  p.demo-sidebar-hint(
+  p.sidebar-text(
     ng-switch-when = "2"
-  ) Add the repository you'd like to see running on this box.
-  a.link.link-white.link-text(
-    ng-click = "actions.nextPage()"
-    ng-switch-when = "2"
-  ) Skip adding a repo
+  ) We've removed our demo repo for you. Select a repo of your own to get setup. #{''}
+    a.link.link-white.link-text(
+      ng-click = "actions.nextPage()"
+      ng-switch-when = "2"
+    ) Skip adding a repo
+    | .
 
   //-
   //- demo step 3
   //-
-  p.demo-sidebar-hint(
+  p.sidebar-text(
     ng-switch-when = "3"
   ) Adding a repo requires an #{''}
     b.btn.btn-xxs.white.reversed(
@@ -61,7 +54,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":21}"
     ) ADD
     | #{''} instruction which copies your repository files to your box.
-  p.demo-sidebar-hint(
+  p.sidebar-text(
     ng-switch-when = "3"
   ) We&rsquo;re using your previous template&mdash;change it up if you want.
   button.btn.template-list.white.reversed(
@@ -89,7 +82,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
   //-
   //- demo step 4
   //-
-  p.demo-sidebar-hint(
+  p.sidebar-text(
     ng-switch-when = "4"
   ) Now that you've got a Dockerfile setup, you can start your build.
   a.link.link-white.link-text(
@@ -99,7 +92,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
   //-
   //- demo error
   //-
-  p.demo-sidebar-hint(
+  p.sidebar-text(
     ng-switch-default
   ) Oops!  Something went wrong on our part.  Please refresh the page.
 
