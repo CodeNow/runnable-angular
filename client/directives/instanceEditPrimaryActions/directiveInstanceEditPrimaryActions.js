@@ -50,10 +50,11 @@ function instanceEditPrimaryActions(
               }, cb);
             },
             function () {
+              var build = $scope.newBuild;
               // Catch the update file error
               $scope.newBuild.build(
                 buildObj,
-                function (err, build) {
+                function (err) {
                   if (err) { throw err; }
                   var opts = {
                     build: build.id()
