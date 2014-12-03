@@ -16,4 +16,11 @@
     margin: 0 auto;
     width: 240px;
   }
+
+  &.logo-icon {
+
+    svg {
+      width: 100%;
+    }
+  }
 }

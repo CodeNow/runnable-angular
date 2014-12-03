@@ -1,33 +1,31 @@
 nav.sidebar.global-sidebar.demo-sidebar(
   ng-switch = "data.page"
 )
-  header.row.account-header
-    a.logo.logo(
-      href = "#"
-    )
-      svg
-        use(
-          xlink:href = "#runnable-logo"
-        )
+  a.logo.logo-icon(
+    href = "#"
+  )
+    svg
+      use(
+        xlink:href = "#runnable-icon"
+      )
 
   //-
   //- demo step 1
   //-
-  p.sidebar-text(
+  .well.in(
     ng-switch-when = "1"
-  ) Welcome to your first Runnable box. This text briefly describes what boxes are and what you can do with it.
-  p.sidebar-text(
-    ng-switch-when = "1"
-  ) To save this box along with any changes you&rsquo;ve made, #{''}
-    a.link.link-white.link-text(
-      href = "#"
-      modal
-      modal-actions = "actions.actionsModalSignIn"
-      modal-data = "data.dataModalSignIn"
-      modal-template = "viewModalSignIn"
-      ng-switch-when = "1"
-    ) sign in with your Github account
-    | .
+  )
+    p.sidebar-text(
+    ) Welcome to your first box. This text briefly describes what boxes are and what you can do with it.
+    p.sidebar-text To save this box along with any changes you&rsquo;ve made, #{''}
+      a.link.link-text(
+        href = "#"
+        modal
+        modal-actions = "actions.actionsModalSignIn"
+        modal-data = "data.dataModalSignIn"
+        modal-template = "viewModalSignIn"
+      ) sign in with your Github account
+      | .
 
   //-
   //- demo step 2
@@ -39,7 +37,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
     href = "/demo4"
     ng-switch-when = "2"
   ) Review Box
-  a.link.link-white.link-text.sidebar-skip(
+  a.link.link-text.sidebar-skip(
     ng-click = "actions.nextPage()"
     ng-switch-when = "2"
   ) Skip Step
@@ -76,7 +74,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
     href = "/demo4"
     ng-switch-when = "3"
   ) Next
-  a.link.link-white.link-text(
+  a.link.link-text(
     ng-click = "actions.previousPage()"
     ng-switch-when = "3"
   ) Back to adding a repo

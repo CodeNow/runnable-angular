@@ -1,6 +1,6 @@
 // main.hero
 .hero {
-  background: $purple;
+  background: linear-gradient($purple, $purple-dark);
   color: $white;
   height: 100vh;
   min-width: 360px;

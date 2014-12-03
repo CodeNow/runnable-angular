@@ -25,12 +25,21 @@
       border: 0;
     }
   }
+
+  .well {
+    margin: 0 -6px;
+    padding: 12px 15px;
+  }
 }
 
 .sidebar-text {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.5;
-  padding: 9px 15px;
+  padding: 0;
+
+  + .sidebar-text {
+    margin-top: 12px;
+  }
 }
 
 .sidebar-skip {

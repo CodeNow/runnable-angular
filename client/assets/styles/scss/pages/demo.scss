@@ -1,9 +1,11 @@
 // .demo-sidebar
 .demo-sidebar.demo-sidebar {
-  background: $purple;
+  background: $gray-lighter;
 
   .logo {
-    margin-top: 30px;
+    color: $gray-light;
+    height: 90px;
+    margin: 21px auto 30px;
   }
 
   .row {
@@ -43,7 +45,7 @@
   }
 
   .sidebar-text {
-    color: rgba($white,.9);
+    color: $gray-dark;
   }
 }
 
