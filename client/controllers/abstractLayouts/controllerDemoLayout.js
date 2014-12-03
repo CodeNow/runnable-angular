@@ -3,6 +3,7 @@ require('app')
 
 function demoLayout (
   editorCache,
+  $rootScope,
   $scope,
   $state,
   $timeout,
@@ -34,24 +35,18 @@ function demoLayout (
   };
 
   // Hacky stuff, fix once we've got a solid idea of what's going in here
-  $scope.$watch('data.page', function(n) {
+  $scope.$watch('dataDemoLayout.data.page', function(n) {
     // Pages are 1-indexed, no need to worry about zero
     if (!n) { return; }
     if (n === 2) {
-      // Triggering a click here because the directive's isolate scope
-      // prevents us from modifying that
-      var el = $window.document.querySelector('main > section.sidebar.box-sidebar.ng-scope > section > h2 > a');
-      var $el = angular.element(el);
-      // triggerHandler needs to be run on nextTick
-      $timeout(function() {
-        $el.triggerHandler('click');
-      });
-      // Grab the parent scope so we can track repo add
-      var scp = $el.parent().scope();
-      scp.$watch('unsavedAcvs.length', function(n) {
-        if (n === 1) {
-          actions.nextPage();
-        }
+      // Grab the isolate scope
+      var el = $window.document.querySelector('main > section.sidebar.box-sidebar.ng-scope > section > h2');
+      var elScope = angular.element(el).scope();
+      // Set it to false initially to ensure the change is triggered
+      // Otherwise the watch in dirAddRepoPopover won't run
+      elScope.data.show = false;
+      $rootScope.safeApply(function() {
+        elScope.data.show = true;
       });
     }
     if (n === 3) {
