@@ -50,6 +50,7 @@ function instanceList (
               $scope.activeAccount = activeAccount;
               // Show spinner only if the user changed accounts
               $scope.showSpinner = true;
+              $rootScope.safeApply();
             }
             cb();
           },
