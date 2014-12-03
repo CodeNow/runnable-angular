@@ -2,6 +2,7 @@ require('app')
   .controller('ControllerDemoLayout', demoLayout);
 
 function demoLayout (
+  editorCache,
   $scope,
   $timeout,
   $window
@@ -22,6 +23,7 @@ function demoLayout (
     nextPage: $scope.actions.nextPage
   };
 
+  // Hacky stuff, fix once we've got a solid idea of what's going in here
   $scope.$watch('data.page', function(n) {
     // Pages are 1-indexed, no need to worry about zero
     if (!n) { return; }
@@ -33,6 +35,10 @@ function demoLayout (
       $timeout(function() {
         $el.triggerHandler('click');
       });
+    }
+    if (n === 3) {
+      // Set the active line to the one with ADD
+      var result = editorCache.Dockerfile.find('ADD').start.row;
     }
   });
 }
