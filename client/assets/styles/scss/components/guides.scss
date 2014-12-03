@@ -31,20 +31,14 @@
 }
 
 // getting started guide
-.guide-backdrop {
+.guide-backdrop::after {
   background: rgba($black,.3);
+  content: '';
+  display: block;
   height: 100%;
   left: 0;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: $z-guide;
-
-  .btn-group {
-    background: $white;
-    border-radius: 3px;
-    position: absolute;
-    right: 5px;
-    top: 9px;
-  }
 }
