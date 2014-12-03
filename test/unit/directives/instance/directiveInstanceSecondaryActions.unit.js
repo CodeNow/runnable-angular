@@ -25,7 +25,7 @@ function makeDefaultScope () {
 }
 
 
-describe('directiveInstanceEditSecondaryActions'.bold.underline.blue, function() {
+describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
   var ctx;
   function injectSetupCompile(scope) {
     angular.mock.module('app');

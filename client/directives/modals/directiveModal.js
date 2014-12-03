@@ -7,44 +7,29 @@ function modal(
   $templateCache,
   $compile,
   keypather,
-  $timeout,
   $rootScope,
   jQuery
 ) {
   return {
     restrict: 'A',
     scope: {
-      data: '=modalData',
-      actions: '=modalActions',
+      data: '=modalData', // Contains modal specific data
+      actions: '=modalActions', // Contains modal specific actions
       template: '@modalTemplate',
-      currentModel: '=modalCurrentModel',
-      stateModel: '=modalStateModel'
+      currentModel: '=modalCurrentModel', // The object that contains the data to display
+      stateModel: '=modalStateModel' // The object that should receive the changes
     },
     link: function ($scope, element, attrs) {
       var $ = jQuery;
       $scope.in = false;
 
       function setupModal() {
-        var tempTemplate = checkTemplate($scope.template);
-        var template = $templateCache.get(tempTemplate);
-        // Here's a hack to replace the type attribute with the actual template name
-        if (tempTemplate !== $scope.template) {
-          template = template.replace('%%GENERIC_TEMPLATE_NAME%%', $scope.template);
-        }
-        var $template = angular.element(template);
-        $compile($template)($scope);
-        $scope.modal = $($template);
-        $('body').append($template);
-        $scope.in = true;
 
         if (keypather.get($scope, 'actions.watchers')) {
-          $scope.actions.watchers.forEach(function(watcher) {
+          $scope.actions.watchers.forEach(function (watcher) {
             watcher($scope);
           });
         }
-        $scope.actions.close = function () {
-          $scope.defaultActions.close();
-        };
         $scope.defaultActions = {
           save: function (state, paths, cb) {
             paths.forEach(function (path) {
@@ -64,21 +49,35 @@ function modal(
           close: function () {
             $scope.in = false;
             $scope.modal.remove();
+            $rootScope.safeApply();
           }
         };
+        var tempTemplate = checkTemplate($scope.template);
+        var template = $templateCache.get(tempTemplate);
+        // Here's a hack to replace the type attribute with the actual template name
+        if (tempTemplate !== $scope.template) {
+          template = template.replace('%%GENERIC_TEMPLATE_NAME%%', $scope.template);
+        }
+        var $template = angular.element(template);
+        $compile($template)($scope);
+        $scope.modal = $($template);
+        $('body').append($template);
+        $scope.in = true;
       }
 
-      element.on('click', function (event) {
+      element[0].onclick = function (event) {
         event.stopPropagation();
         setupModal();
         $rootScope.safeApply();
-      });
+      };
 
       $scope.$on('$destroy', function () {
         if ($scope.modal) {
           $scope.modal.remove();
         }
-        element.off('click');
+        $scope.in = false;
+        element[0].onclick = null;
+        $rootScope.safeApply();
       });
     }
   };
