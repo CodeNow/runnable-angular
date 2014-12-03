@@ -8,6 +8,11 @@
   ng-show = "item === openItems.activeHistory.last()"
 )
 
+  .spinner-container.spinner-backdrop.spinner-md(
+    ng-class = "{in: loading}"
+    ng-include = "'spinner'"
+  )
+
   log-build(
     ng-if = "item.state.type === 'BuildStream'"
   )
