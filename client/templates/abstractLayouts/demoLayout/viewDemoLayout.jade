@@ -58,22 +58,6 @@ nav.sidebar.global-sidebar.demo-sidebar(
   p.sidebar-paragraph(
     ng-switch-when = "3"
   ) We've removed our demo repo for you. Add a repo of yours to run on this box.
-  //- p.sidebar-paragraph(
-  //-   ng-switch-when = "3"
-  //- ) We&rsquo;re using your previous template&mdash;change it up if you want.
-  //- button.btn.template-list.white.reversed(
-  //-   ng-click = "dataApp.data.showTemplates = true"
-  //-   ng-switch-when = "3"
-  //- )
-  //-   img.template-image(
-  //-     alt = "node.js"
-  //-     src = "/build/images/icons/templates/icons-node.js.svg"
-  //-   )
-  //-   h2.template-title node.js
-  //-   svg.iconnables.icons-arrow-down
-  //-     use(
-  //-       xlink:href = "#icons-arrow-down"
-  //-     )
   a.btn.btn-block.green(
     href = "/demo4"
     ng-switch-when = "3"
@@ -86,9 +70,25 @@ nav.sidebar.global-sidebar.demo-sidebar(
   //-
   //- demo step 4
   //-
+  h1.sidebar-header(
+    ng-switch-when = "4"
+  ) Almost there!
   p.sidebar-paragraph(
     ng-switch-when = "4"
-  ) That's it! If you want to make any changes now's your chance. Hit the Build button when you're ready to start your own box.
+  ) You can change your template or repository. When you're ready hit the Build button when you&rsquo;re ready to start your own box.
+  button.btn.btn-block.gray.template-list(
+    ng-click = "dataDemoLayout.data.showTemplates = true"
+    ng-switch-when = "4"
+  )
+    img.template-image(
+      alt = "node.js"
+      src = "/build/images/icons/templates/icons-node.js.svg"
+    )
+    h2.template-title node.js
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
 
   //-
   //- demo error

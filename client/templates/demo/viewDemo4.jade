@@ -7,7 +7,88 @@ nav.sidebar.global-sidebar.demo-sidebar
         xlink:href = "#runnable-icon"
       )
   h1.sidebar-header Almost there!
-  p.sidebar-paragraph If you want to make any changes now&rsquo;s your chance. Hit the Build button when you&rsquo;re ready to start your own box.
+  p.sidebar-paragraph You can change your template or repository. When you're ready hit the Build button when you&rsquo;re ready to start your own box.
+  button.btn.btn-block.gray.template-list(
+    ng-click = "dataDemoLayout.data.showTemplates = true"
+  )
+    img.template-image(
+      alt = "node.js"
+      src = "/build/images/icons/templates/icons-node.js.svg"
+    )
+    h2.template-title node.js
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+
+ul.popover.popover-templates.template-list(
+  ng-class = "{in: dataDemoLayout.data.showTemplates}"
+  style = "left: 15px; top: 291px;"
+)
+  li.template-list-item(
+    ng-click = "dataApp.data.showTemplates = false"
+  )
+    img.template-image(
+      alt = "Django"
+      src = "/build/images/icons/templates/icons-django.svg"
+    )
+    h2.template-title Django
+  li.template-list-item(
+    ng-click = "dataApp.data.showTemplates = false"
+  )
+    img.template-image(
+      alt = "Flask"
+      src = "/build/images/icons/templates/icons-flask.svg"
+    )
+    h2.template-title Flask
+  li.template-list-item(
+    ng-click = "dataApp.data.showTemplates = false"
+  )
+    img.template-image(
+      alt = "MongoDB"
+      src = "/build/images/icons/templates/icons-mongodb.svg"
+    )
+    h2.template-title MongoDB
+  li.template-list-item(
+    ng-click = "dataApp.data.showTemplates = false"
+  )
+    img.template-image(
+      alt = "MySQL"
+      src = "/build/images/icons/templates/icons-mysql.svg"
+    )
+    h2.template-title MySQL
+  li.template-list-item(
+    ng-click = "dataApp.data.showTemplates = false"
+  )
+    img.template-image(
+      alt = "node.js"
+      src = "/build/images/icons/templates/icons-node.js.svg"
+    )
+    h2.template-title node.js
+  li.template-list-item(
+    ng-click = "dataApp.data.showTemplates = false"
+  )
+    img.template-image(
+      alt = "PHP"
+      src = "/build/images/icons/templates/icons-php.svg"
+    )
+    h2.template-title PHP
+  li.template-list-item(
+    ng-click = "dataApp.data.showTemplates = false"
+  )
+    img.template-image(
+      alt = "Redis"
+      src = "/build/images/icons/templates/icons-redis.svg"
+    )
+    h2.template-title Redis
+  li.template-list-item(
+    ng-click = "dataApp.data.showTemplates = false"
+  )
+    img.template-image(
+      alt = "Ruby"
+      src = "/build/images/icons/templates/icons-ruby.svg"
+    )
+    h2.template-title Ruby
 
 main.content
   header.box-header
