@@ -7,14 +7,17 @@ header.box-header
   )
 
   setup-primary-actions(
+    active-account = "activeAccount"
     instance-opts = "dataSetup.data.instanceOpts"
     loading = "dataApp.data.loading"
     name = "dataSetup.data.newInstanceName"
     open-items = "dataSetup.data.openItems"
     valid = "dataSetup.data.isValid"
+    data = "dataSetup.data"
   )
 
   setup-secondary-actions(
+    data = "dataSetup.data"
     current-model = "dataSetup.data.instanceOpts"
     state-model = "dataSetup.data.instanceOpts"
   )
