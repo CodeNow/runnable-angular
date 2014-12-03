@@ -30,7 +30,7 @@ function makeDefaultScope () {
   };
 }
 
-describe.only('directiveModalEnvironment'.bold.underline.blue, function () {
+describe('directiveModalEnvironment'.bold.underline.blue, function () {
   var ctx;
   function injectSetupCompile(scope, localStorageGuides) {
     angular.mock.module('app', function ($provide) {
