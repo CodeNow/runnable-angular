@@ -68,6 +68,15 @@ input ~ small {
   }
 }
 
+.link-gray {
+  color: $gray;
+
+  &:hover,
+  &:active {
+    color: $gray-dark;
+  }
+}
+
 .link-text {
 
   &:hover {

@@ -33,6 +33,12 @@
   padding: 9px 15px;
 }
 
+.sidebar-skip {
+  display: table;
+  font-weight: 300;
+  margin: 0 auto;
+}
+
 // header.row.account-header
 .account-header {
   @extend .webkit-flicker;
