@@ -128,9 +128,7 @@ function HelperInstanceActionsModal(
             if (err) { throw err; }
             var opts = {};
             opts.name = instance.state.name;
-            if (instance.state.env) {
-              opts.env = instance.state.env;
-            }
+            opts.env = instance.state.env ? instance.state.env : instance.attrs.env;
             newInstance.update(opts, function (err) {
               $rootScope.safeApply();
               if (err) { throw err; }
@@ -177,7 +175,10 @@ function HelperInstanceActionsModal(
             // Cancel watch, it's served its purpose
             depWatch();
             $scope.data.instance.dependencies.models.forEach(function(instance, idx) {
-              updateEnvName(instance, instance.attrs.name + COPY_SUFFIX, instance.attrs.name, $scope.data.instance);
+              updateEnvName(instance,
+                            instance.attrs.name + COPY_SUFFIX,
+                            instance.attrs.name,
+                            $scope.data.instance);
               $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function(n, o) {
                 updateEnvName(instance, n, o, $scope.data.instance);
               });

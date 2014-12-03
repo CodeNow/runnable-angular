@@ -99,7 +99,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
     it('$scope.instance', function() {
       expect(data.instance).to.be.null;
 
-      $scope.instance = instance
+      $scope.instance = instance;
       $scope.$digest();
       expect(data.instance).to.deep.equal(instance);
       expect(data.newName).to.equal('instance');
@@ -318,7 +318,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
               }]
             }
           }
-        }
+        };
         $wScope.$digest();
         $scope.$digest();
         sinon.assert.called(updateEnvStub);
@@ -355,6 +355,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
             cb();
           })
         };
+        $stateParams.instanceName = 'properly';
         $scope.$digest();
       });
       it('deletes properly with no other instances', function(done) {
@@ -373,27 +374,60 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
         $scope.$digest();
         md.actions.deleteInstance();
       });
-      it('deletes properly with other instances', function(done) {
-        var fakeGo = sinon.stub($state, 'go', function() {
+      describe('deletes properly with other instances', function() {
+        it('staying on the same page, should navigate to the other instance', function(done) {
+          var fakeGo = sinon.stub($state, 'go', function() {
 
-          sinon.assert.called(fakeGo);
-          sinon.assert.called($scope.instance.destroy);
-          sinon.assert.calledWith(fakeGo,'instance.instance', {
-            userName: 'username',
-            instanceName: 'other'
+            sinon.assert.called(fakeGo);
+            sinon.assert.called($scope.instance.destroy);
+            sinon.assert.calledWith(fakeGo,'instance.instance', {
+              userName: 'username',
+              instanceName: 'other'
+            });
+            done();
           });
-          done();
+          $scope.instances = {
+            models: [{
+              attrs: {
+                name: 'other'
+              }
+            }]
+          };
+          $scope.$digest();
+          md.actions.deleteInstance();
         });
-        $scope.instances = {
-          models: [{
-            attrs: {
-              name: 'other'
-            }
-          }]
-        };
-        $scope.$digest();
-        md.actions.deleteInstance();
+        it('changing pages between the delete, should not navigate away', function(done) {
+          var fakeGo = sinon.stub($state, 'go', function() {});
+          $scope.instances = {
+            models: [{
+              attrs: {
+                name: 'other'
+              }
+            }, {
+              attrs: {
+                name: 'cheese'
+              }
+            }]
+          };
+          $scope.instance.destroy = sinon.spy(function(cb) {
+            // Change the state during the destroy
+            $stateParams.instanceName = 'cheese';
+            setTimeout(function() {
+              sinon.assert.notCalled(fakeGo);
+              sinon.assert.called($scope.instance.destroy);
+              sinon.assert.neverCalledWith(fakeGo,'instance.instance', {
+                userName: 'username',
+                instanceName: 'other'
+              });
+              done();
+            }, 50);
+            cb();
+          });
+          $scope.$digest();
+          md.actions.deleteInstance();
+        });
       });
+
     });
     describe('cancel'.blue, function() {
       it('should properly set variables', function() {
