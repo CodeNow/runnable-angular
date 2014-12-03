@@ -16,6 +16,7 @@
 
   .modal-header {
     height: auto;
+    margin-bottom: 12px;
   }
 
   .modal-heading {
@@ -27,16 +28,6 @@
     display: flex;
     flex-direction: column;
     height: auto;
-    padding-top: 15px;
-  }
-
-  .link {
-    color: $gray;
-    font-size: 14px;
-    margin: 9px auto 0;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    padding-top: 12px;
   }
 }

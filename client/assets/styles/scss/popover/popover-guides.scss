@@ -1,18 +1,25 @@
 .popover-guides {
 
   .popover-content {
-    padding: 12px 15px 9px;
-    text-align: center;
+    padding: 12px 15px;
+  }
+
+  // pre.btn.btn-block.btn-sm.gray
+  .btn-sm {
+    cursor: default;
+    margin: 0 0 6px;
+  }
+
+  // pre.btn.btn-xxs.gray
+  .btn-xxs {
+    cursor: default;
+    top: 3px;
   }
 
   .link-gray {
     display: inline-block;
+    float: right;
     font-size: 14px;
     margin: 6px 0;
-  }
-
-  &.bottom .arrow {
-    left: auto;
-    right: 21px;
   }
 }

@@ -12,84 +12,83 @@ nav.sidebar.global-sidebar.demo-sidebar(
   //-
   //- demo step 1
   //-
-  .well.in(
+  h1.sidebar-header(
     ng-switch-when = "1"
-  )
-    p.sidebar-text(
-    ) Welcome to your first box. This text briefly describes what boxes are and what you can do with it.
-    p.sidebar-text To save this box along with any changes you&rsquo;ve made, #{''}
-      a.link.link-text(
-        href = "#"
-        modal
-        modal-actions = "actions.actionsModalSignIn"
-        modal-data = "data.dataModalSignIn"
-        modal-template = "viewModalSignIn"
-      ) sign in with your Github account
-      | .
+  ) Welcome
+  p.sidebar-paragraph(
+    ng-switch-when = "1"
+  ) This text briefly describes what boxes are and what you can do with it.
+  p.sidebar-paragraph(
+    ng-switch-when = "1"
+  ) Sign in to save this box along with any changes you&rsquo;ve made.
+  a.btn.btn-block.green(
+    href = "#"
+    modal
+    modal-actions = "actions.actionsModalSignIn"
+    modal-data = "data.dataModalSignIn"
+    modal-template = "viewModalSignIn"
+    ng-switch-when = "1"
+  ) Next
 
   //-
   //- demo step 2
   //-
-  p.sidebar-text(
+  h1.sidebar-header(
     ng-switch-when = "2"
-  ) We've removed our demo repo for you so you can select a repo of your own.
-  a.btn.white.reversed(
-    href = "/demo4"
+  ) Add your project
+  p.sidebar-paragraph(
     ng-switch-when = "2"
-  ) Review Box
-  a.link.link-text.sidebar-skip(
+  ) We've removed our demo repo for you. Add a repo of yours to run on this box.
+  a.link.link-text.link-secondary(
     ng-click = "actions.nextPage()"
     ng-switch-when = "2"
-  ) Skip Step
+  ) Skip adding a repo
 
   //-
   //- demo step 3
   //-
-  p.sidebar-text(
+  h1.sidebar-header(
     ng-switch-when = "3"
-  ) Adding a repo requires an #{''}
-    b.btn.btn-xxs.white.reversed(
-      ng-switch-when = "3"
-      tooltip = "The ADD instruction copies new files, directories or remote file URLs from <src> and adds them to the filesystem of the container at the path <dest>.[1]"
-      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":21}"
-    ) ADD
-    | #{''} instruction which copies your repository files to your box.
-  p.sidebar-text(
+  ) Add your project
+  p.sidebar-paragraph(
     ng-switch-when = "3"
-  ) We&rsquo;re using your previous template&mdash;change it up if you want.
-  button.btn.template-list.white.reversed(
-    ng-click = "dataApp.data.showTemplates = true"
-    ng-switch-when = "3"
-  )
-    img.template-image(
-      alt = "node.js"
-      src = "/build/images/icons/templates/icons-node.js.svg"
-    )
-    h2.template-title node.js
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-  a.btn.white.reversed(
+  ) We've removed our demo repo for you. Add a repo of yours to run on this box.
+  //- p.sidebar-paragraph(
+  //-   ng-switch-when = "3"
+  //- ) We&rsquo;re using your previous template&mdash;change it up if you want.
+  //- button.btn.template-list.white.reversed(
+  //-   ng-click = "dataApp.data.showTemplates = true"
+  //-   ng-switch-when = "3"
+  //- )
+  //-   img.template-image(
+  //-     alt = "node.js"
+  //-     src = "/build/images/icons/templates/icons-node.js.svg"
+  //-   )
+  //-   h2.template-title node.js
+  //-   svg.iconnables.icons-arrow-down
+  //-     use(
+  //-       xlink:href = "#icons-arrow-down"
+  //-     )
+  a.btn.btn-block.green(
     href = "/demo4"
     ng-switch-when = "3"
   ) Next
-  a.link.link-text(
+  a.link.link-text.link-secondary(
     ng-click = "actions.previousPage()"
     ng-switch-when = "3"
-  ) Back to adding a repo
+  ) Add a different repo
 
   //-
   //- demo step 4
   //-
-  p.sidebar-text(
+  p.sidebar-paragraph(
     ng-switch-when = "4"
   ) That's it! If you want to make any changes now's your chance. Hit the Build button when you're ready to start your own box.
 
   //-
   //- demo error
   //-
-  p.sidebar-text(
+  p.sidebar-paragraph(
     ng-switch-default
   ) Oops!  Something went wrong on our part.  Please refresh the page.
 

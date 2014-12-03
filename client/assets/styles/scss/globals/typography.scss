@@ -77,11 +77,22 @@ input ~ small {
 }
 
 .link-text {
-  font-weight: 500;
 
   &:hover {
     text-decoration: underline;
   }
+}
+
+.link-secondary {
+  color: $gray;
+  display: table;
+  font-size: 14px;
+  margin: 0 auto;
+}
+
+.link-reference {
+  font-size: 12px;
+  vertical-align: super;
 }
 
 // single line overflow

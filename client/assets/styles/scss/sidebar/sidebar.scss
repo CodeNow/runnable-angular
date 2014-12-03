@@ -25,27 +25,23 @@
       border: 0;
     }
   }
-
-  .well {
-    margin: 0 -6px;
-    padding: 12px 15px;
-  }
 }
 
-.sidebar-text {
+.sidebar-header {
+  font-size: 21px;
+  font-weight: 500;
+  margin: 24px 0 12px;
+  padding: 0 9px;
+}
+
+.sidebar-paragraph {
   font-size: 16px;
   line-height: 1.5;
-  padding: 0;
+  padding: 0 9px;
 
-  + .sidebar-text {
+  + .sidebar-paragraph {
     margin-top: 12px;
   }
-}
-
-.sidebar-skip {
-  display: table;
-  font-weight: 300;
-  margin: 0 auto;
 }
 
 // header.row.account-header

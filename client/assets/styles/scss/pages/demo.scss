@@ -5,7 +5,7 @@
   .logo {
     color: $gray-light;
     height: 90px;
-    margin: 21px auto 30px;
+    margin: 21px auto;
   }
 
   .row {
@@ -13,21 +13,11 @@
     margin-bottom: 9px;
   }
 
-  // a.btn.white.btn-icon.btn-actions
   .btn {
-    margin: 9px 0;
-    width: 100%;
+    margin-top: 12px;
 
-    .iconnables {
-      transform: scale3d(.9,.9,1);
-    }
-
-    &:hover .iconnables {
-      transform: scale3d(1,1,1);
-    }
-
-    + .btn {
-      margin-top: 9px;
+    &.btn-xxs {
+      margin: 0;
     }
   }
 
@@ -35,17 +25,16 @@
     width: auto;
   }
 
-  .icons-git {
-    margin-right: 6px;
-    top: 6px;
+  .btn,
+  .sidebar-paragraph {
+
+    + .link {
+      margin-top: 12px;
+    }
   }
 
   .template-list {
     text-align: left;
-  }
-
-  .sidebar-text {
-    color: $gray-dark;
   }
 }
 

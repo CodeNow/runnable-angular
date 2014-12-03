@@ -98,6 +98,16 @@
     &:hover {
       background: none;
     }
+
+    &.right {
+      left: auto;
+      right: 21px;
+    }
+
+    &.left {
+      left: 21px;
+      right: auto;
+    }
   }
 
   .arrow::after {

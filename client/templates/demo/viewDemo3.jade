@@ -1,37 +1,21 @@
 nav.sidebar.global-sidebar.demo-sidebar
-  header.row.account-header
-    a.logo.logo(
-      href = "#"
-    )
-      svg
-        use(
-          xlink:href = "#runnable-logo"
-        )
-  p.sidebar-text Adding a repo requires an #{''}
-    b.btn.btn-xxs.white.reversed(
-      tooltip = "The ADD instruction copies new files, directories or remote file URLs from <src> and adds them to the filesystem of the container at the path <dest>.[1]"
-      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":21}"
-    ) ADD
-    | #{''} instruction which copies your repository files to your box.
-  p.sidebar-text We&rsquo;re using your previous template&mdash;change it up if you want.
-  button.btn.template-list.white.reversed(
-    ng-click = "dataApp.data.showTemplates = true"
+  a.logo.logo-icon(
+    href = "#"
   )
-    img.template-image(
-      alt = "node.js"
-      src = "/build/images/icons/templates/icons-node.js.svg"
-    )
-    h2.template-title node.js
-    svg.iconnables.icons-arrow-down
+    svg
       use(
-        xlink:href = "#icons-arrow-down"
+        xlink:href = "#runnable-icon"
       )
-  a.btn.white.reversed(
+
+  //-
+  //- demo step 3
+  //-
+  h1.sidebar-header Add your project
+  p.sidebar-paragraph We've removed our demo repo for you. Add a repo of yours to run on this box.
+  a.btn.btn-block.green(
     href = "/demo4"
   ) Next
-  a.link.link-white.link-text(
-    href = "/demo2"
-  ) Back to adding a repo
+  a.link.link-text.link-secondary Add a different repo
 
 main.content
   .guide-backdrop
@@ -160,72 +144,25 @@ main.content
       EXPOSE 80
       RUN npm install
       CMD npm start
-
-ul.popover.popover-templates.template-list(
-  ng-class = "{in: dataApp.data.showTemplates}"
-  style = "left: 15px; top: 291px;"
+//-
+//- i have no idea where to put this
+//-
+.popover.bottom.in.popover-guides(
+  style = "left: 460px; top: 159px;"
 )
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "Django"
-      src = "/build/images/icons/templates/icons-django.svg"
-    )
-    h2.template-title Django
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "Flask"
-      src = "/build/images/icons/templates/icons-flask.svg"
-    )
-    h2.template-title Flask
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "MongoDB"
-      src = "/build/images/icons/templates/icons-mongodb.svg"
-    )
-    h2.template-title MongoDB
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "MySQL"
-      src = "/build/images/icons/templates/icons-mysql.svg"
-    )
-    h2.template-title MySQL
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "node.js"
-      src = "/build/images/icons/templates/icons-node.js.svg"
-    )
-    h2.template-title node.js
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "PHP"
-      src = "/build/images/icons/templates/icons-php.svg"
-    )
-    h2.template-title PHP
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "Redis"
-      src = "/build/images/icons/templates/icons-redis.svg"
-    )
-    h2.template-title Redis
-  li.template-list-item(
-    ng-click = "dataApp.data.showTemplates = false"
-  )
-    img.template-image(
-      alt = "Ruby"
-      src = "/build/images/icons/templates/icons-ruby.svg"
-    )
-    h2.template-title Ruby
+  .arrow.white
+  .popover-content
+    p.popover-text
+      pre.btn.btn-block.btn-sm.gray ADD &lt;src&gt;... &lt;dest&gt;
+      | The #{''}
+      pre.btn.btn-xxs.gray ADD
+      | #{''} instruction copies new files, directories or remote file URLs from #{''}
+      pre.btn.btn-xxs.gray &lt;src&gt;
+      | #{''} and adds them to the filesystem of the container at the path #{''}
+      pre.btn.btn-xxs.gray &lt;dest&gt;
+      | #{''}. #{''}
+      a.link.link-text.link-reference(
+        href = "//docs.docker.com/reference/builder/#add"
+        target = "_blank"
+      ) [1]
+    a.link.link-text.link-gray Next

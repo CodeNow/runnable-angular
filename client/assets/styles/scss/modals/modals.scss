@@ -204,6 +204,10 @@
     &:first-child {
       margin-left: 6px;
     }
+
+    + .link {
+      margin-top: 12px;
+    }
   }
 
   .btn-block {
