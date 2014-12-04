@@ -54,7 +54,7 @@ function instanceList (
                 cb();
               });
             }
-            // If the active account didn't change, don't call the cb
+            cb();
           },
           function (cb) {
             new QueryAssist($scope.user, cb)
@@ -65,7 +65,9 @@ function instanceList (
                 }
               })
               .cacheFetch(function (instances, cached, cb) {
-                $scope.instances = instances;
+                if ($scope.instances !== instances) {
+                  $scope.instances = instances;
+                }
                 cb();
               })
               .resolve(function (err, projects, cb) {
@@ -89,7 +91,9 @@ function instanceList (
           fetchOrgs,
           function (cb) {
             $scope.loadingUsers = false;
-            $rootScope.safeApply(cb);
+            $rootScope.safeApply(function () {
+              cb();
+            });
           }
         ], cb);
       }
