@@ -113,7 +113,7 @@ section.views.with-add-tab(
         )
 
   //- show after selecting a template
-  .alert.guide(
+  .guide.guide-pointer.guide-close.guide-alert.guide-alert-setup(
     ng-click = " \
       dataSetup.actions.olarkShrink(); \
       dataSetup.data.showVideoFixed = true; \
@@ -121,9 +121,8 @@ section.views.with-add-tab(
       dataSetup.data.hideVideo = false"
     ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"
     ng-if = "dataSetup.data.build.contextVersions.models[0].source"
-  ) Lost? Here's a video.
-    //- shrink olark on click
-    //- https://www.olark.com/documentation/javascript/api.box.shrink
+  )
+    .guide-text Lost? Here's a video.
     button.btn.btn-xs.btn-close(
       ng-click = " \
         dataSetup.data.closeVideoAlert = true; \

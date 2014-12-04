@@ -20,3 +20,16 @@
   margin-left: -9px;
   width: 288px;
 }
+
+.guide-alert-setup {
+  bottom: 9px;
+  left: 12px;
+  opacity: 1;
+  pointer-events: auto;
+  position: absolute;
+  top: auto;
+
+  .icons-close {
+    margin: 0;
+  }
+}
