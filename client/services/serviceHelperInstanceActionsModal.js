@@ -130,21 +130,23 @@ function HelperInstanceActionsModal(
           var newInstance = instance.copy(opts, function (err) {
             if (err) { throw err; }
             $rootScope.safeApply();
+            // update instances collection to update
+            // viewInstanceList
             cb();
           });
         }
         async.parallel([
-          function (cb) {
-            keypather.set($scope, 'instance.state.name', newName);
-            fork($scope.instance, cb);
-          },
           function (cb) {
             if (forkDeps && keypather.get($scope, 'instance.dependencies.models.length')) {
               async.each($scope.instance.dependencies.models, fork, cb);
             } else {
               cb();
             }
-          }
+          },
+          function (cb) {
+            keypather.set($scope, 'instance.state.name', newName);
+            fork($scope.instance, cb);
+          },
         ], function (err) {
           if (err) { throw err; }
           $state.go('instance.instance', {
