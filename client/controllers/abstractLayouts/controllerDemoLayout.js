@@ -37,6 +37,9 @@ function demoLayout (
   data.dockerInstructionPopover = {
     in: false
   };
+  data.buildInstructionPopover = {
+    in: false
+  };
 
   var elScope;
   var addLines = [];
@@ -107,6 +110,8 @@ function demoLayout (
     }
     if (n === 3) {
       // Show build button popover
+      data.dockerInstructionPopover.in = false;
+      data.buildInstructionPopover.in = true;
     }
   });
 }

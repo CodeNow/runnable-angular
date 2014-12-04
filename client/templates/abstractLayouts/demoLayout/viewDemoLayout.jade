@@ -103,7 +103,12 @@ main.content(
 
 pop-over(
   data = "dataDemoLayout.data.dockerInstructionPopover"
-  data = "dataDemoLayout.actions.dockerInstructionPopover"
+  actions = "dataDemoLayout.actions.dockerInstructionPopover"
   template = "viewDockerInstructionPopover"
   popover-options = "{\"left\":460,\"top\":152}"
+)
+pop-over(
+  data = "dataDemoLayout.data.buildInstructionPopover"
+  template = "viewBuildInstructionPopover"
+  popover-options = "{\"left\":\"auto\",\"top\":54,\"right\":6}"
 )
