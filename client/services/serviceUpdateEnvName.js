@@ -40,7 +40,7 @@ function updateEnvName(
       var url = (/http/.test(urlParts[0])) ? urlParts[1].slice(2) : urlParts[0];
       if (instance.attrs.name !== oldName) {
         // If the name has already been changed, change the url to have the old name
-        url.replace(instance.attrs.name, oldName);
+        url = url.replace(new RegExp(regexpQuote(instance.attrs.name), 'i'), oldName);
       }
       return url;
     }
@@ -56,7 +56,7 @@ function updateEnvName(
     }
     var url = createUrl(instance);
     var regex = makeRegexp(url);
-    var newUrl = url.replace(instance.attrs.name, newName);
+    var newUrl = url.replace(new RegExp(regexpQuote(oldName), 'i'), newName).toLowerCase();
     var instancesArray = [rootInstance].concat(rootInstance.dependencies.models);
     instancesArray.forEach(function (dependency) {
       var envs = keypather.get(dependency, 'state.env') || dependency.attrs.env;

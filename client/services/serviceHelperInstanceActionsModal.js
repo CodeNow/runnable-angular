@@ -180,6 +180,7 @@ function HelperInstanceActionsModal(
                             instance.attrs.name,
                             $scope.data.instance);
               $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function(n, o) {
+                if (!n || n === o) { return; }
                 updateEnvName(instance, n, o, $scope.data.instance);
               });
             });
