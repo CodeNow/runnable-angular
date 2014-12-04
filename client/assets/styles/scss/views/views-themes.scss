@@ -11,6 +11,15 @@
   padding: 6px 9px !important;
 }
 
+.ace_gutter,
+.ace_gutter-layer, {
+  overflow: visible !important;
+}
+
+.ace_gutter-layer {
+  min-width: 42px;
+}
+
 // ace search
 .ace_search_field {
   line-height: 22px;
@@ -19,6 +28,7 @@
 .ace-tm .pre {
   background-color: $white;
   color: $gray-darker;
+  position: relative;
 
   &.readonly {
     background-color: $gray-light;

@@ -47,7 +47,7 @@ function repoList(
       $scope.newUnsavedAcv = function (acv) {
         var cv = $scope.build.contextVersions.models[0];
         var newAcv = cv.newAppCodeVersion(acv.toJSON(), {
-          noStore: true
+          warn: false
         });
         $scope.unsavedAcvs.push({
           unsavedAcv: newAcv,

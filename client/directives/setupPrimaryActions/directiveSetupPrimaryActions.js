@@ -5,18 +5,16 @@ require('app')
  */
 function setupPrimaryActions(
   async,
-  determineActiveAccount,
-  QueryAssist,
-  $rootScope,
   $state,
-  $stateParams,
-  user
+  $stateParams
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewSetupPrimaryActions',
     replace: true,
     scope: {
+      activeAccount: '=',
+      data: '=',
       loading: '=',
       name: '=',
       valid: '=',
@@ -27,9 +25,7 @@ function setupPrimaryActions(
 
       function goToInstance() {
         $state.go('instance.instance', {
-          // TODO: replace w/
-          // userName: $scope.instance.attrs.owner.username,
-          userName: $scope.activeAccount.oauthName(),
+          userName: $stateParams.userName,
           instanceName: $scope.instance.attrs.name
         });
       }
@@ -41,7 +37,7 @@ function setupPrimaryActions(
           var unwatch = $scope.$watch('openItems.isClean()', function (n) {
             if (!n) { return; }
             unwatch();
-            $scope.build.build({
+            $scope.data.build.build({
               message: 'Initial Build'
             }, cb);
           });
@@ -51,9 +47,9 @@ function setupPrimaryActions(
           $scope.instanceOpts.owner = {
             github: $scope.activeAccount.oauthId()
           };
-          $scope.instanceOpts.build = $scope.build.id();
+          $scope.instanceOpts.build = $scope.data.build.id();
           $scope.instanceOpts.name = $scope.name;
-          $scope.instance = $scope.user.createInstance($scope.instanceOpts, cb);
+          $scope.instance = $scope.data.user.createInstance($scope.instanceOpts, cb);
         }
         async.series([
           build,
@@ -64,48 +60,6 @@ function setupPrimaryActions(
           goToInstance();
         });
       };
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
-
-      function fetchBuild(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) throw err;
-            $rootScope.safeApply();
-            cb();
-          })
-          .go();
-      }
-
-      async.waterfall([
-        determineActiveAccount,
-        function (activeAccount, cb) {
-          $scope.activeAccount = activeAccount;
-          $rootScope.safeApply();
-          cb();
-        },
-        fetchUser,
-        fetchBuild
-      ]);
-
     }
   };
 }

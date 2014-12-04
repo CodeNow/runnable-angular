@@ -75,7 +75,6 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
       'instance-dependencies': 'scp.deps',
       'instances': 'instances',
       'type': type,
-      'is-active': true,
       'fork-dependencies': true
     });
     ctx.element = $compile(ctx.template)($scope);
@@ -95,21 +94,6 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
 
       expect(ctx.element[0].querySelectorAll('div[ng-repeat]').length).to.equal(3);
       expect(ctx.element[0].querySelector('input.input').value).to.equal('hello-copy');
-    });
-
-    it('should not fetch dependencies if ', function() {
-      var template = directiveTemplate('linked-instances', {
-        'instance-dependencies': 'scp.deps',
-        'instances': 'instances',
-        'type': 'modal',
-        'is-active': false
-      });
-
-      var element = $compile(template)($scope);
-      $scope.$digest();
-      $elScope = element.isolateScope();
-      // If this is undefined, we exited at the right time
-      expect($elScope.getInstanceAltTitle).to.equal(undefined);
     });
   });
 

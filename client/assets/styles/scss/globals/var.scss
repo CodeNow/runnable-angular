@@ -31,6 +31,10 @@ $black: #000;
 
 $white: #fff;
 
+// spinner vars
+$spinner-offset: 187;
+$spinner-duration: 1.4s;
+
 // z-indexes
 // overrides
 $z-hide: -10000;
@@ -38,6 +42,7 @@ $z-show: 10000;
 
 // hero
 $z-hero-aura: 1000;
+$z-hero-layers: 1000; // remove this after merge w/ SAN-548
 $z-hero-content: 1001;
 $z-hero-list: 1002;
 $z-hero-list-content: 1003;
@@ -56,9 +61,10 @@ $z-box: 3000;
 
 // sidebars
 $z-sidebar: 4000;
-$z-sidebar-header: 4001;
-$z-sidebar-sub-header: 4002;
-$z-sidebar-footer: 4003;
+$z-sidebar-content: 4001;
+$z-sidebar-header: 4002;
+$z-sidebar-sub-header: 4003;
+$z-sidebar-footer: 4004;
 
 // guides
 $z-guide: 5000;
@@ -71,9 +77,14 @@ $z-popover-content: 6003;
 $z-popover-title: 6004;
 
 // modals
-$z-modal-backdrop: 7000;
-$z-modal-sidebar: 7001;
-$z-modal: 7002;
+$z-modal-backdrop: 6000;
+$z-modal-sidebar: 6001;
+$z-modal: 6002;
+
+// popovers
+$z-popover: 7000;
+$z-popover-title-filter: 7001;
+$z-popover-context-menu: 7002;
 
 // alerts
 $z-alert: 8000;

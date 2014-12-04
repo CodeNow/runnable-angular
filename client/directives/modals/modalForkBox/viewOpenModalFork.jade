@@ -1,0 +1,10 @@
+.modal-backdrop(
+  ng-click = "$event.stopPropagation()"
+  ng-class = "{'in': in}"
+)
+   modal-fork-box(
+     ng-if = "in"
+     actions = "actions"
+     default-actions = "defaultActions"
+     data = "data"
+   )

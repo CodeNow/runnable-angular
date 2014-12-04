@@ -7,14 +7,20 @@ header.box-header
   )
 
   setup-primary-actions(
+    active-account = "activeAccount"
     instance-opts = "dataSetup.data.instanceOpts"
     loading = "dataApp.data.loading"
     name = "dataSetup.data.newInstanceName"
     open-items = "dataSetup.data.openItems"
     valid = "dataSetup.data.isValid"
+    data = "dataSetup.data"
   )
 
-  //- setup-secondary-actions
+  setup-secondary-actions(
+    data = "dataSetup.data"
+    current-model = "dataSetup.data.instanceOpts"
+    state-model = "dataSetup.data.instanceOpts"
+  )
 
 section.sidebar.box-sidebar
 
@@ -26,10 +32,6 @@ section.sidebar.box-sidebar
 
   docker-validation(
     open-items = "dataSetup.data.openItems"
-  )
-
-  env-validation(
-    state-model = "dataSetup.data.instanceOpts"
   )
 
 section.views.with-add-tab(
@@ -57,10 +59,6 @@ section.views.with-add-tab(
 
   //- tabs
   tabs(
-    open-items = "dataSetup.data.openItems"
-  )
-
-  add-tab(
     open-items = "dataSetup.data.openItems"
   )
 
@@ -104,8 +102,8 @@ section.views.with-add-tab(
     )
     button.btn.btn-icon.btn-embed-close(
       ng-click = "dataSetup.data.hideVideo = true; \
-                  dataSetup.data.closeVideoAlert = false; \
-                  dataSetup.data.showVideoFixed = false;"
+        dataSetup.data.closeVideoAlert = false; \
+        dataSetup.data.showVideoFixed = false;"
     )
       svg.iconnables.icons-close
         use(
@@ -133,8 +131,3 @@ section.views.with-add-tab(
         use(
           xlink:href = "#icons-close"
         )
-
-  //- spinner
-  .horizontal-spinner(
-    ng-show = "dataSetup.data.fetchingContext"
-  )

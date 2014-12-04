@@ -38,7 +38,7 @@ describe('project creation workflow', function () {
         setup.activePanel.writeToFile('\nFROM dockerfile/nodejs\nCMD sleep 123456789\n');
 
         browser.wait(function () {
-          return setup.dockerfileValidates()
+          return setup.dockerfileValidates();
         });
         browser.wait(function () {
           return setup.activePanel.isClean();
@@ -70,6 +70,7 @@ describe('project creation workflow', function () {
         });
 
         instance.activePanel.setActiveTab('Box Logs');
+        browser.wait(instance.activePanel.aceLoaded.bind(instance.activePanel));
 
         expect(instance.activePanel.getContents()).toMatch('sleep 123456789');
 

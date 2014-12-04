@@ -3,6 +3,8 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  position: relative;
+  z-index: $z-sidebar-content;
 
   .sub-header {
     background: rgba($gray-lighter,.75);
@@ -15,6 +17,11 @@
       background: rgba($gray-lighter,.9);
       box-shadow: 0 6px 6px rgba($gray-lighter,.75);
     }
+  }
+
+  .spinner-container {
+    align-items: flex-start;
+    top: 30px;
   }
 }
 
@@ -106,6 +113,7 @@
 
   .icons-status.icons-status {
     background: rgba($gray-lighter,.45);
+    border: 1px solid rgba($black,.15);
     float: right;
     height: 5px;
     position: relative;
@@ -126,10 +134,12 @@
 
     &.running {
       background: rgba($green,.45);
+      border: 1px solid transparent;
     }
 
     &.building {
       background: rgba($orange,.45);
+      border: 1px solid transparent;
     }
   }
 }

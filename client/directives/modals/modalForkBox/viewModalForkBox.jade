@@ -1,0 +1,79 @@
+.modal-dialog.modal-fork(
+  ng-click = "$event.stopPropagation()"
+)
+  header.modal-header
+    h1.modal-heading Fork Box
+
+  section.modal-body
+    form(
+      name = "data.forkForm"
+      ng-submit = "actions.forkInstance(data.newForkName, data.env);"
+    )
+      label.input-group.input-validate.with-description(
+        ng-class = "{\
+          focus: data.forkForm.forkName.showFocus,\
+          'ng-invalid': data.forkForm.forkName.$invalid,\
+          'ng-valid': data.forkForm.forkName.$valid\
+        }"
+      )
+        span.input-label Name
+        span.input-description.text-overflow {{ data.newForkName }}.{{ data.instance.attrs.owner.username.toLowerCase() }}.runnable.io
+        input.input(
+          autofocus
+          instance = "data.instance"
+          name = "forkName"
+          ng-blur = "data.forkForm.forkName.showFocus = false"
+          ng-focus = "data.forkForm.forkName.showFocus = true"
+          ng-init = "data.forkForm.forkName.showFocus = true; \
+            data.renameForm.forkName.showFocus = true;"
+          ng-model = "data.newForkName"
+          placeholder = "My-Box"
+          validate-name = "data.instances"
+          validate-name-pattern
+          validate-name-current-instance-valid = "false"
+        )
+        environment-button(
+          instance = "data.instance"
+          ng-if = "data.instance.attrs.env"
+        )
+      //- .invalid-pattern for names with invalid characters
+        - .invalid-name for names that are taken
+      .validate-wrapper.btn.btn-sm.orange(
+        ng-class = "{\
+          in: data.forkForm.forkName.$invalid,\
+          'invalid-pattern': data.forkForm.forkName.$error.namePattern,\
+          'invalid-name': data.forkForm.forkName.$error.nameAvailable\
+        }"
+      )
+        span.validate-rules.invalid-pattern Please use #{''}
+          b.btn.btn-xs.orange A-Z
+          b.btn.btn-xs.orange a-z
+          b.btn.btn-xs.orange 0-9
+          b.btn.btn-xs.orange _
+          b.btn.btn-xs.orange -
+        span.validate-rules.invalid-name That's a pretty name, but it's taken.
+
+      linked-instances(
+        instance-dependencies = "data.instance.dependencies"
+        instances = "data.instances"
+        ng-if = "data.instance.dependencies"
+        type = "modal"
+        fork-dependencies = "data.forkDependencies"
+      )
+
+  footer.modal-footer
+    //- cancel is modalDirective
+      - actions.cancel is parent controller
+    button.green(
+      ng-class = "{ \
+        green: data.forkForm.$valid, \
+        orange: data.forkForm.$invalid \
+      }"
+      ng-disabled = "data.forkForm.$invalid"
+      ng-click = "actions.forkInstance(data.newForkName, data.forkDependencies); defaultActions.cancel();"
+    ) Fork Box
+    button.white(
+      ng-click = "data.forkForm.$setPristine(); \
+        defaultActions.cancel(); "
+      type = "button"
+    ) Go Back

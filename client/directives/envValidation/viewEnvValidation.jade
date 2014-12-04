@@ -1,9 +1,0 @@
-section.row(
-  ng-if = "envValidation.errors"
-)
-  .sidebar-validation
-    h2.sub-header Environmental Var Errors
-    ul.list-group
-      li.list-group-item(
-        ng-repeat = "errorLine in envValidation.errors"
-      ) Invalid line {{ errorLine + 1 }}
