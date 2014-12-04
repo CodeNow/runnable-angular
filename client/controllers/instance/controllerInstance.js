@@ -94,10 +94,10 @@ function ControllerInstance(
       cb();
     },
     fetchUser,
-    fetchInstance
+    fetchInstance,
+    fetchInstances
   ], function(err) {
-    if (err) throw err;
-    fetchInstances(angular.noop);
+    if (err) { throw err; }
   });
 
   // Redirect to /new if this build has already been built
