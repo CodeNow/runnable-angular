@@ -1,7 +1,5 @@
 // .popover.bottom.popover-add-repo
 .popover.popover-add-repo {
-  left: -118px;
-  margin-top: 39px;
   transform-origin: 50% 0;
   width: 270px;
 
@@ -35,6 +33,8 @@
 
   // li.popover-list-item
   .popover-list-item {
+    height: 36px;
+    line-height: 36px;
     overflow: hidden;
     padding-right: 15px;
     text-overflow: ellipsis;
