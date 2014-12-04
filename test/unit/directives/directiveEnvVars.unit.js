@@ -51,6 +51,9 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       insert: function (text) {
         cache.insert.push(text);
       },
+      getValue: function () {
+        return cache.insert.join('\n');
+      },
       focus: function () {
         cache.focus = true;
       },
