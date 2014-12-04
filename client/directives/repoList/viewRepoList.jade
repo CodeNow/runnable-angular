@@ -37,8 +37,8 @@ section.row.repo-list
       - repo-options (delete, fast-forward commit)
       - fast-forward
     edit-repo-commit(
-      ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
-      ng-init = "unsavedAcv = newUnsavedAcv(acv);"
       app-code-version = "acv"
+      ng-init = "unsavedAcv = newUnsavedAcv(acv);"
+      ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
       unsaved-app-code-version = "unsavedAcv"
     )
