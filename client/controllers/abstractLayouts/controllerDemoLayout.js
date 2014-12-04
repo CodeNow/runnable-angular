@@ -30,15 +30,21 @@ function demoLayout (
     data.page--;
   };
 
-  actions.actionsModalSignIn = {
+  actions.actionsModalSignIn = actions.dockerInstructionPopover = {
     nextPage: actions.nextPage
+  };
+
+  data.dockerInstructionPopover = {
+    in: false
   };
 
   var elScope;
   var addLines = [];
+  var addPopopShown = false;
 
   // Repos load before dockerfile, so ADD won't be inserted for prexisting repos
   //  Not within scope of current iteration.  Fix when add/remove ADD becomes universal.
+  // FIXME: Lines marked with `X` assume ADD statements should be on the second line.
   function updateADD(n, o) {
     // We want to continue on zero
     if (typeof n === 'undefined') { return; }
@@ -53,10 +59,15 @@ function demoLayout (
       });
       newAcvs.forEach(function(newAcv) {
         var repoName = newAcv.attrs.repo.split('/')[1];
-        editorCache.Dockerfile.moveCursorTo(1, 0);
+        editorCache.Dockerfile.moveCursorTo(1, 0); // X
         editorCache.Dockerfile.insert('ADD ./' + repoName + ' /' + repoName + '\n');
         addLines.push(newAcv.attrs.repo);
       });
+      if (n === 1 && !addPopopShown) {
+        addPopopShown = true;
+        data.dockerInstructionPopover.in = true; // X
+        // var lastAddLine = editorCache.Dockerfile.find('ADD');
+      }
     } else {
       // Figure out which one was removed, remove corresponding ADD line
       // Don't even think of trying to compute the Big O here
@@ -95,9 +106,7 @@ function demoLayout (
       });
     }
     if (n === 3) {
-      // Set the active line to the one with ADD
-      // findAll may be more appropriate
-      editorCache.Dockerfile.find('ADD');
+      // Show build button popover
     }
   });
 }
