@@ -111,8 +111,8 @@ function ControllerInstance(
         cb();
       })
       .resolve(function (err, user, cb) {
-        if (err) throw err;
-        cb();
+        if (err) { return $log.error(err); }
+        cb(err);
       })
       .go();
   }
@@ -136,9 +136,7 @@ function ControllerInstance(
       })
       .resolve(function (err, instances, cb) {
         if (err) { return $log.error(err); }
-        data.instances = instances;
-        $scope.safeApply();
-        cb();
+        cb(err);
       })
       .go();
   }
@@ -158,15 +156,8 @@ function ControllerInstance(
         cb(null, instance);
       })
       .resolve(function (err, instances, cb) {
-        if (!instances.models.length) {
-          return cb(new Error('Instance not found'));
-        }
-        if (err) throw err;
-        var instance = instances.models[0];
-        data.instance = instance;
-        data.instance.state = {};
-        $scope.safeApply();
-        cb(null, instance);
+        if (err) { return $log.error(err); }
+        cb(err);
       })
       .go();
   }

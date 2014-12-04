@@ -1,29 +1,16 @@
 require('app')
   .factory('updateEnvName', updateEnvName);
 /**
- * Make copies of all of the dependent instances, then finally the given one.
- * (working backward through the list to minimize fixing dependencies)
- *
- * Create instance url map
- *
- * For each instance.dependency
- *  for each url in map -> replace key with object in env
- *  keep og url
- *  fork instance
- *    > update instance with new name, updated envs
- *      > store og/new url in instance url map
- *
- * @param instance instance that was just changed (should contain
+ * @param instance instance that was just changed
+ * @param newName the new name the instance took
+ * @param oldName the name the instance just had, may not be the original
  * @param rootInstance root instance (which is being forked) with all of the dependent instances
  * @returns {*}
  */
 
-
 /**
- * This takes in an instance with a new name on its state, and changes all of the envs that have
- * it as a
- * @param keypather
- * @param regexpQuote
+ * This goes through an instance and all of it's dependencies, changing any relevant env variables
+ * with a new name.
  * @returns {Function}
  */
 function updateEnvName(
