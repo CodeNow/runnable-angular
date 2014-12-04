@@ -4,6 +4,7 @@
   flex: 1 1 auto;
   flex-direction: column;
   position: relative;
+  z-index: $z-sidebar-content;
 
   .sub-header {
     background: rgba($gray-lighter,.75);
