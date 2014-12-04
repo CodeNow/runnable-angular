@@ -18,6 +18,9 @@ module.exports = {
     running: require('./contextVersions/running'),
     setup: require('./contextVersions/setup')
   },
+  files: {
+    dockerfile: require('./files/dockerfile')
+  },
   gh: {
     bitcoinRepoCommits: require('./gh/bitcoinRepoCommits'),
     repos: require('./gh/repos'),

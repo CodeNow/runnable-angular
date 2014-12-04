@@ -24,12 +24,11 @@ function linkedInstances (
     scope: {
       forkDependencies: '=',
       instanceDependencies: '=',
-      isActive: '=',
+      stateToInstance: '=',
       instances: '=' // For dupe checking
     },
     link: function ($scope, elem, attrs) {
       // Since we should allow isActive to be null, we explicitly check against false
-      if ($scope.isActive === false) { return; }
       $scope.getInstanceAltTitle = getInstanceAltTitle;
       $scope.getInstanceClasses = getInstanceClasses;
 

@@ -1,6 +1,7 @@
 // div.modal-backdrop
 .modal-backdrop {
   align-items: center;
+  animation: fade-in .3s ease-in forwards;
   background: rgba($black,.3);
   display: flex;
   flex-direction: column;
@@ -11,34 +12,24 @@
   pointer-events: none;
   position: fixed;
   top: 0;
-  transition: opacity .3s ease-in;
   width: 100vw;
   z-index: $z-modal;
 
   &.in {
-    opacity: 1;
     pointer-events: auto;
-
-    .modal-dialog {
-      opacity: 1;
-      transform: scale3d(1,1,1);
-      transition: opacity .2s ease-in, transform .2s ease-in;
-    }
   }
 }
 
 // div.modal-dialog
 .modal-dialog {
+  animation: modal-in .2s ease-in forwards;
   background: $white;
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
   color: $gray-dark;
   margin: auto;
   min-width: 420px;
-  opacity: 0;
   position: relative;
-  transform: scale3d(0,0,0);
-  transition: opacity .2s ease-in, transform 0 .2s ease-in;
 
   @include media(xs) {
     min-width: 360px;
@@ -49,6 +40,23 @@
     border-radius: 3px 0 0 3px;
     transform: scale3d(1,1,1) translate3d(-105px,0,0);
     transition: all .2s ease-in;
+  }
+
+  // guides in modals:
+  .guide {
+    border: 0;
+    border-left: 1px solid rgba($blue,.2);
+    border-radius: 0;
+    border-right: 1px solid rgba($blue,.2);
+    margin: 0;
+    padding: 15px 36px 15px 21px;
+
+    .btn {
+      padding: 0;
+      position: absolute;
+      right: 15px;
+      top: 12px;
+    }
   }
 }
 
@@ -201,8 +209,10 @@
   .white {
     float: right;
 
-    &:first-child {
-      margin-left: 6px;
+    + .green,
+    + .orange,
+    + .white {
+      margin-right: 6px;
     }
 
     + .link {
@@ -219,5 +229,11 @@
   .icons-git {
     margin-right: 9px;
     top: 6px;
+  }
+
+  .modal-footer-warning {
+    color: $gray;
+    line-height: 45px;
+    padding-left: 12px;
   }
 }

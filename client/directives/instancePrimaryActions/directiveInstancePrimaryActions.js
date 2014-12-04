@@ -6,17 +6,16 @@ require('app')
 function instancePrimaryActions(
   async,
   keypather,
-  QueryAssist,
   $rootScope,
-  $stateParams,
-  $timeout,
-  user
+  $timeout
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewInstancePrimaryActions',
     replace: true,
     scope: {
+      loading: '=',
+      instance: '=',
       saving: '=',
       openItems: '='
     },
@@ -31,10 +30,6 @@ function instancePrimaryActions(
 
       $scope.saving = false;
       $scope.loading = false;
-
-      $scope.$watch('instance', function (n) {
-        if (n) $scope.popoverSaveOptions.data.instance = n;
-      });
 
       $scope.saveChanges = function () {
         // weird hackiness to get the saving spinner to display
@@ -76,51 +71,13 @@ function instancePrimaryActions(
                 });
               });
               // need container !running here
-              keypather.set($scope.instance, 'containers.models[0].attrs.inspect.State.Running', false);
+              keypather.set($scope.instance,
+                'containers.models[0].attrs.inspect.State.Running', false);
             }
             $rootScope.safeApply();
           }
         );
       };
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
-
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances', cb)
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && instances.models.length === 0) {
-              throw new Error('instance not found');
-            }
-            $scope.instance = instances.models[0];
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, projects, cb) {
-            if (err) throw err;
-          })
-          .go();
-      }
-
-      async.series([
-        fetchUser,
-        fetchInstance
-      ]);
 
     }
   };

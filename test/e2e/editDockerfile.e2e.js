@@ -16,7 +16,7 @@ describe('edit dockerfile', function() {
 
     instanceEdit.activePanel.clearActiveFile();
 
-    instanceEdit.activePanel.writeToFile('\nFROM dockerfile/nodejs\nADD ./node-hello-world /hello\nEXPOSE 80\nCMD node /hello/server.js\n');
+    instanceEdit.activePanel.writeToFile('\nFROM dockerfile/nodejs\nADD ./node-hello-world /hello\nWORKDIR /\nEXPOSE 80\nCMD node /hello/server.js\n');
 
     browser.wait(function() {
       return instanceEdit.activePanel.isClean();

@@ -18,11 +18,15 @@ header.box-header
   instance-box-name
 
   instance-primary-actions(
+    loading = "dataApp.data.loading"
+    instance = "dataInstance.data.instance"
     saving = "dataInstance.data.saving"
     open-items = "dataInstance.data.openItems"
   )
 
   instance-secondary-actions(
+    instances = "dataInstance.data.instances"
+    instance = "dataInstance.data.instance"
     saving = "dataInstance.data.saving"
   )
 
@@ -98,14 +102,3 @@ section.views.with-add-tab(
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")
         | Box Log
-      li.blank-panel-item(
-        ng-click = "dataInstance.data.openItems.addEnvVars()"
-      )
-        svg.iconnables.iconnables-lg.icons-env-vars
-          use(xlink:href = "#icons-env-vars")
-        | Env Vars
-
-  //- spinner
-  .horizontal-spinner(
-    ng-hide = "dataInstance.data.instance.containers.models[0]"
-  )

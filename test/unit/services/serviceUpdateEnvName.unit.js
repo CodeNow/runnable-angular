@@ -15,8 +15,10 @@
  *
  */
 
+var keypather;
+
 function testModels() {
-  return [
+  var models = [
     {
       attrs: {
         name: 'apple',
@@ -90,6 +92,22 @@ function testModels() {
       }
     }
   ];
+  models = models.map(createUrl);
+  return models;
+}
+
+function createUrl (model, index) {
+  var url = (index % 2) ? 'http://' : '';
+  url += model.attrs.name + '.user.runnable.io';
+  url += (index % 3) ? ':80' : '';
+  model.containers = {
+    models: [{
+      urls: function () {
+        return [url];
+      }
+    }]
+  };
+  return model;
 }
 
 function getModelNameArray(model) {
@@ -99,7 +117,7 @@ function getModelNameArray(model) {
 }
 
 function testRoot(models) {
-  return {
+  var model =  {
     attrs: {
       name: 'pineapple',
       env: [
@@ -129,10 +147,12 @@ function testRoot(models) {
       user: [7]
     }
   };
+  model = createUrl(model, 0);
+  return model;
 }
 
 describe('serviceUpdateEnvName'.bold.underline.blue, function () {
-  var updateEnvName, keypather;
+  var updateEnvName;
   beforeEach(function () {
     angular.mock.module('app', function ($provide) {});
     angular.mock.inject(function (_updateEnvName_, _keypather_) {

@@ -2,10 +2,16 @@ section.row(
   ng-init = "data.highlightTemplates = false;"
 )
   h2.sub-header Docker Templates
-  //- remove .in if template is selected
-  .label-group(
+
+  .spinner-container.spinner-md.in(
+    ng-include = "'spinner'"
+    ng-if = "!seedContexts.models"
+  )
+
+  .label-group.load(
     ng-class = "{in: data.highlightTemplates}"
     ng-click = "data.highlightTemplates = false"
+    ng-show = "seedContexts.models"
   )
     label.label-group-item(
       ng-repeat = "context in seedContexts.models"
@@ -13,14 +19,14 @@ section.row(
       input.radio(
         name = "source-context"
         ng-click = "(selectedSourceContext !== context) \
-                    && selectSourceContext(context)"
+          && selectSourceContext(context)"
         required
         type = "radio"
       )
   //- show .guide if a template has not been selected
-  .guide.guide-image.guide-pointer(
+  .guide.guide-image.guide-pointer.load(
     ng-click = "data.highlightTemplates = true"
-    ng-if = "!selectedSourceContext"
+    ng-show = "!selectedSourceContext && seedContexts.models"
   )
     svg.iconnables.icons-docker
       use(

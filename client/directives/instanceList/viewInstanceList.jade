@@ -1,11 +1,18 @@
 section.row.boxes
-  h2.sub-header
+
+  .spinner-container.spinner-md.in(
+    ng-include = "'spinner'"
+    ng-if = "showSpinner"
+  )
+
+  h2.sub-header.load(
+    ng-show = "!loadingUsers"
+  )
     span.sub-header-text Boxes
     a.btn.btn-sm.white.sub-header-action(
       ng-click = "stateToNew()"
       ng-href = "/{{ activeAccount.oauthName() }}/new"
-      ng-if = "activeAccount"
-      title = "New Box"
+      tooltip = "New Box"
       tooltip-options = "{\"class\":\"bottom\",\"left\":6,\"top\":30}"
     )
       svg.iconnables.icons-add
@@ -25,22 +32,24 @@ section.row.boxes
     //- if not .active
     li.box-group-item.white.load(
       ng-class = "getInstanceClasses(instance)"
-      ng-show = "instances.models.length"
       ng-repeat = "instance in instances.models | orderBy:'attrs.name'"
+      ng-show = "instances.models.length && !showSpinner"
       tooltip = "{{ instance.attrs.name }}"
       tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
     )
       a.box-item-name.text-overflow(
         ng-click = "stateToInstance(instance)"
         ng-href = "/{{ activeAccount.oauthName() }}/{{ instance.attrs.name }}"
+        ng-model = "instance"
       ) {{ instance.attrs.name }}
       span.icons-status(
         title = "{{ getInstanceAltTitle(instance) }}"
       )
       linked-instances(
-        is-active = "getInstanceClasses(instance).expanded"
-        instance-dependencies = "instance.dependencies"
         instances = 'instances'
+        instance-dependencies = "instance.dependencies"
+        ng-if = "getInstanceClasses(instance).expanded"
+        state-to-instance = 'stateToInstance'
         type = "sidebar"
       )
     //- *

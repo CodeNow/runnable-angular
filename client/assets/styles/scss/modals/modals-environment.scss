@@ -4,15 +4,33 @@
   top: 0;
 
   .modal-body {
+    border-bottom: 1px solid rgba($black,.1);
+    border-top: 1px solid rgba($black,.1);
+    overflow: hidden;
     padding-bottom: 0;
+    position: relative;
   }
 
   .pre {
     min-height: 40vh;
+    min-width: 600px;
+
+    @include media(sm) {
+      min-width: 0;
+    }
   }
 
   .box-group {
     margin-bottom: 0;
     padding-bottom: 0;
+  }
+
+  .demo-sidebar-hint {
+    color: $gray;
+    padding: 15px 15px 9px;
+
+    + .demo-sidebar-hint {
+      padding: 9px 15px;
+    }
   }
 }

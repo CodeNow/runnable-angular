@@ -55,7 +55,7 @@ function waitForRepos(instance) {
   browser.wait(function() {
     return util.hasClass(instance.statusIcon, 'running');
   });
-  browser.wait(function () {
+  browser.driver.wait(function () {
     return instance.commitLog.get().isDisplayed();
   });
 

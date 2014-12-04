@@ -4,23 +4,18 @@ require('app')
  * @ngInject
  */
 function setupSecondaryActions(
-  async,
-  helperInstanceActionsModal,
-  QueryAssist,
-  $rootScope,
-  $state,
-  $stateParams,
-  user
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewSetupSecondaryActions',
     replace: true,
     scope: {
-      saving: '='
+      data: '=',
+      stateModel: '=',
+      currentModel: '='
     },
     link: function ($scope, elem, attrs) {
-
+      $scope.actions = {};
     }
   };
 }

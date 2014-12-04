@@ -60,8 +60,7 @@ function ControllerSetup(
         cb();
       })
       .resolve(function (err, user, cb) {
-        if (err) throw err;
-        cb();
+        if (err) { throw err; }
       })
       .go();
   }
@@ -85,9 +84,24 @@ function ControllerSetup(
         }
       })
       .resolve(function (err, build, cb) {
-        if (err) throw err;
+        if (err) { throw err; }
+      })
+      .go();
+  }
+
+  function fetchInstances(cb) {
+    new QueryAssist(data.user, cb)
+      .wrapFunc('fetchInstances', cb)
+      .query({
+        githubUsername: $stateParams.userName
+      })
+      .cacheFetch(function (instances, cached, cb) {
+        data.instances = instances;
         $scope.safeApply();
         cb();
+      })
+      .resolve(function (err) {
+        if (err) { throw err; }
       })
       .go();
   }
@@ -100,7 +114,8 @@ function ControllerSetup(
       cb();
     },
     fetchUser,
-    fetchBuild
+    fetchBuild,
+    fetchInstances
   ]);
 
 }

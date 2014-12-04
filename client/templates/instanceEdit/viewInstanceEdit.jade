@@ -3,11 +3,15 @@ header.box-header
   instance-edit-box-name
 
   instance-edit-primary-actions(
+    user = "user"
+    instance = "dataInstanceEdit.data.instance"
     loading = "dataApp.data.loading"
     open-items = "dataInstanceEdit.data.openItems"
   )
 
   instance-edit-secondary-actions(
+    instances = "dataInstanceEdit.data.instances"
+    instance = "dataInstanceEdit.data.instance"
     saving = "dataInstanceEdit.data.saving"
   )
 
@@ -18,10 +22,6 @@ section.sidebar.box-sidebar
 
   docker-validation(
     open-items = "dataInstanceEdit.data.openItems"
-  )
-
-  env-validation(
-    state-model = "dataInstanceEdit.data.instance.state"
   )
 
 section.views.with-add-tab(

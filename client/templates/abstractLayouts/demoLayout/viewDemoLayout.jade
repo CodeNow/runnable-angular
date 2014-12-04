@@ -100,3 +100,15 @@ nav.sidebar.global-sidebar.demo-sidebar(
 main.content(
   ui-view
 )
+
+pop-over(
+  data = "dataDemoLayout.data.dockerInstructionPopover"
+  actions = "dataDemoLayout.actions.dockerInstructionPopover"
+  template = "viewDockerInstructionPopover"
+  popover-options = "{\"left\":460,\"top\":152}"
+)
+pop-over(
+  data = "dataDemoLayout.data.buildInstructionPopover"
+  template = "viewBuildInstructionPopover"
+  popover-options = "{\"left\":\"auto\",\"top\":54,\"right\":6}"
+)

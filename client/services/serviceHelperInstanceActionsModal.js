@@ -28,8 +28,8 @@ function HelperInstanceActionsModal(
     data.instance = null;
     data.instances = null;
 
-    $scope.$watch('instance', function (n) {
-      if (!n) { return; }
+    var unwatchInstance = $scope.$watch('instance', function (n) {
+      if (!n) return;
       data.instance = n;
       // data.newName used in renameInstance popover
       data.newName = n.attrs.name;
@@ -37,16 +37,22 @@ function HelperInstanceActionsModal(
       $scope.popoverGearMenu.data.instance = n;
     });
 
-    $scope.$watch('instances', function (n) {
-      if (!n) { return; }
+    var unwatchInstances = $scope.$watch('instances', function (n) {
+      if (!n) return;
       data.instances = n;
       $scope.popoverGearMenu.data.instances = n;
     });
 
-    $scope.$watch('build', function (n) {
-      if (!n) { return; }
+    var unwatchbuild = $scope.$watch('build', function (n) {
+      if (!n) return;
       data.build = n;
       $scope.popoverGearMenu.data.build = n;
+    });
+
+    $scope.$on('$destroy', function () {
+      unwatchbuild();
+      unwatchInstances();
+      unwatchInstance();
     });
 
     $scope.popoverGearMenu.data.dataModalRename = data;
@@ -55,7 +61,30 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.data.dataModalEnvironment= data;
 
     $scope.popoverGearMenu.actions.actionsModalEnvironment = {
+      save: function (cb) {
+        $scope.popoverGearMenu.data.show = false;
+        if (cb) {
+          cb();
+        }
+      },
+      rebuild: function(opts, cb) {
+        $scope.popoverGearMenu.data.show = false;
+        $rootScope.dataApp.data.loading = true;
+        if (!opts.env) { return; }
+        $scope.instance.update(opts, function (err) {
+          $rootScope.safeApply();
+          if (err) throw err;
+          $rootScope.dataApp.data.loading = false;
+          // update instances collection to update
+          // viewInstanceList
+          $state.go('instance.instance', $stateParams);
+        });
+        if (cb) {
+          cb();
+        }
+      },
       cancel: function() {
+        $scope.popoverGearMenu.data.show = false;
       }
     };
 
@@ -99,9 +128,7 @@ function HelperInstanceActionsModal(
             if (err) { throw err; }
             var opts = {};
             opts.name = instance.state.name;
-            if (instance.attrs.env) {
-              opts.env = instance.attrs.env;
-            }
+            opts.env = instance.state.env ? instance.state.env : instance.attrs.env;
             newInstance.update(opts, function (err) {
               $rootScope.safeApply();
               if (err) { throw err; }
@@ -148,8 +175,12 @@ function HelperInstanceActionsModal(
             // Cancel watch, it's served its purpose
             depWatch();
             $scope.data.instance.dependencies.models.forEach(function(instance, idx) {
-              updateEnvName(instance, instance.attrs.name + COPY_SUFFIX, instance.attrs.name, $scope.data.instance);
+              updateEnvName(instance,
+                            instance.attrs.name + COPY_SUFFIX,
+                            instance.attrs.name,
+                            $scope.data.instance);
               $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function(n, o) {
+                if (!n || n === o) { return; }
                 updateEnvName(instance, n, o, $scope.data.instance);
               });
             });
@@ -164,15 +195,20 @@ function HelperInstanceActionsModal(
 
     $scope.popoverGearMenu.actions.actionsModalDelete = {
       deleteInstance: function () {
+        var deletedInstanceName = data.instance.attrs.name;
         data.instance.destroy(function (err) {
           $rootScope.safeApply();
           if (err) { throw err; }
           // redirect to next instance or new
           if (data.instances.models.length) {
-            $state.go('instance.instance', {
-              userName: $stateParams.userName,
-              instanceName: data.instances.models[0].attrs.name
-            });
+            // Only change the location if we're still on the page
+            // If the user switched to a different instance in between, we shouldn't move
+            if ($stateParams.instanceName === deletedInstanceName) {
+              $state.go('instance.instance', {
+                userName: $stateParams.userName,
+                instanceName: data.instances.models[0].attrs.name
+              });
+            }
           } else {
             $state.go('instance.new', {
               userName: $stateParams.userName

@@ -4,23 +4,18 @@ require('app')
  * @ngInject
  */
 function instanceEditSecondaryActions(
-  async,
   helperInstanceActionsModal,
-  keypather,
-  QueryAssist,
-  $rootScope,
   $state,
-  $stateParams,
-  $timeout,
-  user
+  $stateParams
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceEditSecondaryActions',
     replace: true,
     scope: {
-      saving: '=',
-      openItems: '='
+      instance: '=',
+      instances: '=', // Added to the data scope of the modals through helper
+      saving: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -31,68 +26,9 @@ function instanceEditSecondaryActions(
       $scope.popoverGearMenu.data.show = false;
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
-
       $scope.goToInstance = function () {
         $state.go('instance.instance', $stateParams);
       };
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
-
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances', cb)
-          .query({
-            githubUsername: $stateParams.userName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && instances.models.length === 0) {
-              throw new Error('instance not found');
-            }
-            $scope.instances = instances;
-            $scope.instance = instances.models.find(function(instance) {
-              return instance.attrs.name === $stateParams.instanceName;
-            });
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, projects, cb) {
-            if (err) throw err;
-          })
-          .go();
-      }
-
-      function fetchNewBuild(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.newBuild = $scope.build = build;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) throw err;
-            cb();
-          })
-          .go();
-      }
-
-      async.series([
-        fetchUser,
-        fetchInstance,
-        fetchNewBuild
-      ]);
 
     }
   };
