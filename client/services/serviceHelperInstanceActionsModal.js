@@ -124,18 +124,13 @@ function HelperInstanceActionsModal(
         $rootScope.dataApp.data.loading = true;
         // TODO display loading overlay
         function fork (instance, cb) {
-          var newInstance = instance.copy(function (err) {
+          var opts = {};
+          opts.name = instance.state.name;
+          opts.env = instance.state.env ? instance.state.env : instance.attrs.env;
+          var newInstance = instance.copy(opts, function (err) {
             if (err) { throw err; }
-            var opts = {};
-            opts.name = instance.state.name;
-            opts.env = instance.state.env ? instance.state.env : instance.attrs.env;
-            newInstance.update(opts, function (err) {
-              $rootScope.safeApply();
-              if (err) { throw err; }
-              // update instances collection to update
-              // viewInstanceList
-              cb();
-            });
+            $rootScope.safeApply();
+            cb();
           });
         }
         async.parallel([
