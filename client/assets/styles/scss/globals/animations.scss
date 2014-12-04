@@ -65,17 +65,6 @@
   }
 }
 
-@keyframes modal-in {
-  0% {
-    opacity: 0;
-    transform: scale3d(0,0,0);
-  }
-  100% {
-    opacity: 1;
-    transform: scale3d(1,1,1);
-  }
-}
-
 @keyframes rotate {
   0% {
     transform: rotate(0);
@@ -97,6 +86,17 @@
 }
 
 @keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale3d(0,0,0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1,1,1);
+  }
+}
+
+@keyframes scale-in-bounce {
   0% {
     opacity: 0;
     transform: scale3d(0,0,0);

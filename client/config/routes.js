@@ -11,27 +11,27 @@ module.exports = [
       },
     }
   },
-  /*{
+  {
     state: 'edemo',
     abstract: false,
     url: '^/demo',
     templateUrl: 'viewDemo'
+  // }, {
+  //   state: 'edemo2',
+  //   abstract: false,
+  //   url: '^/demo2',
+  //   templateUrl: 'viewDemo2'
+  // }, {
+  //   state: 'edemo3',
+  //   abstract: false,
+  //   url: '^/demo3',
+  //   templateUrl: 'viewDemo3'
+  // }, {
+  //   state: 'edemo4',
+  //   abstract: false,
+  //   url: '^/demo4',
+  //   templateUrl: 'viewDemo4'
   }, {
-    state: 'edemo2',
-    abstract: false,
-    url: '^/demo2',
-    templateUrl: 'viewDemo2'
-  }, {
-    state: 'edemo3',
-    abstract: false,
-    url: '^/demo3',
-    templateUrl: 'viewDemo3'
-  }, {
-    state: 'edemo4',
-    abstract: false,
-    url: '^/demo4',
-    templateUrl: 'viewDemo4'
-  }, */{
     state: 'demo',
     abstract: true,
     templateUrl: 'viewDemoLayout',

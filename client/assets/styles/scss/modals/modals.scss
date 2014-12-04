@@ -22,7 +22,7 @@
 
 // div.modal-dialog
 .modal-dialog {
-  animation: modal-in .2s ease-in forwards;
+  animation: scale-in .2s ease-in forwards;
   background: $white;
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);

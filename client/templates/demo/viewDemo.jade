@@ -1,30 +1,31 @@
 nav.sidebar.global-sidebar.demo-sidebar
-  header.row.account-header
-    a.logo.logo(
-      href = "#"
-    )
-      svg
-        use(
-          xlink:href = "#runnable-logo"
+  a.logo.logo(
+    href = "#"
+  )
+    svg
+      use(
+        xlink:href = "#runnable-icon"
         )
-  p.sidebar-text This is a box running a node.js example on #{''}
-    a.link.link-white.link-text(
-      href = "//github.com"
-      target = "_blank"
-    ) Github
-    |.
-  p.sidebar-text Use this box to run your own repos by signing in with Github.
-  button.btn.white.reversed(
+  h1.sidebar-header Welcome
+  p.sidebar-paragraph This text briefly describes what boxes are and what you can do with it.
+  p.sidebar-paragraph Sign in to save this box along with any changes you&rsquo;ve made.
+  a.btn.btn-block.green(
+    href = "#"
     modal
-    modal-actions = "actions.actionsModalSignIn"
-    modal-data = "data.dataModalSignIn"
+    modal-actions = "dataDemoLayout.actions.actionsModalSignIn"
+    modal-data = "dataDemoLayout.data.dataModalSignIn"
     modal-template = "viewModalSignIn"
   )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    | Sign In with Github
+    | Sign In
+
+//- .guide-mark should appear on the DOM as a direct child of body (like popovers)
+//- .guide.guide-mark(
+//-   style = "left: 300px; top: 30px;"
+//- )
 
 main.content
   header.box-header
