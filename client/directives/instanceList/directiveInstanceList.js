@@ -50,9 +50,11 @@ function instanceList (
               $scope.activeAccount = activeAccount;
               // Show spinner only if the user changed accounts
               $scope.showSpinner = true;
-              $rootScope.safeApply();
+              $rootScope.safeApply(function () {
+                cb();
+              });
             }
-            cb();
+            // If the active account didn't change, don't call the cb
           },
           function (cb) {
             new QueryAssist($scope.user, cb)
@@ -64,15 +66,22 @@ function instanceList (
               })
               .cacheFetch(function (instances, cached, cb) {
                 $scope.instances = instances;
-                $rootScope.safeApply();
                 cb();
               })
-              .resolve(function (err, projects, cb) {})
+              .resolve(function (err, projects, cb) {
+                cb(err);
+              })
               .go();
           }
-        ], cb);
+        ], function (err) {
+          if ($scope.showSpinner) {
+            $scope.showSpinner = false;
+            $rootScope.safeApply();
+          }
+          if (err) { throw err; }
+        });
       }
-      function loadInstances () {
+      function loadUsers(cb) {
         $scope.loadingUsers = true;
         $rootScope.safeApply();
         async.series([
@@ -81,22 +90,15 @@ function instanceList (
           function (cb) {
             $scope.loadingUsers = false;
             $rootScope.safeApply(cb);
-          },
-          fetchInstances
-        ],function (err) {
-          if ($scope.showSpinner) {
-            $scope.showSpinner = false;
-            $rootScope.safeApply();
           }
-          if (err) { throw err; }
-        });
+        ], cb);
       }
 
       /**
        * Refetch list of instances on state changes.
        * Useful after delete, fork, copy
        */
-      $scope.$on('$locationChangeSuccess', loadInstances);
+      $scope.$on('$locationChangeSuccess', fetchInstances);
 
       $scope.stateToNew = function () {
         $state.go('instance.new', {
@@ -115,7 +117,7 @@ function instanceList (
 
       $scope.getInstanceAltTitle = getInstanceAltTitle;
 
-      loadInstances();
+      loadUsers(fetchInstances);
     }
   };
 }
