@@ -28,9 +28,9 @@
           ng-init = "data.renameForm.$setPristine(); \
             data.renameForm.showFocus = true;"
           placeholder = "My-Box"
+          spellcheck = "false"
           validate-name = "data.instances"
           validate-name-pattern
-          validate-name-current-instance-valid = "false"
           value = "{{ data.instance.attrs.name }}"
         )
       //- .invalid-pattern for names with invalid characters

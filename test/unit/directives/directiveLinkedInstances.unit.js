@@ -63,14 +63,14 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
 
       $rootScope.safeApply = function(cb) {
         $timeout(function() {
-          $scope.$digest();
+          $scope.$digest(cb);
         });
       };
     });
 
     ctx = {};
     $scope.scp = makeDeps();
-    $scope.instances = {};
+    $scope.instances = makeDeps().models;
     ctx.template = directiveTemplate('linked-instances', {
       'instance-dependencies': 'scp.deps',
       'instances': 'instances',
