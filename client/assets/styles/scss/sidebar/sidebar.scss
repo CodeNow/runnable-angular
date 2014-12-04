@@ -31,6 +31,8 @@
 .account-header {
   @extend .webkit-flicker;
   flex: 0 0 auto;
+  position: relative;
+  z-index: $z-sidebar-header;
 }
 
 // h2.sub-header

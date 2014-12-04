@@ -77,7 +77,7 @@
   }
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   0% {
     opacity: 0;
   }
@@ -92,6 +92,17 @@
   }
   100% {
     transform: translate3d(200%,0,0);
+  }
+}
+
+@keyframes modal-in {
+  0% {
+    opacity: 0;
+    transform: scale3d(0,0,0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1,1,1);
   }
 }
 
@@ -158,6 +169,29 @@
   }
 }
 
+@keyframes spinner {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+@keyframes spinner-path {
+  0% {
+    stroke-dashoffset: $spinner-offset;
+  }
+  50% {
+    stroke-dashoffset: $spinner-offset/4;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: $spinner-offset;
+    transform: rotate(450deg);
+  }
+}
+
 @keyframes save-spinner {
   0% {
     opacity: 0;
@@ -181,5 +215,11 @@
   100% {
     opacity: 1;
     transform: translate3d(0,0,0);
+  }
+}
+
+@keyframes tooltip-left {
+  100% {
+    opacity: 1;
   }
 }

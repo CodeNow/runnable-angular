@@ -1,94 +1,62 @@
+//- spinner options:
+//- &.in - displays spinner
+//- &.spinner-backdrop - covers ui
+//- &.spinner-lg - 60px by 60px
+//- &.spinner-mg - 30px by 3px
+//- &.spinner-sm - 15px by 15px
+//- &.spinner-purple - sets color to $purple-lighter
+
 .spinner-container {
-  background: rgba($white,.99);
+  align-items: center;
   display: flex;
-  height: 100vh;
+  height: 100%;
+  justify-content: center;
   opacity: 0;
   pointer-events: none;
   position: absolute;
   right: 0;
   top: 0;
   transition: opacity .3s ease-in, transform .15s ease-in, width .15s ease-in;
-  width: calc(100% - 240px); // safari does not support vw and calc
-  width: calc(100vw - 240px);
+  width: 100%;
   z-index: $z-modal-backdrop;
 
   &.in {
     opacity: 1;
     pointer-events: auto;
   }
-}
 
-.spinner {
-  height: 16px;
-  margin: auto;
-  position: relative;
-  transition: transform .3s;
-  width: 16px;
+  &.spinner-backdrop {
+    background: $white;
+  }
 
-  &.lg {
-    color: $purple-light;
-    height: 60px;
-    width: 60px;
+  &.spinner-lg .spinner.lg {
+    display: block;
+  }
 
-    &::before {
-      border-radius: 60px 0 0 60px;
-      height: 60px;
-      transform-origin: 30px 30px;
-      width: 30px;
-    }
+  &.spinner-md .spinner.md {
+    display: block;
+  }
 
-    &::after {
-      border-radius: 0 60px 60px 0;
-      height: 60px;
-      left: 30px;
-      transform-origin: 0 30px;
-      width: 30px;
-    }
+  &.spinner-sm .spinner.sm {
+    display: block;
+  }
 
-    .spinner-ring {
-      height: 54px;
-      margin: 3px;
-      width: 54px;
-    }
+  &.spinner-purple .path {
+    stroke: $purple-lighter;
   }
 }
 
-.spinner::before,
-.spinner::after {
-  content: '';
-  position: absolute;
+.spinner {
+  animation: spinner $spinner-duration linear infinite;
+  display: none;
 }
 
-.spinner::before {
-  animation: rotate 1s infinite ease;
-  background: currentColor;
-  border-radius: 16px 0 0 16px;
-  height: 16px;
-  left: 0;
-  top: 0;
-  transform-origin: 8px 8px;
-  width: 8px;
-}
-
-.spinner::after {
-  animation: rotate 1s infinite ease -.25s;
-  background: currentColor;
-  border-radius: 0 16px 16px 0;
-  height: 16px;
-  left: 8px;
-  top: 0;
-  transform-origin: 0 8px;
-  width: 8px;
-}
-
-.spinner-ring {
-  background: $white;
-  border-radius: 50%;
-  height: 12px;
-  margin: 2px;
-  position: absolute;
-  width: 12px;
-  z-index: 1;
+.path {
+  animation: spinner-path $spinner-duration ease-in-out infinite;
+  stroke: $gray-light;
+  stroke-dasharray: $spinner-offset;
+  stroke-dashoffset: 0;
+  transform-origin: center;
 }
 
 // on buttons
@@ -110,37 +78,5 @@
 
   &.blue .spinner-ring {
     color: $blue;
-  }
-}
-
-// .horizontal-spinner
-.horizontal-spinner {
-  background: rgba($purple-light,.1);
-  height: 3px;
-  margin: auto;
-  overflow: hidden;
-  position: relative;
-  top: 40%;
-  width: 150px;
-
-  &::before,
-  &::after {
-    background: $purple-light;
-    content: '';
-    display: block;
-    height: 3px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    transform: translate3d(-100%,0,0);
-    width: 50%;
-  }
-
-  &::before {
-    animation: horizontal-spinner 1s infinite -.5s;
-  }
-
-  &::after {
-    animation: horizontal-spinner 1s infinite;
   }
 }

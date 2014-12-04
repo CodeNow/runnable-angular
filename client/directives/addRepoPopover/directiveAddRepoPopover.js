@@ -65,7 +65,8 @@ function addRepoPopover(
         var cv = $scope.repoListPopover.data.build.contextVersions.models[0];
         var acv = cv.newAppCodeVersion({
           repo: repo.attrs.full_name,
-          branch: repo.attrs.default_branch
+          branch: repo.attrs.default_branch,
+          warn: false
         });
         acv.githubRepo.reset(repo.json());
         var branch = acv.githubRepo.newBranch(repo.attrs.default_branch);
@@ -235,7 +236,7 @@ function addRepoPopover(
             })
             .go();
         }
-        fetchPage(0);
+        fetchPage(1);
       }
 
       async.series([

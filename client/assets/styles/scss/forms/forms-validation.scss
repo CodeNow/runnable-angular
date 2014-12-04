@@ -2,6 +2,11 @@
 .input-validate {
   transition: border .15s ease-in;
 
+  &.ng-invalid {
+    border-color: $orange;
+    box-shadow: inset 0 0 3px rgba($orange,.15);
+  }
+
   &.ng-pristine {
     border-color: rgba($black,.15);
     box-shadow: inset 0 0 3px rgba($black,.15);
@@ -46,4 +51,39 @@
 .invalid-pattern .invalid-pattern,
 .invalid-name .invalid-name {
   opacity: 1;
+}
+
+// .ace-validation-error
+.ace-validation-error {
+  position: relative;
+
+  &:hover::before {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+
+  &::after {
+    background: $orange;
+    border-radius: 50%;
+    content: '';
+    height: 10px;
+    left: 4px;
+    position: absolute;
+    top: 4px;
+    width: 10px;
+    z-index: $z-tooltip;
+  }
+
+  &::before {
+    @extend .tooltip-text;
+    content: 'Invalid Env';
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: -90px;
+    top: 24px;
+    transform: translate3d(-3px,-3px,0);
+    transition: all .2s ease-in;
+  }
 }

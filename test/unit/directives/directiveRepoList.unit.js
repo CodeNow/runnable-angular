@@ -25,7 +25,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       $httpBackend
         .whenGET(userUrl)
         .respond(mocks.user);
-      $httpBackend.whenGET(host + '/github/user/repos?page=0&sort=updated&type=owner&per_page=100')
+      $httpBackend.whenGET(host + '/github/user/repos?page=1&sort=updated&type=owner&per_page=100')
         .respond(mocks.gh.repos);
 
       $rootScope.dataApp = {

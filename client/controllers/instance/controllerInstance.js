@@ -11,6 +11,7 @@ function ControllerInstance(
   QueryAssist,
   $scope,
   $state,
+  $log,
   $stateParams,
   exists,
   user
@@ -93,8 +94,11 @@ function ControllerInstance(
       cb();
     },
     fetchUser,
-    fetchInstance
-  ]);
+    fetchInstance,
+    fetchInstances
+  ], function(err) {
+    if (err) { throw err; }
+  });
 
   // Redirect to /new if this build has already been built
   function fetchUser(cb) {
@@ -107,8 +111,32 @@ function ControllerInstance(
         cb();
       })
       .resolve(function (err, user, cb) {
-        if (err) throw err;
+        if (err) { return $log.error(err); }
+        cb(err);
+      })
+      .go();
+  }
+
+
+  // This is to fetch the list of instances.  This is separate so the page can load quickly
+  // since it will have its instance.  Only the modals use this list
+  function fetchInstances(cb) {
+    new QueryAssist(data.user, cb)
+      .wrapFunc('fetchInstances', cb)
+      .query({
+        githubUsername: $stateParams.userName
+      })
+      .cacheFetch(function (instances, cached, cb) {
+        if (!cached && instances.models.length === 0) {
+          return cb(new Error('instance not found'));
+        }
+        data.instances = instances;
+        $scope.safeApply();
         cb();
+      })
+      .resolve(function (err, instances, cb) {
+        if (err) { return $log.error(err); }
+        cb(err);
       })
       .go();
   }
@@ -123,17 +151,13 @@ function ControllerInstance(
       .cacheFetch(function (instances, cached, cb) {
         var instance = instances.models[0];
         data.instance = instance;
-        $scope.safeApply();
-      })
-      .resolve(function (err, instances, cb) {
-        if (!instances.models.length) {
-          return cb(new Error('Instance not found'));
-        }
-        if (err) throw err;
-        var instance = instances.models[0];
-        data.instance = instance;
+        data.instance.state = {};
         $scope.safeApply();
         cb(null, instance);
+      })
+      .resolve(function (err, instances, cb) {
+        if (err) { return $log.error(err); }
+        cb(err);
       })
       .go();
   }

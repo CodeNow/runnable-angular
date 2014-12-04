@@ -5,19 +5,18 @@ require('app')
  */
 function instanceEditPrimaryActions(
   async,
-  keypather,
   QueryAssist,
   $rootScope,
   $state,
-  $stateParams,
-  $timeout,
-  user
+  $stateParams
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceEditPrimaryActions',
     replace: true,
     scope: {
+      user: '=',
+      instance: '=',
       loading: '=',
       openItems: '='
     },
@@ -35,6 +34,7 @@ function instanceEditPrimaryActions(
             message: 'Manual build'
           };
           async.series([
+            fetchNewBuild,
             function (cb) {
               if (!noCache) {
                 return cb();
@@ -50,25 +50,30 @@ function instanceEditPrimaryActions(
               }, cb);
             },
             function () {
+              var build = $scope.newBuild;
+              // Catch the update file error
               $scope.newBuild.build(
                 buildObj,
-                function (err, build) {
-                  if (err) throw err;
+                function (err) {
+                  if (err) { throw err; }
                   var opts = {
-                    build: $scope.newBuild.id()
+                    build: build.id()
                   };
                   if ($scope.instance.state && $scope.instance.state.env) {
                     opts.env = $scope.instance.state.env;
                   }
                   $scope.instance.update(opts, function (err) {
-                    if (err) throw err;
+                    if (err) { throw err; }
                     // will trigger display of completed message if build completes
                     // before reaching next state
                     // $scope.dataInstanceLayout.data.showBuildCompleted = true;
                     $state.go('instance.instance', $stateParams);
                   });
                 });
-            }]);
+            }
+          ], function (err) {
+            if (err) { throw err; }
+          });
         });
       };
 
@@ -82,41 +87,10 @@ function instanceEditPrimaryActions(
         }
       };
 
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
-
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances', cb)
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && instances.models.length === 0) {
-              throw new Error('instance not found');
-            }
-            $scope.instance = instances.models[0];
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, projects, cb) {
-            if (err) throw err;
-          })
-          .go();
-      }
-
       function fetchNewBuild(cb) {
+        if (!$scope.user) {
+          throw new Error('InstanceEditPrimaryActions can\'t find a user on the scope');
+        }
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
@@ -125,18 +99,11 @@ function instanceEditPrimaryActions(
             $rootScope.safeApply();
             cb();
           })
-          .resolve(function (err, build, cb) {
-            if (err) throw err;
-            cb();
+          .resolve(function (err) {
+            throw err;
           })
           .go();
       }
-
-      async.series([
-        fetchUser,
-        fetchInstance,
-        fetchNewBuild
-      ]);
 
     }
   };
