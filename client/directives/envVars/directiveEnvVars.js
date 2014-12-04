@@ -25,7 +25,7 @@ function envVars(
 
       $scope.$on('eventPasteLinkedInstance', function (eventName, text) {
         editor.insert(text);
-        $scope.validation = validateEnvVars(editor.getValue());
+        updateEnvs(editor.getValue());
         $rootScope.safeApply();
         editor.focus();
       });
@@ -67,8 +67,7 @@ function envVars(
         }, '');
       });
 
-      // When the envs on the screen change
-      var unwatchScreenEnvs = $scope.$watch('environmentalVars', function (newEnv, oldEnv) {
+      function updateEnvs(newEnv, oldEnv) {
         // Since the user has inputed text, we don't need to listen to the current model anymore
         unwatchCurrentModel();
         // If the envs haven't changed, (also takes care of first null/null occurrence
@@ -78,7 +77,10 @@ function envVars(
         keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
           return v.length;
         }));
-      });
+      }
+
+      // When the envs on the screen change
+      var unwatchScreenEnvs = $scope.$watch('environmentalVars', updateEnvs);
 
       $scope.$on('$destroy', function () {
         unwatchValidation();
