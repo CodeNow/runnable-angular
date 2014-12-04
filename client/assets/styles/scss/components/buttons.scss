@@ -68,11 +68,17 @@ button,
   .icons-arrow-down {
     float: right;
     top: 18px;
-    transition: opacity .2s ease-in, transform .3s ease-in;
+  }
 
-    // flip arrow
-    .in &,
-    .active & {
+  // animations
+  &.active {
+
+    .icons-add,
+    .icons-gear {
+      transform: rotate3d(0,0,1,135deg);
+    }
+
+    .icons-arrow-down {
       transform: rotate3d(1,0,0,-180deg);
     }
   }

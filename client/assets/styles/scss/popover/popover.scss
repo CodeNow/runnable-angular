@@ -314,8 +314,12 @@
     border-color: rgba($black,.1);
 
     ~ .icons-search {
-      color: $blue;
+      color: $gray;
     }
+  }
+
+  ~ .icons-search {
+    color: $gray-light;
   }
 }
 
