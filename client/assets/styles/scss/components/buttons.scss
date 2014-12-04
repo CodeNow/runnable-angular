@@ -19,9 +19,12 @@ button,
 
   // for <a> elemnts
   &:hover,
-  &:active,
-  &.active {
+  &:active {
     text-decoration: none;
+  }
+
+  &:active {
+    transition: none;
   }
 
   &:focus {
@@ -54,7 +57,8 @@ button,
     padding: 0 3px;
   }
 
-  .icons-git {
+  // github icon with text
+  > .icons-git {
     margin-right: 6px;
     top: 6px;
     width: 21px;
@@ -97,7 +101,6 @@ button,
 .gray,
 .green,
 .orange,
-.purple,
 .white {
   border: 1px solid transparent;
   color: $white;
@@ -157,7 +160,7 @@ button,
 }
 
 .green {
-  background: rgba($green,.1);
+  background: rgba($green,.15);
   border-color: rgba($green,.3);
   color: $green;
 
@@ -167,7 +170,7 @@ button,
 
   &:active,
   &.active {
-    border-color: rgba($green,.75);
+    border-color: rgba($green,.9);
   }
 
   &[disabled],
@@ -182,7 +185,7 @@ button,
 }
 
 .orange {
-  background: rgba($orange,.1);
+  background: rgba($orange,.15);
   border-color: rgba($orange,.3);
   color: $orange-dark;
 

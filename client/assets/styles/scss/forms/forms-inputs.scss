@@ -20,6 +20,10 @@ textarea {
     outline: none;
   }
 
+  &:focus {
+    transition: none;
+  }
+
   &[readonly] {
     color: $gray;
   }
