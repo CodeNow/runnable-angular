@@ -31,7 +31,10 @@ function demoLayout (
   };
 
   actions.actionsModalSignIn = actions.dockerInstructionPopover = {
-    nextPage: actions.nextPage
+    nextPage: actions.nextPage,
+    noHelp: function() {
+      $state.go('instance.instanceEdit', $state.params);
+    }
   };
 
   data.dockerInstructionPopover = {
