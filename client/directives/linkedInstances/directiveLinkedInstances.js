@@ -28,7 +28,6 @@ function linkedInstances (
       instances: '=' // For dupe checking
     },
     link: function ($scope, elem, attrs) {
-      // Since we should allow isActive to be null, we explicitly check against false
       $scope.getInstanceAltTitle = getInstanceAltTitle;
       $scope.getInstanceClasses = getInstanceClasses;
 

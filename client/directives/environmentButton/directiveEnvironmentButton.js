@@ -31,7 +31,7 @@ function environmentButton (
         }, []);
       };
 
-      var originalState;
+      var originalState = {};
       $scope.envPopover = {
         actions: {
           saveEnv: function (instance, event) {

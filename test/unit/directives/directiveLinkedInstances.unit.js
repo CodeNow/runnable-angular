@@ -21,6 +21,9 @@ function makeDeps () {
         },
         env: ['a=b']
       },
+      state: {
+        name: 'hello-copy'
+      },
       fetch: fetch
     }, {
       attrs: {
