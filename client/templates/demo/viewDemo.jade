@@ -23,11 +23,22 @@ nav.sidebar.global-sidebar.demo-sidebar
     | Sign In
 
 //- .guide-mark should appear on the DOM as a direct child of body (like popovers)
+//- add .in on click
 //- url mark
 .guide-wrapper.guide-1(
+  toggle-pop-over
+  toggle-pop-over-model = "popoverGuidesUrls.data.show"
   style = "left: 225px; top: 32px;"
 )
-  .guide.guide-mark
+  .guide.guide-mark(
+    ng-class = "{in: popoverGuidesUrls.data.show}"
+  )
+  pop-over(
+    actions = "popoverGuidesUrls.actions"
+    data = "popoverGuidesUrls.data"
+    popover-options = "{\"left\":-138px,\"top\":18px}"
+    template = "viewGuidesUrlsPopover"
+  )
 //- repo mark
 .guide-wrapper.guide-2(
   style = "left: 450px; top: 123px;"

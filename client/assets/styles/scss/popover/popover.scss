@@ -82,6 +82,13 @@
   transition: all .15s ease-in;
   white-space: normal;
 
+  &.in {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale3d(1,1,1);
+    z-index: $z-popover;
+  }
+
   .arrow,
   .arrow::after {
     border-color: transparent;
@@ -155,13 +162,6 @@
 
   &.left {
     margin-left: -10px;
-  }
-
-  &.in {
-    opacity: 1;
-    pointer-events: auto;
-    transform: scale3d(1,1,1);
-    z-index: $z-popover;
   }
 
   // .popover.menu
