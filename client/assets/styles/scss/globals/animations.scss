@@ -85,6 +85,27 @@
   }
 }
 
+@keyframes guide-mark {
+  0% {
+    transform: scale3d(0,0,1);
+  }
+  20% {
+    transform: scale3d(1.2,1.2,1);
+  }
+  40% {
+    transform: scale3d(1,1,1);
+  }
+  60% {
+    transform: scale3d(1,1,1);
+  }
+  80% {
+    transform: scale3d(.8,.8,1);
+  }
+  100% {
+    transform: scale3d(1,1,1);
+  }
+}
+
 @keyframes scale-in {
   0% {
     opacity: 0;
@@ -97,6 +118,18 @@
 }
 
 @keyframes scale-in-bounce {
+  0% {
+    transform: scale3d(0,0,0);
+  }
+  60% {
+    transform: scale3d(1.2,1.2,1);
+  }
+  100% {
+    transform: scale3d(1,1,1);
+  }
+}
+
+@keyframes scale-in-bounce-fade {
   0% {
     opacity: 0;
     transform: scale3d(0,0,0);

@@ -156,7 +156,7 @@
       &:nth-child(#{$i}) {
 
         .template-image {
-          animation: scale-in-bounce .5s (.25s + ($i*.1)) ease-in forwards;
+          animation: scale-in-bounce-fade .5s (.25s + ($i*.1)) ease-in forwards;
         }
 
         .template-title {

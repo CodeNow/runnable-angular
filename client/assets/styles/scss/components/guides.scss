@@ -41,22 +41,9 @@
     border: 0;
     color: $white;
     font-size: 14px;
-    height: 36px;
-    line-height: 36px;
+    height: 30px;
+    line-height: 30px;
     padding: 6px 12px;
-  }
-
-  // if coach mark
-  &.guide-mark {
-    animation: scale-in-bounce .6s 1s ease-in forwards;
-    background: rgba($purple-lighter,.45);
-    border: 1px solid rgba($purple-light,.45);
-    border-radius: 50%;
-    height: 24px;
-    padding: 0;
-    position: absolute;
-    transform: scale3d(0,0,1);
-    width: 24px;
   }
 
   > .iconnables {
@@ -95,4 +82,48 @@
   top: 0;
   width: 100%;
   z-index: $z-guide;
+}
+
+// coach marks
+.guide-wrapper {
+  animation: scale-in-bounce .5s ease-in forwards;
+  position: absolute;
+  transform: scale3d(0,0,1);
+  z-index: $z-guide;
+
+  &.guide-1 {
+    animation-delay: .5s;
+  }
+
+  &.guide-2 {
+    animation-delay: .75s;
+  }
+
+  &.guide-3 {
+    animation-delay: 1s;
+  }
+
+  &.guide-4 {
+    animation-delay: 1.25s;
+  }
+}
+
+.guide-mark {
+  background: #eee7f4; // rgba($purple-lighter,.15)
+  border: 3px solid rgba($purple-light,.6);
+  border-radius: 50%;
+  cursor: pointer;
+  height: 24px;
+  opacity: .9;
+  padding: 0;
+  transition: all .15s ease-in;
+  width: 24px;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:active {
+    transform: scale3d(.8,.8,1);
+  }
 }
