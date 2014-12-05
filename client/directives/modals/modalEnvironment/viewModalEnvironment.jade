@@ -71,10 +71,11 @@
     //- ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
   aside.modal-sidebar.boxes(
   )
-    //- Empty State
     p.guide-text
-      | Can't find your box here? Make sure it has a port exposed in the Dockerfile. Example:
+      | We'll put boxes that you can link here. In order for a box to appear here, it needs a port exposed in the Dockerfile; like this:
     pre.btn.btn-xxs.gray EXPOSE 80
+    p.guide-text To learn more about #{''}
+      b.btn-
   //- if boxes with exposed ports
   //- aside.modal-sidebar.boxes(
   //-   ng-if = "(data.instances.models | instancesWithOpenPorts:data.instance).length"
