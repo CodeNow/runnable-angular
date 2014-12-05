@@ -127,7 +127,7 @@ function HelperInstanceActionsModal(
           var opts = {};
           opts.name = instance.state.name;
           opts.env = instance.state.env ? instance.state.env : instance.attrs.env;
-          var newInstance = instance.copy(opts, function (err) {
+          instance.copy(opts, function (err) {
             if (err) { throw err; }
             $rootScope.safeApply();
             // update instances collection to update
