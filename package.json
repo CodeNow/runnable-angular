@@ -6,7 +6,8 @@
   "scripts": {
     "grunt": "./node_modules/.bin/grunt deploy",
     "start": "NODE_PATH=. node ./server/main.js;",
-    "test": "protractor ./test/protractor.conf.js"
+    "test": "protractor ./test/protractor.conf.js",
+    "unit": "grunt test:unit"
   },
   "engines": {
     "node": "~0.10.29",
@@ -40,7 +41,7 @@
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
     "primus": "^2.3.0",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.2",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.3",
     "term.js": "git://github.com/Runnable/term.js.git#6a1d4ec38aa26c61fb6a4f0a20ba5cb207e66f2d",
     "uuid": "^2.0.1"
   },

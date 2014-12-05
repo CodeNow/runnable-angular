@@ -123,32 +123,29 @@ function HelperInstanceActionsModal(
         $rootScope.dataApp.data.loading = true;
         // TODO display loading overlay
         function fork (instance, cb) {
-          var newInstance = instance.copy(function (err) {
+          var opts = {};
+          opts.name = instance.state.name;
+          opts.env = instance.state.env ? instance.state.env : instance.attrs.env;
+          instance.copy(opts, function (err) {
             if (err) { throw err; }
-            var opts = {};
-            opts.name = instance.state.name;
-            opts.env = instance.state.env ? instance.state.env : instance.attrs.env;
-            newInstance.update(opts, function (err) {
-              $rootScope.safeApply();
-              if (err) { throw err; }
-              // update instances collection to update
-              // viewInstanceList
-              cb();
-            });
+            $rootScope.safeApply();
+            // update instances collection to update
+            // viewInstanceList
+            cb();
           });
         }
         async.parallel([
-          function (cb) {
-            keypather.set($scope, 'instance.state.name', newName);
-            fork($scope.instance, cb);
-          },
           function (cb) {
             if (forkDeps && keypather.get($scope, 'instance.dependencies.models.length')) {
               async.each($scope.instance.dependencies.models, fork, cb);
             } else {
               cb();
             }
-          }
+          },
+          function (cb) {
+            keypather.set($scope, 'instance.state.name', newName);
+            fork($scope.instance, cb);
+          },
         ], function (err) {
           if (err) { throw err; }
           $state.go('instance.instance', {
