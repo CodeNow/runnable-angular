@@ -28,4 +28,11 @@
 
 .guide-text {
   padding-right: 12px;
+
+  // b.btn.btn-xxs.gray
+  .btn.btn-xxs {
+    display: inline-block;
+    font-family: 'Source Code Pro', monospace;
+    margin: 0;
+  }
 }
