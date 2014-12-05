@@ -44,11 +44,8 @@
 
   // guides in modals:
   .guide {
-    border: 0;
-    border-bottom: 1px solid rgba($blue,.2);
-    border-radius: 0;
-    border-top: 1px solid rgba($blue,.2);
-    margin: 0;
+    border: 1px solid rgba($blue,.2);
+    margin: 0 6px 6px;
     padding-left: 21px;
 
     .guide-header {
@@ -62,8 +59,8 @@
     .btn-close {
       padding: 0;
       position: absolute;
-      right: 15px;
-      top: 12px;
+      right: 9px;
+      top: 9px;
     }
   }
 }

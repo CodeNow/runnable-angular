@@ -20,16 +20,16 @@
             xlink:href = "#icons-sidebar"
           )
     //- guide text should only appear once until dismissed
-    .guide.guide-no-help.blue(
       ng-if = '!data.hideGuideHelpEnvModal'
+    .guide.guide-no-help.blue(
     )
       h3.guide-header Using Variables
       pre.btn.btn-xs.blue.hover &lt;key&gt;=&lt;value&gt;
       p.guide-text
-        | Variables listed here are added to this box during startup.
+        | Variables listed here are added to the box during startup.
         br
         | Example notation:
-      pre.btn.btn-xxs.blue.hover DB_HOST=db.run.runnable.io
+      pre.btn.btn-xs.blue.hover DB_HOST=db.run.runnable.io
 
       button.btn.blue.btn-xs.btn-close(
         ng-click = "onChangeHideGuideEnv()"
