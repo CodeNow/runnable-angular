@@ -19,11 +19,9 @@ app.config(['$stateProvider',
       var search = $location.search();
       var params;
 
-      if (path[path.length - 1] === '/')
-        return;
+      if (path[path.length - 1] === '/') { return; }
 
-      if (Object.keys(search).length === 0)
-        return path + '/';
+      if (Object.keys(search).length === 0) { return path + '/'; }
 
       params = [];
       angular.forEach(search, function (val, key) {

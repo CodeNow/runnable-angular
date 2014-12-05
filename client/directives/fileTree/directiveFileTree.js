@@ -54,7 +54,7 @@ function fileTree(
             cb();
           })
           .resolve(function (err, user, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             cb();
           })
           .go();
@@ -77,7 +77,7 @@ function fileTree(
             cb();
           })
           .resolve(function (err, build, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             cb();
           })
           .go();
@@ -110,7 +110,7 @@ function fileTree(
         fetchUser,
         fetchBuild
       ], function (err) {
-        if (err) throw err;
+        if (err) { throw err; }
         if ($stateParams.buildId) {
           // instance edit page
           // build context version will always exist

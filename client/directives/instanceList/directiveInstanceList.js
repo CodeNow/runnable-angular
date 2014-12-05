@@ -30,7 +30,7 @@ function instanceList (
             cb();
           })
           .resolve(function (err, user, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
           })
           .go();
       }

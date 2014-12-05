@@ -37,7 +37,7 @@ function logBox(
 
       $scope.$on('$destroy', function () {
         var boxStream = $scope.boxStream;
-        if (!boxStream) return;
+        if (!boxStream) { return; }
         boxStream.removeAllListeners();
         boxStream.end();
       });
@@ -106,7 +106,7 @@ function logBox(
       }
 
       function writeToTerm(output) {
-        if (typeof output !== 'string') return;
+        if (typeof output !== 'string') { return; }
         terminal.write(output.replace(/\r?\n/g, '\r\n'));
       }
 

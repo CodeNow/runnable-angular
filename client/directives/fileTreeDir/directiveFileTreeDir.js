@@ -33,7 +33,7 @@ function fileTreeDir(
       $scope.state = $state;
 
       actions.makeDroppable = function () {
-        if (!$template) return;
+        if (!$template) { return; }
 
         $template[0].addEventListener('drop', function (event) {
           event.preventDefault();
@@ -189,7 +189,7 @@ function fileTreeDir(
 
       // needed to observe change seed context version on setup page
       $scope.$watch('openItems.state.reset', function (newVal, oldVal) {
-        if (!newVal) return;
+        if (!newVal) { return; }
         fetchDirFiles();
         $scope.actions.makeDroppable();
       });

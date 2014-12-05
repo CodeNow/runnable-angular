@@ -29,7 +29,7 @@ function HelperInstanceActionsModal(
     data.instances = null;
 
     var unwatchInstance = $scope.$watch('instance', function (n) {
-      if (!n) return;
+      if (!n) { return; }
       data.instance = n;
       // data.newName used in renameInstance popover
       data.newName = n.attrs.name;
@@ -38,13 +38,13 @@ function HelperInstanceActionsModal(
     });
 
     var unwatchInstances = $scope.$watch('instances', function (n) {
-      if (!n) return;
+      if (!n) { return; }
       data.instances = n;
       $scope.popoverGearMenu.data.instances = n;
     });
 
     var unwatchbuild = $scope.$watch('build', function (n) {
-      if (!n) return;
+      if (!n) { return; }
       data.build = n;
       $scope.popoverGearMenu.data.build = n;
     });
@@ -73,7 +73,7 @@ function HelperInstanceActionsModal(
         if (!opts.env) { return; }
         $scope.instance.update(opts, function (err) {
           $rootScope.safeApply();
-          if (err) throw err;
+          if (err) { throw err; }
           $rootScope.dataApp.data.loading = false;
           // update instances collection to update
           // viewInstanceList
