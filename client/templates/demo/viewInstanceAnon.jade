@@ -11,8 +11,8 @@
     indicates model is deployed
 //- .alert.green(
 //-   ng-class = "{ \
-//-     in: (dataInstance.data.showFinishMessageWhenContainerFetched && \
-//-          dataInstance.data.instance.containers.models.length) \
+//-     in: (dataInstanceAnon.data.showFinishMessageWhenContainerFetched && \
+//-          dataInstanceAnon.data.instance.containers.models.length) \
 //-   }"
 //- )
   svg.iconnables.icons-check
@@ -26,12 +26,16 @@ header.box-header
   instance-box-name
 
   instance-primary-actions(
-    saving = "dataInstance.data.saving"
-    open-items = "dataInstance.data.openItems"
+    loading = "dataApp.data.loading"
+    instance = "dataInstanceAnon.data.instance"
+    saving = "dataInstanceAnon.data.saving"
+    open-items = "dataInstanceAnon.data.openItems"
   )
 
   instance-secondary-actions(
-    saving = "dataInstance.data.saving"
+    instances = "dataInstanceAnon.data.instances"
+    instance = "dataInstanceAnon.data.instance"
+    saving = "dataInstanceAnon.data.saving"
   )
 
 //- sidebar with repositories and urls
@@ -43,11 +47,11 @@ section.sidebar.box-sidebar.load
 
 //- in / out control presence of header-bar
 section.views.with-add-tab(
-  ng-class = "dataInstance.data.sectionClasses"
+  ng-class = "dataInstanceAnon.data.sectionClasses"
 )
   //- explorer
   button.btn-sm.white.btn-icon.explorer-toggle(
-    ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
+    ng-click = "dataInstanceAnon.data.showExplorer = !dataInstanceAnon.data.showExplorer"
     type = "button"
   )
     svg.iconnables.icons-folder-open
@@ -56,64 +60,53 @@ section.views.with-add-tab(
       )
 
   explorer(
-    open-items = "dataInstance.data.openItems"
-    toggle-theme = "dataInstance.data.toggleTheme"
+    open-items = "dataInstanceAnon.data.openItems"
+    toggle-theme = "dataInstanceAnon.data.toggleTheme"
   )
 
   //- tabs
   tabs(
-    open-items= "dataInstance.data.openItems"
+    open-items= "dataInstanceAnon.data.openItems"
   )
 
   add-tab(
-    open-items = "dataInstance.data.openItems"
+    open-items = "dataInstanceAnon.data.openItems"
   )
 
   //- active panel
   active-panel(
-    current-model = "dataInstance.data.instance.attrs"
-    is-dark-theme = "dataInstance.data.toggleTheme",
-    open-items = "dataInstance.data.openItems"
+    current-model = "dataInstanceAnon.data.instance.attrs"
+    is-dark-theme = "dataInstanceAnon.data.toggleTheme",
+    open-items = "dataInstanceAnon.data.openItems"
   )
 
   //- blank state
   .blank-panel(
-    ng-if= "dataInstance.data.instance.containers.models[0] && \
-            dataInstance.data.openItems.models.length === 0"
+    ng-if= "dataInstanceAnon.data.instance.containers.models[0] && \
+            dataInstanceAnon.data.openItems.models.length === 0"
   )
     ul.blank-panel-group
       li.blank-panel-item(
-        ng-click = "dataInstance.data.openItems.addWebView()"
+        ng-click = "dataInstanceAnon.data.openItems.addWebView()"
       )
         svg.iconnables.iconnables-lg.icons-web
           use(xlink:href = "#icons-web")
         | Web View
       li.blank-panel-item(
-        ng-click = "dataInstance.data.openItems.addTerminal()"
+        ng-click = "dataInstanceAnon.data.openItems.addTerminal()"
       )
         svg.iconnables.iconnables-lg.icons-terminal
           use(xlink:href = "#icons-terminal")
         | Terminal
       li.blank-panel-item(
-        ng-click = "dataInstance.data.openItems.addBuildStream()"
+        ng-click = "dataInstanceAnon.data.openItems.addBuildStream()"
       )
         svg.iconnables.iconnables-lg.icons-logs
           use(xlink:href = "#icons-logs")
         | Build Log
       li.blank-panel-item(
-        ng-click = "dataInstance.data.openItems.addLogs()"
+        ng-click = "dataInstanceAnon.data.openItems.addLogs()"
       )
         svg.iconnables.iconnables-lg.icons-server
           use(xlink:href = "#icons-server")
         | Box Log
-      li.blank-panel-item(
-        ng-click = "dataInstance.data.openItems.addEnvVars()"
-      )
-        svg.iconnables.iconnables-lg.icons-env-vars
-          use(xlink:href = "#icons-env-vars")
-        | Env Vars
-
-  //- spinner
-  .horizontal-spinner(
-    ng-hide = "dataInstance.data.instance.containers.models[0]"
-  )
