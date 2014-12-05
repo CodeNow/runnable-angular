@@ -14,6 +14,20 @@
     transform: translate3d(210px,0,0);
   }
 
+  .guide-text {
+    color: $gray;
+    padding: 15px 15px 9px;
+
+    + .guide-text {
+      padding: 9px 15px;
+    }
+  }
+
+  .btn-xxs {
+    display: table;
+    margin: 0 15px;
+  }
+
   .box-group {
     height: 100%;
   }
@@ -27,8 +41,8 @@
     min-height: 45px;
     padding: 0 15px;
     user-select: none;
-    width: 100%;
     white-space: normal;
+    width: 100%;
 
     + .box-group-item {
       border-top: 1px solid rgba($black,.1);

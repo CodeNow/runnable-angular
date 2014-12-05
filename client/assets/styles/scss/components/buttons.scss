@@ -112,7 +112,8 @@ button,
   color: $blue;
   font-weight: 300;
 
-  &:hover {
+  &:hover,
+  &.hover {
     background: rgba($blue,.1);
     border-color: rgba($blue,.2);
   }
