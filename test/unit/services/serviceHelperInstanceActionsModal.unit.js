@@ -14,21 +14,16 @@ function makeFakeInstance (env, deps) {
     state: {},
     attrs: {}
   };
-  sinon.stub(instance, 'copy', function (cb) {
-    setTimeout(cb, 10);
-    return {
-      update: function(opts, cb) {
-        expect(opts).to.be.an.Object;
-        // Both root instance and dep new names end in -test
-        expect(opts.name).to.match(/-test$/);
-        if (env) {
-          expect(opts.env).to.deep.equal(['a=b']);
-        } else {
-          expect(opts.env).to.be.undefined;
-        }
-        cb();
-      }
-    };
+  sinon.stub(instance, 'copy', function (opts, cb) {
+    expect(opts).to.be.an.Object;
+    // Both root instance and dep new names end in -test
+    expect(opts.name).to.match(/-test$/);
+    if (env) {
+      expect(opts.env).to.deep.equal(['a=b']);
+    } else {
+      expect(opts.env).to.be.undefined;
+    }
+    cb();
   });
   if (env) {
     instance.attrs.env = ['a=b'];
