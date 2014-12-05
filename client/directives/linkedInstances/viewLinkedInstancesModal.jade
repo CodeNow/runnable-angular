@@ -15,7 +15,6 @@
     | Include linked boxes
 
   div(
-    ng-init = "instance.state.name = instance.attrs.name + '-copy'"
     ng-repeat = "instance in instanceDependencies.models | orderBy:'attrs.name'"
   )
     ng-form(

@@ -19,7 +19,7 @@ function validateName(
       ctrl.$setValidity('nameAvailable', true);
 
       function checkValidNameAvailable(name) {
-        if (!name) {
+        if (!name || ctrl.$pristine) {
           ctrl.$setValidity('nameAvailable', true);
           return name;
         }

@@ -31,6 +31,7 @@ function environmentButton (
         }, []);
       };
 
+      var originalState;
       $scope.envPopover = {
         actions: {
           saveEnv: function (instance, event) {
@@ -42,7 +43,7 @@ function environmentButton (
           },
           cancelEnv: function (instance, event) {
             event.preventDefault();
-            instance.state.envVars = $scope.envToObjects(instance.attrs.env);
+            instance.state.envVars = $scope.envToObjects(originalState.env || instance.attrs.env);
             instance.state.envShow = false;
           }
         }
@@ -52,6 +53,8 @@ function environmentButton (
       instance = $scope.instance;
       if (!$scope.instance.state) {
         $scope.instance.state = {};
+      } else {
+        originalState = $scope.instance.state;
       }
 
       instance.state.envVars = $scope.envToObjects(instance.attrs.env);
