@@ -4,12 +4,13 @@
     toggle-pop-over-model = "instance.state.envShow"
     toggle-pop-over-no-broadcast = "true"
     tooltip = "Edit Environment"
-    tooltip-options = "{\"class\":\"bottom\",\"left\":3,\"top\":27}"
+    tooltip-options = "{\"class\":\"bottom\",\"left\":9,\"top\":27}"
     type = "button"
   ) env
   pop-over(
     actions = "envPopover.actions"
     data = "instance"
-    popover-options = "{\"left\":10,\"top\":24}"
+    popover-ready = "instance.state.envShow"
+    popover-options = "{\"left\":-149,\"top\":54}"
     template = "viewPopoverEnvironment"
   )

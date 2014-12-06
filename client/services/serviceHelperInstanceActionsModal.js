@@ -33,7 +33,6 @@ function HelperInstanceActionsModal(
       data.instance = n;
       // data.newName used in renameInstance popover
       data.newName = n.attrs.name;
-      data.newForkName = data.newName + COPY_SUFFIX;
       $scope.popoverGearMenu.data.instance = n;
     });
 
@@ -158,34 +157,7 @@ function HelperInstanceActionsModal(
           }
         });
       },
-      watchers: [
-        function ($scope) {
-          $scope.$watch('data.newForkName', function(n, o) {
-            if (!n || !keypather.get($scope, 'data.instance.dependencies.models.length')) { return; }
-
-            $scope.data.instance.dependencies.models.forEach(function(instance) {
-              updateEnvName(instance, n, o, $scope.data.instance);
-            });
-          });
-          var depWatch = $scope.$watch('data.instance.dependencies', function(n) {
-            if (!n) { return; }
-            // Cancel watch, it's served its purpose
-            depWatch();
-            $scope.data.instance.dependencies.models.forEach(function(instance, idx) {
-              updateEnvName(instance,
-                            instance.attrs.name + COPY_SUFFIX,
-                            instance.attrs.name,
-                            $scope.data.instance);
-              $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function(n, o) {
-                if (!n || n === o) { return; }
-                updateEnvName(instance, n, o, $scope.data.instance);
-              });
-            });
-          });
-        }
-      ],
       cancel: function () {
-        data.newForkName = data.newName + COPY_SUFFIX;
         $scope.popoverGearMenu.data.show = false;
       }
     };

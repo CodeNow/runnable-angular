@@ -9,6 +9,7 @@ function popOver(
   jQuery,
   $compile,
   $templateCache,
+  $rootScope,
   $window
 ) {
   return {
@@ -16,7 +17,8 @@ function popOver(
     replace: true,
     scope: {
       data: '=',
-      actions: '='
+      actions: '=',
+      popoverReady: '='
     },
     link: function ($scope, element, attrs) {
       var $ = jQuery;
@@ -27,6 +29,7 @@ function popOver(
       try {
         options = JSON.parse(attrs.popoverOptions);
       } catch (e) {
+        console.warn('popoverOptions parse failed for ' + attrs.template);
         options = {};
       }
       options.right = (typeof options.right !== 'undefined') ? options.right : 'auto';
@@ -38,12 +41,24 @@ function popOver(
 
       var popEl = $compile(template)($scope);
 
+      function parseProp (prop) {
+        var curr = options[prop];
+        if (!angular.isNumber(curr)) {
+          return curr;
+        }
+        var parentVal = parent.offset()[prop];
+        if (parentVal) {
+          curr += parentVal;
+        }
+        return curr + 'px';
+      }
+
       function setCSS () {
-        popEl.css({
-          right: options.right + 'px',
-          left: (parent.offset().left + options.left) + 'px',
-          top: (parent.offset().top + options.top) + 'px'
-        });
+        var newCSS = {};
+        newCSS.right = parseProp('right');
+        newCSS.left = parseProp('left');
+        newCSS.top = parseProp('top');
+        popEl.css(newCSS);
       }
 
       setCSS();
@@ -52,6 +67,19 @@ function popOver(
       $($window).on('resize', dSetCSS);
 
       $('body').append(popEl);
+      $scope.$watch('popoverReady', setCSS);
+      $scope.$watch(function () {
+        return element.hasClass('in');
+      }, function(n) {
+        if (n) {
+          var autofocus = element[0].querySelector('[autofocus]');
+          if (autofocus) {
+            $rootScope.safeApply(function() {
+              autofocus.select();
+            });
+          }
+        }
+      });
 
       element.on('click', function (event) {
         event.stopPropagation();
