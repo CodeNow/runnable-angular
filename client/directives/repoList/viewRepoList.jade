@@ -14,7 +14,12 @@ section.row.repo-list
         )
 
     add-repo-popover(
+      ng-if = "!data.isDemo"
       show = "data.show"
+    )
+
+    show-demo-modal(
+      ng-if = "data.isDemo"
     )
 
   //- show .guide if instance.setup && no repositories have been added yet

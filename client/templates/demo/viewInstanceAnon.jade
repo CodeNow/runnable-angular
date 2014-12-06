@@ -1,6 +1,5 @@
 //- needs to look/act like a regular view instance page, with these changes:
-//-   - Add repo & fork buttons should open a modal
-//-   - Something about save & restart?
+//-   - fork buttons should open a modal
 //-   - Logging in with GitHub should redirect to demo.edit
 
 
@@ -32,11 +31,7 @@ header.box-header
     open-items = "dataInstanceAnon.data.openItems"
   )
 
-  instance-secondary-actions(
-    instances = "dataInstanceAnon.data.instances"
-    instance = "dataInstanceAnon.data.instance"
-    saving = "dataInstanceAnon.data.saving"
-  )
+  instance-anon-secondary-actions
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar.load
@@ -76,7 +71,7 @@ section.views.with-add-tab(
   //- active panel
   active-panel(
     current-model = "dataInstanceAnon.data.instance.attrs"
-    is-dark-theme = "dataInstanceAnon.data.toggleTheme",
+    is-dark-theme = "dataInstanceAnon.data.toggleTheme"
     open-items = "dataInstanceAnon.data.openItems"
   )
 

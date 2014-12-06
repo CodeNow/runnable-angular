@@ -41,7 +41,7 @@ function modal(
             cb();
           },
           cancel: function () {
-            if ($scope.actions.cancel && typeof $scope.actions.cancel === 'function') {
+            if (typeof keypather.get($scope, 'actions.cancel') === 'function') {
               $scope.actions.cancel();
             }
             $scope.defaultActions.close();

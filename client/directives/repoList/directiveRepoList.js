@@ -25,7 +25,8 @@ function repoList(
       // Object to pass reference instead of value
       // into child directive
       $scope.data = {
-        show: false
+        show: false,
+        isDemo: $state.$current.name === 'demo.anon'
       };
 
       // display guide if no repos added
