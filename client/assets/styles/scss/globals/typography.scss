@@ -58,6 +58,43 @@ input ~ small {
   }
 }
 
+.link-white {
+  color: $white;
+
+  &:hover,
+  &:active {
+    color: $white;
+  }
+}
+
+.link-gray {
+  color: $gray;
+
+  &:hover,
+  &:active {
+    color: $gray-dark;
+  }
+}
+
+.link-text {
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.link-secondary {
+  color: $gray;
+  display: table;
+  font-size: 14px;
+  margin: 0 auto;
+}
+
+.link-reference {
+  font-size: 12px;
+  vertical-align: super;
+}
+
 // single line overflow
 .text-overflow {
   overflow: hidden;
