@@ -66,7 +66,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
 
       $rootScope.safeApply = function(cb) {
         $timeout(function() {
-          $scope.$digest(cb);
+          $scope.$digest();
         });
       };
     });

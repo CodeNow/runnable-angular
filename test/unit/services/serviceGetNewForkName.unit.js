@@ -20,10 +20,10 @@ function makeInstances() {
   };
 }
 
-describe('serviceNewForkName'.bold.underline.blue, function () {
+describe('serviceGetNewForkName'.bold.underline.blue, function () {
   var getNewForkName, instances;
   beforeEach(function () {
-    angular.mock.module('app', function ($provide) {});
+    angular.mock.module('app');
     angular.mock.inject(function (_getNewForkName_) {
       getNewForkName = _getNewForkName_;
     });

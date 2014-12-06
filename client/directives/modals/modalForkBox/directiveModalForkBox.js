@@ -19,33 +19,38 @@ function modalForkBox(
       defaultActions: '='
     },
     link: function ($scope, element, attrs) {
+      $scope.$watch('data.newForkName', function (n, o) {
+        if (!n || n === o || !keypather.get($scope, 'data.instance.dependencies.models.length')) {
+          return;
+        }
+        updateEnvName($scope.data.instance, n, o, $scope.data.instance);
+      });
       $scope.data.newForkName = getNewForkName($scope.data.instance, $scope.data.instances);
+      updateEnvName(
+        $scope.data.instance,
+        $scope.data.newForkName,
+        $scope.data.instance.attrs.name,
+        $scope.data.instance
+      );
       $scope.data.forkDependencies = true;
 
-      $scope.$watch('data.newForkName', function(n, o) {
-        if (!n || !keypather.get($scope, 'data.instance.dependencies.models.length')) { return; }
-
-        $scope.data.instance.dependencies.models.forEach(function(instance) {
-          updateEnvName(instance, n, o, $scope.data.instance);
-        });
-      });
-      var depWatch = $scope.$watch('data.instance.dependencies', function(n) {
-        if (!n) { return; }
+      var depWatch = $scope.$watch('data.instance.dependencies', function (n) {
+        if (!n) {
+          return;
+        }
         // Cancel watch, it's served its purpose
         depWatch();
-        $scope.data.instance.dependencies.models.forEach(function(instance, idx) {
+        $scope.data.instance.dependencies.models.forEach(function (instance, idx) {
           var newName = getNewForkName(instance, $scope.data.instances);
-          $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function(n, o) {
-            if (!n || n === o) { return; }
+          $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function (n, o) {
+            if (!n || n === o) {
+              return;
+            }
             updateEnvName(instance, n, o, $scope.data.instance);
           });
           keypather.set(instance, 'state.name', newName);
           updateEnvName(instance, newName, instance.attrs.name, $scope.data.instance);
         });
-      });
-
-      $scope.$on('$destroy', function() {
-        console.log('fork Modal Destroyed');
       });
     }
   };

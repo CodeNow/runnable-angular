@@ -9,14 +9,29 @@ var $rootScope,
 var $elScope;
 var thisUser;
 var $httpBackend;
+var getNewForkNameStub;
 
 var apiMocks = require('../../apiMocks/index');
 
 function makeDefaultScope () {
   return {
     data: {
-      instance: apiMocks.instances.building,
-      instances: [apiMocks.instances.building, apiMocks.instances.running]
+      instance: {
+        attrs: apiMocks.instances.building,
+        state: {},
+        fetch: sinon.spy()
+      },
+      instances: [
+        {
+          attrs: apiMocks.instances.building,
+          state: {},
+          fetch: sinon.spy()
+        }, {
+          attrs: apiMocks.instances.running,
+          state: {},
+          fetch: sinon.spy()
+        }
+      ]
     },
     actions: {
       rebuild: function () {}
@@ -40,6 +55,11 @@ describe('directiveModal'.bold.underline.blue, function () {
   var ctx;
   function injectSetupCompile(scope, template) {
     angular.mock.module('app');
+    getNewForkNameStub = sinon.spy();
+    angular.mock.module('app', function ($provide) {
+      $provide.value('getNewForkName', getNewForkNameStub);
+    });
+
     angular.mock.inject(function (
       _$templateCache_,
       _$compile_,
@@ -94,47 +114,24 @@ describe('directiveModal'.bold.underline.blue, function () {
       expect($elScope.currentModel).to.deep.equal($scope.currentModel);
       expect($elScope.stateModel).to.deep.equal($scope.stateModel);
 
-      expect($elScope.defaultActions).to.be.undefined;
-      expect($elScope.actions.watchers).to.be.undefined;
-
-      var event = document.createEvent('MouseEvent');
-      event.initMouseEvent('click', true, true);
-      ctx.element[0].dispatchEvent(event);
-      $scope.$digest();
-
       // Check that the actions were added
       expect($elScope.defaultActions).to.be.ok;
       expect($elScope.defaultActions.save).to.be.a('function');
       expect($elScope.defaultActions.cancel).to.be.a('function');
       expect($elScope.defaultActions.close).to.be.a('function');
 
-      $scope.$destroy();
-      $scope.$digest();
-    });
-
-    it('should have given the scope to watchers on actions', function (done) {
-      var inputScope = makeDefaultScope();
-      inputScope.actions.watchers = [
-        function (scope) {
-          expect(scope).to.be.ok;
-          done();
-        }
-      ];
-      injectSetupCompile(inputScope);
-
       var event = document.createEvent('MouseEvent');
       event.initMouseEvent('click', true, true);
       ctx.element[0].dispatchEvent(event);
       $scope.$digest();
 
       $scope.$destroy();
-      $scope.$digest();
     });
   });
 
   describe('Opening a Modal', function () {
     it('should add the viewOpen* to the body for a non-generic Modal', function () {
-      var modalTemplate = 'viewOpenModalEnvironment';
+      var modalTemplate = 'viewOpenModalFork';
       injectSetupCompile(makeDefaultScope(), modalTemplate);
 
       var event = document.createEvent('MouseEvent');
@@ -145,11 +142,10 @@ describe('directiveModal'.bold.underline.blue, function () {
       expect($elScope.in).to.be.ok;
       expect($elScope.modal).to.be.ok;
       var jBody = jQuery('body');
-      var view = jBody.find('modal-environment');
+      var view = jBody.find('modal-fork-box');
       expect(view).to.be.ok;
 
       $scope.$destroy();
-      $scope.$digest();
     });
 
     it('should add the genericOpen to the body for a generic Modal', function () {
@@ -170,11 +166,10 @@ describe('directiveModal'.bold.underline.blue, function () {
       expect(modalView).to.be.ok;
 
       $scope.$destroy();
-      $scope.$digest();
     });
 
     it('should destroy the scope and remove the view from the body', function () {
-      var modalTemplate = 'viewOpenModalEnvironment';
+      var modalTemplate = 'viewOpenModalFork';
       injectSetupCompile(makeDefaultScope(), modalTemplate);
 
       var event = document.createEvent('MouseEvent');
@@ -185,15 +180,13 @@ describe('directiveModal'.bold.underline.blue, function () {
       expect($elScope.in).to.be.ok;
       expect($elScope.modal).to.be.ok;
       var jBody = jQuery('body');
-      var openView = jBody.find('modal-generic');
+      var openView = jBody.find('modal-fork-box');
       expect(openView).to.be.ok;
 
       $scope.$destroy();
-      $scope.$digest();
       expect($elScope.in).to.be.false;
       // The mouse click should no longer work
       expect(ctx.element[0].onclick).to.be.null;
-
     });
   });
 

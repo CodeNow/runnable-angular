@@ -158,7 +158,6 @@ function HelperInstanceActionsModal(
         });
       },
       cancel: function () {
-        data.newForkName = data.newName + COPY_SUFFIX;
         $scope.popoverGearMenu.data.show = false;
       }
     };

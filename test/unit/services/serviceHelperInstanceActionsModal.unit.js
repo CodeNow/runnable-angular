@@ -6,7 +6,6 @@ var $rootScope,
     ctx,
     updateEnvStub;
 
-var COPY_SUFFIX = '-copy';
 
 function makeFakeInstance (env, deps) {
   var instance = {
@@ -78,51 +77,6 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
       ctx.service($scope);
     });
   }
-
-  describe('watchers', function() {
-    var data;
-    var instance;
-    beforeEach(initState);
-    beforeEach(function() {
-      data = $scope.popoverGearMenu.data.dataModalRename;
-      instance = {
-        attrs: {
-          name: 'instance'
-        }
-      };
-    });
-    it('$scope.instance', function() {
-      expect(data.instance).to.be.null;
-
-      $scope.instance = instance;
-      $scope.$digest();
-      expect(data.instance).to.deep.equal(instance);
-      expect(data.newName).to.equal('instance');
-      expect(data.newForkName).to.equal('instance' + COPY_SUFFIX);
-      expect($scope.popoverGearMenu.data.instance).to.deep.equal(instance);
-    });
-    it('$scope.instances', function() {
-      expect(data.instances).to.be.null;
-
-      $scope.instances = [instance];
-      $scope.$digest();
-      expect(data.instances).to.deep.equal([instance]);
-      expect($scope.popoverGearMenu.data.instances).to.deep.equal([instance]);
-    });
-    it('$scope.build', function() {
-      var build = {
-        attrs:{
-          name: 'build'
-        }
-      };
-      expect(data.build).to.be.undefined;
-
-      $scope.build = build;
-      $scope.$digest();
-      expect(data.build).to.deep.equal(build);
-      expect($scope.popoverGearMenu.data.build).to.deep.equal(build);
-    });
-  });
 
   describe('actionsModalRename', function() {
     var mr;
@@ -282,49 +236,11 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
       });
     });
 
-    describe('watchers', function() {
-      var watcherFunc;
-      var $wScope;
-      beforeEach(function() {
-        // only one to test
-        watcherFunc = dmf.actions.watchers[0];
-        $wScope = $rootScope.$new();
-      });
-      // tfw no deps :<
-      it('does not do much without dependencies', function() {
-        watcherFunc($wScope);
-        $wScope.data = {
-          newForkName: 'newForkName'
-        };
-        $wScope.$digest();
-        $scope.$digest();
-        sinon.assert.notCalled(updateEnvStub);
-      });
-      it('watches for an instance name change', function() {
-        watcherFunc($wScope);
-        $wScope.data = {
-          newForkName: 'newForkName',
-          instance: {
-            dependencies: {
-              models: [{
-                attrs: {
-                  name: 'dep'
-                }
-              }]
-            }
-          }
-        };
-        $wScope.$digest();
-        $scope.$digest();
-        sinon.assert.called(updateEnvStub);
-      });
-    });
 
     describe('cancel'.blue, function() {
       it('should properly set variables', function() {
         dmf.data.newName = 'test';
         dmf.actions.cancel();
-        expect(dmf.data.newForkName).to.equal('test-copy');
         expect($scope.popoverGearMenu.data.show).to.be.false;
       });
     });
