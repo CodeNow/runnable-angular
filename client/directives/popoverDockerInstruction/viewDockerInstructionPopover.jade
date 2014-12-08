@@ -5,14 +5,14 @@
 )
   .arrow.white
   .popover-content.clearfix
+    pre.well.well-code.gray ADD &lt;src&gt;... &lt;dest&gt;
     p.popover-text
-      pre.btn.btn-block.btn-sm.gray ADD &lt;src&gt;... &lt;dest&gt;
       | The #{''}
-      pre.btn.btn-xxs.gray ADD
+      span.well.well-code.well-inline.gray ADD
       | #{''} instruction copies new files, directories or remote file URLs from #{''}
-      pre.btn.btn-xxs.gray &lt;src&gt;
+      span.well.well-code.well-inline.gray &lt;src&gt;
       | #{''} and adds them to the filesystem of the container at the path #{''}
-      pre.btn.btn-xxs.gray &lt;dest&gt;
+      span.well.well-code.well-inline.gray &lt;dest&gt;
       | #{''}. #{''}
       a.link.link-text.link-reference(
         href = "//docs.docker.com/reference/builder/#add"
