@@ -1,5 +1,5 @@
 .btn-popover-wrapper
-  button.btn-sm.gray(
+  button.btn.btn-sm.gray(
     toggle-pop-over
     toggle-pop-over-model = "instance.state.envShow"
     toggle-pop-over-no-broadcast = "true"
@@ -10,7 +10,7 @@
   pop-over(
     actions = "envPopover.actions"
     data = "instance"
-    popover-ready = "instance.state.envShow"
     popover-options = "{\"left\":-149,\"top\":54}"
+    popover-ready = "instance.state.envShow"
     template = "viewPopoverEnvironment"
   )

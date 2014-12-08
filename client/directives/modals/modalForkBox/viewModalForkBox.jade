@@ -65,7 +65,7 @@
   footer.modal-footer
     //- cancel is modalDirective
       - actions.cancel is parent controller
-    button.green(
+    button.btn.green(
       ng-class = "{ \
         green: data.forkForm.$valid, \
         orange: data.forkForm.$invalid \
@@ -73,7 +73,7 @@
       ng-disabled = "data.forkForm.$invalid"
       ng-click = "actions.forkInstance(data.newForkName, data.forkDependencies); defaultActions.cancel();"
     ) Fork Box
-    button.white(
+    button.btn.white(
       ng-click = "data.forkForm.$setPristine(); \
         defaultActions.cancel(); "
       type = "button"

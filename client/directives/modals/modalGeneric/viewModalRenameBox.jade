@@ -50,7 +50,7 @@
         span.validate-rules.invalid-name That's a pretty name, but it's taken.
 
   footer.modal-footer
-    button(
+    button.btn(
       data-action
       ng-class = "{\
         green: data.renameForm.$valid, \
@@ -60,7 +60,7 @@
         defaultActions.cancel();"
       ng-disabled = "data.renameForm.$invalid"
     ) Rename Box
-    button.white(
+    button.btn.white(
       ng-click = "data.newName = data.instance.attrs.name; \
         data.renameForm.$setPristine(); \
         defaultActions.cancel(); "

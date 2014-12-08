@@ -1,9 +1,0 @@
-#select-tabs.dropdown
-  button.btn-icon(type = "button")
-    svg.iconnables.icons-select
-      use(xlink:href = "#icons-select")
-  select(
-    ng-model = "activeItem"
-    ng-change = "openItems.activeHistory.add(activeItem)"
-    ng-options = "item.attrs.name for item in openItems.models"
-  )

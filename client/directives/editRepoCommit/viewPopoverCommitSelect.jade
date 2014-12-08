@@ -7,9 +7,9 @@
   )
     //- filter across all commits in that repo
     //- should clear on close
-    button.blue.btn-icon.btn-search(
+    button.btn.blue.btn-icon.btn-search(
       ng-click = "data.toggleFilter = !data.toggleFilter; \
-                  data.commitFilter = '';"
+        data.commitFilter = '';"
       ng-class = "{active: data.toggleFilter}"
       title = "Filter All Commits"
     )
@@ -26,7 +26,7 @@
 
     //- branch selector
     .btn-select.branch-btn
-      button.blue.pull-right
+      button.btn.blue.pull-right
         //- change this to a branch icon
         svg.iconnables.icons-git
           use(
@@ -38,9 +38,9 @@
             xlink:href = "#icons-arrow-down"
           )
       select.select(
-        name       = "data.activeBranch"
-        ng-model   = "data.activeBranch"
-        ng-change  = "actions.selectBranch(data.activeBranch)"
+        name = "data.activeBranch"
+        ng-change = "actions.selectBranch(data.activeBranch)"
+        ng-model = "data.activeBranch"
         ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
       )
 
@@ -69,7 +69,7 @@
     //- li.commit-group-item.commit-item-more(
     //-   ng-if = "data.state.commits.length && !data.state.allCommitsLoaded"
     //- )
-    //-   button.blue.btn-block Load Older
+    //-   button.btn.blue.btn-block Load Older
     //- li.commit-group-item(
     //-   ng-if = "!data.state.commits.length"
     //- )
