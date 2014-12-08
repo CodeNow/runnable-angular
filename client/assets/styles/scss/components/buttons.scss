@@ -37,25 +37,40 @@ button,
     opacity: .5;
   }
 
-  &.btn-sm {
-    height: 36px;
-    line-height: 36px;
-    padding: 0 6px;
-  }
+  // if .arrow-down
+  .icons-arrow-down {
+    float: right;
+    top: 18px;
+    transition: opacity .2s ease-in, transform .3s ease-in;
 
-  &.btn-xs {
-    height: 24px;
-    line-height: 24px;
-    padding: 0 6px;
+    // flip arrow
+    .in &,
+    .active & {
+      transform: rotate3d(1,0,0,-180deg);
+    }
   }
+}
 
-  // only for inline buttons
-  &.btn-xxs {
-    font-size: 12px;
-    height: 18px;
-    line-height: 18px;
-    padding: 0 3px;
-  }
+// button sizes
+.btn-sm {
+  height: 36px;
+  line-height: 36px;
+  padding: 0 6px;
+}
+
+.btn-xs {
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
+}
+
+// only for inline buttons
+.btn-xxs {
+  font-size: 12px;
+  height: 18px;
+  line-height: 18px;
+  padding: 0 3px;
+}
 
   // github icon with text
   > .icons-git {
@@ -340,7 +355,7 @@ button,
 }
 
 .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
-.btn-group > button:not(:first-child):not(:last-child):not(.dropdown-toggle)  {
+.btn-group > button:not(:first-child):not(:last-child):not(.dropdown-toggle) {
   border-radius: 0;
 }
 
@@ -394,7 +409,6 @@ button,
   border-radius: 3px;
   font-size: 12px;
   line-height: 1.5;
-  padding: 5px 10px;
   padding: 1px 5px;
 }
 
@@ -439,7 +453,7 @@ button,
 
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
-  content: " ";
+  content: '';
   /* 1 */
 
   display: table;
@@ -453,7 +467,7 @@ button,
 
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
-  content: " ";
+  content: '';
   /* 1 */
 
   display: table;

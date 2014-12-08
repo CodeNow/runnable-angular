@@ -3,10 +3,10 @@
 )
   .arrow.white
   .popover-content.clearfix
+    pre.well.well-code.gray EXPOSE &lt;port&gt; [&lt;port&gt;...]
     p.popover-text
-      pre.btn.btn-block.btn-sm.gray EXPOSE &lt;port&gt; [&lt;port&gt;...]
       | The #{''}
-      pre.btn.btn-xxs.gray EXPOSE
+      span.well.well-code.well-inline.gray EXPOSE
       | #{''} instructions informs Docker that the container will listen on the specified network ports at runtime.
       a.link.link-text.link-reference(
         href = "//docs.docker.com/reference/builder/#expose"
