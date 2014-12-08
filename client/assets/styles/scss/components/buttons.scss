@@ -34,26 +34,6 @@ button,
     opacity: .5;
   }
 
-  &.btn-sm {
-    height: 36px;
-    line-height: 36px;
-    padding: 0 6px;
-  }
-
-  &.btn-xs {
-    height: 24px;
-    line-height: 24px;
-    padding: 0 6px;
-  }
-
-  // only for inline buttons
-  &.btn-xxs {
-    font-size: 12px;
-    height: 18px;
-    line-height: 18px;
-    padding: 0 3px;
-  }
-
   // if .arrow-down
   .icons-arrow-down {
     float: right;
@@ -66,6 +46,27 @@ button,
       transform: rotate3d(1,0,0,-180deg);
     }
   }
+}
+
+// button sizes
+.btn-sm {
+  height: 36px;
+  line-height: 36px;
+  padding: 0 6px;
+}
+
+.btn-xs {
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
+}
+
+// only for inline buttons
+.btn-xxs {
+  font-size: 12px;
+  height: 18px;
+  line-height: 18px;
+  padding: 0 3px;
 }
 
 // .btn-icon
