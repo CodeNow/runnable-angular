@@ -99,6 +99,7 @@ function demoLayout (
     if (n === 2) {
       // Grab the isolate scope
       var el = $window.document.querySelector('main > section.sidebar.box-sidebar.ng-scope > section > h2');
+      if (!el) { return; }
       elScope = angular.element(el).scope();
 
       // Update the Dockerfile on repo add/remove
