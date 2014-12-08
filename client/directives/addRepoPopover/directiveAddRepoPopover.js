@@ -16,7 +16,6 @@ function addRepoPopover(
   return {
     restrict: 'E',
     templateUrl: 'viewAddRepoPopover',
-    replace: true,
     scope: {
       show: '='
     },
