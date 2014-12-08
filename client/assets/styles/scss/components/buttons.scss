@@ -329,7 +329,7 @@ button,
 }
 
 .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),
-.btn-group > button:not(:first-child):not(:last-child):not(.dropdown-toggle)  {
+.btn-group > button:not(:first-child):not(:last-child):not(.dropdown-toggle) {
   border-radius: 0;
 }
 
@@ -383,7 +383,6 @@ button,
   border-radius: 3px;
   font-size: 12px;
   line-height: 1.5;
-  padding: 5px 10px;
   padding: 1px 5px;
 }
 
@@ -428,7 +427,7 @@ button,
 
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
-  content: " ";
+  content: '';
   /* 1 */
 
   display: table;
@@ -442,7 +441,7 @@ button,
 
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
-  content: " ";
+  content: '';
   /* 1 */
 
   display: table;
