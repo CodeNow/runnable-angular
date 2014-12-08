@@ -4,6 +4,7 @@
   margin: 0 6px;
   padding: 0 3px;
 
+  // border and bg not shown by default
   &.in {
     background: $gray-lighter;
     border: 1px solid rgba($black,.1);
