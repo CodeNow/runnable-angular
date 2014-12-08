@@ -24,12 +24,12 @@
     .guide.guide-no-help.blue(
     )
       h3.guide-header Using Environment Variables
-      pre.btn.btn-xs.blue.hover &lt;key&gt;=&lt;value&gt;
+      pre.well.well-code &lt;key&gt;=&lt;value&gt;
       p.guide-text
         | Variables listed here are added to the box during startup.
         br
         | Example notation:
-      pre.btn.btn-xs.blue.hover DB_HOST=db.run.runnable.io
+      pre.well.well-code DB_HOST=db.run.runnable.io
 
       button.btn.blue.btn-xs.btn-close(
         ng-click = "onChangeHideGuideEnv()"
@@ -73,16 +73,16 @@
   )
     p.guide-text
       | Boxes that can be linked are listed here. Enable linking on a box by adding the #{''}
-      b.btn.btn-xxs.gray(
+      span.btn.btn-xxs.well.well-code.well-inline.gray(
         ng-class = "{active: popoverExposeInstruction.data.show}"
         toggle-pop-over
         toggle-pop-over-model = "popoverExposeInstruction.data.show"
       ) EXPOSE
-      | #{''} instruction in its Dockerfile to open one or more ports.
+      | #{''} instruction in its Dockerfile to open ports.
       pop-over(
         actions = "popoverExposeInstruction.actions"
         data = "popoverExposeInstruction.data"
-        popover-options = "{\"left\":-205,\"top\":54}"
+        popover-options = "{\"left\":-70,\"top\":108}"
         template = "viewExposeInstruction"
       )
 
