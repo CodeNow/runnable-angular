@@ -75,9 +75,19 @@ main.content
   header.box-header
     //- edit mark
     .guide-wrapper.guide-4(
+      toggle-pop-over
+      toggle-pop-over-model = "popoverCoachMarksEdit.data.show"
       style = "left: auto; right: 308px; top: 18px;"
     )
-      .guide.guide-mark
+      .guide.guide-mark(
+        ng-class = "{in: popoverCoachMarksEdit.data.show}"
+      )
+      pop-over(
+        actions = "popoverCoachMarksEdit.actions"
+        data = "popoverCoachMarksEdit.data"
+        popover-options = "{\"left\":-138,\"top\":18}"
+        template = "viewCoachMarksEditPopover"
+      )
 
     h1.box-info.load
       .box-name demo-name
