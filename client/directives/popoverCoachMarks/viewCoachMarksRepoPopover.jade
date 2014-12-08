@@ -1,10 +1,10 @@
 .popover.bottom.popover-guides(
-  ng-class = "{in: data.in}"
+  ng-class = "{in: data.show}"
 )
   .arrow.white
   .popover-content.clearfix
-    h3.popover-header Each Box is Special
-    p.popover-text Boxes are unique things that have unique URLs that anyone can see.
+    h3.popover-header [Your Repository Here]
+    p.popover-text After signing in, you would be able to run your own repositories on any box. We've attached a basic &lsquo;Hello World&rsquo; repo for now.
     a.link.link-text.link-gray(
-      ng-click = "actions.nextPage()"
-    ) Close
+      ng-click = "data.show = !data.show"
+    ) Dismiss
