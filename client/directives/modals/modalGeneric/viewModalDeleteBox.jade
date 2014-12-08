@@ -8,10 +8,10 @@
       strong {{ data.instance.attrs.name }}
       | , will be permanently removed.
   footer.modal-footer
-    button.orange(
+    button.btn.orange(
       ng-click = "actions.deleteInstance(); \
-                  defaultActions.cancel();"
+        defaultActions.cancel();"
     ) Delete Box
-    button.white(
+    button.btn.white(
       ng-click = "defaultActions.cancel()"
     ) Go Back

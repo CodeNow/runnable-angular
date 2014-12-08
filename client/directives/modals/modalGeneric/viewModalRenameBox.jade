@@ -35,22 +35,22 @@
         )
       //- .invalid-pattern for names with invalid characters
         - .invalid-name for names that are taken
-      .validate-wrapper.btn.btn-sm.orange(
+      .validate-wrapper.btn-sm.orange(
         ng-class = "{\
           'invalid-pattern': data.renameForm.$error.namePattern.length,\
           'invalid-name': data.renameForm.$error.nameAvailable.length\
         }"
       )
         span.validate-rules.invalid-pattern Please use #{''}
-          b.btn.btn-xs.orange A-Z
-          b.btn.btn-xs.orange a-z
-          b.btn.btn-xs.orange 0-9
-          b.btn.btn-xs.orange _
-          b.btn.btn-xs.orange -
+          b.btn-xs.orange A-Z
+          b.btn-xs.orange a-z
+          b.btn-xs.orange 0-9
+          b.btn-xs.orange _
+          b.btn-xs.orange -
         span.validate-rules.invalid-name That's a pretty name, but it's taken.
 
   footer.modal-footer
-    button(
+    button.btn(
       data-action
       ng-class = "{\
         green: data.renameForm.$valid, \
@@ -60,7 +60,7 @@
         defaultActions.cancel();"
       ng-disabled = "data.renameForm.$invalid"
     ) Rename Box
-    button.white(
+    button.btn.white(
       ng-click = "data.newName = data.instance.attrs.name; \
         data.renameForm.$setPristine(); \
         defaultActions.cancel(); "

@@ -2,7 +2,7 @@
   .btn-group
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
-    button.green.btn-save(
+    button.btn.green.btn-save(
       ng-class = "{in: saving}"
       ng-click = "saveChanges()"
       ng-disabled = "!instance.containers.models[0].running() || loading"
@@ -13,7 +13,7 @@
       span.btn-text(
         ng-if = "popoverSaveOptions.data.restartOnSave"
       ) #{''} and Restart
-    button.green.btn-icon.btn-icon-sm.btn-save-options(
+    button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
       ng-class = "{active: popoverSaveOptions.data.show}"
       ng-disabled = "!instance.containers.models[0].running() || loading"
       toggle-pop-over
