@@ -92,7 +92,7 @@ input ~ small {
 
 .link-reference {
   font-size: 12px;
-  vertical-align: super;
+  vertical-align: text-top;
 }
 
 // single line overflow
@@ -100,4 +100,11 @@ input ~ small {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+// ul.list-text
+.list-text {
+  list-style-type: circle;
+  margin: 12px;
+  padding: inherit;
 }

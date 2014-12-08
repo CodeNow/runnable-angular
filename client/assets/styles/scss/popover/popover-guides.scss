@@ -4,18 +4,24 @@
     padding: 12px 15px;
   }
 
-  // pre.btn.btn-block.btn-sm.gray
-  .btn-sm {
-    cursor: default;
-    margin: 0 0 6px;
+  // .well.well-code
+  .well-code {
+    font-size: 14px;
+    margin: 0 -6px;
+    width: 100%;
+
+    + .popover-text {
+      margin-top: 6px;
+    }
   }
 
-  // pre.btn.btn-xxs.gray
-  .btn-xxs {
-    cursor: default;
-    top: 3px;
+  // .well.well-code.well-code-inline
+  .well-inline {
+    margin: 0;
+    width: auto;
   }
 
+  // dismiss or close link
   .link-gray {
     display: inline-block;
     float: right;
