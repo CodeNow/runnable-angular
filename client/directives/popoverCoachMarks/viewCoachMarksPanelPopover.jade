@@ -3,9 +3,12 @@
 )
   .arrow.white
   .popover-content.clearfix
-    h3.popover-header Each Box is Special
-    p Boxes are unique things that have unique URLs that anyone can see.
-    //- dismiss should also clear the coachmark
+    h3.popover-header What's In the Box?
+    p We provide the tools to help you do things:
+    ul.list-text
+      li File Browser
+      li Terminal Access
+      li Many Kinds of Logs
     a.link.link-text.link-gray(
       ng-click = "data.show = !data.show"
     ) Dismiss

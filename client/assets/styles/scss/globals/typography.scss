@@ -101,3 +101,10 @@ input ~ small {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+// ul.list-text
+.list-text {
+  list-style-type: circle;
+  margin: 12px;
+  padding: inherit;
+}

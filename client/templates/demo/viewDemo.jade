@@ -55,11 +55,21 @@ nav.sidebar.global-sidebar.demo-sidebar
     popover-options = "{\"left\":-138,\"top\":18}"
     template = "viewCoachMarksRepoPopover"
   )
-//- views mark
+//- panels mark
 .guide-wrapper.guide-3(
+  toggle-pop-over
+  toggle-pop-over-model = "popoverCoachMarksPanel.data.show"
   style = "left: 565px; top: 62px;"
 )
-  .guide.guide-mark
+  .guide.guide-mark(
+    ng-class = "{in: popoverCoachMarksPanel.data.show}"
+  )
+  pop-over(
+    actions = "popoverCoachMarksPanel.actions"
+    data = "popoverCoachMarksPanel.data"
+    popover-options = "{\"left\":-138,\"top\":18}"
+    template = "viewCoachMarksPanelPopover"
+  )
 
 main.content
   header.box-header
