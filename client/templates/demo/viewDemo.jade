@@ -27,17 +27,17 @@ nav.sidebar.global-sidebar.demo-sidebar
 //- url mark
 .guide-wrapper.guide-1(
   toggle-pop-over
-  toggle-pop-over-model = "popoverGuidesUrls.data.show"
-  style = "left: 225px; top: 32px;"
+  toggle-pop-over-model = "popoverCoachMarksBoxName.data.show"
+  style = "left: 230px; top: 12px;"
 )
   .guide.guide-mark(
-    ng-class = "{in: popoverGuidesUrls.data.show}"
+    ng-class = "{in: popoverCoachMarksBoxName.data.show}"
   )
   pop-over(
-    actions = "popoverGuidesUrls.actions"
-    data = "popoverGuidesUrls.data"
-    popover-options = "{\"left\":-138px,\"top\":18px}"
-    template = "viewGuidesUrlsPopover"
+    actions = "popoverCoachMarksBoxName.actions"
+    data = "popoverCoachMarksBoxName.data"
+    popover-options = "{\"left\":-138,\"top\":18}"
+    template = "viewCoachMarksBoxNamePopover"
   )
 //- repo mark
 .guide-wrapper.guide-2(
@@ -49,14 +49,14 @@ nav.sidebar.global-sidebar.demo-sidebar
   style = "left: 565px; top: 62px;"
 )
   .guide.guide-mark
-//- edit mark
-.guide-wrapper.guide-4(
-  style = "left: 925px; top: 17px;"
-)
-  .guide.guide-mark
 
 main.content
   header.box-header
+    //- edit mark
+    .guide-wrapper.guide-4(
+      style = "left: auto; right: 308px; top: 18px;"
+    )
+      .guide.guide-mark
 
     h1.box-info.load
       .box-name demo-name
@@ -75,11 +75,11 @@ main.content
 
     .primary-actions
       .btn-group
-        button.green.btn-save(
+        button.btn.green.btn-save(
           type = "button"
         )
           span.btn-text Save
-        button.green.btn-icon.btn-icon-sm.btn-save-options(
+        button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
           type = "button"
         )
           svg.iconnables.icons-arrow-down
@@ -88,7 +88,7 @@ main.content
             )
 
     .secondary-actions
-      button.white.btn-action(
+      button.btn.white.btn-action(
         type = "button"
       )
         svg.iconnables.icons-edit
@@ -96,7 +96,7 @@ main.content
             xlink:href = "#icons-edit"
           )
         | Edit
-      button.white.btn-action(
+      button.btn.white.btn-action(
         modal
         modal-actions = "actions.actionsModalSignIn"
         modal-data = "data.dataModalSignIn"
