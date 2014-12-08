@@ -17,7 +17,8 @@ function popOver(
     replace: true,
     scope: {
       data: '=',
-      actions: '='
+      actions: '=',
+      popoverReady: '='
     },
     link: function ($scope, element, attrs) {
       var $ = jQuery;
@@ -66,6 +67,19 @@ function popOver(
       $($window).on('resize', dSetCSS);
 
       $('body').append(popEl);
+      $scope.$watch('popoverReady', setCSS);
+      $scope.$watch(function () {
+        return element.hasClass('in');
+      }, function(n) {
+        if (n) {
+          var autofocus = element[0].querySelector('[autofocus]');
+          if (autofocus) {
+            $rootScope.safeApply(function() {
+              autofocus.select();
+            });
+          }
+        }
+      });
 
       $scope.$watch(function () {
         return element.hasClass('in');

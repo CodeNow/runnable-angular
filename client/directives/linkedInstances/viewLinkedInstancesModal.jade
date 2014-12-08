@@ -15,7 +15,6 @@
     | Include linked boxes
 
   div(
-    ng-init = "instance.state.name = instance.attrs.name + '-copy'"
     ng-repeat = "instance in instanceDependencies.models | orderBy:'attrs.name'"
   )
     ng-form(
@@ -42,6 +41,7 @@
           placeholder = "My-Box"
           validate-name = "instances"
           validate-name-pattern
+          autocomplete = "off"
           validate-name-current-instance-valid = "false"
         )
         environment-button(
@@ -50,7 +50,7 @@
         )
       //- .invalid-pattern for names with invalid characters
         - .invalid-name for names that are taken
-      .validate-wrapper.btn.btn-sm.orange(
+      .validate-wrapper.btn-sm.orange(
         ng-class = "{\
           in: depForm.$invalid,\
           'invalid-pattern': depForm.$error.namePattern.length,\
@@ -58,9 +58,9 @@
         }"
       )
         span.validate-rules.invalid-pattern Please use #{''}
-          b.btn.btn-xs.orange A-Z
-          b.btn.btn-xs.orange a-z
-          b.btn.btn-xs.orange 0-9
-          b.btn.btn-xs.orange _
-          b.btn.btn-xs.orange -
+          b.btn-xs.orange A-Z
+          b.btn-xs.orange a-z
+          b.btn-xs.orange 0-9
+          b.btn-xs.orange _
+          b.btn-xs.orange -
         span.validate-rules.invalid-name That's a pretty name, but it's taken.

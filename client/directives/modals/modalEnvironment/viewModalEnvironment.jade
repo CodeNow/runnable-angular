@@ -20,11 +20,18 @@
             xlink:href = "#icons-sidebar"
           )
     //- guide text should only appear once until dismissed
-    .guide.guide-no-help.blue(
       ng-if = '!data.hideGuideHelpEnvModal'
+    .guide.guide-no-help.blue(
     )
-      p.guide-text Environmental files are good at protecting our fires from trees. Use it for linking boxes or setting up environment variables.
-      button.btn.blue.btn-xs(
+      h3.guide-header Using Environment Variables
+      pre.btn.btn-xs.blue.hover &lt;key&gt;=&lt;value&gt;
+      p.guide-text
+        | Variables listed here are added to the box during startup.
+        br
+        | Example notation:
+      pre.btn.btn-xs.blue.hover DB_HOST=db.run.runnable.io
+
+      button.btn.blue.btn-xs.btn-close(
         ng-click = "onChangeHideGuideEnv()"
       )
         svg.iconnables.icons-close
@@ -44,19 +51,19 @@
       //- 0.3 SAN-436
         - to do:
         - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
-      button.green(
+      button.btn.green(
         ng-if = "data.showRebuild"
         ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
         ng-disabled = "!validation.valid"
         type = "button"
       ) Save and Restart
-      button.green(
+      button.btn.green(
         ng-if = "!data.showRebuild"
         ng-click = "defaultActions.save(tempModel, ['env'], defaultActions.cancel)"
         ng-disabled = "!validation.valid"
         type = "button"
       ) Save
-      button.white(
+      button.btn.white(
         ng-click = "defaultActions.cancel()"
         type = "button"
       ) Go Back
@@ -64,14 +71,21 @@
   aside.modal-sidebar.boxes(
     ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
   )
-    //- Empty State
-    p.demo-sidebar-hint This text should explain what linking is and why it's useful.
-    p.demo-sidebar-hint This text should explain how #{''}
+    p.guide-text
+      | Boxes that can be linked are listed here. Enable linking on a box by adding the #{''}
       b.btn.btn-xxs.gray(
-        tooltip = "The EXPOSE instructions informs Docker that the container will listen on the specified network ports at runtime. Docker uses this information to interconnect containers using links. Note that EXPOSE only works for inter-container links. It doesn't make ports accessible from the host.[1]"
-        tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":6,\"top\":21}"
+        ng-class = "{active: popoverExposeInstruction.data.show}"
+        toggle-pop-over
+        toggle-pop-over-model = "popoverExposeInstruction.data.show"
       ) EXPOSE
-      | #{''} is used to link boxes.
+      | #{''} instruction in its Dockerfile to open one or more ports.
+      pop-over(
+        actions = "popoverExposeInstruction.actions"
+        data = "popoverExposeInstruction.data"
+        popover-options = "{\"left\":-205,\"top\":54}"
+        template = "viewExposeInstruction"
+      )
+
   //- if boxes with exposed ports
   aside.modal-sidebar.boxes(
     ng-if = "(data.instances.models | instancesWithOpenPorts:data.instance).length"

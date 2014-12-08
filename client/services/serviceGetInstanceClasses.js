@@ -14,8 +14,9 @@ function getInstanceClasses(
     var container = keypather.get(instance, 'containers.models[0]');
     var build = keypather.get(instance, 'build');
     var h = {};
+    var hasDeps = keypather.get(instance, 'dependencies.models.length');
     h.active = (instance.attrs.name === $stateParams.instanceName);
-    h.expanded = (!!instance.dependencies && h.active);
+    h.expanded = (h.active && hasDeps);
     h.running = container && container.running();
     h.stopped = !h.running;
     h.building = build && !build.attrs.completed;

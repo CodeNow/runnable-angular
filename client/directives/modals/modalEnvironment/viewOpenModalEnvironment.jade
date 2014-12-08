@@ -1,9 +1,9 @@
 .modal-backdrop(
+  ng-if = "in"
   ng-click = "$event.stopPropagation()"
   ng-class = "{'in': in}"
 )
    modal-environment(
-     ng-if = "in"
      state-model = "stateModel"
      current-model = "currentModel"
      actions = "actions"

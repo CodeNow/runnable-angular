@@ -84,6 +84,16 @@
   height: 60px;
   line-height: 60px;
   position: relative;
+
+  // offset for vertical-align: middle
+  > .btn-group {
+    top: -2px;
+
+    > .btn[disabled],
+    > .btn.disabled {
+      margin: 0;
+    }
+  }
 }
 
 .primary-actions {
@@ -103,41 +113,16 @@
 }
 
 .secondary-actions {
-  padding-right: 9px;
-
-  &::after {
-    background: rgba($black,.1);
-    content: '';
-    display: block;
-    height: 36px;
-    position: absolute;
-    right: 0;
-    top: 12px;
-    width: 1px;
-  }
 
   .white {
     margin-left: 3px;
   }
 
-  .btn-action {
-
-    .iconnables {
-      margin-right: 4px;
-      top: 6px;
-      width: 21px;
-    }
+  .btn-action .iconnables {
+    margin-right: 4px;
+    top: 6px;
+    width: 21px;
   }
-}
-
-// button.green.btn-save
-.btn-save {
-  border-right-color: rgba($green,.15);
-}
-
-// button.green.btn-icon.btn-icon-sm.btn-save-options
-.btn-save-options {
-  border-left-color: rgba($green,.15);
 }
 
 // .spinner.save-spinner
@@ -157,7 +142,7 @@
 
     .spinner {
 
-      &::before{
+      &::before {
         animation: rotate 1s ease forwards;
       }
 

@@ -24,6 +24,13 @@ function modalEnvironment(
       $scope.validation = {};
       $scope.tempModel = {};
 
+      $scope.popoverExposeInstruction = {
+        data: {
+          show: false
+        },
+        actions: {}
+      };
+
       $scope.pasteLinkedInstance = function (text) {
         $scope.$broadcast('eventPasteLinkedInstance', text);
       };

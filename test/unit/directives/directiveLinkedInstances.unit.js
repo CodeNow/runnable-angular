@@ -21,6 +21,9 @@ function makeDeps () {
         },
         env: ['a=b']
       },
+      state: {
+        name: 'hello-copy'
+      },
       fetch: fetch
     }, {
       attrs: {
@@ -70,7 +73,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
 
     ctx = {};
     $scope.scp = makeDeps();
-    $scope.instances = {};
+    $scope.instances = makeDeps().models;
     ctx.template = directiveTemplate('linked-instances', {
       'instance-dependencies': 'scp.deps',
       'instances': 'instances',

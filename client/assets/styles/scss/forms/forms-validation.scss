@@ -28,6 +28,8 @@
 // .validate-wrapper
 .validate-wrapper {
   border: 0;
+  border-radius: 3px;
+  line-height: 36px;
   overflow: hidden;
   position: relative;
 }
@@ -42,7 +44,8 @@
   transition: opacity .15s ease-in;
 
   .btn-xs {
-    cursor: default;
+    border-radius: 3px;
+    line-height: 1.4;
     margin: 0 3px;
     padding: 0 6px;
   }

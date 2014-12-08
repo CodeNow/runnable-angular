@@ -30,7 +30,7 @@ section.row.boxes
     //- .runnning for running box
 
     //- if not .active
-    li.box-group-item.white.load(
+    li.box-group-item.btn.white.load(
       ng-class = "getInstanceClasses(instance)"
       ng-repeat = "instance in instances.models | orderBy:'attrs.name'"
       ng-show = "instances.models.length && !showSpinner"

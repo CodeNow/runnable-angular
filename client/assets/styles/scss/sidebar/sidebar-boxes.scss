@@ -7,16 +7,10 @@
   z-index: $z-sidebar-content;
 
   .sub-header {
-    background: rgba($gray-lighter,.75);
-    box-shadow: 0 6px 6px rgba($gray-lighter,.6);
+    background: rgba($gray-lighter,.9);
     flex: 0 0 auto;
     transition: background .15s ease-in, box-shadow .15s ease-in;
     z-index: $z-sidebar-sub-header;
-
-    &:hover {
-      background: rgba($gray-lighter,.9);
-      box-shadow: 0 6px 6px rgba($gray-lighter,.75);
-    }
   }
 
   .spinner-container {
@@ -45,6 +39,7 @@
   overflow: hidden;
   padding: 0 23px 0 9px;
   position: relative;
+  text-align: left;
   text-overflow: ellipsis;
   transition: all .15s ease-in;
   white-space: nowrap;
