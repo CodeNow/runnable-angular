@@ -151,44 +151,62 @@ button,
 }
 
 .green {
-  background: rgba($green,.1);
-  border-color: rgba($green,.3);
-  color: $green;
+  background: rgba($green,.75);
+  border-color: rgba($green,.9);
 
-  &:hover {
-    border-color: rgba($green,.6);
+  &:hover,
+  &.hover {
+    background: rgba($green,.6);
   }
 
   &:active,
   &.active {
-    border-color: rgba($green,.75);
+    background: $green;
+    border-color: $green;
+    transition: none;
   }
 
   &[disabled],
   &.disabled {
+    border-color: transparent;
 
     &:hover,
     &:active,
     &.active {
-      border-color: rgba($green,.3);
+      background: rgba($green,.75);
+      border-color: transparent;
     }
   }
 }
 
 .orange {
-  background: rgba($orange,.1);
-  border-color: rgba($orange,.3);
-  color: $orange-dark;
+  background: rgba($orange,.75);
+  border-color: rgba($orange-dark,.75);
 
-  &:hover {
-    border-color: rgba($orange,.6);
+  &:hover,
+  &.hover {
+    background: rgba($orange,.6);
   }
 
   &:active,
   &.active {
-    border-color: rgba($orange,.9);
+    background: $orange;
+    border-color: $orange;
+    transition: none;
   }
-}
+
+  &[disabled],
+  &.disabled {
+    border-color: transparent;
+
+    &:hover,
+    &:active,
+    &.active {
+      background: rgba($orange,.75);
+      border-color: transparent;
+    }
+  }
+ }
 
 .purple {
   background: rgba($purple,.1);
