@@ -8,6 +8,7 @@ function addRepoPopover(
   keypather,
   pick,
   QueryAssist,
+  fetchUser,
   $rootScope,
   $state,
   $stateParams,
@@ -111,20 +112,6 @@ function addRepoPopover(
         activeBranch.state = {};
         $rootScope.safeApply();
         return activeBranch;
-      }
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $scope.repoListPopover.data.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
       }
 
       function fetchInstance(cb) {
@@ -239,7 +226,15 @@ function addRepoPopover(
       }
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function (err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $scope.repoListPopover.data.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchBuild,
         fetchBuildContextVersions,
         fetchAllOwnerRepos

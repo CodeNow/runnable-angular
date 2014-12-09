@@ -17,6 +17,7 @@ function ControllerSetup(
   OpenItems,
   user,
   QueryAssist,
+  fetchUser,
   $window
 ) {
 
@@ -48,22 +49,6 @@ function ControllerSetup(
   data.openItems = new OpenItems();
   data.showExplorer = false;
   data.loading = false;
-
-  // Redirect to /new if this build has already been built
-  function fetchUser(cb) {
-    new QueryAssist(user, cb)
-      .wrapFunc('fetchUser')
-      .query('me')
-      .cacheFetch(function (user, cached, cb) {
-        data.user = user;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, user, cb) {
-        if (err) { throw err; }
-      })
-      .go();
-  }
 
   function fetchBuild(cb) {
     new QueryAssist(data.user, cb)
@@ -113,7 +98,14 @@ function ControllerSetup(
       $scope.safeApply();
       cb();
     },
-    fetchUser,
+    function (cb) {
+      fetchUser(function(err, user) {
+        if (err) { return cb(err); }
+        data.user = user;
+        $scope.safeApply();
+        cb();
+      });
+    },,
     fetchBuild,
     fetchInstances
   ]);

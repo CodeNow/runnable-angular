@@ -8,6 +8,7 @@ function webView(
   async,
   keypather,
   QueryAssist,
+  fetchUser,
   $rootScope,
   $sce,
   $stateParams,
@@ -21,24 +22,18 @@ function webView(
     link: function ($scope, elem) {
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function(err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchInstance
       ], function () {
         $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls()[0]);
       });
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
 
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
