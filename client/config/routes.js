@@ -40,8 +40,8 @@ module.exports = [
     state: 'demo.anon',
     abstract: false,
     url: '^/demo/:userName/:instanceName',
-    templateUrl: 'viewInstanceAnon',
-    controller: 'ControllerInstanceAnon'
+    templateUrl: 'viewInstance',
+    controller: 'ControllerInstance'
   }, {
     state: 'demo.fork',
     abstract: false,

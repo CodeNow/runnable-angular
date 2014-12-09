@@ -37,6 +37,8 @@ function ControllerInstance(
     in: false
   };
 
+  data.isDemo = $state.$current.name === 'demo.anon';
+
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
   // button in this situation)

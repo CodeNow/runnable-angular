@@ -28,6 +28,11 @@ header.box-header
     instances = "dataInstance.data.instances"
     instance = "dataInstance.data.instance"
     saving = "dataInstance.data.saving"
+    ng-if = "!dataInstance.data.isDemo"
+  )
+
+  instance-anon-secondary-actions(
+    ng-if = "dataInstance.data.isDemo"
   )
 
 //- sidebar with repositories and urls
