@@ -121,11 +121,24 @@ function HelperInstanceActionsModal(
       forkInstance: function (newName, forkDeps, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
+        var tempOpts = [{
+          instance: $scope.instance,
+          name: newName,
+          env: $scope.instance.state.env ? $scope.instance.state.env : $scope.instance.attrs.env
+        }];
+        if (forkDeps && keypather.get($scope, 'instance.dependencies.models.length')) {
+          $scope.instance.dependencies.models.forEach(function(instance) {
+            tempOpts.push({
+              instance: instance,
+              name: instance.state.name,
+              env: instance.state.env ? instance.state.env : instance.attrs.env
+            });
+          });
+        }
         // TODO display loading overlay
-        function fork (instance, cb) {
-          var opts = {};
-          opts.name = instance.state.name;
-          opts.env = instance.state.env ? instance.state.env : instance.attrs.env;
+        function fork (opts, cb) {
+          var instance = opts.instance;
+          delete opts.instance;
           instance.copy(opts, function (err) {
             if (err) { throw err; }
             $rootScope.safeApply();
@@ -134,27 +147,15 @@ function HelperInstanceActionsModal(
             cb();
           });
         }
-        async.parallel([
-          function (cb) {
-            if (forkDeps && keypather.get($scope, 'instance.dependencies.models.length')) {
-              async.each($scope.instance.dependencies.models, fork, cb);
-            } else {
-              cb();
-            }
-          },
-          function (cb) {
-            keypather.set($scope, 'instance.state.name', newName);
-            fork($scope.instance, cb);
-          },
-        ], function (err) {
+        async.each(tempOpts, fork, function (err) {
           if (err) { throw err; }
+          if (cb) {
+            cb();
+          }
           $state.go('instance.instance', {
             userName: $stateParams.userName,
             instanceName: newName
           });
-          if (cb) {
-            cb();
-          }
         });
       },
       cancel: function () {
