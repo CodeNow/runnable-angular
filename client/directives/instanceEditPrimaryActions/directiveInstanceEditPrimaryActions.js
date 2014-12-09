@@ -100,7 +100,7 @@ function instanceEditPrimaryActions(
             cb();
           })
           .resolve(function (err) {
-            throw err;
+            if (err) { throw err; }
           })
           .go();
       }
