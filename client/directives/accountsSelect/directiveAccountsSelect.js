@@ -77,7 +77,7 @@ function accountsSelect(
 
       function fetchOrgs(cb) {
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
-          if (err) throw err;
+          if (err) { throw err; }
           // TODO: heap
           cb();
         });

@@ -31,7 +31,7 @@ function explorer(
             cb();
           })
           .resolve(function (err, user, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             cb();
           })
           .go();
@@ -77,7 +77,7 @@ function explorer(
             cb();
           })
           .resolve(function (err, build, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             cb();
           })
           .go();

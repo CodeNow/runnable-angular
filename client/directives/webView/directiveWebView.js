@@ -72,7 +72,7 @@ function webView(
 
       // reload web view when container restarts or is renamed
       $scope.$watch('instance.containers.models[0].attrs.inspect.State.StartedAt', function (val) {
-        if (!val) return;
+        if (!val) { return; }
         $scope.actions.refresh();
       });
       $scope.$watch('instance.attrs.name', function (val) {

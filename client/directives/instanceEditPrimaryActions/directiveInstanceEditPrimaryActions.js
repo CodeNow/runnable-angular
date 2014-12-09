@@ -24,7 +24,7 @@ function instanceEditPrimaryActions(
       // prevent multiple clicks
       var building = false;
       $scope.build = function (noCache) {
-        if (building) return;
+        if (building) { return; }
         building = true;
         $scope.loading = true;
         var unwatch = $scope.$watch('openItems.isClean()', function (n) {

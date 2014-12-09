@@ -17,7 +17,7 @@ function dockerValidation(
     },
     link: function ($scope, elem, attrs) {
       $scope.$watch('openItems.activeHistory.last().attrs.body', function (n) {
-        if (n === undefined) return;
+        if (n === undefined) { return; }
         if ($scope.openItems.activeHistory.last().id() !== '/Dockerfile') {
           $scope.validDockerfile = {
             valid: true

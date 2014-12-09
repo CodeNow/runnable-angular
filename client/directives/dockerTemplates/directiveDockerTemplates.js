@@ -40,7 +40,7 @@ function dockerTemplates(
               cb();
             })
             .resolve(function (err, versions, cb) {
-              if (err) throw err;
+              if (err) { throw err; }
               $rootScope.safeApply();
               cb(err);
             })
@@ -52,7 +52,7 @@ function dockerTemplates(
           var contextVersion = $scope.build.contextVersions.models[0];
           var sourceContextVersion = $scope.versions.models[0];
           contextVersion.copyFilesFromSource(sourceInfraCodeVersion, function (err) {
-            if (err) throw err;
+            if (err) { throw err; }
             contextVersion.source = sourceContextVersion.id();
             cb();
           });
@@ -66,13 +66,13 @@ function dockerTemplates(
               path: '/'
             })
             .cacheFetch(function updateDom(files, cached, cb) {
-              if (cached) return; // cached response contains old files
+              if (cached) { return; } // cached response contains old files
               $scope.openItems.add(files.models);
               $rootScope.safeApply();
               cb();
             })
             .resolve(function (err, files, cb) {
-              if (err) throw err;
+              if (err) { throw err; }
               $scope.openItems.add(files.models);
               $rootScope.safeApply();
               cb();
@@ -97,7 +97,7 @@ function dockerTemplates(
             cb();
           })
           .resolve(function (err, user, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             cb();
           })
           .go();
@@ -113,7 +113,7 @@ function dockerTemplates(
             cb();
           })
           .resolve(function (err, build, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             $rootScope.safeApply();
             cb();
           })
@@ -132,7 +132,7 @@ function dockerTemplates(
             cb();
           })
           .resolve(function (err, contexts, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             cb();
           })
           .go();

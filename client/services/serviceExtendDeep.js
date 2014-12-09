@@ -5,7 +5,7 @@ require('app')
 
 function extendDeep(dst) {
   angular.forEach(arguments, function (obj) {
-    if (obj === dst) return;
+    if (obj === dst) { return; }
     angular.forEach(obj, function (val, key) {
       if (angular.isObject(dst[key])) {
         extendDeep(dst[key], val);

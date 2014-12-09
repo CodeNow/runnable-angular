@@ -24,7 +24,7 @@ function term(
 
       var streams, termStream, eventsStream;
       /**
-       * creates instance of terminal w/ default 
+       * creates instance of terminal w/ default
        * settings and attaches to elem.
        * - unbinds events on $destroy
        */
@@ -128,7 +128,7 @@ function term(
       }
 
       $scope.$watch('instance.containers.models[0].running()', function (n) {
-        if (!n) return;
+        if (!n) { return; }
         subscribeToSubstream($scope.instance.containers.models[0]);
       });
 

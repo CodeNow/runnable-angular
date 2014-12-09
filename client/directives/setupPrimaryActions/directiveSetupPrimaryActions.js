@@ -55,7 +55,7 @@ function setupPrimaryActions(
           build,
           attach
         ], function (err) {
-          if (err) throw err;
+          if (err) { throw err; }
           $scope.loading = false;
           goToInstance();
         });

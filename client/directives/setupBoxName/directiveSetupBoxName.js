@@ -61,7 +61,7 @@ function setupBoxName(
                 cb();
               })
               .resolve(function (err, projects, cb) {
-                if (err) throw err;
+                if (err) { throw err; }
               })
               .go();
           }

@@ -102,7 +102,7 @@ function repoList(
           reloadController
         ], function (err) {
           $rootScope.safeApply();
-          if (err) throw err;
+          if (err) { throw err; }
           //$rootScope.dataApp.data.loading = false;
           $state.go('instance.instance');
         });
@@ -227,7 +227,7 @@ function repoList(
             cb();
           })
           .resolve(function (err, build, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             $rootScope.safeApply();
             cb();
           })

@@ -61,7 +61,7 @@ function instanceSecondaryActions(
         $scope.instance[action](opts, function (err) {
           if (err) { throw err; }
           $scope.instance.fetch(function (err) {
-            if (err) throw err;
+            if (err) { throw err; }
             $scope.saving = false;
             $rootScope.safeApply();
           });

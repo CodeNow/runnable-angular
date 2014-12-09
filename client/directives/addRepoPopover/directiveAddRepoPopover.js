@@ -76,9 +76,9 @@ function addRepoPopover(
 
         function fetchLatestCommit(cb) {
           branch.commits.fetch(function (err) {
-            if (err) throw err;
+            if (err) { throw err; }
             // TODO: how to handle?
-            if (branch.commits.models.length === 0) throw new Error('repo has 0 commits');
+            if (branch.commits.models.length === 0) { throw new Error('repo has 0 commits'); }
             var latestCommit = branch.commits.models[0];
             acv.extend({
               commit: latestCommit.attrs.sha
@@ -95,7 +95,7 @@ function addRepoPopover(
           ]);
           // acv
           cv.appCodeVersions.create(body, function (err) {
-            if (err) throw err;
+            if (err) { throw err; }
             $rootScope.safeApply();
           });
         }
@@ -167,7 +167,7 @@ function addRepoPopover(
             cb();
           })
           .resolve(function (err, build, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             $rootScope.safeApply();
             cb();
           })
@@ -182,9 +182,9 @@ function addRepoPopover(
        */
       function fetchBuildContextVersions(cb) {
         var build = $scope.repoListPopover.data.build;
-        if (!build.contextVersions.models[0]) throw new Error('build has 0 contextVersions');
+        if (!build.contextVersions.models[0]) { throw new Error('build has 0 contextVersions'); }
         build.contextVersions.models[0].fetch(function (err) {
-          if (err) throw err;
+          if (err) { throw err; }
           cb();
         });
       }
