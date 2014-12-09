@@ -96,13 +96,13 @@ function modalForkBox(
         if (keypather.get($scope, 'data.instance.dependencies.models.length')) {
           $scope.data.instance.dependencies.models.forEach(function (instance, idx) {
             delete instance.state.env;
-            //delete instance.state.name;
+            delete instance.state.name;
           });
         }
         if (keypather.get($scope, 'data.instance.state')) {
           delete $scope.data.instance.state.env;
+          delete $scope.data.instance.state.name;
         }
-        //delete $scope.data.instance.state.name;
       });
     }
   };
