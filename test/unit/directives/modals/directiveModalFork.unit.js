@@ -99,7 +99,7 @@ describe('directiveModalFork'.bold.underline.blue, function () {
       expect($elScope.defaultActions.save).to.be.a('function');
 
       sinon.assert.called(getNewForkNameStub);
-      expect($elScope.data.forkDependencies).to.be.ok;
+      expect($elScope.data.forkDependencies).to.not.be.ok;
 
       $scope.$destroy();
       $scope.$digest();
@@ -150,6 +150,21 @@ describe('directiveModalFork'.bold.underline.blue, function () {
         $scope.$destroy();
         $scope.$digest();
       });
+    });
+  });
+
+  describe('checking name changes', function () {
+    beforeEach(function () {
+      var scope = makeDefaultScope();
+      scope.data.instance.dependencies = {
+        models: [{
+          attrs: {
+            name: 'dep'
+          },
+          fetch: sinon.spy()
+        }]
+      };
+      injectSetupCompile(scope);
     });
   });
 });

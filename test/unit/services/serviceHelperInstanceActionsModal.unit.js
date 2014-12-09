@@ -153,7 +153,6 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($rootScope.dataApp.data.loading).to.be.true;
-          expect($scope.instance.state.name).to.equal('test-test');
 
           sinon.assert.called(fakeGo);
           sinon.assert.called($scope.instance.copy);
@@ -174,7 +173,6 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($rootScope.dataApp.data.loading).to.be.true;
-          expect($scope.instance.state.name).to.equal('test-test');
 
           sinon.assert.called(fakeGo);
           sinon.assert.called($scope.instance.copy);
@@ -196,7 +194,6 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($rootScope.dataApp.data.loading).to.be.true;
-          expect($scope.instance.state.name).to.equal('test-test');
 
           var dep = $scope.instance.dependencies.models[0];
           sinon.assert.called(dep.copy);
@@ -220,7 +217,6 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($rootScope.dataApp.data.loading).to.be.true;
-          expect($scope.instance.state.name).to.equal('test-test');
 
           var dep = $scope.instance.dependencies.models[0];
           sinon.assert.notCalled(dep.copy);
