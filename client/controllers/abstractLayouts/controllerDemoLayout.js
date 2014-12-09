@@ -2,6 +2,7 @@ require('app')
   .controller('ControllerDemoLayout', demoLayout);
 
 function demoLayout (
+  configLoginURL,
   editorCache,
   $rootScope,
   $scope,
@@ -10,7 +11,9 @@ function demoLayout (
   $window
 ) {
   var dataDemoLayout = $scope.dataDemoLayout = {
-    data: {},
+    data: {
+      loginURL: configLoginURL(true)
+    },
     actions: {}
   };
   var data = dataDemoLayout.data;

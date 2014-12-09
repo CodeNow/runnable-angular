@@ -22,11 +22,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
     ng-switch-when = "1"
   ) Sign in to save this box along with any changes you&rsquo;ve made.
   a.btn.btn-block.green(
-    href = "#"
-    modal
-    modal-actions = "dataDemoLayout.actions.actionsModalSignIn"
-    modal-data = "dataDemoLayout.data.dataModalSignIn"
-    modal-template = "viewModalSignIn"
+    ng-href = "{{ dataDemoLayout.data.loginURL }}"
     ng-switch-when = "1"
   )
     svg.iconnables.icons-git
