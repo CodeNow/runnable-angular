@@ -46,13 +46,13 @@ function editRepoCommit(
       // use watchers to share branch/commit between
       // this scope and popover + keep sync
       $scope.$watch('activeBranch', function (n) {
-        if (n) $scope.popoverCommitSelect.data.activeBranch = n;
+        if (n) { $scope.popoverCommitSelect.data.activeBranch = n; }
       });
       $scope.$watch('activeCommit', function (n) {
-        if (n) $scope.popoverCommitSelect.data.activeCommit = n;
+        if (n) { $scope.popoverCommitSelect.data.activeCommit = n; }
       });
       $scope.$watch('build', function (n) {
-        if (n) $scope.popoverCommitSelect.data.build = n;
+        if (n) { $scope.popoverCommitSelect.data.build = n; }
       });
 
       $scope.popoverCommitSelect = {
@@ -81,7 +81,7 @@ function editRepoCommit(
 
       // reset filter when opening popover
       $scope.$watch('popoverCommitSelect.data.show', function (n) {
-        if (!n) return;
+        if (!n) { return; }
         $scope.popoverCommitSelect.data.toggleFilter = false;
         $scope.popoverCommitSelect.data.commitFilter = '';
       });
@@ -98,7 +98,7 @@ function editRepoCommit(
 
       // keep scopes in sync
       $scope.$watch('commitsBehind', function (n) {
-        if (!n) return;
+        if (!n) { return; }
         $scope.popoverRepoActions.data.commitsBehind = n;
       });
 
@@ -111,7 +111,7 @@ function editRepoCommit(
       $scope.popoverRepoActions.actions.deleteRepo = function () {
         $scope.acv.destroy(function (err) {
           $rootScope.safeApply();
-          if (err) throw err;
+          if (err) { throw err; }
         });
       };
 
@@ -142,7 +142,7 @@ function editRepoCommit(
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
         acv.githubRepo.branches.add($scope.activeBranch);
         acv.githubRepo.branches.fetch(function (err) {
-          if (err) throw err;
+          if (err) { throw err; }
           //githubRepo.branches.add(activeBranch);
           $rootScope.safeApply();
         });
@@ -151,7 +151,7 @@ function editRepoCommit(
       function setActiveCommit(acv) {
         $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
         $scope.activeCommit.fetch(function (err) {
-          if (err) throw err;
+          if (err) { throw err; }
           $rootScope.safeApply();
         });
       }
@@ -172,7 +172,7 @@ function editRepoCommit(
 
       function fetchBranchCommits(branch) {
         branch.commits.fetch(function (err) {
-          if (err) throw err;
+          if (err) { throw err; }
           $rootScope.safeApply();
         });
       }
@@ -203,7 +203,7 @@ function editRepoCommit(
             cb();
           })
           .resolve(function (err, build, cb) {
-            if (err) throw err;
+            if (err) { throw err; }
             $rootScope.safeApply();
             cb();
           })

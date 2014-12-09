@@ -110,6 +110,7 @@ module.exports = function(grunt) {
         node: true,
         browser: true,
         undef: true,
+        curly: true,
         globals: {
           jQuery: true,
           angular: true,
@@ -401,7 +402,7 @@ module.exports = function(grunt) {
             });
           }
         }, function (err, results) {
-          if (err) throw err;
+          if (err) { throw err; }
           configObj.commitHash = results.hash;
           configObj.commitTime = results.time;
           var configJSON = JSON.stringify(configObj);

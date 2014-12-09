@@ -42,7 +42,7 @@ function logBuild(
       });
 
       $scope.$on('$destroy', function () {
-        if (!$scope.buildStream) return;
+        if (!$scope.buildStream) { return; }
         $scope.buildStream.removeAllListeners();
         $scope.buildStream.end();
         // stop polling for container success
@@ -70,7 +70,7 @@ function logBuild(
       }
 
       function writeToTerm(output) {
-        if (typeof output !== 'string') return;
+        if (typeof output !== 'string') { return; }
         terminal.write(output.replace(/\r?\n/g, '\r\n'));
       }
 

@@ -61,7 +61,7 @@ function ControllerInstanceEdit(
         if (!instances.models.length) {
           return cb(new Error('Instance not found'));
         }
-        if (err) throw err;
+        if (err) { throw err; }
         var instance = instances.models[0];
         data.instance = instance;
         data.instance.state = {};
@@ -106,7 +106,7 @@ function ControllerInstanceEdit(
         cb();
       })
       .resolve(function (err, build, cb) {
-        if (err) throw err;
+        if (err) { throw err; }
         $scope.safeApply();
         cb();
       })
@@ -116,9 +116,9 @@ function ControllerInstanceEdit(
   // open "Dockerfile" build file by default
   function setDefaultTabs() {
     var rootDir = keypather.get($scope, 'build.contextVersions.models[0].rootDir');
-    if (!rootDir) throw new Error();
+    if (!rootDir) { throw new Error(); }
     rootDir.contents.fetch(function(err) {
-      if (err) throw err;
+      if (err) { throw err; }
       var file = rootDir.contents.models.find(function(file) {
         return (file.attrs.name === 'Dockerfile');
       });
@@ -133,7 +133,7 @@ function ControllerInstanceEdit(
     fetchInstance,
     fetchBuild
   ], function(err) {
-    if (err) throw err;
+    if (err) { throw err; }
     setDefaultTabs();
     fetchInstances(angular.noop);
   });

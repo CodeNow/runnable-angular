@@ -77,7 +77,7 @@ function ControllerApp(
     fetchUser,
     fetchOrgs
   ], function(err, results) {
-    if (err) return;
+    if (err) { return; }
     if ($window.heap) {
       $window.heap.identify({
         name:  thisUser.oauthName(),

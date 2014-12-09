@@ -128,7 +128,7 @@ function ControllerHome(
       fetchAllInstances(dataHome.data.orgs);
     } else {
       var orgs = thisUser.fetchGithubOrgs(function (err) {
-        if (err) throw err;
+        if (err) { throw err; }
         dataHome.data.orgs = orgs.models;
         dataHome.data.orgs.unshift(thisUser);
         fetchAllInstances(dataHome.data.orgs);
@@ -137,7 +137,7 @@ function ControllerHome(
 
     function fetchAllInstances(orgs) {
       async.map(orgs, fetchInstancesForOrg, function (err) {
-        if (err) throw err;
+        if (err) { throw err; }
         cb();
       });
     }

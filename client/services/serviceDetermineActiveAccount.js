@@ -12,7 +12,7 @@ function determineActiveAccount(
 ) {
   return function (cb) {
 
-    if (!angular.isFunction(cb)) throw new Error();
+    if (!angular.isFunction(cb)) { throw new Error('cb is required'); }
 
     var _user, _orgs;
 
@@ -31,14 +31,14 @@ function determineActiveAccount(
           cb();
         })
         .resolve(function (err, user, cb) {
-          if (err) throw err;
+          if (err) { throw err; }
         })
         .go();
     }
 
     function fetchOrgs(cb) {
       _orgs = _user.fetchGithubOrgs(function (err) {
-        if (err) throw err;
+        if (err) { throw err; }
         cb();
       });
     }

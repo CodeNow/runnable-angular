@@ -16,7 +16,7 @@ function selectOn(
         return;
       }
       $scope.$watch(attrs.selectOn, function (n) {
-        if (!n) return;
+        if (!n) { return; }
         jQuery(elem[0]).focus();
         jQuery(elem[0]).select();
       });
