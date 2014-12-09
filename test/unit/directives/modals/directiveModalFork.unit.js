@@ -99,7 +99,7 @@ describe('directiveModalFork'.bold.underline.blue, function () {
       expect($elScope.defaultActions.save).to.be.a('function');
 
       sinon.assert.called(getNewForkNameStub);
-      expect($elScope.data.forkDependencies).to.be.ok;
+      expect($elScope.data.forkDependencies).to.not.be.ok;
 
       $scope.$destroy();
       $scope.$digest();
