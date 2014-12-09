@@ -1,5 +1,5 @@
 require('app')
-  .service('fetchUser', fetchUser);
+  .factory('fetchUser', fetchUser);
 
 function fetchUser (
   user
