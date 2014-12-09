@@ -149,13 +149,13 @@ function HelperInstanceActionsModal(
         }
         async.each(tempOpts, fork, function (err) {
           if (err) { throw err; }
-          if (cb) {
-            cb();
-          }
           $state.go('instance.instance', {
             userName: $stateParams.userName,
             instanceName: newName
           });
+          if (cb) {
+            cb();
+          }
         });
       },
       cancel: function () {

@@ -152,4 +152,19 @@ describe('directiveModalFork'.bold.underline.blue, function () {
       });
     });
   });
+
+  describe('checking name changes', function () {
+    beforeEach(function () {
+      var scope = makeDefaultScope();
+      scope.data.instance.dependencies = {
+        models: [{
+          attrs: {
+            name: 'dep'
+          },
+          fetch: sinon.spy()
+        }]
+      };
+      injectSetupCompile(scope);
+    });
+  });
 });
