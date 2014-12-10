@@ -7,6 +7,7 @@ function repoList(
   async,
   keypather,
   QueryAssist,
+  fetchUser,
   $rootScope,
   $state,
   $stateParams,
@@ -174,19 +175,6 @@ function repoList(
         }
       };
 
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
-
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchInstances')
@@ -235,7 +223,14 @@ function repoList(
       }
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function(err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchBuild
       ]);
 

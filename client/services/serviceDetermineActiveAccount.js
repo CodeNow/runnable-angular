@@ -8,6 +8,7 @@ function determineActiveAccount(
   async,
   hasKeypaths,
   QueryAssist,
+  fetchUser,
   user
 ) {
   return function (cb) {
@@ -17,24 +18,16 @@ function determineActiveAccount(
     var _user, _orgs;
 
     async.waterfall([
-      fetchUser,
+      function (cb) {
+        fetchUser(function(err, user) {
+          if (err) { return cb(err); }
+          _user = user;
+          cb();
+        });
+      },
       fetchOrgs,
       match
     ], cb);
-
-    function fetchUser(cb) {
-      new QueryAssist(user, cb)
-        .wrapFunc('fetchUser')
-        .query('me')
-        .cacheFetch(function (user, cached, cb) {
-          _user = user;
-          cb();
-        })
-        .resolve(function (err, user, cb) {
-          if (err) { throw err; }
-        })
-        .go();
-    }
 
     function fetchOrgs(cb) {
       _orgs = _user.fetchGithubOrgs(function (err) {

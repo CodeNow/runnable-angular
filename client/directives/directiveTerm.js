@@ -11,6 +11,7 @@ function term(
   jQuery,
   keypather,
   QueryAssist,
+  fetchUser,
   $rootScope,
   $stateParams,
   user
@@ -40,9 +41,17 @@ function term(
       });
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function(err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchInstance
-      ], function () {
+      ], function (err) {
+        if (err) { throw err; }
       });
 
       bind(primus, 'offline', function () {
@@ -66,19 +75,6 @@ function term(
         termStream.end();
         termStream.removeAllListeners();
       });
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
 
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)

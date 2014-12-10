@@ -9,6 +9,7 @@ function logBox(
   primus,
   keypather,
   QueryAssist,
+  fetchUser,
   $log,
   $rootScope,
   $stateParams,
@@ -89,7 +90,14 @@ function logBox(
       });
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function(err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchInstance
       ], function (err) {
         if (err) { return $log.error(err); }
@@ -128,19 +136,6 @@ function logBox(
             $rootScope.safeApply();
           });
         });
-      }
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
       }
 
       function fetchInstance(cb) {
