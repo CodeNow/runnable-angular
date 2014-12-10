@@ -31,6 +31,7 @@ function ControllerInstanceEdit(
   data.showExplorer = false;
 
   function fetchUser(cb) {
+    console.log('fetchUser');
     new QueryAssist(user, cb)
       .wrapFunc('fetchUser')
       .query('me')
@@ -39,11 +40,11 @@ function ControllerInstanceEdit(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, user, cb) {})
       .go();
   }
 
   function fetchInstance(cb) {
+    console.log('fetchInstance');
     new QueryAssist($scope.user, cb)
       .wrapFunc('fetchInstances')
       .query({
@@ -55,7 +56,7 @@ function ControllerInstanceEdit(
         data.instance = instance;
         data.instance.state = {};
         $scope.safeApply();
-        cb(null, instance);
+        cb();
       })
       .resolve(function (err, instances, cb) {
         if (!instances.models.length) {
@@ -66,7 +67,29 @@ function ControllerInstanceEdit(
         data.instance = instance;
         data.instance.state = {};
         $scope.safeApply();
-        cb(null, instance);
+        cb();
+      })
+      .go();
+  }
+
+  function fetchBuild(cb) {
+    console.log('fetchBuild');
+    new QueryAssist($scope.user, cb)
+      .wrapFunc('fetchBuild')
+      .query($stateParams.buildId)
+      .cacheFetch(function (build, cached, cb) {
+        if (build.attrs.completed) {
+          $state.go('instance.instance', $stateParams);
+          return cb(null, true);
+        }
+        $scope.build = build;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, build, cb) {
+        if (err) { throw err; }
+        $scope.safeApply();
+        cb();
       })
       .go();
   }
@@ -96,23 +119,6 @@ function ControllerInstanceEdit(
       .go();
   }
 
-  function fetchBuild(cb) {
-    new QueryAssist($scope.user, cb)
-      .wrapFunc('fetchBuild')
-      .query($stateParams.buildId)
-      .cacheFetch(function (build, cached, cb) {
-        $scope.build = build;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, build, cb) {
-        if (err) { throw err; }
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
   // open "Dockerfile" build file by default
   function setDefaultTabs() {
     var rootDir = keypather.get($scope, 'build.contextVersions.models[0].rootDir');
@@ -132,8 +138,9 @@ function ControllerInstanceEdit(
     fetchUser,
     fetchInstance,
     fetchBuild
-  ], function(err) {
+  ], function(err, redirect) {
     if (err) { throw err; }
+    if (redirect) { return; }
     setDefaultTabs();
     fetchInstances(angular.noop);
   });

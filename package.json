@@ -41,13 +41,13 @@
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
     "primus": "^2.3.0",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.3",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.4",
     "term.js": "git://github.com/Runnable/term.js.git#6a1d4ec38aa26c61fb6a4f0a20ba5cb207e66f2d",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
     "browserify": "~4.2.3",
-    "browserify-angular-mocks": "0.0.0",
+    "browserify-angular-mocks": "1.2.23",
     "browserify-istanbul": "^0.1.2",
     "browserify-shim": "~3.6.0",
     "chai": "~1.9.1",
