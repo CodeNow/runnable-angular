@@ -12,30 +12,52 @@ main.home
         a.link.link-text Features
         a.link.link-text Pricing
         a.link.link-text Sign In
-    h1.header-thin.h1 Your Stack Online
-    h3.header-thin.h3 Boxes on demand for any stack
+    h1.h1.header-thin Your Stack Online
+    h3.h3.header-thin Boxes on demand for any stack
     svg
       use
 
-  section
-    .row
-      svg
-        use
-      h2
-      p
+  section.home-features
     .row
       .col
-        svg
-          use
-        h2
-        p
-      .col
-        svg
-          use
-        h2
-        p
+        //- svg
+        //-   use
+        img(
+          height = "180"
+          src = "/build/images/feature-boxes.svg"
+          width = "180"
+        )
+        h2.h2.header-thin Infinite Boxibilities
+        p.p We’ll provide you with as many boxes #{''}
+          br
+          | you need; up to infinite boxes a year.
     .row
-      a.btn.green Learn More
+      .col
+        //- svg
+        //-   use
+        img(
+          height = "120"
+          src = "/build/images/feature-linking.svg"
+          width = "120"
+        )
+        h2.h2.header-thin Better Together
+        p.p With Dixie cup and string technology, #{''}
+          br
+          | we are able to link boxes together.
+      .col
+        //- svg
+        //-   use
+        img(
+          height = "120"
+          src = "/build/images/feature-github.svg"
+          width = "120"
+        )
+        h2.h2.header-thin Github Integrated
+        p.p Run your branches, commits, #{''}
+          br
+          | and pull requests.
+    .row
+      a.btn.green More Features
 
   hr
 
