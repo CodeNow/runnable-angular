@@ -9,6 +9,7 @@ function ControllerInstance(
   keypather,
   OpenItems,
   QueryAssist,
+  fetchUser,
   $scope,
   $state,
   $log,
@@ -95,30 +96,19 @@ function ControllerInstance(
       $scope.safeApply();
       cb();
     },
-    fetchUser,
+    function (cb) {
+      fetchUser(function(err, user) {
+        if (err) { return cb(err); }
+        data.user = user;
+        $scope.safeApply();
+        cb();
+      });
+    },
     fetchInstance,
     fetchInstances
   ], function(err) {
     if (err) { throw err; }
   });
-
-  // Redirect to /new if this build has already been built
-  function fetchUser(cb) {
-    new QueryAssist(user, cb)
-      .wrapFunc('fetchUser')
-      .query('me')
-      .cacheFetch(function (user, cached, cb) {
-        data.user = user;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, user, cb) {
-        if (err) { return $log.error(err); }
-        cb(err);
-      })
-      .go();
-  }
-
 
   // This is to fetch the list of instances.  This is separate so the page can load quickly
   // since it will have its instance.  Only the modals use this list

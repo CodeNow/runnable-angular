@@ -7,6 +7,7 @@ function explorer(
   async,
   keypather,
   QueryAssist,
+  fetchUser,
   $rootScope,
   $stateParams,
   user
@@ -20,22 +21,6 @@ function explorer(
       toggleTheme: '='
     },
     link: function ($scope, elem, attrs) {
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
-      }
 
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
@@ -84,7 +69,14 @@ function explorer(
       }
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function (err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchBuild
       ]);
 

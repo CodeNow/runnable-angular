@@ -9,6 +9,7 @@ function instanceList (
   getInstanceClasses,
   getInstanceAltTitle,
   QueryAssist,
+  fetchUser,
   $rootScope,
   $state,
   user
@@ -19,21 +20,6 @@ function instanceList (
     replace: true,
     scope: {},
     link: function ($scope, elem, attrs) {
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {
-            if (err) { throw err; }
-          })
-          .go();
-      }
 
       function fetchOrgs(cb) {
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
@@ -87,7 +73,14 @@ function instanceList (
         $scope.loadingUsers = true;
         $rootScope.safeApply();
         async.series([
-          fetchUser,
+          function (cb) {
+            fetchUser(function (err, user) {
+              if (err) { return cb(err); }
+              $scope.user = user;
+              $rootScope.safeApply();
+              cb();
+            });
+          },
           fetchOrgs,
           function (cb) {
             $scope.loadingUsers = false;

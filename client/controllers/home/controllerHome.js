@@ -15,6 +15,7 @@ function ControllerHome(
   $localStorage,
   keypather,
   QueryAssist,
+  fetchUser,
   user
 ) {
 
@@ -29,17 +30,13 @@ function ControllerHome(
 
   function verifyUserIsAuth() {
     async.series([
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $scope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
+      function (cb) {
+        fetchUser(function (err, user) {
+          if (err) { return cb(err); }
+          $scope.user = user;
+          $scope.safeApply();
+          cb();
+        });
       },
       fetchInstances,
       function sendUserSomewhere(cb) {

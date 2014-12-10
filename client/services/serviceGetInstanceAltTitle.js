@@ -11,17 +11,17 @@ function getInstanceAltTitle(
   return function (instance) {
     var state = getInstanceClasses(instance);
     if (state.failed) {
-      return "Build failed";
+      return 'Build failed';
     }
     if (state.running) {
-      return "Started " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.StartedAt'));
+      return 'Started ' + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.StartedAt'));
     }
     if (state.building) {
-      return "Build in progress";
+      return 'Build in progress';
     }
     if (state.stopped) {
-      return "Stopped " + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt'));
+      return 'Stopped ' + $filter('timeAgo')(keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt'));
     }
-    return "";
+    return '';
   };
 }
