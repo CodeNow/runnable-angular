@@ -7,7 +7,9 @@ require('app')
  * @ngInject
  */
 function ControllerApp(
+  $log,
   $scope,
+  $state,
   $rootScope,
   $window,
   async,
@@ -15,6 +17,7 @@ function ControllerApp(
   configEnvironment,
   configLoginURL,
   configLogoutURL,
+  keypather,
   QueryAssist,
   user
 ) {
@@ -74,7 +77,13 @@ function ControllerApp(
     fetchUser,
     fetchOrgs
   ], function(err, results) {
-    if (err) { return; }
+    if (err) {
+      $log.error(err);
+      if (keypather.get(err, 'data.statusCode') === 401) {
+        $state.go('home');
+      }
+      return;
+    }
     if ($window.heap) {
       $window.heap.identify({
         name:  thisUser.oauthName(),
