@@ -3,9 +3,9 @@ section.row(
 )
   h2.sub-header Docker Templates
 
-  .spinner-container.spinner-md.in(
-    ng-include = "'spinner'"
+  .spinner-wrapper.spinner-md.in(
     ng-if = "!seedContexts.models"
+    ng-include = "'spinner'"
   )
 
   .label-group.load(
