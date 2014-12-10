@@ -6,7 +6,7 @@
 //- &.spinner-sm - 15px by 15px
 //- &.spinner-purple - sets color to $purple-lighter
 
-.spinner-container {
+.spinner-wrapper {
   align-items: center;
   display: flex;
   height: 100%;
@@ -29,16 +29,22 @@
     background: $white;
   }
 
-  &.spinner-lg .spinner.lg {
+  &.spinner-lg .lg {
     display: block;
+    height: 65px;
+    width: 65px;
   }
 
-  &.spinner-md .spinner.md {
+  &.spinner-md .md {
     display: block;
+    height: 30px;
+    width: 30px;
   }
 
-  &.spinner-sm .spinner.sm {
+  &.spinner-sm .sm {
     display: block;
+    height: 15px;
+    width: 15px;
   }
 
   &.spinner-purple .path {
@@ -46,12 +52,12 @@
   }
 }
 
-.spinner {
+.spinner-container {
   animation: spinner $spinner-duration linear infinite;
   display: none;
 }
 
-.path {
+.spinner {
   animation: spinner-path $spinner-duration ease-in-out infinite;
   stroke: $gray-light;
   stroke-dasharray: $spinner-offset;

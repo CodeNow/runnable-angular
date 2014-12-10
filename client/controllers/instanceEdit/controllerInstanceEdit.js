@@ -9,6 +9,7 @@ function ControllerInstanceEdit(
   keypather,
   OpenItems,
   QueryAssist,
+  fetchUser,
   $scope,
   $state,
   $stateParams,
@@ -29,19 +30,6 @@ function ControllerInstanceEdit(
 
   data.loading = false;
   data.showExplorer = false;
-
-  function fetchUser(cb) {
-    console.log('fetchUser');
-    new QueryAssist(user, cb)
-      .wrapFunc('fetchUser')
-      .query('me')
-      .cacheFetch(function (user, cached, cb) {
-        $scope.user = user;
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
 
   function fetchInstance(cb) {
     console.log('fetchInstance');
@@ -135,7 +123,13 @@ function ControllerInstanceEdit(
   }
 
   async.series([
-    fetchUser,
+    function (cb) {
+      fetchUser(function (err, user) {
+        $scope.user = user;
+        $scope.safeApply();
+        cb();
+      });
+    },
     fetchInstance,
     fetchBuild
   ], function(err, redirect) {

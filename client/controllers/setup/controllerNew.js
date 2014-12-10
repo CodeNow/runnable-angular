@@ -7,6 +7,7 @@ function ControllerNew(
   async,
   hasKeypaths,
   QueryAssist,
+  fetchUser,
   $scope,
   $state,
   uuid,
@@ -17,19 +18,6 @@ function ControllerNew(
   var owner;
 
   $scope.dataApp.data.loading = true;
-
-  function fetchUser(cb) {
-    new QueryAssist(user, cb)
-      .wrapFunc('fetchUser')
-      .query('me')
-      .cacheFetch(function (user, cached, cb) {
-        $scope.user = user;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, user, cb) {})
-      .go();
-  }
 
   function setOwner(cb) {
     var currentUserOrOrgName = $state.params.userName;
@@ -82,7 +70,14 @@ function ControllerNew(
   }
 
   async.waterfall([
-    fetchUser,
+    function (cb) {
+      fetchUser(function (err, user) {
+        if (err) { return cb(err); }
+        $scope.user = user;
+        $scope.safeApply();
+        cb();
+      });
+    },
     setOwner,
     createContext,
     createVersion,
