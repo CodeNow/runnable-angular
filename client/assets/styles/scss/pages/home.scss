@@ -245,6 +245,11 @@
   @include media(xs) {
     margin-bottom: 60px;
   }
+
+  .link {
+    display: table;
+    margin: 30px auto 0;
+  }
 }
 
 // ol.demo-list
