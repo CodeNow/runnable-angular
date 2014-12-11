@@ -31,7 +31,7 @@
   min-width: 420px;
   position: relative;
 
-  @include media(xs) {
+  @include media(sm) {
     min-width: 360px;
     width: calc(100% - 30px);
   }

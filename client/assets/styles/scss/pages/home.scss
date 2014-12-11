@@ -123,7 +123,7 @@
   position: relative;
   width: 700px;
 
-  @include media(xs) {
+  @include media(sm) {
     width: 90vw;
   }
 
@@ -137,7 +137,7 @@
     position: absolute;
     width: 300px;
 
-    @include media(xs) {
+    @include media(sm) {
       width: calc(45vw - 50px);
     }
   }
@@ -182,11 +182,11 @@
   margin: 60px auto 0;
   width: 800px;
 
-  @include media(sm) {
+  @include media(md) {
     width: 750px;
   }
 
-  @include media(xs) {
+  @include media(sm) {
     margin: 60px 15px 0;
     width: auto;
   }
@@ -200,8 +200,12 @@
   height: 108px;
   width: 50%;
 
-  @include media(xs) {
+  @include media(sm) {
     height: 72px;
+  }
+
+  @include media(xs) {
+    width: 100%;
   }
 
   .h3 {
@@ -209,7 +213,7 @@
     height: 108px;
     line-height: 108px;
 
-    @include media(xs) {
+    @include media(sm) {
       font-size: 21px;
       height: 72px;
       line-height: 72px;
@@ -220,7 +224,7 @@
     float: right;
     margin: 36px 18px 36px 0;
 
-    @include media(xs) {
+    @include media(sm) {
       margin: 18px 12px 18px 0;
     }
   }
@@ -228,12 +232,22 @@
   // vertical border
   &:nth-child(odd) {
     border-right: 1px solid $gray-light;
+
+    @include media(xs) {
+      border-right: 0;
+    }
   }
 
   // horizontal border
   &:first-child,
   &:nth-child(2) {
     border-top: 0;
+
+    @include media(xs) {
+      &:nth-child(2) {
+        border-top: 1px solid $gray-light;
+      }
+    }
   }
 }
 
@@ -244,7 +258,7 @@
   margin: 0 18px;
   width: 48px;
 
-  @include media(xs) {
+  @include media(sm) {
     margin: 0 12px;
     width: 36px;
   }
