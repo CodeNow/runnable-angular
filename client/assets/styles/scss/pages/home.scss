@@ -9,10 +9,18 @@
 
   .h1 {
     font-size: 72px;
+
+    @include media(xs) {
+      font-size: 60px;
+    }
   }
 
   .h3 {
     font-size: 30px;
+
+    @include media(xs) {
+      font-size: 24px;
+    }
   }
 }
 
@@ -35,11 +43,17 @@
   .logo {
     float: left;
     height: 45px;
+
+    @include media(xs) {
+      overflow: hidden;
+      width: 72px;
+    }
   }
 
   // nav.home-nav
   .home-nav {
     float: right;
+    margin-right: 15px;
   }
 
   // a.link.link-text
