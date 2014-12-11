@@ -76,6 +76,10 @@
   .col {
     display: inline-block;
     margin: 0 auto;
+
+    @include media(xs) {
+      margin-bottom: 30px;
+    }
   }
 
   .row {
@@ -95,6 +99,10 @@
   // row specific
   .row:first-child {
 
+    @include media(xs) {
+      margin-bottom: 0;
+    }
+
     .h2 {
       color: $purple;
     }
@@ -102,8 +110,16 @@
 
   .row:nth-child(2) {
 
+    @include media(xs) {
+      margin-bottom: 0;
+    }
+
     .col {
       margin: 0 60px;
+
+      @include media(xs) {
+        margin-bottom: 30px;
+      }
 
       &:first-child .h2 {
         color: $blue;
