@@ -15,6 +15,3 @@ function errs (
     errors: errors
   };
 }
-
-
-// When there's an error, we want to show a modal.
