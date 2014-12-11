@@ -123,7 +123,9 @@ function ControllerInstance(
         $scope.safeApply();
         cb();
       })
-      .resolve(cb)
+      .resolve(function (err) {
+        cb(err);
+      })
       .go();
   }
 
@@ -142,9 +144,11 @@ function ControllerInstance(
         data.instance = instance;
         data.instance.state = {};
         $scope.safeApply();
-        cb(null, instance);
+        cb();
       })
-      .resolve(cb)
+      .resolve(function (err) {
+        cb(err);
+      })
       .go();
   }
 
