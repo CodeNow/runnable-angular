@@ -69,9 +69,6 @@ function ControllerApp(
   ], function(err, results) {
     if (err) {
       $log.error(err);
-      if (keypather.get(err, 'data.statusCode') === 401) {
-        $state.go('home');
-      }
       return;
     }
     if ($window.heap) {
