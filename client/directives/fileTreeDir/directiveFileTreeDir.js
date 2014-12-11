@@ -216,6 +216,7 @@ function fileTreeDir(
         }, 1);
       });
 
+      actions.fetchDirFiles = fetchDirFiles;
       function fetchDirFiles(file) {
         $scope.dir.contents.fetch(function (err) {
           if (file) {
