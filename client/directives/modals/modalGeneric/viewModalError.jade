@@ -7,7 +7,7 @@
   section.modal-body
     p.modal-description(
       ng-repeat = "error in data.errors track by $index"
-    ) {{ error | json }}
+    ) {{ error | errJSON }}
   footer.modal-footer
     button.btn.white(
       ng-click = "defaultActions.cancel()"
