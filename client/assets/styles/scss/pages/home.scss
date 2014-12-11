@@ -173,6 +173,10 @@
 // section.home-demos
 .home-demos {
   margin: 60px 0 150px;
+
+  @include media(xs) {
+    margin-bottom: 60px;
+  }
 }
 
 // ol.demo-list
@@ -267,6 +271,10 @@
 // footer.home-footer
 .home-footer {
   padding-bottom: 210px;
+
+  @include media(xs) {
+    padding-bottom: 150px;
+  }
 }
 
 // nav.footer-nav
@@ -274,10 +282,20 @@
   display: table;
   margin: 36px auto 0;
 
+  @include media(xs) {
+    margin-top: 15px;
+  }
+
   .link {
     color: $gray-light;
     font-size: 18px;
     margin: 0 12px;
     padding: 0 12px;
+
+    @include media(xs) {
+      display: block;
+      margin: 15px 0;
+      text-align: center;
+    }
   }
 }
