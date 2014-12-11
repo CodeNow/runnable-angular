@@ -190,7 +190,7 @@ function fileTreeDir(
 
       // needed to observe change seed context version on setup page
       if ($state.$current.name === 'instance.setup') {
-        $scope.$watch('build.contextVersions.models[0].source', function (newVal, oldVal) {
+        $scope.$watch('build.contextVersions.models[0].source', function (newVal) {
           if (!newVal) { return; }
           fetchDirFiles();
           $scope.actions.makeDroppable();
