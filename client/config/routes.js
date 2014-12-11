@@ -12,6 +12,17 @@ module.exports = [
     }
   },
   {
+    state: 'features',
+    abstract: false,
+    url: '^/features',
+    templateUrl: 'viewFeatures',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+    }
+  },
+  {
     state: 'edemo',
     abstract: false,
     url: '^/demo',
