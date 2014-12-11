@@ -11,7 +11,11 @@
     font-size: 72px;
 
     @include media(xs) {
-      font-size: 60px;
+      font-size: 48px;
+    }
+
+    @include media(xxs) {
+      font-size: 36px;
     }
   }
 
@@ -19,7 +23,11 @@
     font-size: 30px;
 
     @include media(xs) {
-      font-size: 24px;
+      font-size: 27px;
+    }
+
+    @include media(xxs) {
+      font-size: 21px;
     }
   }
 }
@@ -31,6 +39,10 @@
   height: 660px;
   padding-top: 60px;
   position: relative;
+
+  .h3 {
+    margin-top: 6px;
+  }
 }
 
 // header.home-header
