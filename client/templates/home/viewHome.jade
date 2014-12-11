@@ -17,6 +17,7 @@ main.home
     svg
       use
 
+  //- features
   section.home-features
     .row
       .col
@@ -62,34 +63,91 @@ main.home
   .hr
     span.hr-text or
 
-  section
+  //- demo boxes
+  section.home-demos
     h1.h1.header-thin Open a Box
     h3.h3.header-thin Free to try, no sign ups
-    ol
-      li
-        a
-          svg
-            use
-        h4
-        a.btn Launch Box
-      li
-        a
-          svg
-            use
-        h4
-        a.btn Launch Box
-      li
-        a
-          svg
-            use
-        h4
-        a.btn Launch Box
-      li
-        a
-          svg
-            use
-        h4
-        a.btn Launch Box
+    ol.demo-list.clearfix
+      li.demo-list-item
+        //- svg
+        //-   use
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/icons/templates/icons-django.svg"
+          width = "48"
+        )
+        h3.h3.header-thin Django
+        a.btn.btn-sm.green Launch Box
+      li.demo-list-item
+        //- svg
+        //-   use
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/icons/templates/icons-flask.svg"
+          width = "48"
+        )
+        h3.h3.header-thin Flask
+        a.btn.btn-sm.green Launch Box
+      li.demo-list-item
+        //- svg
+        //-   use
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/icons/templates/icons-mongodb.svg"
+          width = "48"
+        )
+        h3.h3.header-thin MongoDB
+        a.btn.btn-sm.green Launch Box
+      li.demo-list-item
+        //- svg
+        //-   use
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/icons/templates/icons-mysql.svg"
+          width = "48"
+        )
+        h3.h3.header-thin MySQL
+        a.btn.btn-sm.green Launch Box
+      li.demo-list-item
+        //- svg
+        //-   use
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/icons/templates/icons-node.js.svg"
+          width = "48"
+        )
+        h3.h3.header-thin node.js
+        a.btn.btn-sm.green Launch Box
+      li.demo-list-item
+        //- svg
+        //-   use
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/icons/templates/icons-php.svg"
+          width = "48"
+        )
+        h3.h3.header-thin PHP
+        a.btn.btn-sm.green Launch Box
+      li.demo-list-item
+        //- svg
+        //-   use
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/icons/templates/icons-redis.svg"
+          width = "48"
+        )
+        h3.h3.header-thin Redis
+        a.btn.btn-sm.green Launch Box
+      li.demo-list-item
+        //- svg
+        //-   use
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/icons/templates/icons-ruby.svg"
+          width = "48"
+        )
+        h3.h3.header-thin Ruby
+        a.btn.btn-sm.green Launch Box
 
 footer
   .divider
