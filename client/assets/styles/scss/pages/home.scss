@@ -30,6 +30,7 @@
   color: $white;
   height: 660px;
   padding-top: 60px;
+  position: relative;
 }
 
 // header.home-header
@@ -72,9 +73,33 @@
   }
 }
 
+// .icon-grid
+.icon-grid {
+  bottom: 0;
+  left: 0;
+  opacity: .075;
+  position: absolute;
+  right: 0;
+  width: 100%;
+}
+
+// .icon-grid-row
+.icon-grid-row {
+  display: flex;
+  height: 99px;
+  justify-content: center;
+}
+
+// .icon-grid-image
+.icon-grid-image {
+  float: left;
+  margin: 27px;
+}
+
 // section.home-features
 .home-features {
   margin-top: -81px;
+  position: relative;
   text-align: center;
 
   .h2 {
@@ -97,7 +122,7 @@
   }
 
   .row {
-    margin-bottom: 75px;
+    margin: 0 0 75px;
   }
 
   .green {
