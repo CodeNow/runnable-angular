@@ -22,7 +22,8 @@ function fileTreeDir(
     scope: {
       dir: '=',
       openItems: '=',
-      readOnly: '='
+      readOnly: '=',
+      build: '='
     },
     template: '',
     link: function ($scope, element, attrs) {
@@ -188,11 +189,13 @@ function fileTreeDir(
       };
 
       // needed to observe change seed context version on setup page
-      $scope.$watch('openItems.state.reset', function (newVal, oldVal) {
-        if (!newVal) { return; }
-        fetchDirFiles();
-        $scope.actions.makeDroppable();
-      });
+      if ($state.$current.name === 'instance.setup') {
+        $scope.$watch('build.contextVersions.models[0].source', function (newVal, oldVal) {
+          if (!newVal) { return; }
+          fetchDirFiles();
+          $scope.actions.makeDroppable();
+        });
+      }
 
       $scope.$watch('dir.state.open', function (newVal, oldval) {
         if (newVal) {
@@ -212,8 +215,6 @@ function fileTreeDir(
           //$scope.actions.makeDroppable();
         }, 1);
       });
-
-      actions.fetchDirFiles = fetchDirFiles;
 
       function fetchDirFiles(file) {
         $scope.dir.contents.fetch(function (err) {
