@@ -21,8 +21,6 @@ main.home
   section.home-features
     .row
       .col
-        //- svg
-        //-   use
         img(
           height = "180"
           src = "/build/images/feature-boxes.svg"
@@ -34,8 +32,6 @@ main.home
           | you need; up to infinite boxes a year.
     .row
       .col
-        //- svg
-        //-   use
         img(
           height = "120"
           src = "/build/images/feature-linking.svg"
@@ -46,8 +42,6 @@ main.home
           br
           | we are able to link boxes together.
       .col
-        //- svg
-        //-   use
         img(
           height = "120"
           src = "/build/images/feature-github.svg"
@@ -69,8 +63,6 @@ main.home
     h3.h3.header-thin Free to try, no sign ups
     ol.demo-list.clearfix
       li.demo-list-item
-        //- svg
-        //-   use
         img.demo-icon(
           height = "48"
           src = "/build/images/icons/templates/icons-django.svg"
@@ -79,8 +71,6 @@ main.home
         h3.h3.header-thin Django
         a.btn.btn-sm.green Launch Box
       li.demo-list-item
-        //- svg
-        //-   use
         img.demo-icon(
           height = "48"
           src = "/build/images/icons/templates/icons-flask.svg"
@@ -89,8 +79,6 @@ main.home
         h3.h3.header-thin Flask
         a.btn.btn-sm.green Launch Box
       li.demo-list-item
-        //- svg
-        //-   use
         img.demo-icon(
           height = "48"
           src = "/build/images/icons/templates/icons-mongodb.svg"
@@ -99,8 +87,6 @@ main.home
         h3.h3.header-thin MongoDB
         a.btn.btn-sm.green Launch Box
       li.demo-list-item
-        //- svg
-        //-   use
         img.demo-icon(
           height = "48"
           src = "/build/images/icons/templates/icons-mysql.svg"
@@ -109,8 +95,6 @@ main.home
         h3.h3.header-thin MySQL
         a.btn.btn-sm.green Launch Box
       li.demo-list-item
-        //- svg
-        //-   use
         img.demo-icon(
           height = "48"
           src = "/build/images/icons/templates/icons-node.js.svg"
@@ -119,8 +103,6 @@ main.home
         h3.h3.header-thin node.js
         a.btn.btn-sm.green Launch Box
       li.demo-list-item
-        //- svg
-        //-   use
         img.demo-icon(
           height = "48"
           src = "/build/images/icons/templates/icons-php.svg"
@@ -129,8 +111,6 @@ main.home
         h3.h3.header-thin PHP
         a.btn.btn-sm.green Launch Box
       li.demo-list-item
-        //- svg
-        //-   use
         img.demo-icon(
           height = "48"
           src = "/build/images/icons/templates/icons-redis.svg"
@@ -139,8 +119,6 @@ main.home
         h3.h3.header-thin Redis
         a.btn.btn-sm.green Launch Box
       li.demo-list-item
-        //- svg
-        //-   use
         img.demo-icon(
           height = "48"
           src = "/build/images/icons/templates/icons-ruby.svg"
@@ -149,17 +127,19 @@ main.home
         h3.h3.header-thin Ruby
         a.btn.btn-sm.green Launch Box
 
-footer
-  .divider
-    a.logo
-  ol
-    li
-      a Features
-    li
-      a Pricing
-    li
-      a Contact
-    li Sign In
+footer.home-footer
+  .hr
+    img.hr-image(
+      height = "30"
+      src = "/build/images/runnable-icon.svg"
+      width = "30"
+    )
+  nav.footer-nav
+    a.link.link-text Features
+    a.link.link-text Pricing
+    a.link.link-text Contact
+    a.link.link-text
+      b Sign In
 
 //- main.hero(
 //-   ng-class = "{'no-flex': !dataHome.data.hasPass}"

@@ -53,7 +53,7 @@
     }
 
     + .link {
-      margin-left: 6px;
+      margin-left: 12px;
     }
   }
 }
@@ -142,20 +142,29 @@
     right: 0;
   }
 
+  .hr-text,
+  .hr-image {
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+
   .hr-text {
     color: $gray-light;
     font-size: 30px;
-    left: 0;
     line-height: 36px;
-    position: absolute;
-    right: 0;
     text-align: center;
+  }
+
+  .hr-image {
+    display: block;
+    margin: 0 auto;
   }
 }
 
 // section.home-demos
 .home-demos {
-  margin: 60px 0 180px;
+  margin: 60px 0 150px;
 }
 
 // ol.demo-list
@@ -203,6 +212,24 @@
   height: 100%;
   margin: 0 18px;
   width: 48px;
+}
+
+// footer.home-footer
+.home-footer {
+  padding-bottom: 210px;
+}
+
+// nav.footer-nav
+.footer-nav {
+  display: table;
+  margin: 36px auto 0;
+
+  .link {
+    color: $gray-light;
+    font-size: 18px;
+    margin: 0 12px;
+    padding: 0 12px;
+  }
 }
 
 // // main.hero
