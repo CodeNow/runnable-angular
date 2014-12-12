@@ -1,4 +1,4 @@
-describe.skip('directiveInstancePrimaryActions'.bold.underline.blue, function () {
+describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
   var element,
       $scope,
       $elScope,
