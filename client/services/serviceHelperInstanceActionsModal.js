@@ -5,6 +5,7 @@ require('app')
  */
 function HelperInstanceActionsModal(
   $rootScope,
+  $filter,
   $state,
   $stateParams,
   $timeout,
@@ -171,6 +172,7 @@ function HelperInstanceActionsModal(
           if (err) { throw err; }
           // redirect to next instance or new
           if (data.instances.models.length) {
+            data.instances.models = $filter('orderBy')(data.instances.models, 'attrs.name');
             // Only change the location if we're still on the page
             // If the user switched to a different instance in between, we shouldn't move
             if ($stateParams.instanceName === deletedInstanceName) {
