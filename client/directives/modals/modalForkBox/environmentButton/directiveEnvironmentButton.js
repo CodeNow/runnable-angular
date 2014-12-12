@@ -38,8 +38,13 @@ function environmentButton(
         actions: {
           saveEnv: function (instance, event) {
             event.preventDefault();
-            keypather.set($scope, 'item.opts.env',
-              $scope.envToStrings(keypather.get($scope, 'item.state.envVars')));
+            // Since these are overrides, we want to save the envs in both the opts, and the
+            // item.attrs
+            var updatedEnvs = $scope.envToStrings(keypather.get($scope, 'item.state.envVars'));
+
+            keypather.set($scope, 'item.opts.env', updatedEnvs);
+            keypather.set($scope, 'item.attrs.env', updatedEnvs);
+
             keypather.set($scope, 'item.state.envShow', false);
           },
           cancelEnv: function (instance, event) {

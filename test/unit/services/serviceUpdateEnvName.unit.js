@@ -114,6 +114,9 @@ function createItems(rootInstance) {
   return temp.map(function (instance) {
     return {
       instance: instance,
+      attrs: {
+        env: instance.attrs.env
+      }
     };
   });
 }

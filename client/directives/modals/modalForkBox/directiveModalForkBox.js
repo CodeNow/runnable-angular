@@ -82,10 +82,12 @@ function modalForkBox(
           instance: instance,
           opts: {
             name: getNewForkName(instance, $scope.data.instances)
-          }
+          },
+          attrs: {}
         };
         if (keypather.get(instance, 'attrs.env.length')) {
           item.opts.env = instance.attrs.env;
+          item.attrs.env = instance.attrs.env;
         }
         return item;
       }

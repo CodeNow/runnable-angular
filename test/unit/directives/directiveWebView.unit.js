@@ -11,7 +11,7 @@ var $compile,
     user;
 var $elScope;
 var api_host = require('config/api').host.toString().split('.').slice(1).join('.');
-describe.only('directiveWebView'.bold.underline.blue, function() {
+describe('directiveWebView'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {

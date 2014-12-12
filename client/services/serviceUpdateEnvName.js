@@ -34,8 +34,8 @@ function updateEnvName(
     }
 
     items.forEach(function (itemToModifyEnvs) {
-      if (keypather.get(itemToModifyEnvs, 'instance.attrs.env')) {
-        var modifiedEnvs = itemToModifyEnvs.instance.attrs.env.join('\n');
+      if (keypather.get(itemToModifyEnvs, 'attrs.env')) {
+        var modifiedEnvs = itemToModifyEnvs.attrs.env.join('\n');
         items.forEach(function (itemWithModifiedName) {
           if (keypather.get(itemWithModifiedName, 'opts.name') &&
               keypather.get(itemWithModifiedName.instance, 'containers.models[0].urls().length')) {
