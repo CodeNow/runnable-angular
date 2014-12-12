@@ -1,4 +1,4 @@
-main.home
+main.home.features
 
   //- hero
   section.home-hero
@@ -9,85 +9,66 @@ main.home
             xlink:href = "#runnable-logo"
           )
       nav.home-nav
-        a.link.link-text Features
+        a.link.link-text(
+          href = "/features"
+        ) Features
         a.link.link-text Pricing
         a.link.link-text Sign In
-    h1.h1.header-thin Bring your code online
-    h3.h3.header-thin Servers on demand for any stack
+    h1.h1.header-thin We’ll be there for you
+    h3.h3.header-thin Our reps will get your code running, pinky swear
 
   //- features
   section.home-features
     .row
       .col
         img(
-          height = "180"
-          src = "/build/images/home/feature-boxes.svg"
-          width = "180"
+          height = "300"
+          src = "/build/images/home/feature-reps.svg"
+          width = "300"
         )
-        h2.h2.header-thin Any Stack Anytime
-        p.p Simple and flexible. Use Runnable servers #{''}
+        h2.h2.header-thin Get on Board
+        p.p We'll get your team onboarded and your
           br
-          | to help your uncle with his next big idea.
+          | stack running over coffee or Skype.
+    .hr.hr-single
     .row
       .col
         img(
-          height = "120"
+          height = "180"
           src = "/build/images/home/feature-linking.svg"
-          width = "120"
+          width = "180"
         )
-        h2.h2.header-thin Better Together
+      .col.text-left
+        h2.h2.header-thin.text-blue Better Together
         p.p With Dixie cup and string technology, #{''}
           br
           | we are able to link boxes together.
-      .col
-        img(
-          height = "120"
-          src = "/build/images/home/feature-github.svg"
-          width = "120"
-        )
-        h2.h2.header-thin Github Integrated
+    .hr.hr-single
+    .row
+      .col.text-left
+        h2.h2.header-thin.text-green Github Integrated
         p.p Run your branches, commits, #{''}
           br
           | and pull requests.
-
-  .hr.hr-single
-
-  //- demo boxes
-  section.home-demos
-    h1.h1.header-thin Try a Server
-    h3.h3.header-thin Free to try, no sign ups
-    ol.demo-list.clearfix
-      li.demo-list-item
-        img.demo-icon(
-          height = "48"
-          src = "/build/images/home/icons-django.svg"
-          width = "48"
+      .col
+        img(
+          height = "180"
+          src = "/build/images/home/feature-github.svg"
+          width = "180"
         )
-        h3.h3.header-thin Django
-        p.p Launch a web app running on AngularJs and Django
-        a.btn.btn-sm.green Launch Server
-      li.demo-list-item
-        img.demo-icon(
-          height = "48"
-          src = "/build/images/home/icons-ruby-on-rails.svg"
-          width = "48"
+    .hr.hr-single
+    .row
+      .col
+        img(
+          height = "180"
+          src = "/build/images/home/feature-databses.svg"
+          width = "180"
         )
-        h3.h3.header-thin Ruby on Rails
-        p.p Launch a Rails app with MySQL
-        a.btn.btn-sm.green Launch Server
-      li.demo-list-item
-        img.demo-icon(
-          height = "48"
-          src = "/build/images/home/icons-node.js.svg"
-          width = "48"
-        )
-        h3.h3.header-thin node.js
-        p.p I don't even know right now
-        a.btn.btn-sm.green Launch Server
-    a.link.link-text Don't see yours? Launch a custom server.
-    .hr
-      span.hr-text or
-    a.btn.green Explore Features
+      .col.text-left
+        h2.h2.header-thin.text-orange It’s Over 500GB
+        p.p We support databses over 500GB.
+          br
+          | You say mango, we say Mongo.
 
 footer.home-footer
   .hr

@@ -9,7 +9,9 @@ main.home
             xlink:href = "#runnable-logo"
           )
       nav.home-nav
-        a.link.link-text Features
+        a.link.link-text(
+          href = "/features"
+        ) Features
         a.link.link-text Pricing
         a.link.link-text Sign In
     h1.h1.header-thin Bring your code online
@@ -145,7 +147,10 @@ main.home
         )
         h3.h3.header-thin Django
         p.p Launch a web app running on AngularJs and Django
-        a.btn.btn-sm.green Launch Server
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        ) Launch Server
       li.demo-list-item
         img.demo-icon(
           height = "48"
@@ -154,7 +159,10 @@ main.home
         )
         h3.h3.header-thin Ruby on Rails
         p.p Launch a Rails app with MySQL
-        a.btn.btn-sm.green Launch Server
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        ) Launch Server
       li.demo-list-item
         img.demo-icon(
           height = "48"
@@ -162,12 +170,17 @@ main.home
           width = "48"
         )
         h3.h3.header-thin node.js
-        p.p I don't even know right now
-        a.btn.btn-sm.green Launch Server
-    a.link.link-text Don't see yours? Launch a custom server.
+        p.p I don’t even know right now
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        ) Launch Server
+    a.link.link-text Don’t see yours? Launch a custom server.
     .hr
       span.hr-text or
-    a.btn.green Explore Features
+    a.btn.green(
+      href = "/features"
+    ) Explore Features
 
 footer.home-footer
   .hr
