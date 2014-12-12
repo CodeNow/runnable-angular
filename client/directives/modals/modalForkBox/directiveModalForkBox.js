@@ -36,6 +36,7 @@ function modalForkBox(
       $scope.items = [createItem($scope.data.instance)];
       createInstanceWatchers(0);
       $scope.devItems = [];
+      $scope.data.forkDependencies = true;
 
       $scope.$watch('items.length', function (n) {
         if (!n) { return; }
