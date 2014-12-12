@@ -10,12 +10,16 @@ function helperSetupTerminal(
   termjs,
   $window
 ) {
-  return function ($scope, elem, opts) {
+  return function ($scope, elem, opts, onResize) {
     var CHAR_SIZE = getTerminalCharacterSize(elem);
     var config = angular.extend({}, configTerminalOpts);
     config = angular.extend(config, (opts || {}));
-    config.rows = Math.floor(elem[0].clientHeight / CHAR_SIZE.height);
-    config.cols = Math.floor(elem[0].clientWidth / CHAR_SIZE.width);
+    if (elem[0].clientHeight > 100) {
+      config.rows = Math.floor(elem[0].clientHeight / CHAR_SIZE.height);
+    }
+    if (elem[0].clientWidth > 100) {
+      config.cols = Math.floor(elem[0].clientWidth / CHAR_SIZE.width);
+    }
     var terminal = new termjs(config);
     terminal.open(elem[0]);
 
@@ -42,6 +46,9 @@ function helperSetupTerminal(
         oldX = x;
         oldY = y;
         terminal.resize(x, y);
+        if (onResize) {
+          onResize(x, y);
+        }
       }
     }
 
@@ -59,7 +66,7 @@ function helperSetupTerminal(
 }
 
 function getTerminalCharacterSize(elem) {
-  var temp = elem[0].querySelectorAll('.js-char-width')[0];
+  var temp = elem[0].querySelector('.js-char-width');
   return {
     width: temp ? temp.offsetWidth : 9,
     height: temp ? temp.offsetHeight : 19
