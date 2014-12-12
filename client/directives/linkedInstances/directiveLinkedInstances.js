@@ -34,7 +34,9 @@ function linkedInstances(
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }
         $scope.instanceDependencies.models.forEach(function (model) {
-          model.fetch($rootScope.safeApply);
+          model.fetch(function () {
+            $rootScope.safeApply();
+          });
         });
       });
 
