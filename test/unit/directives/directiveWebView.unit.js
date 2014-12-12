@@ -10,8 +10,8 @@ var $compile,
     $timeout,
     user;
 var $elScope;
-
-describe('directiveWebView'.bold.underline.blue, function() {
+var api_host = require('config/api').host.toString().split('.').slice(1).join('.');
+describe.only('directiveWebView'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
@@ -107,7 +107,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
     expect($elScope.data.iframeUrl.toString()).to.equal('about:blank');
     $rootScope.$digest();
     $timeout.flush();
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://anand-api.codenow.codenow.runnable.io');
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://anand-api.codenow.' + api_host);
   });
 
   it('should change the name when the instance starts', function () {
@@ -125,7 +125,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
     $rootScope.$digest();
     $timeout.flush();
 
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://ruuuuunable.codenow.codenow.runnable.io');
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://ruuuuunable.codenow.' + api_host);
   });
 
   it('will not change if the only difference is capitalization', function () {
@@ -141,7 +141,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
 
     $rootScope.$digest();
 
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://anand-api.codenow.codenow.runnable.io');
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://anand-api.codenow.' + api_host);
   });
 
 });

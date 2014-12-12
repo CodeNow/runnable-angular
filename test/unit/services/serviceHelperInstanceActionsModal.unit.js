@@ -6,6 +6,28 @@ var $rootScope,
     ctx,
     updateEnvStub;
 
+function makeFakeItems (env, deps) {
+  var instance = makeFakeInstance(env, deps);
+
+  var combinedList = [instance];
+  if (deps) {
+    combinedList = combinedList.concat(instance.dependencies.models);
+  }
+  var items = combinedList.map(function (instance) {
+    var item = {
+      instance: instance,
+      opts: {
+        name: instance.state.name
+      }
+    };
+    delete instance.state.name;
+    if (env) {
+      item.opts.env = instance.attrs.env;
+    }
+    return item;
+  });
+  return items;
+}
 
 function makeFakeInstance (env, deps) {
   var instance = {
@@ -145,17 +167,20 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
 
     describe('forkInstance'.blue, function() {
       it('should function properly with a single instance with no env', function(done) {
-        $scope.instance = makeFakeInstance(false, false);
+        $scope.items = makeFakeItems(true, false);
 
+        $scope.items.forEach(function (item) {
+          item.opts.name = 'test-test';
+        });
         var fakeGo = sinon.stub($state, 'go');
-        dmf.actions.forkInstance('test-test', false, function (err) {
+        dmf.actions.forkInstance($scope.items, function (err) {
           if (err) { return done(err); }
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($rootScope.dataApp.data.loading).to.be.true;
 
           sinon.assert.called(fakeGo);
-          sinon.assert.called($scope.instance.copy);
+          sinon.assert.called($scope.items[0].instance.copy);
           sinon.assert.calledWith(fakeGo,'instance.instance', {
             userName: 'username',
             instanceName: 'test-test'
@@ -165,17 +190,21 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
       });
 
       it('should function properly with a single instance with env', function(done) {
-        $scope.instance = makeFakeInstance(true, false);
+        $scope.items = makeFakeItems(true, false);
+
+        $scope.items.forEach(function (item) {
+          item.opts.name = 'test-test';
+        });
 
         var fakeGo = sinon.stub($state, 'go');
-        dmf.actions.forkInstance('test-test', false, function (err) {
+        dmf.actions.forkInstance($scope.items, function (err) {
           if (err) { return done(err); }
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($rootScope.dataApp.data.loading).to.be.true;
 
           sinon.assert.called(fakeGo);
-          sinon.assert.called($scope.instance.copy);
+          sinon.assert.called($scope.items[0].instance.copy);
           sinon.assert.calledWith(fakeGo,'instance.instance', {
             userName: 'username',
             instanceName: 'test-test'
@@ -185,21 +214,26 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
       });
 
       it('should work with dependent instances', function(done) {
-        $scope.instance = makeFakeInstance(true, true);
-        var stubUpdate = sinon.stub($scope.instance.dependencies.models)
+        $scope.items = makeFakeItems(true, true);
+        var stubUpdate = sinon.stub($scope.items[0].instance.dependencies.models);
+
+        $scope.items.forEach(function (item) {
+          item.opts.name = 'test-test';
+        });
 
         var fakeGo = sinon.stub($state, 'go');
-        dmf.actions.forkInstance('test-test', true, function (err) {
+
+        dmf.actions.forkInstance($scope.items, function (err) {
           if (err) { return done(err); }
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($rootScope.dataApp.data.loading).to.be.true;
 
-          var dep = $scope.instance.dependencies.models[0];
+          var dep = $scope.items[0].instance.dependencies.models[0];
           sinon.assert.called(dep.copy);
 
           sinon.assert.called(fakeGo);
-          sinon.assert.called($scope.instance.copy);
+          sinon.assert.called($scope.items[0].instance.copy);
           sinon.assert.calledWith(fakeGo,'instance.instance', {
             userName: 'username',
             instanceName: 'test-test'
@@ -209,20 +243,23 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
       });
 
       it('should not fork dependent instances when not requested', function(done) {
-        $scope.instance = makeFakeInstance(true, true);
-
+        $scope.items = makeFakeItems(true, true);
+        $scope.items.splice(1);
+        $scope.items.forEach(function (item) {
+          item.opts.name = 'test-test';
+        });
         var fakeGo = sinon.stub($state, 'go');
-        dmf.actions.forkInstance('test-test', false, function (err) {
+        dmf.actions.forkInstance($scope.items, function (err) {
           if (err) { return done(err); }
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($rootScope.dataApp.data.loading).to.be.true;
 
-          var dep = $scope.instance.dependencies.models[0];
+          var dep = $scope.items[0].instance.dependencies.models[0];
           sinon.assert.notCalled(dep.copy);
 
           sinon.assert.called(fakeGo);
-          sinon.assert.called($scope.instance.copy);
+          sinon.assert.called($scope.items[0].instance.copy);
           sinon.assert.calledWith(fakeGo,'instance.instance', {
             userName: 'username',
             instanceName: 'test-test'

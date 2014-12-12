@@ -1,7 +1,8 @@
 require('app')
   .directive('environmentButton', environmentButton);
 
-function environmentButton (
+function environmentButton(
+  keypather,
   $rootScope
 ) {
   return {
@@ -9,7 +10,7 @@ function environmentButton (
     templateUrl: 'viewEnvironmentButton',
     replace: true,
     scope: {
-      instance: '='
+      item: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -30,40 +31,31 @@ function environmentButton (
           return arr;
         }, []);
       };
+      keypather.set($scope, 'item.state.envShow', false);
 
-      var originalState = {};
+
       $scope.envPopover = {
         actions: {
           saveEnv: function (instance, event) {
             event.preventDefault();
-            instance.extend({
-              env: $scope.envToStrings(instance.state.envVars)
-            });
-            instance.state.envShow = false;
+            keypather.set($scope, 'item.opts.env',
+              $scope.envToStrings(keypather.get($scope, 'item.state.envVars')));
+            keypather.set($scope, 'item.state.envShow', false);
           },
           cancelEnv: function (instance, event) {
             event.preventDefault();
-            instance.state.envVars = $scope.envToObjects(originalState.env || instance.attrs.env);
-            instance.state.envShow = false;
+            keypather.set($scope, 'item.state.envVars',
+              $scope.envToObjects(keypather.get($scope, 'item.opts.env')));
+            keypather.set($scope, 'item.state.envShow', false);
           }
         }
       };
 
-      var instance;
-      instance = $scope.instance;
-      if (!$scope.instance.state) {
-        $scope.instance.state = {};
-      } else {
-        originalState = $scope.instance.state;
-      }
-
-      instance.state.envVars = $scope.envToObjects(instance.attrs.env);
-
-      $scope.$watch('instance.state.env', function (n) {
+      $scope.$watch('item.opts.env', function (n) {
         if (!n) { return; }
-
         // Programatic update of env due to instance name change
-        instance.state.envVars = $scope.envToObjects(instance.state.env);
+        keypather.set($scope, 'item.state.envVars',
+          $scope.envToObjects(keypather.get($scope, 'item.opts.env')));
         $rootScope.safeApply();
       });
 

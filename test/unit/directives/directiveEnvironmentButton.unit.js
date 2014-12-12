@@ -28,13 +28,16 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
     });
 
     ctx = {};
-    $scope.instance = {
+    var instance = {
       attrs: {
         env: ['a=b', 'c=d', 'e=f']
       }
     };
+    $scope.item = {
+      instance: instance
+    };
     ctx.template = directiveTemplate('environment-button', {
-      instance: 'instance'
+      item: 'item'
     });
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
@@ -92,11 +95,8 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
 
       sinon.assert.called(fakeEvent.preventDefault);
       sinon.assert.called(fakeEnvToStrings);
-      sinon.assert.called(fakeInstance.extend);
-      sinon.assert.calledWith(fakeInstance.extend, {
-        env: ['a=b', 'c=d', 'e=f']
-      });
-      expect(fakeInstance.state.envShow).to.be.false;
+      expect($scope.item.opts.env).to.deep.equal(['a=b', 'c=d', 'e=f']);
+      expect($scope.item.state.envShow).to.be.false;
     });
 
     it('should reset popover values on cancel', function() {
@@ -117,12 +117,12 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
 
       sinon.assert.called(fakeEvent.preventDefault);
       sinon.assert.called(fakeEnvToObjects);
-      expect(fakeInstance.state.envVars).to.deep.equal([
+      expect($scope.item.state.envVars).to.deep.equal([
         {key: 'a', value: 'b'},
         {key: 'c', value: 'd'},
         {key: 'e', value: 'f'}
       ]);
-      expect(fakeInstance.state.envShow).to.be.false;
+      expect($scope.item.state.envShow).to.be.false;
     });
   });
 

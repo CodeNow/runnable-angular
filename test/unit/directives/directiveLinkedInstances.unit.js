@@ -74,9 +74,12 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     ctx = {};
     $scope.scp = makeDeps();
     $scope.instances = makeDeps().models;
+    $scope.items = [];
+
     ctx.template = directiveTemplate('linked-instances', {
       'instance-dependencies': 'scp.deps',
       'instances': 'instances',
+      'items': 'items',
       'type': type,
       'fork-dependencies': true
     });
@@ -92,7 +95,14 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
     it('should set up properly with instances', function() {
       expect($elScope.forkDependencies).to.be.true;
       $scope.scp.deps = makeDeps();
-
+      $scope.scp.deps.models.forEach(function (instance) {
+        $scope.items.push({
+          instance: instance,
+          opts: {
+            name: instance.attrs.name + '-copy'
+          }
+        });
+      });
       $scope.$digest();
 
       expect(ctx.element[0].querySelectorAll('div[ng-repeat]').length).to.equal(3);
