@@ -36,13 +36,13 @@ function modal(
           paths.forEach(function (path) {
             keypather.set($scope.stateModel, path, keypather.get(state, path));
           });
-          if ($scope.actions.save && typeof $scope.actions.save === 'function') {
+          if (typeof keypather.get($scope, 'actions.save') === 'function') {
             $scope.actions.save();
           }
           cb();
         },
         cancel: function () {
-          if ($scope.actions.cancel && typeof $scope.actions.cancel === 'function') {
+          if (typeof keypather.get($scope, 'actions.cancel') === 'function') {
             $scope.actions.cancel();
           }
           $scope.defaultActions.close();
@@ -56,13 +56,22 @@ function modal(
         }
       };
 
-      element[0].onclick = function (event) {
-        event.stopPropagation();
+      function createModal (event) {
+        if (event) {
+          event.stopPropagation();
+        }
         $scope.modal = $compile($template)($scope);
         $('body').append($template);
         $scope.in = true;
         $rootScope.safeApply();
-      };
+      }
+
+      element[0].onclick = createModal;
+      $scope.$watch('data.in', function(n) {
+        if (n === true) {
+          createModal();
+        }
+      });
 
       $scope.$on('$destroy', function () {
         if ($scope.modal) {

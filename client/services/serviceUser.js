@@ -46,6 +46,10 @@ methods.forEach(function (method) {
       .error(callback);
 
     function callback(data, status, headers, config) {
+      if (status === 0) {
+        // CORS failed
+        return cb(new Error('Could not reach server'));
+      }
       var body = data;
       var res = {
         body: body,

@@ -12,6 +12,7 @@ function ControllerHome(
   $location,
   $window,
   async,
+  errs,
   $localStorage,
   keypather,
   QueryAssist,
@@ -109,7 +110,7 @@ function ControllerHome(
           });
         }
       }
-    ]);
+    ], errs.handler);
   }
 
   /**
