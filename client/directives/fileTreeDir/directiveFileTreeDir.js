@@ -110,7 +110,7 @@ function fileTreeDir(
                 decimal
               );
             }
-            decimal = (decimal || ".0");
+            decimal = (decimal || '.0');
             return (
               padding.slice(integer.length) +
               integer +
