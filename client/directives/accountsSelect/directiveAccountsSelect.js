@@ -8,6 +8,7 @@ function accountsSelect(
   determineActiveAccount,
   $rootScope,
   QueryAssist,
+  fetchUser,
   $state,
   user
 ) {
@@ -63,19 +64,8 @@ function accountsSelect(
           .go();
       };
 
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
-
-      function fetchOrgs(cb) {
+      function fetchOrgs(user, cb) {
+        $scope.user = user;
         $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
           if (err) { throw err; }
           // TODO: heap

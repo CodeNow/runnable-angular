@@ -7,6 +7,7 @@ function setupBoxName(
   async,
   determineActiveAccount,
   QueryAssist,
+  fetchUser,
   $rootScope,
   user
 ) {
@@ -25,19 +26,6 @@ function setupBoxName(
       $scope.$watch('newInstanceNameForm.$valid', function () {
         $scope.valid = arguments[0];
       });
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
-      }
 
       function fetchInstances(cb) {
         async.waterfall([
@@ -69,7 +57,14 @@ function setupBoxName(
       }
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function(err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchInstances
       ]);
     }

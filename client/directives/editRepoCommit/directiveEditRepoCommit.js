@@ -6,6 +6,7 @@ require('app')
 function editRepoCommit(
   async,
   QueryAssist,
+  fetchUser,
   keypather,
   $rootScope,
   $state,
@@ -131,7 +132,14 @@ function editRepoCommit(
       fetchBranchCommits($scope.activeBranch);
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function(err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchBuild
       ]);
 
@@ -175,19 +183,6 @@ function editRepoCommit(
           if (err) { throw err; }
           $rootScope.safeApply();
         });
-      }
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {})
-          .go();
       }
 
       function fetchBuild(cb) {

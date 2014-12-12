@@ -7,21 +7,11 @@
   .row {
     display: flex;
     flex-direction: column;
-
-    // temp fix, remove after SAN-267
     position: relative;
-
-    &:first-child {
-      z-index: $z-sidebar;
-    }
-
-    &:last-child {
-      z-index: $z-sidebar - 1;
-    }
-    // end temp fix
   }
 
-  .spinner-container {
+  .spinner-wrapper {
+    align-items: flex-start;
     top: 60px;
   }
 }

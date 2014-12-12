@@ -8,6 +8,7 @@ function dockerTemplates(
   determineActiveAccount,
   keypather,
   QueryAssist,
+  fetchUser,
   $rootScope,
   $state,
   $stateParams,
@@ -87,22 +88,6 @@ function dockerTemplates(
         ]);
       };
 
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
-      }
-
       function fetchBuild(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
@@ -145,7 +130,14 @@ function dockerTemplates(
           $rootScope.safeApply();
           cb();
         },
-        fetchUser,
+        function (cb) {
+          fetchUser(function(err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         function (cb) {
           async.parallel([
             fetchBuild,

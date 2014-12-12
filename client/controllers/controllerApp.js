@@ -7,6 +7,7 @@ require('app')
  * @ngInject
  */
 function ControllerApp(
+  $log,
   $scope,
   $state,
   $rootScope,
@@ -16,6 +17,8 @@ function ControllerApp(
   configEnvironment,
   configLoginURL,
   configLogoutURL,
+  fetchUser,
+  keypather,
   QueryAssist,
   user
 ) {
@@ -53,21 +56,8 @@ function ControllerApp(
   var thisUser,
       thisUserOrgs;
 
-  function fetchUser(cb) {
-    new QueryAssist(user, cb)
-      .wrapFunc('fetchUser')
-      .query('me')
-      .cacheFetch(function (user, cached, cb) {
-        thisUser = user;
-        cb();
-      })
-      .resolve(function (err, user, cb) {
-        cb(err, user);
-      })
-      .go();
-  }
-
-  function fetchOrgs(cb) {
+  function fetchOrgs(user, cb) {
+    thisUser = user;
     thisUserOrgs = thisUser.fetchGithubOrgs(function (err) {
       cb(err, thisUserOrgs);
     });
@@ -77,7 +67,13 @@ function ControllerApp(
     fetchUser,
     fetchOrgs
   ], function(err, results) {
-    if (err) { return; }
+    if (err) {
+      $log.error(err);
+      if (keypather.get(err, 'data.statusCode') === 401) {
+        $state.go('home');
+      }
+      return;
+    }
     if ($window.heap) {
       $window.heap.identify({
         name:  thisUser.oauthName(),

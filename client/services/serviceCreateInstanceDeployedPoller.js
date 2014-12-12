@@ -51,6 +51,7 @@ function createInstanceDeployedPoller (
     if (force) {
       clear.call(this);
       this.startCounter = 0;
+      this.pollingStarted = false;
       return this;
     }
     this.startCounter--;

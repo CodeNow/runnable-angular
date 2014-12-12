@@ -8,6 +8,7 @@ function fileTree(
   async,
   keypather,
   QueryAssist,
+  fetchUser,
   $rootScope,
   $state,
   $stateParams,
@@ -43,22 +44,6 @@ function fileTree(
           instanceDeployedPoller.clear();
         }
       });
-
-      function fetchUser(cb) {
-        new QueryAssist(user, cb)
-          .wrapFunc('fetchUser')
-          .query('me')
-          .cacheFetch(function (user, cached, cb) {
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, user, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
-      }
 
       /**
        * use buildId if stateParams.buildId (instance.setup)
@@ -107,7 +92,14 @@ function fileTree(
       }
 
       async.series([
-        fetchUser,
+        function (cb) {
+          fetchUser(function (err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $rootScope.safeApply();
+            cb();
+          });
+        },
         fetchBuild
       ], function (err) {
         if (err) { throw err; }
