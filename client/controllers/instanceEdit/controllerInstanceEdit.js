@@ -7,6 +7,7 @@ function ControllerInstanceEdit(
   async,
   $interval,
   keypather,
+  errs,
   OpenItems,
   QueryAssist,
   fetchUser,
@@ -32,7 +33,6 @@ function ControllerInstanceEdit(
   data.showExplorer = false;
 
   function fetchInstance(cb) {
-    console.log('fetchInstance');
     new QueryAssist($scope.user, cb)
       .wrapFunc('fetchInstances')
       .query({
@@ -61,7 +61,6 @@ function ControllerInstanceEdit(
   }
 
   function fetchBuild(cb) {
-    console.log('fetchBuild');
     new QueryAssist($scope.user, cb)
       .wrapFunc('fetchBuild')
       .query($stateParams.buildId)
@@ -122,7 +121,7 @@ function ControllerInstanceEdit(
     });
   }
 
-  async.series([
+  async.waterfall([
     function (cb) {
       fetchUser(function (err, user) {
         $scope.user = user;
@@ -133,7 +132,7 @@ function ControllerInstanceEdit(
     fetchInstance,
     fetchBuild
   ], function(err, redirect) {
-    if (err) { throw err; }
+    if (err) { return errs.handler(err); }
     if (redirect) { return; }
     setDefaultTabs();
     fetchInstances(angular.noop);

@@ -6,6 +6,7 @@ require('app')
 function ControllerInstance(
   async,
   determineActiveAccount,
+  errs,
   keypather,
   OpenItems,
   QueryAssist,
@@ -104,9 +105,7 @@ function ControllerInstance(
     },
     fetchInstance,
     fetchInstances
-  ], function(err) {
-    if (err) { throw err; }
-  });
+  ], errs.handler);
 
   // This is to fetch the list of instances.  This is separate so the page can load quickly
   // since it will have its instance.  Only the modals use this list
@@ -124,8 +123,7 @@ function ControllerInstance(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err, instances, cb) {
-        if (err) { return $log.error(err); }
+      .resolve(function (err) {
         cb(err);
       })
       .go();
@@ -139,14 +137,16 @@ function ControllerInstance(
         name: $stateParams.instanceName
       })
       .cacheFetch(function (instances, cached, cb) {
+        if (!cached && instances.models.length === 0) {
+          return cb(new Error('Instance not found'));
+        }
         var instance = instances.models[0];
         data.instance = instance;
         data.instance.state = {};
         $scope.safeApply();
-        cb(null, instance);
+        cb();
       })
-      .resolve(function (err, instances, cb) {
-        if (err) { return $log.error(err); }
+      .resolve(function (err) {
         cb(err);
       })
       .go();

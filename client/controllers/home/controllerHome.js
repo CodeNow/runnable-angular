@@ -13,6 +13,7 @@ function ControllerHome(
   $window,
   skrollr,
   async,
+  errs,
   $localStorage,
   keypather,
   QueryAssist,
@@ -119,7 +120,7 @@ function ControllerHome(
           });
         }
       }
-    ]);
+    ], errs.handler);
   }
 
   /**
