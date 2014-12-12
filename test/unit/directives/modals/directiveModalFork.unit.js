@@ -416,50 +416,6 @@ describe('directiveModalFork'.bold.underline.blue, function () {
         });
       });
     });
-  //  describe('No dependencies', function () {
-  //    beforeEach(function () {
-  //      var scope = makeDefaultScope();
-  //      scope.data.instance.dependencies = {
-  //        models: [{
-  //          attrs: {
-  //            name: 'dep'
-  //          },
-  //          fetch: sinon.spy()
-  //        }]
-  //      };
-  //      injectSetupCompile(scope);
-  //    });
-  //    it('should start with the name being name-new, not triggering any', function () {
-  //      $elScope.data.instance.dependencies.models[0].state = {
-  //        name: 'newDepForkName'
-  //      };
-  //      $scope.$digest();
-  //      sinon.assert.called(updateEnvStub);
-  //
-  //      $scope.$destroy();
-  //    });
-  //  });
-  //  beforeEach(function () {
-  //    var scope = makeDefaultScope();
-  //    scope.data.instance.dependencies = {
-  //      models: [{
-  //        attrs: {
-  //          name: 'dep'
-  //        },
-  //        fetch: sinon.spy()
-  //      }]
-  //    };
-  //    injectSetupCompile(scope);
-  //  });
-  //  it('should start with the name being name-new, not triggering any', function () {
-  //    $elScope.data.instance.dependencies.models[0].state = {
-  //      name: 'newDepForkName'
-  //    };
-  //    $scope.$digest();
-  //    sinon.assert.called(updateEnvStub);
-  //
-  //    $scope.$destroy();
-  //  });
   });
   function getRootInstanceElement() {
     return ctx.element[0]

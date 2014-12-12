@@ -10,7 +10,7 @@ var $compile,
     $timeout,
     user;
 var $elScope;
-var api_host = require('config/api').host.toString().split('.').slice(1).join('.');
+var api_host = require('config/api').host.split('.').slice(1).join('.');
 describe('directiveWebView'.bold.underline.blue, function() {
   var ctx;
 
