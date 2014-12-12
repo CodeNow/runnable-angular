@@ -105,7 +105,7 @@ function ControllerSetup(
         $scope.safeApply();
         cb();
       });
-    },,
+    },
     fetchBuild,
     fetchInstances
   ]);
