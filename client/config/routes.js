@@ -9,6 +9,7 @@ module.exports = [
       bodyClass: {
         'vertical': true
       },
+      anon: true
     }
   },
   {
@@ -20,6 +21,7 @@ module.exports = [
       bodyClass: {
         'vertical': true
       },
+      anon: true
     }
   },
   {
