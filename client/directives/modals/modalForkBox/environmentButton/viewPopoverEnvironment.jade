@@ -20,8 +20,8 @@
   footer.popover-footer
     //- TODO
     button.btn.btn-sm.green(
-      ng-click = "actions.saveEnv(data, $event)"
+      ng-click = "actions.saveEnv(data.instance, $event)"
     ) Save
     button.btn.btn-sm.white(
-      ng-click = "actions.cancelEnv(data, $event)"
+      ng-click = "actions.cancelEnv(data.instance, $event)"
     ) Cancel

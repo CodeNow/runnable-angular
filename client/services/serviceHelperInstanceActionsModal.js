@@ -119,27 +119,19 @@ function HelperInstanceActionsModal(
 
     $scope.popoverGearMenu.actions.actionsModalFork = {
       // TODO: check instanceEdit page
-      forkInstance: function (newName, forkDeps, cb) {
+      /**
+       *
+       * @param items An array of objects containing an instance, and the options to send
+       *        during the copy
+       *
+       *        items: [{ instance: {}, opts: { name, env } }]
+       *
+       * @param cb
+       */
+      forkInstance: function (items, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
-        var tempOpts = [{
-          instance: $scope.instance,
-          name: newName,
-          env: $scope.instance.state.env ? $scope.instance.state.env : $scope.instance.attrs.env
-        }];
-        if (forkDeps && keypather.get($scope, 'instance.dependencies.models.length')) {
-          $scope.instance.dependencies.models.forEach(function(instance) {
-            tempOpts.push({
-              instance: instance,
-              name: instance.state.name,
-              env: instance.state.env ? instance.state.env : instance.attrs.env
-            });
-          });
-        }
-        // TODO display loading overlay
-        function fork (opts, cb) {
-          var instance = opts.instance;
-          delete opts.instance;
+        function fork (instance, opts, cb) {
           instance.copy(opts, function (err) {
             if (err) { throw err; }
             $rootScope.safeApply();
@@ -148,11 +140,16 @@ function HelperInstanceActionsModal(
             cb();
           });
         }
-        async.each(tempOpts, fork, function (err) {
+        var parallelFunctions = items.map(function (item) {
+          return function (cb) {
+            fork(item.instance, item.opts, cb);
+          };
+        });
+        async.parallel(parallelFunctions, function (err) {
           if (err) { throw err; }
           $state.go('instance.instance', {
             userName: $stateParams.userName,
-            instanceName: newName
+            instanceName: keypather.get(items[0], 'opts.name')
           });
           if (cb) {
             cb();
@@ -162,6 +159,10 @@ function HelperInstanceActionsModal(
       cancel: function () {
         $scope.popoverGearMenu.data.show = false;
       }
+    };
+
+    $scope.popoverGearMenu.actions.closePopover = function () {
+      $scope.popoverGearMenu.data.show = false;
     };
 
     $scope.popoverGearMenu.actions.actionsModalDelete = {

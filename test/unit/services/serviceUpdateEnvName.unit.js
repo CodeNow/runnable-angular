@@ -47,17 +47,10 @@ function testModels() {
           'e = http://morange.user.runnable.io:1231'
         ]
       },
-      state: {
-        env: [
-          'a= banana.user.runnable.io:2031/github/api',
-          'c = user.user.runnable.io',
-          'e = http://morange.user.runnable.io:1231'
-        ]
-      },
       changes: {
         morange: [2],
-        banana: [0],
-        user: [1]
+        'banana.mana': [0],
+        orange: [1]
       }
     }, {
       attrs: {
@@ -116,6 +109,18 @@ function getModelNameArray(model) {
   });
 }
 
+function createItems(rootInstance) {
+  var temp = [rootInstance].concat(rootInstance.dependencies.models);
+  return temp.map(function (instance) {
+    return {
+      instance: instance,
+      attrs: {
+        env: instance.attrs.env
+      }
+    };
+  });
+}
+
 function testRoot(models) {
   var model =  {
     attrs: {
@@ -131,9 +136,6 @@ function testRoot(models) {
         'c = user.user.runnable.io'
       ]
     },
-    state: {
-      name: 'shmapple'
-    },
     dependencies: {
       models: models || testModels()
     },
@@ -141,7 +143,6 @@ function testRoot(models) {
       morange: [0, 3],
       orange: [2],
       banana: [4],
-      pineapple: [6],
       apple: [1],
       'banana.mana': [5],
       user: [7]
@@ -163,14 +164,11 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
   describe('basic operations'.blue, function () {
     describe('testing invalid input', function () {
       [
-        ['empty everything', null, null, null, null],
-        ['empty instance', null, 'a', 'b', testRoot()],
-        ['empty rootInstance', testModels()[0], 'a', 'b', null],
-        ['empty dependencies', testModels()[0], 'a', 'b', testModels()[1]],
-        ['no name change', testModels()[1], 'a', 'b', testRoot()]
+        ['empty everything', null],
+        ['empty items array', [] ]
       ].forEach(function (testArray) {
           it('should handle ' + testArray[0], function () {
-            var result = updateEnvName(testArray[1], testArray[2]);
+            var result = updateEnvName(testArray[1]);
             expect(result).to.be.false;
           });
         });
@@ -178,82 +176,64 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
   });
   describe('editing a single entry', function () {
     it('renaming apple should only affect root', function () {
-      var instance = testModels()[0];
       var root = testRoot();
-      var result = updateEnvName(instance, 'chicken', 'apple', root);
+      var items = createItems(root);
+      keypather.set(items[1], 'opts.name', 'chicken');
+      var result = updateEnvName(items);
       expect(result).to.be.true;
-      expect(root.state).to.exist;
-      expect(root.state.env).to.exist;
-      expect(root.state.env.length).to.eql(root.attrs.env.length);
-      compareArrays(root.state.env, root.attrs.env, [1]);
-      expect(root.state.env[1]).to.eql('b =http://chicken.user.runnable.io');
+      expect(items[0].opts).to.exist;
+      expect(items[0].opts.env).to.exist;
+      expect(items[0].opts.env.length).to.eql(root.attrs.env.length);
+      compareArrays(items[0].opts.env, root.attrs.env, [1]);
+      expect(items[0].opts.env[1]).to.eql('b =http://chicken.user.runnable.io');
 
     });
     it('renaming root should only affect itself', function () {
       var root = testRoot();
-      var result = updateEnvName(root, 'chicken', 'pineapple', root);
+      var items = createItems(root);
+      keypather.set(items[0], 'opts.name', 'chicken');
+      var result = updateEnvName(items);
       expect(result).to.be.true;
-      expect(root.state).to.exist;
-      expect(root.state.env).to.exist;
-      expect(root.state.env.length).to.eql(root.attrs.env.length);
-      compareArrays(root.state.env, root.attrs.env, [6]);
-      expect(root.state.env[6]).to.eql('f= chicken.user.runnable.io:2031/github/api');
-
-    });
-    it('renaming morange should update itself', function () {
-      var originalInstance = testModels()[1];
-      // This instance already has an state change
-      expect(originalInstance.state.env).to.exist;
-      var root = testRoot();
-      var result = updateEnvName(originalInstance, 'chicken', 'morange', root);
-      expect(result).to.be.true;
-      var changedInstance = root.dependencies.models[1];
-      expect(changedInstance.state).to.exist;
-      expect(changedInstance.state.env).to.exist;
-      // NOTE: comparing originalInstance, since it is the unchanged version
-      expect(changedInstance.state.env.length).to.eql(originalInstance.state.env.length);
-      compareArrays(changedInstance.state.env, originalInstance.state.env, [2]);
-      expect(changedInstance.state.env[2]).to.eql('e = http://chicken.user.runnable.io:1231');
+      expect(items[0].opts).to.exist;
+      expect(items[0].opts.env).to.exist;
+      expect(items[0].opts.env.length).to.eql(root.attrs.env.length);
+      compareArrays(items[0].opts.env, root.attrs.env, [6]);
+      expect(items[0].opts.env[6]).to.eql('f= chicken.user.runnable.io:2031/github/api');
     });
   });
-  describe('advanced editing', function () {
-    it('renaming banana should change a lot', function () {
-      var INSTANCE_NAME = 'banana';
-      var INSTANCE_INDEX = 4;
 
-      var originalDependencies = testModels();
-      var instance = originalDependencies[INSTANCE_INDEX];
-      expect(instance.attrs.name).to.eql(INSTANCE_NAME);
+  describe('editing 2 entries', function () {
+    it('renaming apple and root will change 2 envs on root', function () {
       var root = testRoot();
-      var result = updateEnvName(instance, 'chicken', 'banana', root);
+      var items = createItems(root);
+      keypather.set(items[1], 'opts.name', 'chicken');
+      keypather.set(items[0], 'opts.name', 'beef');
+      var result = updateEnvName(items);
       expect(result).to.be.true;
-      originalDependencies.forEach(function (ogDeps, index) {
-        var ogEnvs = keypather.get(ogDeps, 'state.env') || ogDeps.attrs.env;
-        var changedInstance = root.dependencies.models[index];
-        var expectedChanges = keypather.get(changedInstance, 'changes.' + INSTANCE_NAME);
-        if (expectedChanges) {
-          compareArrays(changedInstance.state.env, ogEnvs, expectedChanges);
-          expect(keypather.get(changedInstance, 'state.env.length')).to.eql(ogEnvs.length);
-        }
-      });
+      expect(items[0].opts).to.exist;
+      expect(items[0].opts.env).to.exist;
+      expect(items[0].opts.env.length).to.eql(root.attrs.env.length);
+      compareArrays(items[0].opts.env, root.attrs.env, [1, 6]);
+      expect(items[0].opts.env[1]).to.eql('b =http://chicken.user.runnable.io');
+      expect(items[0].opts.env[6]).to.eql('f= beef.user.runnable.io:2031/github/api');
     });
-    it('should work with renaming everything', function () {
-      var originalDependencies = testModels();
-      getModelNameArray(originalDependencies).forEach(function (INSTANCE_NAME, INSTANCE_INDEX) {
-        var instance = originalDependencies[INSTANCE_INDEX];
-        expect(instance.attrs.name).to.eql(INSTANCE_NAME);
-        var root = testRoot();
-        var result = updateEnvName(instance, 'chicken', INSTANCE_NAME, root);
-        expect(result).to.be.true;
-        originalDependencies.forEach(function (ogDeps, index) {
-          var ogEnvs = keypather.get(ogDeps, 'state.env') || ogDeps.attrs.env;
-          var changedInstance = root.dependencies.models[index];
-          var expectedChanges = keypather.get(changedInstance, 'changes.' + INSTANCE_NAME);
-          if (expectedChanges) {
-            compareArrays(changedInstance.state.env, ogEnvs, expectedChanges);
-            expect(keypather.get(changedInstance, 'state.env.length')).to.eql(ogEnvs.length);
-          }
-        });
+  });
+  it('should work with renaming everything', function () {
+    var root = testRoot();
+    var items = createItems(root);
+    items.forEach(function (item, INSTANCE_INDEX) {
+
+      var testItems = createItems(testRoot());
+      keypather.set(testItems[INSTANCE_INDEX], 'opts.name', 'chicken');
+      var result = updateEnvName(testItems);
+      expect(result).to.be.true;
+
+      testItems.forEach(function (testItem) {
+        var expectedChanges = keypather.get(testItem.instance, 'changes.' + item.instance.attrs.name);
+        if (expectedChanges) {
+          compareArrays(testItem.opts.env, testItem.instance.attrs.env, expectedChanges);
+          expect(keypather.get(testItem, 'opts.env.length')).to.eql(testItem.instance.attrs.env.length);
+        }
       });
     });
   });
