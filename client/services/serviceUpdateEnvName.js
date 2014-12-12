@@ -42,8 +42,9 @@ function updateEnvName(
             var url = createUrl(itemWithModifiedName.instance);
             var regex = makeRegexp(url);
             if (regex.test(modifiedEnvs)) {
-              var newUrl = url.replace(new RegExp(regexpQuote(
-                itemWithModifiedName.instance.attrs.name), 'i'), itemWithModifiedName.opts.name);
+              var newUrl = url.replace(new
+                  RegExp(regexpQuote(itemWithModifiedName.instance.attrs.name), 'i'),
+                  itemWithModifiedName.opts.name).toLowerCase();
               modifiedEnvs = modifiedEnvs.replace(regex, '$1' + newUrl);
             }
           }
