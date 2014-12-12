@@ -3,7 +3,9 @@ main.home.features
   //- hero
   section.home-hero
     header.home-header
-      a.logo
+      a.logo(
+        href = "/"
+      )
         svg
           use(
             xlink:href = "#runnable-logo"
@@ -69,6 +71,59 @@ main.home.features
         p.p We support databses over 500GB.
           br
           | You say mango, we say Mongo.
+
+  //-
+  section.home-hero.home-callout
+    h1.h1.header-thin Features we already named
+    h3.h3.header-thin But on another page so here they are again
+    ul.hero-list
+      li.hero-list-item The ability to link boxes together
+      li.hero-list-item Github integration means we can run anything you code
+      li.hero-list-item No limit on the number of servers
+
+  //- demo boxes
+  section.home-demos
+    h1.h1.header-thin Try a Server
+    h3.h3.header-thin Free to try, no sign ups
+    ol.demo-list.clearfix
+      li.demo-list-item
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/home/icons-django.svg"
+          width = "48"
+        )
+        h3.h3.header-thin Django
+        p.p Launch a web app running on AngularJs and Django
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        ) Launch Server
+      li.demo-list-item
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/home/icons-ruby-on-rails.svg"
+          width = "48"
+        )
+        h3.h3.header-thin Ruby on Rails
+        p.p Launch a Rails app with MySQL
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        ) Launch Server
+      li.demo-list-item
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/home/icons-node.js.svg"
+          width = "48"
+        )
+        h3.h3.header-thin node.js
+        p.p I don’t even know right now
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        ) Launch Server
+    a.link.link-text Don’t see yours? Launch a custom server.
+
 
 footer.home-footer
   .hr

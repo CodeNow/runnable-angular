@@ -260,6 +260,26 @@
   }
 }
 
+// section.home-callout
+.home-callout {
+  background: linear-gradient($purple-dark, $purple);
+  color: $white;
+  font-size: 18px;
+  margin: 120px 0;
+}
+
+// ul.hero-list
+.hero-list {
+  display: table;
+  list-style-type: circle;
+  margin: 90px auto;
+}
+
+// li.hero-list-item
+.hero-list-item + .hero-list-item {
+  margin-top: 9px;
+}
+
 // section.home-demos
 .home-demos {
   margin: 60px 0 240px;
