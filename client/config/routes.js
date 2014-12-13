@@ -25,6 +25,18 @@ module.exports = [
     }
   },
   {
+    state: 'pricing',
+    abstract: false,
+    url: '^/pricing',
+    templateUrl: 'viewPricing',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  },
+  {
     state: 'edemo',
     abstract: false,
     url: '^/demo',
