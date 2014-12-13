@@ -47,6 +47,11 @@
   top: 0;
   transition: opacity .15s ease-in;
 
+  &.invalid-require {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
   .btn-xs {
     border-radius: 3px;
     line-height: 1.4;
@@ -56,7 +61,8 @@
 }
 
 .invalid-pattern .invalid-pattern,
-.invalid-name .invalid-name {
+.invalid-name .invalid-name,
+.invalid-require .invalid-require {
   opacity: 1;
 }
 
