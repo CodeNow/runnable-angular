@@ -74,12 +74,37 @@ main.home.features
 
   //-
   section.home-hero.home-callout
-    h1.h1.header-thin Features we already named
-    h3.h3.header-thin But on another page so here they are again
-    ul.hero-list
-      li.hero-list-item The ability to link boxes together
-      li.hero-list-item Github integration means we can run anything you code
-      li.hero-list-item No limit on the number of servers
+    .row
+      h2.h2.header-thin But Wait, There’s More
+      ul.hero-list
+        li.hero-list-item.clearfix
+          img.hero-list-image(
+            height = "60"
+            src = "/build/images/home/features-terminal.svg"
+            width = "60"
+          )
+          span.hero-list-text Terminal Access
+        li.hero-list-item.clearfix
+          img.hero-list-image(
+            height = "60"
+            src = "/build/images/home/features-files.svg"
+            width = "60"
+          )
+          span.hero-list-text File Access
+        li.hero-list-item.clearfix
+          img.hero-list-image(
+            height = "60"
+            src = "/build/images/home/features-fork.svg"
+            width = "60"
+          )
+          span.hero-list-text Fork Servers
+        li.hero-list-item.clearfix
+          img.hero-list-image(
+            height = "60"
+            src = "/build/images/home/features-custom.svg"
+            width = "60"
+          )
+          span.hero-list-text Full Customization
 
   //- demo boxes
   section.home-demos
@@ -133,7 +158,12 @@ footer.home-footer
       width = "30"
     )
   nav.footer-nav
-    a.link.link-text Features
+    a.link.link-text(
+      href = "/"
+    ) Home
+    a.link.link-text(
+      href = "/features"
+    ) Features
     a.link.link-text Pricing
     a.link.link-text Contact
     a.link.link-text

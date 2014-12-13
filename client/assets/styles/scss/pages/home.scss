@@ -1,8 +1,9 @@
 // main.home
 .home {
 
-  // h1.h1, h3.h3
+  // h1.h1, h2.h2, h3.h3
   .h1,
+  .h2,
   .h3 {
     text-align: center;
   }
@@ -19,6 +20,14 @@
     }
 
     @include media(xxs) {
+      font-size: 36px;
+    }
+  }
+
+  .h2 {
+    font-size: 48px;
+
+    @include media(sm) {
       font-size: 36px;
     }
   }
@@ -264,20 +273,76 @@
 .home-callout {
   background: linear-gradient($purple-dark, $purple);
   color: $white;
-  font-size: 18px;
   margin: 120px 0;
+  max-height: 420px;
+
+  @include media(sm) {
+    max-height: none;
+  }
+
+  .row {
+    margin: 0 auto;
+    max-width: 960px;
+  }
+
+  .h2 {
+    margin-bottom: 30px;
+
+    @include media(sm) {
+      margin-bottom: 15px;
+    }
+  }
 }
 
 // ul.hero-list
 .hero-list {
-  display: table;
-  list-style-type: circle;
-  margin: 90px auto;
+  margin: 0 auto;
+  padding-left: 60px;
+  width: 720px;
+
+  @include media(sm) {
+    padding: 0;
+    width: 300px;
+  }
 }
 
 // li.hero-list-item
-.hero-list-item + .hero-list-item {
-  margin-top: 9px;
+.hero-list-item {
+  display: inline-block;
+  font-size: 24px;
+  margin-top: 30px;
+  width: 50%;
+
+  @include media(sm) {
+    font-size: 18px;
+    width: 100%;
+  }
+}
+
+// img.hero-list-image
+// span.hero-list-text
+.hero-list-image,
+.hero-list-text {
+  display: inline-block;
+  float: left;
+}
+
+.hero-list-image {
+
+  @include media(sm) {
+    height: 45px;
+  }
+}
+
+.hero-list-text {
+  height: 60px;
+  line-height: 60px;
+  margin-left: 15px;
+
+  @include media(sm) {
+    height: 45px;
+    line-height: 45px;
+  }
 }
 
 // section.home-demos
@@ -349,12 +414,20 @@
 
   .p {
     width: calc(100% - 150px);
+
+    @include media(xs) {
+      width: calc(100% - 138px);
+    }
   }
 
   .btn {
     position: absolute;
     right: 21px;
     top: 36px;
+
+    @include media(xs) {
+      right: 15px;
+    }
   }
 }
 
