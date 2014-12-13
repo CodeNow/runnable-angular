@@ -85,6 +85,9 @@ function HelperInstanceActionsModal(
       },
       cancel: function() {
         $scope.popoverGearMenu.data.show = false;
+      },
+      closePopover: function () {
+        $scope.popoverGearMenu.data.show = false;
       }
     };
 
@@ -113,6 +116,9 @@ function HelperInstanceActionsModal(
         cb();
       },
       cancel: function () {
+        $scope.popoverGearMenu.data.show = false;
+      },
+      closePopover: function () {
         $scope.popoverGearMenu.data.show = false;
       }
     };
@@ -158,11 +164,10 @@ function HelperInstanceActionsModal(
       },
       cancel: function () {
         $scope.popoverGearMenu.data.show = false;
+      },
+      closePopover: function () {
+        $scope.popoverGearMenu.data.show = false;
       }
-    };
-
-    $scope.popoverGearMenu.actions.closePopover = function () {
-      $scope.popoverGearMenu.data.show = false;
     };
 
     $scope.popoverGearMenu.actions.actionsModalDelete = {
@@ -190,6 +195,9 @@ function HelperInstanceActionsModal(
         });
       },
       cancel: function () {
+        $scope.popoverGearMenu.data.show = false;
+      },
+      closePopover: function () {
         $scope.popoverGearMenu.data.show = false;
       }
     };
