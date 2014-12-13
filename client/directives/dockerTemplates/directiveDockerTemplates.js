@@ -86,6 +86,7 @@ function dockerTemplates(
 
         function setDockerFileValid(cb) {
           $scope.valid = true;
+          $rootScope.safeApply();
           cb();
         }
 

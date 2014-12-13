@@ -17,7 +17,8 @@ function setupPrimaryActions(
       data: '=',
       loading: '=',
       name: '=',
-      valid: '=',
+      isDockerFileValid: '=',
+      isNameValid: '=',
       openItems: '=',
       instanceOpts: '='
     },
