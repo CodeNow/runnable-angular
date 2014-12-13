@@ -19,7 +19,8 @@ function dockerTemplates(
     templateUrl: 'viewDockerTemplates',
     replace: true,
     scope: {
-      openItems: '='
+      openItems: '=',
+      valid: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -27,7 +28,9 @@ function dockerTemplates(
        * Fetch dockerfile(s) for seed context
        */
       $scope.selectedSourceContext = null;
+      $scope.valid = false;
       $scope.selectSourceContext = function (context) {
+        $scope.valid = false;
         $scope.openItems.reset([]);
         $scope.selectedSourceContext = context;
 
@@ -81,10 +84,16 @@ function dockerTemplates(
             .go();
         }
 
+        function setDockerFileValid(cb) {
+          $scope.valid = true;
+          cb();
+        }
+
         async.series([
           fetchContextVersion,
           copyFilesFromSource,
-          fetchContextVersionFiles
+          fetchContextVersionFiles,
+          setDockerFileValid
         ]);
       };
 

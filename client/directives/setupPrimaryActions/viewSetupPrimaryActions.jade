@@ -2,9 +2,9 @@
   //- remove .orange, add .green when validation passes
   button.btn(
     ng-class = "{ \
-      orange: (!valid || !name), \
-      green: (valid && name) \
+      orange: (!isNameValid || !isDockerFileValid), \
+      green: (isNameValid && isDockerFileValid) \
     }"
     ng-click = "buildAndAttach()"
-    ng-disabled = "!data.build || loading || !valid || !name"
+    ng-disabled = "!data.build || loading || !isNameValid || !isDockerFileValid"
   ) Create Box

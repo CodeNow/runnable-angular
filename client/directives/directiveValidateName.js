@@ -19,7 +19,8 @@ function validateName(
       ctrl.$setValidity('nameAvailable', true);
 
       function checkValidNameAvailable(name) {
-        if (!name || ctrl.$pristine) {
+        ctrl.$setValidity('emptyName', !!name);
+        if (ctrl.$pristine) {
           ctrl.$setValidity('nameAvailable', true);
           return name;
         }
