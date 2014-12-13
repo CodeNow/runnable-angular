@@ -73,20 +73,28 @@ describe('directiveValidateName'.bold.underline.blue, function() {
     expect(form.instanceName.$valid).to.be.true;
   });
 
-  it('should allow a pristine state', function() {
+  it('should allow a pristine state with a name', function() {
+    $scope.model.instanceName = 'adsfadsfadsf';
+    $scope.$apply();
+    expect(form.$pristine).to.be.true;
+    expect($scope.model.instanceName).to.equal('adsfadsfadsf');
+    expect(form.instanceName.$valid).to.be.true;
+  });
+
+  it('should not allow a pristine state with an empty name', function() {
     expect(form.$pristine).to.be.true;
     expect($scope.model.instanceName).to.equal('');
-    expect(form.instanceName.$valid).to.be.true;
+    expect(form.instanceName.$valid).to.be.false;
   });
 
   // Only testing view changes here
   // Model changes don't set $dirty
-  it('should allow an empty string', function() {
+  it('should not allow an empty string', function() {
     form.instanceName.$setViewValue('newName');
     form.instanceName.$setViewValue('');
     $scope.$digest();
     expect(form.$dirty).to.be.true;
-    expect(form.instanceName.$valid).to.be.true;
+    expect(form.instanceName.$valid).to.be.false;
   });
 
   testBoth_it('should complain about an identical name', function() {
@@ -123,12 +131,13 @@ describe('directiveValidateName'.bold.underline.blue, function() {
 
   describe('currentInstanceValid'.blue, function() {
     beforeEach(function() {
-      $scope.currentInstanceValid = true;
+      $scope.model.instanceName = 'adsfadsfadsf';
+      $scope.$apply();
     });
 
     testBoth_it('should allow the same name', function() {
       this.setName('asdf');
-      this.setName('');
+      this.setName('adsfadsfadsf');
       expect(form.instanceName.$valid).to.be.true;
     });
   });
