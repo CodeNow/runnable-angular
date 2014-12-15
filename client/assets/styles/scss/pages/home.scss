@@ -174,10 +174,6 @@
     @include media(xs) {
       margin-bottom: 0;
     }
-
-    .h2 {
-      color: $purple;
-    }
   }
 
   .row:nth-child(2) {
@@ -191,14 +187,6 @@
 
       @include media(xs) {
         margin-bottom: 30px;
-      }
-
-      &:first-child .h2 {
-        color: $blue;
-      }
-
-      &:nth-child(2) .h2 {
-        color: $green;
       }
     }
   }
