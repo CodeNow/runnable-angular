@@ -152,7 +152,6 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
 
     it('should build if openItems is clean', function (done) {
       $scope.data.user.createInstance = function (opts, cb) {
-        console.log(opts);
         expect(opts.owner).to.deep.equal({
           github: apiMocks.user.accounts.github.accessToken
         });
