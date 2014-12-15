@@ -13,17 +13,12 @@ function fetch (
   // Promise version of serviceFetchUser
   var pFetchUser = (function () {
     // http://stackoverflow.com/a/22655010/1216976
-    var currentUser;
-    if (currentUser) {
-      return $q.when(currentUser);
-    }
     var d = $q.defer();
     var tempUser = user.fetchUser('me', function (err) {
       if (err) {
         return d.reject(err);
       }
-      currentUser = tempUser;
-      return d.resolve(currentUser);
+      return d.resolve(tempUser);
     });
     return d.promise;
   })();
@@ -79,7 +74,7 @@ function fetch (
 
   function promisify(model, fn) {
     if (!model[fn]) {
-      throw new Error('Attempted to call a function of a model that doesn\'t exist\n');
+      throw new Error('Attempted to call a function of a model that doesn\'t exist');
     }
     return function promsified () {
       var d = $q.defer();
