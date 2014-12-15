@@ -15,7 +15,7 @@
     | Fork linked boxes
 
   div(
-    ng-repeat = "instance in instanceDependencies.models | orderBy:'attrs.name'"
+    ng-repeat = "depItem in items | orderBy:'instance.attrs.name'"
   )
     ng-form(
       name = "depForm"
@@ -30,14 +30,14 @@
         ng-if = "forkDependencies"
       )
         span.input-label Name
-        span.input-description.text-overflow {{ instance.state.name }}.{{ instance.attrs.owner.username.toLowerCase() }}.runnable.io
+        span.input-description.text-overflow {{ depItem.opts.name }}.{{ depItem.instance.attrs.owner.username.toLowerCase() }}.runnable.io
         //- 0.3 SAN-435
           - to do:
           - fix ng-focus/ng-blur
           - fix validation
         input.input(
-          instance = "instance"
-          ng-model = "instance.state.name"
+          instance = "depItem.instance"
+          ng-model = "depItem.opts.name"
           placeholder = "My-Box"
           validate-name = "instances"
           validate-name-pattern
@@ -45,8 +45,8 @@
           validate-name-current-instance-valid = "false"
         )
         environment-button(
-          instance = "instance"
-          ng-if = "instance.attrs.env"
+          item = "depItem"
+          ng-if = "depItem.opts.env"
         )
       //- .invalid-pattern for names with invalid characters
         - .invalid-name for names that are taken

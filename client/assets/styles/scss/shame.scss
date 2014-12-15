@@ -1,4 +1,10 @@
-//- wrapper for scope
+// wrapper for scope
 .btn-popover-wrapper {
   line-height: 1;
+}
+
+// js helpers
+.js-char-width {
+  position: absolute; // collapsed
+  visibility: hidden; // no events, not visible, no tab order
 }

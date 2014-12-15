@@ -2,12 +2,23 @@ require('app')
   .directive('modalForkBox', modalForkBox);
 /**
  * directive modalForkBox
+ *
+ * Whichever version (opts vs attrs) the env modal will display will be based on the flip of
+ * the forkedInstance boolean.  The opts object will be the state version, and will be kept
+ * in a list, with the root element as 0, and the dependencies in the same order as in the model.
+ * In this object will be the envs, and the new name.  This will be added to a new object
+ * containing the instance and the opts, before it is sent to the forkInstance function.  The
+ * updateEnv service will always use the original envs to replace it
+ *
+ *
+ *
  * @ngInject
  */
 function modalForkBox(
   getNewForkName,
   updateEnvName,
   keypather,
+  debounce,
   $rootScope
 ) {
   return {
@@ -20,90 +31,75 @@ function modalForkBox(
       defaultActions: '='
     },
     link: function ($scope, element, attrs) {
-      $scope.$watch('data.newForkName', function (n, o) {
-        if (!n || n === o || !keypather.get($scope, 'data.instance.dependencies.models.length')) {
-          return;
+      // opts is an array
+      $scope.unwatchItems = [];
+      $scope.items = [createItem($scope.data.instance)];
+      createInstanceWatchers(0);
+      $scope.devItems = [];
+      $scope.data.forkDependencies = true;
+
+      $scope.$watch('items.length', function (n) {
+        if (!n) { return; }
+        if (n === 1) {
+          if ($scope.unwatchItems.length) {
+            $scope.unwatchItems.forEach(function (unWatch) {
+              unWatch();
+            });
+            $scope.unwatchItems = [];
+          }
+          updateEnvName($scope.items);
         }
-        keypather.set($scope.data.instance, 'state.name', n);
-        updateEnvName($scope.data.instance, n, o, $scope.data.instance);
-        $rootScope.safeApply();
-      });
-      $scope.data.newForkName = getNewForkName($scope.data.instance, $scope.data.instances);
-      updateEnvName(
-        $scope.data.instance,
-        $scope.data.newForkName,
-        $scope.data.instance.attrs.name,
-        $scope.data.instance
-      );
-      $scope.$watch('data.forkDependencies', function (n, o) {
-        if (n === o) { return; }
-        // If the forkDeps checkbox changed, just set the dependencies' state.name back to the
-        // original
-        if (!n) {
-          $scope.data.instance.dependencies.models.forEach(function (instance, idx) {
-            // Save the current state.name in previousState.name
-            keypather.set($scope, 'previousState[' + idx + '].name', instance.state.name);
-            // Then set the state.name to the original, which should fire off the watcher below
-            keypather.set(instance, 'state.name', instance.attrs.name);
-          });
-        } else if (n) {
-          $scope.data.instance.dependencies.models.forEach(function (instance, idx) {
-            // Set the state.name to the previous
-            if (keypather.get($scope, 'previousState[' + idx + '].name')) {
-              keypather.set(instance, 'state.name',
-                keypather.get($scope, 'previousState[' + idx + '].name'));
-            }
-          });
+        for (var idx = 1; idx < n; idx++ ) {
+          $scope.unwatchItems.push(createInstanceWatchers(idx));
         }
         $rootScope.safeApply();
       });
 
-      var depWatch = $scope.$watch('data.instance.dependencies', function (n) {
-        if (!n) {
-          return;
-        }
-        // Cancel watch, it's served its purpose
-        depWatch();
-        if (!keypather.get($scope, 'data.instance.dependencies.models.length')) {
-          return;
-        }
-        $scope.data.instance.dependencies.models.forEach(function (instance, idx) {
-          var newName = getNewForkName(instance, $scope.data.instances);
-          $scope.$watch('data.instance.dependencies.models[' + idx + '].state.name', function (n, o) {
-            if (n === o) {
-              return;
-            }
-            if (!n) {
-              keypather.set($scope, 'previousState[' + idx + '].name', o);
-              // We don't want to set the name to empty if they just cleared the env
-              return;
-            }
-            if (!o) {
-              // If the old name was empty, use the name we previously saved
-              // This is useful when the user fully deletes what's in the name box, then changes it
-              o = keypather.get($scope, 'previousState[' + idx + '].name');
-            }
-            updateEnvName(instance, n, o, $scope.data.instance);
-            $rootScope.safeApply();
+      $scope.$watch('data.forkDependencies', function (n) {
+        // When this flips, add or remove the deps from the item list
+        if (!n && $scope.items.length > 1) {
+          $scope.items.splice(1);
+          $scope.devItems = [];
+        } else if (n && $scope.items.length === 1) {
+          var unwatch = $scope.$watch('data.instance.dependencies.models.length', function (n) {
+            if (!n) { return; }
+            unwatch();
+            $scope.data.instance.dependencies.models.forEach(function (instance) {
+              var item = createItem(instance);
+              $scope.items.push(item);
+              $scope.devItems.push(item);
+            });
           });
-          keypather.set(instance, 'state.name', newName);
-          updateEnvName(instance, newName, instance.attrs.name, $scope.data.instance);
-          $rootScope.safeApply();
+        }
+        $rootScope.safeApply();
+      });
+      var dUpdateEnvName = debounce(function (items) {
+        updateEnvName(items);
+        $rootScope.safeApply();
+      }, 250);
+
+      function createItem(instance) {
+        var item = {
+          instance: instance,
+          opts: {
+            name: getNewForkName(instance, $scope.data.instances)
+          },
+          attrs: {}
+        };
+        if (keypather.get(instance, 'attrs.env.length')) {
+          item.opts.env = instance.attrs.env;
+          item.attrs.env = instance.attrs.env;
+        }
+        return item;
+      }
+      function createInstanceWatchers(index) {
+        return $scope.$watch('items[' + index + '].opts.name', function (n) {
+          if (!n) {
+            return;
+          }
+          dUpdateEnvName($scope.items);
         });
-      });
-
-      $scope.$on('$destroy', function () {
-        if (keypather.get($scope, 'data.instance.dependencies.models.length')) {
-          $scope.data.instance.dependencies.models.forEach(function (instance, idx) {
-            delete instance.state.env;
-            delete instance.state.name;
-          });
-        }
-        if (keypather.get($scope, 'data.instance.state')) {
-          delete $scope.data.instance.state.env;
-          delete $scope.data.instance.state.name;
-        }
-      });
+      }
     }
   };
 }

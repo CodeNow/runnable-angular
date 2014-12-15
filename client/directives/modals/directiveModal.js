@@ -62,6 +62,9 @@ function modal(
         $scope.modal = $compile($template)($scope);
         $('body').append($template);
         $scope.in = true;
+        if (typeof keypather.get($scope, 'actions.closePopover') === 'function') {
+          $scope.actions.closePopover();
+        }
         $rootScope.safeApply();
       }
 

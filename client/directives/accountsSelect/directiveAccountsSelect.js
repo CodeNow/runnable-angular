@@ -6,6 +6,7 @@ require('app')
 function accountsSelect(
   async,
   determineActiveAccount,
+  $filter,
   $rootScope,
   QueryAssist,
   fetchUser,
@@ -48,6 +49,7 @@ function accountsSelect(
           })
           .resolve(function (err, instances, cb) {
             if (userOrOrg !== $scope.activeAccount) { return; }
+            instances.models = $filter('orderBy')(instances.models, 'attrs.name');
             if (instances.models.length) {
               $state.go('instance.instance', {
                 userName: userOrOrg.oauthName(),
