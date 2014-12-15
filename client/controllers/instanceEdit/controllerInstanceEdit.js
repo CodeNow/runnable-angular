@@ -7,6 +7,7 @@ function ControllerInstanceEdit(
   async,
   $interval,
   keypather,
+  errs,
   OpenItems,
   QueryAssist,
   fetchUser,
@@ -43,7 +44,7 @@ function ControllerInstanceEdit(
         data.instance = instance;
         data.instance.state = {};
         $scope.safeApply();
-        cb(null, instance);
+        cb();
       })
       .resolve(function (err, instances, cb) {
         if (!instances.models.length) {
@@ -54,7 +55,28 @@ function ControllerInstanceEdit(
         data.instance = instance;
         data.instance.state = {};
         $scope.safeApply();
-        cb(null, instance);
+        cb();
+      })
+      .go();
+  }
+
+  function fetchBuild(cb) {
+    new QueryAssist($scope.user, cb)
+      .wrapFunc('fetchBuild')
+      .query($stateParams.buildId)
+      .cacheFetch(function (build, cached, cb) {
+        if (build.attrs.completed) {
+          $state.go('instance.instance', $stateParams);
+          return cb(null, true);
+        }
+        $scope.build = build;
+        $scope.safeApply();
+        cb();
+      })
+      .resolve(function (err, build, cb) {
+        if (err) { throw err; }
+        $scope.safeApply();
+        cb();
       })
       .go();
   }
@@ -84,23 +106,6 @@ function ControllerInstanceEdit(
       .go();
   }
 
-  function fetchBuild(cb) {
-    new QueryAssist($scope.user, cb)
-      .wrapFunc('fetchBuild')
-      .query($stateParams.buildId)
-      .cacheFetch(function (build, cached, cb) {
-        $scope.build = build;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err, build, cb) {
-        if (err) { throw err; }
-        $scope.safeApply();
-        cb();
-      })
-      .go();
-  }
-
   // open "Dockerfile" build file by default
   function setDefaultTabs() {
     var rootDir = keypather.get($scope, 'build.contextVersions.models[0].rootDir');
@@ -116,7 +121,7 @@ function ControllerInstanceEdit(
     });
   }
 
-  async.series([
+  async.waterfall([
     function (cb) {
       fetchUser(function (err, user) {
         $scope.user = user;
@@ -126,8 +131,9 @@ function ControllerInstanceEdit(
     },
     fetchInstance,
     fetchBuild
-  ], function(err) {
-    if (err) { throw err; }
+  ], function(err, redirect) {
+    if (err) { return errs.handler(err); }
+    if (redirect) { return; }
     setDefaultTabs();
     fetchInstances(angular.noop);
   });

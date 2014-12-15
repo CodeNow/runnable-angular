@@ -1,12 +1,13 @@
 describe('serviceFetchUser'.bold.underline.blue, function () {
-  var user, fetchUser;
+  var $state, user, fetchUser;
   beforeEach(function () {
     user = {};
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.value('user', user);
     });
-    angular.mock.inject(function (_fetchUser_) {
+    angular.mock.inject(function (_fetchUser_, _$state_) {
+      $state = _$state_;
       fetchUser = _fetchUser_;
     });
   });
@@ -66,5 +67,29 @@ describe('serviceFetchUser'.bold.underline.blue, function () {
       });
       done();
     });
+  });
+
+  it('sends the user home if they are not logged in', function(done) {
+    user.fetchUser = sinon.spy(function (str, cb) {
+      expect(str).to.equal('me');
+      cb({
+        data: {
+          statusCode: 401
+        }
+      });
+    });
+    sinon.stub($state, 'go');
+
+    var cb = sinon.spy(function () {
+      sinon.assert.called(user.fetchUser);
+      sinon.assert.calledWith(cb, {
+        data: {
+          statusCode: 401
+        }
+      });
+      sinon.assert.calledWith($state.go, 'home');
+      done();
+    });
+    fetchUser(cb);
   });
 });

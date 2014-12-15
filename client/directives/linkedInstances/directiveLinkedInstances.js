@@ -1,7 +1,7 @@
 require('app')
   .directive('linkedInstances', linkedInstances);
 
-function linkedInstances (
+function linkedInstances(
   $rootScope,
   getInstanceClasses,
   getInstanceAltTitle
@@ -24,13 +24,13 @@ function linkedInstances (
     scope: {
       forkDependencies: '=',
       instanceDependencies: '=',
+      items: '=',
       stateToInstance: '=',
       instances: '=' // For dupe checking
     },
     link: function ($scope, elem, attrs) {
       $scope.getInstanceAltTitle = getInstanceAltTitle;
       $scope.getInstanceClasses = getInstanceClasses;
-
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }
         $scope.instanceDependencies.models.forEach(function (model) {

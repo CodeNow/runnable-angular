@@ -26,7 +26,8 @@ function makeDefaultScope() {
     },
     loading: false,
     name: 'hello',
-    valid: true,
+    isNameValid: true,
+    isDockerFileValid: true,
     openItems: {
       isClean: function () {
         return true;
@@ -82,7 +83,8 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       'data': 'data',
       'loading': 'loading',
       'name': 'name',
-      'valid': 'valid',
+      'is-name-valid': 'isNameValid',
+      'is-docker-file-valid': 'isDockerFileValid',
       'open-items': 'openItems',
       'instance-opts': 'instanceOpts'
     });
@@ -100,7 +102,8 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       expect($elScope.data).to.deep.equal($scope.data);
       expect($elScope.loading).to.deep.equal($scope.loading);
       expect($elScope.name).to.deep.equal($scope.name);
-      expect($elScope.valid).to.deep.equal($scope.valid);
+      expect($elScope.isNameValid).to.deep.equal($scope.isNameValid);
+      expect($elScope.isDockerFileValid).to.deep.equal($scope.isDockerFileValid);
       expect($elScope.openItems).to.deep.equal($scope.openItems);
       expect($elScope.instanceOpts).to.deep.equal($scope.instanceOpts);
       $scope.$destroy();

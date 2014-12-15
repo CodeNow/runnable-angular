@@ -11,6 +11,9 @@ function directiveTemplate (templateName, attrs) {
       if (typeof attrs[key] !== 'string' && typeof attrs[key] !== 'boolean') {
         throw new Error('Value must be a string or boolean, got ' + attrs[key]);
       }
+      if (key.match(/[A-Z]/)) {
+        throw new Error('Key must be in dash-case');
+      }
       return str + " " + key + '="' + attrs[key] + '"';
     }, ''),
     '>',

@@ -32,6 +32,16 @@ function term(
       var terminal = helperSetupTerminal($scope, elem, {
         hideCursor: false,
         cursorBlink: true
+      }, function (x, y) {
+        if (eventsStream) {
+          eventsStream.write({
+            event: 'resize',
+            data: {
+              x: x,
+              y: y
+            }
+          });
+        }
       });
 
       // monitor item, determine when terminal tab active, resize

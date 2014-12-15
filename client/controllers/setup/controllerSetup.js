@@ -14,6 +14,7 @@ function ControllerSetup(
   $state,
   $stateParams,
   keypather,
+  errs,
   OpenItems,
   user,
   QueryAssist,
@@ -68,9 +69,7 @@ function ControllerSetup(
           cb();
         }
       })
-      .resolve(function (err, build, cb) {
-        if (err) { throw err; }
-      })
+      .resolve(cb)
       .go();
   }
 
@@ -85,9 +84,7 @@ function ControllerSetup(
         $scope.safeApply();
         cb();
       })
-      .resolve(function (err) {
-        if (err) { throw err; }
-      })
+      .resolve(cb)
       .go();
   }
 
@@ -105,9 +102,9 @@ function ControllerSetup(
         $scope.safeApply();
         cb();
       });
-    },,
+    },
     fetchBuild,
     fetchInstances
-  ]);
+  ], errs.handler);
 
 }

@@ -81,7 +81,7 @@ module.exports = function(grunt) {
     },
     concat: {
       options: {
-        separator: "\n"
+        separator: '\n'
       },
       dist: {
         src: [
@@ -110,6 +110,8 @@ module.exports = function(grunt) {
         node: true,
         browser: true,
         undef: true,
+        nonbsp: true,
+        quotmark: 'single',
         curly: true,
         globals: {
           jQuery: true,
@@ -308,10 +310,10 @@ module.exports = function(grunt) {
     coverage: {
       options: {
         thresholds: {
-          'statements': 47.68,
-          'branches': 31.71,
-          'functions': 39.58,
-          'lines': 48.36
+          'statements': 51.37,
+          'branches': 33.88,
+          'functions': 45.55,
+          'lines': 52.14
         },
         dir: 'coverage',
         root: 'test'
@@ -430,7 +432,7 @@ module.exports = function(grunt) {
       if( fs.existsSync(path) ) {
         files = fs.readdirSync(path);
         files.forEach(function(file,index){
-          var curPath = path + "/" + file;
+          var curPath = path + '/' + file;
           if(fs.lstatSync(curPath).isDirectory()) { // recurse
             deleteFolderRecursive(curPath);
           } else { // delete file

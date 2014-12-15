@@ -17,6 +17,7 @@ function ControllerApp(
   configEnvironment,
   configLoginURL,
   configLogoutURL,
+  errs,
   fetchUser,
   keypather,
   QueryAssist,
@@ -38,10 +39,24 @@ function ControllerApp(
 
   dataApp.state = $state;
 
+  dataApp.data.modalError = {
+    data: {},
+    actions: {}
+  };
+
   // shows spinner overlay
   dataApp.data.loading = false;
   $scope.$on('$stateChangeStart', function () {
     dataApp.data.loading = false;
+  });
+
+  $scope.$watch(function () {
+    return errs.errors.length;
+  }, function(n) {
+    if (n) {
+      dataApp.data.modalError.data.errors = errs.errors;
+      dataApp.data.modalError.data.in = true;
+    }
   });
 
   /**
@@ -68,11 +83,7 @@ function ControllerApp(
     fetchOrgs
   ], function(err, results) {
     if (err) {
-      $log.error(err);
-      if (keypather.get(err, 'data.statusCode') === 401) {
-        $state.go('home');
-      }
-      return;
+      return errs.handler(err);
     }
     if ($window.heap) {
       $window.heap.identify({

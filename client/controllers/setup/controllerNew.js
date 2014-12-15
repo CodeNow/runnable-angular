@@ -7,6 +7,7 @@ function ControllerNew(
   async,
   hasKeypaths,
   QueryAssist,
+  errs,
   fetchUser,
   $scope,
   $state,
@@ -85,7 +86,7 @@ function ControllerNew(
   ], function (err, build) {
     $scope.dataApp.data.loading = false;
     if (err) {
-      throw err;
+      return errs.handler(err);
     }
     $state.go('instance.setup', {
       userName: $state.params.userName,

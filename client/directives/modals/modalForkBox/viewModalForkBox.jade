@@ -7,7 +7,7 @@
   section.modal-body
     form(
       name = "data.forkForm"
-      ng-submit = "actions.forkInstance(data.newForkName, data.env);"
+      ng-submit = "actions.forkInstance(items);"
     )
       label.input-group.input-validate.with-description(
         ng-class = "{\
@@ -17,16 +17,16 @@
         }"
       )
         span.input-label Name
-        span.input-description.text-overflow {{ data.newForkName }}.{{ data.instance.attrs.owner.username.toLowerCase() }}.runnable.io
+        span.input-description.text-overflow {{ items[0].opts.name }}.{{ data.instance.attrs.owner.username.toLowerCase() }}.runnable.io
         input.input(
           autofocus
           instance = "data.instance"
           name = "forkName"
-          ng-blur = "data.forkForm.forkName.showFocus = false"
+          ng-blur = "data.forkForm.forkName.showFocus = false;"
           ng-focus = "data.forkForm.forkName.showFocus = true"
           ng-init = "data.forkForm.forkName.showFocus = true; \
             data.renameForm.forkName.showFocus = true;"
-          ng-model = "data.newForkName"
+          ng-model = "items[0].opts.name"
           placeholder = "My-Box"
           validate-name = "data.instances"
           validate-name-pattern
@@ -34,8 +34,8 @@
           validate-name-current-instance-valid = "false"
         )
         environment-button(
-          instance = "data.instance"
-          ng-if = "data.instance.attrs.env"
+          item = "items[0]"
+          ng-if = "items[0].opts.env"
         )
       //- .invalid-pattern for names with invalid characters
         - .invalid-name for names that are taken
@@ -53,10 +53,10 @@
           b.btn-xs.orange _
           b.btn-xs.orange -
         span.validate-rules.invalid-name That's a pretty name, but it's taken.
-
       linked-instances(
         instance-dependencies = "data.instance.dependencies"
         instances = "data.instances"
+        items = "devItems"
         ng-if = "data.instance.dependencies.models.length"
         type = "modal"
         fork-dependencies = "data.forkDependencies"
@@ -71,7 +71,7 @@
         orange: data.forkForm.$invalid \
       }"
       ng-disabled = "data.forkForm.$invalid"
-      ng-click = "actions.forkInstance(data.newForkName, data.forkDependencies); defaultActions.cancel();"
+      ng-click = "actions.forkInstance(items); defaultActions.cancel();"
     ) Fork Box
     button.btn.white(
       ng-click = "data.forkForm.$setPristine(); \
