@@ -3,7 +3,7 @@ header.box-header
   //- name instance input
   setup-box-name(
     name = "dataSetup.data.newInstanceName"
-    valid = "dataSetup.data.isValid"
+    valid = "dataSetup.data.isNameValid"
   )
 
   setup-primary-actions(
@@ -12,7 +12,8 @@ header.box-header
     loading = "dataApp.data.loading"
     name = "dataSetup.data.newInstanceName"
     open-items = "dataSetup.data.openItems"
-    valid = "dataSetup.data.isValid"
+    is-docker-file-valid = "dataSetup.data.isDockerFileValid"
+    is-name-valid = "dataSetup.data.isNameValid"
     data = "dataSetup.data"
   )
 
@@ -28,6 +29,7 @@ section.sidebar.box-sidebar
 
   docker-templates(
     open-items = "dataSetup.data.openItems"
+    valid = "dataSetup.data.isDockerFileValid"
   )
 
   docker-validation(

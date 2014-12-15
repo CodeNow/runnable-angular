@@ -17,7 +17,8 @@ function ControllerHome(
   keypather,
   QueryAssist,
   fetchUser,
-  user
+  user,
+  $filter
 ) {
 
   var dataHome = $scope.dataHome = {
@@ -71,6 +72,7 @@ function ControllerHome(
           if (thisUser.instances.models.length === 0) {
             return goToSetup();
           }
+          thisUser.instances.models = $filter('orderBy')(thisUser.instances.models, 'attrs.name');
           var firstInstance = thisUser.instances.models[0];
           var userName = thisUser.attrs.accounts.github.username;
           var instanceName = firstInstance.attrs.name;

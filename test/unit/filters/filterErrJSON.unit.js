@@ -20,6 +20,6 @@ describe('filterErrJSON', function () {
   });
 
   it('Properly stringifies errors', function() {
-    expect(filterErrJSON(new Error('this is a test'))).to.equal('{"message":"this is a test"}');
+    expect(filterErrJSON(new Error('this is a test'))).to.include('"message":"this is a test"');
   });
 });
