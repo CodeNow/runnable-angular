@@ -180,6 +180,11 @@
 
   // row specific
   .row:first-child {
+
+    .h2 {
+      text-align: center;
+    }
+
     @include media(xs) {
       margin-bottom: 0;
     }
