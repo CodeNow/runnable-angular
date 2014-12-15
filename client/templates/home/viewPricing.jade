@@ -14,7 +14,9 @@ main.home.pricing
         a.link.link-text(
           href = "/features"
         ) Features
-        a.link.link-text Pricing
+        a.link.link-text(
+          href = "/pricing"
+        ) Pricing
         a.link.link-text Sign In
     h1.h1.header-thin We only have one price
     h3.h3.header-thin (Your first born) or $20/user/month
@@ -32,7 +34,9 @@ main.home.pricing
         p.p We're still testing Runnable and #{''}
           br
           | will be available for beta soon.
-        a.btn.btn-xl.green Request Invite
+        a.btn.btn-xl.green(
+          href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+        ) Request Invite
 
   .hr.hr-single
 
@@ -47,6 +51,7 @@ main.home.pricing
       .col
         h4.h4.header-thin Can you support larger databses?
         p.p We can work with you to have a custom Runnable space to support your larger databases—up to 1TB.
+    a.btn.gray More Questions? Send us an email
 
 footer.home-footer
   .hr
@@ -63,6 +68,8 @@ footer.home-footer
       href = "/features"
     ) Features
     a.link.link-text Pricing
-    a.link.link-text Contact
+    a.link.link-text(
+      href = "mailto:support@runnable.com"
+    ) Email Us
     a.link.link-text
       b Sign In
