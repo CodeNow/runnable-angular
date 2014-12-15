@@ -81,10 +81,6 @@ function fetch (
     if (!model[fn]) {
       throw new Error('Attempted to call a function of a model that doesn\'t exist\n');
     }
-    // if (!fn) {
-    //   fn = model;
-    //   model = this;
-    // }
     return function promsified () {
       var d = $q.defer();
       var args = [].slice.call(arguments);

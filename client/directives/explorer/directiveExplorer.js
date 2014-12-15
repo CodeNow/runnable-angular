@@ -4,10 +4,7 @@ require('app')
  * @ngInject
  */
 function explorer(
-  async,
-  keypather,
   fetch,
-  errs,
   $stateParams
 ) {
   return {
