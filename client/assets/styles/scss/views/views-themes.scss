@@ -6,8 +6,7 @@
   box-shadow: 0 1px 10px rgba($black,.1) !important;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: .3px !important;
-  margin-left: -750px;
-  margin-top: -90px;
+  transform: translate3d(-810px,-90px,0); // fix weird ace offset
   padding: 6px 9px !important;
 }
 
