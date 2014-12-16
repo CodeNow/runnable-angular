@@ -28,11 +28,12 @@
   box-shadow: 0 0 30px rgba($black,.12);
   color: $gray-dark;
   margin: auto;
-  max-width: calc(100vw - 30px);
+  max-width: 75vw;
   min-width: 370px;
   position: relative;
 
   @include media(xs) {
+    max-width: calc(100vw - 30px);
     min-width: 360px;
     width: calc(100% - 30px);
   }
