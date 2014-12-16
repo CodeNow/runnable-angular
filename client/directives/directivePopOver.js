@@ -68,18 +68,6 @@ function popOver(
 
       $('body').append(popEl);
       $scope.$watch('popoverReady', setCSS);
-      $scope.$watch(function () {
-        return element.hasClass('in');
-      }, function(n) {
-        if (n) {
-          var autofocus = element[0].querySelector('[autofocus]');
-          if (autofocus) {
-            $rootScope.safeApply(function() {
-              autofocus.select();
-            });
-          }
-        }
-      });
 
       $scope.$watch(function () {
         return element.hasClass('in');
