@@ -423,7 +423,6 @@
 .demo-list-item {
   display: block;
   height: 108px;
-  padding: 24px 0;
   position: relative;
 
   + .demo-list-item {
@@ -449,10 +448,11 @@
   }
 
   .p {
-    width: calc(100% - 150px);
+    height: auto;
 
     @include media(xs) {
-      width: calc(100% - 138px);
+      line-height: 1.4;
+      margin-top: 3px;
     }
   }
 
@@ -478,6 +478,15 @@
     margin: 0 12px;
     width: 36px;
   }
+}
+
+// .demo-list-text
+.demo-list-text {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: calc(100% - 229px);
 }
 
 // footer.home-footer
