@@ -90,3 +90,63 @@ pop-over(
   template = "viewBuildInstructionPopover"
   popover-options = "{\"left\":\"auto\",\"top\":54,\"right\":6}"
 )
+
+//- *
+//- coach marks
+//- *
+//- box name mark
+.guide-wrapper.guide-1(
+  ng-class = "{in: popoverCoachMarksBoxName.data.show}"
+  toggle-pop-over
+  toggle-pop-over-model = "popoverCoachMarksBoxName.data.show"
+  style = "left: 230px; top: 12px;"
+)
+  .guide.guide-mark
+  pop-over(
+    actions = "popoverCoachMarksBoxName.actions"
+    data = "popoverCoachMarksBoxName.data"
+    popover-options = "{\"left\":-126,\"top\":33}"
+    template = "viewCoachMarksBoxNamePopover"
+  )
+//- repo mark
+.guide-wrapper.guide-2(
+  ng-class = "{in: popoverCoachMarksRepo.data.show}"
+  toggle-pop-over
+  toggle-pop-over-model = "popoverCoachMarksRepo.data.show"
+  style = "left: 450px; top: 123px;"
+)
+  .guide.guide-mark
+  pop-over(
+    actions = "popoverCoachMarksRepo.actions"
+    data = "popoverCoachMarksRepo.data"
+    popover-options = "{\"left\":-126,\"top\":33}"
+    template = "viewCoachMarksRepoPopover"
+  )
+//- panels mark
+.guide-wrapper.guide-3(
+  ng-class = "{in: popoverCoachMarksPanel.data.show}"
+  toggle-pop-over
+  toggle-pop-over-model = "popoverCoachMarksPanel.data.show"
+  style = "left: 565px; top: 62px;"
+)
+  .guide.guide-mark
+  pop-over(
+    actions = "popoverCoachMarksPanel.actions"
+    data = "popoverCoachMarksPanel.data"
+    popover-options = "{\"left\":-126,\"top\":33}"
+    template = "viewCoachMarksPanelPopover"
+  )
+//- edit mark
+.guide-wrapper.guide-4(
+  ng-class = "{in: popoverCoachMarksEdit.data.show}"
+  toggle-pop-over
+  toggle-pop-over-model = "popoverCoachMarksEdit.data.show"
+  style = "left: auto; right: 168px; top: 18px;"
+)
+  .guide.guide-mark
+  pop-over(
+    actions = "popoverCoachMarksEdit.actions"
+    data = "popoverCoachMarksEdit.data"
+    popover-options = "{\"left\":-126,\"top\":33}"
+    template = "viewCoachMarksEditPopover"
+  )
