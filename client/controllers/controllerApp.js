@@ -10,6 +10,7 @@ function ControllerApp(
   $log,
   $scope,
   $state,
+  $stateParams,
   $rootScope,
   $window,
   async,
@@ -19,6 +20,8 @@ function ControllerApp(
   configLogoutURL,
   errs,
   fetchUser,
+  fetchOrgs,
+  hasKeypaths,
   keypather,
   QueryAssist,
   user
@@ -26,7 +29,8 @@ function ControllerApp(
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {},
-    actions: {}
+    actions: {},
+    state: {}
   };
 
   // used in dev-info box
@@ -41,12 +45,34 @@ function ControllerApp(
     data: {},
     actions: {}
   };
-
+  function setActiveAccount() {
+    $scope.$watch('dataApp.data.orgs', function(n) {
+      if (n) {
+        $rootScope.dataApp.data.instances = null;
+        var accounts = [thisUser].concat(n.models);
+        dataApp.data.activeAccount = accounts.find(function (org) {
+          return (keypather.get(org, 'oauthName().toLowerCase()') ===
+          keypather.get($stateParams, 'userName.toLowerCase()'));
+        });
+        if (!dataApp.data.activeAccount) {
+          dataApp.data.activeAccount = thisUser;
+        }
+        $rootScope.safeApply();
+      }
+    });
+  }
   // shows spinner overlay
   dataApp.data.loading = false;
-  $scope.$on('$stateChangeStart', function () {
+  $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
+    if (!keypather.get($rootScope.dataApp, 'data.activeAccount.oauthName()') ||
+        toParams.userName !== dataApp.data.activeAccount.oauthName()) {
+      setActiveAccount();
+    }
     dataApp.data.loading = false;
   });
+
+  var thisUser;
+
 
   $scope.$watch(function () {
     return errs.errors.length;
@@ -66,20 +92,14 @@ function ControllerApp(
     $scope.$broadcast('app-document-click');
   };
 
-  var thisUser,
-      thisUserOrgs;
 
-  function fetchOrgs(user, cb) {
-    thisUser = user;
-    thisUserOrgs = thisUser.fetchGithubOrgs(function (err) {
-      cb(err, thisUserOrgs);
-    });
-  }
-
-  async.waterfall([
-    fetchUser,
-    fetchOrgs
-  ], function(err, results) {
+  fetchUser(function(err, results) {
+    thisUser = results;
+    dataApp.data.user = results;
+  });
+  fetchOrgs(function(err, results) {
+    dataApp.data.orgs = results;
+    $rootScope.safeApply();
     if (err) {
       return errs.handler(err);
     }
@@ -87,7 +107,7 @@ function ControllerApp(
       $window.heap.identify({
         name:  thisUser.oauthName(),
         email: thisUser.attrs.email,
-        orgs:  $window.JSON.stringify(thisUserOrgs)
+        orgs:  $window.JSON.stringify(results)
       });
     }
     if ($window.initIntercom) {
