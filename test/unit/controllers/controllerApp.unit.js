@@ -1,13 +1,14 @@
 var $controller,
     $rootScope,
     $timeout,
-    $scope;
+    $scope,
+    $window;
 var keypather;
 var apiMocks = require('../apiMocks/index');
 
 describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
-  function setup(stateParams) {
+  function setup(stateParams, heap, intercom, olark) {
     angular.mock.module('app');
     ctx.fakeuser = {
       attrs: angular.copy(apiMocks.user),
@@ -46,20 +47,33 @@ describe('controllerApp'.bold.underline.blue, function () {
       _$controller_,
       _$rootScope_,
       _$timeout_,
-      _keypather_
+      _keypather_,
+      _$window_
     ) {
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
       keypather = _keypather_;
-
+      $window = _$window_;
       $rootScope.safeApply = function(cb) {
         $timeout(function() {
           $scope.$digest();
         });
       };
     });
+    if (heap) {
+      $window.heap = {
+        identify: sinon.spy()
+      };
+    }
+    if (intercom) {
+      $window.initIntercom = sinon.spy();
+    }
+    if (olark) {
+      $window.olark = sinon.spy();
+    }
+
     var ca = $controller('ControllerApp', {
       '$scope': $scope
     });
@@ -121,7 +135,7 @@ describe('controllerApp'.bold.underline.blue, function () {
         $rootScope.$digest();
       });
       it('should select org1, matching it from the stateParams ', function (done) {
-        setup({});
+        setup({}, false, false, true);
         var listFetchSpy = sinon.spy(function(event, name) {
           expect(name).to.equal(ctx.fakeOrg1.oauthName());
           expect($scope.dataApp.data.activeAccount).to.be.an.Object;
@@ -137,7 +151,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       });
     });
     it('should not switch accounts if active account matches', function () {
-      setup({});
+      setup({}, true);
       var listFetchSpy = sinon.spy();
       keypather.set($scope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
       $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);
@@ -151,7 +165,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       sinon.assert.notCalled(listFetchSpy);
     });
     it('should switch accounts if active account does not match url', function (done) {
-      setup({});
+      setup({}, false, true);
       var listFetchSpy = sinon.spy(function(event, name) {
         expect(name).to.equal(ctx.fakeOrg2.oauthName());
         expect($scope.dataApp.data.activeAccount).to.be.an.Object;
