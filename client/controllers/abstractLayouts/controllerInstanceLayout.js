@@ -59,8 +59,8 @@ function ControllerInstanceLayout(
   };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
 
-  var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function(event, org) {
-    fetchInstances(org.oauthName());
+  var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function(event, username) {
+    fetchInstances(username);
   });
 
   $scope.$on('$destroy', function () {

@@ -7,13 +7,9 @@ require('app')
  * @ngInject
  */
 function ControllerApp(
-  $log,
   $scope,
-  $state,
-  $stateParams,
   $rootScope,
   $window,
-  async,
   configAPIHost,
   configEnvironment,
   configLoginURL,
@@ -21,10 +17,7 @@ function ControllerApp(
   errs,
   fetchUser,
   fetchOrgs,
-  hasKeypaths,
-  keypather,
-  QueryAssist,
-  user
+  keypather
 ) {
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
@@ -45,19 +38,18 @@ function ControllerApp(
     data: {},
     actions: {}
   };
-  function setActiveAccount() {
+  function setActiveAccount(accountName) {
     $scope.$watch('dataApp.data.orgs', function(n) {
       if (n) {
-        $rootScope.dataApp.data.instances = null;
+        dataApp.data.instances = null;
         var accounts = [thisUser].concat(n.models);
         dataApp.data.activeAccount = accounts.find(function (org) {
-          return (keypather.get(org, 'oauthName().toLowerCase()') ===
-          keypather.get($stateParams, 'userName.toLowerCase()'));
+          return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
         });
         if (!dataApp.data.activeAccount) {
           dataApp.data.activeAccount = thisUser;
         }
-        $scope.$broadcast('INSTANCE_LIST_FETCH', dataApp.data.activeAccount);
+        $rootScope.$broadcast('INSTANCE_LIST_FETCH', dataApp.data.activeAccount.oauthName());
         $rootScope.safeApply();
       }
     });
@@ -65,9 +57,9 @@ function ControllerApp(
   // shows spinner overlay
   dataApp.data.loading = false;
   $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
-    if (!keypather.get($rootScope.dataApp, 'data.activeAccount.oauthName()') ||
+    if (!keypather.get(dataApp, 'data.activeAccount.oauthName()') ||
         toParams.userName !== dataApp.data.activeAccount.oauthName()) {
-      setActiveAccount();
+      setActiveAccount(toParams.userName);
     }
     dataApp.data.loading = false;
   });
