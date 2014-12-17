@@ -5,7 +5,7 @@ require('app')
  */
 function ControllerInstance(
   async,
-  determineActiveAccount,
+  $filter,
   errs,
   keypather,
   OpenItems,
@@ -43,8 +43,9 @@ function ControllerInstance(
       if (n !== p && n) {
         unwatch();
         if (n.models.length) {
+          var models = $filter('orderBy')(n.models, 'attrs.name');
           $state.go('instance.instance', {
-            instanceName: n.models[0].attrs.name,
+            instanceName: models[0].attrs.name,
             userName: $stateParams.userName
           }, {location: 'replace'});
         } else {

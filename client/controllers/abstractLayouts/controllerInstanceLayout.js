@@ -33,9 +33,10 @@ function ControllerInstanceLayout(
             githubUsername: account
           })
           .cacheFetch(function (instances, cached, cb) {
-            if (account === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') &&
-                $rootScope.dataApp.data.instances !== instances) {
-              $rootScope.dataApp.data.instances = instances;
+            if (account === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+              if ($rootScope.dataApp.data.instances !== instances) {
+                $rootScope.dataApp.data.instances = instances;
+              }
               $scope.dataInstanceLayout.state.loadingInstances = false;
               $rootScope.safeApply(cb);
             } else {
@@ -51,7 +52,6 @@ function ControllerInstanceLayout(
       if (err) { throw err; }
     });
   }
-
   var dataInstanceLayout = $scope.dataInstanceLayout = {
     data: {},
     state: {},
@@ -59,10 +59,16 @@ function ControllerInstanceLayout(
   };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
 
-  $rootScope.$watch('dataApp.data.activeAccount.oauthName()', function (n) {
-    if (n) {
-      fetchInstances(n);
-    }
+  var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function(event, org) {
+    fetchInstances(org.oauthName());
   });
+
+  $scope.$on('$destroy', function () {
+    instanceListUnwatcher();
+  });
+
+  if (keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+    fetchInstances(keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()'));
+  }
 
 }

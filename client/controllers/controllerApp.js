@@ -57,6 +57,7 @@ function ControllerApp(
         if (!dataApp.data.activeAccount) {
           dataApp.data.activeAccount = thisUser;
         }
+        $scope.$broadcast('INSTANCE_LIST_FETCH', dataApp.data.activeAccount);
         $rootScope.safeApply();
       }
     });

@@ -6,13 +6,12 @@ require('app')
 function ControllerNew(
   async,
   hasKeypaths,
-  QueryAssist,
   errs,
   fetchUser,
   $scope,
   $state,
   uuid,
-  user
+  $stateParams
 ) {
 
   var thisUser;

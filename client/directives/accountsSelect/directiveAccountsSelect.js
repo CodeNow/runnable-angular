@@ -33,6 +33,7 @@ function accountsSelect (
         var username = userOrOrg.oauthName();
         //
         $scope.data.activeAccount = userOrOrg;
+        $scope.$emit('INSTANCE_LIST_FETCH', userOrOrg);
         $state.go('^.instance', {
           userName: username,
           instanceName: ''
