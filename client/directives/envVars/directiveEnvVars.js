@@ -10,7 +10,6 @@ function envVars(
 ) {
   return {
     restrict: 'E',
-    replace: true,
     scope: {
       in: '=',
       currentModel: '=',

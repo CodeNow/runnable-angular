@@ -16,7 +16,6 @@ function repoList(
   return {
     restrict: 'E',
     templateUrl: 'viewRepoList',
-    replace: true,
     scope: {
       loading: '='
     },

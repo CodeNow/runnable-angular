@@ -19,7 +19,6 @@ function logBuild(
 ) {
   return {
     restrict: 'E',
-    replace: true,
     scope: {},
     templateUrl: 'viewLogBuild',
     link: function ($scope, elem, attrs) {

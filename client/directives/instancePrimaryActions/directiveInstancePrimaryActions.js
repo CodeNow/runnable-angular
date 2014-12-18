@@ -12,7 +12,6 @@ function instancePrimaryActions(
   return {
     restrict: 'E',
     templateUrl: 'viewInstancePrimaryActions',
-    replace: true,
     scope: {
       loading: '=',
       instance: '=',

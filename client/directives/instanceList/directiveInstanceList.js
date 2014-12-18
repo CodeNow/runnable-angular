@@ -17,7 +17,6 @@ function instanceList (
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceList',
-    replace: true,
     scope: {},
     link: function ($scope, elem, attrs) {
 

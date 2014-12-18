@@ -14,7 +14,6 @@ function popOver(
 ) {
   return {
     restrict: 'E',
-    replace: true,
     scope: {
       data: '=',
       actions: '=',

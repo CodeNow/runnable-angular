@@ -18,7 +18,6 @@ function logBox(
 ) {
   return {
     restrict: 'E',
-    replace: true,
     scope: {},
     templateUrl: 'viewLogBox',
     link: function ($scope, elem, attrs) {

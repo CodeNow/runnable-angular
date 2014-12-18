@@ -26,7 +26,6 @@ function activePanel(
   return {
     restrict: 'E',
     templateUrl: 'viewActivePanel',
-    replace: true,
     scope: {
       isDarkTheme: '=',
       // instance: '=',

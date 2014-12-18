@@ -10,7 +10,6 @@ function addTab(
   return {
     restrict: 'E',
     templateUrl: 'viewAddTab',
-    replace: true,
     scope: {
       openItems: '='
     },

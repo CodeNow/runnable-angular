@@ -16,7 +16,6 @@ function accountsSelect(
   return {
     restrict: 'E',
     templateUrl: 'viewAccountsSelect',
-    replace: true,
     scope: {},
     link: function ($scope, elem, attrs) {
 

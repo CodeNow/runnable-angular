@@ -17,7 +17,6 @@ function webView(
   return {
     restrict: 'E',
     templateUrl: 'viewWebView',
-    replace: true,
     scope: {},
     link: function ($scope, elem) {
 

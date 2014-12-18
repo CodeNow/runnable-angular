@@ -8,7 +8,6 @@ function environmentButton(
   return {
     restrict: 'E',
     templateUrl: 'viewEnvironmentButton',
-    replace: true,
     scope: {
       item: '='
     },
