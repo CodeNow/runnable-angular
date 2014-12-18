@@ -137,7 +137,7 @@ function HelperInstanceActionsModal(
       forkInstance: function (items, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
-        function fork (instance, opts, cb) {
+        function fork(instance, opts, cb) {
           instance.copy(opts, function (err) {
             if (err) { throw err; }
             $rootScope.safeApply();
@@ -157,6 +157,7 @@ function HelperInstanceActionsModal(
             userName: $stateParams.userName,
             instanceName: keypather.get(items[0], 'opts.name')
           });
+          $scope.$emit('INSTANCE_LIST_FETCH', $stateParams.userName);
           if (cb) {
             cb();
           }

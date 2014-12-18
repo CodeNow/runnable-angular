@@ -3,8 +3,13 @@ nav.sidebar.global-sidebar(
   ng-class = "{minimize: dataApp.data.minimizeNav}"
 )
   accounts
-  accounts-select
-  instance-list
+  accounts-select(
+    data = "dataApp.data"
+  )
+  instance-list(
+    data = "dataApp.data"
+    state = "dataInstanceLayout.state"
+  )
 
   footer.row.global-footer
     a.btn.btn-sm.btn-icon.white.btn-logout(
