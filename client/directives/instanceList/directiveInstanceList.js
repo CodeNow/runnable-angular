@@ -14,15 +14,10 @@ function instanceList(
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceList',
-<<<<<<< HEAD
-    scope: {},
-=======
-    replace: true,
     scope: {
       data: '=',
       state: '='
     },
->>>>>>> master
     link: function ($scope, elem, attrs) {
 
       $scope.stateToInstance = function (instance) {

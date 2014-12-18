@@ -12,7 +12,6 @@ function accountsSelect (
   return {
     restrict: 'E',
     templateUrl: 'viewAccountsSelect',
-    scope: {},
     scope: {
       data: '='
     },
