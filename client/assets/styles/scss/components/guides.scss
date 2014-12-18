@@ -92,47 +92,38 @@
 
 // coach marks
 .guide-wrapper {
-  animation: scale-in-bounce .5s ease-in forwards;
+  opacity: .6;
   position: absolute;
-  transform: scale3d(0,0,1);
+  transition: all .15s ease-in;
   z-index: $z-guide;
 
-  &.guide-1 {
-    animation-delay: .5s;
+  &:hover {
+    opacity: .75;
   }
 
-  &.guide-2 {
-    animation-delay: .75s;
+  &:active,
+  &.in {
+    opacity: 1;
   }
 
-  &.guide-3 {
-    animation-delay: 1s;
-  }
+  @for $i from 1 through 4 {
 
-  &.guide-4 {
-    animation-delay: 1.25s;
+    &.guide-#{$i} > .guide-mark {
+      animation-delay: $i*.25 + .25s;
+    }
   }
 }
 
 .guide-mark {
+  animation: scale-in-bounce .5s ease-in forwards;
   background: #eee7f4; // rgba($purple-lighter,.15)
   border: 3px solid rgba($purple-light,.6);
   border-radius: 50%;
   cursor: pointer;
   height: 24px;
-  opacity: .9;
   padding: 0;
-  transition: all .15s ease-in;
+  transform: scale3d(0,0,1);
   width: 24px;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &:active,
-  &.in {
-    transform: scale3d(.8,.8,1);
-  }
 
   // b.btn.btn-xxs.gray
   .btn.btn-xxs {
