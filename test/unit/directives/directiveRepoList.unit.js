@@ -77,10 +77,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       $rootScope.$digest();
     });
 
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
-    });
-
     it('should show guide', function() {
       expect(element[0].querySelector('.guide')).to.be.ok;
     });
@@ -131,10 +127,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       $rootScope.$digest();
     });
 
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
-    });
-
     it('should not display the guide', function() {
       expect(element.find('.guide').length).to.not.be.ok;
     });
@@ -183,10 +175,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     beforeEach(function() {
       $httpBackend.flush();
       $rootScope.$digest();
-    });
-
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
     });
 
     it('should not display the guide', function() {
