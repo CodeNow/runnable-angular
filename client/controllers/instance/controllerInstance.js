@@ -13,9 +13,7 @@ function ControllerInstance(
   $rootScope,
   $scope,
   $state,
-  $log,
   $stateParams,
-  exists,
   fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
@@ -59,7 +57,15 @@ function ControllerInstance(
     async.waterfall([
       fetchUser,
       fetchInstance
-    ]);
+    ], function (err) {
+      if (err) {
+        $state.go('instance.instance', {
+          instanceName: '',
+          userName: $stateParams.userName
+        }, {reload: true});
+      }
+      errs.handler(err);
+    });
   }
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click

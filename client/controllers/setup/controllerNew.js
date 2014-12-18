@@ -10,8 +10,7 @@ function ControllerNew(
   fetchUser,
   $scope,
   $state,
-  uuid,
-  $stateParams
+  uuid
 ) {
 
   var thisUser;

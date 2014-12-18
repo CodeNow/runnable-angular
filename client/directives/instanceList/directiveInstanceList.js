@@ -6,16 +6,10 @@ require('app')
  * the active account
  * @ngInject
  */
-function instanceList (
-  async,
-  determineActiveAccount,
+function instanceList(
   getInstanceClasses,
   getInstanceAltTitle,
-  QueryAssist,
-  fetchUser,
-  $rootScope,
-  $state,
-  user
+  $state
 ) {
   return {
     restrict: 'E',
@@ -26,9 +20,6 @@ function instanceList (
       state: '='
     },
     link: function ($scope, elem, attrs) {
-      // The sidebar should only update if the given instance list changes, which can happen in two
-      // ways.  The activeAccount changed and we fetched them, or the collection changed in the
-      // api-client because an instance was modified/created/removed.  Because of how the api-client
 
       $scope.stateToInstance = function (instance) {
         $state.go('instance.instance', {
