@@ -11,7 +11,6 @@ function dockerValidation(
   return {
     restrict: 'E',
     templateUrl: 'viewDockerValidation',
-    replace: true,
     scope: {
       openItems: '='
     },

@@ -23,9 +23,9 @@ describe('directiveDockerValidation'.bold.underline.blue, function() {
         });
       };
 
-      var tpl = '<docker-validation ' +
-          'open-items="openItems"' +
-          '></docker-validation>';
+      var tpl = directiveTemplate('docker-validation', {
+          'open-items': 'openItems'
+        });
 
         element = $compile(tpl)($scope);
         $scope.$digest();

@@ -17,7 +17,7 @@
   "author": "Casey Flynn",
   "dependencies": {
     "101": "^0.5.0",
-    "angular": "1.2.23",
+    "angular": "1.3.7",
     "angular-ui-ace": "git://github.com/Runnable/ui-ace.git#v0.2.0",
     "angular-ui-router": "~0.2.10",
     "ansi-to-html": "^0.2.0",
@@ -25,7 +25,7 @@
     "body-parser": "^1.4.3",
     "brace": "git://github.com/Runnable/brace.git#240b6bd",
     "browser-resolve": "^1.2.4",
-    "browserify-angular-animate": "~1.2.18",
+    "angular-animate": "1.3.7",
     "callback-count": "^0.1.0",
     "compression": "https://registry.npmjs.org/compression/-/compression-1.0.9.tgz",
     "cookie-parser": "^1.3.3",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "browserify": "~4.2.3",
-    "browserify-angular-mocks": "1.2.23",
+    "angular-mocks": "1.3.7",
     "browserify-istanbul": "^0.1.2",
     "browserify-shim": "~3.6.0",
     "chai": "~1.9.1",
