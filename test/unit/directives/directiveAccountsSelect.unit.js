@@ -141,7 +141,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       delete scope.data.activeAccount;
       initState(scope);
       $scope.$digest();
-      expect(ctx.element[0].classList.contains('ng-hide')).to.be.ok;
+      expect(ctx.element[0].firstChild.classList.contains('ng-hide')).to.be.ok;
     });
     it('should display selector after click', function () {
       initState();
