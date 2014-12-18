@@ -16,7 +16,6 @@ module.exports = [
     state: 'base',
     abstract: true,
     url: '^/:userName',
-    templateUrl: 'viewInstanceLayout',
     controller: 'ControllerApp'
   },
   {
