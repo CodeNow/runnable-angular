@@ -307,9 +307,8 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
 
           sinon.assert.called(fakeGo);
           sinon.assert.called($scope.instance.destroy);
-          sinon.assert.calledWith(fakeGo,'instance.instance', {
-            userName: 'username',
-            instanceName: ''
+          sinon.assert.calledWith(fakeGo,'instance.new', {
+            userName: 'username'
           });
           done();
         });
@@ -327,7 +326,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
             sinon.assert.called($scope.instance.destroy);
             sinon.assert.calledWith(fakeGo,'instance.instance', {
               userName: 'username',
-              instanceName: ''
+              instanceName: 'other'
             });
             done();
           });
@@ -362,7 +361,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
               sinon.assert.called($scope.instance.destroy);
               sinon.assert.neverCalledWith(fakeGo,'instance.instance', {
                 userName: 'username',
-                instanceName: ''
+                instanceName: 'other'
               });
               done();
             }, 50);
