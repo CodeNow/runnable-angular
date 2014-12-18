@@ -6,7 +6,8 @@ require('app')
 function setupPrimaryActions(
   async,
   $state,
-  $stateParams
+  $stateParams,
+  $rootScope
 ) {
   return {
     restrict: 'E',
@@ -49,7 +50,7 @@ function setupPrimaryActions(
           };
           $scope.instanceOpts.build = $scope.data.build.id();
           $scope.instanceOpts.name = $scope.name;
-          $scope.instance = $scope.data.user.createInstance($scope.instanceOpts, cb);
+          $scope.instance = $rootScope.dataApp.data.instances.create($scope.instanceOpts, cb);
         }
         async.series([
           build,

@@ -1,22 +1,21 @@
 require('app')
   .directive('accountsSelect', accountsSelect);
 /**
+ * This directive is in charge of displaying the active account, and modifies the activeAccount
+ * on the scope, which then propigates down the parent's scope.  It doesn't fetch anything, since
+ * the parent fetches both the user and their orgs.
  * @ngInject
  */
-function accountsSelect(
-  async,
-  determineActiveAccount,
-  $filter,
-  $rootScope,
-  QueryAssist,
-  fetchUser,
-  $state,
-  user
+function accountsSelect (
+  $state
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewAccountsSelect',
     scope: {},
+    scope: {
+      data: '='
+    },
     link: function ($scope, elem, attrs) {
 
       // outside click, close list
@@ -31,60 +30,15 @@ function accountsSelect(
         if (!$scope.isChangeAccount) { return; }
         // close list
         $scope.isChangeAccount = false;
-        // synchronously display new active account
-        $scope.activeAccount = userOrOrg;
-        // fetch userOrOrg instances
-        // send to first result
-        new QueryAssist($scope.user, angular.noop)
-          .wrapFunc('fetchInstances')
-          .query({
-            owner: {
-              github: $scope.activeAccount.oauthId()
-            }
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            cb();
-            $rootScope.safeApply();
-          })
-          .resolve(function (err, instances, cb) {
-            if (userOrOrg !== $scope.activeAccount) { return; }
-            instances.models = $filter('orderBy')(instances.models, 'attrs.name');
-            if (instances.models.length) {
-              $state.go('instance.instance', {
-                userName: userOrOrg.oauthName(),
-                instanceName: instances.models[0].attrs.name
-              });
-            } else {
-              // send to setup page for creating an instance
-              $state.go('instance.new', {
-                userName: userOrOrg.oauthName()
-              });
-            }
-            cb();
-          })
-          .go();
-      };
-
-      function fetchOrgs(user, cb) {
-        $scope.user = user;
-        $scope.orgs = $scope.user.fetchGithubOrgs(function (err) {
-          if (err) { throw err; }
-          // TODO: heap
-          cb();
+        var username = userOrOrg.oauthName();
+        //
+        $scope.data.activeAccount = userOrOrg;
+        $scope.$emit('INSTANCE_LIST_FETCH', username);
+        $state.go('^.instance', {
+          userName: username,
+          instanceName: ''
         });
-      }
-
-      async.waterfall([
-        determineActiveAccount,
-        function (activeAccount, cb) {
-          $scope.activeAccount = activeAccount;
-          $rootScope.safeApply();
-          cb();
-        },
-        fetchUser,
-        fetchOrgs
-      ]);
-
+      };
     }
   };
 }
