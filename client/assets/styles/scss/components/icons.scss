@@ -53,9 +53,12 @@
   }
 
   // icons with fill
+  &.icons-branch,
+  &.icons-commit,
   &.icons-docker,
   &.icons-edit,
   &.icons-fork,
+  &.icons-forked,
   &.icons-git,
   &.icons-link,
   &.icons-runnable,
@@ -74,7 +77,6 @@
   &.icons-chevron-left,
   &.icons-chevron-right,
   &.icons-close,
-  &.icons-commit,
   &.icons-delete,
   &.icons-error,
   &.icons-exit,

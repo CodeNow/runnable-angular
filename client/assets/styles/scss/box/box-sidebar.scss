@@ -28,54 +28,64 @@
 
 // li.repository-group-item
 .repository-group-item {
-  padding: 15px 15px 15px 45px;
+  cursor: pointer;
+  padding: 9px 0;
   position: relative;
 
-  .icons-git {
+  &:hover {
+    background: rgba($blue,.1);
+  }
+
+  + .repository-group-item {
+    border-top: 1px solid rgba($black,.1);
+  }
+
+  // anchor image
+  > .iconnables {
     color: $gray-light;
-    left: 15px;
-    position: absolute;
+    float: left;
+    height: 54px;
+    width: 54px;
+  }
+
+  // detail image (branch or commit)
+  .icons-branch,
+  .icons-commit {
+    color: $gray-light;
+    float: left;
+    margin: 0 3px 0 -3px;
+    width: 18px;
   }
 }
 
 // h3.repository-title
 .repository-title {
-  font-size: 16px;
+  color: $gray;
+  font-size: 15px;
   line-height: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  + .repository-update,
-  + .repository-actions {
-    background: $white;
-    box-shadow: -9px 0 9px rgba($white,.9);
-    font-size: 12px;
-    margin-right: -6px;
-    position: absolute;
-    right: 15px;
-    top: 11px;
-
-    &:hover {
-      background: #f2f2f2; // rgba($black,.1)
-    }
-
-    &.active {
-      background: #f2f2f2; // rgba($black,.1)
-    }
-  }
 }
 
-.repository-update .iconnables {
-  height: 13px;
-  top: 2px;
-  width: 13px;
+// .repository-group-text
+.repository-group-text {
+  padding: 9px 15px 0 54px;
 }
 
-.repository-actions .iconnables {
-  height: 18px;
-  top: 2px;
-  width: 18px;
+// p.repository-description
+// small.repository-detail
+.repository-description,
+.repository-detail {
+  color: $gray;
+  font-size: 12px;
+  line-height: 24px;
+  position: relative;
+}
+
+.repository-detail {
+  color: $gray-light;
+  float: right;
 }
 
 // .commit

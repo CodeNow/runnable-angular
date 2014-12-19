@@ -35,15 +35,45 @@ section.row.repo-list
     .guide-text Add a repository to your box.
 
   ul.repository-group
+    li.repository-group-item.clearfix
+      svg.iconnables.icons-git
+        use(
+          xlink:href = "#icons-git"
+        )
+      .repository-group-text
+        h3.repository-title outpunk/evil-icons
+        p.repository-description.clearfix
+          svg.iconnables.icons-branch
+            use(
+              xlink:href = "#icons-branch"
+            )
+          | gh-pages
+          small.repository-detail 1 day
+
+    li.repository-group-item.clearfix
+      svg.iconnables.icons-forked
+        use(
+          xlink:href = "#icons-forked"
+        )
+      .repository-group-text
+        h3.repository-title outpunk/adaptive-evil-blocks
+        p.repository-description.clearfix
+          svg.iconnables.icons-commit
+            use(
+              xlink:href = "#icons-commit"
+            )
+          | Update README.md
+          small.repository-detail 3 days
+
     //-
       - display selected commit
         - pending state if selected commit !== actual saved commit
       - popover for selecting new commit
       - repo-options (delete, fast-forward commit)
       - fast-forward
-    edit-repo-commit(
-      app-code-version = "acv"
-      ng-init = "unsavedAcv = newUnsavedAcv(acv);"
-      ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
-      unsaved-app-code-version = "unsavedAcv"
-    )
+    //- edit-repo-commit(
+    //-   app-code-version = "acv"
+    //-   ng-init = "unsavedAcv = newUnsavedAcv(acv);"
+    //-   ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
+    //-   unsaved-app-code-version = "unsavedAcv"
+    //- )
