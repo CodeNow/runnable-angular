@@ -14,7 +14,7 @@ function repoList(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewRepoList',
     scope: {
       loading: '='

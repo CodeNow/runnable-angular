@@ -8,7 +8,7 @@ function addTab(
   $state
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewAddTab',
     scope: {
       openItems: '='

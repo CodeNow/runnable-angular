@@ -10,7 +10,7 @@ function accountsSelect (
   $state
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewAccountsSelect',
     scope: {
       data: '='

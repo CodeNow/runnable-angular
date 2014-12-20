@@ -14,7 +14,7 @@ function editRepoCommit(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewEditRepoCommit',
     scope: {
       acv: '=appCodeVersion',

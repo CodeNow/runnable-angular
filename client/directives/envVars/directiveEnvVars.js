@@ -9,14 +9,13 @@ function envVars(
   $rootScope
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
+    templateUrl: 'viewEnvVars',
     scope: {
-      in: '=',
       currentModel: '=',
       stateModel: '=',
       validation: '='
     },
-    templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
 
       $scope.environmentalVars = '';

@@ -103,7 +103,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('edit-repo-commit', {
+    ctx.template = directiveTemplate.attribute('edit-repo-commit', {
       'app-code-version': 'acv',
       'unsaved-app-code-version': 'unsavedAcv'
     });
