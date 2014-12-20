@@ -15,7 +15,7 @@ function webView(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewWebView',
     scope: {},
     link: function ($scope, elem) {
