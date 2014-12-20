@@ -47,8 +47,16 @@ section.row.repo-list
             use(
               xlink:href = "#icons-branch"
             )
-          | gh-pages
+          | master
+        p.repository-description.clearfix
+          svg.iconnables.icons-commit
+            use(
+              xlink:href = "#icons-commit"
+            )
+          | Update README.md
           small.repository-detail 1 day
+
+    li.divider
 
     li.repository-group-item.clearfix
       svg.iconnables.icons-forked
@@ -56,13 +64,19 @@ section.row.repo-list
           xlink:href = "#icons-forked"
         )
       .repository-group-text
-        h3.repository-title outpunk/adaptive-evil-blocks
+        h3.repository-title CodeNow/runnable-angular
+        p.repository-description.clearfix
+          svg.iconnables.icons-branch
+            use(
+              xlink:href = "#icons-branch"
+            )
+          | gh-pages
         p.repository-description.clearfix
           svg.iconnables.icons-commit
             use(
               xlink:href = "#icons-commit"
             )
-          | Update README.md
+          | Merge pull request #369 from CodeNow/Instance-list-fetch-speed-improvement
           small.repository-detail 3 days
 
     //-
