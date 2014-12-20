@@ -72,11 +72,10 @@ section.views.with-add-tab(
     active-panel
     ng-class = "{\
       'loaded': (item === openItems.activeHistory.last()),\
-      'ace-runnable-dark': isDarkTheme\
+      'ace-runnable-dark': dataSetup.data.toggleTheme\
     }"
     ng-repeat = "item in dataSetup.data.openItems.models"
     ng-show = "item === dataSetup.data.openItems.activeHistory.last()"
-    is-dark-theme = "dataSetup.data.toggleTheme"
     open-items = "dataSetup.data.openItems"
     state-model = "dataSetup.data.instanceOpts"
     item = "item"

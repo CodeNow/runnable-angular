@@ -27,7 +27,6 @@ function activePanel(
     restrict: 'A',
     templateUrl: 'viewActivePanel',
     scope: {
-      isDarkTheme: '=',
       openItems: '=',
       currentModel: '=', // CurrentModel houses the original model without changes
       stateModel: '=', // The StateModel is where changes will be applied
