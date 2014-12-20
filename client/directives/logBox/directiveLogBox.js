@@ -17,9 +17,8 @@ function logBox(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     scope: {},
-    templateUrl: 'viewLogBox',
     link: function ($scope, elem, attrs) {
       /**
        * Creates instance of Terminal w/ default
