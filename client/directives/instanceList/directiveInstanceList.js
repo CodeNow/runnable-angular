@@ -12,7 +12,7 @@ function instanceList(
   $state
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewInstanceList',
     scope: {
       data: '=',
