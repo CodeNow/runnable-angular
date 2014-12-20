@@ -47,7 +47,7 @@ section.row.repo-list
             use(
               xlink:href = "#icons-branch"
             )
-          | master
+          | gh-pages
         p.repository-description.clearfix
           svg.iconnables.icons-commit
             use(
@@ -59,10 +59,10 @@ section.row.repo-list
     li.divider
 
     li.repository-group-item.clearfix
-      small.btn.btn-xxs LOCK
-      svg.iconnables.icons-forked
+      .btn.btn-xxs LOCKED
+      svg.iconnables.icons-private
         use(
-          xlink:href = "#icons-forked"
+          xlink:href = "#icons-private"
         )
       .repository-group-text
         h3.repository-title CodeNow/runnable-angular
@@ -71,7 +71,7 @@ section.row.repo-list
             use(
               xlink:href = "#icons-branch"
             )
-          | gh-pages
+          | master
         p.repository-description.clearfix
           svg.iconnables.icons-commit
             use(
@@ -79,6 +79,30 @@ section.row.repo-list
             )
           | Merge pull request #369 from CodeNow/Instance-list-fetch-speed-improvement
           small.repository-detail 3 days
+
+    li.divider
+
+    li.repository-group-item.clearfix
+      .btn.btn-xxs LOCKED
+      svg.iconnables.icons-forked
+        use(
+          xlink:href = "#icons-forked"
+        )
+      .repository-group-text
+        h3.repository-title CodeNow/term.js
+        p.repository-description.clearfix
+          svg.iconnables.icons-branch
+            use(
+              xlink:href = "#icons-branch"
+            )
+          | master
+        p.repository-description.clearfix
+          svg.iconnables.icons-commit
+            use(
+              xlink:href = "#icons-commit"
+            )
+          | Change font-weight from bold to 400
+          small.repository-detail 18 days
 
     //-
       - display selected commit
