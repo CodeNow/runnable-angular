@@ -439,10 +439,17 @@
 
       &.h3 {
         font-size: 21px;
+        line-height: 1;
       }
 
       &.p {
-        font-size: 14px;
+        font-size: 13px;
+      }
+    }
+
+    @include media(xxs) {
+      &.h3 {
+        font-size: 17px;
       }
     }
   }
@@ -451,8 +458,7 @@
     height: auto;
 
     @include media(xs) {
-      line-height: 1.4;
-      margin-top: 3px;
+      line-height: 1.2;
     }
   }
 
@@ -462,7 +468,12 @@
     top: 36px;
 
     @include media(xs) {
-      right: 15px;
+      font-size: 14px;
+      right: 12px;
+
+      .icons-git {
+        width: 18px;
+      }
     }
   }
 }
@@ -478,6 +489,10 @@
     margin: 0 12px;
     width: 36px;
   }
+
+  @include media(xxs) {
+    width: 30px;
+  }
 }
 
 // .demo-list-text
@@ -486,7 +501,15 @@
   flex-direction: column;
   height: 100%;
   justify-content: center;
-  width: calc(100% - 229px);
+  width: calc(100% - 294px);
+
+  @include media(xs) {
+    width: calc(100% - 240px);
+  }
+
+  @include media(xxs) {
+    width: calc(100% - 234px);
+  }
 }
 
 // footer.home-footer
