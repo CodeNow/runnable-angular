@@ -10,8 +10,7 @@ function HelperInstanceActionsModal(
   $stateParams,
   $timeout,
   async,
-  keypather,
-  updateEnvName
+  keypather
 ) {
   /**
    * Shared actions-modal logic.
@@ -72,11 +71,12 @@ function HelperInstanceActionsModal(
         $rootScope.dataApp.data.loading = true;
         if (!opts.env) { return; }
         $scope.instance.update(opts, function (err) {
-          $rootScope.safeApply();
           if (err) { throw err; }
           $rootScope.dataApp.data.loading = false;
+          $rootScope.safeApply();
           // update instances collection to update
           // viewInstanceList
+          $scope.instance.redeploy(angular.noop);
           $state.go('instance.instance', $stateParams);
         });
         if (cb) {
