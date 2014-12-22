@@ -443,7 +443,7 @@
       }
 
       &.p {
-        font-size: 13px;
+        font-size: 14px;
       }
     }
 
@@ -501,14 +501,14 @@
   flex-direction: column;
   height: 100%;
   justify-content: center;
-  width: calc(100% - 294px);
+  width: calc(100% - 283px);
 
   @include media(xs) {
-    width: calc(100% - 240px);
+    width: calc(100% - 231px);
   }
 
   @include media(xxs) {
-    width: calc(100% - 234px);
+    width: calc(100% - 219px);
   }
 }
 
