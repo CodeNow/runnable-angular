@@ -15,7 +15,9 @@ main.home
         a.link.link-text(
           href = "/pricing"
         ) Pricing
-        a.link.link-text Sign In
+        a.link.link-text(
+          ng-href = "{{ dataApp.data.loginURL }}"
+        ) Sign In
     h1.h1.header-thin Bring your code online
     h3.h3.header-thin Servers on demand for any stack
     //- icon grid
@@ -207,5 +209,7 @@ footer.home-footer
     a.link.link-text(
       href = "mailto:support@runnable.com"
     ) Email Us
-    a.link.link-text
+    a.link.link-text(
+      ng-href = "{{ dataApp.data.loginURL }}"
+    )
       b Sign In
