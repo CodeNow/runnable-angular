@@ -108,3 +108,29 @@ input ~ small {
   margin: 12px;
   padding: inherit;
 }
+
+// alignment
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// colors
+.text-blue {
+  color: $blue;
+}
+
+.text-green {
+  color: $green;
+}
+
+.text-orange {
+  color: $orange;
+}
+
+.text-purple {
+  color: $purple;
+}

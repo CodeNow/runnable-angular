@@ -84,6 +84,15 @@ button,
 }
 
 // button sizes
+.btn-xl {
+  border-radius: 6px;
+  font-size: 30px;
+  font-weight: 300;
+  height: 72px;
+  line-height: 72px;
+  padding: 0 45px;
+}
+
 .btn-sm {
   height: 36px;
   line-height: 36px;
