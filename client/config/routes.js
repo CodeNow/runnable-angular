@@ -9,6 +9,31 @@ module.exports = [
       bodyClass: {
         'vertical': true
       },
+      anon: true
+    }
+  },
+  {
+    state: 'features',
+    abstract: false,
+    url: '^/features',
+    templateUrl: 'viewFeatures',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  },
+  {
+    state: 'pricing',
+    abstract: false,
+    url: '^/pricing',
+    templateUrl: 'viewPricing',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
     }
   },
   {

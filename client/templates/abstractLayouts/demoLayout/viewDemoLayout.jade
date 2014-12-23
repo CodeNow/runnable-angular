@@ -17,19 +17,14 @@ nav.sidebar.global-sidebar.demo-sidebar(
   ) Welcome
   p.sidebar-paragraph(
     ng-switch-when = "1"
-  ) This text briefly describes what boxes are and what you can do with it.
+  ) This is your own server running our app of something.
   p.sidebar-paragraph(
     ng-switch-when = "1"
-  ) Sign in to save this box along with any changes you&rsquo;ve made.
+  ) But you can run your own repositories.
   a.btn.btn-block.green(
     ng-href = "{{ dataDemoLayout.data.loginURL }}"
     ng-switch-when = "1"
-  )
-    svg.iconnables.icons-git
-      use(
-        xlink:href = "#icons-git"
-      )
-    | Sign In
+  ) Run Your Repo
 
   //-
   //- demo step 2

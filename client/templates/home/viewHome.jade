@@ -1,101 +1,230 @@
-main.hero(
-  ng-class = "{'no-flex': !dataHome.data.hasPass}"
-)
-  header.hero-header
-    a.logo(
+main.home
+
+  //- hero
+  section.home-hero
+    header.home-header
+      a.logo
+        svg
+          use(
+            xlink:href = "#runnable-logo"
+          )
+      nav.home-nav
+        a.link.link-text(
+          href = "/features"
+        ) Features
+        a.link.link-text(
+          href = "/pricing"
+        ) Pricing
+        a.link.link-text(
+          ng-href = "{{ dataApp.data.loginURL }}"
+        ) Sign In
+    h1.h1.header-thin Bring your code online
+    h3.h3.header-thin Servers on demand for any stack
+    //- icon grid
+    .icon-grid
+      .icon-grid-row
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/ruby-on-rails-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/cake-php-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/code-igniter-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/dart-icon.svg"
+          width = "45"
+        )
+      .icon-grid-row
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/django-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/flask-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/code-igniter-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/java-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/mongo-icon.svg"
+          width = "45"
+        )
+      .icon-grid-row
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/nodejs-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/mysql-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/php-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/python-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/ruby-icon.svg"
+          width = "45"
+        )
+        img.icon-grid-image(
+          height = "45"
+          src = "/build/images/home/icon-grid/ruby-on-rails-icon.svg"
+          width = "45"
+        )
+
+  //- features
+  section.home-features
+    .row
+      .col
+        img(
+          height = "180"
+          src = "/build/images/home/feature-boxes.svg"
+          width = "180"
+        )
+        h2.h2.header-thin.text-purple Any Stack Anytime
+        p.p Simple and flexible. Use Runnable servers #{''}
+          br
+          | to help your uncle with his next big idea.
+    .row
+      .col
+        img(
+          height = "120"
+          src = "/build/images/home/feature-linking.svg"
+          width = "120"
+        )
+        h2.h2.header-thin.text-blue Better Together
+        p.p With Dixie cup and string technology, #{''}
+          br
+          | we are able to link boxes together.
+      .col
+        img(
+          height = "120"
+          src = "/build/images/home/feature-github.svg"
+          width = "120"
+        )
+        h2.h2.header-thin.text-green Github Integrated
+        p.p Run your branches, commits, #{''}
+          br
+          | and pull requests.
+
+  .hr.hr-single
+
+  //- demo boxes
+  section.home-demos
+    h1.h1.header-thin Try a Server
+    h3.h3.header-thin Free to try, no sign ups
+    ol.demo-list.clearfix
+      li.demo-list-item
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/home/icons-django.svg"
+          width = "48"
+        )
+        .demo-list-text
+          h3.h3.header-thin Django
+          p.p Launch a web app running on AngularJs and Django
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        )
+          svg.iconnables.icons-git
+            use(
+              xlink:href = "#icons-git"
+            )
+          | Sign in to demo
+      li.demo-list-item
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/home/icons-ruby-on-rails.svg"
+          width = "48"
+        )
+        .demo-list-text
+          h3.h3.header-thin Ruby on Rails
+          p.p Launch a Rails app with MySQL
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        )
+          svg.iconnables.icons-git
+            use(
+              xlink:href = "#icons-git"
+            )
+          | Sign in to demo
+      li.demo-list-item
+        img.demo-icon(
+          height = "48"
+          src = "/build/images/home/icons-node.js.svg"
+          width = "48"
+        )
+        .demo-list-text
+          h3.h3.header-thin node.js
+          p.p I don’t even know right now
+        a.btn.btn-sm.green(
+          href = "#"
+          target = "_blank"
+        )
+          svg.iconnables.icons-git
+            use(
+              xlink:href = "#icons-git"
+            )
+          | Sign in to demo
+    a.link.link-text Don’t see yours? Launch a custom server.
+    .hr
+      span.hr-text or
+    a.btn.btn-xl.green(
+      href = "/features"
+    ) Explore Features
+
+footer.home-footer
+  .hr
+    img.hr-image(
+      height = "30"
+      src = "/build/images/runnable-icon.svg"
+      width = "30"
+    )
+  nav.footer-nav
+    a.link.link-text(
       href = "/"
-    )
-      svg.logo-svg
-        use(
-          xlink:href = "#runnable-logo"
-        )
-    a.link.link-white.link-text(
+    ) Home
+    a.link.link-text(
+      href = "/features"
+    ) Features
+    a.link.link-text(
+      href = "/pricing"
+    ) Pricing
+    a.link.link-text(
+      href = "mailto:support@runnable.com"
+    ) Email Us
+    a.link.link-text(
       ng-href = "{{ dataApp.data.loginURL }}"
-      ng-if = "dataHome.data.hasPass"
-    ) Sign In
-
-  section.hero-heading
-    h1.hero-text A Server for Every Commit
-    p.hero-text-sub Run every version of your code as it's developed.
-
-  a.btn.white.reversed(
-    href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
-    ng-if = "!dataHome.data.hasPass"
-  ) Request an Invite
-
-  section.template-list(
-    ng-if = "dataHome.data.hasPass"
-  )
-    a.template-list-item(
-      href = "#"
     )
-      //- .image-wrapper for separate animation and transition states
-      .image-wrapper
-        img.template-image(
-          alt = "Django"
-          src = "/build/images/icons/templates/icons-django.svg"
-        )
-      h2.template-title Django
-    a.template-list-item(
-      href = "#"
-    )
-      .image-wrapper
-        img.template-image(
-          alt = "Flask"
-          src = "/build/images/icons/templates/icons-flask.svg"
-        )
-      h2.template-title Flask
-    a.template-list-item(
-      href = "#"
-    )
-      .image-wrapper
-        img.template-image(
-          alt = "MongoDB"
-          src = "/build/images/icons/templates/icons-mongodb.svg"
-        )
-      h2.template-title MongoDB
-    a.template-list-item(
-      href = "#"
-    )
-      .image-wrapper
-        img.template-image(
-          alt = "MySQL"
-          src = "/build/images/icons/templates/icons-mysql.svg"
-        )
-      h2.template-title MySQL
-    a.template-list-item(
-      href = "#"
-    )
-      .image-wrapper
-        img.template-image(
-          alt = "node.js"
-          src = "/build/images/icons/templates/icons-node.js.svg"
-        )
-      h2.template-title node.js
-    a.template-list-item(
-      href = "#"
-    )
-      .image-wrapper
-        img.template-image(
-          alt = "PHP"
-          src = "/build/images/icons/templates/icons-php.svg"
-        )
-      h2.template-title PHP
-    a.template-list-item(
-      href = "#"
-    )
-      .image-wrapper
-        img.template-image(
-          alt = "Redis"
-          src = "/build/images/icons/templates/icons-redis.svg"
-        )
-      h2.template-title Redis
-    a.template-list-item(
-      href = "#"
-    )
-      .image-wrapper
-        img.template-image(
-          alt = "Ruby"
-          src = "/build/images/icons/templates/icons-ruby.svg"
-        )
-      h2.template-title Ruby
+      b Sign In

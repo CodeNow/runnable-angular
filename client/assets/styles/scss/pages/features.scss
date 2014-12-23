@@ -1,0 +1,25 @@
+// main.home.features
+.features {
+
+  .home-hero {
+    height: 480px;
+  }
+
+  .home-features {
+    margin-top: -150px;
+
+    .h2 {
+      margin: 0;
+      text-align: left;
+    }
+
+    .row {
+      margin: 45px 0;
+    }
+
+    .col {
+      margin: 0 30px;
+      vertical-align: middle;
+    }
+  }
+}
