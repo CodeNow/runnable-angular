@@ -1,5 +1,5 @@
-//- repository-toggle popover
-.popover.right.repository-toggle.in(
+//- .popover-repository-toggle
+.popover.right.popover-repository-toggle.in(
   ng-class = "{in: data.show}"
 )
   .arrow.white
@@ -26,7 +26,7 @@
   ul.commit-group
     li.commit-group-item.small Selecting a commit will #{''}
         b lock
-        | #{''} your server to the commit selected so that your server will not automatically run your latest code.
+        | #{''} your server to that commit, and your server will not automatically update to run your latest code.
     li.commit-group-item
 
     //- button.btn.btn-icon.btn-search(

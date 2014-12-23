@@ -76,9 +76,9 @@ section.row.repo-list
     li.divider
 
     li.repository-group-item.clearfix(
-      ng-class = "{active: popoverCommitSelect.data.show}"
+      ng-class = "{active: popoverRepositoryToggle.data.show}"
       toggle-pop-over
-      toggle-pop-over-model = "popoverCommitSelect.data.show"
+      toggle-pop-over-model = "popoverRepositoryToggle.data.show"
     )
       .btn.btn-xxs LOCKED
       svg.iconnables.icons-forked
@@ -101,10 +101,10 @@ section.row.repo-list
           | Change font-weight from bold to 400
           small.repository-detail 18 days
       pop-over(
-        actions = "popoverCommitSelect.actions"
-        data = "popoverCommitSelect.data"
+        actions = "popoverRepositoryToggle.actions"
+        data = "popoverRepositoryToggle.data"
         popover-options = "{\"left\":299,\"top\":34}"
-        template = "viewPopoverCommitSelect"
+        template = "viewPopoverRepositoryToggle"
       )
 
     //-

@@ -1,14 +1,26 @@
-// .popover.repository-toggle
-.repository-toggle {
+// .popover.right.popover-repository-toggle
+.popover-repository-toggle {
   transform: scale3d(1,0,0);
-  transform-origin: 50% 0;
+  transform-origin: 0 50%;
   width: 276px;
 
   .popover-title {
     background: transparent;
-    height: 78px;
+    border: 0;
+    height: 81px;
     line-height: 1;
     padding: 6px;
+    position: relative;
+
+    &::after {
+      background: rgba($black,.1);
+      bottom: 0;
+      content: '';
+      display: block;
+      height: 1px;
+      position: absolute;
+      width: 261px;
+    }
 
     .btn-group {
       display: block;
@@ -37,11 +49,12 @@
 .commit-group {
   max-height: 315px;
   overflow: auto;
+  padding: 12px 0;
 }
 
 // li.commit-group-item
 .commit-group-item {
-  padding: 6px;
+  padding: 0 12px;
 
   &:first-child {
     color: $gray-lighter;

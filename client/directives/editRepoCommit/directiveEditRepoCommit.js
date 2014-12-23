@@ -47,32 +47,32 @@ function editRepoCommit(
       // use watchers to share branch/commit between
       // this scope and popover + keep sync
       $scope.$watch('activeBranch', function (n) {
-        if (n) { $scope.popoverCommitSelect.data.activeBranch = n; }
+        if (n) { $scope.popoverRepositoryToggle.data.activeBranch = n; }
       });
       $scope.$watch('activeCommit', function (n) {
-        if (n) { $scope.popoverCommitSelect.data.activeCommit = n; }
+        if (n) { $scope.popoverRepositoryToggle.data.activeCommit = n; }
       });
       $scope.$watch('build', function (n) {
-        if (n) { $scope.popoverCommitSelect.data.build = n; }
+        if (n) { $scope.popoverRepositoryToggle.data.build = n; }
       });
 
-      $scope.popoverCommitSelect = {
+      $scope.popoverRepositoryToggle = {
         data: {},
         actions: {}
       };
-      $scope.popoverCommitSelect.data.show = false;
-      $scope.popoverCommitSelect.data.acv = $scope.acv;
-      $scope.popoverCommitSelect.data.unsavedAcv = $scope.unsavedAcv;
-      $scope.popoverCommitSelect.data.toggleFilter = false;
-      $scope.popoverCommitSelect.data.commitFilter = '';
+      $scope.popoverRepositoryToggle.data.show = false;
+      $scope.popoverRepositoryToggle.data.acv = $scope.acv;
+      $scope.popoverRepositoryToggle.data.unsavedAcv = $scope.unsavedAcv;
+      $scope.popoverRepositoryToggle.data.toggleFilter = false;
+      $scope.popoverRepositoryToggle.data.commitFilter = '';
 
-      $scope.popoverCommitSelect.actions.selectBranch = function (activeBranch) {
+      $scope.popoverRepositoryToggle.actions.selectBranch = function (activeBranch) {
         $scope.activeBranch = activeBranch;
         fetchBranchCommits($scope.activeBranch);
       };
 
-      $scope.popoverCommitSelect.actions.selectCommit = function (commitSha) {
-        $scope.popoverCommitSelect.data.show = false;
+      $scope.popoverRepositoryToggle.actions.selectCommit = function (commitSha) {
+        $scope.popoverRepositoryToggle.data.show = false;
         $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
         $scope.unsavedAcv.attrs.commit = commitSha;
         setActiveCommit($scope.unsavedAcv);
@@ -81,16 +81,16 @@ function editRepoCommit(
       };
 
       // reset filter when opening popover
-      $scope.$watch('popoverCommitSelect.data.show', function (n) {
+      $scope.$watch('popoverRepositoryToggle.data.show', function (n) {
         if (!n) { return; }
-        $scope.popoverCommitSelect.data.toggleFilter = false;
-        $scope.popoverCommitSelect.data.commitFilter = '';
+        $scope.popoverRepositoryToggle.data.toggleFilter = false;
+        $scope.popoverRepositoryToggle.data.commitFilter = '';
       });
 
       // reset branch if selected commit does
       // not belong to selected branch
-      // on popoverCommitSelect close
-      $scope.$watch('popoverCommitSelect.data.show', function (n, p) {
+      // on popoverRepositoryToggle close
+      $scope.$watch('popoverRepositoryToggle.data.show', function (n, p) {
         if (n === false && p === true) {
           // was open, is now closed
           setActiveBranch($scope.unsavedAcv);
