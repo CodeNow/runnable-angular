@@ -16,7 +16,6 @@ h6 {
 
 small,
 .small {
-  color: $gray-dark;
   font-size: 12px; // percentage was unreliable
   font-weight: 300; // reset if within header tags
 }
@@ -78,10 +77,7 @@ input ~ small {
 }
 
 .link-text {
-
-  &:hover {
-    text-decoration: underline;
-  }
+  text-decoration: underline;
 }
 
 .link-secondary {
