@@ -17,7 +17,6 @@
 }
 
 // ul.repository-group
-// ul.url-group
 .repository-group {
   margin: -45px 0 0;
   // overflow-x: hidden;
@@ -38,7 +37,9 @@
   padding: 15px 0;
   position: relative;
 
-  &:hover {
+  &:hover,
+  &:active,
+  &.active {
     background: rgba($blue,.1);
   }
 
@@ -70,7 +71,6 @@
   .icons-branch,
   .icons-commit {
     color: $gray-light;
-    // float: left;
     height: 18px;
     left: 0;
     margin: 0 3px 0 -3px;

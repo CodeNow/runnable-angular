@@ -1,23 +1,19 @@
 // .popover.commit-select
 .commit-select {
-  background: #f0f8fb; // rgba($blue,.1);
-  border-color: rgba($blue,.4);
-  box-shadow: 0 0 21px rgba($blue,.21);
   margin-left: 39px;
   transform: scale3d(1,0,0);
   transform-origin: 50% 0;
-  width: 251px;
+  width: 276px;
 
   .popover-title {
     background: transparent;
-    border-color: #bbdeeb; // rgba($blue,.4)
-    height: 36px;
-    line-height: 36px;
+    height: 60px;
+    line-height: 60px;
     padding: 6px;
   }
 
   .title-filter {
-    border: 1px solid rgba($blue,.4);
+    border: 1px solid rgba($black,.1);
   }
 }
 

@@ -1,48 +1,47 @@
 //- commit-select popover
-.popover.commit-select(
+.popover.right.commit-select.in(
   ng-class = "{in: data.show}"
 )
-  h3.popover-title(
-    ng-class = "{'show-filter': data.toggleFilter}"
-  )
-    //- filter across all commits in that repo
-    //- should clear on close
-    button.btn.blue.btn-icon.btn-search(
-      ng-click = "data.toggleFilter = !data.toggleFilter; \
-        data.commitFilter = '';"
-      ng-class = "{active: data.toggleFilter}"
-      title = "Filter All Commits"
-    )
-      svg.iconnables.icons-search-blue
-        use(
-          xlink:href = "#icons-search-blue"
-        )
-    //- focus on visible
+  .arrow.white
+  h3.popover-title
+    .btn-group
+      button.btn.blue.hover Branches
+      button.btn.blue.active Commits
     input.title-filter(
       select-on = "data.toggleFilter"
       ng-model = "data.commitFilter"
-      placeholder = "Filter All Commits"
+      placeholder = "Filter Branches"
     )
+    //- button.btn.btn-icon.btn-search(
+    //-   ng-click = "data.toggleFilter = !data.toggleFilter; \
+    //-     data.commitFilter = '';"
+    //-   ng-class = "{active: data.toggleFilter}"
+    //- )
+    //-   svg.iconnables.icons-search
+    //-     use(
+    //-       xlink:href = "#icons-search"
+    //-     )
+    //- //- focus on visible
 
     //- branch selector
-    .btn-select.branch-btn
-      button.btn.blue.pull-right
-        //- change this to a branch icon
-        svg.iconnables.icons-git
-          use(
-            xlink:href = "#icons-git"
-          )
-        | {{ data.activeBranch.attrs.name }}
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      select.select(
-        name = "data.activeBranch"
-        ng-change = "actions.selectBranch(data.activeBranch)"
-        ng-model = "data.activeBranch"
-        ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
-      )
+    //- .btn-select.branch-btn
+    //-   button.btn.blue.pull-right
+    //-     //- change this to a branch icon
+    //-     svg.iconnables.icons-git
+    //-       use(
+    //-         xlink:href = "#icons-git"
+    //-       )
+    //-     | {{ data.activeBranch.attrs.name }}
+    //-     svg.iconnables.icons-arrow-down
+    //-       use(
+    //-         xlink:href = "#icons-arrow-down"
+    //-       )
+    //-   select.select(
+    //-     name = "data.activeBranch"
+    //-     ng-change = "actions.selectBranch(data.activeBranch)"
+    //-     ng-model = "data.activeBranch"
+    //-     ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
+    //-   )
 
   //- list of commits
   ul.commit-group(

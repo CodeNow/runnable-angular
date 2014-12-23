@@ -150,6 +150,10 @@
 
   &.right {
     margin-left: 10px;
+
+    > .arrow.white::after {
+      border-right-color: $white;
+    }
   }
 
   &.bottom {
@@ -162,6 +166,10 @@
 
   &.left {
     margin-left: -10px;
+
+    > .arrow.white::after {
+      border-left-color: $white;
+    }
   }
 
   // .popover.menu
