@@ -25,7 +25,7 @@ function gettingStartedSeedInstances (
       }, {
         name: 'node.js',
         description: 'I don\'t even know right now',
-        icon: 'icon-node.js',
+        icon: 'icons-node.js',
         shortHash: 'ewzkne'
       }];
 
