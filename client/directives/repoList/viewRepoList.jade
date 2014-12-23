@@ -76,7 +76,6 @@ section.row.repo-list
     li.divider
 
     li.repository-group-item.clearfix(
-      ng-class = "{active: popoverRepositoryToggle.data.show}"
       toggle-pop-over
       toggle-pop-over-model = "popoverRepositoryToggle.data.show"
     )
@@ -103,7 +102,7 @@ section.row.repo-list
       pop-over(
         actions = "popoverRepositoryToggle.actions"
         data = "popoverRepositoryToggle.data"
-        popover-options = "{\"left\":299,\"top\":34}"
+        popover-options = "{\"left\":299,\"top\":0}"
         template = "viewPopoverRepositoryToggle"
       )
 
