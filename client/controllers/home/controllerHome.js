@@ -7,18 +7,18 @@ require('app')
  * @ngInject
  */
 function ControllerHome(
-  $scope,
-  $state,
-  $location,
-  $window,
   async,
   errs,
-  $localStorage,
-  keypather,
-  QueryAssist,
   fetchUser,
+  $filter,
+  keypather,
+  $localStorage,
+  $location,
+  QueryAssist,
+  $scope,
+  $state,
   user,
-  $filter
+  $window
 ) {
 
   var dataHome = $scope.dataHome = {
@@ -41,6 +41,8 @@ function ControllerHome(
         });
       },
       fetchInstances,
+      /**
+       * Temp disable auto-redirect, Sundip requested change
       function sendUserSomewhere(cb) {
 
         var thisUser = $scope.user;
@@ -112,6 +114,7 @@ function ControllerHome(
           });
         }
       }
+      */
     ], errs.handler);
   }
 
