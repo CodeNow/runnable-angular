@@ -26,10 +26,26 @@ function ControllerHome(
     actions: {}
   };
 
+  dataHome.data.helloRunnableInstances = [{
+    name: 'Django',
+    description: 'Launch a web app running on AngularJS and Django',
+    icon: 'icons-django',
+    shortHash: 'e33x8e'
+  }, {
+    name: 'Ruby on Rails',
+    description: 'Launch a Rails app with MySQL',
+    icon: 'icons-ruby-on-rails',
+    shortHash: 'eqq8de'
+  }, {
+    name: 'node.js',
+    description: 'I don\'t even know right now',
+    icon: 'icon-node.js',
+    shortHash: 'ewzkne'
+  }];
+
   dataHome.data.hasPass = !!$location.search().password;
 
   verifyUserIsAuth();
-
   function verifyUserIsAuth() {
     async.series([
       function (cb) {
@@ -40,7 +56,7 @@ function ControllerHome(
           cb();
         });
       },
-      fetchInstances,
+      fetchInstances
       /**
        * Temp disable auto-redirect, Sundip requested change
       function sendUserSomewhere(cb) {
