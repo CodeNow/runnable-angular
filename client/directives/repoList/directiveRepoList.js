@@ -171,7 +171,8 @@ function repoList(
           $state.transitionTo(current, params, {
             reload: true,
             inherit: true,
-            notify: true
+            notify: true,
+            location: 'replace'
           });
         }
       };

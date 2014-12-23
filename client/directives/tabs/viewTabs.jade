@@ -8,8 +8,8 @@
         'always-open': item.state.alwaysOpen\
       }"
       ng-click = "openItems.activeHistory.add(item); \
-                  openItems.saveState(); \
-                  $event.stopPropagation();"
+        openItems.saveState(); \
+        $event.stopPropagation();"
       ng-repeat = "item in openItems.models"
     )
       span.tab-name(

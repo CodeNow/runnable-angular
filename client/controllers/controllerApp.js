@@ -7,26 +7,24 @@ require('app')
  * @ngInject
  */
 function ControllerApp(
-  $log,
   $scope,
-  $state,
   $rootScope,
   $window,
-  async,
   configAPIHost,
   configEnvironment,
   configLoginURL,
   configLogoutURL,
   errs,
   fetchUser,
+  fetchOrgs,
   keypather,
-  QueryAssist,
-  user
+  $state
 ) {
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {},
-    actions: {}
+    actions: {},
+    state: {}
   };
 
   // used in dev-info box
@@ -43,12 +41,35 @@ function ControllerApp(
     data: {},
     actions: {}
   };
-
+  function setActiveAccount(accountName) {
+    if (accountName) {
+      $scope.$watch('dataApp.data.orgs', function(n) {
+        if (n) {
+          dataApp.data.instances = null;
+          var accounts = [thisUser].concat(n.models);
+          dataApp.data.activeAccount = accounts.find(function (org) {
+            return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
+          });
+          if (!dataApp.data.activeAccount) {
+            dataApp.data.activeAccount = thisUser;
+          }
+          $rootScope.$broadcast('INSTANCE_LIST_FETCH', dataApp.data.activeAccount.oauthName());
+          $rootScope.safeApply();
+        }
+      });
+    }
+  }
   // shows spinner overlay
   dataApp.data.loading = false;
-  $scope.$on('$stateChangeStart', function () {
+  $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
+    if (!keypather.get(dataApp, 'data.activeAccount.oauthName()') ||
+        toParams.userName !== dataApp.data.activeAccount.oauthName()) {
+      setActiveAccount(toParams.userName);
+    }
     dataApp.data.loading = false;
   });
+
+  var thisUser;
 
   $scope.$watch(function () {
     return errs.errors.length;
@@ -68,43 +89,40 @@ function ControllerApp(
     $scope.$broadcast('app-document-click');
   };
 
-  var thisUser,
-      thisUserOrgs;
-
-  function fetchOrgs(user, cb) {
-    thisUser = user;
-    thisUserOrgs = thisUser.fetchGithubOrgs(function (err) {
-      cb(err, thisUserOrgs);
-    });
-  }
-
-  async.waterfall([
-    fetchUser,
-    fetchOrgs
-  ], function(err, results) {
-    if (err) {
-      return errs.handler(err);
-    }
-    if ($window.heap) {
-      $window.heap.identify({
-        name:  thisUser.oauthName(),
-        email: thisUser.attrs.email,
-        orgs:  $window.JSON.stringify(thisUserOrgs)
+  fetchUser(function(err, results) {
+    if (!err) {
+      thisUser = results;
+      dataApp.data.user = results;
+      fetchOrgs(function (err, results) {
+        if (err) {
+          return errs.handler(err);
+        }
+        dataApp.data.orgs = results;
+        if ($window.heap) {
+          $window.heap.identify({
+            name:  thisUser.oauthName(),
+            email: thisUser.attrs.email,
+            orgs:  $window.JSON.stringify(results)
+          });
+        }
+        if ($window.initIntercom) {
+          $window.initIntercom({
+            name: thisUser.oauthName(),
+            email: thisUser.attrs.email,
+            // Convert ISO8601 to Unix timestamp
+            created_at: +(new Date(thisUser.attrs.created)),
+            app_id: 'wqzm3rju'
+          });
+        }
+        if ($window.olark) {
+          $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
+          $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
+          $window.olark('api.box.show');
+        }
+        $rootScope.safeApply();
       });
-    }
-    if ($window.initIntercom) {
-      $window.initIntercom({
-        name: thisUser.oauthName(),
-        email: thisUser.attrs.email,
-        // Convert ISO8601 to Unix timestamp
-        created_at: +(new Date(thisUser.attrs.created)),
-        app_id: 'wqzm3rju'
-     });
-    }
-    if ($window.olark) {
-      $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
-      $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
-      $window.olark('api.box.show');
+    } else {
+      return errs.handler(err);
     }
   });
 }
