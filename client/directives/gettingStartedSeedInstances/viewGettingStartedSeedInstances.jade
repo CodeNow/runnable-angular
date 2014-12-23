@@ -15,7 +15,6 @@ section.home-demos
         p.p {{ instance.description }}
       a.btn.btn-sm.green(
         href = "#"
-        target = "_blank"
         ng-click = "forkInstance(instance.shortHash)"
       )
         svg.iconnables.icons-git
@@ -23,44 +22,6 @@ section.home-demos
             xlink:href = "#icons-git"
           )
         | Sign in to demo
-
-    //-
-      li.demo-list-item
-        img.demo-icon(
-          height = "48"
-          src = "/build/images/home/icons-ruby-on-rails.svg"
-          width = "48"
-        )
-        .demo-list-text
-          h3.h3.header-thin Ruby on Rails
-          p.p Launch a Rails app with MySQL
-        a.btn.btn-sm.green(
-          href = "#"
-          target = "_blank"
-        )
-          svg.iconnables.icons-git
-            use(
-              xlink:href = "#icons-git"
-            )
-          | Sign in to demo
-      li.demo-list-item
-        img.demo-icon(
-          height = "48"
-          src = "/build/images/home/icons-node.js.svg"
-          width = "48"
-        )
-        .demo-list-text
-          h3.h3.header-thin node.js
-          p.p I don’t even know right now
-        a.btn.btn-sm.green(
-          href = "#"
-          target = "_blank"
-        )
-          svg.iconnables.icons-git
-            use(
-              xlink:href = "#icons-git"
-            )
-          | Sign in to demo
   a.link.link-text Don’t see yours? Launch a custom server.
   .hr
     span.hr-text or

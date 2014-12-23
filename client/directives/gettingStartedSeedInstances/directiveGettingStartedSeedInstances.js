@@ -4,7 +4,9 @@ require('app')
  * @ngInject
  */
 function gettingStartedSeedInstances (
-  user
+  async,
+  fetchUser,
+  $state
 ) {
   return {
     restrict: 'E',
@@ -12,6 +14,8 @@ function gettingStartedSeedInstances (
     replace: true,
     scope: {},
     link: function ($scope, elem, attrs) {
+
+      var user;
 
       $scope.helloRunnableInstances = [{
         name: 'Django',
@@ -29,6 +33,34 @@ function gettingStartedSeedInstances (
         icon: 'icons-node.js',
         shortHash: 'ewzkne'
       }];
+
+      $scope.forkInstance = function (shortHash, name) {
+        async.series([
+          function (cb) {
+            fetchUser(function (err, fetchedUser) {
+              if (err) { return cb(err); }
+              user = fetchedUser;
+              cb();
+            });
+          },
+          function newTempInstanceModel (cb) {
+            var tempInstance = user.newInstance({
+              shortHash: shortHash
+            });
+            tempInstance.copy({
+              name: name
+            }, cb);
+          }
+        ], function (err, results) {
+          if (err) { throw err; }
+          var instance = results[1][0];
+          if (!instance) { throw new Error(); }
+          $state.go('demo.instance', {
+            userName: user.attrs.accounts.github.username,
+            instanceName: instance.shortHash
+          });
+        });
+      };
 
     }
   };
