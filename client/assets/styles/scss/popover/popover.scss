@@ -130,15 +130,6 @@
     }
   }
 
-  &.top,
-  &.right,
-  &.left {
-
-    > .arrow::after {
-      border-top-color: $gray-lighter;
-    }
-  }
-
   &.top {
     border-top-color: rgba($black,.05);
     margin-top: -10px;
