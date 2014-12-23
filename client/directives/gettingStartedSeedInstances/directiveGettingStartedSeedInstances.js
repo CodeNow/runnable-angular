@@ -19,16 +19,19 @@ function gettingStartedSeedInstances (
 
       $scope.helloRunnableInstances = [{
         name: 'Django',
+        instanceName: 'Django',
         description: 'Launch a web app running on AngularJS and Django',
         icon: 'icons-django',
         shortHash: 'e33x8e'
       }, {
         name: 'Ruby on Rails',
+        instanceName: 'RubyOnRails',
         description: 'Launch a Rails app with MySQL',
         icon: 'icons-ruby-on-rails',
         shortHash: 'eqq8de'
       }, {
         name: 'node.js',
+        instanceName: 'NodeJS',
         description: 'I don\'t even know right now',
         icon: 'icons-node.js',
         shortHash: 'ewzkne'
@@ -49,16 +52,22 @@ function gettingStartedSeedInstances (
             });
             tempInstance.copy({
               name: name
-            }, cb);
+            }, function (err, instanceAttrs, code) {
+              cb(null, instanceAttrs, code);
+              if (err) { throw err; }
+            });
           }
         ], function (err, results) {
-          if (err) { throw err; }
           var instance = results[1][0];
-          if (!instance) { throw new Error(); }
+          var instanceCode = results[1][1];
+          // already exists
           $state.go('demo.instance', {
             userName: user.attrs.accounts.github.username,
             instanceName: name
           });
+          if (parseInt(instanceCode) === 409) {
+            throw new Error('instance already exists');
+          }
         });
       };
 

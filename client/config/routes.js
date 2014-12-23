@@ -68,12 +68,6 @@ module.exports = [
     templateUrl: 'viewInstance',
     controller: 'ControllerInstance'
   }, {
-    state: 'demo.instanceFork',
-    abstract: false,
-    url: '^/demo/fork',
-    templateUrl: 'viewSetupDemo',
-    controller: 'ControllerSetupDemo'
-  }, {
     state: 'demo.instanceEdit',
     abstract: false,
     url: '^/demo/:userName/:instanceName/edit/:buildId',

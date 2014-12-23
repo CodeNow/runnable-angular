@@ -1,7 +1,9 @@
 require('app')
-  .controller('ControllerDemoLayout', demoLayout);
-
-function demoLayout (
+  .controller('ControllerDemoLayout', controllerDemoLayout);
+/**
+ * @ngInject
+ */
+function controllerDemoLayout (
   configLoginURL,
   editorCache,
   $rootScope,
@@ -20,7 +22,7 @@ function demoLayout (
   var actions = dataDemoLayout.actions;
 
   // May not be the best system
-  if ($state.current.name === 'demo.anon') {
+  if ($state.current.name === 'demo.instance') {
     data.page = 1;
   } else {
     data.page = 2;
