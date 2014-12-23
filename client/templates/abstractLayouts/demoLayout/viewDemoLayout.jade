@@ -1,5 +1,5 @@
 nav.sidebar.global-sidebar.demo-sidebar(
-  ng-switch = "dataDemoLayout.data.page"
+  ng-switch = "dataApp.state.$current.name"
 )
   a.logo.logo-icon(
     href = "#"
@@ -13,31 +13,31 @@ nav.sidebar.global-sidebar.demo-sidebar(
   //- demo step 1
   //-
   h1.sidebar-header(
-    ng-switch-when = "1"
+    ng-switch-when = "demo.instance"
   ) Welcome
   p.sidebar-paragraph(
-    ng-switch-when = "1"
+    ng-switch-when = "demo.instance"
   ) This is your own server running our app of something.
   p.sidebar-paragraph(
-    ng-switch-when = "1"
+    ng-switch-when = "demo.instance"
   ) But you can run your own repositories.
   a.btn.btn-block.green(
-    ng-href = "{{ dataDemoLayout.data.loginURL }}"
-    ng-switch-when = "1"
+    ng-click = "dataDemoLayout.actions.stateToDemoInstanceEdit()"
+    ng-switch-when = "demo.instance"
   ) Run Your Repo
 
   //-
   //- demo step 2
   //-
   h1.sidebar-header(
-    ng-switch-when = "2"
+    ng-switch-when = "demo.instanceEdit"
   ) Add your project
   p.sidebar-paragraph(
-    ng-switch-when = "2"
+    ng-switch-when = "demo.instanceEdit"
   ) We've removed our demo repo for you. Add a repo of yours to run on this box.
   a.link.link-text.link-secondary(
     ng-click = "dataDemoLayout.actions.nextPage()"
-    ng-switch-when = "2"
+    ng-switch-when = "demo.instanceEdit"
   ) Skip adding a repo
 
   //-

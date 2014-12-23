@@ -126,28 +126,26 @@ function ControllerInstance(
   }
 
   function fetchInstance(user, cb) {
-    if ($stateParams.instanceName && $stateParams.userName) {
-      new QueryAssist(user, cb)
-        .wrapFunc('fetchInstances')
-        .query({
-          githubUsername: $stateParams.userName,
-          name: $stateParams.instanceName
-        })
-        .cacheFetch(function (instances, cached, cb) {
-          data.instance = keypather.get(instances, 'models[0]');
-          if (!data.instance) {
-            cb(new Error('Could not find instance on server'));
-          } else {
-            data.instance.state = {};
-            $scope.safeApply();
-            cb();
-          }
-        })
-        .resolve(function (err) {
-          cb(err);
-        })
-        .go();
-    }
+    new QueryAssist(user, cb)
+      .wrapFunc('fetchInstances')
+      .query({
+        githubUsername: $stateParams.userName,
+        name: $stateParams.instanceName
+      })
+      .cacheFetch(function (instances, cached, cb) {
+        data.instance = keypather.get(instances, 'models[0]');
+        if (!data.instance) {
+          cb(new Error('Could not find instance on server'));
+        } else {
+          data.instance.state = {};
+          $scope.safeApply();
+          cb();
+        }
+      })
+      .resolve(function (err) {
+        cb(err);
+      })
+      .go();
   }
 
   function watchForContainerBeforeDisplayTabs (container) {
