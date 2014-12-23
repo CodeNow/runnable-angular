@@ -57,7 +57,7 @@ function gettingStartedSeedInstances (
           if (!instance) { throw new Error(); }
           $state.go('demo.instance', {
             userName: user.attrs.accounts.github.username,
-            instanceName: instance.shortHash
+            instanceName: name
           });
         });
       };

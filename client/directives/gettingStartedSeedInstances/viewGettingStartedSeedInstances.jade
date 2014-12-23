@@ -15,7 +15,7 @@ section.home-demos
         p.p {{ instance.description }}
       a.btn.btn-sm.green(
         href = "#"
-        ng-click = "forkInstance(instance.shortHash)"
+        ng-click = "forkInstance(instance.shortHash, instance.name)"
       )
         svg.iconnables.icons-git
           use(
