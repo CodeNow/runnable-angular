@@ -1,5 +1,5 @@
-// .popover.commit-select
-.commit-select {
+// .popover.repository-toggle
+.repository-toggle {
   transform: scale3d(1,0,0);
   transform-origin: 50% 0;
   width: 276px;
@@ -41,17 +41,11 @@
 
 // li.commit-group-item
 .commit-group-item {
-  margin: 3px 6px;
-  padding: 3px 9px 6px;
-
-  &:hover,
-  &:active,
-  &.active {
-    border-color: #bbdeeb; // rgba($blue,.4)
-  }
+  padding: 6px;
 
   &:first-child {
-    margin: 6px 6px 3px;
+    color: $gray-lighter;
+    line-height: 1.2;
   }
 
   &:last-child {

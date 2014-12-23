@@ -304,7 +304,7 @@
   }
 
   .hr-text {
-    color: $gray-light;
+    color: $gray-lighter;
     font-size: 30px;
     line-height: 36px;
     text-align: center;
@@ -408,7 +408,7 @@
 
 // ol.demo-list
 .demo-list {
-  border: 1px solid $gray-light;
+  border: 1px solid $gray-lighter;
   border-radius: 3px;
   margin: 60px auto 0;
   width: 720px;
@@ -426,7 +426,7 @@
   position: relative;
 
   + .demo-list-item {
-    border-top: 1px solid $gray-light;
+    border-top: 1px solid $gray-lighter;
   }
 
   .h3,
@@ -532,7 +532,7 @@
   }
 
   .link {
-    color: $gray-light;
+    color: $gray-lighter;
     font-size: 18px;
     margin: 0 12px;
     padding: 0 12px;

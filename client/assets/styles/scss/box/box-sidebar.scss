@@ -45,7 +45,7 @@
 
   // anchor image
   > .iconnables {
-    color: $gray-light;
+    color: $gray-lighter;
     float: left;
     height: 54px;
     padding: 6px;
@@ -70,7 +70,7 @@
   // detail image (branch or commit)
   .icons-branch,
   .icons-commit {
-    color: $gray-light;
+    color: $gray-lighter;
     height: 18px;
     left: 0;
     margin: 0 3px 0 -3px;
@@ -116,7 +116,7 @@
 }
 
 .repository-detail {
-  color: $gray-light;
+  color: $gray-lighter;
   float: right;
   font-size: 10px;
 }

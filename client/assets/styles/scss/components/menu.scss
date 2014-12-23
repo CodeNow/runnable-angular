@@ -7,7 +7,7 @@
   }
 
   > ul {
-    background: $gray-lighter;
+    background: $gray-lightest;
     border: 1px solid rgba(0,0,0,.1);
     border-radius: 3px;
     list-style-type: none;
@@ -36,7 +36,7 @@
     }
 
     &::before {
-      border-bottom: 6px solid $gray-lighter;
+      border-bottom: 6px solid $gray-lightest;
       top: -6px;
       z-index: 3;
     }

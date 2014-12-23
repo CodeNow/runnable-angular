@@ -1,5 +1,5 @@
-//- commit-select popover
-.popover.right.commit-select.in(
+//- repository-toggle popover
+.popover.right.repository-toggle.in(
   ng-class = "{in: data.show}"
 )
   .arrow.white
@@ -22,41 +22,48 @@
       ng-model = "data.commitFilter"
       placeholder = "Filter Branches"
     )
+
+  ul.commit-group
+    li.commit-group-item.small Selecting a commit will #{''}
+        b lock
+        | #{''} your server to the commit selected so that your server will not automatically run your latest code.
+    li.commit-group-item
+
     //- button.btn.btn-icon.btn-search(
     //-   ng-click = "data.toggleFilter = !data.toggleFilter; \
     //-     data.commitFilter = '';"
     //-   ng-class = "{active: data.toggleFilter}"
     //- )
-    //-   svg.iconnables.icons-search
-    //-     use(
-    //-       xlink:href = "#icons-search"
-    //-     )
-    //- //- focus on visible
+      svg.iconnables.icons-search
+        use(
+          xlink:href = "#icons-search"
+        )
+    //- focus on visible
 
     //- branch selector
     //- .btn-select.branch-btn
-    //-   button.btn.blue.pull-right
-    //-     //- change this to a branch icon
-    //-     svg.iconnables.icons-git
-    //-       use(
-    //-         xlink:href = "#icons-git"
-    //-       )
-    //-     | {{ data.activeBranch.attrs.name }}
-    //-     svg.iconnables.icons-arrow-down
-    //-       use(
-    //-         xlink:href = "#icons-arrow-down"
-    //-       )
-    //-   select.select(
-    //-     name = "data.activeBranch"
-    //-     ng-change = "actions.selectBranch(data.activeBranch)"
-    //-     ng-model = "data.activeBranch"
-    //-     ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
-    //-   )
+      button.btn.blue.pull-right
+        //- change this to a branch icon
+        svg.iconnables.icons-git
+          use(
+            xlink:href = "#icons-git"
+          )
+        | {{ data.activeBranch.attrs.name }}
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+      select.select(
+        name = "data.activeBranch"
+        ng-change = "actions.selectBranch(data.activeBranch)"
+        ng-model = "data.activeBranch"
+        ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
+      )
 
   //- list of commits
-  ul.commit-group(
-    ng-if = "data.activeBranch.commits.models.length"
-  )
+  //- ul.commit-group(
+  //-   ng-if = "data.activeBranch.commits.models.length"
+  //- )
     //- show 35 commits per load
     //- .active class if currently selected commit
     li.commit-group-item.commit(

@@ -7,7 +7,7 @@
   z-index: $z-sidebar-content;
 
   .sub-header {
-    background: rgba($gray-lighter,.9);
+    background: rgba($gray-lightest,.9);
     flex: 0 0 auto;
     transition: background .15s ease-in, box-shadow .15s ease-in;
     z-index: $z-sidebar-sub-header;
@@ -107,7 +107,7 @@
   }
 
   .icons-status.icons-status {
-    background: rgba($gray-lighter,.45);
+    background: rgba($gray-lightest,.45);
     border: 1px solid rgba($black,.15);
     float: right;
     height: 5px;

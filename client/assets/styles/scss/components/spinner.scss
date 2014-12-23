@@ -59,7 +59,7 @@
 
 .spinner {
   animation: spinner-path $spinner-duration ease-in-out infinite;
-  stroke: $gray-light;
+  stroke: $gray-lighter;
   stroke-dasharray: $spinner-offset;
   stroke-dashoffset: 0;
   transform-origin: center;
