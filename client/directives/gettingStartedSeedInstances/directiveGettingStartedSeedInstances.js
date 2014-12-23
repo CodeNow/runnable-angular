@@ -4,6 +4,7 @@ require('app')
  * @ngInject
  */
 function gettingStartedSeedInstances (
+  user
 ) {
   return {
     restrict: 'E',
