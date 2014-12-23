@@ -370,7 +370,6 @@
   background: rgba($gray-lighter,.9);
   border-bottom: 1px solid rgba($black,.1);
   color: $gray-dark;
-  font-size: 16px;
   font-weight: 500;
   height: 45px;
   line-height: 45px;
@@ -381,35 +380,35 @@
   z-index: $z-popover-title;
 
   // toggle search
-  .btn-search {
-    float: left;
-    width: 24px;
-  }
+  // .btn-search {
+  //   float: left;
+  //   width: 24px;
+  // }
 
-  .icons-search-blue {
-    left: -1px;
-    top: -1px;
-  }
+  // .icons-search-blue {
+  //   left: -1px;
+  //   top: -1px;
+  // }
 }
 
 // input.title-filter
-.title-filter {
-  background: $white;
-  font-size: 14px;
-  font-weight: 300;
-  height: 25px;
-  line-height: 24px;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 6px;
-  top: 6px;
-  transition: opacity .15s ease-in;
-  width: calc(100% - 42px);
-  z-index: $z-popover-title-filter;
+// .title-filter {
+//   background: $white;
+//   font-size: 14px;
+//   font-weight: 300;
+//   height: 25px;
+//   line-height: 24px;
+//   opacity: 0;
+//   pointer-events: none;
+//   position: absolute;
+//   right: 6px;
+//   top: 6px;
+//   transition: opacity .15s ease-in;
+//   width: calc(100% - 42px);
+//   z-index: $z-popover-title-filter;
 
-  .show-filter & {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
+//   .show-filter & {
+//     opacity: 1;
+//     pointer-events: auto;
+//   }
+// }

@@ -5,8 +5,18 @@
   .arrow.white
   h3.popover-title
     .btn-group
-      button.btn.blue.hover Branches
-      button.btn.blue.active Commits
+      button.btn.btn-sm.white
+        svg.iconnables.icons-branch
+          use(
+            xlink:href = "#icons-branch"
+          )
+        | Branches
+      button.btn.btn-sm.white
+        svg.iconnables.icons-commit
+          use(
+            xlink:href = "#icons-commit"
+          )
+        | Commits
     input.title-filter(
       select-on = "data.toggleFilter"
       ng-model = "data.commitFilter"
