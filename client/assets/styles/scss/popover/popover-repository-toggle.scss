@@ -1,13 +1,9 @@
 // .popover.right.popover-repository-toggle
 .popover-repository-toggle {
-  transform: scale3d(0,0,1) translate3d(0,-50%,0);
   transform-origin: 0 50%;
   width: 276px;
 
-  &.in {
-    transform: scale3d(1,1,1) translate3d(0,-50%,0);
-  }
-
+  // popover header
   .popover-title {
     background: transparent;
     font-weight: 300;
@@ -15,16 +11,6 @@
     line-height: 1;
     padding: 12px 12px 9px;
     position: relative;
-
-    .btn-group {
-      display: block;
-    }
-
-    .btn {
-      font-size: 14px;
-      text-indent: -12px;
-      width: 50%;
-    }
 
     .iconnables {
       height: 16px;
@@ -34,13 +20,46 @@
     }
   }
 
+  // toggles
+  .btn-group {
+    display: block;
+
+    > .btn {
+      font-size: 14px;
+      text-indent: -12px;
+      width: 50%;
+    }
+  }
+
+  // filter
   .title-filter {
-    background: url(/build/images/icons/icons-search.svg) no-repeat left center;
+  }
+
+  // branch select
+  .btn-select {
+    color: $gray-lighter;
+  }
+
+  .input,
+  .btn-select {
+    border: 1px solid transparent;
+    cursor: pointer;
     font-size: 14px;
+    font-weight: 300;
     height: 24px;
-    line-height: 24px;
+    line-height: 25px;
     margin-top: 6px;
-    padding-left: 24px;
+    text-align: center;
+    width: 100%;
+
+    &:hover {
+      border-color: rgba($blue,.3);
+    }
+
+    &:focus {
+      border-color: $blue;
+      cursor: text;
+    }
   }
 }
 
@@ -141,46 +160,6 @@
 
     &:last-child {
       float: right;
-    }
-  }
-}
-
-// branch button
-.branch-btn {
-  float: right;
-
-  &:hover .blue {
-    @extend .blue:hover;
-  }
-
-  .blue {
-    font-size: 14px;
-    max-width: 207px;
-    overflow: hidden;
-    padding: 0 24px 0 3px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    .icons-git {
-      color: $blue;
-      float: left;
-      height: 15px;
-      left: 0;
-      margin-right: 6px;
-      position: relative;
-      top: 5px;
-      width: 15px;
-    }
-
-    .icons-arrow-down {
-      position: absolute;
-      right: 0;
-      top: 0;
-      transform: none;
-    }
-
-    .select {
-      font-size: 16px;
     }
   }
 }

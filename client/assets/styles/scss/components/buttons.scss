@@ -168,6 +168,7 @@ button,
     &.active {
       background: rgba($blue,.2);
       border-color: rgba($blue,.4);
+      transition: none;
     }
   }
 }

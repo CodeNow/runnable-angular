@@ -17,24 +17,50 @@
 )
   .arrow.white
   h3.popover-title
-    .btn-group
-      button.btn.btn-xs.blue.hover
+    .btn-group.clearfix
+      button.btn.btn-xs.blue.hover(
+        ng-class = "{active: data.showBranches}"
+        ng-click = "data.showBranches = true"
+      )
         svg.iconnables.icons-branch
           use(
             xlink:href = "#icons-branch"
           )
         | Branches
-      button.btn.btn-xs.blue.hover.active
+      button.btn.btn-xs.blue.hover.active(
+        ng-class = "{active: !data.showBranches}"
+        ng-click = "data.showBranches = false"
+      )
         svg.iconnables.icons-commit
           use(
             xlink:href = "#icons-commit"
           )
         | Commits
-    input.title-filter(
-      select-on = "data.toggleFilter"
-      ng-model = "data.commitFilter"
-      placeholder = "Filter Commits"
-    )
+    //- filter for branches
+    .title-filter
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      input.input(
+        ng-hide = "!data.showBranches"
+        ng-model = "data.commitFilter"
+        placeholder = "Filter Commits"
+      )
+    //- select for commits
+    .btn.btn-xs.btn-select(
+      ng-hide = "data.showBranches"
+    ) Filter by branch
+      svg.iconnables.icons-commit
+        use(
+          xlink:href = "#icons-commit"
+        )
+      select.select(
+        name = "data.activeBranch"
+        ng-change = "actions.selectBranch(data.activeBranch)"
+        ng-model = "data.activeBranch"
+        ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
+      )
 
   ul.commit-group
     li.commit-group-item.small Selecting a commit will #{''}
