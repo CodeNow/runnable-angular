@@ -27,17 +27,17 @@ section.row.repo-list
       $event.stopPropagation();"
     ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
   )
-    svg.iconnables.icons-git
+    svg.iconnables.icons-repository
       use(
-        xlink:href = "#icons-git"
+        xlink:href = "#icons-repository"
       )
     .guide-text Add a repository to your box.
 
   ul.repository-group
     li.repository-group-item.clearfix
-      svg.iconnables.icons-git
+      svg.iconnables.icons-repository
         use(
-          xlink:href = "#icons-git"
+          xlink:href = "#icons-repository"
         )
       .repository-group-text
         h3.repository-title outpunk/evil-icons
