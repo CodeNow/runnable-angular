@@ -52,6 +52,16 @@
     font-size: 18px;
   }
 
+  // no underline by default
+  .link-text {
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+      text-decoration: underline;
+    }
+  }
+
   .row {
     margin: 0 0 60px;
   }
@@ -536,6 +546,12 @@
     font-size: 18px;
     margin: 0 12px;
     padding: 0 12px;
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+      text-decoration: underline;
+    }
 
     @include media(xs) {
       display: block;
