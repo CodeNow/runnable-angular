@@ -40,7 +40,8 @@
     padding-left: 87px;
     transition: all .15s ease-in;
 
-    &:focus {
+    &:focus,
+    &:valid {
       background-position: 0 -1px;
       padding-left: 27px;
     }
