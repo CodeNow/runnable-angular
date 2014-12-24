@@ -7,18 +7,18 @@ require('app')
  * @ngInject
  */
 function ControllerHome(
-  $scope,
-  $state,
-  $location,
-  $window,
   async,
   errs,
-  $localStorage,
-  keypather,
-  QueryAssist,
   fetchUser,
+  $filter,
+  keypather,
+  $localStorage,
+  $location,
+  QueryAssist,
+  $scope,
+  $state,
   user,
-  $filter
+  $window
 ) {
 
   var dataHome = $scope.dataHome = {
@@ -29,7 +29,6 @@ function ControllerHome(
   dataHome.data.hasPass = !!$location.search().password;
 
   verifyUserIsAuth();
-
   function verifyUserIsAuth() {
     async.series([
       function (cb) {
@@ -40,7 +39,9 @@ function ControllerHome(
           cb();
         });
       },
-      fetchInstances,
+      fetchInstances
+      /**
+       * Temp disable auto-redirect, Sundip requested change
       function sendUserSomewhere(cb) {
 
         var thisUser = $scope.user;
@@ -112,6 +113,7 @@ function ControllerHome(
           });
         }
       }
+      */
     ], errs.handler);
   }
 

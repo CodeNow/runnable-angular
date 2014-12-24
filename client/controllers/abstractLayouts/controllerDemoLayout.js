@@ -1,43 +1,64 @@
 require('app')
-  .controller('ControllerDemoLayout', demoLayout);
-
-function demoLayout (
-  configLoginURL,
+  .controller('ControllerDemoLayout', controllerDemoLayout);
+/**
+ * @ngInject
+ */
+function controllerDemoLayout (
   editorCache,
+  fetchUser,
+  keypather,
+  QueryAssist,
   $rootScope,
   $scope,
   $state,
+  $stateParams,
   $timeout,
   $window
 ) {
   var dataDemoLayout = $scope.dataDemoLayout = {
-    data: {
-      loginURL: configLoginURL(true)
-    },
+    data: {},
     actions: {}
   };
   var data = dataDemoLayout.data;
   var actions = dataDemoLayout.actions;
 
-  // May not be the best system
-  if ($state.current.name === 'demo.anon') {
-    data.page = 1;
-  } else {
-    data.page = 2;
+  function helperFetchInstance (cb) {
+    fetchUser(function (err, user) {
+      if (err) { throw err; }
+      new QueryAssist(user, cb)
+        .wrapFunc('fetchInstances')
+        .query({
+          githubUsername: $state.params.userName,
+          name: $state.params.instanceName
+        })
+        .cacheFetch(function (instances, cached, cb) {
+          var instance = keypather.get(instances, 'models[0]');
+          if (!instance) {
+            cb(new Error('Could not find instance on server'));
+          } else {
+            $scope.safeApply();
+            cb(null, instance);
+          }
+        })
+        .resolve(function (err) {
+          cb(err);
+        })
+        .go();
+    });
   }
 
-  actions.nextPage = function () {
-    data.page++;
-  };
-  actions.previousPage = function () {
-    data.page--;
-  };
-
-  actions.actionsModalSignIn = actions.dockerInstructionPopover = {
-    nextPage: actions.nextPage,
-    noHelp: function() {
-      $state.go('instance.instanceEdit', $state.params);
-    }
+  actions.stateToDemoInstanceEdit = function () {
+    helperFetchInstance(function (err, instance) {
+      if (err) { throw err; }
+      var forkedBuild = instance.build.deepCopy(function (err) {
+        if (err) { throw err; }
+        $state.go('demo.instanceEdit', {
+          userName: $state.params.userName,
+          instanceName: $state.params.instanceName,
+          buildId: forkedBuild.id()
+        });
+      });
+    });
   };
 
   data.dockerInstructionPopover = {
@@ -46,6 +67,37 @@ function demoLayout (
   data.buildInstructionPopover = {
     in: false
   };
+
+  data.popoverCoachMarks = {};
+
+  /**
+   * Set up scope objects for all guide-tips.
+   * $watcher will remove guide-tip after display-then-hide
+   */
+  [
+    'boxName',
+    'repo',
+    'panel',
+    'edit'
+  ].forEach(function (val) {
+    data.popoverCoachMarks[val] = {
+      data: {
+        show: false,
+        hasBeenViewed: false
+      }
+    };
+    (function () {
+      var deregisterFunc = $scope.$watch('dataDemoLayout.data.popoverCoachMarks.'+val+'.show',
+        function (n, p) {
+          if (n === false && p === true) {
+            keypather.set($scope, 'dataDemoLayout.data.popoverCoachMarks.'+val+'.hasBeenViewed', true);
+            deregisterFunc();
+          }
+        });
+    })();
+  });
+
+
 
   var elScope;
   var addLines = [];

@@ -62,19 +62,13 @@ module.exports = [
     templateUrl: 'viewDemoLayout',
     controller: 'ControllerDemoLayout'
   }, {
-    state: 'demo.anon',
+    state: 'demo.instance',
     abstract: false,
     url: '^/demo/:userName/:instanceName',
     templateUrl: 'viewInstance',
     controller: 'ControllerInstance'
   }, {
-    state: 'demo.fork',
-    abstract: false,
-    url: '^/demo/fork',
-    templateUrl: 'viewSetupDemo',
-    controller: 'ControllerSetupDemo'
-  }, {
-    state: 'demo.edit',
+    state: 'demo.instanceEdit',
     abstract: false,
     url: '^/demo/:userName/:instanceName/edit/:buildId',
     templateUrl: 'viewInstanceEdit',

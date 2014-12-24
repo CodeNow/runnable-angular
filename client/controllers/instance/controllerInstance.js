@@ -5,18 +5,16 @@ require('app')
  */
 function ControllerInstance(
   async,
-  determineActiveAccount,
+  $filter,
   errs,
   keypather,
   OpenItems,
   QueryAssist,
-  fetchUser,
+  $rootScope,
   $scope,
   $state,
-  $log,
   $stateParams,
-  exists,
-  user
+  fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {},
@@ -39,7 +37,44 @@ function ControllerInstance(
     in: false
   };
 
-  data.isDemo = $state.$current.name === 'demo.anon';
+  data.isDemo = $state.$current.name === 'demo.instance';
+
+
+  // Why is this here? This controller should never be instantiated
+  // on a route where this conditional test would evaluate to TRUE
+  if (!$stateParams.instanceName) {
+    var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
+      if (n !== p && n) {
+        unwatch();
+        if (n.models.length) {
+          var models = $filter('orderBy')(n.models, 'attrs.name');
+          $state.go('instance.instance', {
+            instanceName: models[0].attrs.name,
+            userName: $stateParams.userName
+          }, {location: 'replace'});
+        } else {
+          $state.go('instance.new', {
+            userName: $stateParams.userName
+          }, {location: 'replace'});
+        }
+      }
+    });
+  } else if ($stateParams.instanceName && $stateParams.userName) {
+    async.waterfall([
+      fetchUser,
+      fetchInstance
+    ], function (err) {
+      if (err) {
+        $state.go('instance.instance', {
+          instanceName: '',
+          userName: $stateParams.userName
+        }, {reload: true});
+      }
+      errs.handler(err);
+    });
+  }
+
+
 
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
@@ -90,63 +125,22 @@ function ControllerInstance(
     }
   }
 
-  async.waterfall([
-    determineActiveAccount,
-    function(activeAccount, cb) {
-      data.activeAccount = activeAccount;
-      $scope.safeApply();
-      cb();
-    },
-    function (cb) {
-      fetchUser(function(err, user) {
-        if (err) { return cb(err); }
-        data.user = user;
-        $scope.safeApply();
-        cb();
-      });
-    },
-    fetchInstance,
-    fetchInstances
-  ], errs.handler);
-
-  // This is to fetch the list of instances.  This is separate so the page can load quickly
-  // since it will have its instance.  Only the modals use this list
-  function fetchInstances(cb) {
-    new QueryAssist(data.user, cb)
-      .wrapFunc('fetchInstances', cb)
-      .query({
-        githubUsername: $stateParams.userName
-      })
-      .cacheFetch(function (instances, cached, cb) {
-        if (!cached && instances.models.length === 0) {
-          return cb(new Error('instance not found'));
-        }
-        data.instances = instances;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err) {
-        cb(err);
-      })
-      .go();
-  }
-
-  function fetchInstance(cb) {
-    new QueryAssist(data.user, cb)
+  function fetchInstance(user, cb) {
+    new QueryAssist(user, cb)
       .wrapFunc('fetchInstances')
       .query({
         githubUsername: $stateParams.userName,
         name: $stateParams.instanceName
       })
       .cacheFetch(function (instances, cached, cb) {
-        if (!cached && instances.models.length === 0) {
-          return cb(new Error('Instance not found'));
+        data.instance = keypather.get(instances, 'models[0]');
+        if (!data.instance) {
+          cb(new Error('Could not find instance on server'));
+        } else {
+          data.instance.state = {};
+          $scope.safeApply();
+          cb();
         }
-        var instance = instances.models[0];
-        data.instance = instance;
-        data.instance.state = {};
-        $scope.safeApply();
-        cb();
       })
       .resolve(function (err) {
         cb(err);

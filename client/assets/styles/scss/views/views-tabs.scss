@@ -37,11 +37,6 @@
     color: $gray-darker;
   }
 
-  &.active .tab-name::before {
-    background: $white;
-    content: attr(data-title);
-  }
-
   &.active {
     box-shadow: 0 0 9px rgba($black,.075);
 
@@ -52,10 +47,20 @@
     &:last-child {
       box-shadow: 9px 0 0 $white, 0 0 9px rgba($black,.075);
     }
+
+    .tab-name::before {
+      background: $white;
+      content: attr(data-title);
+    }
+
+    .icons-dirty {
+      margin-left: 9px;
+    }
   }
 
   &.dirty .icons-dirty {
-    opacity: 1;
+    opacity: .5;
+    visibility: visible;
   }
 
   &:last-child {
@@ -73,11 +78,14 @@
 
   .icons-dirty {
     display: inline-block;
+    float: left;
     font-size: 21px;
     line-height: 1.9;
     opacity: 0;
     pointer-events: none;
     position: relative;
+    user-select: none;
+    visibility: hidden;
     z-index: 1;
   }
 

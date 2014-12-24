@@ -2,7 +2,7 @@
 .modal-backdrop {
   align-items: center;
   animation: fade-in .3s ease-in forwards;
-  background: rgba($black,.3);
+  background: rgba($black,.45);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -28,7 +28,8 @@
   box-shadow: 0 0 30px rgba($black,.12);
   color: $gray-dark;
   margin: auto;
-  min-width: 420px;
+  max-width: 75vw;
+  min-width: 370px;
   position: relative;
 
   @include media(sm) {
@@ -120,6 +121,8 @@
 
 // main.modal-body
 .modal-body {
+  max-height: calc(100vh - 153px);
+  overflow-y: auto;
 
   // validation in modals:
   .validate-wrapper {
