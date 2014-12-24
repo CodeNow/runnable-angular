@@ -34,10 +34,10 @@
   // filter
   .input {
     background: url(/build/images/icons/icons-search.svg) no-repeat;
-    background-position: 54px -1px;
+    background-position: 63px -1px;
     letter-spacing: inherit;
     line-height: 24px;
-    padding-left: 78px;
+    padding-left: 87px;
     transition: all .15s ease-in;
 
     &:focus {
@@ -50,7 +50,6 @@
   .btn-select {
     color: $gray-lighter;
     line-height: 22px;
-    text-indent: -15px;
 
     .iconnables {
       top: 2px;

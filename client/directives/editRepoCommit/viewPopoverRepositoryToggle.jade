@@ -40,7 +40,7 @@
     input.input(
       ng-hide = "!data.showBranches"
       ng-model = "data.commitFilter"
-      placeholder = "Filter commits"
+      placeholder = "Find branch"
     )
     //- select for commits
     .btn.btn-xs.btn-select(
@@ -50,7 +50,7 @@
         use(
           xlink:href = "#icons-filter"
         )
-      | Filter by branch
+      | Filter commits by branch
       select.select
         option(
           selected
@@ -60,7 +60,9 @@
   ul.toggle-group(
     ng-hide = "!data.showBranches"
   )
-    li.toggle-group-item.small Your server will always run the latest code on the selected branch.
+    li.toggle-group-item.small Your server will always run the latest code on the selected branch. Or select a commit to #{''}
+      b lock
+      | #{''} a server to that commit.
     li.toggle-group-item
       .toggle-group-title master
       .toggle-group-detail.clearfix
@@ -74,9 +76,12 @@
   ul.toggle-group(
     ng-hide = "data.showBranches"
   )
-    li.toggle-group-item.small Selecting a commit will #{''}
+    //- praful's text change:
+      -
+
+    li.toggle-group-item.small Select a commit to #{''}
         b lock
-        | #{''} your server to that commit, and your server will not automatically update to run your latest code.
+        | #{''} your server to that commit. Or select a branch to always run the latest code on that branch.
     li.toggle-group-item
       .toggle-group-title Change font-weight from bold to 400
       .toggle-group-detail.clearfix
