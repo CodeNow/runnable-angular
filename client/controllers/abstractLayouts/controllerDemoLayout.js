@@ -61,20 +61,43 @@ function controllerDemoLayout (
     });
   };
 
-
-
-
-
-
-
-
-
   data.dockerInstructionPopover = {
     in: false
   };
   data.buildInstructionPopover = {
     in: false
   };
+
+  data.popoverCoachMarks = {};
+
+  /**
+   * Set up scope objects for all guide-tips.
+   * $watcher will remove guide-tip after display-then-hide
+   */
+  [
+    'boxName',
+    'repo',
+    'panel',
+    'edit'
+  ].forEach(function (val) {
+    data.popoverCoachMarks[val] = {
+      data: {
+        show: false,
+        hasBeenViewed: false
+      }
+    };
+    (function () {
+      var deregisterFunc = $scope.$watch('dataDemoLayout.data.popoverCoachMarks.'+val+'.show',
+        function (n, p) {
+          if (n === false && p === true) {
+            keypather.set($scope, 'dataDemoLayout.data.popoverCoachMarks.'+val+'.hasBeenViewed', true);
+            deregisterFunc();
+          }
+        });
+    })();
+  });
+
+
 
   var elScope;
   var addLines = [];
