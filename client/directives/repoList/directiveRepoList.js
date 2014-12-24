@@ -27,7 +27,6 @@ function repoList(
       // into child directive
       $scope.data = {
         show: false,
-        isDemo: $state.$current.name === 'demo.anon'
       };
 
       // display guide if no repos added
@@ -40,6 +39,9 @@ function repoList(
           break;
         case 'instance.instance':
           $scope.showAddFirstRepoMessage = false;
+          break;
+        case 'demo.instanceEdit':
+          $scope.data.show = true;
           break;
       }
 
