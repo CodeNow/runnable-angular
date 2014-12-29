@@ -186,7 +186,7 @@ function HelperInstanceActionsModal(
           // Only change the location if we're still on the page
           // If the user switched to a different instance in between, we shouldn't move
           if ($stateParams.instanceName === deletedInstanceName) {
-            $state.go('instance.new', {
+            $state.go('instance.home', {
               userName: $stateParams.userName
             });
           }

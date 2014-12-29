@@ -8,6 +8,7 @@ function ControllerInstanceHome(
   $stateParams,
   $state,
   $scope,
+  fetchInstances,
   $localStorage,
   $rootScope,
   keypather
@@ -16,15 +17,12 @@ function ControllerInstanceHome(
   var instanceName = keypather.get($localStorage, 'lastInstancePerUser.' + userName);
   if (!instanceName) {
     $scope.loading = true;
-    var unwatch = $rootScope.$watch('dataApp.data.instances', function(n) {
-      if (n) {
-        unwatch();
-        if (userName === $rootScope.dataApp.data.activeAccount.oauthName()) {
-          $scope.loading = false;
-          var models = $filter('orderBy')(n.models, 'attrs.name');
-          var name = keypather.get(n, 'models[0].attrs.name');
-          goToInstance(userName, name);
-        }
+    fetchInstances(userName, false, function(err, instances, account) {
+      if (account === $rootScope.dataApp.data.activeAccount.oauthName()) {
+        $scope.loading = false;
+        var models = $filter('orderBy')(instances.models, 'attrs.name');
+        var name = keypather.get(models, '[0].attrs.name');
+        goToInstance(userName, name);
       }
     });
   } else {

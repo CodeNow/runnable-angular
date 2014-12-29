@@ -6,8 +6,8 @@ require('app')
 function ControllerInstanceLayout(
   configLogoutURL,
   fetchUser,
+  fetchInstances,
   $stateParams,
-  QueryAssist,
   errs,
   $rootScope,
   keypather,
@@ -27,49 +27,40 @@ function ControllerInstanceLayout(
       return errs.handler(err);
     }
     thisUser = user;
-    fetchInstances(
+    resolveInstanceFetch(
       $stateParams.userName
     );
   });
 
-  function fetchInstances(account, cb) {
-    if (!account) { return; }
-    async.series([
+  function resolveInstanceFetch(username) {
+    if (!username) { return; }
+    async.waterfall([
       function (cb) {
         $rootScope.dataApp.state.loadingInstances = true;
         $rootScope.dataApp.data.instances = null;
         $rootScope.safeApply(cb);
       },
       function (cb) {
-        new QueryAssist(thisUser, cb)
-          .wrapFunc('fetchInstances', cb)
-          .query({
-            githubUsername: account
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (account === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-              if ($rootScope.dataApp.data.instances !== instances) {
-                $rootScope.dataApp.data.instances = instances;
-              }
-              $rootScope.dataApp.state.loadingInstances = false;
-              $rootScope.safeApply(cb);
-            } else {
-              cb();
-            }
-          })
-          .resolve(function (err, projects, cb) {
-            cb(err);
-          })
-          .go();
+        fetchInstances(username, true, cb);
       },
-      cb
+      function (instances, queriedUsername, cb) {
+        if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+          if ($rootScope.dataApp.data.instances !== instances) {
+            $rootScope.dataApp.data.instances = instances;
+          }
+          $rootScope.dataApp.state.loadingInstances = false;
+          $rootScope.safeApply(cb);
+        } else {
+          cb();
+        }
+      }
     ], function (err) {
-      if (err) { throw err; }
+      if (err) { return errs.handler(err); }
     });
   }
 
   var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function(event, username) {
-    fetchInstances(username);
+    resolveInstanceFetch(username);
   });
 
   $scope.$on('$destroy', function () {
