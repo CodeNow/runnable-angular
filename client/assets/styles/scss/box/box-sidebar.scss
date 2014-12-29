@@ -52,21 +52,6 @@
     width: 54px;
   }
 
-  // lock badge
-  .btn-xxs {
-    background: $white;
-    border: 1px solid $orange;
-    color: $orange;
-    font-size: 9px;
-    height: 14px;
-    left: 5px;
-    line-height: 12px;
-    padding: 0 2px;
-    pointer-events: none;
-    position: absolute;
-    top: 66px;
-  }
-
   // detail image (branch or commit)
   .icons-branch,
   .icons-commit {

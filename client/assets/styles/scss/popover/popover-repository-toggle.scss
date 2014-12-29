@@ -151,6 +151,7 @@
   .link-text {
 
     &:hover,
+    &:hover .iconnables,
     &:active {
       color: $blue;
     }
@@ -176,5 +177,12 @@
     &:first-child {
       float: left;
     }
+  }
+
+  .iconnables {
+    color: $gray-lighter;
+    height: 12px;
+    top: 3px;
+    width: 12px;
   }
 }

@@ -34,45 +34,10 @@ section.row.repo-list
     .guide-text Add a repository to your box.
 
   ul.repository-group
-    li.repository-group-item.clearfix
-      svg.iconnables.icons-repository
-        use(
-          xlink:href = "#icons-repository"
-        )
-      .repository-group-text
-        h3.repository-title outpunk/evil-icons
-        p.repository-description.clearfix
-          svg.iconnables.icons-branch
-            use(
-              xlink:href = "#icons-branch"
-            )
-          | gh-pages
-          small.repository-detail 1 day
-
-    li.divider
-
-    li.repository-group-item.clearfix
-      svg.iconnables.icons-private
-        use(
-          xlink:href = "#icons-private"
-        )
-      .repository-group-text
-        h3.repository-title CodeNow/runnable-angular
-        p.repository-description.clearfix
-          svg.iconnables.icons-branch
-            use(
-              xlink:href = "#icons-branch"
-            )
-          | master
-          small.repository-detail 3 days
-
-    li.divider
-
     li.repository-group-item.clearfix(
       toggle-pop-over
       toggle-pop-over-model = "popoverRepositoryToggle.data.show"
     )
-      .btn.btn-xxs LOCKED
       svg.iconnables.icons-forked
         use(
           xlink:href = "#icons-forked"
