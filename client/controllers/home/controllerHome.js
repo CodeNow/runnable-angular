@@ -39,9 +39,7 @@ function ControllerHome(
           cb();
         });
       },
-      fetchInstances
-      /**
-       * Temp disable auto-redirect, Sundip requested change
+      fetchInstances,
       function sendUserSomewhere(cb) {
 
         var thisUser = $scope.user;
@@ -113,7 +111,6 @@ function ControllerHome(
           });
         }
       }
-      */
     ], errs.handler);
   }
 
