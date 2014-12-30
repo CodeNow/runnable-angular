@@ -111,3 +111,28 @@
   float: right;
   font-size: 10px;
 }
+
+// li.list-details
+.list-details {
+  border-top: 1px solid rgba($black,.1);
+  margin: 0 15px;
+  padding-top: 15px;
+
+  .small {
+    color: $gray-light;
+  }
+
+  .label-checkbox {
+    background: $gray-lightest;
+    border: 1px solid rgba($black,.1);
+    color: $gray;
+    display: inline-block;
+    margin: 9px 0;
+    padding: 0 9px;
+    text-align: left;
+  }
+
+  .input-checkbox {
+    margin: 0 9px 0 0;
+  }
+}

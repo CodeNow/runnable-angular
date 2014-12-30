@@ -14,13 +14,10 @@ section.row.repo-list
     //-       xlink:href = "#icons-update"
     //-     )
 
-    .btn-group.sub-header-action
-      //- if locked
-      //- .btn.btn-xs.orange LOCKED
-      //- always show this
-      add-repo-popover(
-        show = "data.show"
-      )
+    //- always show this
+    add-repo-popover(
+      show = "data.show"
+    )
 
     show-demo-modal(
       ng-if = "data.isDemo"
@@ -88,13 +85,16 @@ section.row.repo-list
         popover-options = "{\"left\":299,\"top\":10}"
         template = "viewPopoverRepositoryToggle"
       )
+    li.list-details
+      .small Locking your box will stop it from automatically deploying changes made in your repositories.
+      label.label-checkbox.btn.btn-sm Lock box
+        input.input-checkbox(
+          checked
+          ng-model = "data.restartOnSave"
+          type = "checkbox"
+        )
 
-    //-
-      - display selected commit
-        - pending state if selected commit !== actual saved commit
-      - popover for selecting new commit
-      - repo-options (delete, fast-forward commit)
-      - fast-forward
+    //- older types of things:
     //- edit-repo-commit(
     //-   app-code-version = "acv"
     //-   ng-init = "unsavedAcv = newUnsavedAcv(acv);"
