@@ -4,14 +4,9 @@
   }"
 )
   .arrow.white
-  .popover-content(
-    ng-if = "popoverOptions = true"
-    ng-init = "popoverOptions = true"
-  )
+  .popover-content
     ul.popover-body.popover-list
-      li.popover-list-item(
-        ng-click = "popoverOptions = false"
-      )
+      li.popover-list-item
         //- to do: add repo+ icon
         svg.iconnables
           use(
@@ -27,12 +22,9 @@
             type = "checkbox"
           )
 
-  h3.popover-title(
-    ng-if = "popoverOptions = false"
-  ) Add Repository
-  .popover-content(
-    ng-if = "popoverOptions = false"
-  )
+  //-  after selecting 'add repository'
+  //- h3.popover-title Add Repository
+  //- .popover-content
     form.popover-search
       //- should clear on close
       input.popover-search-input(
