@@ -17,88 +17,54 @@
 )
   .arrow.white
   h3.popover-title
-    .btn-group.clearfix
-      button.btn.btn-xs.blue.hover(
-        ng-class = "{active: data.showBranches}"
-        ng-click = "data.showBranches = true"
-      )
-        svg.iconnables.icons-branch
-          use(
-            xlink:href = "#icons-branch"
-          )
-        | Branches
-      button.btn.btn-xs.blue.hover.active(
-        ng-class = "{active: !data.showBranches}"
-        ng-click = "data.showBranches = false"
-      )
-        svg.iconnables.icons-commit
-          use(
-            xlink:href = "#icons-commit"
-          )
-        | Commits
-    //- filter for branches
-    input.input(
-      ng-hide = "!data.showBranches"
-      ng-model = "data.commitFilter"
-      placeholder = "Find branch"
-      required
-    )
     //- select for commits
-    .btn.btn-xs.btn-select(
-      ng-hide = "data.showBranches"
-    )
-      svg.iconnables.icons-filter
+    .btn.btn-select.text-overflow
+      svg.iconnables.icons-branch
         use(
-          xlink:href = "#icons-filter"
+          xlink:href = "#icons-branch"
         )
-      | Filter commits by branch
+      | master
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
       select.select
         option(
           selected
         ) master
-
-  //- branches
-  ul.toggle-group(
-    ng-hide = "!data.showBranches"
-  )
-    li.toggle-group-item.small Your server will always run the latest code on the selected branch. Or select a commit to #{''}
-      b lock
-      | #{''} a server to that commit.
-    li.toggle-group-item
-      .toggle-group-title master
-      .toggle-group-detail.clearfix
-        small.small runnabro—22 days
-        a.small.link-text(
-          href = "#"
-          target = "_blank"
-        )
-          svg.iconnables.icons-git
-            use(
-              xlink:href = "#icons-git"
-            )
-    li.toggle-group-item
-      .toggle-group-title development
-      .toggle-group-detail.clearfix
-        small.small runnabro—22 days
-        a.small.link-text(
-          href = "#"
-          target = "_blank"
-        )
-          svg.iconnables.icons-git
-            use(
-              xlink:href = "#icons-git"
-            )
+        option gh-pages
+  //- //- branches
+  //- ul.toggle-group
+  //-   li.toggle-group-item.small Your server will always run the latest code on the selected branch. Or select a commit to #{''}
+  //-     b lock
+  //-     | #{''} a server to that commit.
+  //-   li.toggle-group-item
+  //-     .toggle-group-title master
+  //-     .toggle-group-detail.clearfix
+  //-       small.small runnabro—22 days
+  //-       a.small.link-text(
+  //-         href = "#"
+  //-         target = "_blank"
+  //-       )
+  //-         svg.iconnables.icons-git
+  //-           use(
+  //-             xlink:href = "#icons-git"
+  //-           )
+  //-   li.toggle-group-item
+  //-     .toggle-group-title development
+  //-     .toggle-group-detail.clearfix
+  //-       small.small runnabro—22 days
+  //-       a.small.link-text(
+  //-         href = "#"
+  //-         target = "_blank"
+  //-       )
+  //-         svg.iconnables.icons-git
+  //-           use(
+  //-             xlink:href = "#icons-git"
+  //-           )
 
   //- commits
-  ul.toggle-group(
-    ng-hide = "data.showBranches"
-  )
-    //- praful's text change:
-      -
-
-    li.toggle-group-item.small Select a commit to #{''}
-        b lock
-        | #{''} your server to that commit. Or select a branch to always run the latest code on that branch.
+  ul.toggle-group
     li.toggle-group-item
       .toggle-group-title Change font-weight from bold to 400
       .toggle-group-detail.clearfix

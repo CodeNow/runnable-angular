@@ -5,75 +5,37 @@
 
   // popover header
   .popover-title {
-    background: transparent;
-    font-weight: 300;
-    height: 76px;
-    line-height: 1;
-    padding: 12px 12px 9px;
-    position: relative;
 
     .iconnables {
-      height: 16px;
+      float: none;
+      height: 18px;
+      top: 4px;
+      transform: none;
+      width: 18px;
+    }
+
+    .icons-branch {
       margin-right: 3px;
-      top: 3px;
-      width: 16px;
     }
-  }
 
-  // toggles
-  .btn-group {
-    display: block;
-
-    > .btn {
-      font-size: 14px;
-      text-indent: -12px;
-      width: 50%;
-    }
-  }
-
-  // filter
-  .input {
-    background: url(/build/images/icons/icons-search.svg) no-repeat;
-    background-position: 63px -1px;
-    letter-spacing: inherit;
-    line-height: 24px;
-    padding-left: 87px;
-    transition: all .15s ease-in;
-
-    &:focus,
-    &:valid {
-      background-position: 0 -1px;
-      padding-left: 27px;
+    .icons-arrow-down {
+      margin-left: 3px;
     }
   }
 
   // branch select
   .btn-select {
-    color: $gray-lighter;
-    line-height: 22px;
-
-    .iconnables {
-      top: 2px;
-    }
-  }
-
-  .input,
-  .btn-select {
-    border: 1px solid transparent;
-    cursor: pointer;
+    color: $gray-light;
+    display: block;
     font-size: 14px;
     font-weight: 300;
-    height: 24px;
-    margin-top: 6px;
-    width: 100%;
+    line-height: 48px;
+    transition: none;
 
-    &:hover {
-      border-color: rgba($blue,.3);
-    }
-
+    &:hover,
+    &:active,
     &:focus {
-      border-color: $blue;
-      cursor: text;
+      color: $gray;
     }
   }
 }
@@ -82,7 +44,6 @@
 .toggle-group {
   max-height: 360px;
   overflow-y: auto;
-  padding: 6px 0 0;
 }
 
 // li.toggle-group-item
@@ -90,10 +51,9 @@
   padding: 9px 12px;
   position: relative;
 
-  &:first-child {
-    color: $gray-lighter;
-    line-height: 1.2;
-    padding-bottom: 15px;
+  &:hover {
+    background: rgba($blue,.1);
+    cursor: pointer;
   }
 
   &:last-child {
@@ -106,25 +66,17 @@
     padding: 0;
   }
 
-  + .toggle-group-item {
-    cursor: pointer;
-
-    &::after {
-      background: rgba($black,.1);
-      content: '';
-      display: block;
-      height: 1px;
-      left: 0;
-      margin: 0 auto;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 261px;
-    }
-
-    &:hover {
-      background: rgba($blue,.1);
-    }
+  + .toggle-group-item::after {
+    background: rgba($black,.1);
+    content: '';
+    display: block;
+    height: 1px;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 261px;
   }
 
   // button.blue.btn-block Load Older
