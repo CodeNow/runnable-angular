@@ -36,6 +36,12 @@ function ControllerInstance(
     // in shows/hides file-menu
     in: false
   };
+
+  data.isDemo = $state.$current.name === 'demo.instance';
+
+
+  // Why is this here? This controller should never be instantiated
+  // on a route where this conditional test would evaluate to TRUE
   if (!$stateParams.instanceName) {
     var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
       if (n !== p && n) {
@@ -67,6 +73,9 @@ function ControllerInstance(
       errs.handler(err);
     });
   }
+
+
+
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
   // button in this situation)
@@ -117,28 +126,26 @@ function ControllerInstance(
   }
 
   function fetchInstance(user, cb) {
-    if ($stateParams.instanceName && $stateParams.userName) {
-      new QueryAssist(user, cb)
-        .wrapFunc('fetchInstances')
-        .query({
-          githubUsername: $stateParams.userName,
-          name: $stateParams.instanceName
-        })
-        .cacheFetch(function (instances, cached, cb) {
-          data.instance = keypather.get(instances, 'models[0]');
-          if (!data.instance) {
-            cb(new Error('Could not find instance on server'));
-          } else {
-            data.instance.state = {};
-            $scope.safeApply();
-            cb();
-          }
-        })
-        .resolve(function (err) {
-          cb(err);
-        })
-        .go();
-    }
+    new QueryAssist(user, cb)
+      .wrapFunc('fetchInstances')
+      .query({
+        githubUsername: $stateParams.userName,
+        name: $stateParams.instanceName
+      })
+      .cacheFetch(function (instances, cached, cb) {
+        data.instance = keypather.get(instances, 'models[0]');
+        if (!data.instance) {
+          cb(new Error('Could not find instance on server'));
+        } else {
+          data.instance.state = {};
+          $scope.safeApply();
+          cb();
+        }
+      })
+      .resolve(function (err) {
+        cb(err);
+      })
+      .go();
   }
 
   function watchForContainerBeforeDisplayTabs (container) {

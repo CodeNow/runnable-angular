@@ -62,12 +62,19 @@ $z-box: 3000;
 // sidebars
 $z-sidebar: 4000;
 $z-sidebar-content: 4001;
-$z-sidebar-sub-header: 4002;
-$z-sidebar-header: 4003;
+$z-sidebar-header: 4002;
+$z-sidebar-sub-header: 4003;
 $z-sidebar-footer: 4004;
 
 // guides
 $z-guide: 5000;
+
+// popovers
+$z-popover: 6000;
+$z-popover-title-filter: 6001;
+$z-popover-context-menu: 6002;
+$z-popover-content: 6003;
+$z-popover-title: 6004;
 
 // modals
 $z-modal-backdrop: 6000;

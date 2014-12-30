@@ -26,19 +26,11 @@ function editRepoCommit(
       // controlls appearance of
       // gear-menu popover
       // to fast-forward/delete
-      switch ($state.$current.name) {
-        case 'instance.setup':
-          $scope.showEditGearMenu = true;
-          $scope.showPendingClassWhenSelectedOutdatedCommit = false;
-          break;
-        case 'instance.instance':
-          $scope.showEditGearMenu = false;
-          $scope.showPendingClassWhenSelectedOutdatedCommit = true;
-          break;
-        case 'instance.instanceEdit':
-          $scope.showEditGearMenu = true;
-          $scope.showPendingClassWhenSelectedOutdatedCommit = false;
-          break;
+      if ($state.$current.name === 'instance.instance') {
+        $scope.showEditGearMenu = false;
+        $scope.showPendingClassWhenSelectedOutdatedCommit = true;
+      } else {
+        $scope.showEditGearMenu = true;
       }
 
       // emits (broadcast up DOM tree) event to be

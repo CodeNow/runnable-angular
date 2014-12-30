@@ -14,7 +14,6 @@
       )
   button.btn.white.btn-action(
     ng-click = "goToEdit()"
-    title = "Edit Box"
     type = "button"
   )
     svg.iconnables.icons-edit
@@ -26,7 +25,7 @@
     modal
     modal-actions = "popoverGearMenu.actions.actionsModalFork"
     modal-data = "popoverGearMenu.data.dataModalFork"
-    modal-template = "viewOpenModalFork"
+    modal-template = "viewOpenModalForkBox"
     title = "Fork Box"
     type = "button"
   )
@@ -35,11 +34,10 @@
         xlink:href = "#icons-fork"
       )
     | Fork
-  a.btn.white.btn-icon.btn-actions(
+  button.btn.white.btn-icon.btn-actions(
     ng-class = "{active: popoverGearMenu.data.show}"
     toggle-pop-over
     toggle-pop-over-model = "popoverGearMenu.data.show"
-    type = "button"
   )
     svg.iconnables.icons-gear
       use(

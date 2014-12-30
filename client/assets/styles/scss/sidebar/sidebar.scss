@@ -25,6 +25,27 @@
       border: 0;
     }
   }
+
+  .guide {
+    margin: 0 6px 9px;
+  }
+}
+
+.sidebar-header {
+  font-size: 21px;
+  font-weight: 500;
+  margin: 24px 0 12px;
+  padding: 0 9px;
+}
+
+.sidebar-paragraph {
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 0 9px;
+
+  + .sidebar-paragraph {
+    margin-top: 12px;
+  }
 }
 
 // header.row.account-header
@@ -69,7 +90,7 @@
 
   .iconnables {
     float: right;
-    margin: 5px 6px 0 0;
+    margin: 6px 5px 0 0;
   }
 
   .icons-update {

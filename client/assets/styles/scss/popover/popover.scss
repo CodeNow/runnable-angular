@@ -8,9 +8,9 @@
 }
 
 .popover.top .arrow:after {
-  bottom: 1px;
   border-bottom-width: 0;
   border-top-color: $white;
+  bottom: 1px;
   content: ' ';
   margin-left: -10px;
 }
@@ -82,6 +82,13 @@
   transition: all .15s ease-in;
   white-space: normal;
 
+  &.in {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale3d(1,1,1);
+    z-index: $z-popover;
+  }
+
   .arrow,
   .arrow::after {
     border-color: transparent;
@@ -97,6 +104,16 @@
 
     &:hover {
       background: none;
+    }
+
+    &.right {
+      left: auto;
+      right: 21px;
+    }
+
+    &.left {
+      left: 21px;
+      right: auto;
     }
   }
 
@@ -145,13 +162,6 @@
 
   &.left {
     margin-left: -10px;
-  }
-
-  &.in {
-    opacity: 1;
-    pointer-events: auto;
-    transform: scale3d(1,1,1);
-    z-index: $z-popover;
   }
 
   // .popover.menu
@@ -274,9 +284,55 @@
   }
 }
 
+// form.popover-search
+.popover-search {
+  background: rgba($white,.9);
+  height: 45px;
+  position: relative;
+
+  .icons-search {
+    left: 9px;
+    position: absolute;
+    top: 9px;
+  }
+}
+
+// input.popover-search-input
+.popover-search-input {
+  border: 0;
+  border-bottom: 1px solid rgba($black,.1);
+  border-radius: 0;
+  border-top: 1px solid transparent;
+  box-shadow: none;
+  left: 0;
+  padding-left: 36px;
+  position: absolute;
+  top: -1px;
+
+  &:focus {
+    border-color: rgba($black,.1);
+
+    ~ .icons-search {
+      color: $gray;
+    }
+  }
+
+  ~ .icons-search {
+    color: $gray-light;
+  }
+}
+
+.popover-animate-in {
+  animation: scale-in .15s ease-in forwards;
+  pointer-events: auto;
+  z-index: $z-popover;
+}
+
 .popover-content {
   font-weight: 300;
   padding: 6px;
+  position: relative;
+  z-index: $z-popover-content;
 }
 
 //- footer.popover-footer
@@ -303,16 +359,18 @@
 
 // h3.popover-title
 .popover-title {
-  background: $gray-lighter;
+  background: rgba($gray-lighter,.9);
   border-bottom: 1px solid rgba($black,.1);
   color: $gray-dark;
   font-size: 16px;
   font-weight: 500;
-  height: 36px;
-  line-height: 36px;
+  height: 45px;
+  line-height: 45px;
   margin: 0;
-  padding: 0 6px 0 21px;
-  text-shadow: none;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  z-index: $z-popover-title;
 
   // toggle search
   .btn-search {

@@ -47,7 +47,7 @@
       z-index: 2;
     }
 
-    @include media(xs) {
+    @include media(sm) {
       min-width: 190px;
     }
   }
@@ -81,12 +81,12 @@
       text-align: center;
       width: 18px;
 
-      @include media(xs) {
+      @include media(sm) {
         top: 14px;
       }
     }
 
-    @include media(xs) {
+    @include media(sm) {
       height: 45px;
       line-height: 45px;
     }

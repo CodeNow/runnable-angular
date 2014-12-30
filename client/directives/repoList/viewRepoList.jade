@@ -17,17 +17,21 @@ section.row.repo-list
       show = "data.show"
     )
 
+    show-demo-modal(
+      ng-if = "data.isDemo"
+    )
+
   //- show .guide if instance.setup && no repositories have been added yet
-  .guide.blue(
-    ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
+  .guide.guide-image.guide-pointer(
     ng-click = "data.show = !data.show; \
-                $event.stopPropagation();"
+      $event.stopPropagation();"
+    ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
   )
     svg.iconnables.icons-git
       use(
         xlink:href = "#icons-git"
       )
-    p.guide-text Add a repository to your box.
+    .guide-text Add a repository to your box.
 
   ul.repository-group
     //-

@@ -20,6 +20,10 @@ textarea {
     outline: none;
   }
 
+  &:focus {
+    transition: none;
+  }
+
   &[readonly] {
     color: $gray;
   }
@@ -106,7 +110,10 @@ textarea {
   .input-label {
     color: $gray;
     font-size: 12px;
+    overflow: hidden;
     padding: 0 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .input-description {

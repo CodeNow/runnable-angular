@@ -26,7 +26,7 @@ function repoList(
       // Object to pass reference instead of value
       // into child directive
       $scope.data = {
-        show: false
+        show: false,
       };
 
       // display guide if no repos added
@@ -39,6 +39,9 @@ function repoList(
           break;
         case 'instance.instance':
           $scope.showAddFirstRepoMessage = false;
+          break;
+        case 'demo.instanceEdit':
+          $scope.data.show = true;
           break;
       }
 

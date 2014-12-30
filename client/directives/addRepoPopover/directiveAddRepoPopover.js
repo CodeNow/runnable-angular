@@ -17,23 +17,16 @@ function addRepoPopover(
   return {
     restrict: 'E',
     templateUrl: 'viewAddRepoPopover',
-    replace: true,
     scope: {
       show: '='
     },
     link: function ($scope, elem, attrs) {
 
       // rules for display based on state name
-      switch ($state.$current.name) {
-      case 'instance.instance':
+      if ($state.$current.name === 'instance.instance') {
         $scope.enabled = false;
-        break;
-      case 'instance.instanceEdit':
+      } else {
         $scope.enabled = true;
-        break;
-      case 'instance.setup':
-        $scope.enabled = true;
-        break;
       }
       $scope.repoListPopover = {
         data: {},

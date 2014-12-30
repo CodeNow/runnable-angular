@@ -103,7 +103,6 @@
     "app": "./client/lib/app.js",
     "main": "./client/main.js",
     "primus-client": "./client/assets/js/primus-client.js",
-    "skrollr": "./client/assets/js/skrollr.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js",
     "config/environment": "./client/config/environment.js",

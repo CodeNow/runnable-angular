@@ -1,0 +1,10 @@
+.popover.bottom.popover-guides(
+  ng-class = "{in: data.show}"
+)
+  .arrow.white
+  .popover-content.clearfix
+    h3.popover-header Editing Your Box
+    p Here's where you would change your repository, or ?
+    a.link.link-text.link-gray(
+      ng-click = "data.show = !data.show"
+    ) Dismiss

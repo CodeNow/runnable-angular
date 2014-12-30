@@ -17,7 +17,8 @@ function ControllerApp(
   errs,
   fetchUser,
   fetchOrgs,
-  keypather
+  keypather,
+  $state
 ) {
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
@@ -33,6 +34,8 @@ function ControllerApp(
   dataApp.data.minimizeNav = false;
   dataApp.data.loginURL = configLoginURL();
   dataApp.data.logoutURL = configLogoutURL();
+
+  dataApp.state = $state;
 
   dataApp.data.modalError = {
     data: {},

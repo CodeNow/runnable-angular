@@ -22,7 +22,7 @@
 
 // div.modal-dialog
 .modal-dialog {
-  animation: modal-in .2s ease-in forwards;
+  animation: scale-in .2s ease-in forwards;
   background: $white;
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
@@ -32,8 +32,7 @@
   min-width: 370px;
   position: relative;
 
-  @include media(xs) {
-    max-width: calc(100vw - 30px);
+  @include media(sm) {
     min-width: 360px;
     width: calc(100% - 30px);
   }
@@ -188,6 +187,23 @@
       margin: 0 0 3px;
     }
   }
+
+  // guides in modals:
+  .guide {
+    border: 0;
+    border-left: 1px solid rgba($purple-light,.15);
+    border-radius: 0;
+    border-right: 1px solid rgba($purple-light,.15);
+    margin: 0;
+    padding: 15px 36px 15px 21px;
+
+    .btn {
+      padding: 0;
+      position: absolute;
+      right: 15px;
+      top: 12px;
+    }
+  }
 }
 
 // footer.modal-footer
@@ -205,6 +221,21 @@
     + .white {
       margin-right: 6px;
     }
+
+    + .link {
+      margin-top: 12px;
+    }
+  }
+
+  .btn-block {
+    float: none;
+    margin: 0;
+    width: 100%;
+  }
+
+  .icons-git {
+    margin-right: 9px;
+    top: 6px;
   }
 
   .modal-footer-warning {

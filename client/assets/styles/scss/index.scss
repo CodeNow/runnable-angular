@@ -63,10 +63,11 @@
 // modals
 @import "modals/modals";
 @import "modals/modals-environment";
+@import "modals/modals-error";
 @import "modals/modals-fork";
 @import "modals/modals-rename";
 @import "modals/modals-sidebar";
-@import "modals/modals-error";
+@import "modals/modals-sign-in";
 
 // popovers
 @import "popover/popover";
@@ -78,10 +79,14 @@
 @import "popover/popover-environment";
 @import "popover/popover-repo-actions";
 @import "popover/popover-primary-options";
+@import "popover/popover-templates";
+@import "popover/popover-guides";
 
 // pages
 @import "pages/demo";
-@import "pages/landing";
+@import "pages/home";
+@import "pages/features";
+@import "pages/pricing";
 @import "pages/setup";
 
 // shame

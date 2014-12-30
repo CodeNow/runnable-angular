@@ -30,6 +30,11 @@ header.box-header
     instances = "dataApp.data.instances"
     instance = "dataInstance.data.instance"
     saving = "dataInstance.data.saving"
+    ng-if = "!dataInstance.data.isDemo"
+  )
+
+  instance-anon-secondary-actions(
+    ng-if = "dataInstance.data.isDemo"
   )
 
 //- sidebar with repositories and urls
@@ -69,8 +74,8 @@ section.views.with-add-tab(
 
   //- active panel
   active-panel(
-    is-dark-theme = "dataInstance.data.toggleTheme",
     current-model = "dataInstance.data.instance.attrs"
+    is-dark-theme = "dataInstance.data.toggleTheme",
     open-items = "dataInstance.data.openItems"
   )
 
