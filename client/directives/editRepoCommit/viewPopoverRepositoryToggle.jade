@@ -1,23 +1,17 @@
 //- runnable 2.5
 
   - requirements
-    - popover to vertically center parent element
-    - toggle for branch/commit selector
-    - limit commit hash to 7 characters and link to commit on github
-    - limit commits on initial load to 35 (same as github)
-      - implement a 'load more' button to load 35 more commits
-      - implement a spinner after pressing 'load more' button
-
-  - 'nice to haves'
-    -
+    - show commit hash to 7 characters and link to commit on github
+    - show commits on initial load to 35 (same as github)
+      - implement a pagination to show older/newer 35 commits
+      - implement a spinner after pressing older/newer buttons
 
 //- .popover-repository-toggle
 .popover.right.popover-repository-toggle(
   ng-class = "{in: data.show}"
 )
-  .arrow.white
+  .arrow
   h3.popover-title
-    //- select for commits
     .btn.btn-select.text-overflow
       svg.iconnables.icons-branch
         use(
@@ -33,36 +27,6 @@
           selected
         ) master
         option gh-pages
-  //- //- branches
-  //- ul.toggle-group
-  //-   li.toggle-group-item.small Your server will always run the latest code on the selected branch. Or select a commit to #{''}
-  //-     b lock
-  //-     | #{''} a server to that commit.
-  //-   li.toggle-group-item
-  //-     .toggle-group-title master
-  //-     .toggle-group-detail.clearfix
-  //-       small.small runnabro—22 days
-  //-       a.small.link-text(
-  //-         href = "#"
-  //-         target = "_blank"
-  //-       )
-  //-         svg.iconnables.icons-git
-  //-           use(
-  //-             xlink:href = "#icons-git"
-  //-           )
-  //-   li.toggle-group-item
-  //-     .toggle-group-title development
-  //-     .toggle-group-detail.clearfix
-  //-       small.small runnabro—22 days
-  //-       a.small.link-text(
-  //-         href = "#"
-  //-         target = "_blank"
-  //-       )
-  //-         svg.iconnables.icons-git
-  //-           use(
-  //-             xlink:href = "#icons-git"
-  //-           )
-
   //- commits
   ul.toggle-group
     li.toggle-group-item
