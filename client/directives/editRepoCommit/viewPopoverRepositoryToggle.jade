@@ -10,7 +10,7 @@
 .popover.right.popover-repository-toggle(
   ng-class = "{in: data.show}"
 )
-  .arrow.white
+  .arrow
   h3.popover-title
     .btn.btn-select.text-overflow
       svg.iconnables.icons-branch
@@ -27,6 +27,11 @@
           selected
         ) master
         option gh-pages
+  //- spinner while commits are loading
+  //- .popover-content
+    .spinner-wrapper.spinner-md.in(
+      ng-include = "'spinner'"
+    )
   //- commits
   ul.toggle-group
     li.toggle-group-item
