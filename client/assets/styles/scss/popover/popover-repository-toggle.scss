@@ -47,6 +47,21 @@
   .popover-content {
     height: 90px;
   }
+
+  // older/newer buttons
+  .btn-group:last-child {
+    display: block;
+    margin: 6px;
+
+    .btn {
+      font-size: 14px;
+      width: 50%;
+
+      &:only-child {
+        width: 100%;
+      }
+    }
+  }
 }
 
 // ul.toggle-group
@@ -94,21 +109,6 @@
     &:hover .iconnables,
     &:active {
       color: $blue;
-    }
-  }
-}
-
-// li.btn-group
-.btn-group:last-child {
-  display: block;
-  margin: 6px;
-
-  .btn {
-    font-size: 14px;
-    width: 50%;
-
-    &:only-child {
-      width: 100%;
     }
   }
 }
