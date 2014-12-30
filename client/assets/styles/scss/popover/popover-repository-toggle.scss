@@ -60,16 +60,6 @@
     cursor: pointer;
   }
 
-  &:last-child {
-    margin-bottom: 6px;
-  }
-
-  &.commit-item-more {
-    border: 0;
-    margin: 3px 6px 6px;
-    padding: 0;
-  }
-
   + .toggle-group-item::after {
     background: rgba($black,.1);
     content: '';
@@ -81,17 +71,6 @@
     right: 0;
     top: 0;
     width: 261px;
-  }
-
-  // button.blue.btn-block Load Older
-  .blue {
-    height: 36px;
-    line-height: 36px;
-    margin: 0;
-  }
-
-  .icons-commit {
-    top: 6px;
   }
 
   // .spinner
@@ -110,6 +89,21 @@
     &:hover .iconnables,
     &:active {
       color: $blue;
+    }
+  }
+}
+
+// li.btn-group
+.btn-group:last-child {
+  display: block;
+  margin: 6px;
+
+  .btn {
+    font-size: 14px;
+    width: 50%;
+
+    &:only-child {
+      width: 100%;
     }
   }
 }
