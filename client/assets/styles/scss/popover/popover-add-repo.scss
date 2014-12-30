@@ -4,23 +4,11 @@
   width: 270px;
 
   .popover-content {
-    margin-top: -45px;
     max-height: 415px;
     overflow: auto;
-    padding: 45px 0 0;
+    padding: 0;
   }
 
-  // li.popover-list-item
-  .popover-list-item {
-    height: 36px;
-    line-height: 36px;
-    overflow: hidden;
-    padding-right: 15px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  // if popoverOptions = true
 
-  .no-actions {
-    text-align: center;
-  }
 }

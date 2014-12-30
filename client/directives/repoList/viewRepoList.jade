@@ -1,21 +1,26 @@
 section.row.repo-list
-  h2.sub-header Repositories
+  h2.sub-header
+    .sub-header-text Repositories
 
     //- update / build button
-    a.btn.btn-xs.orange.sub-header-action(
-      ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
-      ng-if = "showUpdateButton()"
-      tooltip = "Update your box to see your changes"
-      tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-    ) Update
-      svg.iconnables.icons-update
-        use(
-          xlink:href = "#icons-update"
-        )
+    //- a.btn.btn-xs.orange.sub-header-action(
+    //-   ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
+    //-   ng-if = "showUpdateButton()"
+    //-   tooltip = "Update your box to see your changes"
+    //-   tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
+    //- ) Update
+    //-   svg.iconnables.icons-update
+    //-     use(
+    //-       xlink:href = "#icons-update"
+    //-     )
 
-    add-repo-popover(
-      show = "data.show"
-    )
+    .btn-group.sub-header-action
+      //- if locked
+      .btn.btn-xs.orange LOCKED
+      //- always show this
+      add-repo-popover(
+        show = "data.show"
+      )
 
     show-demo-modal(
       ng-if = "data.isDemo"
@@ -34,13 +39,36 @@ section.row.repo-list
     .guide-text Add a repository to your box.
 
   ul.repository-group
+    li.repository-group-item.clearfix
+      svg.iconnables.icons-repository
+        use(
+          xlink:href = "#icons-repository"
+        )
+      .repository-group-text
+        h3.repository-title CodeNow/runnable-angular
+        p.repository-description.clearfix
+          svg.iconnables.icons-branch
+            use(
+              xlink:href = "#icons-branch"
+            )
+          | master
+        p.repository-description.clearfix
+          svg.iconnables.icons-commit
+            use(
+              xlink:href = "#icons-commit"
+            )
+          | Fixing some stuff with login
+          small.repository-detail 12 days
+
+    li.divider
+
     li.repository-group-item.clearfix(
       toggle-pop-over
       toggle-pop-over-model = "popoverRepositoryToggle.data.show"
     )
-      svg.iconnables.icons-forked
+      svg.iconnables.icons-repository
         use(
-          xlink:href = "#icons-forked"
+          xlink:href = "#icons-repository"
         )
       .repository-group-text
         h3.repository-title CodeNow/term.js

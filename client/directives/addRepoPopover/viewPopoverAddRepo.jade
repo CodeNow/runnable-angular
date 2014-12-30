@@ -3,9 +3,36 @@
     in: data.show\
   }"
 )
-  .arrow
-  h3.popover-title Add Repository
-  .popover-content
+  .arrow.white
+  .popover-content(
+    ng-if = "popoverOptions = true"
+    ng-init = "popoverOptions = true"
+  )
+    ul.popover-body.popover-list
+      li.popover-list-item(
+        ng-click = "popoverOptions = false"
+      )
+        //- to do: add repo+ icon
+        svg.iconnables
+          use(
+            xlink:href = "#icons-file-new"
+          )
+        | Add Repository
+      li.popover-list-block
+        .small Locking your box will stop it from automatically deploying new changes.
+        label.label-checkbox Lock box stop auto-deploy
+          input.input-checkbox(
+            checked
+            ng-model = "data.restartOnSave"
+            type = "checkbox"
+          )
+
+  h3.popover-title(
+    ng-if = "popoverOptions = false"
+  ) Add Repository
+  .popover-content(
+    ng-if = "popoverOptions = false"
+  )
     form.popover-search
       //- should clear on close
       input.popover-search-input(

@@ -189,40 +189,6 @@
     }
   }
 
-  // .popover-list
-  .popover-list {
-    padding: 4px 0;
-  }
-
-  .popover-list-item {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-    cursor: pointer;
-    font-size: 16px;
-    padding-left: 15px;
-
-    &:hover {
-      background: rgba($blue,.1);
-      border-color: rgba($blue,.2);
-    }
-
-    &:active {
-      background: rgba($blue,.15);
-      border-color: rgba($blue,.3);
-    }
-
-    &.no-actions {
-      cursor: default;
-      text-align: center;
-
-      &:hover,
-      &:active {
-        background: transparent;
-        border-color: transparent;
-      }
-    }
-  }
-
   // ul.popover-columns
   .popover-columns {
     white-space: nowrap;
@@ -283,9 +249,78 @@
   }
 }
 
+// popover lists
+// ul.popover-list
+.popover-list {
+  padding: 4px 0;
+}
+
+// li.popover-list-item
+.popover-list-item {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  height: 36px;
+  line-height: 36px;
+  overflow: hidden;
+  padding: 0 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+
+  &:active {
+    background: rgba($blue,.15);
+    border-color: rgba($blue,.3);
+  }
+
+  &.no-actions {
+    cursor: default;
+    text-align: center;
+
+    &:hover,
+    &:active {
+      background: transparent;
+      border-color: transparent;
+    }
+  }
+
+  .iconnables {
+    float: left;
+    margin: 6px 6px 0 0;
+  }
+}
+
+// li.popover-list-block
+.popover-list-block {
+  background: $gray-lightest;
+  border-bottom: 1px solid rgba($black,.1);
+  border-top: 1px solid rgba($black,.1);
+  padding: 12px 15px 3px;
+
+  .small {
+    color: $gray;
+    margin-bottom: 3px;
+  }
+
+  .label-checkbox {
+    height: 36px;
+    line-height: 36px;
+    padding: 0;
+  }
+
+  &:not(:first-child) {
+    margin-top: 4px;
+  }
+}
+
 // form.popover-search
 .popover-search {
-  background: rgba(rgba($white,.975),.9);
+  background: rgba($white,.96);
   height: 45px;
   position: relative;
 

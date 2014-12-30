@@ -1,18 +1,19 @@
 //- add repo button
-a.btn.btn-sm.white.sub-header-action.btn-add-repo(
+//- .orange or .gray
+button.btn.btn-xs.orange.btn-add-repo(
   ng-class = "{active: repoListPopover.data.show}"
   ng-if = "enabled"
   toggle-pop-over
   toggle-pop-over-model = "repoListPopover.data.show"
   type = "button"
 )
-  svg.iconnables.icons-add
+  svg.iconnables.icons-gear
     use(
-      xlink:href = "#icons-add"
+      xlink:href = "#icons-gear"
     )
   pop-over(
     actions = "repoListPopover.actions"
     data = "repoListPopover.data"
-    popover-options = "{\"left\":-117,\"top\":42}"
+    popover-options = "{\"left\":-117,\"top\":33}"
     template = "viewPopoverAddRepo"
   )
