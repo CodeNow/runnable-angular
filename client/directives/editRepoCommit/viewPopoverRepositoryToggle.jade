@@ -10,7 +10,7 @@
 .popover.right.popover-repository-toggle(
   ng-class = "{in: data.show}"
 )
-  .arrow
+  .arrow.white
   h3.popover-title
     .btn.btn-select.text-overflow
       svg.iconnables.icons-branch
@@ -85,7 +85,11 @@
           href = "#"
           target = "_blank"
         ) 2e2a338
+    li.btn-group
+      .btn Newer
+      .btn Older
 
+    //- older things:
     //- button.btn.btn-icon.btn-search(
     //-   ng-click = "data.toggleFilter = !data.toggleFilter; \
     //-     data.commitFilter = '';"

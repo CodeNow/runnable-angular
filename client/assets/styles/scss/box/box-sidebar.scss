@@ -22,27 +22,6 @@
   // overflow-x: hidden;
   // overflow-y: auto;
   padding: 45px 0 0;
-
-  .divider {
-    background: rgba($black,.1);
-    height: 1px;
-    margin: 0 15px;
-  }
-
-  // // lock badge
-  // .btn-xxs {
-  //   background: $white;
-  //   border: 1px solid $orange;
-  //   color: $orange;
-  //   font-size: 9px;
-  //   height: 14px;
-  //   left: 5px;
-  //   line-height: 12px;
-  //   padding: 0 2px;
-  //   pointer-events: none;
-  //   position: absolute;
-  //   top: 66px;
-  // }
 }
 
 // li.repository-group-item
@@ -56,6 +35,18 @@
   &:active,
   &.active {
     background: rgba($blue,.1);
+  }
+
+  // border
+  + .repository-group-item::after {
+    background: rgba($black,.1);
+    content: '';
+    display: block;
+    height: 1px;
+    margin: 0 15px;
+    position: absolute;
+    top: 0;
+    width: calc(100% - 30px);
   }
 
   // anchor image
