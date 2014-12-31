@@ -16,7 +16,6 @@ function editRepoCommit(
   return {
     restrict: 'E',
     templateUrl: 'viewEditRepoCommit',
-    replace: true,
     scope: {
       acv: '=appCodeVersion',
       unsavedAcv: '=unsavedAppCodeVersion'
