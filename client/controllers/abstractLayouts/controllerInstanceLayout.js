@@ -23,9 +23,7 @@ function ControllerInstanceLayout(
   };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
   fetchUser(function(err, user) {
-    if (err) {
-      return errs.handler(err);
-    }
+    if (err) { return errs.handler(err); }
     thisUser = user;
     resolveInstanceFetch(
       $stateParams.userName
@@ -45,18 +43,14 @@ function ControllerInstanceLayout(
       },
       function (instances, queriedUsername, cb) {
         if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-          if ($rootScope.dataApp.data.instances !== instances) {
-            $rootScope.dataApp.data.instances = instances;
-          }
+          $rootScope.dataApp.data.instances = instances;
           $rootScope.dataApp.state.loadingInstances = false;
           $rootScope.safeApply(cb);
         } else {
           cb();
         }
       }
-    ], function (err) {
-      if (err) { return errs.handler(err); }
-    });
+    ], errs.handler);
   }
 
   var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function(event, username) {
