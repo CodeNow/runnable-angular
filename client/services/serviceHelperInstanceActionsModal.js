@@ -11,6 +11,7 @@ function HelperInstanceActionsModal(
   $timeout,
   async,
   keypather,
+  errs,
   updateEnvName,
   $localStorage
 ) {
@@ -73,12 +74,15 @@ function HelperInstanceActionsModal(
         $rootScope.dataApp.data.loading = true;
         if (!opts.env) { return; }
         $scope.instance.update(opts, function (err) {
-          $rootScope.safeApply();
           if (err) { throw err; }
-          $rootScope.dataApp.data.loading = false;
+          $rootScope.safeApply();
           // update instances collection to update
           // viewInstanceList
-          $state.go('instance.instance', $stateParams);
+          $scope.instance.redeploy(function(err) {
+            $rootScope.dataApp.data.loading = false;
+            errs.handler(err);
+            $state.go('instance.instance', $stateParams, {reload: true});
+          });
         });
         if (cb) {
           cb();
