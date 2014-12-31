@@ -18,7 +18,7 @@ function ControllerInstanceHome(
   if (!instanceName) {
     $scope.loading = true;
     fetchInstances(userName, false, function(err, instances, account) {
-      if (account === $rootScope.dataApp.data.activeAccount.oauthName()) {
+      if (account === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
         $scope.loading = false;
         var models = $filter('orderBy')(instances.models, 'attrs.name');
         var name = keypather.get(models, '[0].attrs.name');

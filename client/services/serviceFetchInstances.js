@@ -7,7 +7,7 @@ function fetchInstances(
   var currentInstances;
   var currentAccountName;
   return function (activeAccountName, forceQuery, cb) {
-    if (activeAccountName === currentAccountName && !forceQuery) {
+    if (activeAccountName === currentAccountName && !forceQuery && currentInstances) {
       return cb(null, currentInstances, activeAccountName);
     } else {
       currentAccountName = activeAccountName;
@@ -15,7 +15,9 @@ function fetchInstances(
         currentInstances = user.fetchInstances({
           githubUsername: currentAccountName
         }, function (err) {
-          cb(err, currentInstances, activeAccountName);
+          if (currentAccountName === activeAccountName) {
+            cb(err, currentInstances, activeAccountName);
+          }
         });
       });
     }
