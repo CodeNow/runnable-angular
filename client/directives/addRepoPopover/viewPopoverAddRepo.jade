@@ -3,32 +3,15 @@
     in: data.show\
   }"
 )
-  .arrow.white
+  .arrow
+  h3.popover-title
+    input.input.input-search(
+      autofocus
+      ng-model = "data.repoFilter"
+      placeholder = "Filter repositories"
+      select-on = "data.showFilter"
+    )
   .popover-content
-    ul.popover-body.popover-list
-      li.popover-list-item
-        //- to do: add repo+ icon
-        svg.iconnables
-          use(
-            xlink:href = "#icons-file-new"
-          )
-        | Add Repository
-
-  //- after selecting 'add repository'
-  //- h3.popover-title Add Repository
-  //- .popover-content
-    form.popover-search
-      //- should clear on close
-      input.popover-search-input(
-        autofocus
-        ng-model = "data.repoFilter"
-        placeholder = "Filter repositories"
-        select-on = "data.showFilter"
-      )
-      svg.iconnables.icons-search
-        use(
-          xlink:href = "#icons-search"
-        )
     ul.popover-body.popover-list
       li.popover-list-item(
         ng-click = "actions.addRepo(repo)"

@@ -317,44 +317,6 @@
   }
 }
 
-// form.popover-search
-.popover-search {
-  background: rgba($white,.96);
-  height: 45px;
-  position: relative;
-
-  .icons-search {
-    left: 9px;
-    position: absolute;
-    top: 9px;
-  }
-}
-
-// input.popover-search-input
-.popover-search-input {
-  border: 0;
-  border-bottom: 1px solid rgba($black,.1);
-  border-radius: 0;
-  border-top: 1px solid transparent;
-  box-shadow: none;
-  left: 0;
-  padding-left: 36px;
-  position: absolute;
-  top: -1px;
-
-  &:focus {
-    border-color: rgba($black,.1);
-
-    ~ .icons-search {
-      color: $gray;
-    }
-  }
-
-  ~ .icons-search {
-    color: $gray-lighter;
-  }
-}
-
 .popover-animate-in {
   animation: scale-in .15s ease-in forwards;
   pointer-events: auto;
@@ -403,4 +365,24 @@
   position: relative;
   text-align: center;
   z-index: $z-popover-title;
+
+  .input-search {
+    border-color: transparent;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 auto;
+    position: relative;
+    top: 8px;
+    width: calc(100% - 18px);
+
+    &:hover {
+      background-color: $white;
+      border-color: rgba($black,.15);
+    }
+
+    &:focus {
+      border-color: rgba($black,.15);
+    }
+  }
 }
