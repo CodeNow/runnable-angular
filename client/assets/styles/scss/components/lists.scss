@@ -1,3 +1,7 @@
+.list.list-divided .list-item + .list-item {
+  border-top: 1px solid rgba($black,.1);
+}
+
 .list-item {
 
   .gravatar {

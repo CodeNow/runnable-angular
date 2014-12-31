@@ -3,10 +3,10 @@
 )
   .modal-container
     nav.modal-navbar
-      ul.list
+      ul.list.list-divided
         //- .active on current org
         li.list-item.active
-          img(
+          img.gravatar(
             height = "24"
             src = "https://avatars.githubusercontent.com/u/5341618?v=3"
             width = "24"
@@ -30,7 +30,9 @@
     main.modal-body
       form
         div.col
-          img
+          img(
+            src = "/build/images/logos/logo-slack.svg"
+          )
         div.col
           label.input-group.input-validate(
             ng-class = "{\
@@ -48,7 +50,7 @@
               required
               type = "url"
             )
-          button.btn.green
+          button.btn.green Save
       form
         div.col
           img
@@ -83,4 +85,4 @@
               ng-init = ""
               required
             )
-          button.btn.green
+          button.btn.green Save

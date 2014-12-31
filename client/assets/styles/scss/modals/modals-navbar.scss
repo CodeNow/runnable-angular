@@ -1,4 +1,19 @@
 .modal-navbar {
+  background: $gray-lightest;
+  border-radius: 3px;
+  border-right: 1px solid rgba($black,.1);
   float: left;
+  height: 100%;
   width: 180px;
+
+  .list-item {
+    height: 45px;
+    line-height: 45px;
+    padding: 0 15px;
+  }
+
+  .gravatar {
+    float: left;
+    margin: 10px 9px 0 2px;
+  }
 }
