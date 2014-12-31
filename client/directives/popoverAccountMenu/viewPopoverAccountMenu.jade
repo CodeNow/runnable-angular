@@ -24,7 +24,12 @@
           )
           | Runnable
     ul.popover-body.popover-list
-      li.popover-list-item
+      li.popover-list-item(
+        modal
+        modal-actions = "actions.actionsModalIntegrations"
+        modal-data = "data.dataModalIntegrations"
+        modal-template = "viewModalIntegrations"
+      )
         //- svg.iconnables.icons-exit
           use(
             xlink:href = "#icons-exit"
