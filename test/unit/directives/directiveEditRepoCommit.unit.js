@@ -211,7 +211,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     var $el = ctx.element[0]
       .querySelector('.commit.load > time.commit-time');
     expect($el).to.be.ok;
-    expect($el.innerText).to.equal('2 months ago');
+    expect($el.innerText).to.match(/\d months ago/);
   });
 
 });
