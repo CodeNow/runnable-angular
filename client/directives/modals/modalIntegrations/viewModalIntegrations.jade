@@ -2,59 +2,85 @@
   ng-click = "$event.stopPropagation()"
 )
   .modal-container
-    //- if no boxes with exposed ports (empty state)
-    aside.modal-sidebar.boxes(
-      ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
-    )
-      p.guide-text
-        | Boxes that can be linked are listed here. Enable linking on a box by adding the #{''}
-        span.btn.btn-xxs.well.well-code.well-inline.gray(
-          ng-class = "{active: popoverExposeInstruction.data.show}"
-          toggle-pop-over
-          toggle-pop-over-model = "popoverExposeInstruction.data.show"
-        ) EXPOSE
-        | #{''} instruction in its Dockerfile to open ports.
-        pop-over(
-          actions = "popoverExposeInstruction.actions"
-          data = "popoverExposeInstruction.data"
-          popover-options = "{\"left\":-70,\"top\":108}"
-          template = "viewExposeInstruction"
-        )
+    nav.modal-navbar
+      ul.list
+        //- .active on current org
+        li.list-item.active
+          img(
+            height = "24"
+            src = "https://avatars.githubusercontent.com/u/5341618?v=3"
+            width = "24"
+          )
+          | runnabro
+        li.list-item
+          img.gravatar(
+            height = "24"
+            src = "https://avatars2.githubusercontent.com/u/9753912?v=3&s=60"
+            width = "24"
+          )
+          | SnapUpDemo
+        li.list-item
+          img.gravatar(
+            height = "24"
+            src = "https://avatars3.githubusercontent.com/u/2828361?v=3&u=f6caf0ed414ff4693585e781657dc759f0028602&s=60"
+            width = "24"
+          )
+          | Runnable
 
     main.modal-body
-
-    footer.modal-footer
-      button.btn.green(
-        ng-if = "!data.showRebuild"
-        ng-click = "defaultActions.save(tempModel, ['env'], defaultActions.cancel)"
-        ng-disabled = "!validation.valid"
-        type = "button"
-      ) Save
-      button.btn.white(
-        ng-click = "defaultActions.cancel()"
-        type = "button"
-      ) Go Back
-
-  //- if boxes with exposed ports
-  aside.modal-sidebar.boxes(
-    ng-if = "(data.instances.models | instancesWithOpenPorts:data.instance).length"
-  )
-    h2.sub-header
-      span.sub-header-text Boxes
-    ul.box-group
-      //- 0.3 SAN-436
-        - to do:
-        - boxes should appear in the same order as they appear on the navbar
-        - do not show boxes with no exposed ports
-        - clicks on b.btn should paste "$ENTER_ENV_VAR={{url}}+':'+{{port}}" (with specified port) into the last cursor position in the env file
-      li.box-group-item.expanded(
-        ng-repeat = "otherInstance in data.instances.models | \
-          instancesWithOpenPorts:data.instance"
-      )
-        .text-overflow {{ otherInstance.attrs.name }}
-        button.btn.btn-xs.gray(
-          ng-repeat = "url in otherInstance.containers.models[0].urls()"
-          ng-click = "pasteLinkedInstance(url)"
-          tooltip = "Link to: {{ url }}"
-          tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
-        ) {{url | filterCleanPorts}}
+      form
+        div.col
+          img
+        div.col
+          label.input-group.input-validate(
+            ng-class = "{\
+              focus:\
+              'ng-invalid':\
+              'ng-valid':\
+            }"
+          )
+            span.input-label Webhook URL
+            input.input(
+              autocomplete = "off"
+              ng-blur = ""
+              ng-focus = ""
+              ng-init = ""
+              required
+              type = "url"
+            )
+          button.btn.green
+      form
+        div.col
+          img
+        div.col
+          label.input-group.input-validate(
+            ng-class = "{\
+              focus:\
+              'ng-invalid':\
+              'ng-valid':\
+            }"
+          )
+            span.input-label Room
+            input.input(
+              autocomplete = "off"
+              ng-blur = ""
+              ng-focus = ""
+              ng-init = ""
+              required
+            )
+          label.input-group.input-validate(
+            ng-class = "{\
+              focus:\
+              'ng-invalid':\
+              'ng-valid':\
+            }"
+          )
+            span.input-label Token
+            input.input(
+              autocomplete = "off"
+              ng-blur = ""
+              ng-focus = ""
+              ng-init = ""
+              required
+            )
+          button.btn.green
