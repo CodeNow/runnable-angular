@@ -86,7 +86,7 @@ function ControllerApp(
   };
 
   fetchUser(function(err, results) {
-    if (!err) {
+    if (!err && results) {
       thisUser = results;
       dataApp.data.user = results;
       fetchOrgs(function (err, results) {
