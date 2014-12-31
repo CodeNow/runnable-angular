@@ -6,9 +6,8 @@ function environmentButton(
   $rootScope
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewEnvironmentButton',
-    replace: true,
     scope: {
       item: '='
     },

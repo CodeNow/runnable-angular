@@ -52,7 +52,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         $httpBackend.whenGET(host + '/contexts/54398933f5afb6410069bc33/versions/54398934f5afb6410069bc34?')
         .respond(mocks.contextVersions.setup);
 
-        var tpl = directiveTemplate('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list');
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -75,10 +75,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     beforeEach(function() {
       $httpBackend.flush();
       $rootScope.$digest();
-    });
-
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
     });
 
     it('should show guide', function() {
@@ -106,7 +102,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
           .whenGET(compareUrl)
           .respond(mocks.gh.compare);
 
-        var tpl = directiveTemplate('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list');
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -129,10 +125,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     beforeEach(function() {
       $httpBackend.flush();
       $rootScope.$digest();
-    });
-
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
     });
 
     it('should not display the guide', function() {
@@ -160,7 +152,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
           .whenGET(compareUrl)
           .respond(mocks.gh.compare);
 
-        var tpl = directiveTemplate('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list');
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -183,10 +175,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     beforeEach(function() {
       $httpBackend.flush();
       $rootScope.$digest();
-    });
-
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
     });
 
     it('should not display the guide', function() {

@@ -13,9 +13,8 @@ function explorer(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewExplorer',
-    replace: true,
     scope: {
       openItems: '=',
       toggleTheme: '='

@@ -18,7 +18,6 @@ function fileTree(
   return {
     restrict: 'E',
     templateUrl: 'viewFileTree',
-    replace: true,
     scope: {
       openItems: '='
     },

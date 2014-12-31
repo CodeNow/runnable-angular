@@ -11,7 +11,6 @@ function instanceEditSecondaryActions(
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceEditSecondaryActions',
-    replace: true,
     scope: {
       instance: '=',
       instances: '=', // Added to the data scope of the modals through helper

@@ -48,8 +48,6 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
       });
     });
     angular.mock.inject(function (
-      //_async_,
-      //_QueryAssist_,
       _$state_,
       _$stateParams_,
       _$compile_,
@@ -78,7 +76,7 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
 
     ctx = {};
     ctx.stateMock = stateMock;
-    ctx.template = directiveTemplate('instance-secondary-actions', {
+    ctx.template = directiveTemplate.attribute('instance-secondary-actions', {
       instance: 'instance',
       instances: 'instances',
       saving: 'saving'
