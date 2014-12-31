@@ -28,9 +28,12 @@ function ControllerHome(
 
   dataHome.data.hasPass = !!$location.search().password;
 
+  if ($location.search().auth) {
+    verifyUserIsAuth(true);
+  }
   $scope.goToInstance = verifyUserIsAuth;
 
-  function verifyUserIsAuth() {
+  function verifyUserIsAuth(authed) {
     async.series([
       function (cb) {
         fetchUser(function (err, user) {
@@ -43,11 +46,11 @@ function ControllerHome(
       function sendUserSomewhere(cb) {
 
         var thisUser = $scope.user;
-
+        var opts = authed ? {location: 'replace'} : null;
         $state.go('instance.home', {
           userName: keypather.get($localStorage, 'stateParams.userName') ||
               thisUser.oauthName()
-        });
+        }, opts);
         return cb();
 
       }
