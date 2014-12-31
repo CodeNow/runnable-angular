@@ -1,4 +1,4 @@
-.modal-dialog(
+.modal-dialog.modal-integrations(
   ng-click = "$event.stopPropagation()"
 )
   .modal-container
@@ -28,7 +28,7 @@
           | Runnable
 
     main.modal-body
-      form
+      form.form
         div.col
           img(
             src = "/build/images/logos/logo-slack.svg"
@@ -51,7 +51,7 @@
               type = "url"
             )
           button.btn.green Save
-      form
+      form.form
         div.col
           img
         div.col
