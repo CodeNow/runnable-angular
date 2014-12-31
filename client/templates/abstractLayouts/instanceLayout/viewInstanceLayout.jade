@@ -3,12 +3,14 @@ nav.sidebar.global-sidebar(
   ng-class = "{minimize: dataApp.data.minimizeNav}"
 )
   accounts
-  accounts-select(
+  header.row.account-header.load(
+    accounts-select
     data = "dataApp.data"
   )
-  instance-list(
+  section.row.boxes(
+    instance-list
     data = "dataApp.data"
-    state = "dataInstanceLayout.state"
+    state = "dataApp.state"
   )
 
   footer.row.global-footer

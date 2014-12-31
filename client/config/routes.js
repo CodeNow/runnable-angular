@@ -79,10 +79,22 @@ module.exports = [
       }
     }
   }, {
+    state: 'base',
+    abstract: true,
+    url: '^/:userName/',
+    templateUrl: 'viewInstanceLayout',
+    controller: 'ControllerApp'
+  }, {
     state: 'instance',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout'
+  }, {
+    state: 'instance.home',
+    abstract: false,
+    url: '^/:userName',
+    templateUrl: 'viewInstanceHome',
+    controller: 'ControllerInstanceHome'
   }, {
     state: 'instance.new',
     abstract: false,

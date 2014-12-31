@@ -24,7 +24,6 @@ function modalForkBox(
   return {
     restrict: 'E',
     templateUrl: 'viewModalForkBox',
-    replace: true,
     scope: {
       data: '=',
       actions: '=',

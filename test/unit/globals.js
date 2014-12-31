@@ -3,7 +3,7 @@
 // These already modify global variables
 require('colors');  // Modifies String.prototype to allow us to color
 require('angular');  // Angular
-require('browserify-angular-mocks');  // Mocks stuff!
+require('angular-mocks');  // Mocks stuff!
 require('main');  // Requires our app
 
 // Must use window here due to Browserify's encapsulation

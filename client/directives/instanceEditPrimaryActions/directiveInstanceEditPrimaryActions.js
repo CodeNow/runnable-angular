@@ -13,7 +13,6 @@ function instanceEditPrimaryActions(
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceEditPrimaryActions',
-    replace: true,
     scope: {
       user: '=',
       instance: '=',

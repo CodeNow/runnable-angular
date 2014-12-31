@@ -17,7 +17,6 @@ function dockerTemplates(
   return {
     restrict: 'E',
     templateUrl: 'viewDockerTemplates',
-    replace: true,
     scope: {
       openItems: '=',
       valid: '='

@@ -84,7 +84,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('web-view');
+    ctx.template = directiveTemplate.attribute('web-view');
   });
 
   beforeEach(injectSetupCompile);

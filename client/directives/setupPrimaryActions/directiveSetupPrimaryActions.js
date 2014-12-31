@@ -12,7 +12,6 @@ function setupPrimaryActions(
   return {
     restrict: 'E',
     templateUrl: 'viewSetupPrimaryActions',
-    replace: true,
     scope: {
       activeAccount: '=',
       data: '=',
