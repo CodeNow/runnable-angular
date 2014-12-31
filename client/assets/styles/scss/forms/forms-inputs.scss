@@ -138,3 +138,23 @@ textarea {
     top: 9px;
   }
 }
+
+.input-search {
+  background-image: url(/build/images/icons/icons-search.svg);
+  background-position: 51px 3px;
+  background-repeat: no-repeat;
+  background-size: 21px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 300;
+  padding-left: 72px;
+  transition: all .15s ease-in;
+
+  &:focus,
+  &:valid {
+    background-color: $white;
+    background-position: 3px 3px;
+    padding-left: 27px;
+    transition: all .15s ease-in;
+  }
+}

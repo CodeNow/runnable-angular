@@ -1,9 +1,9 @@
 // .popover.right.popover-repository-toggle
 .popover-repository-toggle {
-  transform-origin: 0 50%;
+  transform-origin: 0 24px;
   width: 276px;
 
-  .arrow.right {
+  &.right > .arrow {
     top: 24px;
   }
 
@@ -42,6 +42,26 @@
       color: $gray;
     }
   }
+
+  // spinner
+  .popover-content {
+    height: 90px;
+  }
+
+  // older/newer buttons
+  .btn-group:last-child {
+    display: block;
+    margin: 6px;
+
+    .btn {
+      font-size: 14px;
+      width: 50%;
+
+      &:only-child {
+        width: 100%;
+      }
+    }
+  }
 }
 
 // ul.toggle-group
@@ -52,7 +72,7 @@
 
 // li.toggle-group-item
 .toggle-group-item {
-  padding: 9px 12px;
+  padding: 12px;
   position: relative;
 
   &:hover {
@@ -89,21 +109,6 @@
     &:hover .iconnables,
     &:active {
       color: $blue;
-    }
-  }
-}
-
-// li.btn-group
-.btn-group:last-child {
-  display: block;
-  margin: 6px;
-
-  .btn {
-    font-size: 14px;
-    width: 50%;
-
-    &:only-child {
-      width: 100%;
     }
   }
 }

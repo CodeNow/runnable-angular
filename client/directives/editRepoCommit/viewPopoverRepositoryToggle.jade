@@ -10,7 +10,7 @@
 .popover.right.popover-repository-toggle(
   ng-class = "{in: data.show}"
 )
-  .arrow.white
+  .arrow
   h3.popover-title
     .btn.btn-select.text-overflow
       svg.iconnables.icons-branch
@@ -23,10 +23,18 @@
           xlink:href = "#icons-arrow-down"
         )
       select.select
-        option(
-          selected
-        ) master
-        option gh-pages
+        optgroup(
+          label = "Select a branch"
+        )
+          option(
+            selected
+          ) master
+          option gh-pages
+  //- spinner while commits are loading
+  //- .popover-content
+    .spinner-wrapper.spinner-md.in(
+      ng-include = "'spinner'"
+    )
   //- commits
   ul.toggle-group
     li.toggle-group-item
@@ -85,6 +93,8 @@
           href = "#"
           target = "_blank"
         ) 2e2a338
+    //- only show if 36 or more commits in this branch
+    //- only show the needed buttons (so newer would not show if on the 'latest commit' page)
     li.btn-group.clearfix
       .btn.btn-sm.gray Newer
       .btn.btn-sm.gray Older

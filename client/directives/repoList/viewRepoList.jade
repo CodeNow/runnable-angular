@@ -14,13 +14,10 @@ section.row.repo-list
     //-       xlink:href = "#icons-update"
     //-     )
 
-    .btn-group.sub-header-action
-      //- if locked
-      //- .btn.btn-xs.orange LOCKED
-      //- always show this
-      add-repo-popover(
-        show = "data.show"
-      )
+    //- always show this
+    add-repo-popover(
+      show = "data.show"
+    )
 
     show-demo-modal(
       ng-if = "data.isDemo"
@@ -51,64 +48,16 @@ section.row.repo-list
       ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
       unsaved-app-code-version = "unsavedAcv"
     )
-    //- li.repository-group-item(
-    //-   ng-repeat = "x in y"
-    //- )
-    //-   svg.iconnables.icons-repository
-    //-     use(
-    //-       xlink:href = "#icons-repository"
-    //-     )
-      //- .repository-group-text
-      //-   h3.repository-title CodeNow/runnable-angular
-      //-   p.repository-description.clearfix
-      //-     svg.iconnables.icons-branch
-      //-       use(
-      //-         xlink:href = "#icons-branch"
-      //-       )
-      //-     | master
-      //-   p.repository-description.clearfix
-      //-     svg.iconnables.icons-commit
-      //-       use(
-      //-         xlink:href = "#icons-commit"
-      //-       )
-      //-     | Fixing some stuff with login
-      //-     small.repository-detail 12 days
-    //- li.repository-group-item(
-    //-   toggle-pop-over
-    //-   toggle-pop-over-model = "popoverRepositoryToggle.data.show"
-    //- )
-    //-   svg.iconnables.icons-repository
-    //-     use(
-    //-       xlink:href = "#icons-repository"
-    //-     )
-    //-   .repository-group-text
-    //-     h3.repository-title CodeNow/term.js
-    //-     p.repository-description.clearfix
-    //-       svg.iconnables.icons-branch
-    //-         use(
-    //-           xlink:href = "#icons-branch"
-    //-         )
-    //-       | master
-    //-     p.repository-description.clearfix
-    //-       svg.iconnables.icons-commit
-    //-         use(
-    //-           xlink:href = "#icons-commit"
-    //-         )
-    //-       | Change font-weight from bold to 400
-    //-       small.repository-detail 18 days
-      //- pop-over(
-      //-   actions = "popoverRepositoryToggle.actions"
-      //-   data = "popoverRepositoryToggle.data"
-      //-   popover-options = "{\"left\":299,\"top\":0}"
-      //-   template = "viewPopoverRepositoryToggle"
-      //- )
+    li.list-details
+      .small Locking your box will stop it from automatically deploying changes made in your repositories.
+      label.label-checkbox.btn.btn-sm Lock box
+        input.input-checkbox(
+          checked
+          ng-model = "data.restartOnSave"
+          type = "checkbox"
+        )
 
-    //-
-      - display selected commit
-        - pending state if selected commit !== actual saved commit
-      - popover for selecting new commit
-      - repo-options (delete, fast-forward commit)
-      - fast-forward
+    //- older types of things:
     //- edit-repo-commit(
     //-   app-code-version = "acv"
     //-   ng-init = "unsavedAcv = newUnsavedAcv(acv);"
