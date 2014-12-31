@@ -22,7 +22,7 @@ function editRepoCommit(
     },
     link: function ($scope, elem, attrs) {
 
-      // controlls appearance of
+      // controls appearance of
       // gear-menu popover
       // to fast-forward/delete
       if ($state.$current.name === 'instance.instance') {
