@@ -108,8 +108,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       initState();
       ctx.stateMock.go = sinon.spy(function (location, state) {
         expect(state).to.deep.equal({
-          userName: ctx.fakeOrg1.oauthName(),
-          instanceName: ''
+          userName: ctx.fakeOrg1.oauthName()
         });
         done();
       });
