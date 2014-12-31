@@ -37,7 +37,6 @@ function ControllerHome(
   $window.s.refresh();
 
   dataHome.data.hasPass = !!$location.search().password;
-  dataHome.data.auth = !!$location.search().auth;
 
   if (!!$location.search().auth) {
     verifyUserIsAuth(true);
