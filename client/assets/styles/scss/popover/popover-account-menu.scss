@@ -1,0 +1,29 @@
+.popover-account-menu {
+
+  .popover-body:first-child {
+    border-bottom: 1px solid rgba($black,.1);
+  }
+
+  .gravatar {
+    float: left;
+    margin: 5px 9px 0 0;
+  }
+
+  .small {
+    color: $gray-light;
+    cursor: default;
+    font-size: 12px;
+
+    &:hover,
+    &:active {
+      background: none;
+      border-color: transparent;
+    }
+  }
+
+  // a.list-link
+  .list-link {
+    color: $gray-dark;
+    text-decoration: none;
+  }
+}
