@@ -16,14 +16,13 @@ function editRepoCommit(
   return {
     restrict: 'E',
     templateUrl: 'viewEditRepoCommit',
-    replace: true,
     scope: {
       acv: '=appCodeVersion',
       unsavedAcv: '=unsavedAppCodeVersion'
     },
     link: function ($scope, elem, attrs) {
 
-      // controlls appearance of
+      // controls appearance of
       // gear-menu popover
       // to fast-forward/delete
       if ($state.$current.name === 'instance.instance') {

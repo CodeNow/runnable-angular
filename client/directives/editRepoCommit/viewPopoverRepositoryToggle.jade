@@ -22,14 +22,12 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-      select.select
-        optgroup(
-          label = "Select a branch"
-        )
-          option(
-            selected
-          ) master
-          option gh-pages
+      select.select(
+        name = "data.activeBranch"
+        ng-change = "actions.selectBranch(data.activeBranch)"
+        ng-model = "data.activeBranch"
+        ng-options = "branch.attrs.name group by 'Select a branch' for branch in data.acv.githubRepo.branches.models"
+      )
   //- spinner while commits are loading
   //- .popover-content
     .spinner-wrapper.spinner-md.in(
@@ -37,62 +35,21 @@
     )
   //- commits
   ul.toggle-group
-    li.toggle-group-item
-      .toggle-group-title Change font-weight from bold to 400
+    li.toggle-group-item(
+      ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
+      ng-class = "{ \
+        active: (commit.attrs.sha === data.activeCommit.attrs.sha) \
+      }"
+      ng-click = "actions.selectCommit(commit.attrs.sha)"
+    )
+      .toggle-group-title {{ commit.attrs.commit.message }}
       .toggle-group-detail.clearfix
-        small.small runnabro—22 days
+        small.small {{ commit.attrs.author.login }}—{{ commit.attrs.commit.author.date | timeAgo }}
         a.small.link-text(
-          href = "#"
+          ng-href = "{{ commit.attrs.html_url }}"
+          ng-click = "$event.stopPropagation()"
           target = "_blank"
-        ) ea2855c
-    li.toggle-group-item
-      .toggle-group-title oops, left a console.log
-      .toggle-group-detail.clearfix
-        small.small Nathan219—Oct 3
-        a.small.link-text(
-          href = "#"
-          target = "_blank"
-        ) 59b170a
-    li.toggle-group-item
-      .toggle-group-title Merge remote-tracking branch 'origin/master'
-      .toggle-group-detail.clearfix
-        small.small Nathan219—Oct 3
-        a.small.link-text(
-          href = "#"
-          target = "_blank"
-        ) f2b2fa0
-    li.toggle-group-item
-      .toggle-group-title Adding awesome new feature to disallow auto-scrolling when the cursor…
-      .toggle-group-detail.clearfix
-        small.small Nathan219—Oct 3
-        a.small.link-text(
-          href = "#"
-          target = "_blank"
-        ) cb33a72
-    li.toggle-group-item
-      .toggle-group-title 0.1.4
-      .toggle-group-detail.clearfix
-        small.small SomeKittens—Oct 3
-        a.small.link-text(
-          href = "#"
-          target = "_blank"
-        ) 0991239
-    li.toggle-group-item
-      .toggle-group-title less agressive commenting
-      .toggle-group-detail.clearfix
-        small.small SomeKittens—Oct 3
-        a.small.link-text(
-          href = "#"
-          target = "_blank"
-        ) eb70c33
-    li.toggle-group-item
-      .toggle-group-title 0.1.3
-      .toggle-group-detail.clearfix
-        small.small SomeKittens—Oct 3
-        a.small.link-text(
-          href = "#"
-          target = "_blank"
-        ) 2e2a338
+        ) {{ commit.attrs.sha.substring(0, 7) }}
     //- only show if 36 or more commits in this branch
     //- only show the needed buttons (so newer would not show if on the 'latest commit' page)
     li.btn-group.clearfix
