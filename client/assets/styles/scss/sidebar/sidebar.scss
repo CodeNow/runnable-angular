@@ -48,14 +48,6 @@
   }
 }
 
-// header.row.account-header
-.account-header {
-  @extend .webkit-flicker;
-  flex: 0 0 auto;
-  position: relative;
-  z-index: $z-sidebar-header;
-}
-
 // h2.sub-header
 .sub-header {
   height: 45px;
