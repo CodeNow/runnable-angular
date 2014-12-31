@@ -1,6 +1,35 @@
 .modal-integrations {
 
+  .modal-body {
+    padding: 6px;
+  }
+
   .col {
-    width: 50%;
+    float: left;
+
+    &:first-child {
+      width: 150px;
+    }
+
+    &:last-child {
+      padding: 9px 6px;
+      width: 360px;
+    }
+  }
+
+  .input-group {
+    margin: 0;
+  }
+
+  .btn {
+    float: right;
+    margin: 6px 0 0;
+  }
+
+  .hr {
+    background: rgba($black,.1);
+    border: 0;
+    height: 1px;
+    margin: 15px;
   }
 }

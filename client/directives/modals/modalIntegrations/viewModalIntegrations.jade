@@ -28,7 +28,7 @@
           | Runnable
 
     main.modal-body
-      form.form
+      form.form.clearfix
         div.col
           img(
             src = "/build/images/logos/logo-slack.svg"
@@ -51,9 +51,12 @@
               type = "url"
             )
           button.btn.green Save
-      form.form
+      hr.hr
+      form.form.clearfix
         div.col
-          img
+          img(
+            src = "/build/images/logos/logo-hipchat.svg"
+          )
         div.col
           label.input-group.input-validate(
             ng-class = "{\
