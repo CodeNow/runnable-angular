@@ -1,8 +1,16 @@
-.list.list-divided .list-item + .list-item {
-  border-top: 1px solid rgba($black,.1);
+.list.list-divided .list-item + .list-item::after {
+  background: rgba($black,.1);
+  content: '';
+  display: block;
+  height: 1px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .list-item {
+  position: relative;
 
   .gravatar {
     float: left;
@@ -11,13 +19,13 @@
 
   &.small {
     color: $gray-light;
-    cursor: default;
+    cursor: default !important;
     font-size: 12px;
 
     &:hover,
     &:active {
-      background: none;
-      border-color: transparent;
+      background: none !important;
+      border-color: transparent !important;
     }
   }
 }

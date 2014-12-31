@@ -1,6 +1,11 @@
 .modal-integrations {
 
+  .modal-container {
+    display: table;
+  }
+
   .modal-body {
+    display: table-cell;
     padding: 6px;
   }
 

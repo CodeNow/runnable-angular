@@ -2,14 +2,30 @@
   background: $gray-lightest;
   border-radius: 3px;
   border-right: 1px solid rgba($black,.1);
-  float: left;
-  height: 100%;
+  display: table-cell;
+  padding: 4px 0;
+  vertical-align: top;
   width: 180px;
 
   .list-item {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
     height: 45px;
     line-height: 45px;
+    margin-top: -1px;
     padding: 0 15px;
+
+    &:hover,
+    &.active {
+      background: rgba($black,.05);
+      border-color: rgba($black,.1);
+    }
+
+    &:active {
+      background: rgba($black,.05);
+      border-color: rgba($black,.2);
+    }
   }
 
   .gravatar {
