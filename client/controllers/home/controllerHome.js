@@ -38,7 +38,7 @@ function ControllerHome(
 
   dataHome.data.hasPass = !!$location.search().password;
 
-  if (!!$location.search().auth) {
+  if ($location.search().auth) {
     verifyUserIsAuth(true);
   }
   $scope.goToInstance = verifyUserIsAuth;
