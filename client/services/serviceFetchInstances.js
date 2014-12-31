@@ -12,6 +12,7 @@ function fetchInstances(
     } else {
       currentAccountName = activeAccountName;
       fetchUser(function (err, user) {
+        if (!user) { return cb(err); }
         currentInstances = user.fetchInstances({
           githubUsername: currentAccountName
         }, function (err) {

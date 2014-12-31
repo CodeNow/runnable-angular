@@ -11,9 +11,8 @@ function accountsSelect (
   $rootScope
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewAccountsSelect',
-    replace: true,
     scope: {
       data: '='
     },

@@ -36,7 +36,7 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
     $scope.item = {
       instance: instance
     };
-    ctx.template = directiveTemplate('environment-button', {
+    ctx.template = directiveTemplate.attribute('environment-button', {
       item: 'item'
     });
     ctx.element = $compile(ctx.template)($scope);

@@ -18,10 +18,8 @@ function logBuild(
   user
 ) {
   return {
-    restrict: 'E',
-    replace: true,
+    restrict: 'A',
     scope: {},
-    templateUrl: 'viewLogBuild',
     link: function ($scope, elem, attrs) {
       var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
       var DEFAULT_INVALID_BUILD_MESSAGE = '\x1b[31;1mPlease build again\x1b[0m';

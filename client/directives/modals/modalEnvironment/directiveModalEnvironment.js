@@ -11,7 +11,6 @@ function modalEnvironment(
   return {
     restrict: 'E',
     templateUrl: 'viewModalEnvironment',
-    replace: true,
     scope: {
       data: '=',
       currentModel: '=',

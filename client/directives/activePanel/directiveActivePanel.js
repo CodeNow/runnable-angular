@@ -24,20 +24,13 @@ function activePanel(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewActivePanel',
-    replace: true,
     scope: {
-      isDarkTheme: '=',
-      // instance: '=',
-      // build: '=',
-      // setupData: '=',
-      // container: '=',
       openItems: '=',
       currentModel: '=', // CurrentModel houses the original model without changes
-      stateModel: '=' // The StateModel is where changes will be applied
-      // readOnly: '=',
-      // update: '=' // true: save file when content changes
+      stateModel: '=', // The StateModel is where changes will be applied
+      item: '='
     },
     link: function ($scope, element, attrs) {
 
