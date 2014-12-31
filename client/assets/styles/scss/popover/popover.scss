@@ -376,12 +376,10 @@
     top: 8px;
     width: calc(100% - 18px);
 
-    &:hover {
+    &:hover,
+    &:focus,
+    &:valid {
       background-color: $white;
-      border-color: rgba($black,.15);
-    }
-
-    &:focus {
       border-color: rgba($black,.15);
     }
   }
