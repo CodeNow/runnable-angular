@@ -7,7 +7,8 @@ require('app')
  * @ngInject
  */
 function accountsSelect (
-  $state
+  $state,
+  $rootScope
 ) {
   return {
     restrict: 'E',
@@ -33,10 +34,11 @@ function accountsSelect (
         var username = userOrOrg.oauthName();
         //
         $scope.data.activeAccount = userOrOrg;
+        $scope.data.instances = null;
+        $rootScope.safeApply();
         $scope.$emit('INSTANCE_LIST_FETCH', username);
-        $state.go('^.instance', {
-          userName: username,
-          instanceName: ''
+        $state.go('^.home', {
+          userName: username
         });
       };
     }

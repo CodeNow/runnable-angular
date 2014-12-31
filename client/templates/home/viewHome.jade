@@ -20,11 +20,15 @@ header.hero
           )
       a.btn.btn-hero(
         ng-href = "{{ dataApp.data.loginURL }}"
-        ng-if = "dataHome.data.hasPass"
+        ng-if = "!dataApp.data.user && dataHome.data.hasPass"
       ) Sign In
       a.btn.btn-hero(
+      ng-click = "goToInstance()"
+      ng-if = "dataApp.data.user"
+      ) Get Started
+      a.btn.btn-hero(
         href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
-        ng-if = "!dataHome.data.hasPass"
+        ng-if = "!dataApp.data.user && !dataHome.data.hasPass"
       ) Request an Invite
   .hero-wrapper
     h1.hero-text A Server for Every Commit
@@ -73,7 +77,7 @@ section.landing-callout
   p Full environmental configuration, file, and terminal access are always within a reach.
   a.btn.btn-cta.green(
     ng-href = "{{ dataApp.data.loginURL }}"
-    ng-if = "dataHome.data.hasPass"
+    ng-if = "!dataApp.data.user && dataHome.data.hasPass"
   )
     svg.iconnables.icons-git
       use(
@@ -81,8 +85,12 @@ section.landing-callout
       )
     | Sign up with GitHub
   a.btn.btn-cta.green(
+    ng-click = "goToInstance()"
+    ng-if = "dataApp.data.user"
+  ) Login and Get Started
+  a.btn.btn-cta.green(
     href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
-    ng-if = "!dataHome.data.hasPass"
+    ng-if = "!dataApp.data.user && !dataHome.data.hasPass"
   ) Request an Invite
 
 footer.landing-footer
