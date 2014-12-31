@@ -10,8 +10,10 @@ function HelperInstanceActionsModal(
   $stateParams,
   $timeout,
   async,
+  keypather,
   errs,
-  keypather
+  updateEnvName,
+  $localStorage
 ) {
   /**
    * Shared actions-modal logic.
@@ -179,20 +181,16 @@ function HelperInstanceActionsModal(
         var deletedInstanceName = data.instance.attrs.name;
         data.instance.destroy(function (err) {
           $rootScope.safeApply();
+          keypather.set(
+            $localStorage,
+            'lastInstancePerUser.' + $stateParams.userName,
+            null
+          );
           if (err) { throw err; }
-          // redirect to next instance or new
-          if (data.instances.models.length) {
-            data.instances.models = $filter('orderBy')(data.instances.models, 'attrs.name');
-            // Only change the location if we're still on the page
-            // If the user switched to a different instance in between, we shouldn't move
-            if ($stateParams.instanceName === deletedInstanceName) {
-              $state.go('instance.instance', {
-                userName: $stateParams.userName,
-                instanceName: data.instances.models[0].attrs.name
-              });
-            }
-          } else {
-            $state.go('instance.new', {
+          // Only change the location if we're still on the page
+          // If the user switched to a different instance in between, we shouldn't move
+          if ($stateParams.instanceName === deletedInstanceName) {
+            $state.go('instance.home', {
               userName: $stateParams.userName
             });
           }

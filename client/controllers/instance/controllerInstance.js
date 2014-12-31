@@ -11,6 +11,7 @@ function ControllerInstance(
   OpenItems,
   QueryAssist,
   $rootScope,
+  $localStorage,
   $scope,
   $state,
   $stateParams,
@@ -36,33 +37,15 @@ function ControllerInstance(
     // in shows/hides file-menu
     in: false
   };
-  if (!$stateParams.instanceName) {
-    var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
-      if (n !== p && n) {
-        unwatch();
-        if (n.models.length) {
-          var models = $filter('orderBy')(n.models, 'attrs.name');
-          $state.go('instance.instance', {
-            instanceName: models[0].attrs.name,
-            userName: $stateParams.userName
-          }, {location: 'replace'});
-        } else {
-          $state.go('instance.new', {
-            userName: $stateParams.userName
-          }, {location: 'replace'});
-        }
-      }
-    });
-  } else if ($stateParams.instanceName && $stateParams.userName) {
+  if ($stateParams.instanceName && $stateParams.userName) {
     async.waterfall([
       fetchUser,
       fetchInstance
     ], function (err) {
       if (err) {
-        $state.go('instance.instance', {
-          instanceName: '',
+        $state.go('instance.home', {
           userName: $stateParams.userName
-        }, {reload: true});
+        });
       }
       errs.handler(err);
     });
@@ -123,8 +106,18 @@ function ControllerInstance(
         .cacheFetch(function (instances, cached, cb) {
           data.instance = keypather.get(instances, 'models[0]');
           if (!data.instance) {
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              null
+            );
             cb(new Error('Could not find instance on server'));
           } else {
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              $stateParams.instanceName
+            );
             data.instance.state = {};
             $scope.safeApply();
             cb();
