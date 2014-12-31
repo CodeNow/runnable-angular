@@ -1,0 +1,19 @@
+.list-item {
+
+  .gravatar {
+    float: left;
+    margin: 18px 9px 0 2px;
+  }
+
+  &.small {
+    color: $gray-light;
+    cursor: default;
+    font-size: 12px;
+
+    &:hover,
+    &:active {
+      background: none;
+      border-color: transparent;
+    }
+  }
+}
