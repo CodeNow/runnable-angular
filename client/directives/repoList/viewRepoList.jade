@@ -40,10 +40,9 @@ ul.repository-group
     unsaved-app-code-version = "unsavedAcv"
   )
     li.list-details
-      .small Locking your box will stop it from automatically deploying changes made in your repositories.
-      label.label-checkbox.btn.btn-sm Lock box
+      .small Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories.
+      label.label-checkbox.btn.btn-sm Disable auto-deploy
         input.input-checkbox(
-          checked
           ng-model = "data.restartOnSave"
           type = "checkbox"
         )
