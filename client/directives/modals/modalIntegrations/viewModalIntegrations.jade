@@ -42,7 +42,7 @@
               'ng-valid':\
             }"
           )
-            span.input-label Webhook URL
+            span.input-label WebHook URL
             input.input(
               autocomplete = "off"
               ng-blur = ""
@@ -51,6 +51,10 @@
               required
               type = "url"
             )
+          a.link-gray.link-reference(
+            href = "//runnable.slack.com/services/new/incoming-webhook"
+            target = "_blank"
+          ) Get WebHook URL on Slack
           button.btn.green Save
       hr.hr
       form.form.clearfix
@@ -89,4 +93,8 @@
               ng-init = ""
               required
             )
+          a.link-gray.link-reference(
+            href = "//runnable.hipchat.com/admin/api"
+            target = "_blank"
+          ) Create a token on Hipchat
           button.btn.green Save

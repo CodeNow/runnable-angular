@@ -24,6 +24,15 @@
 
   .input-group {
     margin: 0;
+
+    + .input-group {
+      margin-top: 6px;
+    }
+  }
+
+  .link-reference {
+    display: inline-block;
+    margin-top: 4px;
   }
 
   .btn {
