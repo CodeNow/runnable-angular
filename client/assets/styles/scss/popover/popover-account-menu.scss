@@ -1,0 +1,12 @@
+.popover-account-menu {
+
+  .popover-body:first-child {
+    border-bottom: 1px solid rgba($black,.1);
+  }
+
+  // a.list-link
+  .list-link {
+    color: $gray-dark;
+    text-decoration: none;
+  }
+}

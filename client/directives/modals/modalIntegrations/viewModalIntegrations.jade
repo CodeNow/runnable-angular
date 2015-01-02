@@ -1,0 +1,92 @@
+.modal-dialog.modal-integrations(
+  ng-click = "$event.stopPropagation()"
+)
+  .modal-container
+    nav.modal-navbar
+      ul.list
+        li.list-item.small Organizations
+        //- .active on current org
+        li.list-item.text-overflow.active
+          img.gravatar(
+            height = "24"
+            src = "https://avatars.githubusercontent.com/u/5341618?v=3"
+            width = "24"
+          )
+          | runnabro
+        li.list-item.text-overflow
+          img.gravatar(
+            height = "24"
+            src = "https://avatars2.githubusercontent.com/u/9753912?v=3&s=60"
+            width = "24"
+          )
+          | SnapUpDemo
+        li.list-item.text-overflow
+          img.gravatar(
+            height = "24"
+            src = "https://avatars3.githubusercontent.com/u/2828361?v=3&u=f6caf0ed414ff4693585e781657dc759f0028602&s=60"
+            width = "24"
+          )
+          | Runnable
+
+    main.modal-body
+      form.form.clearfix
+        div.col
+          img(
+            src = "/build/images/logos/logo-slack.svg"
+          )
+        div.col
+          //- .ng-invalid when the user submits form with empty inputs
+          //- .ng-valid when the user submits form with valid inputs
+              'ng-invalid':\
+              'ng-valid':\
+          label.input-group.input-validate(
+            ng-class = "{\
+              focus: data.integrationForm.showFocus\
+            }"
+          )
+            span.input-label WebHook URL
+            input.input(
+              autocomplete = "off"
+              ng-blur = "data.integrationForm.showFocus = false"
+              ng-focus = "data.integrationForm.showFocus = true"
+              required
+              type = "url"
+            )
+          a.link-gray.link-reference(
+            href = "//runnable.slack.com/services/new/incoming-webhook"
+            target = "_blank"
+          ) Get WebHook URL on Slack
+          button.btn.green Save
+      hr.hr
+      form.form.clearfix
+        div.col
+          img(
+            src = "/build/images/logos/logo-hipchat.svg"
+          )
+        div.col
+          label.input-group.input-validate
+            span.input-label Room
+            input.input(
+              autocomplete = "off"
+              ng-blur = ""
+              ng-focus = ""
+              required
+            )
+          label.input-group.input-validate
+            span.input-label Token
+            input.input(
+              autocomplete = "off"
+              ng-blur = ""
+              ng-focus = ""
+              required
+            )
+          a.link-gray.link-reference(
+            href = "//runnable.hipchat.com/admin/api"
+            target = "_blank"
+          ) Create a token on Hipchat
+          button.btn.green Save
+      footer.modal-footer
+        button.btn.white(
+          ng-click = "defaultActions.cancel()"
+          type = "button"
+        ) Done

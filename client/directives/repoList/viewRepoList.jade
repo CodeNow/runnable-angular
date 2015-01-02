@@ -39,13 +39,13 @@ ul.repository-group
     ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
     unsaved-app-code-version = "unsavedAcv"
   )
-  li.list-details
-    .small Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories.
-    label.label-checkbox.btn.btn-sm Disable auto-deploy
-      input.input-checkbox(
-        ng-model = "data.restartOnSave"
-        type = "checkbox"
-      )
+    li.list-details
+      .small Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories.
+      label.label-checkbox.btn.btn-sm
+        input.input-checkbox(
+          type = "checkbox"
+        )
+        | Disable auto-deploy
 
     //- older types of things:
     //- edit-repo-commit(
