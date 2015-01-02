@@ -52,10 +52,9 @@ button.btn.btn-xs.white.repository-actions(
     use(
       xlink:href = "#icons-gear"
     )
-
-pop-over(
-  actions = "popoverRepositoryToggle.actions"
-  data = "popoverRepositoryToggle.data"
-  popover-options = "{\"left\":299,\"top\":0}"
-  template = "viewPopoverRepositoryToggle"
-)
+  pop-over(
+    actions = "popoverRepoActions.actions"
+    data = "popoverRepoActions.data"
+    popover-options = "{\"left\":-97,\"top\":34}"
+    template = "viewPopoverRepoActions"
+  )
