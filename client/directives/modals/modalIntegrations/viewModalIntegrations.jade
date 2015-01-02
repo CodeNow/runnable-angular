@@ -35,19 +35,20 @@
             src = "/build/images/logos/logo-slack.svg"
           )
         div.col
-          label.input-group.input-validate(
-            ng-class = "{\
-              focus:\
+          //- .ng-invalid when the user submits form with empty inputs
+          //- .ng-valid when the user submits form with valid inputs
               'ng-invalid':\
               'ng-valid':\
+          label.input-group.input-validate(
+            ng-class = "{\
+              focus: data.integrationForm.showFocus\
             }"
           )
             span.input-label WebHook URL
             input.input(
               autocomplete = "off"
-              ng-blur = ""
-              ng-focus = ""
-              ng-init = ""
+              ng-blur = "data.integrationForm.showFocus = false"
+              ng-focus = "data.integrationForm.showFocus = true"
               required
               type = "url"
             )
@@ -75,7 +76,6 @@
               autocomplete = "off"
               ng-blur = ""
               ng-focus = ""
-              ng-init = ""
               required
             )
           label.input-group.input-validate(
@@ -90,7 +90,6 @@
               autocomplete = "off"
               ng-blur = ""
               ng-focus = ""
-              ng-init = ""
               required
             )
           a.link-gray.link-reference(

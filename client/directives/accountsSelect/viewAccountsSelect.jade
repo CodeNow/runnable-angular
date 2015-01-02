@@ -1,5 +1,7 @@
 header.row.account-header.load(
   ng-show = "data.activeAccount"
+  toggle-pop-over
+  toggle-pop-over-model = "popoverAccountMenu.data.show"
 )
   img.gravatar(
     height = "24"
@@ -7,10 +9,7 @@ header.row.account-header.load(
     width = "24"
   )
   span.account-name.text-overflow {{ data.activeAccount.oauthName() }}
-  svg.iconnables.icons-arrow-down(
-    toggle-pop-over
-    toggle-pop-over-model = "popoverAccountMenu.data.show"
-  )
+  svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"
     )
