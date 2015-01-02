@@ -32,14 +32,8 @@
         modal-data = "data.dataModalIntegrations"
         modal-template = "viewOpenModalIntegrations"
       )
-        //- svg.iconnables.icons-exit
-          use(
-            xlink:href = "#icons-exit"
-          )
         | Integrations
       li.list-item.popover-list-item
-        //- svg.iconnables.icons-exit
-          use(
-            xlink:href = "#icons-exit"
-          )
-        | Log Out
+        a(
+          ng-href = "{{ dataApp.data.logoutURL }}"
+        ) Log Out

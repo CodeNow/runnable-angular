@@ -14,14 +14,6 @@ nav.sidebar.global-sidebar(
   )
 
   footer.row.global-footer
-    a.btn.btn-sm.btn-icon.white.btn-logout(
-      ng-href = "{{ dataApp.data.logoutURL }}"
-      title = "Log Out"
-    )
-      svg.iconnables.icons-exit
-        use(
-          xlink:href = "#icons-exit"
-        )
     button.btn.btn-sm.btn-icon.white.btn-minimize(
       ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
       ng-class = "{active: dataApp.data.minimizeNav}"
