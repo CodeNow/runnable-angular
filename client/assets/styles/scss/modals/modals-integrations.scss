@@ -9,6 +9,10 @@
     }
   }
 
+  .form {
+    padding: 3px;
+  }
+
   .col {
     float: left;
 
@@ -17,11 +21,9 @@
     }
 
     &:last-child {
-      padding: 9px 6px;
       width: 360px;
 
       @include media(md) {
-        padding: 3px 9px;
         width: 100%;
       }
     }
@@ -40,7 +42,8 @@
     margin-top: 4px;
   }
 
-  .btn {
+  // save button
+  .green {
     float: right;
     margin: 6px 0 0;
   }
@@ -54,5 +57,9 @@
     @include media(md) {
       margin: 30px 9px;
     }
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba($black,.1);
   }
 }
