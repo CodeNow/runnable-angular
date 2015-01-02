@@ -39,7 +39,7 @@ button.btn.btn-xs.white.repository-update(
 
 //-
   if instance.setup || instance.instanceEdit
-button.btn.btn-xs.white.repository-actions(
+button.btn.btn-xs.btn-repository-settings(
   ng-class = "{ \
     active: popoverRepoActions.data.show \
   }"
@@ -52,10 +52,15 @@ button.btn.btn-xs.white.repository-actions(
     use(
       xlink:href = "#icons-gear"
     )
-
+  pop-over(
+    actions = "popoverRepoActions.actions"
+    data = "popoverRepoActions.data"
+    popover-options = "{\"left\":-75,\"top\":30}"
+    template = "viewPopoverRepoActions"
+  )
 pop-over(
   actions = "popoverRepositoryToggle.actions"
   data = "popoverRepositoryToggle.data"
-  popover-options = "{\"left\":299,\"top\":0}"
+  popover-options = "{\"left\":299,\"top\":11}"
   template = "viewPopoverRepositoryToggle"
 )

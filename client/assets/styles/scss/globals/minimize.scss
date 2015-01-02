@@ -37,7 +37,6 @@
 
   .sub-header-action.sub-header-action {
     height: 36px;
-    right: 7px;
     width: 45px;
 
     .icons-add {
@@ -72,12 +71,8 @@
 
   // resize nav footer
   .global-footer {
-    height: 102px;
+    height: 54px;
     padding: 9px 12px;
-
-    .btn-sm {
-      margin-top: 6px;
-    }
 
     .icons-arrow-left {
       transform: rotate3d(0, 1, 0, 180deg);
