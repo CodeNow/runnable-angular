@@ -41,11 +41,12 @@ ul.repository-group
   )
     li.list-details
       .small Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories.
-      label.label-checkbox.btn.btn-sm Disable auto-deploy
+      label.label-checkbox.btn.btn-sm
         input.input-checkbox(
           ng-model = "data.restartOnSave"
           type = "checkbox"
         )
+        | Disable auto-deploy
 
     //- older types of things:
     //- edit-repo-commit(
