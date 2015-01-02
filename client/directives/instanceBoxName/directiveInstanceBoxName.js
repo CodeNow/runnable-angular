@@ -15,7 +15,6 @@ function instanceBoxName(
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceBoxName',
-    replace: true,
     scope: {
       instance: '='
     },

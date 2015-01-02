@@ -14,7 +14,7 @@ function editRepoCommit(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewEditRepoCommit',
     scope: {
       acv: '=appCodeVersion',
@@ -101,6 +101,10 @@ function editRepoCommit(
         if (!n) { return; }
         $scope.popoverRepoActions.data.commitsBehind = n;
       });
+
+      // FIXME: Hack around toggle-popover being on above scope
+      $scope.$watch('acv.state.showModal', console.log.bind(console));
+      // TODO: pass in through isolation stuffs.
 
       $scope.popoverRepoActions = {
         data: {},

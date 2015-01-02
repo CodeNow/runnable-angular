@@ -20,7 +20,9 @@ header.box-header
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar
 
-  repo-list
+  section.row.repo-list(
+    repo-list
+  )
 
   docker-validation(
     open-items = "dataInstanceEdit.data.openItems"
@@ -43,7 +45,8 @@ section.views.with-add-tab(
         xlink:href = "#icons-folder-open"
       )
 
-  explorer(
+  section.explorer(
+    explorer
     open-items = "dataInstanceEdit.data.openItems"
     toggle-theme = "dataInstanceEdit.data.toggleTheme"
   )
@@ -53,17 +56,25 @@ section.views.with-add-tab(
     open-items = "dataInstanceEdit.data.openItems"
   )
 
-  add-tab(
+  div(
+    add-tab
     open-items = "dataInstanceEdit.data.openItems"
   )
 
   //- active panel
   //- Passing in old build to access its logs
-  active-panel(
-    is-dark-theme = "dataInstanceEdit.data.toggleTheme"
+  .active-panel(
+    active-panel
+    ng-class = "{\
+      'loaded': (item === openItems.activeHistory.last()),\
+      'ace-runnable-dark': dataInstanceEdit.data.toggleTheme\
+    }"
+    ng-repeat = "item in dataInstanceEdit.data.openItems.models"
+    ng-show = "item === dataInstanceEdit.data.openItems.activeHistory.last()"
     current-model = "dataInstanceEdit.data.instance.attrs"
     state-model = "dataInstanceEdit.data.instance.state"
     open-items = "dataInstanceEdit.data.openItems"
+    item = "item"
   )
 
   //- blank state

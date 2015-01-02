@@ -15,7 +15,6 @@ function tabs(
   return {
     restrict: 'E',
     templateUrl: 'viewTabs',
-    replace: true,
     scope: {
       openItems: '='
     },

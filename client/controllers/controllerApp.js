@@ -30,7 +30,6 @@ function ControllerApp(
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
   dataApp.data.configAPIHost = configAPIHost;
-
   dataApp.data.minimizeNav = false;
   dataApp.data.loginURL = configLoginURL();
   dataApp.data.logoutURL = configLogoutURL();
@@ -90,7 +89,7 @@ function ControllerApp(
   };
 
   fetchUser(function(err, results) {
-    if (!err) {
+    if (!err && results) {
       thisUser = results;
       dataApp.data.user = results;
       fetchOrgs(function (err, results) {

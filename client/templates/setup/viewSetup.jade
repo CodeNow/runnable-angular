@@ -25,7 +25,9 @@ header.box-header
 
 section.sidebar.box-sidebar
 
-  repo-list
+  section.row.repo-list(
+    repo-list
+  )
 
   docker-templates(
     open-items = "dataSetup.data.openItems"
@@ -54,7 +56,8 @@ section.views.with-add-tab(
         xlink:href = "#icons-folder-open"
       )
 
-  explorer(
+  section.explorer(
+    explorer
     open-items = "dataSetup.data.openItems"
     toggle-theme = "dataSetup.data.toggleTheme"
   )
@@ -65,10 +68,17 @@ section.views.with-add-tab(
   )
 
   //- active panel
-  active-panel(
-    is-dark-theme = "dataSetup.data.toggleTheme",
-    open-items = "dataSetup.data.openItems",
+  .active-panel(
+    active-panel
+    ng-class = "{\
+      'loaded': (item === openItems.activeHistory.last()),\
+      'ace-runnable-dark': dataSetup.data.toggleTheme\
+    }"
+    ng-repeat = "item in dataSetup.data.openItems.models"
+    ng-show = "item === dataSetup.data.openItems.activeHistory.last()"
+    open-items = "dataSetup.data.openItems"
     state-model = "dataSetup.data.instanceOpts"
+    item = "item"
   )
 
   //- dataSetup.data.showVideo

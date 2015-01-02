@@ -12,7 +12,7 @@ function instanceSecondaryActions(
   $stateParams
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewInstanceSecondaryActions',
     scope: {
       instance: '=',

@@ -88,7 +88,7 @@ describe('directiveLogBox'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('log-box', {});
+    ctx.template = directiveTemplate.attribute('log-box');
   });
 
   beforeEach(injectSetupCompile);

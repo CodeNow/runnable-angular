@@ -86,13 +86,13 @@
   position: relative;
 
   // offset for vertical-align: middle
-  > .btn-group {
+  .btn-group {
     top: -2px;
+  }
 
-    > .btn[disabled],
-    > .btn.disabled {
-      margin: 0;
-    }
+  .btn[disabled],
+  .btn.disabled {
+    margin: 0;
   }
 }
 

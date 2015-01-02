@@ -97,11 +97,11 @@ describe('directiveValidateName'.bold.underline.blue, function() {
     expect(form.instanceName.$valid).to.be.false;
   });
 
-  testBoth_it('should complain about an identical name', function() {
+  testBoth_it('should not set values for an identical name', function() {
     this.setName('Test-Instance');
     expect($scope.model.instanceName).to.equal('Test-Instance');
-    expect(form.instanceName.$valid).to.be.false;
-    expect(form.instanceName.$error.nameAvailable).to.be.true;
+    expect(form.instanceName.$valid).to.be.undefined;
+    expect(form.instanceName.$error.nameAvailable).to.be.undefined;
   });
 
   testBoth_it('should complain about an identical name to a different instance', function() {
@@ -121,6 +121,7 @@ describe('directiveValidateName'.bold.underline.blue, function() {
   describe('no instances'.blue, function () {
     beforeEach(function () {
       $scope.instances = undefined;
+      $scope.$digest();
     });
 
     testBoth_it('should ok any name with no instances', function() {

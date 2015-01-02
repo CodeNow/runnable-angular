@@ -41,7 +41,8 @@
     main.modal-body
       //- If the stateModel has an env (even empty), then the envs have been modified, and
         - we should display them
-      env-vars(
+      div(
+        env-vars
         state-model = "tempModel"
         current-model = "stateModel.env ? stateModel : currentModel"
         validation = "validation"

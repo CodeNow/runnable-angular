@@ -14,7 +14,6 @@ function setupBoxName(
   return {
     restrict: 'E',
     templateUrl: 'viewSetupBoxName',
-    replace: true,
     scope: {
       newInstanceName: '=name',
       valid: '='

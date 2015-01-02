@@ -103,7 +103,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('edit-repo-commit', {
+    ctx.template = directiveTemplate.attribute('edit-repo-commit', {
       'app-code-version': 'acv',
       'unsaved-app-code-version': 'unsavedAcv'
     });
@@ -211,7 +211,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     var $el = ctx.element[0]
       .querySelector('.commit.load > time.commit-time');
     expect($el).to.be.ok;
-    expect($el.innerText).to.equal('3 months ago');
+    expect($el.innerText).to.match(/\d months ago/);
   });
 
 });

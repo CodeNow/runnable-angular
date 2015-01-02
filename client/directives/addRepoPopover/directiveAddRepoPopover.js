@@ -15,7 +15,6 @@ function addRepoPopover(
   user
 ) {
   return {
-    replace: true,
     restrict: 'E',
     templateUrl: 'viewAddRepoPopover',
     scope: {

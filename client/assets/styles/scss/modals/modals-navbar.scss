@@ -7,6 +7,12 @@
   vertical-align: top;
   width: 180px;
 
+  @include media(xs) {
+    border-bottom: 1px solid rgba($black,.1);
+    display: block;
+    width: 100%;
+  }
+
   .list-item {
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;

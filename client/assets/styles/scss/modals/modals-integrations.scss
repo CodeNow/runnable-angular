@@ -1,12 +1,12 @@
 .modal-integrations {
 
-  .modal-container {
-    display: table;
-  }
-
   .modal-body {
     display: table-cell;
     padding: 6px;
+
+    @include media(xs) {
+      display: block;
+    }
   }
 
   .col {
@@ -19,6 +19,11 @@
     &:last-child {
       padding: 9px 6px;
       width: 360px;
+
+      @include media(md) {
+        padding: 3px 9px;
+        width: 100%;
+      }
     }
   }
 
@@ -45,5 +50,9 @@
     border: 0;
     height: 1px;
     margin: 15px;
+
+    @include media(md) {
+      margin: 30px 9px;
+    }
   }
 }

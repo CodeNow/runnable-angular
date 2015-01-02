@@ -70,7 +70,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         });
       };
 
-      var tpl = directiveTemplate('accounts-select', {
+      var tpl = directiveTemplate.attribute('accounts-select', {
         'data': 'data'
       });
 
@@ -108,8 +108,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       initState();
       ctx.stateMock.go = sinon.spy(function (location, state) {
         expect(state).to.deep.equal({
-          userName: ctx.fakeOrg1.oauthName(),
-          instanceName: ''
+          userName: ctx.fakeOrg1.oauthName()
         });
         done();
       });
@@ -141,7 +140,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       delete scope.data.activeAccount;
       initState(scope);
       $scope.$digest();
-      expect(ctx.element[0].classList.contains('ng-hide')).to.be.ok;
+      expect(ctx.element[0].classList.contains('in')).to.be.false;
     });
     it('should display selector after click', function () {
       initState();
