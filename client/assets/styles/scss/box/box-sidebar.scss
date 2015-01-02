@@ -69,6 +69,18 @@
     top: 0;
     width: 18px;
   }
+
+  // repo settings
+  .btn-repository-settings {
+    color: $gray-light;
+    position: absolute;
+    right: 6px;
+    top: 24px;
+
+    .iconnables {
+      width: 18px;
+    }
+  }
 }
 
 // h3.repository-title
