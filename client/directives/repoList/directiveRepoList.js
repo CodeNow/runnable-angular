@@ -5,6 +5,8 @@ require('app')
  */
 function repoList(
   async,
+  debounce,
+  errs,
   keypather,
   QueryAssist,
   fetchUser,
@@ -154,17 +156,17 @@ function repoList(
         }
 
         function updateInstanceWithBuild(build, cb) {
-            $scope.instance.update({
-              build: build.id()
-            }, function (err) {
-              cb(err, build);
-            });
-          }
-          /**
-           * Trigger a forced refresh
-           * Alternatives cumbersome/buggy
-           * This best/easiest solution for now
-           */
+          $scope.instance.update({
+            build: build.id()
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+        /**
+         * Trigger a forced refresh
+         * Alternatives cumbersome/buggy
+         * This best/easiest solution for now
+         */
         function reloadController(build, cb) {
           cb();
           var current = $state.current;
@@ -177,6 +179,16 @@ function repoList(
           });
         }
       };
+
+      var debounceUpdate = debounce(function(n) {
+        if (n !== undefined) {
+          $scope.instance.update({
+            locked: n
+          }, angular.noop);
+        }
+      });
+
+      $scope.$watch('data.autoDeploy', debounceUpdate);
 
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
@@ -192,6 +204,7 @@ function repoList(
             var instance = instances.models[0];
             $scope.instance = instance;
             $scope.build = instance.build;
+            $scope.data.autoDeploy = instance.attrs.locked;
             $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
@@ -206,9 +219,6 @@ function repoList(
       }
 
       function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
-        }
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
@@ -234,8 +244,14 @@ function repoList(
             cb();
           });
         },
-        fetchBuild
-      ]);
+        fetchInstance,
+        function (cb) {
+          if ($stateParams.buildId) {
+            return fetchBuild(cb);
+          }
+          return cb();
+        }
+      ], errs.handler);
 
     }
   };
