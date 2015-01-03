@@ -1,3 +1,4 @@
+// line between items
 .list-divided .list-item + .list-item::after {
   background: rgba($black,.1);
   content: '';
@@ -7,6 +8,12 @@
   position: absolute;
   top: 0;
   width: 100%;
+}
+
+// bordered list
+.list-bordered {
+  border: 1px solid rgba($black,.1);
+  border-radius: 3px;
 }
 
 .list-item {

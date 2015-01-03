@@ -1,0 +1,45 @@
+.box-selection {
+
+  // instruction text
+  > .h3 {
+    margin: 120px auto 30px;
+    text-align: center;
+  }
+
+  .list {
+    margin: 0 auto 30px;
+    width: 400px;
+  }
+
+  .list-item {
+    height: 72px;
+    line-height: 72px;
+    padding: 0 12px 0 24px;
+  }
+
+  .h4 {
+    float: left;
+    height: 100%;
+    line-height: 72px;
+  }
+
+  // .demo-list-actions
+  .demo-list-actions {
+    float: right;
+    height: 100%;
+    line-height: 1;
+    position: relative;
+    width: 120px;
+  }
+
+  // center button and text
+  .green,
+  > .link {
+    display: table;
+    margin: 0 auto;
+  }
+
+  .green {
+    margin: 12px auto 3px;
+  }
+}
