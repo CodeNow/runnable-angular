@@ -32,14 +32,19 @@
     width: 120px;
   }
 
-  // center button and text
+  // center button and links
   .green,
-  > .link {
+  .list .link {
     display: table;
     margin: 0 auto;
   }
 
   .green {
-    margin: 12px auto 3px;
+    margin: 9px auto 6px;
+  }
+
+  .hr + .btn {
+    display: table;
+    margin: 30px auto 0;
   }
 }
