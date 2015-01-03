@@ -51,7 +51,6 @@ function modalForkBox(
         for (var idx = 1; idx < n; idx++ ) {
           $scope.unwatchItems.push(createInstanceWatchers(idx));
         }
-        $rootScope.safeApply();
       });
 
       $scope.$watch('data.forkDependencies', function (n) {
@@ -70,11 +69,9 @@ function modalForkBox(
             });
           });
         }
-        $rootScope.safeApply();
       });
       var dUpdateEnvName = debounce(function (items) {
         updateEnvName(items);
-        $rootScope.safeApply();
       }, 250);
 
       function createItem(instance) {

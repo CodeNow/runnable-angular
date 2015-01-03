@@ -55,7 +55,6 @@ function logBuild(
           fetchUser(function(err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },
@@ -161,7 +160,6 @@ function logBuild(
             var instance = instances.models[0];
             $scope.instance = instance;
             $scope.build = instance.build;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, instances, cb) {
@@ -175,7 +173,6 @@ function logBuild(
             }
             $scope.instance = instance;
             $scope.build = instance.build;
-            $rootScope.safeApply();
             cb();
           })
           .go();

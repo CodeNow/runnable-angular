@@ -67,11 +67,6 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       $compile = _$compile_;
       $scope = _$rootScope_.$new();
       keypather = _keypather_;
-      $rootScope.safeApply = function (cb) {
-        _$timeout_(function () {
-          $scope.$digest();
-        });
-      };
     });
     if (scope) {
       Object.keys(scope).forEach(function (key) {

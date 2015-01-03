@@ -17,18 +17,12 @@ describe('directiveDockerValidation'.bold.underline.blue, function() {
           }
         }
       };
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
-
       var tpl = directiveTemplate('docker-validation', {
-          'open-items': 'openItems'
-        });
+        'open-items': 'openItems'
+      });
 
-        element = $compile(tpl)($scope);
-        $scope.$digest();
+      element = $compile(tpl)($scope);
+      $scope.$digest();
     });
   }
   beforeEach(initState);

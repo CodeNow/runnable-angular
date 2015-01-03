@@ -61,12 +61,6 @@ describe('directiveInstanceEditSecondaryActions'.bold.underline.blue, function()
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
       $timeout = _$timeout_;
-
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
     if (scope) {
       Object.keys(scope).forEach(function (key) {

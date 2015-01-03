@@ -35,7 +35,6 @@ function instancePrimaryActions(
         $scope.saving = false;
         $timeout(function () {
           $scope.saving = true;
-          $rootScope.safeApply();
         }, 1);
         var updateModels = $scope.openItems.models
           .filter(function (model) {
@@ -55,7 +54,6 @@ function instancePrimaryActions(
               if (err) {
                 throw err;
               }
-              $rootScope.safeApply();
               cb();
             });
           },
@@ -63,17 +61,14 @@ function instancePrimaryActions(
             if ($scope.popoverSaveOptions.data.restartOnSave) {
               $scope.instance.restart(function(err) {
                 if (err) { throw err; }
-                $rootScope.safeApply();
                 $scope.instance.fetch(function(err) {
                   if (err) { throw err; }
-                  $rootScope.safeApply();
                 });
               });
               // need container !running here
               keypather.set($scope.instance,
                 'containers.models[0].attrs.inspect.State.Running', false);
             }
-            $rootScope.safeApply();
           }
         );
       };

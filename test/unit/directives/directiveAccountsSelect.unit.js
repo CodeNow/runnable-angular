@@ -64,12 +64,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
 
-      $rootScope.safeApply = function(cb) {
-        $timeout(function () {
-          $scope.$digest();
-        });
-      };
-
       var tpl = directiveTemplate.attribute('accounts-select', {
         'data': 'data'
       });

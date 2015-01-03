@@ -96,7 +96,6 @@ function activePanel(
             throw err;
           }
           delete activeFile.state.isDirty;
-          $rootScope.safeApply();
         });
       }
       var updateFileDebounce = debounce(updateFile, 333);
@@ -107,7 +106,6 @@ function activePanel(
         if (openItems.isFile(last)) {
           last.fetch(function () {
             last.state.reset();
-            $rootScope.safeApply();
           });
         }
       }

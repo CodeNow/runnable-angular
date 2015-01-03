@@ -62,10 +62,8 @@ function instanceSecondaryActions(
           $scope.instance.fetch(function (err) {
             if (err) { throw err; }
             $scope.saving = false;
-            $rootScope.safeApply();
           });
         });
-        $rootScope.safeApply();
       }
 
     }

@@ -34,7 +34,6 @@ function accountsSelect (
         //
         $scope.data.activeAccount = userOrOrg;
         $scope.data.instances = null;
-        $rootScope.safeApply();
         $scope.$emit('INSTANCE_LIST_FETCH', username);
         $state.go('^.home', {
           userName: username
