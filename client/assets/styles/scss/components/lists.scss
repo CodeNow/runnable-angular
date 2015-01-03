@@ -1,4 +1,4 @@
-.list.list-divided .list-item + .list-item::after {
+.list-divided .list-item + .list-item::after {
   background: rgba($black,.1);
   content: '';
   display: block;
