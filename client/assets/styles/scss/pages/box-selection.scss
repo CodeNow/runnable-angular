@@ -1,14 +1,29 @@
 .box-selection {
 
+  .logo {
+    height: 45px;
+    margin-top: 15px;
+    width: 240px;
+
+    @include media(xs) {
+      overflow: hidden;
+      width: 72px;
+    }
+  }
+
   // instruction text
   > .h3 {
-    margin: 120px auto 30px;
+    margin: 90px auto 30px;
     text-align: center;
   }
 
   .list {
     margin: 0 auto 30px;
-    width: 600px;
+    max-width: 600px;
+
+    @include media(xs) {
+      margin: 0 15px 30px;
+    }
   }
 
   .list-item {
@@ -17,7 +32,7 @@
     padding: 0 15px;
     transition: height .2s ease-in;
 
-    &.in {
+    &.active {
       height: 216px;
 
       .iconnables {
