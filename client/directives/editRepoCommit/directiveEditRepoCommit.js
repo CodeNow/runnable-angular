@@ -5,6 +5,7 @@ require('app')
  */
 function editRepoCommit(
   async,
+  errs,
   QueryAssist,
   fetchUser,
   keypather,
@@ -132,10 +133,7 @@ function editRepoCommit(
         // after the fetch
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
         acv.githubRepo.branches.add($scope.activeBranch);
-        acv.githubRepo.branches.fetch(function (err) {
-          if (err) { throw err; }
-          //githubRepo.branches.add(activeBranch);
-        });
+        acv.githubRepo.branches.fetch(errs.handler);
       }
 
       function setActiveCommit(acv) {
