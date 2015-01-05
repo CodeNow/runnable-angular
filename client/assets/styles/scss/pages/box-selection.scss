@@ -18,10 +18,14 @@
     margin: 90px auto 0;
     max-width: 600px;
     text-align: left;
+
+    @include media(xs) {
+      margin: 60px 15px 0;
+    }
   }
 
-  // link quote
-  .link-quote {
+  // block-quote
+  .block-quote {
     border-left: 3px solid rgba($black,.1);
     color: $gray;
     display: block;
@@ -32,6 +36,10 @@
     padding-left: 15px;
     text-align: left;
     text-decoration: none;
+
+    @include media(xs) {
+      margin: 15px 15px 30px;
+    }
 
     &:hover,
     &:active {
