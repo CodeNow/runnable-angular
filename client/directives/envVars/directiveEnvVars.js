@@ -24,7 +24,6 @@ function envVars(
       $scope.$on('eventPasteLinkedInstance', function (eventName, text) {
         editor.insert(text);
         updateEnvs(editor.getValue());
-        $rootScope.safeApply();
         editor.focus();
       });
 

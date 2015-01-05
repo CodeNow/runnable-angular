@@ -67,15 +67,6 @@ describe('directiveWebView'.bold.underline.blue, function() {
     modelStore.reset();
     collectionStore.reset();
 
-    $rootScope.safeApply = function (cb) {
-      $timeout(function() {
-        $scope.$digest();
-        if (cb && cb.call) {
-          cb();
-        }
-      });
-    };
-
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $httpBackend.flush();

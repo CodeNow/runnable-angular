@@ -145,7 +145,6 @@ function ControllerInstance(
               $stateParams.instanceName
             );
             data.instance.state = {};
-            $scope.safeApply();
             cb();
           }
         })

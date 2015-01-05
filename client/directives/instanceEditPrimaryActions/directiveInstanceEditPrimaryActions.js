@@ -95,7 +95,6 @@ function instanceEditPrimaryActions(
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
             $scope.newBuild = build;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err) {

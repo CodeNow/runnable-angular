@@ -88,11 +88,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       $localStorage = _$localStorage_;
       $timeout = _$timeout_;
       $state = _$state_;
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
 
     if (activeAccountUsername) {

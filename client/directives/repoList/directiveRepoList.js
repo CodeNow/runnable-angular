@@ -106,7 +106,6 @@ function repoList(
           updateInstanceWithBuild,
           reloadController
         ], function (err) {
-          $rootScope.safeApply();
           if (err) { throw err; }
           //$rootScope.dataApp.data.loading = false;
           $state.go('instance.instance');
@@ -205,14 +204,12 @@ function repoList(
             $scope.instance = instance;
             $scope.build = instance.build;
             $scope.data.autoDeploy = instance.attrs.locked;
-            $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
             var instance = instances.models[0];
             if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
               return cb(new Error('instance has no containers'));
             }
-            $rootScope.safeApply();
             cb(err);
           })
           .go();
@@ -224,12 +221,10 @@ function repoList(
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
             $scope.build = build;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, build, cb) {
             if (err) { throw err; }
-            $rootScope.safeApply();
             cb();
           })
           .go();
@@ -240,7 +235,6 @@ function repoList(
           fetchUser(function(err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },

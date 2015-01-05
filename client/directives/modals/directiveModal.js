@@ -52,7 +52,6 @@ function modal(
           if ($scope.modal) {
             $scope.modal.remove();
           }
-          $rootScope.safeApply();
         }
       };
 
@@ -66,7 +65,6 @@ function modal(
         if (typeof keypather.get($scope, 'actions.closePopover') === 'function') {
           $scope.actions.closePopover();
         }
-        $rootScope.safeApply();
       }
 
       element[0].onclick = createModal;
@@ -82,7 +80,6 @@ function modal(
         }
         $scope.in = false;
         element[0].onclick = null;
-        $rootScope.safeApply();
       });
     }
   };

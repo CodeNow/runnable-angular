@@ -43,7 +43,6 @@ function ControllerInstanceEdit(
         var instance = instances.models[0];
         data.instance = instance;
         data.instance.state = {};
-        $scope.safeApply();
         cb();
       })
       .resolve(function (err, instances, cb) {
@@ -54,7 +53,6 @@ function ControllerInstanceEdit(
         var instance = instances.models[0];
         data.instance = instance;
         data.instance.state = {};
-        $scope.safeApply();
         cb();
       })
       .go();
@@ -70,12 +68,10 @@ function ControllerInstanceEdit(
           return cb(null, true);
         }
         $scope.build = build;
-        $scope.safeApply();
         cb();
       })
       .resolve(function (err, build, cb) {
         if (err) { throw err; }
-        $scope.safeApply();
         cb();
       })
       .go();
@@ -94,13 +90,11 @@ function ControllerInstanceEdit(
           throw new Error('instance not found');
         }
         data.instances = instances;
-        $scope.safeApply();
         cb();
       })
       .resolve(function (err, instances, cb) {
         if (err) { return $log.error(err); }
         data.instances = instances;
-        $scope.safeApply();
         cb();
       })
       .go();
@@ -125,7 +119,6 @@ function ControllerInstanceEdit(
     function (cb) {
       fetchUser(function (err, user) {
         $scope.user = user;
-        $scope.safeApply();
         cb();
       });
     },

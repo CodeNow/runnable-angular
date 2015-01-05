@@ -31,7 +31,6 @@ function setupBoxName(
           determineActiveAccount,
           function (activeAccount, cb) {
             $scope.activeAccount = activeAccount;
-            $rootScope.safeApply();
             cb();
           },
           function (cb) {
@@ -44,7 +43,6 @@ function setupBoxName(
               })
               .cacheFetch(function (instances, cached, cb) {
                 $scope.instances = instances;
-                $rootScope.safeApply();
                 cb();
               })
               .resolve(function (err, projects, cb) {
@@ -60,7 +58,6 @@ function setupBoxName(
           fetchUser(function(err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },

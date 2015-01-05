@@ -41,7 +41,6 @@ function validateName(
           });
           ctrl.$setValidity('nameAvailable', !match);
         }
-        $rootScope.safeApply();
         return name;
       }
 

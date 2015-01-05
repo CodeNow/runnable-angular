@@ -19,12 +19,6 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $timeout = _$timeout_;
-
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
 
     ctx = {};
