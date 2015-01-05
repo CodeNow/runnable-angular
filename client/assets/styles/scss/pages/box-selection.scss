@@ -13,8 +13,22 @@
 
   .list-item {
     height: 72px;
-    line-height: 72px;
-    padding: 0 12px 0 24px;
+    overflow: hidden;
+    padding: 0 15px;
+    transition: height .2s ease-in;
+
+    &.in {
+      height: 144px;
+
+      .iconnables {
+        transform: rotate3d(0,0,1,0);
+      }
+    }
+  }
+
+  .list-item-row {
+    height: 72px;
+    width: 100%;
   }
 
   .h4 {
@@ -23,28 +37,14 @@
     line-height: 72px;
   }
 
-  // .demo-list-actions
-  .demo-list-actions {
+  .gray {
     float: right;
-    height: 100%;
-    line-height: 1;
-    position: relative;
-    width: 120px;
-  }
+    margin: 18px auto;
 
-  // center button and links
-  .green,
-  .list .link {
-    display: table;
-    margin: 0 auto;
-  }
-
-  .green {
-    margin: 9px auto 6px;
-  }
-
-  .hr + .btn {
-    display: table;
-    margin: 30px auto 0;
+    .iconnables {
+      margin-left: 6px;
+      top: 6px;
+      transform: rotate3d(0,0,1,-90deg);
+    }
   }
 }
