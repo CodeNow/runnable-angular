@@ -6,23 +6,27 @@
   .arrow
   h3.popover-title
     input.input.input-search(
-      autofocus
-      ng-model = "data.repoFilter"
-      placeholder = "Filter repositories"
-      required
-      select-on = "data.showFilter"
+    autofocus
+    ng-model = "data.repoFilter"
+    placeholder = "Filter repositories"
+    required
+    select-on = "data.showFilter"
     )
   .popover-content
     ul.popover-body.popover-list
       li.popover-list-item(
-        ng-click = "actions.addDep(stackDep)"
-        ng-repeat = "\
-          stackDep in data.dependencies.models | \
-          unaddedModels:data.state.dependencies.models as unadded"
-        title = "{{ stackDep.attrs.name }}"
+      ng-click = "actions.addRepo(repo)"
+      ng-repeat = "\
+          repo in data.githubRepos.models | \
+          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
+          repos:data.repoFilter"
+      title = "{{ repo.attrs.full_name }}"
       )
-        span {{ stackDep.attrs.name }}
+        span {{ repo.attrs.full_name }}
       li.popover-list-item.no-actions(
-        ng-if = "unadded.length === 0"
+      ng-if = "\
+          (data.githubRepos.models | \
+          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
+          repos:data.repoFilter).length === 0"
       ) No matches
       //- li.popover-list-item.no-actions There's nothing left to add.
