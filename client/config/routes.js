@@ -11,8 +11,7 @@ module.exports = [
       },
       anon: true
     }
-  },
-  {
+  }, {
     state: 'features',
     abstract: false,
     url: '^/features',
@@ -23,8 +22,7 @@ module.exports = [
       },
       anon: true
     }
-  },
-  {
+  }, {
     state: 'pricing',
     abstract: false,
     url: '^/pricing',
@@ -35,12 +33,22 @@ module.exports = [
       },
       anon: true
     }
-  },
-  {
-    state: 'edemo',
+  }, {
+    state: 'boxSelection',
     abstract: false,
-    url: '^/demo',
-    templateUrl: 'viewDemo'
+    url: '^/boxSelection',
+    templateUrl: 'viewBoxSelection',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  // }, {
+  //   state: 'edemo',
+  //   abstract: false,
+  //   url: '^/demo',
+  //   templateUrl: 'viewDemo'
   // }, {
   //   state: 'edemo2',
   //   abstract: false,
@@ -56,28 +64,28 @@ module.exports = [
   //   abstract: false,
   //   url: '^/demo4',
   //   templateUrl: 'viewDemo4'
-  }, {
-    state: 'demo',
-    abstract: true,
-    templateUrl: 'viewDemoLayout',
-    controller: 'ControllerDemoLayout'
-  }, {
-    state: 'demo.instance',
-    abstract: false,
-    url: '^/demo/:userName/:instanceName',
-    templateUrl: 'viewInstance',
-    controller: 'ControllerInstance'
-  }, {
-    state: 'demo.instanceEdit',
-    abstract: false,
-    url: '^/demo/:userName/:instanceName/edit/:buildId',
-    templateUrl: 'viewInstanceEdit',
-    controller: 'ControllerInstanceEdit',
-    data: {
-      bodyClass: {
-        'guide-backdrop': true
-      }
-    }
+  // }, {
+  //   state: 'demo',
+  //   abstract: true,
+  //   templateUrl: 'viewDemoLayout',
+  //   controller: 'ControllerDemoLayout'
+  // }, {
+  //   state: 'demo.instance',
+  //   abstract: false,
+  //   url: '^/demo/:userName/:instanceName',
+  //   templateUrl: 'viewInstance',
+  //   controller: 'ControllerInstance'
+  // }, {
+  //   state: 'demo.instanceEdit',
+  //   abstract: false,
+  //   url: '^/demo/:userName/:instanceName/edit/:buildId',
+  //   templateUrl: 'viewInstanceEdit',
+  //   controller: 'ControllerInstanceEdit',
+  //   data: {
+  //     bodyClass: {
+  //       'guide-backdrop': true
+  //     }
+  //   }
   }, {
     state: 'base',
     abstract: true,
