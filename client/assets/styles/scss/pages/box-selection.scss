@@ -35,11 +35,8 @@
       cursor: pointer;
     }
 
-    &:last-child::after {
-      background: rgba($black,.1);
-      height: 1px;
-      position: absolute;
-      top: 0;
+    &:last-child {
+      border-top: 1px solid rgba($black,.1);
     }
   }
 
@@ -61,6 +58,7 @@
 
   // 2nd and 3rd rows
   .p {
+    color: $gray-light;
     float: left;
     font-size: 14px;
     line-height: 72px;
@@ -69,5 +67,6 @@
   .green {
     float: right;
     margin: 18px auto;
+    width: 90px;
   }
 }
