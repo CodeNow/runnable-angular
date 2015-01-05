@@ -3,49 +3,47 @@ main.home.box-selection
   ol.list.list-bordered.list-divided
     li.list-item(
       ng-class = "{in: data.listExpand}"
+      ng-click = "data.listExpand = !data.listExpand"
     )
       .list-item-row
         h4.h4.header-thin anand-api
-        button.btn.btn-sm.gray(
-          ng-click = "data.listExpand = !data.listExpand"
-        ) Choose
-          svg.iconnables.icons-arrow-down
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
       .list-item-row
+        p.p Fork this server to run your code
+        button.btn.btn-sm.green Fork
+      .list-item-row
+        p.p Overwrite this server to run your code
+        button.btn.btn-sm.green Overwrite
     li.list-item
       h4.h4.header-thin anton-api-01
-      button.btn.btn-sm.gray Choose
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
     li.list-item
       h4.h4.header-thin bryan-api
-      button.btn.btn-sm.gray Choose
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
     li.list-item
       h4.h4.header-thin casey_api
-      button.btn.btn-sm.gray Choose
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
     li.list-item
       h4.h4.header-thin nathan-api
-      button.btn.btn-sm.gray Choose
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
     li.list-item
       h4.h4.header-thin nathan-api-copy
-      button.btn.btn-sm.gray Choose
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )

@@ -8,7 +8,7 @@
 
   .list {
     margin: 0 auto 30px;
-    width: 400px;
+    width: 600px;
   }
 
   .list-item {
@@ -18,7 +18,7 @@
     transition: height .2s ease-in;
 
     &.in {
-      height: 144px;
+      height: 216px;
 
       .iconnables {
         transform: rotate3d(0,0,1,0);
@@ -28,23 +28,46 @@
 
   .list-item-row {
     height: 72px;
+    position: relative;
     width: 100%;
+
+    &:first-child {
+      cursor: pointer;
+    }
+
+    &:last-child::after {
+      background: rgba($black,.1);
+      height: 1px;
+      position: absolute;
+      top: 0;
+    }
   }
 
+  // server name
   .h4 {
     float: left;
     height: 100%;
     line-height: 72px;
   }
 
-  .gray {
+  // 1st row
+  .iconnables {
+    color: $green;
+    float: right;
+    height: 72px;
+    transform: rotate3d(0,0,1,-90deg);
+    width: 36px;
+  }
+
+  // 2nd and 3rd rows
+  .p {
+    float: left;
+    font-size: 14px;
+    line-height: 72px;
+  }
+
+  .green {
     float: right;
     margin: 18px auto;
-
-    .iconnables {
-      margin-left: 6px;
-      top: 6px;
-      transform: rotate3d(0,0,1,-90deg);
-    }
   }
 }
