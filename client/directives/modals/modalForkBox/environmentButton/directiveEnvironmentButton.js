@@ -60,7 +60,6 @@ function environmentButton(
         // Programatic update of env due to instance name change
         keypather.set($scope, 'item.state.envVars',
           $scope.envToObjects(keypather.get($scope, 'item.opts.env')));
-        $rootScope.safeApply();
       });
 
     }

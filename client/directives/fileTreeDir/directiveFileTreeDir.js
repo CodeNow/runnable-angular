@@ -178,7 +178,6 @@ function fileTreeDir(
                     $scope.dir.contents.fetch(cb);
                   }
                 ], function () {
-                  $rootScope.safeApply();
                   cb();
                 });
               }
@@ -222,11 +221,9 @@ function fileTreeDir(
           if (file) {
             keypather.set(file, 'state.renaming', true);
           }
-          $rootScope.safeApply(function () {
-            if (!$scope.readOnly) {
-              actions.makeSortable();
-            }
-          });
+          if (!$scope.readOnly) {
+            actions.makeSortable();
+          }
           if (err) {
             throw err;
           }

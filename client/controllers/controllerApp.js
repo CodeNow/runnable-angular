@@ -50,7 +50,6 @@ function ControllerApp(
             dataApp.data.activeAccount = thisUser;
           }
           $rootScope.$broadcast('INSTANCE_LIST_FETCH', dataApp.data.activeAccount.oauthName());
-          $rootScope.safeApply();
         }
       });
     }
@@ -115,7 +114,6 @@ function ControllerApp(
           $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
           $window.olark('api.box.show');
         }
-        $rootScope.safeApply();
       });
     } else {
       return errs.handler(err);

@@ -33,11 +33,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         data: {},
         stateParams: {}
       };
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
     modelStore.reset();
   }

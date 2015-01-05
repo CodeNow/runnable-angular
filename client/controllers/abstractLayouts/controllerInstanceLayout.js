@@ -10,6 +10,7 @@ function ControllerInstanceLayout(
   $stateParams,
   errs,
   $rootScope,
+  $timeout,
   keypather,
   async,
   $scope
@@ -36,7 +37,8 @@ function ControllerInstanceLayout(
       function (cb) {
         $rootScope.dataApp.state.loadingInstances = true;
         $rootScope.dataApp.data.instances = null;
-        $rootScope.safeApply(cb);
+        // Using $timeout to trigger digest
+        $timeout(cb);
       },
       function (cb) {
         fetchInstances(username, true, cb);
@@ -45,7 +47,7 @@ function ControllerInstanceLayout(
         if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
           $rootScope.dataApp.data.instances = instances;
           $rootScope.dataApp.state.loadingInstances = false;
-          $rootScope.safeApply(cb);
+          $timeout(cb);
         } else {
           cb();
         }
