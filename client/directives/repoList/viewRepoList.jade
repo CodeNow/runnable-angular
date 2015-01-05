@@ -13,7 +13,9 @@ h2.sub-header Repositories
       )
 
   add-repo-popover(
-    show = "data.show"
+    show = "data.show"                            
+    enabled = "allowMultipleRepos || \
+              (showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0)"
   )
 
   show-demo-modal(
@@ -39,10 +41,13 @@ ul.repository-group
     ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
     unsaved-app-code-version = "unsavedAcv"
   )
-    li.list-details
+    li.list-details(
+      ng-hide = "dontShowLock"
+    )           
       .small Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories.
       label.label-checkbox.btn.btn-sm Disable auto-deploy
         input.input-checkbox(
+          checked
           ng-model = "data.restartOnSave"
           type = "checkbox"
         )

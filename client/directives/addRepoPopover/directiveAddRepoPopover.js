@@ -15,19 +15,21 @@ function addRepoPopover(
   user
 ) {
   return {
-    replace: true,
     restrict: 'E',
     templateUrl: 'viewAddRepoPopover',
     scope: {
-      show: '='
+      show: '=',
+      enabled: '='
     },
     link: function ($scope, elem, attrs) {
 
       // rules for display based on state name
-      if ($state.$current.name === 'instance.instance') {
-        $scope.enabled = false;
-      } else {
-        $scope.enabled = true;
+      if ($scope.enabled === undefined) {
+        if ($state.$current.name === 'instance.instance') {
+          $scope.enabled = false;
+        } else {
+          $scope.enabled = true;
+        }
       }
       $scope.repoListPopover = {
         data: {},

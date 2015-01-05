@@ -25,16 +25,18 @@ function repoList(
       // Object to pass reference instead of value
       // into child directive
       $scope.data = {
-        show: false,
+        show: false
       };
 
       // display guide if no repos added
       switch ($state.$current.name) {
         case 'instance.setup':
           $scope.showAddFirstRepoMessage = true;
+          $scope.dontShowLock = true;
           break;
         case 'instance.instanceEdit':
           $scope.showAddFirstRepoMessage = false;
+          $scope.allowMultipleRepos = true;
           break;
         case 'instance.instance':
           $scope.showAddFirstRepoMessage = false;

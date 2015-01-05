@@ -1,0 +1,45 @@
+.li.accounts-group-item
+  .setup-page-dependency-box.text-overflow(
+    ng-repeat = "dep in state.dependencies.models"
+  )
+    span {{dep.attrs.name}}
+      button.btn.btn-xs.white(
+        type = "button"
+      ) Connect existing instance
+      button.btn.btn-xs.white(
+        type = "button"
+        ng-click = "actions.removeDep(dep)"
+      ) Remove
+//- add button
+button.btn.btn-xs.white.sub-header-action.btn-add-repo(
+ng-class = "{active: addDependencyPopover.data.show}"
+toggle-pop-over
+toggle-pop-over-model = "addDependencyPopover.data.show"
+type = "button"
+)
+  svg.iconnables.icons-add
+    use(
+    xlink:href = "#icons-add"
+    )
+  pop-over(
+  actions = "actions"
+  data = "addDependencyPopover.data"
+  popover-options = "{\"left\":-117,\"top\":45}"
+  template = "viewPopoverAddRepo"
+  )
+
+.setup-page-dependency-box(
+  ng-repeat = "dep in state.dependencies.models"
+  )
+  .setup-page-dependency-box(
+    ng-repeat = "env in dep.requiredEnvs"
+    )
+      h3.popover-title
+        input.input.input-search(
+        autofocus
+        ng-model = "env.envName"
+        placeholder = "Enter a Env Name"
+        required
+        select-on = "data.showFilter"
+        )
+      span {{env.url}}

@@ -1,0 +1,22 @@
+.setup-page-repo-list(
+  repo-list
+  loading = "dataApp.data.loading"
+)
+.setup-page-repo-list(
+  setup-stack-selector
+  state = "state"
+  data = "data"
+)
+.setup-page-repo-list(
+  setup-stack-dependencies
+  state = "state"
+)
+.primary-actions
+  //- remove .orange, add .green when validation passes
+  button.btn(
+  ng-class = "{ \
+      orange: (true), \
+      green: (isNameValid && isDockerFileValid) \
+    }"
+  ng-click = "build()"
+  ) Create Box
