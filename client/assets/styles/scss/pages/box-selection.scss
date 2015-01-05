@@ -14,9 +14,50 @@
   }
 
   // instruction text
-  > .h3 {
-    margin: 90px auto 30px;
-    text-align: center;
+  > .h3.header-thin {
+    margin: 90px auto 0;
+    max-width: 600px;
+    text-align: left;
+  }
+
+  // link quote
+  .link-quote {
+    border-left: 3px solid rgba($black,.1);
+    color: $gray;
+    display: block;
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 15px auto 30px;
+    max-width: 600px;
+    padding-left: 15px;
+    text-align: left;
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+      border-color: rgba($blue,.4);
+    }
+
+    .gravatar {
+      float: left;
+      margin-right: 6px;
+    }
+
+    .iconnables {
+      float: left;
+      height: 18px;
+      left: -2px;
+      top: -1px;
+      width: 18px;
+    }
+
+    .small {
+      color: $gray-lighter;
+      display: block;
+      height: 18px;
+      line-height: 18px;
+      margin-top: 3px;
+    }
   }
 
   .list {
@@ -65,7 +106,7 @@
   }
 
   // 1st row
-  .iconnables {
+  .list-item .iconnables {
     color: $green;
     float: right;
     height: 72px;
