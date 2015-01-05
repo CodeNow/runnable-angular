@@ -8,50 +8,6 @@
     text-align: center;
   }
 
-  .h1 {
-    font-size: 72px;
-
-    @include media(sm) {
-      font-size: 60px;
-    }
-
-    @include media(xs) {
-      font-size: 48px;
-    }
-
-    @include media(xxs) {
-      font-size: 36px;
-    }
-  }
-
-  .h2 {
-    font-size: 48px;
-
-    @include media(sm) {
-      font-size: 36px;
-    }
-  }
-
-  .h3 {
-    font-size: 30px;
-
-    @include media(sm) {
-      font-size: 27px;
-    }
-
-    @include media(xs) {
-      font-size: 24px;
-    }
-
-    @include media(xxs) {
-      font-size: 21px;
-    }
-  }
-
-  .h4 {
-    font-size: 18px;
-  }
-
   // no underline by default
   .link-text {
     text-decoration: none;
