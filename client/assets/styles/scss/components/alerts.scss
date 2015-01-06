@@ -1,26 +1,15 @@
 .alert {
+  animation: alert .3s ease-in forwards;
   border-radius: 3px;
-  font-weight: 300;
-  height: 36px;
-  left: 240px;
-  line-height: 36px;
+  left: 0;
   margin: 0 auto;
+  max-width: 540px;
   opacity: 0;
-  padding: 0 6px;
-  pointer-events: none;
+  padding: 15px;
   position: fixed;
   right: 0;
-  top: 12px;
-  width: 276px;
+  top: 7px; // aligned with header actions
   z-index: $z-alert;
-
-  &.in {
-    animation: alert 5s ease-in;
-  }
-
-  &.green {
-    background: #ecfaef; // rgba($green,.1);
-  }
 
   > .iconnables {
     margin-right: 6px;
@@ -31,11 +20,25 @@
     float: right;
     opacity: .5;
     padding: 0;
-    top: 6px;
 
     &:hover,
     &:active {
       opacity: 1;
+    }
+  }
+
+  // styles for orange alerts
+  &.orange {
+    background: rgba($orange,.95);
+
+    .block-quote {
+      border-color: rgba($white,.6);
+      color: $white;
+
+      &:hover,
+      &:active {
+        border-color: rgba($white,.9);
+      }
     }
   }
 }

@@ -14,43 +14,12 @@
   }
 }
 
-@keyframes click {
-  16.6% {
-    transform: translateY(-20px) rotate(17deg);
-  }
-  33.3% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px) rotate(-17deg);
-  }
-  66.6% {
-    transform: translateY(0);
-  }
-  83.3% {
-    transform: translateY(-5px) rotate(17deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0);
-  }
-}
-
 @keyframes fade-in {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
-  }
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0,0,0);
   }
 }
 
