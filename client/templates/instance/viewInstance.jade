@@ -1,17 +1,35 @@
 //- add class .in to display
 //- .in if model's containers collection populated;
     indicates model is deployed
-//- .alert.green(
-//-   ng-class = "{ \
-//-     in: (dataInstance.data.showFinishMessageWhenContainerFetched && \
-//-          dataInstance.data.instance.containers.models.length) \
-//-   }"
-//- )
-  svg.iconnables.icons-check
-    use(
-      xlink:href = "#icons-check"
-    )
-  | Your box has finished building.
+.alert.orange(
+  ng-class = "{ \
+    in: (dataInstance.data.showFinishMessageWhenContainerFetched && \
+         dataInstance.data.instance.containers.models.length) \
+  }"
+)
+  button.btn.btn-xs.btn-close
+    svg.iconnables.icons-close
+      use(
+        xlink:href = "#icons-close"
+      )
+  h4.h4 Your server is being updated…
+  a.block-quote(
+    href = "#"
+    target = "_blank"
+  ) scope objects for guide-tips & listener to remove after viewing
+    small.small
+      svg.iconnables.icons-branch
+        use(
+          xlink:href = "#icons-branch"
+        )
+      | CodeNow/runnable-angular@SAN-548-walk
+    small.small
+      img.gravatar(
+        height = "15"
+        src = "https://camo.githubusercontent.com/fb19fe1e94d8d24c25d32d09bcdcdb7a9e7c76f9/687474703a2f2f7777772e67726176617461722e636f6d2f6176617461722f66643363383036663934393236636265363833663364646338373861653464333f733d3634"
+        width = "15"
+      )
+      | cflynn07
 
 header.box-header
 
