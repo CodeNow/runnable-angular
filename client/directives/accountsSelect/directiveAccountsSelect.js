@@ -24,6 +24,7 @@ function accountsSelect (
         },
         data: $scope.data
       };
+      $scope.popoverAccountMenu.data.dataModalIntegrations = $scope.data;
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
         $scope.popoverAccountMenu.data.show = false;
@@ -36,8 +37,16 @@ function accountsSelect (
         });
       };
 
-      $scope.popoverAccountMenu.actions.actionsModalIntegrations.closePopover = function() {
+      var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;
+      var mData = $scope.popoverAccountMenu.data.dataModalIntegrations;
+
+      mData.modalActiveAccount = mData.user;
+
+      mActions.closePopover = function() {
         $scope.popoverAccountMenu.data.show = false;
+      };
+      mActions.setActive = function(account) {
+        mData.modalActiveAccount = account;
       };
     }
   };

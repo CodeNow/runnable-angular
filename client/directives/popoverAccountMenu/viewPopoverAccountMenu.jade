@@ -8,8 +8,7 @@
       //- current user (if user is not active)
       li.list-item.popover-list-item(
         ng-if = "data.user !== data.activeAccount"
-        ng-click = "$event.stopPropagation(); \
-          actions.selectActiveAccount(data.user)"
+        ng-click = "actions.selectActiveAccount(data.user)"
       )
         a.list-link
           img.gravatar(
@@ -19,8 +18,7 @@
           )
           | {{ data.user.oauthName() }}
       li.list-item.popover-list-item(
-        ng-click = "$event.stopPropagation(); \
-           actions.selectActiveAccount(org)"
+        ng-click = "actions.selectActiveAccount(org)"
         ng-if = "org !== data.activeAccount"
         ng-repeat = "org in data.orgs.models"
       )
