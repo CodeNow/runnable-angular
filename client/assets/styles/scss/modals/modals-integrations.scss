@@ -1,11 +1,16 @@
 .modal-integrations {
 
+  @include media(xs) {
+    overflow-y: auto;
+  }
+
   .modal-body {
     display: table-cell;
     padding: 6px;
 
     @include media(xs) {
       display: block;
+      overflow: visible;
     }
   }
 

@@ -53,6 +53,8 @@
   }
 
   // icons with fill
+  &.icons-add,
+  &.icons-arrow-down,
   &.icons-branch,
   &.icons-commit,
   &.icons-docker,
@@ -62,6 +64,7 @@
   &.icons-forked,
   &.icons-git,
   &.icons-link,
+  &.icons-minimize,
   &.icons-private,
   &.icons-repository,
   &.icons-runnable,
@@ -72,9 +75,6 @@
   }
 
   // icons with stroke
-  &.icons-add,
-  &.icons-arrow-down,
-  &.icons-arrow-left,
   &.icons-back,
   &.icons-check,
   &.icons-chevron-left,

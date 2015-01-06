@@ -9,6 +9,7 @@
 
   @include media(xs) {
     border-bottom: 1px solid rgba($black,.1);
+    border-radius: 3px 3px 0 0;
     display: block;
     width: 100%;
   }
