@@ -38,7 +38,7 @@
   line-height: 45px;
   margin: 0 auto 6px;
   overflow: hidden;
-  padding: 0 23px 0 9px;
+  padding: 0;
   position: relative;
   text-align: left;
   text-overflow: ellipsis;
@@ -85,6 +85,7 @@
 .box-item-name {
   color: $gray;
   display: block;
+  padding: 0 23px 0 9px;
   text-decoration: none;
   transition: opacity .2s ease-in;
 }
