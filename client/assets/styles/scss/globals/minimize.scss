@@ -1,6 +1,5 @@
 // global structure
-// nav.sidebar.global-sidebar.minimize
-.global-sidebar.minimize {
+.minimize .global-sidebar {
   position: static;
   width: 60px;
 
@@ -78,7 +77,11 @@
   }
 }
 
-// hide .nav-tooltips when not minimized
-.nav-open ~ .nav-tooltips {
+// hide .nav-tooltips unless minimized
+.nav-tooltips {
   display: none;
+
+  .minimize & {
+    display: block;
+  }
 }
