@@ -41,4 +41,19 @@
       }
     }
   }
+
+  // styles for green alerts
+  &.green {
+    background: rgba($green,.95);
+
+    .block-quote {
+      border-color: rgba($white,.6);
+      color: $white;
+
+      &:hover,
+      &:active {
+        border-color: rgba($white,.9);
+      }
+    }
+  }
 }
