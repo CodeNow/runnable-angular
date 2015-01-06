@@ -1,6 +1,6 @@
 .alert {
   animation: alert .3s ease-in forwards;
-  border-radius: 3px;
+  border-radius: 6px;
   left: 0;
   margin: 0 auto;
   max-width: 540px;
@@ -30,6 +30,21 @@
   // styles for orange alerts
   &.orange {
     background: rgba($orange,.95);
+
+    .block-quote {
+      border-color: rgba($white,.6);
+      color: $white;
+
+      &:hover,
+      &:active {
+        border-color: rgba($white,.9);
+      }
+    }
+  }
+
+  // styles for green alerts
+  &.green {
+    background: rgba($green,.95);
 
     .block-quote {
       border-color: rgba($white,.6);

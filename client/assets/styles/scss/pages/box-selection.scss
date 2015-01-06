@@ -26,50 +26,21 @@
 
   // block-quote
   .block-quote {
-    border-left: 3px solid rgba($black,.1);
+    border-color: rgba($black,.1);
     color: $gray;
-    display: block;
-    font-size: 16px;
-    line-height: 1.4;
-    margin: 15px auto 30px;
-    max-width: 600px;
-    padding-left: 15px;
-    text-align: left;
-    text-decoration: none;
-
-    @include media(xs) {
-      margin: 15px 15px 30px;
-    }
 
     &:hover,
     &:active {
       border-color: rgba($blue,.4);
     }
 
-    .gravatar {
-      float: left;
-      margin-right: 6px;
-    }
-
-    .iconnables {
-      float: left;
-      height: 18px;
-      left: -2px;
-      top: -1px;
-      width: 18px;
-    }
-
     .small {
       color: $gray-lighter;
-      display: block;
-      height: 18px;
-      line-height: 18px;
-      margin-top: 3px;
     }
   }
 
   .list {
-    margin: 0 auto 30px;
+    margin: 30px auto;
     max-width: 600px;
 
     @include media(xs) {
