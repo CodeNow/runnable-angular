@@ -61,31 +61,29 @@
   &.icons-commit,
   &.icons-docker,
   &.icons-edit,
-  &.icons-filter,
+  &.icons-folder-open,
   &.icons-fork,
-  &.icons-forked,
+  &.icons-gear,
   &.icons-git,
   &.icons-logs,
   &.icons-minimize,
   &.icons-private,
   &.icons-repository,
+  &.icons-run,
   &.icons-runnable,
   &.icons-search,
-  &.icons-update {
+  &.icons-sidebar,
+  &.icons-terminal,
+  &.icons-update,
+  &.icons-web {
     fill: currentColor;
     stroke: none;
   }
 
   // icons with stroke
-  &.icons-exit,
   &.icons-file,
   &.icons-file-open,
-  &.icons-folder,
-  &.icons-folder-open,
-  &.icons-gear,
-  &.icons-run,
-  &.icons-sidebar,
-  &.icons-web {
+  &.icons-folder {
     fill: none;
     stroke: currentColor;
   }
