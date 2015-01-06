@@ -1,14 +1,13 @@
 .alert {
   animation: alert .3s ease-in forwards;
   border-radius: 6px;
-  left: 0;
-  margin: 0 auto;
+  bottom: 6px;
+  margin-left: 6px;
   max-width: 540px;
   opacity: 0;
   padding: 15px;
   position: fixed;
-  right: 0;
-  top: 7px; // aligned with header actions
+  right: 6px;
   z-index: $z-alert;
 
   > .iconnables {
@@ -25,6 +24,10 @@
     &:active {
       opacity: 1;
     }
+  }
+
+  .block-quote {
+    margin: 15px;
   }
 
   // styles for orange alerts

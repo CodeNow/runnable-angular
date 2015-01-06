@@ -64,9 +64,7 @@
   }
 
   .icons-status {
-    left: 0;
-    margin: 0 auto;
-    right: 0;
+    right: 16px;
   }
 
   // resize nav footer
@@ -83,9 +81,4 @@
 // hide .nav-tooltips when not minimized
 .nav-open ~ .nav-tooltips {
   display: none;
-}
-
-// offset alerts
-.nav-open .alert {
-  left: 60px;
 }
