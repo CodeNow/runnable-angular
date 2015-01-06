@@ -18,20 +18,14 @@ function accountsSelect (
     },
     link: function ($scope, elem, attrs) {
 
-      // outside click, close list
-      $scope.$on('app-document-click', function () {
-        $scope.isChangeAccount = false;
-      });
+      $scope.popoverAccountMenu = {
+        actions: {},
+        data: $scope.data
+      };
 
-      // control collapse/expand accounts list
-      $scope.isChangeAccount = false;
-
-      $scope.selectActiveAccount = function (userOrOrg) {
-        if (!$scope.isChangeAccount) { return; }
-        // close list
-        $scope.isChangeAccount = false;
+      $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
+        $scope.popoverAccountMenu.data.show = false;
         var username = userOrOrg.oauthName();
-        //
         $scope.data.activeAccount = userOrOrg;
         $scope.data.instances = null;
         $scope.$emit('INSTANCE_LIST_FETCH', username);
