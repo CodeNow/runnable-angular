@@ -40,7 +40,12 @@ function accountsSelect (
       var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;
       var mData = $scope.popoverAccountMenu.data.dataModalIntegrations;
 
-      mData.modalActiveAccount = mData.user;
+      var unwatch = $scope.$watch('popoverAccountMenu.data.dataModalIntegrations.user', function(n) {
+        if (n) {
+          mData.modalActiveAccount = mData.user;
+          unwatch();
+        }
+      });
 
       mActions.closePopover = function() {
         $scope.popoverAccountMenu.data.show = false;
