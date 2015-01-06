@@ -1,6 +1,7 @@
 .setup-page-repo-list(
   repo-list
   loading = "dataApp.data.loading"
+  build = "build"
 )
 .setup-page-repo-list(
   setup-stack-selector
@@ -18,5 +19,5 @@
       orange: (true), \
       green: (isNameValid && isDockerFileValid) \
     }"
-  ng-click = "build()"
+  ng-click = "actions.createAndBuild()"
   ) Create Box

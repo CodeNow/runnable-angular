@@ -17,7 +17,9 @@ function repoList(
     restrict: 'A',
     templateUrl: 'viewRepoList',
     scope: {
-      loading: '='
+      loading: '=',
+      build: '=',
+      instance: '='
     },
     link: function ($scope, elem) {
 
@@ -28,6 +30,7 @@ function repoList(
         show: false
       };
 
+      $scope.unsavedAcvs = [];
       // display guide if no repos added
       switch ($state.$current.name) {
         case 'instance.setup':
@@ -48,7 +51,6 @@ function repoList(
 
       // track all temp acvs generated
       // for each repo/child-scope
-      $scope.unsavedAcvs = [];
       $scope.newUnsavedAcv = function (acv) {
         var cv = $scope.build.contextVersions.models[0];
         var newAcv = cv.newAppCodeVersion(acv.toJSON(), {
@@ -63,12 +65,14 @@ function repoList(
 
       // selected repo commit change
       $scope.$on('acv-change', function (event, opts) {
-        event.stopPropagation();
-        if ($scope.unsavedAcvs.length === 1) {
-          // Immediately update/rebuild if user only has 1 repo
-          $scope.triggerInstanceUpdateOnRepoCommitChange();
-        } else if (opts && opts.triggerBuild) {
-          $scope.triggerInstanceUpdateOnRepoCommitChange();
+        if ($state.$current.name !== 'instance.setup') {
+          event.stopPropagation();
+          if ($scope.unsavedAcvs.length === 1) {
+            // Immediately update/rebuild if user only has 1 repo
+            $scope.triggerInstanceUpdateOnRepoCommitChange();
+          } else if (opts && opts.triggerBuild) {
+            $scope.triggerInstanceUpdateOnRepoCommitChange();
+          }
         }
       });
 
@@ -115,25 +119,14 @@ function repoList(
         // if we find this contextVersion, reuse it.
         // otherwise create a new one
         function findOrCreateContextVersion(cb) {
-          var foundCVs = context.fetchVersions({
-            infraCodeVersion: infraCodeVersionId,
-            appCodeVersions: appCodeVersionStates
-          }, function (err) {
-            if (err) {
-              return cb(err);
-            }
-            if (foundCVs.models.length) {
-              return cb(null, foundCVs.models[0]);
-            }
-            var body = {
-              infraCodeVersion: infraCodeVersionId
-            };
-            var newContextVersion = context.createVersion(body, function (err) {
-              async.each(appCodeVersionStates, function (acvState, cb) {
-                newContextVersion.appCodeVersions.create(acvState, cb);
-              }, function (err) {
-                cb(err, newContextVersion);
-              });
+          var body = {
+            infraCodeVersion: infraCodeVersionId
+          };
+          var newContextVersion = context.createVersion(body, function (err) {
+            async.each(appCodeVersionStates, function (acvState, cb) {
+              newContextVersion.appCodeVersions.create(acvState, cb);
+            }, function (err) {
+              cb(err, newContextVersion);
             });
           });
         }
@@ -180,64 +173,11 @@ function repoList(
         }
       };
 
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.instance = instance;
-            $scope.build = instance.build;
-            $rootScope.safeApply();
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
-            $rootScope.safeApply();
-            cb(err);
-          })
-          .go();
-      }
-
-      function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
+      fetchUser(function(err, user) {
+        if (!err) {
+          $scope.user = user;
         }
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) { throw err; }
-            $rootScope.safeApply();
-            cb();
-          })
-          .go();
-      }
-
-      async.series([
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          });
-        },
-        fetchBuild
-      ]);
+      });
 
     }
   };

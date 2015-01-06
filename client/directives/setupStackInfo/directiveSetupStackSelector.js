@@ -24,11 +24,13 @@ function setupStackSelector(
         keypather.set($scope, 'state.version.' + version.name, version);
       });
       $scope.$watch('state.stack', function (stack, p) {
-        stack.versionReqs.forEach(function (version) {
-          keypather.set($scope, 'state.version.' + version.name, version.selected);
-        });
-        keypather.set($scope, 'state.ports', stack.ports.join(','));
-        keypather.set($scope, 'state.startCommand', stack.startCommand);
+        if (stack) {
+          stack.versionReqs.forEach(function (version) {
+            keypather.set($scope, 'state.version.' + version.name, version.selected);
+          });
+          keypather.set($scope, 'state.ports', stack.ports.join(','));
+          keypather.set($scope, 'state.startCommand', stack.startCommand);
+        }
       });
     }
   };
