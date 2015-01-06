@@ -1,4 +1,5 @@
 .alert {
+  animation: alert .3s ease-in forwards;
   border-radius: 3px;
   left: 0;
   margin: 0 auto;
@@ -9,10 +10,6 @@
   right: 0;
   top: 7px; // aligned with header actions
   z-index: $z-alert;
-
-  &.in {
-    animation: alert .3s ease-in forwards;
-  }
 
   > .iconnables {
     margin-right: 6px;

@@ -1,12 +1,7 @@
-//- add class .in to display
-//- .in if model's containers collection populated;
-    indicates model is deployed
-.alert.orange(
-  ng-class = "{ \
-    in: (dataInstance.data.showFinishMessageWhenContainerFetched && \
-         dataInstance.data.instance.containers.models.length) \
-  }"
-)
+//- show if server build is being swapped out
+//- .alert.orange(
+//-   ng-if = ""
+//- )
   button.btn.btn-xs.btn-close
     svg.iconnables.icons-close
       use(
