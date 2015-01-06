@@ -50,11 +50,11 @@
           ng-click = "$event.stopPropagation()"
           target = "_blank"
         ) {{ ::commit.attrs.sha.substring(0, 7) }}
-    //- only show if 36 or more commits in this branch
     //- only show the needed buttons (so newer would not show if on the 'latest commit' page)
-    li.btn-group.clearfix
-      .btn.btn-sm.gray Newer
-      .btn.btn-sm.gray Older
+    //- Disabled until customer demand
+    //- li.btn-group.clearfix
+    //-   .btn.btn-sm.gray Newer
+    //-   .btn.btn-sm.gray Older
 
     //- older things:
     //- button.btn.btn-icon.btn-search(

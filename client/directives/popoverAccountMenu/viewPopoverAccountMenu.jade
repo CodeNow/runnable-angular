@@ -5,26 +5,32 @@
   .popover-content
     ul.popover-body.popover-list
       li.list-item.popover-list-item.small Change Organization
-      li.list-item.popover-list-item
-        a.list-link(
-          href = "#"
-        )
+      //- current user (if user is not active)
+      li.list-item.popover-list-item(
+        ng-if = "data.user !== data.activeAccount"
+        ng-click = "$event.stopPropagation(); \
+          actions.selectActiveAccount(data.user)"
+      )
+        a.list-link
           img.gravatar(
             height = "24"
-            src = "https://avatars2.githubusercontent.com/u/9753912?v=3&s=60"
+            ng-src = "{{ data.user.gravitar() }}"
             width = "24"
           )
-          | SnapUpDemo
-      li.list-item.popover-list-item
-        a.list-link(
-          href = "#"
-        )
+          | {{ data.user.oauthName() }}
+      li.list-item.popover-list-item(
+        ng-click = "$event.stopPropagation(); \
+           actions.selectActiveAccount(org)"
+        ng-if = "org !== data.activeAccount"
+        ng-repeat = "org in data.orgs.models"
+      )
+        a.list-link
           img.gravatar(
             height = "24"
-            src = "https://avatars3.githubusercontent.com/u/2828361?v=3&u=f6caf0ed414ff4693585e781657dc759f0028602&s=60"
+            ng-src = "{{ org.gravitar() }}"
             width = "24"
           )
-          | Runnable
+          | {{ org.oauthName() }}
     ul.popover-body.popover-list
       li.list-item.popover-list-item(
         modal
