@@ -5,6 +5,7 @@ require('app')
  */
 function modal(
   $templateCache,
+  $timeout,
   $compile,
   keypather,
   $rootScope,
@@ -64,9 +65,11 @@ function modal(
         if (typeof keypather.get($scope, 'actions.closePopover') === 'function') {
           $scope.actions.closePopover();
         }
+        // Trigger a digest cycle
+        $timeout(angular.noop);
       }
 
-      element[0].onclick = createModal;
+      element.on('click', createModal);
       $scope.$watch('data.in', function(n) {
         if (n === true) {
           createModal();
