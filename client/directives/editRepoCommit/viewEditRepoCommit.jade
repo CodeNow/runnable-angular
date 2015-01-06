@@ -22,21 +22,6 @@ svg.iconnables.icons-repository
     | {{ activeCommit.attrs.commit.message }}
     small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
 
-//- if instance.instance and behind latest
-button.btn.btn-xs.white.repository-update(
-  ng-click = "selectLatestCommit()"
-  ng-if = "!showEditGearMenu && commitsBehind"
-  tooltip = "Fast-forward {{ unsavedAcv.attrs.branch }} \
-    ({{ commitsBehind ? \
-    commitsBehind+' commits behind' : \
-    'To latest' }})"
-  tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-) {{ commitsBehind }}
-  svg.iconnables.icons-update
-    use(
-      xlink:href = "#icons-update"
-    )
-
 //-
   if instance.setup || instance.instanceEdit
 button.btn.btn-xs.btn-repository-settings(

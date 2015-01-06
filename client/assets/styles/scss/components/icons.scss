@@ -57,6 +57,7 @@
   &.icons-arrow-down,
   &.icons-branch,
   &.icons-check,
+  &.icons-close,
   &.icons-commit,
   &.icons-docker,
   &.icons-edit,
@@ -64,7 +65,6 @@
   &.icons-fork,
   &.icons-forked,
   &.icons-git,
-  &.icons-link,
   &.icons-logs,
   &.icons-minimize,
   &.icons-private,
@@ -77,25 +77,14 @@
   }
 
   // icons with stroke
-  &.icons-close,
-  &.icons-delete,
-  &.icons-error,
   &.icons-exit,
-  &.icons-fail,
   &.icons-file,
   &.icons-file-open,
   &.icons-folder,
   &.icons-folder-open,
   &.icons-gear,
-  &.icons-launch,
-  &.icons-pause,
-  &.icons-rename,
   &.icons-run,
-  &.icons-select,
   &.icons-sidebar,
-  &.icons-start,
-  &.icons-stop,
-  &.icons-stop-alt,
   &.icons-web {
     fill: none;
     stroke: currentColor;
