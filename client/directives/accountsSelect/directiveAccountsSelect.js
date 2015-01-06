@@ -19,7 +19,9 @@ function accountsSelect (
     link: function ($scope, elem, attrs) {
 
       $scope.popoverAccountMenu = {
-        actions: {},
+        actions: {
+          actionsModalIntegrations: {}
+        },
         data: $scope.data
       };
 
@@ -32,6 +34,10 @@ function accountsSelect (
         $state.go('^.home', {
           userName: username
         });
+      };
+
+      $scope.popoverAccountMenu.actions.actionsModalIntegrations.closePopover = function() {
+        $scope.popoverAccountMenu.data.show = false;
       };
     }
   };
