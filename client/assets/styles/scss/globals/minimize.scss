@@ -85,3 +85,14 @@
     display: block;
   }
 }
+
+// position account menu differently if minimize
+.minimize > .popover.popover-account-menu {
+  margin-left: - 90px;
+  margin-top: -15px;
+  transform-origin: 0 0;
+
+  .arrow {
+    display: none;
+  }
+}
