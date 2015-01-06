@@ -16,6 +16,25 @@
   border-radius: 3px;
 }
 
+// .list-validation
+.list-validation {
+  border-color: rgba($orange-dark,.75);
+  margin: 0 6px;
+
+  .list-item {
+    border: 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 14px;
+    letter-spacing: -.5px;
+    padding: 3px 6px;
+    white-space: nowrap;
+
+    + .list-item {
+      border-top: 1px solid rgba($orange-dark,.75);
+    }
+  }
+}
+
 .list-item {
   position: relative;
 
