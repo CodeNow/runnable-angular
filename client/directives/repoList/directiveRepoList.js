@@ -238,12 +238,11 @@ function repoList(
             cb();
           });
         },
-        fetchInstance,
         function (cb) {
-          if ($stateParams.buildId) {
+          if ($state.$current.name === 'instance.setup') {
             return fetchBuild(cb);
           }
-          return cb();
+          return fetchInstance(cb);
         }
       ], errs.handler);
 
