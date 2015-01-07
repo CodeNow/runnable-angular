@@ -3,9 +3,9 @@
   border-radius: 6px;
   bottom: 6px;
   margin-left: 6px;
-  max-width: 540px;
+  max-width: 420px;
   opacity: 0;
-  padding: 15px;
+  padding: 9px 15px;
   position: fixed;
   right: 6px;
   z-index: $z-alert;
@@ -27,7 +27,7 @@
   }
 
   .block-quote {
-    margin: 15px;
+    margin: 12px 0 0;
   }
 
   // styles for orange alerts
