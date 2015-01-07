@@ -14,7 +14,16 @@ function boxSelection (
   // Get build
   // Get list of instances for current user/org
   function fetchBuild (cb) {
-    $scope.build = user.fetchBuild($stateParams.buildId, cb);
+    $scope.build = user.fetchBuild($stateParams.buildId, function (err) {
+      if (err) { return cb(err); }
+      if (!$scope.build.contextVersions.models.length) {
+        return cb(new Error('Could not find contextVersions'));
+      }
+
+      $scope.build.contextVersions.models[0].fetch(function (err) {
+        // todo
+      });
+    });
   }
 
   function fetchInstances (cb) {
