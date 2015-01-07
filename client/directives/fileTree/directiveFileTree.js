@@ -16,7 +16,7 @@ function fileTree(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewFileTree',
     scope: {
       openItems: '='
