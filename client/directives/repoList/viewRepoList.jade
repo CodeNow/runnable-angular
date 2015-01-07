@@ -13,7 +13,8 @@ h2.sub-header Repositories
       )
 
   add-repo-popover(
-    show = "data.show"                            
+    show = "data.show"
+    build = "build"
     enabled = "allowMultipleRepos || \
               (showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0)"
   )

@@ -12,21 +12,24 @@
     required
     select-on = "data.showFilter"
     )
-  .popover-content
+  .spinner-wrapper.spinner-md.in(
+    ng-show = "state.loading"
+    ng-include = "'spinner'"
+  )
+  .popover-content(
+    ng-hide = "state.loading"
+  )
     ul.popover-body.popover-list
       li.popover-list-item(
       ng-click = "actions.addRepo(repo)"
       ng-repeat = "\
           repo in data.githubRepos.models | \
-          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
-          repos:data.repoFilter"
+          unaddedRepos:data.addedRepos | \
+          repos:data.repoFilter as newRepos"
       title = "{{ repo.attrs.full_name }}"
       )
         span {{ repo.attrs.full_name }}
       li.popover-list-item.no-actions(
-      ng-if = "\
-          (data.githubRepos.models | \
-          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
-          repos:data.repoFilter).length === 0"
+      ng-if = "newRepos.length === 0"
       ) No matches
       //- li.popover-list-item.no-actions There's nothing left to add.
