@@ -1,12 +1,15 @@
 var $state, user, fetchInstances, ctx;
 describe('serviceFetchUser'.bold.underline.blue, function () {
   var apiMocks = require('../apiMocks/index');
+  var MockQueryAssist = require('../fixtures/mockQueryAssist');
   beforeEach(function () {
     user = {};
     ctx = {};
+    MockQueryAssist.clearMocks();
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.value('user', user);
+      $provide.value('QueryAssist', MockQueryAssist);
       $provide.value('fetchUser', function(cb) {
         cb(null, user);
       });
@@ -68,105 +71,47 @@ describe('serviceFetchUser'.bold.underline.blue, function () {
    */
 
   it('should fetch the instances the first time', function(done) {
-    user.fetchInstances = sinon.spy(function (opts, innerCb) {
-      expect(opts).to.deep.equal({
-        githubUsername: 'user'
-      });
-      setTimeout(innerCb, 10);
+    var fetchInstancesSpy = sinon.spy(function () {
       return ctx.instanceLists['user'];
     });
+    MockQueryAssist.setMock('fetchInstances', fetchInstancesSpy);
     var cb = sinon.spy(function (err, instances, username) {
-      sinon.assert.called(user.fetchInstances);
+      sinon.assert.called(fetchInstancesSpy);
       expect(instances).to.equal(ctx.instanceLists['user']);
       expect(username).to.equal('user');
       done();
     });
     fetchInstances('user', false, cb);
   });
-  it('should use its own cache when refetching', function(done) {
-    user.fetchInstances = sinon.spy(function (opts, innerCb) {
-      expect(opts).to.deep.equal({
-        githubUsername: 'user'
-      });
-      setTimeout(innerCb, 10);
-      return ctx.instanceLists['user'];
-    });
-    var cb = sinon.spy(function (err, instances, username) {
-      sinon.assert.calledOnce(user.fetchInstances);
-
-      expect(instances).to.equal(ctx.instanceLists['user']);
-      expect(username).to.equal('user');
-      part2();
-    });
-    fetchInstances('user', false, cb);
-    function part2() {
-      user.fetchInstances = sinon.spy(function (opts, innerCb) {
-        innerCb(null, ctx.instanceLists['user'], 'user');
-      });
-      cb = sinon.spy(function (err, instances, username) {
-        sinon.assert.notCalled(user.fetchInstances);
-        expect(instances).to.equal(ctx.instanceLists['user']);
-        expect(username).to.equal('user');
-        done();
-      });
-      fetchInstances('user', false, cb);
-    }
-  });
-  it('should skip its own cache when forced', function(done) {
-    user.fetchInstances = sinon.spy(function (opts, innerCb) {
-      expect(opts).to.deep.equal({
-        githubUsername: 'user'
-      });
-      setTimeout(innerCb, 10);
-      return ctx.instanceLists['user'];
-    });
-    var cb = sinon.spy(function (err, instances, username) {
-      sinon.assert.calledOnce(user.fetchInstances);
-
-      expect(instances).to.equal(ctx.instanceLists['user']);
-      expect(username).to.equal('user');
-      part2();
-    });
-    fetchInstances('user', false, cb);
-    function part2() {
-      user.fetchInstances = sinon.spy(function (opts, innerCb) {
-        innerCb(null, ctx.instanceLists['user'], 'user');
-      });
-      cb = sinon.spy(function (err, instances, username) {
-        sinon.assert.calledOnce(user.fetchInstances);
-        expect(instances).to.equal(ctx.instanceLists['user']);
-        expect(username).to.equal('user');
-        done();
-      });
-      fetchInstances('user', true, cb);
-    }
-  });
   it('should return the correct user with the correct instances when they come out of order', function(done) {
-    var cb1, cb2;
-    var isUser = true;
-    user.fetchInstances = sinon.spy(function (opts, innerCb) {
-      if (opts.githubUsername === 'user') {
-        expect(isUser).to.be.true;
-        isUser = false;
-        cb1 = innerCb;
-      } else {
-        expect(isUser).to.be.false;
-        cb2 = innerCb;
-      }
-      return ctx.instanceLists[opts.githubUsername];
+    var userFunction;
+    var fetchInstancesUser = sinon.spy(function (cb) {
+        userFunction = cb;
     });
-    var doneCb = sinon.spy(function (err, instances, username) {
+    var fetchInstancesOrg = sinon.spy(function(cb) {
+      cb(ctx.instanceLists['org1']);
     });
-    var doneCb2 = sinon.spy(function (err, instances, username) {
-      sinon.assert.notCalled(doneCb);
+    MockQueryAssist.setMockCallback('fetchInstances', fetchInstancesUser, {
+      githubUsername: 'user'
+    });
+    MockQueryAssist.setMockCallback('fetchInstances', fetchInstancesOrg, {
+      githubUsername: 'org1'
+    });
+    var userCb = sinon.spy(function (err, instances, username) {
+    });
+    var orgCb = sinon.spy(function (err, instances, username) {
       expect('org1').to.deep.equal(username);
       expect(instances).to.not.deep.equal(ctx.instanceLists['user']);
       expect(instances).to.deep.equal(ctx.instanceLists[username]);
-      done();
+      userFunction(ctx.instanceLists['user']);
+      setTimeout(function() {
+        sinon.assert.notCalled(userCb);
+        done();
+      }, 10);
     });
-    fetchInstances('user', false, doneCb);
-    fetchInstances('org1', false, doneCb2);
-    cb2();
-    cb1();
+    fetchInstances('user', false, userCb);
+    fetchInstances('org1', false, orgCb);
+    //userFunction(ctx.instanceLists['user']);
+
   });
 });
