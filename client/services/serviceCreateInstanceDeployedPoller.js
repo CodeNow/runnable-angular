@@ -4,6 +4,7 @@ require('app')
  * @ngInject
  */
 function createInstanceDeployedPoller (
+  errs,
   keypather,
   $rootScope,
   $interval
@@ -59,9 +60,7 @@ function createInstanceDeployedPoller (
     function clear() {
       if (this.interval && this.instance) {
         $interval.cancel(this.interval);
-        this.instance.fetch(function () {
-          $rootScope.safeApply();
-        });
+        this.instance.fetch(errs.handler);
       }
     }
     return this;

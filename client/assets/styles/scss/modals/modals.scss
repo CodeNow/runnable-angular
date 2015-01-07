@@ -9,6 +9,7 @@
   justify-content: center;
   opacity: 0;
   overflow: hidden;
+  padding: 15px;
   pointer-events: none;
   position: fixed;
   top: 0;
@@ -33,6 +34,7 @@
   position: relative;
 
   @include media(sm) {
+    max-width: none;
     min-width: 360px;
     width: calc(100% - 30px);
   }
@@ -203,6 +205,11 @@
       right: 15px;
       top: 12px;
     }
+  }
+
+  // nested footer
+  .modal-footer {
+    margin: 60px -6px -6px;
   }
 }
 

@@ -61,11 +61,6 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
       $compile = _$compile_;
       $timeout = _$timeout_;
 
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
     if (scope) {
       Object.keys(scope).forEach(function (key) {
@@ -149,12 +144,7 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
         cb();
       };
       $scope.instance.fetch = function (cb) {
-        $rootScope.safeApply = function(cb) {
-          expect($elScope.saving).to.be.false;
-          expect(ctx.stopCalled).to.be.true;
-          done();
-        };
-        cb();
+        done();
       };
       $scope.$digest();
       $elScope.popoverGearMenu.actions.stopInstance();
@@ -169,12 +159,7 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
         cb();
       };
       $scope.instance.fetch = function (cb) {
-        $rootScope.safeApply = function(cb) {
-          expect($elScope.saving).to.be.false;
-          expect(ctx.startCalled).to.be.true;
-          done();
-        };
-        cb();
+        done();
       };
       $scope.$digest();
       $elScope.popoverGearMenu.actions.startInstance();

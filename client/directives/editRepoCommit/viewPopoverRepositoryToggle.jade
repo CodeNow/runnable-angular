@@ -17,7 +17,7 @@
         use(
           xlink:href = "#icons-branch"
         )
-      | master
+      | {{ data.activeBranch.attrs.name }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -44,17 +44,17 @@
     )
       .toggle-group-title {{ commit.attrs.commit.message }}
       .toggle-group-detail.clearfix
-        small.small {{ commit.attrs.author.login }}—{{ commit.attrs.commit.author.date | timeAgo }}
+        small.small {{ ::commit.attrs.author.login }}-{{ ::commit.attrs.commit.author.date | timeAgo }}
         a.small.link-text(
           ng-href = "{{ commit.attrs.html_url }}"
           ng-click = "$event.stopPropagation()"
           target = "_blank"
-        ) {{ commit.attrs.sha.substring(0, 7) }}
-    //- only show if 36 or more commits in this branch
+        ) {{ ::commit.attrs.sha.substring(0, 7) }}
     //- only show the needed buttons (so newer would not show if on the 'latest commit' page)
-    li.btn-group.clearfix
-      .btn.btn-sm.gray Newer
-      .btn.btn-sm.gray Older
+    //- Disabled until customer demand
+    //- li.btn-group.clearfix
+    //-   .btn.btn-sm.gray Newer
+    //-   .btn.btn-sm.gray Older
 
     //- older things:
     //- button.btn.btn-icon.btn-search(

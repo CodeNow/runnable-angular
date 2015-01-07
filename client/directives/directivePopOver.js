@@ -74,9 +74,7 @@ function popOver(
         if (n) {
           var autofocus = element[0].querySelector('[autofocus]');
           if (autofocus) {
-            $rootScope.safeApply(function() {
-              autofocus.select();
-            });
+            autofocus.select();
           }
         }
       });

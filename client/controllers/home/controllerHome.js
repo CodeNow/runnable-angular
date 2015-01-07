@@ -39,7 +39,6 @@ function ControllerHome(
         fetchUser(function (err, user) {
           if (err) { return cb(err); }
           $scope.user = user;
-          $scope.safeApply();
           cb();
         });
       },

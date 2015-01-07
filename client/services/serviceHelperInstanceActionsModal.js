@@ -75,7 +75,6 @@ function HelperInstanceActionsModal(
         if (!opts.env) { return; }
         $scope.instance.update(opts, function (err) {
           if (err) { throw err; }
-          $rootScope.safeApply();
           // update instances collection to update
           // viewInstanceList
           $scope.instance.redeploy(function(err) {
@@ -111,7 +110,6 @@ function HelperInstanceActionsModal(
         $scope.instance.update({
           name: newName
         }, function (err) {
-          $rootScope.safeApply();
           if (err) { throw err; }
           $state.go('instance.instance', {
             userName: $stateParams.userName,
@@ -145,7 +143,6 @@ function HelperInstanceActionsModal(
         function fork(instance, opts, cb) {
           instance.copy(opts, function (err) {
             if (err) { throw err; }
-            $rootScope.safeApply();
             // update instances collection to update
             // viewInstanceList
             cb();
@@ -180,7 +177,6 @@ function HelperInstanceActionsModal(
       deleteInstance: function () {
         var deletedInstanceName = data.instance.attrs.name;
         data.instance.destroy(function (err) {
-          $rootScope.safeApply();
           keypather.set(
             $localStorage,
             'lastInstancePerUser.' + $stateParams.userName,

@@ -5,6 +5,7 @@ require('app')
  */
 function editRepoCommit(
   async,
+  errs,
   QueryAssist,
   fetchUser,
   keypather,
@@ -50,9 +51,6 @@ function editRepoCommit(
       });
       $scope.$watch('activeCommit', function (n) {
         if (n) { $scope.popoverRepositoryToggle.data.activeCommit = n; }
-      });
-      $scope.$watch('build', function (n) {
-        if (n) { $scope.popoverRepositoryToggle.data.build = n; }
       });
 
       $scope.popoverRepositoryToggle = {
@@ -102,10 +100,6 @@ function editRepoCommit(
         $scope.popoverRepoActions.data.commitsBehind = n;
       });
 
-      // FIXME: Hack around toggle-popover being on above scope
-      $scope.$watch('acv.state.showModal', console.log.bind(console));
-      // TODO: pass in through isolation stuffs.
-
       $scope.popoverRepoActions = {
         data: {},
         actions: {}
@@ -114,7 +108,6 @@ function editRepoCommit(
       $scope.popoverRepoActions.data.unsavedAcv = $scope.unsavedAcv;
       $scope.popoverRepoActions.actions.deleteRepo = function () {
         $scope.acv.destroy(function (err) {
-          $rootScope.safeApply();
           if (err) { throw err; }
         });
       };
@@ -134,36 +127,19 @@ function editRepoCommit(
       fetchCommitOffset($scope.acv, $scope.activeCommit);
       fetchBranchCommits($scope.activeBranch);
 
-      async.series([
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            $rootScope.safeApply();
-            cb();
-          });
-        },
-        fetchBuild
-      ]);
-
       function setActiveBranch(acv) {
         // API client caches models by URL
         // $scope.activeBranch will === acv.githubRepo.branches.models[x]
         // after the fetch
         $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
         acv.githubRepo.branches.add($scope.activeBranch);
-        acv.githubRepo.branches.fetch(function (err) {
-          if (err) { throw err; }
-          //githubRepo.branches.add(activeBranch);
-          $rootScope.safeApply();
-        });
+        acv.githubRepo.branches.fetch(errs.handler);
       }
 
       function setActiveCommit(acv) {
         $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
         $scope.activeCommit.fetch(function (err) {
           if (err) { throw err; }
-          $rootScope.safeApply();
         });
       }
 
@@ -177,64 +153,14 @@ function editRepoCommit(
           } else {
             $scope.commitsBehind = diff.behind_by;
           }
-          $rootScope.safeApply();
         });
       }
 
       function fetchBranchCommits(branch) {
         branch.commits.fetch(function (err) {
           if (err) { throw err; }
-          $rootScope.safeApply();
         });
       }
-
-      function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
-        }
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            $rootScope.safeApply();
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) { throw err; }
-            $rootScope.safeApply();
-            cb();
-          })
-          .go();
-      }
-
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.instance = instance;
-            $scope.build = instance.build;
-            $rootScope.safeApply();
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
-            $rootScope.safeApply();
-            cb(err);
-          })
-          .go();
-      }
-
     }
   };
 }

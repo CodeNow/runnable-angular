@@ -1,9 +1,9 @@
 // .guide
 .guide {
-  background: rgba($purple-lighter,.15);
-  border: 1px solid rgba($purple-light,.15);
+  background: rgba($blue,.1);
+  border: 1px solid rgba($blue,.2);
   border-radius: 3px;
-  color: $purple;
+  color: $blue;
   padding: 12px 15px;
   position: relative;
   z-index: $z-guide;
@@ -31,7 +31,7 @@
     cursor: pointer;
 
     &:hover {
-      border-color: rgba($purple-light,.3);
+      border-color: rgba($blue,.4);
     }
   }
 
@@ -70,6 +70,12 @@
     background: inherit;
     color: inherit;
   }
+}
+
+// highlighting guided items
+.guide-in.guide-in {
+  border-color: rgba($blue,.4);
+  box-shadow: 0 0 21px rgba($blue,.21);
 }
 
 .guide-text {

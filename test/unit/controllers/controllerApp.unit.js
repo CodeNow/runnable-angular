@@ -56,11 +56,6 @@ describe('controllerApp'.bold.underline.blue, function () {
       $timeout = _$timeout_;
       keypather = _keypather_;
       $window = _$window_;
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
     if (heap) {
       $window.heap = {
