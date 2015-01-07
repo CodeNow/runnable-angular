@@ -47,7 +47,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         $httpBackend.whenGET(host + '/contexts/54398933f5afb6410069bc33/versions/54398934f5afb6410069bc34?')
         .respond(mocks.contextVersions.setup);
 
-        var tpl = directiveTemplate.attribute('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list', {
+          'unsaved-acvs': 'unsavedAcvs'
+        });
+        $scope.unsavedAcvs = [];
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -97,7 +100,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
           .whenGET(compareUrl)
           .respond(mocks.gh.compare);
 
-        var tpl = directiveTemplate.attribute('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list', {
+          'unsaved-acvs': 'unsavedAcvs'
+        });
+        $scope.unsavedAcvs = [];
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -147,7 +153,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
           .whenGET(compareUrl)
           .respond(mocks.gh.compare);
 
-        var tpl = directiveTemplate.attribute('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list', {
+          'unsaved-acvs': 'unsavedAcvs'
+        });
+        $scope.unsavedAcvs = [];
 
         element = $compile(tpl)($scope);
         $scope.$digest();

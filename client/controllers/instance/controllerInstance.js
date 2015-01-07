@@ -18,7 +18,9 @@ function ControllerInstance(
   fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
-    data: {},
+    data: {
+      unsavedAcvs: []
+    },
     actions: {}
   };
   var data = dataInstance.data;
