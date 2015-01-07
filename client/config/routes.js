@@ -36,8 +36,9 @@ module.exports = [
   }, {
     state: 'boxSelection',
     abstract: false,
-    url: '^/boxSelection',
+    url: '^/:userName/boxSelection/:buildId',
     templateUrl: 'viewBoxSelection',
+    controller: 'ControllerBoxSelection',
     data: {
       bodyClass: {
         'vertical': true

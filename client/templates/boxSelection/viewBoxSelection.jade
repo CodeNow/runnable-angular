@@ -31,58 +31,63 @@ main.home.box-selection
   ol.list.list-bordered.list-divided
     li.list-item(
       ng-class = "{active: data.listExpand}"
+      ng-repeat = "instance in instances.models"
     )
       .list-item-row(
         ng-click = "data.listExpand = !data.listExpand"
       )
-        h4.h4.header-thin anand-api
+        h4.h4.header-thin {{ instance.attrs.name }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
           )
       .list-item-row
         p.p Fork to a new server to run your code
-        button.btn.btn-sm.green Fork
+        button.btn.btn-sm.green(
+          ng-click = "fork(instance)"
+        ) Fork
       .list-item-row
         p.p Overwrite this server to run your code
-        button.btn.btn-sm.green Overwrite
-    li.list-item
-      .list-item-row
-        h4.h4.header-thin anton-api-01
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      .list-item-row
-    li.list-item
-      .list-item-row
-        h4.h4.header-thin bryan-api
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      .list-item-row
-    li.list-item
-      .list-item-row
-        h4.h4.header-thin casey_api
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      .list-item-row
-    li.list-item
-      .list-item-row
-        h4.h4.header-thin nathan-api
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      .list-item-row
-    li.list-item
-      .list-item-row
-        h4.h4.header-thin nathan-api-copy
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-      .list-item-row
+        button.btn.btn-sm.green(
+          ng-click = "overwrite(instance)"
+        ) Overwrite
+    //- li.list-item
+    //-   .list-item-row
+    //-     h4.h4.header-thin anton-api-01
+    //-     svg.iconnables.icons-arrow-down
+    //-       use(
+    //-         xlink:href = "#icons-arrow-down"
+    //-       )
+    //-   .list-item-row
+    //- li.list-item
+    //-   .list-item-row
+    //-     h4.h4.header-thin bryan-api
+    //-     svg.iconnables.icons-arrow-down
+    //-       use(
+    //-         xlink:href = "#icons-arrow-down"
+    //-       )
+    //-   .list-item-row
+    //- li.list-item
+    //-   .list-item-row
+    //-     h4.h4.header-thin casey_api
+    //-     svg.iconnables.icons-arrow-down
+    //-       use(
+    //-         xlink:href = "#icons-arrow-down"
+    //-       )
+    //-   .list-item-row
+    //- li.list-item
+    //-   .list-item-row
+    //-     h4.h4.header-thin nathan-api
+    //-     svg.iconnables.icons-arrow-down
+    //-       use(
+    //-         xlink:href = "#icons-arrow-down"
+    //-       )
+    //-   .list-item-row
+    //- li.list-item
+    //-   .list-item-row
+    //-     h4.h4.header-thin nathan-api-copy
+    //-     svg.iconnables.icons-arrow-down
+    //-       use(
+    //-         xlink:href = "#icons-arrow-down"
+    //-       )
+    //-   .list-item-row
