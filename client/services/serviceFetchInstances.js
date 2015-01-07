@@ -2,25 +2,27 @@ require('app')
   .factory('fetchInstances', fetchInstances);
 
 function fetchInstances(
-  fetchUser
+  fetchUser,
+  QueryAssist,
+  errs
 ) {
-  var currentInstances;
   var currentAccountName;
   return function (activeAccountName, forceQuery, cb) {
-    if (activeAccountName === currentAccountName && !forceQuery && currentInstances) {
-      return cb(null, currentInstances, activeAccountName);
-    } else {
-      currentAccountName = activeAccountName;
-      fetchUser(function (err, user) {
-        if (!user) { return cb(err); }
-        currentInstances = user.fetchInstances({
-          githubUsername: currentAccountName
-        }, function (err) {
+    currentAccountName = activeAccountName;
+    fetchUser(function (err, user) {
+      if (!user) { return cb(err); }
+      new QueryAssist(user, cb)
+        .wrapFunc('fetchInstances')
+        .query({
+          githubUsername: activeAccountName
+        })
+        .cacheFetch(function (instances, cached, cb) {
           if (currentAccountName === activeAccountName) {
-            cb(err, currentInstances, activeAccountName);
+            cb(err, instances, activeAccountName);
           }
-        });
-      });
-    }
+        })
+        .resolve(errs.handler)
+        .go();
+    });
   };
 }
