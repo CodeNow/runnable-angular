@@ -19,9 +19,10 @@ function repoList(
     restrict: 'A',
     templateUrl: 'viewRepoList',
     scope: {
-      loading: '=',
       build: '=',
-      instance: '='
+      instance: '=',
+      loading: '=',
+      unsavedAcvs: '='
     },
     link: function ($scope, elem) {
 
@@ -55,7 +56,10 @@ function repoList(
       // for each repo/child-scope
       $scope.newUnsavedAcv = function (acv) {
         var cv = $scope.build.contextVersions.models[0];
-        var newAcv = cv.newAppCodeVersion(acv.toJSON(), {
+        var acvJson = acv.toJSON();
+        delete acvJson._id;
+        delete acvJson.id;
+        var newAcv = cv.newAppCodeVersion(acvJson, {
           warn: false
         });
         $scope.unsavedAcvs.push({

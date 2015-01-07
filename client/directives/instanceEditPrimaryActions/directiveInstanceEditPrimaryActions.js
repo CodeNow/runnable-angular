@@ -8,6 +8,7 @@ function instanceEditPrimaryActions(
   QueryAssist,
   $rootScope,
   $state,
+  errs,
   $stateParams
 ) {
   return {
@@ -17,7 +18,8 @@ function instanceEditPrimaryActions(
       user: '=',
       instance: '=',
       loading: '=',
-      openItems: '='
+      openItems: '=',
+      unsavedAcvs: '='
     },
     link: function ($scope, elem, attrs) {
       // prevent multiple clicks
@@ -48,13 +50,16 @@ function instanceEditPrimaryActions(
                 }
               }, cb);
             },
+            updateAppCodeVersions,
             function () {
               var build = $scope.newBuild;
               // Catch the update file error
               $scope.newBuild.build(
                 buildObj,
                 function (err) {
-                  if (err) { throw err; }
+                  if (err) {
+                    return handleError(err);
+                  }
                   var opts = {
                     build: build.id()
                   };
@@ -62,7 +67,9 @@ function instanceEditPrimaryActions(
                     opts.env = $scope.instance.state.env;
                   }
                   $scope.instance.update(opts, function (err) {
-                    if (err) { throw err; }
+                    if (err) {
+                      return handleError(err);
+                    }
                     // will trigger display of completed message if build completes
                     // before reaching next state
                     // $scope.dataInstanceLayout.data.showBuildCompleted = true;
@@ -70,9 +77,7 @@ function instanceEditPrimaryActions(
                   });
                 });
             }
-          ], function (err) {
-            if (err) { throw err; }
-          });
+          ], handleError);
         });
       };
 
@@ -97,12 +102,63 @@ function instanceEditPrimaryActions(
             $scope.newBuild = build;
             cb();
           })
-          .resolve(function (err) {
-            if (err) { throw err; }
-          })
+          .resolve(handleError)
           .go();
       }
 
+      function updateAppCodeVersions(cb) {
+        var modifiedAcvs = $scope.unsavedAcvs.filter(function (obj) {
+            return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
+          });
+        if (!modifiedAcvs.length) {
+          return cb();
+        }
+
+        var context = $scope.newBuild.contexts.models[0];
+        var contextVersion = $scope.newBuild.contextVersions.models[0];
+        var infraCodeVersionId = contextVersion.attrs.infraCodeVersion;
+
+        var appCodeVersionStates = $scope.unsavedAcvs.map(function (obj) {
+          var acv = obj.unsavedAcv;
+          return {
+            repo: acv.attrs.repo,
+            branch: acv.attrs.branch,
+            commit: acv.attrs.commit
+          };
+        });
+        async.waterfall([
+          createContextVersion,
+          createBuild
+        ], cb);
+
+        function createContextVersion(cb) {
+          var body = {
+            infraCodeVersion: infraCodeVersionId
+          };
+          var newContextVersion = context.createVersion(body, function (err) {
+            async.each(appCodeVersionStates, function (acvState, cb) {
+              newContextVersion.appCodeVersions.create(acvState, cb);
+            }, function (err) {
+              cb(err, newContextVersion);
+            });
+          });
+        }
+        function createBuild(contextVersion, cb) {
+          var build = $scope.user.createBuild({
+            contextVersions: [contextVersion.id()],
+            owner: $scope.instance.attrs.owner
+          }, function (err) {
+            $scope.newBuild = build;
+            cb(err, build);
+          });
+        }
+      }
+      function handleError(err) {
+        if (err) {
+          $scope.loading = false;
+          errs.handler(err);
+        }
+      }
     }
   };
 }

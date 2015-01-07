@@ -103,9 +103,21 @@ function activePanel(
       }
       var updateFileDebounce = debounce(updateFile, 333);
 
+
+      $scope.$watch('openItems.activeHistory.last().state.body', function (newVal, oldVal) {
+        if (typeof newVal === 'string' &&
+          $scope.openItems.activeHistory.last() &&
+          $scope.openItems.activeHistory.last().id() === $scope.thisFileId) {
+          if ($scope.update) {
+            updateFileDebounce();
+          }
+        }
+      });
+
       function fetchFile() {
         var openItems = $scope.openItems;
         var last = openItems.activeHistory.last();
+        $scope.thisFileId = last.id();
         if (openItems.isFile(last)) {
           last.fetch(function () {
             last.state.reset();
@@ -113,16 +125,9 @@ function activePanel(
         }
       }
 
-      $scope.$watch('openItems.activeHistory.last().state.body', function (newVal, oldVal) {
-        if (typeof newVal === 'string' && $scope.openItems.activeHistory.last()) {
-          if ($scope.update) {
-            updateFileDebounce();
-          }
-        }
-      });
-
-      $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {
+      var openFileWatch = $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {
         if (newVal) {
+          openFileWatch();
           if (!$scope.update) {
             var file = $scope.openItems.activeHistory.last();
             if (!(file.state && (typeof file.state.body === 'string'))) {
