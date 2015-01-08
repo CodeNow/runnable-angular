@@ -19,7 +19,8 @@ function repoList(
     restrict: 'A',
     templateUrl: 'viewRepoList',
     scope: {
-      loading: '='
+      loading: '=',
+      unsavedAcvs: '='
     },
     link: function ($scope, elem) {
 
@@ -48,10 +49,12 @@ function repoList(
 
       // track all temp acvs generated
       // for each repo/child-scope
-      $scope.unsavedAcvs = [];
       $scope.newUnsavedAcv = function (acv) {
         var cv = $scope.build.contextVersions.models[0];
-        var newAcv = cv.newAppCodeVersion(acv.toJSON(), {
+        var acvJson = acv.toJSON();
+        delete acvJson._id;
+        delete acvJson.id;
+        var newAcv = cv.newAppCodeVersion(acvJson, {
           warn: false
         });
         $scope.unsavedAcvs.push({
@@ -114,25 +117,14 @@ function repoList(
         // if we find this contextVersion, reuse it.
         // otherwise create a new one
         function findOrCreateContextVersion(cb) {
-          var foundCVs = context.fetchVersions({
-            infraCodeVersion: infraCodeVersionId,
-            appCodeVersions: appCodeVersionStates
-          }, function (err) {
-            if (err) {
-              return cb(err);
-            }
-            if (foundCVs.models.length) {
-              return cb(null, foundCVs.models[0]);
-            }
-            var body = {
-              infraCodeVersion: infraCodeVersionId
-            };
-            var newContextVersion = context.createVersion(body, function (err) {
-              async.each(appCodeVersionStates, function (acvState, cb) {
-                newContextVersion.appCodeVersions.create(acvState, cb);
-              }, function (err) {
-                cb(err, newContextVersion);
-              });
+          var body = {
+            infraCodeVersion: infraCodeVersionId
+          };
+          var newContextVersion = context.createVersion(body, function (err) {
+            async.each(appCodeVersionStates, function (acvState, cb) {
+              newContextVersion.appCodeVersions.create(acvState, cb);
+            }, function (err) {
+              cb(err, newContextVersion);
             });
           });
         }

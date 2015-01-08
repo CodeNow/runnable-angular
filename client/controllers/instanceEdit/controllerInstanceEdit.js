@@ -21,7 +21,9 @@ function ControllerInstanceEdit(
 ) {
 
   var dataInstanceEdit = $scope.dataInstanceEdit = {
-    data: {},
+    data: {
+      unsavedAcvs: []
+    },
     actions: {}
   };
   var data = dataInstanceEdit.data;
@@ -77,29 +79,6 @@ function ControllerInstanceEdit(
       .go();
   }
 
-  // This is to fetch the list of instances.  This is separate so the page can load quickly
-  // since it will have its instance.  Only the modals use this list
-  function fetchInstances(cb) {
-    new QueryAssist($scope.user, cb)
-      .wrapFunc('fetchInstances', cb)
-      .query({
-        githubUsername: $stateParams.userName
-      })
-      .cacheFetch(function (instances, cached, cb) {
-        if (!cached && instances.models.length === 0) {
-          throw new Error('instance not found');
-        }
-        data.instances = instances;
-        cb();
-      })
-      .resolve(function (err, instances, cb) {
-        if (err) { return $log.error(err); }
-        data.instances = instances;
-        cb();
-      })
-      .go();
-  }
-
   // open "Dockerfile" build file by default
   function setDefaultTabs() {
     var rootDir = keypather.get($scope, 'build.contextVersions.models[0].rootDir');
@@ -128,7 +107,6 @@ function ControllerInstanceEdit(
     if (err) { return errs.handler(err); }
     if (redirect) { return; }
     setDefaultTabs();
-    fetchInstances(angular.noop);
   });
 
 }

@@ -5,6 +5,7 @@ var $rootScope,
     $state,
     $compile,
     $timeout,
+    errs,
     $stateParams;
 var $elScope;
 var thisUser;
@@ -23,7 +24,8 @@ function makeDefaultScope () {
       isClean: function () {
         return false;
       }
-    }
+    },
+    unsavedAcvs: []
   };
 }
 
@@ -56,6 +58,7 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       _$stateParams_,
       _$rootScope_,
       _$compile_,
+      _errs_,
       _$timeout_,
       user
     ) {
@@ -65,6 +68,7 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       thisUser.reset(apiMocks.user);
       $timeout = _$timeout_;
       $compile = _$compile_;
+      errs = _errs_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;
@@ -88,13 +92,19 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       user: 'user',
       instance: 'instance',
       loading: 'loading',
+      'unsaved-acvs': 'unsavedAcvs',
       'open-items': 'openItems'
     });
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
 
-    ctx.mockBuild = angular.copy(apiMocks.builds.setup);
+    ctx.mockBuild = {
+      attrs: angular.copy(apiMocks.builds.setup)
+    };
+    ctx.mockBuild2 = {
+      attrs: angular.copy(apiMocks.instances.build)
+    };
 
     ctx.instanceUpdateCalled = false;
     ctx.buildBuildCalled = false;
@@ -122,10 +132,24 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         cb();
       }
     };
+    ctx.mockBuild.contexts = {
+      models: [{
+        createVersion: sinon.spy(function(body, cb) {
+          cb();
+        })
+      }]
+    };
     ctx.mockBuild.contextVersions = {
       models: [{
+        attrs: apiMocks.contextVersions.running,
         rootDir: {
           contents: [ctx.dockerfile]
+        },
+        appCodeVersions: {
+          create: sinon.spy()
+        },
+        id: function() {
+          return 213423;
         }
       }]
     };
@@ -248,6 +272,71 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       expect($elScope.loading).to.equal(true);
     });
 
+    it('should create a whole slew of new things when an acv is modified', function (done) {
+      // Set up mocking
+
+      $scope.unsavedAcvs = [{
+        acv: {
+          attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion
+        },
+        unsavedAcv: {
+          attrs: apiMocks.appCodeVersions.differentBitcoinAppCodeVersion
+        }
+      }];
+      ctx.mockBuild.contextVersions.models[0].appCodeVersions.create = sinon.spy(function(acv, cb) {
+        expect(acv.commit).to.equal(apiMocks.appCodeVersions.differentBitcoinAppCodeVersion.commit);
+        cb(null, {
+          attrs: apiMocks.contextVersions.running,
+          id: function() { return 123; }
+        });
+      });
+      ctx.mockBuild.contexts = {
+        models: [{
+          createVersion: sinon.spy(function (body, cb) {
+            setTimeout(function() {
+              cb();
+            }, 0);
+            return ctx.mockBuild.contextVersions.models[0];
+          })
+        }]
+      };
+      thisUser.createBuild = sinon.spy(function(opts, cb) {
+        setTimeout(function() {
+          cb();
+        }, 0);
+        return ctx.mockBuild2;
+      });
+      ctx.mockBuild2.build = sinon.spy(function (message, cb) {
+        expect(message).to.deep.equal({
+          message: 'Manual build'
+        });
+        cb(null, ctx.mockBuild2);
+      });
+      ctx.mockBuild2.id = function () {
+        return this._id;
+      };
+      $rootScope.$digest();
+
+      ctx.stateMock.go = function (newState) {
+        expect(newState).to.equal('instance.instance');
+        expect(ctx.instanceUpdateCalled).to.be.true;
+        sinon.assert.called(ctx.mockBuild2.build);
+        expect(ctx.dockerfileUpdateCalled).to.be.false;
+        sinon.assert.called(ctx.mockBuild.contextVersions.models[0].appCodeVersions.create);
+        sinon.assert.called(thisUser.createBuild);
+        sinon.assert.called(ctx.mockBuild.contexts.models[0].createVersion);
+        done();
+      };
+      MockQueryAssist.setMock('fetchBuild', function () {
+        return ctx.mockBuild;
+      });
+      // Now do it
+      $scope.$digest();
+      $elScope.build();
+      $scope.$digest();
+      expect($elScope.loading).to.equal(true);
+    });
+
     it('should not try to build twice', function (done) {
       // Set up mocking
       var fetchBuildCount = 0;
@@ -276,12 +365,14 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
 
   describe('Testing Failures', function () {
     var inputScope;
+    var fakeErr;
     beforeEach(function () {
       inputScope = makeDefaultScope();
       inputScope.openItems.isClean = function () {
         return true;
       };
       injectSetupCompile(inputScope);
+      fakeErr = sinon.stub(errs, 'handler');
     });
 
     it('should throw an error if there is no user on the scope', function() {
@@ -314,9 +405,10 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       }
       $scope.$digest();
 
-      expect(doStuff).to.throw(errorMessage);
+      doStuff();
+      sinon.assert.called(fakeErr);
       // Now do it
-      expect($elScope.loading).to.equal(true);
+      expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.false;
       expect(ctx.buildBuildCalled).to.be.false;
       expect(ctx.dockerfileUpdateCalled).to.be.false;
@@ -338,9 +430,10 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       }
       $scope.$digest();
 
-      expect(doStuff).to.throw(errorMessage);
+      doStuff();
+      sinon.assert.called(fakeErr);
       // Now do it
-      expect($elScope.loading).to.equal(true);
+      expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.false;
       expect(ctx.buildBuildCalled).to.be.true;
       expect(ctx.dockerfileUpdateCalled).to.be.false;
@@ -362,9 +455,10 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       }
       $scope.$digest();
 
-      expect(doStuff).to.throw(errorMessage);
+      doStuff();
+      sinon.assert.called(fakeErr);
       // Now do it
-      expect($elScope.loading).to.equal(true);
+      expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.false;
       expect(ctx.buildBuildCalled).to.be.false;
       expect(ctx.dockerfileUpdateCalled).to.be.true;
@@ -388,9 +482,10 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       }
       $scope.$digest();
 
-      expect(doStuff).to.throw(errorMessage);
+      doStuff();
+      sinon.assert.called(fakeErr);
       // Now do it
-      expect($elScope.loading).to.equal(true);
+      expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.true;
       expect(ctx.buildBuildCalled).to.be.true;
       expect(ctx.dockerfileUpdateCalled).to.be.false;

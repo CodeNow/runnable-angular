@@ -9,6 +9,7 @@
   transform: translate3d(0,0,0);
   transition: transform .15s ease-in;
   width: 210px;
+  height: 100%;
   z-index: $z-modal-sidebar;
 
   .show-sidebar & {
