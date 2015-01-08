@@ -36,7 +36,7 @@ module.exports = [
   }, {
     state: 'boxSelection',
     abstract: false,
-    url: '^/:userName/boxSelection/:repo/:branch/:message',
+    url: '^/:userName/boxSelection/:repo/:branch/:message/:commit',
     templateUrl: 'viewBoxSelection',
     controller: 'ControllerBoxSelection',
     data: {

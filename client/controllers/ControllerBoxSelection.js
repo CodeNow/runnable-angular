@@ -41,7 +41,8 @@ function boxSelection (
       console.log(copiedCv);
       copiedCv.appCodeVersions.models[0].update({
         repo: $stateParams.userName + '/' + $stateParams.repo,
-        branch: $stateParams.branch
+        branch: $stateParams.branch,
+        commit: $stateParams.commit
       }, function (err) {
         if (err) { return errs.handler(err); }
         var buildBody = {
