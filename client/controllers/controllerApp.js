@@ -64,7 +64,9 @@ function ControllerApp(
         toParams.userName !== dataApp.data.activeAccount.oauthName()) {
       setActiveAccount(toParams.userName);
     }
-    dataApp.data.loading = false;
+    if (!(fromState.name === '' && toState.name === 'home')) {
+      dataApp.data.loading = false;
+    }
   });
 
   var thisUser;

@@ -33,9 +33,7 @@ function addRepoPopover(
         }
       }
       $scope.repoListPopover = {
-        data: {
-          addedRepos: $scope.build.contextVersions.models[0].appCodeVersions
-        },
+        data: {},
         actions: {}
       };
 
@@ -161,17 +159,23 @@ function addRepoPopover(
         fetchPage(1);
       }
 
-      async.series([
-        function (cb) {
-          fetchUser(function (err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            $scope.repoListPopover.data.user = user;
-            cb();
-          });
-        },
-        fetchAllOwnerRepos
-      ]);
+      $scope.$watch('build.contextVersions', function (n) {
+        if (n) {
+          $scope.repoListPopover.data.addedRepos =
+              keypather.get($scope, 'build.contextVersions.models[0].appCodeVersions');
+          async.series([
+            function (cb) {
+              fetchUser(function (err, user) {
+                if (err) { return cb(err); }
+                $scope.user = user;
+                $scope.repoListPopover.data.user = user;
+                cb();
+              });
+            },
+            fetchAllOwnerRepos
+          ]);
+        }
+      });
 
     }
   };

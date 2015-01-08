@@ -16,7 +16,9 @@ function ControllerGettingStarted(
   keypather,
   fetchStackInfo,
   fetchUser,
-  errs
+  QueryAssist,
+  errs,
+  $log
 ) {
   $scope.state = {
     unsavedAcvs: [],
@@ -33,15 +35,22 @@ function ControllerGettingStarted(
     console.log(event, opts);
   });
 
-  function fetchBuild(cb) {
-    $scope.build = $scope.user.fetchBuild({id: $stateParams.buildId}, cb);
+  function fetchBuild(user, cb) {
+    new QueryAssist(user, cb)
+      .wrapFunc('fetchBuild')
+      .query($stateParams.buildId)
+      .cacheFetch(function (build, cached, cb) {
+        $scope.build = build;
+        cb();
+      })
+      .resolve(cb)
+      .go();
   }
   async.waterfall([
     function (cb) {
       fetchUser(function(err, user) {
-        if (err) { return cb(err); }
         $scope.user = user;
-        cb();
+        cb(err, user);
       });
     },
     fetchBuild
@@ -50,121 +59,131 @@ function ControllerGettingStarted(
 
   keypather.set($scope, 'actions.createAndBuild', function() {
     // first thing to do is generate the dockerfile
-    var dockerfile = generateDockerFile($scope.state.stack.dockerFile, $scope);
-    $scope.opts.env = generateEnvs($scope);
+    var dockerfile = generateDockerFile($scope.state.stack.dockerFile);
+    $log.log('DOCKERFILE: \n' + dockerfile);
+    $scope.state.opts.env = generateEnvs();
+    $log.log('ENVS: \n' + $scope.state.opts.env);
     async.series([
-      updateNewDockerfile(dockerfile, $scope)
-
-    ]);
-
-    // Start the creation of the main instance
-    function createInstanceFunction(cb) {
-      function build(cb) {
-        var unwatch = $scope.$watch('openItems.isClean()', function (n) {
-          if (!n) { return; }
-          unwatch();
-          $scope.data.build.build({
-            message: 'Initial Build'
-          }, cb);
-        });
-      }
-
-      function attach(cb) {
-        $scope.state.opts.owner = {
-          github: $scope.activeAccount.oauthId()
-        };
-        $scope.state.opts.build = $scope.data.build.id();
-        $scope.instance = $rootScope.dataApp.data.instances.create($scope.state.opts, cb);
-      }
-      async.series([
-        build,
-        attach
-      ], cb);
-    }
-
-    // Then start the forking of the deps
-    var items = $scope.state.dependencies.models.map(function (dep) {
-      return {
-        instance: dep,
-        opts: dep.opts
-      };
-    });
-    forkInstance(items, function() {
-
-    });
+      updateNewDockerfile(dockerfile),
+      forkDeps,
+      createInstance
+    ], errs.handler);
   });
 
+
+  // Start the creation of the main instance
+  function createInstance(cb) {
+    function build(cb) {
+      $scope.build.build({
+        message: 'Initial Build'
+      }, cb);
+    }
+
+    function attach(cb) {
+      $scope.state.opts.owner = {
+        github: $scope.activeAccount.oauthId()
+      };
+      $scope.state.opts.build = $scope.build.id();
+      $scope.instance = $rootScope.dataApp.data.instances.create($scope.state.opts, cb);
+    }
+
+    function goToNewInstance() {
+      $state.go('instance.instance', {
+        userName: $stateParams.userName,
+        instanceName: $scope.state.opts.name
+      });
+    }
+    async.series([
+      build,
+      attach,
+      goToNewInstance
+    ], cb);
+  }
 
   $scope.$on('$destroy', function () {
   });
 
-  function forkInstance(createInstanceFunction, items, cb) {
-    $scope.popoverGearMenu.data.show = false;
-    $rootScope.dataApp.data.loading = true;
-    function fork(instance, opts, cb) {
-      instance.copy(opts, function (err) {
+  function forkDeps(cb) {
+    // Then start the forking of the deps
+    var items = $scope.state.dependencies.models.map(function (dep) {
+      var dummyInstance = $scope.user.newInstance({
+        shortHash: dep.attrs.shortHash
+      });
+      return {
+        instance: dummyInstance,
+        opts: dep.opts
+      };
+    });
+    forkInstances(items, cb);
+
+    function forkInstances(items, cb) {
+      $scope.popoverGearMenu.data.show = false;
+      $rootScope.dataApp.data.loading = true;
+      function fork(instance, opts, cb) {
+        instance.copy(opts, function (err) {
+          if (err) {
+            throw err;
+          }
+          $rootScope.safeApply();
+          // update instances collection to update
+          // viewInstanceList
+          cb();
+        });
+      }
+
+      var parallelFunctions = items.map(function (item) {
+        return function (cb) {
+          fork(item.instance, item.opts, cb);
+        };
+      });
+      async.parallel(parallelFunctions, function (err) {
         if (err) {
           throw err;
         }
-        $rootScope.safeApply();
-        // update instances collection to update
-        // viewInstanceList
-        cb();
+        if (cb) {
+          cb();
+        }
       });
     }
+  }
+  function generateDockerFile(originalStackStartPoint) {
+    // first, add the ports
+    var df = originalStackStartPoint;
+    $scope.state.ports.split(',').forEach(function (port) {
+      df += '\nEXPOSE ' + port;
+    });
+    $scope.state.unsavedAcvs.forEach(function (acv) {
+      var repoName = acv.unsavedAcv.attrs.repo.split('\/')[1];
+      df += '\nADD .\/' + repoName + ' \/' + repoName;
+    });
+    df += '\nCMD ' + $scope.state.startCommand;
+    return df;
+  }
 
-    var parallelFunctions = items.map(function (item) {
-      return function (cb) {
-        fork(item.instance, item.opts, cb);
-      };
-    });
-    parallelFunctions.unshift(createInstanceFunction);
-    async.parallel(parallelFunctions, function (err) {
-      if (err) {
-        throw err;
+  function generateEnvs() {
+    var envList = [];
+    $scope.state.dependencies.models.forEach(function(dep) {
+      if (dep.requiredEnvs) {
+        dep.requiredEnvs.forEach(function(env) {
+          envList.push(env.envName + '=' + env.url);
+        });
       }
-      $state.go('instance.instance', {
-        userName: $stateParams.userName,
-        instanceName: keypather.get(items[0], 'opts.name')
+    });
+    return envList;
+  }
+
+  function updateNewDockerfile(dockerfile) {
+    return function(cb) {
+      var cv = $scope.build.contextVersions.models[0];
+      var file = cv.rootDir.contents.find(function(file) {
+        return (file.attrs.name === 'Dockerfile');
       });
-      $scope.$emit('INSTANCE_LIST_FETCH', $stateParams.userName);
-      if (cb) {
-        cb();
-      }
-    });
+      file.update({
+        json: {
+          body: dockerfile
+        }
+      }, cb);
+    };
   }
 }
 
-function generateDockerFile(originalStackStartPoint, $scope) {
-  // first, add the ports
-  var df = originalStackStartPoint;
-  $scope.state.ports.split(',').forEach(function(port) {
-    df += '\nEXPOSE ' + port;
-  });
-  df += '\nCMD ' + $scope.state.startCommand;
-  return df;
-}
-
-function generateEnvs($scope) {
-  var envList = [];
-  $scope.state.dependencies.models.forEach(function(dep) {
-    dep.env.forEach(function(env) {
-      envList.push(env.envName + '=' + env.url);
-    });
-  });
-  return envList;
-}
-
-function updateNewDockerfile(dockerfile, $scope) {
-  return function(cb) {
-    var cv = $scope.data.build.contextVersions.models[0];
-    var file = cv.rootDir.contents.find(function(file) {
-      return (file.attrs.name === 'Dockerfile');
-    });
-    file.update({
-      json: {
-        body: dockerfile
-      }
-    }, cb);
-  };
-}
