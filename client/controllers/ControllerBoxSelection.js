@@ -11,24 +11,15 @@ function boxSelection (
   $stateParams,
   user
 ) {
-  // Get build
-  // Get list of instances for current user/org
-  function fetchBuild (cb) {
-    $scope.build = user.fetchBuild($stateParams.buildId, function (err) {
-      if (err) { return cb(err); }
-      if (!$scope.build.contextVersions.models.length) {
-        return cb(new Error('Could not find contextVersions'));
-      }
-
-      $scope.build.contextVersions.models[0].fetch(function (err) {
-        // todo
-      });
-    });
-  }
-
+  // Get list of instances for current user/org that have the repo
   function fetchInstances (cb) {
     $scope.instances = user.fetchInstances({
-      githubUsername: $stateParams.userName
+      githubUsername: $stateParams.userName,
+      contextVersion: {
+        appCodeVersions: {
+          repo: $stateParams.userName + '/' + $stateParams.repo
+        }
+      }
     }, cb);
   }
 
@@ -40,7 +31,6 @@ function boxSelection (
         cb();
       });
     },
-    fetchBuild,
     fetchInstances
   ], errs.handler);
 
