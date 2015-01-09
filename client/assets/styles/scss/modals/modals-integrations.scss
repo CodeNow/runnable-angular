@@ -1,7 +1,16 @@
 .modal-integrations {
 
-  @include media(xs) {
+  .list {
+    max-height: 407px;
     overflow-y: auto;
+
+    @include media(md) {
+      max-height: 560px;
+    }
+
+    @include media(xs) {
+      max-height: 30vh;
+    }
   }
 
   .modal-body {
@@ -10,7 +19,8 @@
 
     @include media(xs) {
       display: block;
-      overflow: visible;
+      max-height: calc(70vh - 45px);
+      overflow-y: auto;
     }
   }
 
