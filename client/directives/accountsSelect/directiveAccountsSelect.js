@@ -7,6 +7,7 @@ require('app')
  * @ngInject
  */
 function accountsSelect (
+  configLogoutURL,
   errs,
   $state,
   $rootScope
@@ -26,6 +27,7 @@ function accountsSelect (
         data: $scope.data
       };
       $scope.popoverAccountMenu.data.dataModalIntegrations = $scope.data;
+      $scope.popoverAccountMenu.data.logoutURL = configLogoutURL();
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
         $scope.popoverAccountMenu.data.show = false;
