@@ -65,6 +65,25 @@
       top: 9px;
     }
   }
+
+  // search
+  .input-search {
+    border-color: transparent;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 auto 12px;
+    position: relative;
+    top: 8px;
+    width: calc(100% - 18px);
+
+    &:hover,
+    &:focus,
+    &:valid {
+      background-color: $white;
+      border-color: rgba($black,.15);
+    }
+  }
 }
 
 // .modal-container

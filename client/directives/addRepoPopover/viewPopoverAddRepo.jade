@@ -4,14 +4,7 @@
   }"
 )
   .arrow
-  h3.popover-title
-    input.input.input-search(
-    autofocus
-    ng-model = "data.repoFilter"
-    placeholder = "Filter repositories"
-    required
-    select-on = "data.showFilter"
-    )
+  h3.popover-title Add Repository
   .spinner-wrapper.spinner-md.in(
     ng-show = "state.loading"
     ng-include = "'spinner'"
@@ -19,6 +12,13 @@
   .popover-content(
     ng-hide = "state.loading"
   )
+    input.input.input-search(
+      autofocus
+      ng-model = "data.repoFilter"
+      placeholder = "Filter repositories"
+      select-on = "data.showFilter"
+      required
+    )
     ul.popover-body.popover-list
       li.popover-list-item(
       ng-click = "actions.addRepo(repo)"

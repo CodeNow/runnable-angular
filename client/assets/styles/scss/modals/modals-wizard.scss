@@ -1,0 +1,15 @@
+.modal-wizard .modal-container {
+  display: none;
+}
+
+.modal-wizard-1 .modal-container:first-child {
+  display: block;
+}
+
+.modal-wizard-2 .modal-container:nth-child(2) {
+  display: block;
+}
+
+.modal-wizard-3 .modal-container:nth-child(3) {
+  display: block;
+}

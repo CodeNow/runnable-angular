@@ -1,6 +1,45 @@
-.modal-dialog.modal-getting-started(
+.modal-dialog.modal-wizard.modal-getting-started.modal-wizard-1(
   ng-click = "$event.stopPropagation()"
 )
+  .modal-container
+    header.modal-header New Server
+    main.modal-body
+      input.input.input-search(
+        autofocus
+        ng-model = "data.repoFilter"
+        placeholder = "Filter repositories"
+        select-on = "data.showFilter"
+        required
+      )
+      ul.list
+        li.list-item
+          span organization/repository
+          small last updated 23 days ago
+          .spinner-wrapper-spinner-sm(
+            ng-include = "'spinner'"
+          )
+        li.list-item
+          span organization/repository
+          small last updated 23 days ago
+          .spinner-wrapper-spinner-sm(
+            ng-include = "'spinner'"
+          )
+        li.list-item
+          span organization/repository
+          small last updated 23 days ago
+          .spinner-wrapper-spinner-sm(
+            ng-include = "'spinner'"
+          )
+        li.list-item
+          span organization/repository
+          small last updated 23 days ago
+          .spinner-wrapper-spinner-sm(
+            ng-include = "'spinner'"
+          )
+  .modal-container
+    header.modal-header
+    main.modal-body
+    footer.modal-footer
   .modal-container
     header.modal-header
     main.modal-body
