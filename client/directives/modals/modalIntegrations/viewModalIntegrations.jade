@@ -48,6 +48,7 @@
               autocomplete = "off"
               ng-blur = "data.integrationForm.showFocus = false"
               ng-focus = "data.integrationForm.showFocus = true"
+              ng-model = "data.settings.notifications.slack.webhookUrl"
               required
               type = "url"
             )
@@ -55,7 +56,9 @@
             href = "//runnable.slack.com/services/new/incoming-webhook"
             target = "_blank"
           ) Get WebHook URL on Slack
-          button.btn.green Save
+          button.btn.green(
+            ng-click = "actions.saveSlack()"
+          ) Save
       hr.hr
       form.form.clearfix
         div.col
@@ -69,6 +72,7 @@
               autocomplete = "off"
               ng-blur = ""
               ng-focus = ""
+              ng-model = "data.settings.notifications.hipchat.roomId"
               required
             )
           label.input-group.input-validate
@@ -77,13 +81,16 @@
               autocomplete = "off"
               ng-blur = ""
               ng-focus = ""
+              ng-model = "data.settings.notifications.hipchat.authToken"
               required
             )
           a.link-gray.link-reference(
             href = "//runnable.hipchat.com/admin/api"
             target = "_blank"
           ) Create a token on Hipchat
-          button.btn.green Save
+          button.btn.green(
+            ng-click = "actions.saveHipChat()"
+          ) Save
       footer.modal-footer
         button.btn.white(
           ng-click = "defaultActions.cancel()"
