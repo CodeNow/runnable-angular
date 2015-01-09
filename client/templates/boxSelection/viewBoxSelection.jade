@@ -24,11 +24,13 @@ main.home.box-selection
       )
       | {{ user.oauthName() }}
   //- spinner
-  //- .spinner-wrapper.spinner-md(
-  //-   ng-class = "{in: dataApp.data.loading}"
-  //-   ng-include = "'spinner'"
-  //- )
-  ol.list.list-bordered.list-divided
+  .spinner-wrapper.spinner-md(
+    ng-class = "{in: loading}"
+    ng-include = "'spinner'"
+  )
+  ol.list.list-bordered.list-divided(
+    ng-show = "!loading"
+  )
     li.list-item(
       ng-class = "{active: data.listExpand}"
       ng-repeat = "instance in instances.models"

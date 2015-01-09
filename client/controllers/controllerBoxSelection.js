@@ -31,8 +31,12 @@ function boxSelection (
   function fetchInstances (cb) {
     allInstances = user.fetchInstances({
       githubUsername: $stateParams.userName
-    }, cb);
+    }, function (err) {
+      if (err) { return errs.handler(err); }
+      $scope.loading = false;
+    });
   }
+  $scope.loading = true;
   fetchUser(function (err, user) {
     if (err) { return errs.handler(err); }
     $scope.user = user;
@@ -43,6 +47,7 @@ function boxSelection (
   });
 
   function copyCv (instance, cb) {
+    $scope.loading = true;
     var copiedCv = instance.build.contextVersions.models[0].deepCopy(function (err) {
       if (err) { return errs.handler(err); }
       copiedCv.appCodeVersions.models[0].update({
