@@ -105,6 +105,7 @@
 
 // header.modal-header
 .modal-header {
+  border-radius: 3px 3px 0 0;
   color: $gray-dark;
   height: 60px;
 
@@ -229,6 +230,10 @@
   }
 
   // lists
+  .list {
+    margin: 0 0 4px;
+  }
+
   .list-item {
     height: 54px;
     line-height: 54px;
