@@ -15,11 +15,22 @@ function boxSelection (
   $scope.branch = $stateParams.branch;
   $scope.message = $stateParams.message;
 
+  var fullRepoName = $scope.fullRepoName = $stateParams.userName + '/' + $stateParams.repo;
+
   // Get list of instances for current user/org that have the repo
-  function fetchInstances (cb) {
+  function fetchRepoInstances (cb) {
     $scope.instances = user.fetchInstances({
       githubUsername: $stateParams.userName,
-      'contextVersion.appCodeVersions.repo': $stateParams.userName + '/' + $stateParams.repo
+      'contextVersion.appCodeVersions.repo': fullRepoName
+    }, cb);
+  }
+
+  // Fetches all instances for dupe name checking
+  // Will be replaced with API route in the future
+  var allInstances;
+  function fetchInstances (cb) {
+    allInstances = user.fetchInstances({
+      githubUsername: $stateParams.userName
     }, cb);
   }
 
@@ -31,16 +42,15 @@ function boxSelection (
         cb();
       });
     },
+    fetchRepoInstances,
     fetchInstances
   ], errs.handler);
 
   function copyCv (instance, cb) {
-    console.log(instance.build.contextVersions.models[0]);
     var copiedCv = instance.build.contextVersions.models[0].deepCopy(function (err) {
       if (err) { return errs.handler(err); }
-      console.log(copiedCv);
       copiedCv.appCodeVersions.models[0].update({
-        repo: $stateParams.userName + '/' + $stateParams.repo,
+        repo: fullRepoName,
         branch: $stateParams.branch,
         commit: $stateParams.commit
       }, function (err) {
@@ -62,8 +72,7 @@ function boxSelection (
 
   $scope.fork = function(instance) {
     copyCv(instance, function (build) {
-      var name = getNewForkName(instance, $scope.instances);
-      console.log(name);
+      var name = getNewForkName(instance, allInstances);
       instance.copy({
         build: build.id(),
         name: name
