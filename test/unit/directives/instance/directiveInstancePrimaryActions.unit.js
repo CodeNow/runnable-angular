@@ -11,7 +11,7 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     if (!newName) {
       newName = name;
     }
-    return model = {
+    return {
       attrs: {
         body: name
       },
