@@ -10,7 +10,9 @@
         ng-if = "data.user !== data.activeAccount"
         ng-click = "actions.selectActiveAccount(data.user)"
       )
-        a.list-link
+        a.list-link(
+          ng-href = "/{{ data.user.oauthName() }}"
+        )
           img.gravatar(
             height = "24"
             ng-src = "{{ data.user.gravitar() }}"
@@ -22,7 +24,9 @@
         ng-if = "org !== data.activeAccount"
         ng-repeat = "org in data.orgs.models"
       )
-        a.list-link
+        a.list-link(
+          ng-href = "/{{ org.oauthName() }}"
+        )
           img.gravatar(
             height = "24"
             ng-src = "{{ org.gravitar() }}"
