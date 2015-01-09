@@ -1,3 +1,5 @@
+'use strict';
+
 // Variables we want everywhere
 
 // These already modify global variables

@@ -1,4 +1,6 @@
+'use strict';
+
 require('app')
-  .factory('termjs', function () {
+  .factory('Termjs', function () {
     return require('term.js');
   });

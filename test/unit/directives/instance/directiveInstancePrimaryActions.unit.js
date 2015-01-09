@@ -1,3 +1,5 @@
+'use strict';
+
 describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
   var element,
       $scope,

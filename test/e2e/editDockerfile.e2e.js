@@ -1,3 +1,5 @@
+'use strict';
+
 var util = require('./helpers/util');
 
 var InstancePage = require('./pages/InstancePage');

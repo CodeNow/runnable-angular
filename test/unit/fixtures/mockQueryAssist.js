@@ -1,3 +1,5 @@
+'use strict';
+
 var mockResponses = {};
 var shouldFailMap = {};
 var querySpecificResponses = {};

@@ -1,7 +1,8 @@
+'use strict';
+
 var path    = require('path');
 var find    = require('find');
 var fs      = require('fs');
-var package = require('./package');
 var async   = require('async');
 var Table   = require('cli-table');
 
@@ -113,6 +114,7 @@ module.exports = function(grunt) {
         nonbsp: true,
         quotmark: 'single',
         curly: true,
+        globalstrict: true,
         globals: {
           jQuery: true,
           angular: true,

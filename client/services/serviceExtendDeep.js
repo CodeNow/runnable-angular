@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .factory('extendDeep', function () {
     return extendDeep;
