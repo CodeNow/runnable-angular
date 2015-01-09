@@ -138,9 +138,7 @@ function editRepoCommit(
 
       function setActiveCommit(acv) {
         $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
-        $scope.activeCommit.fetch(function (err) {
-          if (err) { throw err; }
-        });
+        $scope.activeCommit.fetch(errs.handler);
       }
 
       function fetchCommitOffset(acv, activeCommit) {
@@ -157,9 +155,7 @@ function editRepoCommit(
       }
 
       function fetchBranchCommits(branch) {
-        branch.commits.fetch(function (err) {
-          if (err) { throw err; }
-        });
+        branch.commits.fetch(errs.handler);
       }
     }
   };

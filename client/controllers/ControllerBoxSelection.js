@@ -26,25 +26,21 @@ function boxSelection (
   }
 
   // Fetches all instances for dupe name checking
-  // Will be replaced with API route in the future
+  // Naming will be replaced with API route in the future
   var allInstances;
   function fetchInstances (cb) {
     allInstances = user.fetchInstances({
       githubUsername: $stateParams.userName
     }, cb);
   }
-
-  async.parallel([
-    function (cb) {
-      fetchUser(function (err, user) {
-        if (err) { return cb(err); }
-        $scope.user = user;
-        cb();
-      });
-    },
-    fetchRepoInstances,
-    fetchInstances
-  ], errs.handler);
+  fetchUser(function (err, user) {
+    if (err) { return errs.handler(err); }
+    $scope.user = user;
+    async.parallel([
+      fetchRepoInstances,
+      fetchInstances
+    ], errs.handler);
+  });
 
   function copyCv (instance, cb) {
     var copiedCv = instance.build.contextVersions.models[0].deepCopy(function (err) {
