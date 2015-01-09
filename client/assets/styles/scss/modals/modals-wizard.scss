@@ -1,5 +1,13 @@
-.modal-wizard .modal-container {
-  display: none;
+.modal-wizard {
+
+  .modal-container {
+    display: none;
+  }
+
+  .modal-header {
+    background: $gray-lightest;
+    border-bottom: 1px solid rgba($black,.1);
+  }
 }
 
 .modal-wizard-1 .modal-container:first-child {
