@@ -3,7 +3,7 @@
 )
   .modal-container
     header.modal-header
-      h1.modal-heading New Server
+      h1.modal-heading Create New Server
     .modal-body.modal-repo-selector(
       ng-include = "'viewModalRepoSelector'"
     )
@@ -13,3 +13,15 @@
     .modal-body.modal-stack-dependencies(
       ng-include = "'viewModalStackDependencies'"
     )
+
+  .guide-wrapper.guide-1.om(
+    style = "left: -18px; top: 117px;"
+  )
+    .guide.guide-mark
+    .popover.left.popover-guides.in(
+      style = "left: -271px; top: -39px;"
+    )
+      .arrow.white
+      .popover-content.clearfix
+        h3.popover-header Select a repository
+        p Choose one of your repos to run on a server
