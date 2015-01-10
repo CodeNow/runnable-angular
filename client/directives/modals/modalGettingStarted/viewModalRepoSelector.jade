@@ -1,0 +1,71 @@
+input.input.input-search(
+  autofocus
+  ng-model = "data.repoFilter"
+  placeholder = "Filter repositories"
+  select-on = "data.showFilter"
+  required
+)
+ul.list.list-divided
+  li.list-item.list-item-link(
+    ng-click = "data.spin = true"
+  )
+    span.list-item-title CodeNow/api
+    small.small 12 minutes ago
+    .spinner-wrapper.spinner-md(
+      ng-class = "{in: data.spin}"
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/runnable-angular
+    small.small 12 minutes ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/runnable-api-client
+    small.small 20 minutes ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/devops-scripts
+    small.small 2 days ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/krain
+    small.small 4 days ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/sauron
+    small.small 11 days ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/ProductScripts
+    small.small 12 days ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/image-builder
+    small.small 12 days ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/mavis
+    small.small 12 days ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )
+  li.list-item.list-item-link
+    span.list-item-title CodeNow/docker-listener
+    small.small 12 days ago
+    .spinner-wrapper.spinner-md(
+      ng-include = "'spinner'"
+    )

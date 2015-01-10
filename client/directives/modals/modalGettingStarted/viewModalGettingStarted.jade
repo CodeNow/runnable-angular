@@ -1,21 +1,24 @@
 .modal-dialog.modal-wizard.modal-getting-started.modal-wizard-1(
   ng-click = "$event.stopPropagation()"
 )
-  .modal-container(
+.modal-container
+  header.modal-header
+    h1.modal-heading New Server
+  .modal-body.modal-repo-selector(
     ng-show = "state.step === 1"
     gs-repo-selector
     actions = "actions"
     data = "data"
     state = "state"
   )
-  .modal-container(
+  .modal-body.modal-stack-selector(
     setup-stack-dependencies
     ng-show = "state.step === 2"
     state = "state"
     actions = "actions"
     allDependencies = "allDependencies"
   )
-  .modal-container(
+  .modal-body.modal-stack-dependencies(
     ng-show = "state.step === 3"
     ng-include = "'viewModalStackDependencies'"
   )
