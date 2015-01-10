@@ -18,7 +18,7 @@ ng-class = "{\
       ng-click = "actions.addDep(stackDep)"
       ng-repeat = "\
           stackDep in data.dependencies.models | \
-          unaddedModels:data.state.dependencies.models as unadded"
+          unaddedDepInstances:data.state.dependencies.models as unadded"
       title = "{{ stackDep.attrs.name }}"
       )
         span {{ stackDep.attrs.name }}

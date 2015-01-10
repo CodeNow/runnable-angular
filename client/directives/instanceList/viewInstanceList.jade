@@ -4,7 +4,7 @@
 )
 
 h2.sub-header.load
-  span.sub-header-text Servers
+  span.sub-header-text Modal
   a.btn.btn-sm.white.sub-header-action(
     modal
     modal-actions = "actions"
@@ -19,7 +19,18 @@ h2.sub-header.load
       use(
         xlink:href = "#icons-add"
       )
-
+h2.sub-header.load
+  span.sub-header-text Servers
+  a.btn.btn-sm.white.sub-header-action(
+  ng-click = "stateToNew()"
+  ng-href = "/{{ data.activeAccount.oauthName() }}/new"
+  tooltip = "New Box"
+  tooltip-options = "{\"class\":\"bottom\",\"left\":6,\"top\":30}"
+  )
+    svg.iconnables.icons-add
+      use(
+      xlink:href = "#icons-add"
+      )
 //- *
 //- LINKED NAV LAYOUT
 //- *

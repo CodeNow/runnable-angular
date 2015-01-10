@@ -17,6 +17,11 @@ function ControllerGettingStarted(
   fetchStackInfo,
   fetchUser,
   QueryAssist,
+  regexpQuote,
+  getNewForkName,
+  fetchInstances,
+  createDockerfileFromSource,
+  fetchGSDepInstances,
   errs,
   $log
 ) {
@@ -26,10 +31,47 @@ function ControllerGettingStarted(
       name: 'NewInstance'
     }
   };
-  fetchStackInfo(null, function (err, data) {
-    $scope.data = data;
-    keypather.set($scope, 'state.dependencies', angular.copy($scope.data.dependencies));
-    keypather.set($scope, 'state.stack', $scope.data.stack);
+  $scope.$watchCollection('state.unsavedAcvs', function(n) {
+    if (n && n.length) {
+      n.forEach(function(acv) {
+        fetchStackInfo(acv.unsavedAcv.attrs.repo, function (err, data) {
+          $scope.stackData = data;
+          $scope.$watch('data.allDependencies', function (n) {
+            if (n) {
+              keypather.set($scope, 'state.dependencies.models', n.filter(function (dep) {
+                return data.dependencies.some(function (myDep) {
+                  return myDep.attrs.name === dep.attrs.name;
+                });
+              }));
+            }
+          });
+        });
+      });
+    }
+  });
+  $scope.$watch('stackData', function(n) {
+    if (n) {
+      $scope.$watch('data.allDependencies', function(allDeps) {
+        if (allDeps) {
+          keypather.set($scope, 'state.dependencies.models', allDeps.filter(function(dep) {
+            return n.dependencies.some(function(myDep) {
+              return myDep.attrs.name === dep.attrs.name;
+            });
+          }));
+        }
+      });
+      keypather.set($scope, 'state.stack', n.stack);
+      $scope.$watch('build', function(n) {
+        if (n) {
+          createDockerfileFromSource(n, '54aefb650f323119004e6d4e', function (err, dockerfile) {
+            if (err) {
+              return errs.handler(err);
+            }
+            $scope.dockerfile = dockerfile;
+          });
+        }
+      });
+    }
   });
   $scope.$on('acv-change', function (event, opts) {
     console.log(event, opts);
@@ -53,21 +95,42 @@ function ControllerGettingStarted(
         cb(err, user);
       });
     },
-    fetchBuild
+    fetchBuild,
+    fetchDepInstanceList
   ], errs.handler);
 
+  function fetchDepInstanceList(cb) {
+    fetchGSDepInstances(function(err, deps) {
+      keypather.set($scope, 'data.allDependencies', deps);
+    });
+  }
 
   keypather.set($scope, 'actions.createAndBuild', function() {
     // first thing to do is generate the dockerfile
-    var dockerfile = generateDockerFile($scope.state.stack.dockerFile);
-    $log.log('DOCKERFILE: \n' + dockerfile);
-    $scope.state.opts.env = generateEnvs();
-    $log.log('ENVS: \n' + $scope.state.opts.env);
-    async.series([
-      updateNewDockerfile(dockerfile),
-      forkDeps,
-      createInstance
-    ], errs.handler);
+    $scope.$watch('dockerfile', function (n) {
+      if (n) {
+        $rootScope.dataApp.data.loading = true;
+        var dockerfile = populateDockerFile(n.attrs.body);
+        $log.log('DOCKERFILE: \n' + dockerfile);
+
+        var depModels = $scope.state.dependencies.models.map(function (dep) {
+          return {
+            instance: dep,
+            opts: {
+              name: getNewForkName(dep, $scope.instanceList, true),
+              env: dep.attrs.env
+            }
+          };
+        });
+        $scope.state.opts.env = generateEnvs(depModels);
+        $log.log('ENVS: \n' + $scope.state.opts.env);
+        async.series([
+          updateNewDockerfile(n, dockerfile),
+          forkDeps,
+          createInstance
+        ], errs.handler);
+      }
+    });
   });
 
 
@@ -80,8 +143,13 @@ function ControllerGettingStarted(
     }
 
     function attach(cb) {
+      $scope.state.opts.name = getNewForkName({
+        attrs: {
+          name: $scope.mainRepoName
+        }
+      }, $scope.instanceList, true);
       $scope.state.opts.owner = {
-        github: $scope.activeAccount.oauthId()
+        github: $rootScope.dataApp.data.activeAccount.oauthId()
       };
       $scope.state.opts.build = $scope.build.id();
       $scope.instance = $rootScope.dataApp.data.instances.create($scope.state.opts, cb);
@@ -106,29 +174,20 @@ function ControllerGettingStarted(
   function forkDeps(cb) {
     // Then start the forking of the deps
     var items = $scope.state.dependencies.models.map(function (dep) {
-      var dummyInstance = $scope.user.newInstance({
-        shortHash: dep.attrs.shortHash
-      });
       return {
-        instance: dummyInstance,
-        opts: dep.opts
+        instance: dep,
+        opts: {
+          name: getNewForkName(dep, $scope.instanceList, true),
+          env: dep.attrs.env
+        }
       };
     });
     forkInstances(items, cb);
 
     function forkInstances(items, cb) {
-      $scope.popoverGearMenu.data.show = false;
-      $rootScope.dataApp.data.loading = true;
+      //$rootScope.dataApp.data.loading = true;
       function fork(instance, opts, cb) {
-        instance.copy(opts, function (err) {
-          if (err) {
-            throw err;
-          }
-          $rootScope.safeApply();
-          // update instances collection to update
-          // viewInstanceList
-          cb();
-        });
+        instance.copy(opts, cb);
       }
 
       var parallelFunctions = items.map(function (item) {
@@ -136,54 +195,61 @@ function ControllerGettingStarted(
           fork(item.instance, item.opts, cb);
         };
       });
-      async.parallel(parallelFunctions, function (err) {
-        if (err) {
-          throw err;
-        }
-        if (cb) {
-          cb();
-        }
-      });
+      async.parallel(parallelFunctions, cb);
     }
   }
-  function generateDockerFile(originalStackStartPoint) {
+
+  function populateDockerFile(dockerfile) {
     // first, add the ports
-    var df = originalStackStartPoint;
+    Object.keys($scope.state.version).forEach(function(stackName) {
+      var regexp = new RegExp('<' + regexpQuote(stackName.toLowerCase()) + '-version>', 'gm');
+      console.log('replacing version', stackName, regexp);
+      dockerfile = dockerfile.replace(regexp, $scope.state.version[stackName]);
+    });
+    var ports = '';
     $scope.state.ports.split(',').forEach(function (port) {
-      df += '\nEXPOSE ' + port;
+      ports += '\nEXPOSE ' + port;
     });
-    $scope.state.unsavedAcvs.forEach(function (acv) {
+    dockerfile = dockerfile.replace(/<user-specified-ports>/gm, ports);
+    var repos = '';
+    $scope.state.unsavedAcvs.forEach(function (acv, index) {
       var repoName = acv.unsavedAcv.attrs.repo.split('\/')[1];
-      df += '\nADD .\/' + repoName + ' \/' + repoName;
+      if (index === 0) {
+        $scope.mainRepoName = repoName;
+      }
+      repos += '\nADD .\/' + repoName + ' \/' + repoName;
     });
-    df += '\nCMD ' + $scope.state.startCommand;
-    return df;
+    dockerfile = dockerfile.replace(/<add-repo>/gm, repos);
+    dockerfile = dockerfile.replace(/<repo-name>/gm, $scope.mainRepoName);
+
+    // For now, just remove this
+    dockerfile = dockerfile.replace(/<add-dependencies>/gm, '');
+    var startCommand = '\nCMD ' + $scope.state.startCommand;
+    dockerfile = dockerfile.replace(/<start-command>/gm, startCommand);
+    return dockerfile;
   }
 
-  function generateEnvs() {
+  function generateEnvs(depModels) {
     var envList = [];
-    $scope.state.dependencies.models.forEach(function(dep) {
-      if (dep.requiredEnvs) {
-        dep.requiredEnvs.forEach(function(env) {
-          envList.push(env.envName + '=' + env.url);
+    depModels.forEach(function(item) {
+      if (item.dep.reqEnvs) {
+        item.dep.reqEnvs.forEach(function(env) {
+          envList.push(env.name + '=' + env.url);
         });
       }
     });
     return envList;
   }
 
-  function updateNewDockerfile(dockerfile) {
+  function updateNewDockerfile(dockerfile, body) {
     return function(cb) {
-      var cv = $scope.build.contextVersions.models[0];
-      var file = cv.rootDir.contents.find(function(file) {
-        return (file.attrs.name === 'Dockerfile');
-      });
-      file.update({
+      dockerfile.update({
         json: {
-          body: dockerfile
+          body: body
         }
       }, cb);
     };
   }
+
 }
 

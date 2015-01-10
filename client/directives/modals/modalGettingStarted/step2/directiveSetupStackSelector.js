@@ -18,13 +18,13 @@ function setupStackSelector(
         console.log('STACK CHANGE', stack);
         keypather.set($scope, 'state.stack', stack);
       });
-      $scope.state.version = {};
       keypather.set($scope, 'actions.selectVersion', function (dep, version) {
         console.log('req CHANGE', dep, version);
         keypather.set($scope, 'state.version.' + version.name, version);
       });
       $scope.$watch('state.stack', function (stack, p) {
         if (stack) {
+          $scope.state.version = {};
           stack.versionReqs.forEach(function (version) {
             keypather.set($scope, 'state.version.' + version.name, version.selected);
           });

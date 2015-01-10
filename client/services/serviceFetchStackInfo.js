@@ -2,21 +2,20 @@ require('app')
   .factory('fetchStackInfo', fetchStackInfo);
 
 function fetchStackInfo(
-  fetchUser
+  fetchUser,
+  configAPIHost,
+  user
 ) {
   return function (repo, cb) {
-    fetchUser(function (err, user) {
-      //var stackData = user.fetchGithubOrgs(function (err) {
-      //  cb(err, stackData);
-      //});
-      cb(err, {
-        stack: stacks[0],
-        stacks: stacks,
-        dependencies: dependencies
-      });
-    });
+    function callback(err, res, body) {
+      console.log(err, res, body);
+      cb(err, body);
+    }
+
+    user.client.get('/actions/analyze?repo=' + repo, callback);
   };
 }
+
 
 var stacks = [{
   //'Ruby on Rails': {
@@ -48,11 +47,11 @@ var stacks = [{
   name: 'Node',
   versionReqs: [{
     name: 'Node',
-    selected: '.10.9',
+    selected: '0.10.35',
     versions: [
-      '.10.9',
-      '.10.8',
-      '.11'
+      '0.10.35',
+      '0.10.34',
+      '0.11'
     ]
   }],
   ports: [80],
@@ -66,9 +65,9 @@ var stacks = [{
       name: 'Node',
       selected: '.10.9',
       versions: [
-        '.10.9',
-        '.10.8',
-        '.11'
+        '0.10.35',
+        '0.10.34',
+        '0.11'
       ]
     }, {
       name: 'Angular',
@@ -85,48 +84,19 @@ var stacks = [{
   dockerFile: 'FROM node'
 }];
 
-var dependencies = {
-  models: [{
-    attrs: {
-      name: 'Redis',
-      _id: 10
-    },
-    requiredEnvs: [
-      {
-        envName: 'port1',
-        url: 'http://Redis.user.runnable3.net'
-      }, {
-        envName: 'port2',
-        url: 'http://Redis.user.runnable3.net:27107'
-      }
-    ]
-  }, {
-    attrs: {
-      name: 'Postgres',
-      _id: 11
-    },
-    requiredEnvs: [
-      {
-        envName: 'port1',
-        url: 'http://Postgres.user.runnable3.net'
-      }, {
-        envName: 'port2',
-        url: 'http://Postgres.user.runnable3.net:3000'
-      }
-    ]
-  }, {
-    attrs: {
-      name: 'Grunt',
-      _id: 12
-    },
-    requiredEnvs: [
-      {
-        envName: 'port1',
-        url: 'http://Grunt.user.runnable3.net'
-      }, {
-        envName: 'port2',
-        url: 'http://Grunt.user.runnable3.net:3000'
-      }
-    ]
-  }]
-};
+var dependencies = [{
+  attrs: {
+    name: 'pixels',
+    _id: 10
+  }
+}, {
+  attrs: {
+    name: 'Postgres',
+    _id: 11
+  }
+}, {
+  attrs: {
+    name: 'Grunt',
+    _id: 12
+  }
+}];
