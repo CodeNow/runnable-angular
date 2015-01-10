@@ -1,3 +1,5 @@
+'use strict';
+
 var $ = require('jquery'); // required by brace
 require('brace');
 require('brace/ext/modelist');

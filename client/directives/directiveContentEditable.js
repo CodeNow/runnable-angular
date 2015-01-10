@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('contenteditable', contenteditable);
 /**

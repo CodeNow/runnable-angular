@@ -1,3 +1,5 @@
+'use strict';
+
 function fakeInstance (name) {
   return {
     attrs: {

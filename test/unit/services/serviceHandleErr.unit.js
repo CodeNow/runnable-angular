@@ -1,3 +1,5 @@
+'use strict';
+
 describe('serviceHandleErr', function () {
   var errs;
   beforeEach(function() {

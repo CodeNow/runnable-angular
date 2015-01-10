@@ -1,3 +1,5 @@
+'use strict';
+
 describe('filterUnaddedRepos'.bold.underline.blue, function () {
   var filterUnaddedRepos;
   beforeEach(function() {

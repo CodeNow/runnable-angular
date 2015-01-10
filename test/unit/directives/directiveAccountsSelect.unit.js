@@ -1,3 +1,5 @@
+'use strict';
+
 describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var element;
   var $scope, $elScope;

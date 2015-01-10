@@ -1,3 +1,5 @@
+'use strict';
+
 var jQuery  = require('jquery');
 var pluck = require('101/pluck');
 var find = require('101/find');

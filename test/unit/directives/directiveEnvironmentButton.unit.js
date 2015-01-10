@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $compile,
     $rootScope,

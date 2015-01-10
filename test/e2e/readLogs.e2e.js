@@ -1,3 +1,5 @@
+'use strict';
+
 var InstancePage = require('./pages/InstancePage');
 
 describe('logs', function() {
