@@ -8,7 +8,7 @@ require('app')
  */
 function accountsSelect (
   $state,
-  $rootScope
+  configLogoutURL
 ) {
   return {
     restrict: 'A',
@@ -25,6 +25,7 @@ function accountsSelect (
         data: $scope.data
       };
       $scope.popoverAccountMenu.data.dataModalIntegrations = $scope.data;
+      $scope.popoverAccountMenu.data.logoutURL = configLogoutURL();
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
         $scope.popoverAccountMenu.data.show = false;
