@@ -1,3 +1,5 @@
+'use strict';
+
 var host = require('../../../client/config/json/api.json').host;
 // injector-provided
 var async,
