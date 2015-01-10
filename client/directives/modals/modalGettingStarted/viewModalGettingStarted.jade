@@ -2,11 +2,20 @@
   ng-click = "$event.stopPropagation()"
 )
   .modal-container(
-    ng-include = "'viewModalRepoSelector'"
+    ng-show = "state.step === 1"
+    gs-repo-selector
+    actions = "actions"
+    data = "data"
+    state = "state"
   )
   .modal-container(
-    ng-include = "'viewModalStackSelector'"
+    setup-stack-dependencies
+    ng-show = "state.step === 2"
+    state = "state"
+    actions = "actions"
+    allDependencies = "allDependencies"
   )
   .modal-container(
+    ng-show = "state.step === 3"
     ng-include = "'viewModalStackDependencies'"
   )

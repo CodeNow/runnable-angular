@@ -4,15 +4,19 @@ require('app')
  * @ngInject
  */
 function gsRepoSelector(
+  async,
   keypather,
   errs,
   fetchGSDepInstances,
   fetchStackInfo,
-  getNewForkName
+  fetchUser,
+  hasKeypaths,
+  $stateParams,
+  QueryAssist
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewSetupStackDependencies',
+    templateUrl: 'viewModalRepoSelector',
     scope: {
       actions: '=',
       data: '=',
@@ -22,13 +26,10 @@ function gsRepoSelector(
       function fetchStackData(repo, cb) {
         fetchStackInfo(repo, function (err, data) {
           if (err) { return cb(err); }
-          keypather.set($scope, 'state.stack', data.stack);
-          $scope.$watch('data.allDependencies', function (allDeps) {
+          $scope.$watch('allDependencies', function (allDeps) {
             if (allDeps) {
-              var includedDeps = allDeps.forEach(function (dep) {
-                return data.dependencies.some(function (myDep) {
-                  return myDep.attrs.name === dep.attrs.name;
-                });
+              var includedDeps = data.map(function (dep) {
+                return allDeps.find(hasKeypaths({'attrs.name': dep}));
               });
               includedDeps.forEach(function (dep) {
                 $scope.actions.addDependency(dep);
@@ -37,19 +38,66 @@ function gsRepoSelector(
           });
         });
       }
-      $scope.$watchCollection('state.unsavedAcvs', function (n) {
-        if (n && n.length) {
-          n.forEach(function(acv) {
-            fetchStackData(acv.unsavedAcv.attrs.repo, errs.handler);
-          });
-        }
-      });
+      $scope.selectRepo = function (repo) {
+        fetchStackData(repo.attrs.repo, function (err) {
+          errs.handler(err);
+          $scope.step = 2;
+        });
+      };
 
-      fetchGSDepInstances(function (err, deps) {
-        keypather.set($scope, 'addDependencyPopover.data.dependencies', deps);
-      });
-      keypather.set($scope, 'addDependencyPopover.data.state.dependencies',
-        $scope.state.dependencies);
+      function getOwnerRepoQuery(user, userName, cb) {
+        if (userName === user.attrs.accounts.github.username) {
+          // does $stateParam.username match this user's username
+          return new QueryAssist(user, cb).wrapFunc('fetchGithubRepos');
+        } else {
+          return new QueryAssist(user.newGithubOrg(userName), cb).wrapFunc('fetchRepos');
+        }
+      }
+      function fetchAllOwnerRepos(user, cb) {
+        function fetchPage(page) {
+          var userOrOrg = getOwnerRepoQuery(
+            user,
+            $stateParams.userName,
+            cb
+          );
+          userOrOrg
+            .query({
+              page: page,
+              sort: 'updated'
+            })
+            .cacheFetch(function (githubRepos, cached, cb) {
+              /**
+               * Double concat to models arr
+               * if logic run twice (cached & non-cached)
+               */
+              if (!$scope.githubRepos) {
+                $scope.githubRepos = githubRepos;
+              } else {
+                var reposArr = $scope.githubRepos.models.concat(githubRepos.models);
+                $scope.githubRepos = user.newGithubRepos(reposArr, {
+                  noStore: true
+                });
+              }
+              // recursive until result set returns fewer than
+              // 100 repos, indicating last paginated result
+              if (githubRepos.models.length < 100) {
+                $scope.loading = false;
+                cb();
+              } else {
+                fetchPage(page + 1);
+              }
+            })
+            .resolve(function (err, githubRepos, cb) {
+
+            })
+            .go();
+        }
+        fetchPage(1);
+      }
+      async.waterfall([
+        fetchUser,
+        fetchAllOwnerRepos
+      ]);
     }
   };
 }

@@ -16,6 +16,7 @@ function ControllerGettingStarted(
   keypather,
   fetchStackInfo,
   fetchUser,
+  hasKeypaths,
   QueryAssist,
   regexpQuote,
   getNewForkName,
@@ -36,15 +37,6 @@ function ControllerGettingStarted(
       n.forEach(function(acv) {
         fetchStackInfo(acv.unsavedAcv.attrs.repo, function (err, data) {
           $scope.stackData = data;
-          $scope.$watch('data.allDependencies', function (n) {
-            if (n) {
-              keypather.set($scope, 'state.dependencies.models', n.filter(function (dep) {
-                return data.dependencies.some(function (myDep) {
-                  return myDep.attrs.name === dep.attrs.name;
-                });
-              }));
-            }
-          });
         });
       });
     }
@@ -53,17 +45,15 @@ function ControllerGettingStarted(
     if (n) {
       $scope.$watch('data.allDependencies', function(allDeps) {
         if (allDeps) {
-          keypather.set($scope, 'state.dependencies.models', allDeps.filter(function(dep) {
-            return n.dependencies.some(function(myDep) {
-              return myDep.attrs.name === dep.attrs.name;
-            });
+          keypather.set($scope, 'state.dependencies.models', n.map(function(dep) {
+            allDeps.find(hasKeypaths({'attrs.name': dep}));
           }));
         }
       });
       keypather.set($scope, 'state.stack', n.stack);
       $scope.$watch('build', function(n) {
         if (n) {
-          createDockerfileFromSource(n, '54aefb650f323119004e6d4e', function (err, dockerfile) {
+          createDockerfileFromSource(n, 'New Node Template', function (err, dockerfile) {
             if (err) {
               return errs.handler(err);
             }
