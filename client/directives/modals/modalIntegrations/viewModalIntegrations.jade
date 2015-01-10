@@ -28,7 +28,9 @@
           )
           | {{ org.oauthName() }}
     main.modal-body
-      form.form.clearfix
+      form.form.clearfix(
+        name = "slackForm"
+      )
         div.col
           img(
             src = "/build/images/logos/logo-slack.svg"
@@ -40,14 +42,17 @@
               'ng-valid':\
           label.input-group.input-validate(
             ng-class = "{\
-              focus: data.integrationForm.showFocus\
+              focus: slackForm.showFocus,\
+              'ng-invalid': slackForm.slackWebHook.$invalid,\
+              'ng-valid': slackForm.slackWebHook.$valid\
             }"
           )
             span.input-label WebHook URL
             input.input(
               autocomplete = "off"
-              ng-blur = "data.integrationForm.showFocus = false"
-              ng-focus = "data.integrationForm.showFocus = true"
+              name = "slackWebHook"
+              ng-blur = "slackForm.showFocus = false"
+              ng-focus = "slackForm.showFocus = true"
               ng-model = "data.settings.notifications.slack.webhookUrl"
               required
               type = "url"
@@ -60,27 +65,43 @@
             ng-click = "actions.saveSlack()"
           ) Save
       hr.hr
-      form.form.clearfix
+      form.form.clearfix(
+        name = "hipchatForm"
+      )
         div.col
           img(
             src = "/build/images/logos/logo-hipchat.svg"
           )
         div.col
-          label.input-group.input-validate
+          label.input-group.input-validate(
+          ng-class = "{\
+              focus: hipchatForm.showFocus,\
+              'ng-invalid': hipchatForm.roomInput.$invalid,\
+              'ng-valid': hipchatForm.roomInput.$valid\
+            }"
+          )
             span.input-label Room
             input.input(
               autocomplete = "off"
               ng-blur = ""
               ng-focus = ""
+              name = "roomInput"
               ng-model = "data.settings.notifications.hipchat.roomId"
               required
             )
-          label.input-group.input-validate
+          label.input-group.input-validate(
+            ng-class = "{\
+                focus: hipchatForm.showFocus,\
+                'ng-invalid': hipchatForm.tokenInput.$invalid,\
+                'ng-valid': hipchatForm.tokenInput.$valid\
+              }"
+          )
             span.input-label Token
             input.input(
               autocomplete = "off"
               ng-blur = ""
               ng-focus = ""
+              name = "tokenInput"
               ng-model = "data.settings.notifications.hipchat.authToken"
               required
             )
