@@ -52,23 +52,18 @@ function accountsSelect (
         }
       });
 
-      $scope.$watch('popoverAccountMenu.data.dataModalIntegrations.modalActiveAccount', function (userOrOrg) {
-        if (userOrOrg) {
-          // Fetch settings
-          $scope.data.user.fetchSettings({
-            githubUsername: userOrOrg.oauthName()
-          }, function (err, settings) {
-            if (err) { return errs.handler(err); }
-            mData.settings = settings[0];
-          });
-        }
-      });
-
       mActions.closePopover = function() {
         $scope.popoverAccountMenu.data.show = false;
       };
       mActions.setActive = function(account) {
         mData.modalActiveAccount = account;
+        // Fetch settings
+        $scope.data.user.fetchSettings({
+          githubUsername: account.oauthName()
+        }, function (err, settings) {
+          if (err) { return errs.handler(err); }
+          mData.settings = settings[0];
+        });
       };
       mActions.saveSlack = function () {
         $scope.data.user.newSetting(mData.settings._id)
