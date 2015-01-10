@@ -174,7 +174,7 @@ function repoList(
       };
 
       var debounceUpdate = debounce(function(n) {
-        if (n !== undefined) {
+        if (n !== undefined && n !== $scope.instance.attrs.locked) {
           $scope.instance.update({
             locked: n
           }, angular.noop);

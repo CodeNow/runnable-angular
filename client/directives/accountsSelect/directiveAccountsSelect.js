@@ -47,20 +47,8 @@ function accountsSelect (
 
       var unwatch = $scope.$watch('popoverAccountMenu.data.dataModalIntegrations.user', function(n) {
         if (n) {
-          mData.modalActiveAccount = mData.user;
+          mActions.setActive(n);
           unwatch();
-        }
-      });
-
-      $scope.$watch('popoverAccountMenu.data.dataModalIntegrations.modalActiveAccount', function (userOrOrg) {
-        if (userOrOrg) {
-          // Fetch settings
-          $scope.data.user.fetchSettings({
-            githubUsername: userOrOrg.oauthName()
-          }, function (err, settings) {
-            if (err) { return errs.handler(err); }
-            mData.settings = settings[0];
-          });
         }
       });
 
@@ -69,6 +57,13 @@ function accountsSelect (
       };
       mActions.setActive = function(account) {
         mData.modalActiveAccount = account;
+        mData.settings = {};
+        $scope.data.user.fetchSettings({
+          githubUsername: account.oauthName()
+        }, function (err, settings) {
+          if (err) { return errs.handler(err); }
+          mData.settings = settings[0];
+        });
       };
       mActions.saveSlack = function () {
         $scope.data.user.newSetting(mData.settings._id)
