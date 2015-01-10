@@ -111,9 +111,8 @@
   .icons-status.icons-status {
     background: rgba($gray-lightest,.45);
     border: 1px solid rgba($black,.15);
-    float: right;
     height: 5px;
-    position: relative;
+    position: absolute;
     right: 16px;
     top: 9px;
     width: 5px;
