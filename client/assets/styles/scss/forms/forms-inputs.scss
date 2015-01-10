@@ -62,6 +62,11 @@ textarea {
   &::placeholder {
     color: $gray-lighter;
   }
+
+  &.input-sm {
+    height: 36px;
+    line-height: 36px;
+  }
 }
 
 // label.btn-checkbox

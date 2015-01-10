@@ -1,4 +1,4 @@
-.modal-dialog.modal-wizard.modal-getting-started.modal-wizard-1(
+.modal-dialog.modal-wizard.modal-getting-started.modal-wizard-2(
   ng-click = "$event.stopPropagation()"
 )
   .modal-container
@@ -7,14 +7,14 @@
     .modal-body.modal-repo-selector(
       ng-include = "'viewModalRepoSelector'"
     )
-    .modal-body.modal-stack-selector(
+    .modal-body.modal-stack-selector.clearfix(
       ng-include = "'viewModalStackSelector'"
     )
     .modal-body.modal-stack-dependencies(
       ng-include = "'viewModalStackDependencies'"
     )
 
-  .guide-wrapper.guide-1.om(
+  .guide-wrapper.guide-1(
     style = "left: -18px; top: 117px;"
   )
     .guide.guide-mark

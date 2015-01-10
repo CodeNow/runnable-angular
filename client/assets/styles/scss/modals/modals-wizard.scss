@@ -26,3 +26,38 @@
 .modal-wizard-3 .modal-stack-dependencies {
   display: block;
 }
+
+// .modal-stack-selector (wizard 2)
+.modal-stack-selector {
+  margin-top: 15px;
+  width: 750px;
+
+  .col {
+    float: left;
+    padding: 6px 15px;
+    width: 50%;
+  }
+
+  .label {
+    display: block;
+    margin: 0;
+  }
+
+  // col 1
+  .label-text {
+    float: left;
+    height: 36px;
+    line-height: 36px;
+  }
+
+  .btn,
+  .input {
+    float: right;
+    width: auto;
+  }
+
+  // col 2
+  .well {
+    max-height: none;
+  }
+}
