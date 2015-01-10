@@ -1,12 +1,15 @@
 .modal-dialog.modal-wizard.modal-getting-started.modal-wizard-1(
   ng-click = "$event.stopPropagation()"
 )
-  .modal-container(
-    ng-include = "'viewModalRepoSelector'"
-  )
-  .modal-container(
-    ng-include = "'viewModalStackSelector'"
-  )
-  .modal-container(
-    ng-include = "'viewModalStackDependencies'"
-  )
+  .modal-container
+    header.modal-header
+      h1.modal-heading New Server
+    .modal-body(
+      ng-include = "'viewModalRepoSelector'"
+    )
+    .modal-body(
+      ng-include = "'viewModalStackSelector'"
+    )
+    .modal-body(
+      ng-include = "'viewModalStackDependencies'"
+    )
