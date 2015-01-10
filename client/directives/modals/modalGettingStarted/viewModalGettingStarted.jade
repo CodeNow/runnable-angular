@@ -4,11 +4,9 @@
   .modal-container(
     ng-include = "'viewModalRepoSelector'"
   )
-  .modal-container
-    header.modal-header
-    main.modal-body
-    footer.modal-footer
-  .modal-container
-    header.modal-header
-    main.modal-body
-    footer.modal-footer
+  .modal-container(
+    ng-include = "'viewModalStackSelector'"
+  )
+  .modal-container(
+    ng-include = "'viewModalStackDependencies'"
+  )
