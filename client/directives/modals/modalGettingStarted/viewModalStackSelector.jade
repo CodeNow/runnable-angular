@@ -1,0 +1,27 @@
+.col
+  .row
+    label Language
+    button.btn.btn-sm.gray node.js v0.10.35
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+  .row
+    label Ports
+    small.small
+    input(
+      placeholder = "80,8000,8001"
+    )
+  .row
+    label CMD
+    small.small
+    input(
+      placeholder = "npm start"
+    )
+.col
+  .well.gray
+    h3.sub-header-text Dependencies
+    button.btn.btn-sm.sub-header-action Add
+    ul.list
+      li.list-item PostgresQL
+      li.list-item RabbitMQ
