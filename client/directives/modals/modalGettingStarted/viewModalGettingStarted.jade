@@ -4,12 +4,12 @@
   .modal-container
     header.modal-header
       h1.modal-heading New Server
-    .modal-body(
+    .modal-body.modal-repo-selector(
       ng-include = "'viewModalRepoSelector'"
     )
-    .modal-body(
+    .modal-body.modal-stack-selector(
       ng-include = "'viewModalStackSelector'"
     )
-    .modal-body(
+    .modal-body.modal-stack-dependencies(
       ng-include = "'viewModalStackDependencies'"
     )

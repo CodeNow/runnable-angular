@@ -1,6 +1,6 @@
 .modal-wizard {
 
-  .modal-container {
+  .modal-body {
     display: none;
   }
 
@@ -15,14 +15,14 @@
   }
 }
 
-.modal-wizard-1 .modal-body:first-child {
+.modal-wizard-1 .modal-repo-selector {
   display: block;
 }
 
-.modal-wizard-2 .modal-body:nth-child(2) {
+.modal-wizard-2 .modal-stack-selector {
   display: block;
 }
 
-.modal-wizard-3 .modal-body:nth-child(3) {
+.modal-wizard-3 .modal-stack-dependencies {
   display: block;
 }
