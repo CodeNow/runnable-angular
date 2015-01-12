@@ -1,5 +1,11 @@
 .modal-environment {
 
+  .modal-header .btn {
+    float: right;
+    right: 6px;
+    top: 6px;
+  }
+
   .modal-body {
     border-bottom: 1px solid rgba($black,.1);
     border-top: 1px solid rgba($black,.1);

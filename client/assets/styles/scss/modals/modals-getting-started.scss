@@ -1,12 +1,12 @@
 .modal-getting-started {
 
-  .list-item {
-    line-height: 39px;
-  }
-
-  .small {
+  .list .small {
     color: $gray-lighter;
     display: block;
     line-height: 0;
+  }
+
+  .list-item {
+    line-height: 39px;
   }
 }

@@ -37,19 +37,6 @@ button,
     opacity: .5;
   }
 
-  // if .arrow-down
-  .icons-arrow-down {
-    float: right;
-    top: 18px;
-    transition: opacity .2s ease-in, transform .3s ease-in;
-
-    // flip arrow
-    .in &,
-    .active & {
-      transform: rotate3d(1,0,0,-180deg);
-    }
-  }
-
   // github icon with text
   > .icons-git {
     margin-right: 6px;
@@ -61,24 +48,20 @@ button,
   .icons-arrow-down {
     float: right;
     top: 18px;
+    transition: opacity .2s ease-in, transform .3s ease-in;
   }
 
   // animations
-  &.active {
+  &.active
+  &.in {
 
-    .icons-add,
-    .icons-gear {
+    > .icons-add,
+    > .icons-gear {
       transform: rotate3d(0,0,1,135deg);
     }
 
-    .icons-arrow-down {
-      transition: opacity .2s ease-in, transform .3s ease-in;
-
-      // flip arrow
-      .in &,
-      .active & {
-        transform: rotate3d(1,0,0,-180deg);
-      }
+    > .icons-arrow-down {
+      transform: rotate3d(1,0,0,-180deg);
     }
   }
 }
