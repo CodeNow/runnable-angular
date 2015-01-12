@@ -25,7 +25,7 @@
     }
 
     &:last-child {
-      padding: 6px 15px 6px 6px;
+      padding: 6px 0;
       width: 40%;
     }
   }
@@ -52,6 +52,11 @@
     float: right;
     text-align: left;
     width: 50%;
+  }
+
+  // if two languages
+  .btn + .btn {
+    margin-top: 6px;
   }
 
   // version
