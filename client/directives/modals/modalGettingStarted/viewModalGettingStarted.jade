@@ -2,7 +2,31 @@
   ng-click = "$event.stopPropagation()"
 )
   .modal-container
+    //- header.modal-header
+      h1.modal-heading Create New Server
     header.modal-header
+      .row
+        span Create New Server
+        div
+          span 1
+          span 2
+      .row
+        button.btn-xs.gray
+          svg.iconnables
+            use(
+              xlink:href = ""
+            )
+        span CodeNow/runnable-angular
+        button.btn-xs.gray.btn-select
+          svg.iconnables
+            use(
+              xlink:href = ""
+            )
+          | master
+          svg iconnables
+            use(
+              xlink:href = ""
+            )
       h1.modal-heading Create New Server
     //- .modal-body.modal-repo-selector(
     //-   actions = "actions"
