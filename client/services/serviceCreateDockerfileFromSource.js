@@ -3,7 +3,9 @@ require('app')
 
 function createDockerfileFromSource(
   async,
+  errs,
   fetchUser,
+  hasKeypaths,
   QueryAssist
 ) {
   return function (build, stackName, cb) {
@@ -11,13 +13,25 @@ function createDockerfileFromSource(
       new QueryAssist(user, cb)
         .wrapFunc('fetchContexts')
         .query({
-          isSource: true,
-          name: stackName
+          isSource: true
         })
         .cacheFetch(function (contexts, cached, cb) {
-          cb(null, contexts);
+          if (contexts) {
+            var source = contexts.models.find(hasKeypaths({
+              'attrs.name.toLowerCase()': stackName.toLowerCase()
+            }));
+            if (!source) {
+              return cb(new Error('Cannot find matching Source Dockerfile'));
+            } else {
+              cb(null, source);
+            }
+          } else {
+            cb(new Error('Cannot find matching Source Dockerfile'));
+          }
         })
-        .resolve(cb)
+        .resolve(function (err) {
+          errs.handler(err);
+        })
         .go();
     }
     function fetchContextVersion(context, cb) {

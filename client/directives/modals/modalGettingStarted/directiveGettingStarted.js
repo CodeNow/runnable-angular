@@ -20,11 +20,7 @@ function modalGettingStarted(
   return {
     restrict: 'E',
     templateUrl: 'viewModalGettingStarted',
-    scope: {
-      data: '=',
-      actions: '=',
-      defaultActions: '='
-    },
+    scope: {},
     link: function ($scope, element, attrs) {
 
       $scope.actions = {
@@ -46,13 +42,8 @@ function modalGettingStarted(
             }
           });
         },
-        removeDependency: function (instance) {
-          console.log('remove Model', instance);
-          $scope.state.dependencies = $scope.state.dependencies.filter(
-            function (item) {
-              return item.instance !== instance;
-            }
-          );
+        removeDependency: function (index) {
+          $scope.state.dependencies.models.splice(index, 1);
         }
       };
       $scope.state = {
@@ -60,7 +51,8 @@ function modalGettingStarted(
         dependencies: [],
         opts: {
           name: 'NewInstance'
-        }
+        },
+        step: 1
       };
       createNewBuild($rootScope.dataApp.data.activeAccount, function (err, build) {
         if (err) { return errs.handler(err); }

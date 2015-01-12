@@ -5,13 +5,25 @@
     header.modal-header
       h1.modal-heading Create New Server
     .modal-body.modal-repo-selector(
+      actions = "actions"
+      data = "data"
       ng-include = "'viewModalRepoSelector'"
+      gs-repo-selector
+      ng-show = "state.step === 1"
+      state = "state"
+
     )
     .modal-body.modal-stack-selector.clearfix(
+      allDependencies = "allDependencies"
+      actions = "actions"
       ng-include = "'viewModalStackSelector'"
+      ng-show = "state.step === 2"
+      setup-stack-dependencies
+      state = "state"
     )
     .modal-body.modal-stack-dependencies(
       ng-include = "'viewModalStackDependencies'"
+      ng-show = "state.step === 3"
     )
 
   .guide-wrapper.guide-1(
