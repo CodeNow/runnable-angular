@@ -3,7 +3,7 @@
 var $controller,
     $scope;
 
-describe.only('controllerBoxSelection'.underline.bold.blue, function () {
+describe('controllerBoxSelection'.underline.bold.blue, function () {
   var ctx = {};
   ctx.fakeuser = {
     attrs: angular.copy(mocks.user),
