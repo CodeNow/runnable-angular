@@ -22,7 +22,9 @@ function modalGettingStarted(
   return {
     restrict: 'E',
     templateUrl: 'viewModalGettingStarted',
-    scope: {},
+    scope: {
+      defaultActions: '='
+    },
     link: function ($scope, element, attrs) {
 
       $scope.actions = {

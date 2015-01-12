@@ -25,10 +25,9 @@ function modalStackDependencies(
         }
       });
 
-      $scope.$watch('state.dependencies', function (n) {
+      $scope.$watchCollection('state.dependencies', function (n) {
         if (n) {
-          keypather.set($scope, 'addDependencyPopover.data.state.dependencies',
-            $scope.state.dependencies);
+          keypather.set($scope, 'addDependencyPopover.data.state.dependencies', n);
         }
       });
     }
