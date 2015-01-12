@@ -7,7 +7,8 @@ input.input.input-search(
 )
 ul.list.list-divided
   li.list-item.list-item-link(
-    ng-repeat = "repo in githubRepos.models"
+    ng-repeat = "repo in githubRepos.models| \
+                repos:data.repoFilter as newRepos"
     ng-click = "repo.spin = true; selectRepo(repo)"
   )
     span.list-item-title {{ repo.attrs.full_name }}

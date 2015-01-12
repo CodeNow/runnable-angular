@@ -29,23 +29,31 @@ function gsRepoSelector(
       function fetchStackData(repo, cb) {
         fetchStackInfo(repo, function (err, data) {
           if (err) { return cb(err); }
-          $scope.$watch('data.allDependencies', function (allDeps) {
-            if (allDeps) {
-              var includedDeps = data.map(function (dep) {
-                return allDeps.find(hasKeypaths({'attrs.name': dep}));
-              });
-              includedDeps.forEach(function (dep) {
-                $scope.actions.addDependency(dep);
-              });
-            }
-          });
+          if (data.languageFramework) {
+
+          }
+          if (data.serviceDependencies && data.serviceDependencies.length) {
+            $scope.$watch('data.allDependencies', function (allDeps) {
+              if (allDeps) {
+                var includedDeps = data.serviceDependencies.map(function (dep) {
+                  return allDeps.models.find(hasKeypaths({'attrs.name': dep})) || false;
+                });
+                includedDeps.forEach(function (dep) {
+                  if (dep) {
+                    $scope.actions.addDependency(dep);
+                  }
+                });
+              }
+            });
+          }
+          cb();
         });
       }
       $scope.selectRepo = function (repo) {
         fetchStackData(repo.attrs.full_name, function (err) {
+          $scope.state.step = 2;
           errs.handler(err);
         });
-        $scope.state.step = 2;
       };
 
       function getOwnerRepoQuery(user, userName, cb) {

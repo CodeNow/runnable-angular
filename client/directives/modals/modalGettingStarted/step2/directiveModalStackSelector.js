@@ -1,11 +1,11 @@
 'use strict';
 
 require('app')
-  .directive('ModalStackSelector', ModalStackSelector);
+  .directive('modalStackSelector', modalStackSelector);
 /**
  * @ngInject
  */
-function ModalStackSelector(
+function modalStackSelector(
   keypather
 ) {
   return {

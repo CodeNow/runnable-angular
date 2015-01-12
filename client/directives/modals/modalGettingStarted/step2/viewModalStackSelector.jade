@@ -34,9 +34,22 @@
   .well.gray
     h2.sub-header
       span.sub-header-text Dependencies
-      button.btn.btn-xxs.gray.sub-header-action Add…
+      button.btn.btn-xxs.gray.sub-header-action(
+        ng-class = "{active: addDependencyPopover.data.show}"
+        toggle-pop-over
+        toggle-pop-over-model = "addDependencyPopover.data.show"
+        type = "button"
+      ) Add…
+        pop-over(
+          actions = "actions"
+          data = "addDependencyPopover.data"
+          popover-options = "{\"left\":-117,\"top\":45}"
+          template = "viewPopoverSetupAddStackDependencies"
+        )
     ul.list
-      li.list-item PostgresQL
+      li.list-item(
+        ng-repeat = "dependency in state.dependencies"
+      ) {{ dependency.attrs.name }}
       li.list-item RabbitMQ
 
 //- h3.popover-title {{state.stack.name}}
