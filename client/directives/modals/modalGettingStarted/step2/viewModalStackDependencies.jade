@@ -18,4 +18,8 @@
     ng-repeat = "dependency in state.dependencies"
     ) {{ dependency.attrs.name }}
     li.list-item RabbitMQ
-
+      button.btn-close.btn-xs
+        svg.iconnables.icons-close
+          use(
+            xlink:href = "#icons-close"
+          )
