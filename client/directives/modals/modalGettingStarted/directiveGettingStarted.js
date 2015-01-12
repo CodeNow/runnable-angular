@@ -56,9 +56,16 @@ function modalGettingStarted(
         },
         step: 1
       };
-      createNewBuild($rootScope.dataApp.data.activeAccount, function (err, build) {
-        if (err) { return errs.handler(err); }
-        $scope.build = build;
+      var unwatch = $rootScope.$watch('dataApp.data.activeAccount', function (n) {
+        if (n) {
+          unwatch();
+          createNewBuild(n, function (err, build) {
+            if (err) {
+              return errs.handler(err);
+            }
+            $scope.build = build;
+          });
+        }
       });
       fetchGSDepInstances(function (err, deps) {
         if (err) { return errs.handler(err); }

@@ -14,12 +14,12 @@ function modalStackDependencies(
     restrict: 'A',
     templateUrl: 'viewModalStackDependencies',
     scope: {
-      allDependencies: '=',
+      data: '=',
       actions: '=',
       state: '='
     },
     link: function ($scope, elem, attrs) {
-      $scope.$watch('allDependencies', function (n) {
+      $scope.$watch('data.allDependencies', function (n) {
         if (n) {
           keypather.set($scope, 'addDependencyPopover.data.dependencies', $scope.allDependencies);
         }

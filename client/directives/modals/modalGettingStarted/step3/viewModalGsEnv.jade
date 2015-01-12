@@ -1,0 +1,15 @@
+.setup-page-dependency-box(
+  ng-repeat = "dep in state.dependencies"
+  )
+  .setup-page-dependency-box(
+    ng-repeat = "env in dep.reqEnvs"
+    )
+      h3.popover-title
+        input.input.input-search(
+        autofocus
+        ng-model = "env.name"
+        placeholder = "Enter a Env Name"
+        required
+        select-on = "data.showFilter"
+        )
+      span {{env.url}}
