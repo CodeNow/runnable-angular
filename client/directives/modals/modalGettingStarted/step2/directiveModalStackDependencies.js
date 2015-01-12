@@ -1,18 +1,18 @@
 'use strict';
 
 require('app')
-  .directive('setupStackDependencies', setupStackDependencies);
+  .directive('modalStackDependencies', modalStackDependencies);
 /**
  * @ngInject
  */
-function setupStackDependencies(
+function modalStackDependencies(
   keypather,
   fetchGSDepInstances,
   getNewForkName
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewSetupStackDependencies',
+    templateUrl: 'viewModalStackDependencies',
     scope: {
       allDependencies: '=',
       actions: '=',

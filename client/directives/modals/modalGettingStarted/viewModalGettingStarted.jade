@@ -2,9 +2,13 @@
   ng-click = "$event.stopPropagation()"
 )
   .modal-container
-    //- header.modal-header
-      h1.modal-heading Create New Server
-    header.modal-header.modal-wizard-header
+    header.modal-header(
+      ng-show = "state.step === 1"
+    )
+      h1.modal-heading(
+        ng-show = "state.step !== 1"
+      ) Create New Server
+    //- header.modal-header.modal-wizard-header
       .row
         small.small Create New Server
       .row
@@ -29,22 +33,22 @@
               selected
             ) master
             option not-master
-    //- .modal-body.modal-repo-selector(
-    //-   actions = "actions"
-    //-   data = "data"
-    //-   gs-repo-selector
-    //-   ng-show = "state.step === 1"
-    //-   state = "state"
-    //- )
-      ng-show = "state.step === 2"
+    .modal-body.modal-repo-selector(
+      actions = "actions"
+      data = "data"
+      gs-repo-selector
+      ng-show = "state.step === 1"
+      state = "state"
+    )
     .modal-body.modal-stack-selector.clearfix(
       allDependencies = "allDependencies"
       ng-show = "state.step === 2"
       actions = "actions"
-      ng-include = "'viewModalStackSelector'"
-      setup-stack-dependencies
+      modal-stack-selector
+      modal-stack-dependencies
       state = "state"
     )
+      //- ng-include = "'viewModalStackSelector'"
     //- .modal-body.modal-stack-dependencies(
     //-   ng-include = "'viewModalStackDependencies'"
     //-   ng-show = "state.step === 3"
