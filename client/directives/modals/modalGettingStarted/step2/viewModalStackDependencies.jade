@@ -15,7 +15,6 @@
       )
   ul.list
     li.list-item(
-    ng-repeat = "dependency in state.dependencies"
-    ) {{ dependency.attrs.name }}
-    li.list-item RabbitMQ
+      ng-repeat = "dependency in state.dependencies"
+    ) {{ dependency.instance.attrs.name }}
 

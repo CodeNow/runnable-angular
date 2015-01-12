@@ -51,6 +51,7 @@ function gsRepoSelector(
       }
       $scope.selectRepo = function (repo) {
         fetchStackData(repo.attrs.full_name, function (err) {
+          delete repo.spin;
           $scope.state.step = 2;
           errs.handler(err);
         });
