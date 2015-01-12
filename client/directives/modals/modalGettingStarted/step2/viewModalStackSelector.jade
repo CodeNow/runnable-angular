@@ -31,7 +31,13 @@
       placeholder = "npm start"
     )
 .col
-  .well.gray
+  .well.gray(
+    modal-stack-dependencies
+    actions = "actions"
+    data = "data"
+    state = "state"
+  )
+  //-
     h2.sub-header
       span.sub-header-text Dependencies
       button.btn.btn-xxs.gray.sub-header-action(

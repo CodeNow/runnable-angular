@@ -13,6 +13,7 @@ function modalStackSelector(
     templateUrl: 'viewModalStackSelector',
     scope: {
       data: '=',
+      actions: '=',
       state: '='
     },
     link: function ($scope, elem, attrs) {
