@@ -2,7 +2,6 @@
 
 var $controller,
     $rootScope,
-    $timeout,
     $scope,
     $window;
 var keypather;
@@ -48,14 +47,12 @@ describe('controllerApp'.bold.underline.blue, function () {
     angular.mock.inject(function (
       _$controller_,
       _$rootScope_,
-      _$timeout_,
       _keypather_,
       _$window_
     ) {
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
-      $timeout = _$timeout_;
       keypather = _keypather_;
       $window = _$window_;
     });
