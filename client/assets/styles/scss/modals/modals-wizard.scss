@@ -1,8 +1,8 @@
 .modal-wizard {
 
-  .modal-body {
-    display: none;
-  }
+  // .modal-body {
+  //   display: none;
+  // }
 
   .modal-header {
     background: $gray-lightest;
@@ -15,17 +15,17 @@
   }
 }
 
-.modal-wizard-1 .modal-repo-selector {
-  display: block;
-}
+// .modal-wizard-1 .modal-repo-selector {
+//   display: block;
+// }
 
-.modal-wizard-2 .modal-stack-selector {
-  display: block;
-}
+// .modal-wizard-2 .modal-stack-selector {
+//   display: block;
+// }
 
-.modal-wizard-3 .modal-stack-dependencies {
-  display: block;
-}
+// .modal-wizard-3 .modal-stack-dependencies {
+//   display: block;
+// }
 
 // .modal-stack-selector (wizard 2)
 .modal-stack-selector {

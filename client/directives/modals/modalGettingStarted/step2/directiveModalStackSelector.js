@@ -1,14 +1,14 @@
 require('app')
-  .directive('setupStackSelector', setupStackSelector);
+  .directive('ModalStackSelector', ModalStackSelector);
 /**
  * @ngInject
  */
-function setupStackSelector(
+function ModalStackSelector(
   keypather
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewSetupStackSelector',
+    templateUrl: 'viewModalStackSelector',
     scope: {
       data: '=',
       state: '='
