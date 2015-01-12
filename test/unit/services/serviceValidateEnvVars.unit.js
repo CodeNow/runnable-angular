@@ -1,3 +1,5 @@
+'use strict';
+
 function helperGenericTests (result) {
   expect(result).to.be.ok;
   expect(result).to.be.an('object');

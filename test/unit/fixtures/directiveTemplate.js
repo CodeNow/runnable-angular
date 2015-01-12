@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = directiveTemplate;
 
 function directiveTemplate (templateName, attrs) {

@@ -32,7 +32,6 @@
     //- .modal-body.modal-repo-selector(
     //-   actions = "actions"
     //-   data = "data"
-    //-   ng-include = "'viewModalRepoSelector'"
     //-   gs-repo-selector
     //-   ng-show = "state.step === 1"
     //-   state = "state"
@@ -40,6 +39,7 @@
       ng-show = "state.step === 2"
     .modal-body.modal-stack-selector.clearfix(
       allDependencies = "allDependencies"
+      ng-show = "state.step === 2"
       actions = "actions"
       ng-include = "'viewModalStackSelector'"
       setup-stack-dependencies

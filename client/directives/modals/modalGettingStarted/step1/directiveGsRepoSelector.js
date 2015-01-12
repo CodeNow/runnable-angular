@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('gsRepoSelector', gsRepoSelector);
 /**
@@ -12,6 +14,7 @@ function gsRepoSelector(
   fetchUser,
   hasKeypaths,
   $stateParams,
+  $timeout,
   QueryAssist
 ) {
   return {
@@ -26,7 +29,7 @@ function gsRepoSelector(
       function fetchStackData(repo, cb) {
         fetchStackInfo(repo, function (err, data) {
           if (err) { return cb(err); }
-          $scope.$watch('allDependencies', function (allDeps) {
+          $scope.$watch('data.allDependencies', function (allDeps) {
             if (allDeps) {
               var includedDeps = data.map(function (dep) {
                 return allDeps.find(hasKeypaths({'attrs.name': dep}));
@@ -39,10 +42,10 @@ function gsRepoSelector(
         });
       }
       $scope.selectRepo = function (repo) {
-        fetchStackData(repo.attrs.repo, function (err) {
+        fetchStackData(repo.attrs.full_name, function (err) {
           errs.handler(err);
-          $scope.step = 2;
         });
+        $scope.state.step = 2;
       };
 
       function getOwnerRepoQuery(user, userName, cb) {
@@ -54,6 +57,7 @@ function gsRepoSelector(
         }
       }
       function fetchAllOwnerRepos(user, cb) {
+        var pageFetchState = 1;
         function fetchPage(page) {
           var userOrOrg = getOwnerRepoQuery(
             user,
@@ -70,6 +74,8 @@ function gsRepoSelector(
                * Double concat to models arr
                * if logic run twice (cached & non-cached)
                */
+              if (page < pageFetchState) { return cb(); }
+              pageFetchState++;
               if (!$scope.githubRepos) {
                 $scope.githubRepos = githubRepos;
               } else {
@@ -88,7 +94,7 @@ function gsRepoSelector(
               }
             })
             .resolve(function (err, githubRepos, cb) {
-
+              cb();
             })
             .go();
         }
@@ -97,7 +103,7 @@ function gsRepoSelector(
       async.waterfall([
         fetchUser,
         fetchAllOwnerRepos
-      ]);
+      ], errs.handler);
     }
   };
 }

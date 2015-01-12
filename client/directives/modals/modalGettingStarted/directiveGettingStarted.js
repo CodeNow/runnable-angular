@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('modalGettingStarted', modalGettingStarted);
 /**
@@ -60,7 +62,7 @@ function modalGettingStarted(
       });
       fetchGSDepInstances(function (err, deps) {
         if (err) { return errs.handler(err); }
-        keypather.set($scope, 'allDependencies', deps);
+        keypather.set($scope, 'data.allDependencies', deps);
       });
       $scope.$watch('state.stack.name', function (n) {
         if (n) {

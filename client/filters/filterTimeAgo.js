@@ -1,3 +1,5 @@
+'use strict';
+
 // TODO include moment via service TJ made
 var moment = require('moment');
 require('app')

@@ -1,7 +1,8 @@
+'use strict';
+
 var path    = require('path');
 var find    = require('find');
 var fs      = require('fs');
-var package = require('./package');
 var async   = require('async');
 var Table   = require('cli-table');
 
@@ -113,6 +114,7 @@ module.exports = function(grunt) {
         nonbsp: true,
         quotmark: 'single',
         curly: true,
+        globalstrict: true,
         globals: {
           jQuery: true,
           angular: true,
@@ -310,10 +312,10 @@ module.exports = function(grunt) {
     coverage: {
       options: {
         thresholds: {
-          statements: 52.71,
-          branches: 35.25,
-          functions: 47.01,
-          lines: 53.41
+          statements: 57.25,
+          branches: 39.96,
+          functions: 51.89,
+          lines: 58.21
         },
         dir: 'coverage',
         root: 'test'
@@ -378,7 +380,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || 'http://stage-api.codenow.runnable.io';
+        configObj.host = process.env.API_HOST || '//stage-api.codenow.runnable.io';
 
         if (configObj.host.charAt(configObj.host.length-1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length-1);
