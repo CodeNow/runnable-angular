@@ -5,10 +5,10 @@
     header.modal-header(
       ng-show = "state.step === 1"
     )
-      h1.modal-heading(
-        ng-show = "state.step !== 1"
-      ) Create New Server
-    //- header.modal-header.modal-wizard-header
+      h1.modal-heading Create New Server
+    header.modal-header.modal-wizard-header(
+      ng-show = "state.step !== 1"
+    )
       .row
         small.small Create New Server
       .row
