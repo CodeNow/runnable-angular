@@ -1,20 +1,32 @@
 .col
-  label.row.clearfix
-    span.label-text Language
-    button.btn.btn-sm.gray node.js v0.10.35
+  label.clearfix
+    .label-col
+      span.label-text Language
+    button.btn.btn-sm.gray
+      img.img(
+        height = "21"
+        src = "/build/images/home/icons-node.js.svg"
+        width = "21"
+      )
+      | node.js
+      small.small v0.10.35
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-  label.row.clearfix
-    span.label-text Ports
-    small.small Separate by commas
+  label.clearfix
+    .label-col
+      span.label-text Ports
+      small.small Separate by commas
+    //- placeholder and values should be the same
     input.input.input-sm(
-      placeholder = "80,8000,8001"
+      placeholder = "80, 8000, 8001"
     )
-  label.row.clearfix
-    span.label-text Command
-    small.small Something about commands
+  label.clearfix
+    .label-col
+      span.label-text Command
+      small.small Something about commands
+    //- placeholder and values should be the same
     input.input.input-sm(
       placeholder = "npm start"
     )

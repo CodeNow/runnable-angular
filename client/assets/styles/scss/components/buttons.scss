@@ -47,6 +47,7 @@ button,
   // if .arrow-down
   .icons-arrow-down {
     float: right;
+    margin-left: 6px;
     top: 18px;
     transition: opacity .2s ease-in, transform .3s ease-in;
   }
@@ -80,6 +81,15 @@ button,
   height: 36px;
   line-height: 36px;
   padding: 0 6px;
+
+  > .icons-arrow-down {
+    top: 6px;
+  }
+
+  > .img {
+    float: left;
+    margin: 7px 6px 0 0;
+  }
 }
 
 .btn-xs {
