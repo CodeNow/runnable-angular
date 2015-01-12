@@ -174,6 +174,10 @@ button,
       border-color: rgba($gray-darker,.6);
       color: $white;
       transition: none;
+
+      .iconnables {
+        color: $white;
+      }
     }
   }
 }

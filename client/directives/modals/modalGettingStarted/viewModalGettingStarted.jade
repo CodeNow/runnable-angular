@@ -16,18 +16,22 @@
             use(
               xlink:href = "#icons-arrow-back"
             )
-        span CodeNow/runnable-angular
-        button.btn-xs.gray.btn-select
+        h1.modal-heading CodeNow/runnable-angular
+        button.btn.btn-xs.gray.btn-select
           svg.iconnables.icons-branch
             use(
               xlink:href = "#icons-branch"
             )
-          | master
+          span master
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
             )
-      h1.modal-heading Create New Server
+          select.select
+            option(
+              selected
+            ) master
+            option not-master
     //- .modal-body.modal-repo-selector(
     //-   actions = "actions"
     //-   data = "data"

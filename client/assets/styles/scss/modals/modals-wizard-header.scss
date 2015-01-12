@@ -3,7 +3,7 @@
   text-align: left;
 
   .small {
-    color: $gray-lighter;
+    color: $gray-light;
     display: block;
     text-indent: 45px;
   }
@@ -13,12 +13,33 @@
 
     &:first-child {
       height: 24px;
-      line-height: 24px;
+      line-height: 45px;
     }
 
     &:nth-child(2) {
       height: 48px;
       line-height: 48px;
+    }
+  }
+
+  .modal-heading {
+    display: inline;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: inherit;
+    padding: 0;
+  }
+
+  .iconnables {
+    color: $gray-light;
+  }
+
+  // branch
+  .btn-select {
+    margin-left: 9px;
+
+    .iconnables {
+      width: 18px;
     }
   }
 }
