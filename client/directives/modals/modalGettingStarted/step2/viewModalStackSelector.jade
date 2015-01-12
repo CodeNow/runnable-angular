@@ -1,0 +1,69 @@
+.col
+  label.row.clearfix
+    span.label-text Language
+    button.btn.btn-sm.gray node.js v0.10.35
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+  label.row.clearfix
+    span.label-text Ports
+    small.small Separate by commas
+    input.input.input-sm(
+      placeholder = "80,8000,8001"
+    )
+  label.row.clearfix
+    span.label-text Command
+    small.small Something about commands
+    input.input.input-sm(
+      placeholder = "npm start"
+    )
+.col
+  .well.gray
+    h2.sub-header
+      span.sub-header-text Dependencies
+      button.btn.btn-xxs.gray.sub-header-action Add…
+    ul.list
+      li.list-item PostgresQL
+      li.list-item RabbitMQ
+
+//- h3.popover-title {{state.stack.name}}
+//-   .btn.btn-select.text-overflow
+//-     svg.iconnables.icons-arrow-down
+//-       use(
+//-       xlink:href = "#icons-arrow-down"
+//-       )
+//-     select.select(
+//-     name = "state.stack"
+//-     ng-change = "actions.selectStack(state.stack)"
+//-     ng-model = "state.stack"
+//-     ng-options = "stack.name for stack in data.stacks"
+//-     )
+//-   h4.popover-title(
+//-     ng-repeat = "dep in state.stack.versionReqs"
+//-   ) {{dep.name}} version
+//-     .btn.btn-select.text-overflow {{state.version[dep.name]}}
+//-       svg.iconnables.icons-arrow-down
+//-         use(
+//-         xlink:href = "#icons-arrow-down"
+//-         )
+//-       select.select(
+//-         name = "state.version[dep.name]"
+//-         ng-change = "actions.selectVersion(dep, state.version[dep.name])"
+//-         ng-model = "state.version[dep.name]"
+//-         ng-options = "version.toString() for version in dep.versions"
+//-       )
+//-   h4 Ports used
+//-     input.setup-name-input(
+//-       ng-model = "state.ports"
+//-       placeholder = "Enter ports here"
+//-       select-on
+//-       spellcheck = "false"
+//-     )
+//-   h4 Start Command
+//-     input.setup-name-input(
+//-       ng-model = "state.startCommand"
+//-       placeholder = "Enter the start command"
+//-       select-on
+//-       spellcheck = "false"
+//-     )

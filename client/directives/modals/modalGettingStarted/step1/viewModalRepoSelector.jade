@@ -1,19 +1,30 @@
-main.modal-body
-  input.input.input-search(
-    autofocus
-    ng-model = "data.repoFilter"
-    placeholder = "Filter repositories"
-    select-on = "data.showFilter"
-    required
+input.input.input-search(
+  autofocus
+  ng-model = "data.repoFilter"
+  placeholder = "Filter repositories"
+  select-on = "data.showFilter"
+  required
+)
+ul.list.list-divided
+  li.list-item.list-item-link(
+    ng-repeat = "repo in githubRepos.models"
+    ng-click = "repo.spin = true; selectRepo(repo)"
   )
-  ul.list.list-divided
-    li.list-item.list-item-link(
-      ng-repeat = "repo in githubRepos.models"
-      ng-click = "repo.spin = true; selectRepo(repo)"
+    span.list-item-title {{ repo.attrs.full_name }}
+    small.small {{ repo.attrs.updated_at | timeAgo }}
+    .spinner-wrapper.spinner-md(
+      ng-class = "{in: repo.spin}"
+      ng-include = "'spinner'"
     )
-      span.list-item-title {{ repo.attrs.full_name }}
-      small.small {{ repo.attrs.updated_at | timeAgo }}
-      .spinner-wrapper.spinner-md(
-        ng-class = "{in: repo.spin}"
-        ng-include = "'spinner'"
-      )
+//- coach mark
+.guide-wrapper.guide-1(
+  style = "left: -18px; top: 117px;"
+)
+  .guide.guide-mark
+  .popover.left.popover-guides.in(
+    style = "left: -271px; top: -39px;"
+  )
+    .arrow.white
+    .popover-content.clearfix
+      h3.popover-header Select a repository
+      p Choose one of your repos to run on a server
