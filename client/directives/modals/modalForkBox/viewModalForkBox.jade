@@ -71,8 +71,8 @@
         green: data.forkForm.$valid, \
         orange: data.forkForm.$invalid \
       }"
-      ng-disabled = "data.forkForm.$invalid"
       ng-click = "actions.forkInstance(items); defaultActions.cancel();"
+      ng-disabled = "data.forkForm.$invalid"
     ) Fork Box
     button.btn.white(
       ng-click = "data.forkForm.$setPristine(); \

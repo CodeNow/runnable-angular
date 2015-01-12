@@ -41,10 +41,10 @@
       state = "state"
     )
     .modal-body.modal-stack-selector.clearfix(
-      data = "data"
-      ng-show = "state.step === 2"
       actions = "actions"
+      data = "data"
       modal-stack-selector
+      ng-show = "state.step === 2"
       state = "state"
     )
       //- ng-include = "'viewModalStackSelector'"
@@ -52,3 +52,9 @@
     //-   ng-include = "'viewModalStackDependencies'"
     //-   ng-show = "state.step === 3"
     //- )
+
+    footer.modal-footer(
+      ng-show = "state.step !== 1"
+    )
+      button.btn.green Next Step
+      button.btn.white Cancel
