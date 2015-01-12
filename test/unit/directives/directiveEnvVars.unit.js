@@ -1,3 +1,5 @@
+'use strict';
+
 describe('directiveEnvVars'.bold.underline.blue, function() {
   var element;
   var $scope;

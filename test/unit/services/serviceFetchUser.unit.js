@@ -1,3 +1,5 @@
+'use strict';
+
 describe('serviceFetchUser'.bold.underline.blue, function () {
   var $state, user, fetchUser;
   beforeEach(function () {

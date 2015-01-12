@@ -1,3 +1,5 @@
+'use strict';
+
 var jQuery  = require('jquery');
 var sinon = require('sinon');
 var pluck = require('101/pluck');

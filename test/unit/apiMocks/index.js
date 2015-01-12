@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   appCodeVersions: {
     bitcoinAppCodeVersion: require('./appCodeVersions/bitcoinAppCodeVersion'),

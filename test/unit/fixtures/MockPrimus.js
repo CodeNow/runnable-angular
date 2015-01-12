@@ -1,3 +1,5 @@
+'use strict';
+
 var ReadableStream = require('stream').Readable;
 var EventEmitter = require('events').EventEmitter;
 

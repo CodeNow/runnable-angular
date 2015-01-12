@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .factory('createInstanceDeployedPoller', createInstanceDeployedPoller);
 /**
@@ -58,6 +60,7 @@ function createInstanceDeployedPoller (
     this.startCounter--;
     if (this.startCounter < 1) { clear.call(this); }
     function clear() {
+      /* jshint validthis:true */
       if (this.interval && this.instance) {
         $interval.cancel(this.interval);
         this.instance.fetch(errs.handler);

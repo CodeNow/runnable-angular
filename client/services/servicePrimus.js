@@ -1,3 +1,5 @@
+'use strict';
+
 var PrimusClient = require('primus-client');
 var util = require('util');
 var uuid = require('uuid');
