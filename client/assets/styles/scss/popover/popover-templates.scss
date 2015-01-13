@@ -1,0 +1,48 @@
+// .template-list
+.template-list {
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+
+  .icons-arrow-down {
+    top: 10px;
+  }
+}
+
+// .template-list-item
+.template-list-item {
+  cursor: pointer;
+  display: block;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 15px;
+  position: relative;
+
+  &:hover {
+    background: rgba($purple,.15);
+  }
+}
+
+// img.template-image
+.template-image {
+  float: left;
+  height: 45px;
+  width: 24px;
+}
+
+// h2.template-title
+.template-title {
+  color: $gray-dark;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 300;
+  margin-left: 12px;
+  text-decoration: none;
+}
+
+.popover-templates {
+  position: absolute;
+  transform: scale3d(1,.5,1);
+  transform-origin: 50% 0;
+  width: 209px;
+}

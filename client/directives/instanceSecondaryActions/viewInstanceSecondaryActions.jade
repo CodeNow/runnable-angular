@@ -1,14 +1,3 @@
-//- apply class .in to .save-spinner to play animation
-//- subsequent saves: remove .in and reapply .in
-.save-spinner(
-  ng-class = "{in: saving}"
-)
-  .spinner
-    .spinner-ring
-  svg.iconnables.icons-check
-    use(
-      xlink:href = "#icons-check"
-    )
 button.btn.white.btn-action(
   ng-click = "goToEdit()"
   title = "Edit Box"
@@ -23,7 +12,7 @@ button.btn.white.btn-action(
   modal
   modal-actions = "popoverGearMenu.actions.actionsModalFork"
   modal-data = "popoverGearMenu.data.dataModalFork"
-  modal-template = "viewOpenModalFork"
+  modal-template = "viewOpenModalForkBox"
   title = "Fork Box"
   type = "button"
 )

@@ -1,0 +1,80 @@
+.modal-integrations {
+
+  .list {
+    max-height: 407px;
+    overflow-y: auto;
+
+    @include media(md) {
+      max-height: 560px;
+    }
+
+    @include media(xs) {
+      max-height: 30vh;
+    }
+  }
+
+  .modal-body {
+    display: table-cell;
+    padding: 6px;
+
+    @include media(xs) {
+      display: block;
+      max-height: calc(70vh - 45px);
+      overflow-y: auto;
+    }
+  }
+
+  .form {
+    padding: 3px;
+  }
+
+  .col {
+    float: left;
+
+    &:first-child {
+      width: 150px;
+    }
+
+    &:last-child {
+      width: 360px;
+
+      @include media(md) {
+        width: 100%;
+      }
+    }
+  }
+
+  .input-group {
+    margin: 0;
+
+    + .input-group {
+      margin-top: 6px;
+    }
+  }
+
+  .link-reference {
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  // save button
+  .green {
+    float: right;
+    margin: 6px 0 0;
+  }
+
+  .hr {
+    background: rgba($black,.1);
+    border: 0;
+    height: 1px;
+    margin: 15px;
+
+    @include media(md) {
+      margin: 30px 9px;
+    }
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba($black,.1);
+  }
+}

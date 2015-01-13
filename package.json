@@ -17,7 +17,7 @@
   "author": "Casey Flynn",
   "dependencies": {
     "101": "^0.5.0",
-    "angular": "1.3.7",
+    "angular": "1.3.8",
     "angular-ui-ace": "git://github.com/Runnable/ui-ace.git#v0.2.0",
     "angular-ui-router": "~0.2.10",
     "ansi-to-html": "^0.2.0",
@@ -41,7 +41,7 @@
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
     "primus": "^2.3.0",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.6",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.14",
     "term.js": "git://github.com/Runnable/term.js.git#6a1d4ec38aa26c61fb6a4f0a20ba5cb207e66f2d",
     "uuid": "^2.0.1"
   },
@@ -103,7 +103,6 @@
     "app": "./client/lib/app.js",
     "main": "./client/main.js",
     "primus-client": "./client/assets/js/primus-client.js",
-    "skrollr": "./client/assets/js/skrollr.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js",
     "config/environment": "./client/config/environment.js",

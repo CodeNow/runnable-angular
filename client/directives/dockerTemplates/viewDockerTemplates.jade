@@ -9,7 +9,7 @@ section.row(
   )
 
   .label-group.load(
-    ng-class = "{in: data.highlightTemplates}"
+    ng-class = "{'guide-in': data.highlightTemplates}"
     ng-click = "data.highlightTemplates = false"
     ng-show = "seedContexts.models"
   )
@@ -24,7 +24,7 @@ section.row(
         type = "radio"
       )
   //- show .guide if a template has not been selected
-  .guide.blue.load(
+  .guide.guide-image.guide-pointer.load(
     ng-click = "data.highlightTemplates = true"
     ng-show = "!selectedSourceContext && seedContexts.models"
   )
@@ -32,4 +32,4 @@ section.row(
       use(
         xlink:href = "#icons-docker"
       )
-    p.guide-text Choose a template to generate your dockerfile.
+    .guide-text Choose a template to generate your dockerfile.

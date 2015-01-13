@@ -2,6 +2,7 @@ doctype html
 html(
   lang = "en"
   ng-controller = "ControllerApp"
+  ng-class = "dataApp.state.current.data.bodyClass"
 )
   head
     meta(
@@ -26,7 +27,7 @@ html(
       rel = "shortcut icon"
     )
 
-    //- ios
+    //- ios and safari icons
     link(
       href = "/build/images/icons-ios.png"
       rel = "apple-touch-icon"
@@ -34,6 +35,12 @@ html(
     meta(
       console = "Runnable"
       name = "apple-mobile-web-app-title"
+    )
+
+    //- mobile chrome and firefox theme
+    meta(
+      content = "#5b3777"
+      name = "theme-color"
     )
 
     //- js
@@ -57,15 +64,16 @@ html(
         olark.identify('1268-458-10-2188');
 
   body(
-    ng-class = "dataApp.state.current.data.bodyClass"
+    ng-class = "{minimize: dataApp.data.minimizeNav}"
   )
-
     //
       TIME: #{locals.commitTime}
       HASH: #{locals.commitHash}
       LINK: http://github.com/codenow/runnable-angular/commits/#{locals.commitHash}
-    ng-include#svg-defs(
-      src = "'svgDefs'"
+
+    //- svg file
+    .svg-defs(
+      ng-include = "'svgDefs'"
     )
 
     //- spinner
@@ -75,7 +83,6 @@ html(
     )
 
     div(
-      ng-class = "{'nav-open': !dataApp.data.minimizeNav}"
       ng-click = "dataApp.documentClickEventHandler($scope, this)"
       ui-view
     )

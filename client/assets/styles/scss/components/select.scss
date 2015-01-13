@@ -7,7 +7,9 @@
   }
 
   select {
+    background: transparent; // needed to set height
     cursor: pointer;
+    font-size: 16px;
     height: 100%;
     left: 0;
     opacity: 0;

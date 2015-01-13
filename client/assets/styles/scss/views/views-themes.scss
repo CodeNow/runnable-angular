@@ -30,10 +30,10 @@
   position: relative;
 
   &.readonly {
-    background-color: $gray-light;
+    background-color: $gray-lighter;
 
     .ace_gutter {
-      background-color: $gray-light;
+      background-color: $gray-lighter;
     }
 
     .ace_active-line {
@@ -81,7 +81,7 @@
 
   &.ace_multiselect .ace_selection.ace_start {
     border-radius: 2px;
-    box-shadow: 0 0 3px 0 $gray-lighter;
+    box-shadow: 0 0 3px 0 $gray-lightest;
   }
 
   .ace_marker-layer .ace_step {

@@ -25,16 +25,10 @@ function addRepoPopover(
     link: function ($scope, elem, attrs) {
 
       // rules for display based on state name
-      switch ($state.$current.name) {
-      case 'instance.instance':
+      if ($state.$current.name === 'instance.instance') {
         $scope.enabled = false;
-        break;
-      case 'instance.instanceEdit':
+      } else {
         $scope.enabled = true;
-        break;
-      case 'instance.setup':
-        $scope.enabled = true;
-        break;
       }
       $scope.repoListPopover = {
         data: {},
@@ -130,9 +124,9 @@ function addRepoPopover(
           })
           .resolve(function (err, instances, cb) {
             var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
             cb(err);
           })
           .go();

@@ -69,6 +69,7 @@ function popOver(
 
       $('body').append(popEl);
       $scope.$watch('popoverReady', setCSS);
+
       $scope.$watch(function () {
         return element.hasClass('in');
       }, function(n) {

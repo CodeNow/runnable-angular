@@ -32,6 +32,7 @@ function modal(
         template = template.replace('%%GENERIC_TEMPLATE_NAME%%', $scope.template);
       }
       var $template = angular.element(template);
+      $scope.actions = $scope.actions || {};
 
       $scope.defaultActions = {
         save: function (state, paths, cb) {

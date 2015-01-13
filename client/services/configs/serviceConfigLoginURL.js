@@ -9,8 +9,13 @@ function configLoginURL(
   $window,
   configAPIHost
 ) {
-  return function () {
-    var redirect = encodeURI($window.location.protocol + '//' + $window.location.host + '/?auth');
+  return function (demo) {
+    var redirect = encodeURI($window.location.protocol + '//' + $window.location.host);
+    if (demo) {
+      redirect += '/demo/fork';
+    } else {
+      redirect += '/?auth';
+    }
     return configAPIHost + '/auth/github?redirect=' + redirect;
   };
 }

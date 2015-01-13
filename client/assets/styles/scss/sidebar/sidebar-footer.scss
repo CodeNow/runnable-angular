@@ -1,11 +1,10 @@
 // footer.row.global-footer
 .global-footer {
-  background: rgba($gray-lighter,.9);
+  background: rgba($gray-lightest,.9);
   flex: 0 0 auto;
   height: 54px;
   padding: 9px 6px;
   position: relative;
-  // transition: all .2s ease-in;
   transition: background .3s ease-in, box-shadow .3s ease-in, height .2s ease-in, padding .2s ease-in;
   z-index: $z-sidebar-footer;
 
@@ -13,7 +12,7 @@
     float: right;
   }
 
-  .icons-arrow-left {
+  .icons-minimize {
     transition: transform .3s .2s;
   }
 }

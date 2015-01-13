@@ -19,8 +19,4 @@
   position: absolute;
   right: 5px;
   top: 5px;
-
-  &.active .icons-add {
-    transform: rotate3d(0,0,1,135deg);
-  }
 }

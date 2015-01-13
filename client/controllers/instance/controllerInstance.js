@@ -9,6 +9,7 @@ function ControllerInstance(
   async,
   $filter,
   errs,
+  instanceUpdatedPoller,
   keypather,
   OpenItems,
   QueryAssist,
@@ -17,6 +18,7 @@ function ControllerInstance(
   $scope,
   $state,
   $stateParams,
+  $timeout,
   fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
@@ -41,7 +43,27 @@ function ControllerInstance(
     // in shows/hides file-menu
     in: false
   };
-  if ($stateParams.instanceName && $stateParams.userName) {
+
+  data.isDemo = $state.$current.name === 'demo.instance';
+
+  if (!$stateParams.instanceName) {
+    var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
+      if (n !== p && n) {
+        unwatch();
+        if (n.models.length) {
+          var models = $filter('orderBy')(n.models, 'attrs.name');
+          $state.go('instance.instance', {
+            instanceName: models[0].attrs.name,
+            userName: $stateParams.userName
+          }, {location: 'replace'});
+        } else {
+          $state.go('instance.new', {
+            userName: $stateParams.userName
+          }, {location: 'replace'});
+        }
+      }
+    });
+  } else if ($stateParams.instanceName && $stateParams.userName) {
     async.waterfall([
       fetchUser,
       fetchInstance
@@ -50,10 +72,29 @@ function ControllerInstance(
         $state.go('instance.home', {
           userName: $stateParams.userName
         });
+        errs.handler(err);
       }
-      errs.handler(err);
+      instanceUpdatedPoller.start(data.instance);
     });
   }
+
+  $scope.$on('new-build', function() {
+    if (data.showUpdatingMessage) { return; } // Remove this line on ws change
+    data.showUpdatingMessage = true;
+    data.instance.fetch(function(err, json) {
+      if (err) { return errs.handler(err); }
+      data.showUpdatingMessage = false;
+      data.showUpdatedMessage = true;
+      $timeout(function() {
+        data.showUpdatedMessage = false;
+      });
+      // FIXME: we need to add watches in repo list so that it updates dynamically
+      // and remove this window.location refresh
+      window.location.reload();
+    });
+  });
+
+
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
   // button in this situation)
@@ -141,6 +182,7 @@ function ControllerInstance(
 
   $scope.$on('$destroy', function () {
     containerWatch();
+    instanceUpdatedPoller.stop();
   });
 
   function buildLogsOnly () {

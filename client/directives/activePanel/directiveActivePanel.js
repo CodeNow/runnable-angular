@@ -15,6 +15,7 @@ require('app')
 function activePanel(
   async,
   debounce,
+  editorCache,
   keypather,
   modelist,
   QueryAssist,
@@ -68,6 +69,8 @@ function activePanel(
 
       actions.setAceMode = function (_editor, item) {
         var name = keypather.get(item, 'attrs.name');
+        // Allows other components to interact with this editor
+        editorCache[name] = _editor;
         if (name) {
           var mode = modelist.getModeForPath(name).mode;
           _editor.getSession().setMode(mode);

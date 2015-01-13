@@ -19,9 +19,12 @@ button,
 
   // for <a> elemnts
   &:hover,
-  &:active,
-  &.active {
+  &:active {
     text-decoration: none;
+  }
+
+  &:active {
+    transition: none;
   }
 
   &:focus {
@@ -46,9 +49,50 @@ button,
       transform: rotate3d(1,0,0,-180deg);
     }
   }
+
+  // github icon with text
+  > .icons-git {
+    margin-right: 6px;
+    top: 6px;
+    width: 21px;
+  }
+
+  // if .arrow-down
+  .icons-arrow-down {
+    float: right;
+    top: 18px;
+  }
+
+  // animations
+  &.active {
+
+    .icons-add,
+    .icons-gear {
+      transform: rotate3d(0,0,1,135deg);
+    }
+
+    .icons-arrow-down {
+      transition: opacity .2s ease-in, transform .3s ease-in;
+
+      // flip arrow
+      .in &,
+      .active & {
+        transform: rotate3d(1,0,0,-180deg);
+      }
+    }
+  }
 }
 
 // button sizes
+.btn-xl {
+  border-radius: 6px;
+  font-size: 30px;
+  font-weight: 300;
+  height: 72px;
+  line-height: 72px;
+  padding: 0 45px;
+}
+
 .btn-sm {
   height: 36px;
   line-height: 36px;
@@ -92,7 +136,6 @@ button,
 .gray,
 .green,
 .orange,
-.purple,
 .white {
   border: 1px solid transparent;
   color: $white;
@@ -125,38 +168,33 @@ button,
     &.active {
       background: rgba($blue,.2);
       border-color: rgba($blue,.4);
+      transition: none;
     }
   }
 }
 
 .gray {
-  background: rgba($black,.05);
-  border-color: rgba($black,.1);
+  background: rgba($gray-darker,.1);
+  border-color: rgba($gray-darker,.15);
   color: $gray;
   font-weight: 300;
 
   &.btn {
 
     &:hover {
-      border-color: rgba($black,.2);
+      border-color: rgba($gray-darker,.3);
     }
 
     &:active,
     &.active {
-      border-color: rgba($black,.3);
-    }
-
-    &[disabled],
-    &.disabled {
-
-      &:hover,
-      &:active,
-      &.active {
-        border-color: rgba($black,.05);;
-      }
+      background: rgba($gray-darker,.45);
+      border-color: rgba($gray-darker,.6);
+      color: $white;
+      transition: none;
     }
   }
 }
+
 
 .green {
   background: rgba($green,.75);
@@ -220,7 +258,7 @@ button,
       }
     }
   }
- }
+}
 
 .purple {
   background: rgba($purple,.1);

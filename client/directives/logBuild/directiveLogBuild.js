@@ -170,9 +170,9 @@ function logBuild(
               return cb(new Error('Instance not found'));
             }
             var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
             $scope.instance = instance;
             $scope.build = instance.build;
             cb();

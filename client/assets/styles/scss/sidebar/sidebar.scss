@@ -14,7 +14,7 @@
   z-index: $z-sidebar;
 
   &.global-sidebar {
-    background: $gray-lighter;
+    background: $gray-lightest;
   }
 
   .row {
@@ -25,14 +25,27 @@
       border: 0;
     }
   }
+
+  .guide {
+    margin: 0 6px 9px;
+  }
 }
 
-// header.row.account-header
-.account-header {
-  @extend .webkit-flicker;
-  flex: 0 0 auto;
-  position: relative;
-  z-index: $z-sidebar-header;
+.sidebar-header {
+  font-size: 21px;
+  font-weight: 500;
+  margin: 24px 0 12px;
+  padding: 0 9px;
+}
+
+.sidebar-paragraph {
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 0 9px;
+
+  + .sidebar-paragraph {
+    margin-top: 12px;
+  }
 }
 
 // h2.sub-header
@@ -40,7 +53,7 @@
   height: 45px;
   line-height: 45px;
   min-height: 45px;
-  padding: 0 15px;
+  padding: 0 6px 0 15px;
   position: relative;
 }
 
@@ -52,12 +65,12 @@
 
 // a.sub-header-action
 .sub-header-action.sub-header-action {
+  float: right;
+  margin-top: 6px;
   padding: 0;
-  position: absolute;
-  right: 6px;
-  top: 6px;
 
   &.white {
+    height: 36px;
     width: 36px;
   }
 
@@ -67,9 +80,23 @@
     top: 11px;
   }
 
+  &.btn-group {
+    margin-top: 12px;
+  }
+
+  // if .btn-group & .btn-xs
+  .btn-xs {
+    font-size: 12px;
+
+    .iconnables {
+      height: 24px;
+      margin: 0;
+      width: 18px;
+    }
+  }
+
   .iconnables {
-    float: right;
-    margin: 5px 6px 0 0;
+    margin-top: 6px;
   }
 
   .icons-update {

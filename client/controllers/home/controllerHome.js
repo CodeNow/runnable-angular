@@ -9,34 +9,24 @@ require('app')
  * @ngInject
  */
 function ControllerHome(
-  $scope,
-  $state,
-  $location,
-  $window,
-  skrollr,
   async,
   errs,
-  $localStorage,
-  keypather,
-  QueryAssist,
   fetchUser,
+  $filter,
+  keypather,
+  $localStorage,
+  $location,
+  QueryAssist,
+  $scope,
+  $state,
   user,
-  $filter
+  $window
 ) {
 
   var dataHome = $scope.dataHome = {
     data: {},
     actions: {}
   };
-
-  //- refresh skrollr on load
-  $window.s = skrollr.init({
-    forceHeight: false,
-    mobileCheck: function () {
-      return false;
-    }
-  });
-  $window.s.refresh();
 
   dataHome.data.hasPass = !!$location.search().password;
 

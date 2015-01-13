@@ -3,9 +3,8 @@
   ng-include = "'spinner'"
 )
 
-h2.sub-header.load(
-)
-  span.sub-header-text Boxes
+h2.sub-header.load
+  span.sub-header-text Servers
   a.btn.btn-sm.white.sub-header-action(
     ng-click = "stateToNew()"
     ng-href = "/{{ data.activeAccount.oauthName() }}/new"
@@ -43,8 +42,8 @@ ul.box-group
       title = "{{ getInstanceAltTitle(instance) }}"
     )
     linked-instances(
-      instances = 'data.instances'
       instance-dependencies = "instance.dependencies"
+      instances = 'data.instances'
       ng-if = "getInstanceClasses(instance).expanded"
       state-to-instance = 'stateToInstance'
       type = "sidebar"

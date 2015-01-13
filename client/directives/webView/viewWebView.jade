@@ -2,33 +2,6 @@
 //- .browser-loading is also required for the progress bar, so remove it when loading is complete
 //- nav buttons removed until we can resolve cross-origin issues
 nav.browser-chrome
-  //- apply [disabled] to back/forward to disable
-  button.btn-icon(
-    ng-click = "actions.back()"
-    ng-if = "false"
-    type = "button"
-  )
-    svg.iconnables.icons-chevron-left
-      use(xlink:href = "#icons-chevron-left")
-  button.btn-icon(
-    ng-click = "actions.forward()"
-    ng-if = "false"
-    type = "button"
-  )
-    svg.iconnables.icons-chevron-right
-      use(xlink:href = "#icons-chevron-right")
-  .iconnables.iconnables-container(
-    ng-if = "false"
-  )
-    button.btn-icon(
-      type = "button"
-      ng-click = "actions.refresh()"
-    )
-      svg.iconnables.icons-refresh
-        use(xlink:href = "#icons-refresh")
-    button.btn-icon(type = "button")
-      svg.iconnables.icons-stop
-        use(xlink:href = "#icons-stop")
   //- select all text on click
   //- inline styles with apologies to Tony
   a(

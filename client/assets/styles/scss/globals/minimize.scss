@@ -1,6 +1,5 @@
 // global structure
-// nav.sidebar.global-sidebar.minimize
-.global-sidebar.minimize {
+.minimize .global-sidebar {
   position: static;
   width: 60px;
 
@@ -15,11 +14,19 @@
     width: calc(100vw - 60px);
   }
 
-  // accounts
+  // aren't visible/selectable when minimized
   .account-name,
-  .icons-arrow-down {
+  .icons-arrow-down,
+  .sub-header-text,
+  .box-item-description,
+  .box-item-clustered {
     opacity: 0;
     pointer-events: none;
+  }
+
+  // not visible, but selectable
+  .box-item-name {
+    opacity: 0;
   }
 
   .gravatar {
@@ -29,15 +36,8 @@
     top: 18px;
   }
 
-  // h2.sub-header
-  .sub-header-text {
-    opacity: 0;
-    pointer-events: none;
-  }
-
   .sub-header-action.sub-header-action {
     height: 36px;
-    right: 7px;
     width: 45px;
 
     .icons-add {
@@ -57,40 +57,37 @@
     }
   }
 
-  .box-item-name,
-  .box-item-description,
-  .box-item-clustered {
-    opacity: 0;
-    pointer-events: none;
-  }
-
   .icons-status {
-    left: 0;
-    margin: 0 auto;
-    right: 0;
+    right: 16px;
   }
 
   // resize nav footer
   .global-footer {
-    height: 102px;
+    height: 54px;
     padding: 9px 12px;
 
-    .btn-sm {
-      margin-top: 6px;
-    }
-
-    .icons-arrow-left {
-      transform: rotate3d(0, 1, 0, 180deg);
+    .icons-minimize {
+      transform: rotate3d(0,1,0,180deg);
     }
   }
 }
 
-// hide .nav-tooltips when not minimized
-.nav-open ~ .nav-tooltips {
+// hide .nav-tooltips unless minimized
+.nav-tooltips {
   display: none;
+
+  .minimize & {
+    display: block;
+  }
 }
 
-// offset alerts
-.nav-open .alert {
-  left: 60px;
+// position account menu differently if minimize
+.minimize > .popover.popover-account-menu {
+  margin-left: - 90px;
+  margin-top: -15px;
+  transform-origin: 0 0;
+
+  .arrow {
+    display: none;
+  }
 }
