@@ -6,6 +6,7 @@
 //- &.spinner-sm - 15px by 15px
 //- &.spinner-purple - sets color to $purple-lighter
 //- &.spinner-white - sets color to $white-lighter
+//- &.spinner-blue - sets color to $blue-lighter
 
 .spinner-wrapper {
   align-items: center;
@@ -54,6 +55,10 @@
 
   &.spinner-white .path {
     stroke: $white;
+  }
+
+  &.spinner-blue .path {
+    stroke: $blue;
   }
 }
 

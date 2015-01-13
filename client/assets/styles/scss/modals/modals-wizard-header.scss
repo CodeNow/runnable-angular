@@ -1,3 +1,47 @@
+.modal-wizard-navbar.modal-wizard-navbar {
+  width: 210px;
+
+  .modal-heading {
+    float: none;
+    font-size: 14px;
+  }
+
+  .list-item {
+    border: 0;
+    border-radius: 15px;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 9px;
+
+    &:active,
+    &.active {
+      background: $blue;
+      color: $white;
+    }
+
+    &.no-states {
+
+      &:hover,
+      &:active {
+        background: transparent;
+        color: $gray-dark;
+        cursor: pointer;
+      }
+    }
+
+    + .list-item {
+      margin-top: 3px;
+    }
+  }
+
+  .btn-xs {
+    bottom: 15px;
+    left: 15px;
+    position: absolute;
+  }
+}
+
 .modal-wizard-header {
   height: 72px;
   text-align: left;

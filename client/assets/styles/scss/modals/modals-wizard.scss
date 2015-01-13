@@ -1,15 +1,5 @@
 .modal-wizard {
 
-  .modal-header {
-    background: $gray-lightest;
-    border-bottom: 1px solid rgba($black,.1);
-    // text-align: center;
-  }
-
-  .modal-heading {
-    float: none;
-  }
-
   .guide {
     border: 3px solid;
     border-radius: 50%;
@@ -19,5 +9,10 @@
   .small {
     color: $gray-light;
     display: block;
+  }
+
+  .modal-body {
+    display: table-cell;
+    width: 300px;
   }
 }

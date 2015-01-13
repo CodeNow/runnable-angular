@@ -234,7 +234,10 @@
     padding: 0 21px;
 
     .spinner-wrapper {
-      width: 72px;
+      position: absolute;
+      right: 0;
+      top: 2px;
+      width: 45px;
     }
   }
 

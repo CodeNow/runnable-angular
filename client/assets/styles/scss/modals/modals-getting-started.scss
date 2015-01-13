@@ -11,6 +11,54 @@
   }
 }
 
+// step 1
+.modal-repo-selector {
+  overflow-x: hidden;
+
+  .input-search {
+    background-position: 69px 3px;
+    margin: 4px auto;
+    padding-left: 90px;
+  }
+
+  .spinner-md {
+    width: calc(100% - 210px);
+  }
+
+  .list {
+    max-height: 80vh;
+    min-height: 180px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .list-item {
+    cursor: pointer;
+
+    &:hover .icons-arrow-down {
+      color: rgba($blue,.6);
+    }
+
+    &:active .icons-arrow-down {
+      color: $blue;
+    }
+  }
+
+  .icons-arrow-down {
+    color: $gray-light;
+    float: right;
+    position: absolute;
+    right: 9px;
+    top: 17px;
+    transform: rotate3d(0,0,1,-90deg);
+
+    &.out {
+      transform: rotate3d(0,0,1,-90deg) scale3d(0,0,0);
+    }
+  }
+}
+
+// step 2
 .modal-stack-selector {
   margin-top: 15px;
   width: 750px;

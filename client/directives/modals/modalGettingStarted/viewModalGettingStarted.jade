@@ -2,39 +2,48 @@
   ng-click = "$event.stopPropagation()"
 )
   .modal-container
-    header.modal-header(
+    nav.modal-navbar.modal-wizard-navbar(
       ng-show = "state.step === 1"
     )
-      h1.modal-heading Create New Server
-    header.modal-header.modal-wizard-header(
-      ng-show = "state.step !== 1"
-    )
-      .row
-        small.small Create New Server
-      .row
-        button.btn.btn-icon(
-          ng-show = "state.step !== 1"
-          ng-click = "state.step = state.step - 1"
-        )
-          svg.iconnables.icons-arrow-back
-            use(
-              xlink:href = "#icons-arrow-back"
-            )
-        h1.modal-heading CodeNow/runnable-angular
-        button.btn.btn-xs.gray.btn-select
-          svg.iconnables.icons-branch
-            use(
-              xlink:href = "#icons-branch"
-            )
-          span {{state.activeBranch.attrs.name}}
-          svg.iconnables.icons-arrow-down
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-          select.select(
-            ng-model = "state.activeBranch"
-            ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
-          )
+      h3.modal-heading Create New Server
+      ul.list
+        li.list-item(
+          ng-class = "{active: state.step === 1}"
+        ) 1 Repository
+        li.list-item.no-states 2 Application
+        li.list-item.no-states 3 Environment Variables
+      button.btn.btn-xs.white(
+        ng-click = "defaultActions.cancel();"
+      ) Cancel
+    //- nav.modal-navbar.modal-wizard-navbar(
+    //-   ng-show = "state.step !== 1"
+    //- )
+    //-   .row
+    //-     small.small Create New Server
+    //-   .row
+    //-     button.btn.btn-icon(
+    //-       ng-show = "state.step !== 1"
+    //-       ng-click = "state.step = state.step - 1"
+    //-     )
+    //-       svg.iconnables.icons-arrow-back
+    //-         use(
+    //-           xlink:href = "#icons-arrow-back"
+    //-         )
+    //-     h1.modal-heading CodeNow/runnable-angular
+    //-     button.btn.btn-xs.gray.btn-select
+    //-       svg.iconnables.icons-branch
+    //-         use(
+    //-           xlink:href = "#icons-branch"
+    //-         )
+    //-       span {{state.activeBranch.attrs.name}}
+    //-       svg.iconnables.icons-arrow-down
+    //-         use(
+    //-           xlink:href = "#icons-arrow-down"
+    //-         )
+    //-       select.select(
+    //-         ng-model = "state.activeBranch"
+    //-         ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
+    //-       )
     .modal-body.modal-repo-selector(
       actions = "actions"
       data = "data"
@@ -59,5 +68,5 @@
     )
       button.btn.green Next Step
       button.btn.white(
-        ng-click = "defaultActions.cancel(); "
+        ng-click = "defaultActions.cancel();"
       ) Cancel
