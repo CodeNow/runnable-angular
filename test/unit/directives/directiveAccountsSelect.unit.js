@@ -15,7 +15,13 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       },
       gravitar: function () {
         return true;
-      }
+      },
+      newSettings: sinon.spy(function() {
+        return {
+          update: sinon.spy()
+        };
+      }),
+      fetchSettings: sinon.spy()
     };
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),

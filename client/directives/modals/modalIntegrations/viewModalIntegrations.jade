@@ -28,7 +28,9 @@
           )
           | {{ org.oauthName() }}
     main.modal-body
-      form.form.clearfix
+      form.form.clearfix(
+        name = "slackForm"
+      )
         div.col
           img(
             src = "/build/images/logos/logo-slack.svg"
@@ -40,50 +42,76 @@
               'ng-valid':\
           label.input-group.input-validate(
             ng-class = "{\
-              focus: data.integrationForm.showFocus\
+              focus: slackForm.slackWebHook.showFocus,\
+              'ng-invalid': slackForm.slackWebHook.$invalid && !slackForm.slackWebHook.$pristine,\
+              'ng-valid': slackForm.slackWebHook.$valid\
             }"
           )
             span.input-label WebHook URL
             input.input(
               autocomplete = "off"
-              ng-blur = "data.integrationForm.showFocus = false"
-              ng-focus = "data.integrationForm.showFocus = true"
+              name = "slackWebHook"
+              ng-blur = "slackForm.slackWebHook.showFocus = false"
+              ng-focus = "slackForm.slackWebHook.showFocus = true"
+              ng-model = "data.settings.notifications.slack.webhookUrl"
               required
               type = "url"
             )
           a.link-gray.link-reference(
-            href = "//runnable.slack.com/services/new/incoming-webhook"
+            href = "//slack.com/services/new/incoming-webhook"
             target = "_blank"
           ) Get WebHook URL on Slack
-          button.btn.green Save
+          button.btn.green(
+            ng-click = "actions.saveSlack()"
+          ) Save
       hr.hr
-      form.form.clearfix
+      form.form.clearfix(
+        name = "hipchatForm"
+      )
         div.col
           img(
             src = "/build/images/logos/logo-hipchat.svg"
           )
         div.col
-          label.input-group.input-validate
+          label.input-group.input-validate(
+          ng-class = "{\
+              focus: hipchatForm.roomInput.showFocus,\
+              'ng-invalid': hipchatForm.roomInput.$invalid && !hipchatForm.roomInput.$pristine,\
+              'ng-valid': hipchatForm.roomInput.$valid\
+            }"
+          )
             span.input-label Room
             input.input(
               autocomplete = "off"
-              ng-blur = ""
-              ng-focus = ""
+              ng-blur = "hipchatForm.roomInput.showFocus = false"
+              ng-focus = "hipchatForm.roomInput.showFocus = true"
+              name = "roomInput"
+              ng-model = "data.settings.notifications.hipchat.roomId"
               required
             )
-          label.input-group.input-validate
+          label.input-group.input-validate(
+            ng-class = "{\
+                focus: hipchatForm.tokenInput.showFocus,\
+                'ng-invalid': hipchatForm.tokenInput.$invalid && !hipchatForm.tokenInput.$pristine,\
+                'ng-valid': hipchatForm.tokenInput.$valid\
+              }"
+          )
             span.input-label Token
             input.input(
               autocomplete = "off"
-              ng-blur = ""
-              ng-focus = ""
+              ng-blur = "hipchatForm.tokenInput.showFocus = false"
+              ng-focus = "hipchatForm.tokenInput.showFocus = true"
+              name = "tokenInput"
+              ng-model = "data.settings.notifications.hipchat.authToken"
               required
             )
           a.link-gray.link-reference(
-            href = "//runnable.hipchat.com/admin/api"
+            href = "//hipchat.com/admin/api"
             target = "_blank"
           ) Create a token on Hipchat
-          button.btn.green Save
+          button.btn.green(
+            ng-click = "actions.saveHipChat()"
+          ) Save
       footer.modal-footer
         button.btn.white(
           ng-click = "defaultActions.cancel()"

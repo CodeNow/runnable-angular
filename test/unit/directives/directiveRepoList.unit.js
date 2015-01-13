@@ -126,7 +126,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     });
     beforeEach(initState);
     beforeEach(function() {
-      $httpBackend.flush();
+      // $httpBackend.flush();
       $rootScope.$digest();
     });
 
@@ -179,7 +179,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     });
     beforeEach(initState);
     beforeEach(function() {
-      $httpBackend.flush();
+      // $httpBackend.flush();
       $rootScope.$digest();
     });
 

@@ -9,6 +9,7 @@ function ControllerInstance(
   async,
   $filter,
   errs,
+  instanceUpdatedPoller,
   keypather,
   OpenItems,
   QueryAssist,
@@ -17,6 +18,7 @@ function ControllerInstance(
   $scope,
   $state,
   $stateParams,
+  $timeout,
   fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
@@ -44,9 +46,6 @@ function ControllerInstance(
 
   data.isDemo = $state.$current.name === 'demo.instance';
 
-
-  // Why is this here? This controller should never be instantiated
-  // on a route where this conditional test would evaluate to TRUE
   if (!$stateParams.instanceName) {
     var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
       if (n !== p && n) {
@@ -73,11 +72,24 @@ function ControllerInstance(
         $state.go('instance.home', {
           userName: $stateParams.userName
         });
+        errs.handler(err);
       }
-      errs.handler(err);
+      instanceUpdatedPoller.start(data.instance);
     });
   }
 
+  $scope.$on('new-build', function() {
+    if (data.showUpdatingMessage) { return; } // Remove this line on ws change
+    data.showUpdatingMessage = true;
+    data.instance.fetch(function(err, json) {
+      if (err) { return errs.handler(err); }
+      data.showUpdatingMessage = false;
+      data.showUpdatedMessage = true;
+      $timeout(function() {
+        data.showUpdatedMessage = false;
+      }, 3000);
+    });
+  });
 
 
   // watch showExplorer (toggle when user clicks file menu)
@@ -167,6 +179,7 @@ function ControllerInstance(
 
   $scope.$on('$destroy', function () {
     containerWatch();
+    instanceUpdatedPoller.stop();
   });
 
   function buildLogsOnly () {

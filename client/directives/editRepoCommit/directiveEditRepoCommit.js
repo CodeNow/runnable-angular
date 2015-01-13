@@ -124,10 +124,14 @@ function editRepoCommit(
         emitACVChange({triggerBuild: true});
       };
 
-      setActiveBranch($scope.acv);
-      setActiveCommit($scope.acv);
-      fetchCommitOffset($scope.acv, $scope.activeCommit);
-      fetchBranchCommits($scope.activeBranch);
+      $scope.$watch('acv', function(n) {
+        if (!n) { return; }
+        setActiveBranch($scope.acv);
+        setActiveCommit($scope.acv);
+        fetchCommitOffset($scope.acv, $scope.activeCommit);
+        fetchBranchCommits($scope.activeBranch);
+      });
+
 
       function setActiveBranch(acv) {
         // API client caches models by URL
@@ -140,9 +144,7 @@ function editRepoCommit(
 
       function setActiveCommit(acv) {
         $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
-        $scope.activeCommit.fetch(function (err) {
-          if (err) { throw err; }
-        });
+        $scope.activeCommit.fetch(errs.handler);
       }
 
       function fetchCommitOffset(acv, activeCommit) {
@@ -159,9 +161,7 @@ function editRepoCommit(
       }
 
       function fetchBranchCommits(branch) {
-        branch.commits.fetch(function (err) {
-          if (err) { throw err; }
-        });
+        branch.commits.fetch(errs.handler);
       }
     }
   };

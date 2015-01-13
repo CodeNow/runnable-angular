@@ -111,6 +111,64 @@ function addRepoPopover(
         return activeBranch;
       }
 
+      function fetchInstance(cb) {
+        new QueryAssist($scope.repoListPopover.data.user, cb)
+          .wrapFunc('fetchInstances')
+          .query({
+            githubUsername: $stateParams.userName,
+            name: $stateParams.instanceName
+          })
+          .cacheFetch(function (instances, cached, cb) {
+            if (!cached && !instances.models.length) {
+              return cb(new Error('Instance not found'));
+            }
+            var instance = instances.models[0];
+            $scope.repoListPopover.data.instance = instance;
+            $scope.repoListPopover.data.build = instance.build;
+          })
+          .resolve(function (err, instances, cb) {
+            var instance = instances.models[0];
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
+            cb(err);
+          })
+          .go();
+      }
+
+      function fetchBuild(cb) {
+        if (!$stateParams.buildId) {
+          return fetchInstance(cb);
+        }
+        new QueryAssist($scope.repoListPopover.data.user, cb)
+          .wrapFunc('fetchBuild')
+          .query($stateParams.buildId)
+          .cacheFetch(function (build, cached, cb) {
+            $scope.repoListPopover.data.build = build;
+            cb();
+          })
+          .resolve(function (err, build, cb) {
+            if (err) { throw err; }
+            cb();
+          })
+          .go();
+      }
+
+      /**
+       * Models in build.contextVersions collection will
+       * have empty appCodeVersion collections by default.
+       * Perform fetch on each contextVersion to populate
+       * appCodeVersions collection
+       */
+      function fetchBuildContextVersions(cb) {
+        var build = $scope.repoListPopover.data.build;
+        if (!build.contextVersions.models[0]) { throw new Error('build has 0 contextVersions'); }
+        build.contextVersions.models[0].fetch(function (err) {
+          if (err) { throw err; }
+          cb();
+        });
+      }
+
       function getOwnerRepoQuery(user, userName, cb) {
         if (userName === user.attrs.accounts.github.username) {
           // does $stateParam.username match this user's username

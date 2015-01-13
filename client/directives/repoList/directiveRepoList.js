@@ -181,7 +181,7 @@ function repoList(
       };
 
       var debounceUpdate = debounce(function(n) {
-        if (n !== undefined) {
+        if (n !== undefined && n !== $scope.instance.attrs.locked) {
           $scope.instance.update({
             locked: n
           }, angular.noop);
@@ -190,10 +190,66 @@ function repoList(
 
       $scope.$watch('data.autoDeploy', debounceUpdate);
 
+      function fetchInstance(cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchInstances')
+          .query({
+            githubUsername: $stateParams.userName,
+            name: $stateParams.instanceName
+          })
+          .cacheFetch(function (instances, cached, cb) {
+            if (!cached && !instances.models.length) {
+              return cb(new Error('Instance not found'));
+            }
+            var instance = instances.models[0];
+            $scope.instance = instance;
+            $scope.build = instance.build;
+            $scope.data.autoDeploy = instance.attrs.locked;
+          })
+          .resolve(function (err, instances, cb) {
+            var instance = instances.models[0];
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
+            cb(err);
+          })
+          .go();
+      }
 
-      $scope.$watch('instance.attrs.locked', function (n) {
-        $scope.data.autoDeploy = n;
-      });
+      function fetchBuild(cb) {
+        new QueryAssist($scope.user, cb)
+          .wrapFunc('fetchBuild')
+          .query($stateParams.buildId)
+          .cacheFetch(function (build, cached, cb) {
+            $scope.build = build;
+            cb();
+          })
+          .resolve(function (err, build, cb) {
+            if (err) { throw err; }
+            cb();
+          })
+          .go();
+      }
+
+      async.series([
+        function (cb) {
+          fetchUser(function(err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            cb();
+          });
+        },
+        function (cb) {
+          if ($state.$current.name === 'instance.setup') {
+            return fetchBuild(cb);
+          }
+          if ($state.$current.name === 'instance.instance') {
+            return fetchInstance(cb);
+          }
+          // Instance Edit
+          return async.parallel([fetchBuild, fetchInstance], cb);
+        }
+      ], errs.handler);
 
     }
   };
