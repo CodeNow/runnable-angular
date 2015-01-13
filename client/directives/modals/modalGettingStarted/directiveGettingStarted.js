@@ -8,13 +8,14 @@ require('app')
  */
 function modalGettingStarted(
   $rootScope,
+  $log,
   async,
   createDockerfileFromSource,
   errs,
   getNewForkName,
   fetchGSDepInstances,
-  fetchInstances,
-  fetchStackInfo,
+  gsPopulateDockerfile,
+  createNewInstance,
   fetchUser,
   keypather,
   createNewBuild
@@ -35,14 +36,14 @@ function modalGettingStarted(
             instance: instance,
             opts: {
               name: newName,
-              env: instance.attrs.env,
-              reqEnv: envs.map(function (url, index) {
-                return {
-                  name: instance.attrs.name + (index > 0 ? index : ''),
-                  url: url.replace(instance.attrs.name, newName)
-                };
-              })
-            }
+              env: instance.attrs.env
+            },
+            reqEnv: envs.map(function (url, index) {
+              return {
+                name: instance.attrs.name.toUpperCase() + '_HOST' + (index > 0 ? index : ''),
+                url: url.replace(instance.attrs.name, newName)
+              };
+            })
           });
         },
         removeDependency: function (model) {
@@ -84,19 +85,49 @@ function modalGettingStarted(
         }
       });
 
+      keypather.set($scope, 'actions.createAndBuild', function() {
+        // first thing to do is generate the dockerfile
+        $scope.$watch('dockerfile', function (n) {
+          if (n) {
+            $rootScope.dataApp.data.loading = true;
+            $scope.state.opts.env = generateEnvs($scope.state.dependencies);
+            $log.log('ENVS: \n' + $scope.state.opts.env);
+            async.series([
+              gsPopulateDockerfile(n, $scope.state),
+              forkInstances($scope.state.dependencies),
+              createNewInstance
+            ], errs.handler);
+          }
+        });
+      });
 
-      function forkInstances(items, cb) {
+
+      function generateEnvs(depModels) {
+        var envList = [];
+        depModels.forEach(function(item) {
+          if (item.reqEnvs) {
+            item.reqEnvs.forEach(function(env) {
+              envList.push(env.name + '=' + env.url);
+            });
+          }
+        });
+        return envList;
+      }
+
+      function forkInstances(items) {
         //$rootScope.dataApp.data.loading = true;
         function fork(instance, opts, cb) {
           instance.copy(opts, cb);
         }
 
-        var parallelFunctions = items.map(function (item) {
-          return function (cb) {
-            fork(item.instance, item.opts, cb);
-          };
-        });
-        async.parallel(parallelFunctions, cb);
+        return function (cb) {
+          var parallelFunctions = items.map(function (item) {
+            return function (cb) {
+              fork(item.instance, item.opts, cb);
+            };
+          });
+          async.parallel(parallelFunctions, cb);
+        };
       }
     }
   };
