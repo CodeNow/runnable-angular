@@ -88,7 +88,7 @@ button,
 
   > .img {
     float: left;
-    margin: 7px 6px 0 0;
+    margin: 8px 6px 0 0;
   }
 }
 
@@ -185,8 +185,10 @@ button,
       color: $white;
       transition: none;
 
-      .iconnables {
+      .iconnables,
+      .small {
         color: $white;
+        transition: none;
       }
     }
   }
@@ -463,11 +465,7 @@ button,
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
   content: '';
-  /* 1 */
-
   display: table;
-  /* 2 */
-
 }
 
 .btn-group-vertical > .btn-group:after {
@@ -477,11 +475,7 @@ button,
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
   content: '';
-  /* 1 */
-
   display: table;
-  /* 2 */
-
 }
 
 .btn-group-vertical > .btn-group:after {
