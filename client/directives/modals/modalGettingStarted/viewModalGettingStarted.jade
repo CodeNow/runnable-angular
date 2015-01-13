@@ -72,16 +72,16 @@
       ng-include = "'viewModalGsEnvs'"
       ng-show = "state.step === 3"
     )
-    footer.modal-footer(
-      ng-show = "state.step !== 1"
-    )
-      button.btn.green(
-        ng-show = "state.step === 2"
-        ng-click = "state.step = 3"
-      ) Next Step
-      button.btn.green(
-        ng-show = "state.step === 3"
-      ) Build
-      button.btn.white(
-        ng-click = "defaultActions.cancel(); "
-      ) Cancel
+    //- footer.modal-footer(
+    //-   ng-show = "state.step !== 1"
+    //- )
+    //-   button.btn.green(
+    //-     ng-show = "state.step === 2"
+    //-     ng-click = "state.step = 3"
+    //-   ) Next Step
+    //-   button.btn.green(
+    //-     ng-show = "state.step === 3"
+    //-   ) Build
+    //-   button.btn.white(
+    //-     ng-click = "defaultActions.cancel(); "
+    //-   ) Cancel
