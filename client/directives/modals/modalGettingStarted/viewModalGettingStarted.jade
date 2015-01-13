@@ -17,35 +17,6 @@
       button.btn.btn-xs.white(
         ng-click = "defaultActions.cancel();"
       ) Cancel
-    //- nav.modal-navbar.modal-wizard-navbar(
-    //-   ng-show = "state.step !== 1"
-    //- )
-    //-   .row
-    //-     small.small Create New Server
-    //-   .row
-    //-     button.btn.btn-icon(
-    //-       ng-show = "state.step !== 1"
-    //-       ng-click = "state.step = state.step - 1"
-    //-     )
-    //-       svg.iconnables.icons-arrow-back
-    //-         use(
-    //-           xlink:href = "#icons-arrow-back"
-    //-         )
-    //-     h1.modal-heading CodeNow/runnable-angular
-    //-     button.btn.btn-xs.gray.btn-select
-    //-       svg.iconnables.icons-branch
-    //-         use(
-    //-           xlink:href = "#icons-branch"
-    //-         )
-    //-       span {{state.activeBranch.attrs.name}}
-    //-       svg.iconnables.icons-arrow-down
-    //-         use(
-    //-           xlink:href = "#icons-arrow-down"
-    //-         )
-    //-       select.select(
-    //-         ng-model = "state.activeBranch"
-    //-         ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
-    //-       )
     .modal-body.modal-repo-selector(
       actions = "actions"
       data = "data"
@@ -60,28 +31,10 @@
       ng-show = "state.step === 2"
       state = "state"
     )
-    //-
-      .modal-body.modal-stack-dependencies(
+    .modal-body.modal-gs-environments(
       actions = "actions"
       data = "data"
-      modal-gs-env
+      modal-gs-envs
       state = "state"
       ng-show = "state.step === 3"
-      )
-    .modal-body.modal-stack-dependencies(
-      ng-include = "'viewModalGsEnvs'"
-      ng-show = "state.step === 3"
     )
-    //- footer.modal-footer(
-    //-   ng-show = "state.step !== 1"
-    //- )
-    //-   button.btn.green(
-    //-     ng-show = "state.step === 2"
-    //-     ng-click = "state.step = 3"
-    //-   ) Next Step
-    //-   button.btn.green(
-    //-     ng-show = "state.step === 3"
-    //-   ) Build
-    //-   button.btn.white(
-    //-     ng-click = "defaultActions.cancel(); "
-    //-   ) Cancel
