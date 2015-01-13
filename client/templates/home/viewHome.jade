@@ -162,5 +162,6 @@ main.home
       ) Email Us
       a.link.link-text(
         ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com' }}"
+        ng-if = "dataHome.data.hasPass"
       )
-        b {{ dataHome.data.hasPass ? 'Sign In' : 'Request Access' }}
+        b Sign In
