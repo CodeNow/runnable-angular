@@ -26,20 +26,15 @@
             use(
               xlink:href = "#icons-branch"
             )
-          span master
+          span {{state.activeBranch.attrs.name}}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
             )
           select.select(
-            name = "state.activeBranch"
-            ng-change = "actions.selectBranch(data.activeBranch)"
             ng-model = "state.activeBranch"
-            ng-options = "branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
+            ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
           )
-            option(
-              selected
-            ) master
     .modal-body.modal-repo-selector(
       actions = "actions"
       data = "data"

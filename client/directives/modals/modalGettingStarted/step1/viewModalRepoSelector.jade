@@ -4,6 +4,11 @@ input.input.input-search(
   select-on = "data.showFilter"
   required
 )
+.spinner-wrapper.spinner-md(
+  ng-show = "loading"
+  ng-class = "{in: loading}"
+  ng-include = "'spinner'"
+)
 ul.list.list-divided
   li.list-item.list-item-link(
     ng-repeat = "repo in githubRepos.models| \

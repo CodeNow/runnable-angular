@@ -51,6 +51,10 @@ function gsRepoSelector(
       }
       $scope.selectRepo = function (repo) {
         $scope.state.selectedRepo = repo;
+        repo.branches.fetch(function(err) {
+          if (err) {return errs.handler(err); }
+          $scope.state.activeBranch = repo.branches.models[0];
+        });
         fetchStackData(repo.attrs.full_name, function (err) {
           delete repo.spin;
           $scope.state.step = 2;
@@ -111,6 +115,10 @@ function gsRepoSelector(
         fetchPage(1);
       }
       async.waterfall([
+        function (cb) {
+          $scope.loading = true;
+          cb();
+        },
         fetchUser,
         fetchAllOwnerRepos
       ], errs.handler);
