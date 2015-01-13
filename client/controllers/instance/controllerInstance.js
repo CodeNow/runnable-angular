@@ -81,19 +81,17 @@ function ControllerInstance(
   $scope.$on('new-build', function() {
     if (data.showUpdatingMessage) { return; } // Remove this line on ws change
     data.showUpdatingMessage = true;
-    // hack: until sockets container deployment takes time.
-    // and polling for container changes may not result in a change detected
-    // (if there is an error container.error or container.inspect.error, the error may be exactly the same as before)
-    $timeout(function () {
-      data.instance.fetch(function(err, json) {
-        if (err) { return errs.handler(err); }
-        data.showUpdatingMessage = false;
-        data.showUpdatedMessage = true;
-        $timeout(function() {
-          data.showUpdatedMessage = false;
-        });
+    data.instance.fetch(function(err, json) {
+      if (err) { return errs.handler(err); }
+      data.showUpdatingMessage = false;
+      data.showUpdatedMessage = true;
+      $timeout(function() {
+        data.showUpdatedMessage = false;
       });
-    }, 5 * 1000);
+      // FIXME: we need to add watches in repo list so that it updates dynamically
+      // and remove this window.location refresh
+      window.location.reload();
+    });
   });
 
 
