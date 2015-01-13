@@ -50,6 +50,13 @@
   }
 }
 
+// empty state
+.list-empty {
+  color: $gray-lighter;
+  padding: 15px 0;
+  text-align: center;
+}
+
 .list-item {
   position: relative;
 
