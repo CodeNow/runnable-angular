@@ -1,15 +1,74 @@
-.setup-page-dependency-box(
-  ng-repeat = "dep in state.dependencies"
-  )
-  .setup-page-dependency-box(
-    ng-repeat = "env in dep.reqEnvs"
+h2.sub-header
+  span.sub-header-text Environment Variables
+ul.list.list-env
+  li.list-item
+    h2.sub-header
+      span.sub-header-text Redis
+    //- focus, ng-invalid, ng-valid, ng-pristine
+    label.input-group.input-validate(
+      ng-class = ""
     )
-      h3.popover-title
-        input.input.input-search(
-        autofocus
-        ng-model = "env.name"
-        placeholder = "Enter a Env Name"
-        required
-        select-on = "data.showFilter"
-        )
-      span {{env.url}}
+      span.input-label process.env
+      input.input(
+        ng-blur = ""
+        ng-focus = ""
+        placeholder = "REDIS_HOST"
+        value = "REDIS_HOST"
+      )
+  li.list-item
+    h2.sub-header
+      span.sub-header-text Some Ruby Dependency
+    //- focus, ng-invalid, ng-valid, ng-pristine
+    label.input-group.input-validate(
+      ng-class = ""
+    )
+      span.input-label <%= ENV['
+      input.input(
+        ng-blur = ""
+        ng-focus = ""
+        placeholder = "RUBY_DEP"
+        value = "RUBY_DEP"
+      )
+      span.input-label ']%>
+    label.input-group.input-validate(
+      ng-class = ""
+    )
+      span.input-label <%= ENV['
+      input.input(
+        ng-blur = ""
+        ng-focus = ""
+        placeholder = "RUBY_DEP_2"
+        value = "RUBY_DEP_2"
+      )
+      span.input-label ']%>
+  li.list-item
+    h2.sub-header
+      span.sub-header-text Some Python Dependency
+    //- focus, ng-invalid, ng-valid, ng-pristine
+    label.input-group.input-validate(
+      ng-class = ""
+    )
+      span.input-label os.environ["
+      input.input(
+        ng-blur = ""
+        ng-focus = ""
+        placeholder = "PYTHON_DEP"
+        value = "PYTHON_DEP"
+      )
+      span.input-label "]
+
+//- .setup-page-dependency-box(
+//-   ng-repeat = "dep in state.dependencies"
+//- )
+//-   .setup-page-dependency-box(
+//-     ng-repeat = "env in dep.reqEnvs"
+//-   )
+//-     h3.popover-title
+//-       input.input.input-search(
+//-       autofocus
+//-       ng-model = "env.name"
+//-       placeholder = "Enter a Env Name"
+//-       required
+//-       select-on = "data.showFilter"
+//-       )
+//-     span {{env.url}}
