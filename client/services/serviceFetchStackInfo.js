@@ -4,13 +4,15 @@ require('app')
   .factory('fetchStackInfo', fetchStackInfo);
 
 function fetchStackInfo(
-  fetchUser,
-  configAPIHost,
   user
 ) {
   return function (repo, cb) {
     function callback(err, res, body) {
       console.log(err, res, body);
+      body.stacks = stacks;
+      body.stack = stacks.find(function (stack) {
+        return body.languageFramework.indexOf(stack.name.toLowerCase()) !== -1;
+      });
       cb(err, body);
     }
 
@@ -20,7 +22,6 @@ function fetchStackInfo(
 
 
 var stacks = [{
-  //'Ruby on Rails': {
   name: 'Ruby on Rails',
   versionReqs: [
     {
@@ -41,14 +42,14 @@ var stacks = [{
       ]
     }
   ],
-  ports: [80, 3000],
+  ports: '80, 3000',
   startCommand: 'rails server',
-  dockerFile: 'FROM RoR'
+  preEnvMarker: '<%= ENV[\'',
+  postEnvMarker: ']%>\''
 }, {
-  //'Node': {
-  name: 'Node',
+  name: 'NodeJs',
   versionReqs: [{
-    name: 'Node',
+    name: 'NodeJs',
     selected: '0.10.35',
     versions: [
       '0.10.35',
@@ -56,23 +57,15 @@ var stacks = [{
       '0.11'
     ]
   }],
-  ports: [80],
+  ports: '80',
   startCommand: 'npm start',
-  dockerFile: 'FROM node'
+  preEnvMarker: 'process.env',
+  postEnvMarker: ''
 }, {
-  //'Angular': {
-  name: 'Angular',
+  name: 'Python',
   versionReqs: [
     {
-      name: 'Node',
-      selected: '.10.9',
-      versions: [
-        '0.10.35',
-        '0.10.34',
-        '0.11'
-      ]
-    }, {
-      name: 'Angular',
+      name: 'Python',
       selected: '1.3',
       versions: [
         '1.3',
@@ -81,9 +74,10 @@ var stacks = [{
       ]
     }
   ],
-  ports: [80],
+  ports: '80',
   startCommand: '//Do some stuff',
-  dockerFile: 'FROM node'
+  preEnvMarker: 'os.environ["',
+  postEnvMarker: '"]'
 }];
 
 var dependencies = [{

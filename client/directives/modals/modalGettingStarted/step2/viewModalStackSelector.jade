@@ -25,8 +25,10 @@
         src = "/build/images/home/icons-node.js.svg"
         width = "21"
       )
-      | node.js
-      small.small v0.10.35
+      | {{ state.stack.name }}
+      small.small(
+        ng-repeat = "version in state.stack.versionReqs"
+      ) {{ version.selected }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -36,6 +38,7 @@
       small.small Separate by commas
     //- placeholder and values should be the same
     input.input.input-sm(
+      ng-model = "state.stack.ports"
       placeholder = "80, 8000, 8001"
     )
   label.label.clearfix
@@ -43,6 +46,7 @@
       small.small Something about commands
     //- placeholder and values should be the same
     input.input.input-sm(
+      ng-model = "state.stack.startCommand"
       placeholder = "npm start"
     )
 .col.modal-stack-dependencies(

@@ -1,0 +1,37 @@
+h2.sub-header
+  span.sub-header-text Environment Variables
+.small Meh locavore Godard plaid Bushwick photo booth hella, brunch post-ironic umami squid. Normcore health goth heirloom 3 wolf moon, Bushwick jean shorts roof party whatever gluten-free asymmetrical.
+ul.list.list-env(
+  ng-repeat = "model in state.dependencies"
+)
+  li.list-item
+    h2.sub-header
+      span.sub-header-text {{ model.opts.name }}
+    //- focus, ng-invalid, ng-valid, ng-pristine
+    label.input-group.input-validate(
+      ng-class = ""
+      ng-repeat = "envModel in model.reqEnv"
+    )
+      span.input-label {{ state.stack.preEnvMarker }}
+      input.input(
+        ng-blur = ""
+        ng-focus = ""
+        placeholder = "envModel.name"
+        ng-model = "envModel.name"
+      )
+      span.input-label {{ state.stack.postEnvMarker }}
+//- .setup-page-dependency-box(
+//-   ng-repeat = "dep in state.dependencies"
+//- )
+//-   .setup-page-dependency-box(
+//-     ng-repeat = "env in dep.reqEnvs"
+//-   )
+//-     h3.popover-title
+//-       input.input.input-search(
+//-       autofocus
+//-       ng-model = "env.name"
+//-       placeholder = "Enter a Env Name"
+//-       required
+//-       select-on = "data.showFilter"
+//-       )
+//-     span {{env.url}}

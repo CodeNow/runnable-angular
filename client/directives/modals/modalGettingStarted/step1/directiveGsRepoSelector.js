@@ -29,9 +29,9 @@ function gsRepoSelector(
       function fetchStackData(repo, cb) {
         fetchStackInfo(repo, function (err, data) {
           if (err) { return cb(err); }
-          if (data.languageFramework) {
+          $scope.state.stacks = data.stacks;
+          $scope.state.stack = data.stack;
 
-          }
           if (data.serviceDependencies && data.serviceDependencies.length) {
             $scope.$watch('data.allDependencies', function (allDeps) {
               if (allDeps) {

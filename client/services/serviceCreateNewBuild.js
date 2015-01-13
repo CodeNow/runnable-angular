@@ -8,7 +8,7 @@ function createNewBuild(
   fetchUser,
   uuid
 ) {
-  return function (activeAccount, cb) {
+  return function (activeAccount, appCodeVersions, cb) {
     function createContext(user, cb) {
       var context = user.createContext({
         name: uuid.v4(),
@@ -22,7 +22,11 @@ function createNewBuild(
 
     function createVersion(user, context, cb) {
       var version = context.createVersion(function (err) {
-        cb(err, user, context, version);
+        async.each(appCodeVersions, function (acvState, cb) {
+          version.appCodeVersions.create(acvState, cb);
+        }, function (err) {
+          cb(err, user, context, version);
+        });
       });
     }
 
