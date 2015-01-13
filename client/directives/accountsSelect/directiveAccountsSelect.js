@@ -11,8 +11,7 @@ require('app')
 function accountsSelect (
   configLogoutURL,
   errs,
-  $state,
-  configLogoutURL
+  $state
 ) {
   return {
     restrict: 'A',
