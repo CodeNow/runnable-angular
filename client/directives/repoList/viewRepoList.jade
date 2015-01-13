@@ -40,7 +40,7 @@ ul.list.repository-group
     unsaved-app-code-version = "unsavedAcv"
   )
   li.list-details(
-    ng-show = "build.contextVersions.models[0].appCodeVersions.models.length"
+    ng-show = "build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
   )
     .small Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories.
     label.label-checkbox.btn.btn-sm
