@@ -12,6 +12,9 @@ button.btn.btn-xxs.gray(
     popover-options = "{\"left\":-117,\"top\":45}"
     template = "viewPopoverSetupAddStackDependencies"
     )
+small.small(
+  ng-if = "state.dependencies.length === 0"
+) You have no dependencies :(
 ul.list
   li.list-item(
     ng-repeat = "dependency in state.dependencies"
@@ -23,6 +26,3 @@ ul.list
         use(
           xlink:href = "#icons-close"
         )
-  li.list-empty(
-    ng-if = "state.dependencies.length === 0"
-  ) :(
