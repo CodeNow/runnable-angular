@@ -1,19 +1,7 @@
-.modal-getting-started {
-
-  .list .small {
-    color: $gray-lighter;
-    display: block;
-    line-height: 0;
-  }
-
-  .list-item {
-    line-height: 39px;
-  }
-}
-
 // step 1
 .modal-repo-selector {
   overflow-x: hidden;
+  width: 300px;
 
   .input-search {
     background-position: 69px 3px;
@@ -61,7 +49,7 @@
 // step 2
 .modal-stack-selector {
   margin-top: 15px;
-  width: 750px;
+  width: 600px;
 
   .col {
     float: left;
@@ -89,7 +77,7 @@
     width: 50%;
   }
 
-  .btn,
+  .col .btn,
   .input {
     float: right;
     text-align: left;
@@ -156,27 +144,27 @@
 }
 
 // wizard 3
-.modal-stack-dependencies {
-  overflow-y: auto;
-  width: 420px;
+// .modal-stack-dependencies {
+//   overflow-y: auto;
+//   width: 420px;
 
-  .small {
-    padding: 0 15px 15px;
-  }
+//   .small {
+//     padding: 0 15px 15px;
+//   }
 
-  .list {
-    overflow: initial;
-  }
+//   .list {
+//     overflow: initial;
+//   }
 
-  .list-item {
-    background: $gray-lightest;
-    height: auto;
-    line-height: 1;
-    margin: 0 12px 12px;
-    padding: 0 6px 9px;
-  }
+//   .list-item {
+//     background: $gray-lightest;
+//     height: auto;
+//     line-height: 1;
+//     margin: 0 12px 12px;
+//     padding: 0 6px 9px;
+//   }
 
-  .input-group + .input-group {
-    margin-top: 6px;
-  }
-}
+//   .input-group + .input-group {
+//     margin-top: 6px;
+//   }
+// }

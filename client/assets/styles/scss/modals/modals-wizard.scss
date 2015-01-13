@@ -11,8 +11,17 @@
     display: block;
   }
 
+  .list .small {
+    color: $gray-lighter;
+    display: block;
+    line-height: 0;
+  }
+
+  .list-item {
+    line-height: 39px;
+  }
+
   .modal-body {
     display: table-cell;
-    width: 300px;
   }
 }

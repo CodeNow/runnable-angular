@@ -1,5 +1,22 @@
 .col
   label.label.clearfix
+    .label-col Branch
+      small.small Specify the branch of your repository
+    button.btn.btn-xs.gray.btn-select
+      svg.iconnables.icons-branch
+        use(
+          xlink:href = "#icons-branch"
+        )
+      span {{state.activeBranch.attrs.name}}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      select.select(
+        ng-model = "state.activeBranch"
+        ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
+      )
+  label.label.clearfix
     .label-col Language
       small.small The primary language of your repository
     button.btn.btn-sm.gray
@@ -34,6 +51,12 @@
   modal-stack-dependencies
   state = "state"
 )
+
+footer.modal-footer(
+  ng-show = "state.step !== 1"
+)
+  button.btn.green Next Step
+
   //-
     h2.sub-header
       span.sub-header-text Dependencies
