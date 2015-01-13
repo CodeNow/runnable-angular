@@ -48,27 +48,17 @@
 
 // step 2
 .modal-stack-selector {
-  margin-top: 15px;
-  width: 600px;
+  padding: 15px 15px 0;
+  width: 450px;
 
-  .col {
-    float: left;
-
-    &:first-child {
-      padding: 6px 6px 6px 15px;
-      width: 60%;
-    }
-
-    &:last-child {
-      padding: 6px 0;
-      width: 40%;
-    }
-  }
-
-  // col 1
   .label {
     display: block;
     margin: 0 0 30px;
+
+    + .label {
+      border-top: 1px solid rgba($black,.1);
+      padding-top: 15px;
+    }
   }
 
   .label-col {
@@ -77,7 +67,7 @@
     width: 50%;
   }
 
-  .col .btn,
+  .label .btn,
   .input {
     float: right;
     text-align: left;
@@ -97,31 +87,32 @@
 
 // wizard 2, col 2
 .modal-stack-dependencies {
+  border-top: 1px solid rgba($black,.1);
+  padding-top: 15px;
 
-  .sub-header-action {
-    padding: 0 6px;
-    top: 9px;
+  .label {
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+
+  .btn-xxs {
+    margin-left: 9px;
     width: auto;
   }
 
-  .well {
-    max-height: none;
-    padding: 0 3px 6px;
-  }
-
   .list {
-    margin: 0;
+    margin: 0 0 15px;
     max-height: 210px;
     overflow-y: auto;
   }
 
   .list-item {
-    background: $white;
-    border: 1px solid rgba($black,.15);
+    background: $gray-lightest;
+    border: 1px solid rgba($black,.1);
     border-radius: 3px;
     height: 36px;
     line-height: 36px;
-    margin: 0 6px 6px;
+    margin: 0 0 6px;
     padding: 0 0 0 9px;
   }
 

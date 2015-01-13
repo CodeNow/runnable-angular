@@ -24,4 +24,11 @@
   .modal-body {
     display: table-cell;
   }
+
+  .modal-footer {
+    border-top: 1px solid rgba($black,.1);
+    height: auto;
+    margin: 30px -15px 0;
+    padding: 9px 15px;
+  }
 }

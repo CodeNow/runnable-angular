@@ -1,30 +1,28 @@
-.well.gray
-  h2.sub-header
-    span.sub-header-text Dependencies
-    button.btn.btn-xxs.gray.sub-header-action(
-      ng-class = "{active: addDependencyPopover.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "addDependencyPopover.data.show"
-      type = "button"
-    ) Add…
-      pop-over(
-        actions = "actions"
-        popover-ready = "addDependencyPopover.data.show"
-        data = "addDependencyPopover.data"
-        popover-options = "{\"left\":-117,\"top\":45}"
-        template = "viewPopoverSetupAddStackDependencies"
+label.label Dependencies
+button.btn.btn-xxs.gray(
+  ng-class = "{active: addDependencyPopover.data.show}"
+  toggle-pop-over
+  toggle-pop-over-model = "addDependencyPopover.data.show"
+  type = "button"
+) Add…
+  pop-over(
+    actions = "actions"
+    popover-ready = "addDependencyPopover.data.show"
+    data = "addDependencyPopover.data"
+    popover-options = "{\"left\":-117,\"top\":45}"
+    template = "viewPopoverSetupAddStackDependencies"
+    )
+ul.list
+  li.list-item(
+    ng-repeat = "dependency in state.dependencies"
+  ) {{ dependency.instance.attrs.name }}
+    button.btn-close.btn-xs(
+      ng-click = "actions.removeDependency(dependency)"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
         )
-  ul.list
-    li.list-item(
-      ng-repeat = "dependency in state.dependencies"
-    ) {{ dependency.instance.attrs.name }}
-      button.btn-close.btn-xs(
-        ng-click = "actions.removeDependency(dependency)"
-      )
-        svg.iconnables.icons-close
-          use(
-            xlink:href = "#icons-close"
-          )
-    li.list-empty(
-      ng-if = "state.dependencies.length === 0"
-    ) :(
+  li.list-empty(
+    ng-if = "state.dependencies.length === 0"
+  ) :(

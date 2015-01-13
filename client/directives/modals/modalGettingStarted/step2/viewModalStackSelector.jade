@@ -1,65 +1,64 @@
-.col
-  label.label.clearfix
-    .label-col Branch
-      small.small Specify the branch of your repository
-    button.btn.btn-xs.gray.btn-select
-      svg.iconnables.icons-branch
-        use(
-          xlink:href = "#icons-branch"
-        )
-      span {{state.activeBranch.attrs.name}}
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      select.select(
-        ng-model = "state.activeBranch"
-        ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
+label.label.clearfix
+  .label-col Branch
+    small.small Specify the branch of your repository
+  button.btn.btn-sm.gray.btn-select
+    svg.iconnables.icons-branch
+      use(
+        xlink:href = "#icons-branch"
       )
-  label.label.clearfix
-    .label-col Language
-      small.small The primary language of your repository
-    button.btn.btn-sm.gray
-      img.img(
-        height = "21"
-        src = "/build/images/home/icons-node.js.svg"
-        width = "21"
+    span {{state.activeBranch.attrs.name}}
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
       )
-      | {{ state.stack.name }}
-      small.small(
-        ng-repeat = "version in state.stack.versionReqs"
-      ) {{ version.selected }}
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-  label.label.clearfix
-    .label-col Ports
-      small.small Separate by commas
-    //- placeholder and values should be the same
-    input.input.input-sm(
-      ng-model = "state.stack.ports"
-      placeholder = "80, 8000, 8001"
+    select.select(
+      ng-model = "state.activeBranch"
+      ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
     )
-  label.label.clearfix
-    .label-col Command
-      small.small Something about commands
-    //- placeholder and values should be the same
-    input.input.input-sm(
-      ng-model = "state.stack.startCommand"
-      placeholder = "npm start"
+label.label.clearfix
+  .label-col Language
+    small.small The primary language of your repository
+  button.btn.btn-sm.gray
+    img.img(
+      height = "21"
+      src = "/build/images/home/icons-node.js.svg"
+      width = "21"
     )
-.col.modal-stack-dependencies(
+    | {{ state.stack.name }}
+    small.small(
+      ng-repeat = "version in state.stack.versionReqs"
+    ) {{ version.selected }}
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+label.label.clearfix
+  .label-col Ports
+    small.small Separate by commas
+  //- placeholder and values should be the same
+  input.input.input-sm(
+    ng-model = "state.stack.ports"
+    placeholder = "80, 8000, 8001"
+  )
+label.label.clearfix
+  .label-col Command
+    small.small Something about commands
+  //- placeholder and values should be the same
+  input.input.input-sm(
+    ng-model = "state.stack.startCommand"
+    placeholder = "npm start"
+  )
+.modal-stack-dependencies(
   actions = "actions"
   data = "data"
   modal-stack-dependencies
   state = "state"
 )
 
-footer.modal-footer(
-  ng-show = "state.step !== 1"
-)
-  button.btn.green Next Step
+footer.modal-footer.clearfix
+  button.btn.green(
+    ng-click = "state.step = 3"
+  ) Next Step
 
   //-
     h2.sub-header
