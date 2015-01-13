@@ -54,6 +54,7 @@ function gsRepoSelector(
         repo.branches.fetch(function(err) {
           if (err) {return errs.handler(err); }
           $scope.state.activeBranch = repo.branches.models[0];
+          $scope.state.activeBranch.commits.fetch(angular.noop);
         });
         fetchStackData(repo.attrs.full_name, function (err) {
           delete repo.spin;
@@ -61,7 +62,6 @@ function gsRepoSelector(
           errs.handler(err);
         });
       };
-
       function getOwnerRepoQuery(user, userName, cb) {
         if (userName === user.attrs.accounts.github.username) {
           // does $stateParam.username match this user's username

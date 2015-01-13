@@ -47,9 +47,9 @@ var stacks = [{
   preEnvMarker: '<%= ENV[\'',
   postEnvMarker: ']%>\''
 }, {
-  name: 'NodeJs',
+  name: 'Node.Js',
   versionReqs: [{
-    name: 'NodeJs',
+    name: 'Node.Js',
     selected: '0.10.35',
     versions: [
       '0.10.35',

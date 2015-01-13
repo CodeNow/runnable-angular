@@ -31,10 +31,13 @@ function modalStackSelector(
           stack.versionReqs.forEach(function (version) {
             keypather.set($scope, 'state.version.' + version.name, version.selected);
           });
-          keypather.set($scope, 'state.ports', stack.ports.join(','));
+          keypather.set($scope, 'state.ports', stack.ports);
           keypather.set($scope, 'state.startCommand', stack.startCommand);
         }
       });
+      $scope.selectBranch = function (branch) {
+        branch.commits.fetch(angular.noop);
+      };
     }
   };
 }

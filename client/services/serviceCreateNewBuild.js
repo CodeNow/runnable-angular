@@ -9,6 +9,10 @@ function createNewBuild(
   uuid
 ) {
   return function (activeAccount, appCodeVersions, cb) {
+    if (typeof appCodeVersions === 'function') {
+      cb = appCodeVersions;
+      appCodeVersions = null;
+    }
     function createContext(user, cb) {
       var context = user.createContext({
         name: uuid.v4(),
@@ -22,11 +26,15 @@ function createNewBuild(
 
     function createVersion(user, context, cb) {
       var version = context.createVersion(function (err) {
-        async.each(appCodeVersions, function (acvState, cb) {
-          version.appCodeVersions.create(acvState, cb);
-        }, function (err) {
+        if (appCodeVersions) {
+          async.each(appCodeVersions, function (acvState, cb) {
+            version.appCodeVersions.create(acvState, cb);
+          }, function (err) {
+            cb(err, user, context, version);
+          });
+        } else {
           cb(err, user, context, version);
-        });
+        }
       });
     }
 
@@ -37,7 +45,7 @@ function createNewBuild(
           github: activeAccount.oauthId()
         }
       }, function (err) {
-        cb(err, build);
+        cb(err, build, version);
       });
     }
 

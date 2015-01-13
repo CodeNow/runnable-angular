@@ -35,7 +35,9 @@ function gsPopulateDockerfile(
         json: {
           body: body
         }
-      }, cb);
+      }, function (err) {
+        cb(err);
+      });
     }
     return function (cb) {
       var dockerfileBody = populateDockerFile(dockerfile.attrs.body);

@@ -3,6 +3,7 @@ h2.sub-header
 .small Meh locavore Godard plaid Bushwick photo booth hella, brunch post-ironic umami squid. Normcore health goth heirloom 3 wolf moon, Bushwick jean shorts roof party whatever gluten-free asymmetrical.
   //- ng-repeat = "model in state.dependencies"
 ul.list.list-env(
+  ng-repeat = "model in state.dependencies"
 )
   li.list-item.gray
     label.label {{ model.opts.name }}
@@ -22,6 +23,7 @@ ul.list.list-env(
 footer.modal-footer.clearfix
   button.btn.green(
     ng-show = "state.step === 3"
+    ng-click = "actions.createAndBuild();"
   ) Build Server
 
 //- .setup-page-dependency-box(

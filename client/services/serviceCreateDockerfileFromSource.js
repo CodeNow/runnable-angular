@@ -10,7 +10,7 @@ function createDockerfileFromSource(
   hasKeypaths,
   QueryAssist
 ) {
-  return function (build, stackName, cb) {
+  return function (contextVersion, stackName, cb) {
     function fetchSeedContexts(user, cb) {
       new QueryAssist(user, cb)
         .wrapFunc('fetchContexts')
@@ -43,7 +43,6 @@ function createDockerfileFromSource(
     }
     function copyFilesFromSource(versions, cb) {
       var sourceInfraCodeVersion = versions.models[0].attrs.infraCodeVersion;
-      var contextVersion = build.contextVersions.models[0];
       var sourceContextVersion = versions.models[0];
       contextVersion.copyFilesFromSource(sourceInfraCodeVersion, function (err) {
         contextVersion.source = sourceContextVersion.id();

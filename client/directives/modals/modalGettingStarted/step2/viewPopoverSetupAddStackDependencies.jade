@@ -18,7 +18,7 @@ ng-class = "{\
       ng-click = "actions.addDependency(stackDep)"
       ng-repeat = "\
           stackDep in data.dependencies.models | \
-          unaddedDepInstances:data.state.dependencies.models | \
+          unaddedDepInstances:data.state.dependencies | \
           repos:data.depFilter as filteredDeps"
       title = "{{ stackDep.attrs.name }}"
       )
