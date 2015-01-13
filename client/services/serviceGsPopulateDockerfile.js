@@ -11,7 +11,7 @@ function gsPopulateDockerfile(
       // first, add the ports
       Object.keys(state.version).forEach(function(stackName) {
         var regexp = new RegExp('<' + regexpQuote(stackName.toLowerCase()) + '-version>', 'gm');
-        console.log('replacing version', stackName, regexp);
+        console.log('replacing version', stackName, regexp, state.version[stackName]);
         dockerfileBody = dockerfileBody.replace(regexp, state.version[stackName]);
       });
       var ports = '\nEXPOSE ' + state.ports.split(',').join(' ');

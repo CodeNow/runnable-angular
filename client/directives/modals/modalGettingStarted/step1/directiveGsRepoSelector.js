@@ -53,7 +53,8 @@ function gsRepoSelector(
         $scope.state.selectedRepo = repo;
         repo.branches.fetch(function(err) {
           if (err) {return errs.handler(err); }
-          $scope.state.activeBranch = repo.branches.models[0];
+          $scope.state.activeBranch =
+              repo.branches.models.find(hasKeypaths({'attrs.name': 'master'}));
           $scope.state.activeBranch.commits.fetch(angular.noop);
         });
         fetchStackData(repo.attrs.full_name, function (err) {

@@ -11,9 +11,11 @@
         ) 1 Repository
         li.list-item.no-states(
           ng-class = "{active: state.step === 2}"
+          ng-click = "state.step = (state.step > 1) ? 2 : state.step"
         ) 2 Application
         li.list-item.no-states(
           ng-class = "{active: state.step === 3}"
+          ng-click = "state.step = (state.step > 2) ? 3 : state.step"
         ) 3 Environment Variables
       button.btn.btn-xxs.white(
         ng-click = "defaultActions.cancel();"
