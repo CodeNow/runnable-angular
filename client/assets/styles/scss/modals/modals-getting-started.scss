@@ -4,9 +4,9 @@
   width: 330px;
 
   .input-search {
-    background-position: 69px 3px;
-    margin: 4px auto;
-    padding-left: 90px;
+    background-position: 93px 3px;
+    margin: 3px auto 15px;
+    padding-left: 115px;
   }
 
   .spinner-md {
@@ -25,11 +25,22 @@
     line-height: 39px;
 
     &:hover .icons-arrow-down {
-      color: rgba($blue,.6);
+      color: $blue;
     }
 
-    &:active .icons-arrow-down {
-      color: $blue;
+    &:active,
+    &.active {
+      background: $blue;
+      color: $white;
+
+      .icons-arrow-down,
+      .small {
+        color: $white;
+      }
+    }
+
+    &.active .icons-arrow-down {
+      opacity: 0;
     }
   }
 
@@ -40,10 +51,6 @@
     right: 9px;
     top: 17px;
     transform: rotate3d(0,0,1,-90deg);
-
-    &.out {
-      transform: rotate3d(0,0,1,-90deg) scale3d(0,0,0);
-    }
   }
 }
 

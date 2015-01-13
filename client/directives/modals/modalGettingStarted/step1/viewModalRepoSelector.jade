@@ -1,8 +1,8 @@
 input.input.input-search(
   ng-model = "data.repoFilter"
   placeholder = "Filter repositories"
-  select-on = "data.showFilter"
   required
+  select-on = "data.showFilter"
 )
 ul.list.list-divided
   li(
@@ -13,19 +13,18 @@ ul.list.list-divided
       ng-include = "'spinner'"
     )
   li.list-item(
+    ng-class = "{active: repo.spin}"
+    ng-click = "repo.spin = true; selectRepo(repo)"
     ng-repeat = "repo in githubRepos.models| \
       repos:data.repoFilter as newRepos"
-    ng-click = "repo.spin = true; selectRepo(repo)"
   )
     span.list-item-title {{ repo.attrs.full_name }}
     small.small {{ repo.attrs.updated_at | timeAgo }}
-    .spinner-wrapper.spinner-sm.spinner-blue(
+    .spinner-wrapper.spinner-sm.spinner-white(
       ng-class = "{in: repo.spin}"
       ng-include = "'spinner'"
     )
-    svg.iconnables.icons-arrow-down(
-      ng-class = "{out: repo.spin}"
-    )
+    svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
       )

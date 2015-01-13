@@ -20,7 +20,7 @@
   top: 0;
   transition: opacity .3s ease-in, transform .15s ease-in, width .15s ease-in;
   width: 100%;
-  z-index: $z-modal-backdrop;
+  z-index: $z-spinner;
 
   &.in {
     opacity: 1;
