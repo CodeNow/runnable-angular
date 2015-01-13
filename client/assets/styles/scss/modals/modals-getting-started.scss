@@ -83,6 +83,11 @@
   .btn .small {
     margin-left: 6px;
   }
+
+  // footer
+  .modal-footer {
+    margin: 30px -15px 0;
+  }
 }
 
 // wizard 2, col 2
@@ -135,27 +140,34 @@
 }
 
 // wizard 3
-// .modal-stack-dependencies {
-//   overflow-y: auto;
-//   width: 420px;
+.modal-gs-environments {
+  overflow-y: auto;
+  width: 420px;
 
-//   .small {
-//     padding: 0 15px 15px;
-//   }
+  .small {
+    padding: 0 15px 15px;
+  }
 
-//   .list {
-//     overflow: initial;
-//   }
+  .label {
+    display: block;
+    font-size: 14px;
+    padding: 3px 12px 6px;
+  }
 
-//   .list-item {
-//     background: $gray-lightest;
-//     height: auto;
-//     line-height: 1;
-//     margin: 0 12px 12px;
-//     padding: 0 6px 9px;
-//   }
+  .list {
+    overflow: initial;
+  }
 
-//   .input-group + .input-group {
-//     margin-top: 6px;
-//   }
-// }
+  .list-item {
+    background: $gray-lightest;
+    border-radius: 3px;
+    height: auto;
+    line-height: 1;
+    margin: 0 12px 12px;
+    padding: 9px 0;
+  }
+
+  .input-group + .input-group {
+    margin-top: 6px;
+  }
+}

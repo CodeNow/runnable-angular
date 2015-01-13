@@ -4,9 +4,8 @@ h2.sub-header
 ul.list.list-env(
   ng-repeat = "model in state.dependencies"
 )
-  li.list-item
-    h2.sub-header
-      span.sub-header-text {{ model.opts.name }}
+  li.list-item.gray
+    label.label {{ model.opts.name }}
     //- focus, ng-invalid, ng-valid, ng-pristine
     label.input-group.input-validate(
       ng-class = ""
@@ -20,6 +19,11 @@ ul.list.list-env(
         ng-model = "envModel.name"
       )
       span.input-label {{ state.stack.postEnvMarker }}
+footer.modal-footer.clearfix
+  button.btn.green(
+    ng-show = "state.step === 3"
+  ) Build Server
+
 //- .setup-page-dependency-box(
 //-   ng-repeat = "dep in state.dependencies"
 //- )
