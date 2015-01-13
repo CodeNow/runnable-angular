@@ -72,13 +72,13 @@ function modalGettingStarted(
                   $scope.state.activeBranch
                 ),
                 gsPopulateDockerfile(n, $scope.state),
-                forkInstances($scope.state.dependencies),
                 createNewInstance(
                   $rootScope.dataApp.data.activeAccount,
                   $scope.build,
                   $scope.state.opts,
                   $rootScope.dataApp.data.instances
                 ),
+                forkInstances($scope.state.dependencies),
                 function () {
                   $state.go('instance.instance', {
                     userName: $stateParams.userName,
