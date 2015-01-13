@@ -7,22 +7,23 @@ ng-class = "{\
   h3.popover-title
     input.input.input-search(
     autofocus
-    ng-model = "data.repoFilter"
-    placeholder = "Filter repositories"
+    ng-model = "data.depFilter"
+    placeholder = "Filter dependencies"
     required
     select-on = "data.showFilter"
     )
   .popover-content
     ul.popover-body.popover-list
       li.popover-list-item(
-      ng-click = "actions.addDep(stackDep)"
+      ng-click = "actions.addDependency(stackDep)"
       ng-repeat = "\
           stackDep in data.dependencies.models | \
-          unaddedDepInstances:data.state.dependencies.models as unadded"
+          unaddedDepInstances:data.state.dependencies.models | \
+          repos:data.depFilter as filteredDeps"
       title = "{{ stackDep.attrs.name }}"
       )
         span {{ stackDep.attrs.name }}
       li.popover-list-item.no-actions(
-      ng-if = "unadded.length === 0"
+      ng-if = "filteredDeps.length === 0"
       ) No matches
       //- li.popover-list-item.no-actions There's nothing left to add.

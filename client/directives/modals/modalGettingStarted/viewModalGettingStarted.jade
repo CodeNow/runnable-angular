@@ -12,7 +12,10 @@
       .row
         small.small Create New Server
       .row
-        button.btn.btn-icon
+        button.btn.btn-icon(
+          ng-show = "state.step !== 1"
+          ng-click = "state.step = state.step - 1"
+        )
           svg.iconnables.icons-arrow-back
             use(
               xlink:href = "#icons-arrow-back"
@@ -28,11 +31,15 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          select.select
+          select.select(
+            name = "state.activeBranch"
+            ng-change = "actions.selectBranch(data.activeBranch)"
+            ng-model = "state.activeBranch"
+            ng-options = "branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
+          )
             option(
               selected
             ) master
-            option not-master
     .modal-body.modal-repo-selector(
       actions = "actions"
       data = "data"

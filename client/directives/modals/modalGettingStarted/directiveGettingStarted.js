@@ -29,7 +29,6 @@ function modalGettingStarted(
 
       $scope.actions = {
         addDependency: function (instance) {
-          console.log('Add Model', instance);
           var envs = keypather.get(instance, 'containers.models[0].urls()') || [];
           var newName = getNewForkName(instance, $scope.instanceList, true);
           $scope.state.dependencies.push({
@@ -46,8 +45,9 @@ function modalGettingStarted(
             }
           });
         },
-        removeDependency: function (index) {
-          $scope.state.dependencies.models.splice(index, 1);
+        removeDependency: function (model) {
+          var index = $scope.state.dependencies.indexOf(model);
+          $scope.state.dependencies.splice(index, 1);
         }
       };
       $scope.state = {
@@ -58,17 +58,17 @@ function modalGettingStarted(
         },
         step: 1
       };
-      var unwatch = $rootScope.$watch('dataApp.data.activeAccount', function (n) {
-        if (n) {
-          unwatch();
-          createNewBuild(n, function (err, build) {
-            if (err) {
-              return errs.handler(err);
-            }
-            $scope.build = build;
-          });
-        }
-      });
+      //var unwatch = $rootScope.$watch('dataApp.data.activeAccount', function (n) {
+      //  if (n) {
+      //    unwatch();
+      //    createNewBuild(n, function (err, build) {
+      //      if (err) {
+      //        return errs.handler(err);
+      //      }
+      //      $scope.build = build;
+      //    });
+      //  }
+      //});
       fetchGSDepInstances(function (err, deps) {
         if (err) { return errs.handler(err); }
         keypather.set($scope, 'data.allDependencies', deps);

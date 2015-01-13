@@ -9,6 +9,7 @@
     ) Add…
       pop-over(
         actions = "actions"
+        popover-ready = "addDependencyPopover.data.show"
         data = "addDependencyPopover.data"
         popover-options = "{\"left\":-117,\"top\":45}"
         template = "viewPopoverSetupAddStackDependencies"
@@ -17,9 +18,13 @@
     li.list-item(
       ng-repeat = "dependency in state.dependencies"
     ) {{ dependency.instance.attrs.name }}
-      button.btn-close.btn-xs
+      button.btn-close.btn-xs(
+        ng-click = "actions.removeDependency(dependency)"
+      )
         svg.iconnables.icons-close
           use(
             xlink:href = "#icons-close"
           )
-    li.list-empty.h1 :(
+    li.list-empty.h1(
+      ng-if = "state.dependencies.length === 0"
+    ) No Dependencies

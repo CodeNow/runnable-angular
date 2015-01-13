@@ -21,7 +21,7 @@ function modalStackDependencies(
     link: function ($scope, elem, attrs) {
       $scope.$watch('data.allDependencies', function (n) {
         if (n) {
-          keypather.set($scope, 'addDependencyPopover.data.dependencies', $scope.allDependencies);
+          keypather.set($scope, 'addDependencyPopover.data.dependencies', n);
         }
       });
 
