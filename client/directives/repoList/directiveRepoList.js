@@ -233,11 +233,14 @@ function repoList(
           });
         },
         function (cb) {
-          if ($state.$current.name === 'instance.setup' ||
-              $state.$current.name === 'instance.instanceEdit') {
+          if ($state.$current.name === 'instance.setup') {
             return fetchBuild(cb);
           }
-          return fetchInstance(cb);
+          if ($state.$current.name === 'instance.instance') {
+            return fetchInstance(cb);
+          }
+          // Instance Edit
+          return async.parallel([fetchBuild, fetchInstance], cb);
         }
       ], errs.handler);
 
