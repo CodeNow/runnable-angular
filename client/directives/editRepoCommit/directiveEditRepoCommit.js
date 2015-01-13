@@ -124,10 +124,14 @@ function editRepoCommit(
         emitACVChange({triggerBuild: true});
       };
 
-      setActiveBranch($scope.acv);
-      setActiveCommit($scope.acv);
-      fetchCommitOffset($scope.acv, $scope.activeCommit);
-      fetchBranchCommits($scope.activeBranch);
+      $scope.$watch('acv', function(n) {
+        if (!n) { return; }
+        setActiveBranch($scope.acv);
+        setActiveCommit($scope.acv);
+        fetchCommitOffset($scope.acv, $scope.activeCommit);
+        fetchBranchCommits($scope.activeBranch);
+      });
+
 
       function setActiveBranch(acv) {
         // API client caches models by URL
