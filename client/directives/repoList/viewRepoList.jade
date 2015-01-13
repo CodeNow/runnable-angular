@@ -22,7 +22,7 @@ h2.sub-header Repositories
 
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.blue(
-  ng-if = "showAddFirstRepoMessage && instance.build.contextVersions.models[0].appCodeVersions.models.length === 0"
+  ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
   ng-click = "data.show = !data.show; \
               $event.stopPropagation();"
 )
