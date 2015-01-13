@@ -84,6 +84,7 @@ function modalGettingStarted(
                     userName: $stateParams.userName,
                     instanceName: $scope.state.opts.name
                   });
+                  $scope.defaultActions.close();
                 }
               ], errs.handler);
             }
@@ -158,7 +159,9 @@ function modalGettingStarted(
               }
             };
           });
-          async.parallel(parallelFunctions, cb);
+          async.parallel(parallelFunctions, function (err) {
+            cb(err);
+          });
         };
       }
     }

@@ -26,6 +26,7 @@ var stacks = [{
   versionReqs: [
     {
       name: 'Ruby',
+      key: 'ruby',
       selected: '10',
       versions: [
         '10',
@@ -34,6 +35,7 @@ var stacks = [{
       ]
     }, {
       name: 'Rails',
+      key: 'rails',
       selected: '2',
       versions: [
         '3',
@@ -50,6 +52,7 @@ var stacks = [{
   name: 'Node.Js',
   versionReqs: [{
     name: 'Node.Js',
+    key: 'node',
     selected: '0.10.35',
     versions: [
       '0.10.35',
@@ -66,6 +69,7 @@ var stacks = [{
   versionReqs: [
     {
       name: 'Python',
+      key: 'python',
       selected: '1.3',
       versions: [
         '1.3',

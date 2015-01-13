@@ -29,7 +29,7 @@ function modalStackSelector(
         if (stack) {
           $scope.state.version = {};
           stack.versionReqs.forEach(function (version) {
-            keypather.set($scope, 'state.version.' + version.name, version.selected);
+            $scope.state.version[version.key] = version.selected;
           });
           keypather.set($scope, 'state.ports', stack.ports);
           keypather.set($scope, 'state.startCommand', stack.startCommand);
