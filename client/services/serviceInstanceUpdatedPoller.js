@@ -22,7 +22,7 @@ function instanceUpdatedPoller(
             $rootScope.$broadcast('new-build');
           }
         });
-      }, 1 * 1000);
+      }, 5 * 1000);
     },
     stop: function() {
       $interval.cancel(interval);
