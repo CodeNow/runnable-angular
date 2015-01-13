@@ -21,12 +21,12 @@
     }
 
     &.no-states {
+      cursor: default;
 
       &:hover,
       &:active {
         background: transparent;
         color: $gray-dark;
-        cursor: pointer;
       }
     }
 
