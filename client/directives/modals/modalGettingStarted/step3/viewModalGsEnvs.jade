@@ -25,6 +25,9 @@ footer.modal-footer.clearfix
     ng-show = "state.step === 3"
     ng-click = "actions.createAndBuild();"
   ) Build Server
+  button.btn.white(
+    ng-click = "state.step = 1"
+  ) Previous Step
 
 //- .setup-page-dependency-box(
 //-   ng-repeat = "dep in state.dependencies"
