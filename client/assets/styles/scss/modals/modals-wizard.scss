@@ -12,9 +12,11 @@
   }
 
   .list .small {
-    color: $gray-lighter;
-    display: block;
     line-height: 0;
+  }
+
+  .modal-navbar {
+    width: 210px;
   }
 
   .modal-body {
