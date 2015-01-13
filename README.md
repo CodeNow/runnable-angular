@@ -12,7 +12,7 @@ The front-end for Runnable's sandbox management platform.
 <img src="http://runnable.com/images/bear-alt.png" title="Runnable" alt="Runnable" align="right" height="300" style="position:relative;z-index:1;">
 
 Instructions
-------------
+-------------
 - `grunt`: execute `grunt build`, start a server to serve app at http://localhost:3001
 - `grunt build`: compile jade/sass, concat files, move compiled files into client/build/
 - `grunt test:watch`: run tests on fs changes
