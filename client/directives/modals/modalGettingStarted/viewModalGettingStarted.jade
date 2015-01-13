@@ -2,7 +2,7 @@
   ng-click = "$event.stopPropagation()"
 )
   .modal-container
-    nav.modal-navbar.modal-wizard-navbar
+    nav.modal-navbar
       h3.modal-heading Create New Server
       ul.list
         li.list-item(
@@ -14,7 +14,7 @@
         li.list-item.no-states(
           ng-class = "{active: state.step === 3}"
         ) 3 Environment Variables
-      button.btn.btn-xs.white(
+      button.btn.btn-xxs.white(
         ng-click = "defaultActions.cancel();"
       ) Cancel
     .modal-body.modal-repo-selector(

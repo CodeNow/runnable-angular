@@ -1,7 +1,7 @@
 // step 1
 .modal-repo-selector {
   overflow-x: hidden;
-  width: 300px;
+  width: 330px;
 
   .input-search {
     background-position: 69px 3px;
@@ -22,6 +22,7 @@
 
   .list-item {
     cursor: pointer;
+    line-height: 39px;
 
     &:hover .icons-arrow-down {
       color: rgba($blue,.6);

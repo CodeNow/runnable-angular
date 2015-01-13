@@ -61,8 +61,8 @@
 
 // modals
 @import "modals/modals";
+@import "modals/modals-navbar";
 @import "modals/modals-wizard";
-@import "modals/modals-wizard-header";
 
 // modal specific
 @import "modals/modals-environment";
@@ -70,7 +70,6 @@
 @import "modals/modals-fork";
 @import "modals/modals-getting-started";
 @import "modals/modals-integrations";
-@import "modals/modals-navbar";
 @import "modals/modals-rename";
 @import "modals/modals-sidebar";
 @import "modals/modals-sign-in";

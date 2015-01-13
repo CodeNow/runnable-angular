@@ -15,33 +15,67 @@
   }
 
   .modal-heading {
+    float: none;
+    font-size: 14px;
     height: 45px;
     line-height: 45px;
   }
 
   .list-item {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
+    border: 0;
+    border-radius: 15px;
     cursor: pointer;
-    height: 45px;
-    line-height: 45px;
-    margin-top: -1px;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 9px;
     padding: 0 15px;
 
-    &:hover,
-    &.active {
-      background: rgba($black,.05);
-      border-color: rgba($black,.1);
+    &:hover {
+      background: rgba($black,.1);
     }
 
-    &:active {
-      background: rgba($black,.05);
-      border-color: rgba($black,.2);
+    &:active,
+    &.active {
+      background: $blue;
+      color: $white;
+    }
+
+    &.no-states {
+      cursor: default;
+
+      &:hover,
+      &:active {
+        background: transparent;
+        color: $gray-dark;
+      }
+    }
+
+    + .list-item {
+      margin-top: 3px;
+    }
+
+    // if list organizaed && no header item
+    &.small:first-child {
+      height: 45px;
+      line-height: 45px;
     }
   }
 
   .gravatar {
     float: left;
-    margin: 10px 9px 0 2px;
+    margin: 6px 9px 0 0;
   }
+
+  // cancel/close
+  .btn-xxs {
+    bottom: 15px;
+    left: 15px;
+    position: absolute;
+  }
+}
+
+// width for wizard
+.modal-wizard-navbar {
+  width: 210px;
 }

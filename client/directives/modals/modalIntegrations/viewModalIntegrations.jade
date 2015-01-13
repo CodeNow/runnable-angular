@@ -11,9 +11,9 @@
           ng-click = "actions.setActive(data.user)"
         )
           img.gravatar(
-            height = "24"
+            height = "18"
             ng-src = "{{ data.user.gravitar() }}"
-            width = "24"
+            width = "18"
           )
           | {{ data.user.oauthName() }}
         li.list-item.text-overflow(
@@ -22,9 +22,9 @@
           ng-repeat = "org in data.orgs.models"
         )
           img.gravatar(
-            height = "24"
+            height = "18"
             ng-src = "{{ org.gravitar() }}"
-            width = "24"
+            width = "18"
           )
           | {{ org.oauthName() }}
     main.modal-body
