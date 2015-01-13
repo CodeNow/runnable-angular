@@ -1,12 +1,12 @@
 label.label.clearfix
   .label-col Branch
     small.small Specify the branch of your repository
-  button.btn.btn-sm.gray.btn-select
+  .btn.btn-sm.gray.btn-select.text-overflow
     svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch"
       )
-    span {{state.activeBranch.attrs.name}}
+    | {{state.activeBranch.attrs.name}}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -18,7 +18,7 @@ label.label.clearfix
 label.label.clearfix
   .label-col Language
     small.small The primary language of your repository
-  button.btn.btn-sm.gray
+  button.btn.btn-sm.gray.btn-select.text-overflow
     img.img(
       height = "21"
       src = "/build/images/home/icons-node.js.svg"

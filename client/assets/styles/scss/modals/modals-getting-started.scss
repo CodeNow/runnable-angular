@@ -1,7 +1,8 @@
 // step 1
 .modal-repo-selector {
+  max-width: 330px;
+  min-width: 330px;
   overflow-x: hidden;
-  width: 330px;
 
   .input-search {
     background-position: 93px 3px;
@@ -22,7 +23,8 @@
 
   .list-item {
     cursor: pointer;
-    line-height: 39px;
+    line-height: 40px;
+    padding-right: 30px;
 
     &:hover .icons-arrow-down {
       color: $blue;
@@ -44,6 +46,15 @@
     }
   }
 
+  .list-item-title {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .small {
+    margin-top: -16px;
+  }
+
   .icons-arrow-down {
     color: $gray-light;
     float: right;
@@ -54,7 +65,7 @@
   }
 }
 
-// step 2
+// step 2a
 .modal-stack-selector {
   padding: 15px 15px 0;
   width: 450px;
@@ -82,6 +93,24 @@
     width: 50%;
   }
 
+  // branch select
+  .btn-select {
+
+    .iconnables {
+      height: 18px;
+      top: 9px;
+      width: 18px;
+    }
+
+    .icons-branch {
+      color: $gray-light;
+    }
+
+    .small {
+      display: inline;
+    }
+  }
+
   // if two languages
   .btn + .btn {
     margin-top: 6px;
@@ -98,7 +127,7 @@
   }
 }
 
-// wizard 2, col 2
+// step 2b: dependencies
 .modal-stack-dependencies {
   border-top: 1px solid rgba($black,.1);
   padding-top: 15px;
