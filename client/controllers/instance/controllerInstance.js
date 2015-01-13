@@ -87,7 +87,7 @@ function ControllerInstance(
       data.showUpdatedMessage = true;
       $timeout(function() {
         data.showUpdatedMessage = false;
-      });
+      }, 3000);
       // FIXME: we need to add watches in repo list so that it updates dynamically
       // and remove this window.location refresh
       window.location.reload();
