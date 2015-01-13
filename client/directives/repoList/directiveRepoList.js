@@ -233,7 +233,8 @@ function repoList(
           });
         },
         function (cb) {
-          if ($state.$current.name === 'instance.setup') {
+          if ($state.$current.name === 'instance.setup' ||
+              $state.$current.name === 'instance.instanceEdit') {
             return fetchBuild(cb);
           }
           return fetchInstance(cb);
