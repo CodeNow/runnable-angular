@@ -2,16 +2,18 @@
   background: $gray-lightest;
   border-radius: 3px 0 0 3px;
   border-right: 1px solid rgba($black,.1);
-  max-width: 180px;
+  max-width: 210px;
+  min-width: 180px;
   padding: 4px 0;
   position: relative;
-  vertical-align: top;
 
   @include media(xs) {
     border-bottom: 1px solid rgba($black,.1);
     border-radius: 3px 3px 0 0;
-    display: block;
+    flex: 0 0 auto;
+    max-height: 30vh;
     max-width: none;
+    overflow-y: auto;
     width: 100%;
   }
 
@@ -31,6 +33,11 @@
     line-height: 30px;
     margin: 0 9px;
     padding: 0 15px;
+
+    @include media(xs) {
+      display: inline-block;
+      margin-right: 0;
+    }
 
     &:hover {
       background: rgba($black,.1);
@@ -53,6 +60,9 @@
     }
 
     &.small {
+      @include media(xs) {
+        display: block;
+      }
 
       &:hover,
       &:active {
@@ -93,8 +103,7 @@
   + .modal-body {
 
     @include media(xs) {
-      display: block;
-      max-height: calc(70vh - 45px);
+      flex: 1 1 auto;
       overflow-y: auto;
     }
   }

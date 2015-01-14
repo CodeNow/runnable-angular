@@ -1,24 +1,30 @@
 .modal-integrations {
+  height: 382px;
+
+  @include media(md) {
+    height: 535px;
+  }
+
+  @include media(xs) {
+    height: auto;
+  }
 
   .list {
-    max-height: 407px;
+    max-height: 377px;
     overflow-y: auto;
+    padding-bottom: 15px;
 
     @include media(md) {
-      max-height: 560px;
+      max-height: 530px;
     }
 
     @include media(xs) {
-      max-height: 30vh;
+      max-height: none;
     }
   }
 
   .modal-body {
-    padding: 6px;
-  }
-
-  .form {
-    padding: 3px;
+    padding: 15px 6px 6px;
   }
 
   .col {
@@ -47,7 +53,7 @@
 
   .link-reference {
     display: inline-block;
-    margin-top: 4px;
+    margin: 4px 0 0 15px;
   }
 
   // save button
@@ -65,9 +71,5 @@
     @include media(md) {
       margin: 30px 9px;
     }
-  }
-
-  .modal-footer {
-    border-top: 1px solid rgba($black,.1);
   }
 }

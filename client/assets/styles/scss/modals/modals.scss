@@ -29,6 +29,7 @@
   box-shadow: 0 0 30px rgba($black,.12);
   color: $gray-dark;
   display: flex;
+  flex-direction: column;
   margin: auto;
   max-width: 84vw;
   min-width: 370px;
@@ -40,10 +41,12 @@
     width: calc(100% - 30px);
   }
 
-  &.show-sidebar.show-sidebar {
-    border-radius: 3px 0 0 3px;
-    transform: scale3d(1,1,1) translate3d(-105px,0,0);
-    transition: all .2s ease-in;
+  &.modal-sidebar {
+    flex-direction: row;
+
+    @include media(xs) {
+      flex-direction: column;
+    }
   }
 
   // guides in modals:
@@ -91,9 +94,14 @@
 
 // header.modal-header
 .modal-header {
+  background: $gray-lightest;
   border-radius: 3px 3px 0 0;
   color: $gray-dark;
   height: 60px;
+
+  .show-aside & {
+    border-top-right-radius: 0;
+  }
 }
 
 // p.modal-description
@@ -125,8 +133,12 @@
 
 // main.modal-body
 .modal-body {
-  max-height: calc(100vh - 153px);
+  overflow-x: hidden;
   overflow-y: auto;
+
+  @include media(sm) {
+    width: 100%;
+  }
 
   // validation in modals:
   .validate-wrapper {
@@ -229,13 +241,15 @@
 
   // nested footer
   .modal-footer {
+    border-top: 1px solid rgba($black,.1);
     clear: both;
-    margin: 60px -6px -6px;
+    margin: 30px -9px -6px;
   }
 }
 
 // footer.modal-footer
 .modal-footer {
+  background: $white;
   height: 63px;
   padding: 9px;
 

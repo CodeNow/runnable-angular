@@ -11,9 +11,8 @@ function modalIntegrations(
   keypather
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewModalIntegrations',
-    replace: true,
     scope: {
       actions: '=',
       data: '=',

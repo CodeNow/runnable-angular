@@ -11,7 +11,7 @@ function modalEnvironment(
   keypather
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewModalEnvironment',
     scope: {
       data: '=',
