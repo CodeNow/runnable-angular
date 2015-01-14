@@ -37,11 +37,9 @@ function repoList(
       switch ($state.$current.name) {
         case 'instance.setup':
           $scope.showAddFirstRepoMessage = true;
-          $scope.dontShowLock = true;
           break;
         case 'instance.instanceEdit':
           $scope.showAddFirstRepoMessage = false;
-          $scope.allowMultipleRepos = true;
           break;
         case 'instance.instance':
           $scope.showAddFirstRepoMessage = false;
@@ -107,7 +105,6 @@ function repoList(
         });
 
         async.waterfall([
-          fetchUser,
           findOrCreateContextVersion,
           createBuild,
           buildBuild,
@@ -121,7 +118,7 @@ function repoList(
 
         // if we find this contextVersion, reuse it.
         // otherwise create a new one
-        function findOrCreateContextVersion(user, cb) {
+        function findOrCreateContextVersion(cb) {
           var body = {
             infraCodeVersion: infraCodeVersionId
           };
@@ -129,13 +126,13 @@ function repoList(
             async.each(appCodeVersionStates, function (acvState, cb) {
               newContextVersion.appCodeVersions.create(acvState, cb);
             }, function (err) {
-              cb(err, user, newContextVersion);
+              cb(err, newContextVersion);
             });
           });
         }
 
-        function createBuild(user, contextVersion, cb) {
-          var build = user.createBuild({
+        function createBuild(contextVersion, cb) {
+          var build = $scope.user.createBuild({
             contextVersions: [contextVersion.id()],
             owner: $scope.instance.attrs.owner
           }, function (err) {
@@ -236,11 +233,14 @@ function repoList(
           });
         },
         function (cb) {
-          if ($state.$current.name === 'instance.setup' ||
-              $state.$current.name === 'instance.instanceEdit') {
+          if ($state.$current.name === 'instance.setup') {
             return fetchBuild(cb);
           }
-          return fetchInstance(cb);
+          if ($state.$current.name === 'instance.instance') {
+            return fetchInstance(cb);
+          }
+          // Instance Edit
+          return async.parallel([fetchBuild, fetchInstance], cb);
         }
       ], errs.handler);
 

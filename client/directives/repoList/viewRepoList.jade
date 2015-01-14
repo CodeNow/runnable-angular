@@ -14,9 +14,6 @@ h2.sub-header Repositories
 
   add-repo-popover(
     show = "data.show"
-    build = "build"
-    enabled = "allowMultipleRepos || \
-              (showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0)"
   )
 
   show-demo-modal(
@@ -25,7 +22,7 @@ h2.sub-header Repositories
 
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.blue(
-  ng-if = "showAddFirstRepoMessage && instance.build.contextVersions.models[0].appCodeVersions.models.length === 0"
+  ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
   ng-click = "data.show = !data.show; \
               $event.stopPropagation();"
 )
@@ -45,8 +42,10 @@ ul.list.repository-group
   li.list-details(
     ng-show = "instance.build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
   )
-    .small Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories.
-    label.label-checkbox.btn.btn-sm
+    label.label-checkbox.btn.btn-sm(
+      tooltip = "Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories."
+      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":4,\"top\":30}"
+    )
       input.input-checkbox(
         ng-model = "data.autoDeploy"
         type = "checkbox"

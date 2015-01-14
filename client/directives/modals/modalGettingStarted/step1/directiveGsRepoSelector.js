@@ -29,10 +29,10 @@ function gsRepoSelector(
       function fetchStackData(repo, cb) {
         fetchStackAnalysis(repo, function (err, data) {
           if (err) { return cb(err); }
+          if (!data.languageFramework) { return cb(new Error('No languages found'));}
           $scope.state.stack = $scope.data.stacks.find(hasKeypaths({
             'name.toLowerCase()': data.languageFramework.toLowerCase()
           }));
-
           if (data.serviceDependencies && data.serviceDependencies.length) {
             $scope.$watch('data.allDependencies', function (allDeps) {
               if (allDeps) {
@@ -59,9 +59,11 @@ function gsRepoSelector(
           if (err) {return errs.handler(err); }
           $scope.state.activeBranch =
               repo.branches.models.find(hasKeypaths({'attrs.name': 'master'}));
+          if (!$scope.state.activeBranch) { return errs.handler(new Error('No branches found')); }
           $scope.state.activeBranch.commits.fetch(angular.noop);
         });
         fetchStackData(repo.attrs.full_name, function (err) {
+          if (err) { $scope.state.repoSelected = false; }
           delete repo.spin;
           $scope.actions.nextStep(2);
           errs.handler(err);

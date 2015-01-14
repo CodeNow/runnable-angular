@@ -19,12 +19,12 @@
     )
     ul.popover-body.popover-list
       li.popover-list-item(
-      ng-click = "actions.addRepo(repo)"
-      ng-repeat = "\
+        ng-click = "actions.addRepo(repo)"
+        ng-repeat = "\
           repo in data.githubRepos.models | \
-          unaddedRepos:data.addedRepos | \
+          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
           repos:data.repoFilter as newRepos"
-      title = "{{ repo.attrs.full_name }}"
+        title = "{{ repo.attrs.full_name }}"
       )
         span {{ repo.attrs.full_name }}
       li.popover-list-item.no-actions(

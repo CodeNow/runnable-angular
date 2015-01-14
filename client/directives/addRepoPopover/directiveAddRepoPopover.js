@@ -20,19 +20,15 @@ function addRepoPopover(
     restrict: 'E',
     templateUrl: 'viewAddRepoPopover',
     scope: {
-      show: '=',
-      enabled: '=',
-      build: '='
+      show: '='
     },
     link: function ($scope, elem, attrs) {
 
       // rules for display based on state name
-      if ($scope.enabled === undefined) {
-        if ($state.$current.name === 'instance.instance') {
-          $scope.enabled = false;
-        } else {
-          $scope.enabled = true;
-        }
+      if ($state.$current.name === 'instance.instance') {
+        $scope.enabled = false;
+      } else {
+        $scope.enabled = true;
       }
       $scope.repoListPopover = {
         data: {},
@@ -62,7 +58,7 @@ function addRepoPopover(
       $scope.repoListPopover.actions.addRepo = function (repo) {
         // close this and other popover
         $rootScope.$broadcast('app-document-click');
-        var cv = $scope.build.contextVersions.models[0];
+        var cv = $scope.repoListPopover.data.build.contextVersions.models[0];
         var acv = cv.newAppCodeVersion({
           repo: repo.attrs.full_name,
           branch: repo.attrs.default_branch
@@ -219,24 +215,19 @@ function addRepoPopover(
         fetchPage(1);
       }
 
-      $scope.$watch('build.contextVersions', function (n) {
-        if (n) {
-          $scope.repoListPopover.data.addedRepos =
-              keypather.get($scope, 'build.contextVersions.models[0].appCodeVersions');
-          async.series([
-            function (cb) {
-              fetchUser(function (err, user) {
-                if (err) { return cb(err); }
-                $scope.user = user;
-                $scope.repoListPopover.data.user = user;
-                cb();
-              });
-            },
-            fetchAllOwnerRepos
-          ]);
-        }
-      });
-
+      async.series([
+        function (cb) {
+          fetchUser(function (err, user) {
+            if (err) { return cb(err); }
+            $scope.user = user;
+            $scope.repoListPopover.data.user = user;
+            cb();
+          });
+        },
+        fetchBuild,
+        fetchBuildContextVersions,
+        fetchAllOwnerRepos
+      ]);
     }
   };
 }
