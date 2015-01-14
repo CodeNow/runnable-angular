@@ -1,6 +1,5 @@
 label.label Environment Variables
-.small Meh locavore Godard plaid Bushwick photo booth hella, brunch post-ironic umami squid. Normcore health goth heirloom 3 wolf moon, Bushwick jean shorts roof party whatever gluten-free asymmetrical.
-  //- ng-repeat = "model in state.dependencies"
+.small We use environment variables to link up dependent servers. Update the variables below to match your app, and we'll set them to the paths for the dependencies. Or if you hardcode your dependency paths, update them to the variables below.
 ul.list.list-env(
   ng-repeat = "model in state.dependencies"
 )
@@ -25,7 +24,7 @@ footer.modal-footer.clearfix
     ng-click = "actions.createAndBuild();"
   ) Build Server
   button.btn.white(
-    ng-click = "state.step = 1"
+    ng-click = "state.step = 2"
   ) Previous Step
 
 //- .setup-page-dependency-box(

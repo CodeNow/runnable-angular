@@ -4,6 +4,11 @@
   min-width: 330px;
   overflow-x: hidden;
 
+  @include media(sm) {
+    max-width: none;
+    width: 100%;
+  }
+
   .input-search {
     background-position: 93px 3px;
     margin: 3px auto 15px;
@@ -67,6 +72,7 @@
 
 // step 2a
 .modal-stack-selector {
+  max-width: 100%;
   padding: 15px 15px 0;
   width: 540px;
 
@@ -197,6 +203,10 @@
 .modal-gs-environments {
   overflow-y: auto;
   width: 420px;
+
+  @include media(xs) {
+    width: 100%;
+  }
 
   // header label
   > .label {

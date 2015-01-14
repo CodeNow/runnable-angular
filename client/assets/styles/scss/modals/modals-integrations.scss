@@ -14,14 +14,7 @@
   }
 
   .modal-body {
-    display: table-cell;
     padding: 6px;
-
-    @include media(xs) {
-      display: block;
-      max-height: calc(70vh - 45px);
-      overflow-y: auto;
-    }
   }
 
   .form {

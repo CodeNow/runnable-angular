@@ -24,7 +24,7 @@ function modalGettingStarted(
   createNewBuild
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewModalGettingStarted',
     scope: {
       defaultActions: '='
