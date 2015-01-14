@@ -4,7 +4,7 @@ ul.list.list-env(
   ng-repeat = "model in state.dependencies"
 )
   li.list-item.gray
-    label.label {{ model.opts.name }}
+    label.label {{ model.opts.name || model.instance.attrs.name }}
     //- focus, ng-invalid, ng-valid, ng-pristine
     label.input-group.input-validate(
       ng-class = ""
