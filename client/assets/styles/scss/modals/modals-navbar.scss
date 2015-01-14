@@ -43,14 +43,22 @@
       color: $white;
     }
 
-    &.no-states,
-    &.small {
+    &.no-states {
       cursor: default;
 
       &:hover,
       &:active {
         background: transparent;
         color: $gray-dark;
+      }
+    }
+
+    &.small {
+
+      &:hover,
+      &:active {
+        background: transparent;
+        color: $gray-light;
       }
     }
 
