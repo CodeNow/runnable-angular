@@ -1,23 +1,21 @@
 'use strict';
 
 require('app')
-  .factory('fetchStackInfo', fetchStackInfo);
+  .factory('fetchStackAnalysis', fetchStackAnalysis);
 
-function fetchStackInfo(
+function fetchStackAnalysis(
   user
 ) {
-  return function (cb) {
-    //function callback(err, res, body) {
-    //  console.log(err, res, body);
-    //  body.stacks = stacks;
-    //  body.stack = stacks.find(function (stack) {
-    //    return body.languageFramework.indexOf(stack.name.toLowerCase()) !== -1;
-    //  });
-    //  cb(err, body);
-    //}
-    cb(null, stacks);
+  return function (repo, cb) {
+    function callback(err, res, body) {
+      console.log(err, res, body);
+      body.stack = stacks.find(function (stack) {
+        return body.languageFramework.indexOf(stack.name.toLowerCase()) !== -1;
+      });
+      cb(err, body);
+    }
 
-    //user.client.get('/actions/analyze?repo=' + repo, callback);
+    user.client.get('/actions/analyze?repo=' + repo, callback);
   };
 }
 

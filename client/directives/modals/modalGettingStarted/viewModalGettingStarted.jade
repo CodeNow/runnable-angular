@@ -7,15 +7,17 @@
       ul.list
         li.list-item(
           ng-class = "{active: state.step === 1}"
-          ng-click = "state.step = 1"
+          ng-click = "actions.changeStep(1)"
         ) 1 Repository
-        li.list-item.no-states(
-          ng-class = "{active: state.step === 2}"
-          ng-click = "state.step = (state.step > 1) ? 2 : state.step"
+        li.list-item(
+          ng-class = "{active: state.step === 2,\
+            'no-states': state.furthestStep < 2}"
+          ng-click = "actions.changeStep(2)"
         ) 2 Application
-        li.list-item.no-states(
-          ng-class = "{active: state.step === 3}"
-          ng-click = "state.step = (state.step > 2) ? 3 : state.step"
+        li.list-item(
+          ng-class = "{active: state.step === 3,\
+            'no-states': state.furthestStep < 3}"
+          ng-click = "actions.changeStep(3)"
         ) 3 Environment Variables
       button.btn.btn-xxs.white(
         ng-click = "defaultActions.cancel();"

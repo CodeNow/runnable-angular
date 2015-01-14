@@ -18,6 +18,7 @@ function modalGettingStarted(
   createNewInstance,
   $state,
   $stateParams,
+  fetchStackInfo,
   fetchUser,
   keypather,
   createNewBuild
@@ -51,6 +52,16 @@ function modalGettingStarted(
         removeDependency: function (model) {
           var index = $scope.state.dependencies.indexOf(model);
           $scope.state.dependencies.splice(index, 1);
+        },
+        changeStep: function (newStep) {
+          $scope.state.repoSelected = false;
+          if ($scope.state.furthestStep >= newStep) {
+            $scope.state.step = newStep;
+          }
+        },
+        nextStep: function (newStep) {
+          $scope.state.furthestStep = newStep;
+          $scope.state.step = newStep;
         },
         createAndBuild: function() {
           // first thing to do is generate the dockerfile
@@ -92,16 +103,20 @@ function modalGettingStarted(
         }
       };
       $scope.state = {
-        unsavedAcvs: [],
         dependencies: [],
         opts: {
           name: 'NewInstance'
         },
-        step: 1
+        step: 1,
+        furthestStep: 1
       };
       fetchGSDepInstances(function (err, deps) {
         if (err) { return errs.handler(err); }
         keypather.set($scope, 'data.allDependencies', deps);
+      });
+      fetchStackInfo(function (err, stacks) {
+        if (err) { return errs.handler(err); }
+        keypather.set($scope, 'state.stacks', stacks);
       });
       $scope.$watch('state.stack.name', function (n) {
         if (n) {

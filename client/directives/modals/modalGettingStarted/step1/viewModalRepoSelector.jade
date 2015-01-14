@@ -13,8 +13,8 @@ ul.list.list-divided
       ng-include = "'spinner'"
     )
   li.list-item(
-    ng-class = "{active: repo.spin}"
-    ng-click = "repo.spin = true; selectRepo(repo)"
+    ng-class = "{active: state.selectedRepo === repo}"
+    ng-click = "selectRepo(repo); "
     ng-repeat = "repo in githubRepos.models| \
       repos:data.repoFilter as newRepos"
   )

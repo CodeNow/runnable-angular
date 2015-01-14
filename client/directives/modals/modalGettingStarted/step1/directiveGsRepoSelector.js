@@ -10,7 +10,7 @@ function gsRepoSelector(
   keypather,
   errs,
   fetchGSDepInstances,
-  fetchStackInfo,
+  fetchStackAnalysis,
   fetchUser,
   hasKeypaths,
   $stateParams,
@@ -27,9 +27,8 @@ function gsRepoSelector(
     },
     link: function ($scope, elem, attrs) {
       function fetchStackData(repo, cb) {
-        fetchStackInfo(repo, function (err, data) {
+        fetchStackAnalysis(repo, function (err, data) {
           if (err) { return cb(err); }
-          $scope.state.stacks = data.stacks;
           $scope.state.stack = data.stack;
 
           if (data.serviceDependencies && data.serviceDependencies.length) {
@@ -50,6 +49,9 @@ function gsRepoSelector(
         });
       }
       $scope.selectRepo = function (repo) {
+        if ($scope.state.repoSelected) { return; }
+        $scope.state.repoSelected = true;
+        repo.spin = true;
         $scope.state.selectedRepo = repo;
         repo.branches.fetch(function(err) {
           if (err) {return errs.handler(err); }
@@ -59,7 +61,7 @@ function gsRepoSelector(
         });
         fetchStackData(repo.attrs.full_name, function (err) {
           delete repo.spin;
-          $scope.state.step = 2;
+          $scope.actions.nextStep(2);
           errs.handler(err);
         });
       };
