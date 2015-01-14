@@ -32,15 +32,15 @@ function modalGettingStarted(
     link: function ($scope, element, attrs) {
 
       $scope.actions = {
-        addDependency: function (instance) {
+        addDependency: function (instance, fromExisting) {
           var envs = keypather.get(instance, 'containers.models[0].urls()') || [];
           var newName = getNewForkName(instance, $rootScope.dataApp.data.instances, true);
           $scope.state.dependencies.push({
             instance: instance,
-            opts: {
+            opts: !fromExisting ? {
               name: newName,
               env: instance.attrs.env
-            },
+            } : null,
             reqEnv: envs.map(function (url, index) {
               return {
                 name: instance.attrs.name.toUpperCase() + '_HOST' + (index > 0 ? index : ''),
