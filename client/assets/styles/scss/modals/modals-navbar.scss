@@ -12,6 +12,7 @@
     border-bottom: 1px solid rgba($black,.1);
     border-radius: 3px 3px 0 0;
     display: block;
+    max-width: none;
     width: 100%;
   }
 
@@ -42,7 +43,8 @@
       color: $white;
     }
 
-    &.no-states {
+    &.no-states,
+    &.small {
       cursor: default;
 
       &:hover,
@@ -78,6 +80,16 @@
     + .btn-xxs {
       left: auto;
       right: 15px;
+    }
+  }
+
+  + .modal-body {
+    display: table-cell;
+
+    @include media(xs) {
+      display: block;
+      max-height: calc(70vh - 45px);
+      overflow-y: auto;
     }
   }
 }

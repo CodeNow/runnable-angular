@@ -18,10 +18,15 @@
   .modal-navbar {
     max-width: 210px;
     min-width: 210px;
-  }
 
-  .modal-body {
-    display: table-cell;
+    @include media(xs) {
+      height: 150px;
+      max-width: none;
+
+      .list-item {
+        display: inline-block;
+      }
+    }
   }
 
   .modal-footer {
