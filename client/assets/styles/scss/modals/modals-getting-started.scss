@@ -147,9 +147,9 @@
   border-top: 1px solid rgba($black,.1);
   padding-top: 15px;
 
-  .label {
-    display: inline-block;
-    margin-bottom: 6px;
+  .small {
+    height: 24px;
+    line-height: 24px;
   }
 
   .btn-xxs {
@@ -158,9 +158,11 @@
   }
 
   .list {
+    float: right;
     margin: 0 0 15px;
     max-height: 210px;
     overflow-y: auto;
+    width: 50%;
   }
 
   .list-item {
