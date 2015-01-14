@@ -21,8 +21,6 @@ function repoList(
     restrict: 'A',
     templateUrl: 'viewRepoList',
     scope: {
-      build: '=',
-      instance: '=',
       loading: '=',
       unsavedAcvs: '='
     },
@@ -72,14 +70,12 @@ function repoList(
 
       // selected repo commit change
       $scope.$on('acv-change', function (event, opts) {
-        if ($state.$current.name !== 'instance.setup') {
-          event.stopPropagation();
-          if ($scope.unsavedAcvs.length === 1) {
-            // Immediately update/rebuild if user only has 1 repo
-            $scope.triggerInstanceUpdateOnRepoCommitChange();
-          } else if (opts && opts.triggerBuild) {
-            $scope.triggerInstanceUpdateOnRepoCommitChange();
-          }
+        event.stopPropagation();
+        if ($scope.unsavedAcvs.length === 1) {
+          // Immediately update/rebuild if user only has 1 repo
+          $scope.triggerInstanceUpdateOnRepoCommitChange();
+        } else if (opts && opts.triggerBuild) {
+          $scope.triggerInstanceUpdateOnRepoCommitChange();
         }
       });
 
@@ -240,14 +236,11 @@ function repoList(
           });
         },
         function (cb) {
-          if ($state.$current.name === 'instance.setup') {
+          if ($state.$current.name === 'instance.setup' ||
+              $state.$current.name === 'instance.instanceEdit') {
             return fetchBuild(cb);
           }
-          if ($state.$current.name === 'instance.instance') {
-            return fetchInstance(cb);
-          }
-          // Instance Edit
-          return async.parallel([fetchBuild, fetchInstance], cb);
+          return fetchInstance(cb);
         }
       ], errs.handler);
 

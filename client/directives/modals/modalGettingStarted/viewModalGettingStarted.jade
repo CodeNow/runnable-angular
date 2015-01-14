@@ -21,9 +21,10 @@
         ) 3 Environment Variables
       button.btn.btn-xxs.white(
         ng-click = "defaultActions.cancel();"
+        ng-hide = 'state.hideCancelButton'
       ) Cancel
       a.btn.btn-xxs.white(
-        href = "/new"
+        ng-click = "actions.skipTutorial(defaultActions.close);"
       ) Skip Setup
     .modal-body.modal-repo-selector(
       actions = "actions"

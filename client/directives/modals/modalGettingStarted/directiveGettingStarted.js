@@ -31,6 +31,16 @@ function modalGettingStarted(
     },
     link: function ($scope, element, attrs) {
 
+      var unwatch = $rootScope.$watch('dataApp.data.instances', function (n) {
+        if (n) {
+          unwatch();
+          $scope.state.hideCancelButton = !n.models.length;
+        }
+      });
+      $scope.$on('$destroy', function () {
+        unwatch();
+      });
+
       $scope.actions = {
         addDependency: function (instance, fromExisting) {
           var envs = keypather.get(instance, 'containers.models[0].urls()') || [];
@@ -62,6 +72,12 @@ function modalGettingStarted(
         nextStep: function (newStep) {
           $scope.state.furthestStep = newStep;
           $scope.state.step = newStep;
+        },
+        skipTutorial: function (cb) {
+          $state.go('instance.new', {
+            userName: $stateParams.userName
+          });
+          cb();
         },
         createAndBuild: function() {
           // first thing to do is generate the dockerfile
