@@ -114,9 +114,9 @@ function modalGettingStarted(
         if (err) { return errs.handler(err); }
         keypather.set($scope, 'data.allDependencies', deps);
       });
-      fetchStackInfo(function (err, stacks) {
+      fetchStackInfo(function (err, body) {
         if (err) { return errs.handler(err); }
-        keypather.set($scope, 'state.stacks', stacks);
+        keypather.set($scope, 'data.stacks', body.stacks);
       });
       $scope.$watch('state.stack.name', function (n) {
         if (n) {

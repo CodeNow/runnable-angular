@@ -29,7 +29,9 @@ function gsRepoSelector(
       function fetchStackData(repo, cb) {
         fetchStackAnalysis(repo, function (err, data) {
           if (err) { return cb(err); }
-          $scope.state.stack = data.stack;
+          $scope.state.stack = $scope.data.stacks.find(hasKeypaths({
+            'name.toLowerCase()': data.languageFramework.toLowerCase()
+          }));
 
           if (data.serviceDependencies && data.serviceDependencies.length) {
             $scope.$watch('data.allDependencies', function (allDeps) {

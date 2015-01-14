@@ -20,13 +20,13 @@ label.label.clearfix
   .label-col Framework/Language
     small.small The primary framework or language of your repository
   .btn-group
-    button.btn.btn-sm.gray.btn-select.text-overflow
+    .btn.btn-sm.gray.btn-select.text-overflow
       img.img(
         height = "18px"
         src = "/build/images/home/icons-node-js.svg"
         width = "18px"
       )
-      small.small node.js
+      small.small {{state.stack.name}}
       //- small.small {{ state.stack.name }}
       svg.iconnables.icons-arrow-down
         use(
@@ -35,78 +35,51 @@ label.label.clearfix
       //- NOTES:
       //- alphabetical order
       //- node.js is all lowercase
-      select
-        optgroup(
-          label = "Choose framework or language"
-        )
-          option(
-            selected
-          ) node.js
-          option Python
-          option Ruby
-          option Ruby on Rails
+      select(
+        ng-model = "state.stack"
+        ng-options = "stack as stack.name group by 'Choose framework or language' for stack in data.stacks"
+      )
     .btn.btn-sm.gray.btn-select.text-overflow
       //- NOTES:
       //- - final text has v prepended
       //- - option text does NOT have v preprended
-      small.small v0.10.35
+      small.small v{{state.stack.selectedVersion}}
       //- small.small {{ version.selected }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-      select
-        optgroup(
-          label = "Choose node.js version"
-        )
-          option(
-            selected
-          ) 0.11.14
-          option 0.11.13
-          option 0.11
-          option 0.10.35
-          option 0.10.34
-          option 0.10.33
-          option 0.10.32
-          option 0.10.31
-          option 0.10.30
-  .btn-group
-    label.btn.btn-sm.btn-select.text-overflow
+      select(
+        ng-model = "state.stack.selectedVersion"
+        ng-options = "version as version group by 'Choose version' for version in state.stack.versions "
+      )
+  .btn-group(
+    ng-repeat = "depStack in state.stack.dependencies"
+  )
+    button.btn.btn-sm.gray.btn-select.text-overflow
       img.img(
         height = "18px"
         src = "/build/images/home/icons-node-js.svg"
         width = "18px"
       )
-      small.small node.js
-      //- small.small {{ state.stack.name }}
+      small.small {{depStack.name}}
     .btn.btn-sm.gray.btn-select.text-overflow
-      small.small v0.10.35
+      small.small {{depStack.selectedVersion}}
       //- small.small {{ version.selected }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-      select
-        optgroup(
-          label = "Choose node.js version"
-        )
-          option(
-            selected
-          ) 0.11.14
-          option 0.11.13
-          option 0.11
-          option 0.10.35
-          option 0.10.34
-          option 0.10.33
-          option 0.10.32
-          option 0.10.31
-          option 0.10.30
+      select(
+        ng-model = "depStack.selectedVersion"
+        ng-options = "version as version group by 'Choose version' for version in depStack.versions"
+      )
 label.label.clearfix
   .label-col Ports
     small.small Separate by commas
   //- placeholder and values should be the same
   input.input.input-sm(
-    ng-model = "state.stack.ports"
+    ng-model = "state.ports"
     placeholder = "80, 8000, 8001"
   )
 label.label.clearfix
@@ -114,7 +87,7 @@ label.label.clearfix
     small.small Something about commands
   //- placeholder and values should be the same
   input.input.input-sm(
-    ng-model = "state.stack.startCommand"
+    ng-model = "state.startCommand"
     placeholder = "npm start"
   )
 .modal-stack-dependencies(
@@ -129,7 +102,7 @@ footer.modal-footer.clearfix
     ng-click = "actions.nextStep(3)"
   ) Next Step
   button.btn.white(
-    ng-click = "actions.changeStep(2)"
+    ng-click = "actions.changeStep(1)"
   ) Previous Step
 
   //-

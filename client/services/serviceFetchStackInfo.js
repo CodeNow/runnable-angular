@@ -7,83 +7,88 @@ function fetchStackInfo(
   user
 ) {
   return function (cb) {
-    //function callback(err, res, body) {
-    //  console.log(err, res, body);
-    //  body.stacks = stacks;
-    //  body.stack = stacks.find(function (stack) {
-    //    return body.languageFramework.indexOf(stack.name.toLowerCase()) !== -1;
-    //  });
-    //  cb(err, body);
-    //}
-    cb(null, stacks);
+    function callback(err, res, body) {
+      console.log(err, res, body);
+      var stackMap = stacks;
+      body.stacks = [];
+      body.stackMap = stackMap;
 
-    //user.client.get('/actions/analyze?repo=' + repo, callback);
+      Object.keys(stackMap).forEach(function (key) {
+        var stack = stackMap[key];
+        stack.key = key;
+        body.stacks.push(stack);
+        if (stack.dependencies) {
+          stack.dependencies = stack.dependencies.map(function (dep) {
+            return stackMap[dep];
+          });
+        }
+      });
+      //body.stack = stacks.find(function (stack) {
+      //  return body.languageFramework.indexOf(stack.name.toLowerCase()) !== -1;
+      //});
+      cb(err, body);
+    }
+
+    user.client.get('/actions/analyze/info', callback);
   };
 }
 
 
-var stacks = [{
-  name: 'Ruby on Rails',
-  versionReqs: [
-    {
-      name: 'Ruby',
-      key: 'ruby',
-      selected: '10',
-      versions: [
-        '10',
-        '9',
-        '8'
-      ]
-    }, {
-      name: 'Rails',
-      key: 'rails',
-      selected: '2',
-      versions: [
-        '3',
-        '2',
-        '1'
-      ]
-    }
-  ],
-  ports: '80, 3000',
-  startCommand: 'rails server',
-  preEnvMarker: '<%= ENV[\'',
-  postEnvMarker: ']%>\''
-}, {
-  name: 'Node.Js',
-  versionReqs: [{
+var stacks = {
+  rails: {
+    name: 'Rails',
+    versions: [
+      '3',
+      '2',
+      '1'
+    ],
+    selectedVersion: '2',
+    dependencies: ['ruby'],
+    ports: '80, 3000',
+    startCommand: 'rails server',
+    preEnvMarker: '<%= ENV[\'',
+    postEnvMarker: ']%>\''
+  },
+  node: {
     name: 'Node.Js',
-    key: 'node',
-    selected: '0.10.35',
+    selectedVersion: '0.10.35',
     versions: [
       '0.10.35',
       '0.10.34',
       '0.11'
-    ]
-  }],
-  ports: '80',
-  startCommand: 'npm start',
-  preEnvMarker: 'process.env',
-  postEnvMarker: ''
-}, {
-  name: 'Python',
-  versionReqs: [
-    {
-      name: 'Python',
-      key: 'python',
-      selected: '1.3',
-      versions: [
-        '1.3',
-        '1.2',
-        '.9'
-      ]
-    }
-  ],
-  ports: '80',
-  startCommand: '//Do some stuff',
-  preEnvMarker: 'os.environ["',
-  postEnvMarker: '"]'
-}];
+    ],
+    ports: '80',
+    startCommand: 'npm start',
+    preEnvMarker: 'process.env',
+    postEnvMarker: ''
+  },
+  python: {
+    name: 'Python',
+    selectedVersion: '1.3',
+    versions: [
+      '1.3',
+      '1.2',
+      '.9'
+    ],
+    ports: '80',
+    startCommand: '//Do some stuff',
+    preEnvMarker: 'os.environ["',
+    postEnvMarker: '"]'
+  },
+  ruby: {
+    name: 'Ruby',
+    selectedVersion: '10',
+    versions: [
+      '10',
+      '9',
+      '8'
+    ],
+    ports: '80',
+    startCommand: '//Do some stuff',
+    preEnvMarker: 'os.environ["',
+    postEnvMarker: '"]'
+  }
+};
 
 var dependencies = [{
   attrs: {

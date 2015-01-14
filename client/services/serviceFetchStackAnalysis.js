@@ -9,9 +9,6 @@ function fetchStackAnalysis(
   return function (repo, cb) {
     function callback(err, res, body) {
       console.log(err, res, body);
-      body.stack = stacks.find(function (stack) {
-        return body.languageFramework.indexOf(stack.name.toLowerCase()) !== -1;
-      });
       cb(err, body);
     }
 

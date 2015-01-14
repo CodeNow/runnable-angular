@@ -9,11 +9,7 @@ function gsPopulateDockerfile(
   return function (dockerfile, state) {
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
-      Object.keys(state.version).forEach(function(stackName) {
-        var regexp = new RegExp('<' + regexpQuote(stackName.toLowerCase()) + '-version>', 'gm');
-        console.log('replacing version', stackName, regexp, state.version[stackName]);
-        dockerfileBody = dockerfileBody.replace(regexp, state.version[stackName]);
-      });
+      dockerfileBody = replaceStackVersion(dockerfileBody, state.stack);
       var ports = '\nEXPOSE ' + state.ports.split(',').join(' ');
       dockerfileBody = dockerfileBody.replace(/<user-specified-ports>/gm, ports);
 
@@ -44,4 +40,15 @@ function gsPopulateDockerfile(
       updateNewDockerfile(dockerfileBody, cb);
     };
   };
+
+  function replaceStackVersion(dockerfileBody, stack) {
+    var regexp = new RegExp('<' + regexpQuote(stack.key.toLowerCase()) + '-version>', 'gm');
+    console.log('replacing version', stack.name, regexp, stack.selectedVersion);
+    if (stack.dependencies) {
+      stack.dependencies.forEach(function (stack) {
+        dockerfileBody = replaceStackVersion(dockerfileBody, stack);
+      });
+    }
+    return dockerfileBody.replace(regexp, stack.selectedVersion);
+  }
 }

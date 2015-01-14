@@ -7,8 +7,7 @@ require('app')
  */
 function modalStackDependencies(
   keypather,
-  fetchGSDepInstances,
-  getNewForkName
+  fetchInstances
 ) {
   return {
     restrict: 'A',
@@ -23,6 +22,9 @@ function modalStackDependencies(
         if (n) {
           keypather.set($scope, 'addDependencyPopover.data.dependencies', n);
         }
+      });
+      fetchInstances(null, null, function (err, instances) {
+        keypather.set($scope, 'addDependencyPopover.data.instances', instances);
       });
 
       $scope.$watchCollection('state.dependencies', function (n) {
