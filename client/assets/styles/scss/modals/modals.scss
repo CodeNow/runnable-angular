@@ -28,6 +28,7 @@
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
   color: $gray-dark;
+  display: flex;
   margin: auto;
   max-width: 84vw;
   min-width: 370px;
@@ -85,21 +86,6 @@
       background-color: $white;
       border-color: rgba($black,.15);
     }
-  }
-}
-
-// .modal-container
-.modal-container {
-  background: $white;
-  border-radius: 3px;
-  position: relative;
-  transition: box-shadow 0 .2s ease-in;
-  z-index: $z-modal;
-
-  .show-sidebar & {
-    border-radius: 3px 0 0 3px;
-    box-shadow: 1px 0 0 rgba($black,.1);
-    transition: none;
   }
 }
 

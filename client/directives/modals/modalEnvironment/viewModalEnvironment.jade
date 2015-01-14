@@ -2,72 +2,72 @@
   ng-class = "{'show-sidebar': data.toggleSidebar}"
   ng-click = "$event.stopPropagation()"
 )
-  .modal-container
-    header.modal-header
-      h1.modal-heading Edit Environment
-      //- 0.3 SAN-436
-        - to do:
-        - do not show if there are no boxes with exposed ports to link
-      button.btn.btn-icon.white(
-        ng-class = "{active: data.toggleSidebar}"
-        ng-click = "data.toggleSidebar = !data.toggleSidebar"
-        tooltip = "Toggle List of Boxes"
-        tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":30}"
-        type = "button"
-      )
-        svg.iconnables.icons-sidebar
-          use(
-            xlink:href = "#icons-sidebar"
-          )
-    //- guide text should only appear once until dismissed
-    .guide.guide-no-help.blue(
-      ng-if = '!data.hideGuideHelpEnvModal'
+  header.modal-header
+    h1.modal-heading Edit Environment
+    //- 0.3 SAN-436
+      - to do:
+      - do not show if there are no boxes with exposed ports to link
+    button.btn.btn-icon.white(
+      ng-class = "{active: data.toggleSidebar}"
+      ng-click = "data.toggleSidebar = !data.toggleSidebar"
+      tooltip = "Toggle List of Boxes"
+      tooltip-options = "{\"class\":\"right\",\"left\":36,\"top\":11}"
+      type = "button"
     )
-      h3.guide-header Using Environment Variables
-      pre.well.well-code &lt;key&gt;=&lt;value&gt;
-      p.guide-text
-        | Variables listed here are added to the box during startup.
-        br
-        | Example notation:
-      pre.well.well-code DB_HOST=db.run.runnable.io
+      svg.iconnables.icons-sidebar
+        use(
+          xlink:href = "#icons-sidebar"
+        )
+  //- guide text should only appear once until dismissed
+  .guide.guide-no-help.blue(
+    ng-if = '!data.hideGuideHelpEnvModal'
+  )
+    h3.guide-header Using Environment Variables
+    pre.well.well-code &lt;key&gt;=&lt;value&gt;
+    p.guide-text
+      | Variables listed here are added to the box during startup.
+      br
+      | Example notation:
+    pre.well.well-code DB_HOST=db.run.runnable.io
 
-      button.btn.blue.btn-xs.btn-close(
-        ng-click = "onChangeHideGuideEnv()"
-      )
-        svg.iconnables.icons-close
-          use(
-            xlink:href = "#icons-close"
-          )
-    main.modal-body
-      //- If the stateModel has an env (even empty), then the envs have been modified, and
-        - we should display them
-      div(
-        env-vars
-        state-model = "tempModel"
-        current-model = "stateModel.env ? stateModel : currentModel"
-        validation = "validation"
-      )
+    button.btn.blue.btn-xs.btn-close(
+      ng-click = "onChangeHideGuideEnv()"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+  main.modal-body
+    //- If the stateModel has an env (even empty), then the envs have been modified, and
+      - we should display them
+    div(
+      env-vars
+      state-model = "tempModel"
+      current-model = "stateModel.env ? stateModel : currentModel"
+      validation = "validation"
+    )
 
-    footer.modal-footer
-      //- 0.3 SAN-436
-        - to do:
-        - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
-      button.btn.green(
-        ng-if = "data.showRebuild"
-        ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
-        ng-disabled = "!validation.valid"
-        type = "button"
-      ) Save and Restart
-      button.btn.green(
-        ng-if = "!data.showRebuild"
-        ng-click = "defaultActions.save(tempModel, ['env'], defaultActions.cancel)"
-        ng-disabled = "!validation.valid"
-        type = "button"
-      ) Save
-      button.btn.white(
-        ng-click = "defaultActions.cancel()"
-        type = "button"
-      ) Go Back
+  footer.modal-footer
+    //- 0.3 SAN-436
+      - to do:
+      - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
+    button.btn.green(
+      ng-if = "data.showRebuild"
+      ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
+      ng-disabled = "!validation.valid"
+      type = "button"
+    ) Save and Restart
+    button.btn.green(
+      ng-if = "!data.showRebuild"
+      ng-click = "defaultActions.save(tempModel, ['env'], defaultActions.cancel)"
+      ng-disabled = "!validation.valid"
+      type = "button"
+    ) Save
+    button.btn.white(
+      ng-click = "defaultActions.cancel()"
+      type = "button"
+    ) Go Back
+
   //- if no boxes with exposed ports (empty state)
   aside.modal-sidebar.boxes(
     ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
