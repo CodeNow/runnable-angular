@@ -89,20 +89,3 @@ var stacks = {
     postEnvMarker: '"]'
   }
 };
-
-var dependencies = [{
-  attrs: {
-    name: 'pixels',
-    _id: 10
-  }
-}, {
-  attrs: {
-    name: 'Postgres',
-    _id: 11
-  }
-}, {
-  attrs: {
-    name: 'Grunt',
-    _id: 12
-  }
-}];
