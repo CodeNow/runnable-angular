@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('modalEnvironment', modalEnvironment);
 /**
@@ -11,7 +13,6 @@ function modalEnvironment(
   return {
     restrict: 'E',
     templateUrl: 'viewModalEnvironment',
-    replace: true,
     scope: {
       data: '=',
       currentModel: '=',

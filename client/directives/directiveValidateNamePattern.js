@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('validateNamePattern', validateNamePattern);
 /**
@@ -20,7 +22,6 @@ function validateNamePattern(
         }
         var test = /^[A-Za-z0-9_-]+$/;
         ctrl.$setValidity('namePattern', test.test(name));
-        $rootScope.safeApply();
         return name;
       }
 

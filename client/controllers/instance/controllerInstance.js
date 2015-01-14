@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .controller('ControllerInstance', ControllerInstance);
 /**
@@ -7,17 +9,23 @@ function ControllerInstance(
   async,
   $filter,
   errs,
+  instanceUpdatedPoller,
+  fetchCommitData,
   keypather,
   OpenItems,
   QueryAssist,
   $rootScope,
+  $localStorage,
   $scope,
   $state,
   $stateParams,
+  $timeout,
   fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
-    data: {},
+    data: {
+      unsavedAcvs: []
+    },
     actions: {}
   };
   var data = dataInstance.data;
@@ -39,9 +47,6 @@ function ControllerInstance(
 
   data.isDemo = $state.$current.name === 'demo.instance';
 
-
-  // Why is this here? This controller should never be instantiated
-  // on a route where this conditional test would evaluate to TRUE
   if (!$stateParams.instanceName) {
     var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
       if (n !== p && n) {
@@ -65,15 +70,26 @@ function ControllerInstance(
       fetchInstance
     ], function (err) {
       if (err) {
-        $state.go('instance.instance', {
-          instanceName: '',
+        $state.go('instance.home', {
           userName: $stateParams.userName
-        }, {reload: true});
+        });
+        errs.handler(err);
       }
-      errs.handler(err);
+      instanceUpdatedPoller.start(data.instance);
     });
   }
 
+  $scope.$on('new-build', function() {
+    if (data.showUpdatingMessage) { return; } // Remove this line on ws change
+    data.showUpdatedMessage = false;
+    data.showUpdatingMessage = true;
+    data.instance.fetch(function(err, json) {
+      if (err) { return errs.handler(err); }
+      data.commit = fetchCommitData.activeCommit(data.instance.build.contextVersions.models[0].appCodeVersions.models[0]);
+      data.showUpdatingMessage = false;
+      data.showUpdatedMessage = true;
+    });
+  });
 
 
   // watch showExplorer (toggle when user clicks file menu)
@@ -101,18 +117,14 @@ function ControllerInstance(
   // watch for deployed/started/stopped instance
   // all watches necessary, updateDisplayedTabs expectst to be invoked
   // after fetching instance, fetching container, and cointainer start
-  var containerWatch;
-  $scope.$watch('dataInstance.data.instance', handleInstance);
-  function handleInstance (instance) {
-    if (!instance) { return; } // instance still being fetched
-    containerWatch = $scope.$watch('dataInstance.data.instance.containers.models[0]', handleContainer);
-  }
+  var containerWatch =
+      $scope.$watch('dataInstance.data.instance.containers.models[0]', handleContainer);
+
   function handleContainer (container) {
     if (!container) {
       buildLogsOnly();
     }
     else { // handles both container.error and container.dockerContainer states
-      containerWatch(); // once, got container
       $scope.$watch('dataInstance.data.instance.containers.models[0].attrs.inspect.State.Running', displayTabsForContainerState); // once
     }
   }
@@ -126,26 +138,38 @@ function ControllerInstance(
   }
 
   function fetchInstance(user, cb) {
-    new QueryAssist(user, cb)
-      .wrapFunc('fetchInstances')
-      .query({
-        githubUsername: $stateParams.userName,
-        name: $stateParams.instanceName
-      })
-      .cacheFetch(function (instances, cached, cb) {
-        data.instance = keypather.get(instances, 'models[0]');
-        if (!data.instance) {
-          cb(new Error('Could not find instance on server'));
-        } else {
-          data.instance.state = {};
-          $scope.safeApply();
-          cb();
-        }
-      })
-      .resolve(function (err) {
-        cb(err);
-      })
-      .go();
+    $scope.user = user;
+    if ($stateParams.instanceName && $stateParams.userName) {
+      new QueryAssist(user, cb)
+        .wrapFunc('fetchInstances')
+        .query({
+          githubUsername: $stateParams.userName,
+          name: $stateParams.instanceName
+        })
+        .cacheFetch(function (instances, cached, cb) {
+          data.instance = keypather.get(instances, 'models[0]');
+          if (!data.instance) {
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              null
+            );
+            cb(new Error('Could not find instance on server'));
+          } else {
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              $stateParams.instanceName
+            );
+            data.instance.state = {};
+            cb();
+          }
+        })
+        .resolve(function (err) {
+          cb(err);
+        })
+        .go();
+    }
   }
 
   function watchForContainerBeforeDisplayTabs (container) {
@@ -153,6 +177,11 @@ function ControllerInstance(
     if (!container) { return; }
     displayTabsForContainerState(keypather.get(container, 'running()'));
   }
+
+  $scope.$on('$destroy', function () {
+    containerWatch();
+    instanceUpdatedPoller.stop();
+  });
 
   function buildLogsOnly () {
     data.openItems.reset([]);

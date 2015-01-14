@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('instanceSecondaryActions', instanceSecondaryActions);
 /**
@@ -12,7 +14,7 @@ function instanceSecondaryActions(
   $stateParams
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewInstanceSecondaryActions',
     scope: {
       instance: '=',
@@ -62,10 +64,8 @@ function instanceSecondaryActions(
           $scope.instance.fetch(function (err) {
             if (err) { throw err; }
             $scope.saving = false;
-            $rootScope.safeApply();
           });
         });
-        $rootScope.safeApply();
       }
 
     }

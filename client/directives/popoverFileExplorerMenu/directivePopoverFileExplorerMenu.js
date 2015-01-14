@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('popoverFileExplorerMenu', popoverFileExplorerMenu);
 /**
@@ -5,6 +7,7 @@ require('app')
  * @ngInject
  */
 function popoverFileExplorerMenu(
+  errs,
   $templateCache,
   $compile,
   $rootScope,
@@ -38,7 +41,6 @@ function popoverFileExplorerMenu(
         var file = helperCreateFS($scope.dir, {
           isDir: false
         }, function (err) {
-          $rootScope.safeApply();
           if (err) {
             throw err;
           }
@@ -50,7 +52,6 @@ function popoverFileExplorerMenu(
         var dir = helperCreateFS($scope.dir, {
           isDir: true
         }, function (err) {
-          $rootScope.safeApply();
           if (err) {
             throw err;
           }
@@ -95,13 +96,7 @@ function popoverFileExplorerMenu(
           return;
         }
         var cachedName = $scope.dir.attrs.name;
-        $scope.dir.rename(inputElement.val(), function (err) {
-          if (err) {
-            $rootScope.safeApply();
-            throw err;
-          }
-          $rootScope.safeApply();
-        });
+        $scope.dir.rename(inputElement.val(), errs.handler);
 
       }
 
@@ -136,7 +131,6 @@ function popoverFileExplorerMenu(
         $scope.dirItemData.eStyle.left = e.pageX + 'px';
         $scope.dirItemData.isOpen = true;
 
-        $rootScope.safeApply();
 
         e.preventDefault();
         e.stopPropagation();

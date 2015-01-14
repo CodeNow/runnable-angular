@@ -18,7 +18,7 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
 
-  // natural scroll
+  // vertical scroll
   .vertical & {
     height: auto;
     min-width: 360px;
@@ -44,10 +44,8 @@ body {
 // utility
 .clearfix:before,
 .clearfix:after {
-  content: " ";
-  /* 1 */
+  content: '';
   display: table;
-  /* 2 */
 }
 
 .clearfix:after {

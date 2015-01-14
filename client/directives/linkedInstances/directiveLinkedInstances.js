@@ -1,7 +1,10 @@
+'use strict';
+
 require('app')
   .directive('linkedInstances', linkedInstances);
 
 function linkedInstances(
+  errs,
   $rootScope,
   getInstanceClasses,
   getInstanceAltTitle
@@ -34,9 +37,7 @@ function linkedInstances(
       $scope.$watch('instanceDependencies', function (n) {
         if (!n) { return; }
         $scope.instanceDependencies.models.forEach(function (model) {
-          model.fetch(function () {
-            $rootScope.safeApply();
-          });
+          model.fetch(errs.handler);
         });
       });
 

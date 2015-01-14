@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('logBuild', logBuild);
 /**
@@ -18,10 +20,8 @@ function logBuild(
   user
 ) {
   return {
-    restrict: 'E',
-    replace: true,
+    restrict: 'A',
     scope: {},
-    templateUrl: 'viewLogBuild',
     link: function ($scope, elem, attrs) {
       var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
       var DEFAULT_INVALID_BUILD_MESSAGE = '\x1b[31;1mPlease build again\x1b[0m';
@@ -57,7 +57,6 @@ function logBuild(
           fetchUser(function(err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },
@@ -163,7 +162,6 @@ function logBuild(
             var instance = instances.models[0];
             $scope.instance = instance;
             $scope.build = instance.build;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, instances, cb) {
@@ -172,12 +170,11 @@ function logBuild(
               return cb(new Error('Instance not found'));
             }
             var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
             $scope.instance = instance;
             $scope.build = instance.build;
-            $rootScope.safeApply();
             cb();
           })
           .go();

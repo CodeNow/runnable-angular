@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('popoverFileExplorerItemMenu', popoverFileExplorerItemMenu);
 /**
@@ -81,7 +83,6 @@ function popoverFileExplorerItemMenu(
         $scope.fs.rename(inputElement.val(), function (err) {
           if (err) {
             //$scope.fs.attrs.name = cachedName;
-            $rootScope.safeApply();
             throw err;
           }
         });
@@ -116,8 +117,6 @@ function popoverFileExplorerItemMenu(
         $scope.fileItemData.eStyle.top = e.pageY - 18 + 'px';
         $scope.fileItemData.eStyle.left = e.pageX + 'px';
         $scope.fileItemData.isOpen = true;
-
-        $rootScope.safeApply();
 
         e.preventDefault();
         e.stopPropagation();

@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $compile,
     $filter,
@@ -67,15 +69,6 @@ describe('directiveWebView'.bold.underline.blue, function() {
     modelStore.reset();
     collectionStore.reset();
 
-    $rootScope.safeApply = function (cb) {
-      $timeout(function() {
-        $scope.$digest();
-        if (cb && cb.call) {
-          cb();
-        }
-      });
-    };
-
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $httpBackend.flush();
@@ -84,7 +77,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('web-view');
+    ctx.template = directiveTemplate.attribute('web-view');
   });
 
   beforeEach(injectSetupCompile);

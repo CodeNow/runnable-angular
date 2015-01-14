@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('dockerTemplates', dockerTemplates);
 /**
@@ -17,7 +19,6 @@ function dockerTemplates(
   return {
     restrict: 'E',
     templateUrl: 'viewDockerTemplates',
-    replace: true,
     scope: {
       openItems: '=',
       valid: '='
@@ -40,12 +41,10 @@ function dockerTemplates(
             .wrapFunc('fetchVersions')
             .cacheFetch(function (versions, cached, cb) {
               $scope.versions = versions;
-              $rootScope.safeApply();
               cb();
             })
             .resolve(function (err, versions, cb) {
               if (err) { throw err; }
-              $rootScope.safeApply();
               cb(err);
             })
             .go();
@@ -72,13 +71,11 @@ function dockerTemplates(
             .cacheFetch(function updateDom(files, cached, cb) {
               if (cached) { return; } // cached response contains old files
               $scope.openItems.add(files.models);
-              $rootScope.safeApply();
               cb();
             })
             .resolve(function (err, files, cb) {
               if (err) { throw err; }
               $scope.openItems.add(files.models);
-              $rootScope.safeApply();
               cb();
             })
             .go();
@@ -86,7 +83,6 @@ function dockerTemplates(
 
         function setDockerFileValid(cb) {
           $scope.valid = true;
-          $rootScope.safeApply();
           cb();
         }
 
@@ -104,12 +100,10 @@ function dockerTemplates(
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
             $scope.build = build;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, build, cb) {
             if (err) { throw err; }
-            $rootScope.safeApply();
             cb();
           })
           .go();
@@ -123,7 +117,6 @@ function dockerTemplates(
           })
           .cacheFetch(function (contexts, cached, cb) {
             $scope.seedContexts = contexts;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, contexts, cb) {
@@ -137,14 +130,12 @@ function dockerTemplates(
         determineActiveAccount,
         function (activeAccount, cb) {
           $scope.activeAccount = activeAccount;
-          $rootScope.safeApply();
           cb();
         },
         function (cb) {
           fetchUser(function(err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('instanceBoxName', instanceBoxName);
 /**
@@ -15,7 +17,6 @@ function instanceBoxName(
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceBoxName',
-    replace: true,
     scope: {
       instance: '='
     },

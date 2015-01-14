@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('popOver', popOver);
 /**
@@ -14,7 +16,6 @@ function popOver(
 ) {
   return {
     restrict: 'E',
-    replace: true,
     scope: {
       data: '=',
       actions: '=',
@@ -75,9 +76,7 @@ function popOver(
         if (n) {
           var autofocus = element[0].querySelector('[autofocus]');
           if (autofocus) {
-            $rootScope.safeApply(function() {
-              autofocus.select();
-            });
+            autofocus.select();
           }
         }
       });

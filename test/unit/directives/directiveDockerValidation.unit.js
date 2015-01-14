@@ -1,3 +1,5 @@
+'use strict';
+
 describe('directiveDockerValidation'.bold.underline.blue, function() {
   var element;
   var $scope;
@@ -17,18 +19,12 @@ describe('directiveDockerValidation'.bold.underline.blue, function() {
           }
         }
       };
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
+      var tpl = directiveTemplate('docker-validation', {
+        'open-items': 'openItems'
+      });
 
-      var tpl = '<docker-validation ' +
-          'open-items="openItems"' +
-          '></docker-validation>';
-
-        element = $compile(tpl)($scope);
-        $scope.$digest();
+      element = $compile(tpl)($scope);
+      $scope.$digest();
     });
   }
   beforeEach(initState);

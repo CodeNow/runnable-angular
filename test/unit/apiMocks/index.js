@@ -1,9 +1,13 @@
+'use strict';
+
 module.exports = {
   appCodeVersions: {
-    bitcoinAppCodeVersion: require('./appCodeVersions/bitcoinAppCodeVersion')
+    bitcoinAppCodeVersion: require('./appCodeVersions/bitcoinAppCodeVersion'),
+    differentBitcoinAppCodeVersion: require('./appCodeVersions/differentBitcoinAppCodeVersion')
   },
   builds: {
-    setup: require('./builds/setup')
+    setup: require('./builds/setup'),
+    built: require('./builds/built')
   },
   branches: {
     bitcoinRepoBranches: require('./branches/bitcoinRepoBranches')

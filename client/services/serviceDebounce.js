@@ -1,3 +1,5 @@
+'use strict';
+
 var d = require('debounce');
 require('app')
   .factory('debounce', debounce);

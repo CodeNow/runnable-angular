@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $rootScope,
   $scope,
@@ -75,11 +77,6 @@ describe('directiveModal'.bold.underline.blue, function () {
       jQuery = _jQuery_;
       $document = _$document_;
       $templateCache = _$templateCache_;
-      $rootScope.safeApply = function (cb) {
-        _$timeout_(function () {
-          $scope.$digest();
-        });
-      };
     });
     if (scope) {
       Object.keys(scope).forEach(function (key) {

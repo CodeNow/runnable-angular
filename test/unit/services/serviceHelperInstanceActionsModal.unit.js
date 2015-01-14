@@ -1,3 +1,5 @@
+'use strict';
+
 var $rootScope,
     $scope,
     $timeout,
@@ -307,7 +309,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
 
           sinon.assert.called(fakeGo);
           sinon.assert.called($scope.instance.destroy);
-          sinon.assert.calledWith(fakeGo,'instance.new', {
+          sinon.assert.calledWith(fakeGo,'instance.home', {
             userName: 'username'
           });
           done();
@@ -324,9 +326,8 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
 
             sinon.assert.called(fakeGo);
             sinon.assert.called($scope.instance.destroy);
-            sinon.assert.calledWith(fakeGo,'instance.instance', {
-              userName: 'username',
-              instanceName: 'other'
+            sinon.assert.calledWith(fakeGo,'instance.home', {
+              userName: 'username'
             });
             done();
           });
@@ -359,9 +360,8 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
             setTimeout(function() {
               sinon.assert.notCalled(fakeGo);
               sinon.assert.called($scope.instance.destroy);
-              sinon.assert.neverCalledWith(fakeGo,'instance.instance', {
-                userName: 'username',
-                instanceName: 'other'
+              sinon.assert.neverCalledWith(fakeGo,'instance.home', {
+                userName: 'username'
               });
               done();
             }, 50);

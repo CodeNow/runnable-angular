@@ -1,8 +1,9 @@
+'use strict';
+
 require('app')
   .factory('errs', errs);
 
 function errs (
-  $rootScope,
   keypather
 ) {
   // codes that do not need to be displayed to user
@@ -13,7 +14,6 @@ function errs (
       if (err) {
         if (~noDisplayCodes.indexOf(keypather.get(err, 'data.statusCode'))) { return; }
         errors.push(err);
-        $rootScope.safeApply();
       }
     },
     errors: errors

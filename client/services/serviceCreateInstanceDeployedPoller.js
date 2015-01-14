@@ -1,9 +1,12 @@
+'use strict';
+
 require('app')
   .factory('createInstanceDeployedPoller', createInstanceDeployedPoller);
 /**
  * @ngInject
  */
 function createInstanceDeployedPoller (
+  errs,
   keypather,
   $rootScope,
   $interval
@@ -57,11 +60,10 @@ function createInstanceDeployedPoller (
     this.startCounter--;
     if (this.startCounter < 1) { clear.call(this); }
     function clear() {
+      /* jshint validthis:true */
       if (this.interval && this.instance) {
         $interval.cancel(this.interval);
-        this.instance.fetch(function () {
-          $rootScope.safeApply();
-        });
+        this.instance.fetch(errs.handler);
       }
     }
     return this;

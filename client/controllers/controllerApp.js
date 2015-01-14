@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .controller('ControllerApp', ControllerApp);
 /**
@@ -30,7 +32,6 @@ function ControllerApp(
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;
   dataApp.data.configAPIHost = configAPIHost;
-
   dataApp.data.minimizeNav = false;
   dataApp.data.loginURL = configLoginURL();
   dataApp.data.logoutURL = configLogoutURL();
@@ -54,7 +55,6 @@ function ControllerApp(
             dataApp.data.activeAccount = thisUser;
           }
           $rootScope.$broadcast('INSTANCE_LIST_FETCH', dataApp.data.activeAccount.oauthName());
-          $rootScope.safeApply();
         }
       });
     }
@@ -90,7 +90,7 @@ function ControllerApp(
   };
 
   fetchUser(function(err, results) {
-    if (!err) {
+    if (!err && results) {
       thisUser = results;
       dataApp.data.user = results;
       fetchOrgs(function (err, results) {
@@ -119,7 +119,6 @@ function ControllerApp(
           $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
           $window.olark('api.box.show');
         }
-        $rootScope.safeApply();
       });
     } else {
       return errs.handler(err);

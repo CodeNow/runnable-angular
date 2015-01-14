@@ -1,3 +1,5 @@
+'use strict';
+
 var jQuery  = require('jquery');
 var sinon = require('sinon');
 var pluck = require('101/pluck');
@@ -22,7 +24,7 @@ var $compile,
 var $elScope;
 var mockPrimus = new fixtures.MockPrimus();
 
-describe.skip('directiveLogBuild'.bold.underline.blue, function() {
+describe('directiveLogBuild'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
@@ -90,7 +92,7 @@ describe.skip('directiveLogBuild'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('log-build', {});
+    ctx.template = directiveTemplate.attribute('log-build');
   });
   beforeEach(injectSetupCompile);
 

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('popoverRepoItemMenu', popoverRepoItemMenu);
 /**
@@ -5,6 +7,7 @@ require('app')
  * @ngInject
  */
 function popoverRepoItemMenu(
+  errs,
   $templateCache,
   $compile,
   $timeout,
@@ -25,10 +28,7 @@ function popoverRepoItemMenu(
 
       actions.modify = function () {
         var githubRepo = $scope.repoModel.githubRepo();
-        $scope.repoModel.branches = githubRepo.fetchBranches({}, function () {
-          $rootScope.safeApply();
-        });
-        $rootScope.safeApply();
+        $scope.repoModel.branches = githubRepo.fetchBranches({}, errs.handler);
         keypather.set($scope, 'repoModel.state.editing', true);
         popoverData.isOpen = false;
         var input = jQuery(element).find('> input.tree-input')[0];
@@ -37,10 +37,7 @@ function popoverRepoItemMenu(
       };
 
       actions.remove = function () {
-        $scope.repoModel.destroy(function () {
-          $rootScope.safeApply();
-        });
-        $rootScope.safeApply();
+        $scope.repoModel.destroy(errs.handler);
       };
 
       popoverData.eStyle = {

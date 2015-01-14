@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .controller('ControllerSetup', ControllerSetup);
 /**
@@ -25,7 +27,8 @@ function ControllerSetup(
 
   var dataSetup = $scope.dataSetup = {
     data: {
-      instanceOpts: {}
+      instanceOpts: {},
+      unsavedAcvs: []
     },
     actions: {}
   };
@@ -66,7 +69,6 @@ function ControllerSetup(
           cb(new Error('build already built'));
         } else {
           data.build = build;
-          $scope.safeApply();
           cb();
         }
       })
@@ -86,7 +88,6 @@ function ControllerSetup(
       fetchUser(function(err, user) {
         if (err) { return cb(err); }
         data.user = user;
-        $scope.safeApply();
         cb();
       });
     },

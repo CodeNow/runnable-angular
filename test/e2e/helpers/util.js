@@ -1,3 +1,5 @@
+'use strict';
+
 var util = {};
 
 util.processUrl = function (middle) {

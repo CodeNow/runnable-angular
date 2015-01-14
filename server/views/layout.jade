@@ -63,7 +63,9 @@ html(
         /* custom configuration goes here (www.olark.com/documentation) */
         olark.identify('1268-458-10-2188');
 
-  body
+  body(
+    ng-class = "{minimize: dataApp.data.minimizeNav}"
+  )
     //
       TIME: #{locals.commitTime}
       HASH: #{locals.commitHash}
@@ -81,7 +83,6 @@ html(
     )
 
     div(
-      ng-class = "{'nav-open': !dataApp.data.minimizeNav}"
       ng-click = "dataApp.documentClickEventHandler($scope, this)"
       ui-view
     )

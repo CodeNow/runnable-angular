@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('environmentButton', environmentButton);
 
@@ -6,9 +8,8 @@ function environmentButton(
   $rootScope
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewEnvironmentButton',
-    replace: true,
     scope: {
       item: '='
     },
@@ -61,7 +62,6 @@ function environmentButton(
         // Programatic update of env due to instance name change
         keypather.set($scope, 'item.state.envVars',
           $scope.envToObjects(keypather.get($scope, 'item.opts.env')));
-        $rootScope.safeApply();
       });
 
     }

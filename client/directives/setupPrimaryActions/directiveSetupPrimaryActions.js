@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('setupPrimaryActions', setupPrimaryActions);
 /**
@@ -12,7 +14,6 @@ function setupPrimaryActions(
   return {
     restrict: 'E',
     templateUrl: 'viewSetupPrimaryActions',
-    replace: true,
     scope: {
       activeAccount: '=',
       data: '=',

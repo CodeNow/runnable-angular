@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('instanceList', instanceList);
 /**
@@ -12,9 +14,8 @@ function instanceList(
   $state
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewInstanceList',
-    replace: true,
     scope: {
       data: '=',
       state: '='

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('modalGeneric', modalGeneric);
 /**
@@ -15,7 +17,6 @@ function modalGeneric(
         throw new Error('linkedInstances requires a type of modal or sidebar');
       }
     },
-    replace: true,
     scope: {
       data: '=',
       actions: '=',

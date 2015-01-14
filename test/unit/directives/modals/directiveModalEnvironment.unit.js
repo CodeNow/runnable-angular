@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $rootScope,
   $scope,
@@ -55,11 +57,6 @@ describe('directiveModalEnvironment'.bold.underline.blue, function () {
       $localStorage = _$localStorage_;
       $document = _$document_;
       $templateCache = _$templateCache_;
-      $rootScope.safeApply = function (cb) {
-        _$timeout_(function () {
-          $scope.$digest();
-        });
-      };
     });
     if (scope) {
       Object.keys(scope).forEach(function (key) {

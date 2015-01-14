@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('tabs', tabs);
 /**
@@ -15,7 +17,6 @@ function tabs(
   return {
     restrict: 'E',
     templateUrl: 'viewTabs',
-    replace: true,
     scope: {
       openItems: '='
     },

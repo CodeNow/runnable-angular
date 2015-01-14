@@ -14,7 +14,7 @@
   z-index: $z-sidebar;
 
   &.global-sidebar {
-    background: $gray-lighter;
+    background: $gray-lightest;
   }
 
   .row {
@@ -48,20 +48,12 @@
   }
 }
 
-// header.row.account-header
-.account-header {
-  @extend .webkit-flicker;
-  flex: 0 0 auto;
-  position: relative;
-  z-index: $z-sidebar-header;
-}
-
 // h2.sub-header
 .sub-header {
   height: 45px;
   line-height: 45px;
   min-height: 45px;
-  padding: 0 15px;
+  padding: 0 6px 0 15px;
   position: relative;
 }
 
@@ -73,12 +65,12 @@
 
 // a.sub-header-action
 .sub-header-action.sub-header-action {
+  float: right;
+  margin-top: 6px;
   padding: 0;
-  position: absolute;
-  right: 6px;
-  top: 6px;
 
   &.white {
+    height: 36px;
     width: 36px;
   }
 
@@ -88,9 +80,23 @@
     top: 11px;
   }
 
+  &.btn-group {
+    margin-top: 12px;
+  }
+
+  // if .btn-group & .btn-xs
+  .btn-xs {
+    font-size: 12px;
+
+    .iconnables {
+      height: 24px;
+      margin: 0;
+      width: 18px;
+    }
+  }
+
   .iconnables {
-    float: right;
-    margin: 6px 5px 0 0;
+    margin-top: 6px;
   }
 
   .icons-update {

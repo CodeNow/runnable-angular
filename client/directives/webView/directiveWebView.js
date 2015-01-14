@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('webView', webView);
 
@@ -10,14 +12,14 @@ function webView(
   QueryAssist,
   fetchUser,
   $rootScope,
+  $timeout,
   $sce,
   $stateParams,
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewWebView',
-    replace: true,
     scope: {},
     link: function ($scope, elem) {
 
@@ -26,7 +28,6 @@ function webView(
           fetchUser(function(err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },
@@ -48,14 +49,12 @@ function webView(
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
             var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
-            $rootScope.safeApply();
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
             cb(err);
           })
           .go();
@@ -80,7 +79,7 @@ function webView(
         }
 
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
-        $rootScope.safeApply(function () {
+        $timeout(function () {
           $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls()[0]);
         });
       });
@@ -94,7 +93,7 @@ function webView(
         }
         var oldURL = $scope.data.iframeUrl.toString();
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
-        $rootScope.safeApply(function () {
+        $timeout(function () {
           $scope.data.iframeUrl = $sce.trustAsResourceUrl(oldURL);
         });
       };

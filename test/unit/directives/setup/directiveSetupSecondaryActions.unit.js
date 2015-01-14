@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $rootScope,
   $scope,
@@ -30,11 +32,6 @@ describe('directiveSetupSecondaryActions'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       $scope = _$rootScope_.$new();
-      $rootScope.safeApply = function (cb) {
-        _$timeout_(function () {
-          $scope.$digest();
-        });
-      };
     });
     if (scope) {
       Object.keys(scope).forEach(function (key) {

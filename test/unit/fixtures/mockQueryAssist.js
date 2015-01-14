@@ -1,5 +1,8 @@
+'use strict';
+
 var mockResponses = {};
 var shouldFailMap = {};
+var querySpecificResponses = {};
 function QueryAssist(modelOrColl, asyncCB) {
   var asyncCalled = false;
   this.modelOrColl = modelOrColl;
@@ -22,9 +25,19 @@ module.exports.setMock = function (factoryMethodName, functionOrObj, errorMessag
     shouldFailMap[factoryMethodName] = errorMessage;
   }
 };
+module.exports.setMockCallback = function (factoryMethodName, cb, query) {
+  mockResponses[factoryMethodName] = cb;
+
+  if (query) {
+    var qs = JSON.stringify(query);
+    querySpecificResponses[qs] = {};
+    querySpecificResponses[qs][factoryMethodName] = cb;
+  }
+};
 module.exports.clearMocks = function () {
   mockResponses = {};
   shouldFailMap = {};
+  querySpecificResponses = {};
 };
 // instance methods
 QueryAssist.prototype.wrapFunc = function (wrapFunc) {
@@ -51,13 +64,20 @@ QueryAssist.prototype.go = function () {
 QueryAssist.exec = function () {
   if (!mockResponses[this.wrapFunc]) { throw new Error('no mock for ' + this.wrapFunc); }
 
-  var mockedData = (typeof mockResponses[this.wrapFunc] === 'function') ?
-    mockResponses[this.wrapFunc]() : mockResponses[this.wrapFunc];
+  var self = this;
   // cb.call(arguments);
-  if (shouldFailMap[this.wrapFunc]) {
-    this.resolve(new Error(shouldFailMap[this.wrapFunc]), mockedData, this.asyncCB);
+  var qs = JSON.stringify(this.query);
+  if (querySpecificResponses[qs]) {
+    querySpecificResponses[qs][this.wrapFunc](function(value) {
+      self.cacheFetch(value, true, self.asyncCB);
+    });
   } else {
-    this.cacheFetch(mockedData, true, this.asyncCB);
+    var mockedData = (typeof mockResponses[this.wrapFunc] === 'function') ?
+      mockResponses[this.wrapFunc]() : mockResponses[this.wrapFunc];
+    if (shouldFailMap[this.wrapFunc]) {
+      this.resolve(new Error(shouldFailMap[this.wrapFunc]), mockedData, this.asyncCB);
+    } else {
+      this.cacheFetch(mockedData, true, this.asyncCB);
+    }
   }
-  return mockedData;
 };

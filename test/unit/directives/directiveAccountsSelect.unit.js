@@ -1,3 +1,5 @@
+'use strict';
+
 describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var element;
   var $scope, $elScope;
@@ -13,7 +15,13 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       },
       gravitar: function () {
         return true;
-      }
+      },
+      newSettings: sinon.spy(function() {
+        return {
+          update: sinon.spy()
+        };
+      }),
+      fetchSettings: sinon.spy()
     };
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
@@ -64,13 +72,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
 
-      $rootScope.safeApply = function(cb) {
-        $timeout(function () {
-          $scope.$digest();
-        });
-      };
-
-      var tpl = directiveTemplate('accounts-select', {
+      var tpl = directiveTemplate.attribute('accounts-select', {
         'data': 'data'
       });
 
@@ -85,31 +87,11 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   }
 
   describe('directive logic'.bold.blue, function() {
-    it('should set isChangeAccount to false', function () {
-      initState();
-      $scope.$digest();
-      expect($elScope.isChangeAccount).to.be.false;
-      $elScope.isChangeAccount = true;
-      $scope.$apply();
-      $rootScope.$broadcast('app-document-click');
-      expect($elScope.isChangeAccount).to.be.false;
-    });
-    it('should not emit signal and change state on when isChangeAccount to false', function () {
-      initState();
-      var instanceFetchSpy = sinon.spy();
-      $rootScope.$on('INSTANCE_LIST_FETCH', instanceFetchSpy);
-      $scope.$digest();
-      expect($elScope.isChangeAccount).to.be.false;
-      $elScope.selectActiveAccount(ctx.fakeOrg1);
-      $scope.$apply();
-      sinon.assert.notCalled(instanceFetchSpy);
-    });
     it('should emit signal and change state on account change', function (done) {
       initState();
       ctx.stateMock.go = sinon.spy(function (location, state) {
         expect(state).to.deep.equal({
-          userName: ctx.fakeOrg1.oauthName(),
-          instanceName: ''
+          userName: ctx.fakeOrg1.oauthName()
         });
         done();
       });
@@ -117,15 +99,23 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         expect(username).to.equal(ctx.fakeOrg1.oauthName());
       });
       $rootScope.$on('INSTANCE_LIST_FETCH', instanceFetchSpy);
-      $elScope.isChangeAccount = true;
       $scope.$digest();
-      $elScope.selectActiveAccount(ctx.fakeOrg1);
+      $elScope.popoverAccountMenu.actions.selectActiveAccount(ctx.fakeOrg1);
       $scope.$apply();
       expect($scope.data.activeAccount).to.equal(ctx.fakeOrg1);
     });
   });
 
-  describe('directive logic'.bold.blue, function() {
+  // Logic for popover
+  describe.skip('directive logic'.bold.blue, function() {
+    function getAccountSelectorElement() {
+      return ctx.element[0]
+        .querySelector('ol.accounts-group');
+    }
+    function getAccountsGroupItemsList() {
+      return ctx.element[0]
+        .querySelectorAll('li.accounts-group-item');
+    }
     afterEach(function() {
       $rootScope.$destroy();
     });
@@ -141,7 +131,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       delete scope.data.activeAccount;
       initState(scope);
       $scope.$digest();
-      expect(ctx.element[0].classList.contains('ng-hide')).to.be.ok;
+      expect(ctx.element[0].classList.contains('in')).to.be.false;
     });
     it('should display selector after click', function () {
       initState();
@@ -168,14 +158,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     });
   });
 
-  function getAccountSelectorElement() {
-    return ctx.element[0]
-      .querySelector('ol.accounts-group');
-  }
-  function getAccountsGroupItemsList() {
-    return ctx.element[0]
-      .querySelectorAll('li.accounts-group-item');
-  }
 });
 
 function click(el){

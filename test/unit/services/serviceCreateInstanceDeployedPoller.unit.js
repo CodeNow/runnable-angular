@@ -1,3 +1,5 @@
+'use strict';
+
 describe('serviceCreateInstanceDeployedPoller'.bold.underline.blue, function() {
   var createInstanceDeployedPoller,
       interval,

@@ -1,3 +1,5 @@
+'use strict';
+
 var PrimusClient = require('primus-client');
 var util = require('util');
 var uuid = require('uuid');
@@ -68,8 +70,9 @@ require('app')
  * @ngInject
  */
 function primus(
-  $log,
-  configAPIHost
+  errs,
+  configAPIHost,
+  $rootScope
 ) {
 
   var url = configAPIHost;
@@ -78,7 +81,7 @@ function primus(
 
   conn.on('data', function (data) {
     if (data.error) {
-      $log.error(data.error);
+      errs.handler(data.error);
     }
   });
 
