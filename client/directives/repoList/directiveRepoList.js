@@ -182,6 +182,11 @@ function repoList(
       });
 
       $scope.$watch('data.autoDeploy', debounceUpdate);
+      // HACK: allows us to use both an independent build (setup/edit)
+      //    and the build of an instance (instance)
+      $scope.$watch('instance.build',   function(n) {
+        if (n) { $scope.build = $scope.instance.build; }
+      });
 
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
@@ -196,7 +201,9 @@ function repoList(
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $scope.build = instance.build;
+            if ($state.$current.name === 'instance.instance') {
+              $scope.build = instance.build;
+            }
             $scope.data.autoDeploy = instance.attrs.locked;
           })
           .resolve(function (err, instances, cb) {
