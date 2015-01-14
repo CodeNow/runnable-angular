@@ -85,7 +85,7 @@ function ControllerInstance(
     data.showUpdatingMessage = true;
     data.instance.fetch(function(err, json) {
       if (err) { return errs.handler(err); }
-      data.commit = fetchCommitData.activeCommit(data.instance.build.contextVersions.models[0].appCodeVersions.models[0]);
+      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
     });
