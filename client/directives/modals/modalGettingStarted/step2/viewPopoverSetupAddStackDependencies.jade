@@ -1,29 +1,21 @@
-.popover.bottom.popover-add-repo(
-ng-class = "{\
-    in: data.show\
-  }"
+.popover.right.menu.popover-add-dependencies(
+  ng-class = "{in: data.show}"
 )
   .arrow
   h3.popover-title
-    input.input.input-search(
-    autofocus
-    ng-model = "data.depFilter"
-    placeholder = "Filter dependencies"
-    required
-    select-on = "data.showFilter"
-    )
+    .btn-group.clearfix
+      button.btn.btn-xs.gray.active New
+      button.btn.btn-xs.gray Existing
   .popover-content
-    ul.popover-body.popover-list
-      li.popover-list-item(
-      ng-click = "actions.addDependency(stackDep)"
-      ng-repeat = "\
+    //- show .list-details if new
+    ul.list.popover-list
+      li.list-details
+        .small Dependencies will be created on their own server.
+      li.list-item.popover-list-item(
+        ng-click = "actions.addDependency(stackDep)"
+        ng-repeat = "\
           stackDep in data.dependencies.models | \
           unaddedDepInstances:data.state.dependencies | \
           repos:data.depFilter as filteredDeps"
-      title = "{{ stackDep.attrs.name }}"
-      )
-        span {{ stackDep.attrs.name }}
-      li.popover-list-item.no-actions(
-      ng-if = "filteredDeps.length === 0"
-      ) No matches
-      //- li.popover-list-item.no-actions There's nothing left to add.
+        title = "{{ stackDep.attrs.name }}"
+      ) {{ stackDep.attrs.name }}

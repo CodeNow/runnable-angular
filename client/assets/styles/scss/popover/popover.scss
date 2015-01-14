@@ -189,6 +189,11 @@
     }
   }
 
+  // .list
+  .list + .list {
+    border-top: 1px solid rgba($black,.1);
+  }
+
   // ul.popover-columns
   .popover-columns {
     white-space: nowrap;
@@ -395,4 +400,13 @@
   position: relative;
   text-align: center;
   z-index: $z-popover-title;
+
+  // toggle
+  .btn-group {
+    display: block;
+
+    .btn {
+      width: 50%;
+    }
+  }
 }
