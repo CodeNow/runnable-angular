@@ -15,3 +15,11 @@ function fetchStackAnalysis(
     user.client.get('/actions/analyze?repo=' + repo, callback);
   };
 }
+
+var analysis = {
+  serviceDependencies: ['mongodb', 'redis'],
+  languageFramework: 'node',
+  versions: {
+    node: '0.10.35'
+  }
+};
