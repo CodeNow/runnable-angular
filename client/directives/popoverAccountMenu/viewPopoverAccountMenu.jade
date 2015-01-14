@@ -3,7 +3,7 @@
 )
   .arrow.white
   .popover-content
-    ul.popover-body.popover-list
+    ul.list.popover-list
       li.list-item.popover-list-item.small Change Organization
       //- current user (if user is not active)
       li.list-item.popover-list-item(
@@ -33,7 +33,7 @@
             width = "24"
           )
           | {{ org.oauthName() }}
-    ul.popover-body.popover-list
+    ul.list.popover-list
       li.list-item.popover-list-item(
         modal
         modal-actions = "actions.actionsModalIntegrations"
