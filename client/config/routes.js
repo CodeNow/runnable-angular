@@ -115,8 +115,8 @@ module.exports = [
     state: 'instance.setup',
     abstract: false,
     url: '^/:userName/new/:buildId',
-    templateUrl: 'viewGettingStarted',
-    controller: 'ControllerGettingStarted'
+    templateUrl: 'viewSetup',
+    controller: 'ControllerSetup'
   }, {
     state: '404',
     abstract: false,

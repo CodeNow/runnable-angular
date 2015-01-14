@@ -1,45 +1,46 @@
-.modal-container
-  nav.modal-navbar
-    h3.modal-heading Create New Server
-    ul.list
-      li.list-item(
-        ng-class = "{active: state.step === 1}"
-        ng-click = "actions.changeStep(1)"
-      ) 1 Repository
-      li.list-item(
-        ng-class = "{active: state.step === 2,\
-          'no-states': state.furthestStep < 2}"
-        ng-click = "actions.changeStep(2)"
-      ) 2 Application
-      li.list-item(
-        ng-class = "{active: state.step === 3,\
-          'no-states': state.furthestStep < 3}"
-        ng-click = "actions.changeStep(3)"
-      ) 3 Environment Variables
-    button.btn.btn-xxs.white(
-      ng-click = "defaultActions.cancel();"
-    ) Cancel
-    a.btn.btn-xxs.white(
-      href = "/new"
-    ) Skip Setup
-  .modal-body.modal-repo-selector(
-    actions = "actions"
-    data = "data"
-    gs-repo-selector
-    ng-show = "state.step === 1"
-    state = "state"
-  )
-  .modal-body.modal-stack-selector.clearfix(
-    actions = "actions"
-    data = "data"
-    modal-stack-selector
-    ng-show = "state.step === 2"
-    state = "state"
-  )
-  .modal-body.modal-gs-environments(
-    actions = "actions"
-    data = "data"
-    modal-gs-envs
-    state = "state"
-    ng-show = "state.step === 3"
-  )
+  .modal-container
+    nav.modal-navbar
+      h3.modal-heading Create New Server
+      ul.list
+        li.list-item(
+          ng-class = "{active: state.step === 1}"
+          ng-click = "actions.changeStep(1)"
+        ) 1 Repository
+        li.list-item(
+          ng-class = "{active: state.step === 2,\
+            'no-states': state.furthestStep < 2}"
+          ng-click = "actions.changeStep(2)"
+        ) 2 Application
+        li.list-item(
+          ng-class = "{active: state.step === 3,\
+            'no-states': state.furthestStep < 3}"
+          ng-click = "actions.changeStep(3)"
+        ) 3 Environment Variables
+      button.btn.btn-xxs.white(
+        ng-click = "defaultActions.cancel();"
+        ng-hide = 'state.hideCancelButton'
+      ) Cancel
+      a.btn.btn-xxs.white(
+        ng-click = "actions.skipTutorial(defaultActions.close);"
+      ) Skip Setup
+    .modal-body.modal-repo-selector(
+      actions = "actions"
+      data = "data"
+      gs-repo-selector
+      ng-show = "state.step === 1"
+      state = "state"
+    )
+    .modal-body.modal-stack-selector.clearfix(
+      actions = "actions"
+      data = "data"
+      modal-stack-selector
+      ng-show = "state.step === 2"
+      state = "state"
+    )
+    .modal-body.modal-gs-environments(
+      actions = "actions"
+      data = "data"
+      modal-gs-envs
+      state = "state"
+      ng-show = "state.step === 3"
+    )

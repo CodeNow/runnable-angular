@@ -37,9 +37,10 @@ function ControllerInstanceHome(
         userName: username
       }, {location: 'replace'});
     } else {
-      $state.go('instance.new', {
-        userName: username
-      }, {location: 'replace'});
+      keypather.set($scope, 'data.in', true);
+      //$state.go('instance.new', {
+      //  userName: username
+      //}, {location: 'replace'});
     }
   }
 
