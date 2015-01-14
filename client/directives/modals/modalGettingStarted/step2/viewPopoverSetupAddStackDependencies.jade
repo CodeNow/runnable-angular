@@ -12,11 +12,10 @@
         ng-click = "popoverState = 'existing'"
         ng-class = "{'active': popoverState === 'existing'}"
       ) Existing
-  .popover-content
-    //- show .list-details if new
-    ul.list.popover-list(
-      ng-show = "popoverState !== 'existing'"
-    )
+  .popover-content(
+    ng-show = "popoverState !== 'existing'"
+  )
+    ul.list.popover-list
       li.list-details
         .small Dependencies will be created on their own server.
       li.list-item.popover-list-item(
@@ -27,9 +26,10 @@
           unaddedModels:data.depFilter as filteredDeps"
         title = "{{ stackDep.attrs.name }}"
       ) {{ stackDep.attrs.name }}
-    ul.list.popover-list(
-      ng-show = "popoverState === 'existing'"
-    )
+  .popover-content(
+    ng-show = "popoverState === 'existing'"
+  )
+    ul.list.popover-list
       li.list-item.popover-list-item(
       ng-click = "actions.addDependency(instance, true)"
       ng-repeat = "\
