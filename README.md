@@ -21,7 +21,7 @@ Instructions
 
 
 First time instructions
------------------------
+------------------------
  - fork `CodeNow/stage-api` on runnable.io. Name your box `${YOUR_NAME}-api` e.x. `anton-api`. This would be your `${BOX_NAME}`
  - create your own GitHub App and
     - set `Homepage URL` to `http://${BOX_NAME}.codenow.runnable.io/`
