@@ -16,23 +16,105 @@ label.label.clearfix
       ng-model = "state.activeBranch"
       ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
     )
-label.label.clearfix
-  .label-col Language
-    small.small The primary language of your repository
-  button.btn.btn-sm.gray.btn-select.text-overflow
-    img.img(
-      height = "21"
-      src = "/build/images/home/icons-node.js.svg"
-      width = "21"
-    )
-    | {{ state.stack.name }}
-    small.small(
-      ng-repeat = "version in state.stack.versionReqs"
-    ) {{ version.selected }}
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
+.label.clearfix
+  .label-col Framework/Language
+    small.small The primary framework or language of your repository
+  .btn-group
+    button.btn.btn-sm.gray.btn-select.text-overflow
+      img.img(
+        height = "18px"
+        src = "/build/images/home/icons-node-js.svg"
+        width = "18px"
       )
+      small.small node.js
+      //- small.small {{ state.stack.name }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      //- NOTES:
+      //- alphabetical order
+      //- node.js is all lowercase
+      select
+        optgroup(
+          label = "Choose framework or language"
+        )
+          option(
+            selected
+          ) node.js
+          option Python
+          option Ruby
+          option Ruby on Rails
+    .btn.btn-sm.gray.btn-select.text-overflow
+      //- NOTES:
+      //- - final text has v prepended
+      //- - option text does NOT have v preprended
+      small.small v0.10.35
+      //- small.small {{ version.selected }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      select
+        optgroup(
+          label = "Choose node.js version"
+        )
+          option(
+            selected
+          ) 0.11.14
+          option 0.11.13
+          option 0.11
+          option 0.10.35
+          option 0.10.34
+          option 0.10.33
+          option 0.10.32
+          option 0.10.31
+          option 0.10.30
+  .btn-group
+    button.btn.btn-sm.gray.btn-select.text-overflow
+      img.img(
+        height = "18px"
+        src = "/build/images/home/icons-node-js.svg"
+        width = "18px"
+      )
+      small.small node.js
+      //- small.small {{ state.stack.name }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      select
+        optgroup(
+          label = "Choose framework or language"
+        )
+          option(
+            selected
+          ) node.js
+          option Python
+          option Ruby
+          option Ruby on Rails
+    .btn.btn-sm.gray.btn-select.text-overflow
+      small.small v0.10.35
+      //- small.small {{ version.selected }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      select
+        optgroup(
+          label = "Choose node.js version"
+        )
+          option(
+            selected
+          ) 0.11.14
+          option 0.11.13
+          option 0.11
+          option 0.10.35
+          option 0.10.34
+          option 0.10.33
+          option 0.10.32
+          option 0.10.31
+          option 0.10.30
 label.label.clearfix
   .label-col Ports
     small.small Separate by commas
