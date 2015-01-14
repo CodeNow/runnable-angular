@@ -50,10 +50,13 @@ function modal(
           }
           $scope.defaultActions.close();
         },
-        close: function () {
+        close: function (cb) {
           $scope.in = false;
           if ($scope.modal) {
             $scope.modal.remove();
+          }
+          if (typeof cb === 'function') {
+            cb();
           }
         }
       };

@@ -73,11 +73,14 @@ function modalGettingStarted(
           $scope.state.furthestStep = newStep;
           $scope.state.step = newStep;
         },
-        skipTutorial: function (cb) {
-          $state.go('instance.new', {
-            userName: $stateParams.userName
+        skipTutorial: function () {
+          $scope.defaultActions.close(function () {
+            setTimeout(function() {
+              $state.go('instance.new', {
+                userName: $stateParams.userName
+              });
+            }, 0);
           });
-          cb();
         },
         createAndBuild: function() {
           // first thing to do is generate the dockerfile

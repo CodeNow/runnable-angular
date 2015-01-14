@@ -142,10 +142,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
   describe('editing instance with repo'.bold.blue, function() {
     function initState() {
       angular.mock.inject(function($compile) {
-        var instanceUrl = host + '/instances?githubUsername=SomeKittens&name=spaaace';
+        var buildUrl = host + '/builds/543988508f75990e008d2c76?';
         $httpBackend
-          .whenGET(instanceUrl)
-          .respond(mocks.instances.running);
+          .whenGET(buildUrl)
+          .respond(mocks.builds.built);
         var commitsUrl = host + '/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?';
         $httpBackend
           .whenGET(commitsUrl)
@@ -173,7 +173,8 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         },
         stateParams: {
           userName: 'SomeKittens',
-          instanceName: 'spaaace'
+          instanceName: 'spaaace',
+          buildId: mocks.builds.built._id
         }
       });
     });
