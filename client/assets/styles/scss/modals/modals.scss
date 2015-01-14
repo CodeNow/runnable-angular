@@ -49,27 +49,6 @@
     }
   }
 
-  // guides in modals:
-  .guide {
-    border: 1px solid rgba($blue,.2);
-    margin: 0 6px 6px;
-
-    .guide-header {
-      margin-bottom: 15px;
-    }
-
-    .guide-text {
-      margin: 9px 0;
-    }
-
-    .btn-close {
-      padding: 0;
-      position: absolute;
-      right: 9px;
-      top: 9px;
-    }
-  }
-
   // search
   .input-search {
     background-position: 114px 3px;
@@ -206,18 +185,24 @@
 
   // guides in modals:
   .guide {
-    border: 0;
-    border-left: 1px solid rgba($purple-light,.15);
-    border-radius: 0;
-    border-right: 1px solid rgba($purple-light,.15);
-    margin: 0;
+    background: #e9f7fe;
+    border: 1px solid rgba($blue,.2);
+    margin: 6px;
     padding: 15px 36px 15px 21px;
 
-    .btn {
+    .guide-header {
+      margin-bottom: 15px;
+    }
+
+    .guide-text {
+      margin: 9px 0;
+    }
+
+    .btn-close {
       padding: 0;
       position: absolute;
-      right: 15px;
-      top: 12px;
+      right: 9px;
+      top: 9px;
     }
   }
 
