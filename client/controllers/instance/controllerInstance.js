@@ -10,6 +10,7 @@ function ControllerInstance(
   $filter,
   errs,
   instanceUpdatedPoller,
+  fetchCommitData,
   keypather,
   OpenItems,
   QueryAssist,
@@ -83,6 +84,7 @@ function ControllerInstance(
     data.showUpdatingMessage = true;
     data.instance.fetch(function(err, json) {
       if (err) { return errs.handler(err); }
+      data.commit = $scope.user.newCommit(json.contextVersion.appCodeVersions[0].commit, console.log.bind(console));
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
       $timeout(function() {
@@ -138,6 +140,7 @@ function ControllerInstance(
   }
 
   function fetchInstance(user, cb) {
+    $scope.user = user;
     if ($stateParams.instanceName && $stateParams.userName) {
       new QueryAssist(user, cb)
         .wrapFunc('fetchInstances')
