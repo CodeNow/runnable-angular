@@ -6,7 +6,8 @@ module.exports = {
     differentBitcoinAppCodeVersion: require('./appCodeVersions/differentBitcoinAppCodeVersion')
   },
   builds: {
-    setup: require('./builds/setup')
+    setup: require('./builds/setup'),
+    built: require('./builds/built')
   },
   branches: {
     bitcoinRepoBranches: require('./branches/bitcoinRepoBranches')
