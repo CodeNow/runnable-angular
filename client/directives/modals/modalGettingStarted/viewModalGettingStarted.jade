@@ -27,14 +27,14 @@
     actions = "actions"
     data = "data"
     gs-repo-selector
-    ng-show = "state.step === 1"
+    ng-if = "state.step === 1"
     state = "state"
   )
   .modal-body.modal-stack-selector.clearfix(
     actions = "actions"
     data = "data"
     modal-stack-selector
-    ng-show = "state.step === 2"
+    ng-if = "state.step === 2"
     state = "state"
   )
   .modal-body.modal-gs-environments(
@@ -42,5 +42,5 @@
     data = "data"
     modal-gs-envs
     state = "state"
-    ng-show = "state.step === 3"
+    ng-if = "state.step === 3"
   )
