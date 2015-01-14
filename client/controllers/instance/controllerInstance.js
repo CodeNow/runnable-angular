@@ -81,15 +81,13 @@ function ControllerInstance(
 
   $scope.$on('new-build', function() {
     if (data.showUpdatingMessage) { return; } // Remove this line on ws change
+    data.showUpdatedMessage = false;
     data.showUpdatingMessage = true;
     data.instance.fetch(function(err, json) {
       if (err) { return errs.handler(err); }
-      data.commit = $scope.user.newCommit(json.contextVersion.appCodeVersions[0].commit, console.log.bind(console));
+      data.commit = fetchCommitData.activeCommit(data.instance.build.contextVersions.models[0].appCodeVersions.models[0]);
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
-      $timeout(function() {
-        data.showUpdatedMessage = false;
-      }, 3000);
     });
   });
 
