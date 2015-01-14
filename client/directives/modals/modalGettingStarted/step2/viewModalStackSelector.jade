@@ -58,10 +58,10 @@ label.label.clearfix
 
 footer.modal-footer.clearfix
   button.btn.green(
-    ng-click = "state.step = 3"
+    ng-click = "actions.nextStep(3)"
   ) Next Step
   button.btn.white(
-    ng-click = "state.step = 2"
+    ng-click = "actions.changeStep(2)"
   ) Previous Step
 
   //-
