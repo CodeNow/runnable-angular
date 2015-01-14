@@ -198,18 +198,24 @@
   overflow-y: auto;
   width: 420px;
 
+  // header label
+  > .label {
+    display: block;
+    padding: 15px;
+  }
+
   .small {
     padding: 0 15px 15px;
   }
 
-  .label {
-    display: block;
-    font-size: 14px;
-    padding: 3px 12px 6px;
-  }
-
   .list {
     overflow: initial;
+
+    .label {
+      display: block;
+      font-size: 14px;
+      padding: 3px 12px 6px;
+    }
   }
 
   .list-item {
