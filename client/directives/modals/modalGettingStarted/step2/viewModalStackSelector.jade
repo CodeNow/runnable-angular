@@ -71,7 +71,7 @@ label.label.clearfix
           option 0.10.31
           option 0.10.30
   .btn-group
-    button.btn.btn-sm.gray.btn-select.text-overflow
+    label.btn.btn-sm.btn-select.text-overflow
       img.img(
         height = "18px"
         src = "/build/images/home/icons-node-js.svg"
@@ -79,20 +79,6 @@ label.label.clearfix
       )
       small.small node.js
       //- small.small {{ state.stack.name }}
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      select
-        optgroup(
-          label = "Choose framework or language"
-        )
-          option(
-            selected
-          ) node.js
-          option Python
-          option Ruby
-          option Ruby on Rails
     .btn.btn-sm.gray.btn-select.text-overflow
       small.small v0.10.35
       //- small.small {{ version.selected }}
