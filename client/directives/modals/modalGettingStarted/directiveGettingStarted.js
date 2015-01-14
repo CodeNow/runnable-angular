@@ -75,9 +75,11 @@ function modalGettingStarted(
         },
         skipTutorial: function () {
           $scope.defaultActions.close(function () {
-            $state.go('instance.new', {
-              userName: $stateParams.userName
-            });
+            setTimeout(function() {
+              $state.go('instance.new', {
+                userName: $stateParams.userName
+              });
+            }, 0);
           });
         },
         createAndBuild: function() {
