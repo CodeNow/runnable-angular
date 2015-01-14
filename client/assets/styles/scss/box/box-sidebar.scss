@@ -1,7 +1,6 @@
 // section.sidebar.box-sidebar
 .box-sidebar {
   height: calc(100% - 60px);
-  height: calc(100vh - 60px);
   width: 300px;
 
   .row {
@@ -113,7 +112,7 @@
 .repository-detail {
   color: $gray-lighter;
   float: right;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 // li.list-details
