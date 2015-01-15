@@ -19,12 +19,6 @@
     width: calc(100% - 210px);
   }
 
-  .list {
-    max-height: 80vh;
-    min-height: 180px;
-    overflow: hidden;
-  }
-
   .list-item {
     cursor: pointer;
     line-height: 40px;
@@ -71,12 +65,15 @@
 
 // step 2a
 .modal-stack-selector {
+  display: flex;
+  flex-direction: column;
   max-width: 100%;
   padding: 15px 15px 0;
   width: 540px;
 
   .label {
     display: block;
+    flex: 0 0 auto;
     margin: 0 0 30px;
 
     + .label {
@@ -150,6 +147,8 @@
 // step 2b: dependencies
 .modal-stack-dependencies {
   border-top: 1px solid rgba($black,.1);
+  flex: 1 1 auto;
+  height: 151px;
   padding-top: 15px;
 
   .small {
@@ -165,7 +164,7 @@
   .list {
     float: right;
     margin: 0 0 15px;
-    max-height: 210px;
+    max-height: 150px;
     overflow-y: auto;
     width: 50%;
   }
@@ -203,8 +202,8 @@
 
 // wizard 3
 .modal-gs-environments {
-  overflow-y: auto;
-  width: 420px;
+  overflow-y: hidden;
+  width: 540px;
 
   @include media(xs) {
     width: 100%;
@@ -221,7 +220,12 @@
   }
 
   .list {
-    overflow: initial;
+    height: 399px;
+    overflow-y: auto;
+
+    @include media(xs) {
+      height: auto;
+    }
 
     .label {
       display: block;
@@ -241,5 +245,9 @@
 
   .input-group + .input-group {
     margin-top: 6px;
+  }
+
+  .modal-footer {
+    margin-top: 0;
   }
 }
