@@ -66,6 +66,9 @@ function ControllerApp(
         toParams.userName !== dataApp.data.activeAccount.oauthName()) {
       setActiveAccount(toParams.userName);
     }
+    if ($window.Intercom) {
+      $window.Intercom('update');
+    }
     dataApp.data.loading = false;
   });
 
@@ -105,8 +108,8 @@ function ControllerApp(
             orgs:  $window.JSON.stringify(results)
           });
         }
-        if ($window.initIntercom) {
-          $window.initIntercom({
+        if ($window.Intercom) {
+          $window.Intercom('boot', {
             name: thisUser.oauthName(),
             email: thisUser.attrs.email,
             // Convert ISO8601 to Unix timestamp
