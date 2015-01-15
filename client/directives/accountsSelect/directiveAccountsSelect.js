@@ -11,13 +11,15 @@ require('app')
 function accountsSelect (
   configLogoutURL,
   errs,
-  $state
+  $state,
+  keypather
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewAccountsSelect',
     scope: {
-      data: '='
+      data: '=',
+      isMainPage: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -27,18 +29,28 @@ function accountsSelect (
         },
         data: $scope.data
       };
-      $scope.popoverAccountMenu.data.dataModalIntegrations = $scope.data;
-      $scope.popoverAccountMenu.data.logoutURL = configLogoutURL();
+      var unwatchUserInfo = $scope.$watch('data.activeAccount', function (n) {
+        if (n) {
+          unwatchUserInfo();
+          keypather.set($scope, 'popoverAccountMenu.data.activeAccount', n);
+          keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
+          keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
+        }
+      });
+      keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
+      keypather.set($scope, 'popoverAccountMenu.data.logoutURL', configLogoutURL());
+      keypather.set($scope, 'popoverAccountMenu.data.isMainPage', $scope.isMainPage);
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
         $scope.popoverAccountMenu.data.show = false;
         var username = userOrOrg.oauthName();
         $scope.data.activeAccount = userOrOrg;
-        $scope.data.instances = null;
-        $scope.$emit('INSTANCE_LIST_FETCH', username);
-        $state.go('^.home', {
-          userName: username
-        });
+        if ($scope.isMainPage) {
+          $scope.$emit('INSTANCE_LIST_FETCH', username);
+          $state.go('^.home', {
+            userName: username
+          });
+        }
       };
 
       var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;

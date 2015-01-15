@@ -86,7 +86,7 @@ function gsRepoSelector(
         function fetchPage(page) {
           var userOrOrg = getOwnerRepoQuery(
             user,
-            $stateParams.userName,
+            $scope.data.activeAccount.oauthName(),
             cb
           );
           userOrOrg
@@ -125,14 +125,17 @@ function gsRepoSelector(
         }
         fetchPage(1);
       }
-      async.waterfall([
-        function (cb) {
+
+      $scope.$watch('data.activeAccount', function (n) {
+        if (n) {
           $scope.loading = true;
-          cb();
-        },
-        fetchUser,
-        fetchAllOwnerRepos
-      ], errs.handler);
+          $scope.githubRepos = null;
+          async.waterfall([
+            fetchUser,
+            fetchAllOwnerRepos
+          ], errs.handler);
+        }
+      });
 
       function setStackSelectedVersion(stack, versions) {
         if (versions[stack.key]) {

@@ -30,15 +30,22 @@ function modalGettingStarted(
       defaultActions: '='
     },
     link: function ($scope, element, attrs) {
-
-      var unwatch = $rootScope.$watch('dataApp.data.instances', function (n) {
+      var unwatchUserInfo = $rootScope.$watch('dataApp.data.activeAccount', function (n) {
         if (n) {
-          unwatch();
+          keypather.set($scope, 'data.activeAccount', n);
+          keypather.set($scope, 'data.orgs', $rootScope.dataApp.data.orgs);
+          keypather.set($scope, 'data.user', $rootScope.dataApp.data.user);
+        }
+      });
+      var unwatchInstances = $rootScope.$watch('dataApp.data.instances', function (n) {
+        if (n) {
+          unwatchInstances();
           $scope.state.hideCancelButton = !n.models.length;
         }
       });
       $scope.$on('$destroy', function () {
-        unwatch();
+        unwatchInstances();
+        unwatchUserInfo();
       });
 
       $scope.actions = {
@@ -110,6 +117,7 @@ function modalGettingStarted(
                   $rootScope.dataApp.data.instances
                 ),
                 forkInstances($scope.state.dependencies),
+                $scope.defaultActions.close,
                 function () {
                   $state.go('instance.instance', {
                     userName: $stateParams.userName,
