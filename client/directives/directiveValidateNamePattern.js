@@ -20,7 +20,7 @@ function validateNamePattern(
           ctrl.$setValidity('namePattern', true);
           return name;
         }
-        var test = /^[A-Za-z0-9_-]+$/;
+        var test = /^[A-Za-z0-9]([A-Za-z0-9_-]*[A-Za-z0-9])?$/;
         ctrl.$setValidity('namePattern', test.test(name));
         return name;
       }
