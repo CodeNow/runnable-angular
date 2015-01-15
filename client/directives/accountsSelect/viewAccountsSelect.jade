@@ -1,7 +1,8 @@
-header.row.account-header.load(
+div(
   ng-show = "data.activeAccount"
   toggle-pop-over
   toggle-pop-over-model = "popoverAccountMenu.data.show"
+  ng-class = "{'no-touching': data.accountsDisabled() }"
 )
   img.gravatar(
     height = "24"

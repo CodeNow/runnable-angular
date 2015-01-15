@@ -138,6 +138,9 @@ function modalGettingStarted(
         step: 1,
         furthestStep: 1
       };
+      keypather.set($scope, 'data.accountsDisabled', function () {
+        return $scope.state.step > 1;
+      });
       fetchGSDepInstances(function (err, deps) {
         if (err) { return errs.handler(err); }
         keypather.set($scope, 'data.allDependencies', deps);
