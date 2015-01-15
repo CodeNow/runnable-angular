@@ -10,6 +10,7 @@ function ControllerInstanceHome(
   $stateParams,
   $state,
   $scope,
+  $timeout,
   fetchInstances,
   $localStorage,
   $rootScope,
@@ -37,6 +38,7 @@ function ControllerInstanceHome(
         userName: username
       }, {location: 'replace'});
     } else {
+      $rootScope.dataApp.data.loading = false;
       keypather.set($scope, 'data.in', true);
       //$state.go('instance.new', {
       //  userName: username

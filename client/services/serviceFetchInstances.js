@@ -12,7 +12,7 @@ function fetchInstances(
   var currentInstanceList;
   return function (activeAccountName, forceQuery, cb) {
     if (!activeAccountName) {
-      cb(null, currentInstanceList, currentAccountName);
+      return cb(null, currentInstanceList, currentAccountName);
     }
     currentAccountName = activeAccountName;
     fetchUser(function (err, user) {
