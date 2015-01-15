@@ -47,21 +47,8 @@ function ControllerInstance(
   data.isDemo = $state.$current.name === 'demo.instance';
 
   if (!$stateParams.instanceName) {
-    var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
-      if (n !== p && n) {
-        unwatch();
-        if (n.models.length) {
-          var models = $filter('orderBy')(n.models, 'attrs.name');
-          $state.go('instance.instance', {
-            instanceName: models[0].attrs.name,
-            userName: $stateParams.userName
-          }, {location: 'replace'});
-        } else {
-          $state.go('instance.new', {
-            userName: $stateParams.userName
-          }, {location: 'replace'});
-        }
-      }
+    $state.go('instance.home', {
+      userName: $stateParams.userName
     });
   } else if ($stateParams.instanceName && $stateParams.userName) {
     async.waterfall([

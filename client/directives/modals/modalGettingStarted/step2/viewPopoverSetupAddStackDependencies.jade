@@ -22,6 +22,7 @@
         ng-click = "actions.addDependency(stackDep)"
         ng-repeat = "\
           stackDep in data.dependencies.models | \
+          removeTemplateInstances | \
           unaddedDepInstances:data.state.dependencies | \
           unaddedModels:data.depFilter as filteredDeps"
         title = "{{ stackDep.attrs.name }}"

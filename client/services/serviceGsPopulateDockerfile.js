@@ -10,18 +10,15 @@ function gsPopulateDockerfile(
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
       dockerfileBody = replaceStackVersion(dockerfileBody, state.stack);
-      var ports = '\nEXPOSE ' + state.ports.split(',').join(' ');
+      var ports = state.ports.split(',').join(' ');
       dockerfileBody = dockerfileBody.replace(/<user-specified-ports>/gm, ports);
 
       // Add Repo
-      var repoName = state.selectedRepo.attrs.full_name.split('\/')[1];
-      var repo = '\nADD .\/' + repoName + ' \/' + repoName;
-      dockerfileBody = dockerfileBody.replace(/<add-repo>/gm, repo);
-      dockerfileBody = dockerfileBody.replace(/<repo-name>/gm, state.selectedRepo.attrs.full_name);
+      dockerfileBody = dockerfileBody.replace(/<repo-name>/gm, state.selectedRepo.attrs.name);
 
       // For now, just remove this
       dockerfileBody = dockerfileBody.replace(/<add-dependencies>/gm, '');
-      var startCommand = '\nCMD ' + state.startCommand;
+      var startCommand = state.startCommand;
       dockerfileBody = dockerfileBody.replace(/<start-command>/gm, startCommand);
       return dockerfileBody;
     }
@@ -42,8 +39,7 @@ function gsPopulateDockerfile(
   };
 
   function replaceStackVersion(dockerfileBody, stack) {
-    var regexp = new RegExp('<' + regexpQuote(stack.key.toLowerCase()) + '-version>', 'gm');
-    console.log('replacing version', stack.name, regexp, stack.selectedVersion);
+    var regexp = new RegExp('<' + regexpQuote(stack.key.toLowerCase()) + '-version>', 'igm');
     if (stack.dependencies) {
       stack.dependencies.forEach(function (stack) {
         dockerfileBody = replaceStackVersion(dockerfileBody, stack);

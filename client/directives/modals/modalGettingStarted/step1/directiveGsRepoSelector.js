@@ -29,10 +29,14 @@ function gsRepoSelector(
       function fetchStackData(repo, cb) {
         fetchStackAnalysis(repo, function (err, data) {
           if (err) { return cb(err); }
-          if (!data.languageFramework) { return cb(new Error('No languages found'));}
+          if (!data.languageFramework) {
+            $scope.state.stack = $scope.data.stacks[0];
+            return cb(new Error('No languages found'));
+          }
           $scope.state.stack = $scope.data.stacks.find(hasKeypaths({
-            'name.toLowerCase()': data.languageFramework.toLowerCase()
-          }));
+            'key': data.languageFramework.toLowerCase()
+          })) || $scope.data.stacks[0];
+          setStackSelectedVersion($scope.state.stack, data.version);
           if (data.serviceDependencies && data.serviceDependencies.length) {
             $scope.$watch('data.allDependencies', function (allDeps) {
               if (allDeps) {
@@ -129,6 +133,17 @@ function gsRepoSelector(
         fetchUser,
         fetchAllOwnerRepos
       ], errs.handler);
+
+      function setStackSelectedVersion(stack, versions) {
+        if (versions[stack.key]) {
+          stack.selectedVersion = versions[stack.key];
+        }
+        if (stack.dependencies) {
+          stack.dependencies.forEach(function (childStack) {
+            setStackSelectedVersion(childStack, versions);
+          });
+        }
+      }
     }
   };
 }

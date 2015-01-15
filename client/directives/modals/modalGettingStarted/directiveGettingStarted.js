@@ -135,14 +135,14 @@ function modalGettingStarted(
       });
       fetchStackInfo(function (err, body) {
         if (err) { return errs.handler(err); }
-        keypather.set($scope, 'data.stacks', body.stacks);
+        keypather.set($scope, 'data.stacks', body);
       });
-      $scope.$watch('state.stack.name', function (n) {
+      $scope.$watch('state.stack', function (n) {
         if (n) {
           createNewBuild($rootScope.dataApp.data.activeAccount, function (err, build, version) {
             $scope.build = build;
             $scope.contextVersion = version;
-            createDockerfileFromSource(version, n, function (err, dockerfile) {
+            createDockerfileFromSource(version, n.key, function (err, dockerfile) {
               if (err) {
                 return errs.handler(err);
               }
