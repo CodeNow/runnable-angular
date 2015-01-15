@@ -73,6 +73,7 @@
 
   .label {
     display: block;
+    flex: 0 0 auto;
     margin: 0 0 30px;
 
     + .label {
@@ -202,7 +203,7 @@
 // wizard 3
 .modal-gs-environments {
   overflow-y: hidden;
-  width: 420px;
+  width: 540px;
 
   @include media(xs) {
     width: 100%;
@@ -221,6 +222,10 @@
   .list {
     height: 399px;
     overflow-y: auto;
+
+    @include media(xs) {
+      height: auto;
+    }
 
     .label {
       display: block;
