@@ -22,8 +22,7 @@
   .list {
     max-height: 80vh;
     min-height: 180px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   .list-item {
@@ -179,13 +178,15 @@
     line-height: 36px;
     margin: 0 0 6px;
     overflow-y: hidden;
-    padding: 0 0 0 9px;
+    padding: 0 30px 0 9px;
   }
 
   // remove dependency
   .btn-close {
-    float: right;
     height: 36px;
+    position: absolute;
+    right: 0;
+    top: 0;
     transition: none;
 
     &:hover,
