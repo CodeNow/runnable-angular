@@ -8,6 +8,7 @@ require('app')
 function editRepoCommit(
   async,
   errs,
+  fetchCommitData,
   QueryAssist,
   fetchUser,
   keypather,
@@ -67,15 +68,18 @@ function editRepoCommit(
 
       $scope.popoverRepositoryToggle.actions.selectBranch = function (activeBranch) {
         $scope.activeBranch = activeBranch;
-        fetchBranchCommits($scope.activeBranch);
+        $scope.activeBranch.commits.fetch(errs.handler);
       };
 
       $scope.popoverRepositoryToggle.actions.selectCommit = function (commitSha) {
         $scope.popoverRepositoryToggle.data.show = false;
         $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
         $scope.unsavedAcv.attrs.commit = commitSha;
-        setActiveCommit($scope.unsavedAcv);
-        fetchCommitOffset($scope.unsavedAcv, $scope.activeCommit);
+        $scope.activeCommit = fetchCommitData.activeCommit($scope.unsavedAcv);
+        fetchCommitData.offset($scope.unsavedAcv, $scope.activeCommit, function (err, behind) {
+          // err will always be null
+          $scope.commitsBehind = behind;
+        });
         emitACVChange();
       };
 
@@ -92,7 +96,7 @@ function editRepoCommit(
       $scope.$watch('popoverRepositoryToggle.data.show', function (n, p) {
         if (n === false && p === true) {
           // was open, is now closed
-          setActiveBranch($scope.unsavedAcv);
+          $scope.activeBranch = fetchCommitData.activeBranch($scope.unsavedAcv);
         }
       });
 
@@ -118,47 +122,25 @@ function editRepoCommit(
         var latestCommit = $scope.activeBranch.commits.models[0];
         $scope.unsavedAcv.attrs.commit = latestCommit.attrs.sha;
         $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
-        setActiveBranch($scope.unsavedAcv);
-        setActiveCommit($scope.unsavedAcv);
-        fetchCommitOffset($scope.unsavedAcv, $scope.activeCommit);
+        $scope.activeBranch = fetchCommitData.activeBranch($scope.unsavedAcv);
+        $scope.activeCommit = fetchCommitData.activeCommit($scope.unsavedAcv);
+        fetchCommitData.offset($scope.unsavedAcv, $scope.activeCommit, function (err, behind) {
+          // err will always be null
+          $scope.commitsBehind = behind;
+        });
         emitACVChange({triggerBuild: true});
       };
 
-      setActiveBranch($scope.acv);
-      setActiveCommit($scope.acv);
-      fetchCommitOffset($scope.acv, $scope.activeCommit);
-      fetchBranchCommits($scope.activeBranch);
-
-      function setActiveBranch(acv) {
-        // API client caches models by URL
-        // $scope.activeBranch will === acv.githubRepo.branches.models[x]
-        // after the fetch
-        $scope.activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
-        acv.githubRepo.branches.add($scope.activeBranch);
-        acv.githubRepo.branches.fetch(errs.handler);
-      }
-
-      function setActiveCommit(acv) {
-        $scope.activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
-        $scope.activeCommit.fetch(errs.handler);
-      }
-
-      function fetchCommitOffset(acv, activeCommit) {
-        activeCommit.commitOffset(acv.attrs.branch, function (err, diff) {
-          if (err) {
-            // not a throw situation
-            // 404 could mean the commit doesn't exist on that branch anymore (git reset)
-            // view will display 'update to latest' message if commitsBehind falsy
-            $scope.commitsBehind = false;
-          } else {
-            $scope.commitsBehind = diff.behind_by;
-          }
+      $scope.$watch('acv', function(n) {
+        if (!n) { return; }
+        $scope.activeBranch = fetchCommitData.activeBranch($scope.acv);
+        $scope.activeCommit = fetchCommitData.activeCommit($scope.acv);
+        fetchCommitData.offset($scope.acv, $scope.activeCommit, function (err, behind) {
+          // err will always be null
+          $scope.commitsBehind = behind;
         });
-      }
-
-      function fetchBranchCommits(branch) {
-        branch.commits.fetch(errs.handler);
-      }
+        $scope.activeBranch.commits.fetch(errs.handler);
+      });
     }
   };
 }

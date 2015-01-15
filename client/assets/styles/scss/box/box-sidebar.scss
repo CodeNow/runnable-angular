@@ -106,13 +106,14 @@
   + .repository-description {
     height: auto;
     line-height: 1.6;
+    word-break: break-word;
   }
 }
 
 .repository-detail {
   color: $gray-lighter;
   float: right;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 // li.list-details
