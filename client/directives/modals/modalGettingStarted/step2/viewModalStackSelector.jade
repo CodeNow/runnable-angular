@@ -90,13 +90,12 @@ label.label.clearfix
     ng-model = "state.startCommand"
     placeholder = "npm start"
   )
-.modal-stack-dependencies(
+.modal-stack-dependencies.clearfix(
   actions = "actions"
   data = "data"
   modal-stack-dependencies
   state = "state"
 )
-
 footer.modal-footer.clearfix
   button.btn.green(
     ng-click = "actions.nextStep(3)"
