@@ -9,8 +9,8 @@
       type = "button"
     )
       //- spinner
-      .spinner-wrapper.spinner-sm.spinner-white(
-        ng-class = "{in: dataApp.data.loading}"
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "dataApp.data.loading"
         ng-include = "'spinner'"
       )
       span.btn-text Save

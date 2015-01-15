@@ -24,8 +24,8 @@ main.home.box-selection
       )
       | {{ user.oauthName() }}
   //- spinner
-  .spinner-wrapper.spinner-md(
-    ng-class = "{in: loading}"
+  .spinner-wrapper.spinner-md.in(
+    ng-if = "loading"
     ng-include = "'spinner'"
   )
   ol.list.list-bordered.list-divided(
