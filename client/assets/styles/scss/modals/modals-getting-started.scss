@@ -151,14 +151,17 @@
   height: 151px;
   padding-top: 15px;
 
-  .label-col + .small {
-    height: 24px;
-    line-height: 24px;
-  }
+  .label-col {
 
-  .btn-xxs {
-    margin-left: 9px;
-    width: auto;
+    + .small {
+      height: 24px;
+      line-height: 24px;
+    }
+
+    .btn-xxs {
+      margin-left: 9px;
+      width: auto;
+    }
   }
 
   .list {
@@ -178,6 +181,10 @@
     margin: 0 0 6px;
     overflow-y: hidden;
     padding: 0 30px 0 9px;
+
+    .orange {
+      margin-right: 6px;
+    }
   }
 
   // remove dependency
