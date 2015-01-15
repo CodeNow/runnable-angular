@@ -53,6 +53,11 @@ function accountsSelect (
         }
       };
 
+      $scope.popoverOptions = $scope.isMainPage ?
+          '{\"left\": 124, \"top\": 48}' : '{\"left\": 100, \"top\": 48}';
+      //keypather.set($scope, 'popoverAccountMenu.data.popoverOptions',
+      //  $scope.isMainPage ? '{\'left\': 124, \'top\': 48}' : '{\'left\': 100, \'top\': 48}');
+
       var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;
       var mData = $scope.popoverAccountMenu.data.dataModalIntegrations;
 
