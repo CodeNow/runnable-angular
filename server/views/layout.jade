@@ -77,8 +77,8 @@ html(
     )
 
     //- spinner
-    .spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple(
-      ng-class = "{in: dataApp.data.loading}"
+    .spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
+      ng-if = "dataApp.data.loading"
       ng-include = "'spinner'"
     )
 
