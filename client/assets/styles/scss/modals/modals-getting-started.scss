@@ -22,8 +22,7 @@
   .list {
     max-height: 80vh;
     min-height: 180px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   .list-item {
