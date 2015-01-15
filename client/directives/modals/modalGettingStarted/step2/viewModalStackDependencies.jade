@@ -16,8 +16,9 @@
     ng-if = "state.dependencies.length === 0"
   ) You have no dependencies :(
   ul.list
-    li.list-item(
+    li.list-item.text-overflow(
       ng-repeat = "dependency in state.dependencies"
+      title = "{{ dependency.instance.attrs.name }}"
     ) {{ dependency.instance.attrs.name }}
       button.btn-close.btn-xs(
         ng-click = "actions.removeDependency(dependency)"
