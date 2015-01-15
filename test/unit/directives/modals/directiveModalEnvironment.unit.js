@@ -66,7 +66,7 @@ describe('directiveModalEnvironment'.bold.underline.blue, function () {
     $scope.user = thisUser;
 
     ctx = {};
-    ctx.template = directiveTemplate('modal-environment', {
+    ctx.template = directiveTemplate.attribute('modal-environment', {
       'data': 'data',
       'actions': 'actions',
       'default-actions': 'defaultActions',
@@ -75,6 +75,7 @@ describe('directiveModalEnvironment'.bold.underline.blue, function () {
     });
 
     ctx.element = $compile(ctx.template)($scope);
+    console.log(ctx.element);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
   }
