@@ -25,7 +25,7 @@
     min-width: 210px;
 
     @include media(xs) {
-      height: 150px;
+      height: 210px;
       max-width: none;
 
       .list-item {
