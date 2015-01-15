@@ -45,6 +45,7 @@ function modalGettingStarted(
         addDependency: function (instance, fromExisting) {
           var envs = keypather.get(instance, 'containers.models[0].urls()') || [];
           var newName = getNewForkName(instance, $rootScope.dataApp.data.instances, true);
+          var envName = instance.attrs.name.replace(/-/gm, '_').toUpperCase();
           $scope.state.dependencies.push({
             instance: instance,
             opts: !fromExisting ? {
@@ -53,7 +54,7 @@ function modalGettingStarted(
             } : null,
             reqEnv: envs.map(function (url, index) {
               return {
-                name: instance.attrs.name.toUpperCase() + '_HOST' + (index > 0 ? index : ''),
+                name: envName + '_HOST' + (index > 0 ? index : ''),
                 url: url.replace(instance.attrs.name, newName)
               };
             })
