@@ -1,5 +1,6 @@
 .popover.menu.bottom.popover-account-menu(
   ng-class = "{'in': data.show}"
+  ng-click = "$event.stopPropagation()"
 )
   .arrow.white
   .popover-content
