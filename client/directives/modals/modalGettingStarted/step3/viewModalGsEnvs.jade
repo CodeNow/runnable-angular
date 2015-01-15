@@ -1,9 +1,9 @@
 label.label Environment Variables
 .small We use environment variables to link up dependent servers. Update the variables below to match your app, and we'll set them to the paths for the dependencies. Or if you hardcode your dependency paths, update them to the variables below.
-ul.list.list-env(
-  ng-repeat = "model in state.dependencies"
-)
-  li.list-item.gray
+ul.list.list-env
+  li.list-item.gray(
+    ng-repeat = "model in state.dependencies"
+  )
     label.label {{ model.opts.name || model.instance.attrs.name }}
     //- focus, ng-invalid, ng-valid, ng-pristine
     label.input-group.input-validate(
