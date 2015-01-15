@@ -53,7 +53,7 @@ karma start ./test/karma.conf.js [--single-run] (optional)
 ```
 
 Contributors
-------------
+-------------
 <img src="https://avatars1.githubusercontent.com/u/429706?v=3&s=64">&nbsp;
 [Anton Podviaznikov (podviaznikov)](https://github.com/podviaznikov)
 San Francisco, CA, USA  
