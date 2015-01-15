@@ -75,7 +75,6 @@ describe('directiveModalEnvironment'.bold.underline.blue, function () {
     });
 
     ctx.element = $compile(ctx.template)($scope);
-    console.log(ctx.element);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
   }

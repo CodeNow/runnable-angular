@@ -157,7 +157,6 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
 
     it('should build if openItems is clean', function (done) {
       keypather.set($rootScope, 'dataApp.data.instances.create', sinon.spy(function (opts, cb) {
-        console.log(opts);
         expect(opts.owner).to.deep.equal({
           github: apiMocks.user.accounts.github.accessToken
         });

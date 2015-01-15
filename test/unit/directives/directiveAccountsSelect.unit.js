@@ -7,7 +7,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var ctx;
   var apiMocks = require('../apiMocks/index');
 
-  function makeDefaultScope() {
+  function makeDefaultScope(addToScope) {
     ctx.fakeuser = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
@@ -41,19 +41,25 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         return true;
       }
     };
-    return {
+    var scope =  {
       data: {
         activeAccount: ctx.fakeuser,
         orgs: {models: [ctx.fakeOrg1, ctx.fakeOrg2]},
         user: ctx.fakeuser
       }
     };
+
+    if (addToScope) {
+      Object.keys(addToScope).forEach(function (key) {
+        scope[key] = addToScope[key];
+      });
+    }
+    return scope;
   }
   function initState (addToScope) {
     ctx = {};
-    if (!addToScope) {
-      addToScope = makeDefaultScope();
-    }
+    addToScope = makeDefaultScope(addToScope);
+
     angular.mock.module('app');
     ctx.stateMock = {
       '$current': {
@@ -73,7 +79,8 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $scope = $rootScope.$new();
 
       var tpl = directiveTemplate.attribute('accounts-select', {
-        'data': 'data'
+        'data': 'data',
+        'is-main-page': 'isMainPage'
       });
 
       Object.keys(addToScope).forEach(function (key) {
@@ -88,7 +95,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
 
   describe('directive logic'.bold.blue, function() {
     it('should emit signal and change state on account change', function (done) {
-      initState();
+      initState({ isMainPage: true });
       ctx.stateMock.go = sinon.spy(function (location, state) {
         expect(state).to.deep.equal({
           userName: ctx.fakeOrg1.oauthName()
@@ -103,6 +110,20 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $elScope.popoverAccountMenu.actions.selectActiveAccount(ctx.fakeOrg1);
       $scope.$apply();
       expect($scope.data.activeAccount).to.equal(ctx.fakeOrg1);
+    });
+    it('should not emit signal when not on the main page', function () {
+      initState();
+      ctx.stateMock.go = sinon.spy();
+      var instanceFetchSpy = sinon.spy();
+      $rootScope.$on('INSTANCE_LIST_FETCH', instanceFetchSpy);
+      $scope.$digest();
+      $elScope.popoverAccountMenu.actions.selectActiveAccount(ctx.fakeOrg1);
+      $scope.$apply();
+      expect($scope.data.activeAccount).to.equal(ctx.fakeOrg1);
+      sinon.assert.neverCalledWith(ctx.stateMock.go, 'instance.home', {
+        userName: ctx.fakeOrg1.oauthName()
+      });
+      sinon.assert.notCalled(instanceFetchSpy);
     });
   });
 
