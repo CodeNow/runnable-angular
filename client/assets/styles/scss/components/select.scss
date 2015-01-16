@@ -6,6 +6,10 @@
     pointer-events: none;
   }
 
+  .btn-select-text {
+    float: left;
+  }
+
   select {
     background: transparent; // needed to set height
     cursor: pointer;
