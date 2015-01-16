@@ -9,11 +9,13 @@ ul.list.list-env
     label.input-group.input-validate(
       ng-class = ""
       ng-repeat = "envModel in model.reqEnv"
+      ng-init = "subScope.isFocus = false"
+      ng-class = "{focus: subScope.isFocus}"
     )
       span.input-label {{ state.stack.preEnvMarker }}
       input.input(
-        ng-blur = ""
-        ng-focus = ""
+        ng-blur = "subScope.isFocus = false"
+        ng-focus = "subScope.isFocus = true"
         placeholder = "envModel.name"
         ng-model = "envModel.name"
       )
