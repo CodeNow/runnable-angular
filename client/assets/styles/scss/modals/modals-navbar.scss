@@ -94,6 +94,10 @@
       .small {
         line-height: 18px;
         padding-left: 9px;
+
+        &:first-child {
+          margin-top: -3px;
+        }
       }
 
       .iconnables {
