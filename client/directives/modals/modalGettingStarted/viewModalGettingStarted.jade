@@ -76,10 +76,11 @@ nav.modal-navbar
   ng-if = "state.step === 2"
   state = "state"
 )
-.modal-body.modal-gs-environments(
+form.modal-body.modal-gs-environments(
   actions = "actions"
   data = "data"
   modal-gs-envs
+  name = "envStep"
   ng-if = "state.step === 3"
   state = "state"
 )
