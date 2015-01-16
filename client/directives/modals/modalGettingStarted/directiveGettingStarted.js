@@ -9,6 +9,7 @@ require('app')
 function modalGettingStarted(
   $rootScope,
   $log,
+  $timeout,
   async,
   createDockerfileFromSource,
   errs,
@@ -62,6 +63,7 @@ function modalGettingStarted(
             reqEnv: envs.map(function (url, index) {
               return {
                 name: envName + '_HOST' + (index > 0 ? index : ''),
+                placeholder: envName + '_HOST' + (index > 0 ? index : ''),
                 url: url.replace(instance.attrs.name, newName)
               };
             })
@@ -119,12 +121,14 @@ function modalGettingStarted(
                   $rootScope.dataApp.data.instances
                 ),
                 forkInstances($scope.state.dependencies),
-                $scope.defaultActions.close,
                 function () {
                   $rootScope.dataApp.data.loading = false;
-                  $state.go('instance.instance', {
-                    userName: $stateParams.userName,
-                    instanceName: $scope.state.opts.name
+                  $scope.defaultActions.close();
+                  $timeout(function () {
+                    $state.go('instance.instance', {
+                      userName: $stateParams.userName,
+                      instanceName: $scope.state.opts.name
+                    });
                   });
                 }
               ], function (err) {

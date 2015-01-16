@@ -13,7 +13,6 @@ function validateEnvPattern(
     link: function ($scope, element, attrs, ctrl) {
 
       ctrl.$setValidity('envPattern', true);
-      ctrl.setCustomValidity('Give your box an alphanumeric name without hyphens');
 
       function checkValid(name) {
         if (!name || ctrl.$pristine) {
@@ -21,9 +20,6 @@ function validateEnvPattern(
           return name;
         }
         var test = /^[A-Za-z0-9_]+$/;
-        if (!test.test(name)) {
-          ctrl.checkValidity();
-        }
         ctrl.$setValidity('envPattern', test.test(name));
         return name;
       }
