@@ -112,11 +112,9 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
     ctx.buildBuildCalled = false;
     ctx.dockerfileUpdateCalled = false;
 
-    ctx.mockBuild.build = function (message, cb) {
+    ctx.mockBuild.build = function (buildOpts, cb) {
       ctx.buildBuildCalled = true;
-      expect(message).to.deep.equal({
-        message: 'Manual build'
-      });
+      expect(buildOpts.message).to.equal('Manual build');
       cb(null, ctx.mockBuild);
     };
     ctx.mockBuild.id = function () {
@@ -308,10 +306,8 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         }, 0);
         return ctx.mockBuild2;
       });
-      ctx.mockBuild2.build = sinon.spy(function (message, cb) {
-        expect(message).to.deep.equal({
-          message: 'Manual build'
-        });
+      ctx.mockBuild2.build = sinon.spy(function (buildOpts, cb) {
+        expect(buildOpts.message).to.equal('Manual build');
         cb(null, ctx.mockBuild2);
       });
       ctx.mockBuild2.id = function () {
