@@ -129,6 +129,7 @@ function modalGettingStarted(
                 }
               ], function (err) {
                 $scope.building = false;
+                $rootScope.dataApp.data.loading = false;
                 errs.handler(err);
               });
             }
@@ -171,9 +172,9 @@ function modalGettingStarted(
 
       function generateEnvs(depModels) {
         var envList = [];
-        depModels.forEach(function(item) {
+        depModels.forEach(function (item) {
           if (item.reqEnv) {
-            item.reqEnv.forEach(function(env) {
+            item.reqEnv.forEach(function (env) {
               envList.push(env.name + '=' + env.url);
             });
           }

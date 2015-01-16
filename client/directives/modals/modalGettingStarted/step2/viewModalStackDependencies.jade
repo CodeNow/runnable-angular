@@ -21,8 +21,9 @@
       ng-repeat = "dependency in state.dependencies"
       title = "{{ dependency.instance.attrs.name }}"
     )
-      //- add new badge if dependcy will create a new server
-      //- button.btn-xxs.orange new
+      button.btn-xxs.orange(
+        ng-if = "dependency.opts"
+      ) new
       | {{ dependency.instance.attrs.name }}
       button.btn-close.btn-xs(
         ng-click = "actions.removeDependency(dependency)"

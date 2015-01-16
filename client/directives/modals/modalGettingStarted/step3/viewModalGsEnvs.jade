@@ -2,13 +2,15 @@ label.label Environment Variables
 .small We use environment variables to link up dependent servers. Update the variables below to match your app, and we'll set them to the paths for the dependencies. Or if you hardcode your dependency paths, update them to the variables below.
 ul.list.list-env
   li.list-item.gray(
+    ng-if = "model.reqEnv && model.reqEnv.length"
     ng-repeat = "model in state.dependencies"
   )
-    label.label(
-      ng-if = "model.reqEnv && model.reqEnv.length"
-    ) {{ model.opts.name || model.instance.attrs.name }}
+    label.label {{ model.opts.name || model.instance.attrs.name }}
     //- focus, ng-pristine
     label.input-group.input-validate(
+      ng-class = "{\
+        'invalid-env': envNameInput.$error.envPattern.length\
+      }"
       ng-class = "{'focus': isFocus}"
       ng-repeat = "envModel in model.reqEnv"
       ng-init = "subScope.isFocus = false"
@@ -16,11 +18,14 @@ ul.list.list-env
     )
       span.input-label {{ state.stack.preEnvMarker }}
       input.input(
+        name = "envNameInput"
+        autocomplete = "off"
         ng-blur = "subScope.isFocus = false"
         ng-focus = "subScope.isFocus = true"
-        placeholder = "envModel.name"
+        placeholder = "{{ envModel.name }}"
         ng-model = "envModel.name"
-        pattern = "/^([A-Za-z]+[A-Za-z0-9_]*)$/"
+        required
+        validate-env-pattern
       )
       span.input-label {{ state.stack.postEnvMarker }}
 footer.modal-footer.clearfix
