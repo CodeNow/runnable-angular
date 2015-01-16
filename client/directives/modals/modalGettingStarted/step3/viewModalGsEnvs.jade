@@ -5,15 +5,16 @@ ul.list.list-env
     ng-repeat = "model in state.dependencies"
   )
     label.label {{ model.opts.name || model.instance.attrs.name }}
-    //- focus, ng-invalid, ng-valid, ng-pristine
+    //- focus, ng-pristine
     label.input-group.input-validate(
-      ng-class = ""
+      ng-class = "{'focus': isFocus}"
       ng-repeat = "envModel in model.reqEnv"
+      ng-init = "isFocus = false"
     )
       span.input-label {{ state.stack.preEnvMarker }}
       input.input(
-        ng-blur = ""
-        ng-focus = ""
+        ng-blur = "isFocus = false"
+        ng-focus = "isFocus = true"
         placeholder = "envModel.name"
         ng-model = "envModel.name"
       )

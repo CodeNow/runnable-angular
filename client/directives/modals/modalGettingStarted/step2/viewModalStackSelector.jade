@@ -80,7 +80,7 @@ label.label.clearfix
   //- placeholder and values should be the same
   input.input.input-sm(
     ng-model = "state.ports"
-    placeholder = "80, 8000, 8001"
+    placeholder = "{{ state.stack.ports }}"
   )
 label.label.clearfix
   .label-col Command
@@ -88,7 +88,7 @@ label.label.clearfix
   //- placeholder and values should be the same
   input.input.input-sm(
     ng-model = "state.startCommand"
-    placeholder = "npm start"
+    placeholder = "{{ state.stack.startCommand }}"
   )
 .modal-stack-dependencies.clearfix(
   actions = "actions"
@@ -103,65 +103,3 @@ footer.modal-footer.clearfix
   button.btn.white(
     ng-click = "actions.changeStep(1)"
   ) Previous Step
-
-  //-
-    h2.sub-header
-      span.sub-header-text Dependencies
-      button.btn.btn-xxs.gray.sub-header-action(
-        ng-class = "{active: addDependencyPopover.data.show}"
-        toggle-pop-over
-        toggle-pop-over-model = "addDependencyPopover.data.show"
-        type = "button"
-      ) Add…
-        pop-over(
-          actions = "actions"
-          data = "addDependencyPopover.data"
-          popover-options = "{\"left\":-117,\"top\":45}"
-          template = "viewPopoverSetupAddStackDependencies"
-        )
-    ul.list
-      li.list-item(
-        ng-repeat = "dependency in state.dependencies"
-      ) {{ dependency.attrs.name }}
-      li.list-item RabbitMQ
-
-//- h3.popover-title {{state.stack.name}}
-//-   .btn.btn-select.text-overflow
-//-     svg.iconnables.icons-arrow-down
-//-       use(
-//-       xlink:href = "#icons-arrow-down"
-//-       )
-//-     select.select(
-//-     name = "state.stack"
-//-     ng-change = "actions.selectStack(state.stack)"
-//-     ng-model = "state.stack"
-//-     ng-options = "stack.name for stack in data.stacks"
-//-     )
-//-   h4.popover-title(
-//-     ng-repeat = "dep in state.stack.versionReqs"
-//-   ) {{dep.name}} version
-//-     .btn.btn-select.text-overflow {{state.version[dep.name]}}
-//-       svg.iconnables.icons-arrow-down
-//-         use(
-//-         xlink:href = "#icons-arrow-down"
-//-         )
-//-       select.select(
-//-         name = "state.version[dep.name]"
-//-         ng-change = "actions.selectVersion(dep, state.version[dep.name])"
-//-         ng-model = "state.version[dep.name]"
-//-         ng-options = "version.toString() for version in dep.versions"
-//-       )
-//-   h4 Ports used
-//-     input.setup-name-input(
-//-       ng-model = "state.ports"
-//-       placeholder = "Enter ports here"
-//-       select-on
-//-       spellcheck = "false"
-//-     )
-//-   h4 Start Command
-//-     input.setup-name-input(
-//-       ng-model = "state.startCommand"
-//-       placeholder = "Enter the start command"
-//-       select-on
-//-       spellcheck = "false"
-//-     )

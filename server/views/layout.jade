@@ -71,6 +71,7 @@ html(
 
   body(
     ng-class = "{minimize: dataApp.data.minimizeNav}"
+    ng-click = "dataApp.documentClickEventHandler($scope, this)"
   )
     //
       TIME: #{locals.commitTime}
@@ -89,7 +90,6 @@ html(
     )
 
     div(
-      ng-click = "dataApp.documentClickEventHandler($scope, this)"
       ui-view
     )
   div(
