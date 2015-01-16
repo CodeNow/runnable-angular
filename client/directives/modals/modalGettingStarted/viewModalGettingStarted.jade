@@ -27,6 +27,14 @@ nav.modal-navbar
       small.small.text-overflow(
         ng-if = "state.furthestStep > 2"
       )
+        svg.iconnables.icons-branch
+          use(
+            xlink:href = "#icons-branch"
+          )
+        | master
+      small.small.text-overflow(
+        ng-if = "state.furthestStep > 2"
+      )
         svg.iconnables.icons-rails
           use(
             xlink:href = "#icons-rails"
