@@ -91,6 +91,8 @@ function modalGettingStarted(
           });
         },
         createAndBuild: function() {
+          if ($scope.building) { return; }
+          $scope.building = true;
           // first thing to do is generate the dockerfile
           $rootScope.dataApp.data.loading = true;
           $scope.$watch('dockerfile', function (n) {
@@ -119,13 +121,16 @@ function modalGettingStarted(
                 forkInstances($scope.state.dependencies),
                 $scope.defaultActions.close,
                 function () {
+                  $rootScope.dataApp.data.loading = false;
                   $state.go('instance.instance', {
                     userName: $stateParams.userName,
                     instanceName: $scope.state.opts.name
                   });
-                  $scope.defaultActions.close();
                 }
-              ], errs.handler);
+              ], function (err) {
+                $scope.building = false;
+                errs.handler(err);
+              });
             }
           });
         }

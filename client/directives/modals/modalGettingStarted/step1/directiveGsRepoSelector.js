@@ -102,12 +102,9 @@ function gsRepoSelector(
               if (page < pageFetchState) { return cb(); }
               pageFetchState++;
               if (!$scope.githubRepos) {
-                $scope.githubRepos = githubRepos;
+                $scope.githubRepos = githubRepos.models;
               } else {
-                var reposArr = $scope.githubRepos.models.concat(githubRepos.models);
-                $scope.githubRepos = user.newGithubRepos(reposArr, {
-                  noStore: true
-                });
+                $scope.githubRepos = $scope.githubRepos.concat(githubRepos);
               }
               // recursive until result set returns fewer than
               // 100 repos, indicating last paginated result
@@ -133,7 +130,10 @@ function gsRepoSelector(
           async.waterfall([
             fetchUser,
             fetchAllOwnerRepos
-          ], errs.handler);
+          ], function (err) {
+            errs.handler(err);
+            $timeout(angular.noop);
+          });
         }
       });
 
