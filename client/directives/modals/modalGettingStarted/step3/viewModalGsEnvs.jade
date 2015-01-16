@@ -8,7 +8,7 @@ ul.list(
     ng-repeat = "model in state.dependencies"
   )
     label.label {{ model.opts.name || model.instance.attrs.name }}
-    div(
+    .list-item-form(
       name = "eachEnv"
       ng-form
       ng-repeat = "envModel in model.reqEnv"

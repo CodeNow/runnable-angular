@@ -237,12 +237,6 @@
     @include media(xs) {
       height: auto;
     }
-
-    .label {
-      display: block;
-      font-size: 14px;
-      padding: 3px 12px 6px;
-    }
   }
 
   .list-item {
@@ -252,10 +246,25 @@
     line-height: 1;
     margin: 0 12px 12px;
     padding: 9px 0;
+
+    .label {
+      display: block;
+      font-size: 14px;
+      padding: 3px 12px 6px;
+    }
   }
 
-  .input-group + .input-group {
+  .list-item-form + .list-item-form {
     margin-top: 6px;
+  }
+
+  .input-validate.ng-invalid {
+    border-radius: 3px 3px 0 0;
+  }
+
+  .validate-wrapper.validate-wrapper {
+    border-radius: 0 0 3px 3px;
+    margin-top: 0;
   }
 
   .modal-footer {
