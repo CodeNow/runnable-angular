@@ -14,7 +14,7 @@ The front-end for Runnable's sandbox management platform.
 
 Instructions
 -------------
-- `grunt`: execute `grunt build`, start a server to serve app at http://localhost:3001
+- `grunt`: execute `grunt build` to start a server and serve app at http://localhost:3001
 - `grunt build`: compile jade/sass, concat files, move compiled files into client/build/
 - `grunt test:watch`: run tests on fs changes
 - `grunt test`: run tests
