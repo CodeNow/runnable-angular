@@ -17,6 +17,7 @@
   .modal-navbar {
     max-width: 210px;
     min-width: 210px;
+    padding: 0;
 
     @include media(xs) {
       height: 210px;
