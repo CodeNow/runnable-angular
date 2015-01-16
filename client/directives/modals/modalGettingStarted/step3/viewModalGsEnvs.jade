@@ -18,6 +18,7 @@ ul.list.list-env
         ng-focus = "subScope.isFocus = true"
         placeholder = "envModel.name"
         ng-model = "envModel.name"
+        pattern = "/^([A-Za-z]+[A-Za-z0-9_]*)$/"
       )
       span.input-label {{ state.stack.postEnvMarker }}
 footer.modal-footer.clearfix
