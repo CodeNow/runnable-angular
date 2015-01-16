@@ -104,7 +104,7 @@ function gsRepoSelector(
               if (!$scope.githubRepos) {
                 $scope.githubRepos = githubRepos.models;
               } else {
-                $scope.githubRepos = $scope.githubRepos.concat(githubRepos);
+                $scope.githubRepos = $scope.githubRepos.concat(githubRepos.models);
               }
               // recursive until result set returns fewer than
               // 100 repos, indicating last paginated result
