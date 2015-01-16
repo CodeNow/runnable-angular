@@ -11,8 +11,9 @@ require('app')
 function accountsSelect (
   configLogoutURL,
   errs,
+  keypather,
   $state,
-  keypather
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -31,12 +32,15 @@ function accountsSelect (
       };
       var unwatchUserInfo = $scope.$watch('data.activeAccount', function (n) {
         if (n) {
-          unwatchUserInfo();
           keypather.set($scope, 'popoverAccountMenu.data.activeAccount', n);
           keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
           keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
         }
       });
+      $scope.$on('$destroy', function () {
+        unwatchUserInfo();
+      });
+
       keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
       keypather.set($scope, 'popoverAccountMenu.data.logoutURL', configLogoutURL());
       keypather.set($scope, 'popoverAccountMenu.data.isMainPage', $scope.isMainPage);
