@@ -100,8 +100,12 @@ function ControllerApp(
         dataApp.data.orgs = results;
         if ($window.heap) {
           $window.heap.identify({
+            // unique heap user identifier
+            // we use githubId with prefix
+            handler: 'github:' + thisUser.oauthId(),
             name:  thisUser.oauthName(),
             email: thisUser.attrs.email,
+            runnable_id: thisUser.id(),
             orgs:  $window.JSON.stringify(results)
           });
         }
