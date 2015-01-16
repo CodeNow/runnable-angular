@@ -59,6 +59,10 @@
     &.active {
       background: $blue;
       color: $white;
+
+      .small {
+        color: currentColor;
+      }
     }
 
     &.no-states {
@@ -83,6 +87,27 @@
       }
     }
 
+    &.visited {
+      height: auto;
+      padding-bottom: 6px;
+
+      .small {
+        line-height: 18px;
+        padding-left: 9px;
+
+        &:first-child {
+          margin-top: -3px;
+        }
+      }
+
+      .iconnables {
+        float: left;
+        height: 18px;
+        margin-right: 3px;
+        width: 18px;
+      }
+    }
+
     + .list-item {
       margin-top: 3px;
     }
@@ -91,6 +116,7 @@
     &.small:first-child {
       height: 45px;
       line-height: 45px;
+      padding-left: 9px;
     }
   }
 
