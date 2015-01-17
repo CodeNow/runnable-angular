@@ -32,15 +32,17 @@ form.list(
         span.input-label {{ state.stack.postEnvMarker }}
       .validate-wrapper.btn-sm.orange(
         ng-class = "{\
-            in: eachEnv.envInput.$invalid,\
-            'invalid-pattern': eachEnv.envInput.$error.envPattern\
-          }"
+            in: eachEnv.$invalid,\
+            'invalid-pattern': eachEnv.$error.envPattern,\
+            'invalid-require': eachEnv.$error.envRequire}"
       )
         span.validate-rules.invalid-pattern Please use #{''}
           b.btn-xs.orange A-Z
           b.btn-xs.orange a-z
           b.btn-xs.orange 0-9
           b.btn-xs.orange _
+        span.validate-rules.invalid-require Environmental Variables can be alphanumeric with #{''}
+          b.btn-xs.gray _
 footer.modal-footer.clearfix
   button.btn.green(
     ng-show = "state.step === 3"

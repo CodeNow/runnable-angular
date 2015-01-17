@@ -13,11 +13,13 @@ function validateEnvPattern(
     link: function ($scope, element, attrs, ctrl) {
 
       ctrl.$setValidity('envPattern', true);
+      ctrl.$setValidity('envRequire', false);
 
       function checkValid(name) {
-        if (!name || ctrl.$pristine) {
+        ctrl.$setValidity('envRequire', !!name);
+        if (!name) {
           ctrl.$setValidity('envPattern', true);
-          return name;
+          return 'Failure';
         }
         var test = /^[A-Za-z0-9_]+$/;
         ctrl.$setValidity('envPattern', test.test(name));

@@ -179,7 +179,7 @@ function modalGettingStarted(
         depModels.forEach(function (item) {
           if (item.reqEnv) {
             item.reqEnv.forEach(function (env) {
-              envList.push(env.name + '=' + env.url);
+              envList.push((env.name || env.placeholder) + '=' + env.url);
             });
           }
         });
