@@ -128,6 +128,7 @@
     margin: 0;
     transition: all .2s ease-in;
 
+    &.invalid-require,
     &.invalid-pattern,
     &.invalid-name {
       border: 1px solid rgba($orange,.3);
