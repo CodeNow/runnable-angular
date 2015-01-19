@@ -6,8 +6,7 @@ require('app')
  * @ngInject
  */
 function modalStackDependencies(
-  keypather,
-  fetchInstances
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -23,8 +22,11 @@ function modalStackDependencies(
           keypather.set($scope, 'addDependencyPopover.data.dependencies', n);
         }
       });
-      fetchInstances(null, null, function (err, instances) {
-        keypather.set($scope, 'addDependencyPopover.data.instances', instances);
+
+      $scope.$watch('data.instances', function (n) {
+        if (n) {
+          keypather.set($scope, 'addDependencyPopover.data.instances', n);
+        }
       });
 
       $scope.$watchCollection('state.dependencies', function (n) {

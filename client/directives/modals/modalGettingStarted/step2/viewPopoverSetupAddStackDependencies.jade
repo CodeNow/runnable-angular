@@ -18,7 +18,7 @@
   )
     ul.list.popover-list
       li.list-item.popover-list-item(
-        ng-click = "actions.addDependency(stackDep)"
+        ng-click = "actions.addDependency(stackDep); data.show = false;"
         ng-repeat = "\
           stackDep in data.dependencies.models | \
           removeTemplateInstances | \
@@ -31,7 +31,7 @@
   )
     ul.list.popover-list
       li.list-item.popover-list-item(
-      ng-click = "actions.addDependency(instance, true)"
+      ng-click = "actions.addDependency(instance, true); data.show = false; "
       ng-repeat = "\
          instance in data.instances.models | \
          unaddedDepInstances:data.state.dependencies | \

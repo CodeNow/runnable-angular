@@ -83,10 +83,11 @@ function gsRepoSelector(
       }
       function fetchAllOwnerRepos(user, cb) {
         var pageFetchState = 1;
+        var activeAccountName = $scope.data.activeAccount.oauthName();
         function fetchPage(page) {
           var userOrOrg = getOwnerRepoQuery(
             user,
-            $scope.data.activeAccount.oauthName(),
+            activeAccountName,
             cb
           );
           userOrOrg
@@ -95,6 +96,9 @@ function gsRepoSelector(
               sort: 'updated'
             })
             .cacheFetch(function (githubRepos, cached, cb) {
+              if (activeAccountName !== $scope.data.activeAccount.oauthName()) {
+                return;
+              }
               /**
                * Double concat to models arr
                * if logic run twice (cached & non-cached)
