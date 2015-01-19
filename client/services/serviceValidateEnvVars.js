@@ -11,22 +11,35 @@ function validateEnvVars() {
     if (typeof input === 'string') {
       input = input.split('\n');
     } else if (!Array.isArray(input)) {
-      input = [];
+      return {
+        valid: true,
+        errors: []
+      };
     }
     var response = {
       valid: true,
       errors: []
     };
+    var keys = [];
     input.forEach(function (line, index) {
+      //empty line, ignore
       if (line.trim() === '') {
-        //empty line, ignore
-        response.valid = response.valid && true;
-      } else if (/^([A-Za-z]+[A-Za-z0-9_]*)=('(\n[^']*')|("[^"]*")|([^\s#]+))$/.test(line)) {
-        response.valid = response.valid && true;
-      } else {
+        return;
+      }
+      // Check for syntactic validity
+      if (!/^([A-Za-z]+[A-Za-z0-9_]*)=('(\n[^']*')|("[^"]*")|([^\s#]+))$/.test(line)) {
         response.valid = false;
         response.errors.push(index);
+        return;
       }
+      // Check for a duplicate key
+      var key = line.split('=')[0];
+      if (keys.indexOf(key) > -1) {
+        response.valid = false;
+        response.errors.push(index);
+        return;
+      }
+      keys.push(key);
     });
     return response;
   };
