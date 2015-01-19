@@ -16,10 +16,12 @@ function ControllerInstance(
   QueryAssist,
   $rootScope,
   $localStorage,
+  $location,
   $scope,
   $state,
   $stateParams,
   $timeout,
+  $window,
   fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
@@ -46,6 +48,15 @@ function ControllerInstance(
   };
 
   data.isDemo = $state.$current.name === 'demo.instance';
+
+  // Trigger Heap event
+  if ($window.heap && $location.search('chat')) {
+    $window.heap.track('instance-chat-click', {
+      type: $location.search('chat')
+    });
+    // Remove query so copypasta doesn't interfere
+    $location.search('chat', null);
+  }
 
   if (!$stateParams.instanceName) {
     var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {

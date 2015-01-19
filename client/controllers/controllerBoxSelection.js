@@ -23,7 +23,7 @@ function boxSelection (
 
   // Trigger Heap event
   if ($window.heap && $location.search('chat')) {
-    $window.heap.track('chat-click', {
+    $window.heap.track('box-selection-chat-click', {
       type: $location.search('chat')
     });
     // Remove query so copypasta doesn't interfere
