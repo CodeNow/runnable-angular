@@ -1,6 +1,7 @@
 Runnable 2.0
 =============
 
+
 <img src="https://circleci.com/gh/CodeNow/runnable-angular.png?circle-token=979bf08a16049c22ca0f7f7e01cb523ce9dbfcac" align="right">
 <br><br>
 <a href="https://saucelabs.com/u/runnable">
@@ -13,7 +14,7 @@ The front-end for Runnable's sandbox management platform.
 
 Instructions
 -------------
-- `grunt`: execute `grunt build`, start a server to serve app at http://localhost:3001
+- `grunt`: execute `grunt build` to start a server and serve app at http://localhost:3001
 - `grunt build`: compile jade/sass, concat files, move compiled files into client/build/
 - `grunt test:watch`: run tests on fs changes
 - `grunt test`: run tests
@@ -53,7 +54,7 @@ karma start ./test/karma.conf.js [--single-run] (optional)
 ```
 
 Contributors
-------------
+-------------
 <img src="https://avatars1.githubusercontent.com/u/429706?v=3&s=64">&nbsp;
 [Anton Podviaznikov (podviaznikov)](https://github.com/podviaznikov)
 San Francisco, CA, USA  

@@ -10,6 +10,7 @@ function ControllerInstance(
   $filter,
   errs,
   instanceUpdatedPoller,
+  fetchCommitData,
   keypather,
   OpenItems,
   QueryAssist,
@@ -67,14 +68,13 @@ function ControllerInstance(
 
   $scope.$on('new-build', function() {
     if (data.showUpdatingMessage) { return; } // Remove this line on ws change
+    data.showUpdatedMessage = false;
     data.showUpdatingMessage = true;
     data.instance.fetch(function(err, json) {
       if (err) { return errs.handler(err); }
+      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
-      $timeout(function() {
-        data.showUpdatedMessage = false;
-      }, 3000);
     });
   });
 
@@ -125,6 +125,7 @@ function ControllerInstance(
   }
 
   function fetchInstance(user, cb) {
+    $scope.user = user;
     if ($stateParams.instanceName && $stateParams.userName) {
       new QueryAssist(user, cb)
         .wrapFunc('fetchInstances')

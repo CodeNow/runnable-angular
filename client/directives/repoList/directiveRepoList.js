@@ -196,7 +196,15 @@ function repoList(
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $scope.build = instance.build;
+            if (!$stateParams.buildId) {
+              $scope.build = instance.build;
+              // HACK: allows us to use both an independent build (setup/edit)
+              //    and the build of an instance (instance)
+              // This will be triggered when a new build is passed to us by API
+              $scope.$watch('instance.build',   function(n) {
+                if (n) { $scope.build = $scope.instance.build; }
+              });
+            }
             $scope.data.autoDeploy = instance.attrs.locked;
           })
           .resolve(function (err, instances, cb) {
