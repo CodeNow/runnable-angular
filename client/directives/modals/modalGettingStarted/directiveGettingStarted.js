@@ -98,9 +98,14 @@ function modalGettingStarted(
           $scope.building = true;
           // first thing to do is generate the dockerfile
           $rootScope.dataApp.data.loading = true;
-          $scope.$watch('dockerfile', function (n) {
-            if (n) {
-              $scope.state.opts.env = generateEnvs($scope.state.dependencies);
+          var unwatchDf = $scope.$watch('state.dockerfile', function (n) {
+            if (!n) { return; }
+            unwatchDf();
+            $scope.state.opts.env = generateEnvs($scope.state.dependencies);
+
+            var unwatchInstances = $scope.$watch('data.instances', function (n) {
+              if (!n) { return; }
+              unwatchInstances();
               $scope.state.opts.name =
                 getNewForkName({
                   attrs: {
@@ -110,14 +115,17 @@ function modalGettingStarted(
               $log.log('ENVS: \n' + $scope.state.opts.env);
               async.waterfall([
                 createAppCodeVersions(
-                  $scope.contextVersion,
+                  $scope.state.contextVersion,
                   $scope.state.selectedRepo,
                   $scope.state.activeBranch
                 ),
-                gsPopulateDockerfile(n, $scope.state),
+                gsPopulateDockerfile(
+                  $scope.state.dockerfile,
+                  $scope.state
+                ),
                 createNewInstance(
                   $scope.data.activeAccount,
-                  $scope.build,
+                  $scope.state.build,
                   $scope.state.opts,
                   $scope.data.instances
                 ),
@@ -140,8 +148,8 @@ function modalGettingStarted(
                     $rootScope.dataApp.data.loading = false;
                     return errs.handler(err);
                   }
-                  $scope.build = build;
-                  $scope.contextVersion = version;
+                  $scope.state.build = build;
+                  $scope.state.contextVersion = version;
                   createDockerfileFromSource(
                     version,
                     $scope.state.stack.key,
@@ -155,7 +163,7 @@ function modalGettingStarted(
                   );
                 });
               });
-            }
+            });
           });
         }
       };
@@ -181,23 +189,35 @@ function modalGettingStarted(
 
       $scope.$watch('state.stack', function (n) {
         if (n) {
-          createDockerfileFromSource($scope.contextVersion, n.key, function (err, dockerfile) {
-            if (err) {
-              return errs.handler(err);
+          var unwatchCv = $scope.$watch('state.contextVersion', function (contextVersion) {
+            if (contextVersion) {
+              unwatchCv();
+              createDockerfileFromSource(contextVersion, n.key, function (err, dockerfile) {
+                if (err) {
+                  return errs.handler(err);
+                }
+                $scope.state.dockerfile = dockerfile;
+              });
             }
-            $scope.dockerfile = dockerfile;
           });
         }
       });
 
-      $scope.$watch('data.activeAccount', function (user) {
+      $scope.$watch('data.activeAccount', function (user, oldUser) {
         if (user) {
+          if (user !== oldUser) {
+            $scope.state = {
+              dependencies: [],
+              opts: {},
+              step: 1,
+              furthestStep: 1
+            };
+            $scope.data.instances = null;
+          }
           createNewBuild(user, function (err, build, version) {
-            $scope.build = build;
-            $scope.contextVersion = version;
+            $scope.state.build = build;
+            $scope.state.contextVersion = version;
           });
-          $scope.state.stack = null;
-          $scope.state.dependencies = [];
           fetchInstances(user.oauthName(), null, function (err, instances) {
             $scope.data.instances = instances;
           });
@@ -218,11 +238,10 @@ function modalGettingStarted(
 
       function createAppCodeVersions(version, repo, branch) {
         return function (cb) {
-          var latestCommit = branch.commits.models[0];
           version.appCodeVersions.create({
             repo: repo.attrs.full_name,
             branch: branch.attrs.name,
-            commit: latestCommit.attrs.sha
+            commit: branch.attrs.commit.sha
           }, function (err) {
             cb(err);
           });
@@ -236,6 +255,7 @@ function modalGettingStarted(
         }
 
         return function (cb) {
+          if (!items.length) { cb(); }
           var parallelFunctions = items.map(function (item) {
             return function (cb) {
               if (item.opts) {
