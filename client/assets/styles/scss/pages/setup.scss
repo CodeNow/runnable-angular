@@ -12,6 +12,11 @@
     position: relative;
     top: 11px;
     width: 300px;
+
+    &.invalid-require {
+      font-size: 14px;
+      line-height: 1.2;
+    }
   }
 }
 
