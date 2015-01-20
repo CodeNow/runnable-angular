@@ -102,10 +102,10 @@ function ControllerApp(
           $window.heap.identify({
             // unique heap user identifier
             // we use githubId with prefix
-            handler: 'github:' + thisUser.oauthId(),
+            handle: 'github-' + thisUser.oauthId(),
             name:  thisUser.oauthName(),
             email: thisUser.attrs.email,
-            runnable_id: thisUser.id(),
+            runnableId: thisUser.id(),
             orgs:  $window.JSON.stringify(results)
           });
         }
