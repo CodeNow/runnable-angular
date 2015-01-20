@@ -7,6 +7,17 @@
     p.modal-description Your box, #{''}
       strong {{ data.instance.attrs.name }}
       | , will be permanently removed.
+      p(
+        ng-show = "data.instance.dependencies.models.length"
+      ) Also delete
+        div(
+          ng-repeat = "instance in data.instance.dependencies.models"
+        )
+          input(
+            type = "checkbox"
+            ng-model = "instance.state.delete"
+          )
+          | {{ instance.attrs.name }}
   footer.modal-footer
     button.btn.orange(
       ng-click = "actions.deleteInstance(); \
