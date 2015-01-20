@@ -143,7 +143,7 @@ function modalGettingStarted(
               ], function (err) {
                 $scope.building = false;
                 errs.handler(err);
-                resetModalData($scope.data.activeAccount, function (err, build, version) {
+                resetModalData($scope.data.activeAccount, true, function (err, build, version) {
                   if (err) {
                     $rootScope.dataApp.data.loading = false;
                     return errs.handler(err);
@@ -212,21 +212,26 @@ function modalGettingStarted(
             };
             $scope.data.instances = null;
           }
-          resetModalData(user, angular.noop);
+          resetModalData(user);
         }
       });
 
-      function resetModalData(user, buildingCb) {
+      function resetModalData(user, forceInstanceFetch, buildingCb) {
         $scope.state.build = null;
         $scope.state.contextVersion = null;
         $scope.state.dockerfile = null;
+        $scope.data.instances = null;
         createNewBuild(user, function (err, build, version) {
           $scope.state.build = build;
           $scope.state.contextVersion = version;
-          buildingCb(err, build, version);
+          if (buildingCb) {
+            buildingCb(err, build, version);
+          }
         });
-        fetchInstances(user.oauthName(), true, function (err, instances) {
-          $scope.data.instances = instances;
+        fetchInstances(user.oauthName(), true, function (err, instances, username, cached) {
+          if (!forceInstanceFetch || cached) {
+            $scope.data.instances = instances;
+          }
         });
       }
 

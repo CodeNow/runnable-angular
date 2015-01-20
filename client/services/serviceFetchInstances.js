@@ -25,7 +25,7 @@ function fetchInstances(
         .cacheFetch(function (instances, cached, cb) {
           if (currentAccountName === activeAccountName) {
             currentInstanceList = instances;
-            cb(err, instances, activeAccountName);
+            cb(err, instances, activeAccountName, cached);
           }
         })
         .resolve(errs.handler)
