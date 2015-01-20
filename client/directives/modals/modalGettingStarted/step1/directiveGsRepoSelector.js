@@ -6,16 +6,11 @@ require('app')
  * @ngInject
  */
 function gsRepoSelector(
-  async,
-  keypather,
   errs,
-  fetchGSDepInstances,
+  fetchRepoList,
   fetchStackAnalysis,
-  fetchUser,
   hasKeypaths,
-  $stateParams,
-  $timeout,
-  QueryAssist
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -27,6 +22,7 @@ function gsRepoSelector(
     },
     link: function ($scope, elem, attrs) {
       function fetchStackData(repo, cb) {
+        console.log('HUJGJIYGKLI');
         fetchStackAnalysis(repo, function (err, data) {
           if (err) { return cb(err); }
           if (!data.languageFramework) {
@@ -38,8 +34,9 @@ function gsRepoSelector(
           })) || $scope.data.stacks[0];
           setStackSelectedVersion($scope.state.stack, data.version);
           if (data.serviceDependencies && data.serviceDependencies.length) {
-            $scope.$watch('data.allDependencies', function (allDeps) {
+            var unwatch = $scope.$watch('data.allDependencies', function (allDeps) {
               if (allDeps) {
+                unwatch();
                 var includedDeps = data.serviceDependencies.map(function (dep) {
                   return allDeps.models.find(hasKeypaths({'attrs.name': dep})) || false;
                 });
@@ -48,10 +45,12 @@ function gsRepoSelector(
                     $scope.actions.addDependency(dep);
                   }
                 });
+                cb();
               }
             });
+          } else {
+            cb();
           }
-          cb();
         });
       }
       $scope.selectRepo = function (repo) {
@@ -64,7 +63,6 @@ function gsRepoSelector(
           $scope.state.activeBranch =
               repo.branches.models.find(hasKeypaths({'attrs.name': 'master'}));
           if (!$scope.state.activeBranch) { return errs.handler(new Error('No branches found')); }
-          $scope.state.activeBranch.commits.fetch(angular.noop);
         });
         fetchStackData(repo.attrs.full_name, function (err) {
           if (err) { $scope.state.repoSelected = false; }
@@ -73,69 +71,16 @@ function gsRepoSelector(
           errs.handler(err);
         });
       };
-      function getOwnerRepoQuery(user, userName, cb) {
-        if (userName === user.attrs.accounts.github.username) {
-          // does $stateParam.username match this user's username
-          return new QueryAssist(user, cb).wrapFunc('fetchGithubRepos');
-        } else {
-          return new QueryAssist(user.newGithubOrg(userName), cb).wrapFunc('fetchRepos');
-        }
-      }
-      function fetchAllOwnerRepos(user, cb) {
-        var pageFetchState = 1;
-        var activeAccountName = $scope.data.activeAccount.oauthName();
-        function fetchPage(page) {
-          var userOrOrg = getOwnerRepoQuery(
-            user,
-            activeAccountName,
-            cb
-          );
-          userOrOrg
-            .query({
-              page: page,
-              sort: 'updated'
-            })
-            .cacheFetch(function (githubRepos, cached, cb) {
-              if (activeAccountName !== $scope.data.activeAccount.oauthName()) {
-                return;
-              }
-              /**
-               * Double concat to models arr
-               * if logic run twice (cached & non-cached)
-               */
-              if (page < pageFetchState) { return cb(); }
-              pageFetchState++;
-              if (!$scope.githubRepos) {
-                $scope.githubRepos = githubRepos.models;
-              } else {
-                $scope.githubRepos = $scope.githubRepos.concat(githubRepos.models);
-              }
-              // recursive until result set returns fewer than
-              // 100 repos, indicating last paginated result
-              if (githubRepos.models.length < 100) {
-                $scope.loading = false;
-                cb();
-              } else {
-                fetchPage(page + 1);
-              }
-            })
-            .resolve(function (err, githubRepos, cb) {
-              cb();
-            })
-            .go();
-        }
-        fetchPage(1);
-      }
 
       $scope.$watch('data.activeAccount', function (n) {
         if (n) {
           $scope.loading = true;
           $scope.githubRepos = null;
-          async.waterfall([
-            fetchUser,
-            fetchAllOwnerRepos
-          ], function (err) {
-            errs.handler(err);
+          fetchRepoList(n, function (err, repoList, owner) {
+            if ($scope.data.activeAccount !== owner) { return; }
+            $scope.loading = false;
+            if (err) { return errs.handler(err); }
+            $scope.githubRepos = repoList;
             $timeout(angular.noop);
           });
         }
