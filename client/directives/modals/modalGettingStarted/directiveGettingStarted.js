@@ -143,13 +143,11 @@ function modalGettingStarted(
               ], function (err) {
                 $scope.building = false;
                 errs.handler(err);
-                createNewBuild($scope.data.activeAccount, function (err, build, version) {
+                resetModalData($scope.data.activeAccount, function (err, build, version) {
                   if (err) {
                     $rootScope.dataApp.data.loading = false;
                     return errs.handler(err);
                   }
-                  $scope.state.build = build;
-                  $scope.state.contextVersion = version;
                   createDockerfileFromSource(
                     version,
                     $scope.state.stack.key,
@@ -158,7 +156,7 @@ function modalGettingStarted(
                       if (err) {
                         return errs.handler(err);
                       }
-                      $scope.dockerfile = dockerfile;
+                      $scope.state.dockerfile = dockerfile;
                     }
                   );
                 });
@@ -214,15 +212,23 @@ function modalGettingStarted(
             };
             $scope.data.instances = null;
           }
-          createNewBuild(user, function (err, build, version) {
-            $scope.state.build = build;
-            $scope.state.contextVersion = version;
-          });
-          fetchInstances(user.oauthName(), null, function (err, instances) {
-            $scope.data.instances = instances;
-          });
+          resetModalData(user, angular.noop);
         }
       });
+
+      function resetModalData(user, buildingCb) {
+        $scope.state.build = null;
+        $scope.state.contextVersion = null;
+        $scope.state.dockerfile = null;
+        createNewBuild(user, function (err, build, version) {
+          $scope.state.build = build;
+          $scope.state.contextVersion = version;
+          buildingCb(err, build, version);
+        });
+        fetchInstances(user.oauthName(), true, function (err, instances) {
+          $scope.data.instances = instances;
+        });
+      }
 
       function generateEnvs(depModels) {
         var envList = [];
