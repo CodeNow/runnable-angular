@@ -142,7 +142,6 @@
   background: linear-gradient($purple, $purple-dark);
   color: $white;
   height: 600px;
-  overflow: hidden;
   padding-top: 60px;
   position: relative;
 
@@ -154,12 +153,47 @@
     margin-top: 6px;
   }
 
+  // restyle instance list
   .list {
-    background: $gray-lightest;
+    background: $white;
     border: 1px solid rgba($black,.1);
-    border-radius: 3px;
-    display: table;
+    border-radius: 6px;
+    bottom: -30px;
+    box-shadow: 0 0 30px rgba($black,.12); // same as popovers
+    height: 164px;
+    left: 0;
     margin: 0 auto;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    transition: height .2s ease-in;
+    width: 300px;
+
+    &.in {
+      height: 218px;
+    }
+  }
+
+  .list-item {
+    color: $gray-dark;
+    cursor: default;
+    height: 54px;
+    line-height: 54px;
+    margin: 0;
+    padding-left: 15px;
+    width: 300px;
+
+    &:hover,
+    &:active {
+      background: transparent;
+    }
+  }
+
+  .icons-status {
+    height: 12px;
+    right: 18px;
+    top: 21px;
+    width: 12px;
   }
 }
 

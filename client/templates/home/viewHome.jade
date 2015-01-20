@@ -14,16 +14,17 @@ main.home
         a.link.link-text Sign In
 
     h1.h1.header-thin Stop configuring servers
-    h3.h3.header-thin Runnable is automated DevOps that power dev, QA, staging, and production servers
+    h3.h3.header-thin Runnable is automated DevOps that power dev,
+      br
+      | QA, staging, and production servers
     ul.list.box-group
-      li.list-item.box-group-item.white
-        a.box-item-name development
+      li.list-item.box-group-item.white.running development-server
         span.icons-status
-      li.list-item.box-group-item.white
-        a.box-item-name QA-testing
+      li.list-item.box-group-item.white.running QA-server
         span.icons-status
-      li.list-item.box-group-item.white
-        a.box-item-name staging
+      li.list-item.box-group-item.white.running staging-server
+        span.icons-status
+      li.list-item.box-group-item.white.building production-server
         span.icons-status
 
   //- feature
@@ -31,12 +32,11 @@ main.home
 
     //- new server configuration
     section.feature-section
-
       .row
       h2.h2.header-thin
       p.p
 
-    hr.hr.hr-single
+    .hr.hr-single
 
     //- notifications
     section.feature-section
@@ -47,7 +47,7 @@ main.home
         .row
         .row
 
-    hr.hr.hr-single
+    .hr.hr-single
 
     //- speed & resources
     section.feature-section
