@@ -2,15 +2,36 @@ main.home
 
   //- hero
   section.home-hero
-    h1.h1.header-thin
-    h3.h3.header-thin
+
+    //- header
+    header.home-header
+      a.logo
+        svg
+          use(
+            xlink:href = "#runnable-logo"
+          )
+      nav.home-nav
+        a.link.link-text Sign In
+
+    h1.h1.header-thin Stop configuring servers
+    h3.h3.header-thin Runnable is automated DevOps that power dev, QA, staging, and production servers
+    ul.list.box-group
+      li.list-item.box-group-item.white
+        a.box-item-name development
+        span.icons-status
+      li.list-item.box-group-item.white
+        a.box-item-name QA-testing
+        span.icons-status
+      li.list-item.box-group-item.white
+        a.box-item-name staging
+        span.icons-status
 
   //- feature
   section.home-feature
 
     //- new server configuration
     section.feature-section
-      .row
+
       .row
       h2.h2.header-thin
       p.p
