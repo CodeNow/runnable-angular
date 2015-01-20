@@ -8,6 +8,8 @@ function boxSelection (
   errs,
   fetchUser,
   getNewForkName,
+  $window,
+  $location,
   $scope,
   $state,
   $stateParams,
@@ -18,6 +20,15 @@ function boxSelection (
   $scope.message = $stateParams.message;
 
   var fullRepoName = $scope.fullRepoName = $stateParams.userName + '/' + $stateParams.repo;
+
+  // Trigger Heap event
+  if ($window.heap && $location.search('chat')) {
+    $window.heap.track('box-selection-chat-click', {
+      type: $location.search('chat')
+    });
+    // Remove query so copypasta doesn't interfere
+    $location.search('chat', null);
+  }
 
   // Get list of instances for current user/org that have the repo
   function fetchRepoInstances (cb) {
