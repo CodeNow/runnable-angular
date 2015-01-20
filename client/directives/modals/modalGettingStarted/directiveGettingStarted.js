@@ -12,13 +12,13 @@ function modalGettingStarted(
   $timeout,
   async,
   createDockerfileFromSource,
+  callbackCount,
   errs,
   getNewForkName,
   fetchGSDepInstances,
   gsPopulateDockerfile,
   createNewInstance,
   $state,
-  $stateParams,
   fetchStackInfo,
   fetchInstances,
   keypather,
@@ -143,13 +143,13 @@ function modalGettingStarted(
               ], function (err) {
                 $scope.building = false;
                 errs.handler(err);
-                resetModalData($scope.data.activeAccount, true, function (err, build, version) {
+                resetModalData($scope.data.activeAccount, true, function (err) {
                   if (err) {
                     $rootScope.dataApp.data.loading = false;
                     return errs.handler(err);
                   }
                   createDockerfileFromSource(
-                    version,
+                    $scope.state.contextVersion,
                     $scope.state.stack.key,
                     function (err, dockerfile) {
                       $rootScope.dataApp.data.loading = false;
@@ -216,7 +216,8 @@ function modalGettingStarted(
         }
       });
 
-      function resetModalData(user, forceInstanceFetch, buildingCb) {
+      function resetModalData(user, forceInstanceFetch, cb) {
+        var counter = (cb) ? callbackCount(2, cb) : null;
         $scope.state.build = null;
         $scope.state.contextVersion = null;
         $scope.state.dockerfile = null;
@@ -224,13 +225,16 @@ function modalGettingStarted(
         createNewBuild(user, function (err, build, version) {
           $scope.state.build = build;
           $scope.state.contextVersion = version;
-          if (buildingCb) {
-            buildingCb(err, build, version);
+          if (counter) {
+            counter.next(err);
           }
         });
-        fetchInstances(user.oauthName(), true, function (err, instances, username, cached) {
+        fetchInstances(user.oauthName(), false, function (err, instances, username, cached) {
           if (!forceInstanceFetch || cached) {
             $scope.data.instances = instances;
+            if (counter) {
+              counter.next(err);
+            }
           }
         });
       }
