@@ -34,7 +34,8 @@ function instanceEditPrimaryActions(
           if (!n) { return; }
           unwatch();
           var buildObj = {
-            message: 'Manual build'
+            message: 'Manual build',
+            noCache: noCache
           };
           async.series([
             fetchNewBuild,
