@@ -1,3 +1,5 @@
+'use strict';
+
 var util = require('./helpers/util');
 var sidebar = require('./helpers/sidebar');
 

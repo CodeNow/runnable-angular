@@ -3,11 +3,12 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  height: calc(100% - 108px);
   position: relative;
   z-index: $z-sidebar-content;
 
   .sub-header {
-    background: rgba($gray-lighter,.9);
+    background: rgba($gray-lightest,.9);
     flex: 0 0 auto;
     transition: background .15s ease-in, box-shadow .15s ease-in;
     z-index: $z-sidebar-sub-header;
@@ -37,11 +38,11 @@
   line-height: 45px;
   margin: 0 auto 6px;
   overflow: hidden;
-  padding: 0 23px 0 9px;
+  padding: 0;
   position: relative;
   text-align: left;
   text-overflow: ellipsis;
-  transition: all .15s ease-in;
+  transition: all .2s ease-in;
   white-space: nowrap;
   width: 227px; // sidebar width minus status
 
@@ -84,6 +85,7 @@
 .box-item-name {
   color: $gray;
   display: block;
+  padding: 0 23px 0 9px;
   text-decoration: none;
   transition: opacity .2s ease-in;
 }
@@ -98,7 +100,7 @@
   display: block;
   font-size: 12px;
   line-height: 21px;
-  margin: -1px -23px 0 -9px;
+  margin-top: -1px;
   padding: 0 0 0 9px;
   position: relative;
 
@@ -107,11 +109,10 @@
   }
 
   .icons-status.icons-status {
-    background: rgba($gray-lighter,.45);
+    background: rgba($gray-lightest,.45);
     border: 1px solid rgba($black,.15);
-    float: right;
     height: 5px;
-    position: relative;
+    position: absolute;
     right: 16px;
     top: 9px;
     width: 5px;

@@ -1,14 +1,16 @@
+'use strict';
+
 var express     = require('express');
 var path        = require('path');
 var compression = require('compression');
 var config      = require('server/config/' + (process.env.NODE_ENV || 'development'));
 var app         = require('server/app');
-var package     = require('package');
+var version     = require('../package').version;
 
 app.set('port', process.env.PORT || 3000);
 app.set('config', config);
 app.set('view engine', 'jade');
-app.locals.version = package.version;
+app.locals.version = version;
 app.locals.env = config.env;
 app.locals.commitHash = require('../client/config/json/commit.json').commitHash;
 app.locals.commitTime = require('../client/config/json/commit.json').commitTime;

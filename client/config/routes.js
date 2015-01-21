@@ -1,5 +1,6 @@
-module.exports = [
+'use strict';
 
+module.exports = [
   {
     state: 'home',
     abstract: false,
@@ -8,16 +9,103 @@ module.exports = [
     controller: 'ControllerHome',
     data: {
       bodyClass: {
-        'landing': true
+        'vertical': true
       },
+      anon: true
     }
-  },
-
-  {
+  }, {
+    state: 'features',
+    abstract: false,
+    url: '^/features',
+    templateUrl: 'viewFeatures',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  }, {
+    state: 'pricing',
+    abstract: false,
+    url: '^/pricing',
+    templateUrl: 'viewPricing',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  }, {
+    state: 'boxSelection',
+    abstract: false,
+    url: '^/:userName/boxSelection/:repo/:branch/:message/:commit',
+    templateUrl: 'viewBoxSelection',
+    controller: 'ControllerBoxSelection',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  // }, {
+  //   state: 'edemo',
+  //   abstract: false,
+  //   url: '^/demo',
+  //   templateUrl: 'viewDemo'
+  // }, {
+  //   state: 'edemo2',
+  //   abstract: false,
+  //   url: '^/demo2',
+  //   templateUrl: 'viewDemo2'
+  // }, {
+  //   state: 'edemo3',
+  //   abstract: false,
+  //   url: '^/demo3',
+  //   templateUrl: 'viewDemo3'
+  // }, {
+  //   state: 'edemo4',
+  //   abstract: false,
+  //   url: '^/demo4',
+  //   templateUrl: 'viewDemo4'
+  // }, {
+  //   state: 'demo',
+  //   abstract: true,
+  //   templateUrl: 'viewDemoLayout',
+  //   controller: 'ControllerDemoLayout'
+  // }, {
+  //   state: 'demo.instance',
+  //   abstract: false,
+  //   url: '^/demo/:userName/:instanceName',
+  //   templateUrl: 'viewInstance',
+  //   controller: 'ControllerInstance'
+  // }, {
+  //   state: 'demo.instanceEdit',
+  //   abstract: false,
+  //   url: '^/demo/:userName/:instanceName/edit/:buildId',
+  //   templateUrl: 'viewInstanceEdit',
+  //   controller: 'ControllerInstanceEdit',
+  //   data: {
+  //     bodyClass: {
+  //       'guide-backdrop': true
+  //     }
+  //   }
+  }, {
+    state: 'base',
+    abstract: true,
+    url: '^/:userName/',
+    templateUrl: 'viewInstanceLayout',
+    controller: 'ControllerApp'
+  }, {
     state: 'instance',
     abstract: true,
     templateUrl: 'viewInstanceLayout',
     controller: 'ControllerInstanceLayout'
+  }, {
+    state: 'instance.home',
+    abstract: false,
+    url: '^/:userName',
+    templateUrl: 'viewInstanceHome',
+    controller: 'ControllerInstanceHome'
   }, {
     state: 'instance.new',
     abstract: false,

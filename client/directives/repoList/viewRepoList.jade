@@ -1,44 +1,53 @@
-section.row.repo-list
-  h2.sub-header Repositories
+h2.sub-header Repositories
 
-    //- update / build button
-    a.btn.btn-xs.orange.sub-header-action(
-      ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
-      ng-if = "showUpdateButton()"
-      tooltip = "Update your box to see your changes"
-      tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-    ) Update
-      svg.iconnables.icons-update
-        use(
-          xlink:href = "#icons-update"
-        )
-
-    add-repo-popover(
-      show = "data.show"
-    )
-
-  //- show .guide if instance.setup && no repositories have been added yet
-  .guide.blue(
-    ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
-    ng-click = "data.show = !data.show; \
-                $event.stopPropagation();"
-  )
-    svg.iconnables.icons-git
+  //- update / build button
+  a.btn.btn-xs.orange.sub-header-action(
+    ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
+    ng-if = "showUpdateButton()"
+    tooltip = "Update your box to see your changes"
+    tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
+  ) Update
+    svg.iconnables.icons-update
       use(
-        xlink:href = "#icons-git"
+        xlink:href = "#icons-update"
       )
-    p.guide-text Add a repository to your box.
 
-  ul.repository-group
-    //-
-      - display selected commit
-        - pending state if selected commit !== actual saved commit
-      - popover for selecting new commit
-      - repo-options (delete, fast-forward commit)
-      - fast-forward
-    edit-repo-commit(
-      app-code-version = "acv"
-      ng-init = "unsavedAcv = newUnsavedAcv(acv);"
-      ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
-      unsaved-app-code-version = "unsavedAcv"
+  add-repo-popover(
+    show = "data.show"
+  )
+
+  show-demo-modal(
+    ng-if = "data.isDemo"
+  )
+
+//- show .guide if instance.setup && no repositories have been added yet
+.guide.guide-image.guide-pointer(
+  ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
+  ng-click = "data.show = !data.show; \
+    $event.stopPropagation();"
+)
+  svg.iconnables.icons-git
+    use(
+      xlink:href = "#icons-git"
     )
+  p.guide-text Add a repository to your box.
+ul.list.repository-group
+  li.list-item.repository-group-item(
+    edit-repo-commit
+    app-code-version = "acv"
+    ng-init = "unsavedAcv = newUnsavedAcv(acv);"
+    ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
+    unsaved-app-code-version = "unsavedAcv"
+  )
+  li.list-details(
+    ng-show = "build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
+  )
+    label.label-checkbox.btn.btn-sm(
+      tooltip = "Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories."
+      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":4,\"top\":30}"
+    )
+      input.input-checkbox(
+        ng-model = "data.autoDeploy"
+        type = "checkbox"
+      )
+      | Disable auto-deploy

@@ -26,12 +26,12 @@
 @import "components/spinner";
 @import "components/buttons";
 @import "components/select";
-@import "components/menu";
 @import "components/tooltips";
 @import "components/alerts";
 @import "components/wells";
 @import "components/guides";
 @import "components/embeds";
+@import "components/lists";
 
 // forms
 @import "forms/forms";
@@ -44,7 +44,6 @@
 @import "sidebar/sidebar-accounts";
 @import "sidebar/sidebar-boxes";
 @import "sidebar/sidebar-footer";
-@import "sidebar/sidebar-validation";
 
 // box
 @import "box/box-header";
@@ -62,25 +61,40 @@
 
 // modals
 @import "modals/modals";
+@import "modals/modals-navbar";
+@import "modals/modals-aside";
+@import "modals/modals-wizard";
+
+// modal specific
 @import "modals/modals-environment";
+@import "modals/modals-error";
 @import "modals/modals-fork";
+@import "modals/modals-getting-started";
+@import "modals/modals-integrations";
 @import "modals/modals-rename";
-@import "modals/modals-sidebar";
+@import "modals/modals-sign-in";
 
 // popovers
 @import "popover/popover";
-@import "popover/popover-guides";
+
+// popover specific
+@import "popover/popover-account-menu";
 @import "popover/popover-actions";
+@import "popover/popover-add-dependencies";
 @import "popover/popover-add-repo";
 @import "popover/popover-add-tab";
-@import "popover/popover-commit-select";
 @import "popover/popover-environment";
-@import "popover/popover-repo-actions";
+@import "popover/popover-guides";
 @import "popover/popover-primary-options";
+@import "popover/popover-repository-toggle";
+@import "popover/popover-templates";
 
 // pages
+@import "pages/box-selection";
 @import "pages/demo";
-@import "pages/landing";
+@import "pages/home";
+@import "pages/features";
+@import "pages/pricing";
 @import "pages/setup";
 
 // shame

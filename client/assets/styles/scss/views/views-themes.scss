@@ -6,9 +6,8 @@
   box-shadow: 0 1px 10px rgba($black,.1) !important;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: .3px !important;
-  margin-left: -750px;
-  margin-top: -90px;
   padding: 6px 9px !important;
+  transform: translate3d(-810px,-90px,0); // fix weird ace offset
 }
 
 .ace_gutter,
@@ -31,10 +30,10 @@
   position: relative;
 
   &.readonly {
-    background-color: $gray-light;
+    background-color: $gray-lighter;
 
     .ace_gutter {
-      background-color: $gray-light;
+      background-color: $gray-lighter;
     }
 
     .ace_active-line {
@@ -82,7 +81,7 @@
 
   &.ace_multiselect .ace_selection.ace_start {
     border-radius: 2px;
-    box-shadow: 0 0 3px 0 $gray-lighter;
+    box-shadow: 0 0 3px 0 $gray-lightest;
   }
 
   .ace_marker-layer .ace_step {

@@ -19,6 +19,7 @@
         span.input-label Name
         span.input-description.text-overflow {{ items[0].opts.name }}.{{ data.instance.attrs.owner.username.toLowerCase() }}.runnable.io
         input.input(
+          autocomplete = "off"
           autofocus
           instance = "data.instance"
           name = "forkName"
@@ -29,11 +30,11 @@
           ng-model = "items[0].opts.name"
           placeholder = "My-Box"
           validate-name = "data.instances"
-          validate-name-pattern
-          autocomplete = "off"
           validate-name-current-instance-valid = "false"
+          validate-name-pattern
         )
-        environment-button(
+        .btn-popover-wrapper(
+          environment-button
           item = "items[0]"
           ng-if = "items[0].opts.env"
         )
@@ -70,8 +71,8 @@
         green: data.forkForm.$valid, \
         orange: data.forkForm.$invalid \
       }"
-      ng-disabled = "data.forkForm.$invalid"
       ng-click = "actions.forkInstance(items); defaultActions.cancel();"
+      ng-disabled = "data.forkForm.$invalid"
     ) Fork Box
     button.btn.white(
       ng-click = "data.forkForm.$setPristine(); \

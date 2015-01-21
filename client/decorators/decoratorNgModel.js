@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .config(['$provide', function ($provide) {
     $provide.decorator('ngModelDirective', ['$delegate', function ($delegate) {

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('dockerValidation', dockerValidation);
 /**
@@ -11,7 +13,6 @@ function dockerValidation(
   return {
     restrict: 'E',
     templateUrl: 'viewDockerValidation',
-    replace: true,
     scope: {
       openItems: '='
     },

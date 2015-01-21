@@ -16,190 +16,127 @@
   }
 }
 
-// ul.repository-group
-// ul.url-group
-.repository-group,
-.url-group {
-  margin: -45px 0 0;
-  // overflow-x: hidden;
-  // overflow-y: auto;
-  padding: 51px 0 0;
-}
-
 // li.repository-group-item
 .repository-group-item {
-  padding: 15px 15px 15px 45px;
-  position: relative;
+  cursor: pointer;
+  margin: -1px 0;
 
-  .icons-git {
-    color: $gray-light;
-    left: 15px;
+  &:hover,
+  &:active,
+  &.active {
+    background: rgba($blue,.1);
+  }
+
+  // border
+  + .repository-group-item::after {
+    background: rgba($black,.1);
+    content: '';
+    display: block;
+    height: 1px;
+    margin: 0 15px;
     position: absolute;
+    top: 0;
+    width: calc(100% - 30px);
+  }
+
+  // anchor image
+  > .iconnables {
+    color: $gray-lighter;
+    float: left;
+    height: 54px;
+    padding: 6px;
+    top: 15px;
+    width: 54px;
+  }
+
+  // detail image (branch or commit)
+  .icons-branch,
+  .icons-commit {
+    color: $gray-lighter;
+    height: 18px;
+    left: 0;
+    margin: 0 3px 0 -3px;
+    position: absolute;
+    top: 0;
+    width: 18px;
+  }
+
+  // repo settings
+  .btn-repository-settings {
+    color: $gray-light;
+    position: absolute;
+    right: 6px;
+    top: 24px;
+
+    .iconnables {
+      width: 18px;
+    }
   }
 }
 
 // h3.repository-title
 .repository-title {
-  font-size: 16px;
-  line-height: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  + .repository-update,
-  + .repository-actions {
-    background: $white;
-    box-shadow: -9px 0 9px rgba($white,.9);
-    font-size: 12px;
-    margin-right: -6px;
-    position: absolute;
-    right: 15px;
-    top: 11px;
-
-    &:hover {
-      background: #f2f2f2; // rgba($black,.1)
-    }
-
-    &.active {
-      background: #f2f2f2; // rgba($black,.1)
-    }
-  }
-}
-
-// a.btn.btn-sm.white.sub-header-action.btn-add-repo
-.btn-add-repo.active .icons-add {
-  transform: rotate3d(0,0,1,135deg);
-}
-
-.repository-update .iconnables {
-  height: 13px;
-  top: 2px;
-  width: 13px;
-}
-
-.repository-actions .iconnables {
-  height: 18px;
-  top: 2px;
-  width: 18px;
-}
-
-// .commit
-.commit {
-  border: 1px solid transparent;
-  border-radius: 3px;
   color: $gray;
-  cursor: pointer;
-  font-size: 13px;
-  margin: 3px -6px 0;
-  padding: 0 6px 3px;
-  position: relative;
-  transition: background .15s ease-in, border-color .15s ease-in;
-
-  &:hover {
-    background: rgba($blue,.1);
-    border-color: rgba($blue,.2);
-  }
-
-  &:active,
-  &.active {
-    background: rgba($blue,.1);
-    border-color: rgba($blue,.4);
-    color: $blue;
-
-    .commit-message,
-    .icons-commit,
-    .commit-time {
-      color: $blue;
-    }
-  }
-
-  &.pending {
-    @extend .orange;
-
-    &:hover {
-      background: rgba($orange,.1);
-    }
-
-    &:active,
-    &.active {
-      color: $orange-dark;
-    }
-
-    .commit-message {
-      color: $orange-dark;
-    }
-
-    .icons-commit,
-    .commit-time {
-      color: $orange;
-    }
-  }
-
-  .icons-commit {
-    color: $gray-light;
-    height: 18px;
-    position: absolute;
-    right: 6px;
-    top: 3px;
-    width: 18px;
-  }
-}
-
-// .commit line 1: .commit-message
-.commit-message {
-  color: $gray-dark;
-  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.5;
   overflow: hidden;
-  padding: 2px 18px 2px 0;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-//.commmit line 2: span.commit-author, time.copmmit-time
-.commit-author,
-.commit-time {
+// .repository-group-text
+.repository-group-text {
+  padding: 24px 15px 24px 54px;
+}
+
+// p.repository-description
+// small.repository-detail
+.repository-description,
+.repository-detail {
+  color: $gray;
   font-size: 12px;
-  margin-top: 2px;
-}
-
-.commit-time {
-  color: $gray-light;
-  float: right;
-}
-
-// li.url-group-item
-.url-group-item {
-  margin: 0 -6px 6px; // offset input padding
-  padding: 0 15px;
+  height: 18px;
+  line-height: 18px;
   position: relative;
+}
 
-  // a.url-link
-  .url-link {
-    background: $gray-lighter;
-    box-shadow: -6px 0 6px rgba($gray-lighter,.9);
-    color: $gray-light;
-    height: 43px;
-    line-height: 43px;
-    position: absolute;
-    right: 18px;
-    top: 1px;
+.repository-description {
+  padding-left: 18px;
 
-    &:hover {
-      color: $gray;
-    }
-
-    &:active,
-    &.active {
-      color: $gray-darker;
-    }
-
-    .icons-link {
-      top: 6px;
-    }
+  + .repository-description {
+    height: auto;
+    line-height: 1.6;
+    word-break: break-word;
   }
 }
 
-// input.url
-.url {
-  padding-right: 27px;
+.repository-detail {
+  color: $gray-lighter;
+  float: right;
+  font-size: 11px;
+}
+
+// li.list-details
+.list-details {
+  border-top: 1px solid rgba($black,.1);
+  margin: 0 15px;
+  padding-top: 15px;
+
+  .small {
+    color: $gray-light;
+  }
+
+  .label-checkbox {
+    background: $gray-lightest;
+    border: 1px solid rgba($black,.1);
+    color: $gray;
+    display: inline-block;
+    margin: 9px 0;
+    padding: 0 9px;
+    text-align: left;
+  }
+
+  .input-checkbox {
+    margin: 0 9px 0 0;
+  }
 }

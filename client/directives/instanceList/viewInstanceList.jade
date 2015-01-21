@@ -1,64 +1,63 @@
-section.row.boxes
+.spinner-wrapper.spinner-md.in(
+  ng-if = "state.loadingInstances"
+  ng-include = "'spinner'"
+)
 
-  .spinner-wrapper.spinner-md.in(
-    ng-if = "showSpinner"
-    ng-include = "'spinner'"
+h2.sub-header.load
+  span.sub-header-text Servers
+  a.btn.btn-sm.white.sub-header-action(
+    modal
+    modal-actions = "actions"
+    modal-data = "data"
+    modal-template = "viewOpenModalGettingStarted"
+    modal-current-model = "currentModel"
+    modal-state-model = "stateModel"
+    tooltip = "New Server"
+    tooltip-options = "{\"class\":\"right\",\"left\":30,\"top\":6}"
   )
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
+//- *
+//- LINKED NAV LAYOUT
+//- *
 
-  h2.sub-header.load(
-    ng-show = "!loadingUsers"
+ul.box-group
+  //- .active for current active box
+  //- .active.expanded for current active box with links
+  //- .runnning for running box
+
+  //- if not .active
+  li.box-group-item.btn.white.load(
+    ng-class = "getInstanceClasses(instance)"
+    ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
+    ng-show = "data.instances.models.length && !state.loadingInstances"
+    tooltip = "{{ instance.attrs.name }}"
+    tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   )
-    span.sub-header-text Boxes
-    a.btn.btn-sm.white.sub-header-action(
-      ng-click = "stateToNew()"
-      ng-href = "/{{ activeAccount.oauthName() }}/new"
-      tooltip = "New Box"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":6,\"top\":30}"
+    a.box-item-name.text-overflow(
+      ng-click = "stateToInstance(instance)"
+      ng-href = "/{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
+      ng-model = "instance"
+    ) {{ instance.attrs.name }}
+    span.icons-status(
+      title = "{{ getInstanceAltTitle(instance) }}"
     )
-      svg.iconnables.icons-add
-        use(
-          xlink:href = "#icons-add"
-        )
+    linked-instances(
+      instance-dependencies = "instance.dependencies"
+      instances = 'data.instances'
+      ng-if = "getInstanceClasses(instance).expanded"
+      state-to-instance = 'stateToInstance'
+      type = "sidebar"
+    )
+  //- *
+  //- 0.3 linked boxes
+  //- *
+  //- if .active
+
+
 
   //- *
-  //- LINKED NAV LAYOUT
+  //- END LINKED NAV LAYOUT
   //- *
-
-  ul.box-group
-    //- .active for current active box
-    //- .active.expanded for current active box with links
-    //- .runnning for running box
-
-    //- if not .active
-    li.box-group-item.btn.white.load(
-      ng-class = "getInstanceClasses(instance)"
-      ng-repeat = "instance in instances.models | orderBy:'attrs.name'"
-      ng-show = "instances.models.length && !showSpinner"
-      tooltip = "{{ instance.attrs.name }}"
-      tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
-    )
-      a.box-item-name.text-overflow(
-        ng-click = "stateToInstance(instance)"
-        ng-href = "/{{ activeAccount.oauthName() }}/{{ instance.attrs.name }}"
-        ng-model = "instance"
-      ) {{ instance.attrs.name }}
-      span.icons-status(
-        title = "{{ getInstanceAltTitle(instance) }}"
-      )
-      linked-instances(
-        instances = 'instances'
-        instance-dependencies = "instance.dependencies"
-        ng-if = "getInstanceClasses(instance).expanded"
-        state-to-instance = 'stateToInstance'
-        type = "sidebar"
-      )
-    //- *
-    //- 0.3 linked boxes
-    //- *
-    //- if .active
-
-
-
-    //- *
-    //- END LINKED NAV LAYOUT
-    //- *

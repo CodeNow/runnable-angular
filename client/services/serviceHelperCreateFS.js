@@ -1,9 +1,12 @@
+'use strict';
+
 require('app')
   .factory('helperCreateFS', helperCreateFS);
 /**
  * @ngInject
  */
 function helperCreateFS(
+  errs,
   getNewFileFolderName,
   keypather,
   $rootScope
@@ -12,12 +15,7 @@ function helperCreateFS(
     props.name = (props.name) ? props.name : getNewFileFolderName(dir);
     var fs = dir.contents.create(props, function () {
       keypather.set(fs, 'state.renaming', true);
-      dir.contents.fetch(function (err) {
-        $rootScope.safeApply();
-        if (err) {
-          throw err;
-        }
-      });
+      dir.contents.fetch(errs.handler);
       cb.apply(this, arguments);
     });
     return fs;

@@ -1,53 +1,46 @@
-//- don't use ng-if here, use ng-show
-.active-panel(
-  ng-class = "{\
-    'loaded': (item === openItems.activeHistory.last()),\
-    'ace-runnable-dark': isDarkTheme\
-  }"
-  ng-repeat = "item in openItems.models"
-  ng-show = "item === openItems.activeHistory.last()"
+.spinner-container.spinner-backdrop.spinner-md.in(
+  ng-if = "loading"
+  ng-include = "'spinner'"
 )
 
-  .spinner-container.spinner-backdrop.spinner-md(
-    ng-class = "{in: loading}"
-    ng-include = "'spinner'"
-  )
+.logs(
+  log-build
+  ng-if = "item.state.type === 'BuildStream'"
+)
 
-  log-build(
-    ng-if = "item.state.type === 'BuildStream'"
-  )
+.logs(
+  log-box
+  ng-if = "item.state.type === 'LogView'"
+)
 
-  log-box(
-    ng-if = "item.state.type === 'LogView'"
-  )
+pre.pre(
+  ng-class = "{readonly: data.readOnly}"
+  ng-if = "item.state.type === 'File'"
+  ng-init = "wrapperFunc = actions.wrapWithItem(item)"
+  ng-model = "openItems.activeHistory.last().state.body"
+  readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
+  ui-ace = "{ \
+    onLoad: wrapperFunc, \
+    onFocus: actions.onFocus \
+  }"
+)
 
-  pre.pre(
-    ng-class = "{readonly: data.readOnly}"
-    ng-if = "item.state.type === 'File'"
-    ng-init = "wrapperFunc = actions.wrapWithItem(item)"
-    ng-model = "openItems.activeHistory.last().state.body"
-    readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
-    ui-ace = "{ \
-      onLoad: wrapperFunc, \
-      onFocus: actions.onFocus \
-    }"
+.term-container(
+  ng-if = "item.state.type === 'Terminal'"
+)
+  term.terminal(
+    item = "item"
   )
+    span.js-char-width 0
 
-  .term-container(
-    ng-if = "item.state.type === 'Terminal'"
-  )
-    term.terminal(
-      item = "item"
-    )
-      span.js-char-width 0
+.web-container(
+  web-view
+  ng-if = "item.state.type === 'WebView'"
+)
 
-  web-view(
-    ng-if = "item.state.type === 'WebView'"
-  )
-
-  button.btn.silver.editor-status(
-    disabled
-    ng-if = "(data.readOnly && item.state.type === 'File') || \
-             (item.state.type === 'EnvVars' && item.state.readOnly)"
-    type = "button"
-  ) Readonly
+button.btn.silver.editor-status(
+  disabled
+  ng-if = "(data.readOnly && item.state.type === 'File') || \
+           (item.state.type === 'EnvVars' && item.state.readOnly)"
+  type = "button"
+) Readonly

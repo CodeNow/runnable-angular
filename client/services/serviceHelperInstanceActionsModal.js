@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .factory('helperInstanceActionsModal', HelperInstanceActionsModal);
 /**
@@ -11,7 +13,9 @@ function HelperInstanceActionsModal(
   $timeout,
   async,
   keypather,
-  updateEnvName
+  errs,
+  updateEnvName,
+  $localStorage
 ) {
   /**
    * Shared actions-modal logic.
@@ -72,12 +76,14 @@ function HelperInstanceActionsModal(
         $rootScope.dataApp.data.loading = true;
         if (!opts.env) { return; }
         $scope.instance.update(opts, function (err) {
-          $rootScope.safeApply();
           if (err) { throw err; }
-          $rootScope.dataApp.data.loading = false;
           // update instances collection to update
           // viewInstanceList
-          $state.go('instance.instance', $stateParams);
+          $scope.instance.redeploy(function(err) {
+            $rootScope.dataApp.data.loading = false;
+            errs.handler(err);
+            $state.go('instance.instance', $stateParams, {reload: true});
+          });
         });
         if (cb) {
           cb();
@@ -106,7 +112,6 @@ function HelperInstanceActionsModal(
         $scope.instance.update({
           name: newName
         }, function (err) {
-          $rootScope.safeApply();
           if (err) { throw err; }
           $state.go('instance.instance', {
             userName: $stateParams.userName,
@@ -137,10 +142,9 @@ function HelperInstanceActionsModal(
       forkInstance: function (items, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
-        function fork (instance, opts, cb) {
+        function fork(instance, opts, cb) {
           instance.copy(opts, function (err) {
             if (err) { throw err; }
-            $rootScope.safeApply();
             // update instances collection to update
             // viewInstanceList
             cb();
@@ -157,6 +161,7 @@ function HelperInstanceActionsModal(
             userName: $stateParams.userName,
             instanceName: keypather.get(items[0], 'opts.name')
           });
+          $scope.$emit('INSTANCE_LIST_FETCH', $stateParams.userName);
           if (cb) {
             cb();
           }
@@ -174,21 +179,16 @@ function HelperInstanceActionsModal(
       deleteInstance: function () {
         var deletedInstanceName = data.instance.attrs.name;
         data.instance.destroy(function (err) {
-          $rootScope.safeApply();
+          keypather.set(
+            $localStorage,
+            'lastInstancePerUser.' + $stateParams.userName,
+            null
+          );
           if (err) { throw err; }
-          // redirect to next instance or new
-          if (data.instances.models.length) {
-            data.instances.models = $filter('orderBy')(data.instances.models, 'attrs.name');
-            // Only change the location if we're still on the page
-            // If the user switched to a different instance in between, we shouldn't move
-            if ($stateParams.instanceName === deletedInstanceName) {
-              $state.go('instance.instance', {
-                userName: $stateParams.userName,
-                instanceName: data.instances.models[0].attrs.name
-              });
-            }
-          } else {
-            $state.go('instance.new', {
+          // Only change the location if we're still on the page
+          // If the user switched to a different instance in between, we shouldn't move
+          if ($stateParams.instanceName === deletedInstanceName) {
+            $state.go('instance.home', {
               userName: $stateParams.userName
             });
           }

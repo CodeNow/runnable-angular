@@ -1,0 +1,68 @@
+.modal-backdrop(
+  ng-class = "{in: in}"
+)
+  //-
+  //- Triggered via edit:
+  //-
+  .modal-dialog.modal-sign-in(
+    ng-click = "$event.stopPropagation()"
+    ng-if = "data.triggeredBy === 'edit'"
+  )
+    header.modal-header
+      h1.modal-heading Sign In to Edit
+    section.modal-body
+      p You have to sign in to edit this box.
+    footer.modal-footer
+      a.btn.green(
+        ng-href = "{{ data.loginURL }}"
+      )
+        svg.iconnables.icons-git
+          use(
+            xlink:href = "#icons-git"
+          )
+        | Sign In with Github
+      a.link.link-text.link-secondary(
+        ng-click = "defaultActions.cancel()"
+      ) I&rsquo;m not ready yet.
+  //-
+  //- Triggered via add repos:
+  //-
+  .modal-dialog.modal-sign-in(
+    ng-click = "$event.stopPropagation()"
+    ng-if = "data.triggeredBy === 'addRepo'"
+  )
+    header.modal-header
+      h1.modal-heading Sign In to Add Repos
+    section.modal-body
+      p You have to sign in to Github to add your repositories to this box.
+    footer.modal-footer
+      a.btn.green
+        svg.iconnables.icons-git
+          use(
+            xlink:href = "#icons-git"
+          )
+        | Sign In with Github
+      a.link.link-text.link-secondary(
+        ng-click = "defaultActions.cancel()"
+      ) I&rsquo;m not ready yet.
+
+  //-
+  //- After signing in
+  //-
+  .modal-dialog.modal-sign-in(
+    ng-click = "$event.stopPropagation()"
+    ng-if = "false"
+  )
+    header.modal-header
+      h1.modal-heading You&rsquo;re In!
+    section.modal-body
+      p Now that you're signed in, we can help you
+        br
+      | get your own projects running.
+    footer.modal-footer
+      a.btn.green(
+        ng-click = "actions.nextPage()"
+      ) Start Building My Project
+      a.link.link-text.link-secondary(
+        ng-click = "actions.noHelp()"
+      ) I don't want any help

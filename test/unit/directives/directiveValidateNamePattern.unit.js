@@ -1,3 +1,5 @@
+'use strict';
+
 function fakeInstance (name) {
   return {
     attrs: {
@@ -39,12 +41,6 @@ describe('directiveValidateNamePattern'.bold.underline.blue, function() {
     angular.mock.module('app');
     angular.mock.inject(function($compile, $rootScope, $timeout){
       $scope = $rootScope.$new();
-
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
 
       $scope.model = {
         instanceName: ''

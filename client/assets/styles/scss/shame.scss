@@ -1,4 +1,11 @@
-// wrapper for scope
+// If anyone has to add a quick hack, they add it to shame.scss,
+// this means that they’re putting their hacks out there in
+// the open; it means that they are aware that what they’re doing
+// is hacky, it forces them to document what the problem was, how
+// the hack fixes it, and how they might fix it for real
+// given more time. —harry@csswizardry
+
+//- wrapper for scope
 .btn-popover-wrapper {
   line-height: 1;
 }
@@ -7,4 +14,11 @@
 .js-char-width {
   position: absolute; // collapsed
   visibility: hidden; // no events, not visible, no tab order
+}
+
+// webkit flicker bug:
+// https://code.google.com/p/chromium/issues/detail?id=138415
+// https://code.google.com/p/chromium/issues/detail?id=311583
+.webkit-flicker {
+  -webkit-backface-visibility: hidden;
 }

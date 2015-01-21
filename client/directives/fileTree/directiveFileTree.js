@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('fileTree', fileTree);
 /**
@@ -16,9 +18,8 @@ function fileTree(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewFileTree',
-    replace: true,
     scope: {
       openItems: '='
     },
@@ -58,7 +59,6 @@ function fileTree(
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
             $scope.build = build;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, build, cb) {
@@ -82,11 +82,9 @@ function fileTree(
             var instance = instances.models[0];
             $scope.instance = instance;
             $scope.build = instance.build;
-            $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
             cb(err);
-            $rootScope.safeApply();
           })
           .go();
       }
@@ -96,7 +94,6 @@ function fileTree(
           fetchUser(function (err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },
@@ -126,7 +123,6 @@ function fileTree(
               });
           }
         }
-        $rootScope.safeApply();
       });
 
       function initRootDirState (rootDir) {

@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $compile,
     $rootScope,
@@ -63,12 +65,6 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
       $stateParams = _$stateParams_;
       $scope = _$rootScope_.$new();
       $timeout = _$timeout_;
-
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
 
     ctx = {};

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('addRepoPopover', addRepoPopover);
 /**
@@ -17,23 +19,16 @@ function addRepoPopover(
   return {
     restrict: 'E',
     templateUrl: 'viewAddRepoPopover',
-    replace: true,
     scope: {
       show: '='
     },
     link: function ($scope, elem, attrs) {
 
       // rules for display based on state name
-      switch ($state.$current.name) {
-      case 'instance.instance':
+      if ($state.$current.name === 'instance.instance') {
         $scope.enabled = false;
-        break;
-      case 'instance.instanceEdit':
+      } else {
         $scope.enabled = true;
-        break;
-      case 'instance.setup':
-        $scope.enabled = true;
-        break;
       }
       $scope.repoListPopover = {
         data: {},
@@ -97,7 +92,6 @@ function addRepoPopover(
           // acv
           cv.appCodeVersions.create(body, function (err) {
             if (err) { throw err; }
-            $rootScope.safeApply();
           });
         }
       };
@@ -110,7 +104,6 @@ function addRepoPopover(
         keypather.set(githubRepo, 'state.selectedBranch', activeBranch);
         // reset branch state
         activeBranch.state = {};
-        $rootScope.safeApply();
         return activeBranch;
       }
 
@@ -128,14 +121,12 @@ function addRepoPopover(
             var instance = instances.models[0];
             $scope.repoListPopover.data.instance = instance;
             $scope.repoListPopover.data.build = instance.build;
-            $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
             var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
-            $rootScope.safeApply();
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
             cb(err);
           })
           .go();
@@ -150,12 +141,10 @@ function addRepoPopover(
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
             $scope.repoListPopover.data.build = build;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, build, cb) {
             if (err) { throw err; }
-            $rootScope.safeApply();
             cb();
           })
           .go();
@@ -186,6 +175,7 @@ function addRepoPopover(
       }
 
       function fetchAllOwnerRepos(cb) {
+        $scope.loading = true;
         function fetchPage(page) {
           var userOrOrg = getOwnerRepoQuery(
             $scope.repoListPopover.data.user,
@@ -211,10 +201,10 @@ function addRepoPopover(
                   noStore: true
                 });
               }
-              $rootScope.safeApply();
               // recursive until result set returns fewer than
               // 100 repos, indicating last paginated result
               if (githubRepos.models.length < 100) {
+                $scope.loading = false;
                 cb();
               } else {
                 fetchPage(page + 1);
@@ -231,7 +221,6 @@ function addRepoPopover(
             if (err) { return cb(err); }
             $scope.user = user;
             $scope.repoListPopover.data.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },
@@ -239,7 +228,6 @@ function addRepoPopover(
         fetchBuildContextVersions,
         fetchAllOwnerRepos
       ]);
-
     }
   };
 }

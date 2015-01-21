@@ -5,7 +5,6 @@ textarea {
   -webkit-appearance: none;
   border: 1px solid rgba($black,.15);
   border-radius: 3px;
-  box-shadow: inset 0 0 3px rgba($black,.15);
   color: $gray-darker;
   height: 45px;
   line-height: 45px;
@@ -18,6 +17,10 @@ textarea {
     border-color: $blue;
     box-shadow: inset 0 0 3px rgba($blue,.15);
     outline: none;
+  }
+
+  &:focus {
+    transition: none;
   }
 
   &[readonly] {
@@ -39,6 +42,10 @@ textarea {
     box-shadow: none;
   }
 
+  &[required] {
+    box-shadow: none;
+  }
+
   &.input-text {
     background: none;
     border: 0;
@@ -57,7 +64,12 @@ textarea {
 
   // placeholder
   &::placeholder {
-    color: $gray-light;
+    color: $gray-lighter;
+  }
+
+  &.input-sm {
+    height: 36px;
+    line-height: 36px;
   }
 }
 
@@ -83,10 +95,9 @@ textarea {
 
 // .input-group
 .input-group {
-  background: rgba($white,.6);
+  background: $white;
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
-  box-shadow: inset 0 0 3px rgba($black,.05);
   display: flex;
   height: 45px;
   line-height: 45px;
@@ -106,7 +117,10 @@ textarea {
   .input-label {
     color: $gray;
     font-size: 12px;
+    overflow: hidden;
     padding: 0 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .input-description {
@@ -130,5 +144,25 @@ textarea {
   .btn-sm {
     right: 6px;
     top: 9px;
+  }
+}
+
+.input-search {
+  background-image: url(/build/images/icons/icons-search.svg);
+  background-position: 51px 3px;
+  background-repeat: no-repeat;
+  background-size: 21px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 300;
+  padding-left: 72px;
+  transition: all .15s ease-in;
+
+  &:focus,
+  &:valid {
+    background-color: $white;
+    background-position: 3px 3px !important;
+    padding-left: 27px !important;
+    transition: all .15s ease-in;
   }
 }

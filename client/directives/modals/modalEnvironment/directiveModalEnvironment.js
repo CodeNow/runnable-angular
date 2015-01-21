@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('modalEnvironment', modalEnvironment);
 /**
@@ -9,9 +11,8 @@ function modalEnvironment(
   keypather
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewModalEnvironment',
-    replace: true,
     scope: {
       data: '=',
       currentModel: '=',

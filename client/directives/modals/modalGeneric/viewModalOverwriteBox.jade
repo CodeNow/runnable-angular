@@ -1,0 +1,21 @@
+.modal-backdrop(
+  ng-class = "{'in': in}"
+  ng-click = "$event.stopPropagation()"
+  ng-if = "in"
+)
+  .modal-dialog(
+    ng-click = "$event.stopPropagation()"
+  )
+    header.modal-header
+      h1.modal-heading Overwrite Box
+    section.modal-body
+      p.modal-description Overwrite #{''}
+        strong {{ data.instance.attrs.name }}
+        | ?
+    footer.modal-footer
+      button.btn.orange(
+        ng-click = "defaultActions.cancel();"
+      ) Overwrite
+      button.btn.white(
+        ng-click = "defaultActions.cancel()"
+      ) Go Back

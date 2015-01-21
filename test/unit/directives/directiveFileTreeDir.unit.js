@@ -1,3 +1,5 @@
+'use strict';
+
 describe('directiveFileTreeDir'.bold.underline.blue, function () {
   var element;
   var $scope;

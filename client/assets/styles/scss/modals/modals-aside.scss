@@ -1,0 +1,75 @@
+.modal-aside {
+  background: $gray-lightest;
+  border-left: 1px solid rgba($black,.1);
+  border-radius: 0 3px 3px 0;
+  bottom: 0;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: transform .15s ease-in;
+  width: 210px;
+  z-index: $z-modal-aside;
+
+  .show-aside & {
+    opacity: 1;
+    transform: translate3d(210px,0,0);
+  }
+
+  .guide-text {
+    color: $gray;
+    font-size: 15px;
+    padding: 15px 15px 9px;
+
+    + .guide-text {
+      padding: 9px 15px;
+    }
+  }
+
+  .sub-header {
+    border-top-right-radius: 3px;
+  }
+
+  .box-group {
+    height: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .box-group-item {
+    border-radius: 0;
+    color: $gray;
+    cursor: default;
+    font-size: 14px;
+    margin: 0;
+    min-height: 45px;
+    padding: 0 15px;
+    user-select: none;
+    white-space: normal;
+    width: 100%;
+
+    + .box-group-item {
+      border-top: 1px solid rgba($black,.1);
+    }
+
+    &:hover {
+      background: none;
+    }
+
+    &.expanded {
+      height: auto;
+      line-height: 24px;
+      padding: 9px 15px 12px;
+
+      .btn {
+        font-size: 12px;
+        margin-top: 3px;
+
+        + .btn {
+          margin-left: 3px;
+        }
+      }
+    }
+  }
+}

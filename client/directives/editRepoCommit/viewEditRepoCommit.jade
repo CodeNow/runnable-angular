@@ -1,67 +1,51 @@
-li.repository-group-item
-  svg.iconnables.icons-git
-    use(
-      xlink:href = "#icons-git"
-    )
+svg.iconnables.icons-repository
+  use(
+    xlink:href = "#icons-repository"
+  )
+//- TODO MAYBE add .pending for orange
+.repository-group-text(
+  toggle-pop-over
+  toggle-pop-over-model = "popoverRepositoryToggle.data.show"
+)
   h3.repository-title {{ acv.attrs.repo }}
-
-  //- if instance.instance and behind latest
-  button.btn.btn-xs.white.repository-update(
-    ng-click = "selectLatestCommit()"
-    ng-if = "!showEditGearMenu && commitsBehind"
-    tooltip = "Fast-forward {{ unsavedAcv.attrs.branch }} \
-      ({{ commitsBehind ? \
-      commitsBehind+' commits behind' : \
-      'To latest' }})"
-    tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-  ) {{ commitsBehind }}
-    svg.iconnables.icons-update
+  p.repository-description.text-overflow.clearfix
+    svg.iconnables.icons-branch
       use(
-        xlink:href = "#icons-update"
+        xlink:href = "#icons-branch"
       )
-
-  //-
-    if instance.setup || instance.instanceEdit
-  button.btn.btn-xs.white.repository-actions(
-    ng-class = "{ \
-      active: popoverRepoActions.data.show \
-    }"
-    toggle-pop-over
-    toggle-pop-over-model = "popoverRepoActions.data.show"
-    type = "button"
-    ng-if = "showEditGearMenu"
-  )
-    svg.iconnables.icons-gear
-      use(
-        xlink:href = "#icons-gear"
-      )
-    pop-over(
-      actions = "popoverRepoActions.actions"
-      data = "popoverRepoActions.data"
-      popover-options = "{\"left\":-74,\"top\":34}"
-      template = "viewPopoverRepoActions"
-    )
-
-  //- add .pending for orange
-  .commit.load(
-    ng-class = "{ \
-      pending: (showPendingClassWhenSelectedOutdatedCommit && \
-      (build.contextVersions.models[0].appCodeVersions.models.length > 1) && \
-      acv.attrs.commit !== unsavedAcv.attrs.commit) \
-    }"
-    toggle-pop-over
-    toggle-pop-over-model = "popoverCommitSelect.data.show"
-  )
-    .commit-message {{ activeCommit.attrs.commit.message }}
+    | {{ activeBranch.attrs.name }}
+  p.repository-description.clearfix
     svg.iconnables.icons-commit
       use(
         xlink:href = "#icons-commit"
       )
-    span.commit-author {{ activeCommit.attrs.author.login }}
-    time.commit-time {{ activeCommit.attrs.commit.author.date | timeAgo }}
+    | {{ activeCommit.attrs.commit.message }}
+    small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
+
+//-
+  if instance.setup || instance.instanceEdit
+button.btn.btn-xs.btn-repository-settings(
+  ng-class = "{ \
+    active: popoverRepoActions.data.show \
+  }"
+  toggle-pop-over
+  toggle-pop-over-model = "popoverRepoActions.data.show"
+  type = "button"
+  ng-if = "showEditGearMenu"
+)
+  svg.iconnables.icons-gear
+    use(
+      xlink:href = "#icons-gear"
+    )
   pop-over(
-    actions = "popoverCommitSelect.actions"
-    data = "popoverCommitSelect.data"
-    popover-options = "{\"top\":34}"
-    template = "viewPopoverCommitSelect"
+    actions = "popoverRepoActions.actions"
+    data = "popoverRepoActions.data"
+    popover-options = "{\"left\":-75,\"top\":30}"
+    template = "viewPopoverRepoActions"
   )
+pop-over(
+  actions = "popoverRepositoryToggle.actions"
+  data = "popoverRepositoryToggle.data"
+  popover-options = "{\"left\":299,\"top\":11}"
+  template = "viewPopoverRepositoryToggle"
+)

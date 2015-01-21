@@ -92,7 +92,7 @@ div.terminal { // div specifity required b/c there's a term.terminal
   background: $gray-dark !important;
 
   .ace-runnable-dark & {
-    background: $gray-light !important;
+    background: $gray-lighter !important;
   }
 }
 

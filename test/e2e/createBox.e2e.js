@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Tests a user's onboarding experience
  * setup => running instance => delete

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('setupPrimaryActions', setupPrimaryActions);
 /**
@@ -6,12 +8,12 @@ require('app')
 function setupPrimaryActions(
   async,
   $state,
-  $stateParams
+  $stateParams,
+  $rootScope
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewSetupPrimaryActions',
-    replace: true,
     scope: {
       activeAccount: '=',
       data: '=',
@@ -50,7 +52,7 @@ function setupPrimaryActions(
           };
           $scope.instanceOpts.build = $scope.data.build.id();
           $scope.instanceOpts.name = $scope.name;
-          $scope.instance = $scope.data.user.createInstance($scope.instanceOpts, cb);
+          $scope.instance = $rootScope.dataApp.data.instances.create($scope.instanceOpts, cb);
         }
         async.series([
           build,

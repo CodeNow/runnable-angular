@@ -1,3 +1,5 @@
+'use strict';
+
 var Runnable = require('runnable');
 var qs = require('qs');
 

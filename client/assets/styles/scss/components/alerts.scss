@@ -1,26 +1,15 @@
 .alert {
-  border-radius: 3px;
-  font-weight: 300;
-  height: 36px;
-  left: 240px;
-  line-height: 36px;
-  margin: 0 auto;
+  animation: alert .3s ease-in forwards;
+  border-radius: 6px;
+  bottom: 6px;
+  margin-left: 6px;
+  max-width: 420px;
+  min-width: 345px;
   opacity: 0;
-  padding: 0 6px;
-  pointer-events: none;
+  padding: 9px 15px;
   position: fixed;
-  right: 0;
-  top: 12px;
-  width: 276px;
+  right: 6px;
   z-index: $z-alert;
-
-  &.in {
-    animation: alert 5s ease-in;
-  }
-
-  &.green {
-    background: #ecfaef; // rgba($green,.1);
-  }
 
   > .iconnables {
     margin-right: 6px;
@@ -31,44 +20,44 @@
     float: right;
     opacity: .5;
     padding: 0;
-    top: 6px;
 
     &:hover,
     &:active {
       opacity: 1;
     }
   }
-}
 
-.alert.guide {
-  background: rgba($black,.75);
-  border: 0;
-  bottom: 0;
-  color: $white;
-  cursor: pointer;
-  font-weight: 300;
-  height: 36px;
-  left: 12px;
-  line-height: 36px;
-  opacity: 1;
-  padding: 0 6px 0 12px;
-  pointer-events: auto;
-  position: absolute;
-  top: auto;
-  width: 210px;
-
-  &:hover {
-    text-decoration: underline;
+  .block-quote {
+    margin: 12px 0 0;
   }
 
-  > .iconnables {
-    color: $blue;
-    height: 100%;
-    margin: 0 6px 0 0;
-    top: 0;
+  // styles for orange alerts
+  &.orange {
+    background: rgba($orange,.95);
+
+    .block-quote {
+      border-color: rgba($white,.6);
+      color: $white;
+
+      &:hover,
+      &:active {
+        border-color: rgba($white,.9);
+      }
+    }
   }
 
-  .icons-close {
-    margin: 0;
+  // styles for green alerts
+  &.green {
+    background: rgba($green,.95);
+
+    .block-quote {
+      border-color: rgba($white,.6);
+      color: $white;
+
+      &:hover,
+      &:active {
+        border-color: rgba($white,.9);
+      }
+    }
   }
 }

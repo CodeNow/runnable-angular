@@ -5,6 +5,8 @@
 //- &.spinner-mg - 30px by 3px
 //- &.spinner-sm - 15px by 15px
 //- &.spinner-purple - sets color to $purple-lighter
+//- &.spinner-white - sets color to $white-lighter
+//- &.spinner-blue - sets color to $blue-lighter
 
 .spinner-wrapper {
   align-items: center;
@@ -18,7 +20,7 @@
   top: 0;
   transition: opacity .3s ease-in, transform .15s ease-in, width .15s ease-in;
   width: 100%;
-  z-index: $z-modal-backdrop;
+  z-index: $z-spinner;
 
   &.in {
     opacity: 1;
@@ -26,7 +28,7 @@
   }
 
   &.spinner-backdrop {
-    background: $white;
+    background: rgba($white,.75);
   }
 
   &.spinner-lg .lg {
@@ -43,12 +45,20 @@
 
   &.spinner-sm .sm {
     display: block;
-    height: 15px;
+    transform-origin: 50% 46%;
     width: 15px;
   }
 
   &.spinner-purple .path {
     stroke: $purple-lighter;
+  }
+
+  &.spinner-white .path {
+    stroke: $white;
+  }
+
+  &.spinner-blue .path {
+    stroke: $blue;
   }
 }
 
@@ -59,7 +69,7 @@
 
 .spinner {
   animation: spinner-path $spinner-duration ease-in-out infinite;
-  stroke: $gray-light;
+  stroke: $gray-lighter;
   stroke-dasharray: $spinner-offset;
   stroke-dashoffset: 0;
   transform-origin: center;
@@ -68,21 +78,17 @@
 // on buttons
 .btn-spinner {
 
-  > .spinner {
-    color: $white;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    top: 2px;
-    transform: scale3d(0,0,0);
+  &.in {
+    animation: btn-spinner 6s;
+
+    .spinner-wrapper {
+      animation: fade-in-out 5.9s;
+    }
   }
 
-  &.in > .spinner {
-    transform: scale3d(1,1,1);
-  }
-
-  &.blue .spinner-ring {
-    color: $blue;
+  .spinner-wrapper {
+    display: block;
+    left: 9px;
+    margin-top: 1px;
   }
 }

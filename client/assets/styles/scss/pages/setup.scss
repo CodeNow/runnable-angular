@@ -12,6 +12,11 @@
     position: relative;
     top: 11px;
     width: 300px;
+
+    &.invalid-require {
+      font-size: 14px;
+      line-height: 1.2;
+    }
   }
 }
 
@@ -19,4 +24,17 @@
 .setup-name-input {
   margin-left: -9px;
   width: 288px;
+}
+
+.guide-alert-setup {
+  bottom: 9px;
+  left: 12px;
+  opacity: 1;
+  pointer-events: auto;
+  position: absolute;
+  top: auto;
+
+  .icons-close {
+    margin: 0;
+  }
 }

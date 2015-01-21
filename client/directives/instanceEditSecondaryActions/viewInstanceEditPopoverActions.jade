@@ -1,14 +1,14 @@
 .popover.menu.bottom.fade.popover-actions(
-  ng-class = "{'in': data.show}"
+  ng-class = "{in: data.show}"
 )
   .arrow.white
   .popover-content
-    ul.popover-body.popover-list
+    ul.popover-list
       li.popover-list-item(
         modal
-        modal-data = "data.dataModalEnvironment"
         modal-actions = "actions.actionsModalEnvironment"
         modal-current-model = "data.instance.attrs"
+        modal-data = "data.dataModalEnvironment"
         modal-state-model = "data.instance.state"
         modal-template = "viewOpenModalEnvironment"
       ) Edit Environment

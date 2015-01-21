@@ -19,9 +19,12 @@ button,
 
   // for <a> elemnts
   &:hover,
-  &:active,
-  &.active {
+  &:active {
     text-decoration: none;
+  }
+
+  &:active {
+    transition: none;
   }
 
   &:focus {
@@ -34,25 +37,59 @@ button,
     opacity: .5;
   }
 
+  // github icon with text
+  > .icons-git {
+    margin-right: 6px;
+    top: 6px;
+    width: 21px;
+  }
+
   // if .arrow-down
-  .icons-arrow-down {
+  > .icons-arrow-down {
     float: right;
+    margin-left: 6px;
     top: 18px;
     transition: opacity .2s ease-in, transform .3s ease-in;
+  }
 
-    // flip arrow
-    .in &,
-    .active & {
+  // animations
+  &.active
+  &.in {
+
+    > .icons-add,
+    > .icons-gear {
+      transform: rotate3d(0,0,1,135deg);
+    }
+
+    > .icons-arrow-down {
       transform: rotate3d(1,0,0,-180deg);
     }
   }
 }
 
 // button sizes
+.btn-xl {
+  border-radius: 6px;
+  font-size: 30px;
+  font-weight: 300;
+  height: 72px;
+  line-height: 72px;
+  padding: 0 45px;
+}
+
 .btn-sm {
   height: 36px;
   line-height: 36px;
   padding: 0 6px;
+
+  > .icons-arrow-down {
+    top: 6px;
+  }
+
+  > .img {
+    float: left;
+    margin: 8px 6px 0 0;
+  }
 }
 
 .btn-xs {
@@ -92,7 +129,6 @@ button,
 .gray,
 .green,
 .orange,
-.purple,
 .white {
   border: 1px solid transparent;
   color: $white;
@@ -125,38 +161,38 @@ button,
     &.active {
       background: rgba($blue,.2);
       border-color: rgba($blue,.4);
+      transition: none;
     }
   }
 }
 
 .gray {
-  background: rgba($black,.05);
-  border-color: rgba($black,.1);
+  background: rgba($gray-darker,.1);
+  border-color: rgba($gray-darker,.15);
   color: $gray;
   font-weight: 300;
 
   &.btn {
 
     &:hover {
-      border-color: rgba($black,.2);
+      border-color: rgba($gray-darker,.3);
     }
 
     &:active,
     &.active {
-      border-color: rgba($black,.3);
-    }
+      background: rgba($gray-darker,.45);
+      border-color: rgba($gray-darker,.6);
+      color: $white;
+      transition: none;
 
-    &[disabled],
-    &.disabled {
-
-      &:hover,
-      &:active,
-      &.active {
-        border-color: rgba($black,.05);;
+      .iconnables {
+        color: $white;
+        transition: none;
       }
     }
   }
 }
+
 
 .green {
   background: rgba($green,.75);
@@ -220,7 +256,7 @@ button,
       }
     }
   }
- }
+}
 
 .purple {
   background: rgba($purple,.1);
@@ -428,11 +464,7 @@ button,
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
   content: '';
-  /* 1 */
-
   display: table;
-  /* 2 */
-
 }
 
 .btn-group-vertical > .btn-group:after {
@@ -442,11 +474,7 @@ button,
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
   content: '';
-  /* 1 */
-
   display: table;
-  /* 2 */
-
 }
 
 .btn-group-vertical > .btn-group:after {

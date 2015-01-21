@@ -1,28 +1,26 @@
 //- sidebar for accounts and boxes
-nav.sidebar.global-sidebar(
-  ng-class = "{minimize: dataApp.data.minimizeNav}"
-)
-  accounts
-  accounts-select
-  instance-list
+nav.sidebar.global-sidebar
+  header.row.load(
+    accounts-select
+    data = "dataApp.data"
+    is-main-page = "true"
+  )
+  section.row.boxes(
+    instance-list
+    data = "dataApp.data"
+    state = "dataApp.state"
+  )
 
   footer.row.global-footer
-    a.btn.btn-sm.btn-icon.white.btn-logout(
-      ng-href = "{{ dataApp.data.logoutURL }}"
-      title = "Log Out"
-    )
-      svg.iconnables.icons-exit
-        use(
-          xlink:href = "#icons-exit"
-        )
     button.btn.btn-sm.btn-icon.white.btn-minimize(
       ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
       ng-class = "{active: dataApp.data.minimizeNav}"
+      ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
       title = "Toggle Navigation"
     )
-      svg.iconnables.icons-arrow-left
+      svg.iconnables.icons-minimize
         use(
-          xlink:href = "#icons-arrow-left"
+          xlink:href = "#icons-minimize"
         )
 
 //- 2nd level views (boxInstnce, boxInstanceEdit...)

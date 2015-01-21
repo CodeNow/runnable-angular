@@ -1,3 +1,5 @@
+'use strict';
+
 var $ = require('jquery'); // required by brace
 require('brace');
 require('brace/ext/modelist');
@@ -11,33 +13,22 @@ require('app')
  * @ngInject
  */
 function activePanel(
-  async,
   debounce,
+  editorCache,
   keypather,
   modelist,
-  QueryAssist,
   $rootScope,
   $sce,
-  $state,
-  $stateParams,
-  $timeout,
-  user
+  $state
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewActivePanel',
-    replace: true,
     scope: {
-      isDarkTheme: '=',
-      // instance: '=',
-      // build: '=',
-      // setupData: '=',
-      // container: '=',
       openItems: '=',
       currentModel: '=', // CurrentModel houses the original model without changes
-      stateModel: '=' // The StateModel is where changes will be applied
-      // readOnly: '=',
-      // update: '=' // true: save file when content changes
+      stateModel: '=', // The StateModel is where changes will be applied
+      item: '='
     },
     link: function ($scope, element, attrs) {
 
@@ -73,6 +64,8 @@ function activePanel(
 
       actions.setAceMode = function (_editor, item) {
         var name = keypather.get(item, 'attrs.name');
+        // Allows other components to interact with this editor
+        editorCache[name] = _editor;
         if (name) {
           var mode = modelist.getModeForPath(name).mode;
           _editor.getSession().setMode(mode);
@@ -103,32 +96,35 @@ function activePanel(
             throw err;
           }
           delete activeFile.state.isDirty;
-          $rootScope.safeApply();
         });
       }
       var updateFileDebounce = debounce(updateFile, 333);
 
-      function fetchFile() {
-        var openItems = $scope.openItems;
-        var last = openItems.activeHistory.last();
-        if (openItems.isFile(last)) {
-          last.fetch(function () {
-            last.state.reset();
-            $rootScope.safeApply();
-          });
-        }
-      }
 
       $scope.$watch('openItems.activeHistory.last().state.body', function (newVal, oldVal) {
-        if (typeof newVal === 'string' && $scope.openItems.activeHistory.last()) {
+        if (typeof newVal === 'string' &&
+          $scope.openItems.activeHistory.last() &&
+          $scope.openItems.activeHistory.last().id() === $scope.thisFileId) {
           if ($scope.update) {
             updateFileDebounce();
           }
         }
       });
 
-      $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {
+      function fetchFile() {
+        var openItems = $scope.openItems;
+        var last = openItems.activeHistory.last();
+        $scope.thisFileId = last.id();
+        if (openItems.isFile(last)) {
+          last.fetch(function () {
+            last.state.reset();
+          });
+        }
+      }
+
+      var openFileWatch = $scope.$watch('openItems.activeHistory.last().id()', function (newVal, oldVal) {
         if (newVal) {
+          openFileWatch();
           if (!$scope.update) {
             var file = $scope.openItems.activeHistory.last();
             if (!(file.state && (typeof file.state.body === 'string'))) {

@@ -1,3 +1,5 @@
+'use strict';
+
 describe.skip('directiveFileTree'.bold.underline.blue, function () {
   var element;
   var $scope;

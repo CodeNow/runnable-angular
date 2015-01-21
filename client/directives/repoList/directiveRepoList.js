@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('repoList', repoList);
 /**
@@ -5,6 +7,8 @@ require('app')
  */
 function repoList(
   async,
+  debounce,
+  errs,
   keypather,
   QueryAssist,
   fetchUser,
@@ -14,11 +18,11 @@ function repoList(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewRepoList',
-    replace: true,
     scope: {
-      loading: '='
+      loading: '=',
+      unsavedAcvs: '='
     },
     link: function ($scope, elem) {
 
@@ -40,14 +44,19 @@ function repoList(
         case 'instance.instance':
           $scope.showAddFirstRepoMessage = false;
           break;
+        case 'demo.instanceEdit':
+          $scope.data.show = true;
+          break;
       }
 
       // track all temp acvs generated
       // for each repo/child-scope
-      $scope.unsavedAcvs = [];
       $scope.newUnsavedAcv = function (acv) {
         var cv = $scope.build.contextVersions.models[0];
-        var newAcv = cv.newAppCodeVersion(acv.toJSON(), {
+        var acvJson = acv.toJSON();
+        delete acvJson._id;
+        delete acvJson.id;
+        var newAcv = cv.newAppCodeVersion(acvJson, {
           warn: false
         });
         $scope.unsavedAcvs.push({
@@ -102,7 +111,6 @@ function repoList(
           updateInstanceWithBuild,
           reloadController
         ], function (err) {
-          $rootScope.safeApply();
           if (err) { throw err; }
           //$rootScope.dataApp.data.loading = false;
           $state.go('instance.instance');
@@ -111,25 +119,14 @@ function repoList(
         // if we find this contextVersion, reuse it.
         // otherwise create a new one
         function findOrCreateContextVersion(cb) {
-          var foundCVs = context.fetchVersions({
-            infraCodeVersion: infraCodeVersionId,
-            appCodeVersions: appCodeVersionStates
-          }, function (err) {
-            if (err) {
-              return cb(err);
-            }
-            if (foundCVs.models.length) {
-              return cb(null, foundCVs.models[0]);
-            }
-            var body = {
-              infraCodeVersion: infraCodeVersionId
-            };
-            var newContextVersion = context.createVersion(body, function (err) {
-              async.each(appCodeVersionStates, function (acvState, cb) {
-                newContextVersion.appCodeVersions.create(acvState, cb);
-              }, function (err) {
-                cb(err, newContextVersion);
-              });
+          var body = {
+            infraCodeVersion: infraCodeVersionId
+          };
+          var newContextVersion = context.createVersion(body, function (err) {
+            async.each(appCodeVersionStates, function (acvState, cb) {
+              newContextVersion.appCodeVersions.create(acvState, cb);
+            }, function (err) {
+              cb(err, newContextVersion);
             });
           });
         }
@@ -152,17 +149,17 @@ function repoList(
         }
 
         function updateInstanceWithBuild(build, cb) {
-            $scope.instance.update({
-              build: build.id()
-            }, function (err) {
-              cb(err, build);
-            });
-          }
-          /**
-           * Trigger a forced refresh
-           * Alternatives cumbersome/buggy
-           * This best/easiest solution for now
-           */
+          $scope.instance.update({
+            build: build.id()
+          }, function (err) {
+            cb(err, build);
+          });
+        }
+        /**
+         * Trigger a forced refresh
+         * Alternatives cumbersome/buggy
+         * This best/easiest solution for now
+         */
         function reloadController(build, cb) {
           cb();
           var current = $state.current;
@@ -170,10 +167,21 @@ function repoList(
           $state.transitionTo(current, params, {
             reload: true,
             inherit: true,
-            notify: true
+            notify: true,
+            location: 'replace'
           });
         }
       };
+
+      var debounceUpdate = debounce(function(n) {
+        if (n !== undefined && n !== $scope.instance.attrs.locked) {
+          $scope.instance.update({
+            locked: n
+          }, angular.noop);
+        }
+      });
+
+      $scope.$watch('data.autoDeploy', debounceUpdate);
 
       function fetchInstance(cb) {
         new QueryAssist($scope.user, cb)
@@ -188,35 +196,37 @@ function repoList(
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $scope.build = instance.build;
-            $rootScope.safeApply();
+            if (!$stateParams.buildId) {
+              $scope.build = instance.build;
+              // HACK: allows us to use both an independent build (setup/edit)
+              //    and the build of an instance (instance)
+              // This will be triggered when a new build is passed to us by API
+              $scope.$watch('instance.build',   function(n) {
+                if (n) { $scope.build = $scope.instance.build; }
+              });
+            }
+            $scope.data.autoDeploy = instance.attrs.locked;
           })
           .resolve(function (err, instances, cb) {
             var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
-            $rootScope.safeApply();
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
             cb(err);
           })
           .go();
       }
 
       function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
-        }
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')
           .query($stateParams.buildId)
           .cacheFetch(function (build, cached, cb) {
             $scope.build = build;
-            $rootScope.safeApply();
             cb();
           })
           .resolve(function (err, build, cb) {
             if (err) { throw err; }
-            $rootScope.safeApply();
             cb();
           })
           .go();
@@ -227,12 +237,20 @@ function repoList(
           fetchUser(function(err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },
-        fetchBuild
-      ]);
+        function (cb) {
+          if ($state.$current.name === 'instance.setup') {
+            return fetchBuild(cb);
+          }
+          if ($state.$current.name === 'instance.instance') {
+            return fetchInstance(cb);
+          }
+          // Instance Edit
+          return async.parallel([fetchBuild, fetchInstance], cb);
+        }
+      ], errs.handler);
 
     }
   };

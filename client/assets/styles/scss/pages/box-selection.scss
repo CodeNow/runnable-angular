@@ -1,0 +1,109 @@
+.box-selection {
+  margin: 0 auto;
+  max-width: 960px;
+
+  .logo {
+    height: 45px;
+    margin-top: 15px;
+    width: 240px;
+
+    @include media(xs) {
+      overflow: hidden;
+      width: 72px;
+    }
+  }
+
+  // instruction text
+  > .h3.header-thin {
+    margin: 90px auto 0;
+    max-width: 600px;
+    text-align: left;
+
+    @include media(xs) {
+      margin: 60px 15px 0;
+    }
+  }
+
+  // block-quote
+  .block-quote {
+    border-color: rgba($black,.1);
+    color: $gray;
+
+    &:hover,
+    &:active {
+      border-color: rgba($blue,.4);
+    }
+
+    .small {
+      color: $gray-lighter;
+    }
+  }
+
+  .list {
+    margin: 30px auto;
+    max-width: 600px;
+
+    @include media(xs) {
+      margin: 0 15px 30px;
+    }
+  }
+
+  .list-item {
+    height: 72px;
+    overflow: hidden;
+    padding: 0 15px;
+    transition: height .2s ease-in;
+
+    &.active {
+      height: 216px;
+
+      .iconnables {
+        transform: rotate3d(0,0,1,0);
+      }
+    }
+  }
+
+  .list-item-row {
+    height: 72px;
+    position: relative;
+    width: 100%;
+
+    &:first-child {
+      cursor: pointer;
+    }
+
+    &:last-child {
+      border-top: 1px solid rgba($black,.1);
+    }
+  }
+
+  // server name
+  .h4 {
+    float: left;
+    height: 100%;
+    line-height: 72px;
+  }
+
+  // 1st row
+  .list-item .iconnables {
+    color: $green;
+    float: right;
+    height: 72px;
+    transform: rotate3d(0,0,1,-90deg);
+    width: 36px;
+  }
+
+  // 2nd and 3rd rows
+  .p {
+    color: $gray-light;
+    float: left;
+    font-size: 14px;
+    line-height: 72px;
+  }
+
+  .green {
+    float: right;
+    margin: 18px auto;
+    width: 90px;
+  }
+}

@@ -1,3 +1,5 @@
+'use strict';
+
 var jQuery  = require('jquery');
 var pluck = require('101/pluck');
 var find = require('101/find');
@@ -88,7 +90,7 @@ describe('directiveLogBox'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate('log-box', {});
+    ctx.template = directiveTemplate.attribute('log-box');
   });
 
   beforeEach(injectSetupCompile);

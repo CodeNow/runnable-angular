@@ -10,7 +10,9 @@
       ng-class = "{focus: data.state.showFocus}"
       ng-repeat = "env in data.state.envVars"
     )
-      span.input-label {{ env.key }}
+      span.input-label(
+        title = "{{ env.key}}"
+      ) {{ env.key }}
       input.input(
         ng-blur = "data.state.showFocus = false"
         ng-focus = "data.state.showFocus = true"

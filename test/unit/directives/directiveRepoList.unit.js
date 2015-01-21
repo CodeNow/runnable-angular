@@ -1,3 +1,5 @@
+'use strict';
+
 describe('directiveRepoList'.bold.underline.blue, function () {
   var element;
   var $scope;
@@ -33,11 +35,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         data: {},
         stateParams: {}
       };
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
     modelStore.reset();
   }
@@ -52,7 +49,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         $httpBackend.whenGET(host + '/contexts/54398933f5afb6410069bc33/versions/54398934f5afb6410069bc34?')
         .respond(mocks.contextVersions.setup);
 
-        var tpl = directiveTemplate('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list', {
+          'unsaved-acvs': 'unsavedAcvs'
+        });
+        $scope.unsavedAcvs = [];
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -75,10 +75,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     beforeEach(function() {
       $httpBackend.flush();
       $rootScope.$digest();
-    });
-
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
     });
 
     it('should show guide', function() {
@@ -106,7 +102,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
           .whenGET(compareUrl)
           .respond(mocks.gh.compare);
 
-        var tpl = directiveTemplate('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list', {
+          'unsaved-acvs': 'unsavedAcvs'
+        });
+        $scope.unsavedAcvs = [];
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -127,12 +126,8 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     });
     beforeEach(initState);
     beforeEach(function() {
-      $httpBackend.flush();
+      // $httpBackend.flush();
       $rootScope.$digest();
-    });
-
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
     });
 
     it('should not display the guide', function() {
@@ -147,10 +142,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
   describe('editing instance with repo'.bold.blue, function() {
     function initState() {
       angular.mock.inject(function($compile) {
-        var instanceUrl = host + '/instances?githubUsername=SomeKittens&name=spaaace';
+        var buildUrl = host + '/builds/543988508f75990e008d2c76?';
         $httpBackend
-          .whenGET(instanceUrl)
-          .respond(mocks.instances.running);
+          .whenGET(buildUrl)
+          .respond(mocks.builds.built);
         var commitsUrl = host + '/github/repos/SomeKittens/SPACESHIPS/commits/440d4075e71c01734118d312fc3e3cd6c326f711?';
         $httpBackend
           .whenGET(commitsUrl)
@@ -160,7 +155,10 @@ describe('directiveRepoList'.bold.underline.blue, function () {
           .whenGET(compareUrl)
           .respond(mocks.gh.compare);
 
-        var tpl = directiveTemplate('repo-list');
+        var tpl = directiveTemplate.attribute('repo-list', {
+          'unsaved-acvs': 'unsavedAcvs'
+        });
+        $scope.unsavedAcvs = [];
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -175,18 +173,15 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         },
         stateParams: {
           userName: 'SomeKittens',
-          instanceName: 'spaaace'
+          instanceName: 'spaaace',
+          buildId: mocks.builds.built._id
         }
       });
     });
     beforeEach(initState);
     beforeEach(function() {
-      $httpBackend.flush();
+      // $httpBackend.flush();
       $rootScope.$digest();
-    });
-
-    it('should create the element', function () {
-      expect(element[0].classList.contains('row')).to.be.ok;
     });
 
     it('should not display the guide', function() {

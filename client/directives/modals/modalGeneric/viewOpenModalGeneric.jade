@@ -1,11 +1,11 @@
 .modal-backdrop(
-  ng-if = "in"
-  ng-click = "$event.stopPropagation()"
   ng-class = "{'in': in}"
+  ng-click = "$event.stopPropagation()"
+  ng-if = "in"
 )
    modal-generic(
      actions = "actions"
-     default-actions = "defaultActions"
      data = "data"
+     default-actions = "defaultActions"
      type = "%%GENERIC_TEMPLATE_NAME%%"
    )

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .config(['$provide', function ($provide) {
     $provide.decorator('formDirective', ['$delegate', function ($delegate) {

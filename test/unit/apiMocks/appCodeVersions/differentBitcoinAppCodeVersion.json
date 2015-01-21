@@ -1,0 +1,11 @@
+{
+  "_id": "544ad1004daca7552128f092",
+  "branch": "master",
+  "commit": "1f27c310a4bcca758f708358601fa25976d56d94",
+  "lowerBranch": "master",
+  "lowerRepo": "cflynn07/bitcoin",
+  "privateKey": "cflynn07/bitcoin.key",
+  "publicKey": "cflynn07/bitcoin.key.pub",
+  "repo": "cflynn07/bitcoin",
+  "id": "544ad1004daca7552128f09c"
+}

@@ -1,3 +1,5 @@
+'use strict';
+
 describe('servicePrimus'.bold.underline.blue, function () {
   var primus;
   function initState () {

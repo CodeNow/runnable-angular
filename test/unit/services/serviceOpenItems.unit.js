@@ -1,3 +1,5 @@
+'use strict';
+
 var VersionFileModel = require('runnable/lib/models/context/version/file');
 
 describe.skip('serviceOpenItems'.bold.underline.blue, function () {

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('logBox', logBox);
 /**
@@ -5,6 +7,7 @@ require('app')
  */
 function logBox(
   async,
+  errs,
   helperSetupTerminal,
   primus,
   keypather,
@@ -17,10 +20,8 @@ function logBox(
   user
 ) {
   return {
-    restrict: 'E',
-    replace: true,
+    restrict: 'A',
     scope: {},
-    templateUrl: 'viewLogBox',
     link: function ($scope, elem, attrs) {
       /**
        * Creates instance of Terminal w/ default
@@ -94,7 +95,6 @@ function logBox(
           fetchUser(function(err, user) {
             if (err) { return cb(err); }
             $scope.user = user;
-            $rootScope.safeApply();
             cb();
           });
         },
@@ -132,9 +132,7 @@ function logBox(
         // box log output ends... process exited
         $scope.boxStream.on('end', function () {
           $scope.boxStream.ended = true;
-          fetchInstance(function () {
-            $rootScope.safeApply();
-          });
+          fetchInstance(errs.handler);
         });
       }
 
@@ -151,14 +149,12 @@ function logBox(
             }
             var instance = instances.models[0];
             $scope.instance = instance;
-            $rootScope.safeApply();
           })
           .resolve(function (err, instances, cb) {
             var instance = instances.models[0];
-            if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-              return cb(new Error('instance has no containers'));
-            }
-            $rootScope.safeApply();
+            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
+            //   return cb(new Error('instance has no containers'));
+            // }
             cb(err);
           })
           .go();

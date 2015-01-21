@@ -53,51 +53,43 @@
   }
 
   // icons with fill
+  &.icons-add,
+  &.icons-arrow-back,
+  &.icons-arrow-down,
+  &.icons-branch,
+  &.icons-check,
+  &.icons-close,
+  &.icons-commit,
   &.icons-docker,
   &.icons-edit,
+  &.icons-folder-open,
   &.icons-fork,
+  &.icons-flask,
+  &.icons-gear,
   &.icons-git,
-  &.icons-link,
+  &.icons-logs,
+  &.icons-minimize,
+  &.icons-nodejs,
+  &.icons-private,
+  &.icons-python,
+  &.icons-rails,
+  &.icons-repository,
+  &.icons-ruby,
+  &.icons-run,
   &.icons-runnable,
-  &.icons-update {
+  &.icons-search,
+  &.icons-sidebar,
+  &.icons-terminal,
+  &.icons-update,
+  &.icons-web {
     fill: currentColor;
     stroke: none;
   }
 
   // icons with stroke
-  &.icons-add,
-  &.icons-arrow-down,
-  &.icons-arrow-left,
-  &.icons-asterisk,
-  &.icons-back,
-  &.icons-back-table,
-  &.icons-check,
-  &.icons-chevron-left,
-  &.icons-chevron-right,
-  &.icons-close,
-  &.icons-commit,
-  &.icons-delete,
-  &.icons-error,
-  &.icons-exit,
-  &.icons-fail,
   &.icons-file,
   &.icons-file-open,
-  &.icons-folder,
-  &.icons-folder-open,
-  &.icons-gear,
-  &.icons-launch,
-  &.icons-logs,
-  &.icons-pause,
-  &.icons-recipe,
-  &.icons-rename,
-  &.icons-run,
-  &.icons-select,
-  &.icons-sidebar,
-  &.icons-start,
-  &.icons-stop,
-  &.icons-stop-alt,
-  &.icons-trigger,
-  &.icons-web {
+  &.icons-folder {
     fill: none;
     stroke: currentColor;
   }
@@ -123,8 +115,8 @@
 
 // status
 .icons-status {
-  background: $gray-lighter;
-  border: 1px solid $gray-light;
+  background: $gray-lightest;
+  border: 1px solid $gray-lighter;
   border-radius: 50%;
   display: inline-block;
   height: 9px;

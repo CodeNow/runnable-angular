@@ -1,0 +1,94 @@
+// line between items
+.list-divided {
+
+  .list-item {
+    margin-top: 1px;
+  }
+
+  .list-item + .list-item::after {
+    background: rgba($black,.1);
+    content: '';
+    display: block;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: -1px;
+    width: 100%;
+  }
+}
+
+// bordered list
+.list-bordered {
+  border: 1px solid rgba($black,.1);
+  border-radius: 3px;
+}
+
+// .list-item-link {
+.list-item-link {
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+
+  &:active {
+    background: rgba($blue,.15);
+    border-color: rgba($blue,.3);
+  }
+}
+
+// .list-validation
+.list-validation {
+  border-color: rgba($orange-dark,.75);
+  margin: 0 6px;
+
+  .list-item {
+    border: 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 14px;
+    letter-spacing: -.5px;
+    padding: 3px 6px;
+    white-space: nowrap;
+
+    + .list-item {
+      border-top: 1px solid rgba($orange-dark,.75);
+    }
+  }
+}
+
+// empty state
+.list-empty {
+  color: $gray-lighter;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.list-item {
+  position: relative;
+
+  .gravatar {
+    float: left;
+    margin: 18px 9px 0 2px;
+  }
+
+  &.small {
+    color: $gray-light;
+    cursor: default !important;
+    font-size: 12px;
+
+    &:hover,
+    &:active {
+      background: none !important;
+      border-color: transparent !important;
+    }
+  }
+}
+
+// links
+// a.list-link
+.list-link {
+  color: $gray-dark;
+  display: block;
+  text-decoration: none;
+}

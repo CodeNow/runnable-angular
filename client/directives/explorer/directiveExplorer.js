@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('explorer', explorer);
 /**
@@ -8,9 +10,8 @@ function explorer(
   $stateParams
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewExplorer',
-    replace: true,
     scope: {
       openItems: '=',
       toggleTheme: '='
@@ -31,6 +32,7 @@ function explorer(
           $scope.build = instance.build;
         });
       }
+
     }
   };
 }

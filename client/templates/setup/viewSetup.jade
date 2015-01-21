@@ -7,7 +7,7 @@ header.box-header
   )
 
   setup-primary-actions(
-    active-account = "activeAccount"
+    active-account = "dataApp.data.activeAccount"
     instance-opts = "dataSetup.data.instanceOpts"
     loading = "dataApp.data.loading"
     name = "dataSetup.data.newInstanceName"
@@ -25,7 +25,10 @@ header.box-header
 
 section.sidebar.box-sidebar
 
-  repo-list
+  section.row.repo-list(
+    repo-list
+    unsaved-acvs = "dataSetup.data.unsavedAcvs"
+  )
 
   docker-templates(
     open-items = "dataSetup.data.openItems"
@@ -54,7 +57,8 @@ section.views.with-add-tab(
         xlink:href = "#icons-folder-open"
       )
 
-  explorer(
+  section.explorer(
+    explorer
     open-items = "dataSetup.data.openItems"
     toggle-theme = "dataSetup.data.toggleTheme"
   )
@@ -65,10 +69,17 @@ section.views.with-add-tab(
   )
 
   //- active panel
-  active-panel(
-    is-dark-theme = "dataSetup.data.toggleTheme",
-    open-items = "dataSetup.data.openItems",
+  .active-panel(
+    active-panel
+    ng-class = "{\
+      'loaded': (item === openItems.activeHistory.last()),\
+      'ace-runnable-dark': dataSetup.data.toggleTheme\
+    }"
+    ng-repeat = "item in dataSetup.data.openItems.models"
+    ng-show = "item === dataSetup.data.openItems.activeHistory.last()"
+    open-items = "dataSetup.data.openItems"
     state-model = "dataSetup.data.instanceOpts"
+    item = "item"
   )
 
   //- dataSetup.data.showVideo
@@ -113,7 +124,7 @@ section.views.with-add-tab(
         )
 
   //- show after selecting a template
-  .alert.guide(
+  .guide.guide-pointer.guide-close.guide-alert.guide-alert-setup(
     ng-click = " \
       dataSetup.actions.olarkShrink(); \
       dataSetup.data.showVideoFixed = true; \
@@ -121,9 +132,8 @@ section.views.with-add-tab(
       dataSetup.data.hideVideo = false"
     ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"
     ng-if = "dataSetup.data.build.contextVersions.models[0].source"
-  ) Lost? Here's a video.
-    //- shrink olark on click
-    //- https://www.olark.com/documentation/javascript/api.box.shrink
+  )
+    .guide-text Lost? Here's a video.
     button.btn.btn-xs.btn-close(
       ng-click = " \
         dataSetup.data.closeVideoAlert = true; \

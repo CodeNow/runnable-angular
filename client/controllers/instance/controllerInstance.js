@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .controller('ControllerInstance', ControllerInstance);
 /**
@@ -5,21 +7,28 @@ require('app')
  */
 function ControllerInstance(
   async,
-  determineActiveAccount,
+  $filter,
   errs,
+  instanceUpdatedPoller,
+  createInstanceDeployedPoller,
+  fetchCommitData,
   keypather,
   OpenItems,
   QueryAssist,
-  fetchUser,
+  $rootScope,
+  $localStorage,
+  $location,
   $scope,
   $state,
-  $log,
   $stateParams,
-  exists,
-  user
+  $timeout,
+  $window,
+  fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
-    data: {},
+    data: {
+      unsavedAcvs: []
+    },
     actions: {}
   };
   var data = dataInstance.data;
@@ -38,6 +47,51 @@ function ControllerInstance(
     // in shows/hides file-menu
     in: false
   };
+
+  data.isDemo = $state.$current.name === 'demo.instance';
+
+  var deployedPoller;
+
+  // Trigger Heap event
+  if ($window.heap && $location.search('chat')) {
+    $window.heap.track('instance-chat-click', {
+      type: $location.search('chat')
+    });
+    // Remove query so copypasta doesn't interfere
+    $location.search('chat', null);
+  }
+
+  if ($stateParams.instanceName && $stateParams.userName) {
+    async.waterfall([
+      fetchUser,
+      fetchInstance
+    ], function (err) {
+      if (err) {
+        $state.go('instance.home', {
+          userName: $stateParams.userName
+        });
+        errs.handler(err);
+      }
+      instanceUpdatedPoller.start(data.instance);
+    });
+  }
+
+  $scope.$on('new-build', function() {
+    if (data.showUpdatingMessage) { return; } // Remove this line on ws change
+    data.showUpdatedMessage = false;
+    data.showUpdatingMessage = true;
+    data.instance.fetch(function(err, json) {
+      if (err) { return errs.handler(err); }
+      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
+      data.showUpdatingMessage = false;
+      data.showUpdatedMessage = true;
+      if (deployedPoller) {
+        deployedPoller.clear();
+      }
+      deployedPoller = createInstanceDeployedPoller(data.instance).start();
+    });
+  });
+
 
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
@@ -64,18 +118,14 @@ function ControllerInstance(
   // watch for deployed/started/stopped instance
   // all watches necessary, updateDisplayedTabs expectst to be invoked
   // after fetching instance, fetching container, and cointainer start
-  var containerWatch;
-  $scope.$watch('dataInstance.data.instance', handleInstance);
-  function handleInstance (instance) {
-    if (!instance) { return; } // instance still being fetched
-    containerWatch = $scope.$watch('dataInstance.data.instance.containers.models[0]', handleContainer);
-  }
+  var containerWatch =
+      $scope.$watch('dataInstance.data.instance.containers.models[0]', handleContainer);
+
   function handleContainer (container) {
     if (!container) {
       buildLogsOnly();
     }
     else { // handles both container.error and container.dockerContainer states
-      containerWatch(); // once, got container
       $scope.$watch('dataInstance.data.instance.containers.models[0].attrs.inspect.State.Running', displayTabsForContainerState); // once
     }
   }
@@ -88,68 +138,39 @@ function ControllerInstance(
     }
   }
 
-  async.waterfall([
-    determineActiveAccount,
-    function(activeAccount, cb) {
-      data.activeAccount = activeAccount;
-      $scope.safeApply();
-      cb();
-    },
-    function (cb) {
-      fetchUser(function(err, user) {
-        if (err) { return cb(err); }
-        data.user = user;
-        $scope.safeApply();
-        cb();
-      });
-    },
-    fetchInstance,
-    fetchInstances
-  ], errs.handler);
-
-  // This is to fetch the list of instances.  This is separate so the page can load quickly
-  // since it will have its instance.  Only the modals use this list
-  function fetchInstances(cb) {
-    new QueryAssist(data.user, cb)
-      .wrapFunc('fetchInstances', cb)
-      .query({
-        githubUsername: $stateParams.userName
-      })
-      .cacheFetch(function (instances, cached, cb) {
-        if (!cached && instances.models.length === 0) {
-          return cb(new Error('instance not found'));
-        }
-        data.instances = instances;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err) {
-        cb(err);
-      })
-      .go();
-  }
-
-  function fetchInstance(cb) {
-    new QueryAssist(data.user, cb)
-      .wrapFunc('fetchInstances')
-      .query({
-        githubUsername: $stateParams.userName,
-        name: $stateParams.instanceName
-      })
-      .cacheFetch(function (instances, cached, cb) {
-        if (!cached && instances.models.length === 0) {
-          return cb(new Error('Instance not found'));
-        }
-        var instance = instances.models[0];
-        data.instance = instance;
-        data.instance.state = {};
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(function (err) {
-        cb(err);
-      })
-      .go();
+  function fetchInstance(user, cb) {
+    $scope.user = user;
+    if ($stateParams.instanceName && $stateParams.userName) {
+      new QueryAssist(user, cb)
+        .wrapFunc('fetchInstances')
+        .query({
+          githubUsername: $stateParams.userName,
+          name: $stateParams.instanceName
+        })
+        .cacheFetch(function (instances, cached, cb) {
+          data.instance = keypather.get(instances, 'models[0]');
+          if (!data.instance) {
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              null
+            );
+            cb(new Error('Could not find instance on server'));
+          } else {
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              $stateParams.instanceName
+            );
+            data.instance.state = {};
+            cb();
+          }
+        })
+        .resolve(function (err) {
+          cb(err);
+        })
+        .go();
+    }
   }
 
   function watchForContainerBeforeDisplayTabs (container) {
@@ -157,6 +178,14 @@ function ControllerInstance(
     if (!container) { return; }
     displayTabsForContainerState(keypather.get(container, 'running()'));
   }
+
+  $scope.$on('$destroy', function () {
+    containerWatch();
+    instanceUpdatedPoller.stop();
+    if (deployedPoller) {
+      deployedPoller.clear();
+    }
+  });
 
   function buildLogsOnly () {
     data.openItems.reset([]);

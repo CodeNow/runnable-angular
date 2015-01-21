@@ -4,11 +4,6 @@
   border-radius: 3px;
   margin: 0 6px 15px;
 
-  &.in {
-    border-color: rgba($blue,.4);
-    box-shadow: 0 0 21px rgba($blue,.21);
-  }
-
   .radio {
     height: 45px;
     margin: 0;
@@ -38,10 +33,10 @@
   }
 
   &:hover {
-    background: rgba($black,.05);
+    background: rgba($blue,.1);
   }
 
   &.active {
-    background: rgba($black,.05);
+    background: rgba($blue,.15);
   }
 }

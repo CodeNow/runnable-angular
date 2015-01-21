@@ -1,17 +1,38 @@
-//- add class .in to display
-//- .in if model's containers collection populated;
-    indicates model is deployed
-//- .alert.green(
-//-   ng-class = "{ \
-//-     in: (dataInstance.data.showFinishMessageWhenContainerFetched && \
-//-          dataInstance.data.instance.containers.models.length) \
-//-   }"
-//- )
-  svg.iconnables.icons-check
-    use(
-      xlink:href = "#icons-check"
-    )
-  | Your box has finished building.
+//- show if server build is being swapped out
+.alert.orange.in(
+  ng-show = "dataInstance.data.showUpdatingMessage"
+)
+  h4.h4 Your server is being updated…
+
+.alert.green.in(
+  ng-show = "dataInstance.data.showUpdatedMessage"
+)
+  button.btn.btn-xs.btn-close(
+    ng-click = "dataInstance.data.showUpdatedMessage = false"
+  )
+    svg.iconnables.icons-close
+      use(
+        xlink:href = "#icons-close"
+      )
+  h4.h4 Your server has been updated
+  a.block-quote.text-overflow(
+    href = "{{ dataInstance.data.commit.attrs.commit.url }}"
+    target = "_blank"
+  ) {{ dataInstance.data.commit.attrs.commit.message }}
+    small.small
+      svg.iconnables.icons-branch
+        use(
+          xlink:href = "#icons-branch"
+        )
+      //- Using ACV here to avoid another fetch
+      | {{ dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models[0].attrs.repo }}@{{ dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models[0].attrs.branch }}
+    small.small
+      img.gravatar(
+        height = "15"
+        ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
+        width = "15"
+      )
+      | {{ dataInstance.data.commit.attrs.author.login }}
 
 header.box-header
 
@@ -26,17 +47,28 @@ header.box-header
     open-items = "dataInstance.data.openItems"
   )
 
-  instance-secondary-actions(
-    instances = "dataInstance.data.instances"
+  .secondary-actions(
+    instance-secondary-actions
+    ng-if = "dataInstance.data.instance"
+    instances = "dataApp.data.instances"
     instance = "dataInstance.data.instance"
     saving = "dataInstance.data.saving"
+    ng-if = "!dataInstance.data.isDemo"
+  )
+
+  instance-anon-secondary-actions(
+    ng-if = "dataInstance.data.isDemo"
   )
 
 //- sidebar with repositories and urls
 section.sidebar.box-sidebar.load
 
-  repo-list(
+  section.row.repo-list(
+    repo-list
+    unsaved-acvs = "dataInstance.data.unsavedAcvs"
     loading = "dataApp.data.loading"
+    instance = "dataInstance.data.instance"
+    build = "dataInstance.data.instance.build"
   )
 
 //- in / out control presence of header-bar
@@ -53,7 +85,8 @@ section.views.with-add-tab(
         xlink:href = "#icons-folder-open"
       )
 
-  explorer(
+  section.explorer(
+    explorer
     open-items = "dataInstance.data.openItems"
     toggle-theme = "dataInstance.data.toggleTheme"
   )
@@ -63,15 +96,24 @@ section.views.with-add-tab(
     open-items= "dataInstance.data.openItems"
   )
 
-  add-tab(
+  div(
+    add-tab
     open-items = "dataInstance.data.openItems"
   )
 
   //- active panel
-  active-panel(
-    is-dark-theme = "dataInstance.data.toggleTheme",
+  .active-panel(
+    active-panel
+    ng-class = "{\
+      'loaded': (item === openItems.activeHistory.last()),\
+      'ace-runnable-dark': dataInstance.data.toggleTheme\
+    }"
+    ng-repeat = "item in dataInstance.data.openItems.models"
+    ng-show = "item === dataInstance.data.openItems.activeHistory.last()"
     current-model = "dataInstance.data.instance.attrs"
+    is-dark-theme = "dataInstance.data.toggleTheme",
     open-items = "dataInstance.data.openItems"
+    item = "item"
   )
 
   //- blank state

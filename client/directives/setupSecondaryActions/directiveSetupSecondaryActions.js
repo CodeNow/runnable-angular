@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('setupSecondaryActions', setupSecondaryActions);
 /**
@@ -8,7 +10,6 @@ function setupSecondaryActions(
   return {
     restrict: 'E',
     templateUrl: 'viewSetupSecondaryActions',
-    replace: true,
     scope: {
       data: '=',
       stateModel: '=',

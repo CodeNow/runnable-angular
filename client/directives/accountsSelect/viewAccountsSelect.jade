@@ -1,52 +1,23 @@
-header.row.account-header.load(
-  ng-show = "activeAccount"
+.account-header(
+  ng-class = "{'no-touching': data.accountsDisabled()}"
+  ng-show = "data.activeAccount"
+  toggle-pop-over
+  toggle-pop-over-model = "popoverAccountMenu.data.show"
 )
-  ol.accounts-group(
-    ng-class = "{ \
-      in: isChangeAccount \
-    }"
-    ng-click = "isChangeAccount = !isChangeAccount; \
-      $event.stopPropagation();"
+  img.gravatar(
+    height = "24"
+    ng-src = "{{ data.activeAccount.gravitar() }}"
+    width = "24"
   )
-    li.accounts-group-item
-      a.account.load(
-        ng-show = "activeAccount.gravitar()"
-      )
-        img.gravatar(
-          height = "24"
-          ng-src = "{{ activeAccount.gravitar() }}"
-          width = "24"
-        )
-        span.account-name.text-overflow {{ activeAccount.oauthName() }}
-        //- icons-arrow-down only for first account
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-    //- current user (if user is not active)
-    li.accounts-group-item(
-      ng-if = "user !== activeAccount"
-      ng-click = "$event.stopPropagation(); \
-        selectActiveAccount(user)"
+  span.account-name.text-overflow {{ data.activeAccount.oauthName() }}
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
     )
-      a.account
-        img.gravatar(
-          height = "24"
-          ng-src = "{{ user.gravitar() }}"
-          width = "24"
-        )
-        span.account-name.text-overflow {{ user.oauthName() }}
-    //- Orgs that are not the active account
-    li.accounts-group-item(
-      ng-click = "$event.stopPropagation(); \
-        selectActiveAccount(org)"
-      ng-if = "org !== activeAccount"
-      ng-repeat = "org in orgs.models"
-    )
-      a.account
-        img.gravatar(
-          height = "24"
-          ng-src = "{{ org.gravitar() }}"
-          width = "24"
-        )
-        span.account-name.text-overflow {{ org.oauthName() }}
+  pop-over(
+    actions = "popoverAccountMenu.actions"
+    data = "popoverAccountMenu.data"
+    popover-ready = "popoverAccountMenu.data.show"
+    popover-options = "{\"left\":124,\"top\":48}"
+    template = "viewPopoverAccountMenu"
+  )

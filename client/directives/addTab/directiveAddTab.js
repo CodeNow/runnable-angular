@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('addTab', addTab);
 /**
@@ -8,9 +10,8 @@ function addTab(
   $state
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewAddTab',
-    replace: true,
     scope: {
       openItems: '='
     },

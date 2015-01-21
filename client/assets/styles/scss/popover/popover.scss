@@ -8,9 +8,9 @@
 }
 
 .popover.top .arrow:after {
-  bottom: 1px;
   border-bottom-width: 0;
-  border-top-color: $white;
+  border-top-color: rgba($white,.975);
+  bottom: 1px;
   content: ' ';
   margin-left: -10px;
 }
@@ -25,7 +25,7 @@
 
 .popover.right .arrow:after {
   border-left-width: 0;
-  border-right-color: $gray-lighter;
+  border-right-color: $gray-lightest;
   bottom: -10px;
   content: ' ';
   left: 1px;
@@ -40,7 +40,7 @@
 }
 
 .popover.bottom .arrow:after {
-  border-bottom-color: $white;
+  border-bottom-color: rgba($white,.975);
   border-top-width: 0;
   content: ' ';
   margin-left: -10px;
@@ -56,7 +56,7 @@
 }
 
 .popover.left .arrow:after {
-  border-left-color: $white;
+  border-left-color: rgba($white,.975);
   border-right-width: 0;
   bottom: -10px;
   content: ' ';
@@ -65,7 +65,7 @@
 
 // popovers
 .popover {
-  background: rgba($white,.975);
+  background: rgba(rgba($white,.975),.975);
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
@@ -81,6 +81,13 @@
   transform: scale3d(0,0,1);
   transition: all .15s ease-in;
   white-space: normal;
+
+  &.in {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale3d(1,1,1);
+    z-index: $z-popover;
+  }
 
   .arrow,
   .arrow::after {
@@ -98,6 +105,16 @@
     &:hover {
       background: none;
     }
+
+    &.right {
+      left: auto;
+      right: 21px;
+    }
+
+    &.left {
+      left: 21px;
+      right: auto;
+    }
   }
 
   .arrow::after {
@@ -109,16 +126,7 @@
     top: -10px;
 
     &::after {
-      border-bottom-color: $gray-lighter;
-    }
-  }
-
-  &.top,
-  &.right,
-  &.left {
-
-    > .arrow::after {
-      border-top-color: $gray-lighter;
+      border-bottom-color: $gray-lightest;
     }
   }
 
@@ -127,31 +135,32 @@
     margin-top: -10px;
 
     > .arrow.white::after {
-      border-top-color: $white;
+      border-top-color: rgba($white,.975);
     }
   }
 
   &.right {
     margin-left: 10px;
+
+    > .arrow.white::after {
+      border-right-color: rgba($white,.975);
+    }
   }
 
   &.bottom {
     transform-origin: 50% 0;
 
     > .arrow.white::after {
-      border-bottom-color: $white;
+      border-bottom-color: rgba($white,.975);
     }
   }
 
   &.left {
     margin-left: -10px;
-  }
 
-  &.in {
-    opacity: 1;
-    pointer-events: auto;
-    transform: scale3d(1,1,1);
-    z-index: $z-popover;
+    > .arrow.white::after {
+      border-left-color: rgba($white,.975);
+    }
   }
 
   // .popover.menu
@@ -180,38 +189,9 @@
     }
   }
 
-  // .popover-list
-  .popover-list {
-    padding: 4px 0;
-  }
-
-  .popover-list-item {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-    cursor: pointer;
-    font-size: 16px;
-    padding-left: 15px;
-
-    &:hover {
-      background: rgba($blue,.1);
-      border-color: rgba($blue,.2);
-    }
-
-    &:active {
-      background: rgba($blue,.15);
-      border-color: rgba($blue,.3);
-    }
-
-    &.no-actions {
-      cursor: default;
-      text-align: center;
-
-      &:hover,
-      &:active {
-        background: transparent;
-        border-color: transparent;
-      }
-    }
+  // .list
+  .list + .list {
+    border-top: 1px solid rgba($black,.1);
   }
 
   // ul.popover-columns
@@ -272,11 +252,117 @@
       margin-top: 3px;
     }
   }
+
+  // search
+  .input-search {
+    border-color: transparent;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 auto 12px;
+    position: relative;
+    top: 8px;
+    width: calc(100% - 18px);
+
+    &:hover,
+    &:focus,
+    &:valid {
+      background-color: $white;
+      border-color: rgba($black,.15);
+    }
+  }
+}
+
+// popover lists
+// ul.popover-list
+.popover-list {
+  padding: 4px 0;
+}
+
+// li.popover-list-item
+.popover-list-item {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  height: 36px;
+  line-height: 36px;
+  overflow: hidden;
+  padding: 0 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+
+  &:active {
+    background: rgba($blue,.15);
+    border-color: rgba($blue,.3);
+  }
+
+  &.no-actions {
+    cursor: default;
+    text-align: center;
+
+    &:hover,
+    &:active {
+      background: transparent;
+      border-color: transparent;
+    }
+  }
+
+  .gravatar {
+    float: left;
+    margin: 5px 9px 0 0;
+  }
+
+  .iconnables {
+    float: left;
+    margin: 6px 6px 0 0;
+  }
+
+  // links
+  .list-link {
+    margin: 0 -15px;
+    padding: 0 15px;
+  }
+}
+
+// li.popover-list-block
+.popover-list-block {
+  background: $gray-lightest;
+  border-top: 1px solid rgba($black,.1);
+  padding: 12px 15px 3px;
+
+  .small {
+    color: $gray;
+    margin-bottom: 3px;
+  }
+
+  .label-checkbox {
+    height: 36px;
+    line-height: 36px;
+    padding: 0;
+  }
+
+  &:not(:first-child) {
+    margin-top: 4px;
+  }
+}
+
+.popover-animate-in {
+  animation: scale-in .15s ease-in forwards;
+  pointer-events: auto;
+  z-index: $z-popover;
 }
 
 .popover-content {
   font-weight: 300;
   padding: 6px;
+  position: relative;
+  z-index: $z-popover-content;
 }
 
 //- footer.popover-footer
@@ -303,47 +389,24 @@
 
 // h3.popover-title
 .popover-title {
-  background: $gray-lighter;
+  background: rgba($gray-lightest,.9);
   border-bottom: 1px solid rgba($black,.1);
   color: $gray-dark;
-  font-size: 16px;
   font-weight: 500;
-  height: 36px;
-  line-height: 36px;
+  height: 45px;
+  line-height: 45px;
   margin: 0;
-  padding: 0 6px 0 21px;
-  text-shadow: none;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  z-index: $z-popover-title;
 
-  // toggle search
-  .btn-search {
-    float: left;
-    width: 24px;
-  }
+  // toggle
+  .btn-group {
+    display: block;
 
-  .icons-search-blue {
-    left: -1px;
-    top: -1px;
-  }
-}
-
-// input.title-filter
-.title-filter {
-  background: $white;
-  font-size: 14px;
-  font-weight: 300;
-  height: 25px;
-  line-height: 24px;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 6px;
-  top: 6px;
-  transition: opacity .15s ease-in;
-  width: calc(100% - 42px);
-  z-index: $z-popover-title-filter;
-
-  .show-filter & {
-    opacity: 1;
-    pointer-events: auto;
+    .btn {
+      width: 50%;
+    }
   }
 }

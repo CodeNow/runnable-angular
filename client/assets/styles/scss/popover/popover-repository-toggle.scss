@@ -1,0 +1,135 @@
+// .popover.right.popover-repository-toggle
+.popover-repository-toggle {
+  transform-origin: 0 24px;
+  width: 276px;
+
+  &.right > .arrow {
+    top: 24px;
+  }
+
+  // popover header
+  .popover-title {
+
+    .iconnables {
+      float: none;
+      height: 18px;
+      top: 4px;
+      transform: none;
+      width: 18px;
+    }
+  }
+
+  // branch select
+  .btn-select {
+    color: $gray-light;
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 48px;
+    transition: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $gray;
+    }
+  }
+
+  // spinner
+  .popover-content {
+    height: 90px;
+  }
+
+  // older/newer buttons
+  .btn-group:last-child {
+    display: block;
+    margin: 6px;
+
+    .btn {
+      font-size: 14px;
+      width: 50%;
+
+      &:only-child {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// ul.toggle-group
+.toggle-group {
+  max-height: 360px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+// li.toggle-group-item
+.toggle-group-item {
+  height: auto;
+  line-height: 1;
+  margin-top: -1px;
+  overflow: visible;
+  padding: 12px;
+  white-space: normal;
+
+  + .toggle-group-item::after {
+    background: rgba($black,.1);
+    content: '';
+    display: block;
+    height: 1px;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: -1px;
+    width: 261px;
+  }
+
+  // .spinner
+  .spinner {
+    color: $blue;
+  }
+
+  .spinner-ring {
+    background: #f0f8fb; // rgba($blue,.1);
+  }
+
+  // .link-text (commit hash)
+  .link-text {
+
+    &:hover,
+    &:hover .iconnables,
+    &:active {
+      color: $blue;
+    }
+  }
+}
+
+// .toggle-group-title
+.toggle-group-title {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+// .toggle-group-detail
+.toggle-group-detail {
+
+  .small {
+    color: $gray-light;
+
+    &:last-child {
+      float: right;
+    }
+
+    &:first-child {
+      float: left;
+    }
+  }
+
+  .iconnables {
+    color: $gray-lighter;
+    height: 12px;
+    top: 3px;
+    width: 12px;
+  }
+}

@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .factory('fetchUser', fetchUser);
 
@@ -6,18 +8,17 @@ function fetchUser (
   keypather,
   user
 ) {
-  var currentUser;
   return function (cb) {
-    if (currentUser) {
-      return cb(null, currentUser);
+    if (user.attrs && user.attrs.accounts) {
+      return cb(null, user);
     }
-    var tempUser = user.fetchUser('me', function (err) {
-      if (err && keypather.get(err, 'data.statusCode') === 401) {
+    user.fetch('me', function (err) {
+      if (err && keypather.get(err, 'data.statusCode') === 401 &&
+          !keypather.get($state, 'current.data.anon')) {
         $state.go('home');
         return cb(err);
       }
-      currentUser = tempUser;
-      cb(err, currentUser);
+      cb(err, user);
     });
   };
 }

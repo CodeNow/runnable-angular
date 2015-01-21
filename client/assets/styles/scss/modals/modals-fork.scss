@@ -4,7 +4,7 @@
   .input-description {
     max-width: 290px;
 
-    @include media(xs) {
+    @include media(sm) {
       max-width: 240px;
     }
   }

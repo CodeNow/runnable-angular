@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $compile,
     $rootScope,
@@ -19,12 +21,6 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $timeout = _$timeout_;
-
-      $rootScope.safeApply = function(cb) {
-        $timeout(function() {
-          $scope.$digest();
-        });
-      };
     });
 
     ctx = {};
@@ -36,7 +32,7 @@ describe('directiveEnvironmentButton'.bold.underline.blue, function() {
     $scope.item = {
       instance: instance
     };
-    ctx.template = directiveTemplate('environment-button', {
+    ctx.template = directiveTemplate.attribute('environment-button', {
       item: 'item'
     });
     ctx.element = $compile(ctx.template)($scope);

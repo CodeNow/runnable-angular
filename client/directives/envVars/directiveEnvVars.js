@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('envVars', envVars);
 /**
@@ -9,15 +11,13 @@ function envVars(
   $rootScope
 ) {
   return {
-    restrict: 'E',
-    replace: true,
+    restrict: 'A',
+    templateUrl: 'viewEnvVars',
     scope: {
-      in: '=',
       currentModel: '=',
       stateModel: '=',
       validation: '='
     },
-    templateUrl: 'viewEnvVars',
     link: function ($scope, elem, attrs) {
 
       $scope.environmentalVars = '';
@@ -26,7 +26,6 @@ function envVars(
       $scope.$on('eventPasteLinkedInstance', function (eventName, text) {
         editor.insert(text);
         updateEnvs(editor.getValue());
-        $rootScope.safeApply();
         editor.focus();
       });
 

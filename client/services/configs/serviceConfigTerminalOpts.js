@@ -1,3 +1,5 @@
+'use strict';
+
 var configTerminalOpts = {
   cols: 80,
   rows: 20,

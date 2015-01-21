@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $rootScope,
   $scope,
@@ -5,7 +7,7 @@ var $rootScope,
   $state,
   $stateParams;
 var $elScope;
-
+var keypather;
 var apiMocks = require('../../apiMocks/index');
 
 function makeDefaultScope() {
@@ -58,24 +60,24 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       _$stateParams_,
       _$rootScope_,
       _$timeout_,
-      _$compile_
+      _$compile_,
+      _keypather_
     ) {
       $state = _$state_;
       $stateParams = _$stateParams_;
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       $scope = _$rootScope_.$new();
-      $rootScope.safeApply = function (cb) {
-        _$timeout_(function () {
-          $scope.$digest();
-        });
-      };
+      keypather = _keypather_;
     });
     if (scope) {
       Object.keys(scope).forEach(function (key) {
         $scope[key] = scope[key];
       });
     }
+    keypather.set($rootScope, 'dataApp.data.instances.create', sinon.spy(function (opts, cb) {
+      cb();
+    }));
 
     ctx = {};
     ctx.template = directiveTemplate('setup-primary-actions', {
@@ -154,8 +156,7 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
     });
 
     it('should build if openItems is clean', function (done) {
-      $scope.data.user.createInstance = function (opts, cb) {
-        console.log(opts);
+      keypather.set($rootScope, 'dataApp.data.instances.create', sinon.spy(function (opts, cb) {
         expect(opts.owner).to.deep.equal({
           github: apiMocks.user.accounts.github.accessToken
         });
@@ -165,7 +166,7 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
         var copy = angular.copy(apiMocks.instances.building);
         copy.name = $scope.name;
         return { attrs: copy };
-      };
+      }));
 
       ctx.stateMock.go = function (newState, params) {
         expect(newState).to.equal('instance.instance');

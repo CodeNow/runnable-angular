@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .controller('ControllerSetup', ControllerSetup);
 /**
@@ -11,6 +13,7 @@ function ControllerSetup(
   async,
   determineActiveAccount,
   $scope,
+  $rootScope,
   $state,
   $stateParams,
   keypather,
@@ -24,7 +27,8 @@ function ControllerSetup(
 
   var dataSetup = $scope.dataSetup = {
     data: {
-      instanceOpts: {}
+      instanceOpts: {},
+      unsavedAcvs: []
     },
     actions: {}
   };
@@ -60,12 +64,11 @@ function ControllerSetup(
           // this build has been built.
           // redirect to new?
           $state.go('instance.new', {
-            userName: $scope.activeAccount.oauthId()
+            userName: $rootScope.dataApp.data.activeAccount.oauthId()
           });
           cb(new Error('build already built'));
         } else {
           data.build = build;
-          $scope.safeApply();
           cb();
         }
       })
@@ -73,38 +76,22 @@ function ControllerSetup(
       .go();
   }
 
-  function fetchInstances(cb) {
-    new QueryAssist(data.user, cb)
-      .wrapFunc('fetchInstances', cb)
-      .query({
-        githubUsername: $stateParams.userName
-      })
-      .cacheFetch(function (instances, cached, cb) {
-        data.instances = instances;
-        $scope.safeApply();
-        cb();
-      })
-      .resolve(cb)
-      .go();
-  }
+  var unwatchInstances = $rootScope.$watch('dataApp.data.instances', function (n) {
+    data.instances = n;
+  });
 
+  $scope.$on('$destroy', function () {
+    unwatchInstances();
+  });
   async.waterfall([
-    determineActiveAccount,
-    function (activeAccount, cb) {
-      $scope.activeAccount = activeAccount;
-      $scope.safeApply();
-      cb();
-    },
     function (cb) {
       fetchUser(function(err, user) {
         if (err) { return cb(err); }
         data.user = user;
-        $scope.safeApply();
         cb();
       });
     },
-    fetchBuild,
-    fetchInstances
+    fetchBuild
   ], errs.handler);
 
 }

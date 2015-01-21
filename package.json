@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "0.3.0",
+  "version": "0.3.5",
   "private": true,
   "description": "rewrite of runnable-web in angularjs",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "Casey Flynn",
   "dependencies": {
     "101": "^0.5.0",
-    "angular": "1.2.23",
+    "angular": "1.3.8",
     "angular-ui-ace": "git://github.com/Runnable/ui-ace.git#v0.2.0",
     "angular-ui-router": "~0.2.10",
     "ansi-to-html": "^0.2.0",
@@ -25,7 +25,7 @@
     "body-parser": "^1.4.3",
     "brace": "git://github.com/Runnable/brace.git#240b6bd",
     "browser-resolve": "^1.2.4",
-    "browserify-angular-animate": "~1.2.18",
+    "angular-animate": "1.3.7",
     "callback-count": "^0.1.0",
     "compression": "https://registry.npmjs.org/compression/-/compression-1.0.9.tgz",
     "cookie-parser": "^1.3.3",
@@ -41,13 +41,13 @@
     "ngStorage": "git+https://github.com/cflynn07/ngStorage.git#v0.4.0",
     "primus": "^2.3.0",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.4",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.15",
     "term.js": "git://github.com/Runnable/term.js.git#6a1d4ec38aa26c61fb6a4f0a20ba5cb207e66f2d",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
     "browserify": "~4.2.3",
-    "browserify-angular-mocks": "1.2.23",
+    "angular-mocks": "1.3.7",
     "browserify-istanbul": "^0.1.2",
     "browserify-shim": "~3.6.0",
     "chai": "~1.9.1",
@@ -103,7 +103,6 @@
     "app": "./client/lib/app.js",
     "main": "./client/main.js",
     "primus-client": "./client/assets/js/primus-client.js",
-    "skrollr": "./client/assets/js/skrollr.js",
     "config/routes": "./client/config/routes.js",
     "config/api": "./client/config/api.js",
     "config/environment": "./client/config/environment.js",

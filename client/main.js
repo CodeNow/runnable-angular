@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('app');
 var $ = require('jquery');
 require('angular');
@@ -32,31 +34,6 @@ app.config(function ($httpProvider) {
 });
 
 /**
- * SafeApply mechanism for invoking
- * $digest loop safely within async
- * function callback
- */
-app.run(['$rootScope',
-  '$timeout',
-  function ($rootScope,
-    $timeout) {
-    var applyCallbacks = [];
-    $rootScope.safeApply = function (cb) {
-      if (cb) {
-        applyCallbacks.push(cb);
-      }
-      $timeout(function () {
-        $rootScope.$apply();
-        applyCallbacks.forEach(function (cb) {
-          cb();
-        });
-        applyCallbacks = [];
-      });
-    };
-  }
-]);
-
-/**
  * Pre-load template cache with compiled
  * jade templates included in JS bundle
  */
@@ -79,7 +56,6 @@ app.run([
     $(document).on('keydown', function (e) {
       if (e.keyCode === 27) {
         $rootScope.$broadcast('app-document-click');
-        $rootScope.safeApply();
       }
     });
   }

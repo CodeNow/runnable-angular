@@ -1,0 +1,25 @@
+{
+  "_id": "543988508f75990e008d2c76",
+  "createdBy": {
+    "github": 1616464
+  },
+  "owner": {
+    "github": 1616464
+  },
+  "__v": 0,
+  "buildNumber": 57,
+  "started": "2014-10-11T19:43:21.764Z",
+  "completed": "2014-10-11T19:44:05.182Z",
+  "duration": 43418,
+  "failed": false,
+  "created": "2014-10-11T19:43:12.135Z",
+  "erroredContextVersions": [],
+  "contextVersions": [
+    "543988508f75990e008d2c74"
+  ],
+  "contexts": [
+    "543861deaebe190e0077c24b"
+  ],
+  "successful": true,
+  "id": "543988508f75990e008d2c76"
+}

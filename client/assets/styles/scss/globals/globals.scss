@@ -11,38 +11,41 @@ body {
   font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
   font-size: 16px;
   font-weight: 300;
+  height: 100%;
   letter-spacing: .2px;
   line-height: 1.4;
   min-width: 1150px;
-}
-
-body,
-#wrapper {
-  height: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+
+  // vertical scroll
+  .vertical & {
+    height: auto;
+    min-width: 360px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .content {
   float: right;
   height: 100%;
   overflow: hidden;
+  position: relative;
   transition: width .2s ease-in;
   width: calc(100% - 240px);
 }
 
 // svg files
-#svg-defs {
+.svg-defs {
   display: none !important;
 }
 
 // utility
 .clearfix:before,
 .clearfix:after {
-  content: " ";
-  /* 1 */
+  content: '';
   display: table;
-  /* 2 */
 }
 
 .clearfix:after {
@@ -53,9 +56,9 @@ body,
   margin: 0 -15px;
 }
 
-// webkit flicker bug:
-// https://code.google.com/p/chromium/issues/detail?id=138415
-// https://code.google.com/p/chromium/issues/detail?id=311583
-.webkit-flicker {
-  -webkit-backface-visibility: hidden;
+// if .disabled communicates to the user that an element is not available to them,
+// .no-touching 'disables' an element and DOES NOT communicate
+.no-touching {
+  cursor: default !important;
+  pointer-events: none !important;
 }

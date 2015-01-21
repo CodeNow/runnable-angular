@@ -1,9 +1,11 @@
 // .demo-sidebar
 .demo-sidebar.demo-sidebar {
-  background: $purple;
+  background: $gray-lightest;
 
   .logo {
-    height: 39px;
+    color: $gray-lighter;
+    height: 90px;
+    margin: 21px auto;
   }
 
   .row {
@@ -11,20 +13,11 @@
     margin-bottom: 9px;
   }
 
-  // a.btn.white.btn-icon.btn-actions
   .btn {
-    width: 100%;
+    margin-top: 12px;
 
-    .iconnables {
-      transform: scale3d(.9,.9,1);
-    }
-
-    &:hover .iconnables {
-      transform: scale3d(1,1,1);
-    }
-
-    + .btn {
-      margin-top: 9px;
+    &.btn-xxs {
+      margin: 0;
     }
   }
 
@@ -32,33 +25,16 @@
     width: auto;
   }
 
-  .icons-git {
-    margin-right: 6px;
-    top: 6px;
+  .btn,
+  .sidebar-paragraph {
+
+    + .link {
+      margin-top: 12px;
+    }
   }
 
   .template-list {
     text-align: left;
-  }
-
-  // a.link.link-white.link-text
-  .link-text {
-    color: rgba($white,.6);
-    font-size: 14px;
-    font-weight: 300;
-    margin-top: 9px;
-    text-align: center;
-  }
-}
-
-.demo-sidebar-hint {
-  color: rgba($white,.9);
-  font-size: 16px;
-  line-height: 1.6;
-  padding: 9px;
-
-  + .demo-sidebar-hint {
-    padding: 9px 9px 21px;
   }
 }
 
@@ -85,9 +61,4 @@
   .ace_active-line {
     background: $white !important;
   }
-}
-
-.primary-actions.demo-active {
-  opacity: 0;
-  pointer-events: none;
 }

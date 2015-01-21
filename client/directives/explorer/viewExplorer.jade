@@ -1,16 +1,16 @@
-section.explorer
-  .explorer-controls
-    button.toggle-theme(
-      ng-class = "{ \
-        dark: !toggleTheme, \
-        light: toggleTheme \
-      }"
-      ng-click = "toggleTheme = !toggleTheme"
-      ng-init = "toggleTheme = true"
-      tooltip = "Change Theme"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
-    )
-      .theme
-  file-tree(
-    open-items = "openItems"
+.explorer-controls
+  button.toggle-theme(
+    ng-class = "{ \
+      dark: !toggleTheme, \
+      light: toggleTheme \
+    }"
+    ng-click = "toggleTheme = !toggleTheme"
+    ng-init = "toggleTheme = true"
+    tooltip = "Change Theme"
+    tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
   )
+    .theme
+ul.file-tree(
+  file-tree
+  open-items = "openItems"
+)

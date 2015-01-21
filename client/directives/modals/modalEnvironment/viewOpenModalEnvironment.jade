@@ -1,12 +1,13 @@
-.modal-backdrop(
-  ng-if = "in"
+.modal-backdrop.in(
   ng-click = "$event.stopPropagation()"
-  ng-class = "{'in': in}"
+  ng-if = "in"
 )
-   modal-environment(
-     state-model = "stateModel"
-     current-model = "currentModel"
+   .modal-dialog.modal-sidebar.modal-environment(
      actions = "actions"
-     default-actions = "defaultActions"
+     current-model = "currentModel"
      data = "data"
+     default-actions = "defaultActions"
+     modal-environment
+     ng-class = "{'show-aside': data.toggleSidebar}"
+     state-model = "stateModel"
    )

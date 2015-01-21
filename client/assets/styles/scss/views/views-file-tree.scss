@@ -48,12 +48,14 @@
   padding: 0 3px;
   position: absolute;
   top: 3px;
+  width: calc(100% - 37px);
 
   &[readonly] {
     background: none;
     border: 1px solid transparent;
     opacity: 0;
     pointer-events: none;
+    width: auto;
 
     & ~ .item-name {
       opacity: 1;

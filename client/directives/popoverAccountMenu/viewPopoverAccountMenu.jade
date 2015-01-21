@@ -1,0 +1,45 @@
+.popover.menu.bottom.popover-account-menu(
+  ng-class = "{in: data.show,\
+    'popover-getting-started-offset': !data.isMainPage}"
+  ng-click = "$event.stopPropagation()"
+)
+  .arrow.white
+  .popover-content
+    ul.list.popover-list
+      li.list-item.popover-list-item.small Change Organization
+      //- current user (if user is not active)
+      li.list-item.popover-list-item(
+        ng-if = "data.user !== data.activeAccount"
+        ng-click = "actions.selectActiveAccount(data.user)"
+      )
+        img.gravatar(
+          height = "24"
+          ng-src = "{{ data.user.gravitar() }}"
+          width = "24"
+        )
+        | {{ data.user.oauthName() }}
+      li.list-item.popover-list-item(
+        ng-click = "actions.selectActiveAccount(org)"
+        ng-if = "org !== data.activeAccount"
+        ng-repeat = "org in data.orgs.models"
+      )
+        img.gravatar(
+          height = "24"
+          ng-src = "{{ org.gravitar() }}"
+          width = "24"
+        )
+        | {{ org.oauthName() }}
+    ul.list.popover-list(
+      ng-if = "data.isMainPage"
+    )
+      li.list-item.popover-list-item(
+        modal
+        modal-actions = "actions.actionsModalIntegrations"
+        modal-data = "data.dataModalIntegrations"
+        modal-template = "viewOpenModalIntegrations"
+      )
+        | Integrations
+      li.list-item.popover-list-item
+        a.list-link(
+          ng-href = "{{ data.logoutURL }}"
+        ) Log Out

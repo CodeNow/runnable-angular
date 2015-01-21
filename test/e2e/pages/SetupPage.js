@@ -1,3 +1,5 @@
+'use strict';
+
 var util = require('../helpers/util');
 
 var RepoList = require('../directives/RepoList');

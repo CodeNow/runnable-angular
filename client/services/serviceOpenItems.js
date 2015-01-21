@@ -1,3 +1,5 @@
+'use strict';
+
 var BaseCollection = require('runnable/lib/collections/base');
 var BaseModel = require('runnable/lib/models/base');
 var VersionFileModel = require('runnable/lib/models/context/version/file');

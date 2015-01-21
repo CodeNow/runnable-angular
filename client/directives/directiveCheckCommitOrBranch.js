@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('checkCommitOrBranch', checkCommitOrBranch);
 /**
@@ -26,7 +28,6 @@ function checkCommitOrBranch(
         if (isBranch(branchOrCommit)) {
           repo.selectedBranch = branchOrCommit;
           ctrl.$setValidity('commitFound', true); // valid
-          $rootScope.safeApply();
           return;
         }
 
@@ -36,7 +37,6 @@ function checkCommitOrBranch(
           } else {
             ctrl.$setValidity('commitFound', true); // valid
           }
-          $rootScope.safeApply();
         });
 
         function isBranch(name) {

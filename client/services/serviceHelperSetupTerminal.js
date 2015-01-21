@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .factory('helperSetupTerminal', helperSetupTerminal);
 /**
@@ -7,7 +9,7 @@ function helperSetupTerminal(
   configTerminalOpts,
   debounce,
   jQuery,
-  termjs,
+  Termjs,
   $window
 ) {
   return function ($scope, elem, opts, onResize) {
@@ -20,7 +22,7 @@ function helperSetupTerminal(
     if (elem[0].clientWidth > 100) {
       config.cols = Math.floor(elem[0].clientWidth / CHAR_SIZE.width);
     }
-    var terminal = new termjs(config);
+    var terminal = new Termjs(config);
     terminal.open(elem[0]);
 
     // Terminal sizing

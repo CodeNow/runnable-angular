@@ -1,3 +1,5 @@
+'use strict';
+
 // injector-provided
 var $rootScope,
   $scope,
@@ -55,11 +57,6 @@ describe('directiveModalEnvironment'.bold.underline.blue, function () {
       $localStorage = _$localStorage_;
       $document = _$document_;
       $templateCache = _$templateCache_;
-      $rootScope.safeApply = function (cb) {
-        _$timeout_(function () {
-          $scope.$digest();
-        });
-      };
     });
     if (scope) {
       Object.keys(scope).forEach(function (key) {
@@ -69,7 +66,7 @@ describe('directiveModalEnvironment'.bold.underline.blue, function () {
     $scope.user = thisUser;
 
     ctx = {};
-    ctx.template = directiveTemplate('modal-environment', {
+    ctx.template = directiveTemplate.attribute('modal-environment', {
       'data': 'data',
       'actions': 'actions',
       'default-actions': 'defaultActions',

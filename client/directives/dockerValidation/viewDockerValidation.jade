@@ -3,9 +3,7 @@ section.row(
 )
   .sidebar-validation
     h2.sub-header Dockerfile Validation Errors
-    ul.list-group
-      li.list-group-item(
+    ul.list.list-bordered.list-validation
+      li.list-item.orange(
         ng-repeat = "error in validDockerfile.errors"
       ) {{ error.line ? 'Line ' + error.line + ':' : '' }} {{ error.message }}
-
-

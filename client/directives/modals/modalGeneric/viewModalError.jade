@@ -1,13 +1,13 @@
-.modal-dialog(
-  ng-class = "{in: data.in}"
+.modal-dialog.modal-error(
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
     h1.modal-heading Something went wrong.
-  section.modal-body
-    p.modal-description(
+  section.modal-body.clearfix
+    .modal-description.well.well-code.gray(
       ng-repeat = "error in data.errors track by $index"
     ) {{ error | errJSON }}
+
   footer.modal-footer
     button.btn.white(
       ng-click = "defaultActions.cancel()"

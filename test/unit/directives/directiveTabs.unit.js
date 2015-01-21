@@ -1,3 +1,5 @@
+'use strict';
+
 var jQuery  = require('jquery');
 
 // injector-provided
@@ -65,7 +67,7 @@ describe('directiveTabs'.bold.underline.blue, function() {
     injectSetupCompile();
 
     expect(ctx.$element).to.be.ok;
-    expect(ctx.$element.hasClass('views-toolbar')).to.equal(true);
+    expect(ctx.$element.children().hasClass('views-toolbar')).to.be.true;
   });
 
   it('basic scope', function() {

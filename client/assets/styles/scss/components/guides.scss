@@ -1,27 +1,67 @@
 // .guide
 .guide {
   background: rgba($blue,.1);
-  border: 2px dashed rgba($blue,.2);
+  border: 1px solid rgba($blue,.2);
   border-radius: 3px;
-  cursor: pointer;
-  font-size: 14px;
-  margin: 9px 6px 15px;
-  padding: 14px;
+  color: $blue;
+  padding: 12px 15px;
   position: relative;
+  z-index: $z-guide;
 
-  > .iconnables {
-    float: left;
-    margin: 0 9px;
+  // if icon
+  &.guide-image {
+    padding-left: 12px;
+
+    .guide-text {
+      margin-left: 30px;
+    }
   }
 
-  &.guide-no-help {
-    cursor: default;
+  // if closeable
+  &.guide-close {
+    padding-right: 12px;
+
+    .guide-text {
+      float: left;
+    }
+  }
+
+  // if actionable
+  &.guide-pointer {
+    cursor: pointer;
+
+    &:hover {
+      border-color: rgba($blue,.4);
+    }
+  }
+
+  // if floating alert
+  &.guide-alert {
+    background: rgba($black,.75);
+    border: 0;
+    color: $white;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    padding: 6px 12px;
+  }
+
+  > .iconnables {
+    display: block;
+    float: left;
+    height: 21px;
+    opacity: .45;
+    width: 18px;
+  }
+
+  .btn-close {
+    float: right;
+    opacity: .6;
+    padding: 0;
 
     &:hover,
-    &:active,
-    &.active {
-      background: rgba($blue,.1);
-      border-color: rgba($blue,.2);
+    &:active {
+      opacity: 1;
     }
   }
 
@@ -32,8 +72,65 @@
   }
 }
 
+// highlighting guided items
+.guide-in.guide-in {
+  border-color: rgba($blue,.4);
+  box-shadow: 0 0 21px rgba($blue,.21);
+}
+
 .guide-text {
+  font-size: 16px;
+  line-height: 1.4;
   padding-right: 12px;
+}
+
+// getting started guide
+.guide-backdrop .content::after {
+  background: rgba($black,.3);
+  content: '';
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: $z-guide;
+}
+
+// coach marks
+.guide-wrapper {
+  // opacity: .6;
+  position: absolute;
+  transition: all .15s ease-in;
+  z-index: $z-guide;
+
+  // &:hover {
+  //   opacity: .75;
+  // }
+
+  // &:active,
+  // &.in {
+  //   opacity: 1;
+  // }
+
+  @for $i from 1 through 4 {
+
+    &.guide-#{$i} > .guide-mark {
+      animation-delay: $i*.25 + .25s;
+    }
+  }
+}
+
+.guide-mark {
+  animation: scale-in-bounce .5s ease-in forwards;
+  background: #f0f8fb; // rgba($blue,.1);
+  border: 3px solid $blue-dark;
+  border-radius: 50%;
+  // cursor: pointer;
+  height: 24px;
+  padding: 0;
+  transform: scale3d(0,0,1);
+  width: 24px;
 
   // b.btn.btn-xxs.gray
   .btn.btn-xxs {

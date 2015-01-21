@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('popOver', popOver);
 /**
@@ -9,16 +11,16 @@ function popOver(
   jQuery,
   $compile,
   $templateCache,
-  $rootScope,
+  $log,
   $window
 ) {
   return {
     restrict: 'E',
-    replace: true,
     scope: {
       data: '=',
       actions: '=',
-      popoverReady: '='
+      popoverReady: '=',
+      popoverOptions: '@'
     },
     link: function ($scope, element, attrs) {
       var $ = jQuery;
@@ -26,16 +28,24 @@ function popOver(
       var template = $templateCache.get(attrs.template);
 
       var options;
-      try {
-        options = JSON.parse(attrs.popoverOptions);
-      } catch (e) {
-        console.warn('popoverOptions parse failed for ' + attrs.template);
-        options = {};
-      }
-      options.right = (typeof options.right !== 'undefined') ? options.right : 'auto';
-      options.left = (typeof options.left !== 'undefined') ? options.left : 0;
-      options.top = (typeof options.top !== 'undefined') ? options.top : 0;
-      options.class = (typeof options.class !== 'undefined') ? options.class : false;
+
+      var unwatch = $scope.$watch('popoverOptions', function (n) {
+        if (n) {
+          unwatch();
+          try {
+            options = JSON.parse($scope.popoverOptions);
+          } catch (e) {
+            $log.warn('popoverOptions parse failed for ' + attrs.template);
+            options = {};
+          }
+          options.right = (typeof options.right !== 'undefined') ? options.right : 'auto';
+          options.left = (typeof options.left !== 'undefined') ? options.left : 0;
+          options.top = (typeof options.top !== 'undefined') ? options.top : 0;
+          options.class = (typeof options.class !== 'undefined') ? options.class : false;
+
+          setCSS();
+        }
+      });
 
       var parent = $(element.parent());
 
@@ -61,22 +71,19 @@ function popOver(
         popEl.css(newCSS);
       }
 
-      setCSS();
-
       var dSetCSS = debounce(setCSS, 100);
       $($window).on('resize', dSetCSS);
 
       $('body').append(popEl);
       $scope.$watch('popoverReady', setCSS);
+
       $scope.$watch(function () {
         return element.hasClass('in');
       }, function(n) {
         if (n) {
           var autofocus = element[0].querySelector('[autofocus]');
           if (autofocus) {
-            $rootScope.safeApply(function() {
-              autofocus.select();
-            });
+            autofocus.select();
           }
         }
       });

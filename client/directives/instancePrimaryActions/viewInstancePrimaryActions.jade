@@ -2,12 +2,17 @@
   .btn-group
     //- apply .with-restart if save restarts box
     //- add title = "Save and Restart Box" if save restarts box
-    button.btn.green.btn-save(
+    button.btn.green.btn-save.btn-spinner(
       ng-class = "{in: saving}"
       ng-click = "saveChanges()"
       ng-disabled = "!instance.containers.models[0].running() || loading"
       type = "button"
     )
+      //- spinner
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "dataApp.data.loading"
+        ng-include = "'spinner'"
+      )
       span.btn-text Save
       //- show if restart is checked
       span.btn-text(

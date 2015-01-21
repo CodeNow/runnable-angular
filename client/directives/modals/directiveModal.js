@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('modal', modal);
 /**
@@ -5,6 +7,7 @@ require('app')
  */
 function modal(
   $templateCache,
+  $timeout,
   $compile,
   keypather,
   $rootScope,
@@ -29,6 +32,7 @@ function modal(
         template = template.replace('%%GENERIC_TEMPLATE_NAME%%', $scope.template);
       }
       var $template = angular.element(template);
+      $scope.actions = $scope.actions || {};
 
       $scope.defaultActions = {
         save: function (state, paths, cb) {
@@ -46,12 +50,14 @@ function modal(
           }
           $scope.defaultActions.close();
         },
-        close: function () {
+        close: function (cb) {
           $scope.in = false;
           if ($scope.modal) {
             $scope.modal.remove();
           }
-          $rootScope.safeApply();
+          if (typeof cb === 'function') {
+            cb();
+          }
         }
       };
 
@@ -65,15 +71,27 @@ function modal(
         if (typeof keypather.get($scope, 'actions.closePopover') === 'function') {
           $scope.actions.closePopover();
         }
-        $rootScope.safeApply();
+        // Trigger a digest cycle
+        $timeout(angular.noop);
       }
 
-      element[0].onclick = createModal;
+      element.on('click', createModal);
       $scope.$watch('data.in', function(n) {
         if (n === true) {
           createModal();
         }
       });
+
+      /**
+       * TODO: We need this for closing the modal on escape, however,
+       * Some modals need to be able to limit this
+       */
+      //$scope.$on('app-document-click', function() {
+      //  if($scope.in) {
+      //    $scope.defaultActions.close();
+      //    $timeout(angular.noop);
+      //  }
+      //});
 
       $scope.$on('$destroy', function () {
         if ($scope.modal) {
@@ -81,7 +99,6 @@ function modal(
         }
         $scope.in = false;
         element[0].onclick = null;
-        $rootScope.safeApply();
       });
     }
   };

@@ -1,18 +1,30 @@
 .modal-environment {
-  max-width: 600px;
-  min-width: 450px;
-  top: 0;
+  height: 600px;
+
+  @include media(xs) {
+    flex-direction: row !important; // override default behavior
+  }
+
+  .modal-header {
+    border-bottom: 1px solid rgba($black,.1);
+
+    .btn {
+      float: right;
+      right: 6px;
+      top: 6px;
+    }
+  }
 
   .modal-body {
-    border-bottom: 1px solid rgba($black,.1);
-    border-top: 1px solid rgba($black,.1);
-    overflow: hidden;
-    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
     position: relative;
+    width: 100%;
+    z-index: $z-modal;
   }
 
   .pre {
-    min-height: 40vh;
+    flex: 1 1 auto;
     min-width: 600px;
 
     @include media(sm) {
@@ -20,8 +32,7 @@
     }
   }
 
-  .box-group {
-    margin-bottom: 0;
-    padding-bottom: 0;
+  .modal-footer {
+    margin: 0;
   }
 }

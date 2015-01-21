@@ -1,3 +1,5 @@
+'use strict';
+
 if (!Array.prototype.find) {
   Object.defineProperty(Array.prototype, 'find', {
     enumerable: false,

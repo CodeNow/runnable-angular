@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('validateName', validateName);
 /**
@@ -41,7 +43,6 @@ function validateName(
           });
           ctrl.$setValidity('nameAvailable', !match);
         }
-        $rootScope.safeApply();
         return name;
       }
 

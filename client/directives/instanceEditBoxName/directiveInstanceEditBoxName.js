@@ -1,3 +1,5 @@
+'use strict';
+
 require('app')
   .directive('instanceEditBoxName', instanceEditBoxName);
 /**
@@ -15,7 +17,6 @@ function instanceEditBoxName(
   return {
     restrict: 'E',
     templateUrl: 'viewInstanceEditBoxName',
-    replace: true,
     scope: {
       instance: '='
     },

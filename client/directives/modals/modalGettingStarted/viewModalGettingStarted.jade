@@ -1,0 +1,85 @@
+nav.modal-navbar
+  header(
+    accounts-select
+    data = "data"
+  )
+  h3.modal-heading Create New Server
+  ul.list
+    li.list-item(
+      ng-class = "{active: state.step === 1,\
+        visited: state.furthestStep > 1}"
+      ng-click = "actions.changeStep(1)"
+    ) 1 Repository
+      small.small.text-overflow(
+        ng-if = "state.furthestStep > 1"
+      )
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        | {{ state.selectedRepo.attrs.full_name }}
+    li.list-item(
+      ng-class = "{active: state.step === 2,\
+        'no-states': state.furthestStep < 2,\
+        visited: state.furthestStep > 2}"
+      ng-click = "actions.changeStep(2)"
+    ) 2 Application
+      small.small.text-overflow(
+        ng-if = "state.furthestStep > 2"
+      )
+        svg.iconnables.icons-branch
+          use(
+            xlink:href = "#icons-branch"
+          )
+        | {{ state.activeBranch.attrs.name }}
+      small.small.text-overflow(
+        ng-if = "state.furthestStep > 2"
+      )
+        svg.iconnables.icons-rails
+          use(
+            xlink:href = "{{ state.stack.key | getStackIconFilter }}"
+          )
+        | {{ state.stack.name }}
+      small.small.text-overflow(
+        ng-if = "state.furthestStep > 2"
+        ng-repeat = "depStack in state.stack.dependencies"
+      )
+        svg.iconnables.icons-rails
+          use(
+            xlink:href = "{{ depStack.key | getStackIconFilter }}"
+          )
+        | {{ depStack.name }}
+    li.list-item(
+      ng-class = "{active: state.step === 3,\
+        'no-states': state.furthestStep < 3}"
+      ng-click = "actions.changeStep(3)"
+    ) 3 Environment Variables
+  button.btn.btn-xxs.white(
+    ng-click = "defaultActions.cancel();"
+    ng-hide = 'state.hideCancelButton'
+  ) Cancel
+  a.btn.btn-xxs.white(
+    ng-click = "actions.skipTutorial();"
+  ) Skip guide
+.modal-body.modal-repo-selector(
+  actions = "actions"
+  data = "data"
+  app-data = "dataAppData"
+  gs-repo-selector
+  ng-if = "state.step === 1"
+  state = "state"
+)
+.modal-body.modal-stack-selector.clearfix(
+  actions = "actions"
+  data = "data"
+  modal-stack-selector
+  ng-if = "state.step === 2"
+  state = "state"
+)
+.modal-body.modal-gs-environments(
+  actions = "actions"
+  data = "data"
+  ng-include = "'viewModalGsEnvs'"
+  ng-if = "state.step === 3"
+  state = "state"
+)

@@ -2,30 +2,35 @@
 .input-validate {
   transition: border .15s ease-in;
 
-  &:focus,
-  &.focus {
-    background: transparent;
-    border-color: $blue;
-    box-shadow: inset 0 0 3px rgba($blue,.15);
-  }
-
   &.ng-pristine {
-    background: transparent;
+    background: $white;
     border-color: rgba($black,.15);
     box-shadow: inset 0 0 3px rgba($black,.15);
-
-    &:focus,
-    &.focus {
-      background: transparent;
-      border-color: $blue;
-      box-shadow: inset 0 0 3px rgba($blue,.15);
-    }
   }
 
   &.ng-invalid {
-    background: rgba($orange,.05);
+    background: #fffcf5; // rgba($orange,.05);
     border-color: $orange;
     box-shadow: inset 0 0 3px rgba($orange,.15);
+  }
+
+  &.ng-valid {
+    background: #f6fdf7; // rgba($green,.05);
+    border-color: $green;
+    box-shadow: inset 0 0 3px rgba($green,.15);
+  }
+
+  &.ng-pristine {
+    background: $white;
+    border-color: rgba($black,.15);
+    box-shadow: inset 0 0 3px rgba($black,.15);
+  }
+
+  &:focus,
+  &.focus {
+    background: $white;
+    border-color: $blue;
+    box-shadow: inset 0 0 3px rgba($blue,.15);
   }
 }
 
@@ -46,11 +51,6 @@
   position: absolute;
   top: 0;
   transition: opacity .15s ease-in;
-
-  &.invalid-require {
-    font-size: 14px;
-    line-height: 1.2;
-  }
 
   .btn-xs {
     border-radius: 3px;

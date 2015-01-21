@@ -1,3 +1,5 @@
+'use strict';
+
 describe.skip('directiveTerm'.bold.underline.blue, function () {
   var element;
   var $scope;

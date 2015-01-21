@@ -1,3 +1,5 @@
+'use strict';
+
 describe('directiveEnvVars'.bold.underline.blue, function() {
   var element;
   var $scope;
@@ -9,13 +11,7 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
 
-      $rootScope.safeApply = function(cb) {
-        $timeout(function () {
-          $scope.$digest();
-        });
-      };
-
-      var tpl = directiveTemplate('env-vars', {
+      var tpl = directiveTemplate.attribute('env-vars', {
         'validation': 'validation',
         'current-model': 'currentModel',
         'state-model': 'stateModel'

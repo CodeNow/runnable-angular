@@ -1,3 +1,5 @@
+'use strict';
+
 describe('filterErrJSON', function () {
   var filterErrJSON;
   beforeEach(function() {
