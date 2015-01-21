@@ -31,7 +31,7 @@ main.home
   section.home-feature
 
     //- new server configuration
-    section.feature-section
+    section.feature
       .row.clearfix
         .icons-col
           img.icons-img(
@@ -79,18 +79,32 @@ main.home
     .hr.hr-single
 
     //- notifications
-    section.feature-section
-      .col
-        h2.h2.header-thin
-        p.p
-      .col
-        .row
-        .row
+    section.feature.feature-workflow.clearfix
+      .col.col-50
+        h2.h2.header-thin Fits into your workflow
+        p.p We’ll spin up a server for every push made to your code.
+      .col.col-50
+        .notification
+          img.img(
+            height = "30"
+            src = "/build/images/logos/logo-icon-slack.svg"
+            width = "30"
+          )
+          h4.h4 New message in #front-end
+          p.p Runnabot: tjmehta's changes (github hook response was changed) are deployed on serv…
+        .notification
+          img.img(
+            height = "30"
+            src = "/build/images/logos/logo-icon-hipchat.svg"
+            width = "30"
+          )
+          h4.h4 Runnabot
+          p.p tjmehta's changes (github hook response was changed) are deployed on servers: &lt;tj-api&gt;
 
     .hr.hr-single
 
     //- speed & resources
-    section.feature-section
+    section.feature
       .col
         .row
         h2.h2.header-thin

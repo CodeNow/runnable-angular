@@ -33,6 +33,11 @@
     @include media(xs) {
       margin-bottom: 30px;
     }
+
+    &.col-50 {
+      float: left;
+      width: 50%;
+    }
   }
 
   .btn-xl {
@@ -43,7 +48,7 @@
   // .hr
   .hr {
     height: 36px;
-    margin: 0 auto;
+    margin: 60px auto;
     position: relative;
     width: 700px;
 
@@ -64,7 +69,7 @@
 
     &::before,
     &::after {
-      background: rgba($black,.1);
+      background: rgba($black,.075);
       content: '';
       display: block;
       height: 2px;
@@ -155,6 +160,7 @@
 
   .h3 {
     color: $purple-logo;
+    font-size: 24px;
     margin-top: 6px;
   }
 
@@ -204,12 +210,29 @@
 
 // section.home-feature
 .home-feature {
+  margin: 0 auto;
+  max-width: 960px;
 
   .row {
     margin: 90px auto 30px;
     width: 414px;
   }
 
+  .h2 {
+    font-size: 32px;
+  }
+
+  .p {
+    margin: 0 auto;
+    max-width: 360px;
+    text-align: center;
+  }
+
+  .col {
+    margin: 0 auto;
+  }
+
+  // first-feature
   .icons-col {
     float: left;
     position: relative;
@@ -246,18 +269,54 @@
     height: 150px;
     width: 150px;
   }
+}
 
-  .h2 {
-    font-size: 32px;
-  }
+// section.feature
+.feature-workflow {
 
+  .h2,
   .p {
-    text-align: center;
+    margin: 0;
+    text-align: left;
   }
 
-  .col {
+  // notifications
+  .notification {
+    background: #f0f0f0; // osx
+    border: 1px solid rgba($black,.1);
+    border-radius: 6px;
+    box-shadow: 0 0 30px rgba($black,.06); // same as popovers
+    color: #4d4d4d; // osx
+    height: 66px;
     margin: 0 auto;
-    max-width: 360px;
+    padding: 15px;
+    width: 330px;
+
+    + .notification {
+      margin-top: 15px;
+    }
+
+    .img {
+      float: left;
+      margin-right: 12px;
+    }
+
+    .h4,
+    .p {
+      font-size: 12px;
+    }
+
+    .h4 {
+      font-weight: 500;
+      margin: -6px 0 3px;
+    }
+
+    .p {
+      font-weight: 300;
+      height: 36px;
+      overflow: hidden;
+      text-align: left;
+    }
   }
 }
 
@@ -285,177 +344,6 @@
     }
   }
 }
-
-// ul.hero-list
-// .hero-list {
-//   margin: 0 auto;
-//   padding-left: 60px;
-//   width: 720px;
-
-//   @include media(sm) {
-//     padding: 0;
-//     width: 300px;
-//   }
-// }
-
-// li.hero-list-item
-// .hero-list-item {
-//   display: inline-block;
-//   font-size: 24px;
-//   margin-top: 30px;
-//   width: 50%;
-
-//   @include media(sm) {
-//     font-size: 18px;
-//     width: 100%;
-//   }
-// }
-
-// img.hero-list-image
-// span.hero-list-text
-// .hero-list-image,
-// .hero-list-text {
-//   display: inline-block;
-//   float: left;
-// }
-
-// .hero-list-image {
-
-//   @include media(sm) {
-//     height: 45px;
-//   }
-// }
-
-// .hero-list-text {
-//   height: 60px;
-//   line-height: 60px;
-//   margin-left: 15px;
-
-//   @include media(sm) {
-//     height: 45px;
-//     line-height: 45px;
-//   }
-// }
-
-// section.home-demos
-// .home-demos {
-//   margin: 60px 0 0;
-
-//   @include media(xs) {
-//     margin-bottom: 150px;
-//   }
-
-//   .link {
-//     display: table;
-//     margin: 30px auto;
-//   }
-// }
-
-// // ol.demo-list
-// .demo-list {
-//   border: 1px solid $gray-lighter;
-//   border-radius: 3px;
-//   margin: 60px auto 0;
-//   width: 720px;
-
-//   @include media(sm) {
-//     margin: 60px 15px 0;
-//     width: auto;
-//   }
-// }
-
-// // li.demo-list-item
-// .demo-list-item {
-//   display: block;
-//   height: 108px;
-//   position: relative;
-
-//   + .demo-list-item {
-//     border-top: 1px solid $gray-lighter;
-//   }
-
-//   .h3,
-//   .p {
-//     text-align: left;
-
-//     @include media(xs) {
-//       height: 24px;
-//       line-height: 24px;
-
-//       &.h3 {
-//         font-size: 21px;
-//         line-height: 1;
-//       }
-
-//       &.p {
-//         font-size: 14px;
-//       }
-//     }
-
-//     @include media(xxs) {
-//       &.h3 {
-//         font-size: 17px;
-//       }
-//     }
-//   }
-
-//   .p {
-//     height: auto;
-
-//     @include media(xs) {
-//       line-height: 1.2;
-//     }
-//   }
-
-//   .btn {
-//     position: absolute;
-//     right: 21px;
-//     top: 36px;
-
-//     @include media(xs) {
-//       font-size: 14px;
-//       right: 12px;
-
-//       .icons-git {
-//         width: 18px;
-//       }
-//     }
-//   }
-// }
-
-// // img.demo-icon
-// .demo-icon {
-//   float: left;
-//   height: 100%;
-//   margin: 0 18px;
-//   width: 48px;
-
-//   @include media(xs) {
-//     margin: 0 12px;
-//     width: 36px;
-//   }
-
-//   @include media(xxs) {
-//     width: 30px;
-//   }
-// }
-
-// // .demo-list-text
-// .demo-list-text {
-//   display: flex;
-//   flex-direction: column;
-//   height: 100%;
-//   justify-content: center;
-//   width: calc(100% - 283px);
-
-//   @include media(xs) {
-//     width: calc(100% - 231px);
-//   }
-
-//   @include media(xxs) {
-//     width: calc(100% - 219px);
-//   }
-// }
 
 // footer.home-footer
 .home-footer {
