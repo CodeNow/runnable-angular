@@ -17,7 +17,7 @@ main.home
     h3.h3.header-thin Runnable is automated DevOps that power dev,
       br
       | QA, staging, and production servers
-    ul.list.box-group
+    ul.list.box-group.in
       li.list-item.box-group-item.white.running development-server
         span.icons-status
       li.list-item.box-group-item.white.running QA-server
@@ -32,9 +32,49 @@ main.home
 
     //- new server configuration
     section.feature-section
-      .row
-      h2.h2.header-thin
-      p.p
+      .row.clearfix
+        .icons-col
+          img.icons-img(
+            height = "60"
+            ng-src = "/build/images/home/icons-nodejs.svg"
+            width = "60"
+          )
+        .icons-col
+          img.icons-img(
+            height = "60"
+            ng-src = "/build/images/home/icons-ruby-on-rails.svg"
+            width = "60"
+          )
+          img.icons-img(
+            height = "60"
+            ng-src = "/build/images/home/icons-django.svg"
+            width = "60"
+          )
+        .icons-col
+          svg.iconnables.icons-octocat
+            use(
+              xlink:href = "#icons-octocat"
+            )
+        .icons-col
+          img.icons-img(
+            height = "60"
+            ng-src = "/build/images/home/icons-nodejs.svg"
+            width = "60"
+          )
+          img.icons-img(
+            height = "60"
+            ng-src = "/build/images/home/icons-ruby-on-rails.svg"
+            width = "60"
+          )
+        .icons-col
+          img.icons-img(
+            height = "60"
+            ng-src = "/build/images/home/icons-django.svg"
+            width = "60"
+          )
+      .col
+        h2.h2.header-thin.text-purple Effortless Setup
+        p.p Connect your Github account and get to work. We automatically scan your source code and configure your application.
 
     .hr.hr-single
 

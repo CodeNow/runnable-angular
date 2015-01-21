@@ -8,6 +8,11 @@
     text-align: center;
   }
 
+  // p
+  .p {
+    font-size: 18px;
+  }
+
   // no underline by default
   .link-text {
     text-decoration: none;
@@ -23,7 +28,6 @@
   }
 
   .col {
-    display: inline-block;
     margin: 0 60px;
 
     @include media(xs) {
@@ -141,7 +145,7 @@
 .home-hero {
   background: linear-gradient($purple, $purple-dark);
   color: $white;
-  height: 600px;
+  height: 630px;
   padding-top: 60px;
   position: relative;
 
@@ -150,6 +154,7 @@
   }
 
   .h3 {
+    color: $purple-logo;
     margin-top: 6px;
   }
 
@@ -198,9 +203,63 @@
 }
 
 // section.home-feature
-// .home-feature {
+.home-feature {
 
-// }
+  .row {
+    margin: 90px auto 30px;
+    width: 414px;
+  }
+
+  .icons-col {
+    float: left;
+    position: relative;
+    width: 66px;
+
+    &:nth-child(3) {
+      height: 150px;
+      width: 150px;
+    }
+  }
+
+  .icons-img {
+    display: block;
+    filter: grayscale(100%);
+    margin: 6px auto;
+    opacity: .3;
+
+    &:only-child {
+      margin: 42px auto;
+    }
+  }
+
+  .icons-repository {
+    color: $gray-lighter;
+    display: block;
+    float: left;
+    height: 154px;
+    margin: 0 auto;
+    width: 120px;
+  }
+
+  .icons-octocat {
+    color: $purple;
+    height: 150px;
+    width: 150px;
+  }
+
+  .h2 {
+    font-size: 32px;
+  }
+
+  .p {
+    text-align: center;
+  }
+
+  .col {
+    margin: 0 auto;
+    max-width: 360px;
+  }
+}
 
 // section.home-callout
 .home-callout {
