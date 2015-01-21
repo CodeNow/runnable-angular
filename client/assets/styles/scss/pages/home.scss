@@ -36,6 +36,7 @@
 
     &.col-50 {
       float: left;
+      margin: 0 auto;
       width: 50%;
     }
   }
@@ -325,7 +326,7 @@
   background: linear-gradient($purple-dark, $purple);
   color: $white;
   margin: 120px 0;
-  max-height: 420px;
+  padding: 90px 0;
 
   @include media(sm) {
     max-height: none;
@@ -337,11 +338,23 @@
   }
 
   .h2 {
-    margin-bottom: 30px;
+    margin-bottom: 60px;
 
     @include media(sm) {
-      margin-bottom: 15px;
+      margin-bottom: 30px;
     }
+  }
+
+  .col {
+    padding: 0 45px;
+  }
+
+  .h3 {
+    color: $purple-logo;
+  }
+
+  .p {
+    text-align: center;
   }
 }
 
