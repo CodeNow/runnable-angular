@@ -82,12 +82,12 @@ function modal(
         }
       });
 
-      $scope.$on('app-document-click', function() {
-        if($scope.in) {
-          $scope.defaultActions.close();
-          $timeout(angular.noop);
-        }
-      });
+      //$scope.$on('app-document-click', function() {
+      //  if($scope.in) {
+      //    $scope.defaultActions.close();
+      //    $timeout(angular.noop);
+      //  }
+      //});
 
       $scope.$on('$destroy', function () {
         if ($scope.modal) {
