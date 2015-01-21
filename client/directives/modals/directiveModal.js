@@ -82,6 +82,10 @@ function modal(
         }
       });
 
+      /**
+       * TODO: We need this for closing the modal on escape, however,
+       * Some modals need to be able to limit this
+       */
       //$scope.$on('app-document-click', function() {
       //  if($scope.in) {
       //    $scope.defaultActions.close();

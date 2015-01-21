@@ -61,11 +61,7 @@ function ControllerInstance(
     $location.search('chat', null);
   }
 
-  if (!$stateParams.instanceName) {
-    $state.go('instance.home', {
-      userName: $stateParams.userName
-    });
-  } else if ($stateParams.instanceName && $stateParams.userName) {
+  if ($stateParams.instanceName && $stateParams.userName) {
     async.waterfall([
       fetchUser,
       fetchInstance

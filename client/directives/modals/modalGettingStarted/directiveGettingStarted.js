@@ -118,7 +118,6 @@ function modalGettingStarted(
                     name: $scope.state.selectedRepo.attrs.name
                   }
                 }, $scope.data.instances, true);
-              $log.log('ENVS: \n' + $scope.state.opts.env);
               async.waterfall([
                 createAppCodeVersions(
                   $scope.state.contextVersion,

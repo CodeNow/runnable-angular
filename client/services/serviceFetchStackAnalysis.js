@@ -8,18 +8,8 @@ function fetchStackAnalysis(
 ) {
   return function (repo, cb) {
     function callback(err, res, body) {
-      console.log(err, res, body);
       cb(err, body);
     }
-
     user.client.get('/actions/analyze?repo=' + repo, callback);
   };
 }
-
-var analysis = {
-  serviceDependencies: ['mongodb', 'redis'],
-  languageFramework: 'node',
-  versions: {
-    node: '0.10.35'
-  }
-};

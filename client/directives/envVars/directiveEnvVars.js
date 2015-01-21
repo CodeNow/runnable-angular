@@ -11,7 +11,6 @@ function envVars(
   $rootScope
 ) {
   return {
-    replace: true,
     restrict: 'A',
     templateUrl: 'viewEnvVars',
     scope: {
