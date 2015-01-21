@@ -380,9 +380,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        //configObj.host = process.env.API_HOST || 'http://api.runnable3.net';
-        configObj.host = process.env.API_HOST || 'http://nathan-api-copy.codenow.runnable.io';
-        //configObj.host = process.env.API_HOST || 'http://localhost:3030';
+        configObj.host = process.env.API_HOST || '//stage-api.codenow.runnable.io';
 
         if (configObj.host.charAt(configObj.host.length-1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length-1);
