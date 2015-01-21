@@ -10,7 +10,6 @@ function ControllerInstanceHome(
   $stateParams,
   $state,
   $scope,
-  $timeout,
   fetchInstances,
   $localStorage,
   $rootScope,

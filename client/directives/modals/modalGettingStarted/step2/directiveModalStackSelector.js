@@ -23,9 +23,6 @@ function modalStackSelector(
           keypather.set($scope, 'state.startCommand', stack.startCommand);
         }
       });
-      $scope.selectBranch = function (branch) {
-        branch.commits.fetch(angular.noop);
-      };
     }
   };
 }
