@@ -1,8 +1,13 @@
-.popover-account-menu {
+// offset for getting started navbar popover
+.popover-account-menu.popover-getting-started-offset {
 
-  .popover-body:first-child {
-    border-bottom: 1px solid rgba($black,.1);
-    max-height: 420px;
-    overflow-y: auto;
+  @include media(xs) {
+    left: auto !important;
+    right: 30px !important;
+
+    .arrow {
+      left: auto;
+      right: 15px;
+    }
   }
 }

@@ -56,9 +56,9 @@ body {
   margin: 0 -15px;
 }
 
-// webkit flicker bug:
-// https://code.google.com/p/chromium/issues/detail?id=138415
-// https://code.google.com/p/chromium/issues/detail?id=311583
-.webkit-flicker {
-  -webkit-backface-visibility: hidden;
+// if .disabled communicates to the user that an element is not available to them,
+// .no-touching 'disables' an element and DOES NOT communicate
+.no-touching {
+  cursor: default !important;
+  pointer-events: none !important;
 }

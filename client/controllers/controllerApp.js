@@ -44,8 +44,9 @@ function ControllerApp(
   };
   function setActiveAccount(accountName) {
     if (accountName) {
-      $scope.$watch('dataApp.data.orgs', function(n) {
+      var unwatch = $scope.$watch('dataApp.data.orgs', function(n) {
         if (n) {
+          unwatch();
           dataApp.data.instances = null;
           var accounts = [thisUser].concat(n.models);
           dataApp.data.activeAccount = accounts.find(function (org) {

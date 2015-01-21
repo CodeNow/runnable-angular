@@ -2,7 +2,7 @@
 .modal-backdrop {
   align-items: center;
   animation: fade-in .3s ease-in forwards;
-  background: rgba($black,.45);
+  background: rgba($white,.81);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -25,11 +25,14 @@
 .modal-dialog {
   animation: scale-in .2s ease-in forwards;
   background: $white;
+  border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
   color: $gray-dark;
+  display: flex;
+  flex-direction: column;
   margin: auto;
-  max-width: 75vw;
+  max-width: 84vw;
   min-width: 370px;
   position: relative;
 
@@ -39,58 +42,44 @@
     width: calc(100% - 30px);
   }
 
-  &.show-sidebar.show-sidebar {
-    border-radius: 3px 0 0 3px;
-    transform: scale3d(1,1,1) translate3d(-105px,0,0);
-    transition: all .2s ease-in;
-  }
+  &.modal-sidebar {
+    flex-direction: row;
 
-  // guides in modals:
-  .guide {
-    border: 1px solid rgba($blue,.2);
-    margin: 0 6px 6px;
-
-    .guide-header {
-      margin-bottom: 15px;
-    }
-
-    .guide-text {
-      margin: 9px 0;
-    }
-
-    .btn-close {
-      padding: 0;
-      position: absolute;
-      right: 9px;
-      top: 9px;
+    @include media(xs) {
+      flex-direction: column;
     }
   }
-}
 
-// .modal-container
-.modal-container {
-  background: $white;
-  border-radius: 3px;
-  position: relative;
-  transition: box-shadow 0 .2s ease-in;
-  z-index: $z-modal;
+  // search
+  .input-search {
+    background-position: 114px 3px;
+    border-color: transparent;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 auto 12px;
+    padding-left: 136px;
+    position: relative;
+    top: 8px;
+    width: calc(100% - 18px);
 
-  .show-sidebar & {
-    border-radius: 3px 0 0 3px;
-    box-shadow: 1px 0 0 rgba($black,.1);
-    transition: none;
+    &:hover,
+    &:focus,
+    &:valid {
+      background-color: $white;
+      border-color: rgba($black,.15);
+    }
   }
 }
 
 // header.modal-header
 .modal-header {
+  border-radius: 3px 3px 0 0;
   color: $gray-dark;
   height: 60px;
 
-  .btn {
-    float: right;
-    right: 6px;
-    top: 6px;
+  .show-aside & {
+    border-top-right-radius: 0;
   }
 }
 
@@ -123,8 +112,12 @@
 
 // main.modal-body
 .modal-body {
-  max-height: calc(100vh - 153px);
+  overflow-x: hidden;
   overflow-y: auto;
+
+  @include media(sm) {
+    width: 100%;
+  }
 
   // validation in modals:
   .validate-wrapper {
@@ -134,6 +127,7 @@
     margin: 0;
     transition: all .2s ease-in;
 
+    &.invalid-require,
     &.invalid-pattern,
     &.invalid-name {
       border: 1px solid rgba($orange,.3);
@@ -192,29 +186,56 @@
 
   // guides in modals:
   .guide {
-    border: 0;
-    border-left: 1px solid rgba($purple-light,.15);
-    border-radius: 0;
-    border-right: 1px solid rgba($purple-light,.15);
-    margin: 0;
+    background: #e9f7fe;
+    border: 1px solid rgba($blue,.2);
+    margin: 6px;
     padding: 15px 36px 15px 21px;
 
-    .btn {
+    .guide-header {
+      margin-bottom: 15px;
+    }
+
+    .guide-text {
+      margin: 9px 0;
+    }
+
+    .btn-close {
       padding: 0;
       position: absolute;
-      right: 15px;
-      top: 12px;
+      right: 9px;
+      top: 9px;
+    }
+  }
+
+  // lists
+  .list {
+    margin: 0 0 4px;
+  }
+
+  .list-item {
+    height: 54px;
+    line-height: 54px;
+    padding: 0 21px;
+
+    .spinner-wrapper {
+      position: absolute;
+      right: 0;
+      top: 2px;
+      width: 45px;
     }
   }
 
   // nested footer
   .modal-footer {
-    margin: 60px -6px -6px;
+    border-top: 1px solid rgba($black,.1);
+    clear: both;
+    margin: 30px -9px -6px;
   }
 }
 
 // footer.modal-footer
 .modal-footer {
+  background: $white;
   height: 63px;
   padding: 9px;
 

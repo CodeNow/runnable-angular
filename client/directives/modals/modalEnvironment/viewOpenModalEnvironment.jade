@@ -2,10 +2,12 @@
   ng-click = "$event.stopPropagation()"
   ng-if = "in"
 )
-   modal-environment(
+   .modal-dialog.modal-sidebar.modal-environment(
      actions = "actions"
      current-model = "currentModel"
      data = "data"
      default-actions = "defaultActions"
+     modal-environment
+     ng-class = "{'show-aside': data.toggleSidebar}"
      state-model = "stateModel"
    )

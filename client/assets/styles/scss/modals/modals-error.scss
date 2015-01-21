@@ -3,4 +3,8 @@
   line-height: 1.2;
   max-height: none;
   padding: 12px;
+
+  + .well-code {
+    margin-top: 6px;
+  }
 }

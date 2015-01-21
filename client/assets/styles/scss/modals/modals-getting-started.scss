@@ -1,0 +1,274 @@
+// step 1
+.modal-repo-selector {
+  max-width: 330px;
+  min-width: 330px;
+  overflow-x: hidden;
+
+  @include media(sm) {
+    max-width: none;
+    width: 100%;
+  }
+
+  .input-search {
+    background-position: 93px 3px;
+    margin: 3px auto 15px;
+    padding-left: 115px;
+  }
+
+  .spinner-md {
+    width: calc(100% - 210px);
+  }
+
+  .list-item {
+    cursor: pointer;
+    line-height: 40px;
+    padding-right: 30px;
+
+    &:hover .icons-arrow-down {
+      color: $blue;
+    }
+
+    &:active,
+    &.active {
+      background: $blue;
+      color: $white;
+
+      .icons-arrow-down,
+      .small {
+        color: $white;
+      }
+    }
+
+    &.active .icons-arrow-down {
+      opacity: 0;
+    }
+  }
+
+  .list-item-title {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .small {
+    margin-top: -16px;
+  }
+
+  .icons-arrow-down {
+    color: $gray-light;
+    float: right;
+    position: absolute;
+    right: 9px;
+    top: 17px;
+    transform: rotate3d(0,0,1,-90deg);
+  }
+}
+
+// step 2a
+.modal-stack-selector {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  padding: 15px 15px 0;
+  width: 540px;
+
+  .label {
+    display: block;
+    flex: 0 0 auto;
+    margin: 0 0 30px;
+
+    + .label {
+      border-top: 1px solid rgba($black,.1);
+      padding-top: 15px;
+    }
+  }
+
+  .label-col {
+    float: left;
+    padding-right: 15px;
+    width: 50%;
+  }
+
+  .label > .btn,
+  .label > .btn-group,
+  .input {
+    float: right;
+    text-align: left;
+    width: 50%;
+  }
+
+  // branch select
+  .btn-select {
+
+    .iconnables {
+      height: 18px;
+      top: 9px;
+      width: 18px;
+    }
+
+    .icons-branch {
+      color: $gray-light;
+    }
+  }
+
+  // language/framework button
+  .btn-group {
+
+    .btn {
+      width: 50%;
+
+      + .btn {
+        padding-left: 15px;
+      }
+    }
+
+    + .btn-group {
+      margin-top: 6px;
+
+      .btn:first-child {
+        background: $gray-lightest;
+        border: 1px solid rgba($black,.1);
+        cursor: default;
+      }
+    }
+
+    .small {
+      color: $gray-dark;
+      display: inline-block;
+      float: left;
+    }
+  }
+
+  // footer
+  .modal-footer {
+    margin: 30px -15px 0;
+  }
+}
+
+// step 2b: dependencies
+.modal-stack-dependencies {
+  border-top: 1px solid rgba($black,.1);
+  flex: 1 1 auto;
+  height: 151px;
+  padding-top: 15px;
+
+  .label-col {
+
+    + .small {
+      height: 24px;
+      line-height: 24px;
+    }
+
+    .btn-xxs {
+      margin-left: 9px;
+      width: auto;
+    }
+  }
+
+  .list {
+    float: right;
+    margin: 0 0 15px;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 50%;
+  }
+
+  .list-item {
+    background: $gray-lightest;
+    border: 1px solid rgba($black,.1);
+    border-radius: 3px;
+    height: 36px;
+    line-height: 36px;
+    margin: 0 0 6px;
+    overflow-y: hidden;
+    padding: 0 30px 0 9px;
+
+    .orange {
+      margin-right: 6px;
+    }
+  }
+
+  // remove dependency
+  .btn-close {
+    height: 36px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: none;
+
+    &:hover,
+    &:active {
+      color: $orange-dark;
+    }
+  }
+
+  .icons-close {
+    height: 36px;
+    width: 18px;
+  }
+}
+
+// wizard 3
+.modal-gs-environments {
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  width: 540px;
+
+  @include media(xs) {
+    width: 100%;
+  }
+
+  // header label
+  > .label {
+    display: block;
+    flex: 0 0 auto;
+    padding: 15px;
+  }
+
+  > .small {
+    flex: 0 0 auto;
+    padding: 0 15px 15px;
+  }
+
+  .list {
+    flex: 1 1 auto;
+    overflow-y: auto;
+
+    @include media(xs) {
+      height: auto;
+    }
+  }
+
+  .list-item {
+    background: $gray-lightest;
+    border-radius: 3px;
+    height: auto;
+    line-height: 1;
+    margin: 0 12px 12px;
+    padding: 9px 0;
+
+    .label {
+      display: block;
+      font-size: 14px;
+      padding: 3px 12px 6px;
+    }
+  }
+
+  .list-item-form + .list-item-form {
+    margin-top: 6px;
+  }
+
+  .input-validate.ng-invalid {
+    border-radius: 3px 3px 0 0;
+  }
+
+  .validate-wrapper.validate-wrapper {
+    border-radius: 0 0 3px 3px;
+    margin-top: 0;
+  }
+
+  .modal-footer {
+    flex: 0 0 auto;
+    margin-top: 0;
+  }
+}

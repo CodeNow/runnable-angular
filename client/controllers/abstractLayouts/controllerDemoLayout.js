@@ -13,8 +13,6 @@ function controllerDemoLayout (
   $rootScope,
   $scope,
   $state,
-  $stateParams,
-  $timeout,
   $window
 ) {
   var dataDemoLayout = $scope.dataDemoLayout = {
