@@ -102,6 +102,9 @@ function ControllerInstance(
       data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
+      if (deployedPoller) {
+        deployedPoller.clear();
+      }
       deployedPoller = createInstanceDeployedPoller(data.instance).start();
     });
   });
