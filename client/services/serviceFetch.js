@@ -25,6 +25,7 @@ function fetch (
     return d.promise;
   })();
 
+  // Promisification
   var promises = {};
 
   var fetchUserPromise = pFetchUser.then(function(user) {
@@ -33,6 +34,10 @@ function fetch (
     promises.fetchBuild = promisify(user, 'fetchBuild');
   });
 
+  // User, instances, build, versions, contexts
+  // gh repos, fs list
+
+  // Err handling and such
   var fetchers = {
     build: function(opts) {
       return fetchUserPromise.then(function() {
