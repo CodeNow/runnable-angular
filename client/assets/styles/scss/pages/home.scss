@@ -273,13 +273,21 @@
   }
 }
 
-// section.feature
+// section.feature-workflow
 .feature-workflow {
 
   .h2,
   .p {
     margin: 0;
     text-align: left;
+  }
+}
+
+// section.feature-protype
+.feature-protype {
+
+  .p {
+    margin-top: 30px;
   }
 }
 

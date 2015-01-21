@@ -37,7 +37,78 @@
   }
 }
 
-// terminal
-.img-terminal {
+// workflow
+.img-workflow {
+  border: 1px solid rgba($black,.1);
+  border-radius: 6px 6px 0 0;
+  height: 150px;
+  margin: 0 auto;
+  position: relative;
+  width: 300px;
 
+  &::after {
+    background: $gray-lighter;
+    bottom: -1px;
+    content: '';
+    display: block;
+    height: 1px;
+    left: -45px;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    width: 390px;
+  }
+
+  .img {
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    top: -30px;
+  }
+}
+
+// terminal
+.img-workflow-terminal {
+  background: #311d40; // view-themes.scss
+  color: $white;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
+  padding: 15px;
+
+  .img {
+    right: -30px;
+  }
+}
+
+// editor
+.img-workflow-editor {
+
+  .img {
+    left: -30px;
+  }
+
+  .file-tree,
+  .ace-editor {
+    float: left;
+    height: 100%;
+    width: 50%;
+  }
+
+  .file-tree {
+    background: $white;
+    border-right: 1px solid rgba($black,.1);
+    padding: 33px 3px;
+  }
+
+  .folder,
+  .file {
+    cursor: default;
+  }
+
+  .ace-editor {
+    background: #311d40; // view-themes.scss
+    color: $white;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+  }
 }

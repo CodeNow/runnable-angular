@@ -78,7 +78,7 @@ main.home
 
     .hr.hr-single
 
-    //- notifications
+    //- workflow
     section.feature.feature-workflow.clearfix
       .col.col-50
         h2.h2.header-thin Fits into your workflow
@@ -103,45 +103,46 @@ main.home
 
     .hr.hr-single
 
-    //- notifications
-    section.feature.feature-workflow.clearfix
-      .row
-        .col.col-50
-          .img-workflow.img-workflow-terminal
-            span root@b8357372ca23:/runnable-angular#
-            img(
-              height = "45"
-              width = "45"
-            )
-          .img-workflow.img-workflow-editor
-            ul.file-tree
-              li.folder
-                a
-                  svg.iconnables.filetypes.icons-folder
-                    use(
-                      xlink:href = "#icons-folder"
-                    )
-                span.item-name folder-name
-              li.file
-                svg.iconnables.filetypes.icons-file
-                  use(
-                    xlink:href = "#icons-file"
-                  )
-                span.item-name file-name
-              li.file
-                svg.iconnables.filetypes.icons-file
-                  use(
-                    xlink:href = "#icons-file"
-                  )
-                span.item-name file-name
-            .ace-editor
-            img(
-              height = "45"
-              width = "45"
-            )
-      .col
-        h2.h2.header-thin JS-Fiddle for full stack apps
-        p.p Run full-stack experiments through a terminal and file editor in the browser. Link boxes to prototype your architecture, through environment variables.
+    //- protype
+    section.feature.feature-protype.clearfix
+      .col.col-50
+        .img-workflow.img-workflow-terminal
+          span root@id:/angular-app#
+          img.img(
+            height = "60"
+            ng-src = "/build/images/home/icons-ruby-on-rails.svg"
+            width = "60"
+          )
+        p.p Run full-stack experiments through a terminal and file editor in the browser.
+      .col.col-50
+        .img-workflow.img-workflow-editor.clearfix
+          ul.file-tree
+            li.folder
+              svg.iconnables.filetypes.icons-folder
+                use(
+                  xlink:href = "#icons-folder"
+                )
+              span.item-name assets
+            li.file
+              svg.iconnables.filetypes.icons-file
+                use(
+                  xlink:href = "#icons-file"
+                )
+              span.item-name index.html
+          pre.ace-editor.
+            &lt;!DOCTYPE html&gt;
+            &lt;html&gt;
+            &nbsp;&nbsp;&lt;head&gt;
+            &nbsp;&nbsp;&lt;/head&gt;
+            &nbsp;&nbsp;&lt;body&gt;
+            &nbsp;&nbsp;&lt;/body&gt;
+            &lt;/html&gt;
+          img.img(
+            height = "60"
+            ng-src = "/build/images/home/icons-django.svg"
+            width = "60"
+          )
+        p.p Link boxes to prototype your architecture, through environment variables.
 
   //- pricing
   section.home-pricing.home-callout.clearfix
