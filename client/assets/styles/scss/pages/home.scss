@@ -49,7 +49,7 @@
   // .hr
   .hr {
     height: 36px;
-    margin: 60px auto;
+    margin: 120px auto;
     position: relative;
     width: 700px;
 
@@ -116,7 +116,7 @@
 .home-header {
   height: 45px;
   line-height: 45px;
-  margin: 0 auto 120px;
+  margin: 0 auto 180px;
   max-width: 960px;
 
   // a.logo
@@ -151,7 +151,7 @@
 .home-hero {
   background: linear-gradient($purple, $purple-dark);
   color: $white;
-  height: 630px;
+  height: 720px;
   padding-top: 60px;
   position: relative;
 
@@ -162,6 +162,7 @@
   .h3 {
     color: $purple-logo;
     font-size: 24px;
+    line-height: 1.2;
     margin-top: 6px;
   }
 
@@ -215,7 +216,7 @@
   max-width: 960px;
 
   .row {
-    margin: 90px auto 30px;
+    margin: 120px auto 30px;
     width: 414px;
   }
 
@@ -325,8 +326,8 @@
 .home-callout {
   background: linear-gradient($purple-dark, $purple);
   color: $white;
-  margin: 120px 0;
-  padding: 90px 0;
+  margin: 180px 0;
+  padding: 120px 0;
 
   @include media(sm) {
     max-height: none;
@@ -338,10 +339,10 @@
   }
 
   .h2 {
-    margin-bottom: 60px;
+    margin-bottom: 90px;
 
     @include media(sm) {
-      margin-bottom: 30px;
+      margin-bottom: 45px;
     }
   }
 
@@ -351,6 +352,7 @@
 
   .h3 {
     color: $purple-logo;
+    margin-bottom: 9px;
   }
 
   .p {
