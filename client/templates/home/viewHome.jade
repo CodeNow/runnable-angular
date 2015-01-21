@@ -84,7 +84,7 @@ main.home
         h2.h2.header-thin Fits into your workflow
         p.p We’ll spin up a server for every push made to your code.
       .col.col-50
-        .notification
+        .img-notification
           img.img(
             height = "30"
             src = "/build/images/logos/logo-icon-slack.svg"
@@ -92,7 +92,7 @@ main.home
           )
           h4.h4 New message in #front-end
           p.p Runnabot: tjmehta's changes (github hook response was changed) are deployed on serv…
-        .notification
+        .img-notification
           img.img(
             height = "30"
             src = "/build/images/logos/logo-icon-hipchat.svg"
@@ -100,6 +100,48 @@ main.home
           )
           h4.h4 Runnabot
           p.p tjmehta's changes (github hook response was changed) are deployed on servers: &lt;tj-api&gt;
+
+    .hr.hr-single
+
+    //- notifications
+    section.feature.feature-workflow.clearfix
+      .row
+        .col.col-50
+          .img-workflow.img-workflow-terminal
+            span root@b8357372ca23:/runnable-angular#
+            img(
+              height = "45"
+              width = "45"
+            )
+          .img-workflow.img-workflow-editor
+            ul.file-tree
+              li.folder
+                a
+                  svg.iconnables.filetypes.icons-folder
+                    use(
+                      xlink:href = "#icons-folder"
+                    )
+                span.item-name folder-name
+              li.file
+                svg.iconnables.filetypes.icons-file
+                  use(
+                    xlink:href = "#icons-file"
+                  )
+                span.item-name file-name
+              li.file
+                svg.iconnables.filetypes.icons-file
+                  use(
+                    xlink:href = "#icons-file"
+                  )
+                span.item-name file-name
+            .ace-editor
+            img(
+              height = "45"
+              width = "45"
+            )
+      .col
+        h2.h2.header-thin JS-Fiddle for full stack apps
+        p.p Run full-stack experiments through a terminal and file editor in the browser. Link boxes to prototype your architecture, through environment variables.
 
   //- pricing
   section.home-pricing.home-callout.clearfix
@@ -132,170 +174,3 @@ main.home
         ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com' }}"
       )
         b Sign In
-
-//- main.home
-
-//-   //- hero
-//-   section.home-hero
-//-     header.home-header
-//-       a.logo
-//-         svg
-//-           use(
-//-             xlink:href = "#runnable-logo"
-//-           )
-//-       nav.home-nav
-//-         a.link.link-text(
-//-           href = "/features"
-//-         ) Features
-//-         a.link.link-text(
-//-           href = "/pricing"
-//-         ) Pricing
-//-         a.link.link-text(
-//-           ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com' }}"
-//-         ) Sign In
-//-     h1.h1.header-thin Bring your code online
-//-     h3.h3.header-thin Servers on demand for any stack
-//-     //- icon grid
-//-     .icon-grid
-//-       .icon-grid-row
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/ruby-on-rails-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/cake-php-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/code-igniter-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/dart-icon.svg"
-//-           width = "45"
-//-         )
-//-       .icon-grid-row
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/django-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/flask-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/code-igniter-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/java-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/mongo-icon.svg"
-//-           width = "45"
-//-         )
-//-       .icon-grid-row
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/nodejs-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/mysql-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/php-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/python-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/ruby-icon.svg"
-//-           width = "45"
-//-         )
-//-         img.icon-grid-image(
-//-           height = "45"
-//-           src = "/build/images/home/icon-grid/ruby-on-rails-icon.svg"
-//-           width = "45"
-//-         )
-
-//-   //- features
-//-   section.home-features
-//-     .row
-//-       .col
-//-         img(
-//-           height = "180"
-//-           src = "/build/images/home/feature-boxes.svg"
-//-           width = "180"
-//-         )
-//-         h2.h2.header-thin.text-purple Any Stack Anytime
-//-         p.p Simple and flexible. Use Runnable servers #{''}
-//-           br
-//-           | to help your uncle with his next big idea.
-//-     .row
-//-       .col
-//-         img(
-//-           height = "120"
-//-           src = "/build/images/home/feature-linking.svg"
-//-           width = "120"
-//-         )
-//-         h2.h2.header-thin.text-blue Better Together
-//-         p.p With Dixie cup and string technology, #{''}
-//-           br
-//-           | we are able to link boxes together.
-//-       .col
-//-         img(
-//-           height = "120"
-//-           src = "/build/images/home/feature-github.svg"
-//-           width = "120"
-//-         )
-//-         h2.h2.header-thin.text-green Github Integrated
-//-         p.p Run your branches, commits, #{''}
-//-           br
-//-           | and pull requests.
-
-//-   .hr.hr-single
-
-//-   getting-started-seed-instances
-
-//-   footer.home-footer
-//-     .hr
-//-       img.hr-image(
-//-         height = "30"
-//-         src = "/build/images/runnable-icon.svg"
-//-         width = "30"
-//-       )
-//-     nav.footer-nav
-//-       a.link.link-text(
-//-         href = "/"
-//-       ) Home
-//-       a.link.link-text(
-//-         href = "/features"
-//-       ) Features
-//-       a.link.link-text(
-//-         href = "/pricing"
-//-       ) Pricing
-//-       a.link.link-text(
-//-         href = "mailto:support@runnable.com"
-//-       ) Email Us
-//-       a.link.link-text(
-//-         ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com' }}"
-//-       )
-//-         b Sign In

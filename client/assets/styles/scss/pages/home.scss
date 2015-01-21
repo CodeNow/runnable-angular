@@ -281,45 +281,6 @@
     margin: 0;
     text-align: left;
   }
-
-  // notifications
-  .notification {
-    background: #f0f0f0; // osx
-    border: 1px solid rgba($black,.1);
-    border-radius: 6px;
-    box-shadow: 0 0 30px rgba($black,.06); // same as popovers
-    color: #4d4d4d; // osx
-    height: 66px;
-    margin: 0 auto;
-    padding: 15px;
-    width: 330px;
-
-    + .notification {
-      margin-top: 15px;
-    }
-
-    .img {
-      float: left;
-      margin-right: 12px;
-    }
-
-    .h4,
-    .p {
-      font-size: 12px;
-    }
-
-    .h4 {
-      font-weight: 500;
-      margin: -6px 0 3px;
-    }
-
-    .p {
-      font-weight: 300;
-      height: 36px;
-      overflow: hidden;
-      text-align: left;
-    }
-  }
 }
 
 // section.home-callout
