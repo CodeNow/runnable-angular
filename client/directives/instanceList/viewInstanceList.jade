@@ -6,16 +6,19 @@
 h2.sub-header.load
   span.sub-header-text Servers
   a.btn.btn-sm.white.sub-header-action(
-    ng-click = "stateToNew()"
-    ng-href = "/{{ data.activeAccount.oauthName() }}/new"
-    tooltip = "New Box"
-    tooltip-options = "{\"class\":\"bottom\",\"left\":6,\"top\":30}"
+    modal
+    modal-actions = "actions"
+    modal-data = "data"
+    modal-template = "viewOpenModalGettingStarted"
+    modal-current-model = "currentModel"
+    modal-state-model = "stateModel"
+    tooltip = "New Server"
+    tooltip-options = "{\"class\":\"right\",\"left\":30,\"top\":6}"
   )
     svg.iconnables.icons-add
       use(
         xlink:href = "#icons-add"
       )
-
 //- *
 //- LINKED NAV LAYOUT
 //- *

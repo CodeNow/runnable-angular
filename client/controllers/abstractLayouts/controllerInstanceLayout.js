@@ -45,7 +45,7 @@ function ControllerInstanceLayout(
       function (cb) {
         fetchInstances(username, true, cb);
       },
-      function (instances, queriedUsername, cb) {
+      function (instances, queriedUsername, cached, cb) {
         if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
           $rootScope.dataApp.data.instances = instances;
           $rootScope.dataApp.state.loadingInstances = false;

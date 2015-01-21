@@ -2,41 +2,147 @@
   background: $gray-lightest;
   border-radius: 3px 0 0 3px;
   border-right: 1px solid rgba($black,.1);
-  display: table-cell;
+  max-width: 210px;
+  min-width: 180px;
   padding: 4px 0;
-  vertical-align: top;
-  width: 180px;
+  position: relative;
 
   @include media(xs) {
     border-bottom: 1px solid rgba($black,.1);
     border-radius: 3px 3px 0 0;
-    display: block;
+    flex: 0 0 auto;
+    max-height: 30vh;
+    max-width: none;
+    overflow-y: auto;
     width: 100%;
   }
 
-  .list-item {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-    cursor: pointer;
-    height: 45px;
-    line-height: 45px;
-    margin-top: -1px;
-    padding: 0 15px;
+  .account-header {
+    border-bottom: 1px solid rgba($black,.1);
 
-    &:hover,
-    &.active {
-      background: rgba($black,.05);
-      border-color: rgba($black,.1);
+    .gravatar {
+      margin: 18px 9px 0 2px;
     }
 
-    &:active {
-      background: rgba($black,.05);
-      border-color: rgba($black,.2);
+    .account-name {
+      position: static;
+    }
+  }
+
+  .modal-heading {
+    float: none;
+    font-size: 14px;
+    height: 45px;
+    line-height: 45px;
+  }
+
+  .list-item {
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 9px;
+    padding: 0 15px;
+
+    @include media(xs) {
+      display: inline-block;
+      margin-right: 0;
+    }
+
+    &:hover {
+      background: rgba($black,.1);
+    }
+
+    &:active,
+    &.active {
+      background: $blue;
+      color: $white;
+
+      .small {
+        color: currentColor;
+      }
+    }
+
+    &.no-states {
+      cursor: default;
+
+      &:hover,
+      &:active {
+        background: transparent;
+        color: $gray-dark;
+      }
+    }
+
+    &.small {
+      @include media(xs) {
+        display: block;
+      }
+
+      &:hover,
+      &:active {
+        background: transparent;
+        color: $gray-light;
+      }
+    }
+
+    &.visited {
+      height: auto;
+      padding-bottom: 6px;
+
+      .small {
+        line-height: 18px;
+        padding-left: 9px;
+
+        &:first-child {
+          margin-top: -3px;
+        }
+      }
+
+      .iconnables {
+        float: left;
+        height: 18px;
+        margin-right: 3px;
+        width: 18px;
+      }
+    }
+
+    + .list-item {
+      margin-top: 3px;
+    }
+
+    // if list organizaed && no header item
+    &.small:first-child {
+      height: 45px;
+      line-height: 45px;
+      padding-left: 9px;
     }
   }
 
   .gravatar {
     float: left;
-    margin: 10px 9px 0 2px;
+    margin: 6px 9px 0 -6px;
+  }
+
+  // cancel/close
+  .btn-xxs {
+    bottom: 15px;
+    left: 15px;
+    position: absolute;
+
+    // new button
+    + .btn-xxs {
+      left: auto;
+      right: 15px;
+    }
+  }
+
+  + .modal-body {
+
+    @include media(xs) {
+      flex: 1 1 auto;
+      overflow-y: auto;
+    }
   }
 }

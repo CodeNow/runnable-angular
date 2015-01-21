@@ -59,7 +59,7 @@ h4 {
 
 small,
 .small {
-  font-size: 12px; // percentage was unreliable
+  font-size: 13px; // percentage was unreliable
   font-weight: 300; // reset if within header tags
 }
 
@@ -160,7 +160,8 @@ input ~ small {
 
 // colors
 .text-blue {
-  color: $blue;
+  color: #6cb6d1; // old blue for home page
+  // color: $blue;
 }
 
 .text-green {

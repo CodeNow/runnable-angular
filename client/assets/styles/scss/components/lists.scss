@@ -1,19 +1,41 @@
 // line between items
-.list-divided .list-item + .list-item::after {
-  background: rgba($black,.1);
-  content: '';
-  display: block;
-  height: 1px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
+.list-divided {
+
+  .list-item {
+    margin-top: 1px;
+  }
+
+  .list-item + .list-item::after {
+    background: rgba($black,.1);
+    content: '';
+    display: block;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: -1px;
+    width: 100%;
+  }
 }
 
 // bordered list
 .list-bordered {
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
+}
+
+// .list-item-link {
+.list-item-link {
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+
+  &:active {
+    background: rgba($blue,.15);
+    border-color: rgba($blue,.3);
+  }
 }
 
 // .list-validation
@@ -33,6 +55,13 @@
       border-top: 1px solid rgba($orange-dark,.75);
     }
   }
+}
+
+// empty state
+.list-empty {
+  color: $gray-lighter;
+  padding: 15px 0;
+  text-align: center;
 }
 
 .list-item {

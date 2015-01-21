@@ -3,7 +3,7 @@
 )
   .arrow.white
   .popover-content
-    ul.popover-body.popover-list
+    ul.popover-list
       li.popover-list-item(
         ng-click = "actions.stopInstance()"
         ng-if = "data.instance.build.attrs.completed && data.instance.containers.models[0].running()"

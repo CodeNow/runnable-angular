@@ -13,18 +13,13 @@ require('app')
  * @ngInject
  */
 function activePanel(
-  async,
   debounce,
   editorCache,
   keypather,
   modelist,
-  QueryAssist,
   $rootScope,
   $sce,
-  $state,
-  $stateParams,
-  $timeout,
-  user
+  $state
 ) {
   return {
     restrict: 'A',

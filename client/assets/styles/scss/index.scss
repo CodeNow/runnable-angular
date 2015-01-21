@@ -61,19 +61,26 @@
 
 // modals
 @import "modals/modals";
+@import "modals/modals-navbar";
+@import "modals/modals-aside";
+@import "modals/modals-wizard";
+
+// modal specific
 @import "modals/modals-environment";
 @import "modals/modals-error";
 @import "modals/modals-fork";
+@import "modals/modals-getting-started";
 @import "modals/modals-integrations";
-@import "modals/modals-navbar";
 @import "modals/modals-rename";
-@import "modals/modals-sidebar";
 @import "modals/modals-sign-in";
 
 // popovers
 @import "popover/popover";
+
+// popover specific
 @import "popover/popover-account-menu";
 @import "popover/popover-actions";
+@import "popover/popover-add-dependencies";
 @import "popover/popover-add-repo";
 @import "popover/popover-add-tab";
 @import "popover/popover-environment";

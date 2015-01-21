@@ -4,8 +4,8 @@ require('app')
   .factory('getNewForkName', getNewForkName);
 
 function getNewForkName() {
-  return function (instanceToFork, instances) {
-    var newForkName = instanceToFork.attrs.name + '-copy';
+  return function (instanceToFork, instances, noCopy) {
+    var newForkName = instanceToFork.attrs.name + (noCopy ? '' : '-copy');
     if (!instances || !instances.models.length) { return newForkName; }
     var numeral = 1;
     function checkInstanceName(instance) {

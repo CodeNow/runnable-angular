@@ -42,6 +42,10 @@ textarea {
     box-shadow: none;
   }
 
+  &[required] {
+    box-shadow: none;
+  }
+
   &.input-text {
     background: none;
     border: 0;
@@ -61,6 +65,11 @@ textarea {
   // placeholder
   &::placeholder {
     color: $gray-lighter;
+  }
+
+  &.input-sm {
+    height: 36px;
+    line-height: 36px;
   }
 }
 
@@ -86,10 +95,9 @@ textarea {
 
 // .input-group
 .input-group {
-  background: rgba($white,.6);
+  background: $white;
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
-  box-shadow: inset 0 0 3px rgba($black,.05);
   display: flex;
   height: 45px;
   line-height: 45px;
@@ -153,8 +161,8 @@ textarea {
   &:focus,
   &:valid {
     background-color: $white;
-    background-position: 3px 3px;
-    padding-left: 27px;
+    background-position: 3px 3px !important;
+    padding-left: 27px !important;
     transition: all .15s ease-in;
   }
 }

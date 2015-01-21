@@ -34,8 +34,8 @@
       ng-include = "'spinner'"
     )
   //- commits
-  ul.toggle-group
-    li.toggle-group-item(
+  ul.list.popover-list.toggle-group
+    li.list-item.popover-list-item.toggle-group-item(
       ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
       ng-class = "{ \
         active: (commit.attrs.sha === data.activeCommit.attrs.sha) \

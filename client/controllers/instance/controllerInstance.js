@@ -61,24 +61,7 @@ function ControllerInstance(
     $location.search('chat', null);
   }
 
-  if (!$stateParams.instanceName) {
-    var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
-      if (n !== p && n) {
-        unwatch();
-        if (n.models.length) {
-          var models = $filter('orderBy')(n.models, 'attrs.name');
-          $state.go('instance.instance', {
-            instanceName: models[0].attrs.name,
-            userName: $stateParams.userName
-          }, {location: 'replace'});
-        } else {
-          $state.go('instance.new', {
-            userName: $stateParams.userName
-          }, {location: 'replace'});
-        }
-      }
-    });
-  } else if ($stateParams.instanceName && $stateParams.userName) {
+  if ($stateParams.instanceName && $stateParams.userName) {
     async.waterfall([
       fetchUser,
       fetchInstance

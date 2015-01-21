@@ -22,10 +22,16 @@ html(
     )
 
     //- favicon
-    link(
-      href = "/build/images/favicon.png"
-      rel = "shortcut icon"
-    )
+    if env !== 'production'
+      link(
+        href = "/build/images/favicon-dev.png"
+        rel = "shortcut icon"
+      )
+    if env === 'production'
+      link(
+        href = "/build/images/favicon.png"
+        rel = "shortcut icon"
+      )
 
     //- ios and safari icons
     link(
@@ -61,6 +67,7 @@ html(
 
   body(
     ng-class = "{minimize: dataApp.data.minimizeNav}"
+    ng-click = "dataApp.documentClickEventHandler($scope, this)"
   )
     //
       TIME: #{locals.commitTime}
@@ -79,7 +86,6 @@ html(
     )
 
     div(
-      ng-click = "dataApp.documentClickEventHandler($scope, this)"
       ui-view
     )
 
