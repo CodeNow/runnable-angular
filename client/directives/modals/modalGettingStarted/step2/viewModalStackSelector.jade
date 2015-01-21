@@ -12,7 +12,6 @@ label.label.clearfix
         xlink:href = "#icons-arrow-down"
       )
     select.select(
-      ng-change = "selectBranch(state.activeBranch)"
       ng-model = "state.activeBranch"
       ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
     )

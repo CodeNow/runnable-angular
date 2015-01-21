@@ -33,6 +33,7 @@ function modalGettingStarted(
     link: function ($scope, element, attrs) {
       var unwatchUserInfo = $rootScope.$watch('dataApp.data.activeAccount', function (n) {
         if (n) {
+          unwatchUserInfo();
           keypather.set($scope, 'data.activeAccount', n);
           keypather.set($scope, 'data.orgs', $rootScope.dataApp.data.orgs);
           keypather.set($scope, 'data.user', $rootScope.dataApp.data.user);
@@ -75,22 +76,27 @@ function modalGettingStarted(
           $scope.state.dependencies.splice(index, 1);
         },
         changeStep: function (newStep) {
-          $scope.state.repoSelected = false;
+          if (newStep === 1) {
+            $scope.state.repoSelected = false;
+          }
           if ($scope.state.furthestStep >= newStep) {
             $scope.state.step = newStep;
           }
         },
         nextStep: function (newStep) {
-          $scope.state.furthestStep = newStep;
+
+          if ($scope.state.furthestStep < newStep) {
+            $scope.state.furthestStep = newStep;
+          }
           $scope.state.step = newStep;
         },
         skipTutorial: function () {
           $scope.defaultActions.close(function () {
-            setTimeout(function() {
+            $timeout(function () {
               $state.go('instance.new', {
                 userName: $scope.data.activeAccount.oauthName()
               });
-            }, 0);
+            });
           });
         },
         createAndBuild: function() {
@@ -230,7 +236,7 @@ function modalGettingStarted(
           }
         });
         fetchInstances(user.oauthName(), false, function (err, instances, username, cached) {
-          if (!forceInstanceFetch || cached) {
+          if (!forceInstanceFetch || !cached) {
             $scope.data.instances = instances;
             if (counter) {
               counter.next(err);

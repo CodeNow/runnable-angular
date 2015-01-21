@@ -12,8 +12,7 @@ function accountsSelect (
   configLogoutURL,
   errs,
   keypather,
-  $state,
-  $timeout
+  $state
 ) {
   return {
     restrict: 'A',

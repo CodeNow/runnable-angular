@@ -9,8 +9,7 @@ function gsRepoSelector(
   errs,
   fetchRepoList,
   fetchStackAnalysis,
-  hasKeypaths,
-  $timeout
+  hasKeypaths
 ) {
   return {
     restrict: 'A',
@@ -22,7 +21,6 @@ function gsRepoSelector(
     },
     link: function ($scope, elem, attrs) {
       function fetchStackData(repo, cb) {
-        console.log('HUJGJIYGKLI');
         fetchStackAnalysis(repo, function (err, data) {
           if (err) { return cb(err); }
           if (!data.languageFramework) {
@@ -37,9 +35,13 @@ function gsRepoSelector(
             var unwatch = $scope.$watch('data.allDependencies', function (allDeps) {
               if (allDeps) {
                 unwatch();
-                var includedDeps = data.serviceDependencies.map(function (dep) {
-                  return allDeps.models.find(hasKeypaths({'attrs.name': dep})) || false;
-                });
+                var includedDeps = data.serviceDependencies.map(
+                  function (dep) {
+                    return allDeps.models.find(
+                        hasKeypaths({'attrs.name.toLowerCase()': dep.toLowerCase()})
+                    ) || false;
+                  }
+                );
                 includedDeps.forEach(function (dep) {
                   if (dep) {
                     $scope.actions.addDependency(dep);
@@ -81,7 +83,6 @@ function gsRepoSelector(
             $scope.loading = false;
             if (err) { return errs.handler(err); }
             $scope.githubRepos = repoList;
-            $timeout(angular.noop);
           });
         }
       });

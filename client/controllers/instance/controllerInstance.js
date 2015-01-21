@@ -19,7 +19,6 @@ function ControllerInstance(
   $scope,
   $state,
   $stateParams,
-  $timeout,
   fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {

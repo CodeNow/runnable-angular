@@ -6,16 +6,6 @@ require('app')
  * @ngInject
  */
 function modalGsEnvs(
-  async,
-  keypather,
-  errs,
-  fetchGSDepInstances,
-  fetchStackInfo,
-  fetchUser,
-  hasKeypaths,
-  $stateParams,
-  $timeout,
-  QueryAssist
 ) {
   return {
     restrict: 'A',
