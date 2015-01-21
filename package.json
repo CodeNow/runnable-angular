@@ -42,7 +42,7 @@
     "primus": "^2.3.0",
     "regexp-quote": "0.0.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.15",
-    "term.js": "git://github.com/Runnable/term.js.git#6a1d4ec38aa26c61fb6a4f0a20ba5cb207e66f2d",
+    "term.js": "git://github.com/Runnable/term.js.git#4ae3e004f70be1762ca67a759f5d330a2a9f5905",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
