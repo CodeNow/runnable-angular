@@ -10,6 +10,7 @@ function ControllerInstance(
   $filter,
   errs,
   instanceUpdatedPoller,
+  createInstanceDeployedPoller,
   fetchCommitData,
   keypather,
   OpenItems,
@@ -48,6 +49,8 @@ function ControllerInstance(
   };
 
   data.isDemo = $state.$current.name === 'demo.instance';
+
+  var deployedPoller;
 
   // Trigger Heap event
   if ($window.heap && $location.search('chat')) {
@@ -99,6 +102,10 @@ function ControllerInstance(
       data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
+      if (deployedPoller) {
+        deployedPoller.clear();
+      }
+      deployedPoller = createInstanceDeployedPoller(data.instance).start();
     });
   });
 
@@ -192,6 +199,9 @@ function ControllerInstance(
   $scope.$on('$destroy', function () {
     containerWatch();
     instanceUpdatedPoller.stop();
+    if (deployedPoller) {
+      deployedPoller.clear();
+    }
   });
 
   function buildLogsOnly () {
