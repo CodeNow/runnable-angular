@@ -1,7 +1,8 @@
 'use strict';
 
 var $controller,
-    $scope;
+    $scope,
+    $window;
 
 describe('controllerBoxSelection'.underline.bold.blue, function () {
   var ctx = {};
@@ -39,11 +40,15 @@ describe('controllerBoxSelection'.underline.bold.blue, function () {
     });
     angular.mock.inject(function(
       _$controller_,
+      _$window_,
       $rootScope
     ) {
       $controller = _$controller_;
+      $window = _$window_;
       $scope = $rootScope.$new();
     });
+
+    $window.heap = null;
 
     var cbs = $controller('ControllerBoxSelection', {
       '$scope': $scope

@@ -62,7 +62,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       };
     }
     if (intercom) {
-      $window.initIntercom = sinon.spy();
+      $window.Intercom = sinon.spy();
     }
     if (olark) {
       $window.olark = sinon.spy();

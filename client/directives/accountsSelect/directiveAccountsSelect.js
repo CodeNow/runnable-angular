@@ -83,6 +83,7 @@ function accountsSelect (
         });
       };
       mActions.saveSlack = function () {
+        if (!mData.settings) { return; }
         $scope.data.user.newSetting(mData.settings._id)
         .update({
           json: {
@@ -93,6 +94,7 @@ function accountsSelect (
         }, errs.handler);
       };
       mActions.saveHipChat = function () {
+        if (!mData.settings) { return; }
         $scope.data.user.newSetting(mData.settings._id)
         .update({
           json: {
