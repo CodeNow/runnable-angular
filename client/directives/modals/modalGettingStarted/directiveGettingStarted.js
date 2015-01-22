@@ -53,12 +53,10 @@ function modalGettingStarted(
       $scope.actions = {
         addDependency: function (instance, fromExisting) {
           var envs = keypather.get(instance, 'containers.models[0].urls()') || [];
-          var newName = getNewForkName(instance, $scope.data.instances, true);
           var envName = instance.attrs.name.replace(/-/gm, '_').toUpperCase();
           $scope.state.dependencies.push({
             instance: instance,
             opts: !fromExisting ? {
-              name: newName,
               env: instance.attrs.env
             } : null,
             reqEnv: envs.map(function (url, index) {
@@ -66,7 +64,7 @@ function modalGettingStarted(
               return {
                 name: thisEnvName,
                 placeholder: thisEnvName,
-                url: !fromExisting ? url.replace(instance.attrs.name, newName) : url
+                url: url
               };
             })
           });
@@ -107,9 +105,9 @@ function modalGettingStarted(
           var unwatchDf = $scope.$watch('state.dockerfile', function (n) {
             if (!n) { return; }
             unwatchDf();
-            $scope.state.opts.env = generateEnvs($scope.state.dependencies);
-
             var unwatchInstances = $scope.$watch('data.instances', function (n) {
+              generateDependencyNames();
+              $scope.state.opts.env = generateEnvs($scope.state.dependencies);
               if (!n) { return; }
               unwatchInstances();
               $scope.state.opts.name =
@@ -240,6 +238,18 @@ function modalGettingStarted(
             if (counter) {
               counter.next(err);
             }
+          }
+        });
+      }
+
+      function generateDependencyNames() {
+        $scope.state.dependencies.forEach(function (item) {
+          if (item.opts) {
+            var newName = getNewForkName(item.instance, $scope.data.instances, true);
+            item.opts.name = newName;
+            item.reqEnv.forEach(function (env) {
+              env.url = env.url.replace(item.instance.attrs.name, newName);
+            });
           }
         });
       }
