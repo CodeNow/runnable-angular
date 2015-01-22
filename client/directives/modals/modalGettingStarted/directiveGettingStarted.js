@@ -15,6 +15,7 @@ function modalGettingStarted(
   callbackCount,
   errs,
   getNewForkName,
+  regexpQuote,
   fetchGSDepInstances,
   gsPopulateDockerfile,
   createNewInstance,
@@ -251,7 +252,7 @@ function modalGettingStarted(
             var newName = getNewForkName(item.instance, $scope.data.instances, true);
             item.opts.name = newName;
             item.reqEnv.forEach(function (env) {
-              env.url = env.url.replace(item.instance.attrs.name, newName);
+              env.url = env.url.replace(new RegExp(regexpQuote(item.instance.attrs.name), 'i'), newName);
             });
           }
         });
