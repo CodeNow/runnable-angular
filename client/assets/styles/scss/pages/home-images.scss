@@ -199,7 +199,7 @@
   position: relative;
   width: 300px;
 
-  + .img-workflow {
+  &:last-child {
     float: right;
   }
 
@@ -265,5 +265,26 @@
     color: $white;
     font-family: 'Source Code Pro', monospace;
     font-size: 10px;
+  }
+}
+
+// .img-workflow-link
+.img-workflow-link {
+  background: $green;
+  border-radius: 50%;
+  bottom: -18px;
+  color: $white;
+  height: 36px;;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  width: 36px;
+  z-index: 1;
+
+  .icons-link {
+    height: 100%;
+    padding: 6px;
+    width: 100%;
   }
 }
