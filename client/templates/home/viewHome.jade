@@ -13,7 +13,7 @@ main.home
       nav.home-nav
         a.link.link-text Sign In
 
-    h1.h1.header-thin Stop configuring servers
+    h1.h1.header-thin Stop Configuring Servers
     h3.h3.header-thin Runnable is automated DevOps that power
       br
       | development, QA, staging, and production servers
@@ -124,7 +124,7 @@ main.home
               p.p The latest push on this PR is ready on this server: #{''}
                 a.link.web-link https://runnable.io/tjmehta/101
       .col.col-40
-        h2.h2.header-thin.text-green Fits into your workflow
+        h2.h2.header-thin.text-green Fits Into Your Workflow
         p.p Launch clusters from Pull Requests. We’ll spin up a server for every push made to your code.
       .col.col-30
         .img-notification
@@ -150,12 +150,12 @@ main.home
     section.feature.feature-protype.clearfix
       .row.clearfix
         .col
-          h2.h2.header-thin JSFiddle for full-stack apps
+          h2.h2.header-thin JSFiddle for Full-stack Applications
           p.p Run full-stack experiments through a terminal and file editor in the browser.
       .row
         .col.clearfix
           .img-workflow.img-workflow-terminal
-            span root@id:/angular-app#
+            pre.pre root@id:/angular-app#
             img.img(
               height = "60"
               ng-src = "/build/images/home/icons-ruby-on-rails.svg"
@@ -213,14 +213,28 @@ main.home
 
   //- coming soon
   section.home-feature
-    section.feature.feature-soon
+    section.feature.feature-soon.clearfix
       .col.col-50
         h2.h2.header-thin Built on Docker
+        p.p Pull containers down to your local or remote host from our private Docker registry.
+        pre.pre.img-docker-terminal
+          | root@amzn-ec2-instance:~$ docker run dockerfile/elasticsearch
+          | Pulling repository dockerfile/elasticsearch
+          | 88frsc: Pulling dependent layers
+          | htlnt4: Download complete
+          | ky33z5: Download complete
+          | 2m48l3: Download complete
+          | 54u20n: Pulling fs layer
+          img.img(
+            height = "30"
+            src = "/build/images/logos/logo-docker.svg"
+            width = "110"
+          )
       .col.col-50
-        h2.h2.header-thin Soon to be
+        h2.h2.header-thin Soon To Be
         ul.list
-          li.list-item Pull containers down to your local or remote host from our private Docker registry
-          li.list-item One-click deployment to AWS, Digital Ocean, Kubernetes, Mesosphere and many more
+          li.list-item One-click deployment to AWS, Digital Ocean, Kubernetes, Mesosphere and more
+          li.list-item Setup clusters that follow issues from JIRA and PivotalTracker
 
   footer.home-footer
     .hr

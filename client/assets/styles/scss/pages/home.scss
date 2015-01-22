@@ -253,7 +253,7 @@
   }
 }
 
-// section.feature-protype
+// section.feature.feature-protype
 .feature-protype {
 
   .h2 {
@@ -269,6 +269,24 @@
 
   .p.row {
     margin-top: 60px;
+  }
+}
+
+// section.feature.feature-soon
+.feature-soon {
+
+  .col + .col {
+    border-left: 2px solid rgba($black,.1);
+    margin-left: -1px;
+  }
+
+  .list {
+    margin: 0 auto;
+    max-width: 360px;
+  }
+
+  .list-item {
+    margin-bottom: 15px;
   }
 }
 

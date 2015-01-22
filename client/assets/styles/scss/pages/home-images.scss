@@ -230,10 +230,9 @@
 }
 
 // terminal
-.img-workflow-terminal {
+.img-workflow-terminal, {
   background: #311d40; // view-themes.scss
   color: $white;
-  font-family: 'Source Code Pro', monospace;
   font-size: 14px;
   padding: 15px;
 }
@@ -287,5 +286,25 @@
     height: 100%;
     padding: 6px;
     width: 100%;
+  }
+}
+
+// docker
+.img-docker-terminal, {
+  background: #311d40; // view-themes.scss
+  border-radius: 3px;
+  color: $white;
+  font-size: 14px;
+  height: 210px;
+  margin: 30px auto 0;
+  padding: 9px;
+  position: relative;
+  width: 570px;
+
+  .img {
+    bottom: 12px;
+    display: block;
+    position: absolute;
+    right: 9px;
   }
 }
