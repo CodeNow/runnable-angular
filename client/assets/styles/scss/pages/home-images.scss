@@ -193,10 +193,15 @@
 .img-workflow {
   border: 1px solid rgba($black,.1);
   border-radius: 6px 6px 0 0;
+  float: left;
   height: 150px;
-  margin: 0 auto;
+  margin: 60px auto 0;
   position: relative;
   width: 300px;
+
+  + .img-workflow {
+    float: right;
+  }
 
   &::after {
     background: $gray-lighter;
@@ -213,9 +218,13 @@
 
   .img {
     border-radius: 50%;
+    bottom: -30px;
     display: block;
+    left: 0;
+    margin: 0 auto;
     position: absolute;
-    top: -30px;
+    right: 0;
+    z-index: 1;
   }
 }
 
@@ -226,18 +235,10 @@
   font-family: 'Source Code Pro', monospace;
   font-size: 14px;
   padding: 15px;
-
-  .img {
-    right: -30px;
-  }
 }
 
 // editor
 .img-workflow-editor {
-
-  .img {
-    left: -30px;
-  }
 
   .file-tree,
   .ace-editor {
@@ -249,7 +250,8 @@
   .file-tree {
     background: $white;
     border-right: 1px solid rgba($black,.1);
-    padding: 33px 3px;
+    border-top-left-radius: 6px;
+    padding: 6px 3px;
   }
 
   .folder,
@@ -259,6 +261,7 @@
 
   .ace-editor {
     background: #311d40; // view-themes.scss
+    border-top-right-radius: 6px;
     color: $white;
     font-family: 'Source Code Pro', monospace;
     font-size: 10px;

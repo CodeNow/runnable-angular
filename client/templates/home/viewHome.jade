@@ -149,44 +149,47 @@ main.home
 
     //- protype
     section.feature.feature-protype.clearfix
-      .col.col-50
-        .img-workflow.img-workflow-terminal
-          span root@id:/angular-app#
-          img.img(
-            height = "60"
-            ng-src = "/build/images/home/icons-ruby-on-rails.svg"
-            width = "60"
-          )
-        p.p Run full-stack experiments through a terminal and file editor in the browser.
-      .col.col-50
-        .img-workflow.img-workflow-editor.clearfix
-          ul.file-tree
-            li.folder
-              svg.iconnables.filetypes.icons-folder
-                use(
-                  xlink:href = "#icons-folder"
-                )
-              span.item-name assets
-            li.file
-              svg.iconnables.filetypes.icons-file
-                use(
-                  xlink:href = "#icons-file"
-                )
-              span.item-name index.html
-          pre.ace-editor.
-            &lt;!DOCTYPE html&gt;
-            &lt;html&gt;
-            &nbsp;&nbsp;&lt;head&gt;
-            &nbsp;&nbsp;&lt;/head&gt;
-            &nbsp;&nbsp;&lt;body&gt;
-            &nbsp;&nbsp;&lt;/body&gt;
-            &lt;/html&gt;
-          img.img(
-            height = "60"
-            ng-src = "/build/images/home/icons-django.svg"
-            width = "60"
-          )
-        p.p Link boxes to prototype your architecture, through environment variables.
+      .row.clearfix
+        .col
+          h2.h2.header-thin JSFiddle for full-stack apps
+          p.p Run full-stack experiments through a terminal and file editor in the browser.
+      .row
+        .col.clearfix
+          .img-workflow.img-workflow-terminal
+            span root@id:/angular-app#
+            img.img(
+              height = "60"
+              ng-src = "/build/images/home/icons-ruby-on-rails.svg"
+              width = "60"
+            )
+          .img-workflow.img-workflow-editor.clearfix
+            ul.file-tree
+              li.folder
+                svg.iconnables.filetypes.icons-folder
+                  use(
+                    xlink:href = "#icons-folder"
+                  )
+                span.item-name assets
+              li.file
+                svg.iconnables.filetypes.icons-file
+                  use(
+                    xlink:href = "#icons-file"
+                  )
+                span.item-name index.html
+            pre.ace-editor.
+              &lt;!DOCTYPE html&gt;
+              &lt;html&gt;
+              &nbsp;&nbsp;&lt;head&gt;
+              &nbsp;&nbsp;&lt;/head&gt;
+              &nbsp;&nbsp;&lt;body&gt;
+              &nbsp;&nbsp;&lt;/body&gt;
+              &lt;/html&gt;
+            img.img(
+              height = "60"
+              ng-src = "/build/images/home/icons-django.svg"
+              width = "60"
+            )
+      p.p.row Link boxes to prototype any architecture through environment variables.
 
   //- pricing
   section.home-pricing.home-callout.clearfix

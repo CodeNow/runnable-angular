@@ -53,7 +53,7 @@
   // .hr
   .hr {
     height: 36px;
-    margin: 120px auto;
+    margin: 90px auto;
     position: relative;
     width: 700px;
 
@@ -256,8 +256,18 @@
 // section.feature-protype
 .feature-protype {
 
-  .p {
+  .h2 {
     margin-top: 30px;
+  }
+
+  .col {
+    float: none;
+    margin: 0 auto;
+    max-width: 690px;
+  }
+
+  .img-workflow {
+    margin-top: 90px;
   }
 }
 
