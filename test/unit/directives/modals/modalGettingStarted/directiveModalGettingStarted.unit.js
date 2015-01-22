@@ -154,6 +154,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       gravitar: function () {
         return true;
       },
+      oauthId: function () {
+        return 1;
+      },
       fetchSettings: sinon.spy()
     };
     ctx.fakeOrg1 = {
@@ -164,6 +167,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       gravitar: function () {
         return true;
       },
+      oauthId: function () {
+        return 2;
+      },
       fetchSettings: sinon.spy()
     };
     ctx.fakeOrg2 = {
@@ -173,6 +179,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       },
       gravitar: function () {
         return true;
+      },
+      oauthId: function () {
+        return 3;
       },
       fetchSettings: sinon.spy()
     };
@@ -251,6 +260,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         };
       });
       it('should fork a new one', function () {
+        $elScope.data.activeAccount = ctx.fakeuser;
         $elScope.actions.addDependency(instance);
 
         expect($elScope.state.dependencies[0]).to.be.ok;
@@ -269,6 +279,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         expect($elScope.state.dependencies[0].reqEnv[1].url).to.equal('asdasd.asdasd.asdas');
       });
       it('should use an existing', function () {
+        $elScope.data.activeAccount = ctx.fakeuser;
         $elScope.actions.addDependency(instance, true);
 
         expect($elScope.state.dependencies[0]).to.be.ok;
@@ -290,6 +301,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
 
     describe('removeDependency', function () {
       it('should remove a dependency from the list', function () {
+        $elScope.data.activeAccount = ctx.fakeuser;
         keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeuser);
         var instances = [{
           attrs: angular.copy(apiMocks.instances.running),
