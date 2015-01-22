@@ -278,6 +278,7 @@
   color: $white;
   margin: 180px 0;
   padding: 120px 0;
+  position: relative;
 
   @include media(sm) {
     max-height: none;
@@ -307,6 +308,14 @@
 
   .p {
     text-align: center;
+  }
+
+  .img {
+    bottom: -90px;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
   }
 }
 
