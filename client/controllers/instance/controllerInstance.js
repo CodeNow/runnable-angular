@@ -85,6 +85,13 @@ function ControllerInstance(
       data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
+
+      if (!data.instance.build.attrs.completed) {
+        $timeout(function () {
+          data.openItems.addBuildStream();
+        });
+      }
+
       if (deployedPoller) {
         deployedPoller.clear();
       }
@@ -236,8 +243,10 @@ function ControllerInstance(
     if (!data.openItems.hasOpen('WebView')) {
       data.openItems.addWebView();
     }
-    data.openItems.restoreTabs(
-      data.instance.id() + '-' + data.instance.build.id(),
+    data.openItems.restoreTabs({
+        instanceId: data.instance.id(),
+        buildId: data.instance.build.id()
+      },
       data.instance.containers.models[0]);
     data.openItems.restoreActiveTab();
   }

@@ -130,13 +130,13 @@ function openItemsFactory(
   };
 
   function OpenItems() {
-    this.shortHash = null;
+    this.keys = {};
     this.activeHistory = new ActiveHistory();
     this.previouslyActiveTab = null;
 
     var models;
     this.retrieveTabs = function(container) {
-      models = $localStorage[this.shortHash];
+      models = keypather.get($localStorage, this.keys.instanceId + '.' + this.keys.buildId);
       if (Array.isArray(models)) {
         this.previouslyActiveTab = models.find(function (m) {
           return keypather.get(m, 'state.active');
@@ -184,8 +184,8 @@ function openItemsFactory(
     }
   };
 
-  OpenItems.prototype.restoreTabs = function(shortHash, container) {
-    this.shortHash = shortHash;
+  OpenItems.prototype.restoreTabs = function(keys, container) {
+    this.keys = keys;
     this.retrieveTabs(container);
   };
 
@@ -371,10 +371,12 @@ function openItemsFactory(
   };
 
   OpenItems.prototype.saveState = function () {
-    if (!this.shortHash) {
+    if (!this.keys.instanceId) {
       return;
     }
-    $localStorage[this.shortHash] = this.toJSON();
+    var state = {};
+    state[this.keys.buildId] = this.toJSON();
+    $localStorage[this.keys.instanceId] = state;
   };
 
   OpenItems.prototype.hasOpen = function (type) {
