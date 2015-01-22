@@ -138,19 +138,21 @@ function modalGettingStarted(
                   $scope.state.opts,
                   $scope.data.instances
                 ),
-                function () {
+                function (cb) {
                   $rootScope.dataApp.data.loading = false;
                   var newStateParams = {
                     userName: $scope.data.activeAccount.oauthName(),
                     instanceName: $scope.state.opts.name
                   };
-                  $scope.data.in = false;
                   $scope.defaultActions.close(function () {
-                    $timeout(function () {
-                      $scope.$emit('INSTANCE_LIST_FETCH', newStateParams.userName);
-                      $state.go('instance.instance', newStateParams);
-                    }, 10);
+                    $scope.$emit('INSTANCE_LIST_FETCH', newStateParams.userName);
+                    cb(null, newStateParams);
                   });
+                },
+                function (newStateParams) {
+                  $timeout(function () {
+                    $state.go('instance.instance', newStateParams);
+                  }, 10);
                 }
               ], function (err) {
                 $scope.building = false;
@@ -242,7 +244,7 @@ function modalGettingStarted(
             counter.next(err);
           }
         });
-        fetchInstances(user.oauthName(), false, function (err, instances, username, cached) {
+        fetchInstances(user.oauthName(), true, function (err, instances, username, cached) {
           if (!forceInstanceFetch || !cached) {
             $scope.data.instances = instances;
             if (counter) {
