@@ -236,8 +236,10 @@ function ControllerInstance(
     if (!data.openItems.hasOpen('WebView')) {
       data.openItems.addWebView();
     }
-    data.openItems.restoreTabs(
-      data.instance.id() + '-' + data.instance.build.id(),
+    data.openItems.restoreTabs({
+        instanceId: data.instance.id(),
+        buildId: data.instance.build.id()
+      },
       data.instance.containers.models[0]);
     data.openItems.restoreActiveTab();
   }
