@@ -59,7 +59,7 @@ function modalGettingStarted(
             opts: !fromExisting ? {
               env: instance.attrs.env,
               owner: {
-                github: $scope.state.activeAccount.oauthId()
+                github: $scope.data.activeAccount.oauthId()
               }
             } : null,
             reqEnv: envs.map(function (url, index) {
