@@ -102,7 +102,7 @@
   }
 
   .btn {
-    color: $gray;
+    color: $gray-lighter;
     cursor: default;
   }
 
@@ -116,7 +116,7 @@
   }
 
   .icons-octocat {
-    color: $gray-light;
+    color: $gray-lighter;
     float: left;
     height: 36px;
     left: 0;
@@ -133,12 +133,13 @@
 
   .input {
     background: transparent;
+    color: $gray-lighter;
     padding-left: 36px;
   }
 }
 
 .pull-body {
-  padding: 6px 6px 30px;
+  padding: 18px 6px;
 
   .green,
   .well,
