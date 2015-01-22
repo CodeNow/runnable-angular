@@ -1,3 +1,46 @@
+// configuration
+.img-configuration {
+  margin: 120px auto 30px;
+  width: 414px;
+
+  .icons-col {
+    float: left;
+    position: relative;
+    width: 66px;
+
+    &:nth-child(3) {
+      height: 150px;
+      width: 150px;
+    }
+  }
+
+  .icons-img {
+    display: block;
+    filter: grayscale(100%);
+    margin: 6px auto;
+    opacity: .3;
+
+    &:only-child {
+      margin: 42px auto;
+    }
+  }
+
+  .icons-repository {
+    color: $gray-lighter;
+    display: block;
+    float: left;
+    height: 154px;
+    margin: 0 auto;
+    width: 120px;
+  }
+
+  .icons-octocat {
+    color: $purple;
+    height: 150px;
+    width: 150px;
+  }
+}
+
 // notifications
 .img-notification {
   background: #f0f0f0; // osx
@@ -11,7 +54,7 @@
   width: 330px;
 
   + .img-notification {
-    margin-top: 15px;
+    margin-top: 45px;
   }
 
   .img {
@@ -34,6 +77,115 @@
     height: 36px;
     overflow: hidden;
     text-align: left;
+  }
+}
+
+// pull request
+.img-pull {
+  border: 1px solid rgba($black,.1);
+  border-radius: 3px;
+  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
+  margin: 0 auto;
+  width: 330px;
+}
+
+.pull-header {
+  background: $gray-lightest;
+  border-bottom: 1px solid rgba($black,.1);
+  height: 45px;
+  line-height: 45px;
+  padding: 4px 6px;
+  position: relative;
+
+  .btn-group {
+    float: left;
+  }
+
+  .btn {
+    color: $gray;
+    cursor: default;
+  }
+
+  .icons-arrow-back {
+    height: 36px;
+    width: 21px;
+  }
+
+  .btn + .btn .icons-arrow-back {
+    transform: rotate3d(0,0,1,180deg);
+  }
+
+  .icons-octocat {
+    color: $gray-light;
+    float: left;
+    height: 36px;
+    left: 0;
+    margin: 0 6px;
+    position: absolute;
+    top: 0;
+    width: 24px;
+  }
+
+  .input-group {
+    height: 36px;
+    left: 6px;
+  }
+
+  .input {
+    background: transparent;
+    padding-left: 36px;
+  }
+}
+
+.pull-body {
+  padding: 6px 6px 30px;
+
+  .green,
+  .well,
+  .p {
+    border-radius: 3px;
+    font-size: 14px;
+    margin: 0;
+    text-align: left;
+  }
+
+  .green {
+    font-weight: 500;
+  }
+
+  .icons-pull-request {
+    margin-right: 6px;
+    top: 6px;
+  }
+
+  .well {
+    border: 1px solid rgba($black,.15);
+    border-radius: 3px;
+    color: $gray-darker;
+    float: left;
+    margin-top: 6px;
+    padding: 0;
+
+    .gray {
+      border: 0;
+      border-bottom: 1px solid rgba($black,.1);
+    }
+
+    .img {
+      border-radius: 3px;
+      display: block;
+      float: left;
+      margin: 7px 7px 6px 3px;
+    }
+
+    .p {
+      padding: 6px;
+    }
+  }
+
+  .web-link {
+    color: $blue;
+    text-decoration: underline;
   }
 }
 

@@ -23,21 +23,25 @@
     }
   }
 
-  .row {
-    margin: 0 0 60px;
-  }
-
   .col {
-    margin: 0 60px;
+    float: left;
+    margin: 0 auto;
+    width: 100%;
 
     @include media(xs) {
       margin-bottom: 30px;
     }
 
     &.col-50 {
-      float: left;
-      margin: 0 auto;
       width: 50%;
+    }
+
+    &.col-40 {
+      width: 40%;
+    }
+
+    &.col-30 {
+      width: 30%;
     }
   }
 
@@ -213,12 +217,6 @@
 // section.home-feature
 .home-feature {
   margin: 0 auto;
-  max-width: 960px;
-
-  .row {
-    margin: 120px auto 30px;
-    width: 414px;
-  }
 
   .h2 {
     font-size: 32px;
@@ -233,53 +231,25 @@
   .col {
     margin: 0 auto;
   }
-
-  // first-feature
-  .icons-col {
-    float: left;
-    position: relative;
-    width: 66px;
-
-    &:nth-child(3) {
-      height: 150px;
-      width: 150px;
-    }
-  }
-
-  .icons-img {
-    display: block;
-    filter: grayscale(100%);
-    margin: 6px auto;
-    opacity: .3;
-
-    &:only-child {
-      margin: 42px auto;
-    }
-  }
-
-  .icons-repository {
-    color: $gray-lighter;
-    display: block;
-    float: left;
-    height: 154px;
-    margin: 0 auto;
-    width: 120px;
-  }
-
-  .icons-octocat {
-    color: $purple;
-    height: 150px;
-    width: 150px;
-  }
 }
 
-// section.feature-workflow
-.feature-workflow {
+// section.feature.feature-configuration
+.feature-configuration {
+  margin: 0 auto;
+  max-width: 960px;
+}
 
-  .h2,
-  .p {
-    margin: 0;
-    text-align: left;
+// section.feature.feature-workflow
+.feature-workflow {
+  margin: 0 auto;
+  max-width: 1200px;
+
+  .col-40 {
+    padding: 51px 75px;
+  }
+
+  .col-30:last-child {
+    padding: 17px 0;
   }
 }
 
