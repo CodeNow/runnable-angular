@@ -197,6 +197,7 @@
   float: left;
   height: 150px;
   margin: 60px auto 0;
+  overflow: visible;
   position: relative;
   width: 300px;
 
@@ -231,9 +232,6 @@
 
 // terminal
 .img-workflow-terminal, {
-  background: #311d40; // view-themes.scss
-  color: $white;
-  font-size: 14px;
   padding: 15px;
 }
 
@@ -259,12 +257,11 @@
     cursor: default;
   }
 
-  .ace-editor {
-    background: #311d40; // view-themes.scss
+  .pre {
     border-top-right-radius: 6px;
-    color: $white;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 10px;
+    color: #ffafb7; // pink
+    font-size: 10px !important;
+    height: 100%;
   }
 }
 
@@ -291,14 +288,12 @@
 
 // docker
 .img-docker-terminal, {
-  background: #311d40; // view-themes.scss
+  border: 1px solid rgba($black,.1);
   border-radius: 3px;
-  color: $white;
-  font-size: 14px;
+  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
   height: 210px;
   margin: 30px auto 0;
   padding: 9px;
-  position: relative;
   width: 570px;
 
   .img {

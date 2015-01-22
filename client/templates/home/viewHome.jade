@@ -153,9 +153,8 @@ main.home
           h2.h2.header-thin JSFiddle for Full-stack Applications
           p.p Run full-stack experiments through a terminal and file editor in the browser.
       .row
-        .col.clearfix
-          .img-workflow.img-workflow-terminal
-            pre.pre root@id:/angular-app#
+        .col.clearfix.ace-tm.ace-runnable-dark
+          pre.pre.img-workflow.img-workflow-terminal root@id:/angular-app#
             img.img(
               height = "60"
               ng-src = "/build/images/home/icons-ruby-on-rails.svg"
@@ -166,7 +165,7 @@ main.home
               use(
                 xlink:href = "#icons-link"
               )
-          .img-workflow.img-workflow-editor.clearfix
+          .img-workflow.img-workflow-editor.ace-tm.ace-runnable-dark.clearfix
             ul.file-tree
               li.folder
                 svg.iconnables.filetypes.icons-folder
@@ -180,7 +179,7 @@ main.home
                     xlink:href = "#icons-file"
                   )
                 span.item-name index.html
-            pre.ace-editor.
+            pre.pre.
               &lt;!DOCTYPE html&gt;
               &lt;html&gt;
               &nbsp;&nbsp;&lt;head&gt;
@@ -214,7 +213,7 @@ main.home
   //- coming soon
   section.home-feature
     section.feature.feature-soon.clearfix
-      .col.col-50
+      .col.col-50.ace-tm
         h2.h2.header-thin Built on Docker
         p.p Pull containers down to your local or remote host from our private Docker registry.
         pre.pre.img-docker-terminal
