@@ -57,7 +57,10 @@ function modalGettingStarted(
           $scope.state.dependencies.push({
             instance: instance,
             opts: !fromExisting ? {
-              env: instance.attrs.env
+              env: instance.attrs.env,
+              owner: {
+                github: $scope.state.activeAccount.oauthId()
+              }
             } : null,
             reqEnv: envs.map(function (url, index) {
               var thisEnvName = envName + '_HOST' + (index > 0 ? index : '');
