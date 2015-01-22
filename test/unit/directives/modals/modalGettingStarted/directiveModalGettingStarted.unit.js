@@ -154,6 +154,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       gravitar: function () {
         return true;
       },
+      oauthId: function () {
+        return 1;
+      },
       fetchSettings: sinon.spy()
     };
     ctx.fakeOrg1 = {
@@ -164,6 +167,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       gravitar: function () {
         return true;
       },
+      oauthId: function () {
+        return 2;
+      },
       fetchSettings: sinon.spy()
     };
     ctx.fakeOrg2 = {
@@ -173,6 +179,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       },
       gravitar: function () {
         return true;
+      },
+      oauthId: function () {
+        return 3;
       },
       fetchSettings: sinon.spy()
     };
