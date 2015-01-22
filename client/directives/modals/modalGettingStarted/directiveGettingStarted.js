@@ -129,13 +129,13 @@ function modalGettingStarted(
                   $scope.state.dockerfile,
                   $scope.state
                 ),
+                forkInstances($scope.state.dependencies),
                 createNewInstance(
                   $scope.data.activeAccount,
                   $scope.state.build,
                   $scope.state.opts,
                   $scope.data.instances
                 ),
-                forkInstances($scope.state.dependencies),
                 function () {
                   $rootScope.dataApp.data.loading = false;
                   $scope.defaultActions.close();
