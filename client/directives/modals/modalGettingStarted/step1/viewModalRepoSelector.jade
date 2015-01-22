@@ -17,7 +17,7 @@ ul.list.list-divided
     ng-click = "selectRepo(repo); "
     ng-repeat = "repo in githubRepos| \
       repos:data.repoFilter |\
-      orderBy: -attrs.updated_at "
+      orderBy: '-attrs.updated_at' "
   )
     span.list-item-title.text-overflow {{ repo.attrs.full_name }}
     small.small {{ repo.attrs.updated_at | timeAgo }}
