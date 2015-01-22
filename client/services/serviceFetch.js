@@ -16,11 +16,11 @@ function fetch (
   var pFetchUser = (function () {
     // http://stackoverflow.com/a/22655010/1216976
     var d = $q.defer();
-    var tempUser = user.fetchUser('me', function (err) {
+    user.fetchUser('me', function (err) {
       if (err) {
         return d.reject(err);
       }
-      return d.resolve(tempUser);
+      return d.resolve(user);
     });
     return d.promise;
   })();
