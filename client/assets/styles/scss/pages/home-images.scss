@@ -317,12 +317,22 @@
   padding: 9px;
   width: 570px;
 
+  &:focus {
+    outline: 0;
+
+    &::after {
+      animation: cursor-blink 1s infinite;
+      visibility: visible;
+    }
+  }
+
   &::after {
     animation: cursor-blink 1s infinite;
     background: $gray-darker;
     content: '';
     display: block;
     height: 18px;
+    visibility: hidden;
     width: 9px;
   }
 

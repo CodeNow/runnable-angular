@@ -218,7 +218,9 @@ main.home
       .col.col-50.ace-tm
         h2.h2.header-thin Built on Docker
         p.p Pull containers down to your local or remote host from our private Docker registry.
-        pre.pre.img-docker-terminal
+        pre.pre.img-docker-terminal(
+          tabindex = "0"
+        )
           | root@amzn-ec2-instance:~$ docker run dockerfile/elasticsearch
           | Pulling repository dockerfile/elasticsearch
           | 88frsc: Pulling dependent layers
