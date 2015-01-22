@@ -1,6 +1,5 @@
 // offset for getting started navbar popover
 .popover-account-menu.popover-getting-started-offset {
-  margin-left: -30px;
 
   @include media(xs) {
     left: auto !important;

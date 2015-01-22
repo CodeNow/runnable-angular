@@ -34,7 +34,7 @@ function ControllerInstanceLayout(
   });
 
   function resolveInstanceFetch(username) {
-    if (!username || username === '') { return; }
+    if (!username) { return; }
     async.waterfall([
       function (cb) {
         $rootScope.dataApp.state.loadingInstances = true;

@@ -9,17 +9,12 @@ function gsPopulateDockerfile(
   return function (dockerfile, state) {
     function populateDockerFile(dockerfileBody) {
       // first, add the ports
-      dockerfileBody = replaceStackVersion(dockerfileBody, state.stack);
       var ports = state.ports.split(',').join(' ');
-      dockerfileBody = dockerfileBody.replace(/<user-specified-ports>/gm, ports);
-
-      // Add Repo
-      dockerfileBody = dockerfileBody.replace(/<repo-name>/gm, state.selectedRepo.attrs.name);
-
-      // For now, just remove this
-      dockerfileBody = dockerfileBody.replace(/<add-dependencies>/gm, '');
-      var startCommand = state.startCommand;
-      dockerfileBody = dockerfileBody.replace(/<start-command>/gm, startCommand);
+      dockerfileBody = replaceStackVersion(dockerfileBody, state.stack)
+        .replace(/<user-specified-ports>/gm, ports)
+        .replace(/<repo-name>/gm, state.selectedRepo.attrs.name)
+        .replace(/<add-dependencies>/gm, '')
+        .replace(/<start-command>/gm, state.startCommand);
       return dockerfileBody;
     }
 
