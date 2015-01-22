@@ -1,100 +1,13 @@
-main.home.pricing
-
-  //- hero
-  section.home-hero
-    header.home-header
-      a.logo(
-        href = "/"
-      )
-        svg
-          use(
-            xlink:href = "#runnable-logo"
-          )
-      nav.home-nav
-        a.link.link-text(
-          href = "/features"
-        ) Features
-        a.link.link-text(
-          href = "/pricing"
-        ) Pricing
-        a.link.link-text(
-          ng-href = "{{ dataApp.data.loginURL }}"
-        ) Sign In
-    h1.h1.header-thin We only have one price
-    h3.h3.header-thin (Your first born) or $20/user/month
-
-  //- features
-  section.home-features
-    .row
-      .col
-        img(
-          height = "300"
-          src = "/build/images/home/pricing-coin.svg"
-          width = "300"
-        )
-        h2.h2.header-thin.text-orange Bear with us
-        p.p We're still testing Runnable and #{''}
-          br
-          | will be available for beta soon.
-        a.btn.btn-xl.green(
-          href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
-        ) Request Invite
-
-  .hr.hr-single
-
-  section.home-faq
-    .row.clearfix
-      .col
-        h4.h4.header-thin Does it cost more to have your reps help us get onboard?
-        p.p There are no extra costs. We really want to make Runnable as easy as possible for you to use.
-      .col
-        h4.h4.header-thin How long does it take to get onboarded?
-        p.p It depends on the complexity of your stack, but can take up to a few hours.
-      .col
-        h4.h4.header-thin Is there a limit on the number of servers I can run?
-        p.p Nope. Use as many servers as you need.
-    .row.clearfix
-      .col
-        h4.h4.header-thin Is Github really required?
-        p.p Yes. At this time we only support running your code from Github.
-      .col
-        h4.h4.header-thin Can I attach my domain to a server?
-        p.p We're working on this #{''}
-          em right now
-          | . You can expect to see this feature in the near future.
-      .col
-        h4.h4.header-thin Any relation to Runnable.com?
-        p.p We launched #{''}
-          a(
-            href = "//runnable.com"
-            target = "_blank"
-          ) Runnable.com
-          | #{''} in 2013. Runnable was founded in late 2012 and is currently based in San Francisco.
-    a.btn.green(
-      href = "mailto:support@runnable.com"
-    ) More Questions? Send us an email
-
-  footer.home-footer
-    .hr
-      img.hr-image(
-        height = "30"
-        src = "/build/images/runnable-icon.svg"
-        width = "30"
-      )
-    nav.footer-nav
-      a.link.link-text(
-        href = "/"
-      ) Home
-      a.link.link-text(
-        href = "/features"
-      ) Features
-      a.link.link-text(
-        href = "/pricing"
-      ) Pricing
-      a.link.link-text(
-        href = "mailto:support@runnable.com"
-      ) Email Us
-      a.link.link-text(
-        ng-href = "{{ dataApp.data.loginURL }}"
-      )
-        b Sign In
+h2.h2.header-thin $20/month/developer
+.row.clearfix
+  .col.col-50
+    h3.h3.header-thin What do you charge per server?
+    p.p Nothing! Spin up unlimited servers at no additional cost.
+  .col.col-50
+    h3.h3.header-thin Is my code safe with you?
+    p.p Yes! We create servers for you on our secure, AWS cloud.
+img.img(
+  height = "180"
+  src = "/build/images/home/pricing-coin.svg"
+  width = "180"
+)
