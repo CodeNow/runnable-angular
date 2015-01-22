@@ -94,6 +94,10 @@ function dockerTemplates(
         ]);
       };
 
+      $scope.getTemplateValueFunction = function(template) {
+        return (template.attrs.name === 'Blank') ? 0 : template.attrs.name;
+      };
+
       function fetchBuild(cb) {
         new QueryAssist($scope.user, cb)
           .wrapFunc('fetchBuild')

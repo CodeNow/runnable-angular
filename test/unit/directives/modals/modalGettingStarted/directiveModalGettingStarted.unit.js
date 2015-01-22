@@ -154,6 +154,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       gravitar: function () {
         return true;
       },
+      oauthId: function () {
+        return 1;
+      },
       fetchSettings: sinon.spy()
     };
     ctx.fakeOrg1 = {
@@ -164,6 +167,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       gravitar: function () {
         return true;
       },
+      oauthId: function () {
+        return 2;
+      },
       fetchSettings: sinon.spy()
     };
     ctx.fakeOrg2 = {
@@ -173,6 +179,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       },
       gravitar: function () {
         return true;
+      },
+      oauthId: function () {
+        return 3;
       },
       fetchSettings: sinon.spy()
     };
@@ -251,9 +260,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         };
       });
       it('should fork a new one', function () {
+        $elScope.data.activeAccount = ctx.fakeuser;
         $elScope.actions.addDependency(instance);
 
-        sinon.assert.calledWith(ctx.getNewForkNameMock, instance);
         expect($elScope.state.dependencies[0]).to.be.ok;
         expect($elScope.state.dependencies[0].instance).to.equal(instance);
         expect($elScope.state.dependencies[0].opts).to.be.ok;
@@ -264,15 +273,15 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           .to.equal(instance.attrs.name.toUpperCase() + '_HOST');
         expect($elScope.state.dependencies[0].reqEnv[0].placeholder).to.be.ok;
         // Should have new name
-        expect($elScope.state.dependencies[0].reqEnv[0].url).to.equal(instance.attrs.name + '0');
+        expect($elScope.state.dependencies[0].reqEnv[0].url).to.equal(instance.attrs.name);
         expect($elScope.state.dependencies[0].reqEnv[1].name)
           .to.equal(instance.attrs.name.toUpperCase() + '_HOST1');
         expect($elScope.state.dependencies[0].reqEnv[1].url).to.equal('asdasd.asdasd.asdas');
       });
       it('should use an existing', function () {
+        $elScope.data.activeAccount = ctx.fakeuser;
         $elScope.actions.addDependency(instance, true);
 
-        sinon.assert.calledWith(ctx.getNewForkNameMock, instance);
         expect($elScope.state.dependencies[0]).to.be.ok;
         expect($elScope.state.dependencies[0].instance).to.equal(instance);
         expect($elScope.state.dependencies[0].opts).to.not.be.ok;
@@ -292,6 +301,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
 
     describe('removeDependency', function () {
       it('should remove a dependency from the list', function () {
+        $elScope.data.activeAccount = ctx.fakeuser;
         keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeuser);
         var instances = [{
           attrs: angular.copy(apiMocks.instances.running),
@@ -525,6 +535,10 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       $elScope.actions.addDependency(ctx.instanceLists[2]);
 
       $scope.defaultActions.close = sinon.spy(function () {
+        expect($elScope.state.dependencies[0].opts.name)
+            .to.equal($elScope.state.dependencies[0].instance.attrs.name + 0);
+        expect($elScope.state.dependencies[2].opts.name)
+            .to.equal($elScope.state.dependencies[2].instance.attrs.name + 1);
         sinon.assert.called(ctx.instanceLists[0].copy);
         sinon.assert.notCalled(ctx.instanceLists[1].copy);
         sinon.assert.called(ctx.instanceLists[2].copy);
@@ -552,7 +566,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       expect($elScope.state.dockerfile).to.be.ok;
 
       expect($elScope.state.opts.env).to.be.ok;
-      expect($elScope.state.opts.name).to.equal(ctx.repo1.attrs.name + (ctx.newForkNameCount - 1));
+      expect($elScope.state.opts.name).to.equal(ctx.repo1.attrs.name + 2);
 
       sinon.assert.called(ctx.getNewForkNameMock);
     });

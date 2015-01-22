@@ -8,7 +8,6 @@ function fetchStackInfo(
 ) {
   return function (cb) {
     function callback(err, res, body) {
-      console.log(err, res, body);
       var stacks = [];
       Object.keys(body).forEach(function (key) {
         var stack = body[key];
