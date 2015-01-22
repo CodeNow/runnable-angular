@@ -85,6 +85,13 @@ function ControllerInstance(
       data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
+
+      if (!data.instance.build.attrs.completed) {
+        $timeout(function () {
+          data.openItems.addBuildStream();
+        });
+      }
+
       if (deployedPoller) {
         deployedPoller.clear();
       }
