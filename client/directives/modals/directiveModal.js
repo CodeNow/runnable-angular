@@ -52,6 +52,9 @@ function modal(
         },
         close: function (cb) {
           $scope.in = false;
+          if ($scope.data) {
+            $scope.data.in = false;
+          }
           if ($scope.modal) {
             $scope.modal.remove();
           }
