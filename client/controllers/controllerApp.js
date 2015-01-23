@@ -40,7 +40,11 @@ function ControllerApp(
 
   dataApp.data.modalError = {
     data: {},
-    actions: {}
+    actions: {
+      close: function () {
+        errs.clearErrors();
+      }
+    }
   };
   function setActiveAccount(accountName) {
     if (accountName) {

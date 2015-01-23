@@ -20,7 +20,7 @@ function makeDefaultScope() {
       activeAccount: ctx.fakeuser,
       orgs: {models: [ctx.fakeOrg1, ctx.fakeOrg2]},
       user: ctx.fakeuser,
-      stacks: stacks,
+      stacks: stacks
     },
     actions: {
       addDependency: sinon.spy(),
@@ -381,11 +381,9 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
 
       sinon.assert.called(ctx.repo1.branches.fetch);
       sinon.assert.called(ctx.fetchStackAnalysisMock);
-      sinon.assert.calledWith(ctx.errsMock.handler, new Error('No languages found'));
 
       expect(ctx.repo1.spin).to.not.be.ok;
       sinon.assert.calledWith($scope.actions.nextStep, 2);
-      expect($elScope.state.repoSelected).to.not.be.ok;
       $scope.$destroy();
       $scope.$digest();
     });
