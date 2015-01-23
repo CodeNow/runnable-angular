@@ -11,7 +11,9 @@ main.home
             xlink:href = "#runnable-logo"
           )
       nav.home-nav
-        a.link.link-text Sign In
+        a.link.link-text(
+          ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
+        ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
     h1.h1.header-thin Stop Configuring Servers
     h3.h3.header-thin Runnable automatically creates and updates servers for your team
@@ -58,6 +60,10 @@ main.home
       ng-include = "'viewSoon'"
     )
 
+  a.btn.btn-xl.green(
+    href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+  ) Request Invite
+
   footer.home-footer
     .hr
       img.hr-image(
@@ -70,6 +76,7 @@ main.home
         href = "mailto:support@runnable.com"
       ) Email Us
       a.link.link-text(
-        ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com' }}"
+        ng-href = "{{ dataApp.data.loginURL }}"
+        ng-if = "dataHome.data.hasPass"
       )
         b Sign In

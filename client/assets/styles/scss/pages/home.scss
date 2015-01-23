@@ -45,9 +45,13 @@
     }
   }
 
-  .btn-xl {
+  .green {
     display: table;
-    margin: 30px auto 0;
+    margin: 15px auto 0;
+
+    &.btn-xl {
+      margin-top: 120px;
+    }
   }
 
   // .hr
