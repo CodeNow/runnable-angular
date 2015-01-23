@@ -1,0 +1,31 @@
+input.input.input-search(
+  ng-model = "data.repoFilter"
+  placeholder = "Filter repositories"
+  required
+  select-on = "data.showFilter"
+)
+ul.list.list-divided
+  li(
+    ng-show = "loading"
+  )
+    .spinner-wrapper.spinner-md(
+      ng-class = "{in: loading}"
+      ng-include = "'spinner'"
+    )
+  li.list-item(
+    ng-class = "{active: state.selectedRepo === repo}"
+    ng-click = "selectRepo(repo); "
+    ng-repeat = "repo in githubRepos| \
+      repos:data.repoFilter |\
+      orderBy: '-attrs.updated_at' "
+  )
+    span.list-item-title.text-overflow {{ repo.attrs.full_name }}
+    small.small {{ repo.attrs.updated_at | timeAgo }}
+    .spinner-wrapper.spinner-sm.spinner-white(
+      ng-class = "{in: repo.spin}"
+      ng-include = "'spinner'"
+    )
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )

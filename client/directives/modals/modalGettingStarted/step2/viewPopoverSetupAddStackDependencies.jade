@@ -1,0 +1,42 @@
+.popover.right.menu.popover-add-dependencies(
+  ng-class = "{in: data.show}"
+  ng-click = "$event.stopPropagation()"
+)
+  .arrow
+  h3.popover-title
+    .btn-group.clearfix
+      button.btn.btn-xs.gray(
+        ng-click = "popoverState = 'new'"
+        ng-class = "{'active': popoverState !== 'existing'}"
+      ) New
+      button.btn.btn-xs.gray(
+        ng-click = "popoverState = 'existing'"
+        ng-class = "{'active': popoverState === 'existing'}"
+      ) Existing
+  .popover-content(
+    ng-show = "popoverState !== 'existing'"
+  )
+    ul.list.popover-list
+      li.list-item.popover-list-item(
+        ng-click = "actions.addDependency(stackDep); data.show = false;"
+        ng-repeat = "\
+          stackDep in data.dependencies.models | \
+          removeTemplateInstances | \
+          unaddedDepInstances:data.state.dependencies | \
+          unaddedModels:data.depFilter | \
+          orderBy:'attrs.name' as filteredDeps"
+        title = "{{ stackDep.attrs.name }}"
+      ) {{ stackDep.attrs.name }}
+  .popover-content(
+    ng-show = "popoverState === 'existing'"
+  )
+    ul.list.popover-list
+      li.list-item.popover-list-item(
+      ng-click = "actions.addDependency(instance, true); data.show = false; "
+      ng-repeat = "\
+         instance in data.instances.models | \
+         unaddedDepInstances:data.state.dependencies | \
+         unaddedModels:data.depFilter | \
+         orderBy:'attrs.name' as filteredInstances "
+      title = "{{ instance.attrs.name }}"
+      ) {{ instance.attrs.name }}

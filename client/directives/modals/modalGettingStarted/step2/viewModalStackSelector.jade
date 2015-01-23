@@ -1,0 +1,104 @@
+label.label.clearfix
+  .label-col Branch
+    small.small Specify the branch of your repository
+  .btn.btn-sm.gray.btn-select.text-overflow
+    svg.iconnables.icons-branch
+      use(
+        xlink:href = "#icons-branch"
+      )
+    span.btn-select-text {{state.activeBranch.attrs.name}}
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    select.select(
+      ng-model = "state.activeBranch"
+      ng-options = "branch as branch.attrs.name group by 'Select a branch' for branch in state.selectedRepo.branches.models"
+    )
+.label.clearfix
+  .label-col Framework/Language
+    small.small The primary framework or language of your repository
+  .btn-group
+    .btn.btn-sm.gray.btn-select.text-overflow
+      img.img(
+        height = "18px"
+        src = "/build/images/home/icons-{{state.stack.key}}.svg"
+        width = "18px"
+      )
+      small.small {{state.stack.name}}
+      //- small.small {{ state.stack.name }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      //- NOTES:
+      //- alphabetical order
+      //- node.js is all lowercase
+      select(
+        ng-model = "state.stack"
+        ng-options = "stack as stack.name group by 'Choose framework or language' for stack in data.stacks"
+      )
+    .btn.btn-sm.gray.btn-select.text-overflow
+      //- NOTES:
+      //- - final text has v prepended
+      //- - option text does NOT have v preprended
+      small.small v{{state.stack.selectedVersion}}
+      //- small.small {{ version.selected }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      select(
+        ng-model = "state.stack.selectedVersion"
+        ng-options = "version as version group by 'Choose version' for version in state.stack.versions "
+      )
+  .btn-group(
+    ng-repeat = "depStack in state.stack.dependencies"
+  )
+    button.btn.btn-sm.gray.btn-select.text-overflow
+      img.img(
+        height = "18px"
+        src = "/build/images/home/icons-{{depStack.key}}.svg"
+        width = "18px"
+      )
+      small.small {{depStack.name}}
+    .btn.btn-sm.gray.btn-select.text-overflow
+      small.small v{{depStack.selectedVersion}}
+      //- small.small {{ version.selected }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      select(
+        ng-model = "depStack.selectedVersion"
+        ng-options = "version as version group by 'Choose version' for version in depStack.versions"
+      )
+label.label.clearfix
+  .label-col Ports
+    small.small Separate by commas
+  //- placeholder and values should be the same
+  input.input.input-sm(
+    ng-model = "state.ports"
+    placeholder = "{{ state.stack.ports }}"
+  )
+label.label.clearfix
+  .label-col Command
+    small.small Something about commands
+  //- placeholder and values should be the same
+  input.input.input-sm(
+    ng-model = "state.startCommand"
+    placeholder = "{{ state.stack.startCommand }}"
+  )
+.modal-stack-dependencies.clearfix(
+  actions = "actions"
+  data = "data"
+  modal-stack-dependencies
+  state = "state"
+)
+footer.modal-footer.clearfix
+  button.btn.green(
+    ng-click = "actions.nextStep(3)"
+  ) Next Step
+  button.btn.white(
+    ng-click = "actions.changeStep(1)"
+  ) Previous Step

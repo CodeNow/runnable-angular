@@ -11,14 +11,15 @@ require('app')
 function accountsSelect (
   configLogoutURL,
   errs,
-  $state,
-  $rootScope
+  keypather,
+  $state
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewAccountsSelect',
     scope: {
-      data: '='
+      data: '=',
+      isMainPage: '='
     },
     link: function ($scope, elem, attrs) {
 
@@ -28,18 +29,31 @@ function accountsSelect (
         },
         data: $scope.data
       };
-      $scope.popoverAccountMenu.data.dataModalIntegrations = $scope.data;
-      $scope.popoverAccountMenu.data.logoutURL = configLogoutURL();
+      var unwatchUserInfo = $scope.$watch('data.activeAccount', function (n) {
+        if (n) {
+          keypather.set($scope, 'popoverAccountMenu.data.activeAccount', n);
+          keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
+          keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
+        }
+      });
+      $scope.$on('$destroy', function () {
+        unwatchUserInfo();
+      });
+
+      keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
+      keypather.set($scope, 'popoverAccountMenu.data.logoutURL', configLogoutURL());
+      keypather.set($scope, 'popoverAccountMenu.data.isMainPage', $scope.isMainPage);
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
         $scope.popoverAccountMenu.data.show = false;
         var username = userOrOrg.oauthName();
         $scope.data.activeAccount = userOrOrg;
-        $scope.data.instances = null;
-        $scope.$emit('INSTANCE_LIST_FETCH', username);
-        $state.go('^.home', {
-          userName: username
-        });
+        if ($scope.isMainPage) {
+          $scope.$emit('INSTANCE_LIST_FETCH', username);
+          $state.go('^.home', {
+            userName: username
+          });
+        }
       };
 
       var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;
@@ -66,6 +80,7 @@ function accountsSelect (
         });
       };
       mActions.saveSlack = function () {
+        if (!mData.settings) { return; }
         $scope.data.user.newSetting(mData.settings._id)
         .update({
           json: {
@@ -76,6 +91,7 @@ function accountsSelect (
         }, errs.handler);
       };
       mActions.saveHipChat = function () {
+        if (!mData.settings) { return; }
         $scope.data.user.newSetting(mData.settings._id)
         .update({
           json: {

@@ -122,9 +122,10 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       expect($scope.loading).to.be.true;
       ctx.fireInstanceResponse['org2']();
       expect($scope.loading).to.be.false;
-      sinon.assert.calledWith(ctx.fakeGo, 'instance.new', {
+      sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
+      expect($scope.data.in).to.be.true;
     });
   });
   describe('local storage options'.blue, function () {
@@ -163,9 +164,10 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       ctx.fireInstanceResponse['org2']();
       expect($scope.loading).to.be.false;
 
-      sinon.assert.calledWith(ctx.fakeGo, 'instance.new', {
+      sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
+      expect($scope.data.in).to.be.true;
     });
   });
 });

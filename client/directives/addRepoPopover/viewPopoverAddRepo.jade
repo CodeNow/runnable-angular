@@ -1,32 +1,34 @@
 .popover.bottom.popover-add-repo(
-  ng-class = "{\
-    in: data.show\
-  }"
+  ng-class = "{in: data.show}"
+  ng-click = "$event.preventDefault();$event.stopPropagation();"
 )
   .arrow
-  h3.popover-title
+  h3.popover-title Add Repository
+  .spinner-wrapper.spinner-md.in(
+    ng-show = "state.loading"
+    ng-include = "'spinner'"
+  )
+  .popover-content(
+    ng-hide = "state.loading"
+  )
     input.input.input-search(
       autofocus
       ng-model = "data.repoFilter"
       placeholder = "Filter repositories"
-      required
       select-on = "data.showFilter"
+      required
     )
-  .popover-content
-    ul.popover-body.popover-list
+    ul.popover-list
       li.popover-list-item(
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "\
           repo in data.githubRepos.models | \
           unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
-          repos:data.repoFilter"
+          repos:data.repoFilter as newRepos"
         title = "{{ repo.attrs.full_name }}"
       )
         span {{ repo.attrs.full_name }}
       li.popover-list-item.no-actions(
-        ng-if = "\
-          (data.githubRepos.models | \
-          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
-          repos:data.repoFilter).length === 0"
+      ng-if = "newRepos.length === 0"
       ) No matches
       //- li.popover-list-item.no-actions There's nothing left to add.

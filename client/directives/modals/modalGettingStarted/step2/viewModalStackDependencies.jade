@@ -1,0 +1,34 @@
+.label
+  .label-col Dependencies
+    button.btn.btn-xxs.gray(
+      toggle-pop-over
+      toggle-pop-over-model = "addDependencyPopover.data.show"
+      type = "button"
+    ) Add…
+    small.small New dependencies will be created on their own server
+      pop-over(
+        actions = "actions"
+        popover-ready = "addDependencyPopover.data.show"
+        data = "addDependencyPopover.data"
+        popover-options = "{\"left\":154,\"top\":-33}"
+        template = "viewPopoverSetupAddStackDependencies"
+      )
+  small.small(
+    ng-if = "state.dependencies.length === 0"
+  ) No dependencies detected
+  ul.list
+    li.list-item.text-overflow(
+      ng-repeat = "dependency in state.dependencies"
+      title = "{{ dependency.instance.attrs.name }}"
+    )
+      button.btn-xxs.orange(
+        ng-if = "dependency.opts"
+      ) new
+      | {{ dependency.instance.attrs.name }}
+      button.btn-close.btn-xs(
+        ng-click = "actions.removeDependency(dependency)"
+      )
+        svg.iconnables.icons-close
+          use(
+            xlink:href = "#icons-close"
+          )

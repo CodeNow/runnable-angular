@@ -7,7 +7,6 @@ require('app')
  */
 function ControllerInstanceEdit(
   async,
-  $interval,
   keypather,
   errs,
   OpenItems,
@@ -15,11 +14,7 @@ function ControllerInstanceEdit(
   fetchUser,
   $scope,
   $state,
-  $stateParams,
-  $timeout,
-  $log,
-  user,
-  $window
+  $stateParams
 ) {
 
   var dataInstanceEdit = $scope.dataInstanceEdit = {

@@ -17,14 +17,6 @@
       transform: none;
       width: 18px;
     }
-
-    .icons-branch {
-      margin-right: 3px;
-    }
-
-    .icons-arrow-down {
-      margin-left: 3px;
-    }
   }
 
   // branch select
@@ -73,13 +65,12 @@
 
 // li.toggle-group-item
 .toggle-group-item {
+  height: auto;
+  line-height: 1;
+  margin-top: -1px;
+  overflow: visible;
   padding: 12px;
-  position: relative;
-
-  &:hover {
-    background: rgba($blue,.1);
-    cursor: pointer;
-  }
+  white-space: normal;
 
   + .toggle-group-item::after {
     background: rgba($black,.1);
@@ -90,7 +81,7 @@
     margin: 0 auto;
     position: absolute;
     right: 0;
-    top: 0;
+    top: -1px;
     width: 261px;
   }
 

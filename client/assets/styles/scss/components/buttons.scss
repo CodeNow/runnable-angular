@@ -37,19 +37,6 @@ button,
     opacity: .5;
   }
 
-  // if .arrow-down
-  .icons-arrow-down {
-    float: right;
-    top: 18px;
-    transition: opacity .2s ease-in, transform .3s ease-in;
-
-    // flip arrow
-    .in &,
-    .active & {
-      transform: rotate3d(1,0,0,-180deg);
-    }
-  }
-
   // github icon with text
   > .icons-git {
     margin-right: 6px;
@@ -58,27 +45,24 @@ button,
   }
 
   // if .arrow-down
-  .icons-arrow-down {
+  > .icons-arrow-down {
     float: right;
+    margin-left: 3px;
     top: 18px;
+    transition: opacity .2s ease-in, transform .3s ease-in;
   }
 
   // animations
-  &.active {
+  &.active
+  &.in {
 
-    .icons-add,
-    .icons-gear {
+    > .icons-add,
+    > .icons-gear {
       transform: rotate3d(0,0,1,135deg);
     }
 
-    .icons-arrow-down {
-      transition: opacity .2s ease-in, transform .3s ease-in;
-
-      // flip arrow
-      .in &,
-      .active & {
-        transform: rotate3d(1,0,0,-180deg);
-      }
+    > .icons-arrow-down {
+      transform: rotate3d(1,0,0,-180deg);
     }
   }
 }
@@ -97,6 +81,15 @@ button,
   height: 36px;
   line-height: 36px;
   padding: 0 6px;
+
+  > .icons-arrow-down {
+    top: 6px;
+  }
+
+  > .img {
+    float: left;
+    margin: 8px 6px 0 0;
+  }
 }
 
 .btn-xs {
@@ -191,6 +184,11 @@ button,
       border-color: rgba($gray-darker,.6);
       color: $white;
       transition: none;
+
+      .iconnables {
+        color: $white;
+        transition: none;
+      }
     }
   }
 }
@@ -466,11 +464,7 @@ button,
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
   content: '';
-  /* 1 */
-
   display: table;
-  /* 2 */
-
 }
 
 .btn-group-vertical > .btn-group:after {
@@ -480,11 +474,7 @@ button,
 .btn-group-vertical > .btn-group:before,
 .btn-group-vertical > .btn-group:after {
   content: '';
-  /* 1 */
-
   display: table;
-  /* 2 */
-
 }
 
 .btn-group-vertical > .btn-group:after {

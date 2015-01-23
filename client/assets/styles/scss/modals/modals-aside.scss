@@ -1,18 +1,19 @@
-.modal-sidebar {
+.modal-aside {
   background: $gray-lightest;
+  border: 1px solid rgba($black,.1);
   border-radius: 0 3px 3px 0;
   bottom: 0;
   height: 100%;
+  opacity: 0;
   position: absolute;
   right: 0;
   top: 0;
-  transform: translate3d(0,0,0);
-  transition: transform .15s ease-in;
+  transition: all .15s ease-in;
   width: 210px;
-  height: 100%;
-  z-index: $z-modal-sidebar;
+  z-index: $z-modal-aside;
 
-  .show-sidebar & {
+  .show-aside & {
+    opacity: 1;
     transform: translate3d(210px,0,0);
   }
 
@@ -26,8 +27,14 @@
     }
   }
 
+  .sub-header {
+    border-top-right-radius: 3px;
+  }
+
   .box-group {
     height: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
 
   .box-group-item {

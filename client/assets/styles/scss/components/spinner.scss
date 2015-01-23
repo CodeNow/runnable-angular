@@ -6,6 +6,7 @@
 //- &.spinner-sm - 15px by 15px
 //- &.spinner-purple - sets color to $purple-lighter
 //- &.spinner-white - sets color to $white-lighter
+//- &.spinner-blue - sets color to $blue-lighter
 
 .spinner-wrapper {
   align-items: center;
@@ -19,7 +20,7 @@
   top: 0;
   transition: opacity .3s ease-in, transform .15s ease-in, width .15s ease-in;
   width: 100%;
-  z-index: $z-modal-backdrop;
+  z-index: $z-spinner;
 
   &.in {
     opacity: 1;
@@ -54,6 +55,10 @@
 
   &.spinner-white .path {
     stroke: $white;
+  }
+
+  &.spinner-blue .path {
+    stroke: $blue;
   }
 }
 

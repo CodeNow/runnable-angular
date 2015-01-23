@@ -1,4 +1,5 @@
-header.row.account-header.load(
+.account-header(
+  ng-class = "{'no-touching': data.accountsDisabled()}"
   ng-show = "data.activeAccount"
   toggle-pop-over
   toggle-pop-over-model = "popoverAccountMenu.data.show"
@@ -16,46 +17,7 @@ header.row.account-header.load(
   pop-over(
     actions = "popoverAccountMenu.actions"
     data = "popoverAccountMenu.data"
+    popover-ready = "popoverAccountMenu.data.show"
     popover-options = "{\"left\":124,\"top\":48}"
     template = "viewPopoverAccountMenu"
   )
-
-
-  //- ol.accounts-group(
-  //-   ng-class = "{ \
-  //-     in: isChangeAccount \
-  //-   }"
-  //-   ng-click = "isChangeAccount = !isChangeAccount; \
-  //-     $event.stopPropagation();"
-  //- )
-  //-   li.accounts-group-item
-          a.account.load(
-            ng-show = "data.activeAccount.gravitar()"
-          )
-    //- current user (if user is not active)
-    //- li.accounts-group-item(
-    //-   ng-if = "data.user !== data.activeAccount"
-    //-   ng-click = "$event.stopPropagation(); \
-    //-     selectActiveAccount(data.user)"
-    //- )
-    //-   a.account
-    //-     img.gravatar(
-    //-       height = "24"
-    //-       ng-src = "{{ data.user.gravitar() }}"
-    //-       width = "24"
-    //-     )
-    //-     span.account-name.text-overflow {{ data.user.oauthName() }}
-    //- //- Orgs that are not the active account
-    //- li.accounts-group-item(
-    //-   ng-click = "$event.stopPropagation(); \
-    //-     selectActiveAccount(org)"
-    //-   ng-if = "org !== data.activeAccount"
-    //-   ng-repeat = "org in data.orgs.models"
-    //- )
-    //-   a.account
-    //-     img.gravatar(
-    //-       height = "24"
-    //-       ng-src = "{{ org.gravitar() }}"
-    //-       width = "24"
-    //-     )
-    //-     span.account-name.text-overflow {{ org.oauthName() }}
