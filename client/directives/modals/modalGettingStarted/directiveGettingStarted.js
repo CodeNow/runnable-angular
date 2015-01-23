@@ -262,7 +262,8 @@ function modalGettingStarted(
               env.url = env.originalUrl.replace(
                 new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
                 newName
-              ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
+              ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName())
+                .replace(/https?:\/\//, '');
             });
           }
         });

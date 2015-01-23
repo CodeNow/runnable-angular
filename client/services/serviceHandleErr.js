@@ -20,6 +20,9 @@ function errs (
         }
       }
     },
+    clearErrors: function () {
+      errors = [];
+    },
     errors: errors
   };
 }

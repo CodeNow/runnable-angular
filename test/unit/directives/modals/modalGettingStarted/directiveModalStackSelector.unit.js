@@ -40,7 +40,7 @@ describe('modalStackSelector'.bold.underline.blue, function () {
   beforeEach(function() {
     ctx = {};
   });
-  function injectSetupCompile() {
+  function injectSetupCompile(addToScope) {
     angular.mock.module('app', function ($provide) {
     });
     angular.mock.inject(function (
@@ -61,7 +61,11 @@ describe('modalStackSelector'.bold.underline.blue, function () {
       $scope[key] = scope[key];
     });
     $scope.user = thisUser;
-
+    if (addToScope) {
+      Object.keys(addToScope).forEach(function (key) {
+        $scope[key] = scope[key];
+      });
+    }
     ctx.template = directiveTemplate.attribute('modal-stack-selector', {
       'data': 'data',
       'actions': 'actions',
@@ -97,6 +101,45 @@ describe('modalStackSelector'.bold.underline.blue, function () {
 
       expect(keypather.get($elScope, 'state.startCommand')).to.equal(stacks[0].startCommand);
       expect(keypather.get($elScope, 'state.ports')).to.equal(stacks[0].ports);
+
+      $scope.$destroy();
+      $scope.$digest();
+    });
+    it('should react to another stack change', function () {
+      expect(keypather.get($elScope, 'state.startCommand')).to.not.be.ok;
+      expect(keypather.get($elScope, 'state.ports')).to.not.be.ok;
+
+      $elScope.state.stack = stacks[0];
+      $scope.$digest();
+
+      expect(keypather.get($elScope, 'state.startCommand')).to.equal(stacks[0].startCommand);
+      expect(keypather.get($elScope, 'state.ports')).to.equal(stacks[0].ports);
+
+      $elScope.state.stack = stacks[1];
+      $scope.$digest();
+
+      expect(keypather.get($elScope, 'state.startCommand')).to.equal(stacks[1].startCommand);
+      expect(keypather.get($elScope, 'state.ports')).to.equal(stacks[1].ports);
+
+      $scope.$destroy();
+      $scope.$digest();
+    });
+  });
+
+  describe('Stack selection', function () {
+    beforeEach(function () {
+      injectSetupCompile({
+        state: {
+          stack: stacks[0],
+          startCommand: 'dsafasdfadsf',
+          ports: 'adsfdsfads'
+        }
+      });
+    });
+    it('shouldn\'t change the start command or port if already selected', function () {
+
+      expect(keypather.get($elScope, 'state.startCommand')).to.not.equal(stacks[0].startCommand);
+      expect(keypather.get($elScope, 'state.ports')).to.not.equal(stacks[0].ports);
 
       $scope.$destroy();
       $scope.$digest();
