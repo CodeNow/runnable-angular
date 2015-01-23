@@ -21,7 +21,9 @@ function errs (
       }
     },
     clearErrors: function () {
-      errors = [];
+      while (errors.length > 0) {
+        errors.pop();
+      }
     },
     errors: errors
   };
