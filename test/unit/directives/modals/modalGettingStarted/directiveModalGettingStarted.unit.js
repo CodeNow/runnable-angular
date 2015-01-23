@@ -91,8 +91,13 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       );
     });
     ctx.newForkNameCount = 0;
+
     ctx.getNewForkNameMock = sinon.spy(function (instance) {
       return instance.attrs.name + ctx.newForkNameCount++;
+    });
+
+    ctx.copySourceInstanceMock = sinon.spy(function (activeAccount, instance, opts, instances, cb) {
+      cb();
     });
 
     ctx.newDockerFile = angular.copy(apiMocks.files.dockerfile);
@@ -127,6 +132,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       $provide.value('createDockerfileFromSource', ctx.createDockerfileFromSourceMock);
       $provide.value('gsPopulateDockerfile', ctx.gsPopulateDockerfileMock);
       $provide.value('createNewInstance', ctx.createNewInstanceMock);
+      $provide.value('copySourceInstance', ctx.copySourceInstanceMock);
     });
     angular.mock.inject(function (
       _$templateCache_,
@@ -189,7 +195,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       attrs: angular.copy(apiMocks.gh.repos[0]),
       branches: {
         fetch: sinon.spy(function (cb) {
-          cb();
+          if (cb) { cb(); }
         }),
         models: apiMocks.branches.bitcoinRepoBranches.map(function (branch) {
           return {
@@ -539,9 +545,29 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
             .to.equal($elScope.state.dependencies[0].instance.attrs.name + 0);
         expect($elScope.state.dependencies[2].opts.name)
             .to.equal($elScope.state.dependencies[2].instance.attrs.name + 1);
-        sinon.assert.called(ctx.instanceLists[0].copy);
-        sinon.assert.notCalled(ctx.instanceLists[1].copy);
-        sinon.assert.called(ctx.instanceLists[2].copy);
+        //sinon.assert.calledWith(ctx.copySourceInstanceMock, ctx.instanceLists[0]);
+        //sinon.assert.calledWith(ctx.copySourceInstanceMock, ctx.instanceLists[2]);
+        sinon.assert.calledWith(
+          ctx.copySourceInstanceMock,
+          $elScope.data.activeAccount,
+          $elScope.state.dependencies[0].instance,
+          $elScope.state.dependencies[0].opts,
+          $elScope.data.instances
+        );
+        sinon.assert.neverCalledWith(
+          ctx.copySourceInstanceMock,
+          $elScope.data.activeAccount,
+          $elScope.state.dependencies[1].instance,
+          $elScope.state.dependencies[1].opts,
+          $elScope.data.instances
+        );
+        sinon.assert.calledWith(
+          ctx.copySourceInstanceMock,
+          $elScope.data.activeAccount,
+          $elScope.state.dependencies[2].instance,
+          $elScope.state.dependencies[2].opts,
+          $elScope.data.instances
+        );
         sinon.assert.called(ctx.createNewInstanceMock);
         sinon.assert.called(ctx.gsPopulateDockerfileMock);
         done();

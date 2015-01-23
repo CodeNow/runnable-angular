@@ -13,6 +13,7 @@ function modalGettingStarted(
   async,
   createDockerfileFromSource,
   callbackCount,
+  copySourceInstance,
   errs,
   getNewForkName,
   regexpQuote,
@@ -245,11 +246,9 @@ function modalGettingStarted(
           }
         });
         fetchInstances(user.oauthName(), true, function (err, instances, username, cached) {
-          if (!forceInstanceFetch || !cached) {
-            $scope.data.instances = instances;
-            if (counter) {
-              counter.next(err);
-            }
+          $scope.data.instances = instances;
+          if (counter) {
+            counter.next(err);
           }
         });
       }
@@ -296,7 +295,13 @@ function modalGettingStarted(
       function forkInstances(items) {
         //$rootScope.dataApp.data.loading = true;
         function fork(instance, opts, cb) {
-          instance.copy(opts, cb);
+          copySourceInstance(
+            $scope.data.activeAccount,
+            instance,
+            opts,
+            $scope.data.instances,
+            cb
+          );
         }
 
         return function (cb) {
