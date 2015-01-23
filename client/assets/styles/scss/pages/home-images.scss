@@ -145,7 +145,7 @@
   .well,
   .p {
     border-radius: 3px;
-    font-size: 15px;
+    font-size: 16px;
     margin: 0;
     text-align: left;
   }
@@ -178,10 +178,10 @@
     border-radius: 3px;
     box-shadow: 0 0 30px rgba($black,.06); // same as popovers
     color: $gray-darker;
-    margin: 6px 0 0 -21px;
+    margin: 6px 0 0 -30px;
     padding: 0;
     position: relative;
-    width: 376px;
+    width: 390px;
 
     &::before,
     &::after {
@@ -210,6 +210,7 @@
     }
 
     .p {
+      max-width: none;
       padding: 9px 9px 12px;
     }
   }

@@ -6,10 +6,10 @@
   .col.clearfix.ace-tm.ace-runnable-dark
     pre.pre.img-workflow.img-workflow-terminal(
       tabindex = "0"
-    ) root@id:/api#
+    ) root@id:/mysql#
       img.img(
         height = "60"
-        ng-src = "/build/images/home/icons/icons-nodejs.svg"
+        ng-src = "/build/images/home/icons/icons-mysql.svg"
         width = "60"
       )
     .img-workflow-link
@@ -24,24 +24,26 @@
             use(
               xlink:href = "#icons-folder"
             )
-          span.item-name assets
+          span.item-name concerns
         li.file
           svg.iconnables.filetypes.icons-file
             use(
               xlink:href = "#icons-file"
             )
-          span.item-name index.html
+          span.item-name controller.rb
       pre.pre.
-        &lt;!DOCTYPE html&gt;
-        &lt;html ng-app&gt;
-        &nbsp;&nbsp;&lt;head&gt;
-        &nbsp;&nbsp;&lt;/head&gt;
-        &nbsp;&nbsp;&lt;body&gt;
-        &nbsp;&nbsp;&lt;/body&gt;
-        &lt;/html&gt;
+        class createA
+          def change
+            create_table
+              t.string
+              t.text
+              t.timestamps
+            end
+          end
+        end
       img.img(
         height = "60"
-        ng-src = "/build/images/home/icons/icons-angularjs.svg"
+        ng-src = "/build/images/home/icons/icons-rails.svg"
         width = "60"
       )
 p.p.row Link boxes to prototype any architecture through environment variables.
