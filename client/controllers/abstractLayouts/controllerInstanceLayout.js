@@ -8,7 +8,7 @@ require('app')
 function ControllerInstanceLayout(
   configLogoutURL,
   fetchUser,
-  fetchInstances,
+  pFetchInstances,
   $stateParams,
   errs,
   $rootScope,
@@ -43,16 +43,15 @@ function ControllerInstanceLayout(
         $timeout(cb);
       },
       function (cb) {
-        fetchInstances(username, true, cb);
-      },
-      function (instances, queriedUsername, cached, cb) {
-        if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-          $rootScope.dataApp.data.instances = instances;
-          $rootScope.dataApp.state.loadingInstances = false;
-          $timeout(cb);
-        } else {
-          cb();
-        }
+        pFetchInstances().then(function (instances) {
+          if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+            $rootScope.dataApp.data.instances = instances;
+            $rootScope.dataApp.state.loadingInstances = false;
+            $timeout(cb);
+          } else {
+            cb();
+          }
+        });
       }
     ], errs.handler);
   }

@@ -6,7 +6,7 @@ require('app')
  * @ngInject
  */
 function explorer(
-  fetch,
+  pFetchInstances,
   $stateParams
 ) {
   return {
@@ -18,13 +18,12 @@ function explorer(
     },
     link: function ($scope, elem, attrs) {
       if ($stateParams.buildId) {
-        fetch('build', $stateParams.buildId)
-        .then(function(build) {
-          $scope.build = build;
-        });
+        // fetch('build', $stateParams.buildId)
+        // .then(function(build) {
+        //   $scope.build = build;
+        // });
       } else {
-        fetch('instance', {
-          githubUsername: $stateParams.userName,
+        pFetchInstances({
           name: $stateParams.instanceName
         })
         .then(function(instance) {
@@ -32,7 +31,6 @@ function explorer(
           $scope.build = instance.build;
         });
       }
-
     }
   };
 }

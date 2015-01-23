@@ -1,30 +1,63 @@
 'use strict';
 
 require('app')
-  .factory('fetch', fetch);
+  .factory('fetch', fetch)
+  .factory('pFetchUser', function (user, $q) {
+    // TODO: move.
+    // Promise version of serviceFetchUser
+    var pFetchUser = (function () {
+      // http://stackoverflow.com/a/22655010/1216976
+      var d = $q.defer();
+      user.fetchUser('me', function (err) {
+        if (err) {
+          return d.reject(err);
+        }
+        return d.resolve(user);
+      });
+      return d.promise;
+    })();
+
+    return pFetchUser;
+  })
+  .factory('promisify', function($exceptionHandler, $q) {
+    return function promisify(model, fn) {
+      if (!model[fn]) {
+        throw new Error('Attempted to call a function of a model that doesn\'t exist');
+      }
+      return function promsified () {
+        var d = $q.defer();
+        var args = [].slice.call(arguments);
+        var returnedVal;
+        args.push(function (err, data) {
+          if(err) {
+            d.reject(err);
+          } else {
+            if (returnedVal) {
+              return d.resolve(returnedVal);
+            }
+            d.resolve(data);
+          }
+        });
+        try {
+          returnedVal = model[fn].apply(model, args);
+        } catch(e) {
+          $exceptionHandler(e);
+          d.reject(e);
+        }
+        return d.promise;
+      };
+    };
+  });
 
 // Look, I made it happen
 function fetch (
   $exceptionHandler,
   $q,
+  pFetchUser,
   errs,
   keypather,
   user
 ) {
-  // TODO: move.
-  // Promise version of serviceFetchUser
-  var pFetchUser = (function () {
-    // http://stackoverflow.com/a/22655010/1216976
-    var d = $q.defer();
-    user.fetchUser('me', function (err) {
-      if (err) {
-        return d.reject(err);
-      }
-      return d.resolve(user);
-    });
-    return d.promise;
-  })();
-
   // Promisification
   var promises = {};
 
@@ -34,8 +67,10 @@ function fetch (
     promises.fetchBuild = promisify(user, 'fetchBuild');
   });
 
-  // User, instances, build, versions, contexts
+  // build, versions, contexts
   // gh repos, fs list
+
+  // user/instances
 
   // Err handling and such
   var fetchers = {
