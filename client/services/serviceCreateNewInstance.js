@@ -6,12 +6,7 @@ require('app')
 function createNewInstance(
 ) {
   return function (activeAccount, build, opts, instances) {
-    return function (returnBuild, cb) {
-      if (typeof returnBuild === 'function') {
-        cb = returnBuild;
-      } else {
-        build = returnBuild;
-      }
+    return function (cb) {
       build.build({
         message: 'Initial Build'
       }, function (err) {

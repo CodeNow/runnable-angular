@@ -34,7 +34,9 @@ function copySourceInstance(
       fetchUser,
       copyContextVersion,
       createBuild,
-      createNewInstance(activeAccount, null, opts, instances)
+      function (build, cb) {
+        createNewInstance(activeAccount, build, opts, instances)(cb);
+      }
     ], cb);
   };
 }
