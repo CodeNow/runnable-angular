@@ -49,7 +49,7 @@
   box-shadow: 0 0 30px rgba($black,.06); // same as popovers
   color: #4d4d4d; // osx
   height: 66px;
-  margin: 36px auto 0;
+  margin: 30px auto 0;
   padding: 15px;
   width: 330px;
 
@@ -94,9 +94,9 @@
   background: $gray-lightest;
   border-bottom: 1px solid rgba($black,.1);
   border-radius: 3px 3px 0 0;
-  height: 24px;
-  line-height: 24px;
-  padding: 3px 6px 3px 3px;
+  height: 30px;
+  line-height: 30px;
+  padding: 4px 6px 0 3px;
   position: relative;
 
   .btn-group {
@@ -106,13 +106,13 @@
   .btn {
     color: $gray-lighter;
     cursor: default;
-    height: 18px;
+    height: 21px;
     padding: 0 2px;
   }
 
   .icons-arrow-back {
-    height: 18px;
-    width: 18px;
+    height: 21px;
+    width: 21px;
   }
 
   .btn + .btn .icons-arrow-back {
@@ -121,20 +121,19 @@
 
   .icons-octocat {
     color: $gray-lighter;
-    height: 16px;
+    height: 19px;
     margin: 0 3px;
-    width: 15px;
+    width: 18px;
   }
 
   .input-group {
-    height: 18px;
+    height: 21px;
     left: 6px;
   }
 
   .input {
     background: transparent;
-    height: 18px;
-    line-height: 18px;
+    height: 21px;
   }
 }
 

@@ -196,8 +196,10 @@
   max-width: 960px;
   position: relative;
 
-  .col > .p {
-    margin-top: 30px;
+  .header-thin {
+    line-height: 1.2;
+    margin: 30px auto 0;
+    max-width: 390px;
   }
 }
 
