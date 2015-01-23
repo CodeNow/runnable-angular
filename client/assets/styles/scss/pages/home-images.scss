@@ -217,6 +217,8 @@
 
   .web-link {
     color: $blue;
+    cursor: default;
+    font-weight: 500;
     text-decoration: underline;
   }
 }

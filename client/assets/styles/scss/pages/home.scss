@@ -128,13 +128,21 @@
   padding-top: 60px;
   position: relative;
 
+  @include media(xs) {
+    height: 480px;
+  }
+
   @include media(xxs) {
     height: 450px;
   }
 
+  .h1,
+  .h3 {
+    padding: 0 15px;
+  }
+
   .h3 {
     color: $purple-logo;
-    font-size: 24px;
     line-height: 1.2;
     margin-top: 6px;
   }
@@ -146,6 +154,10 @@
   line-height: 45px;
   margin: 0 auto 150px;
   max-width: 960px;
+
+  @include media(xs) {
+    margin-bottom: 90px;
+  }
 
   // a.logo
   .logo {
@@ -288,6 +300,11 @@
 
   .h2 {
     margin-bottom: 90px;
+
+    .span {
+      color: $purple-logo;
+      font-size: 27px;
+    }
 
     @include media(sm) {
       margin-bottom: 45px;

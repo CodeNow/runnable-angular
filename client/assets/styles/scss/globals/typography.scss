@@ -20,11 +20,11 @@ h4 {
   }
 
   @include media(xs) {
-    font-size: 48px;
+    font-size: 45px;
   }
 
   @include media(xxs) {
-    font-size: 36px;
+    font-size: 30px;
   }
 }
 
