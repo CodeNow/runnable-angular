@@ -17,13 +17,12 @@
           use(
             xlink:href = "#icons-octocat"
           )
-        input.input(
+        input.input.no-touching(
           readonly
           select-all
-          value = "github.com/tjmehta/101"
         )
     .pull-body.clearfix
-      .btn-sm.green
+      .btn-xs.green
         svg.iconnables.icons-pull-request
           use(
             xlink:href = "#icons-pull-request"
@@ -31,9 +30,9 @@
         | Open Pull Request
       .well
         img.img(
-          height = "36"
+          height = "24"
           src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=96"
-          width = "36"
+          width = "24"
         )
         .btn-sm.gray
           strong runnabot #{''}
@@ -41,7 +40,7 @@
         p.p The latest push on this PR is ready on #{''}
           a.link.web-link your server
           | .
-  p.p Launch clusters straight from pull requests.
+  p.p Launch clusters straight from pull requests
 .col.col-50
   .img-notification
     img.img(
@@ -50,7 +49,7 @@
       width = "30"
     )
     h4.h4 New message in #front-end
-    p.p Runnabot: tjmehta's changes (github hook response was changed) are deployed on serv…
+    p.p Runnabot: tjmehta's changes are deployed on your servers (github hook response was chan…
   .img-notification
     img.img(
       height = "30"
@@ -58,5 +57,5 @@
       width = "30"
     )
     h4.h4 Runnabot
-    p.p tjmehta's changes (github hook response was changed) are deployed on servers: &lt;tj-api&gt;
-  p.p We’ll spin up a server for every push made to your code.
+    p.p SomeKitten's changes are deployed on your servers (Fixing env modal)
+  p.p We’ll spin up a server for every push made to your code

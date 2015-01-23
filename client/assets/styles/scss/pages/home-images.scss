@@ -49,7 +49,7 @@
   box-shadow: 0 0 30px rgba($black,.06); // same as popovers
   color: #4d4d4d; // osx
   height: 66px;
-  margin: 0 auto;
+  margin: 36px auto 0;
   padding: 15px;
   width: 330px;
 
@@ -151,27 +151,31 @@
   .well,
   .p {
     border-radius: 3px;
-    font-size: 14px;
+    font-size: 15px;
     margin: 0;
     text-align: left;
   }
 
   .green {
-    font-weight: 500;
+    display: inline-block;
+    font-size: 12px;
     opacity: .75;
+    padding-left: 0;
   }
 
   .icons-pull-request {
-    margin-right: 6px;
-    top: 6px;
+    float: left;
+    height: 22px;
+    margin-right: 3px;
+    width: 24px;
   }
 
   .img {
     border-radius: 3px;
     display: block;
-    left: -51px;
+    left: -39px;
     position: absolute;
-    top: 0;
+    top: 6px;
   }
 
   .well {
@@ -208,10 +212,11 @@
       border: 0;
       border-bottom: 1px solid rgba($black,.1);
       color: $gray-darker;
+      padding-left: 9px;
     }
 
     .p {
-      padding: 6px;
+      padding: 9px 9px 12px;
     }
   }
 
