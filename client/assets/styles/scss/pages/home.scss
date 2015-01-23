@@ -116,11 +116,31 @@
   }
 }
 
+// section.home-hero
+.home-hero {
+  background: linear-gradient($purple, $purple-dark);
+  color: $white;
+  height: 540px;
+  padding-top: 60px;
+  position: relative;
+
+  @include media(xxs) {
+    height: 450px;
+  }
+
+  .h3 {
+    color: $purple-logo;
+    font-size: 24px;
+    line-height: 1.2;
+    margin-top: 6px;
+  }
+}
+
 // header.home-header
 .home-header {
   height: 45px;
   line-height: 45px;
-  margin: 0 auto 180px;
+  margin: 0 auto 150px;
   max-width: 960px;
 
   // a.logo
@@ -151,69 +171,6 @@
   }
 }
 
-// section.home-hero
-.home-hero {
-  background: linear-gradient($purple, $purple-dark);
-  color: $white;
-  height: 720px;
-  padding-top: 60px;
-  position: relative;
-
-  @include media(xxs) {
-    height: 450px;
-  }
-
-  .h3 {
-    color: $purple-logo;
-    font-size: 24px;
-    line-height: 1.2;
-    margin-top: 6px;
-  }
-
-  // restyle instance list
-  .list {
-    background: $white;
-    border: 1px solid rgba($black,.1);
-    border-radius: 6px;
-    bottom: -30px;
-    box-shadow: 0 0 30px rgba($black,.12); // same as popovers
-    height: 164px;
-    left: 0;
-    margin: 0 auto;
-    overflow: hidden;
-    position: absolute;
-    right: 0;
-    transition: height .2s ease-in;
-    width: 300px;
-
-    &.in {
-      height: 218px;
-    }
-  }
-
-  .list-item {
-    color: $gray-dark;
-    cursor: default;
-    height: 54px;
-    line-height: 54px;
-    margin: 0;
-    padding-left: 15px;
-    width: 300px;
-
-    &:hover,
-    &:active {
-      background: transparent;
-    }
-  }
-
-  .icons-status {
-    height: 12px;
-    right: 18px;
-    top: 21px;
-    width: 12px;
-  }
-}
-
 // section.home-feature
 .home-feature {
   margin: 0 auto;
@@ -233,24 +190,21 @@
   }
 }
 
+// section.feature.feature-workflow
+.feature-workflow {
+  margin: -45px auto 0;
+  max-width: 1200px;
+  position: relative;
+
+  .col > .p {
+    margin-top: 30px;
+  }
+}
+
 // section.feature.feature-configuration
 .feature-configuration {
   margin: 0 auto;
   max-width: 960px;
-}
-
-// section.feature.feature-workflow
-.feature-workflow {
-  margin: 0 auto;
-  max-width: 1200px;
-
-  .col-40 {
-    padding: 51px 75px;
-  }
-
-  .col-30:last-child {
-    padding: 17px 0;
-  }
 }
 
 // section.feature.feature-protype

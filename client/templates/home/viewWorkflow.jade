@@ -1,13 +1,13 @@
-.col.col-30
+.col.col-50
   .img-pull
     .pull-header
       .btn-group
-        button.btn.btn-sm
+        button.btn.btn-xs
           svg.iconnables.icons-arrow-back
             use(
               xlink:href = "#icons-arrow-back"
             )
-        button.btn.btn-sm
+        button.btn.btn-xs
           svg.iconnables.icons-arrow-back
             use(
               xlink:href = "#icons-arrow-back"
@@ -17,7 +17,7 @@
           use(
             xlink:href = "#icons-octocat"
           )
-        input.input.input-sm(
+        input.input(
           readonly
           select-all
           value = "github.com/tjmehta/101"
@@ -30,20 +30,19 @@
           )
         | Open Pull Request
       .well
+        img.img(
+          height = "36"
+          src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=96"
+          width = "36"
+        )
         .btn-sm.gray
-          img.img(
-            height = "21"
-            src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=40"
-            width = "21"
-          )
           strong runnabot #{''}
           | commented
-        p.p The latest push on this PR is ready on this server: #{''}
-          a.link.web-link https://runnable.io/tjmehta/101
-.col.col-40
-  h2.h2.header-thin.text-green Fits Into Your Workflow
-  p.p Launch clusters from Pull Requests. We’ll spin up a server for every push made to your code.
-.col.col-30
+        p.p The latest push on this PR is ready on #{''}
+          a.link.web-link your server
+          | .
+  p.p Launch clusters straight from pull requests.
+.col.col-50
   .img-notification
     img.img(
       height = "30"
@@ -60,3 +59,4 @@
     )
     h4.h4 Runnabot
     p.p tjmehta's changes (github hook response was changed) are deployed on servers: &lt;tj-api&gt;
+  p.p We’ll spin up a server for every push made to your code.
