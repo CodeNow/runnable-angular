@@ -85,9 +85,10 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
 
   it('saves changes', function() {
     $elScope.saveChanges();
+    expect($elScope.saving).to.be.true;
     // Timeout
     $timeout.flush();
-    expect($elScope.saving).to.be.true;
+    expect($elScope.saving).to.be.false;
     // Update models and file updates were called
     sinon.assert.called(mockOpenItems.models[0].update);
     sinon.assert.notCalled(mockOpenItems.models[1].update);
@@ -99,9 +100,10 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
   it('saves changes and restarts', function() {
     $elScope.popoverSaveOptions.data.restartOnSave = true;
     $elScope.saveChanges();
+    expect($elScope.saving).to.be.true;
     // Timeout
     $timeout.flush();
-    expect($elScope.saving).to.be.true;
+    expect($elScope.saving).to.be.false;
     // Update models and file updates were called
     sinon.assert.called(mockOpenItems.models[0].update);
     sinon.assert.notCalled(mockOpenItems.models[1].update);
