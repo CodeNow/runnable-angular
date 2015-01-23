@@ -14,7 +14,7 @@ section.row(
     ng-show = "seedContexts.models"
   )
     label.label-group-item(
-      ng-repeat = "context in seedContexts.models"
+      ng-repeat = "context in seedContexts.models | orderBy: getTemplateValueFunction"
     ) {{ context.attrs.name }}
       input.radio(
         name = "source-context"

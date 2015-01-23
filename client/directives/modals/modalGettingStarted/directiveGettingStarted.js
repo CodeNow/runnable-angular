@@ -13,8 +13,10 @@ function modalGettingStarted(
   async,
   createDockerfileFromSource,
   callbackCount,
+  copySourceInstance,
   errs,
   getNewForkName,
+  regexpQuote,
   fetchGSDepInstances,
   gsPopulateDockerfile,
   createNewInstance,
@@ -53,20 +55,22 @@ function modalGettingStarted(
       $scope.actions = {
         addDependency: function (instance, fromExisting) {
           var envs = keypather.get(instance, 'containers.models[0].urls()') || [];
-          var newName = getNewForkName(instance, $scope.data.instances, true);
           var envName = instance.attrs.name.replace(/-/gm, '_').toUpperCase();
           $scope.state.dependencies.push({
             instance: instance,
             opts: !fromExisting ? {
-              name: newName,
-              env: instance.attrs.env
+              env: instance.attrs.env,
+              owner: {
+                github: $scope.data.activeAccount.oauthId()
+              }
             } : null,
             reqEnv: envs.map(function (url, index) {
               var thisEnvName = envName + '_HOST' + (index > 0 ? index : '');
               return {
                 name: thisEnvName,
                 placeholder: thisEnvName,
-                url: !fromExisting ? url.replace(instance.attrs.name, newName) : url
+                url: url,
+                originalUrl: url
               };
             })
           });
@@ -107,17 +111,17 @@ function modalGettingStarted(
           var unwatchDf = $scope.$watch('state.dockerfile', function (n) {
             if (!n) { return; }
             unwatchDf();
-            $scope.state.opts.env = generateEnvs($scope.state.dependencies);
-
             var unwatchInstances = $scope.$watch('data.instances', function (n) {
               if (!n) { return; }
               unwatchInstances();
+              generateDependencyNames();
+              $scope.state.opts.env = generateEnvs($scope.state.dependencies);
               $scope.state.opts.name =
                 getNewForkName({
                   attrs: {
                     name: $scope.state.selectedRepo.attrs.name
                   }
-                }, $scope.data.instances, true);
+                }, $scope.data.instances, true).replace(/\W/gim, '_');
               async.waterfall([
                 createAppCodeVersions(
                   $scope.state.contextVersion,
@@ -128,22 +132,28 @@ function modalGettingStarted(
                   $scope.state.dockerfile,
                   $scope.state
                 ),
+                forkInstances($scope.state.dependencies),
                 createNewInstance(
                   $scope.data.activeAccount,
                   $scope.state.build,
                   $scope.state.opts,
                   $scope.data.instances
                 ),
-                forkInstances($scope.state.dependencies),
-                function () {
+                function (cb) {
                   $rootScope.dataApp.data.loading = false;
-                  $scope.defaultActions.close();
-                  $timeout(function () {
-                    $state.go('instance.instance', {
-                      userName: $scope.data.activeAccount.oauthName(),
-                      instanceName: $scope.state.opts.name
-                    });
+                  var newStateParams = {
+                    userName: $scope.data.activeAccount.oauthName(),
+                    instanceName: $scope.state.opts.name
+                  };
+                  $scope.defaultActions.close(function () {
+                    $scope.$emit('INSTANCE_LIST_FETCH', newStateParams.userName);
+                    cb(null, newStateParams);
                   });
+                },
+                function (newStateParams) {
+                  $timeout(function () {
+                    $state.go('instance.instance', newStateParams);
+                  }, 10);
                 }
               ], function (err) {
                 $scope.building = false;
@@ -151,6 +161,7 @@ function modalGettingStarted(
                 resetModalData($scope.data.activeAccount, true, function (err) {
                   if (err) {
                     $rootScope.dataApp.data.loading = false;
+                    $timeout(angular.noop);
                     return errs.handler(err);
                   }
                   createDockerfileFromSource(
@@ -234,12 +245,25 @@ function modalGettingStarted(
             counter.next(err);
           }
         });
-        fetchInstances(user.oauthName(), false, function (err, instances, username, cached) {
-          if (!forceInstanceFetch || !cached) {
-            $scope.data.instances = instances;
-            if (counter) {
-              counter.next(err);
-            }
+        fetchInstances(user.oauthName(), true, function (err, instances, username, cached) {
+          $scope.data.instances = instances;
+          if (counter) {
+            counter.next(err);
+          }
+        });
+      }
+
+      function generateDependencyNames() {
+        $scope.state.dependencies.forEach(function (item) {
+          if (item.opts) {
+            var newName = getNewForkName(item.instance, $scope.data.instances, true);
+            item.opts.name = newName;
+            item.reqEnv.forEach(function (env) {
+              env.url = env.originalUrl.replace(
+                new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
+                newName
+              ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
+            });
           }
         });
       }
@@ -271,11 +295,17 @@ function modalGettingStarted(
       function forkInstances(items) {
         //$rootScope.dataApp.data.loading = true;
         function fork(instance, opts, cb) {
-          instance.copy(opts, cb);
+          copySourceInstance(
+            $scope.data.activeAccount,
+            instance,
+            opts,
+            $scope.data.instances,
+            cb
+          );
         }
 
         return function (cb) {
-          if (!items.length) { cb(); }
+          if (!items.length) { return cb(); }
           var parallelFunctions = items.map(function (item) {
             return function (cb) {
               if (item.opts) {

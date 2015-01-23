@@ -23,7 +23,8 @@
           stackDep in data.dependencies.models | \
           removeTemplateInstances | \
           unaddedDepInstances:data.state.dependencies | \
-          unaddedModels:data.depFilter as filteredDeps"
+          unaddedModels:data.depFilter | \
+          orderBy:'attrs.name' as filteredDeps"
         title = "{{ stackDep.attrs.name }}"
       ) {{ stackDep.attrs.name }}
   .popover-content(
@@ -35,6 +36,7 @@
       ng-repeat = "\
          instance in data.instances.models | \
          unaddedDepInstances:data.state.dependencies | \
-         unaddedModels:data.depFilter as filteredInstances"
+         unaddedModels:data.depFilter | \
+         orderBy:'attrs.name' as filteredInstances "
       title = "{{ instance.attrs.name }}"
       ) {{ instance.attrs.name }}

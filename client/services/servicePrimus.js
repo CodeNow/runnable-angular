@@ -70,7 +70,7 @@ require('app')
  * @ngInject
  */
 function primus(
-  errs,
+  $log,
   configAPIHost,
   $rootScope
 ) {
@@ -81,7 +81,7 @@ function primus(
 
   conn.on('data', function (data) {
     if (data.error) {
-      errs.handler(data.error);
+      $log.warn(data.error);
     }
   });
 
