@@ -1,6 +1,6 @@
 .modal-aside {
   background: $gray-lightest;
-  border-left: 1px solid rgba($black,.1);
+  border: 1px solid rgba($black,.1);
   border-radius: 0 3px 3px 0;
   bottom: 0;
   height: 100%;
@@ -8,7 +8,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  transition: transform .15s ease-in;
+  transition: all .15s ease-in;
   width: 210px;
   z-index: $z-modal-aside;
 

@@ -18,14 +18,7 @@
 
 // li.repository-group-item
 .repository-group-item {
-  cursor: pointer;
   margin: -1px 0;
-
-  &:hover,
-  &:active,
-  &.active {
-    background: rgba($blue,.1);
-  }
 
   // border
   + .repository-group-item::after {
@@ -40,11 +33,11 @@
   }
 
   // anchor image
-  > .iconnables {
-    color: $gray-lighter;
-    float: left;
+  .icons-repository {
     height: 54px;
+    left: 0;
     padding: 6px;
+    position: absolute;
     top: 15px;
     width: 54px;
   }
@@ -52,7 +45,6 @@
   // detail image (branch or commit)
   .icons-branch,
   .icons-commit {
-    color: $gray-lighter;
     height: 18px;
     left: 0;
     margin: 0 3px 0 -3px;
@@ -60,23 +52,36 @@
     top: 0;
     width: 18px;
   }
+}
 
-  // repo settings
-  .btn-repository-settings {
-    color: $gray-light;
-    position: absolute;
-    right: 6px;
-    top: 24px;
+// wrapper for states
+.repository-group-text {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  color: $gray;
+  cursor: pointer;
+  padding: 24px 15px 24px 54px;
 
-    .iconnables {
-      width: 18px;
-    }
+  &:hover {
+    background: rgba($blue,.1);
+    border-color: rgba($blue,.2);
+  }
+
+  &:active,
+  &.active {
+    background: rgba($blue,.15);
+    border-color: rgba($blue,.3);
+  }
+
+  // lighter elements
+  .iconnables,
+  .repository-detail {
+    color: $gray-lighter;
   }
 }
 
 // h3.repository-title
 .repository-title {
-  color: $gray;
   font-size: 15px;
   line-height: 1.5;
   overflow: hidden;
@@ -84,16 +89,28 @@
   white-space: nowrap;
 }
 
-// .repository-group-text
-.repository-group-text {
-  padding: 24px 15px 24px 54px;
+// date
+.repository-detail {
+  float: right;
+  font-size: 10px;
+}
+
+// repo settings
+.btn-repository-settings {
+  color: $gray-light;
+  position: absolute;
+  right: 6px;
+  top: 24px;
+
+  .iconnables {
+    width: 18px;
+  }
 }
 
 // p.repository-description
 // small.repository-detail
 .repository-description,
 .repository-detail {
-  color: $gray;
   font-size: 12px;
   height: 18px;
   line-height: 18px;
@@ -106,14 +123,7 @@
   + .repository-description {
     height: auto;
     line-height: 1.6;
-    word-break: break-word;
   }
-}
-
-.repository-detail {
-  color: $gray-lighter;
-  float: right;
-  font-size: 11px;
 }
 
 // li.list-details
@@ -121,10 +131,6 @@
   border-top: 1px solid rgba($black,.1);
   margin: 0 15px;
   padding-top: 15px;
-
-  .small {
-    color: $gray-light;
-  }
 
   .label-checkbox {
     background: $gray-lightest;
