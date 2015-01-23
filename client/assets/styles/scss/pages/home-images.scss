@@ -94,9 +94,9 @@
   background: $gray-lightest;
   border-bottom: 1px solid rgba($black,.1);
   border-radius: 3px 3px 0 0;
-  height: 36px;
-  line-height: 36px;
-  padding: 6px;
+  height: 24px;
+  line-height: 24px;
+  padding: 3px 6px 3px 3px;
   position: relative;
 
   .btn-group {
@@ -106,11 +106,13 @@
   .btn {
     color: $gray-lighter;
     cursor: default;
+    height: 18px;
+    padding: 0 2px;
   }
 
   .icons-arrow-back {
-    height: 24px;
-    width: 21px;
+    height: 18px;
+    width: 18px;
   }
 
   .btn + .btn .icons-arrow-back {
@@ -119,27 +121,20 @@
 
   .icons-octocat {
     color: $gray-lighter;
-    float: left;
-    height: 24px;
-    left: 0;
+    height: 16px;
     margin: 0 3px;
-    position: absolute;
-    top: 0;
-    width: 18px;
+    width: 15px;
   }
 
   .input-group {
-    height: 24px;
+    height: 18px;
     left: 6px;
   }
 
   .input {
     background: transparent;
-    color: $gray-lighter;
-    font-size: 14px;
-    height: 24px;
-    line-height: 24px;
-    padding-left: 24px;
+    height: 18px;
+    line-height: 18px;
   }
 }
 
