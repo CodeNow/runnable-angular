@@ -47,3 +47,95 @@
         width = "60"
       )
 p.p.row Link boxes to prototype any architecture through environment variables.
+.row
+  .img-ui
+    .ui-header
+        .btn-group
+          button.btn.btn-xs
+            svg.iconnables.icons-arrow-back
+              use(
+                xlink:href = "#icons-arrow-back"
+              )
+          button.btn.btn-xs
+            svg.iconnables.icons-arrow-back
+              use(
+                xlink:href = "#icons-arrow-back"
+              )
+        label.input-group
+          svg.iconnables.icons-octocat
+            use(
+              xlink:href = "#icons-octocat"
+            )
+          input.input.no-touching(
+            readonly
+            select-all
+          )
+    .ui-wrapper
+      .sidebar.global-sidebar
+        h2.sub-header Your Servers
+        ul.box-group
+          li.box-group-item.btn.white.running.expanded.active
+            a.box-item-name Web
+            span.icons-status
+            a.box-item-cluster API
+              span.icons-status.running
+            a.box-item-cluster Mongo
+              span.icons-status.running
+            a.box-item-cluster Redis
+              span.icons-status.running
+      .content
+        .sidebar.box-sidebar
+          ul.list.repository-group
+            li.list-item.repository-group-item.repository-group-text
+              svg.iconnables.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+              h3.repository-title org/repo-title
+              p.repository-description
+                svg.iconnables.icons-branch
+                  use(
+                    xlink:href = "#icons-branch"
+                  )
+                | master
+        .popover.right.popover-repository-toggle.in
+          .arrow
+          h3.popover-title
+            .btn.btn-select.text-overflow
+              svg.iconnables.icons-branch
+                use(
+                  xlink:href = "#icons-branch"
+                )
+              | master
+              svg.iconnables.icons-arrow-down
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
+          ul.list.popover-list.toggle-group
+            li.list-item.popover-list-item.toggle-group-item
+              .toggle-group-title commit message
+              .toggle-group-detail.clearfix
+                small.small author—5 days ago
+                a.small.link-text(
+                  ng-href = "{{ commit.attrs.html_url }}"
+                  ng-click = "$event.stopPropagation()"
+                  target = "_blank"
+                ) 98sb2o
+            li.list-item.popover-list-item.toggle-group-item
+              .toggle-group-title commit message
+              .toggle-group-detail.clearfix
+                small.small author—5 days ago
+                a.small.link-text(
+                  ng-href = "{{ commit.attrs.html_url }}"
+                  ng-click = "$event.stopPropagation()"
+                  target = "_blank"
+                ) 98sb2o
+            li.list-item.popover-list-item.toggle-group-item
+              .toggle-group-title commit message
+              .toggle-group-detail.clearfix
+                small.small author—5 days ago
+                a.small.link-text(
+                  ng-href = "{{ commit.attrs.html_url }}"
+                  ng-click = "$event.stopPropagation()"
+                  target = "_blank"
+                ) 98sb2o

@@ -90,7 +90,7 @@
   width: 330px;
 }
 
-.pull-header {
+.ui-header {
   background: $gray-lightest;
   border-bottom: 1px solid rgba($black,.1);
   border-radius: 3px 3px 0 0;
@@ -344,6 +344,69 @@
     height: 100%;
     padding: 6px;
     width: 100%;
+  }
+}
+
+// ui
+.img-ui {
+  background: $white;
+  border: 1px solid rgba($black,.1);
+  border-radius: 6px;
+  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
+  margin: 60px auto 0;
+  width: 692px;
+}
+
+.ui-wrapper {
+  height: 360px;
+
+  // nav
+  .global-sidebar {
+    height: 100%;
+    padding: 6px;
+    width: 210px;
+  }
+
+  .sub-header {
+    color: $gray-light;
+    padding-left: 9px;
+  }
+
+  .box-group-item {
+    width: auto;
+  }
+
+  .box-item-name {
+    font-weight: 500;
+  }
+
+  // main
+  .content {
+    background: $purple-dark;
+    border-bottom-right-radius: 6px;
+    overflow: visible;
+  }
+
+  .box-sidebar {
+    background: $white;
+    height: 100%;
+    padding: 0;
+    width: 210px;
+  }
+
+  .repository-group-text {
+    border: 0;
+
+    &:hover,
+    &:active {
+      background: transparent;
+    }
+  }
+
+  // popover
+  .popover {
+    left: 175px;
+    top: 12px;
   }
 }
 

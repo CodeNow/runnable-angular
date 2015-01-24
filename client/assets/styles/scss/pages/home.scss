@@ -57,6 +57,8 @@
   .btn-xs.gray {
     cursor: default;
     display: table;
+    font-family: 'Source Code Pro', monospace !important;
+    line-height: 1;
     margin: 9px auto 0;
     opacity: .75;
   }
@@ -327,18 +329,10 @@
 }
 
 // section.feature.feature-soon
-.feature-soon {
-
-  .col:first-child {
-    border-right: 2px solid rgba($black,.1);
-    margin-right: -1px;
-  }
-
-  .col > .img {
-    display: block;
-    margin: 30px auto 15px;
-    width: 360px;
-  }
+.feature-soon .col > .img {
+  display: block;
+  margin: 30px auto 15px;
+  width: 360px;
 }
 
 // footer.home-footer
