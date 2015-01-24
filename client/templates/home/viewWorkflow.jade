@@ -1,61 +1,70 @@
-.col.col-50
-  .img-pull
-    .pull-header
-      .btn-group
-        button.btn.btn-xs
-          svg.iconnables.icons-arrow-back
+.row.clearfix
+  .col.col-50
+    .img-pull
+      .pull-header
+        .btn-group
+          button.btn.btn-xs
+            svg.iconnables.icons-arrow-back
+              use(
+                xlink:href = "#icons-arrow-back"
+              )
+          button.btn.btn-xs
+            svg.iconnables.icons-arrow-back
+              use(
+                xlink:href = "#icons-arrow-back"
+              )
+        label.input-group
+          svg.iconnables.icons-octocat
             use(
-              xlink:href = "#icons-arrow-back"
+              xlink:href = "#icons-octocat"
             )
-        button.btn.btn-xs
-          svg.iconnables.icons-arrow-back
+          input.input.no-touching(
+            readonly
+            select-all
+          )
+      .pull-body.clearfix
+        .btn-xs.green
+          svg.iconnables.icons-pull-request
             use(
-              xlink:href = "#icons-arrow-back"
+              xlink:href = "#icons-pull-request"
             )
-      label.input-group
-        svg.iconnables.icons-octocat
-          use(
-            xlink:href = "#icons-octocat"
+          | Open Pull Request
+        .well
+          img.img(
+            height = "24"
+            src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=96"
+            width = "24"
           )
-        input.input.no-touching(
-          readonly
-          select-all
-        )
-    .pull-body.clearfix
-      .btn-xs.green
-        svg.iconnables.icons-pull-request
-          use(
-            xlink:href = "#icons-pull-request"
-          )
-        | Open Pull Request
-      .well
-        img.img(
-          height = "24"
-          src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=96"
-          width = "24"
-        )
-        .btn-sm.gray
-          strong runnabot #{''}
-          | commented
-        p.p The latest push on this PR is ready on #{''}
-          a.link.web-link your server
-          | .
-  h3.h3.header-thin Launch clusters straight from pull requests
-.col.col-50
-  .img-notification
-    img.img(
-      height = "30"
-      src = "/build/images/logos/logo-icon-slack.svg"
-      width = "30"
-    )
-    h4.h4 New message in #front-end
-    p.p Runnabot: Your staging server is now running tjmehta's changes
-  .img-notification
-    img.img(
-      height = "30"
-      src = "/build/images/logos/logo-icon-hipchat.svg"
-      width = "30"
-    )
-    h4.h4 Runnabot
-    p.p Your staging server is now running SomeKitten's changes
-  h3.h3.header-thin We’ll spin up a server for every push made to your code
+          .btn-sm.gray
+            strong runnabot #{''}
+            | commented
+          p.p The latest push on this PR is ready on #{''}
+            a.link.web-link your server
+            | .
+    h3.h3.header-thin Launch clusters straight from pull requests
+  .col.col-50
+    .img-notification
+      img.img(
+        height = "30"
+        src = "/build/images/logos/logo-icon-slack.svg"
+        width = "30"
+      )
+      h4.h4 New message in #front-end
+      p.p Runnabot: Your staging server is now running tjmehta's changes
+    .img-notification
+      img.img(
+        height = "30"
+        src = "/build/images/logos/logo-icon-hipchat.svg"
+        width = "30"
+      )
+      h4.h4 Runnabot
+      p.p Your staging server is now running SomeKitten's changes
+    h3.h3.header-thin We’ll spin up a server for every push made to your code
+.row
+  img.img(
+    height = "90"
+    src = "/build/images/home/soon-issue-tracking.svg"
+    width = "240"
+  )
+  h3.h3.header-thin Setup clusters that follow issues from JIRA and PivotalTracker
+  button.btn-xs.gray Coming Soon

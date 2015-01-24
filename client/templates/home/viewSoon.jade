@@ -1,11 +1,11 @@
-.col.col-50.ace-tm
+.col.ace-tm
   h2.h2.header-thin Built on Docker
   p.p Pull containers down to your local or remote host from our private Docker registry.
   pre.pre.img-docker-terminal(
     tabindex = "0"
   )
-    | root@amzn-ec2-instance:~$ docker run dockerfile/elasticsearch
-    | Pulling repository dockerfile/elasticsearch
+    | aws-console$ deploy registry.runnable.io/team/app
+    | Pulling repository dockerfile/app
     | 88frsc: Pulling dependent layers
     | htlnt4: Download complete
     | ky33z5: Download complete
@@ -16,20 +16,10 @@
       src = "/build/images/logos/logo-docker.svg"
       width = "110"
     )
-.col.col-50
-  h2.h2.header-thin Features in the Pipeline
-  ul.list
-    li.list-item
-      img.img(
-        height = "45"
-        src = "/build/images/home/soon-one-click.svg"
-        width = "360"
-      )
-      p.p One-click deployment to AWS, Digital Ocean, Kubernetes, Mesosphere and more.
-    li.list-item
-      img.img(
-        height = "45"
-        src = "/build/images/home/soon-issue-tracking.svg"
-        width = "360"
-      )
-      p.p Setup clusters that follow issues from JIRA and PivotalTracker.
+  img.img(
+    height = "45"
+    src = "/build/images/home/soon-one-click.svg"
+    width = "360"
+  )
+  p.p One-click deployment to AWS, Digital Ocean, Kubernetes, Mesosphere and more.
+  button.btn-xs.gray Coming Soon
