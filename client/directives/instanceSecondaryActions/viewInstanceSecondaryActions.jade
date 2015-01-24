@@ -8,6 +8,12 @@ button.btn.white.btn-action(
       xlink:href = "#icons-edit"
     )
   | Edit
+.guide-wrapper(
+  type = "editButton"
+  mark-style = "{\"left\": -10, \"top\": 20}"
+  template = "viewCoachMarksEditPopover"
+  show-coach-marks
+)
 button.btn.white.btn-action(
   modal
   modal-actions = "popoverGearMenu.actions.actionsModalFork"

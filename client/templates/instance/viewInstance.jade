@@ -70,6 +70,12 @@ section.sidebar.box-sidebar.load
     instance = "dataInstance.data.instance"
     build = "dataInstance.data.instance.build"
   )
+    .guide-wrapper(
+      type = "repo-list"
+      mark-style = "{\"left\": -10, \"top\": 20}"
+      template = "viewCoachMarksRepoPopover"
+      show-coach-marks
+    )
 
 //- in / out control presence of header-bar
 section.views.with-add-tab(
@@ -114,6 +120,12 @@ section.views.with-add-tab(
     is-dark-theme = "dataInstance.data.toggleTheme",
     open-items = "dataInstance.data.openItems"
     item = "item"
+  )
+  .guide-wrapper(
+    type = "panel"
+    mark-style = "{\"left\": -10, \"top\": 20}"
+    template = "viewCoachMarksPanelPopover"
+    show-coach-marks
   )
 
   //- blank state
