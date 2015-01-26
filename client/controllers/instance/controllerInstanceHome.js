@@ -10,7 +10,7 @@ function ControllerInstanceHome(
   $stateParams,
   $state,
   $scope,
-  pFetchInstances,
+  fetchInstances,
   $localStorage,
   $rootScope,
   keypather
@@ -19,7 +19,7 @@ function ControllerInstanceHome(
   var instanceName = keypather.get($localStorage, 'lastInstancePerUser.' + userName);
   if (!instanceName) {
     $scope.loading = true;
-    pFetchInstances()
+    fetchInstances()
     .then(function (instances) {
       var currentUser =
           keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') || userName;

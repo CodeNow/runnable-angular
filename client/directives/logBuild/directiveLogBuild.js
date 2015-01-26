@@ -14,7 +14,7 @@ function logBuild(
   $stateParams,
   dockerStreamCleanser,
   createInstanceDeployedPoller,
-  pFetchInstances
+  fetchInstances
 ) {
   return {
     restrict: 'A',
@@ -49,7 +49,7 @@ function logBuild(
         }
       });
 
-      pFetchInstances({
+      fetchInstances({
         name: $stateParams.instanceName
       })
       .then(function(instance) {

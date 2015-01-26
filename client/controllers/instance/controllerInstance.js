@@ -23,7 +23,7 @@ function ControllerInstance(
   $timeout,
   $window,
   pFetchUser,
-  pFetchInstances
+  fetchInstances
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -62,7 +62,7 @@ function ControllerInstance(
   }
 
   pFetchUser.then(function (user) {
-    return pFetchInstances({
+    return fetchInstances({
       name: $stateParams.instanceName
     });
   })

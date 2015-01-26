@@ -13,7 +13,7 @@ function logBox(
   $log,
   $stateParams,
   dockerStreamCleanser,
-  pFetchInstances
+  fetchInstances
 ) {
   return {
     restrict: 'A',
@@ -120,7 +120,7 @@ function logBox(
       }
 
       function fetchInstance(cb) {
-        pFetchInstances({
+        fetchInstances({
           name: $stateParams.instanceName
         }).then(function(instance) {
           $scope.instance = instance;

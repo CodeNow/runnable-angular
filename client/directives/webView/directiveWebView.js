@@ -12,7 +12,7 @@ function webView(
   $timeout,
   $sce,
   $stateParams,
-  pFetchInstances
+  fetchInstances
 ) {
   return {
     restrict: 'A',
@@ -20,7 +20,7 @@ function webView(
     scope: {},
     link: function ($scope, elem) {
 
-      pFetchInstances({
+      fetchInstances({
         name: $stateParams.instanceName
       })
       .then(function(instance) {

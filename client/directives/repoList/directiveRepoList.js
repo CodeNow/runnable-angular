@@ -16,7 +16,7 @@ function repoList(
   $state,
   $stateParams,
   user,
-  pFetchInstances
+  fetchInstances
 ) {
   return {
     restrict: 'A',
@@ -185,7 +185,7 @@ function repoList(
       $scope.$watch('data.autoDeploy', debounceUpdate);
 
       function fetchInstance(cb) {
-        pFetchInstances({
+        fetchInstances({
           name: $stateParams.instanceName
         })
         .then(function(instance) {

@@ -15,7 +15,7 @@ function fileTree(
   $state,
   $stateParams,
   createInstanceDeployedPoller,
-  pFetchInstances,
+  fetchInstances,
   errs
 ) {
   return {
@@ -55,7 +55,7 @@ function fileTree(
         //   initRootDirState($scope.rootDir);
         // });
       } else {
-        pFetchInstances({
+        fetchInstances({
           name: $stateParams.instanceName
         })
         .then(function(instance) {

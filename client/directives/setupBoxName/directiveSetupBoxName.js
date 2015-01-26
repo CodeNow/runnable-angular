@@ -6,7 +6,7 @@ require('app')
  * @ngInject
  */
 function setupBoxName(
-  pFetchInstances
+  fetchInstances
 ) {
   return {
     restrict: 'E',
@@ -23,7 +23,7 @@ function setupBoxName(
         $scope.valid = arguments[0];
       });
 
-      pFetchInstances()
+      fetchInstances()
       .then(function(instances) {
         $scope.instances = instances;
       });

@@ -13,7 +13,7 @@ function term(
   jQuery,
   keypather,
   $stateParams,
-  pFetchInstances
+  fetchInstances
 ) {
   return {
     restrict: 'E',
@@ -49,7 +49,7 @@ function term(
         jQuery(elem).trigger('resize');
       });
 
-      pFetchInstances({
+      fetchInstances({
         name: $stateParams.instanceName
       })
       .then(function(instance) {

@@ -16,7 +16,7 @@ function addRepoPopover(
   $stateParams,
   user,
   pFetchUser,
-  pFetchInstances,
+  fetchInstances,
   $q,
   errs
 ) {
@@ -185,7 +185,7 @@ function addRepoPopover(
           //   $scope.repoListPopover.data.build = build;
           // });
         } else {
-          return pFetchInstances({
+          return fetchInstances({
             name: $stateParams.instanceName
           })
           .then(function(instance) {

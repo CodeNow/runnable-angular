@@ -6,7 +6,7 @@ require('app')
  * @ngInject
  */
 function explorer(
-  pFetchInstances,
+  fetchInstances,
   $stateParams
 ) {
   return {
@@ -23,7 +23,7 @@ function explorer(
         //   $scope.build = build;
         // });
       } else {
-        pFetchInstances({
+        fetchInstances({
           name: $stateParams.instanceName
         })
         .then(function(instance) {

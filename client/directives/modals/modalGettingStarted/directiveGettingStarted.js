@@ -21,7 +21,7 @@ function modalGettingStarted(
   createNewInstance,
   $state,
   fetchStackInfo,
-  pFetchInstances,
+  fetchInstances,
   keypather,
   createNewBuild
 ) {
@@ -244,7 +244,7 @@ function modalGettingStarted(
             counter.next(err);
           }
         });
-        pFetchInstances(function (instances) {
+        fetchInstances(function (instances) {
           $scope.data.instances = instances;
           if (counter) {
             counter.next();
