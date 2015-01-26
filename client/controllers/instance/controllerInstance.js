@@ -68,23 +68,20 @@ function ControllerInstance(
   })
   .then(function(instance) {
     data.instance = instance;
-    if (!data.instance) {
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        null
-      );
-    } else {
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        $stateParams.instanceName
-      );
-      data.instance.state = {};
-    }
+    keypather.set(
+      $localStorage,
+      'lastInstancePerUser.' + $stateParams.userName,
+      null
+    );
     instanceUpdatedPoller.start(data.instance);
   })
   .catch(function(err) {
+    keypather.set(
+      $localStorage,
+      'lastInstancePerUser.' + $stateParams.userName,
+      $stateParams.instanceName
+    );
+    data.instance.state = {};
     $state.go('instance.home', {
       userName: $stateParams.userName
     });
