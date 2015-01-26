@@ -14,7 +14,6 @@ function ControllerInstance(
   fetchCommitData,
   keypather,
   OpenItems,
-  QueryAssist,
   $rootScope,
   $localStorage,
   $location,
@@ -23,7 +22,8 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   $window,
-  fetchUser
+  pFetchUser,
+  pFetchInstances
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -61,20 +61,35 @@ function ControllerInstance(
     $location.search('chat', null);
   }
 
-  if ($stateParams.instanceName && $stateParams.userName) {
-    async.waterfall([
-      fetchUser,
-      fetchInstance
-    ], function (err) {
-      if (err) {
-        $state.go('instance.home', {
-          userName: $stateParams.userName
-        });
-        errs.handler(err);
-      }
-      instanceUpdatedPoller.start(data.instance);
+  pFetchUser.then(function (user) {
+    return pFetchInstances({
+      name: $stateParams.instanceName
     });
-  }
+  })
+  .then(function(instance) {
+    data.instance = instance;
+    if (!data.instance) {
+      keypather.set(
+        $localStorage,
+        'lastInstancePerUser.' + $stateParams.userName,
+        null
+      );
+    } else {
+      keypather.set(
+        $localStorage,
+        'lastInstancePerUser.' + $stateParams.userName,
+        $stateParams.instanceName
+      );
+      data.instance.state = {};
+    }
+    instanceUpdatedPoller.start(data.instance);
+  })
+  .catch(function(err) {
+    $state.go('instance.home', {
+      userName: $stateParams.userName
+    });
+    errs.handler(err);
+  });
 
   $scope.$on('new-build', function() {
     if (data.showUpdatingMessage) { return; } // Remove this line on ws change
@@ -135,41 +150,6 @@ function ControllerInstance(
     }
     else {
       restoreOrOpenDefaultTabs();
-    }
-  }
-
-  function fetchInstance(user, cb) {
-    $scope.user = user;
-    if ($stateParams.instanceName && $stateParams.userName) {
-      new QueryAssist(user, cb)
-        .wrapFunc('fetchInstances')
-        .query({
-          githubUsername: $stateParams.userName,
-          name: $stateParams.instanceName
-        })
-        .cacheFetch(function (instances, cached, cb) {
-          data.instance = keypather.get(instances, 'models[0]');
-          if (!data.instance) {
-            keypather.set(
-              $localStorage,
-              'lastInstancePerUser.' + $stateParams.userName,
-              null
-            );
-            cb(new Error('Could not find instance on server'));
-          } else {
-            keypather.set(
-              $localStorage,
-              'lastInstancePerUser.' + $stateParams.userName,
-              $stateParams.instanceName
-            );
-            data.instance.state = {};
-            cb();
-          }
-        })
-        .resolve(function (err) {
-          cb(err);
-        })
-        .go();
     }
   }
 

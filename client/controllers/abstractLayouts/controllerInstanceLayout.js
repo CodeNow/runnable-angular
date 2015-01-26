@@ -7,7 +7,7 @@ require('app')
  */
 function ControllerInstanceLayout(
   configLogoutURL,
-  fetchUser,
+  pFetchUser,
   pFetchInstances,
   $stateParams,
   errs,
@@ -25,35 +25,23 @@ function ControllerInstanceLayout(
     actions: {}
   };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
-  fetchUser(function(err, user) {
-    if (err) { return errs.handler(err); }
+  pFetchUser.then(function(user) {
     thisUser = user;
-    resolveInstanceFetch(
+    return resolveInstanceFetch(
       $stateParams.userName
     );
-  });
+  }).catch(errs.handler);
 
   function resolveInstanceFetch(username) {
     if (!username) { return; }
-    async.waterfall([
-      function (cb) {
-        $rootScope.dataApp.state.loadingInstances = true;
-        $rootScope.dataApp.data.instances = null;
-        // Using $timeout to trigger digest
-        $timeout(cb);
-      },
-      function (cb) {
-        pFetchInstances().then(function (instances) {
-          if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-            $rootScope.dataApp.data.instances = instances;
-            $rootScope.dataApp.state.loadingInstances = false;
-            $timeout(cb);
-          } else {
-            cb();
-          }
-        });
+    $rootScope.dataApp.state.loadingInstances = true;
+    $rootScope.dataApp.data.instances = null;
+    pFetchInstances().then(function (instances) {
+      if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+        $rootScope.dataApp.data.instances = instances;
+        $rootScope.dataApp.state.loadingInstances = false;
       }
-    ], errs.handler);
+    });
   }
 
   var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function(event, username) {
