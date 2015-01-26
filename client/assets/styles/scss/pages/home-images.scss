@@ -281,7 +281,7 @@
 
   // main
   .content {
-    background: $purple-dark;
+    background: $white;
     border-bottom-right-radius: 6px;
     overflow: visible;
     width: calc(100% - 210px);
@@ -373,16 +373,64 @@
 }
 
 .ui-views {
+  background: rgba($blue,.05);
   height: 100%;
+  padding: 15px;
   width: calc(100% - 240px);
 
-  .active-panel {
-    height: 100%;
+  .ui-views-row,
+  .ui-views-column {
+    background: rgba($blue,.1);
+    border: 1px solid rgba($blue,.6);
+    border-radius: 1px;
+    position: relative;
   }
 
-  .pre {
-    border-bottom-right-radius: 6px;
-    font-size: 12px !important;
+  .ui-views-row {
+    height: 40%;
+    margin: 3px 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .clearfix {
+    display: flex;
+  }
+
+  .ui-views-column {
+    flex: 1 1 auto;
+    height: 90px;
+    margin: 3px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  // ui stuff
+  .btn,
+  .filler-text {
+    pointer-events: none;
+  }
+
+  .btn {
+    bottom: 15px;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    width: 90px;
+
+    &.btn-xxs {
+      bottom: 6px;
+      width: 60px;
+    }
   }
 }
 

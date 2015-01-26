@@ -27,13 +27,22 @@
       h2.sub-header Your Servers
       ul.box-group.no-touching
         li.box-group-item.btn.white.running.expanded.active
-          a.box-item-name Web
+          a.box-item-name Web-Staging
           span.icons-status
-          a.box-item-cluster API
+          a.box-item-cluster API-Staging
             span.icons-status.running
-          a.box-item-cluster Mongo
+          a.box-item-cluster Mongo-Staging
             span.icons-status.running
-          a.box-item-cluster Redis
+          a.box-item-cluster Redis-Staging
+            span.icons-status.running
+        li.box-group-item.btn.white.running.expanded
+          a.box-item-name Web-QA-testing
+          span.icons-status
+          a.box-item-cluster API-QA-testing
+            span.icons-status.running
+          a.box-item-cluster Mongo-QA-testing
+            span.icons-status.running
+          a.box-item-cluster Redis-QA-testing
             span.icons-status.running
     .content
       .sidebar.box-sidebar
@@ -98,19 +107,18 @@
                 target = "_blank"
               ) 261as0
       .views.ui-views
-        .active-panel.ace-runnable-dark
-          pre.pre.logs
-            | Step 6 : RUN date
-            | ---> Running in b4b6
-            | ---> f01a
-            | Remove intermediate container b4b6
-            | Step 7 : CMD npm start
-            | ---> Running in 62f3
-            | ---> 0b30
-            | Remove intermediate container 62f3
-            | Successfully built 0b30
-            |
-            .text-green Build completed successfully!
+        .ui-views-row
+        .clearfix
+          .ui-views-column
+            button.btn.btn-xxs.blue.hover
+          .ui-views-column
+            button.btn.btn-xxs.blue.hover
+          .ui-views-column
+            button.btn.btn-xxs.blue.hover
+        .clearfix
+          .ui-views-column
+          .ui-views-column
+        .ui-views-row
 
 .row.clearfix
   h2.h2.header-thin JSFiddle for Full-stack Applications
