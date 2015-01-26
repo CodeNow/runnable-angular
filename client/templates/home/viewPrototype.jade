@@ -35,15 +35,6 @@
             span.icons-status.running
           a.box-item-cluster Redis-Staging
             span.icons-status.running
-        li.box-group-item.btn.white.running.expanded
-          a.box-item-name Web-QA-testing
-          span.icons-status
-          a.box-item-cluster API-QA-testing
-            span.icons-status.running
-          a.box-item-cluster Mongo-QA-testing
-            span.icons-status.running
-          a.box-item-cluster Redis-QA-testing
-            span.icons-status.running
     .content
       .sidebar.box-sidebar
         ul.list.repository-group.no-touching
@@ -52,7 +43,7 @@
               use(
                 xlink:href = "#icons-repository"
               )
-            h3.repository-title org/repo-title
+            h3.repository-title runnable/web
             p.repository-description
               svg.iconnables.icons-branch
                 use(
@@ -108,13 +99,12 @@
               ) 261as0
       .views.ui-views
         .ui-views-row
+            button.btn.btn-xxs.blue.hover
         .clearfix
           .ui-views-column
-            button.btn.btn-xxs.blue.hover
           .ui-views-column
             button.btn.btn-xxs.blue.hover
           .ui-views-column
-            button.btn.btn-xxs.blue.hover
         .clearfix
           .ui-views-column
           .ui-views-column
