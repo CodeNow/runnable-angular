@@ -387,6 +387,7 @@
   }
 
   .ui-views-row {
+    background: url(/build/images/home/features-ui-webview.svg) no-repeat rgba($blue,.1);
     height: 40%;
     margin: 3px 0;
 
@@ -414,8 +415,7 @@
   }
 
   // ui stuff
-  .btn,
-  .filler-text {
+  .btn {
     pointer-events: none;
   }
 
