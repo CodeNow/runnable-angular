@@ -21,7 +21,7 @@ function modalGettingStarted(
   createNewInstance,
   $state,
   fetchStackInfo,
-  fetchInstances,
+  pFetchInstances,
   keypather,
   createNewBuild
 ) {
@@ -244,12 +244,14 @@ function modalGettingStarted(
             counter.next(err);
           }
         });
-        fetchInstances(user.oauthName(), true, function (err, instances, username, cached) {
-          if (!forceInstanceFetch || !cached) {
-            $scope.data.instances = instances;
-            if (counter) {
-              counter.next(err);
-            }
+        pFetchInstances(function (instances) {
+          $scope.data.instances = instances;
+          if (counter) {
+            counter.next();
+          }
+        }).catch(function(err) {
+          if (counter) {
+            counter.next(err);
           }
         });
       }
