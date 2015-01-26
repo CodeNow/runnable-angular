@@ -179,24 +179,13 @@
 // workflow
 .img-workflow {
   border: 1px solid rgba($black,.1);
-  border-bottom: 0;
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px;
+  float: left;
   height: 150px;
-  margin: 60px auto 0;
+  margin: 60px 30px 0;
   overflow: visible;
   position: relative;
   width: 300px;
-
-  &::before {
-    background: rgba($black,.15);
-    bottom: 0;
-    content: '';
-    display: block;
-    height: 1px;
-    margin: 0 auto;
-    position: absolute;
-    width: 360px;
-  }
 }
 
 // terminal
@@ -210,10 +199,6 @@
       animation: cursor-blink 1s infinite;
       visibility: visible;
     }
-  }
-
-  &::before {
-    left: -30px;
   }
 
   &::after {
@@ -232,10 +217,6 @@
 // editor
 .img-workflow-editor {
 
-  &::before {
-    right: -30px;
-  }
-
   .file-tree,
   .ace-editor {
     float: left;
@@ -245,8 +226,8 @@
 
   .file-tree {
     background: $white;
+    border-radius: 6px;
     border-right: 1px solid rgba($black,.1);
-    border-top-left-radius: 6px;
     padding: 6px 3px;
   }
 
@@ -256,7 +237,7 @@
   }
 
   .pre {
-    border-top-right-radius: 6px;
+    border-radius: 0 6px 6px 0;
     color: #ffafb7; // pink
     font-size: 10px !important;
     height: 100%;

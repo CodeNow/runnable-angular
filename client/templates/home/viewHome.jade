@@ -17,18 +17,16 @@ main.home
 
     h1.h1.header-thin Stop worrying about servers
     h3.h3.header-thin Runnable is a sandbox service that replaces Staging, QA, and Test servers
-    //- ul.list.box-group.in
-    //-   li.list-item.box-group-item.white.running development-server
-    //-     span.icons-status
-    //-   li.list-item.box-group-item.white.running QA-server
-    //-     span.icons-status
-    //-   li.list-item.box-group-item.white.running staging-server
-    //-     span.icons-status
-    //-   li.list-item.box-group-item.white.building production-server
-    //-     span.icons-status
 
   //- feature
   section.home-feature
+
+    //- protype
+    section.feature.feature-protype.clearfix(
+      ng-include = "'viewPrototype'"
+    )
+
+    .hr.hr-single
 
     //- workflow
     section.feature.feature-workflow.row.clearfix(
@@ -40,13 +38,6 @@ main.home
     //- new server configuration
     section.feature.feature-configuration(
       ng-include = "'viewConfiguration'"
-    )
-
-    .hr.hr-single
-
-    //- protype
-    section.feature.feature-protype.clearfix(
-      ng-include = "'viewPrototype'"
     )
 
   //- pricing

@@ -1,148 +1,145 @@
-.row.clearfix
-  .col
-    h2.h2.header-thin JSFiddle for Full-stack Applications
-    p.p Run full-stack experiments through a terminal and file editor in the browser. Link boxes to prototype any architecture through environment variables.
-.row.clearfix
-  .col.col-50.ace-tm.ace-runnable-dark.clearfix
-    pre.pre.img-workflow.img-workflow-terminal(
-      tabindex = "0"
-    ) root@id:/database#
-  .col.col-50.ace-tm.ace-runnable-dark.clearfix
-    .img-workflow.img-workflow-editor.ace-tm.ace-runnable-dark.clearfix
-      ul.file-tree
-        li.folder
-          svg.iconnables.filetypes.icons-folder
+.img-ui
+  .ui-header
+      .btn-group
+        button.btn.btn-xs
+          svg.iconnables.icons-arrow-back
             use(
-              xlink:href = "#icons-folder"
+              xlink:href = "#icons-arrow-back"
             )
-          span.item-name concerns
-        li.file
-          svg.iconnables.filetypes.icons-file
+        button.btn.btn-xs
+          svg.iconnables.icons-arrow-back
             use(
-              xlink:href = "#icons-file"
+              xlink:href = "#icons-arrow-back"
             )
-          span.item-name controller.rb
-      pre.pre.
-        class createA
-          def change
-            create_table
-              t.string
-              t.text
-              t.timestamps
-            end
-          end
-        end
-.row
-  .img-ui
-    .ui-header
-        .btn-group
-          button.btn.btn-xs
-            svg.iconnables.icons-arrow-back
+      label.input-group
+        img.ui-favicon.favicon-sm(
+          height = "18"
+          ng-src = "/build/images/favicon.png"
+          width = "18"
+        )
+        input.input.no-touching(
+          readonly
+          select-all
+          value = "runnable.io"
+        )
+  .ui-wrapper
+    .sidebar.global-sidebar
+      h2.sub-header Your Servers
+      ul.box-group.no-touching
+        li.box-group-item.btn.white.running.expanded.active
+          a.box-item-name Web
+          span.icons-status
+          a.box-item-cluster API
+            span.icons-status.running
+          a.box-item-cluster Mongo
+            span.icons-status.running
+          a.box-item-cluster Redis
+            span.icons-status.running
+    .content
+      .sidebar.box-sidebar
+        ul.list.repository-group.no-touching
+          li.list-item.repository-group-item.repository-group-text
+            svg.iconnables.icons-repository
               use(
-                xlink:href = "#icons-arrow-back"
+                xlink:href = "#icons-repository"
               )
-          button.btn.btn-xs
-            svg.iconnables.icons-arrow-back
-              use(
-                xlink:href = "#icons-arrow-back"
-              )
-        label.input-group
-          img.ui-favicon.favicon-sm(
-            height = "18"
-            ng-src = "/build/images/favicon.png"
-            width = "18"
-          )
-          input.input.no-touching(
-            readonly
-            select-all
-            value = "runnable.io"
-          )
-    .ui-wrapper
-      .sidebar.global-sidebar
-        h2.sub-header Your Servers
-        ul.box-group.no-touching
-          li.box-group-item.btn.white.running.expanded.active
-            a.box-item-name Web
-            span.icons-status
-            a.box-item-cluster API
-              span.icons-status.running
-            a.box-item-cluster Mongo
-              span.icons-status.running
-            a.box-item-cluster Redis
-              span.icons-status.running
-      .content
-        .sidebar.box-sidebar
-          ul.list.repository-group.no-touching
-            li.list-item.repository-group-item.repository-group-text
-              svg.iconnables.icons-repository
-                use(
-                  xlink:href = "#icons-repository"
-                )
-              h3.repository-title org/repo-title
-              p.repository-description
-                svg.iconnables.icons-branch
-                  use(
-                    xlink:href = "#icons-branch"
-                  )
-                | master
-              p.repository-description.clearfix
-                svg.iconnables.icons-commit
-                  use(
-                    xlink:href = "#icons-commit"
-                  )
-                | Stopping the closing of this popover
-        .popover.bottom.popover-repository-toggle.in
-          .arrow
-          h3.popover-title
-            .btn.btn-select.text-overflow.no-touching
+            h3.repository-title org/repo-title
+            p.repository-description
               svg.iconnables.icons-branch
                 use(
                   xlink:href = "#icons-branch"
                 )
               | master
-              svg.iconnables.icons-arrow-down
+            p.repository-description.clearfix
+              svg.iconnables.icons-commit
                 use(
-                  xlink:href = "#icons-arrow-down"
+                  xlink:href = "#icons-commit"
                 )
-          ul.list.popover-list.toggle-group
-            li.list-item.popover-list-item.toggle-group-item.no-touching
-              .toggle-group-title Stopping the closing of this popover
-              .toggle-group-detail.clearfix
-                small.small Nathan219—6 days ago
-                a.small.link-text(
-                  ng-href = "{{ commit.attrs.html_url }}"
-                  ng-click = "$event.stopPropagation()"
-                  target = "_blank"
-                ) 98sb2o
-            li.list-item.popover-list-item.toggle-group-item.no-touching
-              .toggle-group-title Merge pull request #409
-              .toggle-group-detail.clearfix
-                small.small tjmehta—8 days ago
-                a.small.link-text(
-                  ng-href = "{{ commit.attrs.html_url }}"
-                  ng-click = "$event.stopPropagation()"
-                  target = "_blank"
-                ) k0das2
-            li.list-item.popover-list-item.toggle-group-item.no-touching
-              .toggle-group-title remove build leak in tab cache
-              .toggle-group-detail.clearfix
-                small.small SomeKittens—10 days ago
-                a.small.link-text(
-                  ng-href = "{{ commit.attrs.html_url }}"
-                  ng-click = "$event.stopPropagation()"
-                  target = "_blank"
-                ) 261as0
-        .views.ui-views
-          .active-panel.ace-runnable-dark
-            pre.pre.logs
-              | Step 6 : RUN date
-              | ---> Running in b4b6
-              | ---> f01a
-              | Remove intermediate container b4b6
-              | Step 7 : CMD npm start
-              | ---> Running in 62f3
-              | ---> 0b30
-              | Remove intermediate container 62f3
-              | Successfully built 0b30
-              |
-              .text-green Build completed successfully!
+              | Stopping the closing of this popover
+      .popover.bottom.popover-repository-toggle.in
+        .arrow
+        h3.popover-title
+          .btn.btn-select.text-overflow.no-touching
+            svg.iconnables.icons-branch
+              use(
+                xlink:href = "#icons-branch"
+              )
+            | master
+            svg.iconnables.icons-arrow-down
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+        ul.list.popover-list.toggle-group
+          li.list-item.popover-list-item.toggle-group-item.no-touching
+            .toggle-group-title Stopping the closing of this popover
+            .toggle-group-detail.clearfix
+              small.small Nathan219—6 days ago
+              a.small.link-text(
+                ng-href = "{{ commit.attrs.html_url }}"
+                ng-click = "$event.stopPropagation()"
+                target = "_blank"
+              ) 98sb2o
+          li.list-item.popover-list-item.toggle-group-item.no-touching
+            .toggle-group-title Merge pull request #409
+            .toggle-group-detail.clearfix
+              small.small tjmehta—8 days ago
+              a.small.link-text(
+                ng-href = "{{ commit.attrs.html_url }}"
+                ng-click = "$event.stopPropagation()"
+                target = "_blank"
+              ) k0das2
+          li.list-item.popover-list-item.toggle-group-item.no-touching
+            .toggle-group-title remove build leak in tab cache
+            .toggle-group-detail.clearfix
+              small.small SomeKittens—10 days ago
+              a.small.link-text(
+                ng-href = "{{ commit.attrs.html_url }}"
+                ng-click = "$event.stopPropagation()"
+                target = "_blank"
+              ) 261as0
+      .views.ui-views
+        .active-panel.ace-runnable-dark
+          pre.pre.logs
+            | Step 6 : RUN date
+            | ---> Running in b4b6
+            | ---> f01a
+            | Remove intermediate container b4b6
+            | Step 7 : CMD npm start
+            | ---> Running in 62f3
+            | ---> 0b30
+            | Remove intermediate container 62f3
+            | Successfully built 0b30
+            |
+            .text-green Build completed successfully!
+
+.row.clearfix
+  h2.h2.header-thin JSFiddle for Full-stack Applications
+  p.p Run full-stack experiments through a terminal and file editor in the browser. Link boxes to prototype any architecture through environment variables.
+.row.ace-tm.ace-runnable-dark.clearfix
+  pre.pre.img-workflow.img-workflow-terminal(
+    tabindex = "0"
+  ) root@id:/database#
+  .img-workflow.img-workflow-editor.ace-tm.ace-runnable-dark.clearfix
+    ul.file-tree
+      li.folder
+        svg.iconnables.filetypes.icons-folder
+          use(
+            xlink:href = "#icons-folder"
+          )
+        span.item-name concerns
+      li.file
+        svg.iconnables.filetypes.icons-file
+          use(
+            xlink:href = "#icons-file"
+          )
+        span.item-name controller.rb
+    pre.pre.
+      class createA
+        def change
+          create_table
+            t.string
+            t.text
+            t.timestamps
+          end
+        end
+      end
