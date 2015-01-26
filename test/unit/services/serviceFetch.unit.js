@@ -1,3 +1,3 @@
-directive('serviceFetch'.bold.underline.blue, function () {
+describe('serviceFetch'.bold.underline.blue, function () {
   
 });
