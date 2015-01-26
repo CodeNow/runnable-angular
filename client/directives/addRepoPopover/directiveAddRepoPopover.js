@@ -14,7 +14,11 @@ function addRepoPopover(
   $rootScope,
   $state,
   $stateParams,
-  user
+  user,
+  pFetchUser,
+  pFetchInstances,
+  $q,
+  errs
 ) {
   return {
     restrict: 'E',
@@ -107,49 +111,6 @@ function addRepoPopover(
         return activeBranch;
       }
 
-      function fetchInstance(cb) {
-        new QueryAssist($scope.repoListPopover.data.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.repoListPopover.data.instance = instance;
-            $scope.repoListPopover.data.build = instance.build;
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-            //   return cb(new Error('instance has no containers'));
-            // }
-            cb(err);
-          })
-          .go();
-      }
-
-      function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
-        }
-        new QueryAssist($scope.repoListPopover.data.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.repoListPopover.data.build = build;
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
-      }
-
       /**
        * Models in build.contextVersions collection will
        * have empty appCodeVersion collections by default.
@@ -215,19 +176,38 @@ function addRepoPopover(
         fetchPage(1);
       }
 
-      async.series([
-        function (cb) {
-          fetchUser(function (err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            $scope.repoListPopover.data.user = user;
-            cb();
+      pFetchUser.then(function(user) {
+        $scope.user = user;
+        $scope.repoListPopover.data.user = user;
+        if ($stateParams.buildId) {
+          // return fetch('build', buildId)
+          // .then(function(build) {
+          //   $scope.repoListPopover.data.build = build;
+          // });
+        } else {
+          return pFetchInstances({
+            name: $stateParams.instanceName
+          })
+          .then(function(instance) {
+            $scope.repoListPopover.data.instance = instance;
+            $scope.repoListPopover.data.build = instance.build;
           });
-        },
-        fetchBuild,
-        fetchBuildContextVersions,
-        fetchAllOwnerRepos
-      ]);
+        }
+      })
+      .then(function() {
+        var d = $q.defer();
+        // FIXME: blending of promise/async
+        async.series([
+          fetchBuildContextVersions,
+          fetchAllOwnerRepos
+        ], function(err) {
+          if (err) {
+            return d.reject(err);
+          }
+          d.resolve();
+        });
+      })
+      .catch(errs.handler);
     }
   };
 }

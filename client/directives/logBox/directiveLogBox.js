@@ -6,18 +6,14 @@ require('app')
  * @ngInject
  */
 function logBox(
-  async,
   errs,
   helperSetupTerminal,
   primus,
   keypather,
-  QueryAssist,
-  fetchUser,
   $log,
-  $rootScope,
   $stateParams,
   dockerStreamCleanser,
-  user
+  pFetchInstances
 ) {
   return {
     restrict: 'A',
@@ -90,19 +86,6 @@ function logBox(
         }
       });
 
-      async.series([
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            cb();
-          });
-        },
-        fetchInstance
-      ], function (err) {
-        if (err) { return $log.error(err); }
-      });
-
       /**
        * helper to always unbind on $destroy
        */
@@ -132,34 +115,19 @@ function logBox(
         // box log output ends... process exited
         $scope.boxStream.on('end', function () {
           $scope.boxStream.ended = true;
-          fetchInstance(errs.handler);
+          fetchInstance();
         });
       }
 
       function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.instance = instance;
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-            //   return cb(new Error('instance has no containers'));
-            // }
-            cb(err);
-          })
-          .go();
+        pFetchInstances({
+          name: $stateParams.instanceName
+        }).then(function(instance) {
+          $scope.instance = instance;
+        }).catch(errs.handler);
       }
 
+      fetchInstance();
     }
   };
 }

@@ -4,9 +4,7 @@ require('app')
   .factory('fetchInstances', fetchInstances);
 
 function fetchInstances(
-  fetchUser,
-  QueryAssist,
-  errs
+  pFetchInstances
 ) {
   var currentAccountName;
   var currentInstanceList;
@@ -15,21 +13,11 @@ function fetchInstances(
       return cb(null, currentInstanceList, currentAccountName);
     }
     currentAccountName = activeAccountName;
-    fetchUser(function (err, user) {
-      if (!user) { return cb(err); }
-      new QueryAssist(user, cb)
-        .wrapFunc('fetchInstances')
-        .query({
-          githubUsername: activeAccountName
-        })
-        .cacheFetch(function (instances, cached, cb) {
-          if (currentAccountName === activeAccountName) {
-            currentInstanceList = instances;
-            cb(err, instances, activeAccountName, cached);
-          }
-        })
-        .resolve(errs.handler)
-        .go();
-    });
+    // FIXME: This is a wrapper around pFetchInstances to take advantage of the caching
+    // Remove this layer before being merged with master
+    pFetchInstances()
+    .then(function(instances) {
+      cb(null, instances, activeAccountName);
+    }).catch(cb);
   };
 }

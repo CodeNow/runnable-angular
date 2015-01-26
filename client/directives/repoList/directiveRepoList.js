@@ -15,7 +15,8 @@ function repoList(
   $rootScope,
   $state,
   $stateParams,
-  user
+  user,
+  pFetchInstances
 ) {
   return {
     restrict: 'A',
@@ -184,37 +185,23 @@ function repoList(
       $scope.$watch('data.autoDeploy', debounceUpdate);
 
       function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.instance = instance;
-            if (!$stateParams.buildId) {
-              $scope.build = instance.build;
-              // HACK: allows us to use both an independent build (setup/edit)
-              //    and the build of an instance (instance)
-              // This will be triggered when a new build is passed to us by API
-              $scope.$watch('instance.build',   function(n) {
-                if (n) { $scope.build = $scope.instance.build; }
-              });
-            }
-            $scope.data.autoDeploy = instance.attrs.locked;
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-            //   return cb(new Error('instance has no containers'));
-            // }
-            cb(err);
-          })
-          .go();
+        pFetchInstances({
+          name: $stateParams.instanceName
+        })
+        .then(function(instance) {
+          $scope.instance = instance;
+          if (!$stateParams.buildId) {
+            $scope.build = instance.build;
+            // HACK: allows us to use both an independent build (setup/edit)
+            //    and the build of an instance (instance)
+            // This will be triggered when a new build is passed to us by API
+            $scope.$watch('instance.build',   function(n) {
+              if (n) { $scope.build = $scope.instance.build; }
+            });
+          }
+          $scope.data.autoDeploy = instance.attrs.locked;
+          cb();
+        }).catch(cb);
       }
 
       function fetchBuild(cb) {
