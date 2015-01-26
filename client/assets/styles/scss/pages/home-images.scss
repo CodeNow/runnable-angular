@@ -90,53 +90,6 @@
   width: 330px;
 }
 
-.ui-header {
-  background: $gray-lightest;
-  border-bottom: 1px solid rgba($black,.1);
-  border-radius: 3px 3px 0 0;
-  height: 30px;
-  line-height: 30px;
-  padding: 4px 6px 0 3px;
-  position: relative;
-
-  .btn-group {
-    float: left;
-  }
-
-  .btn {
-    color: $gray-lighter;
-    cursor: default;
-    height: 21px;
-    padding: 0 2px;
-  }
-
-  .icons-arrow-back {
-    height: 21px;
-    width: 21px;
-  }
-
-  .btn + .btn .icons-arrow-back {
-    transform: rotate3d(0,0,1,180deg);
-  }
-
-  .icons-octocat {
-    color: $gray-lighter;
-    height: 19px;
-    margin: 0 3px;
-    width: 18px;
-  }
-
-  .input-group {
-    height: 21px;
-    left: 6px;
-  }
-
-  .input {
-    background: transparent;
-    height: 21px;
-  }
-}
-
 .pull-body {
   padding: 18px 6px;
   position: relative;
@@ -350,11 +303,12 @@
 // ui
 .img-ui {
   background: $white;
-  border: 1px solid rgba($black,.1);
+  border: 1px solid rgba($black,.15);
   border-radius: 6px;
   box-shadow: 0 0 30px rgba($black,.06); // same as popovers
   margin: 60px auto 0;
-  width: 692px;
+  overflow: hidden;
+  width: 808px;
 }
 
 .ui-wrapper {
@@ -362,6 +316,7 @@
 
   // nav
   .global-sidebar {
+    border-bottom-left-radius: 6px;
     height: 100%;
     padding: 6px;
     width: 210px;
@@ -385,17 +340,24 @@
     background: $purple-dark;
     border-bottom-right-radius: 6px;
     overflow: visible;
+    width: calc(100% - 210px);
   }
 
   .box-sidebar {
     background: $white;
     height: 100%;
     padding: 0;
-    width: 210px;
+    width: 240px;
+  }
+
+  .icons-repository {
+    height: 45px;
+    width: 45px;
   }
 
   .repository-group-text {
     border: 0;
+    padding: 24px 15px 24px 45px;
 
     &:hover,
     &:active {
@@ -405,8 +367,78 @@
 
   // popover
   .popover {
-    left: 175px;
-    top: 12px;
+    left: -18px;
+    top: 115px;
+  }
+}
+
+.ui-header {
+  background: $gray-lightest;
+  border-bottom: 1px solid rgba($black,.1);
+  border-radius: 3px 3px 0 0;
+  height: 30px;
+  line-height: 30px;
+  padding: 4px 6px 0 3px;
+  position: relative;
+
+  .btn-group {
+    float: left;
+  }
+
+  .btn {
+    color: $gray-lighter;
+    cursor: default;
+    height: 21px;
+    padding: 0 2px;
+  }
+
+  .icons-arrow-back {
+    height: 21px;
+    width: 21px;
+  }
+
+  .btn + .btn .icons-arrow-back {
+    transform: rotate3d(0,0,1,180deg);
+  }
+
+  .ui-favicon {
+    color: $gray-lighter;
+    height: 19px;
+    margin: 0 3px;
+    width: 18px;
+
+    &.favicon-sm {
+      height: 15px;
+      margin: 2px 3px;
+      opacity: .75;
+      width: 15px;
+    }
+  }
+
+  .input-group {
+    height: 21px;
+    left: 6px;
+  }
+
+  .input {
+    background: transparent;
+    font-size: 12px;
+    height: 21px;
+    line-height: 21px;
+  }
+}
+
+.ui-views {
+  height: 100%;
+  width: calc(100% - 240px);
+
+  .active-panel {
+    height: 100%;
+  }
+
+  .pre {
+    border-bottom-right-radius: 6px;
+    font-size: 12px !important;
   }
 }
 

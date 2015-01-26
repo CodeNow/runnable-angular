@@ -62,13 +62,15 @@ p.p.row Link boxes to prototype any architecture through environment variables.
                 xlink:href = "#icons-arrow-back"
               )
         label.input-group
-          svg.iconnables.icons-octocat
-            use(
-              xlink:href = "#icons-octocat"
-            )
+          img.ui-favicon.favicon-sm(
+            height = "18"
+            ng-src = "/build/images/favicon.png"
+            width = "18"
+          )
           input.input.no-touching(
             readonly
             select-all
+            value = "runnable.io"
           )
     .ui-wrapper
       .sidebar.global-sidebar
@@ -98,7 +100,13 @@ p.p.row Link boxes to prototype any architecture through environment variables.
                     xlink:href = "#icons-branch"
                   )
                 | master
-        .popover.right.popover-repository-toggle.in
+              p.repository-description.clearfix
+                svg.iconnables.icons-commit
+                  use(
+                    xlink:href = "#icons-commit"
+                  )
+                | Stopping the closing of this popover
+        .popover.bottom.popover-repository-toggle.in
           .arrow
           h3.popover-title
             .btn.btn-select.text-overflow
@@ -113,29 +121,43 @@ p.p.row Link boxes to prototype any architecture through environment variables.
                 )
           ul.list.popover-list.toggle-group
             li.list-item.popover-list-item.toggle-group-item
-              .toggle-group-title commit message
+              .toggle-group-title Stopping the closing of this popover
               .toggle-group-detail.clearfix
-                small.small author—5 days ago
+                small.small Nathan219—6 days ago
                 a.small.link-text(
                   ng-href = "{{ commit.attrs.html_url }}"
                   ng-click = "$event.stopPropagation()"
                   target = "_blank"
                 ) 98sb2o
             li.list-item.popover-list-item.toggle-group-item
-              .toggle-group-title commit message
+              .toggle-group-title Merge pull request #409
               .toggle-group-detail.clearfix
-                small.small author—5 days ago
+                small.small tjmehta—8 days ago
                 a.small.link-text(
                   ng-href = "{{ commit.attrs.html_url }}"
                   ng-click = "$event.stopPropagation()"
                   target = "_blank"
-                ) 98sb2o
+                ) k0das2
             li.list-item.popover-list-item.toggle-group-item
-              .toggle-group-title commit message
+              .toggle-group-title remove build leak in tab cache
               .toggle-group-detail.clearfix
-                small.small author—5 days ago
+                small.small SomeKittens—10 days ago
                 a.small.link-text(
                   ng-href = "{{ commit.attrs.html_url }}"
                   ng-click = "$event.stopPropagation()"
                   target = "_blank"
-                ) 98sb2o
+                ) 261as0
+        .views.ui-views
+          .active-panel.ace-runnable-dark
+            pre.pre.logs
+              | Step 6 : RUN date
+              | ---> Running in b4b6
+              | ---> f01a
+              | Remove intermediate container b4b6
+              | Step 7 : CMD npm start
+              | ---> Running in 62f3
+              | ---> 0b30
+              | Remove intermediate container 62f3
+              | Successfully built 0b30
+              |
+              .text-green Build completed successfully!
