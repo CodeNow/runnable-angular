@@ -71,20 +71,27 @@ require('app')
  */
 function primus(
   $log,
-  configAPIHost,
-  $rootScope
+  $rootScope,
+  $window,
+  configAPIHost
 ) {
-
   var url = configAPIHost;
-
   var conn = new RunnablePrimus(url);
+  var connStartTime = new Date();
+
+  if ($window.heap) {
+    conn.on('open', function () {
+      var delay = new Date().getTime() - connStartTime.getTime();
+      $log('connection open, delay: ', delay);
+      $window.heap.track('primus-connection-open', {delay: delay});
+    });
+  }
 
   conn.on('data', function (data) {
     if (data.error) {
       $log.warn(data.error);
     }
   });
-
   return conn;
 }
 
