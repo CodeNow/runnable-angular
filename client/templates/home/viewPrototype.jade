@@ -1,22 +1,13 @@
 .row.clearfix
   .col
     h2.h2.header-thin JSFiddle for Full-stack Applications
-    p.p Run full-stack experiments through a terminal and file editor in the browser.
-.row
-  .col.clearfix.ace-tm.ace-runnable-dark
+    p.p Run full-stack experiments through a terminal and file editor in the browser. Link boxes to prototype any architecture through environment variables.
+.row.clearfix
+  .col.col-50.ace-tm.ace-runnable-dark.clearfix
     pre.pre.img-workflow.img-workflow-terminal(
       tabindex = "0"
-    ) root@id:/mysql#
-      img.img(
-        height = "60"
-        ng-src = "/build/images/home/icons/icons-mysql.svg"
-        width = "60"
-      )
-    .img-workflow-link
-      svg.iconnables.icons-link
-        use(
-          xlink:href = "#icons-link"
-        )
+    ) root@id:/database#
+  .col.col-50.ace-tm.ace-runnable-dark.clearfix
     .img-workflow.img-workflow-editor.ace-tm.ace-runnable-dark.clearfix
       ul.file-tree
         li.folder
@@ -41,12 +32,6 @@
             end
           end
         end
-      img.img(
-        height = "60"
-        ng-src = "/build/images/home/icons/icons-rails.svg"
-        width = "60"
-      )
-p.p.row Link boxes to prototype any architecture through environment variables.
 .row
   .img-ui
     .ui-header
@@ -75,7 +60,7 @@ p.p.row Link boxes to prototype any architecture through environment variables.
     .ui-wrapper
       .sidebar.global-sidebar
         h2.sub-header Your Servers
-        ul.box-group
+        ul.box-group.no-touching
           li.box-group-item.btn.white.running.expanded.active
             a.box-item-name Web
             span.icons-status
@@ -87,7 +72,7 @@ p.p.row Link boxes to prototype any architecture through environment variables.
               span.icons-status.running
       .content
         .sidebar.box-sidebar
-          ul.list.repository-group
+          ul.list.repository-group.no-touching
             li.list-item.repository-group-item.repository-group-text
               svg.iconnables.icons-repository
                 use(

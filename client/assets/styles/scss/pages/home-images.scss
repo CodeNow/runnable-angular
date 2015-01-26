@@ -181,37 +181,21 @@
   border: 1px solid rgba($black,.1);
   border-bottom: 0;
   border-radius: 6px 6px 0 0;
-  float: left;
   height: 150px;
   margin: 60px auto 0;
   overflow: visible;
   position: relative;
   width: 300px;
 
-  &:last-child {
-    float: right;
-  }
-
   &::before {
     background: rgba($black,.15);
-    bottom: -2px;
+    bottom: 0;
     content: '';
     display: block;
-    height: 2px;
+    height: 1px;
     margin: 0 auto;
     position: absolute;
-    width: 420px;
-  }
-
-  .img {
-    border-radius: 50%;
-    bottom: -30px;
-    display: block;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    z-index: 1;
+    width: 360px;
   }
 }
 
@@ -229,7 +213,7 @@
   }
 
   &::before {
-    left: -60px;
+    left: -30px;
   }
 
   &::after {
@@ -249,7 +233,7 @@
 .img-workflow-editor {
 
   &::before {
-    right: -60px;
+    right: -30px;
   }
 
   .file-tree,
@@ -276,27 +260,6 @@
     color: #ffafb7; // pink
     font-size: 10px !important;
     height: 100%;
-  }
-}
-
-// .img-workflow-link
-.img-workflow-link {
-  background: $green;
-  border-radius: 50%;
-  bottom: -18px;
-  color: $white;
-  height: 36px;;
-  left: 0;
-  margin: 0 auto;
-  position: absolute;
-  right: 0;
-  width: 36px;
-  z-index: 1;
-
-  .icons-link {
-    height: 100%;
-    padding: 6px;
-    width: 100%;
   }
 }
 

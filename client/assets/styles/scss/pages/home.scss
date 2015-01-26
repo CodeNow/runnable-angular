@@ -245,16 +245,11 @@
 
 // section.feature.feature-protype
 .feature-protype {
+  margin: 0 auto;
+  max-width: 960px;
 
   .h2 {
     margin-top: 30px;
-  }
-
-  .col {
-    float: none;
-    margin: 0 auto;
-    max-width: 690px;
-    position: relative;
   }
 
   .p.row {
