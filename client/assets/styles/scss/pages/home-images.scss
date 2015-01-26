@@ -49,7 +49,7 @@
   box-shadow: 0 0 30px rgba($black,.06); // same as popovers
   color: #4d4d4d; // osx
   height: 66px;
-  margin: 30px auto 0;
+  margin: 0 auto;
   padding: 15px;
   width: 330px;
 
@@ -442,7 +442,7 @@
   height: 210px;
   margin: 30px auto 0;
   padding: 9px;
-  width: 480px;
+  width: 600px;
 
   &:focus {
     outline: 0;

@@ -60,7 +60,7 @@
     font-family: 'Source Code Pro', monospace !important;
     line-height: 1;
     margin: 9px auto 0;
-    opacity: .75;
+    opacity: .6;
   }
 
   // .hr
@@ -242,16 +242,35 @@
 
   .header-thin {
     line-height: 1.2;
-    margin: 30px auto 0;
+    margin: 0 auto;
     max-width: 390px;
   }
 
-  .row:last-child {
-    margin-top: 120px;
+  .row {
+    margin-bottom: 60px;
 
-    > .img {
-      display: block;
-      margin: 0 auto 9px;
+    &:first-child {
+
+      .h3 {
+        margin-top: 45px;
+      }
+    }
+
+    &:nth-child(2) {
+
+      .h3 {
+        margin-top: 81px;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+      margin-top: 90px;
+
+      > .img {
+        display: block;
+        margin: 0 auto;
+      }
     }
   }
 }

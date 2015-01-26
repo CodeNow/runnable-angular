@@ -1,5 +1,27 @@
 .row.clearfix
   .col.col-50
+    h3.h3.header-thin We’ll spin up a server for every push made to your code
+  .col.col-50
+    .img-notification
+      img.img(
+        height = "30"
+        src = "/build/images/logos/logo-icon-slack.svg"
+        width = "30"
+      )
+      h4.h4 New message in #front-end
+      p.p Runnabot: Your staging server is now running tjmehta's changes
+    .img-notification
+      img.img(
+        height = "30"
+        src = "/build/images/logos/logo-icon-hipchat.svg"
+        width = "30"
+      )
+      h4.h4 Runnabot
+      p.p Your staging server is now running SomeKitten's changes
+.row.clearfix
+  .col.col-50
+    h3.h3.header-thin Launch clusters straight from Github
+  .col.col-50
     .img-pull
       .ui-header
         .btn-group
@@ -41,28 +63,9 @@
           p.p The latest push on this PR is ready on #{''}
             a.link.web-link your server
             | .
-    h3.h3.header-thin Launch clusters straight from Github
-  .col.col-50
-    .img-notification
-      img.img(
-        height = "30"
-        src = "/build/images/logos/logo-icon-slack.svg"
-        width = "30"
-      )
-      h4.h4 New message in #front-end
-      p.p Runnabot: Your staging server is now running tjmehta's changes
-    .img-notification
-      img.img(
-        height = "30"
-        src = "/build/images/logos/logo-icon-hipchat.svg"
-        width = "30"
-      )
-      h4.h4 Runnabot
-      p.p Your staging server is now running SomeKitten's changes
-    h3.h3.header-thin We’ll spin up a server for every push made to your code
 .row
   img.img(
-    height = "90"
+    height = "45"
     src = "/build/images/home/soon-issue-tracking.svg"
     width = "240"
   )
