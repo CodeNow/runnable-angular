@@ -79,13 +79,17 @@ function primus(
   var conn = new RunnablePrimus(url);
   var connStartTime = new Date();
 
-  if ($window.heap) {
+  /**
+   * TODO: script load timing
+  if ($window.NREUM) {
     conn.on('open', function () {
       var delay = new Date().getTime() - connStartTime.getTime();
-      $log('connection open, delay: ', delay);
-      $window.heap.track('primus-connection-open', {delay: delay});
+      if (!$window.NREUM) {
+        $window.NREUM.inlineHit('primus-connection-open', 0, delay);
+      }
     });
   }
+  */
 
   conn.on('data', function (data) {
     if (data.error) {

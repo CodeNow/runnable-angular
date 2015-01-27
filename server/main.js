@@ -1,10 +1,10 @@
 'use strict';
 
-var express     = require('express');
-var path        = require('path');
+var app         = require('server/app');
 var compression = require('compression');
 var config      = require('server/config/' + (process.env.NODE_ENV || 'development'));
-var app         = require('server/app');
+var express     = require('express');
+var path        = require('path');
 var version     = require('../package').version;
 
 app.set('port', process.env.PORT || 3000);
