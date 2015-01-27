@@ -1,245 +1,3 @@
-// configuration
-.img-configuration {
-  margin: 120px auto 30px;
-  width: 414px;
-
-  .icons-col {
-    float: left;
-    position: relative;
-    width: 66px;
-
-    &:nth-child(3) {
-      height: 150px;
-      width: 150px;
-    }
-  }
-
-  .icons-img {
-    display: block;
-    filter: grayscale(100%);
-    margin: 6px auto;
-    opacity: .3;
-
-    &:only-child {
-      margin: 42px auto;
-    }
-  }
-
-  .icons-repository {
-    color: $gray-lighter;
-    display: block;
-    float: left;
-    height: 154px;
-    margin: 0 auto;
-    width: 120px;
-  }
-
-  .icons-octocat {
-    color: $purple;
-    height: 150px;
-    width: 150px;
-  }
-}
-
-// notifications
-.img-notification {
-  background: #f0f0f0; // osx
-  border: 1px solid rgba($black,.1);
-  border-radius: 6px;
-  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
-  color: #4d4d4d; // osx
-  height: 66px;
-  margin: 0 auto;
-  padding: 15px;
-  width: 330px;
-
-  .img {
-    float: left;
-    margin-right: 12px;
-  }
-
-  .h4,
-  .p {
-    font-size: 12px;
-  }
-
-  .h4 {
-    font-weight: 500;
-    margin: -6px 0 3px;
-  }
-
-  .p {
-    font-weight: 300;
-    height: 36px;
-    overflow: hidden;
-    text-align: left;
-  }
-}
-
-// pull request
-.img-pull {
-  background: $white;
-  border: 1px solid rgba($black,.1);
-  border-radius: 3px;
-  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
-  margin: 0 auto;
-  width: 330px;
-}
-
-.pull-body {
-  padding: 18px 6px;
-  position: relative;
-
-  .green,
-  .well,
-  .p {
-    border-radius: 3px;
-    font-size: 16px;
-    margin: 0;
-    text-align: left;
-  }
-
-  .green {
-    display: inline-block;
-    font-size: 12px;
-    opacity: .75;
-    padding-left: 0;
-  }
-
-  .icons-pull-request {
-    float: left;
-    height: 22px;
-    margin-right: 3px;
-    width: 24px;
-  }
-
-  .img {
-    border-radius: 3px;
-    display: block;
-    left: -39px;
-    position: absolute;
-    top: 6px;
-  }
-
-  .well {
-    background: $white;
-    border: 1px solid rgba($black,.15);
-    border-radius: 3px;
-    box-shadow: 0 0 30px rgba($black,.06); // same as popovers
-    color: $gray-darker;
-    margin: 6px 0 0 -30px;
-    padding: 0;
-    position: relative;
-    width: 390px;
-
-    &::before,
-    &::after {
-      border-bottom: 10px solid transparent;
-      border-right: 10px solid #eaeaea; // .gray on white;
-      border-top: 10px solid transparent;
-      content: '';
-      display: block;
-      height: 0;
-      left: -10px;
-      position: absolute;
-      top: 9px;
-      width: 0;
-    }
-
-    &::before {
-      border-right: 11px solid rgba($gray-darker,.3);
-      left: -11px;
-    }
-
-    .gray {
-      border: 0;
-      border-bottom: 1px solid rgba($black,.1);
-      color: $gray-darker;
-      padding-left: 9px;
-    }
-
-    .p {
-      max-width: none;
-      padding: 9px 9px 12px;
-    }
-  }
-
-  .web-link {
-    color: $blue;
-    cursor: default;
-    font-weight: 500;
-    text-decoration: underline;
-  }
-}
-
-// workflow
-.img-workflow {
-  border: 1px solid rgba($black,.1);
-  border-radius: 6px;
-  float: left;
-  height: 150px;
-  margin: 60px 30px 0;
-  overflow: visible;
-  position: relative;
-  width: 300px;
-}
-
-// terminal
-.img-workflow-terminal {
-  padding: 15px;
-
-  &:focus {
-    outline: 0;
-
-    &::after {
-      animation: cursor-blink 1s infinite;
-      visibility: visible;
-    }
-  }
-
-  &::after {
-    background: $white;
-    content: '';
-    display: inline-block;
-    height: 18px;
-    left: 3px;
-    position: relative;
-    top: 3px;
-    visibility: hidden;
-    width: 9px;
-  }
-}
-
-// editor
-.img-workflow-editor {
-
-  .file-tree,
-  .ace-editor {
-    float: left;
-    height: 100%;
-    width: 50%;
-  }
-
-  .file-tree {
-    background: $white;
-    border-radius: 6px;
-    border-right: 1px solid rgba($black,.1);
-    padding: 6px 3px;
-  }
-
-  .folder,
-  .file {
-    cursor: default;
-  }
-
-  .pre {
-    border-radius: 0 6px 6px 0;
-    color: #ffafb7; // pink
-    font-size: 10px !important;
-    height: 100%;
-  }
-}
-
 // ui
 .img-ui {
   background: $white;
@@ -445,6 +203,310 @@
 
 .ui-shape-circle {
   border-radius: 50%;
+}
+
+// configuration
+.img-configuration {
+  margin: 120px auto 30px;
+  width: 414px;
+
+  .icons-col {
+    float: left;
+    position: relative;
+    width: 66px;
+
+    &:nth-child(3) {
+      height: 150px;
+      width: 150px;
+    }
+  }
+
+  .icons-img {
+    display: block;
+    filter: grayscale(100%);
+    margin: 6px auto;
+    opacity: .3;
+
+    &:only-child {
+      margin: 42px auto;
+    }
+  }
+
+  .icons-repository {
+    color: $gray-lighter;
+    display: block;
+    float: left;
+    height: 154px;
+    margin: 0 auto;
+    width: 120px;
+  }
+
+  .icons-octocat {
+    color: $purple;
+    height: 150px;
+    width: 150px;
+  }
+}
+
+// notifications
+.img-notification {
+  background: #f0f0f0; // osx
+  border: 1px solid rgba($black,.1);
+  border-radius: 6px;
+  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
+  color: #4d4d4d; // osx
+  height: 66px;
+  margin: 0 auto;
+  padding: 15px;
+  width: 330px;
+
+  .img {
+    float: left;
+    margin-right: 12px;
+  }
+
+  .h4,
+  .p {
+    font-size: 12px;
+  }
+
+  .h4 {
+    font-weight: 500;
+    margin: -6px 0 3px;
+  }
+
+  .p {
+    font-weight: 300;
+    height: 36px;
+    overflow: hidden;
+    text-align: left;
+  }
+}
+
+// pull request
+.img-pull {
+  background: $white;
+  border: 1px solid rgba($black,.1);
+  border-radius: 3px;
+  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
+  margin: 0 auto;
+  width: 330px;
+}
+
+.pull-body {
+  padding: 18px 6px;
+  position: relative;
+
+  .green,
+  .well,
+  .p {
+    border-radius: 3px;
+    font-size: 16px;
+    margin: 0;
+    text-align: left;
+  }
+
+  .green {
+    display: inline-block;
+    font-size: 12px;
+    opacity: .75;
+    padding-left: 0;
+  }
+
+  .icons-pull-request {
+    float: left;
+    height: 22px;
+    margin-right: 3px;
+    width: 24px;
+  }
+
+  .img {
+    border-radius: 3px;
+    display: block;
+    left: -39px;
+    position: absolute;
+    top: 6px;
+  }
+
+  .well {
+    background: $white;
+    border: 1px solid rgba($black,.15);
+    border-radius: 3px;
+    box-shadow: 0 0 30px rgba($black,.06); // same as popovers
+    color: $gray-darker;
+    margin: 6px 0 0 -30px;
+    padding: 0;
+    position: relative;
+    width: 390px;
+
+    &::before,
+    &::after {
+      border-bottom: 10px solid transparent;
+      border-right: 10px solid #eaeaea; // .gray on white;
+      border-top: 10px solid transparent;
+      content: '';
+      display: block;
+      height: 0;
+      left: -10px;
+      position: absolute;
+      top: 9px;
+      width: 0;
+    }
+
+    &::before {
+      border-right: 11px solid rgba($gray-darker,.3);
+      left: -11px;
+    }
+
+    .gray {
+      border: 0;
+      border-bottom: 1px solid rgba($black,.1);
+      color: $gray-darker;
+      padding-left: 9px;
+    }
+
+    .p {
+      max-width: none;
+      padding: 9px 9px 12px;
+    }
+  }
+
+  .web-link {
+    color: $blue;
+    cursor: default;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+}
+
+// workflow labels
+.workflow-toggle {
+  display: flex;
+  margin: 30px auto 0;
+  width: 570px;
+}
+
+.workflow-toggle-item {
+  border: 1px solid rgba($black,.15);
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  width: 25%;
+
+  + .workflow-toggle-item {
+    margin-left: 12px;
+  }
+
+  &:hover,
+  &:active,
+  &.active {
+    border-color: $blue;
+  }
+}
+
+.workflow-label {
+  font-size: 14px;
+  padding: 3px 0 9px;
+  text-align: center;
+}
+
+// workflow
+.img-workflow {
+  border-radius: 6px;
+  height: 60px;
+  margin: 12px auto 3px;
+  overflow: hidden;
+  position: relative;
+  width: 81px;
+}
+
+// terminal
+.img-workflow-terminal {
+  font-size: 12px !important;
+  padding: 6px;
+
+  &::after {
+    background: $white;
+    content: '';
+    display: inline-block;
+    height: 13px;
+    left: 3px;
+    position: relative;
+    top: 3px;
+    width: 7px;
+  }
+}
+
+// editor
+.img-workflow-editor {
+
+  .file-tree {
+    border: 1px solid $purple;
+    border-radius: 6px 0 0 6px;
+    border-right: 0;
+    color: $purple;
+    float: left;
+    height: 100%;
+    padding: 2px 12px;
+    width: 50%;
+
+    // remove indent
+    li {
+      text-indent: 0;
+
+      // hide folder
+      &.folder::after {
+        display: none;
+      }
+    }
+  }
+
+  .pre {
+    color: #ffafb7; // pink
+    font-size: 10px !important;
+    height: 100%;
+  }
+}
+
+// commit
+.img-workflow-commits {
+  background: $purple-dark;
+  color: $white;
+  padding: 6px;
+
+  .icons-commit {
+    height: 45%;
+    width: 50%;
+
+    &:nth-child(2) {
+      color: $purple-logo;
+    }
+  }
+}
+
+// web
+.img-workflow-web {
+  border: 1px solid rgba($blue,.6);
+  padding: 6px;
+
+  .clearfix {
+    display: block;
+  }
+
+  .ui-views-column {
+    float: left;
+    height: 46px;
+    margin: 0 3px 0 0;
+    width: 50%;
+  }
+
+  .ui-views-row {
+    background: rgba($blue,.1);
+    float: right;
+    height: 21px;
+    margin: 0 0 4px;
+    width: 45%;
+  }
 }
 
 // docker

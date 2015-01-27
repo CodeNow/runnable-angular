@@ -117,33 +117,57 @@
           .ui-views-column
             .ui-shape-circle
 .row.clearfix
+  ul.list.workflow-toggle
+    li.list-item.workflow-toggle-item.ace-tm.ace-runnable-dark
+      pre.pre.img-workflow.img-workflow-terminal root@id:
+      .workflow-label Terminal
+    li.list-item.workflow-toggle-item
+      .img-workflow.img-workflow-editor.clearfix
+        ul.file-tree
+          li.folder
+            svg.iconnables.filetypes.icons-folder
+              use(
+                xlink:href = "#icons-folder"
+              )
+          li.file
+            svg.iconnables.filetypes.icons-file
+              use(
+                xlink:href = "#icons-file"
+              )
+          li.file
+            svg.iconnables.filetypes.icons-file
+              use(
+                xlink:href = "#icons-file"
+              )
+        .ace-tm.ace-runnable-dark
+          pre.pre class createA
+      .workflow-label File Editor
+    li.list-item.workflow-toggle-item
+      .img-workflow.img-workflow-commits
+        svg.iconnables.icons-commit
+          use(
+            xlink:href = "#icons-commit"
+          )
+        svg.iconnables.icons-commit
+          use(
+            xlink:href = "#icons-commit"
+          )
+        svg.iconnables.icons-commit
+          use(
+            xlink:href = "#icons-commit"
+          )
+        svg.iconnables.icons-commit
+          use(
+            xlink:href = "#icons-commit"
+          )
+      .workflow-label Toggle Commits
+    li.list-item.workflow-toggle-item.active
+      .img-workflow.img-workflow-web.ui-views
+        .clearfix
+          .ui-views-column
+          .ui-views-row
+          .ui-views-row
+      .workflow-label Web View
   h2.h2.header-thin JSFiddle for Full-stack Applications
   p.p Run full-stack experiments through a terminal and file editor in the browser. Link boxes to prototype any architecture through environment variables.
 .row.ace-tm.ace-runnable-dark.clearfix
-  pre.pre.img-workflow.img-workflow-terminal(
-    tabindex = "0"
-  ) root@id:/database#
-  .img-workflow.img-workflow-editor.ace-tm.ace-runnable-dark.clearfix
-    ul.file-tree
-      li.folder
-        svg.iconnables.filetypes.icons-folder
-          use(
-            xlink:href = "#icons-folder"
-          )
-        span.item-name concerns
-      li.file
-        svg.iconnables.filetypes.icons-file
-          use(
-            xlink:href = "#icons-file"
-          )
-        span.item-name controller.rb
-    pre.pre.
-      class createA
-        def change
-          create_table
-            t.string
-            t.text
-            t.timestamps
-          end
-        end
-      end
