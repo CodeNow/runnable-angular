@@ -72,15 +72,14 @@ require('app')
 function primus(
   $log,
   $rootScope,
-  $window,
   configAPIHost
 ) {
   var url = configAPIHost;
   var conn = new RunnablePrimus(url);
-  var connStartTime = new Date();
 
   /**
    * TODO: script load timing
+  var connStartTime = new Date();
   if ($window.NREUM) {
     conn.on('open', function () {
       var delay = new Date().getTime() - connStartTime.getTime();
