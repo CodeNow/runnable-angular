@@ -1,27 +1,19 @@
 .img-ui
   .ui-header
-      .btn-group
-        button.btn.btn-xs
-          svg.iconnables.icons-arrow-back
-            use(
-              xlink:href = "#icons-arrow-back"
-            )
-        button.btn.btn-xs
-          svg.iconnables.icons-arrow-back
-            use(
-              xlink:href = "#icons-arrow-back"
-            )
-      label.input-group
-        img.ui-favicon.favicon-sm(
-          height = "18"
-          ng-src = "/build/images/favicon.png"
-          width = "18"
+    .btn-group
+      svg.btn.btn-xs.iconnables.icons-arrow-back
+        use(
+          xlink:href = "#icons-arrow-back"
         )
-        input.input.no-touching(
-          readonly
-          select-all
-          value = "runnable.io"
+      svg.btn.btn-xs.iconnables.icons-arrow-back
+        use(
+          xlink:href = "#icons-arrow-back"
         )
+    input.input.no-touching(
+      readonly
+      select-all
+      value = "runnable.io"
+    )
   .ui-wrapper
     .sidebar.global-sidebar
       h2.sub-header Your Servers
@@ -109,6 +101,11 @@
         ng-if = "workflowToggle === 1"
       )
         pre.pre.
+          root@id:
+      .views.active-panel.ace-tm.ace-runnable-dark(
+        ng-if = "workflowToggle === 2"
+      )
+        pre.pre.
           &lt;!DOCTYPE html&gt;
           &lt;html&gt;
           &lt;head&gt;
@@ -116,11 +113,6 @@
           &lt;/head&gt;
           &lt;body&gt;
           &lt;/body&gt;
-      .views.active-panel.ace-runnable-dark(
-        ng-if = "workflowToggle === 2"
-      )
-        pre.pre.
-          root@id:
       .views.ui-views(
         ng-if = "workflowToggle === 4"
       )

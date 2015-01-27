@@ -74,6 +74,11 @@
     margin: 0;
     top: 0;
   }
+
+  // views override
+  .views {
+    width: calc(100% - 240px) !important;
+  }
 }
 
 .ui-header {
@@ -89,46 +94,32 @@
     float: left;
   }
 
-  .btn {
+  .icons-arrow-back {
     color: $gray-lighter;
     cursor: default;
     height: 21px;
     padding: 0 2px;
-  }
-
-  .icons-arrow-back {
-    height: 21px;
     width: 21px;
-  }
 
-  .btn + .btn .icons-arrow-back {
-    transform: rotate3d(0,0,1,180deg);
-  }
-
-  .ui-favicon {
-    color: $gray-lighter;
-    height: 19px;
-    margin: 0 3px;
-    width: 18px;
-
-    &.favicon-sm {
-      height: 15px;
-      margin: 2px 3px;
-      opacity: .75;
-      width: 15px;
+    + .icons-arrow-back {
+      transform: rotate3d(0,0,1,180deg);
     }
   }
 
-  .input-group {
-    height: 21px;
-    left: 6px;
-  }
-
   .input {
-    background: transparent;
+    background: url(/build/images/favicon.png) no-repeat $white;
+    background-position: 3px center;
+    background-size: 12px 12px;
+    float: right;
     font-size: 12px;
     height: 21px;
     line-height: 21px;
+    padding-left: 18px;
+    width: calc(100% - 47px);
+
+    &.favicon-octocat {
+      background-image: url(/build/images/icons/github/icons-octocat.svg);
+    }
   }
 }
 
@@ -136,7 +127,6 @@
   background: rgba($blue,.05);
   height: 100%;
   padding: 15px;
-  width: calc(100% - 240px);
 
   .ui-views-row,
   .ui-views-column {

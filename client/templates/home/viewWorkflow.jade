@@ -16,25 +16,18 @@
     .img-pull
       .ui-header
         .btn-group
-          button.btn.btn-xs
-            svg.iconnables.icons-arrow-back
-              use(
-                xlink:href = "#icons-arrow-back"
-              )
-          button.btn.btn-xs
-            svg.iconnables.icons-arrow-back
-              use(
-                xlink:href = "#icons-arrow-back"
-              )
-        label.input-group
-          svg.iconnables.icons-octocat.ui-favicon
+          svg.btn.btn-xs.iconnables.icons-arrow-back
             use(
-              xlink:href = "#icons-octocat"
+              xlink:href = "#icons-arrow-back"
             )
-          input.input.no-touching(
-            readonly
-            select-all
-          )
+          svg.btn.btn-xs.iconnables.icons-arrow-back
+            use(
+              xlink:href = "#icons-arrow-back"
+            )
+        input.input.favicon-octocat.no-touching(
+          readonly
+          select-all
+        )
       .pull-body.clearfix
         .btn-xs.green
           svg.iconnables.icons-pull-request
