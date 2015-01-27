@@ -76,7 +76,7 @@
                   xlink:href = "#icons-commit"
                 )
               | Stopping the closing of this popover
-      .popover.bottom.popover-repository-toggle.in
+      .popover.bottom.popover-repository-toggle
         .arrow.white
         ul.list.popover-list.toggle-group
           li.list-item.popover-list-item.toggle-group-item.no-touching
@@ -122,25 +122,9 @@
       pre.pre.img-workflow.img-workflow-terminal root@id:
       .workflow-label Terminal
     li.list-item.workflow-toggle-item
-      .img-workflow.img-workflow-editor.clearfix
-        ul.file-tree
-          li.folder
-            svg.iconnables.filetypes.icons-folder
-              use(
-                xlink:href = "#icons-folder"
-              )
-          li.file
-            svg.iconnables.filetypes.icons-file
-              use(
-                xlink:href = "#icons-file"
-              )
-          li.file
-            svg.iconnables.filetypes.icons-file
-              use(
-                xlink:href = "#icons-file"
-              )
-        .ace-tm.ace-runnable-dark
-          pre.pre class createA
+      .img-workflow.img-workflow-editor.ace-tm.ace-runnable-dark
+        pre.pre.
+          &lt;!DOCTYPE html&gt;
       .workflow-label File Editor
     li.list-item.workflow-toggle-item
       .img-workflow.img-workflow-commits

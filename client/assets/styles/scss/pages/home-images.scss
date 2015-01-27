@@ -406,7 +406,7 @@
 
 .workflow-label {
   font-size: 14px;
-  padding: 3px 0 9px;
+  padding-bottom: 12px;
   text-align: center;
 }
 
@@ -414,7 +414,7 @@
 .img-workflow {
   border-radius: 6px;
   height: 60px;
-  margin: 12px auto 3px;
+  margin: 12px auto;
   overflow: hidden;
   position: relative;
   width: 81px;
@@ -423,7 +423,7 @@
 // terminal
 .img-workflow-terminal {
   font-size: 12px !important;
-  padding: 6px;
+  padding: 6px 3px;
 
   &::after {
     background: $white;
@@ -438,34 +438,10 @@
 }
 
 // editor
-.img-workflow-editor {
-
-  .file-tree {
-    border: 1px solid $purple;
-    border-radius: 6px 0 0 6px;
-    border-right: 0;
-    color: $purple;
-    float: left;
-    height: 100%;
-    padding: 2px 12px;
-    width: 50%;
-
-    // remove indent
-    li {
-      text-indent: 0;
-
-      // hide folder
-      &.folder::after {
-        display: none;
-      }
-    }
-  }
-
-  .pre {
-    color: #ffafb7; // pink
-    font-size: 10px !important;
-    height: 100%;
-  }
+.img-workflow-editor .pre {
+  color: #ffafb7; // pink
+  font-size: 10px !important;
+  height: 100%;
 }
 
 // commit
