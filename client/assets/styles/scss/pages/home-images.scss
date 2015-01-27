@@ -123,20 +123,26 @@
   }
 }
 
-.ui-views {
+// editor view
+.ui-views.ace-tm > .pre {
+  color: #ffafb7; // pink
+}
+
+// web view
+.web-view {
   background: rgba($blue,.05);
   height: 100%;
   padding: 15px;
 
-  .ui-views-row,
-  .ui-views-column {
+  .web-view-row,
+  .web-view-column {
     background: rgba($blue,.1);
     border: 1px solid rgba($blue,.6);
     border-radius: 1px;
     position: relative;
   }
 
-  .ui-views-row {
+  .web-view-row {
     background: url(/build/images/home/features-ui-webview.svg) no-repeat rgba($blue,.1);
     height: 40%;
     margin: 3px 0;
@@ -150,7 +156,7 @@
     display: flex;
   }
 
-  .ui-views-column {
+  .web-view-column {
     flex: 1 1 auto;
     height: 90px;
     margin: 3px;
@@ -164,7 +170,7 @@
     }
   }
 
-  // ui stuff\
+  // ui stuff
   .btn {
     bottom: 15px;
     left: 0;
@@ -182,8 +188,8 @@
 }
 
 // shapes
-.ui-shape-circle,
-.ui-shape-square {
+.web-shape-circle,
+.web-shape-square {
   background: #f4fafe;
   border: 1px solid #aadcf8;
   height: 60px;
@@ -191,8 +197,114 @@
   width: 60px;
 }
 
-.ui-shape-circle {
+.web-shape-circle {
   border-radius: 50%;
+}
+
+// workflow labels
+.workflow-toggle {
+  display: flex;
+  margin: 30px auto 0;
+  width: 570px;
+}
+
+.workflow-toggle-item {
+  border: 1px solid rgba($black,.15);
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  width: 25%;
+
+  + .workflow-toggle-item {
+    margin-left: 12px;
+  }
+
+  &:hover,
+  &:active,
+  &.active {
+    border-color: $blue;
+  }
+}
+
+.workflow-label {
+  font-size: 14px;
+  padding-bottom: 12px;
+  text-align: center;
+}
+
+// workflow
+.img-workflow {
+  border-radius: 6px;
+  height: 60px;
+  margin: 12px auto;
+  overflow: hidden;
+  position: relative;
+  width: 81px;
+}
+
+// terminal
+.img-workflow-terminal {
+  font-size: 12px !important;
+  padding: 6px 3px;
+
+  &::after {
+    background: $white;
+    content: '';
+    display: inline-block;
+    height: 13px;
+    left: 3px;
+    position: relative;
+    top: 3px;
+    width: 7px;
+  }
+}
+
+// editor
+.img-workflow-editor .pre {
+  color: #ffafb7; // pink
+  font-size: 10px !important;
+  height: 100%;
+}
+
+// commit
+.img-workflow-commits {
+  background: $purple-dark;
+  color: $white;
+  padding: 6px;
+
+  .icons-commit {
+    height: 45%;
+    width: 50%;
+
+    &:nth-child(2) {
+      color: $purple-logo;
+    }
+  }
+}
+
+// web
+.img-workflow-web {
+  border: 1px solid rgba($blue,.6);
+  padding: 6px;
+
+  .clearfix {
+    display: block; // overwrite flex
+  }
+
+  .web-view-column {
+    float: left;
+    height: 46px;
+    margin: 0 3px 0 0;
+    width: 50%;
+  }
+
+  .web-view-row {
+    background: rgba($blue,.1);
+    float: right;
+    height: 21px;
+    margin: 0 0 4px;
+    width: 45%;
+  }
 }
 
 // configuration
@@ -366,112 +478,6 @@
     cursor: default;
     font-weight: 500;
     text-decoration: underline;
-  }
-}
-
-// workflow labels
-.workflow-toggle {
-  display: flex;
-  margin: 30px auto 0;
-  width: 570px;
-}
-
-.workflow-toggle-item {
-  border: 1px solid rgba($black,.15);
-  border-radius: 6px;
-  cursor: pointer;
-  overflow: hidden;
-  width: 25%;
-
-  + .workflow-toggle-item {
-    margin-left: 12px;
-  }
-
-  &:hover,
-  &:active,
-  &.active {
-    border-color: $blue;
-  }
-}
-
-.workflow-label {
-  font-size: 14px;
-  padding-bottom: 12px;
-  text-align: center;
-}
-
-// workflow
-.img-workflow {
-  border-radius: 6px;
-  height: 60px;
-  margin: 12px auto;
-  overflow: hidden;
-  position: relative;
-  width: 81px;
-}
-
-// terminal
-.img-workflow-terminal {
-  font-size: 12px !important;
-  padding: 6px 3px;
-
-  &::after {
-    background: $white;
-    content: '';
-    display: inline-block;
-    height: 13px;
-    left: 3px;
-    position: relative;
-    top: 3px;
-    width: 7px;
-  }
-}
-
-// editor
-.img-workflow-editor .pre {
-  color: #ffafb7; // pink
-  font-size: 10px !important;
-  height: 100%;
-}
-
-// commit
-.img-workflow-commits {
-  background: $purple-dark;
-  color: $white;
-  padding: 6px;
-
-  .icons-commit {
-    height: 45%;
-    width: 50%;
-
-    &:nth-child(2) {
-      color: $purple-logo;
-    }
-  }
-}
-
-// web
-.img-workflow-web {
-  border: 1px solid rgba($blue,.6);
-  padding: 6px;
-
-  .clearfix {
-    display: block;
-  }
-
-  .ui-views-column {
-    float: left;
-    height: 46px;
-    margin: 0 3px 0 0;
-    width: 50%;
-  }
-
-  .ui-views-row {
-    background: rgba($blue,.1);
-    float: right;
-    height: 21px;
-    margin: 0 0 4px;
-    width: 45%;
   }
 }
 

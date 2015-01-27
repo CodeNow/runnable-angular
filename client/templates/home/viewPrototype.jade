@@ -1,4 +1,6 @@
-.img-ui
+.img-ui(
+  ng-init = "workflowToggle = 1"
+)
   .ui-header
     .btn-group
       svg.btn.btn-xs.iconnables.icons-arrow-back
@@ -97,12 +99,12 @@
                 use(
                   xlink:href = "#icons-git"
                 )
-      .views.active-panel.ace-runnable-dark(
+      .views.ui-views.active-panel.ace-runnable-dark(
         ng-if = "workflowToggle === 1"
       )
         pre.pre.
           root@id:
-      .views.active-panel.ace-tm.ace-runnable-dark(
+      .views.ui-views.active-panel.ace-tm.ace-runnable-dark(
         ng-if = "workflowToggle === 2"
       )
         pre.pre.
@@ -113,25 +115,23 @@
           &lt;/head&gt;
           &lt;body&gt;
           &lt;/body&gt;
-      .views.ui-views(
+      .views.ui-views.web-view(
         ng-if = "workflowToggle === 4"
       )
-        .ui-views-row
+        .web-view-row
             button.btn.btn-xxs.blue.hover
         .clearfix
-          .ui-views-column
-          .ui-views-column
+          .web-view-column
+          .web-view-column
             button.btn.btn-xxs.blue.hover
-          .ui-views-column
+          .web-view-column
         .clearfix
-          .ui-views-column
-            .ui-shape-square
-          .ui-views-column
-            .ui-shape-circle
+          .web-view-column
+            .web-shape-square
+          .web-view-column
+            .web-shape-circle
 .row.clearfix
-  ul.list.workflow-toggle(
-    ng-init = "workflowToggle === 1"
-  )
+  ul.list.workflow-toggle
     li.list-item.workflow-toggle-item.ace-tm.ace-runnable-dark(
       ng-class = "{active: workflowToggle === 1}"
       ng-click = "workflowToggle = 1"
@@ -172,11 +172,11 @@
       ng-class = "{active: workflowToggle === 4}"
       ng-click = "workflowToggle = 4"
     )
-      .img-workflow.img-workflow-web.ui-views
+      .img-workflow.img-workflow-web.web-view
         .clearfix
-          .ui-views-column
-          .ui-views-row
-          .ui-views-row
+          .web-view-column
+          .web-view-row
+          .web-view-row
       .workflow-label Web View
   h2.h2.header-thin JSFiddle for Full-stack Applications
   p.p Run full-stack experiments through a terminal and file editor in the browser. Link boxes to prototype any architecture through environment variables.
