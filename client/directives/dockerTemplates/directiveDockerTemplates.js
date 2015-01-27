@@ -7,14 +7,12 @@ require('app')
  */
 function dockerTemplates(
   async,
-  determineActiveAccount,
   keypather,
   QueryAssist,
-  fetchUser,
-  $rootScope,
   $state,
   $stateParams,
-  user
+  pFetchUser,
+  errs
 ) {
   return {
     restrict: 'E',
@@ -123,26 +121,14 @@ function dockerTemplates(
           .go();
       }
 
-      async.waterfall([
-        determineActiveAccount,
-        function (activeAccount, cb) {
-          $scope.activeAccount = activeAccount;
-          cb();
-        },
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            cb();
-          });
-        },
-        function (cb) {
-          async.parallel([
-            fetchBuild,
-            fetchSeedContexts
-          ], cb);
-        }
-      ]);
+      pFetchUser.then(function(user) {
+        $scope.user = user;
+        // FIXME: blending of callbacks/promises
+        async.parallel([
+          fetchBuild,
+          fetchSeedContexts
+        ], errs.handler);
+      });
 
     }
   };
