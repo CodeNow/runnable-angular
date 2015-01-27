@@ -7,7 +7,6 @@ require('app')
  */
 function instanceEditPrimaryActions(
   async,
-  QueryAssist,
   $rootScope,
   $state,
   errs,

@@ -6,13 +6,8 @@ require('app')
  * @ngInject
  */
 function instanceBoxName(
-  async,
   getInstanceAltTitle,
-  getInstanceClasses,
-  QueryAssist,
-  $rootScope,
-  $stateParams,
-  user
+  getInstanceClasses
 ) {
   return {
     restrict: 'E',

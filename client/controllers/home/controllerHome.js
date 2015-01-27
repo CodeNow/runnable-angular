@@ -16,7 +16,6 @@ function ControllerHome(
   keypather,
   $localStorage,
   $location,
-  QueryAssist,
   $scope,
   $state,
   user,

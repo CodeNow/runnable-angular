@@ -9,7 +9,6 @@ require('app')
 function fileTree(
   async,
   keypather,
-  QueryAssist,
   fetchUser,
   $rootScope,
   $state,

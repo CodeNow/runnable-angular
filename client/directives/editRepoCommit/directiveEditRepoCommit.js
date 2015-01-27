@@ -9,7 +9,6 @@ function editRepoCommit(
   async,
   errs,
   fetchCommitData,
-  QueryAssist,
   fetchUser,
   keypather,
   $rootScope,

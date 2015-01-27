@@ -10,7 +10,6 @@ function repoList(
   debounce,
   errs,
   keypather,
-  QueryAssist,
   pFetchUser,
   fetchBuild,
   $rootScope,
