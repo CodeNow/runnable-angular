@@ -4,23 +4,15 @@ require('app')
   .factory('fetchGSDepInstances', fetchGSDepInstances);
 
 function fetchGSDepInstances(
-  fetchUser,
-  QueryAssist,
-  errs
+  fetchInstances
 ) {
+  // FIXME: redundant wrapper
   return function (cb) {
-    fetchUser(function (err, user) {
-      if (!user) { return cb(err); }
-      new QueryAssist(user, cb)
-        .wrapFunc('fetchInstances')
-        .query({
-          githubUsername: 'HelloRunnable'
-        })
-        .cacheFetch(function (instances, cached, cb) {
-          cb(err, instances);
-        })
-        .resolve(errs.handler)
-        .go();
-    });
+    fetchInstances({
+      githubUsername: 'HelloRunnable'
+    })
+    .then(function(instances) {
+      cb(null, instances);
+    }).catch(cb);
   };
 }
