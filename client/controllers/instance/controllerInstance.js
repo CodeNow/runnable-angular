@@ -71,7 +71,7 @@ function ControllerInstance(
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,
-      null
+      $stateParams.instanceName
     );
     instanceUpdatedPoller.start(data.instance);
   })
@@ -79,7 +79,7 @@ function ControllerInstance(
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,
-      $stateParams.instanceName
+      null
     );
     data.instance.state = {};
     $state.go('instance.home', {
