@@ -36,6 +36,26 @@
           a.box-item-cluster Redis-Staging
             span.icons-status.running
     .content
+      .box-header
+        h1.box-info
+          .box-name Web-Staging
+            span.icons-status.active.running
+          input.box-url(
+            readonly
+            value = "web-staging.runnable.io"
+          )
+        .secondary-actions
+          .btn.white.btn-action.no-touching
+            svg.iconnables.icons-fork
+              use(
+                xlink:href = "#icons-fork"
+              )
+            | Fork
+          .btn.white.btn-icon.btn-actions.no-touching
+            svg.iconnables.icons-gear
+              use(
+                xlink:href = "#icons-gear"
+              )
       .sidebar.box-sidebar
         ul.list.repository-group.no-touching
           li.list-item.repository-group-item.repository-group-text
@@ -96,8 +116,6 @@
             .ui-shape-square
           .ui-views-column
             .ui-shape-circle
-        .ui-views-row
-
 .row.clearfix
   h2.h2.header-thin JSFiddle for Full-stack Applications
   p.p Run full-stack experiments through a terminal and file editor in the browser. Link boxes to prototype any architecture through environment variables.

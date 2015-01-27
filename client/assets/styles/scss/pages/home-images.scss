@@ -308,7 +308,7 @@
   // popover
   .popover {
     left: -18px;
-    top: 115px;
+    top: 175px;
   }
 
   .icons-git {
@@ -416,15 +416,12 @@
     }
   }
 
-  // ui stuff
-  .btn {
-    pointer-events: none;
-  }
-
+  // ui stuff\
   .btn {
     bottom: 15px;
     left: 0;
     margin: 0 auto;
+    pointer-events: none;
     position: absolute;
     right: 0;
     width: 90px;
