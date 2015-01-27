@@ -430,6 +430,20 @@
   }
 }
 
+// shapes
+.ui-shape-circle,
+.ui-shape-square {
+  background: #f4fafe;
+  border: 1px solid #aadcf8;
+  height: 60px;
+  margin: 15px auto;
+  width: 60px;
+}
+
+.ui-shape-circle {
+  border-radius: 50%;
+}
+
 // docker
 .img-docker-terminal, {
   border: 1px solid rgba($black,.1);
