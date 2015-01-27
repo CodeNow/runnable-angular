@@ -99,22 +99,23 @@
                 use(
                   xlink:href = "#icons-git"
                 )
-      .views.ui-views.active-panel.ace-runnable-dark(
+      .views.ui-views.active-panel.ace-runnable-dark.ui-views-terminal(
         ng-if = "workflowToggle === 1"
       )
         pre.pre.
           root@id:
-      .views.ui-views.active-panel.ace-tm.ace-runnable-dark(
-        ng-if = "workflowToggle === 2"
+      .views.ui-views.active-panel.ace-tm.ace-runnable-dark.ui-views-editor(
+        ng-if = "workflowToggle === 2 || workflowToggle === 3"
       )
         pre.pre.
           &lt;!DOCTYPE html&gt;
           &lt;html&gt;
-          &lt;head&gt;
-          &nbsp;&nbsp;&lt;title&gt;&lt;/title&gt;
-          &lt;/head&gt;
-          &lt;body&gt;
-          &lt;/body&gt;
+          &nbsp;&nbsp;&lt;head&gt;
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;&lt;/title&gt;
+          &nbsp;&nbsp;&lt;/head&gt;
+          &nbsp;&nbsp;&lt;body&gt;
+          &nbsp;&nbsp;&lt;/body&gt;
+          &lt;/html&gt;
       .views.ui-views.web-view(
         ng-if = "workflowToggle === 4"
       )
