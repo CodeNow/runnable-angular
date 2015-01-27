@@ -57,46 +57,32 @@
                 )
               | Stopping the closing of this popover
       .popover.bottom.popover-repository-toggle.in
-        .arrow
-        h3.popover-title
-          .btn.btn-select.text-overflow.no-touching
-            svg.iconnables.icons-branch
-              use(
-                xlink:href = "#icons-branch"
-              )
-            | master
-            svg.iconnables.icons-arrow-down
-              use(
-                xlink:href = "#icons-arrow-down"
-              )
+        .arrow.white
         ul.list.popover-list.toggle-group
           li.list-item.popover-list-item.toggle-group-item.no-touching
             .toggle-group-title Stopping the closing of this popover
             .toggle-group-detail.clearfix
               small.small Nathan219—6 days ago
-              a.small.link-text(
-                ng-href = "{{ commit.attrs.html_url }}"
-                ng-click = "$event.stopPropagation()"
-                target = "_blank"
-              ) 98sb2o
+              svg.iconnables.icons-git
+                use(
+                  xlink:href = "#icons-git"
+                )
           li.list-item.popover-list-item.toggle-group-item.no-touching
             .toggle-group-title Merge pull request #409
             .toggle-group-detail.clearfix
               small.small tjmehta—8 days ago
-              a.small.link-text(
-                ng-href = "{{ commit.attrs.html_url }}"
-                ng-click = "$event.stopPropagation()"
-                target = "_blank"
-              ) k0das2
+              svg.iconnables.icons-git
+                use(
+                  xlink:href = "#icons-git"
+                )
           li.list-item.popover-list-item.toggle-group-item.no-touching
             .toggle-group-title remove build leak in tab cache
             .toggle-group-detail.clearfix
               small.small SomeKittens—10 days ago
-              a.small.link-text(
-                ng-href = "{{ commit.attrs.html_url }}"
-                ng-click = "$event.stopPropagation()"
-                target = "_blank"
-              ) 261as0
+              svg.iconnables.icons-git
+                use(
+                  xlink:href = "#icons-git"
+                )
       .views.ui-views
         .ui-views-row
             button.btn.btn-xxs.blue.hover
