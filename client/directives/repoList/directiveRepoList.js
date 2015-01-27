@@ -11,11 +11,12 @@ function repoList(
   errs,
   keypather,
   QueryAssist,
-  fetchUser,
+  pFetchUser,
+  fetchBuild,
   $rootScope,
   $state,
   $stateParams,
-  user,
+  $q,
   fetchInstances
 ) {
   return {
@@ -184,8 +185,8 @@ function repoList(
 
       $scope.$watch('data.autoDeploy', debounceUpdate);
 
-      function fetchInstance(cb) {
-        fetchInstances({
+      function fetchInstance() {
+        return fetchInstances({
           name: $stateParams.instanceName
         })
         .then(function(instance) {
@@ -200,44 +201,23 @@ function repoList(
             });
           }
           $scope.data.autoDeploy = instance.attrs.locked;
-          cb();
-        }).catch(cb);
+        });
       }
 
-      function fetchBuild(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
-      }
-
-      async.series([
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            cb();
-          });
-        },
-        function (cb) {
-          if ($state.$current.name === 'instance.setup') {
-            return fetchBuild(cb);
-          }
-          if ($state.$current.name === 'instance.instance') {
-            return fetchInstance(cb);
-          }
-          // Instance Edit
-          return async.parallel([fetchBuild, fetchInstance], cb);
+      pFetchUser.then(function(user) {
+        $scope.user = user;
+        if ($state.$current.name === 'instance.setup') {
+          return fetchBuild($stateParams.buildId);
         }
-      ], errs.handler);
+        if ($state.$current.name === 'instance.instance') {
+          return fetchInstance();
+        }
+        // Instance Edit
+        return $q.all([
+          fetchBuild($stateParams.buildId),
+          fetchInstance()
+        ]);
+      }).catch(errs.handler);
 
     }
   };
