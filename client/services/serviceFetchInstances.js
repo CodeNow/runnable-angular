@@ -1,7 +1,8 @@
 'use strict';
 
 require('app')
-  .factory('fetchInstances', fetchInstances);
+  .factory('fetchInstances', fetchInstances)
+  .factory('fetchBuild', fetchBuild);
 
 function fetchInstances(
   pFetchUser,
@@ -57,6 +58,33 @@ function fetchInstances(
       }
 
       return instance;
+    }).catch(errs.handler);
+  };
+}
+
+function fetchBuild(
+  errs,
+  pFetchUser,
+  promisify,
+  $q
+) {
+  var builds = {};
+  return function (buildId) {
+    if (!buildId) {
+      throw new Error('BuildId is required');
+    }
+
+    if (builds[buildId]) {
+      return $q.when(builds[buildId]);
+    }
+
+    return pFetchUser.then(function(user) {
+      var pFetch = promisify(user, 'fetchBuild');
+      return pFetch(buildId);
+    })
+    .then(function(build) {
+      builds[buildId] = build;
+      return build;
     }).catch(errs.handler);
   };
 }

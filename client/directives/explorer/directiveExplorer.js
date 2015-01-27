@@ -7,6 +7,7 @@ require('app')
  */
 function explorer(
   fetchInstances,
+  fetchBuild,
   $stateParams
 ) {
   return {
@@ -18,10 +19,10 @@ function explorer(
     },
     link: function ($scope, elem, attrs) {
       if ($stateParams.buildId) {
-        // fetch('build', $stateParams.buildId)
-        // .then(function(build) {
-        //   $scope.build = build;
-        // });
+        fetchBuild($stateParams.buildId)
+        .then(function(build) {
+          $scope.build = build;
+        });
       } else {
         fetchInstances({
           name: $stateParams.instanceName

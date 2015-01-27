@@ -11,7 +11,8 @@ function instanceEditPrimaryActions(
   $rootScope,
   $state,
   errs,
-  $stateParams
+  $stateParams,
+  fetchBuild
 ) {
   return {
     restrict: 'E',
@@ -95,18 +96,11 @@ function instanceEditPrimaryActions(
       };
 
       function fetchNewBuild(cb) {
-        if (!$scope.user) {
-          throw new Error('InstanceEditPrimaryActions can\'t find a user on the scope');
-        }
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.newBuild = build;
-            cb();
-          })
-          .resolve(handleError)
-          .go();
+        fetchBuild($stateParams.buildId)
+        .then(function(build) {
+          $scope.newBuild = build;
+          cb();
+        });
       }
 
       function updateAppCodeVersions(cb) {

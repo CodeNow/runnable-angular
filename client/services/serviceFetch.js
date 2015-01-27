@@ -66,8 +66,15 @@ require('app')
 //     promises.fetchBuild = promisify(user, 'fetchBuild');
 //   });
 
-//   // build, versions, contexts
-//   // gh repos, fs list
+
+//User
+// Build, contexts, GH Repos
+
+//Context
+//  Versions
+
+// ContextVersion
+// FS list
 
 //   // user/instances
 

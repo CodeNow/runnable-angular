@@ -99,18 +99,11 @@ function dockerTemplates(
       };
 
       function fetchBuild(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
+        fetchBuild($stateParams.buildId)
+        .then(function(build) {
+          $scope.build = build;
+          cb();
+        });
       }
 
       function fetchSeedContexts(cb) {

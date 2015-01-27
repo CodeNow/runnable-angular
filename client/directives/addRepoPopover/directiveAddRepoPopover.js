@@ -10,13 +10,13 @@ function addRepoPopover(
   keypather,
   pick,
   QueryAssist,
-  fetchUser,
   $rootScope,
   $state,
   $stateParams,
   user,
   pFetchUser,
   fetchInstances,
+  fetchBuild,
   $q,
   errs
 ) {
@@ -180,10 +180,10 @@ function addRepoPopover(
         $scope.user = user;
         $scope.repoListPopover.data.user = user;
         if ($stateParams.buildId) {
-          // return fetch('build', buildId)
-          // .then(function(build) {
-          //   $scope.repoListPopover.data.build = build;
-          // });
+          return fetchBuild($stateParams.buildId)
+          .then(function(build) {
+            $scope.repoListPopover.data.build = build;
+          });
         } else {
           return fetchInstances({
             name: $stateParams.instanceName
@@ -206,8 +206,7 @@ function addRepoPopover(
           }
           d.resolve();
         });
-      })
-      .catch(errs.handler);
+      }).catch(errs.handler);
     }
   };
 }
