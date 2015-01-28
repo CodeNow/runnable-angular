@@ -15,18 +15,12 @@ function showCoachMarks(
   $log
 ) {
   return {
-    restrict: 'AE',
+    restrict: 'A',
     scope: {
       template: '@'
     },
     link: function ($scope, element, attrs, ctrl) {
-      $scope.coachMarkData = fetchCoachMarkData(attrs.type);
-      if ($scope.coachMarkData.hasBeenViewed) { return; }
-      if (!$scope.template) {
-        return $log.error('Coach mark needs a template!');
-      }
-      var template = $templateCache.get('viewCoachMarks');
-      var popEl = $compile(template)($scope);
+      var popEl;
 
       var style;
       try {
@@ -38,22 +32,32 @@ function showCoachMarks(
           left: -20
         };
       }
-      keypather.set($scope, 'coachMarkData.dismiss', function () {
-        $scope.coachMarkData.show = false;
-        $scope.coachMarkData.save();
-        $timeout(function () {
-          //popEl.remove();
-        }, 10);
-      });
-      $scope.coachMarkData.getStyle = function () {
-        var rect = element.parent()[0].getBoundingClientRect();
-        return {
-          'top': (rect.top + style.top) + 'px',
-          'left': (rect.left + style.left) + 'px'
+      fetchCoachMarkData(attrs.type, function (data) {
+        if (!data) { return; }
+        $scope.coachMarkData = data;
+        if (!$scope.template) {
+          return $log.error('Coach mark needs a template!');
+        }
+
+        keypather.set($scope, 'coachMarkData.dismiss', function () {
+          $scope.coachMarkData.show = false;
+          $scope.coachMarkData.save();
+          $scope.coachMarkData.hideMark = true;
+        });
+        var template = $templateCache.get('viewCoachMarks');
+        popEl = $compile(template)($scope);
+
+        $scope.coachMarkData.getStyle = function () {
+          var rect = element.parent()[0].getBoundingClientRect();
+          return {
+            'top': (rect.top + style.top) + 'px',
+            'left': (rect.left + style.left) + 'px'
+          };
         };
-      };
-      $document.find('body').append(popEl);
+        $document.find('body').append(popEl);
+      });
       $scope.$on('$destroy', function () {
+        $scope.coachMarkData.show = false;
         if (popEl) {
           popEl.remove();
         }
