@@ -9,7 +9,6 @@ function addRepoPopover(
   async,
   keypather,
   pick,
-  QueryAssist,
   $rootScope,
   $state,
   $stateParams,
@@ -17,6 +16,8 @@ function addRepoPopover(
   pFetchUser,
   fetchInstances,
   fetchBuild,
+  fetchOwnerRepos,
+  promisify,
   $q,
   errs
 ) {
@@ -111,71 +112,6 @@ function addRepoPopover(
         return activeBranch;
       }
 
-      /**
-       * Models in build.contextVersions collection will
-       * have empty appCodeVersion collections by default.
-       * Perform fetch on each contextVersion to populate
-       * appCodeVersions collection
-       */
-      function fetchBuildContextVersions(cb) {
-        var build = $scope.repoListPopover.data.build;
-        if (!build.contextVersions.models[0]) { throw new Error('build has 0 contextVersions'); }
-        build.contextVersions.models[0].fetch(function (err) {
-          if (err) { throw err; }
-          cb();
-        });
-      }
-
-      function getOwnerRepoQuery(user, userName, cb) {
-        if (userName === user.attrs.accounts.github.username) {
-          // does $stateParam.username match this user's username
-          return new QueryAssist(user, cb).wrapFunc('fetchGithubRepos');
-        } else {
-          return new QueryAssist(user.newGithubOrg(userName), cb).wrapFunc('fetchRepos');
-        }
-      }
-
-      function fetchAllOwnerRepos(cb) {
-        $scope.loading = true;
-        function fetchPage(page) {
-          var userOrOrg = getOwnerRepoQuery(
-            $scope.repoListPopover.data.user,
-            $stateParams.userName,
-            cb
-          );
-          userOrOrg
-            .query({
-              page: page,
-              sort: 'updated'
-            })
-            .cacheFetch(function (githubRepos, cached, cb) {})
-            .resolve(function (err, githubRepos, cb) {
-              /**
-               * Double concat to models arr
-               * if logic run twice (cached & non-cached)
-               */
-              if (!$scope.repoListPopover.data.githubRepos) {
-                $scope.repoListPopover.data.githubRepos = githubRepos;
-              } else {
-                var reposArr = $scope.repoListPopover.data.githubRepos.models.concat(githubRepos.models);
-                $scope.repoListPopover.data.githubRepos = $scope.user.newGithubRepos(reposArr, {
-                  noStore: true
-                });
-              }
-              // recursive until result set returns fewer than
-              // 100 repos, indicating last paginated result
-              if (githubRepos.models.length < 100) {
-                $scope.loading = false;
-                cb();
-              } else {
-                fetchPage(page + 1);
-              }
-            })
-            .go();
-        }
-        fetchPage(1);
-      }
-
       pFetchUser.then(function(user) {
         $scope.user = user;
         $scope.repoListPopover.data.user = user;
@@ -195,17 +131,23 @@ function addRepoPopover(
         }
       })
       .then(function() {
-        var d = $q.defer();
-        // FIXME: blending of promise/async
-        async.series([
-          fetchBuildContextVersions,
-          fetchAllOwnerRepos
-        ], function(err) {
-          if (err) {
-            return d.reject(err);
-          }
-          d.resolve();
-        });
+        /**
+         * Models in build.contextVersions collection will
+         * have empty appCodeVersion collections by default.
+         * Perform fetch on each contextVersion to populate
+         * appCodeVersions collection
+         */
+        var build = $scope.repoListPopover.data.build;
+        if (!build.contextVersions.models[0]) { throw new Error('build has 0 contextVersions'); }
+        var fetchCV = promisify(build.contextVersions.models[0], 'fetch');
+        return fetchCV();
+      })
+      .then(function() {
+        return fetchOwnerRepos($stateParams.userName);
+      })
+      .then(function(githubRepos) {
+        console.log('addrepopopover', githubRepos);
+        $scope.repoListPopover.data.githubRepos = githubRepos;
       }).catch(errs.handler);
     }
   };

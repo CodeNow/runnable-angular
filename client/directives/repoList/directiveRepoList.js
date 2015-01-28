@@ -184,13 +184,14 @@ function repoList(
 
       $scope.$watch('data.autoDeploy', debounceUpdate);
 
-      function fetchInstance() {
+      function fetchInstanceWrapper() {
         return fetchInstances({
           name: $stateParams.instanceName
         })
         .then(function(instance) {
           $scope.instance = instance;
           if (!$stateParams.buildId) {
+            console.log('not on instance edit');
             $scope.build = instance.build;
             // HACK: allows us to use both an independent build (setup/edit)
             //    and the build of an instance (instance)
@@ -203,18 +204,25 @@ function repoList(
         });
       }
 
+      function fetchBuildWrapper() {
+        return fetchBuild($stateParams.buildId)
+        .then(function(build) {
+          $scope.build = build;
+        });
+      }
+
       pFetchUser.then(function(user) {
         $scope.user = user;
         if ($state.$current.name === 'instance.setup') {
-          return fetchBuild($stateParams.buildId);
+          return fetchBuildWrapper();
         }
         if ($state.$current.name === 'instance.instance') {
-          return fetchInstance();
+          return fetchInstanceWrapper();
         }
         // Instance Edit
         return $q.all([
-          fetchBuild($stateParams.buildId),
-          fetchInstance()
+          fetchBuildWrapper(),
+          fetchInstanceWrapper()
         ]);
       }).catch(errs.handler);
 
