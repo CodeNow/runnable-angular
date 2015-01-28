@@ -79,15 +79,15 @@
 .btn-spinner {
 
   &.in {
-    animation: btn-spinner 6s;
+    padding-left: 30px;
 
     .spinner-wrapper {
-      animation: fade-in-out 5.9s;
+      display: block;
     }
   }
 
   .spinner-wrapper {
-    display: block;
+    display: none;
     left: 9px;
     margin-top: 1px;
   }

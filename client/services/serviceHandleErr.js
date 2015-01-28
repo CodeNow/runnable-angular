@@ -20,6 +20,11 @@ function errs (
         }
       }
     },
+    clearErrors: function () {
+      while (errors.length > 0) {
+        errors.pop();
+      }
+    },
     errors: errors
   };
 }

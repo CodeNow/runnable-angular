@@ -8,7 +8,7 @@ require('app')
 function instancePrimaryActions(
   async,
   keypather,
-  $rootScope,
+  callbackCount,
   $timeout
 ) {
   return {
@@ -34,10 +34,11 @@ function instancePrimaryActions(
 
       $scope.saveChanges = function () {
         // weird hackiness to get the saving spinner to display
-        $scope.saving = false;
-        $timeout(function () {
-          $scope.saving = true;
-        }, 1);
+
+        $scope.saving = true;
+        var stopSavingCb = callbackCount(2, function () {
+          $scope.saving = false;
+        });
         var updateModels = $scope.openItems.models
           .filter(function (model) {
             if (typeof keypather.get(model, 'attrs.body') !== 'string') {
@@ -45,6 +46,7 @@ function instancePrimaryActions(
             }
             return (model.attrs.body !== model.state.body);
           });
+        $timeout(stopSavingCb.next, 1500);
         async.each(
           updateModels,
           function iterate(file, cb) {
@@ -60,6 +62,7 @@ function instancePrimaryActions(
             });
           },
           function complete(err) {
+            stopSavingCb.next();
             if ($scope.popoverSaveOptions.data.restartOnSave) {
               $scope.instance.restart(function(err) {
                 if (err) { throw err; }

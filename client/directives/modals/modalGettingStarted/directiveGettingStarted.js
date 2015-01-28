@@ -13,6 +13,7 @@ function modalGettingStarted(
   async,
   createDockerfileFromSource,
   callbackCount,
+  copySourceInstance,
   errs,
   getNewForkName,
   regexpQuote,
@@ -265,7 +266,8 @@ function modalGettingStarted(
               env.url = env.originalUrl.replace(
                 new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
                 newName
-              );
+              ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName())
+                .replace(/https?:\/\//, '');
             });
           }
         });
@@ -298,7 +300,13 @@ function modalGettingStarted(
       function forkInstances(items) {
         //$rootScope.dataApp.data.loading = true;
         function fork(instance, opts, cb) {
-          instance.copy(opts, cb);
+          copySourceInstance(
+            $scope.data.activeAccount,
+            instance,
+            opts,
+            $scope.data.instances,
+            cb
+          );
         }
 
         return function (cb) {

@@ -21,7 +21,10 @@
 
   .list-item {
     cursor: pointer;
-    line-height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: initial;
     padding-right: 30px;
 
     &:hover .icons-arrow-down {
@@ -47,10 +50,6 @@
   .list-item-title {
     display: inline-block;
     width: 100%;
-  }
-
-  .small {
-    margin-top: -16px;
   }
 
   .icons-arrow-down {

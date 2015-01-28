@@ -66,21 +66,6 @@
   }
 }
 
-@keyframes btn-spinner {
-  0% {
-    padding-left: 15px;
-  }
-  5% {
-    padding-left: 30px;
-  }
-  95% {
-    padding-left: 30px;
-  }
-  100% {
-    padding-left: 15px;
-  }
-}
-
 @keyframes scale-in {
   0% {
     opacity: 0;
