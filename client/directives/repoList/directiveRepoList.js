@@ -191,7 +191,6 @@ function repoList(
         .then(function(instance) {
           $scope.instance = instance;
           if (!$stateParams.buildId) {
-            console.log('not on instance edit');
             $scope.build = instance.build;
             // HACK: allows us to use both an independent build (setup/edit)
             //    and the build of an instance (instance)

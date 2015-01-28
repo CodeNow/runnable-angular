@@ -146,7 +146,6 @@ function addRepoPopover(
         return fetchOwnerRepos($stateParams.userName);
       })
       .then(function(githubRepos) {
-        console.log('addrepopopover', githubRepos);
         $scope.repoListPopover.data.githubRepos = githubRepos;
       }).catch(errs.handler);
     }

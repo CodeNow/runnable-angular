@@ -3,7 +3,8 @@
 require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchBuild', fetchBuild)
-  .factory('fetchOwnerRepos', fetchOwnerRepos);
+  .factory('fetchOwnerRepos', fetchOwnerRepos)
+  .factory('fetchContexts', fetchContexts);
 
 function fetchInstances(
   pFetchUser,
@@ -28,7 +29,6 @@ function fetchInstances(
         'attrs.name': opts.name
       }));
       if (cachedInstance) {
-        // console.log('instance cache hit', cachedInstance);
         return $q.when(cachedInstance);
       }
     }
@@ -38,17 +38,14 @@ function fetchInstances(
       opts.githubUsername = opts.githubUsername || $stateParams.userName;
       return pFetch(opts);
     }).then(function(results) {
-      // console.log('results', results);
       var instance;
       if (opts.name) {
-        // console.log('one instance');
         instance = keypather.get(results, 'models[0]');
 
         if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
           throw new Error('Instance has no containers');
         }
       } else {
-        // console.log('all of em');
         currentInstanceList = results;
         instance = results;
       }
@@ -68,22 +65,17 @@ function fetchBuild(
   promisify,
   $q
 ) {
-  var builds = {};
+  // No caching here, as there aren't any times we're fetching a build
+  //    multiple times that isn't covered by inflight
   return function (buildId) {
     if (!buildId) {
       throw new Error('BuildId is required');
-    }
-
-    if (builds[buildId]) {
-      console.log('build cache hit');
-      return $q.when(builds[buildId]);
     }
 
     return pFetchUser.then(function(user) {
       var pFetch = promisify(user, 'fetchBuild');
       return pFetch(buildId);
     }).then(function(build) {
-      builds[buildId] = build;
       return build;
     }).catch(errs.handler);
   };
@@ -109,7 +101,6 @@ function fetchOwnerRepos (
       var allRepos = [];
 
       function fetchPage(page) {
-        console.log('fetchPage');
         return repoFetch({
           page: page,
           sort: 'update'
@@ -126,10 +117,21 @@ function fetchOwnerRepos (
       }
       return fetchPage(1);
     }).then(function(reposArr) {
-      console.log('reposArr', reposArr);
       return user.newGithubRepos(reposArr, {
         noStore: true
       });
     }).catch(errs.handler);
+  };
+}
+
+function fetchContexts (
+  pFetchUser,
+  promisify
+) {
+  return function (opts) {
+    return pFetchUser.then(function(user) {
+      var contextFetch = promisify(user, 'fetchContexts');
+      return contextFetch(opts);
+    });
   };
 }

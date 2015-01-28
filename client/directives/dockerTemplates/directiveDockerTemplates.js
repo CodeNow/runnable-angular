@@ -8,7 +8,7 @@ require('app')
 function dockerTemplates(
   promisify,
   $stateParams,
-  pFetchUser,
+  fetchContexts,
   fetchBuild,
   errs
 ) {
@@ -58,11 +58,8 @@ function dockerTemplates(
         return (template.attrs.name === 'Blank') ? 0 : template.attrs.name;
       };
 
-      var fetchContexts;
-      pFetchUser.then(function(user) {
-        fetchContexts = promisify($scope.user, 'fetchContexts');
-        return fetchBuild($stateParams.buildId);
-      }).then(function(build) {
+      fetchBuild($stateParams.buildId)
+      .then(function(build) {
         $scope.build = build;
         return fetchContexts({
           isSource: true
