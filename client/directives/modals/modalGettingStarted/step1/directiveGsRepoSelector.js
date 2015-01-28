@@ -9,7 +9,8 @@ function gsRepoSelector(
   errs,
   fetchRepoList,
   fetchStackAnalysis,
-  hasKeypaths
+  hasKeypaths,
+  $log
 ) {
   return {
     restrict: 'A',
@@ -25,7 +26,8 @@ function gsRepoSelector(
           if (err) { return cb(err); }
           if (!data.languageFramework) {
             $scope.state.stack = $scope.data.stacks[0];
-            return cb(new Error('No languages found'));
+            $log.warn('No language detected');
+            return cb();
           }
           $scope.state.stack = $scope.data.stacks.find(hasKeypaths({
             'key': data.languageFramework.toLowerCase()
