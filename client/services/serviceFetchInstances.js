@@ -33,7 +33,6 @@ function fetchInstances(
     }
 
     return pFetchUser.then(function(user) {
-      console.log('pFetchUser');
       var pFetch = promisify(user, 'fetchInstances');
       opts.githubUsername = opts.githubUsername || $stateParams.userName;
       return pFetch(opts);
