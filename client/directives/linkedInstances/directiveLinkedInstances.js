@@ -10,7 +10,7 @@ function linkedInstances(
   getInstanceAltTitle
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: function (elem, attrs) {
       if (attrs.type === 'modal') {
         return 'viewLinkedInstancesModal';

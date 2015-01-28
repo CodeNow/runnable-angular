@@ -23,12 +23,30 @@
 
   .list-item {
     background: $white;
+    border: 0;
     height: 36px;
     line-height: 36px;
+    margin: 0;
     padding: 0 15px;
 
     + .list-item {
       border-top: 1px solid rgba($black,.1);
     }
+
+    &.input-group {
+      height: 54px;
+      line-height: 54px;
+      padding: 0;
+
+      &.ng-dirty.ng-invalid.ng-valid-name-require {
+        border-bottom: 0;
+        border-radius: 3px 3px 0 0;
+      }
+    }
+  }
+
+  .validate-wrapper {
+    border-radius: 0 0 3px 3px;
+    margin: -1px 0 6px;
   }
 }

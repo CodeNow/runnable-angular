@@ -9,17 +9,14 @@
     }
   }
 
-  .well {
-    margin-top: 9px;
-    transition: none;
+  .modal-inset {
 
-    &.in {
-      max-height: 450px;
-      transition: margin .15s ease-in, max-height .15s ease-in;
+    .list {
+      border: 0;
     }
 
-    &.btn {
-      margin-top: 6px;
+    .input-group {
+      border: 1px solid rgba($black,.1);
     }
   }
 }
