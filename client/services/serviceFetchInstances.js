@@ -82,8 +82,7 @@ function fetchBuild(
     return pFetchUser.then(function(user) {
       var pFetch = promisify(user, 'fetchBuild');
       return pFetch(buildId);
-    })
-    .then(function(build) {
+    }).then(function(build) {
       builds[buildId] = build;
       return build;
     }).catch(errs.handler);
@@ -114,8 +113,7 @@ function fetchOwnerRepos (
         return repoFetch({
           page: page,
           sort: 'update'
-        })
-        .then(function(githubRepos) {
+        }).then(function(githubRepos) {
           allRepos = allRepos.concat(githubRepos.models);
           // recursive until result set returns fewer than
           // 100 repos, indicating last paginated result
