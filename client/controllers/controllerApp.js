@@ -40,12 +40,17 @@ function ControllerApp(
 
   dataApp.data.modalError = {
     data: {},
-    actions: {}
+    actions: {
+      close: function () {
+        errs.clearErrors();
+      }
+    }
   };
   function setActiveAccount(accountName) {
     if (accountName) {
-      $scope.$watch('dataApp.data.orgs', function(n) {
+      var unwatch = $scope.$watch('dataApp.data.orgs', function(n) {
         if (n) {
+          unwatch();
           dataApp.data.instances = null;
           var accounts = [thisUser].concat(n.models);
           dataApp.data.activeAccount = accounts.find(function (org) {
@@ -103,8 +108,12 @@ function ControllerApp(
         dataApp.data.orgs = results;
         if ($window.heap) {
           $window.heap.identify({
+            // unique heap user identifier
+            // we use githubId with prefix
+            handle: 'github-' + thisUser.oauthId(),
             name:  thisUser.oauthName(),
             email: thisUser.attrs.email,
+            runnableId: thisUser.id(),
             orgs:  $window.JSON.stringify(results)
           });
         }

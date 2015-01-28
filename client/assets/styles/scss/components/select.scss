@@ -6,6 +6,10 @@
     pointer-events: none;
   }
 
+  .btn-select-text {
+    float: left;
+  }
+
   select {
     background: transparent; // needed to set height
     cursor: pointer;
@@ -16,5 +20,16 @@
     position: absolute;
     top: 0;
     width: 100%;
+  }
+
+  // branch select
+  .icons-branch {
+    float: left;
+    margin-right: 3px;
+  }
+
+  .icons-arrow-down {
+    margin-left: 6px;
+    top: 0;
   }
 }

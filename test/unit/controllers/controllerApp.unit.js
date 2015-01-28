@@ -15,6 +15,12 @@ describe('controllerApp'.bold.underline.blue, function () {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
         return 'user';
+      },
+      oauthId: function() {
+        return 1234;
+      },
+      id: function() {
+        return 4321;
       }
     };
     ctx.fakeOrg1 = {
@@ -62,7 +68,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       };
     }
     if (intercom) {
-      $window.initIntercom = sinon.spy();
+      $window.Intercom = sinon.spy();
     }
     if (olark) {
       $window.olark = sinon.spy();

@@ -10,16 +10,19 @@ function ControllerInstance(
   $filter,
   errs,
   instanceUpdatedPoller,
+  createInstanceDeployedPoller,
   fetchCommitData,
   keypather,
   OpenItems,
   QueryAssist,
   $rootScope,
   $localStorage,
+  $location,
   $scope,
   $state,
   $stateParams,
   $timeout,
+  $window,
   fetchUser
 ) {
   var dataInstance = $scope.dataInstance = {
@@ -47,24 +50,18 @@ function ControllerInstance(
 
   data.isDemo = $state.$current.name === 'demo.instance';
 
-  if (!$stateParams.instanceName) {
-    var unwatch = $rootScope.$watch('dataApp.data.instances', function (n, p) {
-      if (n !== p && n) {
-        unwatch();
-        if (n.models.length) {
-          var models = $filter('orderBy')(n.models, 'attrs.name');
-          $state.go('instance.instance', {
-            instanceName: models[0].attrs.name,
-            userName: $stateParams.userName
-          }, {location: 'replace'});
-        } else {
-          $state.go('instance.new', {
-            userName: $stateParams.userName
-          }, {location: 'replace'});
-        }
-      }
+  var deployedPoller;
+
+  // Trigger Heap event
+  if ($window.heap && $location.search('chat')) {
+    $window.heap.track('instance-chat-click', {
+      type: $location.search('chat')
     });
-  } else if ($stateParams.instanceName && $stateParams.userName) {
+    // Remove query so copypasta doesn't interfere
+    $location.search('chat', null);
+  }
+
+  if ($stateParams.instanceName && $stateParams.userName) {
     async.waterfall([
       fetchUser,
       fetchInstance
@@ -88,6 +85,17 @@ function ControllerInstance(
       data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
       data.showUpdatingMessage = false;
       data.showUpdatedMessage = true;
+
+      if (!data.instance.build.attrs.completed) {
+        $timeout(function () {
+          data.openItems.addBuildStream();
+        });
+      }
+
+      if (deployedPoller) {
+        deployedPoller.clear();
+      }
+      deployedPoller = createInstanceDeployedPoller(data.instance).start();
     });
   });
 
@@ -181,6 +189,9 @@ function ControllerInstance(
   $scope.$on('$destroy', function () {
     containerWatch();
     instanceUpdatedPoller.stop();
+    if (deployedPoller) {
+      deployedPoller.clear();
+    }
   });
 
   function buildLogsOnly () {
@@ -232,8 +243,10 @@ function ControllerInstance(
     if (!data.openItems.hasOpen('WebView')) {
       data.openItems.addWebView();
     }
-    data.openItems.restoreTabs(
-      data.instance.id() + '-' + data.instance.build.id(),
+    data.openItems.restoreTabs({
+        instanceId: data.instance.id(),
+        buildId: data.instance.build.id()
+      },
       data.instance.containers.models[0]);
     data.openItems.restoreActiveTab();
   }

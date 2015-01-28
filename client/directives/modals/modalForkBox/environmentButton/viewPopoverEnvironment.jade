@@ -1,6 +1,7 @@
 //- data is an instance
 .popover.bottom.popover-environment(
   ng-class = "{in: data.state.envShow}"
+  ng-click = "$event.stopPropagation()"
 )
   .arrow
   h3.popover-title

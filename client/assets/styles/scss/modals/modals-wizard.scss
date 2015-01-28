@@ -1,0 +1,35 @@
+.modal-wizard {
+  height: 608px;
+
+  @include media(xs) {
+    height: auto;
+  }
+
+  .small {
+    color: $gray-light;
+    display: block;
+  }
+
+  .modal-navbar {
+    max-width: 240px;
+    min-width: 240px;
+    padding: 0;
+
+    @include media(xs) {
+      height: 210px;
+      max-width: none;
+
+      .list-item {
+        display: inline-block;
+      }
+    }
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba($black,.1);
+    flex: 0 0 auto;
+    height: auto;
+    margin: 30px 0 0;
+    padding: 9px 15px;
+  }
+}

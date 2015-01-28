@@ -46,7 +46,7 @@ function createInstanceDeployedPoller (
         if (err) { return console.log(err); }
         if (deployed) { self.clear(true); }
       });
-    }, 400);
+    }, 1000);
     return this;
   };
 

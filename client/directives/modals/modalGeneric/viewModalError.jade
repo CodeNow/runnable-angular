@@ -3,12 +3,12 @@
 )
   header.modal-header
     h1.modal-heading Something went wrong.
-  section.modal-body
+  section.modal-body.clearfix
     .modal-description.well.well-code.gray(
       ng-repeat = "error in data.errors track by $index"
     ) {{ error | errJSON }}
 
   footer.modal-footer
     button.btn.white(
-      ng-click = "defaultActions.cancel()"
+      ng-click = "defaultActions.cancel(actions.close);"
     ) Dismiss

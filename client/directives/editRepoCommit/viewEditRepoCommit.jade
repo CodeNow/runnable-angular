@@ -1,12 +1,12 @@
-svg.iconnables.icons-repository
-  use(
-    xlink:href = "#icons-repository"
-  )
-//- TODO MAYBE add .pending for orange
 .repository-group-text(
+  ng-class = "{active: popoverRepositoryToggle.data.show}"
   toggle-pop-over
   toggle-pop-over-model = "popoverRepositoryToggle.data.show"
 )
+  svg.iconnables.icons-repository
+    use(
+      xlink:href = "#icons-repository"
+    )
   h3.repository-title {{ acv.attrs.repo }}
   p.repository-description.text-overflow.clearfix
     svg.iconnables.icons-branch
@@ -25,9 +25,7 @@ svg.iconnables.icons-repository
 //-
   if instance.setup || instance.instanceEdit
 button.btn.btn-xs.btn-repository-settings(
-  ng-class = "{ \
-    active: popoverRepoActions.data.show \
-  }"
+  ng-class = "{active: popoverRepoActions.data.show}"
   toggle-pop-over
   toggle-pop-over-model = "popoverRepoActions.data.show"
   type = "button"

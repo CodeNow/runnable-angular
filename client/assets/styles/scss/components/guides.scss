@@ -99,19 +99,19 @@
 
 // coach marks
 .guide-wrapper {
-  opacity: .6;
+  // opacity: .6;
   position: absolute;
   transition: all .15s ease-in;
   z-index: $z-guide;
 
-  &:hover {
-    opacity: .75;
-  }
+  // &:hover {
+  //   opacity: .75;
+  // }
 
-  &:active,
-  &.in {
-    opacity: 1;
-  }
+  // &:active,
+  // &.in {
+  //   opacity: 1;
+  // }
 
   @for $i from 1 through 4 {
 
@@ -123,10 +123,10 @@
 
 .guide-mark {
   animation: scale-in-bounce .5s ease-in forwards;
-  background: #eee7f4; // rgba($purple-lighter,.15)
-  border: 3px solid rgba($purple-light,.6);
+  background: #f0f8fb; // rgba($blue,.1);
+  border: 3px solid $blue-dark;
   border-radius: 50%;
-  cursor: pointer;
+  // cursor: pointer;
   height: 24px;
   padding: 0;
   transform: scale3d(0,0,1);

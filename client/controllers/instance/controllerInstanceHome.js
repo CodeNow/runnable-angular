@@ -19,8 +19,10 @@ function ControllerInstanceHome(
   var instanceName = keypather.get($localStorage, 'lastInstancePerUser.' + userName);
   if (!instanceName) {
     $scope.loading = true;
-    fetchInstances(userName, false, function(err, instances, account) {
-      if (account === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+    fetchInstances(userName, false, function (err, instances, account) {
+      var currentUser =
+          keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') || userName;
+      if (account === currentUser) {
         $scope.loading = false;
         var models = $filter('orderBy')(instances.models, 'attrs.name');
         var name = keypather.get(models, '[0].attrs.name');
@@ -37,9 +39,8 @@ function ControllerInstanceHome(
         userName: username
       }, {location: 'replace'});
     } else {
-      $state.go('instance.new', {
-        userName: username
-      }, {location: 'replace'});
+      $rootScope.dataApp.data.loading = false;
+      keypather.set($scope, 'data.in', true);
     }
   }
 

@@ -175,6 +175,7 @@ function addRepoPopover(
       }
 
       function fetchAllOwnerRepos(cb) {
+        $scope.loading = true;
         function fetchPage(page) {
           var userOrOrg = getOwnerRepoQuery(
             $scope.repoListPopover.data.user,
@@ -203,6 +204,7 @@ function addRepoPopover(
               // recursive until result set returns fewer than
               // 100 repos, indicating last paginated result
               if (githubRepos.models.length < 100) {
+                $scope.loading = false;
                 cb();
               } else {
                 fetchPage(page + 1);
@@ -226,7 +228,6 @@ function addRepoPopover(
         fetchBuildContextVersions,
         fetchAllOwnerRepos
       ]);
-
     }
   };
 }
