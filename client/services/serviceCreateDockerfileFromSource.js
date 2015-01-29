@@ -4,7 +4,6 @@ require('app')
   .factory('createDockerfileFromSource', createDockerfileFromSource);
 
 function createDockerfileFromSource(
-  async,
   errs,
   fetchUser,
   fetchContexts,

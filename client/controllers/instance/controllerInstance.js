@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  async,
   $filter,
   errs,
   instanceUpdatedPoller,

@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function logBuild(
-  async,
   helperSetupTerminal,
   primus,
   keypather,

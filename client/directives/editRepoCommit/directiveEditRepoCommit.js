@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function editRepoCommit(
-  async,
   errs,
   fetchCommitData,
   fetchUser,

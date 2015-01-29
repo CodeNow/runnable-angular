@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function term(
-  async,
   helperSetupTerminal,
   primus,
   jQuery,

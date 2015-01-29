@@ -16,7 +16,6 @@ function openItemsFactory(
   keypather,
   pluck,
   equals,
-  async,
   user
 ) {
 

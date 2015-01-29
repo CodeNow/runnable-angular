@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function fileTree(
-  async,
   keypather,
   fetchUser,
   $rootScope,

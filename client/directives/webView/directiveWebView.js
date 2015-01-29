@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function webView(
-  async,
   keypather,
   $timeout,
   $sce,

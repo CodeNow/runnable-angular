@@ -14,7 +14,6 @@ function ControllerInstanceLayout(
   $rootScope,
   $timeout,
   keypather,
-  async,
   $scope
 ) {
   var thisUser;
