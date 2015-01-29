@@ -19,7 +19,7 @@ function term(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     scope: {
       item: '='
     },

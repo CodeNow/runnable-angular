@@ -8,9 +8,7 @@ require('app')
 function helperSetupTerminal(
   configTerminalOpts,
   debounce,
-  jQuery,
-  Termjs,
-  $window
+  Termjs
 ) {
   return function ($scope, elem, opts, onResize) {
     var CHAR_SIZE = getTerminalCharacterSize(elem);
@@ -26,24 +24,19 @@ function helperSetupTerminal(
     terminal.open(elem[0]);
 
     // Terminal sizing
-    var $termElem = jQuery(terminal.element);
     var oldX = 0;
     var oldY = 0;
     function resizeTerm() {
       // Tab not selected
-      if ($termElem.width() === 100) {
+      if (terminal.element.clientWidth <= 100) {
         return;
       }
       var CHAR_SIZE = getTerminalCharacterSize(elem);
-      var termLineEl = $termElem.find('div')[0];
-      if (!termLineEl) {
-        return;
-      }
-      var x = Math.floor($termElem.width() / CHAR_SIZE.width);
+      var x = Math.floor(terminal.element.clientWidth / CHAR_SIZE.width);
       if (x < configTerminalOpts.cols) {
         x = configTerminalOpts.cols;
       }
-      var y = Math.floor($termElem.height() / CHAR_SIZE.height);
+      var y = Math.floor(terminal.element.clientHeight / CHAR_SIZE.height) - 1;
       if (!(oldX === x && oldY === y)) {
         oldX = x;
         oldY = y;
@@ -57,9 +50,12 @@ function helperSetupTerminal(
     var dResizeTerm = debounce(resizeTerm, 300);
     dResizeTerm();
 
-    jQuery($window).on('resize', dResizeTerm);
+    var unwatchResize = $scope.$watch(function () {
+      return terminal.element.clientWidth + 'x' + terminal.element.clientHeight;
+    }, dResizeTerm);
+
     $scope.$on('$destroy', function () {
-      jQuery($window).off('resize', dResizeTerm);
+      unwatchResize();
       terminal.destroy();
     });
 
