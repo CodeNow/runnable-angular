@@ -53,8 +53,8 @@ function boxSelection (
   $scope.loading = true;
 
   $q.all([
-    fetchRepoInstances,
-    fetchAllInstances
+    fetchRepoInstances(),
+    fetchAllInstances()
   ]).catch(errs.handler)
   .finally(function() {
     $scope.loading = false;
