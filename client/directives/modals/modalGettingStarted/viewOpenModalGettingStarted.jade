@@ -1,12 +1,6 @@
 .modal-backdrop.in(
   ng-click = "$event.stopPropagation()"
   ng-if = "in"
+  default-actions = "defaultActions"
+  modal-getting-started
 )
-  .modal-dialog.modal-sidebar.modal-wizard.modal-getting-started(
-    actions = "actions"
-    current-model = "currentModel"
-    data = "data"
-    default-actions = "defaultActions"
-    modal-getting-started
-    state-model = "stateModel"
-  )

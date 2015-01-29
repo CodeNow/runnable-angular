@@ -6,12 +6,11 @@ require('app')
  * @ngInject
  */
 function modal(
+  $document,
   $templateCache,
   $timeout,
   $compile,
-  keypather,
-  $rootScope,
-  jQuery
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -23,7 +22,6 @@ function modal(
       stateModel: '=modalStateModel' // The object that should receive the changes
     },
     link: function ($scope, element, attrs) {
-      var $ = jQuery;
       $scope.in = false;
       var tempTemplate = checkTemplate($scope.template);
       var template = $templateCache.get(tempTemplate);
@@ -64,12 +62,13 @@ function modal(
         }
       };
 
+      var modal = null;
       function createModal (event) {
         if (event) {
           event.stopPropagation();
         }
-        $scope.modal = $compile($template)($scope);
-        $('body').append($template);
+        modal = $compile($template)($scope);
+        $document.find('body').append($template);
         $scope.in = true;
         if (typeof keypather.get($scope, 'actions.closePopover') === 'function') {
           $scope.actions.closePopover();
@@ -79,7 +78,7 @@ function modal(
       }
 
       element.on('click', createModal);
-      $scope.$watch('data.in', function(n) {
+      $scope.$watch('data.in', function (n) {
         if (n === true) {
           createModal();
         }
@@ -97,8 +96,8 @@ function modal(
       //});
 
       $scope.$on('$destroy', function () {
-        if ($scope.modal) {
-          $scope.modal.remove();
+        if (modal) {
+          modal.remove();
         }
         $scope.in = false;
         element[0].onclick = null;

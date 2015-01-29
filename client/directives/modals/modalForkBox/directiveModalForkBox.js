@@ -24,7 +24,7 @@ function modalForkBox(
   $rootScope
 ) {
   return {
-    restrict: 'E',
+    restrict: 'AE',
     templateUrl: 'viewModalForkBox',
     scope: {
       data: '=',

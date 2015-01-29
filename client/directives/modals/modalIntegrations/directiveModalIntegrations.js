@@ -7,8 +7,6 @@ require('app')
  * @ngInject
  */
 function modalIntegrations(
-  $localStorage,
-  keypather
 ) {
   return {
     restrict: 'A',

@@ -1,106 +1,107 @@
-main.modal-body
-  header.modal-header
-    h1.modal-heading Edit Environment
-    //- 0.3 SAN-436
-      - to do:
-      - do not show if there are no boxes with exposed ports to link
-    button.btn.btn-icon.white(
-      ng-class = "{active: data.toggleSidebar}"
-      ng-click = "data.toggleSidebar = !data.toggleSidebar"
-      tooltip = "Toggle List of Boxes"
-      tooltip-options = "{\"class\":\"right\",\"left\":36,\"top\":11}"
-      type = "button"
+.modal-dialog.modal-sidebar.modal-environment
+  main.modal-body
+    header.modal-header
+      h1.modal-heading Edit Environment
+      //- 0.3 SAN-436
+        - to do:
+        - do not show if there are no boxes with exposed ports to link
+      button.btn.btn-icon.white(
+        ng-class = "{active: data.toggleSidebar}"
+        ng-click = "data.toggleSidebar = !data.toggleSidebar"
+        tooltip = "Toggle List of Boxes"
+        tooltip-options = "{\"class\":\"right\",\"left\":36,\"top\":11}"
+        type = "button"
+      )
+        svg.iconnables.icons-sidebar
+          use(
+            xlink:href = "#icons-sidebar"
+          )
+    //- guide text should only appear once until dismissed
+    .guide.guide-no-help.blue(
+      ng-if = '!data.hideGuideHelpEnvModal'
     )
-      svg.iconnables.icons-sidebar
-        use(
-          xlink:href = "#icons-sidebar"
-        )
-  //- guide text should only appear once until dismissed
-  .guide.guide-no-help.blue(
-    ng-if = '!data.hideGuideHelpEnvModal'
+      h3.guide-header Using Environment Variables
+      pre.well.well-code &lt;key&gt;=&lt;value&gt;
+      p.guide-text
+        | Variables listed here are added to the box during startup.
+        br
+        | Example notation:
+      pre.well.well-code DB_HOST=db.run.runnable.io
+
+      button.btn.blue.btn-xs.btn-close(
+        ng-click = "onChangeHideGuideEnv()"
+      )
+        svg.iconnables.icons-close
+          use(
+            xlink:href = "#icons-close"
+          )
+    //- If the stateModel has an env (even empty), then the envs have been modified, and
+      - we should display them
+    div(
+      current-model = "stateModel.env ? stateModel : currentModel"
+      env-vars
+      state-model = "tempModel"
+      validation = "validation"
+    )
+    footer.modal-footer
+      //- 0.3 SAN-436
+        - to do:
+        - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
+      button.btn.green(
+        ng-if = "data.showRebuild"
+        ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
+        ng-disabled = "!validation.valid"
+        type = "button"
+      ) Save and Restart
+      button.btn.green(
+        ng-if = "!data.showRebuild"
+        ng-click = "defaultActions.save(tempModel, ['env'], defaultActions.cancel)"
+        ng-disabled = "!validation.valid"
+        type = "button"
+      ) Save
+      button.btn.white(
+        ng-click = "defaultActions.cancel()"
+        type = "button"
+      ) Go Back
+  //- if no boxes with exposed ports (empty state)
+  aside.modal-aside.boxes(
+    ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
   )
-    h3.guide-header Using Environment Variables
-    pre.well.well-code &lt;key&gt;=&lt;value&gt;
     p.guide-text
-      | Variables listed here are added to the box during startup.
-      br
-      | Example notation:
-    pre.well.well-code DB_HOST=db.run.runnable.io
+      | Boxes that can be linked are listed here. Enable linking on a box by adding the #{''}
+      span.btn.btn-xxs.well.well-code.well-inline.gray(
+        ng-class = "{active: popoverExposeInstruction.data.show}"
+        toggle-pop-over
+        toggle-pop-over-model = "popoverExposeInstruction.data.show"
+      ) EXPOSE
+      | #{''} instruction in its Dockerfile to open ports.
+      pop-over(
+        actions = "popoverExposeInstruction.actions"
+        data = "popoverExposeInstruction.data"
+        popover-options = "{\"left\":-70,\"top\":108}"
+        template = "viewExposeInstruction"
+      )
 
-    button.btn.blue.btn-xs.btn-close(
-      ng-click = "onChangeHideGuideEnv()"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )
-  //- If the stateModel has an env (even empty), then the envs have been modified, and
-    - we should display them
-  div(
-    current-model = "stateModel.env ? stateModel : currentModel"
-    env-vars
-    state-model = "tempModel"
-    validation = "validation"
+  //- if boxes with exposed ports
+  aside.modal-aside.boxes(
+    ng-if = "(data.instances.models | instancesWithOpenPorts:data.instance).length"
   )
-  footer.modal-footer
-    //- 0.3 SAN-436
-      - to do:
-      - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
-    button.btn.green(
-      ng-if = "data.showRebuild"
-      ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
-      ng-disabled = "!validation.valid"
-      type = "button"
-    ) Save and Restart
-    button.btn.green(
-      ng-if = "!data.showRebuild"
-      ng-click = "defaultActions.save(tempModel, ['env'], defaultActions.cancel)"
-      ng-disabled = "!validation.valid"
-      type = "button"
-    ) Save
-    button.btn.white(
-      ng-click = "defaultActions.cancel()"
-      type = "button"
-    ) Go Back
-//- if no boxes with exposed ports (empty state)
-aside.modal-aside.boxes(
-  ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
-)
-  p.guide-text
-    | Boxes that can be linked are listed here. Enable linking on a box by adding the #{''}
-    span.btn.btn-xxs.well.well-code.well-inline.gray(
-      ng-class = "{active: popoverExposeInstruction.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "popoverExposeInstruction.data.show"
-    ) EXPOSE
-    | #{''} instruction in its Dockerfile to open ports.
-    pop-over(
-      actions = "popoverExposeInstruction.actions"
-      data = "popoverExposeInstruction.data"
-      popover-options = "{\"left\":-70,\"top\":108}"
-      template = "viewExposeInstruction"
-    )
-
-//- if boxes with exposed ports
-aside.modal-aside.boxes(
-  ng-if = "(data.instances.models | instancesWithOpenPorts:data.instance).length"
-)
-  h2.sub-header
-    span.sub-header-text Boxes
-  ul.box-group
-    //- 0.3 SAN-436
-      - to do:
-      - boxes should appear in the same order as they appear on the navbar
-      - do not show boxes with no exposed ports
-      - clicks on b.btn should paste "$ENTER_ENV_VAR={{url}}+':'+{{port}}" (with specified port) into the last cursor position in the env file
-    li.box-group-item.expanded(
-      ng-repeat = "otherInstance in data.instances.models | \
-        instancesWithOpenPorts:data.instance"
-    )
-      .text-overflow {{ otherInstance.attrs.name }}
-      button.btn.btn-xs.gray(
-        ng-repeat = "url in otherInstance.containers.models[0].urls()"
-        ng-click = "pasteLinkedInstance(url)"
-        tooltip = "Link to: {{ url }}"
-        tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
-      ) {{url | filterCleanPorts}}
+    h2.sub-header
+      span.sub-header-text Boxes
+    ul.box-group
+      //- 0.3 SAN-436
+        - to do:
+        - boxes should appear in the same order as they appear on the navbar
+        - do not show boxes with no exposed ports
+        - clicks on b.btn should paste "$ENTER_ENV_VAR={{url}}+':'+{{port}}" (with specified port) into the last cursor position in the env file
+      li.box-group-item.expanded(
+        ng-repeat = "otherInstance in data.instances.models | \
+          instancesWithOpenPorts:data.instance"
+      )
+        .text-overflow {{ otherInstance.attrs.name }}
+        button.btn.btn-xs.gray(
+          ng-repeat = "url in otherInstance.containers.models[0].urls()"
+          ng-click = "pasteLinkedInstance(url)"
+          tooltip = "Link to: {{ url }}"
+          tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":21}"
+        ) {{url | filterCleanPorts}}
