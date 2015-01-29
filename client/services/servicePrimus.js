@@ -74,6 +74,7 @@ RunnablePrimus.prototype.createUserStream = function(userId) {
       name: userId
     }
   });
+  // Whatever creates the stream will need to filter it
   return this;
 };
 
