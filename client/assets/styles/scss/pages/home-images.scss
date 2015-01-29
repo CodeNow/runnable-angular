@@ -79,6 +79,15 @@
     height: 100%;
     padding: 0;
     width: 240px;
+
+  }
+
+  .explorer-toggle {
+    position: relative;
+  }
+
+  .file-tree {
+    margin: 15px 0 0 6px;
   }
 
   .icons-repository {
@@ -162,10 +171,10 @@
   background: $white;
   content: '';
   display: inline-block;
-  height: 18px;
+  height: 14px;
   left: 3px;
   position: relative;
-  top: 5px;
+  top: 2px;
   width: 9px;
 }
 
@@ -178,7 +187,7 @@
 .workflow-toggle {
   display: flex;
   margin: 30px auto 45px;
-  width: 450px;
+  width: 480px;
 }
 
 .workflow-toggle-item {
@@ -200,7 +209,6 @@
 }
 
 .workflow-label {
-  font-size: 14px;
   padding-bottom: 12px;
   text-align: center;
 }

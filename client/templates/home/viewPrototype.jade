@@ -19,7 +19,7 @@ ul.row.clearfix.list.workflow-toggle
     ng-class = "{active: workflowToggle === 3}"
     ng-click = "workflowToggle = 3"
   )
-    pre.pre.img-workflow.img-workflow-commits Server.prototype.start = function (cb) {
+    pre.pre.img-workflow.img-workflow-commits Server.prototype.start = fu
     .workflow-label Debug call stacks
 .img-ui(
   ng-init = "workflowToggle = 1"
@@ -37,7 +37,7 @@ ul.row.clearfix.list.workflow-toggle
     input.input.no-touching(
       readonly
       select-all
-      value = "runnable.io"
+      value = "runnable.io/your_org/web-staging"
     )
   .ui-wrapper
     .sidebar.global-sidebar
@@ -78,25 +78,49 @@ ul.row.clearfix.list.workflow-toggle
                 xlink:href = "#icons-gear"
               )
       .sidebar.box-sidebar
-        ul.list.repository-group.no-touching
-          li.list-item.repository-group-item.repository-group-text
-            svg.iconnables.icons-repository
+        .btn.btn-sm.btn-icon.white.explorer-toggle.active.no-touching
+          svg.iconnables.icons-folder-open
+            use(
+              xlink:href = "#icons-folder-open"
+            )
+        ul.file-tree
+          li.folder
+            svg.iconnables.filetypes.icons-folder
               use(
-                xlink:href = "#icons-repository"
+                xlink:href = "#icons-folder"
               )
-            h3.repository-title runnable/web
-            p.repository-description
-              svg.iconnables.icons-branch
-                use(
-                  xlink:href = "#icons-branch"
-                )
-              | master
-            p.repository-description.clearfix
-              svg.iconnables.icons-commit
-                use(
-                  xlink:href = "#icons-commit"
-                )
-              | Stopping the closing of this popover
+            span.item-name bin
+          li.folder
+            svg.iconnables.filetypes.icons-folder
+              use(
+                xlink:href = "#icons-folder"
+              )
+            span.item-name boot
+          li.folder.in
+            svg.iconnables.filetypes.icons-folder
+              use(
+                xlink:href = "#icons-folder"
+              )
+            span.item-name dev
+            ul
+              li.folder
+                svg.iconnables.filetypes.icons-folder
+                  use(
+                    xlink:href = "#icons-folder"
+                  )
+                span.item-name assets
+              li.file
+                svg.iconnables.filetypes.icons-file
+                  use(
+                    xlink:href = "#icons-file"
+                  )
+                span.item-name files.scss
+              li.file
+                svg.iconnables.filetypes.icons-file
+                  use(
+                    xlink:href = "#icons-file"
+                  )
+                span.item-name README.md
       .views.ui-views.active-panel.ace-runnable-dark.ui-views-terminal(
         ng-if = "workflowToggle === 1"
       )
