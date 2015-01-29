@@ -64,7 +64,7 @@ ul.row.clearfix.list.workflow-toggle
         .primary-actions(
           ng-if = "workflowToggle === 2"
         )
-          .btn.green Save
+          .btn.green.no-touching Save
         .secondary-actions
           .btn.white.btn-action.no-touching
             svg.iconnables.icons-fork
@@ -83,7 +83,7 @@ ul.row.clearfix.list.workflow-toggle
             use(
               xlink:href = "#icons-folder-open"
             )
-        ul.file-tree
+        ul.file-tree.no-touching
           li.folder
             svg.iconnables.filetypes.icons-folder
               use(
@@ -125,25 +125,11 @@ ul.row.clearfix.list.workflow-toggle
         ng-if = "workflowToggle === 1"
       )
         pre.pre.
-          root@cid: sh integrationTest.sh
+          root@cid: sh syncDb.sh
 
-          Test 1: passed
-          Test 2: passed
-          Test 3: running....
+          syncing...10%...20%...
       .views.ui-views.active-panel.ace-tm.ace-runnable-dark.ui-views-editor(
         ng-if = "workflowToggle === 2"
-      )
-        pre.pre.
-          &lt;!DOCTYPE html&gt;
-          &lt;html&gt;
-          &nbsp;&nbsp;&lt;head&gt;
-          &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;&lt;/title&gt;
-          &nbsp;&nbsp;&lt;/head&gt;
-          &nbsp;&nbsp;&lt;body&gt;
-          &nbsp;&nbsp;&lt;/body&gt;
-          &lt;/html&gt;
-      .views.ui-views.active-panel.ace-tm.ace-runnable-dark(
-        ng-if = "workflowToggle === 3"
       )
         pre.pre.
           Server.prototype.start = function (cb) {
@@ -159,3 +145,18 @@ ul.row.clearfix.list.workflow-toggle
           };
 
           module.exports = Server;
+      .views.ui-views.active-panel.ace-tm.ace-runnable-dark(
+        ng-if = "workflowToggle === 3"
+      )
+        pre.pre.
+          npm ERR! System Linux 3.13.0-29-generic
+          npm ERR! command "/usr/local/bin/node" "/usr/local/bin/npm" "start"
+          npm ERR! cwd /runnable-angular
+          npm ERR! node -v v0.10.29
+          npm ERR! npm -v 1.4.14
+          npm ERR! code ELIFECYCLE
+          npm ERR!
+          npm ERR! Additional logging details can be found in:
+          npm ERR!     /runnable-angular/npm-debug.log
+          npm ERR! not ok code 0
+          Exited with code: 1

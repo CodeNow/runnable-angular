@@ -32,6 +32,10 @@
       margin-bottom: 30px;
     }
 
+    &.col-60 {
+      width: 60%;
+    }
+
     &.col-50 {
       width: 50%;
     }
@@ -217,7 +221,7 @@
 
   .p {
     margin: 6px auto 0;
-    max-width: 420px;
+    max-width: 360px;
     text-align: center;
   }
 
@@ -268,7 +272,7 @@
 
   .btn {
     display: table;
-    margin: 48px auto 0;
+    margin: 33px auto 0;
   }
 
   .icons-fork {
