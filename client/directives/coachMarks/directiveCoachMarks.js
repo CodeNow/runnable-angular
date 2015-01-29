@@ -10,18 +10,23 @@ function showCoachMarks(
   fetchCoachMarkData,
   $templateCache,
   $document,
-  $timeout,
   keypather,
   $log
 ) {
   return {
     restrict: 'A',
     scope: {
-      template: '@'
+      template: '@' //The template is on the scope so it can be used by the view
     },
     link: function ($scope, element, attrs, ctrl) {
       var popEl;
 
+      if (!$scope.template) {
+        return $log.error('Coach mark needs a template');
+      }
+      if (!attrs.type) {
+        return $log.error('Coach mark needs a type');
+      }
       var style;
       try {
         style = JSON.parse(attrs.markStyle);
@@ -35,9 +40,6 @@ function showCoachMarks(
       fetchCoachMarkData(attrs.type, function (data) {
         if (!data) { return; }
         $scope.coachMarkData = data;
-        if (!$scope.template) {
-          return $log.error('Coach mark needs a template!');
-        }
 
         keypather.set($scope, 'coachMarkData.dismiss', function () {
           $scope.coachMarkData.show = false;
@@ -57,7 +59,9 @@ function showCoachMarks(
         $document.find('body').append(popEl);
       });
       $scope.$on('$destroy', function () {
-        $scope.coachMarkData.show = false;
+        if ($scope.coachMarkData) {
+          $scope.coachMarkData.show = false;
+        }
         if (popEl) {
           popEl.remove();
         }
