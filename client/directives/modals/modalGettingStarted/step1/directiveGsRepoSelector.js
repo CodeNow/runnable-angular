@@ -80,7 +80,7 @@ function gsRepoSelector(
         if (n) {
           $scope.loading = true;
           $scope.githubRepos = null;
-          fetchOwnerRepos(n)
+          fetchOwnerRepos(n.oauthName())
           .then(function (repoList) {
             $scope.githubRepos = repoList;
           }).catch(errs.handler)

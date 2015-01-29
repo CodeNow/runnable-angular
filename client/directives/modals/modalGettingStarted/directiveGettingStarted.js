@@ -17,7 +17,6 @@ function modalGettingStarted(
   errs,
   getNewForkName,
   regexpQuote,
-  fetchGSDepInstances,
   gsPopulateDockerfile,
   createNewInstance,
   $state,
@@ -192,10 +191,11 @@ function modalGettingStarted(
       keypather.set($scope, 'data.accountsDisabled', function () {
         return $scope.state.step > 1;
       });
-      fetchGSDepInstances(function (err, deps) {
-        if (err) { return errs.handler(err); }
+      fetchInstances({
+        githubUsername: 'HelloRunnable'
+      }).then(function (deps) {
         keypather.set($scope, 'data.allDependencies', deps);
-      });
+      }).catch(errs.handler);
       fetchStackInfo(function (err, stacks) {
         if (err) { return errs.handler(err); }
         keypather.set($scope, 'data.stacks', stacks);
@@ -245,7 +245,7 @@ function modalGettingStarted(
             counter.next(err);
           }
         });
-        fetchInstances(function (instances) {
+        fetchInstances().then(function (instances) {
           $scope.data.instances = instances;
           if (counter) {
             counter.next();
