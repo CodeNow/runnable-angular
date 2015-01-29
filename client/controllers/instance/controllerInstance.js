@@ -72,6 +72,11 @@ function ControllerInstance(
       'lastInstancePerUser.' + $stateParams.userName,
       $stateParams.instanceName
     );
+    // if nothing has been saved to the uiState object for the user, they're new, so
+    // open the file explorer
+    if (!keypather.get($scope.user, 'attrs.userOptions.uiState')) {
+      data.showExplorer = true;
+    }
     instanceUpdatedPoller.start(data.instance);
   })
   .catch(function(err) {
@@ -114,7 +119,7 @@ function ControllerInstance(
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
   // button in this situation)
-  $scope.$watch('dataInstance.data.showExplorer', function(n, p) {
+  $scope.$watch('dataInstance.data.showExplorer', function (n) {
     var runningContainer = keypather.get(data, 'instance.containers.models[0].running()');
     if (!runningContainer) {
       return;
@@ -139,12 +144,19 @@ function ControllerInstance(
   var containerWatch =
       $scope.$watch('dataInstance.data.instance.containers.models[0]', handleContainer);
 
+  var unwatchRunning;
   function handleContainer (container) {
     if (!container) {
       buildLogsOnly();
     }
     else { // handles both container.error and container.dockerContainer states
-      $scope.$watch('dataInstance.data.instance.containers.models[0].attrs.inspect.State.Running', displayTabsForContainerState); // once
+      if (unwatchRunning) {
+        unwatchRunning();
+      }
+      unwatchRunning = $scope.$watch(
+        'dataInstance.data.instance.containers.models[0].attrs.inspect.State.Running',
+        displayTabsForContainerState
+      ); // once
     }
   }
   function displayTabsForContainerState (containerRunning) {
@@ -203,10 +215,7 @@ function ControllerInstance(
 
   function restoreOrOpenDefaultTabs () {
     data.openItems.reset([]);
-    data.sectionClasses = {
-      out: false,
-      in: false
-    };
+    data.sectionClasses.out = false;
     if (!data.openItems.hasOpen('BuildStream')) {
       data.openItems.addBuildStream();
     }

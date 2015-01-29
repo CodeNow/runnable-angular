@@ -137,12 +137,12 @@ describe('directiveModal'.bold.underline.blue, function () {
 
       $scope.$digest();
       expect($elScope.in).to.be.ok;
-      expect($elScope.modal).to.be.ok;
       var jBody = jQuery('body');
       var view = jBody.find('modal-fork-box');
       expect(view).to.be.ok;
 
       $scope.$destroy();
+      expect($document[0].querySelector('.modal-fork')).to.not.be.ok;
     });
 
     it('should add the genericOpen to the body for a generic Modal', function () {
@@ -155,7 +155,6 @@ describe('directiveModal'.bold.underline.blue, function () {
 
       $scope.$digest();
       expect($elScope.in).to.be.ok;
-      expect($elScope.modal).to.be.ok;
       var jBody = jQuery('body');
       var openView = jBody.find('modal-generic');
       var modalView = jBody.find('Delete Box');
@@ -163,6 +162,7 @@ describe('directiveModal'.bold.underline.blue, function () {
       expect(modalView).to.be.ok;
 
       $scope.$destroy();
+      expect($document[0].querySelector('modal-generic')).to.not.be.ok;
     });
 
     it('should destroy the scope and remove the view from the body', function () {
@@ -175,7 +175,6 @@ describe('directiveModal'.bold.underline.blue, function () {
 
       $scope.$digest();
       expect($elScope.in).to.be.ok;
-      expect($elScope.modal).to.be.ok;
       var jBody = jQuery('body');
       var openView = jBody.find('modal-fork-box');
       expect(openView).to.be.ok;
@@ -184,6 +183,7 @@ describe('directiveModal'.bold.underline.blue, function () {
       expect($elScope.in).to.be.false;
       // The mouse click should no longer work
       expect(ctx.element[0].onclick).to.be.null;
+      expect($document[0].querySelector('.modal-fork')).to.not.be.ok;
     });
   });
 

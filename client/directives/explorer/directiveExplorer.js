@@ -5,11 +5,7 @@ require('app')
 /**
  * @ngInject
  */
-function explorer(
-  fetchInstances,
-  fetchBuild,
-  $stateParams
-) {
+function explorer() {
   return {
     restrict: 'A',
     templateUrl: 'viewExplorer',
@@ -18,20 +14,6 @@ function explorer(
       toggleTheme: '='
     },
     link: function ($scope, elem, attrs) {
-      if ($stateParams.buildId) {
-        fetchBuild($stateParams.buildId)
-        .then(function(build) {
-          $scope.build = build;
-        });
-      } else {
-        fetchInstances({
-          name: $stateParams.instanceName
-        })
-        .then(function(instance) {
-          $scope.instance = instance;
-          $scope.build = instance.build;
-        });
-      }
     }
   };
 }

@@ -63,6 +63,7 @@ function fileTree(
           var container = keypather.get($scope.instance, 'containers.models[0]');
           if (container) {
             $scope.rootDir = container.rootDir;
+            initRootDirState($scope.rootDir);
           } else {
             instanceDeployedPoller = createInstanceDeployedPoller($scope.instance).start();
             var clearWatch =
