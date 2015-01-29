@@ -63,7 +63,7 @@ function gsRepoSelector(
         repo.spin = true;
         $scope.state.selectedRepo = repo;
         repo.branches.fetch(function(err) {
-          if (err) {return errs.handler(err); }
+          if (err) { return errs.handler(err); }
           $scope.state.activeBranch =
               repo.branches.models.find(hasKeypaths({'attrs.name': 'master'}));
           if (!$scope.state.activeBranch) { return errs.handler(new Error('No branches found')); }
