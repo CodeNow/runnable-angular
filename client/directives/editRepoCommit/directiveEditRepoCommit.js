@@ -68,7 +68,9 @@ function editRepoCommit(
 
       $scope.popoverRepositoryToggle.actions.selectBranch = function (activeBranch) {
         $scope.activeBranch = activeBranch;
-        $scope.activeBranch.commits.fetch(errs.handler);
+        // Silence errors on bad branch fetch
+        // We don't want a 404 modal when we can't find the branch
+        $scope.activeBranch.commits.fetch(angular.noop);
       };
 
       $scope.popoverRepositoryToggle.actions.selectCommit = function (commitSha) {
@@ -139,7 +141,9 @@ function editRepoCommit(
           // err will always be null
           $scope.commitsBehind = behind;
         });
-        $scope.activeBranch.commits.fetch(errs.handler);
+        // Silence errors on bad branch fetch
+        // We don't want a 404 modal when we can't find the branch
+        $scope.activeBranch.commits.fetch(angular.noop);
       });
     }
   };
