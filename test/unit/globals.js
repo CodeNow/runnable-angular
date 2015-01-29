@@ -16,7 +16,7 @@ if (window.host.indexOf('http') === -1) {
   window.host = 'http:' + window.host;
 }
 window.expect = require('chai').expect;
-window.sinon = require('sinon'); // Stuff to create spyable functions (unused)
+window.sinon = require('sinon'); // Stuff to create spyable functions
 window.mocks = require('./apiMocks'); // JSON mocks for API responses
 window.directiveTemplate = require('./fixtures/directiveTemplate');
 window.modelStore = require('runnable/lib/stores/model-store');

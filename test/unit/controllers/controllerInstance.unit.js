@@ -1,15 +1,12 @@
 'use strict';
 
-var host = require('../../../client/config/json/api.json').host;
 // injector-provided
 var async,
     $controller,
-    determineActiveAccount,
     createInstanceDeployedPoller,
     $httpBackend,
     keypather,
     OpenItems,
-    QueryAssist,
     $scope,
     $rootScope,
     $state,
@@ -19,18 +16,25 @@ var async,
 describe('controllerInstance'.bold.underline.blue, function () {
   var ctx = {};
 
+  var fetchInstancesMock = sinon.spy(function () {
+    var d = $q.defer();
+    d.resolve({});
+    return d.promise;
+  });
+
   beforeEach(angular.mock.module('app'));
 
   beforeEach(function () {
+    angular.mock.module(function ($provide) {
+      $provide.value('fetchInstances', fetchInstancesMock);
+    });
     angular.mock.inject(function (
       _async_,
       _$controller_,
-      _determineActiveAccount_,
       _createInstanceDeployedPoller_,
       _$httpBackend_,
       _keypather_,
       _OpenItems_,
-      _QueryAssist_,
       _$rootScope_,
       _$state_,
       _$stateParams_,
@@ -38,12 +42,10 @@ describe('controllerInstance'.bold.underline.blue, function () {
     ) {
       async = _async_;
       $controller = _$controller_;
-      determineActiveAccount = _determineActiveAccount_;
       createInstanceDeployedPoller = _createInstanceDeployedPoller_;
       $httpBackend = _$httpBackend_;
       keypather = _keypather_;
       OpenItems = _OpenItems_;
-      QueryAssist = _QueryAssist_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;
