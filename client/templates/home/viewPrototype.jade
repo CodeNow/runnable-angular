@@ -149,14 +149,14 @@ ul.row.clearfix.list.workflow-toggle
         ng-if = "workflowToggle === 3"
       )
         pre.pre.
-          npm ERR! System Linux 3.13.0-29-generic
-          npm ERR! command "/usr/local/bin/node" "/usr/local/bin/npm" "start"
-          npm ERR! cwd /runnable-angular
-          npm ERR! node -v v0.10.29
-          npm ERR! npm -v 1.4.14
-          npm ERR! code ELIFECYCLE
-          npm ERR!
-          npm ERR! Additional logging details can be found in:
-          npm ERR!     /runnable-angular/npm-debug.log
-          npm ERR! not ok code 0
-          Exited with code: 1
+          /bin/sh -c npm start
+
+          ReferenceError: port is not defined
+            at Object.<anonymous> (/runnable-angular/server/main.js:31:20)
+            at Module._compile (module.js:456:26)
+            at Object.Module._extensions..js (module.js:474:10)
+            at Module.load (module.js:356:32)
+            at Function.Module._load (module.js:312:12)
+            at Function.Module.runMain (module.js:497:10)
+            at startup (node.js:119:16)
+            at node.js:906:3

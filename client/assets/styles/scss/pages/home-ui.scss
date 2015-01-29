@@ -55,6 +55,7 @@
     background: $white;
     border-bottom-right-radius: 6px;
     overflow: visible;
+    transition: none;
     width: calc(100% - 180px);
 
     @include media(sm) {

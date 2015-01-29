@@ -63,8 +63,8 @@ main.home
       )
 
     a.btn.btn-xl.green(
-      href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
-    ) Request Invite
+      ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
+    ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
   footer.home-footer
     .hr
