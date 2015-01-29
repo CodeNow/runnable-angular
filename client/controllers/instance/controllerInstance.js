@@ -61,6 +61,7 @@ function ControllerInstance(
   }
 
   pFetchUser.then(function (user) {
+    $scope.user = user;
     return fetchInstances({
       name: $stateParams.instanceName
     });

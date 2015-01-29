@@ -8,7 +8,7 @@ require('app')
  */
 function fileTree(
   keypather,
-  fetchUser,
+  fetchBuild,
   $rootScope,
   $state,
   $stateParams,
@@ -46,12 +46,12 @@ function fileTree(
       });
 
       if ($stateParams.buildId) {
-        // fetch('build', $stateParams.buildId)
-        // .then(function(build) {
-        //   $scope.build = build;
-        //   $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
-        //   initRootDirState($scope.rootDir);
-        // });
+        fetchBuild($stateParams.buildId)
+        .then(function(build) {
+          $scope.build = build;
+          $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
+          initRootDirState($scope.rootDir);
+        });
       } else {
         fetchInstances({
           name: $stateParams.instanceName
