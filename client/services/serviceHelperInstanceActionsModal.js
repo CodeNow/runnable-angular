@@ -178,7 +178,8 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.actions.actionsModalDelete = {
       deleteInstance: function () {
         var deletedInstanceName = data.instance.attrs.name;
-        async.each(data.instance.dependencies.models, function(dep, cb) {
+        var deps = keypather.get(data, 'instance.dependencies.models') || [];
+        async.each(deps, function(dep, cb) {
           if (keypather.get(dep, 'state.delete')) {
             return dep.destroy(cb);
           }
