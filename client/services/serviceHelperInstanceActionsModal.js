@@ -178,20 +178,29 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.actions.actionsModalDelete = {
       deleteInstance: function () {
         var deletedInstanceName = data.instance.attrs.name;
-        data.instance.destroy(function (err) {
-          keypather.set(
-            $localStorage,
-            'lastInstancePerUser.' + $stateParams.userName,
-            null
-          );
-          if (err) { throw err; }
-          // Only change the location if we're still on the page
-          // If the user switched to a different instance in between, we shouldn't move
-          if ($stateParams.instanceName === deletedInstanceName) {
-            $state.go('instance.home', {
-              userName: $stateParams.userName
-            });
+        var deps = keypather.get(data, 'instance.dependencies.models') || [];
+        async.each(deps, function(dep, cb) {
+          if (keypather.get(dep, 'state.delete')) {
+            return dep.destroy(cb);
           }
+          return cb();
+        }, function (err) {
+          if (err) { return errs.handler(err); }
+          data.instance.destroy(function (err) {
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              null
+            );
+            if (err) { throw err; }
+            // Only change the location if we're still on the page
+            // If the user switched to a different instance in between, we shouldn't move
+            if ($stateParams.instanceName === deletedInstanceName) {
+              $state.go('instance.home', {
+                userName: $stateParams.userName
+              });
+            }
+          });
         });
       },
       cancel: function () {

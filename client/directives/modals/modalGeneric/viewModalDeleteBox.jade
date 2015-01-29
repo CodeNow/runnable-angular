@@ -2,16 +2,59 @@
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    h1.modal-heading Delete Box
+    h1.modal-heading Delete Server
   section.modal-body
-    p.modal-description Your box, #{''}
+    p.modal-description Your server, #{''}
       strong {{ data.instance.attrs.name }}
       | , will be permanently removed.
+  section.modal-inset(
+    ng-class = "{in: data.deleteLinked}"
+    ng-init = "data.deleteLinked = true"
+    ng-show = "data.instance.dependencies.models.length"
+  )
+    small.small Deleting linked servers
+    .list
+      label.list-item.label-checkbox(
+        ng-repeat = "instance in data.instance.dependencies.models"
+      )
+        input.input-checkbox(
+          checked
+          type = "checkbox"
+          ng-model = "instance.state.delete"
+        )
+        | {{ instance.attrs.name }}
   footer.modal-footer
+    label.label-checkbox.btn-checkbox(
+      ng-show = "data.instance.dependencies.models.length"
+    )
+      input.input-checkbox(
+        checked
+        ng-click = "data.deleteLinked = !data.deleteLinked"
+        type = "checkbox"
+      )
+      | Delete linked servers
     button.btn.orange(
       ng-click = "actions.deleteInstance(); \
         defaultActions.cancel();"
-    ) Delete Box
+    ) Delete Server
     button.btn.white(
       ng-click = "defaultActions.cancel()"
     ) Go Back
+
+//- .modal-dialog(
+//-   ng-click = "$event.stopPropagation()"
+//- )
+//-   header.modal-header
+//-     h1.modal-heading Delete Box
+//-   section.modal-body
+//-     p.modal-description Your box, #{''}
+//-       strong {{ data.instance.attrs.name }}
+//-       | , will be permanently removed.
+//-   footer.modal-footer
+//-     button.btn.orange(
+//-       ng-click = "actions.deleteInstance(); \
+//-         defaultActions.cancel();"
+//-     ) Delete Box
+//-     button.btn.white(
+//-       ng-click = "defaultActions.cancel()"
+//-     ) Go Back

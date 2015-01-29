@@ -2,8 +2,7 @@
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    h1.modal-heading Fork Box
-
+    h1.modal-heading Fork Server
   section.modal-body
     form(
       name = "data.forkForm"
@@ -28,7 +27,7 @@
           ng-init = "data.forkForm.forkName.showFocus = true; \
             data.renameForm.forkName.showFocus = true;"
           ng-model = "items[0].opts.name"
-          placeholder = "My-Box"
+          placeholder = "My-Server"
           validate-name = "data.instances"
           validate-name-current-instance-valid = "false"
           validate-name-pattern
@@ -42,7 +41,6 @@
         - .invalid-name for names that are taken
       .validate-wrapper.btn-sm.orange(
         ng-class = "{\
-          in: data.forkForm.forkName.$invalid,\
           'invalid-pattern': data.forkForm.forkName.$error.namePattern,\
           'invalid-name': data.forkForm.forkName.$error.nameAvailable\
         }"
@@ -54,18 +52,27 @@
           b.btn-xs.orange _
           b.btn-xs.orange -
         span.validate-rules.invalid-name That's a pretty name, but it's taken.
-      linked-instances(
-        instance-dependencies = "data.instance.dependencies"
-        instances = "data.instances"
-        items = "devItems"
-        ng-if = "data.instance.dependencies.models.length"
-        type = "modal"
-        fork-dependencies = "data.forkDependencies"
-      )
-
+  section.modal-inset(
+    fork-dependencies = "data.forkDependencies"
+    linked-instances
+    instance-dependencies = "data.instance.dependencies"
+    instances = "data.instances"
+    items = "devItems"
+    ng-class = "{in: data.forkDependencies}"
+    ng-if = "data.instance.dependencies.models.length"
+    type = "modal"
+  )
   footer.modal-footer
     //- cancel is modalDirective
       - actions.cancel is parent controller
+    label.label-checkbox.btn-checkbox
+      input.input-checkbox(
+        checked
+        ng-click = "data.deleteLinked = !data.deleteLinked"
+        ng-model = "data.forkDependencies"
+        type = "checkbox"
+      )
+      | Fork linked servers
     button.btn.green(
       ng-class = "{ \
         green: data.forkForm.$valid, \
@@ -73,7 +80,7 @@
       }"
       ng-click = "actions.forkInstance(items); defaultActions.cancel();"
       ng-disabled = "data.forkForm.$invalid"
-    ) Fork Box
+    ) Fork Server
     button.btn.white(
       ng-click = "data.forkForm.$setPristine(); \
         defaultActions.cancel(); "
