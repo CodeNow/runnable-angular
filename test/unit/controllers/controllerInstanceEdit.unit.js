@@ -1,23 +1,27 @@
 'use strict';
 
-var host = require('../../../client/config/json/api.json').host;
-
 var $controller,
     $httpBackend,
     $rootScope,
-    $scope;
+    $scope,
+    $q;
 
-describe('controllerInstanceEdit'.bold.underline.blue, function () {
+describe.only('controllerInstanceEdit'.bold.underline.blue, function () {
 
   beforeEach(function () {
     angular.mock.module('app');
+    angular.mock.module(function ($provide) {
+      $provide.factory('fetchBuild', fixtures.MockFetchBuild.built);
+    });
     angular.mock.inject(function (
       _$controller_,
       _$httpBackend_,
-      _$rootScope_
+      _$rootScope_,
+      _$q_
     ) {
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
+      $q = _$q_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
     });
