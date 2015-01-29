@@ -21,6 +21,27 @@ main.home
   //- feature
   section.home-feature
 
+    //- new server configuration
+    section.feature.feature-configuration.row.clearfix(
+      ng-include = "'viewConfiguration'"
+    )
+
+    .hr.hr-single
+
+    //- commits
+    section.feature.feature-commits.row.clearfix(
+      ng-include = "'viewCommits'"
+    )
+
+    .hr.hr-single
+
+    //- protype
+    section.feature.feature-fork.clearfix(
+      ng-include = "'viewFork'"
+    )
+
+    .hr.hr-single
+
     //- protype
     section.feature.feature-prototype.clearfix(
       ng-include = "'viewPrototype'"
@@ -28,32 +49,22 @@ main.home
 
     .hr.hr-single
 
-    //- workflow
-    section.feature.feature-workflow.row.clearfix(
-      ng-include = "'viewWorkflow'"
+    //- github
+    section.feature.feature-github.row.clearfix(
+      ng-include = "'viewGithub'"
     )
 
     .hr.hr-single
 
-    //- new server configuration
-    section.feature.feature-configuration(
-      ng-include = "'viewConfiguration'"
-    )
+    //- coming soon
+    section.home-feature
+      section.feature.feature-soon.clearfix(
+        ng-include = "'viewSoon'"
+      )
 
-  //- pricing
-  section.home-pricing.home-callout(
-    ng-include = "'viewPricing'"
-  )
-
-  //- coming soon
-  section.home-feature
-    section.feature.feature-soon.clearfix(
-      ng-include = "'viewSoon'"
-    )
-
-  a.btn.btn-xl.green(
-    href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
-  ) Request Invite
+    a.btn.btn-xl.green(
+      href = "mailto:support@runnable.com?subject=Send me an invite, or else!"
+    ) Request Invite
 
   footer.home-footer
     .hr

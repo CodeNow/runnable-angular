@@ -1,4 +1,18 @@
-.row.clearfix.img-configuration
+.boxes.img-boxes
+  h2.sub-header Servers
+    a.btn.btn-sm.white.sub-header-action.no-touching
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+  ul.box-group
+    li.box-group-item.btn.white.running.no-touching
+      a.box-item-name staging server
+      span.icons-status
+    li.box-group-item.btn.white.running.no-touching
+      a.box-item-name testing server
+      span.icons-status
+.img-configuration
   .icons-col
     img.icons-img(
       height = "60"
@@ -38,10 +52,9 @@
       ng-src = "/build/images/home/icons/icons-redis-alt.svg"
       width = "60"
     )
-.row.clearfix
-  .col
-    h2.h2.header-thin.text-purple Effortless Setup
-    p.p Connect your Github account and get to work. We automatically scan your source code and configure your application.
-    a.btn.green(
-      ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
-    ) {{ dataHome.data.hasPass ? 'Get Started' : 'Get Started' }}
+.col
+  h2.h2.header-thin.text-purple Add a server in a few clicks
+  p.p We automatically detect and run your repository's environment and dependencies.
+  a.btn.green(
+    ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
+  ) {{ dataHome.data.hasPass ? 'Get Started' : 'Get Started' }}

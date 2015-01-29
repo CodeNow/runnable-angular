@@ -43,6 +43,12 @@
     &.col-30 {
       width: 30%;
     }
+
+    &.flex-center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 
   .green {
@@ -210,7 +216,7 @@
   }
 
   .p {
-    margin: 0 auto;
+    margin: 6px auto 0;
     max-width: 360px;
     text-align: center;
   }
@@ -220,96 +226,76 @@
   }
 }
 
-// section.feature.feature-prototype
-.feature-prototype {
-  margin-top: -150px;
-  max-width: 960px;
-
-  .h2 {
-    margin: 45px auto 0;
-  }
-
-  .row.ace-tm {
-    margin: 15px auto 0;
-    max-width: 720px;
-  }
-}
-
-// section.feature.feature-workflow
-.feature-workflow {
-  max-width: 960px;
-  position: relative;
-
-  .header-thin {
-    line-height: 1.2;
-    margin: 0 auto;
-    max-width: 390px;
-  }
-
-  .row:last-child > .img {
-    display: block;
-    margin: 0 auto 12px;
-  }
-
-  .pull-text {
-    margin-top: 60px;
-  }
-}
-
 // section.feature.feature-configuration
 .feature-configuration {
   max-width: 960px;
 }
 
-// section.home-callout
-.home-callout {
-  background: linear-gradient($purple-dark, $purple);
-  color: $white;
-  margin: 180px 0;
-  padding: 60px 0 120px;
+// section.feature.feature-commits
+.feature-commits {
+  max-width: 960px;
+
+  .col-50 {
+    height: 286px;
+  }
+
+  .h2,
+  .p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .repository-group-item {
+    display: table;
+    margin: 0 auto;
+  }
+
+  .icons-git {
+    float: right;
+    top: -4px;
+  }
+}
+
+// section.feature.feature-fork
+.feature-fork {
+  max-width: 960px;
+
+  .h2,
+  .p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .btn {
+    display: table;
+    margin: 48px auto 0;
+  }
+
+  .icons-fork {
+    margin-right: 6px;
+  }
+}
+
+// section.feature.feature-prototype
+.feature-prototype {
+  max-width: 960px;
+
+  .workflow-toggle {
+    margin: 30px auto;
+  }
+}
+
+// section.feature.feature-github
+.feature-github {
+  max-width: 960px;
   position: relative;
 
-  @include media(sm) {
-    max-height: none;
+  .flex-center {
+    height: 178px;
   }
 
-  .row {
-    margin: 0 auto;
-    max-width: 960px;
-  }
-
-  .h1 {
-    margin-bottom: 60px;
-
-    .span {
-      color: $purple-logo;
-      font-size: 27px;
-    }
-
-    @include media(sm) {
-      margin-bottom: 45px;
-    }
-  }
-
-  .col {
-    padding: 0 45px;
-  }
-
-  .h3 {
-    color: $purple-logo;
-    margin-bottom: 9px;
-  }
-
-  .p {
-    text-align: center;
-  }
-
-  .img {
-    bottom: -60px;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
+  .header-thin {
+    line-height: 1.2;
   }
 }
 
