@@ -25,13 +25,12 @@ pre.pre(
   }"
 )
 
-.term-container(
+.term-container.terminal(
   ng-if = "item.state.type === 'Terminal'"
+  term
+  item = "item"
 )
-  term.terminal(
-    item = "item"
-  )
-    span.js-char-width 0
+  span.js-char-width 0
 
 .web-container(
   web-view
