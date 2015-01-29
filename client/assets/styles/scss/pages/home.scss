@@ -48,7 +48,7 @@
       width: 30%;
     }
 
-    @include media(xs) {
+    @include media(sm) {
       &[class*='col-'] {
         float: none;
         width: 100%;
@@ -156,7 +156,8 @@
   position: relative;
 
   @include media(xxs) {
-    height: 480px;
+    height: 420px;
+    padding-top: 30px;
   }
 
   .h1,
@@ -257,7 +258,7 @@
     margin: 0;
     text-align: left;
 
-    @include media(xs) {
+    @include media(sm) {
       margin: 0 auto;
       text-align: center;
     }
@@ -283,7 +284,7 @@
     margin: 0;
     text-align: left;
 
-    @include media(xs) {
+    @include media(sm) {
       margin: 0 auto;
       text-align: center;
     }
@@ -293,7 +294,7 @@
     display: table;
     margin: 33px auto 0;
 
-    @include media(xs) {
+    @include media(sm) {
       margin: 33px auto;
     }
   }
@@ -331,11 +332,14 @@
   display: block;
   margin: 30px auto 15px;
   width: 360px;
+
+  @include media(xxs) {
+    width: 100%;
+  }
 }
 
 // footer.home-footer
 .home-footer {
-  margin-top: 240px;
   padding-bottom: 210px;
 
   @include media(xs) {

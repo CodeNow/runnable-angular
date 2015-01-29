@@ -141,7 +141,7 @@
     position: relative;
     width: 390px;
 
-    @include media(xxs) {
+    @include media(sm) {
       margin-left: 39px;
       width: 300px;
     }

@@ -24,7 +24,7 @@ h4 {
   }
 
   @include media(xxs) {
-    font-size: 30px;
+    font-size: 27px;
   }
 }
 
@@ -33,6 +33,14 @@ h4 {
 
   @include media(sm) {
     font-size: 27px;
+  }
+
+  @include media(xs) {
+    font-size: 24px;
+  }
+
+  @include media(xxs) {
+    font-size: 21px;
   }
 }
 

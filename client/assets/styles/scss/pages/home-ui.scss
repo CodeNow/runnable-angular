@@ -42,6 +42,14 @@
     font-weight: 500;
   }
 
+  // hide save and actions icon
+  .btn-icon,
+  .primary-actions {
+    @include media(xxs) {
+      display: none;
+    }
+  }
+
   // main
   .content {
     background: $white;
