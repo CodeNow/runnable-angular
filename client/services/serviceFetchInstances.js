@@ -13,9 +13,30 @@ function fetchInstances(
   hasKeypaths,
   errs,
   $stateParams,
-  $q
+  $q,
+  primus
 ) {
   var currentInstanceList;
+  var userStream;
+
+  pFetchUser.then(function(user) {
+    userStream = primus.createUserStream(user.oauthId());
+
+    userStream.on('data', function (data) {
+      if (data.event !== 'ROOM_MESSAGE') {
+        console.log(data.event);
+        return;
+      }
+      console.log(data);
+      if (!currentInstanceList) { return; }
+      if (!keypather.get(data, 'data.data.name')) { return; }
+      var cachedInstance = currentInstanceList.find(hasKeypaths({
+        'attrs.name': data.data.data.name
+      }));
+      console.log(cachedInstance);
+      cachedInstance.parse(data.data.data);
+    });
+  });
   return function (opts) {
     if (!opts) {
       opts = {};
