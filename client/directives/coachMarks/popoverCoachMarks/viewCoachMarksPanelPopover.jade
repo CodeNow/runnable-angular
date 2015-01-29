@@ -1,0 +1,10 @@
+.popover.bottom.popover-guides(
+  ng-class = "{in: data.show}"
+)
+  .arrow.white
+  .popover-content.clearfix
+    h3.popover-header Edit files with ease
+    p You don't have to use vim to edit files here! Access any file on your box through our file browser, and edit right here with our editor!
+    a.link.link-text.link-gray(
+      ng-click = "data.dismiss()"
+    ) Dismiss

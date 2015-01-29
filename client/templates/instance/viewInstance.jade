@@ -70,6 +70,13 @@ section.sidebar.box-sidebar.load
     instance = "dataInstance.data.instance"
     build = "dataInstance.data.instance.build"
   )
+  .guide-wrapper(
+    ng-if = "dataInstance.data.unsavedAcvs.length"
+    type = "repoList"
+    mark-style = "{\"left\": 96, \"top\": 10}"
+    template = "viewCoachMarksRepoPopover"
+    show-coach-marks
+  )
 
 //- in / out control presence of header-bar
 section.views.with-add-tab(
@@ -80,6 +87,13 @@ section.views.with-add-tab(
     ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
     type = "button"
   )
+    .guide-wrapper(
+      mark-style = "{\"left\": -18, \"top\": 6}"
+      ng-if = "dataInstance.data.instance.containers.models[0].running()"
+      template = "viewCoachMarksPanelPopover"
+      type = "explorer"
+      show-coach-marks
+    )
     svg.iconnables.icons-folder-open
       use(
         xlink:href = "#icons-folder-open"

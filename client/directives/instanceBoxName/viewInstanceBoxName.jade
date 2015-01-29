@@ -13,5 +13,12 @@ h1.box-info.load(
     select-all
     value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
   )
+  .guide-wrapper(
+    ng-if = "instance.attrs.name"
+    type = "boxName"
+    mark-style = "{\"left\": -25, \"top\": 34}"
+    template = "viewCoachMarksBoxNamePopover"
+    show-coach-marks
+  )
   //- sets layout on h1.box-name for .box-url
   span.box-name-ghost {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io

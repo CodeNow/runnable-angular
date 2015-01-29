@@ -12,6 +12,7 @@ function ControllerApp(
   $scope,
   $rootScope,
   $window,
+  debounce,
   configAPIHost,
   configEnvironment,
   configLoginURL,
@@ -20,7 +21,8 @@ function ControllerApp(
   fetchUser,
   fetchOrgs,
   keypather,
-  $state
+  $state,
+  $timeout
 ) {
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
@@ -28,6 +30,11 @@ function ControllerApp(
     actions: {},
     state: {}
   };
+
+  var w = angular.element($window);
+  w.bind('resize', debounce(function () {
+    $timeout(angular.noop);
+  }, 33));
 
   // used in dev-info box
   dataApp.data.configEnvironment = configEnvironment;

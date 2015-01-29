@@ -4,8 +4,8 @@
   .arrow.white
   .popover-content.clearfix
     h3.popover-header Each Box is Special
-    p Boxes are unique things that have unique URLs that anyone can see.
+    p Every box gets its own personal url that you can use anywhere!
     //- dismiss should also clear the coachmark
     a.link.link-text.link-gray(
-      ng-click = "data.show = !data.show"
+      ng-click = "data.dismiss()"
     ) Dismiss

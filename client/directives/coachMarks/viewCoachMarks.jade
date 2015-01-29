@@ -1,0 +1,19 @@
+//- *
+//- coach marks
+//- *
+//- box name mark
+.guide.guide-mark(
+  ng-click = "$event.stopPropagation()"
+  ng-model = "coachMarkData"
+  ng-class = "{in: !!coachMarkData}"
+  ng-hide = "coachMarkData.hideMark"
+  toggle-pop-over
+  toggle-pop-over-model = "coachMarkData.show"
+  ng-style = "coachMarkData.getStyle()"
+)
+  pop-over(
+    data = "coachMarkData"
+    popover-ready = "coachMarkData.show"
+    popover-options = "{\"left\":-126,\"top\":33}"
+    template = "{{template}}"
+  )

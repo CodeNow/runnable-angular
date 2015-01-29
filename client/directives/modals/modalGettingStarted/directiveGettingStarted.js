@@ -114,7 +114,7 @@ function modalGettingStarted(
             var unwatchInstances = $scope.$watch('data.instances', function (n) {
               if (!n) { return; }
               unwatchInstances();
-              generateDependencyNames();
+              generateDependenciesNames();
               $scope.state.opts.env = generateEnvs($scope.state.dependencies);
               $scope.state.opts.name =
                 getNewForkName({
@@ -196,9 +196,9 @@ function modalGettingStarted(
         if (err) { return errs.handler(err); }
         keypather.set($scope, 'data.allDependencies', deps);
       });
-      fetchStackInfo(function (err, body) {
+      fetchStackInfo(function (err, stacks) {
         if (err) { return errs.handler(err); }
-        keypather.set($scope, 'data.stacks', body);
+        keypather.set($scope, 'data.stacks', stacks);
       });
 
       $scope.$watch('state.stack', function (n) {
@@ -253,18 +253,21 @@ function modalGettingStarted(
         });
       }
 
-      function generateDependencyNames() {
+      function generateDependencyName(item) {
+        var newName = getNewForkName(item.instance, $scope.data.instances, true);
+        item.opts.name = newName;
+        item.reqEnv.forEach(function (env) {
+          env.url = env.originalUrl.replace(
+            new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
+            newName
+          ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName())
+            .replace(/https?:\/\//, '');
+        });
+      }
+      function generateDependenciesNames() {
         $scope.state.dependencies.forEach(function (item) {
           if (item.opts) {
-            var newName = getNewForkName(item.instance, $scope.data.instances, true);
-            item.opts.name = newName;
-            item.reqEnv.forEach(function (env) {
-              env.url = env.originalUrl.replace(
-                new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
-                newName
-              ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName())
-                .replace(/https?:\/\//, '');
-            });
+            generateDependencyName(item);
           }
         });
       }
