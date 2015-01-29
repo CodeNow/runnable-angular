@@ -6,9 +6,14 @@
   box-shadow: 0 0 30px rgba($black,.06); // same as popovers
   margin: 0 auto;
   overflow: hidden;
-  width: 808px;
+  width: 708px;
+
+  @include media(sm) {
+    width: 100%;
+  }
 }
 
+// content wrapper
 .ui-wrapper {
   height: 360px;
 
@@ -18,6 +23,10 @@
     height: 100%;
     padding: 6px;
     width: 180px;
+
+    @include media(sm) {
+      display: none;
+    }
   }
 
   .sub-header {
@@ -40,17 +49,33 @@
     overflow: visible;
     width: calc(100% - 180px);
 
+    @include media(sm) {
+      float: left;
+      width: 100%;
+    }
+
+    // save button
     .green {
       margin: 7px 0 0;
+
+      @include media(xxs) {
+        display: none;
+      }
     }
   }
 
   .box-sidebar {
-    background: $white;
-    height: 100%;
+    height: auto;
     padding: 0;
     width: 240px;
 
+    @include media(sm) {
+      width: 180px;
+    }
+
+    @include media(xxs) {
+      display: none;
+    }
   }
 
   .explorer-toggle {
@@ -61,36 +86,20 @@
     margin: 15px 0 0 6px;
   }
 
-  .icons-repository {
-    height: 45px;
-    width: 45px;
-  }
-
-  .repository-group-text {
-    border: 0;
-    padding: 24px 15px 24px 45px;
-
-    &:hover,
-    &:active {
-      background: transparent;
-    }
-  }
-
-  // popover
-  .popover {
-    left: -18px;
-    top: 175px;
-  }
-
-  .icons-git {
-    float: right;
-    margin: 0;
-    top: 0;
-  }
-
   // views override
   .views {
-    width: calc(100% - 240px) !important;
+    border-bottom-right-radius: 6px;
+    height: calc(100% - 60px);
+    width: calc(100% - 240px);
+
+    @include media(sm) {
+      width: calc(100% - 180px);
+    }
+
+    @include media(xxs) {
+      border-bottom-left-radius: 6px;
+      width: 100%;
+    }
   }
 }
 
@@ -159,6 +168,10 @@
   display: flex;
   margin: 30px auto 45px;
   width: 480px;
+
+  @include media(xs) {
+    width: 100%;
+  }
 }
 
 .workflow-toggle-item {
