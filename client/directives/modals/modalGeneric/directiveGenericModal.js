@@ -9,7 +9,7 @@ require('app')
 function modalGeneric(
 ) {
   return {
-    restrict: 'E',
+    restrict: 'AE',
     templateUrl: function (elem, attrs) {
       if (attrs.type) {
         return attrs.type;
