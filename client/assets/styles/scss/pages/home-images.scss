@@ -8,11 +8,13 @@
   overflow: hidden;
   width: 300px;
 
+  // override defaults
   .sub-header {
     background: $white;
     font-weight: 500;
   }
 
+  // larger server rows
   .box-group-item {
     height: 54px;
     line-height: 54px;
@@ -24,6 +26,59 @@
   .icons-status {
     right: 19px;
     top: 22px;
+  }
+}
+
+.img-configuration {
+  margin: 30px auto 15px;
+  width: 414px;
+
+  @include media(xxs) {
+    width: 270px;
+  }
+
+  .icons-col {
+    float: left;
+    position: relative;
+    width: 66px;
+
+    @include media(xxs) {
+      width: 45px;
+    }
+
+    // center column for github logo
+    &:nth-child(3) {
+      height: 150px;
+      width: 150px;
+
+      @include media(xxs) {
+        height: 90px;
+        width: 90px;
+      }
+    }
+  }
+
+  .icons-img {
+    display: block;
+    filter: grayscale(100%);
+    margin: 6px auto;
+    opacity: .3;
+
+    // centering rows with only one logo
+    &:only-child {
+      margin: 42px auto;
+    }
+
+    @include media(xxs) {
+      height: 45px;
+      width: 45px;
+    }
+  }
+
+  .icons-octocat {
+    color: $purple;
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -254,49 +309,6 @@
   padding: 6px;
 }
 
-// configuration
-.img-configuration {
-  margin: 30px auto;
-  width: 414px;
-
-  .icons-col {
-    float: left;
-    position: relative;
-    width: 66px;
-
-    &:nth-child(3) {
-      height: 150px;
-      width: 150px;
-    }
-  }
-
-  .icons-img {
-    display: block;
-    filter: grayscale(100%);
-    margin: 6px auto;
-    opacity: .3;
-
-    &:only-child {
-      margin: 42px auto;
-    }
-  }
-
-  .icons-repository {
-    color: $gray-lighter;
-    display: block;
-    float: left;
-    height: 154px;
-    margin: 0 auto;
-    width: 120px;
-  }
-
-  .icons-octocat {
-    color: $purple;
-    height: 150px;
-    width: 150px;
-  }
-}
-
 // pull request
 .img-pull {
   background: $white;
@@ -401,8 +413,13 @@
   height: 210px;
   margin: 30px auto 0;
   padding: 9px;
-  width: 600px;
+  width: 540px;
 
+  @include media(xs) {
+    width: 100%;
+  }
+
+  // blinks only on focus
   &:focus {
     outline: 0;
 
@@ -412,6 +429,7 @@
     }
   }
 
+  // blink cursor
   &::after {
     animation: cursor-blink 1s infinite;
     background: $gray-darker;
@@ -422,6 +440,7 @@
     width: 9px;
   }
 
+  // docker logo
   .img {
     bottom: 12px;
     display: block;

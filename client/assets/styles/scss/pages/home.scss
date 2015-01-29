@@ -48,6 +48,13 @@
       width: 30%;
     }
 
+    @include media(xs) {
+      &[class*='col-'] {
+        float: none;
+        width: 100%;
+      }
+    }
+
     &.flex-center {
       display: flex;
       flex-direction: column;
@@ -81,6 +88,7 @@
     width: 700px;
 
     @include media(sm) {
+      margin: 45px auto;
       width: 90vw;
     }
 
@@ -147,17 +155,17 @@
   padding-top: 60px;
   position: relative;
 
-  @include media(xs) {
-    height: 480px;
-  }
-
   @include media(xxs) {
-    height: 450px;
+    height: 480px;
   }
 
   .h1,
   .h3 {
-    padding: 0 15px;
+    padding: 0 30px;
+
+    @include media(xxs) {
+      padding: 0 15px;
+    }
   }
 
   .h3 {
@@ -176,6 +184,10 @@
 
   @include media(xs) {
     margin-bottom: 90px;
+  }
+
+  @include media(xxs) {
+    margin-bottom: 150px;
   }
 
   // a.logo
@@ -213,10 +225,7 @@
   .feature {
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .h2 {
-    font-size: 32px;
+    padding: 0 30px;
   }
 
   .p {
@@ -247,6 +256,11 @@
   .p {
     margin: 0;
     text-align: left;
+
+    @include media(xs) {
+      margin: 0 auto;
+      text-align: center;
+    }
   }
 
   .repository-group-item {
@@ -268,11 +282,20 @@
   .p {
     margin: 0;
     text-align: left;
+
+    @include media(xs) {
+      margin: 0 auto;
+      text-align: center;
+    }
   }
 
   .btn {
     display: table;
     margin: 33px auto 0;
+
+    @include media(xs) {
+      margin: 33px auto;
+    }
   }
 
   .icons-fork {
