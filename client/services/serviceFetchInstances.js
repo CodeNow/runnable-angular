@@ -24,17 +24,16 @@ function fetchInstances(
 
     userStream.on('data', function (data) {
       if (data.event !== 'ROOM_MESSAGE') {
-        console.log(data.event);
         return;
       }
-      console.log(data);
       if (!currentInstanceList) { return; }
       if (!keypather.get(data, 'data.data.name')) { return; }
       var cachedInstance = currentInstanceList.find(hasKeypaths({
         'attrs.name': data.data.data.name
       }));
-      console.log(cachedInstance);
-      cachedInstance.parse(data.data.data);
+      if (cachedInstance) {
+        cachedInstance.parse(data.data.data);
+      }
     });
   });
   return function (opts) {
