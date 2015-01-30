@@ -1,11 +1,13 @@
 .modal-inset {
   background: $gray-lightest;
-  box-shadow: inset 0 1px 0 rgba($black,.1), inset 0 -1px 0 rgba($black,.1);
+  border-bottom: 1px solid $white;
+  border-top: 1px solid $white;
   max-height: 0;
   overflow-y: auto;
   transition: max-height .2s ease-in;
 
   &.in {
+    border-color: rgba($black,.1);
     max-height: 300px;
   }
 
