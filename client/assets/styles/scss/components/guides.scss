@@ -98,45 +98,32 @@
 }
 
 // coach marks
-.guide-wrapper {
-  // opacity: .6;
-  position: absolute;
-  transition: all .15s ease-in;
-  z-index: $z-guide;
-
-  // &:hover {
-  //   opacity: .75;
-  // }
-
-  // &:active,
-  // &.in {
-  //   opacity: 1;
-  // }
-
-  @for $i from 1 through 4 {
-
-    &.guide-#{$i} > .guide-mark {
-      animation-delay: $i*.25 + .25s;
-    }
-  }
-}
-
 .guide-mark {
   animation: scale-in-bounce .5s ease-in forwards;
-  background: #f0f8fb; // rgba($blue,.1);
-  border: 3px solid $blue-dark;
+  background: $blue;
+  border: 0;
   border-radius: 50%;
-  // cursor: pointer;
+  color: $white;
+  cursor: pointer;
   height: 24px;
   padding: 0;
   position: absolute;
   transform: scale3d(0,0,1);
   width: 24px;
+  z-index: $z-guide;
 
-  // b.btn.btn-xxs.gray
-  .btn.btn-xxs {
-    display: inline-block;
-    font-family: 'Source Code Pro', monospace;
-    margin: 0;
+  &:hover .icons-star {
+    transform: scale3d(1.25,1.25,1);
+  }
+
+  &:active .icons-star {
+    transform: scale3d(.75,.75,1);
+  }
+
+  .icons-star {
+    height: 25px;
+    opacity: 1;
+    padding: 0 3px;
+    width: 24px;
   }
 }
