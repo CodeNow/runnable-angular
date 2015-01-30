@@ -6,13 +6,14 @@ var $controller,
     $scope,
     $localStorage,
     keypather,
-    $state;
+    $state,
+    $q;
 var apiMocks = require('../apiMocks/index');
 /**
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
  */
-describe('ControllerInstanceHome'.bold.underline.blue, function () {
+describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
   var ctx = {};
   function setup(activeAccountUsername, localStorageData) {
     angular.mock.module('app');
@@ -81,9 +82,11 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       _$localStorage_,
       _keypather_,
       _$timeout_,
-      _$state_
+      _$state_,
+      _$q_
     ) {
       keypather = _keypather_;
+      $q = _$q_;
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();

@@ -34,10 +34,12 @@ require('app')
             if (returnedVal) {
               return d.resolve(returnedVal);
             }
-            d.resolve(data);
+            // It's a fetch/build/etc
+            d.resolve(model);
           }
         });
         try {
+          // Check returnedVal.attrs
           returnedVal = model[fn].apply(model, args);
         } catch(e) {
           $exceptionHandler(e);

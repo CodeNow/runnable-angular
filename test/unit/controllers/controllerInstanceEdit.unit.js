@@ -6,7 +6,7 @@ var $controller,
     $scope,
     $q;
 
-describe.only('controllerInstanceEdit'.bold.underline.blue, function () {
+describe('controllerInstanceEdit'.bold.underline.blue, function () {
 
   beforeEach(function () {
     angular.mock.module('app');

@@ -61,12 +61,10 @@ function fetchInstances(
       var instance;
       if (opts.name) {
         instance = keypather.get(results, 'models[0]');
-
-        if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-          throw new Error('Instance has no containers');
-        }
       } else {
-        currentInstanceList = results;
+        if (opts.githubUsername === $stateParams.userName) {
+          currentInstanceList = results;
+        }
         instance = results;
       }
 
