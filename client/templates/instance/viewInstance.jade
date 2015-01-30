@@ -34,10 +34,12 @@
       )
       | {{ dataInstance.data.commit.attrs.author.login }}
 
-header.box-header
+header.server-header
 
-  instance-box-name(
+  h1.server-info.load(
     instance = "dataInstance.data.instance"
+    instance-box-name
+    ng-show = "dataInstance.data.instance"
   )
 
   instance-primary-actions(
@@ -61,7 +63,7 @@ header.box-header
   )
 
 //- sidebar with repositories and urls
-section.sidebar.box-sidebar.load
+section.sidebar.server-sidebar.load
 
   section.row.repo-list(
     repo-list

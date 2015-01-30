@@ -1,3 +1,4 @@
+//- spinner for sidebar
 .spinner-wrapper.spinner-md.in(
   ng-if = "state.loadingInstances"
   ng-include = "'spinner'"
@@ -8,10 +9,10 @@ h2.sub-header.load
   a.btn.btn-sm.white.sub-header-action(
     modal
     modal-actions = "actions"
-    modal-data = "data"
-    modal-template = "viewOpenModalGettingStarted"
     modal-current-model = "currentModel"
+    modal-data = "data"
     modal-state-model = "stateModel"
+    modal-template = "viewOpenModalGettingStarted"
     tooltip = "New Server"
     tooltip-options = "{\"class\":\"right\",\"left\":30,\"top\":6}"
   )
@@ -19,24 +20,21 @@ h2.sub-header.load
       use(
         xlink:href = "#icons-add"
       )
-//- *
-//- LINKED NAV LAYOUT
-//- *
 
-ul.box-group
-  //- .active for current active box
-  //- .active.expanded for current active box with links
-  //- .runnning for running box
-
-  //- if not .active
-  li.box-group-item.btn.white.load(
+//- list of servers
+ul.list.server-group.load(
+  ng-show = "data.instances.models.length && !state.loadingInstances"
+)
+  //- .active for current active server
+  //- .active.expanded for current active server with links
+  //- .runnning for running server
+  li.list-item.server-group-item.btn.white(
     ng-class = "getInstanceClasses(instance)"
     ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
-    ng-show = "data.instances.models.length && !state.loadingInstances"
     tooltip = "{{ instance.attrs.name }}"
     tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   )
-    a.box-item-name.text-overflow(
+    a.server-item-name.text-overflow(
       ng-click = "stateToInstance(instance)"
       ng-href = "/{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
       ng-model = "instance"
@@ -45,19 +43,9 @@ ul.box-group
       title = "{{ getInstanceAltTitle(instance) }}"
     )
     linked-instances(
-      instance-dependencies = "instance.dependencies"
       instances = 'data.instances'
+      instance-dependencies = "instance.dependencies"
       ng-if = "getInstanceClasses(instance).expanded"
       state-to-instance = 'stateToInstance'
       type = "sidebar"
     )
-  //- *
-  //- 0.3 linked boxes
-  //- *
-  //- if .active
-
-
-
-  //- *
-  //- END LINKED NAV LAYOUT
-  //- *

@@ -1,16 +1,17 @@
 h2.sub-header Repositories
 
   //- update / build button
-  a.btn.btn-xs.orange.sub-header-action(
+  button.btn.btn-xs.orange.sub-header-action(
     ng-click = "triggerInstanceUpdateOnRepoCommitChange()"
     ng-if = "showUpdateButton()"
-    tooltip = "Update your box to see your changes"
+    tooltip = "Update your server to see your changes"
     tooltip-options = "{\"class\":\"bottom\",\"top\":24}"
-  ) Update
+  )
     svg.iconnables.icons-update
       use(
         xlink:href = "#icons-update"
       )
+    | Update
 
   add-repo-popover(
     show = "data.show"

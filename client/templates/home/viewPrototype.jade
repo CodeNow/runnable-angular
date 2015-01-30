@@ -42,22 +42,22 @@ ul.row.clearfix.list.workflow-toggle
   .ui-wrapper
     .sidebar.global-sidebar
       h2.sub-header Your Servers
-      ul.box-group.no-touching
-        li.box-group-item.btn.white.running.expanded.active
-          a.box-item-name Web-Staging
+      ul.server-group.no-touching
+        li.server-group-item.btn.white.running.expanded.active
+          a.server-item-name Web-Staging
           span.icons-status
-          a.box-item-cluster API-Staging
+          a.server-item-cluster API-Staging
             span.icons-status.running
-          a.box-item-cluster Mongo-Staging
+          a.server-item-cluster Mongo-Staging
             span.icons-status.running
-          a.box-item-cluster Redis-Staging
+          a.server-item-cluster Redis-Staging
             span.icons-status.running
     .content
-      .box-header
-        h1.box-info
-          .box-name Web-Staging
+      .server-header
+        h1.server-info
+          .server-name Web-Staging
             span.icons-status.active.running
-          input.box-url(
+          input.server-url(
             readonly
             value = "web-staging.runnable.io"
           )
@@ -77,7 +77,7 @@ ul.row.clearfix.list.workflow-toggle
               use(
                 xlink:href = "#icons-gear"
               )
-      .sidebar.box-sidebar
+      .sidebar.server-sidebar
         .btn.btn-sm.btn-icon.white.explorer-toggle.active.no-touching
           svg.iconnables.icons-folder-open
             use(

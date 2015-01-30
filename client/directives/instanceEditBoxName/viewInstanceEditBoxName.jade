@@ -1,10 +1,8 @@
-h1.box-info
-  .box-name {{ instance.attrs.name }}
-  input.box-url(
-    readonly
-    select-all
-    value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
-  )
-  //- sets layout on h1.box-name for .box-url
-  span.box-name-ghost {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io
-
+.server-name {{ instance.attrs.name }}
+input.server-url(
+  readonly
+  select-all
+  value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
+)
+//- sets width
+span.server-name-ghost.no-touching {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io
