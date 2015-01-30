@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname + '/views'));
 // Redirect to https
 app.use(function(req, res, next) {
   if(!req.secure && process.env.NODE_ENV === 'production') {
-    return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
   }
   next();
 });
