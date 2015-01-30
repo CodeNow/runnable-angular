@@ -32,7 +32,7 @@ function makeDefaultScope () {
 }
 
 
-describe.only('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
+describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
   var ctx;
   function injectSetupCompile(scope) {
     angular.mock.module('app');
