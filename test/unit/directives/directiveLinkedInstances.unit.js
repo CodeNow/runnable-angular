@@ -101,7 +101,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
       });
       $scope.$digest();
 
-      expect(ctx.element[0].querySelectorAll('label.list-item').length).to.equal(3);
+      expect(ctx.element[0].querySelectorAll('input.input').length).to.equal(3);
       expect(ctx.element[0].querySelector('input.input').value).to.equal('hello-copy');
     });
   });
