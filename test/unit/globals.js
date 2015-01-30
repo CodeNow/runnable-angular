@@ -23,5 +23,6 @@ window.modelStore = require('runnable/lib/stores/model-store');
 window.collectionStore = require('runnable/lib/stores/collection-store');
 window.fixtures = {
   MockPrimus: require('./fixtures/MockPrimus'),
-  MockFetchBuild: require('./fixtures/MockFetchBuild')
+  MockFetchBuild: require('./fixtures/MockFetchBuild'),
+  mockFetchInstances: require('./fixtures/mockFetchInstances')
 };
