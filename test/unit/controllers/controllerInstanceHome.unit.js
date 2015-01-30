@@ -13,7 +13,7 @@ var apiMocks = require('../apiMocks/index');
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
  */
-describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
+describe('ControllerInstanceHome'.bold.underline.blue, function () {
   var ctx = {};
   function setup(activeAccountUsername, localStorageData) {
     angular.mock.module('app');
