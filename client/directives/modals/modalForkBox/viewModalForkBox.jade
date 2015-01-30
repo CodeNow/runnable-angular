@@ -65,7 +65,9 @@
   footer.modal-footer
     //- cancel is modalDirective
       - actions.cancel is parent controller
-    label.label-checkbox.btn-checkbox
+    label.label-checkbox.btn-checkbox(
+      ng-if = "data.instance.dependencies.models.length"
+    )
       input.input-checkbox(
         checked
         ng-click = "data.deleteLinked = !data.deleteLinked"
