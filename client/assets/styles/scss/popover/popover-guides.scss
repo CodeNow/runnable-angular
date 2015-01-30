@@ -4,34 +4,12 @@
     padding: 12px 15px;
   }
 
-  // .well.well-code
-  .well-code {
-    font-size: 14px;
-    margin: 0 -6px;
-    width: 100%;
-
-    + .popover-text {
-      margin-top: 6px;
-    }
-  }
-
-  // .well.well-code.well-code-inline
-  .well-inline {
-    margin: 0;
-    width: auto;
-  }
-
   // dismiss or close link
-  .link-gray {
+  .link-white {
     display: inline-block;
     float: right;
     font-size: 14px;
     font-weight: 500;
     margin: 15px 0 0;
   }
-}
-
-// h3.popover-header
-.popover-header {
-  margin-bottom: 12px;
 }
