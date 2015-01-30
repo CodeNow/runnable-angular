@@ -8,7 +8,7 @@
       button.btn.btn-icon.white(
         ng-class = "{active: data.toggleSidebar}"
         ng-click = "data.toggleSidebar = !data.toggleSidebar"
-        tooltip = "Toggle List of Boxes"
+        tooltip = "Toggle List of Servers"
         tooltip-options = "{\"class\":\"right\",\"left\":36,\"top\":11}"
         type = "button"
       )
@@ -23,7 +23,7 @@
       h3.guide-header Using Environment Variables
       pre.well.well-code &lt;key&gt;=&lt;value&gt;
       p.guide-text
-        | Variables listed here are added to the box during startup.
+        | Variables listed here are added to your server during startup.
         br
         | Example notation:
       pre.well.well-code DB_HOST=db.run.runnable.io
@@ -68,7 +68,7 @@
     ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
   )
     p.guide-text
-      | Boxes that can be linked are listed here. Enable linking on a box by adding the #{''}
+      | Servers that can be linked are listed here. Enable linking on a server by adding the #{''}
       span.btn.btn-xxs.well.well-code.well-inline.gray(
         ng-class = "{active: popoverExposeInstruction.data.show}"
         toggle-pop-over
@@ -87,7 +87,7 @@
     ng-if = "(data.instances.models | instancesWithOpenPorts:data.instance).length"
   )
     h2.sub-header
-      span.sub-header-text Boxes
+      span.sub-header-text Servers
     ul.box-group
       //- 0.3 SAN-436
         - to do:

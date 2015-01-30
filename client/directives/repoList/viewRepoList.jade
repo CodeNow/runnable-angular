@@ -30,7 +30,7 @@ h2.sub-header Repositories
     use(
       xlink:href = "#icons-git"
     )
-  p.guide-text Add a repository to your box.
+  p.guide-text Add a repository to your server.
 ul.list.repository-group
   li.list-item.repository-group-item(
     edit-repo-commit
@@ -43,7 +43,7 @@ ul.list.repository-group
     ng-show = "build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
   )
     label.label-checkbox.btn.btn-sm.btn-checkbox(
-      tooltip = "Disabling auto-deploy will stop your box from automatically updating with new changes to your repositories."
+      tooltip = "Disabling auto-deploy will stop your server from automatically updating with new changes to your repositories."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":4,\"top\":30}"
     )
       input.input-checkbox(
