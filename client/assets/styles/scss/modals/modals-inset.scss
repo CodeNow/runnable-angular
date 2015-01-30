@@ -4,11 +4,12 @@
   border-top: 1px solid $white;
   max-height: 0;
   overflow-y: auto;
-  transition: max-height .2s ease-in;
+  transition: border-color .2s ease-in, max-height .2s ease-in;
 
   &.in {
     border-color: rgba($black,.1);
     max-height: 300px;
+    transition: max-height .2s ease-in;
   }
 
   .small {
