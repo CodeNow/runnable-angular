@@ -1,5 +1,6 @@
 // section.sidebar.server-sidebar
 .server-sidebar {
+  height: calc(100vh - 60px);
   width: 300px;
 
   .row {
