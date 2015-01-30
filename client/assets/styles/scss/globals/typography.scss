@@ -13,31 +13,23 @@ h4 {
 }
 
 .h1 {
-  font-size: 72px;
+  font-size: 60px;
 
   @include media(sm) {
-    font-size: 60px;
-  }
-
-  @include media(xs) {
     font-size: 48px;
   }
 
+  @include media(xs) {
+    font-size: 45px;
+  }
+
   @include media(xxs) {
-    font-size: 36px;
+    font-size: 27px;
   }
 }
 
 .h2 {
-  font-size: 48px;
-
-  @include media(sm) {
-    font-size: 36px;
-  }
-}
-
-.h3 {
-  font-size: 30px;
+  font-size: 33px;
 
   @include media(sm) {
     font-size: 27px;
@@ -49,6 +41,22 @@ h4 {
 
   @include media(xxs) {
     font-size: 21px;
+  }
+}
+
+.h3 {
+  font-size: 27px;
+
+  @include media(sm) {
+    font-size: 24px;
+  }
+
+  @include media(xs) {
+    font-size: 21px;
+  }
+
+  @include media(xxs) {
+    font-size: 18px;
   }
 }
 
@@ -160,8 +168,7 @@ input ~ small {
 
 // colors
 .text-blue {
-  color: #6cb6d1; // old blue for home page
-  // color: $blue;
+  color: $blue;
 }
 
 .text-green {

@@ -15,6 +15,7 @@
     small.small Deleting linked servers
     .list
       label.list-item.label-checkbox(
+        ng-init = "instance.state.delete = true"
         ng-repeat = "instance in data.instance.dependencies.models"
       )
         input.input-checkbox(
@@ -34,7 +35,7 @@
       )
       | Delete linked servers
     button.btn.orange(
-      ng-click = "actions.deleteInstance(); \
+      ng-click = "actions.deleteInstance(data.deleteLinked); \
         defaultActions.cancel();"
     ) Delete Server
     button.btn.white(

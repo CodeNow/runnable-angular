@@ -400,7 +400,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           };
           $scope.instance.dependencies.models[0].destroy = depDestroy;
           $scope.$digest();
-          md.actions.deleteInstance();
+          md.actions.deleteInstance(true);
         });
         it('does not delete dependencies that are not selected', function(done) {
           var fakeGo = sinon.stub($state, 'go', function() {});
@@ -427,6 +427,36 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           };
           $scope.instance.dependencies.models[0].state = {
             delete: false
+          };
+          $scope.instance.dependencies.models[0].destroy = depDestroy;
+          $scope.$digest();
+          md.actions.deleteInstance(true);
+        });
+        it('does not delete dependencies when the main check is false', function(done) {
+          var fakeGo = sinon.stub($state, 'go', function() {});
+          var depDestroy = sinon.spy(function(cb) {
+            cb();
+          });
+          $scope.instance.destroy = sinon.spy(function(cb) {
+            // Change the state during the destroy
+            $stateParams.instanceName = 'cheese';
+            setTimeout(function() {
+              sinon.assert.notCalled(fakeGo);
+              sinon.assert.called($scope.instance.destroy);
+              sinon.assert.notCalled(depDestroy);
+              sinon.assert.neverCalledWith(fakeGo,'instance.home', {
+                userName: 'username'
+              });
+              done();
+            }, 50);
+            cb();
+          });
+
+          $scope.instance.dependencies = {
+            models: [makeFakeInstance([], false)]
+          };
+          $scope.instance.dependencies.models[0].state = {
+            delete: true
           };
           $scope.instance.dependencies.models[0].destroy = depDestroy;
           $scope.$digest();

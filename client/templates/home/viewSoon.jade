@@ -1,0 +1,25 @@
+.col.ace-tm
+  h2.h2.header-thin.text-purple Built on Docker
+  p.p Pull containers down to your local or remote host from our private Docker registry.
+  pre.pre.img-docker-terminal(
+    tabindex = "0"
+  )
+    | aws-console$ deploy registry.runnable.io/team/app
+    | Pulling repository dockerfile/app
+    | 88frsc: Pulling dependent layers
+    | htlnt4: Download complete
+    | ky33z5: Download complete
+    | 2m48l3: Download complete
+    | 54u20n: Pulling fs layer
+    img.img(
+      height = "30"
+      src = "/build/images/logos/logo-docker.svg"
+      width = "110"
+    )
+  img.img(
+    height = "45"
+    src = "/build/images/home/soon-one-click.svg"
+    width = "360"
+  )
+  p.p One-click deployment to AWS, Digital Ocean, Kubernetes, Mesosphere and more.
+  button.btn-xs.gray Coming Soon

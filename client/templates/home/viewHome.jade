@@ -2,6 +2,8 @@ main.home
 
   //- hero
   section.home-hero
+
+    //- header
     header.home-header
       a.logo
         svg
@@ -9,136 +11,60 @@ main.home
             xlink:href = "#runnable-logo"
           )
       nav.home-nav
-        //- a.link.link-text(
-        //-   href = "/features"
-        //- ) Features
-        //- a.link.link-text(
-        //-   href = "/pricing"
-        //- ) Pricing
         a.link.link-text(
-          ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com' }}"
-        ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Access' }}
-    h1.h1.header-thin Bring your code online
-    h3.h3.header-thin Servers on demand for any stack
-    //- icon grid
-    .icon-grid
-      .icon-grid-row
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/ruby-on-rails-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/cake-php-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/code-igniter-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/dart-icon.svg"
-          width = "45"
-        )
-      .icon-grid-row
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/django-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/flask-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/code-igniter-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/java-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/mongo-icon.svg"
-          width = "45"
-        )
-      .icon-grid-row
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/nodejs-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/mysql-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/php-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/python-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/ruby-icon.svg"
-          width = "45"
-        )
-        img.icon-grid-image(
-          height = "45"
-          src = "/build/images/home/icon-grid/ruby-on-rails-icon.svg"
-          width = "45"
-        )
+          ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
+        ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
-  //- features
-  section.home-features
-    .row
-      .col
-        img(
-          height = "180"
-          src = "/build/images/home/feature-boxes.svg"
-          width = "180"
-        )
-        h2.h2.header-thin.text-purple Any Stack Anytime
-        p.p Simple and flexible. Use Runnable servers #{''}
-          br
-          | to help your uncle with his next big idea.
-    .row
-      .col
-        img(
-          height = "120"
-          src = "/build/images/home/feature-linking.svg"
-          width = "120"
-        )
-        h2.h2.header-thin.text-blue Better Together
-        p.p With Dixie cup and string technology, #{''}
-          br
-          | we are able to link boxes together.
-      .col
-        img(
-          height = "120"
-          src = "/build/images/home/feature-github.svg"
-          width = "120"
-        )
-        h2.h2.header-thin.text-green Github Integrated
-        p.p Run your branches, commits, #{''}
-          br
-          | and pull requests.
+    h1.h1.header-thin Stop worrying about servers
+    h3.h3.header-thin Runnable is a sandbox service that replaces Staging, QA, and Test servers
 
-  //- .hr.hr-single
+  //- feature
+  section.home-feature
 
-  //- getting-started-seed-instances
+    //- new server configuration
+    section.feature.feature-configuration.row.clearfix(
+      ng-include = "'viewConfiguration'"
+    )
+
+    .hr.hr-single
+
+    //- commits
+    section.feature.feature-commits.row.clearfix(
+      ng-include = "'viewCommits'"
+    )
+
+    .hr.hr-single
+
+    //- protype
+    section.feature.feature-fork.clearfix(
+      ng-include = "'viewFork'"
+    )
+
+    .hr.hr-single
+
+    //- protype
+    section.feature.feature-prototype.clearfix(
+      ng-include = "'viewPrototype'"
+    )
+
+    .hr.hr-single
+
+    //- github
+    section.feature.feature-github.row.clearfix(
+      ng-include = "'viewGithub'"
+    )
+
+    .hr.hr-single
+
+    //- coming soon
+    section.home-feature
+      section.feature.feature-soon.clearfix(
+        ng-include = "'viewSoon'"
+      )
+
+    a.btn.btn-xl.green(
+      ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
+    ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
   footer.home-footer
     .hr
@@ -148,20 +74,11 @@ main.home
         width = "30"
       )
     nav.footer-nav
-      //- a.link.link-text(
-      //-   href = "/"
-      //- ) Home
-      //- a.link.link-text(
-      //-   href = "/features"
-      //- ) Features
-      //- a.link.link-text(
-      //-   href = "/pricing"
-      //- ) Pricing
       a.link.link-text(
         href = "mailto:support@runnable.com"
       ) Email Us
       a.link.link-text(
-        ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com' }}"
+        ng-href = "{{ dataApp.data.loginURL }}"
         ng-if = "dataHome.data.hasPass"
       )
         b Sign In

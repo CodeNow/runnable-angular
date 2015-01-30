@@ -11,6 +11,24 @@
   }
 }
 
+@keyframes cursor-blink {
+  0% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -71,6 +89,24 @@
   100% {
     opacity: 1;
     transform: scale3d(1,1,1);
+  }
+}
+
+@keyframes btn-spinner {
+  0% {
+    padding-left: 15px;
+  }
+
+  5% {
+    padding-left: 30px;
+  }
+
+  95% {
+    padding-left: 30px;
+  }
+
+  100% {
+    padding-left: 15px;
   }
 }
 
