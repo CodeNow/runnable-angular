@@ -2,7 +2,7 @@
 
 var instances = require('../apiMocks').instances;
 
-var runnable = new (require('runnable'))('http://example.com/');
+var runnable = new (require('runnable'))(window.host);
 
 module.exports = {
   running: function ($q) {
