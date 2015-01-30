@@ -240,7 +240,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Box Logs';
+      data.name = 'Server Logs';
     }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');
