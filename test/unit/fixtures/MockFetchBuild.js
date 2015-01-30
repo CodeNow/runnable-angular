@@ -13,6 +13,14 @@ module.exports = {
       return d.promise;
     };
   },
+  setup: function($q) {
+    return function ($buildId) {
+      var d = $q.defer();
+      var built = runnable.newBuild(builds.setup);
+      d.resolve(built);
+      return d.promise;
+    };
+  },
   error: function($q) {
     return function($buildId) {
       var d = $q.defer();
