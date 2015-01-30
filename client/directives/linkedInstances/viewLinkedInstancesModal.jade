@@ -16,7 +16,7 @@ small.small Forking linked servers
       ng-class = "{\
         focus: depItemInput.showFocus,\
         'ng-invalid': depItemForm.$invalid,\
-        'ng-valid': depItemForm.$valid\
+        'ng-valid': depItemForm.$valid && !depItemForm.$pristine\
       }"
     )
       span.input-label Name
@@ -25,13 +25,11 @@ small.small Forking linked servers
         name = "depItemInput"
         autocomplete = "off"
         ng-blur = "depItemInput.showFocus = false"
-        ng-init = "depItemInput.showFocus = true"
         ng-focus = "depItemInput.showFocus = true"
         instance = "depItem.instance"
         ng-model = "depItem.opts.name"
         placeholder = "My-Box"
         validate-name = "instances"
-        validate-name-current-instance-valid = "false"
         validate-name-pattern
       )
       .btn-popover-wrapper(

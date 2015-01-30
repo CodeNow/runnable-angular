@@ -12,7 +12,7 @@
         ng-class = "{\
           focus: data.forkForm.forkName.showFocus,\
           'ng-invalid': data.forkForm.forkName.$invalid,\
-          'ng-valid': data.forkForm.forkName.$valid\
+          'ng-valid': data.forkForm.forkName.$valid && !data.forkForm.forkName.$pristine\
         }"
       )
         span.input-label Name
