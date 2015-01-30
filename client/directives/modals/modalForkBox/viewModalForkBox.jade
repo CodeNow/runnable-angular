@@ -3,11 +3,11 @@
 )
   header.modal-header
     h1.modal-heading Fork Server
-  section.modal-body
-    form(
-      name = "data.forkForm"
-      ng-submit = "actions.forkInstance(items);"
-    )
+  form(
+    name = "data.forkForm"
+    ng-submit = "actions.forkInstance(items);"
+  )
+    section.modal-body
       label.input-group.input-validate.with-description(
         ng-class = "{\
           focus: data.forkForm.forkName.showFocus,\
@@ -19,7 +19,6 @@
         span.input-description.text-overflow {{ items[0].opts.name }}.{{ data.instance.attrs.owner.username.toLowerCase() }}.runnable.io
         input.input(
           autocomplete = "off"
-          autofocus
           instance = "data.instance"
           name = "forkName"
           ng-blur = "data.forkForm.forkName.showFocus = false;"
@@ -52,16 +51,16 @@
           b.btn-xs.orange _
           b.btn-xs.orange -
         span.validate-rules.invalid-name That's a pretty name, but it's taken.
-  section.modal-inset(
-    fork-dependencies = "data.forkDependencies"
-    linked-instances
-    instance-dependencies = "data.instance.dependencies"
-    instances = "data.instances"
-    items = "devItems"
-    ng-class = "{in: data.forkDependencies}"
-    ng-if = "data.instance.dependencies.models.length"
-    type = "modal"
-  )
+    section.modal-inset(
+      fork-dependencies = "data.forkDependencies"
+      linked-instances
+      instance-dependencies = "data.instance.dependencies"
+      instances = "data.instances"
+      items = "devItems"
+      ng-class = "{in: data.forkDependencies}"
+      ng-if = "data.instance.dependencies.models.length"
+      type = "modal"
+    )
   footer.modal-footer
     //- cancel is modalDirective
       - actions.cancel is parent controller
