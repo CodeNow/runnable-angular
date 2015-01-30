@@ -10,11 +10,11 @@
 
   // no underline by default
   .link-text {
-    text-decoration: none;
+    text-decoration: underline;
 
     &:hover,
     &:active {
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 

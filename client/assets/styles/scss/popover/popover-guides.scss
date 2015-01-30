@@ -1,7 +1,14 @@
 .popover-guides {
+  background: $blue;
+  border: 0;
+  color: $white;
 
   .popover-content {
     padding: 12px 15px;
+  }
+
+  .popover-header {
+    margin-bottom: 6px;
   }
 
   // dismiss or close link
