@@ -42,12 +42,12 @@
 // sidebar
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-accounts";
-@import "sidebar/sidebar-boxes";
 @import "sidebar/sidebar-footer";
+@import "sidebar/sidebar-servers";
 
-// box
-@import "box/box-header";
-@import "box/box-sidebar";
+// server
+@import "server/server-header";
+@import "server/server-sidebar";
 
 // views
 @import "views/views";
@@ -91,7 +91,7 @@
 @import "popover/popover-templates";
 
 // pages
-@import "pages/box-selection";
+@import "pages/server-selection";
 @import "pages/home";
 @import "pages/home-images";
 @import "pages/home-ui";
