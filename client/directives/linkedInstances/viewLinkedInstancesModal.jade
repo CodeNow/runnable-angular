@@ -1,41 +1,45 @@
 small.small Forking linked servers
 .list
-  label.list-item.input-group(
-    name = "depForm"
-    ng-class = "{\
-      focus: depForm.showFocus,\
-      'ng-invalid': depForm.$invalid,\
-      'ng-valid': depForm.$valid\
-    }"
+  .list-item-form(
+    name = "depItemForm"
     ng-form
     ng-repeat = "depItem in items | orderBy:'instance.attrs.name'"
   )
-    span.input-label Name
-    span.input-description.text-overflow {{ depItem.opts.name }}.{{ depItem.instance.attrs.owner.username.toLowerCase() }}.runnable.io
-    input.input(
-      autocomplete = "off"
-      instance = "depItem.instance"
-      ng-model = "depItem.opts.name"
-      placeholder = "My-Server"
-      validate-name = "instances"
-      validate-name-current-instance-valid = "false"
-      validate-name-pattern
+    label.input.input-group.input-validate(
+      ng-class = "{\
+        focus: depItemInput.showFocus,\
+        'ng-invalid': depItemForm.$invalid,\
+        'ng-valid': depItemForm.$valid && !depItemForm.$pristine\
+      }"
     )
-    .btn-popover-wrapper(
-      environment-button
-      item = "depItem"
-      ng-if = "depItem.opts.env"
+      span.input-label Name
+      span.input-description.text-overflow {{ depItem.opts.name }}.{{ depItem.instance.attrs.owner.username.toLowerCase() }}.runnable.io
+      input.input(
+        name = "depItemInput"
+        autocomplete = "off"
+        ng-blur = "depItemInput.showFocus = false"
+        ng-focus = "depItemInput.showFocus = true"
+        instance = "depItem.instance"
+        ng-model = "depItem.opts.name"
+        placeholder = "My-Server"
+        validate-name = "instances"
+        validate-name-pattern
+      )
+      .btn-popover-wrapper(
+        environment-button
+        item = "depItem"
+        ng-if = "depItem.opts.env"
+      )
+    .validate-wrapper.btn-sm.orange(
+      ng-class = "{\
+        'invalid-pattern': depItemForm.$error.namePattern.length,\
+        'invalid-name': depItemForm.$error.nameAvailable.length\
+      }"
     )
-  .validate-wrapper.btn-sm.orange(
-    ng-class = "{\
-      'invalid-pattern': depForm.$error.namePattern.length,\
-      'invalid-name': depForm.$error.nameAvailable.length\
-    }"
-  )
-    span.validate-rules.invalid-pattern Please use #{''}
-      b.btn-xs.orange A-Z
-      b.btn-xs.orange a-z
-      b.btn-xs.orange 0-9
-      b.btn-xs.orange _
-      b.btn-xs.orange -
-    span.validate-rules.invalid-name That's a pretty name, but it's taken.
+      span.validate-rules.invalid-pattern Please use #{''}
+        b.btn-xs.orange A-Z
+        b.btn-xs.orange a-z
+        b.btn-xs.orange 0-9
+        b.btn-xs.orange _
+        b.btn-xs.orange -
+      span.validate-rules.invalid-name That's a pretty name, but it's taken.
