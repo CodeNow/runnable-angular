@@ -15,6 +15,7 @@
     small.small Deleting linked servers
     .list
       label.list-item.label-checkbox(
+        ng-init = "instance.state.delete = true"
         ng-repeat = "instance in data.instance.dependencies.models"
       )
         input.input-checkbox(
