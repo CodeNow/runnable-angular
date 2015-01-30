@@ -1,0 +1,60 @@
+.boxes.img-boxes
+  h2.sub-header Servers
+    a.btn.btn-sm.white.sub-header-action.no-touching
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+  ul.box-group
+    li.box-group-item.btn.white.running.no-touching
+      a.box-item-name staging server
+      span.icons-status
+    li.box-group-item.btn.white.running.no-touching
+      a.box-item-name testing server
+      span.icons-status
+.img-configuration.clearfix
+  .icons-col
+    img.icons-img(
+      height = "60"
+      ng-src = "/build/images/home/icons/icons-nodejs-alt.svg"
+      width = "60"
+    )
+  .icons-col
+    img.icons-img(
+      height = "60"
+      ng-src = "/build/images/home/icons/icons-ruby-alt.svg"
+      width = "60"
+    )
+    img.icons-img(
+      height = "60"
+      ng-src = "/build/images/home/icons/icons-django-alt.svg"
+      width = "60"
+    )
+  .icons-col
+    svg.iconnables.icons-octocat
+      use(
+        xlink:href = "#icons-octocat"
+      )
+  .icons-col
+    img.icons-img(
+      height = "60"
+      ng-src = "/build/images/home/icons/icons-mongodb-alt.svg"
+      width = "60"
+    )
+    img.icons-img(
+      height = "60"
+      ng-src = "/build/images/home/icons/icons-python-alt.svg"
+      width = "60"
+    )
+  .icons-col
+    img.icons-img(
+      height = "60"
+      ng-src = "/build/images/home/icons/icons-redis-alt.svg"
+      width = "60"
+    )
+.col
+  h2.h2.header-thin.text-purple Add a server in a few clicks
+  p.p We detect and run your repository's environment and dependencies.
+  a.btn.green(
+    ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
+  ) {{ dataHome.data.hasPass ? 'Get Started' : 'Get Started' }}
