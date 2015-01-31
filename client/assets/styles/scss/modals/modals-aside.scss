@@ -3,7 +3,7 @@
   border: 1px solid rgba($black,.1);
   border-radius: 0 3px 3px 0;
   bottom: 0;
-  height: 100%;
+  margin: -1px 0;
   opacity: 0;
   position: absolute;
   right: 0;
@@ -27,29 +27,14 @@
     }
   }
 
-  .sub-header {
-    border-top-right-radius: 3px;
-  }
-
-  .box-group {
-    height: 100%;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .box-group-item {
-    border-radius: 0;
-    color: $gray;
+  .list-item {
     cursor: default;
-    font-size: 14px;
     margin: 0;
-    min-height: 45px;
     padding: 0 15px;
-    user-select: none;
     white-space: normal;
     width: 100%;
 
-    + .box-group-item {
+    + .list-item {
       border-top: 1px solid rgba($black,.1);
     }
 
@@ -59,12 +44,11 @@
 
     &.expanded {
       height: auto;
-      line-height: 24px;
-      padding: 9px 15px 12px;
+      padding: 12px 15px;
 
       .btn {
         font-size: 12px;
-        margin-top: 3px;
+        margin-top: 6px;
 
         + .btn {
           margin-left: 3px;

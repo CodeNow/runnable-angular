@@ -1,8 +1,9 @@
-header.box-header
+header.server-header
 
   //- name instance input
-  setup-box-name(
+  h1.server-info(
     name = "dataSetup.data.newInstanceName"
+    setup-box-name
     valid = "dataSetup.data.isNameValid"
   )
 
@@ -23,7 +24,7 @@ header.box-header
     state-model = "dataSetup.data.instanceOpts"
   )
 
-section.sidebar.box-sidebar
+section.sidebar.server-sidebar
 
   section.row.repo-list(
     repo-list

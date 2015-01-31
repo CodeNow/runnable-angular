@@ -1,7 +1,9 @@
-header.box-header
+header.server-header
 
-  instance-edit-box-name(
+  h1.server-info.load(
     instance = "dataInstanceEdit.data.instance"
+    instance-edit-box-name
+    ng-show = "dataInstanceEdit.data.instance"
   )
 
   instance-edit-primary-actions(
@@ -19,7 +21,7 @@ header.box-header
   )
 
 //- sidebar with repositories and urls
-section.sidebar.box-sidebar
+section.sidebar.server-sidebar
 
   section.row.repo-list(
     build = "dataInstanceEdit.data.instance.build"

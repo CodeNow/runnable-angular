@@ -14,7 +14,7 @@ function setupBoxName(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewSetupBoxName',
     scope: {
       newInstanceName: '=name',

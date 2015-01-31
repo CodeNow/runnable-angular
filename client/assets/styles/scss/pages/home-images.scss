@@ -1,5 +1,5 @@
 // configuration images
-.img-boxes {
+.img-servers {
   background: $white;
   border: 1px solid rgba($black,.1);
   border-radius: 6px;
@@ -15,7 +15,7 @@
   }
 
   // larger server rows
-  .box-group-item {
+  .server-group-item {
     height: 54px;
     line-height: 54px;
     margin: 0;

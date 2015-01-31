@@ -57,6 +57,31 @@
   }
 }
 
+// li.list-details
+.list-details {
+  border-top: 1px solid rgba($black,.1);
+  margin: 0 15px;
+  padding: 15px 0;
+
+  .label-checkbox {
+    background: $gray-lightest;
+    border: 1px solid rgba($black,.1);
+    color: $gray;
+    display: inline-block;
+    margin: 9px 0;
+    padding: 0 9px;
+    text-align: left;
+  }
+
+  .input-checkbox {
+    margin: 0 9px 0 0;
+  }
+
+  .small {
+    color: $gray-light;
+  }
+}
+
 // empty state
 .list-empty {
   color: $gray-lighter;

@@ -1,34 +1,33 @@
-h1.box-info
-  form.box-name.setup-name(
-    name = "newInstanceNameForm"
+form.server-name.setup-name(
+  name = "newInstanceNameForm"
+)
+  input.input-validate.setup-name-input(
+    ng-model = "newInstanceName"
+    placeholder = "Server Name"
+    select-on
+    spellcheck = "false"
+    validate-name = "instances"
+    validate-name-pattern
   )
-    input.input-validate.setup-name-input(
-      ng-model = "newInstanceName"
-      placeholder = "Box Name"
-      select-on
-      spellcheck = "false"
-      validate-name = "instances"
-      validate-name-pattern
-    )
-    //- .invalid-pattern for names with invalid characters
-      - .invalid-name for names that are taken
-    .validate-wrapper(
-      ng-class = "{\
-        'invalid-name': newInstanceNameForm.$error.nameAvailable.length,\
-        'invalid-pattern': newInstanceNameForm.$error.namePattern.length,\
-        'invalid-require': newInstanceNameForm.$error.nameRequire.length\
-      }"
-    )
-      span.validate-rules.invalid-pattern Please use #{''}
-        b.btn-xs.orange A-Z
-        b.btn-xs.orange a-z
-        b.btn-xs.orange 0-9
-        b.btn-xs.orange _
-        b.btn-xs.orange -
-      span.validate-rules.invalid-name That's a pretty name, but it's taken
-      span.validate-rules.invalid-require Give your box an alphanumeric name
-        br
-        b.btn-xs.gray _
-        | #{''} and
-        b.btn-xs.gray -
-        | #{''} are allowed
+  //- .invalid-pattern for names with invalid characters
+    - .invalid-name for names that are taken
+  .validate-wrapper(
+    ng-class = "{\
+      'invalid-name': newInstanceNameForm.$error.nameAvailable.length,\
+      'invalid-pattern': newInstanceNameForm.$error.namePattern.length,\
+      'invalid-require': newInstanceNameForm.$error.nameRequire.length\
+    }"
+  )
+    span.validate-rules.invalid-pattern Please use #{''}
+      b.btn-xs.orange A-Z
+      b.btn-xs.orange a-z
+      b.btn-xs.orange 0-9
+      b.btn-xs.orange _
+      b.btn-xs.orange -
+    span.validate-rules.invalid-name That's a pretty name, but it's taken
+    span.validate-rules.invalid-require Give your server an alphanumeric name
+      br
+      b.btn-xs.gray _
+      | #{''} and
+      b.btn-xs.gray -
+      | #{''} are allowed
