@@ -1,8 +1,4 @@
-//- *
-//- 0.3 linked boxes
-//- *
-//- if .active
-a.box-item-cluster(
+a.server-item-cluster(
     ng-show = "!!instanceDependencies"
     ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
     ng-click = "stateToInstance(depInstance)"

@@ -1,19 +1,17 @@
-//- sidebar for accounts and boxes
-nav.sidebar.global-sidebar
-  header.row.load(
+//- sidebar for accounts and servers
+nav.sidebar.nav-sidebar
+  header.nav-header.row.load(
     accounts-select
     data = "dataApp.data"
     is-main-page = "true"
   )
-  section.row.boxes(
-    instance-list
+  section.row.nav-servers(
     data = "dataApp.data"
+    instance-list
     state = "dataApp.state"
   )
-
-  footer.row.global-footer
+  footer.row.nav-footer
     button.btn.btn-sm.btn-icon.white.btn-minimize(
-      ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
       ng-class = "{active: dataApp.data.minimizeNav}"
       ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
       title = "Toggle Navigation"
@@ -27,8 +25,3 @@ nav.sidebar.global-sidebar
 main.content(
   ui-view
 )
-
-//- development info
-//- div(
-//-   ng-include = "'viewDevelopmentInfo'"
-//- )

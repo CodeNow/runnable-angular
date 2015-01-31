@@ -15,7 +15,7 @@ function instanceEditBoxName(
   user
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewInstanceEditBoxName',
     scope: {
       instance: '='

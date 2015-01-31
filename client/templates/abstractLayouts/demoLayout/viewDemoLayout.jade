@@ -34,7 +34,7 @@ nav.sidebar.global-sidebar.demo-sidebar(
   ) Add your project
   p.sidebar-paragraph(
     ng-switch-when = "demo.instanceEdit"
-  ) We've removed our demo repo for you. Add a repo of yours to run on this box.
+  ) We've removed our demo repo for you. Add a repo of yours to run on this server.
   a.link.link-text.link-secondary(
     ng-click = "dataDemoLayout.actions.nextPage()"
     ng-switch-when = "demo.instanceEdit"
@@ -89,7 +89,7 @@ pop-over(
 //- *
 //- coach marks
 //- *
-//- box name mark
+//- server name mark
 .guide-wrapper.guide-1(
   ng-if = "dataApp.state.$current.name === 'demo.instance' && \
            !dataDemoLayout.data.popoverCoachMarks.boxName.hasBeenViewed"

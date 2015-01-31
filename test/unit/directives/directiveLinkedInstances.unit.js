@@ -114,7 +114,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
       $scope.scp.deps = makeDeps();
 
       $scope.$digest();
-      expect(ctx.element[0].querySelectorAll('a.box-item-cluster').length).to.equal(3);
+      expect(ctx.element[0].querySelectorAll('a.server-item-cluster').length).to.equal(3);
     });
   });
 

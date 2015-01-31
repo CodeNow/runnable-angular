@@ -4,11 +4,11 @@
       h1.modal-heading Edit Environment
       //- 0.3 SAN-436
         - to do:
-        - do not show if there are no boxes with exposed ports to link
+        - do not show if there are no servers to link
       button.btn.btn-icon.white(
         ng-class = "{active: data.toggleSidebar}"
         ng-click = "data.toggleSidebar = !data.toggleSidebar"
-        tooltip = "Toggle List of Boxes"
+        tooltip = "Toggle List of Servers"
         tooltip-options = "{\"class\":\"right\",\"left\":36,\"top\":11}"
         type = "button"
       )
@@ -23,7 +23,7 @@
       h3.guide-header Using Environment Variables
       pre.well.well-code &lt;key&gt;=&lt;value&gt;
       p.guide-text
-        | Variables listed here are added to the box during startup.
+        | Variables listed here are added to your server during startup.
         br
         | Example notation:
       pre.well.well-code DB_HOST=db.run.runnable.io
@@ -63,12 +63,12 @@
         ng-click = "defaultActions.cancel()"
         type = "button"
       ) Go Back
-  //- if no boxes with exposed ports (empty state)
-  aside.modal-aside.boxes(
+  //- if no servers with exposed ports (empty state)
+  aside.modal-aside.nav-servers(
     ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
   )
     p.guide-text
-      | Boxes that can be linked are listed here. Enable linking on a box by adding the #{''}
+      | Servers that can be linked are listed here. Enable linking on a server by adding the #{''}
       span.btn.btn-xxs.well.well-code.well-inline.gray(
         ng-class = "{active: popoverExposeInstruction.data.show}"
         toggle-pop-over
@@ -82,24 +82,23 @@
         template = "viewExposeInstruction"
       )
 
-  //- if boxes with exposed ports
-  aside.modal-aside.boxes(
+  //- if servers with exposed ports
+  aside.modal-aside.nav-servers(
     ng-if = "(data.instances.models | instancesWithOpenPorts:data.instance).length"
   )
     h2.sub-header
-      span.sub-header-text Boxes
-    ul.box-group
+      span.sub-header-text Servers
+    ul.list.server-group
       //- 0.3 SAN-436
         - to do:
-        - boxes should appear in the same order as they appear on the navbar
-        - do not show boxes with no exposed ports
+        - servers should appear in the same order as they appear on the navbar
         - clicks on b.btn should paste "$ENTER_ENV_VAR={{url}}+':'+{{port}}" (with specified port) into the last cursor position in the env file
-      li.box-group-item.expanded(
+      li.list-item.expanded(
         ng-repeat = "otherInstance in data.instances.models | \
           instancesWithOpenPorts:data.instance"
       )
-        .text-overflow {{ otherInstance.attrs.name }}
-        button.btn.btn-xs.gray(
+        .small.text-overflow {{ otherInstance.attrs.name }}
+        button.btn.btn-xxs.gray(
           ng-repeat = "url in otherInstance.containers.models[0].urls()"
           ng-click = "pasteLinkedInstance(url)"
           tooltip = "Link to: {{ url }}"

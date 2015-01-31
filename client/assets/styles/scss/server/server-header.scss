@@ -1,17 +1,14 @@
-// header.box-header
-.box-header {
+// header.server-header
+.server-header {
   border-bottom: 1px solid rgba($black,.1);
   height: 60px;
   padding: 0 5px 0 15px;
 }
 
-// h1.box-info
-.box-info {
+// h1.server-info
+.server-info {
   float: left;
-  font-size: 24px;
   height: 60px;
-  line-height: 60px;
-  position: relative;
 
   .icons-status {
     left: 9px;
@@ -22,22 +19,17 @@
       margin: -6px 0 0 -8px;
     }
   }
-
-  .icons-edit {
-    color: $orange-dark;
-    height: 18px;
-    left: 5px;
-    width: 18px;
-  }
 }
 
-.box-name {
+// text + status wrapper
+.server-name {
   font-size: 23px;
   height: 45px;
   line-height: 45px;
 }
 
-.box-url.box-url {
+// [readonly] specifity to override default [readonly] background-color
+.server-url[readonly] {
   background: none;
   border: 0;
   box-shadow: none;
@@ -58,13 +50,11 @@
   }
 }
 
-// sets layout on h1.box-name for .box-url
-.box-name-ghost {
+// sets width
+.server-name-ghost {
   font-size: 14px;
   font-weight: 300;
-  opacity: 0;
-  pointer-events: none;
-  z-index: $z-hide;
+  visibility: hidden;
 }
 
 // span.text-status
@@ -77,7 +67,7 @@
   position: relative;
 }
 
-// header.box-header actions
+// header.server-header actions
 .primary-actions,
 .secondary-actions {
   float: right;

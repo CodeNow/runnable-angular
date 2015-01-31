@@ -1,21 +1,20 @@
-//- use ng-show instead of ng-if for css loading effect
-h1.box-info.load(
-  ng-show = "instance.attrs.name"
-)
-  .box-name {{ instance.attrs.name }}
-    span.icons-status(
-      ng-class = "getInstanceClasses(instance)"
-      tooltip = "{{ getInstanceAltTitle(instance) }}"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-    )
-  input.box-url(
-    readonly
-    select-all
-    value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
-    coach-mark-type = "boxName"
-    coach-mark-style = "{\"left\": -25, \"top\": 34}"
-    coach-mark-template = "viewCoachMarksBoxNamePopover"
-    show-coach-marks
+.server-name {{ instance.attrs.name }}
+  span.icons-status(
+    ng-class = "getInstanceClasses(instance)"
+    tooltip = "{{ getInstanceAltTitle(instance) }}"
+    tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
   )
-  //- sets layout on h1.box-name for .box-url
-  span.box-name-ghost {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io
+input.server-url(
+  readonly
+  select-all
+  value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
+)
+.guide-wrapper(
+  ng-if = "instance.attrs.name"
+  type = "boxName"
+  mark-style = "{\"left\": -25, \"top\": 34}"
+  template = "viewCoachMarksBoxNamePopover"
+  show-coach-marks
+)
+//- sets width
+span.server-name-ghost.no-touching {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io

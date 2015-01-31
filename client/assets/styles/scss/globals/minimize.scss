@@ -1,5 +1,5 @@
-// global structure
-.minimize .global-sidebar {
+// nav structure
+.minimize .nav-sidebar {
   position: static;
   width: 60px;
 
@@ -17,15 +17,13 @@
   // aren't visible/selectable when minimized
   .account-name,
   .icons-arrow-down,
-  .sub-header-text,
-  .box-item-description,
-  .box-item-clustered {
+  .sub-header-text {
     opacity: 0;
     pointer-events: none;
   }
 
   // not visible, but selectable
-  .box-item-name {
+  .server-item-name {
     opacity: 0;
   }
 
@@ -47,7 +45,7 @@
   }
 
   // li.box-group-item.white.load
-  .box-group-item {
+  .server-group-item {
     height: 45px;
     overflow: hidden;
     width: 45px;
@@ -62,7 +60,7 @@
   }
 
   // resize nav footer
-  .global-footer {
+  .nav-footer {
     height: 54px;
     padding: 9px 12px;
 
