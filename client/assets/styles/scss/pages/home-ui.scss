@@ -76,7 +76,7 @@
   .box-sidebar {
     height: auto;
     padding: 0;
-    width: 240px;
+    width: 210px;
 
     @include media(sm) {
       width: 180px;
@@ -99,7 +99,7 @@
   .views {
     border-bottom-right-radius: 6px;
     height: calc(100% - 60px);
-    width: calc(100% - 240px);
+    width: calc(100% - 210px);
 
     @include media(sm) {
       width: calc(100% - 180px);
