@@ -18,6 +18,7 @@ var runnable = new (require('runnable'))('http://example.com/');
 describe('ControllerInstanceHome'.bold.underline.blue, function () {
   var ctx = {};
   function setup(activeAccountUsername, localStorageData) {
+    mockFetch.clearDeferer();
     angular.mock.module('app');
     ctx.fakeuser = {
       attrs: angular.copy(apiMocks.user),
@@ -69,7 +70,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     ctx.stateParams = {
       userName: activeAccountUsername || 'user'
     };
-    mockFetch.clearDeferer();
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstances', mockFetch.fetch);
       $provide.value('$stateParams', ctx.stateParams);
@@ -195,7 +195,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         [],
         {noStore: true, reset: true}
       );
-      console.log('UJHLOKUHJ', many2);
       many2.githubUsername = 'org2';
       mockFetch.triggerPromise(many2);
       $rootScope.$digest();
