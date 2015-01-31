@@ -61,22 +61,18 @@ header.box-header
   )
 
 //- sidebar with repositories and urls
-section.sidebar.box-sidebar.load
-
+section.sidebar.box-sidebar.load(
+  coach-mark-type = "repoList"
+  coach-mark-style = "{\"left\": 28, \"top\": 68}"
+  coach-mark-template = "viewCoachMarksRepoPopover"
+  show-coach-marks
+)
   section.row.repo-list(
-    build = "dataInstance.data.instance.build"
-    instance = "dataInstance.data.instance"
-    loading = "dataApp.data.loading"
     repo-list
     unsaved-acvs = "dataInstance.data.unsavedAcvs"
-  )
-
-  div(
-    mark-style = "{\"left\": 28, \"top\": 68}"
-    ng-if = "dataInstance.data.unsavedAcvs.length"
-    show-coach-marks
-    template = "viewCoachMarksRepoPopover"
-    type = "repoList"
+    loading = "dataApp.data.loading"
+    instance = "dataInstance.data.instance"
+    build = "dataInstance.data.instance.build"
   )
 
 //- in / out control presence of header-bar

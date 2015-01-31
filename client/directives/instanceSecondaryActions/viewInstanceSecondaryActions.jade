@@ -2,18 +2,16 @@ button.btn.white.btn-action(
   ng-click = "goToEdit()"
   title = "Edit Box"
   type = "button"
+  coach-mark-type = "editButton"
+  coach-mark-style = "{\"left\": -6, \"top\": 18}"
+  coach-mark-template = "viewCoachMarksEditPopover"
+  show-coach-marks
 )
   svg.iconnables.icons-edit
     use(
       xlink:href = "#icons-edit"
     )
   | Edit
-div(
-  mark-style = "{\"left\": -6, \"top\": 18}"
-  show-coach-marks
-  template = "viewCoachMarksEditPopover"
-  type = "editButton"
-)
 button.btn.white.btn-action(
   modal
   modal-actions = "popoverGearMenu.actions.actionsModalFork"

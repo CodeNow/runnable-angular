@@ -41,18 +41,18 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
 
   function createElement(removeTemplate, removeStyle, removeType) {
     var attrs = {
-      'template': 'viewCoachMarksPanelPopover',
-      'mark-style': '{\"left\": -18, \"top\": 6}',
-      type: 'editButton'
+      'coach-mark-template': 'viewCoachMarksPanelPopover',
+      'coach-mark-style': '{\"left\": -18, \"top\": 6}',
+      'coach-mark-type': 'editButton'
     };
     if (removeTemplate) {
-      delete attrs.template;
+      delete attrs['coach-mark-template'];
     }
     if (removeStyle) {
-      delete attrs['mark-style'];
+      delete attrs['coach-mark-style'];
     }
     if (removeType) {
-      delete attrs.type;
+      delete attrs['coach-mark-type'];
     }
     ctx.template = '<form>' +
       directiveTemplate.attribute('show-coach-marks', attrs) +
