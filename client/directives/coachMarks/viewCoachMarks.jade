@@ -3,13 +3,13 @@
 //- *
 //- box name mark
 .guide.guide-mark(
-  ng-click = "$event.stopPropagation()"
-  ng-model = "coachMarkData"
   ng-class = "{in: !!coachMarkData}"
+  ng-click = "$event.stopPropagation()"
   ng-hide = "coachMarkData.hideMark"
+  ng-model = "coachMarkData"
+  ng-style = "coachMarkData.getStyle()"
   toggle-pop-over
   toggle-pop-over-model = "coachMarkData.show"
-  ng-style = "coachMarkData.getStyle()"
 )
   svg.iconnables.icons-star
     use(

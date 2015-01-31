@@ -13,7 +13,7 @@ h1.box-info.load(
     select-all
     value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
   )
-  .guide-wrapper(
+  div(
     ng-if = "instance.attrs.name"
     type = "boxName"
     mark-style = "{\"left\": -25, \"top\": 34}"
