@@ -53,9 +53,9 @@ function fetchInstances(
       }
     }
 
+    opts.githubUsername = opts.githubUsername || $stateParams.userName;
     return pFetchUser.then(function(user) {
       var pFetch = promisify(user, 'fetchInstances');
-      opts.githubUsername = opts.githubUsername || $stateParams.userName;
       return pFetch(opts);
     }).then(function(results) {
       var instance;
@@ -71,6 +71,7 @@ function fetchInstances(
       if (!instance) {
         throw new Error('Instance not found');
       }
+      instance.githubUsername = opts.githubUsername;
 
       return instance;
     }).catch(errs.handler);

@@ -20,13 +20,15 @@ function ControllerInstanceHome(
   if (!instanceName) {
     $scope.loading = true;
     fetchInstances()
-    .then(function (instances) {
-      var currentUser =
-          keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') || userName;
-      $scope.loading = false;
-      var models = $filter('orderBy')(instances.models, 'attrs.name');
-      var name = keypather.get(models, '[0].attrs.name');
-      goToInstance(userName, name);
+      .then(function (instances) {
+        var currentUser =
+            keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') || userName;
+        if (instances.githubUsername === currentUser) {
+          $scope.loading = false;
+          var models = $filter('orderBy')(instances.models, 'attrs.name');
+          var name = keypather.get(models, '[0].attrs.name');
+          goToInstance(userName, name);
+        }
     });
   } else {
     goToInstance(userName, instanceName);
@@ -38,7 +40,7 @@ function ControllerInstanceHome(
         userName: username
       }, {location: 'replace'});
     } else {
-      $rootScope.dataApp.data.loading = false;
+      $scope.loading = false;
       keypather.set($scope, 'data.in', true);
     }
   }

@@ -9,11 +9,13 @@ var $controller,
     $state,
     $q;
 var apiMocks = require('../apiMocks/index');
+var MockFetchInstances = require('../fixtures/MockFetchInstances');
+var runnable = new (require('runnable'))('http://example.com/');
 /**
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
  */
-describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
+describe('ControllerInstanceHome'.bold.underline.blue, function () {
   var ctx = {};
   function setup(activeAccountUsername, localStorageData) {
     angular.mock.module('app');
@@ -71,8 +73,10 @@ describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
     ctx.stateParams = {
       userName: activeAccountUsername || 'user'
     };
+    MockFetchInstances.clearDeferer();
+    ctx.fireOnDemandPromise = MockFetchInstances.fireOnDemandPromise;
     angular.mock.module('app', function ($provide) {
-      $provide.value('fetchInstances', ctx.fetchInstancesMock);
+      $provide.factory('fetchInstances', MockFetchInstances.onDemand);
       $provide.value('$stateParams', ctx.stateParams);
       $provide.value('$localStorage', localStorageData || {});
     });
@@ -113,7 +117,14 @@ describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
     it('should navigate to the first (alphabetical) instance for user', function () {
       setup('user');
       expect($scope.loading).to.be.true;
-      ctx.fireInstanceResponse['user']();
+      $rootScope.$digest();
+      var many = runnable.newInstances(
+        [apiMocks.instances.running, apiMocks.instances.stopped],
+        {noStore: true}
+      );
+      many.githubUsername = 'user';
+      ctx.fireOnDemandPromise(many);
+      $rootScope.$digest();
       expect($scope.loading).to.be.false;
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'user',
@@ -123,7 +134,14 @@ describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
     it('should navigate to new for org2', function () {
       setup('org2');
       expect($scope.loading).to.be.true;
-      ctx.fireInstanceResponse['org2']();
+      $rootScope.$digest();
+      var many = runnable.newInstances(
+        [],
+        {noStore: true}
+      );
+      many.githubUsername = 'org2';
+      ctx.fireOnDemandPromise(many);
+      $rootScope.$digest();
       expect($scope.loading).to.be.false;
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
@@ -135,7 +153,7 @@ describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
     it('should navigate based on local storage', function () {
       var lsData = {};
       keypather.set(lsData, 'lastInstancePerUser.user', 'space');
-      setup('user', lsData);
+      setup('user', lsData, 'one');
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'user',
         instanceName: 'space'
@@ -146,7 +164,20 @@ describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
   describe('multiple requests for different active accounts'.blue, function () {
     it('should only care about the last requested user, even when the responses are out of order', function () {
       setup('org1');
+      expect($scope.loading).to.be.true;
+
+      $rootScope.$digest();
+
+      var many = runnable.newInstances(
+        [apiMocks.instances.running, apiMocks.instances.stopped],
+        {noStore: true}
+      );
+      many.githubUsername = 'org1';
+
+      // Change the user
       ctx.stateParams.userName = 'org2';
+      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList['org2']);
+
       var ca = $controller('ControllerInstanceHome', {
         '$scope': $scope,
         '$rootScope': $rootScope,
@@ -154,19 +185,26 @@ describe.only('ControllerInstanceHome'.bold.underline.blue, function () {
         '$stateParams': ctx.stateParams,
         '$localStorage': $localStorage
       });
-      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList['org2']);
-      $rootScope.$digest();
-      expect($scope.loading).to.be.true;
-      // This should still be connected to the old controller, but it should fail
-      ctx.fireInstanceResponse['org1']();
 
+      $rootScope.$digest();
+
+      ctx.fireOnDemandPromise(many);
+      $rootScope.$digest();
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'org1',
         instanceName: 'spaaace'
       });
-      ctx.fireInstanceResponse['org2']();
-      expect($scope.loading).to.be.false;
 
+      var runnable2 = new (require('runnable'))('http://example3.com/');
+      var many2 = runnable2.newInstances(
+        [],
+        {noStore: true, reset: true}
+      );
+      console.log('UJHLOKUHJ', many2);
+      many2.githubUsername = 'org2';
+      ctx.fireOnDemandPromise(many2);
+      $rootScope.$digest();
+      expect($scope.loading).to.be.false;
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
