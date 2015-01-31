@@ -29,7 +29,7 @@ function ControllerInstanceEdit(
   data.openItems = new OpenItems();
 
   data.loading = false;
-  data.showExplorer = false;
+  data.showExplorer = true;
 
   function fetchInstance(cb) {
     new QueryAssist($scope.user, cb)
