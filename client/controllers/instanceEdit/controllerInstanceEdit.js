@@ -28,7 +28,7 @@ function ControllerInstanceEdit(
   data.openItems = new OpenItems();
 
   data.loading = false;
-  data.showExplorer = false;
+  data.showExplorer = true;
 
   // open "Dockerfile" build file by default
   function setDefaultTabs() {

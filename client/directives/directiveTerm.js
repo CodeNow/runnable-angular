@@ -15,7 +15,7 @@ function term(
   fetchInstances
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     scope: {
       item: '='
     },

@@ -70,6 +70,34 @@
       border-color: rgba($black,.15);
     }
   }
+
+  // validation in modals:
+  .validate-wrapper {
+    cursor: default;
+    display: block;
+    height: 0;
+    margin: 6px 9px;
+    transition: all .2s ease-in;
+
+    &.invalid-require,
+    &.invalid-pattern,
+    &.invalid-name {
+      border: 1px solid rgba($orange,.3);
+      height: 36px;
+    }
+
+    .validate-rules {
+      align-items: baseline;
+      display: flex;
+      height: 36px;
+      justify-content: center;
+      right: 0;
+    }
+
+    .btn:first-child {
+      margin-left: 6px;
+    }
+  }
 }
 
 // header.modal-header
@@ -90,7 +118,7 @@
   padding: 0 21px;
 
   &:last-child {
-    padding-bottom: 15px;
+    padding-bottom: 21px;
   }
 }
 
@@ -114,40 +142,12 @@
 
 // main.modal-body
 .modal-body {
+  flex: 0 0 auto;
   overflow-x: hidden;
   overflow-y: auto;
 
   @include media(sm) {
     width: 100%;
-  }
-
-  // validation in modals:
-  .validate-wrapper {
-    cursor: default;
-    display: block;
-    height: 0;
-    margin: 0;
-    transition: all .2s ease-in;
-
-    &.invalid-require,
-    &.invalid-pattern,
-    &.invalid-name {
-      border: 1px solid rgba($orange,.3);
-      height: 36px;
-      margin: 6px 9px 0;
-    }
-
-    .validate-rules {
-      align-items: baseline;
-      display: flex;
-      height: 36px;
-      justify-content: center;
-      right: 0;
-    }
-
-    .btn:first-child {
-      margin-left: 6px;
-    }
   }
 
   // form elements in modals:
@@ -255,6 +255,17 @@
 
     + .link {
       margin-top: 12px;
+    }
+  }
+
+  .label-checkbox {
+    float: left;
+    font-size: 13px;
+    line-height: 22px;
+    margin: 10px 15px 0 9px;
+
+    .input-checkbox {
+      margin: 6px 6px 0 0;
     }
   }
 

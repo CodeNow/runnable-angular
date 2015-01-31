@@ -2,24 +2,17 @@
   max-width: 420px;
 
   .input-description {
-    max-width: 290px;
+    max-width: 281px;
 
     @include media(sm) {
       max-width: 240px;
     }
   }
 
-  .well {
-    margin-top: 9px;
-    transition: none;
+  .modal-inset {
 
-    &.in {
-      max-height: 450px;
-      transition: margin .15s ease-in, max-height .15s ease-in;
-    }
-
-    &.btn {
-      margin-top: 6px;
+    .list {
+      border: 0;
     }
   }
 }

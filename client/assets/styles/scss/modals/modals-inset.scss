@@ -1,0 +1,55 @@
+.modal-inset {
+  background: $gray-lightest;
+  border-bottom: 1px solid $white;
+  border-top: 1px solid $white;
+  max-height: 0;
+  overflow-y: auto;
+  transition: border-color .2s ease-in, max-height .2s ease-in;
+
+  &.in {
+    border-color: rgba($black,.1);
+    max-height: 300px;
+    transition: max-height .2s ease-in;
+  }
+
+  .small {
+    color: $gray-light;
+    display: inline-block;
+    margin: 9px 0 6px 21px;
+  }
+
+  .list {
+    border: 1px solid rgba($black,.1);
+    border-radius: 3px;
+    margin: 0 9px 9px;
+  }
+
+  .list-item {
+    background: $white;
+    height: 36px;
+    line-height: 36px;
+    margin: 0;
+    padding: 0 15px;
+
+    + .list-item {
+      border-top: 1px solid rgba($black,.1);
+    }
+  }
+
+  .input-group {
+    height: 54px;
+    line-height: 54px;
+    margin: 0 auto;
+    padding: 0;
+
+    &.ng-dirty.ng-invalid.ng-valid-name-require {
+      border-bottom: 0;
+      border-radius: 3px 3px 0 0;
+    }
+  }
+
+  .validate-wrapper {
+    border-radius: 0 0 3px 3px;
+    margin: -1px 0 6px;
+  }
+}

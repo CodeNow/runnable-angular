@@ -15,6 +15,15 @@ app.locals.env = config.env;
 app.locals.commitHash = require('../client/config/json/commit.json').commitHash;
 app.locals.commitTime = require('../client/config/json/commit.json').commitTime;
 app.set('views', path.join(__dirname + '/views'));
+
+// Redirect to https
+app.use(function(req, res, next) {
+  if(!req.secure && process.env.NODE_ENV === 'production') {
+    return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
+  }
+  next();
+});
+
 app.use(compression());
 app.use(require('cookie-parser')());
 

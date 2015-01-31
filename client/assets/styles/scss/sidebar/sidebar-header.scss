@@ -1,3 +1,8 @@
+.nav-header {
+  flex: 0 0 auto;
+  height: 60px;
+}
+
 // header.row.account-header
 .account-header {
   @extend .webkit-flicker;

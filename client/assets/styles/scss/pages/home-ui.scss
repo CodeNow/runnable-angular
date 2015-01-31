@@ -1,0 +1,248 @@
+// ui
+.img-ui {
+  background: $white;
+  border: 1px solid rgba($black,.15);
+  border-radius: 6px;
+  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
+  margin: 0 auto;
+  overflow: hidden;
+  width: 708px;
+
+  @include media(sm) {
+    width: 100%;
+  }
+}
+
+// content wrapper
+.ui-wrapper {
+  height: 360px;
+
+  // nav
+  .global-sidebar {
+    border-bottom-left-radius: 6px;
+    height: 100%;
+    padding: 6px;
+    width: 180px;
+
+    @include media(sm) {
+      display: none;
+    }
+  }
+
+  .sub-header {
+    color: $gray-light;
+    padding-left: 9px;
+  }
+
+  .server-group-item {
+    width: auto;
+  }
+
+  .server-item-name {
+    font-weight: 500;
+  }
+
+  // hide save and actions icon
+  .btn-icon,
+  .primary-actions {
+    @include media(xxs) {
+      display: none;
+    }
+  }
+
+  // main
+  .content {
+    background: $white;
+    border-bottom-right-radius: 6px;
+    overflow: visible;
+    transition: none;
+    width: calc(100% - 180px);
+
+    @include media(sm) {
+      float: left;
+      width: 100%;
+    }
+
+    // save button
+    .green {
+      margin: 7px 0 0;
+
+      @include media(xxs) {
+        display: none;
+      }
+    }
+  }
+
+  .server-sidebar {
+    height: auto;
+    padding: 0;
+    width: 210px;
+
+    @include media(sm) {
+      width: 180px;
+    }
+
+    @include media(xxs) {
+      display: none;
+    }
+  }
+
+  .explorer-toggle {
+    position: relative;
+  }
+
+  .file-tree {
+    margin: 15px 0 0 6px;
+  }
+
+  // views override
+  .views {
+    border-bottom-right-radius: 6px;
+    height: calc(100% - 60px);
+    width: calc(100% - 210px);
+
+    @include media(sm) {
+      width: calc(100% - 180px);
+    }
+
+    @include media(xxs) {
+      border-bottom-left-radius: 6px;
+      width: 100%;
+    }
+  }
+}
+
+.ui-header {
+  background: $gray-lightest;
+  border-bottom: 1px solid rgba($black,.1);
+  border-radius: 3px 3px 0 0;
+  height: 30px;
+  line-height: 30px;
+  padding: 4px 6px 0 3px;
+  position: relative;
+
+  .btn-group {
+    float: left;
+  }
+
+  .icons-arrow-back {
+    color: $gray-lighter;
+    cursor: default;
+    height: 21px;
+    padding: 0 2px;
+    width: 21px;
+
+    + .icons-arrow-back {
+      transform: rotate3d(0,0,1,180deg);
+    }
+  }
+
+  .input {
+    background: url(/build/images/favicon.png) no-repeat $white;
+    background-position: 3px center;
+    background-size: 12px 12px;
+    float: right;
+    font-size: 12px;
+    height: 21px;
+    line-height: 21px;
+    padding-left: 18px;
+    width: calc(100% - 47px);
+
+    &.favicon-octocat {
+      background-image: url(/build/images/icons/github/icons-octocat.svg);
+    }
+  }
+}
+
+// terminal view
+.ui-views-terminal .pre::after {
+  animation: cursor-blink 1s infinite;
+  background: $white;
+  content: '';
+  display: inline-block;
+  height: 14px;
+  left: 3px;
+  position: relative;
+  top: 2px;
+  width: 9px;
+}
+
+// editor view
+.ui-views-editor > .pre {
+  color: #ffafb7; // pink
+}
+
+// workflow labels
+.workflow-toggle {
+  display: flex;
+  margin: 30px auto 45px;
+  width: 480px;
+
+  @include media(xs) {
+    width: 100%;
+  }
+}
+
+.workflow-toggle-item {
+  border: 1px solid rgba($black,.15);
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  width: calc(100% / 3);
+
+  + .workflow-toggle-item {
+    margin-left: 12px;
+  }
+
+  &:hover,
+  &:active,
+  &.active {
+    border-color: $blue;
+  }
+}
+
+.workflow-label {
+  padding-bottom: 12px;
+  text-align: center;
+}
+
+// workflow
+.img-workflow {
+  border-radius: 6px;
+  font-size: 12px !important;
+  height: 60px;
+  margin: 12px auto;
+  overflow: hidden;
+  padding: 6px 3px;
+  position: relative;
+  width: 81px;
+}
+
+// terminal
+.img-workflow-terminal {
+
+  &::after {
+    background: $white;
+    content: '';
+    display: inline-block;
+    height: 13px;
+    left: 3px;
+    position: relative;
+    top: 3px;
+    width: 7px;
+  }
+}
+
+// editor
+.img-workflow-editor {
+  color: #ffafb7 !important; // pink
+  font-size: 10px !important;
+  padding-left: 10px;
+}
+
+// commit
+.img-workflow-commits {
+  background: $purple-dark;
+  color: $white;
+  padding: 6px;
+}

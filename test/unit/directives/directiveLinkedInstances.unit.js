@@ -101,7 +101,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
       });
       $scope.$digest();
 
-      expect(ctx.element[0].querySelectorAll('div[ng-repeat]').length).to.equal(3);
+      expect(ctx.element[0].querySelectorAll('input.input').length).to.equal(3);
       expect(ctx.element[0].querySelector('input.input').value).to.equal('hello-copy');
     });
   });
@@ -114,7 +114,7 @@ describe('directiveLinkedInstances'.bold.underline.blue, function() {
       $scope.scp.deps = makeDeps();
 
       $scope.$digest();
-      expect(ctx.element[0].querySelectorAll('a.box-item-cluster').length).to.equal(3);
+      expect(ctx.element[0].querySelectorAll('a.server-item-cluster').length).to.equal(3);
     });
   });
 

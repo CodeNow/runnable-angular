@@ -1,67 +1,45 @@
-//- 0.3 SAN-435
-.well(
-  ng-class = "{\
-    btn: !forkDependencies,\
-    'btn-sm': !forkDependencies,\
-    in: forkDependencies,\
-    white: !forkDependencies,\
-  }"
-)
-  label.label-checkbox
-    input.input-checkbox(
-      ng-model = "forkDependencies"
-      type = "checkbox"
-    )
-    | Fork linked boxes
-
-  div(
+small.small Forking linked servers
+.list
+  .list-item-form(
+    name = "depItemForm"
+    ng-form
     ng-repeat = "depItem in items | orderBy:'instance.attrs.name'"
   )
-    ng-form(
-      name = "depForm"
+    label.input.input-group.input-validate(
+      ng-class = "{\
+        focus: depItemInput.showFocus,\
+        'ng-invalid': depItemForm.$invalid,\
+        'ng-valid': depItemForm.$valid && !depItemForm.$pristine\
+      }"
     )
-      //- forking linked boxes
-      label.input-group.with-description(
-        ng-class = "{\
-          focus: depForm.showFocus,\
-          'ng-invalid': depForm.$invalid,\
-          'ng-valid': depForm.$valid\
-        }"
-        ng-if = "forkDependencies"
+      span.input-label Name
+      span.input-description.text-overflow {{ depItem.opts.name }}.{{ depItem.instance.attrs.owner.username.toLowerCase() }}.runnable.io
+      input.input(
+        name = "depItemInput"
+        autocomplete = "off"
+        ng-blur = "depItemInput.showFocus = false"
+        ng-focus = "depItemInput.showFocus = true"
+        instance = "depItem.instance"
+        ng-model = "depItem.opts.name"
+        placeholder = "My-Server"
+        validate-name = "instances"
+        validate-name-pattern
       )
-        span.input-label Name
-        span.input-description.text-overflow {{ depItem.opts.name }}.{{ depItem.instance.attrs.owner.username.toLowerCase() }}.runnable.io
-        //- 0.3 SAN-435
-          - to do:
-          - fix ng-focus/ng-blur
-          - fix validation
-        input.input(
-          instance = "depItem.instance"
-          ng-model = "depItem.opts.name"
-          placeholder = "My-Box"
-          validate-name = "instances"
-          validate-name-pattern
-          autocomplete = "off"
-          validate-name-current-instance-valid = "false"
-        )
-        .btn-popover-wrapper(
-          environment-button
-          item = "depItem"
-          ng-if = "depItem.opts.env"
-        )
-      //- .invalid-pattern for names with invalid characters
-        - .invalid-name for names that are taken
-      .validate-wrapper.btn-sm.orange(
-        ng-class = "{\
-          in: depForm.$invalid,\
-          'invalid-pattern': depForm.$error.namePattern.length,\
-          'invalid-name': depForm.$error.nameAvailable.length\
-        }"
+      .btn-popover-wrapper(
+        environment-button
+        item = "depItem"
+        ng-if = "depItem.opts.env"
       )
-        span.validate-rules.invalid-pattern Please use #{''}
-          b.btn-xs.orange A-Z
-          b.btn-xs.orange a-z
-          b.btn-xs.orange 0-9
-          b.btn-xs.orange _
-          b.btn-xs.orange -
-        span.validate-rules.invalid-name That's a pretty name, but it's taken.
+    .validate-wrapper.btn-sm.orange(
+      ng-class = "{\
+        'invalid-pattern': depItemForm.$error.namePattern.length,\
+        'invalid-name': depItemForm.$error.nameAvailable.length\
+      }"
+    )
+      span.validate-rules.invalid-pattern Please use #{''}
+        b.btn-xs.orange A-Z
+        b.btn-xs.orange a-z
+        b.btn-xs.orange 0-9
+        b.btn-xs.orange _
+        b.btn-xs.orange -
+      span.validate-rules.invalid-name That's a pretty name, but it's taken.

@@ -1,17 +1,13 @@
-// section.row.boxes
-.boxes {
+// section.row.nav-servers
+.nav-servers {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  height: calc(100% - 108px);
   position: relative;
   z-index: $z-sidebar-content;
 
   .sub-header {
-    background: rgba($gray-lightest,.9);
     flex: 0 0 auto;
-    transition: background .15s ease-in, box-shadow .15s ease-in;
-    z-index: $z-sidebar-sub-header;
   }
 
   .spinner-wrapper {
@@ -20,17 +16,15 @@
   }
 }
 
-//  ul.boxes
-.box-group {
+//  ul.server-group
+.server-group {
   flex: 1 1 auto;
-  margin: -45px 0;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 51px 0; // offset + 9px for box-shadow on footer
 }
 
-// li.box-group-item
-.box-group-item {
+// li.server-group-item
+.server-group-item {
   border-radius: 3px;
   cursor: pointer;
   display: block;
@@ -60,7 +54,7 @@
     line-height: 1;
     padding-bottom: 3px;
 
-    .box-item-name {
+    .server-item-name {
       margin-bottom: 3px;
       margin-top: 8px;
     }
@@ -81,8 +75,8 @@
   }
 }
 
-// a.box-item-name
-.box-item-name {
+// a.server-item-name
+.server-item-name {
   color: $gray;
   display: block;
   padding: 0 23px 0 9px;
@@ -90,13 +84,8 @@
   transition: opacity .2s ease-in;
 }
 
-// span.box-item-description
-.box-item-description {
-  font-size: 12px;
-}
-
-// a.box-item-cluster
-.box-item-cluster {
+// a.server-item-cluster
+.server-item-cluster {
   display: block;
   font-size: 12px;
   line-height: 21px;

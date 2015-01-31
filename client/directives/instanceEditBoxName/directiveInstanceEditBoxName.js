@@ -10,7 +10,7 @@ function instanceEditBoxName(
   getInstanceClasses
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewInstanceEditBoxName',
     scope: {
       instance: '='

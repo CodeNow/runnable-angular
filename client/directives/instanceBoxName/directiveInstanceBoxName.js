@@ -10,7 +10,7 @@ function instanceBoxName(
   getInstanceClasses
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewInstanceBoxName',
     scope: {
       instance: '='
