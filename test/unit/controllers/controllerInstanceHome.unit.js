@@ -9,7 +9,7 @@ var $controller,
     $state,
     $q;
 var apiMocks = require('../apiMocks/index');
-var MockFetchInstances = require('../fixtures/MockFetchInstances');
+var mockFetch = require('../fixtures/mockFetch');
 var runnable = new (require('runnable'))('http://example.com/');
 /**
  * Things to test:
@@ -66,17 +66,12 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         cb(null, ctx.instanceLists[overrideUsername || username], overrideUsername || username);
       };
     };
-    ctx.fireInstanceResponse = {};
-    ctx.fetchInstancesMock = sinon.spy(function (username, force, cb) {
-      ctx.fireInstanceResponse[username] = ctx.setupInstanceResponse(username, cb);
-    });
     ctx.stateParams = {
       userName: activeAccountUsername || 'user'
     };
-    MockFetchInstances.clearDeferer();
-    ctx.fireOnDemandPromise = MockFetchInstances.fireOnDemandPromise;
+    mockFetch.clearDeferer();
     angular.mock.module('app', function ($provide) {
-      $provide.factory('fetchInstances', MockFetchInstances.onDemand);
+      $provide.factory('fetchInstances', mockFetch.fetch);
       $provide.value('$stateParams', ctx.stateParams);
       $provide.value('$localStorage', localStorageData || {});
     });
@@ -123,7 +118,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         {noStore: true}
       );
       many.githubUsername = 'user';
-      ctx.fireOnDemandPromise(many);
+      mockFetch.triggerPromise(many);
       $rootScope.$digest();
       expect($scope.loading).to.be.false;
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
@@ -140,7 +135,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         {noStore: true}
       );
       many.githubUsername = 'org2';
-      ctx.fireOnDemandPromise(many);
+      mockFetch.triggerPromise(many);
       $rootScope.$digest();
       expect($scope.loading).to.be.false;
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
@@ -153,7 +148,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     it('should navigate based on local storage', function () {
       var lsData = {};
       keypather.set(lsData, 'lastInstancePerUser.user', 'space');
-      setup('user', lsData, 'one');
+      setup('user', lsData);
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'user',
         instanceName: 'space'
@@ -188,7 +183,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
 
       $rootScope.$digest();
 
-      ctx.fireOnDemandPromise(many);
+      mockFetch.triggerPromise(many);
       $rootScope.$digest();
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'org1',
@@ -202,7 +197,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       );
       console.log('UJHLOKUHJ', many2);
       many2.githubUsername = 'org2';
-      ctx.fireOnDemandPromise(many2);
+      mockFetch.triggerPromise(many2);
       $rootScope.$digest();
       expect($scope.loading).to.be.false;
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {

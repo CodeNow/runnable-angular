@@ -1,22 +1,26 @@
-var fetches = {};
-var q;
+'use strict';
 
-var mockFetcher = {};
+var instances = require('../apiMocks').instances;
 
-mockFetcher.expectFetch = function (type, opts, result) {
-  fetches[type] = result;
-}
+var runnable = new (require('runnable'))('http://example.com/');
 
-mockFetcher.init = function ($q) {
-  q = $q;
-}
-
-mockFetcher.fetch = function  (type, opts) {
-  // TODO: opts
-  if (fetches[type]) {
-    return q.when(fetches[type]);
+var deferer = [];
+module.exports = {
+  triggerPromise: function(opts, index) {
+    ((index === null) ? deferer.pop() : deferer.splice(index, 1)).resolve(opts);
+  },
+  triggerPromiseError: function(opts, index) {
+    ((index === null) ? deferer.pop() : deferer.splice(index, 1))
+      .reject('http://cdn2.holytaco.com/wp-content/uploads/images/2009/12/Cat_FAIL-1.jpg');
+  },
+  fetch: function ($q) {
+    return function (opts) {
+      var thisDeferer = $q.defer();
+      deferer.push(thisDeferer);
+      return thisDeferer.promise;
+    };
+  },
+  clearDeferer: function () {
+    deferer = [];
   }
-  throw new Error('Unexpected fetch of type: ', type, opts);
-}
-
-module.exports = mockFetcher;
+};
