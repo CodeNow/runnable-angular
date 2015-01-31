@@ -8,12 +8,8 @@ require('app')
 function editRepoCommit(
   errs,
   fetchCommitData,
-  fetchUser,
   keypather,
-  $rootScope,
-  $state,
-  $stateParams,
-  user
+  $state
 ) {
   return {
     restrict: 'A',
