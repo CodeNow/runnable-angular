@@ -139,7 +139,6 @@ function repoList(
         }
 
         function buildBuild(build) {
-          console.log('buildBuild', build);
           return promisify(build, 'build')({
             message: 'Update application code version(s)' // TODO: better message
           });
@@ -174,7 +173,6 @@ function repoList(
             //    and the build of an instance (instance)
             // This will be triggered when a new build is passed to us by API
             $scope.$watch('instance.build', function(n) {
-              console.log('instance build watch', n);
               if (n) { $scope.build = $scope.instance.build; }
             });
           }
