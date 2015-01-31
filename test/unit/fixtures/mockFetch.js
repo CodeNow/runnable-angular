@@ -1,16 +1,12 @@
 'use strict';
 
-var instances = require('../apiMocks').instances;
-
-var runnable = new (require('runnable'))('http://example.com/');
-
 var deferer = [];
 module.exports = {
   triggerPromise: function(opts, index) {
-    ((index === null) ? deferer.pop() : deferer.splice(index, 1)).resolve(opts);
+    ((!index) ? deferer.pop() : deferer.splice(index, 1)[0]).resolve(opts);
   },
   triggerPromiseError: function(opts, index) {
-    ((index === null) ? deferer.pop() : deferer.splice(index, 1))
+    ((!index) ? deferer.pop() : deferer.splice(index, 1)[0])
       .reject('http://cdn2.holytaco.com/wp-content/uploads/images/2009/12/Cat_FAIL-1.jpg');
   },
   fetch: function ($q) {
