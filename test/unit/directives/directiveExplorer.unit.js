@@ -1,6 +1,6 @@
 var mockFetch = require('../fixtures/mockFetch');
 
-describe('directiveExplorer'.bold.underline.blue, function () {
+describe.skip('directiveExplorer'.bold.underline.blue, function () {
   var ctx;
   var stateParams = {};
 

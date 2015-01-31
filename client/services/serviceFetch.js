@@ -2,21 +2,21 @@
 
 require('app')
   .factory('pFetchUser', function (user, $q) {
-    // TODO: move.
     // Promise version of serviceFetchUser
-    var pFetchUser = (function () {
-      // http://stackoverflow.com/a/22655010/1216976
-      var d = $q.defer();
-      user.fetchUser('me', function (err) {
-        if (err) {
-          return d.reject(err);
-        }
-        return d.resolve(user);
-      });
-      return d.promise;
-    })();
+    // http://stackoverflow.com/a/22655010/1216976
+    var d = $q.defer();
+    user.fetchUser('me', function (err) {
+      if (err) {
+        return d.reject(err);
+      }
+      return d.resolve(user);
+    });
 
-    return pFetchUser;
+    // For consistency with other promise fetchers
+    return function () {
+      return d.promise;
+    };
+
   })
   .factory('promisify', function($exceptionHandler, $q) {
     return function promisify(model, fn) {

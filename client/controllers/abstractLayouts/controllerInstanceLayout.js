@@ -24,7 +24,7 @@ function ControllerInstanceLayout(
     actions: {}
   };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
-  pFetchUser.then(function(user) {
+  pFetchUser().then(function(user) {
     thisUser = user;
     return resolveInstanceFetch(
       $stateParams.userName

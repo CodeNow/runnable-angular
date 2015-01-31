@@ -16,17 +16,12 @@ var async,
 describe('controllerInstance'.bold.underline.blue, function () {
   var ctx = {};
 
-  var fetchInstancesMock = sinon.spy(function () {
-    var d = $q.defer();
-    d.resolve({});
-    return d.promise;
-  });
-
   beforeEach(angular.mock.module('app'));
 
   beforeEach(function () {
     angular.mock.module(function ($provide) {
-      $provide.value('fetchInstances', fetchInstancesMock);
+      $provide.factory('pFetchUser', fixtures.mockFetchUser);
+      $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
     });
     angular.mock.inject(function (
       _async_,

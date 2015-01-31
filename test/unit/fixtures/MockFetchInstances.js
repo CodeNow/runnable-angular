@@ -2,30 +2,18 @@
 
 var instances = require('../apiMocks').instances;
 
-var runnable = new (require('runnable'))('http://example.com/');
+var runnable = new (require('runnable'))(window.host);
 
-var deferer = [];
 module.exports = {
-  fireOnDemandPromise: function(opts, index) {
-    if (index) {
-      deferer.splice(index, 1).resolve(opts);
-    } else {
-      deferer.pop().resolve(opts);
-    }
-  },
-  one: function ($q) {
+  running: function ($q) {
     return function (opts) {
+      expect(opts).to.be.an.Object;
+      expect(opts.name).to.be.a.String;
+      expect(opts.githubUsername).to.not.be.ok;
       var d = $q.defer();
-      var instance = runnable.newInstance(instances.running);
-      d.resolve(instance);
+      var running = runnable.newInstance(instances.running);
+      d.resolve(running);
       return d.promise;
-    };
-  },
-  onDemand: function ($q) {
-    return function (opts) {
-      var thisDeferer = $q.defer();
-      deferer.push(thisDeferer);
-      return thisDeferer.promise;
     };
   },
   error: function($q) {
@@ -34,8 +22,5 @@ module.exports = {
       d.reject('http://cdn2.holytaco.com/wp-content/uploads/images/2009/12/Cat_FAIL-1.jpg');
       return d.promise;
     };
-  },
-  clearDeferer: function () {
-    deferer = [];
   }
 };

@@ -12,7 +12,6 @@ var matches = function (regexp) {
 // injector-provided
 var $compile,
     $filter,
-    $httpBackend,
     $provide,
     $rootScope,
     $scope,
@@ -40,12 +39,13 @@ describe('directiveLogBox'.bold.underline.blue, function() {
         instanceName: 'instancename'
       });
 
+      $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
+
       $provide.value('primus', mockPrimus);
     });
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
-      _$httpBackend_,
       _$rootScope_,
       _$state_,
       _$stateParams_,
@@ -54,7 +54,6 @@ describe('directiveLogBox'.bold.underline.blue, function() {
     ) {
       $compile = _$compile_;
       $filter = _$filter_;
-      $httpBackend = _$httpBackend_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;
@@ -63,27 +62,11 @@ describe('directiveLogBox'.bold.underline.blue, function() {
       user = _user_;
     });
 
-    /**
-     * API Requests
-     * - GET user
-     * - GET instance
-     */
-    var userUrl = host + '/users/me?';
-    $httpBackend
-      .whenGET(userUrl)
-      .respond(mocks.user);
-
-    var instanceUrl = host + '/instances?githubUsername=username&name=instancename';
-    $httpBackend
-      .whenGET(instanceUrl)
-      .respond(mocks.instances.runningWithContainers);
-
     modelStore.reset();
 
     ctx.element = angular.element(ctx.template);
     ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
-    $httpBackend.flush();
     ctx.$element = jQuery(ctx.element);
     $elScope = ctx.element.isolateScope();
   }
@@ -96,14 +79,12 @@ describe('directiveLogBox'.bold.underline.blue, function() {
   beforeEach(injectSetupCompile);
 
   it('basic dom', function() {
-    expect(ctx.$element).to.be.ok;
     expect(ctx.$element.hasClass('ng-isolate-scope')).to.equal(true);
     var $el = ctx.$element.find('> div.terminal');
     expect($el.length).to.be.ok;
   });
 
   it('basic scope', function() {
-    expect($elScope).to.have.property('user');
     expect($elScope).to.have.property('instance');
   });
 

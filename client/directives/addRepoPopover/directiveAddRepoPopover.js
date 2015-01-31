@@ -112,7 +112,7 @@ function addRepoPopover(
         return activeBranch;
       }
 
-      pFetchUser.then(function(user) {
+      pFetchUser().then(function(user) {
         $scope.user = user;
         $scope.repoListPopover.data.user = user;
         if ($stateParams.buildId) {

@@ -2,13 +2,21 @@
 
 var builds = require('../apiMocks').builds;
 
-var runnable = new (require('runnable'))('http://example.com/');
+var runnable = new (require('runnable'))(window.host);
 
 module.exports = {
   built: function ($q) {
     return function ($buildId) {
       var d = $q.defer();
       var built = runnable.newBuild(builds.built);
+      d.resolve(built);
+      return d.promise;
+    };
+  },
+  setup: function($q) {
+    return function ($buildId) {
+      var d = $q.defer();
+      var built = runnable.newBuild(builds.setup);
       d.resolve(built);
       return d.promise;
     };

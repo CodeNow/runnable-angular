@@ -99,7 +99,7 @@ function instanceEditPrimaryActions(
         .then(function(build) {
           $scope.newBuild = build;
           cb();
-        });
+        }).catch(cb);
       }
 
       function updateAppCodeVersions(cb) {
