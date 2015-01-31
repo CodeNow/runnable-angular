@@ -64,17 +64,17 @@ header.server-header
 
 //- sidebar with repositories and urls
 section.sidebar.server-sidebar.load(
-  coach-mark-type = "repoList"
-  coach-mark-style = "{\"left\": 28, \"top\": 68}"
+  coach-mark-style = "{\"left\": 28, \"top\": 129}"
   coach-mark-template = "viewCoachMarksRepoPopover"
+  coach-mark-type = "repoList"
   show-coach-marks
 )
   section.row.repo-list(
+    build = "dataInstance.data.instance.build"
+    instance = "dataInstance.data.instance"
+    loading = "dataApp.data.loading"
     repo-list
     unsaved-acvs = "dataInstance.data.unsavedAcvs"
-    loading = "dataApp.data.loading"
-    instance = "dataInstance.data.instance"
-    build = "dataInstance.data.instance.build"
   )
 
 //- in / out control presence of header-bar
