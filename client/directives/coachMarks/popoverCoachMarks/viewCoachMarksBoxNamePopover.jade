@@ -1,11 +1,10 @@
 .popover.bottom.popover-guides(
   ng-class = "{in: data.show}"
 )
-  .arrow.white
+  .arrow.blue
   .popover-content.clearfix
-    h3.popover-header Each server is special
-    p Every server gets its own personal url that you can use anywhere!
+    p Each server gets a unique public URL based on its name.
     //- dismiss should also clear the coachmark
-    a.link.link-text.link-gray(
+    a.link.link-text.link-white(
       ng-click = "data.dismiss()"
     ) Dismiss
