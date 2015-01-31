@@ -16,16 +16,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       $provide.value('$stateParams', provideValues.stateParams);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
       $provide.factory('fetchBuild', fixtures.MockFetchBuild.setup);
-      $provide.factory('pFetchUser', function ($q) {
-        // TODO: fix up when we move pFetchUser to a function
-        var d = $q.defer();
-        d.resolve({
-          createBuild: function (opts, cb) {
-            cb();
-          }
-        });
-        return d.promise;
-      });
+      $provide.factory('pFetchUser', fixtures.mockFetchUser);
     });
     angular.mock.inject(function($compile, _$rootScope_, $timeout, user){
       $rootScope = _$rootScope_;

@@ -60,7 +60,7 @@ function ControllerInstance(
     $location.search('chat', null);
   }
 
-  pFetchUser.then(function (user) {
+  pFetchUser().then(function (user) {
     $scope.user = user;
     return fetchInstances({
       name: $stateParams.instanceName

@@ -187,7 +187,7 @@ function repoList(
         });
       }
 
-      pFetchUser.then(function(user) {
+      pFetchUser().then(function(user) {
         $scope.user = user;
         if ($state.$current.name === 'instance.setup') {
           return fetchBuildWrapper();

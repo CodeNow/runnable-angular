@@ -19,7 +19,7 @@ function fetchInstances(
   var currentInstanceList;
   var userStream;
 
-  pFetchUser.then(function(user) {
+  pFetchUser().then(function(user) {
     userStream = primus.createUserStream(user.oauthId());
 
     userStream.on('data', function (data) {
@@ -53,7 +53,7 @@ function fetchInstances(
       }
     }
 
-    return pFetchUser.then(function(user) {
+    return pFetchUser().then(function(user) {
       var pFetch = promisify(user, 'fetchInstances');
       opts.githubUsername = opts.githubUsername || $stateParams.userName;
       return pFetch(opts);
@@ -90,7 +90,7 @@ function fetchBuild(
       throw new Error('BuildId is required');
     }
 
-    return pFetchUser.then(function(user) {
+    return pFetchUser().then(function(user) {
       var pFetch = promisify(user, 'fetchBuild');
       return pFetch(buildId);
     }).then(function(build) {
@@ -107,7 +107,7 @@ function fetchOwnerRepos (
 ) {
   var user;
   return function (userName) {
-    return pFetchUser.then(function(_user) {
+    return pFetchUser().then(function(_user) {
       user = _user;
       var repoFetch;
       if (userName === user.oauthName()) {
@@ -147,7 +147,7 @@ function fetchContexts (
   promisify
 ) {
   return function (opts) {
-    return pFetchUser.then(function(user) {
+    return pFetchUser().then(function(user) {
       var contextFetch = promisify(user, 'fetchContexts');
       return contextFetch(opts);
     });
