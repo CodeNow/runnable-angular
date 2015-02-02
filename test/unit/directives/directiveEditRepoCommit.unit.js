@@ -17,7 +17,7 @@ var apiMocks = require('../apiMocks/index');
 var mockFetch = require('../fixtures/mockFetch');
 var runnable = new (require('runnable'))('http://example.com/');
 
-describe.only('directiveEditRepoCommit'.bold.underline.blue, function() {
+describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
   var json_commit = eval(apiMocks.commit.bitcoinRepoCommit1);
   var json_branches = eval(apiMocks.branches.bitcoinRepoBranches);
