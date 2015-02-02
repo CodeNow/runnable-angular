@@ -3,6 +3,7 @@
 var app         = require('server/app');
 var compression = require('compression');
 var config      = require('server/config/' + (process.env.NODE_ENV || 'development'));
+var envIs       = require('101/env-is');
 var express     = require('express');
 var path        = require('path');
 var version     = require('../package').version;
@@ -18,7 +19,7 @@ app.set('views', path.join(__dirname + '/views'));
 
 // Redirect to https
 app.use(function(req, res, next) {
-  if(!req.secure && process.env.NODE_ENV === 'production') {
+  if (envIs('production') && req.headers['x-forwarded-protocol'] !== 'https') {
     return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
   }
   next();
