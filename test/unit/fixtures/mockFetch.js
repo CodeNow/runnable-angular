@@ -5,9 +5,9 @@ module.exports = {
   triggerPromise: function(opts, index) {
     ((!index) ? deferer.pop() : deferer.splice(index, 1)[0]).resolve(opts);
   },
-  triggerPromiseError: function(opts, index) {
+  triggerPromiseError: function(err, index) {
     ((!index) ? deferer.pop() : deferer.splice(index, 1)[0])
-      .reject('http://cdn2.holytaco.com/wp-content/uploads/images/2009/12/Cat_FAIL-1.jpg');
+      .reject(err);
   },
   fetch: function ($q) {
     return function (opts) {

@@ -551,7 +551,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
 
         expect($elScope.state.dependencies[0].reqEnv[1].url)
           .to.equal('asdf.user.runnable.io');
-        
+
         sinon.assert.calledWith(
           ctx.copySourceInstanceMock,
           $elScope.data.activeAccount,

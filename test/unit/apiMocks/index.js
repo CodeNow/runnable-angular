@@ -37,6 +37,7 @@ module.exports = {
     stopped: require('./instances/stopped'),
     runningWithContainers: require('./instances/runningWithContainers')
   },
+  repoList: require('./repoList'),
   user: require('./user'),
   stackInfo: [
     {

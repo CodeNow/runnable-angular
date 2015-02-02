@@ -22,5 +22,7 @@ window.fixtures = {
   MockPrimus: require('./fixtures/MockPrimus'),
   MockFetchBuild: require('./fixtures/MockFetchBuild'),
   mockFetchInstances: require('./fixtures/MockFetchInstances'),
-  mockFetchUser: require('./fixtures/mockFetchUser')
+  mockFetchUser: require('./fixtures/mockFetchUser'),
+  mockFetch: require('./fixtures/mockFetch')
 };
+window.runnable = new (require('runnable'))(window.host);

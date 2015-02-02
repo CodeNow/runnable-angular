@@ -103,8 +103,7 @@ function fetchBuild(
 function fetchOwnerRepos (
   pFetchUser,
   errs,
-  promisify,
-  $q
+  promisify
 ) {
   var user;
   return function (userName) {
