@@ -10,7 +10,7 @@ var $controller,
     $q;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = require('../fixtures/mockFetch');
-var runnable = new (require('runnable'))('http://example.com/');
+var runnable = new (require('runnable'))(window.host);
 /**
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
