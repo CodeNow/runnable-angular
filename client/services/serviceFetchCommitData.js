@@ -4,9 +4,9 @@ require('app')
   .factory('fetchCommitData', fetchCommitData);
 
 function fetchCommitData (
-  errs
+  errs,
+  promisify
 ) {
-
   return {
     activeBranch: function (acv) {
       // API client caches models by URL
@@ -24,21 +24,15 @@ function fetchCommitData (
       return activeCommit;
     },
 
-    offset: function (acv, activeCommit, cb) {
-      activeCommit.commitOffset(acv.attrs.branch, function (err, diff) {
-        if (err) {
-          // not a throw situation
-          // 404 could mean the commit doesn't exist on that branch anymore (git reset)
-          // view will display 'update to latest' message if commitsBehind falsy
-          cb(null, false);
-        } else {
-          cb(null, diff.behind_by);
-        }
-      });
+    offset: function (acv, activeCommit) {
+      return promisify(activeCommit, 'commitOffset')(acv.attrs.branch)
+        .then(function (diff) {
+          return diff.behind_by;
+        });
     },
 
     branchCommits: function (branch) {
-      branch.commits.fetch(errs.handler);
+      branch.commits.fetch(angular.noop);
     }
   };
 }

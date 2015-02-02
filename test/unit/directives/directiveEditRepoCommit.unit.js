@@ -3,7 +3,6 @@
 // injector-provided
 var $compile,
     $filter,
-    $httpBackend,
     $provide,
     $rootScope,
     $scope,
@@ -13,16 +12,41 @@ var $compile,
     user;
 var $elScope;
 
-describe('directiveEditRepoCommit'.bold.underline.blue, function() {
+var apiMocks = require('../apiMocks/index');
+
+var mockFetch = require('../fixtures/mockFetch');
+var runnable = new (require('runnable'))('http://example.com/');
+
+describe.only('directiveEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
+  var json_commit = eval(apiMocks.commit.bitcoinRepoCommit1);
+  var json_branches = eval(apiMocks.branches.bitcoinRepoBranches);
 
   function injectSetupCompile (state, stateParams) {
-    angular.mock.module('app');
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', state);
-
-      $provide.value('$stateParams', stateParams);
+    ctx = {};
+    ctx.fetchCommitData = {
+      activeBranch: sinon.spy(function (acv) {
+        return {attrs: apiMocks.branches.bitcoinRepoBranches[0]};
+      }),
+      activeCommit: sinon.spy(function (acv) {
+        return {attrs: apiMocks.commit.bitcoinRepoCommit1};
+      }),
+      offset: sinon.spy(),
+      branchCommits: sinon.spy()
+    };
+    angular.mock.module('app', function ($provide) {
+      $provide.factory('fetchCommitData', function () { return ctx.fetchCommitData; });
+      $provide.value('$state', state || {
+        '$current': {
+          name: 'instance.setup'
+        }
+      });
+      $provide.value('$stateParams', stateParams || {
+        userName: 'cflynn07',
+        instanceName: 'box1'
+      });
     });
+
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
@@ -35,7 +59,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     ) {
       $compile = _$compile_;
       $filter = _$filter_;
-      $httpBackend = _$httpBackend_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;
@@ -43,49 +66,10 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       $timeout = _$timeout_;
       user = _user_;
     });
-
-    /**
-     * API Requests
-     * - GET branches
-     * - GET commit
-     * - GET commitOffset
-     * - GET commits
-     */
-    var branchesUrl = host + '/github/repos/cflynn07/bitcoin/branches?per_page=100';
-    $httpBackend
-      .whenGET(branchesUrl)
-      .respond(mocks.branches.bitcoinRepoBranches);
-
-    var commitUrl = host + '/github/repos/cflynn07/bitcoin/commits/1f27c310a4bcca758f708358601fa25976d56d90?';
-    $httpBackend
-      .whenGET(commitUrl)
-      .respond(mocks.commit.bitcoinRepoCommit1);
-
-    var commitOffsetUrl = host + '/github/repos/cflynn07/bitcoin/compare/master...1f27c310a4bcca758f708358601fa25976d56d90';
-    $httpBackend
-      .whenGET(commitOffsetUrl)
-      .respond(mocks.commitCompare.zeroBehind);
-
-    var commitsUrl = host + '/github/repos/cflynn07/bitcoin/commits?sha=master&per_page=100';
-    $httpBackend
-      .whenGET(commitsUrl)
-      .respond(mocks.gh.bitcoinRepoCommits);
-
-    var userUrl = host + '/users/me?';
-    $httpBackend
-      .whenGET(userUrl)
-      .respond(mocks.user);
-
-    var instanceUrl = host + '/instances?githubUsername=cflynn07&name=box1';
-    $httpBackend
-      .whenGET(instanceUrl)
-      .respond(mocks.instances.runningWithContainers);
-
-    user.reset(mocks.user);
     ctx.acv = user
       .newContext('contextId')
       .newVersion('versionId')
-      .newAppCodeVersion(mocks.appCodeVersions.bitcoinAppCodeVersion);
+      .newAppCodeVersion(apiMocks.appCodeVersions.bitcoinAppCodeVersion);
 
     // unsavedAcv passed to directive from
     // parent directive: repoList
@@ -97,23 +81,14 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     $scope.acv = ctx.acv;
     $scope.unsavedAcv = ctx.unsavedAcv;
 
-    modelStore.reset();
-
-    ctx.element = angular.element(ctx.template);
-    ctx.element = $compile(ctx.element)($scope);
-    $scope.$digest();
-    $httpBackend.flush();
-    $scope.$digest();
-    $elScope = ctx.element.isolateScope();
-  }
-
-  beforeEach(function() {
-    ctx = {};
     ctx.template = directiveTemplate.attribute('edit-repo-commit', {
       'app-code-version': 'acv',
       'unsaved-app-code-version': 'unsavedAcv'
     });
-  });
+    ctx.element = $compile(ctx.template)($scope);
+    $scope.$digest();
+    $elScope = ctx.element.isolateScope();
+  }
 
   describe('has expected scope properties'.blue, function () {
 
@@ -128,7 +103,25 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       });
 
       // scope properties
-      expect($elScope).to.have.property('showEditGearMenu', true);
+     expect($elScope).to.have.property('showEditGearMenu', true);
+     expect($elScope.popoverRepositoryToggle).to.have.property('data');
+     expect($elScope.popoverRepositoryToggle.data).to.have.property('acv', ctx.acv);
+     expect($elScope.popoverRepositoryToggle.data).to.have.property('unsavedAcv', ctx.unsavedAcv);
+     expect($elScope.popoverRepositoryToggle.data).to.have.property('toggleFilter', false);
+     expect($elScope.popoverRepositoryToggle.data).to.have.property('commitFilter', '');
+
+     expect($elScope.popoverRepositoryToggle).to.have.property('actions');
+     expect($elScope.popoverRepositoryToggle.actions.selectBranch).to.be.okay;
+     expect($elScope.popoverRepositoryToggle.actions.selectCommit).to.be.okay;
+
+
+     expect($elScope).to.have.property('popoverRepoActions');
+     expect($elScope.popoverRepoActions).to.have.property('data');
+     expect($elScope.popoverRepoActions.data).to.have.property('acv', ctx.acv);
+     expect($elScope.popoverRepoActions.data).to.have.property('unsavedAcv', ctx.unsavedAcv);
+
+     expect($elScope.popoverRepoActions).to.have.property('actions');
+     expect($elScope.popoverRepoActions.actions.deleteRepo).to.be.okay;
     });
 
     it('$state.$current.name instance.instance', function() {
@@ -158,28 +151,9 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', true);
     });
-
   });
 
-  // Currently does not
-  it.skip('displays commit author', function() {
-    injectSetupCompile({
-      '$current': {
-        name: 'instance.instanceEdit'
-      }
-    }, {
-      userName: 'cflynn07',
-      instanceName: 'box1'
-    });
-
-    // commit author
-    var $el = ctx.element[0]
-      .querySelector('.commit.load > span.commit-author');
-    expect($el).to.be.ok;
-    expect($el.innerText).to.equal('sipa');
-  });
-
-  it('displays commit time (through timeAgo filter)', function() {
+  it.skip('displays commit time (through timeAgo filter)', function() {
     injectSetupCompile({
       '$current': {
         name: 'instance.instanceEdit'
@@ -194,6 +168,47 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       .querySelector('small.repository-detail');
     expect($el).to.be.ok;
     expect($el.innerText).to.match(/\d+ months ago/);
+  });
+
+  describe('Startup'.blue, function () {
+    it('should use the current branch and commit from the acv', function () {
+      injectSetupCompile({
+        '$current': {
+          name: 'instance.instanceEdit'
+        }
+      }, {
+        userName: 'cflynn07',
+        instanceName: 'box1'
+      });
+
+      // Grab the branch
+      var $parentElement = ctx.element[0]
+        .querySelector('.repository-group-text');
+      expect($parentElement).to.be.ok;
+      var $children = $parentElement.children;
+      sinon.assert.calledWith(ctx.fetchCommitData.activeBranch, ctx.acv);
+      sinon.assert.calledWith(ctx.fetchCommitData.activeCommit, ctx.acv);
+
+      expect($children[2].innerText).to.equal(json_branches[0].name);
+      expect($children[3].childNodes[1].data).to.equal(json_commit.commit.message);
+      expect($children[3].childNodes[2].innerText).to.match(/\d+ months ago/);
+    });
+  });
+
+  describe('Responds to user interactions correctly'.blue, function () {
+
+    describe('Branch changes'.blue, function () {
+      it('should set the activeBranch, fetch the commits, and set the activeCommit', function () {
+        injectSetupCompile({
+          '$current': {
+            name: 'instance.setup'
+          }
+        }, {
+          userName: 'cflynn07'
+        });
+
+      });
+    });
   });
 
 });

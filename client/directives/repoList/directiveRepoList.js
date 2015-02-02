@@ -68,16 +68,18 @@ function repoList(
         return newAcv;
       };
 
-      // selected repo commit change
-      $scope.$on('acv-change', function (event, opts) {
-        event.stopPropagation();
-        if ($scope.unsavedAcvs.length === 1) {
-          // Immediately update/rebuild if user only has 1 repo
-          $scope.triggerInstanceUpdateOnRepoCommitChange();
-        } else if (opts && opts.triggerBuild) {
-          $scope.triggerInstanceUpdateOnRepoCommitChange();
-        }
-      });
+      if ($state.$current.name === 'instance.instance') {
+        // selected repo commit change
+        $scope.$on('acv-change', function (event, opts) {
+          event.stopPropagation();
+          if ($scope.unsavedAcvs.length === 1) {
+            // Immediately update/rebuild if user only has 1 repo
+            $scope.triggerInstanceUpdateOnRepoCommitChange();
+          } else if (opts && opts.triggerBuild) {
+            $scope.triggerInstanceUpdateOnRepoCommitChange();
+          }
+        });
+      }
 
       // if we find 1 repo w/ an unsaved
       // commit, show update button (if there is > 1 repos for this project)
