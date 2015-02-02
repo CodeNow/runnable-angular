@@ -16,7 +16,13 @@ var $elScope;
 describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
 
-  function injectSetupCompile () {
+  function injectSetupCompile (state, stateParams) {
+    angular.mock.module('app');
+    angular.mock.module(function ($provide) {
+      $provide.value('$state', state);
+
+      $provide.value('$stateParams', stateParams);
+    });
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
@@ -101,8 +107,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     $elScope = ctx.element.isolateScope();
   }
 
-  beforeEach(angular.mock.module('app'));
-
   beforeEach(function() {
     ctx = {};
     ctx.template = directiveTemplate.attribute('edit-repo-commit', {
@@ -114,57 +118,42 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   describe('has expected scope properties'.blue, function () {
 
    it('$state.$current.name instance.setup', function() {
-      angular.mock.module(function ($provide) {
-        $provide.value('$state', {
-          '$current': {
-            name: 'instance.setup'
-          }
-        });
-
-        $provide.value('$stateParams', {
-          userName: 'cflynn07',
-          instanceName: 'box1'
-        });
+      injectSetupCompile({
+        '$current': {
+          name: 'instance.setup'
+        }
+      }, {
+        userName: 'cflynn07',
+        instanceName: 'box1'
       });
-      injectSetupCompile();
 
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', true);
     });
 
     it('$state.$current.name instance.instance', function() {
-      angular.mock.module(function ($provide) {
-        $provide.value('$state', {
-          '$current': {
-            name: 'instance.instance'
-          }
-        });
-
-        $provide.value('$stateParams', {
-          userName: 'cflynn07',
-          instanceName: 'box1'
-        });
+      injectSetupCompile({
+        '$current': {
+          name: 'instance.instance'
+        }
+      }, {
+        userName: 'cflynn07',
+        instanceName: 'box1'
       });
-      injectSetupCompile();
 
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', false);
     });
 
     it('$state.$current.name instance.instanceEdit', function() {
-      angular.mock.module(function ($provide) {
-        $provide.value('$state', {
-          '$current': {
-            name: 'instance.instanceEdit'
-          }
-        });
-
-        $provide.value('$stateParams', {
-          userName: 'cflynn07',
-          instanceName: 'box1'
-        });
+      injectSetupCompile({
+        '$current': {
+          name: 'instance.instanceEdit'
+        }
+      }, {
+        userName: 'cflynn07',
+        instanceName: 'box1'
       });
-      injectSetupCompile();
 
       // scope properties
       expect($elScope).to.have.property('showEditGearMenu', true);
@@ -174,19 +163,14 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
   // Currently does not
   it.skip('displays commit author', function() {
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.instanceEdit'
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'cflynn07',
-        instanceName: 'box1'
-      });
+    injectSetupCompile({
+      '$current': {
+        name: 'instance.instanceEdit'
+      }
+    }, {
+      userName: 'cflynn07',
+      instanceName: 'box1'
     });
-    injectSetupCompile();
 
     // commit author
     var $el = ctx.element[0]
@@ -196,19 +180,14 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   });
 
   it('displays commit time (through timeAgo filter)', function() {
-    angular.mock.module(function ($provide) {
-      $provide.value('$state', {
-        '$current': {
-          name: 'instance.instanceEdit'
-        }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'cflynn07',
-        instanceName: 'box1'
-      });
+    injectSetupCompile({
+      '$current': {
+        name: 'instance.instanceEdit'
+      }
+    }, {
+      userName: 'cflynn07',
+      instanceName: 'box1'
     });
-    injectSetupCompile();
 
     // commit time
     var $el = ctx.element[0]
