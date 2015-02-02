@@ -90,13 +90,6 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
     });
 
     ctx.fetchInstancesCached = true;
-    ctx.fetchInstancesMock = sinon.spy(function (user, force, cb) {
-      cb(
-        ctx.instanceLists ? null : new Error('asdas'),
-        ctx.instanceLists, null,
-        ctx.fetchInstancesCached
-      );
-    });
     ctx.newForkNameCount = 0;
 
     ctx.getNewForkNameMock = sinon.spy(function (instance) {
@@ -134,12 +127,12 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       $provide.value('fetchStackInfo', ctx.fetchStackInfoMock);
       $provide.value('fetchGSDepInstances', ctx.fetchGSDepInstancesMock);
       $provide.value('createNewBuild', ctx.createNewBuildMock);
-      $provide.value('fetchInstances', ctx.fetchInstancesMock);
       $provide.value('getNewForkName', ctx.getNewForkNameMock);
       $provide.value('createDockerfileFromSource', ctx.createDockerfileFromSourceMock);
       $provide.value('gsPopulateDockerfile', ctx.gsPopulateDockerfileMock);
       $provide.value('createNewInstance', ctx.createNewInstanceMock);
       $provide.value('copySourceInstance', ctx.copySourceInstanceMock);
+      $provide.factory('fetchInstances', fixtures.mockFetchInstances.list);
     });
     angular.mock.inject(function (
       _$templateCache_,

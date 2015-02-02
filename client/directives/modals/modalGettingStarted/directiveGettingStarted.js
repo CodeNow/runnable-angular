@@ -8,7 +8,6 @@ require('app')
  */
 function modalGettingStarted(
   $rootScope,
-  $log,
   $timeout,
   async,
   createDockerfileFromSource,

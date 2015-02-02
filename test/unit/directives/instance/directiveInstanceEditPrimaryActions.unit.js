@@ -12,7 +12,6 @@ var $rootScope,
     $stateParams;
 var $elScope;
 var thisUser;
-var $httpBackend;
 
 var apiMocks = require('../../apiMocks/index');
 
@@ -69,7 +68,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
     angular.mock.inject(function (
       //_async_,
       _$state_,
-      _$httpBackend_,
       _$stateParams_,
       _$rootScope_,
       _$compile_,
@@ -79,7 +77,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       user
     ) {
       $q = _$q_;
-      $httpBackend = _$httpBackend_;
       thisUser = user;
       thisUser.reset(apiMocks.user);
       $timeout = _$timeout_;

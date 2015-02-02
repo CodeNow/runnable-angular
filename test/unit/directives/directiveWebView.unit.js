@@ -3,7 +3,6 @@
 // injector-provided
 var $compile,
     $filter,
-    $httpBackend,
     $provide,
     $rootScope,
     $scope,
@@ -34,7 +33,6 @@ describe('directiveWebView'.bold.underline.blue, function() {
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
-      _$httpBackend_,
       _$rootScope_,
       _$state_,
       _$stateParams_,
@@ -43,7 +41,6 @@ describe('directiveWebView'.bold.underline.blue, function() {
     ) {
       $compile = _$compile_;
       $filter = _$filter_;
-      $httpBackend = _$httpBackend_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;
@@ -58,7 +55,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
-  };
+  }
 
   beforeEach(function() {
     ctx = {};

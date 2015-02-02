@@ -2,9 +2,9 @@
 
 // injector-provided
 var $rootScope,
-  $scope,
-  $compile,
-  $templateCache;
+    $scope,
+    $compile,
+    $templateCache;
 var $elScope;
 var thisUser;
 

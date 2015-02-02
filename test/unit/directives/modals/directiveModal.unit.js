@@ -10,7 +10,6 @@ var $rootScope,
   $templateCache;
 var $elScope;
 var thisUser;
-var $httpBackend;
 var getNewForkNameStub;
 
 var apiMocks = require('../../apiMocks/index');
