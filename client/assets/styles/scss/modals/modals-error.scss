@@ -1,10 +1,17 @@
-.modal-error .well-code {
-  height: auto;
-  line-height: 1.2;
-  max-height: none;
-  padding: 12px;
+.modal-error {
 
-  + .well-code {
-    margin-top: 6px;
+  .modal-body {
+    flex: 0 1 auto;
+  }
+
+  .well-code {
+    height: auto;
+    line-height: 1.2;
+    max-height: none;
+    padding: 12px;
+
+    + .well-code {
+      margin-top: 6px;
+    }
   }
 }
