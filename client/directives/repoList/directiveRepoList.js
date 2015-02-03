@@ -135,7 +135,7 @@ function repoList(
 
         function createBuild() {
           return promisify($scope.user, 'createBuild')({
-            contextVersions: [contextVersion.id()],
+            contextVersions: [newContextVersion.id()],
             owner: $scope.instance.attrs.owner
           });
         }
