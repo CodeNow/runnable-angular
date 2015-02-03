@@ -12,7 +12,6 @@ function fileTree(
   $rootScope,
   $state,
   $stateParams,
-  createInstanceDeployedPoller,
   fetchInstances,
   errs
 ) {
@@ -23,7 +22,6 @@ function fileTree(
       openItems: '='
     },
     link: function ($scope, element, attrs) {
-      var instanceDeployedPoller;
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
@@ -38,12 +36,6 @@ function fileTree(
           $scope.readOnly = false;
           break;
       }
-
-      $scope.$on('$destroy', function () {
-        if (instanceDeployedPoller) {
-          instanceDeployedPoller.clear();
-        }
-      });
 
       if ($stateParams.buildId) {
         fetchBuild($stateParams.buildId)
@@ -65,7 +57,6 @@ function fileTree(
             $scope.rootDir = container.rootDir;
             initRootDirState($scope.rootDir);
           } else {
-            instanceDeployedPoller = createInstanceDeployedPoller($scope.instance).start();
             var clearWatch =
               $scope.$watch('instance.containers.models[0].rootDir', function (rootDir) {
                 if (!rootDir) { return; }

@@ -3,7 +3,6 @@
 // injector-provided
 var async,
     $controller,
-    createInstanceDeployedPoller,
     $httpBackend,
     keypather,
     OpenItems,
@@ -26,7 +25,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
     angular.mock.inject(function (
       _async_,
       _$controller_,
-      _createInstanceDeployedPoller_,
       _$httpBackend_,
       _keypather_,
       _OpenItems_,
@@ -37,7 +35,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
     ) {
       async = _async_;
       $controller = _$controller_;
-      createInstanceDeployedPoller = _createInstanceDeployedPoller_;
       $httpBackend = _$httpBackend_;
       keypather = _keypather_;
       OpenItems = _OpenItems_;

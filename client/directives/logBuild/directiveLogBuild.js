@@ -12,7 +12,6 @@ function logBuild(
   $log,
   $stateParams,
   dockerStreamCleanser,
-  createInstanceDeployedPoller,
   fetchInstances
 ) {
   return {
@@ -22,7 +21,6 @@ function logBuild(
       var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
       var DEFAULT_INVALID_BUILD_MESSAGE = '\x1b[31;1mPlease build again\x1b[0m';
       var COMPLETE_SUCCESS_MESSAGE = 'Build completed, starting instance...';
-      var instanceDeployedPoller;
 
       /**
        * Creates instance of Terminal w/ default
@@ -42,10 +40,6 @@ function logBuild(
         if (!$scope.buildStream) { return; }
         $scope.buildStream.removeAllListeners();
         $scope.buildStream.end();
-        // stop polling for container success
-        if (instanceDeployedPoller) {
-          instanceDeployedPoller.clear();
-        }
       });
 
       fetchInstances({
@@ -112,7 +106,6 @@ function logBuild(
               writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
             } else {
               writeToTerm(COMPLETE_SUCCESS_MESSAGE);
-              instanceDeployedPoller = createInstanceDeployedPoller($scope.instance).start();
             }
           });
         });

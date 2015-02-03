@@ -8,8 +8,6 @@ require('app')
 function ControllerInstance(
   $filter,
   errs,
-  instanceUpdatedPoller,
-  createInstanceDeployedPoller,
   fetchCommitData,
   keypather,
   OpenItems,
@@ -49,8 +47,6 @@ function ControllerInstance(
 
   data.isDemo = $state.$current.name === 'demo.instance';
 
-  var deployedPoller;
-
   // Trigger Heap event
   if ($window.heap && $location.search('chat')) {
     $window.heap.track('instance-chat-click', {
@@ -78,7 +74,6 @@ function ControllerInstance(
     if (!keypather.get($scope.user, 'attrs.userOptions.uiState')) {
       data.showExplorer = true;
     }
-    instanceUpdatedPoller.start(data.instance);
   })
   .catch(function(err) {
     keypather.set(
@@ -108,11 +103,6 @@ function ControllerInstance(
           data.openItems.addBuildStream();
         });
       }
-
-      if (deployedPoller) {
-        deployedPoller.clear();
-      }
-      deployedPoller = createInstanceDeployedPoller(data.instance).start();
     });
   });
 
@@ -177,10 +167,6 @@ function ControllerInstance(
 
   $scope.$on('$destroy', function () {
     containerWatch();
-    instanceUpdatedPoller.stop();
-    if (deployedPoller) {
-      deployedPoller.clear();
-    }
   });
 
   function buildLogsOnly () {
