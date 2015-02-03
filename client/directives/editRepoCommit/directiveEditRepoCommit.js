@@ -7,6 +7,7 @@ require('app')
  */
 function editRepoCommit(
   fetchCommitData,
+  errs,
   $state
 ) {
   return {
@@ -93,9 +94,7 @@ function editRepoCommit(
       $scope.popoverRepoActions.data.acv = $scope.acv;
       $scope.popoverRepoActions.data.unsavedAcv = $scope.unsavedAcv;
       $scope.popoverRepoActions.actions.deleteRepo = function () {
-        $scope.acv.destroy(function (err) {
-          if (err) { throw err; }
-        });
+        $scope.acv.destroy(errs.handler);
       };
 
       $scope.$watch('acv', function(n) {

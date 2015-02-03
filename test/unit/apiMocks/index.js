@@ -13,7 +13,8 @@ module.exports = {
     bitcoinRepoBranches: require('./branches/bitcoinRepoBranches')
   },
   commit: {
-    bitcoinRepoCommit1: require('./commit/bitcoinRepoCommit1')
+    bitcoinRepoCommit1: require('./commit/bitcoinRepoCommit1'),
+    bitcoinRepoCommit2: require('./commit/bitcoinRepoCommit2')
   },
   commitCompare: {
     zeroBehind: require('./commitCompare/zeroBehind')

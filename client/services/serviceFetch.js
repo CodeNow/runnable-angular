@@ -41,6 +41,11 @@ require('app')
         try {
           // Check returnedVal.attrs
           returnedVal = model[fn].apply(model, args);
+          // For Models || Collections
+          if (returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs) > 1) ||
+              (returnedVal.models && returnedVal.models.length))) {
+            d.resolve(returnedVal);
+          }
         } catch(e) {
           $exceptionHandler(e);
           d.reject(e);
