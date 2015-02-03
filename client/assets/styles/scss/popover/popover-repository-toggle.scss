@@ -1,43 +1,54 @@
 // .popover.right.popover-repository-toggle
 .popover-repository-toggle {
   transform-origin: 0 24px;
-  width: 276px;
+  width: 300px;
 
   &.right > .arrow {
     top: 24px;
   }
 
-  // popover header
-  .popover-title {
+  .popover-content {
+    margin: 1px 0;
+    max-height: 360px;
+    min-height: 120px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 
-    .iconnables {
-      float: none;
-      height: 18px;
-      top: 4px;
-      transform: none;
-      width: 18px;
-    }
+  .btn-xs {
+    margin: 6px 3px 12px;
   }
 
   // branch select
   .btn-select {
-    color: $gray-light;
-    display: block;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 48px;
-    transition: none;
+    margin-left: 6px;
+    padding: 0 3px;
 
-    &:hover,
-    &:active,
-    &:focus {
-      color: $gray;
+    .iconnables {
+      float: none;
+      height: 18px;
+      top: 3px;
+      transform: none;
+      width: 18px;
+    }
+
+    // delete button
+    + .btn-xs {
+      flex: 0 0 auto;
+      float: right;
+      margin-right: 6px;
     }
   }
 
   // spinner
-  .popover-content {
-    height: 90px;
+  .spinner-wrapper {
+    margin-top: 15px;
+  }
+
+  // list
+  .list {
+    margin: 0 -6px;
+    padding: 0;
   }
 
   // older/newer buttons
@@ -54,13 +65,6 @@
       }
     }
   }
-}
-
-// ul.toggle-group
-.toggle-group {
-  max-height: 360px;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 // li.toggle-group-item
@@ -84,31 +88,14 @@
     top: -1px;
     width: 261px;
   }
-
-  // .spinner
-  .spinner {
-    color: $blue;
-  }
-
-  .spinner-ring {
-    background: #f0f8fb; // rgba($blue,.1);
-  }
-
-  // .link-text (commit hash)
-  .link-text {
-
-    &:hover,
-    &:hover .iconnables,
-    &:active {
-      color: $blue;
-    }
-  }
 }
 
 // .toggle-group-title
 .toggle-group-title {
   font-size: 14px;
-  margin-bottom: 3px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  word-break: break-word;
 }
 
 // .toggle-group-detail
@@ -131,5 +118,15 @@
     height: 12px;
     top: 3px;
     width: 12px;
+  }
+
+  // .link-text (commit hash)
+  .link-text {
+    color: $blue;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 }

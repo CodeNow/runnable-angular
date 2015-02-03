@@ -118,6 +118,7 @@
 
 .repository-description {
   padding-left: 18px;
+  word-break: break-word;
 
   + .repository-description {
     height: auto;
