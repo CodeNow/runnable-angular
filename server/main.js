@@ -22,12 +22,14 @@ app.locals.commitTime = require('../client/config/json/commit.json').commitTime;
 app.set('views', path.join(__dirname + '/views'));
 
 // Redirect to https
-app.use(function(req, res, next) {
-  if (envIs('production') && !req.secure) {
-    return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
-  }
-  next();
-});
+if (process.env.HTTPS) {
+  app.use(function(req, res, next) {
+    if (envIs('production') && !req.secure) {
+      return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
+    }
+    next();
+  });
+}
 
 app.use(compression());
 app.use(require('cookie-parser')());
