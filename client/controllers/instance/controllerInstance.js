@@ -36,7 +36,7 @@ function ControllerInstance(
   data.openItems = new OpenItems();
 
   // shows/hides the file menu
-  data.showExplorer = false;
+  data.showExplorer = true;
   // loader if saving fs changes
   data.saving = false;
 
@@ -44,7 +44,7 @@ function ControllerInstance(
     // out shows/hides entire toolbar
     out: true,
     // in shows/hides file-menu
-    in: false
+    in: true
   };
 
   data.isDemo = $state.$current.name === 'demo.instance';

@@ -134,32 +134,60 @@
     border-top-color: rgba($black,.05);
     margin-top: -10px;
 
-    > .arrow.white::after {
-      border-top-color: rgba($white,.975);
+    > .arrow {
+
+      &.white::after {
+        border-top-color: rgba($white,.975);
+      }
+
+      &.blue::after {
+        border-top-color: $blue;
+      }
     }
   }
 
   &.right {
     margin-left: 10px;
 
-    > .arrow.white::after {
-      border-right-color: rgba($white,.975);
+    > .arrow {
+
+      &.white::after {
+        border-right-color: rgba($white,.975);
+      }
+
+      &.blue::after {
+        border-right-color: $blue;
+      }
     }
   }
 
   &.bottom {
     transform-origin: 50% 0;
 
-    > .arrow.white::after {
-      border-bottom-color: rgba($white,.975);
+    > .arrow {
+
+      &.white::after {
+        border-bottom-color: rgba($white,.975);
+      }
+
+      &.blue::after {
+        border-bottom-color: $blue;
+      }
     }
   }
 
   &.left {
     margin-left: -10px;
 
-    > .arrow.white::after {
-      border-left-color: rgba($white,.975);
+    > .arrow {
+
+      &.white::after {
+        border-left-color: rgba($white,.975);
+      }
+
+      &.blue::after {
+        border-left-color: $blue;
+      }
     }
   }
 
