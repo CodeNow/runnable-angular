@@ -25,10 +25,23 @@ function accountsSelect (
 
       $scope.popoverAccountMenu = {
         actions: {
-          actionsModalIntegrations: {}
+          actionsModalIntegrations: {},
+          clearAllUserOptions: function () {
+            var userOptions = {};
+            ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {
+              userOptions['userOptions.uiState.shownCoachMarks.' + key] = false;
+            });
+            // Make user update call here
+            $scope.data.user.update(userOptions, function (err) {
+              errs.handler(err);
+            });
+          }
         },
         data: $scope.data
       };
+      if (process.env.NODE_ENV !== 'production') {
+        keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
+      }
       var unwatchUserInfo = $scope.$watch('data.activeAccount', function (n) {
         if (n) {
           keypather.set($scope, 'popoverAccountMenu.data.activeAccount', n);
