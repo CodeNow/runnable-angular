@@ -26,10 +26,14 @@
       xlink:href = "#icons-arrow-down"
     )
 
+//-
+  ************
+  SAN-895 NOTES:
+  delete repo action should now go in the popover
+  repository settings and repoActions should be removed
+  ************
+
 //- if instance.setup || instance.instanceEdit
-//- SAN-895 NOTES:
-//- delete repo action should now go in the popover
-//- repository settings and repoActions should be removed
 //- button.btn.btn-xs.btn-repository-settings(
 //-   ng-class = "{active: popoverRepoActions.data.show}"
 //-   toggle-pop-over
@@ -47,6 +51,13 @@
 //-     popover-options = "{\"left\":-75,\"top\":30}"
 //-     template = "viewPopoverRepoActions"
 //-   )
+
+//-
+  ************
+  SAN-895 NOTES:
+  it'd be amazing if the arrow in this popover could get to 50% of the height of .repo-group-text
+  ************
+
 pop-over(
   actions = "popoverRepositoryToggle.actions"
   data = "popoverRepositoryToggle.data"
