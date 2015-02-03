@@ -8,13 +8,12 @@ var $rootScope,
     $compile,
     $timeout,
     errs,
+    $q,
     $stateParams;
 var $elScope;
 var thisUser;
-var $httpBackend;
 
 var apiMocks = require('../../apiMocks/index');
-var MockQueryAssist = require('../../fixtures/mockQueryAssist');
 
 function makeDefaultScope () {
   return {
@@ -42,30 +41,42 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       },
       go: function () {}
     };
+    ctx = {};
+    ctx.errs = {
+      handler: sinon.spy()
+    };
+    ctx.fetchBuild = sinon.spy(function () {
+      var d = $q.defer();
+      if (ctx.fetchBuildFail) {
+        d.reject(ctx.errMessage);
+      } else {
+        d.resolve(ctx.mockBuild);
+      }
+      return d.promise;
+    });
     angular.mock.module(function ($provide) {
       $provide.value('$state', stateMock);
 
-      $provide.value('QueryAssist', MockQueryAssist);
       $provide.value('$stateParams', {
         userName: 'username',
         buildId: '54668070531ae50e002c8503',
         instanceName: 'instancename'
       });
+      $provide.value('fetchBuild', ctx.fetchBuild);
+      $provide.value('errs', ctx.errs);
     });
     angular.mock.inject(function (
       //_async_,
-      //_QueryAssist_,
       _$state_,
-      _$httpBackend_,
       _$stateParams_,
       _$rootScope_,
       _$compile_,
       _errs_,
       _$timeout_,
+      _$q_,
       user
     ) {
-      //async = _async_;
-      $httpBackend = _$httpBackend_;
+      $q = _$q_;
       thisUser = user;
       thisUser.reset(apiMocks.user);
       $timeout = _$timeout_;
@@ -85,10 +96,8 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
     }
     $scope.user = thisUser;
 
-    MockQueryAssist.clearMocks();
-
     modelStore.reset();
-    ctx = {};
+
     ctx.stateMock = stateMock;
     ctx.template = directiveTemplate('instance-edit-primary-actions', {
       user: 'user',
@@ -211,9 +220,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         expect(ctx.dockerfileUpdateCalled).to.be.false;
         done();
       };
-      MockQueryAssist.setMock('fetchBuild', function () {
-        return ctx.mockBuild;
-      });
 
       // Now do it
       $scope.$digest();
@@ -231,9 +237,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         expect(ctx.dockerfileUpdateCalled).to.be.false;
         done();
       };
-      MockQueryAssist.setMock('fetchBuild', function () {
-        return ctx.mockBuild;
-      });
       $scope.instance.state = {
         env: ['aas=asdasdas']
       };
@@ -262,9 +265,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         expect(ctx.dockerfileUpdateCalled).to.be.true;
         done();
       };
-      MockQueryAssist.setMock('fetchBuild', function () {
-        return ctx.mockBuild;
-      });
       // Now do it
       $scope.$digest();
       $elScope.popoverBuildOptions.actions.noCacheBuild();
@@ -325,9 +325,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         sinon.assert.called(ctx.mockBuild.contexts.models[0].createVersion);
         done();
       };
-      MockQueryAssist.setMock('fetchBuild', function () {
-        return ctx.mockBuild;
-      });
       // Now do it
       $scope.$digest();
       $elScope.build();
@@ -343,13 +340,9 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         expect(ctx.instanceUpdateCalled).to.be.true;
         expect(ctx.buildBuildCalled).to.be.true;
         expect(ctx.dockerfileUpdateCalled).to.be.false;
-        expect(fetchBuildCount).to.equal(1);
+        sinon.assert.calledOnce(ctx.fetchBuild);
         done();
       };
-      MockQueryAssist.setMock('fetchBuild', function () {
-        fetchBuildCount++;
-        return ctx.mockBuild;
-      });
       // Now do it
       $scope.$digest();
       $elScope.build();
@@ -370,33 +363,12 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         return true;
       };
       injectSetupCompile(inputScope);
-      fakeErr = sinon.stub(errs, 'handler');
-    });
-
-    it('should throw an error if there is no user on the scope', function() {
-      // Set up mocking
-      var errorMessage = 'InstanceEditPrimaryActions can\'t find a user on the scope';
-      delete $elScope.user;
-      function doStuff () {
-        $elScope.build();
-        $scope.$digest();
-      }
-      $scope.$digest();
-
-      expect(doStuff).to.throw(errorMessage);
-      // Now do it
-      expect($elScope.loading).to.equal(true);
-      expect(ctx.instanceUpdateCalled).to.be.false;
-      expect(ctx.buildBuildCalled).to.be.false;
-      expect(ctx.dockerfileUpdateCalled).to.be.false;
     });
 
     it('should throw an error if the fetching the build failed', function() {
       // Set up mocking
-      var errorMessage = 'failed to fetch build';
-      MockQueryAssist.setMock('fetchBuild', function () {
-        return ctx.mockBuild;
-      }, errorMessage);
+      ctx.errMessage = 'failed to fetch build';
+      ctx.fetchBuildFail = true;
       function doStuff () {
         $elScope.build();
         $scope.$digest();
@@ -404,7 +376,7 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       $scope.$digest();
 
       doStuff();
-      sinon.assert.called(fakeErr);
+      sinon.assert.called(ctx.errs.handler);
       // Now do it
       expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.false;
@@ -415,9 +387,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
     it('should throw an error if the building the build failed', function() {
       // Set up mocking
       var errorMessage = 'failed to build';
-      MockQueryAssist.setMock('fetchBuild', function () {
-        return ctx.mockBuild;
-      });
       ctx.mockBuild.build = function (message, cb) {
         ctx.buildBuildCalled = true;
         cb(new Error(errorMessage), ctx.mockBuild);
@@ -429,7 +398,7 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       $scope.$digest();
 
       doStuff();
-      sinon.assert.called(fakeErr);
+      sinon.assert.called(ctx.errs.handler);
       // Now do it
       expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.false;
@@ -440,9 +409,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
     it('should throw an error if the file update failed', function() {
       // Set up mocking
       var errorMessage = 'failed to update file';
-      MockQueryAssist.setMock('fetchBuild', function () {
-        return ctx.mockBuild;
-      });
       ctx.dockerfile.update = function (body, cb) {
         ctx.dockerfileUpdateCalled = true;
         cb(new Error(errorMessage));
@@ -454,7 +420,7 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       $scope.$digest();
 
       doStuff();
-      sinon.assert.called(fakeErr);
+      sinon.assert.called(ctx.errs.handler);
       // Now do it
       expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.false;
@@ -465,9 +431,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
     it('should throw an error if the instance update failed', function() {
       // Set up mocking
       var errorMessage = 'failed to update instance';
-      MockQueryAssist.setMock('fetchBuild', function () {
-        return ctx.mockBuild;
-      });
 
       $scope.instance.update = function (opts, cb) {
         ctx.instanceUpdateCalled = true;
@@ -481,7 +444,7 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       $scope.$digest();
 
       doStuff();
-      sinon.assert.called(fakeErr);
+      sinon.assert.called(ctx.errs.handler);
       // Now do it
       expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.true;

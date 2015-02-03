@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  async,
   $filter,
   errs,
   instanceUpdatedPoller,
@@ -14,7 +13,6 @@ function ControllerInstance(
   fetchCommitData,
   keypather,
   OpenItems,
-  QueryAssist,
   $rootScope,
   $localStorage,
   $location,
@@ -23,7 +21,8 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   $window,
-  fetchUser
+  pFetchUser,
+  fetchInstances
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -61,23 +60,38 @@ function ControllerInstance(
     $location.search('chat', null);
   }
 
-  if ($stateParams.instanceName && $stateParams.userName) {
-    async.waterfall([
-      fetchUser,
-      fetchInstance
-    ], function (err) {
-      if (err) {
-        $state.go('instance.home', {
-          userName: $stateParams.userName
-        });
-        errs.handler(err);
-      } else {
-        // if nothing has been saved to the uiState object for the user, they're new, so
-        // open the file explorer
-        instanceUpdatedPoller.start(data.instance);
-      }
+  pFetchUser().then(function (user) {
+    $scope.user = user;
+    return fetchInstances({
+      name: $stateParams.instanceName
     });
-  }
+  })
+  .then(function(instance) {
+    data.instance = instance;
+    keypather.set(
+      $localStorage,
+      'lastInstancePerUser.' + $stateParams.userName,
+      $stateParams.instanceName
+    );
+    // if nothing has been saved to the uiState object for the user, they're new, so
+    // open the file explorer
+    if (!keypather.get($scope.user, 'attrs.userOptions.uiState')) {
+      data.showExplorer = true;
+    }
+    instanceUpdatedPoller.start(data.instance);
+  })
+  .catch(function(err) {
+    keypather.set(
+      $localStorage,
+      'lastInstancePerUser.' + $stateParams.userName,
+      null
+    );
+    data.instance.state = {};
+    $state.go('instance.home', {
+      userName: $stateParams.userName
+    });
+    errs.handler(err);
+  });
 
   $scope.$on('new-build', function() {
     if (data.showUpdatingMessage) { return; } // Remove this line on ws change
@@ -152,41 +166,6 @@ function ControllerInstance(
     }
     else {
       restoreOrOpenDefaultTabs();
-    }
-  }
-
-  function fetchInstance(user, cb) {
-    $scope.user = user;
-    if ($stateParams.instanceName && $stateParams.userName) {
-      new QueryAssist(user, cb)
-        .wrapFunc('fetchInstances')
-        .query({
-          githubUsername: $stateParams.userName,
-          name: $stateParams.instanceName
-        })
-        .cacheFetch(function (instances, cached, cb) {
-          data.instance = keypather.get(instances, 'models[0]');
-          if (!data.instance) {
-            keypather.set(
-              $localStorage,
-              'lastInstancePerUser.' + $stateParams.userName,
-              null
-            );
-            cb(new Error('Could not find instance on server'));
-          } else {
-            keypather.set(
-              $localStorage,
-              'lastInstancePerUser.' + $stateParams.userName,
-              $stateParams.instanceName
-            );
-            data.instance.state = {};
-            cb();
-          }
-        })
-        .resolve(function (err) {
-          cb(err);
-        })
-        .go();
     }
   }
 

@@ -3,7 +3,6 @@
 // injector-provided
 var $compile,
     $filter,
-    $httpBackend,
     $provide,
     $rootScope,
     $scope,
@@ -12,7 +11,7 @@ var $compile,
     $timeout,
     user;
 var $elScope;
-var api_host = require('config/api').host.split('.').slice(1).join('.');
+var apiHost = require('config/api').host.split('.').slice(1).join('.') + ':8080';
 describe('directiveWebView'.bold.underline.blue, function() {
   var ctx;
 
@@ -29,11 +28,11 @@ describe('directiveWebView'.bold.underline.blue, function() {
         userName: 'username',
         instanceName: 'instancename'
       });
+      $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
     });
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
-      _$httpBackend_,
       _$rootScope_,
       _$state_,
       _$stateParams_,
@@ -42,7 +41,6 @@ describe('directiveWebView'.bold.underline.blue, function() {
     ) {
       $compile = _$compile_;
       $filter = _$filter_;
-      $httpBackend = _$httpBackend_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;
@@ -51,29 +49,13 @@ describe('directiveWebView'.bold.underline.blue, function() {
       user = _user_;
     });
 
-    /**
-     * API Requests
-     * - GET user
-     * - GET instance
-     */
-    var userUrl = host + '/users/me?';
-    $httpBackend
-      .whenGET(userUrl)
-      .respond(mocks.user);
-
-    var instanceUrl = host + '/instances?githubUsername=username&name=instancename';
-    $httpBackend
-      .whenGET(instanceUrl)
-      .respond(mocks.instances.runningWithContainers);
-
     modelStore.reset();
     collectionStore.reset();
 
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
-    $httpBackend.flush();
     $elScope = ctx.element.isolateScope();
-  };
+  }
 
   beforeEach(function() {
     ctx = {};
@@ -88,8 +70,6 @@ describe('directiveWebView'.bold.underline.blue, function() {
   });
 
   it('basic scope', function() {
-    expect($elScope).to.have.property('user');
-    expect($elScope).to.have.property('instance');
     expect($elScope).to.have.property('actions');
     expect($elScope).to.have.deep.property('actions.refresh');
     expect($elScope).to.have.property('data');
@@ -100,7 +80,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
     expect($elScope.data.iframeUrl.toString()).to.equal('about:blank');
     $rootScope.$digest();
     $timeout.flush();
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://anand-api.codenow.' + api_host);
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://spaaace.somekittens.' + apiHost);
   });
 
   it('should change the name when the instance starts', function () {
@@ -118,23 +98,23 @@ describe('directiveWebView'.bold.underline.blue, function() {
     $rootScope.$digest();
     $timeout.flush();
 
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://ruuuuunable.codenow.' + api_host);
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://ruuuuunable.somekittens.' + apiHost);
   });
 
   it('will not change if the only difference is capitalization', function () {
     expect($elScope.data.iframeUrl.toString()).to.equal('about:blank');
-    expect($elScope.instance.attrs.name).to.equal('anand-api');
+    expect($elScope.instance.attrs.name).to.equal('spaaace');
     $rootScope.$digest();
     $timeout.flush();
 
-    $elScope.instance.attrs.name = 'aNaNd-ApI';
+    $elScope.instance.attrs.name = 'sPaAaCe';
     $elScope.instance.reset({
-      name: 'aNaNd-ApI'
+      name: 'sPaAaCe'
     });
 
     $rootScope.$digest();
 
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://anand-api.codenow.' + api_host);
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://spaaace.somekittens.' + apiHost);
   });
 
 });

@@ -13,11 +13,16 @@ require('main');  // Requires our app
 // Go learn the DOM API if you're so desperate.
 window.host = require('../../client/config/json/api.json').host.toLowerCase();
 window.expect = require('chai').expect;
-window.sinon = require('sinon'); // Stuff to create spyable functions (unused)
+window.sinon = require('sinon'); // Stuff to create spyable functions
 window.mocks = require('./apiMocks'); // JSON mocks for API responses
 window.directiveTemplate = require('./fixtures/directiveTemplate');
 window.modelStore = require('runnable/lib/stores/model-store');
 window.collectionStore = require('runnable/lib/stores/collection-store');
 window.fixtures = {
-  MockPrimus: require('./fixtures/MockPrimus')
+  MockPrimus: require('./fixtures/MockPrimus'),
+  MockFetchBuild: require('./fixtures/MockFetchBuild'),
+  mockFetchInstances: require('./fixtures/MockFetchInstances'),
+  mockFetchUser: require('./fixtures/mockFetchUser'),
+  mockFetch: require('./fixtures/mockFetch')
 };
+window.runnable = new (require('runnable'))(window.host);

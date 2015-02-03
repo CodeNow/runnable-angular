@@ -63,6 +63,21 @@ RunnablePrimus.prototype.createTermStreams = function (container) {
   };
 };
 
+RunnablePrimus.prototype.createUserStream = function(userId) {
+  var uniqueId = makeUniqueId(userId);
+  this.write({
+    id: uniqueId,
+    event: 'subscribe',
+    data: {
+      action: 'join',
+      type: 'org',
+      name: userId
+    }
+  });
+  // Whatever creates the stream will need to filter it
+  return this;
+};
+
 require('app')
   .factory('primus', primus);
 

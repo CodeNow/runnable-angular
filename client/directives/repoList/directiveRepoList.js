@@ -10,12 +10,14 @@ function repoList(
   debounce,
   errs,
   keypather,
-  QueryAssist,
-  fetchUser,
+  pFetchUser,
+  fetchBuild,
   $rootScope,
   $state,
   $stateParams,
-  user
+  $q,
+  fetchInstances,
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -66,16 +68,18 @@ function repoList(
         return newAcv;
       };
 
-      // selected repo commit change
-      $scope.$on('acv-change', function (event, opts) {
-        event.stopPropagation();
-        if ($scope.unsavedAcvs.length === 1) {
-          // Immediately update/rebuild if user only has 1 repo
-          $scope.triggerInstanceUpdateOnRepoCommitChange();
-        } else if (opts && opts.triggerBuild) {
-          $scope.triggerInstanceUpdateOnRepoCommitChange();
-        }
-      });
+      if ($state.$current.name === 'instance.instance') {
+        // selected repo commit change
+        $scope.$on('acv-change', function (event, opts) {
+          event.stopPropagation();
+          if ($scope.unsavedAcvs.length === 1) {
+            // Immediately update/rebuild if user only has 1 repo
+            $scope.triggerInstanceUpdateOnRepoCommitChange();
+          } else if (opts && opts.triggerBuild) {
+            $scope.triggerInstanceUpdateOnRepoCommitChange();
+          }
+        });
+      }
 
       // if we find 1 repo w/ an unsaved
       // commit, show update button (if there is > 1 repos for this project)
@@ -104,71 +108,47 @@ function repoList(
           };
         });
 
-        async.waterfall([
-          findOrCreateContextVersion,
-          createBuild,
-          buildBuild,
-          updateInstanceWithBuild,
-          reloadController
-        ], function (err) {
-          if (err) { throw err; }
-          //$rootScope.dataApp.data.loading = false;
-          $state.go('instance.instance');
+        var newContextVersion;
+        findOrCreateContextVersion()
+        .then(createBuild)
+        .then(buildBuild)
+        .then(updateInstanceWithBuild)
+        .catch(errs.handler)
+        .finally(function() {
+          $scope.loading = false;
         });
 
         // if we find this contextVersion, reuse it.
         // otherwise create a new one
-        function findOrCreateContextVersion(cb) {
+        function findOrCreateContextVersion() {
           var body = {
             infraCodeVersion: infraCodeVersionId
           };
-          var newContextVersion = context.createVersion(body, function (err) {
-            async.each(appCodeVersionStates, function (acvState, cb) {
-              newContextVersion.appCodeVersions.create(acvState, cb);
-            }, function (err) {
-              cb(err, newContextVersion);
-            });
+          return promisify(context, 'createVersion')(body)
+          .then(function (_newContextVersion) {
+            newContextVersion = _newContextVersion;
+            return $q.all(appCodeVersionStates.map(function(acvState) {
+              return promisify(newContextVersion.appCodeVersions, 'create')(acvState);
+            }));
           });
         }
 
-        function createBuild(contextVersion, cb) {
-          var build = $scope.user.createBuild({
+        function createBuild() {
+          return promisify($scope.user, 'createBuild')({
             contextVersions: [contextVersion.id()],
             owner: $scope.instance.attrs.owner
-          }, function (err) {
-            cb(err, build);
           });
         }
 
-        function buildBuild(build, cb) {
-          build.build({
+        function buildBuild(build) {
+          return promisify(build, 'build')({
             message: 'Update application code version(s)' // TODO: better message
-          }, function (err) {
-            cb(err, build);
           });
         }
 
-        function updateInstanceWithBuild(build, cb) {
-          $scope.instance.update({
+        function updateInstanceWithBuild(build) {
+          return promisify($scope.instance, 'update')({
             build: build.id()
-          }, function (err) {
-            cb(err, build);
-          });
-        }
-        /**
-         * Trigger a forced refresh
-         * Alternatives cumbersome/buggy
-         * This best/easiest solution for now
-         */
-        function reloadController(build, cb) {
-          cb();
-          var current = $state.current;
-          var params = angular.copy($stateParams);
-          $state.transitionTo(current, params, {
-            reload: true,
-            inherit: true,
-            notify: true,
-            location: 'replace'
           });
         }
       };
@@ -183,74 +163,46 @@ function repoList(
 
       $scope.$watch('data.autoDeploy', debounceUpdate);
 
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.instance = instance;
-            if (!$stateParams.buildId) {
-              $scope.build = instance.build;
-              // HACK: allows us to use both an independent build (setup/edit)
-              //    and the build of an instance (instance)
-              // This will be triggered when a new build is passed to us by API
-              $scope.$watch('instance.build',   function(n) {
-                if (n) { $scope.build = $scope.instance.build; }
-              });
-            }
-            $scope.data.autoDeploy = instance.attrs.locked;
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-            //   return cb(new Error('instance has no containers'));
-            // }
-            cb(err);
-          })
-          .go();
+      function fetchInstanceWrapper() {
+        return fetchInstances({
+          name: $stateParams.instanceName
+        })
+        .then(function(instance) {
+          $scope.instance = instance;
+          if (!$stateParams.buildId) {
+            $scope.build = instance.build;
+            // HACK: allows us to use both an independent build (setup/edit)
+            //    and the build of an instance (instance)
+            // This will be triggered when a new build is passed to us by API
+            $scope.$watch('instance.build', function(n) {
+              if (n) { $scope.build = $scope.instance.build; }
+            });
+          }
+          $scope.data.autoDeploy = instance.attrs.locked;
+        });
       }
 
-      function fetchBuild(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
+      function fetchBuildWrapper() {
+        return fetchBuild($stateParams.buildId)
+        .then(function(build) {
+          $scope.build = build;
+        });
       }
 
-      async.series([
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            cb();
-          });
-        },
-        function (cb) {
-          if ($state.$current.name === 'instance.setup') {
-            return fetchBuild(cb);
-          }
-          if ($state.$current.name === 'instance.instance') {
-            return fetchInstance(cb);
-          }
-          // Instance Edit
-          return async.parallel([fetchBuild, fetchInstance], cb);
+      pFetchUser().then(function(user) {
+        $scope.user = user;
+        if ($state.$current.name === 'instance.setup') {
+          return fetchBuildWrapper();
         }
-      ], errs.handler);
+        if ($state.$current.name === 'instance.instance') {
+          return fetchInstanceWrapper();
+        }
+        // Instance Edit
+        return $q.all([
+          fetchBuildWrapper(),
+          fetchInstanceWrapper()
+        ]);
+      }).catch(errs.handler);
 
     }
   };

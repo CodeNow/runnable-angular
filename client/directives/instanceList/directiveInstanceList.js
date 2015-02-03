@@ -11,7 +11,8 @@ require('app')
 function instanceList(
   getInstanceClasses,
   getInstanceAltTitle,
-  $state
+  $state,
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -27,6 +28,10 @@ function instanceList(
           instanceName: instance.attrs.name,
           userName: instance.attrs.owner.username
         });
+      };
+      $scope.sortInstancesByUserFirst = function (instance) {
+        return ((instance.attrs.createdBy.github === $scope.data.user.oauthId()) ? '#' : '') +
+          instance.attrs.name;
       };
 
       $scope.getInstanceClasses = getInstanceClasses;

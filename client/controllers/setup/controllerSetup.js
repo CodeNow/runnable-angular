@@ -10,18 +10,14 @@ require('app')
  * @ngInject
  */
 function ControllerSetup(
-  async,
-  determineActiveAccount,
   $scope,
   $rootScope,
   $state,
   $stateParams,
+  $log,
   keypather,
-  errs,
   OpenItems,
-  user,
-  QueryAssist,
-  fetchUser,
+  fetchBuild,
   $window
 ) {
 
@@ -55,26 +51,19 @@ function ControllerSetup(
   data.showExplorer = false;
   data.loading = false;
 
-  function fetchBuild(cb) {
-    new QueryAssist(data.user, cb)
-      .wrapFunc('fetchBuild')
-      .query($stateParams.buildId)
-      .cacheFetch(function (build, cached, cb) {
-        if (keypather.get(build, 'attrs.started')) {
-          // this build has been built.
-          // redirect to new?
-          $state.go('instance.new', {
-            userName: $rootScope.dataApp.data.activeAccount.oauthId()
-          });
-          cb(new Error('build already built'));
-        } else {
-          data.build = build;
-          cb();
-        }
-      })
-      .resolve(cb)
-      .go();
-  }
+  fetchBuild($stateParams.buildId)
+  .then(function(build) {
+    if (keypather.get(build, 'attrs.started')) {
+      // this build has been built.
+      // redirect to new?
+      $state.go('instance.new', {
+        userName: $stateParams.userName
+      });
+      $log.error('build already built');
+    } else {
+      data.build = build;
+    }
+  });
 
   var unwatchInstances = $rootScope.$watch('dataApp.data.instances', function (n) {
     data.instances = n;
@@ -83,15 +72,5 @@ function ControllerSetup(
   $scope.$on('$destroy', function () {
     unwatchInstances();
   });
-  async.waterfall([
-    function (cb) {
-      fetchUser(function(err, user) {
-        if (err) { return cb(err); }
-        data.user = user;
-        cb();
-      });
-    },
-    fetchBuild
-  ], errs.handler);
 
 }

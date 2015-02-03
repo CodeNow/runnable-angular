@@ -10,7 +10,6 @@ var $rootScope,
     $stateParams;
 var $elScope;
 var thisUser;
-var $httpBackend;
 
 var apiMocks = require('../../apiMocks/index');
 var MockQueryAssist = require('../../fixtures/mockQueryAssist');

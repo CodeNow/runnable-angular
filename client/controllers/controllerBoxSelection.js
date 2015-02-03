@@ -4,16 +4,16 @@ require('app')
   .controller('ControllerBoxSelection', boxSelection);
 
 function boxSelection (
-  async,
   errs,
-  fetchUser,
   getNewForkName,
   $window,
   $location,
   $scope,
   $state,
   $stateParams,
-  user
+  $q,
+  user,
+  fetchInstances
 ) {
   $scope.repo = $stateParams.repo;
   $scope.branch = $stateParams.branch;
@@ -31,32 +31,33 @@ function boxSelection (
   }
 
   // Get list of instances for current user/org that have the repo
-  function fetchRepoInstances (cb) {
-    $scope.instances = user.fetchInstances({
+  function fetchRepoInstances () {
+    return fetchInstances({
       githubUsername: $stateParams.userName,
       'contextVersion.appCodeVersions.repo': fullRepoName
-    }, cb);
+    }).then(function(instances) {
+      $scope.instances = instances;
+    });
   }
 
   // Fetches all instances for dupe name checking
   // Naming will be replaced with API route in the future
   var allInstances;
-  function fetchInstances (cb) {
-    allInstances = user.fetchInstances({
+  function fetchAllInstances () {
+    return fetchInstances({
       githubUsername: $stateParams.userName
-    }, function (err) {
-      if (err) { return errs.handler(err); }
-      $scope.loading = false;
+    }).then(function(instances) {
+      allInstances = instances;
     });
   }
   $scope.loading = true;
-  fetchUser(function (err, user) {
-    if (err) { return errs.handler(err); }
-    $scope.user = user;
-    async.parallel([
-      fetchRepoInstances,
-      fetchInstances
-    ], errs.handler);
+
+  $q.all([
+    fetchRepoInstances(),
+    fetchAllInstances()
+  ]).catch(errs.handler)
+  .finally(function() {
+    $scope.loading = false;
   });
 
   function copyCv (instance, cb) {

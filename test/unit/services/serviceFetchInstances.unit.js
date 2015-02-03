@@ -1,7 +1,7 @@
 'use strict';
 
 var $state, user, fetchInstances, ctx;
-describe('serviceFetchUser'.bold.underline.blue, function () {
+describe.skip('serviceFetchInstances'.bold.underline.blue, function () {
   var apiMocks = require('../apiMocks/index');
   var MockQueryAssist = require('../fixtures/mockQueryAssist');
   beforeEach(function () {
