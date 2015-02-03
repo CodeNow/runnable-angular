@@ -42,7 +42,7 @@ function ControllerInstance(
     // out shows/hides entire toolbar
     out: true,
     // in shows/hides file-menu
-    in: true
+    in: false
   };
 
   data.isDemo = $state.$current.name === 'demo.instance';
@@ -155,6 +155,7 @@ function ControllerInstance(
       boxLogsOnly();
     }
     else {
+      data.sectionClasses.in = data.showExplorer;
       restoreOrOpenDefaultTabs();
     }
   }
