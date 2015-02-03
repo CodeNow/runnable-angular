@@ -12,6 +12,7 @@ var path        = require('path');
 var version     = require('../package').version;
 
 app.set('port', process.env.PORT || 3000);
+app.set('https_port', process.env.HTTPS_PORT || 443);
 app.set('config', config);
 app.set('view engine', 'jade');
 app.locals.version = version;
@@ -47,9 +48,11 @@ var options = {
   key: fs.readFileSync('server/config/certs/server.key')
 };
 
-http.createServer(app).listen(3001, function () {
-  console.log('server listening on port 3001');
+http.createServer(app).listen(app.get('port'), function () {
+  console.log('server listening on port ' + app.get('port'));
 });
-https.createServer(options, app).listen(443, function () {
-  console.log('server listening on port 443');
-});
+if (process.env.HTTPS) {
+  https.createServer(options, app).listen(app.get('https_port'), function () {
+    console.log('server listening on port ' + app.get('https_port'));
+  });
+}
