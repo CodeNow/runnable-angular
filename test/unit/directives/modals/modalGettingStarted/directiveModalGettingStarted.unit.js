@@ -65,12 +65,10 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       copy: sinon.spy(copyInstanceFunction)
     }];
     ctx.gsInstanceLists = angular.copy(ctx.instanceLists);
-    ctx.fetchGSDepInstancesMock = sinon.spy(function (cb) {
-      cb(ctx.gsInstanceLists ? null : new Error('asdas'), ctx.gsInstanceLists);
-    });
 
     ctx.stackInfo = angular.copy(stacks);
     ctx.fetchStackInfoMock = sinon.spy(function (cb) {
+      console.log('fetchStackDatastuffmock');
       cb(ctx.stackInfo ? null : new Error('asdas'), ctx.stackInfo);
     });
 
@@ -127,7 +125,6 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
       $provide.value('fetchStackInfo', ctx.fetchStackInfoMock);
-      $provide.value('fetchGSDepInstances', ctx.fetchGSDepInstancesMock);
       $provide.value('createNewBuild', ctx.createNewBuildMock);
       $provide.value('getNewForkName', ctx.getNewForkNameMock);
       $provide.value('createDockerfileFromSource', ctx.createDockerfileFromSourceMock);
@@ -413,8 +410,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
     beforeEach(function () {
       injectSetupCompile();
     });
-    it('should fetch basic info at the beginning', function () {
-      sinon.assert.called(ctx.fetchGSDepInstancesMock);
+    it.only('should fetch basic info at the beginning', function () {
       sinon.assert.called(ctx.fetchStackInfoMock);
 
       var orgs = [ctx.fakeOrg1, ctx.fakeOrg2];
@@ -631,7 +627,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
             }, 0);
             cb(null, { asdfsad: 'asdfadsf'});
           };
-          $rootScope.$digest();
+          $rootScope.$apply();
           cb(error);
         });
         ctx.errsMock.handler = sinon.spy(function (err) {
@@ -641,7 +637,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
             attrs: angular.copy(apiMocks.contextVersions.running),
             appCodeVersions: {
               create: sinon.spy(function (repo, cb) {
-                $rootScope.$digest();
+                $rootScope.$apply();
                 cb();
               })
             }
@@ -651,14 +647,14 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           };
           ctx.createDockerfileFromSourceMock.reset();
           ctx.createNewBuildMock.reset();
-          $rootScope.$digest();
+          $rootScope.$apply();
         });
 
         $elScope.actions.createAndBuild();
         expect($elScope.building).to.be.true;
         expect(keypather.get($rootScope, 'dataApp.data.loading')).to.be.ok;
         $elScope.state.stack = stacks[0];
-        $scope.$digest();
+        $scope.$apply();
 
         sinon.assert.calledWith(ctx.createDockerfileFromSourceMock, ctx.newVersion, stacks[0].key);
 
