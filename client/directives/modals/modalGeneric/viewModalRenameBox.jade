@@ -2,7 +2,7 @@
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    h1.modal-heading Rename Box
+    h1.modal-heading Rename Server
 
   section.modal-body
     form(
@@ -27,7 +27,7 @@
           ng-model = "data.newName"
           ng-init = "data.renameForm.$setPristine(); \
             data.renameForm.showFocus = true;"
-          placeholder = "My-Box"
+          placeholder = "My-Server"
           spellcheck = "false"
           validate-name = "data.instances"
           validate-name-pattern
@@ -59,7 +59,7 @@
       ng-click = "actions.renameInstance(data.newName); \
         defaultActions.cancel();"
       ng-disabled = "data.renameForm.$invalid"
-    ) Rename Box
+    ) Rename Server
     button.btn.white(
       ng-click = "data.newName = data.instance.attrs.name; \
         data.renameForm.$setPristine(); \

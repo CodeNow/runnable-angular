@@ -13,7 +13,7 @@
   width: 240px;
   z-index: $z-sidebar;
 
-  &.global-sidebar {
+  &.nav-sidebar {
     background: $gray-lightest;
   }
 
@@ -21,8 +21,8 @@
     border-bottom: 1px solid rgba($black,.1);
 
     &:last-child,
-    &.boxes {
-      border: 0;
+    &.nav-servers {
+      border-bottom: 0;
     }
   }
 
@@ -36,16 +36,6 @@
   font-weight: 500;
   margin: 24px 0 12px;
   padding: 0 9px;
-}
-
-.sidebar-paragraph {
-  font-size: 16px;
-  line-height: 1.5;
-  padding: 0 9px;
-
-  + .sidebar-paragraph {
-    margin-top: 12px;
-  }
 }
 
 // h2.sub-header
@@ -76,8 +66,8 @@
 
   &.orange {
     font-size: 14px;
-    padding-left: 9px;
-    top: 11px;
+    padding: 0 6px 0 0;
+    top: 6px;
   }
 
   &.btn-group {
@@ -100,6 +90,7 @@
   }
 
   .icons-update {
+    float: left;
     height: 14px;
     margin: 5px 6px 0 3px;
     width: 14px;

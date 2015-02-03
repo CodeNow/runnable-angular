@@ -53,6 +53,7 @@ var options = {
 http.createServer(app).listen(app.get('port'), function () {
   console.log('server listening on port ' + app.get('port'));
 });
+
 if (process.env.HTTPS) {
   https.createServer(options, app).listen(app.get('https_port'), function () {
     console.log('server listening on port ' + app.get('https_port'));

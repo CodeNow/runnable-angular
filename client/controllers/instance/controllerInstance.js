@@ -37,7 +37,7 @@ function ControllerInstance(
   data.openItems = new OpenItems();
 
   // shows/hides the file menu
-  data.showExplorer = false;
+  data.showExplorer = true;
   // loader if saving fs changes
   data.saving = false;
 
@@ -74,9 +74,6 @@ function ControllerInstance(
       } else {
         // if nothing has been saved to the uiState object for the user, they're new, so
         // open the file explorer
-        if (!keypather.get($scope.user, 'attrs.userOptions.uiState')) {
-          data.showExplorer = true;
-        }
         instanceUpdatedPoller.start(data.instance);
       }
     });
@@ -154,6 +151,7 @@ function ControllerInstance(
       boxLogsOnly();
     }
     else {
+      data.sectionClasses.in = data.showExplorer;
       restoreOrOpenDefaultTabs();
     }
   }

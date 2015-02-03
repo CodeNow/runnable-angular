@@ -1,24 +1,19 @@
-//- use ng-show instead of ng-if for css loading effect
-h1.box-info.load(
-  ng-show = "instance.attrs.name"
+.server-name {{ instance.attrs.name }}
+  span.icons-status(
+    ng-class = "getInstanceClasses(instance)"
+    tooltip = "{{ getInstanceAltTitle(instance) }}"
+    tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+  )
+input.server-url(
+  coach-mark-style = "{\"left\": -26, \"top\": 33}"
+  coach-mark-template = "viewCoachMarksBoxNamePopover"
+  coach-mark-type = "editButton"
+  ng-if = "instance.attrs.name"
+  readonly
+  select-all
+  show-coach-marks
+  value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
+  template = "viewCoachMarksBoxNamePopover"
 )
-  .box-name {{ instance.attrs.name }}
-    span.icons-status(
-      ng-class = "getInstanceClasses(instance)"
-      tooltip = "{{ getInstanceAltTitle(instance) }}"
-      tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
-    )
-  input.box-url(
-    readonly
-    select-all
-    value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
-  )
-  .guide-wrapper(
-    ng-if = "instance.attrs.name"
-    type = "boxName"
-    mark-style = "{\"left\": -25, \"top\": 34}"
-    template = "viewCoachMarksBoxNamePopover"
-    show-coach-marks
-  )
-  //- sets layout on h1.box-name for .box-url
-  span.box-name-ghost {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io
+//- sets width
+span.server-name-ghost.no-touching {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io

@@ -16,7 +16,7 @@ function showCoachMarks(
   return {
     restrict: 'A',
     scope: {
-      template: '@' //The template is on the scope so it can be used by the view
+      template: '@coachMarkTemplate' //The template is on the scope so it can be used by the view
     },
     link: function ($scope, element, attrs, ctrl) {
       var popEl;
@@ -24,20 +24,20 @@ function showCoachMarks(
       if (!$scope.template) {
         return $log.error('Coach mark needs a template');
       }
-      if (!attrs.type) {
+      if (!attrs.coachMarkType) {
         return $log.error('Coach mark needs a type');
       }
       var style;
       try {
-        style = JSON.parse(attrs.markStyle);
+        style = JSON.parse(attrs.coachMarkStyle);
       } catch (e) {
-        $log.warn('Coach mark parse failed for ' + attrs.type);
+        $log.warn('Coach mark parse failed for ' + attrs.coachMarkType);
         style = {
           top: 0,
           left: -20
         };
       }
-      fetchCoachMarkData(attrs.type, function (data) {
+      fetchCoachMarkData(attrs.coachMarkType, function (data) {
         if (!data) { return; }
         $scope.coachMarkData = data;
 

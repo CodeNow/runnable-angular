@@ -1,6 +1,10 @@
 button.btn.white.btn-action(
+  coach-mark-style = "{\"left\": -6, \"top\": 18}"
+  coach-mark-template = "viewCoachMarksEditPopover"
+  coach-mark-type = "editButton"
   ng-click = "goToEdit()"
-  title = "Edit Box"
+  show-coach-marks
+  title = "Edit Server"
   type = "button"
 )
   svg.iconnables.icons-edit
@@ -8,18 +12,12 @@ button.btn.white.btn-action(
       xlink:href = "#icons-edit"
     )
   | Edit
-.guide-wrapper(
-  type = "editButton"
-  mark-style = "{\"left\": -6, \"top\": 18}"
-  template = "viewCoachMarksEditPopover"
-  show-coach-marks
-)
 button.btn.white.btn-action(
   modal
   modal-actions = "popoverGearMenu.actions.actionsModalFork"
   modal-data = "popoverGearMenu.data.dataModalFork"
   modal-template = "viewOpenModalForkBox"
-  title = "Fork Box"
+  title = "Fork Server"
   type = "button"
 )
   svg.iconnables.icons-fork
