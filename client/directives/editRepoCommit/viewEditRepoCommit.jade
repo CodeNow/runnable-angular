@@ -21,9 +21,7 @@
       )
     | {{ activeCommit.attrs.commit.message }}
     small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
-
-//-
-  if instance.setup || instance.instanceEdit
+//- if instance.setup || instance.instanceEdit
 button.btn.btn-xs.btn-repository-settings(
   ng-class = "{active: popoverRepoActions.data.show}"
   toggle-pop-over

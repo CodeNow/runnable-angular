@@ -8,8 +8,6 @@ require('app')
 function ControllerInstance(
   $filter,
   errs,
-  instanceUpdatedPoller,
-  createInstanceDeployedPoller,
   fetchCommitData,
   keypather,
   OpenItems,
@@ -36,7 +34,7 @@ function ControllerInstance(
   data.openItems = new OpenItems();
 
   // shows/hides the file menu
-  data.showExplorer = false;
+  data.showExplorer = true;
   // loader if saving fs changes
   data.saving = false;
 
@@ -48,8 +46,6 @@ function ControllerInstance(
   };
 
   data.isDemo = $state.$current.name === 'demo.instance';
-
-  var deployedPoller;
 
   // Trigger Heap event
   if ($window.heap && $location.search('chat')) {
@@ -78,7 +74,6 @@ function ControllerInstance(
     if (!keypather.get($scope.user, 'attrs.userOptions.uiState')) {
       data.showExplorer = true;
     }
-    instanceUpdatedPoller.start(data.instance);
   })
   .catch(function(err) {
     keypather.set(
@@ -108,11 +103,6 @@ function ControllerInstance(
           data.openItems.addBuildStream();
         });
       }
-
-      if (deployedPoller) {
-        deployedPoller.clear();
-      }
-      deployedPoller = createInstanceDeployedPoller(data.instance).start();
     });
   });
 
@@ -165,6 +155,7 @@ function ControllerInstance(
       boxLogsOnly();
     }
     else {
+      data.sectionClasses.in = data.showExplorer;
       restoreOrOpenDefaultTabs();
     }
   }
@@ -177,10 +168,6 @@ function ControllerInstance(
 
   $scope.$on('$destroy', function () {
     containerWatch();
-    instanceUpdatedPoller.stop();
-    if (deployedPoller) {
-      deployedPoller.clear();
-    }
   });
 
   function buildLogsOnly () {

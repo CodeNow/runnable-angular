@@ -15,11 +15,11 @@
 
   // no underline by default
   .link-text {
-    text-decoration: none;
+    text-decoration: underline;
 
     &:hover,
     &:active {
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 
@@ -361,11 +361,11 @@
     font-size: 18px;
     margin: 0 12px;
     padding: 0 12px;
-    text-decoration: none;
+    text-decoration: underline;
 
     &:hover,
     &:active {
-      text-decoration: underline;
+      text-decoration: none;
     }
 
     @include media(xs) {
