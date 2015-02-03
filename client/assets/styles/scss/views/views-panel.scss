@@ -1,12 +1,11 @@
 // .active-panel
 .active-panel {
-  align-items: stretch;
   display: flex;
   flex-direction: column;
-  height: calc(100% - 45px);
+  height: 100%;
   position: relative;
   transform: translate3d(0,0,0);
-  transition: height .15s ease-in, transform .15s ease-in;
+  transition: all .15s ease-in;
   width: 100%;
   z-index: $z-views-active-panel;
 
@@ -21,13 +20,11 @@
   }
 
   .out & {
-    height: 100%;
     transform: translate3d(0,-46px,0);
   }
 
   .in & {
     transform: translate3d(270px,0,0);
-    transition: transform .15s ease-in, width .15s ease-in;
     width: calc(100% - 270px);
   }
 
@@ -80,7 +77,7 @@ div.terminal { // div specifity required b/c there's a term.terminal
   @extend .pre;
   background: $white !important; // override term
   color: $gray-darker !important;
-  padding: 9px;
+  padding: 6px;
 
   .ace-runnable-dark & {
     background: $purple-darker !important; // override term
