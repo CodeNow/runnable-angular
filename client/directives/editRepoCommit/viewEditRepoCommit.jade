@@ -21,7 +21,11 @@
       )
     | {{ activeCommit.attrs.commit.message }}
     small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
+
 //- if instance.setup || instance.instanceEdit
+//- SAN-895 NOTES:
+//- delete repo action should now go in the popover
+//- repository settings and repoActions should be removed
 button.btn.btn-xs.btn-repository-settings(
   ng-class = "{active: popoverRepoActions.data.show}"
   toggle-pop-over
