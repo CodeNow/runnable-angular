@@ -48,8 +48,11 @@ function ControllerApp(
   dataApp.data.modalError = {
     data: {},
     actions: {
-      close: function () {
+      close: function (cb) {
         errs.clearErrors();
+        if (typeof cb === 'function') {
+          cb();
+        }
       }
     }
   };
