@@ -1,158 +1,173 @@
 'use strict';
 
 require('app')
-  .factory('pFetchUser', function (user, $q) {
-    // Promise version of serviceFetchUser
-    // http://stackoverflow.com/a/22655010/1216976
-    var d = $q.defer();
-    user.fetchUser('me', function (err) {
-      if (err) {
-        return d.reject(err);
-      }
-      return d.resolve(user);
-    });
+  .factory('pFetchUser', pFetchUser)
+  .factory('fetchInstances', fetchInstances)
+  .factory('fetchBuild', fetchBuild)
+  .factory('fetchOwnerRepos', fetchOwnerRepos)
+  .factory('fetchContexts', fetchContexts);
 
-    // For consistency with other promise fetchers
-    return function () {
-      return d.promise;
-    };
-
-  })
-  .factory('promisify', function($exceptionHandler, $q) {
-    return function promisify(model, fn) {
-      if (!model[fn]) {
-        throw new Error('Attempted to call a function of a model that doesn\'t exist');
-      }
-      return function promsified () {
-        var d = $q.defer();
-        var args = [].slice.call(arguments);
-        var returnedVal;
-        args.push(function (err, data) {
-          if(err) {
-            d.reject(err);
-          } else {
-            if (returnedVal) {
-              return d.resolve(returnedVal);
-            }
-            // It's a fetch/build/etc
-            d.resolve(model);
-          }
-        });
-        try {
-          // Check returnedVal.attrs
-          returnedVal = model[fn].apply(model, args);
-          // For Models || Collections
-          if (returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 1) ||
-              (returnedVal.models && returnedVal.models.length))) {
-            d.resolve(returnedVal);
-          }
-        } catch(e) {
-          $exceptionHandler(e);
-          d.reject(e);
-        }
-        return d.promise;
-      };
-    };
+function pFetchUser(user, $q) {
+  // Promise version of serviceFetchUser
+  // http://stackoverflow.com/a/22655010/1216976
+  var d = $q.defer();
+  user.fetchUser('me', function (err) {
+    if (err) {
+      return d.reject(err);
+    }
+    return d.resolve(user);
   });
 
-// // Look, I made it happen
-// function fetch (
-//   $exceptionHandler,
-//   $q,
-//   pFetchUser,
-//   errs,
-//   keypather,
-//   user
-// ) {
-//   // Promisification
-//   var promises = {};
+  // For consistency with other promise fetchers
+  return function () {
+    return d.promise;
+  };
+}
 
-//   var fetchUserPromise = pFetchUser.then(function(user) {
-//     promises.fetchInstances = promisify(user, 'fetchInstances');
-//     promises.fetchInstance = promisify(user, 'fetchInstance');
-//     promises.fetchBuild = promisify(user, 'fetchBuild');
-//   });
+function fetchInstances(
+  pFetchUser,
+  promisify,
+  keypather,
+  hasKeypaths,
+  errs,
+  $stateParams,
+  $q,
+  primus
+) {
+  var currentInstanceList;
+  var userStream;
 
+  pFetchUser().then(function(user) {
+    userStream = primus.createUserStream(user.oauthId());
 
-//User
-// Build, contexts, GH Repos
+    userStream.on('data', function (data) {
+      if (data.event !== 'ROOM_MESSAGE') {
+        return;
+      }
+      if (!currentInstanceList) { return; }
+      if (!keypather.get(data, 'data.data.name')) { return; }
+      var cachedInstance = currentInstanceList.find(hasKeypaths({
+        'attrs.name': data.data.data.name
+      }));
+      if (cachedInstance) {
+        cachedInstance.parse(data.data.data);
+      }
+    });
+  });
+  return function (opts) {
+    if (!opts) {
+      opts = {};
+    }
 
-//Context
-//  Versions
+    // Check how cache works with HelloRunnable
+    // Consider querying against ModelStore
 
-// ContextVersion
-// FS list
+    if (!opts.githubUsername && currentInstanceList && opts.name) {
+      var cachedInstance = currentInstanceList.find(hasKeypaths({
+        'attrs.name': opts.name
+      }));
+      if (cachedInstance) {
+        return $q.when(cachedInstance);
+      }
+    }
 
-//   // user/instances
+    opts.githubUsername = opts.githubUsername || $stateParams.userName;
+    return pFetchUser().then(function(user) {
+      var pFetch = promisify(user, 'fetchInstances');
+      return pFetch(opts);
+    }).then(function(results) {
+      var instance;
+      if (opts.name) {
+        instance = keypather.get(results, 'models[0]');
+      } else {
+        if (opts.githubUsername === $stateParams.userName) {
+          currentInstanceList = results;
+        }
+        instance = results;
+      }
 
-//   // Err handling and such
-//   var fetchers = {
-//     build: function(opts) {
-//       return fetchUserPromise.then(function() {
-//         return promises.fetchBuild(opts);
-//       });
-//     },
-//     instance: function (opts) {
-//       return fetchUserPromise.then(function () {
-//         if (opts.name) {
-//           return promises.fetchInstances(opts);
-//         }
-//         return promises.fetchInstance(opts);
-//       })
-//       .then(function(results) {
-//         console.log('results', results);
-//         var instance;
-//         if (opts.name) {
-//           instance = keypather.get(results, 'models[0]');
-//           if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-//             throw new Error('Instance has no containers');
-//           }
-//         } else {
-//           instance = results;
-//         }
+      if (!instance) {
+        throw new Error('Instance not found');
+      }
+      instance.githubUsername = opts.githubUsername;
 
-//         if (!instance) {
-//           throw new Error('Instance not found');
-//         }
+      return instance;
+    }).catch(errs.handler);
+  };
+}
 
-//         return instance;
-//       });
-//     }
-//   };
+function fetchBuild(
+  errs,
+  pFetchUser,
+  promisify,
+  $q
+) {
+  // No caching here, as there aren't any times we're fetching a build
+  //    multiple times that isn't covered by inflight
+  return function (buildId) {
+    if (!buildId) {
+      throw new Error('BuildId is required');
+    }
 
-//   function fetchAPI (type, opts) {
-//     return fetchers[type](opts)
-//       .catch(errs.handler);
-//   }
+    return pFetchUser().then(function(user) {
+      var pFetch = promisify(user, 'fetchBuild');
+      return pFetch(buildId);
+    }).then(function(build) {
+      return build;
+    }).catch(errs.handler);
+  };
+}
 
+function fetchOwnerRepos (
+  pFetchUser,
+  errs,
+  promisify
+) {
+  var user;
+  return function (userName) {
+    return pFetchUser().then(function(_user) {
+      user = _user;
+      var repoFetch;
+      if (userName === user.oauthName()) {
+        repoFetch = promisify(user, 'fetchGithubRepos');
+      } else {
+        repoFetch = promisify(user.newGithubOrg(userName), 'fetchRepos');
+      }
 
-//   function promisify(model, fn) {
-//     if (!model[fn]) {
-//       throw new Error('Attempted to call a function of a model that doesn\'t exist');
-//     }
-//     return function promsified () {
-//       var d = $q.defer();
-//       var args = [].slice.call(arguments);
-//       var returnedVal;
-//       args.push(function (err, data) {
-//         if(err) {
-//           d.reject(err);
-//         } else {
-//           if (returnedVal) {
-//             return d.resolve(returnedVal);
-//           }
-//           d.resolve(data);
-//         }
-//       });
-//       try {
-//         returnedVal = model[fn].apply(model, args);
-//       } catch(e) {
-//         $exceptionHandler(e);
-//         d.reject(e);
-//       }
-//       return d.promise;
-//     };
-//   }
+      var allRepos = [];
 
-//   return fetchAPI;
-// }
+      function fetchPage(page) {
+        return repoFetch({
+          page: page,
+          sort: 'update'
+        }).then(function(githubRepos) {
+          allRepos = allRepos.concat(githubRepos.models);
+          // recursive until result set returns fewer than
+          // 100 repos, indicating last paginated result
+          if (githubRepos.models.length < 100) {
+            return allRepos;
+          } else {
+            return fetchPage(page + 1);
+          }
+        });
+      }
+      return fetchPage(1);
+    }).then(function(reposArr) {
+      return user.newGithubRepos(reposArr, {
+        noStore: true
+      });
+    }).catch(errs.handler);
+  };
+}
+
+function fetchContexts (
+  pFetchUser,
+  promisify
+) {
+  return function (opts) {
+    return pFetchUser().then(function(user) {
+      var contextFetch = promisify(user, 'fetchContexts');
+      return contextFetch(opts);
+    });
+  };
+}
