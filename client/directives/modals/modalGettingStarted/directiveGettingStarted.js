@@ -244,16 +244,17 @@ function modalGettingStarted(
             counter.next(err);
           }
         });
-        fetchInstances().then(function (instances) {
-          $scope.data.instances = instances;
-          if (counter) {
-            counter.next();
-          }
-        }).catch(function(err) {
-          if (counter) {
-            counter.next(err);
-          }
-        });
+        fetchInstances({ githubUsername: user.oauthName()})
+          .then(function (instances) {
+            $scope.data.instances = instances;
+            if (counter) {
+              counter.next();
+            }
+          }).catch(function(err) {
+            if (counter) {
+              counter.next(err);
+            }
+          });
       }
 
       function generateDependencyName(item) {
