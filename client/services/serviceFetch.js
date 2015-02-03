@@ -42,7 +42,7 @@ require('app')
           // Check returnedVal.attrs
           returnedVal = model[fn].apply(model, args);
           // For Models || Collections
-          if (returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs) > 1) ||
+          if (returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 1) ||
               (returnedVal.models && returnedVal.models.length))) {
             d.resolve(returnedVal);
           }
