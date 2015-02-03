@@ -122,6 +122,8 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       };
     });
 
+    runnable.reset(apiMocks.user);
+
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
       $provide.value('fetchStackInfo', ctx.fetchStackInfoMock);
@@ -133,6 +135,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       $provide.value('createNewInstance', ctx.createNewInstanceMock);
       $provide.value('copySourceInstance', ctx.copySourceInstanceMock);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.list);
+
+      // Required for subdirective
+      $provide.factory('fetchOwnerRepos', fixtures.mockFetch.fetch);
     });
     angular.mock.inject(function (
       _$templateCache_,
@@ -428,7 +433,6 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       expect($elScope.state.hideCancelButton).to.be.true;
 
       sinon.assert.calledWith(ctx.createNewBuildMock, ctx.fakeuser);
-      sinon.assert.calledWith(ctx.fetchInstancesMock, 'user');
 
       expect($elScope.state.contextVersion).to.be.ok;
       expect($elScope.state.build).to.be.ok;
@@ -465,7 +469,6 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       expect($elScope.data.user).to.equal(ctx.fakeuser);
 
       sinon.assert.calledWith(ctx.createNewBuildMock, ctx.fakeuser);
-      sinon.assert.calledWith(ctx.fetchInstancesMock, 'user');
     });
     afterEach(function () {
       $scope.$destroy();
@@ -611,29 +614,34 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
 
         var error = new Error('adsfadsfadsfadsf');
         ctx.newVersion.appCodeVersions.create = sinon.spy(function (repo, cb) {
+          console.log('calllled');
           var oldDockerFile = $elScope.state.dockerfile;
           var oldBuild = $elScope.state.build;
           var oldVersion = $elScope.state.contextVersion;
           ctx.fetchInstancesCached = false;
           ctx.dockerFileCreationCb = function (cb) {
+            console.log('calllled x2');
             sinon.assert.calledWith(ctx.createNewBuildMock, ctx.fakeuser);
-            sinon.assert.calledWith(ctx.fetchInstancesMock, 'user');
             expect($elScope.state.build).to.not.equal(oldBuild);
             expect($elScope.state.contextVersion).to.not.equal(oldVersion);
             setTimeout(function() {
+              console.log('calllled x3');
               expect($elScope.state.dockerfile).to.not.equal(oldDockerFile);
               done();
             }, 0);
             cb(null, { asdfsad: 'asdfadsf'});
           };
+          $rootScope.$digest();
           cb(error);
         });
         ctx.errsMock.handler = sinon.spy(function (err) {
+          console.log('errsMock', err);
           expect(err).to.equals(error);
           ctx.newVersion = {
             attrs: angular.copy(apiMocks.contextVersions.running),
             appCodeVersions: {
               create: sinon.spy(function (repo, cb) {
+                $rootScope.$digest();
                 cb();
               })
             }
@@ -642,8 +650,8 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
             attrs: angular.copy(apiMocks.builds.built)
           };
           ctx.createDockerfileFromSourceMock.reset();
-          ctx.fetchInstancesMock.reset();
           ctx.createNewBuildMock.reset();
+          $rootScope.$digest();
         });
 
         $elScope.actions.createAndBuild();

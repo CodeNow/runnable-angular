@@ -7,11 +7,12 @@ var runnable = new (require('runnable'))(window.host);
 module.exports = {
   list: function($q) {
     return function (opts) {
+      console.log('list', opts);
       var d = $q.defer();
-      var running = runnable.newInstances(instances.list, {
+      var instanceCollection = runnable.newInstances(instances.list, {
         noStore: true
       });
-      d.resolve(running);
+      d.resolve(instanceCollection);
       return d.promise;
     };
   },
