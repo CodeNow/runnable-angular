@@ -37,7 +37,7 @@ function showCoachMarks(
           left: -20
         };
       }
-      fetchCoachMarkData(attrs.coachMarkType, function (data) {
+      fetchCoachMarkData(attrs.type, function (data) {
         if (!data) { return; }
         $scope.coachMarkData = data;
 

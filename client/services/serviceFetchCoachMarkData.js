@@ -13,10 +13,7 @@ function fetchCoachMarkData(
       errs.handler(err);
       // If the coach mark has been shown, just return null
       // if it hasn't, return an object with a save function on it
-      var data =  keypather.get(
-        user,
-        'attrs.userOptions.uiState.shownCoachMarks.' + coachMarkKey
-      ) ? null : {
+      var data = {
         save: function () {
           var userOptions = {};
           userOptions['userOptions.uiState.shownCoachMarks.' + coachMarkKey] = true;
