@@ -68,7 +68,6 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
 
     ctx.stackInfo = angular.copy(stacks);
     ctx.fetchStackInfoMock = sinon.spy(function (cb) {
-      console.log('fetchStackDatastuffmock');
       cb(ctx.stackInfo ? null : new Error('asdas'), ctx.stackInfo);
     });
 
