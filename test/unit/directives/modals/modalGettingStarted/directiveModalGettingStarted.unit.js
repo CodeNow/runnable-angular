@@ -410,7 +410,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
     beforeEach(function () {
       injectSetupCompile();
     });
-    it.only('should fetch basic info at the beginning', function () {
+    it('should fetch basic info at the beginning', function () {
       sinon.assert.called(ctx.fetchStackInfoMock);
 
       var orgs = [ctx.fakeOrg1, ctx.fakeOrg2];
@@ -610,34 +610,28 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
 
         var error = new Error('adsfadsfadsfadsf');
         ctx.newVersion.appCodeVersions.create = sinon.spy(function (repo, cb) {
-          console.log('calllled');
           var oldDockerFile = $elScope.state.dockerfile;
           var oldBuild = $elScope.state.build;
           var oldVersion = $elScope.state.contextVersion;
           ctx.fetchInstancesCached = false;
           ctx.dockerFileCreationCb = function (cb) {
-            console.log('calllled x2');
             sinon.assert.calledWith(ctx.createNewBuildMock, ctx.fakeuser);
             expect($elScope.state.build).to.not.equal(oldBuild);
             expect($elScope.state.contextVersion).to.not.equal(oldVersion);
             setTimeout(function() {
-              console.log('calllled x3');
               expect($elScope.state.dockerfile).to.not.equal(oldDockerFile);
               done();
             }, 0);
             cb(null, { asdfsad: 'asdfadsf'});
           };
-          $rootScope.$apply();
           cb(error);
         });
         ctx.errsMock.handler = sinon.spy(function (err) {
-          console.log('errsMock', err);
           expect(err).to.equals(error);
           ctx.newVersion = {
             attrs: angular.copy(apiMocks.contextVersions.running),
             appCodeVersions: {
               create: sinon.spy(function (repo, cb) {
-                $rootScope.$apply();
                 cb();
               })
             }
@@ -647,7 +641,6 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           };
           ctx.createDockerfileFromSourceMock.reset();
           ctx.createNewBuildMock.reset();
-          $rootScope.$apply();
         });
 
         $elScope.actions.createAndBuild();

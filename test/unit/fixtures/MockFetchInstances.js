@@ -5,14 +5,16 @@ var instances = require('../apiMocks').instances;
 var runnable = new (require('runnable'))(window.host);
 
 module.exports = {
-  list: function($q) {
+  list: function($q, $rootScope) {
     return function (opts) {
-      console.log('list', opts);
       var d = $q.defer();
       var instanceCollection = runnable.newInstances(instances.list, {
         noStore: true
       });
       d.resolve(instanceCollection);
+      setTimeout(function() {
+        $rootScope.$apply();
+      });
       return d.promise;
     };
   },
