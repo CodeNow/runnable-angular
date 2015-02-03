@@ -7,5 +7,6 @@
   "quotmark": "single",
   "curly": true,
   "globalstrict": true,
-  "predef": ["jQuery", "angular", "confirm"]
+  "expr": true,
+  "predef": ["jQuery", "angular", "confirm", "expect", "describe", "it", "sinon", "beforeEach", "afterEach"]
 }
