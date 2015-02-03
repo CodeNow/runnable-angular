@@ -5,6 +5,9 @@ var compression = require('compression');
 var config      = require('server/config/' + (process.env.NODE_ENV || 'development'));
 var envIs       = require('101/env-is');
 var express     = require('express');
+var fs          = require('fs');
+var http        = require('http');
+var https       = require('https');
 var path        = require('path');
 var version     = require('../package').version;
 
@@ -19,7 +22,7 @@ app.set('views', path.join(__dirname + '/views'));
 
 // Redirect to https
 app.use(function(req, res, next) {
-  if (envIs('production') && req.headers['x-forwarded-protocol'] !== 'https') {
+  if (envIs('production') && !req.secure) {
     return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
   }
   next();
@@ -38,6 +41,15 @@ require('client/config/routes').forEach(function (item, index, arr) {
   });
 });
 
-app.listen(app.get('port'), function () {
-  console.log('App listening on port: ' + app.get('port'));
+var options = {
+  ca: fs.readFileSync('server/config/certs/server.csr'),
+  cert: fs.readFileSync('server/config/certs/server.crt'),
+  key: fs.readFileSync('server/config/certs/server.key')
+};
+
+http.createServer(app).listen(3001, function () {
+  console.log('server listening on port 3001');
+});
+https.createServer(options, app).listen(443, function () {
+  console.log('server listening on port 443');
 });
