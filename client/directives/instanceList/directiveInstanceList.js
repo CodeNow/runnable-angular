@@ -28,6 +28,10 @@ function instanceList(
           userName: instance.attrs.owner.username
         });
       };
+      $scope.sortInstancesByUserFirst = function (instance) {
+        return ((instance.attrs.createdBy.github === $scope.data.user.oauthId()) ? '#' : '') +
+          instance.attrs.name;
+      };
 
       $scope.getInstanceClasses = getInstanceClasses;
 
