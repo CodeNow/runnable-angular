@@ -33,7 +33,8 @@ function fetchInstances(
   $stateParams,
   $q,
   primus,
-  $rootScope
+  $rootScope,
+  $timeout
 ) {
   var currentInstanceList;
   var userStream;
@@ -57,7 +58,10 @@ function fetchInstances(
       }));
       if (cachedInstance) {
         cachedInstance.parse(data.data.data);
+      } else {
+        currentInstanceList.add(data.data.data);
       }
+      $timeout(angular.noop);
     });
   });
 
