@@ -117,9 +117,9 @@ function modalGettingStarted(
               $scope.state.opts.name =
                 getNewForkName({
                   attrs: {
-                    name: $scope.state.selectedRepo.attrs.name
+                    name: $scope.state.selectedRepo.attrs.name.replace(/\W/gim, '_')
                   }
-                }, $scope.data.instances, true).replace(/\W/gim, '_');
+                }, $scope.data.instances, true);
               async.waterfall([
                 createAppCodeVersions(
                   $scope.state.contextVersion,
