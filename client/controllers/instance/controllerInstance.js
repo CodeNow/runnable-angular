@@ -45,8 +45,6 @@ function ControllerInstance(
     in: false
   };
 
-  data.isDemo = $state.$current.name === 'demo.instance';
-
   // Trigger Heap event
   if ($window.heap && $location.search('chat')) {
     $window.heap.track('instance-chat-click', {
@@ -69,11 +67,6 @@ function ControllerInstance(
       'lastInstancePerUser.' + $stateParams.userName,
       $stateParams.instanceName
     );
-    // if nothing has been saved to the uiState object for the user, they're new, so
-    // open the file explorer
-    if (!keypather.get($scope.user, 'attrs.userOptions.uiState')) {
-      data.showExplorer = true;
-    }
   })
   .catch(function(err) {
     keypather.set(

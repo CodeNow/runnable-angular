@@ -25,18 +25,6 @@ function fileTree(
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
-      switch ($state.$current.name) {
-        case 'instance.instanceEdit':
-          $scope.readOnly = false;
-          break;
-        case 'instance.instance':
-          $scope.readOnly = false;
-          break;
-        case 'instance.setup':
-          $scope.readOnly = false;
-          break;
-      }
-
       if ($stateParams.buildId) {
         fetchBuild($stateParams.buildId)
         .then(function(build) {
