@@ -63,15 +63,30 @@ RunnablePrimus.prototype.createTermStreams = function (container) {
   };
 };
 
+
+var userData = {};
 RunnablePrimus.prototype.createUserStream = function(userId) {
-  var uniqueId = makeUniqueId(userId);
+  // We are only subscribed to one user stream at a time
+  if (userData.streamId) {
+    this.write({
+      id: userData.streamId,
+      event: 'subscribe',
+      data: {
+        action: 'leave',
+        type: 'org',
+        name: userData.userId
+      }
+    });
+  }
+  userData.streamId = makeUniqueId(userId);
+  userData.userId = userId;
   this.write({
-    id: uniqueId,
+    id: userData.streamId,
     event: 'subscribe',
     data: {
       action: 'join',
       type: 'org',
-      name: userId
+      name: userData.userId
     }
   });
   // Whatever creates the stream will need to filter it

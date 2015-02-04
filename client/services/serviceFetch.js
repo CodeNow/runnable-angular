@@ -32,16 +32,22 @@ function fetchInstances(
   errs,
   $stateParams,
   $q,
-  primus
+  primus,
+  $rootScope
 ) {
   var currentInstanceList;
   var userStream;
 
-  pFetchUser().then(function(user) {
-    userStream = primus.createUserStream(user.oauthId());
+  $rootScope.$watch('dataApp.data.activeAccount.oauthId()', function(id) {
+    if (!id) { return; }
+    currentInstanceList = null;
+    userStream = primus.createUserStream(id);
 
     userStream.on('data', function (data) {
       if (data.event !== 'ROOM_MESSAGE') {
+        return;
+      }
+      if (keypather.get(data, 'data.data.owner.username') !== $stateParams.userName) {
         return;
       }
       if (!currentInstanceList) { return; }
@@ -54,6 +60,7 @@ function fetchInstances(
       }
     });
   });
+
   return function (opts) {
     if (!opts) {
       opts = {};
