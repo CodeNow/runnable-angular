@@ -1,11 +1,10 @@
 // section.sidebar.server-sidebar
 .server-sidebar {
+  display: flex;
   height: calc(100vh - 60px);
   width: 330px;
 
   .row {
-    display: flex;
-    flex-direction: column;
     position: relative;
   }
 
@@ -13,6 +12,16 @@
     align-items: flex-start;
     top: 60px;
   }
+}
+
+// ul.repo-list
+.repo-list {
+  flex: 0 0 auto;
+  padding-bottom: 6px;
+}
+
+.explorer {
+  flex: 1 0 auto;
 }
 
 // li.repository-group-item
@@ -62,7 +71,7 @@
 
   // git icons
   .iconnables {
-    color: $gray-lighter;
+    color: $gray-dark;
     left: 0;
     position: absolute;
   }
@@ -84,6 +93,7 @@
 
   // arrow
   .icons-arrow-down {
+    color: $gray-light;
     height: 100%;
     left: auto;
     position: absolute;
@@ -95,17 +105,15 @@
 }
 
 // h3.repository-title
-.repository-title {
-  line-height: 1.5;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.repository-title,
+.repository-description {
+  font-size: 14px;
+  height: 21px;
+  line-height: 21px;
 }
 
 // p.repository-description
 .repository-description {
-  height: 21px;
-  line-height: 21px;
   padding-left: 18px;
   position: relative;
   word-break: break-all;

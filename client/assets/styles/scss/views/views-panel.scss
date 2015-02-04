@@ -23,11 +23,6 @@
     transform: translate3d(0,-46px,0);
   }
 
-  .in & {
-    transform: translate3d(270px,0,0);
-    width: calc(100% - 270px);
-  }
-
   .ace_scrollbar {
     overflow: hidden;
   }

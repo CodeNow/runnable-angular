@@ -76,26 +76,16 @@ section.sidebar.server-sidebar.load(
     repo-list
     unsaved-acvs = "dataInstance.data.unsavedAcvs"
   )
+  section.row.explorer(
+    explorer
+    open-items = "dataInstance.data.openItems"
+    toggle-theme = "dataInstance.data.toggleTheme"
+  )
 
 //- in / out control presence of header-bar
 section.views.with-add-tab(
   ng-class = "dataInstance.data.sectionClasses"
 )
-  //- explorer
-  button.btn.btn-sm.white.btn-icon.explorer-toggle(
-    ng-click = "dataInstance.data.showExplorer = !dataInstance.data.showExplorer"
-    type = "button"
-  )
-    svg.iconnables.icons-folder-open
-      use(
-        xlink:href = "#icons-folder-open"
-      )
-
-  section.explorer(
-    explorer
-    open-items = "dataInstance.data.openItems"
-    toggle-theme = "dataInstance.data.toggleTheme"
-  )
 
   //- tabs
   tabs(

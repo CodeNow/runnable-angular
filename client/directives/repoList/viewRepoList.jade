@@ -40,15 +40,15 @@ ul.list.repository-group
     ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
     unsaved-app-code-version = "unsavedAcv"
   )
-  li.list-details(
-    ng-show = "build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
-  )
-    label.label-checkbox.btn.btn-sm.btn-checkbox(
-      tooltip = "Disabling auto-deploy will stop your server from automatically updating with new changes to your repositories."
-      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":4,\"top\":30}"
-    )
-      input.input-checkbox(
-        ng-model = "data.autoDeploy"
-        type = "checkbox"
-      )
-      | Disable auto-deploy
+  //- li.list-details(
+  //-   ng-show = "build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
+  //- )
+  //-   label.label-checkbox.btn.btn-sm.btn-checkbox(
+  //-     tooltip = "Disabling auto-deploy will stop your server from automatically updating with new changes to your repositories."
+  //-     tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":4,\"top\":30}"
+  //-   )
+  //-     input.input-checkbox(
+  //-       ng-model = "data.autoDeploy"
+  //-       type = "checkbox"
+  //-     )
+  //-     | Disable auto-deploy

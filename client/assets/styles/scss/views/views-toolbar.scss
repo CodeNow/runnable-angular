@@ -2,15 +2,10 @@
 .views-toolbar {
   @extend .webkit-flicker;
   border-bottom: 1px solid rgba($black,.1);
-  height: 46px; // offset for even spacing of buttons
+  height: 45px;
   overflow: visible;
   position: relative;
   transition: all .15s ease-in;
-
-  .in & {
-    transform: translate3d(270px,0,0);
-    width: calc(100% - 270px); // 270px = width of .explorer
-  }
 }
 
 // toolbar tabs

@@ -1,8 +1,5 @@
+// folders and files
 .file-tree {
-  font-size: 12px;
-  font-weight: 400;
-  height: 100%;
-  overflow: auto;
 
   li {
     padding: 0;
@@ -73,6 +70,8 @@
 }
 
 .file-tree {
+  font-size: 13px;
+  padding: 0 9px;
   white-space: nowrap;
 
   li {
@@ -93,8 +92,7 @@
 
       &:active,
       &.active {
-        color: $gray-darkest;
-        font-weight: 600;
+        font-weight: 500;
       }
     }
   }
