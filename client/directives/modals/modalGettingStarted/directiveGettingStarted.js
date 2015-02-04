@@ -261,7 +261,7 @@ function modalGettingStarted(
             new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
             newName
           ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName())
-            .replace(/https?:\/\//, '');
+            .replace(/https?:\/\//, '').replace(/:\d{0,5}/g,'');
         });
       }
       function generateDependenciesNames() {
