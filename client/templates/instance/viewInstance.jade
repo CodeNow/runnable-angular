@@ -119,25 +119,25 @@ section.views.with-add-tab(
             dataInstance.data.openItems.models.length === 0"
   )
     ul.blank-panel-group
-      li.blank-panel-item(
+      li.btn.blue(
         ng-click = "dataInstance.data.openItems.addWebView()"
       )
         svg.iconnables.iconnables-lg.icons-web
           use(xlink:href = "#icons-web")
         | Web View
-      li.blank-panel-item(
+      li.btn.blue(
         ng-click = "dataInstance.data.openItems.addTerminal()"
       )
         svg.iconnables.iconnables-lg.icons-terminal
           use(xlink:href = "#icons-terminal")
         | Terminal
-      li.blank-panel-item(
+      li.btn.blue(
         ng-click = "dataInstance.data.openItems.addBuildStream()"
       )
         svg.iconnables.iconnables-lg.icons-logs
           use(xlink:href = "#icons-logs")
         | Build Log
-      li.blank-panel-item(
+      li.btn.blue(
         ng-click = "dataInstance.data.openItems.addLogs()"
       )
         svg.iconnables.iconnables-lg.icons-server

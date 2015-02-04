@@ -105,44 +105,23 @@ div.terminal { // div specifity required b/c there's a term.terminal
 .blank-panel {
   align-items: center;
   display: flex;
-  float: right;
   height: calc(100% - 45px);
   justify-content: center;
-  margin-top: -90px;
-  transition: width .15s ease-in;
-  width: 100%;
 
-  .in & {
-    width: calc(100% - 270px);
-  }
+  .btn {
+    height: auto;
+    line-height: inherit;
+    padding: 15px;
 
-  .blank-panel-item {
-    border: 1px solid rgba($black,.1);
-    border-radius: 3px;
-    color: $gray;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 16px;
-    height: 90px;
-    margin: 3px;
-    text-align: center;
-    width: 108px;
-
-    &:hover {
-      background: rgba($blue,.1);
-      border-color: rgba($blue,.2);
-    }
-
-    &:active {
-      background: rgba($blue,.15);
-      border-color: rgba($blue,.3);
+    + .btn {
+      margin-left: 6px;
     }
   }
 
   .iconnables {
     display: block;
-    height: 36px;
-    margin: 12px auto 6px;
-    width: 36px;
+    height: 30px;
+    margin: 0 auto 6px;
+    width: 30px;
   }
 }
