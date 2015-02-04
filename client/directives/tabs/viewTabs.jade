@@ -1,25 +1,35 @@
-.views-toolbar
-  ul.tabs
-    li.tab-wrapper(
-      ng-class = "{\
-        'active': item.state.active,\
-        'dirty': (state.$current.name === 'instance.instance' \
-          && item.state.body !== item.attrs.body), \
-        'always-open': item.state.alwaysOpen\
-      }"
-      ng-click = "openItems.activeHistory.add(item); \
-        openItems.saveState();"
-      ng-repeat = "item in openItems.models"
+button.toggle-theme(
+  ng-class = "{ \
+    dark: !toggleTheme, \
+    light: toggleTheme \
+  }"
+  ng-click = "toggleTheme = !toggleTheme"
+  ng-init = "toggleTheme = true"
+  tooltip = "Change Theme"
+  tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
+)
+  .theme
+ul.tabs
+  li.tab-wrapper(
+    ng-class = "{\
+      'active': item.state.active,\
+      'dirty': (state.$current.name === 'instance.instance' \
+        && item.state.body !== item.attrs.body), \
+      'always-open': item.state.alwaysOpen\
+    }"
+    ng-click = "openItems.activeHistory.add(item); \
+      openItems.saveState();"
+    ng-repeat = "item in openItems.models"
+  )
+    span.tab-name(
+      dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
+      title = "{{ item.filepath() }}"
+    ) {{ item.attrs.name  }}
+    .icons-dirty *
+    button.btn-icon(
+      ng-click = "openItems.remove(item);\
+        $event.stopPropagation();"
+      ng-if = "!item.state.alwaysOpen"
     )
-      span.tab-name(
-        dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
-        title = "{{ item.filepath() }}"
-      ) {{ item.attrs.name  }}
-      .icons-dirty *
-      button.btn-icon(
-        ng-click = "openItems.remove(item);\
-          $event.stopPropagation();"
-        ng-if = "!item.state.alwaysOpen"
-      )
-        svg.iconnables.icons-close
-          use(xlink:href = "#icons-close")
+      svg.iconnables.icons-close
+        use(xlink:href = "#icons-close")

@@ -1,11 +1,13 @@
 // button.toggle-theme.tooltip
 .toggle-theme {
+  box-shadow: 6px 0 12px rgba($white,.9);
+  float: left;
   padding: 0;
+  z-index: 1;
 
   // tooltips
   &::before,
   &::after {
-    font-weight: 300;
     margin-left: 12px;
     margin-top: 9px;
   }
@@ -42,22 +44,5 @@
     background: rgba($gray-dark,.1);
     border: 2px solid $gray-dark;
     margin-left: -6px;
-  }
-}
-
-// explorer header
-.explorer-header {
-  background: $gray-lightest;
-  border-bottom: 1px solid rgba($black,.1);
-  color: $gray-dark;
-  flex: 0 0 auto;
-  height: 36px;
-  line-height: 36px;
-  padding: 0 9px;
-  position: relative;
-
-  > .btn {
-    float: right;
-    margin-top: 6px;
   }
 }

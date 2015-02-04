@@ -1,27 +1,21 @@
 // ul.tabs
 .tabs {
+  float: left;
   height: 100%;
-  margin-left: 45px;
   overflow-x: auto;
   overflow-y: hidden;
-  transition: all .15s ease-in;
   white-space: nowrap;
+  width: calc(100% - 90px);
 
   .with-add-tab & {
     margin-right: 45px;
-  }
-
-  // .out &,
-  .in & {
-    margin-left: 0;
   }
 }
 
 // li.tab-wrapper
 .tab-wrapper {
-  border: 1px solid #e6e6e6; // rgba($black,.1);
-  border-bottom: 0;
-  border-top: 0;
+  border-left: 1px solid #e6e6e6; // rgba($black,.1);
+  border-right: 1px solid #e6e6e6; // rgba($black,.1);
   color: $gray;
   cursor: pointer;
   display: inline-block;
