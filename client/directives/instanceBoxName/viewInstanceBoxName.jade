@@ -4,16 +4,16 @@
     tooltip = "{{ getInstanceAltTitle(instance) }}"
     tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
   )
-input.server-url(
-  coach-mark-style = "{\"left\": -26, \"top\": 33}"
-  coach-mark-template = "viewCoachMarksBoxNamePopover"
-  coach-mark-type = "editButton"
-  ng-if = "instance.attrs.name"
-  readonly
-  select-all
-  show-coach-marks
-  value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
-  template = "viewCoachMarksBoxNamePopover"
-)
+  input.server-url(
+    coach-mark-style = "{\"left\": -26, \"top\": 33}"
+    coach-mark-template = "viewCoachMarksBoxNamePopover"
+    coach-mark-type = "editButton"
+    ng-if = "instance.attrs.name"
+    readonly
+    select-all
+    show-coach-marks
+    value = "{{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io"
+    template = "viewCoachMarksBoxNamePopover"
+  )
 //- sets width
 span.server-name-ghost.no-touching {{ instance.attrs.name }}.{{ instance.attrs.owner.username }}.runnable.io

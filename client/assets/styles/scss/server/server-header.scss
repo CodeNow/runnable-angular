@@ -1,14 +1,14 @@
 // header.server-header
 .server-header {
   border-bottom: 1px solid rgba($black,.1);
-  height: 60px;
-  padding: 0 5px 0 15px;
+  height: 72px;
+  padding: 0 6px 0 15px;
 }
 
 // h1.server-info
 .server-info {
   float: left;
-  height: 60px;
+  height: 72px;
 
   .icons-status {
     left: 9px;
@@ -23,9 +23,9 @@
 
 // text + status wrapper
 .server-name {
-  font-size: 23px;
-  height: 45px;
-  line-height: 45px;
+  font-size: 27px;
+  height: 54px;
+  line-height: 54px;
 }
 
 // [readonly] specifity to override default [readonly] background-color
@@ -71,8 +71,8 @@
 .primary-actions,
 .secondary-actions {
   float: right;
-  height: 60px;
-  line-height: 60px;
+  height: 72px;
+  line-height: 72px;
   position: relative;
 
   // offset for vertical-align: middle

@@ -1,6 +1,6 @@
 .nav-header {
   flex: 0 0 auto;
-  height: 60px;
+  height: 72px;
 }
 
 // header.row.account-header
@@ -8,8 +8,8 @@
   @extend .webkit-flicker;
   cursor: pointer;
   flex: 0 0 auto;
-  height: 60px;
-  line-height: 60px;
+  height: 72px;
+  line-height: 72px;
   padding: 0 15px;
   position: relative;
   z-index: $z-sidebar-header;
@@ -28,7 +28,7 @@
 
   .gravatar {
     float: left;
-    margin: 18px 9px 0 2px;
+    margin: 24px 9px 0 2px;
   }
 
   .account-name {
@@ -40,7 +40,7 @@
   .icons-arrow-down {
     position: absolute;
     right: 13px;
-    top: 18px;
+    top: 24px;
     transition: opacity .2s ease-in, transform .3s ease-in;
   }
 }

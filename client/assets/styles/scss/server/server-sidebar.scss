@@ -45,7 +45,7 @@
 .repository-group-text {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
-  color: $gray-dark;
+  color: $gray;
   cursor: pointer;
   font-size: 14px;
   padding: 15px 30px 15px 45px;
@@ -71,7 +71,7 @@
 
   // git icons
   .iconnables {
-    color: $gray-dark;
+    color: $gray-lighter;
     left: 0;
     position: absolute;
   }
@@ -93,7 +93,6 @@
 
   // arrow
   .icons-arrow-down {
-    color: $gray-light;
     height: 100%;
     left: auto;
     position: absolute;
@@ -105,15 +104,16 @@
 }
 
 // h3.repository-title
-.repository-title,
-.repository-description {
-  font-size: 14px;
-  height: 21px;
-  line-height: 21px;
+.repository-title {
+  color: $gray-dark;
+  height: 27px;
+  line-height: 27px;
 }
 
 // p.repository-description
 .repository-description {
+  height: 21px;
+  line-height: 21px;
   padding-left: 18px;
   position: relative;
   word-break: break-all;
