@@ -29,7 +29,10 @@
       border-bottom: 1px solid transparent;
       border-top: 1px solid transparent;
       display: block;
+      overflow: hidden;
       padding-left: 15px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       &:hover {
         background: rgba($blue,.1);
