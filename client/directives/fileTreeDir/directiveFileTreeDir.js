@@ -1,6 +1,5 @@
 'use strict';
 
-var jQuery = require('jquery');
 require('jquery-ui');
 
 require('app')
@@ -17,7 +16,8 @@ function fileTreeDir(
   $state,
   async,
   keypather,
-  configAPIHost
+  configAPIHost,
+  jQuery
 ) {
   return {
     restrict: 'E',
@@ -30,7 +30,6 @@ function fileTreeDir(
     template: '',
     link: function ($scope, element, attrs) {
 
-      var jQuery = require('jquery');
       var actions = $scope.actions = {};
       var data = $scope.data = {};
       $scope.state = $state;
