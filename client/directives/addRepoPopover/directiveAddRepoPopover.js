@@ -129,8 +129,7 @@ function addRepoPopover(
             $scope.repoListPopover.data.build = instance.build;
           });
         }
-      })
-      .then(function() {
+      }).then(function() {
         /**
          * Models in build.contextVersions collection will
          * have empty appCodeVersion collections by default.
@@ -140,12 +139,11 @@ function addRepoPopover(
         var build = $scope.repoListPopover.data.build;
         if (!build.contextVersions.models[0]) { throw new Error('build has 0 contextVersions'); }
         var fetchCV = promisify(build.contextVersions.models[0], 'fetch');
-        return fetchCV();
-      })
-      .then(function() {
-        return fetchOwnerRepos($stateParams.userName);
-      })
-      .then(function(githubRepos) {
+        return $q.all([
+          fetchCV(),
+          fetchOwnerRepos($stateParams.userName)
+        ]);
+      }).then(function(githubRepos) {
         $scope.repoListPopover.data.githubRepos = githubRepos;
       }).catch(errs.handler);
     }

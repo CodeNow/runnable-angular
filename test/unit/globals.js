@@ -23,6 +23,7 @@ window.fixtures = {
   MockFetchBuild: require('./fixtures/MockFetchBuild'),
   mockFetchInstances: require('./fixtures/MockFetchInstances'),
   mockFetchUser: require('./fixtures/mockFetchUser'),
+  mockFetchOwnerRepos: require('./fixtures/mockFetchOwnerRepos'),
   mockFetch: require('./fixtures/mockFetch')
 };
 window.runnable = new (require('runnable'))(window.host);

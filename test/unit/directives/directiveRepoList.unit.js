@@ -12,11 +12,12 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.value('$state', provideValues.state);
-
       $provide.value('$stateParams', provideValues.stateParams);
+
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
       $provide.factory('fetchBuild', fixtures.MockFetchBuild.setup);
       $provide.factory('pFetchUser', fixtures.mockFetchUser);
+      $provide.factory('fetchOwnerRepos', fixtures.mockFetchOwnerRepos);
     });
     angular.mock.inject(function($compile, _$rootScope_, $timeout, user){
       $rootScope = _$rootScope_;
