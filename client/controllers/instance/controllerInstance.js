@@ -151,7 +151,6 @@ function ControllerInstance(
     }
   }
   function displayTabsForContainerState (containerState) {
-    console.log('INSTANCE STATE: ', containerState);
     if (!containerState) { return; }
     if (!containerState.Running) { // false or null (container.error)
       boxLogsOnly();
