@@ -18,6 +18,7 @@ function ControllerSetup(
   keypather,
   OpenItems,
   fetchBuild,
+  fetchInstances,
   $window
 ) {
 
@@ -52,25 +53,25 @@ function ControllerSetup(
   data.loading = false;
 
   fetchBuild($stateParams.buildId)
-  .then(function(build) {
-    if (keypather.get(build, 'attrs.started')) {
-      // this build has been built.
-      // redirect to new?
-      $state.go('instance.new', {
-        userName: $stateParams.userName
-      });
-      $log.error('build already built');
-    } else {
-      data.build = build;
-    }
-  });
+    .then(function(build) {
+      if (keypather.get(build, 'attrs.started')) {
+        // this build has been built.
+        // redirect to new?
+        $state.go('instance.new', {
+          userName: $stateParams.userName
+        });
+        $log.error('build already built');
+      } else {
+        data.build = build;
+      }
+    });
 
-  var unwatchInstances = $rootScope.$watch('dataApp.data.instances', function (n) {
-    data.instances = n;
-  });
+  fetchInstances()
+    .then(function (instances) {
+      data.instances = instances;
+    });
 
   $scope.$on('$destroy', function () {
-    unwatchInstances();
   });
 
 }
