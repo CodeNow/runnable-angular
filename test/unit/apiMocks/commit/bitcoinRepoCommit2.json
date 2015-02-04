@@ -1,0 +1,89 @@
+{
+  "sha": "1f9a9cf00c32ebd5bd0f929b356b8531314fe744",
+  "commit": {
+    "author": {
+      "name": "Nathan219",
+      "email": "Nathan219@gmail.com",
+      "date": "2014-10-21T22:38:38Z"
+    },
+    "committer": {
+      "name": "Nathan219",
+      "email": "Nathan219@gmail.com",
+      "date": "2014-10-21T22:38:38Z"
+    },
+    "message": "0.1.2",
+    "tree": {
+      "sha": "c955b7f2ead1fde486397474d2e07ff777c85ba9",
+      "url": "https://api.github.com/repos/Nathan219/docker-stream-cleanser/git/trees/c955b7f2ead1fde486397474d2e07ff777c85ba9"
+    },
+    "url": "https://api.github.com/repos/Nathan219/docker-stream-cleanser/git/commits/1f9a9cf00c32ebd5bd0f929b356b8531314fe744",
+    "comment_count": 0
+  },
+  "url": "https://api.github.com/repos/Nathan219/docker-stream-cleanser/commits/1f9a9cf00c32ebd5bd0f929b356b8531314fe744",
+  "html_url": "https://github.com/Nathan219/docker-stream-cleanser/commit/1f9a9cf00c32ebd5bd0f929b356b8531314fe744",
+  "comments_url": "https://api.github.com/repos/Nathan219/docker-stream-cleanser/commits/1f9a9cf00c32ebd5bd0f929b356b8531314fe744/comments",
+  "author": {
+    "login": "Nathan219",
+    "id": 6379413,
+    "avatar_url": "https://avatars.githubusercontent.com/u/6379413?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Nathan219",
+    "html_url": "https://github.com/Nathan219",
+    "followers_url": "https://api.github.com/users/Nathan219/followers",
+    "following_url": "https://api.github.com/users/Nathan219/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Nathan219/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Nathan219/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Nathan219/subscriptions",
+    "organizations_url": "https://api.github.com/users/Nathan219/orgs",
+    "repos_url": "https://api.github.com/users/Nathan219/repos",
+    "events_url": "https://api.github.com/users/Nathan219/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Nathan219/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "Nathan219",
+    "id": 6379413,
+    "avatar_url": "https://avatars.githubusercontent.com/u/6379413?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Nathan219",
+    "html_url": "https://github.com/Nathan219",
+    "followers_url": "https://api.github.com/users/Nathan219/followers",
+    "following_url": "https://api.github.com/users/Nathan219/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Nathan219/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Nathan219/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Nathan219/subscriptions",
+    "organizations_url": "https://api.github.com/users/Nathan219/orgs",
+    "repos_url": "https://api.github.com/users/Nathan219/repos",
+    "events_url": "https://api.github.com/users/Nathan219/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Nathan219/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "afe294ace73d3e7e96e708616d64d3270d50370a",
+      "url": "https://api.github.com/repos/Nathan219/docker-stream-cleanser/commits/afe294ace73d3e7e96e708616d64d3270d50370a",
+      "html_url": "https://github.com/Nathan219/docker-stream-cleanser/commit/afe294ace73d3e7e96e708616d64d3270d50370a"
+    }
+  ],
+  "stats": {
+    "total": 2,
+    "additions": 1,
+    "deletions": 1
+  },
+  "files": [
+    {
+      "sha": "dbb0b7081acc9d3a2fd3d0acd4446d3bc07caea1",
+      "filename": "package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/Nathan219/docker-stream-cleanser/blob/1f9a9cf00c32ebd5bd0f929b356b8531314fe744/package.json",
+      "raw_url": "https://github.com/Nathan219/docker-stream-cleanser/raw/1f9a9cf00c32ebd5bd0f929b356b8531314fe744/package.json",
+      "contents_url": "https://api.github.com/repos/Nathan219/docker-stream-cleanser/contents/package.json?ref=1f9a9cf00c32ebd5bd0f929b356b8531314fe744",
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"docker-stream-cleanser\",\n-  \"version\": \"0.1.1\",\n+  \"version\": \"0.1.2\",\n   \"main\": \"app.js\",\n   \"devDependencies\": {\n     \"lab\": \"^4.0.2\""
+    }
+  ]
+}

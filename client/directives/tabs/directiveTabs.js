@@ -7,12 +7,7 @@ require('app')
  * @ngInject
  */
 function tabs(
-  async,
-  $rootScope,
-  $state,
-  $stateParams,
-  QueryAssist,
-  user
+  $state
 ) {
   return {
     restrict: 'E',

@@ -6,16 +6,9 @@ require('app')
  * @ngInject
  */
 function editRepoCommit(
-  async,
-  errs,
   fetchCommitData,
-  QueryAssist,
-  fetchUser,
-  keypather,
-  $rootScope,
-  $state,
-  $stateParams,
-  user
+  errs,
+  $state
 ) {
   return {
     restrict: 'A',
@@ -70,7 +63,7 @@ function editRepoCommit(
         $scope.activeBranch = activeBranch;
         // Silence errors on bad branch fetch
         // We don't want a 404 modal when we can't find the branch
-        $scope.activeBranch.commits.fetch(angular.noop);
+        fetchCommitData.branchCommits(activeBranch);
       };
 
       $scope.popoverRepositoryToggle.actions.selectCommit = function (commitSha) {
@@ -78,34 +71,20 @@ function editRepoCommit(
         $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
         $scope.unsavedAcv.attrs.commit = commitSha;
         $scope.activeCommit = fetchCommitData.activeCommit($scope.unsavedAcv);
-        fetchCommitData.offset($scope.unsavedAcv, $scope.activeCommit, function (err, behind) {
-          // err will always be null
-          $scope.commitsBehind = behind;
-        });
         emitACVChange();
       };
 
       // reset filter when opening popover
-      $scope.$watch('popoverRepositoryToggle.data.show', function (n) {
-        if (!n) { return; }
-        $scope.popoverRepositoryToggle.data.toggleFilter = false;
-        $scope.popoverRepositoryToggle.data.commitFilter = '';
-      });
-
-      // reset branch if selected commit does
-      // not belong to selected branch
-      // on popoverRepositoryToggle close
       $scope.$watch('popoverRepositoryToggle.data.show', function (n, p) {
+        // reset branch if selected commit does
+        // not belong to selected branch
+        // on popoverRepositoryToggle close
         if (n === false && p === true) {
           // was open, is now closed
           $scope.activeBranch = fetchCommitData.activeBranch($scope.unsavedAcv);
-        }
-      });
-
-      // keep scopes in sync
-      $scope.$watch('commitsBehind', function (n) {
-        if (!n) { return; }
-        $scope.popoverRepoActions.data.commitsBehind = n;
+        } else if (!n) { return; }
+        $scope.popoverRepositoryToggle.data.toggleFilter = false;
+        $scope.popoverRepositoryToggle.data.commitFilter = '';
       });
 
       $scope.popoverRepoActions = {
@@ -115,35 +94,16 @@ function editRepoCommit(
       $scope.popoverRepoActions.data.acv = $scope.acv;
       $scope.popoverRepoActions.data.unsavedAcv = $scope.unsavedAcv;
       $scope.popoverRepoActions.actions.deleteRepo = function () {
-        $scope.acv.destroy(function (err) {
-          if (err) { throw err; }
-        });
-      };
-
-      $scope.selectLatestCommit = function () {
-        var latestCommit = $scope.activeBranch.commits.models[0];
-        $scope.unsavedAcv.attrs.commit = latestCommit.attrs.sha;
-        $scope.unsavedAcv.attrs.branch = $scope.activeBranch.attrs.name;
-        $scope.activeBranch = fetchCommitData.activeBranch($scope.unsavedAcv);
-        $scope.activeCommit = fetchCommitData.activeCommit($scope.unsavedAcv);
-        fetchCommitData.offset($scope.unsavedAcv, $scope.activeCommit, function (err, behind) {
-          // err will always be null
-          $scope.commitsBehind = behind;
-        });
-        emitACVChange({triggerBuild: true});
+        $scope.acv.destroy(errs.handler);
       };
 
       $scope.$watch('acv', function(n) {
         if (!n) { return; }
         $scope.activeBranch = fetchCommitData.activeBranch($scope.acv);
         $scope.activeCommit = fetchCommitData.activeCommit($scope.acv);
-        fetchCommitData.offset($scope.acv, $scope.activeCommit, function (err, behind) {
-          // err will always be null
-          $scope.commitsBehind = behind;
-        });
         // Silence errors on bad branch fetch
         // We don't want a 404 modal when we can't find the branch
-        $scope.activeBranch.commits.fetch(angular.noop);
+        fetchCommitData.branchCommits($scope.activeBranch);
       });
     }
   };

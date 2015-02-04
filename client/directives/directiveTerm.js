@@ -7,16 +7,12 @@ require('app')
  * @ngInject
  */
 function term(
-  async,
   helperSetupTerminal,
   primus,
   jQuery,
   keypather,
-  QueryAssist,
-  fetchUser,
-  $rootScope,
   $stateParams,
-  user
+  fetchInstances
 ) {
   return {
     restrict: 'A',
@@ -52,17 +48,11 @@ function term(
         jQuery(elem).trigger('resize');
       });
 
-      async.series([
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            cb();
-          });
-        },
-        fetchInstance
-      ], function (err) {
-        if (err) { throw err; }
+      fetchInstances({
+        name: $stateParams.instanceName
+      })
+      .then(function(instance) {
+        $scope.instance = instance;
       });
 
       bind(primus, 'offline', function () {
@@ -86,30 +76,6 @@ function term(
         termStream.end();
         termStream.removeAllListeners();
       });
-
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.instance = instance;
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-            //   return cb(new Error('instance has no containers'));
-            // }
-            cb(err);
-          })
-          .go();
-      }
 
       function subscribeToSubstream(container) {
         if (termStream) {

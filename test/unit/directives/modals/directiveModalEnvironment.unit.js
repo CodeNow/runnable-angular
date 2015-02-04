@@ -11,7 +11,6 @@ var $rootScope,
   $templateCache;
 var $elScope;
 var thisUser;
-var $httpBackend;
 
 var apiMocks = require('../../apiMocks/index');
 
