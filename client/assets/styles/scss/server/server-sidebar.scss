@@ -1,7 +1,7 @@
 // section.sidebar.server-sidebar
 .server-sidebar {
   display: flex;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 72px);
   width: 330px;
 
   .row {
@@ -17,11 +17,16 @@
 // ul.repo-list
 .repo-list {
   flex: 0 0 auto;
+  max-height: 50%;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding-bottom: 6px;
 }
 
 .explorer {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 // li.repository-group-item
