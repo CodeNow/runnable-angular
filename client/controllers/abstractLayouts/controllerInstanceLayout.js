@@ -26,7 +26,11 @@ function ControllerInstanceLayout(
   dataInstanceLayout.data.logoutURL = configLogoutURL();
   pFetchUser().then(function(user) {
     thisUser = user;
-    return resolveInstanceFetch($stateParams.userName);
+    return resolveInstanceFetch(
+      keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') ||
+      $stateParams.userName ||
+      user.oauthName()
+    );
   }).catch(errs.handler);
 
   function resolveInstanceFetch(username) {
