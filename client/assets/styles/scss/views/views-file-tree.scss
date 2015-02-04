@@ -1,38 +1,89 @@
 // folders and files
 .file-tree {
+  font-size: 13px;
+  padding: 0 15px;
+  white-space: nowrap;
 
+  // files & folders
   li {
+    cursor: pointer;
+    height: 28px; // default height
+    line-height: 28px;
     padding: 0;
     position: relative;
-    text-indent: 20px;
     transition: height .2s;
 
-    > ul > li {
-      text-indent: 40px;
+    // offsets for nesting folders
+    @for $i from 0 to 10 {
+      @include depth($i);
+    }
 
-      > ul > li {
-        text-indent: 60px;
+    // states
+    &.active {
+      font-weight: 600;
+    }
 
-        > ul > li {
-          text-indent: 80px;
+    a {
+      display: block;
 
-          > ul > li {
-            text-indent: 100px;
+      &:hover {
+        color: currentColor;
+      }
 
-            > ul > li {
-              text-indent: 120px;
+      &:active,
+      &.active {
+        font-weight: 500;
+      }
+    }
 
-              > ul > li {
-                text-indent: 140px;
-              }
-            }
-          }
+    // folders
+    &.folder {
+      height: auto;
+
+      &::after {
+        @extend .arrow-right;
+        border-left-color: rgba($black,.2) !important;
+        content: '';
+        pointer-events: none;
+        top: 10px;
+        transform-origin: 3px 4px;
+        transition: transform .2s;
+      }
+
+      &.in {
+
+        &::after {
+          transform: rotate3d(0,0,1,90deg);
         }
+
+        > ul {
+          max-height: none;
+          overflow: visible;
+        }
+      }
+
+      &.dropping > a {
+        font-weight: 600;
+      }
+
+      > ul {
+        max-height: 0;
+        overflow: hidden;
       }
     }
   }
+
+  // repository icon
+  .icons-repository {
+    float: left;
+    height: 21px;
+    left: 36px;
+    margin-right: -4px;
+    width: 21px;
+  }
 }
 
+// renaming files & folders
 .tree-input,
 .tree-input:focus {
   background: $white;
@@ -67,128 +118,4 @@
 .item-name {
   margin-left: 5px;
   pointer-events: none;
-}
-
-.file-tree {
-  font-size: 13px;
-  padding: 0 9px;
-  white-space: nowrap;
-
-  li {
-    cursor: pointer;
-    height: 28px; // default height
-    line-height: 28px;
-
-    &.active {
-      font-weight: 600;
-    }
-
-    a {
-      display: block;
-
-      &:hover {
-        color: currentColor;
-      }
-
-      &:active,
-      &.active {
-        font-weight: 500;
-      }
-    }
-  }
-
-  // repository icon
-  .icons-repository {
-    float: left;
-    height: 21px;
-    left: 36px;
-    margin-right: -4px;
-    width: 21px;
-  }
-
-  // folders
-  .folder {
-    height: auto;
-
-    &::after {
-      @extend .arrow-right;
-      border-left-color: rgba($black,.2) !important;
-      content: '';
-      left: 7px;
-      pointer-events: none;
-      top: 10px;
-      transform-origin: 3px 4px;
-      transition: transform .2s;
-    }
-
-    &.in {
-
-      &::after {
-        transform: rotate3d(0,0,1,90deg);
-      }
-
-      > ul {
-        max-height: none;
-        overflow: visible;
-      }
-    }
-
-    &.dropping > a {
-      font-weight: 600;
-    }
-
-    > ul {
-      max-height: 0;
-      overflow: hidden;
-
-      > .folder {
-
-        &::after {
-          left: 27px;
-        }
-
-        > ul > .folder {
-
-          &::after {
-            left: 47px;
-          }
-
-          > ul > .folder {
-
-            &::after {
-              left: 67px;
-            }
-
-            > ul > .folder {
-
-              &::after {
-                left: 87px;
-              }
-
-              > ul > .folder {
-
-                &::after {
-                  left: 107px;
-                }
-
-                > ul > .folder {
-
-                  &::after {
-                    left: 127px;
-                  }
-
-                  > ul > .folder {
-
-                    &::after {
-                      left: 147px;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
 }
