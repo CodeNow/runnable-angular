@@ -29,7 +29,9 @@ function ControllerInstanceLayout(
     if (err) { return errs.handler(err); }
     thisUser = user;
     resolveInstanceFetch(
-      $stateParams.userName
+      keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') ||
+      $stateParams.userName ||
+      user.oauthName()
     );
   });
 
