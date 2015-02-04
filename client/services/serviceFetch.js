@@ -48,18 +48,53 @@ function fetchInstances(
       if (data.event !== 'ROOM_MESSAGE') {
         return;
       }
-      if (keypather.get(data, 'data.data.owner.username') !== $stateParams.userName) {
+      if (keypather.get(data, 'data.data.owner.github') !== id) {
         return;
       }
       if (!currentInstanceList) { return; }
       if (!keypather.get(data, 'data.data.name')) { return; }
-      var cachedInstance = currentInstanceList.find(hasKeypaths({
-        'attrs.name': data.data.data.name
-      }));
-      if (cachedInstance) {
-        cachedInstance.parse(data.data.data);
-      } else {
-        currentInstanceList.add(data.data.data);
+
+      var cachedInstance;
+
+      // Possible events:
+      // start, stop, restart, update, redeploy, deploy, delete, patch, post
+      // container_inspect, container_inspect_err
+      switch(data.data.action) {
+        case 'deploy':
+        case 'start':
+        case 'stop':
+        case 'restart':
+        case 'update':
+        case 'redeploy':
+        case 'patch':
+        case 'container_inspect': // Instance died independently
+          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
+          if (cachedInstance) {
+            cachedInstance.parse(data.data.data);
+          } else {
+            // We're getting data about an instance we haven't seen yet.
+            // i.e. we got the `deploy` event before `post`
+            currentInstanceList.add(data.data.data);
+          }
+          break;
+        case 'post':
+          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
+          if (!cachedInstance) {
+            currentInstanceList.add(data.data.data);
+          }
+          break;
+        case 'delete':
+          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
+          if (cachedInstance) {
+            currentInstanceList.remove(cachedInstance);
+          }
+          break;
+        case 'container_inspect_err':
+          errs.handler(data);
+          break;
+        default:
+          errs.handler('Error: unknown event encountered');
+          break;
       }
       $timeout(angular.noop);
     });
