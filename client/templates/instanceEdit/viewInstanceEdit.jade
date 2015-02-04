@@ -29,7 +29,11 @@ section.sidebar.server-sidebar
     repo-list
     unsaved-acvs = "dataInstanceEdit.data.unsavedAcvs"
   )
-
+  section.row.explorer(
+    explorer
+    open-items = "dataInstanceEdit.data.openItems"
+    toggle-theme = "dataInstanceEdit.data.toggleTheme"
+  )
   docker-validation(
     open-items = "dataInstanceEdit.data.openItems"
   )
@@ -41,25 +45,10 @@ section.views.with-add-tab(
   }"
 )
 
-  //- explorer
-  button.btn.btn-sm.white.btn-icon.explorer-toggle(
-    ng-click = "dataInstanceEdit.data.showExplorer = !dataInstanceEdit.data.showExplorer"
-    type = "button"
-  )
-    svg.iconnables.icons-folder-open
-      use(
-        xlink:href = "#icons-folder-open"
-      )
-
-  section.explorer(
-    explorer
-    open-items = "dataInstanceEdit.data.openItems"
-    toggle-theme = "dataInstanceEdit.data.toggleTheme"
-  )
-
   //- tabs
-  tabs(
+  .views-toolbar(
     open-items = "dataInstanceEdit.data.openItems"
+    tabs
   )
 
   div(

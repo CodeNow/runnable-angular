@@ -23,9 +23,10 @@
 }
 
 .explorer {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   overflow-x: hidden;
   overflow-y: auto;
+  padding-bottom: 15px;
 }
 
 // li.repository-group-item
