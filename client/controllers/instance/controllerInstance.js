@@ -144,14 +144,16 @@ function ControllerInstance(
       if (unwatchRunning) {
         unwatchRunning();
       }
-      unwatchRunning = $scope.$watch(
-        'dataInstance.data.instance.containers.models[0].attrs.inspect.State.Running',
+      unwatchRunning = $scope.$watchCollection(
+        'dataInstance.data.instance.containers.models[0].attrs.inspect.State',
         displayTabsForContainerState
       ); // once
     }
   }
-  function displayTabsForContainerState (containerRunning) {
-    if (!containerRunning) { // false or null (container.error)
+  function displayTabsForContainerState (containerState) {
+    console.log('INSTANCE STATE: ', containerState);
+    if (!containerState) { return; }
+    if (!containerState.Running) { // false or null (container.error)
       boxLogsOnly();
     }
     else {
@@ -160,17 +162,15 @@ function ControllerInstance(
     }
   }
 
-  function watchForContainerBeforeDisplayTabs (container) {
-    containerWatch();
-    if (!container) { return; }
-    displayTabsForContainerState(keypather.get(container, 'running()'));
-  }
-
   $scope.$on('$destroy', function () {
     containerWatch();
   });
 
   function buildLogsOnly () {
+    data.sectionClasses = {
+      out: true,
+      in: false
+    };
     data.openItems.reset([]);
     // Set to true if we see the instance in an undeployed state
     // DOM will have message when instance w/ containers fetched

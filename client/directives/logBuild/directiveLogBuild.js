@@ -44,11 +44,21 @@ function logBuild(
 
       fetchInstances({
         name: $stateParams.instanceName
-      })
-      .then(function(instance) {
+      }).then(function(instance) {
         $scope.instance = instance;
-        initializeBuildLogs(instance.build);
       });
+
+      $scope.$watch('instance.build.attrs.id', function (n) {
+        if (!n) { return; }
+        initializeBuildLogs($scope.instance.build);
+      });
+
+      function killCurrentBuildStream() {
+        if ($scope.buildStream) {
+          $scope.buildStream.removeAllListeners();
+          $scope.buildStream.end();
+        }
+      }
 
       /**
        * helper to always unbind on $destroy
@@ -69,15 +79,14 @@ function logBuild(
         terminal.hideCursor = false;
         terminal.cursorBlink = true;
         terminal.cursorSpinner = true;
-        terminal.cursorState = -1;
+
+        if (terminal.cursorState === 0) {
+          terminal.cursorState = -1;
+        }
         terminal.startBlink();
       }
 
       function subscribeToSubstream(build) {
-        if ($scope.buildStream) {
-          $scope.buildStream.removeAllListeners('data');
-          terminal.reset();
-        }
         //TODO spinner
         $scope.buildStream = primus.createBuildStream(build);
         // binds to $scope.buildStream.on('data')
@@ -90,6 +99,7 @@ function logBuild(
       }
 
       function initializeBuildStream(build) {
+        killCurrentBuildStream();
         subscribeToSubstream(build);
         showTerminalSpinner();
         bind(primus, 'reconnect', function () {
@@ -112,6 +122,7 @@ function logBuild(
       }
 
       function initializeBuildLogs(build) {
+        terminal.reset();
         if (build.failed() || build.succeeded()) {
           var contextVersion = build.contextVersions.models[0];
           contextVersion.fetch(function (err, data) {
