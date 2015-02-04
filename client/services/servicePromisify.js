@@ -12,7 +12,7 @@ function promisify($exceptionHandler, $q) {
       var d = $q.defer();
       var args = [].slice.call(arguments);
       var returnedVal;
-      args.push(function (err, data) {
+      args.push(function (err) {
         if(err) {
           d.reject(err);
         } else {
