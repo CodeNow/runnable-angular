@@ -12,7 +12,7 @@
     padding: 0;
     position: relative;
 
-    // offsets for nesting folders
+    // offsets for nesting folders and inputs
     @for $i from 0 to 10 {
       @include depth($i);
     }
@@ -94,7 +94,7 @@
 .tree-input,
 .tree-input:focus {
   background: $white;
-  border-color: rgba($black,.1);
+  border-color: #a7ddf9; // rgba($blue,.3);
   box-shadow: none;
   cursor: text;
   display: inline-block;
@@ -102,21 +102,20 @@
   line-height: 22px;
   padding: 0 3px;
   position: absolute;
-  top: 3px;
-  width: calc(100% - 37px);
+  top: 4px;
 
   &[readonly] {
-    background: none;
     border: 1px solid transparent;
     opacity: 0;
     pointer-events: none;
-    width: auto;
 
+    // show item name is input is [readonly]
     & ~ .item-name {
       opacity: 1;
     }
   }
 
+  // hide item name when input has :focus (& not [readonly])
   & ~ .item-name {
     opacity: 0;
   }
