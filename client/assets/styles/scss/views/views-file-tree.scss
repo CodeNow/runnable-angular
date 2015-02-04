@@ -1,7 +1,6 @@
 // folders and files
 .file-tree {
   font-size: 13px;
-  padding: 0 15px;
   white-space: nowrap;
 
   // files & folders
@@ -9,9 +8,9 @@
     cursor: pointer;
     height: 28px; // default height
     line-height: 28px;
+    margin-top: 1px;
     padding: 0;
     position: relative;
-    transition: height .2s;
 
     // offsets for nesting folders
     @for $i from 0 to 10 {
@@ -19,20 +18,28 @@
     }
 
     // states
-    &.active {
-      font-weight: 600;
+    &.active a {
+      background: rgba($blue,.15);
+      border-color: #a7ddf9; // rgba($blue,.3);
+      font-weight: 500;
     }
 
     a {
+      border-bottom: 1px solid transparent;
+      border-top: 1px solid transparent;
       display: block;
+      padding-left: 15px;
 
       &:hover {
-        color: currentColor;
+        background: rgba($blue,.1);
+        border-color: #c1e7fa; // rgba($blue,.2);
       }
 
-      &:active,
-      &.active {
+      &:active {
+        background: rgba($blue,.15);
+        border-color: #a7ddf9; // rgba($blue,.3);
         font-weight: 500;
+        transition: none;
       }
     }
 
@@ -47,7 +54,7 @@
         pointer-events: none;
         top: 10px;
         transform-origin: 3px 4px;
-        transition: transform .2s;
+        transition: transform .15s;
       }
 
       &.in {
@@ -63,7 +70,7 @@
       }
 
       &.dropping > a {
-        font-weight: 600;
+        font-weight: 500;
       }
 
       > ul {

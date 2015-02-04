@@ -58,7 +58,7 @@
     text-indent: $initial-offset + $nested-offset;
 
     &.folder::after {
-      left: $initial-offset/3 + $nested-offset;
+      left: $initial-offset + $nested-offset;
     }
   }
 }
