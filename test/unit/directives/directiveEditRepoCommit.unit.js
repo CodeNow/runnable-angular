@@ -20,8 +20,6 @@ var runnable = new (require('runnable'))('http://example.com/');
 describe('directiveEditRepoCommit'.bold.underline.blue, function() {
   var ctx;
   var json_commit = eval(apiMocks.commit.bitcoinRepoCommit1);
-  var json_branches = eval(apiMocks.branches.bitcoinRepoBranches);
-
   function injectSetupCompile (state, stateParams, nullAcv) {
     ctx = {};
     ctx.branch = {attrs: apiMocks.branches.bitcoinRepoBranches[0]};
@@ -78,22 +76,26 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
 
     // unsavedAcv passed to directive from
     // parent directive: repoList
-    ctx.unsavedAcv = user
-      .newContext('contextId')
-      .newVersion('versionId')
-      .newAppCodeVersion(ctx.acv.toJSON());
+    ctx.unsavedAcv = angular.copy(ctx.acv.attrs);
+    delete ctx.unsavedAcv.id;
+    delete ctx.unsavedAcv._id;
 
-    $scope.acv = nullAcv ? null : ctx.acv;
-    $scope.unsavedAcv = ctx.unsavedAcv;
+    ctx.model = {
+      acv: ctx.acv,
+      unsavedAcv: ctx.unsavedAcv
+    };
+
+    $scope.model = nullAcv ? null : ctx.model;
 
     ctx.template = directiveTemplate.attribute('edit-repo-commit', {
-      'app-code-version': 'acv',
-      'unsaved-app-code-version': 'unsavedAcv'
+      'model': 'model'
     });
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
   }
+
+  var json_branches = eval(apiMocks.branches.bitcoinRepoBranches);
 
   describe('has expected scope properties'.blue, function () {
 
@@ -202,7 +204,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       expect($children[3].childNodes[1].data).to.equal('');
       expect($children[3].childNodes[2].innerText).to.equal('');
 
-      $scope.acv = ctx.acv;
+      $scope.model = ctx.model;
       $scope.$apply();
 
       expect($children[2].innerText).to.equal(json_branches[0].name);
@@ -221,7 +223,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
         userName: 'cflynn07'
       });
       ctx.fetchCommitData.activeBranch.reset();
-      sinon.assert.neverCalledWith(ctx.fetchCommitData.activeBranch, ctx.unsavedAcv);
+      sinon.assert.neverCalledWith(ctx.fetchCommitData.activeBranch, ctx.acv, ctx.acv.attrs.branch);
       $elScope.popoverRepositoryToggle.data.show = true;
       $scope.$apply();
       expect($elScope.popoverRepositoryToggle.data.toggleFilter).to.equal(false);
@@ -230,7 +232,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       $elScope.popoverRepositoryToggle.data.show = false;
       $scope.$apply();
 
-      sinon.assert.calledWith(ctx.fetchCommitData.activeBranch, ctx.unsavedAcv);
+      sinon.assert.calledWith(ctx.fetchCommitData.activeBranch, ctx.acv, ctx.acv.attrs.branch);
     });
     it('should delete repo on action event', function () {
       injectSetupCompile({
@@ -307,9 +309,9 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
         expect($elScope.activeCommit).to.deep.equal(commit);
 
         expect($elScope.popoverRepositoryToggle.data.show).to.be.false;
-        expect(ctx.unsavedAcv.attrs.branch).to.equal(branch.attrs.name);
-        expect(ctx.unsavedAcv.attrs.commit).to.equal(commit.attrs.sha);
-        sinon.assert.calledWith(ctx.fetchCommitData.activeCommit, ctx.unsavedAcv);
+        expect(ctx.unsavedAcv.branch).to.equal(branch.attrs.name);
+        expect(ctx.unsavedAcv.commit).to.equal(commit.attrs.sha);
+        sinon.assert.calledWith(ctx.fetchCommitData.activeCommit, ctx.acv, commit.attrs.sha);
 
         sinon.assert.calledOnce(scopeListenerSpy);
         // Grab the branch

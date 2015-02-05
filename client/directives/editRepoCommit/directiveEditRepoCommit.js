@@ -52,8 +52,6 @@ function editRepoCommit(
         actions: {}
       };
       $scope.popoverRepositoryToggle.data.show = false;
-      $scope.popoverRepositoryToggle.data.acv = $scope.model.acv;
-      $scope.popoverRepositoryToggle.data.unsavedAcv = $scope.model.unsavedAcv;
       $scope.popoverRepositoryToggle.data.toggleFilter = false;
       $scope.popoverRepositoryToggle.data.commitFilter = '';
 
@@ -94,8 +92,6 @@ function editRepoCommit(
         data: {},
         actions: {}
       };
-      $scope.popoverRepoActions.data.acv = $scope.model.acv;
-      $scope.popoverRepoActions.data.unsavedAcv = $scope.model.unsavedAcv;
       $scope.popoverRepoActions.actions.deleteRepo = function () {
         $scope.model.acv.destroy(errs.handler);
       };
@@ -104,6 +100,11 @@ function editRepoCommit(
         if (!n) { return; }
         $scope.activeBranch = fetchCommitData.activeBranch($scope.model.acv);
         $scope.activeCommit = fetchCommitData.activeCommit($scope.model.acv);
+
+        $scope.popoverRepoActions.data.acv = $scope.model.acv;
+        $scope.popoverRepoActions.data.unsavedAcv = $scope.model.unsavedAcv;
+        $scope.popoverRepositoryToggle.data.acv = $scope.model.acv;
+        $scope.popoverRepositoryToggle.data.unsavedAcv = $scope.model.unsavedAcv;
         // Silence errors on bad branch fetch
         // We don't want a 404 modal when we can't find the branch
         fetchCommitData.branchCommits($scope.activeBranch);

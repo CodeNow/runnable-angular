@@ -234,7 +234,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         expect(newState).to.equal('instance.instance');
         expect(ctx.instanceUpdateCalled).to.be.true;
         expect(ctx.buildBuildCalled).to.be.true;
-        expect(ctx.dockerfileUpdateCalled).to.be.false;
         done();
       };
       $scope.instance.state = {
@@ -262,72 +261,11 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
         expect(newState).to.equal('instance.instance');
         expect(ctx.instanceUpdateCalled).to.be.true;
         expect(ctx.buildBuildCalled).to.be.true;
-        expect(ctx.dockerfileUpdateCalled).to.be.true;
         done();
       };
       // Now do it
       $scope.$digest();
       $elScope.popoverBuildOptions.actions.noCacheBuild();
-      $scope.$digest();
-      expect($elScope.loading).to.equal(true);
-    });
-
-    it('should create a whole slew of new things when an acv is modified', function (done) {
-      // Set up mocking
-
-      $scope.unsavedAcvs = [{
-        acv: {
-          attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion
-        },
-        unsavedAcv: {
-          attrs: apiMocks.appCodeVersions.differentBitcoinAppCodeVersion
-        }
-      }];
-      ctx.mockBuild.contextVersions.models[0].appCodeVersions.create = sinon.spy(function(acv, cb) {
-        expect(acv.commit).to.equal(apiMocks.appCodeVersions.differentBitcoinAppCodeVersion.commit);
-        cb(null, {
-          attrs: apiMocks.contextVersions.running,
-          id: function() { return 123; }
-        });
-      });
-      ctx.mockBuild.contexts = {
-        models: [{
-          createVersion: sinon.spy(function (body, cb) {
-            setTimeout(function() {
-              cb();
-            }, 0);
-            return ctx.mockBuild.contextVersions.models[0];
-          })
-        }]
-      };
-      thisUser.createBuild = sinon.spy(function(opts, cb) {
-        setTimeout(function() {
-          cb();
-        }, 0);
-        return ctx.mockBuild2;
-      });
-      ctx.mockBuild2.build = sinon.spy(function (buildOpts, cb) {
-        expect(buildOpts.message).to.equal('Manual build');
-        cb(null, ctx.mockBuild2);
-      });
-      ctx.mockBuild2.id = function () {
-        return this._id;
-      };
-      $rootScope.$digest();
-
-      ctx.stateMock.go = function (newState) {
-        expect(newState).to.equal('instance.instance');
-        expect(ctx.instanceUpdateCalled).to.be.true;
-        sinon.assert.called(ctx.mockBuild2.build);
-        expect(ctx.dockerfileUpdateCalled).to.be.false;
-        sinon.assert.called(ctx.mockBuild.contextVersions.models[0].appCodeVersions.create);
-        sinon.assert.called(thisUser.createBuild);
-        sinon.assert.called(ctx.mockBuild.contexts.models[0].createVersion);
-        done();
-      };
-      // Now do it
-      $scope.$digest();
-      $elScope.build();
       $scope.$digest();
       expect($elScope.loading).to.equal(true);
     });
@@ -381,7 +319,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.false;
       expect(ctx.buildBuildCalled).to.be.false;
-      expect(ctx.dockerfileUpdateCalled).to.be.false;
     });
 
     it('should throw an error if the building the build failed', function() {
@@ -403,29 +340,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.false;
       expect(ctx.buildBuildCalled).to.be.true;
-      expect(ctx.dockerfileUpdateCalled).to.be.false;
-    });
-
-    it('should throw an error if the file update failed', function() {
-      // Set up mocking
-      var errorMessage = 'failed to update file';
-      ctx.dockerfile.update = function (body, cb) {
-        ctx.dockerfileUpdateCalled = true;
-        cb(new Error(errorMessage));
-      };
-      function doStuff () {
-        $elScope.popoverBuildOptions.actions.noCacheBuild();
-        $scope.$digest();
-      }
-      $scope.$digest();
-
-      doStuff();
-      sinon.assert.called(ctx.errs.handler);
-      // Now do it
-      expect($elScope.loading).to.equal(false);
-      expect(ctx.instanceUpdateCalled).to.be.false;
-      expect(ctx.buildBuildCalled).to.be.false;
-      expect(ctx.dockerfileUpdateCalled).to.be.true;
     });
 
     it('should throw an error if the instance update failed', function() {
@@ -449,7 +363,6 @@ describe('directiveInstanceEditPrimaryActions'.bold.underline.blue, function() {
       expect($elScope.loading).to.equal(false);
       expect(ctx.instanceUpdateCalled).to.be.true;
       expect(ctx.buildBuildCalled).to.be.true;
-      expect(ctx.dockerfileUpdateCalled).to.be.false;
     });
   });
 });

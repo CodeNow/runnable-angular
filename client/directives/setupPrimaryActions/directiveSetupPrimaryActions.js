@@ -6,7 +6,7 @@ require('app')
  * @njInject
  */
 function setupPrimaryActions(
-  async,
+  errs,
   $state,
   $stateParams,
   createNewInstance
@@ -46,8 +46,8 @@ function setupPrimaryActions(
             $scope.data.build,
             $scope.instanceOpts
           )(function (err) {
-            if (err) { throw err; }
             $scope.loading = false;
+            if (err) { return errs.handler(err); }
             goToInstance();
           });
         });
