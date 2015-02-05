@@ -50,7 +50,6 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
     angular.mock.inject(function (
       _$compile_,
       _$filter_,
-      _$httpBackend_,
       _$rootScope_,
       _$state_,
       _$stateParams_,

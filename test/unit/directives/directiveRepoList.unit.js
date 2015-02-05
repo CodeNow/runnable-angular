@@ -108,7 +108,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     });
   });
 
-  describe.skip('editing instance with repo'.bold.blue, function() {
+  describe('editing instance with repo'.bold.blue, function() {
     function initState() {
       angular.mock.inject(function($compile) {
         var tpl = directiveTemplate.attribute('repo-list', {
