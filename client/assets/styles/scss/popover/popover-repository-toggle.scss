@@ -123,6 +123,7 @@
   // .link-text (commit hash)
   .link-text {
     color: $blue;
+    font-family: 'Source Code Pro', monospace;
     text-decoration: underline;
 
     &:hover {
