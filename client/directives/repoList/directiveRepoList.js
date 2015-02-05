@@ -6,13 +6,10 @@ require('app')
  * @ngInject
  */
 function repoList(
-  async,
   debounce,
   errs,
-  keypather,
   pFetchUser,
   fetchBuild,
-  $rootScope,
   $state,
   $stateParams,
   $q,
