@@ -8,18 +8,18 @@ function fetchCommitData (
   promisify
 ) {
   return {
-    activeBranch: function (acv) {
+    activeBranch: function (acv, branch) {
       // API client caches models by URL
       // $scope.activeBranch will === acv.githubRepo.branches.models[x]
       // after the fetch
-      var activeBranch = acv.githubRepo.newBranch(acv.attrs.branch);
+      var activeBranch = acv.githubRepo.newBranch(branch || acv.attrs.branch, {warn: false});
       acv.githubRepo.branches.add(activeBranch);
       acv.githubRepo.branches.fetch(errs.handler);
       return activeBranch;
     },
 
-    activeCommit: function (acv) {
-      var activeCommit = acv.githubRepo.newCommit(acv.attrs.commit);
+    activeCommit: function (acv, commitHash) {
+      var activeCommit = acv.githubRepo.newCommit(commitHash || acv.attrs.commit);
       activeCommit.fetch(errs.handler);
       return activeCommit;
     },

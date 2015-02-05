@@ -9,7 +9,7 @@ function setupPrimaryActions(
   async,
   $state,
   $stateParams,
-  $rootScope
+  createNewInstance
 ) {
   return {
     restrict: 'E',
@@ -29,38 +29,27 @@ function setupPrimaryActions(
       function goToInstance() {
         $state.go('instance.instance', {
           userName: $stateParams.userName,
-          instanceName: $scope.instance.attrs.name
+          instanceName: $scope.instanceOpts.name
         });
       }
 
       $scope.buildAndAttach = function () {
         $scope.loading = true;
-
-        function build(cb) {
-          var unwatch = $scope.$watch('openItems.isClean()', function (n) {
-            if (!n) { return; }
-            unwatch();
-            $scope.data.build.build({
-              message: 'Initial Build'
-            }, cb);
+        $scope.instanceOpts.name = $scope.name;
+        var unwatch = $scope.$watch('openItems.isClean()', function (n) {
+          if (!n) {
+            return;
+          }
+          unwatch();
+          createNewInstance(
+            $scope.activeAccount,
+            $scope.data.build,
+            $scope.instanceOpts
+          )(function (err) {
+            if (err) { throw err; }
+            $scope.loading = false;
+            goToInstance();
           });
-        }
-
-        function attach(cb) {
-          $scope.instanceOpts.owner = {
-            github: $scope.activeAccount.oauthId()
-          };
-          $scope.instanceOpts.build = $scope.data.build.id();
-          $scope.instanceOpts.name = $scope.name;
-          $scope.instance = $rootScope.dataApp.data.instances.create($scope.instanceOpts, cb);
-        }
-        async.series([
-          build,
-          attach
-        ], function (err) {
-          if (err) { throw err; }
-          $scope.loading = false;
-          goToInstance();
         });
       };
     }

@@ -5,7 +5,7 @@ require('app')
 
 function createNewInstance(
 ) {
-  return function (activeAccount, build, opts, instances) {
+  return function (activeAccount, build, opts) {
     return function (cb) {
       build.build({
         message: 'Initial Build'
@@ -17,7 +17,7 @@ function createNewInstance(
           github: activeAccount.oauthId()
         };
         opts.build = build.id();
-        instances.create(opts, function (err, instance) {
+        activeAccount.createInstance(opts, function (err) {
           cb(err);
         });
       });
