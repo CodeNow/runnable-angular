@@ -7,15 +7,11 @@ require('app')
  * @ngInject
  */
 function webView(
-  async,
   keypather,
-  QueryAssist,
-  fetchUser,
-  $rootScope,
   $timeout,
   $sce,
   $stateParams,
-  user
+  fetchInstances
 ) {
   return {
     restrict: 'A',
@@ -23,42 +19,13 @@ function webView(
     scope: {},
     link: function ($scope, elem) {
 
-      async.series([
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            cb();
-          });
-        },
-        fetchInstance
-      ], function () {
+      fetchInstances({
+        name: $stateParams.instanceName
+      })
+      .then(function(instance) {
+        $scope.instance = instance;
         $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls()[0]);
       });
-
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.instance = instance;
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-            //   return cb(new Error('instance has no containers'));
-            // }
-            cb(err);
-          })
-          .go();
-      }
 
       var iframe = elem.find('iframe')[0];
       var data = $scope.data = {};

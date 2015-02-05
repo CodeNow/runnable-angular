@@ -6,15 +6,11 @@ require('app')
  * @ngInject
  */
 function dockerTemplates(
-  async,
-  determineActiveAccount,
-  keypather,
-  QueryAssist,
-  fetchUser,
-  $rootScope,
-  $state,
+  promisify,
   $stateParams,
-  user
+  fetchContexts,
+  fetchBuild,
+  errs
 ) {
   return {
     restrict: 'E',
@@ -35,121 +31,42 @@ function dockerTemplates(
         $scope.openItems.reset([]);
         $scope.selectedSourceContext = context;
 
-        function fetchContextVersion(cb) {
-          var context = $scope.selectedSourceContext;
-          new QueryAssist(context, cb)
-            .wrapFunc('fetchVersions')
-            .cacheFetch(function (versions, cached, cb) {
-              $scope.versions = versions;
-              cb();
-            })
-            .resolve(function (err, versions, cb) {
-              if (err) { throw err; }
-              cb(err);
-            })
-            .go();
-        }
+        var contextVersion, sourceContextVersion;
 
-        function copyFilesFromSource(cb) {
+        return promisify($scope.selectedSourceContext, 'fetchVersions')()
+        .then(function(versions) {
+          $scope.versions = versions;
+
+          contextVersion = $scope.build.contextVersions.models[0];
+          sourceContextVersion = $scope.versions.models[0];
           var sourceInfraCodeVersion = $scope.versions.models[0].attrs.infraCodeVersion;
-          var contextVersion = $scope.build.contextVersions.models[0];
-          var sourceContextVersion = $scope.versions.models[0];
-          contextVersion.copyFilesFromSource(sourceInfraCodeVersion, function (err) {
-            if (err) { throw err; }
-            contextVersion.source = sourceContextVersion.id();
-            cb();
+          return promisify(contextVersion, 'copyFilesFromSource')(
+            sourceInfraCodeVersion
+          );
+        }).then(function() {
+          contextVersion.source = sourceContextVersion.id();
+          return promisify(contextVersion, 'fetchFsList')({
+            path: '/'
           });
-        }
-
-        function fetchContextVersionFiles(cb) {
-          var contextVersion = $scope.build.contextVersions.models[0];
-          new QueryAssist(contextVersion, cb)
-            .wrapFunc('fetchFsList')
-            .query({
-              path: '/'
-            })
-            .cacheFetch(function updateDom(files, cached, cb) {
-              if (cached) { return; } // cached response contains old files
-              $scope.openItems.add(files.models);
-              cb();
-            })
-            .resolve(function (err, files, cb) {
-              if (err) { throw err; }
-              $scope.openItems.add(files.models);
-              cb();
-            })
-            .go();
-        }
-
-        function setDockerFileValid(cb) {
+        }).then(function(files) {
+          $scope.openItems.add(files.models);
           $scope.valid = true;
-          cb();
-        }
-
-        async.series([
-          fetchContextVersion,
-          copyFilesFromSource,
-          fetchContextVersionFiles,
-          setDockerFileValid
-        ]);
+        }).catch(errs.handler);
       };
 
       $scope.getTemplateValueFunction = function(template) {
         return (template.attrs.name === 'Blank') ? 0 : template.attrs.name;
       };
 
-      function fetchBuild(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.build = build;
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
-      }
-
-      function fetchSeedContexts(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchContexts')
-          .query({
-            isSource: true
-          })
-          .cacheFetch(function (contexts, cached, cb) {
-            $scope.seedContexts = contexts;
-            cb();
-          })
-          .resolve(function (err, contexts, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
-      }
-
-      async.waterfall([
-        determineActiveAccount,
-        function (activeAccount, cb) {
-          $scope.activeAccount = activeAccount;
-          cb();
-        },
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            cb();
-          });
-        },
-        function (cb) {
-          async.parallel([
-            fetchBuild,
-            fetchSeedContexts
-          ], cb);
-        }
-      ]);
+      fetchBuild($stateParams.buildId)
+      .then(function(build) {
+        $scope.build = build;
+        return fetchContexts({
+          isSource: true
+        });
+      }).then(function(contexts) {
+        $scope.seedContexts = contexts;
+      }).catch(errs.handler);
 
     }
   };

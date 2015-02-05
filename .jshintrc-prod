@@ -1,0 +1,10 @@
+{
+  "node": true,
+  "browser": true,
+  "undef": true,
+  "nonbsp": true,
+  "quotmark": "single",
+  "curly": true,
+  "globalstrict": true,
+  "predef": ["jQuery", "angular", "confirm"]
+}

@@ -15,7 +15,7 @@ ul.list.list-divided
   li.list-item(
     ng-class = "{active: state.selectedRepo === repo}"
     ng-click = "selectRepo(repo); "
-    ng-repeat = "repo in githubRepos| \
+    ng-repeat = "repo in githubRepos.models| \
       repos:data.repoFilter |\
       orderBy: '-attrs.updated_at' "
   )
