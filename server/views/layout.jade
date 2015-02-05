@@ -14,8 +14,8 @@ html(
     )
 
     title(
-      ng-cloak
-    ) {{ pageName.title() }}
+      ng-bind = "pageName.title()"
+    ) Runnable
 
     //- css
     link(
