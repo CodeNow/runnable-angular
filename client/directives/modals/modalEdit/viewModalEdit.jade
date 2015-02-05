@@ -1,21 +1,34 @@
-.modal-dialog.modal-sidebar
-  main.modal-body
-    header.modal-header
-      h1.modal-heading Edit Server
-    footer.modal-footer
-      //- 0.3 SAN-436
-        - to do:
-        - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
-      button.btn.orange(
-        ng-if = "data.showRebuild"
-        ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
-        ng-disabled = "!validation.valid"
-        type = "button"
-      ) Build
-      button.btn.white(
-        ng-click = "defaultActions.cancel()"
-        type = "button"
-      ) Go Back
+.modal-dialog
+  header.modal-header
+    h1.modal-heading Edit Server
+  .modal-body
+    section.sidebar.server-sidebar
+      section.row.repo-list(
+        build = "dataInstance.data.instance.build"
+        instance = "dataInstance.data.instance"
+        loading = "dataApp.data.loading"
+        repo-list
+        unsaved-acvs = "dataInstance.data.unsavedAcvs"
+      )
+      section.row.explorer(
+        explorer
+        open-items = "dataInstance.data.openItems"
+        toggle-theme = "dataInstance.data.toggleTheme"
+      )
+  footer.modal-footer
+    //- 0.3 SAN-436
+      - to do:
+      - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
+    button.btn.orange(
+      ng-if = "data.showRebuild"
+      ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
+      ng-disabled = "!validation.valid"
+      type = "button"
+    ) Build
+    button.btn.white(
+      ng-click = "defaultActions.cancel()"
+      type = "button"
+    ) Go Back
 
 //- ENV STUFF
       //- 0.3 SAN-436
