@@ -48,20 +48,6 @@ app.run(['$rootScope',
 ]);
 
 /**
- * Broadcast to all child scops when keydown key is escape
- */
-app.run([
-  '$rootScope',
-  function ($rootScope) {
-    $(document).on('keydown', function (e) {
-      if (e.keyCode === 27) {
-        $rootScope.$broadcast('app-document-click');
-      }
-    });
-  }
-]);
-
-/**
  * DOM-ready event, start app
  */
 angular.element(document).ready(function() {
