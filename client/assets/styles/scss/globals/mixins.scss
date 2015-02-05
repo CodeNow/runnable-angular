@@ -49,7 +49,7 @@
   $chain: '';
   $item-offset: 15px;
   $nested-offset: $item-offset*$depth - $item-offset/3;
-  $input-offset: 253px - $depth*$item-offset;
+  $input-offset: 239px - $depth*$item-offset;
 
   @for $i from 0 to $depth {
     $chain: $chain + ' > ul > li';
