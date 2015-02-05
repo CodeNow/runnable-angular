@@ -37,7 +37,8 @@ function createDockerfileFromSource(
         .go();
     }
     function fetchContextVersion(context, cb) {
-      var versions = context.fetchVersions(function (err) {
+      var queryLatestVersion = { sort: '-created', limit: 1 };
+      var versions = context.fetchVersions(queryLatestVersion, function (err) {
         cb(err, versions);
       });
     }
