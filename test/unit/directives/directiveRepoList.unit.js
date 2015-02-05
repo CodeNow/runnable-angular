@@ -5,8 +5,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var thisUser;
-  var $q;
-  var ctx = {};
 
   function initGlobalState(provideValues) {
     angular.mock.module('app');
@@ -38,9 +36,8 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     function initState() {
       angular.mock.inject(function($compile) {
         var tpl = directiveTemplate.attribute('repo-list', {
-          'unsaved-acvs': 'unsavedAcvs'
+          'loading': 'loading'
         });
-        $scope.unsavedAcvs = [];
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -77,9 +74,8 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     function initState() {
       angular.mock.inject(function($compile) {
         var tpl = directiveTemplate.attribute('repo-list', {
-          'unsaved-acvs': 'unsavedAcvs'
+          'loading': 'loading'
         });
-        $scope.unsavedAcvs = [];
 
         element = $compile(tpl)($scope);
         $scope.$digest();
@@ -116,7 +112,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     function initState() {
       angular.mock.inject(function($compile) {
         var tpl = directiveTemplate.attribute('repo-list', {
-          'unsaved-acvs': 'unsavedAcvs'
+          'loading': 'loading'
         });
         $scope.unsavedAcvs = [];
 

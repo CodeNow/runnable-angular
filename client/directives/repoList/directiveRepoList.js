@@ -6,13 +6,10 @@ require('app')
  * @ngInject
  */
 function repoList(
-  async,
   debounce,
   errs,
-  keypather,
   pFetchUser,
   fetchBuild,
-  $rootScope,
   $state,
   $stateParams,
   $q,
@@ -23,8 +20,7 @@ function repoList(
     restrict: 'A',
     templateUrl: 'viewRepoList',
     scope: {
-      loading: '=',
-      unsavedAcvs: '='
+      loading: '='
     },
     link: function ($scope, elem) {
 
@@ -34,6 +30,7 @@ function repoList(
       $scope.data = {
         show: false
       };
+      $scope.unsavedAcvs = [];
 
       // display guide if no repos added
       switch ($state.$current.name) {
@@ -54,42 +51,51 @@ function repoList(
       // track all temp acvs generated
       // for each repo/child-scope
       $scope.newUnsavedAcv = function (acv) {
-        var cv = $scope.build.contextVersions.models[0];
-        var acvJson = acv.toJSON();
-        delete acvJson._id;
-        delete acvJson.id;
-        var newAcv = cv.newAppCodeVersion(acvJson, {
-          warn: false
-        });
-        $scope.unsavedAcvs.push({
-          unsavedAcv: newAcv,
+        var unsaved = angular.copy(acv.attrs);
+        delete unsaved.id;
+        delete unsaved._id;
+        var model = {
+          unsavedAcv: unsaved,
           acv: acv
-        });
-        return newAcv;
+        };
+        $scope.unsavedAcvs.push(model);
+        return model;
       };
 
-      if ($state.$current.name === 'instance.instance') {
-        // selected repo commit change
-        $scope.$on('acv-change', function (event, opts) {
-          event.stopPropagation();
+      $scope.$watch('build.contextVersions.models[0].appCodeVersions.models.length', function (n) {
+        if (n !== undefined) {
+          $scope.unsavedAcvs = [];
+          $scope.build.contextVersions.models[0].appCodeVersions.models.forEach(function (acv) {
+            $scope.newUnsavedAcv(acv);
+          });
+        }
+      });
+
+      // selected repo commit change
+      $scope.$on('acv-change', function (event, opts) {
+        event.stopPropagation();
+        if ($state.$current.name === 'instance.instance') {
           if ($scope.unsavedAcvs.length === 1) {
             // Immediately update/rebuild if user only has 1 repo
             $scope.triggerInstanceUpdateOnRepoCommitChange();
           } else if (opts && opts.triggerBuild) {
             $scope.triggerInstanceUpdateOnRepoCommitChange();
           }
-        });
-      }
+        } else if (opts) {
+          opts.acv.update(opts.updateOpts, errs.handler);
+        }
+      });
 
       // if we find 1 repo w/ an unsaved
       // commit, show update button (if there is > 1 repos for this project)
       $scope.showUpdateButton = function () {
+        var findResult = $scope.unsavedAcvs.find(function (obj) {
+          return obj.unsavedAcv.commit !== obj.acv.attrs.commit;
+        });
         // update button only present on instance.instance
         return ($state.$current.name === 'instance.instance') &&
                 $scope.unsavedAcvs.length > 1 &&
-                !!$scope.unsavedAcvs.find(function (obj) {
-                  return obj.unsavedAcv.attrs.commit !== obj.acv.attrs.commit;
-                });
+                !!findResult;
       };
 
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
@@ -100,12 +106,7 @@ function repoList(
         var infraCodeVersionId = contextVersion.attrs.infraCodeVersion;
         // fetches current state of repos listed in DOM w/ selected commits
         var appCodeVersionStates = $scope.unsavedAcvs.map(function (obj) {
-          var acv = obj.unsavedAcv;
-          return {
-            repo: acv.attrs.repo,
-            branch: acv.attrs.branch,
-            commit: acv.attrs.commit
-          };
+          return obj.unsavedAcv;
         });
 
         var newContextVersion;
@@ -174,9 +175,9 @@ function repoList(
             // HACK: allows us to use both an independent build (setup/edit)
             //    and the build of an instance (instance)
             // This will be triggered when a new build is passed to us by API
-            $scope.$watch('instance.build', function(n) {
-              if (n) { $scope.build = $scope.instance.build; }
-            });
+            //$scope.$watch('instance.build', function(n) {
+            //  if (n) { $scope.build = $scope.instance.build; }
+            //});
           }
           $scope.data.autoDeploy = instance.attrs.locked;
         });

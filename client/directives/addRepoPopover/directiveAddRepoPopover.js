@@ -138,11 +138,9 @@ function addRepoPopover(
          */
         var build = $scope.repoListPopover.data.build;
         if (!build.contextVersions.models[0]) { throw new Error('build has 0 contextVersions'); }
-        var fetchCV = promisify(build.contextVersions.models[0], 'fetch');
-        return $q.all([
-          fetchCV(),
-          fetchOwnerRepos($stateParams.userName)
-        ]);
+        // We don't care about when this fetch finishes, so no promise
+        build.contextVersions.models[0].fetch(errs.handler);
+        return fetchOwnerRepos($stateParams.userName);
       }).then(function(githubRepos) {
         $scope.repoListPopover.data.githubRepos = githubRepos;
       }).catch(errs.handler);
