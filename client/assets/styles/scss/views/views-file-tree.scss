@@ -1,6 +1,7 @@
 // folders and files
 .file-tree {
   font-size: 13px;
+  margin: 0 6px;
   user-select: none;
   white-space: nowrap;
 
@@ -9,7 +10,7 @@
     cursor: pointer;
     height: 28px; // default height
     line-height: 28px;
-    margin-top: 1px;
+    margin-bottom: 4px;
     padding: 0;
     position: relative;
 
@@ -26,8 +27,8 @@
     }
 
     a {
-      border-bottom: 1px solid transparent;
-      border-top: 1px solid transparent;
+      border: 1px solid transparent;
+      border-radius: 3px;
       display: block;
       overflow: hidden;
       padding-left: 15px;
@@ -50,6 +51,7 @@
     // folders
     &.folder {
       height: auto;
+      margin-bottom: 2px;
 
       &::after {
         @extend .arrow-right;

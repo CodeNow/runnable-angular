@@ -48,12 +48,13 @@
 
 // wrapper for states
 .repository-group-text {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
+  background: $gray-lightest;
+  border: 1px solid rgba($black,.1);
   color: $gray;
   cursor: pointer;
   font-size: 14px;
-  padding: 15px 30px 15px 45px;
+  margin: 0 6px;
+  padding: 12px 30px 12px 0;
 
   &:hover {
     background: rgba($blue,.1);
@@ -77,23 +78,16 @@
   // git icons
   .iconnables {
     color: rgba($black,.24);
+    height: 18px;
     left: 0;
     position: absolute;
-  }
-
-  .icons-repository {
-    height: 36px;
-    left: 9px;
-    top: 12px;
+    top: 3px;
     width: 36px;
   }
 
-  .icons-branch,
-  .icons-commit {
-    height: 21px;
-    margin-left: -6px;
-    top: 1px;
-    width: 21px;
+  .icons-repository {
+    height: 30px;
+    top: 0;
   }
 
   // arrow
@@ -101,7 +95,7 @@
     height: 100%;
     left: auto;
     position: absolute;
-    right: 0;
+    right: 6px;
     top: 0;
     transform: rotate3d(0,0,1,-90deg);
     width: 30px;
@@ -109,18 +103,24 @@
 }
 
 // h3.repository-title
-.repository-title {
+.repository-title,
+.repository-description {
   color: $gray-dark;
-  font-size: 14px;
-  height: 27px;
-  line-height: 27px;
+  padding-left: 36px;
+  position: relative;
+}
+
+.repository-title {
+  font-size: 16px;
+  height: 30px;
+  line-height: 30px;
 }
 
 // p.repository-description
 .repository-description {
+  font-size: 14px;
   height: 21px;
   line-height: 21px;
-  padding-left: 18px;
   position: relative;
   word-break: break-all;
 
@@ -134,5 +134,7 @@
 // small.repository-detail
 .repository-detail {
   color: $gray-light;
+  display: block;
+  margin-top: 3px;
   white-space: nowrap;
 }

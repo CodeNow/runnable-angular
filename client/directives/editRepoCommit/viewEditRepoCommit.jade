@@ -1,13 +1,14 @@
-.repository-group-text(
+.well.repository-group-text(
   ng-class = "{active: popoverRepositoryToggle.data.show}"
   toggle-pop-over
   toggle-pop-over-model = "popoverRepositoryToggle.data.show"
 )
-  svg.iconnables.icons-repository
-    use(
-      xlink:href = "#icons-repository"
-    )
-  h3.repository-title.text-overflow {{ acv.attrs.repo }}
+  h3.repository-title.text-overflow
+    svg.iconnables.icons-repository
+      use(
+        xlink:href = "#icons-repository"
+      )
+    | {{ acv.attrs.repo }}
   p.repository-description.text-overflow.clearfix
     svg.iconnables.icons-branch
       use(
@@ -20,7 +21,7 @@
         xlink:href = "#icons-commit"
       )
     | {{ activeCommit.attrs.commit.message }}
-    small.repository-detail—{{ activeCommit.attrs.commit.author.date | timeAgo }}
+    small.small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
   svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"
@@ -61,6 +62,6 @@
 pop-over(
   actions = "popoverRepositoryToggle.actions"
   data = "popoverRepositoryToggle.data"
-  popover-options = "{\"left\":300}"
+  popover-options = "{\"left\":293}"
   template = "viewPopoverRepositoryToggle"
 )
