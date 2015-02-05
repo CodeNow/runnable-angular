@@ -9,12 +9,17 @@ function addRepoPopover(
   async,
   keypather,
   pick,
-  QueryAssist,
-  fetchUser,
   $rootScope,
   $state,
   $stateParams,
-  user
+  user,
+  pFetchUser,
+  fetchInstances,
+  fetchBuild,
+  fetchOwnerRepos,
+  promisify,
+  $q,
+  errs
 ) {
   return {
     restrict: 'E',
@@ -107,127 +112,38 @@ function addRepoPopover(
         return activeBranch;
       }
 
-      function fetchInstance(cb) {
-        new QueryAssist($scope.repoListPopover.data.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
+      pFetchUser().then(function(user) {
+        $scope.user = user;
+        $scope.repoListPopover.data.user = user;
+        if ($stateParams.buildId) {
+          return fetchBuild($stateParams.buildId)
+          .then(function(build) {
+            $scope.repoListPopover.data.build = build;
+          });
+        } else {
+          return fetchInstances({
             name: $stateParams.instanceName
           })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
+          .then(function(instance) {
             $scope.repoListPopover.data.instance = instance;
             $scope.repoListPopover.data.build = instance.build;
-          })
-          .resolve(function (err, instances, cb) {
-            var instance = instances.models[0];
-            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-            //   return cb(new Error('instance has no containers'));
-            // }
-            cb(err);
-          })
-          .go();
-      }
-
-      function fetchBuild(cb) {
-        if (!$stateParams.buildId) {
-          return fetchInstance(cb);
+          });
         }
-        new QueryAssist($scope.repoListPopover.data.user, cb)
-          .wrapFunc('fetchBuild')
-          .query($stateParams.buildId)
-          .cacheFetch(function (build, cached, cb) {
-            $scope.repoListPopover.data.build = build;
-            cb();
-          })
-          .resolve(function (err, build, cb) {
-            if (err) { throw err; }
-            cb();
-          })
-          .go();
-      }
-
-      /**
-       * Models in build.contextVersions collection will
-       * have empty appCodeVersion collections by default.
-       * Perform fetch on each contextVersion to populate
-       * appCodeVersions collection
-       */
-      function fetchBuildContextVersions(cb) {
+      }).then(function() {
+        /**
+         * Models in build.contextVersions collection will
+         * have empty appCodeVersion collections by default.
+         * Perform fetch on each contextVersion to populate
+         * appCodeVersions collection
+         */
         var build = $scope.repoListPopover.data.build;
         if (!build.contextVersions.models[0]) { throw new Error('build has 0 contextVersions'); }
-        build.contextVersions.models[0].fetch(function (err) {
-          if (err) { throw err; }
-          cb();
-        });
-      }
-
-      function getOwnerRepoQuery(user, userName, cb) {
-        if (userName === user.attrs.accounts.github.username) {
-          // does $stateParam.username match this user's username
-          return new QueryAssist(user, cb).wrapFunc('fetchGithubRepos');
-        } else {
-          return new QueryAssist(user.newGithubOrg(userName), cb).wrapFunc('fetchRepos');
-        }
-      }
-
-      function fetchAllOwnerRepos(cb) {
-        $scope.loading = true;
-        function fetchPage(page) {
-          var userOrOrg = getOwnerRepoQuery(
-            $scope.repoListPopover.data.user,
-            $stateParams.userName,
-            cb
-          );
-          userOrOrg
-            .query({
-              page: page,
-              sort: 'updated'
-            })
-            .cacheFetch(function (githubRepos, cached, cb) {})
-            .resolve(function (err, githubRepos, cb) {
-              /**
-               * Double concat to models arr
-               * if logic run twice (cached & non-cached)
-               */
-              if (!$scope.repoListPopover.data.githubRepos) {
-                $scope.repoListPopover.data.githubRepos = githubRepos;
-              } else {
-                var reposArr = $scope.repoListPopover.data.githubRepos.models.concat(githubRepos.models);
-                $scope.repoListPopover.data.githubRepos = $scope.user.newGithubRepos(reposArr, {
-                  noStore: true
-                });
-              }
-              // recursive until result set returns fewer than
-              // 100 repos, indicating last paginated result
-              if (githubRepos.models.length < 100) {
-                $scope.loading = false;
-                cb();
-              } else {
-                fetchPage(page + 1);
-              }
-            })
-            .go();
-        }
-        fetchPage(1);
-      }
-
-      async.series([
-        function (cb) {
-          fetchUser(function (err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            $scope.repoListPopover.data.user = user;
-            cb();
-          });
-        },
-        fetchBuild,
-        fetchBuildContextVersions,
-        fetchAllOwnerRepos
-      ]);
+        // We don't care about when this fetch finishes, so no promise
+        build.contextVersions.models[0].fetch(errs.handler);
+        return fetchOwnerRepos($stateParams.userName);
+      }).then(function(githubRepos) {
+        $scope.repoListPopover.data.githubRepos = githubRepos;
+      }).catch(errs.handler);
     }
   };
 }

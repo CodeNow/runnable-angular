@@ -4,14 +4,9 @@ var jQuery  = require('jquery');
 
 // injector-provided
 var $compile,
-    $filter,
-    $httpBackend,
     $provide,
-    $rootScope,
     $scope,
     $state,
-    $stateParams,
-    $timeout,
     user;
 var $elScope;
 
@@ -21,23 +16,12 @@ describe('directiveTabs'.bold.underline.blue, function() {
   function injectSetupCompile () {
     angular.mock.inject(function (
       _$compile_,
-      _$filter_,
-      _$httpBackend_,
       _$rootScope_,
-      _$state_,
-      _$stateParams_,
-      _$timeout_,
-      _user_
+      _$state_
     ) {
       $compile = _$compile_;
-      $filter = _$filter_;
-      $httpBackend = _$httpBackend_;
-      $rootScope = _$rootScope_;
       $state = _$state_;
-      $stateParams = _$stateParams_;
       $scope = _$rootScope_.$new();
-      $timeout = _$timeout_;
-      user = _user_;
     });
 
     ctx.element = angular.element(ctx.template);
@@ -76,11 +60,6 @@ describe('directiveTabs'.bold.underline.blue, function() {
         '$current': {
           name: 'instance.instance'
         }
-      });
-
-      $provide.value('$stateParams', {
-        userName: 'username',
-        instanceName: 'instancename'
       });
     });
 

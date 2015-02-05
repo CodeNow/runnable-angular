@@ -2,7 +2,8 @@
 
 var $controller,
     $scope,
-    $window;
+    $window,
+    $q;
 
 describe('controllerBoxSelection'.underline.bold.blue, function () {
   var ctx = {};
@@ -12,14 +13,13 @@ describe('controllerBoxSelection'.underline.bold.blue, function () {
       return 'user';
     }
   };
-  function fetchUserMock (cb) {
-    cb(null, ctx.fakeuser);
-  };
+  var fetchInstancesMock = sinon.spy(function () {
+    var d = $q.defer();
+    d.resolve({});
+    return d.promise;
+  });
 
   var mockUser = {
-    fetchInstances: sinon.spy(function(qs, cb) {
-      cb();
-    }),
     createBuild: sinon.spy(function(qs, cb) {
       cb();
     })
@@ -28,7 +28,8 @@ describe('controllerBoxSelection'.underline.bold.blue, function () {
   beforeEach(function() {
     angular.mock.module('app');
     angular.mock.module(function($provide) {
-      $provide.value('fetchUser', fetchUserMock);
+      $provide.value('user', mockUser);
+      $provide.value('fetchInstances', fetchInstancesMock);
       $provide.value('$stateParams', {
         userName: 'test',
         repo: 'hello',
@@ -41,16 +42,18 @@ describe('controllerBoxSelection'.underline.bold.blue, function () {
     angular.mock.inject(function(
       _$controller_,
       _$window_,
+      _$q_,
       $rootScope
     ) {
       $controller = _$controller_;
       $window = _$window_;
+      $q = _$q_;
       $scope = $rootScope.$new();
     });
 
     $window.heap = null;
 
-    var cbs = $controller('ControllerBoxSelection', {
+    ctx.controller = $controller('ControllerBoxSelection', {
       '$scope': $scope
     });
   });
@@ -58,9 +61,9 @@ describe('controllerBoxSelection'.underline.bold.blue, function () {
   describe('basic init', function() {
     it('initalizes properly', function() {
       $scope.$digest();
-      sinon.assert.calledTwice(mockUser.fetchInstances);
-      sinon.assert.notCalled(mockUser.createBuild);
       expect($scope.fullRepoName).to.equal('test/hello');
+      sinon.assert.calledTwice(fetchInstancesMock);
+      sinon.assert.notCalled(mockUser.createBuild);
     });
 
     // Skipping until promises

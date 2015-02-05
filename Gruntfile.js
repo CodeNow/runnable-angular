@@ -106,27 +106,15 @@ module.exports = function(grunt) {
       files: ['test/**/*.html']
     },
     jshint: {
-      options: {
-        debug: false,
-        node: true,
-        browser: true,
-        undef: true,
-        nonbsp: true,
-        quotmark: 'single',
-        curly: true,
-        globalstrict: true,
-        globals: {
-          jQuery: true,
-          angular: true,
-          confirm: true
-        }
-      },
       prod: {
+        options: {
+          jshintrc: '.jshintrc-prod'
+        },
         files: {src: jshintFiles}
       },
       dev: {
         options: {
-          debug: true
+          jshintrc: '.jshintrc'
         },
         files: {src: jshintFiles}
       }
