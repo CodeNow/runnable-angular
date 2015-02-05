@@ -19,6 +19,7 @@ function ControllerSetup(
   OpenItems,
   fetchBuild,
   fetchInstances,
+  pageName,
   $window
 ) {
 
@@ -30,6 +31,7 @@ function ControllerSetup(
     actions: {}
   };
   var data = dataSetup.data;
+  pageName.setTitle('Create Server');
 
   dataSetup.actions.olarkShrink = function() {
     if (angular.isFunction($window.olark)) {

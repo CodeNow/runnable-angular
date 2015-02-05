@@ -13,7 +13,9 @@ html(
       name = "viewport"
     )
 
-    title Runnable
+    title(
+      ng-cloak
+    ) {{ pageName.title() }}
 
     //- css
     link(

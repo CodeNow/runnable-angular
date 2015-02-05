@@ -19,6 +19,8 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   $window,
+  favico,
+  pageName,
   pFetchUser,
   fetchInstances
 ) {
@@ -60,26 +62,27 @@ function ControllerInstance(
       name: $stateParams.instanceName
     });
   })
-  .then(function(instance) {
-    data.instance = instance;
-    keypather.set(
-      $localStorage,
-      'lastInstancePerUser.' + $stateParams.userName,
-      $stateParams.instanceName
-    );
-  })
-  .catch(function(err) {
-    keypather.set(
-      $localStorage,
-      'lastInstancePerUser.' + $stateParams.userName,
-      null
-    );
-    data.instance.state = {};
-    $state.go('instance.home', {
-      userName: $stateParams.userName
+    .then(function(instance) {
+      data.instance = instance;
+      pageName.setTitle(instance.attrs.name);
+      keypather.set(
+        $localStorage,
+        'lastInstancePerUser.' + $stateParams.userName,
+        $stateParams.instanceName
+      );
+    })
+    .catch(function(err) {
+      keypather.set(
+        $localStorage,
+        'lastInstancePerUser.' + $stateParams.userName,
+        null
+      );
+      data.instance.state = {};
+      $state.go('instance.home', {
+        userName: $stateParams.userName
+      });
+      errs.handler(err);
     });
-    errs.handler(err);
-  });
 
   $scope.$on('new-build', function() {
     if (data.showUpdatingMessage) { return; } // Remove this line on ws change
@@ -131,9 +134,9 @@ function ControllerInstance(
   var unwatchRunning;
   function handleContainer (container) {
     if (!container) {
+      favico.setInstanceState(data.instance);
       buildLogsOnly();
-    }
-    else { // handles both container.error and container.dockerContainer states
+    } else { // handles both container.error and container.dockerContainer states
       if (unwatchRunning) {
         unwatchRunning();
       }
@@ -144,6 +147,7 @@ function ControllerInstance(
     }
   }
   function displayTabsForContainerState (containerState) {
+    favico.setInstanceState(data.instance);
     if (!containerState) { return; }
     if (!containerState.Running) { // false or null (container.error)
       boxLogsOnly();
