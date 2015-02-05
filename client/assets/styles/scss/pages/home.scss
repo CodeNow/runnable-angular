@@ -264,13 +264,20 @@
     }
   }
 
+  .popover-list {
+    margin: 0;
+  }
+
   .repository-group-item {
     display: table;
     margin: 0 auto;
+    padding-left: 6px;
+    padding-right: 45px;
   }
 
   .icons-git {
     float: right;
+    position: relative;
     top: -4px;
   }
 }
