@@ -76,7 +76,7 @@
 
   // git icons
   .iconnables {
-    color: $gray-lighter;
+    color: rgba($black,.24);
     left: 0;
     position: absolute;
   }
@@ -111,6 +111,7 @@
 // h3.repository-title
 .repository-title {
   color: $gray-dark;
+  font-size: 14px;
   height: 27px;
   line-height: 27px;
 }

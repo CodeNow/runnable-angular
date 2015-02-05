@@ -153,6 +153,18 @@
   }
 }
 
+@keyframes scale-in-modal {
+  0% {
+    opacity: 0;
+    transform: scale3d(.9,.9,1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale3d(1,1,1);
+  }
+}
+
 @keyframes slide-down {
   0% {
     transform: translate3d(0,0,0);

@@ -31,7 +31,7 @@
     display: block;
     margin-top: 0;
     position: relative;
-    top: 18px;
+    top: 24px;
   }
 
   .sub-header-action.sub-header-action {
@@ -53,6 +53,10 @@
     &.active .icons-status {
       top: 18px;
     }
+  }
+
+  .server-item-cluster {
+    display: none;
   }
 
   .icons-status {

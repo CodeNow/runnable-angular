@@ -1,7 +1,7 @@
 // div.modal-backdrop
 .modal-backdrop {
   align-items: center;
-  animation: fade-in .3s ease-in forwards;
+  animation: fade-in .3s forwards;
   background: rgba($white,.81);
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
 
 // div.modal-dialog
 .modal-dialog {
-  animation: scale-in .2s ease-in forwards;
+  animation: scale-in-modal .2s ease-in forwards;
   background: $white;
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
@@ -238,6 +238,7 @@
 // footer.modal-footer
 .modal-footer {
   background: $white;
+  border-radius: 0 0 3px 3px;
   flex: 0 0 auto;
   height: 63px;
   padding: 9px;
