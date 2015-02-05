@@ -52,7 +52,9 @@ function setupPrimaryActions(
           };
           $scope.instanceOpts.build = $scope.data.build.id();
           $scope.instanceOpts.name = $scope.name;
-          $scope.instance = $rootScope.dataApp.data.instances.create($scope.instanceOpts, cb);
+          // Creating a separate instance to avoid duplicate blip
+          // Instance will be added to the sidebar on socket event
+          $scope.instance = $scope.activeAccount.createInstance($scope.instanceOpts, cb);
         }
         async.series([
           build,
