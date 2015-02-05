@@ -1,11 +1,12 @@
 .col.col-50
-  .list-item.repository-group-item.repository-group-text.no-touching
-    svg.iconnables.icons-repository
-      use(
-        xlink:href = "#icons-repository"
-      )
-    h3.repository-title runnable/web
-    p.repository-description
+  .list-item.repository-group-item.well.repository-group-text.no-touching
+    h3.repository-title
+      svg.iconnables.icons-repository
+        use(
+          xlink:href = "#icons-repository"
+        )
+      | runnable/web
+    p.repository-description.clearfix
       svg.iconnables.icons-branch
         use(
           xlink:href = "#icons-branch"
@@ -16,9 +17,14 @@
         use(
           xlink:href = "#icons-commit"
         )
-      | Stopping the closing of this popover
+      | Stop the closing of this popover
+      small.small.repository-detail 3 minutes ago
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
     .popover.bottom.popover-repository-toggle.in.no-touching(
-      style = "top: 96px;"
+      style = "left: -7px; top: 114px;"
     )
       .arrow.white
       ul.list.popover-list.toggle-group
