@@ -63,6 +63,7 @@ function modalGettingStarted(
               }
             } : null,
             reqEnv: envs.map(function (url, index) {
+              url = url.replace(/https?:\/\//, '').replace(/:\d{0,5}/g,'');
               var thisEnvName = envName + '_HOST' + (index > 0 ? index : '');
               return {
                 name: thisEnvName,
@@ -264,8 +265,7 @@ function modalGettingStarted(
           env.url = env.originalUrl.replace(
             new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
             newName
-          ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName())
-            .replace(/https?:\/\//, '').replace(/:\d{0,5}/g,'');
+          ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
         });
       }
       function generateDependenciesNames() {
