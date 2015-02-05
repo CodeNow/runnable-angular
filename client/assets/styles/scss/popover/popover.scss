@@ -65,7 +65,7 @@
 
 // popovers
 .popover {
-  background: rgba(rgba($white,.975),.975);
+  background: rgba($white,.975);
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
@@ -78,8 +78,8 @@
   position: absolute;
   text-align: left;
   top: 0;
-  transform: scale3d(0,0,1);
-  transition: all .15s ease-in;
+  transform: scale3d(.9,.9,1);
+  transition: all .2s ease-in;
   white-space: normal;
 
   &.in {
@@ -205,8 +205,7 @@
   // .popover.bottom.menu.context-menu
   &.context-menu {
     position: fixed;
-    transform-origin: 0 0;
-    transition: transform .15s ease-in;
+    transition: none;
     z-index: $z-popover-context-menu;
 
     .iconnables {
