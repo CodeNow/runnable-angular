@@ -1,7 +1,23 @@
-.modal-dialog.modal-sidebar.modal-environment
+.modal-dialog.modal-sidebar
   main.modal-body
     header.modal-header
-      h1.modal-heading Edit Environment
+      h1.modal-heading Edit Server
+    footer.modal-footer
+      //- 0.3 SAN-436
+        - to do:
+        - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
+      button.btn.orange(
+        ng-if = "data.showRebuild"
+        ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
+        ng-disabled = "!validation.valid"
+        type = "button"
+      ) Build
+      button.btn.white(
+        ng-click = "defaultActions.cancel()"
+        type = "button"
+      ) Go Back
+
+//- ENV STUFF
       //- 0.3 SAN-436
         - to do:
         - do not show if there are no servers to link
@@ -16,10 +32,10 @@
           use(
             xlink:href = "#icons-sidebar"
           )
-    //- guide text should only appear once until dismissed
-    .guide.guide-no-help.blue(
-      ng-if = '!data.hideGuideHelpEnvModal'
-    )
+//- guide text should only appear once until dismissed
+    //- .guide.guide-no-help.blue(
+    //-   ng-if = '!data.hideGuideHelpEnvModal'
+    //- )
       h3.guide-header Using Environment Variables
       pre.well.well-code &lt;key&gt;=&lt;value&gt;
       p.guide-text
@@ -37,33 +53,13 @@
           )
     //- If the stateModel has an env (even empty), then the envs have been modified, and
       - we should display them
-    div(
-      current-model = "stateModel.env ? stateModel : currentModel"
-      env-vars
-      state-model = "tempModel"
-      validation = "validation"
-    )
-    footer.modal-footer
-      //- 0.3 SAN-436
-        - to do:
-        - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
-      button.btn.green(
-        ng-if = "data.showRebuild"
-        ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
-        ng-disabled = "!validation.valid"
-        type = "button"
-      ) Save and Restart
-      button.btn.green(
-        ng-if = "!data.showRebuild"
-        ng-click = "defaultActions.save(tempModel, ['env'], defaultActions.cancel)"
-        ng-disabled = "!validation.valid"
-        type = "button"
-      ) Save
-      button.btn.white(
-        ng-click = "defaultActions.cancel()"
-        type = "button"
-      ) Go Back
-  //- if no servers with exposed ports (empty state)
+    //- div(
+    //-   current-model = "stateModel.env ? stateModel : currentModel"
+    //-   env-vars
+    //-   state-model = "tempModel"
+    //-   validation = "validation"
+    //- )
+      //- if no servers with exposed ports (empty state)
   aside.modal-aside.nav-servers(
     ng-if = "!(data.instances.models | instancesWithOpenPorts:data.instance).length"
   )

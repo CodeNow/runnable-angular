@@ -1,18 +1,18 @@
 'use strict';
 
 require('app')
-  .directive('modalEnvironment', modalEnvironment);
+  .directive('modalEdit', modalEdit);
 /**
- * directive modalEnvironment
+ * directive modalEdit
  * @ngInject
  */
-function modalEnvironment(
+function modalEdit(
   $localStorage,
   keypather
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewModalEnvironment',
+    templateUrl: 'viewModalEdit',
     scope: {
       data: '=',
       currentModel: '=',
