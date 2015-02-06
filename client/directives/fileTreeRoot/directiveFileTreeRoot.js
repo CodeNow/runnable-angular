@@ -9,45 +9,22 @@ require('app')
 function fileTreeRoot(
   keypather,
   fetchBuild,
-  $rootScope,
-  $state,
   $stateParams,
-  createInstanceDeployedPoller,
   fetchInstances,
   errs
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewFileTree',
+    templateUrl: 'viewFileTreeRoot',
     scope: {
       openItems: '='
     },
     link: function ($scope, element, attrs) {
-      var instanceDeployedPoller;
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 
-      switch ($state.$current.name) {
-        case 'instance.instanceEdit':
-          $scope.readOnly = false;
-          break;
-        case 'instance.instance':
-          $scope.readOnly = false;
-          break;
-        case 'instance.setup':
-          $scope.readOnly = false;
-          break;
-      }
-
-      $scope.$on('$destroy', function () {
-        if (instanceDeployedPoller) {
-          instanceDeployedPoller.clear();
-        }
-      });
-
       if ($stateParams.buildId) {
-        fetchBuild($stateParams.buildId)
-        .then(function(build) {
+        fetchBuild($stateParams.buildId).then(function(build) {
           $scope.build = build;
           $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
           initRootDirState($scope.rootDir);
@@ -55,8 +32,7 @@ function fileTreeRoot(
       } else {
         fetchInstances({
           name: $stateParams.instanceName
-        })
-        .then(function(instance) {
+        }).then(function(instance) {
           $scope.instance = instance;
           $scope.build = instance.build;
           // instance page
@@ -65,7 +41,6 @@ function fileTreeRoot(
             $scope.rootDir = container.rootDir;
             initRootDirState($scope.rootDir);
           } else {
-            instanceDeployedPoller = createInstanceDeployedPoller($scope.instance).start();
             var clearWatch =
               $scope.$watch('instance.containers.models[0].rootDir', function (rootDir) {
                 if (!rootDir) { return; }
