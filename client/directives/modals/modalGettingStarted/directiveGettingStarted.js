@@ -8,7 +8,6 @@ require('app')
  */
 function modalGettingStarted(
   $rootScope,
-  $log,
   $timeout,
   async,
   createDockerfileFromSource,
@@ -17,7 +16,6 @@ function modalGettingStarted(
   errs,
   getNewForkName,
   regexpQuote,
-  fetchGSDepInstances,
   gsPopulateDockerfile,
   createNewInstance,
   $state,
@@ -65,6 +63,7 @@ function modalGettingStarted(
               }
             } : null,
             reqEnv: envs.map(function (url, index) {
+              url = url.replace(/https?:\/\//, '').replace(/:\d{0,5}/g,'');
               var thisEnvName = envName + '_HOST' + (index > 0 ? index : '');
               return {
                 name: thisEnvName,
@@ -119,9 +118,9 @@ function modalGettingStarted(
               $scope.state.opts.name =
                 getNewForkName({
                   attrs: {
-                    name: $scope.state.selectedRepo.attrs.name
+                    name: $scope.state.selectedRepo.attrs.name.replace(/\W/gim, '_')
                   }
-                }, $scope.data.instances, true).replace(/\W/gim, '_');
+                }, $scope.data.instances, true);
               async.waterfall([
                 createAppCodeVersions(
                   $scope.state.contextVersion,
@@ -192,10 +191,11 @@ function modalGettingStarted(
       keypather.set($scope, 'data.accountsDisabled', function () {
         return $scope.state.step > 1;
       });
-      fetchGSDepInstances(function (err, deps) {
-        if (err) { return errs.handler(err); }
+      fetchInstances({
+        githubUsername: 'HelloRunnable'
+      }).then(function (deps) {
         keypather.set($scope, 'data.allDependencies', deps);
-      });
+      }).catch(errs.handler);
       fetchStackInfo(function (err, stacks) {
         if (err) { return errs.handler(err); }
         keypather.set($scope, 'data.stacks', stacks);
@@ -245,12 +245,17 @@ function modalGettingStarted(
             counter.next(err);
           }
         });
-        fetchInstances(user.oauthName(), true, function (err, instances, username, cached) {
-          $scope.data.instances = instances;
-          if (counter) {
-            counter.next(err);
-          }
-        });
+        fetchInstances({ githubUsername: user.oauthName()})
+          .then(function (instances) {
+            $scope.data.instances = instances;
+            if (counter) {
+              counter.next();
+            }
+          }).catch(function(err) {
+            if (counter) {
+              counter.next(err);
+            }
+          });
       }
 
       function generateDependencyName(item) {
@@ -260,8 +265,7 @@ function modalGettingStarted(
           env.url = env.originalUrl.replace(
             new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
             newName
-          ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName())
-            .replace(/https?:\/\//, '');
+          ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
         });
       }
       function generateDependenciesNames() {

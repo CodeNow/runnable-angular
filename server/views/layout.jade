@@ -80,6 +80,7 @@ html(
   body(
     ng-class = "{minimize: dataApp.data.minimizeNav}"
     ng-click = "dataApp.documentClickEventHandler($scope, this)"
+    ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )
     //
       TIME: #{locals.commitTime}

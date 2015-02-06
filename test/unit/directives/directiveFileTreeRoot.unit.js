@@ -1,6 +1,6 @@
 'use strict';
 
-describe.skip('directiveFileTree'.bold.underline.blue, function () {
+describe.skip('directiveFileTreeRoot'.bold.underline.blue, function () {
   var element;
   var $scope;
   function initState() {
@@ -15,7 +15,7 @@ describe.skip('directiveFileTree'.bold.underline.blue, function () {
       $scope.mockVersion = mockVersion;
       $scope.mockOpenFiles = mockOpenFiles;
 
-      element = angular.element('<file-tree version="mockVersion" open-files="mockOpenFiles">');
+      element = angular.element('<file-tree-root version="mockVersion" open-files="mockOpenFiles">');
       $compile(element)($scope);
     });
   }

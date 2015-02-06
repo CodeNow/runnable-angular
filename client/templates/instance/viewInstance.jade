@@ -16,7 +16,7 @@
       )
   h4.h4 Your server has been updated
   a.block-quote.text-overflow(
-    href = "{{ dataInstance.data.commit.attrs.commit.url }}"
+    href = "{{ dataInstance.data.commit.attrs.commit.html_url }}"
     target = "_blank"
   ) {{ dataInstance.data.commit.attrs.commit.message }}
     small.small
@@ -74,7 +74,6 @@ section.sidebar.server-sidebar.load(
     instance = "dataInstance.data.instance"
     loading = "dataApp.data.loading"
     repo-list
-    unsaved-acvs = "dataInstance.data.unsavedAcvs"
   )
   //-
     ************

@@ -6,18 +6,13 @@ require('app')
  * @ngInject
  */
 function logBuild(
-  async,
   helperSetupTerminal,
   primus,
   keypather,
-  QueryAssist,
-  fetchUser,
   $log,
-  $rootScope,
   $stateParams,
   dockerStreamCleanser,
-  createInstanceDeployedPoller,
-  user
+  fetchInstances
 ) {
   return {
     restrict: 'A',
@@ -26,7 +21,6 @@ function logBuild(
       var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
       var DEFAULT_INVALID_BUILD_MESSAGE = '\x1b[31;1mPlease build again\x1b[0m';
       var COMPLETE_SUCCESS_MESSAGE = 'Build completed, starting instance...';
-      var instanceDeployedPoller;
 
       /**
        * Creates instance of Terminal w/ default
@@ -46,25 +40,25 @@ function logBuild(
         if (!$scope.buildStream) { return; }
         $scope.buildStream.removeAllListeners();
         $scope.buildStream.end();
-        // stop polling for container success
-        if (instanceDeployedPoller) {
-          instanceDeployedPoller.clear();
-        }
       });
 
-      async.series([
-        function (cb) {
-          fetchUser(function(err, user) {
-            if (err) { return cb(err); }
-            $scope.user = user;
-            cb();
-          });
-        },
-        fetchInstance
-      ], function (err) {
-        if (err) { return $log.error(err); }
-        initializeBuildLogs($scope.build);
+      fetchInstances({
+        name: $stateParams.instanceName
+      }).then(function(instance) {
+        $scope.instance = instance;
       });
+
+      $scope.$watch('instance.build.attrs.id', function (n) {
+        if (!n) { return; }
+        initializeBuildLogs($scope.instance.build);
+      });
+
+      function killCurrentBuildStream() {
+        if ($scope.buildStream) {
+          $scope.buildStream.removeAllListeners();
+          $scope.buildStream.end();
+        }
+      }
 
       /**
        * helper to always unbind on $destroy
@@ -85,15 +79,14 @@ function logBuild(
         terminal.hideCursor = false;
         terminal.cursorBlink = true;
         terminal.cursorSpinner = true;
-        terminal.cursorState = -1;
+
+        if (terminal.cursorState === 0) {
+          terminal.cursorState = -1;
+        }
         terminal.startBlink();
       }
 
       function subscribeToSubstream(build) {
-        if ($scope.buildStream) {
-          $scope.buildStream.removeAllListeners('data');
-          terminal.reset();
-        }
         //TODO spinner
         $scope.buildStream = primus.createBuildStream(build);
         // binds to $scope.buildStream.on('data')
@@ -106,6 +99,7 @@ function logBuild(
       }
 
       function initializeBuildStream(build) {
+        killCurrentBuildStream();
         subscribeToSubstream(build);
         showTerminalSpinner();
         bind(primus, 'reconnect', function () {
@@ -122,13 +116,13 @@ function logBuild(
               writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
             } else {
               writeToTerm(COMPLETE_SUCCESS_MESSAGE);
-              instanceDeployedPoller = createInstanceDeployedPoller($scope.instance).start();
             }
           });
         });
       }
 
       function initializeBuildLogs(build) {
+        terminal.reset();
         if (build.failed() || build.succeeded()) {
           var contextVersion = build.contextVersions.models[0];
           contextVersion.fetch(function (err, data) {
@@ -146,38 +140,6 @@ function logBuild(
         } else {
           initializeBuildStream(build);
         }
-      }
-
-      function fetchInstance(cb) {
-        new QueryAssist($scope.user, cb)
-          .wrapFunc('fetchInstances')
-          .query({
-            githubUsername: $stateParams.userName,
-            name: $stateParams.instanceName
-          })
-          .cacheFetch(function (instances, cached, cb) {
-            if (!cached && !instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            $scope.instance = instance;
-            $scope.build = instance.build;
-            cb();
-          })
-          .resolve(function (err, instances, cb) {
-            if (err) { return $log.error(err); }
-            if (!instances.models.length) {
-              return cb(new Error('Instance not found'));
-            }
-            var instance = instances.models[0];
-            // if (!keypather.get(instance, 'containers.models') || !instance.containers.models.length) {
-            //   return cb(new Error('instance has no containers'));
-            // }
-            $scope.instance = instance;
-            $scope.build = instance.build;
-            cb();
-          })
-          .go();
       }
 
     }

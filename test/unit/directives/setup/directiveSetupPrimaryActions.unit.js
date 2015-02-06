@@ -41,6 +41,9 @@ function makeDefaultScope() {
 
 describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
   var ctx;
+  beforeEach(function () {
+    ctx = {};
+  });
   function injectSetupCompile(scope) {
     angular.mock.module('app');
     var stateMock = {
@@ -49,11 +52,22 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       },
       go: function () {}
     };
+    ctx.newInstanceMockError = null;
+    ctx.newInstanceMock = sinon.spy(function (account, build, opts, instances) {
+      return function (cb) {
+        return cb(ctx.newInstanceMockError);
+      };
+    });
+    ctx.errsMock = {
+      handler: sinon.spy()
+    };
     angular.mock.module(function ($provide) {
       $provide.value('$state', stateMock);
       $provide.value('$stateParams', {
         userName: 'username'
       });
+      $provide.value('createNewInstance', ctx.newInstanceMock);
+      $provide.value('errs', ctx.errsMock);
     });
     angular.mock.inject(function (
       _$state_,
@@ -78,8 +92,6 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
     keypather.set($rootScope, 'dataApp.data.instances.create', sinon.spy(function (opts, cb) {
       cb();
     }));
-
-    ctx = {};
     ctx.template = directiveTemplate('setup-primary-actions', {
       'active-account': 'activeAccount',
       'data': 'data',
@@ -117,20 +129,13 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       injectSetupCompile(makeDefaultScope());
     });
     it('should throw an error if one happened during the build', function () {
-      // Set up mocking
-      var errorMessage = 'failed to build';
-      $scope.data.build.build = function (message, cb) {
-        cb(new Error(errorMessage));
-      };
-      function doStuff() {
-        $scope.$digest();
-        $elScope.buildAndAttach();
-        $scope.$digest();
-      }
+      ctx.newInstanceMockError = new Error('jkdshfl;adskfhjlads;kf');
       $scope.$digest();
-      expect(doStuff).to.throw(errorMessage);
+      $elScope.buildAndAttach();
+      $scope.$digest();
+      sinon.assert.calledOnce(ctx.errsMock.handler);
       // Now do it
-      expect($elScope.loading).to.equal(true);
+      expect($elScope.loading).to.equal(false);
     });
   });
   describe('Building', function () {
@@ -145,14 +150,12 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       injectSetupCompile(inputScope);
     });
     it('shouldn\'t build if openItems isn\'t clean', function () {
-      var buildSpy = sinon.spy();
-      $scope.data.build.build = buildSpy;
       isClean = false;
       $scope.$digest();
       $elScope.buildAndAttach();
       $scope.$digest();
       expect($elScope.loading).to.equal(true);
-      expect(buildSpy.called).to.equal(false);
+      sinon.assert.notCalled(ctx.newInstanceMock);
     });
 
     it('should build if openItems is clean', function (done) {
@@ -169,6 +172,7 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       }));
 
       ctx.stateMock.go = function (newState, params) {
+        sinon.assert.calledOnce(ctx.newInstanceMock);
         expect(newState).to.equal('instance.instance');
         expect(params.userName).to.equal($stateParams.userName);
         expect(params.instanceName).to.equal($scope.name);
@@ -176,12 +180,6 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
         done();
       };
 
-      $scope.data.build.build = function (message, cb) {
-        expect(message).to.deep.equal({
-          message: 'Initial Build'
-        });
-        cb();
-      };
 
       // Now do it
       $scope.$digest();

@@ -7,7 +7,7 @@ require('app')
  */
 function gsRepoSelector(
   errs,
-  fetchRepoList,
+  fetchOwnerRepos,
   fetchStackAnalysis,
   hasKeypaths,
   $log
@@ -80,11 +80,12 @@ function gsRepoSelector(
         if (n) {
           $scope.loading = true;
           $scope.githubRepos = null;
-          fetchRepoList(n, function (err, repoList, owner) {
-            if ($scope.data.activeAccount !== owner) { return; }
-            $scope.loading = false;
-            if (err) { return errs.handler(err); }
+          fetchOwnerRepos(n.oauthName())
+          .then(function (repoList) {
             $scope.githubRepos = repoList;
+          }).catch(errs.handler)
+          .finally(function() {
+            $scope.loading = false;
           });
         }
       });

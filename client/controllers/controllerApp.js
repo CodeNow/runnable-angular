@@ -48,8 +48,11 @@ function ControllerApp(
   dataApp.data.modalError = {
     data: {},
     actions: {
-      close: function () {
+      close: function (cb) {
         errs.clearErrors();
+        if (typeof cb === 'function') {
+          cb();
+        }
       }
     }
   };
@@ -102,6 +105,12 @@ function ControllerApp(
    */
   dataApp.documentClickEventHandler = function () {
     $scope.$broadcast('app-document-click');
+  };
+
+  dataApp.documentKeydownEventHandler = function(e) {
+    if (e.keyCode === 27) {
+      $rootScope.$broadcast('app-document-click');
+    }
   };
 
   fetchUser(function(err, results) {

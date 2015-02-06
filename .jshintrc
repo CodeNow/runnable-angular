@@ -1,0 +1,12 @@
+{
+  "debug": true,
+  "node": true,
+  "browser": true,
+  "undef": true,
+  "nonbsp": true,
+  "quotmark": "single",
+  "curly": true,
+  "globalstrict": true,
+  "expr": true,
+  "predef": ["jQuery", "angular", "confirm", "expect", "describe", "it", "sinon", "beforeEach", "afterEach"]
+}
