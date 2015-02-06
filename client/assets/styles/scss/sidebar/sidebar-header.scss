@@ -17,9 +17,13 @@
   position: relative;
   z-index: $z-sidebar-header;
 
-  &:hover,
+  &:hover {
+    background: rgba($blue,.1);
+  }
+
   &:active {
-    background: rgba($black,.05);
+    background: rgba($blue,.15);
+    color: $blue;
   }
 
   &.no-touching {

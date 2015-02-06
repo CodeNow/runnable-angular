@@ -296,8 +296,9 @@ button,
 
     &:active,
     &.active {
-      background: rgba($black,.05);
-      border-color: rgba($black,.2);
+      background: rgba($blue,.2);
+      border-color: rgba($blue,.4);
+      color: $blue;
     }
 
     &[disabled],
