@@ -28,7 +28,7 @@
 
   &:active,
   &.active {
-    color: $gray-darker;
+    color: $blue;
   }
 
   &.active {
@@ -40,15 +40,6 @@
 
     &:last-child {
       box-shadow: 9px 0 0 $white, 0 0 9px rgba($black,.075);
-    }
-
-    .tab-name::before {
-      background: $white;
-      content: attr(data-title);
-    }
-
-    .icons-dirty {
-      margin-left: 9px;
     }
   }
 
@@ -117,16 +108,4 @@
   line-height: 45px;
   padding: 0 1px 0 9px;
   text-align: center;
-
-  &::before {
-    color: $gray-dark;
-    font-size: 14px;
-    font-weight: 500;
-    height: 100%;
-    left: 0;
-    line-height: 45px;
-    padding-left: 9px;
-    pointer-events: none;
-    position: absolute;
-  }
 }

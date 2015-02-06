@@ -294,6 +294,7 @@
   &:active {
     background: rgba($blue,.15);
     border-color: rgba($blue,.3);
+    color: $blue;
   }
 
   &.no-actions {
