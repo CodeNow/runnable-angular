@@ -72,10 +72,10 @@
 @import "modals/modals-getting-started";
 @import "modals/modals-integrations";
 @import "modals/modals-rename";
-@import "modals/modals-sign-in";
 
 // popovers
 @import "popover/popover";
+@import "popover/popover-coach-marks";
 
 // popover specific
 @import "popover/popover-account-menu";
@@ -84,7 +84,6 @@
 @import "popover/popover-add-repo";
 @import "popover/popover-add-tab";
 @import "popover/popover-environment";
-@import "popover/popover-guides";
 @import "popover/popover-link-servers";
 @import "popover/popover-primary-options";
 @import "popover/popover-repository-toggle";
