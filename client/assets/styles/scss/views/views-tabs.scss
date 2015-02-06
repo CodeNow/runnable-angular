@@ -81,12 +81,12 @@
     width: 15px;
 
     &:hover .icons-close {
-      background: rgba($black,.05);
+      background: rgba($black,.1);
     }
 
     &:active .icons-close {
-      background: rgba($black,.1);
-      color: $gray-dark;
+      background: rgba($blue,.15);
+      color: $blue;
     }
   }
 

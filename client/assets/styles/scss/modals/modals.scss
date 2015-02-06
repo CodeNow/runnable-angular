@@ -53,7 +53,6 @@
   // search
   .input-search {
     background-position: 114px 3px;
-    border-color: transparent;
     display: block;
     height: 30px;
     line-height: 30px;
@@ -67,7 +66,6 @@
     &:focus,
     &:valid {
       background-color: $white;
-      border-color: rgba($black,.15);
     }
   }
 

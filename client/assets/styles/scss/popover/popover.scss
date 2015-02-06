@@ -275,8 +275,6 @@
 
 // li.popover-list-item
 .popover-list-item {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
   cursor: pointer;
   font-size: 16px;
   height: 36px;
@@ -288,12 +286,10 @@
 
   &:hover {
     background: rgba($blue,.1);
-    border-color: rgba($blue,.2);
   }
 
   &:active {
     background: rgba($blue,.15);
-    border-color: rgba($blue,.3);
     color: $blue;
   }
 

@@ -49,25 +49,18 @@
 // wrapper for states
 .repository-group-text {
   background: $gray-lightest;
-  border: 1px solid rgba($black,.1);
   cursor: pointer;
   font-size: 14px;
   margin: 0 6px;
   padding: 12px 30px 12px 0;
 
   &:hover {
-    background: rgba($blue,.1);
-    border-color: rgba($blue,.2);
-
-    .icons-arrow-down {
-      color: $blue;
-    }
+    background: rgba($black,.06);
   }
 
   &:active,
   &.active {
     background: rgba($blue,.15);
-    border-color: rgba($blue,.3);
     color: $blue;
 
     .iconnables {
@@ -99,7 +92,7 @@
     height: 100%;
     left: auto;
     position: absolute;
-    right: 6px;
+    right: 9px;
     top: 0;
     transform: rotate3d(0,0,1,-90deg);
     width: 30px;

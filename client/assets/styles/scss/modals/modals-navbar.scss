@@ -37,7 +37,6 @@
   }
 
   .list-item {
-    border: 0;
     border-radius: 3px;
     cursor: pointer;
     font-size: 16px;
@@ -52,13 +51,13 @@
     }
 
     &:hover {
-      background: rgba($black,.1);
+      background: rgba($black,.06);
     }
 
     &:active,
     &.active {
-      background: $blue;
-      color: $white;
+      background: rgba($blue,.2);
+      color: $blue;
 
       .small {
         color: currentColor;
