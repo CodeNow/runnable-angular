@@ -49,6 +49,14 @@
     }
   }
 
+  &:active,
+  &.active {
+
+    .server-item-name {
+      font-weight: 500;
+    }
+  }
+
   .icons-status {
     position: absolute;
     right: 14px;

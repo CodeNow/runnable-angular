@@ -182,17 +182,17 @@ button,
   &.btn {
 
     &:hover {
-      background: rgba($gray-darker,.3);
+      background: rgba($gray-darker,.2);
     }
 
     &:active,
     &.active {
-      background: rgba($gray-darker,.45);
-      color: $white;
+      background: rgba($blue,.15);
+      color: $blue;
       transition: none;
 
       .iconnables {
-        color: $white;
+        color: currentColor;
         transition: none;
       }
     }
