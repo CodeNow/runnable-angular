@@ -92,11 +92,21 @@
                 )
               span.item-name environment variables
               //- stop propagation here
-              button.btn-xxs.btn-file-action
+              button.btn-xxs.btn-file-action(
+                ng-class = "{active: popoverLinkServers.data.show}"
+                toggle-pop-over
+                toggle-pop-over-model = "popoverLinkServers.data.show"
+              )
                 svg.iconnables.icons-link
                   use(
                     xlink:href = "#icons-link"
                   )
+                pop-over(
+                  actions = "popoverLinkServers.actions"
+                  data = "popoverLinkServers.data"
+                  popover-options = "{\"left\":0,\"top\":0}"
+                  template = "viewPopoverLinkServers"
+                )
 
     //- editor
     section.views.with-add-tab
