@@ -71,26 +71,12 @@
 .toggle-group-item {
   height: auto;
   line-height: 1;
-  margin-top: -1px;
   overflow: visible;
   padding: 12px;
   white-space: normal;
 
   &:active .small {
     color: rgba($blue,.5);
-  }
-
-  + .toggle-group-item::after {
-    background: rgba($black,.1);
-    content: '';
-    display: block;
-    height: 1px;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    top: -1px;
-    width: 274px;
   }
 }
 

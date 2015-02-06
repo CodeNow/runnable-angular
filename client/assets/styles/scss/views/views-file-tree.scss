@@ -25,7 +25,6 @@
     }
 
     a {
-      border: 1px solid transparent;
       border-radius: 3px;
       display: block;
       overflow: hidden;
@@ -35,7 +34,6 @@
 
       &:hover {
         background: rgba($blue,.1);
-        border-color: #c1e7fa; // rgba($blue,.2);
       }
 
       &:active {

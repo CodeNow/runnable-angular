@@ -175,20 +175,19 @@ button,
 
 .gray {
   background: rgba($gray-darker,.1);
-  border-color: rgba($gray-darker,.15);
+  border: 0;
   color: $gray;
   font-weight: 300;
 
   &.btn {
 
     &:hover {
-      border-color: rgba($gray-darker,.3);
+      background: rgba($gray-darker,.3);
     }
 
     &:active,
     &.active {
       background: rgba($gray-darker,.45);
-      border-color: rgba($gray-darker,.6);
       color: $white;
       transition: none;
 
@@ -284,20 +283,19 @@ button,
 }
 
 .white {
+  border: 0;
   color: $gray;
   font-weight: 300;
 
   &.btn {
 
     &:hover {
-      background: rgba($black,.05);
-      border-color: rgba($black,.1);
+      background: rgba($black,.1);
     }
 
     &:active,
     &.active {
-      background: rgba($blue,.2);
-      border-color: rgba($blue,.4);
+      background: rgba($blue,.15);
       color: $blue;
     }
 
