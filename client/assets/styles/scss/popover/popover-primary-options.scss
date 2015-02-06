@@ -1,12 +1,9 @@
-.popover.popover-primary-options {
-  color: $gray;
-  left: auto;
-  transform-origin: 219px 0;
-  width: 175px;
+.popover-primary-options {
+  transform-origin: 95% 0 !important; // right edge popover
 
-  .arrow.white {
-    left: auto;
-    right: 2px;
+  .arrow {
+    left: auto !important; // right edge popover
+    right: 4px;
   }
 
   .no-actions .label-checkbox {
@@ -15,6 +12,5 @@
 
   .input-checkbox {
     height: 36px;
-    margin-right: 12px;
   }
 }

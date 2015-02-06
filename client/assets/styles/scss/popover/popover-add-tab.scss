@@ -1,18 +1,13 @@
-// .add-tab .popover
-.popover-add-tab.bottom {
-  height: 72px;
-  left: auto !important;
-  max-width: 450px;
-  min-width: 72px;
-  transform-origin: 99% 0;
-  width: auto; // reset width
+// .popover.menu.bottom.popover-add-tab
+.popover-add-tab {
+  transform-origin: 95% 0 !important; // right edge popover
 
-  .arrow.arrow {
-    left: auto;
-    right: 5px;
+  .arrow {
+    left: auto !important; // right edge popover
+    right: 8px;
   }
 
-  .popover-content {
-    padding: 0;
+  .iconnables {
+    width: 18px;
   }
 }

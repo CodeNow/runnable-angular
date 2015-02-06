@@ -91,14 +91,12 @@
   padding-left: 9px;
 
   .btn-icon-sm {
+    min-width: 36px;
 
     .icons-arrow-down {
-      top: 0;
+      float: none;
+      margin: 0 auto;
       transition: transform .15s ease-in;
-    }
-
-    &.active .icons-arrow-down {
-      transform: rotate3d(1,0,0,180deg);
     }
   }
 }
@@ -113,62 +111,5 @@
     margin-right: 4px;
     top: 6px;
     width: 21px;
-  }
-}
-
-// .spinner.save-spinner
-.save-spinner {
-  animation: none;
-  color: $green;
-  height: 45px;
-  left: -45px;
-  opacity: 0;
-  position: absolute;
-  top: 7px;
-  transform: scale3d(0,0,0);
-  width: 45px;
-
-  &.in {
-    animation: save-spinner 1.5s ease-in forwards;
-
-    .spinner {
-
-      &::before {
-        animation: rotate 1s ease forwards;
-      }
-
-      &::after {
-        animation: rotate 1s ease -.25s forwards;
-      }
-    }
-  }
-
-  .spinner {
-    left: 0;
-    right: 0;
-    top: 15px;
-
-    &::before {
-      animation: none;
-    }
-
-    &::after {
-      animation: none;
-    }
-  }
-
-  .spinner-ring {
-    background: transparent;
-  }
-
-  .icons-check {
-    color: $white;
-    height: 18px;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    top: 14px;
-    width: 18px;
   }
 }

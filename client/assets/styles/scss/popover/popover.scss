@@ -221,39 +221,6 @@
     border-top: 1px solid rgba($black,.1);
   }
 
-  // ul.popover-columns
-  .popover-columns {
-    white-space: nowrap;
-
-    .popover-column {
-      border-left: 1px solid rgba($black,.1);
-      cursor: pointer;
-      display: inline-block;
-      font-size: 14px;
-      height: 72px;
-      line-height: 36px;
-      text-align: center;
-      width: 90px;
-
-      &:first-child {
-        border-left: 0;
-      }
-
-      &:hover {
-        background: rgba($blue,.1);
-      }
-
-      &:active {
-        background: rgba($blue,.15);
-      }
-    }
-
-    .iconnables {
-      display: block;
-      margin: 6px auto 0;
-    }
-  }
-
   // li.divider
   .divider {
     background: rgba($black,.1);
@@ -340,14 +307,14 @@
     }
   }
 
-  .gravatar {
-    float: left;
-    margin: 5px 9px 0 0;
-  }
-
+  .gravatar,
   .iconnables {
     float: left;
-    margin: 6px 6px 0 0;
+    margin: 5px 12px 0 0;
+
+    &.gravatar {
+      margin-top: 5px;
+    }
   }
 
   // links
