@@ -22,7 +22,6 @@ ul.tabs
     ng-repeat = "item in openItems.models"
   )
     span.tab-name(
-      dynamic-attr = "{\"data-title\": \"item.attrs.name\"}"
       title = "{{ item.filepath() }}"
     ) {{ item.attrs.name  }}
     .icons-dirty *

@@ -76,6 +76,10 @@
   padding: 12px;
   white-space: normal;
 
+  &:active .small {
+    color: rgba($blue,.5);
+  }
+
   + .toggle-group-item::after {
     background: rgba($black,.1);
     content: '';
