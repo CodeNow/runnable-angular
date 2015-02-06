@@ -34,15 +34,6 @@
   white-space: nowrap;
   width: 227px; // sidebar width minus status
 
-  &:hover {
-    background: rgba($black,.025);
-  }
-
-  &.active {
-    background: rgba($black,.05);
-    border-color: rgba($black,.1);
-  }
-
   &.expanded {
     height: auto;
     line-height: 1;
@@ -71,7 +62,7 @@
 
 // a.server-item-name
 .server-item-name {
-  color: $gray;
+  color: currentColor;
   display: block;
   padding: 0 23px 0 9px;
   text-decoration: none;
@@ -86,10 +77,6 @@
   margin-top: -1px;
   padding: 0 0 0 9px;
   position: relative;
-
-  &:hover {
-    color: $gray-darker;
-  }
 
   .icons-status.icons-status {
     background: rgba($gray-lightest,.45);
