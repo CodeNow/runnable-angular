@@ -21,8 +21,7 @@
 
     // states
     &.active a {
-      background: rgba($blue,.15);
-      border-color: #a7ddf9; // rgba($blue,.3);
+      color: $blue;
       font-weight: 500;
     }
 
@@ -41,8 +40,7 @@
       }
 
       &:active {
-        background: rgba($blue,.15);
-        border-color: #a7ddf9; // rgba($blue,.3);
+        color: $blue;
         font-weight: 500;
         transition: none;
       }
