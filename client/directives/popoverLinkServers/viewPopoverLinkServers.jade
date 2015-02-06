@@ -1,12 +1,23 @@
-.popover.menu.left.popover-link-servers(
+.popover.left.popover-link-servers(
   ng-class = "{in: data.show}"
   ng-click = "$event.stopPropagation()"
 )
   .arrow.white
   .popover-content
+    .popover-guides(
+      ng-class = "{in: data.guide}"
+      ng-init = "data.guide = true"
+    )
+      p.p.clearfix Enable linking a server by adding the [expose] instruction to its Dockerfile to open ports.
+        a.link.link-text(
+          ng-click = "data.guide = false"
+        ) Dismiss
     ul.list.popover-list
       li.list-item.popover-list-item.small Choose port to link
-        button.btn.btn-xs ?
+        button.btn.btn-xs(
+          ng-class = "{active: data.guide}"
+          ng-click = "data.guide = !data.guide"
+        ) ?
       li.list-item.popover-list-item
         div api-server
         button.btn.btn-xxs.gray 80
