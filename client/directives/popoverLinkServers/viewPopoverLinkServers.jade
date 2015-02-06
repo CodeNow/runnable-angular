@@ -1,48 +1,25 @@
-.popover.left(
+.popover.menu.left.popover-link-servers(
   ng-class = "{in: data.show}"
   ng-click = "$event.stopPropagation()"
 )
   .arrow.white
   .popover-content
-    ul.popover-list
-      li.popover-list-item(
-        ng-click = "dirItemData.actions.createFile();\
-          $event.stopPropagation();"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-file-new"
-          )
-        | New File
-      li.popover-list-item(
-        ng-click = "dirItemData.actions.createFolder();\
-          $event.stopPropagation();"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-folder-new"
-          )
-        | New Folder
-      li.divider(
-        ng-if = "dir.attrs.name !== '/'"
-      )
-      li.popover-list-item(
-        ng-if = "dir.attrs.name !== '/'"
-        ng-click = "dirItemData.actions.renameFolder();\
-          $event.stopPropagation();"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-file-modify"
-          )
-        | Rename
-      li.popover-list-item(
-        ng-if = "dir.attrs.name !== '/'"
-        ng-click = "dirItemData.actions.deleteFolder();\
-          $event.stopPropagation();"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-file-delete"
-          )
-        | Delete
+    ul.list.popover-list
+      li.list-item.popover-list-item.small Choose port to link
+      li.list-item.popover-list-item
+        div api-server
+        button.btn.btn-xxs.gray 80
+        button.btn.btn-xxs.gray 8080
+      li.list-item.popover-list-item
+        div mongo-server
+        button.btn.btn-xxs.gray 80
+        button.btn.btn-xxs.gray 3001
+        button.btn.btn-xxs.gray 8080
+        button.btn.btn-xxs.gray 8081
+        button.btn.btn-xxs.gray 8081
+        button.btn.btn-xxs.gray 8081
+        button.btn.btn-xxs.gray 8081
+      li.list-item.popover-list-item
+        div web-server
+        button.btn.btn-xxs.gray 80
+        button.btn.btn-xxs.gray 3001
