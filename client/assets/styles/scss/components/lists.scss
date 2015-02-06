@@ -94,7 +94,7 @@
   }
 
   &.small {
-    color: $gray-light;
+    color: $gray-light !important; // never override this
     cursor: default !important;
     font-size: 13px;
 
