@@ -117,20 +117,14 @@
                 use(
                   xlink:href = "#icons-close"
                   )
-      a.btn.btn-sm.white.btn-icon.add-tab(
+      a.btn.btn-sm.white.btn-icon.btn-add-tab(
         ng-class = "{active: popoverAddTab.data.show}"
-        toggle-pop-over
-        toggle-pop-over-model = "popoverAddTab.data.show"
+        tooltip = "Open Build Logs"
+        tooltip-options = "{\"class\":\"right\",\"left\":36,\"top\":6}"
       )
-        svg.iconnables.icons-add
+        svg.iconnables.icons-logs
           use(
-            xlink:href = "#icons-add"
-          )
-          pop-over(
-            actions = "popoverAddTab.actions"
-            data = "popoverAddTab.data"
-            popover-options = "{\"right\":8,\"top\":45}"
-            template = "viewPopoverAddTab"
+            xlink:href = "#icons-logs"
           )
       .active-panel
         pre.pre(
