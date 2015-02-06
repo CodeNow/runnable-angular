@@ -4,6 +4,7 @@ require('app')
   .factory('createNewInstance', createNewInstance);
 
 function createNewInstance(
+  pFetchUser
 ) {
   return function (activeAccount, build, opts) {
     return function (cb) {
@@ -17,9 +18,11 @@ function createNewInstance(
           github: activeAccount.oauthId()
         };
         opts.build = build.id();
-        activeAccount.createInstance(opts, function (err) {
-          cb(err);
-        });
+        pFetchUser().then(function (user) {
+          user.createInstance(opts, function (err) {
+            cb(err);
+          });
+        }).catch(cb);
       });
     };
   };
