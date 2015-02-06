@@ -48,7 +48,7 @@
     "callback-count": "^0.1.0",
     "compression": "^1.4.0",
     "debounce": "https://registry.npmjs.org/debounce/-/debounce-1.0.0.tgz",
-    "docker-stream-cleanser": "^0.2.0",
+    "docker-stream-cleanser": "^0.1.2",
     "express": "^4.3.2",
     "find": "~0.1.5",
     "grunt": "https://registry.npmjs.org/grunt/-/grunt-0.4.5.tgz",
