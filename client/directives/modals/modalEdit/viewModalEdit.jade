@@ -1,30 +1,139 @@
-.modal-dialog
+.modal-dialog.modal-edit
   header.modal-header
     h1.modal-heading Edit Server
   .modal-body
+    //- sidebar
     section.sidebar.server-sidebar
-      section.row.repo-list(
-        build = "dataInstance.data.instance.build"
-        instance = "dataInstance.data.instance"
-        loading = "dataApp.data.loading"
-        repo-list
-        unsaved-acvs = "dataInstance.data.unsavedAcvs"
-      )
-      section.row.explorer(
-        explorer
-        open-items = "dataInstance.data.openItems"
-        toggle-theme = "dataInstance.data.toggleTheme"
-      )
+      section.row.repo-list
+        h2.sub-header Repositories
+          button.btn.btn-xs.white.sub-header-action.btn-add-repo
+            svg.iconnables.icons-add
+              use(
+                xlink:href = "#icons-add"
+              )
+        ul.list.repository-group
+          li.list-item.repository-group-item
+            .well.repository-group-text
+              h3.repository-title.text-overflow
+                svg.iconnables.icons-repository
+                  use(
+                    xlink:href = "#icons-repository"
+                  )
+                | repository-name
+              p.repository-description.text-overflow.clearfix
+                svg.iconnables.icons-branch
+                  use(
+                    xlink:href = "#icons-branch"
+                  )
+                | master
+              p.repository-description.clearfix
+                svg.iconnables.icons-commit
+                  use(
+                    xlink:href = "#icons-commit"
+                  )
+                | commit message about changes
+                small.small.repository-detail 3 minutes ago
+              svg.iconnables.icons-arrow-down
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
+      section.row.explorer
+        h2.sub-header Build Files
+          button.btn.btn-xs.white.sub-header-action
+            svg.iconnables.icons-add
+              use(
+                xlink:href = "#icons-add"
+              )
+        ul.file-tree
+          li.file.no-touching
+            a
+              svg.iconnables.filetypes.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+              input.tree-input(
+                readonly
+                value = "dockerfile"
+              )
+              span.item-name repository-name
+          li.file
+            a
+              svg.iconnables.filetypes.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+              input.tree-input(
+                readonly
+                value = "dockerfile"
+              )
+              span.item-name environment file
+
+          li.file
+            a
+              svg.iconnables.filetypes.icons-file
+                use(
+                  xlink:href = "#icons-file"
+                )
+              input.tree-input(
+                readonly
+                value = "dockerfile"
+              )
+              span.item-name dockerfile
+          li.file
+            a
+              svg.iconnables.filetypes.icons-file
+                use(
+                  xlink:href = "#icons-file"
+                )
+              input.tree-input(
+                readonly
+                value = "start.sh"
+              )
+              span.item-name start.sh
+    //- editor
+    section.views.with-add-tab
+      .views-toolbar
+        button.toggle-theme(
+          tooltip = "Change Theme"
+          tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
+        )
+          .theme
+        ul.tabs
+          li.tab-wrapper
+            span.tab-name(
+              title = "dockerfile"
+            ) dockerfile
+            button.btn-icon
+              svg.iconnables.icons-close
+                use(
+                  xlink:href = "#icons-close"
+                  )
+          li.tab-wrapper
+            span.tab-name(
+              title = "start.sh"
+            ) start.sh
+            button.btn-icon
+              svg.iconnables.icons-close
+                use(
+                  xlink:href = "#icons-close"
+                  )
+      a.btn.btn-sm.white.btn-icon.add-tab
+        svg.iconnables.icons-add
+          use(
+            xlink:href = "#icons-add"
+          )
+      .active-panel
+        pre.pre(
+          ui-ace
+        )
+      .blank-panel
+
   footer.modal-footer
-    //- 0.3 SAN-436
-      - to do:
-      - toggle b/t .orange Rebuild and .green Save if on instance vs instanceEdit
+    //- ng-disabled = "!validation.valid"
     button.btn.orange(
-      ng-if = "data.showRebuild"
       ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
-      ng-disabled = "!validation.valid"
       type = "button"
-    ) Build
+    ) Build Server
     button.btn.white(
       ng-click = "defaultActions.cancel()"
       type = "button"

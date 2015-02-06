@@ -1,0 +1,52 @@
+.modal-edit {
+  min-width: 900px;
+
+  @include media(md) {
+    min-width: none;
+  }
+
+  .modal-body {
+    border-bottom: 1px solid rgba($black,.1);
+    border-top: 1px solid rgba($black,.1);
+    display: flex;
+  }
+
+  // sidebar overrides
+  .sidebar {
+    height: auto;
+  }
+
+  .repo-list {
+    padding-bottom: 12px;
+  }
+
+  // if no root
+  .file-tree {
+
+    a {
+      padding-left: 0 !important;
+    }
+
+    .icons-repository {
+      left: 6px;
+    }
+  }
+
+  // view overrides
+  .views {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .active-panel {
+    flex: 1 0 auto;
+  }
+}
+
+  // height: 600px;
+
+  // @include media(xs) {
+  //   flex-direction: row !important; // override default behavior
+  // }
