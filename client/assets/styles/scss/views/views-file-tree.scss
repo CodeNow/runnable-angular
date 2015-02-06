@@ -22,6 +22,7 @@
     // states
     &.active a {
       color: $blue;
+      font-weight: 500;
     }
 
     a {
@@ -38,6 +39,7 @@
 
       &:active {
         color: $blue;
+        font-weight: 500;
         transition: none;
       }
     }

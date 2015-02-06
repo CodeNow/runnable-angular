@@ -58,6 +58,7 @@
     &.active {
       background: rgba($blue,.2);
       color: $blue;
+      font-weight: 500;
 
       .small {
         color: currentColor;
