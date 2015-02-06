@@ -53,7 +53,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       containers: {
         models: [{
           urls: function() {
-            return [apiMocks.instances.running.name, 'http://asdf.helloRunnable.runnable.io'];
+            return [apiMocks.instances.running.name, 'http://asdf.helloRunnable.runnable.io:8080'];
           }
         }]
       }
@@ -260,7 +260,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           containers: {
             models: [{
               urls: function() {
-                return [apiMocks.instances.running.name, 'http://asdf.helloRunnable.runnable.io'];
+                return [apiMocks.instances.running.name, 'asdf.helloRunnable.runnable.io'];
               }
             }]
           }
@@ -283,7 +283,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         expect($elScope.state.dependencies[0].reqEnv[0].url).to.equal(instance.attrs.name);
         expect($elScope.state.dependencies[0].reqEnv[1].name)
           .to.equal(instance.attrs.name.toUpperCase() + '_HOST1');
-        expect($elScope.state.dependencies[0].reqEnv[1].url).to.equal('http://asdf.helloRunnable.runnable.io');
+        expect($elScope.state.dependencies[0].reqEnv[1].url).to.equal('asdf.helloRunnable.runnable.io');
       });
       it('should use an existing', function () {
         $elScope.data.activeAccount = ctx.fakeuser;
@@ -302,7 +302,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         expect($elScope.state.dependencies[0].reqEnv[0].url).to.equal(instance.attrs.name);
         expect($elScope.state.dependencies[0].reqEnv[1].name)
           .to.equal(instance.attrs.name.toUpperCase() + '_HOST1');
-        expect($elScope.state.dependencies[0].reqEnv[1].url).to.equal('http://asdf.helloRunnable.runnable.io');
+        expect($elScope.state.dependencies[0].reqEnv[1].url).to.equal('asdf.helloRunnable.runnable.io');
       });
     });
 

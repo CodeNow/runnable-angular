@@ -107,6 +107,12 @@ function ControllerApp(
     $scope.$broadcast('app-document-click');
   };
 
+  dataApp.documentKeydownEventHandler = function(e) {
+    if (e.keyCode === 27) {
+      $rootScope.$broadcast('app-document-click');
+    }
+  };
+
   fetchUser(function(err, results) {
     if (!err && results) {
       thisUser = results;

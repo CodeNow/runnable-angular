@@ -17,10 +17,6 @@ h2.sub-header Repositories
     show = "data.show"
   )
 
-  show-demo-modal(
-    ng-if = "data.isDemo"
-  )
-
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.guide-image.guide-pointer(
   ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
@@ -34,11 +30,9 @@ h2.sub-header Repositories
   p.guide-text Add a repository to your server.
 ul.list.repository-group
   li.list-item.repository-group-item(
-    app-code-version = "acv"
     edit-repo-commit
-    ng-init = "unsavedAcv = newUnsavedAcv(acv);"
-    ng-repeat = "acv in build.contextVersions.models[0].appCodeVersions.models"
-    unsaved-app-code-version = "unsavedAcv"
+    ng-repeat = "model in unsavedAcvs"
+    model = "model"
   )
   li.list-details(
     ng-show = "build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
