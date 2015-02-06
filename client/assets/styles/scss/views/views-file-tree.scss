@@ -133,3 +133,33 @@
   margin-left: 5px;
   pointer-events: none;
 }
+
+// action icons
+.btn-file-action {
+  background: rgba($black,.1);
+  border-radius: 50%;
+  float: right;
+  margin: 5px;
+  padding: 0;
+  width: 18px;
+
+  &:hover,
+  &:active,
+  &.active {
+
+    .iconnables {
+      color: $blue;
+    }
+  }
+
+  &:active,
+  &.active {
+    background: transparent;
+  }
+
+  .iconnables {
+    color: $gray;
+    height: 100%;
+    width: 15px;
+  }
+}

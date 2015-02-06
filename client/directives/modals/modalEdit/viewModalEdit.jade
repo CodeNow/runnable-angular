@@ -72,6 +72,13 @@
         ul.file-tree
           li.file
             a
+              svg.iconnables.filetypes.icons-logs
+                use(
+                  xlink:href = "#icons-logs"
+                )
+              span.item-name build logs
+          li.file
+            a
               svg.iconnables.filetypes.icons-file
                 use(
                   xlink:href = "#icons-file"
@@ -83,7 +90,13 @@
                 use(
                   xlink:href = "#icons-file"
                 )
-              span.item-name environment file
+              span.item-name environment variables
+              //- stop propagation here
+              button.btn-xxs.btn-file-action
+                svg.iconnables.icons-link
+                  use(
+                    xlink:href = "#icons-link"
+                  )
 
     //- editor
     section.views.with-add-tab
@@ -112,15 +125,6 @@
                 use(
                   xlink:href = "#icons-close"
                   )
-      a.btn.btn-sm.white.btn-icon.btn-add-tab(
-        ng-class = "{active: popoverAddTab.data.show}"
-        tooltip = "Open Build Logs"
-        tooltip-options = "{\"class\":\"right\",\"left\":36,\"top\":6}"
-      )
-        svg.iconnables.icons-logs
-          use(
-            xlink:href = "#icons-logs"
-          )
       .active-panel
         pre.pre(
           ui-ace
