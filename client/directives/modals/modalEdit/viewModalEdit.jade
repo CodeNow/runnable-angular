@@ -58,29 +58,6 @@
               span.item-name repository-name
           li.file
             a
-              svg.iconnables.filetypes.icons-repository
-                use(
-                  xlink:href = "#icons-repository"
-                )
-              input.tree-input(
-                readonly
-                value = "dockerfile"
-              )
-              span.item-name environment file
-
-          li.file
-            a
-              svg.iconnables.filetypes.icons-file
-                use(
-                  xlink:href = "#icons-file"
-                )
-              input.tree-input(
-                readonly
-                value = "dockerfile"
-              )
-              span.item-name dockerfile
-          li.file
-            a
               svg.iconnables.filetypes.icons-file
                 use(
                   xlink:href = "#icons-file"
@@ -90,6 +67,24 @@
                 value = "start.sh"
               )
               span.item-name start.sh
+        //- no files or folders can be added to this file-tree
+        //- these files cannot be renamed or deleted
+        ul.file-tree
+          li.file
+            a
+              svg.iconnables.filetypes.icons-file
+                use(
+                  xlink:href = "#icons-file"
+                )
+              span.item-name dockerfile
+          li.file
+            a
+              svg.iconnables.filetypes.icons-file
+                use(
+                  xlink:href = "#icons-file"
+                )
+              span.item-name environment file
+
     //- editor
     section.views.with-add-tab
       .views-toolbar
