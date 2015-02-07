@@ -8,10 +8,12 @@
       ng-class = "{in: data.guide}"
       ng-init = "data.guide = true"
     )
-      p.p.clearfix Enable linking a server by adding the [expose] instruction to its Dockerfile to open ports.
-        a.link.link-text(
-          ng-click = "data.guide = false"
-        ) Dismiss
+      p.p.clearfix Enable linking a server by adding the
+        a.link.link-code(
+          href = "//docs.docker.com/reference/builder/#expose"
+          target = "_blank"
+        ) EXPOSE
+        | instruction to its Dockerfile to open ports.
     ul.list.popover-list
       li.list-item.popover-list-item.small Choose port to link
         button.btn.btn-xs(

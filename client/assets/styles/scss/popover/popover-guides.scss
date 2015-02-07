@@ -15,8 +15,21 @@
     padding: 15px 15px 9px;
   }
 
-  .link {
-    color: $blue;
+  .link-code {
+    color: currentColor;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 500;
+    margin: 0 4px;
+    text-decoration: underline;
+
+    &:hover,
+    &:active {
+      text-decoration: none;
+    }
+  }
+
+  .link-text {
+    color: currentColor;
     float: right;
     font-weight: 500;
     margin-top: 6px;
