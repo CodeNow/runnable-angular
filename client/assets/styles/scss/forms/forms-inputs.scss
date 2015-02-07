@@ -106,6 +106,7 @@ textarea {
   background: $white;
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
+  cursor: pointer;
   display: flex;
   height: 45px;
   line-height: 45px;
@@ -117,8 +118,9 @@ textarea {
     line-height: 54px;
 
     > .input {
-      height: 39px;
-      line-height: 39px;
+      font-weight: 500;
+      height: 36px;
+      line-height: 36px;
     }
   }
 

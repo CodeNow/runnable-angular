@@ -5,11 +5,22 @@
     min-width: none;
   }
 
+  .modal-header {
+    height: 66px;
+    padding: 6px 0;
+
+    .input-group {
+      // padding-left: 9px;
+      width: 288px;
+    }
+  }
+
   .modal-body {
     border-bottom: 1px solid rgba($black,.1);
     border-top: 1px solid rgba($black,.1);
     display: flex;
     height: calc(100vh - 180px);
+    max-height: 690px;
   }
 
   // sidebar overrides
