@@ -1,6 +1,26 @@
 .modal-dialog.modal-edit
   header.modal-header
-    h1.modal-heading Edit Server
+    label.input-group.input-validate.with-description(
+      ng-class = "{\
+        focus: a,\
+        'ng-invalid': b,\
+        'ng-valid': c\
+      }"
+    )
+      span.input-label Editing
+      span.input-description.text-overflow url.codenow.runnable.io
+      input.input(
+        autocomplete = "off"
+        ng-blur = ""
+        ng-focus = ""
+        placeholder = "server-name"
+        value = "Name of Server"
+      )
+    button.btn.white
+      svg.iconnables.icons-trash
+        use(
+          xlink:href = "#icons-trash"
+        )
   .modal-body
     //- sidebar
     section.sidebar.server-sidebar
