@@ -285,12 +285,12 @@
   white-space: nowrap;
 
   &:hover {
-    background: rgba($blue,.1);
+    background: rgba($purple-light,.1);
   }
 
   &:active {
-    background: rgba($blue,.15);
-    color: $blue;
+    background: rgba($purple-light,.15);
+    color: $purple-light;
   }
 
   &.no-actions {

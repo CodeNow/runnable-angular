@@ -28,7 +28,7 @@
 
   &:active,
   &.active {
-    color: $blue;
+    color: $purple-light;
     font-weight: 500;
   }
 
@@ -86,8 +86,8 @@
     }
 
     &:active .icons-close {
-      background: rgba($blue,.15);
-      color: $blue;
+      background: rgba($purple-light,.15);
+      color: $purple-light;
     }
   }
 

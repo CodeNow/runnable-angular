@@ -60,15 +60,15 @@
 
   &:active,
   &.active {
-    background: rgba($blue,.15);
-    color: $blue;
+    background: rgba($purple-light,.15);
+    color: $purple-light;
 
     .iconnables {
       color: currentColor;
     }
 
     .repository-detail {
-      color: rgba($blue,.5);
+      color: rgba($purple-light,.5);
     }
   }
 
