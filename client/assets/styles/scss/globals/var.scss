@@ -1,4 +1,7 @@
 // colors
+$black: #000;
+$white: #fff;
+
 $gray-lightest: #f6f6f6;
 $gray-lighter: #ccc;
 $gray-light: #aaa;
@@ -15,8 +18,8 @@ $green-darker: darken($green,12%);
 
 $purple: #5b3777;
 $purple-logo: #ccadd2;
-$purple-lighter: lighten($purple, 20%);
-$purple-light: lighten($purple,10%);
+$purple-lighter: lighten($purple,20%);
+$purple-light: lighten($purple,15%);
 $purple-dark: darken($purple,10%);
 $purple-darker: darken($purple,20%);
 
@@ -28,10 +31,6 @@ $orange-darker: darken($orange,18%);
 
 $blue: #2ab0f6;
 $blue-dark: darken($blue,6%);
-
-$black: #000;
-
-$white: #fff;
 
 // spinner vars
 $spinner-offset: 187;
