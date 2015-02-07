@@ -54,6 +54,7 @@
                   xlink:href = "#icons-file"
                 )
               span.item-name Dockerfile
+              span.btn-file-errors.orange 4
           li.file.no-touching
             a
               svg.iconnables.filetypes.icons-repository
@@ -89,6 +90,7 @@
                   xlink:href = "#icons-file"
                 )
               span.item-name environment variables
+              span.btn-file-errors.orange 5
               //- stop propagation here
               button.btn-xxs.btn-file-action(
                 ng-class = "{active: popoverLinkServers.data.show}"
@@ -102,7 +104,7 @@
                 pop-over(
                   actions = "popoverLinkServers.actions"
                   data = "popoverLinkServers.data"
-                  popover-options = "{\"left\":-270,\"top\":0}"
+                  popover-options = "{\"left\":-270,\"top\":-120}"
                   template = "viewPopoverLinkServers"
                 )
 
@@ -149,6 +151,7 @@
       ng-click = "defaultActions.cancel()"
       type = "button"
     ) Go Back
+    span.btn-file-errors.orange 9 errors
 
 //- OLD ENV STUFF
 

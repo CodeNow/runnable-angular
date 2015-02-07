@@ -134,6 +134,23 @@
   pointer-events: none;
 }
 
+// errors
+.btn-file-errors {
+  border: 0;
+  border-radius: 9px;
+  display: block;
+  float: right;
+  font-size: 13px;
+  font-weight: 300 !important; // never change
+  height: 18px;
+  line-height: 18px;
+  margin: 5px;
+  pointer-events: none;
+  text-align: center;
+  text-indent: 0;
+  width: 18px;
+}
+
 // action icons
 .btn-file-action {
   background: $gray-lightest;

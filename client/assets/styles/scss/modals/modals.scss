@@ -207,6 +207,19 @@
     }
   }
 
+  // validation
+  .btn-file-errors {
+    border-radius: 12px;
+    float: left;
+    font-size: 16px;
+    height: 24px;
+    line-height: 24px;
+    margin: 10px 9px 0;
+    padding: 0 9px;
+    position: relative;
+    width: auto;
+  }
+
   .btn-block {
     float: none;
     margin: 0;
@@ -216,11 +229,5 @@
   .icons-git {
     margin-right: 9px;
     top: 6px;
-  }
-
-  .modal-footer-warning {
-    color: $gray;
-    line-height: 45px;
-    padding-left: 12px;
   }
 }
