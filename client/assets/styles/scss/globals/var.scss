@@ -19,7 +19,7 @@ $green-darker: darken($green,12%);
 $purple: #5b3777;
 $purple-logo: #ccadd2;
 $purple-lighter: lighten($purple,20%);
-$purple-light: lighten($purple,15%);
+$purple-light: saturate(lighten($purple,15%),15%);
 $purple-dark: darken($purple,10%);
 $purple-darker: darken($purple,20%);
 

@@ -112,7 +112,7 @@
 
   // .link-text (commit hash)
   .link-text {
-    color: $purple-light;
+    color: rgba($purple-light,.5);
     font-family: 'Source Code Pro', monospace;
     text-decoration: underline;
 
