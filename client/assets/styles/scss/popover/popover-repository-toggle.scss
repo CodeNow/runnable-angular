@@ -76,7 +76,7 @@
   white-space: normal;
 
   &:active .small {
-    color: rgba($blue,.5);
+    color: rgba($purple-light,.5);
   }
 }
 
@@ -112,7 +112,7 @@
 
   // .link-text (commit hash)
   .link-text {
-    color: $blue;
+    color: $purple-light;
     font-family: 'Source Code Pro', monospace;
     text-decoration: underline;
 

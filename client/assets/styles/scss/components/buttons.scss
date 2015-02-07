@@ -187,8 +187,8 @@ button,
 
     &:active,
     &.active {
-      background: rgba($blue,.15);
-      color: $blue;
+      background: rgba($purple-light,.15);
+      color: $purple-light;
       transition: none;
 
       .iconnables {
@@ -265,19 +265,22 @@ button,
 }
 
 .purple {
-  background: rgba($purple,.1);
-  border-color: rgba($purple,.2);
-  color: $purple;
+  color: $purple-light;
+  font-weight: 300;
 
   &.btn {
 
-    &:hover {
-      border-color: rgba($purple,.4);
+    &:hover,
+    &.hover {
+      background: rgba($purple-light,.1);
+      border-color: rgba($purple-light,.2);
     }
 
     &:active,
     &.active {
-      border-color: rgba($purple,.6);
+      background: rgba($purple-light,.2);
+      border-color: rgba($purple-light,.4);
+      transition: none;
     }
   }
 }
@@ -295,8 +298,8 @@ button,
 
     &:active,
     &.active {
-      background: rgba($blue,.15);
-      color: $blue;
+      background: rgba($purple-light,.15);
+      color: $purple-light;
     }
 
     &[disabled],
@@ -307,20 +310,6 @@ button,
       &.active {
         background: transparent;
         border-color: transparent;
-      }
-    }
-
-    &.reversed {
-      background: $white;
-      border-color: transparent;
-      color: $purple;
-      font-weight: 500;
-
-      &:hover ,
-      &:active,
-      &.active {
-        background: rgba($white,.85);
-        color: $purple;
       }
     }
   }

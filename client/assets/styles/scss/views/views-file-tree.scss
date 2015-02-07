@@ -27,7 +27,7 @@
 
     // states
     &.active a {
-      color: $blue;
+      color: $purple-light;
       font-weight: 500;
     }
 
@@ -40,11 +40,11 @@
       white-space: nowrap;
 
       &:hover {
-        background: rgba($blue,.1);
+        background: rgba($purple-light,.1);
       }
 
       &:active {
-        color: $blue;
+        color: $purple-light;
         font-weight: 500;
         transition: none;
       }
@@ -102,7 +102,7 @@
 .tree-input,
 .tree-input:focus {
   background: $white;
-  border-color: #a7ddf9; // rgba($blue,.3);
+  border-color: rgba($purple-light,.1);
   box-shadow: none;
   cursor: text;
   display: inline-block;
