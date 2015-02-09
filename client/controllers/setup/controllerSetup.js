@@ -17,12 +17,13 @@ function ControllerSetup(
   $log,
   keypather,
   OpenItems,
+  favico,
   fetchBuild,
   fetchInstances,
   pageName,
   $window
 ) {
-
+  favico.reset();
   var dataSetup = $scope.dataSetup = {
     data: {
       instanceOpts: {},

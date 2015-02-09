@@ -9,6 +9,7 @@ function ControllerInstanceEdit(
   keypather,
   errs,
   OpenItems,
+  favico,
   fetchInstances,
   fetchBuild,
   pageName,
@@ -17,6 +18,7 @@ function ControllerInstanceEdit(
   $stateParams
 ) {
 
+  favico.reset();
   var dataInstanceEdit = $scope.dataInstanceEdit = {
     data: {
       unsavedAcvs: []

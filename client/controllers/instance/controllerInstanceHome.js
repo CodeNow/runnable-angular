@@ -10,11 +10,13 @@ function ControllerInstanceHome(
   $stateParams,
   $state,
   $scope,
+  favico,
   fetchInstances,
   $localStorage,
   $rootScope,
   keypather
 ) {
+  favico.reset();
   var userName = $stateParams.userName;
   var instanceName = keypather.get($localStorage, 'lastInstancePerUser.' + userName);
   if (!instanceName) {
