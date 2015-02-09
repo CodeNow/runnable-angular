@@ -55,7 +55,6 @@
     cursor: default;
     display: block;
     height: 0;
-    margin: 6px 9px;
     transition: all .2s ease-in;
 
     &.invalid-require,
@@ -123,6 +122,11 @@
 
   @include media(sm) {
     width: 100%;
+  }
+
+  // margin for modal-body
+  .validate-wrapper {
+    margin: 6px 9px;
   }
 
   // form elements in modals:

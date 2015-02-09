@@ -7,7 +7,7 @@
     h3.popover-title Permanently delete #{''}
       strong {{ data.instance.attrs.name }}
       | ?
-  section.inset.in(
+  section.inset(
     ng-class = "{in: data.deleteLinked}"
     ng-init = "data.deleteLinked = true"
     ng-show = "data.instance.dependencies.models.length"

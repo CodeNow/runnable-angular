@@ -15,11 +15,11 @@ small.small Forking linked servers
       span.input-label Name
       span.input-description.text-overflow {{ depItem.opts.name }}.{{ depItem.instance.attrs.owner.username.toLowerCase() }}.runnable.io
       input.input(
-        name = "depItemInput"
         autocomplete = "off"
+        instance = "depItem.instance"
+        name = "depItemInput"
         ng-blur = "depItemInput.showFocus = false"
         ng-focus = "depItemInput.showFocus = true"
-        instance = "depItem.instance"
         ng-model = "depItem.opts.name"
         placeholder = "My-Server"
         validate-name = "instances"
