@@ -11,8 +11,15 @@
 
   .input-search {
     background-position: 93px 3px;
-    margin: 3px auto 15px;
+    margin: 6px;
     padding-left: 115px;
+    width: calc(100% - 12px);
+
+    &:focus,
+    &:valid {
+      background-position: 3px 3px;
+      padding-left: 27px;
+    }
   }
 
   .spinner-md {

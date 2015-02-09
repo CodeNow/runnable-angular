@@ -2,8 +2,7 @@
   ng-class = "{in: data.show}"
   ng-click = "$event.preventDefault();$event.stopPropagation();"
 )
-  .arrow
-  h3.popover-title Add Repository
+  .arrow.white
   .spinner-wrapper.spinner-md.in(
     ng-show = "state.loading"
     ng-include = "'spinner'"
@@ -11,23 +10,24 @@
   .popover-content(
     ng-hide = "state.loading"
   )
-    input.input.input-search(
-      autofocus
-      ng-model = "data.repoFilter"
-      placeholder = "Filter repositories"
-      select-on = "data.showFilter"
-      required
-    )
-    ul.popover-list
-      li.popover-list-item(
+    .popover-content-header
+      small.list-item.small Add Repository
+      input.input.input-search.input-search-sm(
+        autofocus
+        ng-model = "data.repoFilter"
+        placeholder = "filter"
+        select-on = "data.showFilter"
+        required
+      )
+    ul.list.popover-list
+      li.list-item.popover-list-item(
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "\
           repo in data.githubRepos.models | \
           unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
           repos:data.repoFilter as newRepos"
         title = "{{ repo.attrs.full_name }}"
-      )
-        span {{ repo.attrs.full_name }}
+      ) {{ repo.attrs.full_name }}
       li.popover-list-item.no-actions(
       ng-if = "newRepos.length === 0"
       ) No matches

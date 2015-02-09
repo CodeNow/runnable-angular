@@ -1,13 +1,13 @@
-.modal-dialog(
+.popover.bottom.popover-delete(
+  ng-class = "{in: data.show}"
   ng-click = "$event.stopPropagation()"
 )
-  header.modal-header
-    h1.modal-heading Delete Server
-  section.modal-body
-    p.modal-description Your server, #{''}
+  .arrow.white
+  .popover-content
+    h3.popover-title Permanently delete #{''}
       strong {{ data.instance.attrs.name }}
-      | , will be permanently removed.
-  section.modal-inset(
+      | ?
+  section.popover-inset(
     ng-class = "{in: data.deleteLinked}"
     ng-init = "data.deleteLinked = true"
     ng-show = "data.instance.dependencies.models.length"
@@ -24,9 +24,9 @@
           ng-model = "instance.state.delete"
         )
         | {{ instance.attrs.name }}
-  footer.modal-footer
+  footer.popover-footer
+    //- ng-show = "data.instance.dependencies.models.length"
     label.label-checkbox.btn-checkbox(
-      ng-show = "data.instance.dependencies.models.length"
     )
       input.input-checkbox(
         checked
@@ -39,5 +39,5 @@
         defaultActions.cancel();"
     ) Delete Server
     button.btn.white(
-      ng-click = "defaultActions.cancel()"
+      ng-click = "actions.cancelEnv(data.instance, $event)"
     ) Go Back

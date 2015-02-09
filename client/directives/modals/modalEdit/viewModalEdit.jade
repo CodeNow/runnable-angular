@@ -21,21 +21,42 @@
         placeholder = "server-name"
         value = "Name of Server"
       )
-    button.btn.white
+    button.btn.white(
+      ng-class = "{active: popoverDelete.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "popoverDelete.data.show"
+    )
       svg.iconnables.icons-trash
         use(
           xlink:href = "#icons-trash"
         )
+      pop-over(
+        actions = "popoverDelete.actions"
+        data = "popoverDelete.data"
+        popover-options = "{\"left\":-373,\"top\":20}"
+        template = "viewPopoverDelete"
+      )
   .modal-body
     //- sidebar
     section.sidebar.server-sidebar
       section.row.repo-list
         h2.sub-header Repositories
-          button.btn.btn-xs.white.sub-header-action.btn-add-repo
+          button.btn.btn-xs.white.sub-header-action(
+            ng-class = "{active: repoListPopover.data.show}"
+            toggle-pop-over
+            toggle-pop-over-model = "repoListPopover.data.show"
+          )
             svg.iconnables.icons-add
               use(
                 xlink:href = "#icons-add"
               )
+            pop-over(
+              actions = "repoListPopover.actions"
+              data = "repoListPopover.data"
+              popover-options = "{\"left\":-137,\"top\":15}"
+              template = "viewPopoverAddRepo"
+            )
+
         ul.list.repository-group
           li.list-item.repository-group-item
             .well.repository-group-text

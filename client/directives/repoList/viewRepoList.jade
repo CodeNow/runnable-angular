@@ -13,10 +13,6 @@ h2.sub-header Repositories
       )
     | Update
 
-  add-repo-popover(
-    show = "data.show"
-  )
-
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.guide-image.guide-pointer(
   ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"

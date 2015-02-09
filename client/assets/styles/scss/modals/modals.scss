@@ -50,25 +50,6 @@
     }
   }
 
-  // search
-  .input-search {
-    background-position: 114px 3px;
-    display: block;
-    height: 30px;
-    line-height: 30px;
-    margin: 0 auto 12px;
-    padding-left: 136px;
-    position: relative;
-    top: 8px;
-    width: calc(100% - 18px);
-
-    &:hover,
-    &:focus,
-    &:valid {
-      background-color: $white;
-    }
-  }
-
   // validation in modals:
   .validate-wrapper {
     cursor: default;
@@ -193,6 +174,8 @@
   }
 
   .label-checkbox {
+    background: $gray-lightest;
+    border: 1px solid rgba($black,.1);
     float: left;
     font-size: 13px;
     line-height: 22px;

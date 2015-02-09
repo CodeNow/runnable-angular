@@ -167,20 +167,32 @@ textarea {
 
 .input-search {
   background-image: url(/build/images/icons/icons-search.svg);
-  background-position: 51px 3px;
   background-repeat: no-repeat;
   background-size: 21px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 300;
-  padding-left: 72px;
+  height: 30px;
+  line-height: 30px;
   transition: all .15s ease-in;
 
   &:focus,
   &:valid {
     background-color: $white;
-    background-position: 3px 3px !important;
-    padding-left: 27px !important;
     transition: all .15s ease-in;
+  }
+
+  &.input-search-sm {
+    background-position: 3px 2px;
+    background-size: 18px;
+    height: 24px;
+    line-height: 24px;
+    padding-left: 24px;
+
+    &:focus,
+    &:valid {
+      background-position: 3px 2px;
+      padding-left: 24px;
+    }
   }
 }
