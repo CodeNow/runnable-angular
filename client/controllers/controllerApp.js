@@ -20,6 +20,7 @@ function ControllerApp(
   errs,
   fetchUser,
   fetchOrgs,
+  pageName,
   keypather,
   $state,
   $timeout
@@ -30,6 +31,7 @@ function ControllerApp(
     actions: {},
     state: {}
   };
+  $rootScope.pageName = pageName;
 
   var w = angular.element($window);
   w.bind('resize', debounce(function () {

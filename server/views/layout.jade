@@ -13,7 +13,9 @@ html(
       name = "viewport"
     )
 
-    title Runnable
+    title(
+      ng-bind = "pageName.title()"
+    ) Runnable
 
     //- css
     link(
@@ -23,16 +25,10 @@ html(
     )
 
     //- favicon
-    if env !== 'production'
-      link(
-        href = "/build/images/favicon-dev.png"
-        rel = "shortcut icon"
-      )
-    if env === 'production'
-      link(
-        href = "/build/images/favicon.png"
-        rel = "shortcut icon"
-      )
+    link(
+      href = "/build/images/favicon.png"
+      rel = "shortcut icon"
+    )
 
     //- ios and safari icons
     link(
