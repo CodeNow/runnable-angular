@@ -23,7 +23,7 @@ require('app')
       var building = keypather.get(instance, 'build.attrs.started') &&
           !keypather.get(instance, 'build.attrs.completed');
       var running = keypather.get(instance, 'containers.models[0].attrs.inspect.State.Running');
-      var imageId = running ? 'favicon-running' : (building ? 'favicon-building' : 'favicon-stopped');
+      var imageId = running ? 'js-favicon-running' : (building ? 'js-favicon-building' : 'js-favicon-stopped');
       favico.image($document[0].getElementById(imageId));
     };
 
