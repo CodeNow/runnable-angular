@@ -2,7 +2,8 @@
 
 var PrimusClient = require('primus-client');
 var util = require('util');
-var uuid = require('uuid');
+// FIXME: should be injected
+var uuid = require('node-uuid');
 
 function RunnablePrimus() {
   PrimusClient.apply(this, arguments);
