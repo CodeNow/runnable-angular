@@ -2,11 +2,15 @@ Runnable 2.0
 =============
 
 
-<img src="https://circleci.com/gh/CodeNow/runnable-angular.png?circle-token=979bf08a16049c22ca0f7f7e01cb523ce9dbfcac" align="right">
-<br><br>
-<a href="https://saucelabs.com/u/runnable">
-  <img src="https://saucelabs.com/browser-matrix/runnable.svg?auth=9a8a382b89d804503547b9feda1eb36c" align="right">
-</a>
+[![
+  CircleCI Status
+ ](https://circleci.com/gh/CodeNow/runnable-angular.png?circle-token=979bf08a16049c22ca0f7f7e01cb523ce9dbfcac")
+](https://circleci.com/gh/CodeNow/runnable-angular)
+
+[![
+  SauceLabs Status
+ ](https://saucelabs.com/browser-matrix/runnable.svg?auth=9a8a382b89d804503547b9feda1eb36c)
+](https://saucelabs.com/u/runnable)
 
 The front-end for Runnable's sandbox management platform.
 
