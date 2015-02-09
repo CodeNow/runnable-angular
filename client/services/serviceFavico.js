@@ -3,9 +3,10 @@
 require('app')
   .factory('favico', function (
     $document,
+    favicojs,
     keypather
   ) {
-    var favico = require('favico.js')({
+    var favico = favicojs({
       animation:'none'
     });
 
