@@ -51,7 +51,7 @@
           b.btn-xs.orange _
           b.btn-xs.orange -
         span.validate-rules.invalid-name That's a pretty name, but it's taken.
-    section.modal-inset(
+    section.inset(
       fork-dependencies = "data.forkDependencies"
       linked-instances
       instance-dependencies = "data.instance.dependencies"
@@ -64,7 +64,7 @@
   footer.modal-footer
     //- cancel is modalDirective
       - actions.cancel is parent controller
-    label.label-checkbox.btn-checkbox(
+    label.btn.btn-xs.gray.label-checkbox.btn-checkbox(
       ng-if = "data.instance.dependencies.models.length"
     )
       input.input-checkbox(

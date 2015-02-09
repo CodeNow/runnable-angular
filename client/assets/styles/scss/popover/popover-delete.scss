@@ -1,9 +1,14 @@
 .popover-delete {
-  max-width: 450px;
-  width: 450px;
+  max-width: 420px;
+  width: 420px;
 
   .arrow {
     left: auto !important;
     right: 6px;
+  }
+
+  .popover-title {
+    font-weight: 300;
+    padding: 15px 6px 21px;
   }
 }

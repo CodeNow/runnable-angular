@@ -7,7 +7,7 @@
     h3.popover-title Permanently delete #{''}
       strong {{ data.instance.attrs.name }}
       | ?
-  section.popover-inset(
+  section.inset.in(
     ng-class = "{in: data.deleteLinked}"
     ng-init = "data.deleteLinked = true"
     ng-show = "data.instance.dependencies.models.length"
@@ -25,8 +25,8 @@
         )
         | {{ instance.attrs.name }}
   footer.popover-footer
-    //- ng-show = "data.instance.dependencies.models.length"
-    label.label-checkbox.btn-checkbox(
+    label.btn.btn-xs.gray.label-checkbox.btn-checkbox(
+      ng-show = "data.instance.dependencies.models.length"
     )
       input.input-checkbox(
         checked
@@ -34,10 +34,10 @@
         type = "checkbox"
       )
       | Delete linked servers
-    button.btn.orange(
+    button.btn.btn-sm.orange(
       ng-click = "actions.deleteInstance(data.deleteLinked); \
         defaultActions.cancel();"
     ) Delete Server
-    button.btn.white(
+    button.btn.btn-sm.white(
       ng-click = "actions.cancelEnv(data.instance, $event)"
     ) Go Back

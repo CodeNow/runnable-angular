@@ -136,7 +136,6 @@
   }
 
   .label-checkbox {
-    font-size: 14px;
     letter-spacing: .5px;
     transition: padding .15s ease-in;
   }
@@ -174,16 +173,9 @@
   }
 
   .label-checkbox {
-    background: $gray-lightest;
-    border: 1px solid rgba($black,.1);
-    float: left;
     font-size: 13px;
-    line-height: 22px;
-    margin: 10px 15px 0 9px;
-
-    .input-checkbox {
-      margin: 6px 6px 0 0;
-    }
+    line-height: 24px;
+    margin: 9px 6px 0 0;
   }
 
   // validation

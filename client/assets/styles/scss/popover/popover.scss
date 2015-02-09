@@ -131,13 +131,11 @@
 }
 
 // h3.popover-title
-// .popover-title {
-//   font-weight: 500;
-//   margin: 0;
-//   padding: 0;
-//   position: relative;
-//   z-index: $z-popover-title;
-// }
+.popover-title {
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
 
 // flex for multiple buttons
 .popover-content-header {
@@ -176,7 +174,7 @@
 //- footer.popover-footer
 .popover-footer {
   height: 36px;
-  margin: 0 6px 6px;
+  margin: 6px;
 
   .btn-sm {
     padding: 0 12px;
@@ -189,8 +187,14 @@
   .white {
     float: right;
 
-    &:first-child {
-      margin-left: 6px;
+    + .green,
+    + .orange,
+    + .white {
+      margin-right: 6px;
     }
+  }
+
+  .btn-checkbox {
+    margin: 6px 0;
   }
 }
