@@ -15,6 +15,6 @@ function getNewForkName() {
     while (instances.models.some(checkInstanceName)) {
       numeral++;
     }
-    return (numeral > 1 || noCopy) ? newForkName + numeral : newForkName;
+    return (numeral > 1) ? newForkName + numeral : newForkName;
   };
 }

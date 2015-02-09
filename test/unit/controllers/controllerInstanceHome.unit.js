@@ -148,11 +148,20 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       var lsData = {};
       keypather.set(lsData, 'lastInstancePerUser.user', 'space');
       setup('user', lsData);
+      var many = runnable.newInstances(
+        [apiMocks.instances.running, apiMocks.instances.stopped],
+        {noStore: true}
+      );
+      $rootScope.$digest();
+      expect($scope.loading).to.be.true;
+      many.githubUsername = 'user';
+      mockFetch.triggerPromise(many);
+      $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'user',
         instanceName: 'space'
       });
-      expect($scope.loading).to.be.undefined;
+      expect($scope.loading).to.be.false;
     });
   });
   describe('multiple requests for different active accounts'.blue, function () {

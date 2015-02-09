@@ -138,7 +138,7 @@ function fetchInstances(
       instance.githubUsername = opts.githubUsername;
 
       return instance;
-    }).catch(errs.handler);
+    });
   };
 }
 
@@ -160,7 +160,7 @@ function fetchBuild(
       return pFetch(buildId);
     }).then(function(build) {
       return build;
-    }).catch(errs.handler);
+    });
   };
 }
 

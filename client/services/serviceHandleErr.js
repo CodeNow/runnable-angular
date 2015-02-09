@@ -5,6 +5,7 @@ require('app')
 
 function errs (
   keypather,
+  hasKeypaths,
   $log
 ) {
   // codes that do not need to be displayed to user
@@ -14,7 +15,9 @@ function errs (
     handler: function (err) {
       if (err) {
         if (~noDisplayCodes.indexOf(keypather.get(err, 'data.statusCode'))) { return; }
-        errors.push(err);
+        if (!errors.find(hasKeypaths({ 'message': err.message }))) {
+          errors.push(err);
+        }
         if (process.env.NODE_ENV !== 'production') {
           $log.error(err);
         }

@@ -59,22 +59,20 @@ function ControllerInstance(
     return fetchInstances({
       name: $stateParams.instanceName
     });
-  })
-  .then(function(instance) {
+  }).then(function (instance) {
     data.instance = instance;
+    data.instance.state = {};
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,
       $stateParams.instanceName
     );
-  })
-  .catch(function(err) {
+  }).catch(function (err) {
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,
       null
     );
-    data.instance.state = {};
     $state.go('instance.home', {
       userName: $stateParams.userName
     });
