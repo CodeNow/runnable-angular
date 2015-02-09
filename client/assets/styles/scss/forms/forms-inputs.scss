@@ -188,11 +188,5 @@ textarea {
     height: 24px;
     line-height: 24px;
     padding-left: 24px;
-
-    &:focus,
-    &:valid {
-      background-position: 3px 2px;
-      padding-left: 24px;
-    }
   }
 }
