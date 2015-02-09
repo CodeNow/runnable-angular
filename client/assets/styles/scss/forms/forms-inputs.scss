@@ -133,6 +133,14 @@ textarea {
     white-space: nowrap;
   }
 
+  // label icons
+  .iconnables {
+    height: 15px;
+    margin-right: 3px;
+    top: 3px;
+    width: 15px;
+  }
+
   .input-description {
     color: $gray;
     font-size: 12px;
@@ -147,7 +155,7 @@ textarea {
     border: 0;
     box-shadow: none;
     flex: 1 0 auto;
-    padding: 0 6px 0 0;
+    padding: 0;
     width: auto;
   }
 

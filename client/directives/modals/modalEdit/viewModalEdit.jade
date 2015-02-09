@@ -7,7 +7,12 @@
         'ng-valid': c\
       }"
     )
-      span.input-label Editing
+      span.input-label
+        svg.iconnables.icons-edit
+          use(
+            xlink:href = "#icons-edit"
+          )
+        | Edit
       span.input-description.text-overflow url.codenow.runnable.io
       input.input(
         autocomplete = "off"
