@@ -8,11 +8,11 @@
     h3.popover-title Environment Variables
   section.inset.in
     .list
-      label.input-group(
+      label.input-group.with-description(
         ng-class = "{focus: data.state.showFocus}"
         ng-repeat = "env in data.state.envVars"
       )
-        span.input-label(
+        span.input-description.text-overflow(
           title = "{{ env.key}}"
         ) {{ env.key }}
         input.input(

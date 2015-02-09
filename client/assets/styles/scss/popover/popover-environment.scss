@@ -9,4 +9,18 @@
   .list {
     margin: 9px;
   }
+
+  // label.input-group for envs
+  .input-group {
+    padding-left: 6px;
+
+    &.with-description > .input {
+      font-weight: 300;
+      margin-top: 18px;
+    }
+  }
+
+  .input-description {
+    top: 9px;
+  }
 }
