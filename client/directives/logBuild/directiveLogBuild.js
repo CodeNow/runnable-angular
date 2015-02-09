@@ -110,14 +110,6 @@ function logBuild(
           terminal.cursorBlink = false;
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
-          build.fetch(function (err) {
-            if (err) { return $log.error(err); }
-            if (!build.succeeded()) {
-              writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
-            } else {
-              writeToTerm(COMPLETE_SUCCESS_MESSAGE);
-            }
-          });
         });
       }
 

@@ -1,23 +1,21 @@
 'use strict';
 
 require('app')
-  .directive('fileTree', fileTree);
+  .directive('fileTreeRoot', fileTreeRoot);
 /**
- * fileTree Directive
+ * fileTreeRoot Directive
  * @ngInject
  */
-function fileTree(
+function fileTreeRoot(
   keypather,
   fetchBuild,
-  $rootScope,
-  $state,
   $stateParams,
   fetchInstances,
   errs
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewFileTree',
+    templateUrl: 'viewFileTreeRoot',
     scope: {
       openItems: '='
     },
@@ -26,8 +24,7 @@ function fileTree(
       var data = $scope.data = {};
 
       if ($stateParams.buildId) {
-        fetchBuild($stateParams.buildId)
-        .then(function(build) {
+        fetchBuild($stateParams.buildId).then(function(build) {
           $scope.build = build;
           $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
           initRootDirState($scope.rootDir);
@@ -35,8 +32,7 @@ function fileTree(
       } else {
         fetchInstances({
           name: $stateParams.instanceName
-        })
-        .then(function(instance) {
+        }).then(function(instance) {
           $scope.instance = instance;
           $scope.build = instance.build;
           // instance page

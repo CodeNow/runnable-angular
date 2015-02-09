@@ -61,28 +61,26 @@ function ControllerInstance(
     return fetchInstances({
       name: $stateParams.instanceName
     });
-  })
-    .then(function(instance) {
-      data.instance = instance;
-      pageName.setTitle(instance.attrs.name);
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        $stateParams.instanceName
-      );
-    })
-    .catch(function(err) {
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        null
-      );
-      data.instance.state = {};
-      $state.go('instance.home', {
-        userName: $stateParams.userName
-      });
-      errs.handler(err);
+  }).then(function (instance) {
+    data.instance = instance;
+    pageName.setTitle(instance.attrs.name);
+    data.instance.state = {};
+    keypather.set(
+      $localStorage,
+      'lastInstancePerUser.' + $stateParams.userName,
+      $stateParams.instanceName
+    );
+  }).catch(function (err) {
+    errs.handler(err);
+    keypather.set(
+      $localStorage,
+      'lastInstancePerUser.' + $stateParams.userName,
+      null
+    );
+    $state.go('instance.home', {
+      userName: $stateParams.userName
     });
+  });
 
   $scope.$on('new-build', function() {
     if (data.showUpdatingMessage) { return; } // Remove this line on ws change
