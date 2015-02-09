@@ -4,7 +4,7 @@ Runnable 2.0
 
 [![
   CircleCI Status
- ](https://circleci.com/gh/CodeNow/runnable-angular.png?circle-token=979bf08a16049c22ca0f7f7e01cb523ce9dbfcac")
+ ](https://circleci.com/gh/CodeNow/runnable-angular.png?circle-token=979bf08a16049c22ca0f7f7e01cb523ce9dbfcac)
 ](https://circleci.com/gh/CodeNow/runnable-angular)
 
 [![
