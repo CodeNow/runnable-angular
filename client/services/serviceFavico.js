@@ -7,11 +7,12 @@ require('app')
     keypather
   ) {
     var favico = favicojs({
-      animation:'none'
+      animation: 'none'
     });
-
-    var badge = function (num) {
-      favico.badge(num);
+    var icons = {
+      building: $document[0].getElementById('js-favicon-building'),
+      running: $document[0].getElementById('js-favicon-running'),
+      stopped: $document[0].getElementById('js-favicon-stopped')
     };
     var reset = function () {
       favico.reset();
@@ -23,8 +24,9 @@ require('app')
       var building = keypather.get(instance, 'build.attrs.started') &&
           !keypather.get(instance, 'build.attrs.completed');
       var running = keypather.get(instance, 'containers.models[0].attrs.inspect.State.Running');
-      var imageId = running ? 'js-favicon-running' : (building ? 'js-favicon-building' : 'js-favicon-stopped');
-      favico.image($document[0].getElementById(imageId));
+      var image = building ? icons.building : (running ?  icons.running : icons.stopped);
+      favico.reset();
+      favico.image(image);
     };
 
     return {

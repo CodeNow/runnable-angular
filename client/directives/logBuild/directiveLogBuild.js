@@ -10,6 +10,7 @@ function logBuild(
   primus,
   keypather,
   $log,
+  promisify,
   $stateParams,
   dockerStreamCleanser,
   fetchInstances
@@ -76,14 +77,13 @@ function logBuild(
       }
 
       function showTerminalSpinner() {
-        terminal.hideCursor = false;
-        terminal.cursorBlink = true;
-        terminal.cursorSpinner = true;
-
-        if (terminal.cursorState === 0) {
+        if (!terminal.cursorSpinner) {
           terminal.cursorState = -1;
+          terminal.hideCursor = false;
+          terminal.cursorBlink = true;
+          terminal.cursorSpinner = true;
+          terminal.startBlink();
         }
-        terminal.startBlink();
       }
 
       function subscribeToSubstream(build) {
@@ -110,6 +110,15 @@ function logBuild(
           terminal.cursorBlink = false;
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
+          promisify($scope.instance, 'fetch')().then(function (instance) {
+            if (!instance.build.succeeded()) {
+              writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
+            } else {
+              writeToTerm(COMPLETE_SUCCESS_MESSAGE);
+            }
+          }).catch(function (err) {
+            $log.error(err);
+          });
         });
       }
 

@@ -126,38 +126,45 @@ function ControllerInstance(
   // watch for deployed/started/stopped instance
   // all watches necessary, updateDisplayedTabs expectst to be invoked
   // after fetching instance, fetching container, and cointainer start
-  var containerWatch =
-      $scope.$watch('dataInstance.data.instance.containers.models[0]', handleContainer);
 
-  var unwatchRunning;
-  function handleContainer (container) {
+  $scope.checkContainerState = function () {
+    var container = keypather.get($scope, 'dataInstance.data.instance.containers.models[0]');
     if (!container) {
-      favico.setInstanceState(data.instance);
-      buildLogsOnly();
-    } else { // handles both container.error and container.dockerContainer states
-      if (unwatchRunning) {
-        unwatchRunning();
+      if (keypather.get($scope, 'dataInstance.data.instance.build')) {
+        var completed = keypather.get($scope, 'dataInstance.data.instance.build.attrs.completed');
+        container = {
+          Building: (keypather.get($scope, 'dataInstance.data.instance.build.attrs.started') &&
+                     !completed),
+          Died: completed
+        };
       }
-      unwatchRunning = $scope.$watchCollection(
-        'dataInstance.data.instance.containers.models[0].attrs.inspect.State',
-        displayTabsForContainerState
-      ); // once
+    } else {
+      container = container.attrs;
     }
-  }
-  function displayTabsForContainerState (containerState) {
-    favico.setInstanceState(data.instance);
-    if (!containerState) { return; }
-    if (!containerState.Running) { // false or null (container.error)
-      boxLogsOnly();
-    }
-    else {
-      data.sectionClasses.in = data.showExplorer;
-      restoreOrOpenDefaultTabs();
+    return container;
+  };
+  var unwatchRunning = $scope.$watch('checkContainerState()', displayTabsForContainerState, true);
+
+  function displayTabsForContainerState(containerState) {
+    $timeout(function () {
+      favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
+    });
+    if (!containerState) {
+      return;
+    } else if (containerState.Building || containerState.Died) {
+      buildLogsOnly();
+    } else {
+      if (keypather.get(containerState, 'inspect.State.Running')) {
+        data.sectionClasses.in = data.showExplorer;
+        restoreOrOpenDefaultTabs();
+      } else {
+        boxLogsOnly();
+      }
     }
   }
 
   $scope.$on('$destroy', function () {
-    containerWatch();
+    unwatchRunning();
   });
 
   function buildLogsOnly () {
