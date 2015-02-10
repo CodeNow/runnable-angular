@@ -11,6 +11,7 @@ module.exports = {
   },
   fetch: function ($q) {
     return function (opts) {
+      console.log('FETCH opts', arguments);
       var thisDeferer = $q.defer();
       deferer.push(thisDeferer);
       return thisDeferer.promise;

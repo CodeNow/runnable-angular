@@ -35,7 +35,7 @@ var stacks = angular.copy(apiMocks.stackInfo);
  *   Switching accounts should trigger new fetch of repos
  *   Selecting a repo should trigger a stack analysis
  */
-describe('directiveModalGettingStarted'.bold.underline.blue, function () {
+describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
   beforeEach(function() {
     ctx = {};
   });
@@ -67,12 +67,13 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
     ctx.gsInstanceLists = angular.copy(ctx.instanceLists);
 
     ctx.stackInfo = angular.copy(stacks);
-    ctx.fetchStackInfoMock = sinon.spy(function (cb) {
-      cb(ctx.stackInfo ? null : new Error('asdas'), ctx.stackInfo);
-    });
+    ctx.fetchStackInfoMock = require('../../../fixtures/mockFetch');
 
     ctx.newBuild = {
-      attrs: angular.copy(apiMocks.builds.setup)
+      attrs: angular.copy(apiMocks.builds.setup),
+      contextVersion: {
+        attrs: angular.copy(apiMocks.contextVersions.running)
+      }
     };
     ctx.newVersion = {
       attrs: angular.copy(apiMocks.contextVersions.setup),
@@ -82,54 +83,33 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         })
       }
     };
-    ctx.createNewBuildMock = sinon.spy(function (user, cb) {
-      cb(ctx.newBuild ? null : new Error('asdas'), ctx.newBuild, ctx.newVersion);
-    });
+    ctx.createNewBuildMock = require('../../../fixtures/mockFetch');
 
     ctx.fetchInstancesCached = true;
     ctx.newForkNameCount = 0;
 
-    ctx.getNewForkNameMock = sinon.spy(function (instance) {
-      return instance.attrs.name + ctx.newForkNameCount++;
-    });
+    ctx.getNewForkNameMock = require('../../../fixtures/mockFetch');
 
-    ctx.copySourceInstanceMock = sinon.spy(function (activeAccount, instance, opts, instances, cb) {
-      cb();
-    });
+    ctx.copySourceInstanceMock = require('../../../fixtures/mockFetch');
 
     ctx.newDockerFile = angular.copy(apiMocks.files.dockerfile);
-    ctx.dockerFileCreationCb = null;
-    ctx.createDockerfileFromSourceMock = sinon.spy(function (version, stackName, cb) {
-      if (ctx.dockerFileCreationCb) {
-        ctx.dockerFileCreationCb(cb);
-      } else {
-        cb(ctx.newDockerFile ? null : new Error('asdas'), ctx.newDockerFile);
-      }
-    });
+    ctx.createDockerfileFromSourceMock = require('../../../fixtures/mockFetch');
 
-    ctx.gsPopulateDockerfileMock = sinon.spy(function (version, stackName) {
-      return function (cb) {
-        return cb();
-      };
-    });
+    ctx.gsPopulateDockerfileMock = require('../../../fixtures/mockFetch');
 
-    ctx.createNewInstanceMock = sinon.spy(function (account, build, opts, instances) {
-      return function (cb) {
-        return cb();
-      };
-    });
+    ctx.createNewInstanceMock = require('../../../fixtures/mockFetch');
 
     runnable.reset(apiMocks.user);
 
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
-      $provide.value('fetchStackInfo', ctx.fetchStackInfoMock);
-      $provide.value('createNewBuild', ctx.createNewBuildMock);
-      $provide.value('getNewForkName', ctx.getNewForkNameMock);
-      $provide.value('createDockerfileFromSource', ctx.createDockerfileFromSourceMock);
-      $provide.value('gsPopulateDockerfile', ctx.gsPopulateDockerfileMock);
-      $provide.value('createNewInstance', ctx.createNewInstanceMock);
-      $provide.value('copySourceInstance', ctx.copySourceInstanceMock);
+      $provide.factory('fetchStackInfo', ctx.fetchStackInfoMock.fetch);
+      $provide.factory('createNewBuild', ctx.createNewBuildMock.fetch);
+      $provide.factory('getNewForkName', ctx.getNewForkNameMock.fetch);
+      $provide.factory('createDockerfileFromSource', ctx.createDockerfileFromSourceMock.fetch);
+      $provide.factory('gsPopulateDockerfile', ctx.gsPopulateDockerfileMock.fetch);
+      $provide.factory('createNewInstance', ctx.createNewInstanceMock.fetch);
+      $provide.factory('copySourceInstance', ctx.copySourceInstanceMock.fetch);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.list);
 
       // Required for subdirective
@@ -410,8 +390,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       injectSetupCompile();
     });
     it('should fetch basic info at the beginning', function () {
-      sinon.assert.called(ctx.fetchStackInfoMock);
+      ctx.fetchStackInfoMock.triggerPromise(ctx.stackInfo);
 
+      var index = 0;
       var orgs = [ctx.fakeOrg1, ctx.fakeOrg2];
       keypather.set($rootScope, 'dataApp.data.orgs', orgs);
       keypather.set($rootScope, 'dataApp.data.user', ctx.fakeuser);
@@ -421,20 +402,26 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.instances', { models:[] });
       $rootScope.$digest();
 
+      console.log('INDEX', index++);
       expect($elScope.data.activeAccount).to.equal(ctx.fakeuser);
       expect($elScope.data.orgs).to.equal(orgs);
       expect($elScope.data.user).to.equal(ctx.fakeuser);
 
+      console.log('INDEX', index++);
       expect($elScope.state.hideCancelButton).to.be.true;
+      ctx.createNewBuildMock.triggerPromise(ctx.newBuild);
+      $scope.$digest();
 
-      sinon.assert.calledWith(ctx.createNewBuildMock, ctx.fakeuser);
-
+      console.log('INDEX', index++);
       expect($elScope.state.contextVersion).to.be.ok;
+      console.log('INDEX', index++);
       expect($elScope.state.build).to.be.ok;
       $elScope.state.stack = stacks[0];
       $scope.$digest();
 
-      sinon.assert.calledWith(ctx.createDockerfileFromSourceMock, ctx.newVersion, stacks[0].key);
+      ctx.createDockerfileFromSourceMock.triggerPromise(ctx.newDockerFile);
+      $scope.$digest();
+      console.log('INDEX', index++);
       expect($elScope.state.dockerfile).to.be.ok;
 
       $scope.$destroy();

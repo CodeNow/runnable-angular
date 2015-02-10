@@ -9,14 +9,14 @@ require('app')
 function modalGettingStarted(
   $rootScope,
   $timeout,
-  async,
   createDockerfileFromSource,
-  callbackCount,
   copySourceInstance,
   errs,
   getNewForkName,
   regexpQuote,
   gsPopulateDockerfile,
+  $q,
+  promisify,
   createNewInstance,
   $state,
   fetchStackInfo,
@@ -63,7 +63,7 @@ function modalGettingStarted(
               }
             } : null,
             reqEnv: envs.map(function (url, index) {
-              url = url.replace(/https?:\/\//, '').replace(/:\d{0,5}/g,'');
+              url = url.replace(/https?:\/\//, '').replace(/:\d{0,5}/g, '');
               var thisEnvName = envName + '_HOST' + (index > 0 ? index : '');
               return {
                 name: thisEnvName,
@@ -115,65 +115,56 @@ function modalGettingStarted(
               unwatchInstances();
               generateDependenciesNames();
               $scope.state.opts.env = generateEnvs($scope.state.dependencies);
-              $scope.state.opts.name =
-                getNewForkName({
-                  attrs: {
-                    name: $scope.state.selectedRepo.attrs.name.replace(/\W/gim, '_')
-                  }
-                }, $scope.data.instances, true);
-              async.waterfall([
-                createAppCodeVersions(
-                  $scope.state.contextVersion,
-                  $scope.state.selectedRepo,
-                  $scope.state.activeBranch
-                ),
-                gsPopulateDockerfile(
+              $scope.state.opts.name = getNewForkName({
+                attrs: {
+                  name: $scope.state.selectedRepo.attrs.name.replace(/\W/gim, '_')
+                }
+              }, $scope.data.instances, true);
+              createAppCodeVersions(
+                $scope.state.contextVersion,
+                $scope.state.selectedRepo,
+                $scope.state.activeBranch
+              ).then(function () {
+                return gsPopulateDockerfile(
                   $scope.state.dockerfile,
                   $scope.state
-                ),
-                forkInstances($scope.state.dependencies),
-                createNewInstance(
+                );
+              }).then(function () {
+                return forkInstances($scope.state.dependencies);
+              }).then(function () {
+                return createNewInstance(
                   $scope.data.activeAccount,
                   $scope.state.build,
-                  $scope.state.opts,
-                  $scope.data.instances
-                ),
-                function (cb) {
-                  $rootScope.dataApp.data.loading = false;
-                  var newStateParams = {
-                    userName: $scope.data.activeAccount.oauthName(),
-                    instanceName: $scope.state.opts.name
-                  };
-                  $scope.defaultActions.close(function () {
-                    $scope.$emit('INSTANCE_LIST_FETCH', newStateParams.userName);
-                    cb(null, newStateParams);
-                  });
-                },
-                function (newStateParams) {
-                  $timeout(function () {
-                    $state.go('instance.instance', newStateParams);
-                  }, 10);
-                }
-              ], function (err) {
+                  $scope.state.opts
+                );
+              }).then(function () {
+                $rootScope.dataApp.data.loading = false;
+                var newStateParams = {
+                  userName: $scope.data.activeAccount.oauthName(),
+                  instanceName: $scope.state.opts.name
+                };
+                $scope.defaultActions.close();
+                return newStateParams;
+              }).then(function (newStateParams) {
+                $timeout(function () {
+                  $state.go('instance.instance', newStateParams);
+                }, 10);
+              }).catch(function (err) {
                 $scope.building = false;
                 errs.handler(err);
-                resetModalData($scope.data.activeAccount, true, function (err) {
-                  if (err) {
-                    $rootScope.dataApp.data.loading = false;
-                    $timeout(angular.noop);
-                    return errs.handler(err);
-                  }
-                  createDockerfileFromSource(
+                resetModalData(
+                  $scope.data.activeAccount
+                ).then(function () {
+                  return createDockerfileFromSource(
                     $scope.state.contextVersion,
-                    $scope.state.stack.key,
-                    function (err, dockerfile) {
-                      $rootScope.dataApp.data.loading = false;
-                      if (err) {
-                        return errs.handler(err);
-                      }
-                      $scope.state.dockerfile = dockerfile;
-                    }
+                    $scope.state.stack.key
                   );
+                }).then(function (dockerfile) {
+                  $scope.state.dockerfile = dockerfile;
+                }).catch(
+                  errs.handler
+                ).finally(function () {
+                  $rootScope.dataApp.data.loading = false;
                 });
               });
             });
@@ -206,12 +197,12 @@ function modalGettingStarted(
           var unwatchCv = $scope.$watch('state.contextVersion', function (contextVersion) {
             if (contextVersion) {
               unwatchCv();
-              createDockerfileFromSource(contextVersion, n.key, function (err, dockerfile) {
-                if (err) {
-                  return errs.handler(err);
-                }
+              createDockerfileFromSource(
+                contextVersion,
+                n.key
+              ).then(function (dockerfile) {
                 $scope.state.dockerfile = dockerfile;
-              });
+              }).catch(errs.handler);
             }
           });
         }
@@ -228,34 +219,29 @@ function modalGettingStarted(
             };
             $scope.data.instances = null;
           }
-          resetModalData(user);
+          resetModalData(
+            user
+          ).then(function () {
+            return fetchInstances({
+              githubUsername: user.oauthName()
+            });
+          }).then(function (instances) {
+            $scope.data.instances = instances;
+          });
         }
       });
 
-      function resetModalData(user, forceInstanceFetch, cb) {
-        var counter = (cb) ? callbackCount(2, cb) : null;
+      function resetModalData(user) {
         $scope.state.build = null;
         $scope.state.contextVersion = null;
         $scope.state.dockerfile = null;
         $scope.data.instances = null;
-        createNewBuild(user, function (err, build, version) {
-          $scope.state.build = build;
-          $scope.state.contextVersion = version;
-          if (counter) {
-            counter.next(err);
-          }
+        console.log('NEWBUILD123123', user);
+        return createNewBuild(user).then(function (buildWithVersion) {
+          console.log('NEWBUILD');
+          $scope.state.build = buildWithVersion;
+          $scope.state.contextVersion = buildWithVersion.contextVersion;
         });
-        fetchInstances({ githubUsername: user.oauthName()})
-          .then(function (instances) {
-            $scope.data.instances = instances;
-            if (counter) {
-              counter.next();
-            }
-          }).catch(function(err) {
-            if (counter) {
-              counter.next(err);
-            }
-          });
       }
 
       function generateDependencyName(item) {
@@ -289,44 +275,25 @@ function modalGettingStarted(
       }
 
       function createAppCodeVersions(version, repo, branch) {
-        return function (cb) {
-          version.appCodeVersions.create({
-            repo: repo.attrs.full_name,
-            branch: branch.attrs.name,
-            commit: branch.attrs.commit.sha
-          }, function (err) {
-            cb(err);
-          });
-        };
+        return promisify(version.appCodeVersions, 'create')({
+          repo: repo.attrs.full_name,
+          branch: branch.attrs.name,
+          commit: branch.attrs.commit.sha
+        });
       }
 
       function forkInstances(items) {
-        //$rootScope.dataApp.data.loading = true;
-        function fork(instance, opts, cb) {
-          copySourceInstance(
+        if (!items.length) { return; }
+        var parallelFunctions = items.filter(function (item) {
+          return item.opts;
+        }).map(function (item) {
+          return copySourceInstance(
             $scope.data.activeAccount,
-            instance,
-            opts,
-            $scope.data.instances,
-            cb
+            item.instance,
+            item.opts
           );
-        }
-
-        return function (cb) {
-          if (!items.length) { return cb(); }
-          var parallelFunctions = items.map(function (item) {
-            return function (cb) {
-              if (item.opts) {
-                fork(item.instance, item.opts, cb);
-              } else {
-                cb();
-              }
-            };
-          });
-          async.parallel(parallelFunctions, function (err) {
-            cb(err);
-          });
-        };
+        });
+        return $q.all(parallelFunctions);
       }
     }
   };
