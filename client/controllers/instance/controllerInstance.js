@@ -6,12 +6,10 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  $filter,
   errs,
   fetchCommitData,
   keypather,
   OpenItems,
-  $rootScope,
   $localStorage,
   $location,
   $scope,
@@ -127,23 +125,21 @@ function ControllerInstance(
   // all watches necessary, updateDisplayedTabs expectst to be invoked
   // after fetching instance, fetching container, and cointainer start
 
-  $scope.checkContainerState = function () {
+  function checkContainerState() {
     var container = keypather.get($scope, 'dataInstance.data.instance.containers.models[0]');
     if (!container) {
       if (keypather.get($scope, 'dataInstance.data.instance.build')) {
         var completed = keypather.get($scope, 'dataInstance.data.instance.build.attrs.completed');
         container = {
-          Building: (keypather.get($scope, 'dataInstance.data.instance.build.attrs.started') &&
-                     !completed),
-          Died: completed
+          Building: (keypather.get($scope, 'dataInstance.data.instance.build.attrs.started'))
         };
       }
     } else {
       container = container.attrs;
     }
     return container;
-  };
-  var unwatchRunning = $scope.$watch('checkContainerState()', displayTabsForContainerState, true);
+  }
+  $scope.$watch(checkContainerState, displayTabsForContainerState, true);
 
   function displayTabsForContainerState(containerState) {
     $timeout(function () {
@@ -151,7 +147,7 @@ function ControllerInstance(
     });
     if (!containerState) {
       return;
-    } else if (containerState.Building || containerState.Died) {
+    } else if (containerState.Building) {
       buildLogsOnly();
     } else {
       if (keypather.get(containerState, 'inspect.State.Running')) {
@@ -162,10 +158,6 @@ function ControllerInstance(
       }
     }
   }
-
-  $scope.$on('$destroy', function () {
-    unwatchRunning();
-  });
 
   function buildLogsOnly () {
     data.sectionClasses = {
