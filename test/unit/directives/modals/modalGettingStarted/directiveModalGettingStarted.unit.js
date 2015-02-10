@@ -88,7 +88,9 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
     ctx.fetchInstancesCached = true;
     ctx.newForkNameCount = 0;
 
-    ctx.getNewForkNameMock = require('../../../fixtures/mockFetch');
+    ctx.getNewForkNameMock = sinon.spy(function (instance) {
+      return instance.attrs.name + ctx.newForkNameCount++;
+    });
 
     ctx.copySourceInstanceMock = require('../../../fixtures/mockFetch');
 
@@ -105,7 +107,7 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
       $provide.value('errs', ctx.errsMock);
       $provide.factory('fetchStackInfo', ctx.fetchStackInfoMock.fetch);
       $provide.factory('createNewBuild', ctx.createNewBuildMock.fetch);
-      $provide.factory('getNewForkName', ctx.getNewForkNameMock.fetch);
+      $provide.value('getNewForkName', ctx.getNewForkNameMock);
       $provide.factory('createDockerfileFromSource', ctx.createDockerfileFromSourceMock.fetch);
       $provide.factory('gsPopulateDockerfile', ctx.gsPopulateDockerfileMock.fetch);
       $provide.factory('createNewInstance', ctx.createNewInstanceMock.fetch);
@@ -450,7 +452,7 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
       expect($elScope.data.orgs).to.equal(orgs);
       expect($elScope.data.user).to.equal(ctx.fakeuser);
 
-      sinon.assert.calledWith(ctx.createNewBuildMock, ctx.fakeuser);
+      ctx.createNewBuildMock.triggerPromise(ctx.newBuild);
     });
     afterEach(function () {
       $scope.$destroy();
@@ -498,7 +500,7 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
       $elScope.state.stack = stacks[0];
       $scope.$digest();
 
-      sinon.assert.calledWith(ctx.createDockerfileFromSourceMock, ctx.newVersion, stacks[0].key);
+      ctx.createDockerfileFromSourceMock.triggerPromise(ctx.newDockerFile);
       expect($elScope.state.dockerfile).to.be.ok;
 
       expect($elScope.state.opts.env).to.be.ok;

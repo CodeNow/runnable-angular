@@ -21,13 +21,12 @@ function gsRepoSelector(
       state: '='
     },
     link: function ($scope, elem, attrs) {
-      function fetchStackData(repo, cb) {
-        fetchStackAnalysis(repo, function (err, data) {
-          if (err) { return cb(err); }
+      function fetchStackData(repo) {
+        return fetchStackAnalysis(repo).then(function (data) {
           if (!data.languageFramework) {
             $scope.state.stack = $scope.data.stacks[0];
             $log.warn('No language detected');
-            return cb();
+            return;
           }
           $scope.state.stack = $scope.data.stacks.find(hasKeypaths({
             'key': data.languageFramework.toLowerCase()
@@ -49,13 +48,10 @@ function gsRepoSelector(
                     $scope.actions.addDependency(dep);
                   }
                 });
-                cb();
               }
             });
-          } else {
-            cb();
           }
-        });
+        }).catch(errs.handler);
       }
       $scope.selectRepo = function (repo) {
         if ($scope.state.repoSelected) { return; }
@@ -68,11 +64,14 @@ function gsRepoSelector(
               repo.branches.models.find(hasKeypaths({'attrs.name': 'master'}));
           if (!$scope.state.activeBranch) { return errs.handler(new Error('No branches found')); }
         });
-        fetchStackData(repo.attrs.full_name, function (err) {
-          if (err) { $scope.state.repoSelected = false; }
+        fetchStackData(
+          repo.attrs.full_name
+        ).catch(function (err) {
+          $scope.state.repoSelected = false;
+          errs.handler(err);
+        }).finally(function () {
           delete repo.spin;
           $scope.actions.nextStep(2);
-          errs.handler(err);
         });
       };
 
@@ -80,11 +79,13 @@ function gsRepoSelector(
         if (n) {
           $scope.loading = true;
           $scope.githubRepos = null;
-          fetchOwnerRepos(n.oauthName())
-          .then(function (repoList) {
+          fetchOwnerRepos(
+            n.oauthName()
+          ).then(function (repoList) {
             $scope.githubRepos = repoList;
-          }).catch(errs.handler)
-          .finally(function() {
+          }).catch(
+            errs.handler
+          ).finally(function () {
             $scope.loading = false;
           });
         }

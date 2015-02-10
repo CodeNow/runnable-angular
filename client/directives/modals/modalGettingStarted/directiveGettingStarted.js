@@ -187,10 +187,10 @@ function modalGettingStarted(
       }).then(function (deps) {
         keypather.set($scope, 'data.allDependencies', deps);
       }).catch(errs.handler);
-      fetchStackInfo(function (err, stacks) {
-        if (err) { return errs.handler(err); }
+
+      fetchStackInfo().then(function (stacks) {
         keypather.set($scope, 'data.stacks', stacks);
-      });
+      }).catch(errs.handler);
 
       $scope.$watch('state.stack', function (n) {
         if (n) {
