@@ -8,7 +8,7 @@ util.processUrl = function (middle) {
 
 util.waitForUrl = function (url) {
   return browser.wait(function () {
-    return browser.getCurrentUrl().then(function (currentUrl) {
+    return browser.driver.getCurrentUrl().then(function (currentUrl) {
       if (typeof url === 'object' && typeof url.test === 'function') {
         // It's a regex
         return url.test(currentUrl);
