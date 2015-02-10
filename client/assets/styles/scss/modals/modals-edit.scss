@@ -2,7 +2,15 @@
   min-width: 900px;
 
   @include media(md) {
-    min-width: none;
+    min-width: 738px;
+  }
+
+  @include media(sm) {
+    min-width: 570px;
+  }
+
+  @include media(xs) {
+    min-width: 0;
   }
 
   .modal-header {
@@ -10,7 +18,12 @@
     padding: 6px 0;
 
     .input-group {
+      float: left;
       width: 288px;
+
+      @include media(xs) {
+        width: calc(100% - 12px);
+      }
     }
   }
 
@@ -35,11 +48,23 @@
     display: flex;
     height: calc(100vh - 180px);
     max-height: 690px;
+
+    @include media(xs) {
+      display: block;
+    }
   }
 
   // sidebar overrides
   .sidebar {
     height: auto;
+
+    @include media(sm) {
+      width: 270px;
+    }
+
+    @include media(xs) {
+      min-width: 100%;
+    }
   }
 
   .repo-list {
@@ -52,6 +77,11 @@
     flex: 1 0 auto;
     flex-direction: column;
     height: auto;
+
+    @include media(xs) {
+      height: 100%;
+      width: 100%;
+    }
   }
 
   .active-panel {
