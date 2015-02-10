@@ -49,33 +49,6 @@
       flex-direction: column;
     }
   }
-
-  // validation in modals:
-  .validate-wrapper {
-    cursor: default;
-    display: block;
-    height: 0;
-    transition: all .2s ease-in;
-
-    &.invalid-require,
-    &.invalid-pattern,
-    &.invalid-name {
-      border: 1px solid rgba($orange,.3);
-      height: 36px;
-    }
-
-    .validate-rules {
-      align-items: baseline;
-      display: flex;
-      height: 36px;
-      justify-content: center;
-      right: 0;
-    }
-
-    .btn:first-child {
-      margin-left: 6px;
-    }
-  }
 }
 
 // header.modal-header
@@ -124,9 +97,32 @@
     width: 100%;
   }
 
-  // margin for modal-body
+  // validation in modals:
   .validate-wrapper {
+    cursor: default;
+    display: block;
+    height: 0;
     margin: 6px 9px;
+    transition: all .2s ease-in;
+
+    &.invalid-require,
+    &.invalid-pattern,
+    &.invalid-name {
+      border: 1px solid rgba($orange,.3);
+      height: 36px;
+    }
+
+    .validate-rules {
+      align-items: baseline;
+      display: flex;
+      height: 36px;
+      justify-content: center;
+      right: 0;
+    }
+
+    .btn:first-child {
+      margin-left: 6px;
+    }
   }
 
   // form elements in modals:

@@ -19,8 +19,24 @@
         ng-blur = ""
         ng-focus = ""
         placeholder = "server-name"
-        value = "Name of Server"
+        spellcheck = "false"
+        value = "server-name-copy"
       )
+    .orange.validate-wrapper(
+      ng-class = "{\
+        'invalid-name': ,\
+        'invalid-pattern': ,\
+        'invalid-require': \
+      }"
+    )
+      span.validate-rules.invalid-pattern Please use #{''}
+        b.btn-xs.orange A-Z
+        b.btn-xs.orange a-z
+        b.btn-xs.orange 0-9
+        b.btn-xs.orange _
+        b.btn-xs.orange -
+      span.validate-rules.invalid-name That's a pretty name, but it's taken
+      span.validate-rules.invalid-require Give your server a name
     button.btn.white(
       ng-class = "{active: popoverDelete.data.show}"
       toggle-pop-over
