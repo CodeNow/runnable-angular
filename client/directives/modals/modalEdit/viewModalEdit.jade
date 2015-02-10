@@ -37,21 +37,6 @@
         b.btn-xs.orange -
       span.validate-rules.invalid-name That's a pretty name, but it's taken
       span.validate-rules.invalid-require Give your server a name
-    button.btn.white(
-      ng-class = "{active: popoverDelete.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "popoverDelete.data.show"
-    )
-      svg.iconnables.icons-trash
-        use(
-          xlink:href = "#icons-trash"
-        )
-      pop-over(
-        actions = "popoverDelete.actions"
-        data = "popoverDelete.data"
-        popover-options = "{\"left\":-343,\"top\":20}"
-        template = "viewPopoverDelete"
-      )
   .modal-body
     //- sidebar
     section.sidebar.server-sidebar
