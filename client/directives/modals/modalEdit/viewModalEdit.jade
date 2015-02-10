@@ -107,34 +107,43 @@
                 xlink:href = "#icons-add"
               )
         ul.file-tree
-          //- dockerfile cannot be renamed, deleted,
-          //- or moved into another folder
-          li.file
+          li.folder.in
+            //- is it possible to make it so the root folder cannot be closed?
             a
-              svg.iconnables.filetypes.icons-file
+              svg.iconnables.filetypes.icons-folder
                 use(
-                  xlink:href = "#icons-file"
+                  xlink:href = "#icons-folder"
                 )
-              span.item-name Dockerfile
-              span.btn-file-errors.orange 4
-          li.file.no-touching
-            a
-              svg.iconnables.filetypes.icons-repository
-                use(
-                  xlink:href = "#icons-repository"
-                )
-              span.item-name repository-name
-          li.file
-            a
-              svg.iconnables.filetypes.icons-file
-                use(
-                  xlink:href = "#icons-file"
-                )
-              input.tree-input(
-                readonly
-                value = "start.sh"
-              )
-              span.item-name start.sh
+              span /
+            ul
+              li.file.no-touching
+                a
+                  svg.iconnables.filetypes.icons-repository
+                    use(
+                      xlink:href = "#icons-repository"
+                    )
+                  span.item-name repository-name
+              //- dockerfile cannot be renamed, deleted,
+              //- or moved into another folder
+              li.file
+                a
+                  svg.iconnables.filetypes.icons-file
+                    use(
+                      xlink:href = "#icons-file"
+                    )
+                  span.item-name Dockerfile
+                  span.btn-file-errors.orange 4
+              li.file
+                a
+                  svg.iconnables.filetypes.icons-file
+                    use(
+                      xlink:href = "#icons-file"
+                    )
+                  input.tree-input(
+                    readonly
+                    value = "start.sh"
+                  )
+                  span.item-name start.sh
         //- no files or folders can be added to this file-tree
         //- these files cannot be renamed or deleted
         ul.file-tree
