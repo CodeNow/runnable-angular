@@ -10,25 +10,14 @@
     )
       p.p.clearfix Create a link by setting an environment variable to the hostname of the server you want to link to.
     ul.list.popover-list
-      li.list-item.popover-list-item.small Choose port to link
+      li.list-item.popover-list-item.small Choose server to link
         button.btn.btn-xs(
           ng-class = "{active: data.guide}"
           ng-click = "data.guide = !data.guide"
         ) ?
-      li.list-item.popover-list-item
-        div api-server
-        button.btn.btn-xxs.gray 80
-        button.btn.btn-xxs.gray 8080
-      li.list-item.popover-list-item
-        div mongo-server
-        button.btn.btn-xxs.gray 80
-        button.btn.btn-xxs.gray 3001
-        button.btn.btn-xxs.gray 8080
-        button.btn.btn-xxs.gray 8081
-        button.btn.btn-xxs.gray 8081
-        button.btn.btn-xxs.gray 8081
-        button.btn.btn-xxs.gray 8081
-      li.list-item.popover-list-item
-        div web-server
-        button.btn.btn-xxs.gray 80
-        button.btn.btn-xxs.gray 3001
+      li.list-item.popover-list-item api-server
+        button.btn.btn-xxs.gray paste
+      li.list-item.popover-list-item mongo-server
+        button.btn.btn-xxs.gray paste
+      li.list-item.popover-list-item web-server
+        button.btn.btn-xxs.gray paste
