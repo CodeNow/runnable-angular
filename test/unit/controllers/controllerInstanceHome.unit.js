@@ -71,6 +71,11 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstances', mockFetch.fetch);
+      $provide.value('favico', {
+        reset : sinon.spy(),
+        setImage: sinon.spy(),
+        setInstanceState: sinon.spy()
+      });
       $provide.value('$stateParams', ctx.stateParams);
       $provide.value('$localStorage', localStorageData || {});
     });
@@ -148,11 +153,20 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       var lsData = {};
       keypather.set(lsData, 'lastInstancePerUser.user', 'space');
       setup('user', lsData);
+      var many = runnable.newInstances(
+        [apiMocks.instances.running, apiMocks.instances.stopped],
+        {noStore: true}
+      );
+      $rootScope.$digest();
+      expect($scope.loading).to.be.true;
+      many.githubUsername = 'user';
+      mockFetch.triggerPromise(many);
+      $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
         userName: 'user',
         instanceName: 'space'
       });
-      expect($scope.loading).to.be.undefined;
+      expect($scope.loading).to.be.false;
     });
   });
   describe('multiple requests for different active accounts'.blue, function () {

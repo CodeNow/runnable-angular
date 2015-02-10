@@ -9,13 +9,16 @@ function ControllerInstanceEdit(
   keypather,
   errs,
   OpenItems,
+  favico,
   fetchInstances,
   fetchBuild,
+  pageName,
   $scope,
   $state,
   $stateParams
 ) {
 
+  favico.reset();
   var dataInstanceEdit = $scope.dataInstanceEdit = {
     data: {
       unsavedAcvs: []
@@ -48,19 +51,20 @@ function ControllerInstanceEdit(
   fetchInstances({
     name: $stateParams.instanceName
   })
-  .then(function(instance) {
-    data.instance = instance;
-    data.instance.state = {};
-  });
+    .then(function(instance) {
+      data.instance = instance;
+      pageName.setTitle('Edit: ' + instance.attrs.name);
+      data.instance.state = {};
+    });
 
   fetchBuild($stateParams.buildId)
-  .then(function(build) {
-    if (build.attrs.completed) {
-      $state.go('instance.instance', $stateParams);
-      return;
-    }
-    $scope.build = build;
-    setDefaultTabs();
-  });
+    .then(function(build) {
+      if (build.attrs.completed) {
+        $state.go('instance.instance', $stateParams);
+        return;
+      }
+      $scope.build = build;
+      setDefaultTabs();
+    });
 
 }

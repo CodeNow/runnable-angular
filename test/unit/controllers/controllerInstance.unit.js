@@ -19,6 +19,11 @@ describe('controllerInstance'.bold.underline.blue, function () {
 
   beforeEach(function () {
     angular.mock.module(function ($provide) {
+      $provide.value('favico', {
+        reset : sinon.spy(),
+        setImage: sinon.spy(),
+        setInstanceState: sinon.spy()
+      });
       $provide.factory('pFetchUser', fixtures.mockFetchUser);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
     });

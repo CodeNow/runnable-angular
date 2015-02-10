@@ -19,6 +19,8 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   $window,
+  favico,
+  pageName,
   pFetchUser,
   fetchInstances
 ) {
@@ -59,26 +61,25 @@ function ControllerInstance(
     return fetchInstances({
       name: $stateParams.instanceName
     });
-  })
-  .then(function(instance) {
+  }).then(function (instance) {
     data.instance = instance;
+    pageName.setTitle(instance.attrs.name);
+    data.instance.state = {};
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,
       $stateParams.instanceName
     );
-  })
-  .catch(function(err) {
+  }).catch(function (err) {
+    errs.handler(err);
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,
       null
     );
-    data.instance.state = {};
     $state.go('instance.home', {
       userName: $stateParams.userName
     });
-    errs.handler(err);
   });
 
   $scope.$on('new-build', function() {
@@ -131,9 +132,9 @@ function ControllerInstance(
   var unwatchRunning;
   function handleContainer (container) {
     if (!container) {
+      favico.setInstanceState(data.instance);
       buildLogsOnly();
-    }
-    else { // handles both container.error and container.dockerContainer states
+    } else { // handles both container.error and container.dockerContainer states
       if (unwatchRunning) {
         unwatchRunning();
       }
@@ -144,6 +145,7 @@ function ControllerInstance(
     }
   }
   function displayTabsForContainerState (containerState) {
+    favico.setInstanceState(data.instance);
     if (!containerState) { return; }
     if (!containerState.Running) { // false or null (container.error)
       boxLogsOnly();

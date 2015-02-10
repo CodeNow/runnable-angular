@@ -32,7 +32,6 @@ if (process.env.HTTPS) {
 }
 
 app.use(compression());
-app.use(require('cookie-parser')());
 
 app.use('/build', express.static(path.join(__dirname + '/../client/build')));
 
