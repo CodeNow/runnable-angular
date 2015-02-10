@@ -26,7 +26,7 @@ function makeDefaultScope() {
   };
 }
 var stacks = angular.copy(apiMocks.stackInfo);
-
+var MockFetch = require('../../../fixtures/mockFetch');
 
 /**
  * Things to test:
@@ -36,7 +36,7 @@ var stacks = angular.copy(apiMocks.stackInfo);
  *   Selecting a repo should trigger a stack analysis
  */
 describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
-  beforeEach(function() {
+  beforeEach(function () {
     ctx = {};
   });
   function injectSetupCompile() {
@@ -52,7 +52,7 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
       copy: sinon.spy(copyInstanceFunction),
       containers: {
         models: [{
-          urls: function() {
+          urls: function () {
             return [apiMocks.instances.running.name, 'http://asdf.helloRunnable.runnable.io:8080'];
           }
         }]
@@ -67,7 +67,7 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
     ctx.gsInstanceLists = angular.copy(ctx.instanceLists);
 
     ctx.stackInfo = angular.copy(stacks);
-    ctx.fetchStackInfoMock = require('../../../fixtures/mockFetch');
+    ctx.fetchStackInfoMock = new MockFetch();
 
     ctx.newBuild = {
       attrs: angular.copy(apiMocks.builds.setup),
@@ -83,7 +83,7 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
         })
       }
     };
-    ctx.createNewBuildMock = require('../../../fixtures/mockFetch');
+    ctx.createNewBuildMock = new MockFetch();
 
     ctx.fetchInstancesCached = true;
     ctx.newForkNameCount = 0;
@@ -92,30 +92,32 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
       return instance.attrs.name + ctx.newForkNameCount++;
     });
 
-    ctx.copySourceInstanceMock = require('../../../fixtures/mockFetch');
+    ctx.copySourceInstanceMock = new MockFetch();
 
     ctx.newDockerFile = angular.copy(apiMocks.files.dockerfile);
-    ctx.createDockerfileFromSourceMock = require('../../../fixtures/mockFetch');
+    ctx.createDockerfileFromSourceMock = new MockFetch();
 
-    ctx.gsPopulateDockerfileMock = require('../../../fixtures/mockFetch');
+    ctx.gsPopulateDockerfileMock = new MockFetch();
 
-    ctx.createNewInstanceMock = require('../../../fixtures/mockFetch');
+    ctx.createNewInstanceMock = new MockFetch();
+
+    ctx.fetchOwnerReposMock = new MockFetch();
 
     runnable.reset(apiMocks.user);
 
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
-      $provide.factory('fetchStackInfo', ctx.fetchStackInfoMock.fetch);
-      $provide.factory('createNewBuild', ctx.createNewBuildMock.fetch);
+      $provide.factory('fetchStackInfo', ctx.fetchStackInfoMock.fetch());
+      $provide.factory('createNewBuild', ctx.createNewBuildMock.fetch());
       $provide.value('getNewForkName', ctx.getNewForkNameMock);
-      $provide.factory('createDockerfileFromSource', ctx.createDockerfileFromSourceMock.fetch);
-      $provide.factory('gsPopulateDockerfile', ctx.gsPopulateDockerfileMock.fetch);
-      $provide.factory('createNewInstance', ctx.createNewInstanceMock.fetch);
-      $provide.factory('copySourceInstance', ctx.copySourceInstanceMock.fetch);
+      $provide.factory('createDockerfileFromSource', ctx.createDockerfileFromSourceMock.fetch());
+      $provide.factory('gsPopulateDockerfile', ctx.gsPopulateDockerfileMock.fetch());
+      $provide.factory('createNewInstance', ctx.createNewInstanceMock.fetch());
+      $provide.factory('copySourceInstance', ctx.copySourceInstanceMock.fetch());
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.list);
 
       // Required for subdirective
-      $provide.factory('fetchOwnerRepos', fixtures.mockFetch.fetch);
+      $provide.factory('fetchOwnerRepos', ctx.fetchOwnerReposMock.fetch());
     });
     angular.mock.inject(function (
       _$templateCache_,
@@ -434,7 +436,7 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
   });
 
 
-  describe('Create and Build', function () {
+  describe.only('Create and Build', function () {
     beforeEach(function () {
       injectSetupCompile();
     });
@@ -501,6 +503,7 @@ describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
       $scope.$digest();
 
       ctx.createDockerfileFromSourceMock.triggerPromise(ctx.newDockerFile);
+      $scope.$digest();
       expect($elScope.state.dockerfile).to.be.ok;
 
       expect($elScope.state.opts.env).to.be.ok;

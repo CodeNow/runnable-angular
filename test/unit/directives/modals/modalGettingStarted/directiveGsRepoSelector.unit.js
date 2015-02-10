@@ -76,7 +76,7 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
     ctx.fetchStackAnalysisMock = sinon.spy(function (repo, cb) {
       cb(ctx.analysisMockData ? null : new Error('asdas'), ctx.analysisMockData);
     });
-    ctx.fetchOwnerRepos = fixtures.mockFetch;
+    //ctx.fetchOwnerRepos = fixtures.mockFetch;
 
     runnable.reset(apiMocks.user);
 
