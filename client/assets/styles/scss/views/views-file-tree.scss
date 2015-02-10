@@ -134,12 +134,16 @@
   pointer-events: none;
 }
 
+.btn-file-errors,
+.btn-file-action {
+  position: absolute;
+  right: 0;
+}
+
 // errors
 .btn-file-errors {
   border: 0;
   border-radius: 9px;
-  display: block;
-  float: right;
   font-size: 13px;
   font-weight: 300 !important; // never change
   height: 18px;
@@ -149,13 +153,16 @@
   text-align: center;
   text-indent: 0;
   width: 18px;
+
+  + .btn-file-action {
+    right: 24px;
+  }
 }
 
 // action icons
 .btn-file-action {
   background: $gray-lightest;
   border-radius: 50%;
-  float: right;
   margin: 5px;
   padding: 0;
   width: 18px;
