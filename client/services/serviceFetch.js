@@ -199,9 +199,11 @@ function fetchOwnerRepos (
       }
       return fetchPage(1);
     }).then(function(reposArr) {
-      return user.newGithubRepos(reposArr, {
+      var repos = user.newGithubRepos(reposArr, {
         noStore: true
       });
+      repos.ownerUsername = userName;
+      return repos;
     }).catch(errs.handler);
   };
 }
