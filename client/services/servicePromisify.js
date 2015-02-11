@@ -8,7 +8,7 @@ function promisify($exceptionHandler, $q) {
     if (!model[fn]) {
       throw new Error('Attempted to call a function of a model that doesn\'t exist');
     }
-    return function promsified () {
+    return function promsified() {
       var d = $q.defer();
       var args = [].slice.call(arguments);
       var returnedVal;

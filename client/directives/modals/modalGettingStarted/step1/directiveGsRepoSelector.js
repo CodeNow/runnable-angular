@@ -12,6 +12,7 @@ function gsRepoSelector(
   hasKeypaths,
   keypather,
   promisify,
+  $q,
   $log
 ) {
   return {
@@ -65,14 +66,13 @@ function gsRepoSelector(
           $scope.state.activeBranch =
               repo.branches.models.find(hasKeypaths({'attrs.name': 'master'}));
           if (!$scope.state.activeBranch) {
-            throw new Error('No branches found');
+            return $q.reject(new Error('No branches found'));
           }
         }).then(function () {
           return fetchStackData(repo.attrs.full_name);
         }).then(function () {
           $scope.actions.nextStep(2);
         }).catch(function (err) {
-            console.log('asdasdasdasdasd', err);
           $scope.state.repoSelected = false;
           errs.handler(err);
         }).finally(function () {

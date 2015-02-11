@@ -62,7 +62,7 @@ function makeMockRepoList(username, json) {
  *   Switching accounts should trigger new fetch of repos
  *   Selecting a repo should trigger a stack analysis
  */
-describe.only('directiveGsRepoSelector'.bold.underline.blue, function () {
+describe('directiveGsRepoSelector'.bold.underline.blue, function () {
   beforeEach(function () {
     ctx = {};
   });
@@ -372,17 +372,16 @@ describe.only('directiveGsRepoSelector'.bold.underline.blue, function () {
       $elScope.selectRepo(ctx.repo1);
       $scope.$digest();
       sinon.assert.calledWith(ctx.errsMock.handler, err);
+      $scope.$destroy();
+      $scope.$digest();
     });
     it('should err when it can\'t find the master branch', function () {
       ctx.repo1.branches.models = [];
-      function shouldError() {
-        $elScope.selectRepo(ctx.repo1);
-        $rootScope.$digest();
-      }
       $elScope.selectRepo(ctx.repo1);
       $rootScope.$digest();
       sinon.assert.called(ctx.repo1.branches.fetch);
-      //expect(shouldError).to.throw('No branches found');
+      $scope.$digest();
+      $scope.$digest();
       sinon.assert.calledWith(ctx.errsMock.handler, new Error('No branches found'));
 
       expect(ctx.repo1.spin, 'repo 1 spin').to.not.be.ok;

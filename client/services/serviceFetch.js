@@ -204,7 +204,7 @@ function fetchOwnerRepos (
       });
       repos.ownerUsername = userName;
       return repos;
-    }).catch(errs.handler);
+    });
   };
 }
 
