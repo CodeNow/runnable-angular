@@ -8,6 +8,12 @@
   transition: background .3s ease-in, box-shadow .3s ease-in, height .2s ease-in, padding .2s ease-in;
   z-index: $z-sidebar-footer;
 
+  .link {
+    color: $blue;
+    line-height: 36px;
+    padding-left: 9px;
+  }
+
   .btn-minimize {
     float: right;
   }
