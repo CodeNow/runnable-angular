@@ -5,22 +5,20 @@ require('app')
 /**
  * @ngInject
  */
-function selectOn(
-  jQuery
-) {
+function selectOn() {
   return {
     restrict: 'A',
     priority: -1,
     link: function ($scope, elem, attrs) {
       if (!attrs.selectOn) {
-        jQuery(elem[0]).focus();
-        jQuery(elem[0]).select();
+        elem[0].focus();
+        elem[0].select();
         return;
       }
       $scope.$watch(attrs.selectOn, function (n) {
         if (!n) { return; }
-        jQuery(elem[0]).focus();
-        jQuery(elem[0]).select();
+        elem[0].focus();
+        elem[0].select();
       });
     }
   };

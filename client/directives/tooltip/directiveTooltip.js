@@ -10,20 +10,18 @@ function tooltip(
   $templateCache,
   $compile,
   $rootScope,
-  jQuery,
+  $document,
   keypather
 ) {
 
   return {
     restrict: 'A',
-    scope: false,
     link: function ($scope, element, attrs) {
 
       var template = $templateCache.get('viewTooltip');
       var $template = angular.element(template);
       var $tooltipElement;
       var tooltipText;
-      var $body = jQuery('body');
 
       var options;
       try {
@@ -36,10 +34,10 @@ function tooltip(
       options.class = (typeof options.class !== 'undefined') ? options.class : false;
 
       function position() {
-        var $e = jQuery(element);
+        var offset = element[0].getBoundingClientRect();
         var eStyle = {
-          top: ($e.offset().top + options.top) + 'px',
-          left: ($e.offset().left + options.left) + 'px'
+          top: (offset.top + options.top) + 'px',
+          left: (offset.left + options.left) + 'px'
         };
         return eStyle;
       }
@@ -48,10 +46,11 @@ function tooltip(
         if (!$tooltipElement) {
           return;
         }
-        jQuery($tooltipElement).find('.tooltip-text').html(tooltipText);
+        // HACKY HACKY BAD
+        $tooltipElement[0].querySelector('.tooltip-text').innerText = tooltipText;
       }
 
-      jQuery(element).on('mouseover', function () {
+      element.on('mouseover', function () {
         if ($tooltipElement) {
           return;
         }
@@ -61,9 +60,9 @@ function tooltip(
           $tooltipElement.addClass(options.class);
         }
         updateTooltip();
-        $body.append($tooltipElement);
+        $document.find('body').append($tooltipElement);
       });
-      jQuery(element).on('mouseout', function () {
+      element.on('mouseout', function () {
         if (!$tooltipElement) {
           return;
         }

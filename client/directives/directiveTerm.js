@@ -9,7 +9,6 @@ require('app')
 function term(
   helperSetupTerminal,
   primus,
-  jQuery,
   keypather,
   $stateParams,
   fetchInstances
@@ -27,10 +26,7 @@ function term(
        * settings and attaches to elem.
        * - unbinds events on $destroy
        */
-      var terminal = helperSetupTerminal($scope, elem, {
-        hideCursor: false,
-        cursorBlink: true
-      }, function (x, y) {
+      function resizeHandler(x, y) {
         if (eventsStream) {
           eventsStream.write({
             event: 'resize',
@@ -40,13 +36,15 @@ function term(
             }
           });
         }
-      });
+      }
+      var terminal = helperSetupTerminal($scope, elem, {
+        hideCursor: false,
+        cursorBlink: true
+      }, resizeHandler);
 
       // monitor item, determine when terminal tab active, resize
       // to stop bug
-      $scope.$watch('item.state.active', function () {
-        jQuery(elem).trigger('resize');
-      });
+      $scope.$watch('item.state.active', resizeHandler);
 
       fetchInstances({
         name: $stateParams.instanceName
