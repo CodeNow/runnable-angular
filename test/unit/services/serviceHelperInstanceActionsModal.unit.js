@@ -4,7 +4,6 @@ var $rootScope,
     $scope,
     $timeout,
     $state,
-    $stateParams,
     ctx,
     updateEnvStub;
 
@@ -62,13 +61,15 @@ function makeFakeInstance (env, deps) {
 
 describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
   function initState () {
+    ctx = {};
+    ctx.mockStateParams = {
+      userName: 'username',
+      instanceName: 'instancename'
+    };
     updateEnvStub = sinon.spy();
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
-      $provide.value('$stateParams', {
-        userName: 'username',
-        instanceName: 'instancename'
-      });
+      $provide.value('$stateParams', ctx.mockStateParams);
 
       $provide.value('updateEnvName', updateEnvStub);
     });
@@ -76,14 +77,12 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
         _$rootScope_,
         _$timeout_,
         _$state_,
-        _$stateParams_,
         _helperInstanceActionsModal_
     ) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
       $state = _$state_;
-      $stateParams = _$stateParams_;
 
       $rootScope.dataApp = {
         data: {
@@ -96,7 +95,6 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
         data: {}
       };
 
-      ctx = {};
       ctx.service = _helperInstanceActionsModal_;
       ctx.service($scope);
     });
@@ -120,28 +118,33 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           },
           update: sinon.spy(function(opts, cb) {
             $scope.instance.attrs.name = opts.name;
-            $scope.$digest();
             cb();
           })
         };
         $scope.$digest();
       });
       it('renames properly', function(done) {
+        var idx = 0;
         var fakeGo = sinon.stub($state, 'go');
-        mr.actions.renameInstance('test-rename', function() {
+        mr.actions.renameInstance('test-rename').then(function() {
           expect($scope.popoverGearMenu.data.show).to.be.false;
           expect($scope.saving).to.be.false;
-          $timeout.flush();
-          expect($scope.saving).to.be.true;
-
           sinon.assert.called(fakeGo);
           sinon.assert.called($scope.instance.update);
           sinon.assert.calledWith(fakeGo,'instance.instance', {
             userName: 'username',
             instanceName: 'test-rename'
           });
-          done();
+        }).then(function() {
+          // Required, as we're currently in a digest cycle and
+          //   $timeout.flush() wants to start another one.
+          setTimeout(function () {
+            $timeout.flush();
+            expect($scope.saving).to.be.true;
+            done();
+          });
         });
+        $rootScope.$digest();
       });
       it('exits early if the name is the same', function() {
         mr.actions.renameInstance('properly');
@@ -175,11 +178,10 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           item.opts.name = 'test-test';
         });
         var fakeGo = sinon.stub($state, 'go');
-        dmf.actions.forkInstance($scope.items, function (err) {
-          if (err) { return done(err); }
+        dmf.actions.forkInstance($scope.items).then(function () {
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
-          expect($rootScope.dataApp.data.loading).to.be.true;
+          expect($rootScope.dataApp.data.loading).to.be.false;
 
           sinon.assert.called(fakeGo);
           sinon.assert.called($scope.items[0].instance.copy);
@@ -188,7 +190,8 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
             instanceName: 'test-test'
           });
           done();
-        });
+        }).catch(done);
+        $rootScope.$digest();
       });
 
       it('should function properly with a single instance with env', function(done) {
@@ -199,11 +202,11 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
         });
 
         var fakeGo = sinon.stub($state, 'go');
-        dmf.actions.forkInstance($scope.items, function (err) {
+        dmf.actions.forkInstance($scope.items).then(function (err) {
           if (err) { return done(err); }
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
-          expect($rootScope.dataApp.data.loading).to.be.true;
+          expect($rootScope.dataApp.data.loading).to.be.false;
 
           sinon.assert.called(fakeGo);
           sinon.assert.called($scope.items[0].instance.copy);
@@ -213,6 +216,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           });
           done();
         });
+        $rootScope.$digest();
       });
 
       it('should work with dependent instances', function(done) {
@@ -225,11 +229,11 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
 
         var fakeGo = sinon.stub($state, 'go');
 
-        dmf.actions.forkInstance($scope.items, function (err) {
+        dmf.actions.forkInstance($scope.items).then(function (err) {
           if (err) { return done(err); }
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
-          expect($rootScope.dataApp.data.loading).to.be.true;
+          expect($rootScope.dataApp.data.loading).to.be.false;
 
           var dep = $scope.items[0].instance.dependencies.models[0];
           sinon.assert.called(dep.copy);
@@ -242,6 +246,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           });
           done();
         });
+        $rootScope.$digest();
       });
 
       it('should not fork dependent instances when not requested', function(done) {
@@ -251,11 +256,11 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           item.opts.name = 'test-test';
         });
         var fakeGo = sinon.stub($state, 'go');
-        dmf.actions.forkInstance($scope.items, function (err) {
+        dmf.actions.forkInstance($scope.items).then(function (err) {
           if (err) { return done(err); }
           // scope changes
           expect($scope.popoverGearMenu.data.show).to.be.false;
-          expect($rootScope.dataApp.data.loading).to.be.true;
+          expect($rootScope.dataApp.data.loading).to.be.false;
 
           var dep = $scope.items[0].instance.dependencies.models[0];
           sinon.assert.notCalled(dep.copy);
@@ -268,6 +273,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           });
           done();
         });
+        $rootScope.$digest();
       });
     });
 
@@ -301,7 +307,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
             cb();
           })
         };
-        $stateParams.instanceName = 'properly';
+        ctx.mockStateParams.instanceName = 'properly';
         $scope.$digest();
       });
       it('deletes properly with no other instances', function(done) {
@@ -319,6 +325,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
         };
         $scope.$digest();
         md.actions.deleteInstance();
+        $rootScope.$digest();
       });
       describe('deletes properly with other instances', function() {
         it('staying on the same page, should navigate to the other instance', function(done) {
@@ -340,6 +347,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           };
           $scope.$digest();
           md.actions.deleteInstance();
+          $rootScope.$digest();
         });
         it('changing pages between the delete, should not navigate away', function(done) {
           var fakeGo = sinon.stub($state, 'go', function() {});
@@ -356,7 +364,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           };
           $scope.instance.destroy = sinon.spy(function(cb) {
             // Change the state during the destroy
-            $stateParams.instanceName = 'cheese';
+            ctx.mockStateParams.instanceName = 'cheese';
             setTimeout(function() {
               sinon.assert.notCalled(fakeGo);
               sinon.assert.called($scope.instance.destroy);
@@ -369,6 +377,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           });
           $scope.$digest();
           md.actions.deleteInstance();
+          $rootScope.$digest();
         });
       });
       describe('dependencies', function() {
@@ -379,7 +388,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           });
           $scope.instance.destroy = sinon.spy(function(cb) {
             // Change the state during the destroy
-            $stateParams.instanceName = 'cheese';
+            ctx.mockStateParams.instanceName = 'cheese';
             setTimeout(function() {
               sinon.assert.notCalled(fakeGo);
               sinon.assert.called($scope.instance.destroy);
@@ -401,6 +410,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           $scope.instance.dependencies.models[0].destroy = depDestroy;
           $scope.$digest();
           md.actions.deleteInstance(true);
+          $rootScope.$digest();
         });
         it('does not delete dependencies that are not selected', function(done) {
           var fakeGo = sinon.stub($state, 'go', function() {});
@@ -409,7 +419,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           });
           $scope.instance.destroy = sinon.spy(function(cb) {
             // Change the state during the destroy
-            $stateParams.instanceName = 'cheese';
+            ctx.mockStateParams.instanceName = 'cheese';
             setTimeout(function() {
               sinon.assert.notCalled(fakeGo);
               sinon.assert.called($scope.instance.destroy);
@@ -431,6 +441,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           $scope.instance.dependencies.models[0].destroy = depDestroy;
           $scope.$digest();
           md.actions.deleteInstance(true);
+          $rootScope.$digest();
         });
         it('does not delete dependencies when the main check is false', function(done) {
           var fakeGo = sinon.stub($state, 'go', function() {});
@@ -439,7 +450,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           });
           $scope.instance.destroy = sinon.spy(function(cb) {
             // Change the state during the destroy
-            $stateParams.instanceName = 'cheese';
+            ctx.mockStateParams.instanceName = 'cheese';
             setTimeout(function() {
               sinon.assert.notCalled(fakeGo);
               sinon.assert.called($scope.instance.destroy);
@@ -461,6 +472,7 @@ describe('serviceHelperInstanceActionsModal'.bold.underline.blue, function() {
           $scope.instance.dependencies.models[0].destroy = depDestroy;
           $scope.$digest();
           md.actions.deleteInstance();
+          $rootScope.$digest();
         });
       });
 
