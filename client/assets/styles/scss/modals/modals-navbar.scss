@@ -120,22 +120,14 @@
     }
   }
 
+  .small {
+    color: $gray-light;
+    display: block;
+  }
+
   .gravatar {
     float: left;
     margin: 6px 9px 0 -6px;
-  }
-
-  // cancel/close
-  .btn-xxs {
-    bottom: 15px;
-    left: 15px;
-    position: absolute;
-
-    // new button
-    + .btn-xxs {
-      left: auto;
-      right: 15px;
-    }
   }
 
   + .modal-body {
@@ -143,6 +135,31 @@
     @include media(xs) {
       flex: 1 1 auto;
       overflow-y: auto;
+    }
+  }
+}
+
+.modal-navbar-footer {
+  border-top: 1px solid rgba($black,.1);
+  bottom: 0;
+  height: 36px;
+  left: 0;
+  line-height: 36px;
+  padding: 9px 6px;
+  position: absolute;
+  right: 0;
+
+  @include media(xs) {
+    position: relative;
+  }
+
+  // cancel/close
+  .btn-xxs {
+    float: left;
+
+    // new button
+    + .btn-xxs {
+      float: right;
     }
   }
 }

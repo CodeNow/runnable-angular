@@ -64,6 +64,10 @@
     height: 54px;
     padding: 9px 12px;
 
+    .link {
+      display: none;
+    }
+
     .icons-minimize {
       transform: rotate3d(0,1,0,180deg);
     }
