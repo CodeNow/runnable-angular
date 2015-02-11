@@ -1,7 +1,6 @@
 'use strict';
 
 var mockFetch = function () {
-  console.log('Constructed', this);
   this.deferer = [];
 };
 mockFetch.prototype.triggerPromise = function (opts, index) {
@@ -13,9 +12,7 @@ mockFetch.prototype.triggerPromiseError = function (err, index) {
 mockFetch.prototype.fetch = function () {
   var self = this;
   return function ($q) {
-    console.log('FETCH!!!!!!!', self, self.deferer);
     return function (opts) {
-      console.log('FETCH opts', arguments);
       var thisDeferer = $q.defer();
       self.deferer.push(thisDeferer);
       return thisDeferer.promise;

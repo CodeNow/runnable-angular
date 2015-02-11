@@ -193,18 +193,14 @@ function modalGettingStarted(
       }).catch(errs.handler);
 
       $scope.$watch('state.stack', function (n) {
-        console.log('Stack!!!', n);
         if (n) {
           var unwatchCv = $scope.$watch('state.contextVersion', function (contextVersion) {
-            console.log('CV!!!!!!!!!!');
             if (contextVersion) {
               unwatchCv();
-              console.log('Before DOCKFILE');
               createDockerfileFromSource(
                 contextVersion,
                 n.key
               ).then(function (dockerfile) {
-                console.log('AFTER DOCKFILE');
                 $scope.state.dockerfile = dockerfile;
               }).catch(errs.handler);
             }
@@ -240,9 +236,7 @@ function modalGettingStarted(
         $scope.state.contextVersion = null;
         $scope.state.dockerfile = null;
         $scope.data.instances = null;
-        console.log('NEWBUILD123123', user);
         return createNewBuild(user).then(function (buildWithVersion) {
-          console.log('NEWBUILD', buildWithVersion.contextVersion);
           $scope.state.build = buildWithVersion;
           $scope.state.contextVersion = buildWithVersion.contextVersion;
         });
