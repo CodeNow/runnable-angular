@@ -57,8 +57,6 @@ function instancePrimaryActions(
         ).then(function () {
           if ($scope.popoverSaveOptions.data.restartOnSave) {
             return promisify($scope.instance, 'restart')();
-          } else {
-            return true;
           }
         }).catch(
           errs.handler
