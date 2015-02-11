@@ -7,6 +7,7 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
       $rootScope,
       $timeout;
 
+  var error = new Error('an Error');
   function genModel (name, newName, throwErr) {
     if (!newName) {
       newName = name;
@@ -20,20 +21,30 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
       },
       update: sinon.spy(function (json, cb) {
         if (throwErr) {
-          return cb('An error');
+          return cb(error);
         }
-        cb()
+        cb();
       })
     };
   }
 
   var mockOpenItems,
+      ctx,
       mockInstance;
 
-  beforeEach(angular.mock.module('app'));
+  beforeEach(function () {
+    ctx = {};
+  });
 
-  beforeEach(function() {
-    angular.mock.inject(function($compile, _$timeout_, _$rootScope_) {
+  beforeEach(function () {
+
+    ctx.errsMock = {
+      handler: sinon.spy()
+    };
+    angular.mock.module('app', function ($provide) {
+      $provide.value('errs', ctx.errsMock);
+    });
+    angular.mock.inject(function ($compile, _$timeout_, _$rootScope_) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
@@ -110,7 +121,6 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     sinon.assert.notCalled(mockOpenItems.models[2].update);
     // No restart on save
     sinon.assert.called(mockInstance.restart);
-    sinon.assert.called(mockInstance.fetch);
   });
 
   it('throws an error on a bad update', function() {
@@ -119,33 +129,23 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
       models : [genModel('a', 'b', true)]
     };
     $scope.$digest();
-    expect($elScope.saveChanges).to.throw('An error');
+    $elScope.saveChanges();
+    $scope.$digest();
     sinon.assert.called($elScope.openItems.models[0].update);
-    sinon.assert.notCalled(mockInstance.restart);
+    sinon.assert.calledWith(ctx.errsMock.handler, error);
   });
 
   it('throws an error on a bad restart', function() {
     $elScope.popoverSaveOptions.data.restartOnSave = true;
     $elScope.instance = {
-      restart: sinon.spy(function (cb) { cb('An error'); }),
-      fetch: sinon.spy()
+      restart: sinon.spy(function (cb) { cb(error); })
     };
     $scope.$digest();
-    expect($elScope.saveChanges).to.throw('An error');
-    sinon.assert.called($elScope.instance.restart);
-    sinon.assert.notCalled($elScope.instance.fetch);
-  });
+    $elScope.saveChanges();
+    $scope.$digest();
+    sinon.assert.calledWith(ctx.errsMock.handler, error);
 
-  it('throws an error on a bad fetch', function() {
-    $elScope.popoverSaveOptions.data.restartOnSave = true;
-    $elScope.instance = {
-      restart: sinon.spy(function (cb) { cb(); }),
-      fetch: sinon.spy(function (cb) { cb('An error'); })
-    };
-    $scope.$digest();
-    expect($elScope.saveChanges).to.throw('An error');
     sinon.assert.called($elScope.instance.restart);
-    sinon.assert.called($elScope.instance.fetch);
   });
 
 });
