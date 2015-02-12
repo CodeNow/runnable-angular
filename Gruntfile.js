@@ -4,7 +4,7 @@ var path    = require('path');
 var find    = require('find');
 var fs      = require('fs');
 var async   = require('async');
-var Table   = require('cli-table');
+var envIs   = require('101/env-is');
 
 module.exports = function(grunt) {
 
@@ -80,31 +80,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    concat: {
-      options: {
-        separator: '\n'
-      },
-      dist: {
-        src: [
-          'client/build/css/index.css'
-        ],
-        //dest: 'public/build/<%= pkg.name %>.css'
-        dest: 'client/build/css/index.css'
-      }
-    },
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },
-      dist: {
-        files: {
-          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-        }
-      }
-    },
-    qunit: {
-      files: ['test/**/*.html']
-    },
     jshint: {
       prod: {
         options: {
@@ -178,23 +153,6 @@ module.exports = function(grunt) {
         filter: 'isFile'
       }
     },
-    execute: {
-      indexFiles: {
-        call: function (grunt, options, async) {
-          var done = async();
-          return done();
-          // var paths = grunt.file.expand('./client/controllers/**/*.js');
-          // grunt.file.write('./client/controllers/requireIndex.json', JSON.stringify(paths));
-          // done();
-        }
-      },
-      cleanFiles: {
-        call: function (grunt, options, async) {
-          var done = async();
-          done();
-        }
-      }
-    },
     watch: {
       images: {
         files: [
@@ -248,7 +206,6 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'sass:dev',
-          'concat',
           'autoprefixer'
         ]
       }
@@ -300,10 +257,10 @@ module.exports = function(grunt) {
     coverage: {
       options: {
         thresholds: {
-          statements: 52.71,
-          branches: 35.25,
-          functions: 47.01,
-          lines: 53.41
+          statements: 60.49,
+          branches: 44.29,
+          functions: 53.02,
+          lines: 61.02
         },
         dir: 'coverage',
         root: 'test'
@@ -476,24 +433,23 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-jade-plugin');
-  grunt.loadNpmTasks('grunt-execute');
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-githooks');
-  grunt.loadNpmTasks('grunt-jsbeautifier');
-  grunt.loadNpmTasks('grunt-istanbul');
-  grunt.loadNpmTasks('grunt-istanbul-coverage');
+
+  if (!envIs('production', 'staging')) {
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-nodemon');
+    grunt.loadNpmTasks('grunt-githooks');
+    grunt.loadNpmTasks('grunt-jsbeautifier');
+    grunt.loadNpmTasks('grunt-istanbul');
+    grunt.loadNpmTasks('grunt-istanbul-coverage');
+  }
 
   grunt.registerTask('test:watch', ['bgShell:karma-watch']);
   grunt.registerTask('test:unit', ['bgShell:karma']);
@@ -511,7 +467,6 @@ module.exports = function(grunt) {
     'bgShell:npm-install',
     'copy',
     'sass:dev',
-    'concat',
     'autoprefixer',
     'jade2js',
     'jshint:dev',
@@ -528,12 +483,10 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', [
     'copy',
     'sass:dev',
-    'concat',
     'autoprefixer',
     'jade2js',
     'autoBundleDependencies',
     'generateConfigs',
-    //'browserify:deploy'
     'browserify:once'
   ]);
 

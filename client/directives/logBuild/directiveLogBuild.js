@@ -10,7 +10,9 @@ function logBuild(
   primus,
   keypather,
   $log,
+  promisify,
   $stateParams,
+  $timeout,
   dockerStreamCleanser,
   fetchInstances
 ) {
@@ -44,12 +46,13 @@ function logBuild(
 
       fetchInstances({
         name: $stateParams.instanceName
-      }).then(function(instance) {
+      }).then(function (instance) {
         $scope.instance = instance;
       });
 
-      $scope.$watch('instance.build.attrs.id', function (n) {
+      $scope.$watch('instance.build.attrs.id', function (n, p) {
         if (!n) { return; }
+        // n is truthy, p is truthy, and they aren't the same
         initializeBuildLogs($scope.instance.build);
       });
 
@@ -76,14 +79,13 @@ function logBuild(
       }
 
       function showTerminalSpinner() {
-        terminal.hideCursor = false;
-        terminal.cursorBlink = true;
-        terminal.cursorSpinner = true;
-
-        if (terminal.cursorState === 0) {
+        if (!terminal.cursorSpinner) {
           terminal.cursorState = -1;
+          terminal.hideCursor = false;
+          terminal.cursorBlink = true;
+          terminal.cursorSpinner = true;
+          terminal.startBlink();
         }
-        terminal.startBlink();
       }
 
       function subscribeToSubstream(build) {
@@ -110,13 +112,16 @@ function logBuild(
           terminal.cursorBlink = false;
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
-          build.fetch(function (err) {
-            if (err) { return $log.error(err); }
+
+          promisify($scope.instance.build, 'fetch')().then(function (build) {
+            $timeout(angular.noop);
             if (!build.succeeded()) {
               writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
             } else {
               writeToTerm(COMPLETE_SUCCESS_MESSAGE);
             }
+          }).catch(function (err) {
+            $log.error(err);
           });
         });
       }
@@ -125,17 +130,20 @@ function logBuild(
         terminal.reset();
         if (build.failed() || build.succeeded()) {
           var contextVersion = build.contextVersions.models[0];
-          contextVersion.fetch(function (err, data) {
-            if (err) { return $log.error(err); }
+          promisify(contextVersion, 'fetch')().then(function (data) {
             if (build.succeeded()) {
-              writeToTerm(data.build.log);
-            }
-            else if(build.failed()) {
+              writeToTerm(data.attrs.build.log);
+              //if ($scope.buildStream) {
+              //  writeToTerm(COMPLETE_SUCCESS_MESSAGE);
+              //}
+            } else if (build.failed()) {
               // defaulting behavior selects best avail error msg
               var cbBuild = keypather.get(contextVersion, 'attrs.build');
               var errorMsg = cbBuild.log || keypather.get(cbBuild, 'error.message') || DEFAULT_ERROR_MESSAGE;
               writeToTerm(errorMsg);
             }
+          }).catch(function (err) {
+            return $log.error(err);
           });
         } else {
           initializeBuildStream(build);

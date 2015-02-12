@@ -10,6 +10,11 @@ describe('controllerInstanceEdit'.bold.underline.blue, function () {
   beforeEach(function () {
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
+      $provide.value('favico', {
+        reset : sinon.spy(),
+        setImage: sinon.spy(),
+        setInstanceState: sinon.spy()
+      });
       $provide.factory('fetchBuild', fixtures.MockFetchBuild.built);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
     });

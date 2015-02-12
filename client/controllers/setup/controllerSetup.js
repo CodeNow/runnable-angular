@@ -17,11 +17,13 @@ function ControllerSetup(
   $log,
   keypather,
   OpenItems,
+  favico,
   fetchBuild,
   fetchInstances,
+  pageName,
   $window
 ) {
-
+  favico.reset();
   var dataSetup = $scope.dataSetup = {
     data: {
       instanceOpts: {},
@@ -30,6 +32,7 @@ function ControllerSetup(
     actions: {}
   };
   var data = dataSetup.data;
+  pageName.setTitle('Create Server');
 
   dataSetup.actions.olarkShrink = function() {
     if (angular.isFunction($window.olark)) {
