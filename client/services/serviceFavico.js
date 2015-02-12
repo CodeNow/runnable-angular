@@ -2,19 +2,26 @@
 
 require('app')
   .factory('favico', function (
-    $document,
     favicojs,
-    keypather
+    keypather,
+    $timeout
   ) {
     var favico = favicojs({
       animation: 'none'
     });
+    function createImage(url) {
+      var img = new Image();
+      img.src = url;
+      return img;
+    }
     var icons = {
-      building: $document[0].getElementById('js-favicon-building'),
-      running: $document[0].getElementById('js-favicon-running'),
-      stopped: $document[0].getElementById('js-favicon-stopped')
+      building: createImage('/build/images/favicon-orange.png'),
+      running: createImage('/build/images/favicon-green.png'),
+      stopped: createImage('/build/images/favicon-gray.png')
     };
+    var currentState;
     var reset = function () {
+      currentState = null;
       favico.reset();
     };
     var setImage = function (image) {
@@ -22,11 +29,15 @@ require('app')
     };
     var setInstanceState = function (instance) {
       var building = keypather.get(instance, 'build.attrs.started') &&
-          !keypather.get(instance, 'build.attrs.completed');
+          !keypather.get(instance, 'build.attrs.completed') &&
+          !keypather.get(instance, 'build.attrs.failed');
       var running = keypather.get(instance, 'containers.models[0].attrs.inspect.State.Running');
-      var image = building ? icons.building : (running ?  icons.running : icons.stopped);
-      favico.reset();
-      favico.image(image);
+      var state = building ? 'building' : (running ?  'running' : 'stopped');
+      if (state !== currentState) {
+        currentState = state;
+        favico.image(icons[state]);
+        $timeout(angular.noop);
+      }
     };
 
     return {

@@ -17,7 +17,9 @@
   }
 
   .btn-minimize {
-    float: right;
+    position: absolute;
+    right: 12px;
+    top: 9px;
   }
 
   .icons-minimize {
