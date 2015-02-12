@@ -19,6 +19,11 @@
     width: calc(100% - 210px);
   }
 
+  .spinner-sm {
+    justify-content: flex-end;
+    padding-right: 15px;
+  }
+
   .list-item {
     cursor: pointer;
     display: flex;
@@ -54,6 +59,7 @@
 
   .list-item-title {
     display: inline-block;
+    font-weight: 500;
     width: 100%;
   }
 
