@@ -15,7 +15,7 @@ function tooltip(
 
   return {
     restrict: 'A',
-    $scope: {},
+    scope: {},
     link: function ($scope, element, attrs) {
 
       var template = $templateCache.get('viewTooltip');
