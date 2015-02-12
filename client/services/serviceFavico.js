@@ -28,7 +28,8 @@ require('app')
     var currentState;
     var setInstanceState = function (instance) {
       var building = keypather.get(instance, 'build.attrs.started') &&
-          !keypather.get(instance, 'build.attrs.completed');
+          !keypather.get(instance, 'build.attrs.completed') &&
+          !keypather.get(instance, 'build.attrs.failed');
       var running = keypather.get(instance, 'containers.models[0].attrs.inspect.State.Running');
       var state = building ? 'building' : (running ?  'running' : 'stopped');
       if (state !== currentState) {
