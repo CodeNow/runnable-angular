@@ -33,16 +33,8 @@
 .repository-group-item {
   margin: -1px 0;
 
-  // border
-  + .repository-group-item::after {
-    background: rgba($black,.1);
-    content: '';
-    display: block;
-    height: 1px;
-    margin: 0 15px;
-    position: absolute;
-    top: 0;
-    width: calc(100% - 30px);
+  + .repository-group-item {
+    margin-top: 6px;
   }
 }
 
