@@ -1,3 +1,5 @@
 //- add classes for direction: .right, .bottom
-.tooltip
-  .tooltip-text
+.tooltip(
+  ng-style = "toolTip.getStyle()"
+)
+  .tooltip-text {{ toolTip.toolTipText }}

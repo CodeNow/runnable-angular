@@ -1,7 +1,6 @@
 'use strict';
 
 var app = require('app');
-var $ = require('jquery');
 require('angular');
 
 /**
