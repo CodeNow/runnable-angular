@@ -9,19 +9,19 @@ require('app')
 function tooltip(
   $templateCache,
   $compile,
-  $rootScope,
   $document,
-  keypather
+  $timeout
 ) {
 
   return {
     restrict: 'A',
+    $scope: {},
     link: function ($scope, element, attrs) {
 
       var template = $templateCache.get('viewTooltip');
       var $template = angular.element(template);
       var $tooltipElement;
-      var tooltipText;
+      $scope.toolTip = {};
 
       var options;
       try {
@@ -33,46 +33,27 @@ function tooltip(
       options.top = (typeof options.top !== 'undefined') ? options.top : 0;
       options.class = (typeof options.class !== 'undefined') ? options.class : false;
 
-      function position() {
-        var offset = element[0].getBoundingClientRect();
-        var eStyle = {
-          top: (offset.top + options.top) + 'px',
-          left: (offset.left + options.left) + 'px'
+      $scope.toolTip.getStyle = function () {
+        var rect = element[0].getBoundingClientRect();
+        return {
+          'top': (rect.top + options.top) + 'px',
+          'left': (rect.left + options.left) + 'px'
         };
-        return eStyle;
-      }
+      };
 
-      function updateTooltip() {
-        if (!$tooltipElement) {
-          return;
-        }
-        // HACKY HACKY BAD
-        $tooltipElement[0].querySelector('.tooltip-text').innerText = tooltipText;
-      }
-
-      element.on('mouseover', function () {
-        if ($tooltipElement) {
-          return;
-        }
+      bind(element, 'mouseover', function () {
+        $scope.toolTip.toolTipText = attrs.tooltip;
         $tooltipElement = $compile($template)($scope);
-        $tooltipElement.css(position());
-        if (options.class) {
-          $tooltipElement.addClass(options.class);
-        }
-        updateTooltip();
+        $tooltipElement.addClass(options.class);
         $document.find('body').append($tooltipElement);
+        $timeout(angular.noop);
       });
-      element.on('mouseout', function () {
+      bind(element, 'mouseout', function () {
         if (!$tooltipElement) {
           return;
         }
         $tooltipElement.remove();
         $tooltipElement = null;
-      });
-
-      attrs.$observe('tooltip', function (interpolatedValue) {
-        tooltipText = interpolatedValue;
-        updateTooltip();
       });
 
       $scope.$on('$destroy', function () {
@@ -81,6 +62,12 @@ function tooltip(
         }
       });
 
+      function bind(element, event, fn) {
+        element.on(event, fn);
+        $scope.$on('$destroy', function () {
+          element.off(event, fn);
+        });
+      }
     }
   };
 
