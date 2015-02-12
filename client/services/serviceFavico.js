@@ -19,13 +19,14 @@ require('app')
       running: createImage('/build/images/favicon-green.png'),
       stopped: createImage('/build/images/favicon-gray.png')
     };
+    var currentState;
     var reset = function () {
+      currentState = null;
       favico.reset();
     };
     var setImage = function (image) {
       favico.image(image);
     };
-    var currentState;
     var setInstanceState = function (instance) {
       var building = keypather.get(instance, 'build.attrs.started') &&
           !keypather.get(instance, 'build.attrs.completed') &&
