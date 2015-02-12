@@ -9,10 +9,15 @@ require('app')
     var favico = favicojs({
       animation: 'none'
     });
+    function createImage(url) {
+      var img = $document[0].createElement('img');
+      img.src = url;
+      return img;
+    }
     var icons = {
-      building: $document[0].getElementById('js-favicon-building'),
-      running: $document[0].getElementById('js-favicon-running'),
-      stopped: $document[0].getElementById('js-favicon-stopped')
+      building: createImage('/build/images/favicon-orange.png'),
+      running: createImage('/build/images/favicon-green.png'),
+      stopped: createImage('/build/images/favicon-gray.png')
     };
     var reset = function () {
       favico.reset();
