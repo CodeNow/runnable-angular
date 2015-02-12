@@ -21,9 +21,9 @@ ul.list.list-divided
   )
     span.list-item-title.text-overflow {{ repo.attrs.full_name }}
     small.small {{ repo.attrs.updated_at | timeAgo }}
-    .spinner-wrapper.spinner-sm.spinner-purple(
-      ng-class = "{in: repo.spin}"
+    .spinner-wrapper.spinner-sm.spinner-purple.in(
       ng-include = "'spinner'"
+      ng-if = "repo.spin"
     )
     svg.iconnables.icons-arrow-down
       use(

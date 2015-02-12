@@ -19,13 +19,24 @@
     width: calc(100% - 210px);
   }
 
+  .spinner-sm {
+    justify-content: flex-end;
+    padding-right: 15px;
+  }
+
+  // lists
+  .list {
+    margin: 0 0 4px;
+  }
+
   .list-item {
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    height: 54px;
     justify-content: center;
     line-height: initial;
-    padding-right: 30px;
+    padding: 0 30px 0 15px;
 
     &:hover {
       background: rgba($purple-light,.1);
@@ -54,6 +65,7 @@
 
   .list-item-title {
     display: inline-block;
+    font-weight: 500;
     width: 100%;
   }
 
