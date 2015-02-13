@@ -1,6 +1,5 @@
 label.label.clearfix
   .label-col Branch
-    small.small Specify the branch of your repository
   .btn.btn-sm.gray.btn-select.text-overflow
     svg.iconnables.icons-branch
       use(
@@ -17,13 +16,12 @@ label.label.clearfix
     )
 .label.clearfix
   .label-col Framework/Language
-    small.small The primary framework or language of your repository
   .btn-group
     .btn.btn-sm.gray.btn-select.text-overflow
       img.img(
-        height = "18px"
+        height = "18"
         ng-src = "/build/images/home/icons/icons-{{state.stack.key}}.svg"
-        width = "18px"
+        width = "18"
       )
       small.small {{state.stack.name}}
       //- small.small {{ state.stack.name }}
@@ -43,7 +41,6 @@ label.label.clearfix
       //- - final text has v prepended
       //- - option text does NOT have v preprended
       small.small v{{state.stack.selectedVersion}}
-      //- small.small {{ version.selected }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -57,9 +54,9 @@ label.label.clearfix
   )
     button.btn.btn-sm.gray.btn-select.text-overflow
       img.img(
-        height = "18px"
+        height = "18"
         ng-src = "/build/images/home/icons/icons-{{depStack.key}}.svg"
-        width = "18px"
+        width = "18"
       )
       small.small {{depStack.name}}
     .btn.btn-sm.gray.btn-select.text-overflow
@@ -83,18 +80,18 @@ label.label.clearfix
   )
 label.label.clearfix
   .label-col Command
-    small.small Something about commands
+    small.small The command that'll start your application
   //- placeholder and values should be the same
   input.input.input-sm(
     ng-model = "state.startCommand"
     placeholder = "{{ state.stack.startCommand }}"
   )
-.modal-stack-dependencies.clearfix(
-  actions = "actions"
-  data = "data"
-  modal-stack-dependencies
-  state = "state"
-)
+//- .modal-stack-dependencies.clearfix(
+//-   actions = "actions"
+//-   data = "data"
+//-   modal-stack-dependencies
+//-   state = "state"
+//- )
 footer.modal-footer.clearfix
   button.btn.green(
     ng-click = "actions.nextStep(3)"
