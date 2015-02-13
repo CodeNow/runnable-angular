@@ -62,6 +62,17 @@ util.getOSCommandKey = function() {
   }
 };
 
+// Used in interactive sessions to re-require everything
+util.refreshCache = function() {
+  var toRefresh = Object.keys(require.cache).filter(function(key) {
+    return key.indexOf('protractor') === -1;
+  });
+  toRefresh.forEach(function(key) {
+    delete require.cache[key];
+    require(key);
+  });
+};
+
 util.regex = {};
 
 // Regexes are strings here because they will be concatenated later
