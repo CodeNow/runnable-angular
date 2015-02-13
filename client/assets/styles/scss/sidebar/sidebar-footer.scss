@@ -8,8 +8,16 @@
   transition: background .3s ease-in, box-shadow .3s ease-in, height .2s ease-in, padding .2s ease-in;
   z-index: $z-sidebar-footer;
 
+  .link {
+    font-weight: 500;
+    line-height: 36px;
+    padding-left: 9px;
+  }
+
   .btn-minimize {
-    float: right;
+    position: absolute;
+    right: 12px;
+    top: 9px;
   }
 
   .icons-minimize {

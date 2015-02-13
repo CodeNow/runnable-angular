@@ -34,7 +34,8 @@ function fetchInstances(
   $q,
   primus,
   $rootScope,
-  $timeout
+  $timeout,
+  $log
 ) {
   var currentInstanceList;
   var userStream;
@@ -43,7 +44,15 @@ function fetchInstances(
     if (!id) { return; }
     currentInstanceList = null;
     userStream = primus.createUserStream(id);
-
+    userStream.on('reconnect', function (data) {
+      $log.warn('RECONNECTING INSTANCE ROOM');
+    });
+    userStream.on('offline', function (data) {
+      $log.warn('OFFLINE INSTANCE ROOM');
+    });
+    userStream.on('end', function (data) {
+      $log.warn('INSTANCE ROOM DIED!!!!');
+    });
     userStream.on('data', function (data) {
       if (data.event !== 'ROOM_MESSAGE') {
         return;

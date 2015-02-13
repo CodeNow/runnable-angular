@@ -45,6 +45,11 @@
     &.active .icons-arrow-down {
       opacity: 0;
     }
+
+    .small {
+      color: $gray-light;
+      display: block;
+    }
   }
 
   .list-item-title {
@@ -93,6 +98,11 @@
     float: right;
     text-align: left;
     width: 50%;
+  }
+
+  .small {
+    color: $gray-light;
+    display: block;
   }
 
   // branch select
