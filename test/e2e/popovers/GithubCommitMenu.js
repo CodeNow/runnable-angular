@@ -3,45 +3,37 @@
 var util = require('../helpers/util');
 
 function GithubCommitMenu(repo) {
-
+  var self = this;
+  this.repo = repo;
   this.commitInfo = util.createGetter(by.className('js-repository-commit'), repo);
-  this.branchInfo = util.createGetter(by.className('js-repository-branch'));//, repo);
+  this.branchInfo = util.createGetter(by.className('js-repository-branch'), repo);
 
   // Commit popover menu
-  this.commitMenu = util.createGetter(by.className('popover-repository-toggle'), repo);
-  this.commitList = util.createGetterAll(by.repeater('commit in data.activeBranch.commits.models'), repo);
+  this.commitMenu = util.createGetter(by.className('popover-repository-toggle'));
+  this.commitList = util.createGetterAll(by.repeater('commit in data.activeBranch.commits.models'));
 
-  this.branchSelector = util.createGetter(by.model('data.activeBranch'));//, this.commitMenu);
+  this.branchSelector = util.createGetter(by.className('select'), this.commitMenu);
 
   this.open = function () {
-    var self = this;
-    return browser.wait(function () {
-      return repo.isDisplayed();
-    }).then(function () {
-      repo.element(by.className('repository-group-text')).click();
-    }).then(function () {
-      return browser.wait(function () {
-        return self.isOpen();
-      });
+    browser.wait(repo.isDisplayed);
+    repo.click();
+    browser.wait(function () {
+      return self.commitMenu.get().isPresent();
     });
+    browser.wait(self.isOpen);
   };
 
   this.isOpen = function () {
-    return this.commitMenu.get().isDisplayed();
+    return self.commitList.get().first().isDisplayed();
   };
 
   this.changeCommit = function (index) {
-    var self = this;
-    return browser.wait(function () {
-      return self.commitMenu.get(index).isDisplayed();
-    }).then(function () {
-      var commit = self.commitMenu.get(index);
-      return commit.get().click();
-    });
+
+    var commit = self.commitList.get(index);
+    return commit.click();
   };
 
   this.changeBranch = function (branchName, commitIndex) {
-    var self = this;
     browser.wait(function () {
       return self.branchSelector.get().isDisplayed();
     });
@@ -53,9 +45,7 @@ function GithubCommitMenu(repo) {
         return text === branchName;
       });
     });
-    browser.wait(function () {
-      return self.commitMenu.get().isDisplayed();
-    });
+    browser.wait(this.isOpen);
     this.changeCommit(commitIndex);
   };
 

@@ -29,15 +29,18 @@ util.containsText = function (elem, expected) {
 };
 
 
-util.createGetter = function (by, parentElement) {
+util.createGetter = function (by) {
   return {
-    get: function () {
-      var el, pE = null;
+    get: function (parentElement) {
+      var pE = null;
       if (parentElement) {
         pE = (typeof parentElement.get === 'function') ? parentElement.get() : parentElement;
       }
-      el = pE ? pE.element : element;
-      return el(by);
+      if (pE) {
+        return pE.element(by);
+      } else {
+        return element(by);
+      }
     }
   };
 };
@@ -45,15 +48,22 @@ util.createGetter = function (by, parentElement) {
 util.createGetterAll = function(by, parentElement) {
   return {
     get: function (idx) {
-      var el, pE = null;
+      var pE = null;
       if (parentElement) {
         pE = (typeof parentElement.get === 'function') ? parentElement.get() : parentElement;
       }
-      el = pE ? pE.element : element;
-      if (idx !== undefined) {
-        return el(by.row(idx));
+      if (pE) {
+        if (idx !== undefined) {
+          return pE.element(by.row(idx));
+        } else {
+          return pE.element(by);
+        }
       } else {
-        return el.all(by);
+        if (idx !== undefined) {
+          return element.all(by).get(idx);
+        } else {
+          return element.all(by);
+        }
       }
     }
   };

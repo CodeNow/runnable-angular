@@ -4,10 +4,10 @@ var util = require('../helpers/util');
 var CommitMenu = require('../popovers/GithubCommitMenu');
 
 function RepoList () {
-  this.self = util.createGetter(by.className('repo-list'));
-  this.repos = util.createGetterAll(by.repeater('model in unsavedAcvs'), this.self);
+  this.repoList = util.createGetter(by.className('repo-list'));
+  this.repos = util.createGetterAll(by.className('repository-group-text'));//, this.self);
 
-  this.addButton = util.createGetter(by.className('btn-add-repo'), this.self);
+  this.addButton = util.createGetter(by.className('btn-add-repo'), this.repoList);
 
   this.addDropdown = util.createGetter(by.css('section.row.repo-list > h2 > a > div'));
 
