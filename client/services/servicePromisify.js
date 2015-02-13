@@ -8,12 +8,12 @@ function promisify($exceptionHandler, $q) {
     if (!model[fn]) {
       throw new Error('Attempted to call a function of a model that doesn\'t exist');
     }
-    return function promsified () {
+    return function promsified() {
       var d = $q.defer();
       var args = [].slice.call(arguments);
       var returnedVal;
       args.push(function (err) {
-        if(err) {
+        if (err) {
           d.reject(err);
         } else {
           if (returnedVal) {
@@ -27,11 +27,11 @@ function promisify($exceptionHandler, $q) {
         // Check returnedVal.attrs
         returnedVal = model[fn].apply(model, args);
         // For Models || Collections
-        if (returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 1) ||
+        if (returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 2) ||
             (returnedVal.models && returnedVal.models.length))) {
           d.resolve(returnedVal);
         }
-      } catch(e) {
+      } catch (e) {
         $exceptionHandler(e);
         d.reject(e);
       }

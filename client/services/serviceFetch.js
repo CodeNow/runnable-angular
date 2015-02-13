@@ -199,10 +199,12 @@ function fetchOwnerRepos (
       }
       return fetchPage(1);
     }).then(function(reposArr) {
-      return user.newGithubRepos(reposArr, {
+      var repos = user.newGithubRepos(reposArr, {
         noStore: true
       });
-    }).catch(errs.handler);
+      repos.ownerUsername = userName;
+      return repos;
+    });
   };
 }
 

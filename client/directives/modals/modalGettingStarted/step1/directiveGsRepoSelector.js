@@ -10,6 +10,9 @@ function gsRepoSelector(
   fetchOwnerRepos,
   fetchStackAnalysis,
   hasKeypaths,
+  keypather,
+  promisify,
+  $q,
   $log
 ) {
   return {
@@ -21,13 +24,12 @@ function gsRepoSelector(
       state: '='
     },
     link: function ($scope, elem, attrs) {
-      function fetchStackData(repo, cb) {
-        fetchStackAnalysis(repo, function (err, data) {
-          if (err) { return cb(err); }
+      function fetchStackData(repo) {
+        return fetchStackAnalysis(repo).then(function (data) {
           if (!data.languageFramework) {
             $scope.state.stack = $scope.data.stacks[0];
             $log.warn('No language detected');
-            return cb();
+            return;
           }
           $scope.state.stack = $scope.data.stacks.find(hasKeypaths({
             'key': data.languageFramework.toLowerCase()
@@ -40,7 +42,7 @@ function gsRepoSelector(
                 var includedDeps = data.serviceDependencies.map(
                   function (dep) {
                     return allDeps.models.find(
-                        hasKeypaths({'attrs.name.toLowerCase()': dep.toLowerCase()})
+                      hasKeypaths({'attrs.name.toLowerCase()': dep.toLowerCase()})
                     ) || false;
                   }
                 );
@@ -49,11 +51,8 @@ function gsRepoSelector(
                     $scope.actions.addDependency(dep);
                   }
                 });
-                cb();
               }
             });
-          } else {
-            cb();
           }
         });
       }
@@ -64,17 +63,22 @@ function gsRepoSelector(
         $scope.state.ports = null;
         $scope.state.startCommand = null;
         $scope.state.selectedRepo = repo;
-        repo.branches.fetch(function(err) {
-          if (err) { return errs.handler(err); }
+        promisify(repo.branches, 'fetch')(
+        ).then(function getActiveBranch() {
           $scope.state.activeBranch =
               repo.branches.models.find(hasKeypaths({'attrs.name': 'master'}));
-          if (!$scope.state.activeBranch) { return errs.handler(new Error('No branches found')); }
-        });
-        fetchStackData(repo.attrs.full_name, function (err) {
-          if (err) { $scope.state.repoSelected = false; }
-          delete repo.spin;
+          if (!$scope.state.activeBranch) {
+            return $q.reject(new Error('No branches found'));
+          }
+        }).then(function () {
+          return fetchStackData(repo.attrs.full_name);
+        }).then(function () {
           $scope.actions.nextStep(2);
+        }).catch(function (err) {
+          $scope.state.repoSelected = false;
           errs.handler(err);
+        }).finally(function () {
+          delete repo.spin;
         });
       };
 
@@ -82,11 +86,16 @@ function gsRepoSelector(
         if (n) {
           $scope.loading = true;
           $scope.githubRepos = null;
-          fetchOwnerRepos(n.oauthName())
-          .then(function (repoList) {
-            $scope.githubRepos = repoList;
-          }).catch(errs.handler)
-          .finally(function() {
+          fetchOwnerRepos(
+            n.oauthName()
+          ).then(function (repoList) {
+            // Actually check the value on the scope since it isn't cached
+            if (keypather.get(repoList, 'ownerUsername') === $scope.data.activeAccount.oauthName()) {
+              $scope.githubRepos = repoList;
+            }
+          }).catch(
+            errs.handler
+          ).finally(function () {
             $scope.loading = false;
           });
         }
