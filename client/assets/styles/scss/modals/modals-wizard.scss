@@ -39,6 +39,20 @@
     flex: 1 1 auto;
   }
 
+  // guide
+  .guide {
+    border: 0;
+    border-bottom: 1px solid rgba($blue,.1);
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    height: 60px;
+    justify-content: center;
+    margin: 0;
+    padding: 0 15px;
+  }
+
   .modal-footer {
     border-top: 1px solid rgba($black,.1);
     flex: 0 0 auto;

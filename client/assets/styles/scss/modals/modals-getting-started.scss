@@ -207,23 +207,23 @@
   }
 
   // remove dependency
-  .btn-close {
-    height: 36px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: none;
+  // .btn-close {
+  //   height: 36px;
+  //   position: absolute;
+  //   right: 0;
+  //   top: 0;
+  //   transition: none;
 
-    &:hover,
-    &:active {
-      color: $orange-dark;
-    }
-  }
+  //   &:hover,
+  //   &:active {
+  //     color: $orange-dark;
+  //   }
+  // }
 
-  .icons-close {
-    height: 36px;
-    width: 18px;
-  }
+  // .icons-close {
+  //   height: 36px;
+  //   width: 18px;
+  // }
 }
 
 // wizard 3
