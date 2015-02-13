@@ -1,0 +1,68 @@
+// step 1
+.modal-repo-selector {
+  max-width: 330px;
+  min-width: 330px;
+  overflow-x: hidden;
+
+  @include media(sm) {
+    max-width: none;
+    width: 100%;
+  }
+
+  .input-search {
+    background-position: 93px 3px;
+    margin: 3px auto 15px;
+    padding-left: 115px;
+  }
+
+  .spinner-md {
+    width: calc(100% - 210px);
+  }
+
+  .list-item {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: initial;
+    padding-right: 30px;
+
+    &:hover .icons-arrow-down {
+      color: $blue;
+    }
+
+    &:active,
+    &.active {
+      background: $blue;
+      color: $white;
+
+      .icons-arrow-down,
+      .small {
+        color: $white;
+      }
+    }
+
+    &.active .icons-arrow-down {
+      opacity: 0;
+    }
+
+    .small {
+      color: $gray-light;
+      display: block;
+    }
+  }
+
+  .list-item-title {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .icons-arrow-down {
+    color: $gray-light;
+    float: right;
+    position: absolute;
+    right: 9px;
+    top: 17px;
+    transform: rotate3d(0,0,1,-90deg);
+  }
+}

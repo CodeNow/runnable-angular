@@ -24,7 +24,6 @@ label.label.clearfix
         width = "18"
       )
       small.small {{state.stack.name}}
-      //- small.small {{ state.stack.name }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -61,7 +60,6 @@ label.label.clearfix
       small.small {{depStack.name}}
     .btn.btn-sm.gray.btn-select.text-overflow
       small.small v{{depStack.selectedVersion}}
-      //- small.small {{ version.selected }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -86,12 +84,6 @@ label.label.clearfix
     ng-model = "state.startCommand"
     placeholder = "{{ state.stack.startCommand }}"
   )
-//- .modal-stack-dependencies.clearfix(
-//-   actions = "actions"
-//-   data = "data"
-//-   modal-stack-dependencies
-//-   state = "state"
-//- )
 footer.modal-footer.clearfix
   button.btn.green(
     ng-click = "actions.nextStep(3)"

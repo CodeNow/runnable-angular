@@ -71,10 +71,15 @@
 @import "modals/modals-environment";
 @import "modals/modals-error";
 @import "modals/modals-fork";
-@import "modals/modals-getting-started";
 @import "modals/modals-integrations";
 @import "modals/modals-rename";
 @import "modals/modals-sign-in";
+
+// modal getting started
+@import "modals/modals-getting-started";
+@import "modals/modals-getting-started-step-1";
+@import "modals/modals-getting-started-step-2";
+@import "modals/modals-getting-started-step-3";
 
 // popovers
 @import "popover/popover";
