@@ -70,7 +70,7 @@ function addRepoPopover(
         promisify(
           branch.commits,
           'fetch'
-        )().then(function fetchLatestCommits(acv) {
+        )().then(function fetchLatestCommits() {
           if (branch.commits.models.length === 0) { throw new Error('repo has 0 commits'); }
           var latestCommit = branch.commits.models[0];
           acv.extend({

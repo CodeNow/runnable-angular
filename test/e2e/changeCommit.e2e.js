@@ -26,29 +26,33 @@ describe('Changing commit', function () {
     commitMenu.open();
     commitMenu.changeBranch('test1', 3);
 
-    waitForRepos(instance, repo);
-    util.hasClass(instance.statusIcon, 'running');
-    browser.wait(function () {
-      return commitMenu.branchInfo.get().isDisplayed();
-    });
-    //expect(commitMenu).toBe('test1');
-    browser.wait(function () {
-      return commitMenu.branchInfo.get().getText(function (text) {
-        expect(text).toBe('test1');
+    waitForRepos(instance, repo).then(function () {
+      return browser.wait(function () {
+        return commitMenu.branchInfo.get().isDisplayed();
       });
-    });
-    browser.wait(function () {
-      return commitMenu.commitInfo.get().getText(function (text) {
-        expect(text).to.match(/Create server\.js/);
+    }).then(function () {
+      return browser.wait(function () {
+        return commitMenu.branchInfo.get().getText(function (text) {
+          expect(text).toBe('test1');
+        });
+      });
+    }).then(function () {
+      return browser.wait(function () {
+        return commitMenu.commitInfo.get().getText(function (text) {
+          expect(text).to.match(/Create server\.js/);
+        });
+      });
+    }).then(function () {
+      return commitMenu.open(repo);
+    }).then(function () {
+      return browser.wait(function () {
+        return commitMenu.getSelectedBranch(repo).getText(function (text) {
+          expect(text).toBe('test1');
+        });
       });
     });
 
-    commitMenu.open(repo);
-    browser.wait(function () {
-      return commitMenu.getSelectedBranch(repo).getText(function (text) {
-        expect(text).toBe('test1');
-      });
-    });
+
   });
 
   it('should allow the user to change the branch back to master', function () {
@@ -89,7 +93,7 @@ function waitForRepos(instance, repo) {
   browser.wait(function() {
     return util.hasClass(instance.statusIcon, 'running');
   });
-  browser.wait(function() {
+  return browser.wait(function() {
     if (repo) {
       return repo.isDisplayed();
     } else {

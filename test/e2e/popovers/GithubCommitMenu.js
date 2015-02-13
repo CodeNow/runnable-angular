@@ -5,7 +5,7 @@ var util = require('../helpers/util');
 function GithubCommitMenu(repo) {
 
   this.commitInfo = util.createGetter(by.className('js-repository-commit'), repo);
-  this.branchInfo = util.createGetter(by.className('js-repository-branch'), repo);
+  this.branchInfo = util.createGetter(by.className('js-repository-branch'));//, repo);
 
   // Commit popover menu
   this.commitMenu = util.createGetter(by.className('popover-repository-toggle'), repo);
@@ -17,10 +17,12 @@ function GithubCommitMenu(repo) {
     var self = this;
     return browser.wait(function () {
       return repo.isDisplayed();
-    });
-    repo.element(by.className('repository-group-text')).click();
-    return browser.wait(function () {
-      return self.isOpen();
+    }).then(function () {
+      repo.element(by.className('repository-group-text')).click();
+    }).then(function () {
+      return browser.wait(function () {
+        return self.isOpen();
+      });
     });
   };
 
@@ -30,14 +32,12 @@ function GithubCommitMenu(repo) {
 
   this.changeCommit = function (index) {
     var self = this;
-    browser.wait(function () {
-      return self.commitMenu.get(index).isPresent();
-    });
-    browser.wait(function () {
+    return browser.wait(function () {
       return self.commitMenu.get(index).isDisplayed();
+    }).then(function () {
+      var commit = self.commitMenu.get(index);
+      return commit.get().click();
     });
-    var commit = this.commitMenu.get(index);
-    return commit.get().click();
   };
 
   this.changeBranch = function (branchName, commitIndex) {
