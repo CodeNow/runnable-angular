@@ -30,7 +30,7 @@ function GithubCommitMenu(repo) {
 
   this.changeCommit = function (index) {
     var self = this;
-    browser.waitForAngular(function () {
+    browser.wait(function () {
       return self.commitMenu.get(index).isPresent();
     });
     browser.wait(function () {
