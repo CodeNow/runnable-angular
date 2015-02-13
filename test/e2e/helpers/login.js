@@ -28,7 +28,5 @@ describe('login', function() {
 
     // We're being redirected
     util.waitForUrl(/runnable-doobie/);
-
-    expect(browser.getTitle()).toBe('Runnable');
   });
 });

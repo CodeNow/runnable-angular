@@ -61,6 +61,8 @@ function gsRepoSelector(
         if ($scope.state.repoSelected) { return; }
         $scope.state.repoSelected = true;
         repo.spin = true;
+        $scope.state.ports = null;
+        $scope.state.startCommand = null;
         $scope.state.selectedRepo = repo;
         repo.branches.fetch(function(err) {
           if (err) { return errs.handler(err); }

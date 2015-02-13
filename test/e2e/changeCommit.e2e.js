@@ -9,54 +9,6 @@ var util = require('./helpers/util');
 var InstancePage = require('./pages/InstancePage');
 
 describe('Changing commit', function () {
-  it('should allow the user to back up to 2 commits ago, then go back to HEAD ', function () {
-    var instance = new InstancePage('Test-0');
-    instance.get();
-
-    browser.wait(function () {
-      return instance.commitLog.get().isPresent();
-    });
-
-    var repo = instance.commitMenu.getRepo();
-    waitForRepos(instance, repo);
-    instance.commitMenu.open(repo);
-    instance.commitMenu.changeCommit(repo, 2);
-
-    waitForRepos(instance, repo);
-    expect(instance.commitMenu.getCommitsBehind(repo)).toEqual('2');
-    instance.commitMenu.fastForward(repo);
-
-    waitForRepos(instance, repo);
-    expect(instance.commitMenu.getFastForwardButton(repo).isPresent()).toBe(false);
-  });
-
-  it('should allow the user filter commits by commit text ', function () {
-    var instance = new InstancePage('Test-0');
-    instance.get();
-
-    browser.wait(function () {
-      return instance.commitLog.get().isPresent();
-    });
-
-    var repo = instance.commitMenu.getRepo();
-    browser.wait(function () {
-      return repo.isDisplayed();
-    });
-    instance.commitMenu.open(repo);
-    instance.commitMenu.filterCommits(repo, 'README.md');
-
-    instance.commitMenu.changeCommit(repo, 0);
-
-    waitForRepos(instance, repo);
-    instance.commitMenu.getRepoCommitTitle(repo).getText(function(text) {
-      expect(text).toContain('README.md');
-    });
-    expect(instance.commitMenu.getCommitsBehind(repo)).toEqual('1');
-    instance.commitMenu.fastForward(repo);
-
-    waitForRepos(instance, repo);
-    expect(instance.commitMenu.getFastForwardButton(repo).isPresent()).toBe(false);
-  });
 
   it('should allow the user to change the branch to !master', function () {
     var instance = new InstancePage('Test-0');
@@ -66,19 +18,36 @@ describe('Changing commit', function () {
       return instance.commitLog.get().isPresent();
     });
 
-    var repo = instance.commitMenu.getRepo();
+    var repo = instance.repoList.repos.get(0);
     browser.wait(function () {
       return repo.isDisplayed();
     });
-    instance.commitMenu.open(repo);
-    instance.commitMenu.changeBranch(repo, 'test1', 3);
+    var commitMenu = instance.repoList.getCommitMenu(repo);
+    commitMenu.open();
+    commitMenu.changeBranch('test1', 3);
 
     waitForRepos(instance, repo);
-    expect(instance.commitMenu.getCommitsBehind(repo)).toEqual('3');
+    util.hasClass(instance.statusIcon, 'running');
+    browser.wait(function () {
+      return commitMenu.branchInfo.get().isDisplayed();
+    });
+    //expect(commitMenu).toBe('test1');
+    browser.wait(function () {
+      return commitMenu.branchInfo.get().getText(function (text) {
+        expect(text).toBe('test1');
+      });
+    });
+    browser.wait(function () {
+      return commitMenu.commitInfo.get().getText(function (text) {
+        expect(text).to.match(/Create server\.js/);
+      });
+    });
 
-    instance.commitMenu.open(repo);
-    instance.commitMenu.getSelectedBranch(repo).getText(function (text) {
-      expect(text).toBe('test1');
+    commitMenu.open(repo);
+    browser.wait(function () {
+      return commitMenu.getSelectedBranch(repo).getText(function (text) {
+        expect(text).toBe('test1');
+      });
     });
   });
 
@@ -89,22 +58,29 @@ describe('Changing commit', function () {
       return instance.commitLog.get().isPresent();
     });
 
-    var repo = instance.commitMenu.getRepo();
+    var repo = instance.repoList.repos.get(0);
     browser.wait(function () {
       return repo.isDisplayed();
     });
-    waitForRepos(instance, repo);
-    instance.commitMenu.open(repo);
-    instance.commitMenu.changeBranch(repo, 'master', 0);
+    var commitMenu = instance.repoList.getCommitMenu(repo);
+    commitMenu.open();
+    commitMenu.changeBranch('master', 0);
 
     waitForRepos(instance, repo);
-
-    instance.commitMenu.open(repo);
-    instance.commitMenu.getSelectedBranch(repo).getText(function (text) {
+    browser.wait(function () {
+      return repo.isDisplayed();
+    });
+    commitMenu.branchInfo.get().getText(function (text) {
       expect(text).toBe('master');
     });
-    waitForRepos(instance, repo);
-    expect(instance.commitMenu.getFastForwardButton(repo).isPresent()).toBe(false);
+    commitMenu.commitInfo.get().getText(function (text) {
+      expect(text).to.match(/Update server\.js/);
+    });
+
+    commitMenu.open(repo);
+    commitMenu.getSelectedBranch(repo).getText(function (text) {
+      expect(text).toBe('master');
+    });
   });
 
 });

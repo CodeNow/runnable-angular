@@ -28,21 +28,32 @@ util.containsText = function (elem, expected) {
   });
 };
 
-util.createGetter = function (by) {
+
+util.createGetter = function (by, parentElement) {
   return {
     get: function () {
-      return element(by);
+      var el, pE = null;
+      if (parentElement) {
+        pE = (typeof parentElement.get === 'function') ? parentElement.get() : parentElement;
+      }
+      el = pE ? pE.element : element;
+      return el(by);
     }
   };
 };
 
-util.createGetterAll = function(by) {
+util.createGetterAll = function(by, parentElement) {
   return {
     get: function (idx) {
+      var el, pE = null;
+      if (parentElement) {
+        pE = (typeof parentElement.get === 'function') ? parentElement.get() : parentElement;
+      }
+      el = pE ? pE.element : element;
       if (idx !== undefined) {
-        return element(by.row(idx));
+        return el(by.row(idx));
       } else {
-        return element.all(by);
+        return el.all(by);
       }
     }
   };
