@@ -76,7 +76,8 @@ util.getOSCommandKey = function() {
 // Used in interactive sessions to re-require everything
 util.refreshCache = function() {
   var toRefresh = Object.keys(require.cache).filter(function(key) {
-    return key.indexOf('protractor') === -1;
+    // Only refresh our stuff
+    return key.indexOf('test/e2e') > -1;
   });
   toRefresh.forEach(function(key) {
     delete require.cache[key];
