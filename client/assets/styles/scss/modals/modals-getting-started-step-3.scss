@@ -1,46 +1,18 @@
 // wizard 3
 .modal-gs-environments {
 
-  .input-ace {
-    background: rgba($black,.07);
+  // wrapper input
+  .input-col {
+    border-radius: 3px;
   }
-  // display: flex;
-  // flex-direction: column;
-  // overflow-y: hidden;
-  // width: 540px;
 
-  // @include media(xs) {
-  //   width: 100%;
-  // }
+  // ace gutter
+  .ace_gutter {
+    line-height: 34px;
+    margin: 1px;
+  }
 
-  // .row {
-  //   display: flex;
-  //   flex: 1 1 auto;
-  // }
-
-  // .sidebar {
-  //   flex: 0 0 240px;
-  //   height: auto;
-  //   padding-right: 0;
-  // }
-
-  // .col {
-  //   display: flex;
-  //   flex: 1 1 auto;
-  //   flex-direction: column;
-  //   margin-right: 15px;
-  // }
-
-  // .btn-guide {
-  //   margin-top: 12px;
-  // }
-
-  // .pre {
-  //   flex: 1 1 auto;
-  // }
-
-  // .modal-footer {
-  //   flex: 0 0 auto;
-  //   margin-top: 0;
-  // }
+  .input-ace {
+    padding-left: 52px;
+  }
 }

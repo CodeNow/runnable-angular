@@ -2,30 +2,29 @@
 label.label.clearfix
   .label-col mysql-server
     small.small mysql-server.user.runnable.io
-  .input-col.ace_editor.ace-tm(
-    ng-class = "{}"
-  )
+  .input-col.pre.ace_editor.ace-tm
+    //- ***********
+    //- increment per item
     //- wannabe ace gutter
     .ace_gutter
       .ace_layer.ace_gutter-layer
         .ace_gutter-cell 1
-    input.input.input-sm.input-ace(
-      ng-blur = "{}"
-      ng-focus = "{}"
+    input.pre.input.input-sm.input-ace(
       placeholder = "SQL_HOSTNAME=mysql-server.user.runnable.io"
       value = "SQL_HOSTNAME=mysql-server.user.runnable.io"
     )
 label.label.clearfix
   .label-col rabbitmq-server
     small.small rabbitmq-server.user.runnable.io
-  .input.input-sm(
-    placeholder = "RABBIT_NAME=mysql-server.user.runnable.io"
-    ui-ace = "{\
-        firstLineNumber: 1,\
-        useWrapMode : true\
-      }"
-    value = "RABBIT_NAME=mysql-server.user.runnable.io"
-  )
+  .input-col.pre.ace_editor.ace-tm
+    //- wannabe ace gutter
+    .ace_gutter
+      .ace_layer.ace_gutter-layer
+        .ace_gutter-cell 2
+    input.pre.input.input-sm.input-ace(
+      placeholder = "rabbitmq-server.user.runnable.io"
+      value = "rabbitmq-server.user.runnable.io"
+    )
 footer.modal-footer.clearfix
   button.btn.green(
     ng-click = "actions.createAndBuild();"
