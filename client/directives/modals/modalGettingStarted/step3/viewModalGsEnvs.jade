@@ -1,24 +1,26 @@
-.guide(
-  ng-class = "{in: data.guide}"
-  ng-init = "data.guide = true"
-) Runnable uses environment variables to network your dependency servers together.
-.row
-  .sidebar
-    h2.sub-header Dependencies
-      button.btn.btn-xs.white.sub-header-action
-        svg.iconnables.icons-add
-          use(
-            xlink:href = "#icons-add"
-          )
-  .col
-    h2.sub-header Environment Things
-      button.btn.btn-xs.btn-guide(
-        ng-class = "{active: data.guide}"
-        ng-click = "data.guide = !data.guide"
-      ) ?
-    pre.pre(
-      ui-ace
-    )
+.guide Runnable uses environment variables to network your dependency servers together.
+label.label.clearfix
+  .label-col mysql-server
+    small.small mysql-server.user.runnable.io
+  .input.input-sm(
+    placeholder = "SQL_HOSTNAME=mysql-server.user.runnable.io"
+    ui-ace = "{\
+        firstLineNumber: 1,\
+        useWrapMode : true\
+      }"
+    value = "SQL_HOSTNAME=mysql-server.user.runnable.io"
+  )
+label.label.clearfix
+  .label-col rabbitmq-server
+    small.small rabbitmq-server.user.runnable.io
+  .input.input-sm(
+    placeholder = "RABBIT_NAME=mysql-server.user.runnable.io"
+    ui-ace = "{\
+        firstLineNumber: 1,\
+        useWrapMode : true\
+      }"
+    value = "RABBIT_NAME=mysql-server.user.runnable.io"
+  )
 footer.modal-footer.clearfix
   button.btn.green(
     ng-click = "actions.createAndBuild();"

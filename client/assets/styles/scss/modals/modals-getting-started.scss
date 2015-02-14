@@ -1,1 +1,88 @@
+// labels
+.modal-stack-selector,
+.modal-gs-environments {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  padding: 15px 15px 0;
+  width: 540px;
 
+  .label {
+    display: block;
+    flex: 0 0 auto;
+    padding-bottom: 30px;
+
+    + .label {
+      padding-top: 30px;
+    }
+  }
+
+  .label-col {
+    float: left;
+    font-weight: 500;
+    height: 36px;
+    padding-right: 30px;
+    text-align: right;
+    width: 50%;
+  }
+
+  .label > .btn,
+  .label > .btn-group,
+  .input {
+    float: right;
+    text-align: left;
+    width: 50%;
+  }
+
+  .small {
+    color: $gray-light;
+    display: block;
+  }
+
+  // branch select
+  .btn-select {
+
+    .iconnables {
+      height: 18px;
+      top: 9px;
+      width: 18px;
+    }
+
+    .icons-branch {
+      color: $gray-light;
+    }
+  }
+
+  // language/framework button
+  .btn-group {
+
+    .btn {
+      width: 50%;
+
+      + .btn {
+        padding-left: 15px;
+      }
+    }
+
+    + .btn-group {
+      margin-top: 6px;
+
+      .btn:first-child {
+        background: $gray-lightest;
+        border: 1px solid rgba($black,.1);
+        cursor: default;
+      }
+    }
+
+    .small {
+      color: $gray-dark;
+      display: inline-block;
+      float: left;
+    }
+  }
+
+  // footer
+  .modal-footer {
+    margin: 30px -15px 0;
+  }
+}
