@@ -1,6 +1,6 @@
 label.label.clearfix
   .label-col Branch
-  .btn.btn-sm.gray.btn-select.text-overflow
+  .btn.btn-sm.gray.btn-select.text-overflow.input-col
     svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch"
@@ -16,7 +16,7 @@ label.label.clearfix
     )
 .label.clearfix
   .label-col Framework/Language
-  .btn-group
+  .btn-group.input-col
     .btn.btn-sm.gray.btn-select.text-overflow
       img.img(
         height = "18"
@@ -48,7 +48,7 @@ label.label.clearfix
         ng-model = "state.stack.selectedVersion"
         ng-options = "version as version group by 'Choose version' for version in state.stack.versions "
       )
-  .btn-group(
+  .btn-group.input-col(
     ng-repeat = "depStack in state.stack.dependencies"
   )
     button.btn.btn-sm.gray.btn-select.text-overflow
@@ -72,7 +72,7 @@ label.label.clearfix
   .label-col Ports
     small.small Separate by commas
   //- placeholder and values should be the same
-  input.input.input-sm(
+  input.input.input-sm.input-col(
     ng-model = "state.ports"
     placeholder = "{{ state.stack.ports }}"
   )
@@ -80,7 +80,7 @@ label.label.clearfix
   .label-col Command
     small.small The command that'll start your application
   //- placeholder and values should be the same
-  input.input.input-sm(
+  input.input.input-sm.input-col(
     ng-model = "state.startCommand"
     placeholder = "{{ state.stack.startCommand }}"
   )

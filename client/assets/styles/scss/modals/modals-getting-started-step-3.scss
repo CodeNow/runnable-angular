@@ -1,42 +1,46 @@
 // wizard 3
 .modal-gs-environments {
-  display: flex;
-  flex-direction: column;
-  overflow-y: hidden;
-  width: 540px;
 
-  @include media(xs) {
-    width: 100%;
+  .input-ace {
+    background: rgba($black,.07);
   }
+  // display: flex;
+  // flex-direction: column;
+  // overflow-y: hidden;
+  // width: 540px;
 
-  .row {
-    display: flex;
-    flex: 1 1 auto;
-  }
+  // @include media(xs) {
+  //   width: 100%;
+  // }
 
-  .sidebar {
-    flex: 0 0 240px;
-    height: auto;
-    padding-right: 0;
-  }
+  // .row {
+  //   display: flex;
+  //   flex: 1 1 auto;
+  // }
 
-  .col {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    margin-right: 15px;
-  }
+  // .sidebar {
+  //   flex: 0 0 240px;
+  //   height: auto;
+  //   padding-right: 0;
+  // }
 
-  .btn-guide {
-    margin-top: 12px;
-  }
+  // .col {
+  //   display: flex;
+  //   flex: 1 1 auto;
+  //   flex-direction: column;
+  //   margin-right: 15px;
+  // }
 
-  .pre {
-    flex: 1 1 auto;
-  }
+  // .btn-guide {
+  //   margin-top: 12px;
+  // }
 
-  .modal-footer {
-    flex: 0 0 auto;
-    margin-top: 0;
-  }
+  // .pre {
+  //   flex: 1 1 auto;
+  // }
+
+  // .modal-footer {
+  //   flex: 0 0 auto;
+  //   margin-top: 0;
+  // }
 }
