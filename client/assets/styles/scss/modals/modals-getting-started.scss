@@ -11,6 +11,7 @@
     display: block;
     flex: 0 0 auto;
     padding-bottom: 30px;
+    position: relative;
 
     + .label {
       padding-top: 30px;
@@ -23,13 +24,13 @@
     height: 36px;
     padding-right: 21px;
     text-align: right;
-    width: 50%;
+    width: 45%;
   }
 
   .input-col {
     float: right;
     text-align: left;
-    width: 50%;
+    width: 55%;
   }
 
   .small {

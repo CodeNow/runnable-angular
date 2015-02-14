@@ -1,36 +1,24 @@
 // wizard 3
 .modal-gs-environments {
 
-  // wrapper input
+  .sub-header {
+    margin-bottom: 30px;
+  }
+
   .input-col {
-    border-radius: 3px;
+    float: none;
+    width: calc(55% - 24px);
   }
 
-  // ace gutter
-  .ace_gutter {
-    line-height: 34px;
-    margin: 1px;
+  .btn-xxs {
+    height: 36px;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
-  .input-ace {
-    padding-left: 48px;
-  }
-
-  // guide area
-  .guide {
-
-    .ace_editor {
-      margin: 15px 30px 0;
-    }
-
-    .ace_gutter {
-      background: rgba($blue,.1);
-      color: rgba($blue,.6);
-    }
-
-    .input {
-      border-color: rgba($blue,.4);
-      color: rgba($blue,.6);
-    }
+  .icons-gear {
+    height: 36px;
+    width: 18px;
   }
 }

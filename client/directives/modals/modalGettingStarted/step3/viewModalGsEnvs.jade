@@ -1,32 +1,25 @@
 //- .guide Runnable uses environment variables to network your dependency servers together.
 .guide We create a new server for each dependency in your application, and then link them together with environment variables.
-h2.sub-header Linked Dependencies
+h2.row.sub-header Linked Dependencies
 label.label.clearfix
   .label-col mysql-server
+    button.btn-xxs.white
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
     small.small mysql-server.user.runnable.io
-  .input-col.pre.ace_editor.ace-tm
-    //- ***********
-    //- increment per item
-    //- wannabe ace gutter
-    .ace_gutter
-      .ace_layer.ace_gutter-layer
-        .ace_gutter-cell 1
-    input.pre.input.input-sm.input-ace(
-      placeholder = "SQL_HOSTNAME=mysql-server.user.runnable.io"
-      value = "SQL_HOSTNAME=mysql-server.user.runnable.io"
-    )
+  input.input.input-sm.input-col.pre(
+    placeholder = "SQL_HOSTNAME=mysql-server.user.runnable.io"
+    value = "SQL_HOSTNAME=mysql-server.user.runnable.io"
+  )
 label.label.clearfix
   .label-col rabbitmq-server
     small.small rabbitmq-server.user.runnable.io
-  .input-col.pre.ace_editor.ace-tm
-    //- wannabe ace gutter
-    .ace_gutter
-      .ace_layer.ace_gutter-layer
-        .ace_gutter-cell 2
-    input.pre.input.input-sm.input-ace(
-      placeholder = "RABBT=rabbitmq-server.user.runnable.io"
-      value = "RABBT=rabbitmq-server.user.runnable.io"
-    )
+  input.input.input-sm.input-col.pre(
+    placeholder = "RABBT=rabbitmq-server.user.runnable.io"
+    value = "RABBT=rabbitmq-server.user.runnable.io"
+  )
 footer.modal-footer.clearfix
   button.btn.green(
     ng-click = "actions.createAndBuild();"
