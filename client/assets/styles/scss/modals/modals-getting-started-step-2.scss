@@ -9,11 +9,16 @@
   .label {
     display: block;
     flex: 0 0 auto;
-    margin: 0 0 30px;
+    padding-bottom: 30px;
 
     + .label {
-      border-top: 1px solid rgba($black,.1);
-      padding-top: 15px;
+      padding-top: 30px;
+    }
+
+    // center if no description text
+    &:nth-child(1),
+    &:nth-child(2) {
+      line-height: 36px;
     }
 
     &:nth-child(4) {
@@ -23,14 +28,11 @@
 
   .label-col {
     float: left;
+    font-weight: 500;
     height: 36px;
-    line-height: 36px;
-    padding-right: 15px;
+    padding-right: 30px;
+    text-align: right;
     width: 50%;
-
-    .small {
-      line-height: 1;
-    }
   }
 
   .label > .btn,

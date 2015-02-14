@@ -1,4 +1,7 @@
-.guide Runnable uses environment variables to network your dependency servers together.
+.guide(
+  ng-class = "{in: data.guide}"
+  ng-init = "data.guide = true"
+) Runnable uses environment variables to network your dependency servers together.
 .row
   .sidebar
     h2.sub-header Dependencies
@@ -7,53 +10,15 @@
           use(
             xlink:href = "#icons-add"
           )
-  pre.pre(
-    ui-ace
-  )
-//- label.label Environment Variables
-//- .small We use environment variables to link up dependent servers. Update the variables below to match your app, and we'll set them to the paths for the dependencies. Or if you hardcode your dependency paths, update them to the variables below.
-//- form.list(
-//-   name = "envStep"
-//- )
-//-   .list-item.gray(
-//-     ng-if = "model.reqEnv && model.reqEnv.length"
-//-     ng-repeat = "model in state.dependencies"
-//-   )
-//-     label.label {{ model.opts.name || model.instance.attrs.name }}
-//-     .list-item-form(
-//-       name = "eachEnv"
-//-       ng-form
-//-       ng-repeat = "envModel in model.reqEnv"
-//-     )
-//-       label.input-group.input-validate(
-//-         ng-class = "{\
-//-           'ng-invalid': eachEnv.$invalid,\
-//-           'ng-valid': eachEnv.$valid && !eachEnv.$pristine,\
-//-           focus: envInput.showFocus\
-//-         }"
-//-       )
-//-         span.input-label {{ state.stack.preEnvMarker }}
-//-         input.input(
-//-           name = "envInput"
-//-           ng-blur = "envInput.showFocus = false"
-//-           ng-focus = "envInput.showFocus = true"
-//-           ng-model = "envModel.name"
-//-           placeholder = "{{ envModel.placeholder }}"
-//-           validate-env-pattern
-//-         )
-//-         span.input-label {{ state.stack.postEnvMarker }}
-//-       .validate-wrapper.btn-sm.orange(
-//-         ng-class = "{\
-//-             in: eachEnv.$invalid,\
-//-             'invalid-pattern': eachEnv.$error.envPattern,\
-//-             'invalid-require': eachEnv.$error.envRequire}"
-//-       )
-//-         span.validate-rules.invalid-pattern Please use #{''}
-//-           b.btn-xs.orange A-Z
-//-           b.btn-xs.orange a-z
-//-           b.btn-xs.orange 0-9
-//-           b.btn-xs.orange _
-//-         span.validate-rules.invalid-require Variable Required
+  .col
+    h2.sub-header Environment Things
+      button.btn.btn-xs.btn-guide(
+        ng-class = "{active: data.guide}"
+        ng-click = "data.guide = !data.guide"
+      ) ?
+    pre.pre(
+      ui-ace
+    )
 footer.modal-footer.clearfix
   button.btn.green(
     ng-click = "actions.createAndBuild();"
