@@ -13,6 +13,24 @@
   }
 
   .input-ace {
-    padding-left: 52px;
+    padding-left: 48px;
+  }
+
+  // guide area
+  .guide {
+
+    .ace_editor {
+      margin: 15px 30px 0;
+    }
+
+    .ace_gutter {
+      background: rgba($blue,.1);
+      color: rgba($blue,.6);
+    }
+
+    .input {
+      border-color: rgba($blue,.4);
+      color: rgba($blue,.6);
+    }
   }
 }

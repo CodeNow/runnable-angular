@@ -1,4 +1,6 @@
-.guide Runnable uses environment variables to network your dependency servers together.
+//- .guide Runnable uses environment variables to network your dependency servers together.
+.guide We create a new server for each dependency in your application, and then link them together with environment variables.
+h2.sub-header Linked Dependencies
 label.label.clearfix
   .label-col mysql-server
     small.small mysql-server.user.runnable.io
@@ -22,8 +24,8 @@ label.label.clearfix
       .ace_layer.ace_gutter-layer
         .ace_gutter-cell 2
     input.pre.input.input-sm.input-ace(
-      placeholder = "rabbitmq-server.user.runnable.io"
-      value = "rabbitmq-server.user.runnable.io"
+      placeholder = "RABBT=rabbitmq-server.user.runnable.io"
+      value = "RABBT=rabbitmq-server.user.runnable.io"
     )
 footer.modal-footer.clearfix
   button.btn.green(
