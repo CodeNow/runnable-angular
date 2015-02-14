@@ -13,18 +13,21 @@ function GithubCommitMenu(repo) {
   this.commitList = util.createGetterAll(by.repeater('commit in data.activeBranch.commits.models'));
 
   this.branchSelector = util.createGetter(by.className('select'), this.commitMenu);
+  this.getBranchSelector = function (commitMenu) {
+    return commitMenu.element(by.className('select'));
+  };
 
-  this.open = function () {
+  this.open = function (repo) {
     browser.wait(repo.isDisplayed);
-    repo.click();
-    browser.wait(function () {
-      return self.commitMenu.get().isPresent();
+    repo.click().then(function () {
+      browser.wait(function () {
+        return self.commitMenu.get().isPresent();
+      });
     });
-    browser.wait(self.isOpen);
   };
 
   this.isOpen = function () {
-    return self.commitList.get().first().isDisplayed();
+    return self.commitMenu.get().isDisplayed();
   };
 
   this.changeCommit = function (index) {
@@ -35,10 +38,11 @@ function GithubCommitMenu(repo) {
 
   this.changeBranch = function (branchName, commitIndex) {
     browser.wait(function () {
-      return self.branchSelector.get().isDisplayed();
+      return self.getBranchSelector(self.commitMenu.get()).isPresent();
     });
-    this.branchSelector.get().click();
-    var testBranch = this.branchSelector.get().element(by.cssContainingText('option', branchName));
+    var branchSelector = self.getBranchSelector(self.commitMenu.get());
+    branchSelector.click();
+    var testBranch = branchSelector.element(by.cssContainingText('option', branchName));
     testBranch.click();
     browser.wait(function () {
       return self.getSelectedBranch().getText(function (text) {
@@ -50,7 +54,7 @@ function GithubCommitMenu(repo) {
   };
 
   this.getSelectedBranch = function () {
-    return this.branchSelector.get().$('option:checked');
+    return self.getBranchSelector(self.commitMenu.get()).$('option:checked');
   };
 
 }
