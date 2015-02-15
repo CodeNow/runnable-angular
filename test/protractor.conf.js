@@ -4,7 +4,7 @@ exports.config = {
   // The address of a running selenium server.
   seleniumAddress: 'http://localhost:4444/wd/hub',
 
-  allScriptsTimeout: 11000,
+  allScriptsTimeout: 20000,
 
   // Order is important
   specs: [

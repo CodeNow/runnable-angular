@@ -7,6 +7,7 @@
 var util = require('./helpers/util');
 
 var InstancePage = require('./pages/InstancePage');
+var spinner = require('./helpers/spinner');
 
 describe('Changing commit', function () {
 
@@ -18,7 +19,7 @@ describe('Changing commit', function () {
       return instance.repoList.repoList.get().isPresent();
     });
 
-    var repo = instance.repoList.repos.get().first();
+    var repo = instance.repoList.repos.get(0);
 
     browser.wait(repo.isDisplayed);
     var commitMenu = instance.repoList.getCommitMenu(repo);
@@ -26,8 +27,12 @@ describe('Changing commit', function () {
     commitMenu.open(repo);
     commitMenu.changeBranch('test1', 3);
 
-    waitForRepos(instance, repo);
-    browser.wait(commitMenu.branchInfo.get().isDisplayed);
+    waitForRepos(instance);
+
+    repo = instance.repoList.repos.get(0);
+    browser.wait(function () {
+      return commitMenu.branchInfo.get().isPresent();
+    });
 
     commitMenu.branchInfo.get().getText(function (text) {
       expect(text).toBe('test1');
@@ -58,8 +63,13 @@ describe('Changing commit', function () {
     commitMenu.open(repo);
     commitMenu.changeBranch('master', 0);
 
-    waitForRepos(instance, repo);
-    browser.wait(repo.isDisplayed);
+    waitForRepos(instance);
+
+    repo = instance.repoList.repos.get(0);
+    browser.wait(function () {
+      return commitMenu.branchInfo.get().isPresent();
+    });
+
     commitMenu.branchInfo.get().getText(function (text) {
       expect(text).toBe('master');
     });
@@ -76,14 +86,7 @@ describe('Changing commit', function () {
 });
 
 function waitForRepos(instance, repo) {
-  browser.wait(function() {
-    return util.hasClass(instance.statusIcon, 'running');
-  });
-  browser.wait(function() {
-    if (repo) {
-      return repo.isDisplayed();
-    } else {
-      return instance.repoList.self.get().isDisplayed();
-    }
+  browser.wait(function () {
+    return instance.repoList.repoList.get().isPresent() && instance.repoList.repoList.get().isDisplayed();
   });
 }
