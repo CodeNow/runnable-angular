@@ -11,7 +11,7 @@ var $compile,
     $timeout,
     user;
 var $elScope;
-var apiHost = require('config/api').host.split('.').slice(1).join('.') + ':8080';
+var userContentDomainAndPort = require('config/api').userContentDomain + ':8080';
 describe('directiveWebView'.bold.underline.blue, function() {
   var ctx;
 
@@ -80,7 +80,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
     expect($elScope.data.iframeUrl.toString()).to.equal('about:blank');
     $rootScope.$digest();
     $timeout.flush();
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://spaaace.somekittens.' + apiHost);
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://spaaace-somekittens.' + userContentDomainAndPort);
   });
 
   it('should change the name when the instance starts', function () {
@@ -98,7 +98,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
     $rootScope.$digest();
     $timeout.flush();
 
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://ruuuuunable.somekittens.' + apiHost);
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://ruuuuunable-somekittens.' + userContentDomainAndPort);
   });
 
   it('will not change if the only difference is capitalization', function () {
@@ -114,7 +114,7 @@ describe('directiveWebView'.bold.underline.blue, function() {
 
     $rootScope.$digest();
 
-    expect($elScope.data.iframeUrl.toString()).to.equal('http://spaaace.somekittens.' + apiHost);
+    expect($elScope.data.iframeUrl.toString()).to.equal('http://spaaace-somekittens.' + userContentDomainAndPort);
   });
 
 });
