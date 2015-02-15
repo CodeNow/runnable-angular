@@ -11,7 +11,8 @@ function webView(
   $timeout,
   $sce,
   $stateParams,
-  fetchInstances
+  fetchInstances,
+  configUserContentDomain
 ) {
   return {
     restrict: 'A',
@@ -24,7 +25,7 @@ function webView(
       })
       .then(function(instance) {
         $scope.instance = instance;
-        $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls()[0]);
+        $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls(configUserContentDomain)[0]);
       });
 
       var iframe = elem.find('iframe')[0];
@@ -47,7 +48,7 @@ function webView(
 
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
         $timeout(function () {
-          $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls()[0]);
+          $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls(configUserContentDomain)[0]);
         });
       });
 
