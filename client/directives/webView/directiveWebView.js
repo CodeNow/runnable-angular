@@ -43,7 +43,8 @@ function webView(
         var urlString = keypather.get($scope, 'data.iframeUrl.toString()');
         if (urlString) {
           var subdomain = urlString.match(/http:\/\/([^.]*)/);
-          if (subdomain && subdomain[1] === val.toLowerCase()) { return; }
+          var ownerName = $scope.instance.attrs.owner.username;
+          if (subdomain && subdomain[1] === (val + '-' + ownerName).toLowerCase()) { return; }
         }
 
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');

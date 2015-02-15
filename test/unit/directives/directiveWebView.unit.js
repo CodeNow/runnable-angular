@@ -90,7 +90,10 @@ describe('directiveWebView'.bold.underline.blue, function() {
 
     // Use reset to update the containers
     $elScope.instance.reset({
-      name: 'ruuuuunable'
+      name: 'ruuuuunable',
+      owner: {
+        username: 'somekittens'
+      }
     });
 
     $elScope.instance.containers.models[0].attrs.inspect.State.StartedAt = 'bananas';
@@ -109,7 +112,10 @@ describe('directiveWebView'.bold.underline.blue, function() {
 
     $elScope.instance.attrs.name = 'sPaAaCe';
     $elScope.instance.reset({
-      name: 'sPaAaCe'
+      name: 'sPaAaCe',
+      owner: {
+        username: 'somekittens'
+      }
     });
 
     $rootScope.$digest();
