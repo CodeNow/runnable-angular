@@ -18,7 +18,7 @@ function RepoList () {
   this.autoDeploy = util.createGetter(by.model('data.autoDeploy'));
 
   this.add = {
-    repos: util.createGetterAll(by.repeater('newRepos')),
+    repos: util.createGetterAll(by.repeater('repo in data.githubRepos.models')),
     filter: util.createGetter(by.model('data.repoFilter'))
   };
 

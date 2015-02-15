@@ -2,8 +2,6 @@
 
 var util = require('./util');
 
-var SetupPage = require('../pages/SetupPage');
-
 /**
  * Tests a user's ability to log into the site
  */

@@ -9,7 +9,7 @@ exports.config = {
   // Order is important
   specs: [
     'e2e/helpers/login.js',
-    //'e2e/createBox.e2e.js',
+    // 'e2e/createBox.e2e.js',
     //'e2e/editDockerfile.e2e.js',
     //'e2e/readLogs.e2e.js',
     'e2e/changeCommit.e2e.js',
@@ -30,7 +30,7 @@ exports.config = {
     'browserName': 'chrome'
   },
   baseUrl: 'http://localhost:3001',
-  //baseUrl: 'http://runnable3.net',
+  // baseUrl: 'http://runnable3.net',
   // baseUrl: 'http://runnable.io',
 
   jasmineNodeOpts: {
