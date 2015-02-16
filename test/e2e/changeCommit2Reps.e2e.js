@@ -10,28 +10,40 @@ var InstancePage = require('./pages/InstancePage');
 
 describe('Changing commit with multiple repos', function () {
   it('should allow the user to back up to 2 commits ago', function () {
-    var instance = new InstancePage('Test-0');
+    var instance = new InstancePage('Test-1');
     instance.get();
-
     waitForRepos(instance);
-    instance.commitMenu.getAllRepos().each(function(repo) {
-      instance.commitMenu.open(repo);
-      instance.commitMenu.changeCommit(repo, 2);
-      browser.wait(function () {
-        return instance.commitMenu.getCommitsBehind(repo).then(function(commits) {
-          return commits === '2';
-        });
-      });
+    var repos = instance.repoList.repos.get();
+
+    browser.wait(repos.first().isDisplayed);
+
+    var oldCommits = [];
+    var commitMenus = [];
+    repos.each(function (repo, idx) {
+      var commitMenu = instance.repoList.getCommitMenu(repo, idx);
+      commitMenus.push(commitMenu);
+      var currentCommit = commitMenu.commitInfo.get().getText();
+      oldCommits.push(currentCommit);
+
+      commitMenu.open(repo);
+      commitMenu.changeCommit(2);
+
       expect(instance.repoList.updateButton.get().isPresent()).toBe(true);
-      expect(instance.commitMenu.getCommitsBehind(repo)).toEqual('2');
+
+      commitMenu.commitInfo.get().getText(function (text) {
+        expect(text).to.not.equal(currentCommit);
+      });
+      //browser.wait(repos.first().isDisplayed);
     });
     expect(instance.repoList.updateButton.get().isPresent()).toBe(true);
     instance.repoList.updateButton.get().click();
 
     waitForRepos(instance);
 
-    instance.commitMenu.getAllRepos().each(function(repo) {
-      expect(instance.commitMenu.getCommitsBehind(repo)).toEqual('2');
+    oldCommits.forEach(function (commitText, idx) {
+      commitMenus[idx].commitInfo.get().getText(function (text) {
+        expect(text).to.not.equal(commitText);
+      });
     });
 
   });
@@ -53,12 +65,9 @@ describe('Changing commit with multiple repos', function () {
 
 });
 
-function waitForRepos(instance) {
-  browser.wait(function() {
-    return util.hasClass(instance.statusIcon, 'running');
+function waitForRepos(instance, repo) {
+  browser.wait(function () {
+    return instance.repoList.repoList.get().isPresent() && instance.repoList.repoList.get().isDisplayed();
   });
-  browser.driver.wait(function () {
-    return instance.commitLog.get().isDisplayed();
-  });
-
 }
+

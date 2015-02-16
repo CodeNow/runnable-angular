@@ -29,10 +29,13 @@ util.containsText = function (elem, expected) {
 };
 
 
-util.createGetter = function (by) {
+util.createGetter = function (by, parentElement) {
   return {
-    get: function (parentElement) {
+    get: function (overridePe) {
       var pE = null;
+      if (overridePe) {
+        parentElement = overridePe;
+      }
       if (parentElement) {
         pE = (typeof parentElement.get === 'function') ? parentElement.get() : parentElement;
       }
@@ -54,7 +57,7 @@ util.createGetterAll = function(by, parentElement) {
       }
       if (pE) {
         if (idx !== undefined) {
-          return pE.element(by.row(idx));
+          return pE.all(by).get(idx);
         } else {
           return pE.element(by);
         }

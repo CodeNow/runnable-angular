@@ -26,6 +26,7 @@ describe('Changing commit', function () {
 
     commitMenu.open(repo);
     commitMenu.changeBranch('test1', 3);
+    expect(instance.repoList.updateButton.get().isPresent()).toBe(false);
 
     waitForRepos(instance);
 
@@ -62,6 +63,7 @@ describe('Changing commit', function () {
     var commitMenu = instance.repoList.getCommitMenu(repo);
     commitMenu.open(repo);
     commitMenu.changeBranch('master', 0);
+    expect(instance.repoList.updateButton.get().isPresent()).toBe(false);
 
     waitForRepos(instance);
 
