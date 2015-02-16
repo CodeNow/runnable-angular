@@ -8,11 +8,10 @@ require('app')
  */
 function popOver(
   debounce,
-  jQuery,
   $compile,
   $templateCache,
   $log,
-  $window
+  $document
 ) {
   return {
     restrict: 'E',
@@ -23,7 +22,6 @@ function popOver(
       popoverOptions: '@'
     },
     link: function ($scope, element, attrs) {
-      var $ = jQuery;
 
       var template = $templateCache.get(attrs.template);
 
@@ -42,44 +40,30 @@ function popOver(
           options.left = (typeof options.left !== 'undefined') ? options.left : 0;
           options.top = (typeof options.top !== 'undefined') ? options.top : 0;
           options.class = (typeof options.class !== 'undefined') ? options.class : false;
-
-          setCSS();
         }
       });
 
-      var parent = $(element.parent());
-
       var popEl = $compile(template)($scope);
 
-      function parseProp (prop) {
-        var curr = options[prop];
-        if (!angular.isNumber(curr)) {
-          return curr;
-        }
-        var parentVal = parent.offset()[prop];
-        if (parentVal) {
-          curr += parentVal;
-        }
-        return curr + 'px';
-      }
-
-      function setCSS () {
-        var newCSS = {};
-        newCSS.right = parseProp('right');
-        newCSS.left = parseProp('left');
-        newCSS.top = parseProp('top');
-        popEl.css(newCSS);
+      function setCSS() {
+        var rect = element.parent()[0].getBoundingClientRect();
+        popEl.css({
+          'top': (rect.top + options.top) + 'px',
+          'left': (rect.left + options.left) + 'px',
+          'right': options.right
+        });
       }
 
       var dSetCSS = debounce(setCSS, 100);
-      $($window).on('resize', dSetCSS);
+      var unwatchLocation = $scope.$watch(function () {
+        return element.parent()[0].clientTop + 'x' + element.parent()[0].clientLeft;
+      }, dSetCSS);
 
-      $('body').append(popEl);
-      $scope.$watch('popoverReady', setCSS);
+      $document.find('body').append(popEl);
 
       $scope.$watch(function () {
         return element.hasClass('in');
-      }, function(n) {
+      }, function (n) {
         if (n) {
           var autofocus = element[0].querySelector('[autofocus]');
           if (autofocus) {
@@ -93,8 +77,8 @@ function popOver(
       });
       element.on('$destroy', function () {
         popEl.remove();
-        $($window).off('resize', dSetCSS);
         element.off('click');
+        unwatchLocation();
       });
     }
   };

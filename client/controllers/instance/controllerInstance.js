@@ -6,12 +6,10 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  $filter,
   errs,
   fetchCommitData,
   keypather,
   OpenItems,
-  $rootScope,
   $localStorage,
   $location,
   $scope,
@@ -19,6 +17,8 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   $window,
+  favico,
+  pageName,
   pFetchUser,
   fetchInstances
 ) {
@@ -61,6 +61,7 @@ function ControllerInstance(
     });
   }).then(function (instance) {
     data.instance = instance;
+    pageName.setTitle(instance.attrs.name);
     data.instance.state = {};
     keypather.set(
       $localStorage,
@@ -68,6 +69,7 @@ function ControllerInstance(
       $stateParams.instanceName
     );
   }).catch(function (err) {
+    errs.handler(err);
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,
@@ -76,7 +78,6 @@ function ControllerInstance(
     $state.go('instance.home', {
       userName: $stateParams.userName
     });
-    errs.handler(err);
   });
 
   $scope.$on('new-build', function() {
@@ -123,38 +124,40 @@ function ControllerInstance(
   // watch for deployed/started/stopped instance
   // all watches necessary, updateDisplayedTabs expectst to be invoked
   // after fetching instance, fetching container, and cointainer start
-  var containerWatch =
-      $scope.$watch('dataInstance.data.instance.containers.models[0]', handleContainer);
 
-  var unwatchRunning;
-  function handleContainer (container) {
+  function checkContainerState() {
+    var container = keypather.get($scope, 'dataInstance.data.instance.containers.models[0]');
     if (!container) {
-      buildLogsOnly();
-    }
-    else { // handles both container.error and container.dockerContainer states
-      if (unwatchRunning) {
-        unwatchRunning();
+      if (keypather.get($scope, 'dataInstance.data.instance.build')) {
+        var completed = keypather.get($scope, 'dataInstance.data.instance.build.attrs.completed');
+        container = {
+          Building: (keypather.get($scope, 'dataInstance.data.instance.build.attrs.started'))
+        };
       }
-      unwatchRunning = $scope.$watchCollection(
-        'dataInstance.data.instance.containers.models[0].attrs.inspect.State',
-        displayTabsForContainerState
-      ); // once
+    } else {
+      container = container.attrs;
     }
+    return container;
   }
-  function displayTabsForContainerState (containerState) {
-    if (!containerState) { return; }
-    if (!containerState.Running) { // false or null (container.error)
-      boxLogsOnly();
-    }
-    else {
-      data.sectionClasses.in = data.showExplorer;
-      restoreOrOpenDefaultTabs();
-    }
-  }
+  $scope.$watch(checkContainerState, displayTabsForContainerState, true);
 
-  $scope.$on('$destroy', function () {
-    containerWatch();
-  });
+  function displayTabsForContainerState(containerState) {
+    $timeout(function () {
+      favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
+    });
+    if (!containerState) {
+      return;
+    } else if (containerState.Building) {
+      buildLogsOnly();
+    } else {
+      if (keypather.get(containerState, 'inspect.State.Running')) {
+        data.sectionClasses.in = data.showExplorer;
+        restoreOrOpenDefaultTabs();
+      } else {
+        boxLogsOnly();
+      }
+    }
+  }
 
   function buildLogsOnly () {
     data.sectionClasses = {

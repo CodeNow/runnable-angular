@@ -105,6 +105,7 @@ function primus(
   $rootScope,
   configAPIHost
 ) {
+  // TODO: make idempotent
   var url = configAPIHost;
   var conn = new RunnablePrimus(url);
 

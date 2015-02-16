@@ -55,17 +55,22 @@
           'no-states': state.furthestStep < 3}"
         ng-click = "actions.changeStep(3)"
       ) 3 Environment Variables
-    button.btn.btn-xxs.white(
-      ng-click = "defaultActions.cancel();"
-      ng-hide = 'state.hideCancelButton'
-    ) Cancel
-    a.btn.btn-xxs.white(
-      ng-click = "actions.skipTutorial();"
-    ) Skip guide
+    a.link.link-text.small(
+      href = "http://support.runnable.io"
+      target = "_blank"
+    ) Documentation
+    .modal-navbar-footer
+      button.btn.btn-xxs.gray(
+        ng-click = "defaultActions.cancel();"
+        ng-hide = 'state.hideCancelButton'
+      ) Cancel
+      a.btn.btn-xxs.gray(
+        ng-click = "actions.skipTutorial();"
+      ) Skip to Dockerfile
   .modal-body.modal-repo-selector(
     actions = "actions"
-    data = "data"
     app-data = "dataAppData"
+    data = "data"
     gs-repo-selector
     ng-if = "state.step === 1"
     state = "state"
