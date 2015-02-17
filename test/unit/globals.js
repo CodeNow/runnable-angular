@@ -12,6 +12,7 @@ require('main');  // Requires our app
 // jQuery is deliberately not here - we shouldn't need it to test things.
 // Go learn the DOM API if you're so desperate.
 window.host = require('../../client/config/json/api.json').host.toLowerCase();
+window.userContentDomain = require('../../client/config/json/api.json').userContentDomain.toLowerCase();
 window.expect = require('chai').expect;
 window.sinon = require('sinon'); // Stuff to create spyable functions
 window.mocks = require('./apiMocks'); // JSON mocks for API responses

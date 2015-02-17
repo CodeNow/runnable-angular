@@ -22,7 +22,8 @@ function modalGettingStarted(
   fetchStackInfo,
   fetchInstances,
   keypather,
-  createNewBuild
+  createNewBuild,
+  configUserContentDomain
 ) {
   return {
     restrict: 'A',
@@ -52,7 +53,7 @@ function modalGettingStarted(
 
       $scope.actions = {
         addDependency: function (instance, fromExisting) {
-          var envs = keypather.get(instance, 'containers.models[0].urls()') || [];
+          var envs = keypather.get(instance, 'containers.models[0].urls(%)', configUserContentDomain) || [];
           var envName = instance.attrs.name.replace(/-/gm, '_').toUpperCase();
           $scope.state.dependencies.push({
             instance: instance,
