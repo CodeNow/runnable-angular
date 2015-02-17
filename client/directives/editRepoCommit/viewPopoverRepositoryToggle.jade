@@ -10,6 +10,7 @@
 .popover.right.popover-repository-toggle(
   ng-click = "$event.stopPropagation()"
   ng-class = "{in: data.show}"
+  ng-style = "popoverStyle.getStyle()"
 )
   .arrow
   h3.popover-title
