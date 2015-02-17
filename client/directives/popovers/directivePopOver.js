@@ -75,7 +75,6 @@ function popOver(
       element.on('$destroy', function () {
         popEl.remove();
         element.off('click');
-        //unwatchLocation();
       });
     }
   };
