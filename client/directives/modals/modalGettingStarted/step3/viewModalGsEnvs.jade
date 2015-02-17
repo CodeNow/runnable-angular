@@ -3,6 +3,12 @@
 //- h2.row.sub-header Linked Dependencies
 .label.clearfix
   .label-col mysql-server
+    small.small mysql-server.user.runnable.io
+  .input-col
+    input.input.input-sm.pre(
+      placeholder = "SQL_HOSTNAME=mysql-server.user.runnable.io"
+      value = "SQL_HOSTNAME=mysql-server.user.runnable.io"
+    )
     button.btn-xxs.white(
       ng-class = "{active: popoverDependencyMenu.data.show}"
       toggle-pop-over
@@ -18,12 +24,17 @@
         popover-options = "{\"left\":-76,\"top\":45}"
         template = "viewPopoverDependencyMenu"
       )
-    small.small mysql-server.user.runnable.io
-  input.input.input-sm.input-col.pre(
-    placeholder = "SQL_HOSTNAME=mysql-server.user.runnable.io"
-    value = "SQL_HOSTNAME=mysql-server.user.runnable.io"
-  )
-.label.clearfix
+  //- additional input
+  .input-col
+    input.input.input-sm.pre(
+      placeholder = "ENV_VAR=value"
+    )
+    button.btn-xxs.white
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+//- .label.clearfix
   .label-col rabbitmq-server
     button.btn-xxs.white(
       svg.iconnables.icons-gear

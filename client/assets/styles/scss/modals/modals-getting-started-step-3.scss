@@ -1,13 +1,16 @@
 // wizard 3
 .modal-gs-environments {
 
-  .sub-header {
-    margin-bottom: 30px;
+  .input-col {
+    position: relative;
+
+    + .input-col {
+      margin-top: 6px;
+    }
   }
 
-  .input-col {
-    float: none;
-    width: calc(55% - 30px);
+  .input {
+    width: calc(100% - 30px);
   }
 
   .btn-xxs {
@@ -17,7 +20,8 @@
     top: 0;
   }
 
-  .icons-gear {
+  .icons-gear,
+  .icons-close {
     height: 36px;
     width: 18px;
   }
