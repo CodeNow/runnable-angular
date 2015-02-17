@@ -26,8 +26,8 @@ function RepoList () {
     return this.guide.get().isPresent();
   };
 
-  this.getCommitMenu = function (repo) {
-    return new CommitMenu(repo);
+  this.getCommitMenu = function (repo, index) {
+    return new CommitMenu(repo, index);
   };
 
   this.openAddDropdown = function() {

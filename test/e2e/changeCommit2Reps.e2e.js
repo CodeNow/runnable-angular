@@ -28,14 +28,14 @@ describe('Changing commit with multiple repos', function () {
       commitMenu.open(repo);
       commitMenu.changeCommit(2);
 
-      expect(instance.repoList.updateButton.get().isPresent()).toBe(true);
+      expect(instance.repoList.updateButton.get().isDisplayed()).toBe(true);
 
       commitMenu.commitInfo.get().getText(function (text) {
         expect(text).to.not.equal(currentCommit);
       });
       //browser.wait(repos.first().isDisplayed);
     });
-    expect(instance.repoList.updateButton.get().isPresent()).toBe(true);
+    expect(instance.repoList.updateButton.get().isDisplayed()).toBe(true);
     instance.repoList.updateButton.get().click();
 
     waitForRepos(instance);
@@ -47,19 +47,102 @@ describe('Changing commit with multiple repos', function () {
     });
 
   });
-  it('should allow the user set both repos back to HEAD ', function () {
-    var instance = new InstancePage('Test-0');
+  it('should only change 1 repo back to HEAD', function () {
+    var instance = new InstancePage('Test-1');
     instance.get();
+    waitForRepos(instance);
+    var repos = instance.repoList.repos.get();
+
+    browser.wait(repos.first().isDisplayed);
+
+    var oldCommits = [];
+    var repo = repos.get(0);
+
+    var commitMenu = instance.repoList.getCommitMenu(repo, 0);
+    var commitMenu2 = instance.repoList.getCommitMenu(repo, 1);
+    var currentCommit = commitMenu.commitInfo.get().getText();
+    var currentCommit2 = commitMenu.commitInfo.get().getText();
+    oldCommits.push(currentCommit);
+    oldCommits.push(currentCommit2);
+
+    commitMenu.open(repo);
+    commitMenu.changeCommit(0);
+
+    expect(instance.repoList.updateButton.get().isDisplayed()).toBe(true);
+
+    commitMenu.commitInfo.get().getText(function (text) {
+      expect(text).to.not.equal(currentCommit);
+    });
+    commitMenu2.commitInfo.get().getText(function (text) {
+      expect(text).to.equal(currentCommit2);
+    });
+
+    instance.repoList.updateButton.get().click();
 
     waitForRepos(instance);
-    var allRepos = instance.commitMenu.getAllRepos();
-    allRepos.each(function(repo) {
 
-      waitForRepos(instance);
-      expect(instance.commitMenu.getCommitsBehind(repo)).toEqual('2');
-      instance.commitMenu.fastForward(repo);
-      waitForRepos(instance);
-      expect(instance.commitMenu.getFastForwardButton(repo).isDisplayed()).toBe(false);
+    commitMenu.commitInfo.get().getText(function (text) {
+      expect(text).to.not.equal(oldCommits[0]);
+    });
+    commitMenu2.commitInfo.get().getText(function (text) {
+      expect(text).to.equal(oldCommits[1]);
+    });
+    instance.get();
+    waitForRepos(instance);
+    commitMenu.commitInfo.get().getText(function (text) {
+      expect(text).to.not.equal(oldCommits[0]);
+    });
+    commitMenu2.commitInfo.get().getText(function (text) {
+      expect(text).to.equal(oldCommits[1]);
+    });
+  });
+  it('should reset the other repo back to head', function () {
+    var instance = new InstancePage('Test-1');
+    instance.get();
+    waitForRepos(instance);
+    var repos = instance.repoList.repos.get();
+
+    browser.wait(repos.first().isDisplayed);
+
+    var oldCommits = [];
+    var repo = repos.get(1);
+
+    var commitMenu = instance.repoList.getCommitMenu(repo, 0);
+    var commitMenu2 = instance.repoList.getCommitMenu(repo, 1);
+    var currentCommit = commitMenu.commitInfo.get().getText();
+    var currentCommit2 = commitMenu.commitInfo.get().getText();
+    oldCommits.push(currentCommit);
+    oldCommits.push(currentCommit2);
+
+    commitMenu2.open(repo);
+    commitMenu2.changeCommit(0);
+
+    expect(instance.repoList.updateButton.get().isDisplayed()).toBe(true);
+
+    commitMenu.commitInfo.get().getText(function (text) {
+      expect(text).to.equal(currentCommit);
+    });
+    commitMenu2.commitInfo.get().getText(function (text) {
+      expect(text).to.not.equal(currentCommit2);
+    });
+
+    instance.repoList.updateButton.get().click();
+
+    waitForRepos(instance);
+
+    commitMenu.commitInfo.get().getText(function (text) {
+      expect(text).to.equal(oldCommits[0]);
+    });
+    commitMenu2.commitInfo.get().getText(function (text) {
+      expect(text).to.not.equal(oldCommits[1]);
+    });
+    instance.get();
+    waitForRepos(instance);
+    commitMenu.commitInfo.get().getText(function (text) {
+      expect(text).to.equal(oldCommits[0]);
+    });
+    commitMenu2.commitInfo.get().getText(function (text) {
+      expect(text).to.not.equal(oldCommits[1]);
     });
   });
 
