@@ -12,10 +12,8 @@ function InstancePage (name) {
   this.gearMenu = new GearMenu();
   this.repoList = new RepoList();
   this.activePanel = new ActivePanel('Instance');
-  this.commitLog = util.createGetter(by.css('#wrapper > main > section.sidebar.box-sidebar.load.ng-scope > section > ul'));
 
-  this.buildLogs = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li.tab-wrapper.ng-scope.active > span'));
-  this.statusIcon = util.createGetter(by.css('#wrapper > main > header > h1 > div > span'));
+  this.statusIcon = util.createGetter(by.css('header > h1 > div > span'));
   this.instanceName = util.createGetter(by.css('#wrapper > main > header > h1 > div'));
 
   this.get = function() {

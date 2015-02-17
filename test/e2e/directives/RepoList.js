@@ -9,7 +9,7 @@ function RepoList () {
 
   this.addButton = util.createGetter(by.className('btn-add-repo'), this.repoList);
 
-  this.addDropdown = util.createGetter(by.css('section.row.repo-list > h2 > a > div'));
+  this.addDropdown = util.createGetter(by.css('.popover-add-repo'));
 
   this.guide = util.createGetter(by.css('.repo-list > .guide'));
 
@@ -32,27 +32,25 @@ function RepoList () {
 
   this.openAddDropdown = function() {
     var self = this;
-    return this.addButton.get().click().then(function() {
-      return browser.wait(function() {
-        return self.addDropdown.get().isPresent();
-      });
-    }).then(function() {
-      return self.addDropdown.get().evaluate('data.githubRepos.models.length > 0');
+    this.addButton.get().click();
+    browser.wait(function() {
+      return self.addDropdown.get().isPresent();
     });
+    return self.addDropdown.get().evaluate('data.githubRepos.models.length > 0');
   };
 
   this.searchRepos = function (contents, expectedRepoListLength) {
     // First, click the search button
     var self = this;
-    return this.add.filter.get().click().then(function () {
-      return browser.wait(function () {
-        return self.add.filter.get().isPresent();
-      });
-    }).then(function () {
-      return self.add.filter.get().sendKeys(contents);
-    }).then(function () {
-      return self.addDropdown.get().evaluate('data.githubRepos.models.length === ' + expectedRepoListLength);
+    this.add.filter.get().click();
+    browser.wait(function () {
+      return self.add.filter.get().isPresent();
     });
+
+    var filter = self.add.filter.get();
+    filter.click();
+    filter.sendKeys(contents);
+    self.addDropdown.get().evaluate('data.githubRepos.models.length === ' + expectedRepoListLength);
   };
 
   this.selectRepo = function (idx) {
