@@ -1,5 +1,10 @@
 //- .guide Runnable uses environment variables to network your dependency servers together.
-.guide We create a new server for each dependency in your application, and then link them together with environment variables.
+.guide We create a new server for each dependency in your application, and then link them together with environment variables. Learn how to #{''}
+  a.link.link-text(
+    href = "//google.com"
+    target = "_blank"
+  ) setup your code #{''}
+  | to use environment variables.
 //- h2.row.sub-header Linked Dependencies
 .label.clearfix
   .label-col mysql-server
@@ -24,6 +29,19 @@
         popover-options = "{\"left\":-76,\"top\":45}"
         template = "viewPopoverDependencyMenu"
       )
+.label.clearfix
+  .label-col rabbitmq-server
+    small.small rabbitmq-server.user.runnable.io
+  .input-col
+    input.input.input-sm.pre(
+      placeholder = "RABBT=rabbitmq-server.user.runnable.io"
+      value = "RABBT=rabbitmq-server.user.runnable.io"
+    )
+    button.btn-xxs.white(
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
   //- additional input
   .input-col
     input.input.input-sm.pre(
@@ -34,18 +52,7 @@
         use(
           xlink:href = "#icons-close"
         )
-//- .label.clearfix
-  .label-col rabbitmq-server
-    button.btn-xxs.white(
-      svg.iconnables.icons-gear
-        use(
-          xlink:href = "#icons-gear"
-        )
-    small.small rabbitmq-server.user.runnable.io
-  input.input.input-sm.input-col.pre(
-    placeholder = "RABBT=rabbitmq-server.user.runnable.io"
-    value = "RABBT=rabbitmq-server.user.runnable.io"
-  )
+
 footer.modal-footer.clearfix
   button.btn.green(
     ng-click = "actions.createAndBuild();"

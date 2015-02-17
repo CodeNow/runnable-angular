@@ -70,6 +70,13 @@
     background: inherit;
     color: inherit;
   }
+
+  // links
+  .link,
+  .link:hover,
+  .link:active {
+    color: currentColor;
+  }
 }
 
 // highlighting guided items
