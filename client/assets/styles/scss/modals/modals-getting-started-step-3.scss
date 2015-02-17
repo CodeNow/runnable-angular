@@ -21,6 +21,8 @@
   // additional vars
   .textarea {
     margin-right: 30px;
+    max-height: 90px;
+    resize: vertical;
     width: calc(55% - 30px);
   }
 
