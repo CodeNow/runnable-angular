@@ -11,7 +11,8 @@ function webView(
   $timeout,
   $sce,
   $stateParams,
-  fetchInstances
+  fetchInstances,
+  configUserContentDomain
 ) {
   return {
     restrict: 'A',
@@ -24,7 +25,7 @@ function webView(
       })
       .then(function(instance) {
         $scope.instance = instance;
-        $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls()[0]);
+        $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls(configUserContentDomain)[0]);
       });
 
       var iframe = elem.find('iframe')[0];
@@ -42,12 +43,13 @@ function webView(
         var urlString = keypather.get($scope, 'data.iframeUrl.toString()');
         if (urlString) {
           var subdomain = urlString.match(/http:\/\/([^.]*)/);
-          if (subdomain && subdomain[1] === val.toLowerCase()) { return; }
+          var ownerName = $scope.instance.attrs.owner.username;
+          if (subdomain && subdomain[1] === (val + '-' + ownerName).toLowerCase()) { return; }
         }
 
         $scope.data.iframeUrl = $sce.trustAsResourceUrl('about:blank');
         $timeout(function () {
-          $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls()[0]);
+          $scope.data.iframeUrl = $sce.trustAsResourceUrl($scope.instance.containers.models[0].urls(configUserContentDomain)[0]);
         });
       });
 

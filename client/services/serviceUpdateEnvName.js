@@ -16,11 +16,12 @@ require('app')
  */
 function updateEnvName(
   keypather,
-  regexpQuote
+  regexpQuote,
+  configUserContentDomain
 ) {
   return function (items) {
     function createUrl(instance) {
-      var urlParts = keypather.get(instance, 'containers.models[0].urls()[0]').split(':');
+      var urlParts = keypather.get(instance, 'containers.models[0].urls(%)[0]', configUserContentDomain).split(':');
       // These urls should always be http://url:port, so all we need is the middle
       // urlParts[1].slice(2) to remove the // left over from http://
       return  (/http/.test(urlParts[0])) ? urlParts[1].slice(2) : urlParts[0];
@@ -40,7 +41,7 @@ function updateEnvName(
         var modifiedEnvs = itemToModifyEnvs.attrs.env.join('\n');
         items.forEach(function (itemWithModifiedName) {
           if (keypather.get(itemWithModifiedName, 'opts.name') &&
-              keypather.get(itemWithModifiedName.instance, 'containers.models[0].urls().length')) {
+              keypather.get(itemWithModifiedName.instance, 'containers.models[0].urls(%).length', configUserContentDomain)) {
             var url = createUrl(itemWithModifiedName.instance);
             var regex = makeRegexp(url);
             if (regex.test(modifiedEnvs)) {
