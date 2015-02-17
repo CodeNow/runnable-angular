@@ -2,6 +2,7 @@
 .popover.bottom.popover-environment(
   ng-class = "{in: data.state.envShow}"
   ng-click = "$event.stopPropagation()"
+  ng-style = "popoverStyle.getStyle()"
 )
   .arrow
   h3.popover-title
