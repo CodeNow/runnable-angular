@@ -27,6 +27,7 @@ function promisify($exceptionHandler, $q) {
         // Check returnedVal.attrs
         returnedVal = model[fn].apply(model, args);
         // For Models || Collections
+        // length > 2 because sometimes, the api-client will send back an empty model with 1 attribute
         if (returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 2) ||
             (returnedVal.models && returnedVal.models.length))) {
           d.resolve(returnedVal);
