@@ -1,9 +1,19 @@
 h2.sub-header Linked Dependencies
-  button.btn.btn-sm.white.sub-header-action
+  button.btn.btn-sm.white.sub-header-action(
+    ng-class = "{active: popoverAddDependency.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "popoverAddDependency.data.show"
+  )
     svg.iconnables.icons-add
       use(
         xlink:href = "#icons-add"
       )
+    pop-over(
+      actions = "popoverAddDependency.actions"
+      data = "popoverAddDependency.data"
+      popover-options = "{\"left\":-88,\"top\":45}"
+      template = "viewPopoverAddDependency"
+    )
 .guide We create a new server for each dependency in your application, and then link them together with environment variables. Learn how to #{''}
   a.link.link-text(
     href = "//google.com"
