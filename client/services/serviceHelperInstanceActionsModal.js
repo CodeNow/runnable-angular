@@ -7,14 +7,13 @@ require('app')
  */
 function HelperInstanceActionsModal(
   $rootScope,
-  $filter,
   $state,
   $stateParams,
   $timeout,
-  async,
   keypather,
   errs,
-  updateEnvName,
+  promisify,
+  $q,
   $localStorage
 ) {
   /**
@@ -62,7 +61,7 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.data.dataModalRename = data;
     $scope.popoverGearMenu.data.dataModalFork = data;
     $scope.popoverGearMenu.data.dataModalDelete = data;
-    $scope.popoverGearMenu.data.dataModalEnvironment= data;
+    $scope.popoverGearMenu.data.dataModalEnvironment = data;
 
     $scope.popoverGearMenu.actions.actionsModalEnvironment = {
       save: function (cb) {
@@ -71,25 +70,24 @@ function HelperInstanceActionsModal(
           cb();
         }
       },
-      rebuild: function(opts, cb) {
+      rebuild: function (opts, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
         if (!opts.env) { return; }
-        $scope.instance.update(opts, function (err) {
-          if (err) { throw err; }
-          // update instances collection to update
-          // viewInstanceList
-          $scope.instance.redeploy(function(err) {
-            $rootScope.dataApp.data.loading = false;
-            errs.handler(err);
-            $state.go('instance.instance', $stateParams, {reload: true});
-          });
-        });
-        if (cb) {
+        return promisify($scope.instance, 'update')(
+          opts
+        ).then(function () {
+          return promisify($scope.instance, 'redeploy')();
+        }).then(function () {
+          $state.go('instance.instance', $stateParams, {reload: true});
+        }).catch(
+          errs.handler
+        ).finally(function () {
+          $rootScope.dataApp.data.loading = false;
           cb();
-        }
+        });
       },
-      cancel: function() {
+      cancel: function () {
         $scope.popoverGearMenu.data.show = false;
       },
       closePopover: function () {
@@ -109,16 +107,16 @@ function HelperInstanceActionsModal(
           $scope.saving = true;
         }, 1);
         $scope.saving = false;
-        $scope.instance.update({
+        return promisify($scope.instance, 'update')({
           name: newName
-        }, function (err) {
-          if (err) { throw err; }
+        }).then(function () {
           $state.go('instance.instance', {
             userName: $stateParams.userName,
             instanceName: $scope.instance.attrs.name
           });
-        });
-        cb();
+        }).catch(
+          errs.handler
+        ).finally(cb);
       },
       cancel: function () {
         $scope.popoverGearMenu.data.show = false;
@@ -142,29 +140,21 @@ function HelperInstanceActionsModal(
       forkInstance: function (items, cb) {
         $scope.popoverGearMenu.data.show = false;
         $rootScope.dataApp.data.loading = true;
-        function fork(instance, opts, cb) {
-          instance.copy(opts, function (err) {
-            if (err) { throw err; }
-            // update instances collection to update
-            // viewInstanceList
-            cb();
-          });
-        }
+
         var parallelFunctions = items.map(function (item) {
-          return function (cb) {
-            fork(item.instance, item.opts, cb);
-          };
+          return promisify(item.instance, 'copy')(item.opts);
         });
-        async.parallel(parallelFunctions, function (err) {
-          if (err) { throw err; }
+        return $q.all(
+          parallelFunctions
+        ).then(function () {
           $state.go('instance.instance', {
             userName: $stateParams.userName,
             instanceName: keypather.get(items[0], 'opts.name')
           });
-          $scope.$emit('INSTANCE_LIST_FETCH', $stateParams.userName);
-          if (cb) {
-            cb();
-          }
+        }).catch(
+          errs.handler
+        ).finally(function () {
+          $rootScope.dataApp.data.loading = false;
         });
       },
       cancel: function () {
@@ -179,28 +169,28 @@ function HelperInstanceActionsModal(
       deleteInstance: function (deleteDependencies) {
         var deletedInstanceName = data.instance.attrs.name;
         var deps = keypather.get(data, 'instance.dependencies.models') || [];
-        async.each(deps, function (dep, cb) {
-          if (deleteDependencies && keypather.get(dep, 'state.delete')) {
-            return dep.destroy(cb);
+        var deleteDepMapPromises = deps.filter(function (dep) {
+          return (deleteDependencies && keypather.get(dep, 'state.delete'));
+        }).map(function (dep) {
+          return promisify(dep, 'destroy')();
+        });
+        return $q.all(
+          deleteDepMapPromises
+        ).then(function () {
+          return promisify(data.instance, 'destroy')();
+        }).then(function () {
+          if ($stateParams.instanceName === deletedInstanceName) {
+            $state.go('instance.home', {
+              userName: $stateParams.userName
+            });
           }
-          return cb();
-        }, function (err) {
-          if (err) { return errs.handler(err); }
-          data.instance.destroy(function (err) {
-            keypather.set(
-              $localStorage,
-              'lastInstancePerUser.' + $stateParams.userName,
-              null
-            );
-            if (err) { throw err; }
-            // Only change the location if we're still on the page
-            // If the user switched to a different instance in between, we shouldn't move
-            if ($stateParams.instanceName === deletedInstanceName) {
-              $state.go('instance.home', {
-                userName: $stateParams.userName
-              });
-            }
-          });
+        }).catch(function (err) {
+          keypather.set(
+            $localStorage,
+            'lastInstancePerUser.' + $stateParams.userName,
+            null
+          );
+          errs.handler(err);
         });
       },
       cancel: function () {

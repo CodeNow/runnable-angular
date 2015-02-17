@@ -14,7 +14,6 @@ var $elScope;
 
 var apiMocks = require('../apiMocks/index');
 
-var mockFetch = require('../fixtures/mockFetch');
 var runnable = new (require('runnable'))('http://example.com/');
 
 describe('directiveEditRepoCommit'.bold.underline.blue, function() {

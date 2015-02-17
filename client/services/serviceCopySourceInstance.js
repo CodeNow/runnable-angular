@@ -4,39 +4,28 @@ require('app')
   .factory('copySourceInstance', copySourceInstance);
 
 function copySourceInstance(
-  async,
-  fetchUser,
+  pFetchUser,
+  promisify,
   createNewInstance
 ) {
-  return function (activeAccount, instance, opts, instances, cb) {
-    function copyContextVersion(user, cb) {
-      var newContextVersion = instance.contextVersion.deepCopy({
+  return function (activeAccount, instance, opts) {
+    var thisUser;
+    return pFetchUser().then(function copyContextVersion(user) {
+      thisUser = user;
+      return promisify(instance.contextVersion, 'deepCopy')({
         owner: {
           github: activeAccount.oauthId()
         }
-      }, function (err) {
-        cb(err, user, newContextVersion);
       });
-    }
-
-    function createBuild(user, version, cb) {
-      var build = user.createBuild({
+    }).then(function createBuild(version) {
+      return promisify(thisUser, 'createBuild')({
         contextVersions: [version.id()],
         owner: {
           github: activeAccount.oauthId()
         }
-      }, function (err) {
-        cb(err, build);
       });
-    }
-
-    async.waterfall([
-      fetchUser,
-      copyContextVersion,
-      createBuild,
-      function (build, cb) {
-        createNewInstance(activeAccount, build, opts, instances)(cb);
-      }
-    ], cb);
+    }).then(function (build) {
+      return createNewInstance(activeAccount, build, opts);
+    });
   };
 }
