@@ -54,7 +54,7 @@
         ng-class = "{active: state.step === 3,\
           'no-states': state.furthestStep < 3}"
         ng-click = "actions.changeStep(3)"
-      ) 3 Dependencies
+      ) 3 Linked Dependencies
     a.link.link-text.small(
       href = "http://support.runnable.io"
       target = "_blank"
@@ -89,3 +89,23 @@
     ng-if = "state.step === 3"
     state = "state"
   )
+  footer.modal-footer.clearfix(
+    ng-if = "state.step === 2"
+  )
+    button.btn.green(
+      ng-click = "actions.nextStep(3)"
+    ) Next Step
+    button.btn.white(
+      ng-click = "actions.changeStep(1)"
+    ) Previous Step
+  footer.modal-footer.clearfix(
+    ng-if = "state.step === 3"
+  )
+    button.btn.green(
+      ng-click = "actions.createAndBuild();"
+      ng-disabled = "envStep.$invalid"
+      ng-show = "state.step === 3"
+    ) Build Server
+    button.btn.white(
+      ng-click = "state.step = 2"
+    ) Previous Step

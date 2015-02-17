@@ -34,6 +34,7 @@
   margin: auto;
   max-width: 84vw;
   min-width: 370px;
+  overflow: hidden;
   position: relative;
 
   @include media(sm) {

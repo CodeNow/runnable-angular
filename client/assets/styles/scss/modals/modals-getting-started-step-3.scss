@@ -1,6 +1,11 @@
 // wizard 3
 .modal-gs-environments {
 
+  .guide {
+    margin-top: -15px;
+  }
+
+  // col wrapper
   .input-col {
     position: relative;
 
@@ -13,6 +18,13 @@
     width: calc(100% - 30px);
   }
 
+  // additional vars
+  .textarea {
+    margin-right: 30px;
+    width: calc(55% - 30px);
+  }
+
+  // popover and delete var
   .btn-xxs {
     height: 36px;
     position: absolute;

@@ -1,11 +1,15 @@
-//- .guide Runnable uses environment variables to network your dependency servers together.
+h2.sub-header Linked Dependencies
+  button.btn.btn-sm.white.sub-header-action
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
 .guide We create a new server for each dependency in your application, and then link them together with environment variables. Learn how to #{''}
   a.link.link-text(
     href = "//google.com"
     target = "_blank"
   ) setup your code #{''}
   | to use environment variables.
-//- h2.row.sub-header Linked Dependencies
 .label.clearfix
   .label-col mysql-server
     small.small mysql-server.user.runnable.io
@@ -52,13 +56,11 @@
         use(
           xlink:href = "#icons-close"
         )
-
-footer.modal-footer.clearfix
-  button.btn.green(
-    ng-click = "actions.createAndBuild();"
-    ng-disabled = "envStep.$invalid"
-    ng-show = "state.step === 3"
-  ) Build Server
-  button.btn.white(
-    ng-click = "state.step = 2"
-  ) Previous Step
+//- other vars
+.label.clearfix
+  .label-col Additional Variables
+    small.small optional
+  textarea.textarea.pre.input-col(
+    placeholder = "ENV_VAR=value"
+    spellcheck = "false"
+  )

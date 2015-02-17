@@ -1,3 +1,4 @@
+h2.sub-header Application
 label.label.clearfix
   .label-col Branch
   .btn.btn-sm.gray.btn-select.text-overflow.input-col
@@ -84,10 +85,3 @@ label.label.clearfix
     ng-model = "state.startCommand"
     placeholder = "{{ state.stack.startCommand }}"
   )
-footer.modal-footer.clearfix
-  button.btn.green(
-    ng-click = "actions.nextStep(3)"
-  ) Next Step
-  button.btn.white(
-    ng-click = "actions.changeStep(1)"
-  ) Previous Step
