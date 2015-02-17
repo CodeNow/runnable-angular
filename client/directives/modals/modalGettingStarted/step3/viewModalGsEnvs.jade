@@ -1,20 +1,35 @@
 //- .guide Runnable uses environment variables to network your dependency servers together.
 .guide We create a new server for each dependency in your application, and then link them together with environment variables.
-h2.row.sub-header Linked Dependencies
-label.label.clearfix
+//- h2.row.sub-header Linked Dependencies
+.label.clearfix
   .label-col mysql-server
-    button.btn-xxs.white
+    button.btn-xxs.white(
+      ng-class = "{active: popoverDependencyMenu.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "popoverDependencyMenu.data.show"
+    )
       svg.iconnables.icons-gear
         use(
           xlink:href = "#icons-gear"
         )
+      pop-over(
+        actions = "popoverDependencyMenu.actions"
+        data = "popoverDependencyMenu.data"
+        popover-options = "{\"left\":-76,\"top\":45}"
+        template = "viewPopoverDependencyMenu"
+      )
     small.small mysql-server.user.runnable.io
   input.input.input-sm.input-col.pre(
     placeholder = "SQL_HOSTNAME=mysql-server.user.runnable.io"
     value = "SQL_HOSTNAME=mysql-server.user.runnable.io"
   )
-label.label.clearfix
+.label.clearfix
   .label-col rabbitmq-server
+    button.btn-xxs.white(
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
     small.small rabbitmq-server.user.runnable.io
   input.input.input-sm.input-col.pre(
     placeholder = "RABBT=rabbitmq-server.user.runnable.io"

@@ -10,11 +10,11 @@
   .label {
     display: block;
     flex: 0 0 auto;
-    padding-bottom: 30px;
+    margin-bottom: 30px;
     position: relative;
 
     + .label {
-      padding-top: 30px;
+      margin-top: 30px;
     }
   }
 
@@ -22,7 +22,8 @@
     float: left;
     font-weight: 500;
     height: 36px;
-    padding-right: 21px;
+    line-height: 1.2;
+    padding-right: 15px;
     text-align: right;
     width: 45%;
   }
