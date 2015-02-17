@@ -7,11 +7,11 @@ require('app')
  * @ngInject
  */
 function popOver(
-  debounce,
   $compile,
   $templateCache,
   $log,
-  $document
+  $document,
+  $window
 ) {
   return {
     restrict: 'E',
@@ -36,8 +36,8 @@ function popOver(
             $log.warn('popoverOptions parse failed for ' + attrs.template);
             options = {};
           }
-          options.right = (typeof options.right !== 'undefined') ? options.right : 'auto';
-          options.left = (typeof options.left !== 'undefined') ? options.left : 0;
+          options.right = (typeof options.right !== 'undefined') ? options.right : null;
+          options.left = (typeof options.left !== 'undefined') ? options.left : null;
           options.top = (typeof options.top !== 'undefined') ? options.top : 0;
           options.class = (typeof options.class !== 'undefined') ? options.class : false;
         }
@@ -45,19 +45,16 @@ function popOver(
 
       var popEl = $compile(template)($scope);
 
-      function setCSS() {
-        var rect = element.parent()[0].getBoundingClientRect();
-        popEl.css({
-          'top': (rect.top + options.top) + 'px',
-          'left': (rect.left + options.left) + 'px',
-          'right': options.right
-        });
-      }
-
-      var dSetCSS = debounce(setCSS, 100);
-      var unwatchLocation = $scope.$watch(function () {
-        return element.parent()[0].clientTop + 'x' + element.parent()[0].clientLeft;
-      }, dSetCSS);
+      $scope.popoverStyle = {
+        getStyle: function () {
+          var rect = element.parent()[0].getBoundingClientRect();
+          return {
+            'top': (rect.top + options.top) + 'px',
+            'left': (options.left === null) ? 'auto' : (rect.left + options.left) + 'px',
+            'right': (options.right === null) ? 'auto' : (options.right) + 'px'
+          };
+        }
+      };
 
       $document.find('body').append(popEl);
 
@@ -78,7 +75,7 @@ function popOver(
       element.on('$destroy', function () {
         popEl.remove();
         element.off('click');
-        unwatchLocation();
+        //unwatchLocation();
       });
     }
   };
