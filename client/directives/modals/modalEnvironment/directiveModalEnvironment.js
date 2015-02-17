@@ -8,7 +8,8 @@ require('app')
  */
 function modalEnvironment(
   $localStorage,
-  keypather
+  keypather,
+  configUserContentDomain
 ) {
   return {
     restrict: 'A',
@@ -24,6 +25,7 @@ function modalEnvironment(
       // Add thing
       $scope.validation = {};
       $scope.tempModel = {};
+      $scope.configUserContentDomain = configUserContentDomain;
 
       $scope.popoverExposeInstruction = {
         data: {
