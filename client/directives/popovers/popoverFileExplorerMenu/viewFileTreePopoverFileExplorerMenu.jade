@@ -1,0 +1,48 @@
+.popover.bottom.menu.context-menu(
+  ng-class = "{in: dirItemData.isOpen}"
+  ng-style = "dirItemData.eStyle"
+  right-click
+)
+  .popover-content
+    ul.popover-list
+      li.popover-list-item(
+        ng-click = "dirItemData.actions.createFile();\
+          $event.stopPropagation();"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-file-new"
+          )
+        | New File
+      li.popover-list-item(
+        ng-click = "dirItemData.actions.createFolder();\
+          $event.stopPropagation();"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-folder-new"
+          )
+        | New Folder
+      li.divider(
+        ng-if = "dir.attrs.name !== '/'"
+      )
+      li.popover-list-item(
+        ng-if = "dir.attrs.name !== '/'"
+        ng-click = "dirItemData.actions.renameFolder();\
+          $event.stopPropagation();"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-file-modify"
+          )
+        | Rename
+      li.popover-list-item(
+        ng-if = "dir.attrs.name !== '/'"
+        ng-click = "dirItemData.actions.deleteFolder();\
+          $event.stopPropagation();"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-file-delete"
+          )
+        | Delete

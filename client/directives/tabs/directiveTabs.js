@@ -13,7 +13,8 @@ function tabs(
     restrict: 'A',
     templateUrl: 'viewTabs',
     scope: {
-      openItems: '='
+      openItems: '=',
+      toggleTheme: '='
     },
     link: function ($scope, element, attrs) {
       $scope.state = $state;

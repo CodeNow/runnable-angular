@@ -9,7 +9,7 @@ var $controller,
     $state,
     $q;
 var apiMocks = require('../apiMocks/index');
-var mockFetch = require('../fixtures/mockFetch');
+var mockFetch = new (require('../fixtures/mockFetch'))();
 /**
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
@@ -70,7 +70,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       userName: activeAccountUsername || 'user'
     };
     angular.mock.module('app', function ($provide) {
-      $provide.factory('fetchInstances', mockFetch.fetch);
+      $provide.factory('fetchInstances', mockFetch.fetch());
       $provide.value('favico', {
         reset : sinon.spy(),
         setImage: sinon.spy(),

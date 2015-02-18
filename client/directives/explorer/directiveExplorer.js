@@ -14,6 +14,12 @@ function explorer() {
       toggleTheme: '='
     },
     link: function ($scope, elem, attrs) {
+      $scope.filePopover = {
+        data: {
+          show: false
+        },
+        actions: {}
+      };
     }
   };
 }

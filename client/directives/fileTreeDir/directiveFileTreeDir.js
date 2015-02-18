@@ -16,8 +16,9 @@ function fileTreeDir(
   $state,
   async,
   keypather,
-  configAPIHost,
-  jQuery
+  errs,
+  jQuery,
+  uploadFiles
 ) {
   return {
     restrict: 'E',
@@ -42,34 +43,10 @@ function fileTreeDir(
           event.stopPropagation();
           var files = event.dataTransfer.files;
 
-          var asyncCallbacks = [];
-          Array.prototype.forEach.call(files, function (file, index) {
-            (function (file, asyncCallbacks) {
-              asyncCallbacks.push(function (file, cb) {
-                var formData = new FormData();
-                formData.append('file', file);
-                jQuery.ajax({
-                  url: configAPIHost + '/' + $scope.dir.urlPath,
-                  type: 'POST',
-                  contentType: false,
-                  processData: false,
-                  data: formData,
-                  xhrFields: {
-                    withCredentials: true
-                  },
-                  complete: function () {
-                    cb();
-                  },
-                  error: function () {},
-                  success: function () {}
-                });
-              }.bind(this, file));
-            })(file, asyncCallbacks);
-          });
-
-          async.parallel(asyncCallbacks, function () {
+          uploadFiles(files, $scope.dir.urlPath)
+          .then(function() {
             actions.fetchDirFiles();
-          });
+          }).catch(errs.handler);
         }, true);
 
         $template[0].addEventListener('dragenter', function (event) {
