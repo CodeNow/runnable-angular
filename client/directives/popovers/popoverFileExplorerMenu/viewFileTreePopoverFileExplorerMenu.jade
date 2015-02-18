@@ -5,7 +5,7 @@
   .popover-content
     ul.popover-list
       li.popover-list-item(
-        ng-click = "dirItemData.actions.createFile();\
+        ng-click = "actions.createFile();\
           $event.stopPropagation();"
       )
         svg.iconnables
@@ -14,7 +14,7 @@
           )
         | New File
       li.popover-list-item(
-        ng-click = "dirItemData.actions.createFolder();\
+        ng-click = "actions.createFolder();\
           $event.stopPropagation();"
       )
         svg.iconnables

@@ -27,13 +27,13 @@ function explorer(
         },
         actions: {
           createFile: function() {
-            var dir = helperCreateFS($scope.dir, {
+            helperCreateFS($scope.rootDir, {
               isDir: false
             }, errs.handler);
             $scope.filePopover.data.show = false;
           },
           createFolder: function() {
-            var dir = helperCreateFS($scope.dir, {
+            helperCreateFS($scope.rootDir, {
               isDir: true
             }, errs.handler);
             $scope.filePopover.data.show = false;
