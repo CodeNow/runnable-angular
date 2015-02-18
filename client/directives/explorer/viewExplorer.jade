@@ -1,20 +1,24 @@
 h2.sub-header File Explorer
   button.btn.btn-xs.white.sub-header-action(
-    ng-class = "{active: popoverFileExplorerMenu.data.show}"
+    ng-class = "{active: filePopover.data.show}"
     toggle-pop-over
-    toggle-pop-over-model = "popoverFileExplorerMenu.data.show"
+    toggle-pop-over-model = "filePopover.data.show"
   )
     svg.iconnables.icons-add
       use(
         xlink:href = "#icons-add"
       )
     pop-over(
-      actions = "popoverFileExplorerMenu.actions"
-      data = "popoverFileExplorerMenu.data"
+      actions = "filePopover.actions"
+      data = "filePopover.data"
       popover-options = "{\"left\":-74,\"top\":40}"
-      template = "viewPopoverFileExplorerMenu"
+      template = "viewFileTreePopoverFileExplorerMenu"
     )
-ul.file-tree(
-  file-tree-root
-  open-items = "openItems"
-)
+ul.file-tree
+  //- this is the root dir; there can be only one.
+  file-tree-dir(
+    build = "build"
+    dir = "rootDir"
+    open-items = "openItems"
+    read-only = "readOnly"
+  )
