@@ -39,7 +39,7 @@
     padding: 0 30px 0 15px;
 
     &:hover {
-      background: rgba($purple-light,.1);
+      background: rgba($black,.1);
     }
 
     &:active,
@@ -58,7 +58,7 @@
     }
 
     .small {
-      color: $gray-light;
+      color: $gray;
       display: block;
     }
   }
@@ -113,7 +113,7 @@
   }
 
   .small {
-    color: $gray-light;
+    color: $gray;
     display: block;
   }
 

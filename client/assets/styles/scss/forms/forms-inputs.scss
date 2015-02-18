@@ -64,7 +64,7 @@ textarea {
 
   // placeholder
   &::placeholder {
-    color: $gray-lighter;
+    color: $gray-light;
   }
 
   &.input-sm {
@@ -162,7 +162,6 @@ textarea {
   background-size: 21px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 300;
   padding-left: 72px;
   transition: all .15s ease-in;
 

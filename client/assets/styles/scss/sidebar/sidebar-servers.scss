@@ -85,6 +85,12 @@
   margin-top: -1px;
   padding: 0 0 0 9px;
   position: relative;
+  text-decoration: underline;
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
 
   .icons-status.icons-status {
     background: rgba($gray-lightest,.45);
