@@ -2,8 +2,17 @@
 .modal-gs-environments {
 
   .guide {
-    margin-top: -15px;
+    margin-top: -9px;
+    padding: 9px 15px;
+
+    // learn more
+    .link {
+      float: right;
+      font-weight: 500;
+      margin-top: 6px;
+    }
   }
+
 
   // col wrapper
   .input-col {

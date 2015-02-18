@@ -74,7 +74,8 @@
   // links
   .link,
   .link:hover,
-  .link:active {
+  .link:active,
+  .small {
     color: currentColor;
   }
 }

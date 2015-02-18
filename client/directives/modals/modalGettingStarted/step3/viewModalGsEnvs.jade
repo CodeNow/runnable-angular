@@ -1,4 +1,4 @@
-h2.sub-header Linked Dependencies
+h2.sub-header Dependencies & Environment Variables
   button.btn.btn-sm.white.sub-header-action(
     ng-class = "{active: popoverAddDependency.data.show}"
     toggle-pop-over
@@ -14,7 +14,12 @@ h2.sub-header Linked Dependencies
       popover-options = "{\"left\":-88,\"top\":45}"
       template = "viewPopoverAddDependency"
     )
-.guide We create a new server for each dependency in your application, and then link them together with environment variables.
+.guide A separate server is created for each dependency we think your app needs. These servers are linked with the environment variables below.
+  br
+  a.small.link.link-text(
+    href = "//google.com"
+    target = "_blank"
+  ) More Help
 .label.clearfix
   .label-col mysql-server
     small.small mysql-server.user.runnable.io
@@ -62,7 +67,7 @@ h2.sub-header Linked Dependencies
           xlink:href = "#icons-close"
         )
 //- other vars
-.label.clearfix
+//- .label.clearfix
   .label-col Additional Variables
     small.small Optional
   textarea.textarea.pre.input-col(
