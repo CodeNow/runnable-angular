@@ -1,6 +1,7 @@
 .popover.right.menu.popover-add-dependencies(
   ng-class = "{in: data.show}"
   ng-click = "$event.stopPropagation()"
+  ng-style = "popoverStyle.getStyle()"
 )
   .arrow
   h3.popover-title

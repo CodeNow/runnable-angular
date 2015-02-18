@@ -4,56 +4,59 @@ require('app')
   .factory('createNewBuild', createNewBuild);
 
 function createNewBuild(
-  async,
-  fetchUser,
+  pFetchUser,
+  promisify,
+  $q,
   uuid
 ) {
-  return function (activeAccount, appCodeVersions, cb) {
-    if (typeof appCodeVersions === 'function') {
-      cb = appCodeVersions;
-      appCodeVersions = null;
-    }
-    function createContext(user, cb) {
-      var context = user.createContext({
+  return function (activeAccount, context, infraCodeVersionId, appCodeVersions) {
+    var thisUser, version;
+    function createContext(user) {
+      return promisify(user, 'createContext')({
         name: uuid.v4(),
         owner: {
           github: activeAccount.oauthId()
         }
-      }, function (err) {
-        cb(err, user, context);
       });
     }
 
-    function createVersion(user, context, cb) {
-      var version = context.createVersion(function (err) {
-        if (appCodeVersions) {
-          async.each(appCodeVersions, function (acvState, cb) {
-            version.appCodeVersions.create(acvState, cb);
-          }, function (err) {
-            cb(err, user, context, version);
-          });
-        } else {
-          cb(err, user, context, version);
-        }
-      });
+    function createVersion(context) {
+      var body = infraCodeVersionId ? {
+        infraCodeVersion: infraCodeVersionId
+      } : {};
+      return promisify(context, 'createVersion')(body)
+        .then(function (newContextVersion) {
+          version = newContextVersion;
+          if (appCodeVersions) {
+            return $q.all(appCodeVersions.map(function (acvState) {
+              return promisify(version.appCodeVersions, 'create')(acvState);
+            }));
+          }
+          return version;
+        });
     }
 
-    function createBuild(user, context, version, cb) {
-      var build = user.createBuild({
+    function createBuild() {
+      return promisify(thisUser, 'createBuild')({
         contextVersions: [version.id()],
         owner: {
           github: activeAccount.oauthId()
         }
-      }, function (err) {
-        cb(err, build, version);
-      });
+      })
+        .then(function (build) {
+          // This is needed for part of GS
+          build.contextVersion = version;
+          return build;
+        });
     }
 
-    async.waterfall([
-      fetchUser,
-      createContext,
-      createVersion,
-      createBuild
-    ], cb);
+    return pFetchUser()
+      .then(function (user) {
+        thisUser = user;
+        return context || createContext(user);
+      })
+      .then(createVersion)
+      .then(createBuild);
+
   };
 }

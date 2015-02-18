@@ -4,17 +4,15 @@ require('app')
   .factory('createDockerfileFromSource', createDockerfileFromSource);
 
 function createDockerfileFromSource(
-  errs,
-  fetchUser,
   fetchContexts,
   hasKeypaths,
   promisify
 ) {
-  return function (contextVersion, stackName, cb) {
+  return function (contextVersion, stackName) {
     var sourceContextVersion;
-    fetchContexts({
+    return fetchContexts({
       isSource: true
-    }).then(function(contexts) {
+    }).then(function (contexts) {
       if (!contexts) {
         throw new Error('Cannot find matching Source Dockerfile');
       }
@@ -34,13 +32,11 @@ function createDockerfileFromSource(
       var copyFilesFromSource = promisify(contextVersion, 'copyFilesFromSource');
 
       return copyFilesFromSource(sourceInfraCodeVersion);
-    }).then(function() {
+    }).then(function () {
       contextVersion.source = sourceContextVersion.id();
 
       var fetchDockerfile = promisify(contextVersion, 'fetchFile');
       return fetchDockerfile('/Dockerfile');
-    }).then(function (file) {
-      cb(null, file);
-    }).catch(errs.handler);
+    });
   };
 }

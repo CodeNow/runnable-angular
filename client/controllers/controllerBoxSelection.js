@@ -55,8 +55,9 @@ function boxSelection (
   $q.all([
     fetchRepoInstances(),
     fetchAllInstances()
-  ]).catch(errs.handler)
-  .finally(function() {
+  ]).catch(
+    errs.handler
+  ).finally(function () {
     $scope.loading = false;
   });
 

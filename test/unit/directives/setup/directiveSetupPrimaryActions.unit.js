@@ -5,7 +5,8 @@ var $rootScope,
   $scope,
   $compile,
   $state,
-  $stateParams;
+  $stateParams,
+  $q;
 var $elScope;
 var keypather;
 var apiMocks = require('../../apiMocks/index');
@@ -54,9 +55,13 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
     };
     ctx.newInstanceMockError = null;
     ctx.newInstanceMock = sinon.spy(function (account, build, opts, instances) {
-      return function (cb) {
-        return cb(ctx.newInstanceMockError);
-      };
+      var d = $q.defer();
+      if (ctx.newInstanceMockError) {
+        d.reject(ctx.newInstanceMockError);
+      } else {
+        d.resolve();
+      }
+      return d.promise;
     });
     ctx.errsMock = {
       handler: sinon.spy()
@@ -75,8 +80,10 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
       _$rootScope_,
       _$timeout_,
       _$compile_,
+      _$q_,
       _keypather_
     ) {
+      $q = _$q_;
       $state = _$state_;
       $stateParams = _$stateParams_;
       $rootScope = _$rootScope_;
@@ -176,16 +183,21 @@ describe('directiveSetupPrimaryActions'.bold.underline.blue, function () {
         expect(newState).to.equal('instance.instance');
         expect(params.userName).to.equal($stateParams.userName);
         expect(params.instanceName).to.equal($scope.name);
-        expect($elScope.loading).to.equal(false);
-        done();
+
+        // Digest already in progress
+        setTimeout(function() {
+          $rootScope.$digest();
+          expect($elScope.loading).to.equal(false);
+          done();
+        });
       };
 
 
       // Now do it
       $scope.$digest();
       $elScope.buildAndAttach();
-      $scope.$digest();
       expect($elScope.loading).to.equal(true);
+      $scope.$digest();
     });
   });
 });
