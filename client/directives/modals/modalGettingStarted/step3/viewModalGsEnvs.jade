@@ -67,7 +67,14 @@ h2.sub-header Dependencies & Environment Variables
           xlink:href = "#icons-close"
         )
 //- other vars
-//- .label.clearfix
+.hr
+a.small.link.link-text.link-gray.link-divider(
+  ng-click = "data.addVariables = true"
+  ng-if = "!data.addVariables"
+) Add Additional Variables
+.label.label-textarea.clearfix(
+  ng-if = "data.addVariables"
+)
   .label-col Additional Variables
     small.small Optional
   textarea.textarea.pre.input-col(
