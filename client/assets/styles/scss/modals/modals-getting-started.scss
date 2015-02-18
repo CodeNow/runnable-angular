@@ -13,13 +13,18 @@
     line-height: 1.2;
     margin-bottom: 21px;
     position: relative;
+    word-break: break-word;
 
-    &:last-child {
-      padding-bottom: 21px;
+    @include media(xs) {
+      margin-bottom: 15px;
     }
 
     + .label {
       margin-top: 21px;
+
+      @include media(xs) {
+        margin-top: 15px;
+      }
     }
   }
 
@@ -30,12 +35,23 @@
     padding-right: 15px;
     text-align: right;
     width: 45%;
+
+    @include media(xs) {
+      float: none;
+      text-align: left;
+      width: 100%;
+    }
   }
 
   .input-col {
     float: right;
     text-align: left;
     width: 55%;
+
+    @include media(xs) {
+      float: none;
+      width: 100%;
+    }
   }
 
   // branch select

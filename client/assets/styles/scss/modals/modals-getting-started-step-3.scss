@@ -13,6 +13,12 @@
     }
   }
 
+  // input font
+  .input,
+  .textarea {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 400;
+  }
 
   // col wrapper
   .input-col {
@@ -45,8 +51,13 @@
   .textarea {
     margin-right: 30px;
     max-height: 90px;
+    min-height: 45px;
     resize: vertical;
     width: calc(55% - 30px);
+
+    @include media(xs) {
+      width: 100%;
+    }
   }
 
   // popover and delete var
