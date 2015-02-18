@@ -1,11 +1,19 @@
 h2.sub-header File Explorer
   button.btn.btn-xs.white.sub-header-action(
-    type = "button"
+    ng-class = "{active: popoverFileExplorerMenu.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "popoverFileExplorerMenu.data.show"
   )
     svg.iconnables.icons-add
       use(
         xlink:href = "#icons-add"
       )
+    pop-over(
+    actions = "popoverFileExplorerMenu.actions"
+    data = "popoverFileExplorerMenu.data"
+    popover-options = "{\"left\":-74,\"top\":154}"
+    template = "viewPopoverFileExplorerMenu"
+  )
 ul.file-tree(
   file-tree-root
   open-items = "openItems"

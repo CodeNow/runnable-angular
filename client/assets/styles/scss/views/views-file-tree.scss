@@ -96,7 +96,7 @@
 .tree-input,
 .tree-input:focus {
   background: $white;
-  border-color: rgba($purple-light,.1);
+  border-color: rgba($purple-light,.3);
   box-shadow: none;
   cursor: text;
   display: inline-block;
@@ -104,7 +104,7 @@
   line-height: 22px;
   padding: 0 3px;
   position: absolute;
-  top: 4px;
+  top: 3px;
 
   &[readonly] {
     border: 1px solid transparent;

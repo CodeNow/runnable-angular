@@ -1,12 +1,12 @@
 'use strict';
 
 require('app')
-  .directive('popoverFileExplorerMenu', popoverFileExplorerMenu);
+  .directive('popoverFileExplorerFolderMenu', popoverFileExplorerFolderMenu);
 /**
- * directive popoverFileExplorerMenu
+ * directive popoverFileExplorerFolderMenu
  * @ngInject
  */
-function popoverFileExplorerMenu(
+function popoverFileExplorerFolderMenu(
   errs,
   $templateCache,
   $compile,
@@ -121,7 +121,7 @@ function popoverFileExplorerMenu(
         $rootScope.$broadcast('file-modal-open');
 
         // insert element into dom
-        var template = $templateCache.get('viewFileTreePopoverFileExplorerMenu');
+        var template = $templateCache.get('viewFileTreePopoverFileExplorerFolderMenu');
         var $template = angular.element(template);
         $compile($template)($scope);
         $scope.$popoverTemplate = $scope.jQuery($template);
