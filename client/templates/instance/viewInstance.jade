@@ -81,6 +81,7 @@ section.sidebar.server-sidebar.load(
     hide explorer when building
     ************
   section.row.explorer(
+    ng-if = "dataInstance.data.instance.build.attrs.completed"
     explorer
     open-items = "dataInstance.data.openItems"
   )

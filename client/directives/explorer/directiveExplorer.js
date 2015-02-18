@@ -42,7 +42,6 @@ function explorer(
       };
 
       if ($stateParams.buildId) {
-        console.log('buildid');
         fetchBuild($stateParams.buildId).then(function(build) {
           $scope.build = build;
           $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
@@ -54,7 +53,6 @@ function explorer(
         }).then(function(instance) {
           $scope.instance = instance;
           $scope.build = instance.build;
-          console.log(instance.containers.models);
           // instance page
           var container = keypather.get($scope.instance, 'containers.models[0]');
           if (container) {
@@ -69,7 +67,6 @@ function explorer(
                 initRootDirState($scope.rootDir);
               });
           }
-          console.log($scope.rootDir);
         }).catch(errs.handler);
       }
 
