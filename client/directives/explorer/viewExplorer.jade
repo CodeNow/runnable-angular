@@ -1,11 +1,20 @@
 h2.sub-header File Explorer
   button.btn.btn-xs.white.sub-header-action(
     type = "button"
+    toggle-pop-over
+    toggle-pop-over-model = "filePopover.data.show"
   )
     svg.iconnables.icons-add
       use(
         xlink:href = "#icons-add"
       )
+    pop-over(
+      actions = "filePopover.actions"
+      data = "filePopover.data"
+      popover-options = "{\"left\":-117,\"top\":45}"
+      template = "viewPopoverFileExplorer"
+    )
+
 ul.file-tree(
   file-tree-root
   open-items = "openItems"
