@@ -24,8 +24,8 @@ function createDockerfileFromSource(
       }
 
       var fetchContextVersion = promisify(source, 'fetchVersions');
-      return fetchContextVersion();
-    }).then(function(versions) {
+      return fetchContextVersion({ qs: { sort: '-created' }});
+    }).then(function (versions) {
       var sourceInfraCodeVersion = versions.models[0].attrs.infraCodeVersion;
       sourceContextVersion = versions.models[0];
 
