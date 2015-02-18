@@ -35,7 +35,7 @@ ul.list.repository-group
     model = "model"
   )
   li.list-details(
-    ng-show = "build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
+    ng-show = "unsavedAcvs.length && !showAddFirstRepoMessage"
   )
     label.label-checkbox.btn.btn-sm.btn-checkbox(
       tooltip = "Disabling auto-deploy will stop your server from automatically updating with new changes to your repositories."

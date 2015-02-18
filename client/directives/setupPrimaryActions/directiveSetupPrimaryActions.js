@@ -45,10 +45,12 @@ function setupPrimaryActions(
             $scope.activeAccount,
             $scope.data.build,
             $scope.instanceOpts
-          )(function (err) {
-            $scope.loading = false;
-            if (err) { return errs.handler(err); }
+          ).then(function () {
             goToInstance();
+          }).catch(
+            errs.handler
+          ).finally(function () {
+            $scope.loading = false;
           });
         });
       };

@@ -7,7 +7,8 @@ require('app')
  * @ngInject
  */
 function togglePopOver(
-  $rootScope
+  $rootScope,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -24,7 +25,7 @@ function togglePopOver(
             $rootScope.$broadcast('app-document-click');
           }
           $scope.model = true;
-          $scope.$apply();
+          $timeout(angular.noop);
         } else if ($scope.model) {
           $scope.model = false;
         }

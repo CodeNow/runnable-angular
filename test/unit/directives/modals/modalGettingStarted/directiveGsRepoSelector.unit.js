@@ -12,6 +12,8 @@ var apiMocks = require('../../../apiMocks/index');
 var ctx;
 
 var stacks = angular.copy(apiMocks.stackInfo);
+var MockFetch = require('../../../fixtures/mockFetch');
+var branchesMock = eval(apiMocks.branches.bitcoinRepoBranches);
 
 function makeDefaultScope() {
   return {
@@ -46,6 +48,11 @@ var analysisMockData = {
   }
 };
 
+function makeMockRepoList(username, json) {
+  var repoList = runnable.newGithubRepos(json, {noStore: true});
+  repoList.ownerUsername = username;
+  return repoList;
+}
 
 
 /**
@@ -56,35 +63,26 @@ var analysisMockData = {
  *   Selecting a repo should trigger a stack analysis
  */
 describe('directiveGsRepoSelector'.bold.underline.blue, function () {
-  beforeEach(function() {
+  beforeEach(function () {
     ctx = {};
   });
-  function repoListResponse(user, cb) {
-    return function (err, repos, overrideUser) {
-      cb(err, repos || [apiMocks.gh.repos], overrideUser || user);
-    };
-  }
+
   function injectSetupCompile() {
     ctx.errsMock = {
       handler: sinon.spy()
     };
-    ctx.fireRepoListResponse = {};
-    ctx.fetchRepoListMock = sinon.spy(function (user, cb) {
-      ctx.fireRepoListResponse[user.oauthName()] = repoListResponse(user, cb);
-    });
+    ctx.fetchRepoListMock = new MockFetch();
     ctx.analysisMockData = angular.copy(analysisMockData);
-    ctx.fetchStackAnalysisMock = sinon.spy(function (repo, cb) {
-      cb(ctx.analysisMockData ? null : new Error('asdas'), ctx.analysisMockData);
-    });
-    ctx.fetchOwnerRepos = fixtures.mockFetch;
+    ctx.fetchStackAnalysisMock = new MockFetch();
 
+    ctx.fetchOwnerReposMock = new MockFetch();
     runnable.reset(apiMocks.user);
 
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
-      $provide.value('fetchRepoList', ctx.fetchRepoListMock);
-      $provide.value('fetchStackAnalysis', ctx.fetchStackAnalysisMock);
-      $provide.factory('fetchOwnerRepos', ctx.fetchOwnerRepos.fetch);
+      $provide.factory('fetchRepoList', ctx.fetchRepoListMock.fetch());
+      $provide.factory('fetchStackAnalysis', ctx.fetchStackAnalysisMock.fetch());
+      $provide.factory('fetchOwnerRepos', ctx.fetchOwnerReposMock.fetch());
     });
     angular.mock.inject(function (
       _$templateCache_,
@@ -129,7 +127,7 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
         fetch: sinon.spy(function (cb) {
           cb();
         }),
-        models: apiMocks.branches.bitcoinRepoBranches.map(function (branch) {
+        models: branchesMock.map(function (branch) {
           return {
             attrs: branch
           };
@@ -181,9 +179,8 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
       expect($elScope.loading).to.be.true;
       expect($elScope.githubRepos).to.be.null;
 
-      var repoList = runnable.newGithubRepos(apiMocks.repoList, {noStore: true});
-
-      ctx.fetchOwnerRepos.triggerPromise(repoList);
+      var repoList = makeMockRepoList('org1', apiMocks.repoList);
+      ctx.fetchOwnerReposMock.triggerPromise(repoList);
 
       $rootScope.$digest();
 
@@ -193,14 +190,14 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
       $scope.$destroy();
       $scope.$digest();
     });
-    it.skip('should ignore stale repolist data from a different user', function () {
+    it('should ignore stale repolist data from a different user', function () {
       $scope.data.activeAccount = ctx.fakeOrg2;
       $scope.$digest();
       expect($elScope.loading).to.be.true;
       expect($elScope.githubRepos).to.be.null;
-      var repoList = runnable.newGithubRepos(apiMocks.repoList, {noStore: true});
 
-      ctx.fetchOwnerRepos.triggerPromise(repoList);
+      var repoList = makeMockRepoList('org1', apiMocks.repoList);
+      ctx.fetchOwnerReposMock.triggerPromise(repoList);
 
       $rootScope.$digest();
 
@@ -209,9 +206,11 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
 
       expect($elScope.loading).to.be.true;
       expect($elScope.githubRepos).to.be.null;
+      ctx.fetchOwnerReposMock.triggerPromise(repoList);
+      $scope.$digest();
 
       expect($elScope.loading).to.be.false;
-      expect($elScope.githubRepos.length).to.equal(2);
+      expect($elScope.githubRepos.models.length).to.equal(41);
 
       $scope.$destroy();
       $scope.$digest();
@@ -235,13 +234,17 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
     });
     it('should try to fetch a whole ton of data after selecting a repo', function () {
       $elScope.selectRepo(ctx.repo1);
-      expect($elScope.state.repoSelected).to.be.ok;
-      expect(ctx.repo1.spin).to.be.ok;
-      expect($elScope.state.selectedRepo).to.equal(ctx.repo1);
+      expect($elScope.state.repoSelected, 'repoSelected').to.be.ok;
+      expect(ctx.repo1.spin, 'repo1 spin').to.be.ok;
+      expect($elScope.state.selectedRepo, 'selectedRepo').to.equal(ctx.repo1);
       sinon.assert.called(ctx.repo1.branches.fetch);
+      $scope.$digest();
 
-      expect($elScope.state.activeBranch).to.be.ok;
+      expect($elScope.state.activeBranch, 'activeBranch').to.be.ok;
       expect($elScope.state.activeBranch.attrs.name).to.equal('master');
+
+      ctx.fetchStackAnalysisMock.triggerPromise(ctx.analysisMockData);
+      $scope.$digest();
 
       expect($elScope.state.stack.key).to.equal('node');
       sinon.assert.notCalled($scope.actions.addDependency);
@@ -264,9 +267,9 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
       sinon.assert.calledWith($scope.actions.addDependency, $scope.data.allDependencies.models[0]);
       sinon.assert.calledWith($scope.actions.addDependency, $scope.data.allDependencies.models[1]);
 
-      expect(ctx.repo1.spin).to.not.be.ok;
+      expect(ctx.repo1.spin, 'repo1 spin not check').to.not.be.ok;
       sinon.assert.calledWith($scope.actions.nextStep, 2);
-      expect($elScope.state.repoSelected).to.be.ok;
+      expect($elScope.state.repoSelected, 'repoSelected 2').to.be.ok;
 
       $scope.$destroy();
       $scope.$digest();
@@ -280,13 +283,18 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
         }
       };
       $elScope.selectRepo(ctx.repo1);
-      expect($elScope.state.repoSelected).to.be.ok;
-      expect(ctx.repo1.spin).to.be.ok;
-      expect($elScope.state.selectedRepo).to.equal(ctx.repo1);
+      expect($elScope.state.repoSelected, 'repoSelected').to.be.ok;
+      expect(ctx.repo1.spin, 'repo1 spin').to.be.ok;
+      expect($elScope.state.selectedRepo, 'selectedRepo').to.equal(ctx.repo1);
       sinon.assert.called(ctx.repo1.branches.fetch);
+      $scope.$digest();
 
-      expect($elScope.state.activeBranch).to.be.ok;
+      expect($elScope.state.activeBranch, 'activeBranch').to.be.ok;
       expect($elScope.state.activeBranch.attrs.name).to.equal('master');
+
+      ctx.fetchStackAnalysisMock.triggerPromise(ctx.analysisMockData);
+      //ctx.fetchStackAnalysisMock.triggerPromiseError(new Error('asdasd'));
+      $scope.$digest();
 
       expect($elScope.state.stack.key).to.equal(stacks[0].key);
 
@@ -301,14 +309,16 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
         }
       };
       $elScope.selectRepo(ctx.repo1);
-      expect($elScope.state.repoSelected).to.be.ok;
-      expect($elScope.state.selectedRepo).to.equal(ctx.repo1);
+      $scope.$digest();
+      expect($elScope.state.repoSelected, 'repoSelected').to.be.ok;
+      expect($elScope.state.selectedRepo, 'selectedRepo').to.equal(ctx.repo1);
       sinon.assert.called(ctx.repo1.branches.fetch);
-      sinon.assert.called(ctx.fetchStackAnalysisMock);
+      ctx.fetchStackAnalysisMock.triggerPromise(ctx.analysisMockData);
+      $scope.$digest();
 
       sinon.assert.calledWith($scope.actions.nextStep, 2);
-      expect(ctx.repo1.spin).to.not.be.ok;
-      expect($elScope.state.repoSelected).to.be.ok;
+      expect(ctx.repo1.spin, 'repo 1 spin').to.not.be.ok;
+      expect($elScope.state.repoSelected, 'repoSelected').to.be.ok;
 
       $scope.$destroy();
       $scope.$digest();
@@ -325,10 +335,12 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
       $elScope.selectRepo(ctx.repo1);
       expect($elScope.state.repoSelected).to.be.ok;
       expect(ctx.repo1.spin).to.be.ok;
+      $scope.$digest();
       expect($elScope.state.selectedRepo).to.equal(ctx.repo1);
       sinon.assert.called(ctx.repo1.branches.fetch);
+      ctx.fetchStackAnalysisMock.triggerPromise(ctx.analysisMockData);
+      $scope.$digest();
 
-      sinon.assert.called(ctx.fetchStackAnalysisMock);
       expect($elScope.state.stack.selectedVersion).to.equal('4.1.7');
       expect($elScope.state.stack.dependencies[0].selectedVersion).to.equal('0.10');
 
@@ -343,7 +355,7 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
     it('should err when repo list fails', function () {
       var err = new Error('dsfgasdfgads');
 
-      ctx.fetchOwnerRepos.triggerPromiseError(err);
+      ctx.fetchOwnerReposMock.triggerPromiseError(err);
 
       $rootScope.$digest();
       expect($elScope.loading).to.be.false;
@@ -358,38 +370,50 @@ describe('directiveGsRepoSelector'.bold.underline.blue, function () {
         cb(err);
       });
       $elScope.selectRepo(ctx.repo1);
+      $scope.$digest();
       sinon.assert.calledWith(ctx.errsMock.handler, err);
+      $scope.$destroy();
+      $scope.$digest();
     });
     it('should err when it can\'t find the master branch', function () {
       ctx.repo1.branches.models = [];
       $elScope.selectRepo(ctx.repo1);
+      $rootScope.$digest();
       sinon.assert.called(ctx.repo1.branches.fetch);
+      $scope.$digest();
+      $scope.$digest();
       sinon.assert.calledWith(ctx.errsMock.handler, new Error('No branches found'));
 
+      expect(ctx.repo1.spin, 'repo 1 spin').to.not.be.ok;
       $scope.$destroy();
       $scope.$digest();
     });
     it('should err when stack analysis fails', function () {
       ctx.analysisMockData = null;
       $elScope.selectRepo(ctx.repo1);
+      $scope.$digest();
       sinon.assert.called(ctx.repo1.branches.fetch);
-      sinon.assert.called(ctx.fetchStackAnalysisMock);
-      sinon.assert.calledWith(ctx.errsMock.handler, new Error('asdas'));
+      var error = new Error('sadasdasd');
+      ctx.fetchStackAnalysisMock.triggerPromiseError(error);
+      $scope.$digest();
+      sinon.assert.calledWith(ctx.errsMock.handler, error);
 
-      expect(ctx.repo1.spin).to.not.be.ok;
-      sinon.assert.calledWith($scope.actions.nextStep, 2);
+      expect(ctx.repo1.spin, 'repo 1 spin').to.not.be.ok;
+      sinon.assert.neverCalledWith($scope.actions.nextStep, 2);
       expect($elScope.state.repoSelected).to.not.be.ok;
       $scope.$destroy();
       $scope.$digest();
     });
-    it('should err when stack analysis doesn\'t detect a language', function () {
+    it('should continue when stack analysis doesn\'t detect a language', function () {
       ctx.analysisMockData = {};
       $elScope.selectRepo(ctx.repo1);
 
+      $scope.$digest();
       sinon.assert.called(ctx.repo1.branches.fetch);
-      sinon.assert.called(ctx.fetchStackAnalysisMock);
+      ctx.fetchStackAnalysisMock.triggerPromise(ctx.analysisMockData);
+      $scope.$digest();
 
-      expect(ctx.repo1.spin).to.not.be.ok;
+      expect(ctx.repo1.spin, 'repo 1 spin').to.not.be.ok;
       sinon.assert.calledWith($scope.actions.nextStep, 2);
       $scope.$destroy();
       $scope.$digest();

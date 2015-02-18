@@ -96,7 +96,8 @@ describe('servicePromisify'.underline.bold.blue, function () {
       var returnData = {
         attrs: {
           data: 'DATUMS',
-          name: 'God-Emperor of Mankind'
+          name: 'God-Emperor of Mankind',
+          occupation: 'Slayer of xenos'
         }
       };
       var model = {

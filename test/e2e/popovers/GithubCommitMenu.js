@@ -2,119 +2,67 @@
 
 var util = require('../helpers/util');
 
-function GithubCommitMenu() {
-  
+function GithubCommitMenu(repo, index) {
+  var self = this;
+  var thisIndex = index || 0;
+  this.repo = repo;
+  this.commitInfo = util.createGetter(by.className('js-repository-commit'), repo);
+  this.branchInfo = util.createGetter(by.className('js-repository-branch'), repo);
+
+  // Commit popover menu
+  this.commitMenu = util.createGetterAll(by.className('popover-repository-toggle'));
+
+  this.getCommitList = function (commitMenu) {
+    return commitMenu.all(by.repeater('commit in data.activeBranch.commits.models'));
+  };
+
+  this.branchSelector = util.createGetter(by.className('select'), this.commitMenu);
+  this.getBranchSelector = function (commitMenu) {
+    return commitMenu.element(by.className('select'));
+  };
+
   this.open = function (repo) {
-    var self = this;
-    var button = this.getRepoCommitMenuButton(repo);
-    button.click();
-    return browser.wait(function () {
-      return self.isOpen(repo);
+    browser.wait(repo.isDisplayed);
+    repo.click().then(function () {
+      browser.wait(self.isOpen);
     });
   };
 
-  this.isOpen = function (repo) {
-    return this.getRepoCommitMenu(repo).isPresent();
+  this.isOpen = function () {
+    return self.commitMenu.get(thisIndex).isDisplayed();
   };
 
-  this.numSelectedRepos = function () {
-    return element.all(by.repeater('acv in build.contextVersions.models[0].appCodeVersions.models')).then(function(elements) {
-      return elements.length;
-    });
-  };
-
-  this.getAllRepos = function () {
-    return element.all(by.repeater('acv in build.contextVersions.models[0].appCodeVersions.models'));
-  };
-
-  this.getRepo = function (index) {
-    var repo = element(by.repeater('acv in build.contextVersions.models[0].appCodeVersions.models').row(index || 0));
-
+  this.changeCommit = function (index) {
+    var commitList = this.getCommitList(self.commitMenu.get(thisIndex));
     browser.wait(function () {
-      return repo.isDisplayed();
+      return commitList.isDisplayed();
     });
-    return repo;
-  };
-
-  this.getRepoCommitTitle = function (repo) {
-    return repo.element(by.className('commit-message'));
-  };
-
-  this.getRepoCommitMenu = function (repo) {
-    return repo.element(by.className('commit-group'));
-  };
-
-  this.getRepoCommitMenuButton = function (repo) {
-    return repo.element(by.css('div.commit.load.ng-isolate-scope'));
-  };
-
-  this.filterCommits = function (repo, contents) {
-    var field = repo.element(by.css('div.popover.commit-select.ng-isolate-scope.in > h3 > button'));
+    var commit = commitList.get(index);
     browser.wait(function () {
-      return field.isPresent();
-    }).then(function () {
-      return field.sendKeys(contents);
+      return commit.isDisplayed();
     });
+    commit.getWebElement().click();
   };
 
-  this.changeCommit = function (repo, index) {
-    var self = this;
+  this.changeBranch = function (branchName, commitIndex) {
     browser.wait(function () {
-      return self.getRepoCommitMenu(repo).isDisplayed();
+      return self.getBranchSelector(self.commitMenu.get(thisIndex)).isPresent();
     });
-    var commit = repo.element(by.repeater('commit in data.activeBranch.commits.models').row(index));
-    return commit.click();
-  };
-
-  this.getCommitsBehind = function (repo) {
-    var self = this;
-    browser.wait(function () {
-      return self.getFastForwardButton(repo).isPresent();
-    });
-    return this.getFastForwardButton(repo).getText();
-  };
-
-  this.getFastForwardButton = function (repo) {
-    browser.wait(function () {
-      return repo.isDisplayed();
-    });
-    return repo.element(by.className('repository-update'));
-  };
-
-  this.fastForward = function (repo) {
-    var ffbutton = this.getFastForwardButton(repo);
-    browser.wait(function () {
-      return ffbutton.isPresent();
-    });
-    browser.wait(function () {
-      return ffbutton.isDisplayed();
-    });
-    ffbutton.click();
-  };
-
-  this.changeBranch = function (repo, branchName, commitIndex) {
-    var self = this;
-    var branch = this.getBranchSelector(repo);
-    branch.click();
-    var testBranch = branch.element(by.cssContainingText('option', branchName));
+    var branchSelector = self.getBranchSelector(self.commitMenu.get(thisIndex));
+    branchSelector.click();
+    var testBranch = branchSelector.element(by.cssContainingText('option', branchName));
     testBranch.click();
     browser.wait(function () {
-      return self.getSelectedBranch(repo).getText(function (text) {
+      return self.getSelectedBranch().getText(function (text) {
         return text === branchName;
       });
     });
-    browser.wait(function () {
-      return repo.element(by.className('commit-group')).isDisplayed();
-    });
-    this.changeCommit(repo, commitIndex);
+    browser.wait(this.isOpen);
+    this.changeCommit(commitIndex);
   };
 
-  this.getSelectedBranch = function (repo) {
-    return this.getBranchSelector(repo).$('option:checked');
-  };
-
-  this.getBranchSelector = function (repo) {
-    return repo.element(by.model('data.activeBranch'));
+  this.getSelectedBranch = function () {
+    return self.getBranchSelector(self.commitMenu.get(thisIndex)).$('option:checked');
   };
 
 }

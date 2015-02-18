@@ -8,7 +8,7 @@ util.processUrl = function (middle) {
 
 util.waitForUrl = function (url) {
   return browser.wait(function () {
-    return browser.getCurrentUrl().then(function (currentUrl) {
+    return browser.driver.getCurrentUrl().then(function (currentUrl) {
       if (typeof url === 'object' && typeof url.test === 'function') {
         // It's a regex
         return url.test(currentUrl);
@@ -28,21 +28,45 @@ util.containsText = function (elem, expected) {
   });
 };
 
-util.createGetter = function (by) {
+
+util.createGetter = function (by, parentElement) {
   return {
-    get: function () {
-      return element(by);
+    get: function (overridePe) {
+      var pE = null;
+      if (overridePe) {
+        parentElement = overridePe;
+      }
+      if (parentElement) {
+        pE = (typeof parentElement.get === 'function') ? parentElement.get() : parentElement;
+      }
+      if (pE) {
+        return pE.element(by);
+      } else {
+        return element(by);
+      }
     }
   };
 };
 
-util.createGetterAll = function(by) {
+util.createGetterAll = function(by, parentElement) {
   return {
     get: function (idx) {
-      if (idx !== undefined) {
-        return element(by.row(idx));
+      var pE = null;
+      if (parentElement) {
+        pE = (typeof parentElement.get === 'function') ? parentElement.get() : parentElement;
+      }
+      if (pE) {
+        if (idx !== undefined) {
+          return pE.all(by).get(idx);
+        } else {
+          return pE.element(by);
+        }
       } else {
-        return element.all(by);
+        if (idx !== undefined) {
+          return element.all(by).get(idx);
+        } else {
+          return element.all(by);
+        }
       }
     }
   };
@@ -60,6 +84,19 @@ util.getOSCommandKey = function() {
   } else {
     return protractor.Key.CONTROL;
   }
+};
+
+// Used in interactive sessions to re-require everything
+util.refreshCache = function() {
+  var toRefresh = Object.keys(require.cache).filter(function(key) {
+    // Only refresh our stuff
+    return key.indexOf('test/e2e') > -1;
+  });
+  toRefresh.forEach(function(key) {
+    console.log('refreshing', key);
+    delete require.cache[key];
+    require(key);
+  });
 };
 
 util.regex = {};
