@@ -275,8 +275,8 @@
 
 // li.popover-list-item
 .popover-list-item {
+  color: $gray-dark;
   cursor: pointer;
-  font-size: 16px;
   height: 36px;
   line-height: 36px;
   overflow: hidden;
@@ -350,7 +350,6 @@
 }
 
 .popover-content {
-  font-weight: 300;
   padding: 6px;
   position: relative;
   z-index: $z-popover-content;

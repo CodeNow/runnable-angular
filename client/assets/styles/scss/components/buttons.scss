@@ -153,7 +153,6 @@ button,
 
 .blue {
   color: $blue;
-  font-weight: 300;
 
   &.btn {
 
@@ -201,10 +200,10 @@ button,
 .green {
   background: rgba($green,.75);
   border-color: rgba($green,.9);
+  text-shadow: 0 1px 0 $green-dark;
 
   &.btn {
     font-weight: 500;
-    text-shadow: 0 1px 0 $green-dark;
 
     &:hover,
     &.hover {
@@ -235,10 +234,10 @@ button,
 .orange {
   background: rgba($orange,.75);
   border-color: rgba($orange-dark,.75);
+  text-shadow: 0 1px 0 $orange-dark;
 
   &.btn {
     font-weight: 500;
-    text-shadow: 0 1px 0 $orange-dark;
 
     &:hover,
     &.hover {
@@ -268,7 +267,6 @@ button,
 
 .purple {
   color: $purple-light;
-  font-weight: 300;
 
   &.btn {
 
