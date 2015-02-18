@@ -76,7 +76,7 @@
   white-space: normal;
 
   &:active .small {
-    color: rgba($purple-light,.5);
+    color: $purple-light;
   }
 }
 
@@ -92,7 +92,7 @@
 .toggle-group-detail {
 
   .small {
-    color: $gray-light;
+    color: $gray;
 
     &:last-child {
       float: right;
@@ -112,7 +112,7 @@
 
   // .link-text (commit hash)
   .link-text {
-    color: rgba($purple-light,.5);
+    color: $purple-light;
     font-family: 'Source Code Pro', monospace;
     text-decoration: underline;
 

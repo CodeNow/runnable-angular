@@ -139,7 +139,6 @@ button,
 .white {
   border: 1px solid transparent;
   color: $white;
-  letter-spacing: .5px;
   text-decoration: none;
 
   &:active,
@@ -177,7 +176,6 @@ button,
   background: rgba($gray-darker,.1);
   border: 0;
   color: $gray;
-  font-weight: 300;
 
   &.btn {
 
@@ -205,6 +203,8 @@ button,
   border-color: rgba($green,.9);
 
   &.btn {
+    font-weight: 500;
+    text-shadow: 0 1px 0 $green-dark;
 
     &:hover,
     &.hover {
@@ -237,6 +237,8 @@ button,
   border-color: rgba($orange-dark,.75);
 
   &.btn {
+    font-weight: 500;
+    text-shadow: 0 1px 0 $orange-dark;
 
     &:hover,
     &.hover {
@@ -288,7 +290,6 @@ button,
 .white {
   border: 0;
   color: $gray;
-  font-weight: 300;
 
   &.btn {
 

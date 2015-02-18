@@ -85,12 +85,6 @@ input ~ small {
   white-space: pre;
 }
 
-.sub-header {
-  color: $gray;
-  font-size: 13px;
-  font-weight: 300;
-}
-
 // links
 .link {
   color: $gray-dark;
@@ -103,7 +97,6 @@ input ~ small {
   }
 
   &:active {
-    color: $gray-darkest;
     text-decoration: none;
     transform: translate(0,1px,0); // only works if inline-block
   }

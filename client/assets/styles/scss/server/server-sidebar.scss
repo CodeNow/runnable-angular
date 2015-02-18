@@ -47,7 +47,7 @@
   padding: 12px 30px 12px 0;
 
   &:hover {
-    background: rgba($black,.06);
+    background: rgba($black,.1);
   }
 
   &:active,
@@ -121,7 +121,7 @@
 
 // small.repository-detail
 .repository-detail {
-  color: $gray-light;
+  color: $gray;
   display: block;
   margin-top: 3px;
   white-space: nowrap;
