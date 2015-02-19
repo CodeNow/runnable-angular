@@ -60,7 +60,7 @@
     }
 
     .repository-detail {
-      color: rgba($purple-light,.5);
+      color: $purple-light;
     }
   }
 
@@ -70,13 +70,7 @@
     height: 18px;
     left: 0;
     position: absolute;
-    top: 3px;
     width: 36px;
-  }
-
-  .icons-repository {
-    height: 27px;
-    top: 0;
   }
 
   // arrow
@@ -91,26 +85,14 @@
   }
 }
 
-// h3.repository-title
-.repository-title,
-.repository-description {
-  padding-left: 36px;
-  position: relative;
-}
-
-.repository-title {
-  font-size: 16px;
-  height: 27px;
-  line-height: 27px;
-}
-
 // p.repository-description
 .repository-description {
   font-size: 14px;
   height: 21px;
   line-height: 21px;
+  padding-left: 36px;
   position: relative;
-  word-break: break-all;
+  word-break: break-word;
 
   + .repository-description {
     height: auto;
