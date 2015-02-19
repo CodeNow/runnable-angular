@@ -7,10 +7,11 @@
   .validate-wrapper {
     display: inline-block;
     font-size: 16px;
+    font-weight: 400;
     height: 36px;
     line-height: 36px;
     position: relative;
-    top: 11px;
+    top: 8px;
     width: 300px;
 
     &.invalid-require {
@@ -22,7 +23,7 @@
 
 // input.setup-name-input
 .setup-name-input {
-  margin-left: -9px;
+  margin: 13px 0 0 -9px;
   width: 288px;
 }
 

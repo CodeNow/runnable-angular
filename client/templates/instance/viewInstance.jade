@@ -77,8 +77,8 @@ section.sidebar.server-sidebar.load(
   )
 
   section.row.explorer(
-    ng-if = "dataInstance.data.instance.build.attrs.completed"
     explorer
+    ng-if = "dataInstance.data.instance.build.attrs.completed"
     open-items = "dataInstance.data.openItems"
   )
 
@@ -102,16 +102,16 @@ section.views.with-add-tab(
   //- active panel
   .active-panel(
     active-panel
+    current-model = "dataInstance.data.instance.attrs"
+    is-dark-theme = "dataInstance.data.toggleTheme",
+    item = "item"
     ng-class = "{\
       'loaded': (item === openItems.activeHistory.last()),\
       'ace-runnable-dark': dataInstance.data.toggleTheme\
     }"
     ng-repeat = "item in dataInstance.data.openItems.models"
     ng-show = "item === dataInstance.data.openItems.activeHistory.last()"
-    current-model = "dataInstance.data.instance.attrs"
-    is-dark-theme = "dataInstance.data.toggleTheme",
     open-items = "dataInstance.data.openItems"
-    item = "item"
     toggle-theme = "dataInstance.data.toggleTheme"
   )
 
