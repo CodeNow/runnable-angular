@@ -13,6 +13,7 @@ function ControllerInstanceEdit(
   fetchInstances,
   fetchBuild,
   pageName,
+  promisify,
   $scope,
   $state,
   $stateParams
@@ -34,8 +35,8 @@ function ControllerInstanceEdit(
   data.showExplorer = true;
 
   // open "Dockerfile" build file by default
-  function setDefaultTabs() {
-    var rootDir = keypather.get($scope, 'build.contextVersions.models[0].rootDir');
+  function setDefaultTabs(build) {
+    var rootDir = keypather.get(build, 'contextVersions.models[0].rootDir');
     if (!rootDir) { throw new Error('rootDir not found'); }
     rootDir.contents.fetch(function (err) {
       if (err) { throw err; }
@@ -61,10 +62,10 @@ function ControllerInstanceEdit(
   ).then(function (build) {
     if (build.attrs.completed) {
       $state.go('instance.instance', $stateParams);
-      return;
+      return build;
     }
     data.build = build;
-    setDefaultTabs();
+    setDefaultTabs(build);
   });
 
 }
