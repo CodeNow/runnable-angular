@@ -33,6 +33,15 @@
     border-top: 1px solid rgba($black,.1);
   }
 
+  &.label-sm {
+    height: 36px;
+    line-height: 36px;
+
+    .radio {
+      height: 36px;
+    }
+  }
+
   &:hover {
     background: rgba($purple-light,.1);
   }

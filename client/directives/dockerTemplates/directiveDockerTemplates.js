@@ -13,7 +13,7 @@ function dockerTemplates(
   errs
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewDockerTemplates',
     scope: {
       openItems: '=',
