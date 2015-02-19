@@ -71,8 +71,9 @@ function accountsSelect (
       };
       mActions.setActive = function(account) {
         mData.modalActiveAccount = account;
-        if (mData.user.attrs.accounts.slack && mData.user.attrs.accounts.slack.orgs) {
-          var slackAccount = mData.user.attrs.accounts.slack.orgs.find(function (slackData) {
+        var slackUserOrgs = keypather.get(mData, 'user.attrs.accounts.slack.orgs');
+        if (slackUserOrgs) {
+          var slackAccount = slackUserOrgs.find(function (slackData) {
             return slackData.githubId === mData.modalActiveAccount.attrs.accounts.github.id;
           });
           mData.slackUserAccount = slackAccount || {};
@@ -99,7 +100,7 @@ function accountsSelect (
       };
       mActions.saveSlackUsername = function () {
         if (!mData.slackUserAccount) { return; }
-        $scope.data.user.updateUser({
+        $scope.data.user.update({
           json: {
             account: {
               slack: {
