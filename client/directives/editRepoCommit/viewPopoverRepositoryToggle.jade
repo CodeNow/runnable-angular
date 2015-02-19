@@ -52,7 +52,7 @@
         ng-click = "actions.selectCommit(commit.attrs.sha)"
         ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
       )
-        .toggle-group-title {{ ::commit.attrs.commit.message | limitTo:30 }}
+        .toggle-group-title {{ ::commit.attrs.commit.message | limitToEllipsis:72 }}
         .toggle-group-detail.clearfix
           small.small {{ ::commit.attrs.author.login }}—{{ ::commit.attrs.commit.author.date | timeAgo }}
           a.small.link-text(
