@@ -9,13 +9,13 @@ header.server-header
 
   setup-primary-actions(
     active-account = "dataApp.data.activeAccount"
-    instance-opts = "dataSetup.data.instanceOpts"
+    data = "dataSetup.data"
     loading = "dataApp.data.loading"
-    name = "dataSetup.data.newInstanceName"
-    open-items = "dataSetup.data.openItems"
     is-docker-file-valid = "dataSetup.data.isDockerFileValid"
     is-name-valid = "dataSetup.data.isNameValid"
-    data = "dataSetup.data"
+    instance-opts = "dataSetup.data.instanceOpts"
+    name = "dataSetup.data.newInstanceName"
+    open-items = "dataSetup.data.openItems"
   )
 
   setup-secondary-actions(
@@ -27,9 +27,9 @@ header.server-header
 section.sidebar.server-sidebar
 
   section.row.repo-list(
-    repo-list
-    loading = "dataApp.data.loading"
     build = "dataSetup.data.build"
+    loading = "dataApp.data.loading"
+    repo-list
   )
 
   docker-templates(
@@ -37,13 +37,9 @@ section.sidebar.server-sidebar
     valid = "dataSetup.data.isDockerFileValid"
   )
 
-  docker-validation(
-    open-items = "dataSetup.data.openItems"
-  )
-
   section.row.explorer(
-    ng-if = "dataInstance.data.instance.build.attrs.completed"
     explorer
+    ng-if = "dataInstance.data.instance.build.attrs.completed"
     open-items = "dataInstance.data.openItems"
   )
 

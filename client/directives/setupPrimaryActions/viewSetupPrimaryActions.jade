@@ -1,10 +1,10 @@
 .primary-actions
-  //- remove .orange, add .green when validation passes
+  //- only validates name
   button.btn(
     ng-class = "{ \
-      orange: (!isNameValid || !isDockerFileValid), \
-      green: (isNameValid && isDockerFileValid) \
+      orange: !isNameValid, \
+      green: isNameValid \
     }"
     ng-click = "buildAndAttach()"
-    ng-disabled = "!data.build || loading || !isNameValid || !isDockerFileValid"
+    ng-disabled = "!data.build || loading || !isNameValid"
   ) Create Server
