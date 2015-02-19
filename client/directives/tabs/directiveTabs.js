@@ -10,10 +10,11 @@ function tabs(
   $state
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     templateUrl: 'viewTabs',
     scope: {
-      openItems: '='
+      openItems: '=',
+      toggleTheme: '='
     },
     link: function ($scope, element, attrs) {
       $scope.state = $state;

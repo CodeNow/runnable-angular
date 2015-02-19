@@ -65,21 +65,21 @@
 
 // popovers
 .popover {
-  background: rgba(rgba($white,.975),.975);
+  background: rgba($white,.975);
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
   cursor: default; // if popover is within an element with a different cursor
   display: block;
   left: 0;
-  max-width: 276px;
+  max-width: 300px;
   opacity: 0;
   pointer-events: none;
   position: absolute;
   text-align: left;
   top: 0;
-  transform: scale3d(0,0,1);
-  transition: all .15s ease-in;
+  transform: scale3d(.9,.9,1);
+  transition: all .2s ease-in;
   white-space: normal;
 
   &.in {
@@ -205,8 +205,7 @@
   // .popover.bottom.menu.context-menu
   &.context-menu {
     position: fixed;
-    transform-origin: 0 0;
-    transition: transform .15s ease-in;
+    transition: none;
     z-index: $z-popover-context-menu;
 
     .iconnables {
@@ -220,39 +219,6 @@
   // .list
   .list + .list {
     border-top: 1px solid rgba($black,.1);
-  }
-
-  // ul.popover-columns
-  .popover-columns {
-    white-space: nowrap;
-
-    .popover-column {
-      border-left: 1px solid rgba($black,.1);
-      cursor: pointer;
-      display: inline-block;
-      font-size: 14px;
-      height: 72px;
-      line-height: 36px;
-      text-align: center;
-      width: 90px;
-
-      &:first-child {
-        border-left: 0;
-      }
-
-      &:hover {
-        background: rgba($blue,.1);
-      }
-
-      &:active {
-        background: rgba($blue,.15);
-      }
-    }
-
-    .iconnables {
-      display: block;
-      margin: 6px auto 0;
-    }
   }
 
   // li.divider
@@ -309,10 +275,8 @@
 
 // li.popover-list-item
 .popover-list-item {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
+  color: $gray-dark;
   cursor: pointer;
-  font-size: 16px;
   height: 36px;
   line-height: 36px;
   overflow: hidden;
@@ -321,13 +285,12 @@
   white-space: nowrap;
 
   &:hover {
-    background: rgba($blue,.1);
-    border-color: rgba($blue,.2);
+    background: rgba($purple-light,.1);
   }
 
   &:active {
-    background: rgba($blue,.15);
-    border-color: rgba($blue,.3);
+    background: rgba($purple-light,.15);
+    color: $purple-light;
   }
 
   &.no-actions {
@@ -341,14 +304,14 @@
     }
   }
 
-  .gravatar {
-    float: left;
-    margin: 5px 9px 0 0;
-  }
-
+  .gravatar,
   .iconnables {
     float: left;
-    margin: 6px 6px 0 0;
+    margin: 5px 12px 0 0;
+
+    &.gravatar {
+      margin-top: 5px;
+    }
   }
 
   // links
@@ -387,10 +350,14 @@
 }
 
 .popover-content {
-  font-weight: 300;
   padding: 6px;
   position: relative;
   z-index: $z-popover-content;
+}
+
+.popover-content-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 //- footer.popover-footer

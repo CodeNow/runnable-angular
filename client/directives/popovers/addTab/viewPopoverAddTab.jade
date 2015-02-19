@@ -1,41 +1,42 @@
-.popover.bottom.fade.popover-add-tab(
+.popover.menu.bottom.popover-add-tab(
   ng-class = "{in: data.show}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white
   .popover-content
-    ol.popover-columns
-      li.popover-column(
+    ul.list.popover-list
+      li.list-item.popover-list-item.small Open Tab
+      li.list-item.popover-list-item(
         ng-click = "actions.addWebView()"
         ng-if = "data.options.webView"
       )
-        svg.iconnables.iconnables-lg.icons-web
+        svg.iconnables.icons-web
           use(
             xlink:href = "#icons-web"
           )
         | Web View
-      li.popover-column(
+      li.list-item.popover-list-item(
         ng-click = "actions.addTerminal()"
         ng-if = "data.options.terminal"
       )
-        svg.iconnables.iconnables-lg.icons-terminal
+        svg.iconnables.icons-terminal
           use(
             xlink:href = "#icons-terminal"
           )
         | Terminal
-      li.popover-column(
+      li.list-item.popover-list-item(
         ng-click = "actions.addBuildStream()"
         ng-if = "data.options.buildStream"
       )
-        svg.iconnables.iconnables-lg.icons-logs
+        svg.iconnables.icons-logs
           use(
             xlink:href = "#icons-logs"
           )
         | Build Logs
-      li.popover-column(
+      li.list-item.popover-list-item(
         ng-click = "actions.addLogs()"
         ng-if = "data.options.logs"
       )
-        svg.iconnables.iconnables-lg.icons-server
+        svg.iconnables.icons-server
           use(xlink:href = "#icons-server")
         | Server Logs

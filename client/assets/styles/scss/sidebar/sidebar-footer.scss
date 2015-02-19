@@ -1,6 +1,8 @@
 // footer.row.nav-footer
 .nav-footer {
-  background: rgba($gray-lightest,.9);
+  background: $gray-lightest;
+  border-top: 1px solid rgba($black,.1);
+  box-shadow: 0 -3px 6px $gray-lightest;
   flex: 0 0 auto;
   height: 54px;
   padding: 9px 6px;

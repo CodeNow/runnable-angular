@@ -29,8 +29,8 @@
   &:focus,
   &.focus {
     background: $white;
-    border-color: $blue;
-    box-shadow: inset 0 0 3px rgba($blue,.15);
+    border-color: $purple-light;
+    box-shadow: inset 0 0 3px rgba($purple-light,.15);
   }
 }
 
@@ -45,7 +45,6 @@
 
 // .validate-rules
 .validate-rules {
-  font-weight: 300;
   left: 15px;
   opacity: 0;
   position: absolute;

@@ -17,16 +17,6 @@ function editRepoCommit(
       model: '='
     },
     link: function ($scope, elem, attrs) {
-      // controls appearance of
-      // gear-menu popover
-      // to fast-forward/delete
-      if ($state.$current.name === 'instance.instance') {
-        $scope.showEditGearMenu = false;
-        $scope.showPendingClassWhenSelectedOutdatedCommit = true;
-      } else {
-        $scope.showEditGearMenu = true;
-      }
-
       // emits (broadcast up DOM tree) event to be
       // intercepted by directive-runnable-repo-list
       // when ACV selected commit changes
@@ -74,6 +64,15 @@ function editRepoCommit(
           }
         );
       };
+      // controls appearance of
+      // gear-menu popover
+      // to fast-forward/delete
+      if ($state.$current.name === 'instance.instance') {
+        $scope.popoverRepositoryToggle.data.showDeleteButton = false;
+        $scope.showPendingClassWhenSelectedOutdatedCommit = true;
+      } else {
+        $scope.popoverRepositoryToggle.data.showDeleteButton = true;
+      }
 
       // reset filter when opening popover
       $scope.$watch('popoverRepositoryToggle.data.show', function (n, p) {
@@ -92,7 +91,7 @@ function editRepoCommit(
         data: {},
         actions: {}
       };
-      $scope.popoverRepoActions.actions.deleteRepo = function () {
+      $scope.popoverRepositoryToggle.actions.deleteRepo = function () {
         $scope.model.acv.destroy(errs.handler);
       };
 

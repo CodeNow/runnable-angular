@@ -1,7 +1,5 @@
 //- runnable 2.5
-
   - requirements
-    - show commit hash to 7 characters and link to commit on github
     - show commits on initial load to 35 (same as github)
       - implement a pagination to show older/newer 35 commits
       - implement a spinner after pressing older/newer buttons
@@ -12,115 +10,53 @@
   ng-class = "{in: data.show}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .arrow
-  h3.popover-title
-    .btn.btn-select.text-overflow
-      svg.iconnables.icons-branch
-        use(
-          xlink:href = "#icons-branch"
-        )
-      | {{ data.activeBranch.attrs.name }}
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      select.select(
-        name = "data.activeBranch"
-        ng-change = "actions.selectBranch(data.activeBranch)"
-        ng-model = "data.activeBranch"
-        ng-options = "branch.attrs.name group by 'Select a branch' for branch in data.acv.githubRepo.branches.models"
-      )
-  //- spinner while commits are loading
-  .popover-content(
-    ng-hide = "data.activeBranch.commits.models.length"
-  )
-    .spinner-wrapper.spinner-md.in(
-      ng-class = "{in: !data.activeBranch.commits.models.length}"
-      ng-include = "'spinner'"
-    )
-  //- commits
-  ul.list.popover-list.toggle-group
-    li.list-item.popover-list-item.toggle-group-item(
-      ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
-      ng-class = "{ \
-        active: (commit.attrs.sha === data.activeCommit.attrs.sha) \
-      }"
-      ng-click = "actions.selectCommit(commit.attrs.sha)"
-    )
-      .toggle-group-title {{ commit.attrs.commit.message }}
-      .toggle-group-detail.clearfix
-        small.small {{ ::commit.attrs.author.login }}-{{ ::commit.attrs.commit.author.date | timeAgo }}
-        a.small.link-text(
-          ng-href = "{{ commit.attrs.html_url }}"
-          ng-click = "$event.stopPropagation()"
-          target = "_blank"
-        ) {{ ::commit.attrs.sha.substring(0, 7) }}
-    //- only show the needed buttons (so newer would not show if on the 'latest commit' page)
-    //- Disabled until customer demand
-    //- li.btn-group.clearfix
-    //-   .btn.btn-sm.gray Newer
-    //-   .btn.btn-sm.gray Older
-
-    //- older things:
-    //- button.btn.btn-icon.btn-search(
-    //-   ng-click = "data.toggleFilter = !data.toggleFilter; \
-    //-     data.commitFilter = '';"
-    //-   ng-class = "{active: data.toggleFilter}"
-    //- )
-      svg.iconnables.icons-search
-        use(
-          xlink:href = "#icons-search"
-        )
-    //- focus on visible
-
-    //- branch selector
-    //- .btn-select.branch-btn
-      button.btn.blue.pull-right
-        //- change this to a branch icon
-        svg.iconnables.icons-git
+  .popover-content
+    .popover-content-header
+      .btn.gray.btn-xs.btn-select.text-overflow
+        svg.iconnables.icons-branch
           use(
-            xlink:href = "#icons-git"
+            xlink:href = "#icons-branch"
           )
         | {{ data.activeBranch.attrs.name }}
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
           )
-      select.select(
-        name = "data.activeBranch"
-        ng-change = "actions.selectBranch(data.activeBranch)"
-        ng-model = "data.activeBranch"
-        ng-options = "branch.attrs.name for branch in data.acv.githubRepo.branches.models"
-      )
-
-  //- list of commits
-  //- ul.commit-group(
-  //-   ng-if = "data.activeBranch.commits.models.length"
-  //- )
-    //- show 35 commits per load
-    //- .active class if currently selected commit
-    li.commit-group-item.commit(
-      ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
-      ng-class = "{ \
-        active: (commit.attrs.sha === data.activeCommit.attrs.sha) \
-      }"
-      ng-click = "actions.selectCommit(commit.attrs.sha)"
-    )
-      .commit-message {{ commit.attrs.commit.message }}
-      .commit-message {{ commit.attrs.sha }}
-      svg.iconnables.icons-commit
-        use(
-          xlink:href = "#icons-commit"
+        select.select(
+          name = "data.activeBranch"
+          ng-change = "actions.selectBranch(data.activeBranch)"
+          ng-model = "data.activeBranch"
+          ng-options = "branch.attrs.name group by 'Select a branch' for branch in data.acv.githubRepo.branches.models"
         )
-      span.commit-author {{ commit.attrs.author.login }}
-      time.commit-time {{ commit.attrs.commit.author.date | timeAgo }}
-
-    //- li.commit-group-item.commit-item-more(
-    //-   ng-if = "data.state.commits.length && !data.state.allCommitsLoaded"
-    //- )
-    //-   button.btn.blue.btn-block Load Older
-    //- li.commit-group-item(
-    //-   ng-if = "!data.state.commits.length"
-    //- )
-      .spinner
-        .spinner-ring
+      //- delete available only in the edit modal
+      .btn.gray.btn-xs(
+        ng-if = "data.showDeleteButton"
+        ng-click = "actions.deleteRepo()"
+      )
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+      //- spinner while commits are loading
+    .spinner-wrapper.spinner-md.in(
+      ng-class = "{in: !data.activeBranch.commits.models.length}"
+      ng-include = "'spinner'"
+      ng-hide = "data.activeBranch.commits.models.length"
+    )
+    //- commits
+    ul.list.popover-list.toggle-group
+      li.list-item.popover-list-item.toggle-group-item(
+        ng-class = "{ \
+          active: (commit.attrs.sha === data.activeCommit.attrs.sha) \
+        }"
+        ng-click = "actions.selectCommit(commit.attrs.sha)"
+        ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
+      )
+        .toggle-group-title {{ commit.attrs.commit.message }}
+        .toggle-group-detail.clearfix
+          small.small {{ ::commit.attrs.author.login }}—{{ ::commit.attrs.commit.author.date | timeAgo }}
+          a.small.link-text(
+            ng-href = "{{ commit.attrs.html_url }}"
+            ng-click = "$event.stopPropagation()"
+            target = "_blank"
+          ) {{ ::commit.attrs.sha.substring(0, 7) }}

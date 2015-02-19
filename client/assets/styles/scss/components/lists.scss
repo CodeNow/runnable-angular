@@ -47,6 +47,7 @@
     border: 0;
     font-family: 'Source Code Pro', monospace;
     font-size: 14px;
+    font-weight: 600;
     letter-spacing: -.5px;
     padding: 3px 6px;
     white-space: nowrap;
@@ -59,13 +60,9 @@
 
 // li.list-details
 .list-details {
-  border-top: 1px solid rgba($black,.1);
-  margin: 0 15px;
-  padding: 15px 0;
+  margin: 0 6px;
 
   .label-checkbox {
-    background: $gray-lightest;
-    border: 1px solid rgba($black,.1);
     color: $gray;
     display: inline-block;
     margin: 9px 0;
@@ -98,9 +95,9 @@
   }
 
   &.small {
-    color: $gray-light;
+    color: $gray !important; // never override this
     cursor: default !important;
-    font-size: 12px;
+    font-size: 13px;
 
     &:hover,
     &:active {

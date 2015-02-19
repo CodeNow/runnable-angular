@@ -29,7 +29,11 @@ section.sidebar.server-sidebar
     repo-list
     loading = "dataApp.data.loading"
   )
-
+  section.row.explorer(
+    explorer
+    open-items = "dataInstanceEdit.data.openItems"
+    toggle-theme = "dataInstanceEdit.data.toggleTheme"
+  )
   docker-validation(
     open-items = "dataInstanceEdit.data.openItems"
   )
@@ -41,25 +45,11 @@ section.views.with-add-tab(
   }"
 )
 
-  //- explorer
-  button.btn.btn-sm.white.btn-icon.explorer-toggle(
-    ng-click = "dataInstanceEdit.data.showExplorer = !dataInstanceEdit.data.showExplorer"
-    type = "button"
-  )
-    svg.iconnables.icons-folder-open
-      use(
-        xlink:href = "#icons-folder-open"
-      )
-
-  section.explorer(
-    explorer
-    open-items = "dataInstanceEdit.data.openItems"
-    toggle-theme = "dataInstanceEdit.data.toggleTheme"
-  )
-
   //- tabs
-  tabs(
+  .views-toolbar(
     open-items = "dataInstanceEdit.data.openItems"
+    tabs
+    toggle-theme = "dataInstanceEdit.data.toggleTheme"
   )
 
   div(
@@ -81,6 +71,7 @@ section.views.with-add-tab(
     state-model = "dataInstanceEdit.data.instance.state"
     open-items = "dataInstanceEdit.data.openItems"
     item = "item"
+    toggle-theme = "dataInstanceEdit.data.toggleTheme"
   )
 
   //- blank state
@@ -88,7 +79,7 @@ section.views.with-add-tab(
     ng-if= "dataInstanceEdit.data.openItems.activeHistory.models.length === 0"
   )
     ul.blank-panel-group
-      li.blank-panel-item(
+      li.btn.whte(
         ng-click = "dataInstanceEdit.data.openItems.addBuildStream()"
       )
         svg.iconnables.iconnables-lg.icons-logs
