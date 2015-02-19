@@ -67,6 +67,21 @@
           href = "//slack.com/services/new/bot"
           target = "_blank"
         ) Create bot on Slack
+        label.input-group.input-validate(
+          ng-class = "{\
+            focus: slackForm.slackUser.showFocus,\
+            'ng-invalid': slackForm.slackUser.$invalid && !slackForm.slackUser.$pristine,\
+            'ng-valid': slackForm.slackUser.$valid\
+          }"
+        )
+          span.input-label Your slack username
+          input.input(
+            autocomplete = "off"
+            name = "slackUser"
+            ng-blur = "slackForm.slackUser.showFocus = false"
+            ng-focus = "slackForm.slackUser.showFocus = true"
+            ng-model = "data.slackUserAccount"
+          )
         button.btn.green(
           type = "button"
           ng-click = "actions.saveSlack()"

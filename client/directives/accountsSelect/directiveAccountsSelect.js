@@ -71,6 +71,13 @@ function accountsSelect (
       };
       mActions.setActive = function(account) {
         mData.modalActiveAccount = account;
+        if (mData.user.attrs.accounts.slack && mData.user.attrs.accounts.slack.orgs) {
+          var slackAccount = mData.user.attrs.accounts.slack.orgs.find(function (slackData) {
+            return slackData.githubId === mData.modalActiveAccount.attrs.id;
+          });
+          mData.slackUserAccount = slackAccount || {};
+        }
+
         mData.settings = {};
         $scope.data.user.fetchSettings({
           githubUsername: account.oauthName()
