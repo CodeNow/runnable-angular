@@ -42,12 +42,14 @@ function explorer(
       };
 
       if ($stateParams.buildId) {
+        $scope.title = 'Build Files';
         fetchBuild($stateParams.buildId).then(function(build) {
           $scope.build = build;
           $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
           initRootDirState($scope.rootDir);
         });
       } else {
+        $scope.title = 'File Explorer';
         fetchInstances({
           name: $stateParams.instanceName
         }).then(function(instance) {
