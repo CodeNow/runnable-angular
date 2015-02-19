@@ -71,19 +71,27 @@
           type = "button"
           ng-click = "actions.saveSlack()"
         ) Save
+    form.form.clearfix(
+      name = "slackUserForm"
+    )
+      .col
+        img(
+          src = "/build/images/logos/logo-slack.svg"
+        )
+      .col
         label.input-group.input-validate(
           ng-class = "{\
-            focus: slackForm.slackUser.showFocus,\
-            'ng-invalid': slackForm.slackUser.$invalid && !slackForm.slackUser.$pristine,\
-            'ng-valid': slackForm.slackUser.$valid\
+            focus: slackUserForm.slackUser.showFocus,\
+            'ng-invalid': slackUserForm.slackUser.$invalid && !slackUserForm.slackUser.$pristine,\
+            'ng-valid': slackUserForm.slackUser.$valid\
           }"
         )
           span.input-label Your slack username
           input.input(
             autocomplete = "off"
             name = "slackUser"
-            ng-blur = "slackForm.slackUser.showFocus = false"
-            ng-focus = "slackForm.slackUser.showFocus = true"
+            ng-blur = "slackUserForm.slackUser.showFocus = false"
+            ng-focus = "slackUserForm.slackUser.showFocus = true"
             ng-model = "data.slackUserAccount.name"
           )
         button.btn.green(
