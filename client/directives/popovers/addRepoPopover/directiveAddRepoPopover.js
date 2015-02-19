@@ -9,29 +9,21 @@ function addRepoPopover(
   keypather,
   pick,
   $rootScope,
-  $state,
-  $stateParams,
   pFetchUser,
-  fetchInstances,
-  fetchBuild,
   fetchOwnerRepos,
   promisify,
+  $stateParams,
   errs
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewAddRepoPopover',
     scope: {
-      show: '='
+      show: '=',
+      contextVersion: '='
     },
     link: function ($scope, elem, attrs) {
 
-      // rules for display based on state name
-      if ($state.$current.name === 'instance.instance') {
-        $scope.enabled = false;
-      } else {
-        $scope.enabled = true;
-      }
       $scope.repoListPopover = {
         data: {},
         actions: {}
@@ -60,8 +52,7 @@ function addRepoPopover(
       $scope.repoListPopover.actions.addRepo = function (repo) {
         // close this and other popover
         $rootScope.$broadcast('app-document-click');
-        var cv = $scope.repoListPopover.data.build.contextVersions.models[0];
-        var acv = cv.newAppCodeVersion({
+        var acv = $scope.contextVersion.newAppCodeVersion({
           repo: repo.attrs.full_name,
           branch: repo.attrs.default_branch
         }, { warn: false });
@@ -84,7 +75,7 @@ function addRepoPopover(
             'commit'
           ]);
           // acv
-          return promisify(cv.appCodeVersions, 'create')(body)
+          return promisify($scope.contextVersion.appCodeVersions, 'create')(body)
             .then(function (acv) {
               return acv;
             });
@@ -102,34 +93,20 @@ function addRepoPopover(
         return activeBranch;
       }
 
-      pFetchUser().then(function(user) {
+      /**
+       * Models in build.contextVersions collection will
+       * have empty appCodeVersion collections by default.
+       * Perform fetch on each contextVersion to populate
+       * appCodeVersions collection
+       */
+      $scope.repoListPopover.data.contextVersion = $scope.contextVersion;
+      pFetchUser(
+      ).then(function (user) {
         $scope.user = user;
         $scope.repoListPopover.data.user = user;
-        if ($stateParams.buildId) {
-          return fetchBuild(
-            $stateParams.buildId
-          ).then(function (build) {
-            $scope.repoListPopover.data.build = build;
-          });
-        } else {
-          return fetchInstances({
-            name: $stateParams.instanceName
-          }).then(function (instance) {
-            $scope.repoListPopover.data.instance = instance;
-            $scope.repoListPopover.data.build = instance.build;
-          });
-        }
       }).then(function () {
-        /**
-         * Models in build.contextVersions collection will
-         * have empty appCodeVersion collections by default.
-         * Perform fetch on each contextVersion to populate
-         * appCodeVersions collection
-         */
-        var build = $scope.repoListPopover.data.build;
-        if (!build.contextVersions.models[0]) { throw new Error('build has 0 contextVersions'); }
-        // We don't care about when this fetch finishes, so no promise
-        build.contextVersions.models[0].fetch(errs.handler);
+        return promisify($scope.contextVersion, 'fetch')();
+      }).then(function () {
         return fetchOwnerRepos($stateParams.userName);
       }).then(function (githubRepos) {
         $scope.repoListPopover.data.githubRepos = githubRepos;

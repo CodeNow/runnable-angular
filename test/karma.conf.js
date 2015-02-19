@@ -84,7 +84,7 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       transform: [istanbul({
-        ignore: ['**/node_modules/**', '**/*.unit.js',  '**/test/**', '**/config/**/*.json', '**/client/assets/**', '**/client/build/**', '**/client/animations/**', '**/client/lib/**', '**/client/polyfills/**']
+        ignore: ['**/node_modules/**', '**/*.unit.js',  '**/test/**', '**/config/**/*.json', '**/client/**']
       })],
       extensions: ['.js']
     },

@@ -6,12 +6,14 @@ require('app')
  * @ngInject
  */
 function instanceSecondaryActions(
+  errs,
   helperInstanceActionsModal,
   $log,
   $rootScope,
   $state,
   keypather,
-  $stateParams
+  $stateParams,
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -43,31 +45,29 @@ function instanceSecondaryActions(
       keypather.set($scope, 'popoverGearMenu.data.dataModalEnvironment.showRebuild', true);
 
       $scope.goToEdit = function () {
-        var forkedBuild = $scope.instance.build.deepCopy(function (err) {
-          if (err) {
-            $log.error(err);
-            throw err;
-          }
+        promisify($scope.instance.build, 'deepCopy')(
+        ).then(function (forkedBuild) {
           $state.go('instance.instanceEdit', {
             userName: $stateParams.userName,
             instanceName: $stateParams.instanceName,
             buildId: forkedBuild.id()
           });
-        });
+        }).catch(errs.handler);
       };
 
       function modInstance(action, opts) {
         $scope.saving = true;
         $scope.popoverGearMenu.data.show = false;
-        $scope.instance[action](opts, function (err) {
-          if (err) { throw err; }
-          $scope.instance.fetch(function (err) {
-            if (err) { throw err; }
-            $scope.saving = false;
-          });
+        promisify($scope.instance, action)(
+          opts
+        ).then(function () {
+          return promisify($scope.instance, 'fetch')();
+        }).catch(
+          errs.handler
+        ).finally(function () {
+          $scope.saving = false;
         });
       }
-
     }
   };
 }
