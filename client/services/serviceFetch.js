@@ -174,6 +174,7 @@ function fetchBuild(
 }
 
 function fetchOwnerRepos (
+  $rootScope,
   pFetchUser,
   errs,
   promisify
@@ -208,7 +209,13 @@ function fetchOwnerRepos (
       }
       return fetchPage(1);
     }).then(function(reposArr) {
-      var repos = user.newGithubRepos(reposArr, {
+      var func;
+      if (user.oauthId() === $rootScope.dataApp.data.activeAccount.oauthId()) {
+        func = 'newGithubRepos';
+      } else {
+        func = 'newRepos';
+      }
+      var repos = $rootScope.dataApp.data.activeAccount[func](reposArr, {
         noStore: true
       });
       repos.ownerUsername = userName;
