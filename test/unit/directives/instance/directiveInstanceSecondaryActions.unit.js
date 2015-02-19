@@ -126,47 +126,49 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
         done();
       };
       $scope.instance.build.deepCopy = function (cb) {
-        var copy = angular.copy(apiMocks.builds.setup);
-        copy.id = function () {
-          return this._id;
+        return {
+          attrs: angular.copy(apiMocks.builds.setup),
+          id: function () {
+            return this.attrs._id;
+          }
         };
-        setTimeout(function() {
-          cb();
-        }, 0);
-        return copy;
       };
       $scope.$digest();
       $elScope.goToEdit();
       $scope.$digest();
     });
-    it('should allow the user to stop the instance', function (done) {
-      $scope.instance.stop = function (opts, cb) {
-        ctx.stopCalled = true;
+    it('should allow the user to stop the instance', function () {
+      $scope.instance.stop = sinon.spy(function (opts, cb) {
         expect(opts).to.be.undefined;
-        expect($elScope.saving).to.be.true;
-        expect($elScope.popoverGearMenu.data.show).to.be.false;
         cb();
-      };
+      });
       $scope.instance.fetch = function (cb) {
-        done();
+        cb();
       };
       $scope.$digest();
       $elScope.popoverGearMenu.actions.stopInstance();
+      expect($elScope.saving).to.be.true;
+      expect($elScope.popoverGearMenu.data.show).to.be.false;
+      $scope.$digest();
+      sinon.assert.calledOnce($scope.instance.stop);
+      expect($elScope.saving).to.be.false;
     });
 
-    it('should allow the user to start the instance', function (done) {
-      $scope.instance.start = function (opts, cb) {
-        ctx.startCalled = true;
+    it('should allow the user to start the instance', function () {
+      $scope.instance.start = sinon.spy(function (opts, cb) {
         expect(opts).to.be.undefined;
-        expect($elScope.saving).to.be.true;
-        expect($elScope.popoverGearMenu.data.show).to.be.false;
         cb();
-      };
+      });
       $scope.instance.fetch = function (cb) {
-        done();
+        cb();
       };
       $scope.$digest();
       $elScope.popoverGearMenu.actions.startInstance();
+      expect($elScope.saving).to.be.true;
+      expect($elScope.popoverGearMenu.data.show).to.be.false;
+      sinon.assert.calledOnce($scope.instance.start);
+      $scope.$digest();
+      expect($elScope.saving).to.be.false;
     });
   });
 });

@@ -7,6 +7,7 @@ module.exports = {
   },
   builds: {
     setup: require('./builds/setup'),
+    new: require('./builds/new'),
     built: require('./builds/built')
   },
   branches: {

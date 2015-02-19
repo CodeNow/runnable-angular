@@ -14,12 +14,14 @@ h2.sub-header Repositories
     | Update
 
   add-repo-popover(
+    ng-if = "showAddRepo"
+    context-version = "build.contextVersions.models[0]"
     show = "data.show"
   )
 
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.guide-image.guide-pointer(
-  ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
+  ng-if = "showAddFirstRepoMessage && unsavedAcvs.length === 0"
   ng-click = "data.show = !data.show; \
     $event.stopPropagation();"
 )
