@@ -12,7 +12,7 @@ h2.sub-header(
   ng-click = "data.highlightTemplates = false"
   ng-show = "seedContexts.models"
 )
-  label.label-group-item(
+  label.label-group-item.label-sm(
     ng-repeat = "context in seedContexts.models | orderBy: getTemplateValueFunction"
   ) {{ context.attrs.name }}
     input.radio(
