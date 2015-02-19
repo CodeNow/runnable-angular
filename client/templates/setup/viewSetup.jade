@@ -41,6 +41,12 @@ section.sidebar.server-sidebar
     open-items = "dataSetup.data.openItems"
   )
 
+  section.row.explorer(
+    ng-if = "dataInstance.data.instance.build.attrs.completed"
+    explorer
+    open-items = "dataInstance.data.openItems"
+  )
+
 section.views.with-add-tab(
   ng-class = "{ \
     in: (dataSetup.data.openItems.models.length && \
@@ -48,31 +54,18 @@ section.views.with-add-tab(
          !dataSetup.data.loading) \
   }"
 )
-  //- explorer
-  button.btn.btn-sm.white.btn-icon.explorer-toggle(
-    ng-click = "dataSetup.data.showExplorer = !dataSetup.data.showExplorer"
-    ng-if = "dataSetup.data.openItems.models.length"
-    type = "button"
-  )
-    svg.iconnables.icons-folder-open
-      use(
-        xlink:href = "#icons-folder-open"
-      )
-
-  section.explorer(
-    explorer
-    open-items = "dataSetup.data.openItems"
-    toggle-theme = "dataSetup.data.toggleTheme"
-  )
 
   //- tabs
-  tabs(
+  .views-toolbar(
     open-items = "dataSetup.data.openItems"
+    tabs
+    toggle-theme = "dataInstance.data.toggleTheme"
   )
 
   //- active panel
   .active-panel(
     active-panel
+    item = "item"
     ng-class = "{\
       'loaded': (item === openItems.activeHistory.last()),\
       'ace-runnable-dark': dataSetup.data.toggleTheme\
@@ -81,7 +74,6 @@ section.views.with-add-tab(
     ng-show = "item === dataSetup.data.openItems.activeHistory.last()"
     open-items = "dataSetup.data.openItems"
     state-model = "dataSetup.data.instanceOpts"
-    item = "item"
   )
 
   //- dataSetup.data.showVideo
