@@ -52,11 +52,11 @@
         ng-click = "actions.selectCommit(commit.attrs.sha)"
         ng-repeat = "commit in data.activeBranch.commits.models | commitFilter:data.commitFilter"
       )
-        .toggle-group-title {{ commit.attrs.commit.message }}
+        .toggle-group-title {{ ::commit.attrs.commit.message | limitTo:30 }}
         .toggle-group-detail.clearfix
           small.small {{ ::commit.attrs.author.login }}—{{ ::commit.attrs.commit.author.date | timeAgo }}
           a.small.link-text(
             ng-href = "{{ commit.attrs.html_url }}"
             ng-click = "$event.stopPropagation()"
             target = "_blank"
-          ) {{ ::commit.attrs.sha.substring(0, 7) }}
+          ) {{ ::commit.attrs.sha | limitTo:7 }}
