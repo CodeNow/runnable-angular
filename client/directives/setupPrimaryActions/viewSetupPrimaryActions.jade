@@ -6,5 +6,5 @@
       green: isNameValid \
     }"
     ng-click = "buildAndAttach()"
-    ng-disabled = "!data.build || loading || !isNameValid"
+    ng-disabled = "!data.build || loading || !isNameValid || !isDockerFileValid"
   ) Create Server
