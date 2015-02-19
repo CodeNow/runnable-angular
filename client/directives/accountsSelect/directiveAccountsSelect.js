@@ -97,6 +97,18 @@ function accountsSelect (
           }
         }, errs.handler);
       };
+      mActions.saveSlackUsername = function () {
+        if (!mData.slackUserAccount) { return; }
+        $scope.data.user.updateUser({
+          json: {
+            account: {
+              slack: {
+                orgs: [mData.slackUserAccount]
+              }
+            }
+          }
+        }, errs.handler);
+      };
       mActions.saveHipChat = function () {
         if (!mData.settings) { return; }
         $scope.data.user.newSetting(mData.settings._id)
