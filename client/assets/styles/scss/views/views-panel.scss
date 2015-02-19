@@ -35,8 +35,12 @@
   iframe {
     border: 0;
     flex: 1 0 auto;
-    height: 100%;
+    height: calc(100% - 45px);
     width: 100%;
+
+    .out & {
+      height: 100%;
+    }
   }
 }
 
@@ -72,7 +76,7 @@ div.terminal { // div specifity required b/c there's a term.terminal
   @extend .pre;
   background: $white !important; // override term
   color: $gray-darker !important;
-  padding: 6px;
+  padding: 9px;
 
   .ace-runnable-dark & {
     background: $purple-darker !important; // override term
