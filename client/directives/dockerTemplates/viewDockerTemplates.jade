@@ -1,35 +1,34 @@
-section.row(
-  ng-init = "data.highlightTemplates = false;"
+h2.sub-header(
+  ng-init = "data.highlightTemplates = false"
+) Docker Templates
+
+.spinner-wrapper.spinner-md.in(
+  ng-if = "!seedContexts.models"
+  ng-include = "'spinner'"
 )
-  h2.sub-header Docker Templates
 
-  .spinner-wrapper.spinner-md.in(
-    ng-if = "!seedContexts.models"
-    ng-include = "'spinner'"
-  )
-
-  .label-group.load(
-    ng-class = "{'guide-in': data.highlightTemplates}"
-    ng-click = "data.highlightTemplates = false"
-    ng-show = "seedContexts.models"
-  )
-    label.label-group-item(
-      ng-repeat = "context in seedContexts.models | orderBy: getTemplateValueFunction"
-    ) {{ context.attrs.name }}
-      input.radio(
-        name = "source-context"
-        ng-click = "(selectedSourceContext !== context) \
-          && selectSourceContext(context)"
-        required
-        type = "radio"
-      )
-  //- show .guide if a template has not been selected
-  .guide.guide-image.guide-pointer.load(
-    ng-click = "data.highlightTemplates = true"
-    ng-show = "!selectedSourceContext && seedContexts.models"
-  )
-    svg.iconnables.icons-docker
-      use(
-        xlink:href = "#icons-docker"
-      )
-    .guide-text Choose a template to generate your dockerfile.
+.label-group.load(
+  ng-class = "{'guide-in': data.highlightTemplates}"
+  ng-click = "data.highlightTemplates = false"
+  ng-show = "seedContexts.models"
+)
+  label.label-group-item(
+    ng-repeat = "context in seedContexts.models | orderBy: getTemplateValueFunction"
+  ) {{ context.attrs.name }}
+    input.radio(
+      name = "source-context"
+      ng-click = "(selectedSourceContext !== context) \
+        && selectSourceContext(context)"
+      required
+      type = "radio"
+    )
+//- show .guide if a template has not been selected
+.guide.guide-image.guide-pointer.load(
+  ng-click = "data.highlightTemplates = true"
+  ng-show = "!selectedSourceContext && seedContexts.models"
+)
+  svg.iconnables.icons-docker
+    use(
+      xlink:href = "#icons-docker"
+    )
+  .guide-text Choose a template to generate your dockerfile.
