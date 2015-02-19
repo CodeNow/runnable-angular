@@ -75,11 +75,10 @@ function addRepoPopover(
             'commit'
           ]);
           // acv
-          return promisify($scope.contextVersion.appCodeVersions, 'create')(body)
-            .then(function (acv) {
-              return acv;
-            });
-        });
+          return promisify($scope.contextVersion.appCodeVersions, 'create')(body);
+        }).then(function (acv) {
+          return acv;
+        }).catch(errs.handler);
       };
 
       function setActiveBranch(acv, activeBranch) {
@@ -99,17 +98,20 @@ function addRepoPopover(
        * Perform fetch on each contextVersion to populate
        * appCodeVersions collection
        */
-      $scope.repoListPopover.data.contextVersion = $scope.contextVersion;
-      pFetchUser(
-      ).then(function (user) {
+      $scope.$watch('contextVersion', function (n) {
+        if (n) {
+          $scope.repoListPopover.data.contextVersion = n;
+          promisify(n, 'fetch')(
+          ).then(function () {
+            return fetchOwnerRepos($stateParams.userName);
+          }).then(function (githubRepos) {
+            $scope.repoListPopover.data.githubRepos = githubRepos;
+          }).catch(errs.handler);
+        }
+      });
+      pFetchUser().then(function (user) {
         $scope.user = user;
         $scope.repoListPopover.data.user = user;
-      }).then(function () {
-        return promisify($scope.contextVersion, 'fetch')();
-      }).then(function () {
-        return fetchOwnerRepos($stateParams.userName);
-      }).then(function (githubRepos) {
-        $scope.repoListPopover.data.githubRepos = githubRepos;
       }).catch(errs.handler);
     }
   };

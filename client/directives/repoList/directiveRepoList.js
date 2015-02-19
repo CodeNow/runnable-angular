@@ -48,7 +48,7 @@ function repoList(
         return model;
       };
 
-      $scope.$watchCollection('build.contextVersions.models[0].appCodeVersions.models', function (n, p) {
+      $scope.$watchCollection('build.contextVersions.models[0].appCodeVersions.models', function (n) {
         if (n !== undefined) {
           while ($scope.unsavedAcvs.length) {
             $scope.unsavedAcvs.pop();
