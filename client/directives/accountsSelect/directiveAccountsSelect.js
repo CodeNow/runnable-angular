@@ -104,7 +104,7 @@ function accountsSelect (
         slackOrgAccount.githubId = mData.modalActiveAccount.attrs.accounts.github.id;
         $scope.data.user.update({
           json: {
-            account: {
+            accounts: {
               slack: {
                 orgs: [slackOrgAccount]
               }
