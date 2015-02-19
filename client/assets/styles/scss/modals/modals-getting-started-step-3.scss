@@ -31,7 +31,10 @@
   }
 
   .input {
+    font-size: 14px;
+    letter-spacing: -.5px;
     width: calc(100% - 30px);
+    word-break: normal; // reset label breaks
   }
 
   // additional vars button
