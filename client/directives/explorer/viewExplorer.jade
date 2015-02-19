@@ -1,16 +1,24 @@
-.explorer-controls
-  button.toggle-theme(
-    ng-class = "{ \
-      dark: !toggleTheme, \
-      light: toggleTheme \
-    }"
-    ng-click = "toggleTheme = !toggleTheme"
-    ng-init = "toggleTheme = true"
-    tooltip = "Change Theme"
-    tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
+h2.sub-header {{ title }}
+  button.btn.btn-xs.white.sub-header-action(
+    ng-class = "{active: filePopover.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "filePopover.data.show"
   )
-    .theme
-ul.file-tree(
-  file-tree-root
-  open-items = "openItems"
-)
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
+    pop-over(
+      actions = "filePopover.actions"
+      data = "filePopover.data"
+      popover-options = "{\"left\":-74,\"top\":40}"
+      template = "viewFileTreePopoverFileExplorerMenu"
+    )
+ul.file-tree
+  //- this is the root dir; there can be only one.
+  file-tree-dir(
+    build = "build"
+    dir = "rootDir"
+    open-items = "openItems"
+    read-only = "readOnly"
+  )

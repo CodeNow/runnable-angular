@@ -24,7 +24,7 @@
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "\
           repo in data.githubRepos.models | \
-          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
+          unaddedRepos:data.contextVersion.appCodeVersions | \
           repos:data.repoFilter as newRepos"
         title = "{{ repo.attrs.full_name }}"
       )

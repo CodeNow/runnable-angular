@@ -1,10 +1,7 @@
 // section.views
 .views {
-  float: right;
-  height: calc(100% - 60px); // 60px = height of .box-header
-  height: calc(100vh - 60px);
+  height: calc(100vh - 71px);
   overflow: hidden;
   position: relative;
-  width: calc(100% - 300px); // 300px = width of .box-sidebar
   z-index: $z-views;
 }

@@ -1,13 +1,14 @@
-.repository-group-text(
+.well.repository-group-text(
   ng-class = "{active: popoverRepositoryToggle.data.show}"
   toggle-pop-over
   toggle-pop-over-model = "popoverRepositoryToggle.data.show"
 )
-  svg.iconnables.icons-repository
-    use(
-      xlink:href = "#icons-repository"
-    )
-  h3.repository-title {{ model.acv.attrs.repo }}
+  p.repository-description.text-overflow
+    svg.iconnables.icons-repository
+      use(
+        xlink:href = "#icons-repository"
+      )
+    | {{ model.acv.attrs.repo }}
   p.repository-description.text-overflow.clearfix.js-repository-branch
     svg.iconnables.icons-branch
       use(
@@ -19,29 +20,22 @@
       use(
         xlink:href = "#icons-commit"
       )
-    | {{ activeCommit.attrs.commit.message }}
-    small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
-//- if instance.setup || instance.instanceEdit
-button.btn.btn-xs.btn-repository-settings(
-  ng-class = "{active: popoverRepoActions.data.show}"
-  toggle-pop-over
-  toggle-pop-over-model = "popoverRepoActions.data.show"
-  type = "button"
-  ng-if = "showEditGearMenu"
-)
-  svg.iconnables.icons-gear
+    | {{ activeCommit.attrs.commit.message | limitTo:30 }}
+    small.small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
+  svg.iconnables.icons-arrow-down
     use(
-      xlink:href = "#icons-gear"
+      xlink:href = "#icons-arrow-down"
     )
-  pop-over(
-    actions = "popoverRepoActions.actions"
-    data = "popoverRepoActions.data"
-    popover-options = "{\"left\":-75,\"top\":30}"
-    template = "viewPopoverRepoActions"
-  )
+
+//-
+  ************
+  SAN-895 NOTES:
+  it'd be amazing if the arrow in this popover could get to 50% of the height of .repo-group-text
+  ************
+
 pop-over(
   actions = "popoverRepositoryToggle.actions"
   data = "popoverRepositoryToggle.data"
-  popover-options = "{\"left\":299,\"top\":11}"
+  popover-options = "{\"left\":293}"
   template = "viewPopoverRepositoryToggle"
 )

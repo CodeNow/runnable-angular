@@ -139,7 +139,6 @@ button,
 .white {
   border: 1px solid transparent;
   color: $white;
-  letter-spacing: .5px;
   text-decoration: none;
 
   &:active,
@@ -154,7 +153,6 @@ button,
 
 .blue {
   color: $blue;
-  font-weight: 300;
 
   &.btn {
 
@@ -175,25 +173,23 @@ button,
 
 .gray {
   background: rgba($gray-darker,.1);
-  border-color: rgba($gray-darker,.15);
+  border: 0;
   color: $gray;
-  font-weight: 300;
 
   &.btn {
 
     &:hover {
-      border-color: rgba($gray-darker,.3);
+      background: rgba($gray-darker,.2);
     }
 
     &:active,
     &.active {
-      background: rgba($gray-darker,.45);
-      border-color: rgba($gray-darker,.6);
-      color: $white;
+      background: rgba($purple-light,.15);
+      color: $purple-light;
       transition: none;
 
       .iconnables {
-        color: $white;
+        color: currentColor;
         transition: none;
       }
     }
@@ -204,8 +200,10 @@ button,
 .green {
   background: rgba($green,.75);
   border-color: rgba($green,.9);
+  text-shadow: 0 1px 0 $green-dark;
 
   &.btn {
+    font-weight: 500;
 
     &:hover,
     &.hover {
@@ -236,8 +234,10 @@ button,
 .orange {
   background: rgba($orange,.75);
   border-color: rgba($orange-dark,.75);
+  text-shadow: 0 1px 0 $orange-dark;
 
   &.btn {
+    font-weight: 500;
 
     &:hover,
     &.hover {
@@ -266,38 +266,39 @@ button,
 }
 
 .purple {
-  background: rgba($purple,.1);
-  border-color: rgba($purple,.2);
-  color: $purple;
+  color: $purple-light;
 
   &.btn {
 
-    &:hover {
-      border-color: rgba($purple,.4);
+    &:hover,
+    &.hover {
+      background: rgba($purple-light,.1);
+      border-color: rgba($purple-light,.2);
     }
 
     &:active,
     &.active {
-      border-color: rgba($purple,.6);
+      background: rgba($purple-light,.2);
+      border-color: rgba($purple-light,.4);
+      transition: none;
     }
   }
 }
 
 .white {
+  border: 0;
   color: $gray;
-  font-weight: 300;
 
   &.btn {
 
     &:hover {
-      background: rgba($black,.05);
-      border-color: rgba($black,.1);
+      background: rgba($black,.1);
     }
 
     &:active,
     &.active {
-      background: rgba($black,.05);
-      border-color: rgba($black,.2);
+      background: rgba($purple-light,.15);
+      color: $purple-light;
     }
 
     &[disabled],
@@ -308,20 +309,6 @@ button,
       &.active {
         background: transparent;
         border-color: transparent;
-      }
-    }
-
-    &.reversed {
-      background: $white;
-      border-color: transparent;
-      color: $purple;
-      font-weight: 500;
-
-      &:hover ,
-      &:active,
-      &.active {
-        background: rgba($white,.85);
-        color: $purple;
       }
     }
   }

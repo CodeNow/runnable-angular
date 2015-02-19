@@ -1,7 +1,7 @@
 // div.modal-backdrop
 .modal-backdrop {
   align-items: center;
-  animation: fade-in .3s ease-in forwards;
+  animation: fade-in .3s forwards;
   background: rgba($white,.81);
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
 
 // div.modal-dialog
 .modal-dialog {
-  animation: scale-in .2s ease-in forwards;
+  animation: scale-in-modal .2s ease-in forwards;
   background: $white;
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
@@ -54,7 +54,6 @@
   // search
   .input-search {
     background-position: 114px 3px;
-    border-color: transparent;
     display: block;
     height: 30px;
     line-height: 30px;
@@ -68,7 +67,6 @@
     &:focus,
     &:valid {
       background-color: $white;
-      border-color: rgba($black,.15);
     }
   }
 
@@ -128,16 +126,6 @@
   float: left;
   font-size: 23px;
   line-height: 60px;
-  padding: 0 21px;
-}
-
-// h2.modal-sub-heading
-.modal-sub-heading {
-  color: $gray;
-  font-size: 14px;
-  font-weight: 300;
-  height: 45px;
-  line-height: 45px;
   padding: 0 21px;
 }
 
@@ -239,6 +227,7 @@
 // footer.modal-footer
 .modal-footer {
   background: $white;
+  border-radius: 0 0 3px 3px;
   flex: 0 0 auto;
   height: 63px;
   padding: 9px;

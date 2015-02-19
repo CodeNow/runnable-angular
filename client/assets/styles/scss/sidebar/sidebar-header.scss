@@ -1,6 +1,9 @@
 .nav-header {
+  box-shadow: 0 3px 6px $gray-lightest;
   flex: 0 0 auto;
-  height: 60px;
+  height: 72px;
+  position: relative;
+  z-index: $z-sidebar-header;
 }
 
 // header.row.account-header
@@ -8,15 +11,19 @@
   @extend .webkit-flicker;
   cursor: pointer;
   flex: 0 0 auto;
-  height: 60px;
-  line-height: 60px;
+  height: 72px;
+  line-height: 72px;
   padding: 0 15px;
   position: relative;
   z-index: $z-sidebar-header;
 
-  &:hover,
+  &:hover {
+    background: rgba($purple-light,.1);
+  }
+
   &:active {
-    background: rgba($black,.05);
+    background: rgba($purple-light,.15);
+    color: $purple-light;
   }
 
   &.no-touching {
@@ -28,10 +35,12 @@
 
   .gravatar {
     float: left;
-    margin: 18px 9px 0 2px;
+    margin: 24px 9px 0 2px;
   }
 
   .account-name {
+    color: $gray-dark;
+    font-weight: 500;
     max-width: 160px;
     position: absolute;
     transition: opacity .2s ease-in;
@@ -39,8 +48,8 @@
 
   .icons-arrow-down {
     position: absolute;
-    right: 13px;
-    top: 18px;
+    right: 10px;
+    top: 24px;
     transition: opacity .2s ease-in, transform .3s ease-in;
   }
 }

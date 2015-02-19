@@ -85,15 +85,9 @@ input ~ small {
   background: none;
   font-family: 'Source Code Pro', monospace !important;
   font-size: 14px !important;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.4 !important;
   white-space: pre;
-}
-
-.sub-header {
-  color: $gray;
-  font-size: 14px;
-  font-weight: 300;
 }
 
 // links
@@ -108,7 +102,6 @@ input ~ small {
   }
 
   &:active {
-    color: $gray-darkest;
     text-decoration: none;
     transform: translate(0,1px,0); // only works if inline-block
   }

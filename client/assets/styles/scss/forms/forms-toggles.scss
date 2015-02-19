@@ -17,6 +17,7 @@
 
 // .label.label-group-item
 .label-group-item {
+  color: $gray-dark;
   cursor: pointer;
   display: block;
   height: 45px;
@@ -28,15 +29,24 @@
   text-shadow: none;
   width: 100%;
 
-  &:nth-child(n+2) {
+  + .label-group-item {
     border-top: 1px solid rgba($black,.1);
   }
 
+  &.label-sm {
+    height: 36px;
+    line-height: 36px;
+
+    .radio {
+      height: 36px;
+    }
+  }
+
   &:hover {
-    background: rgba($blue,.1);
+    background: rgba($purple-light,.1);
   }
 
   &.active {
-    background: rgba($blue,.15);
+    background: rgba($purple-light,.15);
   }
 }

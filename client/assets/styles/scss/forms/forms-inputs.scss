@@ -15,8 +15,8 @@ textarea,
 
   &.focus,
   &:focus {
-    border-color: $blue;
-    box-shadow: inset 0 0 3px rgba($blue,.15);
+    border-color: $purple-light;
+    box-shadow: inset 0 0 3px rgba($purple-light,.15);
     outline: none;
   }
 
@@ -65,7 +65,7 @@ textarea,
 
   // placeholder
   &::placeholder {
-    color: $gray-lighter;
+    color: $gray-light;
   }
 
   &.input-sm {
@@ -81,7 +81,7 @@ textarea,
 
 // description text
 .label .small {
-  color: $gray-light;
+  color: $gray;
   display: block;
 }
 
@@ -94,8 +94,6 @@ textarea,
 
 // label.btn-checkbox
 .btn-checkbox {
-  background: $gray-lightest;
-  border: 1px solid rgba($black,.1);
   border-radius: 3px;
   color: $gray;
   display: inline-block;
@@ -176,7 +174,6 @@ textarea,
   background-size: 21px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 300;
   padding-left: 72px;
   transition: all .15s ease-in;
 

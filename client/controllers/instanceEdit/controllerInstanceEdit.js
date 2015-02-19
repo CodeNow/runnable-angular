@@ -13,6 +13,7 @@ function ControllerInstanceEdit(
   fetchInstances,
   fetchBuild,
   pageName,
+  promisify,
   $scope,
   $state,
   $stateParams
@@ -34,12 +35,12 @@ function ControllerInstanceEdit(
   data.showExplorer = true;
 
   // open "Dockerfile" build file by default
-  function setDefaultTabs() {
-    var rootDir = keypather.get($scope, 'build.contextVersions.models[0].rootDir');
+  function setDefaultTabs(build) {
+    var rootDir = keypather.get(build, 'contextVersions.models[0].rootDir');
     if (!rootDir) { throw new Error('rootDir not found'); }
-    rootDir.contents.fetch(function(err) {
+    rootDir.contents.fetch(function (err) {
       if (err) { throw err; }
-      var file = rootDir.contents.models.find(function(file) {
+      var file = rootDir.contents.models.find(function (file) {
         return (file.attrs.name === 'Dockerfile');
       });
       if (file) {
@@ -50,21 +51,21 @@ function ControllerInstanceEdit(
 
   fetchInstances({
     name: $stateParams.instanceName
-  })
-    .then(function(instance) {
-      data.instance = instance;
-      pageName.setTitle('Edit: ' + instance.attrs.name);
-      data.instance.state = {};
-    });
+  }).then(function (instance) {
+    data.instance = instance;
+    pageName.setTitle('Edit: ' + instance.attrs.name);
+    data.instance.state = {};
+  });
 
-  fetchBuild($stateParams.buildId)
-    .then(function(build) {
-      if (build.attrs.completed) {
-        $state.go('instance.instance', $stateParams);
-        return;
-      }
-      $scope.build = build;
-      setDefaultTabs();
-    });
+  fetchBuild(
+    $stateParams.buildId
+  ).then(function (build) {
+    if (build.attrs.completed) {
+      $state.go('instance.instance', $stateParams);
+      return build;
+    }
+    data.build = build;
+    setDefaultTabs(build);
+  });
 
 }

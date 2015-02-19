@@ -9,13 +9,13 @@ header.server-header
 
   setup-primary-actions(
     active-account = "dataApp.data.activeAccount"
-    instance-opts = "dataSetup.data.instanceOpts"
+    data = "dataSetup.data"
     loading = "dataApp.data.loading"
-    name = "dataSetup.data.newInstanceName"
-    open-items = "dataSetup.data.openItems"
     is-docker-file-valid = "dataSetup.data.isDockerFileValid"
     is-name-valid = "dataSetup.data.isNameValid"
-    data = "dataSetup.data"
+    instance-opts = "dataSetup.data.instanceOpts"
+    name = "dataSetup.data.newInstanceName"
+    open-items = "dataSetup.data.openItems"
   )
 
   setup-secondary-actions(
@@ -27,16 +27,20 @@ header.server-header
 section.sidebar.server-sidebar
 
   section.row.repo-list(
-    repo-list
+    build = "dataSetup.data.build"
     loading = "dataApp.data.loading"
+    repo-list
   )
 
-  docker-templates(
+  section.row(
+    docker-templates
     open-items = "dataSetup.data.openItems"
     valid = "dataSetup.data.isDockerFileValid"
   )
 
-  docker-validation(
+  section.row.explorer(
+    explorer
+    ng-if = "dataSetup.data.openItems.models.length"
     open-items = "dataSetup.data.openItems"
   )
 
@@ -47,31 +51,18 @@ section.views.with-add-tab(
          !dataSetup.data.loading) \
   }"
 )
-  //- explorer
-  button.btn.btn-sm.white.btn-icon.explorer-toggle(
-    ng-click = "dataSetup.data.showExplorer = !dataSetup.data.showExplorer"
-    ng-if = "dataSetup.data.openItems.models.length"
-    type = "button"
-  )
-    svg.iconnables.icons-folder-open
-      use(
-        xlink:href = "#icons-folder-open"
-      )
-
-  section.explorer(
-    explorer
-    open-items = "dataSetup.data.openItems"
-    toggle-theme = "dataSetup.data.toggleTheme"
-  )
 
   //- tabs
-  tabs(
+  .views-toolbar(
     open-items = "dataSetup.data.openItems"
+    tabs
+    toggle-theme = "dataSetup.data.toggleTheme"
   )
 
   //- active panel
   .active-panel(
     active-panel
+    item = "item"
     ng-class = "{\
       'loaded': (item === openItems.activeHistory.last()),\
       'ace-runnable-dark': dataSetup.data.toggleTheme\
@@ -80,7 +71,6 @@ section.views.with-add-tab(
     ng-show = "item === dataSetup.data.openItems.activeHistory.last()"
     open-items = "dataSetup.data.openItems"
     state-model = "dataSetup.data.instanceOpts"
-    item = "item"
   )
 
   //- dataSetup.data.showVideo
