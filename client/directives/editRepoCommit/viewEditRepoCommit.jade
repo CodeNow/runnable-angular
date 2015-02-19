@@ -20,7 +20,7 @@
       use(
         xlink:href = "#icons-commit"
       )
-    | {{ activeCommit.attrs.commit.message }}
+    | {{ activeCommit.attrs.commit.message | limitTo:30 }}
     small.small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
   svg.iconnables.icons-arrow-down
     use(
