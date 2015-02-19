@@ -1,6 +1,5 @@
 'use strict';
 
-var $ = require('jquery'); // required by brace
 require('brace');
 require('brace/ext/modelist');
 require('brace/ext/searchbox');
@@ -28,7 +27,8 @@ function activePanel(
       openItems: '=',
       currentModel: '=', // CurrentModel houses the original model without changes
       stateModel: '=', // The StateModel is where changes will be applied
-      item: '='
+      item: '=',
+      toggleTheme: '='
     },
     link: function ($scope, element, attrs) {
 

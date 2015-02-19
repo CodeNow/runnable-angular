@@ -10,7 +10,7 @@ var $compile,
     user;
 var $elScope;
 
-describe('directiveTabs'.bold.underline.blue, function() {
+describe.skip('directiveTabs'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {

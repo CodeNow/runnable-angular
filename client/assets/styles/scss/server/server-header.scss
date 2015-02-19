@@ -1,14 +1,14 @@
 // header.server-header
 .server-header {
   border-bottom: 1px solid rgba($black,.1);
-  height: 60px;
-  padding: 0 5px 0 15px;
+  height: 72px;
+  padding: 0 6px 0 15px;
 }
 
 // h1.server-info
 .server-info {
   float: left;
-  height: 60px;
+  height: 72px;
 
   .icons-status {
     left: 9px;
@@ -23,9 +23,9 @@
 
 // text + status wrapper
 .server-name {
-  font-size: 23px;
-  height: 45px;
-  line-height: 45px;
+  font-size: 27px;
+  height: 54px;
+  line-height: 54px;
 }
 
 // [readonly] specifity to override default [readonly] background-color
@@ -33,6 +33,7 @@
   background: none;
   border: 0;
   box-shadow: none;
+  color: $gray-dark;
   cursor: default;
   display: block;
   font-size: 14px;
@@ -53,7 +54,6 @@
 // sets width
 .server-name-ghost {
   font-size: 14px;
-  font-weight: 300;
   visibility: hidden;
 }
 
@@ -62,7 +62,6 @@
   color: $orange;
   float: right;
   font-size: 12px;
-  font-weight: 300;
   left: 14px;
   position: relative;
 }
@@ -71,8 +70,8 @@
 .primary-actions,
 .secondary-actions {
   float: right;
-  height: 60px;
-  line-height: 60px;
+  height: 72px;
+  line-height: 72px;
   position: relative;
 
   // offset for vertical-align: middle
@@ -90,14 +89,12 @@
   padding-left: 9px;
 
   .btn-icon-sm {
+    min-width: 36px;
 
     .icons-arrow-down {
-      top: 0;
+      float: none;
+      margin: 0 auto;
       transition: transform .15s ease-in;
-    }
-
-    &.active .icons-arrow-down {
-      transform: rotate3d(1,0,0,180deg);
     }
   }
 }
@@ -112,62 +109,5 @@
     margin-right: 4px;
     top: 6px;
     width: 21px;
-  }
-}
-
-// .spinner.save-spinner
-.save-spinner {
-  animation: none;
-  color: $green;
-  height: 45px;
-  left: -45px;
-  opacity: 0;
-  position: absolute;
-  top: 7px;
-  transform: scale3d(0,0,0);
-  width: 45px;
-
-  &.in {
-    animation: save-spinner 1.5s ease-in forwards;
-
-    .spinner {
-
-      &::before {
-        animation: rotate 1s ease forwards;
-      }
-
-      &::after {
-        animation: rotate 1s ease -.25s forwards;
-      }
-    }
-  }
-
-  .spinner {
-    left: 0;
-    right: 0;
-    top: 15px;
-
-    &::before {
-      animation: none;
-    }
-
-    &::after {
-      animation: none;
-    }
-  }
-
-  .spinner-ring {
-    background: transparent;
-  }
-
-  .icons-check {
-    color: $white;
-    height: 18px;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    top: 14px;
-    width: 18px;
   }
 }

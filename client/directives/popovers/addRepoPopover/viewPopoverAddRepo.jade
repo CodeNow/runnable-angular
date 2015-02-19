@@ -1,6 +1,7 @@
 .popover.bottom.popover-add-repo(
   ng-class = "{in: data.show}"
   ng-click = "$event.preventDefault();$event.stopPropagation();"
+  ng-style = "popoverStyle.getStyle()"
 )
   .arrow
   h3.popover-title Add Repository
@@ -23,7 +24,7 @@
         ng-click = "actions.addRepo(repo)"
         ng-repeat = "\
           repo in data.githubRepos.models | \
-          unaddedRepos:data.build.contextVersions.models[0].appCodeVersions | \
+          unaddedRepos:data.contextVersion.appCodeVersions | \
           repos:data.repoFilter as newRepos"
         title = "{{ repo.attrs.full_name }}"
       )

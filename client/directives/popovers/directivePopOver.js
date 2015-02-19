@@ -7,11 +7,10 @@ require('app')
  * @ngInject
  */
 function popOver(
-  debounce,
-  jQuery,
   $compile,
   $templateCache,
   $log,
+  $document,
   $window
 ) {
   return {
@@ -23,7 +22,6 @@ function popOver(
       popoverOptions: '@'
     },
     link: function ($scope, element, attrs) {
-      var $ = jQuery;
 
       var template = $templateCache.get(attrs.template);
 
@@ -38,48 +36,31 @@ function popOver(
             $log.warn('popoverOptions parse failed for ' + attrs.template);
             options = {};
           }
-          options.right = (typeof options.right !== 'undefined') ? options.right : 'auto';
-          options.left = (typeof options.left !== 'undefined') ? options.left : 0;
+          options.right = (typeof options.right !== 'undefined') ? options.right : null;
+          options.left = (typeof options.left !== 'undefined') ? options.left : null;
           options.top = (typeof options.top !== 'undefined') ? options.top : 0;
           options.class = (typeof options.class !== 'undefined') ? options.class : false;
-
-          setCSS();
         }
       });
 
-      var parent = $(element.parent());
-
       var popEl = $compile(template)($scope);
 
-      function parseProp (prop) {
-        var curr = options[prop];
-        if (!angular.isNumber(curr)) {
-          return curr;
+      $scope.popoverStyle = {
+        getStyle: function () {
+          var rect = element.parent()[0].getBoundingClientRect();
+          return {
+            'top': (rect.top + options.top) + 'px',
+            'left': (options.left === null) ? 'auto' : (rect.left + options.left) + 'px',
+            'right': (options.right === null) ? 'auto' : (options.right) + 'px'
+          };
         }
-        var parentVal = parent.offset()[prop];
-        if (parentVal) {
-          curr += parentVal;
-        }
-        return curr + 'px';
-      }
+      };
 
-      function setCSS () {
-        var newCSS = {};
-        newCSS.right = parseProp('right');
-        newCSS.left = parseProp('left');
-        newCSS.top = parseProp('top');
-        popEl.css(newCSS);
-      }
-
-      var dSetCSS = debounce(setCSS, 100);
-      $($window).on('resize', dSetCSS);
-
-      $('body').append(popEl);
-      $scope.$watch('popoverReady', setCSS);
+      $document.find('body').append(popEl);
 
       $scope.$watch(function () {
         return element.hasClass('in');
-      }, function(n) {
+      }, function (n) {
         if (n) {
           var autofocus = element[0].querySelector('[autofocus]');
           if (autofocus) {
@@ -93,7 +74,6 @@ function popOver(
       });
       element.on('$destroy', function () {
         popEl.remove();
-        $($window).off('resize', dSetCSS);
         element.off('click');
       });
     }

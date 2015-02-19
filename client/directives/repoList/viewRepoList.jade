@@ -14,12 +14,14 @@ h2.sub-header Repositories
     | Update
 
   add-repo-popover(
+    ng-if = "showAddRepo"
+    context-version = "build.contextVersions.models[0]"
     show = "data.show"
   )
 
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.guide-image.guide-pointer(
-  ng-if = "showAddFirstRepoMessage && build.contextVersions.models[0].appCodeVersions.models.length === 0"
+  ng-if = "showAddFirstRepoMessage && unsavedAcvs.length === 0"
   ng-click = "data.show = !data.show; \
     $event.stopPropagation();"
 )
@@ -35,11 +37,11 @@ ul.list.repository-group
     model = "model"
   )
   li.list-details(
-    ng-show = "build.contextVersions.models[0].appCodeVersions.models.length && !showAddFirstRepoMessage"
+    ng-show = "unsavedAcvs.length && !showAddFirstRepoMessage"
   )
-    label.label-checkbox.btn.btn-sm.btn-checkbox(
+    label.label-checkbox.btn-sm.btn-checkbox(
       tooltip = "Disabling auto-deploy will stop your server from automatically updating with new changes to your repositories."
-      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":4,\"top\":30}"
+      tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":3,\"top\":27}"
     )
       input.input-checkbox(
         ng-model = "data.autoDeploy"

@@ -43,3 +43,27 @@
     @media (min-width: 1920px) { @content; }
   }
 }
+
+// filetree nesting
+@mixin depth($depth: 1) {
+  $chain: '';
+  $item-offset: 15px;
+  $nested-offset: $item-offset*$depth - $item-offset/3;
+  $input-offset: 239px - $depth*$item-offset;
+
+  @for $i from 0 to $depth {
+    $chain: $chain + ' > ul > li';
+  }
+
+  & #{$chain} {
+    text-indent: $item-offset + $nested-offset;
+
+    &.folder::after {
+      left: $item-offset + $nested-offset;
+    }
+
+    > a > .tree-input {
+      width: $input-offset;
+    }
+  }
+}

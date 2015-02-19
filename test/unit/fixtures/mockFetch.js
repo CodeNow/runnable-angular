@@ -1,22 +1,26 @@
 'use strict';
 
-var deferer = [];
-module.exports = {
-  triggerPromise: function(opts, index) {
-    ((!index) ? deferer.pop() : deferer.splice(index, 1)[0]).resolve(opts);
-  },
-  triggerPromiseError: function(err, index) {
-    ((!index) ? deferer.pop() : deferer.splice(index, 1)[0])
-      .reject(err);
-  },
-  fetch: function ($q) {
+var mockFetch = function () {
+  this.deferer = [];
+};
+mockFetch.prototype.triggerPromise = function (opts, index) {
+  ((!index) ? this.deferer.pop() : this.deferer.splice(index, 1)[0]).resolve(opts);
+};
+mockFetch.prototype.triggerPromiseError = function (err, index) {
+  ((!index) ? this.deferer.pop() : this.deferer.splice(index, 1)[0]).reject(err);
+};
+mockFetch.prototype.fetch = function () {
+  var self = this;
+  return function ($q) {
     return function (opts) {
       var thisDeferer = $q.defer();
-      deferer.push(thisDeferer);
+      self.deferer.push(thisDeferer);
       return thisDeferer.promise;
     };
-  },
-  clearDeferer: function () {
-    deferer = [];
-  }
+  };
 };
+mockFetch.prototype.clearDeferer = function () {
+  this.deferer = [];
+};
+
+module.exports = mockFetch;

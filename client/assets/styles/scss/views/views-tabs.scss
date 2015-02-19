@@ -1,28 +1,21 @@
 // ul.tabs
 .tabs {
+  float: left;
   height: 100%;
-  margin-left: 45px;
   overflow-x: auto;
   overflow-y: hidden;
-  transition: all .15s ease-in;
   white-space: nowrap;
+  width: calc(100% - 90px);
 
   .with-add-tab & {
     margin-right: 45px;
-  }
-
-  // .out &,
-  .in & {
-    margin-left: 0;
   }
 }
 
 // li.tab-wrapper
 .tab-wrapper {
-  border: 1px solid #e6e6e6; // rgba($black,.1);
-  border-bottom: 0;
-  border-top: 0;
-  color: $gray;
+  border-left: 1px solid #e6e6e6; // rgba($black,.1);
+  border-right: 1px solid #e6e6e6; // rgba($black,.1);
   cursor: pointer;
   display: inline-block;
   margin-left: -1px;
@@ -34,7 +27,8 @@
 
   &:active,
   &.active {
-    color: $gray-darker;
+    color: $purple-light;
+    font-weight: 500;
   }
 
   &.active {
@@ -46,15 +40,6 @@
 
     &:last-child {
       box-shadow: 9px 0 0 $white, 0 0 9px rgba($black,.075);
-    }
-
-    .tab-name::before {
-      background: $white;
-      content: attr(data-title);
-    }
-
-    .icons-dirty {
-      margin-left: 9px;
     }
   }
 
@@ -96,12 +81,12 @@
     width: 15px;
 
     &:hover .icons-close {
-      background: rgba($black,.05);
+      background: rgba($black,.1);
     }
 
     &:active .icons-close {
-      background: rgba($black,.1);
-      color: $gray-dark;
+      background: rgba($purple-light,.15);
+      color: $purple-light;
     }
   }
 
@@ -123,16 +108,4 @@
   line-height: 45px;
   padding: 0 1px 0 9px;
   text-align: center;
-
-  &::before {
-    color: $gray-dark;
-    font-size: 14px;
-    font-weight: 500;
-    height: 100%;
-    left: 0;
-    line-height: 45px;
-    padding-left: 9px;
-    pointer-events: none;
-    position: absolute;
-  }
 }

@@ -56,15 +56,15 @@
         ng-click = "actions.changeStep(3)"
       ) 3 Environment Variables
     a.link.link-text.small(
-      href = "//support.runnable.io"
+      href = "http://support.runnable.io"
       target = "_blank"
-    ) Help
+    ) Documentation
     .modal-navbar-footer
-      button.btn.btn-xxs.gray(
+      button.btn.btn-xxs.white(
         ng-click = "defaultActions.cancel();"
         ng-hide = 'state.hideCancelButton'
       ) Cancel
-      a.btn.btn-xxs.gray(
+      a.btn.btn-xxs.white(
         ng-click = "actions.skipTutorial();"
       ) Skip to Dockerfile
   .modal-body.modal-repo-selector(
