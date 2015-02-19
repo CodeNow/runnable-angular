@@ -39,8 +39,8 @@ section.sidebar.server-sidebar
 
   section.row.explorer(
     explorer
-    ng-if = "dataInstance.data.instance.build.attrs.completed"
-    open-items = "dataInstance.data.openItems"
+    ng-if = "dataSetup.data.openItems.models.length"
+    open-items = "dataSetup.data.openItems"
   )
 
 section.views.with-add-tab(
@@ -55,7 +55,7 @@ section.views.with-add-tab(
   .views-toolbar(
     open-items = "dataSetup.data.openItems"
     tabs
-    toggle-theme = "dataInstance.data.toggleTheme"
+    toggle-theme = "dataSetup.data.toggleTheme"
   )
 
   //- active panel
