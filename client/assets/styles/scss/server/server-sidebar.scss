@@ -45,7 +45,6 @@
 
 // wrapper for states
 .repository-group-text {
-  @extend %webkit-flicker;
   background: $gray-lightest;
   cursor: pointer;
   font-size: 14px;

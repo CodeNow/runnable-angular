@@ -12,11 +12,8 @@
   text-align: left;
   width: calc(100% - 12px);
 
-  &.no-touching {
-
-    > .icons-arrow-down {
-      display: none;
-    }
+  &.no-touching > .icons-arrow-down {
+    transform: scale3d(0,0,0);
   }
 
   .gravatar {
