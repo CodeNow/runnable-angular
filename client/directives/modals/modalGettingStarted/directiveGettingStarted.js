@@ -260,14 +260,14 @@ function modalGettingStarted(
       function generateDependencyName(item) {
         var newName = getNewForkName(item.instance, $scope.data.instances, true);
         // oldUrl will be the one we're looking for in the env
-        var oldUrl = (item.opts.name) ? item.env.originalUrl.replace(
+        var oldUrl = ((item.opts.name) ? item.env.originalUrl.replace(
           new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
           item.opts.name
-        ) : item.env.originalUrl;
+        ) : item.env.originalUrl).toLowerCase();
         var newUrl = item.env.originalUrl.replace(
           new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
           newName
-        );
+        ).toLowerCase();
         item.opts.name = newName;
         item.env.model = item.env.model.replace(
           new RegExp(regexpQuote(oldUrl), 'i'),
