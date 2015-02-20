@@ -254,7 +254,6 @@ function modalGettingStarted(
         $scope.state.build = null;
         $scope.state.contextVersion = null;
         $scope.state.dockerfile = null;
-        $scope.state.extraEnvs = null;
         $scope.data.instances = null;
         return createNewBuild(user).then(function (buildWithVersion) {
           $scope.state.build = buildWithVersion;
@@ -263,6 +262,7 @@ function modalGettingStarted(
       }
 
       function generateDependencyName(item) {
+        if (item.opts) { return; } // No opts means we're just referencing, not forking.
         var newName = getNewForkName(item.instance, $scope.data.instances, true);
         // oldUrl will be the one we're looking for in the env
         var oldUrl = ((item.opts.name) ? item.env.originalUrl.replace(

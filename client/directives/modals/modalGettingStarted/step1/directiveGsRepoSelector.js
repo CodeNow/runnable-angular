@@ -65,6 +65,7 @@ function gsRepoSelector(
         repo.spin = true;
         $scope.state.ports = null;
         $scope.state.startCommand = null;
+        $scope.state.extraEnvs = null;
         $scope.state.selectedRepo = repo;
         promisify(repo.branches, 'fetch')(
         ).then(function getActiveBranch() {
