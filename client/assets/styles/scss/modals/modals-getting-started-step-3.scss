@@ -31,44 +31,34 @@
   }
 
   .input {
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: -.5px;
-    width: calc(100% - 30px);
+    padding-right: 27px;
     word-break: normal; // reset label breaks
   }
 
-  // additional vars button
-  .hr {
-    margin: 0 30px;
-  }
-
+  // additional vars
   .link-divider {
-    margin: 15px 30px 0 0;
+    margin: 15px 0 0;
     text-align: right;
   }
 
-  // additional vars
   .label-textarea {
     margin-top: 21px;
   }
 
   .textarea {
-    margin-right: 30px;
     max-height: 90px;
     min-height: 45px;
+    position: static;
     resize: vertical;
-    width: calc(55% - 30px);
-
-    @include media(xs) {
-      width: 100%;
-    }
   }
 
   // popover and delete var
   .btn-xxs {
     height: 36px;
     position: absolute;
-    right: 0;
+    right: 3px;
     top: 0;
   }
 
