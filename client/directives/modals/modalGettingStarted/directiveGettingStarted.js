@@ -23,6 +23,7 @@ function modalGettingStarted(
   fetchInstances,
   keypather,
   createNewBuild,
+  createInstanceUrl,
   configUserContentDomain
 ) {
   return {
@@ -52,22 +53,18 @@ function modalGettingStarted(
       });
 
       $scope.actions = {
-        addEnv: function (item) {
-          item.otherEnvs.push({ model: '' });
-        },
-        removeEnv: function (item, env) {
-          var index = item.otherEnvs.indexOf(env);
-          item.otherEnvs.splice(index, 1);
-        },
         addDependency: function (instance, fromExisting) {
-          var url = keypather.get(
+          var url = (keypather.get(
             instance,
             'containers.models[0].urls(%)[0]',
             configUserContentDomain
-          ).toLowerCase();
+          ) || createInstanceUrl(instance)).toLowerCase();
           url = url.replace(/https?:\/\//, '')
-              .replace(/:\d{0,5}/g, '')
-              .replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
+            .replace(/:\d{0,5}/g, '');
+
+          if (!fromExisting) {
+            url = url.replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
+          }
           var envName = instance.attrs.name.replace(/-/gm, '_').toUpperCase();
           var thisEnvName = envName + '_HOST';
           var newItem = {
@@ -88,6 +85,13 @@ function modalGettingStarted(
             generateDependencyName(newItem);
           }
           $scope.state.dependencies.push(newItem);
+        },
+        addEnv: function (item) {
+          item.otherEnvs.push({ model: '' });
+        },
+        removeEnv: function (item, env) {
+          var index = item.otherEnvs.indexOf(env);
+          item.otherEnvs.splice(index, 1);
         },
         removeDependency: function (model) {
           var index = $scope.state.dependencies.indexOf(model);
@@ -250,6 +254,7 @@ function modalGettingStarted(
         $scope.state.build = null;
         $scope.state.contextVersion = null;
         $scope.state.dockerfile = null;
+        $scope.state.extraEnvs = null;
         $scope.data.instances = null;
         return createNewBuild(user).then(function (buildWithVersion) {
           $scope.state.build = buildWithVersion;
@@ -287,12 +292,18 @@ function modalGettingStarted(
       function generateEnvs(depModels) {
         var envList = [];
         depModels.forEach(function (item) {
-          if (item.reqEnv) {
-            item.reqEnv.forEach(function (env) {
-              envList.push((env.name || env.placeholder) + '=' + env.url);
+          envList.push(item.env.model);
+          if (item.otherEnvs.length) {
+            item.otherEnvs.forEach(function (env) {
+              if (env.length) { envList.push(env); }
             });
           }
         });
+        if ($scope.state.extraEnvs) {
+          $scope.state.extraEnvs.split('\n').forEach(function (env) {
+            if (env.length) { envList.push(env); }
+          });
+        }
         return envList;
       }
 

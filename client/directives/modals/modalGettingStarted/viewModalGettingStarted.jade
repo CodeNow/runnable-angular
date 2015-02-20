@@ -1,4 +1,7 @@
-.modal-dialog.modal-sidebar.modal-wizard.modal-getting-started
+.modal-dialog.modal-sidebar.modal-wizard.modal-getting-started(
+  name = "gettingStarted"
+  ng-form
+)
   nav.modal-navbar
     header(
       accounts-select
@@ -103,7 +106,7 @@
   )
     button.btn.green(
       ng-click = "actions.createAndBuild();"
-      ng-disabled = "envStep.$invalid"
+      ng-disabled = "gettingStarted.$invalid"
       ng-show = "state.step === 3"
     ) Build Server
     button.btn.white(

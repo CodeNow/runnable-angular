@@ -53,7 +53,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       containers: {
         models: [{
           urls: function () {
-            return [apiMocks.instances.running.name, 'http://asdf.helloRunnable.runnable.io:8080'];
+            return ['http://asdf-helloRunnable.runnableapp.com:8080'];
           }
         }]
       }
@@ -98,7 +98,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
     ctx.newForkNameCount = 0;
 
     ctx.getNewForkNameMock = sinon.spy(function (instance) {
-      return instance.attrs.name + ctx.newForkNameCount++;
+      return instance.attrs.name;
     });
 
     ctx.copySourceInstanceMock = new MockFetch();
@@ -253,7 +253,8 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           containers: {
             models: [{
               urls: function() {
-                return [apiMocks.instances.running.name, 'asdf.helloRunnable.runnable.io'];
+                return ['http://asdf-helloRunnable.runnableapp.com',
+                  'http://asdf-helloRunnable.runnableapp.com'];
               }
             }]
           }
@@ -266,18 +267,14 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         expect($elScope.state.dependencies[0]).to.be.ok;
         expect($elScope.state.dependencies[0].instance).to.equal(instance);
         expect($elScope.state.dependencies[0].opts).to.be.ok;
-        expect($elScope.state.dependencies[0].reqEnv).to.be.ok;
-        expect($elScope.state.dependencies[0].reqEnv.length).to.equal(2);
-        expect($elScope.state.dependencies[0].reqEnv[0]).to.be.ok;
-        expect($elScope.state.dependencies[0].reqEnv[0].name)
-          .to.equal(instance.attrs.name.toUpperCase() + '_HOST');
-        expect($elScope.state.dependencies[0].reqEnv[0].placeholder).to.be.ok;
-        // Should have new name
-        expect($elScope.state.dependencies[0].reqEnv[0].url).to.equal(instance.attrs.name);
-        expect($elScope.state.dependencies[0].reqEnv[1].name)
-          .to.equal(instance.attrs.name.toUpperCase() + '_HOST1');
-        expect($elScope.state.dependencies[0].reqEnv[1].url).to.equal('asdf.helloRunnable.runnable.io');
-      });
+        expect($elScope.state.dependencies[0].env).to.be.ok;
+        expect($elScope.state.dependencies[0].env.model).to.be.ok;
+        expect($elScope.state.dependencies[0].env.originalUrl).to.be.ok;
+        expect($elScope.state.dependencies[0].env.placeholder).to.be.ok;
+        expect($elScope.state.dependencies[0].otherEnvs).to.be.ok;
+        expect($elScope.state.dependencies[0].env.model)
+          .to.equal(instance.attrs.name.toUpperCase() + '_HOST=asdf-user.runnableapp.com');
+        });
       it('should use an existing', function () {
         $elScope.data.activeAccount = ctx.fakeuser;
         $elScope.actions.addDependency(instance, true);
@@ -285,17 +282,13 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         expect($elScope.state.dependencies[0]).to.be.ok;
         expect($elScope.state.dependencies[0].instance).to.equal(instance);
         expect($elScope.state.dependencies[0].opts).to.not.be.ok;
-        expect($elScope.state.dependencies[0].reqEnv).to.be.ok;
-        expect($elScope.state.dependencies[0].reqEnv.length).to.equal(2);
-        expect($elScope.state.dependencies[0].reqEnv[0]).to.be.ok;
-        expect($elScope.state.dependencies[0].reqEnv[0].name)
-          .to.equal(instance.attrs.name.toUpperCase() + '_HOST');
-        expect($elScope.state.dependencies[0].reqEnv[0].placeholder).to.be.ok;
-        // Should have new name
-        expect($elScope.state.dependencies[0].reqEnv[0].url).to.equal(instance.attrs.name);
-        expect($elScope.state.dependencies[0].reqEnv[1].name)
-          .to.equal(instance.attrs.name.toUpperCase() + '_HOST1');
-        expect($elScope.state.dependencies[0].reqEnv[1].url).to.equal('asdf.helloRunnable.runnable.io');
+        expect($elScope.state.dependencies[0].env).to.be.ok;
+        expect($elScope.state.dependencies[0].env.model).to.be.ok;
+        expect($elScope.state.dependencies[0].env.originalUrl).to.be.ok;
+        expect($elScope.state.dependencies[0].env.placeholder).to.not.be.ok;
+        expect($elScope.state.dependencies[0].otherEnvs).to.be.ok;
+        expect($elScope.state.dependencies[0].env.model)
+          .to.equal(instance.attrs.name.toUpperCase() + '_HOST=asdf-hellorunnable.runnableapp.com');
       });
     });
 
@@ -308,7 +301,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           containers: {
             models: [{
               urls: function() {
-                return [apiMocks.instances.running.name, 'http://asdf.helloRunnable.runnable.io'];
+                return ['http://asdf-helloRunnable.runnableapp.com'];
               }
             }]
           }
@@ -317,7 +310,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           containers: {
             models: [{
               urls: function() {
-                return [apiMocks.instances.building.name, 'http://asdf.helloRunnable.runnable.io'];
+                return ['http://asdf-helloRunnable.runnableapp.com'];
               }
             }]
           }
@@ -394,6 +387,30 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           userName: ctx.fakeOrg1.oauthName()
         });
         done();
+      });
+    });
+
+    describe('addEnv', function () {
+      it('should add a new env model to the item', function () {
+        $elScope.data.activeAccount = ctx.fakeOrg1;
+        $scope.$digest();
+        var item = {
+          otherEnvs: []
+        };
+        $elScope.actions.addEnv(item);
+        expect(item.otherEnvs.length).to.equal(1);
+      });
+    });
+
+    describe('removeEnv', function () {
+      it('should add a new env model to the item', function () {
+        $elScope.data.activeAccount = ctx.fakeOrg1;
+        $scope.$digest();
+        var item = {
+          otherEnvs: [{ model: 'hello' }]
+        };
+        $elScope.actions.removeEnv(item, item.otherEnvs[0]);
+        expect(item.otherEnvs.length).to.equal(0);
       });
     });
   });
@@ -489,7 +506,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         expect(location).to.equal('instance.instance');
         expect(stateParams).to.deep.equal({
           userName: 'user',
-          instanceName: ctx.repo1.attrs.name + '0'
+          instanceName: ctx.repo1.attrs.name
         });
         done();
       });
@@ -505,7 +522,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       expect($elScope.state.dockerfile).to.be.ok;
 
       expect($elScope.state.opts.env).to.be.ok;
-      expect($elScope.state.opts.name).to.equal(ctx.repo1.attrs.name + '0');
+      expect($elScope.state.opts.name).to.equal(ctx.repo1.attrs.name);
 
       sinon.assert.called(ctx.getNewForkNameMock);
       ctx.gsPopulateDockerfileMock.triggerPromise(true);
@@ -533,18 +550,29 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       $elScope.actions.addDependency(ctx.instanceLists[1], true);
       $elScope.actions.addDependency(ctx.instanceLists[2]);
 
+      $elScope.state.dependencies[0].otherEnvs.push('asdasd=asdasd');
+      $elScope.state.extraEnvs = 'asd=dsfs\naddsdd=asd';
+
       var fakeGo = sinon.stub($state, 'go', function(location, stateParams) {
         expect($elScope.state.dependencies[0].opts.name)
-          .to.equal($elScope.state.dependencies[0].instance.attrs.name + 0);
+          .to.equal($elScope.state.dependencies[0].instance.attrs.name);
         expect($elScope.state.dependencies[2].opts.name)
-          .to.equal($elScope.state.dependencies[2].instance.attrs.name + 1);
+          .to.equal($elScope.state.dependencies[2].instance.attrs.name);
 
-        expect($elScope.state.dependencies[0].reqEnv[1].url)
-          .to.equal('asdf.user.runnable.io');
+        expect($elScope.state.opts.env.join('\n'))
+          .to.equal('SPAAACE_HOST=asdf-user.runnableapp.com\n' +
+          'asdasd=asdasd\n' +
+            // These next 2 have somekittens as the owner because I'm generating the link
+            // in GS with createInstanceUrl
+          'SPAAACE_HOST=spaaace-somekittens.runnableapp.com\n' +
+          'SPACE_HOST=space-somekittens.runnableapp.com\n' +
+          'asd=dsfs\n' +
+          'addsdd=asd');
+
         expect(location).to.equal('instance.instance');
         expect(stateParams).to.deep.equal({
           userName: 'user',
-          instanceName: ctx.repo1.attrs.name + (ctx.newForkNameCount - 1)
+          instanceName: ctx.repo1.attrs.name
         });
         done();
       });
@@ -560,7 +588,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
       expect($elScope.state.dockerfile).to.be.ok;
 
       expect($elScope.state.opts.env).to.be.ok;
-      expect($elScope.state.opts.name).to.equal(ctx.repo1.attrs.name + 2);
+      expect($elScope.state.opts.name).to.equal(ctx.repo1.attrs.name);
 
       sinon.assert.called(ctx.getNewForkNameMock);
       ctx.gsPopulateDockerfileMock.triggerPromise(true);
