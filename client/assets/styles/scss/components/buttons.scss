@@ -69,7 +69,7 @@ button,
     }
 
     > .icons-arrow-down {
-      transform: rotate3d(1,0,0,-180deg);
+      transform: scale3d(.75,.75,1);
     }
   }
 }
