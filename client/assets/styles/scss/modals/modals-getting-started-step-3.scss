@@ -13,16 +13,29 @@
     }
   }
 
+  .hr {
+    flex: 0 0 auto;
+  }
+
   // input font
   .input,
   .textarea {
     font-family: 'Source Code Pro', monospace;
     font-weight: 400;
+
+    &.ng-invalid {
+      border-radius: 3px 3px 0 0;
+    }
+  }
+
+  // validation
+  .validate-wrapper {
+    border-radius: 0 0 3px 3px;
+    margin: 0;
   }
 
   // col wrapper
   .input-col {
-    height: 36px;
     position: relative;
 
     + .input-col {
@@ -31,7 +44,7 @@
   }
 
   .input {
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: -.5px;
     padding-right: 27px;
     word-break: normal; // reset label breaks
@@ -39,7 +52,7 @@
 
   // additional vars
   .link-divider {
-    margin: 15px 0 0;
+    margin: 12px 0 0;
     text-align: right;
   }
 
@@ -52,6 +65,11 @@
     min-height: 45px;
     position: static;
     resize: vertical;
+    white-space: nowrap;
+
+    ~ .validate-wrapper {
+      margin-top: -4px;
+    }
   }
 
   // popover and delete var

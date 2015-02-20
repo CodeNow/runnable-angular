@@ -24,10 +24,14 @@ h2.sub-header Dependencies & Environment Variables
   .label-col mysql-server
     small.small mysql-server.user.runnable.io
   .input-col
-    input.input.input-sm(
+    input.input.input-sm.input-validate(
       placeholder = "SQL_HOSTNAME=mysql-server.user.runnable.io"
       value = "SQL_HOSTNAME=mysql-server.user.runnable.io"
     )
+    .validate-wrapper.btn-sm.orange(
+      ng-class = "{'invalid-pattern': }"
+    )
+      span.validate-rules.invalid-pattern Invalid entry
     button.btn-xxs.white(
       ng-class = "{active: popoverDependencyMenu.data.show}"
       toggle-pop-over
@@ -47,10 +51,14 @@ h2.sub-header Dependencies & Environment Variables
   .label-col rabbitmq-server
     small.small rabbitmq-server.user.runnable.io
   .input-col
-    input.input.input-sm(
+    input.input.input-sm.input-validate(
       placeholder = "RABBT=rabbitmq-server.user.runnable.io"
       value = "RABBT=rabbitmq-server.user.runnable.io"
     )
+    .validate-wrapper.btn-sm.orange(
+      ng-class = "{'invalid-pattern': }"
+    )
+      span.validate-rules.invalid-pattern Invalid entry
     button.btn-xxs.white(
       svg.iconnables.icons-gear
         use(
@@ -58,9 +66,13 @@ h2.sub-header Dependencies & Environment Variables
         )
   //- additional input
   .input-col
-    input.input.input-sm(
+    input.input.input-sm.input-validate(
       placeholder = "ENV_VAR=value"
     )
+    .validate-wrapper.btn-sm.orange(
+      ng-class = "{'invalid-pattern': }"
+    )
+      span.validate-rules.invalid-pattern Invalid entry
     button.btn-xxs.white
       svg.iconnables.icons-close
         use(
@@ -77,7 +89,12 @@ a.small.link.link-text.link-gray.link-divider(
 )
   .label-col Additional Variables
     small.small Optional
-  textarea.textarea.pre.input-col(
-    placeholder = "ENV_VAR=value"
-    spellcheck = "false"
-  )
+  .input-col
+    textarea.textarea.pre.input-validate(
+      placeholder = "ENV_VAR=value"
+      spellcheck = "false"
+    )
+    .validate-wrapper.btn-sm.orange(
+      ng-class = "{'invalid-pattern': }"
+    )
+      span.validate-rules.invalid-pattern Invalid entry
