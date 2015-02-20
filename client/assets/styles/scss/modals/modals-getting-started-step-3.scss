@@ -25,6 +25,15 @@
 
     &.ng-invalid {
       border-radius: 3px 3px 0 0;
+
+      ~ .validate-wrapper {
+        border: 1px solid rgba($orange,.3);
+        height: 36px;
+
+        .validate-rules {
+          opacity: 1;
+        }
+      }
     }
   }
 
