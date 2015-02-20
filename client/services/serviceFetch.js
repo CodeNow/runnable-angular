@@ -53,6 +53,15 @@ function fetchInstances(
     userStream.on('end', function (data) {
       $log.warn('INSTANCE ROOM DIED!!!!');
     });
+    userStream.on('reconnected', function (data) {
+      $log.warn('INSTANCE Reconnected!!!!');
+    });
+    userStream.on('reconnect timeout', function (data) {
+      $log.warn('!!!!INSTANCE reconnect timeout!!!!');
+    });
+    userStream.on('reconnect failed', function (data) {
+      $log.warn('INSTANCE reconnect failed!!!! WE ARE BONED!!!!');
+    });
     userStream.on('data', function (data) {
       if (data.event !== 'ROOM_MESSAGE') {
         return;
@@ -127,10 +136,10 @@ function fetchInstances(
     }
 
     opts.githubUsername = opts.githubUsername || $stateParams.userName;
-    return pFetchUser().then(function(user) {
+    return pFetchUser().then(function (user) {
       var pFetch = promisify(user, 'fetchInstances');
       return pFetch(opts);
-    }).then(function(results) {
+    }).then(function (results) {
       var instance;
       if (opts.name) {
         instance = keypather.get(results, 'models[0]');

@@ -69,6 +69,7 @@ var userData = {};
 RunnablePrimus.prototype.createUserStream = function(userId) {
   // We are only subscribed to one user stream at a time
   if (userData.streamId) {
+    console.log('LEAVING ROOM!!!!');
     this.write({
       id: userData.streamId,
       event: 'subscribe',
@@ -81,6 +82,7 @@ RunnablePrimus.prototype.createUserStream = function(userId) {
   }
   userData.streamId = makeUniqueId(userId);
   userData.userId = userId;
+  console.log('Joining ROOM!');
   this.write({
     id: userData.streamId,
     event: 'subscribe',
