@@ -1,5 +1,8 @@
-.account-header(
-  ng-class = "{'no-touching': data.accountsDisabled()}"
+button.btn.gray.btn-account(
+  ng-class = "{\
+    active: popoverAccountMenu.data.show,\
+    'no-touching': data.accountsDisabled()\
+  }"
   ng-show = "data.activeAccount"
   toggle-pop-over
   toggle-pop-over-model = "popoverAccountMenu.data.show"
@@ -18,6 +21,6 @@
     actions = "popoverAccountMenu.actions"
     data = "popoverAccountMenu.data"
     popover-ready = "popoverAccountMenu.data.show"
-    popover-options = "{\"left\":124,\"top\":54}"
+    popover-options = "{\"left\":120,\"top\":54}"
     template = "viewPopoverAccountMenu"
   )

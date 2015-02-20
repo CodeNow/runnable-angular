@@ -17,18 +17,6 @@
     width: 100%;
   }
 
-  .account-header {
-    border-bottom: 1px solid rgba($black,.1);
-
-    .gravatar {
-      margin: 24px 9px 0 2px;
-    }
-
-    .account-name {
-      position: static;
-    }
-  }
-
   .modal-heading {
     float: none;
     font-size: 14px;
@@ -120,16 +108,16 @@
       line-height: 45px;
       padding-left: 9px;
     }
+
+    .gravatar {
+      float: left;
+      margin: 6px 9px 0 -6px;
+    }
   }
 
   .small {
     color: $gray;
     display: block;
-  }
-
-  .gravatar {
-    float: left;
-    margin: 6px 9px 0 -6px;
   }
 
   + .modal-body {

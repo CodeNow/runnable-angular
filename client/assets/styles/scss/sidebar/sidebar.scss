@@ -17,15 +17,6 @@
     background: $gray-lightest;
   }
 
-  .row {
-    border-bottom: 1px solid rgba($black,.1);
-
-    &:last-child,
-    &.nav-servers {
-      border-bottom: 0;
-    }
-  }
-
   .guide {
     margin: 0 6px 9px;
   }

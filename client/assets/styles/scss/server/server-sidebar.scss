@@ -5,7 +5,12 @@
   width: 300px;
 
   .row {
+    border-bottom: 1px solid rgba($black,.1);
     position: relative;
+
+    &:last-child {
+      border-bottom: 0;
+    }
   }
 
   .spinner-wrapper {
