@@ -1,4 +1,6 @@
-h2.sub-header Dependencies & Environment Variables
+h2.sub-header(
+  ng-init = "data.showGuide = true"
+) Dependencies & Environment Variables
   button.btn.btn-sm.white.sub-header-action(
     ng-class = "{active: addDependencyPopover.data.show}"
     toggle-pop-over
@@ -14,12 +16,21 @@ h2.sub-header Dependencies & Environment Variables
       popover-options = "{\"left\":-88,\"top\":45}"
       template = "viewPopoverAddDependency"
     )
-.guide A separate server is created for each dependency we think your app needs. These servers are linked with the environment variables below.
+.guide(
+  ng-if = "data.showGuide"
+) A separate server is created for each dependency we think your app needs. These servers are linked with the environment variables below.
   br
   a.small.link.link-text(
     href = "//google.com"
     target = "_blank"
   ) More Help
+  button.btn.btn-xs.btn-close(
+    ng-click = "data.showGuide = false"
+  )
+    svg.iconnables.icons-close
+      use(
+        xlink:href = "#icons-close"
+      )
 .label.clearfix(
   ng-repeat = "model in state.dependencies"
 )

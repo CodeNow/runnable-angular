@@ -71,7 +71,7 @@
     }
   }
 
-  .btn-xs.gray {
+  .btn-soon {
     cursor: default;
     display: table;
     font-family: 'Source Code Pro', monospace !important;
@@ -278,6 +278,8 @@
 
   .icons-git {
     float: right;
+    margin-right: 0;
+    opacity: .6;
     position: relative;
     top: -4px;
   }

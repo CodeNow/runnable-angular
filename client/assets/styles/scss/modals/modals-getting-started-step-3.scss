@@ -3,18 +3,18 @@
 
   .guide {
     margin-top: -9px;
-    padding: 9px 15px;
+    padding: 9px 12px;
 
-    // learn more
+    // more help
     .link {
       float: right;
-      font-weight: 500;
-      margin-top: 6px;
+      margin-top: 9px;
     }
   }
 
   .hr {
     flex: 0 0 auto;
+    margin: 6px 0;
   }
 
   // input font
@@ -59,6 +59,16 @@
     word-break: normal; // reset label breaks
   }
 
+  // input actions
+  .input-col {
+
+    .icons-gear,
+    .icons-close {
+      height: 36px;
+      width: 18px;
+    }
+  }
+
   // additional vars
   .link-divider {
     margin: 12px 0 0;
@@ -88,11 +98,5 @@
     position: absolute;
     right: 3px;
     top: 0;
-  }
-
-  .icons-gear,
-  .icons-close {
-    height: 36px;
-    width: 18px;
   }
 }
