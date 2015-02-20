@@ -10,7 +10,7 @@ function modalStackDependencies(
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewModalStackDependencies',
+    templateUrl: 'viewModalGsEnvs',
     scope: {
       data: '=',
       actions: '=',

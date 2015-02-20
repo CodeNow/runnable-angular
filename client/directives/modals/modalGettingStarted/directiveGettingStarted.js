@@ -52,10 +52,25 @@ function modalGettingStarted(
       });
 
       $scope.actions = {
+        addEnv: function (item) {
+          item.otherEnvs.push({ model: '' });
+        },
+        removeEnv: function (item, env) {
+          var index = item.otherEnvs.indexOf(env);
+          item.otherEnvs.splice(index, 1);
+        },
         addDependency: function (instance, fromExisting) {
-          var envs = keypather.get(instance, 'containers.models[0].urls(%)', configUserContentDomain) || [];
+          var url = keypather.get(
+            instance,
+            'containers.models[0].urls(%)[0]',
+            configUserContentDomain
+          ).toLowerCase();
+          url = url.replace(/https?:\/\//, '')
+              .replace(/:\d{0,5}/g, '')
+              .replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
           var envName = instance.attrs.name.replace(/-/gm, '_').toUpperCase();
-          $scope.state.dependencies.push({
+          var thisEnvName = envName + '_HOST';
+          var newItem = {
             instance: instance,
             opts: !fromExisting ? {
               env: instance.attrs.env,
@@ -63,17 +78,16 @@ function modalGettingStarted(
                 github: $scope.data.activeAccount.oauthId()
               }
             } : null,
-            reqEnv: envs.map(function (url, index) {
-              url = url.replace(/https?:\/\//, '').replace(/:\d{0,5}/g, '');
-              var thisEnvName = envName + '_HOST' + (index > 0 ? index : '');
-              return {
-                name: thisEnvName,
-                placeholder: thisEnvName,
-                url: url,
-                originalUrl: url
-              };
-            })
-          });
+            env: {
+              model: thisEnvName + '=' + url,
+              originalUrl: url
+            },
+            otherEnvs: []
+          };
+          if (!fromExisting) {
+            generateDependencyName(newItem);
+          }
+          $scope.state.dependencies.push(newItem);
         },
         removeDependency: function (model) {
           var index = $scope.state.dependencies.indexOf(model);
@@ -245,13 +259,22 @@ function modalGettingStarted(
 
       function generateDependencyName(item) {
         var newName = getNewForkName(item.instance, $scope.data.instances, true);
+        // oldUrl will be the one we're looking for in the env
+        var oldUrl = (item.opts.name) ? item.env.originalUrl.replace(
+          new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
+          item.opts.name
+        ) : item.env.originalUrl;
+        var newUrl = item.env.originalUrl.replace(
+          new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
+          newName
+        );
         item.opts.name = newName;
-        item.reqEnv.forEach(function (env) {
-          env.url = env.originalUrl.replace(
-            new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
-            newName
-          ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
-        });
+        item.env.model = item.env.model.replace(
+          new RegExp(regexpQuote(oldUrl), 'i'),
+          newUrl
+        );
+        item.env.newUrl = newUrl;
+        item.env.placeholder = item.env.model;
       }
       function generateDependenciesNames() {
         $scope.state.dependencies.forEach(function (item) {
