@@ -35,7 +35,7 @@ var MockFetch = require('../../../fixtures/mockFetch');
  *   Switching accounts should trigger new fetch of repos
  *   Selecting a repo should trigger a stack analysis
  */
-describe('directiveModalGettingStarted'.bold.underline.blue, function () {
+describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
   beforeEach(function () {
     ctx = {};
   });
@@ -264,15 +264,16 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         $elScope.data.activeAccount = ctx.fakeuser;
         $elScope.actions.addDependency(instance);
 
-        expect($elScope.state.dependencies[0]).to.be.ok;
+        expect($elScope.state.dependencies[0], 'dep').to.be.ok;
         expect($elScope.state.dependencies[0].instance).to.equal(instance);
-        expect($elScope.state.dependencies[0].opts).to.be.ok;
-        expect($elScope.state.dependencies[0].env).to.be.ok;
-        expect($elScope.state.dependencies[0].env.model).to.be.ok;
-        expect($elScope.state.dependencies[0].env.originalUrl).to.be.ok;
-        expect($elScope.state.dependencies[0].env.placeholder).to.be.ok;
-        expect($elScope.state.dependencies[0].otherEnvs).to.be.ok;
-        expect($elScope.state.dependencies[0].env.model)
+        expect($elScope.state.dependencies[0].opts, 'opts').to.be.ok;
+        expect($elScope.state.dependencies[0].env, 'env').to.be.ok;
+        expect($elScope.state.dependencies[0].env.model, 'model').to.be.ok;
+        expect($elScope.state.dependencies[0].env.originalUrl, 'originalUrl').to.be.ok;
+        expect($elScope.state.dependencies[0].env.newUrl, 'newUrl').to.be.ok;
+        expect($elScope.state.dependencies[0].env.placeholder, 'placeholder').to.be.ok;
+        expect($elScope.state.dependencies[0].otherEnvs, 'otherEnvs').to.be.ok;
+        expect($elScope.state.dependencies[0].env.model, 'model')
           .to.equal(instance.attrs.name.toUpperCase() + '_HOST=asdf-user.runnableapp.com');
         });
       it('should use an existing', function () {
@@ -285,6 +286,7 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
         expect($elScope.state.dependencies[0].env).to.be.ok;
         expect($elScope.state.dependencies[0].env.model).to.be.ok;
         expect($elScope.state.dependencies[0].env.originalUrl).to.be.ok;
+        expect($elScope.state.dependencies[0].env.newUrl).to.not.be.ok;
         expect($elScope.state.dependencies[0].env.placeholder).to.not.be.ok;
         expect($elScope.state.dependencies[0].otherEnvs).to.be.ok;
         expect($elScope.state.dependencies[0].env.model)

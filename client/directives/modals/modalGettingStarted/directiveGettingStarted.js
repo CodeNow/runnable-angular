@@ -121,7 +121,7 @@ function modalGettingStarted(
             });
           });
         },
-        createAndBuild: function() {
+        createAndBuild: function () {
           if ($scope.building) { return; }
           $scope.building = true;
           // first thing to do is generate the dockerfile
@@ -238,15 +238,7 @@ function modalGettingStarted(
             };
             $scope.data.instances = null;
           }
-          resetModalData(
-            user
-          ).then(function () {
-            return fetchInstances({
-              githubUsername: user.oauthName()
-            });
-          }).then(function (instances) {
-            $scope.data.instances = instances;
-          });
+          resetModalData(user);
         }
       });
 
@@ -258,11 +250,17 @@ function modalGettingStarted(
         return createNewBuild(user).then(function (buildWithVersion) {
           $scope.state.build = buildWithVersion;
           $scope.state.contextVersion = buildWithVersion.contextVersion;
+        }).then(function () {
+          return fetchInstances({
+            githubUsername: user.oauthName()
+          });
+        }).then(function (instances) {
+          $scope.data.instances = instances;
         });
       }
 
       function generateDependencyName(item) {
-        if (item.opts) { return; } // No opts means we're just referencing, not forking.
+        if (!item.opts) { return; } // No opts means we're just referencing, not forking.
         var newName = getNewForkName(item.instance, $scope.data.instances, true);
         // oldUrl will be the one we're looking for in the env
         var oldUrl = ((item.opts.name) ? item.env.originalUrl.replace(
