@@ -6,7 +6,7 @@
 
 // header.row.account-header
 .account-header {
-  @extend .webkit-flicker;
+  @extend %webkit-flicker;
   cursor: pointer;
   flex: 0 0 auto;
   height: 72px;

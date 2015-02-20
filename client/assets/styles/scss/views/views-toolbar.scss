@@ -1,6 +1,6 @@
 // toolbar
 .views-toolbar {
-  @extend .webkit-flicker;
+  @extend %webkit-flicker;
   border-bottom: 1px solid rgba($black,.1);
   height: 45px;
   overflow: visible;

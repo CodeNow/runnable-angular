@@ -1,6 +1,6 @@
 // sidebar
 .sidebar {
-  @extend .webkit-flicker;
+  @extend %webkit-flicker;
   background: $white;
   border-right: 1px solid rgba($black,.1);
   display: flex;
