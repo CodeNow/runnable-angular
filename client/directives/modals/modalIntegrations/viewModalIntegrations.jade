@@ -86,6 +86,21 @@
             'ng-valid': slackUserForm.slackUser.$valid\
           }"
         )
+          span.input-label Enable private messages
+          input.input(
+            type = "checkbox"
+            name = "slackUser"
+            ng-blur = "slackUserForm.slackUser.showFocus = false"
+            ng-focus = "slackUserForm.slackUser.showFocus = true"
+            ng-model = "data.slackUserAccount.enabled"
+          )
+        label.input-group.input-validate(
+          ng-class = "{\
+            focus: slackUserForm.slackUser.showFocus,\
+            'ng-invalid': slackUserForm.slackUser.$invalid && !slackUserForm.slackUser.$pristine,\
+            'ng-valid': slackUserForm.slackUser.$valid\
+          }"
+        )
           span.input-label Your slack username
           input.input(
             autocomplete = "off"
