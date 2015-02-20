@@ -1,10 +1,14 @@
 .popover.menu.bottom(
-  ng-class = "{in: data.show}"
+  ng-class = "{in: data.gsPopover.show}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white
   .popover-content
     ul.popover-list
-      li.popover-list-item Add Variable
+      li.popover-list-item(
+        ng-click = "actions.addEnv(data)"
+      ) Add Variable
       li.divider
-      li.popover-list-item Remove Dependency
+      li.popover-list-item(
+        ng-click = "actions.removeDependency(data)"
+      ) Remove Dependency

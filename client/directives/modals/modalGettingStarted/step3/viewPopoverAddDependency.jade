@@ -29,7 +29,7 @@
         title = "{{ stackDep.attrs.name }}"
       ) {{ stackDep.attrs.name }}
   .popover-content(
-    ng-show = "popoverState === 'existing'"
+    ng-show = "popoverState === 'existing' && filteredInstances.length"
   )
     ul.list.popover-list
       li.list-item.popover-list-item(
