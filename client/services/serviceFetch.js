@@ -44,36 +44,44 @@ function fetchInstances(
     if (!id) { return; }
     currentInstanceList = null;
     userStream = primus.createUserStream(id);
-    userStream.on('reconnect', function (data) {
+    userStream.on('reconnect', function () {
       $log.warn('RECONNECTING INSTANCE ROOM');
     });
-    userStream.on('offline', function (data) {
+    userStream.on('offline', function () {
       $log.warn('OFFLINE INSTANCE ROOM');
     });
-    userStream.on('end', function (data) {
+    userStream.on('end', function () {
       $log.warn('INSTANCE ROOM DIED!!!!');
     });
-    userStream.on('reconnected', function (data) {
-      $log.warn('INSTANCE Reconnected!!!!');
+    userStream.on('reconnected', function (opts) {
+      $log.warn('INSTANCE Reconnected!!!! Took ' + opts.duration + 'ms');
     });
-    userStream.on('reconnect timeout', function (data) {
-      $log.warn('!!!!INSTANCE reconnect timeout!!!!');
+    userStream.on('reconnect timeout', function (err) {
+      $log.warn('!!!!INSTANCE reconnect timeout!!!! ' + err.message);
     });
-    userStream.on('reconnect failed', function (data) {
-      $log.warn('INSTANCE reconnect failed!!!! WE ARE BONED!!!!');
+    userStream.on('reconnect failed', function (err) {
+      $log.warn('INSTANCE reconnect failed!!!! WE ARE BONED!!!! ' + err.message);
     });
     userStream.on('data', function (data) {
+      if (process.env.NODE_ENV !== 'production') {
+        $log.log('Socket:', data);
+      }
       if (data.event !== 'ROOM_MESSAGE') {
         return;
       }
       if (keypather.get(data, 'data.data.owner.github') !== id) {
         return;
       }
-      if (!currentInstanceList) { return; }
+      if (!currentInstanceList) {
+        $log.warn('WHY ARE THE INSTANCES GONE??????????');
+        return;
+      }
       if (!keypather.get(data, 'data.data.name')) { return; }
 
       var cachedInstance;
-
+      function findInstance(instance) {
+        return instance.attrs.shortHash === data.data.data.shortHash;
+      }
       // Possible events:
       // start, stop, restart, update, redeploy, deploy, delete, patch, post
       // container_inspect, container_inspect_err
@@ -86,7 +94,7 @@ function fetchInstances(
         case 'redeploy':
         case 'patch':
         case 'container_inspect': // Instance died independently
-          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
+          cachedInstance = currentInstanceList.find(findInstance);
           if (cachedInstance) {
             cachedInstance.parse(data.data.data);
           } else {
@@ -96,13 +104,13 @@ function fetchInstances(
           }
           break;
         case 'post':
-          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
+          cachedInstance = currentInstanceList.find(findInstance);
           if (!cachedInstance) {
             currentInstanceList.add(data.data.data);
           }
           break;
         case 'delete':
-          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
+          cachedInstance = currentInstanceList.find(findInstance);
           if (cachedInstance) {
             currentInstanceList.remove(cachedInstance);
           }
