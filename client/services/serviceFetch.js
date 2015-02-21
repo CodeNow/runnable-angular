@@ -65,11 +65,11 @@ function fetchInstances(
       $log.warn('INSTANCE reconnect failed!!!! WE ARE BONED!!!! ' + err.message);
     });
     userStream.on('data', function (data) {
-      if (process.env.NODE_ENV !== 'production') {
-        $log.log('Socket:', data);
-      }
       if (data.event !== 'ROOM_MESSAGE') {
         return;
+      }
+      if (process.env.NODE_ENV !== 'production') {
+        $log.log('Socket:', data);
       }
       if (keypather.get(data, 'data.data.owner.github') !== id) {
         return;
