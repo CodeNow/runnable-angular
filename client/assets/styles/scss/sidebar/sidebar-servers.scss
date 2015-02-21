@@ -23,29 +23,20 @@
   margin: 0 6px;
   padding: 0;
   text-align: left;
-  // transition: all .2s ease-in;
-
-  &.expanded {
-    height: auto;
-    line-height: 1;
-    padding-bottom: 3px;
-
-    .server-item-name {
-      margin-bottom: 3px;
-      margin-top: 8px;
-    }
-
-    .icons-status {
-      top: 10px;
-    }
-  }
+  transition: all .2s ease-in;
 
   &:active,
   &.active {
 
+    // a.server-item-name
     .server-item-name {
       font-weight: 500;
     }
+  }
+
+  // if there are links
+  &.expanded {
+    height: auto;
   }
 
   + .server-group-item {
@@ -57,10 +48,6 @@
     position: absolute;
     right: 12px;
     top: 14px;
-  }
-
-  .tooltip {
-    display: none;
   }
 }
 
@@ -78,8 +65,7 @@
   display: block;
   font-size: 12px;
   line-height: 21px;
-  margin-top: -1px;
-  padding: 0 0 0 9px;
+  padding: 0 21px 0 9px;
   position: relative;
   text-decoration: underline;
 
@@ -88,23 +74,27 @@
     text-decoration: none;
   }
 
-  .icons-status.icons-status {
+  &:first-child {
+    margin-top: -6px;
+  }
+
+  &:last-child {
+    padding-bottom: 3px;
+  }
+
+  .icons-status {
     background: rgba($gray-lightest,.45);
     border: 1px solid rgba($black,.15);
-    height: 5px;
-    position: absolute;
-    right: 16px;
-    top: 9px;
-    width: 5px;
+    margin-top: -9px;
 
     &::before {
       background: rgba($black,.15);
       content: '';
       display: block;
-      height: 10px;
+      height: 12px;
       margin: 0 auto;
       position: relative;
-      top: -12px;
+      top: -13px;
       width: 1px;
     }
 
