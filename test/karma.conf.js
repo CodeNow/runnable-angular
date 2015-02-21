@@ -96,11 +96,12 @@ module.exports = function(config) {
     reporters: ['saucelabs', 'mocha', 'coverage'],
 
     coverageReporter: {
-      type: 'text',
-      dir : 'coverage/',
+      type: 'json',
+      dir : 'coverage',
       reporters: [
+        { type: 'text-summary', subdir: '.'},
         { type: 'text', subdir: '.', file: 'text.txt' },
-        { type: 'json', subdir: '.' },
+        { type: 'json', subdir: '.', file: 'coverage.json' },
         { type: 'html', subdir: 'html' }
       ]
     },

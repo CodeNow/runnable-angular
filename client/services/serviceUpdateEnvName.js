@@ -29,7 +29,7 @@ function updateEnvName(
     function makeRegexp(url) {
       //                  Checks for the = and http(s)
       // do it like this so the first match ($1) is always the same
-      return new RegExp('(=\\s*|=\\s*https?:\/\/)' + regexpQuote(url), 'gim');
+      return new RegExp('(=\\s*|=\\s*(\\w*:){1,2}\/\/)' + regexpQuote(url), 'gim');
     }
 
     if (!items || !items.length) {

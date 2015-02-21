@@ -27,19 +27,19 @@ function ControllerInstanceLayout(
 
   function resolveInstanceFetch(username) {
     if (!username) { return; }
-    $rootScope.dataApp.state.loadingInstances = true;
-    $rootScope.dataApp.data.instances = null;
+    keypather.set($rootScope, 'dataApp.state.loadingInstances', true);
+    keypather.set($rootScope, 'dataApp.data.instances', null);
     fetchInstances({
       githubUsername: username
     }).then(function (instances) {
-      if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-        $rootScope.dataApp.data.instances = instances;
-        $rootScope.dataApp.state.loadingInstances = false;
+      if (instances.githubUsername === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+        keypather.set($rootScope, 'dataApp.state.loadingInstances', false);
+        keypather.set($rootScope, 'dataApp.data.instances', instances);
       }
     });
   }
 
-  var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function(event, username) {
+  var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function (event, username) {
     resolveInstanceFetch(username);
   });
 
