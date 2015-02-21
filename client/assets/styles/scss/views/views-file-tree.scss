@@ -21,8 +21,14 @@
 
     // states
     &.active a {
+      background: rgba($purple-light,.15);
       color: $purple-light;
+      cursor: default;
       font-weight: 500;
+
+      &:hover {
+        background: rgba($purple-light,.15);
+      }
     }
 
     a {
@@ -34,7 +40,7 @@
       white-space: nowrap;
 
       &:hover {
-        background: rgba($purple-light,.1);
+        background: rgba($black,.1);
       }
 
       &:active {
