@@ -22,13 +22,13 @@ h2.sub-header.load
       )
 
 //- list of servers
-ul.list.server-group.load(
+ul.list.server-list.load(
   ng-show = "data.instances.models.length && !state.loadingInstances"
 )
   //- .active for current active server
   //- .active.expanded for current active server with links
   //- .runnning for running server
-  li.list-item.server-group-item.btn.btn-sm.white(
+  li.list-item.server-list-item.btn.btn-sm.white(
     ng-class = "getInstanceClasses(instance)"
     ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
     tooltip = "{{ instance.attrs.name }}"
@@ -54,3 +54,50 @@ ul.list.server-group.load(
 
 h2.sub-header.load
   span.sub-header-text Team Servers
+
+//- list of users
+ul.list.server-list.load
+  li.list-item.server-list-item.btn.btn-sm.white
+    img.gravatar(
+      height = "21"
+      src = "https://avatars0.githubusercontent.com/u/2194285?v=3&s=96"
+      width = "21"
+    )
+    | anandkumarpatel
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  li.list-item.server-list-item.btn.btn-sm.white
+    img.gravatar(
+      height = "21"
+      src = "https://avatars3.githubusercontent.com/u/160236?v=3&s=96"
+      width = "21"
+    )
+    | bkendall
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  li.list-item.server-list-item.btn.btn-sm.white
+    img.gravatar(
+      height = "21"
+      src = "https://avatars2.githubusercontent.com/u/467885?v=3&s=96"
+      width = "21"
+    )
+    | cflynn07
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  li.list-item.server-list-item.btn.btn-sm.white
+    img.gravatar(
+      height = "21"
+      src = "https://avatars3.githubusercontent.com/u/4451216?v=3&s=96"
+      width = "21"
+    )
+    | forrestj
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )

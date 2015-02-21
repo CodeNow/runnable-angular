@@ -16,8 +16,8 @@
   }
 }
 
-// li.server-group-item
-.server-group-item {
+// li.server-list-item
+.server-list-item {
   display: block;
   margin: 0 6px;
   padding: 0;
@@ -38,7 +38,7 @@
     height: auto;
   }
 
-  + .server-group-item {
+  + .server-list-item {
     margin-top: 3px;
   }
 
@@ -47,6 +47,15 @@
     position: absolute;
     right: 12px;
     top: 14px;
+  }
+
+  // team members
+  .gravatar {
+    margin: 8px;
+  }
+
+  .icons-arrow-down {
+    right: 4px;
   }
 }
 
