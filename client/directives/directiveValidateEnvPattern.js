@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function validateEnvPattern(
+  validateEnvVars
 ) {
   return {
     restrict: 'A',
@@ -13,17 +14,15 @@ function validateEnvPattern(
     link: function ($scope, element, attrs, ctrl) {
 
       ctrl.$setValidity('envPattern', true);
-      ctrl.$setValidity('envRequire', false);
 
-      function checkValid(name) {
-        ctrl.$setValidity('envRequire', !!name);
-        if (!name) {
+      function checkValid(envLine) {
+        if (!envLine) {
           ctrl.$setValidity('envPattern', true);
-          return 'Failure';
+          return envLine;
         }
-        var test = /^[A-Za-z0-9_]+$/;
-        ctrl.$setValidity('envPattern', test.test(name));
-        return name;
+        var result = validateEnvVars(envLine);
+        ctrl.$setValidity('envPattern', result.valid);
+        return envLine;
       }
 
       // called when value changes via code/controller
