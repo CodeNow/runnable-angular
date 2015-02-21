@@ -1,7 +1,7 @@
 a.server-item-cluster(
-    ng-click = "stateToInstance(depInstance)"
-    ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
-    ng-show = "!!instanceDependencies"
+  ng-click = "stateToInstance(depInstance)"
+  ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
+  ng-show = "!!instanceDependencies"
 ) {{ depInstance.attrs.name }}
   span.icons-status(
     ng-class = "getInstanceClasses(depInstance)"

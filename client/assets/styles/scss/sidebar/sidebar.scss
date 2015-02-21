@@ -43,7 +43,8 @@
     float: right;
     margin: 0;
 
-    &.white {
+    &.white,
+    &.gray {
       height: 33px;
       padding: 0;
       width: 33px;

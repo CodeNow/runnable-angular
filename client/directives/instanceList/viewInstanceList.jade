@@ -34,7 +34,7 @@ ul.list.server-list.load(
     tooltip = "{{ instance.attrs.name }}"
     tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   )
-    a.server-item-name.text-overflow(
+    a.list-item-name.text-overflow(
       ng-click = "stateToInstance(instance)"
       ng-href = "/{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
       ng-model = "instance"
@@ -56,47 +56,53 @@ h2.sub-header.load
   span.sub-header-text Team Servers
 
 //- list of users
-ul.list.server-list.load
-  li.list-item.server-list-item.btn.btn-sm.white
+ul.list.team-list.load
+  li.list-item.team-list-item.btn.btn-sm.white
     img.gravatar(
       height = "21"
       src = "https://avatars0.githubusercontent.com/u/2194285?v=3&s=96"
       width = "21"
     )
-    | anandkumarpatel
+    a.list-item-name.text-overflow anandkumarpatel
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
       )
-  li.list-item.server-list-item.btn.btn-sm.white
+  li.list-item.team-list-item.btn.btn-sm.white
     img.gravatar(
       height = "21"
       src = "https://avatars3.githubusercontent.com/u/160236?v=3&s=96"
       width = "21"
     )
-    | bkendall
+    a.list-item-name.text-overflow bkendall
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
       )
-  li.list-item.server-list-item.btn.btn-sm.white
+  li.list-item.team-list-item.btn.btn-sm.white.expanded.active
     img.gravatar(
       height = "21"
       src = "https://avatars2.githubusercontent.com/u/467885?v=3&s=96"
       width = "21"
     )
-    | cflynn07
+    a.list-item-name.text-overflow cflynn07
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
       )
-  li.list-item.server-list-item.btn.btn-sm.white
+    .list-item.server-list-item.btn.btn-sm.white
+      a.list-item-name.text-overflow cflynn-web
+      span.icons-status.running
+    .list-item.server-list-item.btn.btn-sm.white
+      a.list-item-name.text-overflow cflynn-api
+      span.icons-status.running
+  li.list-item.team-list-item.btn.btn-sm.white
     img.gravatar(
       height = "21"
       src = "https://avatars3.githubusercontent.com/u/4451216?v=3&s=96"
       width = "21"
     )
-    | forrestj
+    a.list-item-name.text-overflow forrestj
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
