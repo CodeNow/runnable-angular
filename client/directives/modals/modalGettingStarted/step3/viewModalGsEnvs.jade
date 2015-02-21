@@ -19,18 +19,11 @@ h2.sub-header(
 .guide(
   ng-if = "data.showGuide"
 ) A separate server is created for each dependency we think your app needs. These servers are linked with the environment variables below.
-  br
-  a.small.link.link-text(
-    href = "//google.com"
-    target = "_blank"
-  ) More Help
-  button.btn.btn-xs.btn-close(
-    ng-click = "data.showGuide = false"
-  )
-    svg.iconnables.icons-close
-      use(
-        xlink:href = "#icons-close"
-      )
+  // br
+  // a.small.link.link-text(
+  //   href = "//google.com"
+  //   target = "_blank"
+  // ) More Help
 .label.clearfix(
   ng-repeat = "model in state.dependencies"
 )
