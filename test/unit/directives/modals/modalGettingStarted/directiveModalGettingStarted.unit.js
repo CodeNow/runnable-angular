@@ -35,7 +35,7 @@ var MockFetch = require('../../../fixtures/mockFetch');
  *   Switching accounts should trigger new fetch of repos
  *   Selecting a repo should trigger a stack analysis
  */
-describe.only('directiveModalGettingStarted'.bold.underline.blue, function () {
+describe('directiveModalGettingStarted'.bold.underline.blue, function () {
   beforeEach(function () {
     ctx = {};
   });
