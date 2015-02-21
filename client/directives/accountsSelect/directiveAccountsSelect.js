@@ -74,7 +74,7 @@ function accountsSelect (
         var slackUserOrgs = keypather.get(mData, 'user.attrs.accounts.slack.orgs');
         if (slackUserOrgs) {
           var slackAccount = slackUserOrgs.find(function (slackData) {
-            return slackData.githubId === mData.modalActiveAccount.attrs.accounts.github.id;
+            return slackData.githubId === mData.modalActiveAccount.attrs.id;
           });
           mData.slackUserAccount = slackAccount || {};
         }
