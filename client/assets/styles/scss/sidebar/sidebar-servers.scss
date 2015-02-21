@@ -2,6 +2,7 @@
 .nav-servers {
   flex: 1 1 auto;
   overflow-y: auto;
+  padding-top: 15px;
   position: relative;
   z-index: $z-sidebar-content;
 
@@ -10,14 +11,13 @@
   }
 
   .hr {
-    background: rgba($black,.1);
-    height: 1px;
-    margin: 15px;
+    height: 21px;
   }
 }
 
 // li.server-list-item
 .server-list-item {
+  color: $gray-dark;
   display: block;
   margin: 0 6px;
   padding: 0;
