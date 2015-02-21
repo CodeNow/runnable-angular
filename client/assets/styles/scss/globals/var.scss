@@ -58,8 +58,9 @@ $z-views-active-panel: 2006;
 
 // sidebars
 $z-sidebar: 3000;
-$z-sidebar-content: 3001;
-$z-sidebar-footer: 3002;
+$z-sidebar-content: 3001; // header and footer are higher for box-shadows
+$z-sidebar-header: 3002;
+$z-sidebar-footer: 3003;
 
 // guides
 $z-guide: 4000;
