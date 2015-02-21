@@ -70,6 +70,14 @@
     background: inherit;
     color: inherit;
   }
+
+  // links
+  .link,
+  .link:hover,
+  .link:active,
+  .small {
+    color: currentColor;
+  }
 }
 
 // highlighting guided items
@@ -82,6 +90,26 @@
   font-size: 16px;
   line-height: 1.4;
   padding-right: 12px;
+}
+
+// guide button
+.btn-guide {
+  background: $gray-lightest;
+  border-radius: 50%;
+  color: $gray-light;
+  float: right;
+  padding: 0;
+  width: 24px;
+
+  &:hover {
+    color: $blue;
+  }
+
+  &:active,
+  &.active {
+    background: transparent;
+    color: $blue;
+  }
 }
 
 // getting started guide

@@ -10,6 +10,7 @@ function repoList(
   errs,
   pFetchUser,
   $state,
+  $rootScope,
   createNewBuild,
   promisify
 ) {
@@ -98,7 +99,7 @@ function repoList(
         });
 
         createNewBuild(
-          $scope.user,
+          $rootScope.dataApp.data.activeAccount,
           context,
           infraCodeVersionId,
           appCodeVersionStates

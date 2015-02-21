@@ -31,6 +31,8 @@ function fetchInstances(
   hasKeypaths,
   errs,
   $stateParams,
+  $state,
+  $localStorage,
   $q,
   primus,
   $rootScope,
@@ -44,66 +46,95 @@ function fetchInstances(
     if (!id) { return; }
     currentInstanceList = null;
     userStream = primus.createUserStream(id);
-    userStream.on('reconnect', function (data) {
+    userStream.on('reconnect', function () {
       $log.warn('RECONNECTING INSTANCE ROOM');
     });
-    userStream.on('offline', function (data) {
+    userStream.on('offline', function () {
       $log.warn('OFFLINE INSTANCE ROOM');
     });
-    userStream.on('end', function (data) {
+    userStream.on('end', function () {
       $log.warn('INSTANCE ROOM DIED!!!!');
+    });
+    userStream.on('reconnected', function (opts) {
+      $log.warn('INSTANCE Reconnected!!!! Took ' + opts.duration + 'ms');
+    });
+    userStream.on('reconnect timeout', function (err) {
+      $log.warn('!!!!INSTANCE reconnect timeout!!!! ' + err.message);
+    });
+    userStream.on('reconnect failed', function (err) {
+      $log.warn('INSTANCE reconnect failed!!!! WE ARE BONED!!!! ' + err.message);
     });
     userStream.on('data', function (data) {
       if (data.event !== 'ROOM_MESSAGE') {
         return;
       }
+      if (process.env.NODE_ENV !== 'production') {
+        $log.log('Socket:', data);
+      }
       if (keypather.get(data, 'data.data.owner.github') !== id) {
         return;
       }
-      if (!currentInstanceList) { return; }
+      if (!currentInstanceList) {
+        $log.warn('WHY ARE THE INSTANCES GONE??????????');
+        return;
+      }
       if (!keypather.get(data, 'data.data.name')) { return; }
 
       var cachedInstance;
-
+      function findInstance(instance) {
+        return instance.attrs.shortHash === data.data.data.shortHash;
+      }
       // Possible events:
       // start, stop, restart, update, redeploy, deploy, delete, patch, post
       // container_inspect, container_inspect_err
-      switch(data.data.action) {
-        case 'deploy':
-        case 'start':
-        case 'stop':
-        case 'restart':
-        case 'update':
-        case 'redeploy':
-        case 'patch':
-        case 'container_inspect': // Instance died independently
-          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
-          if (cachedInstance) {
-            cachedInstance.parse(data.data.data);
-          } else {
-            // We're getting data about an instance we haven't seen yet.
-            // i.e. we got the `deploy` event before `post`
-            currentInstanceList.add(data.data.data);
+      switch (data.data.action) {
+      case 'deploy':
+      case 'start':
+      case 'stop':
+      case 'restart':
+      case 'update':
+      case 'redeploy':
+      case 'patch':
+      case 'container_inspect': // Instance died independently
+        cachedInstance = currentInstanceList.find(findInstance);
+        if (cachedInstance) {
+          cachedInstance.parse(data.data.data);
+        } else {
+          // We're getting data about an instance we haven't seen yet.
+          // i.e. we got the `deploy` event before `post`
+          currentInstanceList.add(data.data.data);
+        }
+        break;
+      case 'post':
+        cachedInstance = currentInstanceList.find(findInstance);
+        if (!cachedInstance) {
+          currentInstanceList.add(data.data.data);
+        }
+        break;
+      case 'delete':
+        cachedInstance = currentInstanceList.find(findInstance);
+        if (cachedInstance) {
+          currentInstanceList.remove(cachedInstance);
+          if ($stateParams.instanceName === cachedInstance.attrs.name) {
+            // the current instance just got deleted
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              null
+            );
+            errs.handler(new Error('The instance you were looking at has been deleted.'));
+            $state.go('instance.home', {
+              userName: $stateParams.userName
+            });
           }
-          break;
-        case 'post':
-          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
-          if (!cachedInstance) {
-            currentInstanceList.add(data.data.data);
-          }
-          break;
-        case 'delete':
-          cachedInstance = currentInstanceList.getById(data.data.data.shortHash);
-          if (cachedInstance) {
-            currentInstanceList.remove(cachedInstance);
-          }
-          break;
-        case 'container_inspect_err':
-          errs.handler(data);
-          break;
-        default:
-          errs.handler('Error: unknown event encountered');
-          break;
+        }
+        break;
+      case 'container_inspect_err':
+        errs.handler(data);
+        break;
+      default:
+        errs.handler('Error: unknown event encountered');
+        break;
       }
       $timeout(angular.noop);
     });
@@ -127,10 +158,10 @@ function fetchInstances(
     }
 
     opts.githubUsername = opts.githubUsername || $stateParams.userName;
-    return pFetchUser().then(function(user) {
+    return pFetchUser().then(function (user) {
       var pFetch = promisify(user, 'fetchInstances');
       return pFetch(opts);
-    }).then(function(results) {
+    }).then(function (results) {
       var instance;
       if (opts.name) {
         instance = keypather.get(results, 'models[0]');
@@ -174,25 +205,26 @@ function fetchBuild(
 }
 
 function fetchOwnerRepos (
+  $rootScope,
   pFetchUser,
   errs,
   promisify
 ) {
-  var user;
   return function (userName) {
+    var user;
+    var repoType;
     return pFetchUser().then(function(_user) {
-      user = _user;
-      var repoFetch;
-      if (userName === user.oauthName()) {
-        repoFetch = promisify(user, 'fetchGithubRepos');
+      if (userName === _user.oauthName()) {
+        user = _user;
+        repoType = 'GithubRepos';
       } else {
-        repoFetch = promisify(user.newGithubOrg(userName), 'fetchRepos');
+        user = _user.newGithubOrg(userName);
+        repoType = 'Repos';
       }
-
       var allRepos = [];
 
       function fetchPage(page) {
-        return repoFetch({
+        return promisify(user, 'fetch' + repoType)({
           page: page,
           sort: 'update'
         }).then(function(githubRepos) {
@@ -208,7 +240,7 @@ function fetchOwnerRepos (
       }
       return fetchPage(1);
     }).then(function(reposArr) {
-      var repos = user.newGithubRepos(reposArr, {
+      var repos = user['new' + repoType](reposArr, {
         noStore: true
       });
       repos.ownerUsername = userName;

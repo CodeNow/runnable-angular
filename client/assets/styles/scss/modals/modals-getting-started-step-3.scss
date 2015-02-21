@@ -1,0 +1,103 @@
+// wizard 3
+.modal-gs-environments {
+
+  .guide {
+    margin-top: -9px;
+    padding: 9px 12px;
+
+    // more help
+    .link {
+      float: right;
+      font-weight: 500;
+      margin-top: 9px;
+    }
+  }
+
+  .hr {
+    flex: 0 0 auto;
+    margin: 6px 0;
+  }
+
+  // input font
+  .input,
+  .textarea {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 400;
+
+    &.ng-invalid {
+      border-radius: 3px 3px 0 0;
+
+      ~ .validate-wrapper {
+        border: 1px solid rgba($orange,.3);
+        height: 36px;
+
+        .validate-rules {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  // validation
+  .validate-wrapper {
+    border-radius: 0 0 3px 3px;
+    margin: 0;
+  }
+
+  // col wrapper
+  .input-col {
+    position: relative;
+
+    + .input-col {
+      margin-top: 6px;
+    }
+  }
+
+  .input {
+    font-size: 14px;
+    letter-spacing: -.5px;
+    padding-right: 27px;
+    word-break: normal; // reset label breaks
+  }
+
+  // input actions
+  .input-col {
+
+    .icons-gear,
+    .icons-close {
+      height: 36px;
+      width: 18px;
+    }
+  }
+
+  // additional vars
+  .link-divider {
+    margin: 12px 0 0;
+    padding-bottom: 12px;
+    text-align: right;
+  }
+
+  .label-textarea {
+    margin-top: 21px;
+  }
+
+  .textarea {
+    max-height: 90px;
+    min-height: 45px;
+    position: static;
+    resize: vertical;
+    white-space: nowrap;
+
+    ~ .validate-wrapper {
+      margin-top: -4px;
+    }
+  }
+
+  // popover and delete var
+  .btn-xxs {
+    height: 36px;
+    position: absolute;
+    right: 3px;
+    top: 0;
+  }
+}

@@ -7,16 +7,11 @@ require('app')
  */
 function ControllerInstanceLayout(
   configLogoutURL,
-  pFetchUser,
   fetchInstances,
-  $stateParams,
-  errs,
   $rootScope,
-  $timeout,
   keypather,
   $scope
 ) {
-  var thisUser;
 
   var dataInstanceLayout = $scope.dataInstanceLayout = {
     data: {},
@@ -24,14 +19,11 @@ function ControllerInstanceLayout(
     actions: {}
   };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
-  pFetchUser().then(function(user) {
-    thisUser = user;
-    return resolveInstanceFetch(
-      keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') ||
-      $stateParams.userName ||
-      user.oauthName()
-    );
-  }).catch(errs.handler);
+  var unwatch = $rootScope.$watch('dataApp.data.activeAccount.oauthName()', function (n) {
+    if (!n) { return; }
+    unwatch();
+    resolveInstanceFetch(n);
+  });
 
   function resolveInstanceFetch(username) {
     if (!username) { return; }

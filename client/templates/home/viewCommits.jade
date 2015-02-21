@@ -1,6 +1,6 @@
 .col.col-50
-  .list-item.repository-group-item.well.repository-group-text.no-touching
-    h3.repository-title
+  .list-item.repository-group-item.well.repository-group-text.active.no-touching
+    p.repository-description
       svg.iconnables.icons-repository
         use(
           xlink:href = "#icons-repository"
@@ -24,34 +24,35 @@
         xlink:href = "#icons-arrow-down"
       )
     .popover.bottom.popover-repository-toggle.in.no-touching(
-      style = "left: -7px; top: 114px;"
+      style = "left: -36px; top: 114px;"
     )
       .arrow.white
-      ul.list.popover-list.toggle-group
-        li.list-item.popover-list-item.toggle-group-item.no-touching
-          .toggle-group-title Stopping the closing of this popover
-          .toggle-group-detail.clearfix
-            small.small Nathan219—6 days ago
-            svg.iconnables.icons-git
-              use(
-                xlink:href = "#icons-git"
-              )
-        li.list-item.popover-list-item.toggle-group-item.no-touching
-          .toggle-group-title Merge pull request #409
-          .toggle-group-detail.clearfix
-            small.small tjmehta—8 days ago
-            svg.iconnables.icons-git
-              use(
-                xlink:href = "#icons-git"
-              )
-        li.list-item.popover-list-item.toggle-group-item.no-touching
-          .toggle-group-title remove build leak in tab cache
-          .toggle-group-detail.clearfix
-            small.small SomeKittens—10 days ago
-            svg.iconnables.icons-git
-              use(
-                xlink:href = "#icons-git"
-              )
+      .popover-content
+        ul.list.popover-list.toggle-group
+          li.list-item.popover-list-item.toggle-group-item.no-touching
+            .toggle-group-title Stopping the closing of this popover
+            .toggle-group-detail.clearfix
+              small.small Nathan219—6 days ago
+              svg.iconnables.icons-git
+                use(
+                  xlink:href = "#icons-git"
+                )
+          li.list-item.popover-list-item.toggle-group-item.no-touching
+            .toggle-group-title Merge pull request #409
+            .toggle-group-detail.clearfix
+              small.small tjmehta—8 days ago
+              svg.iconnables.icons-git
+                use(
+                  xlink:href = "#icons-git"
+                )
+          li.list-item.popover-list-item.toggle-group-item.no-touching
+            .toggle-group-title remove build leak in tab cache
+            .toggle-group-detail.clearfix
+              small.small SomeKittens—10 days ago
+              svg.iconnables.icons-git
+                use(
+                  xlink:href = "#icons-git"
+                )
 .col.col-50.flex-center
   h2.h2.header-thin.text-purple Choose a commit to run instantly
   p.p Use the repository tray to go back in time or switch branches to check out any state of your application.

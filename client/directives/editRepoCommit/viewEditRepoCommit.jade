@@ -3,7 +3,7 @@
   toggle-pop-over
   toggle-pop-over-model = "popoverRepositoryToggle.data.show"
 )
-  h3.repository-title.text-overflow
+  p.repository-description.text-overflow
     svg.iconnables.icons-repository
       use(
         xlink:href = "#icons-repository"
@@ -20,7 +20,7 @@
       use(
         xlink:href = "#icons-commit"
       )
-    | {{ activeCommit.attrs.commit.message }}
+    | {{ activeCommit.attrs.commit.message | limitTo:30 }}
     small.small.repository-detail {{ activeCommit.attrs.commit.author.date | timeAgo }}
   svg.iconnables.icons-arrow-down
     use(

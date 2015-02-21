@@ -1,53 +1,93 @@
-label.label Environment Variables
-.small We use environment variables to link up dependent servers. Update the variables below to match your app, and we'll set them to the paths for the dependencies. Or if you hardcode your dependency paths, update them to the variables below.
-form.list(
-  name = "envStep"
-)
-  .list-item.gray(
-    ng-if = "model.reqEnv && model.reqEnv.length"
-    ng-repeat = "model in state.dependencies"
+h2.sub-header(
+  ng-init = "data.showGuide = true"
+) Dependencies & Environment Variables
+  button.btn.btn-sm.white.sub-header-action(
+    ng-class = "{active: addDependencyPopover.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "addDependencyPopover.data.show"
   )
-    label.label {{ model.opts.name || model.instance.attrs.name }}
-    .list-item-form(
-      name = "eachEnv"
-      ng-form
-      ng-repeat = "envModel in model.reqEnv"
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
+    pop-over(
+      actions = "actions"
+      data = "addDependencyPopover.data"
+      popover-options = "{\"left\":-88,\"top\":45}"
+      template = "viewPopoverAddDependency"
     )
-      label.input-group.input-validate(
-        ng-class = "{\
-          'ng-invalid': eachEnv.$invalid,\
-          'ng-valid': eachEnv.$valid && !eachEnv.$pristine,\
-          focus: envInput.showFocus\
-        }"
-      )
-        span.input-label {{ state.stack.preEnvMarker }}
-        input.input(
-          name = "envInput"
-          ng-blur = "envInput.showFocus = false"
-          ng-focus = "envInput.showFocus = true"
-          ng-model = "envModel.name"
-          placeholder = "{{ envModel.placeholder }}"
-          validate-env-pattern
+.guide(
+  ng-if = "data.showGuide"
+) A separate server is created for each dependency we think your app needs. These servers are linked with the environment variables below.
+  br
+  a.small.link.link-text(
+     href = "https://runnable.zendesk.com/hc/en-us/articles/203676969"
+     target = "_blank"
+  ) More Help
+.label.clearfix(
+  ng-repeat = "model in state.dependencies"
+)
+  .label-col {{ model.opts.name || model.instance.attrs.name }}
+    small.small {{ model.env.newUrl || model.env.originalUrl }}
+  .input-col
+    input.input.input-sm.input-validate(
+      placeholder = "{{ model.env.placeholder }}"
+      ng-model = "model.env.model"
+      required
+      validate-env-pattern
+    )
+    .validate-wrapper.btn-sm.orange
+      span.validate-rules.invalid-pattern Invalid entry
+    button.btn-xxs.white(
+      ng-class = "{active: model.gsPopover.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "model.gsPopover.show"
+    )
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
         )
-        span.input-label {{ state.stack.postEnvMarker }}
-      .validate-wrapper.btn-sm.orange(
-        ng-class = "{\
-            in: eachEnv.$invalid,\
-            'invalid-pattern': eachEnv.$error.envPattern,\
-            'invalid-require': eachEnv.$error.envRequire}"
+      pop-over(
+        actions = "actions"
+        data = "model"
+        popover-options = "{\"left\":-76,\"top\":45}"
+        template = "viewPopoverDependencyMenu"
       )
-        span.validate-rules.invalid-pattern Please use #{''}
-          b.btn-xs.orange A-Z
-          b.btn-xs.orange a-z
-          b.btn-xs.orange 0-9
-          b.btn-xs.orange _
-        span.validate-rules.invalid-require Variable Required
-footer.modal-footer.clearfix
-  button.btn.green(
-    ng-show = "state.step === 3"
-    ng-click = "actions.createAndBuild();"
-    ng-disabled = "envStep.$invalid"
-  ) Build Server
-  button.btn.white(
-    ng-click = "state.step = 2"
-  ) Previous Step
+  //- additional input
+  .input-col(
+    ng-repeat = "env in model.otherEnvs"
+  )
+    input.input.input-sm.input-validate(
+      ng-model = "env.model"
+      placeholder = "ENV_VAR=value"
+      validate-env-pattern
+    )
+    .validate-wrapper.btn-sm.orange
+      span.validate-rules.invalid-pattern Invalid entry
+    button.btn-xxs.white(
+      ng-click = "actions.removeEnv(model, env)"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+//- other vars
+.hr
+a.small.link.link-text.link-gray.link-divider(
+  ng-click = "data.addVariables = true"
+  ng-if = "!data.addVariables"
+) Add Additional Variables
+.label.label-textarea.clearfix(
+  ng-if = "data.addVariables"
+)
+  .label-col Additional Variables
+    small.small Optional
+  .input-col
+    textarea.textarea.pre.input-validate(
+      placeholder = "ENV_VAR=value"
+      spellcheck = "false"
+      ng-model = "state.extraEnvs"
+      validate-env-pattern
+    )
+    .validate-wrapper.btn-sm.orange
+      span.validate-rules.invalid-pattern Invalid entry
