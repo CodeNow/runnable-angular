@@ -101,7 +101,7 @@ function accountsSelect (
       mActions.saveSlackUsername = function () {
         if (!mData.slackUserAccount) { return; }
         var slackOrgAccount = mData.slackUserAccount;
-        slackOrgAccount.githubId = mData.modalActiveAccount.attrs.accounts.github.id;
+        slackOrgAccount.githubId = mData.modalActiveAccount.attrs.id;
         $scope.data.user.update({
           json: {
             accounts: {
