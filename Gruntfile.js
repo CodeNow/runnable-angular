@@ -225,6 +225,10 @@ module.exports = function(grunt) {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js --single-run'
       },
+      'karma-circle': {
+        bg: false,
+        cmd: 'karma start ./test/karma.circle.conf.js --single-run'
+      },
       'karma-watch': {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js'
@@ -255,15 +259,17 @@ module.exports = function(grunt) {
       }
     },
     coverage: {
-      options: {
-        thresholds: {
-          statements: 60.49,
-          branches: 44.29,
-          functions: 53.02,
-          lines: 61.02
-        },
-        dir: 'coverage',
-        root: 'test'
+      default: {
+        options: {
+          thresholds: {
+            statements: 60.49,
+            branches: 43.84,
+            functions: 53.02,
+            lines: 61.02
+          },
+          dir: 'coverage',
+          root: 'test'
+        }
       }
     }
   });
@@ -457,7 +463,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test:unit-coverage', [
     'deleteOldCoverage',
-    'bgShell:karma',
+    'bgShell:karma-circle', // Use the circle karma.conf so it browserifies everything it needs
     'coverage'
   ]);
 
