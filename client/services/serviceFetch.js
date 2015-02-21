@@ -174,25 +174,26 @@ function fetchBuild(
 }
 
 function fetchOwnerRepos (
+  $rootScope,
   pFetchUser,
   errs,
   promisify
 ) {
-  var user;
   return function (userName) {
+    var user;
+    var repoType;
     return pFetchUser().then(function(_user) {
-      user = _user;
-      var repoFetch;
-      if (userName === user.oauthName()) {
-        repoFetch = promisify(user, 'fetchGithubRepos');
+      if (userName === _user.oauthName()) {
+        user = _user;
+        repoType = 'GithubRepos';
       } else {
-        repoFetch = promisify(user.newGithubOrg(userName), 'fetchRepos');
+        user = _user.newGithubOrg(userName);
+        repoType = 'Repos';
       }
-
       var allRepos = [];
 
       function fetchPage(page) {
-        return repoFetch({
+        return promisify(user, 'fetch' + repoType)({
           page: page,
           sort: 'update'
         }).then(function(githubRepos) {
@@ -208,7 +209,7 @@ function fetchOwnerRepos (
       }
       return fetchPage(1);
     }).then(function(reposArr) {
-      var repos = user.newGithubRepos(reposArr, {
+      var repos = user['new' + repoType](reposArr, {
         noStore: true
       });
       repos.ownerUsername = userName;
