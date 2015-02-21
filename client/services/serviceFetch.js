@@ -31,6 +31,8 @@ function fetchInstances(
   hasKeypaths,
   errs,
   $stateParams,
+  $state,
+  $localStorage,
   $q,
   primus,
   $rootScope,
@@ -85,42 +87,54 @@ function fetchInstances(
       // Possible events:
       // start, stop, restart, update, redeploy, deploy, delete, patch, post
       // container_inspect, container_inspect_err
-      switch(data.data.action) {
-        case 'deploy':
-        case 'start':
-        case 'stop':
-        case 'restart':
-        case 'update':
-        case 'redeploy':
-        case 'patch':
-        case 'container_inspect': // Instance died independently
-          cachedInstance = currentInstanceList.find(findInstance);
-          if (cachedInstance) {
-            cachedInstance.parse(data.data.data);
-          } else {
-            // We're getting data about an instance we haven't seen yet.
-            // i.e. we got the `deploy` event before `post`
-            currentInstanceList.add(data.data.data);
+      switch (data.data.action) {
+      case 'deploy':
+      case 'start':
+      case 'stop':
+      case 'restart':
+      case 'update':
+      case 'redeploy':
+      case 'patch':
+      case 'container_inspect': // Instance died independently
+        cachedInstance = currentInstanceList.find(findInstance);
+        if (cachedInstance) {
+          cachedInstance.parse(data.data.data);
+        } else {
+          // We're getting data about an instance we haven't seen yet.
+          // i.e. we got the `deploy` event before `post`
+          currentInstanceList.add(data.data.data);
+        }
+        break;
+      case 'post':
+        cachedInstance = currentInstanceList.find(findInstance);
+        if (!cachedInstance) {
+          currentInstanceList.add(data.data.data);
+        }
+        break;
+      case 'delete':
+        cachedInstance = currentInstanceList.find(findInstance);
+        if (cachedInstance) {
+          currentInstanceList.remove(cachedInstance);
+          if ($stateParams.instanceName === cachedInstance.attrs.name) {
+            // the current instance just got deleted
+            keypather.set(
+              $localStorage,
+              'lastInstancePerUser.' + $stateParams.userName,
+              null
+            );
+            errs.handler(new Error('The instance you were looking at has been deleted.'));
+            $state.go('instance.home', {
+              userName: $stateParams.userName
+            });
           }
-          break;
-        case 'post':
-          cachedInstance = currentInstanceList.find(findInstance);
-          if (!cachedInstance) {
-            currentInstanceList.add(data.data.data);
-          }
-          break;
-        case 'delete':
-          cachedInstance = currentInstanceList.find(findInstance);
-          if (cachedInstance) {
-            currentInstanceList.remove(cachedInstance);
-          }
-          break;
-        case 'container_inspect_err':
-          errs.handler(data);
-          break;
-        default:
-          errs.handler('Error: unknown event encountered');
-          break;
+        }
+        break;
+      case 'container_inspect_err':
+        errs.handler(data);
+        break;
+      default:
+        errs.handler('Error: unknown event encountered');
+        break;
       }
       $timeout(angular.noop);
     });
