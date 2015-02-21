@@ -55,6 +55,7 @@
   }
 
   .icons-arrow-down {
+    position: absolute;
     right: 4px;
   }
 }
@@ -91,7 +92,7 @@
   }
 
   .icons-status {
-    background: rgba($gray-lightest,.45);
+    background: $gray-lightest;
     border: 1px solid rgba($black,.15);
     margin-top: -9px;
 
@@ -107,12 +108,12 @@
     }
 
     &.running {
-      background: rgba($green,.45);
+      background: $green;
       border: 1px solid transparent;
     }
 
     &.building {
-      background: rgba($orange,.45);
+      background: $orange;
       border: 1px solid transparent;
     }
   }
