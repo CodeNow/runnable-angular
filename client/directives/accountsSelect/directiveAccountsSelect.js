@@ -66,6 +66,14 @@ function accountsSelect (
         }
       });
 
+      function getGithubId (mData) {
+        var githubId = keypather.get(mData, 'modalActiveAccount.attrs.accounts.github.id');
+        if (githubId) {
+          return githubId;
+        }
+        return keypather.get(mData, 'modalActiveAccount.attrs.id');
+      }
+
       mActions.closePopover = function() {
         $scope.popoverAccountMenu.data.show = false;
       };
@@ -74,7 +82,7 @@ function accountsSelect (
         var slackUserOrgs = keypather.get(mData, 'user.attrs.accounts.slack.orgs');
         if (slackUserOrgs) {
           var slackAccount = slackUserOrgs.find(function (slackData) {
-            return slackData.githubId === mData.modalActiveAccount.attrs.id;
+            return slackData.githubId === getGithubId(mData);
           });
           mData.slackUserAccount = slackAccount || {};
         }
@@ -101,7 +109,7 @@ function accountsSelect (
       mActions.saveSlackUsername = function () {
         if (!mData.slackUserAccount) { return; }
         var slackOrgAccount = mData.slackUserAccount;
-        slackOrgAccount.githubId = mData.modalActiveAccount.attrs.id;
+        slackOrgAccount.githubId = getGithubId(mData);
         $scope.data.user.update({
           json: {
             accounts: {
