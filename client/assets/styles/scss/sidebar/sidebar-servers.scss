@@ -19,20 +19,11 @@
 
 // li.server-group-item
 .server-group-item {
-  border-radius: 3px;
-  cursor: pointer;
   display: block;
-  height: 45px;
-  line-height: 45px;
-  margin: 0 auto 6px;
-  overflow: hidden;
+  margin: 0 6px;
   padding: 0;
-  position: relative;
   text-align: left;
-  text-overflow: ellipsis;
-  transition: all .2s ease-in;
-  white-space: nowrap;
-  width: 227px; // sidebar width minus status
+  // transition: all .2s ease-in;
 
   &.expanded {
     height: auto;
@@ -57,10 +48,15 @@
     }
   }
 
+  + .server-group-item {
+    margin-top: 3px;
+  }
+
+  // status icon
   .icons-status {
     position: absolute;
-    right: 14px;
-    top: 18px;
+    right: 12px;
+    top: 14px;
   }
 
   .tooltip {

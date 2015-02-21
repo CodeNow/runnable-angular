@@ -28,7 +28,7 @@ ul.list.server-group.load(
   //- .active for current active server
   //- .active.expanded for current active server with links
   //- .runnning for running server
-  li.list-item.server-group-item.btn.white(
+  li.list-item.server-group-item.btn.btn-sm.white(
     ng-class = "getInstanceClasses(instance)"
     ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
     tooltip = "{{ instance.attrs.name }}"
