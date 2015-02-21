@@ -18,7 +18,7 @@ exports.config = {
     //'e2e/deleteRepo.e2e.js',
     //'e2e/renameBox.e2e.js',
     //'e2e/forkBox.e2e.js',
-    //'e2e/deleteBox.e2e.js'
+    'e2e/deleteBox.e2e.js'
   ],
 
   onPrepare: function () {

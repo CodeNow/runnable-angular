@@ -6,7 +6,7 @@ var sidebar = require('./helpers/sidebar');
 var InstancePage = require('./pages/InstancePage');
 var SetupPage = require('./pages/SetupPage');
 
-var instanceNames = ['Test-Rename', 'Test-Fork', 'Test-1'];
+var instanceNames = ['node_hello_world'];
 
 describe('delete', function() {
   // Instances that were created during e2e tests
@@ -25,7 +25,7 @@ describe('delete', function() {
 
       // Confirm we're on the right page
       if (idx === instanceNames.length - 1) {
-        util.waitForUrl(SetupPage.urlRegex);
+        util.waitForUrl(/runnable-doobie\/$/);
       } else {
         util.waitForUrl(InstancePage.urlRegex);
       }
@@ -33,8 +33,9 @@ describe('delete', function() {
   });
 
   it('should confirm everything was deleted', function() {
-    var setup = new SetupPage();
-    setup.get();
+    // var setup = new SetupPage();
+    // setup.get();
+    util.waitForUrl(/runnable-doobie\/$/);
     expect(sidebar.numBoxes()).toEqual(0);
   });
 });

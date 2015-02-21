@@ -5,7 +5,7 @@ var util = require('../helpers/util');
 function ActivePanel (pageType) {
   this.pageType = pageType;
 
-  this.addTab = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab > div:nth-child(4) > a'));
+  this.addTab = util.createGetter(by.css('.add-tab'));
 
   this.currentContent = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark'));
 
