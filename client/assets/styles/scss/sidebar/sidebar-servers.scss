@@ -1,19 +1,18 @@
 // section.row.nav-servers
 .nav-servers {
-  display: flex;
   flex: 1 1 auto;
-  flex-direction: column;
   overflow-y: auto;
   position: relative;
   z-index: $z-sidebar-content;
 
-  .sub-header {
-    flex: 0 0 auto;
+  .spinner-wrapper {
+    top: 60px;
   }
 
-  .spinner-wrapper {
-    align-items: flex-start;
-    top: 60px;
+  .hr {
+    background: rgba($black,.1);
+    height: 1px;
+    margin: 15px;
   }
 }
 
