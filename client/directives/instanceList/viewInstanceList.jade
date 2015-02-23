@@ -85,18 +85,22 @@ ul.list.load
       "
     )
       a.list-item-name.text-overflow anand-web
-      span.icons-status.running
+      span.icons-status
       //- nested server cluster
       div
         a.server-item-cluster(
           ng-if = "data.toggleThisServer"
         ) anand-api
-          span.icons-status.running
-    .list-item.btn.btn-sm.purple(
+          span.icons-status
+        a.server-item-cluster(
+          ng-if = "data.toggleThisServer"
+        ) stage-mongo
+          span.icons-status
+    .list-item.btn.btn-sm.purple.running(
       ng-click = "$event.stopPropagation()"
     )
       a.list-item-name.text-overflow anand-api
-      span.icons-status.running
+      span.icons-status
   li.list-item.btn.btn-sm.white
     img.gravatar(
       height = "21"

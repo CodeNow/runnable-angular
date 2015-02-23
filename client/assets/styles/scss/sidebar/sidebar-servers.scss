@@ -122,10 +122,9 @@
   }
 
   .icons-status {
-    background: $gray-lightest;
-    border: 1px solid rgba($black,.3);
     margin-top: -8px;
 
+    // linking line
     &::before {
       background: rgba($black,.15);
       content: '';
@@ -135,16 +134,6 @@
       position: relative;
       top: -14px;
       width: 1px;
-    }
-
-    &.running {
-      background: $green;
-      border: 1px solid transparent;
-    }
-
-    &.building {
-      background: $orange;
-      border: 1px solid transparent;
     }
   }
 }
