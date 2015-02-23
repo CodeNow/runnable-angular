@@ -102,7 +102,7 @@
 // a.server-item-cluster
 .server-item-cluster {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 21px;
   padding: 0 21px 0 9px;
   position: relative;
@@ -124,16 +124,16 @@
   .icons-status {
     background: $gray-lightest;
     border: 1px solid rgba($black,.3);
-    margin-top: -9px;
+    margin-top: -8px;
 
     &::before {
       background: rgba($black,.15);
       content: '';
       display: block;
-      height: 12px;
+      height: 13px;
       margin: 0 auto;
       position: relative;
-      top: -13px;
+      top: -14px;
       width: 1px;
     }
 
