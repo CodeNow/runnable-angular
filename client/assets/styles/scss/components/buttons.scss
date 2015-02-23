@@ -23,13 +23,6 @@ button,
     text-decoration: none;
   }
 
-  &:hover {
-
-    > .icons-gear {
-      transform: rotate3d(0,0,1,30deg);
-    }
-  }
-
   &:active {
     transition: none;
   }
