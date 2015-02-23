@@ -7,16 +7,11 @@ require('app')
  */
 function ControllerInstanceLayout(
   configLogoutURL,
-  pFetchUser,
   fetchInstances,
-  $stateParams,
-  errs,
   $rootScope,
-  $timeout,
   keypather,
   $scope
 ) {
-  var thisUser;
 
   var dataInstanceLayout = $scope.dataInstanceLayout = {
     data: {},
@@ -24,30 +19,27 @@ function ControllerInstanceLayout(
     actions: {}
   };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
-  pFetchUser().then(function(user) {
-    thisUser = user;
-    return resolveInstanceFetch(
-      keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') ||
-      $stateParams.userName ||
-      user.oauthName()
-    );
-  }).catch(errs.handler);
+  var unwatch = $rootScope.$watch('dataApp.data.activeAccount.oauthName()', function (n) {
+    if (!n) { return; }
+    unwatch();
+    resolveInstanceFetch(n);
+  });
 
   function resolveInstanceFetch(username) {
     if (!username) { return; }
-    $rootScope.dataApp.state.loadingInstances = true;
-    $rootScope.dataApp.data.instances = null;
+    keypather.set($rootScope, 'dataApp.state.loadingInstances', true);
+    keypather.set($rootScope, 'dataApp.data.instances', null);
     fetchInstances({
       githubUsername: username
     }).then(function (instances) {
-      if (username === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-        $rootScope.dataApp.data.instances = instances;
-        $rootScope.dataApp.state.loadingInstances = false;
+      if (instances.githubUsername === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+        keypather.set($rootScope, 'dataApp.state.loadingInstances', false);
+        keypather.set($rootScope, 'dataApp.data.instances', instances);
       }
     });
   }
 
-  var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function(event, username) {
+  var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function (event, username) {
     resolveInstanceFetch(username);
   });
 

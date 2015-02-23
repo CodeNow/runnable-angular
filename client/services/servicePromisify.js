@@ -4,7 +4,7 @@ require('app')
   .factory('promisify', promisify);
 
 function promisify($exceptionHandler, $q) {
-  return function promisify(model, fn) {
+  return function promisify(model, fn, skipEarlyReturn) {
     if (!model[fn]) {
       throw new Error('Attempted to call a function of a model that doesn\'t exist');
     }
@@ -28,7 +28,7 @@ function promisify($exceptionHandler, $q) {
         returnedVal = model[fn].apply(model, args);
         // For Models || Collections
         // length > 2 because sometimes, the api-client will send back an empty model with 1 attribute
-        if (returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 2) ||
+        if (!skipEarlyReturn && returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 2) ||
             (returnedVal.models && returnedVal.models.length))) {
           d.resolve(returnedVal);
         }

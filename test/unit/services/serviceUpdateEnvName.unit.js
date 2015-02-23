@@ -26,7 +26,7 @@ function testModels() {
         name: 'apple',
         env: [
           'a=morange.user.runnable.io',
-          'b =http://orange.user.runnable.io',
+          'b =mysql://orange.user.runnable.io',
           'c = orange.user.runnable.io',
           'e = banana.user.runnable.io:2031/github/api',
           'f= banana.manana.user.runnable.io:2031/github/api',
@@ -46,7 +46,7 @@ function testModels() {
         env: [
           'a= banana.manana.user.runnable.io:2031/github/api',
           'c = orange.user.runnable.io',
-          'e = http://morange.user.runnable.io:1231'
+          'e = mongodb://morange.user.runnable.io:1231'
         ]
       },
       changes: {
@@ -129,8 +129,8 @@ function testRoot(models) {
       name: 'pineapple',
       env: [
         'a=morange.user.runnable.io',
-        'b =http://apple.user.runnable.io',
-        'c = orange.user.runnable.io',
+        'b =jdbc:mysql://apple.user.runnable.io',
+        'c = http://orange.user.runnable.io',
         'd = https://morange.user.runnable.io:3232',
         'e = banana.user.runnable.io:2031/github/api',
         'f= banana.manana.user.runnable.io:2031/github/api',
@@ -187,7 +187,7 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
       expect(items[0].opts.env).to.exist;
       expect(items[0].opts.env.length).to.eql(root.attrs.env.length);
       compareArrays(items[0].opts.env, root.attrs.env, [1]);
-      expect(items[0].opts.env[1]).to.eql('b =http://chicken.user.runnable.io');
+      expect(items[0].opts.env[1]).to.eql('b =jdbc:mysql://chicken.user.runnable.io');
 
     });
     it('renaming root should only affect itself', function () {
@@ -216,7 +216,7 @@ describe('serviceUpdateEnvName'.bold.underline.blue, function () {
       expect(items[0].opts.env).to.exist;
       expect(items[0].opts.env.length).to.eql(root.attrs.env.length);
       compareArrays(items[0].opts.env, root.attrs.env, [1, 6]);
-      expect(items[0].opts.env[1]).to.eql('b =http://chicken.user.runnable.io');
+      expect(items[0].opts.env[1]).to.eql('b =jdbc:mysql://chicken.user.runnable.io');
       expect(items[0].opts.env[6]).to.eql('f= beef.user.runnable.io:2031/github/api');
     });
   });

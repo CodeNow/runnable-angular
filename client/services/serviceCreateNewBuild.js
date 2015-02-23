@@ -29,7 +29,8 @@ function createNewBuild(
           version = newContextVersion;
           if (appCodeVersions) {
             return $q.all(appCodeVersions.map(function (acvState) {
-              return promisify(version.appCodeVersions, 'create')(acvState);
+              var skipEarlyReturn = true;
+              return promisify(version.appCodeVersions, 'create', skipEarlyReturn)(acvState);
             }));
           }
           return version;

@@ -1,7 +1,7 @@
+h2.sub-header Application
 label.label.clearfix
   .label-col Branch
-    small.small Specify the branch of your repository
-  .btn.btn-sm.gray.btn-select.text-overflow
+  .btn.btn-sm.gray.btn-select.text-overflow.input-col
     svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch"
@@ -17,8 +17,7 @@ label.label.clearfix
     )
 .label.clearfix
   .label-col Framework/Language
-    small.small The primary framework or language of your repository
-  .btn-group
+  .btn-group.input-col
     .btn.btn-sm.gray.btn-select.text-overflow
       img.img(
         height = "18"
@@ -26,7 +25,6 @@ label.label.clearfix
         width = "18"
       )
       small.small {{state.stack.name}}
-      //- small.small {{ state.stack.name }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -43,7 +41,6 @@ label.label.clearfix
       //- - final text has v prepended
       //- - option text does NOT have v preprended
       small.small v{{state.stack.selectedVersion}}
-      //- small.small {{ version.selected }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -52,7 +49,7 @@ label.label.clearfix
         ng-model = "state.stack.selectedVersion"
         ng-options = "version as version group by 'Choose version' for version in state.stack.versions "
       )
-  .btn-group(
+  .btn-group.input-col(
     ng-repeat = "depStack in state.stack.dependencies"
   )
     button.btn.btn-sm.gray.btn-select.text-overflow
@@ -64,7 +61,6 @@ label.label.clearfix
       small.small {{depStack.name}}
     .btn.btn-sm.gray.btn-select.text-overflow
       small.small v{{depStack.selectedVersion}}
-      //- small.small {{ version.selected }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -77,28 +73,15 @@ label.label.clearfix
   .label-col Ports
     small.small Separate by commas
   //- placeholder and values should be the same
-  input.input.input-sm(
+  input.input.input-sm.input-col(
     ng-model = "state.ports"
     placeholder = "{{ state.stack.ports }}"
   )
 label.label.clearfix
   .label-col Command
-    small.small Something about commands
+    small.small The command that'll start your app
   //- placeholder and values should be the same
-  input.input.input-sm(
+  input.input.input-sm.input-col(
     ng-model = "state.startCommand"
     placeholder = "{{ state.stack.startCommand }}"
   )
-.modal-stack-dependencies.clearfix(
-  actions = "actions"
-  data = "data"
-  modal-stack-dependencies
-  state = "state"
-)
-footer.modal-footer.clearfix
-  button.btn.green(
-    ng-click = "actions.nextStep(3)"
-  ) Next Step
-  button.btn.white(
-    ng-click = "actions.changeStep(1)"
-  ) Previous Step

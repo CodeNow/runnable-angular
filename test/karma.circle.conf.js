@@ -95,7 +95,12 @@ module.exports = function(config) {
 
     coverageReporter: {
       type: 'json',
-      dir : 'coverage/'
+      dir : 'coverage',
+      reporters: [
+        { type: 'text-summary', subdir: '.'},
+        { type: 'json', subdir: '.', file: 'coverage.json' },
+        { type: 'html', subdir: 'html' }
+      ]
     },
 
     // web server port
