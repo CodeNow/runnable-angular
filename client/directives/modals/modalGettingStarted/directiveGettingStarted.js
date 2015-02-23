@@ -306,7 +306,8 @@ function modalGettingStarted(
       }
 
       function createAppCodeVersions(version, repo, branch) {
-        return promisify(version.appCodeVersions, 'create')({
+        var skipEarlyReturn = true;
+        return promisify(version.appCodeVersions, 'create', skipEarlyReturn)({
           repo: repo.attrs.full_name,
           branch: branch.attrs.name,
           commit: branch.attrs.commit.sha
