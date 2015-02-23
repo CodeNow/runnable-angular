@@ -43,8 +43,8 @@ ul.list.load(
       title = "{{ getInstanceAltTitle(instance) }}"
     )
     linked-instances(
-      instances = 'data.instances'
       instance-dependencies = "instance.dependencies"
+      instances = 'data.instances'
       ng-if = "getInstanceClasses(instance).expanded"
       state-to-instance = 'stateToInstance'
       type = "sidebar"
@@ -55,7 +55,13 @@ h2.sub-header.load
 
 //- list of users
 ul.list.load
-  li.list-item.btn.btn-sm.white
+  li.list-item.btn.btn-sm.white(
+    ng-class = "{\
+      active: data.toggleThisUser,\
+      expanded: data.toggleThisUser\
+    }"
+    ng-click = "data.toggleThisUser = !data.toggleThisUser"
+  )
     img.gravatar(
       height = "21"
       src = "https://avatars0.githubusercontent.com/u/2194285?v=3&s=96"
@@ -66,6 +72,17 @@ ul.list.load
       use(
         xlink:href = "#icons-arrow-down"
       )
+    //- nested server
+    .list-item.btn.btn-sm.purple(
+      ng-click = "$event.stopPropagation()"
+    )
+      a.list-item-name.text-overflow anand-web
+      span.icons-status.running
+    .list-item.btn.btn-sm.purple(
+      ng-click = "$event.stopPropagation()"
+    )
+      a.list-item-name.text-overflow anand-api
+      span.icons-status.running
   li.list-item.btn.btn-sm.white
     img.gravatar(
       height = "21"
@@ -77,7 +94,7 @@ ul.list.load
       use(
         xlink:href = "#icons-arrow-down"
       )
-  li.list-item.btn.btn-sm.white.expanded.active
+  li.list-item.btn.btn-sm.white
     img.gravatar(
       height = "21"
       src = "https://avatars2.githubusercontent.com/u/467885?v=3&s=96"
@@ -88,12 +105,6 @@ ul.list.load
       use(
         xlink:href = "#icons-arrow-down"
       )
-    .list-item.btn.btn-sm.purple
-      a.list-item-name.text-overflow cflynn-web
-      span.icons-status.running
-    .list-item.btn.btn-sm.purple
-      a.list-item-name.text-overflow cflynn-api
-      span.icons-status.running
   li.list-item.btn.btn-sm.white
     img.gravatar(
       height = "21"
