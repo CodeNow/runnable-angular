@@ -6,76 +6,69 @@
   position: relative;
   z-index: $z-sidebar-content;
 
+  // spinner
   .spinner-wrapper {
     top: 60px;
   }
 
-  .hr {
-    height: 21px;
-  }
-}
-
-// li.server-list-item
-.server-list-item,
-.team-list-item {
-  color: $gray-dark;
-  display: block;
-  margin: 0 6px;
-  padding: 0;
-  text-align: left;
-  transition: all .2s ease-in;
-
-  &:active,
-  &.active {
-
-    // a.list-item-name
-    .list-item-name {
-      font-weight: 500;
-    }
+  // server list
+  .list {
+    margin-bottom: 21px;
   }
 
-  // if there are links
-  &.expanded {
-    height: auto;
-  }
-
-  + .list-item {
-    margin-top: 3px;
-  }
-
-  // status icon
-  .icons-status {
-    position: absolute;
-    right: 12px;
-    top: 14px;
-  }
-}
-
-.team-list-item {
-  overflow: hidden;
-
-  &.active {
-    background: transparent !important;
-    color: $gray-dark !important;
-
-    .list-item-name {
-      font-weight: 400;
-    }
-  }
-
-  // team members
+  // server item
   .list-item {
-    margin: 0;
-    text-indent: 29px;
-  }
+    color: $gray-dark;
+    display: block;
+    margin: 0 6px;
+    padding: 0;
+    text-align: left;
 
-  .gravatar {
-    margin: 8px 0 0 8px;
-  }
+    &:active,
+    &.active {
 
-  .icons-arrow-down {
-    position: absolute;
-    right: 4px;
+      // a.list-item-name
+      > .list-item-name {
+        font-weight: 500;
+      }
+    }
+
+    // if there are linked servers
+    &.expanded {
+      height: auto;
+    }
+
+    // spacing servers
+    + .list-item {
+      margin-top: 3px;
+    }
+
+    // status icon
+    .icons-status {
+      position: absolute;
+      right: 12px;
+      top: 14px;
+    }
+
+    // gravatar
+    .gravatar {
+      margin: 8px 0 0 8px;
+    }
+
+    // expand user
+    .icons-arrow-down {
+      position: absolute;
+      right: 4px;
+    }
+
+    // nested servers
+    .list-item {
+      border-radius: 0;
+      color: currentColor;
+      font-weight: 400;
+      margin: 0;
+      text-indent: 29px;
+    }
   }
 }
 
@@ -112,7 +105,7 @@
 
   .icons-status {
     background: $gray-lightest;
-    border: 1px solid rgba($black,.15);
+    border: 1px solid rgba($black,.3);
     margin-top: -9px;
 
     &::before {
