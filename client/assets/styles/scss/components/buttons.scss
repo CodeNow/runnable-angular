@@ -172,14 +172,14 @@ button,
 }
 
 .gray {
-  background: rgba($gray-darker,.1);
+  background: $gray-lightest;
   border: 0;
   color: $gray;
 
   &.btn {
 
     &:hover {
-      background: rgba($gray-darker,.2);
+      background: rgba($gray-darker,.125);
     }
 
     &:active,
@@ -292,7 +292,7 @@ button,
   &.btn {
 
     &:hover {
-      background: rgba($black,.1);
+      background: rgba($gray-darker,.125);
     }
 
     &:active,

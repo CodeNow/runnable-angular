@@ -20,15 +20,12 @@
     }
 
     // states
-    &.active a {
+    &.active a,
+    &.active a:hover {
       background: rgba($purple-light,.15);
       color: $purple-light;
       cursor: default;
       font-weight: 500;
-
-      &:hover {
-        background: rgba($purple-light,.15);
-      }
     }
 
     a {
@@ -40,10 +37,11 @@
       white-space: nowrap;
 
       &:hover {
-        background: rgba($black,.1);
+        background: rgba($gray-darker,.1);
       }
 
       &:active {
+        background: rgba($purple-light,.15);
         color: $purple-light;
         font-weight: 500;
         transition: none;
