@@ -9,7 +9,7 @@
     )
     h3.modal-heading Create New Server
     ul.list
-      li.list-item(
+      li.list-item.btn.white(
         ng-class = "{active: state.step === 1,\
           visited: state.furthestStep > 1}"
         ng-click = "actions.changeStep(1)"
@@ -22,9 +22,9 @@
               xlink:href = "#icons-repository"
             )
           | {{ state.selectedRepo.attrs.full_name }}
-      li.list-item(
+      li.list-item.btn.white(
         ng-class = "{active: state.step === 2,\
-          'no-states': state.furthestStep < 2,\
+          'no-touching': state.furthestStep < 2,\
           visited: state.furthestStep > 2}"
         ng-click = "actions.changeStep(2)"
       ) 2 Application
@@ -53,9 +53,9 @@
               xlink:href = "{{ depStack.key | getStackIconFilter }}"
             )
           | {{ depStack.name }}
-      li.list-item(
+      li.list-item.btn.white(
         ng-class = "{active: state.step === 3,\
-          'no-states': state.furthestStep < 3}"
+          'no-touching': state.furthestStep < 3}"
         ng-click = "actions.changeStep(3)"
       ) 3 Dependencies
     a.link.link-text.small(

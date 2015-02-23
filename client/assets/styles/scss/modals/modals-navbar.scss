@@ -25,41 +25,23 @@
   }
 
   .list-item {
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
+    display: block;
     height: 30px;
     line-height: 30px;
     margin: 0 9px;
-    padding: 0 15px;
+    text-align: left;
 
     @include media(xs) {
       display: inline-block;
       margin-right: 0;
     }
 
-    &:hover {
-      background: rgba($black,.06);
-    }
-
     &:active,
     &.active {
-      background: rgba($purple-light,.2);
-      color: $purple-light;
       font-weight: 500;
 
       .small {
         color: currentColor;
-      }
-    }
-
-    &.no-states {
-      cursor: default;
-
-      &:hover,
-      &:active {
-        background: transparent;
-        color: $gray-dark;
       }
     }
 
