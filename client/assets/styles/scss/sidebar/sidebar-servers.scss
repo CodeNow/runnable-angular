@@ -64,11 +64,28 @@
 
     // nested servers
     .list-item {
+      border-bottom: 1px solid transparent;
       border-radius: 0;
+      border-top: 1px solid transparent;
       color: currentColor;
       font-weight: 400;
       margin: 0;
       text-indent: 29px;
+
+      // override color overlaps
+      &:hover,
+      &:active {
+        background: rgba($purple-light,.1);
+      }
+
+      &.active {
+        background: rgba($purple-light,.1);
+        border-color: rgba($purple-light,.2);
+
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
     }
   }
 }

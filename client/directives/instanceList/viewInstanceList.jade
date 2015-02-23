@@ -42,7 +42,8 @@ ul.list.load(
     span.icons-status(
       title = "{{ getInstanceAltTitle(instance) }}"
     )
-    linked-instances(
+    div(
+      linked-instances
       instance-dependencies = "instance.dependencies"
       instances = 'data.instances'
       ng-if = "getInstanceClasses(instance).expanded"
@@ -74,10 +75,23 @@ ul.list.load
       )
     //- nested server
     .list-item.btn.btn-sm.purple(
-      ng-click = "$event.stopPropagation()"
+      ng-class = "{\
+        active: data.toggleThisServer,\
+        expanded: data.toggleThisServer\
+      }"
+      ng-click = "\
+        $event.stopPropagation();\
+        data.toggleThisServer = true;\
+      "
     )
       a.list-item-name.text-overflow anand-web
       span.icons-status.running
+      //- nested server cluster
+      div
+        a.server-item-cluster(
+          ng-if = "data.toggleThisServer"
+        ) anand-api
+          span.icons-status.running
     .list-item.btn.btn-sm.purple(
       ng-click = "$event.stopPropagation()"
     )
