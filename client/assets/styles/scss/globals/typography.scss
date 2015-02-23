@@ -75,6 +75,11 @@ input ~ small {
   margin-left: 12px; // match input padding
 }
 
+.hr {
+  background: rgba($black,.1);
+  height: 1px;
+}
+
 // override ace
 .pre {
   background: none;

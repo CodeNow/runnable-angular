@@ -36,22 +36,25 @@ function gsRepoSelector(
           })) || $scope.data.stacks[0];
           setStackSelectedVersion($scope.state.stack, data.version);
           if (data.serviceDependencies && data.serviceDependencies.length) {
-            var unwatch = $scope.$watch('data.allDependencies', function (allDeps) {
-              if (allDeps) {
-                unwatch();
-                var includedDeps = data.serviceDependencies.map(
-                  function (dep) {
-                    return allDeps.models.find(
-                      hasKeypaths({'attrs.name.toLowerCase()': dep.toLowerCase()})
-                    ) || false;
-                  }
-                );
-                includedDeps.forEach(function (dep) {
-                  if (dep) {
-                    $scope.actions.addDependency(dep);
-                  }
-                });
-              }
+            return $q(function (resolve) {
+              var unwatch = $scope.$watch('data.allDependencies', function (allDeps) {
+                if (allDeps) {
+                  unwatch();
+                  var includedDeps = data.serviceDependencies.map(
+                    function (dep) {
+                      return allDeps.models.find(
+                        hasKeypaths({'attrs.name.toLowerCase()': dep.toLowerCase()})
+                      ) || false;
+                    }
+                  );
+                  includedDeps.forEach(function (dep) {
+                    if (dep) {
+                      $scope.actions.addDependency(dep);
+                    }
+                  });
+                  resolve();
+                }
+              });
             });
           }
         });
@@ -62,6 +65,7 @@ function gsRepoSelector(
         repo.spin = true;
         $scope.state.ports = null;
         $scope.state.startCommand = null;
+        $scope.state.extraEnvs = null;
         $scope.state.selectedRepo = repo;
         promisify(repo.branches, 'fetch')(
         ).then(function getActiveBranch() {

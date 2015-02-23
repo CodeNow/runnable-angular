@@ -19,13 +19,15 @@
 
   .account-header {
     border-bottom: 1px solid rgba($black,.1);
+    height: 60px;
+    line-height: 60px;
 
     .gravatar {
-      margin: 24px 9px 0 2px;
+      margin: 18px 9px 0 2px;
     }
 
-    .account-name {
-      position: static;
+    .icons-arrow-down {
+      top: 18px;
     }
   }
 
@@ -76,7 +78,6 @@
     }
 
     &.small {
-      font-size: 13px;
 
       @include media(xs) {
         display: block;

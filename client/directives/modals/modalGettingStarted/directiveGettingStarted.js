@@ -23,6 +23,7 @@ function modalGettingStarted(
   fetchInstances,
   keypather,
   createNewBuild,
+  createInstanceUrl,
   configUserContentDomain
 ) {
   return {
@@ -53,9 +54,20 @@ function modalGettingStarted(
 
       $scope.actions = {
         addDependency: function (instance, fromExisting) {
-          var envs = keypather.get(instance, 'containers.models[0].urls(%)', configUserContentDomain) || [];
+          var url = (keypather.get(
+            instance,
+            'containers.models[0].urls(%)[0]',
+            configUserContentDomain
+          ) || createInstanceUrl(instance)).toLowerCase();
+          url = url.replace(/https?:\/\//, '')
+            .replace(/:\d{0,5}/g, '');
+
+          if (!fromExisting) {
+            url = url.replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
+          }
           var envName = instance.attrs.name.replace(/-/gm, '_').toUpperCase();
-          $scope.state.dependencies.push({
+          var thisEnvName = envName + '_HOST';
+          var newItem = {
             instance: instance,
             opts: !fromExisting ? {
               env: instance.attrs.env,
@@ -63,17 +75,23 @@ function modalGettingStarted(
                 github: $scope.data.activeAccount.oauthId()
               }
             } : null,
-            reqEnv: envs.map(function (url, index) {
-              url = url.replace(/https?:\/\//, '').replace(/:\d{0,5}/g, '');
-              var thisEnvName = envName + '_HOST' + (index > 0 ? index : '');
-              return {
-                name: thisEnvName,
-                placeholder: thisEnvName,
-                url: url,
-                originalUrl: url
-              };
-            })
-          });
+            env: {
+              model: thisEnvName + '=' + url,
+              originalUrl: url
+            },
+            otherEnvs: []
+          };
+          if (!fromExisting) {
+            generateDependencyName(newItem);
+          }
+          $scope.state.dependencies.push(newItem);
+        },
+        addEnv: function (item) {
+          item.otherEnvs.push({ model: '' });
+        },
+        removeEnv: function (item, env) {
+          var index = item.otherEnvs.indexOf(env);
+          item.otherEnvs.splice(index, 1);
         },
         removeDependency: function (model) {
           var index = $scope.state.dependencies.indexOf(model);
@@ -103,7 +121,7 @@ function modalGettingStarted(
             });
           });
         },
-        createAndBuild: function() {
+        createAndBuild: function () {
           if ($scope.building) { return; }
           $scope.building = true;
           // first thing to do is generate the dockerfile
@@ -220,15 +238,7 @@ function modalGettingStarted(
             };
             $scope.data.instances = null;
           }
-          resetModalData(
-            user
-          ).then(function () {
-            return fetchInstances({
-              githubUsername: user.oauthName()
-            });
-          }).then(function (instances) {
-            $scope.data.instances = instances;
-          });
+          resetModalData(user);
         }
       });
 
@@ -240,18 +250,34 @@ function modalGettingStarted(
         return createNewBuild(user).then(function (buildWithVersion) {
           $scope.state.build = buildWithVersion;
           $scope.state.contextVersion = buildWithVersion.contextVersion;
+        }).then(function () {
+          return fetchInstances({
+            githubUsername: user.oauthName()
+          });
+        }).then(function (instances) {
+          $scope.data.instances = instances;
         });
       }
 
       function generateDependencyName(item) {
+        if (!item.opts) { return; } // No opts means we're just referencing, not forking.
         var newName = getNewForkName(item.instance, $scope.data.instances, true);
+        // oldUrl will be the one we're looking for in the env
+        var oldUrl = ((item.opts.name) ? item.env.originalUrl.replace(
+          new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
+          item.opts.name
+        ) : item.env.originalUrl).toLowerCase();
+        var newUrl = item.env.originalUrl.replace(
+          new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
+          newName
+        ).toLowerCase();
         item.opts.name = newName;
-        item.reqEnv.forEach(function (env) {
-          env.url = env.originalUrl.replace(
-            new RegExp(regexpQuote(item.instance.attrs.name), 'i'),
-            newName
-          ).replace(/hellorunnable/gi, $scope.data.activeAccount.oauthName());
-        });
+        item.env.model = item.env.model.replace(
+          new RegExp(regexpQuote(oldUrl), 'i'),
+          newUrl
+        );
+        item.env.newUrl = newUrl;
+        item.env.placeholder = item.env.model;
       }
       function generateDependenciesNames() {
         $scope.state.dependencies.forEach(function (item) {
@@ -264,17 +290,24 @@ function modalGettingStarted(
       function generateEnvs(depModels) {
         var envList = [];
         depModels.forEach(function (item) {
-          if (item.reqEnv) {
-            item.reqEnv.forEach(function (env) {
-              envList.push((env.name || env.placeholder) + '=' + env.url);
+          envList.push(item.env.model);
+          if (item.otherEnvs.length) {
+            item.otherEnvs.forEach(function (env) {
+              if (env.length) { envList.push(env); }
             });
           }
         });
+        if ($scope.state.extraEnvs) {
+          $scope.state.extraEnvs.split('\n').forEach(function (env) {
+            if (env.length) { envList.push(env); }
+          });
+        }
         return envList;
       }
 
       function createAppCodeVersions(version, repo, branch) {
-        return promisify(version.appCodeVersions, 'create')({
+        var skipEarlyReturn = true;
+        return promisify(version.appCodeVersions, 'create', skipEarlyReturn)({
           repo: repo.attrs.full_name,
           branch: branch.attrs.name,
           commit: branch.attrs.commit.sha

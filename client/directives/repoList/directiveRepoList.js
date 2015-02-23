@@ -136,6 +136,12 @@ function repoList(
 
       $scope.$watch('data.autoDeploy', debounceUpdate);
 
+      $scope.$watch('instance.attrs.locked', function (n) {
+        if (n !== undefined) {
+          $scope.data.autoDeploy = n;
+        }
+      });
+
       pFetchUser(
       ).then(function (user) {
         $scope.user = user;

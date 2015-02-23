@@ -5,7 +5,7 @@
   &.ng-pristine {
     background: $white;
     border-color: rgba($black,.15);
-    box-shadow: inset 0 0 3px rgba($black,.15);
+    box-shadow: none;
   }
 
   &.ng-invalid {

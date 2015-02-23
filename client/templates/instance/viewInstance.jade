@@ -64,7 +64,7 @@ header.server-header
 
 //- sidebar with repositories and urls
 section.sidebar.server-sidebar.load(
-  coach-mark-style = "{\"left\": 28, \"top\": 129}"
+  coach-mark-style = "{\"left\": 7, \"top\": 108}"
   coach-mark-template = "viewCoachMarksRepoPopover"
   coach-mark-type = "repoList"
   show-coach-marks
@@ -74,6 +74,7 @@ section.sidebar.server-sidebar.load(
     instance = "dataInstance.data.instance"
     loading = "dataApp.data.loading"
     repo-list
+    ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
   )
 
   section.row.explorer(

@@ -1,0 +1,8 @@
+.modal-stack-selector .label {
+
+  // center if no description text
+  &:nth-child(2),
+  &:nth-child(3) {
+    line-height: 36px;
+  }
+}
