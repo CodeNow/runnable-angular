@@ -38,13 +38,12 @@ describe('project creation workflow', function () {
     util.waitForUrl(InstancePage.urlRegex);
 
     // Removing until backend fixes key issue
-    // browser.wait(function () {
-    //   return util.hasClass(instance.statusIcon, 'running');
-    // });
+    browser.wait(function () {
+      return util.hasClass(instance.statusIcon, 'running');
+    });
 
-    instance.activePanel.setActiveTab('Box Logs');
-    browser.wait(instance.activePanel.aceLoaded.bind(instance.activePanel));
+    instance.activePanel.setActiveTab('Server Logs');
 
-    expect(instance.activePanel.getContents()).toMatch('sleep 123456789');
+    expect(instance.activePanel.getContents()).toMatch('/bin/sh -c npm start');
   });
 });
