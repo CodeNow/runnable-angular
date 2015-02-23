@@ -16,7 +16,7 @@ function modalGettingStarted(
   regexpQuote,
   gsPopulateDockerfile,
   $q,
-  promisify,
+  promisify2,
   createNewInstance,
   $state,
   fetchStackInfo,
@@ -306,7 +306,7 @@ function modalGettingStarted(
       }
 
       function createAppCodeVersions(version, repo, branch) {
-        return promisify(version.appCodeVersions, 'create')({
+        return promisify2(version.appCodeVersions, 'create')({
           repo: repo.attrs.full_name,
           branch: branch.attrs.name,
           commit: branch.attrs.commit.sha
