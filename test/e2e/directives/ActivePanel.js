@@ -5,11 +5,13 @@ var util = require('../helpers/util');
 function ActivePanel (pageType) {
   this.pageType = pageType;
 
-  this.addTab = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab > div:nth-child(4) > a'));
+  this.panel = util.createGetter(by.css('section.views'));
 
-  this.currentContent = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark'));
+  this.addTab = util.createGetter(by.css('.add-tab'), this.panel);
 
-  this.ace = util.createGetter(by.css('#wrapper > main > section.views.ng-scope > div.active-panel.ng-scope.loaded.ace-runnable-dark > pre > div.ace_scroller > div'));
+  this.currentContent = util.createGetter(by.css('div.active-panel.ace-runnable-dark:not(.ng-hide)'), this.panel);
+
+  this.ace = util.createGetter(by.css('div.active-panel.ng-scope.ace-runnable-dark'), this.panel);
   this.aceDiv = util.createGetterAll(by.css('div.ace_content'));
   this.inputElm = util.createGetterAll(by.css('textarea.ace_text-input'));
 
@@ -29,7 +31,7 @@ function ActivePanel (pageType) {
 
   this.openTab = function (tabType) {
     this.addTab.get().click();
-    element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > div:nth-child(4) > a > div > div.popover-content > ol > li', tabType)).click();
+    element(by.cssContainingText('.popover-add-tab li', tabType), this.panel).click();
   };
 
   this.setActiveTab = function(text) {
