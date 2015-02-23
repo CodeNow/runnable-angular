@@ -40,27 +40,22 @@
 
 // wrapper for states
 .repository-group-text {
-  background: $gray-lightest;
   cursor: pointer;
-  font-size: 14px;
-  margin: 0 6px;
   padding: 12px 30px 12px 0;
 
   &:hover {
-    background: rgba($black,.1);
+    background: rgba($gray-darker,.15);
   }
 
   &:active,
   &.active {
     background: rgba($purple-light,.15);
     color: $purple-light;
+    transition: none;
 
-    .iconnables {
-      color: currentColor;
-    }
-
+    .iconnables,
     .repository-detail {
-      color: $purple-light;
+      color: currentColor;
     }
   }
 
