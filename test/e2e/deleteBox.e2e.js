@@ -6,7 +6,7 @@ var sidebar = require('./helpers/sidebar');
 var InstancePage = require('./pages/InstancePage');
 var SetupPage = require('./pages/SetupPage');
 
-var instanceNames = ['node_hello_world'];
+var instanceNames = ['node_hello_world', 'SPACESHIPS'];
 
 describe('delete', function() {
   // Instances that were created during e2e tests
@@ -33,8 +33,6 @@ describe('delete', function() {
   });
 
   it('should confirm everything was deleted', function() {
-    // var setup = new SetupPage();
-    // setup.get();
     util.waitForUrl(/runnable-doobie\/$/);
     expect(sidebar.numBoxes()).toEqual(0);
   });

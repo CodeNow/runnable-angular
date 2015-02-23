@@ -19,6 +19,10 @@ var sidebar = {
     return element.all(by.repeater('instance in instances.models')).map(function(element) {
       return element.getText();
     });
+  },
+
+  newButton: function () {
+    return element(by.css('.sidebar a.btn.white'));
   }
 };
 
