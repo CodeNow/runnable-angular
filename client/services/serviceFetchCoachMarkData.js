@@ -6,6 +6,7 @@ require('app')
 function fetchCoachMarkData(
   keypather,
   fetchUser,
+  promisify,
   errs
 ) {
   return function (coachMarkKey, cb) {
@@ -21,9 +22,9 @@ function fetchCoachMarkData(
           var userOptions = {};
           userOptions['userOptions.uiState.shownCoachMarks.' + coachMarkKey] = true;
           // Make user update call here
-          user.update(userOptions, function (err) {
-            errs.handler(err);
-          });
+          return promisify(user, 'update')(
+            userOptions
+          ).catch(errs.handler);
         }
       };
       cb(data);

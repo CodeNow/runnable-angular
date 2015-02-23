@@ -43,8 +43,8 @@ function showCoachMarks(
 
         keypather.set($scope, 'coachMarkData.dismiss', function () {
           $scope.coachMarkData.show = false;
+          popEl.remove();
           $scope.coachMarkData.save();
-          $scope.coachMarkData.hideMark = true;
         });
         var template = $templateCache.get('viewCoachMarks');
         popEl = $compile(template)($scope);
