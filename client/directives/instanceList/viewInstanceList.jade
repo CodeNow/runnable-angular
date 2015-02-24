@@ -53,6 +53,7 @@ ul.list.load(
 
 h2.sub-header.load
   span.sub-header-text Team Servers
+  button.btn.btn-xxs.green Invite
 
 //- list of users
 ul.list.load
@@ -134,10 +135,3 @@ ul.list.load
       use(
         xlink:href = "#icons-arrow-down"
       )
-
-small.small Use this URL to invite team members to access your servers
-input.input.input-xs(
-  readonly
-  select-all
-  value = "//api.runnable.io/auth/github?redirect=http://runnable.io/?auth"
-)

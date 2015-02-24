@@ -39,9 +39,15 @@
   padding: 6px 6px 6px 15px;
   position: relative;
 
+  // all action buttons
   .btn {
     float: right;
     margin: 0;
+  }
+
+  // add and update buttons
+  .btn-sm,
+  .btn-xs {
 
     &.white,
     &.gray {
@@ -56,17 +62,17 @@
       top: 6px;
     }
 
-    &.btn-xxs {
-      margin-top: 7px;
-      padding: 3px 6px;
-    }
-
     .icons-update {
       float: left;
       height: 14px;
       margin: 5px 6px 0 3px;
       width: 14px;
     }
+  }
+
+  // invite
+  .btn-xxs {
+    top: 7px;
   }
 }
 

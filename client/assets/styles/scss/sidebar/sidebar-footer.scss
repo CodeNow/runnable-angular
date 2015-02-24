@@ -1,28 +1,14 @@
 // footer.row.nav-footer
 .nav-footer {
-  background: $gray-lightest;
   box-shadow: 0 -3px 6px $gray-lightest;
   flex: 0 0 auto;
-  height: 54px;
-  padding: 9px 6px;
+  height: 45px;
+  padding: 9px 13px;
   position: relative;
-  transition: background .3s ease-in, box-shadow .3s ease-in, height .2s ease-in, padding .2s ease-in;
   z-index: $z-sidebar-footer;
 
-  .link {
-    color: $gray-light;
-    font-weight: 500;
-    line-height: 36px;
-    padding-left: 9px;
-  }
-
-  .btn-minimize {
-    position: absolute;
-    right: 12px;
-    top: 9px;
-  }
-
-  .icons-minimize {
-    transition: transform .3s .2s;
+  // help
+  .btn-help {
+    float: left;
   }
 }

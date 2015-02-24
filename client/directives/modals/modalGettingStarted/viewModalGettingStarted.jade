@@ -58,10 +58,10 @@
           'no-touching': state.furthestStep < 3}"
         ng-click = "actions.changeStep(3)"
       ) 3 Dependencies
-    a.link.link-text.small(
-      href = "http://support.runnable.io"
+    a.btn.btn-xs.btn-help(
+      href = "//support.runnable.io"
       target = "_blank"
-    ) Documentation
+    ) ?
     .modal-navbar-footer
       button.btn.btn-xxs.white(
         ng-click = "defaultActions.cancel();"

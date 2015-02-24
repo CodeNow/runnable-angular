@@ -20,13 +20,10 @@
       }
     }
 
-    .link {
-      bottom: 36px;
-      display: inline;
-      font-weight: 500;
-      height: 36px;
-      line-height: 36px;
-      padding: 0 12px;
+    // documentation link
+    .btn-help {
+      bottom: 45px;
+      left: 9px;
       position: absolute;
 
       @include media(xs) {
