@@ -36,11 +36,11 @@ module.exports = [
       anon: true
     }
   }, {
-    state: 'boxSelection',
+    state: 'serverSelection',
     abstract: false,
-    url: '^/:userName/boxSelection/:repo/:branch/:message/:commit',
-    templateUrl: 'viewBoxSelection',
-    controller: 'ControllerBoxSelection',
+    url: '^/:userName/serverSelection/:repo/:branch/:message/:commit',
+    templateUrl: 'viewServerSelection',
+    controller: 'ControllerServerSelection',
     data: {
       bodyClass: {
         'vertical': true
