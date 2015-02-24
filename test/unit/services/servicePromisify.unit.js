@@ -74,14 +74,14 @@ describe('servicePromisify'.underline.bold.blue, function () {
     });
     it('returns a cached value when there is one', function(done) {
       var model = {
-        myFunc: function(cb) {
+        fetch: function(cb) {
           $timeout(function () {
             cb();
           }, 100);
           return 'DATUMS';
         }
       };
-      var promise = promisify(model, 'myFunc')();
+      var promise = promisify(model, 'fetch')();
 
       var thenFunc = sinon.spy(function (data) {
         expect(data).to.equal('DATUMS');
@@ -101,11 +101,11 @@ describe('servicePromisify'.underline.bold.blue, function () {
         }
       };
       var model = {
-        myFunc: function(cb) {
+        fetch: function(cb) {
           return returnData;
         }
       };
-      var promise = promisify(model, 'myFunc')();
+      var promise = promisify(model, 'fetch')();
 
       var thenFunc = sinon.spy(function (data) {
         expect(data).to.equal(returnData);
@@ -115,6 +115,36 @@ describe('servicePromisify'.underline.bold.blue, function () {
       promise.then(thenFunc);
       $rootScope.$digest();
     });
+    it('does not resolve early if returnedVal has attrs but isn\'t a fetch', function(done) {
+      var returnData = {
+        attrs: {
+          data: 'DATUMS',
+          name: 'God-Emperor of Mankind',
+          occupation: 'Slayer of xenos'
+        }
+      };
+      var model = {
+        update: function(cb) {
+          $timeout(function () {
+            returnData.attrs.data = 'NEWNEWNEW';
+            cb();
+          });
+          return returnData;
+        }
+      };
+      var promise = promisify(model, 'update')();
+
+      var thenFunc = sinon.spy(function (data) {
+        expect(data).to.equal(returnData);
+        expect(data.attrs.data).to.not.equal('DATUMS');
+        expect(data.attrs.data).to.equal('NEWNEWNEW');
+        done();
+      });
+
+      promise.then(thenFunc);
+      $rootScope.$digest();
+      $timeout.flush();
+    });
     it('resolves early if returnedVal has models', function(done) {
       var returnData = {
         models: [{
@@ -123,11 +153,11 @@ describe('servicePromisify'.underline.bold.blue, function () {
         }]
       };
       var model = {
-        myFunc: function(cb) {
+        fetch: function(cb) {
           return returnData;
         }
       };
-      var promise = promisify(model, 'myFunc')();
+      var promise = promisify(model, 'fetch')();
 
       var thenFunc = sinon.spy(function (data) {
         expect(data).to.equal(returnData);
