@@ -31,6 +31,7 @@
   }
 
   .list-item {
+    border: 0;
     border-radius: 0;
     color: $gray-dark;
     display: flex;
@@ -68,11 +69,11 @@
   }
 
   .icons-arrow-down {
+    bottom: 0;
     color: $gray-light;
-    float: right;
     position: absolute;
     right: 9px;
-    top: 17px;
+    top: 0;
     transform: rotate3d(0,0,1,-90deg);
   }
 }

@@ -47,8 +47,8 @@ button,
   // if .arrow-down
   > .icons-arrow-down {
     float: right;
+    height: 100%;
     margin-left: 3px;
-    top: 18px;
     transition: opacity .2s ease-in, transform .3s ease-in;
   }
 
@@ -119,6 +119,7 @@ button,
 
 // .btn-icon
 .btn-icon {
+  line-height: 45px;
   padding: 0;
   width: 45px;
 
@@ -129,10 +130,6 @@ button,
   &.btn-icon-sm {
     min-width: 24px;
     width: auto;
-  }
-
-  .iconnables {
-    top: 6px;
   }
 }
 
@@ -177,18 +174,20 @@ button,
 
 .gray {
   background: rgba($gray-darker,.0675);
-  border: 0;
+  border-color: rgba($gray-darker,.1);
   color: $gray;
 
   &.btn {
 
     &:hover {
       background: rgba($gray-darker,.125);
+      border-color: rgba($gray-darker,.15);
     }
 
     &:active,
     &.active {
       background: rgba($purple-light,.15);
+      border-color: rgba($purple-light,.15);
       color: $purple-light;
       transition: none;
 
@@ -290,19 +289,21 @@ button,
 }
 
 .white {
-  border: 0;
   color: $gray;
 
   &.btn {
 
     &:hover {
       background: rgba($gray-darker,.125);
+      border-color: rgba($gray-darker,.15);
     }
 
     &:active,
     &.active {
       background: rgba($purple-light,.15);
+      border-color: rgba($purple-light,.15);
       color: $purple-light;
+      transition: none;
     }
 
     &[disabled],
