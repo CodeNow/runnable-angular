@@ -3,6 +3,7 @@
 var $controller,
     $scope,
     $window,
+    $location,
     $q;
 
 describe('controllerServerSelection'.underline.bold.blue, function () {
@@ -40,11 +41,13 @@ describe('controllerServerSelection'.underline.bold.blue, function () {
     angular.mock.inject(function(
       _$controller_,
       _$window_,
+      _$location_,
       _$q_,
       $rootScope
     ) {
       $controller = _$controller_;
       $window = _$window_;
+      $location = _$location_;
       $q = _$q_;
       $scope = $rootScope.$new();
     });

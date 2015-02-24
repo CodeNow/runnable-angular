@@ -23,7 +23,7 @@ function serverSelection (
   var fullRepoName = $scope.fullRepoName = $stateParams.userName + '/' + $stateParams.repo;
 
   // Trigger Heap event
-  if ($window.heap && searchObject.chat) {
+  if ($window.heap && $location.search('chat')) {
     $window.heap.track('box-selection-chat-click', {
       type: $location.search('chat')
     });
