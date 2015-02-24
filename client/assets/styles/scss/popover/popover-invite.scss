@@ -1,0 +1,48 @@
+.popover-invite {
+  background: #fff9ea; // rgba($orange,.1);
+
+  .arrow::after {
+    border-top-color: #fff9ea !important; // rgba($orange,.1);
+  }
+
+  .popover-content {
+    padding: 15px;
+  }
+
+  .p {
+    color: $orange-dark;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .input {
+    background: $white;
+    border: 1px solid $orange-dark;
+    color: $orange-dark;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -.5px;
+    margin: 15px 0 0;
+    padding: 0 27px;
+    text-align: center;
+
+    &:focus ~ .icons-star {
+      display: block;
+    }
+  }
+
+  .icons-star {
+    animation: star 2s infinite linear;
+    bottom: 21px;
+    color: $orange;
+    display: none;
+    left: 18px;
+    position: absolute;
+
+    &:last-child {
+      left: auto;
+      right: 18px;
+    }
+  }
+}

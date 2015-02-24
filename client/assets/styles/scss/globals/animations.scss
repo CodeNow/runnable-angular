@@ -11,6 +11,24 @@
   }
 }
 
+@keyframes btn-spinner {
+  0% {
+    padding-left: 15px;
+  }
+
+  5% {
+    padding-left: 30px;
+  }
+
+  95% {
+    padding-left: 30px;
+  }
+
+  100% {
+    padding-left: 15px;
+  }
+}
+
 @keyframes cursor-blink {
   0% {
     opacity: 1;
@@ -89,24 +107,6 @@
   100% {
     opacity: 1;
     transform: scale3d(1,1,1);
-  }
-}
-
-@keyframes btn-spinner {
-  0% {
-    padding-left: 15px;
-  }
-
-  5% {
-    padding-left: 30px;
-  }
-
-  95% {
-    padding-left: 30px;
-  }
-
-  100% {
-    padding-left: 15px;
   }
 }
 
@@ -212,6 +212,16 @@
   100% {
     stroke-dashoffset: $spinner-offset;
     transform: rotate(450deg);
+  }
+}
+
+@keyframes star {
+  0% {
+    transform: rotate3d(0,1,0,0);
+  }
+
+  100% {
+    transform: rotate3d(0,1,0,359deg);
   }
 }
 

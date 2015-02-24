@@ -53,7 +53,17 @@ ul.list.load(
 
 h2.sub-header.load
   span.sub-header-text Team Servers
-  button.btn.btn-xxs.green Invite
+  button.btn.btn-xxs.green(
+    ng-class = "{active: popoverInvite.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "popoverInvite.data.show"
+  ) Invite
+    pop-over(
+      actions = "popoverInvite.actions"
+      data = "popoverInvite.data"
+      popover-options = "{\"left\":-108,\"top\":-126}"
+      template = "viewPopoverInvite"
+    )
 
 //- list of users
 ul.list.load
