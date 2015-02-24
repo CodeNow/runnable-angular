@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .controller('ControllerServerSelection', boxSelection);
+  .controller('ControllerServerSelection', serverSelection);
 
-function boxSelection (
+function serverSelection (
   errs,
   getNewForkName,
   $window,
