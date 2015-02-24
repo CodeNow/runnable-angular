@@ -38,7 +38,7 @@ module.exports = [
   }, {
     state: 'serverSelection',
     abstract: false,
-    url: '^/:userName/serverSelection/:repo/:branch/:message/:commit',
+    url: '^/:userName/serverSelection/:repo',
     templateUrl: 'viewServerSelection',
     controller: 'ControllerServerSelection',
     data: {
