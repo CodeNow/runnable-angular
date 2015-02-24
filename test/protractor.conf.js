@@ -1,5 +1,7 @@
 'use strict';
 
+var browsers = require('./browsers');
+
 exports.config = {
   // The address of a running selenium server.
   seleniumAddress: 'http://localhost:4444/wd/hub',
@@ -26,12 +28,8 @@ exports.config = {
     require('./e2e/helpers/capabilities');
   },
 
-  capabilities: {
-    'browserName': 'chrome'
-  },
+  capabilities: browsers.chrome,
   baseUrl: 'http://localhost:3001',
-  // baseUrl: 'http://runnable3.net',
-  // baseUrl: 'http://runnable.io',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
