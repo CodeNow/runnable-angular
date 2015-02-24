@@ -34,9 +34,6 @@ function GithubCommitMenu(repo, index) {
 
   this.changeCommit = function (index) {
     var commitList = this.getCommitList(self.commitMenu.get(thisIndex));
-    browser.wait(function () {
-      return commitList.isDisplayed();
-    });
     var commit = commitList.get(index);
     browser.wait(function () {
       return commit.isDisplayed();

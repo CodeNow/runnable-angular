@@ -12,6 +12,7 @@ function accountsSelect (
   configLogoutURL,
   errs,
   keypather,
+  promisify,
   $state
 ) {
   return {
@@ -25,10 +26,28 @@ function accountsSelect (
 
       $scope.popoverAccountMenu = {
         actions: {
-          actionsModalIntegrations: {}
+          actionsModalIntegrations: {},
+          clearAllUserOptions: function () {
+            var userOptions = {};
+            ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {
+              userOptions['userOptions.uiState.shownCoachMarks.' + key] = false;
+            });
+            $scope.popoverAccountMenu.data.show = false;
+            // Make user update call here
+            promisify($scope.data.user, 'update')(
+              userOptions
+            ).catch(
+              errs.handler
+            ).finally(function () {
+              $state.reload();
+            });
+          }
         },
         data: $scope.data
       };
+      if (process.env.NODE_ENV !== 'production') {
+        keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
+      }
       var unwatchUserInfo = $scope.$watch('data.activeAccount', function (n) {
         if (n) {
           keypather.set($scope, 'popoverAccountMenu.data.activeAccount', n);

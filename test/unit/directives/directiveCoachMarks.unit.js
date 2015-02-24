@@ -122,5 +122,24 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
       $scope.$digest();
       expect($document[0].querySelector('.guide')).to.not.be.ok;
     });
+    it('should remove the coachmark from the dom on dismiss', function () {
+      ctx.coachMarkData = {
+        save: sinon.spy()
+      };
+      createElement();
+      expect($elScope.coachMarkData).to.be.ok;
+      expect($elScope.coachMarkData.dismiss).to.be.function;
+      expect($elScope.coachMarkData.getStyle).to.be.function;
+      expect($document[0].querySelector('.guide')).to.be.ok;
+      $elScope.coachMarkData.dismiss();
+      $scope.$digest();
+      expect($document[0].querySelector('.guide')).to.not.be.ok;
+      sinon.assert.calledOnce(ctx.coachMarkData.save);
+
+      $scope.$destroy();
+
+      $scope.$digest();
+      expect($document[0].querySelector('.guide')).to.not.be.ok;
+    });
   });
 });
