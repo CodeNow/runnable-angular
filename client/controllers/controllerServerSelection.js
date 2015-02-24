@@ -15,14 +15,15 @@ function serverSelection (
   user,
   fetchInstances
 ) {
+  var searchObject = $location.search();
   $scope.repo = $stateParams.repo;
-  $scope.branch = $location.search('branch');
-  $scope.message = $location.search('message');
+  $scope.branch = searchObject.branch;
+  $scope.message = searchObject.message;
 
   var fullRepoName = $scope.fullRepoName = $stateParams.userName + '/' + $stateParams.repo;
 
   // Trigger Heap event
-  if ($window.heap && $location.search('chat')) {
+  if ($window.heap && searchObject.chat) {
     $window.heap.track('box-selection-chat-click', {
       type: $location.search('chat')
     });
@@ -67,8 +68,8 @@ function serverSelection (
       if (err) { return errs.handler(err); }
       copiedCv.appCodeVersions.models[0].update({
         repo: fullRepoName,
-        branch: $location.search('branch'),
-        commit: $location.search('commit')
+        branch: searchObject.branch,
+        commit: searchObject.commit
       }, function (err) {
         if (err) { return errs.handler(err); }
         var buildBody = {
