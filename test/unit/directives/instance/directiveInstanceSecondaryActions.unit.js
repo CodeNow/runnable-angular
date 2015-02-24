@@ -126,6 +126,7 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
         done();
       };
       $scope.instance.build.deepCopy = function (cb) {
+        $timeout(cb);
         return {
           attrs: angular.copy(apiMocks.builds.setup),
           id: function () {
@@ -136,6 +137,7 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
       $scope.$digest();
       $elScope.goToEdit();
       $scope.$digest();
+      $timeout.flush();
     });
     it('should allow the user to stop the instance', function () {
       $scope.instance.stop = sinon.spy(function (opts, cb) {

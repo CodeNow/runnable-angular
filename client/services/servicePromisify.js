@@ -4,9 +4,12 @@ require('app')
   .factory('promisify', promisify);
 
 function promisify($exceptionHandler, $q) {
-  return function promisify(model, fn, skipEarlyReturn) {
+  return function promisify(model, fn, skipCache) {
     if (!model[fn]) {
       throw new Error('Attempted to call a function of a model that doesn\'t exist');
+    }
+    if (fn.toLowerCase().indexOf('fetch') < 0) {
+      skipCache = true;
     }
     return function promsified() {
       var d = $q.defer();
@@ -26,10 +29,12 @@ function promisify($exceptionHandler, $q) {
       try {
         // Check returnedVal.attrs
         returnedVal = model[fn].apply(model, args);
+        var validCache = returnedVal &&
+            ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 2) ||
+            (returnedVal.models && returnedVal.models.length));
         // For Models || Collections
         // length > 2 because sometimes, the api-client will send back an empty model with 1 attribute
-        if (!skipEarlyReturn && returnedVal && ((returnedVal.attrs && Object.keys(returnedVal.attrs).length > 2) ||
-            (returnedVal.models && returnedVal.models.length))) {
+        if (!skipCache && validCache) {
           d.resolve(returnedVal);
         }
       } catch (e) {
