@@ -51,7 +51,7 @@ describe('controllerServerSelection'.underline.bold.blue, function () {
 
     $window.heap = null;
 
-    ctx.controller = $controller('ControllerBoxSelection', {
+    ctx.controller = $controller('ControllerServerSelection', {
       '$scope': $scope
     });
   });
