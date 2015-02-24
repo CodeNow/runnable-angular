@@ -5,7 +5,7 @@ var $controller,
     $window,
     $q;
 
-describe('controllerBoxSelection'.underline.bold.blue, function () {
+describe('controllerServerSelection'.underline.bold.blue, function () {
   var ctx = {};
   ctx.fakeuser = {
     attrs: angular.copy(mocks.user),
@@ -32,9 +32,7 @@ describe('controllerBoxSelection'.underline.bold.blue, function () {
       $provide.value('fetchInstances', fetchInstancesMock);
       $provide.value('$stateParams', {
         userName: 'test',
-        repo: 'hello',
-        branch: 'world',
-        message: 'pants'
+        repo: 'hello'
       });
 
       $provide.value('user', mockUser);
