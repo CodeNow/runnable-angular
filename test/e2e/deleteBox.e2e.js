@@ -27,7 +27,7 @@ describe('delete', function() {
       if (idx === instanceNames.length - 1) {
         util.waitForUrl(/runnable-doobie\/$/);
       } else {
-        util.waitForUrl(InstancePage.urlRegex);
+        util.waitForUrl(InstancePage.urlRegex());
       }
     });
   });

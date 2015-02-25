@@ -17,7 +17,7 @@ function InstancePage (name) {
   this.instanceName = util.createGetter(by.css('#wrapper > main > header > h1 > div'));
 
   this.get = function() {
-    return browser.get('/runnable-doobie/' + this.name);
+    return browser.get('/' + util.getCurrentUser() + '/' + this.name);
   };
 
   this.getName = function () {
@@ -29,6 +29,8 @@ function InstancePage (name) {
   };
 }
 
-InstancePage.urlRegex = new RegExp(util.processUrl('/runnable-doobie/' + util.regex.instanceName));
+InstancePage.urlRegex = function () {
+  new RegExp(util.processUrl('/' + util.getCurrentUser() + '/' + util.regex.instanceName));
+};
 
 module.exports = InstancePage;

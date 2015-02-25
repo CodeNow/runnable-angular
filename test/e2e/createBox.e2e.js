@@ -50,7 +50,7 @@ describe('project creation workflow', function () {
 
       instance.get();
 
-      util.waitForUrl(InstancePage.urlRegex);
+      util.waitForUrl(InstancePage.urlRegex());
 
       // Removing until backend fixes key issue
       browser.wait(function () {

@@ -1,6 +1,7 @@
 'use strict';
 
 var InstancePage = require('./pages/InstancePage');
+var util = require('./helpers/util');
 
 describe('logs', function() {
   it('should output the proper logs', function() {
@@ -10,7 +11,7 @@ describe('logs', function() {
     instance.activePanel.setActiveTab('Build Logs');
 
     instance.activePanel.getContents().then(function (text) {
-      expect(text).toMatch('Cloning \'runnable-doobie/node-hello-world\' into \'./node-hello-world\'...');
+      expect(text).toMatch('Cloning \'' + util.getCurrentUser() + '/node-hello-world\' into \'./node-hello-world\'...');
       expect(text).toMatch('FROM dockerfile/nodejs');
       expect(text).toMatch('Build completed successfully!');
     });

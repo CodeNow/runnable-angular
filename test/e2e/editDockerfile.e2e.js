@@ -26,7 +26,7 @@ describe('edit dockerfile', function() {
 
     instanceEdit.buildChanges();
 
-    util.waitForUrl(InstancePage.urlRegex);
+    util.waitForUrl(InstancePage.urlRegex());
 
     var instance = new InstancePage('Test-0');
 
