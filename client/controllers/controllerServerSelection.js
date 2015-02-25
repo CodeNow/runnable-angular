@@ -23,12 +23,12 @@ function serverSelection (
   var fullRepoName = $scope.fullRepoName = $stateParams.userName + '/' + $stateParams.repo;
 
   // Trigger Heap event
-  if ($window.heap && $location.search('chat')) {
+  if ($window.heap && $location.search().chat) {
     $window.heap.track('box-selection-chat-click', {
-      type: $location.search('chat')
+      type: $location.search().chat
     });
     // Remove query so copypasta doesn't interfere
-    $location.search('chat', null);
+    $location.search('chat', '');
   }
 
   // Get list of instances for current user/org that have the repo
