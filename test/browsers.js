@@ -56,4 +56,13 @@ exports.ios = {
     orientation: 'landscape',
     'appium-version': '1.2',
     tags: ['ios']
-}
+};
+
+exports.testForUser = function (capability) {
+  var newCap = {};
+  Object.keys(capability).forEach(function (property) {
+    newCap[property] = capability[property];
+  });
+  newCap.exclude = ['e2e/changeUser.e2e.js'];
+  return newCap;
+};

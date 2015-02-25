@@ -17,8 +17,16 @@ exports.config = {
     require('./e2e/helpers/capabilities');
   },
 
-  capabilities: browsers.chrome,
-  baseUrl: 'http://localhost:3001',
+  maxSessions: 1,
+  multiCapabilities : [
+    browsers.chrome,
+    browsers.testForUser(browsers.chrome)
+    //browsers.firefox,
+    //browsers.safari,
+    //browsers.ie11,
+    //browsers.ie10
+  ],
+  baseUrl: 'https://sauce-web-codenow.runnableapp.com',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000
