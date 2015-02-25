@@ -197,7 +197,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       $scope.model = ctx.model;
       $scope.$apply();
 
-      expect($children[2].innerText).to.equal('Merge pull request #5080\n\ne21b4 months ago');
+      expect($children[2].innerText).to.match(/Merge pull request #5080\n\ne21b\d+ months ago/);
     });
   });
 
@@ -263,7 +263,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
           .querySelector('.repository-group-text');
         expect($parentElement).to.be.ok;
         var $children = $parentElement.children;
-        expect($children[2].innerText).to.equal('Merge pull request #5080\n\ne21b4 months ago');
+        expect($children[2].innerText).to.match(/Merge pull request #5080\n\ne21b\d+ months ago/);
       });
 
       it('should set the activeCommmit, change the branch and commit for the unsaved', function () {
