@@ -90,21 +90,21 @@
       font-weight: 400;
       margin: 0;
       text-indent: 29px;
+    }
+  }
+}
 
-      // override color overlaps
-      &:hover,
-      &:active {
-        background: rgba($purple-light,.1);
-      }
+// separate purple for users
+.list-users .list-item.expanded {
+  background: rgba($purple-light,.075);
+  border-color: rgba($purple-light,.075);
 
-      &.active {
-        background: rgba($purple-light,.1);
-        border-color: rgba($purple-light,.2);
+  .list-item.active {
+    background: rgba($purple-light,.08);
+    border-color: rgba($purple-light,.15);
 
-        &:last-child {
-          border-bottom: 0;
-        }
-      }
+    &:last-child {
+      border-bottom: 0;
     }
   }
 }
