@@ -7,8 +7,14 @@
   position: relative;
   z-index: $z-sidebar-footer;
 
+  // documentation
+  .small.link {
+    color: $gray;
+  }
+
   // help
   .btn-help {
     float: left;
+    margin-right: 4px;
   }
 }
