@@ -24,11 +24,11 @@ var instances = [{
 
 describe('project creation workflow', function () {
   instances.forEach(function (instanceData) {
-    it('runs throug the GS modal', function() {
+    it('runs throug the GS modal: ' + util.getCurrentUser(), function () {
       // Getting started modal should be open by default
       var gettingStarted = new GettingStarted();
 
-      gettingStarted.modalElem.get().isPresent().then(function(gsShowing) {
+      gettingStarted.modalElem.get().isPresent().then(function (gsShowing) {
         if (!gsShowing) {
           sidebar.newButton().click();
         }
@@ -45,7 +45,7 @@ describe('project creation workflow', function () {
       util.waitForUrl(new RegExp(instanceData.name));
     });
 
-    it('loads a building instance', function() {
+    it('loads a building instance: ' + util.getCurrentUser(), function () {
       var instance = new InstancePage(instanceData.name);
 
       instance.get();

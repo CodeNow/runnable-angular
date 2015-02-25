@@ -25,7 +25,7 @@ describe('delete', function() {
 
       // Confirm we're on the right page
       if (idx === instanceNames.length - 1) {
-        util.waitForUrl(/runnable-doobie\/$/);
+        util.waitForUrl(new RegExp(util.getCurrentUser() + '\/$'));
       } else {
         util.waitForUrl(InstancePage.urlRegex());
       }
@@ -33,7 +33,7 @@ describe('delete', function() {
   });
 
   it('should confirm everything was deleted', function() {
-    util.waitForUrl(/runnable-doobie\/$/);
+    util.waitForUrl(new RegExp(util.getCurrentUser() + '\/$'));
     expect(sidebar.numBoxes()).toEqual(0);
   });
 });
