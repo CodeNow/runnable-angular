@@ -14,21 +14,10 @@ module.exports = [
       anon: true
     }
   }, {
-    state: 'features',
+    state: 'invite',
     abstract: false,
-    url: '^/features',
-    templateUrl: 'viewFeatures',
-    data: {
-      bodyClass: {
-        'vertical': true
-      },
-      anon: true
-    }
-  }, {
-    state: 'pricing',
-    abstract: false,
-    url: '^/pricing',
-    templateUrl: 'viewPricing',
+    url: '^/invite',
+    templateUrl: 'viewInvite',
     data: {
       bodyClass: {
         'vertical': true

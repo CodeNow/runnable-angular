@@ -1,0 +1,24 @@
+main.home.home-invite
+
+  //- hero
+  section.home-hero
+
+    //- header
+    header.home-header
+      a.logo
+        svg
+          use(
+            xlink:href = "#runnable-logo"
+          )
+      nav.home-nav
+        a.link.link-text(
+          ng-href = "mailto:support@runnable.com"
+        ) Email Us
+
+    h1.h1.header-thin You've been invited
+    h3.h3.header-thin Sign in with Github to checkout Bryan's servers
+      br
+      | servers and launch your own
+    a.btn.btn-xl.green(
+      ng-href = "dataApp.data.loginURL"
+    ) Sign In with Github
