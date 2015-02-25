@@ -74,10 +74,17 @@
   .btn-xxs {
     top: 7px;
   }
+
+  // team icon
+  .icons-team {
+    color: $gray-light;
+    height: 100%;
+    margin-left: 6px;
+    width: 21px;
+  }
 }
 
 // span.sub-header-text
 .sub-header-text {
-  position: absolute;
-  transition: opacity .2s ease-in;
+  float: left;
 }

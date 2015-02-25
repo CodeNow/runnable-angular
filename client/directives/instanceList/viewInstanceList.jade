@@ -36,7 +36,7 @@ ul.list.load(
   )
     a.list-item-name.text-overflow(
       ng-click = "stateToInstance(instance)"
-      ng-href = "/{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
+      ng-href = "{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
       ng-model = "instance"
     ) {{ instance.attrs.name }}
     span.icons-status(
@@ -50,9 +50,25 @@ ul.list.load(
       state-to-instance = 'stateToInstance'
       type = "sidebar"
     )
+  //- delete this
+  li.list-item.btn.btn-sm.white.running.expanded.active
+    a.list-item-name.text-overflow demo-server
+    span.icons-status
+    div
+      a.server-item-cluster bob-server
+        svg.iconnables.icons-team
+          use(
+            xlink:href = "#icons-team"
+          )
+        span.icons-status.running
+  //- delete above
 
 h2.sub-header.load
   span.sub-header-text Team Servers
+  svg.iconnables.icons-team
+    use(
+      xlink:href = "#icons-team"
+    )
   button.btn.btn-xxs.green(
     ng-class = "{active: popoverInvite.data.show}"
     toggle-pop-over
@@ -70,6 +86,7 @@ ul.list.load
   li.list-item.btn.btn-sm.white(
     ng-class = "{\
       active: data.toggleThisUser,\
+      'active-child': data.toggleThisServer,\
       expanded: data.toggleThisUser\
     }"
     ng-click = "data.toggleThisUser = !data.toggleThisUser"
