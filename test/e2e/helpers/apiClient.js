@@ -3,9 +3,8 @@
 /**
  * Layout stuffs
  */
-var windowHost = require('../../../client/config/json/api.json').host.toLowerCase();
 
-var runnable = new (require('runnable'))('http:' + windowHost);
+var runnable = new (require('runnable'))('http://stage-api-codenow.runnableapp.com');
 var RUNNABLE_DOOBIE_TOKEN = 'b03bb45cce257add52cdb60f9b096f5c28aa71d2';
 module.exports = {
   runnable: runnable,

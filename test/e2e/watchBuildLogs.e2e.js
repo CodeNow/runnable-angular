@@ -80,7 +80,7 @@ describe('watchBuildLogs', function () {
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
     }, 60000);
-  });
+  }, 120000);
   it('should react to a socket update of the build when stopped: ' + util.getCurrentUser(),  function () {
     var instance = new InstancePage('node_hello_world');
     instance.get();
@@ -119,7 +119,7 @@ describe('watchBuildLogs', function () {
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
     }, 60000);
-  });
+  }, 120000);
   it('should react to a socket update of the build when building: ' + util.getCurrentUser(), function () {
     var instanceEdit = new InstanceEditPage('node_hello_world');
     var instance = new InstancePage('node_hello_world');
@@ -151,6 +151,6 @@ describe('watchBuildLogs', function () {
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
     }, 60000);
-  });
+  }, 120000);
 
 });
