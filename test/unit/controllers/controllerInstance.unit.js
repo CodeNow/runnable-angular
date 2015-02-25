@@ -7,6 +7,7 @@ var async,
     keypather,
     OpenItems,
     $scope,
+    $window,
     $rootScope,
     $state,
     $stateParams,
@@ -31,6 +32,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
       _async_,
       _$controller_,
       _$httpBackend_,
+      _$window_,
       _keypather_,
       _OpenItems_,
       _$rootScope_,
@@ -47,7 +49,9 @@ describe('controllerInstance'.bold.underline.blue, function () {
       $state = _$state_;
       $stateParams = _$stateParams_;
       user = _user_;
+      $window = _$window_;
     });
+    $window.heap = null;
   });
 
   beforeEach(function () {
