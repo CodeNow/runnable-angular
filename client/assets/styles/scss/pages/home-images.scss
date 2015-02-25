@@ -6,12 +6,17 @@
   box-shadow: 0 0 30px rgba($black,.06); // same as popovers
   margin: -90px auto 0;
   overflow: hidden;
+  padding: 6px 0;
   width: 300px;
 
   // override defaults
   .sub-header {
     background: $white;
     font-weight: 500;
+  }
+
+  .list {
+    margin: 0;
   }
 
   // larger server rows
@@ -23,8 +28,8 @@
     width: auto;
   }
 
-  .icons-status {
-    right: 19px;
+  .icons-status.icons-status {
+    right: 18px;
     top: 22px;
   }
 }
