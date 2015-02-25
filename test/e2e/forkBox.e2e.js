@@ -15,7 +15,7 @@ describe('fork box', function() {
 
     instance.gearMenu.forkBox('Test-Fork');
 
-    util.waitForUrl(util.processUrl('/runnable-doobie/Test-Fork'));
+    util.waitForUrl(util.processUrl('/' + util.getCurrentUser() + '/Test-Fork'));
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');

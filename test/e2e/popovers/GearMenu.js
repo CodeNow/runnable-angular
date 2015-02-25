@@ -2,10 +2,11 @@
 
 var util = require('../helpers/util');
 
-function GearMenu () {
+function GearMenu() {
   this.gear = util.createGetter(by.css('header > div > a'));
   this.menu = util.createGetter(by.css('.popover-actions'));
 
+  this.stopRunning = util.createGetter(by.cssContainingText('ul > li', 'Stop Running'), this.menu);
   this.renameItem = util.createGetter(by.cssContainingText('ul > li', 'Rename Server'), this.menu);
   this.deleteItem = util.createGetter(by.cssContainingText('ul > li', 'Delete Server'), this.menu);
 
