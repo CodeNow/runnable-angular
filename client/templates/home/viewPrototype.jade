@@ -40,18 +40,19 @@ ul.row.clearfix.list.workflow-toggle
       value = "runnable.io/your_org/web-staging"
     )
   .ui-wrapper
-    .sidebar.global-sidebar
+    .sidebar.nav-sidebar
       h2.sub-header Your Servers
-      ul.server-list.no-touching
-        li.server-list-item.btn.white.running.expanded.active
-          a.server-item-name Web-Staging
+      ul.list.no-touching
+        li.list-item.btn.white.running.expanded.active
+          a.list-item-name Web-Staging
           span.icons-status
-          a.server-item-cluster API-Staging
-            span.icons-status.running
-          a.server-item-cluster Mongo-Staging
-            span.icons-status.running
-          a.server-item-cluster Redis-Staging
-            span.icons-status.running
+          div
+            a.server-item-cluster API-Staging
+              span.icons-status.running
+            a.server-item-cluster Mongo-Staging
+              span.icons-status.running
+            a.server-item-cluster Redis-Staging
+              span.icons-status.running
     .content
       .server-header
         h1.server-info
