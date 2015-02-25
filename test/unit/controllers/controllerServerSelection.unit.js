@@ -3,9 +3,10 @@
 var $controller,
     $scope,
     $window,
+    $location,
     $q;
 
-describe('controllerBoxSelection'.underline.bold.blue, function () {
+describe('controllerServerSelection'.underline.bold.blue, function () {
   var ctx = {};
   ctx.fakeuser = {
     attrs: angular.copy(mocks.user),
@@ -32,9 +33,7 @@ describe('controllerBoxSelection'.underline.bold.blue, function () {
       $provide.value('fetchInstances', fetchInstancesMock);
       $provide.value('$stateParams', {
         userName: 'test',
-        repo: 'hello',
-        branch: 'world',
-        message: 'pants'
+        repo: 'hello'
       });
 
       $provide.value('user', mockUser);
@@ -42,18 +41,20 @@ describe('controllerBoxSelection'.underline.bold.blue, function () {
     angular.mock.inject(function(
       _$controller_,
       _$window_,
+      _$location_,
       _$q_,
       $rootScope
     ) {
       $controller = _$controller_;
       $window = _$window_;
+      $location = _$location_;
       $q = _$q_;
       $scope = $rootScope.$new();
     });
 
     $window.heap = null;
 
-    ctx.controller = $controller('ControllerBoxSelection', {
+    ctx.controller = $controller('ControllerServerSelection', {
       '$scope': $scope
     });
   });

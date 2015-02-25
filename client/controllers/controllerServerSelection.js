@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .controller('ControllerBoxSelection', boxSelection);
+  .controller('ControllerServerSelection', serverSelection);
 
-function boxSelection (
+function serverSelection (
   errs,
   getNewForkName,
   $window,
@@ -15,9 +15,10 @@ function boxSelection (
   user,
   fetchInstances
 ) {
+  var searchObject = $location.search();
   $scope.repo = $stateParams.repo;
-  $scope.branch = $stateParams.branch;
-  $scope.message = $stateParams.message;
+  $scope.branch = searchObject.branch;
+  $scope.message = searchObject.message;
 
   var fullRepoName = $scope.fullRepoName = $stateParams.userName + '/' + $stateParams.repo;
 
@@ -67,8 +68,8 @@ function boxSelection (
       if (err) { return errs.handler(err); }
       copiedCv.appCodeVersions.models[0].update({
         repo: fullRepoName,
-        branch: $stateParams.branch,
-        commit: $stateParams.commit
+        branch: searchObject.branch,
+        commit: searchObject.commit
       }, function (err) {
         if (err) { return errs.handler(err); }
         var buildBody = {
