@@ -2,6 +2,7 @@
 
 module.exports = [
   'e2e/helpers/login.js',
+  'e2e/changeUser.e2e.js',
 
   // FOR USER
   'e2e/createBox.e2e.js',
@@ -16,11 +17,10 @@ module.exports = [
   //'e2e/forkBox.e2e.js',
   'e2e/deleteBox.e2e.js',
 
-
-  // FOR ORG
-  'e2e/changeUser.e2e.js',
-  'e2e/createBox.e2e.js',
-  'e2e/watchBuildLogs.e2e.js',
-  'e2e/changeCommit.e2e.js',
-  'e2e/deleteBox.e2e.js'
+  //
+  //// FOR ORG
+  //'e2e/createBox.e2e.js',
+  //'e2e/watchBuildLogs.e2e.js',
+  //'e2e/changeCommit.e2e.js',
+  //'e2e/deleteBox.e2e.js'
 ];
