@@ -1,7 +1,36 @@
 .modal-dialog.modal-integrations
   header.modal-header
-    h1.modal-heading Add Integration
+    h1.modal-heading Choose Integration
   main.modal-body
+    button.btn-radio(
+      ng-class = "{active: data.showHipchat}"
+      ng-click = "\
+        data.showHipchat = true;\
+        data.showSlack = false;\
+      "
+    )
+      img.img(
+        height = "36"
+        src = "/build/images/logos/logo-icon-hipchat.svg"
+        width = "36"
+      )
+      | Hipchat
+    button.btn-radio(
+      ng-class = "{active: data.showSlack}"
+      ng-click = "\
+        data.showSlack = true;\
+        data.showHipchat = false;\
+      "
+    )
+      img.img(
+        height = "36"
+        src = "/build/images/logos/logo-icon-slack.svg"
+        width = "36"
+      )
+      | Slack
+  a.small.link.link-text.footer-link(
+    ng-click = "defaultActions.cancel()"
+  ) Cancel
 
     //- form.form.clearfix(
     //-   name = "slackForm"
@@ -82,8 +111,8 @@
     //-       type = "button"
     //-       ng-click = "actions.saveHipChat()"
     //-     ) Save
-    footer.modal-footer
-      button.btn.white(
-        ng-click = "defaultActions.cancel()"
-        type = "button"
-      ) Done
+    //- footer.modal-footer
+    //-   button.btn.white(
+    //-     ng-click = "defaultActions.cancel()"
+    //-     type = "button"
+    //-   ) Done

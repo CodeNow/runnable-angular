@@ -1,4 +1,4 @@
-button.toggle-theme(
+button.btn.toggle-theme(
   ng-class = "{ \
     dark: !toggleTheme, \
     light: toggleTheme \
@@ -25,7 +25,7 @@ ul.tabs
       title = "{{ item.filepath() }}"
     ) {{ item.attrs.name  }}
     .icons-dirty *
-    button.btn-icon(
+    button.btn.btn-icon(
       ng-click = "openItems.remove(item);\
         $event.stopPropagation();"
       ng-if = "!item.state.alwaysOpen"
