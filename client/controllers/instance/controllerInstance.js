@@ -46,12 +46,12 @@ function ControllerInstance(
   };
 
   // Trigger Heap event
-  if ($window.heap && $location.search('chat')) {
-    $window.heap.track('instance-chat-click', {
-      type: $location.search('chat')
+  if ($window.heap && $location.search().chat) {
+    $window.heap.track('box-selection-chat-click', {
+      type: $location.search().chat
     });
     // Remove query so copypasta doesn't interfere
-    $location.search('chat', null);
+    $location.search('chat', '');
   }
 
   pFetchUser().then(function (user) {

@@ -29,15 +29,23 @@ var config = {
 };
 
 if (process.argv[3] === '--chrome') {
-  config.capabilities = browsers.chrome;
-} else {
   config.multiCapabilities = [
+    browsers.chrome,
+    browsers.testForUser(browsers.chrome)
+  ];
+} else {
+  var capabilities = [
     browsers.chrome,
     browsers.firefox,
     browsers.safari,
     browsers.ie11,
     browsers.ie10
   ];
+  config.multiCapabilities = [];
+  capabilities.forEach(function (cap) {
+    config.multiCapabilities.push(cap);
+    config.multiCapabilities.push(browsers.testForUser(cap));
+  });
 }
 
 exports.config = config;
