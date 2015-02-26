@@ -324,27 +324,20 @@ button,
  }
 
  // btn-groups
-.btn-group,
-.btn-group-vertical {
+.btn-group {
   display: inline-block;
   position: relative;
   vertical-align: middle;
 }
 
-.btn-group-vertical {
-  display: block;
-}
-
 .btn-group > .btn,
-.btn-group > button,
-.btn-group-vertical > .btn {
+.btn-group > button {
   float: left;
   position: relative;
 }
 
 .btn-group > .btn:focus,
-.btn-group > button:focus,
-.btn-group-vertical > .btn:focus {
+.btn-group > button:focus {
   outline: none;
 }
 
@@ -375,8 +368,7 @@ button,
 }
 
 .btn-group > .btn:last-child:not(:first-child),
-.btn-group > button:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child) {
+.btn-group > button:last-child:not(:first-child) {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
 }
@@ -391,8 +383,7 @@ button,
 }
 
 .btn-group > .btn-group:first-child > .btn:last-child,
-.btn-group > .btn-group:first-child > button:last-child,
-.btn-group > .btn-group:first-child > .dropdown-toggle {
+.btn-group > .btn-group:first-child > button:last-child {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
@@ -401,140 +392,4 @@ button,
 .btn-group > .btn-group:last-child > button:first-child {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-}
-
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
-  outline: 0;
-}
-
-.btn-group-xs > .btn,
-.btn-group-xs > button {
-  border-radius: 3px;
-  font-size: 12px;
-  line-height: 1.5;
-  padding: 1px 5px;
-}
-
-.btn-group-sm > .btn,
-.btn-group-sm > button {
-  border-radius: 3px;
-  font-size: 12px;
-  line-height: 1.5;
-  padding: 5px 10px;
-}
-
-.btn-group-lg > .btn,
-.btn-group-lg > button {
-  border-radius: 6px;
-  font-size: 18px;
-  line-height: 1.33;
-  padding: 10px 16px;
-}
-
-.btn-group > .btn + .dropdown-toggle,
-.btn-group > button + .dropdown-toggle {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.btn-group > .btn-lg + .dropdown-toggle {
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
-.btn-group.open .dropdown-toggle {
-  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
-}
-
-.btn-group-vertical > .btn,
-.btn-group-vertical > .btn-group {
-  display: block;
-  float: none;
-  max-width: 100%;
-  width: 100%;
-}
-
-.btn-group-vertical > .btn-group:before,
-.btn-group-vertical > .btn-group:after {
-  content: '';
-  display: table;
-}
-
-.btn-group-vertical > .btn-group:after {
-  clear: both;
-}
-
-.btn-group-vertical > .btn-group:before,
-.btn-group-vertical > .btn-group:after {
-  content: '';
-  display: table;
-}
-
-.btn-group-vertical > .btn-group:after {
-  clear: both;
-}
-
-.btn-group-vertical > .btn-group > .btn {
-  float: none;
-}
-
-.btn-group-vertical > .btn + .btn,
-.btn-group-vertical > .btn + .btn-group,
-.btn-group-vertical > .btn-group + .btn,
-.btn-group-vertical > .btn-group + .btn-group {
-  margin-left: 0;
-  margin-top: -1px;
-}
-
-.btn-group-vertical.no-margin > .btn + .btn,
-.btn-group-vertical.no-margin > .btn + .btn-group,
-.btn-group-vertical.no-margin > .btn-group + .btn,
-.btn-group-vertical.no-margin > .btn-group + .btn-group {
-  margin-top: 0;
-}
-
-.btn-group-vertical > .btn:not(:first-child):not(:last-child) {
-  border-radius: 0;
-}
-
-.btn-group-vertical > .btn:first-child:not(:last-child) {
-  border-radius: 3px 3px 0 0;
-}
-
-.btn-group-vertical > .btn:last-child:not(:first-child) {
-  border-radius: 0 0 3px 3px;
-}
-
-.btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
-}
-
-.btn-group-vertical > .btn-group:first-child > .btn:last-child,
-.btn-group-vertical > .btn-group:first-child > .dropdown-toggle {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.btn-group-vertical > .btn-group:last-child > .btn:first-child {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.btn-group-justified {
-  border-collapse: separate;
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-}
-
-.btn-group-justified .btn {
-  display: table-cell;
-  float: none;
-  width: 1%;
-}
-
-[data-toggle="buttons"] > .btn > input[type="radio"],
-[data-toggle="buttons"] > .btn > input[type="checkbox"] {
-  display: none;
 }
