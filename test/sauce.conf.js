@@ -22,11 +22,11 @@ exports.config = {
     defaultTimeoutInterval: 30000
   },
   multiCapabilities : [
-    browsers.chrome,
-    browsers.firefox,
-    browsers.safari,
-    browsers.ie11,
-    browsers.ie10
+    browsers.chrome
+    //browsers.firefox,
+    //browsers.safari,
+    //browsers.ie11,
+    //browsers.ie10
   ],
   maxSessions: 1,
 
