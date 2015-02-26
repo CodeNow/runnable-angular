@@ -1,75 +1,83 @@
 .modal-integrations {
-  height: 382px;
 
-  @include media(md) {
-    height: 535px;
-  }
-
-  @include media(xs) {
-    height: 100%;
-  }
-
-  .list {
-    max-height: 377px;
-    overflow-y: auto;
-    padding-bottom: 15px;
-
-    @include media(md) {
-      max-height: 530px;
-    }
-
-    @include media(xs) {
-      max-height: none;
-    }
-  }
-
-  .modal-body {
-    padding: 15px 6px 6px;
-  }
-
-  .col {
-    float: left;
-
-    &:first-child {
-      width: 150px;
-    }
-
-    &:last-child {
-      width: 360px;
-
-      @include media(md) {
-        width: 100%;
-      }
-    }
-  }
-
-  .input-group {
-    margin: 0;
-
-    + .input-group {
-      margin-top: 6px;
-    }
-  }
-
-  .link-reference {
-    display: inline-block;
-    margin: 4px 0 0 15px;
-  }
-
-  // save button
-  .green {
-    float: right;
-    margin: 6px 0 0;
-  }
-
-  .hr {
-    background: rgba($black,.1);
-    border: 0;
-    height: 1px;
-    margin: 15px;
-
-    @include media(md) {
-      margin: 30px 9px;
-    }
+  .modal-header {
+    float: none;
+    text-align: center;
   }
 }
+
+// .modal-integrations {
+//   height: 382px;
+
+//   @include media(md) {
+//     height: 535px;
+//   }
+
+//   @include media(xs) {
+//     height: 100%;
+//   }
+
+//   .list {
+//     max-height: 377px;
+//     overflow-y: auto;
+//     padding-bottom: 15px;
+
+//     @include media(md) {
+//       max-height: 530px;
+//     }
+
+//     @include media(xs) {
+//       max-height: none;
+//     }
+//   }
+
+//   .modal-body {
+//     padding: 15px 6px 6px;
+//   }
+
+//   .col {
+//     float: left;
+
+//     &:first-child {
+//       width: 150px;
+//     }
+
+//     &:last-child {
+//       width: 360px;
+
+//       @include media(md) {
+//         width: 100%;
+//       }
+//     }
+//   }
+
+//   .input-group {
+//     margin: 0;
+
+//     + .input-group {
+//       margin-top: 6px;
+//     }
+//   }
+
+//   .link-reference {
+//     display: inline-block;
+//     margin: 4px 0 0 15px;
+//   }
+
+//   // save button
+//   .green {
+//     float: right;
+//     margin: 6px 0 0;
+//   }
+
+//   .hr {
+//     background: rgba($black,.1);
+//     border: 0;
+//     height: 1px;
+//     margin: 15px;
+
+//     @include media(md) {
+//       margin: 30px 9px;
+//     }
+//   }
+// }
