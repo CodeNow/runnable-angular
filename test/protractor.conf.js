@@ -20,13 +20,12 @@ exports.config = {
   maxSessions: 1,
   multiCapabilities : [
     browsers.chrome,
-    browsers.testForUser(browsers.chrome)
     //browsers.firefox,
     //browsers.safari,
     //browsers.ie11,
     //browsers.ie10
   ],
-  baseUrl: 'https://sauce-web-codenow.runnableapp.com',
+  baseUrl: 'http://localhost:3001/',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000

@@ -8,21 +8,11 @@ require('app')
 function logBuild(
   helperSetupTerminal,
   primus,
-  keypather,
-  $log,
-  promisify,
-  $stateParams,
-  $timeout,
-  dockerStreamCleanser,
-  fetchInstances
+  dockerStreamCleanser
 ) {
   return {
     restrict: 'A',
-    scope: {},
     link: function ($scope, elem, attrs) {
-      var DEFAULT_ERROR_MESSAGE = '\x1b[33;1mbuild failed\x1b[0m';
-      var DEFAULT_INVALID_BUILD_MESSAGE = '\x1b[31;1mPlease build again\x1b[0m';
-      var COMPLETE_SUCCESS_MESSAGE = 'Build completed, starting instance...';
 
       /**
        * Creates instance of Terminal w/ default
@@ -39,27 +29,24 @@ function logBuild(
       });
 
       $scope.$on('$destroy', function () {
-        if (!$scope.buildStream) { return; }
-        $scope.buildStream.removeAllListeners();
-        $scope.buildStream.end();
+        killCurrentStream();
       });
 
-      fetchInstances({
-        name: $stateParams.instanceName
-      }).then(function (instance) {
-        $scope.instance = instance;
+      $scope.$on('STREAM_START', function (event, newModel) {
+        initializeBuildStream();
       });
 
-      $scope.$watch('instance.build.attrs.id', function (n, p) {
-        if (!n) { return; }
-        // n is truthy, p is truthy, and they aren't the same
-        initializeBuildLogs($scope.instance.build);
-      });
+      function connectStreams(stream) {
+        dockerStreamCleanser.cleanStreams(stream,
+          terminal,
+          'hex',
+          true);
+      }
 
-      function killCurrentBuildStream() {
-        if ($scope.buildStream) {
-          $scope.buildStream.removeAllListeners();
-          $scope.buildStream.end();
+      function killCurrentStream() {
+        if ($scope.stream) {
+          $scope.stream.removeAllListeners();
+          $scope.stream.end();
         }
       }
 
@@ -73,13 +60,8 @@ function logBuild(
         });
       }
 
-      function writeToTerm(output) {
-        if (typeof output !== 'string') { return; }
-        terminal.write(output.replace(/\r?\n/g, '\r\n'));
-      }
-
       function showTerminalSpinner() {
-        if (!terminal.cursorSpinner) {
+        if (!terminal.cursorSpinner && $scope.showSpinnerOnStream) {
           terminal.cursorState = -1;
           terminal.hideCursor = false;
           terminal.cursorBlink = true;
@@ -87,68 +69,41 @@ function logBuild(
           terminal.startBlink();
         }
       }
-
-      function subscribeToSubstream(build) {
-        //TODO spinner
-        $scope.buildStream = primus.createBuildStream(build);
-        // binds to $scope.buildStream.on('data')
-        // important to unbind 'data' listener
-        // before reinvoking this
-        dockerStreamCleanser.cleanStreams($scope.buildStream,
-                                          terminal,
-                                          'hex',
-                                          true);
-      }
-
-      function initializeBuildStream(build) {
-        killCurrentBuildStream();
-        subscribeToSubstream(build);
-        showTerminalSpinner();
-        bind(primus, 'reconnect', function () {
-          subscribeToSubstream(build);
-        });
-        bind($scope.buildStream, 'end', function () {
+      function hideTerminalSpinner() {
+        if ($scope.showSpinnerOnStream) {
           terminal.hideCursor = true;
           terminal.cursorBlink = false;
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
+        }
+      }
+      function writeToTerm(output) {
+        if (typeof output !== 'string') { return; }
+        terminal.write(output.replace(/\r?\n/g, '\r\n'));
+      }
 
-          promisify($scope.instance.build, 'fetch')().then(function (build) {
-            $timeout(angular.noop);
-            if (!build.succeeded()) {
-              writeToTerm(DEFAULT_INVALID_BUILD_MESSAGE);
-            } else {
-              writeToTerm(COMPLETE_SUCCESS_MESSAGE);
-            }
-          }).catch(function (err) {
-            $log.error(err);
-          });
+      $scope.$on('WRITE_TO_TERM', function (event, output, clearTerminal) {
+        if (clearTerminal) {
+          terminal.reset();
+        }
+        writeToTerm(output);
+      });
+
+      function initializeBuildStream() {
+        killCurrentStream();
+        var stream = $scope.createStream();
+        connectStreams(stream);
+        showTerminalSpinner();
+        bind(primus, 'reconnect', function () {
+          connectStreams(stream);
+        });
+        bind(stream, 'end', function () {
+          hideTerminalSpinner();
+          $scope.streamEnded();
         });
       }
 
-      function initializeBuildLogs(build) {
-        terminal.reset();
-        if (build.failed() || build.succeeded()) {
-          var contextVersion = build.contextVersions.models[0];
-          promisify(contextVersion, 'fetch')().then(function (data) {
-            if (build.succeeded()) {
-              writeToTerm(data.attrs.build.log);
-              //if ($scope.buildStream) {
-              //  writeToTerm(COMPLETE_SUCCESS_MESSAGE);
-              //}
-            } else if (build.failed()) {
-              // defaulting behavior selects best avail error msg
-              var cbBuild = keypather.get(contextVersion, 'attrs.build');
-              var errorMsg = cbBuild.log || keypather.get(cbBuild, 'error.message') || DEFAULT_ERROR_MESSAGE;
-              writeToTerm(errorMsg);
-            }
-          }).catch(function (err) {
-            return $log.error(err);
-          });
-        } else {
-          initializeBuildStream(build);
-        }
-      }
+
 
     }
   };
