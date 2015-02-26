@@ -30,7 +30,7 @@ ul.list.load(
   //- .runnning for running server
   li.list-item.btn.btn-sm.white(
     ng-class = "getInstanceClasses(instance)"
-    ng-repeat = "instance in data.instances.models | orderBy:'attrs.name'"
+    ng-repeat = "instance in data.sortedInstances.me.instances | orderBy:'attrs.name'"
     tooltip = "{{ instance.attrs.name }}"
     tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   )
@@ -51,17 +51,17 @@ ul.list.load(
       type = "sidebar"
     )
   //- delete this
-  li.list-item.btn.btn-sm.white.running.expanded.active
-    a.list-item-name.text-overflow demo-server
-    span.icons-status
-    div
-      a.server-item-cluster bob-server
-        //- tooltip: "Owned by anandkumarpatel"
-        svg.iconnables.icons-team
-          use(
-            xlink:href = "#icons-team"
-          )
-        span.icons-status.running
+  //- li.list-item.btn.btn-sm.white.running.expanded.active
+  //-   a.list-item-name.text-overflow demo-server
+  //-   span.icons-status
+  //-   div
+  //-     a.server-item-cluster bob-server
+  //-       //- tooltip: "Owned by anandkumarpatel"
+  //-       svg.iconnables.icons-team
+  //-         use(
+  //-           xlink:href = "#icons-team"
+  //-         )
+  //-       span.icons-status.running
   //- delete above
 
 h2.sub-header.load
@@ -86,18 +86,19 @@ h2.sub-header.load
 ul.list.list-users.load
   li.list-item.btn.btn-sm.white(
     ng-class = "{\
-      active: data.toggleThisUser,\
+      active: teamMember.toggled,\
       'active-child': data.toggleThisServer,\
-      expanded: data.toggleThisUser\
+      expanded: teamMember.toggled\
     }"
-    ng-click = "data.toggleThisUser = !data.toggleThisUser"
+    ng-click = "teamMember.toggled = !teamMember.toggled"
+    ng-repeat = "teamMember in data.sortedInstances"
   )
     img.gravatar(
       height = "21"
-      src = "https://avatars0.githubusercontent.com/u/2194285?v=3&s=96"
+      src = "http://lorempizza.com/21/21"
       width = "21"
     )
-    a.list-item-name.text-overflow anandkumarpatel
+    a.list-item-name.text-overflow {{ username }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -105,15 +106,16 @@ ul.list.list-users.load
     //- nested server
     .list-item.btn.btn-sm.purple(
       ng-class = "{\
-        active: data.toggleThisServer,\
-        expanded: data.toggleThisServer\
+        active: instance.state.toggled,\
+        expanded: instance.state.toggled\
       }"
       ng-click = "\
         $event.stopPropagation();\
-        data.toggleThisServer = true;\
+        instance.state.toggled = true;\
       "
+      ng-repeat = "instance in teamMember.instances"
     )
-      a.list-item-name.text-overflow anand-web
+      a.list-item-name.text-overflow {{ instance.attrs.name }}
       span.icons-status
       //- nested server cluster
       div
@@ -130,6 +132,7 @@ ul.list.list-users.load
     )
       a.list-item-name.text-overflow anand-api
       span.icons-status
+//-
   li.list-item.btn.btn-sm.white
     img.gravatar(
       height = "21"
