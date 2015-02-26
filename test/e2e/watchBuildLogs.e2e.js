@@ -5,7 +5,7 @@ var users = require('./helpers/users');
 var InstancePage = require('./pages/InstancePage');
 var InstanceEditPage = require('./pages/InstanceEditPage');
 var apiClient = require('./helpers/apiClient');
-
+var BUILD_TIMEOUT = 80000;
 
 function startInstanceUpdate(thisUser) {
   return function () {
@@ -80,8 +80,8 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
     // Removing until backend fixes key issue
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
   it('should react to a socket update of the build when stopped', function () {
     var instance = new InstancePage('node_hello_world');
     instance.get();
@@ -119,8 +119,8 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
   it('should react to a socket update of the build when building', function () {
     var instanceEdit = new InstanceEditPage('node_hello_world');
     var instance = new InstancePage('node_hello_world');
@@ -151,6 +151,6 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
 }))
