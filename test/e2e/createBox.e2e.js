@@ -63,4 +63,4 @@ describe('project creation workflow', users.doMultipleUsers(function (username) 
       expect(instance.activePanel.getContents()).toMatch('/bin/sh -c npm start');
     });
   });
-}));
+}, true));

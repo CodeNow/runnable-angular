@@ -36,4 +36,4 @@ describe('delete', users.doMultipleUsers(function (username) {
     util.waitForUrl(new RegExp(username + '\/$'));
     expect(sidebar.numBoxes()).toEqual(0);
   });
-}));
+}, true));
