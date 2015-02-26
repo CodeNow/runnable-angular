@@ -33,10 +33,9 @@ function AccountsSelect(parentElement) {
     return this.openIfClosed(
     ).then(function () {
       return browser.wait(function () {
-        return self.getAccountSelector(username).isDisplayed();
+        return self.getAccountSelector(username).isPresent() && self.getAccountSelector(username).isDisplayed();
       });
     }).then(function () {
-      util.setCurrentUser(username);
       return self.getAccountSelector(username).click();
     });
   };

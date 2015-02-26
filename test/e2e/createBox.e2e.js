@@ -7,6 +7,7 @@
 
 var util = require('./helpers/util');
 
+var users = require('./helpers/users');
 var SetupPage = require('./pages/SetupPage');
 var InstancePage = require('./pages/InstancePage');
 var GettingStarted = require('./modals/GettingStarted');
@@ -22,9 +23,9 @@ var instances = [{
   env: ['a=b', 'basd=asasdasdasd']
 }];
 
-describe('project creation workflow', function () {
+describe('project creation workflow', users.doMultipleUsers(function (username) {
   instances.forEach(function (instanceData) {
-    it('runs throug the GS modal: ' + util.getCurrentUser(), function () {
+    it('runs throug the GS modal', function () {
       // Getting started modal should be open by default
       var gettingStarted = new GettingStarted();
 
@@ -45,7 +46,7 @@ describe('project creation workflow', function () {
       util.waitForUrl(new RegExp(instanceData.name));
     });
 
-    it('loads a building instance: ' + util.getCurrentUser(), function () {
+    it('loads a building instance', function () {
       var instance = new InstancePage(instanceData.name);
 
       instance.get();
@@ -62,4 +63,4 @@ describe('project creation workflow', function () {
       expect(instance.activePanel.getContents()).toMatch('/bin/sh -c npm start');
     });
   });
-});
+}));

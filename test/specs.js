@@ -2,9 +2,7 @@
 
 module.exports = [
   'e2e/helpers/login.js',
-  'e2e/changeUser.e2e.js',
 
-  // FOR USER
   'e2e/createBox.e2e.js',
   'e2e/watchBuildLogs.e2e.js',
   //'e2e/editDockerfile.e2e.js',
