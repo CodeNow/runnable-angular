@@ -30,7 +30,6 @@ h2.sub-header Dependencies & Environment Variables
       popover-options = "{\"left\":-88,\"top\":45}"
       template = "viewPopoverAddDependency"
     )
-//- .well.gray We didn't detect any required dependencies for this server, choose from a list of servers to add, or build without
 .label.clearfix(
   ng-repeat = "model in state.dependencies"
 )
@@ -78,6 +77,10 @@ h2.sub-header Dependencies & Environment Variables
         use(
           xlink:href = "#icons-close"
         )
+button.btn.btn-sm.gray.btn-add-dependency(
+  toggle-pop-over
+  toggle-pop-over-model = "addDependencyPopover.data.show"
+) Add Dependency
 //- other vars
 .hr
 .label.label-textarea.clearfix

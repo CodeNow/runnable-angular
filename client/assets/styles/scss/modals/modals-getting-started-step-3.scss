@@ -1,6 +1,14 @@
 // wizard 3
 .modal-gs-environments {
 
+  // add dependency button
+  .btn-add-dependency {
+    align-self: flex-end;
+    flex: 0 0 auto;
+    margin-bottom: 21px;
+    padding: 0 15px;
+  }
+
   .hr {
     flex: 0 0 auto;
     margin: 6px 0;
