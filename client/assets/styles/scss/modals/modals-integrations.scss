@@ -1,18 +1,27 @@
 .modal-integrations {
 
+  // header
+  .modal-header {
+    height: auto;
+
+    &.in {
+      height: 60px;
+    }
+  }
+
   .modal-heading {
     float: none;
     text-align: center;
   }
 
-  .modal-body {
+  .modal-header-actions {
     display: flex;
     justify-content: center;
   }
 
   .btn-radio {
-    height: 120px;
-    width: 120px;
+    height: 108px;
+    width: 126px;
 
     + .btn-radio {
       margin-left: 6px;
