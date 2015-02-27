@@ -33,7 +33,7 @@ h2.sub-header Dependencies & Environment Variables
 .label.clearfix(
   ng-repeat = "model in state.dependencies"
 )
-  .label-col {{ model.opts.name || model.instance.attrs.name }}
+  .label-col.label-details {{ model.opts.name || model.instance.attrs.name }}
     small.small {{ model.env.newUrl || model.env.originalUrl }}
   .input-col
     input.input.input-sm.input-validate(
@@ -84,7 +84,7 @@ button.btn.btn-sm.gray.btn-add-dependency(
 //- other vars
 .hr
 .label.label-textarea.clearfix
-  .label-col Additional Variables
+  .label-col.label-details Additional Variables
     small.small Optional
   .input-col
     textarea.textarea.pre.input-validate(

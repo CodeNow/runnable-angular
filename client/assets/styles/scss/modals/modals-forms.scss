@@ -26,6 +26,7 @@
     float: left;
     font-weight: 500;
     height: 36px;
+    line-height: 36px;
     padding-right: 15px;
     text-align: right;
     width: 45%;
@@ -34,6 +35,10 @@
       float: none;
       text-align: left;
       width: 100%;
+    }
+
+    &.label-details {
+      line-height: 1;
     }
   }
 

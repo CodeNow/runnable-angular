@@ -10,6 +10,8 @@
 
     // header
     .modal-header {
+      background: none;
+      border-color: transparent;
       height: auto;
     }
 
@@ -36,7 +38,6 @@
     // small footer
     .footer-link {
       line-height: 45px;
-      margin-top: 15px;
       text-align: center;
     }
   }
@@ -44,8 +45,10 @@
   // default state
   // header
   .modal-header {
-    height: 72px;
-    padding: 6px;
+    background: $gray-lightest;
+    border-bottom: 1px solid rgba($black,.1);
+    height: 84px;
+    padding: 12px;
     transition: all .15s ease-in;
   }
 
@@ -68,6 +71,14 @@
     height: 33px;
     margin: 0 auto;
     width: 21px;
+  }
+
+  // form.modal-body
+  .modal-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 30px 15px 0;
   }
 }
 

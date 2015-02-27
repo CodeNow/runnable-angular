@@ -40,7 +40,7 @@
   ) Cancel
 
   //- show if integration is initiated
-  form.modal-inset.in(
+  form.modal-body(
     name = " slackForm"
     ng-if = "data.showHipchat || data.showSlack"
   )
@@ -53,7 +53,9 @@
     label.label.clearfix
       .label-col Enabled Users
 
-  footer.modal-footer
+  footer.modal-footer(
+    ng-if = "data.showHipchat || data.showSlack"
+  )
     button.btn.green Done
 
     //- form.form.clearfix(
