@@ -4,6 +4,7 @@ require('app')
   .factory('errs', errs);
 
 function errs (
+  configEnvironment,
   keypather,
   hasKeypaths,
   $log
@@ -18,7 +19,7 @@ function errs (
         if (!errors.find(hasKeypaths({ 'message': err.message }))) {
           errors.push(err);
         }
-        if (process.env.NODE_ENV !== 'production') {
+        if (configEnvironment !== 'production') {
           $log.error(err);
         }
       }
