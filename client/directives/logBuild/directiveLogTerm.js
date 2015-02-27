@@ -44,7 +44,8 @@ function logTerm(
       });
 
       $scope.$on('STREAM_START', function (event, newModel) {
-        initializeBuildStream();
+        terminal.reset();
+        initializeStream();
       });
 
       function killCurrentStream() {
@@ -97,7 +98,7 @@ function logTerm(
         writeToTerm(output);
       });
 
-      function initializeBuildStream() {
+      function initializeStream() {
         killCurrentStream();
         $scope.createStream();
         $scope.connectStreams(terminal);

@@ -58,4 +58,7 @@ MockPrimus.prototype.off = function () {
   this.removeListener.apply(this, arguments);
 };
 
-module.exports = MockPrimus;
+module.exports = {
+  primus: MockPrimus,
+  stream: MockBuildLogStream
+};

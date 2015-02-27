@@ -14,16 +14,37 @@ var $compile,
     $stateParams,
     $timeout,
     user;
-var $elScope;
 var mockPrimus = new fixtures.MockPrimus();
+var apiMocks = require('../apiMocks/index');
 
-describe('directiveLogTerm'.bold.underline.blue, function() {
+function createMockStream() {
+  var mockStream = new fixtures.MockStream();
+  sinon.stub(mockStream, 'on');
+  sinon.stub(mockStream, 'off');
+  sinon.stub(mockStream, 'removeAllListeners');
+  sinon.stub(mockStream, 'end');
+  sinon.stub(mockStream, 'write');
+  return mockStream;
+}
+
+describe('directiveLogTerm'.bold.underline.blue, function () {
   var ctx;
 
-  function injectSetupCompile () {
+  function injectSetupCompile() {
+    ctx.termMock = {
+      write: sinon.spy(),
+      writeln: sinon.spy(),
+      reset: sinon.spy(),
+      startBlink: sinon.spy()
+    };
+    ctx.setupTermMock = sinon.spy(function () {
+      return ctx.termMock;
+    });
+    ctx.setupTermMock = sinon.spy();
     angular.mock.module(function ($provide) {
       $provide.value('primus', mockPrimus);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
+      $provide.factory('helperSetupTerminal', ctx.setupTermMock);
     });
     angular.mock.inject(function (
       _$compile_,
@@ -48,36 +69,69 @@ describe('directiveLogTerm'.bold.underline.blue, function() {
 
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
-    $elScope = ctx.element.isolateScope();
   }
 
   beforeEach(angular.mock.module('app'));
 
-  beforeEach(function() {
+  beforeEach(function () {
     ctx = {};
-    ctx.template = directiveTemplate.attribute('log-build', {
-      'ng-controller': 'BuildLogController'
-    });
+    ctx.template = directiveTemplate.attribute('log-build');
 
   });
   beforeEach(injectSetupCompile);
 
-  it('basic dom', function() {
+  it('basic dom', function () {
     var $el = ctx.element[0].querySelector('.terminal');
     expect($el).to.be.ok;
   });
 
 
-  describe('destroy', function() {
-    var origBuildStream;
+  describe('Test flow', function () {
     beforeEach(function () {
-      origBuildStream = $scope.stream;
+      $scope.connectStreams = sinon.spy();
+      $scope.streamEnded = sinon.spy();
+    });
+    describe('1 stream', function () {
+      beforeEach(function () {
+        $scope.createStream = sinon.spy(function () {
+          $scope.stream = createMockStream();
+        });
+      });
+      it('should flow through', function () {
+        sinon.assert.calledOnce(ctx.setupTermMock);
+        $scope.$broadcast('STREAM_START');
+        $scope.$apply();
+        sinon.assert.calledOnce(ctx.termMock.reset);
+        sinon.assert.calledOnce(ctx.createStream);
+        sinon.assert.calledOnce(ctx.connectStreams);
+        sinon.assert.calledWith(ctx.connectStreams, ctx.termMock);
+        ctx.connectStreams.reset();
+        sinon.assert.notCalled($scope.stream.end);
+        mockPrimus.emit('reconnect');
+        $scope.$apply();
+        sinon.assert.calledWith(ctx.connectStreams, ctx.termMock);
+        $scope.stream.emit('end');
+      })
+    });
+    describe('2 streams', function () {
+      beforeEach(function () {
+        $scope.createStream = sinon.spy(function () {
+          $scope.stream = createMockStream();
+          $scope.eventStream = createMockStream();
+        });
+        $scope.connectStreams = sinon.spy();
+      });
+      it('should flow through', function () {
+
+      })
+    });
+  });
+
+  describe('destroy', function () {
+    beforeEach(function () {
       $scope.stream = {}; // mock buildStream
     });
-    afterEach(function () {
-      $scope.stream = origBuildStream;
-    });
-    it('should clean up buildStream', function() {
+    it('should clean up buildStream', function () {
       var removeAllSpy = sinon.spy();
       var endSpy = sinon.spy();
       $scope.stream.removeAllListeners = removeAllSpy;
@@ -88,8 +142,8 @@ describe('directiveLogTerm'.bold.underline.blue, function() {
     });
   });
 
-  describe('primus goes offline', function() {
-    it('should display disconnect message when primus goes offline', function() {
+  describe('primus goes offline', function () {
+    it('should display disconnect message when primus goes offline', function () {
       mockPrimus.emit('offline');
       var $el = ctx.element[0].querySelector('.terminal');
       expect($el).to.be.ok;
