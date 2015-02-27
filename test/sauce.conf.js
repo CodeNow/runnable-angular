@@ -3,7 +3,7 @@
 var browsers = require('./browsers');
 var specs = require('./specs');
 
-exports.config = {
+var config = {
   // Order is important
   specs: specs,
 
@@ -21,15 +21,23 @@ exports.config = {
     includeStackTrace: true,
     defaultTimeoutInterval: 30000
   },
-  multiCapabilities : [
-    browsers.chrome
-    //browsers.firefox,
-    //browsers.safari,
-    //browsers.ie11,
-    //browsers.ie10
-  ],
   maxSessions: 1,
 
   sauceUser: 'RunnableTeam',
   sauceKey: '197a6e32-ecf7-4fd8-9c24-7aebde06de5a'
 };
+
+
+if (process.argv[3] === '--chrome') {
+  config.capabilities = browsers.chrome;
+} else {
+  config.multiCapabilities = [
+    browsers.chrome,
+    browsers.firefox,
+    browsers.safari,
+    browsers.ie11,
+    browsers.ie10
+  ];
+}
+
+exports.config = config;

@@ -25,7 +25,7 @@ var instances = [{
 
 describe('project creation workflow', users.doMultipleUsers(function (username) {
   instances.forEach(function (instanceData) {
-    it('runs throug the GS modal', function () {
+    it('runs through the GS modal', function () {
       // Getting started modal should be open by default
       var gettingStarted = new GettingStarted();
 

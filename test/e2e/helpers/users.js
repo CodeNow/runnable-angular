@@ -3,7 +3,7 @@
 var util = require('../helpers/util');
 var AccountsSelect = require('../popovers/AccountsSelect');
 module.exports = {
-  users: ['runnable-doobie', 'runnable-test'],
+  userList: ['runnable-doobie', 'runnable-test'],
   changeUser: function (username, manuallySwitch) {
     util.setCurrentUser(username);
     if (manuallySwitch) {
@@ -18,7 +18,7 @@ module.exports = {
   doMultipleUsers: function (func, manuallySwitch) {
     var self = this;
     return function (done) {
-      self.users.forEach(function (username) {
+      self.userList.forEach(function (username) {
         describe('Switching User to ' + username, function () {
           it('switches', function () {
             if (util.getCurrentUser() !== username) {
