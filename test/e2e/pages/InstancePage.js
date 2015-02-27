@@ -30,7 +30,7 @@ function InstancePage (name) {
 }
 
 InstancePage.urlRegex = function () {
-  return new RegExp(util.processUrl('/' + util.getCurrentUser() + '/' + util.regex.instanceName));
+  return new RegExp('\/' + util.getCurrentUser() + '\/' + util.regex.instanceName);
 };
 
 module.exports = InstancePage;
