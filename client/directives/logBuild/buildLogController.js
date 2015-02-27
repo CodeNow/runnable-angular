@@ -10,6 +10,7 @@ var COMPLETE_SUCCESS_MESSAGE = 'Build completed, starting instance...';
  */
 function BuildLogController(
   keypather,
+  dockerStreamCleanser,
   $scope,
   primus,
   $log,
@@ -18,9 +19,9 @@ function BuildLogController(
 ) {
   $scope.showSpinnerOnStream = true;
 
-  $scope.$watch('model.build.attrs.id', function (n) {
+  $scope.$watch('build.attrs.id', function (n) {
     if (n) {
-      var build = $scope.model.build;
+      var build = $scope.build;
       if (build.failed() || build.succeeded()) {
         promisify(build.contextVersions.models[0], 'fetch')().then(function (data) {
           if (build.succeeded()) {
@@ -42,11 +43,18 @@ function BuildLogController(
   });
 
   $scope.createStream = function () {
-    return primus.createBuildStream($scope.model.build);
+    $scope.stream = primus.createBuildStream($scope.build);
+  };
+
+  $scope.connectStreams = function (terminal) {
+    dockerStreamCleanser.cleanStreams($scope.stream,
+      terminal,
+      'hex',
+      true);
   };
 
   $scope.streamEnded = function () {
-    promisify($scope.model.build, 'fetch')().then(function (build) {
+    promisify($scope.build, 'fetch')().then(function (build) {
       $timeout(angular.noop);
       if (!build.succeeded()) {
         $scope.$emit('WRITE_TO_TERM', DEFAULT_INVALID_BUILD_MESSAGE);

@@ -104,7 +104,8 @@ section.views.with-add-tab(
   .active-panel(
     active-panel
     instance = "dataInstance.data.instance"
-    is-dark-theme = "dataInstance.data.toggleTheme",
+    build = "dataInstance.data.instance.build"
+    is-dark-theme = "dataInstance.data.toggleTheme"
     item = "item"
     ng-class = "{\
       'loaded': (item === openItems.activeHistory.last()),\

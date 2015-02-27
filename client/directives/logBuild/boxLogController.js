@@ -7,10 +7,10 @@ require('app')
  */
 function BoxLogController(
   keypather,
+  dockerStreamCleanser,
   $scope,
   primus
 ) {
-  $scope.instance = $scope.currentModel;
   /**
    * watch for container changes - by watching running state
    * [Initial Scenarios:]
@@ -45,7 +45,14 @@ function BoxLogController(
 
   $scope.createStream = function () {
     var container = keypather.get($scope, 'instance.containers.models[0]');
-    return primus.createLogStream(container);
+    $scope.stream = primus.createLogStream(container);
+  };
+
+  $scope.connectStreams = function (terminal) {
+    dockerStreamCleanser.cleanStreams($scope.stream,
+      terminal,
+      'hex',
+      true);
   };
 
   $scope.streamEnded = function () {
