@@ -16,12 +16,7 @@ function BuildLogController(
   promisify,
   $timeout
 ) {
-  $scope.model = $scope.currentModel;
   $scope.showSpinnerOnStream = true;
-
-  $scope.getStreamStatus = function () {
-    return keypather.get($scope, 'model.build.attrs.id');
-  };
 
   $scope.$watch('model.build.attrs.id', function (n) {
     if (n) {
