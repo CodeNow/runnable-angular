@@ -1,18 +1,6 @@
 // wizard 3
 .modal-gs-environments {
 
-  .guide {
-    margin-top: -9px;
-    padding: 9px 12px;
-
-    // more help
-    .link {
-      float: right;
-      font-weight: 500;
-      margin-top: 9px;
-    }
-  }
-
   .hr {
     flex: 0 0 auto;
     margin: 6px 0;
@@ -71,12 +59,6 @@
   }
 
   // additional vars
-  .link-divider {
-    margin: 12px 0 0;
-    padding-bottom: 12px;
-    text-align: right;
-  }
-
   .label-textarea {
     margin-top: 21px;
   }
@@ -94,7 +76,7 @@
   }
 
   // popover and delete var
-  .btn-xxs {
+  .btn-xxs.white {
     height: 36px;
     position: absolute;
     right: 3px;
