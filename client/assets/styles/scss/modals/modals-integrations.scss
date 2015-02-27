@@ -3,9 +3,33 @@
   // header
   .modal-header {
     height: auto;
+    padding: 6px;
+    transition: all .15s ease-in;
 
+    // reposition as header
     &.in {
-      height: 60px;
+      height: 72px;
+
+      .modal-heading {
+        display: none;
+      }
+
+      .modal-header-actions {
+        justify-content: flex-start;
+      }
+
+      .btn-radio {
+        font-size: 13px;
+        height: 60px;
+        width: 60px;
+      }
+
+      .img {
+        font-size: 13px;
+        height: 33px;
+        margin: 0 auto;
+        width: 21px;
+      }
     }
   }
 
