@@ -41,7 +41,7 @@ function InstanceEditPage (instanceName) {
 }
 
 InstanceEditPage.urlRegex = function () {
-  return new RegExp(util.processUrl('/' + util.getCurrentUser() + '/' + util.regex.instanceName + '/edit/' + util.regex.objectId));
+  return new RegExp('\/' + util.getCurrentUser() + '\/' + util.regex.instanceName + '\/edit\/' + util.regex.objectId);
 };
 
 module.exports = InstanceEditPage;

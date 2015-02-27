@@ -153,4 +153,4 @@ describe('watchBuildLogs', function () {
       return util.hasClass(instance.statusIcon, 'running');
     }, BUILD_TIMEOUT);
   }, BUILD_TIMEOUT);
-})
+});
