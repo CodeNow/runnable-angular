@@ -4,7 +4,7 @@ var util = require('./helpers/util');
 var InstancePage = require('./pages/InstancePage');
 var InstanceEditPage = require('./pages/InstanceEditPage');
 var apiClient = require('./helpers/apiClient');
-
+var BUILD_TIMEOUT = 80000;
 
 function startInstanceUpdate(thisUser) {
   return function () {
@@ -79,8 +79,8 @@ describe('watchBuildLogs', function () {
     // Removing until backend fixes key issue
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
   it('should react to a socket update of the build when stopped: ' + util.getCurrentUser(),  function () {
     var instance = new InstancePage('node_hello_world');
     instance.get();
@@ -100,7 +100,7 @@ describe('watchBuildLogs', function () {
       });
     }).then(function () {
       return browser.wait(function () {
-        return instance.activePanel.currentContent.get().getText().then(function (text) {
+        return instance.activePanel.getContents().then(function (text) {
           return text.indexOf('Exited') >= 0;
         });
       });
@@ -118,8 +118,9 @@ describe('watchBuildLogs', function () {
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
+
   it('should react to a socket update of the build when building: ' + util.getCurrentUser(), function () {
     var instanceEdit = new InstanceEditPage('node_hello_world');
     var instance = new InstancePage('node_hello_world');
@@ -134,13 +135,13 @@ describe('watchBuildLogs', function () {
       return util.hasClass(instance.statusIcon, 'building');
     });
     browser.wait(function () {
-      return instance.activePanel.currentContent.get().getText().then(function (text) {
+      return instance.activePanel.getContents().then(function (text) {
         return text.indexOf('Step 3') >= 0;
       });
     }).then(startInstanceUpdate(util.getCurrentUser())
     ).then(function () {
-      expect(instance.activePanel.getContents()).not.toMatch('Step 3');
-    });
+        expect(instance.activePanel.getContents()).not.toMatch('Step 3');
+      });
 
     browser.wait(function () {
       return instance.activePanel.isLoaded();
@@ -150,7 +151,6 @@ describe('watchBuildLogs', function () {
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
-
-});
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
+})
