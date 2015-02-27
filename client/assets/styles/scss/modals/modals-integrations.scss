@@ -1,68 +1,70 @@
 .modal-integrations {
 
-  // header
-  .modal-header {
-    height: auto;
-    padding: 6px;
-    transition: all .15s ease-in;
+  // no integration state
+  &.no-data {
+    height: 242px;
+    transition: height .15s ease-in;
 
-    // reposition as header
-    &.in {
-      height: 72px;
+    // header
+    .modal-header {
+      height: auto;
+    }
 
-      .modal-heading {
-        display: none;
-      }
+    .modal-heading {
+      // reset default
+      float: none;
+      text-align: center;
+    }
 
-      .modal-header-actions {
-        justify-content: flex-start;
-      }
+    .modal-header-actions {
+      justify-content: center;
+    }
 
-      .btn-radio {
-        font-size: 13px;
-        height: 60px;
-        width: 60px;
-      }
+    .btn-radio {
+      height: 108px;
+      width: 120px;
+    }
 
-      .img {
-        font-size: 13px;
-        height: 33px;
-        margin: 0 auto;
-        width: 21px;
-      }
+    .img {
+      margin-bottom: 6px;
+      width: 36px;
+    }
+
+    // small footer
+    .footer-link {
+      line-height: 45px;
+      margin-top: 15px;
+      text-align: center;
     }
   }
 
-  .modal-heading {
-    float: none;
-    text-align: center;
+  // default state
+  // header
+  .modal-header {
+    height: 72px;
+    padding: 6px;
+    transition: all .15s ease-in;
   }
 
   .modal-header-actions {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .btn-radio {
-    height: 108px;
-    width: 126px;
+    font-size: 13px;
+    height: 60px;
+    width: 60px;
 
     + .btn-radio {
       margin-left: 6px;
     }
   }
 
-  // images in btn-radio
   .img {
-    margin-bottom: 6px;
-    width: 36px;
-  }
-
-  // small footer
-  .footer-link {
-    line-height: 45px;
-    margin-top: 15px;
-    text-align: center;
+    height: 33px;
+    margin: 0 auto;
+    width: 21px;
   }
 }
 

@@ -1,8 +1,10 @@
-.modal-dialog.modal-integrations
-  .modal-header(
-    ng-class = "{in: data.showHipchat || data.showSlack}"
-  )
-    h1.modal-heading Choose Integration
+.modal-dialog.modal-integrations(
+  ng-class = "{'no-data': !data.showHipchat && !data.showSlack}"
+)
+  .modal-header
+    h1.modal-heading(
+      ng-if = "!data.showHipchat && !data.showSlack"
+    ) Choose Integration
     .modal-header-actions
       button.btn-radio(
         ng-class = "{active: data.showHipchat}"
@@ -31,6 +33,7 @@
         )
         | Slack
   a.small.link.link-text.footer-link(
+    ng-if = "!data.showHipchat && !data.showSlack"
     ng-click = "defaultActions.cancel()"
   ) Cancel
 
