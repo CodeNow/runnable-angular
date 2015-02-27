@@ -57,6 +57,12 @@
     ng-if = "data.showHipchat || data.showSlack"
   )
     button.btn.green Done
+    button.btn.orange(
+      ng-click = "\
+        data.showHipchat = false;\
+        data.showSlack = false;\
+      "
+    ) Undo All
 
     //- form.form.clearfix(
     //-   name = "slackForm"
