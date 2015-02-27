@@ -5,11 +5,12 @@
  */
 
 var util = require('./helpers/util');
+var users = require('./helpers/users');
 
 var InstancePage = require('./pages/InstancePage');
 var spinner = require('./helpers/spinner');
 
-describe('Changing commit', function () {
+describe('Changing commit', users.doMultipleUsers(function (username) {
 
   it('should allow the user to change the branch to !master', function () {
     var instance = new InstancePage('node_hello_world');
@@ -85,7 +86,7 @@ describe('Changing commit', function () {
     });
   });
 
-});
+}));
 
 function waitForRepos(instance, repo) {
   browser.wait(function () {

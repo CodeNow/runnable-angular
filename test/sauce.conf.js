@@ -21,31 +21,23 @@ var config = {
     includeStackTrace: true,
     defaultTimeoutInterval: 30000
   },
-
   maxSessions: 1,
 
   sauceUser: 'RunnableTeam',
   sauceKey: '197a6e32-ecf7-4fd8-9c24-7aebde06de5a'
 };
 
+
 if (process.argv[3] === '--chrome') {
-  config.multiCapabilities = [
-    browsers.chrome,
-    browsers.testForUser(browsers.chrome)
-  ];
+  config.capabilities = browsers.chrome;
 } else {
-  var capabilities = [
+  config.multiCapabilities = [
     browsers.chrome,
     browsers.firefox,
     browsers.safari,
     browsers.ie11,
     browsers.ie10
   ];
-  config.multiCapabilities = [];
-  capabilities.forEach(function (cap) {
-    config.multiCapabilities.push(cap);
-    config.multiCapabilities.push(browsers.testForUser(cap));
-  });
 }
 
 exports.config = config;
