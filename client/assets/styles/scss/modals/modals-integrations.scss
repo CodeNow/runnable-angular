@@ -1,10 +1,12 @@
 .modal-integrations {
   height: 570px;
-  transition: height .15s ease-in;
+  transition: all .15s ease-in;
+  width: 600px;
 
   // uninitiated state
   &.no-data {
     height: 242px;
+    width: 370px;
 
     // header
     .modal-header {

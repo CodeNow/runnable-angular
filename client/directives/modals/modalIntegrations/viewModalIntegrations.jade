@@ -40,18 +40,21 @@
   ) Cancel
 
   //- show if integration is initiated
-  form.inset(
+  form.modal-inset.in(
     name = " slackForm"
     ng-if = "data.showHipchat || data.showSlack"
   )
-  label.label.clearfix
-    .label-col API Token
-    input.input.input-sm.input-col(
-      placeholder = "lol"
-      required
-    )
-  label.label.clearfix
-    .label-col Enabled Users
+    label.label.clearfix
+      .label-col API Token
+      input.input.input-sm.input-col(
+        placeholder = "lol"
+        required
+      )
+    label.label.clearfix
+      .label-col Enabled Users
+
+  footer.modal-footer
+    button.btn.green Done
 
     //- form.form.clearfix(
     //-   name = "slackForm"
