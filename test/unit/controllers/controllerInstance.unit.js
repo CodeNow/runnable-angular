@@ -12,6 +12,7 @@ var async,
     $state,
     $stateParams,
     user;
+var runnable = new (require('runnable'))(window.host);
 
 describe('controllerInstance'.bold.underline.blue, function () {
   var ctx = {};
@@ -26,7 +27,29 @@ describe('controllerInstance'.bold.underline.blue, function () {
         setInstanceState: sinon.spy()
       });
       $provide.factory('pFetchUser', fixtures.mockFetchUser);
-      $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
+      $provide.factory('fetchCommitData', function () {
+        return {
+          activeCommit: sinon.spy(function () {
+            return {
+              attrs: {
+                commit: {
+                  message: 'hello',
+                  html_url: 'asdasd'
+                }
+              }
+            };
+          })
+        };
+      });
+      $provide.factory('fetchInstances', fixtures.mockFetchInstances.runningWithExtras({
+        contextVersion: {
+          appCodeVersions: {
+            models: [
+              {}
+            ]
+          }
+        }
+      }));
     });
     angular.mock.inject(function (
       _async_,
