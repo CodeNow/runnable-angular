@@ -81,12 +81,13 @@ function ControllerInstance(
   });
 
   $scope.$watch('dataInstance.data.instance.build.attrs.started', function (n, p) {
-    if (data.showUpdatingMessage || !n || !p) { return; } // Remove this line on ws change
+    if (data.showUpdatingMessage || !n || !p || n === p) { return; } // Remove this line on ws change
     data.showUpdatedMessage = false;
     data.showUpdatingMessage = true;
   });
-  $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n) {
-    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n) { return; } // Remove this line on ws change
+  $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
+    // p should be null since during a build, the completed field is nulled out
+    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; } // Remove this line on ws change
     data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
     data.showUpdatingMessage = false;
     data.showUpdatedMessage = true;
