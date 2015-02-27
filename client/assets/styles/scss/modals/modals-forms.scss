@@ -1,0 +1,68 @@
+.modal-dialog {
+
+  // label (row)
+  .label {
+    display: block;
+    line-height: 1.2;
+    margin-bottom: 21px;
+    position: relative;
+    word-break: break-word;
+
+    @include media(xs) {
+      margin-bottom: 15px;
+    }
+
+    + .label {
+      margin-top: 21px;
+
+      @include media(xs) {
+        margin-top: 15px;
+      }
+    }
+  }
+
+  // label column (left)
+  .label-col {
+    float: left;
+    font-weight: 500;
+    height: 36px;
+    padding-right: 15px;
+    text-align: right;
+    width: 45%;
+
+    @include media(xs) {
+      float: none;
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  // input column (right)
+  .input-col {
+    float: right;
+    text-align: left;
+    width: 55%;
+
+    @include media(xs) {
+      float: none;
+      width: 100%;
+    }
+  }
+
+  // button groups
+  .btn-group {
+
+    .btn {
+      width: 50%;
+
+      + .btn {
+        padding-left: 15px;
+      }
+    }
+
+    // additional button groups
+    + .btn-group {
+      margin-top: 6px;
+    }
+  }
+}

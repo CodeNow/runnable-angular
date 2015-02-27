@@ -7,51 +7,9 @@
   padding: 15px 15px 0;
   width: 600px;
 
+  // label (row)
   .label {
-    display: block;
     flex: 0 0 auto;
-    line-height: 1.2;
-    margin-bottom: 21px;
-    position: relative;
-    word-break: break-word;
-
-    @include media(xs) {
-      margin-bottom: 15px;
-    }
-
-    + .label {
-      margin-top: 21px;
-
-      @include media(xs) {
-        margin-top: 15px;
-      }
-    }
-  }
-
-  .label-col {
-    float: left;
-    font-weight: 500;
-    height: 36px;
-    padding-right: 15px;
-    text-align: right;
-    width: 45%;
-
-    @include media(xs) {
-      float: none;
-      text-align: left;
-      width: 100%;
-    }
-  }
-
-  .input-col {
-    float: right;
-    text-align: left;
-    width: 55%;
-
-    @include media(xs) {
-      float: none;
-      width: 100%;
-    }
   }
 
   // branch select
@@ -71,21 +29,10 @@
   // language/framework button
   .btn-group {
 
-    .btn {
-      width: 50%;
-
-      + .btn {
-        padding-left: 15px;
-      }
-    }
-
-    + .btn-group {
-      margin-top: 6px;
-
-      .btn:first-child {
-        background: $gray-lightest;
-        cursor: default;
-      }
+    // not-allowed
+    + .btn-group .btn:first-child {
+      background: $gray-lightest;
+      cursor: default;
     }
 
     .small {

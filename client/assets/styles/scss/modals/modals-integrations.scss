@@ -1,9 +1,10 @@
 .modal-integrations {
+  height: 570px;
+  transition: height .15s ease-in;
 
-  // no integration state
+  // uninitiated state
   &.no-data {
     height: 242px;
-    transition: height .15s ease-in;
 
     // header
     .modal-header {

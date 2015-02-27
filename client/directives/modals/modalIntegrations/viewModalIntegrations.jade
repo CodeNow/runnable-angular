@@ -2,6 +2,7 @@
   ng-class = "{'no-data': !data.showHipchat && !data.showSlack}"
 )
   .modal-header
+    //- do not show if integration is initiated
     h1.modal-heading(
       ng-if = "!data.showHipchat && !data.showSlack"
     ) Choose Integration
@@ -32,10 +33,25 @@
           width = "36"
         )
         | Slack
+  //- do not show if integration is initiated
   a.small.link.link-text.footer-link(
     ng-if = "!data.showHipchat && !data.showSlack"
     ng-click = "defaultActions.cancel()"
   ) Cancel
+
+  //- show if integration is initiated
+  form.inset(
+    name = " slackForm"
+    ng-if = "data.showHipchat || data.showSlack"
+  )
+  label.label.clearfix
+    .label-col API Token
+    input.input.input-sm.input-col(
+      placeholder = "lol"
+      required
+    )
+  label.label.clearfix
+    .label-col Enabled Users
 
     //- form.form.clearfix(
     //-   name = "slackForm"
