@@ -29,7 +29,7 @@ describe('addRepo', function() {
     var instanceEdit = new InstanceEditPage('Test-0');
     instanceEdit.get();
 
-    util.waitForUrl(InstancePage.urlRegex);
+    util.waitForUrl(InstancePage.urlRegex());
 
     expect(instanceEdit.repoList.numSelectedRepos()).toEqual(2);
   });

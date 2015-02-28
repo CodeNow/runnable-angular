@@ -16,3 +16,4 @@ client/decorators/index.js
 client/animations/index.js
 test/coverage/*
 !test/coverage/.gitkeep
+*.iml

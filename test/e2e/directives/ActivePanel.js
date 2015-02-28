@@ -9,13 +9,17 @@ function ActivePanel (pageType) {
 
   this.addTab = util.createGetter(by.css('.add-tab'), this.panel);
 
+  //this.openItems = util.createGetter(by.repeater(), this.panel);
+
   this.currentContent = util.createGetter(by.css('div.active-panel.ace-runnable-dark:not(.ng-hide)'), this.panel);
+
+  this.openTabs = util.createGetter(by.repeater('item in openItems.models'), this.panel);
 
   this.ace = util.createGetter(by.css('div.active-panel.ng-scope.ace-runnable-dark'), this.panel);
   this.aceDiv = util.createGetterAll(by.css('div.ace_content'));
   this.inputElm = util.createGetterAll(by.css('textarea.ace_text-input'));
 
-  this.activeTab = util.createGetter(by.css('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li.tab-wrapper.ng-scope.active > span'));
+  this.activeTab = util.createGetter(by.css('.tabs > .active'));
 
   this.isLoaded = function() {
     return this.currentContent.get().isPresent();

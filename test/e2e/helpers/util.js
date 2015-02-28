@@ -1,6 +1,13 @@
 'use strict';
 
 var util = {};
+var user = 'runnable-doobie';
+util.getCurrentUser = function () {
+  return user;
+};
+util.setCurrentUser = function (_user) {
+  user = _user;
+};
 
 util.processUrl = function (middle) {
   return browser.baseUrl + middle + '/';
