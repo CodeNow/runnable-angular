@@ -11,7 +11,7 @@ main.home
             xlink:href = "#runnable-logo"
           )
       nav.home-nav
-        a.link.link-text(
+        a.link(
           ng-href = "{{ dataHome.data.hasPass ? dataApp.data.loginURL : 'mailto:support@runnable.com?subject=Send me an invite, or else!' }}"
         ) {{ dataHome.data.hasPass ? 'Sign In' : 'Request Invite' }}
 
@@ -74,14 +74,14 @@ main.home
         width = "30"
       )
     nav.footer-nav
-      a.link.link-text(
+      a.link(
         href = "mailto:support@runnable.com"
       ) Email Us
-      a.link.link-text(
+      a.link(
         href = "http://support.runnable.io"
         target = "_blank"
       ) Documentation
-      a.link.link-text(
+      a.link(
         ng-href = "{{ dataApp.data.loginURL }}"
         ng-if = "dataHome.data.hasPass"
       )
