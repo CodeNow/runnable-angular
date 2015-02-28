@@ -42,6 +42,11 @@
     }
   }
 
+  // unverified state
+  &.no-verify {
+    height: 242px;
+  }
+
   // default state
   // header
   .modal-header {
@@ -79,6 +84,12 @@
     flex: 1 1 auto;
     flex-direction: column;
     padding: 30px 42px;
+  }
+
+  // verify button
+  .btn-sm.green {
+    float: right;
+    margin-top: 6px;
   }
 
   .list-item {

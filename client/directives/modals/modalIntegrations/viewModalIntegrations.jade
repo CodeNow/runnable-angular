@@ -1,6 +1,9 @@
 form.modal-dialog.modal-integrations(
   name = " slackForm"
-  ng-class = "{'no-data': !data.showHipchat && !data.showSlack}"
+  ng-class = "{\
+    'no-data': !data.showHipchat && !data.showSlack,\
+    'no-verify': !data.verified\
+  }"
 )
   .modal-header
     //- do not show if integration is initiated
@@ -56,8 +59,14 @@ form.modal-dialog.modal-integrations(
         placeholder = "lol"
         required
       )
+      button.btn.btn-sm.green(
+        ng-click = "data.verified = true"
+        ng-if = "!data.verified"
+      ) Verify
       //- validation for special cahrs
-    .label.clearfix
+    .label.clearfix(
+      ng-if = "data.verified"
+    )
       .label-col.label-details Team Notifications
         .small Members will receive notifications from Runnabot
       .list.list-bordered.input-col
@@ -226,7 +235,7 @@ form.modal-dialog.modal-integrations(
             )
 
   footer.modal-footer(
-    ng-if = "data.showHipchat || data.showSlack"
+    ng-if = "(data.showHipchat || data.showSlack) && data.verified"
   )
     button.btn.green Done
 
