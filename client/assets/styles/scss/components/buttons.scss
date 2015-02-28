@@ -125,6 +125,17 @@
   }
 }
 
+.btn-close {
+  border-radius: 50%;
+
+  .icons-close {
+    color: currentColor;
+    height: 100%;
+    top: -13px; // offset
+    width: 100%;
+  }
+}
+
 .btn-help {
   background: rgba($white,.6);
   border: 1px solid $gray-light;

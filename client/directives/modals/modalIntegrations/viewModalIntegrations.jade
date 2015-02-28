@@ -50,17 +50,49 @@
           href = "//www2.warnerbros.com/spacejam/movie/jam.htm"
           target = "_blank"
         ) Get your API Token from Slack
-      input.input.input-sm.input-col(
+      input.input.input-sm.input-validate.input-col(
         placeholder = "lol"
         required
       )
-    label.label.clearfix
+      //- validation for special cahrs
+    .label.clearfix
       .label-col Enabled Users
+      ul.list.list-bordered.input-col
+        li.list-item.text-overflow
+          img.gravatar(
+            height = "21"
+            src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
+            width = "21"
+          )
+          | anandkumarpatel
+          button.btn.white.btn-icon.btn-close(
+            type = "button"
+          )
+            svg.iconnables.icons-close
+              use(
+                xlink:href = "#icons-close"
+              )
+        li.list-item.text-overflow
+          img.gravatar(
+            height = "21"
+            src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
+            width = "21"
+          )
+          | anandkumarpatel
+          button.btn.white.btn-icon.btn-close(
+            type = "button"
+          )
+            svg.iconnables.icons-close
+              use(
+                xlink:href = "#icons-close"
+              )
 
   footer.modal-footer(
     ng-if = "data.showHipchat || data.showSlack"
   )
-    button.btn.green Done
+    button.btn.green(
+      ng-click = "defaultActions.cancel()"
+    ) Done
     button.btn.orange(
       ng-click = "\
         data.showHipchat = false;\
