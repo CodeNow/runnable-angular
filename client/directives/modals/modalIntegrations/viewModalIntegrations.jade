@@ -1,4 +1,5 @@
-.modal-dialog.modal-integrations(
+form.modal-dialog.modal-integrations(
+  name = " slackForm"
   ng-class = "{'no-data': !data.showHipchat && !data.showSlack}"
 )
   .modal-header
@@ -13,6 +14,7 @@
           data.showHipchat = true;\
           data.showSlack = false;\
         "
+        type = "button"
       )
         img.img(
           height = "36"
@@ -26,6 +28,7 @@
           data.showSlack = true;\
           data.showHipchat = false;\
         "
+        type = "button"
       )
         img.img(
           height = "36"
@@ -40,8 +43,7 @@
   ) Cancel
 
   //- show if integration is initiated
-  form.modal-body(
-    name = " slackForm"
+  .modal-body(
     ng-if = "data.showHipchat || data.showSlack"
   )
     label.label.clearfix
@@ -56,49 +58,177 @@
       )
       //- validation for special cahrs
     .label.clearfix
-      .label-col Enabled Users
-      ul.list.list-bordered.input-col
-        li.list-item.text-overflow
+      .label-col.label-details Team Notifications
+        .small Members will receive notifications from Runnabot
+      .list.list-bordered.input-col
+        //-
+          - auto detect users with a matching name on github AND slack
+          - users added manually can be removed, users added automatically cannot
+        label.list-item.label-checkbox
           img.gravatar(
             height = "21"
             src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
             width = "21"
           )
-          | anandkumarpatel
-          button.btn.white.btn-icon.btn-close(
+          span.text-overflow anandkumarpatel
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+          button.btn.btn-xs.white(
             type = "button"
           )
-            svg.iconnables.icons-close
+            svg.iconnables.icons-trash
               use(
-                xlink:href = "#icons-close"
+                xlink:href = "#icons-trash"
               )
-        li.list-item.text-overflow
+        label.list-item.label-checkbox
           img.gravatar(
             height = "21"
-            src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
+            src = "//avatars3.githubusercontent.com/u/160236?v=3&s=96"
             width = "21"
           )
-          | anandkumarpatel
-          button.btn.white.btn-icon.btn-close(
+          span.text-overflow Bryan Kendall
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars2.githubusercontent.com/u/467885?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow Casey Flynn
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars3.githubusercontent.com/u/4451216?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow forrestj
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+          button.btn.btn-xs.white(
             type = "button"
           )
-            svg.iconnables.icons-close
+            svg.iconnables.icons-trash
               use(
-                xlink:href = "#icons-close"
+                xlink:href = "#icons-trash"
               )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars2.githubusercontent.com/u/6379413?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow Nathan Meyers
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars2.githubusercontent.com/u/429706?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow Anton Podviaznikov
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars1.githubusercontent.com/u/718305?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow Praful Rana
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars2.githubusercontent.com/u/5341618?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow Runnabro
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+          button.btn.btn-xs.white(
+            type = "button"
+          )
+            svg.iconnables.icons-trash
+              use(
+                xlink:href = "#icons-trash"
+              )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars1.githubusercontent.com/u/1616464?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow Randall Koutnik
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars0.githubusercontent.com/u/2469588?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow sundippatel
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+          button.btn.btn-xs.white(
+            type = "button"
+          )
+            svg.iconnables.icons-trash
+              use(
+                xlink:href = "#icons-trash"
+              )
+        label.list-item.label-checkbox
+          img.gravatar(
+            height = "21"
+            src = "//avatars3.githubusercontent.com/u/640279?v=3&s=96"
+            width = "21"
+          )
+          span.text-overflow Tejesh Mehta
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+        label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars0.githubusercontent.com/u/1085792?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow Yash Kumar
+            input.input-checkbox(
+              checked
+              type = "checkbox"
+            )
 
   footer.modal-footer(
     ng-if = "data.showHipchat || data.showSlack"
   )
-    button.btn.green(
-      ng-click = "defaultActions.cancel()"
-    ) Done
-    button.btn.orange(
-      ng-click = "\
-        data.showHipchat = false;\
-        data.showSlack = false;\
-      "
-    ) Undo All
+    button.btn.green Done
 
     //- form.form.clearfix(
     //-   name = "slackForm"

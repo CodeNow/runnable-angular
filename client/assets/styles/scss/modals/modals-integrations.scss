@@ -1,5 +1,5 @@
 .modal-integrations {
-  height: 570px;
+  height: 564px;
   transition: all .15s ease-in;
   width: 600px;
 
@@ -78,7 +78,7 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    padding: 30px 15px 0;
+    padding: 30px 42px;
   }
 
   .list-item {
@@ -86,9 +86,24 @@
     line-height: 36px;
     margin: 0;
     padding: 0 30px 0 6px;
+    position: relative;
 
     + .list-item {
       border-top: 1px solid rgba($black,.1);
+    }
+
+    // trash
+    .btn-xs {
+      opacity: .5;
+      padding: 0;
+      position: absolute;
+      right: -30px;
+      top: 6px;
+
+      &:hover,
+      &:active {
+        opacity: 1;
+      }
     }
   }
 
@@ -96,12 +111,16 @@
     margin: 8px 6px 0 0;
   }
 
-  .btn-close {
-    height: 15px;
+  .input-checkbox {
     position: absolute;
-    right: 6px;
-    top: 10px;
-    width: 15px;
+    right: 0;
+    top: 0;
+  }
+
+  // footer
+  .modal-footer {
+    box-shadow: 0 -3px 6px $white;
+    z-index: 1;
   }
 }
 
