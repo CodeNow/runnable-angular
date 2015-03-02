@@ -1,7 +1,6 @@
 'use strict';
 
 var util = require('./util');
-
 /**
  * Tests a user's ability to log into the site
  */

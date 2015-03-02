@@ -12,13 +12,13 @@
 
 // nav buttons
 .habla_button {
-  background-color: rgba($blue,.2) !important;
+  background-color: rgba($blue,.4) !important;
   border: 1px solid rgba($blue,.4) !important;
   border-radius: 3px !important;
 
   &:hover,
   &:active {
-    background-color: rgba($blue,.4) !important;
+    background-color: rgba($blue,.6) !important;
     border-color: rgba($blue,.6) !important;
   }
 }

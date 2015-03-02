@@ -23,6 +23,7 @@
   &.ng-pristine {
     background: $white;
     border-color: rgba($black,.15);
+    box-shadow: none;
   }
 
   &:focus,

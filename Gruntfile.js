@@ -369,7 +369,7 @@ module.exports = function(grunt) {
       },
       function (cb) {
         var configObj = {};
-        configObj.environment = process.env.ENVIRONMENT || 'development';
+        configObj.environment = process.env.NODE_ENV || 'development';
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'environment.json'), configJSON, function () {
           cb();

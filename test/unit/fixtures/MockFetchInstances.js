@@ -4,6 +4,8 @@ var instances = require('../apiMocks').instances;
 
 var runnable = new (require('runnable'))(window.host);
 
+var keypather = require('keypather')();
+
 module.exports = {
   list: function($q, $rootScope) {
     return function (opts) {
@@ -27,6 +29,22 @@ module.exports = {
       var running = runnable.newInstance(instances.running);
       d.resolve(running);
       return d.promise;
+    };
+  },
+  runningWithExtras: function (modelsToAttachMap) {
+    return function ($q) {
+      return function (opts) {
+        expect(opts).to.be.an.Object;
+        expect(opts.name).to.be.a.String;
+        expect(opts.githubUsername).to.not.be.ok;
+        var d = $q.defer();
+        var running = runnable.newInstance(instances.running);
+        Object.keys(modelsToAttachMap).forEach(function (key) {
+          keypather.set(running, key, modelsToAttachMap[key]);
+        });
+        d.resolve(running);
+        return d.promise;
+      };
     };
   },
   error: function($q) {

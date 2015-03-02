@@ -1,5 +1,5 @@
 .modal-wizard {
-  height: 540px;
+  height: 570px;
 
   @include media(xs) {
     height: auto;
@@ -35,7 +35,7 @@
 
   .modal-body {
     flex: 1 1 auto;
-    margin-bottom: 63px;
+    margin-bottom: 72px;
   }
 
   .sub-header {
@@ -45,12 +45,35 @@
     padding: 0;
   }
 
+  .btn-help {
+    float: none;
+    font-size: 13px;
+    height: 21px;
+    line-height: 21px;
+    margin-left: 6px;
+    padding: 0;
+    top: 1px;
+    width: 21px;
+  }
+
   // guide
   .guide {
     flex: 0 0 auto;
     font-size: 14px;
-    margin: 0 0 21px;
-    padding: 9px;
+    margin: 0 0 9px;
+    padding: 6px 9px;
+
+    // more help
+    .link {
+      float: right;
+      margin-top: 6px;
+    }
+
+    // hide
+    .btn-xxs {
+      float: left;
+      margin-top: 6px;
+    }
   }
 
   .modal-footer {

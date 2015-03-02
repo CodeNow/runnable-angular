@@ -1,7 +1,21 @@
-h2.sub-header(
-  ng-init = "data.showGuide = true"
-) Dependencies & Environment Variables
-  button.btn.btn-sm.btn-icon.white.sub-header-action(
+.guide(
+  ng-hide = "data.hideGuide"
+) A separate server is created for each dependency we think your app needs. These servers are linked with the environment variables below.
+  br
+  a.small.link.link-text(
+     href = "https://runnable.zendesk.com/hc/en-us/articles/203676969"
+     target = "_blank"
+  )
+    strong More Help
+  a.btn.btn-xxs.blue.hover(
+    ng-click = "data.hideGuide = true"
+  ) Hide
+h2.sub-header Dependencies & Environment Variables
+  button.btn.btn-sn.btn-help(
+    ng-if = "data.hideGuide"
+    ng-click = "data.hideGuide = false"
+  ) ?
+  button.btn.btn-sm.gray.sub-header-action(
     ng-class = "{active: addDependencyPopover.data.show}"
     toggle-pop-over
     toggle-pop-over-model = "addDependencyPopover.data.show"
@@ -16,14 +30,6 @@ h2.sub-header(
       popover-options = "{\"left\":-88,\"top\":45}"
       template = "viewPopoverAddDependency"
     )
-.guide(
-  ng-if = "data.showGuide"
-) A separate server is created for each dependency we think your app needs. These servers are linked with the environment variables below.
-  br
-  a.small.link.link-text(
-     href = "https://runnable.zendesk.com/hc/en-us/articles/203676969"
-     target = "_blank"
-  ) More Help
 .label.clearfix(
   ng-repeat = "model in state.dependencies"
 )
@@ -71,15 +77,13 @@ h2.sub-header(
         use(
           xlink:href = "#icons-close"
         )
+button.btn.btn-sm.gray.btn-add-dependency(
+  toggle-pop-over
+  toggle-pop-over-model = "addDependencyPopover.data.show"
+) Add Dependency
 //- other vars
 .hr
-a.small.link.link-text.link-gray.link-divider(
-  ng-click = "data.addVariables = true"
-  ng-if = "!data.addVariables"
-) Add Additional Variables
-.label.label-textarea.clearfix(
-  ng-if = "data.addVariables"
-)
+.label.label-textarea.clearfix
   .label-col Additional Variables
     small.small Optional
   .input-col
