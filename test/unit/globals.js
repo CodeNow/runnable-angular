@@ -20,8 +20,7 @@ window.directiveTemplate = require('./fixtures/directiveTemplate');
 window.modelStore = require('runnable/lib/stores/model-store');
 window.collectionStore = require('runnable/lib/stores/collection-store');
 window.fixtures = {
-  MockPrimus: require('./fixtures/MockPrimus').primus,
-  MockStream: require('./fixtures/MockPrimus').stream,
+  MockPrimus: require('./fixtures/MockPrimus'),
   MockFetchBuild: require('./fixtures/MockFetchBuild'),
   mockFetchInstances: require('./fixtures/MockFetchInstances'),
   mockFetchUser: require('./fixtures/mockFetchUser'),

@@ -1,9 +1,4 @@
 'use strict';
-
-var sinon = require('sinon');
-var pluck = require('101/pluck');
-var find = require('101/find');
-
 // injector-provided
 var $compile,
     $filter,
@@ -15,14 +10,9 @@ var $compile,
     $timeout,
     user;
 var mockPrimus = new fixtures.MockPrimus();
-var apiMocks = require('../apiMocks/index');
 
 function createMockStream() {
-  var mockStream = new fixtures.MockStream();
-  sinon.stub(mockStream, 'on');
-  sinon.stub(mockStream, 'off');
-  sinon.stub(mockStream, 'removeAllListeners');
-  sinon.stub(mockStream, 'end');
+  var mockStream = new mockPrimus.createBuildStream();
   sinon.stub(mockStream, 'write');
   return mockStream;
 }
@@ -37,14 +27,15 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       reset: sinon.spy(),
       startBlink: sinon.spy()
     };
-    ctx.setupTermMock = sinon.spy(function () {
+    ctx.resizeHandlerCb = null;
+    ctx.setupTermMock = sinon.spy(function (a, b, cb) {
+      ctx.resizeHandlerCb = cb;
       return ctx.termMock;
     });
-    ctx.setupTermMock = sinon.spy();
     angular.mock.module(function ($provide) {
       $provide.value('primus', mockPrimus);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
-      $provide.factory('helperSetupTerminal', ctx.setupTermMock);
+      $provide.value('helperSetupTerminal', ctx.setupTermMock);
     });
     angular.mock.inject(function (
       _$compile_,
@@ -75,15 +66,9 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
 
   beforeEach(function () {
     ctx = {};
-    ctx.template = directiveTemplate.attribute('log-build');
-
+    ctx.template = directiveTemplate.attribute('log-term');
   });
   beforeEach(injectSetupCompile);
-
-  it('basic dom', function () {
-    var $el = ctx.element[0].querySelector('.terminal');
-    expect($el).to.be.ok;
-  });
 
 
   describe('Test flow', function () {
@@ -102,16 +87,64 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         $scope.$broadcast('STREAM_START');
         $scope.$apply();
         sinon.assert.calledOnce(ctx.termMock.reset);
-        sinon.assert.calledOnce(ctx.createStream);
-        sinon.assert.calledOnce(ctx.connectStreams);
-        sinon.assert.calledWith(ctx.connectStreams, ctx.termMock);
-        ctx.connectStreams.reset();
-        sinon.assert.notCalled($scope.stream.end);
+        sinon.assert.calledOnce($scope.createStream);
+        sinon.assert.calledOnce($scope.connectStreams);
+        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
+        $scope.connectStreams.reset();
+
+        sinon.assert.notCalled($scope.streamEnded);
         mockPrimus.emit('reconnect');
+        $rootScope.$apply();
+        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
+        $scope.stream.end();
+        $rootScope.$apply();
+        sinon.assert.calledOnce($scope.streamEnded);
+      });
+      it('should turn on the spinner, then turn it off', function () {
+        $scope.showSpinnerOnStream = true;
+        $scope.$broadcast('STREAM_START');
         $scope.$apply();
-        sinon.assert.calledWith(ctx.connectStreams, ctx.termMock);
-        $scope.stream.emit('end');
-      })
+        sinon.assert.calledOnce(ctx.termMock.reset);
+        sinon.assert.calledOnce($scope.createStream);
+        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
+        expect(ctx.termMock.cursorState, 'cursorState').to.equal(-1);
+        expect(ctx.termMock.hideCursor, 'hideCursor').to.be.false;
+        expect(ctx.termMock.cursorBlink, 'cursorBlink').to.be.true;
+        expect(ctx.termMock.cursorSpinner, 'cursorSpinner').to.be.true;
+        sinon.assert.calledOnce(ctx.termMock.startBlink);
+
+        $scope.connectStreams.reset();
+
+        sinon.assert.notCalled($scope.streamEnded);
+        $scope.stream.end();
+        $rootScope.$apply();
+        sinon.assert.calledOnce($scope.streamEnded);
+        expect(ctx.termMock.cursorState, 'cursorState').to.equal(0);
+        expect(ctx.termMock.hideCursor, 'hideCursor').to.be.true;
+        expect(ctx.termMock.cursorBlink, 'cursorBlink').to.be.false;
+        expect(ctx.termMock.cursorSpinner, 'cursorSpinner').to.be.false;
+      });
+      describe('Term write', function () {
+        it('should write to the term on event', function () {
+          $scope.$broadcast('WRITE_TO_TERM', 'hello');
+          $scope.$apply();
+          sinon.assert.notCalled(ctx.termMock.reset);
+          sinon.assert.calledWith(ctx.termMock.write, 'hello');
+        });
+        it('should reset the term when specified', function () {
+          $scope.$broadcast('WRITE_TO_TERM', 'hello', true);
+          $scope.$apply();
+          sinon.assert.calledOnce(ctx.termMock.reset);
+          sinon.assert.calledWith(ctx.termMock.write, 'hello');
+        });
+        it('should not write with a non string', function () {
+          $scope.$broadcast('WRITE_TO_TERM', 123);
+          $scope.$apply();
+          sinon.assert.notCalled(ctx.termMock.reset);
+          sinon.assert.notCalled(ctx.termMock.write);
+        });
+      });
+
     });
     describe('2 streams', function () {
       beforeEach(function () {
@@ -122,8 +155,34 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         $scope.connectStreams = sinon.spy();
       });
       it('should flow through', function () {
+        sinon.assert.calledOnce(ctx.setupTermMock);
+        $scope.$broadcast('STREAM_START');
+        $scope.$apply();
+        sinon.assert.calledOnce(ctx.termMock.reset);
+        sinon.assert.calledOnce($scope.createStream);
+        sinon.assert.calledOnce($scope.connectStreams);
+        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
+        $scope.connectStreams.reset();
+        ctx.resizeHandlerCb(2, 4);
+        sinon.assert.calledOnce($scope.eventStream.write, {
+          event: 'resize',
+          data: {
+            x: 2,
+            y: 4
+          }
+        });
 
-      })
+
+        //sinon.assert.notCalled($scope.stream.end);
+        mockPrimus.emit('reconnect');
+        $rootScope.$apply();
+        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
+        $scope.stream.end();
+        $rootScope.$apply();
+
+        sinon.assert.calledOnce($scope.streamEnded);
+        $scope.$destroy();
+      });
     });
   });
 
@@ -145,9 +204,8 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
   describe('primus goes offline', function () {
     it('should display disconnect message when primus goes offline', function () {
       mockPrimus.emit('offline');
-      var $el = ctx.element[0].querySelector('.terminal');
-      expect($el).to.be.ok;
-      expect($el.innerHTML).to.match(/LOST.*CONNECTION/);
+      $rootScope.$apply();
+      sinon.assert.calledWith(ctx.termMock.writeln, '* LOST CONNECTION - retrying *');
     });
   });
 });

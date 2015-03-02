@@ -104,16 +104,17 @@ function logTerm(
         $scope.connectStreams(terminal);
         showTerminalSpinner();
         bind(primus, 'reconnect', function () {
+          terminal.writeln('*****************************************************');
+          terminal.writeln('* Connection regained.  Thank you for your patience *');
+          terminal.writeln('*****************************************************');
           $scope.connectStreams(terminal);
         });
         bind($scope.stream, 'end', function () {
           hideTerminalSpinner();
+          killCurrentStream();
           $scope.streamEnded();
         });
       }
-
-
-
     }
   };
 }
