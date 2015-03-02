@@ -50,21 +50,10 @@ ul.list.load(
       state-to-instance = 'stateToInstance'
       type = "sidebar"
     )
-  //- delete this
-  //- li.list-item.btn.btn-sm.white.running.expanded.active
-  //-   a.list-item-name.text-overflow demo-server
-  //-   span.icons-status
-  //-   div
-  //-     a.server-item-cluster bob-server
-  //-       //- tooltip: "Owned by anandkumarpatel"
-  //-       svg.iconnables.icons-team
-  //-         use(
-  //-           xlink:href = "#icons-team"
-  //-         )
-  //-       span.icons-status.running
-  //- delete above
 
-h2.sub-header.load
+h2.sub-header.load(
+  ng-show = "data.instanceGroups.teamMembers.length"
+)
   span.sub-header-text Team Servers
   svg.iconnables.icons-team
     use(
@@ -90,7 +79,7 @@ ul.list.list-users.load
       'active-child': data.toggleThisServer,\
       expanded: teamMember.toggled\
     }"
-    ng-click = "setToggled(teamMember)"
+    ng-click = "actions.setToggled(teamMember)"
     ng-repeat = "teamMember in data.instanceGroups.teamMembers | orderBy:'username'"
   )
     img.gravatar(

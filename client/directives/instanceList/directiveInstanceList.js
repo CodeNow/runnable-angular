@@ -18,7 +18,8 @@ function instanceList(
     templateUrl: 'viewInstanceList',
     scope: {
       data: '=',
-      state: '='
+      state: '=',
+      actions: '='
     },
     link: function ($scope, elem, attrs) {
 

@@ -27,14 +27,18 @@ function ControllerInstanceLayout(
     actions: {}
   };
   dataInstanceLayout.data.logoutURL = configLogoutURL();
-  var unwatch = $rootScope.$watch('dataApp.data.activeAccount.oauthName()', function (n) {
+  var unwatch = $scope.$watch('dataApp.data.activeAccount.oauthName()', function (n) {
     if (!n) { return; }
     unwatch();
     resolveInstanceFetch(n);
   });
 
-  $scope.setToggled = function(teamMember) {
-    $scope.data.instanceGroups.teamMembers.forEach(function(tm) {
+  $scope.dataApp.actions.setToggled = function(teamMember) {
+    if (teamMember.toggled) {
+      teamMember.toggled = false;
+      return;
+    }
+    $scope.dataApp.data.instanceGroups.teamMembers.forEach(function(tm) {
       tm.toggled = false;
     });
     teamMember.toggled = true;
