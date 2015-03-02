@@ -22,7 +22,8 @@ function instanceList(
     },
     link: function ($scope, elem, attrs) {
 
-      $scope.stateToInstance = function (instance) {
+      $scope.stateToInstance = function (instance, $event) {
+        $event.preventDefault();
         $state.go('instance.instance', {
           instanceName: instance.attrs.name,
           userName: instance.attrs.owner.username

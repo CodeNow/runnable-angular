@@ -11,8 +11,15 @@ function ControllerInstanceLayout(
   $rootScope,
   keypather,
   $scope,
-  $state
+  $state,
+  $window,
+  pFetchUser
 ) {
+
+  var currentUserName;
+  pFetchUser().then(function(user) {
+    currentUserName = user.oauthName();
+  });
 
   var dataInstanceLayout = $scope.dataInstanceLayout = {
     data: {},
@@ -26,21 +33,40 @@ function ControllerInstanceLayout(
     resolveInstanceFetch(n);
   });
 
-  function sortInstancesByCreator (instances) {
-    var sortedInstances = {};
-    instances.forEach(function(instance) {
-      console.log(instance.attrs.createdBy.github, $state.params);
-      // FIXME: Waiting on Bryan
-      var username = instance.attrs.createdBy.github === 1616464 ? 'me' : instance.attrs.createdBy.github;
-      // var username = instance.attrs.createdBy.github === $state.params.userName ? 'me' : instance.attrs.createdBy.github;
-      if (!sortedInstances[username]) {
-        sortedInstances[username] = angular.copy(instance.attrs.createdBy);
-        sortedInstances[username].instances = [];
-      }
-      sortedInstances[username].instances.push(instance);
+  $scope.setToggled = function(teamMember) {
+    $scope.data.instanceGroups.teamMembers.forEach(function(tm) {
+      tm.toggled = false;
     });
-    console.log(sortedInstances);
-    return sortedInstances;
+    teamMember.toggled = true;
+  };
+
+  function sortInstancesByCreator (instances) {
+    // Object for the first step so we can apply instances to already-found people
+    var instanceMap = {};
+    instances.forEach(function(instance) {
+      var username = instance.attrs.createdBy.username === currentUserName ? 'me' : instance.attrs.createdBy.username;
+      if (!instanceMap[username]) {
+        instanceMap[username] = angular.copy(instance.attrs.createdBy);
+        instanceMap[username].instances = [];
+      }
+      if (instance.attrs.name === $state.params.instanceName) {
+        instanceMap[username].toggled = true;
+        instance.state = {
+          toggled: true
+        };
+      }
+      instanceMap[username].instances.push(instance);
+    });
+    var teamMembers = [];
+    Object.keys(instanceMap).forEach(function(key) {
+      if (key !== 'me') {
+        teamMembers.push(instanceMap[key]);
+      }
+    });
+    return {
+      teamMembers: teamMembers,
+      me: instanceMap.me
+    };
   }
 
   function resolveInstanceFetch(username) {
@@ -50,7 +76,13 @@ function ControllerInstanceLayout(
     fetchInstances({
       githubUsername: username
     }).then(function (instances) {
-      $scope.dataApp.data.sortedInstances = sortInstancesByCreator(instances);
+      $scope.$watch(function() {
+        return instances.models.length;
+      }, function (n) {
+        if (!n) { return; }
+        $scope.dataApp.data.instanceGroups = sortInstancesByCreator(instances);
+      });
+
       if (instances.githubUsername === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
         keypather.set($rootScope, 'dataApp.state.loadingInstances', false);
         keypather.set($rootScope, 'dataApp.data.instances', instances);

@@ -64,6 +64,7 @@ function fetchInstances(
     userStream.on('reconnect failed', function (err) {
       $log.warn('INSTANCE reconnect failed!!!! WE ARE BONED!!!! ' + err.message);
     });
+
     userStream.on('data', function (data) {
       if (data.event !== 'ROOM_MESSAGE') {
         return;

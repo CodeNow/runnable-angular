@@ -30,13 +30,13 @@ ul.list.load(
   //- .runnning for running server
   li.list-item.btn.btn-sm.white(
     ng-class = "getInstanceClasses(instance)"
-    ng-repeat = "instance in data.sortedInstances.me.instances | orderBy:'attrs.name'"
+    ng-repeat = "instance in data.instanceGroups.me.instances | orderBy:'attrs.name'"
     tooltip = "{{ instance.attrs.name }}"
     tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   )
     a.list-item-name.text-overflow(
-      ng-click = "stateToInstance(instance)"
-      ng-href = "{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
+      ng-click = "stateToInstance(instance, $event)"
+      ng-href = "/{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
       ng-model = "instance"
     ) {{ instance.attrs.name }}
     span.icons-status(
@@ -90,48 +90,50 @@ ul.list.list-users.load
       'active-child': data.toggleThisServer,\
       expanded: teamMember.toggled\
     }"
-    ng-click = "teamMember.toggled = !teamMember.toggled"
-    ng-repeat = "teamMember in data.sortedInstances"
+    ng-click = "setToggled(teamMember)"
+    ng-repeat = "teamMember in data.instanceGroups.teamMembers | orderBy:'username'"
   )
     img.gravatar(
       height = "21"
-      src = "http://lorempizza.com/21/21"
+      ng-src = "{{ teamMember.gravatar }}"
       width = "21"
     )
-    a.list-item-name.text-overflow {{ username }}
+    a.list-item-name.text-overflow {{ teamMember.username }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
       )
     //- nested server
     .list-item.btn.btn-sm.purple(
-      ng-class = "{\
-        active: instance.state.toggled,\
-        expanded: instance.state.toggled\
-      }"
+      ng-class = "getInstanceClasses(instance)"
       ng-click = "\
         $event.stopPropagation();\
         instance.state.toggled = true;\
       "
       ng-repeat = "instance in teamMember.instances"
     )
-      a.list-item-name.text-overflow {{ instance.attrs.name }}
-      span.icons-status
+      a.list-item-name.text-overflow(
+        ng-href = "/{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
+        ng-click = "stateToInstance(instance, $event)"
+        ng-model = "instance"
+      ) {{ instance.attrs.name }}
+      span.icons-status(
+        title = "{{ getInstanceAltTitle(instance) }}"
+      )
       //- nested server cluster
-      div
-        a.server-item-cluster(
-          ng-if = "data.toggleThisServer"
-        ) anand-api
-          span.icons-status
-        a.server-item-cluster(
-          ng-if = "data.toggleThisServer"
-        ) stage-mongo
-          span.icons-status
-    .list-item.btn.btn-sm.purple.running(
-      ng-click = "$event.stopPropagation()"
-    )
-      a.list-item-name.text-overflow anand-api
-      span.icons-status
+      div(
+        linked-instances
+        instance-dependencies = "instance.dependencies"
+        instances = 'data.instances'
+        ng-if = "getInstanceClasses(instance).expanded"
+        state-to-instance = 'stateToInstance'
+        type = "sidebar"
+      )
+    //- .list-item.btn.btn-sm.purple.running(
+    //-   ng-click = "$event.stopPropagation()"
+    //- )
+    //-   a.list-item-name.text-overflow anand-api
+    //-   span.icons-status
 //-
   li.list-item.btn.btn-sm.white
     img.gravatar(
