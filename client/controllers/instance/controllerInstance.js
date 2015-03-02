@@ -81,7 +81,7 @@ function ControllerInstance(
   });
 
   $scope.$watch('dataInstance.data.instance.build.attrs.started', function (n, p) {
-    if (data.showUpdatingMessage || !n || !p || n === p) { return; } // Remove this line on ws change
+    if (data.showUpdatingMessage || !n || !p || n === p) { return; }
     data.showUpdatedMessage = false;
     data.showUpdatingMessage = true;
   });
