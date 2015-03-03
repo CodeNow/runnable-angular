@@ -38,6 +38,10 @@
       width: 100%;
     }
 
+    .small {
+      margin-top: 2px;
+    }
+
     &.label-details {
       line-height: 1.2;
 
@@ -45,10 +49,6 @@
         height: auto;
         margin: 0 6px 6px;
         min-height: 36px;
-
-        .small {
-          margin-top: 3px;
-        }
       }
     }
   }
