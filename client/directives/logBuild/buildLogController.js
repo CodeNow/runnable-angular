@@ -34,7 +34,7 @@ function BuildLogController(
           }
         }).catch(errs.handler);
       } else {
-        $scope.$emit('STREAM_START', build);
+        $scope.$emit('STREAM_START', build, true);
       }
     }
   });

@@ -84,7 +84,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       });
       it('should flow through', function () {
         sinon.assert.calledOnce(ctx.setupTermMock);
-        $scope.$broadcast('STREAM_START');
+        $scope.$broadcast('STREAM_START', {}, true);
         $scope.$apply();
         sinon.assert.calledOnce(ctx.termMock.reset);
         sinon.assert.calledOnce($scope.createStream);
@@ -102,7 +102,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       });
       it('should turn on the spinner, then turn it off', function () {
         $scope.showSpinnerOnStream = true;
-        $scope.$broadcast('STREAM_START');
+        $scope.$broadcast('STREAM_START', {}, true);
         $scope.$apply();
         sinon.assert.calledOnce(ctx.termMock.reset);
         sinon.assert.calledOnce($scope.createStream);
@@ -157,7 +157,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.setupTermMock);
         $scope.$broadcast('STREAM_START');
         $scope.$apply();
-        sinon.assert.calledOnce(ctx.termMock.reset);
+        sinon.assert.notCalled(ctx.termMock.reset);
         sinon.assert.calledOnce($scope.createStream);
         sinon.assert.calledOnce($scope.connectStreams);
         sinon.assert.calledWith($scope.connectStreams, ctx.termMock);

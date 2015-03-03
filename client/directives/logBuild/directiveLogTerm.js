@@ -43,8 +43,10 @@ function logTerm(
         killCurrentStream();
       });
 
-      $scope.$on('STREAM_START', function (event, newModel) {
-        terminal.reset();
+      $scope.$on('STREAM_START', function (event, newModel, clearTerminal) {
+        if (clearTerminal) {
+          terminal.reset();
+        }
         initializeStream();
       });
 
