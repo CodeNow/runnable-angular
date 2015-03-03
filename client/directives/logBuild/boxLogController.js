@@ -27,7 +27,10 @@ function BoxLogController(
   $scope.$watch('instance.containers.models[0].running()', function () {
     var container = keypather.get($scope, 'instance.containers.models[0]');
     if (!container) { return; }
-    if (container.attrs.dockerContainer) {
+    if (container.attrs.error) {
+      console.log(container.attrs.error.message);
+      $scope.$emit('WRITE_TO_TERM', '\x1b[33;1m' + container.attrs.error.message + '\x1b[0m');
+    } else if (container.attrs.dockerContainer) {
       // prepend log command to terminal
       $scope.$emit('WRITE_TO_TERM',
         '\x1b[33;1mroot@' +
@@ -37,8 +40,8 @@ function BoxLogController(
         '\n\r');
       // connect stream
       $scope.$emit('STREAM_START', container);
-    } else if (container.attrs.error) {
-      $scope.$emit('WRITE_TO_TERM', '\x1b[33;1m' + container.attrs.error.message + '\x1b[0m');
+    } else {
+      // Send error to Rollbar?
     }
   });
 
@@ -56,12 +59,10 @@ function BoxLogController(
   };
 
   $scope.streamEnded = function () {
-    if (keypather.get($scope, 'instance.containers.models[0].running()') === false) {
-      // if container stopped running
-      var container = $scope.instance.containers.models[0];
-      var exitCode = container.attrs.inspect.State.ExitCode;
-      $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' + exitCode);
-    }
+    // if this is called, then the container must have exited
+    var container = $scope.instance.containers.models[0];
+    var exitCode = container.attrs.inspect.State.ExitCode;
+    $scope.$emit('WRITE_TO_TERM', 'Exited with code: ' + exitCode);
   };
 
 }
