@@ -93,7 +93,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         $scope.connectStreams.reset();
 
         sinon.assert.notCalled($scope.streamEnded);
-        mockPrimus.emit('reconnect');
+        mockPrimus.emit('reconnected');
         $rootScope.$apply();
         sinon.assert.calledWith(ctx.termMock.writeln, '* Connection regained.  Thank you for your patience *');
         $scope.stream.end();

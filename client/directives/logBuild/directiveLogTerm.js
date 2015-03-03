@@ -105,7 +105,7 @@ function logTerm(
         $scope.createStream();
         $scope.connectStreams(terminal);
         showTerminalSpinner();
-        bind(primus, 'reconnect', function () {
+        bind(primus, 'reconnected', function () {
           terminal.writeln('*****************************************************');
           terminal.writeln('* Connection regained.  Thank you for your patience *');
           terminal.writeln('*****************************************************');

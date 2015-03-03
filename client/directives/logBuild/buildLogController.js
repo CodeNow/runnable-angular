@@ -15,6 +15,7 @@ function BuildLogController(
   primus,
   $log,
   promisify,
+  through,
   errs
 ) {
   $scope.showSpinnerOnStream = true;
@@ -44,10 +45,18 @@ function BuildLogController(
   };
 
   $scope.connectStreams = function (terminal) {
-    dockerStreamCleanser.cleanStreams($scope.stream,
-      terminal,
-      'hex',
-      true);
+    var streamCleanser = dockerStreamCleanser('hex');
+    primus.joinStreams(
+      $scope.stream,
+      streamCleanser
+    ).pipe(through(
+      function write(data) {
+        this.emit('data', data.toString().replace(/\r?\n/gm, '\r\n'));
+      },
+      function end() {
+        // Do nothing, especially don't pass it along to the terminal (You'll get an error)
+      }
+    )).pipe(terminal);
   };
 
   $scope.streamEnded = function () {

@@ -34,6 +34,19 @@ MockReadWriteStream.prototype.end = function (msg, cb) {
     cb();
   }
 };
+MockReadWriteStream.prototype.pipe = function (des) {
+  this.on('data', function (data) {
+    if (des.write) {
+      des.write(data);
+    }
+  });
+  this.on('end', function () {
+    if (des.end) {
+      des.end();
+    }
+  });
+  return des;
+}
 /**
  * Mock Primus
  */
@@ -50,5 +63,10 @@ MockPrimus.prototype.createBuildStream = function () {
 MockPrimus.prototype.off = function () {
   this.removeListener.apply(this, arguments);
 };
+
+MockPrimus.prototype.joinStreams = function (src, des) {
+  return new MockReadWriteStream();
+};
+
 
 module.exports = MockPrimus;

@@ -11,12 +11,7 @@ var mockPrimus = new fixtures.MockPrimus();
 describe('BoxLogController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
-    ctx.streamCleanserMock = {
-      cleanStreams: sinon.spy()
-    };
-    ctx.dockerStreamCleanserMock = sinon.spy(function () {
-      return ctx.streamCleanserMock;
-    });
+    ctx.streamCleanserMock = sinon.spy();
     ctx.$log = {
       error: sinon.spy()
     };
@@ -79,10 +74,10 @@ describe('BoxLogController'.bold.underline.blue, function () {
       $rootScope.$digest();
       var stream = mockPrimus.createLogStream();
       $scope.stream = stream;
-      var term = {};
+      var term = mockPrimus.createBuildStream();
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
       $scope.connectStreams(term);
-      sinon.assert.calledWith(ctx.streamCleanserMock.cleanStreams, stream, term, 'hex', true);
+      sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
     });
     it('should end the stream, and fetch, and post the exit code on the term', function (done) {
       $scope.instance = ctx.instance;
