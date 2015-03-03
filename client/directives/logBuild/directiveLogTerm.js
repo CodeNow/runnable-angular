@@ -107,7 +107,6 @@ function logTerm(
           terminal.writeln('*****************************************************');
           terminal.writeln('* Connection regained.  Thank you for your patience *');
           terminal.writeln('*****************************************************');
-          $scope.connectStreams(terminal);
         });
         bind($scope.stream, 'end', function () {
           hideTerminalSpinner();

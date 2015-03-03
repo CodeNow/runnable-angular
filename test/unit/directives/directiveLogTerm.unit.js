@@ -95,7 +95,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         sinon.assert.notCalled($scope.streamEnded);
         mockPrimus.emit('reconnect');
         $rootScope.$apply();
-        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
+        sinon.assert.calledWith(ctx.termMock.writeln, '* Connection regained.  Thank you for your patience *');
         $scope.stream.end();
         $rootScope.$apply();
         sinon.assert.calledOnce($scope.streamEnded);
@@ -152,7 +152,6 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
           $scope.stream = createMockStream();
           $scope.eventStream = createMockStream();
         });
-        $scope.connectStreams = sinon.spy();
       });
       it('should flow through', function () {
         sinon.assert.calledOnce(ctx.setupTermMock);
@@ -171,12 +170,6 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
             y: 4
           }
         });
-
-
-        //sinon.assert.notCalled($scope.stream.end);
-        mockPrimus.emit('reconnect');
-        $rootScope.$apply();
-        sinon.assert.calledWith($scope.connectStreams, ctx.termMock);
         $scope.stream.end();
         $rootScope.$apply();
 

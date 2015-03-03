@@ -23,11 +23,22 @@ var $compile,
 var $elScope;
 var mockPrimus = new fixtures.MockPrimus();
 
-describe('directiveLogBuild'.bold.underline.blue, function() {
+describe.skip('directiveLogBuild'.bold.underline.blue, function() {
   var ctx;
 
   function injectSetupCompile () {
     angular.mock.module(function ($provide) {
+      $provide.value('$state', {
+        '$current': {
+          name: 'instance.instance'
+        }
+      });
+
+      $provide.value('$stateParams', {
+        userName: 'username',
+        instanceName: 'instancename'
+      });
+
       $provide.value('primus', mockPrimus);
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
     });
@@ -52,8 +63,10 @@ describe('directiveLogBuild'.bold.underline.blue, function() {
 
     modelStore.reset();
 
-    ctx.element = $compile(ctx.template)($scope);
+    ctx.element = angular.element(ctx.template);
+    ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
+    ctx.$element = jQuery(ctx.element);
     $elScope = ctx.element.isolateScope();
   }
 
@@ -61,37 +74,35 @@ describe('directiveLogBuild'.bold.underline.blue, function() {
 
   beforeEach(function() {
     ctx = {};
-    ctx.template = directiveTemplate.attribute('log-build', {
-      'ng-controller': 'BuildLogController'
-    });
-
+    ctx.template = directiveTemplate.attribute('log-build');
   });
   beforeEach(injectSetupCompile);
 
   it('basic dom', function() {
-    var $el = ctx.element[0].querySelector('.terminal');
-    expect($el).to.be.ok;
+    expect(ctx.$element.hasClass('ng-isolate-scope')).to.equal(true);
+    var $el = ctx.$element.find('> div.terminal');
+    expect($el.length).to.be.ok;
   });
 
-  //it('basic scope', function() {
-  //  expect($scope).to.have.property('model');
-  //});
+  it('basic scope', function() {
+    expect($elScope).to.have.property('instance');
+  });
 
   describe('destroy', function() {
     var origBuildStream;
     beforeEach(function () {
-      origBuildStream = $scope.stream;
-      $scope.stream = {}; // mock buildStream
+      origBuildStream = $elScope.buildStream;
+      $elScope.buildStream = {}; // mock buildStream
     });
     afterEach(function () {
-      $scope.stream = origBuildStream;
+      $elScope.buildStream = origBuildStream;
     });
     it('should clean up buildStream', function() {
       var removeAllSpy = sinon.spy();
       var endSpy = sinon.spy();
-      $scope.stream.removeAllListeners = removeAllSpy;
-      $scope.stream.end = endSpy;
-      $scope.$destroy();
+      $elScope.buildStream.removeAllListeners = removeAllSpy;
+      $elScope.buildStream.end = endSpy;
+      $elScope.$destroy();
       expect(removeAllSpy.called).to.be.ok;
       expect(endSpy.called).to.be.ok;
     });
@@ -100,9 +111,10 @@ describe('directiveLogBuild'.bold.underline.blue, function() {
   describe('primus goes offline', function() {
     it('should display disconnect message when primus goes offline', function() {
       mockPrimus.emit('offline');
-      var $el = ctx.element[0].querySelector('.terminal');
-      expect($el).to.be.ok;
-      expect($el.innerHTML).to.match(/LOST.*CONNECTION/);
+      var $el = ctx.$element.find('> div.terminal');
+      expect($el.length).to.be.ok;
+      var lostConnectionLine = $el.children().toArray().map(pluck('innerText')).find(matches(/LOST.*CONNECTION/));
+      expect(lostConnectionLine).to.be.ok;
     });
   });
 });

@@ -15,7 +15,7 @@ function BuildLogController(
   primus,
   $log,
   promisify,
-  $timeout
+  errs
 ) {
   $scope.showSpinnerOnStream = true;
 
@@ -24,19 +24,16 @@ function BuildLogController(
       var build = $scope.build;
       if (build.failed() || build.succeeded()) {
         promisify(build.contextVersions.models[0], 'fetch')().then(function (data) {
+          var cbBuild = keypather.get(data, 'attrs.build');
           if (build.succeeded()) {
-            $scope.$emit('WRITE_TO_TERM', data.attrs.build.log, true);
-          } else if (build.failed()) {
+            $scope.$emit('WRITE_TO_TERM', cbBuild.log, true);
+          } else {
             // defaulting behavior selects best avail error msg
-            var cbBuild = keypather.get(build.contextVersion, 'attrs.build');
-            var errorMsg = cbBuild.log || keypather.get(cbBuild, 'error.message') || DEFAULT_ERROR_MESSAGE;
+            var errorMsg = cbBuild.log + '\n' + (keypather.get(cbBuild, 'error.message') || DEFAULT_ERROR_MESSAGE);
             $scope.$emit('WRITE_TO_TERM', errorMsg, true);
           }
-        }).catch(function (err) {
-          return $log.error(err);
-        });
+        }).catch(errs.handler);
       } else {
-
         $scope.$emit('STREAM_START', build);
       }
     }
@@ -55,7 +52,7 @@ function BuildLogController(
 
   $scope.streamEnded = function () {
     promisify($scope.build, 'fetch')().then(function (build) {
-      $timeout(angular.noop);
+      //$timeout(angular.noop);
       if (!build.succeeded()) {
         $scope.$emit('WRITE_TO_TERM', DEFAULT_INVALID_BUILD_MESSAGE);
       } else {
