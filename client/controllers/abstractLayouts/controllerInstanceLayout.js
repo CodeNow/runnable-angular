@@ -16,9 +16,9 @@ function ControllerInstanceLayout(
   pFetchUser
 ) {
 
-  var currentUserName;
+  var currentUser;
   pFetchUser().then(function(user) {
-    currentUserName = user.oauthName();
+    currentUser = user;
   });
 
   var dataInstanceLayout = $scope.dataInstanceLayout = {
@@ -48,25 +48,44 @@ function ControllerInstanceLayout(
     // Object for the first step so we can apply instances to already-found people
     var instanceMap = {};
     instances.forEach(function(instance) {
-      var username = instance.attrs.createdBy.username === currentUserName ? 'me' : instance.attrs.createdBy.username;
+      // Special-case current user
+      var username = instance.attrs.createdBy.username === currentUser.oauthName() ? 'me' : instance.attrs.createdBy.username;
+
+      // Add team member to instanceMap if we haven't found them yet
       if (!instanceMap[username]) {
         instanceMap[username] = angular.copy(instance.attrs.createdBy);
         instanceMap[username].instances = [];
       }
+
+      // Set teamMember/instance to active if it's the current one
       if (instance.attrs.name === $state.params.instanceName) {
         instanceMap[username].toggled = true;
         instance.state = {
           toggled: true
         };
       }
+
+      // Set the "Owned by team member" icon under current user's deps
+      if (username === 'me') {
+        instance.dependencies.forEach(function(dep) {
+          dep.state = {
+            ownedByOther: dep.createdBy !== currentUser.oauthId()
+          };
+        });
+      }
+
+      // Add the instance to the map
       instanceMap[username].instances.push(instance);
     });
+
+    // Convert the map to an Array so it's easier to work with in the view
     var teamMembers = [];
     Object.keys(instanceMap).forEach(function(key) {
       if (key !== 'me') {
         teamMembers.push(instanceMap[key]);
       }
     });
+
     return {
       teamMembers: teamMembers,
       me: instanceMap.me
@@ -83,7 +102,11 @@ function ControllerInstanceLayout(
       $scope.$watch(function() {
         return instances.models.length;
       }, function (n) {
-        if (!n) { return; }
+        if (n === undefined) { return; }
+        if (n === 0) {
+          $scope.dataApp.data.instanceGroups = [];
+          return;
+        }
         $scope.dataApp.data.instanceGroups = sortInstancesByCreator(instances);
       });
 

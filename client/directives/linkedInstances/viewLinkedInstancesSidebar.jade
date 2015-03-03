@@ -3,6 +3,12 @@ a.server-item-cluster(
   ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
   ng-show = "!!instanceDependencies"
 ) {{ depInstance.attrs.name }}
+  svg.iconnables.icons-team(
+    ng-if = "depInstance.state.ownedByOther"
+  )
+    use(
+      xlink:href = "#icons-team"
+    )
   span.icons-status(
     ng-class = "getInstanceClasses(depInstance)"
     ng-click = "$event.stopPropagation()"
