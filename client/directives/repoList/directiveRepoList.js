@@ -8,6 +8,7 @@ require('app')
 function repoList(
   debounce,
   errs,
+  keypather,
   pFetchUser,
   $state,
   $rootScope,
@@ -70,7 +71,14 @@ function repoList(
             $scope.triggerInstanceUpdateOnRepoCommitChange();
           }
         } else if (opts) {
-          opts.acv.update(opts.updateOpts, errs.handler);
+          keypather.set($scope.build, 'state.clean', false);
+          promisify(opts.acv, 'update')(
+            opts.updateOpts
+          ).catch(
+            errs.handler
+          ).finally(function () {
+            keypather.set($scope.build, 'state.clean', true);
+          });
         }
       });
 

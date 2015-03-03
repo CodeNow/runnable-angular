@@ -16,6 +16,8 @@ function activePanel(
   editorCache,
   keypather,
   modelist,
+  promisify,
+  errs,
   $rootScope,
   $sce,
   $state
@@ -116,8 +118,16 @@ function activePanel(
         var last = openItems.activeHistory.last();
         $scope.thisFileId = last.id();
         if (openItems.isFile(last)) {
-          last.fetch(function () {
+          $scope.loading = true;
+          promisify(
+            last,
+            'fetch'
+          )().then(function () {
             last.state.reset();
+          }).catch(
+            errs.handler
+          ).finally(function () {
+            $scope.loading = false;
           });
         }
       }
