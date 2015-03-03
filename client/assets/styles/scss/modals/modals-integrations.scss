@@ -1,7 +1,7 @@
 .modal-integrations {
   height: 100%;
   max-height: 660px;
-  transition: max-height .15s ease-in;
+  transition: max-height .15s ease-in, width .15s ease-in;
   width: 600px;
 
   @include media(sm) {
