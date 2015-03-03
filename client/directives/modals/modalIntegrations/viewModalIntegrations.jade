@@ -67,172 +67,157 @@ form.modal-dialog.modal-integrations(
     .label.clearfix(
       ng-if = "data.verified"
     )
-      .label-col.label-details Team Notifications
-        .small Members will receive notifications from Runnabot
-      .list.list-bordered.input-col
-        //-
-          - auto detect users with a matching name on github AND slack
-          - users added manually can be removed, users added automatically cannot
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
-            width = "21"
-          )
-          span.text-overflow anandkumarpatel
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-          button.btn.btn-xs.white(
-            type = "button"
-          )
-            svg.iconnables.icons-trash
-              use(
-                xlink:href = "#icons-trash"
-              )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars3.githubusercontent.com/u/160236?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow Bryan Kendall
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars2.githubusercontent.com/u/467885?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow Casey Flynn
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars3.githubusercontent.com/u/4451216?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow forrestj
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-          button.btn.btn-xs.white(
-            type = "button"
-          )
-            svg.iconnables.icons-trash
-              use(
-                xlink:href = "#icons-trash"
-              )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars2.githubusercontent.com/u/6379413?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow Nathan Meyers
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars2.githubusercontent.com/u/429706?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow Anton Podviaznikov
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars1.githubusercontent.com/u/718305?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow Praful Rana
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars2.githubusercontent.com/u/5341618?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow Runnabro
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-          button.btn.btn-xs.white(
-            type = "button"
-          )
-            svg.iconnables.icons-trash
-              use(
-                xlink:href = "#icons-trash"
-              )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars1.githubusercontent.com/u/1616464?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow Randall Koutnik
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars0.githubusercontent.com/u/2469588?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow sundippatel
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-          button.btn.btn-xs.white(
-            type = "button"
-          )
-            svg.iconnables.icons-trash
-              use(
-                xlink:href = "#icons-trash"
-              )
-        label.list-item.label-checkbox
-          img.gravatar(
-            height = "21"
-            src = "//avatars3.githubusercontent.com/u/640279?v=3&s=96"
-            width = "21"
-          )
-          span.text-overflow Tejesh Mehta
-          input.input-checkbox(
-            checked
-            type = "checkbox"
-          )
-        label.list-item.label-checkbox
+      .label-col.label-details Messaging
+        .small Members will receive notifications from Runnabot when their servers are updated
+      .input-col
+        .list.list-bordered
+          //-
+            - auto detect users with a matching name on github AND slack
+            - if no match, show select with options for unmathed github usernames
+          label.list-item.label-checkbox
             img.gravatar(
               height = "21"
-              src = "//avatars0.githubusercontent.com/u/1085792?v=3&s=96"
+              src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
               width = "21"
             )
-            span.text-overflow Yash Kumar
+            span.text-overflow @anand
+            select.select
+              option Disabled
+              optgroup(
+                label = "Choose @sundip's Github username to enable messaging"
+              )
+                option anandkumarpatel
+                option forrestj
+                option Runnabro
+                option sundippatel
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars2.githubusercontent.com/u/429706?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @anton
             input.input-checkbox(
-              checked
               type = "checkbox"
             )
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars3.githubusercontent.com/u/160236?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @bryan
+            input.input-checkbox(
+              type = "checkbox"
+            )
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars2.githubusercontent.com/u/467885?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @casey
+            input.input-checkbox(
+              type = "checkbox"
+            )
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars3.githubusercontent.com/u/4451216?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @forrest
+            select.select
+              option Disabled
+              optgroup(
+                label = "Choose @sundip's Github username to enable messaging"
+              )
+                option anandkumarpatel
+                option forrestj
+                option Runnabro
+                option sundippatel
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars2.githubusercontent.com/u/6379413?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @nathan
+            input.input-checkbox(
+              type = "checkbox"
+            )
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars1.githubusercontent.com/u/718305?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @praful
+            input.input-checkbox(
+              type = "checkbox"
+            )
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars2.githubusercontent.com/u/5341618?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @tony
+            select.select
+              option Disabled
+              optgroup(
+                label = "Choose @sundip's Github username to enable messaging"
+              )
+                option anandkumarpatel
+                option forrestj
+                option Runnabro
+                option sundippatel
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars1.githubusercontent.com/u/1616464?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @randall
+            input.input-checkbox(
+              type = "checkbox"
+            )
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars0.githubusercontent.com/u/2469588?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @sundip
+            select.select
+              option Disabled
+              optgroup(
+                label = "Choose @sundip's Github username to enable messaging"
+              )
+                option anandkumarpatel
+                option forrestj
+                option Runnabro
+                option sundippatel
+          label.list-item.label-checkbox
+            img.gravatar(
+              height = "21"
+              src = "//avatars3.githubusercontent.com/u/640279?v=3&s=96"
+              width = "21"
+            )
+            span.text-overflow @tj
+            input.input-checkbox(
+              type = "checkbox"
+            )
+          label.list-item.label-checkbox
+              img.gravatar(
+                height = "21"
+                src = "//avatars0.githubusercontent.com/u/1085792?v=3&s=96"
+                width = "21"
+              )
+              span.text-overflow @yash
+              input.input-checkbox(
+                type = "checkbox"
+              )
 
   footer.modal-footer(
     ng-if = "(data.showHipchat || data.showSlack) && data.verified"

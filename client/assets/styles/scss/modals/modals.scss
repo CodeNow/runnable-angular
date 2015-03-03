@@ -28,7 +28,6 @@
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
-  color: $gray-dark;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -103,7 +102,6 @@
 .modal-header {
   background: $white;
   border-radius: 3px 3px 0 0;
-  color: $gray-dark;
   flex: 0 0 auto;
   height: 60px;
 
