@@ -21,12 +21,12 @@
       ng-if = '!data.hideGuideHelpEnvModal'
     )
       h3.guide-header Using Environment Variables
-      pre.well.well-code &lt;key&gt;=&lt;value&gt;
+      pre.well.well-code.monospace &lt;key&gt;=&lt;value&gt;
       p.guide-text
         | Variables listed here are added to your server during startup.
         br
         | Example notation:
-      pre.well.well-code DB_HOST=db-run.runnableapp.com
+      pre.well.well-code.monospace DB_HOST=db-run.runnableapp.com
 
       button.btn.blue.btn-xs.btn-close(
         ng-click = "onChangeHideGuideEnv()"

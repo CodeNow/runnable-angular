@@ -90,6 +90,12 @@ input ~ small {
   white-space: pre;
 }
 
+// monospace
+.monospace {
+  font-family: 'Source Code Pro', monospace;
+  font-weight: 500;
+}
+
 // links
 .link {
   color: $gray-dark;
