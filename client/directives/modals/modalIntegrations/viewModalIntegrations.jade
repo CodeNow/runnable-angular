@@ -74,59 +74,65 @@ form.modal-dialog.modal-integrations(
           //-
             - auto detect users with a matching name on github AND slack
             - if no match, show select with options for unmathed github usernames
-          label.list-item.label-checkbox
+            - if an unmatched github username is selected, remove username from the list of available usernames
+            - add .active to label if messaging is active for that user
+          label.list-item.label-checkbox.text-overflow.active
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
               width = "21"
             )
-            span.text-overflow @anand
+            | @anand
             select.select
               option Disabled
               optgroup(
                 label = "Choose @sundip's Github username to enable messaging"
               )
-                option anandkumarpatel
+                option(
+                  selected
+                ) anandkumarpatel
                 option forrestj
                 option Runnabro
                 option sundippatel
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/429706?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @anton
+            | @anton
             input.input-checkbox(
               type = "checkbox"
             )
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow.active
             img.gravatar(
               height = "21"
               src = "//avatars3.githubusercontent.com/u/160236?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @bryan
+            | @bryan
             input.input-checkbox(
+              checked
               type = "checkbox"
             )
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow.active
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/467885?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @casey
+            | @casey
             input.input-checkbox(
+              checked
               type = "checkbox"
             )
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
             img.gravatar(
               height = "21"
               src = "//avatars3.githubusercontent.com/u/4451216?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @forrest
+            | @forrest
             select.select
               option Disabled
               optgroup(
@@ -136,33 +142,33 @@ form.modal-dialog.modal-integrations(
                 option forrestj
                 option Runnabro
                 option sundippatel
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/6379413?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @nathan
+            | @nathan
             input.input-checkbox(
               type = "checkbox"
             )
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
             img.gravatar(
               height = "21"
               src = "//avatars1.githubusercontent.com/u/718305?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @praful
+            | @praful
             input.input-checkbox(
               type = "checkbox"
             )
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/5341618?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @tony
+            | @tony
             select.select
               option Disabled
               optgroup(
@@ -172,23 +178,23 @@ form.modal-dialog.modal-integrations(
                 option forrestj
                 option Runnabro
                 option sundippatel
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
             img.gravatar(
               height = "21"
               src = "//avatars1.githubusercontent.com/u/1616464?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @randall
+            | @randall
             input.input-checkbox(
               type = "checkbox"
             )
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
             img.gravatar(
               height = "21"
               src = "//avatars0.githubusercontent.com/u/2469588?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @sundip
+            | @sundip
             select.select
               option Disabled
               optgroup(
@@ -198,23 +204,23 @@ form.modal-dialog.modal-integrations(
                 option forrestj
                 option Runnabro
                 option sundippatel
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
             img.gravatar(
               height = "21"
               src = "//avatars3.githubusercontent.com/u/640279?v=3&s=96"
               width = "21"
             )
-            span.text-overflow @tj
+            | @tj
             input.input-checkbox(
               type = "checkbox"
             )
-          label.list-item.label-checkbox
+          label.list-item.label-checkbox.text-overflow
               img.gravatar(
                 height = "21"
                 src = "//avatars0.githubusercontent.com/u/1085792?v=3&s=96"
                 width = "21"
               )
-              span.text-overflow @yash
+              | @yash
               input.input-checkbox(
                 type = "checkbox"
               )

@@ -83,7 +83,7 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    padding: 30px 42px;
+    padding: 30px;
   }
 
   // verify button
@@ -93,6 +93,7 @@
   }
 
   .list-item {
+    color: $gray-light;
     height: 36px;
     line-height: 36px;
     margin: 0;
@@ -102,10 +103,19 @@
     + .list-item {
       border-top: 1px solid rgba($black,.1);
     }
-  }
 
-  .gravatar {
-    margin: 8px 6px 0 0;
+    .gravatar {
+      margin: 8px 6px 0 0;
+      opacity: .3;
+    }
+
+    &.active {
+      color: $gray-darker;
+
+      .gravatar {
+        opacity: 1;
+      }
+    }
   }
 
   .input-checkbox {
