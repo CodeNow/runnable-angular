@@ -7,7 +7,6 @@
     line-height: 1.2;
     margin-bottom: 21px;
     position: relative;
-    word-break: break-word;
 
     @include media(xs) {
       margin-bottom: 15px;
@@ -31,6 +30,7 @@
     padding-right: 15px;
     text-align: right;
     width: 45%;
+    word-break: break-word;
 
     @include media(xs) {
       float: none;
@@ -65,7 +65,7 @@
     }
 
     // action button
-    > .btn {
+    > .green {
       float: right;
     }
   }
