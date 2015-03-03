@@ -10,11 +10,12 @@ var $controller,
     $q;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
+var mockUserFetch = new (require('../fixtures/mockFetch'))();
 /**
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
  */
-describe('ControllerInstanceHome'.bold.underline.blue, function () {
+describe.only('ControllerInstanceLayout'.bold.underline.blue, function () {
   var ctx = {};
 
   function setup(activeAccountUsername) {
@@ -49,6 +50,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       userName: activeAccountUsername || 'user'
     };
     angular.mock.module('app', function ($provide) {
+      $provide.factory('pFetchUser', mockUserFetch.fetch());
       $provide.factory('fetchInstances', mockFetch.fetch());
     });
     angular.mock.inject(function (_$controller_,
@@ -85,6 +87,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
   it('basic', function () {
 
     setup('user');
+    mockUserFetch.triggerPromise(ctx.userList.user);
     $rootScope.$digest();
 
     expect($scope).to.have.property('dataInstanceLayout');
@@ -115,6 +118,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     it('no username', function () {
 
       setup('user');
+      mockUserFetch.triggerPromise(ctx.userList.user);
       $rootScope.$digest();
       var many = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],
@@ -139,6 +143,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     it('new user', function () {
 
       setup('org1');
+      mockUserFetch.triggerPromise(ctx.userList.user);
       $rootScope.$digest();
 
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList.org2);

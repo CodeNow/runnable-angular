@@ -33,23 +33,24 @@ function ControllerInstanceLayout(
     resolveInstanceFetch(n);
   });
 
-  $scope.dataApp.actions.setToggled = function(teamMember) {
+  keypather.set($scope, 'dataApp.actions.setToggled', function (teamMember) {
     if (teamMember.toggled) {
       teamMember.toggled = false;
       return;
     }
-    $scope.dataApp.data.instanceGroups.teamMembers.forEach(function(tm) {
+    $scope.dataApp.data.instanceGroups.teamMembers.forEach(function (tm) {
       tm.toggled = false;
     });
     teamMember.toggled = true;
-  };
+  });
 
-  function sortInstancesByCreator (instances) {
+  function sortInstancesByCreator(instances) {
     // Object for the first step so we can apply instances to already-found people
     var instanceMap = {};
-    instances.forEach(function(instance) {
+    instances.forEach(function (instance) {
       // Special-case current user
-      var username = instance.attrs.createdBy.username === currentUser.oauthName() ? 'me' : instance.attrs.createdBy.username;
+      var username = instance.attrs.createdBy.username === currentUser.oauthName() ?
+          'me' : instance.attrs.createdBy.username;
 
       // Add team member to instanceMap if we haven't found them yet
       if (!instanceMap[username]) {
