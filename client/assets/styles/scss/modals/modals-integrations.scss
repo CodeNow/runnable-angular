@@ -3,6 +3,10 @@
   transition: all .15s ease-in;
   width: 600px;
 
+  @include media(sm) {
+    width: calc(100% - 30px);
+  }
+
   // uninitiated state
   &.no-data {
     height: 242px;
@@ -84,6 +88,10 @@
     flex: 1 1 auto;
     flex-direction: column;
     padding: 30px;
+
+    @include media(sm) {
+      padding: 15px;
+    }
   }
 
   // verify button

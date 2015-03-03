@@ -40,6 +40,16 @@
 
     &.label-details {
       line-height: 1.2;
+
+      @include media(sm) {
+        height: auto;
+        margin: 0 6px 6px;
+        min-height: 36px;
+
+        .small {
+          margin-top: 3px;
+        }
+      }
     }
   }
 
