@@ -76,14 +76,18 @@ form.modal-dialog.modal-integrations(
             - if no match, show select with options for unmathed github usernames
             - if an unmatched github username is selected, remove username from the list of available usernames
             - add .active to label if messaging is active for that user
-          label.list-item.label-checkbox.text-overflow.active
+          label.list-item.label-checkbox.text-overflow.active(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
               width = "21"
             )
             | @anand
-            select.select
+            select.select(
+              ng-disabled = "!data.slackOn"
+            )
               option Disabled
               optgroup(
                 label = "Choose @sundip's Github username to enable messaging"
@@ -94,7 +98,9 @@ form.modal-dialog.modal-integrations(
                 option forrestj
                 option Runnabro
                 option sundippatel
-          label.list-item.label-checkbox.text-overflow
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/429706?v=3&s=96"
@@ -102,9 +108,12 @@ form.modal-dialog.modal-integrations(
             )
             | @anton
             input.input-checkbox(
+              ng-disabled = "!data.slackOn"
               type = "checkbox"
             )
-          label.list-item.label-checkbox.text-overflow.active
+          label.list-item.label-checkbox.text-overflow.active(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars3.githubusercontent.com/u/160236?v=3&s=96"
@@ -113,9 +122,12 @@ form.modal-dialog.modal-integrations(
             | @bryan
             input.input-checkbox(
               checked
+              ng-disabled = "!data.slackOn"
               type = "checkbox"
             )
-          label.list-item.label-checkbox.text-overflow.active
+          label.list-item.label-checkbox.text-overflow.active(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/467885?v=3&s=96"
@@ -124,16 +136,21 @@ form.modal-dialog.modal-integrations(
             | @casey
             input.input-checkbox(
               checked
+              ng-disabled = "!data.slackOn"
               type = "checkbox"
             )
-          label.list-item.label-checkbox.text-overflow
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars3.githubusercontent.com/u/4451216?v=3&s=96"
               width = "21"
             )
             | @forrest
-            select.select
+            select.select(
+              ng-disabled = "!data.slackOn"
+            )
               option Disabled
               optgroup(
                 label = "Choose @sundip's Github username to enable messaging"
@@ -142,7 +159,9 @@ form.modal-dialog.modal-integrations(
                 option forrestj
                 option Runnabro
                 option sundippatel
-          label.list-item.label-checkbox.text-overflow
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/6379413?v=3&s=96"
@@ -150,9 +169,12 @@ form.modal-dialog.modal-integrations(
             )
             | @nathan
             input.input-checkbox(
+              ng-disabled = "!data.slackOn"
               type = "checkbox"
             )
-          label.list-item.label-checkbox.text-overflow
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars1.githubusercontent.com/u/718305?v=3&s=96"
@@ -160,16 +182,21 @@ form.modal-dialog.modal-integrations(
             )
             | @praful
             input.input-checkbox(
+              ng-disabled = "!data.slackOn"
               type = "checkbox"
             )
-          label.list-item.label-checkbox.text-overflow
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars2.githubusercontent.com/u/5341618?v=3&s=96"
               width = "21"
             )
             | @tony
-            select.select
+            select.select(
+              ng-disabled = "!data.slackOn"
+            )
               option Disabled
               optgroup(
                 label = "Choose @sundip's Github username to enable messaging"
@@ -178,7 +205,9 @@ form.modal-dialog.modal-integrations(
                 option forrestj
                 option Runnabro
                 option sundippatel
-          label.list-item.label-checkbox.text-overflow
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars1.githubusercontent.com/u/1616464?v=3&s=96"
@@ -186,16 +215,21 @@ form.modal-dialog.modal-integrations(
             )
             | @randall
             input.input-checkbox(
+              ng-disabled = "!data.slackOn"
               type = "checkbox"
             )
-          label.list-item.label-checkbox.text-overflow
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars0.githubusercontent.com/u/2469588?v=3&s=96"
               width = "21"
             )
             | @sundip
-            select.select
+            select.select(
+              ng-disabled = "!data.slackOn"
+            )
               option Disabled
               optgroup(
                 label = "Choose @sundip's Github username to enable messaging"
@@ -204,7 +238,9 @@ form.modal-dialog.modal-integrations(
                 option forrestj
                 option Runnabro
                 option sundippatel
-          label.list-item.label-checkbox.text-overflow
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
             img.gravatar(
               height = "21"
               src = "//avatars3.githubusercontent.com/u/640279?v=3&s=96"
@@ -212,18 +248,25 @@ form.modal-dialog.modal-integrations(
             )
             | @tj
             input.input-checkbox(
+              ng-disabled = "!data.slackOn"
               type = "checkbox"
             )
-          label.list-item.label-checkbox.text-overflow
-              img.gravatar(
-                height = "21"
-                src = "//avatars0.githubusercontent.com/u/1085792?v=3&s=96"
-                width = "21"
-              )
-              | @yash
-              input.input-checkbox(
-                type = "checkbox"
-              )
+          label.list-item.label-checkbox.text-overflow(
+            ng-class = "{disabled: !data.slackOn}"
+          )
+            img.gravatar(
+              height = "21"
+              src = "//avatars0.githubusercontent.com/u/1085792?v=3&s=96"
+              width = "21"
+            )
+            | @yash
+            input.input-checkbox(
+              ng-disabled = "!data.slackOn"
+              type = "checkbox"
+            )
+    //- disabling integration:
+      - removes all .active class on labels
+      - disables all inputs, but preserves their states
     .label.label-footer(
       ng-if = "data.verified"
       ng-init = "data.slackOn = true"

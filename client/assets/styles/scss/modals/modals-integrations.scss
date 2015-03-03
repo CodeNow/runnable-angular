@@ -116,6 +116,15 @@
         opacity: 1;
       }
     }
+
+    &.disabled {
+      color: $gray-light;
+      cursor: not-allowed;
+
+      .gravatar {
+        opacity: .3;
+      }
+    }
   }
 
   .input-checkbox {
