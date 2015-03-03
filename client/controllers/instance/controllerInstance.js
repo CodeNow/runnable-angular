@@ -80,22 +80,17 @@ function ControllerInstance(
     });
   });
 
-  $scope.$on('new-build', function() {
-    if (data.showUpdatingMessage) { return; } // Remove this line on ws change
+  $scope.$watch('dataInstance.data.instance.build.attrs.started', function (n, p) {
+    if (data.showUpdatingMessage || !n || !p || n === p) { return; }
     data.showUpdatedMessage = false;
     data.showUpdatingMessage = true;
-    data.instance.fetch(function(err, json) {
-      if (err) { return errs.handler(err); }
-      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
-      data.showUpdatingMessage = false;
-      data.showUpdatedMessage = true;
-
-      if (!data.instance.build.attrs.completed) {
-        $timeout(function () {
-          data.openItems.addBuildStream();
-        });
-      }
-    });
+  });
+  $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
+    // p should be null since during a build, the completed field is nulled out
+    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; } // Remove this line on ws change
+    data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
+    data.showUpdatingMessage = false;
+    data.showUpdatedMessage = true;
   });
 
 

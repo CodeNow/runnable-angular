@@ -1,10 +1,11 @@
 'use strict';
 
 var util = require('./helpers/util');
+var users = require('./helpers/users');
 var InstancePage = require('./pages/InstancePage');
 var InstanceEditPage = require('./pages/InstanceEditPage');
 var apiClient = require('./helpers/apiClient');
-
+var BUILD_TIMEOUT = 80000;
 
 function startInstanceUpdate(thisUser) {
   return function () {
@@ -39,8 +40,8 @@ function startInstanceUpdate(thisUser) {
     });
   };
 }
-describe('watchBuildLogs', function () {
-  it('should react to a socket update of the build when running: ' + util.getCurrentUser(), function () {
+describe('watchBuildLogs', users.doMultipleUsers(function (username) {
+  it('should react to a socket update of the build when running', function () {
     var instance = new InstancePage('node_hello_world');
     instance.get();
 
@@ -53,18 +54,18 @@ describe('watchBuildLogs', function () {
       instance.activePanel.openTab('Build Logs');
     }).then(instance.activePanel.currentContent.get().getText
     ).then(function (text) {
-      expect(text).toMatch(/Successfully built/);
-    }).then(function () {
-      return browser.wait(function () {
-        return instance.activePanel.isLoaded();
-      });
-    }).then(function () {
-      return instance.activePanel.openTab('Web View');
-    }).then(function () {
-      return browser.wait(function () {
-        return util.hasClass(instance.statusIcon, 'running');
-      });
-    }).then(startInstanceUpdate(util.getCurrentUser()));
+        expect(text).toMatch(/Successfully built/);
+      }).then(function () {
+        return browser.wait(function () {
+          return instance.activePanel.isLoaded();
+        });
+      }).then(function () {
+        return instance.activePanel.openTab('Web View');
+      }).then(function () {
+        return browser.wait(function () {
+          return util.hasClass(instance.statusIcon, 'running');
+        });
+      }).then(startInstanceUpdate(username));
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'building');
@@ -79,9 +80,9 @@ describe('watchBuildLogs', function () {
     // Removing until backend fixes key issue
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
-  it('should react to a socket update of the build when stopped: ' + util.getCurrentUser(),  function () {
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
+  it('should react to a socket update of the build when stopped', function () {
     var instance = new InstancePage('node_hello_world');
     instance.get();
 
@@ -100,11 +101,11 @@ describe('watchBuildLogs', function () {
       });
     }).then(function () {
       return browser.wait(function () {
-        return instance.activePanel.currentContent.get().getText().then(function (text) {
+        return instance.activePanel.getContents().then(function (text) {
           return text.indexOf('Exited') >= 0;
         });
       });
-    }).then(startInstanceUpdate(util.getCurrentUser()));
+    }).then(startInstanceUpdate(username));
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'building');
@@ -118,9 +119,9 @@ describe('watchBuildLogs', function () {
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
-  it('should react to a socket update of the build when building: ' + util.getCurrentUser(), function () {
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
+  it('should react to a socket update of the build when building', function () {
     var instanceEdit = new InstanceEditPage('node_hello_world');
     var instance = new InstancePage('node_hello_world');
     instanceEdit.get();
@@ -134,13 +135,13 @@ describe('watchBuildLogs', function () {
       return util.hasClass(instance.statusIcon, 'building');
     });
     browser.wait(function () {
-      return instance.activePanel.currentContent.get().getText().then(function (text) {
+      return instance.activePanel.getContents().then(function (text) {
         return text.indexOf('Step 3') >= 0;
       });
-    }).then(startInstanceUpdate(util.getCurrentUser())
+    }).then(startInstanceUpdate(username)
     ).then(function () {
-      expect(instance.activePanel.getContents()).not.toMatch('Step 3');
-    });
+        expect(instance.activePanel.getContents()).not.toMatch('Step 3');
+      });
 
     browser.wait(function () {
       return instance.activePanel.isLoaded();
@@ -150,7 +151,6 @@ describe('watchBuildLogs', function () {
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
-    }, 60000);
-  }, 80000);
-
-});
+    }, BUILD_TIMEOUT);
+  }, BUILD_TIMEOUT);
+}))
