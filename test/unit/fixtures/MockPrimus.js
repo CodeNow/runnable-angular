@@ -46,7 +46,7 @@ MockReadWriteStream.prototype.pipe = function (des) {
     }
   });
   return des;
-}
+};
 /**
  * Mock Primus
  */
