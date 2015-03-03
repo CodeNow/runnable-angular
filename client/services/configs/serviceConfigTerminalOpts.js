@@ -5,7 +5,7 @@ var configTerminalOpts = {
   rows: 20,
   useStyle: true,
   screenKeys: true,
-  scrollback: 1000,
+  scrollback: 10000,
   wraparoundMode: false,
   hideCursor: true,
   cursorBlink: false

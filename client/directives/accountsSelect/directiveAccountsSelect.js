@@ -10,6 +10,7 @@ require('app')
  */
 function accountsSelect (
   configLogoutURL,
+  configEnvironment,
   errs,
   keypather,
   promisify,
@@ -45,7 +46,7 @@ function accountsSelect (
         },
         data: $scope.data
       };
-      if (process.env.NODE_ENV !== 'production') {
+      if (configEnvironment !== 'production') {
         keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
       }
       var unwatchUserInfo = $scope.$watch('data.activeAccount', function (n) {

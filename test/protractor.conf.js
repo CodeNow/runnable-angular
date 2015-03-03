@@ -17,15 +17,8 @@ exports.config = {
     require('./e2e/helpers/capabilities');
   },
 
-  maxSessions: 1,
-  multiCapabilities : [
-    browsers.chrome,
-    //browsers.firefox,
-    //browsers.safari,
-    //browsers.ie11,
-    //browsers.ie10
-  ],
-  baseUrl: 'http://localhost:3001/',
+  capabilities : browsers.chrome,
+  baseUrl: 'http://localhost:3001',
 
   jasmineNodeOpts: {
     defaultTimeoutInterval: 30000

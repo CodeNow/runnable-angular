@@ -25,6 +25,7 @@ function pFetchUser(user, $q) {
 }
 
 function fetchInstances(
+  configEnvironment,
   pFetchUser,
   promisify,
   keypather,
@@ -68,7 +69,7 @@ function fetchInstances(
       if (data.event !== 'ROOM_MESSAGE') {
         return;
       }
-      if (process.env.NODE_ENV !== 'production') {
+      if (configEnvironment !== 'production') {
         $log.log('Socket:', data);
       }
       if (keypather.get(data, 'data.data.owner.github') !== id) {

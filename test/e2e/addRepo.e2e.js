@@ -1,11 +1,12 @@
 'use strict';
 
 var util = require('./helpers/util');
+var users = require('./helpers/users');
 var InstanceEditPage = require('./pages/InstanceEditPage');
 var InstancePage = require('./pages/InstancePage');
 
-describe('addRepo', function() {
-  it('adds a repo to an instance', function() {
+describe('addRepo', users.doMultipleUsers(function (username) {
+  it('adds a repo to an instance: ' + username, function() {
     var instanceEdit = new InstanceEditPage('Test-0');
     instanceEdit.get();
 
@@ -33,4 +34,4 @@ describe('addRepo', function() {
 
     expect(instanceEdit.repoList.numSelectedRepos()).toEqual(2);
   });
-});
+}));
