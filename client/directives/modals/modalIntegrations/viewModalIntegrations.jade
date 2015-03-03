@@ -224,6 +224,18 @@ form.modal-dialog.modal-integrations(
               input.input-checkbox(
                 type = "checkbox"
               )
+    .label.label-footer(
+      ng-if = "data.verified"
+      ng-init = "data.slackOn = true"
+    )
+      button.btn.btn-sm.orange(
+        ng-click = "data.slackOn = false"
+        ng-if = "data.slackOn"
+      ) Disable Slack Integration
+      button.btn.btn-sm.green(
+        ng-click = "data.slackOn = true"
+        ng-if = "!data.slackOn"
+      ) Enable Slack Integration
 
   footer.modal-footer(
     ng-if = "(data.showHipchat || data.showSlack) && data.verified"

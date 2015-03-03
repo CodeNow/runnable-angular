@@ -76,4 +76,15 @@
       margin-top: 6px;
     }
   }
+
+  // label-footer
+  .label-footer {
+    border-top: 1px solid rgba($black,.1);
+    padding-top: 15px;
+
+    .btn {
+      display: table;
+      margin: 0 auto;
+    }
+  }
 }
