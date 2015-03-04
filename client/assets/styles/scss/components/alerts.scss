@@ -9,7 +9,7 @@
   right: 6px;
   z-index: $z-alert;
 
-  // active styles alerts
+  // active styles for alerts
   &.green {
     background: $green;
     border-color: $green;
@@ -20,24 +20,30 @@
     border-color: $orange;
   }
 
+  // anchor image
   .gravatar {
     float: left;
     margin-right: 12px;
   }
 
+  // link
   .link {
     color: $white;
     display: inline-block;
   }
 
+  // close button
   .btn-close {
     float: right;
-    opacity: .5;
     padding: 0;
+    width: 24px;
 
-    &:hover,
-    &:active {
-      opacity: 1;
+    &.orange {
+      background: rgba($orange-dark,.75);
+    }
+
+    .icons-close {
+      top: 0;
     }
   }
 }

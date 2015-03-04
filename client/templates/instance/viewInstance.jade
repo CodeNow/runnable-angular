@@ -7,6 +7,13 @@
     src = "//avatars.githubusercontent.com/u/5341618?v=3"
     width = "36"
   )
+  button.btn.orange.btn-xs.btn-close(
+    ng-click = "dataInstance.data.showUpdatedMessage = false"
+  )
+    svg.iconnables.icons-close
+      use(
+        xlink:href = "#icons-close"
+      )
   h4.h4 Updating tony-api
   //- {{ dataInstance.data.commit.attrs.author.login }}
   a(
@@ -16,16 +23,9 @@
       href = "{{ dataInstance.data.commit.attrs.commit.html_url }}"
       target = "_blank"
     ) 6ccfff2
-  //- button.btn.btn-xs.btn-icon.btn-close(
-  //-   ng-click = "dataInstance.data.showUpdatedMessage = false"
-  //- )
-  //-   svg.iconnables.icons-close
-  //-     use(
-  //-       xlink:href = "#icons-close"
-  //-     )
 
 .alert.green.in(
-  //- ng-show = "dataInstance.data.showUpdatedMessage"
+  ng-show = "dataInstance.data.showUpdatedMessage"
 )
   //- button.btn.btn-xs.btn-close(
   //-   ng-click = "dataInstance.data.showUpdatedMessage = false"
