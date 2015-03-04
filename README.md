@@ -27,16 +27,16 @@ Instructions
 
 First time instructions
 ------------------------
- - fork `CodeNow/stage-api` on runnable.io. Name your box `${YOUR_NAME}-api` e.x. `anton-api`. This would be your `${BOX_NAME}`
+ - fork `CodeNow/stage-api` on runnable.io. Name your box `${YOUR_NAME}-api` (e.g. `anton-api`).
  - create your own GitHub App and
-    - set `Homepage URL` to `http://${BOX_NAME}-codenow.runnableapp.com/`
-    - set `Authorization callback URL` to `http://${BOX_NAME}-codenow.runnableapp.com/auth/github/callback`
+    - set `Homepage URL` to `http://${YOUR_NAME}-api-codenow.runnableapp.com/`
+    - set `Authorization callback URL` to `http://${YOUR_NAME}-api-codenow.runnableapp.com/auth/github/callback`
  - update Dockerfile for your API box
     - set `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` to the values from your GitHub app
-    - set `FULL_API_DOMAIN` to `http://${BOX_NAME}-codenow.runnableapp.com`
-    - set `GITHUB_CALLBACK_URL` to `http://${BOX_NAME}-codenow.runnableapp.com/auth/github/callback`
-    - set `GITHUB_HOOK_URL` to `http://${BOX_NAME}-codenow.runnableapp.com/actions/github`
- - run web app locally with `API_HOST=//${BOX_NAME}-codenow.runnableapp.com grunt` (note the protocol-less URL)
+    - set `FULL_API_DOMAIN` to `http://${YOUR_NAME}-api-codenow.runnableapp.com`
+    - set `GITHUB_CALLBACK_URL` to `http://${YOUR_NAME}-api-codenow.runnableapp.com/auth/github/callback`
+    - set `GITHUB_HOOK_URL` to `http://${YOUR_NAME}-api-codenow.runnableapp.com/actions/github`
+ - run web app locally with `API_HOST=//${YOUR_NAME}-api-codenow.runnableapp.com grunt` (note the protocol-less URL)
  - go to `http://localhost:3001?password=local` and signin with your GitHub
 
 Requirements
