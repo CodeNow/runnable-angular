@@ -1,38 +1,54 @@
 //- show if server build is being swapped out
-.alert.orange.in(
   ng-show = "dataInstance.data.showUpdatingMessage"
+.alert.orange.in(
 )
-  h4.h4 Your server is being updated…
+  img.gravatar(
+    height = "36"
+    src = "//avatars.githubusercontent.com/u/5341618?v=3"
+    width = "36"
+  )
+  h4.h4 Updating tony-api
+  //- {{ dataInstance.data.commit.attrs.author.login }}
+  a(
+    target = "_blank"
+  ) runnabro pushed #{''}
+    a.link(
+      href = "{{ dataInstance.data.commit.attrs.commit.html_url }}"
+      target = "_blank"
+    ) 6ccfff2
+  //- button.btn.btn-xs.btn-icon.btn-close(
+  //-   ng-click = "dataInstance.data.showUpdatedMessage = false"
+  //- )
+  //-   svg.iconnables.icons-close
+  //-     use(
+  //-       xlink:href = "#icons-close"
+  //-     )
 
 .alert.green.in(
-  ng-show = "dataInstance.data.showUpdatedMessage"
+  //- ng-show = "dataInstance.data.showUpdatedMessage"
 )
-  button.btn.btn-xs.btn-close(
-    ng-click = "dataInstance.data.showUpdatedMessage = false"
+  //- button.btn.btn-xs.btn-close(
+  //-   ng-click = "dataInstance.data.showUpdatedMessage = false"
+  //- )
+  //-   svg.iconnables.icons-close
+  //-     use(
+  //-       xlink:href = "#icons-close"
+  //-     )
+  //- ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
+  img.gravatar(
+    height = "36"
+    src = "//avatars.githubusercontent.com/u/5341618?v=3"
+    width = "36"
   )
-    svg.iconnables.icons-close
-      use(
-        xlink:href = "#icons-close"
-      )
-  h4.h4 Your server has been updated
-  a.block-quote.text-overflow(
-    href = "{{ dataInstance.data.commit.attrs.commit.html_url }}"
+  h4.h4 Updating tony-api
+  //- {{ dataInstance.data.commit.attrs.author.login }}
+  a(
     target = "_blank"
-  ) {{ dataInstance.data.commit.attrs.commit.message }}
-    small.small
-      svg.iconnables.icons-branch
-        use(
-          xlink:href = "#icons-branch"
-        )
-      //- Using ACV here to avoid another fetch
-      | {{ dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models[0].attrs.repo }}@{{ dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models[0].attrs.branch }}
-    small.small
-      img.gravatar(
-        height = "15"
-        ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
-        width = "15"
-      )
-      | {{ dataInstance.data.commit.attrs.author.login }}
+  ) runnabro pushed #{''}
+    a.link(
+      href = "{{ dataInstance.data.commit.attrs.commit.html_url }}"
+      target = "_blank"
+    ) 6ccfff2
 
 header.server-header
 

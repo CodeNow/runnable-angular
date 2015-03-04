@@ -2,18 +2,32 @@
   animation: alert .3s ease-in forwards;
   border-radius: 6px;
   bottom: 6px;
-  margin-left: 6px;
   max-width: 420px;
   min-width: 345px;
-  opacity: 0;
-  padding: 9px 15px;
+  padding: 15px;
   position: fixed;
   right: 6px;
   z-index: $z-alert;
 
-  > .iconnables {
-    margin-right: 6px;
-    top: 6px;
+  // active styles alerts
+  &.green {
+    background: $green;
+    border-color: $green;
+  }
+
+  &.orange {
+    background: $orange;
+    border-color: $orange;
+  }
+
+  .gravatar {
+    float: left;
+    margin-right: 12px;
+  }
+
+  .link {
+    color: $white;
+    display: inline-block;
   }
 
   .btn-close {
@@ -24,40 +38,6 @@
     &:hover,
     &:active {
       opacity: 1;
-    }
-  }
-
-  .block-quote {
-    margin: 12px 0 0;
-  }
-
-  // styles for orange alerts
-  &.orange {
-    background: rgba($orange,.95);
-
-    .block-quote {
-      border-color: rgba($white,.6);
-      color: $white;
-
-      &:hover,
-      &:active {
-        border-color: rgba($white,.9);
-      }
-    }
-  }
-
-  // styles for green alerts
-  &.green {
-    background: rgba($green,.95);
-
-    .block-quote {
-      border-color: rgba($white,.6);
-      color: $white;
-
-      &:hover,
-      &:active {
-        border-color: rgba($white,.9);
-      }
     }
   }
 }
