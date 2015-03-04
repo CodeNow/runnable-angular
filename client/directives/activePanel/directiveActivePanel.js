@@ -27,8 +27,8 @@ function activePanel(
     templateUrl: 'viewActivePanel',
     scope: {
       openItems: '=',
-      currentModel: '=', // CurrentModel houses the original model without changes
-      stateModel: '=', // The StateModel is where changes will be applied
+      instance: '=',
+      build: '=',
       item: '=',
       toggleTheme: '='
     },

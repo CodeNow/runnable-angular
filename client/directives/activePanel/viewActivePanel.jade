@@ -4,12 +4,14 @@
 )
 
 .logs(
-  log-build
+  ng-controller = "BuildLogController"
+  log-term
   ng-if = "item.state.type === 'BuildStream'"
 )
 
 .logs(
-  log-box
+  ng-controller = "BoxLogController"
+  log-term
   ng-if = "item.state.type === 'LogView'"
 )
 

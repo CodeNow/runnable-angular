@@ -87,7 +87,7 @@ function ControllerInstance(
   });
   $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
     // p should be null since during a build, the completed field is nulled out
-    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; } // Remove this line on ws change
+    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; }
     data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
     data.showUpdatingMessage = false;
     data.showUpdatedMessage = true;
