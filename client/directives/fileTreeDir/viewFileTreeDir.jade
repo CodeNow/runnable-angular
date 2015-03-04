@@ -1,4 +1,5 @@
 li.folder(
+  droppable
   ng-class = "{ 'in': dir.state.open }"
 )
   a(
@@ -19,6 +20,7 @@ li.folder(
     ng-if = "dir.contents.models.length"
   )
     file-tree-dir(
+      droppable
       ng-repeat = "fs in dir.contents.models \
                    | isDir \
                    | orderBy:actions.normalizeMixedDataValue"
@@ -29,13 +31,13 @@ li.folder(
     )
     //- 'dirty' state checking only on instance page
     li.file(
+      draggable
       ng-repeat = "fs in dir.contents.models \
                    | isFile \
                    | orderBy:actions.normalizeMixedDataValue"
       ng-class = "{ \
           'active': fs.state.active, \
-          'dirty': (state.current.name === 'projects.instance' \
-                    && fs.state.body !== fs.attrs.body) \
+          'dirty': (fs.state.body !== fs.attrs.body) \
         }"
     )
       a(

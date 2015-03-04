@@ -7,10 +7,6 @@ require('app')
  */
 function explorer(
   helperCreateFS,
-  keypather,
-  fetchBuild,
-  $stateParams,
-  fetchInstances,
   errs
 ) {
   return {
@@ -18,6 +14,8 @@ function explorer(
     templateUrl: 'viewExplorer',
     scope: {
       openItems: '=',
+      rootDir: '=',
+      title: '@',
       toggleTheme: '='
     },
     link: function ($scope, elem, attrs) {
@@ -41,36 +39,11 @@ function explorer(
         }
       };
 
-      if ($stateParams.buildId) {
-        $scope.title = 'Build Files';
-        fetchBuild($stateParams.buildId).then(function(build) {
-          $scope.build = build;
-          $scope.rootDir = $scope.build.contextVersions.models[0].rootDir;
-          initRootDirState($scope.rootDir);
-        });
-      } else {
-        $scope.title = 'File Explorer';
-        fetchInstances({
-          name: $stateParams.instanceName
-        }).then(function(instance) {
-          $scope.instance = instance;
-          $scope.build = instance.build;
-          // instance page
-          var container = keypather.get($scope.instance, 'containers.models[0]');
-          if (container) {
-            $scope.rootDir = container.rootDir;
-            initRootDirState($scope.rootDir);
-          } else {
-            var clearWatch =
-              $scope.$watch('instance.containers.models[0].rootDir', function (rootDir) {
-                if (!rootDir) { return; }
-                clearWatch();
-                $scope.rootDir = rootDir;
-                initRootDirState($scope.rootDir);
-              });
-          }
-        }).catch(errs.handler);
-      }
+      var unwatch = $scope.$watch('rootDir', function (rootDir) {
+        if (!rootDir) { return; }
+        unwatch();
+        initRootDirState(rootDir);
+      });
 
       function initRootDirState (rootDir) {
         rootDir.state = rootDir.state || {};
