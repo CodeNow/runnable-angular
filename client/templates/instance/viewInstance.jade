@@ -1,13 +1,25 @@
 //- show if server build is being swapped out
-  ng-show = "dataInstance.data.showUpdatingMessage"
-.alert.orange.in(
+  - orange when build is started OR failed
+  - green if build is successfully built
+.alert.in(
+  ng-class = "{\
+    green: dataInstance.data.showUpdatedMessage,\
+    orange: dataInstance.data.showUpdatingMessage\
+  }"
+  ng-show = "dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage"
 )
+  //- for demo purposes:
+  //- src = "//avatars.githubusercontent.com/u/5341618?v=3"
   img.gravatar(
     height = "36"
-    src = "//avatars.githubusercontent.com/u/5341618?v=3"
+    ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
     width = "36"
   )
-  button.btn.orange.btn-xs.btn-close(
+  button.btn.btn-xs.btn-close(
+    ng-class = "{\
+      green: dataInstance.data.showUpdatedMessage,\
+      orange: dataInstance.data.showUpdatingMessage\
+    }"
     ng-click = "dataInstance.data.showUpdatedMessage = false"
   )
     svg.iconnables.icons-close
@@ -15,36 +27,9 @@
         xlink:href = "#icons-close"
       )
   h4.h4 Updating tony-api
-  //- {{ dataInstance.data.commit.attrs.author.login }}
   a(
     target = "_blank"
-  ) runnabro pushed #{''}
-    a.link(
-      href = "{{ dataInstance.data.commit.attrs.commit.html_url }}"
-      target = "_blank"
-    ) 6ccfff2
-
-.alert.green.in(
-  ng-show = "dataInstance.data.showUpdatedMessage"
-)
-  //- button.btn.btn-xs.btn-close(
-  //-   ng-click = "dataInstance.data.showUpdatedMessage = false"
-  //- )
-  //-   svg.iconnables.icons-close
-  //-     use(
-  //-       xlink:href = "#icons-close"
-  //-     )
-  //- ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
-  img.gravatar(
-    height = "36"
-    src = "//avatars.githubusercontent.com/u/5341618?v=3"
-    width = "36"
-  )
-  h4.h4 Updating tony-api
-  //- {{ dataInstance.data.commit.attrs.author.login }}
-  a(
-    target = "_blank"
-  ) runnabro pushed #{''}
+  ) {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
       href = "{{ dataInstance.data.commit.attrs.commit.html_url }}"
       target = "_blank"
