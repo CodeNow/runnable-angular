@@ -15,7 +15,7 @@ var mockUserFetch = new (require('../fixtures/mockFetch'))();
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
  */
-describe.only('ControllerInstanceLayout'.bold.underline.blue, function () {
+describe('ControllerInstanceLayout'.bold.underline.blue, function () {
   var ctx = {};
 
   function setup(activeAccountUsername) {
