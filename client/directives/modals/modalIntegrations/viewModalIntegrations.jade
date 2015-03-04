@@ -56,8 +56,13 @@ form.modal-dialog.modal-integrations(
           target = "_blank"
         ) Get your API Token from Slack
       input.input.input-sm.input-validate.input-col(
-        placeholder = "lol"
+        ng-if = "!data.verified"
         required
+      )
+      input.input.input-sm.input-validate.input-col(
+        ng-if = "data.verified"
+        required
+        value = "xoxb-3877126352-qrO7smdwNmUVJTvaYuaQKCIe"
       )
       button.btn.btn-sm.green(
         ng-click = "data.verified = true"
@@ -90,7 +95,7 @@ form.modal-dialog.modal-integrations(
             )
               option Disabled
               optgroup(
-                label = "Choose @sundip's Github username to enable messaging"
+                label = "Choose @anand's Github username to enable messaging"
               )
                 option(
                   selected
@@ -153,7 +158,7 @@ form.modal-dialog.modal-integrations(
             )
               option Disabled
               optgroup(
-                label = "Choose @sundip's Github username to enable messaging"
+                label = "Choose @forrest's Github username to enable messaging"
               )
                 option anandkumarpatel
                 option forrestj
@@ -199,7 +204,7 @@ form.modal-dialog.modal-integrations(
             )
               option Disabled
               optgroup(
-                label = "Choose @sundip's Github username to enable messaging"
+                label = "Choose @tony's Github username to enable messaging"
               )
                 option anandkumarpatel
                 option forrestj
@@ -292,7 +297,6 @@ form.modal-dialog.modal-integrations(
           target = "_blank"
         ) Get your API Token from Hipchat
       input.input.input-sm.input-validate.input-col(
-        placeholder = "lol"
         required
       )
       button.btn.btn-sm.green(
