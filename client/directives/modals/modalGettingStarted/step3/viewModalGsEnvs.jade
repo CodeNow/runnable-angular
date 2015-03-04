@@ -11,11 +11,11 @@
     ng-click = "data.hideGuide = true"
   ) Hide
 h2.sub-header Dependencies & Environment Variables
-  button.btn.btn-sn.btn-help(
+  button.btn.btn-sm.btn-help(
     ng-if = "data.hideGuide"
     ng-click = "data.hideGuide = false"
   ) ?
-  button.btn.btn-sm.gray.sub-header-action(
+  button.btn.btn-sm.btn-icon.gray.sub-header-action(
     ng-class = "{active: addDependencyPopover.data.show}"
     toggle-pop-over
     toggle-pop-over-model = "addDependencyPopover.data.show"

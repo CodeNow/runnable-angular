@@ -25,6 +25,7 @@
       bottom: 45px;
       left: 9px;
       position: absolute;
+      top: auto;
 
       @include media(xs) {
         bottom: 0;
