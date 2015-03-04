@@ -56,7 +56,7 @@ function instanceEditPrimaryActions(
                 $state.go('instance.instance', $stateParams);
               }).catch(handleError);
             });
-          });
+          }).catch(handleError);
         });
       };
 
