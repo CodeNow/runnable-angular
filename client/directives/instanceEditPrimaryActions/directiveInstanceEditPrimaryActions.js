@@ -9,6 +9,7 @@ function instanceEditPrimaryActions(
   $state,
   errs,
   $stateParams,
+  keypather,
   promisify,
   fetchBuild
 ) {
@@ -37,9 +38,9 @@ function instanceEditPrimaryActions(
           };
           fetchNewBuild().then(function (build) {
             var unwatch = $scope.$watch(function () {
-              return build.state.clean;
+              return keypather.get(build, 'state.dirty');
             }, function (n) {
-              if (!n) { return; }
+              if (n) { return; } //state.dirty === 0 is when everything is clean
               unwatch();
               promisify(build, 'build')(
                 buildObj

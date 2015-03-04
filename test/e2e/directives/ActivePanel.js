@@ -57,7 +57,7 @@ function ActivePanel (pageType) {
   this.writeToFile = function (contents) {
     var self = this;
     this._getAceDiv().then(function(elem) {
-      browser.actions().doubleClick(elem).perform();
+      browser.actions().click(elem).perform();
       return self._getInputElement();
     }).then(function(elem) {
       return elem.sendKeys(contents);
@@ -67,7 +67,7 @@ function ActivePanel (pageType) {
   this.clearActiveFile = function () {
     var self = this;
     this._getAceDiv().then(function(elem) {
-      browser.actions().doubleClick(elem).perform();
+      browser.actions().click(elem).perform();
       return self._getInputElement();
     }).then(function(elem) {
       var cmd = util.getOSCommandKey();
@@ -83,8 +83,10 @@ function ActivePanel (pageType) {
   };
 
   // Gets the actual contents of the file (without Ace's line numbers, etc)
-  this.getFileContents = function() {
-    return this.ace.get().getText();
+  this.getFileContents = function () {
+    return this._getAceDiv().then(function (elem) {
+      return elem.getText();
+    });
   };
 
   this.isClean = function () {
@@ -109,12 +111,12 @@ function ActivePanel (pageType) {
     }).then(function(elems) {
       return elems[0];
     });
-  }
+  };
 
   this._getInputElement = function () {
     // currently only works for file types
     return this.inputElm.get().get(activeIdx);
-  }
+  };
 }
 
 module.exports = ActivePanel;
