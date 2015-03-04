@@ -75,4 +75,16 @@
       width: 100%;
     }
   }
+
+  // nag
+  .p {
+    border-top: 2px solid rgba($white,.3);
+    font-size: 14px;
+    margin-top: 12px;
+    padding-top: 6px;
+
+    .btn {
+      margin-left: 3px;
+    }
+  }
 }
