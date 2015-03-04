@@ -1,18 +1,28 @@
 //- show if server build is being swapped out
-  - orange when build is started OR failed
-  - green if build is successfully built
-.alert.in(
+  - orange when build has failed
+  - green if build is building or is successfully built
+
+  //- ng-show = "dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage"
+.alert.green.in(
   ng-class = "{\
     green: dataInstance.data.showUpdatedMessage,\
     orange: dataInstance.data.showUpdatingMessage\
   }"
-  ng-show = "dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage"
 )
-  //- for demo purposes:
-  //- src = "//avatars.githubusercontent.com/u/5341618?v=3"
+  //- if successful
+  .btn.btn-xxs.btn-icon.green.btn-success.no-touching(
+    ng-if = "data.updateSuccess"
+  )
+    svg.iconnables.icons-fat-check
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+  //- remove src, and ng-click—only for demo purposes
   img.gravatar(
     height = "36"
+    ng-click = "data.updateSuccess = true"
     ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
+    src = "//avatars.githubusercontent.com/u/5341618?v=3"
     width = "36"
   )
   button.btn.btn-xs.btn-close(
@@ -20,7 +30,6 @@
       green: dataInstance.data.showUpdatedMessage,\
       orange: dataInstance.data.showUpdatingMessage\
     }"
-    ng-click = "dataInstance.data.showUpdatedMessage = false"
   )
     svg.iconnables.icons-close
       use(

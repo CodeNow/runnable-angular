@@ -2,22 +2,26 @@
   animation: alert .3s ease-in forwards;
   border-radius: 6px;
   bottom: 6px;
+  box-shadow: 0 0 30px rgba($black,.12);
   max-width: 420px;
   min-width: 345px;
   padding: 15px;
   position: fixed;
   right: 6px;
+  transition: all .15s ease-in;
   z-index: $z-alert;
 
-  // active styles for alerts
-  &.green {
-    background: $green;
-    border-color: $green;
+  &:active {
+    box-shadow: 0 0 30px rgba($black,.12);
   }
 
+  // active styles for alerts
   &.orange {
     background: $orange;
-    border-color: $orange;
+  }
+
+  &.green {
+    background: $green;
   }
 
   // anchor image
@@ -32,18 +36,43 @@
     display: inline-block;
   }
 
+  // buttons
+  .orange {
+    background: rgba($orange-dark,.75);
+  }
+
+  .green {
+    background: rgba($green-dark,.75);
+  }
+
   // close button
   .btn-close {
     float: right;
     padding: 0;
     width: 24px;
 
-    &.orange {
-      background: rgba($orange-dark,.75);
-    }
 
     .icons-close {
       top: 0;
+    }
+  }
+
+  // success animation
+  .btn-success {
+    background: $white;
+    border: 0;
+    border-radius: 50%;
+    margin: 21px 0 0 21px;
+    position: absolute;
+    width: 18px;
+
+    .icons-fat-check {
+      animation: scale-in-bounce .3s ease-in;
+      border-radius: 50%;
+      color: $green;
+      height: 100%;
+      top: 0;
+      width: 100%;
     }
   }
 }
