@@ -11,7 +11,7 @@ function popoverFileExplorerFolderMenu(
   $templateCache,
   $compile,
   $rootScope,
-  jQuery,
+  $document,
   keypather,
   helperCreateFS
 ) {
@@ -24,11 +24,9 @@ function popoverFileExplorerFolderMenu(
         return;
       }
 
-      $scope.jQuery = jQuery;
-
       var dirItemData = $scope.dirItemData = {};
       var actions = dirItemData.actions = {};
-      var inputElement = jQuery(element).find('> input.tree-input');
+      var inputElement = element[0].querySelector('input.tree-input');
       dirItemData.editFolderName = false;
 
       dirItemData.eStyle = {
@@ -71,8 +69,8 @@ function popoverFileExplorerFolderMenu(
       actions.renameFolder = function () {
         closeModal();
         dirItemData.editFolderName = true;
-        inputElement[0].focus();
-        inputElement[0].select();
+        inputElement.focus();
+        inputElement.select();
       };
 
       $scope.$on('file-modal-open', function () {
@@ -92,11 +90,11 @@ function popoverFileExplorerFolderMenu(
           return;
         }
         dirItemData.editFolderName = false;
-        if (inputElement.val() === $scope.dir.attrs.name) {
+        if (inputElement.value === $scope.dir.attrs.name) {
           return;
         }
         var cachedName = $scope.dir.attrs.name;
-        $scope.dir.rename(inputElement.val(), errs.handler);
+        $scope.dir.rename(inputElement.value, errs.handler);
 
       }
 
@@ -124,8 +122,7 @@ function popoverFileExplorerFolderMenu(
         var template = $templateCache.get('viewFileTreePopoverFileExplorerFolderMenu');
         var $template = angular.element(template);
         $compile($template)($scope);
-        $scope.$popoverTemplate = $scope.jQuery($template);
-        $scope.jQuery('body').append($template);
+        $document.find('body').append($template);
 
         $scope.dirItemData.eStyle.top = e.pageY - 18 + 'px';
         $scope.dirItemData.eStyle.left = e.pageX + 'px';

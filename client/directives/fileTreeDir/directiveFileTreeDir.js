@@ -1,6 +1,6 @@
 'use strict';
 
-require('jquery-ui');
+// require('jquery-ui');
 
 require('app')
   .directive('fileTreeDir', fileTreeDir);
