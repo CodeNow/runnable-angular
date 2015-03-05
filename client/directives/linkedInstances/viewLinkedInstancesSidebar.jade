@@ -4,7 +4,7 @@ a.server-item-cluster(
   ng-show = "!!instanceDependencies"
 ) {{ depInstance.attrs.name }}
   svg.iconnables.icons-team(
-    ng-if = "depInstance.state.ownedByOther"
+    ng-if = "depInstance.ownedByOther"
     tooltip = "{{depInstance.attrs.createdBy.username}}"
     tooltip-options = "{\"class\":\"bottom\",\"left\":-2,\"top\":24}"
   )
