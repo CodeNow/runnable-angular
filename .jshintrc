@@ -8,5 +8,5 @@
   "curly": true,
   "globalstrict": true,
   "expr": true,
-  "predef": ["jQuery", "angular", "confirm", "expect", "describe", "it", "sinon", "beforeEach", "afterEach"]
+  "predef": ["angular", "confirm", "expect", "describe", "it", "sinon", "beforeEach", "afterEach"]
 }

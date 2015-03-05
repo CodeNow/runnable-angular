@@ -1,7 +1,5 @@
 'use strict';
 
-var jQuery  = require('jquery');
-
 // injector-provided
 var $compile,
     $provide,
@@ -27,7 +25,6 @@ describe.skip('directiveTabs'.bold.underline.blue, function() {
     ctx.element = angular.element(ctx.template);
     ctx.element = $compile(ctx.element)($scope);
     $scope.$digest();
-    ctx.$element = jQuery(ctx.element);
     $elScope = ctx.element.isolateScope();
   };
 
@@ -50,8 +47,7 @@ describe.skip('directiveTabs'.bold.underline.blue, function() {
     });
     injectSetupCompile();
 
-    expect(ctx.$element).to.be.ok;
-    expect(ctx.$element.children().hasClass('views-toolbar')).to.be.true;
+    expect(ctx.element.children().hasClass('views-toolbar')).to.be.true;
   });
 
   it('basic scope', function() {

@@ -10,7 +10,7 @@ function popoverFileExplorerItemMenu(
   $templateCache,
   $compile,
   $rootScope,
-  jQuery,
+  $document,
   keypather
 ) {
   return {
@@ -21,7 +21,6 @@ function popoverFileExplorerItemMenu(
         return;
       }
 
-      $scope.jQuery = jQuery;
       var inputElement = element.find('input');
       inputElement.on('blur', function () {
         closeFileNameInput();
@@ -111,8 +110,7 @@ function popoverFileExplorerItemMenu(
         var template = $templateCache.get('viewFileTreePopoverFileItemMenu');
         var $template = angular.element(template);
         $compile($template)($scope);
-        $scope.$popoverTemplate = $scope.jQuery($template);
-        $scope.jQuery('body').append($template);
+        $document.find('body').append($template);
 
         $scope.fileItemData.eStyle.top = e.pageY - 18 + 'px';
         $scope.fileItemData.eStyle.left = e.pageX + 'px';
