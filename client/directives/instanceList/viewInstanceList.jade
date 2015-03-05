@@ -28,11 +28,12 @@ ul.list.load(
   //- .active for current active server
   //- .active.expanded for current active server with links
   //- .runnning for running server
+  //- disabling these tooltips...for now
+  //- tooltip = "{{ instance.attrs.name }}"
+  //- tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   li.list-item.btn.btn-sm.white(
     ng-class = "getInstanceClasses(instance)"
     ng-repeat = "instance in data.instanceGroups.me.instances | orderBy:'attrs.name'"
-    tooltip = "{{ instance.attrs.name }}"
-    tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   )
     a.list-item-name.text-overflow(
       ng-click = "stateToInstance(instance, $event)"

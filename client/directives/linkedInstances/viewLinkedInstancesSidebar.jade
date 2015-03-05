@@ -2,11 +2,11 @@ a.server-item-cluster(
   ng-click = "stateToInstance(depInstance, $event)"
   ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
   ng-show = "!!instanceDependencies"
-  tooltip = "{{depInstance.attrs.createdBy.username}}"
-  tooltip-options = "{\"class\":\"left\":0,\"top\":0}"
 ) {{ depInstance.attrs.name }}
   svg.iconnables.icons-team(
     ng-if = "depInstance.state.ownedByOther"
+    tooltip = "{{depInstance.attrs.createdBy.username}}"
+    tooltip-options = "{\"class\":\"bottom\",\"left\":-2,\"top\":24}"
   )
     use(
       xlink:href = "#icons-team"
