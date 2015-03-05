@@ -34,16 +34,19 @@ function ControllerInstanceLayout(
   });
 
   keypather.set($scope, 'dataApp.actions.setToggled', function (teamMember) {
-    if (teamMember.toggled && !teamMember.hasCurrentInstance) {
+    if (!keypather.get($scope, 'dataApp.data.instanceGroups.teamMembers.length')) {
+      return;
+    }
+    if (teamMember && teamMember.toggled) {
       teamMember.toggled = false;
       return;
     }
     $scope.dataApp.data.instanceGroups.teamMembers.forEach(function (tm) {
-      if (!tm.hasCurrentInstance) {
-        tm.toggled = false;
-      }
+      tm.toggled = false;
     });
-    teamMember.toggled = true;
+    if (teamMember) {
+      teamMember.toggled = true;
+    }
   });
 
   function sortInstancesByCreator(instances) {
@@ -52,7 +55,7 @@ function ControllerInstanceLayout(
     instances.forEach(function (instance) {
       // Special-case current user
       var username = instance.attrs.createdBy.username === currentUser.oauthName() ?
-          'me' : instance.attrs.createdBy.username;
+          'me' : (instance.attrs.createdBy.username || instance.attrs.createdBy.github);
 
       // Add team member to instanceMap if we haven't found them yet
       if (!instanceMap[username]) {
@@ -60,19 +63,10 @@ function ControllerInstanceLayout(
         instanceMap[username].instances = [];
       }
 
-      // Set teamMember/instance to active if it's the current one
-      if (instance.attrs.name === $state.params.instanceName) {
-        instanceMap[username].toggled = true;
-        instanceMap[username].hasCurrentInstance = true;
-        instance.state = {
-          toggled: true
-        };
-      }
-
       // Set the "Owned by team member" icon under current user's deps
       if (username === 'me' && $state.params.userName !== currentUser.oauthName()) {
         instance.dependencies.forEach(function(dep) {
-          dep.ownedByOther = dep.createdBy !== currentUser.oauthId();
+          dep.ownedByOther = dep.attrs.createdBy.username !== currentUser.oauthName();
         });
       }
 
@@ -98,6 +92,7 @@ function ControllerInstanceLayout(
     if (!username) { return; }
     keypather.set($rootScope, 'dataApp.state.loadingInstances', true);
     keypather.set($rootScope, 'dataApp.data.instances', null);
+    keypather.set($rootScope, 'dataApp.data.instanceGroups', null);
     fetchInstances({
       githubUsername: username
     }).then(function (instances) {
@@ -106,7 +101,7 @@ function ControllerInstanceLayout(
       }, function (n) {
         if (n === undefined) { return; }
         if (n === 0) {
-          $scope.dataApp.data.instanceGroups = [];
+          $scope.dataApp.data.instanceGroups = null;
           return;
         }
         $scope.dataApp.data.instanceGroups = sortInstancesByCreator(instances);

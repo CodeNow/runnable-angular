@@ -46,6 +46,7 @@ ul.list.load(
     div(
       linked-instances
       instance-dependencies = "instance.dependencies"
+      show-team-icon = "true"
       instances = 'data.instances'
       ng-if = "getInstanceClasses(instance).expanded"
       state-to-instance = 'stateToInstance'
@@ -75,11 +76,7 @@ h2.sub-header.load(
 //- list of users
 ul.list.list-users.load
   li.list-item.btn.btn-sm.white(
-    ng-class = "{\
-      active: teamMember.toggled,\
-      'active-child': data.toggleThisServer,\
-      expanded: teamMember.toggled\
-    }"
+    ng-class = "getTeamMemberClasses(teamMember)"
     ng-click = "actions.setToggled(teamMember)"
     ng-repeat = "teamMember in data.instanceGroups.teamMembers | orderBy:'username'"
   )

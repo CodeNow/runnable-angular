@@ -8,6 +8,7 @@ require('app')
 function instanceList(
   getInstanceClasses,
   getInstanceAltTitle,
+  getTeamMemberClasses,
   $state
 ) {
   return {
@@ -31,8 +32,8 @@ function instanceList(
       };
 
       $scope.getInstanceClasses = getInstanceClasses;
-
       $scope.getInstanceAltTitle = getInstanceAltTitle;
+      $scope.getTeamMemberClasses = getTeamMemberClasses;
 
       $scope.popoverInvite = {
         data: {
