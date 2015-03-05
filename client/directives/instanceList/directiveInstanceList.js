@@ -11,7 +11,8 @@ require('app')
 function instanceList(
   getInstanceClasses,
   getInstanceAltTitle,
-  $state
+  $state,
+  $stateParams
 ) {
   return {
     restrict: 'A',
@@ -24,7 +25,9 @@ function instanceList(
     link: function ($scope, elem, attrs) {
 
       $scope.stateToInstance = function (instance, $event) {
-        $event.preventDefault();
+        if ($event && $event.preventDefault) {
+          $event.preventDefault();
+        }
         $state.go('instance.instance', {
           instanceName: instance.attrs.name,
           userName: instance.attrs.owner.username
@@ -34,6 +37,14 @@ function instanceList(
       $scope.getInstanceClasses = getInstanceClasses;
 
       $scope.getInstanceAltTitle = getInstanceAltTitle;
+
+      $scope.popoverInvite = {
+        data: {
+          getTeamName: function () {
+            return $stateParams.userName;
+          }
+        }
+      };
     }
   };
 }
