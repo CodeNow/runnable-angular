@@ -34,12 +34,14 @@ function ControllerInstanceLayout(
   });
 
   keypather.set($scope, 'dataApp.actions.setToggled', function (teamMember) {
-    if (teamMember.toggled) {
+    if (teamMember.toggled && !teamMember.hasCurrentInstance) {
       teamMember.toggled = false;
       return;
     }
     $scope.dataApp.data.instanceGroups.teamMembers.forEach(function (tm) {
-      tm.toggled = false;
+      if (!tm.hasCurrentInstance) {
+        tm.toggled = false;
+      }
     });
     teamMember.toggled = true;
   });
@@ -61,6 +63,7 @@ function ControllerInstanceLayout(
       // Set teamMember/instance to active if it's the current one
       if (instance.attrs.name === $state.params.instanceName) {
         instanceMap[username].toggled = true;
+        instanceMap[username].hasCurrentInstance = true;
         instance.state = {
           toggled: true
         };
