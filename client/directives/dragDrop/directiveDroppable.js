@@ -27,7 +27,7 @@ function droppable(
       );
       el.addEventListener(
         'dragenter',
-        function(e) {
+        function (e) {
           this.classList.add('over');
           return false;
         },
@@ -35,7 +35,7 @@ function droppable(
       );
       el.addEventListener(
         'dragleave',
-        function(e) {
+        function (e) {
           this.classList.remove('over');
           return false;
         },
@@ -43,14 +43,13 @@ function droppable(
       );
       el.addEventListener(
         'drop',
-        function(e) {
+        function (e) {
           // Stops some browsers from redirecting.
           if (e.stopPropagation) { e.stopPropagation(); }
 
           this.classList.remove('over');
 
-          var item = document.getElementById(e.dataTransfer.getData('Text'));
-          this.appendChild(item);
+          $scope.actions.drop(e.dataTransfer, $scope.dir);
 
           return false;
         },

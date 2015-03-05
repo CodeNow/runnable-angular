@@ -1,7 +1,5 @@
 'use strict';
 
-require('jquery-ui');
-
 require('app')
   .directive('fileTreeDir', fileTreeDir);
 /**
@@ -11,21 +9,19 @@ require('app')
 function fileTreeDir(
   $templateCache,
   $compile,
-  $timeout,
   $rootScope,
   $state,
-  async,
   keypather,
   errs,
   $q,
-  jQuery,
-  promisify,
-  uploadFiles
+  promisify
 ) {
   return {
     restrict: 'E',
     scope: {
       dir: '=',
+      parentDir: '=',
+      fileModel: '=',
       openItems: '=',
       readOnly: '='
     },
@@ -37,40 +33,36 @@ function fileTreeDir(
       var data = $scope.data = {};
       $scope.state = $state;
 
-      actions.makeDroppable = function () {
-      //  if (!$template) { return; }
-      //
-      //  $template[0].addEventListener('drop', function (event) {
-      //    event.preventDefault();
-      //    event.stopPropagation();
-      //    var files = event.dataTransfer.files;
-      //
-      //    uploadFiles(files, $scope.dir.urlPath)
-      //    .then(function() {
-      //      actions.fetchDirFiles();
-      //    }).catch(errs.handler);
-      //  }, true);
-      //
-      //  $template[0].addEventListener('dragenter', function (event) {
-      //    event.preventDefault();
-      //    event.stopPropagation();
-      //  });
-      //
-      //  $template[0].addEventListener('dragover', function (event) {
-      //    event.preventDefault();
-      //    event.stopPropagation();
-      //  });
+      $scope.actions.drop = function (dataTransfer, toDir) {
+        var modelType = dataTransfer.getData('modelType');
+        var model = JSON.parse(dataTransfer.getData('model'));
+        var modelName = dataTransfer.getData('modelName');
+
+        var oldParentDirModel = JSON.parse(dataTransfer.getData('oldParentDir'));
+        var oldPath = dataTransfer.getData('oldPath');
+        var thisPath = toDir.id();
+        if (oldPath === thisPath || (modelType === 'Dir' &&
+            thisPath.indexOf(modelName + '/') >= 0)) {
+          return false;
+        }
+
+        var newModel = $scope.fileModel['new' + modelType](model, { warn: false });
+        var droppedFileOrigDir = $scope.fileModel.newDir(oldParentDirModel, { warn: false });
+
+        promisify(newModel, 'moveToDir')(toDir).then(function () {
+          return $q.all([
+            promisify(droppedFileOrigDir.contents, 'fetch')(),
+            promisify(toDir.contents, 'fetch')()
+          ]);
+        });
       };
+
 
       actions.closeOpenModals = function () {
         $rootScope.$broadcast('app-document-click');
       };
 
       actions.openFile = function (file) {
-        if (data.dragging) {
-          data.dragging = false;
-          return;
-        }
         $scope.openItems.add(file);
       };
 
@@ -104,93 +96,19 @@ function fileTreeDir(
       }
       actions.normalizeMixedDataValue = normalizeMixedDataValue;
 
-      actions.makeSortable = function () {
-        //var $t = jQuery(element);
-        //var file = $t.find('> ul > li.file');
-        //if (file && file.draggable) {
-        //  file.draggable({
-        //    revert: function (droppable) {
-        //      var droppableScope = angular.element(droppable).scope();
-        //      if (droppable && droppableScope && droppableScope.dir) {
-        //        var fileOrigDir = angular.element(jQuery(this).parents('li.folder')).scope().dir;
-        //        if (fileOrigDir === droppableScope.dir) {
-        //          // dropping in same dir, revert
-        //          return true;
-        //        } else {
-        //          // dropping in a new dir, OK
-        //          return false;
-        //        }
-        //      } else {
-        //        // dropping not in a directory
-        //        return true;
-        //      }
-        //    },
-        //    revertDuration: 100,
-        //    drag: function () {
-        //      data.dragging = true;
-        //    }
-        //  });
-        //}
-        //if ($t.droppable) {
-        //  $t.droppable({
-        //    greedy: true,
-        //    drop: function (event, item) {
-        //
-        //      var droppedFileDirScope = angular.element(item.draggable).scope(),
-        //        droppedFile = droppedFileDirScope.fs,
-        //        droppedFileOrigDirScope = angular.element(jQuery(item.draggable).parents('li.folder')).scope(),
-        //        droppedFileOrigDir = droppedFileOrigDirScope.dir;
-        //
-        //      if ($scope.dir === droppedFileOrigDir) {
-        //        return;
-        //      }
-        //      promisify(droppedFile, 'moveToDir')(
-        //        $scope.dir
-        //      ).then(function () {
-        //        return $q.all([
-        //          promisify(droppedFileOrigDir.contents, 'fetch')(),
-        //          promisify($scope.dir.contents, 'fetch')()
-        //        ]);
-        //      });
-        //      // TODO remove below after SAN-67 fix. Temp solution
-        //      var i = droppedFileOrigDir.contents.models.indexOf(droppedFile);
-        //      droppedFileOrigDir.contents.models.splice(i, 1);
-        //    }
-        //  });
-        //}
-      };
-
-
-      $scope.$watch('dir.state.open', function (newVal, oldval) {
-        if (newVal) {
-          fetchDirFiles();
-          $scope.actions.makeDroppable();
-        }
-      });
-
-      $scope.$watch('dir.contents.models.length', function () {
-        if ($scope.readOnly) {
-          return;
-        }
-        $timeout(function () {
-          // timeout necessary to ensure ng-repeat completes
-          // before trying to apply draggable to li's
-          $scope.actions.makeSortable();
-          //$scope.actions.makeDroppable();
-        }, 1);
-      });
-
-      actions.fetchDirFiles = fetchDirFiles;
       function fetchDirFiles(file) {
         promisify($scope.dir.contents, 'fetch')().then(function () {
           if (file) {
             keypather.set(file, 'state.renaming', true);
           }
-          if (!$scope.readOnly) {
-            actions.makeSortable();
-          }
         }).catch(errs.handler);
       }
+      actions.fetchDirFiles = fetchDirFiles;
+      $scope.$watch('dir.state.open', function (newVal, oldval) {
+        if (newVal) {
+          fetchDirFiles();
+        }
+      });
 
       //avoid infinite loop w/ nested directories
       var template = $templateCache.get('viewFileTreeDir');

@@ -19,8 +19,17 @@ function draggable(
       el.addEventListener(
         'dragstart',
         function (e) {
+          if (e.stopPropagation) { e.stopPropagation(); }
           e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('Text', this.id);
+          var model = ($scope.fs) ? $scope.fs : $scope.dir;
+          var modelType = ($scope.fs) ? 'File' : 'Dir';
+          // This will allow us to pass the model over the dataTransfer object to the drop cb
+          e.dataTransfer.setData('model', JSON.stringify(model));
+          e.dataTransfer.setData('modelName', model.attrs.name);
+          e.dataTransfer.setData('modelType', modelType);
+
+          e.dataTransfer.setData('oldPath', model.attrs.path);
+          e.dataTransfer.setData('oldParentDir', JSON.stringify($scope.parentDir));
           this.classList.add('drag');
           return false;
         },
@@ -35,29 +44,7 @@ function draggable(
         },
         false
       );
-      el.addEventListener(
-        'drop',
-        function (e) {
-          // Stops some browsers from redirecting.
-          if (e.stopPropagation) { e.stopPropagation(); }
 
-          this.classList.remove('over');
-
-          var binId = this.id;
-          var item = document.getElementById(e.dataTransfer.getData('Text'));
-          this.appendChild(item);
-// call the passed drop function
-          $scope.$apply(function(scope) {
-            var fn = scope.drop();
-            if ('undefined' !== typeof fn) {
-              fn(item.id, binId);
-            }
-          });
-
-          return false;
-        },
-        false
-      );
     }
   };
 }

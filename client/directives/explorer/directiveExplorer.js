@@ -14,6 +14,7 @@ function explorer(
     templateUrl: 'viewExplorer',
     scope: {
       openItems: '=',
+      fileModel: '=',
       rootDir: '=',
       title: '@',
       toggleTheme: '='

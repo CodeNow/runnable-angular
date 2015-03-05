@@ -1,5 +1,6 @@
 li.folder(
   droppable
+  draggable
   ng-class = "{ 'in': dir.state.open }"
 )
   a(
@@ -20,11 +21,12 @@ li.folder(
     ng-if = "dir.contents.models.length"
   )
     file-tree-dir(
-      droppable
       ng-repeat = "fs in dir.contents.models \
                    | isDir \
                    | orderBy:actions.normalizeMixedDataValue"
       dir = "fs"
+      parent-dir = "dir"
+      file-model = "fileModel"
       open = "fs.state.open"
       open-items = "openItems"
       read-only = "readOnly"
