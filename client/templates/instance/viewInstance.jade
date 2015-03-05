@@ -1,6 +1,6 @@
 //- show if server build is being swapped out
-  - orange when build has failed
-  - green if build is building or is successfully built
+  - orange when build is updating or has failed
+  - green if build is successfully built
 .alert.in(
   ng-class = "{\
     green: dataInstance.data.showUpdatedMessage,\
@@ -8,13 +8,27 @@
   }"
   ng-show = "dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage"
 )
-  //- if successful
-  .btn.btn-xxs.btn-icon.green.btn-success.no-touching(
+  //- if successful, .green; if fail, .orange
+  .btn.btn-xxs.btn-icon.btn-state.no-touching(
     ng-if = ""
+    ng-class = "{\
+      green: dataInstance.data.showUpdatedMessage,\
+      orange: dataInstance.data.showUpdatingMessage\
+    }"
   )
-    svg.iconnables.icons-fat-check
+    //- if successful
+    svg.iconnables.icons-fat-check(
+      ng-if = ""
+    )
       use(
         xlink:href = "#icons-fat-check"
+      )
+    //- if failed
+    svg.iconnables.icons-warning(
+      ng-if = ""
+    )
+      use(
+        xlink:href = "#icons-warning"
       )
   img.gravatar(
     height = "36"

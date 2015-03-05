@@ -51,14 +51,13 @@
     padding: 0;
     width: 24px;
 
-
     .icons-close {
       top: 0;
     }
   }
 
   // success animation
-  .btn-success {
+  .btn-state {
     background: $white;
     border: 0;
     border-radius: 50%;
@@ -66,10 +65,17 @@
     position: absolute;
     width: 18px;
 
-    .icons-fat-check {
+    &.green {
+      color: $green;
+    }
+
+    &.orange {
+      color: $red;
+    }
+
+    .iconnables {
       animation: scale-in-bounce .3s ease-in;
       border-radius: 50%;
-      color: $green;
       height: 100%;
       top: 0;
       width: 100%;
