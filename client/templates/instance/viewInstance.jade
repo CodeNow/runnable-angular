@@ -79,6 +79,9 @@ section.sidebar.server-sidebar.load(
 
   section.row.explorer(
     explorer
+    title = "File Explorer"
+    file-model = "dataInstance.data.instance.containers.models[0]"
+    root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
     ng-if = "dataInstance.data.instance.containers.models[0].running()"
     open-items = "dataInstance.data.openItems"
   )

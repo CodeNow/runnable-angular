@@ -31,6 +31,9 @@ section.sidebar.server-sidebar
   )
   section.row.explorer(
     explorer
+    title = "Build Files"
+    file-model = "dataInstanceEdit.data.build.contextVersions.models[0]"
+    root-dir = "dataInstanceEdit.data.build.contextVersions.models[0].rootDir"
     open-items = "dataInstanceEdit.data.openItems"
     toggle-theme = "dataInstanceEdit.data.toggleTheme"
   )
@@ -69,7 +72,6 @@ section.views.with-add-tab(
     ng-show = "item === dataInstanceEdit.data.openItems.activeHistory.last()"
     build = "dataInstanceEdit.data.build"
     instance = "dataInstanceEdit.data.instance"
-    state-model = "dataInstanceEdit.data.instance.state"
     open-items = "dataInstanceEdit.data.openItems"
     item = "item"
     toggle-theme = "dataInstanceEdit.data.toggleTheme"
