@@ -1,5 +1,5 @@
 a.server-item-cluster(
-  ng-click = "stateToInstance(depInstance)"
+  ng-click = "stateToInstance(depInstance, $event)"
   ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
   ng-show = "!!instanceDependencies"
   tooltip = "{{depInstance.attrs.createdBy.username}}"
