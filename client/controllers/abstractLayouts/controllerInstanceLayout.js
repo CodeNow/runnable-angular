@@ -67,7 +67,7 @@ function ControllerInstanceLayout(
       }
 
       // Set the "Owned by team member" icon under current user's deps
-      if (username === 'me') {
+      if (username === 'me' && $state.params.userName !== currentUser.oauthName()) {
         instance.dependencies.forEach(function(dep) {
           dep.state = {
             ownedByOther: dep.createdBy !== currentUser.oauthId()
