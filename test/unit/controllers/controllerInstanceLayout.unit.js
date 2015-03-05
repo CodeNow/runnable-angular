@@ -154,6 +154,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       teamMembers: [{
         github: 1616464,
         toggled: true,
+        hasCurrentInstance: true,
         instances: [
           parsedActiveInstance,
           runnable.newInstance(apiMocks.instances.stopped)
