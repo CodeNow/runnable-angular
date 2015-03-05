@@ -7,7 +7,7 @@ var InstancePage = require('./pages/InstancePage');
 
 describe('addRepo', users.doMultipleUsers(function (username) {
   it('adds a repo to an instance: ' + username, function() {
-    var instanceEdit = new InstanceEditPage('Test-0');
+    var instanceEdit = new InstanceEditPage('SPACESHIPS');
     instanceEdit.get();
 
     instanceEdit.repoList.openAddDropdown();
