@@ -21,7 +21,7 @@ function fileTreeDir(
     scope: {
       dir: '=',
       parentDir: '=',
-      fileModel: '=',
+      fileModel: '=', // This is either a contextVersion or a container
       openItems: '=',
       readOnly: '='
     },

@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('directiveExplorer'.bold.underline.blue, function () {
+describe('directiveExplorer'.bold.underline.blue, function () {
   var ctx;
 
   var $scope,
@@ -25,7 +25,11 @@ describe.only('directiveExplorer'.bold.underline.blue, function () {
 
       $scope.openItems = {};
       $scope.toggleTheme = true;
-      $scope.rootDir = {};
+      $scope.rootDir = {
+        contents: {
+          fetch: sinon.spy()
+        }
+      };
       $scope.title = 'Hello';
 
       ctx = {};
