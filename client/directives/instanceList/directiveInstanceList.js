@@ -3,16 +3,12 @@
 require('app')
   .directive('instanceList', instanceList);
 /**
- * This directive is in charge of fetching and displaying the instance list for the entire page.
- * The parent gives this the 'instances' pointer, which it populates whenever it see's a change of
- * the active account
  * @ngInject
  */
 function instanceList(
   getInstanceClasses,
   getInstanceAltTitle,
-  $state,
-  $stateParams
+  $state
 ) {
   return {
     restrict: 'A',
@@ -41,7 +37,7 @@ function instanceList(
       $scope.popoverInvite = {
         data: {
           getTeamName: function () {
-            return $stateParams.userName;
+            return $state.params.userName;
           }
         }
       };
