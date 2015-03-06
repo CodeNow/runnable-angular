@@ -86,6 +86,7 @@
   &.icons-server,
   &.icons-sidebar,
   &.icons-star,
+  &.icons-team,
   &.icons-terminal,
   &.icons-trash,
   &.icons-update,
@@ -103,28 +104,10 @@
   }
 }
 
-// circle-pass/fail
-.circle-pass,
-.circle-fail {
-  border: 1px solid $green;
-  border-radius: 50%;
-  display: inline-block;
-  height: 16px;
-  width: 16px;
-}
-
-.circle-pass {
-  border-color: $green;
-}
-
-.circle-fail {
-  border-color: $orange;
-}
-
 // status
 .icons-status {
   background: $gray-lightest;
-  border: 1px solid $gray-lighter;
+  border: 1px solid $gray-light;
   border-radius: 50%;
   display: inline-block;
   height: 9px;
@@ -132,23 +115,15 @@
   width: 9px;
 
   &.running,
-  .running & {
+  .running > & {
     background: $green;
-    border: 0;
-
-    &.in-progress::before {
-      border-color: $green;
-    }
+    border-color: $green-dark;
   }
 
   &.building,
-  .building & {
+  .building > & {
     background: $orange;
-    border: 0;
-
-    &.in-progress::before {
-      border-color: $orange;
-    }
+    border-color: $orange-darker;
   }
 
   &.in-progress::before {

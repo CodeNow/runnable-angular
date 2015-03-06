@@ -115,7 +115,9 @@ describe('controllerInstance'.bold.underline.blue, function () {
   it('basic', function () {
 
     var $scope = $rootScope.$new();
+    keypather.set($scope, 'dataApp.actions.setToggled', sinon.spy());
 
+    $scope.user
     var ci = $controller('ControllerInstance', {
       '$scope': $scope
     });

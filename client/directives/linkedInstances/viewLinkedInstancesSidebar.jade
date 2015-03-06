@@ -1,10 +1,18 @@
 a.server-item-cluster(
-    ng-show = "!!instanceDependencies"
-    ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
-    ng-click = "stateToInstance(depInstance)"
+  ng-click = "stateToInstance(depInstance, $event)"
+  ng-repeat = "depInstance in instanceDependencies.models | orderBy:'attrs.name'"
+  ng-show = "!!instanceDependencies"
 ) {{ depInstance.attrs.name }}
-    span.icons-status(
-        ng-class = "getInstanceClasses(depInstance)"
-        ng-click = "$event.stopPropagation()"
-        title = "{{ getInstanceAltTitle(depInstance) }}"
+  svg.iconnables.icons-team(
+    ng-if = "depInstance.ownedByOther && showTeamIcon"
+    tooltip = "{{depInstance.attrs.createdBy.username}}"
+    tooltip-options = "{\"class\":\"bottom\",\"left\":-2,\"top\":24}"
+  )
+    use(
+      xlink:href = "#icons-team"
     )
+  span.icons-status(
+    ng-class = "getInstanceClasses(depInstance)"
+    ng-click = "$event.stopPropagation()"
+    title = "{{ getInstanceAltTitle(depInstance) }}"
+  )

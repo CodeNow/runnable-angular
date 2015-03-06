@@ -4,7 +4,7 @@ var util = require('../helpers/util');
 
 function AccountsSelect(parentElement) {
 
-  this.button = util.createGetter(by.className('account-header'), parentElement);
+  this.button = util.createGetter(by.className('btn-account'), parentElement);
   this.menu = util.createGetter(by.className('popover-account-menu'));
 
   this.isOpen = function () {

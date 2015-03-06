@@ -63,6 +63,10 @@ function ControllerInstance(
     data.instance = instance;
     pageName.setTitle(instance.attrs.name);
     data.instance.state = {};
+    // This is to untoggle all of the other team members trays
+    if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
+      $scope.dataApp.actions.setToggled();
+    }
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,

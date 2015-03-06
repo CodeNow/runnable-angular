@@ -40,18 +40,19 @@ ul.row.clearfix.list.workflow-toggle
       value = "runnable.io/your_org/web-staging"
     )
   .ui-wrapper
-    .sidebar.global-sidebar
+    .sidebar.nav-servers
       h2.sub-header Your Servers
-      ul.server-group.no-touching
-        li.server-group-item.btn.white.running.expanded.active
-          a.server-item-name Web-Staging
+      ul.list.no-touching
+        li.list-item.btn.btn-sm.white.running.expanded.active
+          a.list-item-name Web-Staging
           span.icons-status
-          a.server-item-cluster API-Staging
-            span.icons-status.running
-          a.server-item-cluster Mongo-Staging
-            span.icons-status.running
-          a.server-item-cluster Redis-Staging
-            span.icons-status.running
+          div
+            a.server-item-cluster API-Staging
+              span.icons-status.running
+            a.server-item-cluster Mongo-Staging
+              span.icons-status.running
+            a.server-item-cluster Redis-Staging
+              span.icons-status.running
     .content
       .server-header
         h1.server-info
@@ -72,7 +73,7 @@ ul.row.clearfix.list.workflow-toggle
                 xlink:href = "#icons-fork"
               )
             | Fork
-          .btn.white.btn-icon.btn-actions.no-touching
+          .btn.white.btn-icon.btn-action.no-touching
             svg.iconnables.icons-gear
               use(
                 xlink:href = "#icons-gear"

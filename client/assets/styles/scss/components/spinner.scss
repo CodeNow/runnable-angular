@@ -29,6 +29,7 @@
 
   &.spinner-backdrop {
     background: rgba($white,.75);
+    position: fixed;
   }
 
   &.spinner-lg .lg {
