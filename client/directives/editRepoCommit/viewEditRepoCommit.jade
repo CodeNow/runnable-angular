@@ -25,8 +25,8 @@
         xlink:href = "#icons-commit"
       )
     | {{ activeCommit.attrs.commit.message | limitTo:30 }}
-    small.small.repository-detail username—{{ activeCommit.attrs.commit.author.date | timeFrom }}
-      a.link.link-text(
+    small.small.repository-detail {{ activeCommit.attrs.commit.author.date | timeFrom }}
+      a.link.link-text.monospace(
         href = "#"
         target = "_blank"
       ) fb38342
