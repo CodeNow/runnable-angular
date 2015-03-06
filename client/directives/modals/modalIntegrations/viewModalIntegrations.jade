@@ -1,609 +1,111 @@
-form.modal-dialog.modal-integrations(
-  name = " slackForm"
-  ng-class = "{\
-    'no-data': !data.showHipchat && !data.showSlack,\
-    'no-verify': !data.verified\
-  }"
-)
-  .modal-header
-    //- do not show if integration is initiated
-    h1.modal-heading(
-      ng-if = "!data.showHipchat && !data.showSlack"
-    ) Choose Integration
-    .modal-header-actions
-      button.btn-radio(
-        ng-class = "{active: data.showHipchat}"
-        ng-click = "\
-          data.showHipchat = true;\
-          data.showSlack = false;\
-        "
-        type = "button"
+.modal-dialog.modal-sidebar.modal-integrations
+  nav.modal-navbar
+    ul.list
+      li.list-item.small Organizations
+      //- .active on current org
+      li.list-item.btn.white.text-overflow(
+        ng-class = "{active: data.user === data.modalActiveAccount }"
+        ng-click = "actions.setActive(data.user)"
       )
-        img.img(
-          height = "36"
-          src = "/build/images/logos/logo-icon-hipchat.svg"
-          width = "36"
+        img.gravatar(
+          height = "18"
+          ng-src = "{{ data.user.gravitar() }}"
+          width = "18"
         )
-        | Hipchat
-      button.btn-radio(
-        ng-class = "{active: data.showSlack}"
-        ng-click = "\
-          data.showSlack = true;\
-          data.showHipchat = false;\
-        "
-        type = "button"
+        | {{ data.user.oauthName() }}
+      li.list-item.btn.white.text-overflow(
+        ng-class = "{active: org === data.modalActiveAccount}"
+        ng-click = "actions.setActive(org)"
+        ng-repeat = "org in data.orgs.models"
       )
-        img.img(
-          height = "36"
-          src = "/build/images/logos/logo-icon-slack.svg"
-          width = "36"
+        img.gravatar(
+          height = "18"
+          ng-src = "{{ org.gravitar() }}"
+          width = "18"
         )
-        | Slack
-  //- do not show if integration is initiated
-  a.small.link.footer-link(
-    ng-if = "!data.showHipchat && !data.showSlack"
-    ng-click = "defaultActions.cancel()"
-  ) Cancel
-
-  //- show if integration is initiated
-  .modal-body(
-    ng-if = "!data.showHipchat && data.showSlack"
-  )
-    label.label.clearfix
-      .label-col.label-details API Token
-        a.small.link(
-          href = "//www2.warnerbros.com/spacejam/movie/jam.htm"
+        | {{ org.oauthName() }}
+  main.modal-body
+    form.form.clearfix(
+      name = "slackForm"
+    )
+      .col
+        img(
+          src = "/build/images/logos/logo-slack.svg"
+        )
+      .col
+        label.input-group.input-validate(
+          ng-class = "{\
+            focus: slackForm.slackWebHook.showFocus,\
+            'ng-invalid': slackForm.slackWebHook.$invalid && !slackForm.slackWebHook.$pristine,\
+            'ng-valid': slackForm.slackWebHook.$valid\
+          }"
+        )
+          span.input-label WebHook URL
+          input.input(
+            autocomplete = "off"
+            name = "slackWebHook"
+            ng-blur = "slackForm.slackWebHook.showFocus = false"
+            ng-focus = "slackForm.slackWebHook.showFocus = true"
+            ng-model = "data.settings.notifications.slack.webhookUrl"
+            type = "url"
+          )
+        a.link-gray.link-reference(
+          href = "//slack.com/services/new/incoming-webhook"
           target = "_blank"
-        ) Get your API Token from Slack
-      input.input.input-sm.input-validate.input-col(
-        ng-if = "!data.verified"
-        required
-      )
-      input.input.input-sm.input-validate.input-col(
-        ng-if = "data.verified"
-        required
-        value = "xoxb-3877126352-qrO7smdwNmUVJTvaYuaQKCIe"
-      )
-      button.btn.btn-sm.green(
-        ng-click = "data.verified = true"
-        ng-if = "!data.verified"
-      ) Verify
-      //- validation for special cahrs
-    .label.clearfix(
-      ng-if = "data.verified"
+        ) Get WebHook URL on Slack
+        button.btn.green(
+          type = "button"
+          ng-click = "actions.saveSlack()"
+        ) Save
+    hr.hr
+    form.form.clearfix(
+      name = "hipchatForm"
     )
-      .label-col.label-details Messaging
-        .small Members will receive notifications from Runnabot when their servers are updated
-      .input-col
-        .list.list-bordered
-          //-
-            - auto detect users with a matching name on github AND slack
-            - if no match, show select with options for unmathed github usernames
-            - if an unmatched github username is selected, remove username from the list of available usernames
-            - add .active to label if messaging is active for that user
-          label.list-item.label-checkbox.text-overflow.active(
-            ng-class = "{disabled: !data.slackOn}"
+      .col
+        img(
+          src = "/build/images/logos/logo-hipchat.svg"
+        )
+      .col
+        label.input-group.input-validate(
+        ng-class = "{\
+            focus: hipchatForm.roomInput.showFocus,\
+            'ng-invalid': hipchatForm.roomInput.$invalid && !hipchatForm.roomInput.$pristine,\
+            'ng-valid': hipchatForm.roomInput.$valid\
+          }"
+        )
+          span.input-label Room
+          input.input(
+            autocomplete = "off"
+            ng-blur = "hipchatForm.roomInput.showFocus = false"
+            ng-focus = "hipchatForm.roomInput.showFocus = true"
+            name = "roomInput"
+            ng-model = "data.settings.notifications.hipchat.roomId"
           )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
-              width = "21"
-            )
-            | @anand
-            select.select(
-              ng-disabled = "!data.slackOn"
-            )
-              option Disabled
-              optgroup(
-                label = "Choose @anand's Github username to enable messaging"
-              )
-                option(
-                  selected
-                ) anandkumarpatel
-                option forrestj
-                option Runnabro
-                option sundippatel
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
+        label.input-group.input-validate(
+          ng-class = "{\
+              focus: hipchatForm.tokenInput.showFocus,\
+              'ng-invalid': hipchatForm.tokenInput.$invalid && !hipchatForm.tokenInput.$pristine,\
+              'ng-valid': hipchatForm.tokenInput.$valid\
+            }"
+        )
+          span.input-label Token
+          input.input(
+            autocomplete = "off"
+            ng-blur = "hipchatForm.tokenInput.showFocus = false"
+            ng-focus = "hipchatForm.tokenInput.showFocus = true"
+            name = "tokenInput"
+            ng-model = "data.settings.notifications.hipchat.authToken"
           )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/429706?v=3&s=96"
-              width = "21"
-            )
-            | @anton
-            input.input-checkbox(
-              ng-disabled = "!data.slackOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow.active(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars3.githubusercontent.com/u/160236?v=3&s=96"
-              width = "21"
-            )
-            | @bryan
-            input.input-checkbox(
-              checked
-              ng-disabled = "!data.slackOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow.active(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/467885?v=3&s=96"
-              width = "21"
-            )
-            | @casey
-            input.input-checkbox(
-              checked
-              ng-disabled = "!data.slackOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars3.githubusercontent.com/u/4451216?v=3&s=96"
-              width = "21"
-            )
-            | @forrest
-            select.select(
-              ng-disabled = "!data.slackOn"
-            )
-              option Disabled
-              optgroup(
-                label = "Choose @forrest's Github username to enable messaging"
-              )
-                option anandkumarpatel
-                option forrestj
-                option Runnabro
-                option sundippatel
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/6379413?v=3&s=96"
-              width = "21"
-            )
-            | @nathan
-            input.input-checkbox(
-              ng-disabled = "!data.slackOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars1.githubusercontent.com/u/718305?v=3&s=96"
-              width = "21"
-            )
-            | @praful
-            input.input-checkbox(
-              ng-disabled = "!data.slackOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/5341618?v=3&s=96"
-              width = "21"
-            )
-            | @tony
-            select.select(
-              ng-disabled = "!data.slackOn"
-            )
-              option Disabled
-              optgroup(
-                label = "Choose @tony's Github username to enable messaging"
-              )
-                option anandkumarpatel
-                option forrestj
-                option Runnabro
-                option sundippatel
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars1.githubusercontent.com/u/1616464?v=3&s=96"
-              width = "21"
-            )
-            | @randall
-            input.input-checkbox(
-              ng-disabled = "!data.slackOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars0.githubusercontent.com/u/2469588?v=3&s=96"
-              width = "21"
-            )
-            | @sundip
-            select.select(
-              ng-disabled = "!data.slackOn"
-            )
-              option Disabled
-              optgroup(
-                label = "Choose @sundip's Github username to enable messaging"
-              )
-                option anandkumarpatel
-                option forrestj
-                option Runnabro
-                option sundippatel
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars3.githubusercontent.com/u/640279?v=3&s=96"
-              width = "21"
-            )
-            | @tj
-            input.input-checkbox(
-              ng-disabled = "!data.slackOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars0.githubusercontent.com/u/1085792?v=3&s=96"
-              width = "21"
-            )
-            | @yash
-            input.input-checkbox(
-              ng-disabled = "!data.slackOn"
-              type = "checkbox"
-            )
-    //- disabling integration:
-      - removes all .active class on labels
-      - disables all inputs, but preserves their states
-    .label.label-footer(
-      ng-if = "data.verified"
-      ng-init = "data.slackOn = true"
-    )
-      button.btn.btn-sm.orange(
-        ng-click = "data.slackOn = false"
-        ng-if = "data.slackOn"
-      ) Disable Slack Integration
-      button.btn.btn-sm.green(
-        ng-click = "data.slackOn = true"
-        ng-if = "!data.slackOn"
-      ) Enable Slack Integration
-      small.small No messages will be sent while disabled
-
-  //- hipchat
-  .modal-body(
-    ng-if = "data.showHipchat && !data.showSlack"
-  )
-    label.label.clearfix
-      .label-col.label-details API Token
-        a.small.link(
-          href = "//www2.warnerbros.com/spacejam/movie/jam.htm"
+        a.link-gray.link-reference(
+          href = "//hipchat.com/admin/api"
           target = "_blank"
-        ) Get your API Token from Hipchat
-      input.input.input-sm.input-validate.input-col(
-        required
-      )
-      button.btn.btn-sm.green(
-        ng-click = "data.verified = true"
-        ng-if = "!data.verified"
-      ) Verify
-      //- validation for special cahrs
-    .label.clearfix(
-      ng-if = "data.verified"
-    )
-      .label-col.label-details Messaging
-        .small Members will receive notifications from Runnabot when their servers are updated
-      .input-col
-        .list.list-bordered
-          //-
-            - auto detect users with a matching name on github AND slack
-            - if no match, show select with options for unmathed github usernames
-            - if an unmatched github username is selected, remove username from the list of available usernames
-            - add .active to label if messaging is active for that user
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/2194285?v=3&s=60"
-              width = "21"
-            )
-            | @anand
-            select.select(
-              ng-disabled = "!data.hipChatOn"
-            )
-              option Disabled
-              optgroup(
-                label = "Choose @sundip's Github username to enable messaging"
-              )
-                option anandkumarpatel
-                option forrestj
-                option Runnabro
-                option sundippatel
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/429706?v=3&s=96"
-              width = "21"
-            )
-            | @anton
-            input.input-checkbox(
-              ng-disabled = "!data.hipChatOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars3.githubusercontent.com/u/160236?v=3&s=96"
-              width = "21"
-            )
-            | @bryan
-            input.input-checkbox(
-              ng-disabled = "!data.hipChatOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/467885?v=3&s=96"
-              width = "21"
-            )
-            | @casey
-            input.input-checkbox(
-              ng-disabled = "!data.hipChatOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars3.githubusercontent.com/u/4451216?v=3&s=96"
-              width = "21"
-            )
-            | @forrest
-            select.select(
-              ng-disabled = "!data.hipChatOn"
-            )
-              option Disabled
-              optgroup(
-                label = "Choose @sundip's Github username to enable messaging"
-              )
-                option anandkumarpatel
-                option forrestj
-                option Runnabro
-                option sundippatel
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/6379413?v=3&s=96"
-              width = "21"
-            )
-            | @nathan
-            input.input-checkbox(
-              ng-disabled = "!data.hipChatOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars1.githubusercontent.com/u/718305?v=3&s=96"
-              width = "21"
-            )
-            | @praful
-            input.input-checkbox(
-              ng-disabled = "!data.hipChatOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars2.githubusercontent.com/u/5341618?v=3&s=96"
-              width = "21"
-            )
-            | @tony
-            select.select(
-              ng-disabled = "!data.hipChatOn"
-            )
-              option Disabled
-              optgroup(
-                label = "Choose @sundip's Github username to enable messaging"
-              )
-                option anandkumarpatel
-                option forrestj
-                option Runnabro
-                option sundippatel
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars1.githubusercontent.com/u/1616464?v=3&s=96"
-              width = "21"
-            )
-            | @randall
-            input.input-checkbox(
-              ng-disabled = "!data.hipChatOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars0.githubusercontent.com/u/2469588?v=3&s=96"
-              width = "21"
-            )
-            | @sundip
-            select.select(
-              ng-disabled = "!data.hipChatOn"
-            )
-              option Disabled
-              optgroup(
-                label = "Choose @sundip's Github username to enable messaging"
-              )
-                option anandkumarpatel
-                option forrestj
-                option Runnabro
-                option sundippatel
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars3.githubusercontent.com/u/640279?v=3&s=96"
-              width = "21"
-            )
-            | @tj
-            input.input-checkbox(
-              ng-disabled = "!data.hipChatOn"
-              type = "checkbox"
-            )
-          label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.hipChatOn}"
-          )
-            img.gravatar(
-              height = "21"
-              src = "//avatars0.githubusercontent.com/u/1085792?v=3&s=96"
-              width = "21"
-            )
-            | @yash
-            input.input-checkbox(
-              ng-disabled = "!data.hipChatOn"
-              type = "checkbox"
-            )
-    //- disabling integration:
-      - removes all .active class on labels
-      - disables all inputs, but preserves their states
-    .label.label-footer(
-      ng-if = "data.verified"
-      ng-init = "data.hipChatOn = true"
-    )
-      button.btn.btn-sm.orange(
-        ng-click = "data.hipChatOn = false"
-        ng-if = "data.hipChatOn"
-      ) Disable Hipchat Integration
-      button.btn.btn-sm.green(
-        ng-click = "data.hipChatOn = true"
-        ng-if = "!data.hipChatOn"
-      ) Enable Hipchat Integration
-      small.small No messages will be sent while disabled
-
-
-  footer.modal-footer(
-    ng-if = "(data.showHipchat || data.showSlack) && data.verified"
-  )
-    button.btn.green Done
-
-    //- form.form.clearfix(
-    //-   name = "slackForm"
-    //- )
-    //-   .col
-    //-     img(
-    //-       src = "/build/images/logos/logo-slack.svg"
-    //-     )
-    //-   .col
-    //-     label.input-group.input-validate(
-    //-       ng-class = "{\
-    //-         focus: slackForm.slackWebHook.showFocus,\
-    //-         'ng-invalid': slackForm.slackWebHook.$invalid && !slackForm.slackWebHook.$pristine,\
-    //-         'ng-valid': slackForm.slackWebHook.$valid\
-    //-       }"
-    //-     )
-    //-       span.input-label WebHook URL
-    //-       input.input(
-    //-         autocomplete = "off"
-    //-         name = "slackWebHook"
-    //-         ng-blur = "slackForm.slackWebHook.showFocus = false"
-    //-         ng-focus = "slackForm.slackWebHook.showFocus = true"
-    //-         ng-model = "data.settings.notifications.slack.webhookUrl"
-    //-         type = "url"
-    //-       )
-    //-     a.link-gray.link-reference(
-    //-       href = "//slack.com/services/new/incoming-webhook"
-    //-       target = "_blank"
-    //-     ) Get WebHook URL on Slack
-    //-     button.btn.green(
-    //-       type = "button"
-    //-       ng-click = "actions.saveSlack()"
-    //-     ) Save
-    //- hr.hr
-    //- form.form.clearfix(
-    //-   name = "hipchatForm"
-    //- )
-    //-   .col
-    //-     img(
-    //-       src = "/build/images/logos/logo-hipchat.svg"
-    //-     )
-    //-   .col
-    //-     label.input-group.input-validate(
-    //-     ng-class = "{\
-    //-         focus: hipchatForm.roomInput.showFocus,\
-    //-         'ng-invalid': hipchatForm.roomInput.$invalid && !hipchatForm.roomInput.$pristine,\
-    //-         'ng-valid': hipchatForm.roomInput.$valid\
-    //-       }"
-    //-     )
-    //-       span.input-label Room
-    //-       input.input(
-    //-         autocomplete = "off"
-    //-         ng-blur = "hipchatForm.roomInput.showFocus = false"
-    //-         ng-focus = "hipchatForm.roomInput.showFocus = true"
-    //-         name = "roomInput"
-    //-         ng-model = "data.settings.notifications.hipchat.roomId"
-    //-       )
-    //-     label.input-group.input-validate(
-    //-       ng-class = "{\
-    //-           focus: hipchatForm.tokenInput.showFocus,\
-    //-           'ng-invalid': hipchatForm.tokenInput.$invalid && !hipchatForm.tokenInput.$pristine,\
-    //-           'ng-valid': hipchatForm.tokenInput.$valid\
-    //-         }"
-    //-     )
-    //-       span.input-label Token
-    //-       input.input(
-    //-         autocomplete = "off"
-    //-         ng-blur = "hipchatForm.tokenInput.showFocus = false"
-    //-         ng-focus = "hipchatForm.tokenInput.showFocus = true"
-    //-         name = "tokenInput"
-    //-         ng-model = "data.settings.notifications.hipchat.authToken"
-    //-       )
-    //-     a.link-gray.link-reference(
-    //-       href = "//hipchat.com/admin/api"
-    //-       target = "_blank"
-    //-     ) Create a token on Hipchat
-    //-     button.btn.green(
-    //-       type = "button"
-    //-       ng-click = "actions.saveHipChat()"
-    //-     ) Save
-    //- footer.modal-footer
-    //-   button.btn.white(
-    //-     ng-click = "defaultActions.cancel()"
-    //-     type = "button"
-    //-   ) Done
+        ) Create a token on Hipchat
+        button.btn.green(
+          type = "button"
+          ng-click = "actions.saveHipChat()"
+        ) Save
+    footer.modal-footer
+      button.btn.white(
+        ng-click = "defaultActions.cancel()"
+        type = "button"
+      ) Done

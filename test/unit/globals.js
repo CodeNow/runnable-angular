@@ -9,8 +9,6 @@ require('angular-mocks');  // Mocks stuff!
 require('main');  // Requires our app
 
 // Must use window here due to Browserify's encapsulation
-// jQuery is deliberately not here - we shouldn't need it to test things.
-// Go learn the DOM API if you're so desperate.
 window.host = require('../../client/config/json/api.json').host.toLowerCase();
 window.userContentDomain = require('../../client/config/json/api.json').userContentDomain.toLowerCase();
 window.expect = require('chai').expect;

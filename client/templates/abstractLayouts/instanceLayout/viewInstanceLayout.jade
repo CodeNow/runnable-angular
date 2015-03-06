@@ -9,23 +9,26 @@ nav.sidebar.nav-sidebar
     data = "dataApp.data"
     instance-list
     state = "dataApp.state"
+    actions = "dataApp.actions"
   )
   footer.row.nav-footer
     a.link.link-gray.small(
       href = "//support.runnable.io"
       target = "_blank"
-    ) Documentation
-    button.btn.btn-sm.btn-icon.white.btn-minimize(
-      ng-class = "{active: dataApp.data.minimizeNav}"
-      ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
-      title = "Toggle Navigation"
     )
-      svg.iconnables.icons-minimize
-        use(
-          xlink:href = "#icons-minimize"
+      .btn.btn-xs.btn-help ?
+      | Documentation
+    //- button.btn.btn-sm.btn-icon.white.btn-minimize(
+    //-   ng-class = "{active: dataApp.data.minimizeNav}"
+    //-   ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
+    //-   title = "Toggle Navigation"
+    //- )
+    //-   svg.iconnables.icons-minimize
+    //-     use(
+    //-       xlink:href = "#icons-minimize"
         )
 
-//- 2nd level views (boxInstnce, boxInstanceEdit...)
+//- 2nd level views (viewInstance, viewInstanceEdit...)
 main.content(
   ui-view
 )

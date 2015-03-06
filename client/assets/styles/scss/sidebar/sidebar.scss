@@ -1,6 +1,6 @@
 // sidebar
 .sidebar {
-  @extend .webkit-flicker;
+  @extend %webkit-flicker;
   background: $white;
   border-right: 1px solid rgba($black,.1);
   display: flex;
@@ -17,15 +17,6 @@
     background: $gray-lightest;
   }
 
-  .row {
-    border-bottom: 1px solid rgba($black,.1);
-
-    &:last-child,
-    &.nav-servers {
-      border-bottom: 0;
-    }
-  }
-
   .guide {
     margin: 0 6px 9px;
   }
@@ -40,19 +31,26 @@
 
 // h2.sub-header
 .sub-header {
-  color: $gray-dark;
-  font-size: 14px;
-  font-weight: 300;
+  color: $gray;
+  font-size: 13px;
+  font-weight: 400;
   height: 45px;
   line-height: 33px;
   padding: 6px 6px 6px 15px;
   position: relative;
 
+  // all action buttons
   .btn {
     float: right;
     margin: 0;
+  }
 
-    &.white {
+  // add and update buttons
+  .btn-sm,
+  .btn-xs {
+
+    &.white,
+    &.gray {
       height: 33px;
       padding: 0;
       width: 33px;
@@ -64,19 +62,6 @@
       top: 6px;
     }
 
-    &.btn-group {
-      margin-top: 12px;
-    }
-
-    &.btn-xxs {
-      margin-top: 7px;
-      padding: 3px 6px;
-    }
-
-    .iconnables {
-      margin-top: 6px;
-    }
-
     .icons-update {
       float: left;
       height: 14px;
@@ -84,10 +69,22 @@
       width: 14px;
     }
   }
+
+  // invite
+  .btn-xxs {
+    top: 7px;
+  }
+
+  // team icon
+  .icons-team {
+    color: $gray-light;
+    height: 100%;
+    margin-left: 6px;
+    width: 21px;
+  }
 }
 
 // span.sub-header-text
 .sub-header-text {
-  position: absolute;
-  transition: opacity .2s ease-in;
+  float: left;
 }

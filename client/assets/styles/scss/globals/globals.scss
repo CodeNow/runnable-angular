@@ -12,7 +12,6 @@ body {
   font-size: 16px;
   font-weight: 400;
   height: 100%;
-  letter-spacing: .2px;
   line-height: 1.4;
   min-width: 1150px;
   overflow-x: auto;
@@ -59,6 +58,5 @@ body {
 // if .disabled communicates to the user that an element is not available to them,
 // .no-touching 'disables' an element and DOES NOT communicate
 .no-touching {
-  cursor: default !important;
   pointer-events: none !important;
 }

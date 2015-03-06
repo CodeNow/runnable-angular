@@ -12,7 +12,7 @@ ul.list.list-divided
       ng-class = "{in: loading}"
       ng-include = "'spinner'"
     )
-  li.list-item(
+  li.list-item.btn.white(
     ng-class = "{active: state.selectedRepo === repo}"
     ng-click = "selectRepo(repo); "
     ng-repeat = "repo in githubRepos.models| \
@@ -20,7 +20,7 @@ ul.list.list-divided
       orderBy: '-attrs.updated_at' "
   )
     span.list-item-title.text-overflow {{ repo.attrs.full_name }}
-    small.small {{ repo.attrs.updated_at | timeAgo }}
+    small.small {{ repo.attrs.updated_at | timeFrom }}
     .spinner-wrapper.spinner-sm.spinner-purple.in(
       ng-if = "repo.spin"
       ng-include = "'spinner'"

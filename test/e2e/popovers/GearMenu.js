@@ -3,7 +3,7 @@
 var util = require('../helpers/util');
 
 function GearMenu() {
-  this.gear = util.createGetter(by.css('header > div > a'));
+  this.gear = util.createGetter(by.css('.btn-icon.btn-action'));
   this.menu = util.createGetter(by.css('.popover-actions'));
 
   this.stopRunning = util.createGetter(by.cssContainingText('ul > li', 'Stop Running'), this.menu);

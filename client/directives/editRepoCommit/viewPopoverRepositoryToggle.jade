@@ -54,8 +54,8 @@
       )
         .toggle-group-title {{ ::commit.attrs.commit.message | limitToEllipsis:72 }}
         .toggle-group-detail.clearfix
-          small.small {{ ::commit.attrs.author.login }}—{{ ::commit.attrs.commit.author.date | timeAgo }}
-          a.small.link.monospace(
+          small.small {{ ::commit.attrs.author.login }}—{{ commit.attrs.commit.author.date | timeFrom }}
+          a.small.monospace(
             ng-href = "{{ commit.attrs.html_url }}"
             ng-click = "$event.stopPropagation()"
             target = "_blank"

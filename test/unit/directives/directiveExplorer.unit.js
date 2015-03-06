@@ -1,62 +1,93 @@
-var mockFetch = require('../fixtures/mockFetch');
+'use strict';
 
-describe.skip('directiveExplorer'.bold.underline.blue, function () {
+describe('directiveExplorer'.bold.underline.blue, function () {
   var ctx;
-  var stateParams = {};
 
   var $scope,
-      $elScope;
+      $elScope,
+      createFsMock,
+      errs;
+
 
   beforeEach(function() {
+    createFsMock = sinon.spy();
+    errs = {
+      handler: sinon.spy()
+    };
     angular.mock.module('app');
     angular.mock.module(function($provide) {
-      $provide.value('$stateParams', stateParams);
-      $provide.value('fetch', mockFetch.fetch);
-    });
-    angular.mock.module(function($compileProvider) {
-      $compileProvider.directive('fileTree', function() {
-        return {
-          priority: 9999,
-          terminal: true,
-          restrict: 'E',
-          template: '<div></div>'
-        };
-      });
+      $provide.value('helperCreateFS', createFsMock);
+      $provide.value('errs', errs);
     });
 
-    angular.mock.inject(function($compile, $rootScope, $q) {
+    angular.mock.inject(function($compile, $rootScope) {
       $scope = $rootScope.$new();
-      mockFetch.init($q);
-
-      stateParams.buildId = null;
 
       $scope.openItems = {};
-      $scope.toggleTheme = false;
+      $scope.toggleTheme = true;
+      $scope.rootDir = {
+        contents: {
+          fetch: sinon.spy()
+        }
+      };
+      $scope.title = 'Hello';
 
       ctx = {};
-      ctx.template = directiveTemplate('explorer', {
+      ctx.template = directiveTemplate.attribute('explorer', {
         'open-items': 'openItems',
+        'root-dir': 'rootDir',
+        'title': 'title',
         'toggle-theme': 'toggleTheme'
       });
       ctx.element = $compile(ctx.template)($scope);
     });
   });
 
-  it('sets the scope build', function() {
-    mockFetch.expectFetch('build', 42, {a: 'b'});
-    stateParams.buildId = 42;
+  it('Check the scope', function() {
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
 
-    expect($elScope.build).to.deep.equal({a: 'b'});
-  });
+    expect($elScope.openItems).to.be.ok;
+    expect($elScope.toggleTheme).to.be.ok;
+    expect($elScope.rootDir).to.be.ok;
+    expect($elScope.title).to.be.ok;
 
-  it('sets the scope instance', function() {
-    mockFetch.expectFetch('instance', 42, {build: 'b'});
+
+    expect($elScope.filePopover).to.be.ok;
+    expect($elScope.filePopover.actions).to.be.ok;
+    expect($elScope.filePopover.data).to.be.ok;
+    expect($elScope.filePopover.actions.createFile).to.be.ok;
+    expect($elScope.filePopover.actions.createFolder).to.be.ok;
+    expect($elScope.filePopover.data.show).to.be.false;
     $scope.$digest();
-    $elScope = ctx.element.isolateScope();
 
-    expect($elScope.instance).to.deep.equal({build: 'b'});
-    expect($elScope.build).to.equal('b');
+    expect($elScope.rootDir.state.open).to.be.true;
+
   });
+
+  describe('actions', function () {
+
+    it('creates a folder', function() {
+      $scope.$digest();
+      $elScope = ctx.element.isolateScope();
+
+      $elScope.filePopover.actions.createFolder();
+
+      sinon.assert.calledWith(createFsMock, $scope.rootDir, {
+        isDir: true
+      }, errs.handler);
+
+    });
+    it('creates a folder', function() {
+      $scope.$digest();
+      $elScope = ctx.element.isolateScope();
+
+      $elScope.filePopover.actions.createFile();
+
+      sinon.assert.calledWith(createFsMock, $scope.rootDir, {
+        isDir: false
+      }, errs.handler);
+
+    });
+  })
 });

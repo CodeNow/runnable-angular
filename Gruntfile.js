@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     githooks: {
       all: {
-        'pre-commit':    'jshint:prod'
+        // 'pre-commit':    'jshint:prod'
         // 'pre-push':      'bgShell:karma'
       //  'post-merge':    'bgShell:npm-install',
       //  'post-checkout': 'bgShell:npm-install'
@@ -331,7 +331,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || '//stage-api-codenow.runnableapp.com';
+        configObj.host = process.env.API_HOST || '//nathan-api-codenow.runnableapp.com';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
         if (configObj.host.charAt(configObj.host.length-1) === '/') {
