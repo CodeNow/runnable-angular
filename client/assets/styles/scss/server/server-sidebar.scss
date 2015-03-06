@@ -112,4 +112,9 @@
   display: block;
   margin-top: 3px;
   white-space: nowrap;
+
+  .link {
+    color: currentColor;
+    float: right;
+  }
 }

@@ -73,8 +73,12 @@
   padding: 12px;
   white-space: normal;
 
-  &:active .small {
-    color: $purple-light;
+  &.active,
+  &:active {
+
+    .small {
+      color: $purple-light;
+    }
   }
 }
 

@@ -25,7 +25,12 @@
         xlink:href = "#icons-commit"
       )
     | {{ activeCommit.attrs.commit.message | limitTo:30 }}
-    small.small.repository-detail {{ activeCommit.attrs.commit.author.date | timeFrom }}
+    small.small.repository-detail username—{{ activeCommit.attrs.commit.author.date | timeFrom }}
+      a.link.link-text(
+        href = "#"
+        target = "_blank"
+      ) fb38342
+
   svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"
