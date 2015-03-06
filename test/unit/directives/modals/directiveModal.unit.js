@@ -6,7 +6,6 @@ var $rootScope,
   $compile,
   $timeout,
   $document,
-  jQuery,
   $templateCache;
 var $elScope;
 var thisUser;
@@ -67,13 +66,11 @@ describe('directiveModal'.bold.underline.blue, function () {
       _$timeout_,
       _$document_,
       //_keypather_,
-      _$rootScope_,
-      _jQuery_
+      _$rootScope_
     ) {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
-      jQuery = _jQuery_;
       $document = _$document_;
       $templateCache = _$templateCache_;
     });
@@ -136,12 +133,9 @@ describe('directiveModal'.bold.underline.blue, function () {
 
       $scope.$digest();
       expect($elScope.in).to.be.ok;
-      var jBody = jQuery('body');
-      var view = jBody.find('modal-fork-box');
-      expect(view).to.be.ok;
 
       $scope.$destroy();
-      expect($document[0].querySelector('.modal-fork')).to.not.be.ok;
+      expect($elScope.in).to.be.false;
     });
 
     it('should add the genericOpen to the body for a generic Modal', function () {
@@ -154,14 +148,9 @@ describe('directiveModal'.bold.underline.blue, function () {
 
       $scope.$digest();
       expect($elScope.in).to.be.ok;
-      var jBody = jQuery('body');
-      var openView = jBody.find('modal-generic');
-      var modalView = jBody.find('Delete Box');
-      expect(openView).to.be.ok;
-      expect(modalView).to.be.ok;
 
       $scope.$destroy();
-      expect($document[0].querySelector('modal-generic')).to.not.be.ok;
+      expect($elScope.in).to.be.false;
     });
 
     it('should destroy the scope and remove the view from the body', function () {
@@ -174,15 +163,11 @@ describe('directiveModal'.bold.underline.blue, function () {
 
       $scope.$digest();
       expect($elScope.in).to.be.ok;
-      var jBody = jQuery('body');
-      var openView = jBody.find('modal-fork-box');
-      expect(openView).to.be.ok;
 
       $scope.$destroy();
       expect($elScope.in).to.be.false;
       // The mouse click should no longer work
       expect(ctx.element[0].onclick).to.be.null;
-      expect($document[0].querySelector('.modal-fork')).to.not.be.ok;
     });
   });
 
