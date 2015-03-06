@@ -1,5 +1,5 @@
 h2.sub-header {{ title }}
-  button.btn.btn-xs.white.sub-header-action(
+  button.btn.btn-xs.btn-icon.white.sub-header-action(
     ng-class = "{active: filePopover.data.show}"
     toggle-pop-over
     toggle-pop-over-model = "filePopover.data.show"
@@ -17,7 +17,8 @@ h2.sub-header {{ title }}
 ul.file-tree
   //- this is the root dir; there can be only one.
   file-tree-dir(
-    build = "build"
+    file-model = "fileModel"
+    parent-dir = "rootDir"
     dir = "rootDir"
     open-items = "openItems"
     read-only = "readOnly"
