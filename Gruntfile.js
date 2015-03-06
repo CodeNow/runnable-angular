@@ -101,7 +101,7 @@ module.exports = function(grunt) {
         },
         options: {
           watch: true,
-          bundleOptions: {
+          browserifyOptions: {
             debug: true // source maps
           }
         }
@@ -111,7 +111,7 @@ module.exports = function(grunt) {
           'client/build/js/bundle.js': ['client/main.js']
         },
         options: {
-          bundleOptions: {
+          browserifyOptions: {
             debug: true // source maps
           }
         }
