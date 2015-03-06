@@ -10,6 +10,7 @@ var $controller,
     $q;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
+var mockFetchUser = require('../fixtures/mockFetchUser');
 /**
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
@@ -70,6 +71,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       userName: activeAccountUsername || 'user'
     };
     angular.mock.module('app', function ($provide) {
+      $provide.factory('pFetchUser', mockFetchUser);
       $provide.factory('fetchInstances', mockFetch.fetch());
       $provide.value('favico', {
         reset : sinon.spy(),
@@ -114,19 +116,21 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
   }
   describe('No local storage options'.blue, function () {
     it('should navigate to the first (alphabetical) instance for user', function () {
-      setup('user');
+      setup('SomeKittens');
       expect($scope.loading).to.be.true;
       $rootScope.$digest();
+      var userInstance = runnable.newInstance(apiMocks.instances.running, {noStore: true});
+      userInstance.attrs.createdBy.username = 'SomeKittens';
       var many = runnable.newInstances(
-        [apiMocks.instances.running, apiMocks.instances.stopped],
+        [userInstance, apiMocks.instances.stopped],
         {noStore: true}
       );
-      many.githubUsername = 'user';
+      many.githubUsername = 'SomeKittens';
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       expect($scope.loading).to.be.false;
       sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
-        userName: 'user',
+        userName: 'SomeKittens',
         instanceName: 'spaaace'
       });
     });
