@@ -27,6 +27,7 @@ function linkedInstances(
     scope: {
       forkDependencies: '=',
       instanceDependencies: '=',
+      showTeamIcon: '=',
       items: '=',
       stateToInstance: '=',
       instances: '=' // For dupe checking

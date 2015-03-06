@@ -10,7 +10,7 @@ var InstancePage = require('./pages/InstancePage');
 
 describe('Changing commit with multiple repos', function () {
   it('should allow the user to back up to 2 commits ago', function () {
-    var instance = new InstancePage('Test-1');
+    var instance = new InstancePage('SPACESHIPS');
     instance.get();
     waitForRepos(instance);
     var repos = instance.repoList.repos.get();
@@ -48,7 +48,7 @@ describe('Changing commit with multiple repos', function () {
 
   });
   it('should only change 1 repo back to HEAD', function () {
-    var instance = new InstancePage('Test-1');
+    var instance = new InstancePage('SPACESHIPS');
     instance.get();
     waitForRepos(instance);
     var repos = instance.repoList.repos.get();

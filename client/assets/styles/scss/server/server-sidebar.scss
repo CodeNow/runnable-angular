@@ -5,7 +5,12 @@
   width: 300px;
 
   .row {
+    border-bottom: 1px solid rgba($black,.1);
     position: relative;
+
+    &:last-child {
+      border-bottom: 0;
+    }
   }
 
   .spinner-wrapper {
@@ -56,6 +61,10 @@
     .iconnables,
     .repository-detail {
       color: currentColor;
+    }
+
+    .icons-arrow-down {
+      transform: scale3d(.75,.75,1) rotate3d(0,0,1,-90deg);
     }
   }
 

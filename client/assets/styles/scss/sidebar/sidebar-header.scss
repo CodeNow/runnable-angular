@@ -1,56 +1,36 @@
 .nav-header {
   box-shadow: 0 3px 6px $gray-lightest;
   flex: 0 0 auto;
-  height: 72px;
   position: relative;
   z-index: $z-sidebar-header;
 }
 
-// header.row.account-header
-.account-header {
-  @extend .webkit-flicker;
-  color: $gray-dark;
-  cursor: pointer;
-  flex: 0 0 auto;
-  height: 72px;
-  line-height: 72px;
-  padding: 0 15px;
-  position: relative;
-  z-index: $z-sidebar-header;
+// button.btn.gray.btn-account
+.btn-account {
+  font-weight: 500;
+  margin: 6px; // header - button= 7px (14px & 13px)
+  padding: 0 9px;
+  text-align: left;
+  width: calc(100% - 12px);
 
-  &:hover {
-    background: rgba($gray-darker,.125);
-  }
-
-  &:active {
-    background: rgba($purple-light,.15);
-    color: $purple-light;
-    transition: none;
-  }
-
-  &.no-touching {
-
-    > .icons-arrow-down {
-      display: none;
-    }
+  &.no-touching > .icons-arrow-down {
+    transform: scale3d(0,0,0);
   }
 
   .gravatar {
     float: left;
-    margin: 24px 9px 0 2px;
+    margin-right: 6px;
   }
 
   .account-name {
-    font-weight: 500;
-    max-width: 160px;
+    max-width: calc(100% - 80px);
     position: absolute;
-    transition: opacity .2s ease-in;
+    top: 0;
   }
 
   .icons-arrow-down {
     position: absolute;
-    right: 10px;
-    top: 24px;
-    transition: opacity .2s ease-in, transform .3s ease-in;
+    right: 4px;
+    top: 0;
   }
 }

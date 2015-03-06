@@ -12,7 +12,7 @@
 
   .input-search {
     background-position: 93px 3px;
-    margin: 3px auto 15px;
+    margin: 0 auto 15px;
     padding-left: 115px;
   }
 
@@ -31,21 +31,19 @@
   }
 
   .list-item {
-    cursor: pointer;
+    border: 0;
+    border-radius: 0;
+    color: $gray-dark;
     display: flex;
     flex-direction: column;
     height: 54px;
     justify-content: center;
     line-height: initial;
     padding: 0 30px 0 15px;
-
-    &:hover {
-      background: rgba($black,.1);
-    }
+    text-align: left;
 
     &:active,
     &.active {
-      background: rgba($purple-light,.15);
       color: $purple-light;
 
       .icons-arrow-down,
@@ -71,11 +69,11 @@
   }
 
   .icons-arrow-down {
+    bottom: 0;
     color: $gray-light;
-    float: right;
     position: absolute;
     right: 9px;
-    top: 17px;
+    top: 0;
     transform: rotate3d(0,0,1,-90deg);
   }
 }

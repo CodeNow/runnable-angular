@@ -130,6 +130,20 @@ function primus(
   return conn;
 }
 
+RunnablePrimus.prototype.joinStreams = function (src, des) {
+  src.on('data', function (data) {
+    if (des.write) {
+      des.write(data);
+    }
+  });
+  src.on('end', function () {
+    if (des.end) {
+      des.end();
+    }
+  });
+  return des;
+};
+
 function makeUniqueId(streamId) {
   return streamId + uuid();
 }

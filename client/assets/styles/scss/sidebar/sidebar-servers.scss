@@ -1,75 +1,118 @@
 // section.row.nav-servers
 .nav-servers {
-  display: flex;
   flex: 1 1 auto;
-  flex-direction: column;
   overflow-y: auto;
+  padding-top: 15px;
   position: relative;
   z-index: $z-sidebar-content;
 
-  .sub-header {
-    flex: 0 0 auto;
-  }
-
+  // spinner
   .spinner-wrapper {
-    align-items: flex-start;
     top: 60px;
   }
-}
 
-// li.server-group-item
-.server-group-item {
-  border-radius: 3px;
-  cursor: pointer;
-  display: block;
-  height: 45px;
-  line-height: 45px;
-  margin: 0 auto 6px;
-  overflow: hidden;
-  padding: 0;
-  position: relative;
-  text-align: left;
-  text-overflow: ellipsis;
-  transition: all .2s ease-in;
-  white-space: nowrap;
-  width: 227px; // sidebar width minus status
+  // server list
+  .list {
+    margin-bottom: 21px;
+  }
 
-  &.expanded {
-    height: auto;
-    line-height: 1;
-    padding-bottom: 3px;
+  // server item
+  .list-item {
+    color: $gray-dark;
+    display: block;
+    margin: 0 6px;
+    overflow: hidden;
+    padding: 0;
+    text-align: left;
 
-    .server-item-name {
-      margin-bottom: 3px;
-      margin-top: 8px;
+    &:active,
+    &.active {
+
+      // a.list-item-name
+      > .list-item-name {
+        font-weight: 500;
+      }
     }
 
+    // if there are linked servers
+    &.expanded {
+      height: auto;
+    }
+
+    // if there is a child active
+    &.active-child {
+      cursor: default;
+
+      .icons-arrow-down {
+        transform: scale3d(0,0,1);
+      }
+    }
+
+    // spacing servers
+    + .list-item {
+      margin-top: 3px;
+    }
+
+    // team icon
+    .icons-team {
+      height: 24px;
+      margin-left: 6px;
+      opacity: .75;
+      pointer-events: auto;
+      position: absolute;
+      width: 21px;
+    }
+
+    // status icon
     .icons-status {
-      top: 10px;
+      position: absolute;
+      right: 11px;
+      top: 14px;
     }
-  }
 
-  &:active,
-  &.active {
-
-    .server-item-name {
-      font-weight: 500;
+    // gravatar
+    .gravatar {
+      margin: 8px 0 0 8px;
     }
-  }
 
-  .icons-status {
-    position: absolute;
-    right: 14px;
-    top: 18px;
-  }
+    // expand user
+    .icons-arrow-down {
+      height: 36px;
+      position: absolute;
+      right: 4px;
+      top: 0;
+    }
 
-  .tooltip {
-    display: none;
+    // nested servers
+    .list-item {
+      border-bottom: 1px solid transparent;
+      border-radius: 0;
+      border-top: 1px solid transparent;
+      color: currentColor;
+      font-weight: 400;
+      margin: 0;
+      text-indent: 29px;
+    }
   }
 }
 
-// a.server-item-name
-.server-item-name {
+// separate purple for users
+.list-users .list-item.expanded {
+  background: rgba($purple-light,.075);
+  border-color: rgba($purple-light,.075);
+
+  .list-item.active {
+    background: rgba($purple-light,.08);
+    border-color: rgba($purple-light,.15);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+// a.list-item-name
+.list-item-name {
   color: currentColor;
   display: block;
   padding: 0 23px 0 9px;
@@ -80,10 +123,9 @@
 // a.server-item-cluster
 .server-item-cluster {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 21px;
-  margin-top: -1px;
-  padding: 0 0 0 9px;
+  padding: 0 21px 0 9px;
   position: relative;
   text-decoration: underline;
 
@@ -92,34 +134,27 @@
     text-decoration: none;
   }
 
-  .icons-status.icons-status {
-    background: rgba($gray-lightest,.45);
-    border: 1px solid rgba($black,.15);
-    height: 5px;
-    position: absolute;
-    right: 16px;
-    top: 9px;
-    width: 5px;
+  &:first-child {
+    margin-top: -6px;
+  }
 
+  &:last-child {
+    padding-bottom: 3px;
+  }
+
+  .icons-status {
+    margin-top: -8px;
+
+    // linking line
     &::before {
       background: rgba($black,.15);
       content: '';
       display: block;
-      height: 10px;
+      height: 13px;
       margin: 0 auto;
       position: relative;
-      top: -12px;
+      top: -14px;
       width: 1px;
-    }
-
-    &.running {
-      background: rgba($green,.45);
-      border: 1px solid transparent;
-    }
-
-    &.building {
-      background: rgba($orange,.45);
-      border: 1px solid transparent;
     }
   }
 }

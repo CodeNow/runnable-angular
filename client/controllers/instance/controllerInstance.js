@@ -63,6 +63,10 @@ function ControllerInstance(
     data.instance = instance;
     pageName.setTitle(instance.attrs.name);
     data.instance.state = {};
+    // This is to untoggle all of the other team members trays
+    if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
+      $scope.dataApp.actions.setToggled();
+    }
     keypather.set(
       $localStorage,
       'lastInstancePerUser.' + $stateParams.userName,
@@ -87,7 +91,7 @@ function ControllerInstance(
   });
   $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
     // p should be null since during a build, the completed field is nulled out
-    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; } // Remove this line on ws change
+    if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; }
     data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
     data.showUpdatingMessage = false;
     data.showUpdatedMessage = true;

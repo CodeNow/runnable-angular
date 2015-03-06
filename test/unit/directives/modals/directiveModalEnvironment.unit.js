@@ -6,7 +6,6 @@ var $rootScope,
   $compile,
   $timeout,
   $document,
-  jQuery,
   $localStorage,
   $templateCache;
 var $elScope;
@@ -46,13 +45,11 @@ describe('directiveModalEnvironment'.bold.underline.blue, function () {
       _$timeout_,
       _$document_,
       //_keypather_,
-      _$rootScope_,
-      _jQuery_
+      _$rootScope_
     ) {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
-      jQuery = _jQuery_;
       $localStorage = _$localStorage_;
       $document = _$document_;
       $templateCache = _$templateCache_;

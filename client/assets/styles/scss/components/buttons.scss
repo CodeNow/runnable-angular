@@ -20,13 +20,6 @@
     text-decoration: none;
   }
 
-  &:hover {
-
-    > .icons-gear {
-      transform: rotate3d(0,0,1,30deg);
-    }
-  }
-
   &:active {
     transition: none;
   }
@@ -47,22 +40,36 @@
   // if .arrow-down
   > .icons-arrow-down {
     float: right;
+    height: 100%;
     margin-left: 3px;
-    top: 18px;
     transition: opacity .2s ease-in, transform .3s ease-in;
   }
 
   // animations
-  &.active,
-  &.in {
+  &:active {
 
-    > .icons-add,
     > .icons-gear {
       transform: rotate3d(0,0,1,135deg);
     }
 
     > .icons-arrow-down {
-      transform: rotate3d(1,0,0,-180deg);
+      transform: scale3d(.75,.75,1);
+    }
+  }
+
+  &.active,
+  &.in {
+
+    > .icons-gear {
+      transform: rotate3d(0,0,1,135deg);
+    }
+
+    > .icons-add {
+      transform: rotate3d(0,0,1,135deg) scale3d(.75,.75,1);
+    }
+
+    > .icons-arrow-down {
+      transform: scale3d(.75,.75,1);
     }
   }
 }
@@ -102,12 +109,13 @@
 .btn-xxs {
   font-size: 13px;
   height: 18px;
-  line-height: 18px;
+  line-height: 17px;
   padding: 0 3px;
 }
 
 // .btn-icon
 .btn-icon {
+  line-height: 45px;
   padding: 0;
   width: 45px;
 
@@ -119,9 +127,29 @@
     min-width: 24px;
     width: auto;
   }
+}
 
-  .iconnables {
-    top: 6px;
+// help
+.btn-help {
+  background: rgba($white,.6);
+  border: 1px solid $gray-light;
+  border-radius: 50%;
+  color: $gray;
+  height: 24px;
+  text-decoration: none;
+  width: 24px;
+
+  &:hover {
+    // background: rgba($blue,.1);
+    border-color: currentColor;
+    color: rgba($blue,.6);
+  }
+
+  &:active,
+  &.active {
+    // background: rgba($blue,.2);
+    border-color: currentColor;
+    color: $blue;
   }
 }
 
@@ -199,19 +227,21 @@
 }
 
 .gray {
-  background: $gray-lightest;
-  border: 0;
+  background: rgba($gray-darker,.0675);
+  border-color: rgba($gray-darker,.1);
   color: $gray;
 
   &.btn {
 
     &:hover {
       background: rgba($gray-darker,.125);
+      border-color: rgba($gray-darker,.15);
     }
 
     &:active,
     &.active {
       background: rgba($purple-light,.15);
+      border-color: rgba($purple-light,.15);
       color: $purple-light;
       transition: none;
 
@@ -313,19 +343,21 @@
 }
 
 .white {
-  border: 0;
   color: $gray;
 
   &.btn {
 
     &:hover {
       background: rgba($gray-darker,.125);
+      border-color: rgba($gray-darker,.15);
     }
 
     &:active,
     &.active {
       background: rgba($purple-light,.15);
+      border-color: rgba($purple-light,.15);
       color: $purple-light;
+      transition: none;
     }
 
     &[disabled],
