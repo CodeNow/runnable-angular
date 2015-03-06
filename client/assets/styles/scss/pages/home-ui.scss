@@ -18,7 +18,7 @@
   height: 360px;
 
   // nav
-  .global-sidebar {
+  .nav-servers {
     border-bottom-left-radius: 6px;
     height: 100%;
     padding: 6px;
@@ -27,19 +27,6 @@
     @include media(sm) {
       display: none;
     }
-  }
-
-  .sub-header {
-    color: $gray-light;
-    padding-left: 9px;
-  }
-
-  .server-group-item {
-    width: auto;
-  }
-
-  .server-item-name {
-    font-weight: 500;
   }
 
   // hide save and actions icon
@@ -65,7 +52,7 @@
 
     // save button
     .green {
-      margin: 7px 0 0;
+      margin: 12px 0 0;
 
       @include media(xxs) {
         display: none;

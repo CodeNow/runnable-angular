@@ -3,7 +3,7 @@
     ul.list
       li.list-item.small Organizations
       //- .active on current org
-      li.list-item.text-overflow(
+      li.list-item.btn.white.text-overflow(
         ng-class = "{active: data.user === data.modalActiveAccount }"
         ng-click = "actions.setActive(data.user)"
       )
@@ -13,7 +13,7 @@
           width = "18"
         )
         | {{ data.user.oauthName() }}
-      li.list-item.text-overflow(
+      li.list-item.btn.white.text-overflow(
         ng-class = "{active: org === data.modalActiveAccount}"
         ng-click = "actions.setActive(org)"
         ng-repeat = "org in data.orgs.models"

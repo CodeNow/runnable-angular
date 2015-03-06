@@ -10,11 +10,12 @@ var $controller,
     $q;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
+var mockUserFetch = new (require('../fixtures/mockFetch'))();
 /**
  * Things to test:
  * Since this controller is pretty simple, we only need to test it's redirection
  */
-describe('ControllerInstanceHome'.bold.underline.blue, function () {
+describe('ControllerInstanceLayout'.bold.underline.blue, function () {
   var ctx = {};
 
   function setup(activeAccountUsername) {
@@ -45,10 +46,14 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       org2: ctx.fakeOrg2
     };
 
-    ctx.stateParams = {
-      userName: activeAccountUsername || 'user'
-    };
     angular.mock.module('app', function ($provide) {
+      $provide.value('$state', {
+        params: {
+          userName: activeAccountUsername,
+          instanceName: 'active-instance'
+        }
+      });
+      $provide.factory('pFetchUser', mockUserFetch.fetch());
       $provide.factory('fetchInstances', mockFetch.fetch());
     });
     angular.mock.inject(function (_$controller_,
@@ -65,19 +70,15 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       $localStorage = _$localStorage_;
       $timeout = _$timeout_;
-      $state = _$state_;
     });
 
     if (activeAccountUsername) {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList[activeAccountUsername]);
     }
 
-    ctx.fakeGo = sinon.stub($state, 'go');
     var ca = $controller('ControllerInstanceLayout', {
       '$scope': $scope,
-      '$rootScope': $rootScope,
-      '$state': $state,
-      '$stateParams': ctx.stateParams
+      '$rootScope': $rootScope
     });
     $rootScope.$digest();
   }
@@ -85,6 +86,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
   it('basic', function () {
 
     setup('user');
+    mockUserFetch.triggerPromise(ctx.userList.user);
     $rootScope.$digest();
 
     expect($scope).to.have.property('dataInstanceLayout');
@@ -106,6 +108,61 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     expect($rootScope.dataApp.state.loadingInstances).to.be.false;
     expect($rootScope.dataApp.data.instances).to.equal(many);
 
+    var parsedInstances = {
+      teamMembers: [{
+        github: 1616464,
+        instances: [
+          runnable.newInstance(apiMocks.instances.running),
+          runnable.newInstance(apiMocks.instances.stopped)
+        ]
+      }],
+      me: undefined
+    };
+
+    expect($rootScope.dataApp.data.instanceGroups).to.deep.equal(parsedInstances);
+
+    $scope.$apply();
+    $scope.$destroy();
+
+  });
+
+  it('toggles the active instance', function() {
+    setup('user');
+    mockUserFetch.triggerPromise(ctx.userList.user);
+    $rootScope.$digest();
+
+    var activeInstance = runnable.newInstance(apiMocks.instances.running);
+    activeInstance.attrs.name = 'active-instance';
+    var many = runnable.newInstances(
+      [activeInstance, apiMocks.instances.stopped],
+      {noStore: true}
+    );
+    many.githubUsername = 'user';
+    mockFetch.triggerPromise(many);
+    $rootScope.$digest();
+    $scope.$apply();
+    expect($rootScope.dataApp.state.loadingInstances).to.be.false;
+    expect($rootScope.dataApp.data.instances).to.equal(many);
+
+    var parsedActiveInstance = runnable.newInstance(apiMocks.instances.running);
+    parsedActiveInstance.attrs.name = 'active-instance';
+
+    $scope.dataApp.actions.setToggled($scope.dataApp.data.instanceGroups.teamMembers[0]);
+
+    var parsedInstances = {
+      teamMembers: [{
+        github: 1616464,
+        toggled: true,
+        instances: [
+          parsedActiveInstance,
+          runnable.newInstance(apiMocks.instances.stopped)
+        ]
+      }],
+      me: undefined
+    };
+
+    expect($rootScope.dataApp.data.instanceGroups).to.deep.equal(parsedInstances);
+
     $scope.$apply();
     $scope.$destroy();
 
@@ -115,6 +172,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     it('no username', function () {
 
       setup('user');
+      mockUserFetch.triggerPromise(ctx.userList.user);
       $rootScope.$digest();
       var many = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],
@@ -126,6 +184,19 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       $scope.$apply();
       expect($rootScope.dataApp.state.loadingInstances).to.be.false;
       expect($rootScope.dataApp.data.instances).to.equal(many);
+
+      var parsedInstances = {
+        teamMembers: [{
+          github: 1616464,
+          instances: [
+            runnable.newInstance(apiMocks.instances.running),
+            runnable.newInstance(apiMocks.instances.stopped)
+          ]
+        }],
+        me: undefined
+      };
+
+      expect($rootScope.dataApp.data.instanceGroups).to.deep.equal(parsedInstances);
 
       $rootScope.$broadcast('INSTANCE_LIST_FETCH');
       $rootScope.$digest();
@@ -139,6 +210,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     it('new user', function () {
 
       setup('org1');
+      mockUserFetch.triggerPromise(ctx.userList.user);
       $rootScope.$digest();
 
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList.org2);
@@ -157,7 +229,18 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       expect($rootScope.dataApp.state.loadingInstances).to.be.false;
       expect($rootScope.dataApp.data.instances).to.equal(many);
 
+      var parsedInstances = {
+        teamMembers: [{
+          github: 1616464,
+          instances: [
+            runnable.newInstance(apiMocks.instances.running),
+            runnable.newInstance(apiMocks.instances.stopped)
+          ]
+        }],
+        me: undefined
+      };
 
+      expect($rootScope.dataApp.data.instanceGroups).to.deep.equal(parsedInstances);
     });
   });
 
