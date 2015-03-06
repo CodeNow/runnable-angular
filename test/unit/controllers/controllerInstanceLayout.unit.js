@@ -146,15 +146,13 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
 
     var parsedActiveInstance = runnable.newInstance(apiMocks.instances.running);
     parsedActiveInstance.attrs.name = 'active-instance';
-    parsedActiveInstance.state = {
-      toggled: true
-    };
+
+    $scope.dataApp.actions.setToggled($scope.dataApp.data.instanceGroups.teamMembers[0]);
 
     var parsedInstances = {
       teamMembers: [{
         github: 1616464,
         toggled: true,
-        hasCurrentInstance: true,
         instances: [
           parsedActiveInstance,
           runnable.newInstance(apiMocks.instances.stopped)
