@@ -6,7 +6,7 @@
   section.modal-body.clearfix
     .modal-description.well.well-code.gray(
       ng-repeat = "error in data.errors track by $index"
-    ) {{ error | errJSON }}
+    ) {{ error.message }}
 
   footer.modal-footer
     button.btn.white(

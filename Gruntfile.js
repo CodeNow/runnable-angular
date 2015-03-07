@@ -238,7 +238,7 @@ module.exports = function(grunt) {
         cmd: 'protractor test/protractor.conf.js'
       },
       server: {
-        cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
+        cmd: 'NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
         bg: true,
         execOpts: {
           maxBuffer: 1000*1024
@@ -331,7 +331,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || '//nathan-api-codenow.runnableapp.com';
+        configObj.host = process.env.API_HOST || '//stage-api-codenow.runnableapp.com';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
         if (configObj.host.charAt(configObj.host.length-1) === '/') {
