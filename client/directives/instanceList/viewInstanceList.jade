@@ -36,8 +36,8 @@ ul.list.load(
     ng-repeat = "instance in data.instanceGroups.me.instances | orderBy:'attrs.name'"
   )
     a.list-item-name.text-overflow(
-      ng-click = "stateToInstance(instance, $event)"
-      ng-href = "/{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
+      ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+                                     instanceName: instance.attrs.name })"
       ng-model = "instance"
     ) {{ instance.attrs.name }}
     span.icons-status(
@@ -100,8 +100,8 @@ ul.list.list-users.load
       ng-repeat = "instance in teamMember.instances | orderBy:'attrs.name'"
     )
       a.list-item-name.text-overflow(
-        ng-href = "/{{ data.activeAccount.oauthName() }}/{{ instance.attrs.name }}"
-        ng-click = "stateToInstance(instance, $event)"
+        ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+                                       instanceName: instance.attrs.name })"
         ng-model = "instance"
       ) {{ instance.attrs.name }}
       span.icons-status(
