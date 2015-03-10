@@ -14,7 +14,8 @@ function accountsSelect (
   errs,
   keypather,
   promisify,
-  $state
+  $state,
+  fetchSlackMembers
 ) {
   return {
     restrict: 'A',
@@ -85,6 +86,10 @@ function accountsSelect (
           unwatch();
         }
       });
+
+      fetchSlackMembers().then(function (slack) {
+        mData.slackMembers = slack;
+      }).catch(errs.handler);
 
       mActions.closePopover = function() {
         $scope.popoverAccountMenu.data.show = false;

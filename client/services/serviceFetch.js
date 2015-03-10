@@ -5,7 +5,8 @@ require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
-  .factory('fetchContexts', fetchContexts);
+  .factory('fetchContexts', fetchContexts)
+  .factory('fetchSlackMembers', fetchSlackMembers);
 
 function pFetchUser(user, $q) {
   // Promise version of serviceFetchUser
@@ -259,6 +260,26 @@ function fetchContexts (
     return pFetchUser().then(function(user) {
       var contextFetch = promisify(user, 'fetchContexts');
       return contextFetch(opts);
+    });
+  };
+}
+
+// Using $http here because this isn't in API client
+function fetchSlackMembers (
+  $http,
+  configAPIHost
+) {
+  return function () {
+    var org = 'Runnable';
+    return $http({
+      method: 'get',
+      url: 'https://slack.com/api/users.list?token=xoxp-2319488034-2915508610-3982407583-3fade0&pretty=1',
+      'withCredentials': false
+    })
+    .then(function(data) {
+      return data.data.members.filter(function(member) {
+        return !member.is_bot;
+      });
     });
   };
 }
