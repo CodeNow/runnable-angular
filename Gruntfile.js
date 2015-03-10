@@ -5,8 +5,10 @@ var find    = require('find');
 var fs      = require('fs');
 var async   = require('async');
 var envIs   = require('101/env-is');
+var timer   = require('grunt-timer');
 
 module.exports = function(grunt) {
+  timer.init(grunt);
 
   var sassDir   = 'client/assets/styles/scss';
   var sassIndex = path.join(sassDir, 'index.scss');
@@ -85,13 +87,13 @@ module.exports = function(grunt) {
         options: {
           jshintrc: '.jshintrc-prod'
         },
-        files: {src: jshintFiles}
+        src: jshintFiles
       },
       dev: {
         options: {
           jshintrc: '.jshintrc'
         },
-        files: {src: jshintFiles}
+        src: jshintFiles
       }
     },
     browserify: {
@@ -184,9 +186,12 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'jshint:dev',
-          'autoBundleDependencies',
+          'autoBundleDependencies'
         //  'bgShell:karma'
-        ]
+        ],
+        options: {
+          spawn: false
+        }
       },
       templates: {
         files: [
@@ -238,7 +243,7 @@ module.exports = function(grunt) {
         cmd: 'protractor test/protractor.conf.js'
       },
       server: {
-        cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
+        cmd: 'NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
         bg: true,
         execOpts: {
           maxBuffer: 1000*1024
@@ -331,7 +336,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || '//nathan-api-codenow.runnableapp.com';
+        configObj.host = process.env.API_HOST || '//stage-api-codenow.runnableapp.com';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
         if (configObj.host.charAt(configObj.host.length-1) === '/') {
@@ -449,6 +454,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-concurrent');
 
+  // Only lint the files we changed, they have already been linted on initial server setup.
+  grunt.event.on('watch', function(action, filepath) {
+    if (grunt.file.isMatch(jshintFiles, filepath)) {
+      grunt.config('jshint.dev.src', [filepath]);
+    } else {
+      grunt.config('jshint.dev.src', []);
+    }
+  });
+
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-nodemon');
@@ -466,7 +480,6 @@ module.exports = function(grunt) {
     'bgShell:karma-circle', // Use the circle karma.conf so it browserifies everything it needs
     'coverage'
   ]);
-
   grunt.registerTask('test:e2e', ['bgShell:protractor']);
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('build:dev', [
