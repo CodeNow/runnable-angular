@@ -38,6 +38,10 @@ function ActivePanel (pageType) {
     element(by.cssContainingText('.popover-add-tab li', tabType), this.panel).click();
   };
 
+  this.isActiveTabDirty = function () {
+    return element.all(by.css('.tab-wrapper.active.dirty')).count() > 0;
+  };
+
   this.setActiveTab = function(text) {
     var self = this;
     this.tabTitle = text;
