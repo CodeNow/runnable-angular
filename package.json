@@ -89,6 +89,7 @@
     "grunt-istanbul-coverage": "^0.1.0",
     "grunt-jsbeautifier": "^0.2.7",
     "grunt-nodemon": "~0.2.1",
+    "grunt-timer": "^0.6.0",
     "karma": "~0.12.16",
     "karma-browserify": "^1.0.0",
     "karma-chrome-launcher": "~0.1.4",
