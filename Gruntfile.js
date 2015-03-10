@@ -5,8 +5,10 @@ var find    = require('find');
 var fs      = require('fs');
 var async   = require('async');
 var envIs   = require('101/env-is');
+var timer   = require('grunt-timer');
 
 module.exports = function(grunt) {
+  timer.init(grunt);
 
   var sassDir   = 'client/assets/styles/scss';
   var sassIndex = path.join(sassDir, 'index.scss');
@@ -85,13 +87,13 @@ module.exports = function(grunt) {
         options: {
           jshintrc: '.jshintrc-prod'
         },
-        files: {src: jshintFiles}
+        src: jshintFiles
       },
       dev: {
         options: {
           jshintrc: '.jshintrc'
         },
-        files: {src: jshintFiles}
+        src: jshintFiles
       }
     },
     browserify: {
@@ -184,9 +186,12 @@ module.exports = function(grunt) {
         ],
         tasks: [
           'jshint:dev',
-          'autoBundleDependencies',
+          'autoBundleDependencies'
         //  'bgShell:karma'
-        ]
+        ],
+        options: {
+          spawn: false
+        }
       },
       templates: {
         files: [
@@ -449,6 +454,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-concurrent');
 
+  // Only lint the files we changed, they have already been linted on initial server setup.
+  grunt.event.on('watch', function(action, filepath) {
+    if (grunt.file.isMatch(jshintFiles, filepath)) {
+      grunt.config('jshint.dev.src', [filepath]);
+    } else {
+      grunt.config('jshint.dev.src', []);
+    }
+  });
+
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-nodemon');
@@ -466,7 +480,6 @@ module.exports = function(grunt) {
     'bgShell:karma-circle', // Use the circle karma.conf so it browserifies everything it needs
     'coverage'
   ]);
-
   grunt.registerTask('test:e2e', ['bgShell:protractor']);
   grunt.registerTask('test', ['bgShell:karma']);
   grunt.registerTask('build:dev', [
