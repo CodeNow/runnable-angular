@@ -4,10 +4,11 @@
   ng-include = "'spinner'"
 )
 
-input.filter(
-  ng-model = "filterString"
-  placeholder = "Filter Servers"
-)
+.filter-wrap
+  input.filter(
+    ng-model = "filterString"
+    placeholder = "Filter Servers"
+  )
 
 ul.list.load(
   ng-if = "isFiltering"
