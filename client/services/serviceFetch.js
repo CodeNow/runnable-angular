@@ -7,12 +7,16 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchContexts', fetchContexts);
 
-function pFetchUser(user, $q) {
+function pFetchUser(keypather, user, $q, $state) {
   // Promise version of serviceFetchUser
   // http://stackoverflow.com/a/22655010/1216976
   var d = $q.defer();
   user.fetchUser('me', function (err) {
     if (err) {
+      if (keypather.get(err, 'data.statusCode') === 401 &&
+        !keypather.get($state, 'current.data.anon')) {
+        $state.go('home');
+      }
       return d.reject(err);
     }
     return d.resolve(user);
