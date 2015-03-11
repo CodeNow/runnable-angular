@@ -9,6 +9,7 @@ function instanceEditPrimaryActions(
   $state,
   errs,
   $stateParams,
+  keypather,
   promisify,
   fetchBuild
 ) {
@@ -19,8 +20,7 @@ function instanceEditPrimaryActions(
       user: '=',
       instance: '=',
       loading: '=',
-      openItems: '=',
-      unsavedAcvs: '='
+      openItems: '='
     },
     link: function ($scope, elem, attrs) {
       // prevent multiple clicks
@@ -36,23 +36,27 @@ function instanceEditPrimaryActions(
             message: 'Manual build',
             noCache: noCache
           };
-          fetchNewBuild()
-            .then(function (build) {
-              return promisify(build, 'build')(buildObj);
-            })
-            .then(function (build) {
-              var opts = {
-                build: build.id()
-              };
-              if ($scope.instance.state && $scope.instance.state.env) {
-                opts.env = $scope.instance.state.env;
-              }
-              return promisify($scope.instance, 'update')(opts);
-            })
-            .then(function () {
-              $state.go('instance.instance', $stateParams);
-            })
-            .catch(handleError);
+          fetchNewBuild().then(function (build) {
+            var unwatch = $scope.$watch(function () {
+              return keypather.get(build, 'state.dirty');
+            }, function (n) {
+              if (n) { return; } //state.dirty === 0 is when everything is clean
+              unwatch();
+              promisify(build, 'build')(
+                buildObj
+              ).then(function (build) {
+                var opts = {
+                  build: build.id()
+                };
+                if ($scope.instance.state && $scope.instance.state.env) {
+                  opts.env = $scope.instance.state.env;
+                }
+                return promisify($scope.instance, 'update')(opts);
+              }).then(function () {
+                $state.go('instance.instance', $stateParams);
+              }).catch(handleError);
+            });
+          }).catch(handleError);
         });
       };
 
