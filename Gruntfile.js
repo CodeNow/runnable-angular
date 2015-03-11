@@ -474,7 +474,7 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('test:e2e', ['bgShell:protractor']);
   grunt.registerTask('test', ['bgShell:karma']);
-  grunt.registerTask('build:dev', [
+  grunt.registerTask('default', [
     'githooks',
     'bgShell:npm-install',
     'copy',
@@ -485,9 +485,6 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs',
     'loadSyntaxHighlighters',
-  ]);
-  grunt.registerTask('default', [
-    'build:dev',
     'browserify:watch',
     'concurrent'
   ]);
