@@ -278,6 +278,7 @@ function fetchSlackMembers (
   $http
 ) {
   return function (token) {
+    // xoxb-4013218957-gAK1qyzMofGsDcCIUAzU7tMi
     return $http({
       method: 'get',
       url: 'https://slack.com/api/users.list?token=' + token,

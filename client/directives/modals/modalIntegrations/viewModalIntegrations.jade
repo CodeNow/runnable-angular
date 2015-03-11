@@ -52,7 +52,7 @@ form.modal-dialog.modal-integrations(
     label.label.clearfix
       .label-col.label-details API Token
         a.small.link(
-          href = "https://api.slack.com/web#authentication"
+          href = "https://slack.com/services/new/bot"
           target = "_blank"
         ) Get your API Token from Slack
       input.input.input-sm.input-validate.input-col(
@@ -82,6 +82,7 @@ form.modal-dialog.modal-integrations(
             )
             | @{{ member.name }}
             select(
+              ng-if = "!member.found"
               ng-model = "member.ghName"
               ng-options = "ghMember.login for ghMember in data.ghMembers"
             )
@@ -90,7 +91,8 @@ form.modal-dialog.modal-integrations(
                 value = ""
               ) Disabled
             input.input-checkbox(
-              ng-disabled = "!member.slackOn"
+              ng-if = "member.found"
+              ng-model = "member.slackOn"
               type = "checkbox"
             )
     //- disabling integration:

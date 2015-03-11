@@ -104,16 +104,15 @@ function accountsSelect (
         $scope.popoverAccountMenu.data.show = false;
       };
       mActions.verifySlack = function() {
-        var slackMembers;
+        var matches = [];
+        var slackMembers, ghMembers;
         fetchSlackMembers(mData.settings.notifications.slack.authToken)
         .then(function(_members) {
           slackMembers = _members;
           mData.slackMembers = slackMembers;
-          mData.verified = true;
           return fetchGitHubMembers($state.params.userName);
-        }).then(function(ghMembers) {
-          // Compare the two?
-          console.log('yey', slackMembers, ghMembers);
+        }).then(function(_ghMembers) {
+          ghMembers = _ghMembers;
 
           // Fetch actual names
           var memberFetchPromises = ghMembers.map(function (user) {
@@ -121,15 +120,20 @@ function accountsSelect (
               slackMembers.forEach(function (member) {
 
                 if (member.real_name && member.real_name.toLowerCase() === keypather.get(ghUser, 'name.toLowerCase()')) {
-                  console.log('Got one!', member.real_name);
+                  // TODO: handle case with multiple users of the same name
+                  member.found = true;
+                  matches.push(ghUser.login);
                 }
               });
             });
           });
 
-          mData.ghMembers = ghMembers;
-
           return $q.all(memberFetchPromises);
+        }).then(function() {
+          mData.ghMembers = ghMembers.filter(function(member) {
+            return member.login && matches.indexOf(member.login) === -1;
+          });
+          mData.verified = true;
         }).catch(errs.handler);
       };
       mActions.saveSlack = function () {
