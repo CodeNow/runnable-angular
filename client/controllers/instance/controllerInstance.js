@@ -58,29 +58,30 @@ function ControllerInstance(
     $scope.user = user;
     return fetchInstances({
       name: $stateParams.instanceName
-    });
-  }).then(function (instance) {
-    data.instance = instance;
-    pageName.setTitle(instance.attrs.name);
-    data.instance.state = {};
-    // This is to untoggle all of the other team members trays
-    if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
-      $scope.dataApp.actions.setToggled();
-    }
-    keypather.set(
-      $localStorage,
-      'lastInstancePerUser.' + $stateParams.userName,
-      $stateParams.instanceName
-    );
-  }).catch(function (err) {
-    errs.handler(err);
-    keypather.set(
-      $localStorage,
-      'lastInstancePerUser.' + $stateParams.userName,
-      null
-    );
-    $state.go('instance.home', {
-      userName: $stateParams.userName
+    }).then(function (instance) {
+      data.instance = instance;
+      pageName.setTitle(instance.attrs.name);
+      data.instance.state = {};
+      // This is to untoggle all of the other team members trays
+      if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
+        $scope.dataApp.actions.setToggled();
+      }
+      keypather.set(
+        $localStorage,
+        'lastInstancePerUser.' + $stateParams.userName,
+        $stateParams.instanceName
+      );
+    }).catch(function (err) {
+      // We had a problem fetching or updating the instance, redirect to the instance.home
+      errs.handler(err);
+      keypather.set(
+        $localStorage,
+        'lastInstancePerUser.' + $stateParams.userName,
+        null
+      );
+      $state.go('instance.home', {
+        userName: $stateParams.userName
+      });
     });
   });
 
