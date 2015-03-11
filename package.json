@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -71,6 +71,7 @@
     "node-uuid": "^1.4.1",
     "primus": "^2.3.0",
     "qs": "^2.2.4",
+    "grunt-timer": "^0.6.0",
     "regexp-quote": "0.0.0",
     "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v0.38.27",
     "term.js": "git://github.com/Runnable/term.js.git#f0376add1c2e79a556834d724022ceb585b5eade",
@@ -89,7 +90,6 @@
     "grunt-istanbul-coverage": "^0.1.0",
     "grunt-jsbeautifier": "^0.2.7",
     "grunt-nodemon": "~0.2.1",
-    "grunt-timer": "^0.6.0",
     "karma": "~0.12.16",
     "karma-browserify": "^1.0.0",
     "karma-chrome-launcher": "~0.1.4",
