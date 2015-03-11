@@ -54,33 +54,34 @@ function ControllerInstance(
     $location.search('chat', '');
   }
 
+  // The error handling for pFetchUser will re-direct for us, so we don't need to handle the error.
   pFetchUser().then(function (user) {
     $scope.user = user;
     return fetchInstances({
       name: $stateParams.instanceName
-    });
-  }).then(function (instance) {
-    data.instance = instance;
-    pageName.setTitle(instance.attrs.name);
-    data.instance.state = {};
-    // This is to untoggle all of the other team members trays
-    if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
-      $scope.dataApp.actions.setToggled();
-    }
-    keypather.set(
-      $localStorage,
-      'lastInstancePerUser.' + $stateParams.userName,
-      $stateParams.instanceName
-    );
-  }).catch(function (err) {
-    errs.handler(err);
-    keypather.set(
-      $localStorage,
-      'lastInstancePerUser.' + $stateParams.userName,
-      null
-    );
-    $state.go('instance.home', {
-      userName: $stateParams.userName
+    }).then(function (instance) {
+      data.instance = instance;
+      pageName.setTitle(instance.attrs.name);
+      data.instance.state = {};
+      // This is to untoggle all of the other team members trays
+      if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
+        $scope.dataApp.actions.setToggled();
+      }
+      keypather.set(
+        $localStorage,
+        'lastInstancePerUser.' + $stateParams.userName,
+        $stateParams.instanceName
+      );
+    }).catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
+      errs.handler(err);
+      keypather.set(
+        $localStorage,
+        'lastInstancePerUser.' + $stateParams.userName,
+        null
+      );
+      $state.go('instance.home', {
+        userName: $stateParams.userName
+      });
     });
   });
 
