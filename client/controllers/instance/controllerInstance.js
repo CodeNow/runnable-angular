@@ -54,7 +54,7 @@ function ControllerInstance(
     $location.search('chat', '');
   }
 
-  // The error handling for pFetchUser will re-direct for us, so we don't need to handle the error.
+  // The error handling for pFetchUser will re-direct for us, so we don't need to handle that case
   pFetchUser().then(function (user) {
     $scope.user = user;
     return fetchInstances({
