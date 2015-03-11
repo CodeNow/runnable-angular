@@ -185,7 +185,7 @@ module.exports = function(grunt) {
           '!client/build/**/*.*'
         ],
         tasks: [
-          'jshint:dev',
+          'newer:jshint:dev',
           'autoBundleDependencies'
         //  'bgShell:karma'
         ],
@@ -445,6 +445,7 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
@@ -453,15 +454,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-concurrent');
-
-  // Only lint the files we changed, they have already been linted on initial server setup.
-  grunt.event.on('watch', function(action, filepath) {
-    if (grunt.file.isMatch(jshintFiles, filepath)) {
-      grunt.config('jshint.dev.src', [filepath]);
-    } else {
-      grunt.config('jshint.dev.src', []);
-    }
-  });
 
   if (!envIs('production', 'staging')) {
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -482,7 +474,7 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('test:e2e', ['bgShell:protractor']);
   grunt.registerTask('test', ['bgShell:karma']);
-  grunt.registerTask('build:dev', [
+  grunt.registerTask('default', [
     'githooks',
     'bgShell:npm-install',
     'copy',
@@ -493,10 +485,6 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs',
     'loadSyntaxHighlighters',
-    'browserify:once'
-  ]);
-  grunt.registerTask('default', [
-    'build:dev',
     'browserify:watch',
     'concurrent'
   ]);
