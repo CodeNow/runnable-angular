@@ -6,7 +6,9 @@ require('app')
   .factory('fetchBuild', fetchBuild)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchContexts', fetchContexts)
-  .factory('fetchSlackMembers', fetchSlackMembers);
+  .factory('fetchSlackMembers', fetchSlackMembers)
+  .factory('fetchGitHubMembers', fetchGitHubMembers)
+  .factory('fetchGitHubUser', fetchGitHubUser);
 
 function pFetchUser(user, $q) {
   // Promise version of serviceFetchUser
@@ -269,20 +271,49 @@ function fetchContexts (
 
 // Using $http here because this isn't in API client
 function fetchSlackMembers (
-  $http,
-  configAPIHost
+  $http
 ) {
-  return function () {
-    var org = 'Runnable';
+  return function (token) {
     return $http({
       method: 'get',
-      url: 'https://slack.com/api/users.list?token=xoxp-2319488034-2915508610-3982407583-3fade0&pretty=1',
+      url: 'https://slack.com/api/users.list?token=' + token,
       'withCredentials': false
     })
     .then(function(data) {
+      if (data.data.error) {
+        throw new Error(data.data.error);
+      }
       return data.data.members.filter(function(member) {
         return !member.is_bot;
       });
+    });
+  };
+}
+
+function fetchGitHubMembers (
+  $http,
+  configAPIHost
+) {
+  return function (teamName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/orgs/' + teamName + '/members'
+    }).then(function (team) {
+      return team.data;
+    });
+  };
+}
+
+function fetchGitHubUser (
+  $http,
+  configAPIHost
+) {
+  return function (memberName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/users/' + memberName
+    }).then(function (user) {
+      return user.data;
     });
   };
 }

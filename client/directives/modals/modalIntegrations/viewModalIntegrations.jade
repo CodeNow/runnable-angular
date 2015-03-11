@@ -56,16 +56,11 @@ form.modal-dialog.modal-integrations(
           target = "_blank"
         ) Get your API Token from Slack
       input.input.input-sm.input-validate.input-col(
-        ng-if = "!data.verified"
+        ng-model = "data.settings.notifications.slack.authToken"
         required
-      )
-      input.input.input-sm.input-validate.input-col(
-        ng-if = "data.verified"
-        required
-        value = "xoxb-3877126352-qrO7smdwNmUVJTvaYuaQKCIe"
       )
       button.btn.btn-sm.green(
-        ng-click = "data.verified = true"
+        ng-click = "actions.verifySlack()"
         ng-if = "!data.verified"
       ) Verify
       //- validation for special cahrs
@@ -77,7 +72,7 @@ form.modal-dialog.modal-integrations(
       .input-col
         .list.list-bordered
           label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !data.slackOn}"
+            ng-class = "{disabled: !member.slackOn}"
             ng-repeat = "member in data.slackMembers"
           )
             img.gravatar(
@@ -86,8 +81,16 @@ form.modal-dialog.modal-integrations(
               width = "21"
             )
             | @{{ member.name }}
+            select(
+              ng-model = "member.ghName"
+              ng-options = "ghMember.login for ghMember in data.ghMembers"
+            )
+              option(
+                selected = "selected"
+                value = ""
+              ) Disabled
             input.input-checkbox(
-              ng-disabled = "!data.slackOn"
+              ng-disabled = "!member.slackOn"
               type = "checkbox"
             )
     //- disabling integration:
