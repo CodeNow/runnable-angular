@@ -6,11 +6,18 @@
   .popover-content
     ul.popover-list
       li.popover-list-item(
-        ng-click = "fileItemData.actions.openFile();\
+        ng-click = "dirItemData.actions.toggleFolderOpen();\
           $event.stopPropagation();"
       )
         svg.iconnables
-        | Open
+        span(
+          ng-if = "dir.state.open"
+        ) Close
+
+        span(
+          ng-if = "!dir.state.open"
+        ) Open
+
       li.divider
       li.popover-list-item(
         ng-click = "dirItemData.actions.createFile();\
