@@ -196,7 +196,8 @@ function modalGettingStarted(
           name: 'NewInstance'
         },
         step: 1,
-        furthestStep: 1
+        furthestStep: 1,
+        unableToBuild: false
       };
       keypather.set($scope, 'data.accountsDisabled', function () {
         return $scope.state.step > 1;
@@ -256,6 +257,8 @@ function modalGettingStarted(
           });
         }).then(function (instances) {
           $scope.data.instances = instances;
+        }).catch(function(e){
+          $scope.state.unableToBuild = true;
         });
       }
 
