@@ -62,7 +62,7 @@ form.modal-dialog.modal-integrations(
         )
         .validate-wrapper.btn-sm.orange(
           ng-class = "{\
-            'invalid-pattern': ,\
+            'invalid-pattern': false,\
           }"
         )
           span.validate-rules.invalid-pattern Invalid Auth
@@ -72,7 +72,7 @@ form.modal-dialog.modal-integrations(
           ng-if = "!data.verified"
         )
           .spinner-wrapper.spinner-sm.spinner-white.in(
-            ng-if = "{in: }"
+            ng-if = "{in: false}"
             ng-include = "'spinner'"
           )
           | Verify
@@ -145,14 +145,19 @@ form.modal-dialog.modal-integrations(
         )
         .validate-wrapper.btn-sm.orange(
           ng-class = "{\
-            'invalid-pattern': ,\
+            'invalid-pattern': false,\
           }"
         )
           span.validate-rules.invalid-pattern Invalid Auth
-        button.btn.btn-sm.green(
+        button.btn.btn-sm.green.btn-spinner(
           ng-click = "data.verified = true"
           ng-if = "!data.verified"
-        ) Verify
+        )
+          .spinner-wrapper.spinner-sm.spinner-white.in(
+            ng-if = "{in: false}"
+            ng-include = "'spinner'"
+          )
+          | Verify
         button.btn.btn-sm.white(
           ng-click = ""
           ng-if = "!data.verified"
