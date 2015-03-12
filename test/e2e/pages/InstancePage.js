@@ -6,6 +6,7 @@ var GearMenu = require('../popovers/GearMenu');
 var RepoList = require('../directives/RepoList');
 var ActivePanel = require('../directives/ActivePanel');
 var FileExplorer = require('../directives/FileExplorer');
+var InstanceList = require('../directives/InstanceList');
 
 function InstancePage (name) {
   this.name = name;
@@ -14,6 +15,7 @@ function InstancePage (name) {
   this.repoList = new RepoList();
   this.activePanel = new ActivePanel('Instance');
   this.fileExplorer = new FileExplorer();
+  this.instanceList = new InstanceList();
 
   this.statusIcon = util.createGetter(by.css('header > h1 > div > span'));
   this.instanceName = util.createGetter(by.css('#wrapper > main > header > h1 > div'));
