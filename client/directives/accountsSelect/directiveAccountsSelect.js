@@ -147,9 +147,15 @@ function accountsSelect (
           authToken: mData.settings.notifications.slack.authToken
         };
         slackData.usernameToSlackNameMap = mData.slackMembers.reduce(function (obj, slackMember) {
-          if (slackMember.ghName) {
-            if (slackMember.found && !slackMember.slackOn) { return obj; }
+          if (slackMember.ghName && !slackMember.found) {
+            // Name was selected from the dropdown
             obj[slackMember.ghName] = slackMember.name;
+          } else if (slackMember.found && slackMember.slackOn) {
+            // Autodetected name was checked
+            obj[slackMember.ghName] = slackMember.name;
+          } else {
+            // We want to note them but not enable slack
+            obj[slackMember.ghName] = null;
           }
           return obj;
         }, {});
