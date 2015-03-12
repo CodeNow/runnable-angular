@@ -87,10 +87,11 @@ function accountsSelect (
         if (account) {
           mData.settings = {};
           unwatch();
-          return promisify($scope.data.user, 'fetchSettings')({
-            githubUsername: account.oauthName()
+          return promisify(account, 'fetchSettings')({
+            githubUsername: $state.params.userName
           }).then(function(settings) {
-            mData.settings = settings[0];
+            console.log('settings', settings);
+            mData.settings = settings;
             if (keypather.get(mData, 'settings.notifications.slack.authToken')) {
               return fetchSlackMembers(mData.settings.notifications.slack.authToken);
             }
@@ -122,6 +123,7 @@ function accountsSelect (
                 if (member.real_name && member.real_name.toLowerCase() === keypather.get(ghUser, 'name.toLowerCase()')) {
                   // TODO: handle case with multiple users of the same name
                   member.found = true;
+                  member.ghName = ghUser.login;
                   matches.push(ghUser.login);
                 }
               });
@@ -130,26 +132,40 @@ function accountsSelect (
 
           return $q.all(memberFetchPromises);
         }).then(function() {
-          mData.ghMembers = ghMembers.filter(function(member) {
-            return member.login && matches.indexOf(member.login) === -1;
-          });
+          mData.ghMembers = ghMembers.reduce(function(arr, member) {
+            if (member.login && matches.indexOf(member.login) === -1) {
+              arr.push(member.login);
+            }
+            return arr;
+          }, []);
           mData.verified = true;
         }).catch(errs.handler);
       };
       mActions.saveSlack = function () {
         if (!mData.settings) { return; }
-        $scope.data.user.newSetting(mData.settings._id)
-        .update({
+        var slackData = {
+          authToken: mData.settings.notifications.slack.authToken
+        };
+        slackData.usernameToSlackNameMap = mData.slackMembers.reduce(function (obj, slackMember) {
+          if (slackMember.ghName) {
+            if (slackMember.found && !slackMember.slackOn) { return obj; }
+            obj[slackMember.ghName] = slackMember.name;
+          }
+          return obj;
+        }, {});
+
+        return promisify(mData.settings.models[0], 'update')({
           json: {
             notifications: {
-              slack: mData.settings.notifications.slack
+              slack: slackData
             }
           }
-        }, errs.handler);
+        })
+        .catch(errs.handler);
       };
       mActions.saveHipChat = function () {
         if (!mData.settings) { return; }
-        $scope.data.user.newSetting(mData.settings._id)
+        $scope.data.user.newSetting(mData.settings.id())
         .update({
           json: {
             notifications: {

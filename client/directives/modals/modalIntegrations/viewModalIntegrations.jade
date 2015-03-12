@@ -72,7 +72,7 @@ form.modal-dialog.modal-integrations(
       .input-col
         .list.list-bordered
           label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !member.slackOn}"
+            ng-class = "{disabled: !member.slackOn, active: member.slackOn}"
             ng-repeat = "member in data.slackMembers"
           )
             img.gravatar(
@@ -84,7 +84,7 @@ form.modal-dialog.modal-integrations(
             select(
               ng-if = "!member.found"
               ng-model = "member.ghName"
-              ng-options = "ghMember.login for ghMember in data.ghMembers"
+              ng-options = "ghMember for ghMember in data.ghMembers"
             )
               option(
                 selected = "selected"
@@ -163,7 +163,9 @@ form.modal-dialog.modal-integrations(
   footer.modal-footer(
     ng-if = "(data.showHipchat || data.showSlack) && data.verified"
   )
-    button.btn.green Done
+    button.btn.green(
+      ng-click = "actions.saveSlack()"
+    ) Save
 
     //- form.form.clearfix(
     //-   name = "slackForm"
