@@ -59,14 +59,9 @@ function instanceList(
           filterRegex += '$';
 
           var regex = new RegExp(filterRegex);
-
-          $scope.filteredInstances = [];
-
           var instances = keypather.get($scope, 'data.instances.models') || [];
-          instances.forEach(function(instance){
-            if(regex.test(instance.attrs.name)){
-              $scope.filteredInstances.push(instance);
-            }
+          $scope.filteredInstances = instances.filter(function(instance){
+            return regex.test(instance.attrs.name);
           });
 
         } else {
