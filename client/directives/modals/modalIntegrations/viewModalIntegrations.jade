@@ -98,7 +98,7 @@ form.modal-dialog.modal-integrations(
               width = "21"
             )
             | @{{ member.name }}
-            select(
+            select.select(
               ng-if = "!member.found"
               ng-model = "member.ghName"
               ng-options = "ghMember.login for ghMember in data.ghMembers"
