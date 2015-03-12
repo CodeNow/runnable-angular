@@ -59,10 +59,15 @@ form.modal-dialog.modal-integrations(
         ng-model = "data.settings.notifications.slack.authToken"
         required
       )
-      button.btn.btn-sm.green(
+      button.btn.btn-sm.green.btn-spinner(
         ng-click = "actions.verifySlack()"
         ng-if = "!data.verified"
-      ) Verify
+      )
+        .spinner-wrapper.spinner-sm.spinner-white.in(
+          ng-if = "{in: }"
+          ng-include = "'spinner'"
+        )
+        | Verify
       //- validation for special cahrs
     .label.clearfix(
       ng-if = "data.verified"
