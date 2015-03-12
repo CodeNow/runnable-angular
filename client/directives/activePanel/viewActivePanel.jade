@@ -3,7 +3,6 @@
 .views-toolbar(
   open-items= "openItems"
   tabs
-  toggle-theme = "toggleTheme"
 )
 div(
   add-tab
@@ -11,6 +10,7 @@ div(
 )
 //- active panel
 .active-panel(
+  ng-class = "colorScheme.getSchemeStyle()"
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
@@ -29,7 +29,6 @@ div(
     file-editor
     file = "item"
     useAutoUpdate = "update"
-    toggle-theme = "toggleTheme"
   )
   .term-container(
     ng-if = "item.state.type === 'Terminal'"
@@ -37,6 +36,7 @@ div(
     item = "item"
   )
     span.js-char-width 0
+
   .web-container(
     web-view
     ng-if = "item.state.type === 'WebView'"

@@ -12,6 +12,7 @@ require('app')
  * @ngInject
  */
 function fileEditor(
+  colorScheme,
   debounce,
   keypather,
   modelist,
@@ -23,10 +24,10 @@ function fileEditor(
     restrict: 'A',
     templateUrl: 'viewFileEditor',
     scope: {
-      file: '=',
-      toggleTheme: '='
+      file: '='
     },
     link: function ($scope, element, attrs) {
+      $scope.colorScheme = colorScheme;
 
       var actions = $scope.actions = {};
 
