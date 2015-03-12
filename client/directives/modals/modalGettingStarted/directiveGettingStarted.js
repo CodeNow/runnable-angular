@@ -196,8 +196,7 @@ function modalGettingStarted(
           name: 'NewInstance'
         },
         step: 1,
-        furthestStep: 1,
-        unableToBuild: false
+        furthestStep: 1
       };
       keypather.set($scope, 'data.accountsDisabled', function () {
         return $scope.state.step > 1;
@@ -257,8 +256,9 @@ function modalGettingStarted(
           });
         }).then(function (instances) {
           $scope.data.instances = instances;
-        }).catch(function(e){
-          $scope.state.unableToBuild = true;
+        }).catch(function(){
+          $scope.defaultActions.cancel();
+          errs.handler(new Error("We are unable to create servers at this time, please try again later."));
         });
       }
 

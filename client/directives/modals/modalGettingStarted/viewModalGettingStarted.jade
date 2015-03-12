@@ -1,20 +1,6 @@
-.modal-dialog(
-  ng-if = "state.unableToBuild"
-)
-  .modal-body
-    h3 Unable to create new instances
-    p We are unable to create new instances at this time. Our engineers have been notified and are furiously working on resolving the issue.
-    p Please try again later.
-    button.btn.btn-lg.white(
-      ng-click = "defaultActions.cancel();"
-      ng-hide = 'state.hideCancelButton'
-    ) Close
-
-
 .modal-dialog.modal-sidebar.modal-wizard.modal-getting-started(
   name = "gettingStarted"
   ng-form
-  ng-if = "!state.unableToBuild"
 )
   nav.modal-navbar
     header(
