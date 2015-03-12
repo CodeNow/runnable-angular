@@ -57,6 +57,7 @@ form.modal-dialog.modal-integrations(
         ) Get your API Token from Slack
       .input-col
         input.input.input-sm.input-validate(
+          ng-disabled = "data.verified"
           ng-model = "data.settings.notifications.slack.authToken"
           required
         )
@@ -66,6 +67,10 @@ form.modal-dialog.modal-integrations(
           }"
         )
           span.validate-rules.invalid-pattern Invalid Auth
+        button.btn.btn-xxs.white(
+          ng-click = "data.verified = !data.verified"
+          ng-if = "data.verified"
+        ) Change Token
         //- if input was invalid and the user presses verify again, remove ng-invalid from input until the input is checked again
         button.btn.btn-sm.green.btn-spinner(
           ng-click = "actions.verifySlack()"
@@ -141,6 +146,7 @@ form.modal-dialog.modal-integrations(
         ) Get your API Token from Hipchat
       .input-col
         input.input.input-sm.input-validate(
+          ng-disabled = "data.verified"
           required
         )
         .validate-wrapper.btn-sm.orange(
