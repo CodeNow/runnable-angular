@@ -3,6 +3,7 @@
 module.exports = [
   'e2e/helpers/login.js',
   'e2e/createBox.e2e.js',
+  'e2e/filterSidePanel.e2e.js',
   'e2e/watchBuildLogs.e2e.js',
   'e2e/editContainerfile.e2e.js',
   // 'e2e/readLogs.e2e.js',
