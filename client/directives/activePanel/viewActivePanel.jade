@@ -43,29 +43,33 @@ div(
   )
 //- blank state
 .blank-panel(
-  ng-if= "openItems.models.length === 0"
+  ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
   ul.blank-panel-group
     li.btn.white(
-    ng-click = "openItems.addWebView()"
+      ng-if = "showBackgroundButtons.web"
+      ng-click = "openItems.addWebView()"
     )
       svg.iconnables.iconnables-lg.icons-web
         use(xlink:href = "#icons-web")
       | Web View
     li.btn.white(
-    ng-click = "openItems.addTerminal()"
+      ng-if = "showBackgroundButtons.term"
+      ng-click = "openItems.addTerminal()"
     )
       svg.iconnables.iconnables-lg.icons-terminal
         use(xlink:href = "#icons-terminal")
       | Terminal
     li.btn.white(
-    ng-click = "openItems.addBuildStream()"
+      ng-if = "showBackgroundButtons.build"
+      ng-click = "openItems.addBuildStream()"
     )
       svg.iconnables.iconnables-lg.icons-logs
         use(xlink:href = "#icons-logs")
       | Build Log
     li.btn.white(
-    ng-click = "openItems.addLogs()"
+      ng-if = "showBackgroundButtons.server"
+      ng-click = "openItems.addLogs()"
     )
       svg.iconnables.iconnables-lg.icons-server
         use(xlink:href = "#icons-server")
