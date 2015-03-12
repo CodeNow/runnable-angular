@@ -49,7 +49,7 @@
 
   // unverified state
   &.no-verify {
-    max-height: 242px;
+    max-height: 260px;
   }
 
   // default state
@@ -83,6 +83,12 @@
     width: 21px;
   }
 
+  // api token
+  .input[disabled] {
+    color: $green;
+    font-size: 14px;
+  }
+
   // form.modal-body
   .modal-body {
     display: flex;
@@ -93,12 +99,6 @@
     @include media(sm) {
       padding: 15px;
     }
-  }
-
-  // verify button
-  .input-col ~ .green {
-    float: right;
-    margin-top: 6px;
   }
 
   .list-item {

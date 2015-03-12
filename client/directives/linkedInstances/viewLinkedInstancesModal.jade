@@ -22,6 +22,7 @@ small.small Forking linked servers
         instance = "depItem.instance"
         ng-model = "depItem.opts.name"
         placeholder = "My-Server"
+        spellcheck = "false"
         validate-name = "instances"
         validate-name-pattern
       )
@@ -33,7 +34,8 @@ small.small Forking linked servers
     .validate-wrapper.btn-sm.orange(
       ng-class = "{\
         'invalid-pattern': depItemForm.$error.namePattern.length,\
-        'invalid-name': depItemForm.$error.nameAvailable.length\
+        'invalid-name': depItemForm.$error.nameAvailable.length,\
+        'invalid-require': depItemForm.$error.nameRequire.length\
       }"
     )
       span.validate-rules.invalid-pattern Please use #{''}
@@ -42,4 +44,5 @@ small.small Forking linked servers
         b.btn-xs.orange 0-9
         b.btn-xs.orange _
         b.btn-xs.orange -
-      span.validate-rules.invalid-name That's a pretty name, but it's taken.
+      span.validate-rules.invalid-name That's a pretty name, but it's taken
+      span.validate-rules.invalid-require Give your server an alphanumeric name

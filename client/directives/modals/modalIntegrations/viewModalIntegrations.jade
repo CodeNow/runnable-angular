@@ -55,14 +55,36 @@ form.modal-dialog.modal-integrations(
           href = "https://slack.com/services/new/bot"
           target = "_blank"
         ) Get your API Token from Slack
-      input.input.input-sm.input-validate.input-col(
-        ng-model = "data.settings.notifications.slack.authToken"
-        required
-      )
-      button.btn.btn-sm.green(
-        ng-click = "actions.verifySlack()"
-        ng-if = "!data.verified"
-      ) Verify
+      .input-col
+        input.input.input-sm.input-validate(
+          ng-disabled = "data.verified"
+          ng-model = "data.settings.notifications.slack.authToken"
+          required
+        )
+        .validate-wrapper.btn-sm.orange(
+          ng-class = "{\
+            'invalid-pattern': false,\
+          }"
+        )
+          span.validate-rules.invalid-pattern Invalid Auth
+        button.btn.btn-xxs.white(
+          ng-click = "data.verified = !data.verified"
+          ng-if = "data.verified"
+        ) Change Token
+        //- if input was invalid and the user presses verify again, remove ng-invalid from input until the input is checked again
+        button.btn.btn-sm.green.btn-spinner(
+          ng-click = "actions.verifySlack()"
+          ng-if = "!data.verified"
+        )
+          .spinner-wrapper.spinner-sm.spinner-white.in(
+            ng-if = "{in: false}"
+            ng-include = "'spinner'"
+          )
+          | Verify
+        button.btn.btn-sm.white(
+          ng-click = ""
+          ng-if = "!data.verified"
+        ) Cancel
       //- validation for special cahrs
     .label.clearfix(
       ng-if = "data.verified"
@@ -81,7 +103,7 @@ form.modal-dialog.modal-integrations(
               width = "21"
             )
             | @{{ member.name }}
-            select(
+            select.select(
               ng-if = "!member.found"
               ng-model = "member.ghName"
               ng-options = "ghMember for ghMember in data.ghMembers"
@@ -122,13 +144,30 @@ form.modal-dialog.modal-integrations(
           href = "//www2.warnerbros.com/spacejam/movie/jam.htm"
           target = "_blank"
         ) Get your API Token from Hipchat
-      input.input.input-sm.input-validate.input-col(
-        required
-      )
-      button.btn.btn-sm.green(
-        ng-click = "data.verified = true"
-        ng-if = "!data.verified"
-      ) Verify
+      .input-col
+        input.input.input-sm.input-validate(
+          ng-disabled = "data.verified"
+          required
+        )
+        .validate-wrapper.btn-sm.orange(
+          ng-class = "{\
+            'invalid-pattern': false,\
+          }"
+        )
+          span.validate-rules.invalid-pattern Invalid Auth
+        button.btn.btn-sm.green.btn-spinner(
+          ng-click = "data.verified = true"
+          ng-if = "!data.verified"
+        )
+          .spinner-wrapper.spinner-sm.spinner-white.in(
+            ng-if = "{in: false}"
+            ng-include = "'spinner'"
+          )
+          | Verify
+        button.btn.btn-sm.white(
+          ng-click = ""
+          ng-if = "!data.verified"
+        ) Cancel
       //- validation for special cahrs
     .label.clearfix(
       ng-if = "data.verified"
