@@ -66,11 +66,6 @@ function popoverFileExplorerFolderMenu(
         closeModal();
       };
 
-      actions.toggleFolderOpen = function () {
-        keypather.set($scope, 'dir.state.open', !keypather.get($scope, 'dir.state.open'));
-        closeModal();
-      };
-
       actions.renameFolder = function () {
         closeModal();
         dirItemData.editFolderName = true;
