@@ -36,6 +36,7 @@ function activePanel(
       // allow iframe to load url
       $scope.$sce = $sce;
       $scope.colorScheme = colorScheme;
+      $scope.useAutoUpdate = !!attrs.useAutoUpdate;
     }
   };
 }

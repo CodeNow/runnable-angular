@@ -1,7 +1,7 @@
 button.toggle-theme(
   ng-class = "{ \
-    dark: !colorScheme.isDarkScheme(), \
-    light: colorScheme.isDarkScheme() \
+    dark: colorScheme.isDarkScheme(), \
+    light: !colorScheme.isDarkScheme() \
   }"
   ng-click = "colorScheme.toggleScheme()"
   tooltip = "Change Theme"
