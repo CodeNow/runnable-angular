@@ -19,14 +19,17 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
 
 
   function initState(addFileToScope, autoUpdate) {
+    var updatedBody = null;
     fileMock.fetch = sinon.spy(function (cb) {
+      if (updatedBody !== null) {
+        fileMock.attrs.body = updatedBody;
+        updatedBody = null;
+      }
       fileFetchCb = cb;
     });
     fileMock.update = sinon.spy(function (opts, cb) {
       fileUpdateCb = cb;
-      Object.keys(opts).forEach(function (key) {
-        fileMock.attrs.name = opts.name;
-      });
+      updatedBody = opts.json.body;
     });
 
     setModeSpy = sinon.spy(function (mode) {
@@ -166,6 +169,8 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       });
       fileUpdateCb();
       $scope.$apply();
+      fileFetchCb();
+      $scope.$apply();
       expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
       expect($elScope.loading, 'loading').to.be.false;
     });
@@ -181,13 +186,14 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
     });
 
 
-    it('Should update after recieving an event over the scope', function () {
+    it('Should update after receiving an event over the scope', function () {
       initState(true);
       fileFetchCb();
       $scope.$apply();
 
       fileMock.state.body = '';
       $scope.$apply();
+      sinon.assert.notCalled(fileMock.update);
 
       $scope.$broadcast('EDITOR::SAVE', true);
       $scope.$apply();
@@ -198,6 +204,8 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
         }
       });
       fileUpdateCb();
+      $scope.$apply();
+      fileFetchCb();
       $scope.$apply();
       expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
       expect($elScope.loading, 'loading').to.be.false;

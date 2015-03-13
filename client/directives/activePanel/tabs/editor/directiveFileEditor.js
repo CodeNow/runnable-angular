@@ -70,30 +70,29 @@ function fileEditor(
             body: $scope.file.state.body
           }
         }).then(function () {
-          delete $scope.file.state.isDirty;
+          return promisify($scope.file, 'fetch')();
         }).catch(
           errs.handler
         ).finally(function () {
           $scope.loading = false;
         });
       }
-      var updateFileDebounce = debounce(updateFile, 333);
+      var updateFileDebounce = debounce(updateFile, 1000);
 
       var fileUnwatch = $scope.$watch('file', function (n) {
         if (n) {
           fileUnwatch();
           $scope.$on('EDITOR::SAVE', updateFile);
-          $scope.$watch('file.state.body', function (newVal) {
-            if (typeof newVal === 'string' &&
-                newVal !== $scope.file.attrs.body &&
-                !keypather.get($scope.file, 'state.isDirty')) {
-              keypather.set($scope.file, 'state.isDirty', true);
-              if ($scope.useAutoUpdate) {
+
+          fetchFile().then(function () {
+            $scope.$watch(function () {
+              return keypather.get($scope.file, 'state.body') !== $scope.file.attrs.body;
+            }, function (isDirty) {
+              keypather.set($scope.file, 'state.isDirty', isDirty);
+              if (isDirty && $scope.useAutoUpdate) {
                 updateFileDebounce();
               }
-            }
-          });
-          fetchFile().then(function () {
+            });
             // Send the updateFile promise up to the parent
             $scope.$emit('FETCH_FILE_SUCCESSFUL', n, updateFile);
           });
