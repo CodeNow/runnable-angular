@@ -91,12 +91,12 @@ function accountsSelect (
             githubUsername: $state.params.userName
           }).then(function(settings) {
             console.log('settings', settings);
-            mData.settings = settings;
+            mData.settings = settings.models[0].attrs;
             if (keypather.get(mData, 'settings.notifications.slack.authToken')) {
-              return fetchSlackMembers(mData.settings.notifications.slack.authToken);
+              mData.showSlack = true;
+              // TODO: Don't verify every time
+              return mActions.verifySlack();
             }
-          }).then(function (members) {
-            mData.slackMembers = members;
           }).catch(errs.handler);
         }
       });
