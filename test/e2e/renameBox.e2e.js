@@ -8,7 +8,9 @@ var util = require('./helpers/util');
 
 var InstancePage = require('./pages/InstancePage');
 
-describe('rename box', function() {
+var users = require('./helpers/users');
+
+describe('rename box', users.doMultipleUsers(function(username) {
   it('should rename a running box', function() {
     var instance = new InstancePage('Test-0');
     instance.get();
@@ -26,4 +28,4 @@ describe('rename box', function() {
 
     expect(newInstance.getName()).toEqual('Test-Rename');
   });
-});
+}));
