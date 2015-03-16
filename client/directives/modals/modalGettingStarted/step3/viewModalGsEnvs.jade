@@ -2,7 +2,7 @@
   ng-hide = "data.hideGuide"
 ) A separate server is created for each dependency we think your app needs. These servers are linked with the environment variables below.
   br
-  a.small.link.link-text(
+  a.small.link(
      href = "https://runnable.zendesk.com/hc/en-us/articles/203676969"
      target = "_blank"
   )
@@ -33,10 +33,10 @@ h2.sub-header Dependencies & Environment Variables
 .label.clearfix(
   ng-repeat = "model in state.dependencies"
 )
-  .label-col {{ model.opts.name || model.instance.attrs.name }}
+  .label-col.label-details {{ model.opts.name || model.instance.attrs.name }}
     small.small {{ model.env.newUrl || model.env.originalUrl }}
   .input-col
-    input.input.input-sm.input-validate(
+    input.input.input-sm.input-validate.monospace(
       placeholder = "{{ model.env.placeholder }}"
       ng-model = "model.env.model"
       required
@@ -63,7 +63,7 @@ h2.sub-header Dependencies & Environment Variables
   .input-col(
     ng-repeat = "env in model.otherEnvs"
   )
-    input.input.input-sm.input-validate(
+    input.input.input-sm.input-validate.monospace(
       ng-model = "env.model"
       placeholder = "ENV_VAR=value"
       validate-env-pattern
@@ -84,10 +84,10 @@ button.btn.btn-sm.gray.btn-add-dependency(
 //- other vars
 .hr
 .label.label-textarea.clearfix
-  .label-col Additional Variables
+  .label-col.label-details Additional Variables
     small.small Optional
   .input-col
-    textarea.textarea.pre.input-validate(
+    textarea.textarea.pre.input-validate.monospace(
       placeholder = "ENV_VAR=value"
       spellcheck = "false"
       ng-model = "state.extraEnvs"

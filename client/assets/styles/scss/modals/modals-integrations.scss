@@ -1,75 +1,158 @@
 .modal-integrations {
-  height: 382px;
+  height: 100%;
+  max-height: 660px;
+  transition: max-height .15s ease-in, width .15s ease-in;
+  width: 600px;
 
-  @include media(md) {
-    height: 535px;
+  @include media(sm) {
+    width: calc(100% - 30px);
   }
 
-  @include media(xs) {
-    height: 100%;
-  }
+  // uninitiated state
+  &.no-data {
+    max-height: 242px;
+    width: 370px;
 
-  .list {
-    max-height: 377px;
-    overflow-y: auto;
-    padding-bottom: 15px;
-
-    @include media(md) {
-      max-height: 530px;
+    // header
+    .modal-header {
+      background: none;
+      border-color: transparent;
+      height: auto;
     }
 
-    @include media(xs) {
-      max-height: none;
+    .modal-heading {
+      // reset default
+      float: none;
+      text-align: center;
+    }
+
+    .modal-header-actions {
+      justify-content: center;
+    }
+
+    .btn-radio {
+      height: 108px;
+      width: 120px;
+    }
+
+    .img {
+      margin-bottom: 6px;
+      width: 36px;
+    }
+
+    // small footer
+    .footer-link {
+      line-height: 45px;
+      text-align: center;
     }
   }
 
+  // unverified state
+  &.no-verify {
+    max-height: 260px;
+  }
+
+  // default state
+  // header
+  .modal-header {
+    background: $gray-lightest;
+    border-bottom: 1px solid rgba($black,.1);
+    height: 84px;
+    padding: 12px;
+    transition: all .15s ease-in;
+  }
+
+  .modal-header-actions {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .btn-radio {
+    font-size: 13px;
+    height: 60px;
+    width: 60px;
+
+    + .btn-radio {
+      margin-left: 6px;
+    }
+  }
+
+  .img {
+    height: 33px;
+    margin: 0 auto;
+    width: 21px;
+  }
+
+  // api token
+  .input[disabled] {
+    color: $green;
+    font-size: 14px;
+  }
+
+  // form.modal-body
   .modal-body {
-    padding: 15px 6px 6px;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 30px;
+
+    @include media(sm) {
+      padding: 15px;
+    }
   }
 
-  .col {
-    float: left;
+  .list-item {
+    color: $gray-light;
+    height: 45px;
+    line-height: 45px;
+    margin: 0;
+    padding: 0 30px 0 9px;
+    position: relative;
 
-    &:first-child {
-      width: 150px;
+    + .list-item {
+      border-top: 1px solid rgba($black,.1);
     }
 
-    &:last-child {
-      width: 360px;
+    .gravatar {
+      margin: 12px 9px 0 0;
+      opacity: .3;
+    }
 
-      @include media(md) {
-        width: 100%;
+    &.active {
+      color: $gray-darker;
+
+      .gravatar {
+        opacity: 1;
+      }
+    }
+
+    &.disabled {
+      color: $gray-light;
+      cursor: not-allowed;
+
+      .gravatar {
+        opacity: .3;
       }
     }
   }
 
-  .input-group {
+  .input-checkbox {
     margin: 0;
-
-    + .input-group {
-      margin-top: 6px;
-    }
+    position: absolute;
+    right: 8px;
+    top: 0;
   }
 
-  .link-reference {
-    display: inline-block;
-    margin: 4px 0 0 15px;
+  .select {
+    max-width: 108px;
+    position: absolute;
+    right: 6px;
+    top: 11px;
   }
 
-  // save button
-  .green {
-    float: right;
-    margin: 6px 0 0;
-  }
-
-  .hr {
-    background: rgba($black,.1);
-    border: 0;
-    height: 1px;
-    margin: 15px;
-
-    @include media(md) {
-      margin: 30px 9px;
-    }
+  // footer
+  .modal-footer {
+    box-shadow: 0 -3px 6px $white;
+    z-index: 1;
   }
 }

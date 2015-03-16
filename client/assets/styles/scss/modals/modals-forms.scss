@@ -1,0 +1,124 @@
+.modal-dialog {
+
+  // label (row)
+  .label {
+    display: block;
+    flex: 0 0 auto;
+    line-height: 1.2;
+    margin-bottom: 21px;
+    position: relative;
+
+    @include media(xs) {
+      margin-bottom: 15px;
+    }
+
+    + .label {
+      margin-top: 21px;
+
+      @include media(xs) {
+        margin-top: 15px;
+      }
+    }
+  }
+
+  // label column (left)
+  .label-col {
+    float: left;
+    font-weight: 500;
+    height: 36px;
+    line-height: 36px;
+    padding-right: 15px;
+    text-align: right;
+    width: 45%;
+    word-break: break-word;
+
+    @include media(xs) {
+      float: none;
+      text-align: left;
+      width: 100%;
+    }
+
+    .small {
+      margin-top: 2px;
+    }
+
+    &.label-details {
+      line-height: 1.2;
+
+      @include media(sm) {
+        height: auto;
+        margin: 0 6px 6px;
+        min-height: 36px;
+      }
+    }
+  }
+
+  // input column (right)
+  .input-col {
+    float: right;
+    text-align: left;
+    width: 55%;
+
+    @include media(xs) {
+      float: none;
+      width: 100%;
+    }
+
+    // action button
+    > .btn {
+      float: right;
+      margin-top: 6px;
+
+      + .btn {
+        margin-right: 6px;
+      }
+    }
+
+    // validation
+    &.input,
+    .input {
+
+      &.ng-invalid {
+        border-radius: 3px 3px 0 0;
+      }
+    }
+
+    .validate-wrapper {
+      border-radius: 0 0 3px 3px;
+      margin: 0;
+    }
+  }
+
+  // button groups
+  .btn-group {
+
+    .btn {
+      width: 50%;
+
+      + .btn {
+        padding-left: 15px;
+      }
+    }
+
+    // additional button groups
+    + .btn-group {
+      margin-top: 6px;
+    }
+  }
+
+  // label-footer
+  .label-footer {
+    border-top: 1px solid rgba($black,.1);
+    padding-top: 15px;
+
+    .btn {
+      display: table;
+      margin: 0 auto;
+    }
+
+    .small {
+      margin-top: 9px;
+      text-align: center;
+    }
+  }
+}

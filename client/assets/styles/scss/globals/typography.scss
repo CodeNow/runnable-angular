@@ -90,55 +90,24 @@ input ~ small {
   white-space: pre;
 }
 
+// monospace
+.monospace {
+  font-family: 'Source Code Pro', monospace;
+  font-weight: 500;
+}
+
 // links
 .link {
   color: $gray-dark;
-  text-decoration: none;
-
-  &:hover {
-    color: $gray-darker;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  &:active {
-    text-decoration: none;
-    transform: translate(0,1px,0); // only works if inline-block
-  }
-}
-
-.link-white {
-  color: $white;
-
-  &:hover,
-  &:active {
-    color: $white;
-  }
-}
-
-.link-gray {
-  color: $gray;
-
-  &:hover,
-  &:active {
-    color: $gray-dark;
-  }
-}
-
-.link-text {
+  cursor: pointer;
   text-decoration: underline;
-}
 
-.link-secondary {
-  color: $gray;
-  display: table;
-  font-size: 14px;
-  margin: 0 auto;
-}
+  &:hover,
+  &:active {
+    color: $gray-darker;
+    text-decoration: none;
+  }
 
-.link-reference {
-  font-size: 12px;
-  vertical-align: text-top;
 }
 
 // single line overflow

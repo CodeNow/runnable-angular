@@ -33,13 +33,13 @@
     ul.list.popover-list(
       ng-if = "data.isMainPage"
     )
-      //- li.list-item.popover-list-item(
-      //-   modal
-      //-   modal-actions = "actions.actionsModalIntegrations"
-      //-   modal-data = "data.dataModalIntegrations"
-      //-   modal-template = "viewOpenModalIntegrations"
-      //- )
-      //-   | Integrations
+      li.list-item.popover-list-item(
+        modal
+        modal-actions = "actions.actionsModalIntegrations"
+        modal-data = "data.dataModalIntegrations"
+        modal-template = "viewOpenModalIntegrations"
+      )
+        | Integrations
       li.list-item.popover-list-item(
         ng-if = "data.inDev"
         ng-click = "actions.clearAllUserOptions();"
