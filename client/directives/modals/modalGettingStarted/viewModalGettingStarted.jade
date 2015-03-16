@@ -1,114 +1,167 @@
-.modal-dialog.modal-sidebar.modal-wizard.modal-getting-started(
-  name = "gettingStarted"
-  ng-form
-)
-  nav.modal-navbar
-    header(
-      accounts-select
-      data = "data"
+.modal-dialog.modal-wizard.modal-getting-started
+  .modal-header
+    h1.modal-heading Choose Organization
+  //- remove this ng-click
+  .modal-body(
+    ng-click = "data.org = true"
+    ng-init = "data.org = false"
+  )
+    //- <input> [name] must match across all inputs
+      - <label> [for] and corresponding <input> [id] must match
+    input.input-radio(
+      id = "radio-codenow"
+      name = "data.org"
+      type = "radio"
     )
-    h3.modal-heading Create New Server
-    ul.list
-      li.list-item.btn.white(
-        ng-class = "{active: state.step === 1,\
-          visited: state.furthestStep > 1}"
-        ng-click = "actions.changeStep(1)"
-      ) 1 Repository
-        small.small.text-overflow(
-          ng-if = "state.furthestStep > 1"
-        )
-          svg.iconnables.icons-repository
-            use(
-              xlink:href = "#icons-repository"
-            )
-          | {{ state.selectedRepo.attrs.full_name }}
-      li.list-item.btn.white(
-        ng-class = "{active: state.step === 2,\
-          'no-touching': state.furthestStep < 2,\
-          visited: state.furthestStep > 2}"
-        ng-click = "actions.changeStep(2)"
-      ) 2 Application
-        small.small.text-overflow(
-          ng-if = "state.furthestStep > 2"
-        )
-          svg.iconnables.icons-branch
-            use(
-              xlink:href = "#icons-branch"
-            )
-          | {{ state.activeBranch.attrs.name }}
-        small.small.text-overflow(
-          ng-if = "state.furthestStep > 2"
-        )
-          svg.iconnables.icons-rails
-            use(
-              xlink:href = "{{ state.stack.key | getStackIconFilter }}"
-            )
-          | {{ state.stack.name }}
-        small.small.text-overflow(
-          ng-if = "state.furthestStep > 2"
-          ng-repeat = "depStack in state.stack.dependencies"
-        )
-          svg.iconnables.icons-rails
-            use(
-              xlink:href = "{{ depStack.key | getStackIconFilter }}"
-            )
-          | {{ depStack.name }}
-      li.list-item.btn.white(
-        ng-class = "{active: state.step === 3,\
-          'no-touching': state.furthestStep < 3}"
-        ng-click = "actions.changeStep(3)"
-      ) 3 Dependencies
-    a.btn.btn-xs.btn-help(
-      href = "//support.runnable.io"
-      target = "_blank"
-    ) ?
-    .modal-navbar-footer
-      button.btn.btn-xxs.white(
-        ng-click = "defaultActions.cancel();"
-        ng-hide = 'state.hideCancelButton'
-      ) Cancel
-      a.btn.btn-xxs.white(
-        ng-click = "actions.skipTutorial();"
-      ) Skip to Dockerfile
-  .modal-body.modal-repo-selector(
-    actions = "actions"
-    app-data = "dataAppData"
-    data = "data"
-    gs-repo-selector
-    ng-if = "state.step === 1"
-    state = "state"
-  )
-  .modal-body.modal-stack-selector.clearfix(
-    actions = "actions"
-    data = "data"
-    modal-stack-selector
-    ng-if = "state.step === 2"
-    state = "state"
-  )
-  .modal-body.modal-gs-environments(
-    actions = "actions"
-    data = "data"
-    modal-stack-dependencies
-    ng-if = "state.step === 3"
-    state = "state"
-  )
-  footer.modal-footer.clearfix(
-    ng-if = "state.step === 2"
-  )
-    button.btn.green(
-      ng-click = "actions.nextStep(3)"
-    ) Next Step
-    button.btn.white(
-      ng-click = "actions.changeStep(1)"
-    ) Previous Step
-  footer.modal-footer.clearfix(
-    ng-if = "state.step === 3"
-  )
-    button.btn.green(
-      ng-click = "actions.createAndBuild();"
-      ng-disabled = "gettingStarted.$invalid"
-      ng-show = "state.step === 3"
-    ) Build Server
-    button.btn.white(
-      ng-click = "state.step = 2"
-    ) Previous Step
+    label.btn-lg.btn-radio(
+      for = "radio-codenow"
+    )
+      img.img(
+        height = "36"
+        src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=120"
+        width = "36"
+      )
+      | CodeNow
+    input.input-radio(
+      id = "radio-runnabro"
+      name = "data.org"
+      type = "radio"
+    )
+    label.btn-lg.btn-radio(
+      for = "radio-runnabro"
+    )
+      img.img(
+        height = "36"
+        src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=120"
+        width = "36"
+      )
+      | Runnabro
+    input.input-radio(
+      id = "radio-runnable"
+      name = "data.org"
+      type = "radio"
+    )
+    label.btn-lg.btn-radio(
+      for = "radio-runnable"
+    )
+      img.img(
+        height = "36"
+        src = "https://avatars3.githubusercontent.com/u/2828361?v=3&s=120"
+        width = "36"
+      )
+      | Runnable
+  footer.modal-footer.clearfix
+    button.btn.btn-sm.green(
+      ng-disabled = "!data.org"
+    ) Next
+
+  //- nav.modal-navbar
+  //-   header(
+  //-     accounts-select
+  //-     data = "data"
+  //-   )
+  //-   h3.modal-heading Create New Server
+  //-   ul.list
+  //-     li.list-item.btn.white(
+  //-       ng-class = "{active: state.step === 1,\
+  //-         visited: state.furthestStep > 1}"
+  //-       ng-click = "actions.changeStep(1)"
+  //-     ) 1 Repository
+  //-       small.small.text-overflow(
+  //-         ng-if = "state.furthestStep > 1"
+  //-       )
+  //-         svg.iconnables.icons-repository
+  //-           use(
+  //-             xlink:href = "#icons-repository"
+  //-           )
+  //-         | {{ state.selectedRepo.attrs.full_name }}
+  //-     li.list-item.btn.white(
+  //-       ng-class = "{active: state.step === 2,\
+  //-         'no-touching': state.furthestStep < 2,\
+  //-         visited: state.furthestStep > 2}"
+  //-       ng-click = "actions.changeStep(2)"
+  //-     ) 2 Application
+  //-       small.small.text-overflow(
+  //-         ng-if = "state.furthestStep > 2"
+  //-       )
+  //-         svg.iconnables.icons-branch
+  //-           use(
+  //-             xlink:href = "#icons-branch"
+  //-           )
+  //-         | {{ state.activeBranch.attrs.name }}
+  //-       small.small.text-overflow(
+  //-         ng-if = "state.furthestStep > 2"
+  //-       )
+  //-         svg.iconnables.icons-rails
+  //-           use(
+  //-             xlink:href = "{{ state.stack.key | getStackIconFilter }}"
+  //-           )
+  //-         | {{ state.stack.name }}
+  //-       small.small.text-overflow(
+  //-         ng-if = "state.furthestStep > 2"
+  //-         ng-repeat = "depStack in state.stack.dependencies"
+  //-       )
+  //-         svg.iconnables.icons-rails
+  //-           use(
+  //-             xlink:href = "{{ depStack.key | getStackIconFilter }}"
+  //-           )
+  //-         | {{ depStack.name }}
+  //-     li.list-item.btn.white(
+  //-       ng-class = "{active: state.step === 3,\
+  //-         'no-touching': state.furthestStep < 3}"
+  //-       ng-click = "actions.changeStep(3)"
+  //-     ) 3 Dependencies
+  //-   a.btn.btn-xs.btn-help(
+  //-     href = "//support.runnable.io"
+  //-     target = "_blank"
+  //-   ) ?
+  //-   .modal-navbar-footer
+  //-     button.btn.btn-xxs.white(
+  //-       ng-click = "defaultActions.cancel();"
+  //-       ng-hide = 'state.hideCancelButton'
+  //-     ) Cancel
+  //-     a.btn.btn-xxs.white(
+  //-       ng-click = "actions.skipTutorial();"
+  //-     ) Skip to Dockerfile
+  //- .modal-body.modal-repo-selector(
+  //-   actions = "actions"
+  //-   app-data = "dataAppData"
+  //-   data = "data"
+  //-   gs-repo-selector
+  //-   ng-if = "state.step === 1"
+  //-   state = "state"
+  //- )
+  //- .modal-body.modal-stack-selector.clearfix(
+  //-   actions = "actions"
+  //-   data = "data"
+  //-   modal-stack-selector
+  //-   ng-if = "state.step === 2"
+  //-   state = "state"
+  //- )
+  //- .modal-body.modal-gs-environments(
+  //-   actions = "actions"
+  //-   data = "data"
+  //-   modal-stack-dependencies
+  //-   ng-if = "state.step === 3"
+  //-   state = "state"
+  //- )
+  //- footer.modal-footer.clearfix(
+  //-   ng-if = "state.step === 2"
+  //- )
+  //-   button.btn.green(
+  //-     ng-click = "actions.nextStep(3)"
+  //-   ) Next Step
+  //-   button.btn.white(
+  //-     ng-click = "actions.changeStep(1)"
+  //-   ) Previous Step
+  //- footer.modal-footer.clearfix(
+  //-   ng-if = "state.step === 3"
+  //- )
+  //-   button.btn.green(
+  //-     ng-click = "actions.createAndBuild();"
+  //-     ng-disabled = "gettingStarted.$invalid"
+  //-     ng-show = "state.step === 3"
+  //-   ) Build Server
+  //-   button.btn.white(
+  //-     ng-click = "state.step = 2"
+  //-   ) Previous Step

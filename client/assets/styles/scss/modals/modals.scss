@@ -92,10 +92,12 @@
 
 // header.modal-header
 .modal-header {
-  background: $white;
   border-radius: 3px 3px 0 0;
   flex: 0 0 auto;
   height: 60px;
+  padding: 0 15px;
+  text-align: center;
+  transition: all .15s ease-in;
 
   .show-aside & {
     border-top-right-radius: 0;
@@ -114,9 +116,8 @@
 // h1.modal-heading
 .modal-heading {
   float: left;
-  font-size: 23px;
+  font-size: 21px;
   line-height: 60px;
-  padding: 0 21px;
 }
 
 // main.modal-body
@@ -214,11 +215,11 @@
 
 // footer.modal-footer
 .modal-footer {
-  background: $white;
+  background: $gray-lightest;
   border-radius: 0 0 3px 3px;
+  border-top: 1px solid rgba($black,.1);
   flex: 0 0 auto;
-  height: 63px;
-  padding: 9px;
+  padding: 9px 15px;
 
   .green,
   .orange,

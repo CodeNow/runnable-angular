@@ -87,7 +87,6 @@
 .btn-sm {
   height: 36px;
   line-height: 36px;
-  padding: 0 6px;
 
   > .icons-arrow-down {
     top: 6px;
@@ -383,6 +382,15 @@
  }
 
 // .btn-radio
+.input-radio {
+  display: none;
+
+  &:checked + .btn-radio {
+    border-color: $purple-light;
+    box-shadow: 0 0 3px rgba($purple-light,.3);
+  }
+}
+
 .btn-radio {
   background: $white;
   border: 1px solid rgba($black,.15);
@@ -390,16 +398,23 @@
   box-shadow: none;
   cursor: pointer;
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
+  height: 60px;
+  margin-right: 6px;
   text-align: center;
   transition: all .15s ease-in;
   user-select: none;
   white-space: nowrap;
+  width: 60px;
 
   &:hover,
   &:active,
   &.active {
     border-color: $purple-light;
+  }
+
+  &.active {
+    box-shadow: 0 0 3px rgba($purple-light,.3);
   }
 
   &:active {
@@ -410,9 +425,25 @@
     outline: 0;
   }
 
+  &.btn-lg {
+    height: 108px;
+    width: 120px;
+
+    .img {
+      margin-bottom: 6px;
+      width: 36px;
+    }
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
   .img {
     display: block;
+    height: 33px;
     margin: 0 auto;
+    width: 21px;
   }
 }
 

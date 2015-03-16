@@ -12,7 +12,10 @@ form.modal-dialog.modal-integrations(
     ) Choose Integration
     .modal-header-actions
       button.btn-radio(
-        ng-class = "{active: data.showHipchat}"
+        ng-class = "{\
+          active: data.showHipchat,\
+          'btn-lg': !data.showHipchat && !data.showSlack,\
+        }"
         ng-click = "\
           data.showHipchat = true;\
           data.showSlack = false;\
@@ -26,7 +29,10 @@ form.modal-dialog.modal-integrations(
         )
         | Hipchat
       button.btn-radio(
-        ng-class = "{active: data.showSlack}"
+        ng-class = "{\
+          active: data.showSlack,\
+          'btn-lg': !data.showHipchat && !data.showSlack,\
+        }"
         ng-click = "\
           data.showSlack = true;\
           data.showHipchat = false;\
