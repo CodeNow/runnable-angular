@@ -40,16 +40,9 @@ function instancePrimaryActions(
           $scope.saving = false;
         });
         var updateModelPromises = $scope.openItems.models.filter(function (model) {
-          if (typeof keypather.get(model, 'attrs.body') !== 'string') {
-            return false;
-          }
-          return (model.attrs.body !== model.state.body);
+          return (typeof keypather.get(model, 'actions.saveChanges') === 'function');
         }).map(function (model) {
-          return promisify(model, 'update')({
-            json: {
-              body: model.state.body
-            }
-          });
+          return model.actions.saveChanges();
         });
         $timeout(stopSavingCb.next, 1500);
         $q.all(
