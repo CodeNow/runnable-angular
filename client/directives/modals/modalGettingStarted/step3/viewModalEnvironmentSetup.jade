@@ -1,0 +1,21 @@
+.modal-header
+  h1.modal-heading Setup Environment
+    button.btn.btn-xs.green Add Server
+    p.small Each repository will be created as its own server
+.modal-body
+  .well.gray
+    h2.well-header api
+    ul.list
+      li.list-item
+        .col Language
+        .col v3.1
+      li.list-item
+        .col Ports
+        .col 3000
+
+footer.modal-footer.clearfix
+  button.btn.btn-sm.green Create Environment
+  button.btn.btn-sm.white(
+    ng-click = "state.step = 1"
+  ) Back
+  span

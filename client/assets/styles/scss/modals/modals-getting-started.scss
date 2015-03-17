@@ -1,5 +1,5 @@
 // .modal-getting-started
-// step 1
+// choose org
 .step-1 {
 
   .btn-radio {
@@ -27,7 +27,7 @@
   }
 }
 
-// step 2
+// repos
 .step-2 {
 
   .modal-body {
@@ -59,4 +59,9 @@
       border-color: $green;
     }
   }
+}
+
+// env setup
+.step-3 {
+
 }

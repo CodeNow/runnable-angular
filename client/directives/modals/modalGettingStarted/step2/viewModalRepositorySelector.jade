@@ -1,5 +1,5 @@
 .modal-header
-  h1.modal-heading Create Server
+  h1.modal-heading Add Servers
     p.small Each repository will be created as its own server
 //- remove this ng-click
 .modal-body
@@ -7,7 +7,11 @@
     placeholder = "Filter by name"
     required
   )
-  .list
+  //- remove this ng-click
+  .list(
+    ng-click = "data.repo = true"
+    ng-init = "data.repo = false"
+  )
     //- <label> [for] and corresponding <input> [id] must match
     input.input-checkbox(
       id = "checkbox-api"
@@ -83,7 +87,8 @@
         )
 footer.modal-footer.clearfix
   button.btn.btn-sm.green(
-    ng-disabled = "!data.org"
+    ng-click = "state.step = 3"
+    ng-disabled = "!data.repo"
   ) Next
   button.btn.btn-sm.white(
     ng-click = "state.step = 1"
