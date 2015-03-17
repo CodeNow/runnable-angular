@@ -91,8 +91,8 @@ function accountsSelect (
             githubUsername: $state.params.userName
           }).then(function(settings) {
             console.log('settings', settings);
-            mData.settings = settings.models[0].attrs;
-            if (keypather.get(mData, 'settings.notifications.slack.authToken')) {
+            mData.settings = settings.models[0];
+            if (keypather.get(mData, 'settings.attrs.notifications.slack.authToken')) {
               mData.showSlack = true;
               // TODO: Don't verify every time
               return mActions.verifySlack();
@@ -107,7 +107,7 @@ function accountsSelect (
       mActions.verifySlack = function() {
         var matches = [];
         var slackMembers, ghMembers;
-        fetchSlackMembers(mData.settings.notifications.slack.authToken)
+        fetchSlackMembers(mData.settings.attrs.notifications.slack.authToken)
         .then(function(_members) {
           slackMembers = _members;
           mData.slackMembers = slackMembers;
@@ -142,9 +142,8 @@ function accountsSelect (
         }).catch(errs.handler);
       };
       mActions.saveSlack = function () {
-        if (!mData.settings) { return; }
         var slackData = {
-          authToken: mData.settings.notifications.slack.authToken
+          authToken: mData.settings.attrs.notifications.slack.authToken
         };
         slackData.usernameToSlackNameMap = mData.slackMembers.reduce(function (obj, slackMember) {
           if (slackMember.ghName && !slackMember.found) {
@@ -160,7 +159,7 @@ function accountsSelect (
           return obj;
         }, {});
 
-        return promisify(mData.settings.models[0], 'update')({
+        return promisify(mData.settings, 'update')({
           json: {
             notifications: {
               slack: slackData
@@ -170,7 +169,6 @@ function accountsSelect (
         .catch(errs.handler);
       };
       mActions.saveHipChat = function () {
-        if (!mData.settings) { return; }
         $scope.data.user.newSetting(mData.settings.id())
         .update({
           json: {
