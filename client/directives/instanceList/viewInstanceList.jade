@@ -4,27 +4,21 @@
   ng-include = "'spinner'"
 )
 
-h2.sub-header.load
-  span.sub-header-text Your Servers
-  a.btn.btn-sm.btn-icon.white(
-    modal
-    modal-actions = "actions"
-    modal-current-model = "currentModel"
-    modal-data = "data"
-    modal-state-model = "stateModel"
-    modal-template = "viewOpenModalGettingStarted"
-    tooltip = "New Server"
-    tooltip-options = "{\"class\":\"right\",\"left\":30,\"top\":6}"
+.filter-wrap
+  input.filter(
+    ng-model = "filterString"
+    placeholder = "Filter Servers"
   )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
 
-//- list of servers
-ul.list.load(
-  ng-show = "data.instances.models.length && !state.loadingInstances"
+ul.list.load.filter-list(
+  ng-if = "isFiltering"
 )
+  div(
+    ng-if = "!filteredInstances.length"
+  )
+    h2.sub-header.load
+      span.sub-header-text No servers match your search
+
   //- .active for current active server
   //- .active.expanded for current active server with links
   //- .runnning for running server
@@ -32,12 +26,13 @@ ul.list.load(
   //- tooltip = "{{ instance.attrs.name }}"
   //- tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   li.list-item.btn.btn-sm.white(
+    ng-if = "filteredInstances.length"
     ng-class = "getInstanceClasses(instance)"
-    ng-repeat = "instance in data.instanceGroups.me.instances | orderBy:'attrs.name'"
+    ng-repeat = "instance in filteredInstances | orderBy:'attrs.name'"
   )
     a.list-item-name.text-overflow(
       ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                                     instanceName: instance.attrs.name })"
+                                       instanceName: instance.attrs.name })"
       ng-model = "instance"
     ) {{ instance.attrs.name }}
     span.icons-status(
@@ -52,52 +47,39 @@ ul.list.load(
       state-to-instance = 'stateToInstance'
       type = "sidebar"
     )
-
-h2.sub-header.load(
-  ng-show = "data.instanceGroups.teamMembers.length"
+div(
+  ng-if = "!isFiltering"
 )
-  span.sub-header-text Team Servers
-  svg.iconnables.icons-team
-    use(
-      xlink:href = "#icons-team"
+  h2.sub-header.load
+    span.sub-header-text Your Servers
+    a.btn.btn-sm.btn-icon.white(
+      modal
+      modal-actions = "actions"
+      modal-current-model = "currentModel"
+      modal-data = "data"
+      modal-state-model = "stateModel"
+      modal-template = "viewOpenModalGettingStarted"
+      tooltip = "New Server"
+      tooltip-options = "{\"class\":\"right\",\"left\":30,\"top\":6}"
     )
-  button.btn.btn-xxs.green(
-    ng-class = "{active: popoverInvite.data.show}"
-    toggle-pop-over
-    toggle-pop-over-model = "popoverInvite.data.show"
-  ) Invite
-    pop-over(
-      actions = "popoverInvite.actions"
-      data = "popoverInvite.data"
-      popover-options = "{\"left\":-108,\"top\":-126}"
-      template = "viewPopoverInvite"
-    )
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
 
-//- list of users
-ul.list.list-users.load
-  li.list-item.btn.btn-sm.white(
-    ng-class = "getTeamMemberClasses(teamMember)"
-    ng-click = "actions.setToggled(teamMember)"
-    ng-repeat = "teamMember in data.instanceGroups.teamMembers | orderBy:'username'"
+  //- list of servers
+  ul.list.load(
+    ng-show = "data.instances.models.length && !state.loadingInstances"
   )
-    img.gravatar(
-      height = "21"
-      ng-src = "{{ teamMember.gravatar }}"
-      width = "21"
-    )
-    a.list-item-name.text-overflow {{ teamMember.username }}
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-    //- nested server
-    .list-item.btn.btn-sm.purple(
+    //- .active for current active server
+    //- .active.expanded for current active server with links
+    //- .runnning for running server
+    //- disabling these tooltips...for now
+    //- tooltip = "{{ instance.attrs.name }}"
+    //- tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
+    li.list-item.btn.btn-sm.white(
       ng-class = "getInstanceClasses(instance)"
-      ng-click = "\
-        $event.stopPropagation();\
-        instance.state.toggled = true;\
-      "
-      ng-repeat = "instance in teamMember.instances | orderBy:'attrs.name'"
+      ng-repeat = "instance in data.instanceGroups.me.instances | orderBy:'attrs.name'"
     )
       a.list-item-name.text-overflow(
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
@@ -107,12 +89,76 @@ ul.list.list-users.load
       span.icons-status(
         title = "{{ getInstanceAltTitle(instance) }}"
       )
-      //- nested server cluster
       div(
         linked-instances
         instance-dependencies = "instance.dependencies"
+        show-team-icon = "true"
         instances = 'data.instances'
         ng-if = "getInstanceClasses(instance).expanded"
         state-to-instance = 'stateToInstance'
         type = "sidebar"
       )
+
+  h2.sub-header.load(
+    ng-show = "data.instanceGroups.teamMembers.length"
+  )
+    span.sub-header-text Team Servers
+    svg.iconnables.icons-team
+      use(
+        xlink:href = "#icons-team"
+      )
+    button.btn.btn-xxs.green(
+      ng-class = "{active: popoverInvite.data.show}"
+      toggle-pop-over
+      toggle-pop-over-model = "popoverInvite.data.show"
+    ) Invite
+      pop-over(
+        actions = "popoverInvite.actions"
+        data = "popoverInvite.data"
+        popover-options = "{\"left\":-108,\"top\":-126}"
+        template = "viewPopoverInvite"
+      )
+
+  //- list of users
+  ul.list.list-users.load
+    li.list-item.btn.btn-sm.white(
+      ng-class = "getTeamMemberClasses(teamMember)"
+      ng-click = "actions.setToggled(teamMember)"
+      ng-repeat = "teamMember in data.instanceGroups.teamMembers | orderBy:'username'"
+    )
+      img.gravatar(
+        height = "21"
+        ng-src = "{{ teamMember.gravatar }}"
+        width = "21"
+      )
+      a.list-item-name.text-overflow {{ teamMember.username }}
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      //- nested server
+      .list-item.btn.btn-sm.purple(
+        ng-class = "getInstanceClasses(instance)"
+        ng-click = "\
+          $event.stopPropagation();\
+          instance.state.toggled = true;\
+        "
+        ng-repeat = "instance in teamMember.instances | orderBy:'attrs.name'"
+      )
+        a.list-item-name.text-overflow(
+          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+                                         instanceName: instance.attrs.name })"
+          ng-model = "instance"
+        ) {{ instance.attrs.name }}
+        span.icons-status(
+          title = "{{ getInstanceAltTitle(instance) }}"
+        )
+        //- nested server cluster
+        div(
+          linked-instances
+          instance-dependencies = "instance.dependencies"
+          instances = 'data.instances'
+          ng-if = "getInstanceClasses(instance).expanded"
+          state-to-instance = 'stateToInstance'
+          type = "sidebar"
+        )

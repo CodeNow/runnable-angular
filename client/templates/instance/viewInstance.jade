@@ -88,65 +88,10 @@ section.sidebar.server-sidebar.load(
 
 //- in / out control presence of header-bar
 section.views.with-add-tab(
+  active-panel
   ng-class = "dataInstance.data.sectionClasses"
+  open-items = "dataInstance.data.openItems"
+  build = "dataInstance.data.instance.build"
+  instance = "dataInstance.data.instance"
+  background-buttons = "build, server, term, web"
 )
-
-  //- tabs
-  .views-toolbar(
-    open-items= "dataInstance.data.openItems"
-    tabs
-    toggle-theme = "dataInstance.data.toggleTheme"
-  )
-
-  div(
-    add-tab
-    open-items = "dataInstance.data.openItems"
-  )
-
-  //- active panel
-  .active-panel(
-    active-panel
-    instance = "dataInstance.data.instance"
-    build = "dataInstance.data.instance.build"
-    is-dark-theme = "dataInstance.data.toggleTheme"
-    item = "item"
-    ng-class = "{\
-      'loaded': (item === openItems.activeHistory.last()),\
-      'ace-runnable-dark': dataInstance.data.toggleTheme\
-    }"
-    ng-repeat = "item in dataInstance.data.openItems.models"
-    ng-show = "item === dataInstance.data.openItems.activeHistory.last()"
-    open-items = "dataInstance.data.openItems"
-    toggle-theme = "dataInstance.data.toggleTheme"
-  )
-
-  //- blank state
-  .blank-panel(
-    ng-if= "dataInstance.data.instance.containers.models[0] && \
-            dataInstance.data.openItems.models.length === 0"
-  )
-    ul.blank-panel-group
-      li.btn.white(
-        ng-click = "dataInstance.data.openItems.addWebView()"
-      )
-        svg.iconnables.iconnables-lg.icons-web
-          use(xlink:href = "#icons-web")
-        | Web View
-      li.btn.white(
-        ng-click = "dataInstance.data.openItems.addTerminal()"
-      )
-        svg.iconnables.iconnables-lg.icons-terminal
-          use(xlink:href = "#icons-terminal")
-        | Terminal
-      li.btn.white(
-        ng-click = "dataInstance.data.openItems.addBuildStream()"
-      )
-        svg.iconnables.iconnables-lg.icons-logs
-          use(xlink:href = "#icons-logs")
-        | Build Log
-      li.btn.white(
-        ng-click = "dataInstance.data.openItems.addLogs()"
-      )
-        svg.iconnables.iconnables-lg.icons-server
-          use(xlink:href = "#icons-server")
-        | Server Log

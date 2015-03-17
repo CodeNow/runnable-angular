@@ -256,6 +256,9 @@ function modalGettingStarted(
           });
         }).then(function (instances) {
           $scope.data.instances = instances;
+        }).catch(function(){
+          $scope.defaultActions.cancel();
+          errs.handler(new Error('We are unable to create servers at this time, please try again later.'));
         });
       }
 

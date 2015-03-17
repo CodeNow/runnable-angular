@@ -7,19 +7,21 @@ require('app')
  * @ngInject
  */
 function tabs(
-  $state
+  $state,
+  colorScheme
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewTabs',
     scope: {
-      openItems: '=',
-      toggleTheme: '='
+      openItems: '='
     },
     link: function ($scope, element, attrs) {
       $scope.state = $state;
       var actions = $scope.actions = {};
       var data = $scope.data = {};
+
+      $scope.colorScheme = colorScheme;
     }
   };
 }

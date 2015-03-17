@@ -11,23 +11,27 @@ require('app')
   .factory('fetchGitHubUser', fetchGitHubUser);
 
 function pFetchUser(keypather, user, $q, $state) {
-  // Promise version of serviceFetchUser
-  // http://stackoverflow.com/a/22655010/1216976
-  var d = $q.defer();
-  user.fetchUser('me', function (err) {
-    if (err) {
-      if (keypather.get(err, 'data.statusCode') === 401 &&
-        !keypather.get($state, 'current.data.anon')) {
-        $state.go('home');
-      }
-      return d.reject(err);
-    }
-    return d.resolve(user);
-  });
-
+  var fetchedUser = null;
   // For consistency with other promise fetchers
   return function () {
-    return d.promise;
+    if (!fetchedUser) {
+      // Promise version of serviceFetchUser
+      // http://stackoverflow.com/a/22655010/1216976
+      var deferred = $q.defer();
+      fetchedUser = deferred.promise;
+      user.fetchUser('me', function (err) {
+        if (err) {
+          if (keypather.get(err, 'data.statusCode') === 401 &&
+              !keypather.get($state, 'current.data.anon')) {
+            $state.go('home');
+          }
+          deferred.reject(err);
+        } else {
+          deferred.resolve(user);
+        }
+      });
+    }
+    return fetchedUser;
   };
 }
 
@@ -50,7 +54,7 @@ function fetchInstances(
   var currentInstanceList;
   var userStream;
 
-  $rootScope.$watch('dataApp.data.activeAccount.oauthId()', function(id) {
+  $rootScope.$watch('dataApp.data.activeAccount.oauthId()', function (id) {
     if (!id) { return; }
     $log.warn('Setting currentInstanceList to null');
     currentInstanceList = null;
@@ -195,10 +199,8 @@ function fetchInstances(
 }
 
 function fetchBuild(
-  errs,
   pFetchUser,
-  promisify,
-  $q
+  promisify
 ) {
   // No caching here, as there aren't any times we're fetching a build
   //    multiple times that isn't covered by inflight
@@ -207,25 +209,18 @@ function fetchBuild(
       throw new Error('BuildId is required');
     }
 
-    return pFetchUser().then(function(user) {
+    return pFetchUser().then(function (user) {
       var pFetch = promisify(user, 'fetchBuild');
       return pFetch(buildId);
-    }).then(function(build) {
-      return build;
     });
   };
 }
 
-function fetchOwnerRepos (
-  $rootScope,
-  pFetchUser,
-  errs,
-  promisify
-) {
+function fetchOwnerRepos(pFetchUser, promisify) {
   return function (userName) {
     var user;
     var repoType;
-    return pFetchUser().then(function(_user) {
+    return pFetchUser().then(function (_user) {
       if (userName === _user.oauthName()) {
         user = _user;
         repoType = 'GithubRepos';
@@ -239,19 +234,18 @@ function fetchOwnerRepos (
         return promisify(user, 'fetch' + repoType)({
           page: page,
           sort: 'update'
-        }).then(function(githubRepos) {
+        }).then(function (githubRepos) {
           allRepos = allRepos.concat(githubRepos.models);
           // recursive until result set returns fewer than
           // 100 repos, indicating last paginated result
           if (githubRepos.models.length < 100) {
             return allRepos;
-          } else {
-            return fetchPage(page + 1);
           }
+          return fetchPage(page + 1);
         });
       }
       return fetchPage(1);
-    }).then(function(reposArr) {
+    }).then(function (reposArr) {
       var repos = user['new' + repoType](reposArr, {
         noStore: true
       });
@@ -261,12 +255,9 @@ function fetchOwnerRepos (
   };
 }
 
-function fetchContexts (
-  pFetchUser,
-  promisify
-) {
+function fetchContexts(pFetchUser, promisify) {
   return function (opts) {
-    return pFetchUser().then(function(user) {
+    return pFetchUser().then(function (user) {
       var contextFetch = promisify(user, 'fetchContexts');
       return contextFetch(opts);
     });
