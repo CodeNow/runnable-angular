@@ -52,6 +52,16 @@
     | Runnable
 footer.modal-footer.clearfix
   button.btn.btn-sm.green(
-    ng-click = "state.step = 2"
+    ng-click = "data.loadingOrganizations = true"
     ng-disabled = "!data.org"
+    ng-if = "!data.loadingOrganizations"
   ) Next
+  button.btn.btn-sm.green.btn-spinner.in.disabled(
+    ng-click = "state.step = 2"
+    ng-if = "data.loadingOrganizations"
+  )
+    //- spinner
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-include = "'spinner'"
+    )
+    | Loading
