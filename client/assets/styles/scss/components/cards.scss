@@ -1,0 +1,46 @@
+.card {
+  border: 1px solid rgba($black,.15);
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba($black,.1);
+  cursor: pointer;
+  width: 240px;
+
+  &:active {
+    border-color: $purple-light;
+    box-shadow: 0 0 3px rgba($purple-light,.3);
+  }
+
+  + .card {
+    margin-left: 12px;
+  }
+
+  // header
+  .card-header {
+    font-size: 18px;
+    height: 54px;
+    line-height: 54px;
+    text-align: center;
+  }
+
+  // list columns
+  .list {
+    margin: 0;
+    width: 50%;
+
+    &:nth-child(2) {
+      color: $gray-light;
+      float: left;
+      text-align: right;
+    }
+
+    &:last-child {
+      float: right;
+    }
+
+    .list-item {
+      height: 36px;
+      line-height: 36px;
+      padding: 0 6px;
+    }
+  }
+}

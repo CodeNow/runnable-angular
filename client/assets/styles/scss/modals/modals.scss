@@ -144,26 +144,6 @@
     transition: padding .15s ease-in;
   }
 
-  // wells in modals
-  .well {
-    display: block;
-    margin-left: 9px;
-    margin-right: 9px;
-    max-height: 36px;
-    text-align: left;
-    transition: margin .15s ease-in, max-height .15s ease-in;
-
-    &.in {
-      margin-left: 6px;
-      margin-right: 6px;
-      max-height: 180px; // will show up to 3.5 input-groups
-    }
-
-    .input-group {
-      margin: 0 0 3px;
-    }
-  }
-
   // guides in modals:
   .guide {
     background: #e9f7fe;

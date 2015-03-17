@@ -1,21 +1,31 @@
 .modal-header
   h1.modal-heading Setup Environment
-    button.btn.btn-xs.green Add Server
     p.small Each repository will be created as its own server
 .modal-body
-  .well.gray
-    h2.well-header api
+  .card
+    h2.card-header api
+    ul.list.small
+      li.list-item Language
+      li.list-item Ports
+      li.list-item Command
     ul.list
-      li.list-item
-        .col Language
-        .col v3.1
-      li.list-item
-        .col Ports
-        .col 3000
+      li.list-item v3.1
+      li.list-item 3000
+      li.list-item npm start
+  .card
+    h2.card-header runnable-angular
+    ul.list.small
+      li.list-item Language
+      li.list-item Ports
+      li.list-item Command
+    ul.list
+      li.list-item v3.1
+      li.list-item 3000
+      li.list-item npm start
 
 footer.modal-footer.clearfix
   button.btn.btn-sm.green Create Environment
   button.btn.btn-sm.white(
-    ng-click = "state.step = 1"
+    ng-click = "state.step = 2"
   ) Back
   span
