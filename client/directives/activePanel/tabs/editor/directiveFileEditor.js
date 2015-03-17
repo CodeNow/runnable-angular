@@ -84,6 +84,9 @@ function fileEditor(
         if (n) {
           fileUnwatch();
           $scope.$on('EDITOR::SAVE', updateFile);
+          if (!$scope.useAutoUpdate) {
+            keypather.set($scope.file, 'actions.saveChanges', updateFile);
+          }
 
           fetchFile().then(function () {
             $scope.$watch('file.state.body', function (newVal) {
