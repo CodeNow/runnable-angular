@@ -8,23 +8,27 @@ require('app')
   .factory('fetchContexts', fetchContexts);
 
 function pFetchUser(keypather, user, $q, $state) {
-  // Promise version of serviceFetchUser
-  // http://stackoverflow.com/a/22655010/1216976
-  var d = $q.defer();
-  user.fetchUser('me', function (err) {
-    if (err) {
-      if (keypather.get(err, 'data.statusCode') === 401 &&
-        !keypather.get($state, 'current.data.anon')) {
-        $state.go('home');
-      }
-      return d.reject(err);
-    }
-    return d.resolve(user);
-  });
-
+  var fetchedUser = null;
   // For consistency with other promise fetchers
   return function () {
-    return d.promise;
+    if(!fetchedUser){
+      // Promise version of serviceFetchUser
+      // http://stackoverflow.com/a/22655010/1216976
+      var deferred = $q.defer();
+      fetchedUser = deferred.promise;
+      user.fetchUser('me', function (err, myUser) {
+        if (err) {
+          if (keypather.get(err, 'data.statusCode') === 401 &&
+            !keypather.get($state, 'current.data.anon')) {
+            $state.go('home');
+          }
+          deferred.reject(err);
+        }else{
+          deferred.resolve(myUser);
+        }
+      });
+    }
+    return fetchedUser;
   };
 }
 
@@ -192,10 +196,8 @@ function fetchInstances(
 }
 
 function fetchBuild(
-  errs,
   pFetchUser,
-  promisify,
-  $q
+  promisify
 ) {
   // No caching here, as there aren't any times we're fetching a build
   //    multiple times that isn't covered by inflight
@@ -207,16 +209,12 @@ function fetchBuild(
     return pFetchUser().then(function(user) {
       var pFetch = promisify(user, 'fetchBuild');
       return pFetch(buildId);
-    }).then(function(build) {
-      return build;
     });
   };
 }
 
 function fetchOwnerRepos (
-  $rootScope,
   pFetchUser,
-  errs,
   promisify
 ) {
   return function (userName) {
