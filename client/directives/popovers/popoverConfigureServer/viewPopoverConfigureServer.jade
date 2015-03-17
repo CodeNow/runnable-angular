@@ -1,0 +1,22 @@
+.popover.bottom.menu.context-menu(
+  ng-class = "{in: data.show}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .popover-content
+    ul.popover-list
+      li.popover-list-item
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear"
+          )
+        | Configure
+      li.popover-list-item
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        | Link Servers
+      li.divider
+      li.popover-list-item
+        svg.iconnables
+        | Delete

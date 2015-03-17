@@ -2,11 +2,23 @@
   h1.modal-heading Setup Environment
     p.small Each repository will be created as its own server
 .modal-body
-  .card
-    svg.iconnables.icons-gear
+  .card(
+    ng-class = "{active: popoverConfigureServer.data.show}"
+  )
+    svg.iconnables.icons-gear(
+      toggle-pop-over
+      toggle-pop-over-model = "popoverConfigureServer.data.show"
+    )
       use(
         xlink:href = "#icons-gear"
       )
+      pop-over(
+        actions = "popoverConfigureServer.actions"
+        data = "popoverConfigureServer.data"
+        popover-options = "{\"left\":0,\"top\":0}"
+        template = "viewPopoverConfigureServer"
+      )
+
     h2.card-header
       svg.iconnables.icons-server
         use(
@@ -66,7 +78,15 @@
         button.btn.btn-xxs.green Add Server
       li.list-item Redis
         button.btn.btn-xxs.green Add Server
-
+  .card.card-template
+    h2.card-header
+      svg.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+    .card-body.clearfix
+      button.btn.btn-sm.green Add Repository Server
+      button.btn.btn-sm.white Add Dependency Server
 footer.modal-footer.clearfix
   button.btn.btn-sm.green Create Environment
   button.btn.btn-sm.white(
