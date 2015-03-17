@@ -14,13 +14,15 @@ var GettingStarted = require('./modals/GettingStarted');
 var sidebar = require('./helpers/sidebar');
 
 var instances = [{
-  name: 'node_hello_world',
-  filter: 'node-hello',
-  env: []
+  name: 'RailsProject',
+  filter: 'rails',
+  env: [],
+  startCommand: '/bin/sh -c rails server'
 }, {
   name: 'SPACESHIPS',
   filter: 'SPACE',
-  env: ['a=b', 'basd=asasdasdasd']
+  env: ['a=b', 'basd=asasdasdasd'],
+  startCommand: '/bin/sh -c npm start'
 }];
 
 describe('project creation workflow', users.doMultipleUsers(function (username) {
@@ -60,7 +62,7 @@ describe('project creation workflow', users.doMultipleUsers(function (username) 
 
       instance.activePanel.setActiveTab('Server Logs');
 
-      expect(instance.activePanel.getContents()).toMatch('/bin/sh -c npm start');
+      expect(instance.activePanel.getContents()).toMatch(instanceData.startCommand);
     });
   });
 }, true));

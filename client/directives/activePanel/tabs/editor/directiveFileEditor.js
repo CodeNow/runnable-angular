@@ -64,20 +64,21 @@ function fileEditor(
       }
 
       function updateFile() {
-        $scope.loading = true;
+        var thisBodyChange = $scope.file.state.body;
         return promisify($scope.file, 'update')({
           json: {
             body: $scope.file.state.body
           }
         }).then(function () {
-          return promisify($scope.file, 'fetch')();
+          // If this promise flow is still the most recent update, set dirty to false
+          if (thisBodyChange === $scope.file.state.body) {
+            keypather.set($scope.file, 'state.isDirty', false);
+          }
         }).catch(
           errs.handler
-        ).finally(function () {
-          $scope.loading = false;
-        });
+        );
       }
-      var updateFileDebounce = debounce(updateFile, 1000);
+      var updateFileDebounce = debounce(updateFile, 200);
 
       var fileUnwatch = $scope.$watch('file', function (n) {
         if (n) {
@@ -85,16 +86,17 @@ function fileEditor(
           $scope.$on('EDITOR::SAVE', updateFile);
 
           fetchFile().then(function () {
-            $scope.$watch(function () {
-              return keypather.get($scope.file, 'state.body') !== $scope.file.attrs.body;
-            }, function (isDirty) {
-              keypather.set($scope.file, 'state.isDirty', isDirty);
-              if (isDirty && $scope.useAutoUpdate) {
-                updateFileDebounce();
+            $scope.$watch('file.state.body', function (newVal) {
+              if (typeof newVal === 'string' &&
+                  newVal !== $scope.file.attrs.body) {
+                keypather.set($scope.file, 'state.isDirty', true);
+                if ($scope.useAutoUpdate) {
+                  updateFileDebounce();
+                }
               }
+              // Send the updateFile promise up to the parent
+              $scope.$emit('FETCH_FILE_SUCCESSFUL', n, updateFile);
             });
-            // Send the updateFile promise up to the parent
-            $scope.$emit('FETCH_FILE_SUCCESSFUL', n, updateFile);
           });
         }
       });
