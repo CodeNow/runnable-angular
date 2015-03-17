@@ -28,13 +28,10 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
 
     it('should call the fetchUser method of the user service', function (done) {
-      var myUser = {
-        name: 'Ryan Kahn'
-      };
-      user.fetchUser = sinon.stub().callsArgWith(1, null, myUser);
+      user.fetchUser = sinon.stub().callsArgWith(1, null);
       pFetchUser().then(function (foundUser) {
         expect(user.fetchUser.calledOnce, 'fetchUser called').to.equal(true);
-        expect(foundUser, 'Returned user').to.equal(myUser);
+        expect(foundUser, 'Returned user').to.equal(user);
         done();
       });
       $rootScope.$apply();
@@ -113,6 +110,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
       fetchInstances().catch(function (userError) {
         expect(userError).to.equal(err);
+        done();
       }).catch(function (e) {
         done(e);
       });
