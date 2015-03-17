@@ -1,4 +1,5 @@
-.modal-dialog.modal-wizard.modal-getting-started(
+//- step 1: select organization
+.modal-dialog.modal-wizard.modal-getting-started.step-1(
   actions = "actions"
   data = "data"
   gs-organization-selector
@@ -6,6 +7,23 @@
   ng-init = "state.step === 1"
   state = "state"
 )
+
+//- step 2: select repository
+.modal-dialog.modal-wizard.modal-getting-started.step-2(
+  actions = "actions"
+  data = "data"
+  gs-repository-selector
+  ng-if = "state.step === 2"
+  state = "state"
+)
+
+//- step 3: server setup
+//- .modal-dialog.modal-wizard.modal-getting-started(
+//-   actions = "actions"
+//-   data = "data"
+//-   ng-if = "state.step === 3"
+//-   state = "state"
+//- )
 
   //- nav.modal-navbar
   //-   header(

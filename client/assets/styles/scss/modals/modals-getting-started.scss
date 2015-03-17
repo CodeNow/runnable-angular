@@ -1,4 +1,6 @@
-.modal-getting-started {
+// .modal-getting-started
+// step 1
+.step-1 {
 
   .btn-radio {
     border-radius: 3px;
@@ -11,49 +13,50 @@
       border-radius: 3px;
     }
   }
+
+  .modal-footer {
+    background: none;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 30px;
+
+    .btn {
+      float: none;
+    }
+  }
 }
 
-// // labels
-// .modal-stack-selector,
-// .modal-gs-environments {
-//   display: flex;
-//   flex-direction: column;
-//   max-width: 100%;
-//   padding: 15px 15px 0;
-//   width: 600px;
+// step 2
+.step-2 {
 
-//   // branch select
-//   .btn-select {
+  .modal-body {
+    max-width: 420px;
+  }
 
-//     .iconnables {
-//       height: 18px;
-//       top: 9px;
-//       width: 18px;
-//     }
+  .input-search {
+    margin-bottom: 8px;
+    width: 360px;
+  }
 
-//     .icons-branch {
-//       color: $gray-light;
-//     }
-//   }
+  .list {
+    width: 360px;
+  }
 
-//   // language/framework button
-//   .btn-group {
+  .list-item {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    margin: 3px 0 0;
+    padding-top: 9px;
 
-//     // not-allowed
-//     + .btn-group .btn:first-child {
-//       background: $gray-lightest;
-//       cursor: default;
-//     }
+    &:hover {
+      border-color: rgba($black,.15);
+    }
 
-//     .small {
-//       color: $gray-dark;
-//       display: inline-block;
-//       float: left;
-//     }
-//   }
-
-//   // footer
-//   .modal-footer {
-//     margin: 30px -15px 0;
-//   }
-// }
+    &:active,
+    &.active {
+      background: $white;
+      border-color: $green;
+    }
+  }
+}

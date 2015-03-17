@@ -386,8 +386,8 @@
   display: none;
 
   &:checked + .btn-radio {
-    border-color: $purple-light;
-    box-shadow: 0 0 3px rgba($purple-light,.3);
+    border-color: $green;
+    box-shadow: 0 0 3px rgba($green,.3);
   }
 }
 
@@ -410,11 +410,11 @@
   &:hover,
   &:active,
   &.active {
-    border-color: $purple-light;
+    border-color: $green;
   }
 
   &.active {
-    box-shadow: 0 0 3px rgba($purple-light,.3);
+    box-shadow: 0 0 3px rgba($green,.3);
   }
 
   &:active {

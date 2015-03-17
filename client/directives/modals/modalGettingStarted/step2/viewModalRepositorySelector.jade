@@ -1,0 +1,91 @@
+.modal-header
+  h1.modal-heading Create Server
+    p.small Each repository will be created as its own server
+//- remove this ng-click
+.modal-body
+  input.input.input-sm.input-search(
+    placeholder = "Filter by name"
+    required
+  )
+  .list
+    //- <label> [for] and corresponding <input> [id] must match
+    input.input-checkbox(
+      id = "checkbox-api"
+      type = "checkbox"
+    )
+    label.list-item.label.label-checkbox(
+      for = "checkbox-api"
+    ) api
+      small.small Updated an hour ago
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    input.input-checkbox(
+      id = "checkbox-runnable-angular"
+      type = "checkbox"
+    )
+    label.list-item.label.label-checkbox(
+      for = "checkbox-runnable-angular"
+    )  runnable-angular
+      small.small Updated an 4 hours ago
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    input.input-checkbox(
+      id = "checkbox-orchestratedotcom"
+      type = "checkbox"
+    )
+    label.list-item.label.label-checkbox(
+      for = "checkbox-orchestratedotcom"
+    )  orchestratedotcom
+      small.small Updated an 17 hours ago
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    input.input-checkbox(
+      id = "checkbox-kronos"
+      type = "checkbox"
+    )
+    label.list-item.label.label-checkbox(
+      for = "checkbox-kronos"
+    )  kronos
+      small.small Updated an 3 days ago
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    input.input-checkbox(
+      id = "checkbox-mavis"
+      type = "checkbox"
+    )
+    label.list-item.label.label-checkbox(
+      for = "checkbox-mavis"
+    )  mavis
+      small.small Updated an 3 days ago
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    input.input-checkbox(
+      id = "checkbox-devops-scripts"
+      type = "checkbox"
+    )
+    label.list-item.label.label-checkbox(
+      for = "checkbox-devops-scripts"
+    )  devops-scripts
+      small.small Updated an 3 days ago
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+footer.modal-footer.clearfix
+  button.btn.btn-sm.green(
+    ng-disabled = "!data.org"
+  ) Next
+  button.btn.btn-sm.white(
+    ng-click = "state.step = 1"
+  ) Back
+  span

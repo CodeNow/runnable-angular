@@ -88,11 +88,6 @@
 .list-item {
   position: relative;
 
-  .gravatar {
-    float: left;
-    margin: 18px 9px 0 2px;
-  }
-
   &.small {
     color: $gray !important; // never override this
     cursor: default !important;
@@ -104,6 +99,12 @@
       border-color: transparent !important;
     }
   }
+
+  // avatars
+  .gravatar {
+    float: left;
+    margin: 18px 9px 0 2px;
+  }
 }
 
 // links
@@ -112,4 +113,35 @@
   color: currentColor;
   display: block;
   text-decoration: none;
+}
+
+// checkboxes
+.list {
+
+  .input-checkbox {
+    display: none;
+
+    + .label-checkbox .icons-check {
+      background: $white;
+      border: 1px solid $gray-lighter;
+      border-radius: 50%;
+      color: $white;
+      padding: 0;
+      position: absolute;
+      right: 21px;
+      top: 15px;
+      width: 24px;
+    }
+  }
+
+  // active states
+  .label-checkbox:active .icons-check,
+  .input-checkbox:checked + .label-checkbox .icons-check {
+    background: $green;
+    border-color: transparent;
+  }
+
+  .input-checkbox:checked + .label-checkbox {
+    border-color: $green;
+  }
 }
