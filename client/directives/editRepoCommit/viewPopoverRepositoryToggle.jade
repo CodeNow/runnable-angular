@@ -39,9 +39,8 @@
           )
       //- spinner while commits are loading
     .spinner-wrapper.spinner-md.in(
-      ng-class = "{in: !data.activeBranch.commits.models.length}"
+      ng-if = "!data.activeBranch.commits.models.length"
       ng-include = "'spinner'"
-      ng-hide = "data.activeBranch.commits.models.length"
     )
     //- commits
     ul.list.popover-list.toggle-group
