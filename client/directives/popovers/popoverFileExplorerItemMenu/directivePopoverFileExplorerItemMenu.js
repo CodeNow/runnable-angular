@@ -7,6 +7,7 @@ require('app')
  * @ngInject
  */
 function popoverFileExplorerItemMenu(
+  errs,
   $templateCache,
   $compile,
   $rootScope,
@@ -50,9 +51,7 @@ function popoverFileExplorerItemMenu(
 
       actions.deleteFile = function () {
         $scope.fs.destroy(function (err) {
-          if (err) {
-            throw err;
-          }
+          errs.handler(err);
           // destroy alone does not update collection
           $scope.actions.fetchDirFiles();
         });
@@ -78,13 +77,7 @@ function popoverFileExplorerItemMenu(
         if (inputElement.val() === $scope.fs.attrs.name) {
           return;
         }
-        var cachedName = $scope.fs.attrs.name;
-        $scope.fs.rename(inputElement.val(), function (err) {
-          if (err) {
-            //$scope.fs.attrs.name = cachedName;
-            throw err;
-          }
-        });
+        $scope.fs.rename(inputElement.val(), errs.handler);
       }
       fileItemData.actions.closeFileNameInput = closeFileNameInput;
 
@@ -108,9 +101,10 @@ function popoverFileExplorerItemMenu(
         $rootScope.$broadcast('app-document-click');
 
         var template = $templateCache.get('viewFileTreePopoverFileItemMenu');
-        var $template = angular.element(template);
-        $compile($template)($scope);
-        $document.find('body').append($template);
+
+        var popoverElement = $compile(template)($scope);
+        $document.find('body').append(popoverElement);
+        $scope.$popoverTemplate = popoverElement;
 
         $scope.fileItemData.eStyle.top = e.pageY - 18 + 'px';
         $scope.fileItemData.eStyle.left = e.pageX + 'px';
@@ -119,7 +113,7 @@ function popoverFileExplorerItemMenu(
         e.preventDefault();
         e.stopPropagation();
       }
-      element.on('$destroy', function () {
+      $scope.$on('$destroy', function () {
         inputElement.off('blur');
         if (keypather.get($scope, '$popoverTemplate.remove')) {
           $scope.$popoverTemplate.remove();
