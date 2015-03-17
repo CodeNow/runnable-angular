@@ -3,11 +3,18 @@
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba($black,.1);
   cursor: pointer;
+  padding-bottom: 15px;
   width: 240px;
 
-  &:active {
+  &:active,
+  &.active {
     border-color: $purple-light;
     box-shadow: 0 0 3px rgba($purple-light,.3);
+
+    .card-header,
+    .icons-server {
+      color: $purple-light;
+    }
   }
 
   + .card {
@@ -18,8 +25,14 @@
   .card-header {
     font-size: 18px;
     height: 54px;
-    line-height: 54px;
+    margin-bottom: 15px;
     text-align: center;
+  }
+
+  .icons-server {
+    color: $gray-light;
+    display: block;
+    margin: 24px auto 6px;
   }
 
   // list columns
@@ -35,11 +48,12 @@
 
     &:last-child {
       float: right;
+      font-size: 14px;
     }
 
     .list-item {
-      height: 36px;
-      line-height: 36px;
+      height: 24px;
+      line-height: 24px;
       padding: 0 6px;
     }
   }
