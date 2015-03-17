@@ -46,7 +46,7 @@ function GearMenu() {
 
   this.renameBox = function(newName) {
     var self = this;
-    this.openIfClosed();
+    self.openIfClosed();
 
     self.renameItem.get().click();
     browser.wait(function() {

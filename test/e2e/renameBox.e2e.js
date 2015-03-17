@@ -12,7 +12,7 @@ var users = require('./helpers/users');
 
 describe('rename box', users.doMultipleUsers(function(username) {
   it('should rename a running box', function() {
-    var instance = new InstancePage('Test-0');
+    var instance = new InstancePage('Node-Hello-World');
     instance.get();
 
     instance.gearMenu.renameBox('Test-Rename');
