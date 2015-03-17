@@ -1,0 +1,12 @@
+.file-tree(
+  file-tree-dir
+  ng-repeat = "fs in dir.contents.models \
+                     | isDir \
+                     | orderBy:actions.normalizeMixedDataValue"
+  dir = "fs"
+  parent-dir = "dir"
+  file-model = "fileModel"
+  open = "fs.state.open"
+  open-items = "openItems"
+  read-only = "readOnly"
+)

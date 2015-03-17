@@ -17,7 +17,7 @@ function fileTreeDir(
   promisify
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     scope: {
       dir: '=',
       parentDir: '=',
@@ -25,13 +25,12 @@ function fileTreeDir(
       openItems: '=',
       readOnly: '='
     },
-    template: '',
-    //templateUrl: 'viewFileTreeDir',
+    //template: '',
+    templateUrl: 'viewFileTreeDir',
     link: function ($scope, element, attrs) {
 
       var actions = $scope.actions = {};
       var data = $scope.data = {};
-      $scope.state = $state;
 
       $scope.actions.drop = function (dataTransfer, toDir) {
         var modelType = dataTransfer.getData('modelType');
@@ -111,11 +110,6 @@ function fileTreeDir(
         }
       });
 
-      //avoid infinite loop w/ nested directories
-      var template = $templateCache.get('viewFileTreeDir');
-      var $template = angular.element(template);
-      $compile($template)($scope);
-      element.replaceWith($template);
 
       element.on('$destroy', function () {
         // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS

@@ -20,16 +20,8 @@ li.folder(
   ul(
     ng-if = "dir.contents.models.length"
   )
-    file-tree-dir(
-      ng-repeat = "fs in dir.contents.models \
-                   | isDir \
-                   | orderBy:actions.normalizeMixedDataValue"
-      dir = "fs"
-      parent-dir = "dir"
-      file-model = "fileModel"
-      open = "fs.state.open"
-      open-items = "openItems"
-      read-only = "readOnly"
+    div(
+      ng-include = "'viewFileTreeDirItem'"
     )
     //- 'dirty' state checking only on instance page
     li.file(
