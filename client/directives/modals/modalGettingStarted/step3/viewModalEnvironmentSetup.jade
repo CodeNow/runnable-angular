@@ -1,11 +1,15 @@
 .modal-header
   h1.modal-heading Setup Environment
-    p.small Each repository will be created as its own server
-.modal-body
+    p.small Each repository will be created as its own server. We&rsquo;ve auto
+.modal-body(
+  ng-init = "data.cardLoading = true"
+)
   .card(
     ng-class = "{active: popoverConfigureServer.data.show}"
+    ng-click = "data.cardLoading = false"
   )
     svg.iconnables.icons-gear(
+      ng-if = "!data.cardLoading"
       toggle-pop-over
       toggle-pop-over-model = "popoverConfigureServer.data.show"
     )
@@ -18,18 +22,30 @@
         popover-options = "{\"left\":0,\"top\":0}"
         template = "viewPopoverConfigureServer"
       )
-
-    h2.card-header
+    //- loading
+    h2.card-header(
+      ng-if = "data.cardLoading"
+    )
+      .spinner-wrapper.spinner-md.spinner-purple.in(
+        ng-include = "'spinner'"
+      )
+      | Configuring
+    h2.card-header.load(
+      ng-if = "!data.cardLoading"
+    )
       svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
       | api
-    .card-body.clearfix
+    .card-body.clearfix.load(
+      ng-if = "!data.cardLoading"
+    )
       ul.list.small
         li.list-item Language
         li.list-item Ports
         li.list-item Command
+        li.list-item Links
       ul.list
         li.list-item.monospace.text-overflow
           svg.iconnables.icons-nodejs
@@ -39,24 +55,44 @@
           | v0.10.28
         li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
         li.list-item.monospace.text-overflow npm start
-    ul.list.well.gray
+        li.list-item.text-overflow 0 servers linked
+    ul.list.well.gray.load(
+      ng-if = "!data.cardLoading"
+    )
       li.list-item.small Recommended Dependencies
       li.list-item MongoDB
         button.btn.btn-xxs.green Add Server
       li.list-item Redis
         button.btn.btn-xxs.green Add Server
-  .card
-    svg.iconnables.icons-gear
+  .card(
+    ng-click = "data.cardLoading = false"
+  )
+    svg.iconnables.icons-gear(
+      ng-if = "!data.cardLoading"
+    )
       use(
         xlink:href = "#icons-gear"
       )
-    h2.card-header
-      svg.iconnables.icons-server
+    h2.card-header(
+      ng-if = "data.cardLoading"
+    )
+      //- loading
+      .spinner-wrapper.spinner-md.spinner-purple.in(
+        ng-include = "'spinner'"
+      )
+      | Configuring
+    h2.card-header.load(
+      ng-if = "!data.cardLoading"
+    )
+      svg.iconnables.icons-server(
+      )
         use(
           xlink:href = "#icons-server"
         )
       | runnable-angular
-    .card-body.clearfix
+    .card-body.clearfix.load(
+      ng-if = "!data.cardLoading"
+    )
       ul.list.small
         li.list-item Language
         li.list-item Ports
@@ -71,22 +107,37 @@
           | v0.10.35
         li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
         li.list-item.monospace.text-overflow npm start
-        li.list-item.text-overflow 2 servers linked
-    ul.list.well.gray
+        li.list-item.monospace.text-overflow 2 servers linked
+    ul.list.well.gray.load(
+      ng-if = "!data.cardLoading"
+    )
       li.list-item.small Recommended Dependencies
       li.list-item MongoDB
         button.btn.btn-xxs.green Add Server
       li.list-item Redis
         button.btn.btn-xxs.green Add Server
-  .card.card-template
+  .card.card-template(
+    ng-if = "!data.addingServer"
+  )
     h2.card-header
       svg.iconnables.icons-add
         use(
           xlink:href = "#icons-add"
         )
     .card-body.clearfix
-      button.btn.btn-sm.green Add Repository Server
-      button.btn.btn-sm.white Add Dependency Server
+      button.btn.btn-sm.green(
+        ng-click = "data.addingServer = true"
+      ) New Server
+  .card.card-template.active(
+    ng-if = "data.addingServer"
+  )
+    h2.card-header New Server
+    .card-body
+    .card-footer
+      button.btn.btn-xs.gray(
+        ng-click = "data.addingServer = false"
+      ) Cancel
+
 footer.modal-footer.clearfix
   button.btn.btn-sm.green Create Environment
   button.btn.btn-sm.white(

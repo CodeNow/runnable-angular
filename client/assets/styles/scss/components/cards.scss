@@ -5,6 +5,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  min-height: 270px;
   position: relative;
   width: 270px;
 
@@ -38,6 +39,10 @@
     flex: 0 0 120px;
     font-size: 18px;
     text-align: center;
+  }
+
+  .spinner-wrapper {
+    margin: 96px auto 12px;
   }
 
   .icons-server {
@@ -92,7 +97,6 @@
     }
   }
 
-
   // well
   .well {
     border: 0;
@@ -119,14 +123,33 @@
       top: 6px;
     }
   }
+
+  // footer
+  .card-footer {
+    background: $gray-lightest;
+    border-top: 1px solid rgba($black,.1);
+    flex: 0 0 auto;
+    padding: 6px;
+  }
 }
 
 // template
 .card-template {
 
+  &.active .card-header {
+    background: $gray-lightest;
+    border-bottom: 1px solid rgba($black,.1);
+    flex: 0 0 36px;
+    line-height: 36px;
+  }
+
+  .card-header {
+    flex: 0 0 210px;
+  }
+
   .icons-add {
     color: $gray-lighter;
-    height: 120px;
-    width: 60px;
+    height: 210px;
+    width: 120px;
   }
 }
