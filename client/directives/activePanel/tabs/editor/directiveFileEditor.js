@@ -83,6 +83,7 @@ function fileEditor(
       var fileUnwatch = $scope.$watch('file', function (n) {
         if (n) {
           fileUnwatch();
+          keypather.set(n, 'state.isDirty', false);
           $scope.$on('EDITOR::SAVE', updateFile);
           if (!$scope.useAutoUpdate) {
             keypather.set($scope.file, 'actions.saveChanges', updateFile);
