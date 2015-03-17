@@ -3,16 +3,17 @@
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba($black,.1);
   cursor: pointer;
-  padding-bottom: 15px;
-  width: 240px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 270px;
 
   &:active,
   &.active {
     border-color: $purple-light;
     box-shadow: 0 0 3px rgba($purple-light,.3);
 
-    .card-header,
-    .icons-server {
+    .icons-gear {
       color: $purple-light;
     }
   }
@@ -21,40 +22,90 @@
     margin-left: 12px;
   }
 
+  // settings
+  .icons-gear {
+    color: $gray-light;
+    height: 18px;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    width: 18px;
+  }
+
   // header
   .card-header {
+    flex: 0 0 120px;
     font-size: 18px;
-    height: 54px;
-    margin-bottom: 15px;
     text-align: center;
   }
 
   .icons-server {
     color: $gray-light;
     display: block;
-    margin: 24px auto 6px;
+    margin: 36px auto 6px;
   }
 
-  // list columns
-  .list {
-    margin: 0;
-    width: 50%;
+  // body
+  .card-body {
+    flex: 1 1 auto;
+    margin-bottom: 15px;
 
-    &:nth-child(2) {
-      color: $gray-light;
-      float: left;
-      text-align: right;
-    }
+    // list columns
+    .list {
+      margin: 0;
 
-    &:last-child {
-      float: right;
-      font-size: 14px;
+      &:first-child {
+        color: $gray-light;
+        float: left;
+        text-align: right;
+        width: 40%;
+      }
+
+      &:last-child {
+        float: right;
+        font-size: 14px;
+        width: 60%;
+      }
     }
 
     .list-item {
       height: 24px;
       line-height: 24px;
       padding: 0 6px;
+    }
+
+    // language icons
+    .iconnables {
+      float: left;
+      margin-left: -6px;
+    }
+  }
+
+
+  // well
+  .well {
+    border: 0;
+    border-radius: 0 0 3px 3px;
+    border-top: 1px solid rgba($black,.1);
+    cursor: default;
+    margin: 0;
+    padding: 6px;
+
+    .list-item {
+      height: 30px;
+      line-height: 30px;
+      padding: 0 6px;
+
+      + .list-item {
+        color: $gray-darker;
+        font-size: 14px;
+      }
+    }
+
+    // add server button
+    .btn-xxs {
+      float: right;
+      top: 6px;
     }
   }
 }

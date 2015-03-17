@@ -3,40 +3,69 @@
     p.small Each repository will be created as its own server
 .modal-body
   .card
+    svg.iconnables.icons-gear
+      use(
+        xlink:href = "#icons-gear"
+      )
     h2.card-header
       svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
       | api
-    ul.list.small
-      li.list-item Language
-      li.list-item Ports
-      li.list-item Command
-      li.list-item Linked Servers
-    ul.list
-      li.list-item.monospace v3.1
-      li.list-item.monospace 3000
-      li.list-item.monospace npm start
-      li.list-item
-        .btn.btn-xxs.blue.hover Setup Link
+    .card-body.clearfix
+      ul.list.small
+        li.list-item Language
+        li.list-item Ports
+        li.list-item Command
+      ul.list
+        li.list-item.monospace.text-overflow
+          svg.iconnables.icons-nodejs
+            use(
+              xlink:href = "#icons-nodejs"
+            )
+          | v0.10.28
+        li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
+        li.list-item.monospace.text-overflow npm start
+    ul.list.well.gray
+      li.list-item.small Recommended Dependencies
+      li.list-item MongoDB
+        button.btn.btn-xxs.green Add Server
+      li.list-item Redis
+        button.btn.btn-xxs.green Add Server
   .card
+    svg.iconnables.icons-gear
+      use(
+        xlink:href = "#icons-gear"
+      )
     h2.card-header
       svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
       | runnable-angular
-    ul.list.small
-      li.list-item Language
-      li.list-item Ports
-      li.list-item Command
-      li.list-item Linked Servers
-    ul.list.monospace
-      li.list-item.monospace v3.1
-      li.list-item.monospace 3000
-      li.list-item.monospace npm start
-      li.list-item 2 links
+    .card-body.clearfix
+      ul.list.small
+        li.list-item Language
+        li.list-item Ports
+        li.list-item Command
+        li.list-item Links
+      ul.list.monospace
+        li.list-item.monospace.text-overflow
+          svg.iconnables.icons-nodejs
+            use(
+              xlink:href = "#icons-nodejs"
+            )
+          | v0.10.35
+        li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
+        li.list-item.monospace.text-overflow npm start
+        li.list-item.text-overflow 2 servers linked
+    ul.list.well.gray
+      li.list-item.small Recommended Dependencies
+      li.list-item MongoDB
+        button.btn.btn-xxs.green Add Server
+      li.list-item Redis
+        button.btn.btn-xxs.green Add Server
 
 footer.modal-footer.clearfix
   button.btn.btn-sm.green Create Environment

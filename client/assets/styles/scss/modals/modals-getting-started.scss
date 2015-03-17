@@ -64,4 +64,14 @@
 // env setup
 .step-3 {
 
+  // setup link button
+  .btn-xxs {
+    display: table;
+    margin: 0 auto;
+  }
+
+  // recommended dependencies
+  .well {
+    margin: 0;
+  }
 }
