@@ -17,8 +17,8 @@ function InstancePage (name) {
   this.fileExplorer = new FileExplorer();
   this.instanceList = new InstanceList();
 
-  this.statusIcon = util.createGetter(by.css('header > h1 > div > span'));
-  this.instanceName = util.createGetter(by.css('#wrapper > main > header > h1 > div'));
+  this.statusIcon = util.createGetter(by.css('.server-name .icon-status'));
+  this.instanceName = util.createGetter(by.css('.server-name'));
 
   this.saveButton = util.createGetter(by.css('.btn-save'));
   this.saveOptions = util.createGetter(by.css('.green.btn-icon'));

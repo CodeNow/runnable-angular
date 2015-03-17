@@ -11,8 +11,8 @@ var InstancePage = require('./pages/InstancePage');
 var users = require('./helpers/users');
 
 describe('rename box', users.doMultipleUsers(function(username) {
-  it('should rename a running box', function() {
-    var instance = new InstancePage('Node-Hello-World');
+  it('should rename a running box owned by ' + username, function() {
+    var instance = new InstancePage('node_hello_world');
     instance.get();
 
     instance.gearMenu.renameBox('Test-Rename');
