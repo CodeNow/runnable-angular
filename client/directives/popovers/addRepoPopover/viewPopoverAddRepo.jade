@@ -5,7 +5,7 @@
   .arrow
   h3.popover-title Add Repository
   .spinner-wrapper.spinner-md.in(
-    ng-show = "state.loading"
+    ng-if = "state.loading"
     ng-include = "'spinner'"
   )
   .popover-content(

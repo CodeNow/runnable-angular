@@ -195,23 +195,7 @@
   }
 
   100% {
-    transform: rotate(270deg);
-  }
-}
-
-@keyframes spinner-path {
-  0% {
-    stroke-dashoffset: $spinner-offset;
-  }
-
-  50% {
-    stroke-dashoffset: $spinner-offset/4;
-    transform: rotate(135deg);
-  }
-
-  100% {
-    stroke-dashoffset: $spinner-offset;
-    transform: rotate(450deg);
+    transform: rotate(360deg);
   }
 }
 
