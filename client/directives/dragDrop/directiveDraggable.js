@@ -24,12 +24,12 @@ function draggable(
           var model = ($scope.fs) ? $scope.fs : $scope.dir;
           var modelType = ($scope.fs) ? 'File' : 'Dir';
           // This will allow us to pass the model over the dataTransfer object to the drop cb
-          e.dataTransfer.setData('model', JSON.stringify(model));
+          e.dataTransfer.setData('modelId', model.id());
           e.dataTransfer.setData('modelName', model.attrs.name);
           e.dataTransfer.setData('modelType', modelType);
 
           e.dataTransfer.setData('oldPath', model.attrs.path);
-          e.dataTransfer.setData('oldParentDir', JSON.stringify($scope.parentDir));
+          e.dataTransfer.setData('oldParentDirId', $scope.parentDir.id());
           this.classList.add('drag');
           return false;
         },
