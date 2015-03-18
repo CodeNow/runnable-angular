@@ -35,10 +35,10 @@ function fileTreeDir(
 
       $scope.actions.drop = function (dataTransfer, toDir) {
         var modelType = dataTransfer.getData('modelType');
-        var model = JSON.parse(dataTransfer.getData('model'));
+        var modelId = dataTransfer.getData('modelId');
         var modelName = dataTransfer.getData('modelName');
 
-        var oldParentDirModel = JSON.parse(dataTransfer.getData('oldParentDir'));
+        var oldParentDirId = dataTransfer.getData('oldParentDirId');
         var oldPath = dataTransfer.getData('oldPath');
         var thisPath = toDir.id();
         if (oldPath === thisPath || (modelType === 'Dir' &&
@@ -46,9 +46,9 @@ function fileTreeDir(
           return false;
         }
 
-        var newModel = $scope.fileModel['new' + modelType](model, { warn: false, noStore: true });
+        var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false, noStore: true });
         var droppedFileOrigDir =
-            $scope.fileModel.newDir(oldParentDirModel, { warn: false, noStore: true });
+            $scope.fileModel.newDir(oldParentDirId, { warn: false, noStore: true });
 
         promisify(newModel, 'moveToDir')(toDir).then(function () {
           return $q.all([
