@@ -34,9 +34,9 @@ function logTerm(
 
       bind(primus, 'offline', function () {
         terminal.writeln('');
-        terminal.writeln('******************************');
-        terminal.writeln('* LOST CONNECTION - retrying *');
-        terminal.writeln('******************************');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+        terminal.writeln('☹ LOST CONNECTION - retrying ☹');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
       });
 
       $scope.$on('$destroy', function () {

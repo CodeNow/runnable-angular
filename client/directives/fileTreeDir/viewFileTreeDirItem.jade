@@ -1,4 +1,4 @@
-.file-tree(
+li(
   file-tree-dir
   ng-repeat = "fs in dir.contents.models \
                      | isDir \
@@ -10,3 +10,29 @@
   open-items = "openItems"
   read-only = "readOnly"
 )
+li.file(
+  draggable
+  ng-repeat = "fs in dir.contents.models \
+               | isFile \
+               | orderBy:actions.normalizeMixedDataValue"
+  ng-class = "{ \
+      'active': fs.state.active, \
+      'dirty': (fs.state.body !== fs.attrs.body) \
+    }"
+)
+  a(
+    ng-click = "actions.closeOpenModals(); \
+                actions.openFile(fs); \
+                $event.stopPropagation();"
+    popover-file-explorer-item-menu
+  )
+    svg.iconnables.filetypes.icons-file
+      use(xlink:href = "#icons-file")
+    input.tree-input(
+      name = "{{ fs.id() }}"
+      ng-keyup = "($event.keyCode === 13) && fileItemData.actions.closeFileNameInput();"
+      ng-readonly = "!fs.state.renaming"
+      value = "{{ fs.attrs.name }}"
+      select-on = "fs.state.renaming"
+    ) {{ fs.attrs.name }}
+    span.item-name {{ fs.attrs.name }}

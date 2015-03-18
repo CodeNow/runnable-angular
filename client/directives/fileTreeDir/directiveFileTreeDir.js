@@ -18,6 +18,7 @@ function fileTreeDir(
 ) {
   return {
     restrict: 'A',
+    replace: true,
     scope: {
       dir: '=',
       parentDir: '=',
