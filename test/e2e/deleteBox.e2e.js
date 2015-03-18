@@ -28,7 +28,7 @@ describe('delete', users.doMultipleUsers(function (username) {
       if (idx === instanceNames.length - 1) {
         util.waitForUrl(new RegExp(username + '\/$'));
       } else {
-        util.waitForUrl(InstancePage.urlRegex());
+        util.waitForUrl(InstancePage.urlRegex(username));
       }
     });
   });

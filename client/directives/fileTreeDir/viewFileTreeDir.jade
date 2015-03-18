@@ -17,6 +17,9 @@ li.folder(
       value = "{{ dir.attrs.name }}"
     )
     span.item-name {{ dir.attrs.name }}
+  //- This part is ng-included here to get around an Angular compiling issue when recursively
+      using directives.  Without this, angular will just blow the stack and use all of your
+      processor
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"

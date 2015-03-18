@@ -151,11 +151,9 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
         });
       });
     }).then(function () {
-      expect(instance.activePanel.getContents()).not.toMatch('Step 3');
-    }).then(function () {
       browser.wait(function () {
         return instance.activePanel.getContents().then(function (text) {
-          return text.indexOf('Step 2') >= 0;
+          return text.indexOf('Step 3') >= 0;
         });
       });
     }).then(function () {

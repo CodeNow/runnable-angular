@@ -7,10 +7,7 @@ require('app')
  * @ngInject
  */
 function fileTreeDir(
-  $templateCache,
-  $compile,
   $rootScope,
-  $state,
   keypather,
   errs,
   $q,
@@ -26,7 +23,6 @@ function fileTreeDir(
       openItems: '=',
       readOnly: '='
     },
-    //template: '',
     templateUrl: 'viewFileTreeDir',
     link: function ($scope, element, attrs) {
 
@@ -105,7 +101,7 @@ function fileTreeDir(
         }).catch(errs.handler);
       }
       actions.fetchDirFiles = fetchDirFiles;
-      $scope.$watch('dir.state.open', function (newVal, oldval) {
+      $scope.$watch('dir.state.open', function (newVal) {
         if (newVal) {
           fetchDirFiles();
         }
