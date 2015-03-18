@@ -116,9 +116,9 @@
         button.btn.btn-xxs.green Add Server
       li.list-item Redis
         button.btn.btn-xxs.green Add Server
-  .card.card-template(
-    ng-if = "!data.addingServer"
-  )
+  //- .card.card-template(
+  //-   ng-if = "!data.addingServer"
+  //- )
     h2.card-header
       svg.iconnables.icons-add
         use(
@@ -128,9 +128,9 @@
       button.btn.btn-sm.green(
         ng-click = "data.addingServer = true"
       ) New Server
-  .card.card-template.active(
-    ng-if = "data.addingServer"
-  )
+  //- .card.card-template.active(
+  //-   ng-if = "data.addingServer"
+  //- )
     h2.card-header New Server
     .card-body
     .card-footer
