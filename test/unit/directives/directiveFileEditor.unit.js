@@ -169,10 +169,33 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       });
       fileUpdateCb();
       $scope.$apply();
+      expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
+    });
+
+    it('Should not set !isDirty after an outdated update returns', function () {
+      initState(true, true);
       fileFetchCb();
       $scope.$apply();
+
+      fileMock.state.body = '';
+      $scope.$apply();
+
+      expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.be.ok;
+      $scope.$apply();
+      sinon.assert.calledOnce(fileMock.update);
+      sinon.assert.calledWith(fileMock.update, {
+        json: {
+          body: ''
+        }
+      });
+      fileMock.state.body = 'asdfadsfdsfadsfas';
+      fileUpdateCb();
+      $scope.$apply();
+      expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.be.ok;
+      $scope.$apply();
+      fileUpdateCb();
+      $scope.$apply();
       expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
-      expect($elScope.loading, 'loading').to.be.false;
     });
 
     it('Should not autoupdate when flag is set to false', function () {
@@ -205,10 +228,7 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       });
       fileUpdateCb();
       $scope.$apply();
-      fileFetchCb();
-      $scope.$apply();
       expect(fileMock.state.isDirty, 'fileMock.state.isDirty').to.not.be.ok;
-      expect($elScope.loading, 'loading').to.be.false;
     });
 
   });

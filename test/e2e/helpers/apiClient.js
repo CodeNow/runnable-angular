@@ -3,8 +3,8 @@
 /**
  * Layout stuffs
  */
-
-var runnable = new (require('runnable'))('http://stage-api-codenow.runnableapp.com');
+var apiHost = require('../../../client/config/api').host;
+var runnable = new (require('runnable'))('http:' + apiHost);
 var RUNNABLE_DOOBIE_TOKEN = 'b03bb45cce257add52cdb60f9b096f5c28aa71d2';
 module.exports = {
   runnable: runnable,
@@ -24,7 +24,7 @@ module.exports = {
             return d.fulfill(returnedVal);
           }
           // It's a fetch/build/etc
-          d.fulfill(model);
+          return d.fulfill(model);
         }
       });
       returnedVal = model[fn].apply(model, args);

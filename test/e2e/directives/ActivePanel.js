@@ -68,6 +68,20 @@ function ActivePanel (pageType) {
     });
   };
 
+
+  // http://stackoverflow.com/q/25675973/1216976
+  // https://github.com/angular/protractor/issues/1273
+  this.addToFile = function (contentToAdd) {
+    var self = this;
+    this._getAceDiv().then(function(elem) {
+      browser.actions().click(elem).perform();
+      return self._getInputElement();
+    }).then(function(elem) {
+      elem.sendKeys(protractor.Key.ARROW_DOWN);
+      return elem.sendKeys(contentToAdd + '\n');
+    });
+  };
+
   this.clearActiveFile = function () {
     var self = this;
     this._getAceDiv().then(function(elem) {

@@ -111,9 +111,11 @@ function logTerm(
           terminal.writeln('*****************************************************');
         });
         bind($scope.stream, 'end', function () {
-          hideTerminalSpinner();
+          //hideTerminalSpinner();
           killCurrentStream();
-          $scope.streamEnded();
+          if ($scope.streamEnded) {
+            $scope.streamEnded();
+          }
         });
       }
     }

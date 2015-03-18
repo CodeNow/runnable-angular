@@ -5,7 +5,8 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
       $scope,
       $elScope,
       $rootScope,
-      $timeout;
+      $timeout,
+      $q;
 
   var error = new Error('an Error');
   function genModel (name, newName, throwErr) {
@@ -19,12 +20,17 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
       state: {
         body: newName
       },
-      update: sinon.spy(function (json, cb) {
-        if (throwErr) {
-          return cb(error);
-        }
-        cb();
-      })
+      actions: {
+        saveChanges: sinon.spy(function () {
+          var d = $q.defer();
+          if (throwErr) {
+            d.reject(error);
+          } else {
+            d.resolve();
+          }
+          return d.promise;
+        })
+      }
     };
   }
 
@@ -44,10 +50,11 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     angular.mock.module('app', function ($provide) {
       $provide.value('errs', ctx.errsMock);
     });
-    angular.mock.inject(function ($compile, _$timeout_, _$rootScope_) {
+    angular.mock.inject(function ($compile, _$timeout_, _$rootScope_, _$q_) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
+      $q = _$q_;
 
       mockOpenItems = {
         models: [
@@ -79,7 +86,7 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     });
   });
 
-  it('initalizes scope properly', function() {
+  it('initalizes scope properly', function () {
     expect($elScope.saving).to.be.false;
     expect($elScope.loading).to.be.false;
 
@@ -94,21 +101,19 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     expect($elScope.saveChanges).to.be.a.Function;
   });
 
-  it('saves changes', function() {
+  it('saves changes', function () {
     $elScope.saveChanges();
     expect($elScope.saving).to.be.true;
     // Timeout
     $timeout.flush();
     expect($elScope.saving).to.be.false;
     // Update models and file updates were called
-    sinon.assert.called(mockOpenItems.models[0].update);
-    sinon.assert.notCalled(mockOpenItems.models[1].update);
-    sinon.assert.notCalled(mockOpenItems.models[2].update);
+    sinon.assert.called(mockOpenItems.models[0].actions.saveChanges);
     // No restart on save
     sinon.assert.notCalled(mockInstance.restart);
   });
 
-  it('saves changes and restarts', function() {
+  it('saves changes and restarts', function () {
     $elScope.popoverSaveOptions.data.restartOnSave = true;
     $elScope.saveChanges();
     expect($elScope.saving).to.be.true;
@@ -116,14 +121,12 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     $timeout.flush();
     expect($elScope.saving).to.be.false;
     // Update models and file updates were called
-    sinon.assert.called(mockOpenItems.models[0].update);
-    sinon.assert.notCalled(mockOpenItems.models[1].update);
-    sinon.assert.notCalled(mockOpenItems.models[2].update);
+    sinon.assert.called(mockOpenItems.models[0].actions.saveChanges);
     // No restart on save
     sinon.assert.called(mockInstance.restart);
   });
 
-  it('throws an error on a bad update', function() {
+  it('throws an error on a bad update', function () {
     $elScope.popoverSaveOptions.data.restartOnSave = true;
     $elScope.openItems = {
       models : [genModel('a', 'b', true)]
@@ -131,11 +134,11 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
     $scope.$digest();
     $elScope.saveChanges();
     $scope.$digest();
-    sinon.assert.called($elScope.openItems.models[0].update);
+    sinon.assert.called($elScope.openItems.models[0].actions.saveChanges);
     sinon.assert.calledWith(ctx.errsMock.handler, error);
   });
 
-  it('throws an error on a bad restart', function() {
+  it('throws an error on a bad restart', function () {
     $elScope.popoverSaveOptions.data.restartOnSave = true;
     $elScope.instance = {
       restart: sinon.spy(function (cb) { cb(error); })

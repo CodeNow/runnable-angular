@@ -17,3 +17,4 @@ client/animations/index.js
 test/coverage/*
 !test/coverage/.gitkeep
 *.iml
+client/assets/**/*.css
