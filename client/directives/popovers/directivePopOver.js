@@ -10,8 +10,7 @@ function popOver(
   $compile,
   $templateCache,
   $log,
-  $document,
-  $window
+  $document
 ) {
   return {
     restrict: 'E',
@@ -19,7 +18,7 @@ function popOver(
       data: '=',
       actions: '=',
       popoverReady: '=',
-      popoverOptions: '@'
+      popoverOptions: '='
     },
     link: function ($scope, element, attrs) {
 
@@ -29,7 +28,6 @@ function popOver(
 
       var unwatch = $scope.$watch('popoverOptions', function (n) {
         if (n) {
-          unwatch();
           try {
             options = JSON.parse($scope.popoverOptions);
           } catch (e) {
@@ -40,6 +38,11 @@ function popOver(
           options.left = (typeof options.left !== 'undefined') ? options.left : null;
           options.top = (typeof options.top !== 'undefined') ? options.top : 0;
           options.class = (typeof options.class !== 'undefined') ? options.class : false;
+          options.mouse = (typeof options.mouse !== 'undefined') ? options.mouse : false;
+
+          if (!options.mouse) {
+            unwatch();
+          }
         }
       });
 
@@ -47,6 +50,16 @@ function popOver(
 
       $scope.popoverStyle = {
         getStyle: function () {
+          if (!$scope.popoverReady) {
+            return;
+          }
+          if (options.mouse) {
+            return {
+              'top': options.top,
+              'left': options.left
+            };
+          }
+
           var rect = element.parent()[0].getBoundingClientRect();
           return {
             'top': (rect.top + options.top) + 'px',

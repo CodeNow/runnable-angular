@@ -14,15 +14,25 @@ function togglePopOver(
     restrict: 'A',
     scope: {
       model: '=togglePopOverModel',
-      noBroadcast: '=togglePopOverNoBroadcast'
+      popoverOptions: '=togglePopOverOptions',
+      noBroadcast: '=togglePopOverNoBroadcast',
+      rightClick: '=togglePopOverRightClick'
     },
-    link: function ($scope, element, attrs) {
-      function clickHandler (event) {
-        if (!$scope.model && !element.prop('disabled')) {
+    link: function ($scope, element) {
+      function clickHandler(event) {
+        if ($scope.rightClick || (!$scope.model && !element.prop('disabled'))) {
           event.stopPropagation();
+          event.preventDefault();
           // Skip broadcasting if we're in a modal
           if (!$scope.noBroadcast) {
             $rootScope.$broadcast('app-document-click');
+          }
+          if ($scope.rightClick) {
+            $scope.popoverOptions = JSON.stringify({
+              left: event.pageX + 'px',
+              top: event.pageY - 18 + 'px',
+              mouse: true
+            });
           }
           $scope.model = true;
           $timeout(angular.noop);
@@ -30,10 +40,17 @@ function togglePopOver(
           $scope.model = false;
         }
       }
-      element.on('click', clickHandler);
-      $scope.$on('$destroy', function () {
-        element.off('click');
-      });
+      if ($scope.rightClick) {
+        element.on('contextmenu', clickHandler);
+        $scope.$on('$destroy', function () {
+          element.off('contextmenu');
+        });
+      } else {
+        element.on('click', clickHandler);
+        $scope.$on('$destroy', function () {
+          element.off('click');
+        });
+      }
       $scope.$on('app-document-click', function () {
         $scope.model = false;
       });
