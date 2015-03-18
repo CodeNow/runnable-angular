@@ -18,7 +18,8 @@ function accountsSelect (
   $q,
   fetchSlackMembers,
   fetchGitHubMembers,
-  fetchGitHubUser
+  fetchGitHubUser,
+  user
 ) {
   return {
     restrict: 'A',
@@ -50,23 +51,46 @@ function accountsSelect (
         },
         data: $scope.data
       };
-      if (configEnvironment !== 'production') {
-        keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
-      }
-      var unwatchUserInfo = $scope.$watch('data.activeAccount', function (n) {
-        if (n) {
-          keypather.set($scope, 'popoverAccountMenu.data.activeAccount', n);
-          keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
-          keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
-        }
-      });
-      $scope.$on('$destroy', function () {
-        unwatchUserInfo();
-      });
 
       keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
       keypather.set($scope, 'popoverAccountMenu.data.logoutURL', configLogoutURL());
       keypather.set($scope, 'popoverAccountMenu.data.isMainPage', $scope.isMainPage);
+
+      var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;
+      var mData = $scope.popoverAccountMenu.data.dataModalIntegrations;
+
+      if (configEnvironment !== 'production') {
+        keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
+      }
+      $scope.$watch('data.activeAccount', function (account) {
+        if (!account) { return; }
+        keypather.set($scope, 'popoverAccountMenu.data.activeAccount', account);
+        keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
+        keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
+
+        // Integrations modal
+        if (user.oauthName() === $state.params.userName) {
+          mData.showIntegrations = false;
+          return;
+        } else {
+          mData.showIntegrations = true;
+        }
+
+        // Only Slack for now, will expand when customers request it
+        mData.showSlack = true;
+        mData.settings = {};
+        return promisify(user, 'fetchSettings')({
+          githubUsername: $state.params.userName
+        }).then(function(settings) {
+          mData.settings = settings.models[0];
+          if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
+            keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
+            mData.showSlack = true;
+            // TODO: Don't verify every time
+            return mActions.verifySlack();
+          }
+        }).catch(errs.handler);
+      });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
         $scope.popoverAccountMenu.data.show = false;
@@ -79,31 +103,6 @@ function accountsSelect (
           });
         }
       };
-
-      var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;
-      var mData = $scope.popoverAccountMenu.data.dataModalIntegrations;
-
-
-      var unwatch = $scope.$watch('popoverAccountMenu.data.dataModalIntegrations.user', function(account) {
-        if (account) {
-          // Only Slack for now, will expand when customers request it
-          mData.showSlack = true;
-          mData.settings = {};
-          unwatch();
-          return promisify(account, 'fetchSettings')({
-            githubUsername: $state.params.userName
-          }).then(function(settings) {
-            console.log('settings', settings.models[0]);
-            mData.settings = settings.models[0];
-            if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
-              keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
-              mData.showSlack = true;
-              // TODO: Don't verify every time
-              return mActions.verifySlack();
-            }
-          }).catch(errs.handler);
-        }
-      });
 
       mActions.closePopover = function() {
         $scope.popoverAccountMenu.data.show = false;
