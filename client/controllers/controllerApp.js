@@ -26,6 +26,7 @@ function ControllerApp(
   $timeout
 ) {
 
+  var thisUser;
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {},
     actions: {},
@@ -83,13 +84,10 @@ function ControllerApp(
         toParams.userName !== dataApp.data.activeAccount.oauthName()) {
       setActiveAccount(toParams.userName);
     }
-    if ($window.Intercom) {
-      $window.Intercom('update');
-    }
+    // check for & show new messages from Intercom
+    $window.Intercom('update');
     dataApp.data.loading = false;
   });
-
-  var thisUser;
 
   $scope.$watch(function () {
     return errs.errors.length;
@@ -135,15 +133,13 @@ function ControllerApp(
             orgs:  $window.JSON.stringify(results)
           });
         }
-        if ($window.Intercom) {
-          $window.Intercom('boot', {
-            name: thisUser.oauthName(),
-            email: thisUser.attrs.email,
-            // Convert ISO8601 to Unix timestamp
-            created_at: +(new Date(thisUser.attrs.created)),
-            app_id: 'wqzm3rju'
-          });
-        }
+        $window.Intercom('boot', {
+          name: thisUser.oauthName(),
+          email: thisUser.attrs.email,
+          // Convert ISO8601 to Unix timestamp
+          created_at: +(new Date(thisUser.attrs.created)),
+          app_id: 'wqzm3rju'
+        });
         if ($window.olark) {
           $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
           $window.olark('api.visitor.updateFullName', { fullName: thisUser.oauthName() });
