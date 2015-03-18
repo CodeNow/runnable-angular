@@ -54,7 +54,7 @@ GOOD
     });
 ```
 
-BADE
+BAD
 ```javascript
   promisify($scope.dir, 'destroy')().catch(function () {
       console.log('foo');
