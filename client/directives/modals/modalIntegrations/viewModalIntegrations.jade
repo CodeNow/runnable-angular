@@ -60,6 +60,7 @@ form.modal-dialog.modal-integrations(
           ng-disabled = "data.verified"
           ng-model = "data.settings.attrs.notifications.slack.apiToken"
           required
+          spellcheck = "false"
         )
         .validate-wrapper.btn-sm.orange(
           ng-class = "{\
@@ -94,29 +95,46 @@ form.modal-dialog.modal-integrations(
       .input-col
         .list.list-bordered
           label.list-item.label-checkbox.text-overflow(
-            ng-class = "{active: member.slackOn}"
+            ng-class = "{\
+              active: member.slackOn,\
+              disabled: !data.slackOn,\
+              expanded: !member.found && member.slackOn,\
+            }"
             ng-repeat = "member in data.slackMembers"
           )
+            //- i made this up. plz fix.
+            .badge-warning(
+              ng-if = "!member.found && member.slackOn && member.ghNameSelected"
+            )
+              svg.iconnables.icons-warning
+                use(
+                  xlink:href = "#icons-warning"
+                )
             img.gravatar(
               height = "21"
               ng-src = "{{ member.profile.image_24 }}"
               width = "21"
             )
             | @{{ member.name }}
-            select.select(
-              ng-if = "!member.found"
-              ng-model = "member.ghName"
-              ng-options = "ghMember for ghMember in data.ghMembers"
-            )
-              option(
-                selected = "selected"
-                value = ""
-              ) Disabled
             input.input-checkbox(
-              ng-if = "member.found"
               ng-model = "member.slackOn"
               type = "checkbox"
             )
+            .well.gray(
+              ng-click = "$event.preventDefault();"
+              ng-if = "!member.found && member.slackOn"
+            )
+              small.small We couldn't find a matching Github username. Select their username to enable messaging.
+              select.select(
+                ng-if = "!member.found"
+                ng-model = "member.ghName"
+                ng-options = "ghMember for ghMember in data.ghMembers"
+              )
+                option(
+                  disabled
+                  selected = "selected"
+                  value = ""
+                ) Select Github username
     //- disabling integration:
       - removes all .active class on labels
       - disables all inputs, but preserves their states
@@ -148,6 +166,7 @@ form.modal-dialog.modal-integrations(
         input.input.input-sm.input-validate(
           ng-disabled = "data.verified"
           required
+          spellcheck = "false"
         )
         .validate-wrapper.btn-sm.orange(
           ng-class = "{\

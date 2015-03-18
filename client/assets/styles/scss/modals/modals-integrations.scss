@@ -2,7 +2,7 @@
   height: 100%;
   max-height: 660px;
   transition: max-height .15s ease-in, width .15s ease-in;
-  width: 600px;
+  width: 660px;
 
   @include media(sm) {
     width: calc(100% - 30px);
@@ -106,16 +106,12 @@
     height: 45px;
     line-height: 45px;
     margin: 0;
-    padding: 0 30px 0 9px;
+    padding: 0 9px;
     position: relative;
+    transition: height .15s ease-in;
 
     + .list-item {
       border-top: 1px solid rgba($black,.1);
-    }
-
-    .gravatar {
-      margin: 12px 9px 0 0;
-      opacity: .3;
     }
 
     &.active {
@@ -133,21 +129,64 @@
       .gravatar {
         opacity: .3;
       }
+
+      .well {
+        opacity: .3;
+      }
+    }
+
+    &.expanded {
+      height: 137px;
+    }
+
+    .gravatar {
+      margin: 12px 9px 0 0;
+      opacity: .3;
     }
   }
 
+  // badge
+  .badge-warning {
+    background: $white;
+    border-radius: 50%;
+    color: $orange;
+    height: 16px;
+    left: 3px;
+    position: absolute;
+    top: 5px;
+    width: 16px;
+  }
+
+  .icons-warning {
+    height: 21px;
+    top: -8px;
+    width: 21px;
+  }
+
   .input-checkbox {
+    height: 45px;
     margin: 0;
     position: absolute;
     right: 8px;
     top: 0;
   }
 
+  // well
+  .well {
+    cursor: default;
+    margin: 0 -3px 6px;
+    max-height: none;
+    padding: 9px 6px 0;
+    position: relative;
+
+    .small {
+      line-height: 1.2;
+      white-space: normal;
+    }
+  }
+
   .select {
-    max-width: 108px;
-    position: absolute;
-    right: 6px;
-    top: 11px;
+    cursor: pointer;
   }
 
   // footer
