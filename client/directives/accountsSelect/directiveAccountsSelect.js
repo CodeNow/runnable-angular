@@ -90,9 +90,9 @@ function accountsSelect (
           return promisify(account, 'fetchSettings')({
             githubUsername: $state.params.userName
           }).then(function(settings) {
-            console.log('settings', settings);
+            console.log('settings', settings.models[0]);
             mData.settings = settings.models[0];
-            if (keypather.get(mData, 'settings.attrs.notifications.slack.authToken')) {
+            if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken')) {
               mData.showSlack = true;
               // TODO: Don't verify every time
               return mActions.verifySlack();
@@ -107,7 +107,7 @@ function accountsSelect (
       mActions.verifySlack = function() {
         var matches = [];
         var slackMembers, ghMembers;
-        fetchSlackMembers(mData.settings.attrs.notifications.slack.authToken)
+        fetchSlackMembers(mData.settings.attrs.notifications.slack.apiToken)
         .then(function(_members) {
           slackMembers = _members;
           mData.slackMembers = slackMembers;
@@ -143,7 +143,7 @@ function accountsSelect (
       };
       mActions.saveSlack = function () {
         var slackData = {
-          authToken: mData.settings.attrs.notifications.slack.authToken
+          apiToken: mData.settings.attrs.notifications.slack.apiToken
         };
         slackData.usernameToSlackNameMap = mData.slackMembers.reduce(function (obj, slackMember) {
           if (slackMember.ghName && !slackMember.found) {

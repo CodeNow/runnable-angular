@@ -58,7 +58,7 @@ form.modal-dialog.modal-integrations(
       .input-col
         input.input.input-sm.input-validate(
           ng-disabled = "data.verified"
-          ng-model = "data.settings.attrs.notifications.slack.authToken"
+          ng-model = "data.settings.attrs.notifications.slack.apiToken"
           required
         )
         .validate-wrapper.btn-sm.orange(
@@ -203,7 +203,7 @@ form.modal-dialog.modal-integrations(
     ng-if = "(data.showHipchat || data.showSlack) && data.verified"
   )
     button.btn.green(
-      ng-click = "actions.saveSlack()"
+      ng-click = "defaultActions.close(actions.saveSlack)"
     ) Save
 
     //- form.form.clearfix(
