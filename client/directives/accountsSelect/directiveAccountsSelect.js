@@ -129,6 +129,7 @@ function accountsSelect (
                 if (mData.settings.attrs.notifications.slack.githubUsernameToSlackIdMap[ghUser.login] ===
                   member.id) {
                   member.slackOn = true;
+                  member.ghName = ghUser.login;
                 }
               });
             });
