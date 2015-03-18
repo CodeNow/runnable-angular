@@ -118,30 +118,57 @@
 // checkboxes
 .list {
 
+  // icon wrapper
+  .btn-xs {
+    background: $white;
+    border: 1px solid $gray-lighter;
+    border-radius: 50%;
+    color: $white;
+    position: absolute;
+    right: 21px;
+    top: 15px;
+    transition: none;
+    width: 24px;
+  }
+
+  // default state
   .input-checkbox {
     display: none;
 
-    + .label-checkbox .icons-check {
-      background: $white;
-      border: 1px solid $gray-lighter;
-      border-radius: 50%;
-      color: $white;
-      padding: 0;
-      position: absolute;
-      right: 21px;
-      top: 15px;
-      width: 24px;
+    + .label-checkbox {
+
+      .iconnables {
+        height: 22px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: scale3d(0,0,0);
+        transition: transform .3s ease-in;
+        width: 22px;
+      }
+
+      .icons-add {
+        color: $gray-lighter;
+        transform: scale3d(1,1,1);
+        transition: none;
+      }
     }
   }
 
   // active states
-  .label-checkbox:active .icons-check,
-  .input-checkbox:checked + .label-checkbox .icons-check {
-    background: $green;
-    border-color: transparent;
-  }
-
   .input-checkbox:checked + .label-checkbox {
-    border-color: $green;
+
+    .btn-xs {
+      background: $green;
+      border-color: $green;
+    }
+
+    .icons-add {
+      transform: scale3d(0,0,0);
+    }
+
+    .icons-check {
+      transform: scale3d(1,1,1);
+    }
   }
 }
