@@ -145,13 +145,13 @@ function accountsSelect (
         var slackData = {
           apiToken: mData.settings.attrs.notifications.slack.apiToken
         };
-        slackData.usernameToSlackNameMap = mData.slackMembers.reduce(function (obj, slackMember) {
+        slackData.githubUsernameToSlackIdMap = mData.slackMembers.reduce(function (obj, slackMember) {
           if (slackMember.ghName && !slackMember.found) {
             // Name was selected from the dropdown
-            obj[slackMember.ghName] = slackMember.name;
+            obj[slackMember.ghName] = slackMember.id;
           } else if (slackMember.found && slackMember.slackOn) {
             // Autodetected name was checked
-            obj[slackMember.ghName] = slackMember.name;
+            obj[slackMember.ghName] = slackMember.id;
           } else {
             // We want to note them but not enable slack
             obj[slackMember.ghName] = null;
