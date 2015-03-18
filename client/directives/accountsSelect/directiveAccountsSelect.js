@@ -83,8 +83,11 @@ function accountsSelect (
       var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;
       var mData = $scope.popoverAccountMenu.data.dataModalIntegrations;
 
+
       var unwatch = $scope.$watch('popoverAccountMenu.data.dataModalIntegrations.user', function(account) {
         if (account) {
+          // Only Slack for now, will expand when customers request it
+          mData.showSlack = true;
           mData.settings = {};
           unwatch();
           return promisify(account, 'fetchSettings')({
@@ -92,7 +95,8 @@ function accountsSelect (
           }).then(function(settings) {
             console.log('settings', settings.models[0]);
             mData.settings = settings.models[0];
-            if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken')) {
+            if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
+              keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
               mData.showSlack = true;
               // TODO: Don't verify every time
               return mActions.verifySlack();
@@ -126,7 +130,7 @@ function accountsSelect (
                   member.ghName = ghUser.login;
                   matches.push(ghUser.login);
                 }
-                if (mData.settings.attrs.notifications.slack.githubUsernameToSlackIdMap[ghUser.login] ===
+                if (keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap[' + ghUser.login + ']') ===
                   member.id) {
                   member.slackOn = true;
                   member.ghName = ghUser.login;
@@ -173,16 +177,6 @@ function accountsSelect (
           }
         })
         .catch(errs.handler);
-      };
-      mActions.saveHipChat = function () {
-        $scope.data.user.newSetting(mData.settings.id())
-        .update({
-          json: {
-            notifications: {
-              hipchat: mData.settings.notifications.hipchat
-            }
-          }
-        }, errs.handler);
       };
     }
   };

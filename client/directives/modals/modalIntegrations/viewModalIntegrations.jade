@@ -11,19 +11,19 @@ form.modal-dialog.modal-integrations(
       ng-if = "!data.showHipchat && !data.showSlack"
     ) Choose Integration
     .modal-header-actions
-      button.btn-radio(
-        ng-class = "{active: data.showHipchat}"
-        ng-click = "\
-          data.showHipchat = true;\
-          data.showSlack = false;\
-        "
-        type = "button"
-      )
-        img.img(
-          height = "36"
-          src = "/build/images/logos/logo-icon-hipchat.svg"
-          width = "36"
-        )
+      //- button.btn-radio(
+      //-   ng-class = "{active: data.showHipchat}"
+      //-   ng-click = "\
+      //-     data.showHipchat = true;\
+      //-     data.showSlack = false;\
+      //-   "
+      //-   type = "button"
+      //- )
+      //-   img.img(
+      //-     height = "36"
+      //-     src = "/build/images/logos/logo-icon-hipchat.svg"
+      //-     width = "36"
+      //-   )
         | Hipchat
       button.btn-radio(
         ng-class = "{active: data.showSlack}"
@@ -42,7 +42,7 @@ form.modal-dialog.modal-integrations(
   //- do not show if integration is initiated
   a.small.link.footer-link(
     ng-if = "!data.showHipchat && !data.showSlack"
-    ng-click = "defaultActions.cancel()"
+    ng-click = "defaultActions.close()"
   ) Cancel
 
   //- show if integration is initiated
@@ -83,7 +83,7 @@ form.modal-dialog.modal-integrations(
           )
           | Verify
         button.btn.btn-sm.white(
-          ng-click = ""
+          ng-click = "defaultActions.close()"
           ng-if = "!data.verified"
         ) Cancel
       //- validation for special cahrs
@@ -223,88 +223,3 @@ form.modal-dialog.modal-integrations(
     button.btn.green(
       ng-click = "defaultActions.close(actions.saveSlack)"
     ) Save
-
-    //- form.form.clearfix(
-    //-   name = "slackForm"
-    //- )
-    //-   .col
-    //-     img(
-    //-       src = "/build/images/logos/logo-slack.svg"
-    //-     )
-    //-   .col
-    //-     label.input-group.input-validate(
-    //-       ng-class = "{\
-    //-         focus: slackForm.slackWebHook.showFocus,\
-    //-         'ng-invalid': slackForm.slackWebHook.$invalid && !slackForm.slackWebHook.$pristine,\
-    //-         'ng-valid': slackForm.slackWebHook.$valid\
-    //-       }"
-    //-     )
-    //-       span.input-label WebHook URL
-    //-       input.input(
-    //-         autocomplete = "off"
-    //-         name = "slackWebHook"
-    //-         ng-blur = "slackForm.slackWebHook.showFocus = false"
-    //-         ng-focus = "slackForm.slackWebHook.showFocus = true"
-    //-         ng-model = "data.settings.notifications.slack.webhookUrl"
-    //-         type = "url"
-    //-       )
-    //-     a.link-gray.link-reference(
-    //-       href = "//slack.com/services/new/incoming-webhook"
-    //-       target = "_blank"
-    //-     ) Get WebHook URL on Slack
-    //-     button.btn.green(
-    //-       type = "button"
-    //-       ng-click = "actions.saveSlack()"
-    //-     ) Save
-    //- hr.hr
-    //- form.form.clearfix(
-    //-   name = "hipchatForm"
-    //- )
-    //-   .col
-    //-     img(
-    //-       src = "/build/images/logos/logo-hipchat.svg"
-    //-     )
-    //-   .col
-    //-     label.input-group.input-validate(
-    //-     ng-class = "{\
-    //-         focus: hipchatForm.roomInput.showFocus,\
-    //-         'ng-invalid': hipchatForm.roomInput.$invalid && !hipchatForm.roomInput.$pristine,\
-    //-         'ng-valid': hipchatForm.roomInput.$valid\
-    //-       }"
-    //-     )
-    //-       span.input-label Room
-    //-       input.input(
-    //-         autocomplete = "off"
-    //-         ng-blur = "hipchatForm.roomInput.showFocus = false"
-    //-         ng-focus = "hipchatForm.roomInput.showFocus = true"
-    //-         name = "roomInput"
-    //-         ng-model = "data.settings.notifications.hipchat.roomId"
-    //-       )
-    //-     label.input-group.input-validate(
-    //-       ng-class = "{\
-    //-           focus: hipchatForm.tokenInput.showFocus,\
-    //-           'ng-invalid': hipchatForm.tokenInput.$invalid && !hipchatForm.tokenInput.$pristine,\
-    //-           'ng-valid': hipchatForm.tokenInput.$valid\
-    //-         }"
-    //-     )
-    //-       span.input-label Token
-    //-       input.input(
-    //-         autocomplete = "off"
-    //-         ng-blur = "hipchatForm.tokenInput.showFocus = false"
-    //-         ng-focus = "hipchatForm.tokenInput.showFocus = true"
-    //-         name = "tokenInput"
-    //-         ng-model = "data.settings.notifications.hipchat.authToken"
-    //-       )
-    //-     a.link-gray.link-reference(
-    //-       href = "//hipchat.com/admin/api"
-    //-       target = "_blank"
-    //-     ) Create a token on Hipchat
-    //-     button.btn.green(
-    //-       type = "button"
-    //-       ng-click = "actions.saveHipChat()"
-    //-     ) Save
-    //- footer.modal-footer
-    //-   button.btn.white(
-    //-     ng-click = "defaultActions.cancel()"
-    //-     type = "button"
-    //-   ) Done
