@@ -6,13 +6,14 @@ require('app')
  * @ngInject
  */
 function repoList(
+  $rootScope,
+  $state,
+  createNewBuild,
   debounce,
   errs,
+  eventTracking,
   keypather,
   pFetchUser,
-  $state,
-  $rootScope,
-  createNewBuild,
   promisify
 ) {
   return {
@@ -98,6 +99,7 @@ function repoList(
       };
 
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
+        eventTracking.triggeredBuild(false);
         // display loading spinner
         $scope.loading = true;
         var context = $scope.build.contexts.models[0];
