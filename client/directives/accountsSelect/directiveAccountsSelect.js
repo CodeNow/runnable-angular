@@ -110,6 +110,7 @@ function accountsSelect (
       mActions.verifySlack = function() {
         var matches = [];
         var slackMembers, ghMembers;
+        mData.verifying = true;
         fetchSlackMembers(mData.settings.attrs.notifications.slack.apiToken)
         .then(function(_members) {
           slackMembers = _members;
@@ -147,6 +148,7 @@ function accountsSelect (
             return arr;
           }, []);
           mData.verified = true;
+          mData.verifying = false;
         }).catch(errs.handler);
       };
       mActions.saveSlack = function () {

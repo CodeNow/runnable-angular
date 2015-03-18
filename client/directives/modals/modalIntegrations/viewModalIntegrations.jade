@@ -74,11 +74,11 @@ form.modal-dialog.modal-integrations(
         ) Change Token
         //- if input was invalid and the user presses verify again, remove ng-invalid from input until the input is checked again
         button.btn.btn-sm.green.btn-spinner(
+          ng-class = "{in: data.verifying}"
           ng-click = "actions.verifySlack()"
           ng-if = "!data.verified"
         )
           .spinner-wrapper.spinner-sm.spinner-white.in(
-            ng-if = "{in: false}"
             ng-include = "'spinner'"
           )
           | Verify
