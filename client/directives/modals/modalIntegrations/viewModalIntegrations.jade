@@ -94,7 +94,7 @@ form.modal-dialog.modal-integrations(
       .input-col
         .list.list-bordered
           label.list-item.label-checkbox.text-overflow(
-            ng-class = "{disabled: !member.slackOn, active: member.slackOn}"
+            ng-class = "{active: member.slackOn}"
             ng-repeat = "member in data.slackMembers"
           )
             img.gravatar(
