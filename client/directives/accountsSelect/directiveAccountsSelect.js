@@ -130,7 +130,7 @@ function accountsSelect (
                   member.ghName = ghUser.login;
                   matches.push(ghUser.login);
                 }
-                if (keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap[' + ghUser.login + ']') ===
+                if (keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap.' + ghUser.login) ===
                   member.id) {
                   member.slackOn = true;
                   member.ghName = ghUser.login;
