@@ -48,12 +48,12 @@ EventTracking.prototype.boot = function (user) {
 
 /**
  * Record user-initiated build triggered event from throughout UI
- * @param {Boolean} noCache - build triggered without cache
+ * @param {Boolean} cache - build triggered without cache
  * @return null
  */
-EventTracking.prototype.triggeredBuild = function (noCache) {
+EventTracking.prototype.triggeredBuild = function (cache) {
   this._Intercom('trackEvent', 'triggered-build', {
-    noCache: noCache,
+    cache: cache,
     state: this._state.$current.name
   });
 };

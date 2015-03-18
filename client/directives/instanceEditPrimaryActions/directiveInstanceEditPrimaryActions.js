@@ -30,7 +30,7 @@ function instanceEditPrimaryActions(
       $scope.build = function (noCache) {
         if (building) { return; }
         building = true;
-        eventTracking.triggeredBuild(noCache);
+        eventTracking.triggeredBuild(!noCache);
         $scope.loading = true;
         var unwatch = $scope.$watch('openItems.isClean()', function (n) {
           if (!n) { return; }
