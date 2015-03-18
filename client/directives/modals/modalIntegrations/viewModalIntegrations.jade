@@ -140,15 +140,14 @@ form.modal-dialog.modal-integrations(
       - disables all inputs, but preserves their states
     .label.label-footer(
       ng-if = "data.verified"
-      ng-init = "data.slackOn = true"
     )
       button.btn.btn-sm.orange(
-        ng-click = "data.slackOn = false"
-        ng-if = "data.slackOn"
+        ng-click = "data.settings.attrs.notifications.slack.enabled = false"
+        ng-if = "data.settings.attrs.notifications.slack.enabled"
       ) Disable Slack Integration
       button.btn.btn-sm.green(
-        ng-click = "data.slackOn = true"
-        ng-if = "!data.slackOn"
+        ng-click = "data.settings.attrs.notifications.slack.enabled = true"
+        ng-if = "!data.settings.attrs.notifications.slack.enabled"
       ) Enable Slack Integration
       small.small No messages will be sent while disabled
 

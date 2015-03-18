@@ -149,7 +149,7 @@ function accountsSelect (
       mActions.saveSlack = function () {
         var slackData = {
           apiToken: mData.settings.attrs.notifications.slack.apiToken,
-          enabled: true
+          enabled: mData.settings.attrs.notifications.slack.enabled
         };
         slackData.githubUsernameToSlackIdMap = mData.slackMembers.reduce(function (obj, slackMember) {
           if (slackMember.ghName && !slackMember.found) {
