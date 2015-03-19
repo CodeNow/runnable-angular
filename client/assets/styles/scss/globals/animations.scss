@@ -29,6 +29,36 @@
   }
 }
 
+@keyframes card-blink {
+  0% {
+    border-color: rgba($purple-light,.6);
+  }
+
+  24% {
+    border-color: rgba($purple-light,.6);
+  }
+
+  25% {
+    border-color: rgba($black,.1);
+  }
+
+  49% {
+    border-color: rgba($black,.1);
+  }
+
+  50% {
+    border-color: rgba($black,.1);
+  }
+
+  51% {
+    border-color: rgba($purple-light,.6);
+  }
+
+  100% {
+    border-color: rgba($black,.1);
+  }
+}
+
 @keyframes cursor-blink {
   0% {
     opacity: 1;

@@ -18,7 +18,10 @@
     )
     | Configuring
   .card.load(
-    ng-class = "{active: popoverConfigureServer.data.show}"
+    ng-class = "{\
+      active: popoverConfigureServer.data.show,\
+      focus: data.runnableApi\
+    }"
     ng-if = "!data.cardLoading"
   )
     svg.iconnables.icons-gear(
@@ -66,6 +69,7 @@
     )
     | Configuring
   .card.load(
+    ng-class = "{focus: data.runnableAngular}"
     ng-if = "!data.cardLoading"
   )
     svg.iconnables.icons-gear
@@ -133,9 +137,13 @@
             xlink:href = "#icons-close"
           )
       | MongoDb detected as a dependency of #{''}
-      button.btn.btn-xxs.gray runnable-angular
+      button.btn.btn-xxs.gray(
+        ng-click = "data.runnableAngular = !data.runnableAngular"
+      ) runnable-angular
       | #{''} and #{''}
-      button.btn.btn-xxs.gray api
+      button.btn.btn-xxs.gray(
+        ng-click = "data.runnableApi = !data.runnableApi"
+      ) api
       | .
 
   //- .card.card-template(

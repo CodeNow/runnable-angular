@@ -1,19 +1,23 @@
 .card {
   background: $white;
-  border: 1px solid rgba($black,.15);
+  border: 2px solid rgba($black,.1);
   border-radius: 3px;
   display: flex;
   flex-direction: column;
   min-height: 270px;
   min-width: 270px;
   position: relative;
+  transition: none;
 
   &:hover:not(.disabled),
   &:active:not(.disabled),
   &.active {
-    border-color: $purple-light;
-    box-shadow: 0 0 3px rgba($purple-light,.3);
+    border-color: rgba($purple-light,.6);
     cursor: pointer;
+  }
+
+  &.focus {
+    animation: card-blink .5s ease-out;
   }
 
   + .card {

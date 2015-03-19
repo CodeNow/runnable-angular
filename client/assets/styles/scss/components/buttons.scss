@@ -393,7 +393,7 @@
 
 .btn-radio {
   background: $white;
-  border: 1px solid rgba($black,.15);
+  border: 2px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: none;
   cursor: pointer;
@@ -402,7 +402,7 @@
   height: 60px;
   margin-right: 6px;
   text-align: center;
-  transition: all .15s ease-in;
+  transition: none;
   user-select: none;
   white-space: nowrap;
   width: 60px;
@@ -410,15 +410,7 @@
   &:hover,
   &:active,
   &.active {
-    border-color: $green;
-  }
-
-  &.active {
-    box-shadow: 0 0 3px rgba($green,.3);
-  }
-
-  &:active {
-    transition: none;
+    border-color: rgba($green,.6);
   }
 
   &:focus {
