@@ -1,4 +1,3 @@
-
 //- tabs
 .views-toolbar(
   open-items= "openItems"
@@ -6,7 +5,9 @@
 )
 div(
   add-tab
+  show-add-buttons = "showBackgroundButtons"
   open-items = "openItems"
+  ng-if= "showBackgroundButtons"
 )
 //- active panel
 .active-panel(
