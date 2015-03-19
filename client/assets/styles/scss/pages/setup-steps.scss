@@ -6,6 +6,7 @@
     width: 392px; // width dimensions for loading
   }
 
+  // search
   .input-search {
     background-position: calc(50% - 53px) 6px;
     margin-bottom: 8px;
@@ -19,6 +20,7 @@
     }
   }
 
+  // repository list
   .list {
     width: 360px;
   }
@@ -44,10 +46,9 @@
 // step 2—server setup
 .step-2 {
 
-  // setup link button
-  .btn-xxs {
-    display: table;
-    margin: 0 auto;
+  // max-width on config cards
+  .card {
+    max-width: 270px;
   }
 }
 

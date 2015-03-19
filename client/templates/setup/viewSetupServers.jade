@@ -52,7 +52,7 @@
               xlink:href = "#icons-nodejs"
             )
           | v0.10.28
-        li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
+        li.list-item.monospace.text-overflow 80,8000,8080,3000
         li.list-item.monospace.text-overflow npm start
 
   //- card #2
@@ -93,8 +93,50 @@
               xlink:href = "#icons-nodejs"
             )
           | v0.10.35
-        li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
+        li.list-item.monospace.text-overflow 80,8000,8080,3000
         li.list-item.monospace.text-overflow npm start
+
+  .card.load(
+    ng-if = "!data.cardLoading"
+  )
+    svg.iconnables.icons-gear
+      use(
+        xlink:href = "#icons-gear"
+      )
+    h2.card-header.load(
+      ng-if = "!data.cardLoading"
+    )
+      svg.iconnables.icons-server(
+      )
+        use(
+          xlink:href = "#icons-server"
+        )
+      | MongoDb
+    .card-body.clearfix
+      ul.list.list-col.small
+        li.list-item Language
+      ul.list.list-col.monospace
+        li.list-item.monospace.text-overflow
+          svg.iconnables.icons-nodejs
+            use(
+              xlink:href = "#icons-nodejs"
+            )
+          | v0.10.35
+    .well.small.gray(
+      ng-if = "!data.dismiss"
+    )
+      button.btn.btn-xxs.btn-icon.gray.btn-close(
+        ng-click = "data.dismiss = true"
+      )
+        svg.iconnables.icons-close
+          use(
+            xlink:href = "#icons-close"
+          )
+      | MongoDb detected as a dependency of #{''}
+      button.btn.btn-xxs.gray runnable-angular
+      | #{''} and #{''}
+      button.btn.btn-xxs.gray api
+      | .
 
   //- .card.card-template(
   //-   ng-if = "!data.addingServer"

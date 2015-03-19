@@ -14,10 +14,6 @@
     border-color: $purple-light;
     box-shadow: 0 0 3px rgba($purple-light,.3);
     cursor: pointer;
-
-    .icons-gear {
-      color: $purple-light;
-    }
   }
 
   + .card {
@@ -34,6 +30,11 @@
     top: 6px;
     width: 18px;
     z-index: 1;
+
+    &:hover,
+    &:active {
+      color: $purple-light;
+    }
   }
 
   // header
@@ -63,13 +64,13 @@
         color: $gray-light;
         float: left;
         text-align: right;
-        width: 40%;
+        width: 35%;
       }
 
       &:last-child {
         float: right;
         font-size: 14px;
-        width: 60%;
+        width: 65%;
       }
     }
 
@@ -103,23 +104,14 @@
     border-top: 1px solid rgba($black,.1);
     cursor: default;
     margin: 0;
-    padding: 6px;
+    padding: 9px;
 
-    .list-item {
-      height: 30px;
-      line-height: 30px;
-      padding: 0 6px;
-
-      + .list-item {
-        color: $gray-darker;
-        font-size: 14px;
-      }
-    }
-
-    // add server button
-    .btn-xxs {
+    // dismiss
+    .btn-close {
       float: right;
-      top: 6px;
+      height: 15px;
+      margin-left: 15px;
+      width: 15px;
     }
   }
 
