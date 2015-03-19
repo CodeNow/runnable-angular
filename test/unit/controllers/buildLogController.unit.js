@@ -48,9 +48,6 @@ describe('BuildLogController'.bold.underline.blue, function () {
     ctx.buildPassed = true;
     ctx.build = {
       attrs: apiMocks.builds.built,
-      fetch: sinon.spy(function (cb) {
-        cb(null, this);
-      }),
       succeeded: sinon.spy(function () {
         return ctx.buildPassed === true;
       }),
@@ -76,7 +73,6 @@ describe('BuildLogController'.bold.underline.blue, function () {
       expect($scope.showSpinnerOnStream).to.be.true;
       expect($scope.createStream, 'createStream').to.be.ok;
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
-      expect($scope.streamEnded, 'streamEnded').to.be.ok;
       sinon.assert.notCalled(ctx.build.failed);
       sinon.assert.notCalled(ctx.build.succeeded);
     });
@@ -95,53 +91,6 @@ describe('BuildLogController'.bold.underline.blue, function () {
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
       $scope.connectStreams(term);
       sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
-    });
-
-    it('should end the stream, and fetch, and post success', function (done) {
-      $scope.build = ctx.build;
-      $rootScope.$digest();
-
-      $scope.$on('WRITE_TO_TERM', function (event, message) {
-        expect(message, 'message').to.equal('Build completed, starting instance...');
-        done();
-      });
-
-      expect($scope.streamEnded, 'streamEnded').to.be.ok;
-      $scope.streamEnded();
-      $scope.$apply();
-      sinon.assert.calledOnce(ctx.build.fetch);
-      $scope.$apply();
-    });
-    it('should end the stream, and fetch, and post failure', function (done) {
-      $scope.build = ctx.build;
-      ctx.buildPassed = false;
-      $rootScope.$digest();
-
-      $scope.$on('WRITE_TO_TERM', function (event, message) {
-        expect(message, 'message').to.equal('\x1b[31;1mPlease build again\x1b[0m');
-        done();
-      });
-
-      expect($scope.streamEnded, 'streamEnded').to.be.ok;
-      $scope.streamEnded();
-      $scope.$apply();
-      sinon.assert.calledOnce(ctx.build.fetch);
-      $scope.$apply();
-    });
-    it('should end the stream, and fetch, and catch an error', function () {
-      $scope.build = ctx.build;
-      var error = new Error('asasda');
-      $scope.build.fetch = sinon.spy(function (cb) {
-        cb(error);
-      });
-      $rootScope.$digest();
-
-      expect($scope.streamEnded, 'streamEnded').to.be.ok;
-      $scope.streamEnded();
-      $scope.$apply();
-      sinon.assert.calledOnce(ctx.build.fetch);
-      $scope.$apply();
-      sinon.assert.calledWith(ctx.$log.error, error);
     });
   });
 
