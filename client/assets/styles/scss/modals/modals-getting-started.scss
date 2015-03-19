@@ -1,3 +1,32 @@
+.modal-getting-started {
+  padding-top: 15px;
+
+  // reset and center header
+  .modal-heading {
+    float: none;
+    line-height: 54px;
+    text-align: center;
+
+    .small {
+      color: $gray;
+      line-height: 0;
+    }
+  }
+
+  .modal-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 15px 30px;
+  }
+
+  .modal-footer {
+    padding: 9px 30px;
+  }
+}
+
+
 // .modal-getting-started
 // choose org
 .step-1 {
