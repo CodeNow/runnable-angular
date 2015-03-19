@@ -154,3 +154,23 @@ div(
   bar = "foo"
 )
 ```
+
+There are no commas after attributes
+
+GOOD
+```
+div(
+  bar = "bar"
+  foo = "foo"
+  baz = "baz"
+)
+```
+
+BAD
+```
+div(
+  bar = "bar",
+  foo = "foo",
+  baz = "baz"
+)
+```
