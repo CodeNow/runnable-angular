@@ -18,13 +18,6 @@ function GearMenu() {
     rename: util.createGetter(by.buttonText('Rename Server'))
   };
 
-  this.modalFork = {
-    // This one needs to be CSS.
-    // Don't ask me why
-    input: util.createGetter(by.model('data.newForkName')),
-    cancel: util.createGetter(by.buttonText('Go Back'))
-  };
-
   this.modalDelete = util.createGetter(by.buttonText('Delete Server'));
 
   this.isOpen = function() {
@@ -56,18 +49,6 @@ function GearMenu() {
     self.modalRename.input.get().clear();
     self.modalRename.input.get().sendKeys(newName);
     self.modalRename.rename.get().click();
-  };
-
-  this.forkBox = function (forkName) {
-    var self = this;
-    self.forkItem.get().click();
-    browser.wait(function() {
-      return self.modalFork.fork.get().isDisplayed();
-    });
-
-    self.modalFork.input.get().clear();
-    self.modalFork.input.get().sendKeys(forkName);
-    self.modalFork.fork.get().click();
   };
 
   this.deleteBox = function() {
