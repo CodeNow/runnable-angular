@@ -19,16 +19,15 @@ function EventTracking (
   $state,
   $window
 ) {
+  this._Intercom = $window.Intercom;
   this._state = $state;
-  if (!$window.Intercom) {
+  if (!this._Intercom) {
     // stub intercom if not loaded
     this._Intercom = function () {
       $log.info('Intercom JS SDK stubbed');
       $log.info(arguments);
     };
-    return;
   }
-  this._Intercom = $window.Intercom;
 }
 
 /**
