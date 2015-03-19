@@ -27,7 +27,7 @@ function activePanel(
       if (attrs.backgroundButtons) {
         var showBackgroundButtons = {};
         attrs.backgroundButtons.split(',').forEach(function (button) {
-          showBackgroundButtons[button] = true;
+          showBackgroundButtons[button.trim()] = true;
         });
         $scope.showBackgroundButtons = showBackgroundButtons;
       }
