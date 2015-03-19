@@ -67,6 +67,8 @@ function accountsSelect (
         keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
         keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
 
+        if (!$scope.isMainPage) { return; }
+
         // Integrations modal
         if ($scope.data.user.oauthName() === $state.params.userName) {
           mData.showIntegrations = false;
