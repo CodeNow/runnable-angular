@@ -1,8 +1,8 @@
 .setup-header
-  h1.h1 Configure Your Servers
-  p.p Each repository will be created as its own server.
+  h1.h1 Your Servers
+  p.p We&rsquo;ve automagically filled out the server details for you,
     br
-    | We&rsquo;ve automagically filled out the server details for you.
+    | and added servers for dependencies.
 
 .setup-body(
   ng-init = "data.cardLoading = true"
@@ -117,15 +117,6 @@
         )
       | MongoDb
     .card-body.clearfix
-      ul.list.list-col.small
-        li.list-item Language
-      ul.list.list-col.monospace
-        li.list-item.monospace.text-overflow
-          svg.iconnables.icons-nodejs
-            use(
-              xlink:href = "#icons-nodejs"
-            )
-          | v0.10.35
     .well.small.gray(
       ng-if = "!data.dismiss"
     )
@@ -170,4 +161,4 @@
   ) Back
   button.btn.btn-sm.green(
     ng-click = "state.step = 3"
-  ) Setup Server(s)
+  ) Continue

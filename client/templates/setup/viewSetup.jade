@@ -8,13 +8,13 @@
 )
 //- step 2
   - configuration for server stack and their dependency servers
-.step-2(
+.step-2.card-grid(
   ng-include= "'viewSetupServers'"
   ng-if = "state.step === 2"
 )
 //- step 3
   - setup env variables for all servers
-.step-3(
+.step-3.card-grid(
   ng-include = "'viewSetupEnvironmentVariables'"
   ng-if = "state.step === 3"
 )
