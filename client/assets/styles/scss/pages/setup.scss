@@ -16,8 +16,10 @@
 // body—form elements/cards
 .setup-body {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   margin: 21px auto;
+  padding: 0 30px;
 }
 
 // footer—navigation

@@ -20,10 +20,6 @@
     animation: card-blink .5s ease-out;
   }
 
-  + .card {
-    margin-left: 12px;
-  }
-
   // settings
   .icons-gear {
     color: $gray-light;
@@ -130,22 +126,21 @@
 
 // template
 .card-template {
+  color: $gray-lighter;
+  font-size: 18px;
+  justify-content: center;
+  text-align: center;
 
-  &.active .card-header {
-    background: $gray-lightest;
-    border-bottom: 1px solid rgba($black,.1);
-    flex: 0 0 36px;
-    line-height: 36px;
-  }
-
-  .card-header {
-    flex: 0 0 210px;
-  }
+  // &.active .card-header {
+  //   background: $gray-lightest;
+  //   border-bottom: 1px solid rgba($black,.1);
+  //   flex: 0 0 36px;
+  //   line-height: 36px;
+  // }
 
   .icons-add {
-    color: $gray-lighter;
-    height: 210px;
-    width: 120px;
+    height: 90px;
+    width: 270px;
   }
 }
 

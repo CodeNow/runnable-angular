@@ -146,18 +146,14 @@
       ) api
       | .
 
-  //- .card.card-template(
-  //-   ng-if = "!data.addingServer"
-  //- )
-    h2.card-header
-      svg.iconnables.icons-add
-        use(
-          xlink:href = "#icons-add"
-        )
-    .card-body.clearfix
-      button.btn.btn-sm.green(
-        ng-click = "data.addingServer = true"
-      ) New Server
+  .card.card-template(
+    ng-if = "!data.cardLoading"
+  )
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
+    | Add Server
   //- .card.card-template.active(
   //-   ng-if = "data.addingServer"
   //- )
