@@ -4,6 +4,7 @@
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
+    "gruntDeploy": "./node_modules/.bin/grunt deploy:prod",
     "grunt": "./node_modules/.bin/grunt deploy",
     "start": "NODE_PATH=. node ./server/main.js;",
     "e2e": "protractor ./test/protractor.conf.js",
