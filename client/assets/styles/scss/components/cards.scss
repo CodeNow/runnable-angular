@@ -13,7 +13,10 @@
   &:active:not(.disabled),
   &.active {
     border-color: rgba($purple-light,.6);
-    cursor: pointer;
+
+    &:not(.card-loading) {
+      cursor: pointer;
+    }
   }
 
   &.focus {
@@ -48,6 +51,13 @@
       color: $gray-light;
       display: block;
       margin: 36px auto 6px;
+    }
+
+    // scale icons-repository
+    .icons-repository {
+      height: 36px;
+      margin: 30px auto 0;
+      width: 36px;
     }
   }
 
@@ -99,12 +109,12 @@
 
   // well
   .well {
+    background: $gray-lightest;
     border: 0;
     border-radius: 0 0 3px 3px;
-    border-top: 1px solid rgba($black,.1);
     cursor: default;
     margin: 0;
-    padding: 9px;
+    padding: 12px 9px;
 
     // dismiss
     .btn-close {
@@ -146,6 +156,7 @@
 
 //- loading state
 .card-loading {
+  cursor: progress;
   font-size: 18px;
   text-align: center;
 
