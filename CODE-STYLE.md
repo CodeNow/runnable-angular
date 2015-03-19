@@ -117,7 +117,8 @@ function myFunction (){
 
 ---
 
-We always use braces around if's and else's. Also spacing is like that of functions. Elses are formatted like so `} else {`
+We always use braces around if's and else's. Also spacing is like that of functions.
+Else's are formatted like so `} else {`
 
 GOOD
 ```javascript
