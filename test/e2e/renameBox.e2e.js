@@ -12,7 +12,7 @@ var users = require('./helpers/users');
 
 describe('rename box', users.doMultipleUsers(function(username) {
   it('should rename a running box owned by ' + username, function() {
-    var instance = new InstancePage('node_hello_world');
+    var instance = new InstancePage('RailsProject');
     instance.get();
 
     instance.gearMenu.renameBox('Test-Rename');
