@@ -18,8 +18,7 @@ function accountsSelect (
   $q,
   fetchSlackMembers,
   fetchGitHubMembers,
-  fetchGitHubUser,
-  user
+  fetchGitHubUser
 ) {
   return {
     restrict: 'A',
@@ -69,7 +68,7 @@ function accountsSelect (
         keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
 
         // Integrations modal
-        if (user.oauthName() === $state.params.userName) {
+        if ($scope.data.user.oauthName() === $state.params.userName) {
           mData.showIntegrations = false;
           return;
         } else {
@@ -79,7 +78,7 @@ function accountsSelect (
         // Only Slack for now, will expand when customers request it
         mData.showSlack = true;
         mData.settings = {};
-        return promisify(user, 'fetchSettings')({
+        return promisify($scope.data.user, 'fetchSettings')({
           githubUsername: $state.params.userName
         }).then(function(settings) {
           mData.settings = settings.models[0];
