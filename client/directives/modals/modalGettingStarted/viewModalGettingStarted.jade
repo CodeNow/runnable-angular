@@ -1,0 +1,62 @@
+.modal-dialog.modal-wizard.modal-getting-started.step-1
+  .modal-header
+    h1.modal-heading Welcome to Runnable!
+      p.small Choose an organization to get started
+  //- remove this ng-click
+  .modal-body(
+    ng-click = "data.org = true"
+    ng-init = "data.org = false"
+  )
+    //- <input> [name] must match across all inputs
+      - <label> [for] and corresponding <input> [id] must match
+    input.input-radio(
+      id = "radio-codenow"
+      name = "data.org"
+      type = "radio"
+    )
+    label.btn-lg.btn-radio(
+      for = "radio-codenow"
+    )
+      img.img(
+        height = "36"
+        src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=120"
+        width = "36"
+      )
+      | CodeNow
+    input.input-radio(
+      id = "radio-runnabro"
+      name = "data.org"
+      type = "radio"
+    )
+    label.btn-lg.btn-radio(
+      for = "radio-runnabro"
+    )
+      img.img(
+        height = "36"
+        src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=120"
+        width = "36"
+      )
+      | Runnabro
+    input.input-radio(
+      id = "radio-runnable"
+      name = "data.org"
+      type = "radio"
+    )
+    label.btn-lg.btn-radio(
+      for = "radio-runnable"
+    )
+      img.img(
+        height = "36"
+        src = "https://avatars3.githubusercontent.com/u/2828361?v=3&s=120"
+        width = "36"
+      )
+      | Runnable
+  footer.modal-footer.clearfix
+    a.btn.btn-sm.green.disabled(
+      ng-if = "!data.org"
+    ) Get Started
+    a.btn.btn-sm.green(
+      href = "/runnabro/new"
+      ng-click = "defaultActions.cancel()"
+      ng-if = "data.org"
+    ) Get Started
