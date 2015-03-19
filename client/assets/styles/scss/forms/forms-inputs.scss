@@ -184,8 +184,8 @@ textarea,
   &:focus,
   &:valid {
     background-color: $white;
-    background-position: 3px 3px !important;
-    padding-left: 27px !important;
+    background-position: 3px 3px;
+    padding-left: 27px;
     transition: all .15s ease-in;
   }
 }

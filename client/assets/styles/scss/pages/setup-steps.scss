@@ -6,10 +6,16 @@
   }
 
   .input-search {
-    background: none;
+    background-position: calc(50% - 53px) 6px;
     margin-bottom: 8px;
-    padding-left: calc(50% - 50px);
+    padding-left: calc(50% - 40px);
     width: 360px;
+
+    &:focus,
+    &:valid {
+      background-position: 6px;
+      padding-left: 30px;
+    }
   }
 
   .list {
