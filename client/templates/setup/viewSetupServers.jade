@@ -7,9 +7,19 @@
 .setup-body(
   ng-init = "data.cardLoading = true"
 )
-  .card(
-    ng-class = "{active: popoverConfigureServer.data.show}"
+  //- card #1
+  //- loading state
+  .card.card-loading(
     ng-click = "data.cardLoading = false"
+    ng-if = "data.cardLoading"
+  )
+    .spinner-wrapper.spinner-md.spinner-purple.in(
+      ng-include = "'spinner'"
+    )
+    | Configuring
+  .card.load(
+    ng-class = "{active: popoverConfigureServer.data.show}"
+    ng-if = "!data.cardLoading"
   )
     //- svg.iconnables.icons-gear(
     //-   ng-if = "!data.cardLoading"
@@ -26,24 +36,13 @@
     //-     template = "viewPopoverConfigureServer"
     //-   )
     //- loading
-    h2.card-header(
-      ng-if = "data.cardLoading"
-    )
-      .spinner-wrapper.spinner-md.spinner-purple.in(
-        ng-include = "'spinner'"
-      )
-      | Configuring
-    h2.card-header.load(
-      ng-if = "!data.cardLoading"
-    )
+    h2.card-header
       svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
       | api
-    .card-body.clearfix.load(
-      ng-if = "!data.cardLoading"
-    )
+    .card-body.clearfix
       ul.list.list-col.small
         li.list-item Language
         li.list-item Ports
@@ -57,16 +56,25 @@
           | v0.10.28
         li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
         li.list-item.monospace.text-overflow npm start
-    ul.list.list-col.well.gray.load(
-      ng-if = "!data.cardLoading"
-    )
+    ul.list.list-col.well.gray
       li.list-item.small Recommended Servers
       li.list-item MongoDB
         button.btn.btn-xxs.green Add
       li.list-item Redis
         button.btn.btn-xxs.green Add
-  .card(
+
+  //- card #2
+  //- loading state
+  .card.card-loading(
     ng-click = "data.cardLoading = false"
+    ng-if = "data.cardLoading"
+  )
+    .spinner-wrapper.spinner-md.spinner-purple.in(
+      ng-include = "'spinner'"
+    )
+    | Configuring
+  .card.load(
+    ng-if = "!data.cardLoading"
   )
     //- svg.iconnables.icons-gear(
     //-   ng-if = "!data.cardLoading"
@@ -74,14 +82,6 @@
     //-   use(
     //-     xlink:href = "#icons-gear"
     //-   )
-    h2.card-header(
-      ng-if = "data.cardLoading"
-    )
-      //- loading
-      .spinner-wrapper.spinner-md.spinner-purple.in(
-        ng-include = "'spinner'"
-      )
-      | Configuring
     h2.card-header.load(
       ng-if = "!data.cardLoading"
     )
@@ -91,9 +91,7 @@
           xlink:href = "#icons-server"
         )
       | runnable-angular
-    .card-body.clearfix.load(
-      ng-if = "!data.cardLoading"
-    )
+    .card-body.clearfix
       ul.list.list-col.small
         li.list-item Language
         li.list-item Ports
@@ -107,14 +105,13 @@
           | v0.10.35
         li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
         li.list-item.monospace.text-overflow npm start
-    ul.list.list-col.well.gray.load(
-      ng-if = "!data.cardLoading"
-    )
+    ul.list.list-col.well.gray
       li.list-item.small Recommended Servers
       li.list-item MongoDB
         button.btn.btn-xxs.green Add
       li.list-item Redis
         button.btn.btn-xxs.green Add
+
   //- .card.card-template(
   //-   ng-if = "!data.addingServer"
   //- )

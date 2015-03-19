@@ -49,10 +49,6 @@
     }
   }
 
-  .spinner-wrapper {
-    margin: 96px auto 12px;
-  }
-
   // body
   .card-body {
     flex: 1 1 auto;
@@ -153,5 +149,15 @@
     color: $gray-lighter;
     height: 210px;
     width: 120px;
+  }
+}
+
+//- loading state
+.card-loading {
+  font-size: 18px;
+  text-align: center;
+
+  .spinner-wrapper {
+    margin: 96px auto 12px;
   }
 }

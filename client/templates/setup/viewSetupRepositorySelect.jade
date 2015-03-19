@@ -2,8 +2,21 @@
   h1.h1 Add Servers
   p.p Choose repositories to be created on their own server.
 
-.setup-body
-  .card.disabled
+.setup-body(
+  ng-init = "data.cardLoading = true"
+)
+  //- loading
+  .card.card-loading(
+    ng-click = "data.cardLoading = false"
+    ng-if = "data.cardLoading"
+  )
+    .spinner-wrapper.spinner-md.spinner-purple.in(
+      ng-include = "'spinner'"
+    )
+    | Configuring
+  .card.disabled(
+    ng-if = "!data.cardLoading"
+  )
     input.input.input-sm.input-search(
       placeholder = "Filter by name"
       required
