@@ -1,16 +1,16 @@
 'use strict';
 
 require('app')
-  .directive('setupEnvironmentSetup', setupEnvironmentSetup);
+  .directive('setupEnvironmentVariables', setupEnvironmentVariables);
 /**
  * @ngInject
  */
-function setupEnvironmentSetup(
+function setupEnvironmentVariables(
   keypather
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewSetupEnvironmentSetup',
+    templateUrl: 'viewSetupEnvironmentVariables',
     scope: {
       data: '=',
       actions: '=',

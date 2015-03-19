@@ -1,6 +1,11 @@
 header.header
   //- logo
-  a.header-logo
+  a.header-logo(
+    modal
+    modal-actions = "actions"
+    modal-data = "data"
+    modal-template = "viewOpenModalGettingStarted"
+  )
     svg.svg
       use(
         xlink:href = "#runnable-icon"
@@ -33,48 +38,21 @@ header.header
       template = "viewPopoverAccountMenu"
     )
 
-main.content
-  section.setup-wizard(
-    ng-init = "state.step = 2"
+//- nav.sidebar.nav-sidebar(
+  section.row.nav-servers(
+    data = "dataApp.data"
+    instance-list
+    state = "dataApp.state"
+    actions = "dataApp.actions"
   )
-    .step-2(
-      actions = "actions"
-      data = "data"
-      gs-repository-selector
-      ng-if = "state.step === 2"
-      state = "state"
-    )
-    .step-3(
-      actions = "actions"
-      data = "data"
-      gs-server-setup
-      ng-if = "state.step === 3"
-      state = "state"
-    )
-    .step-4(
-      actions = "actions"
-      data = "data"
-      gs-environment-setup
-      ng-if = "state.step === 4"
-      state = "state"
-    )
 
-  //- not gs
-  //- nav.sidebar.nav-sidebar
-  //-   header.nav-header.row.load(
-  //-     accounts-select
-  //-     data = "dataApp.data"
-  //-     is-main-page = "true"
-  //-   )
-  //-   section.row.nav-servers(
-  //-     data = "dataApp.data"
-  //-     instance-list
-  //-     state = "dataApp.state"
-  //-     actions = "dataApp.actions"
-  //-   )
+//- 2nd level views (viewInstance, viewInstanceEdit...)
+main.content(
+  ui-view
+)
 
-  //- not gs main
-  //- 2nd level views (viewInstance, viewInstanceEdit...)
-  //- main.content(
-  //-   ui-view
-  //- )
+//- spinner
+.spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
+  ng-if = "dataApp.data.loading"
+  ng-include = "'spinner'"
+)

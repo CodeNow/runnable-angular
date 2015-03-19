@@ -31,6 +31,9 @@ function ControllerSetup(
     },
     actions: {}
   };
+  $scope.state = {
+    step: 1
+  };
   var data = dataSetup.data;
   pageName.setTitle('Create Server');
 

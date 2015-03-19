@@ -105,19 +105,16 @@ html(
       ng-include = "'svgDefs'"
     )
 
-    //- spinner
-    .spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
-      ng-if = "dataApp.data.loading"
-      ng-include = "'spinner'"
-    )
-
     div(
       ui-view
     )
-  div(
-    modal
-    modal-actions = "dataApp.data.modalError.actions"
-    modal-data = "dataApp.data.modalError.data"
-    modal-template = "viewModalError"
-    style = "display: none"
-  )
+  //- hiding this for now…
+    - add this back in before we're done with env gs
+  //- div(
+  //-   modal
+  //-   modal-actions = "dataApp.data.modalError.actions"
+  //-   modal-data = "dataApp.data.modalError.data"
+  //-   modal-template = "viewModalError"
+  //-   style = "display: none"
+  //- )
+

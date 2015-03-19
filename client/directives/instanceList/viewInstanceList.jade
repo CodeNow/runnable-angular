@@ -4,7 +4,9 @@
   ng-include = "'spinner'"
 )
 
-.filter-wrap
+.filter-wrap(
+  ng-show = "data.instances.models.length && !state.loadingInstances"
+)
   input.filter(
     ng-model = "filterString"
     placeholder = "Filter Servers"
@@ -49,9 +51,12 @@ ul.list.load.filter-list(
     )
 div(
   ng-if = "!isFiltering"
+  ng-show = "data.instances.models.length && !state.loadingInstances"
 )
   h2.sub-header.load
     span.sub-header-text Your Servers
+    //- ng-click = "stateToNew()"
+    //- ng-href = "/{{ data.activeAccount.oauthName() }}/new"
     a.btn.btn-sm.btn-icon.white(
       modal
       modal-actions = "actions"

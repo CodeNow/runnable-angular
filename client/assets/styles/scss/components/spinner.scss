@@ -47,13 +47,13 @@
 // with backdrop
 .spinner-backdrop {
   align-items: center;
-  background: rgba($white,.75);
-  height: 100%;
+  background: $white;
+  height: calc(100% - 60px);
   justify-content: center;
   left: 0;
   position: fixed;
-  top: 0;
-  transition: opacity .3s ease-in, transform .15s ease-in, width .15s ease-in;
+  top: 60px;
+  transition: opacity .3s ease-in;
   width: 100%;
   z-index: $z-spinner;
 }
