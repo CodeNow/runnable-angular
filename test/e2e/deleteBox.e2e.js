@@ -6,7 +6,8 @@ var sidebar = require('./helpers/sidebar');
 
 var InstancePage = require('./pages/InstancePage');
 
-var instanceNames = ['node_hello_world', 'SPACESHIPS'];
+// RailsProject should create a MySql server
+var instanceNames = ['RailsProject', 'MySQL', 'SPACESHIPS'];
 
 describe('delete', users.doMultipleUsers(function (username) {
   // Instances that were created during e2e tests
@@ -27,7 +28,7 @@ describe('delete', users.doMultipleUsers(function (username) {
       if (idx === instanceNames.length - 1) {
         util.waitForUrl(new RegExp(username + '\/$'));
       } else {
-        util.waitForUrl(InstancePage.urlRegex());
+        util.waitForUrl(InstancePage.urlRegex(username));
       }
     });
   });

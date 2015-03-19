@@ -48,8 +48,8 @@ function InstancePage (name) {
   };
 }
 
-InstancePage.urlRegex = function () {
-  return new RegExp('\/' + util.getCurrentUser() + '\/' + util.regex.instanceName + '\/$');
+InstancePage.urlRegex = function (username) {
+  return new RegExp('\/' + (username || util.getCurrentUser()) + '\/' + util.regex.instanceName + '\/$');
 };
 
 module.exports = InstancePage;
