@@ -80,6 +80,8 @@ function accountsSelect (
         // Only Slack for now, will expand when customers request it
         mData.showSlack = true;
         mData.settings = {};
+        mData.slackMembers = {};
+        mData.verified = false;
         return promisify($scope.data.user, 'fetchSettings')({
           githubUsername: $state.params.userName
         }).then(function(settings) {
@@ -87,7 +89,6 @@ function accountsSelect (
           if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
             keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             mData.showSlack = true;
-            // TODO: Don't verify every time
             return mActions.verifySlack();
           }
         }).catch(errs.handler);
