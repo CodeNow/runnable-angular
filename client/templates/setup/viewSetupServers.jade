@@ -21,21 +21,19 @@
     ng-class = "{active: popoverConfigureServer.data.show}"
     ng-if = "!data.cardLoading"
   )
-    //- svg.iconnables.icons-gear(
-    //-   ng-if = "!data.cardLoading"
-    //-   toggle-pop-over
-    //-   toggle-pop-over-model = "popoverConfigureServer.data.show"
-    //- )
-    //-   use(
-    //-     xlink:href = "#icons-gear"
-    //-   )
-    //-   pop-over(
-    //-     actions = "popoverConfigureServer.actions"
-    //-     data = "popoverConfigureServer.data"
-    //-     popover-options = "{\"left\":0,\"top\":0}"
-    //-     template = "viewPopoverConfigureServer"
-    //-   )
-    //- loading
+    svg.iconnables.icons-gear(
+      toggle-pop-over
+      toggle-pop-over-model = "popoverConfigureServer.data.show"
+    )
+      use(
+        xlink:href = "#icons-gear"
+      )
+      pop-over(
+        actions = "popoverConfigureServer.actions"
+        data = "popoverConfigureServer.data"
+        popover-options = "{\"left\":0,\"top\":0}"
+        template = "viewPopoverConfigureServer"
+      )
     h2.card-header
       svg.iconnables.icons-server
         use(
@@ -56,12 +54,6 @@
           | v0.10.28
         li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
         li.list-item.monospace.text-overflow npm start
-    ul.list.list-col.well.gray
-      li.list-item.small Recommended Servers
-      li.list-item MongoDB
-        button.btn.btn-xxs.green Add
-      li.list-item Redis
-        button.btn.btn-xxs.green Add
 
   //- card #2
   //- loading state
@@ -76,12 +68,10 @@
   .card.load(
     ng-if = "!data.cardLoading"
   )
-    //- svg.iconnables.icons-gear(
-    //-   ng-if = "!data.cardLoading"
-    //- )
-    //-   use(
-    //-     xlink:href = "#icons-gear"
-    //-   )
+    svg.iconnables.icons-gear
+      use(
+        xlink:href = "#icons-gear"
+      )
     h2.card-header.load(
       ng-if = "!data.cardLoading"
     )
@@ -105,12 +95,6 @@
           | v0.10.35
         li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
         li.list-item.monospace.text-overflow npm start
-    ul.list.list-col.well.gray
-      li.list-item.small Recommended Servers
-      li.list-item MongoDB
-        button.btn.btn-xxs.green Add
-      li.list-item Redis
-        button.btn.btn-xxs.green Add
 
   //- .card.card-template(
   //-   ng-if = "!data.addingServer"
