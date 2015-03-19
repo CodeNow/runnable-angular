@@ -1,34 +1,80 @@
-//- sidebar for accounts and servers
-nav.sidebar.nav-sidebar
-  header.nav-header.row.load(
-    accounts-select
-    data = "dataApp.data"
-    is-main-page = "true"
-  )
-  section.row.nav-servers(
-    data = "dataApp.data"
-    instance-list
-    state = "dataApp.state"
-    actions = "dataApp.actions"
-  )
-  footer.row.nav-footer
-    a.small.link.link-text(
-      href = "//support.runnable.io"
-      target = "_blank"
-    )
-      .btn.btn-xs.btn-help ?
-      | Documentation
-    //- button.btn.btn-sm.btn-icon.white.btn-minimize(
-    //-   ng-class = "{active: dataApp.data.minimizeNav}"
-    //-   ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
-    //-   title = "Toggle Navigation"
-    //- )
-    //-   svg.iconnables.icons-minimize
-    //-     use(
-    //-       xlink:href = "#icons-minimize"
-        )
+header.header
+  //- logo
+  a.header-logo
+    svg.svg
+      use(
+        xlink:href = "#runnable-icon"
+      )
 
-//- 2nd level views (viewInstance, viewInstanceEdit...)
-main.content(
-  ui-view
-)
+  //- title
+  //- h2.h2 Environment Setup
+
+  //- menu
+  button.btn.btn-account(
+    ng-class = "{active: popoverAccountMenu.data.show}"
+    toggle-pop-over
+    toggle-pop-over-model = "popoverAccountMenu.data.show"
+  )
+    img.gravatar(
+      height = "24"
+      ng-src = "https://avatars.githubusercontent.com/u/5341618?v=3"
+      width = "24"
+    )
+    | runnabro
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    pop-over(
+      actions = "popoverAccountMenu.actions"
+      data = "popoverAccountMenu.data"
+      popover-ready = "popoverAccountMenu.data.show"
+      popover-options = "{\"left\":120,\"top\":54}"
+      template = "viewPopoverAccountMenu"
+    )
+
+main.content
+  section.setup-wizard(
+    ng-init = "state.step = 2"
+  )
+    .step-2(
+      actions = "actions"
+      data = "data"
+      gs-repository-selector
+      ng-if = "state.step === 2"
+      state = "state"
+    )
+    .step-3(
+      actions = "actions"
+      data = "data"
+      gs-server-setup
+      ng-if = "state.step === 3"
+      state = "state"
+    )
+    .step-4(
+      actions = "actions"
+      data = "data"
+      gs-environment-setup
+      ng-if = "state.step === 4"
+      state = "state"
+    )
+
+  //- not gs
+  //- nav.sidebar.nav-sidebar
+  //-   header.nav-header.row.load(
+  //-     accounts-select
+  //-     data = "dataApp.data"
+  //-     is-main-page = "true"
+  //-   )
+  //-   section.row.nav-servers(
+  //-     data = "dataApp.data"
+  //-     instance-list
+  //-     state = "dataApp.state"
+  //-     actions = "dataApp.actions"
+  //-   )
+
+  //- not gs main
+  //- 2nd level views (viewInstance, viewInstanceEdit...)
+  //- main.content(
+  //-   ui-view
+  //- )

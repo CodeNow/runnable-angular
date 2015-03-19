@@ -1,18 +1,19 @@
 .card {
+  background: $white;
   border: 1px solid rgba($black,.15);
   border-radius: 3px;
-  box-shadow: 0 1px 3px rgba($black,.1);
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   min-height: 270px;
+  min-width: 270px;
   position: relative;
-  width: 270px;
 
-  &:active,
+  &:hover:not(.disabled),
+  &:active:not(.disabled),
   &.active {
     border-color: $purple-light;
     box-shadow: 0 0 3px rgba($purple-light,.3);
+    cursor: pointer;
 
     .icons-gear {
       color: $purple-light;
@@ -40,16 +41,16 @@
     flex: 0 0 120px;
     font-size: 18px;
     text-align: center;
+
+    .icons-server {
+      color: $gray-light;
+      display: block;
+      margin: 36px auto 6px;
+    }
   }
 
   .spinner-wrapper {
     margin: 96px auto 12px;
-  }
-
-  .icons-server {
-    color: $gray-light;
-    display: block;
-    margin: 36px auto 6px;
   }
 
   // body
@@ -58,7 +59,7 @@
     margin-bottom: 21px;
 
     // list columns
-    .list {
+    .list-col {
       margin: 0;
 
       &:first-child {

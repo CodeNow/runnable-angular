@@ -1,0 +1,123 @@
+.setup-header
+  h1.h1 Add Servers
+  p.p Choose repositories to be created on their own server.
+
+.setup-body
+  .card.disabled
+    input.input.input-sm.input-search(
+      placeholder = "Filter by name"
+      required
+    )
+    //- remove this ng-click
+    .list(
+      ng-click = "data.repo = true"
+      ng-init = "data.repo = false"
+    )
+      //- <label> [for] and corresponding <input> [id] must match
+      input.input-checkbox(
+        id = "checkbox-api"
+        type = "checkbox"
+      )
+      label.list-item.label.label-checkbox(
+        for = "checkbox-api"
+      ) api
+        small.small Updated an hour ago
+        button.btn.btn-xs.btn-icon
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      input.input-checkbox(
+        id = "checkbox-runnable-angular"
+        type = "checkbox"
+      )
+      label.list-item.label.label-checkbox(
+        for = "checkbox-runnable-angular"
+      )  runnable-angular
+        small.small Updated an 4 hours ago
+        button.btn.btn-xs.btn-icon
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      input.input-checkbox(
+        id = "checkbox-orchestratedotcom"
+        type = "checkbox"
+      )
+      label.list-item.label.label-checkbox(
+        for = "checkbox-orchestratedotcom"
+      )  orchestratedotcom
+        small.small Updated an 17 hours ago
+        button.btn.btn-xs.btn-icon
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      input.input-checkbox(
+        id = "checkbox-kronos"
+        type = "checkbox"
+      )
+      label.list-item.label.label-checkbox(
+        for = "checkbox-kronos"
+      )  kronos
+        small.small Updated an 3 days ago
+        button.btn.btn-xs.btn-icon
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      input.input-checkbox(
+        id = "checkbox-mavis"
+        type = "checkbox"
+      )
+      label.list-item.label.label-checkbox(
+        for = "checkbox-mavis"
+      )  mavis
+        small.small Updated an 3 days ago
+        button.btn.btn-xs.btn-icon
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      input.input-checkbox(
+        id = "checkbox-devops-scripts"
+        type = "checkbox"
+      )
+      label.list-item.label.label-checkbox(
+        for = "checkbox-devops-scripts"
+      )  devops-scripts
+        small.small Updated an 3 days ago
+        button.btn.btn-xs.btn-icon
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+.setup-footer
+  button.btn.btn-sm.green(
+    ng-click = "state.step = 3"
+    ng-disabled = "!data.repo"
+  ) Add Server(s)

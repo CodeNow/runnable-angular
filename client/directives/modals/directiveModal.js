@@ -106,7 +106,7 @@ function modal(
   };
 }
 
-var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox'];
+var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox', 'viewModalEnvironmentVariables'];
 function checkTemplate(template) {
   return (genericModals.indexOf(template) < 0) ? template : 'viewOpenModalGeneric';
 }

@@ -1,16 +1,16 @@
 'use strict';
 
 require('app')
-  .directive('gsEnvironmentSetup', gsEnvironmentSetup);
+  .directive('setupServers', setupServers);
 /**
  * @ngInject
  */
-function gsEnvironmentSetup(
+function setupServers(
   keypather
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'viewModalEnvironmentSetup',
+    templateUrl: 'viewSetupServers',
     scope: {
       data: '=',
       actions: '=',

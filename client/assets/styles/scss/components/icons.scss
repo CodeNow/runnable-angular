@@ -56,6 +56,7 @@
   &.icons-add,
   &.icons-arrow-back,
   &.icons-arrow-down,
+  &.icons-arrow-forward,
   &.icons-branch,
   &.icons-check,
   &.icons-close,
@@ -101,6 +102,11 @@
   &.icons-folder {
     fill: none;
     stroke: currentColor;
+  }
+
+  // flip
+  &.icons-arrow-forward {
+    transform: rotate3d(1,0,0,180deg);
   }
 }
 

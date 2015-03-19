@@ -1,0 +1,27 @@
+.modal-dialog.modal-gs-envs(
+  ng-click = "$event.stopPropagation()"
+)
+  header.modal-header
+    h1.modal-heading API
+  section.modal-body
+    label.input-group
+      input.input(
+        placeholder = "[key]"
+      )
+      span.input-divider =
+      input.input(
+        placeholder = "[value]"
+      )
+      button.btn.btn-icon
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+    button.btn.btn-sm.green Add
+  footer.modal-footer
+    button.btn.green(
+      ng-click = "defaultActions.cancel()"
+    ) Save
+    button.btn.white(
+      ng-click = "defaultActions.cancel()"
+    ) Cancel

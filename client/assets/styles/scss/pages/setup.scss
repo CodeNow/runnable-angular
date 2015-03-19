@@ -1,41 +1,35 @@
-// form.server-name.setup-name
-.setup-name {
-  height: 60px;
-  line-height: 60px;
+.setup-wizard {
+  margin: 0 auto;
+  max-width: 960px;
+}
 
-  // .validate-wrapper
-  .validate-wrapper {
-    display: inline-block;
+.setup-header {
+
+  .h1 {
+    font-size: 36px;
+    margin-top: 60px;
+    text-align: center;
+  }
+
+  .p {
     font-size: 16px;
-    font-weight: 400;
-    height: 36px;
-    line-height: 36px;
-    position: relative;
-    top: 8px;
-    width: 300px;
-
-    &.invalid-require {
-      font-size: 14px;
-      line-height: 1.2;
-    }
+    margin-bottom: 21px;
+    text-align: center;
   }
 }
 
-// input.setup-name-input
-.setup-name-input {
-  margin: 13px 0 0 -9px;
-  width: 288px;
+.setup-body {
+  display: flex;
+  justify-content: center;
 }
 
-.guide-alert-setup {
-  bottom: 9px;
-  left: 12px;
-  opacity: 1;
-  pointer-events: auto;
-  position: absolute;
-  top: auto;
+.setup-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 21px;
+  max-width: 960px;
 
-  .icons-close {
-    margin: 0;
+  .btn + .btn {
+    margin-left: 9px;
   }
 }

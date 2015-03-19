@@ -1,27 +1,30 @@
-.modal-header
-  h1.modal-heading Setup Environment
-    p.small Each repository will be created as its own server. We&rsquo;ve automagically filled out the details for you.
-.modal-body(
+.setup-header
+  h1.h1 Configure Your Servers
+  p.p Each repository will be created as its own server.
+    br
+    | We&rsquo;ve automagically filled out the server details for you.
+
+.setup-body(
   ng-init = "data.cardLoading = true"
 )
   .card(
     ng-class = "{active: popoverConfigureServer.data.show}"
     ng-click = "data.cardLoading = false"
   )
-    svg.iconnables.icons-gear(
-      ng-if = "!data.cardLoading"
-      toggle-pop-over
-      toggle-pop-over-model = "popoverConfigureServer.data.show"
-    )
-      use(
-        xlink:href = "#icons-gear"
-      )
-      pop-over(
-        actions = "popoverConfigureServer.actions"
-        data = "popoverConfigureServer.data"
-        popover-options = "{\"left\":0,\"top\":0}"
-        template = "viewPopoverConfigureServer"
-      )
+    //- svg.iconnables.icons-gear(
+    //-   ng-if = "!data.cardLoading"
+    //-   toggle-pop-over
+    //-   toggle-pop-over-model = "popoverConfigureServer.data.show"
+    //- )
+    //-   use(
+    //-     xlink:href = "#icons-gear"
+    //-   )
+    //-   pop-over(
+    //-     actions = "popoverConfigureServer.actions"
+    //-     data = "popoverConfigureServer.data"
+    //-     popover-options = "{\"left\":0,\"top\":0}"
+    //-     template = "viewPopoverConfigureServer"
+    //-   )
     //- loading
     h2.card-header(
       ng-if = "data.cardLoading"
@@ -41,12 +44,11 @@
     .card-body.clearfix.load(
       ng-if = "!data.cardLoading"
     )
-      ul.list.small
+      ul.list.list-col.small
         li.list-item Language
         li.list-item Ports
         li.list-item Command
-        li.list-item Links
-      ul.list
+      ul.list.list-col
         li.list-item.monospace.text-overflow
           svg.iconnables.icons-nodejs
             use(
@@ -55,24 +57,23 @@
           | v0.10.28
         li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
         li.list-item.monospace.text-overflow npm start
-        li.list-item.monospace.text-overflow 0 servers linked
-    ul.list.well.gray.load(
+    ul.list.list-col.well.gray.load(
       ng-if = "!data.cardLoading"
     )
-      li.list-item.small Recommended Dependencies
+      li.list-item.small Recommended Servers
       li.list-item MongoDB
-        button.btn.btn-xxs.green Add Server
+        button.btn.btn-xxs.green Add
       li.list-item Redis
-        button.btn.btn-xxs.green Add Server
+        button.btn.btn-xxs.green Add
   .card(
     ng-click = "data.cardLoading = false"
   )
-    svg.iconnables.icons-gear(
-      ng-if = "!data.cardLoading"
-    )
-      use(
-        xlink:href = "#icons-gear"
-      )
+    //- svg.iconnables.icons-gear(
+    //-   ng-if = "!data.cardLoading"
+    //- )
+    //-   use(
+    //-     xlink:href = "#icons-gear"
+    //-   )
     h2.card-header(
       ng-if = "data.cardLoading"
     )
@@ -93,12 +94,11 @@
     .card-body.clearfix.load(
       ng-if = "!data.cardLoading"
     )
-      ul.list.small
+      ul.list.list-col.small
         li.list-item Language
         li.list-item Ports
         li.list-item Command
-        li.list-item Links
-      ul.list.monospace
+      ul.list.list-col.monospace
         li.list-item.monospace.text-overflow
           svg.iconnables.icons-nodejs
             use(
@@ -107,15 +107,14 @@
           | v0.10.35
         li.list-item.monospace.text-overflow 80, 8000, 8080, 3000
         li.list-item.monospace.text-overflow npm start
-        li.list-item.monospace.text-overflow 2 servers linked
-    ul.list.well.gray.load(
+    ul.list.list-col.well.gray.load(
       ng-if = "!data.cardLoading"
     )
-      li.list-item.small Recommended Dependencies
+      li.list-item.small Recommended Servers
       li.list-item MongoDB
-        button.btn.btn-xxs.green Add Server
+        button.btn.btn-xxs.green Add
       li.list-item Redis
-        button.btn.btn-xxs.green Add Server
+        button.btn.btn-xxs.green Add
   //- .card.card-template(
   //-   ng-if = "!data.addingServer"
   //- )
@@ -138,9 +137,10 @@
         ng-click = "data.addingServer = false"
       ) Cancel
 
-footer.modal-footer.clearfix
-  button.btn.btn-sm.green Create Environment
+.setup-footer
   button.btn.btn-sm.white(
     ng-click = "state.step = 2"
   ) Back
-  span
+  button.btn.btn-sm.green(
+    ng-click = "state.step = 4"
+  ) Setup Server(s)
