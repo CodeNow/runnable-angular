@@ -140,12 +140,14 @@
 
 // template
 .card-template {
+  background: $white;
   color: $purple-lighter;
   font-size: 18px;
   justify-content: center;
   text-align: center;
   user-select: none;
 
+  &:hover,
   &:active {
     color: $purple-light;
   }

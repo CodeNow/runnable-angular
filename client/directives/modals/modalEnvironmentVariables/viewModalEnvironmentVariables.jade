@@ -1,8 +1,6 @@
-.modal-dialog.modal-gs-envs(
-  ng-click = "$event.stopPropagation()"
-)
+.modal-dialog.modal-environment-variables
   header.modal-header
-    h1.modal-heading API
+    h1.modal-heading Linking and Environment Variables
   section.modal-body
     label.input-group
       input.input(
@@ -17,11 +15,14 @@
           use(
             xlink:href = "#icons-server"
           )
-    button.btn.btn-sm.green Add
   footer.modal-footer
     button.btn.green(
-      ng-click = "defaultActions.cancel()"
+      ng-if = "data.showRebuild"
+      ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
+      ng-disabled = "!validation.valid"
+      type = "button"
     ) Save
     button.btn.white(
       ng-click = "defaultActions.cancel()"
+      type = "button"
     ) Cancel

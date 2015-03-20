@@ -3,11 +3,12 @@
   p.p Your servers can communicate via environment variables.
 
 .setup-body
-  //- modal
-  //- modal-actions = "actions.actionsModalGsEnvs"
-  //- modal-data = "data.dataModalGsEnvs"
-  //- modal-template = "viewModalGsEnvs"
-  .card.load
+  .card.load(
+    modal
+    modal-actions = "actions.actionsModalEnvironmentVariables"
+    modal-data = "data.dataModalEnvironmentVariables"
+    modal-template = "viewModalEnvironmentVariables"
+  )
     h2.card-header
       svg.iconnables.icons-repository
         use(
