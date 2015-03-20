@@ -75,34 +75,41 @@
     flex: 1 1 auto;
     margin-bottom: 21px;
 
-    // list columns
-    .list-col {
-      margin: 0;
-
-      &:first-child {
-        color: $gray-light;
-        float: left;
-        text-align: right;
-        width: 35%;
-      }
-
-      &:last-child {
-        float: right;
-        font-size: 14px;
-        width: 65%;
-      }
-    }
-
     .list-item {
       height: 24px;
       line-height: 24px;
-      padding: 0 6px;
     }
 
     // language icons
     .iconnables {
       float: left;
       margin-left: -6px;
+    }
+  }
+
+  // list columns
+  .list-col {
+    margin: 0;
+
+    &:first-child {
+      color: $gray-light;
+      float: left;
+      text-align: right;
+      width: 35%;
+    }
+
+    &:last-child {
+      float: right;
+      font-size: 14px;
+      width: 65%;
+    }
+
+    &.monospace {
+      letter-spacing: -.5px;
+    }
+
+    .list-item {
+      padding: 0 6px;
     }
   }
 

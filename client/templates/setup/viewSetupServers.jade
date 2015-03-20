@@ -35,15 +35,15 @@
         li.list-item Language
         li.list-item Ports
         li.list-item Command
-      ul.list.list-col
-        li.list-item.monospace.text-overflow
+      ul.list.list-col.monospace
+        li.list-item.text-overflow
           svg.iconnables.icons-nodejs
             use(
               xlink:href = "#icons-nodejs"
             )
           | v0.10.28
-        li.list-item.monospace.text-overflow 80,8000,8080,3000
-        li.list-item.monospace.text-overflow npm start
+        li.list-item.text-overflow 80,8000,8080,3000
+        li.list-item.text-overflow npm start
     button.btn.btn-sm.gray Configure
 
   //- card #2
@@ -75,15 +75,120 @@
         li.list-item Ports
         li.list-item Command
       ul.list.list-col.monospace
-        li.list-item.monospace.text-overflow
+        li.list-item.text-overflow
           svg.iconnables.icons-nodejs
             use(
               xlink:href = "#icons-nodejs"
             )
           | v0.10.35
-        li.list-item.monospace.text-overflow 80,8000,8080,3000
-        li.list-item.monospace.text-overflow npm start
+        li.list-item.text-overflow 80,8000,8080,3000
+        li.list-item.text-overflow npm start
     button.btn.btn-sm.gray Configure
+
+  //- card #3
+  //- loading state
+  .card.card-loading(
+    ng-click = "data.cardLoading = false"
+    ng-if = "data.cardLoading"
+  )
+    .spinner-wrapper.spinner-md.spinner-purple.in(
+      ng-include = "'spinner'"
+    )
+    | Configuring
+  .card.load(
+    ng-class = "{focus: data.mavis}"
+    ng-if = "!data.cardLoading"
+  )
+    h2.card-header.load(
+      ng-if = "!data.cardLoading"
+    )
+      svg.iconnables.icons-repository(
+      )
+        use(
+          xlink:href = "#icons-repository"
+        )
+      | mavis
+    .card-body.clearfix
+      ul.list.list-col.small
+        li.list-item Language
+        li.list-item Ports
+        li.list-item Command
+      ul.list.list-col.monospace
+        li.list-item.text-overflow
+          svg.iconnables.icons-nodejs
+            use(
+              xlink:href = "#icons-nodejs"
+            )
+          | v0.10.35
+        li.list-item.text-overflow 80
+        li.list-item.text-overflow sleep 5 && npm start
+    button.btn.btn-sm.gray Configure
+
+  .card.load(
+    ng-if = "!data.cardLoading"
+  )
+    h2.card-header.load(
+      ng-if = "!data.cardLoading"
+    )
+      svg.iconnables.icons-server(
+      )
+        use(
+          xlink:href = "#icons-server"
+        )
+      | caley
+    .card-body.clearfix
+    button.btn.btn-sm.gray Configure
+    .well.small.gray(
+      ng-if = "!data.dismiss"
+    )
+      button.btn.btn-xxs.btn-icon.gray.btn-close(
+        ng-click = "data.dismiss = true"
+      )
+        svg.iconnables.icons-close
+          use(
+            xlink:href = "#icons-close"
+          )
+      | caley detected as a dependency of #{''}
+      button.btn.btn-xxs.gray(
+        ng-click = "data.runnableAngular = !data.runnableAngular"
+      ) api
+      | .
+
+  .card.load(
+    ng-if = "!data.cardLoading"
+  )
+    h2.card-header.load(
+      ng-if = "!data.cardLoading"
+    )
+      svg.iconnables.icons-server(
+      )
+        use(
+          xlink:href = "#icons-server"
+        )
+      | datadog
+    .card-body.clearfix
+      ul.list.list-col.small
+        li.list-item Language
+        li.list-item Command
+      ul.list.list-col.monospace
+        li.list-item.text-overflow Shell
+        li.list-item.text-overflow dogstatsd
+    button.btn.btn-sm.gray Configure
+    .well.small.gray(
+      ng-if = "!data.dismiss"
+    )
+      button.btn.btn-xxs.btn-icon.gray.btn-close(
+        ng-click = "data.dismiss = true"
+      )
+        svg.iconnables.icons-close
+          use(
+            xlink:href = "#icons-close"
+          )
+      | datadog detected as a dependency of #{''}
+      button.btn.btn-xxs.gray(
+        ng-click = "data.mavis = !data.mavis"
+      ) mavis
+      | .
 
   .card.load(
     ng-if = "!data.cardLoading"
@@ -110,6 +215,40 @@
             xlink:href = "#icons-close"
           )
       | MongoDb detected as a dependency of #{''}
+      button.btn.btn-xxs.gray(
+        ng-click = "data.runnableAngular = !data.runnableAngular"
+      ) runnable-angular
+      | #{''} and #{''}
+      button.btn.btn-xxs.gray(
+        ng-click = "data.runnableApi = !data.runnableApi"
+      ) api
+      | .
+
+  .card.load(
+    ng-if = "!data.cardLoading"
+  )
+    h2.card-header.load(
+      ng-if = "!data.cardLoading"
+    )
+      svg.iconnables.icons-server(
+      )
+        use(
+          xlink:href = "#icons-server"
+        )
+      | redis
+    .card-body.clearfix
+    button.btn.btn-sm.gray Configure
+    .well.small.gray(
+      ng-if = "!data.dismiss"
+    )
+      button.btn.btn-xxs.btn-icon.gray.btn-close(
+        ng-click = "data.dismiss = true"
+      )
+        svg.iconnables.icons-close
+          use(
+            xlink:href = "#icons-close"
+          )
+      | redis detected as a dependency of #{''}
       button.btn.btn-xxs.gray(
         ng-click = "data.runnableAngular = !data.runnableAngular"
       ) runnable-angular

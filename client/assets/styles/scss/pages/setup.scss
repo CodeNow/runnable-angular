@@ -34,7 +34,11 @@
 
 // card grid
 // max-width on config cards
-.card-grid .card {
-  margin: 0 6px 12px;
-  max-width: 270px;
+.card-grid {
+  justify-content: initial;
+
+  .card {
+    margin: 0 6px 12px;
+    max-width: 270px;
+  }
 }

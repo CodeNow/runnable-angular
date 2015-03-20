@@ -3,72 +3,52 @@
   p.p Your servers can communicate via environment variables.
 
 .setup-body
-  .card.disabled(
-    modal
-    modal-actions = "actions.actionsModalGsEnvs"
-    modal-data = "data.dataModalGsEnvs"
-    modal-template = "viewModalGsEnvs"
+  //- modal
+  //- modal-actions = "actions.actionsModalGsEnvs"
+  //- modal-data = "data.dataModalGsEnvs"
+  //- modal-template = "viewModalGsEnvs"
+  .card(
   )
     //- loading
-    h2.card-header.load
-      svg.iconnables.icons-server
+    h2.card-header
+      svg.iconnables.icons-repository
         use(
-          xlink:href = "#icons-server"
+          xlink:href = "#icons-repository"
         )
       | api
-    .card-body.clearfix.load
-      .list
-        .list-item.small Link to…
-        label.list-item.label.label-checkbox.current
+    .card-body
+      ul.list
+        li.list-item.current
           svg.iconnables.icons-server
             use(
               xlink:href = "#icons-server"
+            )
+          svg.iconnables.icons-link
+            use(
+              xlink:href = "#icons-link"
             )
           | api
-          small.small This Server
-        input.input-checkbox(
-          id = "checkbox-mongo"
-          type = "checkbox"
-        )
-        label.list-item.label.label-checkbox(
-          for = "checkbox-mongo"
-        )
+        li.list-item.active
           svg.iconnables.icons-server
             use(
               xlink:href = "#icons-server"
+            )
+          svg.iconnables.icons-link
+            use(
+              xlink:href = "#icons-link"
             )
           | Mongo
-          button.btn.btn-xs.btn-icon
-            svg.iconnables.icons-add
-              use(
-                xlink:href = "#icons-add"
-              )
-            svg.iconnables.icons-link
-              use(
-                xlink:href = "#icons-link"
-              )
-        input.input-checkbox(
-          id = "checkbox-runnable-angular"
-          type = "checkbox"
-        )
-        label.list-item.label.label-checkbox(
-          for = "checkbox-runnable-angular"
-        )
+        li.list-item
           svg.iconnables.icons-server
             use(
               xlink:href = "#icons-server"
             )
+          svg.iconnables.icons-link
+            use(
+              xlink:href = "#icons-link"
+            )
           | runnable-angular
-          button.btn.btn-xs.btn-icon
-            svg.iconnables.icons-add
-              use(
-                xlink:href = "#icons-add"
-              )
-            svg.iconnables.icons-link
-              use(
-                xlink:href = "#icons-link"
-              )
-  .card.disabled
+  .card
     h2.card-header.load
       svg.iconnables.icons-server(
       )
@@ -77,57 +57,37 @@
         )
       | runnable-angular
     .card-body.clearfix.load
-      .list
-        .list-item.small Link to…
-        input.input-checkbox(
-          id = "checkbox-api"
-          type = "checkbox"
-        )
-        label.list-item.label.label-checkbox(
-          for = "checkbox-api"
-        )
+      ul.list
+        li.list-item.current
           svg.iconnables.icons-server
             use(
               xlink:href = "#icons-server"
+            )
+          svg.iconnables.icons-link
+            use(
+              xlink:href = "#icons-link"
             )
           | api
-          button.btn.btn-xs.btn-icon
-            svg.iconnables.icons-add
-              use(
-                xlink:href = "#icons-add"
-              )
-            svg.iconnables.icons-link
-              use(
-                xlink:href = "#icons-link"
-              )
-        input.input-checkbox(
-          id = "checkbox-mongo-2"
-          type = "checkbox"
-        )
-        label.list-item.label.label-checkbox(
-          for = "checkbox-mongo-2"
-        )
+        li.list-item.active
           svg.iconnables.icons-server
             use(
               xlink:href = "#icons-server"
+            )
+          svg.iconnables.icons-link
+            use(
+              xlink:href = "#icons-link"
             )
           | Mongo
-          button.btn.btn-xs.btn-icon
-            svg.iconnables.icons-add
-              use(
-                xlink:href = "#icons-add"
-              )
-            svg.iconnables.icons-link
-              use(
-                xlink:href = "#icons-link"
-              )
-        label.list-item.label.label-checkbox.current
+        li.list-item
           svg.iconnables.icons-server
             use(
               xlink:href = "#icons-server"
             )
+          svg.iconnables.icons-link
+            use(
+              xlink:href = "#icons-link"
+            )
           | runnable-angular
-          small.small This Server
 .setup-footer
   button.btn.btn-sm.white(
     ng-click = "state.step = 2"
