@@ -3,8 +3,7 @@
     h1.modal-heading 🙅
   section.modal-body
     //- textarea-group
-      - must have input as first-first
-      - must have input as last-child
+      - must have .btn-badge immediately after .input-value
     .textarea-group
       label.input-group.monospace
         input.input.input-sm.input-key(
@@ -14,6 +13,8 @@
         span.input-divider =
         input.input.input-sm.input-value(
           placeholder = "[VALUE]"
+          toggle-pop-over
+          toggle-pop-over-model = "popoverServers.data.show"
           value = "http://stage-cayley-codenow.runnableapp.com:64210"
         )
         button.btn.btn-icon.btn-badge.active(
@@ -28,6 +29,12 @@
             use(
               xlink:href = "#icons-check"
             )
+        pop-over(
+          actions = "popoverServers.actions"
+          data = "popoverServers.data"
+          popover-options = "{\"left\":236,\"top\":37}"
+          template = "viewPopoverServers"
+        )
       label.input-group.monospace
         input.input.input-sm.input-key(
           placeholder = "[KEY]"

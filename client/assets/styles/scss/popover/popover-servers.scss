@@ -1,0 +1,23 @@
+.popover-servers {
+  max-width: 475px;
+  width: auto !important; // override default size
+
+  .icons-server {
+    height: 18px;
+    margin: 16px 12px 0 0;
+    width: 18px;
+  }
+
+  .list-item:not(:first-child) {
+    height: 54px;
+    padding-right: 30px;
+
+    .small {
+      display: block;
+      line-height: 1;
+      margin-left: 30px;
+      position: relative;
+      top: -6px;
+    }
+  }
+}
