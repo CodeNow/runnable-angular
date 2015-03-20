@@ -82,94 +82,16 @@
     }
   }
 
+  .btn-badge {
+    float: left;
+    margin-right: 6px;
+  }
+
   .icons-server {
     color: $purple-lighter;
-    height: 18px;
-    margin-right: 6px;
-    top: 3px;
-    width: 18px;
   }
 
   .icons-check {
     background: $purple-light;
-    border-radius: 50%;
-    bottom: 0;
-    color: $white;
-    display: none;
-    height: 15px;
-    left: 24px;
-    position: absolute;
-    width: 15px;
   }
-
-  // .list-item.list-item {
-  //   border: 1px solid transparent;
-  //   border-radius: 3px;
-  //   display: block;
-  //   height: 36px;
-  //   line-height: 36px;
-  //   margin: 3px 15px 0;
-
-  //   &:hover:not(.current) {
-  //     border-color: rgba($black,.15);
-  //   }
-
-  //   &:active:not(.current),
-  //   &.active {
-  //     background: $white;
-  //     border-color: $green;
-  //   }
-
-  //   .icons-server {
-  //     color: $gray-light;
-  //     height: 18px;
-  //     margin: 9px 6px 0 0;
-  //     position: static;
-  //     transform: none;
-  //     width: 18px;
-  //   }
-
-  //   .small {
-  //     color: $gray-light;
-  //     float: right;
-  //     line-height: 39px; // align baseline
-  //   }
-
-  //   .btn-xs {
-  //     right: 6px;
-  //     top: 6px;
-  //   }
-  // }
 }
-
-// viewModalGSEnvs
-// plz create a separate file for this when it's named properly
-// .modal-gs-envs {
-
-//   .input-group {
-//     padding: 0 0 0 15px;
-//   }
-
-//   .input {
-//     padding: 0;
-//   }
-
-//   .input-divider {
-//     color: $gray-light;
-//     padding: 0 12px;
-//   }
-
-//   .icons-server {
-//     color: $gray-light;
-//     height: 100%;
-//   }
-
-//   .btn-sm {
-//     float: right;
-//     margin: 6px 9px;
-//   }
-
-//   .modal-footer {
-//     margin-top: 15px;
-//   }
-// }

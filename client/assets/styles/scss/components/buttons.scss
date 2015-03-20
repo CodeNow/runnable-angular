@@ -438,6 +438,34 @@
   }
 }
 
+// badges
+.btn-badge {
+  height: 18px;
+  transition: none;
+  width: 18px;
+
+  &.active .icons-check {
+    display: block;
+  }
+
+  .icons-server {
+    height: 18px;
+    top: -6px;
+    width: 18px;
+  }
+
+  .icons-check {
+    border-radius: 50%;
+    bottom: -6px;
+    color: $white;
+    display: none;
+    height: 15px;
+    left: -6px;
+    position: absolute;
+    width: 15px;
+  }
+}
+
  // btn-groups
 .btn-group {
   display: inline-block;

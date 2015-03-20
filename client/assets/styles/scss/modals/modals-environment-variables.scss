@@ -15,18 +15,24 @@
   }
 
   // server icon
-  .icons-server {
+  .btn-badge {
     color: $gray;
-    height: 21px;
     position: absolute;
     right: 12px;
-    top: 7px;
-    width: 21px;
+    top: 5px;
+
+    &.active .icons-check {
+      background: $gray;
+    }
   }
 
   // focus
-  .input-value:focus + .icons-server {
+  .input-value:focus + .btn-badge {
     color: $blue;
+
+    &.active .icons-check {
+      background: $blue;
+    }
   }
 
   // @include media(xs) {
