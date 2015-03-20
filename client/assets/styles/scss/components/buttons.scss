@@ -226,15 +226,14 @@
 }
 
 .gray {
-  background: rgba($gray-darker,.0675);
-  border-color: rgba($gray-darker,.1);
+  background: $gray-lightest;
+  border-color: $gray-lighter;
   color: $gray;
 
   &.btn {
 
     &:hover {
-      background: rgba($gray-darker,.125);
-      border-color: rgba($gray-darker,.15);
+      background: rgba($gray,.3);
     }
 
     &:active,
@@ -325,17 +324,17 @@
   color: $purple-light;
 
   &.btn {
+    background: $white;
+    border: 1px solid $purple-lighter;
 
     &:hover,
     &.hover {
       background: rgba($purple-light,.1);
-      border-color: rgba($purple-light,.2);
     }
 
     &:active,
     &.active {
       background: rgba($purple-light,.2);
-      border-color: rgba($purple-light,.4);
       transition: none;
     }
   }

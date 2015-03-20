@@ -1,7 +1,8 @@
 .card {
-  background: $white;
-  border: 2px solid rgba($black,.1);
+  background: $purple-lightest;
+  border: 2px solid $purple-lighter;
   border-radius: 3px;
+  color: $purple-light;
   display: flex;
   flex-direction: column;
   min-height: 270px;
@@ -12,52 +13,38 @@
   &:hover:not(.disabled),
   &:active:not(.disabled),
   &.active {
-    border-color: rgba($purple-light,.6);
+    background: $white;
 
     &:not(.card-loading) {
       cursor: pointer;
     }
   }
 
-  // configure button
-  &:active:not(.disabled) .btn-sm {
-    background: rgba($purple-light,.15);
-    border-color: rgba($purple-light,.15);
-    color: $purple-light;
-    transition: none;
-  }
-
   &.focus {
     animation: card-blink .5s ease-out;
   }
 
-  // settings
-  .icons-gear {
-    color: $gray-light;
-    height: 18px;
-    pointer-events: auto;
-    position: absolute;
-    right: 6px;
-    top: 6px;
-    width: 18px;
-    z-index: 1;
+  // configure button
+  &:hover:not(.disabled) .btn-sm {
+    background: rgba($purple-light,.1);
+  }
 
-    &:hover,
-    &:active {
-      color: $purple-light;
-    }
+  &:active:not(.disabled) .btn-sm {
+    background: rgba($purple-light,.2);
+  }
+
+  .btn.purple {
+    transition: none;
   }
 
   // header
   .card-header {
-    color: $gray;
     flex: 0 0 120px;
     font-size: 16px;
     text-align: center;
 
     // anchor image/icon
     .iconnables {
-      color: $gray-light;
       display: block;
       margin: 36px auto 6px;
     }
@@ -92,7 +79,7 @@
     margin: 0;
 
     &:first-child {
-      color: $gray-light;
+      color: $purple-lighter;
       float: left;
       text-align: right;
       width: 35%;
@@ -121,9 +108,10 @@
 
   // well
   .well {
-    background: $gray-lightest;
+    background: $white;
     border: 0;
     border-radius: 0 0 3px 3px;
+    border-top: 1px solid $purple-lighter;
     cursor: default;
     margin: 0;
     padding: 12px 9px;
@@ -134,6 +122,10 @@
       height: 15px;
       margin-left: 15px;
       width: 15px;
+    }
+
+    .icon-close {
+      top: -14px;
     }
   }
 
@@ -148,7 +140,7 @@
 
 // template
 .card-template {
-  color: $gray-lighter;
+  color: $purple-lighter;
   font-size: 18px;
   justify-content: center;
   text-align: center;
@@ -173,12 +165,12 @@
 
 //- loading state
 .card-loading {
-  color: $gray;
   cursor: progress;
   font-size: 18px;
+  justify-content: center;
   text-align: center;
 
   .spinner-wrapper {
-    margin: 96px auto 12px;
+    margin-bottom: 12px;
   }
 }

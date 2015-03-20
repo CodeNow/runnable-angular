@@ -6,7 +6,7 @@
   ng-init = "data.cardLoading = true"
 )
   //- loading
-  .card.card-loading(
+  .card.card-loading.disabled(
     ng-click = "data.cardLoading = false"
     ng-if = "data.cardLoading"
   )
@@ -129,7 +129,7 @@
               xlink:href = "#icons-check"
             )
 .setup-footer
-  button.btn.btn-sm.green(
+  button.btn.green(
     ng-click = "state.step = 2"
     ng-disabled = "!data.repo"
   ) Add Server(s)

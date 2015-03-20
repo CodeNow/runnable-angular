@@ -1,5 +1,5 @@
 .setup-header
-  h1.h1 Link Your Servers
+  h1.h1 Linking Servers
   p.p Your servers can communicate via environment variables.
 
 .setup-body
@@ -7,9 +7,7 @@
   //- modal-actions = "actions.actionsModalGsEnvs"
   //- modal-data = "data.dataModalGsEnvs"
   //- modal-template = "viewModalGsEnvs"
-  .card(
-  )
-    //- loading
+  .card.load
     h2.card-header
       svg.iconnables.icons-repository
         use(
@@ -79,16 +77,16 @@
             )
           | runnable-angular
 
-    button.btn.btn-sm.gray Configure
-  .card
-    h2.card-header.load
+    button.btn.btn-sm.purple Linking
+  .card.load
+    h2.card-header
       svg.iconnables.icons-repository(
       )
         use(
           xlink:href = "#icons-repository"
         )
       | mavis
-    .card-body.clearfix.load
+    .card-body.clearfix
       ul.list
         li.list-item
           svg.iconnables.icons-server
@@ -150,17 +148,17 @@
               xlink:href = "#icons-check"
             )
           | runnable-angular
-    button.btn.btn-sm.gray Configure
+    button.btn.btn-sm.purple Linking
 
-  .card
-    h2.card-header.load
+  .card.load
+    h2.card-header
       svg.iconnables.icons-repository(
       )
         use(
           xlink:href = "#icons-repository"
         )
       | runnable-angular
-    .card-body.clearfix.load
+    .card-body.clearfix
       ul.list
         li.list-item.active
           svg.iconnables.icons-server
@@ -222,10 +220,10 @@
               xlink:href = "#icons-check"
             )
           | redis
-    button.btn.btn-sm.gray Configure
+    button.btn.btn-sm.purple Linking
 
 .setup-footer
-  button.btn.btn-sm.white(
+  button.btn.white(
     ng-click = "state.step = 2"
   ) Back
-  button.btn.btn-sm.green #done
+  button.btn.green #done

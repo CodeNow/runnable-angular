@@ -9,14 +9,14 @@
 )
   //- card #1
   //- loading state
-  .card.card-loading(
+  .card.card-loading.disabled.load(
     ng-click = "data.cardLoading = false"
     ng-if = "data.cardLoading"
   )
     .spinner-wrapper.spinner-md.spinner-purple.in(
       ng-include = "'spinner'"
     )
-    | Configuring
+    | api
   .card.load(
     ng-class = "{\
       active: popoverConfigureServer.data.show,\
@@ -44,18 +44,18 @@
           | v0.10.28
         li.list-item.text-overflow 80,8000,8080,3000
         li.list-item.text-overflow npm start
-    button.btn.btn-sm.gray Configure
+    button.btn.btn-sm.purple Configure
 
   //- card #2
   //- loading state
-  .card.card-loading(
+  .card.card-loading.disabled.load(
     ng-click = "data.cardLoading = false"
     ng-if = "data.cardLoading"
   )
     .spinner-wrapper.spinner-md.spinner-purple.in(
       ng-include = "'spinner'"
     )
-    | Configuring
+    | runnable-angular
   .card.load(
     ng-class = "{focus: data.runnableAngular}"
     ng-if = "!data.cardLoading"
@@ -83,18 +83,18 @@
           | v0.10.35
         li.list-item.text-overflow 80,8000,8080,3000
         li.list-item.text-overflow npm start
-    button.btn.btn-sm.gray Configure
+    button.btn.btn-sm.purple Configure
 
   //- card #3
   //- loading state
-  .card.card-loading(
+  .card.card-loading.disabled.load(
     ng-click = "data.cardLoading = false"
     ng-if = "data.cardLoading"
   )
     .spinner-wrapper.spinner-md.spinner-purple.in(
       ng-include = "'spinner'"
     )
-    | Configuring
+    | mavis
   .card.load(
     ng-class = "{focus: data.mavis}"
     ng-if = "!data.cardLoading"
@@ -122,7 +122,7 @@
           | v0.10.35
         li.list-item.text-overflow 80
         li.list-item.text-overflow sleep 5 && npm start
-    button.btn.btn-sm.gray Configure
+    button.btn.btn-sm.purple Configure
 
   .card.load(
     ng-if = "!data.cardLoading"
@@ -137,8 +137,8 @@
         )
       | caley
     .card-body.clearfix
-    button.btn.btn-sm.gray Configure
-    .well.small.gray(
+    button.btn.btn-sm.purple Configure
+    .well.small.purple(
       ng-if = "!data.dismiss"
     )
       button.btn.btn-xxs.btn-icon.gray.btn-close(
@@ -149,7 +149,7 @@
             xlink:href = "#icons-close"
           )
       | caley detected as a dependency of #{''}
-      button.btn.btn-xxs.gray(
+      button.btn.btn-xxs.purple(
         ng-click = "data.runnableAngular = !data.runnableAngular"
       ) api
       | .
@@ -173,8 +173,8 @@
       ul.list.list-col.monospace
         li.list-item.text-overflow Shell
         li.list-item.text-overflow dogstatsd
-    button.btn.btn-sm.gray Configure
-    .well.small.gray(
+    button.btn.btn-sm.purple Configure
+    .well.small.purple(
       ng-if = "!data.dismiss"
     )
       button.btn.btn-xxs.btn-icon.gray.btn-close(
@@ -185,7 +185,7 @@
             xlink:href = "#icons-close"
           )
       | datadog detected as a dependency of #{''}
-      button.btn.btn-xxs.gray(
+      button.btn.btn-xxs.purple(
         ng-click = "data.mavis = !data.mavis"
       ) mavis
       | .
@@ -203,8 +203,8 @@
         )
       | MongoDb
     .card-body.clearfix
-    button.btn.btn-sm.gray Configure
-    .well.small.gray(
+    button.btn.btn-sm.purple Configure
+    .well.small.purple(
       ng-if = "!data.dismiss"
     )
       button.btn.btn-xxs.btn-icon.gray.btn-close(
@@ -215,11 +215,11 @@
             xlink:href = "#icons-close"
           )
       | MongoDb detected as a dependency of #{''}
-      button.btn.btn-xxs.gray(
+      button.btn.btn-xxs.purple(
         ng-click = "data.runnableAngular = !data.runnableAngular"
       ) runnable-angular
       | #{''} and #{''}
-      button.btn.btn-xxs.gray(
+      button.btn.btn-xxs.purple(
         ng-click = "data.runnableApi = !data.runnableApi"
       ) api
       | .
@@ -237,8 +237,8 @@
         )
       | redis
     .card-body.clearfix
-    button.btn.btn-sm.gray Configure
-    .well.small.gray(
+    button.btn.btn-sm.purple Configure
+    .well.small.purple(
       ng-if = "!data.dismiss"
     )
       button.btn.btn-xxs.btn-icon.gray.btn-close(
@@ -249,11 +249,11 @@
             xlink:href = "#icons-close"
           )
       | redis detected as a dependency of #{''}
-      button.btn.btn-xxs.gray(
+      button.btn.btn-xxs.purple(
         ng-click = "data.runnableAngular = !data.runnableAngular"
       ) runnable-angular
       | #{''} and #{''}
-      button.btn.btn-xxs.gray(
+      button.btn.btn-xxs.purple(
         ng-click = "data.runnableApi = !data.runnableApi"
       ) api
       | .
@@ -277,9 +277,9 @@
       ) Cancel
 
 .setup-footer
-  button.btn.btn-sm.white(
+  button.btn.white(
     ng-click = "state.step = 1"
   ) Back
-  button.btn.btn-sm.green(
+  button.btn.green(
     ng-click = "state.step = 3"
   ) Continue
