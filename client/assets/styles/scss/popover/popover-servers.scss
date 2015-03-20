@@ -1,18 +1,30 @@
 .popover-servers {
   max-width: 475px;
+  transform-origin: 0 95%;
   width: auto !important; // override default size
 
+  .arrow {
+    left: auto !important;
+    right: 6px !important;
+  }
+
   .icons-server {
-    height: 18px;
-    margin: 16px 12px 0 0;
-    width: 18px;
+    color: $gray;
+    height: 100%;
+    margin: 0 12px 0 0;
+    width: 21px;
   }
 
   .list-item:not(:first-child) {
     height: 54px;
     padding-right: 30px;
 
+    &:active .small {
+      color: $purple-light;
+    }
+
     .small {
+      color: $gray;
       display: block;
       line-height: 1;
       margin-left: 30px;
