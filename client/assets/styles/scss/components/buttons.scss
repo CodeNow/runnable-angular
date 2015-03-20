@@ -444,31 +444,29 @@
   transition: none;
   width: 18px;
 
-  &.active {
-
-    .icons-repository,
-    .icons-check, {
-      display: block;
-    }
+  &.active .iconnables:last-child {
+    display: block;
   }
 
   .iconnables {
-    height: 18px;
-    top: -6px;
-    width: 18px;
-  }
 
-  .icons-repository,
-  .icons-check {
-    border-radius: 50%;
-    bottom: -6px;
-    color: $white;
-    display: none;
-    height: 15px;
-    left: -6px;
-    position: absolute;
-    top: auto;
-    width: 15px;
+    &:first-child {
+      height: 18px;
+      top: -6px;
+      width: 18px;
+    }
+
+    &:last-child {
+      border-radius: 50%;
+      bottom: -6px;
+      color: $white;
+      display: none;
+      height: 15px;
+      left: -6px;
+      position: absolute;
+      top: auto;
+      width: 15px;
+    }
   }
 }
 
