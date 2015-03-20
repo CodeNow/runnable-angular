@@ -81,6 +81,11 @@
       }
     }
 
+    &.small {
+      color: $purple-lighter;
+      pointer-events: none;
+    }
+
     .btn-badge {
       float: left;
       margin-right: 6px;

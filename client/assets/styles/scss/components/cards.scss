@@ -25,13 +25,13 @@
   }
 
   // configure button
-  &:hover:not(.disabled) .btn-sm {
-    background: rgba($purple-light,.1);
-  }
+  // &:hover:not(.disabled) .btn-sm {
+  //   background: rgba($purple-light,.1);
+  // }
 
-  &:active:not(.disabled) .btn-sm {
-    background: rgba($purple-light,.2);
-  }
+  // &:active:not(.disabled) .btn-sm {
+  //   background: rgba($purple-light,.2);
+  // }
 
   .btn.purple {
     transition: none;

@@ -89,14 +89,14 @@
   position: relative;
 
   &.small {
-    color: $gray !important; // never override this
-    cursor: default !important;
+    color: $gray;
+    cursor: default;
     font-size: 13px;
 
     &:hover,
     &:active {
-      background: none !important;
-      border-color: transparent !important;
+      background: none;
+      border-color: transparent;
     }
   }
 
