@@ -65,6 +65,10 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       '$current': {
         name: 'instance.instanceEdit'
       },
+      params: {
+        userName: 'username',
+        instanceName: 'instanceName'
+      },
       go: function () {}
     };
     angular.mock.module('app', function ($provide) {

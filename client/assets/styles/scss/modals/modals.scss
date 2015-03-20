@@ -28,7 +28,6 @@
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
-  color: $gray-dark;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -74,15 +73,8 @@
     cursor: default;
     display: block;
     height: 0;
-    margin: 6px 9px;
+    margin: 0 9px 6px;
     transition: all .2s ease-in;
-
-    &.invalid-require,
-    &.invalid-pattern,
-    &.invalid-name {
-      border: 1px solid rgba($orange,.3);
-      height: 36px;
-    }
 
     .validate-rules {
       align-items: baseline;
@@ -102,7 +94,6 @@
 .modal-header {
   background: $white;
   border-radius: 3px 3px 0 0;
-  color: $gray-dark;
   flex: 0 0 auto;
   height: 60px;
 
@@ -149,8 +140,6 @@
   }
 
   .label-checkbox {
-    font-size: 14px;
-    letter-spacing: .5px;
     transition: padding .15s ease-in;
   }
 

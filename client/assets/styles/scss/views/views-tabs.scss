@@ -74,27 +74,10 @@
     z-index: 1;
   }
 
-  .btn-icon {
+  .btn-close {
     float: right;
     height: 15px;
     margin: 15px 6px 15px 9px;
-    width: 15px;
-
-    &:hover .icons-close {
-      background: rgba($black,.1);
-    }
-
-    &:active .icons-close {
-      background: rgba($purple-light,.15);
-      color: $purple-light;
-    }
-  }
-
-  .icons-close {
-    border-radius: 50%;
-    color: $gray;
-    height: 15px;
-    top: -12px;
     width: 15px;
   }
 }

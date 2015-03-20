@@ -4,7 +4,7 @@
   header.modal-header
     h1.modal-heading Something went wrong.
   section.modal-body.clearfix
-    .modal-description.well.well-code.gray(
+    .modal-description.well.well-code.gray.monospace(
       ng-repeat = "error in data.errors track by $index"
     ) {{ error.message }}
 

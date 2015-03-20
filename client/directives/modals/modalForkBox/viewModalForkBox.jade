@@ -3,54 +3,56 @@
 )
   header.modal-header
     h1.modal-heading Fork Server
-  form(
+  form.modal-body(
     name = "data.forkForm"
     ng-submit = "actions.forkInstance(items);"
   )
-    section.modal-body
-      label.input-group.input-validate.with-description(
-        ng-class = "{\
-          focus: data.forkForm.forkName.showFocus,\
-          'ng-invalid': data.forkForm.forkName.$invalid,\
-          'ng-valid': data.forkForm.forkName.$valid && !data.forkForm.forkName.$pristine\
-        }"
+    label.input-group.input-validate.with-description(
+      ng-class = "{\
+        focus: data.forkForm.forkName.showFocus,\
+        'ng-invalid': data.forkForm.forkName.$invalid,\
+        'ng-valid': data.forkForm.forkName.$valid && !data.forkForm.forkName.$pristine\
+      }"
+    )
+      span.input-label Name
+      span.input-description.text-overflow {{ items[0].opts.name }}-{{ data.instance.attrs.owner.username.toLowerCase() }}.runnableapp.com
+      input.input(
+        autocomplete = "off"
+        instance = "data.instance"
+        name = "forkName"
+        ng-blur = "data.forkForm.forkName.showFocus = false;"
+        ng-focus = "data.forkForm.forkName.showFocus = true"
+        ng-init = "data.forkForm.forkName.showFocus = true; \
+          data.renameForm.forkName.showFocus = true;"
+        ng-model = "items[0].opts.name"
+        placeholder = "My-Server"
+        spellcheck = "false"
+        validate-name = "data.instances"
+        validate-name-current-instance-valid = "false"
+        validate-name-pattern
       )
-        span.input-label Name
-        span.input-description.text-overflow {{ items[0].opts.name }}-{{ data.instance.attrs.owner.username.toLowerCase() }}.runnableapp.com
-        input.input(
-          autocomplete = "off"
-          instance = "data.instance"
-          name = "forkName"
-          ng-blur = "data.forkForm.forkName.showFocus = false;"
-          ng-focus = "data.forkForm.forkName.showFocus = true"
-          ng-init = "data.forkForm.forkName.showFocus = true; \
-            data.renameForm.forkName.showFocus = true;"
-          ng-model = "items[0].opts.name"
-          placeholder = "My-Server"
-          validate-name = "data.instances"
-          validate-name-current-instance-valid = "false"
-          validate-name-pattern
-        )
-        .btn-popover-wrapper(
-          environment-button
-          item = "items[0]"
-          ng-if = "items[0].opts.env"
-        )
-      //- .invalid-pattern for names with invalid characters
-        - .invalid-name for names that are taken
-      .validate-wrapper.btn-sm.orange(
-        ng-class = "{\
-          'invalid-pattern': data.forkForm.forkName.$error.namePattern,\
-          'invalid-name': data.forkForm.forkName.$error.nameAvailable\
-        }"
+      .btn-popover-wrapper(
+        environment-button
+        item = "items[0]"
+        ng-if = "items[0].opts.env"
       )
-        span.validate-rules.invalid-pattern Please use #{''}
-          b.btn-xs.orange A-Z
-          b.btn-xs.orange a-z
-          b.btn-xs.orange 0-9
-          b.btn-xs.orange _
-          b.btn-xs.orange -
-        span.validate-rules.invalid-name That's a pretty name, but it's taken.
+    //- .invalid-pattern for names with invalid characters
+      - .invalid-name for names that are taken
+    .validate-wrapper.btn-sm.orange(
+      ng-class = "{\
+        'invalid-pattern': data.forkForm.forkName.$error.namePattern,\
+        'invalid-name': data.forkForm.forkName.$error.nameAvailable,\
+        'invalid-require': data.forkForm.forkName.$error.nameRequire\
+      }"
+    )
+      span.validate-rules.invalid-pattern Please use #{''}
+        b.btn-xs.orange A-Z
+        b.btn-xs.orange a-z
+        b.btn-xs.orange 0-9
+        b.btn-xs.orange _
+        b.btn-xs.orange -
+      span.validate-rules.invalid-name That's a pretty name, but it's taken
+      span.validate-rules.invalid-require Give your server an alphanumeric name
     section.modal-inset(
       fork-dependencies = "data.forkDependencies"
       linked-instances

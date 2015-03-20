@@ -1,4 +1,4 @@
-button.toggle-theme(
+button.btn.toggle-theme(
   ng-class = "{ \
     dark: colorScheme.isDarkScheme(), \
     light: !colorScheme.isDarkScheme() \
@@ -15,18 +15,24 @@ ul.tabs
       'dirty': (item.state.isDirty), \
       'always-open': item.state.alwaysOpen\
     }"
-    ng-click = "openItems.activeHistory.add(item); \
-      openItems.saveState();"
+    ng-click = "\
+      openItems.activeHistory.add(item);\
+      openItems.saveState();\
+    "
     ng-repeat = "item in openItems.models"
   )
     span.tab-name(
       title = "{{ item.filepath() }}"
     ) {{ item.attrs.name  }}
     .icons-dirty *
-    button.btn-icon(
-      ng-click = "openItems.remove(item);\
-        $event.stopPropagation();"
+    button.btn.white.btn-icon.btn-close(
+      ng-click = "\
+        openItems.remove(item);\
+        $event.stopPropagation();\
+      "
       ng-if = "!item.state.alwaysOpen"
     )
       svg.iconnables.icons-close
-        use(xlink:href = "#icons-close")
+        use(
+          xlink:href = "#icons-close"
+        )

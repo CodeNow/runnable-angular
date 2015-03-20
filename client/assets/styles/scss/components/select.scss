@@ -33,3 +33,7 @@
     top: 0;
   }
 }
+
+select[disabled] {
+  cursor: not-allowed;
+}
