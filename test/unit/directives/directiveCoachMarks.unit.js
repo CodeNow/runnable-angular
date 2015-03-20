@@ -10,7 +10,7 @@ var $rootScope,
 
 var apiMocks = require('../apiMocks/index');
 
-describe.only('directiveCoachMarks'.bold.underline.blue, function () {
+describe('directiveCoachMarks'.bold.underline.blue, function () {
   var ctx;
   function injectSetupCompile() {
 
