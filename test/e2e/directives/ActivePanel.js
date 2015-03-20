@@ -38,6 +38,10 @@ function ActivePanel (pageType) {
     element(by.cssContainingText('.popover-add-tab li', tabType), this.panel).click();
   };
 
+  this.isActiveTabDirty = function () {
+    return element.all(by.css('.tab-wrapper.active.dirty')).count() > 0;
+  };
+
   this.setActiveTab = function(text) {
     var self = this;
     this.tabTitle = text;
@@ -57,17 +61,31 @@ function ActivePanel (pageType) {
   this.writeToFile = function (contents) {
     var self = this;
     this._getAceDiv().then(function(elem) {
-      browser.actions().doubleClick(elem).perform();
+      browser.actions().click(elem).perform();
       return self._getInputElement();
     }).then(function(elem) {
       return elem.sendKeys(contents);
     });
   };
 
+
+  // http://stackoverflow.com/q/25675973/1216976
+  // https://github.com/angular/protractor/issues/1273
+  this.addToFile = function (contentToAdd) {
+    var self = this;
+    this._getAceDiv().then(function(elem) {
+      browser.actions().click(elem).perform();
+      return self._getInputElement();
+    }).then(function(elem) {
+      elem.sendKeys(protractor.Key.ARROW_DOWN);
+      return elem.sendKeys(contentToAdd + '\n');
+    });
+  };
+
   this.clearActiveFile = function () {
     var self = this;
     this._getAceDiv().then(function(elem) {
-      browser.actions().doubleClick(elem).perform();
+      browser.actions().click(elem).perform();
       return self._getInputElement();
     }).then(function(elem) {
       var cmd = util.getOSCommandKey();
@@ -83,8 +101,10 @@ function ActivePanel (pageType) {
   };
 
   // Gets the actual contents of the file (without Ace's line numbers, etc)
-  this.getFileContents = function() {
-    return this.ace.get().getText();
+  this.getFileContents = function () {
+    return this._getAceDiv().then(function (elem) {
+      return elem.getText();
+    });
   };
 
   this.isClean = function () {
@@ -109,12 +129,12 @@ function ActivePanel (pageType) {
     }).then(function(elems) {
       return elems[0];
     });
-  }
+  };
 
   this._getInputElement = function () {
     // currently only works for file types
     return this.inputElm.get().get(activeIdx);
-  }
+  };
 }
 
 module.exports = ActivePanel;

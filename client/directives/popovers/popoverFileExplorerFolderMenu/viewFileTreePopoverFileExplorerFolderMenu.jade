@@ -6,13 +6,6 @@
   .popover-content
     ul.popover-list
       li.popover-list-item(
-        ng-click = "fileItemData.actions.openFile();\
-          $event.stopPropagation();"
-      )
-        svg.iconnables
-        | Open
-      li.divider
-      li.popover-list-item(
         ng-click = "dirItemData.actions.createFile();\
           $event.stopPropagation();"
       )

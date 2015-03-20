@@ -10,6 +10,7 @@ function popoverFileExplorerFolderMenu(
   errs,
   $templateCache,
   $compile,
+  promisify,
   $rootScope,
   $document,
   keypather,
@@ -36,34 +37,26 @@ function popoverFileExplorerFolderMenu(
       dirItemData.isOpen = false;
 
       actions.createFile = function () {
-        var file = helperCreateFS($scope.dir, {
+        helperCreateFS($scope.dir, {
           isDir: false
-        }, function (err) {
-          if (err) {
-            throw err;
-          }
-        });
+        }, errs.handler);
         closeModal();
       };
 
       actions.createFolder = function () {
-        var dir = helperCreateFS($scope.dir, {
+        helperCreateFS($scope.dir, {
           isDir: true
-        }, function (err) {
-          if (err) {
-            throw err;
-          }
-        });
+        }, errs.handler);
         closeModal();
       };
 
       actions.deleteFolder = function () {
-        $scope.dir.destroy(function (err) {
-          if (err) {
-            throw err;
-          }
-        });
-        closeModal();
+        promisify($scope.dir, 'destroy')(
+        ).catch(
+          errs.handler
+        ).finally(
+          closeModal
+        );
       };
 
       actions.renameFolder = function () {
@@ -93,9 +86,7 @@ function popoverFileExplorerFolderMenu(
         if (inputElement.value === $scope.dir.attrs.name) {
           return;
         }
-        var cachedName = $scope.dir.attrs.name;
         $scope.dir.rename(inputElement.value, errs.handler);
-
       }
 
       function closeModal() {
@@ -120,14 +111,13 @@ function popoverFileExplorerFolderMenu(
 
         // insert element into dom
         var template = $templateCache.get('viewFileTreePopoverFileExplorerFolderMenu');
-        var $template = angular.element(template);
-        $compile($template)($scope);
-        $document.find('body').append($template);
+        var popoverElement = $compile(template)($scope);
+        $document.find('body').append(popoverElement);
+        $scope.$popoverTemplate = popoverElement;
 
         $scope.dirItemData.eStyle.top = e.pageY - 18 + 'px';
         $scope.dirItemData.eStyle.left = e.pageX + 'px';
         $scope.dirItemData.isOpen = true;
-
 
         e.preventDefault();
         e.stopPropagation();
@@ -139,7 +129,6 @@ function popoverFileExplorerFolderMenu(
         }
         element[0].removeEventListener('contextmenu', contextMenuListener);
       });
-
     }
   };
 }

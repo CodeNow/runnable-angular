@@ -34,9 +34,9 @@ function logTerm(
 
       bind(primus, 'offline', function () {
         terminal.writeln('');
-        terminal.writeln('******************************');
-        terminal.writeln('* LOST CONNECTION - retrying *');
-        terminal.writeln('******************************');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+        terminal.writeln('☹ LOST CONNECTION - retrying ☹');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
       });
 
       $scope.$on('$destroy', function () {
@@ -106,14 +106,16 @@ function logTerm(
         $scope.connectStreams(terminal);
         showTerminalSpinner();
         bind(primus, 'reconnected', function () {
-          terminal.writeln('*****************************************************');
-          terminal.writeln('* Connection regained.  Thank you for your patience *');
-          terminal.writeln('*****************************************************');
+          terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
+          terminal.writeln('★ Connection regained.  Thank you for your patience ★');
+          terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
         });
         bind($scope.stream, 'end', function () {
-          hideTerminalSpinner();
+          //hideTerminalSpinner();
           killCurrentStream();
-          $scope.streamEnded();
+          if ($scope.streamEnded) {
+            $scope.streamEnded();
+          }
         });
       }
     }

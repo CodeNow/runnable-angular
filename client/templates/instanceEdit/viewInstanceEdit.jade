@@ -26,6 +26,7 @@ section.sidebar.server-sidebar
   section.row.repo-list(
     build = "dataInstanceEdit.data.build"
     instance = "dataInstanceEdit.data.instance"
+    show-add-repo = "true"
     repo-list
     loading = "dataApp.data.loading"
   )
@@ -42,51 +43,14 @@ section.sidebar.server-sidebar
   )
 
 section.views.with-add-tab(
+  active-panel
   ng-class = "{ \
     in: (dataInstanceEdit.data.showExplorer && \
          !dataInstanceEdit.data.loading) \
-  }"
-)
-
-  //- tabs
-  .views-toolbar(
-    open-items = "dataInstanceEdit.data.openItems"
-    tabs
-    toggle-theme = "dataInstanceEdit.data.toggleTheme"
-  )
-
-  div(
-    add-tab
-    open-items = "dataInstanceEdit.data.openItems"
-  )
-
-  //- active panel
-  //- Passing in old build to access its logs
-  .active-panel(
-    active-panel
-    ng-class = "{\
-      'loaded': (item === openItems.activeHistory.last()),\
-      'ace-runnable-dark': dataInstanceEdit.data.toggleTheme\
     }"
-    ng-repeat = "item in dataInstanceEdit.data.openItems.models"
-    ng-show = "item === dataInstanceEdit.data.openItems.activeHistory.last()"
-    build = "dataInstanceEdit.data.build"
-    instance = "dataInstanceEdit.data.instance"
-    open-items = "dataInstanceEdit.data.openItems"
-    item = "item"
-    toggle-theme = "dataInstanceEdit.data.toggleTheme"
-  )
-
-  //- blank state
-  .blank-panel(
-    ng-if= "dataInstanceEdit.data.openItems.activeHistory.models.length === 0"
-  )
-    ul.blank-panel-group
-      li.btn.whte(
-        ng-click = "dataInstanceEdit.data.openItems.addBuildStream()"
-      )
-        svg.iconnables.iconnables-lg.icons-logs
-          use(
-            xlink:href = "#icons-logs"
-          )
-        | Build Log
+  open-items = "dataInstanceEdit.data.openItems"
+  build = "dataInstanceEdit.data.build"
+  instance = "dataInstanceEdit.data.instance"
+  background-buttons = "build"
+  use-auto-update = "true"
+)

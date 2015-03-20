@@ -6,5 +6,6 @@
   "quotmark": "single",
   "curly": true,
   "globalstrict": true,
+  "eqeqeq": true,
   "predef": ["angular", "confirm"]
 }

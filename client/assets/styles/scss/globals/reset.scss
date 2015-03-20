@@ -144,7 +144,13 @@ textarea {
 
 // Address `overflow` set to `hidden` in IE 8/9/10/11.
 button {
+  background: transparent;
+  box-shadow: none;
   overflow: visible;
+
+  &:focus {
+    outline: 0;
+  }
 }
 
 // Address inconsistent `text-transform` inheritance for `button` and `select`.

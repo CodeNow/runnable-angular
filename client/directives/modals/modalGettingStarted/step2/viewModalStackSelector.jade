@@ -70,7 +70,7 @@ label.label.clearfix
         ng-options = "version as version group by 'Choose version' for version in depStack.versions"
       )
 label.label.clearfix
-  .label-col Ports
+  .label-col.label-details Ports
     small.small Separate by commas
   //- placeholder and values should be the same
   input.input.input-sm.input-col(
@@ -78,7 +78,7 @@ label.label.clearfix
     placeholder = "{{ state.stack.ports }}"
   )
 label.label.clearfix
-  .label-col Command
+  .label-col.label-details Command
     small.small The command that'll start your app
   //- placeholder and values should be the same
   input.input.input-sm.input-col(

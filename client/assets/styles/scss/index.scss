@@ -14,25 +14,26 @@
 @import "globals/var";
 @import "globals/reset";
 @import "globals/globals";
-@import "globals/typography";
+
+@import "globals/animations";
 @import "globals/images";
 @import "globals/loader";
 @import "globals/minimize";
-@import "globals/animations";
+@import "globals/typography";
 
 // components
-@import "components/logo";
-@import "components/icons";
-@import "components/spinner";
-@import "components/buttons";
-@import "components/select";
-@import "components/tooltips";
 @import "components/alerts";
-@import "components/wells";
-@import "components/guides";
+@import "components/buttons";
 @import "components/embeds";
+@import "components/guides";
+@import "components/icons";
 @import "components/lists";
+@import "components/logo";
 @import "components/olark";
+@import "components/select";
+@import "components/spinner";
+@import "components/tooltips";
+@import "components/wells";
 
 // forms
 @import "forms/forms";
@@ -52,19 +53,20 @@
 
 // views
 @import "views/views";
+@import "views/views-browser-chrome";
 @import "views/views-explorer";
 @import "views/views-file-tree";
-@import "views/views-toolbar";
-@import "views/views-tabs";
 @import "views/views-panel";
+@import "views/views-tabs";
 @import "views/views-themes";
-@import "views/views-browser-chrome";
+@import "views/views-toolbar";
 
 // modals
 @import "modals/modals";
-@import "modals/modals-navbar";
 @import "modals/modals-aside";
 @import "modals/modals-inset";
+@import "modals/modals-forms";
+@import "modals/modals-navbar";
 @import "modals/modals-wizard";
 
 // modal specific
@@ -97,10 +99,10 @@
 @import "popover/popover-repository-toggle";
 
 // pages
-@import "pages/server-selection";
 @import "pages/home";
 @import "pages/home-images";
 @import "pages/home-ui";
+@import "pages/server-selection";
 @import "pages/setup";
 
 // shame

@@ -5,22 +5,33 @@ require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
-  .factory('fetchContexts', fetchContexts);
+  .factory('fetchContexts', fetchContexts)
+  .factory('fetchSlackMembers', fetchSlackMembers)
+  .factory('fetchGitHubMembers', fetchGitHubMembers)
+  .factory('fetchGitHubUser', fetchGitHubUser);
 
-function pFetchUser(user, $q) {
-  // Promise version of serviceFetchUser
-  // http://stackoverflow.com/a/22655010/1216976
-  var d = $q.defer();
-  user.fetchUser('me', function (err) {
-    if (err) {
-      return d.reject(err);
-    }
-    return d.resolve(user);
-  });
-
+function pFetchUser(keypather, user, $q, $state) {
+  var fetchedUser = null;
   // For consistency with other promise fetchers
   return function () {
-    return d.promise;
+    if (!fetchedUser) {
+      // Promise version of serviceFetchUser
+      // http://stackoverflow.com/a/22655010/1216976
+      var deferred = $q.defer();
+      fetchedUser = deferred.promise;
+      user.fetchUser('me', function (err) {
+        if (err) {
+          if (keypather.get(err, 'data.statusCode') === 401 &&
+              !keypather.get($state, 'current.data.anon')) {
+            $state.go('home');
+          }
+          deferred.reject(err);
+        } else {
+          deferred.resolve(user);
+        }
+      });
+    }
+    return fetchedUser;
   };
 }
 
@@ -43,8 +54,9 @@ function fetchInstances(
   var currentInstanceList;
   var userStream;
 
-  $rootScope.$watch('dataApp.data.activeAccount.oauthId()', function(id) {
+  $rootScope.$watch('dataApp.data.activeAccount.oauthId()', function (id) {
     if (!id) { return; }
+    $log.warn('Setting currentInstanceList to null');
     currentInstanceList = null;
     userStream = primus.createUserStream(id);
     userStream.on('reconnect', function () {
@@ -65,7 +77,9 @@ function fetchInstances(
     userStream.on('reconnect failed', function (err) {
       $log.warn('INSTANCE reconnect failed!!!! WE ARE BONED!!!! ' + err.message);
     });
-
+    userStream.on('open', function (opts) {
+      $log.warn('INSTANCE ROOM RECONNECTED!!!, SUCCESS!!!!!!');
+    });
     userStream.on('data', function (data) {
       if (data.event !== 'ROOM_MESSAGE') {
         return;
@@ -169,6 +183,8 @@ function fetchInstances(
         instance = keypather.get(results, 'models[0]');
       } else {
         if (opts.githubUsername === $stateParams.userName) {
+
+          $log.warn('Setting currentInstanceList to ', results);
           currentInstanceList = results;
         }
         instance = results;
@@ -185,10 +201,8 @@ function fetchInstances(
 }
 
 function fetchBuild(
-  errs,
   pFetchUser,
-  promisify,
-  $q
+  promisify
 ) {
   // No caching here, as there aren't any times we're fetching a build
   //    multiple times that isn't covered by inflight
@@ -197,25 +211,18 @@ function fetchBuild(
       throw new Error('BuildId is required');
     }
 
-    return pFetchUser().then(function(user) {
+    return pFetchUser().then(function (user) {
       var pFetch = promisify(user, 'fetchBuild');
       return pFetch(buildId);
-    }).then(function(build) {
-      return build;
     });
   };
 }
 
-function fetchOwnerRepos (
-  $rootScope,
-  pFetchUser,
-  errs,
-  promisify
-) {
+function fetchOwnerRepos(pFetchUser, promisify) {
   return function (userName) {
     var user;
     var repoType;
-    return pFetchUser().then(function(_user) {
+    return pFetchUser().then(function (_user) {
       if (userName === _user.oauthName()) {
         user = _user;
         repoType = 'GithubRepos';
@@ -229,19 +236,18 @@ function fetchOwnerRepos (
         return promisify(user, 'fetch' + repoType)({
           page: page,
           sort: 'update'
-        }).then(function(githubRepos) {
+        }).then(function (githubRepos) {
           allRepos = allRepos.concat(githubRepos.models);
           // recursive until result set returns fewer than
           // 100 repos, indicating last paginated result
           if (githubRepos.models.length < 100) {
             return allRepos;
-          } else {
-            return fetchPage(page + 1);
           }
+          return fetchPage(page + 1);
         });
       }
       return fetchPage(1);
-    }).then(function(reposArr) {
+    }).then(function (reposArr) {
       var repos = user['new' + repoType](reposArr, {
         noStore: true
       });
@@ -251,14 +257,61 @@ function fetchOwnerRepos (
   };
 }
 
-function fetchContexts (
-  pFetchUser,
-  promisify
-) {
+function fetchContexts(pFetchUser, promisify) {
   return function (opts) {
-    return pFetchUser().then(function(user) {
+    return pFetchUser().then(function (user) {
       var contextFetch = promisify(user, 'fetchContexts');
       return contextFetch(opts);
+    });
+  };
+}
+
+// Using $http here because this isn't in API client
+function fetchSlackMembers (
+  $http
+) {
+  return function (token) {
+    // xoxb-4013218957-gAK1qyzMofGsDcCIUAzU7tMi
+    return $http({
+      method: 'get',
+      url: 'https://slack.com/api/users.list?token=' + token,
+      'withCredentials': false
+    })
+    .then(function(data) {
+      if (data.data.error) {
+        throw new Error(data.data.error);
+      }
+      return data.data.members.filter(function(member) {
+        return !member.is_bot;
+      });
+    });
+  };
+}
+
+function fetchGitHubMembers (
+  $http,
+  configAPIHost
+) {
+  return function (teamName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/orgs/' + teamName + '/members'
+    }).then(function (team) {
+      return team.data;
+    });
+  };
+}
+
+function fetchGitHubUser (
+  $http,
+  configAPIHost
+) {
+  return function (memberName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/users/' + memberName
+    }).then(function (user) {
+      return user.data;
     });
   };
 }

@@ -29,6 +29,8 @@ section.sidebar.server-sidebar
   section.row.repo-list(
     build = "dataSetup.data.build"
     loading = "dataApp.data.loading"
+    show-add-first-repo-message = "true"
+    show-add-repo = "true"
     repo-list
   )
 
@@ -46,95 +48,31 @@ section.sidebar.server-sidebar
     ng-if = "dataSetup.data.openItems.models.length"
     open-items = "dataSetup.data.openItems"
   )
-
 section.views.with-add-tab(
+  active-panel
+  ng-if = "dataSetup.data.openItems.models.length"
   ng-class = "{ \
-    in: (dataSetup.data.openItems.models.length && \
-         dataSetup.data.showExplorer && \
+    in: (dataSetup.data.showExplorer && \
          !dataSetup.data.loading) \
-  }"
+    }"
+  open-items = "dataSetup.data.openItems"
+  build = "dataSetup.data.build"
+  use-auto-update = "true"
 )
-
-  //- tabs
-  .views-toolbar(
-    open-items = "dataSetup.data.openItems"
-    tabs
-    toggle-theme = "dataSetup.data.toggleTheme"
-  )
-
-  //- active panel
-  .active-panel(
-    active-panel
-    item = "item"
-    build = "dataSetup.data.build"
-    ng-class = "{\
-      'loaded': (item === openItems.activeHistory.last()),\
-      'ace-runnable-dark': dataSetup.data.toggleTheme\
-    }"
-    ng-repeat = "item in dataSetup.data.openItems.models"
-    ng-show = "item === dataSetup.data.openItems.activeHistory.last()"
-    open-items = "dataSetup.data.openItems"
-    state-model = "dataSetup.data.instanceOpts"
-  )
-
-  //- dataSetup.data.showVideo
-  //- dataSetup.data.hideVideo
-  //- dataSetup.data.showVideoFixed
-  //- dataSetup.data.closeVideoAlert
+section.views.with-add-tab(
+  ng-if = "!dataSetup.data.openItems.models.length"
+)
   .embed-wrapper(
-    ng-class = "{ \
-      fixed: dataSetup.data.showVideoFixed \
-    }"
-    ng-if = "!dataSetup.data.hideVideo"
   )
     .embed-guide(
-      ng-class = "{out: dataSetup.data.showVideo}"
     )
       h2.embed-heading Need help?
       p Watch this video to get started.
-      button.btn.btn-embed-play(
-        ng-click = "dataSetup.data.showVideo = true; \
-                    dataSetup.actions.olarkShrink();"
+      a.btn.btn-embed-play(
+        href = "//www.youtube.com/embed/oiSn4-A8Qpw?rel=0&amp;showinfo=0&amp;autoplay=1"
+        target = "_blank"
       )
         svg.iconnables.icons-run
           use(
             xlink:href = "#icons-run"
           )
-    iframe.embed-iframe(
-      allowfullscreen
-      frameborder="0"
-      height = "100%"
-      ng-if = "dataSetup.data.showVideo"
-      src = "//www.youtube.com/embed/oiSn4-A8Qpw?rel=0&amp;showinfo=0&amp;autoplay=1"
-      width = "100%"
-    )
-    button.btn.btn-icon.btn-embed-close(
-      ng-click = "dataSetup.data.hideVideo = true; \
-        dataSetup.data.closeVideoAlert = false; \
-        dataSetup.data.showVideoFixed = false;"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )
-
-  //- show after selecting a template
-  .guide.guide-pointer.guide-close.guide-alert.guide-alert-setup(
-    ng-click = " \
-      dataSetup.actions.olarkShrink(); \
-      dataSetup.data.showVideoFixed = true; \
-      dataSetup.data.showVideo = true; \
-      dataSetup.data.hideVideo = false"
-    ng-hide = "dataSetup.data.closeVideoAlert || dataSetup.data.showVideoFixed"
-    ng-if = "dataSetup.data.build.contextVersions.models[0].source"
-  )
-    .guide-text Lost? Here's a video.
-    button.btn.btn-xs.btn-close(
-      ng-click = " \
-        dataSetup.data.closeVideoAlert = true; \
-        $event.stopPropagation();"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )

@@ -1,47 +1,77 @@
-.spinner-container.spinner-backdrop.spinner-md.in(
-  ng-if = "loading"
-  ng-include = "'spinner'"
+//- tabs
+.views-toolbar(
+  open-items= "openItems"
+  tabs
 )
-
-.logs(
-  ng-controller = "BuildLogController"
-  log-term
-  ng-if = "item.state.type === 'BuildStream'"
+div(
+  add-tab
+  show-add-buttons = "showBackgroundButtons"
+  open-items = "openItems"
+  ng-if = "showBackgroundButtons"
 )
-
-.logs(
-  ng-controller = "BoxLogController"
-  log-term
-  ng-if = "item.state.type === 'LogView'"
+//- active panel
+.active-panel(
+  ng-class = "colorScheme.getSchemeStyle()"
+  ng-repeat = "item in openItems.models"
+  ng-show = "item === openItems.activeHistory.last()"
 )
+  .logs(
+    ng-controller = "BuildLogController"
+    log-term
+    ng-if = "item.state.type === 'BuildStream'"
+  )
+  .logs(
+    ng-controller = "BoxLogController"
+    log-term
+    ng-if = "item.state.type === 'LogView'"
+  )
+  .term-container(
+    ng-if = "item.state.type === 'File'"
+    file-editor
+    file = "item"
+    use-auto-update = "useAutoUpdate"
+  )
+  .term-container(
+    ng-if = "item.state.type === 'Terminal'"
+    term
+    item = "item"
+  )
+    span.js-char-width 0
 
-pre.pre(
-  ng-class = "{readonly: data.readOnly}"
-  ng-if = "item.state.type === 'File'"
-  ng-init = "wrapperFunc = actions.wrapWithItem(item)"
-  ng-model = "openItems.activeHistory.last().state.body"
-  readonly = "{{ (data.readOnly) ? 'true' : 'false' }}"
-  ui-ace = "{ \
-    onLoad: wrapperFunc, \
-    onFocus: actions.onFocus \
-  }"
+  .web-container(
+    web-view
+    ng-if = "item.state.type === 'WebView'"
+  )
+//- blank state
+.blank-panel(
+  ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
-
-.term-container(
-  ng-if = "item.state.type === 'Terminal'"
-  term
-  item = "item"
-)
-  span.js-char-width 0
-
-.web-container(
-  web-view
-  ng-if = "item.state.type === 'WebView'"
-)
-
-button.btn.silver.editor-status(
-  disabled
-  ng-if = "(data.readOnly && item.state.type === 'File') || \
-           (item.state.type === 'EnvVars' && item.state.readOnly)"
-  type = "button"
-) Readonly
+  ul.blank-panel-group
+    li.btn.white(
+      ng-if = "showBackgroundButtons.web"
+      ng-click = "openItems.addWebView()"
+    )
+      svg.iconnables.iconnables-lg.icons-web
+        use(xlink:href = "#icons-web")
+      | Web View
+    li.btn.white(
+      ng-if = "showBackgroundButtons.term"
+      ng-click = "openItems.addTerminal()"
+    )
+      svg.iconnables.iconnables-lg.icons-terminal
+        use(xlink:href = "#icons-terminal")
+      | Terminal
+    li.btn.white(
+      ng-if = "showBackgroundButtons.build"
+      ng-click = "openItems.addBuildStream()"
+    )
+      svg.iconnables.iconnables-lg.icons-logs
+        use(xlink:href = "#icons-logs")
+      | Build Log
+    li.btn.white(
+      ng-if = "showBackgroundButtons.server"
+      ng-click = "openItems.addLogs()"
+    )
+      svg.iconnables.iconnables-lg.icons-server
+        use(xlink:href = "#icons-server")
+      | Server Log

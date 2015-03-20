@@ -7,17 +7,15 @@ require('app')
  * @ngInject
  */
 function fileTreeDir(
-  $templateCache,
-  $compile,
   $rootScope,
-  $state,
   keypather,
   errs,
   $q,
   promisify
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
+    replace: true,
     scope: {
       dir: '=',
       parentDir: '=',
@@ -25,20 +23,18 @@ function fileTreeDir(
       openItems: '=',
       readOnly: '='
     },
-    template: '',
-    //templateUrl: 'viewFileTreeDir',
+    templateUrl: 'viewFileTreeDir',
     link: function ($scope, element, attrs) {
 
       var actions = $scope.actions = {};
       var data = $scope.data = {};
-      $scope.state = $state;
 
       $scope.actions.drop = function (dataTransfer, toDir) {
         var modelType = dataTransfer.getData('modelType');
-        var model = JSON.parse(dataTransfer.getData('model'));
+        var modelId = dataTransfer.getData('modelId');
         var modelName = dataTransfer.getData('modelName');
 
-        var oldParentDirModel = JSON.parse(dataTransfer.getData('oldParentDir'));
+        var oldParentDirId = dataTransfer.getData('oldParentDirId');
         var oldPath = dataTransfer.getData('oldPath');
         var thisPath = toDir.id();
         if (oldPath === thisPath || (modelType === 'Dir' &&
@@ -46,8 +42,9 @@ function fileTreeDir(
           return false;
         }
 
-        var newModel = $scope.fileModel['new' + modelType](model, { warn: false });
-        var droppedFileOrigDir = $scope.fileModel.newDir(oldParentDirModel, { warn: false });
+        var newModel = $scope.fileModel['new' + modelType](modelId, { warn: false, noStore: true });
+        var droppedFileOrigDir =
+            $scope.fileModel.newDir(oldParentDirId, { warn: false, noStore: true });
 
         promisify(newModel, 'moveToDir')(toDir).then(function () {
           return $q.all([
@@ -104,17 +101,12 @@ function fileTreeDir(
         }).catch(errs.handler);
       }
       actions.fetchDirFiles = fetchDirFiles;
-      $scope.$watch('dir.state.open', function (newVal, oldval) {
+      $scope.$watch('dir.state.open', function (newVal) {
         if (newVal) {
           fetchDirFiles();
         }
       });
 
-      //avoid infinite loop w/ nested directories
-      var template = $templateCache.get('viewFileTreeDir');
-      var $template = angular.element(template);
-      $compile($template)($scope);
-      element.replaceWith($template);
 
       element.on('$destroy', function () {
         // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS

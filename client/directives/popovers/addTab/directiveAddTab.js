@@ -6,43 +6,19 @@ require('app')
  * @ngInject
  */
 function addTab(
-  helperAddTab,
-  $state
+  helperAddTab
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewAddTab',
     scope: {
-      openItems: '='
+      openItems: '=',
+      showAddButtons: '='
     },
     link: function ($scope, elem, attrs) {
 
-      var opts = {};
 
-      switch ($state.$current.name) {
-        case 'instance.setup':
-          opts = {
-            envVars: true
-          };
-          break;
-        case 'instance.instanceEdit':
-          opts = {
-            envVars: true,
-            buildStream: true
-          };
-          break;
-        case 'instance.instance':
-          opts = {
-            envVars: true,
-            logs: true,
-            buildStream: true,
-            terminal: true,
-            webView: true
-          };
-          break;
-      }
-
-      $scope.popoverAddTab = helperAddTab(opts, $scope.openItems);
+      $scope.popoverAddTab = helperAddTab($scope.showAddButtons, $scope.openItems);
 
     }
   };
