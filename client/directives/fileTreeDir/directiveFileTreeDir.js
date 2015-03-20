@@ -104,43 +104,49 @@ function fileTreeDir(
 
       $scope.popoverFileExplorerFolder = {
         show: false,
-        options: '',
+        options: {
+          top: -16,
+          left: 10
+        },
         actions: {
           createFile: function () {
             helperCreateFS($scope.dir, {
               isDir: false
             }, errs.handler);
-            $scope.popoverFileExplorerFolder.show = false;
+            $scope.$broadcast('close-popovers');
           },
           createFolder: function () {
             helperCreateFS($scope.dir, {
               isDir: true
             }, errs.handler);
-            $scope.popoverFileExplorerFolder.show = false;
+            $scope.$broadcast('close-popovers');
           },
           renameFolder: function () {
-            $scope.popoverFileExplorerFolder.show = false;
             $scope.editFolderName = true;
             inputElement.focus();
             inputElement.select();
+            $scope.$broadcast('close-popovers');
           },
           deleteFolder: function () {
             $scope.dir.destroy(errs.handler);
-            $scope.popoverFileExplorerFolder.show = false;
+            $scope.$broadcast('close-popovers');
           }
         }
       };
 
       $scope.popoverFileExplorerFile = {
+        options: {
+          top: -16,
+          left: 10
+        },
         actions: {
           openFile: function (file) {
-            console.log('opening', file);
             $scope.openItems.add(file);
-            file.state.popover.show = false;
+            $scope.$broadcast('close-popovers');
           },
           renameFile: function (file) {
-            file.state.renaming = true;
-            file.state.popover.show = false;
+            keypather.set(file,'state.renaming', true);
+            $scope.$broadcast('close-popovers');
           },
           deleteFile: function (file) {
             file.destroy(function (err) {
@@ -148,7 +154,7 @@ function fileTreeDir(
               // destroy alone does not update collection
               $scope.actions.fetchDirFiles();
             });
-            file.state.popover.show = false;
+            $scope.$broadcast('close-popovers');
           }
         }
       };

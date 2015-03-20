@@ -24,7 +24,6 @@ function instanceEditSecondaryActions(
         data: {},
         actions: {}
       };
-      $scope.popoverGearMenu.data.show = false;
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
       $scope.goToInstance = function () {

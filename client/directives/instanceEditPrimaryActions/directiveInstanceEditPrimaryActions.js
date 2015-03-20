@@ -67,7 +67,7 @@ function instanceEditPrimaryActions(
         data: {},
         actions: {
           noCacheBuild: function () {
-            $scope.popoverBuildOptions.data.show = false;
+            $scope.$broadcast('close-popovers');
             $scope.build(true);
           }
         }

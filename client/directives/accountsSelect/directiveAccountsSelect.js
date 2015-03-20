@@ -37,7 +37,7 @@ function accountsSelect (
             ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {
               userOptions['userOptions.uiState.shownCoachMarks.' + key] = false;
             });
-            $scope.popoverAccountMenu.data.show = false;
+            $scope.$broadcast('close-popovers');
             // Make user update call here
             promisify($scope.data.user, 'update')(
               userOptions
@@ -97,7 +97,7 @@ function accountsSelect (
       });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
-        $scope.popoverAccountMenu.data.show = false;
+        $scope.$broadcast('close-popovers');
         var username = userOrOrg.oauthName();
         $scope.data.activeAccount = userOrOrg;
         if ($scope.isMainPage) {
@@ -109,7 +109,7 @@ function accountsSelect (
       };
 
       mActions.closePopover = function() {
-        $scope.popoverAccountMenu.data.show = false;
+        $scope.$broadcast('close-popovers');
       };
       mActions.verifySlack = function() {
         var matches = [];
