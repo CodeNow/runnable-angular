@@ -10,6 +10,7 @@ function popoverFileExplorerFolderMenu(
   errs,
   $templateCache,
   $compile,
+  promisify,
   $rootScope,
   $document,
   keypather,
@@ -50,8 +51,12 @@ function popoverFileExplorerFolderMenu(
       };
 
       actions.deleteFolder = function () {
-        $scope.dir.destroy(errs.handler);
-        closeModal();
+        promisify($scope.dir, 'destroy')(
+        ).catch(
+          errs.handler
+        ).finally(
+          closeModal
+        );
       };
 
       actions.renameFolder = function () {

@@ -15,14 +15,13 @@ function showCoachMarks(
 ) {
   return {
     restrict: 'A',
-    scope: {
-      template: '@coachMarkTemplate' //The template is on the scope so it can be used by the view
-    },
     link: function ($scope, element, attrs, ctrl) {
       var popEl;
 
-      if (!$scope.template) {
+      if (!attrs.coachMarkTemplate) {
         return $log.error('Coach mark needs a template');
+      } else {
+        $scope.coachMarkTemplate = attrs.coachMarkTemplate;
       }
       if (!attrs.coachMarkType) {
         return $log.error('Coach mark needs a type');
