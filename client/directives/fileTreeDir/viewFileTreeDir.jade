@@ -5,7 +5,7 @@ li.folder(
 )
   a(
     ng-click = "actions.closeOpenModals(); \
-                dir.state.open = !dir.state.open; \
+                dir.state.open = (!!showRepoFolder) || !dir.state.open; \
                 $event.stopPropagation();"
     popover-file-explorer-folder-menu
   )
@@ -20,6 +20,15 @@ li.folder(
   //- This part is ng-included here to get around an Angular compiling issue when recursively
       using directives.  Without this, angular will just blow the stack and use all of your
       processor
+  ul(
+    ng-if = "(isRootDir && showRepoFolder)"
+  )
+    li.file.no-touching
+      svg.iconnables.filetypes.icons-repository
+        use(
+        xlink:href = "#icons-repository"
+        )
+      span.item-name {{ showRepoFolder }}
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"

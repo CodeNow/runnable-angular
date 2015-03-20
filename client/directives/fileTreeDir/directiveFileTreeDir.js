@@ -21,11 +21,15 @@ function fileTreeDir(
       parentDir: '=',
       fileModel: '=', // This is either a contextVersion or a container
       openItems: '=',
-      readOnly: '='
+      readOnly: '=',
+      showRepoFolder: '='
     },
     templateUrl: 'viewFileTreeDir',
     link: function ($scope, element, attrs) {
 
+      if (attrs.isRootDir) {
+        $scope.isRootDir = true;
+      }
       var actions = $scope.actions = {};
       var data = $scope.data = {};
 

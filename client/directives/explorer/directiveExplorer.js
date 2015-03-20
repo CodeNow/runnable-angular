@@ -17,9 +17,11 @@ function explorer(
       fileModel: '=',
       rootDir: '=',
       title: '@',
-      toggleTheme: '='
+      toggleTheme: '=',
+      showRepoFolder: '='
     },
     link: function ($scope, elem, attrs) {
+
       $scope.filePopover = {
         data: {
           show: false

@@ -25,7 +25,7 @@ div(
     log-term
     ng-if = "item.state.type === 'LogView'"
   )
-  .term-container(
+  .active-panel(
     ng-if = "item.state.type === 'File'"
     file-editor
     file = "item"
@@ -35,6 +35,13 @@ div(
     ng-if = "item.state.type === 'Terminal'"
     term
     item = "item"
+  )
+  .active-panel(
+    ng-if = "item.state.type === 'EnvVars'"
+    env-vars
+    current-model = "instance.attrs"
+    state-model = "instance.state"
+    validation = "instance.validation.envs"
   )
     span.js-char-width 0
 

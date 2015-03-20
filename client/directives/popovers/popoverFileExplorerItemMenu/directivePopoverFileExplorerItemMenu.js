@@ -18,7 +18,7 @@ function popoverFileExplorerItemMenu(
     restrict: 'A',
     scope: false,
     link: function ($scope, element, attrs) {
-      if ($scope.readOnly) {
+      if ($scope.readOnly || keypather.get($scope.fs, 'attrs.name') === 'Dockerfile') {
         return;
       }
 

@@ -1,0 +1,101 @@
+.modal-edit {
+  min-width: 900px;
+
+  @include media(md) {
+    min-width: 738px;
+  }
+
+  @include media(sm) {
+    min-width: 570px;
+  }
+
+  @include media(xs) {
+    min-width: 0;
+  }
+
+  .modal-header {
+    height: 66px;
+    padding: 6px 0;
+
+    .input-group {
+      float: left;
+      width: 288px;
+
+      @include media(xs) {
+        width: calc(100% - 12px);
+      }
+    }
+  }
+
+  // validation
+  .validate-wrapper {
+    display: none;
+    float: left;
+    height: 54px;
+    line-height: 54px;
+    width: 330px;
+
+    &.invalid-name,
+    &.invalid-pattern,
+    &.invalid-require {
+      display: block;
+    }
+  }
+
+  .modal-body {
+    border-bottom: 1px solid rgba($black,.1);
+    border-top: 1px solid rgba($black,.1);
+    display: flex;
+    height: calc(100vh - 180px);
+    max-height: 690px;
+
+    @include media(xs) {
+      display: block;
+    }
+  }
+
+  // sidebar overrides
+  .sidebar {
+    height: auto;
+
+    @include media(sm) {
+      width: 270px;
+    }
+
+    @include media(xs) {
+      min-width: 100%;
+    }
+  }
+
+  .repo-list {
+    padding-bottom: 6px;
+  }
+
+  // view overrides
+  .views {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    height: auto;
+
+    @include media(xs) {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .active-panel {
+    flex: 1 0 auto;
+
+    // for some reason, plz fix
+    > .active-panel {
+      height: 100%;
+    }
+  }
+}
+
+// height: 600px;
+
+// @include media(xs) {
+//   flex-direction: row !important; // override default behavior
+// }

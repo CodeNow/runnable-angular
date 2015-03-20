@@ -62,6 +62,7 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.data.dataModalFork = data;
     $scope.popoverGearMenu.data.dataModalDelete = data;
     $scope.popoverGearMenu.data.dataModalEnvironment = data;
+    $scope.popoverGearMenu.data.dataModalEdit = data;
 
     $scope.popoverGearMenu.actions.actionsModalEnvironment = {
       save: function (cb) {

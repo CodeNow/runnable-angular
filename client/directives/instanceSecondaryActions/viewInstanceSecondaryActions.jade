@@ -2,10 +2,13 @@ button.btn.white.btn-action(
   coach-mark-style = "{\"left\": -6, \"top\": 24}"
   coach-mark-template = "viewCoachMarksEditPopover"
   coach-mark-type = "editButton"
-  ng-click = "goToEdit()"
   show-coach-marks
   title = "Edit Server"
   type = "button"
+  modal
+  modal-actions = "popoverGearMenu.actions.actionsModalEdit"
+  modal-data = "popoverGearMenu.data.dataModalEdit"
+  modal-template = "viewOpenModalEdit"
 )
   svg.iconnables.icons-edit
     use(
