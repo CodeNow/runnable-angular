@@ -18,7 +18,7 @@ function instanceEditSecondaryActions(
       instances: '=', // Added to the data scope of the modals through helper
       saving: '='
     },
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
 
       $scope.popoverGearMenu = {
         data: {},
