@@ -7,11 +7,10 @@ var $rootScope,
   $document,
   $log,
   $templateCache;
-var $elScope;
 
 var apiMocks = require('../apiMocks/index');
 
-describe('directiveCoachMarks'.bold.underline.blue, function () {
+describe.only('directiveCoachMarks'.bold.underline.blue, function () {
   var ctx;
   function injectSetupCompile() {
 
@@ -61,15 +60,14 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
     ctx.parentElement = $compile(ctx.template)($scope);
     ctx.element = angular.element(ctx.parentElement.children());
     $scope.$digest();
-    $elScope = ctx.element.isolateScope();
   }
 
   describe('Basic functionality', function () {
     it('should have everything on the scope that was given', function () {
       injectSetupCompile();
       createElement();
-      expect($elScope.template).to.be.ok;
-      expect($elScope.template).to.equal('viewCoachMarksPanelPopover');
+      expect($scope.coachMarkTemplate).to.be.ok;
+      expect($scope.coachMarkTemplate).to.equal('viewCoachMarksPanelPopover');
 
       $scope.$destroy();
     });
@@ -104,7 +102,7 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
     beforeEach(injectSetupCompile);
     it('should just return when fetchCoachMarkData returns null', function () {
       createElement();
-      expect($elScope.coachMarkData).to.be.undefined;
+      expect($scope.coachMarkData).to.be.undefined;
       expect($document[0].querySelector('.guide')).to.not.be.ok;
       $scope.$destroy();
     });
@@ -113,9 +111,9 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
         save: sinon.spy()
       };
       createElement();
-      expect($elScope.coachMarkData).to.be.ok;
-      expect($elScope.coachMarkData.dismiss).to.be.function;
-      expect($elScope.coachMarkData.getStyle).to.be.function;
+      expect($scope.coachMarkData).to.be.ok;
+      expect($scope.coachMarkData.dismiss).to.be.function;
+      expect($scope.coachMarkData.getStyle).to.be.function;
       expect($document[0].querySelector('.guide')).to.be.ok;
 
       $scope.$destroy();
@@ -127,11 +125,11 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
         save: sinon.spy()
       };
       createElement();
-      expect($elScope.coachMarkData).to.be.ok;
-      expect($elScope.coachMarkData.dismiss).to.be.function;
-      expect($elScope.coachMarkData.getStyle).to.be.function;
+      expect($scope.coachMarkData).to.be.ok;
+      expect($scope.coachMarkData.dismiss).to.be.function;
+      expect($scope.coachMarkData.getStyle).to.be.function;
       expect($document[0].querySelector('.guide')).to.be.ok;
-      $elScope.coachMarkData.dismiss();
+      $scope.coachMarkData.dismiss();
       $scope.$digest();
       expect($document[0].querySelector('.guide')).to.not.be.ok;
       sinon.assert.calledOnce(ctx.coachMarkData.save);
