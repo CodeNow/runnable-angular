@@ -53,13 +53,15 @@
     padding: 0 30px;
 
     &.active {
-      color: purple-light;
 
       .icons-server {
         color: $purple-light;
       }
+    }
 
-      .icons-link {
+    &.active:not(.current) {
+
+      .icons-check {
         display: block;
       }
     }
@@ -73,7 +75,7 @@
     width: 18px;
   }
 
-  .icons-link {
+  .icons-check {
     background: $purple-light;
     border-radius: 50%;
     bottom: 0;
