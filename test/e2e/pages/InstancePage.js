@@ -17,12 +17,23 @@ function InstancePage (name) {
   this.fileExplorer = new FileExplorer();
   this.instanceList = new InstanceList();
 
-  this.statusIcon = util.createGetter(by.css('header > h1 > div > span'));
-  this.instanceName = util.createGetter(by.css('#wrapper > main > header > h1 > div'));
+  this.statusIcon = util.createGetter(by.css('.server-name .icons-status'));
+  this.instanceName = util.createGetter(by.css('.server-name'));
+
+  this.forkButton = util.createGetter(by.buttonText('Fork'));
 
   this.saveButton = util.createGetter(by.css('.btn-save'));
   this.saveOptions = util.createGetter(by.css('.green.btn-icon'));
   this.saveAndRestartCheckBox = util.createGetter(by.cssContainingText('.popover-list-item', 'Restart on save'));
+
+  this.modalFork = {
+    // This one needs to be CSS.
+    // Don't ask me why
+    input: util.createGetter(by.model('items[0].opts.name')),
+    forkBtn: util.createGetter(by.buttonText('Fork Server')),
+    cancel: util.createGetter(by.buttonText('Go Back'))
+  };
+
   this.get = function () {
     return browser.get('/' + util.getCurrentUser() + '/' + this.name);
   };
@@ -37,6 +48,19 @@ function InstancePage (name) {
       self.saveAndRestartCheckBox.get().click();
     }
     return self.saveButton.get().click();
+  };
+
+  this.forkBox = function (forkName) {
+    var self = this;
+
+    self.forkButton.get().click();
+    browser.wait(function() {
+      return self.modalFork.forkBtn.get().isDisplayed();
+    });
+
+    self.modalFork.input.get().clear();
+    self.modalFork.input.get().sendKeys(forkName);
+    self.modalFork.forkBtn.get().click();
   };
 
   this.getName = function () {
