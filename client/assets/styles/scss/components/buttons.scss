@@ -385,8 +385,7 @@
   display: none;
 
   &:checked + .btn-radio {
-    border-color: $green;
-    box-shadow: 0 0 3px rgba($green,.3);
+    border-color: $purple-lighter;
   }
 }
 
@@ -401,6 +400,7 @@
   height: 60px;
   margin-right: 6px;
   text-align: center;
+  text-decoration: none;
   transition: none;
   user-select: none;
   white-space: nowrap;
@@ -409,7 +409,7 @@
   &:hover,
   &:active,
   &.active {
-    border-color: rgba($green,.6);
+    border-color: $purple-lighter;
   }
 
   &:focus {

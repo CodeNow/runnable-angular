@@ -14,19 +14,19 @@
     font-size: 36px;
   }
 
-  // server helper
-  .btn-icon {
-    height: 27px;
+  // server icon
+  .icons-server {
+    color: $gray;
+    height: 21px;
     position: absolute;
     right: 12px;
-    top: 5px;
-    width: 27px;
+    top: 7px;
+    width: 21px;
   }
 
-  .icons-computer {
-    height: 21px;
-    top: -5px;
-    width: 21px;
+  // focus
+  .input-value:focus + .icons-server {
+    color: $blue;
   }
 
   // @include media(xs) {

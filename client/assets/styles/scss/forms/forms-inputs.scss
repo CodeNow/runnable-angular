@@ -203,12 +203,13 @@ textarea,
       border-color: $blue;
     }
 
-    &:first-child {
+    &.input-key {
       flex: 1 1 30%;
     }
 
-    &:last-child {
+    &.input-value {
       flex: 1 1 70%;
+      padding-right: 36px;
     }
   }
 

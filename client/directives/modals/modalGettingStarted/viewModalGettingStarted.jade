@@ -3,10 +3,7 @@
     h1.modal-heading Welcome to Runnable!
       p.small Choose an organization to get started
   //- remove this ng-click
-  .modal-body(
-    ng-click = "data.org = true"
-    ng-init = "data.org = false"
-  )
+  .modal-body
     //- <input> [name] must match across all inputs
       - <label> [for] and corresponding <input> [id] must match
     input.input-radio(
@@ -14,8 +11,10 @@
       name = "data.org"
       type = "radio"
     )
-    label.btn-lg.btn-radio(
+    a.btn-lg.btn-radio(
       for = "radio-codenow"
+      href = "/runnabro/new"
+      ng-click = "defaultActions.cancel()"
     )
       img.img(
         height = "36"
@@ -28,8 +27,10 @@
       name = "data.org"
       type = "radio"
     )
-    label.btn-lg.btn-radio(
+    a.btn-lg.btn-radio(
       for = "radio-runnabro"
+      href = "/runnabro/new"
+      ng-click = "defaultActions.cancel()"
     )
       img.img(
         height = "36"
@@ -42,8 +43,10 @@
       name = "data.org"
       type = "radio"
     )
-    label.btn-lg.btn-radio(
+    a.btn-lg.btn-radio(
       for = "radio-runnable"
+      href = "/runnabro/new"
+      ng-click = "defaultActions.cancel()"
     )
       img.img(
         height = "36"
@@ -51,7 +54,7 @@
         width = "36"
       )
       | Runnable
-  footer.modal-footer.clearfix
+  //- footer.modal-footer.clearfix
     a.btn.btn-sm.green.disabled(
       ng-if = "!data.org"
     ) Get Started
