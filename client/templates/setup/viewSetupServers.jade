@@ -25,10 +25,16 @@
     ng-if = "!data.cardLoading"
   )
     h2.card-header
-      svg.iconnables.icons-repository
-        use(
-          xlink:href = "#icons-repository"
-        )
+      //- .active class if this server has a repository
+      .btn.btn-icon.btn-badge.active
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
       | api
     .card-body.clearfix
       ul.list.list-col.small
@@ -60,14 +66,17 @@
     ng-class = "{focus: data.runnableAngular}"
     ng-if = "!data.cardLoading"
   )
-    h2.card-header.load(
-      ng-if = "!data.cardLoading"
-    )
-      svg.iconnables.icons-repository(
-      )
-        use(
-          xlink:href = "#icons-repository"
-        )
+    h2.card-header
+      //- .active class if this server has a repository
+      .btn.btn-icon.btn-badge.active
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
       | runnable-angular
     .card-body.clearfix
       ul.list.list-col.small
@@ -99,14 +108,17 @@
     ng-class = "{focus: data.mavis}"
     ng-if = "!data.cardLoading"
   )
-    h2.card-header.load(
-      ng-if = "!data.cardLoading"
-    )
-      svg.iconnables.icons-repository(
-      )
-        use(
-          xlink:href = "#icons-repository"
-        )
+    h2.card-header
+      //- .active class if this server has a repository
+      .btn.btn-icon.btn-badge.active
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
       | mavis
     .card-body.clearfix
       ul.list.list-col.small
@@ -127,14 +139,17 @@
   .card.load(
     ng-if = "!data.cardLoading"
   )
-    h2.card-header.load(
-      ng-if = "!data.cardLoading"
-    )
-      svg.iconnables.icons-server(
-      )
-        use(
-          xlink:href = "#icons-server"
-        )
+    h2.card-header
+      //- .active class if this server has a repository
+      .btn.btn-icon.btn-badge
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
       | caley
     .card-body.clearfix
     button.btn.btn-sm.purple Configure
@@ -157,14 +172,17 @@
   .card.load(
     ng-if = "!data.cardLoading"
   )
-    h2.card-header.load(
-      ng-if = "!data.cardLoading"
-    )
-      svg.iconnables.icons-server(
-      )
-        use(
-          xlink:href = "#icons-server"
-        )
+    h2.card-header
+      //- .active class if this server has a repository
+      .btn.btn-icon.btn-badge
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
       | datadog
     .card-body.clearfix
       ul.list.list-col.small
@@ -193,14 +211,17 @@
   .card.load(
     ng-if = "!data.cardLoading"
   )
-    h2.card-header.load(
-      ng-if = "!data.cardLoading"
-    )
-      svg.iconnables.icons-server(
-      )
-        use(
-          xlink:href = "#icons-server"
-        )
+    h2.card-header
+      //- .active class if this server has a repository
+      .btn.btn-icon.btn-badge
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
       | MongoDb
     .card-body.clearfix
     button.btn.btn-sm.purple Configure
@@ -227,14 +248,17 @@
   .card.load(
     ng-if = "!data.cardLoading"
   )
-    h2.card-header.load(
-      ng-if = "!data.cardLoading"
-    )
-      svg.iconnables.icons-server(
-      )
-        use(
-          xlink:href = "#icons-server"
-        )
+    h2.card-header
+      //- .active class if this server has a repository
+      .btn.btn-icon.btn-badge
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
       | redis
     .card-body.clearfix
     button.btn.btn-sm.purple Configure

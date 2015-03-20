@@ -444,16 +444,21 @@
   transition: none;
   width: 18px;
 
-  &.active .icons-check {
-    display: block;
+  &.active {
+
+    .icons-repository,
+    .icons-check, {
+      display: block;
+    }
   }
 
-  .icons-server {
+  .iconnables {
     height: 18px;
     top: -6px;
     width: 18px;
   }
 
+  .icons-repository,
   .icons-check {
     border-radius: 50%;
     bottom: -6px;
@@ -462,6 +467,7 @@
     height: 15px;
     left: -6px;
     position: absolute;
+    top: auto;
     width: 15px;
   }
 }

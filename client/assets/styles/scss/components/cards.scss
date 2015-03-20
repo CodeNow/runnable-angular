@@ -44,16 +44,20 @@
     text-align: center;
 
     // anchor image/icon
-    .iconnables {
+    .btn-badge {
       display: block;
+      height: 24px;
       margin: 36px auto 6px;
+      width: 24px;
     }
 
-    // scale icons-repository
+    .icons-server {
+      height: 24px;
+      width: 24px;
+    }
+
     .icons-repository {
-      height: 36px;
-      margin: 30px auto 0;
-      width: 36px;
+      background: $purple-light;
     }
   }
 
