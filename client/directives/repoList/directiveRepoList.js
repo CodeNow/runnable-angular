@@ -12,12 +12,14 @@ require('app')
  *  autoBuildOnAcvChange: true if the build should rebuild after making an ACV change
  */
 function repoList(
+  $rootScope,
+  $state,
+  createNewBuild,
   debounce,
   errs,
+  eventTracking,
   keypather,
   pFetchUser,
-  $rootScope,
-  createNewBuild,
   promisify
 ) {
   return {
@@ -106,6 +108,7 @@ function repoList(
       };
 
       $scope.triggerInstanceUpdateOnRepoCommitChange = function () {
+        eventTracking.triggeredBuild(false);
         // display loading spinner
         $scope.loading = true;
         var context = $scope.build.contexts.models[0];

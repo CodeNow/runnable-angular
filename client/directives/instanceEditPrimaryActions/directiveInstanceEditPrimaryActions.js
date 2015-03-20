@@ -7,11 +7,13 @@ require('app')
  */
 function instanceEditPrimaryActions(
   $state,
-  errs,
   $stateParams,
+  $window,
+  errs,
+  eventTracking,
+  fetchBuild,
   keypather,
-  promisify,
-  fetchBuild
+  promisify
 ) {
   return {
     restrict: 'E',
@@ -28,6 +30,7 @@ function instanceEditPrimaryActions(
       $scope.build = function (noCache) {
         if (building) { return; }
         building = true;
+        eventTracking.triggeredBuild(!noCache);
         $scope.loading = true;
         var unwatch = $scope.$watch('openItems.isClean()', function (n) {
           if (!n) { return; }
