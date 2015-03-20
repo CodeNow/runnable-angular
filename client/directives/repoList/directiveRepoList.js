@@ -4,13 +4,18 @@ require('app')
   .directive('repoList', repoList);
 /**
  * @ngInject
+ *
+ * Attributes:
+ *  showAutoDeploy: true if the 'Disable AutoDeploy' cb should be present
+ *  showAddFirstRepoMessage: true if the helper message should be present (setup)
+ *  showAddRepo: true if the + button to add repos should be present
+ *  autoBuildOnAcvChange: true if the build should rebuild after making an ACV change
  */
 function repoList(
   debounce,
   errs,
   keypather,
   pFetchUser,
-  $state,
   $rootScope,
   createNewBuild,
   promisify
@@ -23,8 +28,11 @@ function repoList(
       instance: '=',
       build: '='
     },
-    link: function ($scope, elem) {
+    link: function ($scope, elem, attrs) {
 
+      if (attrs.showAutoDeploy) {
+        $scope.showAutoDeploy = true;
+      }
       // add-repo-popover
       // Object to pass reference instead of value
       // into child directive
@@ -33,8 +41,8 @@ function repoList(
       };
       $scope.unsavedAcvs = [];
 
-      $scope.showAddFirstRepoMessage = ($state.$current.name === 'instance.setup');
-      $scope.showAddRepo = ($state.$current.name !== 'instance.instance');
+      $scope.showAddFirstRepoMessage = attrs.showAddFirstRepoMessage;
+      $scope.showAddRepo = attrs.showAddRepo;
 
       // track all temp acvs generated
       // for each repo/child-scope
@@ -63,7 +71,7 @@ function repoList(
 
       // selected repo commit change
       $scope.$on('acv-change', function (event, opts) {
-        if ($state.$current.name === 'instance.instance') {
+        if (attrs.autoBuildOnAcvChange) {
           if ($scope.unsavedAcvs.length === 1) {
             // Immediately update/rebuild if user only has 1 repo
             $scope.triggerInstanceUpdateOnRepoCommitChange();
@@ -88,7 +96,7 @@ function repoList(
       // commit, show update button (if there is > 1 repos for this project)
       $scope.showUpdateButton = function () {
         // update button only present on instance.instance
-        if ($state.$current.name !== 'instance.instance' ||
+        if (!attrs.autoBuildOnAcvChange ||
             $scope.unsavedAcvs.length < 2) {
           return false;
         }
@@ -136,21 +144,23 @@ function repoList(
         }
       };
 
-      var debounceUpdate = debounce(function(n) {
-        if (n !== undefined && n !== $scope.instance.attrs.locked) {
-          $scope.instance.update({
-            locked: n
-          }, angular.noop);
-        }
-      });
+      if (attrs.showAutoDeploy) {
+        var debounceUpdate = debounce(function(n) {
+          if (n !== undefined && n !== $scope.instance.attrs.locked) {
+            $scope.instance.update({
+              locked: n
+            }, angular.noop);
+          }
+        });
 
-      $scope.$watch('data.autoDeploy', debounceUpdate);
+        $scope.$watch('data.autoDeploy', debounceUpdate);
 
-      $scope.$watch('instance.attrs.locked', function (n) {
-        if (n !== undefined) {
-          $scope.data.autoDeploy = n;
-        }
-      });
+        $scope.$watch('instance.attrs.locked', function (n) {
+          if (n !== undefined) {
+            $scope.data.autoDeploy = n;
+          }
+        });
+      }
 
       pFetchUser(
       ).then(function (user) {
