@@ -9,17 +9,6 @@ function helperAddTab(
   $state
 ) {
   return function (config, openItems) {
-    if (!config) {
-      // default to all available
-      config = {
-        webView: true,
-        terminal: true,
-        buildStream: true,
-        logs: true,
-        envVars: true,
-        envVarsReadOnly: true
-      };
-    }
     var pat = {
       data: {
         show: false,
