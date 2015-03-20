@@ -1,42 +1,47 @@
-.modal-environment {
-  height: 600px;
+.modal-environment-variables {
+  width: 600px;
 
-  @include media(xs) {
-    flex-direction: row !important; // override default behavior
+  // delete me
+  .modal-heading {
+    font-size: 36px;
   }
 
-  .modal-header {
-    border-bottom: 1px solid rgba($black,.1);
+  // @include media(xs) {
+  //   flex-direction: row !important; // override default behavior
+  // }
 
-    .btn {
-      float: right;
-      right: 6px;
-      top: 6px;
-    }
+  // .modal-header {
+  //   border-bottom: 1px solid rgba($black,.1);
 
-    .icons-sidebar {
-      height: 100%;
-    }
-  }
+  //   .btn {
+  //     float: right;
+  //     right: 6px;
+  //     top: 6px;
+  //   }
 
-  .modal-body {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 100%;
-    z-index: $z-modal;
-  }
+  //   .icons-sidebar {
+  //     height: 100%;
+  //   }
+  // }
 
-  .pre {
-    flex: 1 1 auto;
-    min-width: 600px;
+  // .modal-body {
+  //   display: flex;
+  //   flex-direction: column;
+  //   position: relative;
+  //   width: 100%;
+  //   z-index: $z-modal;
+  // }
 
-    @include media(sm) {
-      min-width: 0;
-    }
-  }
+  // .pre {
+  //   flex: 1 1 auto;
+  //   min-width: 600px;
 
-  .modal-footer {
-    margin: 0;
-  }
+  //   @include media(sm) {
+  //     min-width: 0;
+  //   }
+  // }
+
+  // .modal-footer {
+  //   margin: 0;
+  // }
 }

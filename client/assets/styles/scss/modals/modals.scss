@@ -24,7 +24,7 @@
 // div.modal-dialog
 .modal-dialog {
   animation: scale-in-modal .2s ease-in forwards;
-  background: $white;
+  background: $gray-lightest;
   border: 1px solid rgba($black,.1);
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
@@ -115,8 +115,7 @@
 
 // h1.modal-heading
 .modal-heading {
-  float: left;
-  font-size: 21px;
+  font-size: 24px;
   line-height: 60px;
 }
 
@@ -131,9 +130,9 @@
   }
 
   // form elements in modals:
-  .input-group {
-    margin: 0 9px;
-  }
+  // .input-group {
+  //   margin: 0 9px;
+  // }
 
   .btn-checkbox {
     display: block;
@@ -187,7 +186,6 @@
 
   // nested footer
   .modal-footer {
-    border-top: 1px solid rgba($black,.1);
     clear: both;
     margin: 30px -9px -6px;
   }
@@ -195,10 +193,9 @@
 
 // footer.modal-footer
 .modal-footer {
-  background: $gray-lightest;
   border-radius: 0 0 3px 3px;
-  border-top: 1px solid rgba($black,.1);
   flex: 0 0 auto;
+  margin: 15px 0;
   padding: 9px 15px;
 
   .green,

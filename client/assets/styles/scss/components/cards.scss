@@ -141,6 +141,7 @@
 // template
 .card-template {
   background: $white;
+  border-color: transparent;
   color: $purple-lighter;
   font-size: 18px;
   justify-content: center;
@@ -149,6 +150,7 @@
 
   &:hover,
   &:active {
+    border-color: $purple-lighter;
     color: $purple-light;
   }
 
