@@ -19,6 +19,14 @@
     }
   }
 
+  // configure button
+  &:active:not(.disabled) .btn-sm {
+    background: rgba($purple-light,.15);
+    border-color: rgba($purple-light,.15);
+    color: $purple-light;
+    transition: none;
+  }
+
   &.focus {
     animation: card-blink .5s ease-out;
   }
@@ -96,16 +104,12 @@
       float: left;
       margin-left: -6px;
     }
+  }
 
-    // add buttons
-    .btn-sm {
-      display: table;
-      margin: 0 auto;
-
-      + .btn-sm {
-        margin-top: 6px;
-      }
-    }
+  // configure button
+  .btn-sm {
+    flex: 0 0 auto;
+    margin: 0 auto 9px;
   }
 
   // well
@@ -141,6 +145,11 @@
   font-size: 18px;
   justify-content: center;
   text-align: center;
+  user-select: none;
+
+  &:active {
+    color: $purple-light;
+  }
 
   // &.active .card-header {
   //   background: $gray-lightest;

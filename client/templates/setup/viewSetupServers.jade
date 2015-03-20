@@ -24,19 +24,6 @@
     }"
     ng-if = "!data.cardLoading"
   )
-    svg.iconnables.icons-gear(
-      toggle-pop-over
-      toggle-pop-over-model = "popoverConfigureServer.data.show"
-    )
-      use(
-        xlink:href = "#icons-gear"
-      )
-      pop-over(
-        actions = "popoverConfigureServer.actions"
-        data = "popoverConfigureServer.data"
-        popover-options = "{\"left\":0,\"top\":0}"
-        template = "viewPopoverConfigureServer"
-      )
     h2.card-header
       svg.iconnables.icons-repository
         use(
@@ -57,6 +44,7 @@
           | v0.10.28
         li.list-item.monospace.text-overflow 80,8000,8080,3000
         li.list-item.monospace.text-overflow npm start
+    button.btn.btn-sm.gray Configure
 
   //- card #2
   //- loading state
@@ -72,10 +60,6 @@
     ng-class = "{focus: data.runnableAngular}"
     ng-if = "!data.cardLoading"
   )
-    svg.iconnables.icons-gear
-      use(
-        xlink:href = "#icons-gear"
-      )
     h2.card-header.load(
       ng-if = "!data.cardLoading"
     )
@@ -99,14 +83,11 @@
           | v0.10.35
         li.list-item.monospace.text-overflow 80,8000,8080,3000
         li.list-item.monospace.text-overflow npm start
+    button.btn.btn-sm.gray Configure
 
   .card.load(
     ng-if = "!data.cardLoading"
   )
-    svg.iconnables.icons-gear
-      use(
-        xlink:href = "#icons-gear"
-      )
     h2.card-header.load(
       ng-if = "!data.cardLoading"
     )
@@ -117,6 +98,7 @@
         )
       | MongoDb
     .card-body.clearfix
+    button.btn.btn-sm.gray Configure
     .well.small.gray(
       ng-if = "!data.dismiss"
     )
