@@ -31,6 +31,7 @@ function popOver(
       }
       var unbindDocumentClick = angular.noop;
       var unbindPopoverOpened = angular.noop;
+      $scope.popoverOptions = $scope.popoverOptions || {};
       $scope.active = false;
 
       var popoverElement;
@@ -42,8 +43,6 @@ function popOver(
         $timeout(angular.noop);
         unbindDocumentClick();
         unbindPopoverOpened();
-
-
         // We need a closure because they could technically re-open the popover and we want to manage THIS scope and THIS element.
         (function (popoverElementScope, popoverElement) {
           //Give the transition some time to finish!
@@ -52,7 +51,7 @@ function popOver(
             popoverElement.remove();
           }, 500);
         }(popoverElementScope, popoverElement));
-      }
+      };
       function openPopover(options) {
         $scope.popoverOptions = $scope.popoverOptions || {};
 
@@ -62,8 +61,6 @@ function popOver(
         if (!$scope.popoverOptions.left && !$scope.popoverOptions.right) {
           $scope.popoverOptions.left = 0;
         }
-        console.log('Opening: ', $scope.template);
-        console.log($scope.popoverOptions);
 
         $rootScope.$broadcast('close-popovers');
         unbindDocumentClick = $scope.$on('app-document-click', function () {
@@ -77,6 +74,7 @@ function popOver(
 
         // We need to create a custom scope so we can call $destroy on it when the element is removed.
         popoverElementScope = $scope.$new();
+        $scope.popoverElementScope = popoverElementScope;
         popoverElementScope.popoverStyle = {
           getStyle: function () {
             var offset = {};
@@ -98,6 +96,7 @@ function popOver(
         };
 
         popoverElement = $compile(template)(popoverElementScope);
+        $scope.popoverElement = popoverElement;
         $document.find('body').append(popoverElement);
         // Trigger a digest cycle
         $timeout(angular.noop);
@@ -105,7 +104,6 @@ function popOver(
         $timeout(function(){
           $scope.active = true;
         }, 0);
-
 
         // Prevent clicking on the popover from triggering us to close the popover!
         popoverElement.on('click', function(event) {

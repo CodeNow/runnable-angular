@@ -27,9 +27,9 @@ window.fixtures = {
 };
 window.runnable = new (require('runnable'))(window.host);
 window.helpers = {
-  click: function click(el){
-    var ev = document.createEvent('MouseEvent');
-    ev.initMouseEvent(
+  click: function (el, augmentCb){
+    var event = document.createEvent('MouseEvent');
+    event.initMouseEvent(
       'click',
       true /* bubble */, true /* cancelable */,
       window, null,
@@ -37,6 +37,21 @@ window.helpers = {
       false, false, false, false, /* modifier keys */
       0 /*left*/, null
     );
-    el.dispatchEvent(ev);
+    if (augmentCb) {
+      augmentCb(event);
+    }
+    el.dispatchEvent(event);
+  },
+  rightClick: function (el, augmentCb) {
+    var event = document.createEvent('HTMLEvents');
+    event.initEvent('contextmenu', true, false);
+    event.pageY = 10;
+    event.pageX = 10;
+    event.currentTarget = 12;
+    event.target = 12;
+    if (augmentCb) {
+      augmentCb(event);
+    }
+    el.dispatchEvent(event);
   }
 }
