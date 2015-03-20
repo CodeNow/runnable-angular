@@ -12,6 +12,8 @@
         )
         span.input-divider =
         input.input.input-sm.input-value(
+          ng-blur = "data.showDelete = false"
+          ng-focus = "data.showDelete = true"
           placeholder = "[VALUE]"
           toggle-pop-over
           toggle-pop-over-model = "popoverServers.data.show"
@@ -142,6 +144,9 @@
             )
       .textarea-group-controls
         button.btn.btn-sm Add Row
+        button.btn.btn-sm(
+          ng-if = "data.showDelete"
+        ) Delete Row
   footer.modal-footer
     button.btn.green(
       ng-click = "defaultActions.cancel()"
