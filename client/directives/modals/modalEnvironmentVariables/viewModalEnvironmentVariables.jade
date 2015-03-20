@@ -2,6 +2,9 @@
   header.modal-header
     h1.modal-heading 🙅
   section.modal-body
+    //- textarea-group
+      - must have input as first-first
+      - must have input as last-child
     .textarea-group
       label.input-group.monospace
         input.input.input-sm(
@@ -9,6 +12,11 @@
           value = "CALEY"
         )
         span.input-divider =
+        button.btn.btn-icon.gray.active
+          svg.iconnables.icons-computer
+            use(
+              xlink:href = "#icons-computer"
+            )
         input.input.input-sm(
           placeholder = "[VALUE]"
           value = "http://stage-cayley-codenow.runnableapp.com:64210"
@@ -19,6 +27,11 @@
           value = "DATADOG_HOST"
         )
         span.input-divider =
+        button.btn.btn-icon.gray.active
+          svg.iconnables.icons-computer
+            use(
+              xlink:href = "#icons-computer"
+            )
         input.input.input-sm(
           placeholder = "[VALUE]"
           value = "stage-datadog-codenow.runnableapp.com"
@@ -29,6 +42,11 @@
           value = "MAVIS_HOST"
         )
         span.input-divider =
+        button.btn.btn-icon.gray.active
+          svg.iconnables.icons-computer
+            use(
+              xlink:href = "#icons-computer"
+            )
         input.input.input-sm(
           placeholder = "[VALUE]"
           value = "http://stage-mavis-codenow.runnableapp.com"
@@ -39,6 +57,11 @@
           value = "MONGO"
         )
         span.input-divider =
+        button.btn.btn-icon.gray.active
+          svg.iconnables.icons-computer
+            use(
+              xlink:href = "#icons-computer"
+            )
         input.input.input-sm(
           placeholder = "[VALUE]"
           value = "mongodb://stage-mongo-codenow.runnableapp.com/alpha"
@@ -49,6 +72,11 @@
           value = "REDIS_DB"
         )
         span.input-divider =
+        button.btn.btn-icon.gray.active
+          svg.iconnables.icons-computer
+            use(
+              xlink:href = "#icons-computer"
+            )
         input.input.input-sm(
           placeholder = "[VALUE]"
           value = "http://stage-redis-codenow.runnableapp.com"
@@ -57,6 +85,11 @@
         input.input.input-sm(
           placeholder = "[KEY]"
         )
+        button.btn.btn-icon.gray
+          svg.iconnables.icons-computer
+            use(
+              xlink:href = "#icons-computer"
+            )
         span.input-divider =
         input.input.input-sm(
           placeholder = "[VALUE]"

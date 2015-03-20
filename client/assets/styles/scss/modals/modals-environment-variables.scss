@@ -1,9 +1,32 @@
 .modal-environment-variables {
-  width: 600px;
+  width: 750px;
+
+  @include media(xs) {
+    width: calc(100% - 30px);
+  }
+
+  @include media(sm) {
+    width: 738px;
+  }
 
   // delete me
   .modal-heading {
     font-size: 36px;
+  }
+
+  // server helper
+  .btn-icon {
+    height: 27px;
+    position: absolute;
+    right: 12px;
+    top: 5px;
+    width: 27px;
+  }
+
+  .icons-computer {
+    height: 21px;
+    top: -5px;
+    width: 21px;
   }
 
   // @include media(xs) {
