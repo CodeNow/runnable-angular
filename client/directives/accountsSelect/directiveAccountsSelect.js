@@ -84,14 +84,16 @@ function accountsSelect (
         mData.verified = false;
         return promisify($scope.data.user, 'fetchSettings')({
           githubUsername: $state.params.userName
-        }).then(function(settings) {
+        })
+        .then(function(settings) {
           mData.settings = settings.models[0];
           if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
             keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             mData.showSlack = true;
             return mActions.verifySlack();
           }
-        }).catch(errs.handler);
+        })
+        .catch(errs.handler);
       });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
@@ -118,7 +120,8 @@ function accountsSelect (
           slackMembers = _members;
           mData.slackMembers = slackMembers;
           return fetchGitHubMembers($state.params.userName);
-        }).then(function(_ghMembers) {
+        })
+        .then(function(_ghMembers) {
           ghMembers = _ghMembers;
 
           // Fetch actual names
@@ -142,7 +145,8 @@ function accountsSelect (
           });
 
           return $q.all(memberFetchPromises);
-        }).then(function() {
+        })
+        .then(function() {
           mData.ghMembers = ghMembers.reduce(function(arr, member) {
             if (member.login && matches.indexOf(member.login) === -1) {
               arr.push(member.login);
@@ -150,8 +154,11 @@ function accountsSelect (
             return arr;
           }, []);
           mData.verified = true;
+        })
+        .catch(errs.handler)
+        .finally(function () {
           mData.verifying = false;
-        }).catch(errs.handler);
+        });
       };
       mActions.saveSlack = function () {
         var slackData = {

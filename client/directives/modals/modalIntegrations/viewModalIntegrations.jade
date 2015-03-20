@@ -59,7 +59,6 @@ form.modal-dialog.modal-integrations(
         input.input.input-sm.input-validate(
           ng-disabled = "data.verified"
           ng-model = "data.settings.attrs.notifications.slack.apiToken"
-          required
           spellcheck = "false"
         )
         .validate-wrapper.btn-sm.orange(
@@ -76,6 +75,7 @@ form.modal-dialog.modal-integrations(
         button.btn.btn-sm.green.btn-spinner(
           ng-class = "{in: data.verifying}"
           ng-click = "actions.verifySlack()"
+          ng-disabled = "!data.settings.attrs.notifications.slack.apiToken.length"
           ng-if = "!data.verified"
         )
           .spinner-wrapper.spinner-sm.spinner-white.in(
