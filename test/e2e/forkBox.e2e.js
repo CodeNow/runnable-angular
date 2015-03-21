@@ -5,15 +5,16 @@
  */
 
 var util = require('./helpers/util');
+var users = require('./helpers/users');
 
 var InstancePage = require('./pages/InstancePage');
 
-describe('fork box', function() {
-  it('should allow the forking of a box', function() {
+describe('fork box', users.doMultipleUsers(function(username) {
+  it('should allow the forking of a box owned by ' + username, function() {
     var instance = new InstancePage('Test-Rename');
     instance.get();
 
-    instance.gearMenu.forkBox('Test-Fork');
+    instance.forkBox('Test-Fork');
 
     util.waitForUrl(util.processUrl('/' + util.getCurrentUser() + '/Test-Fork'));
 
@@ -21,4 +22,4 @@ describe('fork box', function() {
       return util.hasClass(instance.statusIcon, 'running');
     });
   });
-});
+}));
