@@ -33,12 +33,6 @@ function activePanel(
       }
       var data = $scope.data = {};
 
-      if ($scope.instance) {
-        $scope.instance.validation = {
-          envs: {}
-        };
-      }
-
       // allow iframe to load url
       $scope.$sce = $sce;
       $scope.colorScheme = colorScheme;

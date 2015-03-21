@@ -36,3 +36,6 @@ li.file(
       select-on = "fs.state.renaming"
     ) {{ fs.attrs.name }}
     span.item-name {{ fs.attrs.name }}
+    span.btn-file-errors.orange(
+      ng-if = "fs.validation.errors.length"
+    ) {{ fs.validation.errors.length }}

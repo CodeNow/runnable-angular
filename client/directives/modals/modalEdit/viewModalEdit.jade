@@ -59,12 +59,15 @@
                )
              span.item-name environment variables
              //- must appear before .btn-file-action in the DOM
-             span.btn-file-errors.orange 5
+             span.btn-file-errors.orange(
+               ng-if = "data.instance.validation.envs.errors.length"
+             ) {{ data.instance.validation.envs.errors.length }}
              //- can we make sure opening this popover also opens and focuses the env file?
              button.btn-xxs.btn-file-action(
                ng-class = "{active: popoverLinkServers.data.show}"
                toggle-pop-over
                toggle-pop-over-model = "popoverLinkServers.data.show"
+               ng-click = "$event.stopPropagation()"
              )
                svg.iconnables.icons-link
                  use(
@@ -98,7 +101,9 @@
       ng-click = "defaultActions.cancel()"
       type = "button"
     ) Go Back
-    span.btn-file-errors.orange 9 errors
+    span.btn-file-errors.orange(
+      ng-if = "getAllErrorsCount()"
+    ) {{ getAllErrorsCount() }} errors
 
 //- OLD ENV STUFF
 

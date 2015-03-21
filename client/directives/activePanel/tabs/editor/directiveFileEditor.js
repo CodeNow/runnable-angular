@@ -12,13 +12,14 @@ require('app')
  * @ngInject
  */
 function fileEditor(
+  $rootScope,
   colorScheme,
   debounce,
   errs,
   keypather,
   modelist,
   promisify,
-  $rootScope
+  validateDockerfile
 ) {
   return {
     restrict: 'A',
@@ -30,6 +31,7 @@ function fileEditor(
     link: function ($scope, element, attrs) {
       $scope.colorScheme = colorScheme;
 
+      var useValidation = false;
       $scope.actions = {
         setAceMode: function (editor) {
           var unwatch = $scope.$watch('file.attrs.name', function (name) {
@@ -47,6 +49,9 @@ function fileEditor(
 
       function resetFileBodyState() {
         keypather.set($scope.file, 'state.body', $scope.file.attrs.body);
+        if (useValidation) {
+          $scope.file.validation = {};
+        }
       }
 
       function fetchFile() {
@@ -83,6 +88,7 @@ function fileEditor(
       var fileUnwatch = $scope.$watch('file', function (n) {
         if (n) {
           fileUnwatch();
+          useValidation = n.attrs.name === 'Dockerfile';
           keypather.set(n, 'state.isDirty', false);
           $scope.$on('EDITOR::SAVE', updateFile);
           if (!$scope.useAutoUpdate) {
@@ -93,6 +99,9 @@ function fileEditor(
             $scope.$watch('file.state.body', function (newVal) {
               if (typeof newVal === 'string' &&
                   newVal !== $scope.file.attrs.body) {
+                if (useValidation) {
+                  $scope.file.validation = validateDockerfile(newVal);
+                }
                 keypather.set($scope.file, 'state.isDirty', true);
                 if ($scope.useAutoUpdate) {
                   updateFileDebounce();
