@@ -41,21 +41,6 @@ function envVars(
         editor.focus();
       };
 
-      unwatchValidation = $scope.$watchCollection('validation.errors', function (n, p) {
-        if (n !== p) {
-          if (p) {
-            p.forEach(function (error) {
-              session.removeGutterDecoration(error, 'ace-validation-error');
-            });
-          }
-          if (n) {
-            n.forEach(function (error) {
-              session.addGutterDecoration(error, 'ace-validation-error');
-            });
-          }
-        }
-      });
-
       // Watch the current model for envs
       var unwatchCurrentModel = $scope.$watch('currentModel.env', function (env) {
         if (!Array.isArray(env)) {
@@ -73,6 +58,14 @@ function envVars(
         // If the envs haven't changed, (also takes care of first null/null occurrence
         if (newEnv === oldEnv) { return; }
         $scope.validation = validateEnvVars(newEnv);
+        var annotations = $scope.validation.errors.map(function (error) {
+          return {
+            text: 'Invalid Environment Variable',
+            type: 'warning',
+            row: error
+          };
+        });
+        session.setAnnotations(annotations);
         // Save them to the state model
         keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
           return v.length;
@@ -83,7 +76,6 @@ function envVars(
       var unwatchScreenEnvs = $scope.$watch('environmentalVars', updateEnvs);
 
       $scope.$on('$destroy', function () {
-        unwatchValidation();
         unwatchCurrentModel();
         unwatchScreenEnvs();
         editor.session.$stopWorker();

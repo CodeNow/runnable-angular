@@ -1,27 +1,53 @@
 .modal-dialog.modal-edit
   header.modal-header
     label.input-group.input-validate.with-description(
+      ng-form
+      name = "renameForm"
       ng-class = "{\
-        focus: a,\
-        'ng-invalid': b,\
-        'ng-valid': c\
-      }"
+          focus: renameForm.showFocus,\
+          'ng-invalid': renameForm.$invalid,\
+          'ng-valid': renameForm.$valid\
+        }"
     )
       span.input-label
         svg.iconnables.icons-edit
           use(
-            xlink:href = "#icons-edit"
+          xlink:href = "#icons-edit"
           )
         | Edit
-      span.input-description.text-overflow url.codenow.runnable.io
+      span.input-description.text-overflow {{ data.newName }}-{{ data.instance.attrs.owner.username }}.runnableapp.com
       input.input(
-        autocomplete = "off"
-        ng-blur = ""
-        ng-focus = ""
-        placeholder = "server-name"
-        spellcheck = "false"
-        value = "server-name-copy"
+      autofocus
+      instance = "data.instance"
+      name = "name"
+      ng-blur = "renameForm.showFocus = false"
+      ng-focus = "renameForm.showFocus = true"
+      ng-model = "data.newName"
+      ng-init = "renameForm.$setPristine(); \
+          renameForm.showFocus = true;"
+      placeholder = "My-Server"
+      spellcheck = "false"
+      validate-name = "data.instances"
+      validate-name-pattern
+      value = "{{ data.instance.attrs.name }}"
       )
+    //- .invalid-pattern for names with invalid characters
+      - .invalid-name for names that are taken
+    .validate-wrapper.btn-sm.orange(
+    ng-class = "{\
+        'invalid-pattern': renameForm.$error.namePattern.length,\
+        'invalid-name': renameForm.$error.nameAvailable.length,\
+        'invalid-require': renameForm.$error.nameRequire.length\
+      }"
+    )
+      span.validate-rules.invalid-pattern Please use #{''}
+        b.btn-xs.orange A-Z
+        b.btn-xs.orange a-z
+        b.btn-xs.orange 0-9
+        b.btn-xs.orange _
+        b.btn-xs.orange -
+      span.validate-rules.invalid-name That's a pretty name, but it's taken
+      span.validate-rules.invalid-require Give your server an alphanumeric name
   .modal-body
     //- sidebar
     section.sidebar.server-sidebar
@@ -94,11 +120,11 @@
   footer.modal-footer
     //- ng-disabled = "!validation.valid"
     button.btn.green(
-      ng-click = "actions.rebuild(tempModel); defaultActions.cancel()"
+      ng-click = "actions.buildServer()"
       type = "button"
     ) Build Server
     button.btn.white(
-      ng-click = "defaultActions.cancel()"
+      ng-click = "actions.close()"
       type = "button"
     ) Go Back
     span.btn-file-errors.orange(

@@ -1,5 +1,6 @@
 .popover.left.popover-link-servers(
   ng-class = "{in: data.show}"
+  ng-click = "$event.stopPropagation()"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white
@@ -15,9 +16,10 @@
           ng-class = "{active: data.guide}"
           ng-click = "data.guide = !data.guide"
         ) ?
-      li.list-item.popover-list-item api-server
-        button.btn.btn-xxs.gray insert
-      li.list-item.popover-list-item mongo-server
-        button.btn.btn-xxs.gray insert
-      li.list-item.popover-list-item web-server
-        button.btn.btn-xxs.gray insert
+      li.list-item.popover-list-item(
+        ng-repeat = "otherInstance in data.instances.models | \
+            instancesWithOpenPorts:data.instance"
+      ) {{ otherInstance.attrs.name }}
+        button.btn.btn-xxs.gray(
+          ng-click = "actions.pasteDependency(otherInstance)"
+        ) insert
