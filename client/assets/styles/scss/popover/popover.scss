@@ -1,0 +1,198 @@
+// popovers
+.popover {
+  background: rgba($white,.975);
+  border: 1px solid rgba($black,.1);
+  border-radius: 3px;
+  box-shadow: 0 0 30px rgba($black,.12);
+  cursor: default; // if popover is within an element with a different cursor
+  display: block;
+  left: 0;
+  max-width: 300px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  text-align: left;
+  top: 0;
+  transform: scale3d(.9,.9,1);
+  transition: all .2s ease-in;
+  white-space: normal;
+
+  &.in {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale3d(1,1,1);
+    z-index: $z-popover;
+  }
+
+  // .popover.menu
+  &.menu {
+    cursor: default;
+    width: 180px;
+
+    .popover-content {
+      overflow: hidden;
+      padding: 0;
+    }
+  }
+
+  // .popover.bottom.menu.context-menu
+  &.context-menu {
+    position: fixed;
+    transition: none;
+    z-index: $z-popover-context-menu;
+
+    .iconnables {
+      float: left;
+      height: 21px;
+      margin: 8px 6px 0 0;
+      width: 21px;
+    }
+  }
+
+  // .list
+  .list + .list {
+    border-top: 1px solid rgba($black,.1);
+  }
+
+  // li.divider
+  .divider {
+    background: rgba($black,.1);
+    height: 1px;
+    margin: 3px 0;
+  }
+
+  // form elements in popovers:
+  .btn-block {
+    margin: 3px 6px 6px;
+    width: 100%;
+  }
+
+  .input-group {
+    margin: 0;
+
+    + .input-group {
+      margin-top: 3px;
+    }
+  }
+}
+
+// popover lists
+// ul.popover-list
+.popover-list {
+  padding: 4px 0;
+}
+
+// li.popover-list-item
+.popover-list-item {
+  color: $gray-dark;
+  cursor: pointer;
+  height: 36px;
+  line-height: 36px;
+  overflow: hidden;
+  padding: 0 12px;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba($purple-light,.1);
+  }
+
+  &:active {
+    background: rgba($purple-light,.15);
+    color: $purple-light;
+  }
+
+  &.no-actions {
+    cursor: default;
+    text-align: center;
+
+    &:hover,
+    &:active {
+      background: transparent;
+      border-color: transparent;
+    }
+  }
+
+  .gravatar,
+  .iconnables {
+    float: left;
+    margin: 5px 12px 0 0;
+
+    &.gravatar {
+      margin-top: 5px;
+    }
+  }
+
+  // links
+  .list-link {
+    margin: 0 -15px;
+    padding: 0 15px;
+  }
+}
+
+// h3.popover-title
+.popover-title {
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+// flex for multiple buttons
+.popover-content-header {
+  display: flex;
+  justify-content: space-between;
+
+  > .btn-group,
+  > .btn {
+    margin: 6px 0 12px;
+
+    &:first-child {
+      margin-left: 6px;
+    }
+  }
+
+  // .list-item.small
+  .small {
+    line-height: 36px;
+    padding: 0 15px;
+  }
+
+  // search
+  .input-search {
+    margin: 6px auto 0;
+    width: 50%;
+  }
+}
+
+.popover-content {
+  padding: 6px;
+  position: relative;
+  z-index: $z-popover-content;
+}
+
+//- footer.popover-footer
+.popover-footer {
+  height: 36px;
+  margin: 6px;
+
+  .btn-sm {
+    padding: 0 12px;
+    right: 0;
+    top: 0;
+  }
+
+  .green,
+  .orange,
+  .white {
+    float: right;
+
+    + .green,
+    + .orange,
+    + .white {
+      margin-right: 6px;
+    }
+  }
+
+  .btn-checkbox {
+    margin: 6px 0;
+  }
+}
