@@ -1,4 +1,4 @@
-.modal-inset {
+.inset {
   background: $gray-lightest;
   border-bottom: 1px solid $white;
   border-top: 1px solid $white;
@@ -19,7 +19,6 @@
   }
 
   .list {
-    border: 1px solid rgba($black,.1);
     border-radius: 3px;
     margin: 0 9px 9px;
   }
@@ -35,10 +34,6 @@
       border-top: 1px solid rgba($black,.1);
     }
   }
-
-  // .input {
-  //   background: $white;
-  // }
 
   .input-group {
     height: 54px;

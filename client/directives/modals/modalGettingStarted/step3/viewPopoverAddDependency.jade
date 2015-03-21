@@ -3,21 +3,21 @@
   ng-click = "$event.stopPropagation()"
   ng-style = "popoverStyle.getStyle()"
 )
-  .arrow
-  h3.popover-title
-    .btn-group.clearfix
-      button.btn.btn-xs.gray(
-        ng-click = "popoverState = 'new'"
-        ng-class = "{'active': popoverState !== 'existing'}"
-      ) New
-      button.btn.btn-xs.gray(
-        ng-click = "popoverState = 'existing'"
-        ng-class = "{'active': popoverState === 'existing'}"
-      ) Existing
-  .popover-content(
-    ng-show = "popoverState !== 'existing'"
-  )
-    ul.list.popover-list
+  .arrow.white
+  .popover-content
+    .popover-content-header
+      .btn-group.clearfix
+        button.btn.btn-xs.gray(
+          ng-click = "popoverState = 'new'"
+          ng-class = "{'active': popoverState !== 'existing'}"
+        ) New
+        button.btn.btn-xs.gray(
+          ng-click = "popoverState = 'existing'"
+          ng-class = "{'active': popoverState === 'existing'}"
+        ) Existing
+    ul.list.popover-list(
+      ng-if = "popoverState !== 'existing'"
+    )
       li.list-item.popover-list-item(
         ng-click = "actions.addDependency(stackDep); data.show = false;"
         ng-repeat = "\
@@ -28,16 +28,15 @@
           orderBy:'attrs.name' as filteredDeps"
         title = "{{ stackDep.attrs.name }}"
       ) {{ stackDep.attrs.name }}
-  .popover-content(
+  ul.list.popover-list(
     ng-show = "popoverState === 'existing' && filteredInstances.length"
   )
-    ul.list.popover-list
-      li.list-item.popover-list-item(
+    li.list-item.popover-list-item(
       ng-click = "actions.addDependency(instance, true); data.show = false; "
       ng-repeat = "\
-         instance in data.instances.models | \
-         unaddedDepInstances:data.state.dependencies | \
-         unaddedModels:data.depFilter | \
-         orderBy:'attrs.name' as filteredInstances "
-      title = "{{ instance.attrs.name }}"
-      ) {{ instance.attrs.name }}
+       instance in data.instances.models | \
+       unaddedDepInstances:data.state.dependencies | \
+       unaddedModels:data.depFilter | \
+       orderBy:'attrs.name' as filteredInstances "
+     title = "{{ instance.attrs.name }}"
+     ) {{ instance.attrs.name }}

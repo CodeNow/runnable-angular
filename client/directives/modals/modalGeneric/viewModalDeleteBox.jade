@@ -7,13 +7,13 @@
     p.modal-description Your server, #{''}
       strong {{ data.instance.attrs.name }}
       | , will be permanently removed.
-  section.modal-inset(
+  section.inset(
     ng-class = "{in: data.deleteLinked}"
     ng-init = "data.deleteLinked = true"
     ng-show = "data.instance.dependencies.models.length"
   )
     small.small Deleting linked servers
-    .list
+    .list.list-bordered
       label.list-item.label-checkbox(
         ng-init = "instance.state.delete = true"
         ng-repeat = "instance in data.instance.dependencies.models"
@@ -25,8 +25,8 @@
         )
         | {{ instance.attrs.name }}
   footer.modal-footer
-    label.label-checkbox.btn-checkbox(
-      ng-show = "data.instance.dependencies.models.length"
+    label.btn.btn-xs.gray.label-checkbox.btn-checkbox(
+      ng-if = "data.instance.dependencies.models.length"
     )
       input.input-checkbox(
         checked
