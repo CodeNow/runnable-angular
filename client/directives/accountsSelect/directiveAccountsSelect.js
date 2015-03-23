@@ -89,7 +89,7 @@ function accountsSelect (
           if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
             keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             mData.showSlack = true;
-            return mActions.verifySlack();
+            return mActions.verifySlack(true);
           }
         })
         .catch(errs.handler);
@@ -110,9 +110,13 @@ function accountsSelect (
       mActions.closePopover = function() {
         $scope.popoverAccountMenu.data.show = false;
       };
-      mActions.verifySlack = function() {
+      mActions.verifySlack = function(loadingPreviousResults) {
         var matches = [];
-        mData.verifying = true;
+        if (loadingPreviousResults) {
+          mData.loading = true;
+        } else {
+          mData.verifying = true;
+        }
         fetchSlackMembers(mData.settings.attrs.notifications.slack.apiToken)
         .then(function(members) {
           mData.slackMembers = members;
@@ -155,6 +159,7 @@ function accountsSelect (
         })
         .catch(errs.handler)
         .finally(function () {
+          mData.loading = false;
           mData.verifying = false;
         });
       };
