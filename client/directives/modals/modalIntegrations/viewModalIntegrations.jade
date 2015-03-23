@@ -49,7 +49,13 @@ form.modal-dialog.modal-integrations(
   .modal-body(
     ng-if = "!data.showHipchat && data.showSlack"
   )
-    label.label.clearfix
+    .spinner-wrapper.spinner-md.in(
+      ng-if = "data.loading"
+      ng-include = "'spinner'"
+    )
+    label.label.clearfix(
+      ng-if = "!data.loading"
+    )
       .label-col.label-details API Token
         a.small.link(
           href = "https://slack.com/services/new/bot"
