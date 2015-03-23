@@ -28,7 +28,8 @@ function fileTreeDir(
       parentDir: '=',
       fileModel: '=', // This is either a contextVersion or a container
       openItems: '=',
-      readOnly: '='
+      readOnly: '=',
+      editExplorer: '='
     },
     templateUrl: 'viewFileTreeDir',
     link: function ($scope, element) {
@@ -107,7 +108,6 @@ function fileTreeDir(
 
       $scope.getFileStyle = function (file) {
         if (!file.state.uploading) {
-          console.log('Not uploading!', file.attrs.name);
           return {};
         }
         var style = {
@@ -120,7 +120,9 @@ function fileTreeDir(
       };
 
       $scope.popoverFileExplorerFolder = {
-        show: false,
+        data: {
+          canUpload: $scope.editExplorer
+        },
         options: {
           top: -16,
           left: 10
@@ -219,6 +221,7 @@ function fileTreeDir(
       };
 
       $scope.popoverFileExplorerFile = {
+        canUpload: $scope.editExplorer,
         options: {
           top: -16,
           left: 10

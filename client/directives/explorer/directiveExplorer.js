@@ -17,12 +17,14 @@ function explorer(
       fileModel: '=',
       rootDir: '=',
       title: '@',
-      toggleTheme: '='
+      toggleTheme: '=',
+      editExplorer: '='
     },
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
       $scope.filePopover = {
         data: {
-          show: false
+          show: false,
+          canUpload: $scope.editExplorer
         },
         actions: {
           createFile: function() {
