@@ -22,6 +22,20 @@
             xlink:href = "#icons-folder-new"
           )
         | New Folder
+      li.divider
+      li.list-item.popover-list-item
+        svg.iconnables
+          use(
+            xlink:href = "#icons-file-upload"
+          )
+        | Upload File
+
+        input.input-upload(
+          ng-file-select
+          ng-multiple = "true"
+          ng-file-change = "actions.uploadFiles($files, $event)"
+          type = "file"
+        )
       li.divider(
         ng-if = "dir.attrs.name !== '/'"
       )

@@ -15,7 +15,10 @@ function fileTreeDir(
   errs,
   $q,
   promisify,
-  helperCreateFS
+  helperCreateFS,
+  $upload,
+  configAPIHost,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -28,10 +31,10 @@ function fileTreeDir(
       readOnly: '='
     },
     templateUrl: 'viewFileTreeDir',
-    link: function ($scope, element, attrs) {
+    link: function ($scope, element) {
 
       var actions = $scope.actions = {};
-      var data = $scope.data = {};
+      $scope.data = {};
       var inputElement;
 
       $scope.editFolderName = false;
@@ -102,6 +105,20 @@ function fileTreeDir(
         $scope.openItems.add(file);
       };
 
+      $scope.getFileStyle = function (file) {
+        if (!file.state.uploading) {
+          console.log('Not uploading!', file.attrs.name);
+          return {};
+        }
+        var style = {
+          'transition': 'background 1s linear',
+          'background': 'linear-gradient(to right, rgba(133, 60, 190, 0.3) 0%, rgba(133, 60, 190, 0.3) ' + file.state.progress+'%, rgba(133, 60, 190, 0.15) ' + file.state.progress + '%, rgba(133, 60, 190, 0.15) 100%)',
+          'border': '1px solid rgba(133, 60, 190, 0.15)',
+          'border-radius': '3px'
+        };
+        return style;
+      };
+
       $scope.popoverFileExplorerFolder = {
         show: false,
         options: {
@@ -130,6 +147,73 @@ function fileTreeDir(
           deleteFolder: function () {
             $scope.dir.destroy(errs.handler);
             $scope.$broadcast('close-popovers');
+          },
+          uploadFiles: function ($files) {
+            if ($files && $files.length) {
+              $scope.$broadcast('close-popovers');
+
+              var uploadURL = configAPIHost + '/' + $scope.fileModel.urlPath + '/' + $scope.fileModel.id() + '/files';
+              $files.forEach(function (file) {
+                console.log('Uploading ' + file.name + ' to ' + uploadURL);
+
+                var myFile = {
+                  attrs: {
+                    name: file.name
+                  },
+                  state: {
+                    uploading: true,
+                    progress: 0
+                  }
+                };
+
+                $timeout(function () {
+                  console.log('20');
+                  myFile.state.progress = 20;
+                }, 1000);
+
+                $timeout(function () {
+                  console.log('50');
+                  myFile.state.progress = 50;
+                }, 2000);
+
+                $timeout(function () {
+                  console.log('90');
+                  myFile.state.progress = 90;
+                }, 4000);
+
+                //$timeout(function () {
+                //  console.log('100');
+                //  myFile.state.progress = 100;
+                //  myFile.state.uploading = false;
+                //}, 5000);
+
+
+
+                $scope.dir.contents.models.push(myFile);
+                $upload.upload({
+                  url: uploadURL,
+                  file: file,
+                  method: 'POST',
+                  fileFormDataName: 'file',
+                  withCredentials: true
+                })
+                  .progress(function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
+                    //myFile.state.progress = progressPercentage;
+                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                  })
+                  .success(function (data, status, headers, config) {
+                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                    //myFile.state.uploading = false;
+                    //myFile.state.progress = 100;
+                    $scope.actions.fetchDirFiles();
+                  })
+                  .catch(function (err) {
+                    $scope.dir.contents.models.remove(myFile);
+                    errs.handler(err);
+                  });
+              });
+            }
           }
         }
       };

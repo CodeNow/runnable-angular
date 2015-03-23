@@ -23,3 +23,15 @@
             xlink:href = "#icons-folder-new"
           )
         | New Folder
+
+      li.divider
+      li.list-item.popover-list-item
+        svg.iconnables
+          use(
+           xlink:href = "#icons-file-upload"
+          )
+        | Upload File
+        input.input-upload(
+          multiple
+          type = "file"
+        )
