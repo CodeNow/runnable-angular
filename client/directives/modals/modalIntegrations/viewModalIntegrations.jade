@@ -97,7 +97,7 @@ form.modal-dialog.modal-integrations(
           label.list-item.label-checkbox.text-overflow(
             ng-class = "{\
               active: member.slackOn,\
-              disabled: !member.slackOn,\
+              disabled: !data.settings.attrs.notifications.slack.enabled,\
               expanded: !member.found && member.slackOn,\
             }"
             ng-repeat = "member in data.slackMembers"
@@ -117,6 +117,7 @@ form.modal-dialog.modal-integrations(
             )
             | @{{ member.name }}
             input.input-checkbox(
+              ng-disabled = "!data.settings.attrs.notifications.slack.enabled"
               ng-model = "member.slackOn"
               type = "checkbox"
             )
