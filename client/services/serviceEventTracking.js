@@ -19,10 +19,12 @@ var INTERCOM_APP_ID = 'wqzm3rju';
 function EventTracking (
   $log,
   $state,
-  $window
+  $window,
+  isFunction,
+  keypather
 ) {
   this._Intercom = $window.Intercom;
-  this._mixpanel = $window.mixpanel;
+  //this._mixpanel = $window.mixpanel;
   this._state = $state;
   if (!this._Intercom) {
     // stub intercom if not present
@@ -31,13 +33,21 @@ function EventTracking (
       $log.info(arguments);
     };
   }
-  if (!this._mixpanel) {
-    // stub mixpanel if not present
-    this._mixpanel = function () {
-      $log.info('mixpanel JS SDK stubbed');
+
+  /**
+   * Wrap invokations of mixpanel SDK API methods
+   * @param {String} mixpanel SDK API method name
+   * @params [1..n] optional arguments passed to mixpanel SDK
+   */
+  this._mixpanel = function () {
+    if (!isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
+      $log.info('Mixpanel JS SDK stubbed');
       $log.info(arguments);
-    };
-  }
+      return;
+    }
+    var args = Array.prototype.slice.call(arguments);
+    $window.mixpanel[args[0]].apply($window, args.slice(1, args.length));
+  };
 }
 
 /**
@@ -56,7 +66,7 @@ EventTracking.prototype.boot = function (user) {
     app_id: INTERCOM_APP_ID
   };
   this._Intercom('boot', data);
-  this._mixpanel.identify(user.oauthId());
+  this._mixpanel('identify', user.oauthId());
 };
 
 /**
