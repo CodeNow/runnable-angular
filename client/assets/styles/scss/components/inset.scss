@@ -1,4 +1,4 @@
-.modal-inset {
+.inset {
   background: $gray-lightest;
   border-bottom: 1px solid $white;
   border-top: 1px solid $white;
@@ -19,7 +19,6 @@
   }
 
   .list {
-    border: 1px solid rgba($black,.1);
     border-radius: 3px;
     margin: 0 9px 9px;
   }
@@ -36,15 +35,12 @@
     }
   }
 
-  // .input {
-  //   background: $white;
-  // }
-
   .input-group {
     height: 54px;
     line-height: 54px;
     margin: 0 auto;
     padding: 0;
+    width: auto;
 
     &.ng-dirty.ng-invalid.ng-valid-name-require {
       border-bottom: 0;

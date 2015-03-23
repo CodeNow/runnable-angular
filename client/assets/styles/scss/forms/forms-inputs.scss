@@ -120,8 +120,9 @@ textarea,
 // .input-group
 .input-group {
   background: $white;
-  border: 1px solid rgba($black,.1);
+  border: 1px solid rgba($black,.15);
   border-radius: 3px;
+  cursor: pointer;
   display: flex;
   height: 45px;
   line-height: 45px;
@@ -133,8 +134,9 @@ textarea,
     line-height: 54px;
 
     > .input {
-      height: 39px;
-      line-height: 39px;
+      font-weight: 500;
+      height: 36px;
+      line-height: 36px;
     }
   }
 
@@ -145,6 +147,14 @@ textarea,
     padding: 0 15px;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  // label icons
+  .iconnables {
+    height: 15px;
+    margin-right: 3px;
+    top: 3px;
+    width: 15px;
   }
 
   .input-description {
@@ -161,7 +171,7 @@ textarea,
     border: 0;
     box-shadow: none;
     flex: 1 0 auto;
-    padding: 0 6px 0 0;
+    padding: 0;
     width: auto;
   }
 
@@ -184,8 +194,16 @@ textarea,
   &:focus,
   &:valid {
     background-color: $white;
-    background-position: 3px 3px !important;
-    padding-left: 27px !important;
+    background-position: 3px 3px !important; // override all other position
+    padding-left: 27px !important; // override all other position
     transition: all .15s ease-in;
+  }
+
+  &.input-search-sm {
+    background-position: 3px 2px !important; // no transition for .input-search-sm
+    background-size: 18px;
+    height: 24px;
+    line-height: 24px;
+    padding-left: 24px;
   }
 }

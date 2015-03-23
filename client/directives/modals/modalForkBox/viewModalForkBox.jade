@@ -25,7 +25,7 @@
         ng-init = "data.forkForm.forkName.showFocus = true; \
           data.renameForm.forkName.showFocus = true;"
         ng-model = "items[0].opts.name"
-        placeholder = "My-Server"
+        placeholder = "server-name"
         spellcheck = "false"
         validate-name = "data.instances"
         validate-name-current-instance-valid = "false"
@@ -53,7 +53,7 @@
         b.btn-xs.orange -
       span.validate-rules.invalid-name That's a pretty name, but it's taken
       span.validate-rules.invalid-require Give your server an alphanumeric name
-    section.modal-inset(
+    section.inset(
       fork-dependencies = "data.forkDependencies"
       linked-instances
       instance-dependencies = "data.instance.dependencies"
@@ -66,7 +66,7 @@
   footer.modal-footer
     //- cancel is modalDirective
       - actions.cancel is parent controller
-    label.label-checkbox.btn-checkbox(
+    label.btn.btn-xs.gray.label-checkbox.btn-checkbox(
       ng-if = "data.instance.dependencies.models.length"
     )
       input.input-checkbox(

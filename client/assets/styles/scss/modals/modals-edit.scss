@@ -52,6 +52,16 @@
     @include media(xs) {
       display: block;
     }
+
+    // override defaults
+    .list-item {
+      height: auto;
+      padding: 0;
+    }
+
+    .repository-group-text {
+      max-height: none;
+    }
   }
 
   // sidebar overrides
@@ -86,16 +96,5 @@
 
   .active-panel {
     flex: 1 0 auto;
-
-    // for some reason, plz fix
-    > .active-panel {
-      height: 100%;
-    }
   }
 }
-
-// height: 600px;
-
-// @include media(xs) {
-//   flex-direction: row !important; // override default behavior
-// }
