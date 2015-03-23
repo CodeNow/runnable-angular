@@ -18,11 +18,16 @@
     padding: 6px 0;
 
     .input-group {
+      border-radius: 3px;
       float: left;
-      width: 288px;
+      width: 360px;
 
       @include media(xs) {
         width: calc(100% - 12px);
+
+        &.ng-invalid {
+          border-radius: 3px 3px 0 0;
+        }
       }
     }
 
@@ -35,7 +40,13 @@
   .validate-wrapper {
     border-radius: 3px;
     display: none;
-    width: 330px;
+    margin-top: 8px;
+
+    @include media(xs) {
+      border-radius: 0 0 3px 3px;
+      margin: 0 6px;
+      z-index: $z-modal;
+    }
 
     &.invalid-name,
     &.invalid-pattern,
