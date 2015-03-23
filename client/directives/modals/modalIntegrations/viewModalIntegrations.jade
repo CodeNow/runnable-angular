@@ -57,6 +57,7 @@ form.modal-dialog.modal-integrations(
         ) Get your API Token from Slack
       .input-col
         input.input.input-sm.input-validate(
+          ng-class = "{disabled: !data.settings.attrs.notifications.slack.enabled}"
           ng-disabled = "data.verified"
           ng-model = "data.settings.attrs.notifications.slack.apiToken"
           spellcheck = "false"
@@ -104,7 +105,7 @@ form.modal-dialog.modal-integrations(
           )
             //- i made this up. plz fix.
             .badge-warning(
-              ng-if = "!member.found && member.slackOn && member.ghNameSelected"
+              ng-if = "!member.found && member.slackOn && !member.ghName"
             )
               svg.iconnables.icons-warning
                 use(

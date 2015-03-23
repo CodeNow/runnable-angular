@@ -102,6 +102,17 @@
     @include media(sm) {
       padding: 15px;
     }
+
+  }
+
+  // verify and cancel buttons
+  .input-col > .btn {
+    float: right;
+    margin-top: 6px;
+
+    + .btn {
+      margin-right: 6px;
+    }
   }
 
   .list-item {
@@ -160,6 +171,7 @@
 
   // badge
   .badge-warning {
+    animation: scale-in .15s ease-in forwards;
     background: $white;
     border-radius: 50%;
     color: $orange;
@@ -168,6 +180,7 @@
     position: absolute;
     top: 5px;
     width: 16px;
+    z-index: 1;
   }
 
   .icons-warning {
