@@ -25,14 +25,16 @@
         width: calc(100% - 12px);
       }
     }
+
+    .input-description {
+      width: calc(100% - 69px);
+    }
   }
 
   // validation
   .validate-wrapper {
+    border-radius: 3px;
     display: none;
-    float: left;
-    height: 54px;
-    line-height: 54px;
     width: 330px;
 
     &.invalid-name,

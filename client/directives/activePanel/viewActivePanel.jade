@@ -15,7 +15,7 @@ div(
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
-  .logs.active-panel(
+  .logs(
     ng-controller = "BuildLogController"
     log-term
     ng-if = "item.state.type === 'BuildStream'"
