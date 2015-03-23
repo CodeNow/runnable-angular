@@ -48,7 +48,8 @@ function EventTracking (
       return;
     }
     var args = Array.prototype.slice.call(arguments);
-    $window.mixpanel[args[0]].apply($window.mixpanel, args.slice(1, args.length));
+    keypather.get($window, 'mixpanel.'+arguments[0])
+      .apply($window.mixpanel, args.slice(1, args.length));
   };
 }
 
@@ -70,6 +71,7 @@ EventTracking.prototype.boot = function (user) {
   };
   this._Intercom('boot', data);
   this._mixpanel('identify', user.oauthId());
+  //this._mixpanel('people.set', user.toJSON());
 };
 
 /**
