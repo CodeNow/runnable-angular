@@ -105,7 +105,7 @@
   }
 
   .list-item {
-    color: $gray-light;
+    color: $gray;
     height: 45px;
     line-height: 45px;
     margin: 0;
@@ -113,8 +113,13 @@
     position: relative;
     transition: height .15s ease-in;
 
-    + .list-item {
-      border-top: 1px solid rgba($black,.1);
+    &:hover,
+    &:active {
+      color: $gray-dark;
+
+      .gravatar {
+        opacity: .6;
+      }
     }
 
     &.active {
@@ -125,9 +130,14 @@
       }
     }
 
+    &.expanded {
+      height: 137px;
+    }
+
     &.disabled {
       color: $gray-light;
       cursor: not-allowed;
+      height: 45px;
 
       .gravatar {
         opacity: .3;
@@ -138,13 +148,13 @@
       }
     }
 
-    &.expanded {
-      height: 137px;
-    }
-
     .gravatar {
       margin: 12px 9px 0 0;
-      opacity: .3;
+      opacity: .45;
+    }
+
+    + .list-item {
+      border-top: 1px solid rgba($black,.1);
     }
   }
 
