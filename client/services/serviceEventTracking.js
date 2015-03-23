@@ -48,7 +48,7 @@ function EventTracking (
       return;
     }
     var args = Array.prototype.slice.call(arguments);
-    $window.mixpanel[args[0]].apply($window, args.slice(1, args.length));
+    $window.mixpanel[args[0]].apply($window.mixpanel, args.slice(1, args.length));
   };
 }
 
