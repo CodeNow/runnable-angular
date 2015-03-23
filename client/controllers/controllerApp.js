@@ -133,6 +133,7 @@ function ControllerApp(
             orgs:  $window.JSON.stringify(results)
           });
         }
+        // Intercom && Mixpanel
         eventTracking.boot(thisUser);
         if ($window.olark) {
           $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });
