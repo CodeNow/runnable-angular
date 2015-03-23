@@ -27,7 +27,7 @@ function accountsSelect (
       data: '=',
       isMainPage: '='
     },
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
 
       $scope.popoverAccountMenu = {
         actions: {
@@ -73,11 +73,10 @@ function accountsSelect (
         if ($scope.data.user.oauthName() === $state.params.userName) {
           mData.showIntegrations = false;
           return;
-        } else {
-          mData.showIntegrations = true;
         }
 
         // Only Slack for now, will expand when customers request it
+        mData.showIntegrations = true;
         mData.showSlack = true;
         mData.settings = {};
         mData.slackMembers = {};
@@ -113,21 +112,18 @@ function accountsSelect (
       };
       mActions.verifySlack = function() {
         var matches = [];
-        var slackMembers, ghMembers;
         mData.verifying = true;
         fetchSlackMembers(mData.settings.attrs.notifications.slack.apiToken)
-        .then(function(_members) {
-          slackMembers = _members;
-          mData.slackMembers = slackMembers;
+        .then(function(members) {
+          mData.slackMembers = members;
           return fetchGitHubMembers($state.params.userName);
         })
-        .then(function(_ghMembers) {
-          ghMembers = _ghMembers;
+        .then(function(ghMembers) {
 
           // Fetch actual names
           var memberFetchPromises = ghMembers.map(function (user) {
             return fetchGitHubUser(user.login).then(function (ghUser) {
-              slackMembers.forEach(function (member) {
+              mData.slackMembers.forEach(function (member) {
 
                 if (member.real_name && member.real_name.toLowerCase() === keypather.get(ghUser, 'name.toLowerCase()')) {
                   // TODO: handle case with multiple users of the same name
@@ -141,12 +137,14 @@ function accountsSelect (
                   member.ghName = ghUser.login;
                 }
               });
+              return ghUser;
             });
           });
 
           return $q.all(memberFetchPromises);
         })
-        .then(function() {
+        .then(function(ghMembers) {
+          // Using .reduce here because all we care about is member.login
           mData.ghMembers = ghMembers.reduce(function(arr, member) {
             if (member.login && matches.indexOf(member.login) === -1) {
               arr.push(member.login);
