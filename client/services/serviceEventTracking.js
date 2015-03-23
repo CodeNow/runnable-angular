@@ -1,6 +1,8 @@
 /**
  * Wrapper of event-tracking functionality; making use of various
- * 3rd party analytics platforms. (Intercom, Datadog)
+ * 3rd party analytics platforms.
+ * - Intercom
+ * - Mixpanel
  */
 'use strict';
 
@@ -35,7 +37,7 @@ function EventTracking (
   }
 
   /**
-   * Wrap invokations of mixpanel SDK API methods
+   * Wrap invokations of mixpanel SDK API methods (object properties)
    * @param {String} mixpanel SDK API method name
    * @params [1..n] optional arguments passed to mixpanel SDK
    */
@@ -52,6 +54,7 @@ function EventTracking (
 
 /**
  * Intercom and Mixpanel user identification
+ * @throws Error
  * @param {Object} user - User Model instance
  * @return null
  */
