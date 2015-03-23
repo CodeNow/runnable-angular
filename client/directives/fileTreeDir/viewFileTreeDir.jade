@@ -24,11 +24,12 @@ li.folder(
     ng-if = "(isRootDir && showRepoFolder)"
   )
     li.file.no-touching
-      svg.iconnables.filetypes.icons-repository
-        use(
-        xlink:href = "#icons-repository"
-        )
-      span.item-name {{ showRepoFolder }}
+      a
+        svg.iconnables.filetypes.icons-repository
+          use(
+          xlink:href = "#icons-repository"
+          )
+        span.item-name {{ showRepoFolder }}
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"

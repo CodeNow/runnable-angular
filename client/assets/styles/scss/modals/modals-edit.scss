@@ -52,6 +52,16 @@
     @include media(xs) {
       display: block;
     }
+
+    // override defaults
+    .list-item {
+      height: auto;
+      padding: 0;
+    }
+
+    .repository-group-text {
+      max-height: none;
+    }
   }
 
   // sidebar overrides
@@ -88,9 +98,3 @@
     flex: 1 0 auto;
   }
 }
-
-  // height: 600px;
-
-  // @include media(xs) {
-  //   flex-direction: row !important; // override default behavior
-  // }
