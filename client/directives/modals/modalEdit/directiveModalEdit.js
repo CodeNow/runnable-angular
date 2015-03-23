@@ -43,51 +43,52 @@ function modalEdit(
           $scope.defaultActions.close(cb);
         },
         buildServer: function () {
-          if (building) { return; }
-          building = true;
+          if ($scope.building) { return; }
+          $scope.building = true;
           eventTracking.triggeredBuild(false);
-          $scope.loading = true;
-          var unwatch = $scope.$watch('openItems.isClean()', function (n) {
+          var unwatch = $scope.$watch(function () {
+            return !keypather.get($scope, 'build.state.dirty')  && !$scope.openItems.isClean();
+          }, function (n) {
             if (!n) { return; }
             unwatch();
             var buildObj = {
               message: 'Manual build'
             };
             var build = $scope.build;
-            unwatch = $scope.$watch(function () {
-              return keypather.get(build, 'state.dirty');
-            }, function (n) {
-              if (n) { return; } //state.dirty === 0 is when everything is clean
-              unwatch();
-              var instance = $scope.data.instance;
-              var newName = $scope.newName;
-              promisify(build, 'build')(buildObj)
-                .then(function (build) {
-                  var opts = {
-                    build: build.id()
-                  };
-                  if (instance.state && instance.state.env) {
-                    opts.env = instance.state.env;
-                  }
-                  if (newName) {
-                    opts.name = newName;
-                  }
-                  return $q.all([promisify(instance, 'update')(opts),
-                    function () {
-                      var defer = $q.defer();
-                      $scope.actions.close(function () {
-                        defer.resolve();
-                      });
-                      return defer.promise;
-                    }]);
-                })
-                .then(function () {
-                  $state.go('instance.instance', {
-                    instanceName: newName
-                  });
-                })
-                .catch(errs.handler);
-            });
+            var instance = $scope.data.instance;
+            var newName = $scope.newName;
+            promisify(build, 'build')(buildObj)
+              .then(function (build) {
+                var opts = {
+                  build: build.id()
+                };
+                if (instance.state && instance.state.env) {
+                  opts.env = instance.state.env;
+                }
+                if (newName) {
+                  opts.name = newName;
+                }
+                return $q.all([promisify(instance, 'update')(opts),
+                  function () {
+                    var defer = $q.defer();
+                    $scope.actions.close(function () {
+                      defer.resolve();
+                    });
+                    return defer.promise;
+                  }]);
+              })
+              .then(function () {
+                $state.go('instance.instance', {
+                  instanceName: newName
+                });
+              })
+              .catch(function (err) {
+                errs.handler(err);
+                return resetBuild();
+              })
+              .finally(function () {
+                $scope.building = false;
+              });
           });
         }
       };
@@ -112,12 +113,13 @@ function modalEdit(
       $scope.popoverLinkServers = {
         data: {
           show: false,
-          instance: $scope.data.instance,
-          instances: $scope.data.instances
+          instanceData: $scope.data
         },
         actions: {
           pasteDependency: function (otherInstance) {
-            var url = otherInstance.containers.models[0].urls(configUserContentDomain)[0];
+            var url = otherInstance.containers.models[0].urls(configUserContentDomain)[0]
+              .replace(/https?:\/\//, '')
+              .replace(/:\d{0,5}/g, '');
             $scope.$broadcast('eventPasteLinkedInstance', url);
           }
         }
@@ -137,10 +139,6 @@ function modalEdit(
             }
           });
       }
-
-      $scope.pasteLinkedInstance = function (text) {
-        $scope.$broadcast('eventPasteLinkedInstance', text);
-      };
 
       function resetBuild() {
         return promisify($scope.data.instance.build, 'deepCopy')()

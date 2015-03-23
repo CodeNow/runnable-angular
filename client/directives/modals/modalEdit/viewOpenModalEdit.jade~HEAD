@@ -1,7 +1,0 @@
-.modal-backdrop.in(
-  actions = "actions"
-  data = "data"
-  default-actions = "defaultActions"
-  modal-edit
-  ng-if = "in"
-)

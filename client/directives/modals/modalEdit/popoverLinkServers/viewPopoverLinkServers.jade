@@ -17,8 +17,8 @@
           ng-click = "data.guide = !data.guide"
         ) ?
       li.list-item.popover-list-item(
-        ng-repeat = "otherInstance in data.instances.models | \
-            instancesWithOpenPorts:data.instance"
+        ng-repeat = "otherInstance in data.instanceData.instances.models | \
+            instancesWithOpenPorts:data.instanceData.instance"
       ) {{ otherInstance.attrs.name }}
         button.btn.btn-xxs.gray(
           ng-click = "actions.pasteDependency(otherInstance)"

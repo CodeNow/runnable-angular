@@ -63,9 +63,10 @@
         open-items = "openItems"
         show-repo-folder = "data.instance.attrs.name"
       )
+      section.row.explorer
           //- no files or folders can be added to this file-tree
           //- these files cannot be renamed or deleted
-       ul.file-tree
+        ul.file-tree
          li.file
            a(
              ng-click = "openItems.addBuildStream()"
@@ -123,6 +124,11 @@
       ng-click = "actions.buildServer()"
       type = "button"
     ) Build Server
+       //- spinner
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "building"
+        ng-include = "'spinner'"
+      )
     button.btn.white(
       ng-click = "actions.close()"
       type = "button"
