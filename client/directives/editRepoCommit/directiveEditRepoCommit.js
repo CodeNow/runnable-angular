@@ -7,14 +7,14 @@ require('app')
  */
 function editRepoCommit(
   fetchCommitData,
-  errs,
-  $state
+  errs
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewEditRepoCommit',
     scope: {
-      model: '='
+      model: '=',
+      showRemoveRepo: '='
     },
     link: function ($scope, elem, attrs) {
       // emits (broadcast up DOM tree) event to be
@@ -67,11 +67,11 @@ function editRepoCommit(
       // controls appearance of
       // gear-menu popover
       // to fast-forward/delete
-      if ($state.$current.name === 'instance.instance') {
+      if ($scope.showRemoveRepo) {
+        $scope.popoverRepositoryToggle.data.showDeleteButton = true;
+      } else {
         $scope.popoverRepositoryToggle.data.showDeleteButton = false;
         $scope.showPendingClassWhenSelectedOutdatedCommit = true;
-      } else {
-        $scope.popoverRepositoryToggle.data.showDeleteButton = true;
       }
 
       // reset filter when opening popover

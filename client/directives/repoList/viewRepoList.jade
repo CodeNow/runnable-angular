@@ -13,7 +13,8 @@ h2.sub-header Repositories
       )
     | Update
 
-  add-repo-popover(
+  div.sub-header-action(
+    add-repo-popover
     ng-if = "showAddRepo"
     context-version = "build.contextVersions.models[0]"
     show = "data.show"
@@ -35,6 +36,7 @@ ul.list.repository-group
     edit-repo-commit
     ng-repeat = "model in unsavedAcvs"
     model = "model"
+    show-remove-repo = "showAddRepo"
   )
   li.list-details(
     ng-show = "unsavedAcvs.length && !showAddFirstRepoMessage"

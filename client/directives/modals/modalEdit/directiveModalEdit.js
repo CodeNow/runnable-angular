@@ -7,8 +7,9 @@ require('app')
  * @ngInject
  */
 function modalEdit(
-  $state,
   $q,
+  $state,
+  $timeout,
   configUserContentDomain,
   errs,
   eventTracking,
@@ -30,7 +31,6 @@ function modalEdit(
       $scope.tempModel = {};
       $scope.configUserContentDomain = configUserContentDomain;
 
-      var building = false;
       $scope.actions = {
         close: function (cb) {
           // Remove all validation stuff from instance and dockerfile
@@ -40,14 +40,14 @@ function modalEdit(
           if ($scope.dockerfile) {
             delete $scope.dockerfile.validation;
           }
-          $scope.defaultActions.close(cb);
+          return $scope.defaultActions.close(cb);
         },
         buildServer: function () {
           if ($scope.building) { return; }
           $scope.building = true;
           eventTracking.triggeredBuild(false);
           var unwatch = $scope.$watch(function () {
-            return !keypather.get($scope, 'build.state.dirty')  && !$scope.openItems.isClean();
+            return !keypather.get($scope, 'build.state.dirty')  && $scope.openItems.isClean();
           }, function (n) {
             if (!n) { return; }
             unwatch();
@@ -56,38 +56,49 @@ function modalEdit(
             };
             var build = $scope.build;
             var instance = $scope.data.instance;
-            var newName = $scope.newName;
+            var opts = {};
+            if (instance.state && instance.state.env) {
+              opts.env = instance.state.env;
+            }
+            if ($scope.state.newName !== instance.attrs.name) {
+              opts.name = $scope.state.newName;
+            }
             promisify(build, 'build')(buildObj)
               .then(function (build) {
-                var opts = {
-                  build: build.id()
-                };
-                if (instance.state && instance.state.env) {
-                  opts.env = instance.state.env;
-                }
-                if (newName) {
-                  opts.name = newName;
-                }
-                return $q.all([promisify(instance, 'update')(opts),
-                  function () {
-                    var defer = $q.defer();
-                    $scope.actions.close(function () {
-                      defer.resolve();
-                    });
-                    return defer.promise;
-                  }]);
+                opts.build = build.id();
+                return promisify(instance, 'update')(opts);
+              }).then(function () {
+                var defer = $q.defer();
+                $scope.actions.close(function () {
+                  defer.resolve();
+                });
+                return defer.promise;
               })
               .then(function () {
-                $state.go('instance.instance', {
-                  instanceName: newName
-                });
+                if (opts.name) {
+                  // We need a timeout so the modal has enough time to destroy itself before
+                  // we reroute
+                  $timeout(function () {
+                    return $state.go('instance.instance', {
+                      instanceName: opts.name
+                    });
+                  });
+                }
               })
               .catch(function (err) {
                 errs.handler(err);
-                return resetBuild();
-              })
-              .finally(function () {
-                $scope.building = false;
+                return resetBuild(true)
+                  .then(function () {
+                    keypather.set(
+                      $scope,
+                      'build.contextVersions.models[0].rootDir.state.open',
+                      true
+                    );
+                    $scope.openItems.removeAndReopen($scope.build.contextVersions.models[0]);
+                  })
+                  .then(function () {
+                    $scope.building = false;
+                  });
               });
           });
         }
@@ -99,11 +110,6 @@ function modalEdit(
         return envErrors + dockerFileErrors;
       };
 
-      if ($scope.data.instance) {
-        $scope.data.instance.validation = {
-          envs: {}
-        };
-      }
       $scope.popoverExposeInstruction = {
         data: {
           show: false
@@ -140,8 +146,9 @@ function modalEdit(
           });
       }
 
-      function resetBuild() {
-        return promisify($scope.data.instance.build, 'deepCopy')()
+      function resetBuild(retry) {
+        var build = retry ? $scope.build : $scope.data.instance.build;
+        return promisify(build, 'deepCopy')()
           .then(function (build) {
             $scope.build = build;
             return promisify(build.contextVersions.models[0], 'fetch')();
@@ -149,6 +156,10 @@ function modalEdit(
       }
       $scope.$watch('data.instance', function (n) {
         if (n) {
+          keypather.set($scope, 'state.newName', n.attrs.name);
+          $scope.data.instance.validation = {
+            envs: {}
+          };
           resetBuild()
             .then(setDefaultTabs)
             .catch(errs.handler);

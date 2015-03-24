@@ -23,13 +23,15 @@ li.folder(
   ul(
     ng-if = "(isRootDir && showRepoFolder)"
   )
-    li.file.no-touching
+    li.file.no-touching(
+      ng-repeat = "acv in fileModel.appCodeVersions.models"
+    )
       a
         svg.iconnables.filetypes.icons-repository
           use(
           xlink:href = "#icons-repository"
           )
-        span.item-name {{ showRepoFolder }}
+        span.item-name {{ acv.attrs.repo.split('/')[1] }}
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"
