@@ -111,10 +111,9 @@ function fileTreeDir(
           return {};
         }
         var style = {
-          'transition': 'background 1s linear',
-          'background': 'linear-gradient(to right, rgba(133, 60, 190, 0.3) 0%, rgba(133, 60, 190, 0.3) ' + file.state.progress+'%, rgba(133, 60, 190, 0.15) ' + file.state.progress + '%, rgba(133, 60, 190, 0.15) 100%)',
-          'border': '1px solid rgba(133, 60, 190, 0.15)',
-          'border-radius': '3px'
+          'background': 'linear-gradient(to right, rgba(42,176,246,.2) 0%, rgba(42,176,246,.2) 90%, rgba(255,255,255,.1) 90%, rgba(255,255,255,.1) 100%)',
+          'border-color': 'rgba(42,176,246,.2)', // rgba($blue,.2)
+          'color': '#0da5f5' // $blue-dark
         };
         return style;
       };

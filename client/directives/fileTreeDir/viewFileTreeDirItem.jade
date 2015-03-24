@@ -21,25 +21,35 @@ li.file(
     }"
 )
   a(
-    ng-click = "actions.closeOpenModals(); \
-                actions.openFile(fs); \
-                $event.stopPropagation();"
+    ng-click = "\
+      actions.closeOpenModals();\
+      actions.openFile(fs);\
+      $event.stopPropagation();\
+    "
     pop-over
     pop-over-actions = "popoverFileExplorerFile.actions"
     pop-over-data = "fs"
-    pop-over-template = "viewPopoverFileExplorerFileMenu"
     pop-over-options = "popoverFileExplorerFile.options"
+    pop-over-template = "viewPopoverFileExplorerFileMenu"
     pop-over-trigger = "rightClick"
     ng-style = "getFileStyle(fs)"
   )
-    svg.iconnables.filetypes.icons-file
-      use(xlink:href = "#icons-file")
+    .spinner-wrapper.spinner-sm.in(
+      ng-if = "fs.state.uploading"
+      ng-include = "'spinner'"
+    )
+    svg.iconnables.filetypes.icons-file(
+      ng-if = "!fs.state.uploading"
+    )
+      use(
+        xlink:href = "#icons-file"
+      )
     input.tree-input(
       name = "{{ fs.id() }}"
+      ng-click = "actions.handleClickOnInput($event, fs)"
       ng-keyup = "($event.keyCode === 13) && actions.closeFileNameInput($event, fs);"
       ng-readonly = "!fs.state.renaming"
-      value = "{{ fs.attrs.name }}"
       select-on = "fs.state.renaming"
-      ng-click = "actions.handleClickOnInput($event, fs)"
+      value = "{{ fs.attrs.name }}"
     ) {{ fs.attrs.name }}
     span.item-name {{ fs.attrs.name }}
