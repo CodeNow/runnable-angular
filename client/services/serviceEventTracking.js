@@ -74,8 +74,8 @@ EventTracking.prototype.boot = function (user) {
     app_id: INTERCOM_APP_ID
   };
   this._Intercom('boot', data);
-  this._mixpanel('people.set', user.toJSON());
   this._mixpanel('identify', user.oauthId());
+  this._mixpanel('people.set', user.toJSON());
 };
 
 /**
