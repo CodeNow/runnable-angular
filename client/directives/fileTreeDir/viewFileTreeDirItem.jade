@@ -35,7 +35,6 @@ li.file(
     pop-over-options = "popoverFileExplorerFile.options"
     pop-over-template = "viewPopoverFileExplorerFileMenu"
     pop-over-trigger = "rightClick"
-    ng-style = "getFileStyle(fs)"
   )
     .spinner-wrapper.spinner-sm.in(
       ng-if = "fs.state.uploading"
@@ -43,7 +42,7 @@ li.file(
     )
     .progress.in(
       ng-if = "fs.state.uploading"
-      style = "width: 90%"
+      ng-style = "getFileStyle(fs)"
     )
     svg.iconnables.filetypes.icons-file(
       ng-if = "!fs.state.uploading"

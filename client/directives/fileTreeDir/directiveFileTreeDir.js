@@ -110,9 +110,9 @@ function fileTreeDir(
         if (!file.state.uploading) {
           return {};
         }
-        var style = {
+        return {
+          width: file.state.progress + '%'
         };
-        return style;
       };
 
       $scope.popoverFileExplorerFolder = {
@@ -164,29 +164,6 @@ function fileTreeDir(
                   }
                 };
 
-                $timeout(function () {
-                  console.log('20');
-                  myFile.state.progress = 20;
-                }, 1000);
-
-                $timeout(function () {
-                  console.log('50');
-                  myFile.state.progress = 50;
-                }, 2000);
-
-                $timeout(function () {
-                  console.log('90');
-                  myFile.state.progress = 90;
-                }, 4000);
-
-                //$timeout(function () {
-                //  console.log('100');
-                //  myFile.state.progress = 100;
-                //  myFile.state.uploading = false;
-                //}, 5000);
-
-
-
                 $scope.dir.contents.models.push(myFile);
                 $upload.upload({
                   url: uploadURL,
@@ -197,17 +174,16 @@ function fileTreeDir(
                 })
                   .progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
-                    //myFile.state.progress = progressPercentage;
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                    myFile.state.progress = progressPercentage;
                   })
-                  .success(function (data, status, headers, config) {
-                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                    //myFile.state.uploading = false;
-                    //myFile.state.progress = 100;
+                  .success(function () {
+                    myFile.state.uploading = false;
+                    myFile.state.progress = 100;
                     $scope.actions.fetchDirFiles();
                   })
                   .catch(function (err) {
-                    $scope.dir.contents.models.remove(myFile);
+                    var fileIndex = $scope.dir.contents.models.indexOf(myFile);
+                    $scope.dir.contents.models.splice(fileIndex, 1);
                     errs.handler(err);
                   });
               });
