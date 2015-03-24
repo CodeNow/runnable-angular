@@ -5,32 +5,10 @@
   .arrow.white
   .popover-content
     ul.popover-list
-      li.popover-list-item(
-        ng-click = "actions.createFile();\
-          $event.stopPropagation();"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-file-new"
-          )
-        | New File
-      li.popover-list-item(
-        ng-click = "actions.createFolder();\
-          $event.stopPropagation();"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-folder-new"
-          )
-        | New Folder
-
-      li.divider(
-        ng-if = "data.canUpload"
-      )
       li.list-item.popover-list-item(
         ng-if = "data.canUpload"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
            xlink:href = "#icons-file-upload"
           )
@@ -39,3 +17,24 @@
           multiple
           type = "file"
         )
+      li.divider(
+        ng-if = "data.canUpload"
+      )
+      li.popover-list-item(
+        ng-click = "actions.createFile();\
+          $event.stopPropagation();"
+      )
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-file-new"
+          )
+        | New File
+      li.popover-list-item(
+        ng-click = "actions.createFolder();\
+          $event.stopPropagation();"
+      )
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-folder-new"
+          )
+        | New Folder

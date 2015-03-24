@@ -4,61 +4,68 @@
 )
   .popover-content
     ul.popover-list
-      li.popover-list-item(
-        ng-click = "actions.createFile();\
-          $event.stopPropagation();"
+      li.list-item.popover-list-item(
+        ng-if = "data.canUpload"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-file-upload"
+          )
+        | Upload File
+        input.input-upload(
+          ng-file-change = "actions.uploadFiles($files, $event)"
+          ng-file-select
+          ng-multiple = "true"
+          type = "file"
+        )
+      li.divider(
+        ng-if = "data.canUpload"
+      )
+      li.popover-list-item(
+        ng-click = "\
+          actions.createFile();\
+          $event.stopPropagation();\
+        "
+      )
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-new"
           )
         | New File
       li.popover-list-item(
-        ng-click = "actions.createFolder();\
-          $event.stopPropagation();"
+        ng-click = "\
+          actions.createFolder();\
+          $event.stopPropagation();\
+        "
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-folder-new"
           )
         | New Folder
       li.divider(
-        ng-if = "data.canUpload"
-      )
-      li.list-item.popover-list-item(
-        ng-if = "data.canUpload"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-file-upload"
-          )
-        | Upload File
-
-        input.input-upload(
-          ng-file-select
-          ng-multiple = "true"
-          ng-file-change = "actions.uploadFiles($files, $event)"
-          type = "file"
-        )
-      li.divider(
         ng-if = "dir.attrs.name !== '/'"
       )
       li.popover-list-item(
         ng-if = "dir.attrs.name !== '/'"
-        ng-click = "actions.renameFolder();\
-          $event.stopPropagation();"
+        ng-click = "\
+          actions.renameFolder();\
+          $event.stopPropagation();\
+        "
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-modify"
           )
         | Rename
       li.popover-list-item(
         ng-if = "dir.attrs.name !== '/'"
-        ng-click = "actions.deleteFolder();\
-          $event.stopPropagation();"
+        ng-click = "\
+          actions.deleteFolder();\
+          $event.stopPropagation();\
+        "
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-delete"
           )

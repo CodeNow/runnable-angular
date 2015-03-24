@@ -88,6 +88,13 @@
 .list-item {
   position: relative;
 
+  &.small {
+    color: $gray !important; // never override this
+    cursor: default !important;
+    font-size: 13px;
+    pointer-events: none;
+  }
+
   .gravatar {
     float: left;
     margin: 18px 9px 0 2px;
@@ -100,24 +107,9 @@
     left: 0;
     opacity: 0;
     position: absolute;
-    right: 0;
-
-    //Hack to get the button to move underneath the fold. We can't style it directly because browsers are silly.
-    // By default they make this button use a cursor of "default" we need it to be "pointer"
-    line-height: 300px;
+    text-indent: -9999px; // Hack to get the button to move underneath the fold. We can't style it directly because browsers are silly.
   }
 
-  &.small {
-    color: $gray !important; // never override this
-    cursor: default !important;
-    font-size: 13px;
-
-    &:hover,
-    &:active {
-      background: none !important;
-      border-color: transparent !important;
-    }
-  }
 }
 
 // links
