@@ -32,7 +32,6 @@ function fileTreeDir(
     },
     templateUrl: 'viewFileTreeDir',
     link: function ($scope, element) {
-
       var actions = $scope.actions = {};
       $scope.data = {};
       var inputElement;
@@ -150,9 +149,8 @@ function fileTreeDir(
               $scope.$broadcast('close-popovers');
 
               var uploadURL = configAPIHost + '/' + $scope.fileModel.urlPath + '/' + $scope.fileModel.id() + '/files';
+              var fileUploadPromises = [];
               $files.forEach(function (file) {
-                console.log('Uploading ' + file.name + ' to ' + uploadURL);
-
                 var myFile = {
                   attrs: {
                     name: file.name
@@ -164,7 +162,7 @@ function fileTreeDir(
                 };
 
                 $scope.dir.contents.models.push(myFile);
-                $upload.upload({
+                var uploadPromise = $upload.upload({
                   url: uploadURL,
                   file: file,
                   method: 'POST',
@@ -176,15 +174,26 @@ function fileTreeDir(
                     myFile.state.progress = progressPercentage;
                   })
                   .success(function () {
-                    myFile.state.uploading = false;
+                    //myFile.state.uploading = false;
                     myFile.state.progress = 100;
-                    $scope.actions.fetchDirFiles();
                   })
                   .catch(function (err) {
                     var fileIndex = $scope.dir.contents.models.indexOf(myFile);
                     $scope.dir.contents.models.splice(fileIndex, 1);
                     errs.handler(err);
+                  })
+                  .then(function () {
+                    return myFile;
                   });
+                fileUploadPromises.push(uploadPromise);
+              });
+
+              $q.all(fileUploadPromises).then(function (uploads) {
+                uploads.forEach(function (myFile) {
+                  var fileIndex = $scope.dir.contents.models.indexOf(myFile);
+                  $scope.dir.contents.models.splice(fileIndex, 1);
+                });
+                fetchDirFiles();
               });
             }
           }
