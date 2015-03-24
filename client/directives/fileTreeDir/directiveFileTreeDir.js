@@ -7,11 +7,15 @@ require('app')
  * @ngInject
  */
 function fileTreeDir(
+  $templateCache,
+  $compile,
   $rootScope,
+  $state,
   keypather,
   errs,
   $q,
-  promisify
+  promisify,
+  helperCreateFS
 ) {
   return {
     restrict: 'A',
@@ -28,6 +32,34 @@ function fileTreeDir(
 
       var actions = $scope.actions = {};
       var data = $scope.data = {};
+      var inputElement;
+
+      $scope.editFolderName = false;
+      $scope.editFileName = false;
+      $scope.data = {};
+      $scope.state = $state;
+
+      $scope.actions.closeFolderNameInput = function () {
+        if (!$scope.editFolderName) {
+          return;
+        }
+        $scope.editFolderName = false;
+        if (inputElement.value === $scope.dir.attrs.name) {
+          return;
+        }
+        $scope.dir.rename(inputElement.value, errs.handler);
+      };
+
+      $scope.actions.closeFileNameInput = function (event, file) {
+        if (!file.state.renaming) {
+          return;
+        }
+        file.state.renaming = false;
+        if (event.currentTarget.value === file.attrs.name) {
+          return;
+        }
+        file.rename(event.currentTarget.value, errs.handler);
+      };
 
       $scope.actions.drop = function (dataTransfer, toDir) {
         var modelType = dataTransfer.getData('modelType');
@@ -59,8 +91,72 @@ function fileTreeDir(
         $rootScope.$broadcast('app-document-click');
       };
 
+      actions.handleClickOnInput = function (event, file) {
+        if (file.state.renaming) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      };
+
       actions.openFile = function (file) {
         $scope.openItems.add(file);
+      };
+
+      $scope.popoverFileExplorerFolder = {
+        show: false,
+        options: {
+          top: -16,
+          left: 10
+        },
+        actions: {
+          createFile: function () {
+            helperCreateFS($scope.dir, {
+              isDir: false
+            }, errs.handler);
+            $scope.$broadcast('close-popovers');
+          },
+          createFolder: function () {
+            helperCreateFS($scope.dir, {
+              isDir: true
+            }, errs.handler);
+            $scope.$broadcast('close-popovers');
+          },
+          renameFolder: function () {
+            $scope.editFolderName = true;
+            inputElement.focus();
+            inputElement.select();
+            $scope.$broadcast('close-popovers');
+          },
+          deleteFolder: function () {
+            $scope.dir.destroy(errs.handler);
+            $scope.$broadcast('close-popovers');
+          }
+        }
+      };
+
+      $scope.popoverFileExplorerFile = {
+        options: {
+          top: -16,
+          left: 10
+        },
+        actions: {
+          openFile: function (file) {
+            $scope.openItems.add(file);
+            $scope.$broadcast('close-popovers');
+          },
+          renameFile: function (file) {
+            keypather.set(file,'state.renaming', true);
+            $scope.$broadcast('close-popovers');
+          },
+          deleteFile: function (file) {
+            file.destroy(function (err) {
+              errs.handler(err);
+              // destroy alone does not update collection
+              $scope.actions.fetchDirFiles();
+            });
+            $scope.$broadcast('close-popovers');
+          }
+        }
       };
 
       // http://www.bennadel.com/blog/2495-user-friendly-sort-of-alpha-numeric-data-in-javascript.htm
@@ -107,10 +203,12 @@ function fileTreeDir(
         }
       });
 
-
-      element.on('$destroy', function () {
-        // IF BIND ANY EVENTS TO DOM, UNBIND HERE OR SUFFER THE MEMORY LEAKS
-      });
+      //avoid infinite loop w/ nested directories
+      var template = $templateCache.get('viewFileTreeDir');
+      var $template = angular.element(template);
+      var compiled = $compile($template)($scope);
+      element.replaceWith(compiled);
+      inputElement = compiled[0].querySelector('input.tree-input');
     }
   };
 }

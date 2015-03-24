@@ -5,9 +5,10 @@
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="runnable-angular node_modules" level="project" />
     <orderEntry type="library" name="Node.js v0.10.26 Core Modules" level="application" />
     <orderEntry type="library" name="angular" level="project" />
     <orderEntry type="library" name="semver.min" level="application" />
+    <orderEntry type="library" name="jasmine" level="project" />
+    <orderEntry type="library" name="runnable-angular node_modules" level="project" />
   </component>
 </module>

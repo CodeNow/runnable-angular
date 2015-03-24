@@ -41,7 +41,7 @@ function showCoachMarks(
         $scope.coachMarkData = data;
 
         keypather.set($scope, 'coachMarkData.dismiss', function () {
-          $scope.coachMarkData.show = false;
+          $scope.$broadcast('close-popovers');
           popEl.remove();
           $scope.coachMarkData.save();
         });
@@ -59,7 +59,7 @@ function showCoachMarks(
       });
       $scope.$on('$destroy', function () {
         if ($scope.coachMarkData) {
-          $scope.coachMarkData.show = false;
+          $scope.$broadcast('close-popovers');
         }
         if (popEl) {
           popEl.remove();

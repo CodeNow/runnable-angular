@@ -94,12 +94,6 @@ describe('directiveInstanceEditSecondaryActions'.bold.underline.blue, function()
       expect($elScope.saving).to.equal(inputScope.saving);
       expect($elScope.popoverGearMenu).to.be.ok;
       expect($elScope.popoverGearMenu.data).to.deep.equal({ show: false });
-      expect($elScope.popoverGearMenu.actions).to.deep.equal({
-        actionsModalFork: {},
-        actionsModalEnvironment:{},
-        actionsModalRename:{},
-        actionsModalDelete:{}
-      });
     });
     it('should modify the scope', function (done) {
       ctx.stateMock.go = function (state) {

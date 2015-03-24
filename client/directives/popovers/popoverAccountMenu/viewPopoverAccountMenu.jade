@@ -1,7 +1,5 @@
 .popover.menu.bottom.popover-account-menu(
-  ng-class = "{in: data.show,\
-    'popover-getting-started-offset': !data.isMainPage}"
-  ng-click = "$event.stopPropagation()"
+  ng-class = "{'popover-getting-started-offset': !data.isMainPage, in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white

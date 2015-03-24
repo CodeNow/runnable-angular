@@ -31,8 +31,6 @@ function instanceSecondaryActions(
         data: {},
         actions: {}
       };
-      $scope.popoverGearMenu.data.show = false;
-
       $scope.popoverGearMenu.actions.stopInstance = function () {
         modInstance('stop');
       };
@@ -57,7 +55,7 @@ function instanceSecondaryActions(
 
       function modInstance(action, opts) {
         $scope.saving = true;
-        $scope.popoverGearMenu.data.show = false;
+        $scope.$broadcast('close-popovers');
         promisify($scope.instance, action)(
           opts
         ).then(function () {
