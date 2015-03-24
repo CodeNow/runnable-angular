@@ -13,7 +13,7 @@ var spinner = require('./helpers/spinner');
 describe('Changing commit', users.doMultipleUsers(function (username) {
 
   it('should allow the user to change the branch to !master', function () {
-    var instance = new InstancePage('node_hello_world');
+    var instance = new InstancePage('RailsProject');
     instance.get();
 
     browser.wait(function () {
@@ -26,7 +26,7 @@ describe('Changing commit', users.doMultipleUsers(function (username) {
     var commitMenu = instance.repoList.getCommitMenu(repo);
 
     commitMenu.open(repo);
-    commitMenu.changeBranch('test1', 3);
+    commitMenu.changeBranch('test1', 1);
     expect(instance.repoList.updateButton.get().isPresent()).toBe(false);
 
     waitForRepos(instance);
@@ -40,7 +40,7 @@ describe('Changing commit', users.doMultipleUsers(function (username) {
       expect(text).toBe('test1');
     });
     commitMenu.commitInfo.get().getText(function (text) {
-      expect(text).to.match(/Create server\.js/);
+      expect(text).to.match(/Kissmetrics/);
     });
     commitMenu.open(repo);
     commitMenu.getSelectedBranch(repo).getText(function (text) {
@@ -51,7 +51,7 @@ describe('Changing commit', users.doMultipleUsers(function (username) {
   });
 
   it('should allow the user to change the branch back to master', function () {
-    var instance = new InstancePage('node_hello_world');
+    var instance = new InstancePage('RailsProject');
     instance.get();
     browser.wait(function () {
       return instance.repoList.repoList.get().isPresent();
@@ -77,7 +77,7 @@ describe('Changing commit', users.doMultipleUsers(function (username) {
       expect(text).toBe('master');
     });
     commitMenu.commitInfo.get().getText(function (text) {
-      expect(text).to.match(/Update server\.js/);
+      expect(text).to.match(/Update database.yml/);
     });
 
     commitMenu.open(repo);

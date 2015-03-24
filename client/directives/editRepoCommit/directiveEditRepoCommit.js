@@ -41,7 +41,6 @@ function editRepoCommit(
         data: {},
         actions: {}
       };
-      $scope.popoverRepositoryToggle.data.show = false;
       $scope.popoverRepositoryToggle.data.toggleFilter = false;
       $scope.popoverRepositoryToggle.data.commitFilter = '';
 
@@ -53,7 +52,7 @@ function editRepoCommit(
       };
 
       $scope.popoverRepositoryToggle.actions.selectCommit = function (commitSha) {
-        $scope.popoverRepositoryToggle.data.show = false;
+        $scope.$broadcast('close-popovers');
         $scope.model.unsavedAcv.branch = $scope.activeBranch.attrs.name;
         $scope.model.unsavedAcv.commit = commitSha;
         $scope.activeCommit = fetchCommitData.activeCommit($scope.model.acv, commitSha);

@@ -7,24 +7,25 @@ require('app')
  * @ngInject
  */
 function modalGettingStarted(
-  $rootScope,
-  $timeout,
-  createDockerfileFromSource,
-  copySourceInstance,
-  errs,
-  getNewForkName,
-  regexpQuote,
-  gsPopulateDockerfile,
   $q,
-  promisify,
-  createNewInstance,
+  $rootScope,
   $state,
-  fetchStackInfo,
-  fetchInstances,
-  keypather,
-  createNewBuild,
+  $timeout,
+  configUserContentDomain,
+  copySourceInstance,
+  createDockerfileFromSource,
   createInstanceUrl,
-  configUserContentDomain
+  createNewBuild,
+  createNewInstance,
+  errs,
+  eventTracking,
+  fetchInstances,
+  fetchStackInfo,
+  getNewForkName,
+  gsPopulateDockerfile,
+  keypather,
+  promisify,
+  regexpQuote
 ) {
   return {
     restrict: 'A',
@@ -124,6 +125,7 @@ function modalGettingStarted(
         createAndBuild: function () {
           if ($scope.building) { return; }
           $scope.building = true;
+          eventTracking.triggeredBuild(false);
           // first thing to do is generate the dockerfile
           $rootScope.dataApp.data.loading = true;
           var unwatchDf = $scope.$watch('state.dockerfile', function (n) {
@@ -256,6 +258,9 @@ function modalGettingStarted(
           });
         }).then(function (instances) {
           $scope.data.instances = instances;
+        }).catch(function(){
+          $scope.defaultActions.cancel();
+          errs.handler(new Error('We are unable to create servers at this time, please try again later.'));
         });
       }
 

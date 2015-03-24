@@ -65,6 +65,10 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       '$current': {
         name: 'instance.instanceEdit'
       },
+      params: {
+        userName: 'username',
+        instanceName: 'instanceName'
+      },
       go: function () {}
     };
     angular.mock.module('app', function ($provide) {
@@ -157,11 +161,11 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     it('should display selector after click', function () {
       initState();
       $rootScope.$digest();
-      click(getAccountSelectorElement());
+      window.helpers.click(getAccountSelectorElement());
       $rootScope.$digest();
       expect(getAccountSelectorElement().classList.contains('in')).to.be.ok;
       expect(getAccountsGroupItemsList().length).to.equal(3);
-      click(getAccountSelectorElement());
+      window.helpers.click(getAccountSelectorElement());
       $scope.$digest();
       expect(getAccountSelectorElement().classList.contains('in')).to.not.be.ok;
     });
@@ -169,27 +173,14 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       initState();
       $elScope.selectActiveAccount = sinon.spy();
       $rootScope.$digest();
-      click(getAccountSelectorElement());
+      window.helpers.click(getAccountSelectorElement());
       $rootScope.$digest();
       expect(getAccountSelectorElement().classList.contains('in')).to.be.ok;
       expect(getAccountsGroupItemsList().length).to.equal(3);
-      click(getAccountsGroupItemsList()[1]);
+      window.helpers.click(getAccountsGroupItemsList()[1]);
       $scope.$digest();
       sinon.assert.calledWith($elScope.selectActiveAccount, ctx.fakeOrg1);
     });
   });
 
 });
-
-function click(el){
-  var ev = document.createEvent('MouseEvent');
-  ev.initMouseEvent(
-    'click',
-    true /* bubble */, true /* cancelable */,
-    window, null,
-    0, 0, 0, 0, /* coordinates */
-    false, false, false, false, /* modifier keys */
-    0 /*left*/, null
-  );
-  el.dispatchEvent(ev);
-}

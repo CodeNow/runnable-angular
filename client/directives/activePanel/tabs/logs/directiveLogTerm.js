@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function logTerm(
+  $timeout,
   helperSetupTerminal,
   primus
 ) {
@@ -34,9 +35,9 @@ function logTerm(
 
       bind(primus, 'offline', function () {
         terminal.writeln('');
-        terminal.writeln('******************************');
-        terminal.writeln('* LOST CONNECTION - retrying *');
-        terminal.writeln('******************************');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+        terminal.writeln('☹ LOST CONNECTION - retrying ☹');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
       });
 
       $scope.$on('$destroy', function () {
@@ -86,6 +87,8 @@ function logTerm(
           terminal.cursorBlink = false;
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
+          // Blur so that the cursor disappears
+          terminal.blur();
         }
       }
       function writeToTerm(output) {
@@ -106,14 +109,16 @@ function logTerm(
         $scope.connectStreams(terminal);
         showTerminalSpinner();
         bind(primus, 'reconnected', function () {
-          terminal.writeln('*****************************************************');
-          terminal.writeln('* Connection regained.  Thank you for your patience *');
-          terminal.writeln('*****************************************************');
+          terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
+          terminal.writeln('★ Connection regained.  Thank you for your patience ★');
+          terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
         });
         bind($scope.stream, 'end', function () {
           hideTerminalSpinner();
           killCurrentStream();
-          $scope.streamEnded();
+          if ($scope.streamEnded) {
+            $scope.streamEnded();
+          }
         });
       }
     }

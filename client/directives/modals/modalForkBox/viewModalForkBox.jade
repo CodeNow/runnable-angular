@@ -26,6 +26,7 @@
           data.renameForm.forkName.showFocus = true;"
         ng-model = "items[0].opts.name"
         placeholder = "My-Server"
+        spellcheck = "false"
         validate-name = "data.instances"
         validate-name-current-instance-valid = "false"
         validate-name-pattern
@@ -40,7 +41,8 @@
     .validate-wrapper.btn-sm.orange(
       ng-class = "{\
         'invalid-pattern': data.forkForm.forkName.$error.namePattern,\
-        'invalid-name': data.forkForm.forkName.$error.nameAvailable\
+        'invalid-name': data.forkForm.forkName.$error.nameAvailable,\
+        'invalid-require': data.forkForm.forkName.$error.nameRequire\
       }"
     )
       span.validate-rules.invalid-pattern Please use #{''}
@@ -49,7 +51,8 @@
         b.btn-xs.orange 0-9
         b.btn-xs.orange _
         b.btn-xs.orange -
-      span.validate-rules.invalid-name That's a pretty name, but it's taken.
+      span.validate-rules.invalid-name That's a pretty name, but it's taken
+      span.validate-rules.invalid-require Give your server an alphanumeric name
     section.modal-inset(
       fork-dependencies = "data.forkDependencies"
       linked-instances

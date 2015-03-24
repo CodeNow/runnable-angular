@@ -6,10 +6,11 @@ require('app')
  * @njInject
  */
 function setupPrimaryActions(
-  errs,
   $state,
   $stateParams,
-  createNewInstance
+  createNewInstance,
+  errs,
+  eventTracking
 ) {
   return {
     restrict: 'E',
@@ -34,6 +35,7 @@ function setupPrimaryActions(
       }
 
       $scope.buildAndAttach = function () {
+        eventTracking.triggeredBuild(false);
         $scope.loading = true;
         $scope.instanceOpts.name = $scope.name;
         var unwatch = $scope.$watch('openItems.isClean()', function (n) {

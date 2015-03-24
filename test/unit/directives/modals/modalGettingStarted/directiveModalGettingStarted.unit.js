@@ -11,9 +11,9 @@ var $rootScope,
   $log,
   $templateCache;
 var $elScope;
-var thisUser;
 
 var apiMocks = require('../../../apiMocks/index');
+var thisUser = runnable.newUser(apiMocks.user);
 var ctx;
 
 function makeDefaultScope() {
@@ -202,6 +202,9 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
     Object.keys(scope).forEach(function (key) {
       $scope[key] = scope[key];
     });
+
+    keypather.set($rootScope, 'dataApp.data.user', thisUser);
+
     $scope.user = thisUser;
 
     ctx.template = directiveTemplate.attribute('modal-getting-started', {

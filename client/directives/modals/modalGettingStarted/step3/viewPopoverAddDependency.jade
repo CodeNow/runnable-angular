@@ -1,5 +1,5 @@
 .popover.bottom.menu.popover-add-dependency(
-  ng-class = "{in: data.show}"
+  ng-class = "{in: active}"
   ng-click = "$event.stopPropagation()"
   ng-style = "popoverStyle.getStyle()"
 )
@@ -19,7 +19,7 @@
   )
     ul.list.popover-list
       li.list-item.popover-list-item(
-        ng-click = "actions.addDependency(stackDep); data.show = false;"
+        ng-click = "actions.addDependency(stackDep); closePopover();"
         ng-repeat = "\
           stackDep in data.dependencies.models | \
           removeTemplateInstances | \
@@ -33,7 +33,7 @@
   )
     ul.list.popover-list
       li.list-item.popover-list-item(
-      ng-click = "actions.addDependency(instance, true); data.show = false; "
+      ng-click = "actions.addDependency(instance, true); closePopover();"
       ng-repeat = "\
          instance in data.instances.models | \
          unaddedDepInstances:data.state.dependencies | \

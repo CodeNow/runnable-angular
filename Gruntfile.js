@@ -5,8 +5,10 @@ var find    = require('find');
 var fs      = require('fs');
 var async   = require('async');
 var envIs   = require('101/env-is');
+var timer   = require('grunt-timer');
 
 module.exports = function(grunt) {
+  timer.init(grunt);
 
   var sassDir   = 'client/assets/styles/scss';
   var sassIndex = path.join(sassDir, 'index.scss');
@@ -85,13 +87,13 @@ module.exports = function(grunt) {
         options: {
           jshintrc: '.jshintrc-prod'
         },
-        files: {src: jshintFiles}
+        src: jshintFiles
       },
       dev: {
         options: {
           jshintrc: '.jshintrc'
         },
-        files: {src: jshintFiles}
+        src: jshintFiles
       }
     },
     browserify: {
@@ -183,10 +185,13 @@ module.exports = function(grunt) {
           '!client/build/**/*.*'
         ],
         tasks: [
-          'jshint:dev',
-          'autoBundleDependencies',
+          'newer:jshint:dev',
+          'autoBundleDependencies'
         //  'bgShell:karma'
-        ]
+        ],
+        options: {
+          spawn: false
+        }
       },
       templates: {
         files: [
@@ -238,7 +243,7 @@ module.exports = function(grunt) {
         cmd: 'protractor test/protractor.conf.js'
       },
       server: {
-        cmd: 'NODE_ENV=development NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
+        cmd: 'NODE_PATH=. node ./node_modules/nodemon/bin/nodemon.js -e js,hbs index.js',
         bg: true,
         execOpts: {
           maxBuffer: 1000*1024
@@ -262,10 +267,10 @@ module.exports = function(grunt) {
       default: {
         options: {
           thresholds: {
-            statements: 60.49,
-            branches: 43.84,
-            functions: 53.02,
-            lines: 61.02
+            statements: 68.58,
+            branches: 52.01,
+            functions: 61.6,
+            lines: 68.98
           },
           dir: 'coverage',
           root: 'test'
@@ -325,17 +330,17 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('generateConfigs', '', function () {
+  grunt.registerTask('generateConfigs', 'Generates the configuration file', function (environment) {
     var done = this.async();
     var clientPath = path.join(__dirname, 'client');
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || '//nathan-api-codenow.runnableapp.com';
+        configObj.host = process.env.API_HOST || '//stage-api-codenow.runnableapp.com';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
-        if (configObj.host.charAt(configObj.host.length-1) === '/') {
-          configObj.host = configObj.host.substr(0, configObj.host.length-1);
+        if (configObj.host.charAt(configObj.host.length - 1) === '/') {
+          configObj.host = configObj.host.substr(0, configObj.host.length - 1);
         }
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'api.json'), configJSON, function () {
@@ -368,8 +373,9 @@ module.exports = function(grunt) {
         });
       },
       function (cb) {
-        var configObj = {};
-        configObj.environment = process.env.NODE_ENV || 'development';
+        var configObj = {
+          environment: environment || process.env.NODE_ENV || 'development'
+        };
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'environment.json'), configJSON, function () {
           cb();
@@ -383,11 +389,11 @@ module.exports = function(grunt) {
   grunt.registerTask('deleteOldCoverage', '', function () {
     function deleteFolderRecursive(path) {
       var files = [];
-      if( fs.existsSync(path) ) {
+      if (fs.existsSync(path)) {
         files = fs.readdirSync(path);
-        files.forEach(function(file,index){
+        files.forEach(function (file, index) {
           var curPath = path + '/' + file;
-          if(fs.lstatSync(curPath).isDirectory()) { // recurse
+          if (fs.lstatSync(curPath).isDirectory()) { // recurse
             deleteFolderRecursive(curPath);
           } else { // delete file
             if (file !== '.gitkeep') {
@@ -440,6 +446,7 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-browserify');
@@ -466,10 +473,9 @@ module.exports = function(grunt) {
     'bgShell:karma-circle', // Use the circle karma.conf so it browserifies everything it needs
     'coverage'
   ]);
-
   grunt.registerTask('test:e2e', ['bgShell:protractor']);
   grunt.registerTask('test', ['bgShell:karma']);
-  grunt.registerTask('build:dev', [
+  grunt.registerTask('default', [
     'githooks',
     'bgShell:npm-install',
     'copy',
@@ -480,10 +486,6 @@ module.exports = function(grunt) {
     'autoBundleDependencies',
     'generateConfigs',
     'loadSyntaxHighlighters',
-    'browserify:once'
-  ]);
-  grunt.registerTask('default', [
-    'build:dev',
     'browserify:watch',
     'concurrent'
   ]);
@@ -496,5 +498,13 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:once'
   ]);
-
+  grunt.registerTask('deploy:prod', [
+    'copy',
+    'sass:dev',
+    'autoprefixer',
+    'jade2js',
+    'autoBundleDependencies',
+    'generateConfigs:production',
+    'browserify:once'
+  ]);
 };

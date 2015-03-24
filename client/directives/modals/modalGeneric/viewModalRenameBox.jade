@@ -37,7 +37,8 @@
     .validate-wrapper.btn-sm.orange(
       ng-class = "{\
         'invalid-pattern': data.renameForm.$error.namePattern.length,\
-        'invalid-name': data.renameForm.$error.nameAvailable.length\
+        'invalid-name': data.renameForm.$error.nameAvailable.length,\
+        'invalid-require': data.renameForm.$error.nameRequire.length\
       }"
     )
       span.validate-rules.invalid-pattern Please use #{''}
@@ -46,7 +47,8 @@
         b.btn-xs.orange 0-9
         b.btn-xs.orange _
         b.btn-xs.orange -
-      span.validate-rules.invalid-name That's a pretty name, but it's taken.
+      span.validate-rules.invalid-name That's a pretty name, but it's taken
+      span.validate-rules.invalid-require Give your server an alphanumeric name
 
   footer.modal-footer
     button.btn(

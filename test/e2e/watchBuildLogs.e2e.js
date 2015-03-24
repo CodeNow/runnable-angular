@@ -6,27 +6,25 @@ var InstancePage = require('./pages/InstancePage');
 var InstanceEditPage = require('./pages/InstanceEditPage');
 var apiClient = require('./helpers/apiClient');
 var BUILD_TIMEOUT = 80000;
+var user, oldBuildId;
 
 function startInstanceUpdate(thisUser) {
+  oldBuildId = null;
   return function () {
-    var forkedBuild, thisInstance, user;
+    var forkedBuild, thisInstance;
     return apiClient.fetchUser(
     ).then(function (_user) {
       user = _user;
       return apiClient.promisify(user, 'fetch')('me');
     }).then(function () {
       return apiClient.promisify(user, 'fetchInstances')({
-        githubUsername: thisUser
+        githubUsername: thisUser,
+        name: 'RailsProject'
       });
     }).then(function (instances) {
-      thisInstance = instances.find(function (instance) {
-        return instance.attrs.name === 'node_hello_world';
-      });
-      return thisInstance;
-    }).then(function (instance) {
-      return instance.build;
-    }).then(function (build) {
-      return apiClient.promisify(build, 'deepCopy')();
+      thisInstance = instances.models[0];
+      oldBuildId = thisInstance.build.id();
+      return apiClient.promisify(thisInstance.build, 'deepCopy')();
     }).then(function (build) {
       forkedBuild = build;
       return apiClient.promisify(forkedBuild, 'build')({
@@ -37,12 +35,14 @@ function startInstanceUpdate(thisUser) {
       return apiClient.promisify(thisInstance, 'update')({
         build: forkedBuild.id()
       });
+    }).then(function () {
+      return forkedBuild;
     });
   };
 }
 describe('watchBuildLogs', users.doMultipleUsers(function (username) {
   it('should react to a socket update of the build when running', function () {
-    var instance = new InstancePage('node_hello_world');
+    var instance = new InstancePage('RailsProject');
     instance.get();
 
     browser.wait(function () {
@@ -54,18 +54,18 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
       instance.activePanel.openTab('Build Logs');
     }).then(instance.activePanel.currentContent.get().getText
     ).then(function (text) {
-        expect(text).toMatch(/Successfully built/);
-      }).then(function () {
-        return browser.wait(function () {
-          return instance.activePanel.isLoaded();
-        });
-      }).then(function () {
-        return instance.activePanel.openTab('Web View');
-      }).then(function () {
-        return browser.wait(function () {
-          return util.hasClass(instance.statusIcon, 'running');
-        });
-      }).then(startInstanceUpdate(username));
+      expect(text).toMatch(/Successfully built/);
+    }).then(function () {
+      return browser.wait(function () {
+        return instance.activePanel.isLoaded();
+      });
+    }).then(function () {
+      return instance.activePanel.openTab('Web View');
+    }).then(function () {
+      return browser.wait(function () {
+        return util.hasClass(instance.statusIcon, 'running');
+      });
+    }).then(startInstanceUpdate(username));
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'building');
@@ -83,7 +83,7 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
     }, BUILD_TIMEOUT);
   }, BUILD_TIMEOUT);
   it('should react to a socket update of the build when stopped', function () {
-    var instance = new InstancePage('node_hello_world');
+    var instance = new InstancePage('RailsProject');
     instance.get();
 
     browser.wait(function () {
@@ -122,8 +122,9 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
     }, BUILD_TIMEOUT);
   }, BUILD_TIMEOUT);
   it('should react to a socket update of the build when building', function () {
-    var instanceEdit = new InstanceEditPage('node_hello_world');
-    var instance = new InstancePage('node_hello_world');
+    var newBuild = null;
+    var instanceEdit = new InstanceEditPage('RailsProject');
+    var instance = new InstancePage('RailsProject');
     instanceEdit.get();
 
     browser.wait(function () {
@@ -134,23 +135,40 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'building');
     });
-    browser.wait(function () {
-      return instance.activePanel.getContents().then(function (text) {
-        return text.indexOf('Step 3') >= 0;
-      });
-    }).then(startInstanceUpdate(username)
-    ).then(function () {
-        expect(instance.activePanel.getContents()).not.toMatch('Step 3');
-      });
 
     browser.wait(function () {
-      return instance.activePanel.isLoaded();
+      return instance.activePanel.getContents().then(function (text) {
+        return text.indexOf('Step 0') >= 0;
+      });
+    }).then(
+      startInstanceUpdate(username)
+    ).then(function (forkedBuild) {
+      newBuild = forkedBuild;
+      return browser.wait(function () {
+        return instance.activePanel.getContents().then(function (text) {
+          // Testing for JUST the spinner
+          return /^\||\-|\/|\\/.test(text);
+        });
+      });
     }).then(function () {
-      expect(instance.activePanel.getActiveTab()).toEqual('Build Logs');
+      browser.wait(function () {
+        return instance.activePanel.getContents().then(function (text) {
+          return text.indexOf('Step 3') >= 0;
+        });
+      });
+    }).then(function () {
+      return apiClient.promisify(user, 'fetchInstances')({
+        githubUsername: username,
+        name: 'RailsProject'
+      });
+    }).then(function (instances) {
+      var thisBuildId = instances.models[0].build.id();
+      expect(thisBuildId).toEqual(newBuild.id());
+      expect(thisBuildId).not.toEqual(oldBuildId);
     });
 
     browser.wait(function () {
       return util.hasClass(instance.statusIcon, 'running');
     }, BUILD_TIMEOUT);
   }, BUILD_TIMEOUT);
-}))
+}));
