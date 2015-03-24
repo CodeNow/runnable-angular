@@ -48,8 +48,10 @@ function EventTracking (
       return;
     }
     var args = Array.prototype.slice.call(arguments);
+    var contextPath = arguments[0].split('.').slice(0, pathParts.length-1).join('');
+    var context = keypather.get($window.mixpanel, contextPath);
     keypather.get($window, 'mixpanel.'+arguments[0])
-      .apply($window.mixpanel, args.slice(1, args.length));
+      .apply(context, args.slice(1, args.length));
   };
 }
 
@@ -70,8 +72,9 @@ EventTracking.prototype.boot = function (user) {
     app_id: INTERCOM_APP_ID
   };
   this._Intercom('boot', data);
+//  this._mixpanel('people.set', user.toJSON());
+  debugger;
   this._mixpanel('identify', user.oauthId());
-  //this._mixpanel('people.set', user.toJSON());
 };
 
 /**
