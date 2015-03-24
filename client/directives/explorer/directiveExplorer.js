@@ -29,13 +29,13 @@ function explorer(
             helperCreateFS($scope.rootDir, {
               isDir: false
             }, errs.handler);
-            $scope.filePopover.data.show = false;
+            $scope.$broadcast('close-popovers');
           },
           createFolder: function() {
             helperCreateFS($scope.rootDir, {
               isDir: true
             }, errs.handler);
-            $scope.filePopover.data.show = false;
+            $scope.$broadcast('close-popovers');
           }
         }
       };

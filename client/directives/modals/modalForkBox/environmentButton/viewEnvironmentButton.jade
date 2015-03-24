@@ -1,15 +1,12 @@
 button.btn.btn-sm.gray(
-  toggle-pop-over
-  toggle-pop-over-model = "item.state.envShow"
-  toggle-pop-over-no-broadcast = "true"
+  pop-over
+  pop-over-active = "item.state.envShow"
+  pop-over-no-broadcast = "true"
+  pop-over-actions = "envPopover.actions"
+  pop-over-data = "item"
+  pop-over-options = "{\"left\":-149,\"top\":54}"
+  pop-over-template = "viewPopoverEnvironment"
   tooltip = "Edit Environment"
   tooltip-options = "{\"class\":\"bottom\",\"left\":9,\"top\":27}"
   type = "button"
 ) env
-pop-over(
-  actions = "envPopover.actions"
-  data = "item"
-  popover-options = "{\"left\":-149,\"top\":54}"
-  popover-ready = "item.state.envShow"
-  template = "viewPopoverEnvironment"
-)

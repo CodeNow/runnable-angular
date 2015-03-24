@@ -1,19 +1,18 @@
 .popover.bottom.menu.context-menu(
-  ng-class = "{in: fileItemData.isOpen}"
-  ng-style = "fileItemData.eStyle"
-  right-click
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
 )
   .popover-content
     ul.popover-list
       li.popover-list-item(
-        ng-click = "fileItemData.actions.openFile();\
+        ng-click = "actions.openFile(data);\
           $event.stopPropagation();"
       )
         svg.iconnables
         | Open
       li.divider
       li.popover-list-item(
-        ng-click = "fileItemData.actions.renameFile();\
+        ng-click = "actions.renameFile(data);\
           $event.stopPropagation();"
       )
         svg.iconnables
@@ -22,7 +21,7 @@
           )
         | Rename
       li.popover-list-item(
-        ng-click = "fileItemData.actions.deleteFile();\
+        ng-click = "actions.deleteFile(data);\
           $event.stopPropagation();"
       )
         svg.iconnables

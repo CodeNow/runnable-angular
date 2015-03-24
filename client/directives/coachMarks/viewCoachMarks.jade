@@ -1,18 +1,14 @@
 .guide.guide-mark(
-  ng-click = "$event.stopPropagation()"
   ng-hide = "coachMarkData.hideMark"
   ng-model = "coachMarkData"
   ng-style = "coachMarkData.getStyle()"
-  toggle-pop-over
-  toggle-pop-over-model = "coachMarkData.show"
+  pop-over
+  pop-over-data = "coachMarkData"
+  pop-over-options = "{\"left\":-138,\"top\":33}"
+  pop-over-active = "coachMarkData.show"
+  pop-over-template = "{{coachMarkTemplate}}"
 )
   svg.iconnables.icons-star
     use(
       xlink:href = "#icons-star"
     )
-  pop-over(
-    data = "coachMarkData"
-    popover-options = "{\"left\":-138,\"top\":33}"
-    popover-ready = "coachMarkData.show"
-    template = "{{coachMarkTemplate}}"
-  )

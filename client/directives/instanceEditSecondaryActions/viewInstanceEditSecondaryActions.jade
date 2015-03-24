@@ -20,18 +20,16 @@
     | Fork
   button.btn.white.btn-icon.btn-action(
     ng-class = "{active: popoverGearMenu.data.show}"
-    toggle-pop-over
-    toggle-pop-over-model = "popoverGearMenu.data.show"
     type = "button"
+    pop-over
+    pop-over-active = "popoverGearMenu.data.show"
+    pop-over-actions = "popoverGearMenu.actions"
+    pop-over-data = "popoverGearMenu.data"
+    pop-over-options = "{\"left\":-67,\"top\":54}"
+    pop-over-template = "viewInstanceEditPopoverActions"
   )
     svg.iconnables.icons-gear
       use(
         xlink:href = "#icons-gear"
       )
     //- popover for rename, for, delete box
-    pop-over(
-      actions = "popoverGearMenu.actions"
-      data = "popoverGearMenu.data"
-      popover-options = "{\"left\":-67,\"top\":54}"
-      template = "viewInstanceEditPopoverActions"
-    )

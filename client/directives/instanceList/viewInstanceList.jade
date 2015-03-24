@@ -109,15 +109,13 @@ div(
       )
     button.btn.btn-xxs.green(
       ng-class = "{active: popoverInvite.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "popoverInvite.data.show"
+      pop-over
+      pop-over-active = "popoverInvite.data.show"
+      pop-over-actions = "popoverInvite.actions"
+      pop-over-data = "popoverInvite.data"
+      pop-over-options = "{\"left\":-108,\"top\":-126}"
+      pop-over-template = "viewPopoverInvite"
     ) Invite
-      pop-over(
-        actions = "popoverInvite.actions"
-        data = "popoverInvite.data"
-        popover-options = "{\"left\":-108,\"top\":-126}"
-        template = "viewPopoverInvite"
-      )
 
   //- list of users
   ul.list.list-users.load
