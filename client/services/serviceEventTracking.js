@@ -10,6 +10,7 @@ require('app')
   .service('eventTracking', EventTracking);
 
 var User = require('runnable/lib/models/user');
+var _keypather;
 
 // constants
 var INTERCOM_APP_ID = 'wqzm3rju';
@@ -25,6 +26,7 @@ function EventTracking (
   isFunction,
   keypather
 ) {
+  _keypather = keypather;
   this._Intercom = $window.Intercom;
   //this._mixpanel = $window.mixpanel;
   this._state = $state;
@@ -52,7 +54,7 @@ function EventTracking (
     // contextPath: "foo.bar.biz.bang" -> "foo.bar.biz" || "foo.bar.biz" -> "foo.bar"
     var contextPath = path.slice(0, path.length-1).join('');
     var context = keypather.get($window.mixpanel, contextPath);
-    keypather.get($window, 'mixpanel.'+arguments[0])
+    _keypather.get($window, 'mixpanel.'+arguments[0])
       .apply(context, args.slice(1, args.length));
   };
 }
@@ -75,7 +77,13 @@ EventTracking.prototype.boot = function (user) {
   };
   this._Intercom('boot', data);
   this._mixpanel('identify', user.oauthId());
-  this._mixpanel('people.set', user.toJSON());
+  var userJSON = user.toJSON();
+  this._mixpanel('people.set', {
+    '$first_name': _keypather.get(userJSON, 'accounts.github.displayName.split(/ (.+)/)[0]'),
+    '$last_name': _keypather.get(userJSON, 'accounts.github.displayName.split(/ (.+)/)[1]'),
+    '$created': _keypather.get(userJSON, 'created'),
+    '$email': _keypather.get(userJSON, 'email')
+  });
 };
 
 /**
