@@ -72,3 +72,17 @@
     width: 15px;
   }
 }
+
+// progress
+.progress {
+  background: rgba($blue,.2);
+  border-color: rgba($blue,.2);
+  border-radius: 3px;
+  display: block;
+  height: 28px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform-origin: 0 0;
+  transition: .3s ease width;
+}

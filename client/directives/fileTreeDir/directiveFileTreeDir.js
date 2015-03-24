@@ -111,9 +111,6 @@ function fileTreeDir(
           return {};
         }
         var style = {
-          'background': 'linear-gradient(to right, rgba(42,176,246,.2) 0%, rgba(42,176,246,.2) 90%, rgba(255,255,255,.1) 90%, rgba(255,255,255,.1) 100%)',
-          'border-color': 'rgba(42,176,246,.2)', // rgba($blue,.2)
-          'color': '#0da5f5' // $blue-dark
         };
         return style;
       };

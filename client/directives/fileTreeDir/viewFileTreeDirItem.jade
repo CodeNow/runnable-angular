@@ -12,13 +12,16 @@ li(
 )
 li.file(
   draggable
-  ng-repeat = "fs in dir.contents.models \
-               | isFile \
-               | orderBy:actions.normalizeMixedDataValue"
-  ng-class = "{ \
-      'active': fs.state.active, \
-      'dirty': (fs.state.body !== fs.attrs.body) \
-    }"
+  ng-repeat = "\
+    fs in dir.contents.models \
+    | isFile \
+    | orderBy:actions.normalizeMixedDataValue\
+  "
+  ng-class = "{\
+    active: fs.state.active,\
+    dirty: (fs.state.body !== fs.attrs.body),\
+    'in-progress': fs.state.uploading\
+  }"
 )
   a(
     ng-click = "\
@@ -37,6 +40,10 @@ li.file(
     .spinner-wrapper.spinner-sm.in(
       ng-if = "fs.state.uploading"
       ng-include = "'spinner'"
+    )
+    .progress.in(
+      ng-if = "fs.state.uploading"
+      style = "width: 90%"
     )
     svg.iconnables.filetypes.icons-file(
       ng-if = "!fs.state.uploading"

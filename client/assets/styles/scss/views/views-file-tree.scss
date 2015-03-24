@@ -52,6 +52,16 @@
       }
     }
 
+    // uploading
+    &.in-progress {
+      color: $blue;
+
+      > a {
+        border-color: rgba($blue,.2);
+        position: relative;
+      }
+    }
+
     // folders
     &.folder {
       height: auto;
