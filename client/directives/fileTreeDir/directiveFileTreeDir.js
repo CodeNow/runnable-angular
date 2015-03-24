@@ -17,8 +17,7 @@ function fileTreeDir(
   promisify,
   helperCreateFS,
   $upload,
-  configAPIHost,
-  $timeout
+  configAPIHost
 ) {
   return {
     restrict: 'A',
