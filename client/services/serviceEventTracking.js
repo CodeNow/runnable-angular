@@ -48,7 +48,9 @@ function EventTracking (
       return;
     }
     var args = Array.prototype.slice.call(arguments);
-    var contextPath = arguments[0].split('.').slice(0, pathParts.length-1).join('');
+    var path = args[0].split('.');
+    // contextPath: "foo.bar.biz.bang" -> "foo.bar.biz" || "foo.bar.biz" -> "foo.bar"
+    var contextPath = path.slice(0, path.length-1).join('');
     var context = keypather.get($window.mixpanel, contextPath);
     keypather.get($window, 'mixpanel.'+arguments[0])
       .apply(context, args.slice(1, args.length));
