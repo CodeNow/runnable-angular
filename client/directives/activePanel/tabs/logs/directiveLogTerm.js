@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function logTerm(
+  $timeout,
   helperSetupTerminal,
   primus
 ) {
@@ -86,6 +87,8 @@ function logTerm(
           terminal.cursorBlink = false;
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
+          // Blur so that the cursor disappears
+          terminal.blur();
         }
       }
       function writeToTerm(output) {
@@ -111,7 +114,7 @@ function logTerm(
           terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
         });
         bind($scope.stream, 'end', function () {
-          //hideTerminalSpinner();
+          hideTerminalSpinner();
           killCurrentStream();
           if ($scope.streamEnded) {
             $scope.streamEnded();
