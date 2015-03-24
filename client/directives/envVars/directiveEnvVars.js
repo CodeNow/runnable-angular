@@ -7,8 +7,7 @@ require('app')
  */
 function envVars(
   keypather,
-  validateEnvVars,
-  $rootScope
+  validateEnvVars
 ) {
   return {
     replace: true,
@@ -58,14 +57,18 @@ function envVars(
         // If the envs haven't changed, (also takes care of first null/null occurrence
         if (newEnv === oldEnv) { return; }
         $scope.validation = validateEnvVars(newEnv);
-        var annotations = $scope.validation.errors.map(function (error) {
-          return {
-            text: 'Invalid Environment Variable',
-            type: 'warning',
-            row: error
-          };
-        });
-        session.setAnnotations(annotations);
+        if (keypather.get($scope, 'validation.errors.length')) {
+          var annotations = $scope.validation.errors.map(function (error) {
+            return {
+              text: 'Invalid Environment Variable',
+              type: 'warning',
+              row: error
+            };
+          });
+          session.setAnnotations(annotations);
+        } else {
+          session.clearAnnotations();
+        }
         // Save them to the state model
         keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
           return v.length;

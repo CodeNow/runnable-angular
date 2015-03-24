@@ -4,9 +4,18 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
   var element;
   var $scope;
   var $rootScope;
+  var mockValidateEnv;
+  var mockValidateReturnValue;
 
   function initState (addToScope) {
-    angular.mock.module('app');
+    mockValidateEnv = sinon.spy(function () {
+      return {
+        errors: mockValidateReturnValue
+      };
+    });
+    angular.mock.module('app', function ($provide) {
+      $provide.value('validateEnvVars', mockValidateEnv);
+    });
     angular.mock.inject(function($compile, _$rootScope_, $timeout){
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
@@ -33,13 +42,9 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
     };
     return {
       session: {
-        removeGutterDecoration : function (row) {
-          cache.deco[row.toString()] = 'deleted';
-        },
-        addGutterDecoration : function (row, className) {
-          cache.deco[row.toString()] = className;
-        },
-        $stopWorker: function() {}
+        setAnnotations : sinon.spy(),
+        clearAnnotations : sinon.spy(),
+        $stopWorker: function () {}
       },
       renderer: {
         lineHeight: 0
@@ -230,35 +235,34 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       var mockAce = createMockAce();
       isolatedScope.aceLoaded(mockAce);
 
-      isolatedScope.validation.errors = [];
       $scope.$apply();
 
       var firstErrors = [10, 13, 20];
       var secondErrors = [16];
-      isolatedScope.validation.errors = firstErrors;
+
+      mockValidateReturnValue = firstErrors;
+      element.isolateScope().environmentalVars = 'adsfasdfadsf';
       $scope.$apply();
-      var cache = mockAce.getCache();
-      firstErrors.forEach(function(index) {
-        expect(cache.deco[index.toString()]).to.equal('ace-validation-error');
-      });
+      sinon.assert.calledOnce(mockAce.session.setAnnotations);
+      mockAce.session.setAnnotations.reset();
 
       // Now we should remove them
-      isolatedScope.validation.errors = null;
+      mockValidateReturnValue = null;
+      element.isolateScope().environmentalVars = 'sadas';
       $scope.$apply();
 
-      firstErrors.forEach(function(index) {
-        expect(mockAce.getCache().deco[index.toString()]).to.equal('deleted');
-      });
+      sinon.assert.notCalled(mockAce.session.setAnnotations);
+      sinon.assert.calledOnce(mockAce.session.clearAnnotations);
+      mockAce.session.setAnnotations.reset();
+      mockAce.session.clearAnnotations.reset();
 
-      isolatedScope.validation.errors = secondErrors;
+      mockValidateReturnValue = secondErrors;
+      element.isolateScope().environmentalVars = 'asdf';
       $scope.$apply();
 
-      secondErrors.forEach(function(index) {
-        expect(mockAce.getCache().deco[index.toString()]).to.equal('ace-validation-error');
-      });
-      firstErrors.forEach(function(index) {
-        expect(mockAce.getCache().deco[index.toString()]).to.equal('deleted');
-      });
+
+      sinon.assert.notCalled(mockAce.session.clearAnnotations);
+      sinon.assert.calledOnce(mockAce.session.setAnnotations);
 
       $scope.$broadcast('$destroy');
       $scope.$apply();
