@@ -78,9 +78,16 @@ EventTracking.prototype.boot = function (user) {
   this._Intercom('boot', data);
   this._mixpanel('identify', user.oauthId());
   var userJSON = user.toJSON();
+  var firstName = '';
+  var lastName = '';
+  var displayName = _keypather.get(userJSON, 'accounts.github.displayName');
+  if (displayName) {
+    firstName = displayName.split(/ (.+)/)[0];
+    lastName = displayName.split(/ (.+)/)[1];
+  }
   this._mixpanel('people.set', {
-    '$first_name': _keypather.get(userJSON, 'accounts.github.displayName.split(/ (.+)/)[0]'),
-    '$last_name': _keypather.get(userJSON, 'accounts.github.displayName.split(/ (.+)/)[1]'),
+    '$first_name': firstName,
+    '$last_name': lastName,
     '$created': _keypather.get(userJSON, 'created'),
     '$email': _keypather.get(userJSON, 'email')
   });
