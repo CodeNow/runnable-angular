@@ -8,7 +8,6 @@
 
 require('app')
   .service('eventTracking', EventTracking);
-
 var User = require('runnable/lib/models/user');
 var _keypather;
 
@@ -22,14 +21,44 @@ var INTERCOM_APP_ID = 'wqzm3rju';
 function EventTracking (
   $log,
   $state,
+  $stateParams,
   $window,
+  assign,
   isFunction,
   keypather
 ) {
   _keypather = keypather;
+
   this._Intercom = $window.Intercom;
-  //this._mixpanel = $window.mixpanel;
-  this._state = $state;
+  this._baseEventData = {};
+  this._user;
+
+  /**
+   * Extend per-event data with specific properties
+   * to be sent w/ all events
+   * @throws
+   * @param {Object} data - data for given event to be extended
+   * @return Object - extended event object
+   */
+  this.extendEventData = function (data) {
+    if (!this._user) {
+      throw new Error('eventTracking.boot() must be invoked before reporting events');
+    }
+    // username owner if server page
+    // name of server if server page
+    // page event triggered from
+    var baseData = {
+      userName: this._user.oauthName(),
+      state: $state.$current.name,
+      stateParams: $stateParams
+    };
+    return assign(data, baseData);
+  };
+
+  /**
+   * Stub Intercom when SDK not present
+   * (development/staging environments)
+   */
   if (!this._Intercom) {
     // stub intercom if not present
     this._Intercom = function () {
@@ -54,7 +83,7 @@ function EventTracking (
     // contextPath: "foo.bar.biz.bang" -> "foo.bar.biz" || "foo.bar.biz" -> "foo.bar"
     var contextPath = path.slice(0, path.length-1).join('');
     var context = keypather.get($window.mixpanel, contextPath);
-    _keypather.get($window, 'mixpanel.'+arguments[0])
+    keypather.get($window, 'mixpanel.'+arguments[0])
       .apply(context, args.slice(1, args.length));
   };
 }
@@ -69,6 +98,7 @@ EventTracking.prototype.boot = function (user) {
   if (!(user instanceof User)) {
     throw new Error('arguments[0] must be instance of User');
   }
+  this._user = user;
   var data = {
     name: user.oauthName(),
     email: user.attrs.email,
@@ -105,11 +135,10 @@ EventTracking.prototype.boot = function (user) {
  */
 EventTracking.prototype.toggledCommit = function (data) {
   var eventName = 'toggled-commit';
-  var eventData = {
+  var eventData = this.extendEventData({
     triggeredBuild: !!data.triggeredBuild,
-    selectedCommit: data.acv,
-    state: this._state.$current.name
-  };
+    selectedCommit: data.acv
+  });
   this._mixpanel('track', eventName, eventData);
 };
 
@@ -123,10 +152,9 @@ EventTracking.prototype.toggledCommit = function (data) {
  */
 EventTracking.prototype.triggeredBuild = function (cache) {
   var eventName = 'triggered-build';
-  var eventData = {
-    cache: cache,
-    state: this._state.$current.name
-  };
+  var eventData = this.extendEventData({
+    cache: cache
+  });
   this._Intercom('trackEvent', eventName, eventData);
   this._mixpanel('track', eventName, eventData);
 };
