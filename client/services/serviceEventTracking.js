@@ -162,7 +162,6 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   var eventData = this.extendEventData({
     cache: cache
   });
-  console.log('eventData', eventData);
   this._Intercom('trackEvent', eventName, eventData);
   this._mixpanel('track', eventName, eventData);
 };
