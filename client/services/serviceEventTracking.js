@@ -23,6 +23,7 @@ function EventTracking (
   $state,
   $stateParams,
   $window,
+  assign,
   isFunction,
   keypather
 ) {
@@ -58,7 +59,7 @@ function EventTracking (
     if ($stateParams.instanceName) {
       baseData.instanceName = $stateParams.instanceName;
     }
-    return angular.copy(data, baseData);
+    return assign(data, baseData);
   };
 
   /**
@@ -161,6 +162,7 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   var eventData = this.extendEventData({
     cache: cache
   });
+  console.log('eventData', eventData);
   this._Intercom('trackEvent', eventName, eventData);
   this._mixpanel('track', eventName, eventData);
 };
