@@ -1,10 +1,13 @@
 'use strict';
 
+var User = require('runnable/lib/models/user');
 var apiMocks = require('../apiMocks/index');
 
 describe('serviceEventTracking'.bold.underline.blue, function () {
-  var eventTracking;
+
   var $log;
+  var eventTracking;
+
   function initState () {
     angular.mock.module('app', function ($provide) {
     });
@@ -21,6 +24,7 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
   function tearDownState () {
     $log.error.restore();
   }
+
   beforeEach(initState);
   afterEach(tearDownState);
 
@@ -39,7 +43,7 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
     expect($log.error.args[0][0]).to.equal('eventTracking.boot() must be invoked before reporting events');
     $log.error.reset();
     eventTracking.boot(new User(angular.copy(apiMocks.user)));
+    eventTracking.triggeredBuild();
+    expect($log.error.callCount).to.equal(0);
   });
-
-
 });
