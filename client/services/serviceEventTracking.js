@@ -49,7 +49,8 @@ function EventTracking (
     // page event triggered from
     var baseData = {
       userName: this._user.oauthName(),
-      state: $state.$current.name
+      state: $state.$current.name,
+      href: $window.location.href
     };
     if ($stateParams.userName) {
       baseData.instanceOwner = $stateParams.userName;
