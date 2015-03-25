@@ -330,7 +330,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('generateConfigs', '', function () {
+  grunt.registerTask('generateConfigs', 'Generates the configuration file', function (environment) {
     var done = this.async();
     var clientPath = path.join(__dirname, 'client');
     async.parallel([
@@ -339,8 +339,8 @@ module.exports = function(grunt) {
         configObj.host = process.env.API_HOST || '//stage-api-codenow.runnableapp.com';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
-        if (configObj.host.charAt(configObj.host.length-1) === '/') {
-          configObj.host = configObj.host.substr(0, configObj.host.length-1);
+        if (configObj.host.charAt(configObj.host.length - 1) === '/') {
+          configObj.host = configObj.host.substr(0, configObj.host.length - 1);
         }
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'api.json'), configJSON, function () {
@@ -373,8 +373,9 @@ module.exports = function(grunt) {
         });
       },
       function (cb) {
-        var configObj = {};
-        configObj.environment = process.env.NODE_ENV || 'development';
+        var configObj = {
+          environment: environment || process.env.NODE_ENV || 'development'
+        };
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'environment.json'), configJSON, function () {
           cb();
@@ -388,11 +389,11 @@ module.exports = function(grunt) {
   grunt.registerTask('deleteOldCoverage', '', function () {
     function deleteFolderRecursive(path) {
       var files = [];
-      if( fs.existsSync(path) ) {
+      if (fs.existsSync(path)) {
         files = fs.readdirSync(path);
-        files.forEach(function(file,index){
+        files.forEach(function (file, index) {
           var curPath = path + '/' + file;
-          if(fs.lstatSync(curPath).isDirectory()) { // recurse
+          if (fs.lstatSync(curPath).isDirectory()) { // recurse
             deleteFolderRecursive(curPath);
           } else { // delete file
             if (file !== '.gitkeep') {
@@ -497,5 +498,13 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:once'
   ]);
-
+  grunt.registerTask('deploy:prod', [
+    'copy',
+    'sass:dev',
+    'autoprefixer',
+    'jade2js',
+    'autoBundleDependencies',
+    'generateConfigs:production',
+    'browserify:once'
+  ]);
 };
