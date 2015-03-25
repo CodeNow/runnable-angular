@@ -52,26 +52,54 @@ div(
       ng-click = "openItems.addWebView()"
     )
       svg.iconnables.iconnables-lg.icons-web
-        use(xlink:href = "#icons-web")
+        use(
+          xlink:href = "#icons-web"
+        )
       | Web View
     li.btn.white(
       ng-if = "showBackgroundButtons.term"
       ng-click = "openItems.addTerminal()"
     )
       svg.iconnables.iconnables-lg.icons-terminal
-        use(xlink:href = "#icons-terminal")
+        use(
+          xlink:href = "#icons-terminal"
+        )
       | Terminal
     li.btn.white(
       ng-if = "showBackgroundButtons.build"
       ng-click = "openItems.addBuildStream()"
     )
       svg.iconnables.iconnables-lg.icons-logs
-        use(xlink:href = "#icons-logs")
+        use(
+          xlink:href = "#icons-logs"
+        )
       | Build Log
     li.btn.white(
       ng-if = "showBackgroundButtons.server"
       ng-click = "openItems.addLogs()"
     )
       svg.iconnables.iconnables-lg.icons-server
-        use(xlink:href = "#icons-server")
+        use(
+          xlink:href = "#icons-server"
+        )
       | Server Log
+
+//- can .views-prompt go in its own template file?
+.views-prompt.theme-dark(
+  ng-class = "{hide: data.hidePrompt}"
+)
+  p.p.monospace Build problems? Try these to get up and running:
+  button.btn.orange Rebuild without cache
+  button.btn.orange
+    svg.iconables.icons-edit
+      use(
+        xlink:href = "#icons-edit"
+      )
+    | Edit build files
+  button.btn.close-panel(
+    ng-click = "data.hidePrompt = true"
+  )
+    svg.iconnables.icons-close
+      use(
+        xlink:href = "#icons-close"
+      )

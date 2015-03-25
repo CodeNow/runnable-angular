@@ -1,0 +1,113 @@
+.views-prompt {
+  // background-color: #372642; // dark theme; this needs to happen in var.scss
+  // background-color: #f7f6f7; // light theme
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 18px 12px 18px 18px;
+  position: absolute;
+  transition: bottom .3s ease-in;
+  width: 100%;
+  z-index: $z-views-active-panel;
+
+  &.hide {
+    bottom: -162px; // can I do this in a way that is more flexible?
+  }
+
+  .p {
+    // color: $white; // dark theme
+    // color: $black; // light theme
+    float: left;
+    font-size: 14px;
+    line-height: 19px;
+    margin: 3px 18px 0 3px;
+    width: 214px;
+  }
+
+  .orange {
+    width: 210px;
+    // border-color: transparent;
+    background-color: #F7C559;  // this needs to happen in var.scss
+
+    + .orange {
+      margin-left: 15px;
+    }
+
+  }
+
+  .iconables {
+    fill: $white;
+    // float: left;
+    height: 21px;
+    width: 21px;
+  }
+
+  .icons-edit {
+    // margin-left: -3px;
+    margin: 0 4px -4px -3px;
+  }
+
+  .close-panel {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 13px;
+    float: right;
+    height: 26px;
+    line-height: 33px;
+    margin: 11px 0 0;
+    padding: 0;
+    width: 26px;
+
+    // &:hover {
+      // background-color: rgba($white,.06);
+      // border: 1px solid rgba($white,.25); // dark theme
+      // border: 1px solid rgba($purple-darker,.25); // light theme
+    // }
+  }
+
+  // .icons-close {
+    // fill: rgba($white,.25); // dark theme
+    // fill: rgba($purple-darker,.25); // light theme
+    // margin: 0;
+  // }
+
+}
+
+.theme-dark {
+  background-color: #372642;
+
+  .p {
+    color: $white;
+  }
+
+  .orange {
+    border-color: transparent;
+  }
+
+  .close-panel:hover {
+    background-color: rgba($white,.05);
+    border: 1px solid rgba($white,.25);
+  }
+
+  .icons-close {
+    fill: rgba($white,.25); // dark theme
+  }
+
+}
+
+.theme-light {
+  background-color: #f7f6f7;
+
+  .p {
+    color: $black;
+  }
+
+  .close-panel:hover {
+    background-color: rgba($purple-darker,.04);
+    border: 1px solid rgba($purple-darker,.25);
+  }
+
+  .icons-close {
+    fill: rgba($purple-darker,.25);
+  }
+
+}

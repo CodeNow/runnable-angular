@@ -6,7 +6,7 @@
   font-size: 16px;
   font-weight: 400;
   height: 45px;
-  line-height: 45px;
+  line-height: 43px; // 45 - 2px for border-top/bottom
   padding: 0 15px;
   position: relative;
   text-align: center;
@@ -289,22 +289,25 @@
 }
 
 .orange {
-  background: rgba($orange,.75);
-  border-color: rgba($orange-dark,.75);
-  text-shadow: 0 1px 0 $orange-dark;
+  // background: rgba($orange,.75);
+  // fix this later:
+  background: $orange3-light;
+  border-color: $orange3;
+  // text-shadow: 0 1px 0 $orange2-darker;
 
   &.btn {
     font-weight: 500;
 
     &:hover,
     &.hover {
-      background: rgba($orange,.6);
+      // background: rgba($orange,.6);
+      background: $orange3-lighter;
     }
 
     &:active,
     &.active {
-      background: $orange;
-      border-color: $orange;
+      background: $orange3;
+      // border-color: $orange2-dark;
       transition: none;
     }
 
