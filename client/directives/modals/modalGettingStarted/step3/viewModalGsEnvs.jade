@@ -17,19 +17,17 @@ h2.sub-header Dependencies & Environment Variables
   ) ?
   button.btn.btn-sm.btn-icon.gray.sub-header-action(
     ng-class = "{active: addDependencyPopover.data.show}"
-    toggle-pop-over
-    toggle-pop-over-model = "addDependencyPopover.data.show"
+    pop-over
+    pop-over-active = "addDependencyPopover.data.show"
+    pop-over-actions = "actions"
+    pop-over-data = "addDependencyPopover.data"
+    pop-over-options = "{\"left\":-88,\"top\":45}"
+    pop-over-template = "viewPopoverAddDependency"
   )
     svg.iconnables.icons-add
       use(
         xlink:href = "#icons-add"
       )
-    pop-over(
-      actions = "actions"
-      data = "addDependencyPopover.data"
-      popover-options = "{\"left\":-88,\"top\":45}"
-      template = "viewPopoverAddDependency"
-    )
 .label.clearfix(
   ng-repeat = "model in state.dependencies"
 )
@@ -46,19 +44,17 @@ h2.sub-header Dependencies & Environment Variables
       span.validate-rules.invalid-pattern Invalid entry
     button.btn-xxs.white(
       ng-class = "{active: model.gsPopover.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "model.gsPopover.show"
+      pop-over
+      pop-over-active = "model.gsPopover.show"
+      pop-over-actions = "actions"
+      pop-over-data = "model"
+      pop-over-options = "{\"left\":-76,\"top\":45}"
+      pop-over-template = "viewPopoverDependencyMenu"
     )
       svg.iconnables.icons-gear
         use(
           xlink:href = "#icons-gear"
         )
-      pop-over(
-        actions = "actions"
-        data = "model"
-        popover-options = "{\"left\":-76,\"top\":45}"
-        template = "viewPopoverDependencyMenu"
-      )
   //- additional input
   .input-col(
     ng-repeat = "env in model.otherEnvs"
@@ -78,8 +74,12 @@ h2.sub-header Dependencies & Environment Variables
           xlink:href = "#icons-close"
         )
 button.btn.btn-sm.gray.btn-add-dependency(
-  toggle-pop-over
-  toggle-pop-over-model = "addDependencyPopover.data.show"
+  pop-over
+  pop-over-active = "addDependencyPopover.data.show"
+  pop-over-actions = "actions"
+  pop-over-data = "addDependencyPopover.data"
+  pop-over-options = "{\"left\":-88,\"top\":45}"
+  pop-over-template = "viewPopoverAddDependency"
 ) Add Dependency
 //- other vars
 .hr

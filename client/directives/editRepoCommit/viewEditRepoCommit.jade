@@ -1,7 +1,11 @@
 .well.gray.repository-group-text(
   ng-class = "{active: popoverRepositoryToggle.data.show}"
-  toggle-pop-over
-  toggle-pop-over-model = "popoverRepositoryToggle.data.show"
+  pop-over
+  pop-over-actions = "popoverRepositoryToggle.actions"
+  pop-over-data = "popoverRepositoryToggle.data"
+  pop-over-options = "{\"left\":293}"
+  pop-over-template = "viewPopoverRepositoryToggle"
+  pop-over-active = "popoverRepositoryToggle.data.show"
 )
   p.repository-description.text-overflow
     svg.iconnables.icons-repository
@@ -32,10 +36,3 @@
   SAN-895 NOTES:
   it'd be amazing if the arrow in this popover could get to 50% of the height of .repo-group-text
   ************
-
-pop-over(
-  actions = "popoverRepositoryToggle.actions"
-  data = "popoverRepositoryToggle.data"
-  popover-options = "{\"left\":293}"
-  template = "viewPopoverRepositoryToggle"
-)

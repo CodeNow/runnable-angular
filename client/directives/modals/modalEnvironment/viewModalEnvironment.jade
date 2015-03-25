@@ -69,18 +69,11 @@
   )
     p.guide-text
       | Servers that can be linked are listed here. Enable linking on a server by adding the #{''}
-      span.btn.btn-xxs.well.well-code.well-inline.gray(
-        ng-class = "{active: popoverExposeInstruction.data.show}"
-        toggle-pop-over
-        toggle-pop-over-model = "popoverExposeInstruction.data.show"
+      a.link(
+        href = "https://docs.docker.com/reference/builder/#expose"
+        target = "_blank"
       ) EXPOSE
       | #{''} instruction in its Dockerfile to open ports.
-      pop-over(
-        actions = "popoverExposeInstruction.actions"
-        data = "popoverExposeInstruction.data"
-        popover-options = "{\"left\":-70,\"top\":108}"
-        template = "viewExposeInstruction"
-      )
 
   //- if servers with exposed ports
   aside.modal-aside.nav-servers(

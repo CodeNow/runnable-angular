@@ -37,7 +37,7 @@ function accountsSelect (
             ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {
               userOptions['userOptions.uiState.shownCoachMarks.' + key] = false;
             });
-            $scope.popoverAccountMenu.data.show = false;
+            $scope.$broadcast('close-popovers');
             // Make user update call here
             promisify($scope.data.user, 'update')(
               userOptions
@@ -89,14 +89,14 @@ function accountsSelect (
           if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
             keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             mData.showSlack = true;
-            return mActions.verifySlack();
+            return mActions.verifySlack(true);
           }
         })
         .catch(errs.handler);
       });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
-        $scope.popoverAccountMenu.data.show = false;
+        $scope.$broadcast('close-popovers');
         var username = userOrOrg.oauthName();
         $scope.data.activeAccount = userOrOrg;
         if ($scope.isMainPage) {
@@ -108,11 +108,15 @@ function accountsSelect (
       };
 
       mActions.closePopover = function() {
-        $scope.popoverAccountMenu.data.show = false;
+        $scope.$broadcast('close-popovers');
       };
-      mActions.verifySlack = function() {
+      mActions.verifySlack = function(loadingPreviousResults) {
         var matches = [];
-        mData.verifying = true;
+        if (loadingPreviousResults) {
+          mData.loading = true;
+        } else {
+          mData.verifying = true;
+        }
         fetchSlackMembers(mData.settings.attrs.notifications.slack.apiToken)
         .then(function(members) {
           mData.slackMembers = members;
@@ -155,6 +159,7 @@ function accountsSelect (
         })
         .catch(errs.handler)
         .finally(function () {
+          mData.loading = false;
           mData.verifying = false;
         });
       };

@@ -162,6 +162,12 @@
     top: -13px; // offset
     width: 100%;
   }
+
+  &.btn-xs .icons-close {
+    height: 24px;
+    top: 0;
+    width: 24px;
+  }
 }
 
 .btn-help {

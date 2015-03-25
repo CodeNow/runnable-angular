@@ -8,7 +8,7 @@ function AccountsSelect(parentElement) {
   this.menu = util.createGetter(by.className('popover-account-menu'));
 
   this.isOpen = function () {
-    return this.menu.get().isPresent() && this.menu.get().isDisplayed();
+    return this.menu.get().isPresent();
   };
 
   this.getAccountSelector = function (username) {
@@ -23,7 +23,7 @@ function AccountsSelect(parentElement) {
       }
     }).then(function () {
       return browser.wait(function () {
-        return self.menu.get().isDisplayed();
+        return self.menu.get().isPresent();
       });
     });
   };
@@ -33,7 +33,7 @@ function AccountsSelect(parentElement) {
     return this.openIfClosed(
     ).then(function () {
       return browser.wait(function () {
-        return self.getAccountSelector(username).isPresent() && self.getAccountSelector(username).isDisplayed();
+        return self.getAccountSelector(username).isPresent();
       });
     }).then(function () {
       return self.getAccountSelector(username).click();
