@@ -283,7 +283,7 @@ function fetchSettings(
     var username = $state.params.userName;
 
     if (integrationsCache[username]) {
-      return $q.when(integrationsCache[username]);
+      return $q.when(integrationsCache[username].settings);
     }
 
     var settings;
@@ -291,6 +291,9 @@ function fetchSettings(
       githubUsername: $state.params.userName
     })
     .then(function (settings) {
+      integrationsCache[$state.params.userName] = {
+        settings: settings
+      };
       return settings.models[0];
     });
   };

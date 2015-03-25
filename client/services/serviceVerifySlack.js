@@ -13,6 +13,13 @@ function verifyChatIntegration (
   $q
 ) {
   return function (settings, chatClient) {
+
+    var username = $state.params.userName;
+
+    if (integrationsCache[username].github) {
+      return integrationsCache[username];
+    }
+
     var mData = {};
     var matches = [];
     var members;
@@ -54,10 +61,10 @@ function verifyChatIntegration (
         return arr;
       }, []);
 
-      return {
-        githHub: filteredGhMembers,
-        slack: members.chat
-      };
+      integrationsCache[username].github = filteredGhMembers;
+      integrationsCache[username].slack = members.chat;
+
+      return integrationsCache[username];
     });
   };
 }

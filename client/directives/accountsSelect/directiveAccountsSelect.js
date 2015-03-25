@@ -104,9 +104,6 @@ function accountsSelect (
         }
       };
 
-      mActions.closePopover = function() {
-        $scope.$broadcast('close-popovers');
-      };
       mActions.verifySlack = function(loadingPreviousResults) {
         var matches = [];
         if (loadingPreviousResults) {
@@ -117,7 +114,7 @@ function accountsSelect (
         return verifyChatIntegration(mData.settings, 'slack')
         .then(function (members) {
           mData.slackMembers = members.slack;
-          mData.ghMembers = members.gitHub;
+          mData.ghMembers = members.github;
           mData.verified = true;
         })
         .catch(errs.handler)
