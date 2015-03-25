@@ -99,10 +99,13 @@ EventTracking.prototype.boot = function (user) {
  * @return null
  */
 EventTracking.prototype.triggeredBuild = function (cache) {
-  this._Intercom('trackEvent', 'triggered-build', {
+  var eventName = 'triggered-build';
+  var eventData = {
     cache: cache,
     state: this._state.$current.name
-  });
+  };
+  this._Intercom('trackEvent', eventName, eventData);
+  this._mixpanel('track', eventName, eventData);
 };
 
 /**
