@@ -6,9 +6,11 @@ require('app')
   .factory('fetchBuild', fetchBuild)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchContexts', fetchContexts)
+  .factory('fetchSettings', fetchSettings)
   .factory('fetchSlackMembers', fetchSlackMembers)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
-  .factory('fetchGitHubUser', fetchGitHubUser);
+  .factory('fetchGitHubUser', fetchGitHubUser)
+  .factory('integrationsCache', integrationsCache);
 
 function pFetchUser(keypather, user, $q, $state) {
   var fetchedUser = null;
@@ -266,7 +268,38 @@ function fetchContexts(pFetchUser, promisify) {
   };
 }
 
-// Using $http here because this isn't in API client
+function fetchSettings(
+  $state,
+  $q,
+  fetchSlackMembers,
+  fetchGitHubMembers,
+  fetchGitHubUser,
+  promisify,
+  keypather,
+  integrationsCache
+) {
+
+  return function (user) {
+    var username = $state.params.userName;
+
+    if (integrationsCache[username]) {
+      return $q.when(integrationsCache[username]);
+    }
+
+    var settings;
+    return promisify(user, 'fetchSettings')({
+      githubUsername: $state.params.userName
+    })
+    .then(function (settings) {
+      return settings.models[0];
+    });
+  };
+}
+
+function integrationsCache () {
+  return {};
+}
+
 function fetchSlackMembers (
   $http
 ) {

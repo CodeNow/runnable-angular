@@ -16,9 +16,8 @@ function accountsSelect (
   promisify,
   $state,
   $q,
-  fetchSlackMembers,
-  fetchGitHubMembers,
-  fetchGitHubUser
+  fetchSettings,
+  verifyChatIntegration
 ) {
   return {
     restrict: 'A',
@@ -81,11 +80,9 @@ function accountsSelect (
         mData.settings = {};
         mData.slackMembers = {};
         mData.verified = false;
-        return promisify($scope.data.user, 'fetchSettings')({
-          githubUsername: $state.params.userName
-        })
+        return fetchSettings($scope.data.user)
         .then(function(settings) {
-          mData.settings = settings.models[0];
+          mData.settings = settings;
           if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
             keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             mData.showSlack = true;
@@ -117,44 +114,10 @@ function accountsSelect (
         } else {
           mData.verifying = true;
         }
-        fetchSlackMembers(mData.settings.attrs.notifications.slack.apiToken)
-        .then(function(members) {
-          mData.slackMembers = members;
-          return fetchGitHubMembers($state.params.userName);
-        })
-        .then(function(ghMembers) {
-
-          // Fetch actual names
-          var memberFetchPromises = ghMembers.map(function (user) {
-            return fetchGitHubUser(user.login).then(function (ghUser) {
-              mData.slackMembers.forEach(function (member) {
-
-                if (member.real_name && member.real_name.toLowerCase() === keypather.get(ghUser, 'name.toLowerCase()')) {
-                  // TODO: handle case with multiple users of the same name
-                  member.found = true;
-                  member.ghName = ghUser.login;
-                  matches.push(ghUser.login);
-                }
-                if (keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap.' + ghUser.login) ===
-                  member.id) {
-                  member.slackOn = true;
-                  member.ghName = ghUser.login;
-                }
-              });
-              return ghUser;
-            });
-          });
-
-          return $q.all(memberFetchPromises);
-        })
-        .then(function(ghMembers) {
-          // Using .reduce here because all we care about is member.login
-          mData.ghMembers = ghMembers.reduce(function(arr, member) {
-            if (member.login && matches.indexOf(member.login) === -1) {
-              arr.push(member.login);
-            }
-            return arr;
-          }, []);
+        return verifyChatIntegration(mData.settings, 'slack')
+        .then(function (members) {
+          mData.slackMembers = members.slack;
+          mData.ghMembers = members.gitHub;
           mData.verified = true;
         })
         .catch(errs.handler)
