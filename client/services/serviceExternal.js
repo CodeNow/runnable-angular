@@ -1,8 +1,5 @@
 'use strict';
 require('app')
-  .factory('assign', function () {
-    return require('101/assign');
-  })
   .factory('callbackCount', function () {
     return require('callback-count');
   })

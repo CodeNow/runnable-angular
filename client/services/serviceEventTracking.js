@@ -23,7 +23,6 @@ function EventTracking (
   $state,
   $stateParams,
   $window,
-  assign,
   isFunction,
   keypather
 ) {
@@ -59,7 +58,7 @@ function EventTracking (
     if ($stateParams.instanceName) {
       baseData.instanceName = $stateParams.instanceName;
     }
-    return assign(data, baseData);
+    return angular.copy(data, baseData);
   };
 
   /**

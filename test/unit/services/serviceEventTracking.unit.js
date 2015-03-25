@@ -1,5 +1,7 @@
 'use strict';
 
+var apiMocks = require('../apiMocks/index');
+
 describe('serviceEventTracking'.bold.underline.blue, function () {
   var eventTracking;
   var $log;
@@ -30,11 +32,14 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
     expect(eventTracking._mixpanel).to.be.a('function');
   });
 
-  it('should throw an exception if attempting to report an event before proper initialization', function () {
+  it('should produce an error if attempting to report an event before proper initialization', function () {
     // have not yet invoked eventTracking.boot
     eventTracking.triggeredBuild();
     expect($log.error.callCount).to.equal(1);
     expect($log.error.args[0][0]).to.equal('eventTracking.boot() must be invoked before reporting events');
+    $log.error.reset();
+    eventTracking.boot(new User(angular.copy(apiMocks.user)));
   });
+
 
 });
