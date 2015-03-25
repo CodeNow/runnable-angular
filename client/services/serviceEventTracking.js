@@ -94,7 +94,30 @@ EventTracking.prototype.boot = function (user) {
 };
 
 /**
+ * Record user event toggling of selected commit in repository
+ * Reports to:
+ *   - mixpanel
+ * @param {Object} data - key/value pairs of event data
+ *   - keys
+   *   - triggeredBuild: Boolean
+   *   - slectedCommit: Object (ACV Model)
+ * @return null
+ */
+EventTracking.prototype.toggledCommit = function (data) {
+  var eventName = 'toggled-commit';
+  var eventData = {
+    triggeredBuild: !!data.triggeredBuild,
+    selectedCommit: data.acv,
+    state: this._state.$current.name
+  };
+  this._mixpanel('track', eventName, eventData);
+};
+
+/**
  * Record user-initiated build triggered event from throughout UI
+ * Reports to:
+ *   - intercom
+ *   - mixpanel
  * @param {Boolean} cache - build triggered without cache
  * @return null
  */
