@@ -7,8 +7,6 @@ require('app')
  * @ngInject
  */
 function fileTreeDir(
-  $templateCache,
-  $compile,
   $rootScope,
   $state,
   keypather,
@@ -40,6 +38,7 @@ function fileTreeDir(
       $scope.editFileName = false;
       $scope.data = {};
       $scope.state = $state;
+
 
       $scope.actions.closeFolderNameInput = function () {
         if (!$scope.editFolderName) {
@@ -88,7 +87,6 @@ function fileTreeDir(
         });
       };
 
-
       actions.closeOpenModals = function () {
         $rootScope.$broadcast('app-document-click');
       };
@@ -119,7 +117,8 @@ function fileTreeDir(
         },
         options: {
           top: -16,
-          left: 10
+          left: 10,
+          mouse: true
         },
         actions: {
           createFile: function () {
@@ -149,8 +148,7 @@ function fileTreeDir(
               $scope.$broadcast('close-popovers');
 
               var uploadURL = configAPIHost + '/' + $scope.fileModel.urlPath + '/' + $scope.fileModel.id() + '/files';
-              var fileUploadPromises = [];
-              $files.forEach(function (file) {
+              var fileUploadPromises = $files.map(function (file) {
                 var myFile = {
                   attrs: {
                     name: file.name
@@ -162,7 +160,7 @@ function fileTreeDir(
                 };
 
                 $scope.dir.contents.models.push(myFile);
-                var uploadPromise = $upload.upload({
+                return $upload.upload({
                   url: uploadURL,
                   file: file,
                   method: 'POST',
@@ -170,11 +168,9 @@ function fileTreeDir(
                   withCredentials: true
                 })
                   .progress(function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
-                    myFile.state.progress = progressPercentage;
+                    myFile.state.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
                   })
-                  .success(function () {
-                    //myFile.state.uploading = false;
+                  .then(function () {
                     myFile.state.progress = 100;
                   })
                   .catch(function (err) {
@@ -185,15 +181,17 @@ function fileTreeDir(
                   .then(function () {
                     return myFile;
                   });
-                fileUploadPromises.push(uploadPromise);
+
               });
 
               $q.all(fileUploadPromises).then(function (uploads) {
                 uploads.forEach(function (myFile) {
                   var fileIndex = $scope.dir.contents.models.indexOf(myFile);
-                  $scope.dir.contents.models.splice(fileIndex, 1);
+                  if (fileIndex !== -1) {
+                    $scope.dir.contents.models.splice(fileIndex, 1);
+                  }
                 });
-                fetchDirFiles();
+                $scope.actions.fetchDirFiles();
               });
             }
           }
@@ -270,12 +268,7 @@ function fileTreeDir(
         }
       });
 
-      //avoid infinite loop w/ nested directories
-      var template = $templateCache.get('viewFileTreeDir');
-      var $template = angular.element(template);
-      var compiled = $compile($template)($scope);
-      element.replaceWith(compiled);
-      inputElement = compiled[0].querySelector('input.tree-input');
+      inputElement = element[0].querySelector('input.tree-input');
     }
   };
 }
