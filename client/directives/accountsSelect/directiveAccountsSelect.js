@@ -104,6 +104,10 @@ function accountsSelect (
         }
       };
 
+      // Closes the account select popover on modal open
+      mActions.closePopover = function() {
+        $scope.popoverAccountMenu.data.show = false;
+      };
       mActions.verifySlack = function(loadingPreviousResults) {
         var matches = [];
         if (loadingPreviousResults) {
