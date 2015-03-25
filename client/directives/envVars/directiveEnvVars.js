@@ -56,6 +56,7 @@ function envVars(
         unwatchCurrentModel();
         // If the envs haven't changed, (also takes care of first null/null occurrence
         if (newEnv === oldEnv) { return; }
+
         $scope.validation = validateEnvVars(newEnv);
         if (keypather.get($scope, 'validation.errors.length')) {
           var annotations = $scope.validation.errors.map(function (error) {

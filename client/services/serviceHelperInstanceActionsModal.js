@@ -37,6 +37,7 @@ function HelperInstanceActionsModal(
       data.instance = n;
       // data.newName used in renameInstance popover
       data.newName = n.attrs.name;
+      data.build = n.build;
       $scope.popoverGearMenu.data.instance = n;
     });
 

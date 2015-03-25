@@ -26,17 +26,16 @@ function modalEdit(
     },
     link: function ($scope, element, attrs) {
       $scope.openItems = new OpenItems();
-      // Add thing
-      $scope.validation = {};
-      $scope.tempModel = {};
-      $scope.configUserContentDomain = configUserContentDomain;
 
+      $scope.validation = {
+        env: {}
+      };
+      $scope.state = {
+        env: {}
+      };
       $scope.actions = {
         close: function (cb) {
           // Remove all validation stuff from instance and dockerfile
-          if ($scope.data.instance) {
-            delete $scope.data.instance.validation;
-          }
           if ($scope.dockerfile) {
             delete $scope.dockerfile.validation;
           }
@@ -45,7 +44,6 @@ function modalEdit(
         buildServer: function () {
           if ($scope.building) { return; }
           $scope.building = true;
-          eventTracking.triggeredBuild(false);
           var unwatch = $scope.$watch(function () {
             return !keypather.get($scope, 'build.state.dirty')  && $scope.openItems.isClean();
           }, function (n) {
@@ -57,17 +55,19 @@ function modalEdit(
             var build = $scope.build;
             var instance = $scope.data.instance;
             var opts = {};
-            if (instance.state && instance.state.env) {
+            if ($scope.state.env) {
               opts.env = instance.state.env;
             }
-            if ($scope.state.newName !== instance.attrs.name) {
-              opts.name = $scope.state.newName;
+            if ($scope.state.name !== instance.attrs.name) {
+              opts.name = $scope.state.name;
             }
+            eventTracking.triggeredBuild(false);
             promisify(build, 'build')(buildObj)
               .then(function (build) {
                 opts.build = build.id();
                 return promisify(instance, 'update')(opts);
               }).then(function () {
+                $scope.building = false;
                 var defer = $q.defer();
                 $scope.actions.close(function () {
                   defer.resolve();
@@ -89,6 +89,7 @@ function modalEdit(
                 errs.handler(err);
                 return resetBuild(true)
                   .then(function () {
+                    // Trigger the opening of the rootDir in the explorer
                     keypather.set(
                       $scope,
                       'build.contextVersions.models[0].rootDir.state.open',
@@ -105,7 +106,7 @@ function modalEdit(
       };
 
       $scope.getAllErrorsCount = function () {
-        var envErrors = keypather.get($scope, 'data.instance.validation.envs.errors.length') || 0;
+        var envErrors = keypather.get($scope, 'validation.env.errors.length') || 0;
         var dockerFileErrors = keypather.get($scope, 'dockerfile.validation.errors.length') || 0;
         return envErrors + dockerFileErrors;
       };
@@ -113,8 +114,7 @@ function modalEdit(
       $scope.popoverExposeInstruction = {
         data: {
           show: false
-        },
-        actions: {}
+        }
       };
       $scope.popoverLinkServers = {
         data: {
@@ -147,19 +147,26 @@ function modalEdit(
       }
 
       function resetBuild(retry) {
-        var build = retry ? $scope.build : $scope.data.instance.build;
+        var build = retry ? $scope.build : $scope.data.build;
         return promisify(build, 'deepCopy')()
           .then(function (build) {
             $scope.build = build;
+            // Fetch the cv so all of the repo info is filled
             return promisify(build.contextVersions.models[0], 'fetch')();
           });
       }
-      $scope.$watch('data.instance', function (n) {
+
+      if (!attrs.setup) {
+        var unwatchI = $scope.$watch('data.instance', function (n) {
+          if (n) {
+            unwatchI();
+            keypather.set($scope, 'state.name', n.attrs.name);
+          }
+        });
+      }
+      var unwatch = $scope.$watch('data.build', function (n) {
         if (n) {
-          keypather.set($scope, 'state.newName', n.attrs.name);
-          $scope.data.instance.validation = {
-            envs: {}
-          };
+          unwatch();
           resetBuild()
             .then(setDefaultTabs)
             .catch(errs.handler);

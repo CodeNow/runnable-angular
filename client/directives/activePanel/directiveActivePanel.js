@@ -16,7 +16,9 @@ function activePanel(
     scope: {
       openItems: '=',
       instance: '=',
-      build: '='
+      build: '=',
+      validation: '=',
+      stateModel: '='
     },
     link: function ($scope, element, attrs) {
 

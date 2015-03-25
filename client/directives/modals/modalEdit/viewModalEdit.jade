@@ -15,14 +15,14 @@
           xlink:href = "#icons-edit"
           )
         | Edit
-      span.input-description.text-overflow {{ data.newName }}-{{ data.instance.attrs.owner.username }}.runnableapp.com
+      span.input-description.text-overflow {{ state.name }}-{{ data.instance.attrs.owner.username }}.runnableapp.com
       input.input(
       autofocus
       instance = "data.instance"
-      name = "name"
+      name = "newName"
       ng-blur = "renameForm.showFocus = false"
       ng-focus = "renameForm.showFocus = true"
-      ng-model = "state.newName"
+      ng-model = "state.name"
       ng-init = "renameForm.$setPristine(); \
           renameForm.showFocus = true;"
       placeholder = "My-Server"
@@ -88,8 +88,8 @@
              span.item-name environment variables
              //- must appear before .btn-file-action in the DOM
              span.btn-file-errors.orange(
-               ng-if = "data.instance.validation.envs.errors.length"
-             ) {{ data.instance.validation.envs.errors.length }}
+               ng-if = "validation.env.errors.length"
+             ) {{ validation.env.errors.length }}
              //- can we make sure opening this popover also opens and focuses the env file?
              button.btn-xxs.btn-file-action(
                ng-class = "{active: popoverLinkServers.data.show}"
@@ -115,9 +115,11 @@
              !data.loading) \
         }"
       open-items = "openItems"
-      build = "data.instance.build"
+      build = "data.build"
       instance = "data.instance"
       use-auto-update = "true"
+      state-model = "state"
+      validation = "validation"
     )
   footer.modal-footer
     //- ng-disabled = "!validation.valid"
