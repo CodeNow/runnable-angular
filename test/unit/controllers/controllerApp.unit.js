@@ -6,23 +6,13 @@ var $controller,
     $window;
 var keypather;
 var apiMocks = require('../apiMocks/index');
+var User = require('runnable/lib/models/user');
 
 describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
   function setup(stateParams, heap, intercom, olark) {
     angular.mock.module('app');
-    ctx.fakeuser = {
-      attrs: angular.copy(apiMocks.user),
-      oauthName: function () {
-        return 'user';
-      },
-      oauthId: function() {
-        return 1234;
-      },
-      id: function() {
-        return 4321;
-      }
-    };
+    ctx.fakeuser = new User(angular.copy(apiMocks.user));
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {

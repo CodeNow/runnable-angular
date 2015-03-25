@@ -36,22 +36,23 @@ function EventTracking (
   /**
    * Extend per-event data with specific properties
    * to be sent w/ all events
-   * @throws
    * @param {Object} data - data for given event to be extended
    * @return Object - extended event object
    */
   this.extendEventData = function (data) {
     if (!this._user) {
-      throw new Error('eventTracking.boot() must be invoked before reporting events');
+      $log.error('eventTracking.boot() must be invoked before reporting events');
     }
     // username owner if server page
     // name of server if server page
     // page event triggered from
     var baseData = {
-      userName: this._user.oauthName(),
       state: $state.$current.name,
       href: $window.location.href
     };
+    if (isFunction(keypather.get(this._user, 'oauthName'))) {
+      baseData.userName = this._user.oauthName();
+    }
     if ($stateParams.userName) {
       baseData.instanceOwner = $stateParams.userName;
     }
