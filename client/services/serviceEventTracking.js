@@ -31,7 +31,7 @@ function EventTracking (
 
   this._Intercom = $window.Intercom;
   this._baseEventData = {};
-  this._user;
+  this._user = null;
 
   /**
    * Extend per-event data with specific properties
