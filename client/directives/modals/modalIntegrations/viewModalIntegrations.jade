@@ -54,7 +54,7 @@ form.modal-dialog.modal-integrations(
       ng-include = "'spinner'"
     )
     .well.gray.well-state(
-      ng-if = "!data.settings.attrs.notifications.slack.enabled"
+      ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
     ) Slack integration has been disabled
       button.btn.btn-xs.green(
         ng-click = "data.settings.attrs.notifications.slack.enabled = true"
