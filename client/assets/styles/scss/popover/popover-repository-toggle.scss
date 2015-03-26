@@ -38,9 +38,9 @@
   }
 
   // spinner
-  .spinner-wrapper {
-    margin-top: 15px;
-    pointer-events: none;
+  .spinner {
+    color: $gray-light;
+    margin: 30px auto;
   }
 
   // list

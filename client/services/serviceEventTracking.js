@@ -1,14 +1,18 @@
 /**
  * Wrapper of event-tracking functionality; making use of various
- * 3rd party analytics platforms. (Intercom, Datadog)
+ * 3rd party analytics platforms.
+ * - Intercom
+ * - Mixpanel
  */
 'use strict';
 
 require('app')
   .service('eventTracking', EventTracking);
+var User = require('runnable/lib/models/user');
+var _keypather;
 
 // constants
-var APP_ID = 'wqzm3rju';
+var INTERCOM_APP_ID = 'wqzm3rju';
 
 /**
  * EventTracking
@@ -17,44 +21,149 @@ var APP_ID = 'wqzm3rju';
 function EventTracking (
   $log,
   $state,
-  $window
+  $stateParams,
+  $window,
+  assign,
+  isFunction,
+  keypather
 ) {
+  _keypather = keypather;
+
   this._Intercom = $window.Intercom;
-  this._state = $state;
+  this._baseEventData = {};
+  this._user = null;
+
+  /**
+   * Extend per-event data with specific properties
+   * to be sent w/ all events
+   * @param {Object} data - data for given event to be extended
+   * @return Object - extended event object
+   */
+  this.extendEventData = function (data) {
+    if (!this._user) {
+      $log.error('eventTracking.boot() must be invoked before reporting events');
+    }
+    // username owner if server page
+    // name of server if server page
+    // page event triggered from
+    var baseData = {
+      state: $state.$current.name,
+      href: $window.location.href
+    };
+    if (isFunction(keypather.get(this._user, 'oauthName'))) {
+      baseData.userName = this._user.oauthName();
+    }
+    if ($stateParams.userName) {
+      baseData.instanceOwner = $stateParams.userName;
+    }
+    if ($stateParams.instanceName) {
+      baseData.instanceName = $stateParams.instanceName;
+    }
+    return assign(data, baseData);
+  };
+
+  /**
+   * Stub Intercom when SDK not present
+   * (development/staging environments)
+   */
   if (!this._Intercom) {
-    // stub intercom if not loaded
+    // stub intercom if not present
     this._Intercom = function () {
       $log.info('Intercom JS SDK stubbed');
       $log.info(arguments);
     };
   }
+
+  /**
+   * Wrap invokations of mixpanel SDK API methods (object properties)
+   * @param {String} mixpanel SDK API method name
+   * @params [1..n] optional arguments passed to mixpanel SDK
+   */
+  this._mixpanel = function () {
+    if (!isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
+      $log.info('Mixpanel JS SDK stubbed');
+      $log.info(arguments);
+      return;
+    }
+    var args = Array.prototype.slice.call(arguments);
+    var path = args[0].split('.');
+    // contextPath: "foo.bar.biz.bang" -> "foo.bar.biz" || "foo.bar.biz" -> "foo.bar"
+    var contextPath = path.slice(0, path.length-1).join('');
+    var context = keypather.get($window.mixpanel, contextPath);
+    keypather.get($window, 'mixpanel.'+arguments[0])
+      .apply(context, args.slice(1, args.length));
+  };
 }
 
 /**
- * Intercom JS SDK API boot method wrapper
+ * Intercom and Mixpanel user identification
+ * @throws Error
  * @param {Object} user - User Model instance
  * @return null
  */
 EventTracking.prototype.boot = function (user) {
+  if (!(user instanceof User)) {
+    throw new Error('arguments[0] must be instance of User');
+  }
+  this._user = user;
   var data = {
     name: user.oauthName(),
     email: user.attrs.email,
     created_at: +(new Date(user.attrs.created)),
-    app_id: APP_ID
+    app_id: INTERCOM_APP_ID
   };
   this._Intercom('boot', data);
+  this._mixpanel('identify', user.oauthId());
+  var userJSON = user.toJSON();
+  var firstName = '';
+  var lastName = '';
+  var displayName = _keypather.get(userJSON, 'accounts.github.displayName');
+  if (displayName) {
+    firstName = displayName.split(/ (.+)/)[0];
+    lastName = displayName.split(/ (.+)/)[1];
+  }
+  this._mixpanel('people.set', {
+    '$first_name': firstName,
+    '$last_name': lastName,
+    '$created': _keypather.get(userJSON, 'created'),
+    '$email': _keypather.get(userJSON, 'email')
+  });
+};
+
+/**
+ * Record user event toggling of selected commit in repository
+ * Reports to:
+ *   - mixpanel
+ * @param {Object} data - key/value pairs of event data
+ *   - keys
+   *   - triggeredBuild: Boolean
+   *   - slectedCommit: Object (ACV Model)
+ * @return null
+ */
+EventTracking.prototype.toggledCommit = function (data) {
+  var eventName = 'toggled-commit';
+  var eventData = this.extendEventData({
+    triggeredBuild: !!data.triggeredBuild,
+    selectedCommit: data.acv
+  });
+  this._mixpanel('track', eventName, eventData);
 };
 
 /**
  * Record user-initiated build triggered event from throughout UI
+ * Reports to:
+ *   - intercom
+ *   - mixpanel
  * @param {Boolean} cache - build triggered without cache
  * @return null
  */
 EventTracking.prototype.triggeredBuild = function (cache) {
-  this._Intercom('trackEvent', 'triggered-build', {
-    cache: cache,
-    state: this._state.$current.name
+  var eventName = 'triggered-build';
+  var eventData = this.extendEventData({
+    cache: cache
   });
+  this._Intercom('trackEvent', eventName, eventData);
+  this._mixpanel('track', eventName, eventData);
 };
 
 /**

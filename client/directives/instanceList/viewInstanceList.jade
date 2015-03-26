@@ -4,7 +4,9 @@
   ng-include = "'spinner'"
 )
 
-.filter-wrap
+.filter-wrap(
+  ng-if = "!state.loadingInstances"
+)
   input.filter(
     ng-model = "filterString"
     placeholder = "Filter Servers"
@@ -48,7 +50,7 @@ ul.list.load.filter-list(
       type = "sidebar"
     )
 div(
-  ng-if = "!isFiltering"
+  ng-if = "!isFiltering && !state.loadingInstances"
 )
   h2.sub-header.load
     span.sub-header-text Your Servers

@@ -9,5 +9,15 @@
   "globalstrict": true,
   "expr": true,
   "eqeqeq": true,
-  "predef": ["angular", "confirm", "expect", "describe", "it", "sinon", "beforeEach", "afterEach"]
+  "predef": [
+    "afterEach",
+    "angular",
+    "beforeEach",
+    "confirm",
+    "describe",
+    "expect",
+    "it",
+    "noop",
+    "sinon"
+  ]
 }
