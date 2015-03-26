@@ -19,7 +19,9 @@ li.folder(
     svg.iconnables.filetypes.icons-folder
       use(xlink:href = "#icons-folder")
     input.tree-input(
-      ng-keyup = "($event.keyCode === 13) && actions.closeFolderNameInput();"
+      ng-keyup = "actions.shouldCloseFolderNameInput($event)"
+      ng-blur = "actions.closeFolderNameInput()"
+      ng-click = "actions.handleClickOnFolderInput"
       ng-readonly = "!editFolderName"
       value = "{{ dir.attrs.name }}"
     )
