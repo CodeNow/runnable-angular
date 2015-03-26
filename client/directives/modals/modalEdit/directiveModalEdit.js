@@ -31,7 +31,7 @@ function modalEdit(
         env: {}
       };
       $scope.state = {
-        env: {}
+        env: null
       };
       $scope.actions = {
         close: function (cb) {
@@ -56,7 +56,7 @@ function modalEdit(
             var instance = $scope.data.instance;
             var opts = {};
             if ($scope.state.env) {
-              opts.env = instance.state.env;
+              opts.env = $scope.state.env;
             }
             if ($scope.state.name !== instance.attrs.name) {
               opts.name = $scope.state.name;
@@ -133,7 +133,9 @@ function modalEdit(
 
       function setDefaultTabs() {
         var rootDir = keypather.get($scope, 'build.contextVersions.models[0].rootDir');
-        if (!rootDir) { throw new Error('rootDir not found'); }
+        if (!rootDir) {
+          return $q.reject(new Error('rootDir not found'));
+        }
         return promisify(rootDir.contents, 'fetch')()
           .then(function () {
             var file = rootDir.contents.models.find(function (file) {
