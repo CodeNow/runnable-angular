@@ -55,6 +55,7 @@
     // uploading
     &.in-progress {
       color: $blue;
+      pointer-events: none;
 
       > a {
         border-color: rgba($blue,.2);
