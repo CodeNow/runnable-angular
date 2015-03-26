@@ -36,6 +36,7 @@ function popOver(
 
       var popoverElement;
       var popoverElementScope;
+      var popoverOverlay;
 
       $scope.closePopover = function () {
         $scope.active = false;
@@ -43,12 +44,13 @@ function popOver(
         $timeout(angular.noop);
         unbindDocumentClick();
         unbindPopoverOpened();
+        popoverOverlay.remove();
         // We need a closure because they could technically re-open the popover and we want to manage THIS scope and THIS element.
         (function (popoverElementScope, popoverElement) {
           //Give the transition some time to finish!
           $timeout(function(){
-            popoverElementScope.$destroy();
             popoverElement.remove();
+            popoverElementScope.$destroy();
           }, 500);
         }(popoverElementScope, popoverElement));
       };
@@ -109,6 +111,15 @@ function popOver(
         popoverElement.on('click', function(event) {
           event.stopPropagation();
         });
+
+        popoverOverlay = $document[0].createElement('div');
+        popoverOverlay.className = 'popover-overlay';
+        $document.find('body').append(popoverOverlay);
+
+        popoverOverlay.on('click', function () {
+          $scope.closePopover();
+        });
+
       }
       function clickHandler(event) {
         event.stopPropagation();
@@ -163,6 +174,10 @@ function popOver(
             element.off('click');
           });
       }
+
+      $scope.$on('$destroy', function () {
+        $scope.closePopover();
+      });
     }
   };
 }
