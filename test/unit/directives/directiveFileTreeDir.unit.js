@@ -173,7 +173,7 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     $rootScope.$broadcast.restore();
   });
 
-  it('should prevent click events from propagation when renaming', function () {
+  it('should prevent click events from propagation when renaming files', function () {
     var event = {
       preventDefault: sinon.spy(),
       stopPropagation: sinon.spy()
@@ -183,7 +183,18 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
         renaming: true
       }
     };
-    $elScope.actions.handleClickOnInput(event, file);
+    $elScope.actions.handleClickOnFileInput(event, file);
+    expect(event.preventDefault.calledOnce).to.equal(true);
+    expect(event.stopPropagation.calledOnce).to.equal(true);
+  });
+
+  it('should prevent click events from propagation when renaming folders', function () {
+    var event = {
+      preventDefault: sinon.spy(),
+      stopPropagation: sinon.spy()
+    };
+    $elScope.editFolderName = true;
+    $elScope.actions.handleClickOnFolderInput(event);
     expect(event.preventDefault.calledOnce).to.equal(true);
     expect(event.stopPropagation.calledOnce).to.equal(true);
   });
