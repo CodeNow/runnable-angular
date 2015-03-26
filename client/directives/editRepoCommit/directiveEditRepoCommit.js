@@ -95,18 +95,19 @@ function editRepoCommit(
         $scope.model.acv.destroy(errs.handler);
       };
 
-      $scope.$watch('model', function(n) {
-        if (!n) { return; }
-        $scope.activeBranch = fetchCommitData.activeBranch($scope.model.acv);
-        $scope.activeCommit = fetchCommitData.activeCommit($scope.model.acv);
+      $scope.$watch('model', function (n) {
+        if (n && n.acv) {
+          $scope.activeBranch = fetchCommitData.activeBranch($scope.model.acv);
+          $scope.activeCommit = fetchCommitData.activeCommit($scope.model.acv);
 
-        $scope.popoverRepoActions.data.acv = $scope.model.acv;
-        $scope.popoverRepoActions.data.unsavedAcv = $scope.model.unsavedAcv;
-        $scope.popoverRepositoryToggle.data.acv = $scope.model.acv;
-        $scope.popoverRepositoryToggle.data.unsavedAcv = $scope.model.unsavedAcv;
-        // Silence errors on bad branch fetch
-        // We don't want a 404 modal when we can't find the branch
-        fetchCommitData.branchCommits($scope.activeBranch);
+          $scope.popoverRepoActions.data.acv = $scope.model.acv;
+          $scope.popoverRepoActions.data.unsavedAcv = $scope.model.unsavedAcv;
+          $scope.popoverRepositoryToggle.data.acv = $scope.model.acv;
+          $scope.popoverRepositoryToggle.data.unsavedAcv = $scope.model.unsavedAcv;
+          // Silence errors on bad branch fetch
+          // We don't want a 404 modal when we can't find the branch
+          fetchCommitData.branchCommits($scope.activeBranch);
+        }
       });
     }
   };

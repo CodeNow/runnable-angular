@@ -2,10 +2,10 @@
 
 var util = require('../helpers/util');
 
-function ActivePanel (pageType) {
+function ActivePanel (pageType, parent) {
   this.pageType = pageType;
 
-  this.panel = util.createGetter(by.css('section.views'));
+  this.panel = util.createGetter(by.css('section.views'), parent);
 
   this.addTab = util.createGetter(by.css('.add-tab'), this.panel);
 
@@ -16,10 +16,10 @@ function ActivePanel (pageType) {
   this.openTabs = util.createGetter(by.repeater('item in openItems.models'), this.panel);
 
   this.ace = util.createGetter(by.css('div.active-panel.ng-scope.ace-runnable-dark'), this.panel);
-  this.aceDiv = util.createGetterAll(by.css('div.ace_content'));
-  this.inputElm = util.createGetterAll(by.css('textarea.ace_text-input'));
+  this.aceDiv = util.createGetterAll(by.css('div.ace_content'), this.panel);
+  this.inputElm = util.createGetterAll(by.css('textarea.ace_text-input'), this.panel);
 
-  this.activeTab = util.createGetter(by.css('.tabs > .active'));
+  this.activeTab = util.createGetter(by.css('.tabs > .active'), this.panel);
 
   this.isLoaded = function() {
     return this.currentContent.get().isPresent();
@@ -117,23 +117,28 @@ function ActivePanel (pageType) {
     var self = this;
     var idx = 0;
     activeIdx = 0;
-    return this.aceDiv.get().filter(function (elem) {
-      return elem.isDisplayed().then(function(displayed) {
-        if (!displayed) {
-          idx++
-        } else {
-          activeIdx = idx;
-        }
-        return displayed;
+    var aceDivs = this.aceDiv.get();
+    if (typeof aceDivs.filter === 'function') {
+      return aceDivs.filter(function (elem) {
+        return elem.isDisplayed().then(function(displayed) {
+          if (!displayed) {
+            idx++
+          } else {
+            activeIdx = idx;
+          }
+          return displayed;
+        });
+      }).then(function(elems) {
+        return elems[0];
       });
-    }).then(function(elems) {
-      return elems[0];
-    });
+    } else {
+      return aceDivs;
+    }
   };
 
   this._getInputElement = function () {
     // currently only works for file types
-    return this.inputElm.get().get(activeIdx);
+    return this.inputElm.get(activeIdx);
   };
 }
 

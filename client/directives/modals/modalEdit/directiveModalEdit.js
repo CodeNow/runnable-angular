@@ -41,7 +41,7 @@ function modalEdit(
           }
           return $scope.defaultActions.close(cb);
         },
-        buildServer: function () {
+        buildServer: function (noCache) {
           if ($scope.building) { return; }
           $scope.building = true;
           var unwatch = $scope.$watch(function () {
@@ -50,7 +50,8 @@ function modalEdit(
             if (!n) { return; }
             unwatch();
             var buildObj = {
-              message: 'Manual build'
+              message: 'Manual build',
+              noCache: noCache
             };
             var build = $scope.build;
             var instance = $scope.data.instance;
@@ -110,7 +111,15 @@ function modalEdit(
         var dockerFileErrors = keypather.get($scope, 'dockerfile.validation.errors.length') || 0;
         return envErrors + dockerFileErrors;
       };
-
+      $scope.popoverBuildOptions = {
+        data: {},
+        actions: {
+          noCacheBuild: function () {
+            $scope.popoverBuildOptions.data.show = false;
+            $scope.actions.buildServer(true);
+          }
+        }
+      };
       $scope.popoverExposeInstruction = {
         data: {
           show: false

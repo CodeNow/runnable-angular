@@ -122,16 +122,27 @@
       validation = "validation"
     )
   footer.modal-footer
-    //- ng-disabled = "!validation.valid"
     button.btn.green(
       ng-click = "actions.buildServer()"
+      ng-disabled = "renameForm.$invalid || getAllErrorsCount()"
       type = "button"
     ) Build Server
-       //- spinner
-      .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-if = "building"
-        ng-include = "'spinner'"
+      button.btn.green.btn-icon.btn-icon-sm(
+        ng-class = "{active: popoverBuildOptions.data.show}"
+        toggle-pop-over
+        toggle-pop-over-model = "popoverBuildOptions.data.show"
+        type = "button"
       )
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        pop-over(
+          actions = "popoverBuildOptions.actions"
+          data = "popoverBuildOptions.data"
+          popover-options = "{\"left\":-146,\"top\":54}"
+          template = "viewInstanceEditPopoverBuildOptions"
+        )
     button.btn.white(
       ng-click = "actions.close()"
       type = "button"

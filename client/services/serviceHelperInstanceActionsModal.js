@@ -37,7 +37,6 @@ function HelperInstanceActionsModal(
       data.instance = n;
       // data.newName used in renameInstance popover
       data.newName = n.attrs.name;
-      data.build = n.build;
       $scope.popoverGearMenu.data.instance = n;
     });
 
@@ -47,7 +46,7 @@ function HelperInstanceActionsModal(
       $scope.popoverGearMenu.data.instances = n;
     });
 
-    var unwatchbuild = $scope.$watch('build', function (n) {
+    var unwatchbuild = $scope.$watch('instance.build', function (n) {
       if (!n) { return; }
       data.build = n;
       $scope.popoverGearMenu.data.build = n;

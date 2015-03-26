@@ -3,7 +3,7 @@
 var util = require('./helpers/util');
 var users = require('./helpers/users');
 var InstancePage = require('./pages/InstancePage');
-var InstanceEditPage = require('./pages/InstanceEditPage');
+var InstanceEditPage = require('./modals/InstanceEditModal');
 var apiClient = require('./helpers/apiClient');
 var BUILD_TIMEOUT = 80000;
 var user, oldBuildId;
@@ -123,7 +123,7 @@ describe('watchBuildLogs', users.doMultipleUsers(function (username) {
   }, BUILD_TIMEOUT);
   it('should react to a socket update of the build when building', function () {
     var newBuild = null;
-    var instanceEdit = new InstanceEditPage('RailsProject');
+    var instanceEdit = new InstanceEditModal('RailsProject');
     var instance = new InstancePage('RailsProject');
     instanceEdit.get();
 
