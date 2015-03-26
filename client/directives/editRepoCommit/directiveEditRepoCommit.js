@@ -6,9 +6,9 @@ require('app')
  * @ngInject
  */
 function editRepoCommit(
-  fetchCommitData,
+  $state,
   errs,
-  $state
+  fetchCommitData
 ) {
   return {
     restrict: 'A',
