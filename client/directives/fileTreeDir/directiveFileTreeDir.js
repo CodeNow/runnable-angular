@@ -40,6 +40,16 @@ function fileTreeDir(
       $scope.state = $state;
 
 
+
+      $scope.actions.shouldCloseFolderNameInput = function (event, file) {
+        if (event.keyCode === 13) {
+          $scope.actions.closeFolderNameInput(event, file);
+        } else if (event.keyCode === 27) {
+          $scope.editFolderName = false;
+          inputElement.value = $scope.dir.attrs.name;
+        }
+      };
+
       $scope.actions.closeFolderNameInput = function () {
         if (!$scope.editFolderName) {
           return;
@@ -51,6 +61,21 @@ function fileTreeDir(
         $scope.dir.rename(inputElement.value, errs.handler);
       };
 
+      actions.handleClickOnFolderInput = function (event) {
+        if ($scope.editFolderName) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      };
+
+      $scope.actions.shouldCloseFileNameInput = function (event, file) {
+        if (event.keyCode === 13) {
+          $scope.actions.closeFileNameInput(event, file);
+        } else if (event.keyCode === 27) {
+          file.state.renaming = false;
+          event.currentTarget.value = file.attrs.name;
+        }
+      };
       $scope.actions.closeFileNameInput = function (event, file) {
         if (!file.state.renaming) {
           return;
@@ -60,6 +85,13 @@ function fileTreeDir(
           return;
         }
         file.rename(event.currentTarget.value, errs.handler);
+      };
+
+      actions.handleClickOnFileInput = function (event, file) {
+        if (file.state.renaming) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
       };
 
       $scope.actions.drop = function (dataTransfer, toDir) {
@@ -89,13 +121,6 @@ function fileTreeDir(
 
       actions.closeOpenModals = function () {
         $rootScope.$broadcast('app-document-click');
-      };
-
-      actions.handleClickOnInput = function (event, file) {
-        if (file.state.renaming) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
       };
 
       actions.openFile = function (file) {
