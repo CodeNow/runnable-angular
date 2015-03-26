@@ -1,113 +1,94 @@
 .views-prompt {
-  // background-color: #372642; // dark theme; this needs to happen in var.scss
-  // background-color: #f7f6f7; // light theme
+  background-color: darken($white,3%);
   bottom: 0;
   box-sizing: border-box;
-  padding: 18px 12px 18px 18px;
+  color: $gray;
+  min-width: 669px;
+  padding: 15px 0 15px 18px;
   position: absolute;
-  transition: bottom .3s ease-in;
+  transition: bottom .2s ease-in;
   width: 100%;
   z-index: $z-views-active-panel;
 
   &.hide {
-    bottom: -162px; // can I do this in a way that is more flexible?
+    bottom: -74px;
   }
 
   .p {
-    // color: $white; // dark theme
-    // color: $black; // light theme
     float: left;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 19px;
-    margin: 3px 18px 0 3px;
-    width: 214px;
+    margin-top: 14px;
   }
 
-  .orange {
-    width: 210px;
-    // border-color: transparent;
-    background-color: #F7C559;  // this needs to happen in var.scss
-
-    + .orange {
-      margin-left: 15px;
-    }
-
+  .btn {
+    float: right;
+    margin-right: 9px;
+    width: 192px;
   }
 
-  .iconables {
-    fill: $white;
-    // float: left;
+  .white {
+    background-color: rgba($black,.04);
+    border-color: rgba($black,.09);
+  }
+
+  .iconnables {
     height: 21px;
     width: 21px;
   }
 
+  .icons-close {
+    fill: rgba($gray,.5);
+  }
+
   .icons-edit {
-    // margin-left: -3px;
+    fill: $white;
     margin: 0 4px -4px -3px;
   }
 
-  .close-panel {
-    background-color: transparent;
+  .btn-close-panel {
     border: 1px solid transparent;
     border-radius: 13px;
-    float: right;
-    height: 26px;
+    height: 25px;
     line-height: 33px;
-    margin: 11px 0 0;
+    margin-top: 11px;
     padding: 0;
-    width: 26px;
+    width: 25px;
 
-    // &:hover {
-      // background-color: rgba($white,.06);
-      // border: 1px solid rgba($white,.25); // dark theme
-      // border: 1px solid rgba($purple-darker,.25); // light theme
-    // }
+    &:hover {
+      background-color: rgba($gray,.12);
+      border: 1px solid rgba($gray,.5);
+    }
+
   }
-
-  // .icons-close {
-    // fill: rgba($white,.25); // dark theme
-    // fill: rgba($purple-darker,.25); // light theme
-    // margin: 0;
-  // }
 
 }
 
-.theme-dark {
-  background-color: #372642;
-
-  .p {
-    color: $white;
-  }
+.ace-runnable-dark ~ .views-prompt {
+  background-color: desaturate(lighten($purple-darker,5%),10%);
+  color: rgba($white,.68);
 
   .orange {
     border-color: transparent;
   }
 
-  .close-panel:hover {
+  .white {
+    background-color: rgba($white,.05);
+    border-color: rgba($white,.1);
+    color: inherit;
+
+    &:hover {
+      background-color: rgba($white,.08);
+    }
+  }
+
+  .icons-close {
+    fill: rgba($white,.4);
+  }
+
+  .btn-close-panel:hover {
     background-color: rgba($white,.05);
     border: 1px solid rgba($white,.25);
-  }
-
-  .icons-close {
-    fill: rgba($white,.25); // dark theme
-  }
-
-}
-
-.theme-light {
-  background-color: #f7f6f7;
-
-  .p {
-    color: $black;
-  }
-
-  .close-panel:hover {
-    background-color: rgba($purple-darker,.04);
-    border: 1px solid rgba($purple-darker,.25);
-  }
-
-  .icons-close {
-    fill: rgba($purple-darker,.25);
   }
 
 }

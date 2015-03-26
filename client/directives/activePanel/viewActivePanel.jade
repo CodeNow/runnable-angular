@@ -88,18 +88,18 @@ div(
 .views-prompt.theme-dark(
   ng-class = "{hide: data.hidePrompt}"
 )
-  p.p.monospace Build problems? Try these to get up and running:
-  button.btn.orange Rebuild without cache
-  button.btn.orange
-    svg.iconables.icons-edit
-      use(
-        xlink:href = "#icons-edit"
-      )
-    | Edit build files
-  button.btn.close-panel(
+  p.p.monospace Having build problems?
+  button.btn.btn-close-panel(
     ng-click = "data.hidePrompt = true"
   )
     svg.iconnables.icons-close
       use(
         xlink:href = "#icons-close"
       )
+  button.btn.orange
+    svg.iconnables.icons-edit
+      use(
+        xlink:href = "#icons-edit"
+      )
+    | Edit build files
+  button.btn.white Rebuild w/out cache
