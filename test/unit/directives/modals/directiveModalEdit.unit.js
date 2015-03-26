@@ -437,10 +437,6 @@ describe('directiveModalEdit'.bold.underline.blue, function () {
       contentsFetchCb();
       $scope.$digest();
 
-      keypather.set($elScope, 'state.env', {
-        hello: 'hello'
-      });
-
       openItemsIsClean = false;
       keypather.set($elScope, 'build.state.dirty', 2);
       // Test the dirty flags
