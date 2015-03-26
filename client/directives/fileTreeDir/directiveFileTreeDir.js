@@ -32,7 +32,7 @@ function fileTreeDir(
     link: function ($scope, element) {
       var actions = $scope.actions = {};
       $scope.data = {};
-      var inputElement;
+      var inputElement = element[0].querySelector('input.tree-input');
 
       $scope.editFolderName = false;
       $scope.editFileName = false;
@@ -177,12 +177,12 @@ function fileTreeDir(
             $scope.dir.destroy(errs.handler);
             $scope.$broadcast('close-popovers');
           },
-          uploadFiles: function ($files) {
-            if ($files && $files.length) {
+          uploadFiles: function (files) {
+            if (files && files.length) {
               $scope.$broadcast('close-popovers');
 
               var uploadURL = configAPIHost + '/' + $scope.fileModel.urlPath + '/' + $scope.fileModel.id() + '/files';
-              var fileUploadPromises = $files.map(function (file) {
+              var fileUploadPromises = files.map(function (file) {
                 var myFile = {
                   attrs: {
                     name: file.name
@@ -201,20 +201,20 @@ function fileTreeDir(
                   fileFormDataName: 'file',
                   withCredentials: true
                 })
-                  .progress(function (evt) {
-                    myFile.state.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
-                  })
-                  .then(function () {
-                    myFile.state.progress = 100;
-                  })
-                  .catch(function (err) {
-                    var fileIndex = $scope.dir.contents.models.indexOf(myFile);
-                    $scope.dir.contents.models.splice(fileIndex, 1);
-                    errs.handler(err);
-                  })
-                  .then(function () {
-                    return myFile;
-                  });
+                .progress(function (evt) {
+                  myFile.state.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
+                })
+                .then(function () {
+                  myFile.state.progress = 100;
+                })
+                .catch(function (err) {
+                  var fileIndex = $scope.dir.contents.models.indexOf(myFile);
+                  $scope.dir.contents.models.splice(fileIndex, 1);
+                  errs.handler(err);
+                })
+                .then(function () {
+                  return myFile;
+                });
 
               });
 
@@ -301,8 +301,6 @@ function fileTreeDir(
           fetchDirFiles();
         }
       });
-
-      inputElement = element[0].querySelector('input.tree-input');
     }
   };
 }
