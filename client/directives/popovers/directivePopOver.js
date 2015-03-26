@@ -64,7 +64,7 @@ function popOver(
         }
 
         $rootScope.$broadcast('close-popovers');
-        unbindDocumentClick = $scope.$on('app-document-click', function (target) {
+        unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
           if(!(target && popoverElement[0].contains(target))){
             $scope.closePopover();
           }

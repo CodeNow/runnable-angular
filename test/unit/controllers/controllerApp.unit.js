@@ -94,16 +94,17 @@ describe('controllerApp'.bold.underline.blue, function () {
     });
 
     it('creates a click handler that broadcasts', function () {
-      var clicked;
       $rootScope.$digest();
 
-      $scope.$on('app-document-click', function () {
-        clicked = true;
+      var spy = sinon.spy();
+      $scope.$on('app-document-click', spy);
+
+      $scope.dataApp.documentClickEventHandler({
+        currentTarget: 'foo'
       });
 
-      $scope.dataApp.documentClickEventHandler();
-
-      expect(clicked).to.be.true;
+      expect(spy.calledOnce).to.equal(true);
+      expect(spy.lastCall.args[1]).to.equal('foo');
     });
   });
 
