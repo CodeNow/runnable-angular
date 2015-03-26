@@ -8,14 +8,17 @@
         ng-click = "actions.openFile(data);\
           $event.stopPropagation();"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-file-open"
+          )
         | Open
       li.divider
       li.popover-list-item(
         ng-click = "actions.renameFile(data);\
           $event.stopPropagation();"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-modify"
           )
@@ -24,7 +27,7 @@
         ng-click = "actions.deleteFile(data);\
           $event.stopPropagation();"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-delete"
           )

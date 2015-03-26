@@ -7,15 +7,15 @@ require('app')
  * @ngInject
  */
 function fileTreeDir(
-  $templateCache,
-  $compile,
   $rootScope,
   $state,
   keypather,
   errs,
   $q,
   promisify,
-  helperCreateFS
+  helperCreateFS,
+  $upload,
+  configAPIHost
 ) {
   return {
     restrict: 'A',
@@ -25,40 +25,82 @@ function fileTreeDir(
       parentDir: '=',
       fileModel: '=', // This is either a contextVersion or a container
       openItems: '=',
-      readOnly: '='
+      readOnly: '=',
+      editExplorer: '='
     },
     templateUrl: 'viewFileTreeDir',
-    link: function ($scope, element, attrs) {
-
+    link: function ($scope, element) {
       var actions = $scope.actions = {};
-      var data = $scope.data = {};
-      var inputElement;
+      $scope.data = {};
+      var inputElement = element[0].querySelector('input.tree-input');
 
       $scope.editFolderName = false;
       $scope.editFileName = false;
       $scope.data = {};
       $scope.state = $state;
 
+
+
+      $scope.actions.shouldCloseFolderNameInput = function (event) {
+        if (event.keyCode === 13) {
+          $scope.actions.closeFolderNameInput();
+        } else if (event.keyCode === 27) {
+          $scope.editFolderName = false;
+          inputElement.value = $scope.dir.attrs.name;
+        }
+      };
+
       $scope.actions.closeFolderNameInput = function () {
         if (!$scope.editFolderName) {
           return;
         }
         $scope.editFolderName = false;
-        if (inputElement.value === $scope.dir.attrs.name) {
+        var newValue = inputElement.value;
+        if (newValue) {
+          newValue = newValue.trim();
+        }
+        if (newValue === $scope.dir.attrs.name) {
           return;
         }
-        $scope.dir.rename(inputElement.value, errs.handler);
+        $scope.dir.rename(newValue, errs.handler);
       };
 
+      actions.handleClickOnFolderInput = function (event) {
+        if ($scope.editFolderName) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      };
+
+      $scope.actions.shouldCloseFileNameInput = function (event, file) {
+        if (event.keyCode === 13) {
+          $scope.actions.closeFileNameInput(event, file);
+        } else if (event.keyCode === 27) {
+          file.state.renaming = false;
+          event.currentTarget.value = file.attrs.name;
+        }
+      };
       $scope.actions.closeFileNameInput = function (event, file) {
         if (!file.state.renaming) {
           return;
         }
         file.state.renaming = false;
-        if (event.currentTarget.value === file.attrs.name) {
+
+        var newValue = event.currentTarget.value;
+        if (newValue) {
+          newValue = newValue.trim();
+        }
+        if (newValue === file.attrs.name) {
           return;
         }
-        file.rename(event.currentTarget.value, errs.handler);
+        file.rename(newValue, errs.handler);
+      };
+
+      actions.handleClickOnFileInput = function (event, file) {
+        if (file.state.renaming) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
       };
 
       $scope.actions.drop = function (dataTransfer, toDir) {
@@ -86,27 +128,31 @@ function fileTreeDir(
         });
       };
 
-
       actions.closeOpenModals = function () {
         $rootScope.$broadcast('app-document-click');
-      };
-
-      actions.handleClickOnInput = function (event, file) {
-        if (file.state.renaming) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
       };
 
       actions.openFile = function (file) {
         $scope.openItems.add(file);
       };
 
+      $scope.getFileStyle = function (file) {
+        if (!file.state.uploading) {
+          return {};
+        }
+        return {
+          width: file.state.progress + '%'
+        };
+      };
+
       $scope.popoverFileExplorerFolder = {
-        show: false,
+        data: {
+          canUpload: $scope.editExplorer
+        },
         options: {
           top: -16,
-          left: 10
+          left: 10,
+          mouse: true
         },
         actions: {
           createFile: function () {
@@ -130,11 +176,64 @@ function fileTreeDir(
           deleteFolder: function () {
             $scope.dir.destroy(errs.handler);
             $scope.$broadcast('close-popovers');
+          },
+          uploadFiles: function (files) {
+            if (files && files.length) {
+              $scope.$broadcast('close-popovers');
+
+              var uploadURL = configAPIHost + '/' + $scope.fileModel.urlPath + '/' + $scope.fileModel.id() + '/files';
+              var fileUploadPromises = files.map(function (file) {
+                var myFile = {
+                  attrs: {
+                    name: file.name
+                  },
+                  state: {
+                    uploading: true,
+                    progress: 0
+                  }
+                };
+
+                $scope.dir.contents.models.push(myFile);
+                return $upload.upload({
+                  url: uploadURL,
+                  file: file,
+                  method: 'POST',
+                  fileFormDataName: 'file',
+                  withCredentials: true
+                })
+                .progress(function (evt) {
+                  myFile.state.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
+                })
+                .then(function () {
+                  myFile.state.progress = 100;
+                })
+                .catch(function (err) {
+                  var fileIndex = $scope.dir.contents.models.indexOf(myFile);
+                  $scope.dir.contents.models.splice(fileIndex, 1);
+                  errs.handler(err);
+                })
+                .then(function () {
+                  return myFile;
+                });
+
+              });
+
+              $q.all(fileUploadPromises).then(function (uploads) {
+                uploads.forEach(function (myFile) {
+                  var fileIndex = $scope.dir.contents.models.indexOf(myFile);
+                  if (fileIndex !== -1) {
+                    $scope.dir.contents.models.splice(fileIndex, 1);
+                  }
+                });
+                $scope.actions.fetchDirFiles();
+              });
+            }
           }
         }
       };
 
       $scope.popoverFileExplorerFile = {
+        canUpload: $scope.editExplorer,
         options: {
           top: -16,
           left: 10
@@ -202,13 +301,6 @@ function fileTreeDir(
           fetchDirFiles();
         }
       });
-
-      //avoid infinite loop w/ nested directories
-      var template = $templateCache.get('viewFileTreeDir');
-      var $template = angular.element(template);
-      var compiled = $compile($template)($scope);
-      element.replaceWith(compiled);
-      inputElement = compiled[0].querySelector('input.tree-input');
     }
   };
 }

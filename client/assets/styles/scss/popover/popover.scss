@@ -289,6 +289,10 @@
   &:active {
     background: rgba($purple-light,.15);
     color: $purple-light;
+
+    .iconnables {
+      color: currentColor;
+    }
   }
 
   &.no-actions {
