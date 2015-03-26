@@ -1,8 +1,10 @@
 li(
   file-tree-dir
-  ng-repeat = "fs in dir.contents.models \
-                     | isDir \
-                     | orderBy:actions.normalizeMixedDataValue"
+  ng-repeat = "\
+    fs in dir.contents.models \
+   | isDir \
+   | orderBy:actions.normalizeMixedDataValue\
+  "
   dir = "fs"
   parent-dir = "dir"
   file-model = "fileModel"
@@ -10,7 +12,7 @@ li(
   open-items = "openItems"
   read-only = "readOnly"
 )
-li.file.load(
+li.file(
   draggable
   ng-repeat = "\
     fs in dir.contents.models \
