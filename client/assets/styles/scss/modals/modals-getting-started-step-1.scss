@@ -21,8 +21,8 @@
   }
 
   .spinner-sm {
-    justify-content: flex-end;
-    padding-right: 15px;
+    top: 20px;
+    width: 42px;
   }
 
   // lists
@@ -75,5 +75,6 @@
     right: 9px;
     top: 0;
     transform: rotate3d(0,0,1,-90deg);
+    transition: none;
   }
 }
