@@ -63,10 +63,7 @@ function modal(
       };
 
       var modal = null;
-      function createModal (event) {
-        if (event) {
-          event.stopPropagation();
-        }
+      function createModal () {
         modal = $compile($template)($scope);
         $document.find('body').append($template);
         $scope.in = true;

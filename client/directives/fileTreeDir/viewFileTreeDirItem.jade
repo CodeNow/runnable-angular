@@ -26,11 +26,7 @@ li.file(
   }"
 )
   a(
-    ng-click = "\
-      actions.closeOpenModals();\
-      actions.openFile(fs);\
-      $event.stopPropagation();\
-    "
+    ng-click = "actions.openFile(fs)"
     pop-over
     pop-over-actions = "popoverFileExplorerFile.actions"
     pop-over-data = "fs"

@@ -36,7 +36,6 @@ function popOver(
 
       var popoverElement;
       var popoverElementScope;
-      var popoverOverlay;
 
       $scope.closePopover = function () {
         $scope.active = false;
@@ -44,7 +43,7 @@ function popOver(
         $timeout(angular.noop);
         unbindDocumentClick();
         unbindPopoverOpened();
-        popoverOverlay.remove();
+
         // We need a closure because they could technically re-open the popover and we want to manage THIS scope and THIS element.
         (function (popoverElementScope, popoverElement) {
           //Give the transition some time to finish!
@@ -65,8 +64,10 @@ function popOver(
         }
 
         $rootScope.$broadcast('close-popovers');
-        unbindDocumentClick = $scope.$on('app-document-click', function () {
-          $scope.closePopover();
+        unbindDocumentClick = $scope.$on('app-document-click', function (target) {
+          if(!(target && popoverElement[0].contains(target))){
+            $scope.closePopover();
+          }
         });
         unbindPopoverOpened = $scope.$on('close-popovers', function () {
           $scope.closePopover();
@@ -106,23 +107,9 @@ function popOver(
         $timeout(function(){
           $scope.active = true;
         }, 0);
-
-        // Prevent clicking on the popover from triggering us to close the popover!
-        popoverElement.on('click', function(event) {
-          event.stopPropagation();
-        });
-
-        popoverOverlay = $document[0].createElement('div');
-        popoverOverlay.className = 'popover-overlay';
-        $document.find('body').append(popoverOverlay);
-
-        popoverOverlay.on('click', function () {
-          $scope.closePopover();
-        });
-
       }
       function clickHandler(event) {
-        event.stopPropagation();
+        event.stopPropagation(); // If we don't stop prop we will immediately close ourselves!
         event.preventDefault();
         if (element.prop('disabled')) {
           return;
@@ -176,7 +163,9 @@ function popOver(
       }
 
       $scope.$on('$destroy', function () {
-        $scope.closePopover();
+        if ($scope.active) {
+          $scope.closePopover();
+        }
       });
     }
   };
