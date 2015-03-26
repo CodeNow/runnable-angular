@@ -7,15 +7,14 @@ require('app')
  * @ngInject
  */
 function fileTreeDir(
-  $templateCache,
-  $compile,
   $rootScope,
   $state,
   keypather,
   errs,
   $q,
   promisify,
-  helperCreateFS
+  helperCreateFS,
+  configAPIHost
 ) {
   return {
     restrict: 'A',
@@ -25,19 +24,29 @@ function fileTreeDir(
       parentDir: '=',
       fileModel: '=', // This is either a contextVersion or a container
       openItems: '=',
-      readOnly: '='
+      readOnly: '=',
+      editExplorer: '='
     },
     templateUrl: 'viewFileTreeDir',
-    link: function ($scope, element, attrs) {
-
+    link: function ($scope, element) {
       var actions = $scope.actions = {};
-      var data = $scope.data = {};
+      $scope.data = {};
       var inputElement;
 
       $scope.editFolderName = false;
       $scope.editFileName = false;
       $scope.data = {};
       $scope.state = $state;
+
+      
+      $scope.actions.shouldCloseFolderNameInput = function (event, file) {
+        if (event.keyCode === 13) {
+          $scope.actions.closeFolderNameInput(event, file);
+        } else if (event.keyCode === 27) {
+          $scope.editFolderName = false;
+          inputElement.value = $scope.dir.attrs.name;
+        }
+      };
 
       $scope.actions.closeFolderNameInput = function () {
         if (!$scope.editFolderName) {
@@ -50,6 +59,21 @@ function fileTreeDir(
         $scope.dir.rename(inputElement.value, errs.handler);
       };
 
+      actions.handleClickOnFolderInput = function (event) {
+        if ($scope.editFolderName) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      };
+
+      $scope.actions.shouldCloseFileNameInput = function (event, file) {
+        if (event.keyCode === 13) {
+          $scope.actions.closeFileNameInput(event, file);
+        } else if (event.keyCode === 27) {
+          file.state.renaming = false;
+          event.currentTarget.value = file.attrs.name;
+        }
+      };
       $scope.actions.closeFileNameInput = function (event, file) {
         if (!file.state.renaming) {
           return;
@@ -59,6 +83,13 @@ function fileTreeDir(
           return;
         }
         file.rename(event.currentTarget.value, errs.handler);
+      };
+
+      actions.handleClickOnFileInput = function (event, file) {
+        if (file.state.renaming) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
       };
 
       $scope.actions.drop = function (dataTransfer, toDir) {
@@ -91,22 +122,27 @@ function fileTreeDir(
         $rootScope.$broadcast('app-document-click');
       };
 
-      actions.handleClickOnInput = function (event, file) {
-        if (file.state.renaming) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-      };
-
       actions.openFile = function (file) {
         $scope.openItems.add(file);
       };
 
+      $scope.getFileStyle = function (file) {
+        if (!file.state.uploading) {
+          return {};
+        }
+        return {
+          width: file.state.progress + '%'
+        };
+      };
+
       $scope.popoverFileExplorerFolder = {
-        show: false,
+        data: {
+          canUpload: $scope.editExplorer
+        },
         options: {
           top: -16,
-          left: 10
+          left: 10,
+          mouse: true
         },
         actions: {
           createFile: function () {
@@ -203,12 +239,7 @@ function fileTreeDir(
         }
       });
 
-      //avoid infinite loop w/ nested directories
-      var template = $templateCache.get('viewFileTreeDir');
-      var $template = angular.element(template);
-      var compiled = $compile($template)($scope);
-      element.replaceWith(compiled);
-      inputElement = compiled[0].querySelector('input.tree-input');
+      inputElement = element[0].querySelector('input.tree-input');
     }
   };
 }
