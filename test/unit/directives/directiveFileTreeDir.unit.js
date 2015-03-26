@@ -81,90 +81,154 @@ describe('directiveFileTreeDir'.bold.underline.blue, function () {
     $elScope.$broadcast.restore();
   });
 
-  it('should handle changing the folder name', function () {
-    $elScope.editFolderName = true;
-    $elScope.dir.attrs.name = 'foo';
-    $elScope.dir.rename = sinon.spy();
-    inputElement.value = '123';
-    $elScope.actions.closeFolderNameInput();
-    expect($elScope.dir.rename.calledOnce).to.equal(true);
-    expect($elScope.dir.rename.calledWith('123', errs.handler)).to.equal(true);
+  describe('folder rename', function () {
+    it('should work', function () {
+      $elScope.editFolderName = true;
+      $elScope.dir.attrs.name = 'foo';
+      $elScope.dir.rename = sinon.spy();
+      inputElement.value = '123';
+      $elScope.actions.closeFolderNameInput();
+      expect($elScope.dir.rename.calledOnce).to.equal(true);
+      expect($elScope.dir.rename.calledWith('123', errs.handler)).to.equal(true);
+    });
+
+    it('should trigger close if the user hits enter', function () {
+      $elScope.actions.closeFolderNameInput = sinon.spy();
+      $elScope.actions.shouldCloseFolderNameInput({
+        keyCode: 13
+      });
+      expect($elScope.actions.closeFolderNameInput.calledOnce).to.equal(true);
+    });
+
+    it('should cancel editing if the user hits escape', function () {
+      $elScope.editFolderName = true;
+      inputElement.value = 'New Name';
+      $elScope.dir.attrs.name = 'Test';
+      $elScope.actions.shouldCloseFolderNameInput({
+        keyCode: 27
+      });
+      expect($elScope.editFolderName).to.equal(false);
+      expect(inputElement.value).to.equal('Test');
+    });
+
+    it('should not trigger a rename if the folder name is not changed', function () {
+      $elScope.editFolderName = true;
+      $elScope.dir.attrs.name = 'foo';
+      $elScope.dir.rename = sinon.spy();
+      inputElement.value = 'foo';
+      $elScope.actions.closeFolderNameInput();
+      expect($elScope.dir.rename.calledOnce).to.equal(false);
+    });
+
+    it('should not trigger a rename if the folder is not being renamed', function () {
+      $elScope.editFolderName = false;
+      $elScope.dir.attrs.name = 'foo';
+      $elScope.dir.rename = sinon.spy();
+      inputElement.value = 'foo';
+      $elScope.actions.closeFolderNameInput();
+      expect($elScope.dir.rename.calledOnce).to.equal(false);
+    });
   });
 
-  it('should not trigger a rename if the folder name is not changed', function () {
-    $elScope.editFolderName = true;
-    $elScope.dir.attrs.name = 'foo';
-    $elScope.dir.rename = sinon.spy();
-    inputElement.value = 'foo';
-    $elScope.actions.closeFolderNameInput();
-    expect($elScope.dir.rename.calledOnce).to.equal(false);
+  describe('file rename', function () {
+    it('should work', function () {
+      var file = {
+        state: {
+          renaming: true
+        },
+        attrs: {
+          name: 'Foo'
+        },
+        rename: sinon.spy()
+      };
+      var event = {
+        currentTarget: {
+          value: 'Bar'
+        }
+      };
+      $elScope.actions.closeFileNameInput(event, file);
+      expect(file.rename.calledOnce).to.equal(true);
+    });
+
+    it('should not change the file name if it has not been modified', function () {
+      var file = {
+        state: {
+          renaming: true
+        },
+        attrs: {
+          name: 'Foo'
+        },
+        rename: sinon.spy()
+      };
+      var event = {
+        currentTarget: {
+          value: 'Foo'
+        }
+      };
+      $elScope.actions.closeFileNameInput(event, file);
+      expect(file.rename.calledOnce).to.equal(false);
+    });
+
+    it('should not change the file name if its not being renamed', function () {
+      var file = {
+        state: {
+          renaming: false
+        },
+        attrs: {
+          name: 'Foo'
+        },
+        rename: sinon.spy()
+      };
+      var event = {
+        currentTarget: {
+          value: 'Bar'
+        }
+      };
+      $elScope.actions.closeFileNameInput(event, file);
+      expect(file.rename.calledOnce).to.equal(false);
+    });
+
+
+    it('should trigger close if the user hits enter', function () {
+      $elScope.actions.closeFileNameInput = sinon.spy();
+      var file = {
+        state: {
+          renaming: true
+        },
+        attrs: {
+          name: 'Foo'
+        },
+        rename: sinon.spy()
+      };
+      $elScope.actions.shouldCloseFileNameInput({
+        keyCode: 13
+      }, file);
+      expect($elScope.actions.closeFileNameInput.calledOnce).to.equal(true);
+    });
+
+    it('should cancel editing if the user hits escape', function () {
+      var file = {
+        state: {
+          renaming: true
+        },
+        attrs: {
+          name: 'Test'
+        },
+        rename: sinon.spy()
+      };
+      var event = {
+        keyCode: 27,
+        currentTarget: {
+          value: 'New Name'
+        }
+      };
+      $elScope.actions.shouldCloseFileNameInput(event, file);
+      expect(event.currentTarget.value).to.equal('Test');
+      expect(file.state.renaming).to.equal(false);
+    });
   });
 
-  it('should not trigger a rename if the folder is not being renamed', function () {
-    $elScope.editFolderName = false;
-    $elScope.dir.attrs.name = 'foo';
-    $elScope.dir.rename = sinon.spy();
-    inputElement.value = 'foo';
-    $elScope.actions.closeFolderNameInput();
-    expect($elScope.dir.rename.calledOnce).to.equal(false);
-  });
 
-  it('should handle changing the file name', function () {
-    var file = {
-      state: {
-        renaming: true
-      },
-      attrs: {
-        name: 'Foo'
-      },
-      rename: sinon.spy()
-    };
-    var event = {
-      currentTarget: {
-        value: 'Bar'
-      }
-    };
-    $elScope.actions.closeFileNameInput(event, file);
-    expect(file.rename.calledOnce).to.equal(true);
-  });
-
-  it('should not change the file name if it has not been modified', function () {
-    var file = {
-      state: {
-        renaming: true
-      },
-      attrs: {
-        name: 'Foo'
-      },
-      rename: sinon.spy()
-    };
-    var event = {
-      currentTarget: {
-        value: 'Foo'
-      }
-    };
-    $elScope.actions.closeFileNameInput(event, file);
-    expect(file.rename.calledOnce).to.equal(false);
-  });
-
-  it('should not change the file name if its not being renamed', function () {
-    var file = {
-      state: {
-        renaming: false
-      },
-      attrs: {
-        name: 'Foo'
-      },
-      rename: sinon.spy()
-    };
-    var event = {
-      currentTarget: {
-        value: 'Bar'
-      }
-    };
-    $elScope.actions.closeFileNameInput(event, file);
-    expect(file.rename.calledOnce).to.equal(false);
-  });
 
   it('should broadcast click event when triggering closeOpenModals', function () {
     sinon.spy($rootScope, '$broadcast');

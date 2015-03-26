@@ -41,9 +41,9 @@ function fileTreeDir(
 
 
 
-      $scope.actions.shouldCloseFolderNameInput = function (event, file) {
+      $scope.actions.shouldCloseFolderNameInput = function (event) {
         if (event.keyCode === 13) {
-          $scope.actions.closeFolderNameInput(event, file);
+          $scope.actions.closeFolderNameInput();
         } else if (event.keyCode === 27) {
           $scope.editFolderName = false;
           inputElement.value = $scope.dir.attrs.name;
