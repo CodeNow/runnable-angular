@@ -55,10 +55,14 @@ function fileTreeDir(
           return;
         }
         $scope.editFolderName = false;
-        if (inputElement.value === $scope.dir.attrs.name) {
+        var newValue = inputElement.value;
+        if (newValue) {
+          newValue = newValue.trim();
+        }
+        if (newValue === $scope.dir.attrs.name) {
           return;
         }
-        $scope.dir.rename(inputElement.value, errs.handler);
+        $scope.dir.rename(newValue, errs.handler);
       };
 
       actions.handleClickOnFolderInput = function (event) {
@@ -81,10 +85,15 @@ function fileTreeDir(
           return;
         }
         file.state.renaming = false;
-        if (event.currentTarget.value === file.attrs.name) {
+
+        var newValue = event.currentTarget.value;
+        if (newValue) {
+          newValue = newValue.trim();
+        }
+        if (newValue === file.attrs.name) {
           return;
         }
-        file.rename(event.currentTarget.value, errs.handler);
+        file.rename(newValue, errs.handler);
       };
 
       actions.handleClickOnFileInput = function (event, file) {
