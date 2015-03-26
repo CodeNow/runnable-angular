@@ -5,6 +5,10 @@ require('app')
 /**
  * activePanel Directive
  * @ngInject
+ *
+ * Attributes:
+ *  backgroundButtons: Comma separated list of the tabs that can be allowed and added
+ *
  */
 function activePanel(
   $sce,
