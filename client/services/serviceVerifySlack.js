@@ -12,6 +12,7 @@ function verifyChatIntegration (
   $state,
   $q
 ) {
+  // Only Slack for now, will expand when customers request it
   return function (settings, chatClient) {
 
     var username = $state.params.userName;

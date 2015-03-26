@@ -54,9 +54,6 @@ function accountsSelect (
       keypather.set($scope, 'popoverAccountMenu.data.logoutURL', configLogoutURL());
       keypather.set($scope, 'popoverAccountMenu.data.isMainPage', $scope.isMainPage);
 
-      var mActions = $scope.popoverAccountMenu.actions.actionsModalIntegrations;
-      var mData = $scope.popoverAccountMenu.data.dataModalIntegrations;
-
       if (configEnvironment !== 'production') {
         keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
       }
@@ -70,26 +67,10 @@ function accountsSelect (
 
         // Integrations modal
         if ($scope.data.user.oauthName() === $state.params.userName) {
-          mData.showIntegrations = false;
-          return;
+          $scope.popoverAccountMenu.data.showIntegrations = false;
+        } else {
+          $scope.popoverAccountMenu.data.showIntegrations = true;
         }
-
-        // Only Slack for now, will expand when customers request it
-        mData.showIntegrations = true;
-        mData.showSlack = true;
-        mData.settings = {};
-        mData.slackMembers = {};
-        mData.verified = false;
-        return fetchSettings($scope.data.user)
-        .then(function(settings) {
-          mData.settings = settings;
-          if (keypather.get(mData, 'settings.attrs.notifications.slack.apiToken') &&
-            keypather.get(mData, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
-            mData.showSlack = true;
-            return mActions.verifySlack(true);
-          }
-        })
-        .catch(errs.handler);
       });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
@@ -102,58 +83,6 @@ function accountsSelect (
             userName: username
           });
         }
-      };
-
-      // Closes the account select popover on modal open
-      mActions.closePopover = function() {
-        $scope.popoverAccountMenu.data.show = false;
-      };
-      mActions.verifySlack = function(loadingPreviousResults) {
-        var matches = [];
-        if (loadingPreviousResults) {
-          mData.loading = true;
-        } else {
-          mData.verifying = true;
-        }
-        return verifyChatIntegration(mData.settings, 'slack')
-        .then(function (members) {
-          mData.slackMembers = members.slack;
-          mData.ghMembers = members.github;
-          mData.verified = true;
-        })
-        .catch(errs.handler)
-        .finally(function () {
-          mData.loading = false;
-          mData.verifying = false;
-        });
-      };
-      mActions.saveSlack = function () {
-        var slackData = {
-          apiToken: mData.settings.attrs.notifications.slack.apiToken,
-          enabled: mData.settings.attrs.notifications.slack.enabled
-        };
-        slackData.githubUsernameToSlackIdMap = mData.slackMembers.reduce(function (obj, slackMember) {
-          if (slackMember.ghName && !slackMember.found) {
-            // Name was selected from the dropdown
-            obj[slackMember.ghName] = slackMember.id;
-          } else if (slackMember.found && slackMember.slackOn) {
-            // Autodetected name was checked
-            obj[slackMember.ghName] = slackMember.id;
-          } else {
-            // We want to note them but not enable slack
-            obj[slackMember.ghName] = null;
-          }
-          return obj;
-        }, {});
-
-        return promisify(mData.settings, 'update')({
-          json: {
-            notifications: {
-              slack: slackData
-            }
-          }
-        })
-        .catch(errs.handler);
       };
     }
   };

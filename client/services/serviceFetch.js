@@ -274,12 +274,13 @@ function fetchSettings(
   fetchSlackMembers,
   fetchGitHubMembers,
   fetchGitHubUser,
+  pFetchUser,
   promisify,
   keypather,
   integrationsCache
 ) {
 
-  return function (user) {
+  return function () {
     var username = $state.params.userName;
 
     if (integrationsCache[username]) {
@@ -287,8 +288,10 @@ function fetchSettings(
     }
 
     var settings;
-    return promisify(user, 'fetchSettings')({
-      githubUsername: $state.params.userName
+    return pFetchUser().then(function(user) {
+      return promisify(user, 'fetchSettings')({
+        githubUsername: $state.params.userName
+      });
     })
     .then(function (settings) {
       integrationsCache[$state.params.userName] = {

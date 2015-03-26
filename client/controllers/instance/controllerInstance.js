@@ -16,11 +16,13 @@ function ControllerInstance(
   $state,
   $stateParams,
   $timeout,
+  $q,
   $window,
   favico,
   pageName,
   pFetchUser,
-  fetchInstances
+  fetchInstances,
+  fetchSettings
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -57,12 +59,17 @@ function ControllerInstance(
   // The error handling for pFetchUser will re-direct for us, so we don't need to handle that case
   pFetchUser().then(function (user) {
     $scope.user = user;
-    return fetchInstances({
-      name: $stateParams.instanceName
-    }).then(function (instance) {
+    return $q.all({
+      instance: fetchInstances({ name: $stateParams.instanceName }),
+      settings: fetchSettings()
+    })
+    .then(function (results) {
+      var instance = results.instance;
       data.instance = instance;
       pageName.setTitle(instance.attrs.name);
       data.instance.state = {};
+
+      data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
       // This is to untoggle all of the other team members trays
       if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
         $scope.dataApp.actions.setToggled();
@@ -72,7 +79,8 @@ function ControllerInstance(
         'lastInstancePerUser.' + $stateParams.userName,
         $stateParams.instanceName
       );
-    }).catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
+    })
+    .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
       errs.handler(err);
       keypather.set(
         $localStorage,
