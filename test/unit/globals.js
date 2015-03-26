@@ -26,6 +26,7 @@ window.fixtures = {
   //mockFetch: require('./fixtures/mockFetch')
 };
 window.runnable = new (require('runnable'))(window.host);
+window.noop = function () {};
 window.helpers = {
   click: function (el, augmentCb){
     var event = document.createEvent('MouseEvent');
@@ -54,4 +55,4 @@ window.helpers = {
     }
     el.dispatchEvent(event);
   }
-}
+};
