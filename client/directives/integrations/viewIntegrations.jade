@@ -33,10 +33,10 @@ form.modal-dialog.modal-integrations(
         "
         type = "button"
       )
-        img.gravatar(
-          height = "18"
-          ng-src = "{{ org.gravitar() }}"
-          width = "18"
+        img.img(
+          height = "36"
+          src = "/build/images/logos/logo-icon-slack.svg"
+          width = "36"
         )
         | Slack
   //- do not show if integration is initiated
@@ -54,7 +54,7 @@ form.modal-dialog.modal-integrations(
       ng-include = "'spinner'"
     )
     .well.gray.well-state(
-      ng-if = "!data.settings.attrs.notifications.slack.enabled"
+      ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
     ) Slack integration has been disabled
       button.btn.btn-xs.green(
         ng-click = "data.settings.attrs.notifications.slack.enabled = true"
@@ -240,4 +240,3 @@ form.modal-dialog.modal-integrations(
     button.btn.white(
       ng-click = "defaultActions.close()"
     ) Cancel
-
