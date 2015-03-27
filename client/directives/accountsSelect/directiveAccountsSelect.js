@@ -70,11 +70,13 @@ function accountsSelect (
         if (!$scope.isMainPage) { return; }
 
         // Integrations modal
-        if ($scope.data.user.oauthName() === $state.params.userName) {
+
+        // Disabling modal until SAN-1057 comes in
+        // if ($scope.data.user.oauthName() === $state.params.userName) {
           mData.showIntegrations = false;
           return;
-        }
-
+        // }
+/*
         // Only Slack for now, will expand when customers request it
         mData.showIntegrations = true;
         mData.showSlack = true;
@@ -93,6 +95,7 @@ function accountsSelect (
           }
         })
         .catch(errs.handler);
+*/
       });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
