@@ -1,20 +1,22 @@
 'use strict';
 
 require('app')
-  .directive('integrations', integrations);
+  .directive('modalIntegrations', integrations);
 
-function integrations (
+function integrations(
+  $timeout,
   keypather,
   fetchSettings,
   verifyChatIntegration,
   promisify,
-  errs,
-  $rootScope
+  errs
 ) {
   return {
-    restrict: 'E',
-    templateUrl: 'viewIntegrations',
-    scope: {},
+    restrict: 'A',
+    templateUrl: 'viewModalIntegrations',
+    scope: {
+      defaultActions: '='
+    },
     link: function ($scope) {
       // Re-add when we get one <modal> to rule them all
       // $rootScope.$broadcast('close-popovers');
@@ -27,41 +29,45 @@ function integrations (
       data.slackMembers = {};
       data.verified = false;
 
-      fetchSettings()
-      .then(function (settings) {
-        data.settings = settings.models[0];
-        console.log(settings, data.settings.attrs.notifications.slack.apiToken);
-        if (keypather.get(data, 'settings.attrs.notifications.slack.apiToken') &&
-          keypather.get(data, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
-          data.showSlack = true;
-          return actions.verifySlack(true);
-        }
-      })
-      .catch(errs.handler);
-
-      actions.verifySlack = function(loadingPreviousResults) {
+      function verifySlack() {
         var matches = [];
-        if (loadingPreviousResults) {
-          data.loading = true;
-        } else {
-          data.verifying = true;
-        }
         return verifyChatIntegration(data.settings, 'slack')
-        .then(function (members) {
-          data.slackMembers = members.slack;
-          data.ghMembers = members.github;
-          data.verified = true;
+          .then(function (members) {
+            data.slackMembers = members.slack;
+            data.ghMembers = members.github;
+            data.verified = true;
+          });
+      }
+
+      fetchSettings()
+        .then(function (settings) {
+          data.settings = settings.models[0];
+          console.log(settings, data.settings.attrs.notifications.slack.apiToken);
+          if (keypather.get(data, 'settings.attrs.notifications.slack.apiToken') &&
+              keypather.get(data, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
+            data.showSlack = true;
+            data.loading = true;
+            return verifySlack();
+          }
         })
         .catch(errs.handler)
         .finally(function () {
-          console.log('fiiiinally');
           data.loading = false;
-          data.verifying = false;
+          $timeout(angular.noop);
         });
+
+      actions.verifySlack = function () {
+        data.verifying = true;
+        return verifySlack()
+          .catch(errs.handler)
+          .finally(function () {
+            $scope.data.verifying = false;
+            $timeout(angular.noop);
+          });
       };
 
       // Closes the account select popover on modal open
-      actions.closePopover = function() {
+      actions.closePopover = function () {
         $scope.popoverAccountMenu.data.show = false;
       };
       actions.saveSlack = function () {
@@ -90,7 +96,7 @@ function integrations (
             }
           }
         })
-        .catch(errs.handler);
+          .catch(errs.handler);
       };
     }
   };
