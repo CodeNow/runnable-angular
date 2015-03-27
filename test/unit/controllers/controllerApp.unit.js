@@ -100,7 +100,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       $scope.$on('app-document-click', spy);
 
       $scope.dataApp.documentClickEventHandler({
-        currentTarget: 'foo'
+        target: 'foo'
       });
 
       expect(spy.calledOnce).to.equal(true);
