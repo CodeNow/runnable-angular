@@ -139,10 +139,7 @@ div(
       //- nested server
       .list-item.btn.btn-sm.purple(
         ng-class = "getInstanceClasses(instance)"
-        ng-click = "\
-          $event.stopPropagation();\
-          instance.state.toggled = true;\
-        "
+        ng-click = "actions.goToInstance($event, instance)"
         ng-repeat = "instance in teamMember.instances | orderBy:'attrs.name'"
       )
         a.list-item-name.text-overflow(

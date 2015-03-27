@@ -104,7 +104,7 @@ html(
 
   body(
     ng-class = "{minimize: dataApp.data.minimizeNav}"
-    ng-click = "dataApp.documentClickEventHandler($scope, this)"
+    ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )
     //

@@ -11,7 +11,8 @@ function instanceList(
   getTeamMemberClasses,
   $state,
   keypather,
-  regexpQuote
+  regexpQuote,
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -21,10 +22,16 @@ function instanceList(
       state: '=',
       actions: '='
     },
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
       $scope.filter = {
         string: '',
         instances: []
+      };
+
+      $scope.actions.goToInstance = function (event, instance) {
+        event.stopPropagation();
+        $rootScope.$broadcast('close-popovers');
+        instance.state.toggled = true;
       };
 
       $scope.stateToInstance = function (instance, $event) {

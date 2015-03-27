@@ -67,6 +67,7 @@ function fileTreeDir(
 
       actions.handleClickOnFolderInput = function (event) {
         if ($scope.editFolderName) {
+          $rootScope.$broadcast('close-popovers');
           event.preventDefault();
           event.stopPropagation();
         }
@@ -98,6 +99,7 @@ function fileTreeDir(
 
       actions.handleClickOnFileInput = function (event, file) {
         if (file.state.renaming) {
+          $rootScope.$broadcast('close-popovers');
           event.preventDefault();
           event.stopPropagation();
         }
