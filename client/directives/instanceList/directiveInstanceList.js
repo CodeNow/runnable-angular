@@ -22,9 +22,10 @@ function instanceList(
       actions: '='
     },
     link: function ($scope, elem, attrs) {
-      $scope.filterString = '';
-      $scope.isFiltering = false;
-      $scope.filteredInstances = [];
+      $scope.filter = {
+        string: '',
+        instances: []
+      };
 
       $scope.stateToInstance = function (instance, $event) {
         if ($event && $event.preventDefault) {
@@ -48,25 +49,26 @@ function instanceList(
         }
       };
 
-      $scope.$watch('filterString', function(newValue){
+      $scope.$watch('filter.string', function(newValue) {
+        console.log(newValue);
         if (newValue && newValue.length) {
-          $scope.isFiltering = true;
 
           var filterRegex = '^.*';
           newValue.split('').forEach(function(char){
             filterRegex += regexpQuote(char) + '.*';
           });
           filterRegex += '$';
+          console.log(filterRegex);
 
           var regex = new RegExp(filterRegex);
           var instances = keypather.get($scope, 'data.instances.models') || [];
-          $scope.filteredInstances = instances.filter(function(instance){
+          $scope.filter.instances = instances.filter(function(instance) {
+            console.log(instance.attrs.name);
             return regex.test(instance.attrs.name);
           });
 
         } else {
-          $scope.filteredInstances = [];
-          $scope.isFiltering = false;
+          $scope.filter.instances = [];
         }
       });
     }
