@@ -50,7 +50,6 @@ function instanceList(
       };
 
       $scope.$watch('filter.string', function(newValue) {
-        console.log(newValue);
         if (newValue && newValue.length) {
 
           var filterRegex = '^.*';
@@ -58,12 +57,10 @@ function instanceList(
             filterRegex += regexpQuote(char) + '.*';
           });
           filterRegex += '$';
-          console.log(filterRegex);
 
           var regex = new RegExp(filterRegex);
           var instances = keypather.get($scope, 'data.instances.models') || [];
           $scope.filter.instances = instances.filter(function(instance) {
-            console.log(instance.attrs.name);
             return regex.test(instance.attrs.name);
           });
 
