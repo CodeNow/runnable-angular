@@ -40,7 +40,7 @@
 
   .white {
     background-color: rgba($black,.04);
-    border-color: rgba($black,.09);
+    border-color: rgba($black,.1);
   }
 
   .iconnables {
@@ -59,8 +59,8 @@
 
   .btn-close-prompt {
     color: $gray;
-    border: 1px solid transparent;
     border-radius: 50%;
+    border: 1px solid transparent;
     height: 25px;
     line-height: 33px;
     margin-top: 11px;
@@ -69,15 +69,15 @@
     opacity: .5;
 
     &:hover {
-      background-color: rgba($gray,.2);
-      border: 1px solid $gray;
+      background-color: rgba($black,.08);
+      border: 1px solid rgba($black,.2);
     }
 
     &:active {
-      background-color: rgba($purple,.15);
-      color: $purple;
-      border-color: $purple;
-      opacity: .65;
+      background-color: rgba($purple,.1);
+      border-color: rgba($purple,.2);
+      color: rgba($purple,.75);
+      opacity: 1;
     }
 
   }
@@ -86,7 +86,7 @@
 
 .ace-runnable-dark ~ .views-prompt {
   background-color: desaturate(lighten($purple-darker,5%),10%);
-  color: rgba($white,.68);
+  color: $purple-lighter;
 
   .orange {
     border-color: transparent;
@@ -94,7 +94,7 @@
 
   .white {
     background-color: rgba($white,.05);
-    border-color: rgba($white,.09);
+    border-color: rgba($white,.18);
     color: inherit;
 
     &:hover {
@@ -108,17 +108,17 @@
   }
 
   .btn-close-prompt {
-    color: $white;
+    color: currentColor;
 
     &:hover {
       background-color: rgba($white,.1);
-      border: 1px solid rgba($white,.5);
+      border: 1px solid rgba($white,.36);
     }
 
     &:active {
-      opacity: 1;
       background-color: rgba($white,.05);
-      border-color: rgba($white,.25);
+      border-color: rgba($white,.18);
+      opacity: 1;
     }
 
   }
