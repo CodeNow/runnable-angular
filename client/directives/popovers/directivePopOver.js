@@ -145,6 +145,18 @@ function popOver(
             element.off('contextmenu');
           });
           break;
+        case 'activeAttr':
+          var unwatchActive = $scope.$watch('active', function (newVal) {
+            if (newVal) {
+              openPopover();
+            } else {
+              $scope.closePopover();
+            }
+          });
+          $scope.$on('$destroy', function () {
+            unwatchActive();
+          });
+          break;
         default:
           element.on('click', clickHandler);
           $scope.$on('$destroy', function () {
