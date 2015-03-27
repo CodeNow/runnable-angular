@@ -26,11 +26,13 @@ section.sidebar.server-sidebar
   section.row.repo-list(
     build = "dataInstanceEdit.data.build"
     instance = "dataInstanceEdit.data.instance"
+    show-add-repo = "true"
     repo-list
     loading = "dataApp.data.loading"
   )
   section.row.explorer(
     explorer
+    edit-explorer = "true"
     title = "Build Files"
     file-model = "dataInstanceEdit.data.build.contextVersions.models[0]"
     root-dir = "dataInstanceEdit.data.build.contextVersions.models[0].rootDir"

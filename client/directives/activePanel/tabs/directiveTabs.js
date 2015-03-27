@@ -8,7 +8,8 @@ require('app')
  */
 function tabs(
   $state,
-  colorScheme
+  colorScheme,
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -16,11 +17,18 @@ function tabs(
     scope: {
       openItems: '='
     },
-    link: function ($scope, element, attrs) {
+    link: function ($scope) {
       $scope.state = $state;
-      var actions = $scope.actions = {};
-      var data = $scope.data = {};
+      $scope.actions = {
+        removeItem: function (event, item) {
+          $scope.openItems.remove(item);
 
+          //We need to stop propagation, so we need to manually trigger close-popovers
+          $rootScope.$broadcast('close-popovers');
+          event.stopPropagation();
+        }
+      };
+      $scope.data = {};
       $scope.colorScheme = colorScheme;
     }
   };

@@ -1,6 +1,5 @@
 .popover.bottom.popover-add-repo(
-  ng-class = "{in: data.show}"
-  ng-click = "$event.preventDefault();$event.stopPropagation();"
+  ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow

@@ -24,10 +24,7 @@ ul.tabs
     ) {{ item.attrs.name  }}
     .icons-dirty *
     button.btn.white.btn-icon.btn-close(
-      ng-click = "\
-        openItems.remove(item);\
-        $event.stopPropagation();\
-      "
+      ng-click = "actions.removeItem($event, item)"
       ng-if = "!item.state.alwaysOpen"
     )
       svg.iconnables.icons-close

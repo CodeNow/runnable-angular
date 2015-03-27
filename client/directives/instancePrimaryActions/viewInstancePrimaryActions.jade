@@ -21,19 +21,15 @@
     button.btn.green.btn-icon.btn-icon-sm.btn-save-options(
       ng-class = "{active: popoverSaveOptions.data.show}"
       ng-disabled = "!instance.containers.models[0].running() || loading"
-      toggle-pop-over
-      toggle-pop-over-model = "popoverSaveOptions.data.show"
       type = "button"
+      pop-over
+      pop-over-active = "popoverSaveOptions.data.show"
+      pop-over-actions = "popoverSaveOptions.actions"
+      pop-over-data = "popoverSaveOptions.data"
+      pop-over-options = "{\"left\":-146,\"top\":54}"
+      pop-over-template = "viewInstancePopoverSaveOptions"
     )
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-      pop-over(
-        loading = "loading"
-        instance = "instance"
-        actions = "popoverSaveOptions.actions"
-        data = "popoverSaveOptions.data"
-        popover-options = "{\"left\":-146,\"top\":54}"
-        template = "viewInstancePopoverSaveOptions"
-      )

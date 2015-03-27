@@ -64,7 +64,7 @@
     display: inline-block;
     font-size: 13px;
     font-weight: 400;
-    margin: 9px 0;
+    margin: 9px 0 0;
     padding: 0 9px;
     text-align: left;
   }
@@ -92,19 +92,24 @@
     color: $gray;
     cursor: default;
     font-size: 13px;
-
-    &:hover,
-    &:active {
-      background: none;
-      border-color: transparent;
-    }
+    pointer-events: none;
   }
 
-  // avatars
   .gravatar {
     float: left;
     margin: 18px 9px 0 2px;
   }
+
+  // upload
+  .input-upload {
+    cursor: pointer;
+    height: 36px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    text-indent: -9999px; // Hack to get the button to move underneath the fold. We can't style it directly because browsers are silly.
+  }
+
 }
 
 // links

@@ -22,8 +22,7 @@ h2.sub-header Repositories
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.guide-image.guide-pointer(
   ng-if = "showAddFirstRepoMessage && unsavedAcvs.length === 0"
-  ng-click = "data.show = !data.show; \
-    $event.stopPropagation();"
+  ng-click = "data.show = !data.show"
 )
   svg.iconnables.icons-git
     use(
@@ -40,6 +39,7 @@ ul.list.repository-group
     ng-show = "unsavedAcvs.length && !showAddFirstRepoMessage"
   )
     label.label-checkbox.btn-sm.btn-checkbox(
+      ng-if = "showAutoDeploy"
       tooltip = "Disabling auto-deploy will stop your server from automatically updating with new changes to your repositories."
       tooltip-options = "{\"class\":\"bottom tooltip-definition\",\"left\":3,\"top\":27}"
     )

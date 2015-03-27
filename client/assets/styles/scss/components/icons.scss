@@ -92,6 +92,7 @@
   &.icons-terminal,
   &.icons-trash,
   &.icons-update,
+  &.icons-warning,
   &.icons-web {
     fill: currentColor;
     stroke: none;
@@ -100,6 +101,7 @@
   // icons with stroke
   &.icons-file,
   &.icons-file-open,
+  &.icons-file-tree,
   &.icons-folder {
     fill: none;
     stroke: currentColor;
@@ -108,6 +110,10 @@
   // flip
   &.icons-arrow-forward {
     transform: rotate3d(1,0,0,180deg);
+  }
+
+  &.icons-file-tree {
+    color: $gray;
   }
 }
 

@@ -74,11 +74,14 @@ section.sidebar.server-sidebar.load(
     instance = "dataInstance.data.instance"
     loading = "dataApp.data.loading"
     repo-list
+    show-auto-deploy = "true"
+    auto-build-on-acv-change = "true"
     ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
   )
 
   section.row.explorer(
     explorer
+    edit-explorer = "false"
     title = "File Explorer"
     file-model = "dataInstance.data.instance.containers.models[0]"
     root-dir = "dataInstance.data.instance.containers.models[0].rootDir"

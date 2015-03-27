@@ -61,7 +61,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         attrs: (x % 2 === 0) ?
             apiMocks.appCodeVersions.bitcoinAppCodeVersion : apiMocks.appCodeVersions.differentBitcoinAppCodeVersion,
         fetch: sinon.spy(cbFunc),
-        update: sinon.spy(cbFunc),
+        update: sinon.spy(cbFunc)
       });
     }
     return models;
@@ -79,7 +79,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
     angular.mock.module('app');
 
     angular.mock.module(function ($provide) {
-      $provide.value('$state', provideValues.state);
       $provide.factory('createNewBuild', createNewBuildMock.fetch());
       $provide.factory('fetchCommitData', function () {
         return {
@@ -107,11 +106,17 @@ describe('directiveRepoList'.bold.underline.blue, function () {
         data: {},
         stateParams: {}
       };
-      var tpl = directiveTemplate.attribute('repo-list', {
+      var attrs = {
         'loading': 'loading',
         'build': 'build',
         'instance': 'instance'
-      });
+      };
+      if (provideValues) {
+        Object.keys(provideValues).forEach(function (key) {
+          attrs[key] = provideValues[key];
+        });
+      }
+      var tpl = directiveTemplate.attribute('repo-list', attrs);
       Object.keys(scope).forEach(function (key) {
         $scope[key] = scope[key];
       });
@@ -124,11 +129,8 @@ describe('directiveRepoList'.bold.underline.blue, function () {
   describe('build only'.bold.blue, function () {
     beforeEach(function () {
       initGlobalState({
-        state: {
-          '$current': {
-            name: 'instance.setup'
-          }
-        }
+        'show-add-repo': 'true',
+        'show-add-first-repo-message': 'true'
       }, {
         build: createBuildObject(mocks.builds.new, 0)
       });
@@ -169,11 +171,8 @@ describe('directiveRepoList'.bold.underline.blue, function () {
   describe('running instance with repo'.bold.blue, function () {
     beforeEach(function () {
       initGlobalState({
-        state: {
-          '$current': {
-            name: 'instance.instance'
-          }
-        }
+        'show-auto-deploy': 'true',
+        'auto-build-on-acv-change': 'true'
       }, {
         build: createBuildObject(mocks.builds.built),
         instance: createInstanceObject(mocks.instances.building)
@@ -243,11 +242,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       var instance = createInstanceObject(mocks.instances.building);
       instance.build = createBuildObject(mocks.builds.setup);
       initGlobalState({
-        state: {
-          '$current': {
-            name: 'instance.instanceEdit'
-          }
-        }
+        'show-add-repo': 'true'
       }, {
         build: createBuildObject(mocks.builds.built),
         instance: instance

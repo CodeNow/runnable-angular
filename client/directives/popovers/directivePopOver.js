@@ -3,78 +3,169 @@
 require('app')
   .directive('popOver', popOver);
 /**
- * popOver Directive
+ * togglePopOver Directive
  * @ngInject
  */
 function popOver(
-  $compile,
-  $templateCache,
-  $log,
+  $rootScope,
   $document,
-  $window
+  $templateCache,
+  $compile,
+  $timeout,
+  keypather,
+  $log
 ) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     scope: {
-      data: '=',
-      actions: '=',
-      popoverReady: '=',
-      popoverOptions: '@'
+      data: '=? popOverData',
+      popoverOptions: '=? popOverOptions',
+      noBroadcast: '=? popOverNoBroadcast',
+      actions: '=? popOverActions',
+      active: '=? popOverActive',
+      template: '@ popOverTemplate'
     },
     link: function ($scope, element, attrs) {
+      if (!$scope.template) {
+        return $log.error('Pop over needs a template');
+      }
+      var unbindDocumentClick = angular.noop;
+      var unbindPopoverOpened = angular.noop;
+      $scope.popoverOptions = $scope.popoverOptions || {};
+      $scope.active = false;
 
-      var template = $templateCache.get(attrs.template);
+      var popoverElement;
+      var popoverElementScope;
 
-      var options;
+      $scope.closePopover = function () {
+        $scope.active = false;
+        // trigger a digest because we are setting active to false!
+        $timeout(angular.noop);
+        unbindDocumentClick();
+        unbindPopoverOpened();
 
-      var unwatch = $scope.$watch('popoverOptions', function (n) {
-        if (n) {
-          unwatch();
-          try {
-            options = JSON.parse($scope.popoverOptions);
-          } catch (e) {
-            $log.warn('popoverOptions parse failed for ' + attrs.template);
-            options = {};
-          }
-          options.right = (typeof options.right !== 'undefined') ? options.right : null;
-          options.left = (typeof options.left !== 'undefined') ? options.left : null;
-          options.top = (typeof options.top !== 'undefined') ? options.top : 0;
-          options.class = (typeof options.class !== 'undefined') ? options.class : false;
-        }
-      });
-
-      var popEl = $compile(template)($scope);
-
-      $scope.popoverStyle = {
-        getStyle: function () {
-          var rect = element.parent()[0].getBoundingClientRect();
-          return {
-            'top': (rect.top + options.top) + 'px',
-            'left': (options.left === null) ? 'auto' : (rect.left + options.left) + 'px',
-            'right': (options.right === null) ? 'auto' : (options.right) + 'px'
-          };
-        }
+        // We need a closure because they could technically re-open the popover and we want to manage THIS scope and THIS element.
+        (function (popoverElementScope, popoverElement) {
+          //Give the transition some time to finish!
+          $timeout(function(){
+            popoverElement.remove();
+            popoverElementScope.$destroy();
+          }, 500);
+        }(popoverElementScope, popoverElement));
       };
+      function openPopover(options) {
+        $scope.popoverOptions = $scope.popoverOptions || {};
 
-      $document.find('body').append(popEl);
-
-      $scope.$watch(function () {
-        return element.hasClass('in');
-      }, function (n) {
-        if (n) {
-          var autofocus = element[0].querySelector('[autofocus]');
-          if (autofocus) {
-            autofocus.select();
-          }
+        if (!$scope.popoverOptions.top && !$scope.popoverOptions.bottom) {
+          $scope.popoverOptions.top = 0;
         }
-      });
+        if (!$scope.popoverOptions.left && !$scope.popoverOptions.right) {
+          $scope.popoverOptions.left = 0;
+        }
 
-      element.on('click', function (event) {
-        event.stopPropagation();
-      });
-      element.on('$destroy', function () {
-        popEl.remove();
-        element.off('click');
+        $rootScope.$broadcast('close-popovers');
+        unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
+          if(!(target && popoverElement[0].contains(target))){
+            $scope.closePopover();
+          }
+        });
+        unbindPopoverOpened = $scope.$on('close-popovers', function () {
+          $scope.closePopover();
+        });
+
+        var template = $templateCache.get($scope.template);
+
+        // We need to create a custom scope so we can call $destroy on it when the element is removed.
+        popoverElementScope = $scope.$new();
+        $scope.popoverElementScope = popoverElementScope;
+        popoverElementScope.popoverStyle = {
+          getStyle: function () {
+            var offset = {};
+
+            if (keypather.get($scope,'popoverOptions.mouse')) {
+              offset = options.mouse;
+            } else {
+              offset = element[0].getBoundingClientRect();
+            }
+
+            var keys = ['top', 'left', 'bottom', 'right'];
+            var style = {};
+            keys.forEach(function (key) {
+              var keyOption = keypather.get($scope, 'popoverOptions.'+key);
+              style[key] = (keyOption === null) ? 'auto' : offset[key] + keyOption + 'px';
+            });
+            return style;
+          }
+        };
+
+        popoverElement = $compile(template)(popoverElementScope);
+        $scope.popoverElement = popoverElement;
+        $document.find('body').append(popoverElement);
+        // Trigger a digest cycle
+        $timeout(angular.noop);
+
+        $timeout(function(){
+          $scope.active = true;
+        }, 0);
+      }
+      function clickHandler(event) {
+        event.stopPropagation(); // If we don't stop prop we will immediately close ourselves!
+        event.preventDefault();
+        if (element.prop('disabled')) {
+          return;
+        }
+        if ($scope.active) {
+          $scope.closePopover();
+          return;
+        }
+        // Skip broadcasting if we're in a modal
+        if (!$scope.noBroadcast) {
+          $rootScope.$broadcast('app-document-click');
+        }
+        openPopover({
+          mouse: {
+            left: event.pageX,
+            right: event.pageX,
+            top: event.pageY,
+            bottom: event.pageY
+          }
+        });
+      }
+
+      var trigger = attrs.popOverTrigger || 'click';
+      switch (trigger) {
+        case 'rightClick':
+          if (typeof keypather.get($scope, 'popoverOptions.mouse') === 'undefined') {
+            keypather.set($scope, 'popoverOptions.mouse', true);
+          }
+          element.on('contextmenu', clickHandler);
+          $scope.$on('$destroy', function () {
+            element.off('contextmenu');
+          });
+          break;
+        case 'activeAttr':
+          var unwatchActive = $scope.$watch('active', function (newVal) {
+            if (newVal) {
+              openPopover();
+            } else {
+              $scope.closePopover();
+            }
+          });
+          $scope.$on('$destroy', function () {
+            unwatchActive();
+          });
+          break;
+        default:
+          element.on('click', clickHandler);
+          $scope.$on('$destroy', function () {
+            element.off('click');
+          });
+      }
+
+      $scope.$on('$destroy', function () {
+        if ($scope.active) {
+          $scope.closePopover();
+        }
       });
     }
   };

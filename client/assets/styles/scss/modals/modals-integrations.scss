@@ -2,7 +2,7 @@
   height: 100%;
   max-height: 660px;
   transition: max-height .15s ease-in, width .15s ease-in;
-  width: 600px;
+  width: 660px;
 
   @include media(sm) {
     width: calc(100% - 30px);
@@ -54,9 +54,22 @@
   }
 
   // api token
-  .input[disabled] {
-    color: $green;
-    font-size: 14px;
+  .input {
+
+    &[disabled] {
+      background: #f6fdf7; // rgba($green,.05);
+      border-color: $green;
+      box-shadow: inset 0 0 3px rgba($green,.15);
+      color: $green;
+      font-size: 14px;
+    }
+
+    &.disabled {
+      background: none;
+      border-color: rgba($black,.15);
+      box-shadow: none;
+      color: $gray;
+    }
   }
 
   // form.modal-body
@@ -69,23 +82,35 @@
     @include media(sm) {
       padding: 15px;
     }
+
+  }
+
+  // verify and cancel buttons
+  .input-col > .btn {
+    float: right;
+    margin-top: 6px;
+
+    + .btn {
+      margin-right: 6px;
+    }
   }
 
   .list-item {
-    color: $gray-light;
+    color: $gray;
     height: 45px;
     line-height: 45px;
     margin: 0;
-    padding: 0 30px 0 9px;
+    padding: 0 9px;
     position: relative;
+    transition: height .15s ease-in;
 
-    + .list-item {
-      border-top: 1px solid rgba($black,.1);
-    }
+    &:hover,
+    &:active {
+      color: $gray-dark;
 
-    .gravatar {
-      margin: 12px 9px 0 0;
-      opacity: .3;
+      .gravatar {
+        opacity: .6;
+      }
     }
 
     &.active {
@@ -96,28 +121,99 @@
       }
     }
 
+    &.expanded {
+      height: 137px;
+    }
+
     &.disabled {
       color: $gray-light;
       cursor: not-allowed;
+      height: 45px;
 
       .gravatar {
         opacity: .3;
       }
+
+      .well {
+        opacity: .3;
+      }
+    }
+
+    .gravatar {
+      margin: 12px 9px 0 0;
+      opacity: .45;
+    }
+
+    + .list-item {
+      border-top: 1px solid rgba($black,.1);
     }
   }
 
+  // badge
+  .badge-warning {
+    animation: scale-in .15s ease-in forwards;
+    background: $white;
+    border-radius: 50%;
+    color: $orange;
+    height: 16px;
+    left: 3px;
+    position: absolute;
+    top: 5px;
+    width: 16px;
+    z-index: 1;
+  }
+
+  .icons-warning {
+    height: 21px;
+    top: -8px;
+    width: 21px;
+  }
+
   .input-checkbox {
+    height: 45px;
     margin: 0;
     position: absolute;
     right: 8px;
     top: 0;
   }
 
+  // well
+  .well {
+    cursor: default;
+    margin: 0 -3px 6px;
+    max-height: none;
+    padding: 9px 6px 0;
+    position: relative;
+
+    .small {
+      line-height: 1.2;
+      white-space: normal;
+    }
+  }
+
   .select {
-    max-width: 108px;
-    position: absolute;
-    right: 6px;
-    top: 11px;
+    cursor: pointer;
+  }
+
+  // disabled state
+  .well-state {
+    border-radius: 3px;
+    flex: 0 0 auto;
+    height: 45px;
+    line-height: 45px;
+    margin: 0 auto 45px;
+    padding: 0 15px;
+
+    @include media(xs) {
+      font-size: 14px;
+      margin: 0 0 30px;
+      padding: 0 9px;
+      white-space: nowrap;
+    }
+
+    .green {
+      margin-left: 15px;
+    }
   }
 
   // footer
