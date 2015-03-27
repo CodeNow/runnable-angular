@@ -18,13 +18,12 @@ function instanceEditSecondaryActions(
       instances: '=', // Added to the data scope of the modals through helper
       saving: '='
     },
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
 
       $scope.popoverGearMenu = {
         data: {},
         actions: {}
       };
-      $scope.popoverGearMenu.data.show = false;
       // mutate scope, shared-multiple-states properties & logic for actions-modal
       helperInstanceActionsModal($scope);
       $scope.goToInstance = function () {

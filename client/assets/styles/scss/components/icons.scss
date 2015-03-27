@@ -99,9 +99,14 @@
   // icons with stroke
   &.icons-file,
   &.icons-file-open,
+  &.icons-file-tree,
   &.icons-folder {
     fill: none;
     stroke: currentColor;
+  }
+
+  &.icons-file-tree {
+    color: $gray;
   }
 }
 

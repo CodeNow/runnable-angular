@@ -5,24 +5,17 @@ var $controller,
     $scope,
     $window;
 var keypather;
+
+var User = require('runnable/lib/models/user');
 var apiMocks = require('../apiMocks/index');
+var isFunction = require('101/is-function');
+var keypather = require('keypather')();
 
 describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
   function setup(stateParams, heap, intercom, olark) {
     angular.mock.module('app');
-    ctx.fakeuser = {
-      attrs: angular.copy(apiMocks.user),
-      oauthName: function () {
-        return 'user';
-      },
-      oauthId: function() {
-        return 1234;
-      },
-      id: function() {
-        return 4321;
-      }
-    };
+    ctx.fakeuser = new User(angular.copy(apiMocks.user));
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
@@ -67,21 +60,33 @@ describe('controllerApp'.bold.underline.blue, function () {
         identify: sinon.spy()
       };
     }
-    if (intercom) {
-      $window.Intercom = sinon.spy();
+    if ($window.Intercom) {
+      sinon.stub($window, 'Intercom', noop);
     }
-    if (olark) {
-      $window.olark = sinon.spy();
+    if ($window.olark) {
+      sinon.stub($window, 'olark', noop);
     }
-
     var ca = $controller('ControllerApp', {
       '$scope': $scope
     });
   }
+
+  function tearDown () {
+    keypather.get($window, 'Intercom.restore()');
+    keypather.get($window, 'olark.restore()');
+  }
+
   describe('basics'.blue, function () {
+
     beforeEach(function () {
+      // Error when not wrapped
       setup();
     });
+
+    afterEach(function () {
+      tearDown();
+    });
+
     it('initalizes $scope.dataApp properly', function () {
 
       expect($scope.dataApp).to.be.an.Object;

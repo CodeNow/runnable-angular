@@ -1,15 +1,32 @@
 .popover.bottom.menu(
-  ng-class = "{in: data.show}"
+  ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white
   .popover-content
     ul.popover-list
+      li.list-item.popover-list-item(
+        ng-if = "data.canUpload"
+      )
+        svg.iconnables.icons-file-tree
+          use(
+           xlink:href = "#icons-file-upload"
+          )
+        | Upload File
+        input.input-upload(
+          ng-file-change = "actions.uploadFiles($files, $event)"
+          ng-file-select
+          ng-multiple = "true"
+          type = "file"
+        )
+      li.divider(
+        ng-if = "data.canUpload"
+      )
       li.popover-list-item(
         ng-click = "actions.createFile();\
           $event.stopPropagation();"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-new"
           )
@@ -18,7 +35,7 @@
         ng-click = "actions.createFolder();\
           $event.stopPropagation();"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-folder-new"
           )

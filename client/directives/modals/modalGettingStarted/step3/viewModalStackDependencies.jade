@@ -1,18 +1,15 @@
 .label
   .label-col Dependencies
     button.btn.btn-xxs.gray(
-      toggle-pop-over
-      toggle-pop-over-model = "addDependencyPopover.data.show"
       type = "button"
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-popover-active = "addDependencyPopover.data.show"
+      pop-over-data = "addDependencyPopover.data"
+      pop-over-options = "{\"left\":154,\"top\":-33}"
+      pop-over-template = "viewPopoverSetupAddStackDependencies"
     ) Add…
     small.small New dependencies will be created on their own server
-      pop-over(
-        actions = "actions"
-        popover-ready = "addDependencyPopover.data.show"
-        data = "addDependencyPopover.data"
-        popover-options = "{\"left\":154,\"top\":-33}"
-        template = "viewPopoverSetupAddStackDependencies"
-      )
   small.small(
     ng-if = "state.dependencies.length === 0"
   ) No dependencies detected

@@ -57,21 +57,11 @@
   .input-col {
     float: right;
     text-align: left;
-    width: 55%;
+    width: 54%;
 
     @include media(xs) {
       float: none;
       width: 100%;
-    }
-
-    // action button
-    > .btn {
-      float: right;
-      margin-top: 6px;
-
-      + .btn {
-        margin-right: 6px;
-      }
     }
 
     // validation

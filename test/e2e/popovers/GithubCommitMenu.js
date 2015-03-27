@@ -22,21 +22,21 @@ function GithubCommitMenu(repo, index) {
   };
 
   this.open = function (repo) {
-    browser.wait(repo.isDisplayed);
+    browser.wait(repo.isPresent);
     repo.click().then(function () {
       browser.wait(self.isOpen);
     });
   };
 
   this.isOpen = function () {
-    return self.commitMenu.get(thisIndex).isDisplayed();
+    return self.commitMenu.get(thisIndex).isPresent();
   };
 
   this.changeCommit = function (index) {
     var commitList = this.getCommitList(self.commitMenu.get(thisIndex));
     var commit = commitList.get(index);
     browser.wait(function () {
-      return commit.isDisplayed();
+      return commit.isPresent();
     });
     commit.getWebElement().click();
   };

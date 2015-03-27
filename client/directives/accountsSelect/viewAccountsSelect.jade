@@ -4,8 +4,12 @@ button.btn.gray.btn-account(
     'no-touching': data.accountsDisabled()\
   }"
   ng-show = "data.activeAccount"
-  toggle-pop-over
-  toggle-pop-over-model = "popoverAccountMenu.data.show"
+  pop-over
+  pop-over-actions = "popoverAccountMenu.actions"
+  pop-over-data = "popoverAccountMenu.data"
+  pop-over-options = "{\"left\":120,\"top\":54}"
+  pop-over-template = "viewPopoverAccountMenu"
+  pop-over-active = "popoverAccountMenu.data.show"
 )
   img.gravatar(
     height = "24"
@@ -17,10 +21,3 @@ button.btn.gray.btn-account(
     use(
       xlink:href = "#icons-arrow-down"
     )
-  pop-over(
-    actions = "popoverAccountMenu.actions"
-    data = "popoverAccountMenu.data"
-    popover-ready = "popoverAccountMenu.data.show"
-    popover-options = "{\"left\":120,\"top\":54}"
-    template = "viewPopoverAccountMenu"
-  )

@@ -28,7 +28,6 @@ function instancePrimaryActions(
         data: {},
         actions: {}
       };
-      $scope.popoverSaveOptions.data.show = false;
       $scope.popoverSaveOptions.data.restartOnSave = false;
 
       $scope.saving = false;

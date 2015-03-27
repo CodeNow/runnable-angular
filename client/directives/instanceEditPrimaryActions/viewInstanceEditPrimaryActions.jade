@@ -6,18 +6,16 @@
     ) Build
     button.btn.orange.btn-icon.btn-icon-sm(
       ng-class = "{active: popoverBuildOptions.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "popoverBuildOptions.data.show"
       type = "button"
+      pop-over
+      pop-over-active = "popoverBuildOptions.data.show"
+      pop-over-actions = "popoverBuildOptions.actions"
+      pop-over-data = "popoverBuildOptions.data"
+      pop-over--options = "{\"left\":-146,\"top\":54}"
+      pop-over-template = "viewInstanceEditPopoverBuildOptions"
     )
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-      pop-over(
-        actions = "popoverBuildOptions.actions"
-        data = "popoverBuildOptions.data"
-        popover-options = "{\"left\":-146,\"top\":54}"
-        template = "viewInstanceEditPopoverBuildOptions"
-      )
 

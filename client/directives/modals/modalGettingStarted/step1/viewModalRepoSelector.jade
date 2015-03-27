@@ -1,23 +1,25 @@
 input.input.input-search(
   ng-model = "data.repoFilter"
+  ng-show = "!loading"
   placeholder = "Filter repositories"
   required
   select-on = "data.showFilter"
 )
 ul.list.list-divided
   li(
-    ng-show = "loading"
+    ng-if = "loading"
   )
-    .spinner-wrapper.spinner-md(
-      ng-class = "{in: loading}"
+    .spinner-wrapper.spinner-md.in(
       ng-include = "'spinner'"
     )
   li.list-item.btn.white(
     ng-class = "{active: state.selectedRepo === repo}"
-    ng-click = "selectRepo(repo); "
-    ng-repeat = "repo in githubRepos.models| \
-      repos:data.repoFilter |\
-      orderBy: '-attrs.updated_at' "
+    ng-click = "selectRepo(repo);"
+    ng-repeat = "\
+      repo in githubRepos.models| \
+      repos: data.repoFilter |\
+      orderBy: '-attrs.updated_at'\
+    "
   )
     span.list-item-title.text-overflow {{ repo.attrs.full_name }}
     small.small {{ repo.attrs.updated_at | timeFrom }}

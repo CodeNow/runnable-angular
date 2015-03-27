@@ -49,7 +49,19 @@ form.modal-dialog.modal-integrations(
   .modal-body(
     ng-if = "!data.showHipchat && data.showSlack"
   )
-    label.label.clearfix
+    .spinner-wrapper.spinner-md.in(
+      ng-if = "data.loading"
+      ng-include = "'spinner'"
+    )
+    .well.gray.well-state(
+      ng-if = "!data.settings.attrs.notifications.slack.enabled && data.verified"
+    ) Slack integration has been disabled
+      button.btn.btn-xs.green(
+        ng-click = "data.settings.attrs.notifications.slack.enabled = true"
+      ) Re-enable
+    label.label.clearfix(
+      ng-if = "!data.loading"
+    )
       .label-col.label-details API Token
         a.small.link(
           href = "https://slack.com/services/new/bot"
@@ -57,6 +69,7 @@ form.modal-dialog.modal-integrations(
         ) Get your API Token from Slack
       .input-col
         input.input.input-sm.input-validate(
+          ng-class = "{disabled: !data.settings.attrs.notifications.slack.enabled}"
           ng-disabled = "data.verified"
           ng-model = "data.settings.attrs.notifications.slack.apiToken"
           spellcheck = "false"
@@ -104,7 +117,7 @@ form.modal-dialog.modal-integrations(
           )
             //- i made this up. plz fix.
             .badge-warning(
-              ng-if = "!member.found && member.slackOn && member.ghNameSelected"
+              ng-if = "!member.found && member.slackOn && !member.ghName"
             )
               svg.iconnables.icons-warning
                 use(
@@ -142,7 +155,7 @@ form.modal-dialog.modal-integrations(
     .label.label-footer(
       ng-if = "data.verified"
     )
-      button.btn.btn-sm.orange(
+      button.btn.btn-sm.gray(
         ng-click = "data.settings.attrs.notifications.slack.enabled = false"
         ng-if = "data.settings.attrs.notifications.slack.enabled"
       ) Disable Slack Integration

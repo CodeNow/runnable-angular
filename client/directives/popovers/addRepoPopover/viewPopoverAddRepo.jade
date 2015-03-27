@@ -1,12 +1,11 @@
 .popover.bottom.popover-add-repo(
-  ng-class = "{in: data.show}"
-  ng-click = "$event.preventDefault();$event.stopPropagation();"
+  ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow
   h3.popover-title Add Repository
   .spinner-wrapper.spinner-md.in(
-    ng-show = "state.loading"
+    ng-if = "state.loading"
     ng-include = "'spinner'"
   )
   .popover-content(
