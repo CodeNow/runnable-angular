@@ -8,16 +8,19 @@ function integrations (
   fetchSettings,
   verifyChatIntegration,
   promisify,
-  errs
+  errs,
+  $rootScope
 ) {
   return {
     restrict: 'E',
     templateUrl: 'viewIntegrations',
+    scope: {},
     link: function ($scope) {
+      $rootScope.$broadcast('close-popovers');
+
       var data = $scope.data = {};
       var actions = $scope.actions = {};
 
-      data.showIntegrations = true;
       data.showSlack = true;
       data.settings = {};
       data.slackMembers = {};
@@ -25,7 +28,8 @@ function integrations (
 
       fetchSettings()
       .then(function (settings) {
-        data.settings = settings;
+        data.settings = settings.models[0];
+        console.log(settings, data.settings.attrs.notifications.slack.apiToken);
         if (keypather.get(data, 'settings.attrs.notifications.slack.apiToken') &&
           keypather.get(data, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
           data.showSlack = true;
@@ -49,6 +53,7 @@ function integrations (
         })
         .catch(errs.handler)
         .finally(function () {
+          console.log('fiiiinally');
           data.loading = false;
           data.verifying = false;
         });
