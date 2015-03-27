@@ -16,7 +16,8 @@ function integrations (
     templateUrl: 'viewIntegrations',
     scope: {},
     link: function ($scope) {
-      $rootScope.$broadcast('close-popovers');
+      // Re-add when we get one <modal> to rule them all
+      // $rootScope.$broadcast('close-popovers');
 
       var data = $scope.data = {};
       var actions = $scope.actions = {};

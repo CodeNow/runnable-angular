@@ -84,6 +84,13 @@ function accountsSelect (
           });
         }
       };
+      // Remove when we get one <modal> to rule them all
+      $scope.popoverAccountMenu.actions.actionsModalIntegrations = {
+        closePopover: function() {
+          // Closes the account select popover on modal open
+          $scope.popoverAccountMenu.data.show = false;
+        }
+      };
     }
   };
 }
