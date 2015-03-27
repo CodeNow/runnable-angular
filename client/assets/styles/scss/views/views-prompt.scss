@@ -1,7 +1,6 @@
 .views-prompt {
   background-color: darken($white,3%);
   bottom: 0;
-  box-sizing: border-box;
   color: $gray;
   height: 74px;
   min-width: 610px;
@@ -11,12 +10,12 @@
   width: 100%;
   z-index: $z-views-active-panel;
 
-  .button-container {
-    float: right;
-  }
-
   &.hide {
     bottom: -74px;
+  }
+
+  .button-container {
+    float: right;
   }
 
   .p {
@@ -26,12 +25,10 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    word-wrap: break-word;
 
     @media (max-width: 1210px) {
       width: 120px;
     }
-
 
   }
 
@@ -51,27 +48,36 @@
     width: 21px;
   }
 
-  .icons-close {
-    fill: rgba($gray,.5);
-  }
-
   .icons-edit {
     fill: $white;
     margin: 0 4px -4px -3px;
   }
 
-  .btn-close-panel {
+  .icons-close {
+    fill: currentColor;
+  }
+
+  .btn-close-prompt {
+    color: $gray;
     border: 1px solid transparent;
-    border-radius: 13px;
+    border-radius: 50%;
     height: 25px;
     line-height: 33px;
     margin-top: 11px;
     padding: 0;
     width: 25px;
+    opacity: .5;
 
     &:hover {
-      background-color: rgba($gray,.12);
-      border: 1px solid rgba($gray,.5);
+      background-color: rgba($gray,.2);
+      border: 1px solid $gray;
+    }
+
+    &:active {
+      background-color: rgba($purple,.15);
+      color: $purple;
+      border-color: $purple;
+      opacity: .65;
     }
 
   }
@@ -88,21 +94,33 @@
 
   .white {
     background-color: rgba($white,.05);
-    border-color: rgba($white,.1);
+    border-color: rgba($white,.09);
     color: inherit;
 
     &:hover {
       background-color: rgba($white,.08);
     }
+
+    &:active {
+      color: $white;
+    }
+
   }
 
-  .icons-close {
-    fill: rgba($white,.4);
-  }
+  .btn-close-prompt {
+    color: $white;
 
-  .btn-close-panel:hover {
-    background-color: rgba($white,.05);
-    border: 1px solid rgba($white,.25);
+    &:hover {
+      background-color: rgba($white,.1);
+      border: 1px solid rgba($white,.5);
+    }
+
+    &:active {
+      opacity: 1;
+      background-color: rgba($white,.05);
+      border-color: rgba($white,.25);
+    }
+
   }
 
 }
