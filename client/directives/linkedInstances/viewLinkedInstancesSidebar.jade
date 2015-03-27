@@ -13,6 +13,6 @@ a.server-item-cluster(
     )
   span.icons-status(
     ng-class = "getInstanceClasses(depInstance)"
-    ng-click = "$event.stopPropagation()"
-    title = "{{ getInstanceAltTitle(depInstance) }}"
+    tooltip = "{{getInstanceAltTitle(depInstance)}}"
+    tooltip-options = "{\"class\":\"right\",\"left\":10,\"top\":-6}"
   )

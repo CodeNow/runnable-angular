@@ -88,7 +88,6 @@ describe('controllerApp'.bold.underline.blue, function () {
     });
 
     it('initalizes $scope.dataApp properly', function () {
-
       expect($scope.dataApp).to.be.an.Object;
       $rootScope.$digest();
     });
