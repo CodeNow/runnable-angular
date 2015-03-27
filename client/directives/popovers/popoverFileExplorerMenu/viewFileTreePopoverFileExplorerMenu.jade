@@ -14,7 +14,9 @@
           )
         | Upload File
         input.input-upload(
-          multiple
+          ng-file-change = "actions.uploadFiles($files, $event)"
+          ng-file-select
+          ng-multiple = "true"
           type = "file"
         )
       li.divider(
