@@ -99,5 +99,5 @@ function modalManager(
 
 var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox'];
 function checkTemplate(template) {
-  return (genericModals.indexOf(template) < 0) ? template : 'viewOpenModalGeneric';
+  return (genericModals.indexOf(template) === -1) ? template : 'viewOpenModalGeneric';
 }
