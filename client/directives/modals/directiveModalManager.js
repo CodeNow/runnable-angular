@@ -88,6 +88,10 @@ function modalManager(
       $rootScope.$on('closeModal', function () {
         closeModal();
       });
+
+      $scope.$on('$destroy', function () {
+        closeModal();
+      });
     }
   };
 }
