@@ -57,14 +57,14 @@ describe('directiveModalManager'.bold.underline.blue, function () {
   }
 
   afterEach(function () {
-    $rootScope.$emit('closeModal');
+    $rootScope.$emit('close-modal');
   });
 
   describe('Modal close/open states', function () {
     it('Should listen to the openModal event and open a modal', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
       expect(openedModal).to.exist;
@@ -73,12 +73,12 @@ describe('directiveModalManager'.bold.underline.blue, function () {
     it('Should close the previous modal if one was already open and the open event is fired', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
       openedModal.test = '123';
 
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var newModal = $document.find('body')[0].querySelector('.modal-backdrop');
       expect(newModal.test).to.not.exist;
@@ -88,12 +88,12 @@ describe('directiveModalManager'.bold.underline.blue, function () {
     it('Should listen to the closeModal event and close the modal', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
       expect(openedModal).to.exist;
 
-      $rootScope.$emit('closeModal');
+      $rootScope.$emit('close-modal');
 
       var closedModal = $document.find('body')[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -103,7 +103,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
     it('Should listen to the destroy scope and close the modal', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
       expect(openedModal).to.exist;
@@ -118,7 +118,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
       modalOptions.template = 'viewOpenModalGettingStarted';
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
       expect(openedModal).to.exist;
@@ -129,7 +129,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
     it('close action should close the modal', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.close();
 
@@ -139,7 +139,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
     it('close action should close the modal with a callback', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var callbackSpy = sinon.spy();
       $elScope.currentModalScope.defaultActions.close(callbackSpy);
@@ -154,7 +154,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       modalOptions.stateModel = {
         foo: 'bar'
       };
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var myObj = {
         foo: 'baz'
@@ -174,7 +174,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       modalOptions.stateModel = {
         foo: 'bar'
       };
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       var myObj = {
         foo: 'baz'
@@ -190,7 +190,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
     it('cancel action should close the modal and trigger the cancel action', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.cancel();
 
@@ -203,7 +203,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
       modalOptions.actions = {};
-      $rootScope.$emit('openModal', modalOptions);
+      $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.cancel();
 

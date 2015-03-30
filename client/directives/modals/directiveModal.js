@@ -17,7 +17,7 @@ function modal() {
     },
     link: function ($scope, element) {
       function openModal() {
-        $scope.$emit('openModal', {
+        $scope.$emit('open-modal', {
           data: $scope.data,
           actions: $scope.actions,
           template: $scope.template,

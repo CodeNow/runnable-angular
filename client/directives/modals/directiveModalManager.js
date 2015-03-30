@@ -82,11 +82,11 @@ function modalManager(
         $timeout(angular.noop);
       }
 
-      $rootScope.$on('openModal', function (event, options) {
+      $rootScope.$on('open-modal', function (event, options) {
         openModal(options);
       });
 
-      $rootScope.$on('closeModal', function () {
+      $rootScope.$on('close-modal', function () {
         closeModal();
       });
 
