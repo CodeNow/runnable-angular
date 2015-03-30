@@ -14,7 +14,6 @@ function integrations (
   return {
     restrict: 'E',
     templateUrl: 'viewIntegrations',
-    scope: {},
     link: function ($scope) {
       // Re-add when we get one <modal> to rule them all
       // $rootScope.$broadcast('close-popovers');
@@ -54,16 +53,11 @@ function integrations (
         })
         .catch(errs.handler)
         .finally(function () {
-          console.log('fiiiinally');
           data.loading = false;
           data.verifying = false;
         });
       };
 
-      // Closes the account select popover on modal open
-      actions.closePopover = function() {
-        $scope.popoverAccountMenu.data.show = false;
-      };
       actions.saveSlack = function () {
         var slackData = {
           apiToken: data.settings.attrs.notifications.slack.apiToken,
