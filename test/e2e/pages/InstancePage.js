@@ -56,12 +56,10 @@ function InstancePage (name) {
   this.openEditModal = function () {
     var self = this;
     browser.wait(function () {
-      console.log('LOOKING FOR Edit Modal');
       return self.editButton.get().isPresent();
     });
     this.editButton.get().click();
     browser.wait(function () {
-      console.log('Open Edit Modal');
       return self.modalEdit.isPresent();
     });
   };

@@ -7,7 +7,7 @@ function ActivePanel (pageType, parent) {
 
   this.panel = util.createGetter(by.css('section.views'), parent);
 
-  this.addTab = util.createGetter(by.css('.add-tab'), this.panel);
+  this.addTab = util.createGetter(by.css('.btn-add-tab'), this.panel);
 
   //this.openItems = util.createGetter(by.repeater(), this.panel);
 

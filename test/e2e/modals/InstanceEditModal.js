@@ -14,11 +14,14 @@ function InstanceEditModal (instanceName) {
   this.repoList = new RepoList();
   this.activePanel = new ActivePanel('InstanceEdit', this.modalElem);
 
+
+  this.input = util.createGetter(by.model('state.name'), this.modalElem);
+
   this.discard = util.createGetter(by.buttonText('Go Back'), this.modalElem);
   this.build = util.createGetter(by.buttonText('Build Server'), this.modalElem);
 
-  this.buildOptions = util.createGetter(by.css('.btn-group > .green.btn-icon'), this.modalElem);
-  this.buildWithoutCacheButton = util.createGetter(by.cssContainingText('.popover-list-item', 'Build without cache'), this.modalElem);
+  this.buildOptions = util.createGetter(by.css('.green.btn-icon'), this.modalElem);
+  this.buildWithoutCacheButton = util.createGetter(by.cssContainingText('.popover-list-item', 'Build without cache'));
 
   this.isPresent = function () {
     return this.modalElem.get().isPresent();
@@ -30,6 +33,18 @@ function InstanceEditModal (instanceName) {
       return self.discard.get().isDisplayed();
     });
     self.discard.get().click();
+  };
+
+  this.renameBox = function (newName) {
+    var self = this;
+
+    browser.wait(function() {
+      return self.input.get().isPresent();
+    });
+
+    self.input.get().clear();
+    self.input.get().sendKeys(newName);
+    this.build.get().click();
   };
 
   this.get = function () {
