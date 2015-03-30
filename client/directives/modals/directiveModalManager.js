@@ -42,7 +42,7 @@ function modalManager(
           template = template.replace('%%GENERIC_TEMPLATE_NAME%%', options.template);
         }
 
-        currentModalScope = $scope.$new(true);
+        $scope.currentModalScope = currentModalScope = $scope.$new(true);
         currentModalScope.data = options.data;
         currentModalScope.actions = options.actions;
         currentModalScope.template = options.template;
@@ -53,7 +53,7 @@ function modalManager(
         currentModalScope.defaultActions = {
           save: function (state, paths, cb) {
             paths.forEach(function (path) {
-              keypather.set($scope.stateModel, path, keypather.get(state, path));
+              keypather.set(currentModalScope.stateModel, path, keypather.get(state, path));
             });
             if (typeof keypather.get(currentModalScope, 'actions.save') === 'function') {
               currentModalScope.actions.save();
