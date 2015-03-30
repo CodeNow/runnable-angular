@@ -70,9 +70,9 @@ function modal(
         modal = $compile($template)($scope);
         $document.find('body').append($template);
         $scope.in = true;
-        if (typeof keypather.get($scope, 'actions.closePopover') === 'function') {
-          $scope.actions.closePopover();
-        }
+        //if (typeof keypather.get($scope, 'actions.closePopover') === 'function') {
+        //  $scope.actions.closePopover();
+        //}
         // Trigger a digest cycle
         $timeout(angular.noop);
       }
