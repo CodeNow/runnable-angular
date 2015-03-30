@@ -21,7 +21,7 @@ function GearMenu() {
   this.modalDelete = util.createGetter(by.buttonText('Delete Server'));
 
   this.isOpen = function() {
-    return this.menu.get().isPresent() && this.menu.get().isDisplayed();
+    return this.menu.get().isPresent();
   };
 
   this.openIfClosed = function() {
@@ -32,7 +32,7 @@ function GearMenu() {
       }
     }).then(function() {
       return browser.wait(function() {
-        return self.renameItem.get().isDisplayed();
+        return self.renameItem.get().isPresent();
       });
     });
   };
@@ -43,7 +43,7 @@ function GearMenu() {
 
     self.renameItem.get().click();
     browser.wait(function() {
-      return self.modalRename.input.get().isDisplayed();
+      return self.modalRename.input.get().isPresent();
     });
 
     self.modalRename.input.get().clear();
@@ -57,7 +57,7 @@ function GearMenu() {
 
     self.deleteItem.get().click();
     browser.wait(function() {
-      return self.modalDelete.get().isDisplayed();
+      return self.modalDelete.get().isPresent();
     });
     self.modalDelete.get().click();
   };

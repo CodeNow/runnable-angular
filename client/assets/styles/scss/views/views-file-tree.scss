@@ -62,6 +62,17 @@
       }
     }
 
+    // uploading
+    &.in-progress {
+      color: $blue;
+      pointer-events: none;
+
+      > a {
+        border-color: rgba($blue,.2);
+        position: relative;
+      }
+    }
+
     // folders
     &.folder {
       height: auto;
@@ -107,6 +118,14 @@
     margin-left: -6px;
     top: 5px;
     width: 21px;
+  }
+
+  // spinners
+  .spinner-wrapper {
+    display: inline-block;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
   }
 }
 

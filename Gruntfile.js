@@ -103,7 +103,7 @@ module.exports = function(grunt) {
         },
         options: {
           watch: true,
-          bundleOptions: {
+          browserifyOptions: {
             debug: true // source maps
           }
         }
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
           'client/build/js/bundle.js': ['client/main.js']
         },
         options: {
-          bundleOptions: {
+          browserifyOptions: {
             debug: true // source maps
           }
         }
@@ -269,7 +269,7 @@ module.exports = function(grunt) {
           thresholds: {
             statements: 68.58,
             branches: 52.01,
-            functions: 63.00,
+            functions: 61.6,
             lines: 68.98
           },
           dir: 'coverage',
@@ -336,7 +336,7 @@ module.exports = function(grunt) {
     async.parallel([
       function (cb) {
         var configObj = {};
-        configObj.host = process.env.API_HOST || '//stage-api-codenow.runnableapp.com';
+        configObj.host = process.env.API_HOST || '//nathan-api-codenow.runnableapp.com';
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {

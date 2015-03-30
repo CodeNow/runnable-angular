@@ -1,24 +1,38 @@
 .popover.bottom.menu.context-menu(
-  ng-class = "{in: dirItemData.isOpen}"
-  ng-style = "dirItemData.eStyle"
-  right-click
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
 )
   .popover-content
     ul.popover-list
-      li.popover-list-item(
-        ng-click = "dirItemData.actions.createFile();\
-          $event.stopPropagation();"
+      li.list-item.popover-list-item(
+        ng-if = "data.canUpload"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-file-upload"
+          )
+        | Upload File
+        input.input-upload(
+          ng-file-change = "actions.uploadFiles($files, $event)"
+          ng-file-select
+          ng-multiple = "true"
+          type = "file"
+        )
+      li.divider(
+        ng-if = "data.canUpload"
+      )
+      li.popover-list-item(
+        ng-click = "actions.createFile()"
+      )
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-new"
           )
         | New File
       li.popover-list-item(
-        ng-click = "dirItemData.actions.createFolder();\
-          $event.stopPropagation();"
+        ng-click = "actions.createFolder()"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-folder-new"
           )
@@ -28,20 +42,18 @@
       )
       li.popover-list-item(
         ng-if = "dir.attrs.name !== '/'"
-        ng-click = "dirItemData.actions.renameFolder();\
-          $event.stopPropagation();"
+        ng-click = "actions.renameFolder()"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-modify"
           )
         | Rename
       li.popover-list-item(
         ng-if = "dir.attrs.name !== '/'"
-        ng-click = "dirItemData.actions.deleteFolder();\
-          $event.stopPropagation();"
+        ng-click = "actions.deleteFolder()"
       )
-        svg.iconnables
+        svg.iconnables.icons-file-tree
           use(
             xlink:href = "#icons-file-delete"
           )

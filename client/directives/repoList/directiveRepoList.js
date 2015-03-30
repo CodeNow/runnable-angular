@@ -41,7 +41,6 @@ function repoList(
         show: false
       };
       $scope.unsavedAcvs = [];
-
       $scope.showAddFirstRepoMessage = attrs.showAddFirstRepoMessage;
       $scope.showAddRepo = !!attrs.showAddRepo;
 
@@ -72,14 +71,20 @@ function repoList(
 
       // selected repo commit change
       $scope.$on('acv-change', function (event, opts) {
+        // mixpanel tracking, did this acv change trigger a build
+        var triggeredBuild = false;
         if (attrs.autoBuildOnAcvChange) {
           if ($scope.unsavedAcvs.length === 1) {
             // Immediately update/rebuild if user only has 1 repo
-            $scope.triggerInstanceUpdateOnRepoCommitChange();
-          } else if (opts && opts.triggerBuild) {
+            triggeredBuild = true;
             $scope.triggerInstanceUpdateOnRepoCommitChange();
           }
-        } else if (opts) {
+          else if (opts && opts.triggerBuild) {
+            triggeredBuild = true;
+            $scope.triggerInstanceUpdateOnRepoCommitChange();
+          }
+        }
+        else if (opts) {
           var dirtyValue = keypather.get($scope.build, 'state.dirty') || 0;
           keypather.set($scope.build, 'state.dirty', ++dirtyValue);
           promisify(opts.acv, 'update')(
@@ -91,6 +96,11 @@ function repoList(
             keypather.set($scope.build, 'state.dirty', --dirtyValue);
           });
         }
+        // track event w/ mixpanel
+        eventTracking.toggledCommit({
+          acv: keypather.get(opts, 'acv.toJSON()'),
+          triggeredBuild: triggeredBuild
+        });
       });
 
       // if we find 1 repo w/ an unsaved

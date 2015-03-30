@@ -136,13 +136,13 @@ describe('directiveInstanceList'.bold.underline.blue, function() {
     });
 
     it('should show search results when a filter is present', function() {
-      $elScope.filterString = 'good';
+      $elScope.filter.string = 'good';
       $elScope.$digest();
       expect(ctx.element[0].querySelectorAll('.filter-list > .list-item').length).to.equal(1);
     });
 
     it('should show no results found when a filter is present with no matches', function() {
-      $elScope.filterString = '312';
+      $elScope.filter.string = '312';
       $elScope.$digest();
       expect(ctx.element[0].querySelectorAll('.filter-list > .list-item').length).to.equal(0);
       expect(ctx.element[0].querySelectorAll('.filter-list .sub-header-text')[0].innerHTML).to.equal('No servers match your search');

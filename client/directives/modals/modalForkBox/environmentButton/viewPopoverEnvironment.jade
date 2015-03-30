@@ -1,7 +1,6 @@
 //- data is an instance
 .popover.bottom.popover-environment(
-  ng-class = "{in: data.state.envShow}"
-  ng-click = "$event.stopPropagation()"
+  ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow

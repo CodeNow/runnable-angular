@@ -56,7 +56,6 @@ function fetchInstances(
 
   $rootScope.$watch('dataApp.data.activeAccount.oauthId()', function (id) {
     if (!id) { return; }
-    $log.warn('Setting currentInstanceList to null');
     currentInstanceList = null;
     userStream = primus.createUserStream(id);
     userStream.on('reconnect', function () {
@@ -183,8 +182,6 @@ function fetchInstances(
         instance = keypather.get(results, 'models[0]');
       } else {
         if (opts.githubUsername === $stateParams.userName) {
-
-          $log.warn('Setting currentInstanceList to ', results);
           currentInstanceList = results;
         }
         instance = results;

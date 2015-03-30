@@ -1,0 +1,31 @@
+.popover.bottom.menu.context-menu(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .popover-content
+    ul.popover-list
+      li.popover-list-item(
+        ng-click = "actions.openFile(data)"
+      )
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-file-open"
+          )
+        | Open
+      li.divider
+      li.popover-list-item(
+        ng-click = "actions.renameFile(data)"
+      )
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-file-modify"
+          )
+        | Rename
+      li.popover-list-item(
+        ng-click = "actions.deleteFile(data)"
+      )
+        svg.iconnables.icons-file-tree
+          use(
+            xlink:href = "#icons-file-delete"
+          )
+        | Delete

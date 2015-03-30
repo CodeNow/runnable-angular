@@ -1,19 +1,25 @@
 li.folder(
-  droppable
   draggable
+  droppable
   ng-class = "{ 'in': dir.state.open }"
 )
+
   a(
-    ng-click = "actions.closeOpenModals(); \
-                dir.state.open = (!!showRepoFolder) || !dir.state.open; \
-                $event.stopPropagation();"
-    popover-file-explorer-folder-menu
+    ng-click = "dir.state.open = (!!showRepoFolder) || !dir.state.open"
+    pop-over
+    pop-over-actions = "popoverFileExplorerFolder.actions"
+    pop-over-data = "popoverFileExplorerFolder.data"
+    pop-over-template = "viewFileTreePopoverFileExplorerFolderMenu"
+    pop-over-options = "popoverFileExplorerFolder.options"
+    pop-over-trigger = "rightClick"
   )
     svg.iconnables.filetypes.icons-folder
       use(xlink:href = "#icons-folder")
     input.tree-input(
-      ng-keyup = "($event.keyCode === 13) && dirItemData.actions.closeFolderNameInput();"
-      ng-readonly = "!dirItemData.editFolderName"
+      ng-keyup = "actions.shouldCloseFolderNameInput($event)"
+      ng-blur = "actions.closeFolderNameInput()"
+      ng-click = "actions.handleClickOnFolderInput"
+      ng-readonly = "!editFolderName"
       value = "{{ dir.attrs.name }}"
     )
     span.item-name {{ dir.attrs.name }}

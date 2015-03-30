@@ -4,17 +4,19 @@
   ng-include = "'spinner'"
 )
 
-.filter-wrap
+.filter-wrap(
+  ng-if = "!state.loadingInstances"
+)
   input.filter(
-    ng-model = "filterString"
+    ng-model = "filter.string"
     placeholder = "Filter Servers"
   )
 
 ul.list.load.filter-list(
-  ng-if = "isFiltering"
+  ng-if = "filter.string.length"
 )
   div(
-    ng-if = "!filteredInstances.length"
+    ng-if = "!filter.instances.length"
   )
     h2.sub-header.load
       span.sub-header-text No servers match your search
@@ -26,9 +28,9 @@ ul.list.load.filter-list(
   //- tooltip = "{{ instance.attrs.name }}"
   //- tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
   li.list-item.btn.btn-sm.white(
-    ng-if = "filteredInstances.length"
+    ng-if = "filter.instances.length"
     ng-class = "getInstanceClasses(instance)"
-    ng-repeat = "instance in filteredInstances | orderBy:'attrs.name'"
+    ng-repeat = "instance in filter.instances | orderBy:'attrs.name'"
   )
     a.list-item-name.text-overflow(
       ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
@@ -48,7 +50,7 @@ ul.list.load.filter-list(
       type = "sidebar"
     )
 div(
-  ng-if = "!isFiltering"
+  ng-if = "!filter.string.length && !state.loadingInstances"
 )
   h2.sub-header.load
     span.sub-header-text Your Servers
@@ -109,15 +111,13 @@ div(
       )
     button.btn.btn-xxs.green(
       ng-class = "{active: popoverInvite.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "popoverInvite.data.show"
+      pop-over
+      pop-over-active = "popoverInvite.data.show"
+      pop-over-actions = "popoverInvite.actions"
+      pop-over-data = "popoverInvite.data"
+      pop-over-options = "{\"left\":-108,\"top\":-126}"
+      pop-over-template = "viewPopoverInvite"
     ) Invite
-      pop-over(
-        actions = "popoverInvite.actions"
-        data = "popoverInvite.data"
-        popover-options = "{\"left\":-108,\"top\":-126}"
-        template = "viewPopoverInvite"
-      )
 
   //- list of users
   ul.list.list-users.load
@@ -139,10 +139,7 @@ div(
       //- nested server
       .list-item.btn.btn-sm.purple(
         ng-class = "getInstanceClasses(instance)"
-        ng-click = "\
-          $event.stopPropagation();\
-          instance.state.toggled = true;\
-        "
+        ng-click = "actions.goToInstance($event, instance)"
         ng-repeat = "instance in teamMember.instances | orderBy:'attrs.name'"
       )
         a.list-item-name.text-overflow(

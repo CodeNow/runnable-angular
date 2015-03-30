@@ -6,8 +6,7 @@
 
 //- .popover-repository-toggle
 .popover.right.popover-repository-toggle(
-  ng-click = "$event.stopPropagation()"
-  ng-class = "{in: data.show}"
+  ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-content
@@ -39,9 +38,8 @@
           )
       //- spinner while commits are loading
     .spinner-wrapper.spinner-md.in(
-      ng-class = "{in: !data.activeBranch.commits.models.length}"
+      ng-if = "!data.activeBranch.commits.models.length"
       ng-include = "'spinner'"
-      ng-hide = "data.activeBranch.commits.models.length"
     )
     //- commits
     ul.list.popover-list.toggle-group
@@ -57,6 +55,7 @@
           small.small {{ ::commit.attrs.author.login }}—{{ ::commit.attrs.commit.author.date | timeAgo }}
           a.small.link.monospace(
             ng-href = "{{ commit.attrs.html_url }}"
+            //- we don't want to close the popover because they are clicking on an external link
             ng-click = "$event.stopPropagation()"
             target = "_blank"
           ) {{ ::commit.attrs.sha | limitTo:7 }}

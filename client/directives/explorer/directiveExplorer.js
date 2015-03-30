@@ -6,8 +6,12 @@ require('app')
  * @ngInject
  */
 function explorer(
+  $q,
+  $upload,
+  configAPIHost,
+  errs,
   helperCreateFS,
-  errs
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -19,25 +23,80 @@ function explorer(
       title: '@',
       toggleTheme: '=',
       showRepoFolder: '='
+      editExplorer: '='
     },
     link: function ($scope, elem, attrs) {
 
       $scope.filePopover = {
         data: {
-          show: false
+          show: false,
+          canUpload: $scope.editExplorer
         },
         actions: {
           createFile: function() {
             helperCreateFS($scope.rootDir, {
               isDir: false
             }, errs.handler);
-            $scope.filePopover.data.show = false;
+            $scope.$broadcast('close-popovers');
           },
           createFolder: function() {
             helperCreateFS($scope.rootDir, {
               isDir: true
             }, errs.handler);
-            $scope.filePopover.data.show = false;
+            $scope.$broadcast('close-popovers');
+          },
+          uploadFiles: function (files) {
+            if (files && files.length) {
+              $scope.$broadcast('close-popovers');
+
+              var uploadURL = configAPIHost + '/' + $scope.rootDir.urlPath;
+              var fileUploadPromises = files.map(function (file) {
+                var myFile = {
+                  attrs: {
+                    name: file.name
+                  },
+                  state: {
+                    uploading: true,
+                    progress: 0
+                  }
+                };
+
+                $scope.rootDir.contents.models.push(myFile);
+                return $upload.upload({
+                  url: uploadURL,
+                  file: file,
+                  method: 'POST',
+                  fileFormDataName: 'file',
+                  withCredentials: true
+                })
+                  .progress(function (evt) {
+                    myFile.state.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
+                  })
+                  .then(function () {
+                    myFile.state.progress = 100;
+                  })
+                  .catch(function (err) {
+                    var fileIndex = $scope.rootDir.contents.models.indexOf(myFile);
+                    $scope.rootDir.contents.models.splice(fileIndex, 1);
+                    errs.handler(err);
+                  })
+                  .then(function () {
+                    return myFile;
+                  });
+
+              });
+
+              $q.all(fileUploadPromises).then(function (uploads) {
+                uploads.forEach(function (myFile) {
+                  var fileIndex = $scope.rootDir.contents.models.indexOf(myFile);
+                  if (fileIndex !== -1) {
+                    $scope.rootDir.contents.models.splice(fileIndex, 1);
+                  }
+                });
+              }).then(function () {
+                promisify($scope.rootDir, 'fetch')();
+              });
+            }
           }
         }
       };

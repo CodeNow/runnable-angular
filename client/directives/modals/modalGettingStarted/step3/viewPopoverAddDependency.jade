@@ -1,25 +1,25 @@
 .popover.bottom.menu.popover-add-dependency(
-  ng-class = "{in: data.show}"
+  ng-class = "{in: active}"
   ng-click = "$event.stopPropagation()"
   ng-style = "popoverStyle.getStyle()"
 )
-  .arrow.white
-  .popover-content
-    .popover-content-header
-      .btn-group.clearfix
-        button.btn.btn-xs.gray(
-          ng-click = "popoverState = 'new'"
-          ng-class = "{'active': popoverState !== 'existing'}"
-        ) New
-        button.btn.btn-xs.gray(
-          ng-click = "popoverState = 'existing'"
-          ng-class = "{'active': popoverState === 'existing'}"
-        ) Existing
-    ul.list.popover-list(
-      ng-if = "popoverState !== 'existing'"
-    )
+  .arrow
+  h3.popover-title
+    .btn-group.clearfix
+      button.btn.btn-xs.gray(
+        ng-click = "popoverState = 'new'"
+        ng-class = "{'active': popoverState !== 'existing'}"
+      ) New
+      button.btn.btn-xs.gray(
+        ng-click = "popoverState = 'existing'"
+        ng-class = "{'active': popoverState === 'existing'}"
+      ) Existing
+  .popover-content(
+    ng-show = "popoverState !== 'existing'"
+  )
+    ul.list.popover-list
       li.list-item.popover-list-item(
-        ng-click = "actions.addDependency(stackDep); data.show = false;"
+        ng-click = "actions.addDependency(stackDep); closePopover();"
         ng-repeat = "\
           stackDep in data.dependencies.models | \
           removeTemplateInstances | \
@@ -28,15 +28,16 @@
           orderBy:'attrs.name' as filteredDeps"
         title = "{{ stackDep.attrs.name }}"
       ) {{ stackDep.attrs.name }}
-  ul.list.popover-list(
+  .popover-content(
     ng-show = "popoverState === 'existing' && filteredInstances.length"
   )
-    li.list-item.popover-list-item(
-      ng-click = "actions.addDependency(instance, true); data.show = false; "
+    ul.list.popover-list
+      li.list-item.popover-list-item(
+      ng-click = "actions.addDependency(instance, true); closePopover();"
       ng-repeat = "\
-       instance in data.instances.models | \
-       unaddedDepInstances:data.state.dependencies | \
-       unaddedModels:data.depFilter | \
-       orderBy:'attrs.name' as filteredInstances "
-     title = "{{ instance.attrs.name }}"
-     ) {{ instance.attrs.name }}
+         instance in data.instances.models | \
+         unaddedDepInstances:data.state.dependencies | \
+         unaddedModels:data.depFilter | \
+         orderBy:'attrs.name' as filteredInstances "
+      title = "{{ instance.attrs.name }}"
+      ) {{ instance.attrs.name }}

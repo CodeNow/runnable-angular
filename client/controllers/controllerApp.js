@@ -103,8 +103,8 @@ function ControllerApp(
    * to top level controller scope.
    * Used to detect click events outside of any child element scope
    */
-  dataApp.documentClickEventHandler = function () {
-    $scope.$broadcast('app-document-click');
+  dataApp.documentClickEventHandler = function (event) {
+    $scope.$broadcast('app-document-click', event.target);
   };
 
   dataApp.documentKeydownEventHandler = function(e) {
@@ -133,6 +133,7 @@ function ControllerApp(
             orgs:  $window.JSON.stringify(results)
           });
         }
+        // Intercom && Mixpanel
         eventTracking.boot(thisUser);
         if ($window.olark) {
           $window.olark('api.visitor.updateEmailAddress', { emailAddress: thisUser.attrs.email });

@@ -7,7 +7,7 @@ var sidebar = require('./helpers/sidebar');
 var InstancePage = require('./pages/InstancePage');
 
 // RailsProject should create a MySql server
-var instanceNames = ['MySQL', 'SPACESHIPS', 'Test-Fork', 'Test-Rename'];
+var instanceNames = ['MySQL', 'SPACESHIPS', /**'Test-Fork',**/ 'Test-Rename'];
 
 describe('delete', users.doMultipleUsers(function (username) {
   // Instances that were created during e2e tests
