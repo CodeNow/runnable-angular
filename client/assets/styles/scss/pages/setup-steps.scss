@@ -16,12 +16,12 @@
   }
 }
 
-// step 1—repository-selection
+// step 2—repository-selection
 .step-repository-select {
 
   .card {
     padding: 15px;
-    width: 392px; // width dimensions for loading
+    width: 540px; // width dimensions for loading
   }
 
   // search
@@ -33,7 +33,7 @@
     font-weight: 500;
     margin-bottom: 8px;
     padding-left: calc(50% - 40px);
-    width: 360px;
+    width: 506px;
 
     &:focus,
     &:valid {
@@ -44,12 +44,13 @@
 
   // repository list
   .list {
-    width: 360px;
+    width: 506px;
   }
 
   .list-item {
     border: 1px solid transparent;
     border-radius: 3px;
+    font-size: 18px;
     font-weight: 500;
     margin: 3px 0 0;
     padding: 6px 15px;

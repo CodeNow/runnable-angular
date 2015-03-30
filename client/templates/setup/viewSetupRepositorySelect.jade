@@ -22,8 +22,8 @@
     )
     //- remove this ng-click
     .list(
-      ng-click = "data.repo = true"
-      ng-init = "data.repo = false"
+      ng-click = "state.repositorySelected = true"
+      ng-init = "state.repositorySelected = false"
     )
       //- <label> [for] and corresponding <input> [id] must match
       input.input-checkbox(
@@ -128,8 +128,8 @@
             use(
               xlink:href = "#icons-check"
             )
-.setup-footer
-  button.btn.green(
-    ng-click = "state.step = 2"
-    ng-disabled = "!data.repo"
-  ) Add Server(s)
+//- .setup-footer
+//-   button.btn.green(
+//-     ng-click = "state.step = 2"
+//-     ng-disabled = "!state.repositorySelected"
+//-   ) Add Server(s)

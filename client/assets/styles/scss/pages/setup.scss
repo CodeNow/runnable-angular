@@ -1,3 +1,9 @@
+//- container, fill height
+.setup-container {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
 //- header—title, description, progress
 .setup-header {
   padding-top: 60px;
@@ -24,12 +30,38 @@
 
 // footer—navigation
 .setup-footer {
-  display: flex;
-  justify-content: center;
+  animation: fade-in .3s ease-in forwards;
+  background: $gray-lightest;
+  border-top: 2px solid $gray-lighter;
+  flex: 0 0 auto;
+  height: 60px;
+  padding: 6px 15px;
+  transform: translate3d(0,60px,0);
+  width: 100vw;
 
-  .btn + .btn {
-    margin-left: 9px;
+  // next
+  .green {
+    float: right;
   }
+
+  // back
+  .gray {
+    float: left;
+  }
+
+  .icons-arrow-forward {
+    background: $white;
+    border-radius: 50%;
+    color: $green;
+    height: 18px;
+    margin-left: 6px;
+    top: 3px;
+    width: 18px;
+  }
+}
+
+.footer-container {
+  max-width: 960px;
 }
 
 // card grid
