@@ -25,7 +25,7 @@ function fileTreeDir(
       fileModel: '=', // This is either a contextVersion or a container
       openItems: '=',
       readOnly: '=',
-      editExplorer: '='
+      editExplorer: '=',
       showRepoFolder: '='
     },
     templateUrl: 'viewFileTreeDir',
@@ -41,8 +41,6 @@ function fileTreeDir(
       $scope.editFolderName = false;
       $scope.editFileName = false;
       $scope.data = {};
-      $scope.state = $state;
-
 
 
       $scope.actions.shouldCloseFolderNameInput = function (event) {
@@ -207,20 +205,20 @@ function fileTreeDir(
                   fileFormDataName: 'file',
                   withCredentials: true
                 })
-                .progress(function (evt) {
-                  myFile.state.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
-                })
-                .then(function () {
-                  myFile.state.progress = 100;
-                })
-                .catch(function (err) {
-                  var fileIndex = $scope.dir.contents.models.indexOf(myFile);
-                  $scope.dir.contents.models.splice(fileIndex, 1);
-                  errs.handler(err);
-                })
-                .then(function () {
-                  return myFile;
-                });
+                  .progress(function (evt) {
+                    myFile.state.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
+                  })
+                  .then(function () {
+                    myFile.state.progress = 100;
+                  })
+                  .catch(function (err) {
+                    var fileIndex = $scope.dir.contents.models.indexOf(myFile);
+                    $scope.dir.contents.models.splice(fileIndex, 1);
+                    errs.handler(err);
+                  })
+                  .then(function () {
+                    return myFile;
+                  });
 
               });
 
@@ -250,7 +248,7 @@ function fileTreeDir(
             $scope.$broadcast('close-popovers');
           },
           renameFile: function (file) {
-            keypather.set(file,'state.renaming', true);
+            keypather.set(file, 'state.renaming', true);
             $scope.$broadcast('close-popovers');
           },
           deleteFile: function (file) {

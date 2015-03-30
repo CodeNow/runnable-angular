@@ -22,7 +22,7 @@ function explorer(
       rootDir: '=',
       title: '@',
       toggleTheme: '=',
-      showRepoFolder: '='
+      showRepoFolder: '=',
       editExplorer: '='
     },
     link: function ($scope, elem, attrs) {

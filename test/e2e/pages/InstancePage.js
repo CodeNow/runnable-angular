@@ -50,9 +50,6 @@ function InstancePage (name) {
         return self.greenNotificationClose.get().isPresent();
       });
       self.greenNotificationClose.get().click();
-      browser.wait(function () {
-        return !self.greenNotification.get().isPresent();
-      });
     }
   };
 

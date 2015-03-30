@@ -28,13 +28,8 @@ function InstanceEditModal (instanceName) {
     var self = this;
     browser.wait(function () {
       return self.discard.get().isDisplayed();
-    });//.then(function () {
-    self.discard.get().click();
-    //}).then(function () {
-    browser.wait(function () {
-      return !self.isPresent();
     });
-    //});
+    self.discard.get().click();
   };
 
   this.get = function () {
@@ -50,9 +45,6 @@ function InstanceEditModal (instanceName) {
   this.buildChanges = function () {
     var self = this;
     this.build.get().click();
-    browser.wait(function () {
-      return !self.isPresent();
-    });
   };
 
   this.buildWithoutCache = function () {
