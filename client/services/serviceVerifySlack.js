@@ -18,7 +18,7 @@ function verifyChatIntegration (
     var username = $state.params.userName;
 
     if (integrationsCache[username].github) {
-      return integrationsCache[username];
+      return $q.when(integrationsCache[username]);
     }
 
     var mData = {};

@@ -33,6 +33,7 @@ function modalManager(
 
       function openModal(options){
         closeModal();
+        $rootScope.$broadcast('close-popovers');
         var tempTemplate = checkTemplate(options.template);
         var template = $templateCache.get(tempTemplate);
 

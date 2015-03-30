@@ -5,6 +5,7 @@ require('app')
 
 function integrations(
   $timeout,
+  $rootScope,
   keypather,
   fetchSettings,
   verifyChatIntegration,
@@ -15,8 +16,6 @@ function integrations(
     restrict: 'A',
     templateUrl: 'viewModalIntegrations',
     link: function ($scope) {
-      // Re-add when we get one <modal> to rule them all
-      // $rootScope.$broadcast('close-popovers');
 
       var data = $scope.data = {};
       var actions = $scope.actions = {};
@@ -69,7 +68,7 @@ function integrations(
           enabled: data.settings.attrs.notifications.slack.enabled
         };
         slackData.githubUsernameToSlackIdMap = data.slackMembers.reduce(function (obj, slackMember) {
-          if (slackMember.ghName && !slackMember.found) {
+          if (slackMember.ghName && !slackMember.found && /*keep calm and*/ slackMember.slackOn) {
             // Name was selected from the dropdown
             obj[slackMember.ghName] = slackMember.id;
           } else if (slackMember.found && slackMember.slackOn) {
