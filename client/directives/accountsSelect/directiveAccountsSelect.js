@@ -30,7 +30,13 @@ function accountsSelect (
 
       $scope.popoverAccountMenu = {
         actions: {
-          actionsModalIntegrations: {},
+          actionsModalIntegrations: {
+            closePopover: function() {
+              // Remove when we get one <modal> to rule them all
+              // Closes the account select popover on modal open
+              $scope.popoverAccountMenu.data.show = false;
+            }
+          },
           clearAllUserOptions: function () {
             var userOptions = {};
             ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {
@@ -82,13 +88,6 @@ function accountsSelect (
           $state.go('^.home', {
             userName: username
           });
-        }
-      };
-      // Remove when we get one <modal> to rule them all
-      $scope.popoverAccountMenu.actions.actionsModalIntegrations = {
-        closePopover: function() {
-          // Closes the account select popover on modal open
-          $scope.popoverAccountMenu.data.show = false;
         }
       };
     }
