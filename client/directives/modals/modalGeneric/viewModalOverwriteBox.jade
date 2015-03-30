@@ -1,7 +1,5 @@
-.modal-backdrop(
-  ng-class = "{'in': in}"
+.modal-backdrop.in(
   ng-click = "$event.stopPropagation()"
-  ng-if = "in"
 )
   .modal-dialog(
     ng-click = "$event.stopPropagation()"
