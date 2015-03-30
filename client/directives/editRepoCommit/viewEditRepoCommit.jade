@@ -26,9 +26,9 @@
       )
     | {{ activeCommit.attrs.commit.message | limitTo:30 }}
     small.small.repository-detail {{ activeCommit.attrs.commit.author.date | timeFrom }}
+      //- we don't want to trigger the popover to open because this is an external link
       a.link.link-text.monospace(
         ng-href = "{{ activeCommit.attrs.html_url }}"
-        //- we don't want to trigger the popover to open because this is an external link
         ng-click = "$event.stopPropagation()"
         target = "_blank"
       ) {{activeCommit.attrs.sha | limitTo:7}}
