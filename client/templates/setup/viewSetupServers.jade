@@ -240,7 +240,7 @@
       ) api
       | .
 
-  .card.card-template(
+  .card.card-white(
     ng-if = "!data.cardLoading"
   )
     svg.iconnables.icons-add
@@ -260,8 +260,8 @@
 
 .setup-footer
   button.btn.white(
-    ng-click = "state.step = 1"
+    ng-click = "state.step = 2"
   ) Back
   button.btn.green(
-    ng-click = "state.step = 3"
+    ng-click = "state.step = 4"
   ) Continue

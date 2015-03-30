@@ -118,16 +118,6 @@
   }
 }
 
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes popover-in {
   0% {
     opacity: 0;
@@ -137,6 +127,16 @@
   100% {
     opacity: 1;
     transform: scale3d(1,1,1);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
 

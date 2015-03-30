@@ -1,5 +1,23 @@
+// step 1—organization select
+.step-organization-select {
+
+  .card-header {
+    flex: 1 1 100%;
+    font-size: 18px;
+  }
+
+  .img {
+    background: $white;
+    border-radius: 50%;
+    display: block;
+    height: 45px;
+    margin: 30% auto 12px;
+    width: 45px;
+  }
+}
+
 // step 1—repository-selection
-.step-1 {
+.step-repository-select {
 
   .card {
     padding: 15px;
@@ -59,7 +77,7 @@
 }
 
 // step 3—env setup
-.step-3 {
+.step-environment-setup {
 
   .list-item {
     color: $purple-light;

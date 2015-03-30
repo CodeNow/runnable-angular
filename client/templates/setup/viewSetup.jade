@@ -1,20 +1,27 @@
+.step-organization-select.card-grid(
+  ng-if = "state.step === 1"
+  ng-include = "'viewSetupOrganizationSelect'"
+)
+
+
+
 //- step 1
   - user chooses repositories
   - server on the next step is created for each repo selected
     and for each dependency server
-.step-1(
+.step-repository-select(
+  ng-if = "state.step === 2"
   ng-include = "'viewSetupRepositorySelect'"
-  ng-if = "state.step === 1"
 )
 //- step 2
   - configuration for server stack and their dependency servers
-.step-2.card-grid(
+.step-configure-servers.card-grid(
+  ng-if = "state.step === 3"
   ng-include= "'viewSetupServers'"
-  ng-if = "state.step === 2"
 )
 //- step 3
   - setup env variables for all servers
-.step-3.card-grid(
+.step-environment-setup.card-grid(
+  ng-if = "state.step === 4"
   ng-include = "'viewSetupEnvironmentVariables'"
-  ng-if = "state.step === 3"
 )

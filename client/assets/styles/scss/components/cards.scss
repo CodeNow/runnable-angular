@@ -24,14 +24,12 @@
     animation: card-blink .5s ease-out;
   }
 
-  // configure button
-  // &:hover:not(.disabled) .btn-sm {
-  //   background: rgba($purple-light,.1);
-  // }
-
-  // &:active:not(.disabled) .btn-sm {
-  //   background: rgba($purple-light,.2);
-  // }
+  &.card-sm {
+    height: 210px;
+    min-height: inherit;
+    min-width: inherit;
+    width: 210px;
+  }
 
   .btn.purple {
     transition: none;
@@ -135,7 +133,7 @@
 }
 
 // template
-.card-template {
+.card-white {
   background: $white;
   border-color: transparent;
   color: $purple-lighter;

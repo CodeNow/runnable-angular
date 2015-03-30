@@ -1,0 +1,37 @@
+.setup-header
+  h1.h1 Welcome to Runnable!
+  p.p Choose an organization to create servers with
+
+.setup-body(
+  ng-click = "data.organizationSelected"
+)
+  .card.card-sm.load(
+    ng-click = "state.step = 2"
+  )
+    h2.card-header
+      img.img(
+        height = "36"
+        src = "https://avatars0.githubusercontent.com/u/2335750?v=3&s=120"
+        width = "36"
+      )
+      | CodeNow
+  .card.card-sm.load(
+    ng-click = "state.step = 2"
+  )
+    h2.card-header
+      img.img(
+        height = "36"
+        src = "https://avatars2.githubusercontent.com/u/5341618?v=3&s=120"
+        width = "36"
+      )
+      | Runnabro
+  .card.card-sm.load(
+    ng-click = "state.step = 2"
+  )
+    h2.card-header
+      img.img(
+        height = "36"
+        src = "https://avatars3.githubusercontent.com/u/2828361?v=3&s=120"
+        width = "36"
+      )
+      | Runnable
