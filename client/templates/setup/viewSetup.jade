@@ -3,6 +3,7 @@
 .setup-container.step-organization-select.card-grid(
   ng-if = "state.step === 1"
   ng-include = "'viewSetupOrganizationSelect'"
+  ng-init = "state.loading = true"
 )
 
 //- step 2
@@ -12,6 +13,7 @@
 .setup-container.step-repository-select(
   ng-if = "state.step === 2"
   ng-include = "'viewSetupRepositorySelect'"
+  ng-init = "state.loading = true"
 )
 
 //- step 3

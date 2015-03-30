@@ -1,7 +1,14 @@
 //- container, fill height
 .setup-container {
+  display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
   overflow-y: auto;
+
+  .spinner-wrapper {
+    align-items: center;
+    flex: 1 1 auto;
+  }
 }
 
 //- header—title, description, progress

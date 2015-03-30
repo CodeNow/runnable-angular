@@ -1,9 +1,17 @@
-.setup-header
+.spinner-wrapper.spinner-lg.spinner-purple.in(
+  ng-click = "state.loading = false"
+  ng-if = "state.loading"
+  ng-include = "'spinner'"
+)
+
+.setup-header.load(
+  ng-if = "!state.loading"
+)
   h1.h1 Welcome to Runnable!
   p.p Choose an organization to create servers with
 
-.setup-body(
-  ng-click = "data.organizationSelected"
+.setup-body.load(
+  ng-if = "!state.loading"
 )
   .card.card-sm.load(
     ng-click = "state.step = 2"

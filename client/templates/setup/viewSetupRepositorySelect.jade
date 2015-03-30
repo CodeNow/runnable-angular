@@ -1,21 +1,19 @@
-.setup-header
+.spinner-wrapper.spinner-lg.spinner-purple.in(
+  ng-click = "state.loading = false"
+  ng-if = "state.loading"
+  ng-include = "'spinner'"
+)
+
+.setup-header.load(
+  ng-if = "!state.loading"
+)
   h1.h1 Add Servers
   p.p Choose repositories to be created on their own server.
 
-.setup-body(
-  ng-init = "data.cardLoading = true"
+.setup-body.load(
+  ng-if = "!state.loading"
 )
-  //- loading
-  .card.card-loading.disabled(
-    ng-click = "data.cardLoading = false"
-    ng-if = "data.cardLoading"
-  )
-    .spinner-wrapper.spinner-md.spinner-purple.in(
-      ng-include = "'spinner'"
-    )
-  .card.disabled.load(
-    ng-if = "!data.cardLoading"
-  )
+  .card.disabled
     input.input.input-sm.input-search(
       placeholder = "Filter by name"
       required
