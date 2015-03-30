@@ -5,9 +5,7 @@ li.folder(
 )
 
   a(
-    ng-click = "actions.closeOpenModals(); \
-                dir.state.open = !dir.state.open; \
-                $event.stopPropagation();"
+    ng-click = "dir.state.open = !dir.state.open;"
     pop-over
     pop-over-actions = "popoverFileExplorerFolder.actions"
     pop-over-data = "popoverFileExplorerFolder.data"

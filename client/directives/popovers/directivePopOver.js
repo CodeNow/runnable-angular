@@ -43,12 +43,13 @@ function popOver(
         $timeout(angular.noop);
         unbindDocumentClick();
         unbindPopoverOpened();
+
         // We need a closure because they could technically re-open the popover and we want to manage THIS scope and THIS element.
         (function (popoverElementScope, popoverElement) {
           //Give the transition some time to finish!
           $timeout(function(){
-            popoverElementScope.$destroy();
             popoverElement.remove();
+            popoverElementScope.$destroy();
           }, 500);
         }(popoverElementScope, popoverElement));
       };
@@ -63,8 +64,10 @@ function popOver(
         }
 
         $rootScope.$broadcast('close-popovers');
-        unbindDocumentClick = $scope.$on('app-document-click', function () {
-          $scope.closePopover();
+        unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
+          if(!(target && popoverElement[0].contains(target))){
+            $scope.closePopover();
+          }
         });
         unbindPopoverOpened = $scope.$on('close-popovers', function () {
           $scope.closePopover();
@@ -104,14 +107,9 @@ function popOver(
         $timeout(function(){
           $scope.active = true;
         }, 0);
-
-        // Prevent clicking on the popover from triggering us to close the popover!
-        popoverElement.on('click', function(event) {
-          event.stopPropagation();
-        });
       }
       function clickHandler(event) {
-        event.stopPropagation();
+        event.stopPropagation(); // If we don't stop prop we will immediately close ourselves!
         event.preventDefault();
         if (element.prop('disabled')) {
           return;
@@ -163,6 +161,12 @@ function popOver(
             element.off('click');
           });
       }
+
+      $scope.$on('$destroy', function () {
+        if ($scope.active) {
+          $scope.closePopover();
+        }
+      });
     }
   };
 }
