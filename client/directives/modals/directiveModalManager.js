@@ -33,6 +33,7 @@ function modalManager(
 
       function openModal(options){
         closeModal();
+        $rootScope.$broadcast('close-popovers');
         var tempTemplate = checkTemplate(options.template);
         var template = $templateCache.get(tempTemplate);
 
@@ -47,7 +48,7 @@ function modalManager(
         currentModalScope.template = options.template;
         currentModalScope.currentModel = options.currentModel;
         currentModalScope.stateModel = options.stateModel;
-        currentModalScope.in = true;
+        currentModalScope.data.in = true;
 
         currentModalScope.defaultActions = {
           save: function (state, paths, cb) {
