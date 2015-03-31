@@ -192,6 +192,39 @@
   }
 }
 
+.btn-check {
+
+  &.active {
+    background: $green;
+    border-color: $green;
+
+    .icons-add {
+      transform: scale3d(0,0,0);
+    }
+
+    .icons-check,
+    .icons-link {
+      transform: scale3d(1,1,1);
+    }
+  }
+
+  .iconnables {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: scale3d(0,0,0);
+    transition: transform .3s ease-in;
+    width: 100%;
+  }
+
+  .icons-add {
+    color: $gray-lighter;
+    transform: scale3d(1,1,1);
+    transition: none;
+  }
+}
+
 .blue,
 .gray,
 .green,

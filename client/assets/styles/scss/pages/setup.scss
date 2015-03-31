@@ -1,13 +1,10 @@
 //- container, fill height
 .setup-container {
-  display: flex;
   flex: 1 1 auto;
-  flex-direction: column;
   overflow-y: auto;
 
   .spinner-wrapper {
-    align-items: center;
-    flex: 1 1 auto;
+    margin-top: calc(50% - 120px);
   }
 }
 
@@ -17,6 +14,7 @@
 
   .h1 {
     font-size: 36px;
+    margin-bottom: 6px;
     text-align: center;
   }
 

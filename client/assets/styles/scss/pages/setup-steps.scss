@@ -20,8 +20,9 @@
 .step-repository-select {
 
   .card {
+    min-height: initial;
     padding: 15px;
-    width: 540px; // width dimensions for loading
+    width: 450px; // width dimensions for loading
   }
 
   // search
@@ -30,10 +31,10 @@
     background-position: calc(50% - 53px) 6px;
     border-color: $purple-lighter;
     color: $gray;
-    font-weight: 500;
+    line-height: 34px;
     margin-bottom: 8px;
     padding-left: calc(50% - 40px);
-    width: 506px;
+    width: 416px;
 
     &:focus,
     &:valid {
@@ -41,27 +42,28 @@
       padding-left: 30px;
     }
   }
+}
 
-  // repository list
-  .list {
-    width: 506px;
-  }
+// repository list
+.list-repositories {
+  width: 416px;
 
-  .list-item {
+  > .list-item {
     border: 1px solid transparent;
     border-radius: 3px;
+    cursor: pointer;
     font-size: 18px;
     font-weight: 500;
     margin: 3px 0 0;
     padding: 6px 15px;
 
-    &:hover {
+    &:hover,
+    &.active {
       background: $white;
       border-color: $purple-lighter;
     }
 
-    &:active,
-    &.active {
+    &:active {
       background: $white;
       border-color: currentColor;
       color: $green;
@@ -70,10 +72,21 @@
         color: currentColor;
       }
     }
+
+    // no active state on .active
+    &.active:active {
+      border-color: $purple-lighter;
+      color: $purple-light;
+
+      .small {
+        color: $purple-lighter;
+      }
+    }
   }
 
   .small {
     color: $purple-lighter;
+    display: block;
   }
 }
 
