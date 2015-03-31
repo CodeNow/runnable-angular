@@ -95,7 +95,11 @@
   }
 
   .explorer {
-    padding: 6px 0;
+    padding: 6px 0; // overwrite non-modal explorer
+
+    &:first-child {
+      padding-top: 0;
+    }
   }
 
   // view overrides
