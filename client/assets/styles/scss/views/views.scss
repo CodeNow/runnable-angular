@@ -4,4 +4,8 @@
   overflow: hidden;
   position: relative;
   z-index: $z-views;
+
+  .spinner-backdrop {
+    position: absolute;
+  }
 }
