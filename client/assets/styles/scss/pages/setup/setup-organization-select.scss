@@ -1,0 +1,17 @@
+// step 1—organization select
+.step-organization-select {
+
+  .card-header {
+    flex: 1 1 100%;
+    font-size: 18px;
+  }
+
+  .img {
+    background: $white;
+    border-radius: 50%;
+    display: block;
+    height: 45px;
+    margin: 30% auto 12px;
+    width: 45px;
+  }
+}

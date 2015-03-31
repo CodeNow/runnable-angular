@@ -4,7 +4,7 @@
   overflow-y: auto;
 
   .spinner-wrapper {
-    margin-top: calc(50% - 120px);
+    margin-top: calc(50vh - 60px);
   }
 }
 
@@ -66,6 +66,7 @@
 }
 
 .footer-container {
+  margin: 0 auto;
   max-width: 960px;
 }
 

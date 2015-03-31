@@ -102,8 +102,12 @@
 @import "pages/home-images";
 @import "pages/home-ui";
 @import "pages/server-selection";
-@import "pages/setup";
-@import "pages/setup-steps";
+
+// setup pages
+@import "pages/setup/setup";
+@import "pages/setup/setup-organization-select";
+@import "pages/setup/setup-repository-select";
+@import "pages/setup/setup-environment-select";
 
 // shame
 @import "shame";

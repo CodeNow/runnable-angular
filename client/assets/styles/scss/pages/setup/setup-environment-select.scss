@@ -1,0 +1,42 @@
+// step 3—env setup
+.step-environment-setup {
+
+  .list-item {
+    color: $purple-light;
+    font-size: 14px;
+    margin: 0 auto 6px;
+    padding: 0 30px;
+
+    &.active {
+
+      .icons-server {
+        color: $purple-light;
+      }
+    }
+
+    &.active:not(.current) {
+
+      .icons-check {
+        display: block;
+      }
+    }
+
+    &.small {
+      color: $purple-lighter;
+      pointer-events: none;
+    }
+
+    .btn-badge {
+      float: left;
+      margin-right: 6px;
+    }
+
+    .icons-server {
+      color: $purple-lighter;
+    }
+  }
+
+  .icons-check {
+    background: $purple-light;
+  }
+}
