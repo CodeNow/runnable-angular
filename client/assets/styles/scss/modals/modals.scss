@@ -220,11 +220,13 @@
   height: 63px;
   padding: 9px;
 
+  .btn-group,
   .green,
   .orange,
   .white {
     float: right;
 
+    + .btn-group,
     + .green,
     + .orange,
     + .white {
@@ -234,6 +236,10 @@
     + .link {
       margin-top: 12px;
     }
+  }
+
+  .btn-group .btn:first-child {
+    float: left;
   }
 
   .label-checkbox {

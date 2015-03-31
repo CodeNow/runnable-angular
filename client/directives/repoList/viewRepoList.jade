@@ -23,8 +23,8 @@ h2.sub-header Repositories
 
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.guide-image.guide-pointer(
-  ng-if = "showAddFirstRepoMessage && unsavedAcvs.length === 0"
   ng-click = "data.show = !data.show"
+  ng-if = "showAddFirstRepoMessage && unsavedAcvs.length === 0"
 )
   svg.iconnables.icons-git
     use(
