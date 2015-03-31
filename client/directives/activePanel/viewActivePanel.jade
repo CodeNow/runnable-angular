@@ -1,14 +1,23 @@
+//- spinner
+.spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
+  ng-if = "loading"
+  ng-include = "'spinner'"
+)
+
 //- tabs
 .views-toolbar(
   open-items= "openItems"
   tabs
 )
+
+//- add tab button
 div(
   add-tab
-  show-add-buttons = "showBackgroundButtons"
   open-items = "openItems"
   ng-if = "showBackgroundButtons"
+  show-add-buttons = "showBackgroundButtons"
 )
+
 //- active panel
 .active-panel(
   ng-class = "colorScheme.getSchemeStyle()"
