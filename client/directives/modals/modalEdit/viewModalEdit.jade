@@ -4,10 +4,10 @@
       ng-form
       name = "renameForm"
       ng-class = "{\
-          focus: renameForm.showFocus,\
-          'ng-invalid': renameForm.$invalid,\
-          'ng-valid': renameForm.$valid\
-        }"
+        focus: renameForm.showFocus,\
+        'ng-invalid': renameForm.$invalid,\
+        'ng-valid': renameForm.$valid\
+      }"
     )
       span.input-label
         svg.iconnables.icons-edit
@@ -17,29 +17,30 @@
         | Edit
       span.input-description.text-overflow {{ state.name }}-{{ data.instance.attrs.owner.username }}.runnableapp.com
       input.input(
-      autofocus
-      instance = "data.instance"
-      name = "newName"
-      ng-blur = "renameForm.showFocus = false"
-      ng-focus = "renameForm.showFocus = true"
-      ng-model = "state.name"
-      ng-init = "renameForm.$setPristine(); \
-          renameForm.showFocus = true;"
-      placeholder = "My-Server"
-      spellcheck = "false"
-      validate-name = "data.instances"
-      validate-name-pattern
-      value = "{{ data.instance.attrs.name }}"
+        instance = "data.instance"
+        name = "newName"
+        ng-blur = "renameForm.showFocus = false"
+        ng-focus = "renameForm.showFocus = true"
+        ng-model = "state.name"
+        ng-init = "\
+          renameForm.$setPristine();\
+          renameForm.showFocus = true;\
+        "
+        placeholder = "My-Server"
+        spellcheck = "false"
+        validate-name = "data.instances"
+        validate-name-pattern
+        value = "{{ data.instance.attrs.name }}"
       )
     //- .invalid-pattern for names with invalid characters
       - .invalid-name for names that are taken
     .validate-wrapper.btn-sm.orange(
-    ng-class = "{\
-        'invalid-pattern': renameForm.$error.namePattern.length,\
-        'invalid-name': renameForm.$error.nameAvailable.length,\
-        'invalid-require': renameForm.$error.nameRequire.length\
-      }"
-    )
+      ng-class = "{\
+          'invalid-pattern': renameForm.$error.namePattern.length,\
+          'invalid-name': renameForm.$error.nameAvailable.length,\
+          'invalid-require': renameForm.$error.nameRequire.length\
+        }"
+      )
       span.validate-rules.invalid-pattern Please use #{''}
         b.btn-xs.orange A-Z
         b.btn-xs.orange a-z
@@ -53,16 +54,16 @@
     section.sidebar.server-sidebar
       section.row.repo-list(
         build = "build"
-        show-add-repo = "true"
         repo-list
+        show-add-repo = "true"
       )
       section.row.explorer(
         explorer
-        title = "Build Files"
         file-model = "build.contextVersions.models[0]"
-        root-dir = "build.contextVersions.models[0].rootDir"
         open-items = "openItems"
+        root-dir = "build.contextVersions.models[0].rootDir"
         show-repo-folder = "true"
+        title = "Build Files"
       )
       section.row.explorer
         //- no files or folders can be added to this file-tree
@@ -93,9 +94,9 @@
              //- can we make sure opening this popover also opens and focuses the env file?
              button.btn-xxs.btn-file-action(
                ng-class = "{active: popoverLinkServers.data.show}"
+               ng-click = "$event.stopPropagation()"
                toggle-pop-over
                toggle-pop-over-model = "popoverLinkServers.data.show"
-               ng-click = "$event.stopPropagation()"
              )
                svg.iconnables.icons-link
                  use(
@@ -110,15 +111,12 @@
     //- editor
     section.views.with-add-tab(
       active-panel
-      ng-class = "{ \
-        in: (data.showExplorer && \
-             !data.loading) \
-        }"
-      open-items = "openItems"
       build = "data.build"
       instance = "data.instance"
-      use-auto-update = "true"
+      ng-class = "{in: (data.showExplorer && !data.loading)}"
+      open-items = "openItems"
       state-model = "state"
+      use-auto-update = "true"
       validation = "validation"
     )
   footer.modal-footer
@@ -129,13 +127,13 @@
     ) Build Server
       button.btn.green.btn-icon.btn-icon-sm(
         ng-class = "{active: popoverBuildOptions.data.show}"
-        type = "button"
         pop-over
         pop-over-active = "popoverBuildOptions.data.show"
         pop-over-actions = "popoverBuildOptions.actions"
         pop-over-data = "popoverBuildOptions.data"
-        pop-over--options = "{\"left\":-146,\"top\":54}"
+        pop-over-options = "{\"left\":-146,\"top\":54}"
         pop-over-template = "viewInstanceEditPopoverBuildOptions"
+        type = "button"
       )
         svg.iconnables.icons-arrow-down
           use(
