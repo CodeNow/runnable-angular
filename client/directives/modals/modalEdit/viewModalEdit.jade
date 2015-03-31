@@ -124,6 +124,7 @@
       ) Build Server
       button.btn.green.btn-icon.btn-icon-sm(
         ng-class = "{active: popoverBuildOptions.data.show}"
+        ng-disabled = "renameForm.$invalid || getAllErrorsCount()"
         pop-over
         pop-over-active = "popoverBuildOptions.data.show"
         pop-over-actions = "popoverBuildOptions.actions"
