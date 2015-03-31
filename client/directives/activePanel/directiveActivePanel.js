@@ -51,7 +51,7 @@ function activePanel(
 
       $scope.showBuildFailurePrompt = function () {
         var activeHistory = $scope.openItems.activeHistory.models;
-        var currentPanel = activeHistory[activeHistory.length-1];
+        var currentPanel = activeHistory[activeHistory.length - 1];
         var isActive = keypather.get(currentPanel, 'state.active');
         var isBuildStream = keypather.get(currentPanel, 'state.type') === 'BuildStream';
         return showBuildFailurePrompt && isActive && isBuildStream;
@@ -80,7 +80,7 @@ function activePanel(
       $scope.panelStyle = function () {
         if ($scope.showBuildFailurePrompt()) {
           return {
-            height: 'calc(100% - 74px)'
+            height: 'calc(100% - 65px)'
           };
         }
         return {

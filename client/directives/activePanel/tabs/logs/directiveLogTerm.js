@@ -92,6 +92,8 @@ function logTerm(
       }
       function writeToTerm(output) {
         if (typeof output !== 'string') { return; }
+        // Add some fake newlines at the end for padding!
+        output += '\r\n\r\n\r\n\r\n';
         terminal.write(output.replace(/\r?\n/g, '\r\n'));
       }
 
