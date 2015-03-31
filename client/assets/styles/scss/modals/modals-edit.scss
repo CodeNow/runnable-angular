@@ -73,6 +73,7 @@
     }
 
     .repository-group-text {
+      margin: 0 6px;
       max-height: none;
     }
   }
@@ -95,10 +96,10 @@
   }
 
   .explorer {
-    padding: 6px 0; // overwrite non-modal explorer
+    padding: 0 0 6px; // overwrite non-modal explorer
 
-    &:first-child {
-      padding-top: 0;
+    &:last-child {
+      padding-top: 6px;
     }
   }
 
