@@ -149,7 +149,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
-      expect($scope.data.in).to.be.true;
+      expect($scope.modalOpenFlag).to.be.true;
     });
   });
   describe('local storage options'.blue, function () {
@@ -219,7 +219,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
-      expect($scope.data.in).to.be.true;
+      expect($scope.modalOpenFlag).to.be.true;
     });
   });
 });

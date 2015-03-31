@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function modalManager(
-  $document,
   $templateCache,
   $timeout,
   $compile,
@@ -18,7 +17,7 @@ function modalManager(
     scope: {
 
     },
-    link: function ($scope) {
+    link: function ($scope, element) {
       var currentModalScope;
 
       function closeModal(cb) {
@@ -42,18 +41,17 @@ function modalManager(
           template = template.replace('%%GENERIC_TEMPLATE_NAME%%', options.template);
         }
 
-        currentModalScope = $scope.$new(true);
+        $scope.currentModalScope = currentModalScope = $scope.$new(true);
         currentModalScope.data = options.data;
         currentModalScope.actions = options.actions;
         currentModalScope.template = options.template;
         currentModalScope.currentModel = options.currentModel;
         currentModalScope.stateModel = options.stateModel;
-        currentModalScope.in = true;
 
         currentModalScope.defaultActions = {
           save: function (state, paths, cb) {
             paths.forEach(function (path) {
-              keypather.set($scope.stateModel, path, keypather.get(state, path));
+              keypather.set(currentModalScope.stateModel, path, keypather.get(state, path));
             });
             if (typeof keypather.get(currentModalScope, 'actions.save') === 'function') {
               currentModalScope.actions.save();
@@ -64,7 +62,7 @@ function modalManager(
             if (typeof keypather.get(currentModalScope, 'actions.cancel') === 'function') {
               currentModalScope.actions.cancel();
             }
-            currentModalScope.defaultActions.close();
+            closeModal();
           },
           close: function (cb) {
             closeModal(cb);
@@ -72,21 +70,20 @@ function modalManager(
         };
 
         var currentModalElement = $compile(template)(currentModalScope);
-        $document.find('body').append(currentModalElement);
+        element.append(currentModalElement);
 
         currentModalScope.$on('$destroy', function () {
-          currentModalElement.remove();
+          if (currentModalElement) {
+            currentModalElement.remove();
+          }
         });
-
-        // Trigger a digest cycle
-        $timeout(angular.noop);
       }
 
-      $rootScope.$on('openModal', function (event, options) {
+      $rootScope.$on('open-modal', function (event, options) {
         openModal(options);
       });
 
-      $rootScope.$on('closeModal', function () {
+      $rootScope.$on('close-modal', function () {
         closeModal();
       });
 
@@ -99,5 +96,5 @@ function modalManager(
 
 var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox'];
 function checkTemplate(template) {
-  return (genericModals.indexOf(template) < 0) ? template : 'viewOpenModalGeneric';
+  return (genericModals.indexOf(template) === -1) ? template : 'viewOpenModalGeneric';
 }

@@ -90,7 +90,7 @@ describe('directiveModal'.bold.underline.blue, function () {
     injectSetupCompile(inputScope);
     sinon.spy($elScope, '$emit');
     window.helpers.click(ctx.element[0]);
-    expect($elScope.$emit.calledWith('openModal'), 'Called with').to.equal(true);
+    expect($elScope.$emit.calledWith('open-modal'), 'Called with').to.equal(true);
 
     var lastCallOptions = $elScope.$emit.lastCall.args[1];
     expect(lastCallOptions.data, 'Called with options.data').to.equal(inputScope.data);
@@ -102,16 +102,17 @@ describe('directiveModal'.bold.underline.blue, function () {
     $elScope.$emit.restore();
   });
 
-  it("should trigger the openModal event on data.in", function () {
+  it("should trigger the openModal event on openFlag set to true", function () {
     var inputScope = makeDefaultScope();
     inputScope.template = 'viewModalError';
+    inputScope.openFlag = false;
     injectSetupCompile(inputScope);
     sinon.spy($elScope, '$emit');
 
-    $elScope.data.in = true;
+    $elScope.openFlag = true;
     $elScope.$digest();
 
-    expect($elScope.$emit.calledWith('openModal'), 'Called with').to.equal(true);
+    expect($elScope.$emit.calledWith('open-modal'), 'Called with').to.equal(true);
 
     var lastCallOptions = $elScope.$emit.lastCall.args[1];
     expect(lastCallOptions.data, 'Called with options.data').to.equal(inputScope.data);
