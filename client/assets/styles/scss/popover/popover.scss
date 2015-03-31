@@ -96,7 +96,8 @@
     background: rgba($purple-light,.1);
   }
 
-  &:active {
+  &:active,
+  &.active {
     background: rgba($purple-light,.15);
     color: $purple-light;
 

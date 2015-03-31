@@ -1,8 +1,7 @@
 .modal-backdrop.in(
+  ng-click = "$event.stopPropagation()"
   actions = "actions"
   data = "data"
   default-actions = "defaultActions"
   modal-integrations
-  ng-click = "$event.stopPropagation()"
-  ng-if = "in"
 )

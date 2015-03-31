@@ -205,11 +205,11 @@ function ControllerInstance(
     if (!data.openItems.hasOpen('Terminal')) {
       data.openItems.addTerminal();
     }
-    if (!data.openItems.hasOpen('LogView')) {
-      data.openItems.addLogs();
-    }
     if (!data.openItems.hasOpen('WebView')) {
       data.openItems.addWebView();
+    }
+    if (!data.openItems.hasOpen('LogView')) {
+      data.openItems.addLogs();
     }
     data.openItems.restoreTabs({
         instanceId: data.instance.id(),
