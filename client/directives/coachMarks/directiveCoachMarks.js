@@ -11,7 +11,8 @@ function showCoachMarks(
   $templateCache,
   $document,
   keypather,
-  $log
+  $log,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -41,9 +42,11 @@ function showCoachMarks(
         $scope.coachMarkData = data;
 
         keypather.set($scope, 'coachMarkData.dismiss', function () {
-          $scope.$broadcast('close-popovers');
-          popEl.remove();
           $scope.coachMarkData.save();
+          $scope.$broadcast('close-popovers');
+          $timeout(function () {
+            popEl.remove();
+          }, 250);
         });
         var template = $templateCache.get('viewCoachMarks');
         popEl = $compile(template)($scope);
