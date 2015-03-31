@@ -57,6 +57,15 @@
     padding-right: 9px;
   }
 
+  &.disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
+  &.error {
+    color: $red;
+  }
+
   .icons-dirty {
     display: inline-block;
     float: left;

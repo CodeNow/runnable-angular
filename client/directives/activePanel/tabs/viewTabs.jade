@@ -12,6 +12,9 @@ button.btn.toggle-theme(
 
 //- tabs
 ul.tabs
+  //- apply .disabled class when server is not running EXCEPT on build logs tab
+  //- apply .error class on build logs tab
+  //- disable ng-click events when disabled
   li.tab-wrapper(
     ng-class = "{\
       'active': item.state.active,\
@@ -38,6 +41,7 @@ ul.tabs
         )
 
 //- add tab popover
+//- apply [disabled] attribute when server is not running EXCEPT on build logs tab
 button.btn.btn-sm.white.btn-icon.btn-add-tab(
   ng-class = "{active: popoverAddTab.data.show}"
   ng-if = "showAddButtons"
