@@ -12,6 +12,7 @@ div(
 //- active panel
 .active-panel(
   ng-class = "colorScheme.getSchemeStyle()"
+  ng-style = "panelStyle()"
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
@@ -86,19 +87,23 @@ div(
 
 //- can .views-prompt go in its own template file?
 .views-prompt.theme-dark(
-  ng-class = "{hide: data.hidePrompt}"
+  ng-if = "showBuildFailurePrompt()"
 )
   p.p.monospace Having build problems?
   .btn-container
-    button.btn.white Rebuild w/out cache
-    button.btn.orange
+    button.btn.white(
+      ng-click = "actions.buildWithoutCache()"
+    ) Rebuild w/out cache
+    button.btn.orange(
+      ng-click = "actions.editBuildFiles()"
+    )
       svg.iconnables.icons-edit
         use(
           xlink:href = "#icons-edit"
         )
       | Edit build files
     button.btn.btn-close-prompt(
-      ng-click = "data.hidePrompt = true"
+      ng-click = "actions.hideBuildFailurePrompt()"
     )
       svg.iconnables.icons-close
         use(

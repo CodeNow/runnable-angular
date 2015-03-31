@@ -8,7 +8,12 @@ require('app')
  */
 function activePanel(
   $sce,
-  colorScheme
+  colorScheme,
+  keypather,
+  errs,
+  $state,
+  promisify,
+  $stateParams
 ) {
   return {
     restrict: 'A',
@@ -31,12 +36,57 @@ function activePanel(
         });
         $scope.showBackgroundButtons = showBackgroundButtons;
       }
-      var data = $scope.data = {};
+      $scope.data = {};
 
       // allow iframe to load url
       $scope.$sce = $sce;
       $scope.colorScheme = colorScheme;
       $scope.useAutoUpdate = !!attrs.useAutoUpdate;
+
+      var showBuildFailurePrompt = false;
+
+      $scope.$watch('instance.build.attrs.failed', function (newVal) {
+        showBuildFailurePrompt = newVal;
+      });
+
+      $scope.showBuildFailurePrompt = function () {
+        var activeHistory = $scope.openItems.activeHistory.models;
+        var currentPanel = activeHistory[activeHistory.length-1];
+        var isActive = keypather.get(currentPanel, 'state.active');
+        var isBuildStream = keypather.get(currentPanel, 'state.type') === 'BuildStream';
+        return showBuildFailurePrompt && isActive && isBuildStream;
+      };
+
+      $scope.actions = {
+        buildWithoutCache: function () {
+          showBuildFailurePrompt = false;
+          window.alert('Build w/o cache');
+        },
+        editBuildFiles: function () {
+          promisify($scope.instance.build, 'deepCopy')(
+          ).then(function (forkedBuild) {
+              $state.go('instance.instanceEdit', {
+                userName: $stateParams.userName,
+                instanceName: $stateParams.instanceName,
+                buildId: forkedBuild.id()
+              });
+            }).catch(errs.handler);
+        },
+        hideBuildFailurePrompt: function () {
+          showBuildFailurePrompt = false;
+        }
+      };
+
+      $scope.panelStyle = function () {
+        if ($scope.showBuildFailurePrompt()) {
+          return {
+            height: 'calc(100% - 74px)'
+          };
+        }
+        return {
+          height: '100%'
+        };
+      };
     }
   };
 }
