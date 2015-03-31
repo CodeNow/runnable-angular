@@ -54,14 +54,23 @@
     float: left;
   }
 
+  // icons
+  .icons-arrow-back,
   .icons-arrow-forward {
-    background: $white;
     border-radius: 50%;
-    color: $green;
     height: 18px;
-    margin-left: 6px;
     top: 3px;
     width: 18px;
+  }
+
+  .icons-arrow-back {
+    margin-right: 6px;
+  }
+
+  .icons-arrow-forward {
+    background: $white;
+    color: $green;
+    margin-left: 6px;
   }
 }
 

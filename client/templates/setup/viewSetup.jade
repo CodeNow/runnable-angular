@@ -36,7 +36,12 @@
   .footer-container
     button.btn.gray(
       ng-click = "state.step = state.step - 1"
-    ) Back
+    )
+      svg.iconnables.icons-arrow-back
+        use(
+          xlink:href = "#icons-arrow-back"
+        )
+      | Back
     //- step 2 (repository select)
     button.btn.green(
       ng-click = "state.step = state.step + 1"
