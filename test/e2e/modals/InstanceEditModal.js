@@ -23,14 +23,15 @@ function InstanceEditModal (instanceName) {
   this.buildOptions = util.createGetter(by.css('.green.btn-icon'), this.modalElem);
   this.buildWithoutCacheButton = util.createGetter(by.cssContainingText('.popover-list-item', 'Build without cache'));
 
-  this.environmentalVars = util.createGetter(by.cssContainingText('.file', 'environmental variables'));
+  this.environmentalVars = util.createGetter(by.cssContainingText('.file', 'environment variables'));
 
   this.getErrorsCount = function (buttonText) {
     if (!buttonText) {
       buttonText = 'environmental variables';
     }
     var button = util.createGetter(by.cssContainingText('.file', buttonText)).get();
-    return button.element(by.css('.btn-file-errors')).getText();
+    var errorElement = button.element(by.css('.btn-file-errors'));
+    return errorElement.getText();
   };
 
   this.getTotalErrorsCount = function () {

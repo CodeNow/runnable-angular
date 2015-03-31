@@ -94,20 +94,17 @@
              //- can we make sure opening this popover also opens and focuses the env file?
              button.btn-xxs.btn-file-action(
                ng-class = "{active: popoverLinkServers.data.show}"
-               ng-click = "$event.stopPropagation()"
-               toggle-pop-over
-               toggle-pop-over-model = "popoverLinkServers.data.show"
+               pop-over
+               pop-over-active = "popoverLinkServers.data.show"
+               pop-over-actions = "popoverLinkServers.actions"
+               pop-over-data = "popoverLinkServers.data"
+               popover-options = "{\"left\":-270,\"top\":-107}"
+               pop-over-template = "viewPopoverLinkServers"
              )
                svg.iconnables.icons-link
                  use(
                    xlink:href = "#icons-link"
                  )
-               pop-over(
-                 actions = "popoverLinkServers.actions"
-                 data = "popoverLinkServers.data"
-                 popover-options = "{\"left\":-270,\"top\":-107}"
-                 template = "viewPopoverLinkServers"
-               )
     //- editor
     section.views.with-add-tab(
       active-panel

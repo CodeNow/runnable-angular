@@ -67,6 +67,7 @@ describe('edit dockerfile', users.doMultipleUsers(function (username) {
         return tabText === 'Dockerfile';
       });
     });
+    instanceEdit.activePanel.clearActiveFile();
 
     instanceEdit.activePanel.writeToFile('asda');
 
