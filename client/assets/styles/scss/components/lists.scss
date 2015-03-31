@@ -93,33 +93,34 @@
     cursor: default !important;
     font-size: 13px;
     pointer-events: none;
-  }
 
     &:hover,
     &:active {
       background: none !important;
       border-color: transparent !important;
     }
+  }
 
-    > .btn-xs {
-      background: $gray-lightest;
-      border-radius: 50%;
-      color: $gray-light;
-      float: right;
-      margin-top: 6px;
-      padding: 0;
-      width: 24px;
+  > .btn-xs {
+    background: $gray-lightest;
+    border-radius: 50%;
+    color: $gray-light;
+    float: right;
+    margin-top: 6px;
+    padding: 0;
+    width: 24px;
 
-      &:hover {
-        color: $blue;
-      }
-
-      &:active,
-      &.active {
-        background: transparent;
-        color: $blue;
-      }
+    &:hover {
+      color: $blue;
     }
+
+    &:active,
+    &.active {
+      background: transparent;
+      color: $blue;
+    }
+  }
+
   .gravatar {
     float: left;
     margin: 18px 9px 0 2px;

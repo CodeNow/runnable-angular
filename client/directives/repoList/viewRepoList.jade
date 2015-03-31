@@ -13,10 +13,11 @@ h2.sub-header Repositories
       )
     | Update
 
-  div.sub-header-action(
+  //- add repository button
+  span.sub-header-action(
     add-repo-popover
-    ng-if = "showAddRepo"
     context-version = "build.contextVersions.models[0]"
+    ng-if = "showAddRepo"
     show = "data.show"
   )
 
