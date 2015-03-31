@@ -1,5 +1,5 @@
 form.modal-dialog.modal-integrations(
-  name = " slackForm"
+  name = "slackForm"
   ng-class = "{\
     'no-data': !data.showHipchat && !data.showSlack,\
     'no-verify': !data.verified\
@@ -218,7 +218,6 @@ form.modal-dialog.modal-integrations(
       - disables all inputs, but preserves their states
     .label.label-footer(
       ng-if = "data.verified"
-      ng-init = "data.hipChatOn = true"
     )
       button.btn.btn-sm.orange(
         ng-click = "data.hipChatOn = false"
@@ -240,4 +239,3 @@ form.modal-dialog.modal-integrations(
     button.btn.white(
       ng-click = "defaultActions.close()"
     ) Cancel
-
