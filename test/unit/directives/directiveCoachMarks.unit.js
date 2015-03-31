@@ -6,6 +6,7 @@ var $rootScope,
   $compile,
   $document,
   $log,
+  $timeout,
   $templateCache;
 
 var apiMocks = require('../apiMocks/index');
@@ -27,7 +28,8 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
       _$compile_,
       _$document_,
       _$rootScope_,
-      _$log_
+      _$log_,
+      _$timeout_
     ) {
       $rootScope = _$rootScope_;
       $scope = _$rootScope_.$new();
@@ -35,6 +37,7 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
       $document = _$document_;
       $templateCache = _$templateCache_;
       $log = _$log_;
+      $timeout = _$timeout_;
     });
   }
 
@@ -130,12 +133,13 @@ describe('directiveCoachMarks'.bold.underline.blue, function () {
       expect($scope.coachMarkData.getStyle).to.be.function;
       expect($document[0].querySelector('.guide')).to.be.ok;
       $scope.coachMarkData.dismiss();
+      $timeout.flush();
+
       $scope.$digest();
       expect($document[0].querySelector('.guide')).to.not.be.ok;
       sinon.assert.calledOnce(ctx.coachMarkData.save);
 
       $scope.$destroy();
-
       $scope.$digest();
       expect($document[0].querySelector('.guide')).to.not.be.ok;
     });
