@@ -24,8 +24,7 @@ function integrations(
       data.slackMembers = {};
       data.verified = false;
 
-      function verifySlack() {
-        var matches = [];
+      function fetchChatMemberData() {
         return verifyChatIntegration(data.settings, 'slack')
           .then(function (members) {
             data.slackMembers = members.slack;
@@ -36,13 +35,13 @@ function integrations(
 
       fetchSettings()
         .then(function (settings) {
-          data.settings = settings.models[0];
+          data.settings = settings;
 
           if (keypather.get(data, 'settings.attrs.notifications.slack.apiToken') &&
               keypather.get(data, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             data.showSlack = true;
             data.loading = true;
-            return verifySlack();
+            return fetchChatMemberData();
           }
         })
         .catch(errs.handler)
@@ -52,10 +51,10 @@ function integrations(
 
       actions.verifySlack = function () {
         data.verifying = true;
-        return verifySlack()
+        return fetchChatMemberData()
           .catch(errs.handler)
           .finally(function () {
-            $scope.data.verifying = false;
+            data.verifying = false;
           });
       };
 
