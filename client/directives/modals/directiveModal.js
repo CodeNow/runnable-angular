@@ -13,7 +13,8 @@ function modal() {
       actions: '=modalActions', // Contains modal specific actions
       template: '@modalTemplate',
       currentModel: '=modalCurrentModel', // The object that contains the data to display
-      stateModel: '=modalStateModel' // The object that should receive the changes
+      stateModel: '=modalStateModel', // The object that should receive the changes
+      openFlag: '=? modalOpenFlag'
     },
     link: function ($scope, element) {
       function openModal() {
@@ -26,7 +27,7 @@ function modal() {
         });
       }
       element.on('click', openModal);
-      $scope.$watch('data.in', function (n) {
+      $scope.$watch('openFlag', function (n) {
         if (n === true) {
           openModal();
         }

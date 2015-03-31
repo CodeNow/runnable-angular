@@ -66,7 +66,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       var modalOptions = makeDefaultOptions();
       $rootScope.$emit('open-modal', modalOptions);
 
-      var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var openedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(openedModal).to.exist;
     });
 
@@ -75,12 +75,12 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       var modalOptions = makeDefaultOptions();
       $rootScope.$emit('open-modal', modalOptions);
 
-      var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var openedModal = ctx.element[0].querySelector('.modal-backdrop');
       openedModal.test = '123';
 
       $rootScope.$emit('open-modal', modalOptions);
 
-      var newModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var newModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(newModal.test).to.not.exist;
 
     });
@@ -90,12 +90,12 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       var modalOptions = makeDefaultOptions();
       $rootScope.$emit('open-modal', modalOptions);
 
-      var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var openedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(openedModal).to.exist;
 
       $rootScope.$emit('close-modal');
 
-      var closedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
     });
 
@@ -105,12 +105,12 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       var modalOptions = makeDefaultOptions();
       $rootScope.$emit('open-modal', modalOptions);
 
-      var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var openedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(openedModal).to.exist;
 
       $elScope.$destroy();
 
-      var closedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
     });
 
@@ -120,7 +120,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       modalOptions.template = 'viewOpenModalGettingStarted';
       $rootScope.$emit('open-modal', modalOptions);
 
-      var openedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var openedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(openedModal).to.exist;
     })
   });
@@ -133,7 +133,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
 
       $elScope.currentModalScope.defaultActions.close();
 
-      var closedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
     });
     it('close action should close the modal with a callback', function () {
@@ -144,7 +144,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       var callbackSpy = sinon.spy();
       $elScope.currentModalScope.defaultActions.close(callbackSpy);
 
-      var closedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
       expect(callbackSpy.calledOnce).to.equal(true);
     });
@@ -194,7 +194,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
 
       $elScope.currentModalScope.defaultActions.cancel();
 
-      var closedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
       expect(modalOptions.actions.cancel.calledOnce).to.equal(true);
     });
@@ -207,7 +207,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
 
       $elScope.currentModalScope.defaultActions.cancel();
 
-      var closedModal = $document.find('body')[0].querySelector('.modal-backdrop');
+      var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
     });
   });
