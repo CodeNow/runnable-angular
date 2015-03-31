@@ -268,12 +268,8 @@ function fetchContexts(pFetchUser, promisify) {
 function fetchSettings(
   $state,
   $q,
-  fetchSlackMembers,
-  fetchGitHubMembers,
-  fetchGitHubUser,
   pFetchUser,
   promisify,
-  keypather,
   integrationsCache
 ) {
 

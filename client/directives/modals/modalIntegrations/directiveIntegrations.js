@@ -4,7 +4,6 @@ require('app')
   .directive('modalIntegrations', integrations);
 
 function integrations(
-  $timeout,
   $rootScope,
   keypather,
   fetchSettings,
@@ -38,7 +37,7 @@ function integrations(
       fetchSettings()
         .then(function (settings) {
           data.settings = settings.models[0];
-          console.log(settings, data.settings.attrs.notifications.slack.apiToken);
+
           if (keypather.get(data, 'settings.attrs.notifications.slack.apiToken') &&
               keypather.get(data, 'settings.attrs.notifications.slack.githubUsernameToSlackIdMap')) {
             data.showSlack = true;
@@ -49,7 +48,6 @@ function integrations(
         .catch(errs.handler)
         .finally(function () {
           data.loading = false;
-          $timeout(angular.noop);
         });
 
       actions.verifySlack = function () {
@@ -58,7 +56,6 @@ function integrations(
           .catch(errs.handler)
           .finally(function () {
             $scope.data.verifying = false;
-            $timeout(angular.noop);
           });
       };
 
