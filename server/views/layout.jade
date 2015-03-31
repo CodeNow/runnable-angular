@@ -104,7 +104,7 @@ html(
 
   body(
     ng-class = "{minimize: dataApp.data.minimizeNav}"
-    ng-click = "dataApp.documentClickEventHandler($scope, this)"
+    ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )
     //
@@ -122,14 +122,17 @@ html(
       ng-if = "dataApp.data.loading"
       ng-include = "'spinner'"
     )
-
+    div(
+      modal-manager
+    )
+    div(
+      style = "display: none"
+      modal
+      modal-actions = "dataApp.data.modalError.actions"
+      modal-data = "dataApp.data.modalError.data"
+      modal-template = "viewModalError"
+      modal-open-flag = "dataApp.data.modalError.data.in"
+    )
     div(
       ui-view
     )
-  div(
-    style = "display: none"
-    modal
-    modal-actions = "dataApp.data.modalError.actions"
-    modal-data = "dataApp.data.modalError.data"
-    modal-template = "viewModalError"
-  )

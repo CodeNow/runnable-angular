@@ -279,7 +279,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('autoBundleDependencies', '', function () {
+  grunt.registerTask('autoBundleDependencies', 'generates index.js files that require all other files in the directory', function () {
     var done       = this.async();
     var clientPath = path.join(__dirname, 'client');
     async.series([
@@ -288,8 +288,7 @@ module.exports = function(grunt) {
       bundle('services'),
       bundle('filters'),
       bundle('directives'),
-      bundle('decorators'),
-      bundle('animations')
+      bundle('decorators')
     ], function () { done(); });
 
     function bundle (subDir) {

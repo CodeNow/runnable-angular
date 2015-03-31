@@ -23,8 +23,7 @@
         ng-if = "data.canUpload"
       )
       li.popover-list-item(
-        ng-click = "actions.createFile();\
-          $event.stopPropagation();"
+        ng-click = "actions.createFile()"
       )
         svg.iconnables.icons-file-tree
           use(
@@ -32,8 +31,7 @@
           )
         | New File
       li.popover-list-item(
-        ng-click = "actions.createFolder();\
-          $event.stopPropagation();"
+        ng-click = "actions.createFolder()"
       )
         svg.iconnables.icons-file-tree
           use(

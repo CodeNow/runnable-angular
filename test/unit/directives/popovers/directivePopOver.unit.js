@@ -137,16 +137,6 @@ describe('directivePopOver'.bold.underline.blue, function() {
         $scope.$digest();
         expect($scope.popOverActive, 'pop over is active').to.equal(true);
       });
-
-      it('should prevent propagation when clicked on the popover', function() {
-        var event;
-        window.helpers.click($elScope.popoverElement[0], function(_event){
-          event = _event;
-          event.stopPropagation = sinon.spy();
-        });
-        $scope.$digest();
-        expect(event.stopPropagation.calledOnce, 'stop propagation').to.equal(true);
-      });
     });
 
     describe('right click', function () {
