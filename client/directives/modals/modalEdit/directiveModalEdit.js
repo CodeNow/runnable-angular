@@ -106,10 +106,15 @@ function modalEdit(
         }
       };
 
-      $scope.getAllErrorsCount = function () {
+      $scope.getAllErrorsCount = function (withText) {
         var envErrors = keypather.get($scope, 'validation.env.errors.length') || 0;
         var dockerFileErrors = keypather.get($scope, 'dockerfile.validation.errors.length') || 0;
-        return envErrors + dockerFileErrors;
+
+        var result = envErrors + dockerFileErrors;
+        if (result > 0 && withText) {
+          result += ' error' + ((result > 1) ? 's' : '');
+        }
+        return result;
       };
       $scope.popoverBuildOptions = {
         data: {},

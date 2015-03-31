@@ -9,16 +9,13 @@ function ActivePanel (pageType, parent) {
 
   this.addTab = util.createGetter(by.css('.btn-add-tab'), this.panel);
 
-  //this.openItems = util.createGetter(by.repeater(), this.panel);
-
   this.currentContent = util.createGetter(by.css('div.active-panel.ace-runnable-dark:not(.ng-hide)'), this.panel);
 
   this.openTabs = util.createGetter(by.repeater('item in openItems.models'), this.panel);
 
   this.ace = util.createGetter(by.css('div.active-panel.ng-scope.ace-runnable-dark'), this.panel);
-  this.aceDiv = util.createGetterAll(by.css('div.ace_content'), this.panel);
-  this.activeAceDiv = util.createGetter(by.css('.active-panel.ace-runnable-dark:not(.ng-hide) div.ace_content'), this.panel);
-  this.inputElm = util.createGetterAll(by.css('textarea.ace_text-input'), this.panel);
+
+  this.activeAceDiv = util.createGetter(by.css('.active-panel.ace-runnable-dark:not(.ng-hide) .ace_editor'), this.panel);
 
   this.activeTab = util.createGetter(by.css('.tabs > .active'), this.panel);
 
@@ -43,16 +40,14 @@ function ActivePanel (pageType, parent) {
     return element.all(by.css('.tab-wrapper.active.dirty')).count() > 0;
   };
 
-  this.setActiveTab = function(text) {
-    var self = this;
-    this.tabTitle = text;
-    var tab = element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li > span', text));
-    tab.isPresent().then(function(displayed) {
-      if (displayed) {
-        return tab.click();
-      } else {
-        // This'll break when trying to open an unopened file
-        return self.openTab(text);
+  this.setActiveTab = function (text) {
+    var tab = element(by.cssContainingText('.tab-wrapper', text));
+    util.hasClass(tab, 'active').then(function (isActive) {
+      if (!isActive) {
+        tab.click();
+        browser.wait(function () {
+          return util.hasClass(tab, 'active');
+        });
       }
     });
   };
@@ -63,7 +58,7 @@ function ActivePanel (pageType, parent) {
     var self = this;
     this._getAceDiv().then(function(elem) {
       browser.actions().click(elem).perform();
-      return self._getInputElement();
+      return self._getInputElement(elem);
     }).then(function(elem) {
       return elem.sendKeys(contents);
     });
@@ -76,7 +71,7 @@ function ActivePanel (pageType, parent) {
     var self = this;
     this._getAceDiv().then(function(elem) {
       browser.actions().click(elem).perform();
-      return self._getInputElement();
+      return self._getInputElement(elem);
     }).then(function(elem) {
       elem.sendKeys(protractor.Key.ARROW_DOWN);
       return elem.sendKeys(contentToAdd + '\n');
@@ -87,7 +82,7 @@ function ActivePanel (pageType, parent) {
     var self = this;
     this._getAceDiv().then(function(elem) {
       browser.actions().click(elem).perform();
-      return self._getInputElement();
+      return self._getInputElement(elem);
     }).then(function(elem) {
       var cmd = util.getOSCommandKey();
       elem.sendKeys(protractor.Key.chord(cmd, "a"));
@@ -104,7 +99,7 @@ function ActivePanel (pageType, parent) {
   // Gets the actual contents of the file (without Ace's line numbers, etc)
   this.getFileContents = function () {
     return this._getAceDiv().then(function (elem) {
-      return elem.getText();
+      return elem.element(by.css('.ace_content')).getText();
     });
   };
 
@@ -122,9 +117,12 @@ function ActivePanel (pageType, parent) {
     return aceDivs;
   };
 
-  this._getInputElement = function () {
+  this._getInputElement = function (elem) {
+    if (!elem) {
+      elem = this._getAceDiv().get();
+    }
     // currently only works for file types
-    return this.inputElm.get(activeIdx);
+    return elem.element(by.css('textarea.ace_text-input'));
   };
 }
 
