@@ -116,17 +116,17 @@ html(
       ng-if = "dataApp.data.loading"
       ng-include = "'spinner'"
     )
-
+    div(
+      modal-manager
+    )
+    div(
+      style = "display: none"
+      modal
+      modal-actions = "dataApp.data.modalError.actions"
+      modal-data = "dataApp.data.modalError.data"
+      modal-template = "viewModalError"
+      modal-open-flag = "dataApp.data.modalError.data.in"
+    )
     div(
       ui-view
     )
-  //- hiding this for now…
-    - add this back in before we're done with env gs
-  //- div(
-  //-   modal
-  //-   modal-actions = "dataApp.data.modalError.actions"
-  //-   modal-data = "dataApp.data.modalError.data"
-  //-   modal-template = "viewModalError"
-  //-   style = "display: none"
-  //- )
-
