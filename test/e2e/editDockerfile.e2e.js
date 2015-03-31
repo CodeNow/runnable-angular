@@ -55,4 +55,65 @@ describe('edit dockerfile', users.doMultipleUsers(function (username) {
     expect(instance.modalEdit.activePanel.getFileContents()).toEqual(NEW_DOCKER_FILE_CONTENT);
     instance.modalEdit.closeModal();
   });
+
+  it('should show total errors for the dockerfile and envs ' + username, function () {
+    var instance = new InstancePage('RailsProject');
+    instance.get();
+    instance.openEditModal();
+    var instanceEdit = instance.modalEdit;
+
+    browser.wait(function () {
+      return instanceEdit.activePanel.getActiveTab().then(function (tabText) {
+        return tabText === 'Dockerfile';
+      });
+    });
+
+    instanceEdit.activePanel.writeToFile('asda');
+
+    // Expecting 'missing FROM' and invalid line
+    expect(instanceEdit.getErrorsCount('Dockerfile')).toEqual('2');
+
+    instanceEdit.openEnvs();
+
+    instanceEdit.activePanel.clearActiveFile();
+
+    instanceEdit.activePanel.writeToFile('asda');
+
+    // Envs should now have an error
+
+    expect(instanceEdit.getTotalErrorsCount()).toEqual('3 errors');
+
+    instanceEdit.activePanel.clearActiveFile();
+
+    instanceEdit.activePanel.writeToFile('a=b');
+
+    expect(instanceEdit.getTotalErrorsCount()).toEqual('2 errors');
+
+    instanceEdit.activePanel.openTab('Dockerfile');
+    instanceEdit.activePanel.clearActiveFile();
+
+    instanceEdit.activePanel.writeToFile(NEW_DOCKER_FILE_CONTENT);
+
+    instanceEdit.buildChanges();
+
+    // Removing until backend fixes key issue
+    browser.wait(function () {
+      return util.hasClass(instance.statusIcon, 'running');
+    });
+    instance.closeNotificationIfPresent();
+
+    instance.openEditModal();
+
+    browser.wait(function () {
+      return instance.modalEdit.activePanel.getActiveTab().then(function (tabText) {
+        return tabText === 'Dockerfile';
+      });
+    });
+    expect(instance.modalEdit.activePanel.getFileContents()).toEqual(NEW_DOCKER_FILE_CONTENT);
+
+    instanceEdit.openEnvs();
+    expect(instance.modalEdit.activePanel.getFileContents()).toEqual('a=b');
+
+    instance.modalEdit.closeModal();
+  });
 }));

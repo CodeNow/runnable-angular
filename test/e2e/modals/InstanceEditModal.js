@@ -23,6 +23,8 @@ function InstanceEditModal (instanceName) {
   this.buildOptions = util.createGetter(by.css('.green.btn-icon'), this.modalElem);
   this.buildWithoutCacheButton = util.createGetter(by.cssContainingText('.popover-list-item', 'Build without cache'));
 
+  this.environmentalVars = util.createGetter(by.cssContainingText('.file', 'environmental variables'));
+
   this.getErrorsCount = function (buttonText) {
     if (!buttonText) {
       buttonText = 'environmental variables';
@@ -45,6 +47,16 @@ function InstanceEditModal (instanceName) {
       return self.discard.get().isDisplayed();
     });
     self.discard.get().click();
+  };
+
+  this.openEnvs = function () {
+    var self = this;
+    this.environmentalVars.get().click();
+    browser.wait(function () {
+      return self.activePanel.getActiveTab().then(function (tabText) {
+        return tabText === 'Env Vars';
+      });
+    });
   };
 
   this.renameBox = function (newName) {
