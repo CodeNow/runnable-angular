@@ -48,8 +48,12 @@ function popOver(
         (function (popoverElementScope, popoverElement) {
           //Give the transition some time to finish!
           $timeout(function(){
-            popoverElement.remove();
-            popoverElementScope.$destroy();
+            if (popoverElement) {
+              popoverElement.remove();
+            }
+            if (popoverElementScope) {
+              popoverElementScope.$destroy();
+            }
           }, 500);
         }(popoverElementScope, popoverElement));
       };
