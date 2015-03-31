@@ -54,7 +54,7 @@ function ControllerInstanceHome(
       }, {location: 'replace'});
     } else {
       $scope.loading = false;
-      keypather.set($scope, 'data.in', true);
+      keypather.set($scope, 'modalOpenFlag', true);
     }
   }
 

@@ -53,7 +53,7 @@
         .toggle-group-title {{ ::commit.attrs.commit.message | limitToEllipsis:72 }}
         .toggle-group-detail.clearfix
           small.small {{ ::commit.attrs.author.login }}—{{ commit.attrs.commit.author.date | timeFrom }}
-          a.small.link.monospace(
+          a.small.link.link-text.monospace(
             ng-href = "{{ commit.attrs.html_url }}"
             //- we don't want to close the popover because they are clicking on an external link
             ng-click = "$event.stopPropagation()"
