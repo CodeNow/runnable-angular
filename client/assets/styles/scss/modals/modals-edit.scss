@@ -73,6 +73,7 @@
     }
 
     .repository-group-text {
+      margin: 0 6px;
       max-height: none;
     }
   }
@@ -95,27 +96,34 @@
   }
 
   .explorer {
-    padding: 6px 0; // overwrite non-modal explorer
+    padding: 0 0 6px; // overwrite non-modal explorer
 
-    &:first-child {
-      padding-top: 0;
+    &:last-child {
+      padding-top: 6px;
     }
   }
 
   // view overrides
   .views {
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
+    flex: 1 1 auto;
     height: auto;
+  }
 
-    @include media(xs) {
-      height: 100%;
-      width: 100%;
+  // files
+  .active-panel {
+    display: flex;
+    flex: 1 1 auto;
+
+    > div,
+    pre {
+      display: flex;
+      flex: 1 1 100%;
     }
   }
 
-  .logs {
-    flex: 1 0 auto;
+  // logs
+  .logs,
+  .terminal {
+    height: auto;
   }
 }
