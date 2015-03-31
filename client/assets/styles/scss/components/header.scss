@@ -1,11 +1,13 @@
 .header {
-  align-items: center;
   background: $purple;
-  display: flex;
   height: 60px;
-  justify-content: space-between;
-  padding: 0 6px;
+  padding: 6px;
   width: 100vw;
+
+  .header-container {
+    margin: 0 auto;
+    max-width: 960px;
+  }
 
   // logo
   .header-logo {
@@ -35,6 +37,7 @@
   // menu
   .btn-account {
     color: $white;
+    float: right;
     font-weight: 500;
     padding: 0 9px;
     text-align: left;
