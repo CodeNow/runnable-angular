@@ -287,10 +287,13 @@ function fetchSettings(
       });
     })
     .then(function (settings) {
-      integrationsCache[$state.params.userName] = {
-        settings: settings
-      };
-      return settings.models[0];
+      var userSettings = settings.models[0];
+      if (userSettings) {
+        integrationsCache[$state.params.userName] = {
+          settings: userSettings
+        };
+      }
+      return userSettings;
     });
   };
 }
