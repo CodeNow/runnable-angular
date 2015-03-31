@@ -7,7 +7,7 @@ var users = require('./helpers/users');
 var NEW_DOCKER_FILE_CONTENT = 'FROM rails\nRUN echo $(date)\nEXPOSE 3000\n# Add repository files to server\nADD ./RailsProject /RailsProject\nWORKDIR /RailsProject\nRUN bundle install\n# Command to start the app\nCMD rails server';
 
 describe('edit dockerfile', users.doMultipleUsers(function (username) {
-  it('should edit the dockerfile and builds the instance: ' + username, function() {
+  it('should edit the dockerfile and builds the instance: ' + username, function () {
 
     var instance = new InstancePage('RailsProject');
     instance.get();
@@ -19,6 +19,19 @@ describe('edit dockerfile', users.doMultipleUsers(function (username) {
         return tabText === 'Dockerfile';
       });
     });
+
+    instanceEdit.activePanel.clearActiveFile();
+
+    // Expecting 'missing FROM'
+    expect(instanceEdit.getErrorsCount('Dockerfile')).toEqual('1');
+
+    instanceEdit.activePanel.writeToFile('asda');
+
+    // Expecting 'missing FROM' and invalid line
+    expect(instanceEdit.getErrorsCount('Dockerfile')).toEqual('2');
+
+
+    expect(instanceEdit.getTotalErrorsCount()).toEqual('2 errors');
 
     instanceEdit.activePanel.clearActiveFile();
 
