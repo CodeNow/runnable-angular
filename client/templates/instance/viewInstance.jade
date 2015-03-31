@@ -1,12 +1,13 @@
 //- show if server build is being swapped out
   - orange when build is updating or has failed
   - green if build is successfully built
+//- Disabling until this section is finished
 .alert.in(
   ng-class = "{\
     green: dataInstance.data.showUpdatedMessage,\
     orange: dataInstance.data.showUpdatingMessage\
   }"
-  ng-show = "dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage"
+  ng-if = "false && dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage"
 )
   //- if successful, .green; if fail, .orange
   .btn.btn-xxs.btn-icon.btn-state.no-touching(
