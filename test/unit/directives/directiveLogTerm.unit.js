@@ -198,7 +198,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
     it('should display disconnect message when primus goes offline', function () {
       mockPrimus.emit('offline');
       $rootScope.$apply();
-      sinon.assert.calledWith(ctx.termMock.writeln, '☹ LOST CONNECTION - retrying ☹');
+      sinon.assert.calledWith(ctx.termMock.writeln, '☹ LOST CONNECTION - RETRYING ☹');
     });
   });
 });

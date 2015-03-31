@@ -15,7 +15,8 @@ function modalEdit(
   eventTracking,
   keypather,
   OpenItems,
-  promisify
+  promisify,
+  updateInstanceWithNewBuild
 ) {
   return {
     restrict: 'A',
@@ -49,43 +50,14 @@ function modalEdit(
           }, function (n) {
             if (!n) { return; }
             unwatch();
-            var buildObj = {
-              message: 'Manual build',
-              noCache: noCache
-            };
-            var build = $scope.build;
-            var instance = $scope.data.instance;
-            var opts = {};
-            if ($scope.state.env) {
-              opts.env = $scope.state.env;
-            }
-            if ($scope.state.name !== instance.attrs.name) {
-              opts.name = $scope.state.name;
-            }
-            eventTracking.triggeredBuild(false);
-            promisify(build, 'build')(buildObj)
-              .then(function (build) {
-                opts.build = build.id();
-                return promisify(instance, 'update')(opts);
-              }).then(function () {
-                $scope.building = false;
-                var defer = $q.defer();
-                $scope.actions.close(function () {
-                  defer.resolve();
-                });
-                return defer.promise;
-              })
-              .then(function () {
-                if (opts.name) {
-                  // We need a timeout so the modal has enough time to destroy itself before
-                  // we reroute
-                  $timeout(function () {
-                    return $state.go('instance.instance', {
-                      instanceName: opts.name
-                    });
-                  });
-                }
-              })
+            updateInstanceWithNewBuild(
+              $scope.data.instance,
+              $scope.build,
+              noCache,
+              $scope.state,
+              $scope,
+              $scope.actions
+            )
               .catch(function (err) {
                 errs.handler(err);
                 return resetBuild(true)
