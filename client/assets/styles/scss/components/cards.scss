@@ -35,52 +35,6 @@
     transition: none;
   }
 
-  // header
-  .card-header {
-    flex: 0 0 120px;
-    font-size: 16px;
-    text-align: center;
-
-    // anchor image/icon
-    .icons-server {
-      display: block;
-      height: 24px;
-      margin: 36px auto 6px;
-      width: 24px;
-    }
-  }
-
-  // body
-  .card-body {
-    flex: 1 1 auto;
-    margin-bottom: 21px;
-
-    &.btn {
-      border: 1px solid transparent;
-      height: auto;
-      margin: 0 12px 12px;
-      padding: 12px 0;
-      text-align: left;
-      transition: none;
-
-      &:hover {
-        background: $white;
-        border-color: $purple-lighter;
-      }
-
-      &:active {
-        background: $white;
-        border-color: currentColor;
-        color: $green;
-      }
-    }
-
-    .list-item {
-      height: 24px;
-      line-height: 24px;
-    }
-  }
-
   // list columns
   .list-col {
     margin: 0;
@@ -141,14 +95,65 @@
       top: -14px;
     }
   }
+}
 
-  // footer
-  .card-footer {
-    background: $gray-lightest;
-    border-top: 1px solid rgba($black,.1);
-    flex: 0 0 auto;
-    padding: 6px;
+// card layout
+// header
+.card-header {
+  flex: 0 0 120px;
+  font-size: 16px;
+  text-align: center;
+
+  // anchor image/icon
+  .icons-server {
+    display: block;
+    height: 24px;
+    margin: 36px auto 6px;
+    width: 24px;
   }
+}
+
+// body
+.card-body,
+.card-button {
+  flex: 1 1 auto;
+  margin-bottom: 21px;
+
+  .list-item {
+    height: 24px;
+    line-height: 24px;
+  }
+}
+
+// card body as button
+.card-button {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  height: auto;
+  margin: 0 12px 12px;
+  padding: 12px 0;
+  text-align: left;
+  transition: none;
+
+  &:hover {
+    background: $white;
+    border-color: $purple-lighter;
+  }
+
+  &:active {
+    background: $white;
+    border-color: currentColor;
+    color: $green;
+  }
+}
+
+// footer
+.card-footer {
+  background: $gray-lightest;
+  border-top: 1px solid rgba($black,.1);
+  flex: 0 0 auto;
+  padding: 6px;
 }
 
 // template
@@ -166,13 +171,6 @@
     border-color: $purple-lighter;
     color: $purple-light;
   }
-
-  // &.active .card-header {
-  //   background: $gray-lightest;
-  //   border-bottom: 1px solid rgba($black,.1);
-  //   flex: 0 0 36px;
-  //   line-height: 36px;
-  // }
 
   .icons-add {
     height: 90px;

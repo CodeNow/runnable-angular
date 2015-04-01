@@ -1,18 +1,23 @@
 // step 3—env setup
 .step-environment-setup {
 
+  // colors for card-button active state
+  .card-button:active {
+
+    .icons-check {
+      background: $green;
+    }
+
+    .small {
+      color: currentColor;
+    }
+  }
+
+  // list items
   .list-item {
-    color: $purple-light;
     font-size: 14px;
     margin: 0 auto 6px;
     padding: 0 30px;
-
-    &.active {
-
-      .icons-server {
-        color: $purple-light;
-      }
-    }
 
     &.active:not(.current) {
 
@@ -26,14 +31,13 @@
       pointer-events: none;
     }
 
-    .btn-badge {
-      float: left;
-      margin-right: 6px;
-    }
+  }
 
-    .icons-server {
-      color: $purple-lighter;
-    }
+  // link icon
+  .btn-badge {
+    color: currentColor;
+    float: left;
+    margin-right: 6px;
   }
 
   .icons-check {
