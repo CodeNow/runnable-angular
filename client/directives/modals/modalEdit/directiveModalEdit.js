@@ -115,7 +115,7 @@ function modalEdit(
             var url = otherInstance.containers.models[0].urls(configUserContentDomain)[0]
               .replace(/https?:\/\//, '')
               .replace(/:\d{0,5}/g, '');
-            $scope.$broadcast('eventPasteLinkedInstance', url);
+            $scope.$broadcast('eventPasteLinkedInstance', '\n' + '<HOST>=' + url + '\n');
           }
         }
       };

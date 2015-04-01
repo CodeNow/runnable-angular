@@ -247,7 +247,7 @@ describe('directiveModalEdit'.bold.underline.blue, function () {
     });
     it('should paste the url for another instance through the scope', function (done) {
       $elScope.$on('eventPasteLinkedInstance', function (event, url) {
-        expect(url, 'url').to.equal('nathan-web-codenow.runnableapp.com');
+        expect(url, 'url').to.equal('\n<HOST>=nathan-web-codenow.runnableapp.com\n');
         done();
       });
 
