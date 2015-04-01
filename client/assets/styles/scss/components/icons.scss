@@ -133,6 +133,12 @@
     border-color: $orange-darker;
   }
 
+  &.failed,
+  .failed > & {
+    background: $red2;
+    border-color: $red2-dark;
+  }
+
   &.in-progress::before {
     animation: in-progress 2s infinite ease;
     background: $white;

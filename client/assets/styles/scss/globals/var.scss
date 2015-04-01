@@ -29,6 +29,10 @@ $orange-dark: darken($orange,9%);
 $orange-darker: darken($orange,12%);
 
 $red: #f00;
+$red-dark: darken($red,15%);
+
+$red2: #ED5C2F;
+$red2-dark: desaturate(darken($red,5),12);
 
 $blue: #2ab0f6;
 $blue-dark: darken($blue,6%);
