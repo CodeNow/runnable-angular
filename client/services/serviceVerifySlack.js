@@ -17,7 +17,9 @@ function verifyChatIntegration (
 
     var username = $state.params.userName;
 
-    if (integrationsCache[username].github) {
+    var settingsToken = keypather.get(settings, 'attrs.notifications.slack.apiToken');
+    var cacheToken = keypather.get(integrationsCache, username + 'settings.attrs.notifications.slack.apiToken');
+    if (settingsToken === cacheToken && integrationsCache[username].github) {
       return $q.when(integrationsCache[username]);
     }
 
