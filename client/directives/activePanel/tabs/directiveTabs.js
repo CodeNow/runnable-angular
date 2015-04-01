@@ -16,6 +16,7 @@ function tabs(
     templateUrl: 'viewTabs',
     scope: {
       openItems: '=',
+      instance: '=',
       showAddButtons: '='
     },
     link: function ($scope) {

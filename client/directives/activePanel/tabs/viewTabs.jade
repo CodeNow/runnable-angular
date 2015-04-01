@@ -44,9 +44,10 @@ ul.tabs
 //- apply [disabled] attribute when server is not running EXCEPT on build logs tab
 button.btn.btn-sm.white.btn-icon.btn-add-tab(
   ng-class = "{active: popoverAddTab.data.show}"
-  ng-if = "showAddButtons"
+  ng-disabled = "!instance.containers.models[0].running()"
   pop-over
   pop-over-actions = "popoverAddTab.actions"
+  ng-if = "showAddButtons"
   pop-over-active = "popoverAddTab.data.show"
   pop-over-data = "popoverAddTab.data"
   pop-over-options = "{\"left\":-143,\"top\":45}"
