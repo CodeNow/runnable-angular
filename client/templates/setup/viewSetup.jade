@@ -34,7 +34,7 @@
   ng-if = "state.step > 1"
 )
   .footer-container
-    button.btn.gray(
+    button.btn.gray.btn-back(
       ng-click = "state.step = state.step - 1"
     )
       svg.iconnables.icons-arrow-back
@@ -42,7 +42,8 @@
           xlink:href = "#icons-arrow-back"
         )
       | Back
-    button.btn.green(
+    p.p 6 servers selected
+    button.btn.green.btn-forward(
       ng-click = "state.step = state.step + 1"
       ng-disabled = "!state.repositorySelected"
     ) Next

@@ -45,13 +45,24 @@
   width: 100vw;
 
   // next
-  .green {
+  .btn-forward {
     float: right;
   }
 
   // back
-  .gray {
+  .btn-back {
     float: left;
+  }
+
+  // status
+  .p {
+    color: $gray-light;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 18px;
   }
 
   // icons
