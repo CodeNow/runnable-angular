@@ -15,12 +15,12 @@ function verifyChatIntegration (
   // Only Slack for now, will expand when customers request it
   return function (settings, chatClient) {
 
-    var username = $state.params.userName;
+    var orgName = $state.params.userName;
 
-    var settingsToken = keypather.get(settings, 'attrs.notifications.slack.apiToken');
-    var cacheToken = keypather.get(integrationsCache, username + 'settings.attrs.notifications.slack.apiToken');
-    if (settingsToken === cacheToken && integrationsCache[username].github) {
-      return $q.when(integrationsCache[username]);
+    var settingsToken = keypather.get(settings, 'attrs.notifications.' + chatClient + '.apiToken');
+    var cacheToken = keypather.get(integrationsCache, orgName + '.settings.attrs.notifications.' + chatClient + '.apiToken');
+    if (settingsToken === cacheToken && integrationsCache[orgName].github) {
+      return $q.when(integrationsCache[orgName]);
     }
 
     var mData = {};
@@ -33,8 +33,11 @@ function verifyChatIntegration (
     .then(function(_members) {
       members = _members;
       // Fetch actual names
+      // console.log('members.github', members.github);
       var memberFetchPromises = members.github.map(function (user) {
+        // console.log('user', user);
         return fetchGitHubUser(user.login).then(function (ghUser) {
+          // console.log('ghUser', ghUser);
           members.chat.forEach(function (member) {
 
             if (member.real_name && member.real_name.toLowerCase() === keypather.get(ghUser, 'name.toLowerCase()')) {
@@ -64,10 +67,10 @@ function verifyChatIntegration (
         return arr;
       }, []);
 
-      integrationsCache[username].github = filteredGhMembers;
-      integrationsCache[username].slack = members.chat;
+      integrationsCache[orgName].github = filteredGhMembers;
+      integrationsCache[orgName].slack = members.chat;
 
-      return integrationsCache[username];
+      return integrationsCache[orgName];
     });
   };
 }
