@@ -7,7 +7,7 @@
     green: dataInstance.data.showUpdatedMessage,\
     orange: dataInstance.data.showUpdatingMessage\
   }"
-  ng-if = "false && dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage"
+  ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) && dataInstance.data.userIsOrg()"
 )
   //- if successful, .green; if fail, .orange
   .btn.btn-xxs.btn-icon.btn-state.no-touching(
@@ -55,6 +55,7 @@
   h4.h4 Updating {{ dataInstance.data.instance.attrs.name }}
   a(
     target = "_blank"
+    ng-if = "dataInstance.data.showUpdatedMessage"
   ) {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
     a.link(
       ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"
