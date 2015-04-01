@@ -91,7 +91,8 @@ div(
 )
   p.p.monospace Having build problems?
   .btn-container
-    button.btn.white(
+    button.btn(
+      ng-class = "{white: !highlightRebuildWithoutCache, orange: highlightRebuildWithoutCache}"
       ng-click = "actions.buildWithoutCache()"
     ) Rebuild w/out cache
     button.btn.orange(

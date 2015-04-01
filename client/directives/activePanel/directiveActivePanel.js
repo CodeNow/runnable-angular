@@ -49,6 +49,11 @@ function activePanel(
         showBuildFailurePrompt = newVal;
       });
 
+      $scope.highlightRebuildWithoutCache = false;
+      $scope.$watch('instance.contextVersion.attrs.build.triggeredAction.manual', function (newVal) {
+        $scope.highlightRebuildWithoutCache = newVal;
+      });
+
       $scope.showBuildFailurePrompt = function () {
         var activeHistory = $scope.openItems.activeHistory.models;
         var currentPanel = activeHistory[activeHistory.length - 1];
