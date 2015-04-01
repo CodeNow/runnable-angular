@@ -48,7 +48,6 @@ function ControllerInstance(
   };
 
   data.userIsOrg = function () {
-    console.log($scope.user.oauthName(), $state.params.userName);
     return $scope.user.oauthName() !== $state.params.userName;
   };
 
