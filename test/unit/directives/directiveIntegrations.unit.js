@@ -23,7 +23,7 @@ var mockSlack = [{
   }];
 var mockGithub = ['jeb'];
 
-describe.only('directiveIntegrations', function () {
+describe('directiveIntegrations', function () {
   var ctx;
   function injectSetupCompile (mockSettings) {
     ctx = {};
