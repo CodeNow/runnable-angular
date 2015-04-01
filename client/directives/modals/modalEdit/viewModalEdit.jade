@@ -66,18 +66,22 @@
         //- no files or folders can be added to this file-tree
         //- these files cannot be renamed or deleted
         ul.file-tree
-         li.file
+         li.file(
+           ng-class = "{active: buildStream.state.active}"
+         )
            a(
-             ng-click = "openItems.addBuildStream()"
+             ng-click = "buildStream = openItems.addBuildStream()"
            )
              svg.iconnables.filetypes.icons-logs
                use(
                  xlink:href = "#icons-logs"
                )
              span.item-name build logs
-         li.file
+         li.file(
+           ng-class = "{active: envVars.state.active}"
+         )
            a(
-             ng-click = "openItems.addEnvVars()"
+             ng-click = "envVars = openItems.addEnvVars()"
            )
              svg.iconnables.filetypes.icons-file
                use(
