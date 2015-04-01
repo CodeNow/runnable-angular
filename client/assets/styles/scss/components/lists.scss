@@ -187,15 +187,21 @@
 
 // nested
 .list-nested {
-  border-top: 1px solid rgba($purple-light,.2);
   cursor: default;
-  margin-top: 9px;
-  padding-top: 9px;
+  margin: 0 -15px;
+  padding: 0 15px;
 
   .list-item {
     font-size: 15px;
     height: 36px;
     line-height: 36px;
+
+    &.small {
+      border-top: 1px solid rgba($purple-light,.2);
+      font-size: 13px;
+      margin-top: 6px;
+      padding-top: 3px;
+    }
 
     // anchor
     > .iconnables {

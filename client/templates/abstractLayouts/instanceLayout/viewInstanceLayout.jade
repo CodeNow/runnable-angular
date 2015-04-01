@@ -6,10 +6,11 @@ header.header
     //- h2.h2 Environment Setup
 
     //- menu
-    button.btn.btn-account(
-      ng-class = "{active: popoverAccountMenu.data.show}"
-      toggle-pop-over
-      toggle-pop-over-model = "popoverAccountMenu.data.show"
+    //- ng-class = "{active: popoverAccountMenu.data.show}"
+    //- toggle-pop-over
+    //- toggle-pop-over-model = "popoverAccountMenu.data.show"
+    a.btn.btn-account(
+      href = "/runnabro/new"
     )
       img.gravatar(
         height = "24"
