@@ -93,6 +93,7 @@ form.modal-dialog.modal-integrations(
         )
           .spinner-wrapper.spinner-sm.spinner-white.in(
             ng-include = "'spinner'"
+            ng-show = "data.verifying"
           )
           | Verify
         button.btn.btn-sm.white(
