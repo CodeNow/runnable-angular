@@ -5,8 +5,10 @@
   .arrow.white
   .popover-content
     ul.popover-list
+      //- Stop Propagation on clicks because ng-file-select creates a fake input, then triggers a click on that input.
       li.list-item.popover-list-item(
         ng-if = "data.canUpload"
+        ng-click = "$event.stopPropagation()"
       )
         svg.iconnables.icons-file-tree
           use(
