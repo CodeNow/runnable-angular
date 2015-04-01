@@ -108,6 +108,7 @@ function modalEdit(
       $scope.popoverLinkServers = {
         data: {
           show: false,
+          guide: true,
           instanceData: $scope.data
         },
         actions: {

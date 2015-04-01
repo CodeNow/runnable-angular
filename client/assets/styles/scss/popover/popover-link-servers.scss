@@ -16,6 +16,10 @@
       color: $gray-darker;
     }
 
+    &.small {
+      pointer-events: auto; // for button events in .small
+    }
+
     + .popover-list-item {
       padding-right: 54px;
     }
