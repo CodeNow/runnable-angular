@@ -15,20 +15,18 @@
 
   // list items
   .list-item {
-    font-size: 14px;
+    font-size: 15px;
     margin: 0 auto 6px;
     padding: 0 30px;
 
-    &.active:not(.current) {
-
-      .icons-check {
-        display: block;
-      }
-    }
-
     &.small {
       color: $purple-lighter;
+      font-size: 13px;
       pointer-events: none;
+    }
+
+    .icons-check {
+      display: block;
     }
   }
 

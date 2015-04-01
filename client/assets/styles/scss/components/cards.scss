@@ -10,14 +10,19 @@
   position: relative;
   transition: none;
 
-  &:hover:not(.disabled),
-  &:active:not(.disabled),
-  &.active {
+  &:hover:not(.disabled) {
     background: $white;
 
     &:not(.card-loading) {
       cursor: pointer;
     }
+  }
+
+  &:active:not(.disabled),
+  &.active {
+    background: $white;
+    border-color: currentColor;
+    color: $green;
   }
 
   &.focus {
@@ -90,8 +95,8 @@
 // card layout
 // header
 .card-header {
-  flex: 0 0 120px;
-  font-size: 16px;
+  flex: 0 0 108px;
+  font-size: 18px;
   text-align: center;
 
   // anchor image/icon
@@ -108,6 +113,13 @@
 .card-button {
   flex: 1 1 auto;
   margin-bottom: 21px;
+
+  &.empty {
+    align-items: center;
+    display: flex;
+    font-style: italic;
+    justify-content: center;
+  }
 
   .list-item {
     height: 24px;
@@ -172,6 +184,7 @@
 .card-loading {
   cursor: progress;
   font-size: 18px;
+  font-style: italic;
   justify-content: center;
   text-align: center;
 

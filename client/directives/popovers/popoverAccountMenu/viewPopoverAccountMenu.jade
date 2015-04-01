@@ -32,16 +32,16 @@
       ng-if = "data.isMainPage"
     )
       li.list-item.popover-list-item(
-        ng-if = "data.showIntegrations"
         modal
         modal-actions = "actions.actionsModalIntegrations"
         modal-data = "data.dataModalIntegrations"
         modal-template = "viewOpenModalIntegrations"
+        ng-if = "data.showIntegrations"
       )
         | Integrations
       li.list-item.popover-list-item(
-        ng-if = "data.inDev"
         ng-click = "actions.clearAllUserOptions();"
+        ng-if = "data.inDev"
       ) Reset Coachmarks
       li.list-item.popover-list-item
         a.list-link(
