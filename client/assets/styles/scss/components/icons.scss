@@ -135,8 +135,8 @@
 
   &.failed,
   .failed > & {
-    background: $red2;
-    border-color: $red2-dark;
+    background: $red;
+    border-color: $red-dark;
   }
 
   &.in-progress::before {
