@@ -5,6 +5,7 @@ li.folder(
 )
 
   a(
+    ng-class = "{ 'no-touching': isRootDir}"
     ng-click = "dir.state.open = (!!showRepoFolder) || !dir.state.open"
     pop-over
     pop-over-actions = "popoverFileExplorerFolder.actions"
