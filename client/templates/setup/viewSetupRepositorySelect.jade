@@ -180,7 +180,10 @@
                 xlink:href = "#icons-redis"
               )
             | Redis
-            button.btn.btn-xxs.purple Shared
+            button.btn.btn-xxs.purple(
+              tooltip = "Shared with api and mavis"
+              tooltip-options = "{\"class\":\"bottom\",\"left\":0,\"top\":18}"
+            ) Shared
             button.btn.btn-xs.btn-icon.btn-check(
               ng-class = "{active: data.toggleRedis}"
               ng-click = "\
