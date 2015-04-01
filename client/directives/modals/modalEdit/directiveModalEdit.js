@@ -8,11 +8,9 @@ require('app')
  */
 function modalEdit(
   $q,
-  $state,
-  $timeout,
+  $rootScope,
   configUserContentDomain,
   errs,
-  eventTracking,
   keypather,
   OpenItems,
   promisify,
@@ -45,6 +43,7 @@ function modalEdit(
         buildServer: function (noCache) {
           if ($scope.building) { return; }
           $scope.building = true;
+          keypather.set($rootScope, 'dataApp.data.loading', true);
           var unwatch = $scope.$watch(function () {
             return !keypather.get($scope, 'build.state.dirty')  && $scope.openItems.isClean();
           }, function (n) {
@@ -58,6 +57,9 @@ function modalEdit(
               $scope,
               $scope.actions
             )
+              .then(function () {
+                keypather.set($rootScope, 'dataApp.data.loading', false);
+              })
               .catch(function (err) {
                 errs.handler(err);
                 return resetBuild(true)
@@ -72,6 +74,7 @@ function modalEdit(
                   })
                   .then(function () {
                     $scope.building = false;
+                    keypather.set($rootScope, 'dataApp.data.loading', false);
                   });
               });
           });

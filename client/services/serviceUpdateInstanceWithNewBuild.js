@@ -15,7 +15,7 @@ function updateInstanceWithNewBuild(
   eventTracking,
   promisify
 ) {
-  return function (instance, build, noCache, instanceUpdateOpts, buildingFlagParent, actions) {
+  return function (instance, build, noCache, instanceUpdateOpts, spinnerParent, actions) {
     var buildObj = {
       message: 'Manual build',
       noCache: noCache
@@ -33,7 +33,7 @@ function updateInstanceWithNewBuild(
         opts.build = build.id();
         return promisify(instance, 'update')(opts);
       }).then(function () {
-        buildingFlagParent.building = false;
+        spinnerParent.building = false;
         if (actions) {
           var defer = $q.defer();
           actions.close(function () {
