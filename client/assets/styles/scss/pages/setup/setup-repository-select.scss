@@ -56,14 +56,37 @@
     }
 
     // no active state on .active
-    &.active:active {
-      border-color: $purple-lighter;
-      color: $purple-light;
+    // hide updated X ago text
+    &.active {
+      line-height: 39px;
 
+      &:active {
+        border-color: $purple-lighter;
+        color: $purple-light;
+
+        .small {
+          color: $purple-lighter;
+        }
+      }
+
+      // updated ago text
+      > .small {
+        display: none;
+      }
+
+      // dependencies label
       .small {
-        color: $purple-lighter;
+        font-size: 13px;
+        height: 24px;
+        line-height: 24px;
       }
     }
+  }
+
+  // shared button
+  .btn-xxs {
+    margin-left: 6px;
+    top: -1px;
   }
 
   .small {

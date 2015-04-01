@@ -44,6 +44,7 @@
           ng-click = "$event.stopPropagation();"
           ng-if = "data.toggleApi"
         )
+          li.list-item.small Dependencies
           li.list-item
             svg.iconnables.icons-mongo
               use(
@@ -108,6 +109,7 @@
           ng-click = "$event.stopPropagation();"
           ng-if = "data.toggleMavis"
         )
+          li.list-item.small Dependencies
           li.list-item
             svg.iconnables.icons-redis
               use(
@@ -149,12 +151,14 @@
           ng-click = "$event.stopPropagation();"
           ng-if = "data.toggleRunnableAngular"
         )
+          li.list-item.small Dependencies
           li.list-item
             svg.iconnables.icons-mongo
               use(
                 xlink:href = "#icons-mongo"
               )
             | MongoDB
+            button.btn.btn-xxs.purple Shared
             button.btn.btn-xs.btn-icon.btn-check(
               ng-class = "{active: data.toggleMongo}"
               ng-click = "\
@@ -176,6 +180,7 @@
                 xlink:href = "#icons-redis"
               )
             | Redis
+            button.btn.btn-xxs.purple Shared
             button.btn.btn-xs.btn-icon.btn-check(
               ng-class = "{active: data.toggleRedis}"
               ng-click = "\
@@ -191,140 +196,3 @@
                 use(
                   xlink:href = "#icons-check"
                 )
-
-      //- <label> [for] and corresponding <input> [id] must match
-      //- input.input-checkbox(
-      //-   id = "checkbox-api"
-      //-   ng-model = "data.checkboxModel"
-      //-   type = "checkbox"
-      //- )
-      //- label.list-item.label.label-checkbox(
-      //-   for = "checkbox-api"
-      //-   ng-class = "{active: data.checkboxModel}"
-      //- ) api
-      //-   small.small Updated an hour ago
-      //-   button.btn.btn-xs.btn-icon
-      //-     svg.iconnables.icons-add
-      //-       use(
-      //-         xlink:href = "#icons-add"
-      //-       )
-      //-     svg.iconnables.icons-check
-      //-       use(
-      //-         xlink:href = "#icons-check"
-      //-       )
-        //- ul.list.list-nested(
-        //-   ng-if = "data.checkboxModel"
-        //- )
-        //-   li.list-item.small
-        //-     strong api
-        //-     | #{''} dependencies
-        //-   li.list-item MongoDB
-        //-     button.btn.btn-xs.btn-icon
-        //-       svg.iconnables.icons-add
-        //-         use(
-        //-           xlink:href = "#icons-add"
-        //-         )
-        //-       svg.iconnables.icons-check
-        //-         use(
-        //-           xlink:href = "#icons-check"
-        //-         )
-        //-   li.list-item Redis
-        //-     button.btn.btn-xs.btn-icon
-        //-       svg.iconnables.icons-add
-        //-         use(
-        //-           xlink:href = "#icons-add"
-        //-         )
-        //-       svg.iconnables.icons-check
-        //-         use(
-        //-           xlink:href = "#icons-check"
-        //-         )
-      //- input.input-checkbox(
-      //-   id = "checkbox-runnable-angular"
-      //-   type = "checkbox"
-      //- )
-      //- label.list-item.label.label-checkbox(
-      //-   for = "checkbox-runnable-angular"
-      //- )  runnable-angular
-      //-   small.small Updated an 4 hours ago
-      //-   button.btn.btn-xs.btn-icon
-      //-     svg.iconnables.icons-add
-      //-       use(
-      //-         xlink:href = "#icons-add"
-      //-       )
-      //-     svg.iconnables.icons-check
-      //-       use(
-      //-         xlink:href = "#icons-check"
-      //-       )
-      //- input.input-checkbox(
-      //-   id = "checkbox-orchestratedotcom"
-      //-   type = "checkbox"
-      //- )
-      //- label.list-item.label.label-checkbox(
-      //-   for = "checkbox-orchestratedotcom"
-      //- )  orchestratedotcom
-      //-   small.small Updated an 17 hours ago
-      //-   button.btn.btn-xs.btn-icon
-      //-     svg.iconnables.icons-add
-      //-       use(
-      //-         xlink:href = "#icons-add"
-      //-       )
-      //-     svg.iconnables.icons-check
-      //-       use(
-      //-         xlink:href = "#icons-check"
-      //-       )
-      //- input.input-checkbox(
-      //-   id = "checkbox-kronos"
-      //-   type = "checkbox"
-      //- )
-      //- label.list-item.label.label-checkbox(
-      //-   for = "checkbox-kronos"
-      //- )  kronos
-      //-   small.small Updated an 3 days ago
-      //-   button.btn.btn-xs.btn-icon
-      //-     svg.iconnables.icons-add
-      //-       use(
-      //-         xlink:href = "#icons-add"
-      //-       )
-      //-     svg.iconnables.icons-check
-      //-       use(
-      //-         xlink:href = "#icons-check"
-      //-       )
-      //- input.input-checkbox(
-      //-   id = "checkbox-mavis"
-      //-   type = "checkbox"
-      //- )
-      //- label.list-item.label.label-checkbox(
-      //-   for = "checkbox-mavis"
-      //- )  mavis
-      //-   small.small Updated an 3 days ago
-      //-   button.btn.btn-xs.btn-icon
-      //-     svg.iconnables.icons-add
-      //-       use(
-      //-         xlink:href = "#icons-add"
-      //-       )
-      //-     svg.iconnables.icons-check
-      //-       use(
-      //-         xlink:href = "#icons-check"
-      //-       )
-      //- input.input-checkbox(
-      //-   id = "checkbox-devops-scripts"
-      //-   type = "checkbox"
-      //- )
-      //- label.list-item.label.label-checkbox(
-      //-   for = "checkbox-devops-scripts"
-      //- )  devops-scripts
-      //-   small.small Updated an 3 days ago
-      //-   button.btn.btn-xs.btn-icon
-      //-     svg.iconnables.icons-add
-      //-       use(
-      //-         xlink:href = "#icons-add"
-      //-       )
-      //-     svg.iconnables.icons-check
-      //-       use(
-      //-         xlink:href = "#icons-check"
-      //-       )
-//- .setup-footer
-//-   button.btn.green(
-//-     ng-click = "state.step = 2"
-//-     ng-disabled = "!state.repositorySelected"
-//-   ) Add Server(s)
