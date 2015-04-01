@@ -67,6 +67,12 @@
         background: $white;
         border-color: $purple-lighter;
       }
+
+      &:active {
+        background: $white;
+        border-color: currentColor;
+        color: $green;
+      }
     }
 
     .list-item {
