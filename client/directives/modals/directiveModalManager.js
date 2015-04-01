@@ -94,7 +94,7 @@ function modalManager(
   };
 }
 
-var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox'];
+var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox', 'viewModalEnvironmentVariables'];
 function checkTemplate(template) {
   return (genericModals.indexOf(template) === -1) ? template : 'viewOpenModalGeneric';
 }
