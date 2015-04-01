@@ -26,14 +26,12 @@ function fileTreeDir(
       openItems: '=',
       readOnly: '=',
       editExplorer: '=',
-      showRepoFolder: '='
+      showRepoFolder: '=',
+      isRootDir: '=?'
     },
     templateUrl: 'viewFileTreeDir',
     link: function ($scope, element, attrs) {
 
-      if (attrs.isRootDir) {
-        $scope.isRootDir = true;
-      }
       var actions = $scope.actions = {};
       $scope.data = {};
       var inputElement = element[0].querySelector('input.tree-input');
