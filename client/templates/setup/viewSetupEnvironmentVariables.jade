@@ -3,19 +3,19 @@
   p.p Your servers can communicate via environment variables.
 
 .setup-body
-  .card.load(
-    modal
-    modal-actions = "actions.actionsModalEnvironmentVariables"
-    modal-data = "data.dataModalEnvironmentVariables"
-    modal-template = "viewModalEnvironmentVariables"
-  )
+  .card.load.disabled
     h2.card-header
       svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
       | api
-    .card-body
+    .card-body.btn.clearfix(
+      modal
+      modal-actions = "actions.actionsModalEnvironmentVariables"
+      modal-data = "data.dataModalEnvironmentVariables"
+      modal-template = "viewModalEnvironmentVariables"
+    )
       ul.list
         li.list-item.small Linked Servers
         li.list-item.active
@@ -85,15 +85,14 @@
               )
           | runnable-angular
 
-    button.btn.btn-sm.purple Configure
-  .card.load
+  .card.load.disabled
     h2.card-header
       svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
       | mavis
-    .card-body.clearfix
+    .card-body.btn.clearfix
       ul.list
         li.list-item.small Linked Servers
         li.list-item
@@ -162,16 +161,15 @@
                 xlink:href = "#icons-check"
               )
           | runnable-angular
-    button.btn.btn-sm.purple Configure
 
-  .card.load
+  .card.load.disabled
     h2.card-header
       svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
       | runnable-angular
-    .card-body.clearfix
+    .card-body.btn.clearfix
       ul.list
         li.list-item.small Linked Servers
         li.list-item.active
@@ -240,10 +238,3 @@
                 xlink:href = "#icons-check"
               )
           | redis
-    button.btn.btn-sm.purple Configure
-
-.setup-footer
-  button.btn.white(
-    ng-click = "state.step = 2"
-  ) Back
-  button.btn.green #done

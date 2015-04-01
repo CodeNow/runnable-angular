@@ -55,10 +55,23 @@
     flex: 1 1 auto;
     margin-bottom: 21px;
 
+    &.btn {
+      border: 1px solid transparent;
+      height: auto;
+      margin: 0 12px 12px;
+      padding: 12px 0;
+      text-align: left;
+      transition: none;
+
+      &:hover {
+        background: $white;
+        border-color: $purple-lighter;
+      }
+    }
+
     .list-item {
       height: 24px;
       line-height: 24px;
-
     }
   }
 

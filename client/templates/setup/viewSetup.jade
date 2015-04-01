@@ -17,17 +17,17 @@
 )
 
 //- step 3
-  - configuration for server stack and their dependency servers
-.setup-container.step-configure-servers.card-grid(
+  - setup env variables for all servers
+.setup-container.step-environment-setup.card-grid(
   ng-if = "state.step === 3"
-  ng-include= "'viewSetupServers'"
+  ng-include = "'viewSetupEnvironmentVariables'"
 )
 
 //- step 4
-  - setup env variables for all servers
-.setup-container.step-environment-setup.card-grid(
+  - configuration for server stack and their dependency servers
+.setup-container.step-configure-servers.card-grid(
   ng-if = "state.step === 4"
-  ng-include = "'viewSetupEnvironmentVariables'"
+  ng-include= "'viewSetupServers'"
 )
 
 .setup-footer(
@@ -42,7 +42,6 @@
           xlink:href = "#icons-arrow-back"
         )
       | Back
-    //- step 2 (repository select)
     button.btn.green(
       ng-click = "state.step = state.step + 1"
       ng-disabled = "!state.repositorySelected"
