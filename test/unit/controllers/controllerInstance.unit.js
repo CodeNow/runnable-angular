@@ -50,6 +50,11 @@ describe('controllerInstance'.bold.underline.blue, function () {
           }
         }
       }));
+      $provide.factory('fetchSettings', function ($q) {
+        return function () {
+          return $q.when({});
+        };
+      });
     });
     angular.mock.inject(function (
       _async_,
