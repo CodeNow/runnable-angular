@@ -40,22 +40,9 @@ function envVars(
         editor.focus();
       };
 
-      // Watch the current model for envs
-      var unwatchCurrentModel = $scope.$watch('currentModel.env', function (env) {
-        if (!Array.isArray(env)) {
-          return;
-        }
-        // If we have some, add them to the screen
-        $scope.environmentalVars = env.reduce(function (environmentalVars, env) {
-          return environmentalVars + env + '\n';
-        }, '');
-      });
-
       function updateEnvs(newEnv, oldEnv) {
-        // Since the user has inputed text, we don't need to listen to the current model anymore
-        unwatchCurrentModel();
         // If the envs haven't changed, (also takes care of first null/null occurrence
-        if (newEnv === oldEnv) { return; }
+        if (!newEnv) { return; }
 
         $scope.validation = validateEnvVars(newEnv);
         if (keypather.get($scope, 'validation.errors.length')) {
@@ -71,17 +58,37 @@ function envVars(
           session.clearAnnotations();
         }
         // Save them to the state model
-        keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
-          return v.length;
-        }));
+        if (newEnv !== oldEnv) {
+          keypather.set($scope, 'stateModel.env', newEnv.split('\n').filter(function (v) {
+            return v.length;
+          }));
+        }
       }
 
       // When the envs on the screen change
-      var unwatchScreenEnvs = $scope.$watch('environmentalVars', updateEnvs);
+      $scope.$watch('environmentalVars', updateEnvs);
 
+      if (keypather.get($scope, 'stateModel.env')) {
+        unwatchCurrentModel = angular.noop();
+        var env = keypather.get($scope, 'stateModel.env');
+        // If we have some, add them to the screen
+        $scope.environmentalVars = env.reduce(function (environmentalVars, env) {
+          return environmentalVars + env + '\n';
+        }, '');
+      } else {
+        // Watch the current model for envs
+        var unwatchCurrentModel = $scope.$watch('currentModel.env', function (env) {
+          if (!Array.isArray(env)) {
+            return;
+          }
+          unwatchCurrentModel();
+          // If we have some, add them to the screen
+          $scope.environmentalVars = env.reduce(function (environmentalVars, env) {
+            return environmentalVars + env + '\n';
+          }, '');
+        });
+      }
       $scope.$on('$destroy', function () {
-        unwatchCurrentModel();
-        unwatchScreenEnvs();
         editor.session.$stopWorker();
         editor.destroy();
       });
