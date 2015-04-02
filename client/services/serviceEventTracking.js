@@ -104,7 +104,7 @@ function EventTracking (
  * Intercom and Mixpanel user identification
  * @throws Error
  * @param {Object} user - User Model instance
- * @return null
+ * @return this
  */
 EventTracking.prototype.boot = function (user) {
   if (this._user) { return this; }
@@ -145,7 +145,7 @@ EventTracking.prototype.boot = function (user) {
  *   - keys
    *   - triggeredBuild: Boolean
    *   - slectedCommit: Object (ACV Model)
- * @return null
+ * @return this
  */
 EventTracking.prototype.toggledCommit = function (data) {
   var eventName = 'toggled-commit';
@@ -163,7 +163,7 @@ EventTracking.prototype.toggledCommit = function (data) {
  *   - intercom
  *   - mixpanel
  * @param {Boolean} cache - build triggered without cache
- * @return null
+ * @return this
  */
 EventTracking.prototype.triggeredBuild = function (cache) {
   var eventName = 'triggered-build';
@@ -179,7 +179,7 @@ EventTracking.prototype.triggeredBuild = function (cache) {
  * Record user visit to states
  * Reports to:
  *   - mixpanel
- * @return null
+ * @return this
  */
 EventTracking.prototype.visitedState = function () {
   var eventName = 'visited-state';
@@ -193,7 +193,7 @@ EventTracking.prototype.visitedState = function () {
 /**
  * Intercom JS SDK API update method wrapper
  * Checks for & displays new messages from Intercom
- * @return null
+ * @return this
  */
 EventTracking.prototype.update = function () {
   this._Intercom('update');
