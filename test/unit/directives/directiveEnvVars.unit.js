@@ -145,6 +145,19 @@ describe('directiveEnvVars'.bold.underline.blue, function() {
       expect(environmentalVars).to.equal(envs.join('\n') + '\n');
       expect($scope.stateModel.env).to.equal(undefined);
     });
+
+    it('Should display envs from stateModel when they exist', function () {
+      var envs = ['a=b', 'x=y', 'dasdasd=asfa'];
+      initState({
+        currentModel: createEnvModel(envs),
+        stateModel: {}
+      });
+      $scope.$digest();
+
+      var environmentalVars = element.isolateScope().environmentalVars;
+      expect(environmentalVars).to.equal(envs.join('\n') + '\n');
+      expect($scope.stateModel.env).to.equal(undefined);
+    });
   });
 
   describe('modifying the envs'.bold.blue, function() {

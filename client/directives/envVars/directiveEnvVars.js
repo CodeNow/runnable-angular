@@ -21,7 +21,7 @@ function envVars(
     link: function ($scope, elem, attrs) {
 
       $scope.environmentalVars = '';
-      var editor, session, unwatchValidation;
+      var editor, session;
 
       $scope.$on('eventPasteLinkedInstance', function (eventName, text) {
         editor.insert(text);
@@ -42,7 +42,7 @@ function envVars(
 
       function updateEnvs(newEnv, oldEnv) {
         // If the envs haven't changed, (also takes care of first null/null occurrence
-        if (!newEnv) { return; }
+        if (typeof newEnv !== 'string') { return; }
 
         $scope.validation = validateEnvVars(newEnv);
         if (keypather.get($scope, 'validation.errors.length')) {
@@ -65,11 +65,8 @@ function envVars(
         }
       }
 
-      // When the envs on the screen change
-      $scope.$watch('environmentalVars', updateEnvs);
 
       if (keypather.get($scope, 'stateModel.env')) {
-        unwatchCurrentModel = angular.noop();
         var env = keypather.get($scope, 'stateModel.env');
         // If we have some, add them to the screen
         $scope.environmentalVars = env.reduce(function (environmentalVars, env) {
@@ -88,6 +85,10 @@ function envVars(
           }, '');
         });
       }
+
+      // When the envs on the screen change
+      $scope.$watch('environmentalVars', updateEnvs);
+
       $scope.$on('$destroy', function () {
         editor.session.$stopWorker();
         editor.destroy();
