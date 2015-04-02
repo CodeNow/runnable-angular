@@ -14,7 +14,11 @@
   }
 
   // panels
-  > div,
+  > div {
+    height: calc(100% - 45px);
+  }
+
+  // except ace
   > div > pre {
     height: 100%;
   }
