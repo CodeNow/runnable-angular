@@ -29,21 +29,23 @@ require('app')
       favico.image(image);
     };
     var setInstanceState = function (instance) {
-      var state = '';
-      var classes = getInstanceClasses();
-      if (classes.running) {
-        state = 'running';
-      } else if (classes.stopped) {
-        state = 'stopped';
-      } else if (classes.building) {
-        state = 'building';
-      } else if (classes.failed) {
-        state = 'failed';
-      }
-      if (state !== currentState) {
-        currentState = state;
-        favico.image(icons[state]);
-        $timeout(angular.noop);
+      if (instance) {
+        var state = '';
+        var classes = getInstanceClasses(instance);
+        if (classes.running) {
+          state = 'running';
+        } else if (classes.building) {
+          state = 'building';
+        } else if (classes.failed) {
+          state = 'failed';
+        } else if (classes.stopped) {
+          state = 'stopped';
+        }
+        if (state !== currentState) {
+          currentState = state;
+          favico.image(icons[state]);
+          $timeout(angular.noop);
+        }
       }
     };
 
