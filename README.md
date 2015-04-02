@@ -49,13 +49,19 @@ Requirements
 
 Testing
 -------
+Unit Tests
 ```bash
-# Unit Tests
 grunt test
+```
 
-# E2E tests
+E2E tests
+```bash
 webdriver-manager start;
 npm run e2e
+```
+You can also pass credentials to protractor like so:
+```bash
+protractor ./test/protractor.conf.js --params.user SomeKittens --params.password hunter2
 ```
 
 Contributors

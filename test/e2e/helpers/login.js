@@ -15,10 +15,10 @@ describe('login', function() {
 
     // We're at GitHub
     var emailInput = browser.driver.findElement(by.id('login_field'));
-    emailInput.sendKeys('runnable-doobie');
+    emailInput.sendKeys(browser.params.user);
 
     var passwordInput = browser.driver.findElement(by.id('password'));
-    passwordInput.sendKeys('purple4lyfe');
+    passwordInput.sendKeys(browser.params.password);
 
     var signInButton = browser.driver.findElement(by.css('input[name="commit"]'));
     signInButton.click();
