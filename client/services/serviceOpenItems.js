@@ -353,6 +353,19 @@ function openItemsFactory(
     }
   };
 
+  OpenItems.prototype.removeAndReopen = function (fileModel) {
+    var models = this.models.slice();
+    for (var i = 0; i < models.length; i++) {
+      if (!(models[i] instanceof BuildStream)) {
+        this.remove(models[i]);
+        if (this.isFile(models[i])) {
+          var id = models[i].id();
+          this.add(fileModel.newFile(id));
+        }
+      }
+    }
+  };
+
   OpenItems.prototype.toJSON = function () {
     var json = [];
     this.models.forEach(function (model) {

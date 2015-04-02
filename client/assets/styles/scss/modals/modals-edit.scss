@@ -1,0 +1,133 @@
+.modal-edit {
+  min-width: 900px;
+
+  @include media(md) {
+    min-width: 738px;
+  }
+
+  @include media(sm) {
+    min-width: 570px;
+  }
+
+  @include media(xs) {
+    min-width: 0;
+  }
+
+  .modal-header {
+    height: 66px;
+    padding: 6px 0;
+
+    .input-group {
+      border-radius: 3px;
+      float: left;
+      width: 360px;
+
+      @include media(xs) {
+        width: calc(100% - 12px);
+
+        &.ng-invalid {
+          border-radius: 3px 3px 0 0;
+        }
+      }
+    }
+
+    .input-description {
+      width: calc(100% - 69px);
+    }
+  }
+
+  // validation
+  .validate-wrapper {
+    border-radius: 3px;
+    display: none;
+    margin-top: 8px;
+
+    @include media(xs) {
+      border-radius: 0 0 3px 3px;
+      margin: 0 6px;
+      z-index: $z-modal;
+    }
+
+    &.invalid-name,
+    &.invalid-pattern,
+    &.invalid-require {
+      display: block;
+    }
+  }
+
+  .modal-body {
+    border-bottom: 1px solid rgba($black,.1);
+    border-top: 1px solid rgba($black,.1);
+    display: flex;
+    height: calc(100vh - 180px);
+    max-height: 690px;
+
+    @include media(xs) {
+      display: block;
+    }
+
+    // override defaults
+    .list-item {
+      height: auto;
+      padding: 0;
+    }
+
+    .repository-group-text {
+      margin: 0 6px;
+      max-height: none;
+    }
+  }
+
+  // sidebar overrides
+  .sidebar {
+    flex: 0 0 auto;
+    height: auto;
+
+    @include media(sm) {
+      width: 270px;
+    }
+
+    @include media(xs) {
+      min-width: 100%;
+    }
+  }
+
+  .repo-list {
+    flex: 0 1 auto;
+    padding-bottom: 6px;
+  }
+
+  .explorer {
+    flex: 0 0 auto;
+    padding: 0 0 6px; // overwrite non-modal explorer
+
+    &:last-child {
+      padding-top: 6px;
+    }
+  }
+
+  // view overrides
+  .views {
+    flex: 1 1 auto;
+    height: auto;
+  }
+
+  // files
+  .active-panel {
+    display: flex;
+    flex: 1 1 auto;
+
+    > div,
+    pre {
+      display: flex;
+      flex: 1 1 100%;
+      height: auto;
+    }
+  }
+
+  // logs
+  .logs,
+  .terminal {
+    height: auto;
+  }
+}

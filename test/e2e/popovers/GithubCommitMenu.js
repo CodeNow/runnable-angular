@@ -22,7 +22,9 @@ function GithubCommitMenu(repo, index) {
   };
 
   this.open = function (repo) {
-    browser.wait(repo.isPresent);
+    browser.wait(function () {
+      return repo.isPresent();
+    });
     repo.click().then(function () {
       browser.wait(self.isOpen);
     });

@@ -36,7 +36,7 @@ describe('directiveExplorer'.bold.underline.blue, function () {
       ctx.template = directiveTemplate.attribute('explorer', {
         'open-items': 'openItems',
         'root-dir': 'rootDir',
-        'title': 'title',
+        'explorer-title': 'title',
         'toggle-theme': 'toggleTheme'
       });
       ctx.element = $compile(ctx.template)($scope);
@@ -50,7 +50,7 @@ describe('directiveExplorer'.bold.underline.blue, function () {
     expect($elScope.openItems).to.be.ok;
     expect($elScope.toggleTheme).to.be.ok;
     expect($elScope.rootDir).to.be.ok;
-    expect($elScope.title).to.be.ok;
+    expect($elScope.explorerTitle).to.be.ok;
 
 
     expect($elScope.filePopover).to.be.ok;

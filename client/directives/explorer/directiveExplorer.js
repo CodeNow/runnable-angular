@@ -20,11 +20,13 @@ function explorer(
       openItems: '=',
       fileModel: '=',
       rootDir: '=',
-      title: '@',
+      explorerTitle: '@',
       toggleTheme: '=',
+      showRepoFolder: '=',
       editExplorer: '='
     },
-    link: function ($scope) {
+    link: function ($scope, elem, attrs) {
+
       $scope.filePopover = {
         data: {
           show: false,

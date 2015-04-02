@@ -25,9 +25,21 @@
   .btn-group {
 
     // not-allowed
-    + .btn-group .btn:first-child {
-      background: $gray-lightest;
-      cursor: default;
+    + .btn-group {
+      margin-top: 6px; // additional button groups
+
+      .btn:first-child {
+        background: $gray-lightest;
+        cursor: default;
+      }
+    }
+
+    .btn {
+      width: 50%;
+
+      + .btn {
+        padding-left: 15px;
+      }
     }
 
     .small {

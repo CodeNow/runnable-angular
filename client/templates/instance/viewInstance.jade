@@ -43,19 +43,19 @@ header.server-header
   )
 
   instance-primary-actions(
-    loading = "dataApp.data.loading"
     instance = "dataInstance.data.instance"
-    saving = "dataInstance.data.saving"
+    loading = "dataApp.data.loading"
     open-items = "dataInstance.data.openItems"
+    saving = "dataInstance.data.saving"
   )
 
   .secondary-actions(
+    instance = "dataInstance.data.instance"
+    instances = "dataApp.data.instances"
     instance-secondary-actions
     ng-if = "dataInstance.data.instance"
-    instances = "dataApp.data.instances"
-    instance = "dataInstance.data.instance"
-    saving = "dataInstance.data.saving"
     ng-if = "!dataInstance.data.isDemo"
+    saving = "dataInstance.data.saving"
   )
 
   instance-anon-secondary-actions(
@@ -70,31 +70,30 @@ section.sidebar.server-sidebar.load(
   show-coach-marks
 )
   section.row.repo-list(
+    auto-build-on-acv-change = "true"
     build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
     loading = "dataApp.data.loading"
+    ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
     repo-list
     show-auto-deploy = "true"
-    auto-build-on-acv-change = "true"
-    ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
   )
 
   section.row.explorer(
     explorer
     edit-explorer = "false"
-    title = "File Explorer"
     file-model = "dataInstance.data.instance.containers.models[0]"
-    root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
     ng-if = "dataInstance.data.instance.containers.models[0].running()"
     open-items = "dataInstance.data.openItems"
+    root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
+    explorer-title = "File Explorer"
   )
 
 //- in / out control presence of header-bar
-section.views.with-add-tab(
+section.views(
   active-panel
-  ng-class = "dataInstance.data.sectionClasses"
-  open-items = "dataInstance.data.openItems"
+  background-buttons = "build, server, term, web"
   build = "dataInstance.data.instance.build"
   instance = "dataInstance.data.instance"
-  background-buttons = "build, server, term, web"
+  open-items = "dataInstance.data.openItems"
 )
