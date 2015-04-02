@@ -17,6 +17,7 @@ exports.config = {
     require('./e2e/helpers/capabilities');
   },
 
+  // https://github.com/angular/protractor/blob/master/docs/referenceConf.js#L223
   params: {
     user: 'runnable-doobie',
     password: 'purple4lyfe',
