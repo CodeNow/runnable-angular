@@ -31,9 +31,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
         setImage: sinon.spy(),
         setInstanceState: sinon.spy()
       });
-
       $provide.factory('pFetchUser', mockUserFetch.fetch());
-
       $provide.factory('fetchCommitData', function () {
         return {
           activeCommit: sinon.spy(function () {
