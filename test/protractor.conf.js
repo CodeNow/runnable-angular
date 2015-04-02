@@ -17,6 +17,12 @@ exports.config = {
     require('./e2e/helpers/capabilities');
   },
 
+  params: {
+    user: 'runnable-doobie',
+    password: 'purple4lyfe',
+    org: 'runnable-test'
+  },
+
   capabilities : browsers.chrome,
   baseUrl: 'http://localhost:3001',
 
