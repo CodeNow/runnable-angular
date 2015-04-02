@@ -3,7 +3,6 @@
 require('app')
   .factory('favico', function (
     favicojs,
-    keypather,
     $timeout,
     getInstanceClasses
   ) {
