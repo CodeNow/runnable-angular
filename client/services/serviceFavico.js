@@ -17,7 +17,8 @@ require('app')
     var icons = {
       building: createImage('/build/images/favicon-orange.png'),
       running: createImage('/build/images/favicon-green.png'),
-      stopped: createImage('/build/images/favicon-gray.png')
+      stopped: createImage('/build/images/favicon-gray.png'),
+      failed: createImage('/build/images/favicon-red.png')
     };
     var currentState;
     var reset = function () {
@@ -32,6 +33,7 @@ require('app')
           !keypather.get(instance, 'build.attrs.completed') &&
           !keypather.get(instance, 'build.attrs.failed');
       var running = keypather.get(instance, 'containers.models[0].attrs.inspect.State.Running');
+      // TODO: refactor this and add failed state please
       var state = building ? 'building' : (running ?  'running' : 'stopped');
       if (state !== currentState) {
         currentState = state;
