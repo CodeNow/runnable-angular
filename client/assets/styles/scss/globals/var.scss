@@ -34,6 +34,8 @@ $red-dark: desaturate(darken($red,10),8);
 $blue: #2ab0f6;
 $blue-dark: darken($blue,6%);
 
+$red: #f00;
+
 // spinner vars
 $spinner-offset: 187;
 $spinner-duration: 1.4s;
@@ -45,7 +47,6 @@ $z-show: 10000;
 
 // hero
 $z-hero-aura: 1000;
-$z-hero-layers: 1000; // remove this after merge w/ SAN-548
 $z-hero-content: 1001;
 $z-hero-list: 1002;
 $z-hero-list-content: 1003;
@@ -69,22 +70,22 @@ $z-sidebar-footer: 3003;
 $z-guide: 4000;
 
 // modals
-$z-modal-backdrop: 6000;
-$z-modal-aside: 6001;
-$z-modal: 6002;
+$z-modal-backdrop: 5000;
+$z-modal-aside: 5001;
+$z-modal: 5002;
 
 // popovers
-$z-popover: 7000;
-$z-popover-title-filter: 7001;
-$z-popover-context-menu: 7002;
-$z-popover-content: 7003;
-$z-popover-title: 7004;
+$z-popover: 6000;
+$z-popover-title-filter: 6001;
+$z-popover-context-menu: 6002;
+$z-popover-content: 6003;
+$z-popover-title: 6004;
 
 // alerts
-$z-alert: 8000;
+$z-alert: 7000;
 
 // tooltips
-$z-tooltip: 9000;
+$z-tooltip: 8000;
 
 // spinners
-$z-spinner: 10000;
+$z-spinner: 9000;

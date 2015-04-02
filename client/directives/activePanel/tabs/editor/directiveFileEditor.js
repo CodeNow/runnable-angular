@@ -12,13 +12,14 @@ require('app')
  * @ngInject
  */
 function fileEditor(
+  $rootScope,
   colorScheme,
   debounce,
   errs,
   keypather,
   modelist,
   promisify,
-  $rootScope
+  validateDockerfile
 ) {
   return {
     restrict: 'A',
@@ -30,6 +31,8 @@ function fileEditor(
     link: function ($scope, element, attrs) {
       $scope.colorScheme = colorScheme;
 
+      var useValidation = false;
+      var session = null;
       $scope.actions = {
         setAceMode: function (editor) {
           var unwatch = $scope.$watch('file.attrs.name', function (name) {
@@ -37,6 +40,7 @@ function fileEditor(
               unwatch();
               var mode = modelist.getModeForPath(name).mode;
               editor.getSession().setMode(mode);
+              session = editor.getSession();
             }
           });
         },
@@ -47,6 +51,9 @@ function fileEditor(
 
       function resetFileBodyState() {
         keypather.set($scope.file, 'state.body', $scope.file.attrs.body);
+        if (useValidation) {
+          $scope.file.validation = {};
+        }
       }
 
       function fetchFile() {
@@ -83,6 +90,7 @@ function fileEditor(
       var fileUnwatch = $scope.$watch('file', function (n) {
         if (n) {
           fileUnwatch();
+          useValidation = n.attrs.name === 'Dockerfile';
           keypather.set(n, 'state.isDirty', false);
           $scope.$on('EDITOR::SAVE', updateFile);
           if (!$scope.useAutoUpdate) {
@@ -93,6 +101,25 @@ function fileEditor(
             $scope.$watch('file.state.body', function (newVal) {
               if (typeof newVal === 'string' &&
                   newVal !== $scope.file.attrs.body) {
+                if (useValidation) {
+                  var validation = validateDockerfile(newVal);
+                  if (validation.errors) {
+                    validation.errors = validation.errors.filter(function (error) {
+                      return error.line;
+                    });
+                    $scope.file.validation = validation;
+                    var annotations =  validation.errors.map(function (error) {
+                      return {
+                        text: error.message,
+                        type: 'warning',
+                        row: error.line - 1
+                      };
+                    });
+                    session.setAnnotations(annotations);
+                  } else {
+                    $scope.file.validation = {};
+                  }
+                }
                 keypather.set($scope.file, 'state.isDirty', true);
                 if ($scope.useAutoUpdate) {
                   updateFileDebounce();

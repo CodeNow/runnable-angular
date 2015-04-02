@@ -1,15 +1,11 @@
 // ul.tabs
 .tabs {
   float: left;
-  height: 100%;
+  height: 45px;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   width: calc(100% - 90px);
-
-  .with-add-tab & {
-    margin-right: 45px;
-  }
 }
 
 // li.tab-wrapper
@@ -59,6 +55,15 @@
 
   &.always-open .tab-name {
     padding-right: 9px;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
+  &.error {
+    color: $red;
   }
 
   .icons-dirty {

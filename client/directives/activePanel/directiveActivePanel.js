@@ -5,6 +5,10 @@ require('app')
 /**
  * activePanel Directive
  * @ngInject
+ *
+ * Attributes:
+ *  backgroundButtons: Comma separated list of the tabs that can be allowed and added
+ *
  */
 function activePanel(
   $sce,
@@ -16,7 +20,9 @@ function activePanel(
     scope: {
       openItems: '=',
       instance: '=',
-      build: '='
+      build: '=',
+      validation: '=',
+      stateModel: '='
     },
     link: function ($scope, element, attrs) {
 

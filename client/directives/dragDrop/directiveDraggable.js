@@ -7,11 +7,19 @@ require('app')
  * @ngInject
  */
 function draggable(
+  keypather
 ) {
   return {
     restrict: 'A',
     link: function ($scope, element, attrs) {
       // this gives us the native JS object
+
+      // The root folder and the dockerfile should not be movable
+      if (($scope.isRootDir && element.hasClass('folder')) ||
+          keypather.get($scope, 'fs.id()') === '/Dockerfile') {
+        return;
+      }
+
       var el = element[0];
 
       el.draggable = true;

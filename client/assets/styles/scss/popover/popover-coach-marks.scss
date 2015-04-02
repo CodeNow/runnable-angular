@@ -1,0 +1,22 @@
+.popover-coach-mark {
+  background: $blue;
+  border: 0;
+  color: $white;
+
+  .popover-content {
+    padding: 12px 15px;
+  }
+
+  .popover-header {
+    margin-bottom: 6px;
+  }
+
+  // dismiss or close link
+  .link-white {
+    display: inline-block;
+    float: right;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 15px 0 0;
+  }
+}

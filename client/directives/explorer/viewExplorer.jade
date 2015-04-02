@@ -1,4 +1,4 @@
-h2.sub-header {{ title }}
+h2.sub-header {{ explorerTitle }}
   button.btn.btn-xs.btn-icon.white.sub-header-action(
     ng-class = "{active: filePopover.data.show}"
     pop-over
@@ -22,4 +22,6 @@ ul.file-tree
     dir = "rootDir"
     open-items = "openItems"
     read-only = "readOnly"
+    is-root-dir = "true"
+    show-repo-folder = "showRepoFolder"
   )

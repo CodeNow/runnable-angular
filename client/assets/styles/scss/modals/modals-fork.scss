@@ -1,18 +1,12 @@
 .modal-fork {
   max-width: 420px;
 
+  // max-width on url
   .input-description {
     max-width: 280px;
 
     @include media(sm) {
       max-width: 240px;
-    }
-  }
-
-  .modal-inset {
-
-    .list {
-      border: 0;
     }
   }
 }

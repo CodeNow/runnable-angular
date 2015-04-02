@@ -4,24 +4,22 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow
-  h3.popover-title
-    span.title Environment Variables
-  .popover-content
-    label.input-group(
-      ng-class = "{focus: data.state.showFocus}"
-      ng-repeat = "env in data.state.envVars"
-    )
-      span.input-label(
-        title = "{{ env.key}}"
-      ) {{ env.key }}
-      input.input(
-        ng-blur = "data.state.showFocus = false"
-        ng-focus = "data.state.showFocus = true"
-        ng-model = "env.value"
-        select-all
+  section.inset.in
+    small.small Environment Variables
+    .list
+      label.input-group.with-description(
+        ng-class = "{focus: data.state.showFocus}"
+        ng-repeat = "env in data.state.envVars"
       )
+        span.input-description.text-overflow(
+          title = "{{ env.key}}"
+        ) {{ env.key }}
+        input.input(
+          ng-blur = "data.state.showFocus = false"
+          ng-focus = "data.state.showFocus = true"
+          ng-model = "env.value"
+        )
   footer.popover-footer
-    //- TODO
     button.btn.btn-sm.green(
       ng-click = "actions.saveEnv(data.instance, $event)"
     ) Save

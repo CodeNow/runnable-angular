@@ -1,14 +1,31 @@
 .popover-guides {
-  background: $blue;
-  border: 0;
-  color: $white;
+  background: rgba($blue,.2);
+  box-shadow: 0 1px 0 rgba($blue,.4);
+  color: $blue;
+  font-size: 13px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .2s ease-in;
 
-  .popover-content {
-    padding: 12px 15px;
+  &.in {
+    max-height: 150px;
   }
 
-  .popover-header {
-    margin-bottom: 6px;
+  .p {
+    padding: 15px 15px 9px;
+  }
+
+  .link-code {
+    color: currentColor;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 500;
+    margin: 0 4px;
+    text-decoration: underline;
+
+    &:hover,
+    &:active {
+      text-decoration: none;
+    }
   }
 
   // dismiss or close link
