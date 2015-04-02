@@ -92,10 +92,12 @@
   }
 
   .repo-list {
+    flex: 0 1 auto;
     padding-bottom: 6px;
   }
 
   .explorer {
+    flex: 0 0 auto;
     padding: 0 0 6px; // overwrite non-modal explorer
 
     &:last-child {
