@@ -20,7 +20,7 @@ function explorer(
       openItems: '=',
       fileModel: '=',
       rootDir: '=',
-      title: '@',
+      explorerTitle: '@',
       toggleTheme: '=',
       showRepoFolder: '=',
       editExplorer: '='
