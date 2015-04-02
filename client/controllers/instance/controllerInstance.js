@@ -47,6 +47,10 @@ function ControllerInstance(
     in: false
   };
 
+  data.userIsOrg = function () {
+    return $scope.user.oauthName() !== $state.params.userName;
+  };
+
   // Trigger Heap event
   if ($window.heap && $location.search().chat) {
     $window.heap.track('box-selection-chat-click', {
@@ -105,7 +109,6 @@ function ControllerInstance(
     data.showUpdatingMessage = false;
     data.showUpdatedMessage = true;
   });
-
 
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
