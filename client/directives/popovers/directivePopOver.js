@@ -68,8 +68,11 @@ function popOver(
         }
 
         $rootScope.$broadcast('close-popovers');
+        // If the click has no target we should close the popover.
+        // If the click has a target and that target is on the page but not on our popover we should close the popover.
+        // Otherwise we should keep the popover alive.
         unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-          if(!(target && popoverElement[0].contains(target))){
+          if(!target || (target && $document[0].contains(target) && !popoverElement[0].contains(target))){
             $scope.closePopover();
           }
         });

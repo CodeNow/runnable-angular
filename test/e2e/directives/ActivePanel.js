@@ -2,24 +2,22 @@
 
 var util = require('../helpers/util');
 
-function ActivePanel (pageType) {
+function ActivePanel (pageType, parent) {
   this.pageType = pageType;
 
-  this.panel = util.createGetter(by.css('section.views'));
+  this.panel = util.createGetter(by.css('section.views'), parent);
 
-  this.addTab = util.createGetter(by.css('.add-tab'), this.panel);
-
-  //this.openItems = util.createGetter(by.repeater(), this.panel);
+  this.addTab = util.createGetter(by.css('.btn-add-tab'), this.panel);
 
   this.currentContent = util.createGetter(by.css('div.active-panel.ace-runnable-dark:not(.ng-hide)'), this.panel);
 
   this.openTabs = util.createGetter(by.repeater('item in openItems.models'), this.panel);
 
   this.ace = util.createGetter(by.css('div.active-panel.ng-scope.ace-runnable-dark'), this.panel);
-  this.aceDiv = util.createGetterAll(by.css('div.ace_content'));
-  this.inputElm = util.createGetterAll(by.css('textarea.ace_text-input'));
 
-  this.activeTab = util.createGetter(by.css('.tabs > .active'));
+  this.activeAceDiv = util.createGetter(by.css('.active-panel.ace-runnable-dark:not(.ng-hide) .ace_editor'), this.panel);
+
+  this.activeTab = util.createGetter(by.css('.tabs > .active'), this.panel);
 
   this.isLoaded = function() {
     return this.currentContent.get().isPresent();
@@ -42,16 +40,14 @@ function ActivePanel (pageType) {
     return element.all(by.css('.tab-wrapper.active.dirty')).count() > 0;
   };
 
-  this.setActiveTab = function(text) {
-    var self = this;
-    this.tabTitle = text;
-    var tab = element(by.cssContainingText('#wrapper > main > section.views.with-add-tab.ng-scope > div.views-toolbar.ng-isolate-scope > ul > li > span', text));
-    tab.isPresent().then(function(displayed) {
-      if (displayed) {
-        return tab.click();
-      } else {
-        // This'll break when trying to open an unopened file
-        return self.openTab(text);
+  this.setActiveTab = function (text) {
+    var tab = element(by.cssContainingText('.tab-wrapper', text));
+    util.hasClass(tab, 'active').then(function (isActive) {
+      if (!isActive) {
+        tab.click();
+        browser.wait(function () {
+          return util.hasClass(tab, 'active');
+        });
       }
     });
   };
@@ -62,7 +58,7 @@ function ActivePanel (pageType) {
     var self = this;
     this._getAceDiv().then(function(elem) {
       browser.actions().click(elem).perform();
-      return self._getInputElement();
+      return self._getInputElement(elem);
     }).then(function(elem) {
       return elem.sendKeys(contents);
     });
@@ -75,7 +71,7 @@ function ActivePanel (pageType) {
     var self = this;
     this._getAceDiv().then(function(elem) {
       browser.actions().click(elem).perform();
-      return self._getInputElement();
+      return self._getInputElement(elem);
     }).then(function(elem) {
       elem.sendKeys(protractor.Key.ARROW_DOWN);
       return elem.sendKeys(contentToAdd + '\n');
@@ -86,7 +82,7 @@ function ActivePanel (pageType) {
     var self = this;
     this._getAceDiv().then(function(elem) {
       browser.actions().click(elem).perform();
-      return self._getInputElement();
+      return self._getInputElement(elem);
     }).then(function(elem) {
       var cmd = util.getOSCommandKey();
       elem.sendKeys(protractor.Key.chord(cmd, "a"));
@@ -103,7 +99,7 @@ function ActivePanel (pageType) {
   // Gets the actual contents of the file (without Ace's line numbers, etc)
   this.getFileContents = function () {
     return this._getAceDiv().then(function (elem) {
-      return elem.getText();
+      return elem.element(by.css('.ace_content')).getText();
     });
   };
 
@@ -117,23 +113,16 @@ function ActivePanel (pageType) {
     var self = this;
     var idx = 0;
     activeIdx = 0;
-    return this.aceDiv.get().filter(function (elem) {
-      return elem.isDisplayed().then(function(displayed) {
-        if (!displayed) {
-          idx++
-        } else {
-          activeIdx = idx;
-        }
-        return displayed;
-      });
-    }).then(function(elems) {
-      return elems[0];
-    });
+    var aceDivs = this.activeAceDiv.get();
+    return aceDivs;
   };
 
-  this._getInputElement = function () {
+  this._getInputElement = function (elem) {
+    if (!elem) {
+      elem = this._getAceDiv().get();
+    }
     // currently only works for file types
-    return this.inputElm.get().get(activeIdx);
+    return elem.element(by.css('textarea.ace_text-input'));
   };
 }
 

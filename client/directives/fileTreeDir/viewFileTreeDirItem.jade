@@ -13,6 +13,7 @@ li(
   read-only = "readOnly"
 )
 li.file(
+  ng-if = "fs.id !== '/Dockerfile'"
   draggable
   ng-repeat = "\
     fs in dir.contents.models \
@@ -25,8 +26,24 @@ li.file(
     'in-progress': fs.state.uploading\
   }"
 )
+  //- We don't want to initialize the pop-over for Dockerfile. :(
   a(
     ng-click = "actions.openFile(fs)"
+    ng-if = "fs.id() === '/Dockerfile'"
+  )
+    svg.iconnables.filetypes.icons-file
+      use(
+        xlink:href = "#icons-file"
+      )
+    span.item-name {{ fs.attrs.name }}
+    span.btn-file-errors.orange(
+      ng-if = "fs.validation.errors.length"
+    ) {{ fs.validation.errors.length }}
+
+
+  a(
+    ng-click = "actions.openFile(fs)"
+    ng-if = "fs.id() !== '/Dockerfile'"
     pop-over
     pop-over-actions = "popoverFileExplorerFile.actions"
     pop-over-data = "fs"

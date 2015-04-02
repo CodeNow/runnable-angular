@@ -9,9 +9,13 @@
     font-size: 14px;
   }
 
-  .list {
+  .popover-content {
     max-height: 240px;
     overflow-y: auto;
+  }
+
+  .popover-content-header {
+    padding: 6px 6px 0;
   }
 
   .list-details {

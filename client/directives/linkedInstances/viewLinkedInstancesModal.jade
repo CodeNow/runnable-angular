@@ -5,7 +5,7 @@ small.small Forking linked servers
     ng-form
     ng-repeat = "depItem in items | orderBy:'instance.attrs.name'"
   )
-    label.input.input-group.input-validate(
+    label.input.input-group.input-validate.with-description(
       ng-class = "{\
         focus: depItemInput.showFocus,\
         'ng-invalid': depItemForm.$invalid,\
@@ -15,11 +15,11 @@ small.small Forking linked servers
       span.input-label Name
       span.input-description.text-overflow {{ depItem.opts.name }}-{{ depItem.instance.attrs.owner.username.toLowerCase() }}.runnableapp.com
       input.input(
-        name = "depItemInput"
         autocomplete = "off"
+        instance = "depItem.instance"
+        name = "depItemInput"
         ng-blur = "depItemInput.showFocus = false"
         ng-focus = "depItemInput.showFocus = true"
-        instance = "depItem.instance"
         ng-model = "depItem.opts.name"
         placeholder = "My-Server"
         spellcheck = "false"

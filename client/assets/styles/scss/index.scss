@@ -27,6 +27,7 @@
 @import "components/embeds";
 @import "components/guides";
 @import "components/icons";
+@import "components/inset";
 @import "components/lists";
 @import "components/logo";
 @import "components/olark";
@@ -63,19 +64,16 @@
 
 // modals
 @import "modals/modals";
-@import "modals/modals-aside";
-@import "modals/modals-inset";
 @import "modals/modals-forms";
 @import "modals/modals-navbar";
 @import "modals/modals-wizard";
 
 // modal specific
-@import "modals/modals-environment";
+@import "modals/modals-edit";
 @import "modals/modals-error";
 @import "modals/modals-fork";
 @import "modals/modals-integrations";
 @import "modals/modals-rename";
-@import "modals/modals-sign-in";
 
 // modal getting started
 @import "modals/modals-getting-started";
@@ -85,6 +83,9 @@
 
 // popovers
 @import "popover/popover";
+@import "popover/popover-arrows";
+@import "popover/popover-coach-marks";
+@import "popover/popover-guides";
 
 // popover specific
 @import "popover/popover-account-menu";
@@ -95,6 +96,7 @@
 @import "popover/popover-environment";
 @import "popover/popover-guides";
 @import "popover/popover-invite";
+@import "popover/popover-link-servers";
 @import "popover/popover-primary-options";
 @import "popover/popover-repository-toggle";
 

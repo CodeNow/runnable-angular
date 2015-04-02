@@ -1,7 +1,13 @@
 // section.views
 .views {
-  height: calc(100vh - 71px);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 72px); // viewport - header
   overflow: hidden;
   position: relative;
   z-index: $z-views;
+
+  .spinner-backdrop {
+    position: absolute;
+  }
 }

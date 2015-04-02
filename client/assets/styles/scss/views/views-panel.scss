@@ -1,28 +1,10 @@
 // .active-panel
 .active-panel {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   position: relative;
-  transform: translate3d(0,0,0);
-  transition: all .15s ease-in;
-  width: 100%;
   z-index: $z-views-active-panel;
 
-  &.loaded ~ .horizontal-spinner {
-    display: none;
-  }
-
-  ~ .horizontal-spinner {
-    left: 0;
-    position: absolute;
-    right: 0;
-  }
-
-  .out & {
-    transform: translate3d(0,-46px,0);
-  }
-
+  // ace overrides
   .ace_scrollbar {
     overflow: hidden;
   }
@@ -31,29 +13,27 @@
     font-size: 16px;
   }
 
-  .pre,
-  iframe {
-    border: 0;
-    flex: 1 0 auto;
+  // panels
+  > div {
     height: calc(100% - 45px);
-    width: 100%;
+  }
 
-    .out & {
-      height: 100%;
-    }
+  // except ace
+  > div > pre {
+    height: 100%;
   }
 }
 
 // .logs
 .logs {
-  height: 100%;
-  width: 100%;
 
+  // light theme
   .pre {
     background: $white;
     color: $gray-darker;
   }
 
+  // dark theme
   .ace-runnable-dark & {
 
     .pre {
@@ -63,6 +43,7 @@
   }
 }
 
+// keeps log on bottom (iterm)
 #log {
   height: 10px;
 }
@@ -100,9 +81,11 @@ div.terminal { // div specifity required b/c there's a term.terminal
 
 // web view
 .web-container {
-  display: flex;
-  flex: 1 0 auto;
-  flex-direction: column;
+
+  .iframe {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 // .blank-panel
