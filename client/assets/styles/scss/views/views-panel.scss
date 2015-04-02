@@ -12,11 +12,16 @@
   .ace_text-input {
     font-size: 16px;
   }
+
+  // panels
+  > div,
+  > div > pre {
+    height: 100%;
+  }
 }
 
 // .logs
 .logs {
-  height: 100%;
 
   // light theme
   .pre {
@@ -72,7 +77,6 @@ div.terminal { // div specifity required b/c there's a term.terminal
 
 // web view
 .web-container {
-  height: 100%;
 
   .iframe {
     height: 100%;
