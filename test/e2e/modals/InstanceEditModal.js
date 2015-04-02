@@ -18,9 +18,9 @@ function InstanceEditModal (instanceName) {
   this.input = util.createGetter(by.model('state.name'), this.modalElem);
 
   this.discard = util.createGetter(by.buttonText('Go Back'), this.modalElem);
-  this.build = util.createGetter(by.buttonText('Build Server'), this.modalElem);
+  this.build = util.createGetter(by.css('.modal-footer .btn:not(.btn-icon-sm)'), this.modalElem);
 
-  this.buildOptions = util.createGetter(by.css('.green.btn-icon'), this.modalElem);
+  this.buildOptions = util.createGetter(by.css('.modal-footer .btn.btn-icon-sm'), this.modalElem);
   this.buildWithoutCacheButton = util.createGetter(by.cssContainingText('.popover-list-item', 'Build without cache'));
 
   this.environmentalVars = util.createGetter(by.cssContainingText('.file', 'environment variables'));
@@ -35,7 +35,7 @@ function InstanceEditModal (instanceName) {
   };
 
   this.getTotalErrorsCount = function () {
-    return this.modalElem.get().element(by.css('.modal-footer .btn-file-errors')).getText();
+    return this.build.get().getText();
   };
 
   this.isPresent = function () {
