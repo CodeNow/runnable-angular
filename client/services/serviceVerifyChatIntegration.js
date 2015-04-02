@@ -33,11 +33,8 @@ function verifyChatIntegration (
     .then(function(_members) {
       members = _members;
       // Fetch actual names
-      // console.log('members.github', members.github);
       var memberFetchPromises = members.github.map(function (user) {
-        // console.log('user', user);
         return fetchGitHubUser(user.login).then(function (ghUser) {
-          // console.log('ghUser', ghUser);
           members.chat.forEach(function (member) {
 
             if (member.real_name && member.real_name.toLowerCase() === keypather.get(ghUser, 'name.toLowerCase()')) {

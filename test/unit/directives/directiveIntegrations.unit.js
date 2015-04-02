@@ -27,20 +27,23 @@ describe('directiveIntegrations', function () {
   var ctx;
   function injectSetupCompile (mockSettings) {
     ctx = {};
+    ctx.verifyChatIntegration = function ($q) {
+      // Need to do this dance so we can access the spy on ctx
+      ctx.vciSpy = sinon.spy(function () {
+        return $q.when({
+          github: mockGithub,
+          slack: mockSlack
+        });
+      });
+      return ctx.vciSpy;
+    };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchSettings', function ($q) {
         return function () {
           return $q.when(mockSettings);
         };
       });
-      $provide.factory('verifyChatIntegration', function ($q) {
-        return function () {
-          return $q.when({
-            github: mockGithub,
-            slack: mockSlack
-          });
-        };
-      });
+      $provide.factory('verifyChatIntegration', ctx.verifyChatIntegration);
     });
     angular.mock.inject(function (
       _$compile_,
@@ -91,10 +94,13 @@ describe('directiveIntegrations', function () {
       expect($elScope.data.verified).to.be.true;
       expect($elScope.data.slackMembers).to.deep.equal(mockSlack);
       expect($elScope.data.ghMembers).to.deep.equal(mockGithub);
+      sinon.assert.called(ctx.vciSpy);
     });
 
-    it('should re-verify on verify click', function () {
-
+    it('should call fetchChatMemberData on verify click', function () {
+      $elScope.actions.verifySlack();
+      $rootScope.$apply();
+      sinon.assert.called(ctx.vciSpy);
     });
 
     it('should send correctly-formatted data on save', function () {
