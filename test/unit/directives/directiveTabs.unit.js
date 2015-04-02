@@ -2,7 +2,6 @@
 
 // injector-provided
 var $compile,
-    $provide,
     $scope,
     $state,
     user;
