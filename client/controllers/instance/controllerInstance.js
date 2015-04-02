@@ -6,23 +6,24 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  errs,
-  fetchCommitData,
-  keypather,
-  OpenItems,
   $localStorage,
   $location,
+  $q,
   $scope,
   $state,
   $stateParams,
   $timeout,
-  $q,
   $window,
+  OpenItems,
+  errs,
+  eventTracking,
   favico,
-  pageName,
-  pFetchUser,
+  fetchCommitData,
   fetchInstances,
-  fetchSettings
+  fetchSettings,
+  keypather,
+  pFetchUser,
+  pageName
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -59,6 +60,8 @@ function ControllerInstance(
   // The error handling for pFetchUser will re-direct for us, so we don't need to handle that case
   pFetchUser().then(function (user) {
     $scope.user = user;
+    // product team - track visits to instance page & referrer
+    eventTracking.boot(user).visitedState();
     return $q.all({
       instance: fetchInstances({ name: $stateParams.instanceName }),
       settings: fetchSettings()

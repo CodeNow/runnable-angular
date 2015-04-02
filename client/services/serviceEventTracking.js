@@ -10,6 +10,7 @@ require('app')
   .service('eventTracking', EventTracking);
 var User = require('runnable/lib/models/user');
 var _keypather;
+var _$location;
 
 // constants
 var INTERCOM_APP_ID = 'wqzm3rju';
@@ -19,6 +20,7 @@ var INTERCOM_APP_ID = 'wqzm3rju';
  * @class
  */
 function EventTracking (
+  $location,
   $log,
   $state,
   $stateParams,
@@ -28,10 +30,13 @@ function EventTracking (
   keypather
 ) {
   _keypather = keypather;
+  _$location = $location;
 
   this._Intercom = $window.Intercom;
   this._baseEventData = {};
   this._user = null;
+  // store events invoked before boot
+  this._preBootEventQueue = [];
 
   /**
    * Extend per-event data with specific properties
@@ -102,6 +107,7 @@ function EventTracking (
  * @return null
  */
 EventTracking.prototype.boot = function (user) {
+  if (this._user) { return this; }
   if (!(user instanceof User)) {
     throw new Error('arguments[0] must be instance of User');
   }
@@ -128,6 +134,7 @@ EventTracking.prototype.boot = function (user) {
     '$created': _keypather.get(userJSON, 'created'),
     '$email': _keypather.get(userJSON, 'email')
   });
+  return this;
 };
 
 /**
@@ -147,6 +154,7 @@ EventTracking.prototype.toggledCommit = function (data) {
     selectedCommit: data.acv
   });
   this._mixpanel('track', eventName, eventData);
+  return this;
 };
 
 /**
@@ -164,6 +172,22 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   });
   this._Intercom('trackEvent', eventName, eventData);
   this._mixpanel('track', eventName, eventData);
+  return this;
+};
+
+/**
+ * Record user visit to states
+ * Reports to:
+ *   - mixpanel
+ * @return null
+ */
+EventTracking.prototype.visitedState = function () {
+  var eventName = 'visited-state';
+  var eventData = this.extendEventData({
+    referral: _$location.search('ref').ref || 'direct'
+  });
+  this._mixpanel('track', eventName, eventData);
+  return this;
 };
 
 /**
@@ -173,5 +197,6 @@ EventTracking.prototype.triggeredBuild = function (cache) {
  */
 EventTracking.prototype.update = function () {
   this._Intercom('update');
+  return this;
 };
 
