@@ -4,7 +4,8 @@ require('app')
   .factory('favico', function (
     favicojs,
     keypather,
-    $timeout
+    $timeout,
+    getInstanceClasses
   ) {
     var favico = favicojs({
       animation: 'none'
@@ -29,12 +30,17 @@ require('app')
       favico.image(image);
     };
     var setInstanceState = function (instance) {
-      var building = keypather.get(instance, 'build.attrs.started') &&
-          !keypather.get(instance, 'build.attrs.completed') &&
-          !keypather.get(instance, 'build.attrs.failed');
-      var running = keypather.get(instance, 'containers.models[0].attrs.inspect.State.Running');
-      // TODO: refactor this and add failed state please
-      var state = building ? 'building' : (running ?  'running' : 'stopped');
+      var state = '';
+      var classes = getInstanceClasses();
+      if (classes.running) {
+        state = 'running';
+      } else if (classes.stopped) {
+        state = 'stopped';
+      } else if (classes.building) {
+        state = 'building';
+      } else if (classes.failed) {
+        state = 'failed';
+      }
       if (state !== currentState) {
         currentState = state;
         favico.image(icons[state]);
