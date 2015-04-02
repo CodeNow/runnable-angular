@@ -80,6 +80,7 @@
 
   // sidebar overrides
   .sidebar {
+    flex: 0 0 auto;
     height: auto;
 
     @include media(sm) {
