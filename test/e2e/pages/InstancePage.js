@@ -44,13 +44,7 @@ function InstancePage (name) {
 
 
   this.closeNotificationIfPresent = function () {
-    var self = this;
-    if (this.greenNotification.get().isPresent()) {
-      browser.wait(function () {
-        return self.greenNotificationClose.get().isPresent();
-      });
-      self.greenNotificationClose.get().click();
-    }
+    return;
   };
 
   this.openEditModal = function () {

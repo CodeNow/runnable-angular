@@ -184,7 +184,7 @@ EventTracking.prototype.triggeredBuild = function (cache) {
 EventTracking.prototype.visitedState = function () {
   var eventName = 'visited-state';
   var eventData = this.extendEventData({
-    referral: _$location.search('ref').ref || 'direct'
+    referral: _$location.search().ref || 'direct'
   });
   this._mixpanel('track', eventName, eventData);
   return this;
