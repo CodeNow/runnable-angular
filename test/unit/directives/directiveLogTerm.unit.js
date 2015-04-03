@@ -17,7 +17,7 @@ function createMockStream() {
   return mockStream;
 }
 
-describe.only('directiveLogTerm'.bold.underline.blue, function () {
+describe('directiveLogTerm'.bold.underline.blue, function () {
   var ctx;
 
   function injectSetupCompile() {
@@ -96,7 +96,7 @@ describe.only('directiveLogTerm'.bold.underline.blue, function () {
         mockPrimus.emit('open');
         $rootScope.$apply();
         // Shouldn't 'reconnect' unless it actually disconnected
-        sinon.assert.notCalledWith(ctx.termMock.writeln, '★ Connection regained.  Thank you for your patience ★');
+        sinon.assert.neverCalledWith(ctx.termMock.writeln, '★ Connection regained.  Thank you for your patience ★');
 
         mockPrimus.emit('reconnect');
         $rootScope.$apply();

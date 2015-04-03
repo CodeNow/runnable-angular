@@ -50,8 +50,7 @@ function logTerm(
         terminal.writeln('\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
         terminal.writeln('★ Connection regained.  Thank you for your patience ★');
         terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n');
-        $scope.createStream();
-        $scope.connectStreams(terminal);
+        initializeStream();
       });
 
       $scope.$on('$destroy', function () {
