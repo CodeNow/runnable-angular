@@ -32,7 +32,7 @@ function logTerm(
       var terminal = helperSetupTerminal($scope, elem, $scope.termOpts, resizeHandler);
 
       var reconnecting = false;
-      bind(primus, 'reconnect', function () {
+      bind(primus, 'offline', function () {
         if (reconnecting) { return; }
         reconnecting = true;
         terminal.writeln('');

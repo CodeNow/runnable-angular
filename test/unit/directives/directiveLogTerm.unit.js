@@ -101,7 +101,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         // Shouldn't 'reconnect' unless it actually disconnected
         sinon.assert.neverCalledWith(ctx.termMock.writeln, '★ Connection regained.  Thank you for your patience ★');
 
-        mockPrimus.emit('reconnect');
+        mockPrimus.emit('offline');
         $rootScope.$apply();
         mockPrimus.emit('open');
         $rootScope.$apply();
@@ -216,7 +216,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
 
   describe('primus goes offline', function () {
     it('should display disconnect message when primus goes offline', function () {
-      mockPrimus.emit('reconnect');
+      mockPrimus.emit('offline');
       $rootScope.$apply();
       sinon.assert.calledWith(ctx.termMock.writeln, '☹ LOST CONNECTION - RETRYING ☹');
     });
