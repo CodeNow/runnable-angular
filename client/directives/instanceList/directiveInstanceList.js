@@ -28,10 +28,9 @@ function instanceList(
         instances: []
       };
 
-      $scope.actions.goToInstance = function (event, instance) {
+      $scope.actions.preventClosingTeamMember = function (event) {
         event.stopPropagation();
         $rootScope.$broadcast('close-popovers');
-        instance.state.toggled = true;
       };
 
       $scope.stateToInstance = function (instance, $event) {
