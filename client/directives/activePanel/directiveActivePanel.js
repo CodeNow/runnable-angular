@@ -12,7 +12,13 @@ require('app')
  */
 function activePanel(
   $sce,
-  colorScheme
+  colorScheme,
+  keypather,
+  helperInstanceActionsModal,
+  updateInstanceWithNewBuild,
+  errs,
+  $rootScope,
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -22,9 +28,17 @@ function activePanel(
       instance: '=',
       build: '=',
       validation: '=',
-      stateModel: '='
+      stateModel: '=',
+      isEditModal: '=?'
     },
     link: function ($scope, element, attrs) {
+
+      $scope.popoverGearMenu = {
+        data: {},
+        actions: {}
+      };
+      // mutate scope, shared-multiple-states properties & logic for actions-modal
+      helperInstanceActionsModal($scope);
 
       /**
        * showBackgroundButtons
@@ -37,12 +51,59 @@ function activePanel(
         });
         $scope.showBackgroundButtons = showBackgroundButtons;
       }
-      var data = $scope.data = {};
+      $scope.data = {};
 
       // allow iframe to load url
       $scope.$sce = $sce;
       $scope.colorScheme = colorScheme;
       $scope.useAutoUpdate = !!attrs.useAutoUpdate;
+
+      var shouldShowBuildFailurePrompt = false;
+
+      $scope.$watch('instance.build.attrs.failed', function (newVal) {
+        shouldShowBuildFailurePrompt = newVal;
+      });
+
+      $scope.highlightRebuildWithoutCache = false;
+      $scope.$watch('instance.contextVersion.attrs.build.triggeredAction.manual', function (newVal) {
+        $scope.highlightRebuildWithoutCache = newVal;
+      });
+
+      $scope.showBuildFailurePrompt = function () {
+        var activeHistory = keypather.get($scope, 'openItems.activeHistory.models');
+        if (!activeHistory) {
+          return false;
+        }
+        var isEditModal = $scope.isEditModal;
+        var currentPanel = activeHistory[activeHistory.length - 1];
+        var isActive = keypather.get(currentPanel, 'state.active');
+        var isBuildStream = keypather.get(currentPanel, 'state.type') === 'BuildStream';
+        return !isEditModal && shouldShowBuildFailurePrompt && isActive && isBuildStream;
+      };
+
+      $scope.actions = {
+        buildWithoutCache: function () {
+          shouldShowBuildFailurePrompt = false;
+          keypather.set($rootScope, 'dataApp.data.loading', true);
+          promisify($scope.instance.build, 'deepCopy')()
+            .then(function (build) {
+              updateInstanceWithNewBuild(
+                $scope.instance,
+                build,
+                true,
+                {},
+                {}
+              )
+                .catch(errs.handler)
+                .finally(function () {
+                  keypather.set($rootScope, 'dataApp.data.loading', false);
+                });
+            });
+        },
+        hideBuildFailurePrompt: function () {
+          shouldShowBuildFailurePrompt = false;
+        }
+      };
     }
   };
 }

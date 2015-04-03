@@ -11,10 +11,10 @@ function BuildLogController(
   dockerStreamCleanser,
   $scope,
   primus,
-  $log,
   promisify,
   through,
-  errs
+  errs,
+  $timeout
 ) {
   $scope.showSpinnerOnStream = true;
 
@@ -30,6 +30,8 @@ function BuildLogController(
             // defaulting behavior selects best avail error msg
             var errorMsg = cbBuild.log + '\n' + (keypather.get(cbBuild, 'error.message') || DEFAULT_ERROR_MESSAGE);
             $scope.$emit('WRITE_TO_TERM', errorMsg, true);
+            // Add some fake newlines at the end for padding!
+            $scope.$emit('WRITE_TO_TERM', '\r\n\r\n\r\n\r\n', false);
           }
         }).catch(errs.handler);
       } else {
@@ -37,6 +39,12 @@ function BuildLogController(
       }
     }
   });
+
+  $scope.streamEnded = function () {
+    $timeout(function () {
+      $scope.build.fetch();
+    }, 1000);
+  };
 
   $scope.createStream = function () {
     $scope.stream = primus.createBuildStream($scope.build);
@@ -53,6 +61,7 @@ function BuildLogController(
       },
       function end() {
         // Do nothing, especially don't pass it along to the terminal (You'll get an error)
+        $scope.$emit('WRITE_TO_TERM', '\r\n\r\n\r\n\r\n', false);
       }
     )).pipe(terminal);
   };

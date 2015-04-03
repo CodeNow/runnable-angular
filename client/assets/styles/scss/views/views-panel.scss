@@ -3,6 +3,7 @@
   height: 100%;
   position: relative;
   z-index: $z-views-active-panel;
+  transition: margin .2s ease-in;
 
   // ace overrides
   .ace_scrollbar {
