@@ -129,7 +129,7 @@ function logTerm(
         bind($scope.stream, 'end', function () {
           hideTerminalSpinner();
           killCurrentStream();
-          if ($scope.streamEnded) {
+          if ($scope.streamEnded && !reconnecting) {
             $scope.streamEnded();
           }
         });
