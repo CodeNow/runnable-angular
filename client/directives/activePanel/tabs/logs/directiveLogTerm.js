@@ -65,12 +65,16 @@ function logTerm(
 
       function killCurrentStream() {
         if ($scope.stream) {
+          $scope.stream.off('data');
           $scope.stream.removeAllListeners();
           $scope.stream.end();
         }
         if ($scope.eventStream) {
           $scope.eventStream.removeAllListeners();
           $scope.eventStream.end();
+        }
+        if (terminal) {
+          terminal.off('data');
         }
       }
 
