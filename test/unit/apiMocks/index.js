@@ -8,7 +8,8 @@ module.exports = {
   builds: {
     setup: require('./builds/setup'),
     new: require('./builds/new'),
-    built: require('./builds/built')
+    built: require('./builds/built'),
+    failed: require('./builds/failed')
   },
   branches: {
     bitcoinRepoBranches: require('./branches/bitcoinRepoBranches')
