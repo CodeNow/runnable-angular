@@ -28,12 +28,11 @@ $orange-lighter: #ffd87d;
 $orange-dark: darken($orange,9%);
 $orange-darker: darken($orange,12%);
 
-$red: #f00;
+$red: #f25058;
+$red-dark: desaturate(darken($red,10),7);
 
 $blue: #2ab0f6;
 $blue-dark: darken($blue,6%);
-
-$red: #f00;
 
 // spinner vars
 $spinner-offset: 187;
