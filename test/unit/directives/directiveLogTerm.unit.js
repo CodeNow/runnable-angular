@@ -166,6 +166,9 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.setupTermMock);
         $scope.$broadcast('STREAM_START');
         $scope.$apply();
+        // Stream start calls this
+        sinon.assert.calledOnce(ctx.termMock.off);
+        ctx.termMock.off.reset();
         sinon.assert.notCalled(ctx.termMock.reset);
         sinon.assert.calledOnce($scope.createStream);
         sinon.assert.calledOnce($scope.connectStreams);
@@ -179,6 +182,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
             y: 4
           }
         });
+        sinon.assert.notCalled(ctx.termMock.off);
         $scope.stream.end();
         $rootScope.$apply();
 

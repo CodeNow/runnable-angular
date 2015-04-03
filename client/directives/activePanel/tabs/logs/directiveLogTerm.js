@@ -43,7 +43,6 @@ function logTerm(
       bind(primus, 'open', function () {
         if (!reconnecting) { return; }
         reconnecting = false;
-        killCurrentStream();
         terminal.reset();
         terminal.writeln('\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
         terminal.writeln('★ Connection regained.  Thank you for your patience ★');

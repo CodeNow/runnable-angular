@@ -23,7 +23,7 @@ function TermController(
     var streams = primus.createTermStreams($scope.instance.containers.models[0], uniqueId);
     uniqueId = streams.uniqueId;
     $scope.stream = streams.termStream;
-    $scope.eventsStream = streams.eventStream;
+    $scope.eventStream = streams.eventStream;
   };
 
   $scope.connectStreams = function (terminal) {
