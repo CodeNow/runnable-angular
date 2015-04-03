@@ -31,7 +31,6 @@ function BoxLogController(
     var container = keypather.get($scope, 'instance.containers.models[0]');
     if (!container) { return; }
     if (container.attrs.error) {
-      console.log(container.attrs.error.message);
       $scope.$emit('WRITE_TO_TERM', '\x1b[33;1m' + container.attrs.error.message + '\x1b[0m');
     } else if (container.attrs.dockerContainer) {
       // prepend log command to terminal
