@@ -9,6 +9,7 @@
 //- active panel
 .active-panel(
   ng-class = "colorScheme.getSchemeStyle()"
+  ng-style = "panelStyle()"
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
@@ -95,3 +96,29 @@
           xlink:href = "#icons-server"
         )
       | Server Log
+
+//- can .views-prompt go in its own template file?
+.views-prompt.theme-dark(
+  ng-if = "showBuildFailurePrompt()"
+)
+  p.p.monospace Having build problems?
+  .btn-container
+    button.btn(
+      ng-class = "{white: !highlightRebuildWithoutCache, orange: highlightRebuildWithoutCache}"
+      ng-click = "actions.buildWithoutCache()"
+    ) Rebuild w/out cache
+    button.btn.orange(
+      ng-click = "actions.editBuildFiles()"
+    )
+      svg.iconnables.icons-edit
+        use(
+          xlink:href = "#icons-edit"
+        )
+      | Edit build files
+    button.btn.btn-close-prompt(
+      ng-click = "actions.hideBuildFailurePrompt()"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )

@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function logTerm(
-  $timeout,
   helperSetupTerminal,
   primus
 ) {
