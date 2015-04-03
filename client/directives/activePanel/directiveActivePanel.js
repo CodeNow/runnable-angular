@@ -49,10 +49,10 @@ function activePanel(
       $scope.colorScheme = colorScheme;
       $scope.useAutoUpdate = !!attrs.useAutoUpdate;
 
-      var showBuildFailurePrompt = false;
+      var shouldShowBuildFailurePrompt = false;
 
       $scope.$watch('instance.build.attrs.failed', function (newVal) {
-        showBuildFailurePrompt = newVal;
+        shouldShowBuildFailurePrompt = newVal;
       });
 
       $scope.highlightRebuildWithoutCache = false;
@@ -61,16 +61,19 @@ function activePanel(
       });
 
       $scope.showBuildFailurePrompt = function () {
-        var activeHistory = $scope.openItems.activeHistory.models;
+        var activeHistory = keypather.get($scope, 'openItems.activeHistory.models');
+        if (!activeHistory) {
+          return false;
+        }
         var currentPanel = activeHistory[activeHistory.length - 1];
         var isActive = keypather.get(currentPanel, 'state.active');
         var isBuildStream = keypather.get(currentPanel, 'state.type') === 'BuildStream';
-        return showBuildFailurePrompt && isActive && isBuildStream;
+        return shouldShowBuildFailurePrompt && isActive && isBuildStream;
       };
 
       $scope.actions = {
         buildWithoutCache: function () {
-          showBuildFailurePrompt = false;
+          shouldShowBuildFailurePrompt = false;
           window.alert('Build w/o cache');
         },
         editBuildFiles: function () {
@@ -84,7 +87,7 @@ function activePanel(
             }).catch(errs.handler);
         },
         hideBuildFailurePrompt: function () {
-          showBuildFailurePrompt = false;
+          shouldShowBuildFailurePrompt = false;
         }
       };
 
