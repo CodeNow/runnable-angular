@@ -12,7 +12,8 @@
   }
 
   // dismiss or close link
-  .link-white {
+  .link {
+    color: $white;
     display: inline-block;
     float: right;
     font-size: 14px;
