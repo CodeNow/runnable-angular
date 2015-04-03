@@ -30,14 +30,28 @@ function logTerm(
           });
         }
       }
-      var terminal = helperSetupTerminal($scope, elem, resizeHandler);
+      var terminal = helperSetupTerminal($scope, elem, $scope.termOpts, resizeHandler);
       $scope.$watch('item.state.active', resizeHandler);
 
-      bind(primus, 'offline', function () {
+      var reconnecting = false;
+      bind(primus, 'reconnect', function () {
+        if (reconnecting) { return; }
+        reconnecting = true;
         terminal.writeln('');
-        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
         terminal.writeln('☹ LOST CONNECTION - RETRYING ☹');
-        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+      });
+      bind(primus, 'open', function () {
+        if (!reconnecting) { return; }
+        reconnecting = false;
+        killCurrentStream();
+        terminal.reset();
+        terminal.writeln('\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
+        terminal.writeln('★ Connection regained.  Thank you for your patience ★');
+        terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n');
+        $scope.createStream();
+        $scope.connectStreams(terminal);
       });
 
       $scope.$on('$destroy', function () {
@@ -108,11 +122,7 @@ function logTerm(
         $scope.createStream();
         $scope.connectStreams(terminal);
         showTerminalSpinner();
-        bind(primus, 'reconnected', function () {
-          terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
-          terminal.writeln('★ Connection regained.  Thank you for your patience ★');
-          terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
-        });
+
         bind($scope.stream, 'end', function () {
           hideTerminalSpinner();
           killCurrentStream();
