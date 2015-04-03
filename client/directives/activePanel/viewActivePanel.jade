@@ -9,7 +9,6 @@
 //- active panel
 .active-panel(
   ng-class = "colorScheme.getSchemeStyle()"
-  ng-style = "panelStyle()"
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
@@ -99,7 +98,7 @@
 
 //- can .views-prompt go in its own template file?
 .views-prompt.theme-dark(
-  ng-if = "showBuildFailurePrompt()"
+  ng-class = "{hide: !showBuildFailurePrompt()}"
 )
   p.p.monospace Having build problems?
   .btn-container
@@ -108,7 +107,10 @@
       ng-click = "actions.buildWithoutCache()"
     ) Rebuild w/out cache
     button.btn.orange(
-      ng-click = "actions.editBuildFiles()"
+      modal
+      modal-actions = "popoverGearMenu.actions.actionsModalEdit"
+      modal-data = "popoverGearMenu.data.dataModalEdit"
+      modal-template = "viewOpenModalEdit"
     )
       svg.iconnables.icons-edit
         use(

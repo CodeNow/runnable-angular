@@ -14,10 +14,11 @@ function activePanel(
   $sce,
   colorScheme,
   keypather,
+  helperInstanceActionsModal,
+  updateInstanceWithNewBuild,
   errs,
-  $state,
-  promisify,
-  $stateParams
+  $rootScope,
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -27,9 +28,17 @@ function activePanel(
       instance: '=',
       build: '=',
       validation: '=',
-      stateModel: '='
+      stateModel: '=',
+      isEditModal: '=?'
     },
     link: function ($scope, element, attrs) {
+
+      $scope.popoverGearMenu = {
+        data: {},
+        actions: {}
+      };
+      // mutate scope, shared-multiple-states properties & logic for actions-modal
+      helperInstanceActionsModal($scope);
 
       /**
        * showBackgroundButtons
@@ -65,41 +74,35 @@ function activePanel(
         if (!activeHistory) {
           return false;
         }
+        var isEditModal = $scope.isEditModal;
         var currentPanel = activeHistory[activeHistory.length - 1];
         var isActive = keypather.get(currentPanel, 'state.active');
         var isBuildStream = keypather.get(currentPanel, 'state.type') === 'BuildStream';
-        return shouldShowBuildFailurePrompt && isActive && isBuildStream;
+        return !isEditModal && shouldShowBuildFailurePrompt && isActive && isBuildStream;
       };
 
       $scope.actions = {
         buildWithoutCache: function () {
           shouldShowBuildFailurePrompt = false;
-          window.alert('Build w/o cache');
-        },
-        editBuildFiles: function () {
-          promisify($scope.instance.build, 'deepCopy')(
-          ).then(function (forkedBuild) {
-              $state.go('instance.instanceEdit', {
-                userName: $stateParams.userName,
-                instanceName: $stateParams.instanceName,
-                buildId: forkedBuild.id()
-              });
-            }).catch(errs.handler);
+          keypather.set($rootScope, 'dataApp.data.loading', true);
+          promisify($scope.instance.build, 'deepCopy')()
+            .then(function (build) {
+              updateInstanceWithNewBuild(
+                $scope.instance,
+                build,
+                true,
+                {},
+                {}
+              )
+                .catch(errs.handler)
+                .finally(function () {
+                  keypather.set($rootScope, 'dataApp.data.loading', false);
+                });
+            });
         },
         hideBuildFailurePrompt: function () {
           shouldShowBuildFailurePrompt = false;
         }
-      };
-
-      $scope.panelStyle = function () {
-        if ($scope.showBuildFailurePrompt()) {
-          return {
-            height: 'calc(100% - 65px)'
-          };
-        }
-        return {
-          height: '100%'
-        };
       };
     }
   };

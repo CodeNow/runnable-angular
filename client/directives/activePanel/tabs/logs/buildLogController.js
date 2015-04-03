@@ -11,10 +11,10 @@ function BuildLogController(
   dockerStreamCleanser,
   $scope,
   primus,
-  $log,
   promisify,
   through,
-  errs
+  errs,
+  $timeout
 ) {
   $scope.showSpinnerOnStream = true;
 
@@ -40,6 +40,12 @@ function BuildLogController(
     }
   });
 
+  $scope.streamEnded = function () {
+    $timeout(function () {
+      $scope.build.fetch();
+    }, 1000);
+  };
+
   $scope.createStream = function () {
     $scope.stream = primus.createBuildStream($scope.build);
   };
@@ -55,6 +61,7 @@ function BuildLogController(
       },
       function end() {
         // Do nothing, especially don't pass it along to the terminal (You'll get an error)
+        $scope.$emit('WRITE_TO_TERM', '\r\n\r\n\r\n\r\n', false);
       }
     )).pipe(terminal);
   };
