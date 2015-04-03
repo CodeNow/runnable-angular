@@ -26,7 +26,8 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       writeln: sinon.spy(),
       reset: sinon.spy(),
       startBlink: sinon.spy(),
-      off: sinon.spy()
+      off: sinon.spy(),
+      blur: sinon.spy()
     };
     ctx.resizeHandlerCb = null;
     ctx.setupTermMock = sinon.spy(function (a, b, c, cb) {
@@ -81,6 +82,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       beforeEach(function () {
         $scope.createStream = sinon.spy(function () {
           $scope.stream = createMockStream();
+          $scope.stream.off = sinon.spy();
         });
       });
       it('should flow through', function () {
@@ -109,7 +111,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         $rootScope.$apply();
         sinon.assert.calledOnce($scope.streamEnded);
       });
-      it.skip('should turn on the spinner, then turn it off', function () {
+      it('should turn on the spinner, then turn it off', function () {
         $scope.showSpinnerOnStream = true;
         $scope.$broadcast('STREAM_START', {}, true);
         $scope.$apply();
@@ -159,7 +161,9 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       beforeEach(function () {
         $scope.createStream = sinon.spy(function () {
           $scope.stream = createMockStream();
+          $scope.stream.off = sinon.spy();
           $scope.eventStream = createMockStream();
+          $scope.eventStream.off = sinon.spy();
         });
       });
       it('should flow through', function () {
@@ -202,9 +206,11 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       var endSpy = sinon.spy();
       $scope.stream.removeAllListeners = removeAllSpy;
       $scope.stream.end = endSpy;
+      $scope.stream.off = sinon.spy();
       $scope.$destroy();
       expect(removeAllSpy.called).to.be.ok;
       expect(endSpy.called).to.be.ok;
+      expect($scope.stream.off.called).to.be.ok;
     });
   });
 
