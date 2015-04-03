@@ -25,6 +25,7 @@ function modalEdit(
     },
     link: function ($scope, element, attrs) {
       $scope.openItems = new OpenItems();
+      $scope.isEditModal = true;
 
       $scope.validation = {
         env: {}
