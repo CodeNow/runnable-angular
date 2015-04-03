@@ -13,7 +13,6 @@ require('app')
  */
 function repoList(
   $rootScope,
-  $state,
   createNewBuild,
   debounce,
   errs,
@@ -43,7 +42,7 @@ function repoList(
       };
       $scope.unsavedAcvs = [];
       $scope.showAddFirstRepoMessage = attrs.showAddFirstRepoMessage;
-      $scope.showAddRepo = attrs.showAddRepo;
+      $scope.showAddRepo = !!attrs.showAddRepo;
 
       // track all temp acvs generated
       // for each repo/child-scope

@@ -46,7 +46,7 @@ function HelperInstanceActionsModal(
       $scope.popoverGearMenu.data.instances = n;
     });
 
-    var unwatchbuild = $scope.$watch('build', function (n) {
+    var unwatchbuild = $scope.$watch('instance.build', function (n) {
       if (!n) { return; }
       data.build = n;
       $scope.popoverGearMenu.data.build = n;
@@ -62,6 +62,7 @@ function HelperInstanceActionsModal(
     $scope.popoverGearMenu.data.dataModalFork = data;
     $scope.popoverGearMenu.data.dataModalDelete = data;
     $scope.popoverGearMenu.data.dataModalEnvironment = data;
+    $scope.popoverGearMenu.data.dataModalEdit = data;
 
     $scope.popoverGearMenu.actions.actionsModalEnvironment = {
       save: function (cb) {

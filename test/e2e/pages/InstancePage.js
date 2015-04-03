@@ -7,6 +7,7 @@ var RepoList = require('../directives/RepoList');
 var ActivePanel = require('../directives/ActivePanel');
 var FileExplorer = require('../directives/FileExplorer');
 var InstanceList = require('../directives/InstanceList');
+var InstanceEditModal = require('./../modals/InstanceEditModal');
 
 function InstancePage (name) {
   this.name = name;
@@ -21,10 +22,15 @@ function InstancePage (name) {
   this.instanceName = util.createGetter(by.css('.server-name'));
 
   this.forkButton = util.createGetter(by.buttonText('Fork'));
+  this.editButton = util.createGetter(by.buttonText('Edit'));
 
   this.saveButton = util.createGetter(by.css('.btn-save'));
   this.saveOptions = util.createGetter(by.css('.green.btn-icon'));
   this.saveAndRestartCheckBox = util.createGetter(by.cssContainingText('.popover-list-item', 'Restart on save'));
+
+
+  this.greenNotification = util.createGetter(by.css('.alert.green'));
+  this.greenNotificationClose = util.createGetter(by.css('.btn-close'), this.greenNotification);
 
   this.modalFork = {
     // This one needs to be CSS.
@@ -32,6 +38,30 @@ function InstancePage (name) {
     input: util.createGetter(by.model('items[0].opts.name')),
     forkBtn: util.createGetter(by.buttonText('Fork Server')),
     cancel: util.createGetter(by.buttonText('Go Back'))
+  };
+
+  this.modalEdit = new InstanceEditModal();
+
+
+  this.closeNotificationIfPresent = function () {
+    var self = this;
+    if (this.greenNotification.get().isPresent()) {
+      browser.wait(function () {
+        return self.greenNotificationClose.get().isPresent();
+      });
+      self.greenNotificationClose.get().click();
+    }
+  };
+
+  this.openEditModal = function () {
+    var self = this;
+    browser.wait(function () {
+      return self.editButton.get().isPresent();
+    });
+    this.editButton.get().click();
+    browser.wait(function () {
+      return self.modalEdit.isPresent();
+    });
   };
 
   this.get = function () {

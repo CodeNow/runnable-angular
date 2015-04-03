@@ -93,6 +93,27 @@
     cursor: default;
     font-size: 13px;
     pointer-events: none;
+
+    &:hover,
+    &:active {
+      background: none !important;
+      border-color: transparent !important;
+    }
+  }
+
+  > .btn-xs {
+    background: $gray-lightest;
+    border-radius: 50%;
+    color: $gray-light;
+    float: right;
+    margin-top: 6px;
+    padding: 0;
+    width: 24px;
+
+    &:active,
+    &.active {
+      background: transparent;
+    }
   }
 
   .gravatar {

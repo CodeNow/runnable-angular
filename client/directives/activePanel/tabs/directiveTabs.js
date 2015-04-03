@@ -7,18 +7,20 @@ require('app')
  * @ngInject
  */
 function tabs(
-  $state,
   colorScheme,
+  helperAddTab,
   $rootScope
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewTabs',
     scope: {
-      openItems: '='
+      openItems: '=',
+      instance: '=',
+      showAddButtons: '='
     },
     link: function ($scope) {
-      $scope.state = $state;
+      $scope.popoverAddTab = helperAddTab($scope.showAddButtons, $scope.openItems);
       $scope.actions = {
         removeItem: function (event, item) {
           $scope.openItems.remove(item);

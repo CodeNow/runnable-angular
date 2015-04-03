@@ -198,11 +198,13 @@
   margin: 15px 0;
   padding: 9px 15px;
 
+  .btn-group,
   .green,
   .orange,
   .white {
     float: right;
 
+    + .btn-group,
     + .green,
     + .orange,
     + .white {
@@ -214,15 +216,27 @@
     }
   }
 
-  .label-checkbox {
+  .btn-group .btn:first-child {
     float: left;
-    font-size: 13px;
-    line-height: 22px;
-    margin: 10px 15px 0 9px;
+  }
 
-    .input-checkbox {
-      margin: 6px 6px 0 0;
-    }
+  .label-checkbox {
+    font-size: 13px;
+    line-height: 24px;
+    margin: 9px 6px 0 0;
+  }
+
+  // validation
+  .btn-file-errors {
+    border-radius: 12px;
+    float: left;
+    font-size: 16px;
+    height: 24px;
+    line-height: 24px;
+    margin: 10px 9px 0;
+    padding: 0 9px;
+    position: relative;
+    width: auto;
   }
 
   .btn-block {

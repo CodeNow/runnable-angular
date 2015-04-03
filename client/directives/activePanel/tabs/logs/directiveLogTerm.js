@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function logTerm(
-  $timeout,
   helperSetupTerminal,
   primus
 ) {
@@ -36,7 +35,7 @@ function logTerm(
       bind(primus, 'offline', function () {
         terminal.writeln('');
         terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
-        terminal.writeln('☹ LOST CONNECTION - retrying ☹');
+        terminal.writeln('☹ LOST CONNECTION - RETRYING ☹');
         terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
       });
 

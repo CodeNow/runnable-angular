@@ -2,14 +2,14 @@
 .views-toolbar {
   @extend %webkit-flicker;
   border-bottom: 1px solid rgba($black,.1);
-  height: 45px;
+  flex: 0 0 45px;
   overflow: visible;
   position: relative;
   transition: all .15s ease-in;
 }
 
 // toolbar tabs
-.add-tab {
+.btn-add-tab {
   box-shadow: -12px 0 12px rgba($white,.9);
   position: absolute;
   right: 6px;

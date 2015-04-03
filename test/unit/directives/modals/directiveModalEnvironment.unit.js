@@ -93,7 +93,7 @@ describe('directiveModalEnvironment'.bold.underline.blue, function () {
       expect($elScope.data.hideGuideHelpEnvModal).to.be.false;
       expect($elScope.pasteLinkedInstance).to.be.a('function');
 
-      expect($elScope.validation).to.deep.equal({});
+      expect($elScope.validation).to.be.ok;
       expect($elScope.tempModel).to.deep.equal({});
 
       $scope.$destroy();

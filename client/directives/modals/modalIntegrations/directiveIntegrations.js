@@ -70,7 +70,7 @@ function integrations(
           } else if (slackMember.found && slackMember.slackOn) {
             // Autodetected name was checked
             obj[slackMember.ghName] = slackMember.id;
-          } else {
+          } else if (slackMember.ghName) {
             // We want to note them but not enable slack
             obj[slackMember.ghName] = null;
           }

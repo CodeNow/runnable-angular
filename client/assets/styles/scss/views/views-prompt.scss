@@ -1,0 +1,121 @@
+.views-prompt {
+  background-color: darken($white,5%);
+  bottom: 0;
+  color: $gray;
+  height: 74px;
+  min-width: 610px;
+  padding: 14px 9px 14px 18px;
+  position: absolute;
+  transition: transform .2s ease-in;
+  width: 100%;
+  z-index: $z-views-active-panel;
+
+  &.hide {
+    transform: translate3d(0,72px,0);
+  }
+
+  .btn-container {
+    float: right;
+  }
+
+  .p {
+    float: left;
+    font-size: 15px;
+    line-height: 19px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+    @media (max-width: 1210px) {
+      width: 120px;
+    }
+
+  }
+
+  .btn {
+    float: left;
+    margin-left: 9px;
+    width: 192px;
+  }
+
+  .white {
+    background-color: rgba($black,.04);
+    border-color: rgba($black,.1);
+  }
+
+  .iconnables {
+    height: 21px;
+    width: 21px;
+  }
+
+  .icons-edit {
+    fill: $white;
+    margin: 0 4px -4px -3px;
+  }
+
+  .icons-close {
+    fill: currentColor;
+  }
+
+  .btn-close-prompt {
+    color: $gray;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    height: 25px;
+    line-height: 33px;
+    margin-top: 11px;
+    padding: 0;
+    width: 25px;
+    opacity: .5;
+
+    &:hover {
+      background-color: rgba($black,.08);
+      border: 1px solid rgba($black,.2);
+    }
+
+    &:active {
+      background-color: rgba($purple,.1);
+      border-color: rgba($purple,.2);
+      color: rgba($purple,.75);
+      opacity: 1;
+    }
+  }
+}
+
+.ace-runnable-dark ~ .views-prompt {
+  background-color: desaturate(lighten($purple-darker,5%),10%);
+  color: $purple-lighter;
+
+  .orange {
+    border-color: transparent;
+  }
+
+  .white {
+    background-color: rgba($white,.05);
+    border-color: rgba($white,.18);
+    color: inherit;
+
+    &:hover {
+      background-color: rgba($white,.08);
+    }
+
+    &:active {
+      color: $white;
+    }
+  }
+
+  .btn-close-prompt {
+    color: currentColor;
+
+    &:hover {
+      background-color: rgba($white,.1);
+      border: 1px solid rgba($white,.36);
+    }
+
+    &:active {
+      background-color: rgba($white,.05);
+      border-color: rgba($white,.18);
+      opacity: 1;
+    }
+  }
+}

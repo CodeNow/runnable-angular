@@ -1,7 +1,7 @@
 'use strict';
 
+var User = require('runnable/lib/models/user');
 var user = require('../apiMocks').user;
-
 var runnable = new (require('runnable'))(window.host);
 
 module.exports = function ($q) {
@@ -11,6 +11,7 @@ module.exports = function ($q) {
     thisUser.oauthName = function () {
       return thisUser.accounts.github.username;
     };
+    thisUser = new User(angular.copy(thisUser));
     d.resolve(thisUser);
     return d.promise;
   };

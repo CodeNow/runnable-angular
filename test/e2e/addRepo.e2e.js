@@ -2,12 +2,12 @@
 
 var util = require('./helpers/util');
 var users = require('./helpers/users');
-var InstanceEditPage = require('./pages/InstanceEditPage');
+var InstanceEditPage = require('./modals/InstanceEditModal');
 var InstancePage = require('./pages/InstancePage');
 
 describe('addRepo', users.doMultipleUsers(function (username) {
   it('adds a repo to an instance: ' + username, function() {
-    var instanceEdit = new InstanceEditPage('SPACESHIPS');
+    var instanceEdit = new InstanceEditModal('SPACESHIPS');
     instanceEdit.get();
 
     instanceEdit.repoList.openAddDropdown();
@@ -27,7 +27,7 @@ describe('addRepo', users.doMultipleUsers(function (username) {
   });
 
   it('should now have 2 repos', function() {
-    var instanceEdit = new InstanceEditPage('Test-0');
+    var instanceEdit = new InstanceEditModal('Test-0');
     instanceEdit.get();
 
     util.waitForUrl(InstancePage.urlRegex());

@@ -1,47 +1,56 @@
-.modal-getting-started {
-  padding-top: 15px;
+// labels
+.modal-stack-selector,
+.modal-gs-environments {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  padding: 15px 15px 0;
+  width: 600px;
 
-  // reset and center header
-  .modal-heading {
-    float: none;
-    line-height: 54px;
-    text-align: center;
+  // branch select
+  .btn-select {
 
-    .small {
-      color: $gray;
-      line-height: 0;
+    .iconnables {
+      height: 18px;
+      top: 9px;
+      width: 18px;
+    }
+
+    .icons-branch {
+      color: $gray-light;
     }
   }
 
-  .modal-body {
-    display: flex;
-    flex: 1 1 auto;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 15px 30px;
-  }
+  // language/framework button
+  .btn-group {
 
-  .modal-footer {
-    background: none;
-    border: 0;
-    display: flex;
-    justify-content: center;
-    padding: 0 0 30px;
+    // not-allowed
+    + .btn-group {
+      margin-top: 6px; // additional button groups
+
+      .btn:first-child {
+        background: $gray-lightest;
+        cursor: default;
+      }
+    }
 
     .btn {
-      float: none;
+      width: 50%;
+
+      + .btn {
+        padding-left: 15px;
+      }
+    }
+
+    .small {
+      color: $gray-dark;
+      display: inline-block;
+      float: left;
     }
   }
 
-  .btn-radio {
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 6px;
-
-    .img {
-      border-radius: 3px;
-    }
+  // footer
+  .modal-footer {
+    margin: 30px -15px 0;
   }
 }

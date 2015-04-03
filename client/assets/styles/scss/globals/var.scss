@@ -18,18 +18,19 @@ $green-darker: darken($green,12%);
 $purple: #5b3777;
 $purple-logo: #ccadd2;
 $purple-light: saturate(lighten($purple,15%),15%);
-$purple-lighter: #b085d4;
+$purple-lighter: #b6a6bd; // previously lighten($purple,20%)
 $purple-lightest: #f3ecf9;
 $purple-dark: darken($purple,10%);
 $purple-darker: darken($purple,20%);
 
-$orange: #f9c029;
-$orange-lighter: lighten($orange,13);
-$orange-light: #ffca3b;
+$orange: #f2ae24;
+$orange-light: #f7c457;
+$orange-lighter: #ffd87d;
 $orange-dark: darken($orange,9%);
 $orange-darker: darken($orange,12%);
 
-$red: #f00;
+$red: #f25058;
+$red-dark: desaturate(darken($red,10),7);
 
 $blue: #2ab0f6;
 $blue-dark: darken($blue,6%);
@@ -45,7 +46,6 @@ $z-show: 10000;
 
 // hero
 $z-hero-aura: 1000;
-$z-hero-layers: 1000; // remove this after merge w/ SAN-548
 $z-hero-content: 1001;
 $z-hero-list: 1002;
 $z-hero-list-content: 1003;
@@ -69,22 +69,22 @@ $z-sidebar-footer: 3003;
 $z-guide: 4000;
 
 // modals
-$z-modal-backdrop: 6000;
-$z-modal-aside: 6001;
-$z-modal: 6002;
+$z-modal-backdrop: 5000;
+$z-modal-aside: 5001;
+$z-modal: 5002;
 
 // popovers
-$z-popover: 7000;
-$z-popover-title-filter: 7001;
-$z-popover-context-menu: 7002;
-$z-popover-content: 7003;
-$z-popover-title: 7004;
+$z-popover: 6000;
+$z-popover-title-filter: 6001;
+$z-popover-context-menu: 6002;
+$z-popover-content: 6003;
+$z-popover-title: 6004;
 
 // alerts
-$z-alert: 8000;
+$z-alert: 7000;
 
 // tooltips
-$z-tooltip: 9000;
+$z-tooltip: 8000;
 
 // spinners
-$z-spinner: 10000;
+$z-spinner: 9000;

@@ -6,23 +6,24 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  errs,
-  fetchCommitData,
-  keypather,
-  OpenItems,
   $localStorage,
   $location,
+  $q,
   $scope,
   $state,
   $stateParams,
   $timeout,
-  $q,
   $window,
+  OpenItems,
+  errs,
+  eventTracking,
   favico,
-  pageName,
-  pFetchUser,
+  fetchCommitData,
   fetchInstances,
-  fetchSettings
+  fetchSettings,
+  keypather,
+  pFetchUser,
+  pageName
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -47,6 +48,10 @@ function ControllerInstance(
     in: false
   };
 
+  data.userIsOrg = function () {
+    return $scope.user.oauthName() !== $state.params.userName;
+  };
+
   // Trigger Heap event
   if ($window.heap && $location.search().chat) {
     $window.heap.track('box-selection-chat-click', {
@@ -59,6 +64,8 @@ function ControllerInstance(
   // The error handling for pFetchUser will re-direct for us, so we don't need to handle that case
   pFetchUser().then(function (user) {
     $scope.user = user;
+    // product team - track visits to instance page & referrer
+    eventTracking.boot(user).visitedState();
     return $q.all({
       instance: fetchInstances({ name: $stateParams.instanceName }),
       settings: fetchSettings()
@@ -95,17 +102,41 @@ function ControllerInstance(
 
   $scope.$watch('dataInstance.data.instance.build.attrs.started', function (n, p) {
     if (data.showUpdatingMessage || !n || !p || n === p) { return; }
+
+    // If the build was triggered by me manually we don't want to show toasters.
+    var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
+    var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
+
+    if (isManual && isTriggeredByMe){
+      data.showUpdatedMessage = false;
+      data.showUpdatingMessage = false;
+      return;
+    }
+
+
     data.showUpdatedMessage = false;
     data.showUpdatingMessage = true;
   });
   $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
     // p should be null since during a build, the completed field is nulled out
     if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; }
-    data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
+
+    // If the build was triggered by me manually we don't want to show toasters.
+    var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
+    var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
+
+    if (isManual && isTriggeredByMe){
+      data.showUpdatedMessage = false;
+      data.showUpdatingMessage = false;
+      return;
+    }
+
+    if (data.instance.contextVersion.appCodeVersions.models.length) {
+      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
+    }
     data.showUpdatingMessage = false;
     data.showUpdatedMessage = true;
   });
-
 
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click

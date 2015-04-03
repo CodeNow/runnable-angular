@@ -79,23 +79,6 @@
     }
   }
 
-  // button groups
-  .btn-group {
-
-    .btn {
-      width: 50%;
-
-      + .btn {
-        padding-left: 15px;
-      }
-    }
-
-    // additional button groups
-    + .btn-group {
-      margin-top: 6px;
-    }
-  }
-
   // label-footer
   .label-footer {
     border-top: 1px solid rgba($black,.1);
