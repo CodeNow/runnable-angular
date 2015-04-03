@@ -10,6 +10,8 @@ function TermController(
   primus
 ) {
   var uniqueId;
+  var termOnFn;
+  var streamOnFn;
   $scope.termOpts = {
     hideCursor: false,
     cursorBlink: true
@@ -25,10 +27,16 @@ function TermController(
     $scope.stream = streams.termStream;
     $scope.eventStream = streams.eventStream;
   };
+  $scope.disconnectStreams = function (terminal) {
+    terminal.off('data', termOnFn);
+    $scope.stream.off('data', streamOnFn);
+  };
 
   $scope.connectStreams = function (terminal) {
-    terminal.on('data', $scope.stream.write.bind($scope.stream));
-    $scope.stream.on('data', terminal.write.bind(terminal));
+    termOnFn = $scope.stream.write.bind($scope.stream);
+    streamOnFn = terminal.write.bind(terminal);
+    terminal.on('data', termOnFn);
+    $scope.stream.on('data', streamOnFn);
   };
 }
 
