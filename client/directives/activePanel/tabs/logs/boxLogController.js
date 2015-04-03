@@ -12,6 +12,8 @@ function BoxLogController(
   through,
   primus
 ) {
+
+  $scope.clearTermOnReconnect = true;
   /**
    * watch for container changes - by watching running state
    * [Initial Scenarios:]
