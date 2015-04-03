@@ -30,7 +30,6 @@ function logTerm(
         }
       }
       var terminal = helperSetupTerminal($scope, elem, $scope.termOpts, resizeHandler);
-      $scope.$watch('item.state.active', resizeHandler);
 
       var reconnecting = false;
       bind(primus, 'reconnect', function () {
@@ -65,7 +64,6 @@ function logTerm(
 
       function killCurrentStream() {
         if ($scope.stream) {
-          $scope.stream.off('data');
           $scope.stream.removeAllListeners();
           $scope.stream.end();
         }

@@ -25,7 +25,8 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       write: sinon.spy(),
       writeln: sinon.spy(),
       reset: sinon.spy(),
-      startBlink: sinon.spy()
+      startBlink: sinon.spy(),
+      off: sinon.spy()
     };
     ctx.resizeHandlerCb = null;
     ctx.setupTermMock = sinon.spy(function (a, b, c, cb) {
@@ -181,6 +182,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         $scope.stream.end();
         $rootScope.$apply();
 
+        sinon.assert.calledOnce(ctx.termMock.off);
         sinon.assert.calledOnce($scope.streamEnded);
         $scope.$destroy();
       });
