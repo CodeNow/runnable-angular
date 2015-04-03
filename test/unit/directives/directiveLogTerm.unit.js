@@ -17,7 +17,7 @@ function createMockStream() {
   return mockStream;
 }
 
-describe('directiveLogTerm'.bold.underline.blue, function () {
+describe.only('directiveLogTerm'.bold.underline.blue, function () {
   var ctx;
 
   function injectSetupCompile() {
@@ -28,7 +28,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       startBlink: sinon.spy()
     };
     ctx.resizeHandlerCb = null;
-    ctx.setupTermMock = sinon.spy(function (a, b, cb) {
+    ctx.setupTermMock = sinon.spy(function (a, b, c, cb) {
       ctx.resizeHandlerCb = cb;
       return ctx.termMock;
     });
@@ -93,8 +93,16 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         $scope.connectStreams.reset();
 
         sinon.assert.notCalled($scope.streamEnded);
-        mockPrimus.emit('reconnected');
+        mockPrimus.emit('open');
         $rootScope.$apply();
+        // Shouldn't 'reconnect' unless it actually disconnected
+        sinon.assert.notCalledWith(ctx.termMock.writeln, '★ Connection regained.  Thank you for your patience ★');
+
+        mockPrimus.emit('reconnect');
+        $rootScope.$apply();
+        mockPrimus.emit('open');
+        $rootScope.$apply();
+
         sinon.assert.calledWith(ctx.termMock.writeln, '★ Connection regained.  Thank you for your patience ★');
         $scope.stream.end();
         $rootScope.$apply();
@@ -196,7 +204,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
 
   describe('primus goes offline', function () {
     it('should display disconnect message when primus goes offline', function () {
-      mockPrimus.emit('offline');
+      mockPrimus.emit('reconnect');
       $rootScope.$apply();
       sinon.assert.calledWith(ctx.termMock.writeln, '☹ LOST CONNECTION - RETRYING ☹');
     });
