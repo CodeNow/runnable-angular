@@ -1,16 +1,9 @@
 .modal-edit {
-  min-width: 900px;
+  max-width: 900px;
+  width: calc(100% - 30px);
 
-  @include media(md) {
-    min-width: 738px;
-  }
-
-  @include media(sm) {
-    min-width: 570px;
-  }
-
-  @include media(xs) {
-    min-width: 0;
+  @include media(xxl) {
+    max-width: 1200px;
   }
 
   .modal-header {
