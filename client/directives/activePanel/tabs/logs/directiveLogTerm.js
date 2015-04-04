@@ -49,7 +49,7 @@ function logTerm(
         terminal.writeln('\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
         terminal.writeln('★ Connection regained.  Thank you for your patience ★');
         terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n');
-        initializeStream();
+        initializeStream(true);
       });
 
       $scope.$on('$destroy', function () {
@@ -63,18 +63,22 @@ function logTerm(
         initializeStream();
       });
 
-      function killCurrentStream() {
+      function killCurrentStream(isReconnecting) {
         if ($scope.stream) {
           if ($scope.disconnectStreams) {
             $scope.disconnectStreams(terminal);
           }
           $scope.stream.removeAllListeners();
-          $scope.stream.end();
+          if (!isReconnecting) {
+            $scope.stream.end();
+          }
           $scope.stream = null;
         }
         if ($scope.eventStream) {
           $scope.eventStream.removeAllListeners();
-          $scope.eventStream.end();
+          if (!isReconnecting) {
+            $scope.eventStream.end();
+          }
           $scope.eventStream = null;
         }
       }
@@ -120,17 +124,19 @@ function logTerm(
         writeToTerm(output);
       });
 
-      function initializeStream() {
-        killCurrentStream();
+      function initializeStream(isReconnecting) {
+        killCurrentStream(isReconnecting);
         $scope.createStream();
         $scope.connectStreams(terminal);
         showTerminalSpinner();
 
         bind($scope.stream, 'end', function () {
-          hideTerminalSpinner();
-          killCurrentStream();
-          if ($scope.streamEnded && !reconnecting) {
-            $scope.streamEnded();
+          if (!reconnecting) {
+            hideTerminalSpinner();
+            killCurrentStream();
+            if ($scope.streamEnded) {
+              $scope.streamEnded();
+            }
           }
         });
       }
