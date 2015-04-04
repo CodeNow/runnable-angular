@@ -69,16 +69,10 @@ function logTerm(
             $scope.disconnectStreams(terminal);
           }
           $scope.stream.removeAllListeners();
-          if (!isReconnecting) {
-            $scope.stream.end();
-          }
           $scope.stream = null;
         }
         if ($scope.eventStream) {
           $scope.eventStream.removeAllListeners();
-          if (!isReconnecting) {
-            $scope.eventStream.end();
-          }
           $scope.eventStream = null;
         }
       }
