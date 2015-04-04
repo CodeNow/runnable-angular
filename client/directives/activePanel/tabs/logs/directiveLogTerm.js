@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function logTerm(
+  $timeout,
   helperSetupTerminal,
   primus
 ) {
@@ -32,14 +33,16 @@ function logTerm(
       var terminal = helperSetupTerminal($scope, elem, $scope.termOpts, resizeHandler);
 
       var reconnecting = false;
-      bind(primus, 'offline', function () {
+      function disconnected() {
         if (reconnecting) { return; }
         reconnecting = true;
         terminal.writeln('');
         terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
         terminal.writeln('☹ LOST CONNECTION - RETRYING ☹');
         terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
-      });
+      }
+      bind(primus, 'offline', disconnected);
+      bind(primus, 'reconnect', disconnected);
       bind(primus, 'open', function () {
         if (!reconnecting) { return; }
         reconnecting = false;
@@ -49,7 +52,9 @@ function logTerm(
         terminal.writeln('\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
         terminal.writeln('★ Connection regained.  Thank you for your patience ★');
         terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n');
-        initializeStream(true);
+        $timeout(function () {
+          initializeStream(true);
+        });
       });
 
       $scope.$on('$destroy', function () {
@@ -63,17 +68,18 @@ function logTerm(
         initializeStream();
       });
 
-      function killCurrentStream(isReconnecting) {
+      function killCurrentStream() {
         if ($scope.stream) {
-          if ($scope.disconnectStreams) {
-            $scope.disconnectStreams(terminal);
-          }
+          $scope.stream.off('data');
           $scope.stream.removeAllListeners();
-          $scope.stream = null;
+          $scope.stream.end();
         }
         if ($scope.eventStream) {
           $scope.eventStream.removeAllListeners();
-          $scope.eventStream = null;
+          $scope.eventStream.end();
+        }
+        if (terminal) {
+          terminal.off('data');
         }
       }
 
@@ -118,19 +124,17 @@ function logTerm(
         writeToTerm(output);
       });
 
-      function initializeStream(isReconnecting) {
-        killCurrentStream(isReconnecting);
+      function initializeStream() {
+        killCurrentStream();
         $scope.createStream();
         $scope.connectStreams(terminal);
         showTerminalSpinner();
 
         bind($scope.stream, 'end', function () {
-          if (!reconnecting) {
-            hideTerminalSpinner();
-            killCurrentStream();
-            if ($scope.streamEnded) {
-              $scope.streamEnded();
-            }
+          hideTerminalSpinner();
+          killCurrentStream();
+          if ($scope.streamEnded) {
+            $scope.streamEnded();
           }
         });
       }

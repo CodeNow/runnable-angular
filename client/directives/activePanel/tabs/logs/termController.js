@@ -27,10 +27,6 @@ function TermController(
     $scope.stream = streams.termStream;
     $scope.eventStream = streams.eventStream;
   };
-  $scope.disconnectStreams = function (terminal) {
-    terminal.off('data', termOnFn);
-    $scope.stream.off('data', streamOnFn);
-  };
 
   $scope.connectStreams = function (terminal) {
     termOnFn = $scope.stream.write.bind($scope.stream);
