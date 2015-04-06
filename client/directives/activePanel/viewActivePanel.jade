@@ -25,10 +25,10 @@
   )
 
   //- terminal
-  .term-container(
-    item = "item"
+  .logs(
     ng-if = "item.state.type === 'Terminal'"
-    term
+    ng-controller = "TermController"
+    log-term
   )
 
   //- files
