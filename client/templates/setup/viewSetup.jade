@@ -1,53 +1,79 @@
-//- step 1
-  - choose organization
-.setup-container.step-organization-select.card-grid(
-  ng-if = "state.step === 1"
-  ng-include = "'viewSetupOrganizationSelect'"
-  ng-init = "state.loading = true"
-)
+.setup-header
+  h3.h3 Servers
 
-//- step 2
-  - user chooses repositories
-  - server on the next step is created for each repo selected
-    and for each dependency server
-.setup-container.step-repository-select(
-  ng-if = "state.step === 2"
-  ng-include = "'viewSetupRepositorySelect'"
-  ng-init = "state.loading = true"
-)
-
-//- step 3
-  - setup env variables for all servers
-.setup-container.step-environment-setup.card-grid(
-  ng-if = "state.step === 3"
-  ng-include = "'viewSetupEnvironmentVariables'"
-)
-
-//- step 4
-  - configuration for server stack and their dependency servers
-.setup-container.step-configure-servers.card-grid(
-  ng-if = "state.step === 4"
-  ng-include= "'viewSetupServers'"
-)
-
-.setup-footer(
-  ng-if = "state.step > 1"
-)
-  .footer-container
-    button.btn.gray.btn-back(
-      ng-click = "state.step = state.step - 1"
-    )
-      svg.iconnables.icons-arrow-back
+.setup-body
+  .card.load
+    h2.card-header
+      svg.iconnables.icons-server
         use(
-          xlink:href = "#icons-arrow-back"
+          xlink:href = "#icons-server"
         )
-      | Back
-    p.p 6 servers selected
-    button.btn.green.btn-forward(
-      ng-click = "state.step = state.step + 1"
-      ng-disabled = "!state.repositorySelected"
-    ) Next
-      svg.iconnables.icons-arrow-forward
-        use(
-          xlink:href = "#icons-arrow-back"
-        )
+      | api
+  ul.card-body
+    li.card-item
+      h4.h4
+        svg.iconnables
+        | Start CMD
+      p.p.monospace npm start
+    li.card-item
+      h4.h4
+        svg.iconnables
+        | Ports
+      p.p.monospace 80,300,30001
+    li.card-item
+      h4.h4
+
+
+//- //- step 1
+//-   - choose organization
+//- .setup-container.step-organization-select.card-grid(
+//-   ng-if = "state.step === 1"
+//-   ng-include = "'viewSetupOrganizationSelect'"
+//-   ng-init = "state.loading = true"
+//- )
+
+//- //- step 2
+//-   - user chooses repositories
+//-   - server on the next step is created for each repo selected
+//-     and for each dependency server
+//- .setup-container.step-repository-select(
+//-   ng-if = "state.step === 2"
+//-   ng-include = "'viewSetupRepositorySelect'"
+//-   ng-init = "state.loading = true"
+//- )
+
+//- //- step 3
+//-   - setup env variables for all servers
+//- .setup-container.step-environment-setup.card-grid(
+//-   ng-if = "state.step === 3"
+//-   ng-include = "'viewSetupEnvironmentVariables'"
+//- )
+
+//- //- step 4
+//-   - configuration for server stack and their dependency servers
+//- .setup-container.step-configure-servers.card-grid(
+//-   ng-if = "state.step === 4"
+//-   ng-include= "'viewSetupServers'"
+//- )
+
+//- .setup-footer(
+//-   ng-if = "state.step > 1"
+//- )
+//-   .footer-container
+//-     button.btn.gray.btn-back(
+//-       ng-click = "state.step = state.step - 1"
+//-     )
+//-       svg.iconnables.icons-arrow-back
+//-         use(
+//-           xlink:href = "#icons-arrow-back"
+//-         )
+//-       | Back
+//-     p.p 6 servers selected
+//-     button.btn.green.btn-forward(
+//-       ng-click = "state.step = state.step + 1"
+//-       ng-disabled = "!state.repositorySelected"
+//-     ) Next
+//-       svg.iconnables.icons-arrow-forward
+//-         use(
+//-           xlink:href = "#icons-arrow-back"
+//-         )

@@ -4,9 +4,9 @@
   ng-include = "'spinner'"
 )
 
-.setup-header.load(
-  ng-if = "!state.loading"
-)
+//- .setup-header.load(
+//-   ng-if = "!state.loading"
+//- )
   h1.h1 Add Servers
   p.p Each repositories to be created on their own server. We'll automagically
     br
@@ -40,10 +40,10 @@
             use(
               xlink:href = "#icons-check"
             )
-        ul.list.list-nested(
-          ng-click = "$event.stopPropagation();"
-          ng-if = "data.toggleApi"
-        )
+        //- ul.list.list-nested(
+        //-   ng-click = "$event.stopPropagation();"
+        //-   ng-if = "data.toggleApi"
+        //- )
           li.list-item.small Dependencies
           li.list-item
             svg.iconnables.icons-mongo
@@ -105,10 +105,10 @@
             use(
               xlink:href = "#icons-check"
             )
-        ul.list.list-nested(
-          ng-click = "$event.stopPropagation();"
-          ng-if = "data.toggleMavis"
-        )
+        //- ul.list.list-nested(
+        //-   ng-click = "$event.stopPropagation();"
+        //-   ng-if = "data.toggleMavis"
+        //- )
           li.list-item.small Dependencies
           li.list-item
             svg.iconnables.icons-redis
@@ -147,10 +147,10 @@
             use(
               xlink:href = "#icons-check"
             )
-        ul.list.list-nested(
-          ng-click = "$event.stopPropagation();"
-          ng-if = "data.toggleRunnableAngular"
-        )
+        //- ul.list.list-nested(
+        //-   ng-click = "$event.stopPropagation();"
+        //-   ng-if = "data.toggleRunnableAngular"
+        //- )
           li.list-item.small Dependencies
           li.list-item
             svg.iconnables.icons-mongo

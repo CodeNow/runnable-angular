@@ -4,7 +4,19 @@ header.header
     //- logo
 
     //- title
-    //- h2.h2 Environment Setup
+      ng-class = "{active: popoverEnvironmentMenu.data.show}"
+      pop-over
+      pop-over-actions = "popoverEnvironmentMenu.actions"
+      pop-over-data = "popoverEnvironmentMenu.data"
+      pop-over-options = "{\"left\":-3,\"top\":54}"
+      pop-over-template = "viewPopoverEnvironmentMenu"
+      pop-over-active = "popoverEnvironmentMenu.data.show"
+    h2.h2.btn(
+    ) Environment
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
 
     //- menu
     //- ng-class = "{active: popoverAccountMenu.data.show}"

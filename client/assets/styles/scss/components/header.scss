@@ -1,7 +1,7 @@
 .header {
   background: $purple;
   height: 60px;
-  padding: 6px;
+  padding: 9px 6px;
   width: 100vw;
 
   .header-container {
@@ -22,35 +22,49 @@
     }
   }
 
-  // title
-  .h2 {
-    color: $white;
-    font-size: 24px;
-    height: 60px;
-    left: 0;
-    line-height: 60px;
-    position: absolute;
-    right: 0;
-    text-align: center;
-  }
-
-  // menu
-  .btn-account {
+  // header button styles
+  .btn {
+    background: rgba($white,.15);
+    border: 2px solid transparent;
     color: $white;
     float: right;
     font-weight: 500;
+    line-height: 38px;
     padding: 0 9px;
     text-align: left;
+    text-decoration: none;
     width: auto;
 
-    &.no-touching > .icons-arrow-down {
-      transform: scale3d(0,0,0);
+    &:hover,
+    &.active {
+      background: $white;
+      border-color: $purple-lighter;
+      color: $purple-light;
+    }
+
+    &:active {
+      background: $white;
+      border-color: currentColor;
+      color: $green;
     }
 
     .gravatar {
       float: left;
       margin-right: 6px;
-      margin-top: 12px;
+      margin-top: 9px;
     }
+  }
+
+  // title
+  .h2 {
+    color: $white;
+    font-size: 21px;
+    left: 0;
+    line-height: 40px;
+    margin: 0 auto;
+    max-width: 210px;
+    position: absolute;
+    right: 0;
+    text-align: center;
   }
 }
