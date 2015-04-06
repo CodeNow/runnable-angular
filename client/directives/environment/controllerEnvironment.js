@@ -1,15 +1,15 @@
 'use strict';
 
 require('app')
-  .controller('ControllerSetup', ControllerSetup);
+  .controller('ControllerEnvironment', ControllerEnvironment);
 /**
- * ControllerSetup
+ * ControllerEnvironment
  * @param $scope
  * @constructor
  * @export
  * @ngInject
  */
-function ControllerSetup(
+function ControllerEnvironment(
   $scope,
   $rootScope,
   $state,

@@ -1,47 +1,7 @@
 //- sidebar for accounts and servers
-header.header
-  .header-container
-    //- logo
-
-    //- title
-    h2.h2.btn.purple(
-      ng-class = "{active: popoverEnvironmentMenu.data.show}"
-      pop-over
-      pop-over-actions = "popoverEnvironmentMenu.actions"
-      pop-over-data = "popoverEnvironmentMenu.data"
-      pop-over-options = "{\"left\":0,\"top\":54}"
-      pop-over-template = "viewPopoverEnvironmentMenu"
-      pop-over-active = "popoverEnvironmentMenu.data.show"
-    ) Environment
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-
-    //- menu
-    //- ng-class = "{active: popoverAccountMenu.data.show}"
-    //- toggle-pop-over
-    //- toggle-pop-over-model = "popoverAccountMenu.data.show"
-    a.btn.purple(
-      href = "/runnabro/new"
-    )
-      img.gravatar(
-        height = "24"
-        ng-src = "https://avatars.githubusercontent.com/u/5341618?v=3"
-        width = "24"
-      )
-      | runnabro
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      pop-over(
-        actions = "popoverAccountMenu.actions"
-        data = "popoverAccountMenu.data"
-        popover-ready = "popoverAccountMenu.data.show"
-        popover-options = "{\"left\":120,\"top\":54}"
-        template = "viewPopoverAccountMenu"
-      )
+header.header(
+  ng-include = "'viewHeader'"
+)
 
 //- nav.sidebar.nav-sidebar(
   section.row.nav-servers(

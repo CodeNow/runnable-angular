@@ -63,8 +63,8 @@ module.exports = [
     state: 'instance.setup',
     abstract: false,
     url: '^/:userName/new/:buildId',
-    templateUrl: 'viewSetup',
-    controller: 'ControllerSetup'
+    templateUrl: 'viewEnvironment',
+    controller: 'ControllerEnvironment'
   }, {
     state: '404',
     abstract: false,
