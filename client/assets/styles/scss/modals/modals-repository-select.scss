@@ -1,0 +1,81 @@
+.modal-repository-select {
+  max-width: 450px;
+  padding: 15px;
+
+  // search
+  .input-search {
+    background-color: $white;
+    background-position: calc(50% - 53px) 5px;
+    border-color: $gray-lighter;
+    color: $gray;
+    line-height: 32px;
+    margin-bottom: 12px;
+    padding-left: calc(50% - 42px);
+    width: 416px;
+
+    &:focus,
+    &:valid {
+      background-position: 5px;
+      border-color: $green;
+      padding-left: 30px;
+    }
+  }
+}
+
+// repository list
+.list-repositories {
+
+  > .list-item {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    height: auto;
+    line-height: 1.4;
+    margin: 3px 0 0;
+    padding: 6px 15px;
+
+    &:hover,
+    &.active {
+      background: $white;
+      border-color: $gray-lighter;
+    }
+
+    &:active {
+      background: $white;
+      border-color: currentColor;
+      color: $green;
+
+      .small {
+        color: currentColor;
+      }
+    }
+
+    &.disabled {
+
+      &:hover,
+      &:active {
+        background: none;
+        border-color: transparent;
+        color: $gray-darker;
+        cursor: default;
+
+        .small {
+          color: $gray-light;
+        }
+      }
+    }
+  }
+
+  // add button
+  .btn-xs {
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  .small {
+    color: $gray-light;
+    display: block;
+  }
+}
