@@ -52,11 +52,9 @@ function ControllerApp(
   dataApp.data.modalError = {
     data: {},
     actions: {
-      close: function (cb) {
+      close: function () {
         errs.clearErrors();
-        if (typeof cb === 'function') {
-          cb();
-        }
+        dataApp.data.modalError.data.in = false;
       }
     }
   };
