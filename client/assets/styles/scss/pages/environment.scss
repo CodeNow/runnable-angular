@@ -1,0 +1,39 @@
+//- header—title, description, progress
+.environment-header {
+  color: $gray-light;
+  margin: 0 auto;
+  max-width: 960px;
+  padding-top: 30px;
+
+  .h1 {
+    font-size: 36px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .p {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+// body—form elements/cards
+.environment-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 30px auto;
+  max-width: 960px;
+  padding: 0 30px;
+}
+
+// card grid
+// max-width on config cards
+.card-grid {
+  justify-content: initial;
+
+  .card {
+    margin: 0 6px 12px;
+    max-width: 360px;
+  }
+}

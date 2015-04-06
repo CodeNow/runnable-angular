@@ -102,15 +102,11 @@
 @import "popover/popover-servers";
 
 // pages
+@import "pages/environment";
 @import "pages/home";
 @import "pages/home-images";
 @import "pages/home-ui";
 @import "pages/server-selection";
-
-// setup pages
-@import "pages/setup/setup";
-@import "pages/setup/setup-organization-select";
-@import "pages/setup/setup-environment-select";
 
 // shame
 @import "shame";
