@@ -132,5 +132,16 @@ html(
     .modal-backdrop.in(
       ng-if = "dataApp.data.modalError.data.in"
       ng-click = "$event.stopPropagation()"
-      ng-include = "'viewModalError'"
     )
+      .modal-dialog.modal-error
+        header.modal-header
+          h1.modal-heading Something went wrong.
+        section.modal-body.clearfix
+          .modal-description.well.well-code.gray.monospace(
+          ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
+          ) {{ error.message }}
+
+        footer.modal-footer
+          button.btn.white(
+          ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"
+          ) Dismiss
