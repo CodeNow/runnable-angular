@@ -25,28 +25,13 @@
   // header button styles
   .btn {
     background: rgba($white,.15);
-    border: 2px solid transparent;
     color: $white;
     float: right;
-    font-weight: 500;
     line-height: 38px;
     padding: 0 9px;
     text-align: left;
     text-decoration: none;
     width: auto;
-
-    &:hover,
-    &.active {
-      background: $white;
-      border-color: $purple-lighter;
-      color: $purple-light;
-    }
-
-    &:active {
-      background: $white;
-      border-color: currentColor;
-      color: $green;
-    }
 
     .gravatar {
       float: left;
@@ -58,7 +43,6 @@
   // title
   .h2 {
     color: $white;
-    font-size: 21px;
     left: 0;
     line-height: 40px;
     margin: 0 auto;

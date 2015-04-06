@@ -42,7 +42,7 @@
     float: right;
     height: 100%;
     margin-left: 3px;
-    transition: opacity .2s ease-in, transform .3s ease-in;
+    // transition: opacity .2s ease-in, transform .3s ease-in;
   }
 
   // animations
@@ -52,9 +52,9 @@
       transform: rotate3d(0,0,1,135deg);
     }
 
-    > .icons-arrow-down {
-      transform: scale3d(.75,.75,1);
-    }
+    // > .icons-arrow-down {
+    //   transform: scale3d(.75,.75,1);
+    // }
   }
 
   &.active,
@@ -68,9 +68,9 @@
       transform: rotate3d(0,0,1,135deg) scale3d(.75,.75,1);
     }
 
-    > .icons-arrow-down {
-      transform: scale3d(.75,.75,1);
-    }
+    // > .icons-arrow-down {
+    //   transform: scale3d(.75,.75,1);
+    // }
   }
 }
 
@@ -229,10 +229,16 @@
 .gray,
 .green,
 .orange,
+.purple,
 .white {
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   color: $white;
+  font-weight: 500;
   text-decoration: none;
+
+  &:active {
+    transition: none;
+  }
 
   &:active,
   &.active {
@@ -265,22 +271,22 @@
 }
 
 .gray {
-  background: $gray-lightest;
+  background: $white;
   border-color: $gray-lighter;
-  color: $gray;
+  color: $gray-dark;
 
   &.btn {
 
     &:hover {
-      background: $white;
+      border-color: $purple-lighter;
+      color: $purple-light;
     }
 
     &:active,
     &.active {
-      background: rgba($purple-light,.15);
-      border-color: rgba($purple-light,.15);
-      color: $purple-light;
-      transition: none;
+      background: $white;
+      border-color: currentColor;
+      color: $green;
 
       .iconnables {
         color: currentColor;
@@ -296,7 +302,6 @@
   border-color: rgba($green,.9);
 
   &.btn {
-    font-weight: 500;
 
     &:hover,
     &.hover {
@@ -329,7 +334,6 @@
   border-color: $orange;
 
   &.btn {
-    font-weight: 500;
 
     &:hover,
     &.hover {
@@ -361,18 +365,19 @@
   color: $purple-light;
 
   &.btn {
-    background: $white;
-    border: 1px solid $purple-lighter;
 
     &:hover,
     &.hover {
-      background: rgba($purple-light,.1);
+      background: $white;
+      border-color: $purple-light;
+      color: $purple-light;
     }
 
     &:active,
     &.active {
-      background: rgba($purple-light,.2);
-      transition: none;
+      background: $white;
+      border-color: currentColor;
+      color: $green;
     }
   }
 }

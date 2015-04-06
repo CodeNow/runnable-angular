@@ -4,8 +4,8 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  min-height: 270px;
-  min-width: 270px;
+  min-height: 360px;
+  min-width: 360px;
   position: relative;
   transition: none;
 
@@ -94,16 +94,28 @@
 // card layout
 // header
 .card-header {
-  flex: 0 0 108px;
+  flex: 0 0 90px;
   font-size: 18px;
-  text-align: center;
+  line-height: 90px;
 
   // anchor image/icon
   .icons-server {
-    display: block;
-    height: 24px;
-    margin: 36px auto 6px;
-    width: 24px;
+    color: $gray;
+    float: left;
+    margin: 27px 6px 0 18px;
+    width: 21px;
+  }
+
+  .h2 {
+    color: $gray;
+    font-size: 18px;
+    margin: 30px 0 6px;
+  }
+
+  .p {
+    color: $gray-light;
+    line-height: 1;
+    margin-left: 21px;
   }
 }
 
@@ -112,6 +124,7 @@
 .card-button {
   flex: 1 1 auto;
   margin-bottom: 21px;
+  padding: 0 6px;
 
   &.empty {
     align-items: center;
@@ -120,9 +133,48 @@
     justify-content: center;
   }
 
-  .list-item {
-    height: 24px;
-    line-height: 24px;
+  > .btn {
+    border-width: 1px;
+    height: 75px;
+    padding: 9px 12px;
+    text-align: left;
+    width: 100%;
+
+    &:hover,
+    &:active {
+      color: $gray-dark;
+    }
+
+    &:hover {
+      border-color: $purple-light;
+    }
+
+    &:active {
+      border-color: $green;
+    }
+
+    + .btn {
+      margin-top: 6px;
+    }
+
+    .iconnables {
+      float: left;
+      height: 30px;
+      margin-right: 6px;
+      width: 21px;
+    }
+
+    .h3 {
+      font-size: 18px;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .p {
+      color: $gray-light;
+      height: 21px;
+      line-height: 21px;
+    }
   }
 }
 

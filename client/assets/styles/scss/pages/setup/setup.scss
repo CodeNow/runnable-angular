@@ -10,9 +10,10 @@
 
 //- header—title, description, progress
 .setup-header {
+  color: $gray-light;
   margin: 0 auto;
   max-width: 960px;
-  padding-top: 60px;
+  padding-top: 30px;
 
   .h1 {
     font-size: 36px;
@@ -100,6 +101,6 @@
 
   .card {
     margin: 0 6px 12px;
-    max-width: 270px;
+    max-width: 360px;
   }
 }
