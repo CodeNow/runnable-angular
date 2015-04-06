@@ -10,16 +10,9 @@
   }
 
   // logo
-  .header-logo {
-    height: 30px;
-    margin-left: 15px;
-    width: 30px;
-
-    .svg {
-      fill: $purple-logo;
-      height: 100%;
-      width: 100%;
-    }
+  .logo {
+    float: left;
+    height: 45px;
   }
 
   // header button styles

@@ -1,5 +1,12 @@
 .header-container
   //- logo
+  a.logo(
+    href = "/runnabro/new"
+  )
+    svg
+      use(
+        xlink:href = "#runnable-logo"
+      )
 
   //- title
   h2.h2.btn.purple(
@@ -17,11 +24,14 @@
       )
 
   //- menu
-  //- ng-class = "{active: popoverAccountMenu.data.show}"
-  //- toggle-pop-over
-  //- toggle-pop-over-model = "popoverAccountMenu.data.show"
   a.btn.purple(
-    href = "/runnabro/new"
+    ng-class = "{active: popoverAccountMenu.data.show}"
+    pop-over
+    pop-over-actions = "popoverAccountMenu.actions"
+    pop-over-data = "popoverAccountMenu.data"
+    pop-over-options = "{\"left\":0,\"top\":54}"
+    pop-over-template = "viewPopoverAccountMenu"
+    pop-over-active = "popoverAccountMenu.data.show"
   )
     img.gravatar(
       height = "24"
@@ -37,6 +47,6 @@
       actions = "popoverAccountMenu.actions"
       data = "popoverAccountMenu.data"
       popover-ready = "popoverAccountMenu.data.show"
-      popover-options = "{\"left\":120,\"top\":54}"
+      popover-options = "{\"left\":0,\"top\":54}"
       template = "viewPopoverAccountMenu"
     )
