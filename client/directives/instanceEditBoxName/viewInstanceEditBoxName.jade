@@ -1,8 +1,0 @@
-.server-name {{ instance.attrs.name }}
-input.server-url(
-  readonly
-  select-all
-  value = "{{ instance.attrs.name }}-{{ instance.attrs.owner.username }}.runnableapp.com"
-)
-//- sets width
-span.server-name-ghost.no-touching {{ instance.attrs.name }}-{{ instance.attrs.owner.username }}.runnableapp.com

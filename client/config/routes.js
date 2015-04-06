@@ -81,12 +81,6 @@ module.exports = [
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',
     controller: 'ControllerInstance'
-  }, {
-    state: 'instance.instanceEdit',
-    abstract: false,
-    url: '^/:userName/:instanceName/edit/:buildId',
-    templateUrl: 'viewInstanceEdit',
-    controller: 'ControllerInstanceEdit'
   }
 ];
 Object.freeze(module.exports);
