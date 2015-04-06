@@ -293,6 +293,18 @@
         transition: transform .15s;
       }
     }
+
+    &[disabled],
+    &.disabled {
+
+      &:hover,
+      &:active,
+      &.active {
+        background: $white;
+        border-color: $gray-lighter;
+        color: $gray-dark;
+      }
+    }
   }
 }
 

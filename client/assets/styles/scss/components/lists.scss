@@ -101,21 +101,31 @@
     }
   }
 
-  > .btn-xs {
-    background: $gray-lightest;
+  // buttons
+  > .btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+
+  // icon wrapper
+  > .btn-icon {
+    background: $white;
+    border: 1px solid $gray-lighter;
     border-radius: 50%;
     color: $gray-light;
-    float: right;
-    margin-top: 6px;
     padding: 0;
+    transition: none;
     width: 24px;
 
-    &:active,
     &.active {
-      background: transparent;
+      background: $green;
+      border-color: $green;
+      color: $white;
     }
   }
 
+  // gravatar
   .gravatar {
     float: left;
     margin: 18px 9px 0 2px;
@@ -143,25 +153,6 @@
 
 // checkboxes
 .list {
-
-  // icon wrapper
-  .btn-xs {
-    background: $white;
-    border: 1px solid $gray-lighter;
-    border-radius: 50%;
-    color: $white;
-    pointer-events: none;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    transition: none;
-    width: 24px;
-
-    &.active {
-      background: $green;
-      border-color: $green;
-    }
-  }
 
   // default state
   .input-checkbox {
@@ -235,10 +226,8 @@
     }
   }
 
-
   // toggle
   .btn-check {
-    pointer-events: auto;
     right: 0;
     top: 6px;
   }
