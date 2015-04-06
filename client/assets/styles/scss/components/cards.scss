@@ -30,10 +30,19 @@
 
   // sizes
   &.card-sm {
-    height: 210px;
     min-height: inherit;
     min-width: inherit;
     width: 210px;
+
+    .card-header {
+      text-align: center;
+    }
+
+    .img {
+      margin-right: 6px;
+      position: relative;
+      top: 6px;
+    }
   }
 
   // colors
@@ -105,7 +114,6 @@
   font-size: 18px;
   line-height: 90px;
 
-  // anchor image/icon
   .icons-server {
     color: $gray;
     float: left;
