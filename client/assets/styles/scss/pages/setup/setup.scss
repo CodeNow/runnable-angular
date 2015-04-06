@@ -10,6 +10,8 @@
 
 //- header—title, description, progress
 .setup-header {
+  margin: 0 auto;
+  max-width: 960px;
   padding-top: 60px;
 
   .h1 {
@@ -30,6 +32,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin: 30px auto;
+  max-width: 960px;
   padding: 0 30px;
 }
 

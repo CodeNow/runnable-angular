@@ -1,28 +1,23 @@
 .setup-header
   h3.h3 Servers
 
-.setup-body
-  .card.load
+.setup-body.card-grid
+  .card.disabled.load
     h2.card-header
       svg.iconnables.icons-server
         use(
           xlink:href = "#icons-server"
         )
       | api
-  ul.card-body
-    li.card-item
-      h4.h4
-        svg.iconnables
-        | Start CMD
-      p.p.monospace npm start
-    li.card-item
-      h4.h4
-        svg.iconnables
-        | Ports
-      p.p.monospace 80,300,30001
-    li.card-item
-      h4.h4
-
+    .card-body
+      button.btn.btn-sm.purple Ports
+  //- .card.card-white.load
+  //-   h2.card-header
+  //-     svg.iconnables.icons-server
+  //-       use(
+  //-         xlink:href = "#icons-add"
+  //-       )
+  //-     | New…
 
 //- //- step 1
 //-   - choose organization

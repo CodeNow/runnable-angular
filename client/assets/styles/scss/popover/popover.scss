@@ -1,9 +1,9 @@
 // popovers
 .popover {
   background: rgba($white,.975);
-  border: 1px solid rgba($black,.1);
+  border: 2px solid rgba($black,.15);
   border-radius: 3px;
-  box-shadow: 0 0 30px rgba($black,.12);
+  box-shadow: 0 2px 3px rgba($black,.1);
   cursor: default; // if popover is within an element with a different cursor
   display: block;
   left: 0;
@@ -65,7 +65,7 @@
   .divider {
     background: rgba($black,.1);
     height: 1px;
-    margin: 3px 0;
+    margin: 3px 9px;
   }
 
   // form elements in popovers:
@@ -91,12 +91,11 @@
 
 // li.popover-list-item
 .popover-list-item {
-  color: $gray-dark;
   cursor: pointer;
   height: 36px;
   line-height: 36px;
   overflow: hidden;
-  padding: 0 12px;
+  padding: 0 15px 0 9px;
   white-space: nowrap;
 
   &:hover {
@@ -126,6 +125,7 @@
 
   .gravatar,
   .iconnables {
+    color: $gray;
     float: left;
     margin: 6px 9px 0 0;
 
