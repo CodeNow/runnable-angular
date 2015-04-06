@@ -141,10 +141,10 @@ div(
       //- nested server
       .list-item.btn.btn-sm.purple(
         ng-class = "getInstanceClasses(instance)"
-        ng-click = "actions.goToInstance($event, instance)"
         ng-repeat = "instance in teamMember.instances | orderBy:'attrs.name'"
       )
         a.list-item-name.text-overflow(
+          ng-click = "actions.preventClosingTeamMember($event)"
           ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
                                          instanceName: instance.attrs.name })"
           ng-model = "instance"
