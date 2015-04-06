@@ -4,6 +4,7 @@ header.header
     //- logo
 
     //- title
+    h2.h2.btn(
       ng-class = "{active: popoverEnvironmentMenu.data.show}"
       pop-over
       pop-over-actions = "popoverEnvironmentMenu.actions"
@@ -11,7 +12,6 @@ header.header
       pop-over-options = "{\"left\":-3,\"top\":54}"
       pop-over-template = "viewPopoverEnvironmentMenu"
       pop-over-active = "popoverEnvironmentMenu.data.show"
-    h2.h2.btn(
     ) Environment
       svg.iconnables.icons-arrow-down
         use(
