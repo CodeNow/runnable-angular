@@ -52,6 +52,10 @@
     width: 14px;
   }
 
+  &.icons-round {
+    border-radius: 50%;
+  }
+
   // icons with fill
   &.icons-add,
   &.icons-arrow-back,

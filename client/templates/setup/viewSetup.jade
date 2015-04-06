@@ -1,8 +1,18 @@
 .setup-header
-  h3.h3 Servers
+  button.btn.green(
+    modal
+    modal-actions = "actions.actionsModalRepositorySelect"
+    modal-data = "data.dataModalRepositorySelect"
+    modal-template = "viewModalRepositorySelect"
+  )
+    svg.iconnables.icons-add.icons-round
+      use(
+        xlink:href = "#icons-add"
+      )
+    | New Server
 
 .setup-body.card-grid
-  .card.disabled.load
+  .card.gray.disabled.load
     .card-header
       svg.iconnables.icons-server
         use(
@@ -19,6 +29,10 @@
             )
           | Start Command
         p.p npm start
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
       li.btn.gray
         h3.h3
           svg.iconnables.icons-terminal
@@ -27,6 +41,10 @@
             )
           | Ports
         p.p 80 8000 8080 3000
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
       li.btn.gray
         h3.h3
           svg.iconnables.icons-terminal
@@ -35,6 +53,10 @@
             )
           | Stack
         p.p node.js v0.10.28
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
       li.btn.gray
         h3.h3
           svg.iconnables.icons-terminal
@@ -43,6 +65,10 @@
             )
           | Environment Variables
         p.p none defined
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
 
   //- .card.card-white.load
   //-   h2.card-header

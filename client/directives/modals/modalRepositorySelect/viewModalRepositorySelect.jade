@@ -1,0 +1,68 @@
+.modal-dialog.modal-repository-select(
+  ng-click = "$event.stopPropagation()"
+)
+  header.modal-header
+    h1.modal-heading
+
+  section.modal-body.clearfix\
+    input.input.input-sm.input-search(
+      placeholder = "Filter by name"
+      required
+    )
+    ul.list.list-repositories(
+      ng-click = "state.repositorySelected = true"
+      ng-init = "state.repositorySelected = false"
+    )
+      li.list-item(
+        ng-class = "{active: data.toggleApi}"
+        ng-click = "data.toggleApi = !data.toggleApi"
+      ) api
+        small.small Updated an hour ago
+        button.btn.btn-xs.btn-icon.btn-check(
+          ng-class = "{active: data.toggleApi}"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      li.list-item(
+        ng-class = "{active: data.toggleMavis}"
+        ng-click = "data.toggleMavis = !data.toggleMavis"
+      ) mavis
+        small.small Updated an hour ago
+        button.btn.btn-xs.btn-icon.btn-check(
+          ng-class = "{active: data.toggleMavis}"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      li.list-item(
+        ng-class = "{active: data.toggleRunnableAngular}"
+        ng-click = "data.toggleRunnableAngular = !data.toggleRunnableAngular"
+      ) runnable-angular
+        small.small Updated a day ago
+        button.btn.btn-xs.btn-icon.btn-check(
+          ng-class = "{active: data.toggleRunnableAngular}"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+
+  footer.modal-footer
+    button.btn.white(
+      ng-click = "actions.close(defaultActions.cancel);"
+    ) Dismiss

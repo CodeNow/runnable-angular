@@ -1,6 +1,5 @@
 .card {
-  background: $gray-lightest;
-  border: 2px solid $gray-lighter;
+  border: 2px solid transparent;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -9,6 +8,7 @@
   position: relative;
   transition: none;
 
+  // states
   &:hover:not(.disabled) {
     background: $white;
 
@@ -28,11 +28,18 @@
     animation: card-blink .5s ease-out;
   }
 
+  // sizes
   &.card-sm {
     height: 210px;
     min-height: inherit;
     min-width: inherit;
     width: 210px;
+  }
+
+  // colors
+  &.gray {
+    background: $gray-lightest;
+    border-color: $gray-lighter;
   }
 
   // list columns
@@ -114,6 +121,7 @@
 
   .p {
     color: $gray-light;
+    font-weight: 400;
     line-height: 1;
     margin-left: 21px;
   }
@@ -147,17 +155,26 @@
 
     &:hover {
       border-color: $purple-light;
+
+      .icons-arrow-down {
+        color: $purple-light;
+      }
     }
 
     &:active {
       border-color: $green;
+
+      .icons-arrow-down {
+        color: $green;
+      }
     }
 
     + .btn {
       margin-top: 6px;
     }
 
-    .iconnables {
+    //- fix dis
+    .icons-terminal {
       float: left;
       height: 30px;
       margin-right: 6px;
@@ -172,8 +189,17 @@
 
     .p {
       color: $gray-light;
+      font-weight: 400;
       height: 21px;
       line-height: 21px;
+    }
+
+    .icons-arrow-down {
+      height: 75px;
+      position: absolute;
+      right: 6px;
+      top: 0;
+      transform: rotate3d(0,0,1,-90deg);
     }
   }
 }

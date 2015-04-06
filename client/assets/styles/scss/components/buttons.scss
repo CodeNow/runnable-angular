@@ -303,6 +303,7 @@
 
   &.btn {
 
+    // states
     &:hover,
     &.hover {
       background: rgba($green,.6);
@@ -325,6 +326,14 @@
         background: rgba($green,.75);
         border-color: transparent;
       }
+    }
+
+    // icons
+    .icons-round {
+      background: $white;
+      color: $green;
+      float: left;
+      margin: 9px 6px 0 0; // standard size buttons
     }
   }
 }
