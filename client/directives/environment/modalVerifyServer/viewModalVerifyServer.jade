@@ -2,48 +2,75 @@
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    button.btn.btn-radio.active
-      svg.iconnables.icons-terminal
-        use(
-          xlink:href = "#icons-terminal"
-        )
-      | Stack
-    button.btn.btn-radio
-      svg.iconnables.icons-terminal
-        use(
-          xlink:href = "#icons-terminal"
-        )
-      | Start CMD
+    h1.modal-heading New Server: runnable-angular
+    //- button.btn.btn-radio.active
+    //-   svg.iconnables.icons-terminal
+    //-     use(
+    //-       xlink:href = "#icons-terminal"
+    //-     )
+    //-   | Stack
+    //- button.btn.btn-radio
+    //-   svg.iconnables.icons-terminal
+    //-     use(
+    //-       xlink:href = "#icons-terminal"
+    //-     )
+    //-   | Start CMD
 
   section.modal-body
     form.modal-form
-      label.label.clearfix
+      .label.clearfix
         .label-col Language / Framework
         //- popover
         .input-col
           button.btn.btn-sm.gray(
+            ng-class = "{active: popoverStackSelect.data.show}"
             pop-over
             pop-over-actions = "popoverStackSelect.actions"
             pop-over-active = "popoverStackSelect.data.show"
             pop-over-data = "popoverStackSelect.data"
             pop-over-options = "{\"left\":0,\"top\":39}"
             pop-over-template = "viewPopoverStackSelect"
-          ) undefined
+          ) Select
             svg.iconnables.icons-arrow-down
               use(
                 xlink:href = "#icons-arrow-down"
               )
           button.btn.btn-sm.gray(
-            ng-disabled = "true"
-          ) version
-            svg.iconnables.icons-arrow-down
+            ng-class = "{active: popoverVersionSelect.data.show}"
+            ng-disabled = "data.stackSelected"
+            pop-over
+            pop-over-actions = "popoverVersionSelect.actions"
+            pop-over-active = "popoverVersionSelect.data.show"
+            pop-over-data = "popoverVersionSelect.data"
+            pop-over-options = "{\"left\":0,\"top\":39}"
+            pop-over-template = "viewPopoverVersionSelect"
+          ) Select
+            svg.iconnables.icons-arrow-down(
+              ng-click = "data.stackSelected = true"
+            )
               use(
                 xlink:href = "#icons-arrow-down"
               )
+      label.label.clearfix
+        .label-col Start Command
+        .input-col
+          input.input.input-sm(
+            ng-class = "{active: popoverStartCommand.data.show}"
+            pop-over
+            pop-over-actions = "popoverStartCommand.actions"
+            pop-over-active = "popoverStartCommand.data.show"
+            pop-over-data = "popoverStartCommand.data"
+            pop-over-options = "{\"left\":0,\"top\":39}"
+            pop-over-template = "viewPopoverStartCommand"
+          )
+          small.small This is the command that will start your application. #{''}
+          a.link.small(
+            href = "//docs.docker.com/reference/builder/#cmd"
+            target = "_blank"
+          ) More about the start command
 
     footer.modal-footer.clearfix
-      button.btn.green Next
-      button.btn.white Previous
+      button.btn.green Create Server
       button.btn.white.btn-cancel(
         ng-click = "defaultActions.cancel();"
       ) Cancel
