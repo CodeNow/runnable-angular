@@ -37,6 +37,18 @@ module.exports = [
       anon: true
     }
   }, {
+    state: 'naviSelection',
+    abstract: false,
+    url: '^/:userName/naviSelection/:repo',
+    templateUrl: 'viewNaviSelection',
+    controller: 'ControllerNaviSelection',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  }, {
     state: 'base',
     abstract: true,
     url: '^/:userName/',
