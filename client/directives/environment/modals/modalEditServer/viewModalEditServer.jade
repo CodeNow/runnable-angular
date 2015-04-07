@@ -1,0 +1,54 @@
+form.modal-dialog.modal-verify-server(
+  ng-click = "$event.stopPropagation()"
+  ng-init = "\
+    data.viewFormServerStack = true;\
+    data.formDirty = false;\
+  "
+)
+  header.modal-header
+    p.p api
+    button.btn.btn-radio.active(
+      ng-class = "{active: data.viewFormServerStack}"
+      ng-click = "\
+        data.viewFormServerStack = true;\
+        data.viewFormStartCommand = false;\
+      "
+    )
+      svg.iconnables.icons-terminal
+        use(
+          xlink:href = "#icons-terminal"
+        )
+      | Stack
+    button.btn.btn-radio(
+      ng-class = "{active: data.viewFormStartCommand}"
+      ng-click = "\
+        data.viewFormServerStack = false;\
+        data.viewFormStartCommand = true;\
+      "
+    )
+      svg.iconnables.icons-terminal
+        use(
+          xlink:href = "#icons-terminal"
+        )
+      | Start CMD
+
+  section.modal-body
+    .modal-form
+      .label.clearfix(
+        ng-if = "data.viewFormServerStack"
+        ng-include = "'viewFormServerStack'"
+      )
+      .label.clearfix(
+        ng-if = "data.viewFormStartCommand"
+        ng-include = "'viewFormStartCommand'"
+      )
+
+  footer.modal-footer.clearfix
+    //- disabled if no changes
+    button.btn.green(
+      ng-disabled = "!data.formDirty"
+    ) Save Changes
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel()"
+      type = "button"
+    ) Cancel
