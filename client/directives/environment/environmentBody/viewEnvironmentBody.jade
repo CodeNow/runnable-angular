@@ -7,7 +7,12 @@
     h2.h2 api
     p.p api-codenow-runnableapp.com
   ul.card-body
-    li.btn.gray
+    li.btn.gray(
+      modal
+      modal-actions = "actions.actionsModalEditServer"
+      modal-data = "data.dataModalEditServer"
+      modal-template = "viewModalEditServer"
+    )
       h3.h3
         svg.iconnables.icons-terminal
           use(

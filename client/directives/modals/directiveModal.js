@@ -37,7 +37,7 @@ function modal() {
   };
 }
 
-var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox', 'viewModalEnvironmentVariables', 'viewModalRepositorySelect', 'viewModalVerifyServer'];
+var genericModals = ['viewModalDeleteBox', 'viewModalError', 'viewModalRenameBox', 'viewModalEnvironmentVariables', 'viewModalRepositorySelect', 'viewModalVerifyServer', 'viewModalEditServer'];
 function checkTemplate(template) {
   return (genericModals.indexOf(template) < 0) ? template : 'viewOpenModalGeneric';
 }
