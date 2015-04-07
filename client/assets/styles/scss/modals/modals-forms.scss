@@ -1,5 +1,5 @@
 .modal-form {
-  padding: 15px 0;
+  padding: 30px;
 
   // label (row)
   .label {
@@ -25,6 +25,7 @@
 
   // label column (left)
   .label-col {
+    color: $gray;
     float: left;
     font-weight: 500;
     height: 36px;
@@ -83,6 +84,7 @@
 
     // label info
     .small {
+      display: inline-block;
       margin: 6px 0 0;
     }
   }

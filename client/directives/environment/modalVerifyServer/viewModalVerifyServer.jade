@@ -64,10 +64,11 @@
             pop-over-template = "viewPopoverStartCommand"
           )
           small.small This is the command that will start your application. #{''}
-          a.link.small(
-            href = "//docs.docker.com/reference/builder/#cmd"
-            target = "_blank"
-          ) More about the start command
+            a.link(
+              href = "//docs.docker.com/reference/builder/#cmd"
+              target = "_blank"
+            ) More about the start command
+            | .
 
     footer.modal-footer.clearfix
       button.btn.green Create Server
