@@ -1,0 +1,10 @@
+.popover.menu.top.popover-primary-options(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow.white
+  .popover-content
+    ul.popover-list
+      li.popover-list-item(
+        ng-click = "actions.noCacheBuild()"
+      ) Build without cache
