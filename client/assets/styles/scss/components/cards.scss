@@ -1,5 +1,5 @@
 .card {
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -30,6 +30,7 @@
 
   // sizes
   &.card-sm {
+    border-width: 2px;
     min-height: inherit;
     min-width: inherit;
     width: 210px;
@@ -117,7 +118,7 @@
   .icons-server {
     color: $gray;
     float: left;
-    margin: 27px 6px 0 18px;
+    margin: 27px 6px 0 29px;
     width: 21px;
   }
 
@@ -131,7 +132,7 @@
     color: $gray-light;
     font-weight: 400;
     line-height: 1;
-    margin-left: 21px;
+    margin-left: 28px;
   }
 }
 
@@ -139,8 +140,7 @@
 .card-body,
 .card-button {
   flex: 1 1 auto;
-  margin-bottom: 21px;
-  padding: 0 6px;
+  padding: 0 15px 15px;
 
   &.empty {
     align-items: center;
@@ -150,7 +150,6 @@
   }
 
   > .btn {
-    border-width: 1px;
     height: 75px;
     padding: 9px 12px;
     text-align: left;

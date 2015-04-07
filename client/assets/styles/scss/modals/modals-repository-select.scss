@@ -1,6 +1,5 @@
 .modal-repository-select {
   max-width: 450px;
-  padding: 15px;
 
   .modal-body {
     max-height: 60vh;
@@ -10,7 +9,6 @@
   .input-search {
     background-color: $white;
     background-position: calc(50% - 53px) 5px;
-    border-color: $gray-lighter;
     color: $gray;
     line-height: 32px;
     margin-bottom: 12px;
@@ -30,7 +28,7 @@
 .list-repositories {
 
   > .list-item {
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     border-radius: 3px;
     cursor: pointer;
     font-size: 18px;

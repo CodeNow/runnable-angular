@@ -2,7 +2,7 @@
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    h1.modal-heading
+    h1.modal-heading New Server
 
   section.modal-body.clearfix
     input.input.input-sm.input-search(
@@ -26,8 +26,7 @@
       li.list-item runnable-angular
         small.small Updated a day ago
         button.btn.btn-xs.green Add Server
-
-  footer.modal-footer
-    button.btn.white(
-      ng-click = "actions.close(defaultActions.cancel);"
-    ) Cancel
+    footer.modal-footer.clearfix
+      button.btn.white(
+        ng-click = "defaultActions.cancel();"
+      ) Cancel

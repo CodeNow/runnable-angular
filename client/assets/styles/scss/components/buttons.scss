@@ -409,16 +409,15 @@
   &.btn {
 
     &:hover {
-      background: rgba($gray-darker,.125);
-      border-color: rgba($gray-darker,.15);
+      background: $white;
+      border-color: $gray-lighter;
     }
 
     &:active,
     &.active {
-      background: rgba($purple-light,.15);
-      border-color: rgba($purple-light,.15);
-      color: $purple-light;
-      transition: none;
+      background: $white;
+      border-color: currentColor;
+      color: $green;
     }
 
     &[disabled],
