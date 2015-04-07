@@ -73,13 +73,19 @@
     // buttons
     .btn {
       display: block;
-      padding: 0 6px;
+      font-size: 16px;
+      padding: 0 24px 0 6px;
       text-align: left;
       width: 100%;
 
       + .btn {
         margin-top: 6px;
       }
+    }
+
+    .icons-arrow-down {
+      position: absolute;
+      right: 3px;
     }
 
     // label info

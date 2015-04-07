@@ -22,32 +22,32 @@
         .label-col Language / Framework
         //- popover
         .input-col
-          button.btn.btn-sm.gray(
+          button.btn.btn-sm.gray.text-overflow(
             ng-class = "{active: popoverStackSelect.data.show}"
+            ng-click = "data.stackSelected = true"
             pop-over
             pop-over-actions = "popoverStackSelect.actions"
             pop-over-active = "popoverStackSelect.data.show"
             pop-over-data = "popoverStackSelect.data"
             pop-over-options = "{\"left\":0,\"top\":39}"
             pop-over-template = "viewPopoverStackSelect"
-          ) Select
+          ) Select language/framework
             svg.iconnables.icons-arrow-down
               use(
                 xlink:href = "#icons-arrow-down"
               )
-          button.btn.btn-sm.gray(
+          button.btn.btn-sm.gray.text-overflow(
             ng-class = "{active: popoverVersionSelect.data.show}"
-            ng-disabled = "data.stackSelected"
+            ng-click = "data.versionSelected = true"
+            ng-disabled = "!data.stackSelected"
             pop-over
             pop-over-actions = "popoverVersionSelect.actions"
             pop-over-active = "popoverVersionSelect.data.show"
             pop-over-data = "popoverVersionSelect.data"
             pop-over-options = "{\"left\":0,\"top\":39}"
             pop-over-template = "viewPopoverVersionSelect"
-          ) Select
-            svg.iconnables.icons-arrow-down(
-              ng-click = "data.stackSelected = true"
-            )
+          ) Select version
+            svg.iconnables.icons-arrow-down
               use(
                 xlink:href = "#icons-arrow-down"
               )
@@ -55,7 +55,7 @@
         .label-col Start Command
         .input-col
           input.input.input-sm(
-            ng-class = "{active: popoverStartCommand.data.show}"
+            ng-disabled = "!data.versionSelected"
             pop-over
             pop-over-actions = "popoverStartCommand.actions"
             pop-over-active = "popoverStartCommand.data.show"
