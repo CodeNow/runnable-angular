@@ -1,10 +1,10 @@
-.modal-dialog {
+.modal-form {
+  padding: 15px 0;
 
   // label (row)
   .label {
     display: block;
     flex: 0 0 auto;
-    line-height: 1.2;
     margin-bottom: 21px;
     position: relative;
 
@@ -64,6 +64,10 @@
       width: 100%;
     }
 
+    &.btn {
+      padding: 0 6px;
+    }
+
     // validation
     &.input,
     .input {
@@ -76,6 +80,18 @@
     .validate-wrapper {
       border-radius: 0 0 3px 3px;
       margin: 0;
+    }
+
+    // buttons
+    .btn {
+      display: block;
+      padding: 0 6px;
+      text-align: left;
+      width: 100%;
+
+      + .btn {
+        margin-top: 6px;
+      }
     }
   }
 

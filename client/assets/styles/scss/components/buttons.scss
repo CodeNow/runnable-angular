@@ -86,11 +86,7 @@
 
 .btn-sm {
   height: 36px;
-  line-height: 36px;
-
-  > .icons-arrow-down {
-    top: 6px;
-  }
+  line-height: 34px;
 
   > .img {
     float: left;
@@ -453,25 +449,25 @@
 
 .btn-radio {
   background: $white;
-  border: 2px solid rgba($black,.1);
+  border: 2px solid transparent;
   border-radius: 3px;
   box-shadow: none;
   cursor: pointer;
   display: inline-block;
-  font-size: 14px;
-  height: 60px;
+  font-size: 16px;
+  height: 72px;
   margin-right: 6px;
   text-align: center;
   text-decoration: none;
   transition: none;
   user-select: none;
   white-space: nowrap;
-  width: 60px;
+  width: 90px;
 
   &:hover,
   &:active,
   &.active {
-    border-color: $purple-lighter;
+    border-color: $purple-light;
   }
 
   &:focus {

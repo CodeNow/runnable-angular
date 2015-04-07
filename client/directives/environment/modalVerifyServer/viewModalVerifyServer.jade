@@ -2,20 +2,37 @@
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    button.btn.btn-radio
-      svg.iconnables.icons-server
+    button.btn.btn-radio.active
+      svg.iconnables.icons-terminal
         use(
-          xlink:href = "#icons-server"
+          xlink:href = "#icons-terminal"
         )
       | Stack
     button.btn.btn-radio
-      svg.iconnables.icons-server
+      svg.iconnables.icons-terminal
         use(
-          xlink:href = "#icons-server"
+          xlink:href = "#icons-terminal"
         )
       | Start CMD
 
-  section.modal-body.clearfix
+  section.modal-body
+    form.modal-form
+      label.label.clearfix
+        .label-col Language / Framework
+        //- popover
+        .input-col
+          button.btn.btn-sm.gray undefined
+            svg.iconnables.icons-arrow-down
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
+          button.btn.btn-sm.gray(
+            ng-disabled = "true"
+          ) version
+            svg.iconnables.icons-arrow-down
+              use(
+                xlink:href = "#icons-arrow-down"
+              )
 
     footer.modal-footer.clearfix
       button.btn.green Next
