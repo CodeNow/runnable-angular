@@ -20,7 +20,7 @@ function makeDefaultOptions () {
     },
     currentModel: apiMocks.instances.building,
     stateModel: {},
-    template: 'viewModalError'
+    template: 'viewModalDeleteBox'
   };
 }
 

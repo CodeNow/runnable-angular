@@ -17,6 +17,7 @@ function BuildLogController(
   $timeout
 ) {
   $scope.showSpinnerOnStream = true;
+  $scope.clearTermOnReconnect = true;
 
   $scope.$watch('build.attrs.id', function (n) {
     if (n) {

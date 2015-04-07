@@ -43,10 +43,12 @@ RunnablePrimus.prototype.createBuildStream = function (build) {
   return buildStream;
 };
 
-RunnablePrimus.prototype.createTermStreams = function (container) {
+RunnablePrimus.prototype.createTermStreams = function (container, uniqueId) {
   container = container.json ? container.json() : container;
   var streamId = container.dockerContainer;
-  var uniqueId = makeUniqueId(streamId);
+  if (!uniqueId) {
+    uniqueId = makeUniqueId(streamId);
+  }
   this.write({
     id: 1,
     event: 'terminal-stream',
@@ -60,7 +62,8 @@ RunnablePrimus.prototype.createTermStreams = function (container) {
   });
   return {
     termStream: this.substream(uniqueId),
-    eventStream: this.substream(uniqueId + 'events')
+    eventStream: this.substream(uniqueId + 'events'),
+    uniqueId: uniqueId
   };
 };
 
@@ -78,10 +81,11 @@ RunnablePrimus.prototype.createUserStream = function(userId) {
         name: userData.userId
       }
     });
+    userData.onEnd();
   }
   userData.streamId = makeUniqueId(userId);
   userData.userId = userId;
-  this.write({
+  var message = {
     id: userData.streamId,
     event: 'subscribe',
     data: {
@@ -89,7 +93,9 @@ RunnablePrimus.prototype.createUserStream = function(userId) {
       type: 'org',
       name: userData.userId
     }
-  });
+  };
+  this.write(message);
+  userData.onEnd = this.reconnectWhenNeeded(this, message);
   // Whatever creates the stream will need to filter it
   return this;
 };
@@ -142,6 +148,31 @@ RunnablePrimus.prototype.joinStreams = function (src, des) {
     }
   });
   return des;
+};
+
+RunnablePrimus.prototype.reconnectWhenNeeded = function (stream, socketConnectionMessage) {
+  var self = this;
+
+  var reconnecting = false;
+  function onOpen() {
+    if (reconnecting) {
+      reconnecting = false;
+      self.write(socketConnectionMessage);
+    }
+  }
+
+  function onReconnecting() {
+    reconnecting = true;
+  }
+
+  stream.on('reconnect', onReconnecting);
+  stream.on('open', onOpen);
+  var onEnd = function () {
+    stream.off('open', onOpen);
+    stream.off('reconnect', onReconnecting);
+  };
+  stream.on('end', onEnd);
+  return onEnd;
 };
 
 function makeUniqueId(streamId) {

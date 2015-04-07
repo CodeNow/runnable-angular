@@ -121,13 +121,21 @@ html(
       modal-manager
     )
     div(
-      style = "display: none"
-      modal
-      modal-actions = "dataApp.data.modalError.actions"
-      modal-data = "dataApp.data.modalError.data"
-      modal-template = "viewModalError"
-      modal-open-flag = "dataApp.data.modalError.data.in"
-    )
-    div(
       ui-view
     )
+    .modal-backdrop.in(
+      ng-if = "dataApp.data.modalError.data.in"
+      ng-click = "$event.stopPropagation()"
+    )
+      .modal-dialog.modal-error
+        header.modal-header
+          h1.modal-heading Something went wrong.
+        section.modal-body.clearfix
+          .modal-description.well.well-code.gray.monospace(
+          ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
+          ) {{ error.message }}
+
+        footer.modal-footer
+          button.btn.white(
+          ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"
+          ) Dismiss

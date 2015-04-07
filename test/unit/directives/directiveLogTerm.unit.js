@@ -25,10 +25,12 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       write: sinon.spy(),
       writeln: sinon.spy(),
       reset: sinon.spy(),
-      startBlink: sinon.spy()
+      startBlink: sinon.spy(),
+      off: sinon.spy(),
+      blur: sinon.spy()
     };
     ctx.resizeHandlerCb = null;
-    ctx.setupTermMock = sinon.spy(function (a, b, cb) {
+    ctx.setupTermMock = sinon.spy(function (a, b, c, cb) {
       ctx.resizeHandlerCb = cb;
       return ctx.termMock;
     });
@@ -80,6 +82,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       beforeEach(function () {
         $scope.createStream = sinon.spy(function () {
           $scope.stream = createMockStream();
+          $scope.stream.off = sinon.spy();
         });
       });
       it('should flow through', function () {
@@ -93,14 +96,22 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
         $scope.connectStreams.reset();
 
         sinon.assert.notCalled($scope.streamEnded);
-        mockPrimus.emit('reconnected');
+        mockPrimus.emit('open');
         $rootScope.$apply();
+        // Shouldn't 'reconnect' unless it actually disconnected
+        sinon.assert.neverCalledWith(ctx.termMock.writeln, '★ Connection regained.  Thank you for your patience ★');
+
+        mockPrimus.emit('offline');
+        $rootScope.$apply();
+        mockPrimus.emit('open');
+        $rootScope.$apply();
+
         sinon.assert.calledWith(ctx.termMock.writeln, '★ Connection regained.  Thank you for your patience ★');
         $scope.stream.end();
         $rootScope.$apply();
         sinon.assert.calledOnce($scope.streamEnded);
       });
-      it.skip('should turn on the spinner, then turn it off', function () {
+      it('should turn on the spinner, then turn it off', function () {
         $scope.showSpinnerOnStream = true;
         $scope.$broadcast('STREAM_START', {}, true);
         $scope.$apply();
@@ -150,13 +161,18 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       beforeEach(function () {
         $scope.createStream = sinon.spy(function () {
           $scope.stream = createMockStream();
+          $scope.stream.off = sinon.spy();
           $scope.eventStream = createMockStream();
+          $scope.eventStream.off = sinon.spy();
         });
       });
       it('should flow through', function () {
         sinon.assert.calledOnce(ctx.setupTermMock);
         $scope.$broadcast('STREAM_START');
         $scope.$apply();
+        // Stream start calls this
+        sinon.assert.calledOnce(ctx.termMock.off);
+        ctx.termMock.off.reset();
         sinon.assert.notCalled(ctx.termMock.reset);
         sinon.assert.calledOnce($scope.createStream);
         sinon.assert.calledOnce($scope.connectStreams);
@@ -170,9 +186,11 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
             y: 4
           }
         });
+        sinon.assert.notCalled(ctx.termMock.off);
         $scope.stream.end();
         $rootScope.$apply();
 
+        sinon.assert.calledOnce(ctx.termMock.off);
         sinon.assert.calledOnce($scope.streamEnded);
         $scope.$destroy();
       });
@@ -188,9 +206,11 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       var endSpy = sinon.spy();
       $scope.stream.removeAllListeners = removeAllSpy;
       $scope.stream.end = endSpy;
+      $scope.stream.off = sinon.spy();
       $scope.$destroy();
       expect(removeAllSpy.called).to.be.ok;
       expect(endSpy.called).to.be.ok;
+      expect($scope.stream.off.called).to.be.ok;
     });
   });
 

@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function logTerm(
+  $timeout,
   helperSetupTerminal,
   primus
 ) {
@@ -29,14 +30,31 @@ function logTerm(
           });
         }
       }
-      var terminal = helperSetupTerminal($scope, elem, resizeHandler);
-      $scope.$watch('item.state.active', resizeHandler);
+      var terminal = helperSetupTerminal($scope, elem, $scope.termOpts, resizeHandler);
 
-      bind(primus, 'offline', function () {
+      var reconnecting = false;
+      function disconnected() {
+        if (reconnecting) { return; }
+        reconnecting = true;
         terminal.writeln('');
-        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
         terminal.writeln('☹ LOST CONNECTION - RETRYING ☹');
-        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+        terminal.writeln('☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹☹');
+      }
+      bind(primus, 'offline', disconnected);
+      bind(primus, 'reconnect', disconnected);
+      bind(primus, 'open', function () {
+        if (!reconnecting) { return; }
+        reconnecting = false;
+        if ($scope.clearTermOnReconnect) {
+          terminal.reset();
+        }
+        terminal.writeln('\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
+        terminal.writeln('★ Connection regained.  Thank you for your patience ★');
+        terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n');
+        $timeout(function () {
+          initializeStream(true);
+        });
       });
 
       $scope.$on('$destroy', function () {
@@ -52,12 +70,16 @@ function logTerm(
 
       function killCurrentStream() {
         if ($scope.stream) {
+          $scope.stream.off('data');
           $scope.stream.removeAllListeners();
           $scope.stream.end();
         }
         if ($scope.eventStream) {
           $scope.eventStream.removeAllListeners();
           $scope.eventStream.end();
+        }
+        if (terminal) {
+          terminal.off('data');
         }
       }
 
@@ -107,11 +129,7 @@ function logTerm(
         $scope.createStream();
         $scope.connectStreams(terminal);
         showTerminalSpinner();
-        bind(primus, 'reconnected', function () {
-          terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
-          terminal.writeln('★ Connection regained.  Thank you for your patience ★');
-          terminal.writeln('★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★');
-        });
+
         bind($scope.stream, 'end', function () {
           hideTerminalSpinner();
           killCurrentStream();
