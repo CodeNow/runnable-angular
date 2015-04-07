@@ -1,0 +1,25 @@
+.modal-dialog.modal-verify-server(
+  ng-click = "$event.stopPropagation()"
+)
+  header.modal-header
+    button.btn.btn-radio
+      svg.iconnables.icons-server
+        use(
+          xlink:href = "#icons-server"
+        )
+      | Stack
+    button.btn.btn-radio
+      svg.iconnables.icons-server
+        use(
+          xlink:href = "#icons-server"
+        )
+      | Start CMD
+
+  section.modal-body.clearfix
+
+    footer.modal-footer.clearfix
+      button.btn.green Next
+      button.btn.white Previous
+      button.btn.white.btn-cancel(
+        ng-click = "defaultActions.cancel();"
+      ) Cancel

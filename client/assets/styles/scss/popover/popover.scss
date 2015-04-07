@@ -1,7 +1,7 @@
 // popovers
 .popover {
   background: rgba($white,.975);
-  border: 2px solid rgba($black,.15);
+  border: 1px solid $gray-lighter;
   border-radius: 3px;
   box-shadow: 0 2px 3px rgba($black,.1);
   cursor: default; // if popover is within an element with a different cursor
@@ -65,7 +65,7 @@
   .divider {
     background: rgba($black,.1);
     height: 1px;
-    margin: 3px 9px;
+    margin: 3px 0;
   }
 
   // form elements in popovers:

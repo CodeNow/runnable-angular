@@ -96,7 +96,6 @@
   border-bottom: 1px solid $gray-lighter;
   border-radius: 3px 3px 0 0;
   flex: 0 0 auto;
-  height: 60px;
   padding: 0 15px;
   text-align: center;
 
@@ -214,11 +213,7 @@
     }
   }
 
-  // if only button is cancel
-  .white:only-child {
-    float: left;
-  }
-
+  .btn-cancel,
   .btn-group .btn:first-child {
     float: left;
   }

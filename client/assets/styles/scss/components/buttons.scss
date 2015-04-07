@@ -482,7 +482,8 @@
     height: 108px;
     width: 120px;
 
-    .img {
+    .img,
+    .iconnables {
       margin-bottom: 6px;
       width: 36px;
     }
@@ -492,7 +493,8 @@
     margin-right: 0;
   }
 
-  .img {
+  .img,
+  .iconnables {
     display: block;
     height: 33px;
     margin: 0 auto;
