@@ -1,0 +1,20 @@
+div
+  .relatedStatus
+    .status(
+      ng-repeat = "instance in subDependencies"
+    )
+      | {{instance.attrs.name}}
+
+  .dns-bindings(
+    ng-if = "isInitialized"
+  )
+    .binding(
+      ng-repeat = "masterInstance in relatedMasterInstances"
+    )
+      label {{masterInstance.attrs.name}}
+      select(
+        ng-options = "instanceOption.id() as instanceOption.contextVersion.attrs.appCodeVersions[0].branch for instanceOption in masterInstance.instanceOptions"
+        ng-model = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+        ng-change = "actions.setDependency(masterInstance, instanceDependencyMap[masterInstance.attrs.contextVersion.context])"
+      )
+

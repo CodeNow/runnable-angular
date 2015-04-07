@@ -179,6 +179,7 @@ function fetchInstances(
       var pFetch = promisify(user, 'fetchInstances');
       return pFetch(opts);
     }).then(function (results) {
+      //console.log('Fetched instances', opts, results);
       var instance;
       if (opts.name) {
         instance = keypather.get(results, 'models[0]');
