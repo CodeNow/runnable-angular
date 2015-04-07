@@ -16,13 +16,16 @@
     //-     )
     //-   | Start CMD
 
-  section.modal-body
-    form.modal-form
+  form.modal-body
+    .modal-form
       .label.clearfix
         .label-col Language / Framework
         //- popover
         .input-col
-          button.btn.btn-sm.gray.text-overflow(
+          //- .btn-validate, .input-validate classes:
+            - ng-valid
+            - ng-invalid
+          button.btn.btn-sm.gray.text-overflow.btn-validate(
             ng-class = "{active: popoverStackSelect.data.show}"
             ng-click = "data.stackSelected = true"
             pop-over
@@ -36,7 +39,7 @@
               use(
                 xlink:href = "#icons-arrow-down"
               )
-          button.btn.btn-sm.gray.text-overflow(
+          button.btn.btn-sm.gray.text-overflow.btn-validate(
             ng-class = "{active: popoverVersionSelect.data.show}"
             ng-click = "data.versionSelected = true"
             ng-disabled = "!data.stackSelected"
@@ -54,8 +57,10 @@
       label.label.clearfix
         .label-col Start Command
         .input-col
-          input.input.input-sm(
+          input.input.input-sm.input-validate(
+            ng-click = "data.formComplete = true"
             ng-disabled = "!data.versionSelected"
+            required
             pop-over
             pop-over-actions = "popoverStartCommand.actions"
             pop-over-active = "popoverStartCommand.data.show"
@@ -71,7 +76,11 @@
             | .
 
     footer.modal-footer.clearfix
-      button.btn.green Create Server
+      //- disabled if there is no value in the command input
+      button.btn.green(
+        ng-disabled = "!data.formComplete"
+      ) Create Server
       button.btn.white.btn-cancel(
-        ng-click = "defaultActions.cancel();"
+        ng-click = "defaultActions.cancel()"
+        type = "button"
       ) Cancel
