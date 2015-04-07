@@ -1,7 +1,7 @@
 // popovers
 .popover {
   background: rgba($white,.975);
-  border: 1px solid $gray-lighter;
+  border: 2px solid $gray-lighter;
   border-radius: 3px;
   box-shadow: 0 2px 3px rgba($black,.1);
   cursor: default; // if popover is within an element with a different cursor
@@ -27,7 +27,7 @@
   // .popover.menu
   &.menu {
     cursor: default;
-    width: 180px;
+    min-width: 180px;
 
     .popover-content {
       overflow: hidden;
@@ -92,8 +92,8 @@
 // li.popover-list-item
 .popover-list-item {
   cursor: pointer;
-  height: 36px;
   line-height: 36px;
+  min-height: 36px;
   overflow: hidden;
   padding: 0 15px 0 9px;
   white-space: nowrap;

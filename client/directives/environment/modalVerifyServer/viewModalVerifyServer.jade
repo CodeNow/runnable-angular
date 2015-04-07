@@ -21,7 +21,14 @@
         .label-col Language / Framework
         //- popover
         .input-col
-          button.btn.btn-sm.gray undefined
+          button.btn.btn-sm.gray(
+            pop-over
+            pop-over-actions = "popoverStackSelect.actions"
+            pop-over-active = "popoverStackSelect.data.show"
+            pop-over-data = "popoverStackSelect.data"
+            pop-over-options = "{\"left\":0,\"top\":39}"
+            pop-over-template = "viewPopoverStackSelect"
+          ) undefined
             svg.iconnables.icons-arrow-down
               use(
                 xlink:href = "#icons-arrow-down"
