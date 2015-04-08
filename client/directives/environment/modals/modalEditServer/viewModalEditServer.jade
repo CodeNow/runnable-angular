@@ -46,6 +46,20 @@ form.modal-dialog.modal-edit-server(
           xlink:href = "#icons-terminal"
         )
       | Ports
+    button.btn.btn-radio(
+      ng-class = "{active: data.viewFormPorts}"
+      ng-click = "\
+        data.viewFormStack = false;\
+        data.viewFormStartCommand = false;\
+        data.viewFormPorts = true;\
+      "
+    )
+      svg.iconnables.icons-terminal
+        use(
+          xlink:href = "#icons-terminal"
+        )
+      | Environment Variables
+
 
   section.modal-body
     .modal-form
