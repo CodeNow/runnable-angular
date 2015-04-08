@@ -13,12 +13,22 @@
   // forms
   // ports
   .textarea {
+    display: flex;
+    flex-wrap: wrap;
     height: 90px;
     padding: 6px;
 
     .btn {
       border-width: 1px;
+      flex: 0 0 auto;
       margin-right: 6px;
+    }
+
+    .input-port {
+      color: $gray-dark;
+      font-size: 13px;
+      font-weight: 500;
+      height: 18px;
     }
   }
 }
