@@ -34,6 +34,14 @@ function ControllerEnvironment(
   $scope.state = {
     step: 1
   };
+
+  $scope.portTagOptions = {
+    texts: {
+      'inputPlaceHolder': 'Add ports here'
+    },
+    defaultTags: ['3000', '3001']
+  };
+
   var data = dataSetup.data;
   pageName.setTitle('Create Server');
 

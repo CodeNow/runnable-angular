@@ -12,12 +12,9 @@
       contenteditable = "false"
     ) 3001
     | #{''}
-  label.textarea.monospace
-    .btn.btn-xxs.gray 3000
-    .btn.btn-xxs.gray 3001
-    span.input-port(
-      contenteditable
-    )
+  js-tag.textarea.monospace(
+    js-tag-options = "portTagOptions"
+  )
   small.small Expose ports for listening at runtime. #{''}
     a.link(
       href = "//docs.docker.com/reference/builder/#expose"
