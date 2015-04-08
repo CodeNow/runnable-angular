@@ -464,10 +464,9 @@
   white-space: nowrap;
   width: 90px;
 
-  &:hover,
   &:active,
   &.active {
-    border-color: $purple-light;
+    color: $purple-light;
   }
 
   &:focus {

@@ -11,10 +11,12 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio.active(
         ng-class = "{active: data.viewFormStack}"
         ng-click = "\
+          data.viewFormEnvironmentVariables = false;\
+          data.viewFormPorts = false;\
           data.viewFormStack = true;\
           data.viewFormStartCommand = false;\
-          data.viewFormPorts = false;\
         "
+        type = "button"
       )
         svg.iconnables.icons-terminal
           use(
@@ -24,10 +26,12 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: data.viewFormStartCommand}"
         ng-click = "\
+          data.viewFormEnvironmentVariables = false;\
+          data.viewFormPorts = false;\
           data.viewFormStack = false;\
           data.viewFormStartCommand = true;\
-          data.viewFormPorts = false;\
         "
+        type = "button"
       )
         svg.iconnables.icons-terminal
           use(
@@ -37,10 +41,12 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: data.viewFormPorts}"
         ng-click = "\
+          data.viewFormEnvironmentVariables = false;\
+          data.viewFormPorts = true;\
           data.viewFormStack = false;\
           data.viewFormStartCommand = false;\
-          data.viewFormPorts = true;\
         "
+        type = "button"
       )
         svg.iconnables.icons-terminal
           use(
@@ -48,12 +54,14 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Ports
       button.btn.btn-radio(
-        ng-class = "{active: data.viewFormPorts}"
+        ng-class = "{active: data.viewFormEnvironmentVariables}"
         ng-click = "\
+          data.viewFormEnvironmentVariables = true;\
+          data.viewFormPorts = false;\
           data.viewFormStack = false;\
           data.viewFormStartCommand = false;\
-          data.viewFormPorts = true;\
         "
+        type = "button"
       )
         svg.iconnables.icons-terminal
           use(
@@ -75,6 +83,10 @@ form.modal-dialog.modal-edit-server(
       .label.clearfix(
         ng-if = "data.viewFormPorts"
         ng-include = "'viewFormPorts'"
+      )
+      .label.clearfix(
+        ng-if = "data.viewFormEnvironmentVariables"
+        ng-include = "'viewFormEnvironmentVariables'"
       )
 
   footer.modal-footer.clearfix
