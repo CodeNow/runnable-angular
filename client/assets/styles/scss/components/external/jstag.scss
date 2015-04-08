@@ -1,11 +1,44 @@
 // tags
-.jt-tag {
-  background: rgba($green,.75);
-  border-color: 1px solid rgba($green,.9);
-  border-radius: 3px;
-  color: $white;
-  cursor: pointer;
+// tag container
+.jt-editor > span {
   display: inline-block;
-  margin-bottom: 2px;
-  padding-left: 3px;
+  margin-top: 1px;
+}
+
+// input
+.jt-tag-new {
+  line-height: 21px;
+}
+
+// fake input
+.jt-fake-input {
+  opacity: 0;
+  pointer-events: none;
+}
+
+// tag
+.jt-tag {
+  background: $white;
+  border: 2px solid $green;
+  border-radius: 3px;
+  color: $green;
+  cursor: default;
+  display: inline-block;
+  margin: 0 2px 1px 0;
+  padding: 0 3px;
+
+  // active/focus state
+  &.active-true {
+    background: $green;
+    color: $white;
+  }
+
+  .remove-button {
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      color: $green-dark;
+    }
+  }
 }

@@ -30,14 +30,12 @@
   // forms
   // ports
   .textarea {
-    // cursor: text;
+    cursor: text;
     display: block;
-    // flex-wrap: wrap;
     font-size: 14px;
     height: 90px;
     overflow-y: auto;
-    padding: 3px 6px;
-    // word-break: all;
+    padding: 6px;
 
     .btn {
       border-width: 1px;
