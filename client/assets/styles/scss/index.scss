@@ -72,12 +72,12 @@
 
 // modal specific
 @import "modals/modals-edit";
+@import "modals/modals-edit-server";
 @import "modals/modals-error";
 @import "modals/modals-fork";
 @import "modals/modals-integrations";
 @import "modals/modals-rename";
 @import "modals/modals-repository-select";
-@import "modals/modals-verify-server";
 
 // popovers
 @import "popover/popover";

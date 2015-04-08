@@ -1,0 +1,20 @@
+.label-col Exposed Ports
+.input-col
+  //- separate by spaces, commas, or line break
+  //- restrict input to numerical values only
+  .textarea(
+    contenteditable
+  )
+    button.btn.btn-xxs.gray(
+      contenteditable = "false"
+    ) 3000
+    button.btn.btn-xxs.gray(
+      contenteditable = "false"
+    ) 3001
+    | #{''}
+  small.small Expose ports for listening at runtime. #{''}
+    a.link(
+      href = "//docs.docker.com/reference/builder/#expose"
+      target = "_blank"
+    ) More about exposing ports
+    | .

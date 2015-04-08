@@ -1,17 +1,18 @@
-form.modal-dialog.modal-verify-server(
+form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
   ng-init = "\
-    data.viewFormServerStack = true;\
+    data.viewFormStack = true;\
     data.formDirty = false;\
   "
 )
   header.modal-header
     p.p Configuring api
     button.btn.btn-radio.active(
-      ng-class = "{active: data.viewFormServerStack}"
+      ng-class = "{active: data.viewFormStack}"
       ng-click = "\
-        data.viewFormServerStack = true;\
+        data.viewFormStack = true;\
         data.viewFormStartCommand = false;\
+        data.viewFormPorts = false;\
       "
     )
       svg.iconnables.icons-terminal
@@ -22,8 +23,9 @@ form.modal-dialog.modal-verify-server(
     button.btn.btn-radio(
       ng-class = "{active: data.viewFormStartCommand}"
       ng-click = "\
-        data.viewFormServerStack = false;\
+        data.viewFormStack = false;\
         data.viewFormStartCommand = true;\
+        data.viewFormPorts = false;\
       "
     )
       svg.iconnables.icons-terminal
@@ -31,16 +33,33 @@ form.modal-dialog.modal-verify-server(
           xlink:href = "#icons-terminal"
         )
       | Start CMD
+    button.btn.btn-radio(
+      ng-class = "{active: data.viewFormPorts}"
+      ng-click = "\
+        data.viewFormStack = false;\
+        data.viewFormStartCommand = false;\
+        data.viewFormPorts = true;\
+      "
+    )
+      svg.iconnables.icons-terminal
+        use(
+          xlink:href = "#icons-terminal"
+        )
+      | Ports
 
   section.modal-body
     .modal-form
       .label.clearfix(
-        ng-if = "data.viewFormServerStack"
-        ng-include = "'viewFormServerStack'"
+        ng-if = "data.viewFormStack"
+        ng-include = "'viewFormStack'"
       )
       .label.clearfix(
         ng-if = "data.viewFormStartCommand"
         ng-include = "'viewFormStartCommand'"
+      )
+      .label.clearfix(
+        ng-if = "data.viewFormPorts"
+        ng-include = "'viewFormPorts'"
       )
 
   footer.modal-footer.clearfix
