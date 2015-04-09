@@ -11,6 +11,7 @@
   // states
   &:hover:not(.disabled) {
     background: $white;
+    border-color: $gray-light;
 
     &:not(.card-loading) {
       cursor: pointer;
@@ -20,8 +21,8 @@
   &:active:not(.disabled),
   &.active {
     background: $white;
-    border-color: currentColor;
-    color: $green;
+    border-color: $purple-light;
+    color: $gray-dark;
   }
 
   &.focus {
@@ -155,24 +156,15 @@
     text-align: left;
     width: 100%;
 
-    &:hover,
-    &:active {
+    &:hover .icons-arrow-down {
       color: $gray-dark;
     }
 
-    &:hover {
-      border-color: $purple-light;
+    &:active {
+      color: $gray-dark;
 
       .icons-arrow-down {
         color: $purple-light;
-      }
-    }
-
-    &:active {
-      border-color: $green;
-
-      .icons-arrow-down {
-        color: $green;
       }
     }
 
@@ -221,17 +213,6 @@
   padding: 12px 0;
   text-align: left;
   transition: none;
-
-  &:hover {
-    background: $white;
-    border-color: $purple-lighter;
-  }
-
-  &:active {
-    background: $white;
-    border-color: currentColor;
-    color: $green;
-  }
 }
 
 // footer

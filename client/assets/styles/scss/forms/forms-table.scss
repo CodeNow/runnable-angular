@@ -2,13 +2,38 @@
   background: $white;
   border: 1px solid $gray-lighter;
   border-radius: 3px;
-  padding: 3px 6px;
+  // padding: 3px 6px;
 }
 
+.thead {
+  font-size: 13px;
+  font-weight: 500;
+  padding-bottom: 3px;
+}
+
+// layout
 .tr {
   display: flex;
+
+  &:first-child {
+    padding-top: 3px;
+  }
+
+  &:last-child {
+    padding-bottom: 3px;
+  }
+
+  + .tr {
+    border-top: 1px solid #ccc;
+  }
 }
 
 .cell {
-  display: inline-block;
+  float: left;
+  padding: 0 6px;
+  width: calc(50% - 45px); // 3 columns (last column is 90px)
+}
+
+.cell-actions {
+  width: 90px;
 }

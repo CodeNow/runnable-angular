@@ -95,8 +95,9 @@
 }
 
 .btn-xs {
+  font-size: 16px;
   height: 24px;
-  line-height: 24px;
+  line-height: 22px;
   padding: 0 6px;
 }
 
@@ -267,21 +268,21 @@
 }
 
 .gray {
-  background: $white;
+  background: $gray-lightest;
   border-color: $gray-lighter;
   color: $gray-dark;
 
   &.btn {
 
     &:hover {
-      border-color: $purple-lighter;
-      color: $purple-light;
+      background: $white;
+      border-color: $gray-light;
     }
 
     &:active,
     &.active {
       background: $white;
-      border-color: currentColor;
+      border-color: $purple-light;
       color: $purple-light;
 
       .iconnables {
@@ -400,20 +401,20 @@
 }
 
 .white {
-  color: $gray;
+  background: $white;
+  border-color: $gray-lighter;
+  color: $gray-dark;
 
   &.btn {
 
     &:hover {
-      background: $white;
-      border-color: $gray-lighter;
+      border-color: $gray-light;
     }
 
     &:active,
     &.active {
-      background: $white;
-      border-color: currentColor;
-      color: $green;
+      border-color: $purple-light;
+      color: $purple-light;
     }
 
     &[disabled],

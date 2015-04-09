@@ -3,18 +3,6 @@ form.modal-dialog.modal-edit-server(
 )
   header.modal-header
     h1.modal-heading New Server: runnable-angular
-    //- button.btn.btn-radio.active
-    //-   svg.iconnables.icons-terminal
-    //-     use(
-    //-       xlink:href = "#icons-terminal"
-    //-     )
-    //-   | Stack
-    //- button.btn.btn-radio
-    //-   svg.iconnables.icons-terminal
-    //-     use(
-    //-       xlink:href = "#icons-terminal"
-    //-     )
-    //-   | Start CMD
 
   section.modal-body
     .modal-form
@@ -25,7 +13,7 @@ form.modal-dialog.modal-edit-server(
           //- .btn-validate, .input-validate classes:
             - ng-valid
             - ng-invalid
-          button.btn.btn-sm.gray.text-overflow.btn-validate(
+          button.btn.btn-sm.white.text-overflow.btn-validate(
             ng-class = "{active: popoverStackSelect.data.show}"
             ng-click = "data.stackSelected = true"
             pop-over
@@ -39,7 +27,7 @@ form.modal-dialog.modal-edit-server(
               use(
                 xlink:href = "#icons-arrow-down"
               )
-          button.btn.btn-sm.gray.text-overflow.btn-validate(
+          button.btn.btn-sm.white.text-overflow.btn-validate(
             ng-class = "{active: popoverVersionSelect.data.show}"
             ng-click = "data.versionSelected = true"
             ng-disabled = "!data.stackSelected"
