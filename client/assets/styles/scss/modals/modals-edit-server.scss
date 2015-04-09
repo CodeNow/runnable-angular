@@ -59,5 +59,14 @@
   // environment variables
   .table {
     margin-top: 15px;
+
+    .btn-xs {
+      opacity: 0;
+    }
+  }
+
+  // hide/show edit/delete buttons
+  .tr:hover .btn-xs {
+    opacity: 1;
   }
 }
