@@ -6,7 +6,7 @@ require('app')
  * @ngInject
  */
 function fancySelect(
-  $compile
+  $document
 ) {
   return {
     restrict: 'E',
@@ -16,8 +16,23 @@ function fancySelect(
       var transcludedContent;
       var transclusionScope;
 
+      var list =  element.find('ul');
+      //$scope.isOpen = false;
+      //
+      //$scope.actions = {
+      //  toggleSelect: function () {
+      //    console.log('Toggle Select');
+      //    $scope.open = true;
+      //
+      //  },
+      //  updateSelect: function (evt) {
+      //    console.log('Updating select', evt);
+      //  }
+      //};
+
+
       transcludeFn($scope, function(clone, innerScope ){
-        element.find('ul').append(clone);
+        list.append(clone);
         transcludedContent = clone;
         transclusionScope = innerScope;
       });
