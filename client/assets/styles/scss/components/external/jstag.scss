@@ -17,12 +17,10 @@
 }
 
 // tag
-.jt-tag {
-  background: $white;
+.jt-tag,
+.jt-tag-edit {
   border: 2px solid $green;
   border-radius: 3px;
-  color: $green;
-  cursor: default;
   display: inline-block;
   margin: 0 2px 1px 0;
   padding: 0 3px;
@@ -41,4 +39,18 @@
       color: $green-dark;
     }
   }
+}
+
+.jt-tag {
+  background: $white;
+  color: $green;
+  cursor: default;
+}
+
+.jt-tag-edit {
+  background: rgba($green,.6);
+  border-color: transparent;
+  color: $white;
+  cursor: text;
+  height: 23px;
 }
