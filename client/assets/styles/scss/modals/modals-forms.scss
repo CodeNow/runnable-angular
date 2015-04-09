@@ -107,6 +107,16 @@
       position: absolute;
       right: 3px;
     }
+
+    // small labels
+    .label.small {
+      margin: 21px 6px 6px;
+    }
+
+    // small text aligns with button/input padding
+    .small {
+      margin: 6px;
+    }
   }
 
   // label info
