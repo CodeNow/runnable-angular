@@ -1,11 +1,14 @@
 .table {
   background: $white;
-  border: 1px solid $gray-light;
+  border: 1px solid $gray-lighter;
   border-radius: 3px;
-  display: block;
-  text-align: left;
+  padding: 3px 6px;
 }
 
 .tr {
-  display: block;
+  display: flex;
+}
+
+.cell {
+  display: inline-block;
 }
