@@ -1,36 +1,37 @@
-.label-col Language / Framework
+.label.clearfix
+  .label-col Language / Framework
 
-.input-col
+  .input-col
 
-  //- input for language/framework
-    .btn-validate, .input-validate classes:
-    - ng-valid
-    - ng-invalid
-  button.btn.btn-sm.white.text-overflow.btn-validate(
-    ng-class = "{active: popoverStackSelect.data.show}"
-    pop-over
-    pop-over-actions = "popoverStackSelect.actions"
-    pop-over-active = "popoverStackSelect.data.show"
-    pop-over-data = "popoverStackSelect.data"
-    pop-over-options = "{\"left\":0,\"top\":39}"
-    pop-over-template = "viewPopoverStackSelect"
-  ) Node.js
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
+    //- input for language/framework
+      .btn-validate, .input-validate classes:
+      - ng-valid
+      - ng-invalid
+    button.btn.btn-sm.white.text-overflow.btn-validate(
+      ng-class = "{active: popoverStackSelect.data.show}"
+      pop-over
+      pop-over-actions = "popoverStackSelect.actions"
+      pop-over-active = "popoverStackSelect.data.show"
+      pop-over-data = "popoverStackSelect.data"
+      pop-over-options = "{\"left\":0,\"top\":39}"
+      pop-over-template = "viewPopoverStackSelect"
+    ) Node.js
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
 
-  //- input for version
-  button.btn.btn-sm.white.text-overflow.btn-validate(
-    ng-class = "{active: popoverVersionSelect.data.show}"
-    pop-over
-    pop-over-actions = "popoverVersionSelect.actions"
-    pop-over-active = "popoverVersionSelect.data.show"
-    pop-over-data = "popoverVersionSelect.data"
-    pop-over-options = "{\"left\":0,\"top\":39}"
-    pop-over-template = "viewPopoverVersionSelect"
-  ) v0.10.35
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
+    //- input for version
+    button.btn.btn-sm.white.text-overflow.btn-validate(
+      ng-class = "{active: popoverVersionSelect.data.show}"
+      pop-over
+      pop-over-actions = "popoverVersionSelect.actions"
+      pop-over-active = "popoverVersionSelect.data.show"
+      pop-over-data = "popoverVersionSelect.data"
+      pop-over-options = "{\"left\":0,\"top\":39}"
+      pop-over-template = "viewPopoverVersionSelect"
+    ) v0.10.35
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )

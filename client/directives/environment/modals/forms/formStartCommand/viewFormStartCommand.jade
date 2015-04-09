@@ -1,20 +1,21 @@
-.label-col Start Command
-.input-col
-  //- input for start command
-    - do not allow the user to leave this tab if this field is empty
-  input.input.input-sm.input-validate(
-    required
-    pop-over
-    pop-over-actions = "popoverStartCommand.actions"
-    pop-over-active = "popoverStartCommand.data.show"
-    pop-over-data = "popoverStartCommand.data"
-    pop-over-options = "{\"left\":0,\"top\":39}"
-    pop-over-template = "viewPopoverStartCommand"
-    value = "npm start"
-  )
-  small.small This is the command that will start your application. #{''}
-    a.link(
-      href = "//docs.docker.com/reference/builder/#cmd"
-      target = "_blank"
-    ) More about the start command
-    | .
+label.label.clearfix
+  .label-col Start Command
+  .input-col
+    //- input for start command
+      - do not allow the user to leave this tab if this field is empty
+    input.input.input-sm.input-validate(
+      required
+      pop-over
+      pop-over-actions = "popoverStartCommand.actions"
+      pop-over-active = "popoverStartCommand.data.show"
+      pop-over-data = "popoverStartCommand.data"
+      pop-over-options = "{\"left\":0,\"top\":39}"
+      pop-over-template = "viewPopoverStartCommand"
+      value = "npm start"
+    )
+    small.small This is the command that will start your application. #{''}
+      a.link(
+        href = "//docs.docker.com/reference/builder/#cmd"
+        target = "_blank"
+      ) More about the start command
+      | .

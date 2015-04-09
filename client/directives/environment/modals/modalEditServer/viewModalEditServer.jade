@@ -71,23 +71,22 @@ form.modal-dialog.modal-edit-server(
 
 
   section.modal-body
-    .modal-form
-      .label.clearfix(
-        ng-if = "data.viewFormStack"
-        ng-include = "'viewFormStack'"
-      )
-      .label.clearfix(
-        ng-if = "data.viewFormStartCommand"
-        ng-include = "'viewFormStartCommand'"
-      )
-      .label.clearfix(
-        ng-if = "data.viewFormPorts"
-        ng-include = "'viewFormPorts'"
-      )
-      .label.clearfix(
-        ng-if = "data.viewFormEnvironmentVariables"
-        ng-include = "'viewFormEnvironmentVariables'"
-      )
+    .modal-form(
+      ng-if = "data.viewFormStack"
+      ng-include = "'viewFormStack'"
+    )
+    .modal-form(
+      ng-if = "data.viewFormStartCommand"
+      ng-include = "'viewFormStartCommand'"
+    )
+    .modal-form(
+      ng-if = "data.viewFormPorts"
+      ng-include = "'viewFormPorts'"
+    )
+    .modal-form(
+      ng-if = "data.viewFormEnvironmentVariables"
+      ng-include = "'viewFormEnvironmentVariables'"
+    )
 
   footer.modal-footer.clearfix
     //- disabled if no changes
