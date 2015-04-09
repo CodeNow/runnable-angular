@@ -18,11 +18,11 @@ header.server-header
     open-items = "dataSetup.data.openItems"
   )
 
-  setup-secondary-actions(
-    data = "dataSetup.data"
-    current-model = "dataSetup.data.instanceOpts"
-    state-model = "dataSetup.data.instanceOpts"
-  )
+  .secondary-actions
+    button.btn.white(
+      ng-click = "dataSetup.data.openItems.addEnvVars()"
+      type = "button"
+    ) Edit Environment
 
 section.sidebar.server-sidebar
 

@@ -2,7 +2,6 @@
 
 var EventEmitter = require('events').EventEmitter;
 
-
 /**
  * Mock Build Log Stream
  */
@@ -59,6 +58,13 @@ MockPrimus.prototype.createLogStream = function () {
 };
 MockPrimus.prototype.createBuildStream = function () {
   return new MockReadWriteStream();
+};
+MockPrimus.prototype.createTermStreams = function () {
+  return {
+    termStream: new MockReadWriteStream(),
+    eventStream: new MockReadWriteStream(),
+    uniqueId: new Date().toDateString()
+  };
 };
 MockPrimus.prototype.off = function () {
   this.removeListener.apply(this, arguments);
