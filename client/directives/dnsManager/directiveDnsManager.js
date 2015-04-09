@@ -54,7 +54,7 @@ function dnsManager(
 
           // Set the dependency to be defaulted to the master
           $scope.relatedMasterInstances.forEach(function (instance) {
-            $scope.instanceDependencyMap[instance.attrs.contextVersion.context] = instance.id();
+            $scope.instanceDependencyMap[instance.attrs.contextVersion.context] = instance.attrs.shortHash;
           });
 
           promisify($scope.instance, 'fetchDependencies')()

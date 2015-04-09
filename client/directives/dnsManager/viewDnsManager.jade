@@ -13,7 +13,7 @@ div
     )
       label {{masterInstance.attrs.name}}
       select(
-        ng-options = "instanceOption.id() as instanceOption.contextVersion.attrs.appCodeVersions[0].branch for instanceOption in masterInstance.instanceOptions"
+        ng-options = "instanceOption.attrs.shortHash as instanceOption.attrs.name for instanceOption in masterInstance.instanceOptions"
         ng-model = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
         ng-change = "actions.setDependency(masterInstance, instanceDependencyMap[masterInstance.attrs.contextVersion.context])"
       )
