@@ -7,7 +7,6 @@
 
 .thead {
   font-size: 13px;
-  font-weight: 500;
   padding-bottom: 3px;
 }
 
@@ -25,13 +24,21 @@
 
   + .tr {
     border-top: 1px solid #ccc;
+    font-weight: 500;
   }
 }
 
 .cell {
   float: left;
+  height: 36px;
+  line-height: 36px;
   padding: 0 6px;
   width: calc(50% - 45px); // 3 columns (last column is 90px)
+
+  .btn-xs {
+    float: right;
+    top: 6px;
+  }
 }
 
 .cell-actions {
