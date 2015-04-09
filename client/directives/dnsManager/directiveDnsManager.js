@@ -35,7 +35,7 @@ function dnsManager(
       fetchInstances({ masterPod: true })
         .then(function (instances) {
           $scope.relatedMasterInstances = instances.models.filter(function (instance) {
-            return instance !== $scope.instance;
+            return instance.attrs.contextVersion.context !== $scope.instance.attrs.contextVersion.context;
           });
 
           $scope.relatedMasterInstances.forEach(function (instance) {
