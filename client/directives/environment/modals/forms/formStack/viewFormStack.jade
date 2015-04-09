@@ -1,7 +1,9 @@
 .label-col Language / Framework
-//- popover
+
 .input-col
-  //- .btn-validate, .input-validate classes:
+
+  //- input for language/framework
+    .btn-validate, .input-validate classes:
     - ng-valid
     - ng-invalid
   button.btn.btn-sm.white.text-overflow.btn-validate(
@@ -17,6 +19,8 @@
       use(
         xlink:href = "#icons-arrow-down"
       )
+
+  //- input for version
   button.btn.btn-sm.white.text-overflow.btn-validate(
     ng-class = "{active: popoverVersionSelect.data.show}"
     pop-over

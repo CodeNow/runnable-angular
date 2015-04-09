@@ -1,16 +1,19 @@
 form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
 )
+
   header.modal-header
     h1.modal-heading New Server: runnable-angular
 
   section.modal-body
     .modal-form
       .label.clearfix
+
         .label-col Language / Framework
-        //- popover
+
         .input-col
-          //- .btn-validate, .input-validate classes:
+          //- input for language/framework
+           .btn-validate, .input-validate classes:
             - ng-valid
             - ng-invalid
           button.btn.btn-sm.white.text-overflow.btn-validate(
@@ -27,6 +30,8 @@ form.modal-dialog.modal-edit-server(
               use(
                 xlink:href = "#icons-arrow-down"
               )
+
+          //- input for version
           button.btn.btn-sm.white.text-overflow.btn-validate(
             ng-class = "{active: popoverVersionSelect.data.show}"
             ng-click = "data.versionSelected = true"
@@ -42,9 +47,13 @@ form.modal-dialog.modal-edit-server(
               use(
                 xlink:href = "#icons-arrow-down"
               )
+
       label.label.clearfix
+
         .label-col Start Command
+
         .input-col
+          //- input for start command
           input.input.input-sm.input-validate(
             ng-click = "data.formComplete = true"
             ng-disabled = "!data.versionSelected"
@@ -56,12 +65,12 @@ form.modal-dialog.modal-edit-server(
             pop-over-options = "{\"left\":0,\"top\":39}"
             pop-over-template = "viewPopoverStartCommand"
           )
+
           small.small This is the command that will start your application. #{''}
             a.link(
               href = "//docs.docker.com/reference/builder/#cmd"
               target = "_blank"
             ) More about the start command
-            | .
 
   footer.modal-footer.clearfix
     //- disabled if there is no value in the command input

@@ -2,15 +2,18 @@
   background: $white;
   border: 1px solid $gray-lighter;
   border-radius: 3px;
-  // padding: 3px 6px;
 }
 
+// table row header usage:
+// .tr.thead
 .thead {
   font-size: 13px;
   padding-bottom: 3px;
 }
 
 // layout
+// always use .clearfix with .tr:
+// .tr.clearfix
 .tr {
   display: flex;
 
@@ -33,7 +36,7 @@
   height: 36px;
   line-height: 36px;
   padding: 0 9px;
-  width: calc(50% - 45px); // 3 columns (last column is 90px)
+  width: calc(50% - 32px); // 2 equal width columns + 64px column (divide by 2)
 
   .btn-xs {
     float: right;
@@ -42,5 +45,5 @@
 }
 
 .cell-actions {
-  width: 90px;
+  width: 64px;
 }

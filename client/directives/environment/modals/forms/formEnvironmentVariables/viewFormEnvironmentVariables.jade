@@ -1,18 +1,29 @@
 //- .label-col Environment Variables
 //- .input-col
 //-   small.small There's nothing here yet
+
+//- table of current environment variables
 .table
+  //- table row header
   .tr.thead.clearfix
     .cell Key
     .cell Value
     .cell.cell-actions
+  //- row 1
   .tr.clearfix
     .cell thing1
     .cell thing2
     .cell.cell-actions
       button.btn.btn-xs.gray Edit
+  //- row 2
   .tr.clearfix
     .cell kim
     .cell k
     .cell.cell-actions
       button.btn.btn-xs.gray Edit
+
+small.small Expose ports for listening at runtime. #{''}
+  a.link(
+    href = "//docs.docker.com/reference/builder/#expose"
+    target = "_blank"
+  ) More about exposing ports
