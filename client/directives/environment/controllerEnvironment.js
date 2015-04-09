@@ -21,6 +21,7 @@ function ControllerEnvironment(
   fetchBuild,
   fetchInstances,
   pageName,
+  JSTagsCollection,
   $window
 ) {
   favico.reset();
@@ -35,11 +36,17 @@ function ControllerEnvironment(
     step: 1
   };
 
-  $scope.portTagOptions = {
-    texts: {
-      'inputPlaceHolder': 'Add ports here'
-    },
-    defaultTags: ['3000', '3001']
+  $scope.data = {
+    dataModalEditServer: {
+      portTagOptions: {
+        texts: {
+          'inputPlaceHolder': 'Add ports here',
+          maxInputLength: 5,
+          onlyDigits: true
+        },
+        tags: new JSTagsCollection(['2000', '3001'])
+      }
+    }
   };
 
   var data = dataSetup.data;
