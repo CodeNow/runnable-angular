@@ -401,11 +401,11 @@
 }
 
 .white {
-  background: $white;
   border-color: $gray-lighter;
   color: $gray-dark;
 
   &.btn {
+    background: $white;
 
     &:hover {
       border-color: $gray-light;
