@@ -39,7 +39,7 @@ module.exports = [
   }, {
     state: 'naviSelection',
     abstract: false,
-    url: '^/:userName/naviSelection/:repo',
+    url: '^/:userName/naviSelection/:hostname',
     templateUrl: 'viewNaviSelection',
     controller: 'ControllerNaviSelection',
     data: {

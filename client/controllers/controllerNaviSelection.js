@@ -5,25 +5,27 @@ require('app')
 
 function controllerNaviSelection (
   $scope,
+  $state,
   fetchInstances,
   promisify,
   errs,
   user
 ) {
-  var url = require('url');
-
-  console.log(url.parse(window.location.origin));
+  var hostname = $state.params.hostname;
+  console.log(hostname);
 
   fetchInstances({
-    hostname: url.parse(window.location.origin).hostname,
+    hostname: hostname,
     masterPod: true
   })
   .then(function (masterInstance) {
     var context = masterInstance.attrs.contextVersion.context;
-    var urlInstances = user.fetchInstances({ 'contextVersion.context': context }, function (err) {
-      if (err) { return '';}
-      // instances.url() // doesn't exist ryan needs this method too: // url() needs to be created on the instance model in api client (it should return instance.name+'-'instance.owner.username+'.'+process.env.USER_CONTENT_DOMAIN)
+    return fetchInstances({
+      'contextVersion.context': context
     });
+  })
+  .then(function (something) {
+      // instances.url() // doesn't exist ryan needs this method too: // url() needs to be created on the instance model in api client (it should return instance.name+'-'instance.owner.username+'.'+process.env.USER_CONTENT_DOMAIN)
   })
   .catch(errs.handler);
 
@@ -36,11 +38,13 @@ function controllerNaviSelection (
         // instance url
         // TBD
         var body = {};
-        var hostname = url.parse(window.location.origin).hostname;
-        body['hostnamesMap.'+hostname] = instance.id();
-        user.update(body, function (err) {
-          // session is set.
-        });
+        var hostname = hostname;
+        body['hostnamesMap.' + hostname] = instance.id();
+        promisify(user, 'update')(body)
+        .then(function () {
+          // Session is set
+        })
+        .catch(errs.handler);
       }
     }
   };
