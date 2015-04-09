@@ -6,16 +6,21 @@ require('app')
  * @ngInject
  */
 function fancySelect(
+  $compile
 ) {
   return {
     restrict: 'E',
-    scope: {
-      value: '='
-    },
-    templateUrl: 'viewInstanceBoxName',
-    link: function ($scope, elem, attrs) {
-      console.log('Fancy Select!');
-      console.log(elem);
+    templateUrl: 'viewFancySelect',
+    transclude: true,
+    link: function ($scope, element, attrs, controller, transcludeFn) {
+      var transcludedContent;
+      var transclusionScope;
+
+      transcludeFn($scope, function(clone, innerScope ){
+        element.find('ul').append(clone);
+        transcludedContent = clone;
+        transclusionScope = innerScope;
+      });
     }
   };
 }

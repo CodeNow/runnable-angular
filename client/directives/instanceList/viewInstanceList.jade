@@ -161,12 +161,16 @@ div(
         )
 
 | {{fancySelectValue}}
+| {{data.instanceGroups.me.instances.length}}
+
 fancy-select(
   value = "fancySelectValue"
 )
+  li {{data.instanceGroups.me.instances.length}}
   li(
-    value = "foo"
-  ) Foo
+    ng-repeat = "instance in data.instanceGroups.me.instances | orderBy:'attrs.name'"
+    value = "instance.id()"
+  ) {{instance.attrs.name}}
   li(
     value = "bar"
   ) Bar
