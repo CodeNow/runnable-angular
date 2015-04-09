@@ -39,6 +39,12 @@ function ControllerEnvironment(
   $scope.data = {
     dataModalEditServer: {
       portTagOptions: {
+        breakCodes: [
+           13, // return
+           32, // space
+           44, // comma (opera)
+           188 // comma (mozilla)
+         ],
         texts: {
           'inputPlaceHolder': 'Add ports here',
           maxInputLength: 5,
