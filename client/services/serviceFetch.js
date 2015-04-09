@@ -180,7 +180,7 @@ function fetchInstances(
       return pFetch(opts);
     }).then(function (results) {
       var instance;
-      if (opts.name) {
+      if (opts.name || opts.masterPod) {
         instance = keypather.get(results, 'models[0]');
       } else {
         if (opts.githubUsername === $stateParams.userName) {

@@ -14,6 +14,9 @@ function controllerNaviSelection (
   var hostname = $state.params.hostname;
   console.log(hostname);
 
+  // user.fetchBackendForUrl(hostname, console.log.bind(console));
+
+
   fetchInstances({
     hostname: hostname,
     masterPod: true
