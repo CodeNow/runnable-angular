@@ -1,0 +1,22 @@
+.popover-overlay
+.popover.bottom.popover-fixed(
+  ng-class = "{in: data.show}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .popover-content
+    button(
+      name = "variableType"
+      type = "radio"
+    ) No type
+    button(
+      name = "variableType"
+      type = "radio"
+    ) Server
+    label.label Key
+      input.input.input-sm(
+        placeholder = "[key]"
+      )
+    label.label Value
+      input.input.input-sm(
+        placeholder = "[value]"
+      )
