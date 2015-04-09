@@ -4,8 +4,8 @@ var Runnable = require('runnable');
 var qs = require('qs');
 
 require('app')
-  .factory('user', function ($http, configAPIHost) {
-    var runnable = new Runnable(configAPIHost);
+  .factory('user', function ($http, configAPIHost, configUserContentDomain) {
+    var runnable = new Runnable(configAPIHost, { userContentDomain: configUserContentDomain});
     runnable.client.request = new AngularHttpRequest($http);
     return runnable;
   });
