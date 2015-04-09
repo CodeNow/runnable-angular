@@ -1,20 +1,15 @@
-//- prototyping code
-div(
-  ng-init = "data.hasEnvironment = false"
-)
-
 .environment-header(
-  ng-if = "data.hasEnvironment"
+  ng-if = "data.activeAccount"
   ng-include = "'viewEnvironmentHeader'"
 )
 
 //- if no environment
 .environment-body.card-grid(
-  ng-if = "!data.hasEnvironment"
+  ng-if = "!data.activeAccount"
   ng-include = "'viewEnvironmentOrganizationSelect'"
 )
 
 .environment-body.card-grid(
-  ng-if = "data.hasEnvironment"
+  ng-if = "data.activeAccount"
   ng-include = "'viewEnvironmentBody'"
 )
