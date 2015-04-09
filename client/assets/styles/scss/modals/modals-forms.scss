@@ -56,6 +56,26 @@
       padding: 0 6px;
     }
 
+    // button groups
+    &.btn-group {
+      width: auto;
+
+      > .btn {
+        margin-top: 6px;
+        padding: 0 6px;
+        width: auto;
+
+        + .btn {
+          width: 27px;
+        }
+      }
+
+      .icons-arrow-down {
+        right: 0;
+        top: 0;
+      }
+    }
+
     // validation
     &.input,
     .input {
@@ -87,11 +107,11 @@
       position: absolute;
       right: 3px;
     }
-
   }
 
   // label info
   .small {
+    color: $gray;
     display: inline-block;
     margin: 6px 0 0;
   }
