@@ -12,6 +12,8 @@ var $rootScope,
   $templateCache;
 var $elScope;
 
+var apiDomain = require('config/api').userContentDomain;
+
 var apiMocks = require('../../../apiMocks/index');
 var thisUser = runnable.newUser(apiMocks.user);
 var ctx;
@@ -569,8 +571,8 @@ describe('directiveModalGettingStarted'.bold.underline.blue, function () {
           'asdasd=asdasd\n' +
             // These next 2 have somekittens as the owner because I'm generating the link
             // in GS with createInstanceUrl
-          'SPAAACE_HOST=spaaace-somekittens.runnableapp.com\n' +
-          'SPACE_HOST=space-somekittens.runnableapp.com\n' +
+          'SPAAACE_HOST=spaaace-somekittens.'+ apiDomain + '\n' +
+          'SPACE_HOST=space-somekittens.'+ apiDomain + '\n' +
           'asd=dsfs\n' +
           'addsdd=asd');
 
