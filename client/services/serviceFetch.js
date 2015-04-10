@@ -179,16 +179,13 @@ function fetchInstances(
       var pFetch = promisify(user, 'fetchInstances');
       return pFetch(opts);
     }).then(function (results) {
-      //console.log('Fetched instances', opts, results);
       var instance;
       if (opts.name) {
         instance = keypather.get(results, 'models[0]');
-      } else if (Object.keys(opts).length === 1 && opts.githubUsername) {
+      } else {
         if (opts.githubUsername === $stateParams.userName) {
           currentInstanceList = results;
         }
-        instance = results;
-      } else {
         instance = results;
       }
 

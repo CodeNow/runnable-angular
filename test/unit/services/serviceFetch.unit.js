@@ -177,7 +177,10 @@ describe('serviceFetch'.bold.underline.blue, function () {
           find: sinon.spy(),
           add: sinon.spy(),
           remove: sinon.spy(),
-          fetchInstances: sinon.stub().callsArg(1)
+          fetchInstances: sinon.spy(function (opts, cb) {
+            cb();
+            return user;
+          })
         };
         setupFetchInstances(function ($q) {
           return sinon.stub().returns($q.when(user));
