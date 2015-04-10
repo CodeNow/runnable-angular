@@ -57,16 +57,10 @@
   }
 
   // environment variables
-  .table {
+  .ace_editor {
+    border: 2px solid $gray-lighter;
+    border-radius: 3px;
+    height: 150px;
     margin-top: 15px;
-
-    .btn-xs {
-      opacity: 0;
-    }
-  }
-
-  // hide/show edit/delete buttons
-  .tr:hover .btn-xs {
-    opacity: 1;
   }
 }
