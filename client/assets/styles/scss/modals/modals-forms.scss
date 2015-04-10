@@ -70,6 +70,17 @@
       }
     }
 
+    // don't stretch if btn-xs
+    > .btn-xs {
+      padding: 0 6px;
+      width: auto;
+
+      &:only-child {
+        float: right;
+        margin-top: 6px;
+      }
+    }
+
     .icons-arrow-down {
       position: absolute;
       right: 3px;

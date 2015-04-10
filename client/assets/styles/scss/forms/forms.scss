@@ -47,6 +47,7 @@
   .label-col {
     flex: 1 1 auto;
     height: auto;
+    padding: 0;
   }
 
   // equal sign between inputs
@@ -54,6 +55,8 @@
     flex: 0 0 25px;
     line-height: 36px;
     padding-top: 36px;
+    text-align: center;
+    user-select: none;
   }
 
   // helpful messages

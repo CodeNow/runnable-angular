@@ -1,6 +1,6 @@
 .clearfix
   .label-col Environment Variables
-  .input-col.btn-group
+  .input-col
     button.btn.btn-xs.green(
       pop-over
       pop-over-actions = "popoverEnvironmentVariable.actions"
@@ -8,12 +8,7 @@
       pop-over-data = "popoverEnvironmentVariable.data"
       pop-over-options = "{\"top\":-72}"
       pop-over-template = "viewPopoverEnvironmentVariable"
-    ) New Variable
-    button.btn.btn-xs.btn-icon.green
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
+    ) New Linking Variable
 
 //- table of current environment variables
 pre.pre(

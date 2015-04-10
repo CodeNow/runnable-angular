@@ -10,7 +10,14 @@
   }
 
   .popover-title {
-    margin: 6px 0 36px;
+    margin: 6px 0 21px;
+
+    .small {
+      color: $gray;
+      display: block;
+      line-height: 1.4;
+      margin-top: 6px;
+    }
   }
 }
 

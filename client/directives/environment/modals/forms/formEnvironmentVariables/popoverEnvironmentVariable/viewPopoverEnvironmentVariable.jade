@@ -3,27 +3,19 @@
     ng-style = "popoverStyle.getStyle()"
   )
     form.popover-content
-      //- only show title if new variable
-      h3.popover-title New Environment Variable
-      label.label.label-checkbox
-        input.input(
-          name = "variableType"
-          ng-model = "data.checkLink"
-          type = "checkbox"
-        )
-        | Use this variable to link to a server
+      h2.popover-title New Linking Variable
         small.small Environment variables can be used to link other servers in your environment together. #{''}
-          a.link More about environment variables
+            a.link More about linking with environment variables
       .label.label-row.clearfix
         label.label-col Key
-          input.input.input-sm.input-validate(
-            placeholder = "[key]"
+          input.input.input-sm.input-validate.monospace(
+            placeholder = "Variable"
             required
           )
         span.span-col =
         label.label-col Value
-          input.input.input-sm.input-validate(
-            placeholder = "[value]"
+          input.input.input-sm.input-validate.monospace(
+            placeholder = "Host name"
             pop-over
             pop-over-actions = "popoverServerVariables.actions"
             pop-over-active = "popoverServerVariables.data.show"
@@ -44,7 +36,6 @@
               invalid: !data.linkValid\
             }"
             ng-click = "data.linkValid = !data.linkValid"
-            ng-if = "data.checkLink"
           )
             svg.iconnables.icons-check(
               ng-if = "data.linkValid"
