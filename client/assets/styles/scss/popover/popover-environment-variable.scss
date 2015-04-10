@@ -19,10 +19,17 @@
   // extra spacing on last form item
   .label-row {
     margin-bottom: 36px;
+    position: relative;
 
     .label-col:first-child {
       // shorter key length
       max-width: 180px;
+    }
+
+    .icons-arrow-down {
+      margin-top: 6px;
+      position: absolute;
+      right: 21px;
     }
   }
 }

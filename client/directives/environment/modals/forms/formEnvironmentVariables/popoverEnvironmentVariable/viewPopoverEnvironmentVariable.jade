@@ -3,6 +3,7 @@
     ng-style = "popoverStyle.getStyle()"
   )
     form.popover-content
+      //- only show title if new variable
       h3.popover-title New Environment Variable
       label.label.label-checkbox
         input.input(
@@ -23,14 +24,20 @@
         label.label-col Value
           input.input.input-sm.input-validate(
             placeholder = "[value]"
-            required
             pop-over
             pop-over-actions = "popoverServerVariables.actions"
             pop-over-active = "popoverServerVariables.data.show"
             pop-over-data = "popoverServerVariables.data"
             pop-over-options = "{\"left\":0,\"top\":39}"
             pop-over-template = "viewPopoverServerVariables"
+            required
           )
+          svg.iconnables.icons-arrow-down(
+            ng-if = "data.checkLink"
+          )
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
           small.small(
             ng-class = "{\
               valid: data.linkValid,\
@@ -63,6 +70,7 @@
         button.btn.green(
           ng-disabled = "!data.linkValid"
         ) Add Variable
+          //- says Update Variable if not new
         button.btn.white.btn-cancel(
           type = "button"
         ) Cancel
