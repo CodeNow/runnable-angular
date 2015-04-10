@@ -4,12 +4,19 @@
   position: fixed;
   right: 0 !important;
   z-index: $z-popover-fixed;
+
+  .popover-content {
+    padding: 15px;
+  }
+
+  .popover-title {
+    margin-bottom: 15px;
+  }
 }
 
 // overlay
 .popover-overlay {
   height: 100vh;
-  opacity: 0;
   position: fixed;
   top: 0;
   width: 100vw;

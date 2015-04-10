@@ -3,14 +3,7 @@
 
   // label (row)
   .label {
-    display: block;
     flex: 0 0 auto;
-    margin-bottom: 21px;
-    position: relative;
-
-    @include media(xs) {
-      margin-bottom: 15px;
-    }
 
     + .label {
       border-top: 1px solid $gray-lighter;
@@ -23,34 +16,8 @@
     }
   }
 
-  // label column (left)
-  .label-col {
-    color: $gray;
-    float: left;
-    font-weight: 500;
-    height: 36px;
-    line-height: 36px;
-    padding-right: 15px;
-    width: 45%;
-    word-break: break-word;
-
-    @include media(xs) {
-      float: none;
-      text-align: left;
-      width: 100%;
-    }
-  }
-
   // input column (right)
   .input-col {
-    float: right;
-    text-align: left;
-    width: 54%;
-
-    @include media(xs) {
-      float: none;
-      width: 100%;
-    }
 
     &.btn {
       padding: 0 6px;

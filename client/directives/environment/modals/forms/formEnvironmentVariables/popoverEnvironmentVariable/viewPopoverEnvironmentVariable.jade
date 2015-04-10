@@ -1,22 +1,36 @@
 .popover-overlay
-.popover.bottom.popover-fixed(
-  ng-class = "{in: data.show}"
-  ng-style = "popoverStyle.getStyle()"
-)
-  .popover-content
-    button(
-      name = "variableType"
-      type = "radio"
-    ) No type
-    button(
-      name = "variableType"
-      type = "radio"
-    ) Server
-    label.label Key
-      input.input.input-sm(
-        placeholder = "[key]"
-      )
-    label.label Value
-      input.input.input-sm(
-        placeholder = "[value]"
-      )
+  .popover.bottom.popover-fixed.popover-environment-variable(
+    ng-style = "popoverStyle.getStyle()"
+  )
+    .popover-content
+      h3.popover-title Add Environment Variable
+      .label.clearfix
+        .label-col Type of Variable
+        .input-col
+          label.label(
+            ng-click = "data.typeSelected = true"
+          )
+            input(
+              name = "variableType"
+              type = "radio"
+            )
+            | Non-linking
+          label.label(
+            ng-click = "data.typeSelected = true"
+          )
+            input(
+              name = "variableType"
+              type = "radio"
+            )
+            | Link to a server
+            small.small Environment variables can be used to link other servers in your environment together.
+      label.label Key
+        input.input.input-sm(
+          ng-disabled = "!data.typeSelected"
+          placeholder = "[key]"
+        )
+      label.label Value
+        input.input.input-sm(
+          ng-disabled = "!data.typeSelected"
+          placeholder = "[value]"
+        )
