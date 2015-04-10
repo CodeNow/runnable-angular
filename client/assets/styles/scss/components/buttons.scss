@@ -439,15 +439,6 @@
   pointer-events: none;
  }
 
-// .btn-radio
-.input-radio {
-  display: none;
-
-  &:checked + .btn-radio {
-    border-color: $purple-lighter;
-  }
-}
-
 .btn-radio {
   background: $white;
   border: 2px solid transparent;

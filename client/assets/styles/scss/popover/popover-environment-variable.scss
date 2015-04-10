@@ -1,3 +1,28 @@
 .popover-environment-variable {
-  max-width: 450px;
+  max-width: 510px;
+
+  .label-checkbox {
+    line-height: 36px;
+
+    .input {
+      float: left;
+      height: 36px; // align with label-col
+      margin-right: 9px;
+    }
+
+    .small {
+      line-height: 1.4;
+      margin: -3px 0 0 24px;
+    }
+  }
+
+  // extra spacing on last form item
+  .label-row {
+    margin-bottom: 36px;
+
+    .label-col:first-child {
+      // shorter key length
+      max-width: 180px;
+    }
+  }
 }

@@ -2,35 +2,67 @@
   .popover.bottom.popover-fixed.popover-environment-variable(
     ng-style = "popoverStyle.getStyle()"
   )
-    .popover-content
-      h3.popover-title Add Environment Variable
-      .label.clearfix
-        .label-col Type of Variable
-        .input-col
-          label.label(
-            ng-click = "data.typeSelected = true"
-          )
-            input(
-              name = "variableType"
-              type = "radio"
-            )
-            | Non-linking
-          label.label(
-            ng-click = "data.typeSelected = true"
-          )
-            input(
-              name = "variableType"
-              type = "radio"
-            )
-            | Link to a server
-            small.small Environment variables can be used to link other servers in your environment together.
-      label.label Key
-        input.input.input-sm(
-          ng-disabled = "!data.typeSelected"
-          placeholder = "[key]"
+    form.popover-content
+      h3.popover-title New Environment Variable
+      label.label.label-checkbox
+        input.input(
+          name = "variableType"
+          ng-model = "data.checkLink"
+          type = "checkbox"
         )
-      label.label Value
-        input.input.input-sm(
-          ng-disabled = "!data.typeSelected"
-          placeholder = "[value]"
-        )
+        | Use this variable to link to a server
+        small.small Environment variables can be used to link other servers in your environment together. #{''}
+          a.link More about environment variables
+      .label.label-row.clearfix
+        label.label-col Key
+          input.input.input-sm.input-validate(
+            placeholder = "[key]"
+            required
+          )
+        span.span-col =
+        label.label-col Value
+          input.input.input-sm.input-validate(
+            placeholder = "[value]"
+            required
+            pop-over
+            pop-over-actions = "popoverServerVariables.actions"
+            pop-over-active = "popoverServerVariables.data.show"
+            pop-over-data = "popoverServerVariables.data"
+            pop-over-options = "{\"left\":0,\"top\":39}"
+            pop-over-template = "viewPopoverServerVariables"
+          )
+          small.small(
+            ng-class = "{\
+              valid: data.linkValid,\
+              invalid: !data.linkValid\
+            }"
+            ng-click = "data.linkValid = !data.linkValid"
+            ng-if = "data.checkLink"
+          )
+            svg.iconnables.icons-check(
+              ng-if = "data.linkValid"
+            )
+              use(
+                xlink:href = "#icons-check"
+              )
+            span(
+              ng-if = "data.linkValid"
+            ) Looking good
+            svg.iconnables.icons-check(
+              ng-if = "!data.linkValid"
+            )
+              use(
+                xlink:href = "#icons-warning"
+              )
+            span(
+              ng-if = "!data.linkValid"
+            ) Words of encouragement
+
+      footer.popover-footer.clearfix
+        //- disabled if errors
+        button.btn.green(
+          ng-disabled = "!data.linkValid"
+        ) Add Variable
+        button.btn.white.btn-cancel(
+          type = "button"
+        ) Cancel

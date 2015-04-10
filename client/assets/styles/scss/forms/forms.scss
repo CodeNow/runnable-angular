@@ -40,6 +40,45 @@
   }
 }
 
+// .label-row: override .label-col for 2 or more inputs on a row
+.label-row {
+  display: flex;
+
+  .label-col {
+    flex: 1 1 auto;
+    height: auto;
+  }
+
+  // equal sign between inputs
+  .span-col {
+    flex: 0 0 25px;
+    line-height: 36px;
+    padding-top: 36px;
+  }
+
+  // helpful messages
+  .small {
+    font-weight: 500;
+    line-height: 18px;
+    margin: 6px 0 0;
+
+    &.valid {
+      color: $green;
+    }
+
+    &.invalid {
+      color: $orange;
+    }
+
+    .iconnables {
+      float: left;
+      height: 20px;
+      margin-right: 3px;
+      width: 21px;
+    }
+  }
+}
+
 // label.btn.btn-checkbox
 .btn-checkbox {
   font-size: 13px;
