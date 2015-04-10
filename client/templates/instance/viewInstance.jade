@@ -120,7 +120,11 @@ section.sidebar.server-sidebar.load(
     repo-list
     show-auto-deploy = "true"
   )
-
+  section.manage-dns.row.explorer(
+    ng-if = "dataInstance.data.instance"
+    dns-manager
+    instance = "dataInstance.data.instance"
+  )
   section.row.explorer(
     explorer
     edit-explorer = "false"
