@@ -10,7 +10,8 @@ function dnsManager(
   fetchInstances,
   createInstanceUrl,
   errs,
-  promisify
+  promisify,
+  $q
 ) {
   return {
     restrict: 'A',
@@ -38,15 +39,14 @@ function dnsManager(
             return instance.attrs.contextVersion.context !== $scope.instance.attrs.contextVersion.context;
           });
 
-          $scope.relatedMasterInstances.forEach(function (instance) {
-            fetchInstances({
+          var promiseList = $scope.relatedMasterInstances.map(function (instance) {
+            return fetchInstances({
               'masterPod': false,
               'contextVersion.context': instance.contextVersion.attrs.context
-            }).then(function (instances) {
-              instance.instanceOptions = instances.models;
-              instance.instanceOptions.unshift(instance);
-            });
-
+            })
+              .then(function (instances) {
+                instance.instanceOptions = [instance].concat(instances.models);
+              });
           });
 
           // Just a flat tree for sub dependencies
@@ -57,7 +57,7 @@ function dnsManager(
             $scope.instanceDependencyMap[instance.attrs.contextVersion.context] = instance.attrs.shortHash;
           });
 
-          promisify($scope.instance, 'fetchDependencies')()
+          promiseList.push(promisify($scope.instance, 'fetchDependencies')()
             .then(function (_dependencies) {
               $scope.dependencies = _dependencies;
               $scope.dependencies.models.forEach(function (dependency) {
@@ -65,9 +65,11 @@ function dnsManager(
               });
 
               $scope.isInitialized = true;
-            })
-            .catch(errs.handler);
-        });
+            }));
+
+          return $q.all(promiseList);
+        })
+        .catch(errs.handler);
 
       $scope.actions = {
         setDependency: function (masterInstance, instanceId) {

@@ -183,10 +183,12 @@ function fetchInstances(
       var instance;
       if (opts.name) {
         instance = keypather.get(results, 'models[0]');
-      } else {
+      } else if (Object.keys(opts).length === 1 && opts.githubUsername) {
         if (opts.githubUsername === $stateParams.userName) {
           currentInstanceList = results;
         }
+        instance = results;
+      } else {
         instance = results;
       }
 
