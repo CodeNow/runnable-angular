@@ -4,13 +4,9 @@ div
       ng-repeat = "instance in subDependencies"
     )
       | {{instance.attrs.name}}
-
   .dns-bindings(
     ng-if = "isInitialized"
   )
-
-
-
     .binding(
       ng-repeat = "masterInstance in relatedMasterInstances"
     )
@@ -20,4 +16,3 @@ div
         ng-model = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
         ng-change = "actions.setDependency(masterInstance, instanceDependencyMap[masterInstance.attrs.contextVersion.context])"
       )
-

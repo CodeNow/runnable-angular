@@ -41,7 +41,7 @@ function dnsManager(
 
           var promiseList = $scope.relatedMasterInstances.map(function (instance) {
             return fetchInstances({
-              'masterPod': false,
+              masterPod: false,
               'contextVersion.context': instance.contextVersion.attrs.context
             })
               .then(function (instances) {
