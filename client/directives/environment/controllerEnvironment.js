@@ -39,7 +39,7 @@ function ControllerEnvironment(
           maxInputLength: 5,
           onlyDigits: true
         },
-        tags: new JSTagsCollection(['2000', '3001'])
+        tags: new JSTagsCollection([])
       }
     }
   };

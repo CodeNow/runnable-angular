@@ -14,14 +14,14 @@
           )
         span.span-col =
         label.label-col Value
+          //- pop-over
+          //- pop-over-actions = "popoverHostNames.actions"
+          //- pop-over-active = "popoverHostNames.data.show"
+          //- pop-over-data = "popoverHostNames.data"
+          //- pop-over-options = "{\"left\":0,\"top\":39}"
+          //- pop-over-template = "viewPopoverHostNames"
           input.input.input-sm.input-validate.monospace(
             placeholder = "Host name"
-            pop-over
-            pop-over-actions = "popoverServerVariables.actions"
-            pop-over-active = "popoverServerVariables.data.show"
-            pop-over-data = "popoverServerVariables.data"
-            pop-over-options = "{\"left\":0,\"top\":39}"
-            pop-over-template = "viewPopoverServerVariables"
             required
           )
           svg.iconnables.icons-arrow-down(
@@ -45,7 +45,10 @@
               )
             span(
               ng-if = "data.linkValid"
-            ) Looking good
+            ) Looking good. #{''}
+              span You can add ports too. Open ports: #{''}
+              span.tag.monospace 80
+              span.tag.monospace 3000
             svg.iconnables.icons-check(
               ng-if = "!data.linkValid"
             )

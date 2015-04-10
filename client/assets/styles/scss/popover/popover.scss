@@ -92,7 +92,8 @@
     background: rgba($purple-light,.15);
     color: $purple-light;
 
-    .iconnables {
+    .iconnables,
+    .small {
       color: currentColor;
     }
   }
@@ -106,6 +107,14 @@
       background: transparent;
       border-color: transparent;
     }
+  }
+
+  &.multi-line {
+    height: auto;
+    line-height: 1.4;
+    min-height: 36px;
+    padding: 6px 9px;
+    white-space: normal;
   }
 
   .gravatar,

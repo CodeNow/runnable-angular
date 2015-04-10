@@ -3,6 +3,7 @@
 
   // extra spacing on last form item
   .label-row {
+    height: 121px;
     margin-bottom: 36px;
     position: relative;
 
@@ -20,5 +21,10 @@
       position: absolute;
       right: 21px;
     }
+  }
+
+  // tags
+  .tag {
+    border-color: $green;
   }
 }

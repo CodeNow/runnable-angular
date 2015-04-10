@@ -19,13 +19,9 @@
 // tag
 .jt-tag,
 .jt-tag-edit {
-  border: 2px solid $green;
-  border-radius: 3px;
-  display: inline-block;
-  margin: 0 2px 1px 0;
-  padding: 0 3px;
+  @extend %tag;
+  border-color: $green;
 
-  // active/focus state
   &.active-true {
     background: $green;
     color: $white;
@@ -41,12 +37,12 @@
   }
 }
 
+// plain tag
 .jt-tag {
-  background: $white;
   color: $green;
-  cursor: default;
 }
 
+// editing tag
 .jt-tag-edit {
   background: rgba($green,.6);
   border-color: transparent;
