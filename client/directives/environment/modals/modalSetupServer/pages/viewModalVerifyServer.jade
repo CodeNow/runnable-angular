@@ -1,9 +1,9 @@
 form.modal-dialog.modal-edit-server(
-  ng-click = "$event.stopPropagation()"
+  name = "verifyServerForm"
 )
 
   header.modal-header
-    h1.modal-heading New Server: runnable-angular
+    h1.modal-heading New Server: {{ state.repo.name }}
 
   section.modal-body
     .modal-form
@@ -48,13 +48,15 @@ form.modal-dialog.modal-edit-server(
                 xlink:href = "#icons-arrow-down"
               )
 
-          //- input for ruby version
-          .label.small Ruby Version
-          button.btn.btn-sm.white.text-overflow.btn-validate v0.10.35
-            svg.iconnables.icons-arrow-down
-              use(
-                xlink:href = "#icons-arrow-down"
-              )
+          .label(
+            ng-repeat = "depStack in state.stack.dependencies"
+          )
+            .small {{depStack.name}}
+            button.btn.btn-sm.white.text-overflow.btn-validate v0.10.35
+              svg.iconnables.icons-arrow-down
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
 
       label.label.clearfix
 
@@ -63,10 +65,11 @@ form.modal-dialog.modal-edit-server(
         .input-col
           //- input for start command
           input.input.input-sm.input-validate(
-            ng-click = "data.formComplete = true"
             ng-disabled = "!data.versionSelected"
             required
             pop-over
+            name = "startCommandInput"
+            ng-model = "state.startCommand"
             pop-over-actions = "popoverStartCommand.actions"
             pop-over-active = "popoverStartCommand.data.show"
             pop-over-data = "popoverStartCommand.data"
@@ -83,7 +86,8 @@ form.modal-dialog.modal-edit-server(
   footer.modal-footer.clearfix
     //- disabled if there is no value in the command input
     button.btn.green(
-      ng-disabled = "!data.formComplete"
+      ng-disabled = "startCommandInput.$error.length"
+      ng-click = "actions.addNewServer(state); defaultActions.close();"
     ) Create Server
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"

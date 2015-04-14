@@ -1,0 +1,37 @@
+.modal-dialog.modal-repository-select
+  header.modal-header
+    h1.modal-heading New Server
+
+  section.modal-body.clearfix
+    input.input.input-sm.input-search(
+      ng-model = "repoFilter"
+      placeholder = "Filter by name"
+      required
+      select-on = "showFilter"
+    )
+    ul.list.list-repositories
+      li.list-item(
+        ng-repeat = "repo in data.githubRepos.models| \
+                    repos:repoFilter |\
+                    orderBy: '-attrs.updated_at' "
+        ng-class = "{ disabled: repo.isAdded }"
+        modal
+        modal-actions = "actions.actionsModalVerifyServer"
+        modal-data = "data.dataModalVerifyServer"
+        modal-template = "viewModalVerifyServer"
+        modal-current-model = "repo"
+        modal-state-model = "state"
+        ng-click = "selectRepo(repo)"
+      ) {{ repo.attrs.name}}
+        small.small {{ repo.attrs.updated_at | timeFrom }}
+        button.btn.btn-xs(
+          ng-class = "{\
+                        disabled: repo.isAdded, \
+                        green: !repo.isAdded \
+                      }"
+        ) {{ repo.isAdded ? 'Already Added' : 'Add Server' }}
+
+  footer.modal-footer.clearfix
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel();"
+    ) Cancel
