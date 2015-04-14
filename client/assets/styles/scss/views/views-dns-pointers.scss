@@ -1,0 +1,272 @@
+
+
+
+////// VARIABLES //////
+
+$border: 1px solid #e0e0e0;
+
+
+////// LAYOUT //////
+
+// html, body, .nav-sidebar, .panel {
+//   height: 100%;
+//   font-family: "helvetica neue";
+//   line-height: 24px;
+//   color: #333;
+// }
+
+.nav-sidebar, .panel {
+  float: left;
+  border-right: $border;
+}
+
+.nav-sidebar, .cell {
+  background-color: #f7f7f7;
+}
+
+.nav-sidebar {
+  width: 240px;
+
+  ul {
+  padding: 15px 0 13px 0;
+  border-bottom: $border;
+  margin: 0 12px;
+
+    &:first-of-type {
+      border-top: $border;
+    }
+  }
+
+  li {
+    width: 240px;
+    margin-left: -12px;
+
+    &.selected {
+      background-color: #F0E6F7;
+      color: #AF74D4;
+
+      .h2 {
+        opacity: 1;
+      }
+    }
+  }
+
+  .server-type-icon {
+    left: 12px;
+  }
+
+  .h2 {
+    margin-left: 31px;
+  }
+
+  .status-icon {
+    right: 12px;
+    margin-right: 18px;
+  }
+}
+
+.panel {
+  width: 300px;
+}
+
+.top-bar {
+  width: 100%;
+  height: 72px;
+  border-bottom: $border;
+}
+
+.heading {
+  height: 60px;
+  position: relative;
+
+  .h2 {
+    opacity: 1;
+    margin-left: 0;
+    top: 18px;
+    left: 15px;
+    position: absolute;
+  }
+
+  img {
+    margin-left: -3px;
+    margin-top: 22px;
+    // position: absolute;
+  }
+}
+
+.section {
+  padding: 0 12px;
+  border-bottom: $border;
+  overflow: hidden;
+
+  &.hide {
+    max-height: 60px;
+  }
+}
+
+
+
+////// TYPOGRAPHY //////
+
+.h2, .p {
+  font-weight: 500;
+  opacity: .9;
+  display: inline;
+}
+
+.h2 {
+  font-size: 14px;
+  margin-left: 27px;
+}
+
+.p {
+  font-size: 13px;
+}
+
+.light {
+  font-weight: 400;
+  opacity: .55;
+}
+
+
+
+////// OTHER STUFF //////
+
+
+.repositories {
+  line-height: 23px;
+
+  .cell {
+    padding: 7px 0 11px 0;
+  }
+
+  li {
+    padding: 0;
+
+    &:last-of-type {
+      margin-top: -1px;
+      .p {
+        font-size: 12px;
+
+        &:last-of-type {
+          color: #AF74D4;
+          opacity: 1;
+          font-family: "source code pro";
+          float: right;
+          margin-right: 26px;
+        }
+      }
+    }
+  }
+
+  .server-type-icon {
+    top: 4px;
+  }
+
+}
+
+.cell, .select, li {
+  box-sizing: border-box;
+}
+
+.cell {
+  border: $border;
+  border-radius: 3px;
+  margin-bottom: 9px;
+  position: relative;
+  width: 100%;
+  padding: 1px 6px 1px 0;
+
+  .h2, .p {
+    margin-left: 26px;
+  }
+
+  &:last-of-type {
+    margin-bottom: 18px;
+  }
+}
+
+.select {
+  border-left: $border;
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  padding: 3px 0;
+  padding: 3px 6px 3px 0;
+
+  .p {
+    margin-left: 12px;
+  }
+
+  img {
+    margin-bottom: -3px;
+    margin-left: -3px
+  }
+}
+
+.status-icon {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: gray;
+  float: right;
+  margin: 11px 6px 0 0;
+
+  &.running {
+    background-color: #1DD156;
+  }
+
+  &.building {
+    background-color: #F5AF18;
+  }
+}
+
+.server-type-icon {
+  position: absolute;
+  left: 7px;
+  top: 7px;
+}
+
+li {
+  position: relative;
+  // padding: 3px 0;
+  padding: 2px 0 5px 0; // this is good for the sidebar, but I need to fix the way it affects non-sidebar elements.
+}
+
+.indirect {
+
+  &.opened {
+    padding-bottom: 6px;
+  }
+
+  li:nth-child(n+2) {
+    margin-top: -6px;
+  }
+}
+
+.status-icon.new::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #1DD156;
+  margin-left: -3px;
+  margin-top: -3px;
+  opacity: .36;
+}
+
+.status-icon.new::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #1DD156;
+  margin-left: -6px;
+  margin-top: -6px;
+  opacity: .12;
+}

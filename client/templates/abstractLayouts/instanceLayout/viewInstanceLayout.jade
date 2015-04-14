@@ -1,24 +1,37 @@
 //- sidebar for accounts and servers
 nav.sidebar.nav-sidebar
-  header.nav-header.row.load(
-    accounts-select
-    data = "dataApp.data"
-    is-main-page = "true"
-  )
+  .top-bar
+  .heading
+    p.h22 Servers
+  ul
+    li
+      //- server type icon
+      p.h22 runnable-web
+        span.light/master
+      .status-icon-running
 
-  section.row.nav-servers(
-    data = "dataApp.data"
-    instance-list
-    state = "dataApp.state"
-    actions = "dataApp.actions"
-  )
-  footer.row.nav-footer
-    a.small.link.link-gray.link-text(
-      href = "//support.runnable.io"
-      target = "_blank"
-    )
-      .btn.btn-xs.btn-help ?
-      | Documentation
+
+  //- header.nav-header.row.load(
+  //-   accounts-select
+  //-   data = "dataApp.data"
+  //-   is-main-page = "true"
+  //- )
+
+  //- section.row.nav-servers(
+  //-   data = "dataApp.data"
+  //-   instance-list
+  //-   state = "dataApp.state"
+  //-   actions = "dataApp.actions"
+  //- )
+  //- footer.row.nav-footer
+  //-   a.small.link.link-gray.link-text(
+  //-     href = "//support.runnable.io"
+  //-     target = "_blank"
+  //-   )
+  //-     .btn.btn-xs.btn-help ?
+  //-     | Documentation
+
+
     //- button.btn.btn-sm.btn-icon.white.btn-minimize(
     //-   ng-class = "{active: dataApp.data.minimizeNav}"
     //-   ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"

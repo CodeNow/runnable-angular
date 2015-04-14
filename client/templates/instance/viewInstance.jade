@@ -121,15 +121,81 @@ section.sidebar.server-sidebar.load(
     show-auto-deploy = "true"
   )
 
-  section.row.explorer(
-    explorer
-    edit-explorer = "false"
-    file-model = "dataInstance.data.instance.containers.models[0]"
-    ng-if = "dataInstance.data.instance.containers.models[0].running()"
-    open-items = "dataInstance.data.openItems"
-    root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
-    explorer-title = "File Explorer"
-  )
+  section.row.linked-server-list.explorer
+    .heading
+      //- svg.iconnables.icons-edit
+      //-   use(
+      //-     xlink:href = "#icons-edit"
+      //-   )
+      p.h22 Linked Servers
+    ul.cell
+      li
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        p.pp runnable-web
+      .select
+        p.pp.light master
+        svg.iconnables.icons-arrow-down
+          //- use(
+          //-   xlink:href = "#icons-arrow-down"
+          //- )
+        .status-icon.running
+    ul.cell
+      li
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        p.pp api
+      .select
+        p.pp.light error-status
+        svg.iconnables.icons-arrow-down
+          //- use(
+          //-   xlink:href = "#icons-arrow-down"
+          //- )
+        .status-icon.building
+    ul.cell
+      li
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        p.pp mongoDB
+        .status-icon.running
+    ul.cell.indirect
+      li
+        p.pp.light Indirect Links
+        .status-icon.running
+        .status-icon.running
+        .status-icon.building
+        li
+          svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+          p.pp api
+            span.light /master
+          .status-icon.running
+        li
+          svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+          p.pp mavis
+            span.light /master
+          .status-icon.running
+
+  //- section.row.explorer(
+  //-   explorer
+  //-   edit-explorer = "false"
+  //-   file-model = "dataInstance.data.instance.containers.models[0]"
+  //-   ng-if = "dataInstance.data.instance.containers.models[0].running()"
+  //-   open-items = "dataInstance.data.openItems"
+  //-   root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
+  //-   explorer-title = "File Explorer"
+  //- )
 
 //- in / out control presence of header-bar
 section.views(
