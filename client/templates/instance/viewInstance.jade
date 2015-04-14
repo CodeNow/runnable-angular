@@ -122,8 +122,10 @@ section.sidebar.server-sidebar.load(
   )
   section.manage-dns.row.explorer(
     ng-if = "dataInstance.data.instance"
+    ng-show = "dnsSetup"
     dns-manager
     instance = "dataInstance.data.instance"
+    dns-setup = "dnsSetup"
   )
   section.row.explorer(
     explorer
