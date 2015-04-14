@@ -1,5 +1,6 @@
 .modal-edit-server {
-  width: 540px;
+  max-width: 600px;
+  width: 100%;
 
   // nav
   .modal-header .p {
@@ -59,8 +60,9 @@
   // environment variables
   .ace_editor {
     border: 2px solid $gray-lighter;
-    border-radius: 3px;
-    height: 150px;
+    border-bottom: 0;
+    border-radius: 3px 3px 0 0;
+    height: 180px;
     margin-top: 15px;
   }
 }

@@ -2,6 +2,9 @@ form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
   ng-init = "\
     data.viewFormStack = true;\
+    data.viewFormEnvironmentVariables = false;\
+    data.viewFormPorts = false;\
+    data.viewFormStartCommand = false;\
     data.formDirty = false;\
   "
 )

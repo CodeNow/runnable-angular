@@ -1,6 +1,6 @@
 .clearfix
   .label-col Environment Variables
-  .input-col
+  //- .input-col
     button.btn.btn-xs.green(
       pop-over
       pop-over-actions = "popoverEnvironmentVariable.actions"
@@ -14,6 +14,33 @@
 pre.pre(
   ui-ace
 )
+.table-actions(
+  ng-if = "!data.insertHostName"
+)
+  button.btn.btn-xs.gray(
+    ng-click = "data.insertHostName = true"
+  ) Insert host name
+.table-actions(
+  ng-if = "data.insertHostName"
+)
+  .label.label-row.clearfix
+    input.input.input-sm.monospace.text-overflow(
+      placeholder = "Protocol"
+    )
+    button.btn.btn-sm.monospace.text-overflow api-codenow.runnableapp.com
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    input.input.input-sm.monospace.text-overflow(
+      placeholder = "Port"
+    )
+  .table-footer
+    button.btn.btn-xs.gray(
+    ng-click = "data.insertHostName = false"
+  ) Cancel
+    button.btn.btn-xs.green Insert host name
+
 
 small.small 👈🅱🏊📥👩👦👋💇🎦🎉 #{''}
   a.link(
