@@ -88,11 +88,25 @@
 .list-item {
   position: relative;
 
+  // header
   &.small {
     color: $gray-light;
     cursor: default;
     font-size: 13px;
     pointer-events: none;
+
+    &:hover,
+    &:active {
+      background: none !important;
+      border-color: transparent !important;
+    }
+  }
+
+  // info
+  &.list-info {
+    color: $gray-light;
+    cursor: default;
+    font-size: 13px;
 
     &:hover,
     &:active {

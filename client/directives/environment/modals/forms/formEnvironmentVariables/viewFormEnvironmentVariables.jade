@@ -25,14 +25,33 @@ pre.pre(
 )
   .label.label-row.clearfix
     input.input.input-sm.monospace.text-overflow(
+      pop-over
+      pop-over-actions = "popoverProtocolSelect.actions"
+      pop-over-active = "popoverProtocolSelect.data.show"
+      pop-over-data = "popoverProtocolSelect.data"
+      pop-over-options = "{\"left\":0,\"top\":39}"
+      pop-over-template = "viewPopoverProtocolSelect"
       placeholder = "Protocol"
     )
-    button.btn.btn-sm.monospace.text-overflow api-codenow.runnableapp.com
+    button.btn.btn-sm.monospace.text-overflow(
+      pop-over
+      pop-over-actions = "popoverHostNameSelect.actions"
+      pop-over-active = "popoverHostNameSelect.data.show"
+      pop-over-data = "popoverHostNameSelect.data"
+      pop-over-options = "{\"left\":-3,\"top\":39}"
+      pop-over-template = "viewPopoverHostNameSelect"
+    ) api-codenow.runnableapp.com
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
     input.input.input-sm.monospace.text-overflow(
+      pop-over
+      pop-over-actions = "popoverPortSelect.actions"
+      pop-over-active = "popoverPortSelect.data.show"
+      pop-over-data = "popoverPortSelect.data"
+      pop-over-options = "{\"left\":-3,\"top\":39}"
+      pop-over-template = "viewPopoverPortSelect"
       placeholder = "Port"
     )
   .table-footer
