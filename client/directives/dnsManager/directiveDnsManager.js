@@ -15,9 +15,9 @@ function dnsManager(
 ) {
   return {
     restrict: 'A',
-    replace: true,
     scope: {
-      instance: '='
+      instance: '=',
+      isDnsSetup: '='
     },
     templateUrl: 'viewDnsManager',
     link: function ($scope, element, attrs) {
@@ -30,7 +30,7 @@ function dnsManager(
       // I need to know the dependencies for this instance keyed on context ([A:master, B:fb-1])
       $scope.instanceDependencyMap = {};
 
-      $scope.isInitialized = false;
+      $scope.isDnsSetup = false;
 
       // I need to know each of the master pod instances related instance A([master, fb-1]), B([master, fb-2, fb-3])
       fetchInstances({ masterPod: true })
@@ -42,7 +42,7 @@ function dnsManager(
           var promiseList = $scope.relatedMasterInstances.map(function (instance) {
             return fetchInstances({
               masterPod: false,
-              'contextVersion.context': instance.contextVersion.attrs.context
+              'contextVersion.context': instance.attrs.contextVersion.context
             })
               .then(function (instances) {
                 instance.instanceOptions = [instance].concat(instances.models);
@@ -63,18 +63,18 @@ function dnsManager(
               $scope.dependencies.models.forEach(function (dependency) {
                 $scope.instanceDependencyMap[dependency.attrs.contextVersion.context] = dependency.attrs.shortHash;
               });
-
-              $scope.isInitialized = true;
             }));
 
-          return $q.all(promiseList);
+          return $q.all(promiseList).then(function () {
+            $scope.isDnsSetup = true;
+          });
         })
         .catch(errs.handler);
 
       $scope.actions = {
         setDependency: function (masterInstance, instanceId) {
           var hostName = createInstanceUrl(masterInstance);
-          if (instanceId !== masterInstance.id()) {
+          if (instanceId !== masterInstance.attrs.shortHash) {
             $scope.dependencies.create({
               hostname: hostName,
               instance: instanceId
