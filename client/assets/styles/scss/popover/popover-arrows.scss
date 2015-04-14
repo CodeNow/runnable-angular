@@ -2,7 +2,7 @@
 .popover.top .arrow {
   border-bottom-width: 0;
   border-top-color: $gray-lighter;
-  bottom: -11px;
+  bottom: -13px;
   left: 50%;
   margin-left: -11px;
 }
@@ -10,7 +10,7 @@
 .popover.top .arrow:after {
   border-bottom-width: 0;
   border-top-color: rgba($white,.975);
-  bottom: 1px;
+  bottom: 3px;
   content: '';
   margin-left: -10px;
 }
