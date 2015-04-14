@@ -1,14 +1,5 @@
 .clearfix
   .label-col Environment Variables
-  //- .input-col
-    button.btn.btn-xs.green(
-      pop-over
-      pop-over-actions = "popoverEnvironmentVariable.actions"
-      pop-over-active = "popoverEnvironmentVariable.data.show"
-      pop-over-data = "popoverEnvironmentVariable.data"
-      pop-over-options = "{\"top\":-72}"
-      pop-over-template = "viewPopoverEnvironmentVariable"
-    ) New Linking Variable
 
 //- table of current environment variables
 pre.pre(
@@ -29,7 +20,7 @@ pre.pre(
       pop-over-actions = "popoverProtocolSelect.actions"
       pop-over-active = "popoverProtocolSelect.data.show"
       pop-over-data = "popoverProtocolSelect.data"
-      pop-over-options = "{\"left\":0,\"top\":39}"
+      pop-over-options = "{\"left\":-3,\"top\":39}"
       pop-over-template = "viewPopoverProtocolSelect"
       placeholder = "Protocol"
     )
@@ -56,17 +47,15 @@ pre.pre(
     )
   .table-footer
     button.btn.btn-xs.gray(
-    ng-click = "data.insertHostName = false"
-  ) Cancel
-    button.btn.btn-xs.green Insert host name
+      ng-click = "data.insertHostName = false"
+    ) Cancel
+    button.btn.btn-xs.green(
+      ng-click = "data.insertHostName = false"
+    ) Insert host name
 
 
-small.small 👈🅱🏊📥👩👦👋💇🎦🎉 #{''}
+small.small Environment variables can be used to link other servers in your environment together. #{''}
   a.link(
-    pop-over
-    pop-over-actions = "popoverHostNames.actions"
-    pop-over-active = "popoverHostNames.data.show"
-    pop-over-data = "popoverHostNames.data"
-    pop-over-options = "{\"left\":0,\"top\":39}"
-    pop-over-template = "viewPopoverHostNames"
-  ) More about emoji variables
+    href = "//google.com"
+    target = "_blank"
+  ) More about linking with environment variables
