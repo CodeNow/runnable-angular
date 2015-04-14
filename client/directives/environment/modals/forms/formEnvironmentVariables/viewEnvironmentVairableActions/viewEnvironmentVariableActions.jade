@@ -1,0 +1,53 @@
+//- default actions
+button.btn.btn-xs.gray(
+  ng-click = "data.insertHostName = true"
+  ng-if = "!data.insertHostName"
+) Insert host name
+button.btn.btn-xs.monospace(
+  ng-if = "!data.insertHostName"
+) URL
+  .tag.monospace 9
+
+//- if inserting host names
+.label.label-row.clearfix(
+  ng-if = "data.insertHostName"
+)
+  input.input.input-sm.monospace.text-overflow(
+    placeholder = "Protocol"
+    pop-over
+    pop-over-actions = "popoverProtocolSelect.actions"
+    pop-over-active = "popoverProtocolSelect.data.show"
+    pop-over-data = "popoverProtocolSelect.data"
+    pop-over-options = "{\"left\":-3,\"top\":39}"
+    pop-over-template = "viewPopoverProtocolSelect"
+  )
+  button.btn.btn-sm.monospace.text-overflow(
+    pop-over
+    pop-over-actions = "popoverHostNameSelect.actions"
+    pop-over-active = "popoverHostNameSelect.data.show"
+    pop-over-data = "popoverHostNameSelect.data"
+    pop-over-options = "{\"left\":-3,\"top\":39}"
+    pop-over-template = "viewPopoverHostNameSelect"
+  ) api-codenow.runnableapp.com
+    svg.iconnables.icons-arrow-down
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  input.input.input-sm.monospace.text-overflow(
+    placeholder = "Port"
+    pop-over
+    pop-over-actions = "popoverPortSelect.actions"
+    pop-over-active = "popoverPortSelect.data.show"
+    pop-over-data = "popoverPortSelect.data"
+    pop-over-options = "{\"left\":-3,\"top\":39}"
+    pop-over-template = "viewPopoverPortSelect"
+  )
+.table-footer.clearfix(
+  ng-if = "data.insertHostName"
+)
+  button.btn.btn-xs.gray(
+    ng-click = "data.insertHostName = false"
+  ) Cancel
+  button.btn.btn-xs.green(
+    ng-click = "data.insertHostName = false"
+  ) Insert host name

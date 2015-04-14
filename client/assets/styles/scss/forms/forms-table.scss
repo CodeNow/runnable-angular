@@ -54,6 +54,34 @@
   border-radius: 0 0 3px 3px;
   padding: 6px;
 
+  // actions
+  > .btn {
+    float: left;
+
+    // second action
+    + .btn {
+      float: right;
+
+      // tag
+      &:hover,
+      &:active {
+        color: $purple-light;
+
+        .tag {
+          background: $purple-light;
+        }
+      }
+
+      .tag {
+        background: $gray-dark;
+        color: $white;
+        cursor: pointer;
+        float: right;
+      }
+    }
+  }
+
+
   .label {
     border: 2px solid $gray-light;
     border-radius: 3px;
@@ -71,30 +99,30 @@
       text-align: left;
       width: 100%;
     }
-  }
 
-  // 3 action thing
-  .monospace {
-    color: $gray-darker;
-    font-size: 14px;
-    line-height: 27px;
+    // 3 action thing
+    .monospace {
+      color: $gray-darker;
+      font-size: 14px;
+      line-height: 27px;
 
-    &.input {
-      border: 0;
+      &.input {
+        border: 0;
 
-      &:focus {
-        box-shadow: none;
+        &:focus {
+          box-shadow: none;
+        }
       }
-    }
 
-    &:first-child {
-      border-radius: 3px 0 0 3px;
-      flex: 0 0 90px;
-    }
+      &:first-child {
+        border-radius: 3px 0 0 3px;
+        flex: 0 0 90px;
+      }
 
-    &:last-child {
-      border-radius: 0 3px 3px 0;
-      flex: 0 0 90px;
+      &:last-child {
+        border-radius: 0 3px 3px 0;
+        flex: 0 0 90px;
+      }
     }
   }
 
@@ -102,6 +130,7 @@
   .icons-arrow-down {
     position: absolute;
     right: 6px;
+    top: 0;
   }
 }
 
