@@ -1,0 +1,16 @@
+.clearfix
+  .label-col Environment Variables
+
+//- table of current environment variables
+pre.pre(
+  ui-ace
+)
+.table-actions.clearfix(
+  ng-include = "'viewEnvironmentVariableActions'"
+)
+
+small.small Environment variables can be used to link other servers in your environment together. #{''}
+  a.link(
+    href = "//google.com"
+    target = "_blank"
+  ) More about linking with environment variables

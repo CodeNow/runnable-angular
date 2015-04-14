@@ -49,8 +49,8 @@
   // li.divider
   .divider {
     background: rgba($black,.1);
-    height: 1px;
     margin: 3px 0;
+    min-height: 1px;
   }
 
   // form elements in popovers:
@@ -96,6 +96,12 @@
     .small {
       color: currentColor;
     }
+
+    .gray {
+      background: $white;
+      border-color: currentColor;
+      color: $purple-light;
+    }
   }
 
   &.no-actions {
@@ -118,7 +124,7 @@
   }
 
   &.monospace {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .gravatar,

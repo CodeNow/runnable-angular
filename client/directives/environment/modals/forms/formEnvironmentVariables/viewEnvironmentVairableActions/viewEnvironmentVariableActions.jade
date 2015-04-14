@@ -3,10 +3,16 @@ button.btn.btn-xs.gray(
   ng-click = "data.insertHostName = true"
   ng-if = "!data.insertHostName"
 ) Insert host name
-button.btn.btn-xs.monospace(
+button.btn.btn-xs(
   ng-if = "!data.insertHostName"
-) URL
-  .tag.monospace 9
+  pop-over
+  pop-over-actions = "popoverLinkHelper.actions"
+  pop-over-active = "popoverLinkHelper.data.show"
+  pop-over-data = "popoverLinkHelper.data"
+  pop-over-options = "{\"left\":0,\"top\":0}"
+  pop-over-template = "viewPopoverLinkHelper"
+) Linked Servers
+  .tag.monospace 3
 
 //- if inserting host names
 .label.label-row.clearfix(

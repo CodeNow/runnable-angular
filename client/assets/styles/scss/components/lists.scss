@@ -116,10 +116,20 @@
   }
 
   // buttons
-  > .btn {
+  > .btn-sm {
     position: absolute;
     right: 15px;
     top: 15px;
+  }
+
+  > .btn-xs {
+    position: absolute;
+    right: 15px;
+    top: 6px;
+  }
+
+  > .btn-xxs {
+    margin-right: 6px;
   }
 
   // icon wrapper
