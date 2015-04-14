@@ -93,11 +93,11 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
     $scope.instance.fetchDependencies = sinon.mock().returns(instanceDependencies);
     $scope.$digest();
 
-    $scope.dnsSetup = false;
+    $scope.isDnsSetup = false;
 
     ctx.template = directiveTemplate.attribute('dns-manager', {
       instance: 'instance',
-      'dns-setup': 'dnsSetup'
+      'is-dns-setup': 'isDnsSetup'
     });
 
     ctx.element = $compile(ctx.template)($scope);
@@ -124,7 +124,7 @@ describe('directiveDnsManager'.bold.underline.blue, function() {
       }
     });
 
-    expect($elScope.dnsSetup, 'DNS is setup!').to.equal(true);
+    expect($elScope.isDnsSetup, 'DNS is setup!').to.equal(true);
 
     expect($elScope.relatedMasterInstances.length, 'Related master instances length').to.equal(masterPods.length - 1);
 

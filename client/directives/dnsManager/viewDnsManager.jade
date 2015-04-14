@@ -5,7 +5,7 @@ div
     )
       | {{instance.attrs.name}}
   .dns-bindings(
-    ng-if = "dnsSetup"
+    ng-if = "isDnsSetup"
   )
     .binding(
       ng-repeat = "masterInstance in relatedMasterInstances"

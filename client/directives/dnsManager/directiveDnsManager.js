@@ -17,7 +17,7 @@ function dnsManager(
     restrict: 'A',
     scope: {
       instance: '=',
-      dnsSetup: '='
+      isDnsSetup: '='
     },
     templateUrl: 'viewDnsManager',
     link: function ($scope, element, attrs) {
@@ -30,7 +30,7 @@ function dnsManager(
       // I need to know the dependencies for this instance keyed on context ([A:master, B:fb-1])
       $scope.instanceDependencyMap = {};
 
-      $scope.dnsSetup = false;
+      $scope.isDnsSetup = false;
 
       // I need to know each of the master pod instances related instance A([master, fb-1]), B([master, fb-2, fb-3])
       fetchInstances({ masterPod: true })
@@ -66,7 +66,7 @@ function dnsManager(
             }));
 
           return $q.all(promiseList).then(function () {
-            $scope.dnsSetup = true;
+            $scope.isDnsSetup = true;
           });
         })
         .catch(errs.handler);
