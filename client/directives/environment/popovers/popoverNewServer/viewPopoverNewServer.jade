@@ -16,7 +16,12 @@
           )
         | Repository
         small.small New server from the repositories in your organization
-      li.list-item.popover-list-item.multi-line
+      li.list-item.popover-list-item.multi-line(
+        modal
+        modal-actions = "actions"
+        modal-data = "data"
+        modal-template = "setupTemplateModalView"
+      )
         svg.iconnables.icons-server
           use(
             xlink:href = "#icons-server"
