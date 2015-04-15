@@ -83,27 +83,7 @@
   padding: 0 15px 0 9px;
   white-space: nowrap;
 
-  &:hover {
-    background: rgba($purple-light,.1);
-  }
-
-  &:active,
-  &.active {
-    background: rgba($purple-light,.15);
-    color: $purple-light;
-
-    .iconnables,
-    .small {
-      color: currentColor;
-    }
-
-    .gray {
-      background: $white;
-      border-color: currentColor;
-      color: $purple-light;
-    }
-  }
-
+  // variations
   &.no-actions {
     cursor: default;
     text-align: center;
@@ -122,15 +102,41 @@
     padding: 6px 9px;
     white-space: normal;
 
-    > .small {
+    .small {
       color: $gray;
       display: block;
       margin-left: 27px;
+    }
+
+    .iconnables {
+      height: 27px;
     }
   }
 
   &.monospace {
     font-size: 13px;
+  }
+
+  // states
+  &:hover {
+    background: rgba($purple-light,.1);
+  }
+
+  &:active,
+  &.active {
+    background: rgba($purple-light,.15);
+    color: $purple-light;
+
+    .iconnables,
+    .small {
+      color: $purple-light;
+    }
+
+    .gray {
+      background: $white;
+      border-color: currentColor;
+      color: $purple-light;
+    }
   }
 
   .gravatar,

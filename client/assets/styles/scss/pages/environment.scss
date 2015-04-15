@@ -5,15 +5,14 @@
   max-width: 960px;
   padding-top: 30px;
 
-  .h1 {
-    font-size: 36px;
-    margin-bottom: 6px;
-    text-align: center;
-  }
+  // new server button
+  .green {
+    padding-right: 6px;
+    text-align: left;
 
-  .p {
-    font-size: 18px;
-    text-align: center;
+    .icons-arrow-down {
+      margin-left: 9px;
+    }
   }
 }
 
