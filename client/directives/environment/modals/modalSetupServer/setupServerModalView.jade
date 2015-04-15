@@ -1,10 +1,10 @@
 .modal-dialog
     //- if no environment
-  .modal-repository-select(
+  .modal-server-select(
     ng-if = "!state.repo"
     ng-include = "'viewModalRepositorySelect'"
   )
-  .modal-repository-select(
+  .modal-server-select(
     ng-if = "state.repo"
     ng-include = "'viewModalVerifyServer'"
   )

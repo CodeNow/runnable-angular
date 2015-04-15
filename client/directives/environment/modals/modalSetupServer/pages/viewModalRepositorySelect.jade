@@ -1,4 +1,4 @@
-.modal-dialog.modal-repository-select
+.modal-dialog.modal-server-select
   header.modal-header
     h1.modal-heading New Server from Repository
 
@@ -21,7 +21,7 @@
         ng-click = "selectRepo(repo)"
         ng-repeat = "\
           repo in data.githubRepos.models| \
-          repos:repoFilter |\
+          repos:repoFilter | \
           orderBy: '-attrs.updated_at'\
         "
       ) {{ repo.attrs.name}}

@@ -1,4 +1,4 @@
-.modal-repository-select {
+.modal-server-select {
   max-width: 450px;
 
   .modal-body {
@@ -70,10 +70,21 @@
     }
   }
 
+  // anchor image
+  .iconnables {
+    background: $purple-light;
+    border-radius: 50%;
+    color: $white;
+    float: left;
+    margin-right: 6px;
+    padding: 3px;
+  }
+
   // add button
   .btn-xs {
     font-size: 15px;
     line-height: 1;
+    right: 9px;
   }
 
   .small {
