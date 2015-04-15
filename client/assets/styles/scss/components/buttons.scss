@@ -233,9 +233,12 @@
 }
 
 .gray {
-  background: rgba($gray-darker,.0675);
-  border-color: rgba($gray-darker,.1);
-  color: $gray;
+  // background: rgba($gray-darker,.0675);
+  background: #f7f7f7;
+  // border-color: rgba($gray-darker,.1);
+  border-color: #e0e0e0;
+  // color: $gray;
+  color: #333;
 
   &.btn {
 

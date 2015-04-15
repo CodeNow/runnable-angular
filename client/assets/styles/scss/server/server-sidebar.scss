@@ -7,6 +7,7 @@
   .row {
     border-bottom: 1px solid rgba($black,.1);
     position: relative;
+    padding-bottom: 9px;
 
     // &:last-child {
     //   border-bottom: 0;
@@ -37,7 +38,7 @@
 
 // li.repository-group-item
 .repository-group-item {
-  margin: -1px 0;
+  // margin: -1px 0;
 
   + .repository-group-item {
     margin-top: 6px;
@@ -65,56 +66,69 @@
     }
 
     .icons-arrow-down {
-      transform: scale3d(.75,.75,1) rotate3d(0,0,1,-90deg);
+      // transform: scale3d(.75,.75,1) rotate3d(0,0,1,-90deg);
     }
   }
 
   // git icons
   .iconnables {
-    color: rgba($black,.24);
-    height: 18px;
-    left: 0;
-    position: absolute;
-    width: 36px;
+    // color: rgba($black,.24);
+    // color: #333;
+    // opacity: .9;
+    // height: 18px;
+    // left: 0;
+    // position: absolute;
+    // width: 36px;
   }
 
   // arrow
-  .icons-arrow-down {
+  .iconnables.icons-arrow-down {
     height: 100%;
+    opacity: .55;
     left: auto;
     position: absolute;
-    right: 9px;
+    right: 3px;
     top: 0;
     transform: rotate3d(0,0,1,-90deg);
-    width: 30px;
+    width: 27px;
   }
 }
 
 // p.repository-description
 .repository-description {
-  font-size: 14px;
-  height: 21px;
-  line-height: 21px;
-  padding-left: 36px;
+  // font-size: 14px;
+  font-size: 13px;
+  color: rgba($gray-darker,.9);
+  font-weight: 500;
+  // height: 21px;
+  // line-height: 21px;
+  line-height: 24px;
+  // padding-left: 36px;
+  padding-left: 26px;
   position: relative;
   word-break: break-word;
 
   + .repository-description {
-    height: auto;
-    line-height: 1.4;
-    padding-top: 2px;
+    // height: auto;
+    font-weight: 400;
+    color: rgba($gray-darker,.6);
+    // line-height: 1.4;
+    // padding-top: 2px;
   }
 }
 
 // small.repository-detail
 .repository-detail {
   color: $gray;
+  font-size: 12px;
   display: block;
-  margin-top: 3px;
+  // margin-top: 3px;
   white-space: nowrap;
 
   .link {
-    color: $purple-light;
+    // color: $purple-light;
+    color: #AF74D4;
     float: right;
+    margin-right: 26px;
   }
 }

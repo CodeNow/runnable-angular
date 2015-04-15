@@ -5,10 +5,55 @@ nav.sidebar.nav-sidebar
     p.h22 Servers
   ul
     li
-      //- server type icon
+      svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
       p.h22 runnable-web
         span.light/master
-      .status-icon-running
+      .status-icon.running
+  ul
+    li
+      svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+      p.h22 api
+        span.light /master
+      .status-icon.running
+    li
+      p.h22
+        span.light SAN-1173-error-status
+      .status-icon.running
+    li.selected
+      p.h22
+        span.light feature1
+      .status-icon.running
+    li
+      p.h22
+        span.light feature2
+      .status-icon.running.new
+  ul
+    li
+      svg.iconnables.icons-repository
+        use(
+          xlink:href = "#icons-repository"
+        )
+      p.h22 mavis
+        span.light /master
+      .status-icon.running
+    li
+      p.h22
+        span.light SAN-1173-error-status
+      .status-icon.running
+  ul
+    li
+      svg.iconnables.icons-repository
+        use(
+          xlink:href = "#icons-repository"
+        )
+      p.h22 mongoDB
+      .status-icon.running
 
 
   //- header.nav-header.row.load(

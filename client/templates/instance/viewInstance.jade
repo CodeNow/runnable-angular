@@ -121,14 +121,14 @@ section.sidebar.server-sidebar.load(
     show-auto-deploy = "true"
   )
 
-  section.row.linked-server-list.explorer
+  section.row.linked-server-list
     .heading
-      //- svg.iconnables.icons-edit
-      //-   use(
-      //-     xlink:href = "#icons-edit"
-      //-   )
+      svg.iconnables.icons-disclose
+          use(
+            xlink:href = "#icons-disclose"
+          )
       p.h22 Linked Servers
-    ul.cell
+    ul.well.gray
       li
         svg.iconnables.icons-repository
           use(
@@ -138,11 +138,11 @@ section.sidebar.server-sidebar.load(
       .select
         p.pp.light master
         svg.iconnables.icons-arrow-down
-          //- use(
-          //-   xlink:href = "#icons-arrow-down"
-          //- )
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
         .status-icon.running
-    ul.cell
+    ul.well.gray
       li
         svg.iconnables.icons-repository
           use(
@@ -152,20 +152,24 @@ section.sidebar.server-sidebar.load(
       .select
         p.pp.light error-status
         svg.iconnables.icons-arrow-down
-          //- use(
-          //-   xlink:href = "#icons-arrow-down"
-          //- )
-        .status-icon.building
-    ul.cell
-      li
-        svg.iconnables.icons-server
           use(
-            xlink:href = "#icons-server"
+            xlink:href = "#icons-arrow-down"
+          )
+        .status-icon.building
+    ul.well.gray
+      li
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
           )
         p.pp mongoDB
         .status-icon.running
-    ul.cell.indirect
+    ul.well.gray.indirect
       li
+        svg.iconnables.icons-disclose
+          use(
+            xlink:href = "#icons-disclose"
+          )
         p.pp.light Indirect Links
         .status-icon.running
         .status-icon.running
@@ -186,6 +190,13 @@ section.sidebar.server-sidebar.load(
           p.pp mavis
             span.light /master
           .status-icon.running
+  section.row.file-explorer.closed
+    .heading
+      svg.iconnables.icons-disclose
+          use(
+            xlink:href = "#icons-disclose"
+          )
+      p.h22 File Explorer
 
   //- section.row.explorer(
   //-   explorer
