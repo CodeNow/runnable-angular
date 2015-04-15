@@ -12,6 +12,27 @@
     placeholder = "Filter Servers"
   )
 
+fancy-select(
+  value = "fancySelectValue"
+  placeholder = "Select a foo"
+)
+  li.list-item.popover-list-item.small This is a titleText and not an option
+  fancy-option(
+    value = "instance"
+    ng-repeat = "instance in $parent.data.instanceGroups.me.instances | orderBy:'attrs.name'"
+  )
+    svg.iconnables.icons-server
+      use(
+      xmlns:xlink = "http://www.w3.org/1999/xlink"
+      xlink:href = "#icons-server"
+      )
+    | {{$parent.instance.attrs.name}}
+  li.divider
+  fancy-option(
+    value = "{attrs: {name: 'bar'}}"
+  ) Bar
+
+
 ul.list.load.filter-list(
   ng-if = "filter.string.length"
 )
@@ -159,27 +180,3 @@ div(
           state-to-instance = 'stateToInstance'
           type = "sidebar"
         )
-
-| {{fancySelectValue}}
-br
-| {{data.instanceGroups.me.instances.length}}
-br
-
-fancy-select(
-  value = "fancySelectValue"
-)
-  li.list-item.popover-list-item.small This is a titleText and not an option
-  li.list-item.popover-list-item(
-    ng-repeat = "instance in $parent.data.instanceGroups.me.instances | orderBy:'attrs.name'"
-    value = "instance.id()"
-  )
-    svg.iconnables.icons-server
-      use(
-        xmlns:xlink = "http://www.w3.org/1999/xlink"
-        xlink:href = "#icons-server"
-      )
-    | {{instance.attrs.name}}
-  li.divider
-  li.list-item.popover-list-item(
-    value = "bar"
-  ) Bar

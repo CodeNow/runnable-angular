@@ -2,16 +2,19 @@
   button.btn.btn-sm.white.text-overflow.btn-validate.active(
     ng-click = "actions.toggleSelect()"
   )
-    | Node.js
+    .placeholder(
+      ng-if = "!value"
+    ) {{placeholder}}
+    .display
     svg.iconnables.icons-arrow-down
       use(
         xmlns:xlink = "http://www.w3.org/1999/xlink"
         xlink:href = "#icons-arrow-down"
       )
 
-
-  ul.popover-list(
-    ng-click = "actions.updateSelect()"
+  ul.fancy-select-dropdown.popover-list(
+    ng-class = "{'in': isOpen}"
+    ng-style = "getDropdownStyles()"
   )
 
 
