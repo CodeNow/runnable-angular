@@ -121,6 +121,12 @@
     min-height: 36px;
     padding: 6px 9px;
     white-space: normal;
+
+    > .small {
+      color: $gray;
+      display: block;
+      margin-left: 27px;
+    }
   }
 
   &.monospace {

@@ -1,11 +1,17 @@
 button.btn.green(
-  modal
-  modal-actions = "actions"
-  modal-data = "data"
-  modal-template = "setupServerModalOpen"
+  pop-over
+  pop-over-actions = "popoverNewServer.actions"
+  pop-over-active = "popoverNewServer.data.show"
+  pop-over-data = "popoverNewServer.data"
+  pop-over-options = "{\"left\":0,\"top\":54}"
+  pop-over-template = "viewPopoverNewServer"
 )
   svg.iconnables.icons-add.icons-round
     use(
       xlink:href = "#icons-add"
     )
   | New Server
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
