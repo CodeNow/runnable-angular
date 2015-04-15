@@ -25,11 +25,14 @@ function setupServerModal(
     },
     link: function ($scope, elem, attrs) {
       $scope.serverSetupPage = 1;
-      $scope.state = {};
+      $scope.state = {
+        opts: {}
+      };
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
         $scope.repoSelected = true;
         repo.isAdded = true;
+        $scope.state.opts.name = repo.attrs.name;
         return promisify(repo.branches, 'fetch')()
           .then(function () {
             return $scope.actions.fetchStackData(repo);

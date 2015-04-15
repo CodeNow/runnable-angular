@@ -1,11 +1,11 @@
 'use strict';
 
 require('app')
-  .directive('setupServerModal', setupServerModal);
+  .directive('editServerModal', editServerModal);
 /**
  * @ngInject
  */
-function setupServerModal(
+function editServerModal(
   errs,
   fetchOwnerRepos,
   fetchStackAnalysis,
@@ -17,7 +17,7 @@ function setupServerModal(
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'setupServerModalView',
+    templateUrl: 'editServerModalView',
     scope: {
       actions: '=',
       data: '=',

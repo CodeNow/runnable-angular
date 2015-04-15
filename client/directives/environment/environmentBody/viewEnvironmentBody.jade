@@ -1,27 +1,27 @@
 .card.gray.disabled.load(
-
+  ng-repeat = "server in state.newServers"
+  modal
+  modal-actions = "actions"
+  modal-data = "data"
+  modal-template = "ModalEditServerOpen"
+  modal-current-model = "server"
 )
   .card-header
     svg.iconnables.icons-server
       use(
         xlink:href = "#icons-server"
       )
-    h2.h2 api
-    p.p api-codenow-runnableapp.com
+    h2.h2 server.opts.name
+    p.p server.opts.name | filterCreateInstanceUrl: data.activeAccount
   ul.card-body
-    li.btn.white(
-      modal
-      modal-actions = "actions"
-      modal-data = "data"
-      modal-template = "viewModalEditServer"
-    )
+    li.btn.white
       h3.h3
         svg.iconnables.icons-terminal
           use(
             xlink:href = "#icons-terminal"
           )
         | Stack
-      p.p node.js v0.10.28
+      p.p {{ server.selectedStack }} v{{ server.selectedVersion }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -33,7 +33,7 @@
             xlink:href = "#icons-terminal"
           )
         | Start Command
-      p.p npm start
+      p.p {{ server.startCommand }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -45,7 +45,7 @@
             xlink:href = "#icons-terminal"
           )
         | Ports
-      p.p 80 8000 8080 3000
+      p.p {{ server.ports.join(',') }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"

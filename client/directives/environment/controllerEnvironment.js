@@ -47,8 +47,7 @@ function ControllerEnvironment(
     }
   };
   $scope.state = {
-    newServers: [],
-    serverSetupPage: 1
+    newServers: []
   };
   $scope.actions = {
     selectAccount: function (account) {
