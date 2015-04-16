@@ -6,8 +6,10 @@ section.modal-body
     ng-form
     name = "verifyServerForm"
     ng-submit = "actions.addNewServer(state, defaultActions.close);"
-    ng-include = "'viewFormStack'"
   )
+    div(
+      ng-include = "'viewFormStack'"
+    )
     label.label.clearfix
 
       .label-col Start Command
