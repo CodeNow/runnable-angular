@@ -95,25 +95,6 @@ function ControllerEnvironment(
     keypather.set($scope, 'data.stacks', stacks);
   }).catch(errs.handler);
 
-
-  //$scope.$watch('data.activeAccount', function (n) {
-  //  if (n) {
-  //    $scope.loading = true;
-  //    $scope.githubRepos = null;
-  //    fetchOwnerRepos(n.oauthName())
-  //      .then(function (repoList) {
-  //        // Actually check the value on the scope since it isn't cached
-  //        if (keypather.get(repoList, 'ownerUsername') === $scope.data.activeAccount.oauthName()) {
-  //          $scope.githubRepos = repoList;
-  //        }
-  //      })
-  //      .catch(errs.handler)
-  //      .finally(function () {
-  //        $scope.loading = false;
-  //      });
-  //  }
-  //});
-
   $scope.$on('$destroy', function () {
   });
 

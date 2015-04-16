@@ -1,9 +1,9 @@
-form.modal-dialog.modal-edit-server(
+form.modal-edit-server(
   name = "verifyServerForm"
 )
 
   header.modal-header
-    h1.modal-heading New Server: {{ state.repo.name }}
+    h1.modal-heading New Server: {{ state.repo.attrs.name }}
 
   section.modal-body
     .modal-form

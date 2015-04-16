@@ -3,7 +3,7 @@
   modal
   modal-actions = "actions"
   modal-data = "data"
-  modal-template = "ModalEditServerOpen"
+  modal-template = "editServerModalOpen"
   modal-current-model = "server"
 )
   .card-header
@@ -11,8 +11,8 @@
       use(
         xlink:href = "#icons-server"
       )
-    h2.h2 server.opts.name
-    p.p server.opts.name | filterCreateInstanceUrl: data.activeAccount
+    h2.h2 {{ server.opts.name }}
+    p.p {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
   ul.card-body
     li.btn.white
       h3.h3
@@ -45,7 +45,7 @@
             xlink:href = "#icons-terminal"
           )
         | Ports
-      p.p {{ server.ports.join(',') }}
+      p.p {{ (server.ports.length ) ? server.ports.join(',') : 'None' }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"

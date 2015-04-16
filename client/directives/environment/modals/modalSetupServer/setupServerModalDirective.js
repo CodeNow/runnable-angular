@@ -24,7 +24,6 @@ function setupServerModal(
       defaultActions: '='
     },
     link: function ($scope, elem, attrs) {
-      $scope.serverSetupPage = 1;
       $scope.state = {
         opts: {}
       };

@@ -1,4 +1,4 @@
-.modal-dialog.modal-server-select
+.modal-server-select
   header.modal-header
     h1.modal-heading New Server from Repository
 
@@ -11,12 +11,6 @@
     )
     ul.list.list-servers
       li.list-item(
-        modal
-        modal-actions = "actions.actionsModalVerifyServer"
-        modal-data = "data.dataModalVerifyServer"
-        modal-template = "viewModalVerifyServer"
-        modal-current-model = "repo"
-        modal-state-model = "state"
         ng-class = "{disabled: repo.isAdded}"
         ng-click = "selectRepo(repo)"
         ng-repeat = "\
