@@ -6,14 +6,7 @@ require('app')
  * @ngInject
  */
 function editServerModal(
-  errs,
-  fetchOwnerRepos,
-  fetchStackAnalysis,
-  hasKeypaths,
-  keypather,
-  promisify,
-  $q,
-  $log
+  JSTagsCollection
 ) {
   return {
     restrict: 'A',
@@ -26,8 +19,20 @@ function editServerModal(
       stateModel: '='
     },
     link: function ($scope, elem, attrs) {
-
-
+      $scope.portTagOptions = {
+        breakCodes: [
+          13, // return
+          32, // space
+          44, // comma (opera)
+          188 // comma (mozilla)
+        ],
+        texts: {
+          'inputPlaceHolder': 'Add ports here',
+          maxInputLength: 5,
+          onlyDigits: true
+        },
+        tags: new JSTagsCollection($scope.currentModel.ports || [])
+      };
     }
   };
 }
