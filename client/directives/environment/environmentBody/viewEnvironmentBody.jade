@@ -5,6 +5,9 @@
   modal-data = "data"
   modal-template = "editServerModalOpen"
   modal-current-model = "server"
+  modal-open-flag = "server.openEditOnStep"
+  modal-state-model = "server.openEditOnStep"
+  model-disable-click = "true"
 )
   .card-header
     svg.iconnables.icons-server
@@ -14,7 +17,9 @@
     h2.h2 {{ server.opts.name }}
     p.p {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
   ul.card-body
-    li.btn.white
+    li.btn.white(
+      ng-click = "server.openEditOnStep = 1"
+    )
       h3.h3
         svg.iconnables.icons-terminal
           use(
