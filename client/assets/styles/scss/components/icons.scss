@@ -115,12 +115,14 @@
 // status
 .icons-status {
   background: $gray-lightest;
-  border: 1px solid $gray-light;
+  // border: 1px solid $gray-light;
   border-radius: 50%;
   display: inline-block;
-  height: 9px;
+  height: 6px;
   position: relative;
-  width: 9px;
+  float: right;
+  width: 6px;
+  margin: 11px 6px 0 0; // move this elsewhere
 
   &.running,
   .running > & {

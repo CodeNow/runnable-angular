@@ -121,82 +121,83 @@ section.sidebar.server-sidebar.load(
     show-auto-deploy = "true"
   )
 
-  section.row.linked-server-list
-    .heading
+  section.row.linked-servers
+    .row-heading
       svg.iconnables.icons-disclose
           use(
             xlink:href = "#icons-disclose"
           )
-      p.h22 Linked Servers
-    ul.well.gray
-      li
+      h2.sub-header Linked Servers
+    .well.gray
+      .item
         svg.iconnables.icons-repository
           use(
             xlink:href = "#icons-repository"
           )
-        p.pp runnable-web
+        p.p runnable-web
       .select
-        p.pp.light master
+        p.p.light master
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
           )
-        .status-icon.running
-    ul.well.gray
-      li
+        .icons-status.running
+    .well.gray
+      .item
         svg.iconnables.icons-repository
           use(
             xlink:href = "#icons-repository"
           )
-        p.pp api
+        p.p api
       .select
-        p.pp.light error-status
+        p.p.light error-status
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
           )
-        .status-icon.building
-    ul.well.gray
-      li
+        .icons-status.building
+    .well.gray
+      .item
         svg.iconnables.icons-repository
           use(
             xlink:href = "#icons-repository"
           )
-        p.pp mongoDB
-        .status-icon.running
-    ul.well.gray.indirect
-      li
+        p.p mongoDB
+        .icons-status.running
+    .well.gray.indirect
+      .item
         svg.iconnables.icons-disclose
           use(
             xlink:href = "#icons-disclose"
           )
-        p.pp.light Indirect Links
-        .status-icon.running
-        .status-icon.running
-        .status-icon.building
-        li
+        p.p.light Indirect Links
+        .icons-status.running
+        .icons-status.running
+        .icons-status.building
+      ul
+        li.item
           svg.iconnables.icons-repository
             use(
               xlink:href = "#icons-repository"
             )
-          p.pp api
+          p.p api
             span.light /master
-          .status-icon.running
-        li
+          .icons-status.running
+        li.item
           svg.iconnables.icons-repository
             use(
               xlink:href = "#icons-repository"
             )
-          p.pp mavis
+          p.p mavis
             span.light /master
-          .status-icon.running
+          .icons-status.running
   section.row.file-explorer.closed
-    .heading
+    .row-heading
       svg.iconnables.icons-disclose
           use(
             xlink:href = "#icons-disclose"
           )
-      p.h22 File Explorer
+      h2.sub-header File Explorer
 
   //- section.row.explorer(
   //-   explorer

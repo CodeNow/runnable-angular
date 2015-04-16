@@ -1,70 +1,22 @@
-
-
-
-////// VARIABLES //////
-
-$border: 1px solid #e0e0e0;
-
-
-////// TYPOGRAPHY //////
-
-.h22, .pp {
-  font-weight: 500;
-  opacity: .9;
-  display: inline;
-}
-
-.h22 {
-  font-size: 14px;
-  margin-left: 27px;
-}
-
-.pp {
-  font-size: 13px;
-}
-
-.light {
-  font-weight: 400;
-  opacity: .55;
-}
-
-////// LAYOUT //////
-
-// html, body, .nav-sidebar, .panel {
-//   height: 100%;
-//   font-family: "helvetica neue";
-//   line-height: 24px;
-//   color: #333;
-// }
-
-.nav-sidebar { // previously also had ".panel"
+.sidebar {
+  border-right: 1px solid #e0e0e0;
   float: left;
-  border-right: $border;
   line-height: 24px;
 }
 
-.row {
-  // padding: 0 12px;
-}
-
-.nav-sidebar, .well {
-  // background-color: #f7f7f7;
-}
-
 .nav-sidebar {
-  // width: 240px;
 
   ul {
-  padding: 15px 0 13px 0;
-  border-bottom: $border;
+  border-bottom: 1px solid #e0e0e0;
   margin: 0 12px;
+  padding: 15px 0 13px 0;
 
     &:first-of-type {
-      border-top: $border;
+      border-top: 1px solid #e0e0e0;
     }
   }
 
-  li {
+  .item {
     width: 240px;
     margin-left: -12px;
 
@@ -82,7 +34,7 @@ $border: 1px solid #e0e0e0;
     left: 12px;
   }
 
-  .h22 {
+  .p {
     margin-left: 31px;
   }
 
@@ -99,42 +51,40 @@ $border: 1px solid #e0e0e0;
 .top-bar {
   width: 100%;
   height: 72px;
-  border-bottom: $border;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.heading {
+.row-heading {
   height: 60px;
   position: relative;
 
-  .h22 {
+  .sub-header {
     opacity: 1;
     margin-left: 0;
-    top: 19px;
+    top: 23px;
     left: 15px;
     position: absolute;
   }
 
   .icons-disclose {
-    // margin-left: -3px;
-    // margin-top: 22px;
     position: absolute;
-    top: 21px;
+    top: 23px;
     left: 3px;
   }
 }
 
 .server-sidebar {
-  .heading {
-    .h22 {
+  .row-heading {
+    .sub-header {
       left: 21px;
     }
   }
 }
 
-.row { //formerly .section
-  padding: 0 6px;
-  border-bottom: $border;
+.row {
+  border-bottom: 1px solid #e0e0e0;
   overflow: hidden;
+  padding: 0 6px;
 
   &.closed {
     max-height: 61px;
@@ -145,10 +95,6 @@ $border: 1px solid #e0e0e0;
   }
 }
 
-
-
-////// OTHER STUFF //////
-
 .repository-group-item {
   line-height: 23px;
 
@@ -157,12 +103,12 @@ $border: 1px solid #e0e0e0;
     margin-bottom: 0;
   }
 
-  li {
+  .item {
     padding: 0;
 
     &:last-of-type {
       margin-top: -1px;
-      .pp {
+      .p {
         font-size: 12px;
 
         &:last-of-type {
@@ -182,45 +128,47 @@ $border: 1px solid #e0e0e0;
 
 }
 
-.well, .select, li {
+.well, .select, .item {
   box-sizing: border-box;
 }
 
 .well {
-  border: $border;
+  border: 1px solid #e0e0e0;
   border-radius: 3px;
   margin-bottom: 9px;
   position: relative;
-  // width: 100%;
   padding: 1px 6px 1px 0;
 
-  .h22, .pp {
+  .p {
     margin-left: 26px;
   }
-
-  // &:last-of-type {
-  //   margin-bottom: 18px;
-  // }
 }
 
 .select {
-  border-left: $border;
+  border-left: 1px solid #e0e0e0;
   cursor: pointer;
   height: 100%;
   position: absolute;
   right: 0;
   top: 0;
   width: 50%;
-  padding: 3px 0;
   padding: 3px 6px 3px 0;
 
-  .pp {
+  .p {
     margin-left: 12px;
   }
 
   img {
     margin-bottom: -3px;
     margin-left: -3px
+  }
+
+  .icons-arrow-down {
+    position: relative;
+    width: 14px;
+    top: 4px;
+    margin-left: -5px;
+    opacity: .55;
   }
 }
 
@@ -249,24 +197,33 @@ $border: 1px solid #e0e0e0;
   width: 17px;
 }
 
-.nav-sidebar, .linked-server-list {
+.nav-sidebar, .linked-servers {
 
-  li {
+  .item {
     position: relative;
-    // padding: 3px 0;
-    padding: 2px 0 5px 0; // this is good for the sidebar, but I need to fix the way it affects non-sidebar elements.
+    padding: 2px 0 5px 0;
   }
 
 }
 
 .indirect {
+  padding-bottom: 6px;
+  overflow: hidden;
 
-  &.opened {
-    padding-bottom: 6px;
+  .item:nth-child(n+2) {
+    margin-top: -6px;
   }
 
-  li:nth-child(n+2) {
-    margin-top: -6px;
+  .icons-disclose {
+    opacity: .55;
+  }
+
+  &.closed {
+    max-height: 36px;
+
+    .icons-disclose {
+      transform: rotate3d(0,0,1,-90deg);
+    }
   }
 }
 
