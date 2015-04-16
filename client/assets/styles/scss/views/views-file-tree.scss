@@ -34,10 +34,6 @@
       font-weight: 500;
     }
 
-    &.no-touching {
-      cursor: default;
-    }
-
     a {
       border: 1px solid transparent;
       border-radius: 3px;
@@ -97,6 +93,18 @@
         > ul {
           max-height: none;
           overflow: visible;
+        }
+      }
+      
+      // hide arrow
+      &.not-toggleable {
+        
+        &::after {
+          display: none;
+        }
+        
+        > a {
+          cursor: default;
         }
       }
 
