@@ -10,30 +10,10 @@ section.modal-body
     div(
       ng-include = "'viewFormStack'"
     )
-    label.label.clearfix
-
-      .label-col Start Command
-
-      .input-col
-        //- input for start command
-        input.input.input-sm.input-validate.monospace(
-          name = "startCommandInput"
-          ng-disabled = "!data.versionSelected"
-          ng-model = "state.startCommand"
-          pop-over
-          pop-over-actions = "popoverStartCommand.actions"
-          pop-over-active = "popoverStartCommand.data.show"
-          pop-over-data = "popoverStartCommand.data"
-          pop-over-options = "{\"left\":0,\"top\":39}"
-          pop-over-template = "viewPopoverStartCommand"
-          required
-        )
-
-        small.small This is the command that will start your application. #{''}
-          a.link(
-            href = "//docs.docker.com/reference/builder/#cmd"
-            target = "_blank"
-          ) More about the start command
+    div(
+      ng-init = "startCommandCanDisable = true"
+      ng-include = "'viewFormStartCommand'"
+    )
 
 footer.modal-footer.clearfix
   //- disabled if there is no value in the command input

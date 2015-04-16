@@ -5,13 +5,15 @@ label.label.clearfix
       - do not allow the user to leave this tab if this field is empty
     input.input.input-sm.input-validate.monospace(
       required
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      value = "npm start"
+
       pop-over
       pop-over-actions = "popoverStartCommand.actions"
       pop-over-active = "popoverStartCommand.data.show"
       pop-over-data = "popoverStartCommand.data"
       pop-over-options = "{\"left\":0,\"top\":39}"
       pop-over-template = "viewPopoverStartCommand"
-      value = "npm start"
     )
     small.small This is the command that will start your application. #{''}
       a.link(
