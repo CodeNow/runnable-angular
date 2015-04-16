@@ -16,6 +16,7 @@
   text-align: left;
   width: calc(100% - 18px);
   margin: 12px 9px;
+  padding: 0 12px;
   height: 47px;
 
   &.no-touching > .icons-arrow-down {
@@ -24,7 +25,7 @@
 
   .gravatar {
     float: left;
-    margin-right: 6px;
+    margin: 0 6px 2px 0;
   }
 
   .account-name {
@@ -35,7 +36,9 @@
 
   .icons-arrow-down {
     position: absolute;
-    right: 4px;
-    top: 0;
+    right: 6px;
+    top: 12px;
+    height: 21px;
+    width: 21px;
   }
 }
