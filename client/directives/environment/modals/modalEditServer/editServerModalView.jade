@@ -5,8 +5,8 @@ form.modal-dialog.modal-edit-server(
   header.modal-header
     p.p Configuring api
     .row
-      button.btn.btn-radio.active(
-        ng-class = "{active: data.viewFormStack}"
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'stack'}"
         ng-click = "stateModel = 'stack'"
         type = "button"
       )
@@ -16,7 +16,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Stack
       button.btn.btn-radio(
-        ng-class = "{active: data.viewFormStartCommand}"
+        ng-class = "{active: stateModel === 'command'}"
         ng-click = "stateModel = 'command'"
         type = "button"
       )
@@ -26,7 +26,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Start Command
       button.btn.btn-radio(
-        ng-class = "{active: data.viewFormPorts}"
+        ng-class = "{active: stateModel === 'ports'}"
         ng-click = "stateModel = 'ports'"
         type = "button"
       )
@@ -36,7 +36,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Ports
       button.btn.btn-radio(
-        ng-class = "{active: data.viewFormEnvironmentVariables}"
+        ng-class = "{active: stateModel === 'env'}"
         ng-click = "stateModel = 'env'"
         type = "button"
       )
