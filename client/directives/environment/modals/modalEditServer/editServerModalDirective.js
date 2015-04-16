@@ -21,7 +21,9 @@ function editServerModal(
     scope: {
       actions: '=',
       data: '=',
-      defaultActions: '='
+      defaultActions: '=',
+      currentModel: '=',
+      stateModel: '='
     },
     link: function ($scope, elem, attrs) {
 
