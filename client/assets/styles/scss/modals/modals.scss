@@ -176,6 +176,7 @@
   flex: 0 0 auto;
   margin: 0 15px 15px;
   padding: 12px 0 0;
+  z-index: 1; // footer overlaps body
 
   .btn-group,
   .green,
