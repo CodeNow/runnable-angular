@@ -1,18 +1,16 @@
 .nav-header {
-  // box-shadow: 0 3px 6px $gray-lightest;
-  border-bottom: 1px solid #e0e0e0;
-  margin: 0 -12px;
-  height: 72px;
+  border-bottom: 1px solid rgba($black, .1);
   flex: 0 0 auto;
+  height: 72px;
+  margin: 0 -12px;
   position: relative;
   z-index: $z-sidebar-header;
 }
 
 // button.btn.gray.btn-account
 .btn-account {
+  background: rgba($black, 0);
   font-weight: 500;
-  // margin: 6px; // header - button= 7px (14px & 13px)
-  // padding: 0 9px;
   text-align: left;
   width: calc(100% - 18px);
   margin: 12px 9px;
@@ -35,10 +33,10 @@
   }
 
   .icons-arrow-down {
+    height: 21px;
     position: absolute;
     right: 6px;
     top: 12px;
-    height: 21px;
     width: 21px;
   }
 }

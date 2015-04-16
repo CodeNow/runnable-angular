@@ -128,7 +128,7 @@ section.sidebar.server-sidebar.load(
             xlink:href = "#icons-disclose"
           )
       h2.h2 Linked Servers
-    .well.gray
+    .well
       .item
         svg.iconnables.icons-repository
           use(
@@ -142,7 +142,7 @@ section.sidebar.server-sidebar.load(
             xlink:href = "#icons-arrow-down"
           )
         .icons-status.running
-    .well.gray
+    .well
       .item
         svg.iconnables.icons-repository
           use(
@@ -156,7 +156,7 @@ section.sidebar.server-sidebar.load(
             xlink:href = "#icons-arrow-down"
           )
         .icons-status.building
-    .well.gray
+    .well
       .item
         svg.iconnables.icons-repository
           use(
@@ -164,7 +164,7 @@ section.sidebar.server-sidebar.load(
           )
         p.p mongoDB
         .icons-status.running
-    .well.gray.indirect
+    .well.indirect
       .item
         svg.iconnables.icons-disclose
           use(
@@ -191,23 +191,15 @@ section.sidebar.server-sidebar.load(
           p.p mavis
             span.light /master
           .icons-status.running
-  section.row.file-explorer.closed
-    .row-heading
-      svg.iconnables.icons-disclose
-          use(
-            xlink:href = "#icons-disclose"
-          )
-      h2.h2 File Explorer
-
-  //- section.row.explorer(
-  //-   explorer
-  //-   edit-explorer = "false"
-  //-   file-model = "dataInstance.data.instance.containers.models[0]"
-  //-   ng-if = "dataInstance.data.instance.containers.models[0].running()"
-  //-   open-items = "dataInstance.data.openItems"
-  //-   root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
-  //-   explorer-title = "File Explorer"
-  //- )
+  section.row.explorer.closed(
+    explorer
+    edit-explorer = "false"
+    file-model = "dataInstance.data.instance.containers.models[0]"
+    ng-if = "dataInstance.data.instance.containers.models[0].running()"
+    open-items = "dataInstance.data.openItems"
+    root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
+    explorer-title = "File Explorer"
+  )
 
 //- in / out control presence of header-bar
 section.views(

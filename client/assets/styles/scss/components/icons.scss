@@ -115,31 +115,26 @@
 // status
 .icons-status {
   background: $gray-lightest;
-  // border: 1px solid $gray-light;
   border-radius: 50%;
   display: inline-block;
+  float: right;
   height: 6px;
   position: relative;
-  float: right;
   width: 6px;
-  // margin: 11px 6px 0 0; // move this elsewhere
 
   &.running,
   .running > & {
     background: $green;
-    // border-color: $green-dark;
   }
 
   &.building,
   .building > & {
     background: $orange;
-    // border-color: $orange-darker;
   }
 
   &.failed,
   .failed > & {
     background: $red;
-    // border-color: $red-dark;
   }
 
   &.in-progress::before {
@@ -157,7 +152,7 @@
     width: 17px;
   }
 
-  .icons-status.new::after {
+  .new::after {
     content: "";
     width: 12px;
     height: 12px;
@@ -169,7 +164,7 @@
     opacity: .36;
   }
 
-  .icons-status.new::before {
+  .new::before {
     content: "";
     width: 18px;
     height: 18px;

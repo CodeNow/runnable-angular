@@ -1,19 +1,17 @@
-// sidebar
 .sidebar {
   @extend %webkit-flicker;
   background: $white;
+  border-right: 1px solid rgba($black, .1);
   display: flex;
   flex-direction: column;
+  float: left;
+  font-size: 14px;
   height: 100vh;
+  line-height: 24px;
   position: relative;
   transition: width .2s ease-in;
   width: 240px;
   z-index: $z-sidebar;
-  font-size: 14px;
-  font-weight: 500;
-  border-right: 1px solid #e0e0e0;
-  float: left;
-  line-height: 24px;
 
   .h2 {
     font-size: 14px;
@@ -21,6 +19,7 @@
 
   .p {
     display: inline;
+    font-weight: 500;
     opacity: .9;
   }
 
@@ -29,88 +28,93 @@
     opacity: .6;
   }
 
-  .iconnables {
-    position: absolute;
-    // left: 7px;
-    // top: 7px;
-    height: 17px;
-    width: 17px;
-  }
-
   .icons-status {
     margin: 11px 6px 0 0;
   }
 
-  .row-heading {
+  .row {
+    border-bottom: 1px solid rgba($black, .1);
+    overflow: scroll;
+    padding: 0 12px 9px;
+    max-height: 600px;
+
+    .row-heading {
     height: 60px;
     position: relative;
 
-    .h2 {
-      // opacity: 1;
-      margin-left: 0;
-      top: 23px;
-      left: 3px;
-      position: absolute;
+      .h2 {
+        margin-left: 0;
+        top: 23px;
+        left: 3px;
+        position: absolute;
+      }
+
+      .icons-disclose {
+        left: 3px;
+        position: absolute;
+        top: 23px;
+      }
+
+      .btn {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        float: right;
+        margin-top: 15px;
+      }
     }
 
-    .icons-disclose {
-      position: absolute;
-      top: 23px;
-      left: 3px;
-    }
+    &.closed {
+      max-height: 61px;
+      overflow: hidden;
 
-    a {
-      width: 30px;
-      height: 30px;
-      float: right;
-      margin-top: 15px;
-
-      .icons-add {
-        top: 3px;
-        right: 3px;
-        width: 21px;
-        height: 21px;
+      .icons-disclose {
+        transform: rotate3d(0,0,1,-90deg);
       }
     }
   }
+
 }
 
 .nav-sidebar {
-    background: #f7f7f7;
-    padding: 0 12px;
+  background: rgba($black, .03);
+  padding: 0 12px;
 
     > ul {
-      border-top: 1px solid #e0e0e0;
+      border-top: 1px solid rgba($black, .1);
     }
 
     ul {
 
       &:first-of-type {
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid rgba($black, .1);
       }
 
-      ul {
-        padding: 15px 0 13px 0;
-      }
-    }
-
-    .server {
-      margin: 0 -12px;
-      position: relative;
-      padding: 2px 9px 5px 30px;
-
-      &.selected {
-        background-color: #F0E6F7;
-        color: #AF74D4;
-
-        .light {
-          opacity: 1;
-        }
-      }
-
-      .iconnables {
-        left: 12px;
-        top: 6px;
-      }
+    ul {
+      padding: 15px 0 13px;
     }
   }
+
+  .server {
+    margin: 0 -12px;
+    padding: 2px 9px 5px 30px;
+    position: relative;
+
+    &.selected {
+      background-color: #F0E6F7;
+      color: #A95BD9;
+
+      .light {
+        opacity: 1;
+      }
+    }
+
+    .iconnables {
+      left: 12px;
+      top: 6px;
+      height: 17px;
+      position: absolute;
+      width: 17px;
+    }
+  }
+}
