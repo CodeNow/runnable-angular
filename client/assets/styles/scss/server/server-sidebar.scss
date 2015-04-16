@@ -6,9 +6,20 @@
   font-size: 13px;
 
   .row {
-    border-bottom: 1px solid rgba($black,.1);
-    position: relative;
+    // border-bottom: 1px solid rgba($black,.1);
+    // position: relative;
     padding-bottom: 9px;
+    border-bottom: 1px solid #e0e0e0;
+    overflow: hidden;
+    padding: 0 6px;
+
+    &.closed {
+      max-height: 61px;
+
+      .icons-disclose {
+        transform: rotate3d(0,0,1,-90deg);
+      }
+    }
   }
 
   .spinner-wrapper {

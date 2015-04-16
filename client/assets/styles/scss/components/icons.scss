@@ -122,24 +122,24 @@
   position: relative;
   float: right;
   width: 6px;
-  margin: 11px 6px 0 0; // move this elsewhere
+  // margin: 11px 6px 0 0; // move this elsewhere
 
   &.running,
   .running > & {
     background: $green;
-    border-color: $green-dark;
+    // border-color: $green-dark;
   }
 
   &.building,
   .building > & {
     background: $orange;
-    border-color: $orange-darker;
+    // border-color: $orange-darker;
   }
 
   &.failed,
   .failed > & {
     background: $red;
-    border-color: $red-dark;
+    // border-color: $red-dark;
   }
 
   &.in-progress::before {

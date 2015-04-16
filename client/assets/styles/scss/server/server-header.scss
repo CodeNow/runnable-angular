@@ -13,6 +13,9 @@
   .icons-status {
     left: 9px;
     top: -4px;
+    float: none;
+    width: 9px;
+    height: 9px;
 
     &::before,
     &::after {

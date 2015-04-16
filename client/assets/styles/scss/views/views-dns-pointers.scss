@@ -1,27 +1,7 @@
-.top-bar {
-  width: 100%;
-  height: 72px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
 .server-sidebar {
   .row-heading {
     .h2 {
       left: 21px;
-    }
-  }
-}
-
-.row {
-  border-bottom: 1px solid #e0e0e0;
-  overflow: hidden;
-  padding: 0 6px;
-
-  &.closed {
-    max-height: 61px;
-
-    .icons-disclose {
-      transform: rotate3d(0,0,1,-90deg);
     }
   }
 }
@@ -68,21 +48,25 @@
     margin-left: -5px;
     opacity: .55;
   }
+
+  &:hover {
+    background-color: #ededed;
+  }
 }
 
-.iconnables {
-  position: absolute;
-  left: 7px;
-  top: 7px;
-  height: 17px;
-  width: 17px;
-}
+// .iconnables {
+//   position: absolute;
+//   left: 7px;
+//   top: 7px;
+//   height: 17px;
+//   width: 17px;
+// }
 
 .nav-sidebar, .linked-servers {
 
   .item {
     position: relative;
-    padding: 2px 0 5px 0;
+    padding: 2px 9px 5px 0;
   }
 
 }
