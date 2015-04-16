@@ -16,7 +16,7 @@ function modal() {
       stateModel: '=modalStateModel', // The object that should receive the changes
       openFlag: '=? modalOpenFlag'
     },
-    link: function ($scope, element) {
+    link: function ($scope, element, attrs) {
       function openModal() {
         $scope.$emit('open-modal', {
           data: $scope.data,
@@ -27,7 +27,9 @@ function modal() {
         });
       }
 
-      element.on('click', openModal);
+      if (!attrs.modalDisableClick) {
+        element.on('click', openModal);
+      }
       $scope.$watch('openFlag', function (n) {
         if (n === true) {
           openModal();

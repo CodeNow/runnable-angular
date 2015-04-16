@@ -87,8 +87,9 @@ function ControllerEnvironment(
         setStackSelectedVersion($scope.state.stack, data.version);
       });
     },
-    addNewServer: function (newServerModel) {
+    addNewServer: function (newServerModel, cb) {
       $scope.state.newServers.push(newServerModel);
+      return (typeof cb === 'function') ? cb() : null;
     }
   };
   fetchStackInfo().then(function (stacks) {
