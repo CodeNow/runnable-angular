@@ -1,13 +1,13 @@
 .card.gray.disabled.load(
-  ng-repeat = "server in state.newServers"
   modal
   modal-actions = "actions"
-  modal-data = "data"
-  modal-template = "editServerModalOpen"
   modal-current-model = "server"
+  modal-data = "data"
+  model-disable-click = "true"
   modal-open-flag = "server.openEditOnStep"
   modal-state-model = "server.openEditOnStep"
-  modal-disable-click = "true"
+  modal-template = "editServerModalOpen"
+  ng-repeat = "server in state.newServers"
 )
   .card-header
     svg.iconnables.icons-server
