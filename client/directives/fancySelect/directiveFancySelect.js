@@ -28,6 +28,8 @@ function fancySelect(
 
       var positionDropdown = false;
 
+      var unbindDocumentClick = angular.noop;
+
       function openDropdown() {
         if (positionDropdown){
           return;
@@ -35,10 +37,17 @@ function fancySelect(
         $scope.isOpen = true;
         positionDropdown = true;
         $document.find('body').append(list);
+
+        unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
+          if(!target || (target && $document[0].contains(target) && !list[0].contains(target) && list[0] !== target)){
+            closeDropdown();
+          }
+        });
       }
 
       function closeDropdown() {
         $scope.isOpen = false;
+        unbindDocumentClick();
         $timeout(function () {
           element.append(list);
           positionDropdown = false;
