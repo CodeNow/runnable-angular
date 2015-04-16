@@ -39,7 +39,7 @@ function fancySelect(
         $document.find('body').append(list);
 
         unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-          if(!target || (target && $document[0].contains(target) && !list[0].contains(target) && list[0] !== target)){
+          if(!target || (target && $document.find('body')[0].contains(target) && !list[0].contains(target) && list[0] !== target)){
             closeDropdown();
           }
         });
