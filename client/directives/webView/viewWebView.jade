@@ -1,15 +1,3 @@
-//- url "chrome"
-nav.browser-chrome
-  a.input.input-sm(
-    ng-href = "{{ data.iframeUrl }}"
-    target = "_blank"
-  )
-    svg.iconnables.icons-link
-      use(
-        xlink:href = "#icons-link"
-      )
-    | {{ data.iframeUrl }}
-
 //- web view iframe
 iframe.iframe(
   ng-src = "{{ data.iframeUrl }}"
