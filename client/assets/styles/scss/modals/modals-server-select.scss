@@ -24,7 +24,7 @@
   }
 }
 
-// repository list
+// repository/template list
 .list-servers {
 
   > .list-item {
@@ -60,10 +60,6 @@
         border-color: transparent;
         color: $gray-darker;
         cursor: default;
-
-        .small {
-          color: $gray-light;
-        }
       }
     }
   }
@@ -87,9 +83,5 @@
     line-height: 1;
     right: 9px;
     top: 15px;
-  }
-
-  .small {
-    margin-left: 33px;
   }
 }

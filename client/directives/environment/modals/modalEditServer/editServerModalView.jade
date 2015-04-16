@@ -1,24 +1,13 @@
 form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
-  ng-init = "\
-    data.viewFormStack = true;\
-    data.viewFormEnvironmentVariables = false;\
-    data.viewFormPorts = false;\
-    data.viewFormStartCommand = false;\
-    data.formDirty = false;\
-  "
+  ng-init = "data.formDirty = false;"
 )
   header.modal-header
     p.p Configuring api
     .row
-      button.btn.btn-radio.active(
-        ng-class = "{active: data.viewFormStack}"
-        ng-click = "\
-          data.viewFormEnvironmentVariables = false;\
-          data.viewFormPorts = false;\
-          data.viewFormStack = true;\
-          data.viewFormStartCommand = false;\
-        "
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'stack'}"
+        ng-click = "stateModel = 'stack'"
         type = "button"
       )
         svg.iconnables.icons-terminal
@@ -27,13 +16,8 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Stack
       button.btn.btn-radio(
-        ng-class = "{active: data.viewFormStartCommand}"
-        ng-click = "\
-          data.viewFormEnvironmentVariables = false;\
-          data.viewFormPorts = false;\
-          data.viewFormStack = false;\
-          data.viewFormStartCommand = true;\
-        "
+        ng-class = "{active: stateModel === 'command'}"
+        ng-click = "stateModel = 'command'"
         type = "button"
       )
         svg.iconnables.icons-terminal
@@ -42,13 +26,8 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Start Command
       button.btn.btn-radio(
-        ng-class = "{active: data.viewFormPorts}"
-        ng-click = "\
-          data.viewFormEnvironmentVariables = false;\
-          data.viewFormPorts = true;\
-          data.viewFormStack = false;\
-          data.viewFormStartCommand = false;\
-        "
+        ng-class = "{active: stateModel === 'ports'}"
+        ng-click = "stateModel = 'ports'"
         type = "button"
       )
         svg.iconnables.icons-terminal
@@ -57,13 +36,8 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Ports
       button.btn.btn-radio(
-        ng-class = "{active: data.viewFormEnvironmentVariables}"
-        ng-click = "\
-          data.viewFormEnvironmentVariables = true;\
-          data.viewFormPorts = false;\
-          data.viewFormStack = false;\
-          data.viewFormStartCommand = false;\
-        "
+        ng-class = "{active: stateModel === 'env'}"
+        ng-click = "stateModel = 'env'"
         type = "button"
       )
         svg.iconnables.icons-terminal
@@ -75,19 +49,19 @@ form.modal-dialog.modal-edit-server(
 
   section.modal-body
     .modal-form(
-      ng-if = "data.viewFormStack"
+      ng-if = "stateModel === 'stack'"
       ng-include = "'viewFormStack'"
     )
     .modal-form(
-      ng-if = "data.viewFormStartCommand"
+      ng-if = "stateModel === 'command'"
       ng-include = "'viewFormStartCommand'"
     )
     .modal-form(
-      ng-if = "data.viewFormPorts"
+      ng-if = "stateModel === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-if = "data.viewFormEnvironmentVariables"
+      ng-if = "stateModel === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
 
@@ -97,6 +71,6 @@ form.modal-dialog.modal-edit-server(
       ng-disabled = "!data.formDirty"
     ) Save Changes
     button.btn.white.btn-cancel(
-      ng-click = "defaultActions.cancel()"
+      ng-click = "stateModel = null; defaultActions.cancel()"
       type = "button"
     ) Cancel

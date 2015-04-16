@@ -426,12 +426,16 @@
 
     &[disabled],
     &.disabled {
+      background: $gray-lightest;
+      border-color: $gray-lighter;
+      color: $gray-lighter;
+      opacity: 1;
 
       &:hover,
       &:active,
       &.active {
-        background: transparent;
-        border-color: transparent;
+        background: $gray-lightest;
+        border-color: $gray-lighter;
       }
     }
   }

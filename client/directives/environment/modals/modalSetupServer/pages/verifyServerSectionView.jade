@@ -14,17 +14,17 @@ section.modal-body
 
       .input-col
         //- input for start command
-        input.input.input-sm.input-validate(
-          ng-disabled = "!data.versionSelected"
-          required
-          pop-over
+        input.input.input-sm.input-validate.monospace(
           name = "startCommandInput"
+          ng-disabled = "!data.versionSelected"
           ng-model = "state.startCommand"
+          pop-over
           pop-over-actions = "popoverStartCommand.actions"
           pop-over-active = "popoverStartCommand.data.show"
           pop-over-data = "popoverStartCommand.data"
           pop-over-options = "{\"left\":0,\"top\":39}"
           pop-over-template = "viewPopoverStartCommand"
+          required
         )
 
         small.small This is the command that will start your application. #{''}
@@ -37,7 +37,7 @@ footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
   button.btn.green(
     ng-disabled = "verifyServerForm.$invalid"
-    type = "submit"
+    ng-click = "actions.addNewServer(state, defaultActions.close);"
   ) Create Server
   button.btn.white.btn-cancel(
     ng-click = "defaultActions.cancel()"
