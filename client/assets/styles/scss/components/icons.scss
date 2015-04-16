@@ -167,3 +167,25 @@
     width: 17px;
   }
 }
+
+// new server status icons, remove old ones once finalized
+.icons-server {
+
+  .status-green,
+  .status-orange,
+  .status-red {
+    display: none;
+  }
+
+  &.status-green .status-green {
+    display: block;
+  }
+
+  &.status-orange .status-orange {
+    display: block;
+  }
+
+  &.status-red .status-red {
+    display: block;
+  }
+}

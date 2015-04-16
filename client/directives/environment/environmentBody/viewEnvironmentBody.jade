@@ -2,9 +2,21 @@
   ng-repeat = "server in state.newServers"
 )
   .card-header
-    svg.iconnables.icons-server
-      use(
-        xlink:href = "#icons-server"
+    svg.iconnables.icons-server.status-red(
+      ng-class = "{\
+        'status-green': data.statusGreen,\
+        'status-orange': data.statusOrange,\
+        'status-red': data.statusRed\
+      }"
+    )
+      use.status-red(
+        xlink:href = "#icons-status-red"
+      )
+      use.status-orange(
+        xlink:href = "#icons-status-orange"
+      )
+      use.status-green(
+        xlink:href = "#icons-status-green"
       )
     h2.h2 {{ server.opts.name }}
     p.p {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
