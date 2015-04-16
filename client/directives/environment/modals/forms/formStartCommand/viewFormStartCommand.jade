@@ -5,7 +5,7 @@ label.label.clearfix
       - do not allow the user to leave this tab if this field is empty
     input.input.input-sm.input-validate.monospace(
       required
-      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      ng-disabled = "startCommandCanDisable && !currentModel.selectedStack.selectedVersion"
       value = "npm start"
 
       pop-over
