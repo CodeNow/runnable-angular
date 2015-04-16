@@ -67,7 +67,7 @@ function ControllerEnvironment(
     fetchStackData: function (repo) {
       function setStackSelectedVersion(stack, versions) {
         if (versions[stack.key]) {
-          stack.selectedVersion = versions[stack.key];
+          stack.suggestedVersion = versions[stack.key];
         }
         if (stack.dependencies) {
           stack.dependencies.forEach(function (childStack) {
@@ -76,6 +76,7 @@ function ControllerEnvironment(
         }
       }
       return fetchStackAnalysis(repo).then(function (data) {
+        console.log(data);
         if (!data.languageFramework) {
           $log.warn('No language detected');
           return;
@@ -93,6 +94,7 @@ function ControllerEnvironment(
     }
   };
   fetchStackInfo().then(function (stacks) {
+    console.log(stacks);
     keypather.set($scope, 'data.stacks', stacks);
   }).catch(errs.handler);
 

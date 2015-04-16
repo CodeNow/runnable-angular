@@ -4,7 +4,6 @@
   border-radius: 3px;
   box-shadow: 0 0 30px rgba($black,.12);
   cursor: default; // if popover is within an element with a different cursor
-  display: block;
   left: 0;
   max-width: 300px;
   opacity: 0;
@@ -16,10 +15,12 @@
   transition: transform .2s ease-in, opacity .2s ease-in;
   white-space: normal;
   z-index: $z-fancy-select;
+  display: none;
 
   &.in {
     opacity: 1;
     pointer-events: auto;
     transform: scale3d(1,1,1);
+    display: block;
   }
 }

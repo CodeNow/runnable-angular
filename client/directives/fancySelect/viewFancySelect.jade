@@ -1,6 +1,6 @@
 .fancy-select
   button.btn.btn-sm.white.text-overflow.btn-validate.active(
-    ng-click = "actions.toggleSelect()"
+    ng-click = "actions.toggleSelect($event)"
   )
     .placeholder(
       ng-if = "!value"
