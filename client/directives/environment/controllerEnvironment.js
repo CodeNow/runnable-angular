@@ -29,22 +29,6 @@ function ControllerEnvironment(
 ) {
   favico.reset();
   $scope.data = {
-    dataModalEditServer: {
-      portTagOptions: {
-        breakCodes: [
-          13, // return
-          32, // space
-          44, // comma (opera)
-          188 // comma (mozilla)
-        ],
-        texts: {
-          'inputPlaceHolder': 'Add ports here',
-          maxInputLength: 5,
-          onlyDigits: true
-        },
-        tags: new JSTagsCollection([])
-      }
-    }
   };
   $scope.state = {
     newServers: []
@@ -82,14 +66,18 @@ function ControllerEnvironment(
           return;
         }
         repo.stackAnalysis = data;
-        $scope.state.stack = $scope.data.stacks.find(hasKeypaths({
+        var stack = $scope.data.stacks.find(hasKeypaths({
           'key': data.languageFramework.toLowerCase()
-        })) || $scope.data.stacks[0];
-        setStackSelectedVersion($scope.state.stack, data.version);
+        }));
+        if (stack) {
+          setStackSelectedVersion(stack, data.version);
+        }
+        return stack;
       });
     },
     addNewServer: function (newServerModel, cb) {
       $scope.state.newServers.push(newServerModel);
+      newServerModel.ports = newServerModel.selectedStack.ports;
       return (typeof cb === 'function') ? cb() : null;
     }
   };

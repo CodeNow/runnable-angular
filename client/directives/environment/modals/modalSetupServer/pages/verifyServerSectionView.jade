@@ -5,7 +5,6 @@ section.modal-body
   .modal-form(
     ng-form
     name = "verifyServerForm"
-    ng-submit = "actions.addNewServer(state, defaultActions.close);"
   )
     div(
       ng-include = "'viewFormStack'"
@@ -18,8 +17,8 @@ section.modal-body
         //- input for start command
         input.input.input-sm.input-validate.monospace(
           name = "startCommandInput"
-          ng-disabled = "!data.versionSelected"
-          ng-model = "state.startCommand"
+          ng-disabled = "!currentModel.selectedStack.selectedVersion"
+          ng-model = "currentModel.startCommand"
           pop-over
           pop-over-actions = "popoverStartCommand.actions"
           pop-over-active = "popoverStartCommand.data.show"
@@ -39,7 +38,7 @@ footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
   button.btn.green(
     ng-disabled = "verifyServerForm.$invalid"
-    ng-click = "actions.addNewServer(state, defaultActions.close);"
+    ng-click = "actions.addNewServer(currentModel, defaultActions.close);"
   ) Create Server
   button.btn.white.btn-cancel(
     ng-click = "defaultActions.cancel()"

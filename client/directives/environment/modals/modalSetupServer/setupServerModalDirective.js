@@ -24,20 +24,20 @@ function setupServerModal(
       defaultActions: '='
     },
     link: function ($scope, elem, attrs) {
-      $scope.state = {
+      $scope.currentModel = {
         opts: {}
       };
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
         $scope.repoSelected = true;
         repo.isAdded = true;
-        $scope.state.opts.name = repo.attrs.name;
+        $scope.currentModel.opts.name = repo.attrs.name;
         return promisify(repo.branches, 'fetch')()
           .then(function () {
             return $scope.actions.fetchStackData(repo);
           })
           .then(function () {
-            $scope.state.repo = repo;
+            $scope.currentModel.repo = repo;
           })
           .catch(function (err) {
             repo.isAdded = false;
