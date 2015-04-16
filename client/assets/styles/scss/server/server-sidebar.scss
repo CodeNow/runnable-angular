@@ -9,10 +9,6 @@
     border-bottom: 1px solid rgba($black,.1);
     position: relative;
     padding-bottom: 9px;
-
-    // &:last-child {
-    //   border-bottom: 0;
-    // }
   }
 
   .spinner-wrapper {
@@ -37,14 +33,40 @@
   padding-bottom: 15px;
 }
 
-// li.repository-group-item
 .repository-group-item {
-  // margin: -1px 0;
+  line-height: 23px;
 
-  + .repository-group-item {
-    margin-top: 6px;
+  .well {
+    padding: 8px 0 9px 0;
+    margin-bottom: 0;
   }
+
+  .item {
+    padding: 0;
+
+    &:last-of-type {
+      margin-top: -1px;
+      .p {
+        font-size: 12px;
+
+        &:last-of-type {
+          color: #AF74D4;
+          opacity: 1;
+          font-family: "source code pro";
+          float: right;
+          margin-right: 26px;
+        }
+      }
+    }
+  }
+
+  .iconnables {
+    top: 3px;
+  }
+
 }
+
+
 
 // wrapper for states
 .repository-group-text {
@@ -71,17 +93,6 @@
     }
   }
 
-  // git icons
-  .iconnables {
-    // color: rgba($black,.24);
-    // color: #333;
-    // opacity: .9;
-    // height: 18px;
-    // left: 0;
-    // position: absolute;
-    // width: 36px;
-  }
-
   // arrow
   .iconnables.icons-arrow-down {
     height: 100%;
@@ -97,24 +108,17 @@
 
 // p.repository-description
 .repository-description {
-  // font-size: 14px;
   font-size: 13px;
   color: rgba($gray-darker,.9);
   font-weight: 500;
-  // height: 21px;
-  // line-height: 21px;
   line-height: 24px;
-  // padding-left: 36px;
   padding-left: 26px;
   position: relative;
   word-break: break-word;
 
   + .repository-description {
-    // height: auto;
     font-weight: 400;
     color: rgba($gray-darker,.6);
-    // line-height: 1.4;
-    // padding-top: 2px;
   }
 }
 
@@ -132,4 +136,8 @@
     float: right;
     margin-right: 26px;
   }
+}
+
+.linked-servers {
+
 }

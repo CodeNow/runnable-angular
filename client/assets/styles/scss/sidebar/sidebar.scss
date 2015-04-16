@@ -14,14 +14,76 @@
   z-index: $z-sidebar;
   font-size: 14px;
   font-weight: 500;
+  border-right: 1px solid #e0e0e0;
+  float: left;
+  line-height: 24px;
+
+  .h2 {
+    font-size: 14px;
+  }
 
   .p {
     display: inline;
   }
 
+  .row-heading {
+    height: 60px;
+    position: relative;
+
+    .h2 {
+      opacity: 1;
+      margin-left: 0;
+      top: 23px;
+      left: 15px;
+      position: absolute;
+    }
+
+    .icons-disclose {
+      position: absolute;
+      top: 23px;
+      left: 3px;
+    }
+  }
+
   &.nav-sidebar {
-    // background: $gray-lightest;
     background: #f7f7f7;
+
+    ul {
+      border-bottom: 1px solid #e0e0e0;
+      margin: 0 12px;
+      padding: 15px 0 13px 0;
+
+      &:first-of-type {
+        border-top: 1px solid #e0e0e0;
+      }
+    }
+
+    .item {
+      width: 240px;
+      margin-left: -12px;
+
+      &.selected {
+        background-color: #F0E6F7;
+        color: #AF74D4;
+
+        .light {
+          opacity: 1;
+        }
+      }
+    }
+
+    .iconnables {
+      left: 12px;
+    }
+
+    .p {
+      margin-left: 31px;
+    }
+
+    .status-icon {
+      right: 12px;
+      margin-right: 18px;
+    }
   }
 
   .guide {
@@ -34,64 +96,4 @@
   font-weight: 500;
   margin: 24px 0 12px;
   padding: 0 9px;
-}
-
-// h2.sub-header
-.sub-header {
-  // color: $gray;
-  font-size: 14px;
-  // font-weight: 400;
-  // height: 45px;
-  // line-height: 33px;
-  // padding: 6px 6px 6px 15px;
-  // position: relative;
-
-  // all action buttons
-  .btn {
-    float: right;
-    margin: 0;
-  }
-
-  // add and update buttons
-  .btn-sm,
-  .btn-xs {
-
-    &.white,
-    &.gray {
-      height: 33px;
-      padding: 0;
-      width: 33px;
-    }
-
-    &.orange {
-      font-size: 14px;
-      padding: 0 6px 0 0;
-      top: 6px;
-    }
-
-    .icons-update {
-      float: left;
-      height: 14px;
-      margin: 5px 6px 0 3px;
-      width: 14px;
-    }
-  }
-
-  // invite
-  .btn-xxs {
-    top: 7px;
-  }
-
-  // team icon
-  .icons-team {
-    color: $gray-light;
-    height: 100%;
-    margin-left: 6px;
-    width: 21px;
-  }
-}
-
-// span.sub-header-text
-.sub-header-text {
-  // float: left;
 }
