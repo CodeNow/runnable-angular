@@ -9,7 +9,7 @@ section.modal-body.clearfix
     select-on = "showFilter"
   )
   ul.list.list-servers
-    li.list-item(
+    li.list-item.multi-line(
       ng-class = "{disabled: repo.isAdded}"
       ng-click = "selectRepo(repo)"
       ng-repeat = "\
@@ -18,7 +18,7 @@ section.modal-body.clearfix
         orderBy: '-attrs.updated_at'\
       "
     ) {{ repo.attrs.name}}
-      small.small {{ repo.attrs.updated_at | timeFrom }}
+      small.small Updated {{ repo.attrs.updated_at | timeFrom }}
       button.btn.btn-xs(
         ng-class = "{\
           disabled: repo.isAdded,\
