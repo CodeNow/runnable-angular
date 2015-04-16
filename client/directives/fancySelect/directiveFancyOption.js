@@ -19,7 +19,6 @@ function fancySelect(
       var transcludedContent;
       var transclusionScope;
 
-
       // This is a fancy-option which always lives as a child to fancy-select.
       // We need to communicate the option and it's click events to the parent.
       $scope.config = {
@@ -30,7 +29,6 @@ function fancySelect(
 
       $scope.actions = {
         clickedOption: function () {
-          console.log('Clicked');
           $scope.$parent.actions.clickedOption($scope.config);
         }
       };
