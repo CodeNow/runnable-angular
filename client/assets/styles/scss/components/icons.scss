@@ -156,4 +156,28 @@
     transform: scale3d(.3,.3,.3);
     width: 17px;
   }
+
+  .icons-status.new::after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid #1DD156;
+    margin-left: -3px;
+    margin-top: -3px;
+    opacity: .36;
+  }
+
+  .icons-status.new::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid #1DD156;
+    margin-left: -6px;
+    margin-top: -6px;
+    opacity: .12;
+  }
 }

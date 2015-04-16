@@ -6,8 +6,6 @@
   font-size: 13px;
 
   .row {
-    // border-bottom: 1px solid rgba($black,.1);
-    // position: relative;
     padding-bottom: 9px;
     border-bottom: 1px solid #e0e0e0;
     overflow: hidden;
@@ -18,6 +16,12 @@
 
       .icons-disclose {
         transform: rotate3d(0,0,1,-90deg);
+      }
+    }
+
+    .row-heading {
+      .h2 {
+        left: 21px;
       }
     }
   }
@@ -150,5 +154,31 @@
 }
 
 .linked-servers {
+
+  .item {
+    position: relative;
+    padding: 2px 9px 5px 0;
+  }
+
+  .indirect {
+    padding-bottom: 6px;
+    overflow: hidden;
+
+    .item:nth-child(n+2) {
+      margin-top: -6px;
+    }
+
+    .icons-disclose {
+      opacity: .55;
+    }
+
+    &.closed {
+      max-height: 36px;
+
+      .icons-disclose {
+        transform: rotate3d(0,0,1,-90deg);
+      }
+    }
+  }
 
 }

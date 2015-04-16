@@ -26,6 +26,56 @@
     width: 17px;
   }
 
+  .item {
+    box-sizing: border-box;
+  }
+
+  .select {
+    border-left: 1px solid #e0e0e0;
+    cursor: pointer;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    padding: 3px 6px 3px 0;
+    box-sizing: border-box;
+
+    .p {
+      margin-left: 12px;
+    }
+
+    img {
+      margin-bottom: -3px;
+      margin-left: -3px
+    }
+
+    .icons-arrow-down {
+      position: relative;
+      width: 14px;
+      top: 4px;
+      margin-left: -5px;
+      opacity: .55;
+    }
+
+    &:hover {
+      background-color: #ededed;
+    }
+  }
+
+  .well {
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    margin-bottom: 9px;
+    position: relative;
+    padding: 1px 6px 1px 0;
+    box-sizing: border-box;
+
+    .p {
+      margin-left: 26px;
+    }
+  }
+
   .icons-status {
     right: 12px;
     margin-right: 18px;
@@ -66,7 +116,14 @@
     }
   }
 
-  &.nav-sidebar {
+  .guide {
+    margin: 0 6px 9px;
+  }
+}
+
+////// NAVIGATION //////
+
+.nav-sidebar {
     background: #f7f7f7;
     padding: 0 12px;
 
@@ -87,6 +144,8 @@
 
     .item {
       margin: 0 -12px;
+      position: relative;
+      padding: 2px 9px 5px 0;
 
       &.selected {
         background-color: #F0E6F7;
@@ -112,11 +171,6 @@
     //   margin: 11px 6px 0 0;
     // }
   }
-
-  .guide {
-    margin: 0 6px 9px;
-  }
-}
 
 .sidebar-header {
   font-size: 21px;
