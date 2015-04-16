@@ -2,19 +2,28 @@ header.modal-header
   h1.modal-heading New Server from Repository
 
 section.modal-body.clearfix
+
+  .spinner-wrapper.spinner-md.in(
+    ng-if = "!data.githubRepos.models"
+    ng-include = "'spinner'"
+  )
+
   input.input.input-sm.input-search(
+    ng-if = "data.githubRepos.models"
     ng-model = "repoFilter"
     placeholder = "Filter by name"
     required
     select-on = "showFilter"
   )
-  ul.list.list-servers
+  ul.list.list-servers(
+    ng-if = "data.githubRepos.models"
+  )
     li.list-item.multi-line(
       ng-class = "{disabled: repo.isAdded}"
       ng-click = "selectRepo(repo)"
       ng-repeat = "\
         repo in data.githubRepos.models| \
-        repos:repoFilter | \
+        repos: repoFilter | \
         orderBy: '-attrs.updated_at'\
       "
     ) {{ repo.attrs.name}}
