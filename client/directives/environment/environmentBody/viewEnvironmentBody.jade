@@ -1,4 +1,12 @@
 .card.gray.disabled.load(
+  modal
+  modal-actions = "actions"
+  modal-current-model = "server"
+  modal-data = "data"
+  modal-disable-click = "true"
+  modal-open-flag = "server.openEditOnStep"
+  modal-state-model = "server.openEditOnStep"
+  modal-template = "editServerModalOpen"
   ng-repeat = "server in state.newServers"
 )
   .card-header
@@ -22,15 +30,7 @@
     p.p {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
   ul.card-body
     li.btn.white(
-      modal
-      modal-actions = "actions"
-      modal-current-model = "server"
-      modal-data = "data"
-      model-disable-click = "true"
-      modal-open-flag = "server.openEditOnStep"
-      modal-state-model = "server.openEditOnStep"
-      modal-template = "editServerModalOpen"
-      ng-click = "server.openEditOnStep = 1"
+      ng-click = "server.openEditOnStep = 'stack'"
     )
       h3.h3
         svg.iconnables.icons-terminal
@@ -43,7 +43,9 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-    li.btn.white
+    li.btn.white(
+      ng-click = "server.openEditOnStep = 'command'"
+    )
       h3.h3
         svg.iconnables.icons-terminal
           use(
@@ -55,7 +57,9 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-    li.btn.white
+    li.btn.white(
+      ng-click = "server.openEditOnStep = 'ports'"
+    )
       h3.h3
         svg.iconnables.icons-terminal
           use(
@@ -67,7 +71,9 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-    li.btn.white
+    li.btn.white(
+      ng-click = "server.openEditOnStep = 'env'"
+    )
       h3.h3
         svg.iconnables.icons-terminal
           use(

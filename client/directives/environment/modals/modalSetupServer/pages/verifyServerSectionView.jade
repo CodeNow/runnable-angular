@@ -3,59 +3,11 @@ header.modal-header
 
 section.modal-body
   .modal-form(
-    ng-form = "verifyServerForm"
+    ng-form
+    name = "verifyServerForm"
+    ng-submit = "actions.addNewServer(state, defaultActions.close);"
+    ng-include = "'viewFormStack'"
   )
-    .label.clearfix
-
-      .label-col Language / Framework
-
-      .input-col
-        //- input for language/framework
-         .btn-validate, .input-validate classes:
-          - ng-valid
-          - ng-invalid
-        button.btn.btn-sm.white.text-overflow.btn-validate(
-          ng-class = "{active: popoverStackSelect.data.show}"
-          ng-click = "data.stackSelected = true"
-          pop-over
-          pop-over-actions = "popoverStackSelect.actions"
-          pop-over-active = "popoverStackSelect.data.show"
-          pop-over-data = "popoverStackSelect.data"
-          pop-over-options = "{\"left\":0,\"top\":39}"
-          pop-over-template = "viewPopoverStackSelect"
-        ) Select language/framework
-          svg.iconnables.icons-arrow-down
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-
-        //- input for version
-        button.btn.btn-sm.white.text-overflow.btn-validate(
-          ng-class = "{active: popoverVersionSelect.data.show}"
-          ng-click = "data.versionSelected = true"
-          ng-disabled = "!data.stackSelected"
-          pop-over
-          pop-over-actions = "popoverVersionSelect.actions"
-          pop-over-active = "popoverVersionSelect.data.show"
-          pop-over-data = "popoverVersionSelect.data"
-          pop-over-options = "{\"left\":0,\"top\":39}"
-          pop-over-template = "viewPopoverVersionSelect"
-        ) Select version
-          svg.iconnables.icons-arrow-down
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-
-        .label(
-          ng-repeat = "depStack in state.stack.dependencies"
-        )
-          .small {{depStack.name}}
-          button.btn.btn-sm.white.text-overflow.btn-validate v0.10.35
-            svg.iconnables.icons-arrow-down
-              use(
-                xlink:href = "#icons-arrow-down"
-              )
-
     label.label.clearfix
 
       .label-col Start Command

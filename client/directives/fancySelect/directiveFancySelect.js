@@ -69,7 +69,8 @@ function fancySelect(
 
 
       $scope.actions = {
-        toggleSelect: function () {
+        toggleSelect: function (evt) {
+          evt.stopPropagation();
           if ($scope.isOpen) {
             closeDropdown();
           } else {
@@ -95,17 +96,19 @@ function fancySelect(
       });
 
       $scope.$watch('value', function (newValue) {
-        var matchedOption = options.find(function (option) {
-          return option.value === newValue;
-        });
-
-        if (matchedOption) {
-          options.forEach(function (option) {
-            option.selected = false;
+        $timeout(function () {
+          var matchedOption = options.find(function (option) {
+            return option.value === newValue;
           });
-          matchedOption.selected = true;
-          angular.element(element[0].querySelector('.display')).html(matchedOption.element.html());
-        }
+
+          if (matchedOption) {
+            options.forEach(function (option) {
+              option.selected = false;
+            });
+            matchedOption.selected = true;
+            angular.element(element[0].querySelector('.display')).html(matchedOption.element.html());
+          }
+        }, 0);
       });
     }
   };

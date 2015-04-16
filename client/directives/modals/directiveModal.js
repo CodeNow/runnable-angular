@@ -31,7 +31,7 @@ function modal() {
         element.on('click', openModal);
       }
       $scope.$watch('openFlag', function (n) {
-        if (n === true) {
+        if (n) {
           openModal();
         }
       });
