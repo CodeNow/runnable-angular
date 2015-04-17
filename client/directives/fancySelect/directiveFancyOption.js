@@ -16,9 +16,6 @@ function fancySelect(
     transclude: true,
     templateUrl: 'viewFancyOption',
     link: function ($scope, element, attrs, controller, transcludeFn) {
-      var transcludedContent;
-      var transclusionScope;
-
       // This is a fancy-option which always lives as a child to fancy-select.
       // We need to communicate the option and it's click events to the parent.
       $scope.config = {
@@ -35,10 +32,12 @@ function fancySelect(
 
       $scope.$parent.registerOption($scope.config);
 
-      transcludeFn($scope, function(clone, innerScope ){
+      $scope.$watch('value', function (newVal) {
+        $scope.config.value = newVal;
+      });
+
+      transcludeFn($scope, function(clone){
         element.find('li').append(clone);
-        transcludedContent = clone;
-        transclusionScope = innerScope;
       });
     }
   };
