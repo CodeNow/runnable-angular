@@ -111,32 +111,41 @@
 // card layout
 // header
 .card-header {
-  align-items: center;
-  display: flex;
-  flex: 0 0 90px;
-
-  .icons-server {
-    flex: 0 0 36px;
-    height: 36px;
-    margin: 0 6px 0 15px;
-  }
 
   .h2 {
     color: $gray;
     font-size: 16px;
-    word-break: break-word;
-  }
-
-  .p {
-    color: $gray-light;
-    font-weight: 400;
-    line-height: 1;
-    margin-left: 28px;
+    margin: 30px 0 15px;;
+    text-align: center;
   }
 
   .btn-icon {
     color: $gray;
     margin: 0 19px 0 15px;
+  }
+
+  .row {
+    margin: 0 0 6px;
+    padding: 0 15px;
+  }
+
+  // header buttons
+  .btn-xs {
+
+    &.green,
+    &.orange,
+    &.red {
+      float: left;
+    }
+
+    // toggle
+    &.white {
+      float: right;
+    }
+
+    .input-checkbox {
+      margin: 0 6px 0 0;
+    }
   }
 }
 
