@@ -120,14 +120,79 @@ section.sidebar.server-sidebar.load(
     repo-list
     show-auto-deploy = "true"
   )
-  section.manage-dns.row.explorer(
-    ng-if = "dataInstance.data.instance"
-    ng-show = "isDnsSetup"
-    dns-manager
-    instance = "dataInstance.data.instance"
-    is-dns-setup = "isDnsSetup"
-  )
-  section.row.explorer(
+
+  section.row.linked-servers
+    .row-heading
+      svg.iconnables.icons-disclose
+          use(
+            xlink:href = "#icons-disclose"
+          )
+      h2.h2 Linked Servers
+    .well
+      .well-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        p.p runnable-web
+      .branch
+        p.p.light master
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        .icons-status.running
+    .well
+      .well-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        p.p api
+      .branch
+        p.p.light error-status
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        .icons-status.building
+    .well
+      .well-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        p.p mongoDB
+        .icons-status.running
+    .well.indirect
+      .well-item
+        svg.iconnables.icons-disclose
+          use(
+            xlink:href = "#icons-disclose"
+          )
+        p.p.light Indirect Links
+        .icons-status.running
+        .icons-status.running
+        .icons-status.building
+      ul
+        li.well-item
+          svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+          p.p api
+            span.light /master
+          .icons-status.running
+        li.well-item
+          svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+          p.p mavis
+            span.light /master
+          .icons-status.running
+
+  section.row.explorer.closed(
     explorer
     edit-explorer = "false"
     file-model = "dataInstance.data.instance.containers.models[0]"

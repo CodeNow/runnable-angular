@@ -1,90 +1,128 @@
-// sidebar
 .sidebar {
   @extend %webkit-flicker;
   background: $white;
-  border-right: 1px solid rgba($black,.1);
+  border-right: 1px solid darken($white,10);
   display: flex;
   flex-direction: column;
   float: left;
+  font-size: 14px;
   height: 100vh;
-  padding: 0 15px;
+  line-height: 24px;
   position: relative;
   transition: width .2s ease-in;
   width: 240px;
   z-index: $z-sidebar;
 
-  &.nav-sidebar {
-    background: $gray-lightest;
+  .h2 {
+    font-size: 14px;
   }
 
-  .guide {
-    margin: 0 6px 9px;
+  .p {
+    display: inline;
+    font-weight: 500;
+    opacity: .9;
+  }
+
+  .light {
+    font-weight: 400;
+    opacity: .6;
+  }
+
+  .icons-status {
+    float: right;
+    margin: 10px 9px 0 0;
   }
 }
 
-.sidebar-header {
-  font-size: 21px;
-  font-weight: 500;
-  margin: 24px 0 12px;
-  padding: 0 9px;
+.row {
+  border-bottom: 1px solid darken($white,10);
+  max-height: 600px;
+  overflow: scroll;
+  padding: 0 12px 9px;
+
+  &.closed {
+    max-height: 61px;
+    overflow: hidden;
+  }
 }
 
-// h2.sub-header
-.sub-header {
-  color: $gray;
-  font-size: 13px;
-  font-weight: 400;
-  height: 45px;
-  line-height: 33px;
-  padding: 6px 6px 6px 15px;
+.closed .icons-disclose {
+  transform: rotate3d(0,0,1,-90deg);
+}
+
+.row-heading {
+  height: 60px;
   position: relative;
 
-  // all action buttons
+  .h2 {
+    left: 3px;
+    margin-left: 0;
+    position: absolute;
+    top: 23px;
+  }
+
+  .icons-disclose {
+    height: 15px;
+    left: -3px;
+    position: absolute;
+    top: 24px;
+    width: 15px;
+  }
+
   .btn {
     float: right;
-    margin: 0;
-  }
+    height: 30px;
+    margin-top: 15px;
+    padding: 0;
+    width: 30px;
 
-  // add and update buttons
-  .btn-sm,
-  .btn-xs {
-
-    &.white,
-    &.gray {
-      height: 33px;
-      padding: 0;
-      width: 33px;
+    .icons-add {
+      height: 18px;
+      margin-bottom: 5px;
+      width: 18px;
     }
-
-    &.orange {
-      font-size: 14px;
-      padding: 0 6px 0 0;
-      top: 6px;
-    }
-
-    .icons-update {
-      float: left;
-      height: 14px;
-      margin: 5px 6px 0 3px;
-      width: 14px;
-    }
-  }
-
-  // invite
-  .btn-xxs {
-    top: 7px;
-  }
-
-  // team icon
-  .icons-team {
-    color: $gray-light;
-    height: 100%;
-    margin-left: 6px;
-    width: 21px;
   }
 }
 
-// span.sub-header-text
-.sub-header-text {
-  float: left;
+.nav-sidebar {
+  background: darken($white,3);
+
+  .servers {
+    border: 0;
+  }
+
+  .server {
+    margin: 0 -12px;
+    padding: 3px 9px 5px 30px;
+    position: relative;
+
+    &.selected {
+      background-color: $purple-lightest;
+      color: $purple-light;
+
+      .light {
+        opacity: 1;
+      }
+    }
+
+    .iconnables {
+      height: 17px;
+      left: 12px;
+      position: absolute;
+      top: 7px;
+      width: 17px;
+    }
+  }
 }
+
+.server-category {
+  ul {
+    border-bottom: 1px solid darken($white,10);
+    padding: 15px 0 13px;
+  }
+
+  &:first-of-type {
+    border-top: 1px solid darken($white,10);
+  }
+}
+

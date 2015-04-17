@@ -66,6 +66,7 @@
   &.icons-close,
   &.icons-commit,
   &.icons-computer,
+  &.icons-disclose,
   &.icons-docker,
   &.icons-edit,
   &.icons-fat-check,
@@ -127,29 +128,25 @@
 // status
 .icons-status {
   background: $gray-lightest;
-  border: 1px solid $gray-light;
   border-radius: 50%;
   display: inline-block;
-  height: 9px;
+  height: 6px;
   position: relative;
-  width: 9px;
+  width: 6px;
 
   &.running,
   .running > & {
     background: $green;
-    border-color: $green-dark;
   }
 
   &.building,
   .building > & {
     background: $orange;
-    border-color: $orange-darker;
   }
 
   &.failed,
   .failed > & {
     background: $red;
-    border-color: $red-dark;
   }
 
   &.in-progress::before {
@@ -165,6 +162,30 @@
     top: 2px;
     transform: scale3d(.3,.3,.3);
     width: 17px;
+  }
+
+  &.new::after {
+    border: 1px solid $green;
+    border-radius: 50%;
+    content: '';
+    height: 12px;
+    margin-left: -3px;
+    margin-top: -3px;
+    opacity: .44;
+    position: absolute;
+    width: 12px;
+  }
+
+  &.new::before {
+    border: 1px solid $green;
+    border-radius: 50%;
+    content: '';
+    height: 18px;
+    margin-left: -6px;
+    margin-top: -6px;
+    opacity: .18;
+    position: absolute;
+    width: 18px;
   }
 }
 

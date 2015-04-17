@@ -1,15 +1,98 @@
 //- sidebar for accounts and servers
-header.header(
-  ng-include = "'viewHeader'"
-)
 
-//- nav.sidebar.nav-sidebar(
-  section.row.nav-servers(
+//- from 1068-setup
+//- header.header(
+//-   ng-include = "'viewHeader'"
+//- )
+
+nav.sidebar.nav-sidebar
+  header.nav-header.row.load(
+    accounts-select
     data = "dataApp.data"
-    instance-list
-    state = "dataApp.state"
-    actions = "dataApp.actions"
+    is-main-page = "true"
   )
+  section.row.servers
+    .row-heading
+      h2.h2 Servers
+      a.btn.btn-sm.btn-icon.white
+        svg.iconnables.icons-add
+          use(
+            xlink:href = "#icons-add"
+          )
+    ul
+      li.server-category
+        ul
+          li.server
+            svg.iconnables.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+            p.p runnable-web
+              span.light/master
+            .icons-status.running
+      li.server-category
+        ul
+          li.server
+            svg.iconnables.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+            p.p api
+              span.light /master
+            .icons-status.running
+          li.server
+            p.p
+              span.light SAN-1173-error-status
+            .icons-status.running
+          li.server.selected
+            p.p
+              span.light feature1
+            .icons-status.running
+          li.server
+            p.p
+              span.light feature2
+            .icons-status.running.new
+      li.server-category
+        ul
+          li.server
+            svg.iconnables.icons-repository
+              use(
+                xlink:href = "#icons-repository"
+              )
+            p.p mavis
+              span.light /master
+            .icons-status.running
+          li.server
+            p.p
+              span.light SAN-1173-error-status
+            .icons-status.running
+      li.server-category
+        ul
+          li.server
+            svg.iconnables.icons-repository
+              use(
+                xlink:href = "#icons-repository"
+              )
+            p.p mongoDB
+            .icons-status.running
+  footer.row.nav-footer
+    a.small.link.link-gray.link-text(
+      href = "//support.runnable.io"
+      target = "_blank"
+    )
+      .btn.btn-xs.btn-help ?
+      | Documentation
+
+
+    //- button.btn.btn-sm.btn-icon.white.btn-minimize(
+    //-   ng-class = "{active: dataApp.data.minimizeNav}"
+    //-   ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
+    //-   title = "Toggle Navigation"
+    //- )
+    //-   svg.iconnables.icons-minimize
+    //-     use(
+    //-       xlink:href = "#icons-minimize"
+        )
 
 //- 2nd level views (viewInstance, viewInstanceEdit...)
 main.content(
