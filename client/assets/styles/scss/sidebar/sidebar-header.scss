@@ -2,7 +2,6 @@
   border-bottom: 1px solid rgba($black, .1);
   flex: 0 0 auto;
   height: 72px;
-  margin: 0 -12px;
   position: relative;
   z-index: $z-sidebar-header;
 }
@@ -12,8 +11,8 @@
   background: rgba($black, 0);
   font-weight: 500;
   text-align: left;
-  width: calc(100% - 18px);
-  margin: 12px 9px;
+  width: 100%;
+  margin-top: 12px;
   padding: 0 12px;
   height: 47px;
 

@@ -29,80 +29,86 @@
   }
 
   .icons-status {
-    margin: 11px 6px 0 0;
+    margin: 10px 9px 0 0;
   }
+}
 
-  .row {
-    border-bottom: 1px solid rgba($black, .1);
-    overflow: scroll;
-    padding: 0 12px 9px;
-    max-height: 600px;
+.row {
+  border-bottom: 1px solid rgba($black, .1);
+  overflow: scroll;
+  padding: 0 12px 9px;
+  max-height: 600px;
 
-    .row-heading {
+  .row-heading {
     height: 60px;
     position: relative;
 
-      .h2 {
-        margin-left: 0;
-        top: 23px;
-        left: 3px;
-        position: absolute;
-      }
-
-      .icons-disclose {
-        left: 3px;
-        position: absolute;
-        top: 23px;
-      }
-
-      .btn {
-        width: 30px;
-        height: 30px;
-        padding: 0;
-        float: right;
-        margin-top: 15px;
-      }
+    .h2 {
+      margin-left: 0;
+      top: 23px;
+      left: 3px;
+      position: absolute;
     }
 
-    &.closed {
-      max-height: 61px;
-      overflow: hidden;
+    .icons-disclose {
+      left: -3px;
+      position: absolute;
+      top: 24px;
+      width: 15px;
+      height: 15px;
+    }
 
-      .icons-disclose {
-        transform: rotate3d(0,0,1,-90deg);
+    .btn {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      float: right;
+      margin-top: 15px;
+
+      .icons-add {
+        width: 18px;
+        height: 18px;
+        margin-bottom: 5px;
       }
     }
   }
 
+  &.closed {
+    max-height: 61px;
+    overflow: hidden;
+
+    .icons-disclose {
+      transform: rotate3d(0,0,1,-90deg);
+    }
+  }
 }
 
 .nav-sidebar {
   background: rgba($black, .03);
-  padding: 0 12px;
 
-    > ul {
-      border-top: 1px solid rgba($black, .1);
-    }
+  .servers {
+    border-bottom: none;
+  }
 
-    ul {
-
-      &:first-of-type {
-        border-bottom: 1px solid rgba($black, .1);
-      }
-
+  .server-category {
     ul {
       padding: 15px 0 13px;
+      border-bottom: 1px solid rgba($black, .1);
+    }
+
+    &:first-of-type {
+      border-top: 1px solid rgba($black, .1);
     }
   }
 
   .server {
     margin: 0 -12px;
-    padding: 2px 9px 5px 30px;
+    padding: 3px 9px 5px 30px;
     position: relative;
 
     &.selected {
-      background-color: #F0E6F7;
-      color: #A95BD9;
+      background-color: #eee1f7;
+      color: #A757D9;
 
       .light {
         opacity: 1;
@@ -111,7 +117,7 @@
 
     .iconnables {
       left: 12px;
-      top: 6px;
+      top: 7px;
       height: 17px;
       position: absolute;
       width: 17px;

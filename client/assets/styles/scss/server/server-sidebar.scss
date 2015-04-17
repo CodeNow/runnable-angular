@@ -4,21 +4,24 @@
   height: calc(100vh - 72px);
   width: 300px;
 
+  .row-heading .h2 {
+    left: 15px;
+  }
+
   .well {
     background-color: rgba($black, .03);
     border: 1px solid rgba($black, .1);
     border-radius: 3px;
-    box-sizing: border-box;
-    padding: 1px 0 2px;
     position: relative;
-    margin: 0 0 9px;
+    margin: 0;
 
     .iconnables {
       height: 17px;
       position: absolute;
       width: 17px;
+      left: 4px;
+      top: 4px;
     }
-
   }
 
   .repo-list {
@@ -28,27 +31,32 @@
     overflow-y: auto;
     padding-bottom: 9px;
 
+    .well {
+      padding: 5px 3px 6px;
+    }
+
+    // .repository-group .label-checkbox {
+    //   margin-top: 3px;
+    //   padding: 0 3px;
+    //   line-height: 37px;
+    //   color: rgba($gray-darker, .6);
+
+    //   .input-checkbox {
+    //     margin: 0 7px 0 0;
+    //   }
+
+    // }
+
     .repository-group-item {
       line-height: 23px;
-
-      // .well {
-      //   padding: 8px 0 9px;
-      //   margin-bottom: 0;
-      // }
-
-      // .iconnables {
-      //   left: 6px;
-      //   top: 4px;
-      // }
     }
 
     .repository-group-text {
       cursor: pointer;
-      padding: 12px 30px 12px 0;
       transition: all .15s ease-in;
 
       &:hover {
-        background: rgba($gray-darker,.125);
+        background: #eaeaea;
       }
 
       &:active,
@@ -77,8 +85,9 @@
 
     .repository-description {
       color: rgba($gray-darker,.9);
+      font-weight: 500;
       line-height: 24px;
-      padding-left: 25px;
+      padding-left: 23px;
       position: relative;
       word-break: break-word;
 
@@ -92,9 +101,10 @@
       display: block;
       font-size: 12px;
       white-space: nowrap;
+      margin-top: -1px;
 
       .link {
-        color: #A95BD9;
+        color: #A757D9;
         float: right;
         margin-right: 26px;
       }
@@ -104,28 +114,54 @@
   .linked-servers {
 
     .p {
-      margin-left: 25px;
+      margin-left: 23px;
     }
 
-    .item {
-      padding: 2px 6px 5px 0;
+    .well {
+      margin-bottom: 9px;
+    }
+
+    .server {
+      padding: 4px 0 5px;
       position: relative;
+
+      .iconnables {
+        top: 8px;
+      }
     }
 
     .indirect {
-      overflow: hidden;
-      padding-bottom: 6px;
+      padding-bottom: 3px;
+      max-height: 2000px;
+
+      .p {
+        line-height: 25px;
+      }
 
       .icons-disclose {
         opacity: .6;
       }
+
+      &.closed {
+        max-height: 36px;
+        overflow: hidden;
+        padding-bottom: 0;
+
+        .icons-disclose {
+          transform: rotate3d(0,0,1,-90deg);
+        }
+      }
+
+      ul .server {
+        margin-top: -6px;
+      }
     }
 
-    .select {
+    .branch {
       border-left: 1px solid rgba($black, .1);
       cursor: pointer;
       height: 100%;
-      padding: 3px 6px 3px 0;
+      padding: 4px 3px 5px 0;
       position: absolute;
       right: 0;
       top: 0;
@@ -137,7 +173,6 @@
       }
 
       .icons-arrow-down {
-        margin-left: 2px;
         opacity: .6;
         position: relative;
         top: 4px;
@@ -145,21 +180,17 @@
       }
 
       &:hover {
-        background-color: rgba($black, .05);
+        background-color: #eaeaea;
       }
     }
   }
 
   .explorer {
-
+    flex: 0 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 15px;
   }
-}
-
-.explorer {
-  flex: 0 1 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-bottom: 15px;
 }
 
 .spinner-wrapper {

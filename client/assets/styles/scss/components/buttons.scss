@@ -240,7 +240,8 @@
   &.btn {
 
     &:hover {
-      background: rgba($gray-darker,.125);
+      // background: rgba($gray-darker,.125);
+      background: #eaeaea;
       border-color: rgba($gray-darker,.15);
     }
 

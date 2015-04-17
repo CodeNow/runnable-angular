@@ -1,11 +1,13 @@
 // footer.row.nav-footer
 .nav-footer {
-  box-shadow: 0 -3px 6px rgba($black, .03);
+  background-color: #f7f7f7;
+  box-shadow: 0 -3px 6px #f7f7f7;
   flex: 0 0 auto;
   height: 45px;
-  padding: 9px 13px;
+  padding: 9px 12px;
   position: absolute;
   bottom: 0;
+  width: 100%;
   z-index: $z-sidebar-footer;
 
   // documentation
@@ -16,6 +18,7 @@
   // help
   .btn-help {
     float: left;
-    margin-right: 4px;
+    margin-right: 6px;
+    font-size: 15px;
   }
 }

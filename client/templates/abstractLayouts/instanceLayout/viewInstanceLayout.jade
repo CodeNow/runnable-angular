@@ -8,74 +8,67 @@ nav.sidebar.nav-sidebar
   section.row.servers
     .row-heading
       h2.h2 Servers
-      a.btn.btn-sm.btn.icon.white
+      a.btn.btn-sm.btn-icon.white
         svg.iconnables.icons-add
           use(
             xlink:href = "#icons-add"
           )
-  ul
-    li
-      ul
-        li.server
-          svg.iconnables.icons-repository
+    ul
+      li.server-category
+        ul
+          li.server
+            svg.iconnables.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+            p.p runnable-web
+              span.light/master
+            .icons-status.running
+      li.server-category
+        ul
+          li.server
+            svg.iconnables.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+            p.p api
+              span.light /master
+            .icons-status.running
+          li.server
+            p.p
+              span.light SAN-1173-error-status
+            .icons-status.running
+          li.server.selected
+            p.p
+              span.light feature1
+            .icons-status.running
+          li.server
+            p.p
+              span.light feature2
+            .icons-status.running.new
+      li.server-category
+        ul
+          li.server
+            svg.iconnables.icons-repository
               use(
                 xlink:href = "#icons-repository"
               )
-          p.p runnable-web
-            span.light/master
-          .icons-status.running
-    li
-      ul
-        li.server
-          svg.iconnables.icons-repository
+            p.p mavis
+              span.light /master
+            .icons-status.running
+          li.server
+            p.p
+              span.light SAN-1173-error-status
+            .icons-status.running
+      li.server-category
+        ul
+          li.server
+            svg.iconnables.icons-repository
               use(
                 xlink:href = "#icons-repository"
               )
-          p.p api
-            span.light /master
-          .icons-status.running
-        li.server
-          p.p
-            span.light SAN-1173-error-status
-          .icons-status.running
-        li.server.selected
-          p.p
-            span.light feature1
-          .icons-status.running
-        li.server
-          p.p
-            span.light feature2
-          .icons-status.running.new
-    li
-      ul
-        li.server
-          svg.iconnables.icons-repository
-            use(
-              xlink:href = "#icons-repository"
-            )
-          p.p mavis
-            span.light /master
-          .icons-status.running
-        li.server
-          p.p
-            span.light SAN-1173-error-status
-          .icons-status.running
-    li
-      ul
-        li.server
-          svg.iconnables.icons-repository
-            use(
-              xlink:href = "#icons-repository"
-            )
-          p.p mongoDB
-          .icons-status.running
-
-  //- section.row.nav-servers(
-  //-   data = "dataApp.data"
-  //-   instance-list
-  //-   state = "dataApp.state"
-  //-   actions = "dataApp.actions"
-  //- )
+            p.p mongoDB
+            .icons-status.running
   footer.row.nav-footer
     a.small.link.link-gray.link-text(
       href = "//support.runnable.io"
