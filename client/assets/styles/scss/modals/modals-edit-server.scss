@@ -96,7 +96,7 @@
 
   // override sidebar
   .sidebar {
-    border: 0;
+    border-right-width: 2px;
     height: auto;
     padding: 0;
     width: 180px;
@@ -121,10 +121,5 @@
 
   .file-tree {
     margin: 3px;
-  }
-
-  // border on editor instead of sidebar
-  .pre {
-    border-left: 1px solid $gray-lighter;
   }
 }
