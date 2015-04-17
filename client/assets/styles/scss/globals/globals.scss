@@ -19,7 +19,9 @@ body {
   // display: flex;
   // flex-direction: column;
   // height: calc(100vh - 60px);
-  // width: calc(100vw - 240px);
+  width: calc(100vw - 240px);
+  position: absolute;
+  right: 0;
 }
 
 // svg files
