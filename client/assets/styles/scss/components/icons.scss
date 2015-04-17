@@ -152,26 +152,26 @@
   }
 
   &.new::after {
-    content: "";
-    width: 12px;
-    height: 12px;
-    position: absolute;
+    border: 1px solid $green;
     border-radius: 50%;
-    border: 1px solid #1DD156;
+    content: '';
+    height: 12px;
     margin-left: -3px;
     margin-top: -3px;
-    opacity: .4;
+    opacity: .44;
+    position: absolute;
+    width: 12px;
   }
 
   &.new::before {
-    content: "";
-    width: 18px;
-    height: 18px;
-    position: absolute;
+    border: 1px solid $green;
     border-radius: 50%;
-    border: 1px solid #1DD156;
+    content: '';
+    height: 18px;
     margin-left: -6px;
     margin-top: -6px;
-    opacity: .15;
+    opacity: .18;
+    position: absolute;
+    width: 18px;
   }
 }

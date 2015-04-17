@@ -129,7 +129,7 @@ section.sidebar.server-sidebar.load(
           )
       h2.h2 Linked Servers
     .well
-      .server
+      .well-item
         svg.iconnables.icons-repository
           use(
             xlink:href = "#icons-repository"
@@ -143,7 +143,7 @@ section.sidebar.server-sidebar.load(
           )
         .icons-status.running
     .well
-      .server
+      .well-item
         svg.iconnables.icons-repository
           use(
             xlink:href = "#icons-repository"
@@ -157,7 +157,7 @@ section.sidebar.server-sidebar.load(
           )
         .icons-status.building
     .well
-      .server
+      .well-item
         svg.iconnables.icons-repository
           use(
             xlink:href = "#icons-repository"
@@ -165,7 +165,7 @@ section.sidebar.server-sidebar.load(
         p.p mongoDB
         .icons-status.running
     .well.indirect
-      .server
+      .well-item
         svg.iconnables.icons-disclose
           use(
             xlink:href = "#icons-disclose"
@@ -175,7 +175,7 @@ section.sidebar.server-sidebar.load(
         .icons-status.running
         .icons-status.building
       ul
-        li.server
+        li.well-item
           svg.iconnables.icons-repository
             use(
               xlink:href = "#icons-repository"
@@ -183,7 +183,7 @@ section.sidebar.server-sidebar.load(
           p.p api
             span.light /master
           .icons-status.running
-        li.server
+        li.well-item
           svg.iconnables.icons-repository
             use(
               xlink:href = "#icons-repository"
@@ -191,6 +191,7 @@ section.sidebar.server-sidebar.load(
           p.p mavis
             span.light /master
           .icons-status.running
+
   section.row.explorer.closed(
     explorer
     edit-explorer = "false"

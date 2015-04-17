@@ -234,14 +234,14 @@
 
 .gray {
   background: rgba($gray-darker,.0675);
-  border-color: darken($white, 10%);
+  border-color: darken($white,10);
   color: $gray;
 
   &.btn {
 
     &:hover {
-      background: $gray-lightest;
-      border-color: rgba($gray-darker,.15);
+      background: darken($white,9);
+      border-color: darken($white,18);
     }
 
     &:active,

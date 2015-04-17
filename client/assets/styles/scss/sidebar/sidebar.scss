@@ -1,7 +1,7 @@
 .sidebar {
   @extend %webkit-flicker;
   background: $white;
-  border-right: 1px solid rgba($black, .1);
+  border-right: 1px solid darken($white,10);
   display: flex;
   flex-direction: column;
   float: left;
@@ -35,71 +35,60 @@
 }
 
 .row {
-  border-bottom: 1px solid rgba($black, .1);
+  border-bottom: 1px solid darken($white,10);
   max-height: 600px;
   overflow: scroll;
   padding: 0 12px 9px;
 
-  .row-heading {
-    height: 60px;
-    position: relative;
-
-    .h2 {
-      left: 3px;
-      margin-left: 0;
-      position: absolute;
-      top: 23px;
-    }
-
-    .icons-disclose {
-      height: 15px;
-      left: -3px;
-      position: absolute;
-      top: 24px;
-      width: 15px;
-    }
-
-    .btn {
-      float: right;
-      height: 30px;
-      margin-top: 15px;
-      padding: 0;
-      width: 30px;
-
-      .icons-add {
-        height: 18px;
-        margin-bottom: 5px;
-        width: 18px;
-      }
-    }
-  }
-
   &.closed {
     max-height: 61px;
     overflow: hidden;
+  }
+}
 
-    .icons-disclose {
-      transform: rotate3d(0,0,1,-90deg);
+.closed .icons-disclose {
+  transform: rotate3d(0,0,1,-90deg);
+}
+
+.row-heading {
+  height: 60px;
+  position: relative;
+
+  .h2 {
+    left: 3px;
+    margin-left: 0;
+    position: absolute;
+    top: 23px;
+  }
+
+  .icons-disclose {
+    height: 15px;
+    left: -3px;
+    position: absolute;
+    top: 24px;
+    width: 15px;
+  }
+
+  .btn {
+    float: right;
+    height: 30px;
+    margin-top: 15px;
+    padding: 0;
+    width: 30px;
+
+    .icons-add {
+      height: 18px;
+      margin-bottom: 5px;
+      width: 18px;
     }
   }
 }
 
 .nav-sidebar {
-  background: rgba($black, .03);
+  background: darken($white,3);
 
   .servers {
     border: 0;
-  }
-
-  .server-category {
-    ul {
-      border-bottom: 1px solid rgba($black, .1);
-      padding: 15px 0 13px;
-    }
-
-    &:first-of-type {
-      border-top: 1px solid rgba($black, .1);
-    }
   }
 
   .server {
@@ -125,3 +114,15 @@
     }
   }
 }
+
+.server-category {
+  ul {
+    border-bottom: 1px solid darken($white,10);
+    padding: 15px 0 13px;
+  }
+
+  &:first-of-type {
+    border-top: 1px solid darken($white,10);
+  }
+}
+
