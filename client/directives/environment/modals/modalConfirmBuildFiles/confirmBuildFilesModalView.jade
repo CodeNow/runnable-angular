@@ -1,0 +1,96 @@
+form.modal-dialog.modal-edit-server(
+  name = 'editServerForm'
+  ng-click = "$event.stopPropagation()"
+)
+  header.modal-header
+    p.p Configuring api
+    label.btn.btn-xs.gray
+      input.input-checkbox(
+        ng-click = "changeTab('buildfiles')"
+        ng-model = "data.revealBuildfiles"
+        type = "checkbox"
+      )
+      | Show Dockerfile
+    .row.modal-tabs
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'buildfiles'}"
+        ng-click = "changeTab('buildfiles')"
+        ng-show = "data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Build Files
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'stack'}"
+        ng-click = "changeTab('stack')"
+        ng-hide = "data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Stack
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'command'}"
+        ng-click = "changeTab('command')"
+        ng-hide = "data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Start Command
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'ports'}"
+        ng-click = "changeTab('ports')"
+        ng-hide = "data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Ports
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'env'}"
+        ng-click = "changeTab('env')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Environment Variables
+
+
+  section.modal-body
+    .modal-form(
+      ng-show = "stateModel === 'buildfiles'"
+      ng-include = "'viewFormBuildfiles'"
+    )
+    .modal-form(
+      ng-show = "stateModel === 'stack'"
+      ng-include = "'viewFormStack'"
+    )
+    .modal-form(
+      ng-show = "stateModel === 'command'"
+      ng-include = "'viewFormStartCommand'"
+    )
+    .modal-form(
+      ng-show = "stateModel === 'ports'"
+      ng-include = "'viewFormPorts'"
+    )
+    .modal-form(
+      ng-show = "stateModel === 'env'"
+      ng-include = "'viewFormEnvironmentVariables'"
+    )
+
+  footer.modal-footer.clearfix
+    //- disabled if no changes
+    button.btn.green(
+      ng-click = "defaultActions.cancel()"
+    )  {{ (state.validation.env.length) ? (state.validation.env.length) + ' env errors' : 'Save Changes'}}
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel()"
+      type = "button"
+    ) Cancel
