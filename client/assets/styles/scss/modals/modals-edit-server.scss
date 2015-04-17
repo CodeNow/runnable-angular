@@ -9,11 +9,14 @@
       margin-top: 6px;
     }
 
-    .icons-gear {
-      cursor: pointer;
-      float: right;
-      pointer-events: auto;
-      top: 6px;
+    .btn-xs {
+      position: absolute;
+      right: 15px;
+      top: 12px;
+    }
+
+    .input-checkbox {
+      margin: 0 6px 0 0;
     }
   }
 
