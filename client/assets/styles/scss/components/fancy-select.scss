@@ -5,10 +5,17 @@
   border-radius: 3px;
   box-shadow: 0 2px 3px rgba($black,.1);
   margin-top: 2px;
+  max-height: calc(100vh - 48px);
   max-width: 300px;
   padding: 4px 0;
+  pointer-events: none;
   position: absolute;
+  transform-origin: 50% 25%;
   z-index: $z-popover;
+
+  &.in {
+    pointer-events: auto;
+  }
 
   // li.divider
   .divider {
