@@ -1,21 +1,17 @@
-.fancy-select
-  button.btn.btn-sm.white.text-overflow.btn-validate.active(
-    ng-click = "actions.toggleSelect($event)"
-  )
-    .placeholder(
-      ng-if = "!value"
-    ) {{placeholder}}
-    .display
-    svg.iconnables.icons-arrow-down
-      use(
-        xmlns:xlink = "http://www.w3.org/1999/xlink"
-        xlink:href = "#icons-arrow-down"
-      )
+button.btn.btn-sm.white.text-overflow.btn-validate(
+  ng-click = "actions.toggleSelect($event)"
+)
+  .placeholder(
+    ng-if = "!value"
+  ) {{placeholder}}
+  .display
+  svg.iconnables.icons-arrow-down
+    use(
+      xmlns:xlink = "http://www.w3.org/1999/xlink"
+      xlink:href = "#icons-arrow-down"
+    )
 
-  ul.fancy-select-dropdown.popover-list(
+  ul.fancy-select(
     ng-class = "{'in': isOpen}"
     ng-style = "getDropdownStyles()"
   )
-
-
-

@@ -10,6 +10,7 @@ function fancySelect(
   $timeout
 ) {
   return {
+    replace: true,
     restrict: 'E',
     templateUrl: 'viewFancySelect',
     transclude: true,
@@ -58,7 +59,7 @@ function fancySelect(
         if (!positionDropdown) {
           return;
         }
-        var button = element.find('button')[0];
+        var button = element[0];
         var boundingRect = button.getBoundingClientRect();
 
         return {

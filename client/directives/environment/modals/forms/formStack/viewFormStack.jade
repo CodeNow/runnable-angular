@@ -3,15 +3,15 @@
 
   .input-col
     fancy-select(
-      value = "currentModel.selectedStack"
       placeholder = "Select language/framework"
+      value = "currentModel.selectedStack"
     )
       li.list-item.popover-list-item.small(
         ng-if = "$parent.currentModel.repo.stackAnalysis.languageFramework"
       ) Suggested Language/Framework
       fancy-option(
-        value = "framework"
         ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.currentModel.repo.stackAnalysis.languageFramework }"
+        value = "framework"
       )
         svg.iconnables.icons-server
           use(
@@ -23,8 +23,8 @@
         ng-if = "$parent.currentModel.repo.stackAnalysis.languageFramework"
       )
       fancy-option(
-        value = "framework"
         ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.currentModel.repo.stackAnalysis.languageFramework } | orderBy:'name'"
+        value = "framework"
       )
         svg.iconnables.icons-server
           use(

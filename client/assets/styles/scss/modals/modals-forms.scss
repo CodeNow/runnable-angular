@@ -58,7 +58,7 @@
     }
 
     // buttons
-    > .btn {
+    .btn {
       display: block;
       font-size: 16px;
       padding: 0 24px 0 6px;
@@ -84,6 +84,7 @@
     .icons-arrow-down {
       position: absolute;
       right: 3px;
+      top: 0;
     }
 
     // small labels

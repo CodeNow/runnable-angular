@@ -1,26 +1,19 @@
-.fancy-select-dropdown{
+.fancy-select {
+  animation: popover-in .15s ease-in forwards;
   background: rgba($white,.975);
-  border: 1px solid rgba($black,.1);
+  border: 2px solid $gray-lighter;
   border-radius: 3px;
-  box-shadow: 0 0 30px rgba($black,.12);
-  cursor: default; // if popover is within an element with a different cursor
-  left: 0;
+  box-shadow: 0 2px 3px rgba($black,.1);
+  margin-top: 2px;
   max-width: 300px;
-  opacity: 0;
-  pointer-events: none;
+  padding: 4px 0;
   position: absolute;
-  text-align: left;
-  top: 0;
-  transform: scale3d(.9,.9,1);
-  transition: transform .2s ease-in, opacity .2s ease-in;
-  white-space: normal;
-  z-index: $z-fancy-select;
-  display: none;
+  z-index: $z-popover;
 
-  &.in {
-    opacity: 1;
-    pointer-events: auto;
-    transform: scale3d(1,1,1);
-    display: block;
+  // li.divider
+  .divider {
+    background: rgba($black,.1);
+    margin: 3px 0;
+    min-height: 1px;
   }
 }
