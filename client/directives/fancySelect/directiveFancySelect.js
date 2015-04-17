@@ -62,9 +62,17 @@ function fancySelect(
         var button = element[0];
         var boundingRect = button.getBoundingClientRect();
 
+
+        var padding = 24;
+        var top = boundingRect.top + button.offsetHeight;
+        if (list[0].offsetHeight + top > $document.find('body')[0].offsetHeight - padding) {
+          top =  $document.find('body')[0].offsetHeight - padding - list[0].offsetHeight;
+        }
+
         return {
-          top: boundingRect.top + button.offsetHeight + 'px',
-          left: boundingRect.left + 'px'
+          top: top + 'px',
+          left: boundingRect.left + 'px',
+          minWidth: button.offsetWidth + 'px'
         };
       };
 

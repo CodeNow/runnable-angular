@@ -9,11 +9,6 @@ describe('directiveFancySelect'.bold.underline.blue, function () {
 
   function initState() {
     angular.mock.module('app');
-    //angular.mock.module(function ($provide) {
-    //  $provide.value('modelist', {
-    //    getModeForPath: getModeForPathSpy
-    //  });
-    //});
     angular.mock.inject(function ($compile, _$rootScope_, _$document_) {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
