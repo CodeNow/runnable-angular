@@ -13,7 +13,10 @@
             )
           span.item-name /
         ul
-          li.file.not-toggleable
+          li.file.not-toggleable(
+            tooltip = "Your repository lives here"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
+          )
             a
               svg.iconnables.filetypes.icons-repository
                 use(
