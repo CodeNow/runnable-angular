@@ -12,15 +12,15 @@
     background-color: rgba($black, .03);
     border: 1px solid rgba($black, .1);
     border-radius: 3px;
-    position: relative;
     margin: 0;
+    position: relative;
 
     .iconnables {
       height: 17px;
-      position: absolute;
-      width: 17px;
       left: 4px;
+      position: absolute;
       top: 4px;
+      width: 17px;
     }
   }
 
@@ -56,7 +56,7 @@
       transition: all .15s ease-in;
 
       &:hover {
-        background: #eaeaea;
+        background: $gray-lightest;
       }
 
       &:active,
@@ -100,11 +100,11 @@
     .repository-detail {
       display: block;
       font-size: 12px;
-      white-space: nowrap;
       margin-top: -1px;
+      white-space: nowrap;
 
       .link {
-        color: #A757D9;
+        color: $purple-light;
         float: right;
         margin-right: 26px;
       }
@@ -131,8 +131,8 @@
     }
 
     .indirect {
-      padding-bottom: 3px;
       max-height: 2000px;
+      padding-bottom: 3px;
 
       .p {
         line-height: 25px;
@@ -165,8 +165,8 @@
       position: absolute;
       right: 0;
       top: 0;
-      width: 50%;
       transition: all .15s ease-in;
+      width: 50%;
 
       .p {
         margin-left: 12px;
@@ -180,7 +180,7 @@
       }
 
       &:hover {
-        background-color: #eaeaea;
+        background-color: $gray-lightest;
       }
     }
   }
@@ -194,6 +194,6 @@
 }
 
 .spinner-wrapper {
-    align-items: flex-start;
-    top: 60px;
+  align-items: flex-start;
+  top: 60px;
 }

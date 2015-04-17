@@ -29,46 +29,47 @@
   }
 
   .icons-status {
+    float: right;
     margin: 10px 9px 0 0;
   }
 }
 
 .row {
   border-bottom: 1px solid rgba($black, .1);
+  max-height: 600px;
   overflow: scroll;
   padding: 0 12px 9px;
-  max-height: 600px;
 
   .row-heading {
     height: 60px;
     position: relative;
 
     .h2 {
-      margin-left: 0;
-      top: 23px;
       left: 3px;
+      margin-left: 0;
       position: absolute;
+      top: 23px;
     }
 
     .icons-disclose {
+      height: 15px;
       left: -3px;
       position: absolute;
       top: 24px;
       width: 15px;
-      height: 15px;
     }
 
     .btn {
-      width: 30px;
-      height: 30px;
-      padding: 0;
       float: right;
+      height: 30px;
       margin-top: 15px;
+      padding: 0;
+      width: 30px;
 
       .icons-add {
-        width: 18px;
         height: 18px;
         margin-bottom: 5px;
+        width: 18px;
       }
     }
   }
@@ -87,13 +88,13 @@
   background: rgba($black, .03);
 
   .servers {
-    border-bottom: none;
+    border: 0;
   }
 
   .server-category {
     ul {
-      padding: 15px 0 13px;
       border-bottom: 1px solid rgba($black, .1);
+      padding: 15px 0 13px;
     }
 
     &:first-of-type {
@@ -107,8 +108,8 @@
     position: relative;
 
     &.selected {
-      background-color: #eee1f7;
-      color: #A757D9;
+      background-color: $purple-lightest;
+      color: $purple-light;
 
       .light {
         opacity: 1;
@@ -116,10 +117,10 @@
     }
 
     .iconnables {
-      left: 12px;
-      top: 7px;
       height: 17px;
+      left: 12px;
       position: absolute;
+      top: 7px;
       width: 17px;
     }
   }
