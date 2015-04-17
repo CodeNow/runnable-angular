@@ -1,0 +1,29 @@
+.clearfix
+  .label-col Build Files
+
+//- table of current environment variables
+.ace-container.ace-build-files
+  .sidebar
+    ul.file-tree
+      li.folder
+        a
+          svg.iconnables.filetypes.icons-folder
+            use(
+              xlink:href = "#icons-folder")
+          span.item-name /
+    .sidebar-actions
+      button.btn.btn-xs.gray
+        svg.iconnables.icons-add
+          use(
+            xlink:href = "#icons-add"
+          )
+
+  pre.pre(
+    ui-ace
+  )
+
+small.small 😌🐻✌️ #{''}
+  a.link(
+    href = "//google.com"
+    target = "_blank"
+  ) More about build files

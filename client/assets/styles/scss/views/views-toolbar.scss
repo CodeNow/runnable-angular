@@ -1,7 +1,8 @@
 // toolbar
 .views-toolbar {
   @extend %webkit-flicker;
-  border-bottom: 1px solid rgba($black,.1);
+  background: $white;
+  border-bottom: 1px solid $gray-lighter;
   flex: 0 0 45px;
   overflow: visible;
   position: relative;

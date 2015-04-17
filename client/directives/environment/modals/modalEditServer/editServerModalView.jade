@@ -4,10 +4,36 @@ form.modal-dialog.modal-edit-server(
 )
   header.modal-header
     p.p Configuring api
-    .row
+      //- revealBuildfiles is actually toggled in the popover
+      svg.iconnables.icons-gear(
+        ng-click = "\
+          data.revealBuildfiles = !data.revealBuildfiles;\
+          changeTab('buildfiles');\
+        "
+        pop-over
+        pop-over-actions = "actions"
+        pop-over-data = "data"
+        pop-over-options = "{\"left\":-133,\"top\":45}"
+        pop-over-template = "viewPopoverServerActions"
+      )
+        use(
+          xlink:href = "#icons-gear"
+        )
+    .row.modal-tabs
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'buildfiles'}"
+        ng-click = "changeTab('buildfiles')"
+        ng-show = "data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Build Files
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'stack'}"
         ng-click = "changeTab('stack')"
+        ng-hide = "data.revealBuildfiles"
       )
         svg.iconnables.icons-terminal
           use(
@@ -17,6 +43,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'command'}"
         ng-click = "changeTab('command')"
+        ng-hide = "data.revealBuildfiles"
       )
         svg.iconnables.icons-terminal
           use(
@@ -26,6 +53,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'ports'}"
         ng-click = "changeTab('ports')"
+        ng-hide = "data.revealBuildfiles"
       )
         svg.iconnables.icons-terminal
           use(
@@ -44,6 +72,10 @@ form.modal-dialog.modal-edit-server(
 
 
   section.modal-body
+    .modal-form(
+      ng-show = "stateModel === 'buildfiles'"
+      ng-include = "'viewFormBuildfiles'"
+    )
     .modal-form(
       ng-show = "stateModel === 'stack'"
       ng-include = "'viewFormStack'"
