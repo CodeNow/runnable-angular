@@ -6,7 +6,7 @@ label.label.clearfix
     input.input.input-sm.input-validate.monospace(
       required
       ng-disabled = "startCommandCanDisable && !currentModel.selectedStack.selectedVersion"
-      value = "npm start"
+      ng-model = "currentModel.startCommand"
 
       pop-over
       pop-over-actions = "popoverStartCommand.actions"

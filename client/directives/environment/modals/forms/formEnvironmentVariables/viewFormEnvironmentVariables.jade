@@ -2,8 +2,10 @@
   .label-col Environment Variables
 
 //- table of current environment variables
-pre.pre(
-  ui-ace
+pre(
+  env-vars
+  state-model = "currentModel.opts"
+  validation = "validation.env"
 )
 .table-actions.clearfix(
   ng-include = "'viewEnvironmentVariableActions'"
