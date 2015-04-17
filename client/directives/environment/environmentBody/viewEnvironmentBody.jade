@@ -28,7 +28,13 @@
       )
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     //- h2.h2 {{ server.opts.name }}
-    button.btn.btn-sm.btn-icon
+    button.btn.btn-sm.btn-icon(
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-data = "data"
+      pop-over-options = "{\"left\":-133,\"top\":45}"
+      pop-over-template = "viewPopoverServerActions"
+    )
       svg.iconnables.icons-gear
         use(
           xlink:href = "#icons-gear"

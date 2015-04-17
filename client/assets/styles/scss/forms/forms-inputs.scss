@@ -111,6 +111,7 @@
 
 // input[type="checkbox"].input-checkbox
 .input-checkbox {
+  -webkit-appearance: checkbox;
   float: left;
   height: 100%;
   margin: 0 15px 0 3px;
