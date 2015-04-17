@@ -31,7 +31,10 @@ function ControllerEnvironment(
   $scope.data = {
   };
   $scope.state = {
-    newServers: []
+    newServers: [],
+    validation: {
+      env: {}
+    }
   };
   $scope.actions = {
     selectAccount: function (account) {
@@ -77,7 +80,9 @@ function ControllerEnvironment(
     },
     addNewServer: function (newServerModel, cb) {
       $scope.state.newServers.push(newServerModel);
-      newServerModel.ports = newServerModel.selectedStack.ports;
+      if (newServerModel.selectedStack.ports) {
+        newServerModel.ports = newServerModel.selectedStack.ports.replace(/ /g, '').split(',');
+      }
       return (typeof cb === 'function') ? cb() : null;
     }
   };

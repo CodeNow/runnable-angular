@@ -1,14 +1,13 @@
 form.modal-dialog.modal-edit-server(
+  name = 'editServerForm'
   ng-click = "$event.stopPropagation()"
-  ng-init = "data.formDirty = false;"
 )
   header.modal-header
     p.p Configuring api
     .row
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'stack'}"
-        ng-click = "stateModel = 'stack'"
-        type = "button"
+        ng-click = "changeTab('stack')"
       )
         svg.iconnables.icons-terminal
           use(
@@ -17,8 +16,7 @@ form.modal-dialog.modal-edit-server(
         span.btn-text Stack
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'command'}"
-        ng-click = "stateModel = 'command'"
-        type = "button"
+        ng-click = "changeTab('command')"
       )
         svg.iconnables.icons-terminal
           use(
@@ -27,8 +25,7 @@ form.modal-dialog.modal-edit-server(
         span.btn-text Start Command
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'ports'}"
-        ng-click = "stateModel = 'ports'"
-        type = "button"
+        ng-click = "changeTab('ports')"
       )
         svg.iconnables.icons-terminal
           use(
@@ -37,8 +34,7 @@ form.modal-dialog.modal-edit-server(
         span.btn-text Ports
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'env'}"
-        ng-click = "stateModel = 'env'"
-        type = "button"
+        ng-click = "changeTab('env')"
       )
         svg.iconnables.icons-terminal
           use(
@@ -49,28 +45,28 @@ form.modal-dialog.modal-edit-server(
 
   section.modal-body
     .modal-form(
-      ng-if = "stateModel === 'stack'"
+      ng-show = "stateModel === 'stack'"
       ng-include = "'viewFormStack'"
     )
     .modal-form(
-      ng-if = "stateModel === 'command'"
+      ng-show = "stateModel === 'command'"
       ng-include = "'viewFormStartCommand'"
     )
     .modal-form(
-      ng-if = "stateModel === 'ports'"
+      ng-show = "stateModel === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-if = "stateModel === 'env'"
+      ng-show = "stateModel === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
 
   footer.modal-footer.clearfix
     //- disabled if no changes
     button.btn.green(
-      ng-disabled = "!data.formDirty"
-    ) Save Changes
+      ng-click = "defaultActions.cancel()"
+    )  {{ (state.validation.env.length) ? (state.validation.env.length) + ' env errors' : 'Save Changes'}}
     button.btn.white.btn-cancel(
-      ng-click = "stateModel = null; defaultActions.cancel()"
+      ng-click = "defaultActions.cancel()"
       type = "button"
     ) Cancel
