@@ -28,7 +28,11 @@
       )
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     //- h2.h2 {{ server.opts.name }}
-    //- p.p {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
+    button.btn.btn-sm.btn-icon
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
   ul.card-body
     li.btn.white(
       ng-click = "server.openEditOnStep = 'stack'"
