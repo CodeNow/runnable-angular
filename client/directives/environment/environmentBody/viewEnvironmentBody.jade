@@ -26,18 +26,18 @@
       use.status-green(
         xlink:href = "#icons-status-green"
       )
-    h2.h2 {{ server.opts.name }}
-    p.p {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
+    h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
+    //- h2.h2 {{ server.opts.name }}
+    //- p.p {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
   ul.card-body
     li.btn.white(
       ng-click = "server.openEditOnStep = 'stack'"
     )
-      h3.h3
-        svg.iconnables.icons-terminal
-          use(
-            xlink:href = "#icons-terminal"
-          )
-        | Stack
+      svg.iconnables.icons-terminal
+        use(
+          xlink:href = "#icons-terminal"
+        )
+      h3.h3 Stack
       p.p {{ server.selectedStack.name }} v{{ server.selectedVersion }}
       svg.iconnables.icons-arrow-down
         use(
@@ -46,12 +46,11 @@
     li.btn.white(
       ng-click = "server.openEditOnStep = 'command'"
     )
-      h3.h3
-        svg.iconnables.icons-terminal
-          use(
-            xlink:href = "#icons-terminal"
-          )
-        | Start Command
+      svg.iconnables.icons-terminal
+        use(
+          xlink:href = "#icons-terminal"
+        )
+      h3.h3 Start Command
       p.p {{ server.startCommand }}
       svg.iconnables.icons-arrow-down
         use(
@@ -60,12 +59,11 @@
     li.btn.white(
       ng-click = "server.openEditOnStep = 'ports'"
     )
-      h3.h3
-        svg.iconnables.icons-terminal
-          use(
-            xlink:href = "#icons-terminal"
-          )
-        | Ports
+      svg.iconnables.icons-terminal
+        use(
+          xlink:href = "#icons-terminal"
+        )
+      h3.h3 Ports
       p.p {{ (server.ports.length ) ? server.ports.join(',') : 'None' }}
       svg.iconnables.icons-arrow-down
         use(
@@ -74,12 +72,11 @@
     li.btn.white(
       ng-click = "server.openEditOnStep = 'env'"
     )
-      h3.h3
-        svg.iconnables.icons-terminal
-          use(
-            xlink:href = "#icons-terminal"
-          )
-        | Environment Variables
+      svg.iconnables.icons-terminal
+        use(
+          xlink:href = "#icons-terminal"
+        )
+      h3.h3 Environment Variables
       p.p none defined
       svg.iconnables.icons-arrow-down
         use(
