@@ -5,20 +5,12 @@
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     .row.clearfix
       button.btn.btn-xs.orange.active Building
-      //- omg fix this
       label.btn.btn-xs.white
         input.input-checkbox(
           ng-model = "data.revealBuildfiles"
           type = "checkbox"
         )
         | Show Dockerfile
-    //- button.btn.btn-sm.btn-icon(
-    //-   ng-click = "data.revealBuildfiles = !data.revealBuildfiles"
-    //- )
-      svg.iconnables.icons-gear
-        use(
-          xlink:href = "#icons-gear"
-        )
   ul.card-body
     li.btn.white(
       modal
