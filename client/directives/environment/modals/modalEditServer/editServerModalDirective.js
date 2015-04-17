@@ -33,6 +33,12 @@ function editServerModal(
         },
         tags: new JSTagsCollection($scope.currentModel.ports || [])
       };
+
+      $scope.changeTab = function (tabname) {
+        if (!$scope.editServerForm.$invalid) {
+          $scope.stateModel = tabname;
+        }
+      };
     }
   };
 }

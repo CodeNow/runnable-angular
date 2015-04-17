@@ -12,3 +12,9 @@ label.label.clearfix
       fancy-option(
         value = "$parent.currentModel.selectedStack.startCommand"
       ) {{$parent.$parent.currentModel.selectedStack.startCommand}}
+
+    small.small This is the command that will start your application. #{''}
+      a.link(
+        href = "//docs.docker.com/reference/builder/#cmd"
+        target = "_blank"
+      ) More about the start command
