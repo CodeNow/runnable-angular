@@ -10,7 +10,7 @@ form.modal-dialog.modal-edit-server(
         ng-model = "data.revealBuildfiles"
         type = "checkbox"
       )
-      | Show Dockerfile
+      | Advanced config
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"
@@ -21,7 +21,7 @@ form.modal-dialog.modal-edit-server(
           use(
             xlink:href = "#icons-terminal"
           )
-        span.btn-text Build Files
+        span.btn-text Advanced config
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'stack'}"
         ng-click = "changeTab('stack')"

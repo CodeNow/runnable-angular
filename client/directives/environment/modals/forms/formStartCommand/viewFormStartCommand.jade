@@ -3,10 +3,10 @@ label.label.clearfix
   .input-col
     fancy-select(
       ng-disabled = "!currentModel.selectedStack"
-      placeholder = "start command"
-      value = "currentModel.selectedStack.selectedCommand"
-      type = "text"
+      placeholder = "Start command"
       show-dropdown = "currentModel.selectedStack.startCommand"
+      type = "text"
+      value = "currentModel.selectedStack.selectedCommand"
     )
       li.list-item.popover-list-item.small Suggested Start Command
       fancy-option(
