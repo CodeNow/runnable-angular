@@ -99,7 +99,7 @@ function modalManager(
   };
 }
 
-var genericModals = ['viewModalDeleteBox', 'viewModalRenameBox', 'viewModalEnvironmentVariables', 'viewModalRepositorySelect', 'viewModalVerifyServer', 'viewModalEditServer', 'viewModalTemplateSelect'];
+var genericModals = ['viewModalDeleteBox', 'viewModalRenameBox', 'viewModalEnvironmentVariables', 'viewModalRepositorySelect', 'viewModalVerifyServer', 'viewModalEditServer', 'viewModalTemplateSelect', 'confirmBuildFilesModalView', 'confirmRevertModalView'];
 function checkTemplate(template) {
   return (genericModals.indexOf(template) === -1) ? template : 'viewOpenModalGeneric';
 }
