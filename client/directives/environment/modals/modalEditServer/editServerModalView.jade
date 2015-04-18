@@ -65,23 +65,23 @@ form.modal-dialog.modal-edit-server(
 
   section.modal-body
     .modal-form(
-      ng-show = "stateModel === 'buildfiles'"
+      ng-if = "stateModel === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
     )
     .modal-form(
-      ng-show = "stateModel === 'stack'"
+      ng-if = "stateModel === 'stack'"
       ng-include = "'viewFormStack'"
     )
     .modal-form(
-      ng-show = "stateModel === 'command'"
+      ng-if = "stateModel === 'command'"
       ng-include = "'viewFormStartCommand'"
     )
     .modal-form(
-      ng-show = "stateModel === 'ports'"
+      ng-if = "stateModel === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-show = "stateModel === 'env'"
+      ng-if = "stateModel === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
 

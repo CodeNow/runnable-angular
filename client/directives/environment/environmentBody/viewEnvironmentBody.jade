@@ -1,5 +1,5 @@
 .card.gray.disabled.load(
-  ng-repeat = "server in state.newServers"
+  ng-repeat = "server in data.newServers"
 )
   .card-header
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
@@ -50,7 +50,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Stack
-      p.p {{ server.selectedStack.name }} v{{ server.selectedVersion }}
+      p.p {{ actions.getFlattenedSelectedStacks(server.selectedStack) }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
