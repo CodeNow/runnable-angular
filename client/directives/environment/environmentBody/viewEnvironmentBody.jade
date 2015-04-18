@@ -4,6 +4,8 @@
   .card-header
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     .row.clearfix
+      //- button.btn.btn-xs.red.active  Build failed
+      //- button.btn.btn-xs.greeb.active Build successful
       button.btn.btn-xs.orange.active Building
       label.btn.btn-xs.white(
         modal

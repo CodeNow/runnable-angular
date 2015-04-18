@@ -412,6 +412,25 @@
   }
 }
 
+.red {
+  color: $red;
+
+  &.btn {
+    background: $red;
+    border-color: $red-dark;
+    color: $white;
+
+    &:hover {
+      background: $red-light;
+    }
+
+    &:active,
+    &.active {
+      background: $red;
+    }
+  }
+}
+
 .white {
   border-color: $gray-lighter;
   color: $gray-dark;
