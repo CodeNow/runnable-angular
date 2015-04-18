@@ -1,0 +1,13 @@
+.modal-dialog.modal-confirm(
+  ng-click = "$event.stopPropagation()"
+)
+  section.modal-body
+    p.modal-description If you make changes to the build files, you will not be able to switch back without losing changes.
+
+  footer.modal-footer
+    button.btn.orange(
+      ng-click = "defaultActions.cancel()"
+    ) Show dockerfile
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel()"
+    ) Cancel

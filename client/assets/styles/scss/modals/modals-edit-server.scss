@@ -9,11 +9,14 @@
       margin-top: 6px;
     }
 
-    .icons-gear {
-      cursor: pointer;
-      float: right;
-      pointer-events: auto;
-      top: 6px;
+    .btn-xs {
+      position: absolute;
+      right: 15px;
+      top: 12px;
+    }
+
+    .input-checkbox {
+      margin: 0 6px 0 0;
     }
   }
 
@@ -96,7 +99,7 @@
 
   // override sidebar
   .sidebar {
-    border: 0;
+    border-right-width: 2px;
     height: auto;
     padding: 0;
     width: 180px;
@@ -121,10 +124,5 @@
 
   .file-tree {
     margin: 3px;
-  }
-
-  // border on editor instead of sidebar
-  .pre {
-    border-left: 1px solid $gray-lighter;
   }
 }

@@ -1,7 +1,7 @@
 .sidebar {
   @extend %webkit-flicker;
   background: $white;
-  border-right: 1px solid darken($white,10);
+  border-right: 1px solid $gray-lighter;
   display: flex;
   flex-direction: column;
   float: left;

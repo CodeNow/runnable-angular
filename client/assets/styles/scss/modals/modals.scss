@@ -41,6 +41,12 @@
     width: calc(100% - 30px);
   }
 
+  // sizing for confirmation modals
+  &.modal-confirm {
+    max-width: 540px;
+    padding-top: 21px;
+  }
+
   &.modal-sidebar {
     flex-direction: row;
 
@@ -111,6 +117,11 @@
 
   &:last-child {
     padding-bottom: 21px;
+  }
+
+  + .list {
+    font-weight: 500;
+    margin: 15px 0 15px 45px;
   }
 }
 

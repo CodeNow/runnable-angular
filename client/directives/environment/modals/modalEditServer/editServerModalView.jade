@@ -4,21 +4,13 @@ form.modal-dialog.modal-edit-server(
 )
   header.modal-header
     p.p Configuring api
-      //- revealBuildfiles is actually toggled in the popover
-      svg.iconnables.icons-gear(
-        ng-click = "\
-          data.revealBuildfiles = !data.revealBuildfiles;\
-          changeTab('buildfiles');\
-        "
-        pop-over
-        pop-over-actions = "actions"
-        pop-over-data = "data"
-        pop-over-options = "{\"left\":-133,\"top\":45}"
-        pop-over-template = "viewPopoverServerActions"
+    label.btn.btn-xs.gray
+      input.input-checkbox(
+        ng-click = "changeTab('buildfiles')"
+        ng-model = "data.revealBuildfiles"
+        type = "checkbox"
       )
-        use(
-          xlink:href = "#icons-gear"
-        )
+      | Show Dockerfile
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"

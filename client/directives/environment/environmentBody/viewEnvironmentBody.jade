@@ -2,36 +2,20 @@
   ng-repeat = "server in state.newServers"
 )
   .card-header
-    svg.iconnables.icons-server.status-red(
-      ng-class = "{\
-        'status-green': data.statusGreen,\
-        'status-orange': data.statusOrange,\
-        'status-red': data.statusRed\
-      }"
-    )
-      use.status-red(
-        xlink:href = "#icons-status-red"
-      )
-      use.status-orange(
-        xlink:href = "#icons-status-orange"
-      )
-      use.status-green(
-        xlink:href = "#icons-status-green"
-      )
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
-    //- h2.h2 {{ server.opts.name }}
-    button.btn.btn-sm.btn-icon(
-      ng-click = "data.revealBuildfiles = !data.revealBuildfiles"
-      pop-over
-      pop-over-actions = "actions"
-      pop-over-data = "data"
-      pop-over-options = "{\"left\":-138,\"top\":45}"
-      pop-over-template = "viewPopoverServerActions"
-    )
-      svg.iconnables.icons-gear
-        use(
-          xlink:href = "#icons-gear"
+    .row.clearfix
+      button.btn.btn-xs.orange.active Building
+      label.btn.btn-xs.white(
+        modal
+        modal-actions = "actions"
+        modal-data = "data"
+        modal-template = "confirmBuildFilesModalView"
+      )
+        input.input-checkbox(
+          ng-model = "data.revealBuildfiles"
+          type = "checkbox"
         )
+        | Show Dockerfile
   ul.card-body
     li.btn.white(
       modal
@@ -40,7 +24,7 @@
       modal-data = "data"
       modal-state-model = "'buildfiles'"
       modal-template = "editServerModalOpen"
-      ng-show = "data.revealBuildfiles"
+      ng-if = "data.revealBuildfiles"
     )
       svg.iconnables.icons-terminal
         use(

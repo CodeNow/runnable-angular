@@ -1,0 +1,13 @@
+.modal-dialog.modal-confirm(
+  ng-click = "$event.stopPropagation()"
+)
+  section.modal-body
+    p.modal-description You'll lose all changes you've made to your dockerfile (ever).
+
+  footer.modal-footer
+    button.btn.orange(
+      ng-click = "defaultActions.cancel()"
+    ) Hide dockerfile
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel()"
+    ) Cancel
