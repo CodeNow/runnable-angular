@@ -1,37 +1,3 @@
-  //- coach-mark-style = "{\"left\": -6, \"top\": 18}"
-  //- coach-mark-template = "viewCoachMarksEditPopover"
-  //- coach-mark-type = "editButton"
-  //- show-coach-marks
-button.btn.white.btn-action(
-  coach-mark-style = "{\"left\": -6, \"top\": 24}"
-  coach-mark-template = "viewCoachMarksEditPopover"
-  coach-mark-type = "editButton"
-  show-coach-marks
-  title = "Edit Server"
-  type = "button"
-  modal
-  modal-actions = "popoverGearMenu.actions.actionsModalEdit"
-  modal-data = "popoverGearMenu.data.dataModalEdit"
-  modal-template = "viewOpenModalEdit"
-)
-  svg.iconnables.icons-edit
-    use(
-      xlink:href = "#icons-edit"
-    )
-  | Edit
-button.btn.white.btn-action(
-  modal
-  modal-actions = "popoverGearMenu.actions.actionsModalFork"
-  modal-data = "popoverGearMenu.data.dataModalFork"
-  modal-template = "viewOpenModalForkBox"
-  title = "Fork Server"
-  type = "button"
-)
-  svg.iconnables.icons-fork
-    use(
-      xlink:href = "#icons-fork"
-    )
-  | Fork
 button.btn.white.btn-icon.btn-action(
   ng-class = "{active: popoverGearMenu.data.show}"
   pop-over

@@ -54,22 +54,20 @@ div(
 )
   h2.sub-header.load
     span.sub-header-text Your Servers
-    //- ng-click = "stateToNew()"
-    //- ng-href = "/{{ data.activeAccount.oauthName() }}/new"
-    a.btn.btn-sm.btn-icon.white(
-      modal
-      modal-actions = "actions"
-      modal-current-model = "currentModel"
-      modal-data = "data"
-      modal-state-model = "stateModel"
-      modal-template = "viewOpenModalGettingStarted"
-      tooltip = "New Server"
-      tooltip-options = "{\"class\":\"right\",\"left\":30,\"top\":6}"
-    )
-      svg.iconnables.icons-add
-        use(
-          xlink:href = "#icons-add"
-        )
+    //- a.btn.btn-sm.btn-icon.white(
+    //-   modal
+    //-   modal-actions = "actions"
+    //-   modal-current-model = "currentModel"
+    //-   modal-data = "data"
+    //-   modal-state-model = "stateModel"
+    //-   modal-template = "viewOpenModalGettingStarted"
+    //-   tooltip = "New Server"
+    //-   tooltip-options = "{\"class\":\"right\",\"left\":30,\"top\":6}"
+    //- )
+    //-   svg.iconnables.icons-add
+    //-     use(
+    //-       xlink:href = "#icons-add"
+    //-     )
 
   //- list of servers
   ul.list.load(
