@@ -16,11 +16,7 @@ body {
 }
 
 .content {
-  // display: flex;
-  // flex-direction: column;
-  // height: calc(100vh - 60px);
-  position: absolute;
-  right: 0;
+  float: left;
   width: calc(100vw - 240px);
 }
 
