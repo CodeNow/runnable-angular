@@ -29,9 +29,9 @@ function ControllerEnvironment(
 ) {
   favico.reset();
   $scope.data = {
+    newServers: []
   };
   $scope.state = {
-    newServers: [],
     validation: {
       env: {}
     }
@@ -78,12 +78,26 @@ function ControllerEnvironment(
         return stack;
       });
     },
+    getFlattenedSelectedStacks: function (selectedStack) {
+      var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;
+      if (selectedStack.dependencies) {
+        selectedStack.dependencies.forEach(function (dep) {
+          flattened += ', ' + $scope.actions.getFlattenedSelectedStacks(dep);
+        });
+      }
+      return flattened;
+    },
     addNewServer: function (newServerModel, cb) {
-      $scope.state.newServers.push(newServerModel);
+      $scope.data.newServers.push(newServerModel);
       if (newServerModel.selectedStack.ports) {
         newServerModel.ports = newServerModel.selectedStack.ports.replace(/ /g, '').split(',');
       }
       return (typeof cb === 'function') ? cb() : null;
+    },
+    saveChangesToServer: function (changes) {
+      if (changes.dockerfile) {
+        // we need to edit the dockerfile
+      }
     }
   };
   fetchStackInfo().then(function (stacks) {

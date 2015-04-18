@@ -6,7 +6,8 @@ require('app')
  * @ngInject
  */
 function editServerModal(
-  JSTagsCollection
+  JSTagsCollection,
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -32,6 +33,33 @@ function editServerModal(
           onlyDigits: true
         },
         tags: new JSTagsCollection($scope.currentModel.ports || [])
+      };
+
+      $scope.state = {
+        startCommand: $scope.currentModel.startCommand,
+        ports: $scope.currentModel.ports,
+        selectedStack: angular.copy($scope.currentModel.selectedStack),
+        opts: {
+          // Don't save envs here, since EnvVars will add them.
+        },
+        repo: $scope.currentModel.repo,
+        currentModel: $scope.currentModel,
+        getChanges: function () {
+          var changes = {};
+          if (this.currentModel.startCommand !== this.startCommand) {
+            keypather.set(changes, 'dockerfile.startCommand', this.startCommand);
+          }
+          if (this.currentModel.ports !== this.ports) {
+            keypather.set(changes, 'dockerfile.ports', this.ports);
+          }
+          if (!angular.equals(this.currentModel.selectedStack, this.selectedStack)) {
+            keypather.set(changes, 'dockerfile.selectedStack', this.selectedStack);
+          }
+          if (!angular.equals(this.currentModel.opts.env, this.opts.env)) {
+            keypather.set(changes, 'opts.env', this.opts.env);
+          }
+          return changes;
+        }
       };
 
       $scope.changeTab = function (tabname) {
