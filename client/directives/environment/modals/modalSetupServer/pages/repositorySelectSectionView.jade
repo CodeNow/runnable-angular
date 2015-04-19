@@ -2,7 +2,10 @@ header.modal-header
   h1.modal-heading New Server from Repository
 
 section.modal-body.clearfix
-
+  .spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
+    ng-if = "repoSelected"
+    ng-include = "'spinner'"
+  )
   .spinner-wrapper.spinner-md.in(
     ng-if = "!data.githubRepos.models"
     ng-include = "'spinner'"
@@ -19,7 +22,7 @@ section.modal-body.clearfix
     ng-if = "data.githubRepos.models"
   )
     li.list-item.multi-line(
-      ng-class = "{disabled: repo.isAdded}"
+      ng-class = "{'no-touching': repo.isAdded}"
       ng-click = "selectRepo(repo)"
       ng-repeat = "\
         repo in data.githubRepos.models| \

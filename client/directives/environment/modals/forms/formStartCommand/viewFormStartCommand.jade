@@ -2,16 +2,17 @@ label.label.clearfix
   .label-col Start Command
   .input-col
     fancy-select(
-      ng-disabled = "!currentModel.selectedStack"
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
       placeholder = "Start command"
-      show-dropdown = "currentModel.selectedStack.startCommand"
+      value = "state.startCommand"
       type = "text"
-      value = "currentModel.selectedStack.selectedCommand"
+      ng-required = "true"
+      show-dropdown = "state.selectedStack.startCommand"
     )
       li.list-item.popover-list-item.small Suggested Start Command
       fancy-option(
-        value = "$parent.currentModel.selectedStack.startCommand"
-      ) {{$parent.$parent.currentModel.selectedStack.startCommand}}
+        value = "$parent.state.selectedStack.startCommand"
+      ) {{$parent.$parent.state.selectedStack.startCommand}}
 
     small.small This is the command that will start your application. #{''}
       a.link(

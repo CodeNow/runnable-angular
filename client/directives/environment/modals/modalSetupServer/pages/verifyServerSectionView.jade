@@ -18,7 +18,7 @@ footer.modal-footer.clearfix
   //- disabled if there is no value in the command input
   button.btn.green(
     ng-disabled = "verifyServerForm.$invalid"
-    ng-click = "actions.addNewServer(state, defaultActions.close);"
+    ng-click = "actions.addNewServer(state, defaultActions);"
   ) Create Server
   button.btn.white.btn-cancel(
     ng-click = "defaultActions.cancel()"
