@@ -11,9 +11,6 @@ require('app')
  */
 function ControllerEnvironment(
   $scope,
-  $rootScope,
-  $state,
-  $stateParams,
   $log,
   createDockerfileFromSource,
   createNewBuild,
@@ -33,7 +30,8 @@ function ControllerEnvironment(
   pageName,
   JSTagsCollection,
   promisify,
-  updateInstanceWithNewBuild
+  updateInstanceWithNewBuild,
+  copySourceInstance
 ) {
   favico.reset();
   $scope.data = {
@@ -44,6 +42,16 @@ function ControllerEnvironment(
       env: {}
     }
   };
+
+
+  fetchInstances({
+    githubUsername: 'HelloRunnable'
+  }).then(function (deps) {
+    console.log('Set scope.data.allDeps', deps);
+    keypather.set($scope, 'data.allDependencies', deps);
+  }).catch(errs.handler);
+
+
   $scope.actions = {
     selectAccount: function (account) {
       $scope.data.activeAccount = account;
@@ -154,6 +162,11 @@ function ControllerEnvironment(
           errs.handler(err);
           newServerModel.building = false;
         });
+    },
+    addServerFromTemplate: function (instance) {
+      copySourceInstance($scope.data.activeAccount, instance, {}).then(function (copiedInstance) {
+        console.log(copiedInstance);
+      });
     }
   };
   $scope.getInstanceStatus = {
