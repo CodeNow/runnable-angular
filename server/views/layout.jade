@@ -97,7 +97,7 @@ html(
         ga("send", "pageview");
 
 
-  body(
+  body.clearfix(
     ng-class = "{minimize: dataApp.data.minimizeNav}"
     ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
