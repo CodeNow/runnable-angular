@@ -2,7 +2,9 @@ header.header(
   ng-include = "'viewHeader'"
 )
 
-nav.sidebar.nav-sidebar
+nav.sidebar.nav-sidebar(
+  ng-if = "!layoutOptions.hideSidebar"
+)
   //- header.nav-header.row.load(
   //-   accounts-select
   //-   data = "dataApp.data"

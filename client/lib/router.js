@@ -35,14 +35,11 @@ app.config(['$stateProvider',
       return path + '/?' + params.join('&');
     });
 
-    routes.forEach(function (item, index, arr) {
-      $stateProvider.state(item.state, {
-        url: ((typeof item.url === 'string' && item.url[item.url.length - 1] !== '/') ? item.url + '/' : item.url),
-        abstract: item.abstract,
-        templateUrl: item.templateUrl,
-        controller: item.controller,
-        data: item.data
-      });
+    routes.forEach(function (item) {
+      var state = item.state;
+      delete item.state;
+      item.url = ((typeof item.url === 'string' && item.url[item.url.length - 1] !== '/') ? item.url + '/' : item.url);
+      $stateProvider.state(state, item);
     });
 
   }
