@@ -7,13 +7,26 @@
   padding: 30px 0 15px;
   width: 100%;
 
+  .btn {
+    text-align: left;
+  }
+
   // new server button
   .green {
     padding-right: 6px;
-    text-align: left;
 
     .icons-arrow-down {
       margin-left: 9px;
+    }
+  }
+
+  // to servers button
+  .gray {
+    float: right;
+    padding-right: 6px;
+
+    .icons-round {
+      float: right;
     }
   }
 }
