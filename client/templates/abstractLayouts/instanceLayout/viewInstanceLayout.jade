@@ -1,16 +1,13 @@
-//- sidebar for accounts and servers
-
-//- from 1068-setup
-//- header.header(
-//-   ng-include = "'viewHeader'"
-//- )
+header.header(
+  ng-include = "'viewHeader'"
+)
 
 nav.sidebar.nav-sidebar
-  header.nav-header.row.load(
-    accounts-select
-    data = "dataApp.data"
-    is-main-page = "true"
-  )
+  //- header.nav-header.row.load(
+  //-   accounts-select
+  //-   data = "dataApp.data"
+  //-   is-main-page = "true"
+  //- )
   section.row.servers
     .row-heading
       | Servers
@@ -77,7 +74,6 @@ nav.sidebar.nav-sidebar
     )
       .btn.btn-xs.btn-help ?
       | Documentation
-
 
     //- button.btn.btn-sm.btn-icon.white.btn-minimize(
     //-   ng-class = "{active: dataApp.data.minimizeNav}"
