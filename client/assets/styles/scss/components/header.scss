@@ -1,13 +1,8 @@
 .header {
   background: $purple;
   height: 60px;
-  padding: 9px 6px;
+  padding: 7px 15px 6px; // 7px + 6px = 15px (60px - 45px)
   width: 100vw;
-
-  .header-container {
-    margin: 0 auto;
-    max-width: 960px;
-  }
 
   // logo
   .logo {
@@ -20,11 +15,8 @@
   .btn {
     color: $white;
     float: right;
-    line-height: 38px;
-    padding: 0 9px;
-    text-align: left;
-    text-decoration: none;
-    width: auto;
+    line-height: 40px;
+    padding-right: 6px;
 
     .gravatar {
       float: left;
