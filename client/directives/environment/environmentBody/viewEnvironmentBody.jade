@@ -5,8 +5,14 @@
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     .row.clearfix
       //- ng-if = "server.instance"
-      button.btn.btn-xs.active(
+      //- remove this color
+      button.btn.btn-xs.red(
         ng-class = "getInstanceStatus.color(server)"
+        pop-over
+        pop-over-actions = "actions"
+        pop-over-data = "data"
+        pop-over-options = "{\"left\":0,\"top\":35}"
+        pop-over-template = "viewPopoverBuildStatus"
       ) {{ getInstanceStatus.text(server) }}
         svg.iconnables.icons-arrow-down
           use(
