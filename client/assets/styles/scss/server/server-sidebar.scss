@@ -1,13 +1,16 @@
 .server-sidebar {
   display: flex;
   font-size: 13px;
-  height: calc(100vh - 72px);
+  height: calc(100vh - 132px);
   width: 300px;
 
   .row {
-    border-bottom: 1px solid $gray-lighter;
     max-height: 600px;
     overflow: scroll;
+
+    + .row {
+      border-bottom: 1px solid $gray-lighter;
+    }
 
     &.closed {
       max-height: 61px;
