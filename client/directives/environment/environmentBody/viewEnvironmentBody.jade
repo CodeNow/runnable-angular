@@ -4,14 +4,16 @@
   .card-header
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     .row.clearfix
-      .btn-group
-        button.btn.btn-xs.orange Building
+      .btn-group(
+        ng-if = "server.instance"
+      )
+        button.btn.btn-xs.active(
+          ng-class = "getInstanceStatus.color(server)"
+        ) {{ getInstanceStatus.text(server) }}
           svg.iconnables.icons-arrow-down
             use(
               xlink:href = "#icons-arrow-down"
             )
-        //- button.btn.btn-xs.red.active  Build failed
-        //- button.btn.btn-xs.greeb.active Build successful
       label.btn.btn-xs.white(
         modal
         modal-actions = "actions"
@@ -19,11 +21,15 @@
         modal-template = "confirmBuildFilesModalView"
       )
         input.input-checkbox(
-          ng-model = "data.revealBuildfiles"
+          ng-model = "server.revealBuildfiles"
           type = "checkbox"
         )
         | Advanced config
   ul.card-body
+    .spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
+      ng-if = "server.building"
+      ng-include = "'spinner'"
+    )
     li.btn.white(
       modal
       modal-actions = "actions"
@@ -113,7 +119,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Environment Variables
-      p.p none defined
+      p.p {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"

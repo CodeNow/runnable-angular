@@ -4,6 +4,7 @@
   .input-col
     fancy-select(
       placeholder = "Select language/framework"
+      ng-required = "true"
       value = "state.selectedStack"
     )
       li.list-item.popover-list-item.small(
@@ -35,6 +36,7 @@
     fancy-select(
       value = "$parent.state.selectedStack.selectedVersion"
       placeholder = "Select Version"
+      ng-required = "true"
       ng-disabled = "!$parent.state.selectedStack"
     )
       li.list-item.popover-list-item.small(
@@ -57,6 +59,7 @@
       .small {{depStack.name}}
       fancy-select(
         value = "depStack.selectedVersion"
+        ng-required = "state.selectedStack.dependencies.length"
         placeholder = "Select Version"
       )
         li.list-item.popover-list-item.small(
