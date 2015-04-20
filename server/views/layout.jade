@@ -117,12 +117,18 @@ html(
       ng-if = "dataApp.data.loading"
       ng-include = "'spinner'"
     )
+
+    //- modals
     div(
       modal-manager
     )
-    div(
+
+    //- page
+    div.clearfix(
       ui-view
     )
+
+    //- error modal
     .modal-backdrop.in(
       ng-if = "dataApp.data.modalError.data.in"
       ng-click = "$event.stopPropagation()"
