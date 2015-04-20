@@ -20,6 +20,12 @@
     width: calc(100vw - 240px);
   }
 
+  // environment button
+  > .btn {
+    flex: 0 0 auto;
+    margin: 6px;
+  }
+
   .branch-name {
     color: $gray;
     font-weight: 400;
@@ -29,10 +35,14 @@
     float: right;
     margin: 10px 9px 0 0;
   }
-}
 
-.row {
-  padding: 0 12px 9px;
+  .row {
+    padding: 0 12px;
+
+    + .row {
+      padding-bottom: 9px;
+    }
+  }
 }
 
 .closed .icons-disclose {
@@ -50,6 +60,16 @@
   // for add buttons next to section headings, like in File Explorer
   .btn {
     float: right;
+
+    .icons-gear {
+      float: left;
+      height: 100%;
+      margin-right: 3px;
+      width: 18px;
+    }
+  }
+
+  .btn-icon {
     height: 30px;
     line-height: 38px;
     margin-top: -4px;

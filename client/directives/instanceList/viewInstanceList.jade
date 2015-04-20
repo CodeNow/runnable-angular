@@ -4,51 +4,23 @@
   ng-include = "'spinner'"
 )
 
-.filter-wrap(
-  ng-if = "!state.loadingInstances"
-)
+//- .filter-wrap(
+//-   ng-if = "!state.loadingInstances"
+//- )
   input.filter(
     ng-model = "filter.string"
     placeholder = "Filter Servers"
   )
 
-ul.list.load.filter-list(
-  ng-if = "filter.string.length"
-)
+//- ul.list.load.filter-list(
+//-   ng-if = "filter.string.length"
+//- )
   div(
     ng-if = "!filter.instances.length"
   )
     h2.sub-header.load
       span.sub-header-text No servers match your search
 
-  //- .active for current active server
-  //- .active.expanded for current active server with links
-  //- .runnning for running server
-  //- disabling these tooltips...for now
-  //- tooltip = "{{ instance.attrs.name }}"
-  //- tooltip-options = "{\"class\":\"nav-tooltips right\",\"left\":31,\"top\":10}"
-  li.list-item.btn.btn-sm.white(
-    ng-if = "filter.instances.length"
-    ng-class = "getInstanceClasses(instance)"
-    ng-repeat = "instance in filter.instances | orderBy:'attrs.name'"
-  )
-    a.list-item-name.text-overflow(
-      ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                                       instanceName: instance.attrs.name })"
-      ng-model = "instance"
-    ) {{ instance.attrs.name }}
-    span.icons-status(
-      title = "{{ getInstanceAltTitle(instance) }}"
-    )
-    div(
-      linked-instances
-      instance-dependencies = "instance.dependencies"
-      show-team-icon = "true"
-      instances = 'data.instances'
-      ng-if = "getInstanceClasses(instance).expanded"
-      state-to-instance = 'stateToInstance'
-      type = "sidebar"
-    )
 div(
   ng-if = "!filter.string.length && !state.loadingInstances"
 )
