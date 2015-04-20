@@ -1,31 +1,186 @@
-// section.sidebar.server-sidebar
 .server-sidebar {
   display: flex;
+  font-size: 13px;
   height: calc(100vh - 72px);
   width: 300px;
 
   .row {
-    border-bottom: 1px solid rgba($black,.1);
-    position: relative;
+    border-bottom: 1px solid $gray-lighter;
+    max-height: 600px;
+    overflow: scroll;
 
-    &:last-child {
-      border-bottom: 0;
+    &.closed {
+      max-height: 61px;
+      overflow: hidden;
     }
   }
 
-  .spinner-wrapper {
-    align-items: flex-start;
-    top: 60px;
+  .row-heading {
+    padding-left: 13px; // to accomodate disclose arrow
+
+    .icons-disclose {
+      height: 15px;
+      left: -3px;
+      position: absolute;
+      top: 24px;
+      width: 15px;
+
+      // when parent element has class 'closed'
+      .closed & {
+        transform: rotate3d(0,0,1,-90deg);
+      }
+    }
+  }
+
+  .well {
+    background-color: $gray-lightest;
+    border: 2px solid $gray-lighter;
+    border-radius: 3px;
+    margin: 0;
+    position: relative;
+
+    .iconnables {
+      height: 17px;
+      left: 4px;
+      position: absolute;
+      top: 4px;
+      width: 17px;
+    }
+  }
+
+  .repository-group-text {
+    cursor: pointer;
+
+    &:hover {
+      background: $white;
+      border-color: $gray-light;
+    }
+
+    &:active,
+    &.active {
+      background: rgba($purple-light,.15);
+      color: $purple-light;
+    }
+
+    .icons-arrow-down {
+      height: 100%;
+      left: auto;
+      opacity: .6;
+      position: absolute;
+      right: 3px;
+      top: 0;
+      transform: rotate3d(0,0,1,-90deg);
+      width: 27px;
+    }
+  }
+
+  .branch {
+    border-left: 2px solid $gray-lighter;
+    color: $gray;
+    cursor: pointer;
+    font-weight: 400;
+    height: 100%;
+    padding: 4px 3px 0 12px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+
+    .text-overflow {
+      display: inline-block;
+      max-width: 81px;
+    }
+
+    &:hover {
+      background-color: $white;
+    }
+
+    .icons-arrow-down {
+      left: 0;
+      position: relative;
+      top: -3px;
+      width: 14px;
+    }
   }
 }
 
-// ul.repo-list
+.linked-servers {
+
+  .well {
+    margin-bottom: 9px;
+  }
+
+  .well-item {
+    height: 34px;
+    padding: 4px 0 0 23px;
+    position: relative;
+
+    .text-overflow {
+      display: inline-block;
+      max-width: 105px;
+    }
+
+    .iconnables {
+      top: 8px;
+    }
+  }
+}
+
+.indirect {
+  max-height: 2000px;
+  padding-bottom: 3px;
+
+  &.closed {
+    max-height: 36px;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  ul .well-item {
+    margin-top: -6px;
+  }
+}
+
 .repo-list {
   flex: 0 0 auto;
   max-height: 50%;
   overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: 9px;
+
+  .well {
+    padding: 5px 3px 6px;
+  }
+}
+
+.repository-group-item {
+  line-height: 23px;
+}
+
+.repository-description {
+  font-weight: 500;
+  line-height: 24px;
+  padding-left: 23px;
+  position: relative;
+  word-break: break-word;
+
+  + .repository-description {
+    color: $gray;
+    font-weight: 400;
+  }
+}
+
+.repository-detail {
+  display: block;
+  font-size: 12px;
+  margin-top: -1px;
+  white-space: nowrap;
+
+  .link {
+    color: $purple-light;
+    float: right;
+    margin-right: 26px;
+  }
 }
 
 .explorer {
@@ -35,86 +190,7 @@
   padding-bottom: 15px;
 }
 
-// li.repository-group-item
-.repository-group-item {
-  margin: -1px 0;
-
-  + .repository-group-item {
-    margin-top: 6px;
-  }
-}
-
-// wrapper for states
-.repository-group-text {
-  cursor: pointer;
-  padding: 12px 30px 12px 0;
-
-  &:hover {
-    background: rgba($gray-darker,.15);
-  }
-
-  &:active,
-  &.active {
-    background: rgba($purple-light,.15);
-    color: $purple-light;
-    transition: none;
-
-    .iconnables,
-    .repository-detail {
-      color: currentColor;
-    }
-
-    .icons-arrow-down {
-      transform: scale3d(.75,.75,1) rotate3d(0,0,1,-90deg);
-    }
-  }
-
-  // git icons
-  .iconnables {
-    color: rgba($black,.24);
-    height: 18px;
-    left: 0;
-    position: absolute;
-    width: 36px;
-  }
-
-  // arrow
-  .icons-arrow-down {
-    height: 100%;
-    left: auto;
-    position: absolute;
-    right: 9px;
-    top: 0;
-    transform: rotate3d(0,0,1,-90deg);
-    width: 30px;
-  }
-}
-
-// p.repository-description
-.repository-description {
-  font-size: 14px;
-  height: 21px;
-  line-height: 21px;
-  padding-left: 36px;
-  position: relative;
-  word-break: break-word;
-
-  + .repository-description {
-    height: auto;
-    line-height: 1.4;
-    padding-top: 2px;
-  }
-}
-
-// small.repository-detail
-.repository-detail {
-  color: $gray;
-  display: block;
-  margin-top: 3px;
-  white-space: nowrap;
-
-  .link {
-    color: $purple-light;
-    float: right;
-  }
+.spinner-wrapper {
+  align-items: flex-start;
+  top: 60px;
 }

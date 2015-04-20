@@ -2,14 +2,14 @@
 $black: #000;
 $white: #fff;
 
-$gray-lightest: #f0f0f0;
-$gray-lighter: #ccc;
-$gray-light: #aaa;
-$gray: #777;
+$gray-lightest: #f7f7f7;
+$gray-lighter: #e0e0e0;
+$gray-light: #bbb;
+$gray: #888;
 $gray-dark: #555;
 $gray-darker: #333;
 
-$green: #3ccb5a;
+$green: #3ccb5a; // #1DD156
 $green-light: #2bd94f;
 $green-lighter: lighten($green-light,7);
 $green-dark: darken($green,6%);
@@ -18,8 +18,8 @@ $green-darker: darken($green,12%);
 $purple: #5b3777;
 $purple-logo: #ccadd2;
 $purple-light: saturate(lighten($purple,15%),15%);
-$purple-lighter: #b6a6bd; // previously lighten($purple,20%)
-$purple-lightest: #f3ecf9;
+$purple-lighter: #b6a6bd;
+$purple-lightest: #eee1f7; // was #f3ecf9 in SAN-1069-setup
 $purple-dark: darken($purple,10%);
 $purple-darker: darken($purple,20%);
 
