@@ -120,14 +120,86 @@ section.sidebar.server-sidebar.load(
     repo-list
     show-auto-deploy = "true"
   )
-  section.manage-dns.row.explorer(
-    ng-if = "dataInstance.data.instance"
-    ng-show = "isDnsSetup"
-    dns-manager
-    instance = "dataInstance.data.instance"
-    is-dns-setup = "isDnsSetup"
+
+  section.row.linked-servers(
+    ng-class = "{\
+        closed: isClosed\
+      }"
+    ng-init = "isClosed = true"
   )
-  section.row.explorer(
+    .row-heading(
+      ng-click = "isClosed = !isClosed"
+    )
+      svg.iconnables.icons-disclose
+          use(
+            xlink:href = "#icons-disclose"
+          )
+      | Linked Servers
+    .well
+      .well-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        span.text-overflow runnable-webrunnable-webrunnable-webrunnable-webrunnable-web
+      .branch
+        span.branch-name.text-overflow master
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        .icons-status.running
+    .well
+      .well-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        span.text-overflow api
+      .branch
+        span.branch-name.text-overflow error-statuserror-statuserror-statuserror-status
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        .icons-status.building
+    .well
+      .well-item
+        svg.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        span.text-overflow mongoDB
+        .icons-status.running
+    .well.indirect
+      .well-item
+        svg.iconnables.icons-disclose
+          use(
+            xlink:href = "#icons-disclose"
+          )
+        span Indirect Links
+        .icons-status.running
+        .icons-status.running
+        .icons-status.building
+      ul
+        li.well-item
+          svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+          span.text-overflow api
+            span.branch-name /master
+          .icons-status.running
+        li.well-item
+          svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+          span.text-overflow mavis
+            span.branch-name /master
+          .icons-status.running
+
+  section.row.explorer.closed(
     explorer
     edit-explorer = "false"
     file-model = "dataInstance.data.instance.containers.models[0]"

@@ -2,7 +2,9 @@
   ng-class = "{'popover-getting-started-offset': !data.isMainPage, in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .arrow.white
+  .arrow.white(
+    style = "left: 154px"
+  )
   .popover-content
     ul.list.popover-list
       li.list-item.popover-list-item.small Change Organization

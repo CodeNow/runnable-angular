@@ -4,10 +4,20 @@
   .card-header
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     .row.clearfix
-      button.btn.btn-xs.active(
-        ng-if = "server.instance"
+      //- ng-if = "server.instance"
+      //- remove this color
+      button.btn.btn-xs.red(
         ng-class = "getInstanceStatus.color(server)"
+        pop-over
+        pop-over-actions = "actions"
+        pop-over-data = "data"
+        pop-over-options = "{\"left\":0,\"top\":35}"
+        pop-over-template = "viewPopoverBuildStatus"
       ) {{ getInstanceStatus.text(server) }}
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
       label.btn.btn-xs.white(
         modal
         modal-actions = "actions"

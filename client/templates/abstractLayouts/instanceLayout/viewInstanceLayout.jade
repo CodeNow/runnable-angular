@@ -1,15 +1,89 @@
-//- sidebar for accounts and servers
 header.header(
   ng-include = "'viewHeader'"
 )
 
-//- nav.sidebar.nav-sidebar(
-  section.row.nav-servers(
-    data = "dataApp.data"
-    instance-list
-    state = "dataApp.state"
-    actions = "dataApp.actions"
-  )
+nav.sidebar.nav-sidebar
+  //- header.nav-header.row.load(
+  //-   accounts-select
+  //-   data = "dataApp.data"
+  //-   is-main-page = "true"
+  //- )
+  section.row.servers
+    .row-heading
+      | Servers
+      //- a.btn.btn-xs.btn-icon.white
+      //-   svg.iconnables.icons-add
+      //-     use(
+      //-       xlink:href = "#icons-add"
+      //-     )
+    ul.server-category-list
+      li.server-category-list-item
+        ul.server-list
+          li.server-list-item
+            svg.iconnables.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+            span.text-overflow runnable-web
+              span.branch-name /master
+            .icons-status.running
+      li.server-category-list-item
+        ul.server-list
+          li.server-list-item
+            svg.iconnables.icons-repository
+                use(
+                  xlink:href = "#icons-repository"
+                )
+            span.text-overflow api
+              span.branch-name /master
+            .icons-status.building
+          li.server-list-item
+            span.branch-name.text-overflow SAN-1173-error-statusSAN-1173-error-status
+            .icons-status
+          li.server-list-item.selected
+            span.branch-name.text-overflow feature1
+            .icons-status.running
+          li.server-list-item
+            span.branch-name.text-overflow feature2
+            .icons-status.running.new
+      li.server-category-list-item
+        ul.server-list
+          li.server-list-item
+            svg.iconnables.icons-repository
+              use(
+                xlink:href = "#icons-repository"
+              )
+            span.text-overflow mavis
+              span.branch-name /master
+            .icons-status.running
+          li.server-list-item
+            span.branch-name.text-overflow SAN-1173-error-status
+            .icons-status.running
+      li.server-category-list-item
+        ul.server-list
+          li.server-list-item
+            svg.iconnables.icons-repository
+              use(
+                xlink:href = "#icons-repository"
+              )
+            span.text-overflow mongoDB
+            .icons-status.running
+  footer.row.nav-footer
+    a.small.link.link-gray.link-text(
+      href = "/runnabro/new"
+    )
+      .btn.btn-xs.btn-help ?
+      | Documentation
+
+    //- button.btn.btn-sm.btn-icon.white.btn-minimize(
+    //-   ng-class = "{active: dataApp.data.minimizeNav}"
+    //-   ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
+    //-   title = "Toggle Navigation"
+    //- )
+    //-   svg.iconnables.icons-minimize
+    //-     use(
+    //-       xlink:href = "#icons-minimize"
+        )
 
 //- 2nd level views (viewInstance, viewInstanceEdit...)
 main.content(

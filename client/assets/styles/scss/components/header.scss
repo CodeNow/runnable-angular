@@ -13,11 +13,11 @@
   .logo {
     float: left;
     height: 45px;
+    margin-left: -33px;
   }
 
   // header button styles
   .btn {
-    background: rgba($white,.15);
     color: $white;
     float: right;
     line-height: 38px;

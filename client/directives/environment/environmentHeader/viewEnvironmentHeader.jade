@@ -1,8 +1,9 @@
+//- new server button
 button.btn.green(
   pop-over
   pop-over-actions = "actions"
   pop-over-data = "data"
-  pop-over-options = "{\"left\":-56,\"top\":56}"
+  pop-over-options = "{\"left\":0,\"top\":56}"
   pop-over-template = "viewPopoverNewServer"
 )
   svg.iconnables.icons-add.icons-round
@@ -11,6 +12,13 @@ button.btn.green(
     )
   | New Server
   svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+
+//- group/pod/server/instance/box page
+button.btn.gray Go to Servers
+  svg.iconnables.icons-arrow-forward.icons-round
     use(
       xlink:href = "#icons-arrow-down"
     )
