@@ -121,8 +121,15 @@ section.sidebar.server-sidebar.load(
     show-auto-deploy = "true"
   )
 
-  section.row.linked-servers
-    .row-heading
+  section.row.linked-servers(
+    ng-class = "{\
+        closed: isClosed\
+      }"
+    ng-init = "isClosed = true"
+  )
+    .row-heading(
+      ng-click = "isClosed = !isClosed"
+    )
       svg.iconnables.icons-disclose
           use(
             xlink:href = "#icons-disclose"
@@ -136,7 +143,7 @@ section.sidebar.server-sidebar.load(
           )
         span.text-overflow runnable-webrunnable-webrunnable-webrunnable-webrunnable-web
       .branch
-        span.text-overflow master
+        span.branch-name.text-overflow master
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"
@@ -150,7 +157,7 @@ section.sidebar.server-sidebar.load(
           )
         span.text-overflow api
       .branch
-        span.text-overflow error-statuserror-statuserror-statuserror-status
+        span.branch-name.text-overflow error-statuserror-statuserror-statuserror-status
         svg.iconnables.icons-arrow-down
           use(
             xlink:href = "#icons-arrow-down"

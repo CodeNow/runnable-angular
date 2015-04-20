@@ -16,7 +16,20 @@
   }
 
   .row-heading {
-    padding-left: 13px;
+    padding-left: 13px; // to accomodate disclose arrow
+
+    .icons-disclose {
+      height: 15px;
+      left: -3px;
+      position: absolute;
+      top: 24px;
+      width: 15px;
+
+      // when parent element has class 'closed'
+      .closed & {
+        transform: rotate3d(0,0,1,-90deg);
+      }
+    }
   }
 
   .well {
@@ -65,13 +78,13 @@
     border-left: 2px solid $gray-lighter;
     color: $gray;
     cursor: pointer;
+    font-weight: 400;
     height: 100%;
     padding: 4px 3px 0 12px;
     position: absolute;
     right: 0;
     top: 0;
     width: 50%;
-    font-weight: 400;
 
     .text-overflow {
       display: inline-block;
@@ -98,9 +111,9 @@
   }
 
   .well-item {
+    height: 34px;
     padding: 4px 0 0 23px;
     position: relative;
-    height: 34px;
 
     .text-overflow {
       display: inline-block;
@@ -116,10 +129,6 @@
 .indirect {
   max-height: 2000px;
   padding-bottom: 3px;
-
-  .icons-disclose {
-    opacity: .6;
-  }
 
   &.closed {
     max-height: 36px;

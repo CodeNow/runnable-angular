@@ -34,19 +34,14 @@
 }
 
 .row-heading {
+  cursor: pointer;
+  font-size: 14px;
   height: 60px;
-  position: relative;
-  padding-top: 19px;
   padding-left: 3px;
+  padding-top: 19px;
+  position: relative;
 
-  .icons-disclose {
-    height: 15px;
-    left: -3px;
-    position: absolute;
-    top: 24px;
-    width: 15px;
-  }
-
+  // for add buttons next to section headings, like in File Explorer
   .btn {
     float: right;
     height: 30px;
@@ -60,22 +55,21 @@
   background: $gray-lightest;
 }
 
-
 .server-category-list-item {
-  border-bottom: 1px solid $gray-lighter;
+  border-bottom: 1px solid $gray-lighter; // lines below categories
   padding: 15px 0 13px;
 
   &:first-child {
-    border-top: 1px solid $gray-lighter;
+    border-top: 1px solid $gray-lighter; // line above first category
   }
 }
 
 .server-list-item {
   cursor: pointer;
+  height: 34px;
   margin: 0 -12px;
   padding: 4px 9px 0 30px;
   position: relative;
-  height: 34px;
 
   &:hover {
     background: rgba($gray-light,.1);
