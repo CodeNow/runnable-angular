@@ -1,8 +1,8 @@
 // footer.row.nav-footer
 .nav-footer {
-  background-color: darken($white, 3%);
+  background-color: $gray-lightest;
   bottom: 0;
-  box-shadow: 0 -3px 6px darken($white, 3%);
+  box-shadow: 0 -3px 6px $gray-lightest;
   flex: 0 0 auto;
   height: 45px;
   padding: 9px 12px;

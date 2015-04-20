@@ -13,67 +13,63 @@ nav.sidebar.nav-sidebar
   )
   section.row.servers
     .row-heading
-      h2.h2 Servers
+      | Servers
       a.btn.btn-xs.btn-icon.white
         svg.iconnables.icons-add
           use(
             xlink:href = "#icons-add"
           )
-    ul
-      li.server-category
-        ul
-          li.server
+    ul.server-category-list
+      li.server-category-list-item
+        ul.server-list
+          li.server-list-item
             svg.iconnables.icons-repository
                 use(
                   xlink:href = "#icons-repository"
                 )
-            p.p runnable-web
-              span.light/master
+            span.text-overflow runnable-web
+              span.branch-name /master
             .icons-status.running
-      li.server-category
-        ul
-          li.server
+      li.server-category-list-item
+        ul.server-list
+          li.server-list-item
             svg.iconnables.icons-repository
                 use(
                   xlink:href = "#icons-repository"
                 )
-            p.p api
-              span.light /master
+            span.text-overflow api
+              span.branch-name /master
+            .icons-status.building
+          li.server-list-item
+            span.branch-name.text-overflow.text-overflow SAN-1173-error-statusSAN-1173-error-status
+            .icons-status
+          li.server-list-item.selected
+            span.branch-name.text-overflow feature1
             .icons-status.running
-          li.server
-            p.p
-              span.light SAN-1173-error-status
-            .icons-status.running
-          li.server.selected
-            p.p
-              span.light feature1
-            .icons-status.running
-          li.server
-            p.p
-              span.light feature2
+          li.server-list-item
+            span.branch-name.text-overflow feature2
             .icons-status.running.new
-      li.server-category
-        ul
-          li.server
+      li.server-category-list-item
+        ul.server-list
+          li.server-list-item
             svg.iconnables.icons-repository
               use(
                 xlink:href = "#icons-repository"
               )
-            p.p mavis
-              span.light /master
+            span.text-overflow mavis
+              span.branch-name /master
             .icons-status.running
-          li.server
-            p.p
-              span.light SAN-1173-error-status
+          li.server-list-item
+            span.branch-name.text-overflow SAN-1173-error-status
             .icons-status.running
-      li.server-category
-        ul
-          li.server
+      li.server-category-list-item
+        ul.server-list
+          li.server-list-item
             svg.iconnables.icons-repository
               use(
                 xlink:href = "#icons-repository"
               )
-            p.p mongoDB
+            span.text-overflow mongoDB
             .icons-status.running
   footer.row.nav-footer
     a.small.link.link-gray.link-text(

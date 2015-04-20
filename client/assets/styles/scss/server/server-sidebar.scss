@@ -4,13 +4,24 @@
   height: calc(100vh - 72px);
   width: 300px;
 
-  .row-heading .h2 {
-    left: 15px;
+  .row {
+    border-bottom: 1px solid $gray-lighter;
+    max-height: 600px;
+    overflow: scroll;
+
+    &.closed {
+      max-height: 61px;
+      overflow: hidden;
+    }
+  }
+
+  .row-heading {
+    padding-left: 13px;
   }
 
   .well {
-    background-color: darken($white,3);
-    border: 2px solid darken($white,10);
+    background-color: $gray-lightest;
+    border: 2px solid $gray-lighter;
     border-radius: 3px;
     margin: 0;
     position: relative;
@@ -26,18 +37,16 @@
 
   .repository-group-text {
     cursor: pointer;
-    transition: all .15s ease-in;
 
     &:hover {
-      background: darken($white,9);
-      border-color: darken($white,18);
+      background: $white;
+      border-color: $gray-light;
     }
 
     &:active,
     &.active {
       background: rgba($purple-light,.15);
       color: $purple-light;
-      transition: none;
     }
 
     .icons-arrow-down {
@@ -53,28 +62,30 @@
   }
 
   .branch {
-    border-left: 2px solid darken($white,10);
+    border-left: 2px solid $gray-lighter;
+    color: $gray;
     cursor: pointer;
     height: 100%;
-    padding: 4px 3px 5px 0;
+    padding: 4px 3px 0 12px;
     position: absolute;
     right: 0;
     top: 0;
-    transition: all .15s ease-in;
     width: 50%;
+    font-weight: 400;
 
-    &:hover {
-      background-color: darken($white,9);
+    .text-overflow {
+      display: inline-block;
+      max-width: 81px;
     }
 
-    .p {
-      margin-left: 12px;
+    &:hover {
+      background-color: $white;
     }
 
     .icons-arrow-down {
-      opacity: .6;
+      left: 0;
       position: relative;
-      top: 4px;
+      top: -3px;
       width: 14px;
     }
   }
@@ -82,18 +93,19 @@
 
 .linked-servers {
 
-  .p {
-    margin-left: 23px;
-  }
-
   .well {
     margin-bottom: 9px;
-    padding: 0 3px;
   }
 
   .well-item {
-    padding: 4px 0 5px;
+    padding: 4px 0 0 23px;
     position: relative;
+    height: 34px;
+
+    .text-overflow {
+      display: inline-block;
+      max-width: 105px;
+    }
 
     .iconnables {
       top: 8px;
@@ -104,10 +116,6 @@
 .indirect {
   max-height: 2000px;
   padding-bottom: 3px;
-
-  .p {
-    line-height: 25px;
-  }
 
   .icons-disclose {
     opacity: .6;
@@ -141,7 +149,6 @@
 }
 
 .repository-description {
-  color: rgba($gray-darker,.9);
   font-weight: 500;
   line-height: 24px;
   padding-left: 23px;
@@ -149,7 +156,7 @@
   word-break: break-word;
 
   + .repository-description {
-    color: rgba($gray-darker,.6);
+    color: $gray;
     font-weight: 400;
   }
 }

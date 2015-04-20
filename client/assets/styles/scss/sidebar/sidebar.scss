@@ -6,6 +6,7 @@
   flex-direction: column;
   float: left;
   font-size: 14px;
+  font-weight: 500;
   height: 100vh;
   line-height: 24px;
   position: relative;
@@ -13,19 +14,9 @@
   width: 240px;
   z-index: $z-sidebar;
 
-  .h2 {
-    font-size: 14px;
-  }
-
-  .p {
-    display: inline;
-    font-weight: 500;
-    opacity: .9;
-  }
-
-  .light {
+  .branch-name {
+    color: $gray;
     font-weight: 400;
-    opacity: .6;
   }
 
   .icons-status {
@@ -35,15 +26,7 @@
 }
 
 .row {
-  border-bottom: 1px solid darken($white,10);
-  max-height: 600px;
-  overflow: scroll;
   padding: 0 12px 9px;
-
-  &.closed {
-    max-height: 61px;
-    overflow: hidden;
-  }
 }
 
 .closed .icons-disclose {
@@ -53,13 +36,8 @@
 .row-heading {
   height: 60px;
   position: relative;
-
-  .h2 {
-    left: 3px;
-    margin-left: 0;
-    position: absolute;
-    top: 23px;
-  }
+  padding-top: 19px;
+  padding-left: 3px;
 
   .icons-disclose {
     height: 15px;
@@ -73,50 +51,64 @@
     float: right;
     height: 30px;
     line-height: 38px;
-    margin-top: 15px;
+    margin-top: -4px;
     width: 30px;
   }
 }
 
 .nav-sidebar {
-  background: darken($white,3);
+  background: $gray-lightest;
+}
 
-  .servers {
-    border: 0;
+
+.server-category-list-item {
+  border-bottom: 1px solid $gray-lighter;
+  padding: 15px 0 13px;
+
+  &:first-child {
+    border-top: 1px solid $gray-lighter;
+  }
+}
+
+.server-list-item {
+  cursor: pointer;
+  margin: 0 -12px;
+  padding: 4px 9px 0 30px;
+  position: relative;
+  height: 34px;
+
+  &:hover {
+    background: rgba($gray-light,.1);
   }
 
-  .server {
-    margin: 0 -12px;
-    padding: 3px 9px 5px 30px;
-    position: relative;
+  &:active {
+    color: $purple-light;
 
-    &.selected {
-      background-color: $purple-lightest;
+    .branch-name {
       color: $purple-light;
-
-      .light {
-        opacity: 1;
-      }
-    }
-
-    .iconnables {
-      height: 17px;
-      left: 12px;
-      position: absolute;
-      top: 7px;
-      width: 17px;
     }
   }
-}
 
-.server-category {
-  ul {
-    border-bottom: 1px solid darken($white,10);
-    padding: 15px 0 13px;
+  &.selected {
+    background: $purple-lightest;
+    color: $purple-light;
+    cursor: default;
+
+    .branch-name {
+      color: $purple-light;
+    }
   }
 
-  &:first-of-type {
-    border-top: 1px solid darken($white,10);
+  .text-overflow {
+    display: inline-block;
+    max-width: 180px;
+  }
+
+  .iconnables {
+    height: 17px;
+    left: 12px;
+    position: absolute;
+    top: 7px;
+    width: 17px;
   }
 }
-
