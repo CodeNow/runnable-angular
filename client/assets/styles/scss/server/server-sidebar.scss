@@ -105,6 +105,11 @@
       width: 14px;
     }
   }
+
+  .spinner-wrapper {
+    align-items: flex-start;
+    top: 60px;
+  }
 }
 
 .linked-servers {
@@ -191,9 +196,4 @@
   overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: 15px;
-}
-
-.spinner-wrapper {
-  align-items: flex-start;
-  top: 60px;
 }
