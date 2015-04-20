@@ -2,7 +2,9 @@ header.header(
   ng-include = "'viewHeader'"
 )
 
-nav.sidebar.nav-sidebar
+nav.sidebar.nav-sidebar(
+  ng-if = "!layoutOptions.hideSidebar"
+)
   //- header.nav-header.row.load(
   //-   accounts-select
   //-   data = "dataApp.data"
@@ -24,7 +26,7 @@ nav.sidebar.nav-sidebar
                 use(
                   xlink:href = "#icons-repository"
                 )
-            span.text-overflow runnable-web
+            span.server-category-name.text-overflow runnable-web
               span.branch-name /master
             .icons-status.running
       li.server-category-list-item
@@ -34,11 +36,11 @@ nav.sidebar.nav-sidebar
                 use(
                   xlink:href = "#icons-repository"
                 )
-            span.text-overflow api
+            span.server-category-name.text-overflow api
               span.branch-name /master
             .icons-status.building
           li.server-list-item
-            span.branch-name.text-overflow SAN-1173-error-statusSAN-1173-error-status
+            span.branch-name.text-overflow SAN-1173-error-status-SAN-1173-error-status
             .icons-status
           li.server-list-item.selected
             span.branch-name.text-overflow feature1
@@ -53,7 +55,7 @@ nav.sidebar.nav-sidebar
               use(
                 xlink:href = "#icons-repository"
               )
-            span.text-overflow mavis
+            span.server-category-name.text-overflow mavis
               span.branch-name /master
             .icons-status.running
           li.server-list-item
@@ -66,7 +68,7 @@ nav.sidebar.nav-sidebar
               use(
                 xlink:href = "#icons-repository"
               )
-            span.text-overflow mongoDB
+            span.server-category-name.text-overflow mongoDB
             .icons-status.running
   footer.row.nav-footer
     a.small.link.link-gray.link-text(

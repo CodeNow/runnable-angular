@@ -57,13 +57,25 @@ module.exports = [
     state: 'instance.new',
     abstract: false,
     url: '^/:userName/new',
-    controller: 'ControllerNew'
+    controller: 'ControllerNew',
+    onEnter: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
+    },
+    onExit: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
+    }
   }, {
     state: 'instance.setup',
     abstract: false,
     url: '^/:userName/new/:buildId',
     templateUrl: 'viewEnvironment',
-    controller: 'ControllerEnvironment'
+    controller: 'ControllerEnvironment',
+    onEnter: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
+    },
+    onExit: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
+    }
   }, {
     state: '404',
     abstract: false,
