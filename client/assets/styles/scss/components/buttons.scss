@@ -6,7 +6,7 @@
   font-size: 18px;
   font-weight: 400;
   height: 45px;
-  line-height: 44px; // 45 - 2px for border-top/bottom
+  line-height: 43px; // 45 - 2px for border-top/bottom
   padding: 0 15px;
   position: relative;
   text-align: center;
@@ -76,6 +76,19 @@
     margin-right: 6px;
     top: 6px;
     width: 21px;
+  }
+
+  // icons
+  .icons-round {
+    margin: 9px 0; // standard size buttons
+
+    &:first-child {
+      margin-right: 6px;
+    }
+
+    &:last-child {
+      margin-left: 6px;
+    }
   }
 }
 
@@ -240,6 +253,7 @@
 .green,
 .orange,
 .purple,
+.red,
 .white {
   border: 2px solid transparent;
   color: $white;
@@ -302,6 +316,11 @@
         color: currentColor;
         transition: transform .15s;
       }
+
+      .icons-round {
+        background: $purple-light;
+        color: $white;
+      }
     }
 
     &[disabled],
@@ -315,6 +334,12 @@
         color: $gray-dark;
       }
     }
+  }
+
+  // icons
+  .icons-round {
+    background: $gray;
+    color: $white;
   }
 }
 
@@ -355,7 +380,6 @@
       background: $white;
       color: $green;
       float: left;
-      margin: 9px 6px 0 0; // standard size buttons
     }
   }
 }
@@ -409,6 +433,25 @@
       background: $white;
       border-color: currentColor;
       color: $green;
+    }
+  }
+}
+
+.red {
+  color: $red;
+
+  &.btn {
+    background: $red;
+    border-color: $red-dark;
+    color: $white;
+
+    &:hover {
+      background: $red-light;
+    }
+
+    &:active,
+    &.active {
+      background: $red-dark;
     }
   }
 }

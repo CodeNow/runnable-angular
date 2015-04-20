@@ -10,7 +10,7 @@ form.modal-dialog.modal-edit-server(
         ng-model = "data.revealBuildfiles"
         type = "checkbox"
       )
-      | Show Dockerfile
+      | Advanced config
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"
@@ -21,7 +21,7 @@ form.modal-dialog.modal-edit-server(
           use(
             xlink:href = "#icons-terminal"
           )
-        span.btn-text Build Files
+        span.btn-text Advanced config
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'stack'}"
         ng-click = "changeTab('stack')"
@@ -65,30 +65,30 @@ form.modal-dialog.modal-edit-server(
 
   section.modal-body
     .modal-form(
-      ng-show = "stateModel === 'buildfiles'"
+      ng-if = "stateModel === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
     )
     .modal-form(
-      ng-show = "stateModel === 'stack'"
+      ng-if = "stateModel === 'stack'"
       ng-include = "'viewFormStack'"
     )
     .modal-form(
-      ng-show = "stateModel === 'command'"
+      ng-if = "stateModel === 'command'"
       ng-include = "'viewFormStartCommand'"
     )
     .modal-form(
-      ng-show = "stateModel === 'ports'"
+      ng-if = "stateModel === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-show = "stateModel === 'env'"
+      ng-if = "stateModel === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
 
   footer.modal-footer.clearfix
     //- disabled if no changes
     button.btn.green(
-      ng-click = "defaultActions.cancel()"
+      ng-click = "actions.saveChangesToServer(state, defaultActions)"
     )  {{ (state.validation.env.length) ? (state.validation.env.length) + ' env errors' : 'Save Changes'}}
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"

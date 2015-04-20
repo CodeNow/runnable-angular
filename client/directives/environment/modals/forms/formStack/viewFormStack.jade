@@ -4,13 +4,14 @@
   .input-col
     fancy-select(
       placeholder = "Select language/framework"
-      value = "currentModel.selectedStack"
+      ng-required = "true"
+      value = "state.selectedStack"
     )
       li.list-item.popover-list-item.small(
-        ng-if = "$parent.currentModel.repo.stackAnalysis.languageFramework"
+        ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
       ) Suggested Language/Framework
       fancy-option(
-        ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.currentModel.repo.stackAnalysis.languageFramework }"
+        ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework }"
         value = "framework"
       )
         svg.iconnables.icons-server
@@ -20,10 +21,10 @@
         | {{$parent.framework.name}}
 
       li.divider(
-        ng-if = "$parent.currentModel.repo.stackAnalysis.languageFramework"
+        ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
       )
       fancy-option(
-        ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.currentModel.repo.stackAnalysis.languageFramework } | orderBy:'name'"
+        ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.state.repo.stackAnalysis.languageFramework } | orderBy:'name'"
         value = "framework"
       )
         svg.iconnables.icons-server
@@ -33,30 +34,32 @@
         | {{$parent.framework.name}}
 
     fancy-select(
-      value = "$parent.currentModel.selectedStack.selectedVersion"
+      value = "$parent.state.selectedStack.selectedVersion"
       placeholder = "Select Version"
-      ng-disabled = "!$parent.currentModel.selectedStack"
+      ng-required = "true"
+      ng-disabled = "!$parent.state.selectedStack"
     )
       li.list-item.popover-list-item.small(
-        ng-if = "$parent.currentModel.selectedStack.suggestedVersion"
-      ) Suggested {{$parent.$parent.currentModel.selectedStack.name}} Version
+        ng-if = "$parent.state.selectedStack.suggestedVersion"
+      ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
       fancy-option(
         value = "version"
-        ng-repeat = "version in $parent.currentModel.selectedStack.versions | filter: $parent.currentModel.selectedStack.suggestedVersion"
+        ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
       ) v{{$parent.version}}
       li.divider(
-        ng-if = "$parent.currentModel.selectedStack.suggestedVersion"
+        ng-if = "$parent.state.selectedStack.suggestedVersion"
       )
       fancy-option(
         value = "version"
-        ng-repeat = "version in $parent.currentModel.selectedStack.versions | filter: '!'+ $parent.currentModel.selectedStack.suggestedVersion"
+        ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
       ) v{{$parent.version}}
     .label(
-      ng-repeat = "depStack in currentModel.selectedStack.dependencies"
+      ng-repeat = "depStack in state.selectedStack.dependencies"
     )
       .small {{depStack.name}}
       fancy-select(
         value = "depStack.selectedVersion"
+        ng-required = "state.selectedStack.dependencies.length"
         placeholder = "Select Version"
       )
         li.list-item.popover-list-item.small(

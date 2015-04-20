@@ -1,10 +1,23 @@
 .card.gray.disabled.load(
-  ng-repeat = "server in state.newServers"
+  ng-repeat = "server in data.newServers"
 )
   .card-header
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     .row.clearfix
-      button.btn.btn-xs.orange.active Building
+      //- ng-if = "server.instance"
+      //- remove this color
+      button.btn.btn-xs.red(
+        ng-class = "getInstanceStatus.color(server)"
+        pop-over
+        pop-over-actions = "actions"
+        pop-over-data = "data"
+        pop-over-options = "{\"left\":0,\"top\":35}"
+        pop-over-template = "viewPopoverBuildStatus"
+      ) {{ getInstanceStatus.text(server) }}
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
       label.btn.btn-xs.white(
         modal
         modal-actions = "actions"
@@ -12,11 +25,15 @@
         modal-template = "confirmBuildFilesModalView"
       )
         input.input-checkbox(
-          ng-model = "data.revealBuildfiles"
+          ng-model = "server.revealBuildfiles"
           type = "checkbox"
         )
-        | Show Dockerfile
+        | Advanced config
   ul.card-body
+    .spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
+      ng-if = "server.building"
+      ng-include = "'spinner'"
+    )
     li.btn.white(
       modal
       modal-actions = "actions"
@@ -50,7 +67,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Stack
-      p.p {{ server.selectedStack.name }} v{{ server.selectedVersion }}
+      p.p {{ actions.getFlattenedSelectedStacks(server.selectedStack) }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -106,7 +123,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Environment Variables
-      p.p none defined
+      p.p {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"

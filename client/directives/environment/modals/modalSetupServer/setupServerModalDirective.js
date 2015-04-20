@@ -6,13 +6,12 @@ require('app')
  * @ngInject
  */
 function setupServerModal(
+  createDockerfileFromSource,
+  createNewBuild,
   errs,
-  fetchOwnerRepos,
   fetchStackAnalysis,
   hasKeypaths,
-  keypather,
   promisify,
-  $q,
   $log
 ) {
   return {
@@ -24,30 +23,70 @@ function setupServerModal(
       defaultActions: '='
     },
     link: function ($scope, elem, attrs) {
-      $scope.currentModel = {
-        opts: {}
+      $scope.state = {
+        opts: {
+          env: null
+        }
       };
+
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
         $scope.repoSelected = true;
-        repo.isAdded = true;
-        $scope.currentModel.opts.name = repo.attrs.name;
-        return promisify(repo.branches, 'fetch')()
+        $scope.state.opts.name = repo.attrs.name;
+        return $scope.fetchStackData(repo)
           .then(function () {
-            return $scope.actions.fetchStackData(repo);
+            $scope.state.repo = repo;
+            return createNewBuild($scope.data.activeAccount);
           })
-          .then(function () {
-            $scope.currentModel.repo = repo;
+          .then(function (buildWithVersion) {
+            $scope.state.build = buildWithVersion;
+            $scope.state.contextVersion = buildWithVersion.contextVersion;
+            return promisify(repo.branches, 'fetch')();
+          })
+          .then(function (branches) {
+            var masterBranch = branches.models.find(hasKeypaths({'attrs.name': 'master'}));
+            return promisify($scope.state.contextVersion.appCodeVersions, 'create', true)({
+              repo: repo.attrs.full_name,
+              branch: masterBranch.attrs.name,
+              commit: masterBranch.attrs.commit.sha
+            });
           })
           .catch(function (err) {
-            repo.isAdded = false;
             errs.handler(err);
           })
           .finally(function () {
             $scope.repoSelected = false;
           });
       };
-
+      $scope.fetchStackData = function (repo) {
+        function setStackSelectedVersion(stack, versions) {
+          if (versions[stack.key]) {
+            stack.suggestedVersion = versions[stack.key];
+          }
+          if (stack.dependencies) {
+            stack.dependencies.forEach(function (childStack) {
+              setStackSelectedVersion(childStack, versions);
+            });
+          }
+        }
+        return fetchStackAnalysis(repo).then(function (data) {
+          if (!data.languageFramework) {
+            $log.warn('No language detected');
+            return;
+          }
+          if (data.languageFramework === 'ruby_ror') {
+            data.languageFramework = 'rails';
+          }
+          repo.stackAnalysis = data;
+          var stack = $scope.data.stacks.find(hasKeypaths({
+            'key': data.languageFramework.toLowerCase()
+          }));
+          if (stack) {
+            setStackSelectedVersion(stack, data.version);
+          }
+          return stack;
+        });
+      };
 
     }
   };

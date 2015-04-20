@@ -117,7 +117,7 @@
 
   // flip
   &.icons-arrow-forward {
-    transform: rotate3d(0,1,0,180deg);
+    transform: rotate3d(0,0,1,-90deg);
   }
 
   &.icons-file-tree {

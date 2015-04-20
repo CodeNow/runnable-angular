@@ -125,7 +125,7 @@ function fancySelect(
         $scope.$watch('value', function (newValue) {
           $timeout(function () {
             var matchedOption = options.find(function (option) {
-              return option.value === newValue;
+              return angular.equals(option.value, newValue);
             });
 
             if (matchedOption) {

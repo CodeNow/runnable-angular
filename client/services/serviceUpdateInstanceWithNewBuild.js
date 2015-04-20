@@ -33,7 +33,9 @@ function updateInstanceWithNewBuild(
         opts.build = build.id();
         return promisify(instance, 'update')(opts);
       }).then(function () {
-        spinnerParent.building = false;
+        if (spinnerParent) {
+          spinnerParent.building = false;
+        }
         if (actions) {
           var defer = $q.defer();
           actions.close(function () {

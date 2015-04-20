@@ -1,11 +1,6 @@
 .popover-new-server {
-  transform-origin: 95% 0;
+  transform-origin: 162px 0 !important;
   width: 240px;
-
-  .arrow {
-    left: auto !important;
-    right: 5px;
-  }
 
   .small {
     margin-left: 27px; // offset for anchor
