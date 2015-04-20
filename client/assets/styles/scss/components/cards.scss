@@ -119,11 +119,6 @@
     text-align: center;
   }
 
-  .btn-icon {
-    color: $gray;
-    margin: 0 19px 0 15px;
-  }
-
   .row {
     margin: 0 0 6px;
     padding: 0 15px;
@@ -132,10 +127,12 @@
   // header buttons
   .btn-xs {
 
+    // status
     &.green,
     &.orange,
     &.red {
       float: left;
+      padding-right: 0;
     }
 
     // toggle

@@ -4,9 +4,14 @@
   .card-header
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
     .row.clearfix
-      //- button.btn.btn-xs.red.active  Build failed
-      //- button.btn.btn-xs.greeb.active Build successful
-      button.btn.btn-xs.orange.active Building
+      .btn-group
+        button.btn.btn-xs.orange Building
+          svg.iconnables.icons-arrow-down
+            use(
+              xlink:href = "#icons-arrow-down"
+            )
+        //- button.btn.btn-xs.red.active  Build failed
+        //- button.btn.btn-xs.greeb.active Build successful
       label.btn.btn-xs.white(
         modal
         modal-actions = "actions"
