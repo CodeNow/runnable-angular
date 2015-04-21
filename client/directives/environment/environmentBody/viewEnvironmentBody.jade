@@ -7,6 +7,12 @@
       //- ng-if = "server.instance"
       //- remove this color
       button.btn.btn-xs.red(
+        modal
+        modal-actions = "actions"
+        modal-current-model = "server"
+        modal-data = "data"
+        modal-state-model = "'logs'"
+        modal-template = "editServerModalOpen"
         ng-class = "getInstanceStatus.color(server)"
       ) {{ getInstanceStatus.text(server) }}
       label.btn.btn-xs.white(
