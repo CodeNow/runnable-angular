@@ -4,7 +4,6 @@
   border-right: 1px solid $gray-lighter;
   display: flex;
   flex-direction: column;
-  float: left;
   font-size: 14px;
   font-weight: 500;
   height: calc(100vh - 60px);
@@ -15,8 +14,8 @@
 
   // width if sidebar is present
   + .content {
-    float: left;
-    width: calc(100vw - 240px);
+    float: right;
+    width: calc(100% - 240px);
   }
 
   // environment button
@@ -76,8 +75,10 @@
   }
 }
 
+// main sidebar
 .nav-sidebar {
   background: $gray-lightest;
+  float: left;
 }
 
 .server-category-list-item {
