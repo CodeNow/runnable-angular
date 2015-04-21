@@ -74,8 +74,8 @@ function EventTracking (
   if (!this._Intercom) {
     // stub intercom if not present
     this._Intercom = function () {
-      $log.info('Intercom JS SDK stubbed');
-      $log.info(arguments);
+      // $log.info('Intercom JS SDK stubbed');
+      // $log.info(arguments);
     };
   }
 
@@ -86,8 +86,8 @@ function EventTracking (
    */
   this._mixpanel = function () {
     if (!isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
-      $log.info('Mixpanel JS SDK stubbed');
-      $log.info(arguments);
+      // $log.info('Mixpanel JS SDK stubbed');
+      // $log.info(arguments);
       return;
     }
     var args = Array.prototype.slice.call(arguments);

@@ -20,10 +20,10 @@
 .jt-tag,
 .jt-tag-edit {
   @extend %tag;
-  border-color: $green;
+  border-color: $purple-light;
 
   &.active-true {
-    background: $green;
+    background: $purple-light;
     color: $white;
   }
 
@@ -32,19 +32,19 @@
 
     &:hover,
     &:active {
-      color: $green-dark;
+      color: $purple;
     }
   }
 }
 
 // plain tag
 .jt-tag {
-  color: $green;
+  color: $purple-light;
 }
 
 // editing tag
 .jt-tag-edit {
-  background: rgba($green,.6);
+  background: rgba($purple-light,.6);
   border-color: transparent;
   color: $white;
   cursor: text;
