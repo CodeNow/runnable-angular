@@ -47,7 +47,6 @@ function ControllerEnvironment(
   fetchInstances({
     githubUsername: 'HelloRunnable'
   }).then(function (deps) {
-    console.log('Set scope.data.allDeps', deps);
     keypather.set($scope, 'data.allDependencies', deps);
   }).catch(errs.handler);
 
@@ -165,7 +164,6 @@ function ControllerEnvironment(
     },
     addServerFromTemplate: function (instance) {
       copySourceInstance($scope.data.activeAccount, instance, {}).then(function (copiedInstance) {
-        console.log(copiedInstance);
       });
     }
   };
@@ -186,7 +184,6 @@ function ControllerEnvironment(
   };
 
   fetchStackInfo().then(function (stacks) {
-    console.log(stacks);
     keypather.set($scope, 'data.stacks', stacks);
   }).catch(errs.handler);
 
