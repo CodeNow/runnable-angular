@@ -13,8 +13,13 @@ function ControllerInstanceLayout(
   $scope,
   $state,
   $window,
-  pFetchUser
+  pFetchUser,
+  fetchInstancesByPod
 ) {
+  fetchInstancesByPod()
+  .then(function (asdf) {
+    $scope.dataApp.data.asdf = asdf;
+  });
 
   var currentUser;
   pFetchUser().then(function(user) {

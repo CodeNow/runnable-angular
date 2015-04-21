@@ -163,7 +163,9 @@ function ControllerEnvironment(
         });
     },
     addServerFromTemplate: function (instance) {
+      $scope.$emit('close-modal');
       copySourceInstance($scope.data.activeAccount, instance, {}).then(function (copiedInstance) {
+        $scope.data.newServers.push(copiedInstance);
       });
     }
   };

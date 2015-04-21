@@ -6,69 +6,18 @@ nav.sidebar.nav-sidebar(
   ng-if = "!layoutOptions.hideSidebar"
 )
 
-  section.row.servers
-    .row-heading
-      | Servers
-      a.btn.btn-xs.white(
-        href = "/runnabro/new"
-      )
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-gear"
-          )
-        | Configure
-    ul.server-category-list
-      li.server-category-list-item
-        ul.server-list
-          li.server-list-item
-            svg.iconnables.icons-repository
-                use(
-                  xlink:href = "#icons-repository"
-                )
-            span.server-category-name.text-overflow runnable-web
-              span.branch-name /master
-            .icons-status.running
-      li.server-category-list-item
-        ul.server-list
-          li.server-list-item
-            svg.iconnables.icons-repository
-                use(
-                  xlink:href = "#icons-repository"
-                )
-            span.server-category-name.text-overflow api
-              span.branch-name /master
-            .icons-status.building
-          li.server-list-item
-            span.branch-name.text-overflow SAN-1173-error-status-SAN-1173-error-status
-            .icons-status
-          li.server-list-item.selected
-            span.branch-name.text-overflow feature1
-            .icons-status.running
-          li.server-list-item
-            span.branch-name.text-overflow feature2
-            .icons-status.running.new
-      li.server-category-list-item
-        ul.server-list
-          li.server-list-item
-            svg.iconnables.icons-repository
-              use(
-                xlink:href = "#icons-repository"
-              )
-            span.server-category-name.text-overflow mavis
-              span.branch-name /master
-            .icons-status.running
-          li.server-list-item
-            span.branch-name.text-overflow SAN-1173-error-status
-            .icons-status.running
-      li.server-category-list-item
-        ul.server-list
-          li.server-list-item
-            svg.iconnables.icons-repository
-              use(
-                xlink:href = "#icons-repository"
-              )
-            span.server-category-name.text-overflow mongoDB
-            .icons-status.running
+  section.row(
+    accounts-select
+    is-main-page = "true"
+    data = "dataApp.data"
+  )
+
+  section.row.servers(
+    instance-list
+    is-main-page = "true"
+    data = "dataApp.data"
+  )
+
   footer.row.nav-footer
     a.small.link.link-gray.link-text(
       href = "//support.runnable.io"
