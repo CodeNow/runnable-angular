@@ -147,4 +147,6 @@
           xlink:href = "#icons-arrow-down"
         )
 
-.card.gray.disabled.load.empty Add a new server to get started
+.card.gray.disabled.load.empty(
+  ng-if = "data.newServers.length === 0"
+) Add a new server to get started
