@@ -52,6 +52,20 @@
     border-color: $gray-lighter;
   }
 
+  // empty state
+  &.empty {
+    background: transparent;
+    border-color: transparent;
+    color: $gray;
+    height: 467px;
+    line-height: 467px;
+    text-align: center;
+  }
+
+  + .empty {
+    display: none; // hide empty state when multiple cards
+  }
+
   // list columns
   .list-col {
     margin: 0;
