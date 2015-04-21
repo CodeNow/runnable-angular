@@ -53,5 +53,11 @@
     &:nth-child(3n+4) {
       margin-left: 0;
     }
+
+    // center if only child
+    &:only-child {
+      float: none;
+      margin: 0 auto;
+    }
   }
 }

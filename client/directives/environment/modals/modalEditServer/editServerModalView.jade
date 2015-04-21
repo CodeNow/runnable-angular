@@ -15,7 +15,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
-        ng-show = "data.revealBuildfiles"
+        ng-if = "data.revealBuildfiles"
       )
         svg.iconnables.icons-terminal
           use(
@@ -25,7 +25,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'stack'}"
         ng-click = "changeTab('stack')"
-        ng-hide = "data.revealBuildfiles"
+        ng-if = "!data.revealBuildfiles"
       )
         svg.iconnables.icons-terminal
           use(
@@ -35,7 +35,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'command'}"
         ng-click = "changeTab('command')"
-        ng-hide = "data.revealBuildfiles"
+        ng-if = "!data.revealBuildfiles"
       )
         svg.iconnables.icons-terminal
           use(
@@ -45,13 +45,22 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'ports'}"
         ng-click = "changeTab('ports')"
-        ng-hide = "data.revealBuildfiles"
+        ng-if = "!data.revealBuildfiles"
       )
         svg.iconnables.icons-terminal
           use(
             xlink:href = "#icons-terminal"
           )
         span.btn-text Ports
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'repositories'}"
+        ng-click = "changeTab('repositories')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Repositories
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'env'}"
         ng-click = "changeTab('env')"
