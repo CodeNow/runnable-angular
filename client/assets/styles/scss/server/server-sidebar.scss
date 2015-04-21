@@ -6,7 +6,7 @@
 
   .row {
     max-height: 600px;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     + .row {
       border-top: 1px solid $gray-lighter;
