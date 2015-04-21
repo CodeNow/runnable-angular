@@ -10,6 +10,8 @@
   transform: scale3d(.9,.9,1);
   transition: opacity .1s ease-in, transform .1s ease-in;
   z-index: $z-popover;
+  left: 0;
+  top: 0;
 
   &.in {
     opacity: 1;
