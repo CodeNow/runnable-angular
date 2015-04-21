@@ -90,6 +90,10 @@ form.modal-dialog.modal-edit-server(
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
+      ng-if = "stateModel === 'repositories'"
+      ng-include = "'viewFormRepositories'"
+    )
+    .modal-form(
       ng-if = "stateModel === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
