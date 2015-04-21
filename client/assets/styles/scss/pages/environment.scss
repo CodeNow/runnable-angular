@@ -43,21 +43,44 @@
     float: left;
     margin-bottom: 15px;
     min-width: 0;
-    width: calc(33.333% - 10px);
 
     + .card {
       margin-left: 15px;
-    }
-
-    // on the 4th card + 3 thereafter
-    &:nth-child(3n+4) {
-      margin-left: 0;
     }
 
     // center if only child
     &:only-child {
       float: none;
       margin: 0 auto;
+    }
+
+    @include media(xl) {
+      width: calc(33.333% - 10px);
+
+      // on the 4th card + 3 thereafter
+      &:nth-child(3n+4) {
+        margin-left: 0;
+      }
+    }
+
+    @include media(md) {
+      width: calc(50% - 8px);
+
+      &:nth-child(3n+4) {
+        margin-left: 15px; // override media(xl)
+      }
+
+      &:nth-child(2n+3) {
+        margin-left: 0;
+      }
+    }
+
+    @include media(xxs) {
+      width: 100%;
+
+      + .card {
+        margin-left: 0;
+      }
     }
   }
 }
