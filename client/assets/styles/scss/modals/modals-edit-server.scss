@@ -70,16 +70,25 @@
       }
     }
   }
-}
 
-// ace things
-.ace-container {
-  border: 2px solid $gray-lighter;
-  border-radius: 3px;
-  display: flex;
+  // active panel & ace container
+  .active-panel,
+  .ace-container {
+    border: 2px solid $gray-lighter;
+    border-radius: 3px;
+    display: flex;
 
-  .ace_editor {
-    flex: 1 1 auto;
+    .ace_editor {
+      flex: 1 1 auto;
+    }
+  }
+
+  .active-panel {
+    padding: 0;
+
+    .terminal {
+      min-height: 210px; // to match env vars
+    }
   }
 }
 
