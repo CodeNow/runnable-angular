@@ -29,8 +29,18 @@
                 use(
                   xlink:href = "#icons-file"
                 )
-              span.item-name dockerfile
+              span.item-name build logs
           li.file
+            a
+              svg.iconnables.filetypes.icons-file
+                use(
+                  xlink:href = "#icons-file"
+                )
+              span.item-name dockerfile
+          li.file.not-toggleable(
+            tooltip = "Edit this file in the environment variables tab"
+            tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
+          )
             a
               svg.iconnables.filetypes.icons-file
                 use(
