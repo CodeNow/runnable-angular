@@ -264,13 +264,13 @@
 
 //- loading state
 .card-loading {
-  cursor: progress;
-  font-size: 18px;
-  font-style: italic;
+  align-items: center;
+  display: flex;
+  height: 369px;
   justify-content: center;
   text-align: center;
 
   .spinner-wrapper {
-    margin-bottom: 12px;
+    margin-top: -60px;
   }
 }
