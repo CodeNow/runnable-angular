@@ -140,18 +140,12 @@
   }
 
   // header buttons
+  // status
   .btn-xs {
-
-    // status
-    &.green,
-    &.orange,
-    &.red {
-      float: left;
-      padding-right: 0;
-    }
+    float: left;
 
     // toggle
-    &.white {
+    + .btn-xs {
       float: right;
     }
 

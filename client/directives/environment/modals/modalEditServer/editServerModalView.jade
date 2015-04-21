@@ -70,6 +70,15 @@ form.modal-dialog.modal-edit-server(
             xlink:href = "#icons-terminal"
           )
         span.btn-text Environment Variables
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'logs'}"
+        ng-click = "changeTab('logs')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Logs
 
 
   section.modal-body
@@ -96,6 +105,10 @@ form.modal-dialog.modal-edit-server(
     .modal-form(
       ng-if = "stateModel === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
+    )
+    .modal-form(
+      ng-if = "stateModel === 'logs'"
+      ng-include = "'viewFormLogs'"
     )
 
   footer.modal-footer.clearfix

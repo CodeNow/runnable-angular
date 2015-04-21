@@ -98,6 +98,24 @@
     }
   }
 
+  // center tabs
+  > .btn-group {
+    display: table;
+    margin: 0 auto;
+
+    .btn {
+
+      &:hover {
+        z-index: 1;
+      }
+
+      &:active,
+      &.active {
+        z-index: 2;
+      }
+    }
+  }
+
   // label info
   .small {
     color: $gray;
