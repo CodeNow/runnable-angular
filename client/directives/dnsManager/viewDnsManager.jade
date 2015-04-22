@@ -18,15 +18,17 @@
   .branch
     fancy-select.branch-name.text-overflow(
       value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+      ng-disabled = "masterInstance.instanceOptions.length <= 1"
       show-dropdown = "masterInstance.instanceOptions.length > 1"
     )
       fancy-option(
         ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
         value = "instanceOption.attrs.shortHash"
       ) {{ $parent.instanceOption.attrs.name }}
-    .icons-status(
-      ng-class = "getInstanceClasses(masterInstance)"
-    )
+        // Go outside the fancy-option, the ng-repeat, the fancy-select and get to the parent scope
+        .icons-status(
+          ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
+        )
 .well.indirect(
   ng-if = "indirectlyRelatedInstances.length"
 )
