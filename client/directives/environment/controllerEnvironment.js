@@ -162,13 +162,18 @@ function ControllerEnvironment(
       $scope.$emit('close-modal');
 
       var newServer = {
-        building: true
+        building: true,
+        instance: {
+          attrs: {
+            name: instance.attrs.name
+          }
+        }
       };
       $scope.data.newServers.push(newServer);
 
-      copySourceInstance($scope.data.activeAccount, instance, {}).then(function (copiedInstance) {
+      copySourceInstance($scope.data.activeAccount, instance, {name: instance.attrs.name}).then(function (copiedInstance) {
+        createServerObjectFromInstance(copiedInstance, newServer);
         newServer.building = false;
-        newServer.instance = copiedInstance;
       });
     }
   };
@@ -188,23 +193,24 @@ function ControllerEnvironment(
     }
   };
 
-  function createServerObjectFromInstance(instance) {
+  function createServerObjectFromInstance(instance, serverObj) {
+    if (!serverObj) {
+      serverObj = {};
+    }
     var commands = keypather.get(instance, 'containers.models[0].attrs.inspect.Config.Cmd') || [];
     if (commands.length && commands[0] === '/bin/sh') {
       // we need to remove the /bin/sh and -c, since it's going to get added again
       commands.splice(0, 2);
-      console.log('Commands', commands);
     }
-    return {
-      instance: instance,
-      build: instance.build,
-      startCommand: commands.join(' '),
-      selectedStack: 'Need to input',
-      ports: $filter('filterCleanPorts')(keypather.get(instance, 'containers.models[0].attrs.ports')),
-      opts: {
-        env: instance.attrs.env
-      }
+    serverObj.instance = instance;
+    serverObj.build = instance.build;
+    serverObj.startCommand = commands.join(' ');
+    serverObj.selectedStack = 'Need to input';
+    serverObj.ports = $filter('filterCleanPorts')(keypather.get(instance, 'containers.models[0].attrs.ports'));
+    serverObj.opts = {
+      env: instance.attrs.env
     };
+    return serverObj;
   }
 
 
@@ -213,7 +219,9 @@ function ControllerEnvironment(
       githubUsername: $state.params.userName
     })
       .then(function (instances) {
-        $scope.data.newServers = instances.models.map(createServerObjectFromInstance);
+        $scope.data.newServers = instances.models.map(function (instance) {
+          return createServerObjectFromInstance(instance);
+        });
       });
   }
 

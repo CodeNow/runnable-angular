@@ -40,7 +40,8 @@ button.btn.btn-xs(
     fancy-option(
       value = "server"
       ng-repeat = "server in $parent.data.newServers"
-    ) {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
+    ) {{ $parent.server.instance.attrs.name }}
+
   fancy-select.input-sm.monospace.text-overflow(
     value = "$parent.state.newLink.port"
     placeholder = "Port"
@@ -51,7 +52,7 @@ button.btn.btn-xs(
     fancy-option(
       value = "port"
       ng-repeat = "port in $parent.$parent.state.newLink.server.ports"
-    ) :{{ port }}
+    ) :{{ $parent.port }}
 
 .table-footer.clearfix(
   ng-if = "state.showHostName"
