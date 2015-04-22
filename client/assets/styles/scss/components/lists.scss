@@ -126,6 +126,16 @@
       color: $gray;
       display: block;
     }
+
+    .input-checkbox {
+      height: 24px;
+      margin-left: 2px;
+      margin-right: 7px;
+
+      + .small {
+        margin-left: 27px;
+      }
+    }
   }
 
   // buttons

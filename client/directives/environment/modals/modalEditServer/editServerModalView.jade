@@ -3,7 +3,13 @@ form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    button.btn.btn-xs.gray Configuring api
+    button.btn.btn-xs.gray(
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-data = "data"
+      pop-over-options = "{\"left\":0,\"top\":28}"
+      pop-over-template = "viewPopoverServerOptions"
+    ) Configuring api
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
