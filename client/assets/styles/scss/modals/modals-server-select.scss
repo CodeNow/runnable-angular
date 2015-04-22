@@ -1,5 +1,6 @@
 .modal-server-select {
   max-width: 450px;
+  min-width: 420px;
 
   .modal-body {
     max-height: 60vh;
@@ -13,7 +14,6 @@
     line-height: 30px;
     margin-bottom: 12px;
     padding-left: calc(50% - 42px);
-    width: 416px;
 
     &:focus,
     &:valid {

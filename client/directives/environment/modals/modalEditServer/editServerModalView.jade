@@ -126,6 +126,10 @@ form.modal-dialog.modal-edit-server(
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
+      ng-if = "stateModel === 'replace'"
+      ng-include = "'viewFormReplace'"
+    )
+    .modal-form(
       ng-if = "stateModel === 'logs'"
       ng-include = "'viewFormLogs'"
     )
