@@ -38,7 +38,7 @@ button.btn.btn-xs(
     li.list-item.popover-list-item.small(
     ) Select Host Name
     fancy-option(
-      value = "server"
+      value = "server.instance.attrs.name"
       ng-repeat = "server in $parent.data.newServers"
     ) {{ $parent.server.instance.attrs.name }}
 
