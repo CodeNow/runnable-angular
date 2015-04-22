@@ -51,8 +51,12 @@
 // table actions
 .table-actions {
   background: $gray-lighter;
-  border-radius: 0 0 3px 3px;
+  border-radius: 3px 3px 0 0;
   padding: 6px;
+
+  + .ace-container {
+    border-radius: 0 0 3px 3px;
+  }
 
   // actions
   > .btn {
@@ -92,6 +96,7 @@
     // host name button
     .btn-sm {
       background: $white;
+      border: 0;
       border-left: 1px solid $gray-lighter;
       border-radius: 0;
       border-right: 1px solid $gray-lighter;
@@ -117,12 +122,13 @@
       }
 
       &:first-child {
-        border-radius: 3px 0 0 3px;
+        border-radius: 2px 0 0 2px;
         flex: 0 0 90px;
+        margin-left: -1px;
       }
 
       &:last-child {
-        border-radius: 0 3px 3px 0;
+        border-radius: 0 2px 2px 0;
         flex: 0 0 90px;
       }
     }

@@ -1,15 +1,17 @@
 .clearfix
   .label-col Environment Variables
 
+//- table actions
+.table-actions.clearfix(
+  ng-include = "'viewEnvironmentVariableActions'"
+)
+
 //- table of current environment variables
 pre.ace-container.ace-environment-variables(
   env-vars
   current-model = "currentModel.opts"
   state-model = "state.opts"
   validation = "validation.env"
-)
-.table-actions.clearfix(
-  ng-include = "'viewEnvironmentVariableActions'"
 )
 
 small.small Environment variables can be used to link other servers in your environment together. #{''}

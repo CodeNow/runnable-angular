@@ -70,7 +70,6 @@
   .active-panel,
   .ace-container {
     border: 2px solid $gray-lighter;
-    border-radius: 3px;
     display: flex;
 
     .ace_editor {
@@ -79,6 +78,7 @@
   }
 
   .active-panel {
+    border-radius: 3px;
     padding: 0;
 
     .terminal {

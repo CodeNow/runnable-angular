@@ -1,9 +1,12 @@
 //- default actions
+//- prefer ng-hide > ng-if for this button
 button.btn.btn-xs.gray(
-  ng-init = "state.showHostName = false"
   ng-click = "state.showHostName = true"
-  ng-if = "data.newServers.length > 1"
+  ng-init = "state.showHostName = false"
+  ng-hide = "state.showHostName"
 ) Insert host name
+  //- ng-if = "data.newServers.length > 1"
+
 button.btn.btn-xs(
   ng-if = "!state.showHostName"
   pop-over
@@ -50,6 +53,7 @@ button.btn.btn-xs(
       value = "port"
       ng-repeat = "port in $parent.$parent.state.newLink.server.ports"
     ) :{{ port }}
+
 .table-footer.clearfix(
   ng-if = "state.showHostName"
 )
