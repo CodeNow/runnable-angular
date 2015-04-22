@@ -1,19 +1,14 @@
 .modal-edit-server {
-  max-width: 660px;
+  max-width: 720px;
   width: 100%;
 
   // nav
   .modal-header {
 
-    .p {
-      margin-top: 6px;
-    }
-
     .btn-xs {
-      color: $gray;
-      position: absolute;
-      right: 15px;
-      top: 12px;
+      display: table;
+      margin: 12px auto 6px;
+      padding-right: 0;
     }
 
     .input-checkbox {
@@ -29,7 +24,7 @@
   .btn-radio {
     height: 81px;
     line-height: 1;
-    margin: 0 0 9px;
+    margin-bottom: 6px;
     padding: 0 9px;
     white-space: normal;
     width: 96px;

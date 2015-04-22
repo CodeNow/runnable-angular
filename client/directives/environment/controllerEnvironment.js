@@ -67,6 +67,9 @@ function ControllerEnvironment(
         });
     },
     getFlattenedSelectedStacks: function (selectedStack) {
+      if (!selectedStack) {
+        return 'none';
+      }
       var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;
       if (selectedStack.dependencies) {
         selectedStack.dependencies.forEach(function (dep) {
@@ -163,9 +166,9 @@ function ControllerEnvironment(
         });
     },
     addServerFromTemplate: function (instance) {
+      $scope.$emit('close-modal');
       copySourceInstance($scope.data.activeAccount, instance, {}).then(function (copiedInstance) {
         $scope.data.newServers.push(copiedInstance);
-        $scope.$emit('close-modal');
       });
     }
   };

@@ -3,14 +3,24 @@ form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    p.p Configuring api
-    label.btn.btn-xs.gray
-      input.input-checkbox(
-        ng-click = "changeTab('buildfiles')"
-        ng-model = "data.revealBuildfiles"
-        type = "checkbox"
-      )
-      | Advanced config
+    button.btn.btn-xs.gray(
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-data = "data"
+      pop-over-options = "{\"left\":0,\"top\":28}"
+      pop-over-template = "viewPopoverServerOptions"
+    ) Configuring api
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      //- label.btn.btn-xs.gray
+        input.input-checkbox(
+          ng-click = "changeTab('buildfiles')"
+          ng-model = "data.revealBuildfiles"
+          type = "checkbox"
+        )
+        | Advanced config
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"
@@ -70,6 +80,15 @@ form.modal-dialog.modal-edit-server(
             xlink:href = "#icons-terminal"
           )
         span.btn-text Environment Variables
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'replace'}"
+        ng-click = "changeTab('replace')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Replace
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'logs'}"
         ng-click = "changeTab('logs')"

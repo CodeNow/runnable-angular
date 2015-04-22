@@ -21,7 +21,7 @@
   &.active {
     background: $white;
     border-color: $purple-light;
-    color: $gray-dark;
+    color: $purple-light;
   }
 
   &.focus {
@@ -139,19 +139,9 @@
     padding: 0 15px;
   }
 
-  // header buttons
   // status
   .btn-xs {
     float: left;
-
-    // toggle
-    + .btn-xs {
-      float: right;
-    }
-
-    .input-checkbox {
-      margin: 0 6px 0 0;
-    }
   }
 }
 
@@ -264,13 +254,13 @@
 
 //- loading state
 .card-loading {
-  cursor: progress;
-  font-size: 18px;
-  font-style: italic;
+  align-items: center;
+  display: flex;
+  height: 369px;
   justify-content: center;
   text-align: center;
 
   .spinner-wrapper {
-    margin-bottom: 12px;
+    margin-top: -60px;
   }
 }

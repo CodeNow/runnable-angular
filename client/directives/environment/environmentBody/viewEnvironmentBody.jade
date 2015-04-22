@@ -3,7 +3,9 @@
 )
   .card-header
     h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
-    .row.clearfix
+    .row.clearfix.load(
+      ng-if = "!server.building"
+    )
 
       //- if building: text says "Building"; title attribute shows time building "82 seconds" "50 minutes" etc.
         - if building failed: text says "Build Failed"; title attribute shows when the build failed "Failed 2 minutes ago"
@@ -21,22 +23,15 @@
         modal-template = "editServerModalOpen"
         ng-class = "getInstanceStatus.color(server)"
       ) {{ getInstanceStatus.text(server) }}
-      label.btn.btn-xs.white(
-        modal
-        modal-actions = "actions"
-        modal-data = "data"
-        modal-template = "confirmBuildFilesModalView"
-      )
-        input.input-checkbox(
-          ng-model = "server.revealBuildfiles"
-          type = "checkbox"
-        )
-        | Advanced config
-  ul.card-body
-    .spinner-wrapper.spinner-backdrop.spinner-md.spinner-gray.in(
-      ng-if = "server.building"
+  ul.card-body.card-loading(
+    ng-if = "server.building"
+  )
+    .spinner-wrapper.spinner-md.spinner-gray.in(
       ng-include = "'spinner'"
     )
+  ul.card-body.load(
+    ng-if = "!server.building"
+  )
     li.btn.white(
       modal
       modal-actions = "actions"

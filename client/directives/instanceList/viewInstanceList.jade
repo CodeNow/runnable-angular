@@ -4,38 +4,46 @@
   ng-include = "'spinner'"
 )
 
-.filter-wrap(
-  ng-if = "!state.loadingInstances"
-)
-  //- input.filter(
-  //-   ng-model = "filter.string"
-  //-   placeholder = "Filter Servers"
-  //- )
+//- .filter-wrap(
+//-   ng-if = "!state.loadingInstances"
+//- )
+  input.filter(
+    ng-model = "filter.string"
+    placeholder = "Filter Servers"
+  )
 
-  .row-heading
-    | Your Servers
-  ul.server-category-list
-    li.server-category-list-item(
-      ng-repeat = "master in data.asdf.masters.models"
-    )
-      ul.server-list
-        li.server-list-item
-          svg.iconnables.icons-repository
-              use(
-                xlink:href = "#icons-repository"
-              )
-          span.server-category-name.text-overflow(
-            ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                       instanceName: master.attrs.name })"
-            ) {{ master.attrs.name }}
-            span.branch-name /master
-          .icons-status.running
-        li.server-list-item(
-          ng-repeat = "branchFork in data.asdf.forks.models"
+.row-heading
+  | Servers
+  a.btn.btn-xs.white(
+    href = "/runnabro/new"
+  )
+    svg.iconnables.icons-gear
+      use(
+        xlink:href = "#icons-gear"
+      )
+    | Configure
+ul.server-category-list
+  li.server-category-list-item(
+    ng-repeat = "master in data.asdf.masters.models"
+  )
+    ul.server-list
+      li.server-list-item
+        svg.iconnables.icons-repository
+            use(
+              xlink:href = "#icons-repository"
+            )
+        span.server-category-name.text-overflow(
           ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                       instanceName: branchFork.attrs.name })"
+                     instanceName: master.attrs.name })"
+          ) {{ master.attrs.name }}
+          span.branch-name /master
+        .icons-status.running
+      li.server-list-item(
+        ng-repeat = "branchFork in data.asdf.forks.models"
+        ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+                     instanceName: branchFork.attrs.name })"
+      )
+        span.branch-name.text-overflow {{ branchFork.attrs.name }}
+        .icons-status(
+          ng-class = "getInstanceClasses(branchFork)"
         )
-          span.branch-name.text-overflow {{ branchFork.attrs.name }}
-          .icons-status(
-            ng-class = "getInstanceClasses(branchFork)"
-          )

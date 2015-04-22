@@ -86,6 +86,21 @@ function editServerModal(
           $scope.stateModel = tabname;
         }
       };
+
+      $scope.insertHostName = function (opts) {
+        var hostName = '';
+        if (opts.protocol) {
+          hostName += opts.protocol;
+        }
+        if (opts.server) {
+          hostName += opts.server;
+        }
+        if (opts.port) {
+          hostName += opts.port;
+        }
+
+        $scope.$emit('eventPasteLinkedInstance', hostName);
+      };
     }
   };
 }
