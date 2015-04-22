@@ -113,6 +113,7 @@ function fancySelect(
 
       $scope.registerOption = function (option) {
         options.push(option);
+        selectOption($scope.value);
       };
 
       transcludeFn($scope, function(clone, innerScope ){
@@ -121,21 +122,25 @@ function fancySelect(
         transclusionScope = innerScope;
       });
 
+      function selectOption (value) {
+        $timeout(function () {
+          var matchedOption = options.find(function (option) {
+            return angular.equals(option.value, value);
+          });
+
+          if (matchedOption) {
+            options.forEach(function (option) {
+              option.selected = false;
+            });
+            matchedOption.selected = true;
+            angular.element(element[0].querySelector('.display')).html(matchedOption.element.html());
+          }
+        });
+      }
+
       if (type === 'button') {
         $scope.$watch('value', function (newValue) {
-          $timeout(function () {
-            var matchedOption = options.find(function (option) {
-              return angular.equals(option.value, newValue);
-            });
-
-            if (matchedOption) {
-              options.forEach(function (option) {
-                option.selected = false;
-              });
-              matchedOption.selected = true;
-              angular.element(element[0].querySelector('.display')).html(matchedOption.element.html());
-            }
-          }, 0);
+          selectOption(newValue);
         });
       }
     }

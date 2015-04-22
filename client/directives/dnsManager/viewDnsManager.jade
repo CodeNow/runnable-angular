@@ -37,10 +37,10 @@
     fancy-select.branch-name.text-overflow(
       value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
     )
-      fancy-options(
+      fancy-option(
         ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
         value = "instanceOption.attrs.shortHash"
-      ) {{ instanceOption.attrs.name }}
+      ) {{ $parent.instanceOption.attrs.name }}
     .icons-status(
       ng-class = "getInstanceClasses(masterInstance)"
     )
