@@ -43,20 +43,6 @@
       }
     }
 
-    // validation
-    &.input,
-    .input {
-
-      &.ng-invalid {
-        border-radius: 3px 3px 0 0;
-      }
-    }
-
-    .validate-wrapper {
-      border-radius: 0 0 3px 3px;
-      margin: 0;
-    }
-
     // buttons
     .btn {
       display: block;
