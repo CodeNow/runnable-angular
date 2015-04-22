@@ -9,12 +9,16 @@
 .thead {
   background: #f0f0f0;
   font-size: 13px;
-  padding-bottom: 3px;
+  font-weight: 500;
+  padding: 3px 0;
 
   .cell {
-    font-weight: 500;
     height: 24px;
     line-height: 24px;
+
+    &:only-child {
+      width: 100%;
+    }
   }
 }
 
@@ -47,7 +51,6 @@
 
   .btn-xs {
     float: right;
-    top: 6px;
   }
 }
 
