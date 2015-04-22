@@ -139,19 +139,9 @@
     padding: 0 15px;
   }
 
-  // header buttons
   // status
   .btn-xs {
     float: left;
-
-    // toggle
-    + .btn-xs {
-      float: right;
-    }
-
-    .input-checkbox {
-      margin: 0 6px 0 0;
-    }
   }
 }
 

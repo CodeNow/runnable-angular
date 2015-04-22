@@ -23,17 +23,6 @@
         modal-template = "editServerModalOpen"
         ng-class = "getInstanceStatus.color(server)"
       ) {{ getInstanceStatus.text(server) }}
-      label.btn.btn-xs.white(
-        modal
-        modal-actions = "actions"
-        modal-data = "data"
-        modal-template = "confirmBuildFilesModalView"
-      )
-        input.input-checkbox(
-          ng-model = "server.revealBuildfiles"
-          type = "checkbox"
-        )
-        | Advanced config
   ul.card-body.card-loading(
     ng-if = "server.building"
   )

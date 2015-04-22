@@ -4,11 +4,10 @@
 
   // nav
   .modal-header {
-    padding: 12px 0 6px;
 
     .btn-xs {
       display: table;
-      margin: 0 auto 6px;
+      margin: 12px auto 6px;
       padding-right: 0;
     }
 
@@ -25,6 +24,7 @@
   .btn-radio {
     height: 81px;
     line-height: 1;
+    margin-bottom: 6px;
     padding: 0 9px;
     white-space: normal;
     width: 96px;
