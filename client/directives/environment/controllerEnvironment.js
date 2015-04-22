@@ -167,8 +167,15 @@ function ControllerEnvironment(
     },
     addServerFromTemplate: function (instance) {
       $scope.$emit('close-modal');
+
+      var newServer = {
+        building: true
+      };
+      $scope.data.newServers.push(newServer);
+
       copySourceInstance($scope.data.activeAccount, instance, {}).then(function (copiedInstance) {
-        $scope.data.newServers.push(copiedInstance);
+        newServer.building = false;
+        newServer.instance = copiedInstance;
       });
     }
   };
