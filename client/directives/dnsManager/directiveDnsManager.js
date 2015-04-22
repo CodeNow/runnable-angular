@@ -11,7 +11,8 @@ function dnsManager(
   createInstanceUrl,
   errs,
   promisify,
-  $q
+  $q,
+  getInstanceClasses
 ) {
   return {
     restrict: 'A',
@@ -21,6 +22,7 @@ function dnsManager(
     },
     templateUrl: 'viewDnsManager',
     link: function ($scope, element, attrs) {
+      $scope.getInstanceClasses = getInstanceClasses;
       // We need the entire dependency tree.
       $scope.subDependencies = [];
 
