@@ -122,82 +122,16 @@ section.sidebar.server-sidebar.load(
   )
 
   section.row.linked-servers(
+    dns-manager
+    instance = "dataInstance.data.instance"
     ng-class = "{\
         closed: isClosed\
       }"
+    ng-if = "dataInstance.data.instance"
     ng-init = "isClosed = false"
+    ng-show = "isDnsSetup"
+    is-dns-setup = "isDnsSetup"
   )
-    .row-heading(
-      ng-click = "isClosed = !isClosed"
-    )
-      svg.iconnables.icons-disclose
-          use(
-            xlink:href = "#icons-disclose"
-          )
-      | Linked Servers
-    .well
-      .well-item
-        svg.iconnables.icons-repository
-          use(
-            xlink:href = "#icons-repository"
-          )
-        span.server-category-name.text-overflow runnable-web-runnable-web
-      .branch
-        span.branch-name.text-overflow master
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-        .icons-status.running
-    .well
-      .well-item
-        svg.iconnables.icons-repository
-          use(
-            xlink:href = "#icons-repository"
-          )
-        span.server-category-name.text-overflow api
-      .branch
-        span.branch-name.text-overflow error-status-error-status
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-        .icons-status.building
-    .well
-      .well-item
-        svg.iconnables.icons-repository
-          use(
-            xlink:href = "#icons-repository"
-          )
-        span.server-category-name.text-overflow mongoDB
-        .icons-status.running
-    .well.indirect
-      .well-item
-        svg.iconnables.icons-disclose
-          use(
-            xlink:href = "#icons-disclose"
-          )
-        span Indirect Links
-        .icons-status.running
-        .icons-status.running
-        .icons-status.building
-      ul
-        li.well-item
-          svg.iconnables.icons-repository
-            use(
-              xlink:href = "#icons-repository"
-            )
-          span.server-category-name.text-overflow api
-            span.branch-name /master
-          .icons-status.running
-        li.well-item
-          svg.iconnables.icons-repository
-            use(
-              xlink:href = "#icons-repository"
-            )
-          span.server-category-name.text-overflow mavis
-            span.branch-name /master
-          .icons-status.running
 
   section.row.explorer.closed(
     explorer
