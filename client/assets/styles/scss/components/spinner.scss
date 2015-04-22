@@ -39,15 +39,19 @@
     stroke: $white;
   }
 
-  &.spinner-blue .path {
-    stroke: $blue;
+  &.spinner-gray .path {
+    stroke: $gray;
+  }
+
+  &.spinner-green .path {
+    stroke: $green;
   }
 }
 
 // with backdrop
 .spinner-backdrop {
   align-items: center;
-  background: rgba($white,.75);
+  background: rgba($white,.81);
   height: 100%;
   justify-content: center;
   left: 0;

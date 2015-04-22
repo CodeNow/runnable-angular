@@ -3,7 +3,6 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  min-height: 360px;
   min-width: 360px;
   position: relative;
   transition: none;
@@ -22,7 +21,7 @@
   &.active {
     background: $white;
     border-color: $purple-light;
-    color: $gray-dark;
+    color: $purple-light;
   }
 
   &.focus {
@@ -37,13 +36,13 @@
     width: 210px;
 
     .card-header {
+      justify-content: center;
       text-align: center;
     }
 
     .img {
       margin-right: 6px;
       position: relative;
-      top: 6px;
     }
   }
 
@@ -51,6 +50,20 @@
   &.gray {
     background: $gray-lightest;
     border-color: $gray-lighter;
+  }
+
+  // empty state
+  &.empty {
+    background: transparent;
+    border-color: transparent;
+    color: $gray;
+    height: 467px;
+    line-height: 467px;
+    text-align: center;
+  }
+
+  + .empty {
+    display: none; // hide empty state when multiple cards
   }
 
   // list columns
@@ -112,28 +125,23 @@
 // card layout
 // header
 .card-header {
-  flex: 0 0 90px;
-  font-size: 18px;
-  line-height: 90px;
-
-  .icons-server {
-    color: $gray;
-    float: left;
-    margin: 27px 6px 0 29px;
-    width: 21px;
-  }
 
   .h2 {
     color: $gray;
-    font-size: 18px;
-    margin: 30px 0 6px;
+    font-size: 16px;
+    height: 36px;
+    margin: 30px 15px;
+    text-align: center;
   }
 
-  .p {
-    color: $gray-light;
-    font-weight: 400;
-    line-height: 1;
-    margin-left: 28px;
+  .row {
+    margin: 0 0 6px;
+    padding: 0 15px;
+  }
+
+  // status
+  .btn-xs {
+    float: left;
   }
 }
 
@@ -151,10 +159,11 @@
   }
 
   > .btn {
-    height: 75px;
-    padding: 9px 12px;
+    display: block;
+    height: 60px;
+    line-height: 1.4;
+    padding: 6px 9px;
     text-align: left;
-    width: 100%;
 
     &:hover .icons-arrow-down {
       color: $gray-dark;
@@ -182,19 +191,17 @@
 
     .h3 {
       font-size: 18px;
-      height: 30px;
-      line-height: 30px;
+      margin-top: 4px;
     }
 
     .p {
       color: $gray-light;
+      font-size: 16px;
       font-weight: 400;
-      height: 21px;
-      line-height: 21px;
+      line-height: 20px;
     }
 
     .icons-arrow-down {
-      height: 75px;
       position: absolute;
       right: 6px;
       top: 0;
@@ -247,13 +254,13 @@
 
 //- loading state
 .card-loading {
-  cursor: progress;
-  font-size: 18px;
-  font-style: italic;
+  align-items: center;
+  display: flex;
+  height: 369px;
   justify-content: center;
   text-align: center;
 
   .spinner-wrapper {
-    margin-bottom: 12px;
+    margin-top: -60px;
   }
 }

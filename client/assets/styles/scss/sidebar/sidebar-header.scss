@@ -1,6 +1,41 @@
 .nav-header {
-  box-shadow: 0 3px 6px $gray-lightest;
+  border-bottom: 1px solid $gray-lighter;
   flex: 0 0 auto;
+  height: 72px;
   position: relative;
   z-index: $z-sidebar-header;
+}
+
+// button.btn.gray.btn-account
+.btn-account {
+  background: rgba($black, 0);
+  font-weight: 500;
+  height: 47px;
+  margin-top: 12px;
+  padding: 0 12px;
+  text-align: left;
+  width: 100%;
+
+  &.no-touching > .icons-arrow-down {
+    transform: scale3d(0,0,0);
+  }
+
+  .gravatar {
+    float: left;
+    margin-right: 6px;
+  }
+
+  .account-name {
+    max-width: calc(100% - 80px);
+    position: absolute;
+    top: 0;
+  }
+
+  .icons-arrow-down {
+    height: 21px;
+    position: absolute;
+    right: 6px;
+    top: 12px;
+    width: 21px;
+  }
 }

@@ -1,13 +1,22 @@
 .modal-edit-server {
-  max-width: 600px;
+  max-width: 720px;
   width: 100%;
 
   // nav
-  .modal-header .p {
-    margin-top: 6px;
+  .modal-header {
+
+    .btn-xs {
+      display: table;
+      margin: 12px auto 6px;
+      padding-right: 0;
+    }
+
+    .input-checkbox {
+      margin: 0 6px 0 0;
+    }
   }
 
-  .row {
+  .modal-tabs {
     display: flex;
     justify-content: center;
   }
@@ -15,7 +24,7 @@
   .btn-radio {
     height: 81px;
     line-height: 1;
-    margin: 0 0 9px;
+    margin-bottom: 6px;
     padding: 0 9px;
     white-space: normal;
     width: 96px;
@@ -57,11 +66,68 @@
     }
   }
 
-  // environment variables
-  .ace_editor {
+  // active panel & ace container
+  .active-panel,
+  .ace-container {
     border: 2px solid $gray-lighter;
-    border-bottom: 0;
-    border-radius: 3px 3px 0 0;
-    height: 180px;
+    display: flex;
+
+    .ace_editor {
+      flex: 1 1 auto;
+    }
+  }
+
+  .active-panel {
+    border-radius: 3px;
+    padding: 0;
+
+    .terminal {
+      min-height: 210px; // to match env vars
+    }
+  }
+}
+
+// environment variables
+.ace-environment-variables {
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+  height: 210px;
+}
+
+// build files
+.ace-build-files {
+  background: $white;
+
+  .ace_editor {
+    height: 210px;
+  }
+
+  // override sidebar
+  .sidebar {
+    border-right-width: 2px;
+    height: auto;
+    padding: 0;
+    width: 180px;
+  }
+
+  .sidebar-actions {
+    background: $gray-lighter;
+    bottom: 0;
+    height: 30px;
+    padding: 4px 3px;
+    position: absolute;
+    width: 100%;
+
+    .btn-xs {
+      padding: 0;
+    }
+
+    .iconnables {
+      height: 100%;
+    }
+  }
+
+  .file-tree {
+    margin: 3px;
   }
 }

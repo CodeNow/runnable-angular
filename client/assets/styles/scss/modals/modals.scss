@@ -33,12 +33,18 @@
   max-width: 84vw;
   min-width: 370px;
   position: relative;
-  top: 9%;
+  top: 30px;
 
   @include media(sm) {
     max-width: none;
     min-width: 360px;
     width: calc(100% - 30px);
+  }
+
+  // sizing for confirmation modals
+  &.modal-confirm {
+    max-width: 540px;
+    padding-top: 21px;
   }
 
   &.modal-sidebar {
@@ -112,6 +118,11 @@
   &:last-child {
     padding-bottom: 21px;
   }
+
+  + .list {
+    font-weight: 500;
+    margin: 15px 0 15px 45px;
+  }
 }
 
 // h1.modal-heading
@@ -128,6 +139,13 @@
 
   @include media(sm) {
     width: 100%;
+  }
+
+  // spinner
+  > .spinner-wrapper {
+    align-items: center;
+    color: $gray-light;
+    min-height: 90px;
   }
 
   .btn-checkbox {
@@ -176,6 +194,7 @@
   flex: 0 0 auto;
   margin: 0 15px 15px;
   padding: 12px 0 0;
+  z-index: 1; // footer overlaps body
 
   .btn-group,
   .green,

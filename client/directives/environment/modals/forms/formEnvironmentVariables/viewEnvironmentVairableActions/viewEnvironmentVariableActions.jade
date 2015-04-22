@@ -1,10 +1,13 @@
 //- default actions
+//- prefer ng-hide > ng-if for this button
 button.btn.btn-xs.gray(
-  ng-click = "data.insertHostName = true"
-  ng-if = "!data.insertHostName"
+  ng-click = "state.showHostName = true"
+  ng-init = "state.showHostName = false"
+  ng-hide = "state.showHostName || data.newServers.length < 2"
 ) Insert host name
+
 button.btn.btn-xs(
-  ng-if = "!data.insertHostName"
+  ng-if = "!state.showHostName"
   pop-over
   pop-over-actions = "popoverLinkHelper.actions"
   pop-over-active = "popoverLinkHelper.data.show"
@@ -16,44 +19,46 @@ button.btn.btn-xs(
 
 //- if inserting host names
 .label.label-row.clearfix(
-  ng-if = "data.insertHostName"
+  ng-if = "state.showHostName"
 )
-  input.input.input-sm.monospace.text-overflow(
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.protocol"
+    type = "text"
     placeholder = "Protocol"
-    pop-over
-    pop-over-actions = "popoverProtocolSelect.actions"
-    pop-over-active = "popoverProtocolSelect.data.show"
-    pop-over-data = "popoverProtocolSelect.data"
-    pop-over-options = "{\"left\":-3,\"top\":39}"
-    pop-over-template = "viewPopoverProtocolSelect"
   )
-  button.btn.btn-sm.monospace.text-overflow(
-    pop-over
-    pop-over-actions = "popoverHostNameSelect.actions"
-    pop-over-active = "popoverHostNameSelect.data.show"
-    pop-over-data = "popoverHostNameSelect.data"
-    pop-over-options = "{\"left\":-3,\"top\":39}"
-    pop-over-template = "viewPopoverHostNameSelect"
-  ) api-codenow.runnableapp.com
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-  input.input.input-sm.monospace.text-overflow(
+    li.list-item.popover-list-item.small(
+    ) Select Protocol (optional)
+    fancy-option(
+      value = "'http://'"
+    ) http://
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.server"
+    placeholder = "Host Url"
+  )
+    li.list-item.popover-list-item.small(
+    ) Select Host Name
+    fancy-option(
+      value = "server"
+      ng-repeat = "server in $parent.data.newServers"
+    ) {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.port"
     placeholder = "Port"
-    pop-over
-    pop-over-actions = "popoverPortSelect.actions"
-    pop-over-active = "popoverPortSelect.data.show"
-    pop-over-data = "popoverPortSelect.data"
-    pop-over-options = "{\"left\":-3,\"top\":39}"
-    pop-over-template = "viewPopoverPortSelect"
+    type = "text"
   )
+    li.list-item.popover-list-item.small(
+    ) Select Port (optional)
+    fancy-option(
+      value = "port"
+      ng-repeat = "port in $parent.$parent.state.newLink.server.ports"
+    ) :{{ port }}
+
 .table-footer.clearfix(
-  ng-if = "data.insertHostName"
+  ng-if = "state.showHostName"
 )
   button.btn.btn-xs.gray(
-    ng-click = "data.insertHostName = false"
+    ng-click = "state.showHostName = false"
   ) Cancel
   button.btn.btn-xs.green(
-    ng-click = "data.insertHostName = false"
+    ng-click = "state.showHostName = false; insertHostName(state.newLink);"
   ) Insert host name

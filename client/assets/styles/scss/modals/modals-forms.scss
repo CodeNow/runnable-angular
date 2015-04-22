@@ -1,5 +1,5 @@
 .modal-form {
-  padding: 30px;
+  padding: 15px 30px;
 
   // label (row)
   .label {
@@ -43,22 +43,8 @@
       }
     }
 
-    // validation
-    &.input,
-    .input {
-
-      &.ng-invalid {
-        border-radius: 3px 3px 0 0;
-      }
-    }
-
-    .validate-wrapper {
-      border-radius: 0 0 3px 3px;
-      margin: 0;
-    }
-
     // buttons
-    > .btn {
+    .btn {
       display: block;
       font-size: 16px;
       padding: 0 24px 0 6px;
@@ -84,6 +70,7 @@
     .icons-arrow-down {
       position: absolute;
       right: 3px;
+      top: 0;
     }
 
     // small labels
@@ -94,6 +81,24 @@
     // small text aligns with button/input padding
     .small {
       margin: 6px;
+    }
+  }
+
+  // center tabs
+  > .btn-group {
+    display: table;
+    margin: 0 auto 15px;
+
+    .btn {
+
+      &:hover {
+        z-index: 1;
+      }
+
+      &:active,
+      &.active {
+        z-index: 2;
+      }
     }
   }
 

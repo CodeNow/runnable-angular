@@ -1,18 +1,20 @@
 label.label.clearfix
   .label-col Start Command
+
   .input-col
-    //- input for start command
-      - do not allow the user to leave this tab if this field is empty
-    input.input.input-sm.input-validate(
-      required
-      pop-over
-      pop-over-actions = "popoverStartCommand.actions"
-      pop-over-active = "popoverStartCommand.data.show"
-      pop-over-data = "popoverStartCommand.data"
-      pop-over-options = "{\"left\":0,\"top\":39}"
-      pop-over-template = "viewPopoverStartCommand"
-      value = "npm start"
+    fancy-select(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      placeholder = "Start command"
+      value = "state.startCommand"
+      type = "text"
+      ng-required = "true"
+      show-dropdown = "state.selectedStack.startCommand"
     )
+      li.list-item.popover-list-item.small Suggested Start Command
+      fancy-option(
+        value = "$parent.state.selectedStack.startCommand"
+      ) {{$parent.$parent.state.selectedStack.startCommand}}
+
     small.small This is the command that will start your application. #{''}
       a.link(
         href = "//docs.docker.com/reference/builder/#cmd"

@@ -1,0 +1,26 @@
+header.modal-header
+  h1.modal-heading New Server: {{ state.repo.attrs.name }}
+
+section.modal-body
+  .modal-form(
+    ng-form
+    name = "verifyServerForm"
+  )
+    .label(
+      ng-include = "'viewFormStack'"
+    )
+    .label(
+      ng-init = "startCommandCanDisable = true"
+      ng-include = "'viewFormStartCommand'"
+    )
+
+footer.modal-footer.clearfix
+  //- disabled if there is no value in the command input
+  button.btn.green(
+    ng-disabled = "verifyServerForm.$invalid"
+    ng-click = "actions.addNewServer(state, defaultActions);"
+  ) Create Server
+  button.btn.white.btn-cancel(
+    ng-click = "defaultActions.cancel()"
+    type = "button"
+  ) Cancel

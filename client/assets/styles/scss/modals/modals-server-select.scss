@@ -1,5 +1,6 @@
 .modal-server-select {
   max-width: 450px;
+  min-width: 420px;
 
   .modal-body {
     max-height: 60vh;
@@ -13,7 +14,6 @@
     line-height: 30px;
     margin-bottom: 12px;
     padding-left: calc(50% - 42px);
-    width: 416px;
 
     &:focus,
     &:valid {
@@ -24,7 +24,7 @@
   }
 }
 
-// repository list
+// repository/template list
 .list-servers {
 
   > .list-item {
@@ -60,10 +60,6 @@
         border-color: transparent;
         color: $gray-darker;
         cursor: default;
-
-        .small {
-          color: $gray-light;
-        }
       }
     }
   }
@@ -89,7 +85,10 @@
     top: 15px;
   }
 
-  .small {
-    margin-left: 33px;
+  // spinner
+  .spinner-wrapper {
+    position: absolute;
+    right: 15px;
+    top: 20px;
   }
 }

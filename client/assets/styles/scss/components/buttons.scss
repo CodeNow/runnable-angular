@@ -6,11 +6,10 @@
   font-size: 18px;
   font-weight: 400;
   height: 45px;
-  line-height: 44px; // 45 - 2px for border-top/bottom
+  line-height: 43px; // 45 - 2px for border-top/bottom
   padding: 0 15px;
   position: relative;
   text-align: center;
-  // transition: all .15s ease-in;
   user-select: none;
   white-space: nowrap;
 
@@ -67,10 +66,28 @@
     > .icons-add {
       transform: rotate3d(0,0,1,135deg) scale3d(.75,.75,1);
     }
+  }
 
-    // > .icons-arrow-down {
-    //   transform: scale3d(.75,.75,1);
-    // }
+  // fancy select
+  .display .iconnables {
+    float: left;
+    height: 21px;
+    margin-right: 6px;
+    top: 6px;
+    width: 21px;
+  }
+
+  // icons
+  .icons-round {
+    margin: 9px 0; // standard size buttons
+
+    &:first-child {
+      margin-right: 6px;
+    }
+
+    &:last-child {
+      margin-left: 6px;
+    }
   }
 }
 
@@ -85,6 +102,7 @@
 }
 
 .btn-sm {
+  font-size: 16px;
   height: 36px;
   line-height: 34px;
 
@@ -95,7 +113,7 @@
 }
 
 .btn-xs {
-  font-size: 16px;
+  font-size: 13px;
   height: 24px;
   line-height: 20px;
   padding: 0 6px;
@@ -162,7 +180,7 @@
   .icons-close {
     color: currentColor;
     height: 100%;
-    top: -14px; // offset
+    top: -18px; // offset
     width: 100%;
   }
 
@@ -234,6 +252,7 @@
 .green,
 .orange,
 .purple,
+.red,
 .white {
   border: 2px solid transparent;
   color: $white;
@@ -296,6 +315,11 @@
         color: currentColor;
         transition: transform .15s;
       }
+
+      .icons-round {
+        background: $purple-light;
+        color: $white;
+      }
     }
 
     &[disabled],
@@ -309,6 +333,12 @@
         color: $gray-dark;
       }
     }
+  }
+
+  // icons
+  .icons-round {
+    background: $gray;
+    color: $white;
   }
 }
 
@@ -349,7 +379,6 @@
       background: $white;
       color: $green;
       float: left;
-      margin: 9px 6px 0 0; // standard size buttons
     }
   }
 }
@@ -407,6 +436,25 @@
   }
 }
 
+.red {
+  color: $red;
+
+  &.btn {
+    background: $red;
+    border-color: $red-dark;
+    color: $white;
+
+    &:hover {
+      background: $red-light;
+    }
+
+    &:active,
+    &.active {
+      background: $red-dark;
+    }
+  }
+}
+
 .white {
   border-color: $gray-lighter;
   color: $gray-dark;
@@ -426,12 +474,16 @@
 
     &[disabled],
     &.disabled {
+      background: $gray-lightest;
+      border-color: $gray-lighter;
+      color: $gray-light;
+      opacity: 1;
 
       &:hover,
       &:active,
       &.active {
-        background: transparent;
-        border-color: transparent;
+        background: $gray-lightest;
+        border-color: $gray-lighter;
       }
     }
   }

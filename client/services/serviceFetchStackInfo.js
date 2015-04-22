@@ -22,7 +22,7 @@ function fetchStackInfo(
       Object.keys(body).forEach(function (key) {
         var stack = body[key];
         stack.key = key;
-        stack.selectedVersion = stack.defaultVersion;
+        stack.suggestedVersion = stack.defaultVersion;
         stacks.push(stack);
         if (stack.dependencies) {
           stack.dependencies = stack.dependencies.map(function (dep) {

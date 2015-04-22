@@ -1,25 +1,18 @@
 // global layout
 html {
-  -webkit-tap-highlight-color: rgba($black,0);
   font-size: 62.5%;
+  -webkit-tap-highlight-color: rgba($black,0);
 }
 
 body {
-  // background: $gray-lightest;
   color: $gray-darker;
   font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
+  min-height: 100vh;
   min-width: 360px;
   overflow-x: hidden;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 60px);
-  width: 100vw;
 }
 
 // svg files
@@ -36,10 +29,6 @@ body {
 
 .clearfix:after {
   clear: both;
-}
-
-.row {
-  margin: 0 -15px;
 }
 
 // if .disabled communicates to the user that an element is not available to them,

@@ -120,14 +120,20 @@ section.sidebar.server-sidebar.load(
     repo-list
     show-auto-deploy = "true"
   )
-  section.manage-dns.row.explorer(
-    ng-if = "dataInstance.data.instance"
-    ng-show = "isDnsSetup"
+
+  section.row.linked-servers(
     dns-manager
     instance = "dataInstance.data.instance"
+    ng-class = "{\
+        closed: isClosed\
+      }"
+    ng-if = "dataInstance.data.instance"
+    ng-init = "isClosed = false"
+    ng-show = "isDnsSetup"
     is-dns-setup = "isDnsSetup"
   )
-  section.row.explorer(
+
+  section.row.explorer.closed(
     explorer
     edit-explorer = "false"
     file-model = "dataInstance.data.instance.containers.models[0]"
