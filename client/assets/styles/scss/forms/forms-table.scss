@@ -52,7 +52,7 @@
 .table-actions {
   background: $gray-lighter;
   border-radius: 3px 3px 0 0;
-  padding: 6px;
+  padding: 6px 6px 4px;
 
   + .ace-container {
     border-radius: 0 0 3px 3px;
@@ -86,7 +86,6 @@
       }
     }
   }
-
 
   .label {
     border: 2px solid $gray-light;
@@ -143,7 +142,7 @@
 }
 
 .table-footer {
-  margin-top: 6px;
+  margin-top: 4px;
 
   .green {
     float: right;

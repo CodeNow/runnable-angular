@@ -3,9 +3,8 @@
 button.btn.btn-xs.gray(
   ng-click = "state.showHostName = true"
   ng-init = "state.showHostName = false"
-  ng-hide = "state.showHostName"
+  ng-hide = "state.showHostName || data.newServers.length < 2"
 ) Insert host name
-  //- ng-if = "data.newServers.length > 1"
 
 button.btn.btn-xs(
   ng-if = "!state.showHostName"
