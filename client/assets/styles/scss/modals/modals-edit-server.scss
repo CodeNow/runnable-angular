@@ -4,16 +4,12 @@
 
   // nav
   .modal-header {
-
-    .p {
-      margin-top: 6px;
-    }
+    padding: 12px 0 6px;
 
     .btn-xs {
-      color: $gray;
-      position: absolute;
-      right: 15px;
-      top: 12px;
+      display: table;
+      margin: 0 auto 6px;
+      padding-right: 0;
     }
 
     .input-checkbox {
@@ -29,7 +25,6 @@
   .btn-radio {
     height: 81px;
     line-height: 1;
-    margin: 0 0 9px;
     padding: 0 9px;
     white-space: normal;
     width: 96px;

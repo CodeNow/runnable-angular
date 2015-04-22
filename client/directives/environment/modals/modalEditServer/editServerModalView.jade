@@ -3,14 +3,18 @@ form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    p.p Configuring api
-    label.btn.btn-xs.gray
-      input.input-checkbox(
-        ng-click = "changeTab('buildfiles')"
-        ng-model = "data.revealBuildfiles"
-        type = "checkbox"
-      )
-      | Advanced config
+    button.btn.btn-xs.gray Configuring api
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      //- label.btn.btn-xs.gray
+        input.input-checkbox(
+          ng-click = "changeTab('buildfiles')"
+          ng-model = "data.revealBuildfiles"
+          type = "checkbox"
+        )
+        | Advanced config
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"
