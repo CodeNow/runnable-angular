@@ -67,6 +67,9 @@ function ControllerEnvironment(
         });
     },
     getFlattenedSelectedStacks: function (selectedStack) {
+      if (!selectedStack) {
+        return 'none';
+      }
       var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;
       if (selectedStack.dependencies) {
         selectedStack.dependencies.forEach(function (dep) {

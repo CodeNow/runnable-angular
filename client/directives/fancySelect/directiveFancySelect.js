@@ -96,7 +96,7 @@ function fancySelect(
 
 
       $scope.actions = {
-        toggleSelect: function (evt) {
+        toggleSelect: function () {
           if ($scope.isOpen) {
             closeDropdown();
           } else {

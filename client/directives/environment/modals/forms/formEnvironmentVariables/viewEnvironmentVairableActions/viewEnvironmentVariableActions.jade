@@ -1,10 +1,11 @@
 //- default actions
 button.btn.btn-xs.gray(
-  ng-click = "showHostName = true"
-  ng-if = "data.newServers.length"
+  ng-init = "state.showHostName = false"
+  ng-click = "state.showHostName = true"
+  ng-if = "data.newServers.length > 1"
 ) Insert host name
 button.btn.btn-xs(
-  ng-if = "!showHostName"
+  ng-if = "!state.showHostName"
   pop-over
   pop-over-actions = "popoverLinkHelper.actions"
   pop-over-active = "popoverLinkHelper.data.show"
@@ -16,7 +17,7 @@ button.btn.btn-xs(
 
 //- if inserting host names
 .label.label-row.clearfix(
-  ng-if = "showHostName"
+  ng-if = "state.showHostName"
 )
   fancy-select.input-sm.monospace.text-overflow(
     value = "$parent.state.newLink.protocol"
@@ -50,11 +51,11 @@ button.btn.btn-xs(
       ng-repeat = "port in $parent.$parent.state.newLink.server.ports"
     ) :{{ port }}
 .table-footer.clearfix(
-  ng-if = "showHostName"
+  ng-if = "state.showHostName"
 )
   button.btn.btn-xs.gray(
-    ng-click = "showHostName = false"
+    ng-click = "state.showHostName = false"
   ) Cancel
   button.btn.btn-xs.green(
-    ng-click = "showHostName = false; insertHostName(state.newLink);"
+    ng-click = "state.showHostName = false; insertHostName(state.newLink);"
   ) Insert host name
