@@ -2,7 +2,7 @@
   ng-repeat = "server in data.newServers"
 )
   .card-header
-    h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
+    h2.h2.monospace {{ server.instance.attrs.name | filterCreateInstanceUrl: data.activeAccount }}
     .row.clearfix.load(
       ng-if = "!server.building"
     )
@@ -103,7 +103,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Ports
-      p.p {{ (server.ports.length ) ? server.ports.join(', ') : 'None' }}
+      p.p {{ server.ports.join(' ') }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -121,7 +121,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Repositories
-      p.p master
+      p.p {{ server.build.contextVersions.models[0].appCodeVersions.models[0].branch }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
