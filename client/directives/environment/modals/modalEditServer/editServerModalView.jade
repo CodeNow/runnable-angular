@@ -81,6 +81,15 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Environment Variables
       button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'replace'}"
+        ng-click = "changeTab('replace')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Replace
+      button.btn.btn-radio(
         ng-class = "{active: stateModel === 'logs'}"
         ng-click = "changeTab('logs')"
       )
