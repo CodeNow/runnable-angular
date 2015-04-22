@@ -7,8 +7,15 @@
 // table row header usage:
 // .tr.thead
 .thead {
+  background: #f0f0f0;
   font-size: 13px;
   padding-bottom: 3px;
+
+  .cell {
+    font-weight: 500;
+    height: 24px;
+    line-height: 24px;
+  }
 }
 
 // layout

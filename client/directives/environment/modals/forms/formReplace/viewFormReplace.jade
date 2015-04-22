@@ -1,2 +1,30 @@
 .clearfix
   .label-col Replace
+
+//- table
+.table
+  .tr.thead.clearfix
+    .cell String replace
+  .tr.clearfix
+    .cell.monospace.text-overflow(
+      title = "config/environment"
+    ) config/environment
+    .cell.monospace.text-overflow(
+      title = "./client/config/environment.js"
+    ) ./client/config/environment.js
+  .tr.clearfix
+    .cell.monospace.text-overflow(
+      title = "./client/assets/js/primus-client.js"
+    ) ./client/assets/js/primus-client.js
+    .cell.monospace.text-overflow(
+      title = "./client/assets/js/primus-client-prod.js"
+    ) ./client/assets/js/primus-client-prod.js
+  .tr.thead.clearfix
+    .cell Filename replace
+  .tr.clearfix
+    .cell.monospace.text-overflow(
+      title = "./client/assets/js/primus-client.js"
+    ) primus-client.js
+    .cell.monospace.text-overflow(
+      title = "./client/assets/js/primus-client-prod.js"
+    ) primus-client-prod.js
