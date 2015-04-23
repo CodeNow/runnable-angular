@@ -202,7 +202,8 @@ require('app')
   .factory('fetchInstancesByPod', fetchInstancesByPod);
 function fetchInstancesByPod(
   fetchInstances,
-  $q
+  $q,
+  $filter
 ) {
   return function () {
     // Fetch all master pods
@@ -213,24 +214,41 @@ function fetchInstancesByPod(
     instances.forks = fetchInstances({
       masterPod: false
     });
-    // return fetchInstances({
-    //   masterPod: true
-    // })
-    // .then(function (masterInstances) {
-    //   console.log(masterInstances);
-    //   // for each master pod, fetch subpods w/same ctx version
-    //   return $q.all(
-    //     masterInstances.map(function (mInstance) {
-    //       return fetchInstances({
-    //         masterPod: false,
-    //         contextVersion: mInstance.attrs.contextVersion
-    //       });
-    //     })
-    //   );
-    return $q.all(instances)
+
+    return $q.all([instances.masters, instances.forks])
     .then(function (deps) {
-      console.log(deps);
-      return deps;
+      var instanceMapping = {};
+
+      var instanceList = [];
+      deps[0].forEach(function (instance) {
+        var instanceItem = {
+          master: instance,
+          children: []
+        };
+        instanceList.push(instanceItem);
+        instanceMapping[instance.attrs.contextVersion.context] = instanceItem;
+      });
+
+      deps[1].forEach(function (instance) {
+        var mapping = instanceMapping[instance.attrs.contextVersion.context];
+        if (mapping) {
+          mapping.children.push(instance);
+        } else {
+          console.log('Orphaned Instance!', instance);
+          instanceList.push({
+            master: instance,
+            children: []
+          });
+        }
+      });
+
+
+      instanceList = $filter('orderBy')(instanceList, 'master.attrs.name');
+      instanceList.forEach(function (instance) {
+        instance.children = $filter('orderBy')(instance.children, 'attrs.name');
+      });
+
+      return instanceList;
     });
   };
 }

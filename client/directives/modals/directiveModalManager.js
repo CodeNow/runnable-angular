@@ -15,7 +15,7 @@ function modalManager(
   return {
     restrict: 'A',
     scope: {
-
+      modalOpen: '='
     },
     link: function ($scope, element) {
       var currentModalScope;
@@ -74,10 +74,12 @@ function modalManager(
 
         var currentModalElement = $compile(template)(currentModalScope);
         element.append(currentModalElement);
+        $scope.modalOpen = true;
 
         currentModalScope.$on('$destroy', function () {
           if (currentModalElement) {
             currentModalElement.remove();
+            $scope.modalOpen = false;
           }
         });
       }
