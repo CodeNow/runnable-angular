@@ -25,6 +25,12 @@ module.exports = [
       anon: true
     }
   }, {
+    state: 'orgSelect',
+    abstract: false,
+    url: '^/orgSelect',
+    templateUrl: 'viewOrgSelect',
+    controller: 'ControllerOrgSelect'
+  }, {
     state: 'serverSelection',
     abstract: false,
     url: '^/:userName/serverSelection/:repo',

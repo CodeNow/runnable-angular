@@ -3,12 +3,6 @@
   ng-include = "'viewEnvironmentHeader'"
 )
 
-//- if no environment
-.environment-body.card-grid.clearfix(
-  ng-if = "!data.activeAccount"
-  ng-include = "'viewEnvironmentOrganizationSelect'"
-)
-
 .environment-body.card-grid.clearfix(
   ng-if = "data.activeAccount"
   ng-include = "'viewEnvironmentBody'"
