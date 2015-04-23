@@ -171,21 +171,7 @@ function ControllerEnvironment(
       });
     }
   };
-  $scope.getInstanceStatus = {
-    color: function (server) {
-      var classes = getInstanceClasses(server.instance);
-      return {
-        orange: classes.building,
-        red: classes.failed,
-        green: classes.running
-      };
-    },
-    text: function (server) {
-      var classes = getInstanceClasses(server.instance);
-      return classes.running ?
-          'Build successful' : (classes.building ? 'Building' : 'Building Failed');
-    }
-  };
+  $scope.getInstanceClasses = getInstanceClasses;
 
   function createServerObjectFromInstance(instance, serverObj) {
     if (!serverObj) {

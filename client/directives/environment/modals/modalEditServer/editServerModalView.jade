@@ -137,7 +137,8 @@ form.modal-dialog.modal-edit-server(
   footer.modal-footer.clearfix
     //- disabled if no changes
     button.btn.green(
-      ng-click = "actions.saveChangesToServer(state, defaultActions)"
+      type = "submit"
+      ng-click = "editServerForm.$invalid || actions.saveChangesToServer(state)"
     )  {{ (state.validation.env.length) ? (state.validation.env.length) + ' env errors' : 'Save Changes'}}
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"
