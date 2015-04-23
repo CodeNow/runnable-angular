@@ -24,7 +24,7 @@
     | Configure
 ul.server-category-list
   li.server-category-list-item(
-    ng-repeat = "master in data.asdf.masters.models"
+    ng-repeat = "pod in data.instancesByPod"
   )
     ul.server-list
       li.server-list-item
@@ -34,12 +34,12 @@ ul.server-category-list
             )
         span.server-category-name.text-overflow(
           ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                     instanceName: master.attrs.name })"
-          ) {{ master.attrs.name }}
+                     instanceName: pod.master.attrs.name })"
+          ) {{ pod.master.attrs.name }}
           span.branch-name /master
         .icons-status.running
       li.server-list-item(
-        ng-repeat = "branchFork in data.asdf.forks.models"
+        ng-repeat = "branchFork in pod.children"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
                      instanceName: branchFork.attrs.name })"
       )
