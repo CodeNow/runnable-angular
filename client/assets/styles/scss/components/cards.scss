@@ -60,10 +60,11 @@
     height: 467px;
     line-height: 467px;
     text-align: center;
-  }
 
-  + .empty {
-    display: none; // hide empty state when multiple cards
+    .spinner-wrapper {
+      align-items: center;
+      height: 100%;
+    }
   }
 
   // list columns
@@ -125,23 +126,54 @@
 // card layout
 // header
 .card-header {
-
-  .h2 {
-    color: $gray;
-    font-size: 16px;
-    height: 36px;
-    margin: 30px 15px 15px;
-    text-align: center;
-  }
-
-  .row {
-    margin: 0 0 6px;
-    padding: 0 15px;
-  }
+  margin: 0 15px 15px;
 
   // status
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    margin: 12px auto;
+    max-width: 100%;
+  }
+
+  // server name + state
   .btn-xs {
-    float: left;
+
+    &:first-child {
+      display: flex;
+      flex: 0 1 auto;
+    }
+
+    &:last-child {
+      flex: 0 0 auto;
+      padding: 0;
+    }
+  }
+
+  .btn-text {
+
+    &:first-child {
+      flex: 1 1 auto;
+      padding-right: 2px; // replaces a standard space (flexbox doesn't include it in the calculation)
+    }
+
+    &:last-child {
+      flex: 0 0 auto;
+      opacity: .6;
+    }
+  }
+
+  .iconnables {
+    margin: 0;
+  }
+
+  // proxy url
+  .small {
+    color: $gray;
+    display: block;
+    font-size: 13px;
+    height: 36px;
+    text-align: center;
   }
 }
 
@@ -159,6 +191,7 @@
   }
 
   > .btn {
+    border-radius: 0;
     display: block;
     height: 54px;
     line-height: 1.4;
@@ -177,8 +210,16 @@
       }
     }
 
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+
     + .btn {
-      margin-top: 6px;
+      margin-top: -2px;
     }
 
     //- fix dis
