@@ -202,7 +202,8 @@ require('app')
   .factory('fetchInstancesByPod', fetchInstancesByPod);
 function fetchInstancesByPod(
   fetchInstances,
-  $q
+  $q,
+  $filter
 ) {
   return function () {
     // Fetch all master pods
@@ -242,21 +243,10 @@ function fetchInstancesByPod(
       });
 
 
-      instanceList = instanceList.sort(function (instance1, instance2) {
-        var name1 = instance1.master.attrs.name;
-        var name2 = instance2.master.attrs.name;
-
-        if (name1 > name2) {
-          return 1;
-        }
-        if (name1 < name2) {
-          return -1;
-        }
-        // a must be equal to b
-        return 0;
+      instanceList = $filter('orderBy')(instanceList, 'master.attrs.name');
+      instanceList.forEach(function (instance) {
+        instance.children = $filter('orderBy')(instance.children, 'attrs.name');
       });
-
-      console.log(instanceList);
 
       return instanceList;
     });

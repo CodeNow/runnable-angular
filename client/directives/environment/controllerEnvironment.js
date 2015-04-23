@@ -207,7 +207,8 @@ function ControllerEnvironment(
   $scope.data.loadingNewServers = true;
   if ($state.params.userName) {
     fetchInstances({
-      githubUsername: $state.params.userName
+      githubUsername: $state.params.userName,
+      masterPod: true
     })
       .then(function (instances) {
         $scope.data.newServers = instances.models.map(function (instance) {
