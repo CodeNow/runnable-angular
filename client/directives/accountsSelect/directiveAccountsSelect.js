@@ -20,7 +20,7 @@ function accountsSelect (
   verifyChatIntegration
 ) {
   return {
-    restrict: 'A',
+    restrict: 'AE',
     templateUrl: 'viewAccountsSelect',
     scope: {
       data: '=',
