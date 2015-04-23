@@ -1,0 +1,65 @@
+//- default actions
+//- prefer ng-hide > ng-if for this button
+button.btn.btn-xs.gray(
+  ng-click = "state.showHostName = true"
+  ng-init = "state.showHostName = false"
+  ng-hide = "state.showHostName || data.newServers.length < 2"
+) Insert host name
+
+button.btn.btn-xs(
+  ng-if = "!state.showHostName"
+  pop-over
+  pop-over-actions = "popoverLinkHelper.actions"
+  pop-over-active = "popoverLinkHelper.data.show"
+  pop-over-data = "popoverLinkHelper.data"
+  pop-over-options = "{\"left\":0,\"top\":0}"
+  pop-over-template = "viewPopoverLinkHelper"
+) Linked Servers
+  .tag.monospace 3
+
+//- if inserting host names
+.label.label-row.clearfix(
+  ng-if = "state.showHostName"
+)
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.protocol"
+    type = "text"
+    placeholder = "Protocol"
+  )
+    li.list-item.popover-list-item.small(
+    ) Select Protocol (optional)
+    fancy-option(
+      value = "'http://'"
+    ) http://
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.server"
+    placeholder = "Host Url"
+  )
+    li.list-item.popover-list-item.small(
+    ) Select Host Name
+    fancy-option(
+      value = "server.instance.attrs.name"
+      ng-repeat = "server in $parent.data.newServers"
+    ) {{ $parent.server.instance.attrs.name }}
+
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.port"
+    placeholder = "Port"
+    type = "text"
+  )
+    li.list-item.popover-list-item.small(
+    ) Select Port (optional)
+    fancy-option(
+      value = "port"
+      ng-repeat = "port in $parent.$parent.state.newLink.server.ports"
+    ) :{{ $parent.port }}
+
+.table-footer.clearfix(
+  ng-if = "state.showHostName"
+)
+  button.btn.btn-xs.gray(
+    ng-click = "state.showHostName = false"
+  ) Cancel
+  button.btn.btn-xs.green(
+    ng-click = "state.showHostName = false; insertHostName(state.newLink);"
+  ) Insert host name

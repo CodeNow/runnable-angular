@@ -11,8 +11,7 @@ function instanceList(
   getTeamMemberClasses,
   $state,
   keypather,
-  regexpQuote,
-  $rootScope
+  regexpQuote
 ) {
   return {
     restrict: 'A',
@@ -28,10 +27,10 @@ function instanceList(
         instances: []
       };
 
-      $scope.actions.preventClosingTeamMember = function (event) {
-        event.stopPropagation();
-        $rootScope.$broadcast('close-popovers');
-      };
+      // $scope.actions.preventClosingTeamMember = function (event) {
+      //   event.stopPropagation();
+      //   $rootScope.$broadcast('close-popovers');
+      // };
 
       $scope.stateToInstance = function (instance, $event) {
         if ($event && $event.preventDefault) {

@@ -1,0 +1,33 @@
+.popover-fixed {
+  left: 0 !important;
+  margin: 0 auto;
+  max-width: 540px;
+  position: fixed;
+  right: 0 !important;
+  z-index: $z-popover-fixed;
+
+  .popover-content {
+    padding: 15px;
+  }
+
+  .popover-title {
+    margin: 6px 0 21px;
+
+    .small {
+      color: $gray;
+      display: block;
+      line-height: 1.4;
+      margin-top: 6px;
+    }
+  }
+
+  // monospace inputs
+  .input.monospace {
+    color: $gray-darker;
+    font-size: 13px;
+  }
+
+  .popover-footer {
+    margin-top: 30px;
+  }
+}

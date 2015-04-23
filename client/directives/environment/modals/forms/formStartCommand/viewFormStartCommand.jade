@@ -1,0 +1,22 @@
+label.label.clearfix
+  .label-col Start Command
+
+  .input-col
+    fancy-select(
+      ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
+      placeholder = "Start command"
+      value = "state.startCommand"
+      type = "text"
+      ng-required = "true"
+      show-dropdown = "state.selectedStack.startCommand"
+    )
+      li.list-item.popover-list-item.small Suggested Start Command
+      fancy-option(
+        value = "$parent.state.selectedStack.startCommand"
+      ) {{$parent.$parent.state.selectedStack.startCommand}}
+
+    small.small This is the command that will start your application. #{''}
+      a.link(
+        href = "//docs.docker.com/reference/builder/#cmd"
+        target = "_blank"
+      ) More about the start command

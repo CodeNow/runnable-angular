@@ -1,7 +1,10 @@
 li.folder(
   draggable
   droppable
-  ng-class = "{ 'in': dir.state.open }"
+  ng-class = "{\
+   'in': dir.state.open, \
+   'not-toggleable': isRootDir \
+   }"
 )
 
   a(
@@ -15,7 +18,9 @@ li.folder(
     pop-over-trigger = "rightClick"
   )
     svg.iconnables.filetypes.icons-folder
-      use(xlink:href = "#icons-folder")
+      use(
+        xlink:href = "#icons-folder"
+      )
     input.tree-input(
       ng-keyup = "actions.shouldCloseFolderNameInput($event)"
       ng-blur = "actions.closeFolderNameInput()"
@@ -35,9 +40,7 @@ li.folder(
     )
       a
         svg.iconnables.filetypes.icons-repository
-          use(
-          xlink:href = "#icons-repository"
-          )
+          use(xlink:href = "#icons-repository")
         span.item-name {{ acv.attrs.repo.split('/')[1] }}
   ul(
     ng-if = "dir.contents.models.length"

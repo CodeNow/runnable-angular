@@ -1,0 +1,266 @@
+.card {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  min-width: 360px;
+  position: relative;
+  transition: none;
+
+  // states
+  &:hover:not(.disabled) {
+    background: $white;
+    border-color: $gray-light;
+
+    &:not(.card-loading) {
+      cursor: pointer;
+    }
+  }
+
+  &:active:not(.disabled),
+  &.active {
+    background: $white;
+    border-color: $purple-light;
+    color: $purple-light;
+  }
+
+  &.focus {
+    animation: card-blink .5s ease-out;
+  }
+
+  // sizes
+  &.card-sm {
+    border-width: 2px;
+    min-height: inherit;
+    min-width: inherit;
+    width: 210px;
+
+    .card-header {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .img {
+      margin-right: 6px;
+      position: relative;
+    }
+  }
+
+  // colors
+  &.gray {
+    background: $gray-lightest;
+    border-color: $gray-lighter;
+  }
+
+  // empty state
+  &.empty {
+    background: transparent;
+    border-color: transparent;
+    color: $gray;
+    height: 467px;
+    line-height: 467px;
+    text-align: center;
+  }
+
+  + .empty {
+    display: none; // hide empty state when multiple cards
+  }
+
+  // list columns
+  .list-col {
+    margin: 0;
+
+    &:first-child {
+      color: $purple-lighter;
+      float: left;
+      text-align: right;
+      width: 35%;
+    }
+
+    &:last-child {
+      float: right;
+      font-size: 14px;
+      width: 65%;
+    }
+
+    &.monospace {
+      letter-spacing: -.5px;
+    }
+
+    .list-item {
+      padding: 0 6px;
+    }
+
+    // language icons
+    .iconnables {
+      float: left;
+      margin-left: -6px;
+    }
+  }
+
+  // well
+  .well {
+    background: $white;
+    border: 0;
+    border-radius: 0 0 3px 3px;
+    border-top: 1px solid $purple-lighter;
+    cursor: default;
+    margin: 0;
+    padding: 12px 9px;
+
+    // dismiss
+    .btn-close {
+      float: right;
+      height: 15px;
+      margin-left: 15px;
+      width: 15px;
+    }
+
+    .icon-close {
+      top: -14px;
+    }
+  }
+}
+
+// card layout
+// header
+.card-header {
+
+  .h2 {
+    color: $gray;
+    font-size: 16px;
+    height: 36px;
+    margin: 30px 15px;
+    text-align: center;
+  }
+
+  .row {
+    margin: 0 0 6px;
+    padding: 0 15px;
+  }
+
+  // status
+  .btn-xs {
+    float: left;
+  }
+}
+
+// body
+.card-body,
+.card-button {
+  flex: 1 1 auto;
+  padding: 0 15px 15px;
+
+  &.empty {
+    align-items: center;
+    display: flex;
+    font-style: italic;
+    justify-content: center;
+  }
+
+  > .btn {
+    display: block;
+    height: 60px;
+    line-height: 1.4;
+    padding: 6px 9px;
+    text-align: left;
+
+    &:hover .icons-arrow-down {
+      color: $gray-dark;
+    }
+
+    &:active {
+      color: $gray-dark;
+
+      .icons-arrow-down {
+        color: $purple-light;
+      }
+    }
+
+    + .btn {
+      margin-top: 6px;
+    }
+
+    //- fix dis
+    .icons-terminal {
+      float: left;
+      height: 30px;
+      margin-right: 6px;
+      width: 21px;
+    }
+
+    .h3 {
+      font-size: 18px;
+      margin-top: 4px;
+    }
+
+    .p {
+      color: $gray-light;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+    }
+
+    .icons-arrow-down {
+      position: absolute;
+      right: 6px;
+      top: 0;
+      transform: rotate3d(0,0,1,-90deg);
+    }
+  }
+}
+
+// card body as button
+.card-button {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  height: auto;
+  margin: 0 12px 12px;
+  padding: 12px 0;
+  text-align: left;
+  transition: none;
+}
+
+// footer
+.card-footer {
+  background: $gray-lightest;
+  border-top: 1px solid rgba($black,.1);
+  flex: 0 0 auto;
+  padding: 6px;
+}
+
+// template
+.card-white {
+  background: $white;
+  border-color: transparent;
+  color: $purple-lighter;
+  font-size: 18px;
+  justify-content: center;
+  text-align: center;
+  user-select: none;
+
+  &:hover,
+  &:active {
+    border-color: $purple-lighter;
+    color: $purple-light;
+  }
+
+  .icons-add {
+    height: 90px;
+    width: 270px;
+  }
+}
+
+//- loading state
+.card-loading {
+  align-items: center;
+  display: flex;
+  height: 369px;
+  justify-content: center;
+  text-align: center;
+
+  .spinner-wrapper {
+    margin-top: -60px;
+  }
+}

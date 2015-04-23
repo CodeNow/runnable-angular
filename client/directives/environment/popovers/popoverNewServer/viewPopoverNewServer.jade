@@ -1,0 +1,33 @@
+.popover.menu.bottom.popover-new-server(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow.white(
+    style = "left: 217px"
+  )
+  .popover-content
+    ul.popover-list
+      li.list-item.popover-list-item.multi-line(
+        modal
+        modal-actions = "actions"
+        modal-data = "data"
+        modal-template = "setupServerModalOpen"
+      )
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        | Repository
+        small.small New server from the repositories in your organization
+      li.list-item.popover-list-item.multi-line(
+        modal
+        modal-actions = "actions"
+        modal-data = "data"
+        modal-template = "viewModalTemplateSelect"
+      )
+        svg.iconnables.icons-server
+          use(
+            xlink:href = "#icons-server"
+          )
+        | Templates
+        small.small New server from templates like: MySQL, RabbitMQ, Redis, etc.

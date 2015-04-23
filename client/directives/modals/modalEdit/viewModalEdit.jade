@@ -128,7 +128,7 @@
           orange: renameForm.$invalid || getAllErrorsCount()\
         }"
         ng-click = "actions.buildServer()"
-        ng-disabled = "renameForm.$invalid || getAllErrorsCount()"
+        ng-disabled = "renameForm.$invalid || dockerfile.validation.errors.length"
       ) {{ getAllErrorsCount(true) || 'Build Server' }}
       button.btn.btn-icon.btn-icon-sm(
         ng-class = "{\
@@ -136,7 +136,7 @@
           green: !(renameForm.$invalid || getAllErrorsCount()),\
           orange: renameForm.$invalid || getAllErrorsCount()\
         }"
-        ng-disabled = "renameForm.$invalid || getAllErrorsCount()"
+        ng-disabled = "renameForm.$invalid || dockerfile.validation.errors.length"
         pop-over
         pop-over-active = "popoverBuildOptions.data.show"
         pop-over-actions = "popoverBuildOptions.actions"

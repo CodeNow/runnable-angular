@@ -64,18 +64,6 @@ describe('directiveWebView'.bold.underline.blue, function() {
 
   beforeEach(injectSetupCompile);
 
-  it('basic dom', function() {
-    expect(ctx.element).to.be.ok;
-    expect(ctx.element.find('iframe')).to.be.ok;
-  });
-
-  it('basic scope', function() {
-    expect($elScope).to.have.property('actions');
-    expect($elScope).to.have.deep.property('actions.refresh');
-    expect($elScope).to.have.property('data');
-    expect($elScope).to.have.deep.property('data.iframeUrl');
-  });
-
   it('should replace the url with a new one when the instance changes', function () {
     expect($elScope.data.iframeUrl.toString()).to.equal('about:blank');
     $rootScope.$digest();

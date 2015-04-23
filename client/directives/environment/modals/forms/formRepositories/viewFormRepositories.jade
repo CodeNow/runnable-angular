@@ -1,0 +1,19 @@
+.label.clearfix
+  .label-col Branch
+
+  .input-col
+    fancy-select(
+      ng-required = "true"
+      value = "master"
+    )
+      li.list-item.popover-list-item.small Select branch
+      fancy-option(
+        ng-repeat = ""
+        value = "master"
+      )
+        svg.iconnables.icons-branch
+          use(
+            xlink:href = "#icons-branch"
+          )
+        | master
+    small.small Set the default branch for runnable-web. 💰💰💰

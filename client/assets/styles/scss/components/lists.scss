@@ -88,9 +88,10 @@
 .list-item {
   position: relative;
 
+  // header
   &.small {
-    color: $gray !important; // never override this
-    cursor: default !important;
+    color: $gray-light;
+    cursor: default;
     font-size: 13px;
     pointer-events: none;
 
@@ -101,26 +102,77 @@
     }
   }
 
-  > .btn-xs {
-    background: $gray-lightest;
-    border-radius: 50%;
+  // info
+  &.list-info {
     color: $gray-light;
-    float: right;
-    margin-top: 6px;
-    padding: 0;
-    width: 24px;
+    cursor: default;
+    font-size: 13px;
 
-    &:hover {
-      color: $blue;
-    }
-
-    &:active,
-    &.active {
-      background: transparent;
-      color: $blue;
+    &:hover,
+    &:active {
+      background: none !important;
+      border-color: transparent !important;
     }
   }
 
+  &.multi-line {
+    height: auto;
+    line-height: 1.4;
+    min-height: 36px;
+    padding: 6px 9px;
+    white-space: normal;
+
+    .small {
+      color: $gray;
+      display: block;
+    }
+
+    .input-checkbox {
+      height: 24px;
+      margin-left: 2px;
+      margin-right: 7px;
+
+      + .small {
+        margin-left: 27px;
+      }
+    }
+  }
+
+  // buttons
+  > .btn-sm {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+
+  > .btn-xs {
+    position: absolute;
+    right: 15px;
+    top: 6px;
+  }
+
+  > .btn-xxs {
+    margin-right: 6px;
+  }
+
+  // icon wrapper
+  > .btn-icon {
+    background: $white;
+    border: 1px solid $gray-lighter;
+    border-radius: 50%;
+    color: $gray-light;
+    padding: 0;
+    transition: none;
+    width: 24px;
+
+    &.active {
+      background: $green;
+      border-color: $green;
+      color: $white;
+    }
+  }
+
+  // gravatar
   .gravatar {
     float: left;
     margin: 18px 9px 0 2px;
@@ -144,4 +196,86 @@
   color: currentColor;
   display: block;
   text-decoration: none;
+}
+
+// checkboxes
+.list {
+
+  // default state
+  .input-checkbox {
+    // display: none;
+
+    + .label-checkbox {
+
+      .iconnables {
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: scale3d(0,0,0);
+        transition: transform .3s ease-in;
+        width: 100%;
+      }
+
+      .icons-add {
+        color: $gray-lighter;
+        transform: scale3d(1,1,1);
+        transition: none;
+      }
+    }
+  }
+
+  // active states
+  .input-checkbox:checked + .label-checkbox {
+
+    .btn-xs {
+      background: $green;
+      border-color: $green;
+    }
+
+    .icons-add {
+      transform: scale3d(0,0,0);
+    }
+
+    .icons-check,
+    .icons-link {
+      transform: scale3d(1,1,1);
+    }
+  }
+}
+
+// nested
+.list-nested {
+  cursor: default;
+  margin: 0 -15px;
+  padding: 0 15px;
+
+  .list-item {
+    font-size: 15px;
+    height: 36px;
+    line-height: 36px;
+
+    &.small {
+      border-top: 1px solid rgba($purple-light,.2);
+      font-size: 13px;
+      margin-top: 6px;
+      padding-top: 3px;
+    }
+
+    // anchor
+    > .iconnables {
+      background: $purple-lightest;
+      border: 1px solid rgba($purple-light,.6);
+      border-radius: 50%;
+      margin-right: 9px;
+      padding: 1px;
+      top: 6px;
+    }
+  }
+
+  // toggle
+  .btn-check {
+    right: 0;
+    top: 6px;
+  }
 }

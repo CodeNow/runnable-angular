@@ -53,8 +53,9 @@ function ControllerInstanceHome(
         userName: username
       }, {location: 'replace'});
     } else {
-      $scope.loading = false;
-      keypather.set($scope, 'modalOpenFlag', true);
+      $state.go('instance.new', {
+        userName: username
+      }, {location: 'replace'});
     }
   }
 

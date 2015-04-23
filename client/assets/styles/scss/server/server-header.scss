@@ -11,13 +11,10 @@
   height: 72px;
 
   .icons-status {
+    height: 9px;
     left: 9px;
     top: -4px;
-
-    &::before,
-    &::after {
-      margin: -6px 0 0 -8px;
-    }
+    width: 9px;
   }
 }
 
@@ -76,7 +73,7 @@
 
   // offset for vertical-align: middle
   .btn-group {
-    top: -2px;
+    top: -4px;
   }
 
   .btn[disabled],

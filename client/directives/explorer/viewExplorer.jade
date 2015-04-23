@@ -1,4 +1,9 @@
-h2.sub-header {{ explorerTitle }}
+.row-heading
+  svg.iconnables.icons-disclose
+    use(
+      xlink:href = "#icons-disclose"
+    )
+  | {{ explorerTitle }}
   button.btn.btn-xs.btn-icon.white.sub-header-action(
     ng-class = "{active: filePopover.data.show}"
     pop-over

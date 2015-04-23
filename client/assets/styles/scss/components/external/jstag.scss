@@ -1,0 +1,52 @@
+// tags
+// tag container
+.jt-editor > span {
+  display: inline-block;
+  margin-top: 1px;
+}
+
+// input
+.jt-tag-new {
+  line-height: 21px;
+}
+
+// fake input
+.jt-fake-input {
+  opacity: 0;
+  pointer-events: none;
+}
+
+// tag
+.jt-tag,
+.jt-tag-edit {
+  @extend %tag;
+  border-color: $purple-light;
+
+  &.active-true {
+    background: $purple-light;
+    color: $white;
+  }
+
+  .remove-button {
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      color: $purple;
+    }
+  }
+}
+
+// plain tag
+.jt-tag {
+  color: $purple-light;
+}
+
+// editing tag
+.jt-tag-edit {
+  background: rgba($purple-light,.6);
+  border-color: transparent;
+  color: $white;
+  cursor: text;
+  height: 23px;
+}

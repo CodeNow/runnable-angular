@@ -198,6 +198,42 @@ function fetchInstances(
     });
   };
 }
+require('app')
+  .factory('fetchInstancesByPod', fetchInstancesByPod);
+function fetchInstancesByPod(
+  fetchInstances,
+  $q
+) {
+  return function () {
+    // Fetch all master pods
+    var instances = {};
+    instances.masters = fetchInstances({
+      masterPod: true
+    });
+    instances.forks = fetchInstances({
+      masterPod: false
+    });
+    // return fetchInstances({
+    //   masterPod: true
+    // })
+    // .then(function (masterInstances) {
+    //   console.log(masterInstances);
+    //   // for each master pod, fetch subpods w/same ctx version
+    //   return $q.all(
+    //     masterInstances.map(function (mInstance) {
+    //       return fetchInstances({
+    //         masterPod: false,
+    //         contextVersion: mInstance.attrs.contextVersion
+    //       });
+    //     })
+    //   );
+    return $q.all(instances)
+    .then(function (deps) {
+      console.log(deps);
+      return deps;
+    });
+  };
+}
 
 function fetchBuild(
   pFetchUser,

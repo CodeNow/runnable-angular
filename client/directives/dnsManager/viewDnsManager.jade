@@ -1,0 +1,57 @@
+.row-heading(
+  ng-click = "isClosed = !isClosed"
+)
+  svg.iconnables.icons-disclose
+      use(
+        xlink:href = "#icons-disclose"
+      )
+  | Linked Servers
+.well(
+  ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+)
+  .well-item
+    svg.iconnables.icons-repository
+      use(
+        xlink:href = "#icons-repository"
+      )
+    span.server-category-name.text-overflow {{ masterInstance.attrs.name }}
+  .branch
+    fancy-select.branch-name.text-overflow(
+      value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+      ng-disabled = "masterInstance.instanceOptions.length <= 1"
+      show-dropdown = "masterInstance.instanceOptions.length > 1"
+    )
+      fancy-option(
+        ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
+        value = "instanceOption.attrs.shortHash"
+      ) {{ $parent.instanceOption.attrs.name }}
+        // Go outside the fancy-option, the ng-repeat, the fancy-select and get to the parent scope
+        .icons-status(
+          ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
+        )
+.well.indirect(
+  ng-if = "indirectlyRelatedInstances.length"
+)
+  .well-item
+    svg.iconnables.icons-disclose
+      use(
+        xlink:href = "#icons-disclose"
+      )
+    span Indirect Links
+    .icons-status(
+      ng-class = "getInstanceClasses(dep)"
+      ng-repeat = "dep in indirectlyRelatedInstances"
+    )
+  ul
+    li.well-item(
+      ng-repeat = "indirectInstance in indirectlyRelatedInstances"
+    )
+      svg.iconnables.icons-repository
+        use(
+          xlink:href = "#icons-repository"
+        )
+      span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
+        span.branch-name /master
+      .icons-status(
+        ng-class = "getInstanceClasses(indirectInstance)"
+      )

@@ -120,6 +120,7 @@ function ControllerApp(
           return errs.handler(err);
         }
         dataApp.data.orgs = results;
+        dataApp.data.allAccounts = [dataApp.data.user].concat(results.models);
         if ($window.heap) {
           $window.heap.identify({
             // unique heap user identifier

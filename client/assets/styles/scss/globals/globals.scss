@@ -1,38 +1,18 @@
 // global layout
 html {
-  -webkit-tap-highlight-color: rgba($black,0);
   font-size: 62.5%;
+  -webkit-tap-highlight-color: rgba($black,0);
 }
 
 body {
-  -webkit-font-smoothing: subpixel-antialiased;
-  background: $white;
   color: $gray-darker;
   font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
   font-size: 16px;
   font-weight: 400;
-  height: 100%;
   line-height: 1.4;
-  min-width: 1150px;
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  // vertical scroll
-  .vertical & {
-    height: auto;
-    min-width: 360px;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-}
-
-.content {
-  float: right;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-  transition: width .2s ease-in;
-  width: calc(100% - 240px);
+  min-height: 100vh;
+  min-width: 360px;
+  overflow-x: hidden;
 }
 
 // svg files
@@ -49,10 +29,6 @@ body {
 
 .clearfix:after {
   clear: both;
-}
-
-.row {
-  margin: 0 -15px;
 }
 
 // if .disabled communicates to the user that an element is not available to them,

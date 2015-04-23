@@ -1,0 +1,38 @@
+.header {
+  background: $purple;
+  height: 60px;
+  padding: 7px 15px 6px; // 7px + 6px = 15px (60px - 45px)
+
+  // logo
+  .logo {
+    float: left;
+    height: 45px;
+    margin-left: -27px;
+  }
+
+  // header button styles
+  .btn {
+    color: $white;
+    float: right;
+    line-height: 40px;
+    padding-right: 6px;
+
+    .gravatar {
+      float: left;
+      margin-right: 6px;
+      margin-top: 9px;
+    }
+  }
+
+  // title
+  .h2 {
+    color: $white;
+    left: 0;
+    line-height: 40px;
+    margin: 0 auto;
+    max-width: 210px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+  }
+}

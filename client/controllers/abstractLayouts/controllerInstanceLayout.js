@@ -13,8 +13,13 @@ function ControllerInstanceLayout(
   $scope,
   $state,
   $window,
-  pFetchUser
+  pFetchUser,
+  fetchInstancesByPod
 ) {
+  fetchInstancesByPod()
+  .then(function (asdf) {
+    $scope.dataApp.data.asdf = asdf;
+  });
 
   var currentUser;
   pFetchUser().then(function(user) {
@@ -64,7 +69,7 @@ function ControllerInstanceLayout(
       }
 
       // Set the "Owned by team member" icon under current user's deps
-      if (username === 'me' && $state.params.userName !== currentUser.oauthName()) {
+      if (instance.dependencies && username === 'me' && $state.params.userName !== currentUser.oauthName()) {
         instance.dependencies.forEach(function(dep) {
           dep.ownedByOther = dep.attrs.createdBy.username !== currentUser.oauthName();
         });
