@@ -4,33 +4,26 @@ require('app')
   .controller('ControllerEnvironment', ControllerEnvironment);
 /**
  * ControllerEnvironment
- * @param $scope
  * @constructor
  * @export
  * @ngInject
  */
 function ControllerEnvironment(
   $scope,
-  $log,
   $state,
   $filter,
   createDockerfileFromSource,
-  createNewBuild,
   createNewInstance,
   errs,
   eventTracking,
   favico,
   fetchContexts,
   fetchDockerfileFromSource,
-  fetchOwnerRepos,
   populateDockerfile,
-  fetchStackAnalysis,
   fetchStackInfo,
   getInstanceClasses,
   keypather,
   fetchInstances,
-  pageName,
-  JSTagsCollection,
   promisify,
   updateInstanceWithNewBuild,
   copySourceInstance,
@@ -61,9 +54,8 @@ function ControllerEnvironment(
           });
         }
         return flattened;
-      } else {
-        return 'None';
       }
+      return 'None';
     },
     addNewServer: function (newServerModel) {
       $scope.data.newServers.push(newServerModel);
@@ -155,22 +147,40 @@ function ControllerEnvironment(
     addServerFromTemplate: function (instance) {
       $scope.$emit('close-modal');
 
+      var serverName = getUniqueServerName(instance.attrs.name);
+
       var newServer = {
         building: true,
         instance: {
           attrs: {
-            name: instance.attrs.name
+            name: serverName
           }
         }
       };
       $scope.data.newServers.push(newServer);
 
-      copySourceInstance($rootScope.dataApp.data.activeAccount, instance, {name: instance.attrs.name}).then(function (copiedInstance) {
+      copySourceInstance($rootScope.dataApp.data.activeAccount, instance, {name: serverName}).then(function (copiedInstance) {
         createServerObjectFromInstance(copiedInstance, newServer);
         newServer.building = false;
       });
     }
   };
+
+  function getUniqueServerName(serverName) {
+    function getServerByName(serverName){
+      return $scope.data.newServers.find(function (server) {
+        return server.instance.attrs.name === serverName;
+      });
+    }
+    var counter = 1;
+    var tempServerName = serverName;
+    while (getServerByName(tempServerName)) {
+      counter += 1;
+      tempServerName = serverName + '-' + counter;
+    }
+    return tempServerName;
+  }
+
   $scope.getInstanceClasses = getInstanceClasses;
 
   function createServerObjectFromInstance(instance, serverObj) {
@@ -225,8 +235,4 @@ function ControllerEnvironment(
     .then(function (sourceContexts) {
       $scope.data.sourceContexts = sourceContexts;
     });
-
-  $scope.$on('$destroy', function () {
-  });
-
 }
