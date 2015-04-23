@@ -1,25 +1,28 @@
-.spinner-wrapper.spinner-md.spinner-purple.in(
+//- spinner
+.card.gray.disabled.load.empty(
   ng-if = "data.loadingNewServers"
-  ng-include = "'spinner'"
 )
+  .spinner-wrapper.spinner-md.spinner-gray.in(
+    ng-include = "'spinner'"
+  )
 
+//- empty state
+.card.gray.disabled.load.empty(
+  ng-if = "!data.loadingNewServers && data.newServers.length === 0"
+) Add a new server to get started
+
+//- server card
 .card.gray.disabled.load(
   ng-repeat = "server in data.newServers"
 )
   .card-header
-    h2.h2.monospace {{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}
-    .row.clearfix.load(
-      ng-if = "!server.building"
-    )
-
-      //- if building: text says "Building"; title attribute shows time building "82 seconds" "50 minutes" etc.
-        - if building failed: text says "Build Failed"; title attribute shows when the build failed "Failed 2 minutes ago"
-        - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
-        - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
-        - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
-
-      //- remove this color
-      button.btn.btn-xs(
+    //- if building: text says "Building"; title attribute shows time building "82 seconds" "50 minutes" etc.
+      - if building failed: text says "Build Failed"; title attribute shows when the build failed "Failed 2 minutes ago"
+      - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
+      - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
+      - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
+    .btn-group
+      button.btn.btn-xs.btn-title(
         modal
         modal-actions = "actions"
         modal-current-model = "server"
@@ -27,8 +30,28 @@
         modal-state-model = "'logs'"
         modal-template = "editServerModalOpen"
         ng-class = "getInstanceClasses(server.instance)"
-        ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-      ) {{ server.instance | cardBuildStatusText}}
+        ng-if = "!server.building"
+      )
+        span.btn-text.text-overflow(
+          ng-attr-title = "{{ server.instance.attrs.name }}"
+        ) {{ server.instance.attrs.name }}
+        span.btn-text(
+          ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+        ) — {{ server.instance | cardBuildStatusText}}
+      button.btn.btn-xs(
+        ng-class = "getInstanceClasses(server.instance)"
+        pop-over
+        pop-over-actions = "actions"
+        pop-over-data = "data"
+        pop-over-options = "{\"left\":0,\"top\":28}"
+        pop-over-template = "viewPopoverServerOptions"
+      )
+        svg.iconnables.icons-arrow-down
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+    small.small.monospace {{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}
+
   ul.card-body.card-loading(
     ng-if = "server.building"
   )
@@ -69,7 +92,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Build Files
-      p.p No errors
+      p.p.text-overflow No errors
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -88,7 +111,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Stack
-      p.p {{ actions.getFlattenedSelectedStacks(server.selectedStack) }}
+      p.p.text-overflow {{ actions.getFlattenedSelectedStacks(server.selectedStack) }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -107,7 +130,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Start Command
-      p.p {{ server.startCommand }}
+      p.p.text-overflow {{ server.startCommand }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -126,7 +149,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Ports
-      p.p {{ server.ports.join(' ') }}
+      p.p.text-overflow {{ server.ports.join(' ') }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -144,7 +167,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Repositories
-      p.p {{ server.build.contextVersions.models[0].appCodeVersions.models[0].branch }}
+      p.p.text-overflow {{ server.build.contextVersions.models[0].appCodeVersions.models[0].attrs.branch }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -162,12 +185,8 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Environment Variables
-      p.p {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
+      p.p.text-overflow {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-
-.card.gray.disabled.load.empty(
-  ng-if = "!data.loadingNewServers && data.newServers.length === 0"
-) Add a new server to get started

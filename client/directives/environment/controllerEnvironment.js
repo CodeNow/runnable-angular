@@ -27,7 +27,8 @@ function ControllerEnvironment(
   promisify,
   updateInstanceWithNewBuild,
   copySourceInstance,
-  $rootScope
+  $rootScope,
+  parseDockerfileForStackFromInstance
 ) {
   favico.reset();
   $scope.data = {
@@ -200,6 +201,10 @@ function ControllerEnvironment(
     serverObj.opts = {
       env: instance.attrs.env
     };
+    parseDockerfileForStackFromInstance(instance, $scope.data.stacks)
+      .then(function (stackObject) {
+        serverObj.selectedStack = stackObject;
+      });
     return serverObj;
   }
 
