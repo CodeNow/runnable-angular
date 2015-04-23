@@ -3,24 +3,19 @@ form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    button.btn.btn-xs.gray(
+    button.btn.btn-xs.gray.btn-title(
       pop-over
       pop-over-actions = "actions"
       pop-over-data = "data"
       pop-over-options = "{\"left\":0,\"top\":28}"
       pop-over-template = "viewPopoverServerOptions"
-    ) Instance 23 — Configuration
+    )
+      span.btn-text.text-overflow Instance 23
+      span.btn-text — Configuration
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
-      //- label.btn.btn-xs.gray
-        input.input-checkbox(
-          ng-click = "changeTab('buildfiles')"
-          ng-model = "data.revealBuildfiles"
-          type = "checkbox"
-        )
-        | Advanced config
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"

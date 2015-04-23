@@ -150,19 +150,6 @@
     }
   }
 
-  .btn-text {
-
-    &:first-child {
-      flex: 1 1 auto;
-      padding-right: 2px; // replaces a standard space (flexbox doesn't include it in the calculation)
-    }
-
-    &:last-child {
-      flex: 0 0 auto;
-      opacity: .6;
-    }
-  }
-
   .iconnables {
     margin: 0;
   }
@@ -174,6 +161,24 @@
     font-size: 13px;
     height: 36px;
     text-align: center;
+  }
+}
+
+// title group
+.btn-title {
+  display: flex;
+
+  .btn-text {
+
+    &:first-child {
+      flex: 1 1 auto;
+      padding-right: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
+    }
+
+    + .btn-text {
+      flex: 0 0 auto;
+      opacity: .6;
+    }
   }
 }
 
@@ -198,13 +203,28 @@
     padding: 7px 9px;
     text-align: left;
 
-    &:hover .icons-arrow-down {
-      color: $gray-dark;
+    &:hover,
+    &:active {
+      box-shadow: inset 0 1px 0 $gray-light;
+      z-index: 1;
+
+      &:first-child {
+        box-shadow: none;
+      }
+
+      .icons-arrow-down {
+        color: $gray-dark;
+      }
     }
 
     &:active {
-      color: $gray-dark;
+      box-shadow: inset 0 1px 0 $purple-light;
 
+      &:first-child {
+        box-shadow: none;
+      }
+
+      .p,
       .icons-arrow-down {
         color: $purple-light;
       }
@@ -219,6 +239,7 @@
     }
 
     + .btn {
+      border-top-width: 1px;
       margin-top: -2px;
     }
 
@@ -235,7 +256,7 @@
     }
 
     .p {
-      color: $gray-light;
+      color: $gray;
       font-size: 14px;
       font-weight: 400;
       line-height: 20px;
@@ -243,6 +264,7 @@
     }
 
     .icons-arrow-down {
+      color: $gray;
       position: absolute;
       right: 6px;
       top: 0;
