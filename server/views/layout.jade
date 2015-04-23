@@ -98,7 +98,7 @@ html(
 
 
   body.clearfix(
-    ng-class = "{minimize: dataApp.data.minimizeNav}"
+    ng-class = "{minimize: dataApp.data.minimizeNav, 'modal-open': dataApp.data.modalOpen || dataApp.data.modalError.data.in}"
     ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )
@@ -121,6 +121,7 @@ html(
     //- modals
     div(
       modal-manager
+      modal-open = "dataApp.data.modalOpen"
     )
 
     //- page
