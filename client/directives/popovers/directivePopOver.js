@@ -105,6 +105,13 @@ function popOver(
           }
         };
 
+        // Temporary workaround until I create a PR for angular to not have a nonsense error
+        //   Error: [jqLite:nosel] Looking up elements via selectors is not supported by jqLite!
+        // Not terribly descriptive, guys.
+        // https://github.com/angular/angular.js/pull/11688
+        if (!template) {
+          throw new Error('Popover template not found: ' + $scope.template);
+        }
         popoverElement = $compile(template)(popoverElementScope);
         $scope.popoverElement = popoverElement;
         $document.find('body').append(popoverElement);

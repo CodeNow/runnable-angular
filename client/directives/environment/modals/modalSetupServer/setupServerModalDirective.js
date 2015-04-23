@@ -6,8 +6,8 @@ require('app')
  * @ngInject
  */
 function setupServerModal(
-  createDockerfileFromSource,
   createNewBuild,
+  $rootScope,
   errs,
   fetchOwnerRepos,
   fetchStackAnalysis,
@@ -29,7 +29,8 @@ function setupServerModal(
           env: null
         }
       };
-      fetchOwnerRepos($scope.data.activeAccount.oauthName())
+
+      fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
         .then(function (repoList) {
           $scope.data.githubRepos = repoList;
         })
@@ -45,7 +46,7 @@ function setupServerModal(
         return $scope.fetchStackData(repo)
           .then(function () {
             $scope.state.repo = repo;
-            return createNewBuild($scope.data.activeAccount);
+            return createNewBuild($rootScope.dataApp.data.activeAccount);
           })
           .then(function (buildWithVersion) {
             $scope.state.build = buildWithVersion;
