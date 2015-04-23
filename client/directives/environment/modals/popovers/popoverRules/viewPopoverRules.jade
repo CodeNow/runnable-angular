@@ -3,14 +3,36 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .popover-content
+
     h3.popover-title New Replace Rule
       small.small Rules are case-sensitive and trailing whitespace is not trimmed.
+
     .label-row
       label.label-col Find
-        input.input.input-sm.monospace
+        input.input.input-sm.monospace(
+          spellcheck = "false"
+        )
       .span-col →
       label.label-col Replace
-        input.input.input-sm.monospace
+        input.input.input-sm.monospace(
+          spellcheck = "false"
+        )
+
+    //- verification table
+    .table.table-diff(
+      ng-if = "data.saving"
+    )
+      .tr.thead.clearfix
+        label.cell.cell-checkbox
+          input.input-checkbox(
+            type = "checkbox"
+          )
+          | index.scss, Line 18
+      .tr.tr-deletion.clearfix
+        .cell.monospace - userName: username
+      .tr.tr-addition.clearfix
+        .cell.monospace + userName: account.oauthName()
+
     .popover-footer.clearfix
       button.btn.green.btn-spinner(
         ng-class = "{in: data.saving}"
@@ -25,9 +47,7 @@
         span(
           ng-if = "!data.saving"
         ) Search for matches
-        //- this ng-click should not actually do anything
         span(
-          ng-click = "data.searched = true"
           ng-if = "data.saving"
         ) Searching
       button.btn.green(

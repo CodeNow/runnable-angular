@@ -4,6 +4,40 @@
   border-radius: 3px;
 }
 
+// diff
+.table-diff {
+  margin-top: 15px;
+
+  .thead {
+    border-bottom: 1px solid $gray-lighter;
+  }
+
+  // diff colors
+  .tr-deletion {
+    background: $red-lighter;
+  }
+
+  .tr-addition {
+    background: $green-lighter;
+  }
+
+  // extra padding-bottom is weird when colored
+  .tr:last-child {
+    padding-bottom: 0;
+  }
+
+  // reduce cell height
+  .cell {
+    height: 24px;
+    line-height: 24px;
+  }
+
+  // checkbox
+  .input-checkbox {
+    margin: 0 12px 0 -2px;
+  }
+}
+
 // table row header usage:
 // .tr.thead
 .thead {
@@ -39,12 +73,18 @@
   }
 
   &:last-child {
+    border-radius: 0 0 3px 3px;
     padding-bottom: 3px;
   }
 
   + .tr {
     border-top: 1px solid $gray-lighter;
     font-weight: 500;
+
+    &.tr-addition,
+    &.tr-deletion {
+      border-top: 0;
+    }
   }
 }
 
@@ -68,10 +108,19 @@
   height: 36px;
   line-height: 36px;
   padding: 0 9px;
+
+  &.monospace {
+    font-size: 13px;
+    letter-spacing: -.25px;
+  }
 }
 
 .cell-action {
   flex: 0 0 auto;
+}
+
+.cell-checkbox {
+  cursor: pointer;
 }
 
 // table actions

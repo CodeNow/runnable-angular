@@ -21,6 +21,12 @@
     }
   }
 
+  // monospace inputs
+  .input.monospace {
+    color: $gray-darker;
+    font-size: 13px;
+  }
+
   .popover-footer {
     margin-top: 30px;
   }
