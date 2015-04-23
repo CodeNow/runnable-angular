@@ -12,6 +12,8 @@ require('app')
 function ControllerEnvironment(
   $scope,
   $log,
+  $state,
+  $filter,
   createDockerfileFromSource,
   createNewBuild,
   createNewInstance,
@@ -31,7 +33,8 @@ function ControllerEnvironment(
   JSTagsCollection,
   promisify,
   updateInstanceWithNewBuild,
-  copySourceInstance
+  copySourceInstance,
+  $rootScope
 ) {
   favico.reset();
   $scope.data = {
@@ -44,41 +47,25 @@ function ControllerEnvironment(
   };
 
 
-  fetchInstances({
-    githubUsername: 'HelloRunnable'
-  }).then(function (deps) {
-    keypather.set($scope, 'data.allDependencies', deps);
-  }).catch(errs.handler);
-
 
   $scope.actions = {
-    selectAccount: function (account) {
-      $scope.data.activeAccount = account;
-      $scope.loading = true;
-      $scope.data.githubRepos = null;
-      fetchOwnerRepos(account.oauthName())
-        .then(function (repoList) {
-          $scope.data.githubRepos = repoList;
-        })
-        .catch(
-          errs.handler
-        ).finally(function () {
-          $scope.loading = false;
-        });
-    },
     getFlattenedSelectedStacks: function (selectedStack) {
       if (!selectedStack) {
         return 'none';
       }
-      var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;
-      if (selectedStack.dependencies) {
-        selectedStack.dependencies.forEach(function (dep) {
-          flattened += ', ' + $scope.actions.getFlattenedSelectedStacks(dep);
-        });
+      if (selectedStack) {
+        var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;
+        if (selectedStack.dependencies) {
+          selectedStack.dependencies.forEach(function (dep) {
+            flattened += ', ' + $scope.actions.getFlattenedSelectedStacks(dep);
+          });
+        }
+        return flattened;
+      } else {
+        return 'None';
       }
-      return flattened;
     },
-    addNewServer: function (newServerModel, defaultActions) {
+    addNewServer: function (newServerModel) {
       $scope.data.newServers.push(newServerModel);
       // Do a copy so other servers with the same stack won't share the object
       newServerModel.selectedStack = angular.copy(newServerModel.selectedStack);
@@ -87,13 +74,13 @@ function ControllerEnvironment(
       }
       newServerModel.repo.isAdded = true;
       // Close the modal first
-      defaultActions.close();
+      $scope.$emit('close-modal');
       return $scope.actions.createAndBuild(newServerModel);
     },
-    saveChangesToServer: function (serverState, defaultActions) {
+    saveChangesToServer: function (serverState) {
       var changes = serverState.getChanges();
       var server = serverState.updateCurrentModel();
-      defaultActions.close();
+      $scope.$emit('close-modal');
       if (changes.dockerfile) {
         // We need to copy the build, so do that
         return promisify(server.build, 'deepCopy')()
@@ -151,7 +138,7 @@ function ControllerEnvironment(
         })
         .then(function () {
           return createNewInstance(
-            $scope.data.activeAccount,
+            $rootScope.dataApp.data.activeAccount,
             newServerModel.build,
             newServerModel.opts
           );
@@ -167,36 +154,77 @@ function ControllerEnvironment(
     },
     addServerFromTemplate: function (instance) {
       $scope.$emit('close-modal');
-      copySourceInstance($scope.data.activeAccount, instance, {}).then(function (copiedInstance) {
-        $scope.data.newServers.push(copiedInstance);
+
+      var newServer = {
+        building: true,
+        instance: {
+          attrs: {
+            name: instance.attrs.name
+          }
+        }
+      };
+      $scope.data.newServers.push(newServer);
+
+      copySourceInstance($rootScope.dataApp.data.activeAccount, instance, {name: instance.attrs.name}).then(function (copiedInstance) {
+        createServerObjectFromInstance(copiedInstance, newServer);
+        newServer.building = false;
       });
     }
   };
-  $scope.getInstanceStatus = {
-    color: function (server) {
-      var classes = getInstanceClasses(server.instance);
-      return {
-        orange: classes.building,
-        red: classes.failed,
-        green: classes.running
-      };
-    },
-    text: function (server) {
-      var classes = getInstanceClasses(server.instance);
-      return classes.running ?
-          'Build successful' : (classes.building ? 'Building' : 'Building Failed');
-    }
-  };
+  $scope.getInstanceClasses = getInstanceClasses;
 
-  fetchStackInfo().then(function (stacks) {
-    keypather.set($scope, 'data.stacks', stacks);
-  }).catch(errs.handler);
+  function createServerObjectFromInstance(instance, serverObj) {
+    if (!serverObj) {
+      serverObj = {};
+    }
+    var commands = keypather.get(instance, 'containers.models[0].attrs.inspect.Config.Cmd') || [];
+    if (commands.length && commands[0] === '/bin/sh') {
+      // we need to remove the /bin/sh and -c, since it's going to get added again
+      commands.splice(0, 2);
+    }
+    serverObj.instance = instance;
+    serverObj.build = instance.build;
+    serverObj.startCommand = commands.join(' ');
+    serverObj.selectedStack = 'Need to input';
+    serverObj.ports = $filter('filterCleanPorts')(keypather.get(instance, 'containers.models[0].attrs.ports'));
+    serverObj.opts = {
+      env: instance.attrs.env
+    };
+    return serverObj;
+  }
+
+
+  $scope.data.loadingNewServers = true;
+  if ($state.params.userName) {
+    fetchInstances({
+      githubUsername: $state.params.userName
+    })
+      .then(function (instances) {
+        $scope.data.newServers = instances.models.map(function (instance) {
+          return createServerObjectFromInstance(instance);
+        });
+        $scope.data.loadingNewServers = false;
+      });
+  }
+
+  fetchStackInfo()
+    .then(function (stacks) {
+      keypather.set($scope, 'data.stacks', stacks);
+    })
+    .catch(errs.handler);
+
+  fetchInstances({ githubUsername: 'HelloRunnable' })
+    .then(function (deps) {
+      keypather.set($scope, 'data.allDependencies', deps);
+    })
+    .catch(errs.handler);
 
   fetchContexts({
     isSource: true
-  }).then(function (sourceContexts) {
-    $scope.data.sourceContexts = sourceContexts;
-  });
+  })
+    .then(function (sourceContexts) {
+      $scope.data.sourceContexts = sourceContexts;
+    });
 
   $scope.$on('$destroy', function () {
   });

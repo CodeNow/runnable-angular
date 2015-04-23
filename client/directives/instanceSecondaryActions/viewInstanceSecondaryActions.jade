@@ -1,1 +1,10 @@
-button.btn.gray Stop Server
+button.btn.gray(
+  ng-click = "actions.stopInstance()"
+  ng-if = "instance.build.attrs.completed && instance.containers.models[0].running()"
+) Stop Server
+
+
+button.btn.gray(
+  ng-click = "actions.startInstance()"
+  ng-if = "instance.build.attrs.completed && !instance.containers.models[0].running()"
+) Start Server

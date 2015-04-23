@@ -6,9 +6,9 @@ require('app')
  * @ngInject
  */
 function editServerModal(
-  $filter,
   JSTagsCollection,
-  keypather
+  keypather,
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -98,8 +98,7 @@ function editServerModal(
         if (opts.port) {
           hostName += opts.port;
         }
-
-        $scope.$emit('eventPasteLinkedInstance', hostName);
+        $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
       };
     }
   };

@@ -1,21 +1,3 @@
-//- div
-//-   .relatedStatus
-//-     .status(
-//-       ng-repeat = "instance in subDependencies"
-//-     )
-//-       | {{instance.attrs.name}}
-//-   .dns-bindings(
-//-     ng-if = "isDnsSetup"
-//-   )
-//-     .binding(
-//-       ng-repeat = "masterInstance in relatedMasterInstances"
-//-     )
-//-       label {{masterInstance.attrs.name}}
-//-       select(
-//-         ng-options = "instanceOption.attrs.shortHash as instanceOption.attrs.name for instanceOption in masterInstance.instanceOptions"
-//-         ng-model = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-//-         ng-change = "actions.setDependency(masterInstance, instanceDependencyMap[masterInstance.attrs.contextVersion.context])"
-//-       )
 .row-heading(
   ng-click = "isClosed = !isClosed"
 )
@@ -25,7 +7,7 @@
       )
   | Linked Servers
 .well(
-  ng-repeat = "masterInstance in relatedMasterInstances"
+  ng-repeat = "masterInstance in directlyRelatedMasterInstances"
 )
   .well-item
     svg.iconnables.icons-repository
@@ -36,16 +18,19 @@
   .branch
     fancy-select.branch-name.text-overflow(
       value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+      ng-disabled = "masterInstance.instanceOptions.length <= 1"
+      show-dropdown = "masterInstance.instanceOptions.length > 1"
     )
       fancy-option(
         ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
         value = "instanceOption.attrs.shortHash"
       ) {{ $parent.instanceOption.attrs.name }}
-    .icons-status(
-      ng-class = "getInstanceClasses(masterInstance)"
-    )
+        // Go outside the fancy-option, the ng-repeat, the fancy-select and get to the parent scope
+        .icons-status(
+          ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
+        )
 .well.indirect(
-  ng-if = "relatedMasterInstances.length"
+  ng-if = "indirectlyRelatedInstances.length"
 )
   .well-item
     svg.iconnables.icons-disclose
@@ -55,18 +40,18 @@
     span Indirect Links
     .icons-status(
       ng-class = "getInstanceClasses(dep)"
-      ng-repeat = "dep in relatedMasterInstances"
+      ng-repeat = "dep in indirectlyRelatedInstances"
     )
   ul
     li.well-item(
-      ng-repeat = "masterInstance in relatedMasterInstances"
+      ng-repeat = "indirectInstance in indirectlyRelatedInstances"
     )
       svg.iconnables.icons-repository
         use(
           xlink:href = "#icons-repository"
         )
-      span.server-category-name.text-overflow {{ masterInstance.attrs.name }}
+      span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
         span.branch-name /master
       .icons-status(
-        ng-class = "getInstanceClasses(masterInstance)"
+        ng-class = "getInstanceClasses(indirectInstance)"
       )

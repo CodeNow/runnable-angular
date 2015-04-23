@@ -9,6 +9,7 @@ function setupServerModal(
   createDockerfileFromSource,
   createNewBuild,
   errs,
+  fetchOwnerRepos,
   fetchStackAnalysis,
   hasKeypaths,
   promisify,
@@ -28,6 +29,14 @@ function setupServerModal(
           env: null
         }
       };
+      fetchOwnerRepos($scope.data.activeAccount.oauthName())
+        .then(function (repoList) {
+          $scope.data.githubRepos = repoList;
+        })
+        .catch(errs.handler)
+        .finally(function () {
+          $scope.loading = false;
+        });
 
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }

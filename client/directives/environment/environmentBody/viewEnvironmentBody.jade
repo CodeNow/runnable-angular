@@ -1,8 +1,13 @@
+.spinner-wrapper.spinner-md.spinner-purple.in(
+  ng-if = "data.loadingNewServers"
+  ng-include = "'spinner'"
+)
+
 .card.gray.disabled.load(
   ng-repeat = "server in data.newServers"
 )
   .card-header
-    h2.h2.monospace {{ server.opts.name | filterCreateInstanceUrl: data.activeAccount }}
+    h2.h2.monospace {{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}
     .row.clearfix.load(
       ng-if = "!server.building"
     )
@@ -14,15 +19,16 @@
         - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
 
       //- remove this color
-      button.btn.btn-xs.red(
+      button.btn.btn-xs(
         modal
         modal-actions = "actions"
         modal-current-model = "server"
         modal-data = "data"
         modal-state-model = "'logs'"
         modal-template = "editServerModalOpen"
-        ng-class = "getInstanceStatus.color(server)"
-      ) {{ getInstanceStatus.text(server) }}
+        ng-class = "getInstanceClasses(server.instance)"
+        ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+      ) {{ server.instance | cardBuildStatusText}}
   ul.card-body.card-loading(
     ng-if = "server.building"
   )
@@ -103,7 +109,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Ports
-      p.p {{ (server.ports.length ) ? server.ports.join(', ') : 'None' }}
+      p.p {{ server.ports.join(' ') }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -121,7 +127,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Repositories
-      p.p master
+      p.p {{ server.build.contextVersions.models[0].appCodeVersions.models[0].branch }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -146,5 +152,5 @@
         )
 
 .card.gray.disabled.load.empty(
-  ng-if = "data.newServers.length === 0"
+  ng-if = "!data.loadingNewServers && data.newServers.length === 0"
 ) Add a new server to get started

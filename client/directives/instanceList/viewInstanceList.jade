@@ -15,7 +15,7 @@
 .row-heading
   | Servers
   a.btn.btn-xs.white(
-    href = "/runnabro/new"
+    ui-sref = "instance.new({ userName: data.activeAccount.oauthName() })"
   )
     svg.iconnables.icons-gear
       use(

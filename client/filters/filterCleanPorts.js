@@ -14,7 +14,13 @@ require('app')
       ]
  */
 function filterCleanPorts() {
-  return function (url) {
-    return /:\d{1,5}/.test(url) ? url.substring(url.lastIndexOf(':') + 1) : '80';
+  return function (portsObject, join) {
+    if (portsObject) {
+      var keys = Object.keys(portsObject);
+      var map = keys.map(function (port) {
+        return port.split('/')[0];
+      });
+      return !join ? map : (map.length ? map.join(' ') : 'None');
+    }
   };
 }

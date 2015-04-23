@@ -11,8 +11,7 @@ function instanceList(
   getTeamMemberClasses,
   $state,
   keypather,
-  regexpQuote,
-  $rootScope
+  regexpQuote
 ) {
   return {
     restrict: 'A',

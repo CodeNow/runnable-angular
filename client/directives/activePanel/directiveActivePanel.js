@@ -14,7 +14,6 @@ function activePanel(
   $sce,
   colorScheme,
   keypather,
-  helperInstanceActionsModal,
   updateInstanceWithNewBuild,
   errs,
   $rootScope,
@@ -32,13 +31,6 @@ function activePanel(
       isEditModal: '=?'
     },
     link: function ($scope, element, attrs) {
-
-      $scope.popoverGearMenu = {
-        data: {},
-        actions: {}
-      };
-      // mutate scope, shared-multiple-states properties & logic for actions-modal
-      helperInstanceActionsModal($scope);
 
       /**
        * showBackgroundButtons
