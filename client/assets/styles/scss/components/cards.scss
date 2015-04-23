@@ -130,7 +130,7 @@
     color: $gray;
     font-size: 16px;
     height: 36px;
-    margin: 30px 15px;
+    margin: 30px 15px 15px;
     text-align: center;
   }
 
@@ -160,9 +160,9 @@
 
   > .btn {
     display: block;
-    height: 60px;
+    height: 54px;
     line-height: 1.4;
-    padding: 6px 9px;
+    padding: 7px 9px;
     text-align: left;
 
     &:hover .icons-arrow-down {
@@ -184,21 +184,21 @@
     //- fix dis
     .icons-terminal {
       float: left;
-      height: 30px;
+      height: 24px;
       margin-right: 6px;
       width: 21px;
     }
 
     .h3 {
-      font-size: 18px;
-      margin-top: 4px;
+      font-size: 16px;
     }
 
     .p {
       color: $gray-light;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 400;
       line-height: 20px;
+      padding-right: 15px; // for arrow
     }
 
     .icons-arrow-down {

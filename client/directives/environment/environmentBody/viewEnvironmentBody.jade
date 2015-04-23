@@ -52,7 +52,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Build Files
-      p.p No errors
+      p.p.text-overflow No errors
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -71,7 +71,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Stack
-      p.p {{ actions.getFlattenedSelectedStacks(server.selectedStack) }}
+      p.p.text-overflow {{ actions.getFlattenedSelectedStacks(server.selectedStack) }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -90,7 +90,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Start Command
-      p.p {{ server.startCommand }}
+      p.p.text-overflow {{ server.startCommand }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -109,7 +109,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Ports
-      p.p {{ server.ports.join(' ') }}
+      p.p.text-overflow {{ server.ports.join(' ') }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -127,7 +127,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Repositories
-      p.p {{ server.build.contextVersions.models[0].appCodeVersions.models[0].branch }}
+      p.p.text-overflow {{ server.build.contextVersions.models[0].appCodeVersions.models[0].branch }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -145,7 +145,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Environment Variables
-      p.p {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
+      p.p.text-overflow {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
