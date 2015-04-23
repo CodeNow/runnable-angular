@@ -1,0 +1,36 @@
+.popover.popover-fixed(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .popover-content
+    h3.popover-title New Replace Rule
+      small.small Rules are case-sensitive and trailing whitespace is not trimmed.
+    .label-row
+      label.label-col Find
+        input.input.input-sm.monospace
+      .span-col →
+      label.label-col Replace
+        input.input.input-sm.monospace
+    .popover-footer.clearfix
+      button.btn.green.btn-spinner(
+        ng-class = "{in: data.saving}"
+        ng-click = "data.saving = true"
+        ng-disabled = "data.saving"
+      )
+        //- spinner
+        .spinner-wrapper.spinner-sm.spinner-white.in(
+          ng-if = "data.saving"
+          ng-include = "'spinner'"
+        )
+        span(
+          ng-if = "!data.saving"
+        ) Search for matches
+        //- this ng-click should not actually do anything
+        span(
+          ng-click = "data.searched = true"
+          ng-if = "data.saving"
+        ) Searching
+      button.btn.green(
+        ng-if = "data.searched"
+      ) Create rule
+      button.btn.gray.btn-cancel Cancel

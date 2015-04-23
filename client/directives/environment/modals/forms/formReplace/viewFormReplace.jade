@@ -5,7 +5,13 @@
 .table
   .tr.thead.clearfix
     .cell Strings replaced
-      button.btn.btn-xs.white New rule
+      button.btn.btn-xs.white(
+        pop-over
+        pop-over-actions = "actions"
+        pop-over-data = "data"
+        pop-over-options = "{\"left\":0,\"top\":-54}"
+        pop-over-template = "viewPopoverRules"
+      ) New rule
   .tr.tr-action.clearfix
     .cell.monospace.text-overflow(
       title = "config/environment"
