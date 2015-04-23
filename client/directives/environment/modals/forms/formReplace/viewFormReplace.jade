@@ -1,2 +1,58 @@
 .clearfix
   .label-col Replace
+
+//- table
+.table
+  .tr.thead.clearfix
+    .cell Strings replaced
+      button.btn.btn-xs.white(
+        pop-over
+        pop-over-actions = "actions"
+        pop-over-data = "data"
+        pop-over-options = "{\"left\":0,\"top\":-108}"
+        pop-over-template = "viewPopoverRules"
+      ) New rule
+  .tr.tr-action.clearfix
+    .cell.monospace.text-overflow(
+      title = "config/environment"
+    ) config/environment
+    .cell.monospace.text-overflow(
+      title = "./client/config/environment.js"
+    ) ./client/config/environment.js
+    .cell.cell-action.monospace
+      button.btn.btn-xxs.green(
+        title = "3 strings being replaced"
+      ) 3
+  .tr.tr-action.clearfix
+    .cell.monospace.text-overflow(
+      title = "./client/assets/js/primus-client.js"
+    ) ./client/assets/js/primus-client.js
+    .cell.monospace.text-overflow(
+      title = "./client/assets/js/primus-client-prod.js"
+    ) ./client/assets/js/primus-client-prod.js
+    .cell.cell-action.monospace
+      //- .orange if zero replacements are happening
+      button.btn.btn-xxs.orange(
+        title = "0 strings being replaced"
+      ) 0
+  .tr.thead.clearfix
+    .cell Filenames replaced
+      button.btn.btn-xs.white New rule
+  .tr.tr-action.clearfix
+    .cell.monospace.text-overflow(
+      title = "./client/assets/js/primus-client.js"
+    ) primus-client.js
+    .cell.monospace.text-overflow(
+      title = "./client/assets/js/primus-client-prod.js"
+    ) primus-client-prod.js
+    .cell.cell-action.monospace
+      //- note the title change
+      button.btn.btn-xxs.green(
+        title = "3 filenames being replaced"
+      ) 3
+
+small.small 🚧🚧🚧 Replace strings and filesnames from your code. #{''}
+  a.link(
+    href = "//google.com"
+    target = "_blank"
+  ) More about replacement

@@ -1,6 +1,7 @@
 .popover-fixed {
   left: 0 !important;
   margin: 0 auto;
+  max-width: 540px;
   position: fixed;
   right: 0 !important;
   z-index: $z-popover-fixed;
@@ -19,13 +20,14 @@
       margin-top: 6px;
     }
   }
-}
 
-// overlay
-.popover-overlay {
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  z-index: $z-popover-overlay;
+  // monospace inputs
+  .input.monospace {
+    color: $gray-darker;
+    font-size: 13px;
+  }
+
+  .popover-footer {
+    margin-top: 30px;
+  }
 }

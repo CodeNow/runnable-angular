@@ -4,11 +4,61 @@
   border-radius: 3px;
 }
 
+// diff
+.table-diff {
+  margin-top: 15px;
+
+  .thead {
+    border-bottom: 1px solid $gray-lighter;
+  }
+
+  // diff colors
+  .tr-deletion {
+    background: $red-lighter;
+  }
+
+  .tr-addition {
+    background: $green-lighter;
+  }
+
+  // extra padding-bottom is weird when colored
+  .tr:last-child {
+    padding-bottom: 0;
+  }
+
+  // reduce cell height
+  .cell {
+    height: 24px;
+    line-height: 24px;
+  }
+
+  // checkbox
+  .input-checkbox {
+    margin: 0 12px 0 -2px;
+  }
+}
+
 // table row header usage:
 // .tr.thead
 .thead {
+  background: #f0f0f0;
   font-size: 13px;
-  padding-bottom: 3px;
+  font-weight: 500;
+  padding: 3px 0;
+
+  .cell {
+    height: 30px;
+    line-height: 30px;
+
+    &:only-child {
+      width: 100%;
+    }
+
+    .btn {
+      float: right;
+      top: 3px;
+    }
+  }
 }
 
 // layout
@@ -18,34 +68,59 @@
   display: flex;
 
   &:first-child {
+    border-radius: 2px 2px 0 0;
     padding-top: 3px;
   }
 
   &:last-child {
+    border-radius: 0 0 3px 3px;
     padding-bottom: 3px;
   }
 
   + .tr {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid $gray-lighter;
     font-weight: 500;
+
+    &.tr-addition,
+    &.tr-deletion {
+      border-top: 0;
+    }
+  }
+}
+
+// tr that's clickable
+.tr-action {
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($purple-lightest,.5);
+  }
+
+  &:active,
+  &.active {
+    background: $purple-lightest;
   }
 }
 
 .cell {
+  flex: 1 1 50%;
   float: left;
   height: 36px;
   line-height: 36px;
   padding: 0 9px;
-  width: calc(50% - 32px); // 2 equal width columns + 64px column (divide by 2)
 
-  .btn-xs {
-    float: right;
-    top: 6px;
+  &.monospace {
+    font-size: 13px;
+    letter-spacing: -.25px;
   }
 }
 
-.cell-actions {
-  width: 64px;
+.cell-action {
+  flex: 0 0 auto;
+}
+
+.cell-checkbox {
+  cursor: pointer;
 }
 
 // table actions
