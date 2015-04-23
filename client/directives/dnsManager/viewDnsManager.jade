@@ -9,26 +9,19 @@
 .well(
   ng-repeat = "masterInstance in directlyRelatedMasterInstances"
 )
-  .well-item
-    svg.iconnables.icons-repository
-      use(
-        xlink:href = "#icons-repository"
-      )
-    span.server-category-name.text-overflow {{ masterInstance.attrs.name }}
-  .branch
-    fancy-select.branch-name.text-overflow(
-      value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-      ng-disabled = "masterInstance.instanceOptions.length <= 1"
-      show-dropdown = "masterInstance.instanceOptions.length > 1"
+  fancy-select.branch-name.text-overflow(
+    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+    ng-disabled = "masterInstance.instanceOptions.length <= 1"
+    show-dropdown = "masterInstance.instanceOptions.length > 1"
+  )
+    fancy-option(
+      ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
+      value = "instanceOption.attrs.shortHash"
     )
-      fancy-option(
-        ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
-        value = "instanceOption.attrs.shortHash"
-      ) {{ $parent.instanceOption.attrs.name }}
-        // Go outside the fancy-option, the ng-repeat, the fancy-select and get to the parent scope
-        .icons-status(
-          ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
-        )
+      .icons-status(
+        ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
+      )
+      | {{ $parent.$parent.$parent.masterInstance.attrs.name }}/{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
 .well.indirect(
   ng-if = "indirectlyRelatedInstances.length"
 )
