@@ -48,13 +48,7 @@ function ControllerEnvironment(
 
 
 
-
-
   $scope.actions = {
-    selectAccount: function (account) {
-      $scope.data.activeAccount = account;
-      $scope.loading = true;
-    },
     getFlattenedSelectedStacks: function (selectedStack) {
       if (!selectedStack) {
         return 'none';
@@ -144,7 +138,7 @@ function ControllerEnvironment(
         })
         .then(function () {
           return createNewInstance(
-            $scope.data.activeAccount,
+            $rootScope.dataApp.data.activeAccount,
             newServerModel.build,
             newServerModel.opts
           );
@@ -171,7 +165,7 @@ function ControllerEnvironment(
       };
       $scope.data.newServers.push(newServer);
 
-      copySourceInstance($scope.data.activeAccount, instance, {name: instance.attrs.name}).then(function (copiedInstance) {
+      copySourceInstance($rootScope.dataApp.data.activeAccount, instance, {name: instance.attrs.name}).then(function (copiedInstance) {
         createServerObjectFromInstance(copiedInstance, newServer);
         newServer.building = false;
       });
@@ -214,6 +208,7 @@ function ControllerEnvironment(
   }
 
 
+  $scope.data.loadingNewServers = true;
   if ($state.params.userName) {
     fetchInstances({
       githubUsername: $state.params.userName
@@ -222,6 +217,7 @@ function ControllerEnvironment(
         $scope.data.newServers = instances.models.map(function (instance) {
           return createServerObjectFromInstance(instance);
         });
+        $scope.data.loadingNewServers = false;
       });
   }
 

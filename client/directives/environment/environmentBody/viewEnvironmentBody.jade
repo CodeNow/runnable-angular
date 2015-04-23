@@ -1,8 +1,13 @@
+.spinner-wrapper.spinner-md.spinner-purple.in(
+  ng-if = "data.loadingNewServers"
+  ng-include = "'spinner'"
+)
+
 .card.gray.disabled.load(
   ng-repeat = "server in data.newServers"
 )
   .card-header
-    h2.h2.monospace {{ server.instance.attrs.name | filterCreateInstanceUrl: data.activeAccount }}
+    h2.h2.monospace {{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}
     .row.clearfix.load(
       ng-if = "!server.building"
     )
@@ -146,5 +151,5 @@
         )
 
 .card.gray.disabled.load.empty(
-  ng-if = "data.newServers.length === 0"
+  ng-if = "!data.loadingNewServers && data.newServers.length === 0"
 ) Add a new server to get started

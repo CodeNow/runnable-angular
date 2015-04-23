@@ -15,7 +15,7 @@
 .row-heading
   | Servers
   a.btn.btn-xs.white(
-    ui-sref = "instance.new({ userName: data.activeAccount.oauthName() })"
+    ui-sref = "instance.new({ userName: dataApp.data.activeAccount.oauthName() })"
   )
     svg.iconnables.icons-gear
       use(
@@ -33,14 +33,14 @@ ul.server-category-list
               xlink:href = "#icons-repository"
             )
         span.server-category-name.text-overflow(
-          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+          ui-sref = "instance.instance({ userName: dataApp.data.activeAccount.oauthName(), \
                      instanceName: master.attrs.name })"
           ) {{ master.attrs.name }}
           span.branch-name /master
         .icons-status.running
       li.server-list-item(
         ng-repeat = "branchFork in data.asdf.forks.models"
-        ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+        ui-sref = "instance.instance({ userName: dataApp.data.activeAccount.oauthName(), \
                      instanceName: branchFork.attrs.name })"
       )
         span.branch-name.text-overflow {{ branchFork.attrs.name }}
