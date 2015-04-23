@@ -20,7 +20,7 @@
 
     small.small.table-details(
       ng-if = "data.saving"
-    ) Replacing 0 of 2 strings
+    ) Replacing 2 of 2 strings
 
     //- verification table
     .table.table-diff(
@@ -29,6 +29,7 @@
       .tr.thead.clearfix
         label.cell.cell-checkbox
           input.input-checkbox(
+            checked
             type = "checkbox"
           )
           | index.html, Line 18
@@ -44,6 +45,7 @@
       .tr.thead.clearfix
         label.cell.cell-checkbox
           input.input-checkbox(
+            checked
             type = "checkbox"
           )
           | setup.yml, Line 1
