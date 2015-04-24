@@ -38,7 +38,7 @@
   }
 
   .row {
-    padding: 0 12px;
+    // padding: 0 12px;
 
     + .row {
       padding-bottom: 9px;
@@ -54,9 +54,8 @@
   cursor: pointer;
   font-size: 14px;
   height: 60px;
-  padding-left: 3px;
-  padding-top: 19px;
   position: relative;
+  padding: 19px 12px 0 12px;
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
@@ -82,8 +81,6 @@
 .nav-sidebar {
   background: $gray-lightest;
   float: left;
-  // overflow-y: auto;
-  // height: calc(100vh - 60px);
 }
 
 .servers {
@@ -93,6 +90,7 @@
 .server-category-list {
   height: 100%;
   overflow-y: auto;
+  padding: 0 12px;
 }
 
 .server-category-list-item {
