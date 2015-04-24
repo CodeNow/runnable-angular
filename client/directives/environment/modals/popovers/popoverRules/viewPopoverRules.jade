@@ -4,8 +4,17 @@
 )
   .popover-content
 
-    h3.popover-title New Replace Rule
+    //- if filename
+    h3.popover-title(
+      ng-if = "false"
+    ) New Filename Replace Rule
+    //- if string
+    h3.popover-title(
+      ng-if = "true"
+    ) New String Replace Rule
       small.small Rules are case-sensitive and trailing whitespace is not trimmed.
+        br
+        | Regular expressions not supported.
 
     .label-row
       label.label-col Find
