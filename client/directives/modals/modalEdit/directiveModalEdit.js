@@ -53,7 +53,9 @@ function modalEdit(
             updateInstanceWithNewBuild(
               $scope.data.instance,
               $scope.build,
-              noCache,
+              {
+                noCache: noCache
+              },
               $scope.state,
               $scope,
               $scope.actions

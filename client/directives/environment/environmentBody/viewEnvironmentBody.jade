@@ -34,8 +34,8 @@
         ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
       )
       span.btn-text.text-overflow(
-        ng-attr-title = "{{ server.instance.attrs.name }}"
-      ) {{ server.instance.attrs.name }}
+        ng-attr-title = "{{ (server.opts.name || server.instance.attrs.name) }}"
+      ) {{ (server.opts.name || server.instance.attrs.name) }}
       //- span.btn-text(
       //-   ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
       //- ) — {{ server.instance | cardBuildStatusText}}
@@ -50,7 +50,7 @@
     input.input.input-sm.monospace(
       readonly
       select-all
-      value = "{{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}"
+      value = "{{ (server.opts.name || server.instance.attrs.name) | filterCreateInstanceUrl: dataApp.data.activeAccount }}"
     )
 
   ul.card-body.card-loading(
@@ -60,7 +60,7 @@
       ng-include = "'spinner'"
     )
   ul.card-body.load(
-    ng-if = "server.instance.contextVersion.appCodeVersions.models.length === 0"
+    ng-if = "!server.repo"
   )
     li.btn.white(
       modal
@@ -77,7 +77,7 @@
       h3.h3 Advanced Configuration
 
   ul.card-body.load(
-    ng-if = "server.instance.contextVersion.appCodeVersions.models.length > 0 && !server.building"
+    ng-if = "server.repo && !server.building"
   )
     li.btn.white(
       modal
@@ -150,7 +150,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Ports
-      p.p.text-overflow {{ server.ports.join(' ') }}
+      p.p.text-overflow {{ server.ports.join(' ') || 'None'}}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
@@ -168,7 +168,7 @@
           xlink:href = "#icons-terminal"
         )
       h3.h3 Repositories
-      p.p.text-overflow {{ server.build.contextVersions.models[0].appCodeVersions.models[0].attrs.branch }}
+      p.p.text-overflow {{ server.instance.contextVersion.models[0].appCodeVersions.models[0].attrs.branch }}
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
