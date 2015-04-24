@@ -6,7 +6,7 @@
   width: 300px;
 
   .row {
-    max-height: 600px;
+    max-height: 600px; // this should be fixed with flexbox
     overflow-y: auto;
 
     + .row {
@@ -38,7 +38,7 @@
 
   .well {
     background-color: $gray-lightest;
-    border: 2px solid $gray-lighter;
+    border: 1px solid $gray-lighter;
     border-radius: 3px;
     margin: 0;
     position: relative;
@@ -54,6 +54,7 @@
 
   .repository-group-text {
     cursor: pointer;
+    border-width: 2px;
 
     &:hover {
       background: $white;
@@ -116,39 +117,57 @@
 .linked-servers {
 
   .well {
-    margin-bottom: 9px;
+    font-size: 13px;
+    height: 36px;
+    margin-bottom: 6px;
+    padding: 5px 0 0 10px;
+    text-align: left;
+    width: 100%;
+
+    .icons-status {
+      float: left;
+    }
   }
 
-  .well-item {
-    height: 34px;
-    padding: 4px 0 0 23px;
-    position: relative;
+  // modifying fancy-select elements for container selection
+  .btn {
+    border-width: 2px;
+    line-height: 24px;
+    padding: 0 0 0 9px;
 
-    .text-overflow {
-      display: inline-block;
-      max-width: 105px;
-    }
-
-    .iconnables {
+    .icons-arrow-down {
+      color: $gray;
+      left: auto;
+      right: 6px;
       top: 8px;
     }
   }
+
+  // .well-item {
+  //   height: 34px;
+  //   padding: 4px 0 0 23px;
+  //   position: relative;
+
+  //   .iconnables {
+  //     top: 8px;
+  //   }
+  // }
 }
 
-.indirect {
-  max-height: 2000px;
-  padding-bottom: 3px;
+// .indirect {
+//   max-height: 2000px;
+//   padding-bottom: 3px;
 
-  &.closed {
-    max-height: 36px;
-    overflow: hidden;
-    padding-bottom: 0;
-  }
+//   &.closed {
+//     max-height: 36px;
+//     overflow: hidden;
+//     padding-bottom: 0;
+//   }
 
-  ul .well-item {
-    margin-top: -6px;
-  }
-}
+//   ul .well-item {
+//     margin-top: -6px;
+//   }
+// }
 
 .repo-list {
   flex: 0 0 auto;

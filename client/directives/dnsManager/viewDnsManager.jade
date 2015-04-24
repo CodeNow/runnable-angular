@@ -19,23 +19,28 @@
   ng-if = "!$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
 ) You have no linked instances.
 
-.well(
+fancy-select.well(
   ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+  value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+  ng-disabled = "masterInstance.instanceOptions.length <= 1"
+  show-dropdown = "masterInstance.instanceOptions.length > 1"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
-  fancy-select.branch-name.text-overflow(
-    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-    ng-disabled = "masterInstance.instanceOptions.length <= 1"
-    show-dropdown = "masterInstance.instanceOptions.length > 1"
+  fancy-option(
+    ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
+    value = "instanceOption.attrs.shortHash"
   )
-    fancy-option(
-      ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
-      value = "instanceOption.attrs.shortHash"
+    .icons-status(
+      ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
     )
-      .icons-status(
-        ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
-      )
-      | {{ $parent.$parent.$parent.masterInstance.attrs.name }}/{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
+    | {{ $parent.$parent.$parent.masterInstance.attrs.name }}
+    span.branch-name /{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
+
+//- non-repository containers that are linked directly
+.well.non-repo
+  .icons-status.running
+  | container-name
+
 .well.indirect(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
 )

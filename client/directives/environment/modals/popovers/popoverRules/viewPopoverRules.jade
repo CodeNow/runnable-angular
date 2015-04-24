@@ -12,7 +12,10 @@
     h3.popover-title(
       ng-if = "true"
     ) New String Replace Rule
-      button.btn-sm.gray
+      //- if existing rule
+      button.btn.btn-xs.gray(
+        ng-if = "false"
+      )
         svg.iconnables.icons-trash
           use(
             xlink:href = "#icons-trash"
@@ -20,7 +23,7 @@
         | Delete Rule
       small.small Rules are case-sensitive and trailing whitespace is not trimmed.
         br
-        | Regular expressions not supported.
+        | Regular expressions are not supported.
 
     .label-row
       label.label-col Find
