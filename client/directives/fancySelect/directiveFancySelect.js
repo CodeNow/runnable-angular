@@ -80,12 +80,13 @@ function fancySelect(
         }
         var boundingRect = element[0].getBoundingClientRect();
 
-
         var padding = 24;
         var top = boundingRect.top + element[0].offsetHeight;
         if (list[0].offsetHeight + top > $document.find('body')[0].offsetHeight - padding) {
           top =  $document.find('body')[0].offsetHeight - padding - list[0].offsetHeight;
         }
+
+        top += $document.find('body')[0].scrollTop;
 
         return {
           top: top + 'px',
