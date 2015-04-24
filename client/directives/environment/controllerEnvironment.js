@@ -227,13 +227,12 @@ function ControllerEnvironment(
       .then(function (stackObject) {
         serverObj.selectedStack = stackObject;
       });
-    promisify(instance.contextVersion, 'fetch')()
-      .then(function (contextVersion) {
-        serverObj.repo = keypather.get(contextVersion, 'appCodeVersions.models[0].githubRepo');
-        if (serverObj.repo) {
-          return promisify(serverObj.repo.branches, 'fetch')();
-        }
-      });
+
+
+    serverObj.repo = keypather.get(instance.contextVersion, 'appCodeVersions.models[0].githubRepo');
+    if (serverObj.repo) {
+      promisify(serverObj.repo.branches, 'fetch')();
+    }
     return serverObj;
   }
 
