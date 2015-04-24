@@ -43,6 +43,8 @@ function editServerModal(
           return $scope.portTagOptions.tags.tags[key].value;
         });
       }
+      $scope.instance = $scope.currentModel.instance;
+      $scope.build = $scope.currentModel.build;
 
       $scope.state = {
         startCommand: $scope.currentModel.startCommand,

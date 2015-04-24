@@ -15,7 +15,7 @@
 .row-heading
   | Servers
   a.btn.btn-xs.white(
-    ui-sref = "instance.new({ userName: data.activeAccount.oauthName() })"
+    ui-sref = "instance.config({ userName: data.activeAccount.oauthName() })"
   )
     svg.iconnables.icons-gear
       use(

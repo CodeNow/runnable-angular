@@ -13,10 +13,10 @@ form.modal-dialog.modal-edit-server(
       .icons-status.red(
         title = ""
       )
-      span.btn-text.text-overflow Instance 23
+      span.btn-text.text-overflow {{ instance.attrs.name }}
       span.btn-text(
-        title = ""
-      ) — Build Failed
+        ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+      ) — {{ server.instance | cardBuildStatusText}}
       svg.iconnables.icons-gear
         use(
           xlink:href = "#icons-gear"
