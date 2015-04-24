@@ -28,10 +28,10 @@ fancy-select.well(
     | {{ $parent.$parent.$parent.masterInstance.attrs.name }}
     span.branch-name /{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
 
-//- directly linked non-repository containers
+//- non-repository containers that are linked directly
 .well.non-repo
   .icons-status.running
-  | reponame
+  | container-name
 
 .well.indirect(
   ng-if = "!$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
