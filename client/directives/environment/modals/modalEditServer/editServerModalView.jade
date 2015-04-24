@@ -3,15 +3,24 @@ form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    button.btn.btn-xs.gray.btn-title(
+    button.btn.btn-xs.btn-title(
       pop-over
       pop-over-actions = "actions"
       pop-over-data = "data"
       pop-over-options = "{\"left\":0,\"top\":28}"
       pop-over-template = "viewPopoverServerOptions"
     )
+      .icons-status.red(
+        title = ""
+      )
       span.btn-text.text-overflow Instance 23
-      span.btn-text — Configuration
+      span.btn-text(
+        title = ""
+      ) — Build Failed
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"

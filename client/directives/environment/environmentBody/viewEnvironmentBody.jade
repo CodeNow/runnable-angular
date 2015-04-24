@@ -21,36 +21,37 @@
       - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
       - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
       - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
-    .btn-group
-      button.btn.btn-xs.btn-title(
-        modal
-        modal-actions = "actions"
-        modal-current-model = "server"
-        modal-data = "data"
-        modal-state-model = "'logs'"
-        modal-template = "editServerModalOpen"
+    button.btn.btn-sm.btn-title.white(
+      ng-if = "!server.building"
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-data = "data"
+      pop-over-options = "{\"left\":0,\"top\":38}"
+      pop-over-template = "viewPopoverServerOptions"
+    )
+      .icons-status(
         ng-class = "getInstanceClasses(server.instance)"
-        ng-if = "!server.building"
+        ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
       )
-        span.btn-text.text-overflow(
-          ng-attr-title = "{{ server.instance.attrs.name }}"
-        ) {{ server.instance.attrs.name }}
-        span.btn-text(
-          ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-        ) — {{ server.instance | cardBuildStatusText}}
-      button.btn.btn-xs(
-        ng-class = "getInstanceClasses(server.instance)"
-        pop-over
-        pop-over-actions = "actions"
-        pop-over-data = "data"
-        pop-over-options = "{\"left\":0,\"top\":28}"
-        pop-over-template = "viewPopoverServerOptions"
-      )
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-    small.small.monospace {{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}
+      span.btn-text.text-overflow(
+        ng-attr-title = "{{ server.instance.attrs.name }}"
+      ) {{ server.instance.attrs.name }}
+      //- span.btn-text(
+      //-   ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+      //- ) — {{ server.instance | cardBuildStatusText}}
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    input.input.input-sm.monospace(
+      readonly
+      select-all
+      value = "{{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}"
+    )
 
   ul.card-body.card-loading(
     ng-if = "server.building"

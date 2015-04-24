@@ -1,11 +1,16 @@
 .row-heading(
-  ng-click = "isClosed = !isClosed"
+  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
+  ng-class = "{ closed: $storage.dnsManagementIsClosed }"
 )
   svg.iconnables.icons-disclose
       use(
         xlink:href = "#icons-disclose"
       )
   | Linked Servers
+
+.empty-state(
+  ng-if = "!$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
+) You have no linked instances.
 
 fancy-select.well(
   ng-repeat = "masterInstance in directlyRelatedMasterInstances"
@@ -29,7 +34,7 @@ fancy-select.well(
   | reponame
 
 .well.indirect(
-  ng-if = "indirectlyRelatedInstances.length"
+  ng-if = "!$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
 )
   .well-item
     svg.iconnables.icons-disclose

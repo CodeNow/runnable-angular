@@ -45,23 +45,8 @@
   }
 
   // animations
-  &:active {
-
-    > .icons-gear {
-      transform: rotate3d(0,0,1,135deg);
-    }
-
-    // > .icons-arrow-down {
-    //   transform: scale3d(.75,.75,1);
-    // }
-  }
-
   &.active,
   &.in {
-
-    > .icons-gear {
-      transform: rotate3d(0,0,1,135deg);
-    }
 
     > .icons-add {
       transform: rotate3d(0,0,1,135deg) scale3d(.75,.75,1);
@@ -104,7 +89,7 @@
 .btn-sm {
   font-size: 16px;
   height: 36px;
-  line-height: 34px;
+  line-height: 32px;
 
   > .img {
     float: left;
@@ -507,7 +492,6 @@
   display: inline-block;
   font-size: 16px;
   height: 72px;
-  margin-right: 6px;
   text-align: center;
   text-decoration: none;
   transition: none;

@@ -19,7 +19,8 @@ function repoList(
   eventTracking,
   keypather,
   pFetchUser,
-  promisify
+  promisify,
+  $localStorage
 ) {
   return {
     restrict: 'A',
@@ -30,6 +31,9 @@ function repoList(
       build: '='
     },
     link: function ($scope, elem, attrs) {
+      $scope.$storage = $localStorage.$default({
+        repoListIsClosed: false
+      });
 
       if (attrs.showAutoDeploy) {
         $scope.showAutoDeploy = true;

@@ -3,6 +3,7 @@
 
 //- table actions
 .table-actions.clearfix(
+  ng-if = "data.newServers.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"
 )
 

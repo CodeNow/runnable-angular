@@ -3,16 +3,31 @@
   width: 100%;
 
   // nav
-  .modal-header {
+  // header button
+  .btn-title {
+    display: table;
+    margin: 6px auto;
 
-    .btn-xs {
-      display: table;
-      margin: 12px auto 6px;
-      padding-right: 0;
+    // status
+    .icons-status {
+      float: left;
+      margin: 7px 3px 0 0;
     }
 
-    .input-checkbox {
-      margin: 0 6px 0 0;
+    // text
+    .btn-text {
+      float: left;
+      height: 24px;
+      line-height: 24px;
+    }
+
+    .icons-gear {
+      margin-left: 6px;
+      width: 15px;
+    }
+
+    .icons-arrow-down {
+      width: 12px;
     }
   }
 

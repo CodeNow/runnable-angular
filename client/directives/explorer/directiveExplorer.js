@@ -11,7 +11,8 @@ function explorer(
   configAPIHost,
   errs,
   helperCreateFS,
-  promisify
+  promisify,
+  $localStorage
 ) {
   return {
     restrict: 'A',
@@ -26,6 +27,11 @@ function explorer(
       editExplorer: '='
     },
     link: function ($scope, elem, attrs) {
+      $scope.$storage = $localStorage.$default({
+        explorerIsClosed: false
+      });
+
+      console.log($scope.isClosed);
 
       $scope.filePopover = {
         data: {
