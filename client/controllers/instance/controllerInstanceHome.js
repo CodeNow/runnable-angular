@@ -55,7 +55,7 @@ function ControllerInstanceHome(
         userName: username
       }, {location: 'replace'});
     } else {
-      $state.go('instance.new', {
+      $state.go('instance.config', {
         userName: username
       }, {location: 'replace'});
     }
