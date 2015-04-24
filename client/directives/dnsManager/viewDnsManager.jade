@@ -8,13 +8,20 @@
       )
   | Linked Servers
 
+  // TODO: For the moment comment this out, we don't have a good way of looping over our direct relations, waiting on what happens from backend
+  //.icons-status(
+  //  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
+  //  ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+  //  ng-class = "getInstanceClasses(masterInstance)"
+  //)
+
 .empty-state(
   ng-if = "!$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
 ) You have no linked instances.
 
 .well(
   ng-repeat = "masterInstance in directlyRelatedMasterInstances"
-  ng-if = "!$storage.dnsManagementIsClosed"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
   fancy-select.branch-name.text-overflow(
     value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
@@ -30,7 +37,7 @@
       )
       | {{ $parent.$parent.$parent.masterInstance.attrs.name }}/{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
 .well.indirect(
-  ng-if = "!$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
 )
   .well-item
     svg.iconnables.icons-disclose
