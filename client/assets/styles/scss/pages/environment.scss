@@ -54,8 +54,41 @@
       margin: 0 auto;
     }
 
+    @include media(xxl) {
+      width: calc(20% - 12px);
+
+      // on the 6th card + 5 thereafter
+      &:nth-child(5n+6) {
+        margin-left: 0;
+      }
+    }
+
     @include media(xl) {
+      width: calc(25% - 12px);
+
+      // on the 6th card + 5 thereafter
+      &:nth-child(5n+6) {
+        margin-left: 15px;
+      }
+
+      // on the 5th card + 4 thereafter
+      &:nth-child(4n+5) {
+        margin-left: 0;
+      }
+    }
+
+    @include media(lg) {
       width: calc(33.333% - 10px);
+
+      // on the 6th card + 5 thereafter
+      &:nth-child(5n+6) {
+        margin-left: 15px;
+      }
+
+      // on the 5th card + 4 thereafter
+      &:nth-child(4n+5) {
+        margin-left: 15px;
+      }
 
       // on the 4th card + 3 thereafter
       &:nth-child(3n+4) {
@@ -66,17 +99,49 @@
     @include media(md) {
       width: calc(50% - 8px);
 
+      // on the 6th card + 5 thereafter
+      &:nth-child(5n+6) {
+        margin-left: 15px;
+      }
+
+      // on the 5th card + 4 thereafter
+      &:nth-child(4n+5) {
+        margin-left: 15px;
+      }
+
+      // on the 4th card + 3 thereafter
       &:nth-child(3n+4) {
         margin-left: 15px; // override media(xl)
       }
 
+      // no the 3rd card + 2 thereafter
       &:nth-child(2n+3) {
         margin-left: 0;
       }
     }
 
-    @include media(xxs) {
+    @include media(xs) {
       width: 100%;
+
+      // on the 6th card + 5 thereafter
+      &:nth-child(5n+6) {
+        margin-left: 15px;
+      }
+
+      // on the 5th card + 4 thereafter
+      &:nth-child(4n+5) {
+        margin-left: 15px;
+      }
+
+      // on the 4th card + 3 thereafter
+      &:nth-child(3n+4) {
+        margin-left: 15px; // override media(xl)
+      }
+
+      // no the 3rd card + 2 thereafter
+      &:nth-child(2n+3) {
+        margin-left: 0;
+      }
 
       + .card {
         margin-left: 0;
