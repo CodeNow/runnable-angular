@@ -23,6 +23,6 @@ main.home.server-selection
       ng-repeat = "instance in instances.models"
     )
       .list-item-row(
-        ng-click = "data.listExpand = !data.listExpand"
+        ng-click = "selectInstance(instance)"
       )
         h4.h4.header-thin {{ instance.attrs.name }}

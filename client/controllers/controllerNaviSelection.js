@@ -6,6 +6,7 @@ require('app')
 function controllerNaviSelection (
   $scope,
   $state,
+  $window,
   fetchInstances,
   promisify,
   errs,
@@ -33,18 +34,14 @@ function controllerNaviSelection (
   })
   .catch(errs.handler);
 
-  $scope.dataNaviSelection = {
-    data: {
-      greeting: 'hello'
-    },
-    actions: {
-      selectInstance: function (instance) {
-        promisify(user, 'createRoute')({
-          srcHostname: hostname,
-          destInstanceId: instance.id()
-        })
-        .catch(errs.handler);
-      }
-    }
+  $scope.selectInstance = function (instance) {
+    promisify(user, 'createRoute')({
+      srcHostname: hostname,
+      destInstanceId: instance.id()
+    })
+    .then(function () {
+      $window.location = 'http://' + hostname;
+    })
+    .catch(errs.handler);
   };
 }
