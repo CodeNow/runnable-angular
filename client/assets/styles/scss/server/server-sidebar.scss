@@ -13,11 +13,6 @@
     + .row {
       border-top: 1px solid $gray-lighter;
     }
-
-    &.closed {
-      max-height: 61px;
-      overflow: hidden;
-    }
   }
 
   .row-heading {
@@ -29,11 +24,6 @@
       position: absolute;
       top: 24px;
       width: 15px;
-
-      // when parent element has class 'closed'
-      .closed & {
-        transform: rotate3d(0,0,1,-90deg);
-      }
     }
   }
 
@@ -189,7 +179,7 @@
 .repository-description {
   font-weight: 500;
   line-height: 24px;
-  padding-left: 23px;
+  padding: 0 23px;
   position: relative;
   word-break: break-word;
 
