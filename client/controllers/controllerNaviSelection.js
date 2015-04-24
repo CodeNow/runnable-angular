@@ -12,23 +12,24 @@ function controllerNaviSelection (
   user
 ) {
   var hostname = $state.params.hostname;
-  console.log(hostname);
+  $scope.loading = true;
 
-  // user.fetchBackendForUrl(hostname, console.log.bind(console));
-
-
+  var masterInstance;
   fetchInstances({
     hostname: hostname,
     masterPod: true
   })
-  .then(function (masterInstance) {
+  .then(function (_masterInstance) {
+    masterInstance = _masterInstance;
     var context = masterInstance.attrs.contextVersion.context;
-    return fetchInstances({
+    return promisify(masterInstance, 'fetchDependencies')({
       'contextVersion.context': context
     });
   })
-  .then(function (something) {
-      // instances.url() // doesn't exist ryan needs this method too: // url() needs to be created on the instance model in api client (it should return instance.name+'-'instance.owner.username+'.'+process.env.USER_CONTENT_DOMAIN)
+  .then(function (instances) {
+    instances.add(masterInstance);
+    $scope.instances = instances;
+    $scope.loading = false;
   })
   .catch(errs.handler);
 
@@ -38,14 +39,9 @@ function controllerNaviSelection (
     },
     actions: {
       selectInstance: function (instance) {
-        // instance url
-        // TBD
-        var body = {};
-        var hostname = hostname;
-        body['hostnamesMap.' + hostname] = instance.id();
-        promisify(user, 'update')(body)
-        .then(function () {
-          // Session is set
+        promisify(user, 'createRoute')({
+          srcHostname: hostname,
+          destInstanceId: instance.id()
         })
         .catch(errs.handler);
       }
