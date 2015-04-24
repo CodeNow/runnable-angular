@@ -130,20 +130,23 @@
   background: $gray-light;
   border-radius: 50%;
   display: inline-block;
-  height: 6px;
+  height: 9px;
   position: relative;
-  width: 6px;
+  width: 9px;
 
+  &.green,
   &.running,
   .running > & {
     background: $green;
   }
 
+  &.orange,
   &.building,
   .building > & {
     background: $orange;
   }
 
+  &.red,
   &.failed,
   .failed > & {
     background: $red;
@@ -209,4 +212,10 @@
   &.status-red .status-red {
     display: block;
   }
+}
+
+// gear + arrow-down
+.icons-gear + .icons-arrow-down {
+  margin: 0 0 0 -2px;
+  width: 15px;
 }

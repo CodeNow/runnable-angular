@@ -16,6 +16,15 @@
           | Advanced options
           small.small Reveals build files and 🚸🚸🚸
       li.divider
+      //- changes to Run Logs if running or run error
+      //- doesn't appear in edit modal
+      li.list-item.popover-list-item
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+        | Build Logs
+      li.divider
       //- trigger delete confirm modal
       li.list-item.popover-list-item
         svg.iconnables.icons-trash
