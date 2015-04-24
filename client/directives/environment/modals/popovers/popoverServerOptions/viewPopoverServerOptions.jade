@@ -24,7 +24,9 @@
         | Build Logs
       li.divider
       //- trigger delete confirm modal
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        ng-click = "actions.deleteServer(data)"
+      )
         svg.iconnables.icons-trash
           use(
             xlink:href = "#icons-trash"

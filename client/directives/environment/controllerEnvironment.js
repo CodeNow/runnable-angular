@@ -40,9 +40,18 @@ function ControllerEnvironment(
     }
   };
 
-
-
   $scope.actions = {
+    deleteServer: function (server) {
+      if (confirm('Are you sure you want to delete this server?')) {
+        var index = $scope.data.newServers.indexOf(server);
+        promisify(server.instance, 'destroy')()
+          .then(function () {
+            $scope.$broadcast('close-popovers');
+            $scope.data.newServers.splice(index, 1);
+          })
+          .catch(errs.handler);
+      }
+    },
     getFlattenedSelectedStacks: function (selectedStack) {
       if (!selectedStack) {
         return 'none';
