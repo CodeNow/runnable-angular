@@ -1,13 +1,20 @@
 .row-heading(
-  ng-click = "isClosed = !isClosed"
+  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
+  ng-class = "{ closed: $storage.dnsManagementIsClosed }"
 )
   svg.iconnables.icons-disclose
       use(
         xlink:href = "#icons-disclose"
       )
   | Linked Servers
+
+.empty-state(
+  ng-if = "!$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
+) You have no linked instances.
+
 .well(
   ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+  ng-if = "!$storage.dnsManagementIsClosed"
 )
   fancy-select.branch-name.text-overflow(
     value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
@@ -23,7 +30,7 @@
       )
       | {{ $parent.$parent.$parent.masterInstance.attrs.name }}/{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
 .well.indirect(
-  ng-if = "indirectlyRelatedInstances.length"
+  ng-if = "!$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
 )
   .well-item
     svg.iconnables.icons-disclose

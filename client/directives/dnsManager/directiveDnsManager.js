@@ -12,7 +12,8 @@ function dnsManager(
   errs,
   promisify,
   $q,
-  getInstanceClasses
+  getInstanceClasses,
+  $localStorage
 ) {
   return {
     restrict: 'A',
@@ -22,6 +23,9 @@ function dnsManager(
     },
     templateUrl: 'viewDnsManager',
     link: function ($scope, element, attrs) {
+      $scope.$storage = $localStorage.$default({
+        dnsManagementIsClosed: true
+      });
       $scope.getInstanceClasses = getInstanceClasses;
       // We need the entire dependency tree.
       $scope.subDependencies = [];
