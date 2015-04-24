@@ -82,6 +82,17 @@
 .nav-sidebar {
   background: $gray-lightest;
   float: left;
+  // overflow-y: auto;
+  // height: calc(100vh - 60px);
+}
+
+.servers {
+  height: calc(100vh - 120px);
+}
+
+.server-category-list {
+  height: 100%;
+  overflow-y: auto;
 }
 
 .server-category-list-item {
