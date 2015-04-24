@@ -47,14 +47,11 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-    //- button.btn.btn-sm.white(
-    //-   pop-over
-    //-   pop-over-actions = "actions"
-    //-   pop-over-data = "data"
-    //-   pop-over-options = "{\"left\":0,\"top\":28}"
-    //-   pop-over-template = "viewPopoverServerOptions"
-    //- )
-    small.small.monospace {{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}
+    input.input.input-sm.monospace(
+      readonly
+      select-all
+      value = "{{ server.instance.attrs.name | filterCreateInstanceUrl: dataApp.data.activeAccount }}"
+    )
 
   ul.card-body.card-loading(
     ng-if = "server.building"

@@ -126,14 +126,14 @@
 // card layout
 // header
 .card-header {
-  margin: 0 15px 15px;
+  margin: 0 15px 6px;
 
   // proxy url
-  .small {
-    color: $gray;
+  .input {
+    border: 0;
     display: block;
     font-size: 13px;
-    height: 36px;
+    letter-spacing: -.25px;
     text-align: center;
   }
 }
