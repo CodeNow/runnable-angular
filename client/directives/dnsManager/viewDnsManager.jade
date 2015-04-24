@@ -6,22 +6,28 @@
         xlink:href = "#icons-disclose"
       )
   | Linked Servers
-.well(
+
+fancy-select.well(
   ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+  value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+  ng-disabled = "masterInstance.instanceOptions.length <= 1"
+  show-dropdown = "masterInstance.instanceOptions.length > 1"
 )
-  fancy-select.branch-name.text-overflow(
-    value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-    ng-disabled = "masterInstance.instanceOptions.length <= 1"
-    show-dropdown = "masterInstance.instanceOptions.length > 1"
+  fancy-option(
+    ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
+    value = "instanceOption.attrs.shortHash"
   )
-    fancy-option(
-      ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
-      value = "instanceOption.attrs.shortHash"
+    .icons-status(
+      ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
     )
-      .icons-status(
-        ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
-      )
-      | {{ $parent.$parent.$parent.masterInstance.attrs.name }}/{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
+    | {{ $parent.$parent.$parent.masterInstance.attrs.name }}
+    span.branch-name /{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
+
+//- directly linked non-repository containers
+.well.non-repo
+  .icons-status.running
+  | reponame
+
 .well.indirect(
   ng-if = "indirectlyRelatedInstances.length"
 )
