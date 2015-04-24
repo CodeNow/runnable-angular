@@ -15,6 +15,17 @@
   .popover-title {
     margin: 6px 0 21px;
 
+    // delete
+    .btn-xs {
+      float: right;
+      padding-left: 0;
+    }
+
+    .icons-trash {
+      float: left;
+      height: 100%;
+    }
+
     .small {
       color: $gray;
       display: block;
