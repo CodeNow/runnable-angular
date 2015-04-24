@@ -1,0 +1,15 @@
+label.label.clearfix
+  .label-col Open Ports
+
+  label.input-col
+
+    //- input for open ports
+    js-tag.textarea.monospace(
+      js-tag-options = "portTagOptions"
+    )
+
+    small.small Open ports for listening at runtime. #{''}
+      a.link(
+        href = "//docs.docker.com/reference/builder/#expose"
+        target = "_blank"
+      ) More about opening ports

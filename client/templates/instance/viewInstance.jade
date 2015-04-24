@@ -120,18 +120,17 @@ section.sidebar.server-sidebar.load(
     repo-list
     show-auto-deploy = "true"
   )
-  section.manage-dns.row.explorer(
-    ng-if = "dataInstance.data.instance"
-    ng-show = "isDnsSetup"
+
+  section.row.linked-servers(
     dns-manager
     instance = "dataInstance.data.instance"
-    is-dns-setup = "isDnsSetup"
+    ng-if = "dataInstance.data.instance"
   )
+
   section.row.explorer(
     explorer
     edit-explorer = "false"
     file-model = "dataInstance.data.instance.containers.models[0]"
-    ng-if = "dataInstance.data.instance.containers.models[0].running()"
     open-items = "dataInstance.data.openItems"
     root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
     explorer-title = "File Explorer"

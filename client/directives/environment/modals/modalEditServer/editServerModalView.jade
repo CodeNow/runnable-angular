@@ -1,0 +1,150 @@
+form.modal-dialog.modal-edit-server(
+  name = 'editServerForm'
+  ng-click = "$event.stopPropagation()"
+)
+  header.modal-header
+    button.btn.btn-xs.btn-title(
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-data = "data"
+      pop-over-options = "{\"left\":0,\"top\":28}"
+      pop-over-template = "viewPopoverServerOptions"
+    )
+      .icons-status.red(
+        title = ""
+      )
+      span.btn-text.text-overflow Instance 23
+      span.btn-text(
+        title = ""
+      ) — Build Failed
+      svg.iconnables.icons-gear
+        use(
+          xlink:href = "#icons-gear"
+        )
+      svg.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    .row.modal-tabs
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'buildfiles'}"
+        ng-click = "changeTab('buildfiles')"
+        ng-if = "data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Advanced config
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'stack'}"
+        ng-click = "changeTab('stack')"
+        ng-if = "!data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Stack
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'command'}"
+        ng-click = "changeTab('command')"
+        ng-if = "!data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Start Command
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'ports'}"
+        ng-click = "changeTab('ports')"
+        ng-if = "!data.revealBuildfiles"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Ports
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'repositories'}"
+        ng-click = "changeTab('repositories')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Repositories
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'env'}"
+        ng-click = "changeTab('env')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Environment Variables
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'replace'}"
+        ng-click = "changeTab('replace')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Replace
+      button.btn.btn-radio(
+        ng-class = "{active: stateModel === 'logs'}"
+        ng-click = "changeTab('logs')"
+      )
+        svg.iconnables.icons-terminal
+          use(
+            xlink:href = "#icons-terminal"
+          )
+        span.btn-text Logs
+
+
+  section.modal-body
+    .modal-form(
+      ng-if = "stateModel === 'buildfiles'"
+      ng-include = "'viewFormBuildfiles'"
+    )
+    .modal-form(
+      ng-if = "stateModel === 'stack'"
+      ng-include = "'viewFormStack'"
+    )
+    .modal-form(
+      ng-if = "stateModel === 'command'"
+      ng-include = "'viewFormStartCommand'"
+    )
+    .modal-form(
+      ng-if = "stateModel === 'ports'"
+      ng-include = "'viewFormPorts'"
+    )
+    .modal-form(
+      ng-if = "stateModel === 'repositories'"
+      ng-include = "'viewFormRepositories'"
+    )
+    .modal-form(
+      ng-if = "stateModel === 'env'"
+      ng-include = "'viewFormEnvironmentVariables'"
+    )
+    .modal-form(
+      ng-if = "stateModel === 'replace'"
+      ng-include = "'viewFormReplace'"
+    )
+    .modal-form(
+      ng-if = "stateModel === 'logs'"
+      ng-include = "'viewFormLogs'"
+    )
+
+  footer.modal-footer.clearfix
+    //- disabled if no changes
+    button.btn.green(
+      type = "submit"
+      ng-click = "editServerForm.$invalid || actions.saveChangesToServer(state)"
+    )  {{ (state.validation.env.length) ? (state.validation.env.length) + ' env errors' : 'Save Changes'}}
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel()"
+      type = "button"
+    ) Cancel

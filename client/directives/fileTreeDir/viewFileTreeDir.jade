@@ -18,7 +18,9 @@ li.folder(
     pop-over-trigger = "rightClick"
   )
     svg.iconnables.filetypes.icons-folder
-      use(xlink:href = "#icons-folder")
+      use(
+        xlink:href = "#icons-folder"
+      )
     input.tree-input(
       ng-keyup = "actions.shouldCloseFolderNameInput($event)"
       ng-blur = "actions.closeFolderNameInput()"

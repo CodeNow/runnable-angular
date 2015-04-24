@@ -21,10 +21,8 @@ ul.tabs
       'always-open': item.state.alwaysOpen,\
       'dirty': (item.state.isDirty)\
     }"
-    ng-click = "\
-      openItems.activeHistory.add(item);\
-      openItems.saveState();\
-    "
+    ng-click = "openItems.activeHistory.add(item); \
+      openItems.saveState();"
     ng-repeat = "item in openItems.models"
   )
     span.tab-name(
@@ -42,7 +40,7 @@ ul.tabs
 
 //- add tab popover
 //- apply [disabled] attribute when server is not running EXCEPT on build logs tab
-button.btn.btn-sm.white.btn-icon.btn-add-tab(
+button.btn.btn-sm.btn-icon.btn-add-tab(
   ng-class = "{active: popoverAddTab.data.show}"
   ng-disabled = "!instance.containers.models[0].running()"
   pop-over

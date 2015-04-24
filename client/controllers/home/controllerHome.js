@@ -12,7 +12,6 @@ function ControllerHome(
   errs,
   pFetchUser,
   keypather,
-  $localStorage,
   $scope,
   $location,
   $state
@@ -30,12 +29,14 @@ function ControllerHome(
   }
 
   pFetchUser().then(function(user) {
-    $state.go('instance.home', {
-      userName: keypather.get($localStorage, 'stateParams.userName') ||
-          user.oauthName()
-    }, {
-      location: 'replace'
-    });
+    var lastOrg = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.org');
+    if (lastOrg) {
+      $state.go('instance.home', {
+        userName: lastOrg
+      }, {location: 'replace'});
+    } else {
+      $state.go('orgSelect', {}, {location: 'replace'});
+    }
   }).catch(errs.handler);
 
 }

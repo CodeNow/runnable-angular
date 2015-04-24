@@ -1,0 +1,27 @@
+//- group/pod/server/instance/box page
+a.btn.gray(
+  href = "/"
+)
+  svg.iconnables.icons-arrow-back.icons-round
+    use(
+      xlink:href = "#icons-arrow-back"
+    )
+  | Go to Servers
+
+//- new server button
+button.btn.green(
+  pop-over
+  pop-over-actions = "actions"
+  pop-over-data = "data"
+  pop-over-options = "{\"left\":-56,\"top\":56}"
+  pop-over-template = "viewPopoverNewServer"
+)
+  svg.iconnables.icons-add.icons-round
+    use(
+      xlink:href = "#icons-add"
+    )
+  | New Server
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )

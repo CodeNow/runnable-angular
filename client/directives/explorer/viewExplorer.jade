@@ -1,6 +1,15 @@
-h2.sub-header {{ explorerTitle }}
+.row-heading(
+  ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
+  ng-class = "{ closed: $storage.explorerIsClosed }"
+)
+  svg.iconnables.icons-disclose
+    use(
+      xlink:href = "#icons-disclose"
+    )
+  | {{ explorerTitle }}
   button.btn.btn-xs.btn-icon.white.sub-header-action(
     ng-class = "{active: filePopover.data.show}"
+    ng-if = "!$storage.explorerIsClosed && fileModel.running()"
     pop-over
     pop-over-actions = "filePopover.actions"
     pop-over-data = "filePopover.data"
@@ -12,7 +21,15 @@ h2.sub-header {{ explorerTitle }}
       use(
         xlink:href = "#icons-add"
       )
-ul.file-tree
+
+
+.empty-state(
+  ng-if = "!$storage.explorerIsClosed && !fileModel.running()"
+) Your server is not running so there are no files.
+
+ul.file-tree(
+  ng-if = "!$storage.explorerIsClosed && fileModel.running()"
+)
   //- this is the root dir; there can be only one.
   li(
     file-tree-dir

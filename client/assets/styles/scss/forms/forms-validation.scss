@@ -1,6 +1,7 @@
 // .input-validate
-.input-validate {
-  transition: border .15s ease-in;
+.input-validate,
+.btn-validate {
+  transition: none;
 
   // focus except when invalid and always when pristine
   &:focus,
@@ -8,25 +9,18 @@
 
     &:not(.ng-invalid),
     &.ng-invalid.ng-pristine {
-      background: $white;
       border-color: $purple-light;
-      box-shadow: inset 0 0 3px rgba($purple-light,.15);
     }
   }
 
   // valid
   &.ng-valid {
-    background: #f6fdf7; // rgba($green,.05);
     border-color: $green;
-    box-shadow: inset 0 0 3px rgba($green,.15);
   }
 
   // invalid
   &.ng-invalid {
-    background: #fffcf5; // rgba($orange,.05);
     border-color: $orange;
-    border-radius: 3px 3px 0 0;
-    box-shadow: inset 0 0 3px rgba($orange,.15);
 
     // show invalid msg if not pristine
     &:not(.ng-pristine) {
@@ -40,8 +34,7 @@
 
   // pristine
   &.ng-pristine {
-    background: $white;
-    border-color: rgba($black,.15);
+    border-color: $gray-lighter;
     box-shadow: none;
   }
 }

@@ -2,7 +2,7 @@
 .views {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 72px); // viewport - header
+  height: calc(100vh - 132px); // viewport - header (x2)
   overflow: hidden;
   position: relative;
   z-index: $z-views;

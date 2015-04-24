@@ -1,90 +1,137 @@
-// sidebar
 .sidebar {
   @extend %webkit-flicker;
   background: $white;
-  border-right: 1px solid rgba($black,.1);
+  border-right: 1px solid $gray-lighter;
   display: flex;
   flex-direction: column;
-  float: left;
-  height: 100vh;
-  padding: 0 15px;
+  font-size: 14px;
+  font-weight: 500;
+  height: calc(100vh - 60px);
+  line-height: 24px;
   position: relative;
-  transition: width .2s ease-in;
+  transition: none;
   width: 240px;
   z-index: $z-sidebar;
 
-  &.nav-sidebar {
-    background: $gray-lightest;
+  // width if sidebar is present
+  + .content {
+    float: right;
+    width: calc(100% - 240px);
   }
 
-  .guide {
-    margin: 0 6px 9px;
+  // environment button
+  > .btn {
+    flex: 0 0 auto;
+    margin: 6px;
+  }
+
+  .branch-name {
+    color: $gray;
+    font-weight: 400;
+  }
+
+  .icons-status {
+    float: right;
+    margin: 10px 9px 0 0;
+    width: 6px;
+    height: 6px;
+  }
+
+  .row {
+    padding: 0 12px;
+
+    + .row {
+      padding-bottom: 9px;
+    }
   }
 }
 
-.sidebar-header {
-  font-size: 21px;
-  font-weight: 500;
-  margin: 24px 0 12px;
-  padding: 0 9px;
+.closed .icons-disclose {
+  transform: rotate3d(0,0,1,-90deg);
 }
 
-// h2.sub-header
-.sub-header {
-  color: $gray;
-  font-size: 13px;
-  font-weight: 400;
-  height: 45px;
-  line-height: 33px;
-  padding: 6px 6px 6px 15px;
+.row-heading {
+  cursor: pointer;
+  font-size: 14px;
+  height: 60px;
+  padding-left: 3px;
+  padding-top: 19px;
   position: relative;
 
-  // all action buttons
+  // for add buttons next to section headings, like in File Explorer
   .btn {
     float: right;
-    margin: 0;
-  }
 
-  // add and update buttons
-  .btn-sm,
-  .btn-xs {
-
-    &.white,
-    &.gray {
-      height: 33px;
-      padding: 0;
-      width: 33px;
-    }
-
-    &.orange {
-      font-size: 14px;
-      padding: 0 6px 0 0;
-      top: 6px;
-    }
-
-    .icons-update {
+    .icons-gear {
       float: left;
-      height: 14px;
-      margin: 5px 6px 0 3px;
-      width: 14px;
+      height: 100%;
+      margin-right: 3px;
+      width: 18px;
     }
   }
 
-  // invite
-  .btn-xxs {
-    top: 7px;
-  }
-
-  // team icon
-  .icons-team {
-    color: $gray-light;
-    height: 100%;
-    margin-left: 6px;
-    width: 21px;
+  .btn-icon {
+    height: 30px;
+    line-height: 38px;
+    margin-top: -4px;
+    width: 30px;
   }
 }
 
-// span.sub-header-text
-.sub-header-text {
+// main sidebar
+.nav-sidebar {
+  background: $gray-lightest;
   float: left;
+}
+
+.server-category-list-item {
+  border-bottom: 1px solid $gray-lighter; // lines below categories
+  padding: 15px 0 13px;
+
+  &:first-child {
+    border-top: 1px solid $gray-lighter; // line above first category
+  }
+}
+
+.server-list-item {
+  cursor: pointer;
+  height: 34px;
+  margin: 0 -12px;
+  padding: 4px 9px 0 30px;
+  position: relative;
+
+  &:hover {
+    background: rgba($gray-light,.1);
+  }
+
+  &:active {
+    color: $purple-light;
+
+    .branch-name {
+      color: $purple-light;
+    }
+  }
+
+  &.selected {
+    background: $purple-lightest;
+    color: $purple-light;
+    cursor: default;
+
+    .branch-name {
+      color: $purple-light;
+    }
+  }
+
+  .text-overflow {
+    display: inline-block;
+    max-width: 180px;
+  }
+
+  .iconnables {
+    height: 17px;
+    left: 12px;
+    position: absolute;
+    top: 7px;
+    width: 17px;
+  }
 }

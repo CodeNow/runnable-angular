@@ -15,22 +15,25 @@ function modalManager(
   return {
     restrict: 'A',
     scope: {
-
+      modalOpen: '='
     },
     link: function ($scope, element) {
       var currentModalScope;
 
       function closeModal(cb) {
         if (currentModalScope) {
-          currentModalScope.$destroy();
-          if(cb){
+          currentModalScope.openFlag = false;
+          if (cb) {
             cb();
           }
-          currentModalScope = null;
+          $timeout(function () {
+            currentModalScope.$destroy();
+            currentModalScope = null;
+          });
         }
       }
 
-      function openModal(options){
+      function openModal(options) {
         closeModal();
         $rootScope.$broadcast('close-popovers');
         var tempTemplate = checkTemplate(options.template);
@@ -45,9 +48,9 @@ function modalManager(
         currentModalScope.data = options.data;
         currentModalScope.actions = options.actions;
         currentModalScope.template = options.template;
+        currentModalScope.openFlag = options.openFlag;
         currentModalScope.currentModel = options.currentModel;
         currentModalScope.stateModel = options.stateModel;
-
         currentModalScope.defaultActions = {
           save: function (state, paths, cb) {
             paths.forEach(function (path) {
@@ -71,30 +74,34 @@ function modalManager(
 
         var currentModalElement = $compile(template)(currentModalScope);
         element.append(currentModalElement);
+        $scope.modalOpen = true;
 
         currentModalScope.$on('$destroy', function () {
           if (currentModalElement) {
             currentModalElement.remove();
+            $scope.modalOpen = false;
           }
         });
       }
 
-      $rootScope.$on('open-modal', function (event, options) {
+      var unOpen = $rootScope.$on('open-modal', function (event, options) {
         openModal(options);
       });
 
-      $rootScope.$on('close-modal', function () {
+      var unClose = $rootScope.$on('close-modal', function () {
         closeModal();
       });
 
       $scope.$on('$destroy', function () {
+        unOpen();
+        unClose();
         closeModal();
       });
     }
   };
 }
 
-var genericModals = ['viewModalDeleteBox', 'viewModalRenameBox'];
+var genericModals = ['viewModalDeleteBox', 'viewModalRenameBox', 'viewModalEnvironmentVariables', 'viewModalRepositorySelect', 'viewModalVerifyServer', 'viewModalEditServer', 'viewModalTemplateSelect', 'confirmBuildFilesModalView', 'confirmRevertModalView', 'viewModalChooseOrganization'];
 function checkTemplate(template) {
   return (genericModals.indexOf(template) === -1) ? template : 'viewOpenModalGeneric';
 }

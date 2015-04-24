@@ -1,0 +1,22 @@
+.clearfix
+  .label-col Environment Variables
+
+//- table actions
+.table-actions.clearfix(
+  ng-if = "data.newServers.length >= 2"
+  ng-include = "'viewEnvironmentVariableActions'"
+)
+
+//- table of current environment variables
+pre.ace-container.ace-environment-variables(
+  env-vars
+  current-model = "currentModel.opts"
+  state-model = "state.opts"
+  validation = "validation.env"
+)
+
+small.small 🚧🚧🚧 Environment variables can be used to link other servers in your environment together. #{''}
+  a.link(
+    href = "//google.com"
+    target = "_blank"
+  ) More about linking with environment variables

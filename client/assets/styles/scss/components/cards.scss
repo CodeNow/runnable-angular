@@ -1,0 +1,324 @@
+.card {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  min-width: 360px;
+  position: relative;
+  transition: none;
+
+  // states
+  &:hover:not(.disabled) {
+    background: $white;
+    border-color: $gray-light;
+
+    &:not(.card-loading) {
+      cursor: pointer;
+    }
+  }
+
+  &:active:not(.disabled),
+  &.active {
+    background: $white;
+    border-color: $purple-light;
+    color: $purple-light;
+  }
+
+  &.focus {
+    animation: card-blink .5s ease-out;
+  }
+
+  // sizes
+  &.card-sm {
+    border-width: 2px;
+    min-height: inherit;
+    min-width: inherit;
+    width: 210px;
+
+    .card-header {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .img {
+      margin-right: 6px;
+      position: relative;
+    }
+  }
+
+  // colors
+  &.gray {
+    background: $gray-lightest;
+    border-color: $gray-lighter;
+  }
+
+  // empty state
+  &.empty {
+    background: transparent;
+    border-color: transparent;
+    color: $gray;
+    height: 381px;
+    line-height: 381px;
+    text-align: center;
+
+    .spinner-wrapper {
+      align-items: center;
+      height: 100%;
+    }
+  }
+
+  // list columns
+  .list-col {
+    margin: 0;
+
+    &:first-child {
+      color: $purple-lighter;
+      float: left;
+      text-align: right;
+      width: 35%;
+    }
+
+    &:last-child {
+      float: right;
+      font-size: 14px;
+      width: 65%;
+    }
+
+    &.monospace {
+      letter-spacing: -.5px;
+    }
+
+    .list-item {
+      padding: 0 6px;
+    }
+
+    // language icons
+    .iconnables {
+      float: left;
+      margin-left: -6px;
+    }
+  }
+
+  // well
+  .well {
+    background: $white;
+    border: 0;
+    border-radius: 0 0 3px 3px;
+    border-top: 1px solid $purple-lighter;
+    cursor: default;
+    margin: 0;
+    padding: 12px 9px;
+
+    // dismiss
+    .btn-close {
+      float: right;
+      height: 15px;
+      margin-left: 15px;
+      width: 15px;
+    }
+
+    .icon-close {
+      top: -14px;
+    }
+  }
+}
+
+// card layout
+// header
+.card-header {
+  margin: 0 15px 6px;
+
+  // proxy url
+  .input {
+    border: 0;
+    display: block;
+    font-size: 13px;
+    letter-spacing: -.25px;
+    text-align: center;
+  }
+}
+
+// title group
+.btn-title {
+  display: flex;
+  margin: 12px auto;
+  padding-right: 6px;
+
+  .btn-text {
+
+    &:first-child {
+      flex: 1 1 auto;
+    }
+
+    + .btn-text {
+      color: $gray-light;
+      flex: 0 0 auto;
+      padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
+    }
+  }
+
+  // status
+  .icons-status {
+    margin-right: 6px;
+    margin-top: 12px; // 'vertical center'
+  }
+
+  // gear
+  .icons-gear {
+    height: 100%;
+    margin-left: 15px;
+    width: 18px;
+  }
+
+  // arrow down
+  .icons-arrow-down {
+    margin: 0 0 0 -2px;
+    width: 15px;
+  }
+}
+
+// body
+.card-body,
+.card-button {
+  flex: 1 1 auto;
+  padding: 0 15px 15px;
+
+  &.empty {
+    align-items: center;
+    display: flex;
+    font-style: italic;
+    justify-content: center;
+  }
+
+  > .btn {
+    border-radius: 0;
+    display: block;
+    height: 54px;
+    line-height: 1.4;
+    padding: 7px 9px;
+    text-align: left;
+
+    &:hover,
+    &:active {
+      box-shadow: inset 0 1px 0 $gray-light;
+      z-index: 1;
+
+      &:first-child {
+        box-shadow: none;
+      }
+
+      .icons-arrow-down {
+        color: $gray-dark;
+      }
+    }
+
+    &:active {
+      box-shadow: inset 0 1px 0 $purple-light;
+
+      &:first-child {
+        box-shadow: none;
+      }
+
+      .p,
+      .icons-arrow-down {
+        color: $purple-light;
+      }
+    }
+
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+
+    + .btn {
+      border-top-width: 1px;
+      margin-top: -2px;
+    }
+
+    //- fix dis
+    .icons-terminal {
+      float: left;
+      height: 24px;
+      margin-right: 6px;
+      width: 21px;
+    }
+
+    .h3 {
+      font-size: 16px;
+    }
+
+    .p {
+      color: $gray;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      padding-right: 15px; // for arrow
+    }
+
+    .icons-arrow-down {
+      color: $gray;
+      position: absolute;
+      right: 6px;
+      top: 0;
+      transform: rotate3d(0,0,1,-90deg);
+    }
+  }
+}
+
+// card body as button
+.card-button {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  height: auto;
+  margin: 0 12px 12px;
+  padding: 12px 0;
+  text-align: left;
+  transition: none;
+}
+
+// footer
+.card-footer {
+  background: $gray-lightest;
+  border-top: 1px solid rgba($black,.1);
+  flex: 0 0 auto;
+  padding: 6px;
+}
+
+// template
+.card-white {
+  background: $white;
+  border-color: transparent;
+  color: $purple-lighter;
+  font-size: 18px;
+  justify-content: center;
+  text-align: center;
+  user-select: none;
+
+  &:hover,
+  &:active {
+    border-color: $purple-lighter;
+    color: $purple-light;
+  }
+
+  .icons-add {
+    height: 90px;
+    width: 270px;
+  }
+}
+
+//- loading state
+.card-loading {
+  align-items: center;
+  display: flex;
+  height: 369px;
+  justify-content: center;
+  text-align: center;
+
+  .spinner-wrapper {
+    margin-top: -60px;
+  }
+}

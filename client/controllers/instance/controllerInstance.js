@@ -23,7 +23,8 @@ function ControllerInstance(
   fetchSettings,
   keypather,
   pFetchUser,
-  pageName
+  pageName,
+  setLastInstance
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -81,19 +82,11 @@ function ControllerInstance(
       if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
         $scope.dataApp.actions.setToggled();
       }
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        $stateParams.instanceName
-      );
+      setLastInstance($stateParams.instanceName);
     })
     .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
       errs.handler(err);
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        null
-      );
+      setLastInstance(null);
       $state.go('instance.home', {
         userName: $stateParams.userName
       });

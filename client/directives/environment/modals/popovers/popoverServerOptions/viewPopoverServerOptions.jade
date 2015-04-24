@@ -1,0 +1,32 @@
+.popover.menu.bottom(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  //- .arrow.white
+  .popover-content
+    ul.popover-list
+      //- trigger build files confirm modal
+      li.list-item.popover-list-item.multi-line
+        label.label-checkbox
+          input.input-checkbox(
+            type = "checkbox"
+          )
+          | Advanced options
+          small.small Modify your server through its build files
+      li.divider
+      //- changes to Run Logs if running or run error
+      //- doesn't appear in edit modal
+      li.list-item.popover-list-item
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+        | Build Logs
+      li.divider
+      //- trigger delete confirm modal
+      li.list-item.popover-list-item
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+        | Delete Server

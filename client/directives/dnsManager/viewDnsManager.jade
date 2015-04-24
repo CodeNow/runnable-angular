@@ -1,18 +1,69 @@
-div
-  .relatedStatus
-    .status(
-      ng-repeat = "instance in subDependencies"
-    )
-      | {{instance.attrs.name}}
-  .dns-bindings(
-    ng-if = "isDnsSetup"
+.row-heading(
+  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
+  ng-class = "{ closed: $storage.dnsManagementIsClosed }"
+)
+  svg.iconnables.icons-disclose
+      use(
+        xlink:href = "#icons-disclose"
+      )
+  | Linked Servers
+
+  // TODO: For the moment comment this out, we don't have a good way of looping over our direct relations, waiting on what happens from backend
+  //.icons-status(
+  //  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
+  //  ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+  //  ng-class = "getInstanceClasses(masterInstance)"
+  //)
+
+.empty-state(
+  ng-if = "!$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
+) You have no linked instances.
+
+fancy-select.well(
+  ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+  value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+  ng-disabled = "masterInstance.instanceOptions.length <= 1"
+  show-dropdown = "masterInstance.instanceOptions.length > 1"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+)
+  fancy-option(
+    ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
+    value = "instanceOption.attrs.shortHash"
   )
-    .binding(
-      ng-repeat = "masterInstance in relatedMasterInstances"
+    .icons-status(
+      ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
     )
-      label {{masterInstance.attrs.name}}
-      select(
-        ng-options = "instanceOption.attrs.shortHash as instanceOption.attrs.name for instanceOption in masterInstance.instanceOptions"
-        ng-model = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-        ng-change = "actions.setDependency(masterInstance, instanceDependencyMap[masterInstance.attrs.contextVersion.context])"
+    | {{ $parent.$parent.$parent.masterInstance.attrs.name }}
+    span.branch-name /{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
+
+//- non-repository containers that are linked directly
+.well.non-repo
+  .icons-status.running
+  | container-name
+
+.well.indirect(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
+)
+  .well-item
+    svg.iconnables.icons-disclose
+      use(
+        xlink:href = "#icons-disclose"
+      )
+    span Indirect Links
+    .icons-status(
+      ng-class = "getInstanceClasses(dep)"
+      ng-repeat = "dep in indirectlyRelatedInstances"
+    )
+  ul
+    li.well-item(
+      ng-repeat = "indirectInstance in indirectlyRelatedInstances"
+    )
+      svg.iconnables.icons-repository
+        use(
+          xlink:href = "#icons-repository"
+        )
+      span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
+        span.branch-name /master
+      .icons-status(
+        ng-class = "getInstanceClasses(indirectInstance)"
       )

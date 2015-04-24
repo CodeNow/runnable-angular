@@ -11,21 +11,29 @@ function dnsManager(
   createInstanceUrl,
   errs,
   promisify,
-  $q
+  $q,
+  getInstanceClasses,
+  $localStorage
 ) {
   return {
     restrict: 'A',
     scope: {
-      instance: '=',
-      isDnsSetup: '='
+      instance: '='
     },
     templateUrl: 'viewDnsManager',
     link: function ($scope, element, attrs) {
+      $scope.$storage = $localStorage.$default({
+        dnsManagementIsClosed: true
+      });
+      $scope.getInstanceClasses = getInstanceClasses;
       // We need the entire dependency tree.
       $scope.subDependencies = [];
 
       // I need to know the related master pods (Master)
-      $scope.relatedMasterInstances = [];
+      $scope.directlyRelatedMasterInstances = [];
+
+      // I need to know which instances I am not directly related to. (At the moment none because we don't detect that yet)
+      $scope.indirectlyRelatedInstances = [];
 
       // I need to know the dependencies for this instance keyed on context ([A:master, B:fb-1])
       $scope.instanceDependencyMap = {};
@@ -35,11 +43,11 @@ function dnsManager(
       // I need to know each of the master pod instances related instance A([master, fb-1]), B([master, fb-2, fb-3])
       fetchInstances({ masterPod: true })
         .then(function (instances) {
-          $scope.relatedMasterInstances = instances.models.filter(function (instance) {
+          $scope.directlyRelatedMasterInstances = instances.models.filter(function (instance) {
             return instance.attrs.contextVersion.context !== $scope.instance.attrs.contextVersion.context;
           });
 
-          var promiseList = $scope.relatedMasterInstances.map(function (instance) {
+          var promiseList = $scope.directlyRelatedMasterInstances.map(function (instance) {
             return fetchInstances({
               masterPod: false,
               'contextVersion.context': instance.attrs.contextVersion.context
@@ -53,7 +61,7 @@ function dnsManager(
           $scope.subDependencies = [];
 
           // Set the dependency to be defaulted to the master
-          $scope.relatedMasterInstances.forEach(function (instance) {
+          $scope.directlyRelatedMasterInstances.forEach(function (instance) {
             $scope.instanceDependencyMap[instance.attrs.contextVersion.context] = instance.attrs.shortHash;
           });
 
