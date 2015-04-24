@@ -87,6 +87,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'replace'}"
         ng-click = "changeTab('replace')"
+        ng-if = "god === 'exists'"
       )
         svg.iconnables.icons-terminal
           use(

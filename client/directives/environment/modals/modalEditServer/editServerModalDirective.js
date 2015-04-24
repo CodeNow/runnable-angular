@@ -6,8 +6,11 @@ require('app')
  * @ngInject
  */
 function editServerModal(
+  errs,
   JSTagsCollection,
+  hasKeypaths,
   keypather,
+  promisify,
   $rootScope
 ) {
   return {
@@ -73,11 +76,45 @@ function editServerModal(
           this.currentModel.selectedStack = this.selectedStack;
           keypather.set(this.currentModel, 'opts.env', this.opts.env);
           this.currentModel.startCommand = this.startCommand;
+          this.currentModel.build = this.build;
+          this.currentModel.contextVersion = this.contextVersions;
           return this.currentModel;
         }
       };
+      if ($scope.currentModel.repo) {
+        $scope.branches = $scope.currentModel.repo.branches;
+        $scope.state.branch =
+          $scope.currentModel.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
+            $scope.currentModel,
+            'instance.contextVersion.appCodeVersions.models[0].attrs.branch'
+          )}));
+      }
 
-      $scope.$watchCollection('portTagOptions.tags.tags', function (n) {
+      promisify($scope.currentModel.build, 'deepCopy')()
+        .then(function (build) {
+          $scope.state.build = build;
+          $scope.state.contextVersion = build.contextVersions.models[0];
+          return promisify($scope.state.contextVersion, 'fetch')();
+        })
+        .then(function (contextVersion) {
+          if (contextVersion.appCodeVersions.models.length) {
+            $scope.acv = contextVersion.appCodeVersions.models[0];
+          }
+        });
+
+      $scope.$watch('state.branch', function (newBranch, oldBranch) {
+        if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
+          promisify($scope.acv, 'update')({
+            repo: $scope.currentModel.repo.attrs.full_name,
+            branch: newBranch.attrs.name,
+            commit: newBranch.attrs.commit.sha
+          })
+            .catch(errs.handler);
+        }
+      });
+
+
+      $scope.$watchCollection('portTagOptions.tags.tags', function () {
         $scope.state.ports = convertTagToPortList();
       });
 

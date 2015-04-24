@@ -26,7 +26,8 @@ function setupServerModal(
     link: function ($scope, elem, attrs) {
       $scope.state = {
         opts: {
-          env: null
+          env: null,
+          masterPod: true
         }
       };
 
@@ -38,6 +39,11 @@ function setupServerModal(
         .finally(function () {
           $scope.loading = false;
         });
+
+      $scope.isRepoAdded = function (repo) {
+        // Since the newServers may have faked repos (just containing names), just check the name
+        return !!$scope.data.newServers.find(hasKeypaths({'repo.attrs.name': repo.attrs.name}));
+      };
 
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
