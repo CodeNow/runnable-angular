@@ -18,8 +18,7 @@ function dnsManager(
   return {
     restrict: 'A',
     scope: {
-      instance: '=',
-      isDnsSetup: '='
+      instance: '='
     },
     templateUrl: 'viewDnsManager',
     link: function ($scope, element, attrs) {

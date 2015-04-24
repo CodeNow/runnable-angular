@@ -8,6 +8,13 @@
       )
   | Linked Servers
 
+  // TODO: For the moment comment this out, we don't have a good way of looping over our direct relations, waiting on what happens from backend
+  //.icons-status(
+  //  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
+  //  ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+  //  ng-class = "getInstanceClasses(masterInstance)"
+  //)
+
 .empty-state(
   ng-if = "!$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
 ) You have no linked instances.
@@ -17,6 +24,7 @@ fancy-select.well(
   value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   ng-disabled = "masterInstance.instanceOptions.length <= 1"
   show-dropdown = "masterInstance.instanceOptions.length > 1"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
   fancy-option(
     ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
@@ -34,7 +42,7 @@ fancy-select.well(
   | container-name
 
 .well.indirect(
-  ng-if = "!$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
 )
   .well-item
     svg.iconnables.icons-disclose
