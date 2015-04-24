@@ -200,7 +200,8 @@
 //- footer.popover-footer
 .popover-footer {
   border-top: 1px solid $gray-lighter;
-  padding-top: 12px;
+  margin: 0 15px;
+  padding: 12px 0 15px;
 
   .btn-sm {
     padding: 0 12px;

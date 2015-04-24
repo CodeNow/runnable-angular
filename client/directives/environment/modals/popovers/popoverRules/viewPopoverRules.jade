@@ -18,6 +18,10 @@
           spellcheck = "false"
         )
 
+    small.small.table-details(
+      ng-if = "data.saving"
+    ) Replacing 2 of 2 strings
+
     //- verification table
     .table.table-diff(
       ng-if = "data.saving"
@@ -25,32 +29,49 @@
       .tr.thead.clearfix
         label.cell.cell-checkbox
           input.input-checkbox(
+            checked
             type = "checkbox"
           )
-          | index.scss, Line 18
+          | index.html, Line 18
       .tr.tr-deletion.clearfix
         .cell.monospace - userName: username
       .tr.tr-addition.clearfix
         .cell.monospace + userName: account.oauthName()
 
-    .popover-footer.clearfix
-      button.btn.green.btn-spinner(
-        ng-class = "{in: data.saving}"
-        ng-click = "data.saving = true"
-        ng-disabled = "data.saving"
+    //- verification table (2)
+    .table.table-diff(
+      ng-if = "data.saving"
+    )
+      .tr.thead.clearfix
+        label.cell.cell-checkbox
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+          | setup.yml, Line 1
+      .tr.tr-deletion.clearfix
+        .cell.monospace - userName: username
+      .tr.tr-addition.clearfix
+        .cell.monospace + userName: account.oauthName()
+
+  .popover-footer.clearfix
+    button.btn.green.btn-spinner(
+      ng-class = "{in: data.saving}"
+      ng-click = "data.saving = true"
+      ng-disabled = "data.saving"
+    )
+      //- spinner
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "data.saving"
+        ng-include = "'spinner'"
       )
-        //- spinner
-        .spinner-wrapper.spinner-sm.spinner-white.in(
-          ng-if = "data.saving"
-          ng-include = "'spinner'"
-        )
-        span(
-          ng-if = "!data.saving"
-        ) Search for matches
-        span(
-          ng-if = "data.saving"
-        ) Searching
-      button.btn.green(
-        ng-if = "data.searched"
-      ) Create rule
-      button.btn.gray.btn-cancel Cancel
+      span(
+        ng-if = "!data.saving"
+      ) Search for matches
+      span(
+        ng-if = "data.saving"
+      ) Searching
+    button.btn.green(
+      ng-if = "data.searched"
+    ) Create rule
+    button.btn.gray.btn-cancel Cancel

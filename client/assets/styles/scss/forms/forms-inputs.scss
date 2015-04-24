@@ -21,6 +21,10 @@
 
   &[readonly] {
     color: $gray;
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 
   &[type="checkbox"] {
