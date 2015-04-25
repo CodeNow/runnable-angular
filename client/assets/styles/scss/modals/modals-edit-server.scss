@@ -2,6 +2,10 @@
   max-width: 720px;
   width: 100%;
 
+  @include media(xxl) {
+    max-width: 900px;
+  }
+
   // nav
   // header button
   .btn-title {
