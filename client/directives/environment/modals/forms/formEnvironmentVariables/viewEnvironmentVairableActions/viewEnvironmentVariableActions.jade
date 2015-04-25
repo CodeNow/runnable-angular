@@ -35,12 +35,11 @@ button.btn.btn-xs(
     value = "$parent.state.newLink.server"
     placeholder = "Host Url"
   )
-    li.list-item.popover-list-item.small(
-    ) Select Host Name
-    fancy-option(
-      value = "server.instance.attrs.name"
+    li.list-item.popover-list-item.small Select Host Name
+    fancy-option.monospace(
+      value = "server.instance"
       ng-repeat = "server in $parent.data.newServers"
-    ) {{ $parent.server.instance.attrs.name }}
+    ) {{ $parent.server.instance.getMasterHost() }}
 
   fancy-select.input-sm.monospace.text-overflow(
     value = "$parent.state.newLink.port"
@@ -51,7 +50,7 @@ button.btn.btn-xs(
     ) Select Port (optional)
     fancy-option(
       value = "port"
-      ng-repeat = "port in $parent.$parent.state.newLink.server.ports"
+      ng-repeat = "port in $parent.$parent.state.newLink.server | extractInstancePorts"
     ) :{{ $parent.port }}
 
 .table-footer.clearfix(
