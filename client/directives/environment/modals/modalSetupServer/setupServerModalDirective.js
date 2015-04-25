@@ -45,6 +45,7 @@ function setupServerModal(
         return !!$scope.data.newServers.find(hasKeypaths({'repo.attrs.name': repo.attrs.name}));
       };
 
+
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
         $scope.repoSelected = true;

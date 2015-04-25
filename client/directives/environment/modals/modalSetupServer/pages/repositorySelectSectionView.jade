@@ -24,9 +24,10 @@ section.modal-body.clearfix
   )
     li.list-item.multi-line(
       ng-class = "{\
-        'no-touching': isRepoAdded(repo) || repoSelected\
+        'no-touching': repo.isAdded || repoSelected\
       }"
       ng-click = "selectRepo(repo)"
+      ng-init = "repo.isAdded = isRepoAdded(repo)"
       ng-repeat = "\
         repo in data.githubRepos.models| \
         repos: repoFilter | \
@@ -37,8 +38,8 @@ section.modal-body.clearfix
       small.small Updated {{ repo.attrs.updated_at | timeFrom }}
       button.btn.btn-xs(
         ng-class = "{\
-          disabled: isRepoAdded(repo),\
-          green: !isRepoAdded(repo)\
+          disabled: repo.isAdded,\
+          green: !repo.isAdded\
         }"
       ) {{ repo.isAdded ? 'Already Added' : 'Add Server' }}
       //- ng-disabled = "repoSelected"

@@ -5,7 +5,8 @@
     fancy-select(
       placeholder = "Select language/framework"
       ng-required = "true"
-      value = "state.selectedStack"
+      value = "temp.stack"
+      track-by = "key"
     )
       li.list-item.popover-list-item.small(
         ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
@@ -34,32 +35,32 @@
         | {{$parent.framework.name}}
 
     fancy-select(
-      value = "$parent.state.selectedStack.selectedVersion"
+      value = "temp.stack.selectedVersion"
       placeholder = "Select Version"
       ng-required = "true"
-      ng-disabled = "!$parent.state.selectedStack"
+      ng-disabled = "!temp.stack"
     )
       li.list-item.popover-list-item.small(
-        ng-if = "$parent.state.selectedStack.suggestedVersion"
-      ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
+        ng-if = "$parent.temp.stack.suggestedVersion"
+      ) Suggested {{$parent.$parent.temp.stack.name}} Version
       fancy-option(
         value = "version"
-        ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
+        ng-repeat = "version in $parent.temp.stack.versions | filter: $parent.temp.stack.suggestedVersion"
       ) v{{$parent.version}}
       li.divider(
-        ng-if = "$parent.state.selectedStack.suggestedVersion"
+        ng-if = "$parent.temp.stack.suggestedVersion"
       )
       fancy-option(
         value = "version"
-        ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
+        ng-repeat = "version in $parent.temp.stack.versions | filter: '!'+ $parent.temp.stack.suggestedVersion"
       ) v{{$parent.version}}
     .label(
-      ng-repeat = "depStack in state.selectedStack.dependencies"
+      ng-repeat = "depStack in temp.stack.dependencies"
     )
       .small {{depStack.name}}
       fancy-select(
         value = "depStack.selectedVersion"
-        ng-required = "state.selectedStack.dependencies.length"
+        ng-required = "temp.stack.dependencies.length"
         placeholder = "Select Version"
       )
         li.list-item.popover-list-item.small(

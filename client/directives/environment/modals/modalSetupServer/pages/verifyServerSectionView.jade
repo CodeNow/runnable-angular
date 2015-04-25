@@ -7,7 +7,9 @@ section.modal-body
     name = "verifyServerForm"
   )
     .label(
-      ng-include = "'viewFormStack'"
+      stack-selector-form
+      data = "data"
+      state = "state"
     )
     .label(
       ng-init = "startCommandCanDisable = true"
