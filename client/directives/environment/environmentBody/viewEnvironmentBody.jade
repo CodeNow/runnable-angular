@@ -70,34 +70,20 @@
       modal-state-model = "'buildfiles'"
       modal-template = "editServerModalOpen"
     )
-      svg.iconnables.icons-terminal
+      svg.iconnables
         use(
-        xlink:href = "#icons-terminal"
+          xlink:href = "#icons-ports"
         )
       h3.h3 Advanced Configuration
-
-  ul.card-body.load(
-    ng-if = "server.repo && !server.building"
-  )
-    li.btn.white(
-      modal
-      modal-actions = "actions"
-      modal-current-model = "server"
-      modal-data = "data"
-      modal-state-model = "'buildfiles'"
-      modal-template = "editServerModalOpen"
-      ng-if = "data.revealBuildfiles"
-    )
-      svg.iconnables.icons-terminal
-        use(
-          xlink:href = "#icons-terminal"
-        )
-      h3.h3 Build Files
-      p.p.text-overflow No errors
+      p.p.text-overflow
       svg.iconnables.icons-arrow-down
         use(
           xlink:href = "#icons-arrow-down"
         )
+
+  ul.card-body.load(
+    ng-if = "server.repo && !server.building"
+  )
     li.btn.white(
       modal
       modal-actions = "actions"
@@ -164,9 +150,9 @@
       modal-template = "editServerModalOpen"
     )
       svg.iconnables
-          use(
-            xlink:href = "#icons-ports"
-          )
+        use(
+          xlink:href = "#icons-ports"
+        )
       h3.h3 Repositories
       p.p.text-overflow {{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}
       svg.iconnables.icons-arrow-down
@@ -182,9 +168,9 @@
       modal-template = "editServerModalOpen"
     )
       svg.iconnables
-          use(
-            xlink:href = "#icons-ports"
-          )
+        use(
+          xlink:href = "#icons-ports"
+        )
       h3.h3 Environment Variables
       p.p.text-overflow {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
       svg.iconnables.icons-arrow-down
