@@ -29,7 +29,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
-        ng-if = "data.revealBuildfiles"
+        ng-if = "server.inAdvancedMode"
       )
         svg.iconnables.icons-terminal
           use(
@@ -39,7 +39,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'stack'}"
         ng-click = "changeTab('stack')"
-        ng-if = "!data.revealBuildfiles"
+        ng-if = "!server.inAdvancedMode"
       )
         svg.iconnables
           use(
@@ -49,7 +49,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'command'}"
         ng-click = "changeTab('command')"
-        ng-if = "!data.revealBuildfiles"
+        ng-if = "!server.inAdvancedMode"
       )
         svg.iconnables
           use(
@@ -59,7 +59,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'ports'}"
         ng-click = "changeTab('ports')"
-        ng-if = "!data.revealBuildfiles"
+        ng-if = "!server.inAdvancedMode"
       )
         svg.iconnables
           use(
@@ -112,7 +112,9 @@ form.modal-dialog.modal-edit-server(
     )
     .modal-form(
       ng-if = "stateModel === 'stack'"
-      ng-include = "'viewFormStack'"
+      stack-selector-form
+      data = "data"
+      state = "state"
     )
     .modal-form(
       ng-if = "stateModel === 'command'"
@@ -144,7 +146,7 @@ form.modal-dialog.modal-edit-server(
     button.btn.green(
       type = "submit"
       ng-click = "editServerForm.$invalid || actions.saveChangesToServer(state)"
-    )  {{ (state.validation.env.length) ? (state.validation.env.length) + ' env errors' : 'Save Changes'}}
+    )  {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"
       type = "button"

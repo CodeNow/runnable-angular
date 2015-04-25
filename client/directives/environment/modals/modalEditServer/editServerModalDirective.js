@@ -10,6 +10,7 @@ function editServerModal(
   JSTagsCollection,
   hasKeypaths,
   keypather,
+  pFetchUser,
   promisify,
   $rootScope
 ) {
@@ -43,12 +44,15 @@ function editServerModal(
           return $scope.portTagOptions.tags.tags[key].value;
         });
       }
+      $scope.validation = {
+        env: null
+      };
       $scope.instance = $scope.currentModel.instance;
       $scope.build = $scope.currentModel.build;
 
       $scope.state = {
         startCommand: $scope.currentModel.startCommand,
-        selectedStack: angular.copy($scope.currentModel.selectedStack),
+        selectedStack: $scope.currentModel.selectedStack,
         opts: {
           // Don't save envs here, since EnvVars will add them.
         },
@@ -92,16 +96,27 @@ function editServerModal(
           )}));
       }
 
-      promisify($scope.currentModel.build, 'deepCopy')()
-        .then(function (build) {
-          $scope.state.build = build;
-          $scope.state.contextVersion = build.contextVersions.models[0];
-          return promisify($scope.state.contextVersion, 'fetch')();
+      promisify($scope.currentModel.contextVersion, 'deepCopy')()
+        .then(function (contextVersion) {
+          $scope.state.contextVersion = contextVersion;
+          return promisify(contextVersion, 'fetch')();
         })
         .then(function (contextVersion) {
           if (contextVersion.appCodeVersions.models.length) {
             $scope.acv = contextVersion.appCodeVersions.models[0];
           }
+          return pFetchUser();
+        })
+        .then(function (user) {
+          return promisify(user, 'createBuild')({
+            contextVersions: [$scope.state.contextVersion.id()],
+            owner: {
+              github: user.oauthId()
+            }
+          });
+        })
+        .then(function (build) {
+          $scope.state.build = build;
         });
 
       $scope.$watch('state.branch', function (newBranch, oldBranch) {

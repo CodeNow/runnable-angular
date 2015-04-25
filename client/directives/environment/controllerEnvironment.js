@@ -153,10 +153,11 @@ function ControllerEnvironment(
         })
         .then(function (instance) {
           newServerModel.instance = instance;
-          newServerModel.building = false;
         })
         .catch(function (err) {
           errs.handler(err);
+        })
+        .finally(function () {
           newServerModel.building = false;
         });
     },
@@ -217,6 +218,7 @@ function ControllerEnvironment(
       commands.splice(0, 2);
     }
     serverObj.instance = instance;
+    serverObj.contextVersion = instance.contextVersion;
     serverObj.build = instance.build;
     serverObj.startCommand = commands.join(' ');
     serverObj.ports = $filter('filterCleanPorts')(keypather.get(instance, 'containers.models[0].attrs.ports'));
