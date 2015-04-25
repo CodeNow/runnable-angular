@@ -132,10 +132,10 @@ function editServerModal(
           hostName += opts.protocol;
         }
         if (opts.server) {
-          hostName += opts.server;
+          hostName += opts.server.getMasterHost();
         }
         if (opts.port) {
-          hostName += opts.port;
+          hostName += ':' + opts.port;
         }
         $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
       };

@@ -13,6 +13,11 @@
 
   .thead {
     border-bottom: 1px solid $gray-lighter;
+
+    // github link
+    .link {
+      float: right;
+    }
   }
 
   // diff colors

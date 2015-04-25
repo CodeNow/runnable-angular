@@ -4,17 +4,21 @@
 )
   .popover-content
 
-    //- if filename
+    //- if new filename
     h3.popover-title(
       ng-if = "false"
     ) New Filename Replace Rule
+    //- if filename that exists
+    h3.popover-title(
+      ng-if = "false"
+    ) Filename Replace Rule
     //- if string
     h3.popover-title(
       ng-if = "true"
     ) New String Replace Rule
       //- if existing rule
       button.btn.btn-xs.gray(
-        ng-if = "false"
+        ng-if = "true"
       )
         svg.iconnables.icons-trash
           use(
@@ -24,6 +28,10 @@
       small.small Rules are case-sensitive and trailing whitespace is not trimmed.
         br
         | Regular expressions are not supported.
+    //- if string that exists
+    h3.popover-title(
+      ng-if = "false"
+    ) String Replace Rule
 
     .label-row
       label.label-col Find
@@ -40,7 +48,24 @@
       ng-if = "data.saving"
     ) Replacing 2 of 2 strings
 
-    //- verification table
+    //- filename verification table
+    .table.table-diff(
+      ng-if = "data.saving"
+    )
+      .tr.thead.clearfix
+        label.cell.cell-checkbox
+          input.input-checkbox(
+            checked
+            type = "checkbox"
+          )
+          span index.html
+          span
+          a.link(
+            href = "//github.com"
+            target = "_blank"
+          ) View in Github
+
+    //- string verification table
     .table.table-diff(
       ng-if = "data.saving"
     )
@@ -51,12 +76,16 @@
             type = "checkbox"
           )
           | index.html, Line 18
+          a.link(
+            href = "//github.com"
+            target = "_blank"
+          ) View in Github
       .tr.tr-deletion.clearfix
         .cell.monospace - userName: username
       .tr.tr-addition.clearfix
         .cell.monospace + userName: account.oauthName()
 
-    //- verification table (2)
+    //- string verification table (2)
     .table.table-diff(
       ng-if = "data.saving"
     )
@@ -67,6 +96,11 @@
             type = "checkbox"
           )
           | setup.yml, Line 1
+          //- should link to line number
+          a.link(
+            href = "//github.com"
+            target = "_blank"
+          ) View in Github
       .tr.tr-deletion.clearfix
         .cell.monospace - userName: username
       .tr.tr-addition.clearfix
@@ -79,10 +113,10 @@
       ng-disabled = "data.saving"
     )
       //- spinner
-      .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-if = "data.saving"
-        ng-include = "'spinner'"
-      )
+      //- .spinner-wrapper.spinner-sm.spinner-white.in(
+      //-   ng-if = "data.saving"
+      //-   ng-include = "'spinner'"
+      //- )
       span(
         ng-if = "!data.saving"
       ) Search for matches
