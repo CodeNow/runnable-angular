@@ -107,9 +107,9 @@
       modal-template = "editServerModalOpen"
       ng-hide = "data.revealBuildfiles"
     )
-      svg.iconnables.icons-terminal
+      svg.iconnables
         use(
-          xlink:href = "#icons-terminal"
+          xlink:href = "#icons-stack"
         )
       h3.h3 Stack
       p.p.text-overflow {{ actions.getFlattenedSelectedStacks(server.selectedStack) }}
@@ -126,9 +126,9 @@
       modal-template = "editServerModalOpen"
       ng-hide = "data.revealBuildfiles"
     )
-      svg.iconnables.icons-terminal
+      svg.iconnables
         use(
-          xlink:href = "#icons-terminal"
+          xlink:href = "#icons-start-cmd"
         )
       h3.h3 Start Command
       p.p.text-overflow {{ server.startCommand }}
@@ -145,9 +145,9 @@
       modal-template = "editServerModalOpen"
       ng-hide = "data.revealBuildfiles"
     )
-      svg.iconnables.icons-terminal
+      svg.iconnables
         use(
-          xlink:href = "#icons-terminal"
+          xlink:href = "#icons-ports"
         )
       h3.h3 Ports
       p.p.text-overflow {{ server.ports.join(' ') }}
@@ -163,10 +163,10 @@
       modal-state-model = "'repositories'"
       modal-template = "editServerModalOpen"
     )
-      svg.iconnables.icons-terminal
-        use(
-          xlink:href = "#icons-terminal"
-        )
+      svg.iconnables
+          use(
+            xlink:href = "#icons-ports"
+          )
       h3.h3 Repositories
       p.p.text-overflow {{ server.build.contextVersions.models[0].appCodeVersions.models[0].attrs.branch }}
       svg.iconnables.icons-arrow-down
@@ -181,10 +181,10 @@
       modal-state-model = "'env'"
       modal-template = "editServerModalOpen"
     )
-      svg.iconnables.icons-terminal
-        use(
-          xlink:href = "#icons-terminal"
-        )
+      svg.iconnables
+          use(
+            xlink:href = "#icons-ports"
+          )
       h3.h3 Environment Variables
       p.p.text-overflow {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
       svg.iconnables.icons-arrow-down

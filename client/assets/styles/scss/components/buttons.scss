@@ -504,6 +504,10 @@
     color: $purple-light;
   }
 
+  &.active {
+    font-weight: 500;
+  }
+
   &:focus {
     outline: 0;
   }
@@ -528,7 +532,7 @@
     display: block;
     height: 33px;
     margin: 0 auto;
-    width: 21px;
+    width: 18px;
   }
 }
 

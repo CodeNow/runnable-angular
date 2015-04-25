@@ -239,11 +239,11 @@
     }
 
     //- fix dis
-    .icons-terminal {
+    > .iconnables:first-child {
       float: left;
-      height: 24px;
+      height: 23px;
       margin-right: 6px;
-      width: 21px;
+      width: 18px;
     }
 
     .h3 {
