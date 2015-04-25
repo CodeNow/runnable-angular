@@ -113,6 +113,7 @@
 
     .terminal {
       min-height: 210px; // to match env vars
+      white-space: nowrap;
     }
   }
 }
