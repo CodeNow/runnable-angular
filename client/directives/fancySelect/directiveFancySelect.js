@@ -8,7 +8,8 @@ require('app')
 function fancySelect(
   $document,
   $timeout,
-  $compile
+  $compile,
+  keypather
 ) {
   return {
     replace: true,
@@ -24,7 +25,8 @@ function fancySelect(
       value: '=',
       placeholder: '@?',
       type: '@?',
-      showDropdown: '=?'
+      showDropdown: '=?',
+      trackBy: '@?'
     },
     link: function ($scope, element, attrs, controller, transcludeFn){
       var type = 'button';
@@ -125,8 +127,15 @@ function fancySelect(
 
       function selectOption (value) {
         $timeout(function () {
+          if ($scope.trackBy) {
+            value = keypather.get(value, $scope.trackBy);
+          }
           var matchedOption = options.find(function (option) {
-            return angular.equals(option.value, value);
+            var matchValue = option.value;
+            if ($scope.trackBy) {
+              matchValue = keypather.get(matchValue, $scope.trackBy);
+            }
+            return angular.equals(matchValue, value);
           });
 
           if (matchedOption) {
