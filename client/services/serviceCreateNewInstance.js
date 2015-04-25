@@ -7,9 +7,9 @@ function createNewInstance(
   pFetchUser,
   promisify
 ) {
-  return function (activeAccount, build, opts) {
+  return function (activeAccount, build, opts, message) {
     return promisify(build, 'build')({
-      message: 'Initial Build'
+      message: message || 'Initial Build'
     }).then(function () {
       opts.owner = {
         github: activeAccount.oauthId()

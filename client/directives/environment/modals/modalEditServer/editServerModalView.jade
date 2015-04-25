@@ -13,10 +13,10 @@ form.modal-dialog.modal-edit-server(
       .icons-status.red(
         title = ""
       )
-      span.btn-text.text-overflow Instance 23
+      span.btn-text.text-overflow {{ instance.attrs.name }}
       span.btn-text(
-        title = ""
-      ) — Build Failed
+        ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+      ) — {{ server.instance | cardBuildStatusText}}
       svg.iconnables.icons-gear
         use(
           xlink:href = "#icons-gear"
@@ -87,6 +87,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'replace'}"
         ng-click = "changeTab('replace')"
+        ng-if = "god === 'exists'"
       )
         svg.iconnables
           use(

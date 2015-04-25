@@ -103,7 +103,6 @@ util.refreshCache = function() {
     return key.indexOf('test/e2e') > -1;
   });
   toRefresh.forEach(function(key) {
-    console.log('refreshing', key);
     delete require.cache[key];
     require(key);
   });

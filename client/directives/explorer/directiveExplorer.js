@@ -31,8 +31,6 @@ function explorer(
         explorerIsClosed: false
       });
 
-      console.log($scope.isClosed);
-
       $scope.filePopover = {
         data: {
           show: false,

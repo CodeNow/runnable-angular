@@ -10,7 +10,8 @@ require('app')
   .factory('fetchSlackMembers', fetchSlackMembers)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubUser', fetchGitHubUser)
-  .factory('integrationsCache', integrationsCache);
+  .factory('integrationsCache', integrationsCache)
+  .factory('fetchInstancesByPod', fetchInstancesByPod);
 
 function pFetchUser(keypather, user, $q, $state) {
   var fetchedUser = null;
@@ -198,12 +199,12 @@ function fetchInstances(
     });
   };
 }
-require('app')
-  .factory('fetchInstancesByPod', fetchInstancesByPod);
+
 function fetchInstancesByPod(
   fetchInstances,
   $q,
-  $filter
+  $filter,
+  $log
 ) {
   return function () {
     // Fetch all master pods
@@ -234,7 +235,7 @@ function fetchInstancesByPod(
         if (mapping) {
           mapping.children.push(instance);
         } else {
-          console.log('Orphaned Instance!', instance);
+          $log.warn('Orphaned Instance!', instance);
           instanceList.push({
             master: instance,
             children: []

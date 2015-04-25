@@ -1,11 +1,26 @@
-.btn-group
-  button.btn.btn-xs.white.active Build Logs
-  button.btn.btn-xs.white Run Logs
+.btn-group(
+  ng-init = "page = 'build'"
+)
+  button.btn.btn-xs.white(
+    ng-click = "page = 'build'"
+    ng-class = "{active: page === 'build'}"
+  ) Build Logs
+  button.btn.btn-xs.white(
+    ng-click = "page = 'run'"
+    ng-class = "{active: page === 'run'}"
+  ) Run Logs
 
 //- copying active panel markup
 pre.pre.active-panel
-  .logs
-    .terminal.
-      test
+  .logs.terminal(
+    log-term
+    ng-controller = "BuildLogController"
+    ng-if = "page === 'build'"
+  )
+  .logs.terminal(
+    log-term
+    ng-controller = "BoxLogController"
+    ng-if = "page === 'run'"
+  )
 
 small.small 👼👼👼

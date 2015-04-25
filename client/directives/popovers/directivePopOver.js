@@ -95,11 +95,19 @@ function popOver(
               offset = element[0].getBoundingClientRect();
             }
 
+            var scrollTop = $document.find('body')[0].scrollTop;
+            var newOffset = {
+              top: scrollTop + offset.top,
+              left: offset.left,
+              bottom: scrollTop + offset.bottom,
+              right: offset.right
+            };
+
             var keys = ['top', 'left', 'bottom', 'right'];
             var style = {};
             keys.forEach(function (key) {
               var keyOption = keypather.get($scope, 'popoverOptions.'+key);
-              style[key] = (keyOption === null) ? 'auto' : offset[key] + keyOption + 'px';
+              style[key] = (keyOption === null) ? 'auto' : newOffset[key] + keyOption + 'px';
             });
             return style;
           }
