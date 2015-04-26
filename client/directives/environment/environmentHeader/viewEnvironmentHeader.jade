@@ -9,7 +9,14 @@ a.btn.gray(
   | To Servers
 
 button.btn.btn-icon.blue(
+  ng-class = "{active: state.helpButton.active}"
   ng-include = "'viewHelpButton'"
+  pop-over
+  pop-over-actions = "actions"
+  pop-over-active = "state.helpButton.active"
+  pop-over-data = "data"
+  pop-over-options = "{\"left\":-129,\"top\":47}"
+  pop-over-template = "viewHelpPopover"
   title = "Help Center"
 )
 
