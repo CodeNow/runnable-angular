@@ -9,7 +9,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
-        ng-if = "server.inAdvancedMode"
+        ng-if = "state.advanced"
       )
         svg.iconnables.icons-terminal
           use(
@@ -19,7 +19,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'stack'}"
         ng-click = "changeTab('stack')"
-        ng-if = "!server.inAdvancedMode"
+        ng-if = "!state.advanced"
       )
         svg.iconnables
           use(
@@ -29,7 +29,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'command'}"
         ng-click = "changeTab('command')"
-        ng-if = "!server.inAdvancedMode"
+        ng-if = "!state.advanced"
       )
         svg.iconnables
           use(
@@ -39,7 +39,7 @@ form.modal-dialog.modal-edit-server(
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'ports'}"
         ng-click = "changeTab('ports')"
-        ng-if = "!server.inAdvancedMode"
+        ng-if = "!state.advanced"
       )
         svg.iconnables
           use(

@@ -48,7 +48,7 @@ function editServerModal(
         env: null
       };
 
-      // For the server status header
+      // For the build and server logs
       $scope.instance = $scope.server.instance;
       $scope.build = $scope.server.build;
 
