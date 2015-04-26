@@ -24,7 +24,7 @@ function explorer(
       explorerTitle: '@',
       toggleTheme: '=',
       showRepoFolder: '=',
-      editExplorer: '='
+      editExplorer: '=?'
     },
     link: function ($scope, elem, attrs) {
       $scope.$storage = $localStorage.$default({
@@ -32,7 +32,10 @@ function explorer(
       });
 
       if ($scope.rootDir) {
-        promisify($scope.rootDir, 'fetch')();
+        promisify($scope.rootDir, 'fetch')()
+          .then(function (rootDir) {
+            console.log(rootDir);
+          });
       }
       $scope.filePopover = {
         data: {
@@ -40,7 +43,7 @@ function explorer(
           canUpload: $scope.editExplorer
         },
         actions: {
-          createFile: function() {
+          createFile: function () {
             helperCreateFS($scope.rootDir, {
               isDir: false
             }, errs.handler);

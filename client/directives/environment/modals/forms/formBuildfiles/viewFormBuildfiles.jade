@@ -13,18 +13,20 @@
       explorer-title = "Build Files"
       edit-explorer = "true"
     )
-  //- editor
-  section.views(
-    active-panel
-    build = "state.build"
-    ng-class = "{in: (data.showExplorer && !data.loading)}"
-    open-items = "openItems"
-    state-model = "state"
-    use-auto-update = "true"
-    validation = "validation"
-    is-edit-modal = "isEditModal"
-    hide-tab-bar = "true"
+  //- active panel
+  div(
+    ng-class = "colorScheme.getSchemeStyle()"
+    ng-repeat = "item in openItems.models"
+    ng-show = "item === openItems.activeHistory.last()"
   )
+    //- files
+    div(
+      file = "item"
+      file-editor
+      ng-if = "item.state.type === 'File'"
+      use-auto-update = "useAutoUpdate"
+      loading = "loading"
+    )
 
 small.small 😌🐻✌️ #{''}
   a.link(

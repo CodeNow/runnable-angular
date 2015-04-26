@@ -23,7 +23,7 @@ function editServerModal(
       data: '=',
       defaultActions: '=',
       server: '= currentModel',
-      stateModel: '='
+      selectedTab: '= stateModel'
     },
     link: function ($scope, elem, attrs) {
       $scope.portTagOptions = {
@@ -89,7 +89,7 @@ function editServerModal(
           keypather.set(this.server, 'opts.env', this.opts.env);
           this.server.startCommand = this.startCommand;
           this.server.build = this.build;
-          this.server.contextVersion = this.contextVersions;
+          this.server.contextVersion = this.contextVersion;
           return this.server;
         }
       };
@@ -143,7 +143,7 @@ function editServerModal(
       $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
         if (advanced !== previousAdvanced) {
           $rootScope.$broadcast('close-popovers');
-          $scope.stateModel = advanced ? 'buildfiles' : 'stack';
+          $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
           return promisify($scope.state.contextVersion, 'update')({
             advanced: advanced
           })
@@ -156,7 +156,7 @@ function editServerModal(
 
       $scope.changeTab = function (tabname) {
         if (!$scope.editServerForm.$invalid) {
-          $scope.stateModel = tabname;
+          $scope.selectedTab = tabname;
         }
       };
 

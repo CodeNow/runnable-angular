@@ -7,7 +7,7 @@ form.modal-dialog.modal-edit-server(
     )
     .row.modal-tabs
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'buildfiles'}"
+        ng-class = "{active: selectedTab === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
         ng-if = "state.advanced"
       )
@@ -17,7 +17,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Advanced config
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'stack'}"
+        ng-class = "{active: selectedTab === 'stack'}"
         ng-click = "changeTab('stack')"
         ng-if = "!state.advanced"
       )
@@ -27,7 +27,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Stack
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'command'}"
+        ng-class = "{active: selectedTab === 'command'}"
         ng-click = "changeTab('command')"
         ng-if = "!state.advanced"
       )
@@ -37,7 +37,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Start Command
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'ports'}"
+        ng-class = "{active: selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
         ng-if = "!state.advanced"
       )
@@ -47,7 +47,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Ports
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'repositories'}"
+        ng-class = "{active: selectedTab === 'repositories'}"
         ng-click = "changeTab('repositories')"
       )
         svg.iconnables
@@ -56,7 +56,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Repositories
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'env'}"
+        ng-class = "{active: selectedTab === 'env'}"
         ng-click = "changeTab('env')"
       )
         svg.iconnables
@@ -65,7 +65,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Environment Variables
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'replace'}"
+        ng-class = "{active: selectedTab === 'replace'}"
         ng-click = "changeTab('replace')"
         ng-if = "god === 'exists'"
       )
@@ -75,7 +75,7 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Replace
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'logs'}"
+        ng-class = "{active: selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
       )
         svg.iconnables
@@ -87,37 +87,37 @@ form.modal-dialog.modal-edit-server(
 
   section.modal-body
     .modal-form(
-      ng-if = "stateModel === 'buildfiles'"
+      ng-if = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
     )
     .modal-form(
-      ng-if = "stateModel === 'stack'"
+      ng-if = "selectedTab === 'stack'"
       stack-selector-form
       data = "data"
       state = "state"
     )
     .modal-form(
-      ng-if = "stateModel === 'command'"
+      ng-if = "selectedTab === 'command'"
       ng-include = "'viewFormStartCommand'"
     )
     .modal-form(
-      ng-if = "stateModel === 'ports'"
+      ng-if = "selectedTab === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-if = "stateModel === 'repositories'"
+      ng-if = "selectedTab === 'repositories'"
       ng-include = "'viewFormRepositories'"
     )
     .modal-form(
-      ng-if = "stateModel === 'env'"
+      ng-if = "selectedTab === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
-      ng-if = "stateModel === 'replace'"
+      ng-if = "selectedTab === 'replace'"
       ng-include = "'viewFormReplace'"
     )
     .modal-form(
-      ng-if = "stateModel === 'logs'"
+      ng-if = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
     )
 
