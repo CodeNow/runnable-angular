@@ -25,16 +25,16 @@
     margin: 6px;
   }
 
-  .branch-name {
-    color: $gray;
-    font-weight: 400;
-  }
+  // .branch-name {
+  //   color: $gray;
+  //   font-weight: 400;
+  // }
 
   .icons-status {
     float: right;
+    height: 6px;
     margin: 10px 9px 0 0;
     width: 6px;
-    height: 6px;
   }
 
   .row {
@@ -54,8 +54,8 @@
   cursor: pointer;
   font-size: 14px;
   height: 60px;
+  padding: 19px 12px 0;
   position: relative;
-  padding: 19px 12px 0 12px;
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
