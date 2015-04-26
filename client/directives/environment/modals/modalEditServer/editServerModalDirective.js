@@ -21,7 +21,7 @@ function editServerModal(
       actions: '=',
       data: '=',
       defaultActions: '=',
-      currentModel: '=',
+      server: '= currentModel',
       stateModel: '='
     },
     link: function ($scope, elem, attrs) {
@@ -37,7 +37,7 @@ function editServerModal(
           maxInputLength: 5,
           onlyDigits: true
         },
-        tags: new JSTagsCollection($scope.currentModel.ports || [])
+        tags: new JSTagsCollection($scope.server.ports || [])
       };
       function convertTagToPortList() {
         return Object.keys($scope.portTagOptions.tags.tags).map(function (key) {
@@ -48,59 +48,58 @@ function editServerModal(
         env: null
       };
 
-      $scope.server = {
-        instance: $scope.currentModel.instance,
-        build: $scope.currentModel.build
-      };
+      // For the server status header
+      $scope.instance = $scope.server.instance;
+      $scope.build = $scope.server.build;
 
       $scope.state = {
-        advanced: $scope.currentModel.advanced,
-        startCommand: $scope.currentModel.startCommand,
-        selectedStack: $scope.currentModel.selectedStack,
+        advanced: $scope.server.advanced,
+        startCommand: $scope.server.startCommand,
+        selectedStack: $scope.server.selectedStack,
         opts: {
           // Don't save envs here, since EnvVars will add them.
         },
-        repo: $scope.currentModel.repo,
-        currentModel: $scope.currentModel,
+        repo: $scope.server.repo,
+        server: $scope.server,
         getChanges: function () {
           var changes = {
-            server: $scope.currentModel
+            server: $scope.server
           };
-          if (this.currentModel.startCommand !== this.startCommand) {
+          if (this.server.startCommand !== this.startCommand) {
             keypather.set(changes, 'dockerfile.startCommand', this.startCommand);
           }
-          if (this.currentModel.ports !== this.ports) {
+          if (this.server.ports !== this.ports) {
             keypather.set(changes, 'dockerfile.ports', this.ports);
           }
           // use angular.equals since we've made copies
-          if (!angular.equals(this.currentModel.selectedStack, this.selectedStack)) {
+          if (!angular.equals(this.server.selectedStack, this.selectedStack)) {
             keypather.set(changes, 'dockerfile.selectedStack', this.selectedStack);
           }
-          if (!angular.equals(this.currentModel.opts.env, this.opts.env)) {
+          if (!angular.equals(this.server.opts.env, this.opts.env)) {
             keypather.set(changes, 'opts.env', this.opts.env);
           }
           return changes;
         },
         updateCurrentModel: function () {
-          this.currentModel.ports = convertTagToPortList();
-          this.currentModel.selectedStack = this.selectedStack;
-          keypather.set(this.currentModel, 'opts.env', this.opts.env);
-          this.currentModel.startCommand = this.startCommand;
-          this.currentModel.build = this.build;
-          this.currentModel.contextVersion = this.contextVersions;
-          return this.currentModel;
+          this.server.ports = convertTagToPortList();
+          this.server.selectedStack = this.selectedStack;
+          keypather.set(this.server, 'opts.env', this.opts.env);
+          this.server.startCommand = this.startCommand;
+          this.server.build = this.build;
+          this.server.contextVersion = this.contextVersions;
+          return this.server;
         }
       };
-      if ($scope.currentModel.repo) {
-        $scope.branches = $scope.currentModel.repo.branches;
+      if ($scope.server.repo) {
+        $scope.branches = $scope.server.repo.branches;
         $scope.state.branch =
-          $scope.currentModel.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
-            $scope.currentModel,
+          $scope.server.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
+            $scope.server,
             'instance.contextVersion.appCodeVersions.models[0].attrs.branch'
           )}));
       }
 
-      promisify($scope.currentModel.contextVersion, 'deepCopy')()
+      promisify($scope.server.contextVersion, 'deepCopy')()
         .then(function (contextVersion) {
           $scope.state.contextVersion = contextVersion;
           return promisify(contextVersion, 'fetch')();
@@ -126,7 +125,7 @@ function editServerModal(
       $scope.$watch('state.branch', function (newBranch, oldBranch) {
         if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
           promisify($scope.acv, 'update')({
-            repo: $scope.currentModel.repo.attrs.full_name,
+            repo: $scope.server.repo.attrs.full_name,
             branch: newBranch.attrs.name,
             commit: newBranch.attrs.commit.sha
           })

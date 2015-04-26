@@ -74,7 +74,6 @@ function ControllerEnvironment(
       if (newServerModel.selectedStack.ports) {
         newServerModel.ports = newServerModel.selectedStack.ports.replace(/ /g, '').split(',');
       }
-      newServerModel.repo.isAdded = true;
       // Close the modal first
       $scope.$emit('close-modal');
       return $scope.actions.createAndBuild(newServerModel);
@@ -156,6 +155,11 @@ function ControllerEnvironment(
         })
         .catch(function (err) {
           errs.handler(err);
+          // Remove it from the servers list
+          $scope.data.newServers.splice(
+            $scope.data.newServers.indexOf(newServerModel),
+            1
+          );
         })
         .finally(function () {
           newServerModel.building = false;

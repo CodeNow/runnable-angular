@@ -24,7 +24,7 @@
 
     server-status-card-header.btn.btn-sm.btn-title.white(
       ng-if = "!server.building"
-      on-card
+      popover-template = "serverOptionsCardPopover"
     )
     input.input.input-sm.monospace(
       readonly

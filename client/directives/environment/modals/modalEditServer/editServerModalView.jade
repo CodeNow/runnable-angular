@@ -1,10 +1,9 @@
 form.modal-dialog.modal-edit-server(
   name = 'editServerForm'
-  ng-click = "$event.stopPropagation()"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title.white(
-      ng-if = "!server.building"
+      popover-template = "serverOptionsModalPopover"
     )
     .row.modal-tabs
       button.btn.btn-radio(

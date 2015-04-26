@@ -1,0 +1,16 @@
+.popover.menu.bottom(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  //- .arrow.white
+  .popover-content
+    ul.popover-list
+      //- trigger build files confirm modal
+      li.list-item.popover-list-item.multi-line
+        label.label-checkbox
+          input.input-checkbox(
+            ng-model = "data.server.advanced"
+            type = "checkbox"
+          )
+          | Advanced options
+          small.small Modify your server through its build files

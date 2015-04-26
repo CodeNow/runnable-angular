@@ -3,7 +3,7 @@ button(
   pop-over-actions = "actions"
   pop-over-data = "popoverServerData"
   pop-over-options = "{\"left\":0,\"top\":38}"
-  pop-over-template = "serverOptionsCardPopover"
+  pop-over-template = "popoverTemplate"
 )
   .icons-status(
     ng-class = "getInstanceClasses(server.instance)"
@@ -12,6 +12,9 @@ button(
   span.btn-text.text-overflow(
     ng-attr-title = "{{ (server.opts.name || server.instance.attrs.name) }}"
   ) {{ (server.opts.name || server.instance.attrs.name) }}
+  span.btn-text(
+    ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+  ) — {{ server.instance | cardBuildStatusText}}
   svg.iconnables.icons-gear
     use(
       xlink:href = "#icons-gear"

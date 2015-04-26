@@ -17,8 +17,8 @@ function serverStatusCardHeader(
         parentData: $scope.data,
         onCard: !!attrs.onCard
       };
-      if (attrs.onCard) {
-
+      if (attrs.popoverTemplate) {
+        $scope.popoverTemplate = attrs.popoverTemplate;
       }
     }
   };
