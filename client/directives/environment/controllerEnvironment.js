@@ -120,9 +120,11 @@ function ControllerEnvironment(
             }
           });
       }
-      promiseChain.finally(function () {
-        server.building = false;
-      });
+      promiseChain
+        .catch(errs.handler)
+        .finally(function () {
+          server.building = false;
+        });
     },
     createAndBuild: function (newServerModel) {
       if (newServerModel.building) {
