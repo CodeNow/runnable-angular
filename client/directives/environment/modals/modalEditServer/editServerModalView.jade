@@ -3,28 +3,9 @@ form.modal-dialog.modal-edit-server(
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    button.btn.btn-xs.btn-title(
-      pop-over
-      pop-over-actions = "actions"
-      pop-over-data = "data"
-      pop-over-options = "{\"left\":0,\"top\":28}"
-      pop-over-template = "viewPopoverServerOptions"
+    server-status-card-header.btn.btn-sm.btn-title.white(
+      ng-if = "!server.building"
     )
-      .icons-status.red(
-        title = ""
-      )
-      span.btn-text.text-overflow {{ instance.attrs.name }}
-      span.btn-text(
-        ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-      ) — {{ server.instance | cardBuildStatusText }}
-      svg.iconnables.icons-gear
-        use(
-          xlink:href = "#icons-gear"
-        )
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
     .row.modal-tabs
       button.btn.btn-radio(
         ng-class = "{active: stateModel === 'buildfiles'}"

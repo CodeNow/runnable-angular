@@ -47,10 +47,14 @@ function editServerModal(
       $scope.validation = {
         env: null
       };
-      $scope.instance = $scope.currentModel.instance;
-      $scope.build = $scope.currentModel.build;
+
+      $scope.server = {
+        instance: $scope.currentModel.instance,
+        build: $scope.currentModel.build
+      };
 
       $scope.state = {
+        advanced: $scope.currentModel.advanced,
         startCommand: $scope.currentModel.startCommand,
         selectedStack: $scope.currentModel.selectedStack,
         opts: {

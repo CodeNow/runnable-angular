@@ -21,32 +21,11 @@
       - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
       - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
       - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
-    button.btn.btn-sm.btn-title.white(
+
+    server-status-card-header.btn.btn-sm.btn-title.white(
       ng-if = "!server.building"
-      pop-over
-      pop-over-actions = "actions"
-      pop-over-data = "server"
-      pop-over-options = "{\"left\":0,\"top\":38}"
-      pop-over-template = "viewPopoverServerOptions"
+      on-card
     )
-      .icons-status(
-        ng-class = "getInstanceClasses(server.instance)"
-        ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-      )
-      span.btn-text.text-overflow(
-        ng-attr-title = "{{ (server.opts.name || server.instance.attrs.name) }}"
-      ) {{ (server.opts.name || server.instance.attrs.name) }}
-      //- span.btn-text(
-      //-   ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-      //- ) — {{ server.instance | cardBuildStatusText}}
-      svg.iconnables.icons-gear
-        use(
-          xlink:href = "#icons-gear"
-        )
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
     input.input.input-sm.monospace(
       readonly
       select-all

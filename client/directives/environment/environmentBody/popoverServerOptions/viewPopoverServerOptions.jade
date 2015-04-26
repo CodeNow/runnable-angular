@@ -16,7 +16,14 @@
       li.divider
       //- changes to Run Logs if running or run error
       //- doesn't appear in edit modal
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        modal
+        modal-actions = "actions"
+        modal-current-model = "server"
+        modal-data = "data"
+        modal-state-model = "'buildfiles'"
+        modal-template = "editServerModalOpen"
+      )
         svg.iconnables.icons-trash
           use(
             xlink:href = "#icons-trash"

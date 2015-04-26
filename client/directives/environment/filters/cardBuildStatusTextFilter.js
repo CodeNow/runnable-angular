@@ -12,13 +12,11 @@ function cardBuildStatusText(
     var container = keypather.get(instance, 'containers.models[0]');
     var build = keypather.get(instance, 'build');
     if (container) {
-      if (container.running()) {
-        return 'Running';
+      if (!container.running()) {
+        return 'Crashed';
       } else if (keypather.get(container, 'attrs.inspect.State.ExitCode') === -1) {
         // -1 means a user killed it
         return 'Stopped';
-      } else {
-        return 'Crashed';
       }
     } else if (build) {
       if (build.failed()) {
