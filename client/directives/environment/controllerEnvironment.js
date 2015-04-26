@@ -245,25 +245,23 @@ function ControllerEnvironment(
   }
 
   $scope.data.loadingNewServers = true;
-  if ($state.params.userName) {
-    fetchInstances({
-      githubUsername: $state.params.userName
-    })
-      .then(function (instances) {
-        $scope.data.newServers = instances.models
-          //.filter(function (instance) {
-          //  return instance.attrs.masterPod;
-          //})
-          .map(function (instance) {
-            return createServerObjectFromInstance(instance);
-          });
-        $scope.data.loadingNewServers = false;
-      });
-  }
 
   fetchStackInfo()
     .then(function (stacks) {
       keypather.set($scope, 'data.stacks', stacks);
+      return fetchInstances({
+        githubUsername: $state.params.userName
+      });
+    })
+    .then(function (instances) {
+      $scope.data.newServers = instances.models
+        //.filter(function (instance) {
+        //  return instance.attrs.masterPod;
+        //})
+        .map(function (instance) {
+          return createServerObjectFromInstance(instance);
+        });
+      $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
 

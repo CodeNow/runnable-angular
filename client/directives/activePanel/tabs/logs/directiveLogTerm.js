@@ -110,6 +110,7 @@ function logTerm(
           terminal.cursorState = 0;
           // Blur so that the cursor disappears
           terminal.blur();
+          $timeout(angular.noop);
         }
       }
       function writeToTerm(output) {
