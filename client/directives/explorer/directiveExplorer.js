@@ -31,6 +31,9 @@ function explorer(
         explorerIsClosed: false
       });
 
+      if ($scope.rootDir) {
+        promisify($scope.rootDir, 'fetch')();
+      }
       $scope.filePopover = {
         data: {
           show: false,

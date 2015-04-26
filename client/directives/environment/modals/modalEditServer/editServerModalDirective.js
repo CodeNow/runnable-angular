@@ -10,6 +10,7 @@ function editServerModal(
   JSTagsCollection,
   hasKeypaths,
   keypather,
+  OpenItems,
   pFetchUser,
   promisify,
   $rootScope
@@ -39,6 +40,8 @@ function editServerModal(
         },
         tags: new JSTagsCollection($scope.server.ports || [])
       };
+
+      $scope.openItems = new OpenItems();
       function convertTagToPortList() {
         return Object.keys($scope.portTagOptions.tags.tags).map(function (key) {
           return $scope.portTagOptions.tags.tags[key].value;
@@ -53,7 +56,7 @@ function editServerModal(
       $scope.build = $scope.server.build;
 
       $scope.state = {
-        advanced: $scope.server.advanced,
+        advanced: $scope.server.advanced || false,
         startCommand: $scope.server.startCommand,
         selectedStack: $scope.server.selectedStack,
         opts: {
@@ -136,6 +139,19 @@ function editServerModal(
 
       $scope.$watchCollection('portTagOptions.tags.tags', function () {
         $scope.state.ports = convertTagToPortList();
+      });
+      $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
+        if (advanced !== previousAdvanced) {
+          $rootScope.$broadcast('close-popovers');
+          $scope.stateModel = advanced ? 'buildfiles' : 'stack';
+          return promisify($scope.state.contextVersion, 'update')({
+            advanced: advanced
+          })
+            .catch(function (err) {
+              errs.handler(err);
+              $scope.state.advanced = !advanced;
+            });
+        }
       });
 
       $scope.changeTab = function (tabname) {

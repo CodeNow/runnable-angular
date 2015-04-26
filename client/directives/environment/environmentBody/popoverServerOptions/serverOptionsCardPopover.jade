@@ -10,7 +10,7 @@
         modal-actions = "actions"
         modal-current-model = "data.server"
         modal-data = "data.parentData"
-        modal-state-model = "'buildfiles'"
+        modal-state-model = "'logs'"
         modal-template = "editServerModalOpen"
       )
         svg.iconnables.icons-trash
@@ -21,7 +21,7 @@
       li.divider
       //- trigger delete confirm modal
       li.list-item.popover-list-item(
-        ng-click = "actions.deleteServer(data)"
+        ng-click = "actions.deleteServer(data.server)"
       )
         svg.iconnables.icons-trash
           use(
