@@ -32,7 +32,7 @@ function explorer(
       });
 
       if ($scope.rootDir) {
-        promisify($scope.rootDir.contents, 'fetch')()
+        promisify($scope.rootDir, 'fetch')()
           .then(function (rootDir) {
             console.log(rootDir);
           });
