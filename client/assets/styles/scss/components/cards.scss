@@ -152,8 +152,8 @@
     }
 
     + .btn-text {
-      color: $gray-light;
       flex: 0 0 auto;
+      opacity: .5;
       padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
     }
   }
