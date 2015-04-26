@@ -6,7 +6,12 @@ a.btn.gray(
     use(
       xlink:href = "#icons-arrow-back"
     )
-  | Go to Servers
+  | To Servers
+
+button.btn.btn-icon.blue(
+  ng-include = "'viewHelpButton'"
+  title = "Help Center"
+)
 
 //- new server button
 button.btn.green(

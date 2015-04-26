@@ -5,14 +5,11 @@
   margin: 15px;
   padding: 15px 0;
 
-  .btn {
-    text-align: left;
-  }
-
   // new server button
   .green {
     float: right;
     padding-right: 6px;
+    text-align: left;
 
     .icons-arrow-down {
       margin-left: 9px;
@@ -23,9 +20,24 @@
   .gray {
     float: left;
     padding-left: 6px;
+    text-align: left;
 
     .icons-round {
       float: left;
+    }
+  }
+
+  // help button
+  .btn-icon {
+    left: 0;
+    margin: 0 auto;
+    padding: 0 12px;
+    position: absolute;
+    right: 0;
+
+    .iconnables {
+      height: 100%;
+      width: 100%;
     }
   }
 }
