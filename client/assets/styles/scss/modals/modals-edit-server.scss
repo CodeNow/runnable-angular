@@ -2,23 +2,28 @@
   max-width: 720px;
   width: 100%;
 
+  @include media(xxl) {
+    max-width: 900px;
+  }
+
   // nav
   // header button
   .btn-title {
+    color: $gray;
     display: table;
     margin: 6px auto;
 
     // status
     .icons-status {
       float: left;
-      margin: 7px 3px 0 0;
+      margin: 15px 6px 0 0;
     }
 
     // text
     .btn-text {
       float: left;
-      height: 24px;
-      line-height: 24px;
+      height: 36px;
+      line-height: 36px;
     }
 
     .icons-gear {
@@ -102,6 +107,10 @@
     border: 2px solid $gray-lighter;
     display: flex;
 
+    &.ace-runnable-dark {
+      border-color: $purple-darker;
+    }
+
     .ace_editor {
       flex: 1 1 auto;
     }
@@ -113,6 +122,7 @@
 
     .terminal {
       min-height: 210px; // to match env vars
+      white-space: nowrap;
     }
   }
 }

@@ -8,14 +8,13 @@ button.btn.btn-xs.gray(
 
 button.btn.btn-xs(
   ng-if = "!state.showHostName"
+  ng-disable = "!linkedEnvResults.servers.length && !linkedEnvResults.others.length"
   pop-over
-  pop-over-actions = "popoverLinkHelper.actions"
-  pop-over-active = "popoverLinkHelper.data.show"
-  pop-over-data = "popoverLinkHelper.data"
+  pop-over-data = "linkedEnvResults"
   pop-over-options = "{\"left\":0,\"top\":0}"
   pop-over-template = "viewPopoverLinkHelper"
 ) Linked Servers
-  .tag.monospace 3
+  .tag.monospace {{linkedEnvResults.servers.length || 0 }}
 
 //- if inserting host names
 .label.label-row.clearfix(

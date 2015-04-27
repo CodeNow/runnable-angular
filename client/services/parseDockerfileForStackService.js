@@ -34,9 +34,9 @@ function parseDockerfileForStack(
             stackVersion = railsVersion[1];
           }
         }
-        stack = stackData.find(hasKeypaths({
+        stack = angular.copy(stackData.find(hasKeypaths({
           'key': stackKey
-        }));
+        })));
         if (stack) {
           stack.selectedVersion = stackVersion;
           if (rubyVersion) {

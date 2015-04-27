@@ -74,7 +74,6 @@ function ControllerEnvironment(
       if (newServerModel.selectedStack.ports) {
         newServerModel.ports = newServerModel.selectedStack.ports.replace(/ /g, '').split(',');
       }
-      newServerModel.repo.isAdded = true;
       // Close the modal first
       $scope.$emit('close-modal');
       return $scope.actions.createAndBuild(newServerModel);
@@ -121,9 +120,11 @@ function ControllerEnvironment(
             }
           });
       }
-      promiseChain.finally(function () {
-        server.building = false;
-      });
+      promiseChain
+        .catch(errs.handler)
+        .finally(function () {
+          server.building = false;
+        });
     },
     createAndBuild: function (newServerModel) {
       if (newServerModel.building) {
@@ -153,10 +154,16 @@ function ControllerEnvironment(
         })
         .then(function (instance) {
           newServerModel.instance = instance;
-          newServerModel.building = false;
         })
         .catch(function (err) {
           errs.handler(err);
+          // Remove it from the servers list
+          $scope.data.newServers.splice(
+            $scope.data.newServers.indexOf(newServerModel),
+            1
+          );
+        })
+        .finally(function () {
           newServerModel.building = false;
         });
     },
@@ -217,12 +224,14 @@ function ControllerEnvironment(
       commands.splice(0, 2);
     }
     serverObj.instance = instance;
+    serverObj.contextVersion = instance.contextVersion;
     serverObj.build = instance.build;
     serverObj.startCommand = commands.join(' ');
     serverObj.ports = $filter('filterCleanPorts')(keypather.get(instance, 'containers.models[0].attrs.ports'));
     serverObj.opts = {
       env: instance.attrs.env
     };
+    serverObj.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
     parseDockerfileForStackFromInstance(instance, $scope.data.stacks)
       .then(function (stackObject) {
         serverObj.selectedStack = stackObject;
@@ -237,25 +246,23 @@ function ControllerEnvironment(
   }
 
   $scope.data.loadingNewServers = true;
-  if ($state.params.userName) {
-    fetchInstances({
-      githubUsername: $state.params.userName
-    })
-      .then(function (instances) {
-        $scope.data.newServers = instances.models
-          //.filter(function (instance) {
-          //  return instance.attrs.masterPod;
-          //})
-          .map(function (instance) {
-            return createServerObjectFromInstance(instance);
-          });
-        $scope.data.loadingNewServers = false;
-      });
-  }
 
   fetchStackInfo()
     .then(function (stacks) {
       keypather.set($scope, 'data.stacks', stacks);
+      return fetchInstances({
+        githubUsername: $state.params.userName
+      });
+    })
+    .then(function (instances) {
+      $scope.data.newServers = instances.models
+        //.filter(function (instance) {
+        //  return instance.attrs.masterPod;
+        //})
+        .map(function (instance) {
+          return createServerObjectFromInstance(instance);
+        });
+      $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
 

@@ -154,7 +154,7 @@
 
     // second action
     + .btn {
-      color: $gray;
+      color: $gray-dark;
       float: right;
       font-size: 14px;
 
@@ -169,7 +169,7 @@
       }
 
       .tag {
-        background: $gray;
+        background: $gray-dark;
         color: $gray-lighter;
         cursor: pointer;
         float: right;

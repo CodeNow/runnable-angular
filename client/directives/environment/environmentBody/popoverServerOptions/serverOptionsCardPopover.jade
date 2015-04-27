@@ -5,18 +5,14 @@
   //- .arrow.white
   .popover-content
     ul.popover-list
-      //- trigger build files confirm modal
-      li.list-item.popover-list-item.multi-line
-        label.label-checkbox
-          input.input-checkbox(
-            type = "checkbox"
-          )
-          | Advanced options
-          small.small Modify your server through its build files
-      li.divider
-      //- changes to Run Logs if running or run error
-      //- doesn't appear in edit modal
-      li.list-item.popover-list-item
+      li.list-item.popover-list-item(
+        modal
+        modal-actions = "actions"
+        modal-current-model = "data.server"
+        modal-data = "data.parentData"
+        modal-state-model = "'logs'"
+        modal-template = "editServerModalOpen"
+      )
         svg.iconnables.icons-trash
           use(
             xlink:href = "#icons-trash"
@@ -25,7 +21,7 @@
       li.divider
       //- trigger delete confirm modal
       li.list-item.popover-list-item(
-        ng-click = "actions.deleteServer(data)"
+        ng-click = "actions.deleteServer(data.server)"
       )
         svg.iconnables.icons-trash
           use(

@@ -1,0 +1,25 @@
+div(
+  pop-over
+  pop-over-actions = "actions"
+  pop-over-data = "popoverServerData"
+  pop-over-options = "{\"left\":0,\"top\":38}"
+  pop-over-template = "popoverTemplate"
+)
+  .icons-status(
+    ng-class = "getInstanceClasses(server.instance)"
+    ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+  )
+  span.btn-text.text-overflow(
+    ng-attr-title = "{{ (server.opts.name || server.instance.attrs.name) }}"
+  ) {{ (server.opts.name || server.instance.attrs.name) }}
+  span.btn-text(
+    ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
+  ) {{ server.instance | cardBuildStatusText:true}}
+  svg.iconnables.icons-gear
+    use(
+      xlink:href = "#icons-gear"
+    )
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )

@@ -11,16 +11,16 @@
   ) Run Logs
 
 //- copying active panel markup
-pre.pre.active-panel
-  .logs.terminal(
+pre.pre.active-panel.ace-runnable-dark
+  .logs(
     log-term
     ng-controller = "BuildLogController"
-    ng-if = "page === 'build'"
+    ng-show = "page === 'build'"
   )
-  .logs.terminal(
+  .logs(
     log-term
     ng-controller = "BoxLogController"
-    ng-if = "page === 'run'"
+    ng-show = "page === 'run'"
   )
 
 small.small 👼👼👼

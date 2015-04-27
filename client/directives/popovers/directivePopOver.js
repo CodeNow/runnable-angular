@@ -23,11 +23,16 @@ function popOver(
       noBroadcast: '=? popOverNoBroadcast',
       actions: '=? popOverActions',
       active: '=? popOverActive',
-      template: '@ popOverTemplate'
+      template: '= popOverTemplate'
     },
     link: function ($scope, element, attrs) {
       if (!$scope.template) {
-        return $log.error('Pop over needs a template');
+        // Check if the string is set by checking the attrs
+        if (attrs.popOverTemplate) {
+          $scope.template = attrs.popOverTemplate;
+        } else {
+          return $log.error('Pop over needs a template');
+        }
       }
       var unbindDocumentClick = angular.noop;
       var unbindPopoverOpened = angular.noop;
