@@ -18,8 +18,12 @@
   height: 36px;
   line-height: 36px;
   padding-right: 15px;
-  width: 40%;
+  width: 270px;
   word-break: break-word;
+
+  @include media(md) {
+    width: 240px;
+  }
 
   @include media(xs) {
     float: none;
@@ -32,7 +36,11 @@
 .input-col {
   float: right;
   text-align: left;
-  width: 59%;
+  width: calc(100% - 271px);
+
+  @include media(md) {
+    width: calc(100% - 241px);
+  }
 
   @include media(xs) {
     float: none;

@@ -20,28 +20,10 @@
   .input-col {
     margin-bottom: 6px;
 
-    &.btn {
-      padding: 0 6px;
-    }
-
-    // button groups
-    &.btn-group {
-      width: auto;
-
-      > .btn {
-        margin-top: 6px;
-        padding: 0 6px;
-        width: auto;
-
-        + .btn {
-          width: 27px;
-        }
-      }
-
-      .icons-arrow-down {
-        right: 0;
-        top: 0;
-      }
+    // inputs and buttons
+    .input,
+    .btn {
+      max-width: 360px;
     }
 
     // buttons
