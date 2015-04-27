@@ -11,8 +11,8 @@
   padding: 4px 0;
   pointer-events: none;
   position: absolute;
-  transform: scale3d(.9,.9,1);
-  transform-origin: 50% 25%;
+  transform: scale3d(.9,.6,1);
+  transform-origin: 0 0;
   transition: opacity .1s ease-in, transform .1s ease-in;
   z-index: $z-popover;
 
