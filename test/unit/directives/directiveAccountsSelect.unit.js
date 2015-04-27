@@ -83,8 +83,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $scope = $rootScope.$new();
 
       var tpl = directiveTemplate.attribute('accounts-select', {
-        'data': 'data',
-        'is-main-page': 'isMainPage'
+        'data': 'data'
       });
 
       Object.keys(addToScope).forEach(function (key) {
@@ -99,7 +98,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
 
   describe('directive logic'.bold.blue, function() {
     it('should emit signal and change state on account change', function (done) {
-      initState({ isMainPage: true });
+      initState();
       ctx.stateMock.go = sinon.spy(function (location, state) {
         expect(state).to.deep.equal({
           userName: ctx.fakeOrg1.oauthName()
