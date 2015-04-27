@@ -6,18 +6,18 @@
 }
 
 .container-link-external {
-  color: $purple-light;
+  color: $gray;
   cursor: pointer;
   left: -6px;
   position: relative;
   top: -36px;
 
   &:hover {
-    color: lighten($purple-light,20);
+    color: $purple-light;
   }
 
   &:active {
-    color: $purple-light;
+    color: $purple-dark;
   }
 
   .icons-link-external {
@@ -32,16 +32,20 @@
   height: 72px;
 
   .icons-status {
-    left: 9px;
-    top: -4px;
+    left: 6px;
+    top: -3px;
   }
 }
 
 // text + status wrapper
 .server-name {
   font-size: 24px;
-  height: 48px;
-  line-height: 48px;
+  height: 51px;
+  line-height: 51px;
+
+  .branch-name {
+    color: inherit;
+  }
 }
 
 // [readonly] specifity to override default [readonly] background-color
