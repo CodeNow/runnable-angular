@@ -5,6 +5,7 @@ var $rootScope,
   $scope,
   $compile,
   $document,
+  $timeout,
   $templateCache;
 var $elScope;
 
@@ -48,9 +49,13 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $compile = _$compile_;
       $document = _$document_;
       $templateCache = _$templateCache_;
+      $timeout = _$timeout_;
     });
     ctx = {};
-    ctx.template = directiveTemplate.attribute('modal-manager');
+    $scope.modalOpen = false;
+    ctx.template = directiveTemplate.attribute('modal-manager', {
+      'modal-open': 'modalOpen'
+    });
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
