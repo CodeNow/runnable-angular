@@ -1,9 +1,9 @@
 .modal-edit-server {
-  max-width: 720px;
+  max-width: 900px;
   width: 100%;
 
-  @include media(xxl) {
-    max-width: 900px;
+  @include media(sm) {
+    max-width: 720px;
   }
 
   // nav
