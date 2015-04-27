@@ -8,22 +8,26 @@ require('app')
 function cardBuildStatusText(
   keypather
 ) {
-  return function (instance) {
+  return function (instance, includeDash) {
     var container = keypather.get(instance, 'containers.models[0]');
     var build = keypather.get(instance, 'build');
+    var returnString = includeDash ? '- ' : null;
     if (container) {
       if (!container.running()) {
-        return 'Crashed';
+        returnString += 'Crashed';
       } else if (keypather.get(container, 'attrs.inspect.State.ExitCode') === -1) {
         // -1 means a user killed it
-        return 'Stopped';
+        returnString += 'Stopped';
+      } else {
+        return '';
       }
     } else if (build) {
       if (build.failed()) {
-        return 'Building Failed';
+        returnString += 'Building Failed';
       } else {
-        return 'Building';
+        returnString += 'Building';
       }
     }
+    return returnString;
   };
 }

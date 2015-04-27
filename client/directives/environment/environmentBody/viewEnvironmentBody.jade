@@ -39,9 +39,10 @@
       ng-include = "'spinner'"
     )
   ul.card-body.load(
-    ng-if = "!server.repo"
+    ng-if = "!server.building"
   )
     li.btn.white(
+      ng-if = "server.advanced"
       modal
       modal-actions = "actions"
       modal-current-model = "server"
@@ -59,18 +60,14 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-
-  ul.card-body.load(
-    ng-if = "server.repo && !server.building"
-  )
     li.btn.white(
+      ng-if = "server.repo && !server.advanced"
       modal
       modal-actions = "actions"
       modal-current-model = "server"
       modal-data = "data"
       modal-state-model = "'stack'"
       modal-template = "editServerModalOpen"
-      ng-hide = "data.revealBuildfiles"
     )
       svg.iconnables
         use(
@@ -83,13 +80,13 @@
           xlink:href = "#icons-arrow-down"
         )
     li.btn.white(
+      ng-if = "server.repo && !server.advanced"
       modal
       modal-actions = "actions"
       modal-current-model = "server"
       modal-data = "data"
       modal-state-model = "'command'"
       modal-template = "editServerModalOpen"
-      ng-hide = "data.revealBuildfiles"
     )
       svg.iconnables
         use(
@@ -102,13 +99,13 @@
           xlink:href = "#icons-arrow-down"
         )
     li.btn.white(
+      ng-if = "server.repo && !server.advanced"
       modal
       modal-actions = "actions"
       modal-current-model = "server"
       modal-data = "data"
       modal-state-model = "'ports'"
       modal-template = "editServerModalOpen"
-      ng-hide = "data.revealBuildfiles"
     )
       svg.iconnables
         use(
@@ -121,6 +118,7 @@
           xlink:href = "#icons-arrow-down"
         )
     li.btn.white(
+      ng-if = "server.repo && !server.advanced"
       modal
       modal-actions = "actions"
       modal-current-model = "server"

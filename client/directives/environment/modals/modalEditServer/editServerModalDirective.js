@@ -9,6 +9,7 @@ function editServerModal(
   errs,
   JSTagsCollection,
   hasKeypaths,
+  getInstanceClasses,
   keypather,
   OpenItems,
   pFetchUser,
@@ -40,6 +41,7 @@ function editServerModal(
         },
         tags: new JSTagsCollection($scope.server.ports || [])
       };
+      $scope.getInstanceClasses = getInstanceClasses;
 
       $scope.openItems = new OpenItems();
       function convertTagToPortList() {

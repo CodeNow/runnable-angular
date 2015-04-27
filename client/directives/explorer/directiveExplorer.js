@@ -32,10 +32,7 @@ function explorer(
       });
 
       if ($scope.rootDir) {
-        promisify($scope.rootDir, 'fetch')()
-          .then(function (rootDir) {
-            console.log(rootDir);
-          });
+        promisify($scope.rootDir.contents, 'fetch')();
       }
       $scope.filePopover = {
         data: {
@@ -104,7 +101,7 @@ function explorer(
                   }
                 });
               }).then(function () {
-                promisify($scope.rootDir, 'fetch')();
+                return promisify($scope.rootDir.contents, 'fetch')();
               });
             }
           }

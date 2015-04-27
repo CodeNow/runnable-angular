@@ -1,31 +1,7 @@
-.row-heading(
-  ng-click = "$storage.explorerIsClosed = !$storage.explorerIsClosed"
-  ng-class = "{ closed: !editExplorer && $storage.explorerIsClosed }"
+div(
+  ng-if = "!editExplorer"
+  ng-include = "'explorerMenuBar'"
 )
-  svg.iconnables.icons-disclose
-    use(
-      xlink:href = "#icons-disclose"
-    )
-  | {{ explorerTitle }}
-  button.btn.btn-xs.btn-icon.white.sub-header-action(
-    ng-class = "{active: filePopover.data.show}"
-    ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
-    pop-over
-    pop-over-actions = "filePopover.actions"
-    pop-over-data = "filePopover.data"
-    pop-over-options = "{\"left\":-74,\"top\":40}"
-    pop-over-template = "viewFileTreePopoverFileExplorerMenu"
-    pop-over-active = "filePopover.data.show"
-  )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
-
-
-.empty-state(
-  ng-if = "!editExplorer && !$storage.explorerIsClosed && !fileModel.running()"
-) Your server is not running so there are no files.
 
 ul.file-tree(
   ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
@@ -42,3 +18,20 @@ ul.file-tree(
     is-root-dir = "true"
     show-repo-folder = "showRepoFolder"
   )
+.row-heading(
+  ng-if = "editExplorer"
+)
+  button.btn.btn-xs.btn-icon.white.sub-header-action(
+    ng-class = "{active: filePopover.data.show}"
+    ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
+    pop-over
+    pop-over-actions = "filePopover.actions"
+    pop-over-data = "filePopover.data"
+    pop-over-options = "{\"left\":-74,\"top\":40}"
+    pop-over-template = "viewFileTreePopoverFileExplorerMenu"
+    pop-over-active = "filePopover.data.show"
+  )
+    svg.iconnables.icons-add
+      use(
+        xlink:href = "#icons-add"
+      )
