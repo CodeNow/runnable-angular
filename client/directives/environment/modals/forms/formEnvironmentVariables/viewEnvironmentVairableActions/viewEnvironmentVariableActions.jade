@@ -4,18 +4,17 @@ button.btn.btn-xs.gray(
   ng-click = "state.showHostName = true"
   ng-init = "state.showHostName = false"
   ng-hide = "state.showHostName"
-) Insert host name
+) Insert elastic url
 
 button.btn.btn-xs(
   ng-if = "!state.showHostName"
+  ng-disable = "!linkedEnvResults.servers.length && !linkedEnvResults.others.length"
   pop-over
-  pop-over-actions = "popoverLinkHelper.actions"
-  pop-over-active = "popoverLinkHelper.data.show"
-  pop-over-data = "popoverLinkHelper.data"
+  pop-over-data = "linkedEnvResults"
   pop-over-options = "{\"left\":0,\"top\":0}"
   pop-over-template = "viewPopoverLinkHelper"
-) Linked Servers
-  .tag.monospace 3
+) Associations
+  .tag.monospace {{linkedEnvResults.servers.length || 0 }}
 
 //- if inserting host names
 .label.label-row.clearfix(
@@ -33,9 +32,9 @@ button.btn.btn-xs(
     ) http://
   fancy-select.input-sm.monospace.text-overflow(
     value = "$parent.state.newLink.server"
-    placeholder = "Host Url"
+    placeholder = "Elastic Url"
   )
-    li.list-item.popover-list-item.small Select Host Name
+    li.list-item.popover-list-item.small Select elastic url
     fancy-option.monospace(
       value = "server.instance"
       ng-repeat = "server in $parent.data.newServers"
@@ -61,4 +60,4 @@ button.btn.btn-xs(
   ) Cancel
   button.btn.btn-xs.green(
     ng-click = "state.showHostName = false; insertHostName(state.newLink);"
-  ) Insert host name
+  ) Insert elastic url

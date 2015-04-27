@@ -62,7 +62,8 @@ function makeMockRepoList(username, json) {
  *   Switching accounts should trigger new fetch of repos
  *   Selecting a repo should trigger a stack analysis
  */
-describe('directiveGsRepoSelector'.bold.underline.blue, function () {
+// Skipping pending Nate review
+describe.skip('directiveGsRepoSelector'.bold.underline.blue, function () {
   beforeEach(function () {
     ctx = {};
   });

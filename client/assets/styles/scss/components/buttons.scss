@@ -259,21 +259,18 @@
 }
 
 .blue {
-  color: $blue-dark;
+  color: $gray-light;
 
   &.btn {
 
     &:hover,
     &.hover {
-      background: rgba($blue,.1);
-      border-color: rgba($blue,.2);
+      color: $blue;
     }
 
     &:active,
     &.active {
-      background: rgba($blue,.2);
-      border-color: rgba($blue,.4);
-      transition: none;
+      color: $blue-dark;
     }
   }
 }

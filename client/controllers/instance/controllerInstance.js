@@ -86,7 +86,7 @@ function ControllerInstance(
     })
     .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
       errs.handler(err);
-      setLastInstance(null);
+      setLastInstance(false);
       $state.go('instance.home', {
         userName: $stateParams.userName
       });

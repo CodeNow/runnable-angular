@@ -126,6 +126,8 @@
 // card layout
 // header
 .card-header {
+  display: flex;
+  flex-direction: column;
   margin: 0 15px 6px;
 
   // proxy url
@@ -152,8 +154,8 @@
     }
 
     + .btn-text {
-      color: $gray-light;
       flex: 0 0 auto;
+      opacity: .5;
       padding-left: 3px; // replaces a standard space (flexbox doesn't include it in the calculation)
     }
   }

@@ -33,20 +33,18 @@
 // iconnables
 .iconnables {
   display: inline-block;
+  fill: currentColor;
   height: 24px;
   margin: 0;
   pointer-events: none;
   position: relative;
+  stroke: none;
   transition: transform .15s;
   width: 24px;
 
   &.iconnables-lg {
     height: 30px;
     width: 30px;
-  }
-
-  &.iconnables-experimental {
-
   }
 
   &.filetypes {

@@ -12,8 +12,8 @@
     background-position: calc(50% - 52px) 2px;
     color: $gray;
     line-height: 30px;
-    margin-bottom: 12px;
     padding-left: calc(50% - 42px);
+    width: 100%;
 
     &:focus,
     &:valid {
@@ -36,13 +36,13 @@
     margin: 3px 0 0;
     padding: 6px 15px;
 
-    &:hover,
-    &.active {
+    &:hover {
       background: $white;
       border-color: $gray-lighter;
     }
 
-    &:active {
+    &:active,
+    &.active {
       background: $white;
       border-color: currentColor;
       color: $green;
@@ -89,6 +89,6 @@
   .spinner-wrapper {
     position: absolute;
     right: 15px;
-    top: 20px;
+    top: 12px;
   }
 }

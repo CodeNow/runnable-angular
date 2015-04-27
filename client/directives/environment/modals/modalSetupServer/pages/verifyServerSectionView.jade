@@ -1,5 +1,5 @@
 header.modal-header
-  h1.modal-heading New Server: {{ state.repo.attrs.name }}
+  h1.modal-heading New Container: {{ state.repo.attrs.name }}
 
 section.modal-body
   .modal-form(
@@ -21,7 +21,7 @@ footer.modal-footer.clearfix
   button.btn.green(
     ng-disabled = "verifyServerForm.$invalid"
     ng-click = "actions.addNewServer(state)"
-  ) Create Server
+  ) Create Container
   button.btn.white.btn-cancel(
     ng-click = "defaultActions.cancel()"
     type = "button"

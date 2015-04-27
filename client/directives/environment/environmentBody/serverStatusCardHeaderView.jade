@@ -1,4 +1,4 @@
-button(
+div(
   pop-over
   pop-over-actions = "actions"
   pop-over-data = "popoverServerData"
@@ -14,7 +14,7 @@ button(
   ) {{ (server.opts.name || server.instance.attrs.name) }}
   span.btn-text(
     ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-  ) — {{ server.instance | cardBuildStatusText}}
+  ) {{ server.instance | cardBuildStatusText:true}}
   svg.iconnables.icons-gear
     use(
       xlink:href = "#icons-gear"
