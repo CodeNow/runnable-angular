@@ -24,7 +24,7 @@
     | Configure
 ul.server-category-list
   li.server-category-list-item(
-    ng-repeat = "pod in data.instancesByPod"
+    ng-repeat = "masterInstance in data.instancesByPod.models"
   )
     ul.server-list
       li.server-list-item
@@ -35,11 +35,13 @@ ul.server-category-list
         span.server-category-name.text-overflow(
           ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
                      instanceName: pod.master.attrs.name })"
-          ) {{ pod.master.attrs.name }}
-          span.branch-name /master
+          ) {{ masterInstance.attrs.name }}
+          span.branch-name(
+            ng-if = "masterInstance.getBranchName()"
+          ) /{{ masterInstance.getBranchName() }}
         .icons-status.running
       li.server-list-item(
-        ng-repeat = "branchFork in pod.children"
+        ng-repeat = "branchFork in masterInstance.children.models"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
                      instanceName: branchFork.attrs.name })"
       )
