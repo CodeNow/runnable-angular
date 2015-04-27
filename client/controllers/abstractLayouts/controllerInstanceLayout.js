@@ -12,13 +12,14 @@ function ControllerInstanceLayout(
   keypather,
   $scope,
   $state,
+  errs,
   pFetchUser,
   fetchInstancesByPod
 ) {
   fetchInstancesByPod()
   .then(function (instancesByPod) {
     $scope.dataApp.data.instancesByPod = instancesByPod;
-  });
+  }).catch(errs.handler);
 
   var currentUser;
   pFetchUser().then(function(user) {
