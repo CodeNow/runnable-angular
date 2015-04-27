@@ -1,5 +1,5 @@
 header.modal-header
-  h1.modal-heading New Server from Repository
+  h1.modal-heading New Container from Repository
 
 section.modal-body.clearfix
 
@@ -41,7 +41,7 @@ section.modal-body.clearfix
         }"
         ng-disabled = "repoSelected"
         ng-if = "!repo.loading"
-      ) {{ repo.isAdded ? 'Already Added' : 'Add Server' }}
+      ) {{ repo.isAdded ? 'Already Added' : 'Add Container' }}
       .spinner-wrapper.spinner-md.spinner-green.in(
         ng-if = "repo.loading"
         ng-include = "'spinner'"

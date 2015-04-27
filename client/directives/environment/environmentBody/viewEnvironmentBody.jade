@@ -73,7 +73,7 @@
         use(
           xlink:href = "#icons-stack"
         )
-      h3.h3 Stack
+      h3.h3 Stack Type
       p.p.text-overflow {{ actions.getFlattenedSelectedStacks(server.selectedStack) }}
       svg.iconnables.icons-arrow-down
         use(
@@ -92,7 +92,7 @@
         use(
           xlink:href = "#icons-start-cmd"
         )
-      h3.h3 Start Command
+      h3.h3 Build Command
       p.p.text-overflow {{ server.startCommand }}
       svg.iconnables.icons-arrow-down
         use(
@@ -111,7 +111,7 @@
         use(
           xlink:href = "#icons-ports"
         )
-      h3.h3 Ports
+      h3.h3 Exposed Ports
       p.p.text-overflow {{ server.ports.join(' ') || 'None'}}
       svg.iconnables.icons-arrow-down
         use(

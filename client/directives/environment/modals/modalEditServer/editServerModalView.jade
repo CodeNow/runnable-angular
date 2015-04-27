@@ -25,7 +25,7 @@ form.modal-dialog.modal-edit-server(
           use(
             xlink:href = "#icons-stack"
           )
-        span.btn-text Stack
+        span.btn-text Stack Type
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'command'}"
         ng-click = "changeTab('command')"
@@ -35,7 +35,7 @@ form.modal-dialog.modal-edit-server(
           use(
             xlink:href = "#icons-start-cmd"
           )
-        span.btn-text Start Command
+        span.btn-text Build Command
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
@@ -45,7 +45,7 @@ form.modal-dialog.modal-edit-server(
           use(
             xlink:href = "#icons-ports"
           )
-        span.btn-text Ports
+        span.btn-text Exposed Ports
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'repositories'}"
         ng-click = "changeTab('repositories')"
@@ -74,7 +74,7 @@ form.modal-dialog.modal-edit-server(
           use(
             xlink:href = "#icons-ports"
           )
-        span.btn-text Replace
+        span.btn-text Translation Rules
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
