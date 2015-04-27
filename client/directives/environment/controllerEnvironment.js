@@ -231,6 +231,7 @@ function ControllerEnvironment(
     serverObj.opts = {
       env: instance.attrs.env
     };
+    serverObj.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
     parseDockerfileForStackFromInstance(instance, $scope.data.stacks)
       .then(function (stackObject) {
         serverObj.selectedStack = stackObject;

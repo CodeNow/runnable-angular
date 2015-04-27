@@ -10,6 +10,7 @@ function editServerModal(
   JSTagsCollection,
   hasKeypaths,
   getInstanceClasses,
+  findLinkedServerVariables,
   keypather,
   OpenItems,
   pFetchUser,
@@ -42,6 +43,13 @@ function editServerModal(
         tags: new JSTagsCollection($scope.server.ports || [])
       };
       $scope.getInstanceClasses = getInstanceClasses;
+
+      $scope.linkedEnvResults = findLinkedServerVariables($scope.server.opts.env);
+      $scope.$watchCollection('state.opts.env', function (n) {
+        if (n) {
+          $scope.linkedEnvResults = findLinkedServerVariables(n);
+        }
+      });
 
       $scope.openItems = new OpenItems();
       function convertTagToPortList() {
@@ -92,6 +100,7 @@ function editServerModal(
           this.server.startCommand = this.startCommand;
           this.server.build = this.build;
           this.server.contextVersion = this.contextVersion;
+          this.server.advanced = this.advanced;
           return this.server;
         }
       };
