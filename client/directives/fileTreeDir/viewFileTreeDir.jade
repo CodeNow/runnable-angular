@@ -37,6 +37,8 @@ li.folder(
   )
     li.file.no-touching(
       ng-repeat = "acv in fileModel.appCodeVersions.models"
+      tooltip = "Your repository lives here"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
     )
       a
         svg.iconnables.filetypes.icons-repository
