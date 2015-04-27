@@ -109,8 +109,8 @@ function logTerm(
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
           // Blur so that the cursor disappears
-          terminal.blur();
-          $timeout(angular.noop);
+          //terminal.blur();
+          $timeout(terminal.blur);
         }
       }
       function writeToTerm(output) {

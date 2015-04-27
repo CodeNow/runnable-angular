@@ -92,6 +92,7 @@ function editServerModal(
           this.server.startCommand = this.startCommand;
           this.server.build = this.build;
           this.server.contextVersion = this.contextVersion;
+          this.server.advanced = this.advanced;
           return this.server;
         }
       };
