@@ -23,8 +23,7 @@ function accountsSelect (
     restrict: 'AE',
     templateUrl: 'viewAccountsSelect',
     scope: {
-      data: '=',
-      isMainPage: '='
+      data: '='
     },
     link: function ($scope) {
 
@@ -51,7 +50,6 @@ function accountsSelect (
 
       keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
       keypather.set($scope, 'popoverAccountMenu.data.logoutURL', configLogoutURL());
-      keypather.set($scope, 'popoverAccountMenu.data.isMainPage', $scope.isMainPage);
 
       if (configEnvironment !== 'production') {
         keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
@@ -61,8 +59,6 @@ function accountsSelect (
         keypather.set($scope, 'popoverAccountMenu.data.activeAccount', account);
         keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
         keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
-
-        if (!$scope.isMainPage) { return; }
 
         // Integrations modal
         if ($scope.data.user.oauthName() === $state.params.userName) {
@@ -76,12 +72,10 @@ function accountsSelect (
         $scope.$broadcast('close-popovers');
         var username = userOrOrg.oauthName();
         $scope.data.activeAccount = userOrOrg;
-        if ($scope.isMainPage) {
-          $scope.$emit('INSTANCE_LIST_FETCH', username);
-          $state.go('^.home', {
-            userName: username
-          });
-        }
+        $scope.$emit('INSTANCE_LIST_FETCH', username);
+        $state.go('^.home', {
+          userName: username
+        });
       };
     }
   };
