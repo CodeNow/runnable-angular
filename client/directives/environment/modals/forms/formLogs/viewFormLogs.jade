@@ -2,12 +2,12 @@
   ng-init = "page = 'build'"
 )
   button.btn.btn-xs.white(
-    ng-click = "page = 'build'"
     ng-class = "{active: page === 'build'}"
+    ng-click = "page = 'build'"
   ) Build Logs
   button.btn.btn-xs.white(
-    ng-click = "page = 'run'"
     ng-class = "{active: page === 'run'}"
+    ng-click = "page = 'run'"
   ) Run Logs
 
 //- copying active panel markup
@@ -22,5 +22,3 @@ pre.pre.active-panel.ace-runnable-dark
     ng-controller = "BoxLogController"
     ng-show = "page === 'run'"
   )
-
-small.small 👼👼👼

@@ -1,9 +1,13 @@
 .modal-edit-server {
-  max-width: 720px;
+  max-width: 900px;
   width: 100%;
 
-  @include media(xxl) {
-    max-width: 900px;
+  @include media(md) {
+    max-width: 810px;
+  }
+
+  @include media(sm) {
+    max-width: 720px;
   }
 
   // nav
@@ -106,8 +110,10 @@
   .ace-container {
     border: 2px solid $gray-lighter;
     display: flex;
+    min-height: 210px;
 
     &.ace-runnable-dark {
+      background: $purple-darker;
       border-color: $purple-darker;
     }
 
@@ -131,7 +137,6 @@
 .ace-environment-variables {
   border-bottom: 0;
   border-radius: 3px 3px 0 0;
-  height: 210px;
 }
 
 // build files
@@ -169,5 +174,26 @@
 
   .file-tree {
     margin: 3px;
+  }
+}
+
+// logs
+.modal-logs {
+
+  .active-panel {
+
+    @media (max-height: 800px) {
+      max-height: 350px;
+    }
+
+    @media (max-height: 700px) {
+      max-height: 250px;
+      min-height: 0;
+    }
+
+    @media (max-height: 600px) {
+      max-height: 175px;
+      min-height: 0;
+    }
   }
 }
