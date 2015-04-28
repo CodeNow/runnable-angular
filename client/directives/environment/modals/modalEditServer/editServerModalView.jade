@@ -12,11 +12,11 @@ form.modal-dialog.modal-edit-server(
         ng-click = "changeTab('buildfiles')"
         ng-if = "state.advanced"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-advanced"
           )
-        span.btn-text Advanced config
+        span.btn-text Advanced Configuration
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'stack'}"
         ng-click = "changeTab('stack')"
