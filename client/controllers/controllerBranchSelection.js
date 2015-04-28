@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .controller('ControllerNaviSelection', controllerNaviSelection);
+  .controller('ControllerBranchSelection', controllerBranchSelection);
 
-function controllerNaviSelection (
+function controllerBranchSelection (
   $scope,
   $state,
   $window,

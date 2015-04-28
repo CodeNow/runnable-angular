@@ -43,11 +43,11 @@ module.exports = [
       anon: true
     }
   }, {
-    state: 'naviSelection',
+    state: 'branchSelection',
     abstract: false,
-    url: '^/:userName/naviSelection/:hostname',
-    templateUrl: 'viewNaviSelection',
-    controller: 'ControllerNaviSelection',
+    url: '^/:userName/branchSelection/:hostname',
+    templateUrl: 'viewBranchSelection',
+    controller: 'ControllerBranchSelection',
     data: {
       bodyClass: {
         'vertical': true
