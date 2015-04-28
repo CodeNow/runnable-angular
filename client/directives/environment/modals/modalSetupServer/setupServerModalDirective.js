@@ -6,12 +6,15 @@ require('app')
  * @ngInject
  */
 function setupServerModal(
+  createDockerfileFromSource,
   createNewBuild,
   $rootScope,
   errs,
   fetchOwnerRepos,
   fetchStackAnalysis,
   hasKeypaths,
+  keypather,
+  populateDockerfile,
   promisify,
   $log
 ) {
@@ -42,9 +45,32 @@ function setupServerModal(
 
       $scope.isRepoAdded = function (repo) {
         // Since the newServers may have faked repos (just containing names), just check the name
-        return !!$scope.data.newServers.find(hasKeypaths({'repo.attrs.name': repo.attrs.name}));
+        return !!$scope.data.instances.find(hasKeypaths({'contextVersion.appCodeVersions.models[0].githubRepo.attrs.name': repo.attrs.name}));
       };
 
+      $scope.createServer = function () {
+        if (keypather.get($scope.state, 'selectedStack.ports.length')) {
+          $scope.state.ports = $scope.state.selectedStack.ports.replace(/ /g, '').split(',');
+        }
+        $scope.actions.createAndBuild(
+          createDockerfileFromSource(
+            $scope.state.contextVersion,
+            $scope.state.selectedStack.key,
+            $scope.data.sourceContexts
+          )
+            .then(function (dockerfile) {
+              $scope.state.dockerfile = dockerfile;
+              return populateDockerfile(
+                dockerfile,
+                $scope.state
+              );
+            })
+            .then(function () {
+              return $scope.state;
+            }),
+          $scope.state.opts.name
+        );
+      };
 
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
