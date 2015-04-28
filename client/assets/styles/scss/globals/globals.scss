@@ -13,6 +13,7 @@ body {
   min-height: 100vh;
   min-width: 360px;
   overflow-x: hidden;
+  text-rendering: optimizeLegibility; // kerning magic
 
   &.modal-open {
     overflow: hidden;
