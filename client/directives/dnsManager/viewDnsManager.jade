@@ -46,7 +46,8 @@ fancy-select.well(
 //- non-repository containers that are linked directly
 
 .well.non-repo(
-ng-repeat = "masterInstance in masterInstancesWithoutChildren"
+  ng-repeat = "masterInstance in masterInstancesWithoutChildren"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
   .icons-status(
     ng-class = "getInstanceClasses(masterInstance)"
