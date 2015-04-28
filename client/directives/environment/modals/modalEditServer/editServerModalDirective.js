@@ -44,8 +44,9 @@ function editServerModal(
           maxInputLength: 5,
           onlyDigits: true
         },
-        tags: new JSTagsCollection($scope.server.ports.split(' ') || [])
+        tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
+
       $scope.getInstanceClasses = getInstanceClasses;
 
       $scope.linkedEnvResults = findLinkedServerVariables($scope.server.opts.env);
@@ -91,10 +92,14 @@ function editServerModal(
 
         return updatePromise()
           .then(function (state) {
-            if (state.server.startCommand !== state.startCommand ||
+            if (!state.advanced &&
+                (state.server.startCommand !== state.startCommand ||
                 state.server.ports !== state.ports ||
-                !angular.equals(state.server.selectedStack, state.selectedStack)) {
+                !angular.equals(state.server.selectedStack, state.selectedStack))) {
               return updateDockerfile(state);
+            }
+            if (state.advanced !== $scope.server.advanced) {
+              return buildBuild(state);
             }
             return state;
           })
@@ -115,6 +120,15 @@ function editServerModal(
           });
       };
 
+      function buildBuild(state) {
+        eventTracking.triggeredBuild(false);
+        return promisify(state.build, 'build')({ message: 'manual' })
+          .then(function (build) {
+            state.opts.build = build.id();
+            return state;
+          });
+      }
+
       function updateDockerfile(state) {
         return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
           .then(function (newDockerfile) {
@@ -132,18 +146,9 @@ function editServerModal(
             );
           })
           .then(function () {
-            eventTracking.triggeredBuild(false);
-            return promisify(state.build, 'build')(
-              {
-                message: 'manual'
-              }
-            );
-          })
-          .then(function (build) {
-            $scope.instance.serverModel = $scope.state;
-            $scope.state.opts.build = build.id();
             return $scope.state;
-          });
+          })
+          .then(buildBuild);
       }
       if ($scope.server.repo) {
         $scope.branches = $scope.server.repo.branches;
@@ -189,7 +194,7 @@ function editServerModal(
       });
 
       $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
-        if (advanced !== previousAdvanced) {
+        if (advanced !== $scope.server.advanced) {
           $rootScope.$broadcast('close-popovers');
           $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
           return promisify($scope.state.contextVersion, 'update')({
@@ -197,7 +202,7 @@ function editServerModal(
           })
             .catch(function (err) {
               errs.handler(err);
-              $scope.state.advanced = !advanced;
+              $scope.state.advanced = $scope.server.advanced;
             });
         }
       });
