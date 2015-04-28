@@ -112,7 +112,7 @@ function popOver(
             var style = {};
             keys.forEach(function (key) {
               var keyOption = keypather.get($scope, 'popoverOptions.'+key);
-              style[key] = (keyOption === null) ? 'auto' : newOffset[key] + keyOption + 'px';
+              style[key] = (keyOption === undefined) ? 'auto' : newOffset[key] + keyOption + 'px';
             });
             return style;
           }
