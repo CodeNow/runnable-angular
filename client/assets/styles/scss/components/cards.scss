@@ -168,15 +168,15 @@
 
   // gear
   .icons-gear {
+    flex: 0 0 18px;
     height: 100%;
     margin-left: 15px;
-    width: 18px;
   }
 
   // arrow down
   .icons-arrow-down {
+    flex: 0 0 15px;
     margin: 0 0 0 -2px;
-    width: 15px;
   }
 }
 
@@ -241,10 +241,8 @@
       margin-top: -2px;
     }
 
-    //- fix dis
     > .iconnables:first-child {
       float: left;
-      height: 24px;
       margin-right: 6px;
       width: 18px;
     }
