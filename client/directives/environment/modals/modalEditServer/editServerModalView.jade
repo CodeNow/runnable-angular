@@ -1,5 +1,6 @@
 form.modal-dialog.modal-edit-server(
   name = 'editServerForm'
+  ng-class = "{disabled: building}"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
@@ -11,11 +12,11 @@ form.modal-dialog.modal-edit-server(
         ng-click = "changeTab('buildfiles')"
         ng-if = "state.advanced"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-advanced"
           )
-        span.btn-text Advanced config
+        span.btn-text Advanced Configuration
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'stack'}"
         ng-click = "changeTab('stack')"
@@ -131,10 +132,22 @@ form.modal-dialog.modal-edit-server(
 
   footer.modal-footer.clearfix
     //- disabled if no changes
-    button.btn.green(
-      type = "submit"
+    button.btn.green.btn-spinner(
+      ng-class = "{in: building}"
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
-    )  {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+      type = "submit"
+    )
+      //- spinner
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "building"
+        ng-include = "'spinner'"
+      )
+      span.btn-text(
+        ng-if = "!building"
+      ) {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+      span.btn-text(
+        ng-if = "building"
+      ) Saving
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"
       type = "button"

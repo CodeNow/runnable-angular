@@ -10,6 +10,18 @@
     max-width: 720px;
   }
 
+  // css override for server building state
+  &.disabled {
+    cursor: not-allowed !important;
+
+    .btn,
+    .input,
+    .ace-container {
+      @extend %no-touching;
+      opacity: .6 !important;
+    }
+  }
+
   // nav
   // header button
   .btn-title {
