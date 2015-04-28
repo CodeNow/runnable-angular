@@ -27,21 +27,24 @@ ul.server-category-list
     ng-repeat = "masterInstance in data.instancesByPod.models"
   )
     ul.server-list
-      li.server-list-item
+      li.server-list-item(
+        ng-class = "{selected: isSelected(masterInstance)}"
+        ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
+                     instanceName: masterInstance.attrs.name })"
+      )
         svg.iconnables.icons-repository
             use(
               xlink:href = "#icons-repository"
             )
-        span.server-category-name.text-overflow(
-          ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                     instanceName: masterInstance.attrs.name })"
-          ) {{ masterInstance.attrs.name }}
+        span.server-category-name.text-overflow
+          | {{ masterInstance.attrs.name }}
           span.branch-name(
             ng-if = "masterInstance.getBranchName()"
           ) /{{ masterInstance.getBranchName() }}
         .icons-status.running
       li.server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models"
+        ng-class = "{selected: isSelected(branchFork)}"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
                      instanceName: branchFork.attrs.name })"
       )
