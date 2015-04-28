@@ -120,6 +120,10 @@
     .ace_editor {
       flex: 1 1 auto;
     }
+
+    .spinner-wrapper {
+      position: absolute;
+    }
   }
 
   .active-panel {
@@ -142,6 +146,7 @@
 // build files
 .ace-build-files {
   background: $white;
+  border-radius: 3px;
 
   .ace_editor {
     height: 210px;
