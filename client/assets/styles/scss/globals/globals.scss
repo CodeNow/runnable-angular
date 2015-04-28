@@ -38,6 +38,7 @@ body {
 
 // if .disabled communicates to the user that an element is not available to them,
 // .no-touching 'disables' an element and DOES NOT communicate
-.no-touching {
+.no-touching,
+%no-touching {
   pointer-events: none !important;
 }

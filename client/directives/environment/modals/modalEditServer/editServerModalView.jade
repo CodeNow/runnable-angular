@@ -136,8 +136,8 @@ form.modal-dialog.modal-edit-server(
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
     )
       //- spinner
-        ng-if = ""
       .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "false"
         ng-include = "'spinner'"
       )
       | {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}

@@ -10,6 +10,15 @@
     max-width: 720px;
   }
 
+  &.disabled {
+
+    .btn,
+    .input {
+      @extend %no-touching;
+      opacity: .6 !important;
+    }
+  }
+
   // nav
   // header button
   .btn-title {
