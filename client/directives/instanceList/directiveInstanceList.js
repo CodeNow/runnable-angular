@@ -42,6 +42,10 @@ function instanceList(
         });
       };
 
+      $scope.isSelected = function (instance) {
+        return instance.attrs.name === $state.params.instanceName;
+      };
+
       $scope.getInstanceClasses = getInstanceClasses;
       $scope.getInstanceAltTitle = getInstanceAltTitle;
       $scope.getTeamMemberClasses = getTeamMemberClasses;

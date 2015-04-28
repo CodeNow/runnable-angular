@@ -13,7 +13,8 @@ function popOver(
   $compile,
   $timeout,
   keypather,
-  $log
+  $log,
+  exists
 ) {
   return {
     restrict: 'A',
@@ -65,10 +66,10 @@ function popOver(
       function openPopover(options) {
         $scope.popoverOptions = $scope.popoverOptions || {};
 
-        if (!$scope.popoverOptions.top && !$scope.popoverOptions.bottom) {
+        if (!exists($scope.popoverOptions.top) && !exists($scope.popoverOptions.bottom)) {
           $scope.popoverOptions.top = 0;
         }
-        if (!$scope.popoverOptions.left && !$scope.popoverOptions.right) {
+        if (!exists($scope.popoverOptions.left) && !exists($scope.popoverOptions.right)) {
           $scope.popoverOptions.left = 0;
         }
 
@@ -100,19 +101,20 @@ function popOver(
               offset = element[0].getBoundingClientRect();
             }
 
-            var scrollTop = $document.find('body')[0].scrollTop;
+            var scrollTop = $document.find('html')[0].scrollTop;
+            var width = $document.find('html')[0].clientWidth;
             var newOffset = {
               top: scrollTop + offset.top,
               left: offset.left,
               bottom: scrollTop + offset.bottom,
-              right: offset.right
+              right: width - offset.right
             };
 
             var keys = ['top', 'left', 'bottom', 'right'];
             var style = {};
             keys.forEach(function (key) {
               var keyOption = keypather.get($scope, 'popoverOptions.'+key);
-              style[key] = (keyOption === null) ? 'auto' : newOffset[key] + keyOption + 'px';
+              style[key] = !exists(keyOption) ? 'auto' : newOffset[key] + keyOption + 'px';
             });
             return style;
           }
