@@ -57,6 +57,7 @@ function editServerModal(
       });
 
       $scope.openItems = new OpenItems();
+
       function convertTagToPortList() {
         return Object.keys($scope.portTagOptions.tags.tags).map(function (key) {
           return $scope.portTagOptions.tags.tags[key].value;
@@ -81,6 +82,26 @@ function editServerModal(
         server: $scope.server
       };
 
+      $scope.changeTab = function (tabname) {
+        if (!$scope.editServerForm.$invalid) {
+          $scope.selectedTab = tabname;
+        }
+      };
+
+      $scope.insertHostName = function (opts) {
+        var hostName = '';
+        if (opts.protocol) {
+          hostName += opts.protocol;
+        }
+        if (opts.server) {
+          hostName += opts.server.getMasterHost();
+        }
+        if (opts.port) {
+          hostName += ':' + opts.port;
+        }
+        $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
+      };
+
       $scope.getUpdatePromise = function () {
         function updatePromise() {
           var deferer = $q.defer();
@@ -92,14 +113,12 @@ function editServerModal(
 
         return updatePromise()
           .then(function (state) {
-            if (!state.advanced &&
-                (state.server.startCommand !== state.startCommand ||
-                state.server.ports !== state.ports ||
-                !angular.equals(state.server.selectedStack, state.selectedStack))) {
-              return updateDockerfile(state);
-            }
-            if (state.advanced !== $scope.server.advanced) {
+            if (state.advanced) {
               return buildBuild(state);
+            } else if (state.server.startCommand !== state.startCommand ||
+                state.server.ports !== state.ports ||
+                !angular.equals(state.server.selectedStack, state.selectedStack)) {
+              return updateDockerfile(state);
             }
             return state;
           })
@@ -159,12 +178,31 @@ function editServerModal(
           )}));
       }
 
+      function openDockerfile() {
+        var rootDir = keypather.get($scope.state, 'contextVersion.rootDir');
+        if (!rootDir) {
+          return $q.reject(new Error('rootDir not found'));
+        }
+        return promisify(rootDir.contents, 'fetch')()
+          .then(function () {
+            var file = rootDir.contents.models.find(function (file) {
+              return (file.attrs.name === 'Dockerfile');
+            });
+            if (file) {
+              $scope.openItems.add(file);
+            }
+          });
+      }
+
       promisify($scope.server.contextVersion, 'deepCopy')()
         .then(function (contextVersion) {
           $scope.state.contextVersion = contextVersion;
           return promisify(contextVersion, 'fetch')();
         })
         .then(function (contextVersion) {
+          if (contextVersion.attrs.advanced) {
+            openDockerfile();
+          }
           if (contextVersion.appCodeVersions.models.length) {
             $scope.acv = contextVersion.appCodeVersions.models[0];
           }
@@ -182,50 +220,49 @@ function editServerModal(
           $scope.state.build = build;
         });
 
+      // Only start watching this after the context version has
+      $scope.$watch('state.advanced', function (advanced, p) {
+        // This is so we don't fire the first time with no changes
+        if (advanced !== p) {
+          waitForStateContextVersion($scope, function () {
+            $rootScope.$broadcast('close-popovers');
+            $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
+            if (advanced) {
+              openDockerfile();
+            }
+            return promisify($scope.state.contextVersion, 'update')({
+              advanced: advanced
+            })
+              .catch(function (err) {
+                errs.handler(err);
+                $scope.state.advanced = $scope.server.advanced;
+              });
+          });
+        }
+      });
+
       $scope.$watch('state.branch', function (newBranch, oldBranch) {
         if (newBranch && oldBranch && newBranch.attrs.name !== oldBranch.attrs.name) {
-          promisify($scope.acv, 'update')({
-            repo: $scope.server.repo.attrs.full_name,
-            branch: newBranch.attrs.name,
-            commit: newBranch.attrs.commit.sha
-          })
-            .catch(errs.handler);
+          waitForStateContextVersion($scope, function () {
+            promisify($scope.acv, 'update')({
+              repo: $scope.server.repo.attrs.full_name,
+              branch: newBranch.attrs.name,
+              commit: newBranch.attrs.commit.sha
+            })
+              .catch(errs.handler);
+          });
         }
       });
 
-      $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
-        if (advanced !== $scope.server.advanced) {
-          $rootScope.$broadcast('close-popovers');
-          $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
-          return promisify($scope.state.contextVersion, 'update')({
-            advanced: advanced
-          })
-            .catch(function (err) {
-              errs.handler(err);
-              $scope.state.advanced = $scope.server.advanced;
-            });
-        }
-      });
-
-      $scope.changeTab = function (tabname) {
-        if (!$scope.editServerForm.$invalid) {
-          $scope.selectedTab = tabname;
-        }
-      };
-
-      $scope.insertHostName = function (opts) {
-        var hostName = '';
-        if (opts.protocol) {
-          hostName += opts.protocol;
-        }
-        if (opts.server) {
-          hostName += opts.server.getMasterHost();
-        }
-        if (opts.port) {
-          hostName += ':' + opts.port;
-        }
-        $rootScope.$broadcast('eventPasteLinkedInstance', hostName);
-      };
     }
   };
+}
+
+function waitForStateContextVersion($scope, cb) {
+  var unWatch = $scope.$watch('state.contextVersion', function (n) {
+    if (n) {
+      unWatch();
+      cb();
+    }
+  });
 }
