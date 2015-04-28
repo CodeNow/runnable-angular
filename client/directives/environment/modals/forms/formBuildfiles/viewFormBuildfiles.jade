@@ -3,16 +3,16 @@
 
 //- table of current environment variables
 .ace-container.ace-build-files
-  section.sidebar
-    section.row.explorer(
-      explorer
-      file-model = "state.contextVersion"
-      open-items = "openItems"
-      root-dir = "state.contextVersion.rootDir"
-      show-repo-folder = "true"
-      explorer-title = "Build Files"
-      edit-explorer = "true"
-    )
+  .sidebar(
+    edit-explorer = "true"
+    explorer
+    explorer-title = "Build Files"
+    file-model = "state.contextVersion"
+    open-items = "openItems"
+    root-dir = "state.contextVersion.rootDir"
+    show-repo-folder = "true"
+  )
+
   //- active panel
   div(
     ng-class = "colorScheme.getSchemeStyle()"

@@ -157,13 +157,11 @@
 
   .sidebar-actions {
     background: $gray-lighter;
-    bottom: 0;
     height: 30px;
-    padding: 4px 3px;
-    position: absolute;
-    width: 100%;
+    padding: 2px;
 
     .btn-xs {
+      float: right;
       padding: 0;
     }
 
