@@ -101,7 +101,7 @@ function popOver(
               offset = element[0].getBoundingClientRect();
             }
 
-            var scrollTop = $document.find('html')[0].scrollTop;
+            var scrollTop = $document.find('body')[0].scrollTop;
             var width = $document.find('html')[0].clientWidth;
             var newOffset = {
               top: scrollTop + offset.top,
