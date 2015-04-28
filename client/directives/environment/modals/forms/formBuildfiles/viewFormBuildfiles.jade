@@ -14,7 +14,7 @@
   )
 
   //- active panel
-  div(
+  .ace_editor(
     ng-class = "colorScheme.getSchemeStyle()"
     ng-repeat = "item in openItems.models"
     ng-show = "item === openItems.activeHistory.last()"
@@ -23,9 +23,9 @@
     div(
       file = "item"
       file-editor
+      loading = "loading"
       ng-if = "item.state.type === 'File'"
       use-auto-update = "useAutoUpdate"
-      loading = "loading"
     )
 
 small.small 😌🐻✌️ #{''}
