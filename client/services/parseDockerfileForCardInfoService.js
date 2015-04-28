@@ -87,6 +87,7 @@ function parseDockerfileForCardInfoFromInstance(
       .then(function (stack) {
         server.selectedStack = stack;
         return server;
-      });
+      })
+      .catch(angular.noop);
   };
 }

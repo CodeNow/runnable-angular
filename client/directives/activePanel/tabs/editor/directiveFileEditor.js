@@ -85,7 +85,7 @@ function fileEditor(
           errs.handler
         );
       }
-      var updateFileDebounce = debounce(updateFile, 200);
+      var updateFileDebounce = debounce(updateFile, 1000);
 
       var fileUnwatch = $scope.$watch('file', function (n) {
         if (n) {
