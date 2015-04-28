@@ -26,7 +26,9 @@ window.fixtures = {
   mockFetchOwnerRepos: require('./fixtures/mockFetchOwnerRepos')
   //mockFetch: require('./fixtures/mockFetch')
 };
-window.runnable = new (require('runnable'))(window.host);
+window.runnable = new (require('runnable'))(window.host, {
+  socket: true
+});
 window.noop = function () {};
 window.helpers = {
   click: function (el, augmentCb){
