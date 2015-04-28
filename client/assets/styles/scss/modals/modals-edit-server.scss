@@ -158,6 +158,11 @@
     height: auto;
     padding: 0;
     width: 180px;
+
+    .tree-input {
+      background: transparent;
+      max-width: 133px;
+    }
   }
 
   .sidebar-actions {
