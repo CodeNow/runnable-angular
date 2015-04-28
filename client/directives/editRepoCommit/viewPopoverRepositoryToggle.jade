@@ -11,32 +11,7 @@
 )
   .popover-content
     .popover-content-header
-      .btn.gray.btn-xs.btn-select.text-overflow
-        svg.iconnables.icons-branch
-          use(
-            xlink:href = "#icons-branch"
-          )
-        | {{ data.activeBranch.attrs.name }}
-        svg.iconnables.icons-arrow-down
-          use(
-            xlink:href = "#icons-arrow-down"
-          )
-        select.select(
-          name = "data.activeBranch"
-          ng-change = "actions.selectBranch(data.activeBranch)"
-          ng-model = "data.activeBranch"
-          ng-options = "branch.attrs.name group by 'Select a branch' for branch in data.acv.githubRepo.branches.models"
-        )
-      //- delete available only in the edit modal
-      .btn.gray.btn-xs(
-        ng-if = "data.showDeleteButton"
-        ng-click = "actions.deleteRepo()"
-      )
-        svg.iconnables.icons-trash
-          use(
-            xlink:href = "#icons-trash"
-          )
-      //- spinner while commits are loading
+    //- spinner while commits are loading
     .spinner-wrapper.spinner-md.in(
       ng-if = "!data.activeBranch.commits.models.length"
       ng-include = "'spinner'"

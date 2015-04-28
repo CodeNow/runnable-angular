@@ -12,20 +12,11 @@ function serverStatusCardHeader(
     replace: true,
     templateUrl: 'serverStatusCardHeaderView',
     link: function ($scope, elem, attrs) {
-      var unwatch = $scope.$watch('server', function (n) {
-        if (n) {
-          unwatch();
-          $scope.popoverServerData.server = n;
-        }
-      });
-      $scope.popoverServerData = {
+      $scope.popOverServerData = {
         server: $scope.server,
         parentData: $scope.data,
         parentState: $scope.state
       };
-      if (attrs.popoverTemplate) {
-        $scope.popoverTemplate = attrs.popoverTemplate;
-      }
     }
   };
 }

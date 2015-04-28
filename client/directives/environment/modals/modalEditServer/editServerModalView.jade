@@ -4,7 +4,8 @@ form.modal-dialog.modal-edit-server(
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
-      popover-template = "serverOptionsModalPopover"
+      pop-over-template = "serverOptionsModalPopover"
+      pop-over-options = "{\"right\":0,\"top\":36}"
     )
     .row.modal-tabs
       button.btn.btn-radio(
@@ -36,7 +37,7 @@ form.modal-dialog.modal-edit-server(
           use(
             xlink:href = "#icons-start-cmd"
           )
-        span.btn-text Build Command
+        span.btn-text Container Command
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
