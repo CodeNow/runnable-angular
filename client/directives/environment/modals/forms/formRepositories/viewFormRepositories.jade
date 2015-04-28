@@ -4,16 +4,16 @@
   .input-col
     fancy-select(
       ng-required = "true"
-      value = "master"
+      value = "state.branch"
     )
       li.list-item.popover-list-item.small Select branch
       fancy-option(
-        ng-repeat = ""
-        value = "master"
+        ng-repeat = "branch in $parent.branches.models"
+        value = "branch"
       )
         svg.iconnables.icons-branch
           use(
             xlink:href = "#icons-branch"
           )
-        | master
+        | {{ $parent.branch.attrs.name }}
     small.small Set the default branch for runnable-web. 💰💰💰

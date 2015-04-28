@@ -75,7 +75,7 @@
     "qs": "^2.2.4",
     "grunt-timer": "^0.6.0",
     "regexp-quote": "0.0.0",
-    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#v1.0.0",
+    "runnable": "git+ssh://git@github.com:CodeNow/runnable-api-client#primus",
     "term.js": "git://github.com/Runnable/term.js.git#f0376add1c2e79a556834d724022ceb585b5eade",
     "through": "^2.3.6",
     "validate-dockerfile": "1.5.x"
@@ -86,6 +86,7 @@
     "chai": "~2.1.1",
     "colors": "~1.0.3",
     "coverify": "~1.0.7",
+    "es5-shim": "^4.1.1",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-githooks": "~0.3.1",
     "grunt-istanbul": "^0.4.0",

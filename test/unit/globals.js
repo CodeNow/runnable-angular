@@ -1,5 +1,6 @@
 'use strict';
 
+require('es5-shim');
 // Variables we want everywhere
 
 // These already modify global variables

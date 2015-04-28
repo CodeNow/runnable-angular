@@ -23,11 +23,16 @@ function popOver(
       noBroadcast: '=? popOverNoBroadcast',
       actions: '=? popOverActions',
       active: '=? popOverActive',
-      template: '@ popOverTemplate'
+      template: '= popOverTemplate'
     },
     link: function ($scope, element, attrs) {
       if (!$scope.template) {
-        return $log.error('Pop over needs a template');
+        // Check if the string is set by checking the attrs
+        if (attrs.popOverTemplate) {
+          $scope.template = attrs.popOverTemplate;
+        } else {
+          return $log.error('Pop over needs a template');
+        }
       }
       var unbindDocumentClick = angular.noop;
       var unbindPopoverOpened = angular.noop;
@@ -95,16 +100,31 @@ function popOver(
               offset = element[0].getBoundingClientRect();
             }
 
+            var scrollTop = $document.find('body')[0].scrollTop;
+            var newOffset = {
+              top: scrollTop + offset.top,
+              left: offset.left,
+              bottom: scrollTop + offset.bottom,
+              right: offset.right
+            };
+
             var keys = ['top', 'left', 'bottom', 'right'];
             var style = {};
             keys.forEach(function (key) {
               var keyOption = keypather.get($scope, 'popoverOptions.'+key);
-              style[key] = (keyOption === null) ? 'auto' : offset[key] + keyOption + 'px';
+              style[key] = (keyOption === null) ? 'auto' : newOffset[key] + keyOption + 'px';
             });
             return style;
           }
         };
 
+        // Temporary workaround until I create a PR for angular to not have a nonsense error
+        //   Error: [jqLite:nosel] Looking up elements via selectors is not supported by jqLite!
+        // Not terribly descriptive, guys.
+        // https://github.com/angular/angular.js/pull/11688
+        if (!template) {
+          throw new Error('Popover template not found: ' + $scope.template);
+        }
         popoverElement = $compile(template)(popoverElementScope);
         $scope.popoverElement = popoverElement;
         $document.find('body').append(popoverElement);

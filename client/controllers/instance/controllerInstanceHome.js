@@ -12,15 +12,14 @@ function ControllerInstanceHome(
   $scope,
   favico,
   fetchInstances,
-  $localStorage,
   $rootScope,
   hasKeypaths,
   keypather,
-  pFetchUser
+  pFetchUser,
+  setLastOrg
 ) {
   favico.reset();
   var userName = $stateParams.userName;
-  var lastViewedInstance = keypather.get($localStorage, 'lastInstancePerUser.' + userName);
   $scope.loading = true;
   var user;
   pFetchUser()
@@ -29,6 +28,8 @@ function ControllerInstanceHome(
     user = _user;
     return fetchInstances();
   }).then(function (instances) {
+    var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
+
     var currentUserOrOrg =
         keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') || userName;
     if (instances.githubUsername === currentUserOrOrg) {
@@ -47,13 +48,14 @@ function ControllerInstanceHome(
     }
   });
   function goToInstance(username, instanceName) {
+    setLastOrg(username);
     if (instanceName) {
       $state.go('instance.instance', {
         instanceName: instanceName,
         userName: username
       }, {location: 'replace'});
     } else {
-      $state.go('instance.new', {
+      $state.go('instance.config', {
         userName: username
       }, {location: 'replace'});
     }

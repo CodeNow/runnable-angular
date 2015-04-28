@@ -6,10 +6,18 @@
 
 // diff
 .table-diff {
-  margin-top: 15px;
+
+  + .table-diff {
+    margin-top: 15px;
+  }
 
   .thead {
     border-bottom: 1px solid $gray-lighter;
+
+    // github link
+    .link {
+      float: right;
+    }
   }
 
   // diff colors
@@ -36,6 +44,13 @@
   .input-checkbox {
     margin: 0 12px 0 -2px;
   }
+}
+
+// table details
+.table-details {
+  color: $gray;
+  display: block;
+  margin: 15px 0 6px;
 }
 
 // table row header usage:
@@ -139,7 +154,7 @@
 
     // second action
     + .btn {
-      color: $gray;
+      color: $gray-dark;
       float: right;
       font-size: 14px;
 
@@ -154,7 +169,7 @@
       }
 
       .tag {
-        background: $gray;
+        background: $gray-dark;
         color: $gray-lighter;
         cursor: pointer;
         float: right;

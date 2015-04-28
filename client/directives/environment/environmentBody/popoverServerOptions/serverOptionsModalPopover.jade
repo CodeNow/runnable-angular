@@ -2,24 +2,15 @@
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  //- .arrow.white(
-  //-   style = "left: 217px"
-  //- )
+  //- .arrow.white
   .popover-content
     ul.popover-list
       //- trigger build files confirm modal
       li.list-item.popover-list-item.multi-line
         label.label-checkbox
           input.input-checkbox(
+            ng-model = "data.parentState.advanced"
             type = "checkbox"
           )
           | Advanced options
-          small.small Reveals build files and 🚸🚸🚸
-      li.divider
-      //- trigger delete confirm modal
-      li.list-item.popover-list-item
-        svg.iconnables.icons-trash
-          use(
-            xlink:href = "#icons-trash"
-          )
-        | Delete Server
+          small.small Modify your container through its build files

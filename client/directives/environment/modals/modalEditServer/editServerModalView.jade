@@ -1,31 +1,15 @@
 form.modal-dialog.modal-edit-server(
   name = 'editServerForm'
-  ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    button.btn.btn-xs.gray(
-      pop-over
-      pop-over-actions = "actions"
-      pop-over-data = "data"
-      pop-over-options = "{\"left\":0,\"top\":28}"
-      pop-over-template = "viewPopoverServerOptions"
-    ) Configuring api
-      svg.iconnables.icons-arrow-down
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      //- label.btn.btn-xs.gray
-        input.input-checkbox(
-          ng-click = "changeTab('buildfiles')"
-          ng-model = "data.revealBuildfiles"
-          type = "checkbox"
-        )
-        | Advanced config
+    server-status-card-header.btn.btn-sm.btn-title(
+      popover-template = "serverOptionsModalPopover"
+    )
     .row.modal-tabs
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'buildfiles'}"
+        ng-class = "{active: selectedTab === 'buildfiles'}"
         ng-click = "changeTab('buildfiles')"
-        ng-if = "data.revealBuildfiles"
+        ng-if = "state.advanced"
       )
         svg.iconnables.icons-terminal
           use(
@@ -33,104 +17,108 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Advanced config
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'stack'}"
+        ng-class = "{active: selectedTab === 'stack'}"
         ng-click = "changeTab('stack')"
-        ng-if = "!data.revealBuildfiles"
+        ng-if = "!state.advanced"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-stack"
           )
-        span.btn-text Stack
+        span.btn-text Stack Type
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'command'}"
+        ng-class = "{active: selectedTab === 'command'}"
         ng-click = "changeTab('command')"
-        ng-if = "!data.revealBuildfiles"
+        ng-if = "!state.advanced"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-start-cmd"
           )
-        span.btn-text Start Command
+        span.btn-text Build Command
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'ports'}"
+        ng-class = "{active: selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
-        ng-if = "!data.revealBuildfiles"
+        ng-if = "!state.advanced"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-ports"
           )
-        span.btn-text Ports
+        span.btn-text Exposed Ports
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'repositories'}"
+        ng-class = "{active: selectedTab === 'repositories'}"
         ng-click = "changeTab('repositories')"
+        ng-if = "state.repo"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-git-repository"
           )
         span.btn-text Repositories
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'env'}"
+        ng-class = "{active: selectedTab === 'env'}"
         ng-click = "changeTab('env')"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-ports"
           )
         span.btn-text Environment Variables
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'replace'}"
+        ng-class = "{active: selectedTab === 'replace'}"
         ng-click = "changeTab('replace')"
+        ng-if = "god === 'exists'"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-ports"
           )
-        span.btn-text Replace
+        span.btn-text Translation Rules
       button.btn.btn-radio(
-        ng-class = "{active: stateModel === 'logs'}"
+        ng-class = "{active: selectedTab === 'logs'}"
         ng-click = "changeTab('logs')"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-ports"
           )
         span.btn-text Logs
 
 
   section.modal-body
     .modal-form(
-      ng-if = "stateModel === 'buildfiles'"
+      ng-if = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
     )
     .modal-form(
-      ng-if = "stateModel === 'stack'"
-      ng-include = "'viewFormStack'"
+      ng-if = "selectedTab === 'stack'"
+      stack-selector-form
+      data = "data"
+      state = "state"
     )
     .modal-form(
-      ng-if = "stateModel === 'command'"
+      ng-if = "selectedTab === 'command'"
       ng-include = "'viewFormStartCommand'"
     )
     .modal-form(
-      ng-if = "stateModel === 'ports'"
+      ng-if = "selectedTab === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-if = "stateModel === 'repositories'"
+      ng-if = "selectedTab === 'repositories'"
       ng-include = "'viewFormRepositories'"
     )
     .modal-form(
-      ng-if = "stateModel === 'env'"
+      ng-if = "selectedTab === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
-      ng-if = "stateModel === 'replace'"
+      ng-if = "selectedTab === 'replace'"
       ng-include = "'viewFormReplace'"
     )
-    .modal-form(
-      ng-if = "stateModel === 'logs'"
+    .modal-form.modal-logs(
+      ng-if = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
     )
 
@@ -139,7 +127,7 @@ form.modal-dialog.modal-edit-server(
     button.btn.green(
       type = "submit"
       ng-click = "editServerForm.$invalid || actions.saveChangesToServer(state)"
-    )  {{ (state.validation.env.length) ? (state.validation.env.length) + ' env errors' : 'Save Changes'}}
+    )  {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"
       type = "button"

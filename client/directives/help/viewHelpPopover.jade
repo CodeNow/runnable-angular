@@ -1,0 +1,24 @@
+.popover.bottom.popover-help(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow.white
+  .popover-content
+    //- native dimensions: 400x400
+    img.img(
+      height = "125"
+      src = "/build/images/bear/bear-avatar-coffee-bw.png"
+      width = "125"
+    )
+    p.p Our help center is not
+      br
+      | yet available in beta
+    small.small  Tweet your questions to #{''}
+      a.link(
+        href = "//twitter.com/getrunnable"
+        target = "_blank"
+      ) @getrunnable
+    small.small Or reach out via email at #{''}
+      a.link(
+        href = "mailto:support@runnable.com?subject=I Need Help!"
+      ) support@runnable.io

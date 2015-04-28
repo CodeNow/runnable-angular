@@ -45,23 +45,8 @@
   }
 
   // animations
-  &:active {
-
-    > .icons-gear {
-      transform: rotate3d(0,0,1,135deg);
-    }
-
-    // > .icons-arrow-down {
-    //   transform: scale3d(.75,.75,1);
-    // }
-  }
-
   &.active,
   &.in {
-
-    > .icons-gear {
-      transform: rotate3d(0,0,1,135deg);
-    }
 
     > .icons-add {
       transform: rotate3d(0,0,1,135deg) scale3d(.75,.75,1);
@@ -104,7 +89,7 @@
 .btn-sm {
   font-size: 16px;
   height: 36px;
-  line-height: 34px;
+  line-height: 32px;
 
   > .img {
     float: left;
@@ -274,21 +259,18 @@
 }
 
 .blue {
-  color: $blue-dark;
+  color: $gray-light;
 
   &.btn {
 
     &:hover,
     &.hover {
-      background: rgba($blue,.1);
-      border-color: rgba($blue,.2);
+      color: $blue;
     }
 
     &:active,
     &.active {
-      background: rgba($blue,.2);
-      border-color: rgba($blue,.4);
-      transition: none;
+      color: $blue-dark;
     }
   }
 }
@@ -507,7 +489,6 @@
   display: inline-block;
   font-size: 16px;
   height: 72px;
-  margin-right: 6px;
   text-align: center;
   text-decoration: none;
   transition: none;
@@ -518,6 +499,10 @@
   &:active,
   &.active {
     color: $purple-light;
+  }
+
+  &.active {
+    font-weight: 500;
   }
 
   &:focus {
@@ -544,7 +529,7 @@
     display: block;
     height: 33px;
     margin: 0 auto;
-    width: 21px;
+    width: 18px;
   }
 }
 

@@ -3,68 +3,30 @@
 
 //- table of current environment variables
 .ace-container.ace-build-files
-  .sidebar
-    ul.file-tree
-      li.folder.in.not-toggleable
-        a
-          svg.iconnables.filetypes.icons-folder
-            use(
-              xlink:href = "#icons-folder"
-            )
-          span.item-name /
-        ul
-          li.file.not-toggleable(
-            tooltip = "Your repository lives here"
-            tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
-          )
-            a
-              svg.iconnables.filetypes.icons-repository
-                use(
-                  xlink:href = "#icons-repository"
-                )
-              span.item-name api
-          li.file
-            a
-              svg.iconnables.filetypes.icons-file
-                use(
-                  xlink:href = "#icons-file"
-                )
-              span.item-name build logs
-          li.file
-            a
-              svg.iconnables.filetypes.icons-file
-                use(
-                  xlink:href = "#icons-file"
-                )
-              span.item-name dockerfile
-          li.file.not-toggleable(
-            tooltip = "Edit this file in the environment variables tab"
-            tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
-          )
-            a
-              svg.iconnables.filetypes.icons-file
-                use(
-                  xlink:href = "#icons-file"
-                )
-              span.item-name environment variables
-    .sidebar-actions
-      button.btn.btn-xs.gray(
-        ng-class = "{active: filePopover.data.show}"
-        pop-over
-        pop-over-actions = "filePopover.actions"
-        pop-over-data = "filePopover.data"
-        pop-over-options = "{\"left\":-76,\"top\":35}"
-        pop-over-template = "viewFileTreePopoverFileExplorerMenu"
-        pop-over-active = "filePopover.data.show"
-      )
-        svg.iconnables.icons-add
-          use(
-            xlink:href = "#icons-add"
-          )
-
-  pre.pre(
-    ui-ace
+  section.sidebar
+    section.row.explorer(
+      explorer
+      file-model = "state.contextVersion"
+      open-items = "openItems"
+      root-dir = "state.contextVersion.rootDir"
+      show-repo-folder = "true"
+      explorer-title = "Build Files"
+      edit-explorer = "true"
+    )
+  //- active panel
+  div(
+    ng-class = "colorScheme.getSchemeStyle()"
+    ng-repeat = "item in openItems.models"
+    ng-show = "item === openItems.activeHistory.last()"
   )
+    //- files
+    div(
+      file = "item"
+      file-editor
+      ng-if = "item.state.type === 'File'"
+      use-auto-update = "useAutoUpdate"
+      loading = "loading"
+    )
 
 small.small 😌🐻✌️ #{''}
   a.link(

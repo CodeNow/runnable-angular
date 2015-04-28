@@ -13,9 +13,9 @@
   )
 
 .row-heading
-  | Servers
+  | Containers
   a.btn.btn-xs.white(
-    ui-sref = "instance.new({ userName: data.activeAccount.oauthName() })"
+    ui-sref = "instance.config({ userName: data.activeAccount.oauthName() })"
   )
     svg.iconnables.icons-gear
       use(
@@ -24,7 +24,7 @@
     | Configure
 ul.server-category-list
   li.server-category-list-item(
-    ng-repeat = "master in data.asdf.masters.models"
+    ng-repeat = "masterInstance in data.instancesByPod.models"
   )
     ul.server-list
       li.server-list-item
@@ -34,12 +34,14 @@ ul.server-category-list
             )
         span.server-category-name.text-overflow(
           ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                     instanceName: master.attrs.name })"
-          ) {{ master.attrs.name }}
-          span.branch-name /master
+                     instanceName: pod.master.attrs.name })"
+          ) {{ masterInstance.attrs.name }}
+          span.branch-name(
+            ng-if = "masterInstance.getBranchName()"
+          ) /{{ masterInstance.getBranchName() }}
         .icons-status.running
       li.server-list-item(
-        ng-repeat = "branchFork in data.asdf.forks.models"
+        ng-repeat = "branchFork in masterInstance.children.models"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
                      instanceName: branchFork.attrs.name })"
       )

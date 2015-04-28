@@ -6,8 +6,8 @@ require('app')
  * @ngInject
  */
 function setupServerModal(
-  createDockerfileFromSource,
   createNewBuild,
+  $rootScope,
   errs,
   fetchOwnerRepos,
   fetchStackAnalysis,
@@ -26,10 +26,12 @@ function setupServerModal(
     link: function ($scope, elem, attrs) {
       $scope.state = {
         opts: {
-          env: null
+          env: null,
+          masterPod: true
         }
       };
-      fetchOwnerRepos($scope.data.activeAccount.oauthName())
+
+      fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
         .then(function (repoList) {
           $scope.data.githubRepos = repoList;
         })
@@ -38,14 +40,21 @@ function setupServerModal(
           $scope.loading = false;
         });
 
+      $scope.isRepoAdded = function (repo) {
+        // Since the newServers may have faked repos (just containing names), just check the name
+        return !!$scope.data.newServers.find(hasKeypaths({'repo.attrs.name': repo.attrs.name}));
+      };
+
+
       $scope.selectRepo = function (repo) {
         if ($scope.repoSelected) { return; }
         $scope.repoSelected = true;
+        repo.loading = true;
         $scope.state.opts.name = repo.attrs.name;
         return $scope.fetchStackData(repo)
           .then(function () {
             $scope.state.repo = repo;
-            return createNewBuild($scope.data.activeAccount);
+            return createNewBuild($rootScope.dataApp.data.activeAccount);
           })
           .then(function (buildWithVersion) {
             $scope.state.build = buildWithVersion;
@@ -64,6 +73,7 @@ function setupServerModal(
             errs.handler(err);
           })
           .finally(function () {
+            repo.loading = false;
             $scope.repoSelected = false;
           });
       };

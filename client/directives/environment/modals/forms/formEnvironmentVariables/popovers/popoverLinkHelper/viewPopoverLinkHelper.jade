@@ -4,31 +4,26 @@
   .arrow.white
   .popover-content
     ul.popover-list
-      li.list-item.popover-list-item.small Linked servers (by line)
-      li.list-item.popover-list-item.monospace.text-overflow
+      li.list-item.popover-list-item.small(
+        ng-if = "data.servers.length"
+      ) Linked servers (by line)
+      li.list-item.popover-list-item.monospace.text-overflow(
+        ng-repeat = "link in data.servers"
+      )
         button.btn.btn-xxs.gray(
-          title = "Go to line 6"
-        ) L6
-        | api-codenow.runnableapp.com
-      li.list-item.popover-list-item.monospace.text-overflow
+          ng-attr-title = "Go to line {{ link.line }}"
+        ) L {{ link.line }}
+        | {{ link.url }}
+      li.list-item.popover-list-item.divider(
+        ng-if = "data.others.length && data.servers.length"
+      )
+      li.list-item.popover-list-item.small(
+        ng-if = "data.others.length"
+      ) Other links
+      li.list-item.popover-list-item.monospace.text-overflow(
+        ng-repeat = "link in data.others"
+      )
         button.btn.btn-xxs.gray(
-          title = "Go to line 9"
-        ) L9
-        | mavis-codenow.runnableapp.com
-      li.list-item.popover-list-item.monospace.text-overflow
-        button.btn.btn-xxs.gray(
-          title = "Go to line 14"
-        ) L14
-        | mongo-codenow.runnableapp.com
-      li.list-item.popover-list-item.divider
-      li.list-item.popover-list-item.small Other links
-      li.list-item.popover-list-item.monospace.text-overflow
-        button.btn.btn-xxs.gray(
-          title = "Go to line 33"
-        ) L33
-        | runnable3.net
-      li.list-item.popover-list-item.monospace.text-overflow
-        button.btn.btn-xxs.gray(
-          title = "Go to line 34"
-        ) L34
-        | registry.runnable.com
+        ng-attr-title = "Go to line {{ link.line }}"
+        ) L {{ link.line }}
+        | {{ link.url }}

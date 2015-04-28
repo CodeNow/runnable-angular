@@ -1,15 +1,16 @@
 .label.clearfix
-  .label-col Language / Framework
+  .label-col Stack Type
 
   .input-col
     fancy-select(
       placeholder = "Select language/framework"
       ng-required = "true"
-      value = "state.selectedStack"
+      value = "temp.stack"
+      track-by = "key"
     )
       li.list-item.popover-list-item.small(
         ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
-      ) Suggested Language/Framework
+      ) Suggested stack type
       fancy-option(
         ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework }"
         value = "framework"
@@ -34,10 +35,10 @@
         | {{$parent.framework.name}}
 
     fancy-select(
-      value = "$parent.state.selectedStack.selectedVersion"
+      value = "state.selectedStack.selectedVersion"
       placeholder = "Select Version"
       ng-required = "true"
-      ng-disabled = "!$parent.state.selectedStack"
+      ng-disabled = "!state.selectedStack"
     )
       li.list-item.popover-list-item.small(
         ng-if = "$parent.state.selectedStack.suggestedVersion"

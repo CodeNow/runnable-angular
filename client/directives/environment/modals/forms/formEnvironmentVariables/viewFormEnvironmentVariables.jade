@@ -3,19 +3,20 @@
 
 //- table actions
 .table-actions.clearfix(
+  ng-if = "data.newServers.length >= 2"
   ng-include = "'viewEnvironmentVariableActions'"
 )
 
 //- table of current environment variables
-pre.ace-container.ace-environment-variables(
+pre.ace-container.ace-environment-variables.ace-runnable-dark(
   env-vars
-  current-model = "currentModel.opts"
+  current-model = "server.opts"
   state-model = "state.opts"
   validation = "validation.env"
 )
 
-small.small 🚧🚧🚧 Environment variables can be used to link other servers in your environment together. #{''}
+small.small Define environment variables that are used as part of the container build process, as well as being made available to your application in a running container. #{''}
   a.link(
     href = "//google.com"
     target = "_blank"
-  ) More about linking with environment variables
+  ) More about environment variables

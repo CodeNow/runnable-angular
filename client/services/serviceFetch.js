@@ -10,7 +10,8 @@ require('app')
   .factory('fetchSlackMembers', fetchSlackMembers)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubUser', fetchGitHubUser)
-  .factory('integrationsCache', integrationsCache);
+  .factory('integrationsCache', integrationsCache)
+  .factory('fetchInstancesByPod', fetchInstancesByPod);
 
 function pFetchUser(keypather, user, $q, $state) {
   var fetchedUser = null;
@@ -38,155 +39,24 @@ function pFetchUser(keypather, user, $q, $state) {
 }
 
 function fetchInstances(
-  configEnvironment,
   pFetchUser,
   promisify,
   keypather,
-  hasKeypaths,
-  errs,
-  $stateParams,
-  $state,
-  $localStorage,
-  $q,
-  primus,
-  $rootScope,
-  $timeout,
-  $log
+  $stateParams
 ) {
-  var currentInstanceList;
-  var userStream;
-
-  $rootScope.$watch('dataApp.data.activeAccount.oauthId()', function (id) {
-    if (!id) { return; }
-    currentInstanceList = null;
-    userStream = primus.createUserStream(id);
-    userStream.on('reconnect', function () {
-      $log.warn('RECONNECTING INSTANCE ROOM');
-    });
-    userStream.on('offline', function () {
-      $log.warn('OFFLINE INSTANCE ROOM');
-    });
-    userStream.on('end', function () {
-      $log.warn('INSTANCE ROOM DIED!!!!');
-    });
-    userStream.on('reconnected', function (opts) {
-      $log.warn('INSTANCE Reconnected!!!! Took ' + opts.duration + 'ms');
-    });
-    userStream.on('reconnect timeout', function (err) {
-      $log.warn('!!!!INSTANCE reconnect timeout!!!! ' + err.message);
-    });
-    userStream.on('reconnect failed', function (err) {
-      $log.warn('INSTANCE reconnect failed!!!! WE ARE BONED!!!! ' + err.message);
-    });
-    userStream.on('open', function (opts) {
-      $log.warn('INSTANCE ROOM RECONNECTED!!!, SUCCESS!!!!!!');
-    });
-    userStream.on('data', function (data) {
-      if (data.event !== 'ROOM_MESSAGE') {
-        return;
-      }
-      if (configEnvironment !== 'production') {
-        $log.log('Socket:', data);
-      }
-      if (keypather.get(data, 'data.data.owner.github') !== id) {
-        return;
-      }
-      if (!currentInstanceList) {
-        $log.warn('WHY ARE THE INSTANCES GONE??????????');
-        return;
-      }
-      if (!keypather.get(data, 'data.data.name')) { return; }
-
-      var cachedInstance;
-      function findInstance(instance) {
-        return instance.attrs.shortHash === data.data.data.shortHash;
-      }
-      // Possible events:
-      // start, stop, restart, update, redeploy, deploy, delete, patch, post
-      // container_inspect, container_inspect_err
-      switch (data.data.action) {
-      case 'deploy':
-      case 'start':
-      case 'stop':
-      case 'restart':
-      case 'update':
-      case 'redeploy':
-      case 'patch':
-      case 'container_inspect': // Instance died independently
-        cachedInstance = currentInstanceList.find(findInstance);
-        if (cachedInstance) {
-          cachedInstance.parse(data.data.data);
-        } else {
-          // We're getting data about an instance we haven't seen yet.
-          // i.e. we got the `deploy` event before `post`
-          currentInstanceList.add(data.data.data);
-        }
-        break;
-      case 'post':
-        cachedInstance = currentInstanceList.find(findInstance);
-        if (!cachedInstance) {
-          currentInstanceList.add(data.data.data);
-        }
-        break;
-      case 'delete':
-        cachedInstance = currentInstanceList.find(findInstance);
-        if (cachedInstance) {
-          currentInstanceList.remove(cachedInstance);
-          if ($stateParams.instanceName === cachedInstance.attrs.name) {
-            // the current instance just got deleted
-            keypather.set(
-              $localStorage,
-              'lastInstancePerUser.' + $stateParams.userName,
-              null
-            );
-            errs.handler(new Error('The instance you were looking at has been deleted.'));
-            $state.go('instance.home', {
-              userName: $stateParams.userName
-            });
-          }
-        }
-        break;
-      case 'container_inspect_err':
-        errs.handler(data);
-        break;
-      default:
-        errs.handler('Error: unknown event encountered');
-        break;
-      }
-      $timeout(angular.noop);
-    });
-  });
 
   return function (opts) {
     if (!opts) {
       opts = {};
     }
-
-    // Check how cache works with HelloRunnable
-    // Consider querying against ModelStore
-
-    if (!opts.githubUsername && currentInstanceList && opts.name) {
-      var cachedInstance = currentInstanceList.find(hasKeypaths({
-        'attrs.name': opts.name
-      }));
-      if (cachedInstance) {
-        return $q.when(cachedInstance);
-      }
-    }
-
     opts.githubUsername = opts.githubUsername || $stateParams.userName;
     return pFetchUser().then(function (user) {
       var pFetch = promisify(user, 'fetchInstances');
       return pFetch(opts);
     }).then(function (results) {
-      var instance;
-      if (opts.name || opts.masterPod) {
+      var instance = results;
+      if (opts.name) {
         instance = keypather.get(results, 'models[0]');
-      } else {
-        if (opts.githubUsername === $stateParams.userName) {
-          currentInstanceList = results;
-        }
-        instance = results;
       }
 
       if (!instance) {
@@ -198,40 +68,25 @@ function fetchInstances(
     });
   };
 }
-require('app')
-  .factory('fetchInstancesByPod', fetchInstancesByPod);
+
 function fetchInstancesByPod(
   fetchInstances,
-  $q
+  $q,
+  promisify
 ) {
   return function () {
-    // Fetch all master pods
-    var instances = {};
-    instances.masters = fetchInstances({
+    return fetchInstances({
       masterPod: true
-    });
-    instances.forks = fetchInstances({
-      masterPod: false
-    });
-    // return fetchInstances({
-    //   masterPod: true
-    // })
-    // .then(function (masterInstances) {
-    //   console.log(masterInstances);
-    //   // for each master pod, fetch subpods w/same ctx version
-    //   return $q.all(
-    //     masterInstances.map(function (mInstance) {
-    //       return fetchInstances({
-    //         masterPod: false,
-    //         contextVersion: mInstance.attrs.contextVersion
-    //       });
-    //     })
-    //   );
-    return $q.all(instances)
-    .then(function (deps) {
-      console.log(deps);
-      return deps;
-    });
+    })
+      .then(function (masterPods) {
+        var podFetch = [];
+        masterPods.forEach(function (masterInstance) {
+          podFetch.push(promisify(masterInstance.children, 'fetch')());
+        });
+        return $q.all(podFetch).then(function () {
+          return masterPods;
+        });
+      });
   };
 }
 

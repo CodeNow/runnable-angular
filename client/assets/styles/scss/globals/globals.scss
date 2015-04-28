@@ -13,6 +13,10 @@ body {
   min-height: 100vh;
   min-width: 360px;
   overflow-x: hidden;
+
+  &.modal-open {
+    overflow: hidden;
+  }
 }
 
 // svg files

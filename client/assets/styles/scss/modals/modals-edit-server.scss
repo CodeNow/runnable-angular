@@ -1,18 +1,42 @@
 .modal-edit-server {
-  max-width: 720px;
+  max-width: 900px;
   width: 100%;
 
-  // nav
-  .modal-header {
+  @include media(md) {
+    max-width: 810px;
+  }
 
-    .btn-xs {
-      display: table;
-      margin: 12px auto 6px;
-      padding-right: 0;
+  @include media(sm) {
+    max-width: 720px;
+  }
+
+  // nav
+  // header button
+  .btn-title {
+    color: $gray;
+    display: table;
+    margin: 6px auto;
+
+    // status
+    .icons-status {
+      float: left;
+      margin: 15px 6px 0 0;
     }
 
-    .input-checkbox {
-      margin: 0 6px 0 0;
+    // text
+    .btn-text {
+      float: left;
+      height: 36px;
+      line-height: 36px;
+    }
+
+    .icons-gear {
+      margin-left: 6px;
+      width: 15px;
+    }
+
+    .icons-arrow-down {
+      width: 12px;
     }
   }
 
@@ -28,13 +52,13 @@
     padding: 0 9px;
     white-space: normal;
     width: 96px;
-  }
 
-  .btn-text {
-    display: inline-block;
-    font-size: 13px;
-    height: 30px;
-    line-height: 1.2;
+    .btn-text {
+      display: inline-block;
+      font-size: 13px;
+      height: 30px;
+      line-height: 1.2;
+    }
   }
 
   // forms
@@ -86,6 +110,12 @@
   .ace-container {
     border: 2px solid $gray-lighter;
     display: flex;
+    min-height: 210px;
+
+    &.ace-runnable-dark {
+      background: $purple-darker;
+      border-color: $purple-darker;
+    }
 
     .ace_editor {
       flex: 1 1 auto;
@@ -98,6 +128,7 @@
 
     .terminal {
       min-height: 210px; // to match env vars
+      white-space: nowrap;
     }
   }
 }
@@ -106,7 +137,6 @@
 .ace-environment-variables {
   border-bottom: 0;
   border-radius: 3px 3px 0 0;
-  height: 210px;
 }
 
 // build files
@@ -144,5 +174,26 @@
 
   .file-tree {
     margin: 3px;
+  }
+}
+
+// logs
+.modal-logs {
+
+  .active-panel {
+
+    @media (max-height: 800px) {
+      max-height: 350px;
+    }
+
+    @media (max-height: 700px) {
+      max-height: 250px;
+      min-height: 0;
+    }
+
+    @media (max-height: 600px) {
+      max-height: 175px;
+      min-height: 0;
+    }
   }
 }

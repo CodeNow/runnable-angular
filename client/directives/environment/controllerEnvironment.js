@@ -4,37 +4,31 @@ require('app')
   .controller('ControllerEnvironment', ControllerEnvironment);
 /**
  * ControllerEnvironment
- * @param $scope
  * @constructor
  * @export
  * @ngInject
  */
 function ControllerEnvironment(
   $scope,
-  $log,
   $state,
   $filter,
   createDockerfileFromSource,
-  createNewBuild,
   createNewInstance,
   errs,
   eventTracking,
   favico,
   fetchContexts,
   fetchDockerfileFromSource,
-  fetchOwnerRepos,
   populateDockerfile,
-  fetchStackAnalysis,
   fetchStackInfo,
   getInstanceClasses,
   keypather,
   fetchInstances,
-  pageName,
-  JSTagsCollection,
   promisify,
   updateInstanceWithNewBuild,
   copySourceInstance,
-  $rootScope
+  $rootScope,
+  parseDockerfileForStackFromInstance
 ) {
   favico.reset();
   $scope.data = {
@@ -46,9 +40,18 @@ function ControllerEnvironment(
     }
   };
 
-
-
   $scope.actions = {
+    deleteServer: function (server) {
+      $scope.$broadcast('close-popovers');
+      if (confirm('Are you sure you want to delete this server?')) {
+        var index = $scope.data.newServers.indexOf(server);
+        promisify(server.instance, 'destroy')()
+          .then(function () {
+            $scope.data.newServers.splice(index, 1);
+          })
+          .catch(errs.handler);
+      }
+    },
     getFlattenedSelectedStacks: function (selectedStack) {
       if (!selectedStack) {
         return 'none';
@@ -61,9 +64,8 @@ function ControllerEnvironment(
           });
         }
         return flattened;
-      } else {
-        return 'None';
       }
+      return 'None';
     },
     addNewServer: function (newServerModel) {
       $scope.data.newServers.push(newServerModel);
@@ -72,7 +74,6 @@ function ControllerEnvironment(
       if (newServerModel.selectedStack.ports) {
         newServerModel.ports = newServerModel.selectedStack.ports.replace(/ /g, '').split(',');
       }
-      newServerModel.repo.isAdded = true;
       // Close the modal first
       $scope.$emit('close-modal');
       return $scope.actions.createAndBuild(newServerModel);
@@ -81,15 +82,11 @@ function ControllerEnvironment(
       var changes = serverState.getChanges();
       var server = serverState.updateCurrentModel();
       $scope.$emit('close-modal');
+      var promiseChain = null;
+      server.building = true;
       if (changes.dockerfile) {
         // We need to copy the build, so do that
-        return promisify(server.build, 'deepCopy')()
-          .then(function (build) {
-            server.build = build;
-            server.contextVersion = build.contextVersions.models[0];
-            // we need to edit the dockerfile, so fetch a source one
-            return promisify(server.contextVersion, 'fetchFile')('/Dockerfile');
-          })
+        promiseChain = promisify(server.contextVersion, 'fetchFile')('/Dockerfile')
           .then(function (newDockerfile) {
             server.dockerfile = newDockerfile;
             return fetchDockerfileFromSource(
@@ -105,17 +102,29 @@ function ControllerEnvironment(
             );
           })
           .then(function () {
-            return updateInstanceWithNewBuild(server.instance, server.build, false, changes.opts);
+            return updateInstanceWithNewBuild(
+              server.instance,
+              server.build,
+              {
+                message: 'manual'
+              },
+              changes.opts
+            );
           });
       }
       if (keypather.get(changes.opts, 'env.length')) {
-        return promisify(server.instance, 'update')(changes.opts)
+        promiseChain = promisify(server.instance, 'update')(changes.opts)
           .then(function () {
             if (keypather.get(server.instance, 'container.running()')) {
               return promisify(server.instance, 'redeploy')();
             }
           });
       }
+      promiseChain
+        .catch(errs.handler)
+        .finally(function () {
+          server.building = false;
+        });
     },
     createAndBuild: function (newServerModel) {
       if (newServerModel.building) {
@@ -145,32 +154,64 @@ function ControllerEnvironment(
         })
         .then(function (instance) {
           newServerModel.instance = instance;
-          newServerModel.building = false;
         })
         .catch(function (err) {
           errs.handler(err);
+          // Remove it from the servers list
+          $scope.data.newServers.splice(
+            $scope.data.newServers.indexOf(newServerModel),
+            1
+          );
+        })
+        .finally(function () {
           newServerModel.building = false;
         });
     },
     addServerFromTemplate: function (instance) {
       $scope.$emit('close-modal');
 
+      var serverName = getUniqueServerName(instance.attrs.name);
+
       var newServer = {
         building: true,
         instance: {
           attrs: {
-            name: instance.attrs.name
+            name: serverName
           }
         }
       };
       $scope.data.newServers.push(newServer);
 
-      copySourceInstance($rootScope.dataApp.data.activeAccount, instance, {name: instance.attrs.name}).then(function (copiedInstance) {
-        createServerObjectFromInstance(copiedInstance, newServer);
-        newServer.building = false;
-      });
+      copySourceInstance(
+        $rootScope.dataApp.data.activeAccount,
+        instance,
+        {
+          name: serverName,
+          masterPod: true
+        }
+      )
+        .then(function (copiedInstance) {
+          createServerObjectFromInstance(copiedInstance, newServer);
+          newServer.building = false;
+        });
     }
   };
+
+  function getUniqueServerName(serverName) {
+    function getServerByName(serverName){
+      return $scope.data.newServers.find(function (server) {
+        return server.instance.attrs.name === serverName;
+      });
+    }
+    var counter = 1;
+    var tempServerName = serverName;
+    while (getServerByName(tempServerName)) {
+      counter += 1;
+      tempServerName = serverName + '-' + counter;
+    }
+    return tempServerName;
+  }
+
   $scope.getInstanceClasses = getInstanceClasses;
 
   function createServerObjectFromInstance(instance, serverObj) {
@@ -183,33 +224,45 @@ function ControllerEnvironment(
       commands.splice(0, 2);
     }
     serverObj.instance = instance;
+    serverObj.contextVersion = instance.contextVersion;
     serverObj.build = instance.build;
     serverObj.startCommand = commands.join(' ');
-    serverObj.selectedStack = 'Need to input';
     serverObj.ports = $filter('filterCleanPorts')(keypather.get(instance, 'containers.models[0].attrs.ports'));
     serverObj.opts = {
       env: instance.attrs.env
     };
+    serverObj.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
+    parseDockerfileForStackFromInstance(instance, $scope.data.stacks)
+      .then(function (stackObject) {
+        serverObj.selectedStack = stackObject;
+      });
+
+
+    serverObj.repo = keypather.get(instance.contextVersion, 'appCodeVersions.models[0].githubRepo');
+    if (serverObj.repo) {
+      promisify(serverObj.repo.branches, 'fetch')();
+    }
     return serverObj;
   }
 
-
   $scope.data.loadingNewServers = true;
-  if ($state.params.userName) {
-    fetchInstances({
-      githubUsername: $state.params.userName
-    })
-      .then(function (instances) {
-        $scope.data.newServers = instances.models.map(function (instance) {
-          return createServerObjectFromInstance(instance);
-        });
-        $scope.data.loadingNewServers = false;
-      });
-  }
 
   fetchStackInfo()
     .then(function (stacks) {
       keypather.set($scope, 'data.stacks', stacks);
+      return fetchInstances({
+        githubUsername: $state.params.userName
+      });
+    })
+    .then(function (instances) {
+      $scope.data.newServers = instances.models
+        //.filter(function (instance) {
+        //  return instance.attrs.masterPod;
+        //})
+        .map(function (instance) {
+          return createServerObjectFromInstance(instance);
+        });
+      $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
 
@@ -225,8 +278,4 @@ function ControllerEnvironment(
     .then(function (sourceContexts) {
       $scope.data.sourceContexts = sourceContexts;
     });
-
-  $scope.$on('$destroy', function () {
-  });
-
 }

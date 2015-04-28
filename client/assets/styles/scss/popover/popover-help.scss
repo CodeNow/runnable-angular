@@ -1,0 +1,19 @@
+.popover-help {
+  padding-bottom: 15px;
+  text-align: center;
+  width: 300px;
+
+  .img {
+    display: block;
+    margin: 15px auto;
+  }
+
+  .p {
+    color: $gray;
+    margin-bottom: 9px;
+  }
+
+  .small {
+    display: block;
+  }
+}

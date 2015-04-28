@@ -7,11 +7,24 @@
   z-index: $z-popover-fixed;
 
   .popover-content {
-    padding: 15px;
+    max-height: 375px;
+    overflow-y: auto;
+    padding: 15px 15px 30px;
   }
 
   .popover-title {
     margin: 6px 0 21px;
+
+    // delete
+    .btn-xs {
+      float: right;
+      padding-left: 0;
+    }
+
+    .icons-trash {
+      float: left;
+      height: 100%;
+    }
 
     .small {
       color: $gray;
@@ -25,9 +38,5 @@
   .input.monospace {
     color: $gray-darker;
     font-size: 13px;
-  }
-
-  .popover-footer {
-    margin-top: 30px;
   }
 }

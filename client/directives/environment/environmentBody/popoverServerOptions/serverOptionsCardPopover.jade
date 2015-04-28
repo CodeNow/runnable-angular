@@ -1,0 +1,30 @@
+.popover.menu.bottom(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  //- .arrow.white
+  .popover-content
+    ul.popover-list
+      li.list-item.popover-list-item(
+        modal
+        modal-actions = "actions"
+        modal-current-model = "data.server"
+        modal-data = "data.parentData"
+        modal-state-model = "'logs'"
+        modal-template = "editServerModalOpen"
+      )
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+        | Build Logs
+      li.divider
+      //- trigger delete confirm modal
+      li.list-item.popover-list-item(
+        ng-click = "actions.deleteServer(data.server)"
+      )
+        svg.iconnables.icons-trash
+          use(
+            xlink:href = "#icons-trash"
+          )
+        | Delete Container
