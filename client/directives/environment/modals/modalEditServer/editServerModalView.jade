@@ -85,8 +85,15 @@ form.modal-dialog.modal-edit-server(
           )
         span.btn-text Logs
 
-
   section.modal-body
+
+    //- use when loading build files
+      - if files aren't ready
+    .spinner-wrapper.spinner-md.in(
+      ng-if = "false"
+      ng-include = "'spinner'"
+    )
+
     .modal-form(
       ng-if = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
