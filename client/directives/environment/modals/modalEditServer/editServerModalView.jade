@@ -1,5 +1,6 @@
 form.modal-dialog.modal-edit-server(
   name = 'editServerForm'
+  ng-class = "{disabled: building}"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
@@ -132,15 +133,21 @@ form.modal-dialog.modal-edit-server(
   footer.modal-footer.clearfix
     //- disabled if no changes
     button.btn.green.btn-spinner(
-      type = "submit"
+      ng-class = "{in: building}"
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
+      type = "submit"
     )
       //- spinner
       .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-if = "false"
+        ng-if = "building"
         ng-include = "'spinner'"
       )
-      | {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+      span.btn-text(
+        ng-if = "!building"
+      ) {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+      span.btn-text(
+        ng-if = "building"
+      ) Saving
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"
       type = "button"
