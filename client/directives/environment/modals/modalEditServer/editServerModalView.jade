@@ -131,10 +131,16 @@ form.modal-dialog.modal-edit-server(
 
   footer.modal-footer.clearfix
     //- disabled if no changes
-    button.btn.green(
+    button.btn.green.btn-spinner(
       type = "submit"
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
-    )  {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+    )
+      //- spinner
+        ng-if = ""
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-include = "'spinner'"
+      )
+      | {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"
       type = "button"
