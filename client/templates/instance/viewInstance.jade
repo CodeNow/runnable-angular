@@ -112,6 +112,7 @@ section.sidebar.server-sidebar.load(
   show-coach-marks
 )
   section.row.repo-list(
+    ng-class = "{closed: $storage.repoListIsClosed}"
     auto-build-on-acv-change = "true"
     build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
@@ -122,12 +123,13 @@ section.sidebar.server-sidebar.load(
   )
 
   section.row.linked-servers(
+    ng-class = "{closed: $storage.dnsManagementIsClosed}"
     dns-manager
     instance = "dataInstance.data.instance"
-    ng-if = "dataInstance.data.instance"
   )
 
   section.row.explorer(
+    ng-class = "{closed: $storage.explorerIsClosed}"
     explorer
     edit-explorer = "false"
     file-model = "dataInstance.data.instance.containers.models[0]"
