@@ -59,6 +59,9 @@ function ControllerInstanceLayout(
     var instanceMap = {};
     instances.forEach(function (instance) {
       // Special-case current user
+      if (!keypather.get(instance, 'attrs.createdBy.username')) {
+        return;
+      }
       var username = instance.attrs.createdBy.username === currentUser.oauthName() ?
           'me' : (instance.attrs.createdBy.username || instance.attrs.createdBy.github);
 

@@ -6,14 +6,18 @@ require('app')
  * @ngInject
  */
 function editServerModal(
+  $q,
   errs,
   JSTagsCollection,
   hasKeypaths,
   getInstanceClasses,
+  eventTracking,
+  fetchDockerfileFromSource,
   findLinkedServerVariables,
   keypather,
   OpenItems,
   pFetchUser,
+  populateDockerfile,
   promisify,
   $rootScope
 ) {
@@ -40,7 +44,7 @@ function editServerModal(
           maxInputLength: 5,
           onlyDigits: true
         },
-        tags: new JSTagsCollection($scope.server.ports || [])
+        tags: new JSTagsCollection($scope.server.ports.split(' ') || [])
       };
       $scope.getInstanceClasses = getInstanceClasses;
 
@@ -73,37 +77,74 @@ function editServerModal(
           // Don't save envs here, since EnvVars will add them.
         },
         repo: $scope.server.repo,
-        server: $scope.server,
-        getChanges: function () {
-          var changes = {
-            server: $scope.server
-          };
-          if (this.server.startCommand !== this.startCommand) {
-            keypather.set(changes, 'dockerfile.startCommand', this.startCommand);
-          }
-          if (this.server.ports !== this.ports) {
-            keypather.set(changes, 'dockerfile.ports', this.ports);
-          }
-          // use angular.equals since we've made copies
-          if (!angular.equals(this.server.selectedStack, this.selectedStack)) {
-            keypather.set(changes, 'dockerfile.selectedStack', this.selectedStack);
-          }
-          if (!angular.equals(this.server.opts.env, this.opts.env)) {
-            keypather.set(changes, 'opts.env', this.opts.env);
-          }
-          return changes;
-        },
-        updateCurrentModel: function () {
-          this.server.ports = convertTagToPortList();
-          this.server.selectedStack = this.selectedStack;
-          keypather.set(this.server, 'opts.env', this.opts.env);
-          this.server.startCommand = this.startCommand;
-          this.server.build = this.build;
-          this.server.contextVersion = this.contextVersion;
-          this.server.advanced = this.advanced;
-          return this.server;
-        }
+        server: $scope.server
       };
+
+      $scope.getUpdatePromise = function () {
+        function updatePromise() {
+          var deferer = $q.defer();
+          $scope.building = true;
+          $scope.state.ports = convertTagToPortList();
+          deferer.resolve($scope.state);
+          return deferer.promise;
+        }
+
+        return updatePromise()
+          .then(function (state) {
+            if (state.server.startCommand !== state.startCommand ||
+                state.server.ports !== state.ports ||
+                !angular.equals(state.server.selectedStack, state.selectedStack)) {
+              return updateDockerfile(state);
+            }
+            return state;
+          })
+          .then(function (state) {
+            return promisify($scope.instance, 'update')(state.opts);
+          })
+          .then(function () {
+            return $scope.defaultActions.close();
+          })
+          .then(function () {
+            if (keypather.get($scope.instance, 'container.running()')) {
+              return promisify($scope.instance, 'redeploy')();
+            }
+          })
+          .catch(function (err) {
+            $scope.building = false;
+            errs.handler(err);
+          });
+      };
+
+      function updateDockerfile(state) {
+        return promisify(state.contextVersion, 'fetchFile')('/Dockerfile')
+          .then(function (newDockerfile) {
+            state.dockerfile = newDockerfile;
+            return fetchDockerfileFromSource(
+              state.selectedStack.key,
+              $scope.data.sourceContexts
+            );
+          })
+          .then(function (sourceDockerfile) {
+            return populateDockerfile(
+              sourceDockerfile,
+              state,
+              state.dockerfile
+            );
+          })
+          .then(function () {
+            eventTracking.triggeredBuild(false);
+            return promisify(state.build, 'build')(
+              {
+                message: 'manual'
+              }
+            );
+          })
+          .then(function (build) {
+            $scope.instance.serverModel = $scope.state;
+            $scope.state.opts.build = build.id();
+            return $scope.state;
+          });
+      }
       if ($scope.server.repo) {
         $scope.branches = $scope.server.repo.branches;
         $scope.state.branch =
@@ -147,10 +188,6 @@ function editServerModal(
         }
       });
 
-
-      $scope.$watchCollection('portTagOptions.tags.tags', function () {
-        $scope.state.ports = convertTagToPortList();
-      });
       $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
         if (advanced !== previousAdvanced) {
           $rootScope.$broadcast('close-popovers');

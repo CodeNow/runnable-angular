@@ -126,7 +126,7 @@ form.modal-dialog.modal-edit-server(
     //- disabled if no changes
     button.btn.green(
       type = "submit"
-      ng-click = "editServerForm.$invalid || actions.saveChangesToServer(state)"
+      ng-click = "editServerForm.$invalid || getUpdatePromise()"
     )  {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"

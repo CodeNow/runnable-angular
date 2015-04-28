@@ -5,7 +5,7 @@ require('app')
 
 
 require('app')
-  .factory('parseDockerfileForStackFromInstance', parseDockerfileForStackFromInstance);
+  .factory('parseDockerfileForCardInfoFromInstance', parseDockerfileForCardInfoFromInstance);
 
 function parseDockerfileForStack(
   $log,
@@ -52,14 +52,41 @@ function parseDockerfileForStack(
 
 }
 
-function parseDockerfileForStackFromInstance(
+function parseDockerfileForStartCommand(dockerfile) {
+  if (dockerfile) {
+    var cmdValue = /cmd ([^\n]+)/i.exec(dockerfile.attrs.body);
+    if (cmdValue) {
+      return cmdValue[1];
+    }
+  }
+}
+
+function parseDockerfileForPorts(dockerfile) {
+  if (dockerfile) {
+    var portsValue = /expose ([^\n]+)/i.exec(dockerfile.attrs.body);
+    if (portsValue) {
+      return portsValue[1].replace(/expose/gi, '');
+    }
+  }
+}
+
+function parseDockerfileForCardInfoFromInstance(
   parseDockerfileForStack,
   promisify
 ) {
   return function (instance, stackData) {
+    var server = {
+      instance: instance
+    };
     return promisify(instance.contextVersion, 'fetchFile')('/Dockerfile')
       .then(function (dockerfile) {
+        server.ports = parseDockerfileForPorts(dockerfile);
+        server.startCommand = parseDockerfileForStartCommand(dockerfile);
         return parseDockerfileForStack(dockerfile, stackData);
+      })
+      .then(function (stack) {
+        server.selectedStack = stack;
+        return server;
       });
   };
 }
