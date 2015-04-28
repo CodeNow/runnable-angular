@@ -13,9 +13,9 @@
         modal-state-model = "'logs'"
         modal-template = "editServerModalOpen"
       )
-        svg.iconnables.icons-trash
+        svg.iconnables
           use(
-            xlink:href = "#icons-trash"
+            xlink:href = "#icons-log"
           )
         | Build Logs
       li.divider
@@ -23,8 +23,8 @@
       li.list-item.popover-list-item(
         ng-click = "actions.deleteServer(data.server)"
       )
-        svg.iconnables.icons-trash
+        svg.iconnables
           use(
-            xlink:href = "#icons-trash"
+            xlink:href = "#icons-delete-server"
           )
         | Delete Container
