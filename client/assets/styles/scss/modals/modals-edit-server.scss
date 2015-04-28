@@ -120,6 +120,10 @@
     .ace_editor {
       flex: 1 1 auto;
     }
+
+    .spinner-wrapper {
+      position: absolute;
+    }
   }
 
   .active-panel {
@@ -142,6 +146,7 @@
 // build files
 .ace-build-files {
   background: $white;
+  border-radius: 3px;
 
   .ace_editor {
     height: 210px;
@@ -153,17 +158,20 @@
     height: auto;
     padding: 0;
     width: 180px;
+
+    .tree-input {
+      background: transparent;
+      max-width: 133px;
+    }
   }
 
   .sidebar-actions {
     background: $gray-lighter;
-    bottom: 0;
     height: 30px;
-    padding: 4px 3px;
-    position: absolute;
-    width: 100%;
+    padding: 2px;
 
     .btn-xs {
+      float: right;
       padding: 0;
     }
 
