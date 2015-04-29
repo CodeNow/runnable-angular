@@ -63,7 +63,6 @@ function fetchInstances(
         throw new Error('Instance not found');
       }
       instance.githubUsername = opts.githubUsername;
-
       return instance;
     });
   };
@@ -74,9 +73,10 @@ function fetchInstancesByPod(
   $q,
   promisify
 ) {
-  return function () {
+  return function (username) {
     return fetchInstances({
-      masterPod: true
+      masterPod: true,
+      githubUsername: username
     })
       .then(function (masterPods) {
         var podFetch = [];
