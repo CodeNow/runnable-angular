@@ -8,19 +8,6 @@
       )
   | Associations
 
-//- for testing only
-.well(
-  ng-if = "!$storage.dnsManagementIsClosed"
-)
-  | repo-name
-  span.branch-name /branch-name
-
-.well(
-  ng-if = "!$storage.dnsManagementIsClosed"
-)
-  | repo-name
-  span.branch-name /branch-name
-
   //- TODO: For the moment comment this out, we don't have a good way of looping over our direct relations, waiting on what happens from backend
   //-.icons-status(
   //-  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
