@@ -13,7 +13,6 @@ function dnsManager(
   $localStorage,
   promisify,
   getInstanceMaster,
-  fetchInstances,
   $q
 ) {
   return {

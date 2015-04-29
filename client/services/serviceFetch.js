@@ -42,14 +42,14 @@ function fetchInstances(
   pFetchUser,
   promisify,
   keypather,
-  $stateParams
+  $state
 ) {
 
   return function (opts) {
     if (!opts) {
       opts = {};
     }
-    opts.githubUsername = opts.githubUsername || $stateParams.userName;
+    opts.githubUsername = opts.githubUsername || $state.params.userName;
     return pFetchUser().then(function (user) {
       var pFetch = promisify(user, 'fetchInstances');
       return pFetch(opts);

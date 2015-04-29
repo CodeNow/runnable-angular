@@ -11,7 +11,7 @@ function cardBuildStatusText(
   return function (instance, includeDash) {
     var container = keypather.get(instance, 'containers.models[0]');
     var build = keypather.get(instance, 'build');
-    var returnString = includeDash ? '- ' : null;
+    var returnString = includeDash ? '— ' : null;
     if (container) {
       if (!container.running()) {
         returnString += 'Crashed';
