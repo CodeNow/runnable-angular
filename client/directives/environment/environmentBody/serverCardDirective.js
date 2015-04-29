@@ -28,23 +28,28 @@ function serverCard(
         // This may be a newInstance... just a placeholder
         $scope.server.instance = instance;
 
-        $scope.server.contextVersion = instance.contextVersion;
         $scope.server.build = instance.build;
         $scope.server.opts = {
           env: instance.attrs.env
         };
-        $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
-        parseDockerfileForCardInfoFromInstance(instance, $scope.data.stacks)
-          .then(function (parsingResults) {
-            $scope.server.selectedStack = parsingResults.selectedStack;
-            $scope.server.ports = parsingResults.ports;
-            $scope.server.startCommand = parsingResults.startCommand;
-          });
+        if (instance.contextVersion) {
+          $scope.server.building = true;
+          $scope.server.contextVersion = instance.contextVersion;
 
+          $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
+          parseDockerfileForCardInfoFromInstance(instance, $scope.data.stacks)
+            .then(function (parsingResults) {
+              $scope.server.selectedStack = parsingResults.selectedStack;
+              $scope.server.ports = parsingResults.ports;
+              $scope.server.startCommand = parsingResults.startCommand;
 
-        $scope.server.repo = keypather.get(instance.contextVersion, 'appCodeVersions.models[0].githubRepo');
-        if ($scope.server.repo) {
-          promisify($scope.server.repo.branches, 'fetch')();
+              $scope.server.building = false;
+            });
+
+          $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
+          if ($scope.server.repo) {
+            promisify($scope.server.repo.branches, 'fetch')();
+          }
         }
       }
 

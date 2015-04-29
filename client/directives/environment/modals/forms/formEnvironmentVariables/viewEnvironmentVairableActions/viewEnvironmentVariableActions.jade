@@ -36,9 +36,9 @@ button.btn.btn-xs(
   )
     li.list-item.popover-list-item.small Select elastic url
     fancy-option.monospace(
-      value = "server.instance"
-      ng-repeat = "server in $parent.data.newServers"
-    ) {{ $parent.server.instance.getMasterHost() }}
+      value = "instance"
+      ng-repeat = "instance in $parent.data.instances.models"
+    ) {{ $parent.instance.getMasterHost() }}
 
   fancy-select.input-sm.monospace.text-overflow(
     value = "$parent.state.newLink.port"

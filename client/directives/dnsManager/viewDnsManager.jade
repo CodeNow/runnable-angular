@@ -16,30 +16,46 @@
   //-)
 
 .empty-state(
-  ng-if = "!$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
 ) You have no linked instances.
 
 fancy-select.well(
-  ng-repeat = "masterInstance in directlyRelatedMasterInstances"
+  ng-repeat = "masterInstance in masterInstancesWithChildren"
   value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
-  ng-disabled = "masterInstance.instanceOptions.length <= 1"
-  show-dropdown = "masterInstance.instanceOptions.length > 1"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
   fancy-option(
-    ng-repeat = "instanceOption in $parent.masterInstance.instanceOptions"
-    value = "instanceOption.attrs.shortHash"
+    value = "$parent.masterInstance.attrs.shortHash"
   )
     .icons-status(
-      ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.instanceOption)"
+      ng-class = "$parent.$parent.getInstanceClasses($parent.$parent.masterInstance)"
+    )
+    | {{ $parent.$parent.masterInstance.attrs.name }}
+    span.branch-name /{{ $parent.$parent.masterInstance.getBranchName() }}
+
+  fancy-option(
+    ng-repeat = "childInstance in $parent.masterInstance.children.models"
+    value = "childInstance.attrs.shortHash"
+  )
+    .icons-status(
+      ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.childInstance)"
     )
     | {{ $parent.$parent.$parent.masterInstance.attrs.name }}
-    span.branch-name /{{ $parent.instanceOption.attrs.contextVersion.appCodeVersions[0].branch }}
+    span.branch-name /{{ $parent.childInstance.getBranchName() }}
 
 //- non-repository containers that are linked directly
-.well.non-repo
-  .icons-status.running
-  | container-name
+
+.well.non-repo(
+  ng-repeat = "masterInstance in masterInstancesWithoutChildren"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+)
+  .icons-status(
+    ng-class = "getInstanceClasses(masterInstance)"
+  )
+  | {{ masterInstance.attrs.name }}
+  span.branch-name(
+    ng-if = "masterInstance.getBranchName().length"
+  ) /{{ masterInstance.getBranchName() }}
 
 .well.indirect(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"

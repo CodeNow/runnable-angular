@@ -145,7 +145,7 @@
   display: flex;
   margin: 12px auto;
   max-width: 100%;
-  padding-right: 6px;
+  padding-right: 3px;
 
   .btn-text {
 
@@ -166,17 +166,10 @@
     margin-top: 12px; // 'vertical center'
   }
 
-  // gear
-  .icons-gear {
-    height: 100%;
-    margin-left: 15px;
-    width: 18px;
-  }
-
   // arrow down
   .icons-arrow-down {
-    margin: 0 0 0 -2px;
-    width: 15px;
+    flex: 0 0 18px;
+    margin: 0 0 0 6px;
   }
 }
 
@@ -241,10 +234,8 @@
       margin-top: -2px;
     }
 
-    //- fix dis
     > .iconnables:first-child {
       float: left;
-      height: 23px;
       margin-right: 6px;
       width: 18px;
     }
@@ -317,7 +308,6 @@
 .card-loading {
   align-items: center;
   display: flex;
-  height: 369px;
   justify-content: center;
   text-align: center;
 

@@ -33,7 +33,7 @@ function ControllerInstance(
     actions: {}
   };
   var data = dataInstance.data;
-  var actions = dataInstance.actions;
+  $scope.$storage = $localStorage;
 
   data.openItems = new OpenItems();
 

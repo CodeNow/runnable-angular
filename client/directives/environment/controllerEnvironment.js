@@ -11,28 +11,24 @@ require('app')
 function ControllerEnvironment(
   $scope,
   $state,
-  $filter,
-  createDockerfileFromSource,
+  $timeout,
   createNewInstance,
   errs,
   eventTracking,
   favico,
   fetchContexts,
-  fetchDockerfileFromSource,
+  getNewForkName,
   pFetchUser,
-  populateDockerfile,
   fetchStackInfo,
-  getInstanceClasses,
   keypather,
   fetchInstances,
   promisify,
-  updateInstanceWithNewBuild,
   copySourceInstance,
   $rootScope
 ) {
   favico.reset();
   $scope.data = {
-    newServers: []
+    instances: []
   };
   $scope.state = {
     validation: {
@@ -42,14 +38,16 @@ function ControllerEnvironment(
 
   $scope.actions = {
     deleteServer: function (server) {
-      $scope.$emit('close-popovers');
-      if (confirm('Are you sure you want to delete this server?')) {
-        promisify(server.instance, 'destroy')()
-          .catch(errs.handler);
-      }
+      $rootScope.$broadcast('close-popovers');
+      $timeout(function () {
+        if (confirm('Are you sure you want to delete this server?')) {
+          promisify(server.instance, 'destroy')()
+            .catch(errs.handler);
+        }
+      });
     },
     createAndBuild: function (createPromise, name) {
-      $scope.$emit('close-modal');
+      $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
       var instance = $rootScope.dataApp.data.user.newInstance({
@@ -74,7 +72,7 @@ function ControllerEnvironment(
         });
     },
     addServerFromTemplate: function (sourceInstance) {
-      var serverName = getUniqueServerName(sourceInstance.attrs.name);
+      var serverName = getNewForkName(sourceInstance, $scope.data.instances, true);
 
       var serverModel = {
         opts: {
@@ -92,40 +90,21 @@ function ControllerEnvironment(
             serverModel.build = build;
             return serverModel;
           }),
-        serverModel
+        serverName
       );
     }
   };
-
-  function getUniqueServerName(serverName) {
-    function getServerByName(serverName) {
-      return $scope.data.newServers.find(function (server) {
-        return server.instance.attrs.name === serverName;
-      });
-    }
-    var counter = 1;
-    var tempServerName = serverName;
-    while (getServerByName(tempServerName)) {
-      counter += 1;
-      tempServerName = serverName + '-' + counter;
-    }
-    return tempServerName;
-  }
-
 
   $scope.data.loadingNewServers = true;
   fetchStackInfo()
     .then(function (stacks) {
       keypather.set($scope, 'data.stacks', stacks);
       return fetchInstances({
-        githubUsername: $state.params.userName
+        masterPod: true
       });
     })
     .then(function (instances) {
       $scope.data.instances = instances;
-        //.filter(function (instance) {
-        //  return instance.attrs.masterPod;
-        //})
       $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
