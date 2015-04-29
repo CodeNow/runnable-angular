@@ -201,19 +201,31 @@
 .modal-logs {
 
   .active-panel {
+    height: 750px;
+
+    @media (max-height: 1100px) {
+      height: 650px;
+    }
+
+    @media (max-height: 1000px) {
+      height: 550px;
+    }
+
+    @media (max-height: 900px) {
+      height: 450px;
+    }
 
     @media (max-height: 800px) {
-      max-height: 350px;
+      height: 350px;
     }
 
     @media (max-height: 700px) {
-      max-height: 250px;
-      min-height: 0;
+      height: 250px;
     }
 
     @media (max-height: 600px) {
-      max-height: 175px;
-      min-height: 0;
+      height: 175px;
+      min-height: none;
     }
   }
 }
