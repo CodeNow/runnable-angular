@@ -79,10 +79,6 @@ function ControllerInstance(
       data.instance.state = {};
 
       data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
-      // This is to untoggle all of the other team members trays
-      if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
-        $scope.dataApp.actions.setToggled();
-      }
       setLastInstance($stateParams.instanceName);
       $scope.dataApp.data.loading = false;
     })
