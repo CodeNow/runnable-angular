@@ -85,7 +85,7 @@ function ControllerApp(
       setActiveAccount(toParams.userName);
     }
     eventTracking.update();
-    dataApp.data.loading = true;
+    dataApp.data.loading = false;
   });
 
   $scope.$watch(function () {
