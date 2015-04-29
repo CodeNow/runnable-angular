@@ -38,9 +38,9 @@
 
   // if .arrow-down
   > .icons-arrow-down {
-    float: right;
     height: 100%;
-    margin-left: 3px;
+    position: absolute;
+    right: 3px;
     // transition: opacity .2s ease-in, transform .3s ease-in;
   }
 

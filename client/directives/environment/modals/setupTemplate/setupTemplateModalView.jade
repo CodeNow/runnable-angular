@@ -1,21 +1,22 @@
-.modal-dialog.modal-repository-select
+.modal-dialog
   header.modal-header
     h1.modal-heading New Container from Template
 
   section.modal-body
     ul.list.list-servers
       li.list-item.multi-line(
-        ng-click = "actions.addServerFromTemplate(dependency)"
+        ng-click = "addServerFromTemplate(dependency)"
         ng-repeat = "dependency in data.allDependencies.models | \
           removeTemplateInstances | \
           orderBy:'attrs.name'"
       )
-        svg.iconnables.icons-server
-          use(
-            xlink:href = "#icons-server"
-          )
-        | {{dependency.attrs.name}}
-        small.small Lorem ipsum sit dolor
+        img.img.gravatar(
+          height = "24"
+          ng-src = "/build/images/logos/logo-icon-{{dependency.attrs.name.toLowerCase()}}.png"
+          width = "24"
+        )
+        .text-overflow {{dependency.attrs.name}}
+        small.small {{dependency.description}}
         button.btn.btn-xs.green Add Container
 
 

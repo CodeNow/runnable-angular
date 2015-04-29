@@ -31,8 +31,8 @@ section.modal-body.clearfix
         repos: repoFilter | \
         orderBy: '-attrs.updated_at'\
       "
-
-    ) {{ repo.attrs.name}}
+    )
+      .text-overflow {{ repo.attrs.name}}
       small.small Updated {{ repo.attrs.updated_at | timeFrom }}
       button.btn.btn-xs(
         ng-class = "{\

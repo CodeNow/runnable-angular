@@ -10,6 +10,18 @@
     max-width: 720px;
   }
 
+  // css override for server building state
+  &.disabled {
+    cursor: not-allowed !important;
+
+    .btn,
+    .input,
+    .ace-container {
+      @extend %no-touching;
+      opacity: .6 !important;
+    }
+  }
+
   // nav
   // header button
   .btn-title {
@@ -36,7 +48,7 @@
     }
 
     .icons-arrow-down {
-      width: 12px;
+      width: 18px;
     }
   }
 
@@ -51,7 +63,7 @@
     margin-bottom: 6px;
     padding: 0 9px;
     white-space: normal;
-    width: 96px;
+    width: 105px;
 
     .btn-text {
       display: inline-block;
@@ -120,6 +132,10 @@
     .ace_editor {
       flex: 1 1 auto;
     }
+
+    .spinner-wrapper {
+      position: absolute;
+    }
   }
 
   .active-panel {
@@ -142,6 +158,7 @@
 // build files
 .ace-build-files {
   background: $white;
+  border-radius: 3px;
 
   .ace_editor {
     height: 210px;
@@ -153,17 +170,20 @@
     height: auto;
     padding: 0;
     width: 180px;
+
+    .tree-input {
+      background: transparent;
+      max-width: 133px;
+    }
   }
 
   .sidebar-actions {
     background: $gray-lighter;
-    bottom: 0;
     height: 30px;
-    padding: 4px 3px;
-    position: absolute;
-    width: 100%;
+    padding: 2px;
 
     .btn-xs {
+      float: right;
       padding: 0;
     }
 
@@ -181,19 +201,31 @@
 .modal-logs {
 
   .active-panel {
+    height: 750px;
+
+    @media (max-height: 1100px) {
+      height: 650px;
+    }
+
+    @media (max-height: 1000px) {
+      height: 550px;
+    }
+
+    @media (max-height: 900px) {
+      height: 450px;
+    }
 
     @media (max-height: 800px) {
-      max-height: 350px;
+      height: 350px;
     }
 
     @media (max-height: 700px) {
-      max-height: 250px;
-      min-height: 0;
+      height: 250px;
     }
 
     @media (max-height: 600px) {
-      max-height: 175px;
-      min-height: 0;
+      height: 175px;
+      min-height: none;
     }
   }
 }

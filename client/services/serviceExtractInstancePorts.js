@@ -9,7 +9,6 @@ require('app')
 function extractInstancePorts(keypather) {
   return function (instance) {
     var portsObj = keypather.get(instance, 'containers.models[0].attrs.ports');
-    console.log(portsObj);
     if (!portsObj) {
       return [];
     }

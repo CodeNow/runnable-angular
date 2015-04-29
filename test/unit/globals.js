@@ -1,5 +1,6 @@
 'use strict';
 
+require('es5-shim');
 // Variables we want everywhere
 
 // These already modify global variables
@@ -25,7 +26,9 @@ window.fixtures = {
   mockFetchOwnerRepos: require('./fixtures/mockFetchOwnerRepos')
   //mockFetch: require('./fixtures/mockFetch')
 };
-window.runnable = new (require('runnable'))(window.host);
+window.runnable = new (require('runnable'))(window.host, {
+  socket: true
+});
 window.noop = function () {};
 window.helpers = {
   click: function (el, augmentCb){

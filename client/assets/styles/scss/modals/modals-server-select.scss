@@ -1,6 +1,5 @@
 .modal-server-select {
   max-width: 450px;
-  min-width: 420px;
 
   .modal-body {
     max-height: 60vh;
@@ -36,6 +35,10 @@
     margin: 3px 0 0;
     padding: 6px 15px;
 
+    @include media(sm) {
+      padding-left: 6px;
+    }
+
     &:hover {
       background: $white;
       border-color: $gray-lighter;
@@ -65,16 +68,20 @@
   }
 
   // anchor image
-  .iconnables {
-    background: $gray;
+  .gravatar {
+    background: $white;
+    border: 2px solid $white;
     border-radius: 50%;
-    color: $gray-light;
     float: left;
     height: 24px;
     margin-right: 9px;
     margin-top: 3px;
-    padding: 3px;
     width: 24px;
+  }
+
+  // title
+  .text-overflow {
+    padding-right: 120px;
   }
 
   // add button

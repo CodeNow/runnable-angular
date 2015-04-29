@@ -3,19 +3,18 @@
 
 //- table of current environment variables
 .ace-container.ace-build-files
-  section.sidebar
-    section.row.explorer(
-      explorer
-      file-model = "state.contextVersion"
-      open-items = "openItems"
-      root-dir = "state.contextVersion.rootDir"
-      show-repo-folder = "true"
-      explorer-title = "Build Files"
-      edit-explorer = "true"
-    )
+  .sidebar(
+    edit-explorer = "true"
+    explorer
+    explorer-title = "Build Files"
+    file-model = "state.contextVersion"
+    open-items = "openItems"
+    root-dir = "state.contextVersion.rootDir"
+    show-repo-folder = "true"
+  )
+
   //- active panel
-  div(
-    ng-class = "colorScheme.getSchemeStyle()"
+  .ace_editor.ace-runnable-dark(
     ng-repeat = "item in openItems.models"
     ng-show = "item === openItems.activeHistory.last()"
   )
@@ -23,9 +22,9 @@
     div(
       file = "item"
       file-editor
-      ng-if = "item.state.type === 'File'"
-      use-auto-update = "useAutoUpdate"
       loading = "loading"
+      ng-if = "item.state.type === 'File'"
+      use-auto-update = "true"
     )
 
 small.small 😌🐻✌️ #{''}

@@ -1,9 +1,12 @@
 form.modal-dialog.modal-edit-server(
   name = 'editServerForm'
+  ng-class = "{disabled: building}"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
-      popover-template = "serverOptionsModalPopover"
+      pop-over-options = "{\"right\":-7,\"top\":36}"
+      pop-over-template = "serverOptionsModalPopover"
+      ng-attr-no-touching = "{{ !state.repo }}"
     )
     .row.modal-tabs
       button.btn.btn-radio(
@@ -11,11 +14,11 @@ form.modal-dialog.modal-edit-server(
         ng-click = "changeTab('buildfiles')"
         ng-if = "state.advanced"
       )
-        svg.iconnables.icons-terminal
+        svg.iconnables
           use(
-            xlink:href = "#icons-terminal"
+            xlink:href = "#icons-advanced"
           )
-        span.btn-text Advanced config
+        span.btn-text Advanced Configuration
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'stack'}"
         ng-click = "changeTab('stack')"
@@ -35,7 +38,7 @@ form.modal-dialog.modal-edit-server(
           use(
             xlink:href = "#icons-start-cmd"
           )
-        span.btn-text Build Command
+        span.btn-text Container Command
       button.btn.btn-radio(
         ng-class = "{active: selectedTab === 'ports'}"
         ng-click = "changeTab('ports')"
@@ -62,7 +65,7 @@ form.modal-dialog.modal-edit-server(
       )
         svg.iconnables
           use(
-            xlink:href = "#icons-ports"
+            xlink:href = "#icons-environment-variable"
           )
         span.btn-text Environment Variables
       button.btn.btn-radio(
@@ -81,12 +84,19 @@ form.modal-dialog.modal-edit-server(
       )
         svg.iconnables
           use(
-            xlink:href = "#icons-ports"
+            xlink:href = "#icons-log"
           )
         span.btn-text Logs
 
-
   section.modal-body
+
+    //- use when loading build files
+      - if files aren't ready
+    .spinner-wrapper.spinner-md.in(
+      ng-if = "false"
+      ng-include = "'spinner'"
+    )
+
     .modal-form(
       ng-if = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
@@ -124,10 +134,22 @@ form.modal-dialog.modal-edit-server(
 
   footer.modal-footer.clearfix
     //- disabled if no changes
-    button.btn.green(
+    button.btn.green.btn-spinner(
+      ng-class = "{in: building}"
+      ng-click = "editServerForm.$invalid || getUpdatePromise()"
       type = "submit"
-      ng-click = "editServerForm.$invalid || actions.saveChangesToServer(state)"
-    )  {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+    )
+      //- spinner
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "building"
+        ng-include = "'spinner'"
+      )
+      span.btn-text(
+        ng-if = "!building"
+      ) {{ (validation.env.length) ? (validation.env.length) + ' env errors' : 'Save Changes'}}
+      span.btn-text(
+        ng-if = "building"
+      ) Saving
     button.btn.white.btn-cancel(
       ng-click = "defaultActions.cancel()"
       type = "button"

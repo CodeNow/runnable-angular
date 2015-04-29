@@ -179,7 +179,7 @@
   }
 
   // upload
-  .input-upload {
+  [type="file"] {
     cursor: pointer;
     height: 36px;
     left: 0;

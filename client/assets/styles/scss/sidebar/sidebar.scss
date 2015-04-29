@@ -36,14 +36,6 @@
     margin: 10px 9px 0 0;
     width: 6px;
   }
-
-  .row {
-    // padding: 0 12px;
-
-    + .row {
-      padding-bottom: 9px;
-    }
-  }
 }
 
 .closed .icons-disclose {

@@ -13,7 +13,6 @@ require('app')
  */
 function fileEditor(
   $rootScope,
-  colorScheme,
   debounce,
   errs,
   keypather,
@@ -29,8 +28,6 @@ function fileEditor(
       useAutoUpdate: '='
     },
     link: function ($scope, element, attrs) {
-      $scope.colorScheme = colorScheme;
-
       var useValidation = false;
       var session = null;
       $scope.actions = {
@@ -85,7 +82,7 @@ function fileEditor(
           errs.handler
         );
       }
-      var updateFileDebounce = debounce(updateFile, 200);
+      var updateFileDebounce = debounce(updateFile, 1000);
 
       var fileUnwatch = $scope.$watch('file', function (n) {
         if (n) {

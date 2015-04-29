@@ -9,8 +9,9 @@
       type = "button"
     )
       //- spinner
+      //- disable button when saving
       .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-if = "saving"
+        ng-if = "false"
         ng-include = "'spinner'"
       )
       span.btn-text Save

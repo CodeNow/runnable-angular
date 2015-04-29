@@ -2,7 +2,9 @@
   ng-class = "{in: active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  //- .arrow.white
+  .arrow.white(
+    style = "left: auto; right: 4px;"
+  )
   .popover-content
     ul.popover-list
       li.list-item.popover-list-item(
@@ -13,18 +15,18 @@
         modal-state-model = "'logs'"
         modal-template = "editServerModalOpen"
       )
-        svg.iconnables.icons-trash
+        svg.iconnables
           use(
-            xlink:href = "#icons-trash"
+            xlink:href = "#icons-log"
           )
-        | Build Logs
+        | {{ data.server.container.running() ? 'Run' : 'Build'}} Logs
       li.divider
       //- trigger delete confirm modal
       li.list-item.popover-list-item(
         ng-click = "actions.deleteServer(data.server)"
       )
-        svg.iconnables.icons-trash
+        svg.iconnables
           use(
-            xlink:href = "#icons-trash"
+            xlink:href = "#icons-delete-server"
           )
         | Delete Container

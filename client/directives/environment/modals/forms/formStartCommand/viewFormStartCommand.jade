@@ -1,22 +1,22 @@
 label.label.clearfix
-  .label-col Build Command
+  .label-col Container Command
 
   .input-col
     fancy-select(
       ng-disabled = "startCommandCanDisable && !state.selectedStack.selectedVersion"
-      placeholder = "Start command"
-      value = "state.startCommand"
-      type = "text"
       ng-required = "true"
+      placeholder = "Container command"
       show-dropdown = "state.selectedStack.startCommand"
+      type = "text"
+      value = "state.startCommand"
     )
-      li.list-item.popover-list-item.small Suggested build command
+      li.list-item.popover-list-item.small Suggested container command
       fancy-option(
         value = "$parent.state.selectedStack.startCommand"
       ) {{$parent.$parent.state.selectedStack.startCommand}}
 
-    small.small Specify the commands to be executed when your container is built and before it is launched. #{''}
+    small.small This is the command that will be executed when your container is launched, to start running your code. This must be the long-running process your code requires (e.g. apache, NPM start, Python server).  When this process terminates, your container will also stop running. #{''}
       a.link(
         href = "//docs.docker.com/reference/builder/#cmd"
         target = "_blank"
-      ) More about the build command
+      ) More about the container command
