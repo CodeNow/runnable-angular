@@ -8,7 +8,6 @@ require('app')
 function instanceSecondaryActions(
   errs,
   $state,
-  keypather,
   $stateParams,
   promisify
 ) {
@@ -21,7 +20,6 @@ function instanceSecondaryActions(
       saving: '='
     },
     link: function ($scope) {
-
       $scope.saving = false;
 
       $scope.actions = {
@@ -46,6 +44,8 @@ function instanceSecondaryActions(
 
       function modInstance(action, opts) {
         $scope.saving = true;
+        $scope.starting = action === 'start';
+
         $scope.$broadcast('close-popovers');
         promisify($scope.instance, action)(
           opts

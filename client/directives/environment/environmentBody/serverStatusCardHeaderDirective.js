@@ -17,6 +17,13 @@ function serverStatusCardHeader(
         parentData: $scope.data,
         parentState: $scope.state
       };
+      var unwatch = $scope.$watch('server', function (n) {
+        if (n) {
+          unwatch();
+          $scope.popOverServerData.server = n;
+        }
+      });
+      $scope.noTouching = attrs.noTouching;
     }
   };
 }

@@ -14,8 +14,7 @@
   )
 
   //- active panel
-  .ace_editor(
-    ng-class = "colorScheme.getSchemeStyle()"
+  .ace_editor.ace-runnable-dark(
     ng-repeat = "item in openItems.models"
     ng-show = "item === openItems.activeHistory.last()"
   )
