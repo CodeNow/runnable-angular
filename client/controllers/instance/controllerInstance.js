@@ -24,8 +24,7 @@ function ControllerInstance(
   keypather,
   pFetchUser,
   pageName,
-  setLastInstance,
-  $rootScope
+  setLastInstance
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -35,7 +34,7 @@ function ControllerInstance(
   };
   var data = dataInstance.data;
   $scope.$storage = $localStorage;
-  $rootScope.dataApp.data.loading = true;
+  $scope.dataApp.data.loading = true;
 
   data.openItems = new OpenItems();
 
@@ -85,11 +84,11 @@ function ControllerInstance(
         $scope.dataApp.actions.setToggled();
       }
       setLastInstance($stateParams.instanceName);
-      $rootScope.dataApp.data.loading = false;
+      $scope.dataApp.data.loading = false;
     })
     .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
       errs.handler(err);
-      $rootScope.dataApp.data.loading = false;
+      $scope.dataApp.data.loading = false;
       setLastInstance(false);
       $state.go('instance.home', {
         userName: $stateParams.userName
