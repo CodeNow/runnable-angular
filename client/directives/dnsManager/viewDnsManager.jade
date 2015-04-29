@@ -8,6 +8,19 @@
       )
   | Associations
 
+//- for testing only
+.well(
+  ng-if = "!$storage.dnsManagementIsClosed"
+)
+  | repo-name
+  span.branch-name /branch-name
+
+.well(
+  ng-if = "!$storage.dnsManagementIsClosed"
+)
+  | repo-name
+  span.branch-name /branch-name
+
   //- TODO: For the moment comment this out, we don't have a good way of looping over our direct relations, waiting on what happens from backend
   //-.icons-status(
   //-  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
@@ -24,6 +37,7 @@ fancy-select.well(
   value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
+
   fancy-option(
     value = "$parent.masterInstance.attrs.shortHash"
   )
@@ -43,9 +57,8 @@ fancy-select.well(
     | {{ $parent.$parent.$parent.masterInstance.attrs.name }}
     span.branch-name /{{ $parent.childInstance.getBranchName() }}
 
-//- non-repository containers that are linked directly
-
-.well.non-repo(
+//- non-repo containers, or repo containers with only one branch, that are linked directly
+.well.non-configurable(
   ng-repeat = "masterInstance in masterInstancesWithoutChildren"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
