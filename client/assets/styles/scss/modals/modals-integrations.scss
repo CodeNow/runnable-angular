@@ -8,6 +8,7 @@
     width: calc(100% - 30px);
   }
 
+
   // uninitiated state
   &.no-data {
     max-height: 300px;
@@ -40,6 +41,10 @@
   // unverified state
   &.no-verify {
     max-height: 300px;
+
+    @include media(xs) {
+      max-height: 360px;
+    }
   }
 
   // default state

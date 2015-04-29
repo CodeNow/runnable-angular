@@ -24,6 +24,10 @@
     .input,
     .btn {
       max-width: 360px;
+
+      @include media(xs) {
+        max-width: none;
+      }
     }
 
     // buttons
