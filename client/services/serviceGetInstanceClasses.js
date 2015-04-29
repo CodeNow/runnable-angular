@@ -19,10 +19,10 @@ function getInstanceClasses(
     h.active = (instance.attrs.name === $state.params.instanceName);
     if (container && container.running()) {
       h.green = true;
-    } else if (build && !build.attrs.completed) {
-      h.orange = true;
-    } else {
+    } else if (build && build.failed()) {
       h.red = true;
+    } else {
+      h.orange = true;
     }
     return h;
   };

@@ -34,6 +34,7 @@ function ControllerInstance(
   };
   var data = dataInstance.data;
   $scope.$storage = $localStorage;
+  $scope.dataApp.data.loading = true;
 
   data.openItems = new OpenItems();
 
@@ -83,9 +84,11 @@ function ControllerInstance(
         $scope.dataApp.actions.setToggled();
       }
       setLastInstance($stateParams.instanceName);
+      $scope.dataApp.data.loading = false;
     })
     .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
       errs.handler(err);
+      $scope.dataApp.data.loading = false;
       setLastInstance(false);
       $state.go('instance.home', {
         userName: $stateParams.userName

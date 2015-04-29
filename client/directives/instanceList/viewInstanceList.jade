@@ -1,18 +1,12 @@
 //- spinner for sidebar
 .spinner-wrapper.spinner-md.in(
-  ng-if = "state.loadingInstances"
+  ng-if = "isLoading()"
   ng-include = "'spinner'"
 )
 
-//- .filter-wrap(
-//-   ng-if = "!state.loadingInstances"
-//- )
-  input.filter(
-    ng-model = "filter.string"
-    placeholder = "Filter Servers"
-  )
-
-.row-heading
+.row-heading(
+  ng-if = "!isLoading()"
+)
   | Containers
   a.btn.btn-xs.white(
     ui-sref = "instance.config({ userName: data.activeAccount.oauthName() })"
@@ -22,7 +16,9 @@
         xlink:href = "#icons-gear"
       )
     | Configure
-ul.server-category-list
+ul.server-category-list(
+  ng-if = "!isLoading()"
+)
   li.server-category-list-item(
     ng-repeat = "masterInstance in data.instancesByPod.models"
   )

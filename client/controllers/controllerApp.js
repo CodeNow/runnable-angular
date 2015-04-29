@@ -29,7 +29,9 @@ function ControllerApp(
 
   var thisUser;
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
-    data: {},
+    data: {
+      loading: true
+    },
     actions: {},
     state: {}
   };
@@ -68,7 +70,10 @@ function ControllerApp(
           dataApp.data.activeAccount = accounts.find(function (org) {
             return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
           });
-          dataApp.data.user.socket.joinOrgRoom(dataApp.data.activeAccount.oauthId());
+          if (dataApp.data.user.socket) {
+            dataApp.data.user.socket.joinOrgRoom(dataApp.data.activeAccount.oauthId());
+          }
+
           if (!dataApp.data.activeAccount) {
             dataApp.data.activeAccount = thisUser;
           }
@@ -77,8 +82,6 @@ function ControllerApp(
       });
     }
   }
-  // shows spinner overlay
-  dataApp.data.loading = false;
   $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
     if (!keypather.get(dataApp, 'data.activeAccount.oauthName()') ||
         toParams.userName !== dataApp.data.activeAccount.oauthName()) {
