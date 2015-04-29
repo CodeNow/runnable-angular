@@ -1,10 +1,20 @@
 button.btn.gray(
   ng-click = "actions.stopInstance()"
-  ng-if = "instance.build.attrs.completed && instance.containers.models[0].running()"
+  ng-if = "!saving && instance.build.attrs.completed && instance.containers.models[0].running()"
 ) Stop Server
 
+button.btn.gray(
+  ng-if = "saving && starting"
+  disabled
+) Starting Server &hellip;
+
+button.btn.gray(
+  ng-if = "saving && !starting"
+  disabled
+) Stopping Server &hellip;
 
 button.btn.gray(
   ng-click = "actions.startInstance()"
-  ng-if = "instance.build.attrs.completed && !instance.containers.models[0].running()"
+  ng-if = "!saving && instance.build.attrs.completed && !instance.containers.models[0].running()"
+  ng-disabled = "saving"
 ) Start Server
