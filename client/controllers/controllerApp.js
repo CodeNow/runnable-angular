@@ -29,7 +29,9 @@ function ControllerApp(
 
   var thisUser;
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
-    data: {},
+    data: {
+      loading: true
+    },
     actions: {},
     state: {}
   };
@@ -77,15 +79,13 @@ function ControllerApp(
       });
     }
   }
-  // shows spinner overlay
-  dataApp.data.loading = false;
   $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
     if (!keypather.get(dataApp, 'data.activeAccount.oauthName()') ||
         toParams.userName !== dataApp.data.activeAccount.oauthName()) {
       setActiveAccount(toParams.userName);
     }
     eventTracking.update();
-    dataApp.data.loading = false;
+    dataApp.data.loading = true;
   });
 
   $scope.$watch(function () {
