@@ -19,7 +19,7 @@
           use(
             xlink:href = "#icons-log"
           )
-        | Build Logs
+        | {{ data.server.container.running() ? 'Run' : 'Build'}} Logs
       li.divider
       //- trigger delete confirm modal
       li.list-item.popover-list-item(

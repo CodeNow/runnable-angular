@@ -70,28 +70,6 @@ function ControllerEnvironment(
           instance.dealloc();
           //dealloc
         });
-    },
-    addServerFromTemplate: function (sourceInstance) {
-      var serverName = getNewForkName(sourceInstance, $scope.data.instances, true);
-
-      var serverModel = {
-        opts: {
-          name: serverName,
-          masterPod: true
-        }
-      };
-      return $scope.actions.createAndBuild(
-        copySourceInstance(
-          $rootScope.dataApp.data.activeAccount,
-          sourceInstance,
-          serverName
-        )
-          .then(function (build) {
-            serverModel.build = build;
-            return serverModel;
-          }),
-        serverName
-      );
     }
   };
 
