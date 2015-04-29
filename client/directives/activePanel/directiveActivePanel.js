@@ -12,7 +12,6 @@ require('app')
  */
 function activePanel(
   $sce,
-  colorScheme,
   keypather,
   updateInstanceWithNewBuild,
   errs,
@@ -48,7 +47,6 @@ function activePanel(
 
       // allow iframe to load url
       $scope.$sce = $sce;
-      $scope.colorScheme = colorScheme;
       $scope.useAutoUpdate = !!attrs.useAutoUpdate;
 
       var shouldShowBuildFailurePrompt = false;
