@@ -1,4 +1,7 @@
 div(
+  ng-class = "{\
+    'no-touching': noTouching\
+  }"
   pop-over
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
@@ -13,7 +16,9 @@ div(
   span.btn-text(
     ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
   ) {{ server.instance | cardBuildStatusText:true}}
-  svg.iconnables.icons-arrow-down
+  svg.iconnables.icons-arrow-down(
+    ng-if = "!noTouching"
+  )
     use(
       xlink:href = "#icons-arrow-down"
     )

@@ -218,6 +218,9 @@ function editServerModal(
         })
         .then(function (build) {
           $scope.state.build = build;
+        })
+        .catch(function (err) {
+          errs.handler(err);
         });
 
       // Only start watching this after the context version has

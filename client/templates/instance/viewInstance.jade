@@ -124,6 +124,7 @@ section.sidebar.server-sidebar.load(
 
   section.row.linked-servers(
     ng-class = "{closed: $storage.dnsManagementIsClosed}"
+    ng-if = "dataInstance.data.instance"
     dns-manager
     instance = "dataInstance.data.instance"
   )

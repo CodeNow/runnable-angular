@@ -27,6 +27,8 @@ function cardBuildStatusText(
       } else {
         returnString += 'Building';
       }
+    } else {
+      return '';
     }
     return returnString;
   };

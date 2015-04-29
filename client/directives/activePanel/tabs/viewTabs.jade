@@ -1,15 +1,3 @@
-//- theme
-button.btn.toggle-theme(
-  ng-class = "{\
-    dark: colorScheme.isDarkScheme(),\
-    light: !colorScheme.isDarkScheme()\
-  }"
-  ng-click = "colorScheme.toggleScheme()"
-  tooltip = "Change Theme"
-  tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
-)
-  .theme
-
 //- tabs
 ul.tabs
   //- apply .disabled class when server is not running EXCEPT on build logs tab

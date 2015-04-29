@@ -33,6 +33,7 @@ function serverCard(
           env: instance.attrs.env
         };
         if (instance.contextVersion) {
+          $scope.server.building = true;
           $scope.server.contextVersion = instance.contextVersion;
 
           $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
@@ -41,6 +42,8 @@ function serverCard(
               $scope.server.selectedStack = parsingResults.selectedStack;
               $scope.server.ports = parsingResults.ports;
               $scope.server.startCommand = parsingResults.startCommand;
+
+              $scope.server.building = false;
             });
 
           $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');

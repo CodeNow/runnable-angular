@@ -40,7 +40,7 @@ function ControllerEnvironment(
     deleteServer: function (server) {
       $rootScope.$broadcast('close-popovers');
       $timeout(function () {
-        if (confirm('Are you sure you want to delete this server?')) {
+        if (confirm('Are you sure you want to delete this container?')) {
           promisify(server.instance, 'destroy')()
             .catch(errs.handler);
         }
@@ -70,28 +70,6 @@ function ControllerEnvironment(
           instance.dealloc();
           //dealloc
         });
-    },
-    addServerFromTemplate: function (sourceInstance) {
-      var serverName = getNewForkName(sourceInstance, $scope.data.instances, true);
-
-      var serverModel = {
-        opts: {
-          name: serverName,
-          masterPod: true
-        }
-      };
-      return $scope.actions.createAndBuild(
-        copySourceInstance(
-          $rootScope.dataApp.data.activeAccount,
-          sourceInstance,
-          serverName
-        )
-          .then(function (build) {
-            serverModel.build = build;
-            return serverModel;
-          }),
-        serverModel
-      );
     }
   };
 
@@ -100,14 +78,11 @@ function ControllerEnvironment(
     .then(function (stacks) {
       keypather.set($scope, 'data.stacks', stacks);
       return fetchInstances({
-        githubUsername: $state.params.userName
+        masterPod: true
       });
     })
     .then(function (instances) {
       $scope.data.instances = instances;
-        //.filter(function (instance) {
-        //  return instance.attrs.masterPod;
-        //})
       $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
