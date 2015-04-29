@@ -10,10 +10,11 @@
           removeTemplateInstances | \
           orderBy:'attrs.name'"
       )
-        svg.iconnables.icons-server
-          use(
-            xlink:href = "#icons-server"
-          )
+        img.img.gravatar(
+          height = "24"
+          src = "/build/images/logos/logo-icon-elasticsearch.png"
+          width = "24"
+        )
         | {{dependency.attrs.name}}
         small.small Lorem ipsum sit dolor
         button.btn.btn-xs.green Add Container

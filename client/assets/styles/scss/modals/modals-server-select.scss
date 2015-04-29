@@ -65,15 +65,14 @@
   }
 
   // anchor image
-  .iconnables {
-    background: $gray;
+  .gravatar {
+    background: $white;
+    border: 2px solid $white;
     border-radius: 50%;
-    color: $gray-light;
     float: left;
     height: 24px;
     margin-right: 9px;
     margin-top: 3px;
-    padding: 3px;
     width: 24px;
   }
 
