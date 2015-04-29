@@ -5,7 +5,7 @@ var qs = require('qs');
 
 require('app')
   .factory('user', function ($http, configAPIHost, configUserContentDomain, modelStore, collectionStore, $timeout) {
-    var runnable = new Runnable(configAPIHost, { userContentDomain: configUserContentDomain, socket: true });
+    var runnable = new Runnable(configAPIHost, { userContentDomain: configUserContentDomain });
     runnable.client.request = new AngularHttpRequest($http);
 
     function triggerDigest() {

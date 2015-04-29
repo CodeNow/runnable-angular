@@ -15,6 +15,7 @@ require('app')
 
 function pFetchUser(keypather, user, $q, $state) {
   var fetchedUser = null;
+  var socket = null;
   // For consistency with other promise fetchers
   return function () {
     if (!fetchedUser) {
@@ -30,6 +31,9 @@ function pFetchUser(keypather, user, $q, $state) {
           }
           deferred.reject(err);
         } else {
+          if (!socket) {
+            socket = user.createSocket();
+          }
           deferred.resolve(user);
         }
       });
