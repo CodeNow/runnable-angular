@@ -90,7 +90,7 @@ function ControllerEnvironment(
             serverModel.build = build;
             return serverModel;
           }),
-        serverModel
+        serverName
       );
     }
   };
@@ -100,14 +100,11 @@ function ControllerEnvironment(
     .then(function (stacks) {
       keypather.set($scope, 'data.stacks', stacks);
       return fetchInstances({
-        githubUsername: $state.params.userName
+        masterPod: true
       });
     })
     .then(function (instances) {
       $scope.data.instances = instances;
-        //.filter(function (instance) {
-        //  return instance.attrs.masterPod;
-        //})
       $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);

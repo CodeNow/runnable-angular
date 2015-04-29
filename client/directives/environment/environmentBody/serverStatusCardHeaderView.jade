@@ -1,4 +1,7 @@
 div(
+  ng-class = "{\
+    'no-touching': noTouching\
+  }"
   pop-over
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
@@ -9,15 +12,20 @@ div(
   )
   span.btn-text.text-overflow(
     ng-attr-title = "{{ (server.opts.name || server.instance.attrs.name) }}"
-  ) {{ (server.instance.attrs.name) }}
+    ng-cloak
+  ) {{ server.instance.attrs.name }}
   span.btn-text(
     ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
   ) {{ server.instance | cardBuildStatusText:true}}
-  svg.iconnables.icons-gear
+  svg.iconnables.icons-gear(
+    ng-if = "!noTouching"
+  )
     use(
       xlink:href = "#icons-gear"
     )
-  svg.iconnables.icons-arrow-down
+  svg.iconnables.icons-arrow-down(
+    ng-if = "!noTouching"
+  )
     use(
       xlink:href = "#icons-arrow-down"
     )

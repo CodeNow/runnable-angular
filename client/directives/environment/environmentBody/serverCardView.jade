@@ -16,13 +16,13 @@
   )
 
 ul.card-body.card-loading(
-  ng-if = "!server.build"
+  ng-if = "server.building || !server.build"
 )
   .spinner-wrapper.spinner-md.spinner-gray.in(
     ng-include = "'spinner'"
   )
 ul.card-body.load(
-  ng-if = "server.build"
+  ng-if = "!server.building && server.build"
 )
   li.btn.white(
     modal
