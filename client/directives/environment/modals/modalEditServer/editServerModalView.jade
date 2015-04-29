@@ -6,6 +6,7 @@ form.modal-dialog.modal-edit-server(
     server-status-card-header.btn.btn-sm.btn-title(
       pop-over-options = "{\"right\":-7,\"top\":36}"
       pop-over-template = "serverOptionsModalPopover"
+      ng-attr-no-touching = "{{ !state.repo }}"
     )
     .row.modal-tabs
       button.btn.btn-radio(
