@@ -1,0 +1,34 @@
+.clearfix
+  .label-col Build Files
+
+//- table of current environment variables
+.ace-container.ace-build-files
+  .sidebar(
+    edit-explorer = "true"
+    explorer
+    explorer-title = "Build Files"
+    file-model = "state.contextVersion"
+    open-items = "openItems"
+    root-dir = "state.contextVersion.rootDir"
+    show-repo-folder = "true"
+  )
+
+  //- active panel
+  .ace_editor.ace-runnable-dark(
+    ng-repeat = "item in openItems.models"
+    ng-show = "item === openItems.activeHistory.last()"
+  )
+    //- files
+    div(
+      file = "item"
+      file-editor
+      loading = "loading"
+      ng-if = "item.state.type === 'File'"
+      use-auto-update = "true"
+    )
+
+small.small 😌🐻✌️ #{''}
+  a.link(
+    href = "//google.com"
+    target = "_blank"
+  ) More about build files

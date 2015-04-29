@@ -5,6 +5,7 @@ var $rootScope,
   $scope,
   $compile,
   $document,
+  $timeout,
   $templateCache;
 var $elScope;
 
@@ -48,9 +49,13 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $compile = _$compile_;
       $document = _$document_;
       $templateCache = _$templateCache_;
+      $timeout = _$timeout_;
     });
     ctx = {};
-    ctx.template = directiveTemplate.attribute('modal-manager');
+    $scope.modalOpen = false;
+    ctx.template = directiveTemplate.attribute('modal-manager', {
+      'modal-open': 'modalOpen'
+    });
     ctx.element = $compile(ctx.template)($scope);
     $scope.$digest();
     $elScope = ctx.element.isolateScope();
@@ -79,9 +84,10 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       openedModal.test = '123';
 
       $rootScope.$emit('open-modal', modalOptions);
+      $timeout.flush();
 
       var newModal = ctx.element[0].querySelector('.modal-backdrop');
-      expect(newModal.test).to.not.exist;
+      expect(newModal).to.not.equal(openedModal);
 
     });
 
@@ -94,6 +100,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       expect(openedModal).to.exist;
 
       $rootScope.$emit('close-modal');
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -117,10 +124,10 @@ describe('directiveModalManager'.bold.underline.blue, function () {
     it('should work with a non-generic template', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      modalOptions.template = 'viewOpenModalGettingStarted';
+      modalOptions.template = 'viewModalIntegrations';
       $rootScope.$emit('open-modal', modalOptions);
 
-      var openedModal = ctx.element[0].querySelector('.modal-backdrop');
+      var openedModal = ctx.element[0].querySelector('.modal-dialog');
       expect(openedModal).to.exist;
     })
   });
@@ -132,6 +139,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.close();
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -143,6 +151,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
 
       var callbackSpy = sinon.spy();
       $elScope.currentModalScope.defaultActions.close(callbackSpy);
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -193,6 +202,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.cancel();
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -206,6 +216,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.cancel();
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;

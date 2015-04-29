@@ -56,10 +56,10 @@
   }
 
   & #{$chain} {
-    text-indent: $item-offset + $nested-offset;
+    text-indent: $nested-offset;
 
     &.folder::after {
-      left: $item-offset + $nested-offset;
+      left: $nested-offset;
     }
 
     > a > .tree-input {

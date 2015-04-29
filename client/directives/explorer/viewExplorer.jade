@@ -1,6 +1,14 @@
-h2.sub-header {{ explorerTitle }}
-  button.btn.btn-xs.btn-icon.white.sub-header-action(
+div.explorer-menu-bar-container(
+  ng-if = "!editExplorer"
+  ng-include = "'explorerMenuBar'"
+)
+
+.sidebar-actions(
+  ng-if = "editExplorer"
+)
+  button.btn.btn-xs.gray(
     ng-class = "{active: filePopover.data.show}"
+    ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
     pop-over
     pop-over-actions = "filePopover.actions"
     pop-over-data = "filePopover.data"
@@ -12,7 +20,10 @@ h2.sub-header {{ explorerTitle }}
       use(
         xlink:href = "#icons-add"
       )
-ul.file-tree
+
+ul.file-tree(
+  ng-if = "editExplorer || (!$storage.explorerIsClosed && fileModel.running())"
+)
   //- this is the root dir; there can be only one.
   li(
     file-tree-dir

@@ -35,8 +35,9 @@ function makeDefaultScope() {
     }
   };
 }
-
-describe('modalStackSelector'.bold.underline.blue, function () {
+// Skipping for now, component doesn't exist
+// Address complaints to Nate
+describe.skip('modalStackSelector'.bold.underline.blue, function () {
   beforeEach(function() {
     ctx = {};
   });

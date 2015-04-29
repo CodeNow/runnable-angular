@@ -1,0 +1,240 @@
+.table {
+  background: $white;
+  border: 1px solid $gray-lighter;
+  border-radius: 3px;
+}
+
+// diff
+.table-diff {
+
+  + .table-diff {
+    margin-top: 15px;
+  }
+
+  .thead {
+    border-bottom: 1px solid $gray-lighter;
+
+    // github link
+    .link {
+      float: right;
+    }
+  }
+
+  // diff colors
+  .tr-deletion {
+    background: $red-lighter;
+  }
+
+  .tr-addition {
+    background: $green-lighter;
+  }
+
+  // extra padding-bottom is weird when colored
+  .tr:last-child {
+    padding-bottom: 0;
+  }
+
+  // reduce cell height
+  .cell {
+    height: 24px;
+    line-height: 24px;
+  }
+
+  // checkbox
+  .input-checkbox {
+    margin: 0 12px 0 -2px;
+  }
+}
+
+// table details
+.table-details {
+  color: $gray;
+  display: block;
+  margin: 15px 0 6px;
+}
+
+// table row header usage:
+// .tr.thead
+.thead {
+  background: #f0f0f0;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 3px 0;
+
+  .cell {
+    height: 30px;
+    line-height: 30px;
+
+    &:only-child {
+      width: 100%;
+    }
+
+    .btn {
+      float: right;
+      top: 3px;
+    }
+  }
+}
+
+// layout
+// always use .clearfix with .tr:
+// .tr.clearfix
+.tr {
+  display: flex;
+
+  &:first-child {
+    border-radius: 2px 2px 0 0;
+    padding-top: 3px;
+  }
+
+  &:last-child {
+    border-radius: 0 0 3px 3px;
+    padding-bottom: 3px;
+  }
+
+  + .tr {
+    border-top: 1px solid $gray-lighter;
+    font-weight: 500;
+
+    &.tr-addition,
+    &.tr-deletion {
+      border-top: 0;
+    }
+  }
+}
+
+// tr that's clickable
+.tr-action {
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($purple-lightest,.5);
+  }
+
+  &:active,
+  &.active {
+    background: $purple-lightest;
+  }
+}
+
+.cell {
+  flex: 1 1 50%;
+  float: left;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 9px;
+
+  &.monospace {
+    font-size: 13px;
+    letter-spacing: -.25px;
+  }
+}
+
+.cell-action {
+  flex: 0 0 auto;
+}
+
+.cell-checkbox {
+  cursor: pointer;
+}
+
+// table actions
+.table-actions {
+  background: $gray-lighter;
+  border-radius: 3px 3px 0 0;
+  padding: 6px 6px 4px;
+
+  + .ace-container {
+    border-radius: 0 0 3px 3px;
+  }
+
+  // actions
+  > .btn {
+    float: left;
+
+    // second action
+    + .btn {
+      color: $gray-dark;
+      float: right;
+      font-size: 14px;
+
+      // tag
+      &:hover,
+      &:active {
+        color: $purple-light;
+
+        .tag {
+          background: $purple-light;
+        }
+      }
+
+      .tag {
+        background: $gray-dark;
+        color: $gray-lighter;
+        cursor: pointer;
+        float: right;
+      }
+    }
+  }
+
+  .label {
+    border: 2px solid $gray-light;
+    border-radius: 3px;
+    margin-bottom: 0;
+
+    // host name button
+    .btn-sm {
+      background: $white;
+      border: 0;
+      border-left: 1px solid $gray-lighter;
+      border-radius: 0;
+      border-right: 1px solid $gray-lighter;
+      font-size: 14px;
+      line-height: 36px;
+      padding: 0 24px 0 6px;
+      text-align: left;
+      width: 100%;
+    }
+
+    // 3 action thing
+    .monospace {
+      color: $gray-darker;
+      font-size: 14px;
+      line-height: 27px;
+
+      &.input {
+        border: 0;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      &:first-child {
+        border-radius: 2px 0 0 2px;
+        flex: 0 0 90px;
+        margin-left: -1px;
+      }
+
+      &:last-child {
+        border-radius: 0 2px 2px 0;
+        flex: 0 0 90px;
+      }
+    }
+  }
+
+  // icons
+  .icons-arrow-down {
+    position: absolute;
+    right: 6px;
+    top: 0;
+  }
+}
+
+.table-footer {
+  margin-top: 4px;
+
+  .green {
+    float: right;
+  }
+}

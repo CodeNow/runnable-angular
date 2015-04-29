@@ -1,0 +1,24 @@
+.btn-group(
+  ng-init = "page = instance.containers.models[0].running() ? 'run' : 'build'"
+)
+  button.btn.btn-xs.white(
+    ng-class = "{active: page === 'build'}"
+    ng-click = "page = 'build'"
+  ) Build Logs
+  button.btn.btn-xs.white(
+    ng-class = "{active: page === 'run'}"
+    ng-click = "page = 'run'"
+  ) Run Logs
+
+//- copying active panel markup
+pre.pre.active-panel.ace-runnable-dark
+  .logs(
+    log-term
+    ng-controller = "BuildLogController"
+    ng-show = "page === 'build'"
+  )
+  .logs(
+    log-term
+    ng-controller = "BoxLogController"
+    ng-show = "page === 'run'"
+  )

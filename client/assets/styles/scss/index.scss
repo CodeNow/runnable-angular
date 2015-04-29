@@ -24,8 +24,11 @@
 // components
 @import "components/alerts";
 @import "components/buttons";
+@import "components/cards";
 @import "components/embeds";
+@import "components/fancy-select";
 @import "components/guides";
+@import "components/header";
 @import "components/icons";
 @import "components/inset";
 @import "components/intercom";
@@ -33,14 +36,17 @@
 @import "components/logo";
 @import "components/select";
 @import "components/spinner";
+@import "components/tags";
 @import "components/tooltips";
 @import "components/wells";
 
-@import "components/fancy-select";
+// external componenets
+@import "components/external/jstag";
 
 // forms
 @import "forms/forms";
 @import "forms/forms-inputs";
+@import "forms/forms-table";
 @import "forms/forms-toggles";
 @import "forms/forms-validation";
 
@@ -48,7 +54,6 @@
 @import "sidebar/sidebar";
 @import "sidebar/sidebar-header";
 @import "sidebar/sidebar-footer";
-@import "sidebar/sidebar-servers";
 
 // server
 @import "server/server-header";
@@ -69,46 +74,45 @@
 @import "modals/modals";
 @import "modals/modals-forms";
 @import "modals/modals-navbar";
-@import "modals/modals-wizard";
+@import "modals/modals-welcome";
 
 // modal specific
 @import "modals/modals-edit";
+@import "modals/modals-edit-server";
 @import "modals/modals-error";
 @import "modals/modals-fork";
 @import "modals/modals-integrations";
 @import "modals/modals-rename";
-
-// modal getting started
-@import "modals/modals-getting-started";
-@import "modals/modals-getting-started-step-1";
-@import "modals/modals-getting-started-step-2";
-@import "modals/modals-getting-started-step-3";
+@import "modals/modals-server-select";
 
 // popovers
 @import "popover/popover";
 @import "popover/popover-arrows";
 @import "popover/popover-coach-marks";
+@import "popover/popover-fixed";
 @import "popover/popover-guides";
+@import "popover/popover-select";
 
 // popover specific
-@import "popover/popover-account-menu";
 @import "popover/popover-actions";
 @import "popover/popover-add-dependency";
 @import "popover/popover-add-repo";
 @import "popover/popover-add-tab";
-@import "popover/popover-environment";
+@import "popover/popover-environment-variable";
 @import "popover/popover-guides";
+@import "popover/popover-help";
 @import "popover/popover-invite";
 @import "popover/popover-link-servers";
+@import "popover/popover-new-server";
 @import "popover/popover-primary-options";
 @import "popover/popover-repository-toggle";
 
 // pages
+@import "pages/environment";
 @import "pages/home";
 @import "pages/home-images";
 @import "pages/home-ui";
 @import "pages/server-selection";
-@import "pages/setup";
 
 // shame
 @import "shame";

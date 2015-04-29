@@ -1,0 +1,35 @@
+.modal-welcome {
+  padding: 15px 0;
+  width: 450px;
+
+  .modal-heading {
+    font-size: 24px;
+    line-height: 1.4;
+  }
+
+  .modal-body {
+    text-align: center;
+  }
+
+  .small {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .card {
+    align-items: center;
+    flex-direction: row;
+    float: left;
+    margin-bottom: 6px;
+    padding: 15px;
+    width: calc(50% - 3px);
+
+    &:nth-child(odd) {
+      margin-left: 6px;
+    }
+  }
+
+  .gravatar {
+    flex: 0 0 auto;
+  }
+}

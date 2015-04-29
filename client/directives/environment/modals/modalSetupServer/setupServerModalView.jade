@@ -1,0 +1,8 @@
+.modal-dialog.modal-edit-server(
+  ng-if = "state.repo"
+  ng-include = "'verifyServerSectionView'"
+)
+.modal-dialog.modal-server-select(
+  ng-if = "!state.repo"
+  ng-include = "'repositorySelectSectionView'"
+)

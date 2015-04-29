@@ -18,7 +18,9 @@ li.folder(
     pop-over-trigger = "rightClick"
   )
     svg.iconnables.filetypes.icons-folder
-      use(xlink:href = "#icons-folder")
+      use(
+        xlink:href = "#icons-folder"
+      )
     input.tree-input(
       ng-keyup = "actions.shouldCloseFolderNameInput($event)"
       ng-blur = "actions.closeFolderNameInput()"
@@ -35,6 +37,8 @@ li.folder(
   )
     li.file.no-touching(
       ng-repeat = "acv in fileModel.appCodeVersions.models"
+      tooltip = "Your repository lives here"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
     )
       a
         svg.iconnables.filetypes.icons-repository

@@ -14,7 +14,6 @@
   // files & folders
   li {
     cursor: pointer;
-    // height: 28px; // default height
     line-height: 26px;
     padding: 0;
     position: relative;
@@ -25,6 +24,21 @@
     }
 
     // states
+    &.not-toggleable {
+
+      // hide arrow
+      &::after {
+        display: none;
+      }
+
+      > a {
+        background: transparent !important;
+        border-color: transparent !important;
+        color: $gray-darker !important;
+        cursor: default;
+      }
+    }
+
     &.active a,
     &.active a:hover {
       background: rgba($purple-light,.15);
@@ -35,10 +49,11 @@
     }
 
     a {
-      border: 1px solid transparent;
+      border: 2px solid transparent;
       border-radius: 3px;
       display: block;
       margin-bottom: 2px;
+      max-height: 28px;
       overflow: hidden;
       padding-left: 15px;
       text-overflow: ellipsis;
@@ -53,7 +68,6 @@
         background: rgba($purple-light,.15);
         border-color: rgba($purple-light,.15);
         color: $purple-light;
-        font-weight: 500;
         transition: none;
       }
     }
@@ -95,18 +109,6 @@
           overflow: visible;
         }
       }
-      
-      // hide arrow
-      &.not-toggleable {
-        
-        &::after {
-          display: none;
-        }
-        
-        > a {
-          cursor: default;
-        }
-      }
 
       &.dropping > a {
         font-weight: 500;
@@ -121,10 +123,10 @@
 
   // repository icon
   .icons-repository {
-    height: 21px;
+    height: 18px;
     left: 2px;
     margin-left: -6px;
-    top: 5px;
+    top: 4px;
     width: 21px;
   }
 

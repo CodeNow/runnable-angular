@@ -3,14 +3,13 @@
   border-radius: 3px;
   cursor: pointer;
   display: inline-block;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   height: 45px;
-  line-height: 44px; // 45 - 2px for border-top/bottom
+  line-height: 43px; // 45 - 2px for border-top/bottom
   padding: 0 15px;
   position: relative;
   text-align: center;
-  transition: all .15s ease-in;
   user-select: none;
   white-space: nowrap;
 
@@ -39,37 +38,40 @@
 
   // if .arrow-down
   > .icons-arrow-down {
-    float: right;
     height: 100%;
-    margin-left: 3px;
-    transition: opacity .2s ease-in, transform .3s ease-in;
+    position: absolute;
+    right: 3px;
+    // transition: opacity .2s ease-in, transform .3s ease-in;
   }
 
   // animations
-  &:active {
-
-    > .icons-gear {
-      transform: rotate3d(0,0,1,135deg);
-    }
-
-    > .icons-arrow-down {
-      transform: scale3d(.75,.75,1);
-    }
-  }
-
   &.active,
   &.in {
-
-    > .icons-gear {
-      transform: rotate3d(0,0,1,135deg);
-    }
 
     > .icons-add {
       transform: rotate3d(0,0,1,135deg) scale3d(.75,.75,1);
     }
+  }
 
-    > .icons-arrow-down {
-      transform: scale3d(.75,.75,1);
+  // fancy select
+  .display .iconnables {
+    float: left;
+    height: 21px;
+    margin-right: 6px;
+    top: 6px;
+    width: 21px;
+  }
+
+  // icons
+  .icons-round {
+    margin: 9px 0; // standard size buttons
+
+    &:first-child {
+      margin-right: 6px;
+    }
+
+    &:last-child {
+      margin-left: 6px;
     }
   }
 }
@@ -85,13 +87,9 @@
 }
 
 .btn-sm {
+  font-size: 16px;
   height: 36px;
-  line-height: 36px;
-  padding: 0 6px;
-
-  > .icons-arrow-down {
-    top: 6px;
-  }
+  line-height: 32px;
 
   > .img {
     float: left;
@@ -100,16 +98,24 @@
 }
 
 .btn-xs {
+  font-size: 13px;
   height: 24px;
-  line-height: 24px;
+  line-height: 20px;
   padding: 0 6px;
+
+  .tag {
+    font-size: 13px;
+    height: 16px;
+    line-height: 12px;
+    margin: 2px 0 0 6px;
+  }
 }
 
 // only for inline buttons
 .btn-xxs {
   font-size: 13px;
   height: 18px;
-  line-height: 17px;
+  line-height: 14px;
   padding: 0 3px;
 }
 
@@ -159,7 +165,7 @@
   .icons-close {
     color: currentColor;
     height: 100%;
-    top: -14px; // offset
+    top: -18px; // offset
     width: 100%;
   }
 
@@ -193,14 +199,54 @@
   }
 }
 
+.btn-check {
+
+  &.active {
+    background: $green;
+    border-color: $green;
+
+    .icons-add {
+      transform: scale3d(0,0,0);
+    }
+
+    .icons-check,
+    .icons-link {
+      transform: scale3d(1,1,1);
+    }
+  }
+
+  .iconnables {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: scale3d(0,0,0);
+    transition: transform .3s ease-in;
+    width: 100%;
+  }
+
+  .icons-add {
+    color: $gray-lighter;
+    transform: scale3d(1,1,1);
+    transition: none;
+  }
+}
+
 .blue,
 .gray,
 .green,
 .orange,
+.purple,
+.red,
 .white {
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   color: $white;
+  font-weight: 500;
   text-decoration: none;
+
+  &:active {
+    transition: none;
+  }
 
   &:active,
   &.active {
@@ -213,49 +259,68 @@
 }
 
 .blue {
-  color: $blue-dark;
+  color: $gray-light;
 
   &.btn {
 
     &:hover,
     &.hover {
-      background: rgba($blue,.1);
-      border-color: rgba($blue,.2);
+      color: $blue;
     }
 
     &:active,
     &.active {
-      background: rgba($blue,.2);
-      border-color: rgba($blue,.4);
-      transition: none;
+      color: $blue-dark;
     }
   }
 }
 
 .gray {
-  background: rgba($gray-darker,.0675);
-  border-color: rgba($gray-darker,.1);
-  color: $gray;
+  background: $gray-lightest;
+  border-color: $gray-lighter;
+  color: $gray-dark;
 
   &.btn {
 
     &:hover {
-      background: rgba($gray-darker,.125);
-      border-color: rgba($gray-darker,.15);
+      background: $white;
+      border-color: $gray-light;
     }
 
     &:active,
     &.active {
-      background: rgba($purple-light,.15);
-      border-color: rgba($purple-light,.15);
+      background: $white;
+      border-color: $purple-light;
       color: $purple-light;
-      transition: none;
 
       .iconnables {
         color: currentColor;
         transition: transform .15s;
       }
+
+      .icons-round {
+        background: $purple-light;
+        color: $white;
+      }
     }
+
+    &[disabled],
+    &.disabled {
+
+      &:hover,
+      &:active,
+      &.active {
+        background: $white;
+        border-color: $gray-lighter;
+        color: $gray-dark;
+      }
+    }
+  }
+
+  // icons
+  .icons-round {
+    background: $gray;
+    color: $white;
   }
 }
 
@@ -265,8 +330,8 @@
   border-color: rgba($green,.9);
 
   &.btn {
-    font-weight: 500;
 
+    // states
     &:hover,
     &.hover {
       background: rgba($green,.6);
@@ -290,6 +355,13 @@
         border-color: transparent;
       }
     }
+
+    // icons
+    .icons-round {
+      background: $white;
+      color: $green;
+      float: left;
+    }
   }
 }
 
@@ -298,7 +370,6 @@
   border-color: $orange;
 
   &.btn {
-    font-weight: 500;
 
     &:hover,
     &.hover {
@@ -333,45 +404,68 @@
 
     &:hover,
     &.hover {
-      background: rgba($purple-light,.1);
-      border-color: rgba($purple-light,.2);
+      background: $white;
+      border-color: $purple-light;
+      color: $purple-light;
     }
 
     &:active,
     &.active {
-      background: rgba($purple-light,.2);
-      border-color: rgba($purple-light,.4);
-      transition: none;
+      background: $white;
+      border-color: currentColor;
+      color: $green;
+    }
+  }
+}
+
+.red {
+  color: $red;
+
+  &.btn {
+    background: $red;
+    border-color: $red-dark;
+    color: $white;
+
+    &:hover {
+      background: $red-light;
+    }
+
+    &:active,
+    &.active {
+      background: $red-dark;
     }
   }
 }
 
 .white {
-  color: $gray;
+  border-color: $gray-lighter;
+  color: $gray-dark;
 
   &.btn {
+    background: $white;
 
     &:hover {
-      background: rgba($gray-darker,.125);
-      border-color: rgba($gray-darker,.15);
+      border-color: $gray-light;
     }
 
     &:active,
     &.active {
-      background: rgba($purple-light,.15);
-      border-color: rgba($purple-light,.15);
+      border-color: $purple-light;
       color: $purple-light;
-      transition: none;
     }
 
     &[disabled],
     &.disabled {
+      background: $gray-lightest;
+      border-color: $gray-lighter;
+      color: $gray-light;
+      opacity: 1;
 
       &:hover,
       &:active,
       &.active {
-        background: transparent;
-        border-color: transparent;
+        background: $gray-lightest;
+        border-color: $gray-lighter;
       }
     }
   }
@@ -386,37 +480,88 @@
   pointer-events: none;
  }
 
-// .btn-radio
 .btn-radio {
   background: $white;
-  border: 1px solid rgba($black,.15);
+  border: 2px solid transparent;
   border-radius: 3px;
   box-shadow: none;
   cursor: pointer;
   display: inline-block;
   font-size: 16px;
+  height: 72px;
   text-align: center;
-  transition: all .15s ease-in;
+  text-decoration: none;
+  transition: none;
   user-select: none;
   white-space: nowrap;
+  width: 90px;
 
-  &:hover,
   &:active,
   &.active {
-    border-color: $purple-light;
+    color: $purple-light;
   }
 
-  &:active {
-    transition: none;
+  &.active {
+    font-weight: 500;
   }
 
   &:focus {
     outline: 0;
   }
 
-  .img {
+  &.btn-lg {
+    height: 108px;
+    width: 120px;
+
+    .img,
+    .iconnables {
+      margin-bottom: 6px;
+      width: 36px;
+    }
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  .img,
+  .iconnables {
     display: block;
+    height: 33px;
     margin: 0 auto;
+    width: 18px;
+  }
+}
+
+// badges
+.btn-badge {
+  height: 18px;
+  transition: none;
+  width: 18px;
+
+  &.active .iconnables:last-child {
+    display: block;
+  }
+
+  .iconnables {
+
+    &:first-child {
+      height: 18px;
+      top: -6px;
+      width: 18px;
+    }
+
+    &:last-child {
+      border-radius: 50%;
+      bottom: -6px;
+      color: $white;
+      display: none;
+      height: 15px;
+      left: -6px;
+      position: absolute;
+      top: auto;
+      width: 15px;
+    }
   }
 }
 
@@ -445,7 +590,7 @@
 .btn-group .btn-group + .btn,
 .btn-group .btn-group + button,
 .btn-group .btn-group + .btn-group {
-  margin-left: -1px;
+  margin-left: -2px;
 }
 
 .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle),

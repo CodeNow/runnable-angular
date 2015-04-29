@@ -1,0 +1,101 @@
+.modal-server-select {
+  max-width: 450px;
+
+  .modal-body {
+    max-height: 60vh;
+  }
+
+  // search
+  .input-search {
+    background-color: $white;
+    background-position: calc(50% - 52px) 2px;
+    color: $gray;
+    line-height: 30px;
+    padding-left: calc(50% - 42px);
+    width: 100%;
+
+    &:focus,
+    &:valid {
+      background-position: 5px;
+      border-color: $green;
+      padding-left: 30px;
+    }
+  }
+}
+
+// repository/template list
+.list-servers {
+
+  > .list-item {
+    border: 2px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 3px 0 0;
+    padding: 6px 15px;
+
+    @include media(sm) {
+      padding-left: 6px;
+    }
+
+    &:hover {
+      background: $white;
+      border-color: $gray-lighter;
+    }
+
+    &:active,
+    &.active {
+      background: $white;
+      border-color: currentColor;
+      color: $green;
+
+      .small {
+        color: currentColor;
+      }
+    }
+
+    &.disabled {
+
+      &:hover,
+      &:active {
+        background: none;
+        border-color: transparent;
+        color: $gray-darker;
+        cursor: default;
+      }
+    }
+  }
+
+  // anchor image
+  .gravatar {
+    background: $white;
+    border: 2px solid $white;
+    border-radius: 50%;
+    float: left;
+    height: 24px;
+    margin-right: 9px;
+    margin-top: 3px;
+    width: 24px;
+  }
+
+  // title
+  .text-overflow {
+    padding-right: 120px;
+  }
+
+  // add button
+  .btn-xs {
+    font-size: 15px;
+    line-height: 1;
+    right: 9px;
+    top: 15px;
+  }
+
+  // spinner
+  .spinner-wrapper {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+  }
+}

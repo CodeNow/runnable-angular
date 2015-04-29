@@ -1,17 +1,17 @@
-//- sidebar for accounts and servers
-nav.sidebar.nav-sidebar
-  header.nav-header.row.load(
-    accounts-select
-    data = "dataApp.data"
+header.header(
+  ng-include = "'viewHeader'"
+)
+
+nav.sidebar.nav-sidebar(
+  ng-if = "!layoutOptions.hideSidebar"
+)
+
+  section.row.servers(
+    instance-list
     is-main-page = "true"
+    data = "dataApp.data"
   )
 
-  section.row.nav-servers(
-    data = "dataApp.data"
-    instance-list
-    state = "dataApp.state"
-    actions = "dataApp.actions"
-  )
   footer.row.nav-footer
     a.small.link.link-gray.link-text(
       href = "//support.runnable.io"
@@ -19,17 +19,14 @@ nav.sidebar.nav-sidebar
     )
       .btn.btn-xs.btn-help ?
       | Documentation
-    //- button.btn.btn-sm.btn-icon.white.btn-minimize(
-    //-   ng-class = "{active: dataApp.data.minimizeNav}"
-    //-   ng-click = "dataApp.data.minimizeNav = !dataApp.data.minimizeNav"
-    //-   title = "Toggle Navigation"
-    //- )
-    //-   svg.iconnables.icons-minimize
-    //-     use(
-    //-       xlink:href = "#icons-minimize"
-        )
 
 //- 2nd level views (viewInstance, viewInstanceEdit...)
 main.content(
   ui-view
+)
+
+//- spinner
+.spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
+  ng-if = "dataApp.data.loading"
+  ng-include = "'spinner'"
 )

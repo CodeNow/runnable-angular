@@ -2,15 +2,16 @@
   .btn-group
     //- apply .with-restart if save restarts Server
     //- add title = "Save and Restart Server" if save restarts Server
-    button.btn.green.btn-save.btn-spinner(
+    button.btn.green.btn-save.btn-spinner.in(
       ng-class = "{in: saving}"
       ng-click = "saveChanges()"
       ng-disabled = "!instance.containers.models[0].running() || loading"
       type = "button"
     )
       //- spinner
+      //- disable button when saving
       .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-if = "saving"
+        ng-if = "false"
         ng-include = "'spinner'"
       )
       span.btn-text Save

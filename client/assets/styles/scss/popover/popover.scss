@@ -1,37 +1,40 @@
 // popovers
 .popover {
-  background: rgba($white,.975);
-  border: 1px solid rgba($black,.1);
+   // top & left offset to move popovers offscreen to prevent them
+   // from appearing before calculating their actual position
+  background: $white;
+  border: 2px solid $gray-lighter;
   border-radius: 3px;
-  box-shadow: 0 0 30px rgba($black,.12);
-  cursor: default; // if popover is within an element with a different cursor
-  display: block;
-  left: 0;
+  box-shadow: 0 2px 3px rgba($black,.1);
+  left: -10000px;
   max-width: 300px;
   opacity: 0;
-  pointer-events: none;
   position: absolute;
-  text-align: left;
-  top: 0;
-  transform: scale3d(.9,.9,1);
-  transition: transform .2s ease-in, opacity .2s ease-in;
-  white-space: normal;
+  top: -10000px;
+  transform: scale3d(.6,.6,1);
+  transition: opacity .1s ease-in, transform .1s ease-in;
   z-index: $z-popover;
 
   &.in {
     opacity: 1;
-    pointer-events: auto;
     transform: scale3d(1,1,1);
   }
 
   // .popover.menu
   &.menu {
     cursor: default;
-    width: 180px;
+    min-width: 180px;
 
     .popover-content {
       overflow: hidden;
       padding: 0;
+    }
+
+    .iconnables {
+      float: left;
+      height: 36px;
+      margin: 0 9px 0 0;
+      width: 18px;
     }
   }
 
@@ -43,9 +46,9 @@
 
     .iconnables {
       float: left;
-      height: 21px;
-      margin: 8px 6px 0 0;
-      width: 21px;
+      height: 36px;
+      margin: 0 9px 0 0;
+      width: 18px;
     }
   }
 
@@ -57,8 +60,8 @@
   // li.divider
   .divider {
     background: rgba($black,.1);
-    height: 1px;
     margin: 3px 0;
+    min-height: 1px;
   }
 
   // form elements in popovers:
@@ -84,28 +87,14 @@
 
 // li.popover-list-item
 .popover-list-item {
-  color: $gray-dark;
   cursor: pointer;
-  height: 36px;
   line-height: 36px;
+  min-height: 36px;
   overflow: hidden;
-  padding: 0 12px;
+  padding: 0 15px 0 9px;
   white-space: nowrap;
 
-  &:hover {
-    background: rgba($purple-light,.1);
-  }
-
-  &:active,
-  &.active {
-    background: rgba($purple-light,.15);
-    color: $purple-light;
-
-    .iconnables {
-      color: currentColor;
-    }
-  }
-
+  // variations
   &.no-actions {
     cursor: default;
     text-align: center;
@@ -117,10 +106,37 @@
     }
   }
 
+  &.monospace {
+    font-size: 13px;
+  }
+
+  // states
+  &:hover {
+    background: rgba($purple-light,.1);
+  }
+
+  &:active,
+  &.active {
+    background: rgba($purple-light,.15);
+    color: $purple-light;
+
+    .iconnables,
+    .small {
+      color: $purple-light;
+    }
+
+    .gray {
+      background: $white;
+      border-color: currentColor;
+      color: $purple-light;
+    }
+  }
+
   .gravatar,
   .iconnables {
+    color: $gray;
     float: left;
-    margin: 5px 12px 0 0;
+    margin: 6px 9px 0 0;
 
     &.gravatar {
       margin-top: 5px;
@@ -131,6 +147,13 @@
   .list-link {
     margin: 0 -15px;
     padding: 0 15px;
+  }
+
+  // checkbox
+  .input-checkbox {
+    height: 36px;
+    margin-right: 6px;
+    width: 18px;
   }
 }
 
@@ -176,8 +199,9 @@
 
 //- footer.popover-footer
 .popover-footer {
-  height: 36px;
-  margin: 6px;
+  border-top: 1px solid $gray-lighter;
+  margin: 0 15px;
+  padding: 12px 0 15px;
 
   .btn-sm {
     padding: 0 12px;
@@ -195,6 +219,12 @@
     + .white {
       margin-right: 6px;
     }
+  }
+
+  // cancel buttons left
+  .btn-cancel,
+  .btn-group .btn:first-child {
+    float: left;
   }
 
   .btn-checkbox {

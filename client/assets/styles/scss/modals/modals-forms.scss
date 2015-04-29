@@ -1,19 +1,14 @@
-.modal-dialog {
+.modal-form {
+  padding: 15px 30px;
 
   // label (row)
   .label {
-    display: block;
     flex: 0 0 auto;
-    line-height: 1.2;
-    margin-bottom: 21px;
-    position: relative;
-
-    @include media(xs) {
-      margin-bottom: 15px;
-    }
 
     + .label {
+      border-top: 1px solid $gray-lighter;
       margin-top: 21px;
+      padding-top: 21px;
 
       @include media(xs) {
         margin-top: 15px;
@@ -21,62 +16,84 @@
     }
   }
 
-  // label column (left)
-  .label-col {
-    float: left;
-    font-weight: 500;
-    height: 36px;
-    line-height: 36px;
-    padding-right: 15px;
-    text-align: right;
-    width: 45%;
-    word-break: break-word;
+  // input column (right)
+  .input-col {
+    margin-bottom: 6px;
 
-    @include media(xs) {
-      float: none;
+    // inputs and buttons
+    .input,
+    .btn {
+      max-width: 360px;
+
+      @include media(xs) {
+        max-width: none;
+      }
+    }
+
+    // buttons
+    .btn {
+      display: block;
+      font-size: 16px;
+      padding: 0 24px 0 6px;
       text-align: left;
       width: 100%;
+
+      + .btn {
+        margin-top: 6px;
+      }
     }
 
+    // don't stretch if btn-xs
+    > .btn-xs {
+      padding: 0 6px;
+      width: auto;
+
+      &:only-child {
+        float: right;
+        margin-top: 6px;
+      }
+    }
+
+    .icons-arrow-down {
+      position: absolute;
+      right: 3px;
+      top: 0;
+    }
+
+    // small labels
+    .label.small {
+      margin: 21px 6px 6px;
+    }
+
+    // small text aligns with button/input padding
     .small {
-      margin-top: 2px;
+      margin: 6px;
     }
+  }
 
-    &.label-details {
-      line-height: 1.2;
+  // center tabs
+  > .btn-group {
+    display: table;
+    margin: 0 auto 15px;
 
-      @include media(sm) {
-        height: auto;
-        margin: 0 6px 6px;
-        min-height: 36px;
+    .btn {
+
+      &:hover {
+        z-index: 1;
+      }
+
+      &:active,
+      &.active {
+        z-index: 2;
       }
     }
   }
 
-  // input column (right)
-  .input-col {
-    float: right;
-    text-align: left;
-    width: 54%;
-
-    @include media(xs) {
-      float: none;
-      width: 100%;
-    }
-
-    // validation
-    &.input,
-    .input {
-
-      &.ng-invalid {
-        border-radius: 3px 3px 0 0;
-      }
-    }
-
-    .validate-wrapper {
-      border-radius: 0 0 3px 3px;
-      margin: 0;
-    }
+  // label info
+  .small {
+    color: $gray;
+    display: inline-block;
+    margin: 6px 0 0;
   }
 
   // label-footer
@@ -90,6 +107,7 @@
     }
 
     .small {
+      display: block;
       margin-top: 9px;
       text-align: center;
     }

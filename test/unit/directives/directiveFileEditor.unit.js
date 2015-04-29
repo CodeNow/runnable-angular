@@ -82,7 +82,6 @@ describe('directiveFileEditor'.bold.underline.blue, function () {
       initState(true);
       $scope.$digest();
 
-      expect($elScope.colorScheme, 'colorScheme').to.be.ok;
       expect($elScope.actions, 'actions').to.be.ok;
       expect($elScope.actions.setAceMode, 'setAceMode').to.be.ok;
       expect($elScope.actions.onFocus, 'onFocus').to.be.ok;

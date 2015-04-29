@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function tabs(
-  colorScheme,
   helperAddTab,
   $rootScope
 ) {
@@ -31,7 +30,6 @@ function tabs(
         }
       };
       $scope.data = {};
-      $scope.colorScheme = colorScheme;
     }
   };
 }

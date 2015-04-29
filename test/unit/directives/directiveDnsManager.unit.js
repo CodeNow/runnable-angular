@@ -9,7 +9,8 @@ var instances = require('../apiMocks').instances;
 var runnable = new (require('runnable'))(window.host);
 var $q;
 
-describe('directiveDnsManager'.bold.underline.blue, function() {
+// Skipping until we bring this directive back (Kahn)
+describe.skip('directiveDnsManager'.bold.underline.blue, function() {
   var ctx;
   var mockFetchInstances;
   var masterPods;

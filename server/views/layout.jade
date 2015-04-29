@@ -40,12 +40,6 @@ html(
       name = "apple-mobile-web-app-title"
     )
 
-    //- mobile chrome and firefox theme
-    meta(
-      content = "#5b3777"
-      name = "theme-color"
-    )
-
     if env === 'production'
       script.
         // runnable-angular-production (applicationId: 5920401)
@@ -103,8 +97,8 @@ html(
         ga("send", "pageview");
 
 
-  body(
-    ng-class = "{minimize: dataApp.data.minimizeNav}"
+  body.clearfix(
+    ng-class = "{minimize: dataApp.data.minimizeNav, 'modal-open': dataApp.data.modalOpen || dataApp.data.modalError.data.in}"
     ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )
@@ -123,12 +117,19 @@ html(
       ng-if = "dataApp.data.loading"
       ng-include = "'spinner'"
     )
+
+    //- modals
     div(
       modal-manager
+      modal-open = "dataApp.data.modalOpen"
     )
-    div(
+
+    //- page
+    div.clearfix(
       ui-view
     )
+
+    //- error modal
     .modal-backdrop.in(
       ng-if = "dataApp.data.modalError.data.in"
       ng-click = "$event.stopPropagation()"
@@ -142,6 +143,6 @@ html(
           ) {{ error.message }}
 
         footer.modal-footer
-          button.btn.white(
+          button.btn.white.btn-cancel(
           ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"
           ) Dismiss
