@@ -29,7 +29,6 @@ function ControllerHome(
   }
 
   pFetchUser().then(function(user) {
-    console.log('User', user);
     var lastOrg = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.org');
     if (lastOrg) {
       $state.go('instance.home', {
