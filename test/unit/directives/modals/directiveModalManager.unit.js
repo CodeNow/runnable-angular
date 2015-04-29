@@ -84,9 +84,10 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       openedModal.test = '123';
 
       $rootScope.$emit('open-modal', modalOptions);
+      $timeout.flush();
 
       var newModal = ctx.element[0].querySelector('.modal-backdrop');
-      expect(newModal.test).to.not.exist;
+      expect(newModal).to.not.equal(openedModal);
 
     });
 
@@ -99,6 +100,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       expect(openedModal).to.exist;
 
       $rootScope.$emit('close-modal');
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -122,10 +124,10 @@ describe('directiveModalManager'.bold.underline.blue, function () {
     it('should work with a non-generic template', function () {
       injectSetupCompile();
       var modalOptions = makeDefaultOptions();
-      modalOptions.template = 'viewOpenModalGettingStarted';
+      modalOptions.template = 'viewModalForkBox';
       $rootScope.$emit('open-modal', modalOptions);
 
-      var openedModal = ctx.element[0].querySelector('.modal-backdrop');
+      var openedModal = ctx.element[0].querySelector('.modal-dialog');
       expect(openedModal).to.exist;
     })
   });
@@ -137,6 +139,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.close();
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -148,6 +151,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
 
       var callbackSpy = sinon.spy();
       $elScope.currentModalScope.defaultActions.close(callbackSpy);
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -198,6 +202,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.cancel();
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;
@@ -211,6 +216,7 @@ describe('directiveModalManager'.bold.underline.blue, function () {
       $rootScope.$emit('open-modal', modalOptions);
 
       $elScope.currentModalScope.defaultActions.cancel();
+      $timeout.flush();
 
       var closedModal = ctx.element[0].querySelector('.modal-backdrop');
       expect(closedModal).to.not.exist;

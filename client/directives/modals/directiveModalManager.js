@@ -22,65 +22,69 @@ function modalManager(
 
       function closeModal(cb) {
         if (currentModalScope) {
+          $scope.modalOpen = false;
           currentModalScope.openFlag = false;
-          if (cb) {
-            cb();
-          }
           $timeout(function () {
             currentModalScope.$destroy();
             currentModalScope = null;
+            if (cb) {
+              cb();
+            }
           });
+        } else if (cb) {
+          cb();
         }
       }
 
       function openModal(options) {
-        closeModal();
-        $rootScope.$broadcast('close-popovers');
-        var tempTemplate = checkTemplate(options.template);
-        var template = $templateCache.get(tempTemplate);
+        closeModal(function () {
+          $rootScope.$broadcast('close-popovers');
+          var tempTemplate = checkTemplate(options.template);
+          var template = $templateCache.get(tempTemplate);
 
-        // Here's a hack to replace the type attribute with the actual template name
-        if (tempTemplate !== options.template) {
-          template = template.replace('%%GENERIC_TEMPLATE_NAME%%', options.template);
-        }
-
-        $scope.currentModalScope = currentModalScope = $scope.$new(true);
-        currentModalScope.data = options.data;
-        currentModalScope.actions = options.actions;
-        currentModalScope.template = options.template;
-        currentModalScope.openFlag = options.openFlag;
-        currentModalScope.currentModel = options.currentModel;
-        currentModalScope.stateModel = options.stateModel;
-        currentModalScope.defaultActions = {
-          save: function (state, paths, cb) {
-            paths.forEach(function (path) {
-              keypather.set(currentModalScope.stateModel, path, keypather.get(state, path));
-            });
-            if (typeof keypather.get(currentModalScope, 'actions.save') === 'function') {
-              currentModalScope.actions.save();
-            }
-            cb();
-          },
-          cancel: function () {
-            if (typeof keypather.get(currentModalScope, 'actions.cancel') === 'function') {
-              currentModalScope.actions.cancel();
-            }
-            closeModal();
-          },
-          close: function (cb) {
-            closeModal(cb);
+          // Here's a hack to replace the type attribute with the actual template name
+          if (tempTemplate !== options.template) {
+            template = template.replace('%%GENERIC_TEMPLATE_NAME%%', options.template);
           }
-        };
 
-        var currentModalElement = $compile(template)(currentModalScope);
-        element.append(currentModalElement);
-        $scope.modalOpen = true;
+          $scope.currentModalScope = currentModalScope = $scope.$new(true);
+          currentModalScope.data = options.data;
+          currentModalScope.actions = options.actions;
+          currentModalScope.template = options.template;
+          currentModalScope.openFlag = options.openFlag;
+          currentModalScope.currentModel = options.currentModel;
+          currentModalScope.stateModel = options.stateModel;
+          currentModalScope.defaultActions = {
+            save: function (state, paths, cb) {
+              paths.forEach(function (path) {
+                keypather.set(currentModalScope.stateModel, path, keypather.get(state, path));
+              });
+              if (typeof keypather.get(currentModalScope, 'actions.save') === 'function') {
+                currentModalScope.actions.save();
+              }
+              cb();
+            },
+            cancel: function () {
+              if (typeof keypather.get(currentModalScope, 'actions.cancel') === 'function') {
+                currentModalScope.actions.cancel();
+              }
+              closeModal();
+            },
+            close: function (cb) {
+              closeModal(cb);
+            }
+          };
 
-        currentModalScope.$on('$destroy', function () {
-          if (currentModalElement) {
-            currentModalElement.remove();
-            $scope.modalOpen = false;
-          }
+          var currentModalElement = $compile(template)(currentModalScope);
+          element.append(currentModalElement);
+          currentModalElement.foo = Math.random();
+          $scope.modalOpen = true;
+
+          currentModalScope.$on('$destroy', function () {
+            if (currentModalElement) {
+              currentModalElement.remove();
+            }
+          });
         });
       }
 
