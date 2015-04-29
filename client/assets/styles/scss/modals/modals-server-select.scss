@@ -1,6 +1,5 @@
 .modal-server-select {
   max-width: 450px;
-  min-width: 420px;
 
   .modal-body {
     max-height: 60vh;
@@ -35,6 +34,10 @@
     font-weight: 500;
     margin: 3px 0 0;
     padding: 6px 15px;
+
+    @include media(sm) {
+      padding-left: 6px;
+    }
 
     &:hover {
       background: $white;
@@ -74,6 +77,11 @@
     margin-right: 9px;
     margin-top: 3px;
     width: 24px;
+  }
+
+  // title
+  .text-overflow {
+    padding-right: 120px;
   }
 
   // add button

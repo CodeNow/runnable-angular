@@ -1,4 +1,4 @@
-.modal-dialog.modal-repository-select
+.modal-dialog
   header.modal-header
     h1.modal-heading New Container from Template
 
@@ -15,7 +15,7 @@
           src = "/build/images/logos/logo-icon-elasticsearch.png"
           width = "24"
         )
-        | {{dependency.attrs.name}}
+        .text-overflow {{dependency.attrs.name}}
         small.small Lorem ipsum sit dolor
         button.btn.btn-xs.green Add Container
 
