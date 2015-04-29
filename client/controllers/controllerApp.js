@@ -70,7 +70,10 @@ function ControllerApp(
           dataApp.data.activeAccount = accounts.find(function (org) {
             return (keypather.get(org, 'oauthName().toLowerCase()') === accountName.toLowerCase());
           });
-          dataApp.data.user.socket.joinOrgRoom(dataApp.data.activeAccount.oauthId());
+          if (dataApp.data.user.socket) {
+            dataApp.data.user.socket.joinOrgRoom(dataApp.data.activeAccount.oauthId());
+          }
+
           if (!dataApp.data.activeAccount) {
             dataApp.data.activeAccount = thisUser;
           }
