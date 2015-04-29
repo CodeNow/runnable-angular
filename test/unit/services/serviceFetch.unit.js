@@ -10,6 +10,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       user = {
+        createSocket: sinon.spy(),
         fetchUser: sinon.spy()
       };
       angular.mock.module('app');
@@ -31,6 +32,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       user.fetchUser = sinon.stub().callsArgWith(1, null);
       pFetchUser().then(function (foundUser) {
         expect(user.fetchUser.calledOnce, 'fetchUser called').to.equal(true);
+        expect(user.createSocket.calledOnce, 'createSocket called').to.equal(true);
         expect(foundUser, 'Returned user').to.equal(user);
         done();
       });
