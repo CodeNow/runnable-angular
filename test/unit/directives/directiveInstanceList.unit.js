@@ -124,16 +124,8 @@ describe('directiveInstanceList'.bold.underline.blue, function() {
       injectSetupCompile();
     });
 
-    it('should show a list of users', function() {
-      expect(ctx.element[0].querySelectorAll('.list-users > .list-item').length).to.equal(1);
-    });
-
-    it('should expand the user when active', function() {
-      $scope.dataApp.data.instanceGroups.teamMembers[0].toggled = true;
-      $scope.$digest();
-      expect(ctx.element[0].querySelectorAll('.list-users > .list-item.active').length).to.equal(1);
-      expect(ctx.element[0].querySelectorAll('.list-users > .list-item > .list-item').length).to.equal(2);
-    });
+    it('should render grouped on master pods');
+    it('should show auto forked instances underneath the master pod');
 
     it('should be able to transition to an instance when clicked', function(){
       $state.go = sinon.spy();
