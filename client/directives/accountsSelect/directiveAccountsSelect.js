@@ -69,7 +69,6 @@ function accountsSelect (
       });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
-        console.log(userOrOrg);
         var username = userOrOrg.oauthName();
         $scope.$broadcast('close-popovers');
         $state.go('^.home', {
