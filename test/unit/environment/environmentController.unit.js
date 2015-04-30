@@ -4,7 +4,6 @@ var $controller,
     $rootScope,
     $scope,
     $timeout;
-var $window;
 var keypather;
 var apiMocks = require('../apiMocks/index');
 var fetchUserMock = new (require('../fixtures/mockFetch'))();
@@ -15,7 +14,7 @@ var fetchInstancesMock = new (require('../fixtures/mockFetch'))();
 var stacks = angular.copy(apiMocks.stackInfo);
 var thisUser = runnable.newUser(apiMocks.user);
 
-describe.only('environmentController'.bold.underline.blue, function () {
+describe('environmentController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
     ctx.$log = {
@@ -46,15 +45,13 @@ describe.only('environmentController'.bold.underline.blue, function () {
       _$controller_,
       _$rootScope_,
       _keypather_,
-      _$timeout_,
-      _$window_
+      _$timeout_
     ) {
       $timeout = _$timeout_;
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       keypather = _keypather_;
-      $window = _$window_;
     });
 
     var ca = $controller('EnvironmentController', {
