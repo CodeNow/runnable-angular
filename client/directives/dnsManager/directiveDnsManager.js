@@ -42,11 +42,26 @@ function dnsManager(
 
       $scope.readOnly = $scope.instance.masterPod;
 
+      /*
+       * We need to fetch our dependencies. They are stored in a complicated way:
+       *
+       * 1. Get our master instance
+       * 2. Fetch it's dependencies
+       * 3. Set those as our dependencies
+       * 4. Fetch our actual dependencies
+       * 5. Merge our actual dependencies with those from the master
+       *
+       * This should result in our actual dependencies showing
+       */
+
       getInstanceMaster($scope.instance).then(function (master) {
         promisify(master, 'fetchDependencies')().then(function (_masterDeps) {
-
-          var promiseFetchMasters = _masterDeps.map(function (dep) {
-            return getInstanceMaster(dep);
+          var promiseFetchMasters = _masterDeps.models.map(function (dep) {
+            return getInstanceMaster(dep).then(function (masterInstance) {
+              return promisify(masterInstance.children, 'fetch')().then(function () {
+                return masterInstance;
+              });
+            });
           });
           $q.all(promiseFetchMasters).then(function (masters) {
             $scope.directlyRelatedMasterInstances = masters;
