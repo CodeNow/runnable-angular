@@ -93,13 +93,15 @@ function logTerm(
         });
       }
 
-      function showTerminalSpinner() {
-        if ($scope.showSpinnerOnStream && !terminal.cursorSpinner) {
+      function showTerminalSpinner(reconnecting) {
+        if ($scope.showSpinnerOnStream) {
           terminal.cursorState = -1;
           terminal.hideCursor = false;
           terminal.cursorBlink = true;
           terminal.cursorSpinner = true;
-          terminal.startBlink();
+          if (!reconnecting) {
+            terminal.startBlink();
+          }
         }
       }
       function hideTerminalSpinner() {
@@ -109,8 +111,7 @@ function logTerm(
           terminal.cursorSpinner = false;
           terminal.cursorState = 0;
           // Blur so that the cursor disappears
-          //terminal.blur();
-          $timeout(terminal.blur);
+          terminal.blur();
         }
       }
       function writeToTerm(output) {
@@ -125,11 +126,11 @@ function logTerm(
         writeToTerm(output);
       });
 
-      function initializeStream() {
+      function initializeStream(reconnecting) {
         killCurrentStream();
         $scope.createStream();
         $scope.connectStreams(terminal);
-        showTerminalSpinner();
+        showTerminalSpinner(reconnecting);
 
         bind($scope.stream, 'end', function () {
           hideTerminalSpinner();
