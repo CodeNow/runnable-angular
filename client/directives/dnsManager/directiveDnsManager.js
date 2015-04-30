@@ -96,6 +96,22 @@ function dnsManager(
       })
         .catch(errs.handler);
 
+
+      $scope.getRelatedInstancesList = function () {
+        return Object.keys($scope.instanceDependencyMap).map(function (key) {
+          var searchShortHash = $scope.instanceDependencyMap[key];
+          var depMaster = $scope.directlyRelatedMasterInstances.find(function (masterInstance) {
+            return masterInstance.attrs.contextVersion.context === key;
+          });
+          if (depMaster.attrs.shortHash === searchShortHash){
+            return depMaster;
+          }
+          return depMaster.children.models.find(function (child) {
+            return child.attrs.shortHash === searchShortHash;
+          });
+        });
+      };
+
       $scope.actions = {
         setDependency: function (masterInstance, instanceId) {
           var hostName = createInstanceUrl(masterInstance);

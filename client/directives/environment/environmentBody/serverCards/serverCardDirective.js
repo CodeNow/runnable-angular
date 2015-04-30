@@ -2,9 +2,7 @@
 
 require('app')
   .directive('serverCard', serverCard);
-/**
- * @ngInject
- */
+
 function serverCard(
   $rootScope,
   getInstanceClasses,
