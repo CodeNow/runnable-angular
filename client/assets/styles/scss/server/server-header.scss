@@ -5,22 +5,47 @@
   padding: 0 6px 0 15px;
 }
 
+.container-link-external {
+  color: $gray;
+  cursor: pointer;
+  left: -3px;
+  position: relative;
+  top: -36px;
+
+  &:hover {
+    color: $purple-light;
+  }
+
+  &:active {
+    color: $purple-dark;
+  }
+
+  .icons-link-external {
+    height: 21px;
+    width: 20px;
+  }
+}
+
 // h1.server-info
 .server-info {
   float: left;
   height: 72px;
 
   .icons-status {
-    left: 9px;
-    top: -4px;
+    left: 6px;
+    top: -3px;
   }
 }
 
 // text + status wrapper
 .server-name {
-  font-size: 27px;
-  height: 54px;
-  line-height: 54px;
+  font-size: 24px;
+  height: 51px;
+  line-height: 51px;
+
+  .branch-name {
+    color: inherit;
+  }
 }
 
 // [readonly] specifity to override default [readonly] background-color
@@ -31,7 +56,7 @@
   color: $gray;
   cursor: default;
   display: block;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
   height: auto;
   line-height: 1;
@@ -48,7 +73,7 @@
 
 // sets width
 .server-name-ghost {
-  font-size: 13px;
+  font-size: 15px;
   visibility: hidden;
 }
 
