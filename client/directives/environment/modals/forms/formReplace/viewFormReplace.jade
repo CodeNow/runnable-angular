@@ -13,6 +13,11 @@
         pop-over-template = "viewPopoverRules"
       ) New string rule
   .tr.tr-action.clearfix
+    .cell.cell-action
+      svg.iconnables.icons-drag
+        use(
+          xlink:href = "#icons-drag"
+        )
     .cell.monospace.text-overflow(
       title = "config/environment"
     ) config/environment
@@ -21,6 +26,11 @@
     ) ./client/config/environment.js
     .cell.cell-action.monospace
   .tr.tr-action.clearfix
+    .cell.cell-action
+      svg.iconnables.icons-drag
+        use(
+          xlink:href = "#icons-drag"
+        )
     .cell.monospace.text-overflow(
       title = "./client/assets/js/primus-client.js"
     ) ./client/assets/js/primus-client.js
@@ -36,6 +46,19 @@
     .cell Filenames
       button.btn.btn-xs.white New filename rule
   .tr.tr-action.clearfix
+    //- hide drag if there is only one rule of that type
+      - .disabled will hide the action visually
+      - .no-touching will stop pointer events
+    .cell.cell-action.disabled.no-touching(
+      ng-class = "{\
+        disabled: ifOnlyRuleOfType,\
+        'no-touching': ifOnlyRuleOfType\
+      "
+    )
+      svg.iconnables.icons-drag
+        use(
+          xlink:href = "#icons-drag"
+        )
     .cell.monospace.text-overflow(
       title = "./client/assets/js/primus-client.js"
     ) primus-client.js
