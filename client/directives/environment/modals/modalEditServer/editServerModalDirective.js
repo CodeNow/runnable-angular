@@ -94,7 +94,7 @@ function editServerModal(
           hostName += opts.protocol;
         }
         if (opts.server) {
-          hostName += opts.server.getMasterHost();
+          hostName += opts.server.getProxyHost();
         }
         if (opts.port) {
           hostName += ':' + opts.port;

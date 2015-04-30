@@ -250,7 +250,7 @@
   max-width: 960px;
 
   .col-50 {
-    height: 286px;
+    height: 240px;
   }
 
   .h2,
@@ -266,13 +266,19 @@
 
   .popover-list {
     margin: 0;
+    text-align: left;
   }
 
-  .repository-group-item {
+  // repo button
+  .btn {
     display: table;
     margin: 0 auto;
-    padding-left: 6px;
-    padding-right: 45px;
+
+  }
+
+  .icons-repository {
+    float: left;
+    height: 100%;
   }
 
   .icons-git {

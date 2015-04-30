@@ -11,8 +11,7 @@ a.server-item-cluster(
     use(
       xlink:href = "#icons-team"
     )
-  span.icons-status(
-    ng-class = "getInstanceClasses(depInstance)"
-    tooltip = "{{getInstanceAltTitle(depInstance)}}"
-    tooltip-options = "{\"class\":\"right\",\"left\":10,\"top\":-6}"
+
+  status-icon(
+    instance = "depInstance"
   )

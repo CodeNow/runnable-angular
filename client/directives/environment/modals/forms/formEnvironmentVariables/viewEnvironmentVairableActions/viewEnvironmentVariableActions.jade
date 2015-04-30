@@ -38,7 +38,7 @@ button.btn.btn-xs(
     fancy-option.monospace(
       value = "instance"
       ng-repeat = "instance in $parent.data.instances.models"
-    ) {{ $parent.instance.getMasterHost() }}
+    ) {{ $parent.instance.getProxyHost() }}
 
   fancy-select.input-sm.monospace.text-overflow(
     value = "$parent.state.newLink.port"

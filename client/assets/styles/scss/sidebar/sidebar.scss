@@ -25,16 +25,9 @@
     margin: 6px;
   }
 
-  .branch-name {
-    color: $gray;
-    font-weight: 400;
-  }
-
   .icons-status {
     float: right;
-    margin: 10px 9px 0 0;
-    width: 6px;
-    height: 6px;
+    margin: 8px 9px 0 0;
   }
 }
 
@@ -43,11 +36,11 @@
 }
 
 .row-heading {
-  cursor: pointer;
+  // cursor: pointer;
   font-size: 14px;
   height: 60px;
+  padding: 19px 12px 0;
   position: relative;
-  padding: 19px 12px 0 12px;
 
   // for add buttons next to section headings, like in File Explorer
   .btn {
@@ -60,19 +53,16 @@
       width: 18px;
     }
   }
-
-  .btn-icon {
-    height: 30px;
-    line-height: 38px;
-    margin-top: -4px;
-    width: 30px;
-  }
 }
 
 // main sidebar
 .nav-sidebar {
   background: $gray-lightest;
   float: left;
+
+  .spinner-wrapper {
+    margin-top: 30px;
+  }
 }
 
 .servers {
@@ -125,7 +115,7 @@
 
   .text-overflow {
     display: inline-block;
-    max-width: 180px;
+    max-width: 170px;
   }
 
   .iconnables {

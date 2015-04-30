@@ -6,12 +6,16 @@
     right: 4px;
   }
 
+  .popover-list-item {
+    white-space: normal;
+  }
+
   .no-actions .label-checkbox {
     cursor: not-allowed;
   }
 
   .input-checkbox {
     height: 36px;
-    margin: 0 9px 0 15px;
+    margin: 0 9px;
   }
 }

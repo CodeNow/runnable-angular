@@ -6,13 +6,12 @@ div(
   pop-over-actions = "actions"
   pop-over-data = "popOverServerData"
 )
-  .icons-status(
-    ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
-    ng-class = "getInstanceClasses(server.instance)"
+  status-icon(
+    instance = "server.instance"
   )
   span.btn-text.text-overflow(
-    ng-attr-title = "{{ (server.opts.name || server.instance.attrs.name) }}"
-  ) {{ (server.instance.attrs.name) }}
+    ng-attr-title = "{{ (server.opts.name || server.instance.getRepoName() || server.instance.attrs.name) }}"
+  ) {{ (server.instance.getRepoName() || server.instance.attrs.name) }}
   span.btn-text(
     ng-attr-title = "{{ server.instance | cardBuildStatusTitle}}"
   ) {{ server.instance | cardBuildStatusText:true}}

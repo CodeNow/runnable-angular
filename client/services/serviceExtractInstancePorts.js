@@ -1,11 +1,8 @@
 'use strict';
 
 require('app')
-  .filter('extractInstancePorts', extractInstancePorts);
-/**
- * This filter returns a list of instances that have open ports
- * @returns {Function}
- */
+  .factory('extractInstancePorts', extractInstancePorts);
+
 function extractInstancePorts(keypather) {
   return function (instance) {
     var portsObj = keypather.get(instance, 'containers.models[0].attrs.ports');

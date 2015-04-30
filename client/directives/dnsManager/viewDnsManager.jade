@@ -28,8 +28,8 @@ fancy-select.well(
   fancy-option(
     value = "$parent.masterInstance.attrs.shortHash"
   )
-    .icons-status(
-      ng-class = "$parent.$parent.getInstanceClasses($parent.$parent.masterInstance)"
+    status-icon(
+      instance = "$parent.$parent.masterInstance"
     )
     | {{ $parent.$parent.masterInstance.attrs.name }}
     span.branch-name /{{ $parent.$parent.masterInstance.getBranchName() }}
@@ -38,8 +38,8 @@ fancy-select.well(
     ng-repeat = "childInstance in $parent.masterInstance.children.models"
     value = "childInstance.attrs.shortHash"
   )
-    .icons-status(
-      ng-class = "$parent.$parent.$parent.getInstanceClasses($parent.childInstance)"
+    status-icon(
+      instance = "$parent.childInstance"
     )
     | {{ $parent.$parent.$parent.masterInstance.attrs.name }}
     span.branch-name /{{ $parent.childInstance.getBranchName() }}
@@ -49,8 +49,8 @@ fancy-select.well(
   ng-repeat = "masterInstance in masterInstancesWithoutChildren"
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
 )
-  .icons-status(
-    ng-class = "getInstanceClasses(masterInstance)"
+  status-icon(
+    instance = "masterInstance"
   )
   | {{ masterInstance.attrs.name }}
   span.branch-name(
@@ -66,8 +66,8 @@ fancy-select.well(
         xlink:href = "#icons-disclose"
       )
     span Indirect Links
-    .icons-status(
-      ng-class = "getInstanceClasses(dep)"
+    status-icon(
+      instance = "dep"
       ng-repeat = "dep in indirectlyRelatedInstances"
     )
   ul
@@ -80,6 +80,6 @@ fancy-select.well(
         )
       span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
         span.branch-name /master
-      .icons-status(
-        ng-class = "getInstanceClasses(indirectInstance)"
+      status-icon(
+        instance = "indirectInstance"
       )
