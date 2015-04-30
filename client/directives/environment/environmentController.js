@@ -22,7 +22,9 @@ function EnvironmentController(
   fetchInstances,
   pageName,
   promisify,
-  $rootScope
+  $rootScope,
+  $q,
+  user
 ) {
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -49,10 +51,10 @@ function EnvironmentController(
       $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
-      var instance = $scope.user.newInstance({
+      var instance = user.newInstance({
         name: name,
         owner: {
-          username: $scope.user
+          username: user
         }
       }, { warn: false });
       $scope.data.instances.add(instance);
@@ -76,33 +78,19 @@ function EnvironmentController(
   };
 
   $scope.data.loadingNewServers = true;
-  fetchStackInfo()
-    .then(function (stacks) {
-      keypather.set($scope, 'data.stacks', stacks);
-      return fetchInstances({
-        masterPod: true
-      });
-    })
-    .then(function (instances) {
-      $scope.data.instances = instances;
+  $q.all({
+    stacks: fetchStackInfo(),
+    deps: fetchInstances({ githubUsername: 'HelloRunnable' }),
+    sourceContexts: fetchContexts({ isSource: true }),
+    instances: fetchInstances({ masterPod: true })
+  })
+    .then(function (data) {
+      $scope.data.stacks = data.stacks;
+      $scope.data.allDependencies = data.deps;
+      $scope.data.sourceContexts = data.sourceContexts;
+      $scope.data.instances = data.instances;
       $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
 
-  pFetchUser()
-    .then(function (user) {
-      $scope.user = user;
-    });
-  fetchInstances({ githubUsername: 'HelloRunnable' })
-    .then(function (deps) {
-      keypather.set($scope, 'data.allDependencies', deps);
-    })
-    .catch(errs.handler);
-
-  fetchContexts({
-    isSource: true
-  })
-    .then(function (sourceContexts) {
-      $scope.data.sourceContexts = sourceContexts;
-    });
 }

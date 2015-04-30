@@ -23,7 +23,11 @@ function serverStatusCardHeader(
           $scope.popOverServerData.server = n;
         }
       });
-      $scope.noTouching = (attrs.noTouching === 'true');
+      $scope.$watch(function () {
+        return attrs.noTouching === 'true';
+      }, function (n) {
+        $scope.noTouching = n;
+      });
     }
   };
 }
