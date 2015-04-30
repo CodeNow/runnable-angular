@@ -8,6 +8,7 @@
   server-status-card-header.btn.btn-sm.btn-title.white(
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
+    ng-attr-no-touching = "{{ server.building || !server.build }}"
   )
   input.input.input-sm.monospace(
     ng-if = "!server.building && server.build"
