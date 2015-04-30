@@ -18,7 +18,6 @@
 @import "globals/animations";
 @import "globals/images";
 @import "globals/loader";
-@import "globals/minimize";
 @import "globals/typography";
 
 // components
@@ -30,11 +29,8 @@
 @import "components/guides";
 @import "components/header";
 @import "components/icons";
-@import "components/inset";
 @import "components/lists";
 @import "components/logo";
-@import "components/olark";
-@import "components/select";
 @import "components/spinner";
 @import "components/tags";
 @import "components/tooltips";
@@ -78,11 +74,8 @@
 
 // modal specific
 @import "modals/modals-edit";
-@import "modals/modals-edit-server";
 @import "modals/modals-error";
-@import "modals/modals-fork";
 @import "modals/modals-integrations";
-@import "modals/modals-rename";
 @import "modals/modals-server-select";
 
 // popovers
@@ -96,10 +89,7 @@
 // popover specific
 @import "popover/popover-account-menu";
 @import "popover/popover-actions";
-@import "popover/popover-add-dependency";
-@import "popover/popover-add-repo";
 @import "popover/popover-add-tab";
-@import "popover/popover-environment-variable";
 @import "popover/popover-guides";
 @import "popover/popover-help";
 @import "popover/popover-invite";
