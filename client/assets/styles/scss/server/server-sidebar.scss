@@ -34,13 +34,14 @@
 
     .file-tree {
       flex: 1 1 auto;
-      overflow-y: auto;
       margin: 0 -12px;
+      overflow-y: auto;
       padding: 0 18px;
     }
   }
 
   .row-heading {
+    cursor: pointer;
     padding-right: 0;
 
     &.closed {
