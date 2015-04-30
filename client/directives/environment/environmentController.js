@@ -23,7 +23,8 @@ function EnvironmentController(
   pageName,
   promisify,
   $rootScope,
-  $q
+  $q,
+  user
 ) {
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -49,32 +50,29 @@ function EnvironmentController(
     createAndBuild: function (createPromise, name) {
       $rootScope.$broadcast('close-modal');
 
-      pFetchUser()
-        .then(function (user) {
-          eventTracking.triggeredBuild(false);
-          var instance = user.newInstance({
-            name: name,
-            owner: {
-              username: user
-            }
-          }, { warn: false });
-          $scope.data.instances.add(instance);
+      eventTracking.triggeredBuild(false);
+      var instance = user.newInstance({
+        name: name,
+        owner: {
+          username: user
+        }
+      }, { warn: false });
+      $scope.data.instances.add(instance);
 
-          createPromise
-            .then(function (newServerModel) {
-              return createNewInstance(
-                $rootScope.dataApp.data.activeAccount,
-                newServerModel.build,
-                newServerModel.opts,
-                instance
-              );
-            })
-            .catch(function (err) {
-              errs.handler(err);
-              // Remove it from the servers list
-              instance.dealloc();
-              //dealloc
-            });
+      createPromise
+        .then(function (newServerModel) {
+          return createNewInstance(
+            $rootScope.dataApp.data.activeAccount,
+            newServerModel.build,
+            newServerModel.opts,
+            instance
+          );
+        })
+        .catch(function (err) {
+          errs.handler(err);
+          // Remove it from the servers list
+          instance.dealloc();
+          //dealloc
         });
     }
   };
@@ -94,7 +92,5 @@ function EnvironmentController(
       $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
-
-
 
 }
