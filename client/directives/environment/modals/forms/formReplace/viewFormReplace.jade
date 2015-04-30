@@ -24,29 +24,47 @@
           xlink:href = "#icons-drag"
         )
     .cell.monospace.text-overflow(
+      ng-class = "{disabled: noWarning}"
       title = "config/environment"
     ) config/environment
     .cell.monospace.text-overflow(
       title = "./client/config/environment.js"
     ) ./client/config/environment.js
-    .cell.cell-action.monospace
+    //- add .disabled if no warning
+    .cell.cell-action.monospace.disabled(
+      ng-class = "{disabled: noWarning}"
+    )
+      //- note: the title attribute
+      svg.iconnables.icons-warning(
+        title = "0 strings being replaced"
+      )
+        use(
+          xlink:href = "#icons-warning"
+        )
   .tr.tr-action.clearfix
     .cell.cell-action
       svg.iconnables.icons-drag
         use(
           xlink:href = "#icons-drag"
         )
-    .cell.monospace.text-overflow(
+    .cell.monospace.text-overflow.disabled(
+      ng-class = "{disabled: noWarning}"
       title = "./client/assets/js/primus-client.js"
     ) ./client/assets/js/primus-client.js
     .cell.monospace.text-overflow(
       title = "./client/assets/js/primus-client-prod.js"
     ) ./client/assets/js/primus-client-prod.js
-    .cell.cell-action.monospace
-      //- only show if rule doesn't do anything
-      button.btn.btn-xxs.orange(
+    //- add .disabled if no warning
+    .cell.cell-action.monospace(
+      ng-class = "{disabled: noWarning}"
+    )
+      //- note: the title attribute
+      svg.iconnables.icons-warning(
         title = "0 strings being replaced"
-      ) !?
+      )
+        use(
+          xlink:href = "#icons-warning"
+        )
   .tr.thead.clearfix
     .cell Filenames
       button.btn.btn-xs.white New filename rule
@@ -65,12 +83,23 @@
           xlink:href = "#icons-drag"
         )
     .cell.monospace.text-overflow(
+      ng-class = "{disabled: noWarning}"
       title = "./client/assets/js/primus-client.js"
     ) primus-client.js
     .cell.monospace.text-overflow(
       title = "./client/assets/js/primus-client-prod.js"
     ) primus-client-prod.js
-    .cell.cell-action.monospace
+    //- add .disabled if no warning
+    .cell.cell-action.monospace.disabled(
+      ng-class = "{disabled: noWarning}"
+    )
+      //- note: the title attribute
+      svg.iconnables.icons-warning(
+        title = "0 strings being replaced"
+      )
+        use(
+          xlink:href = "#icons-warning"
+        )
 
 small.small Translation rules allow you to dynamically translate strings or filenames in your code. Use this to modify connection strings or server names in your code to make sure that containers in your sandbox can communicate with each other, or to rename files when they are copied to your container without having to modify your original source code. #{''}
   a.link(
