@@ -7,11 +7,9 @@ require('app')
  */
 function ControllerInstanceLayout(
   configLogoutURL,
-  fetchInstances,
   $rootScope,
   keypather,
   $scope,
-  $state,
   errs,
   pFetchUser,
   fetchInstancesByPod
@@ -42,7 +40,7 @@ function ControllerInstanceLayout(
     fetchInstancesByPod(username)
     .then(function (instancesByPod) {
       if (instancesByPod.githubUsername === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-        $scope.dataApp.data.instancesByPod = instancesByPod;
+        $rootScope.dataApp.data.instancesByPod = instancesByPod;
         keypather.set($rootScope, 'dataApp.state.loadingInstances', false);
       }
     }).catch(errs.handler);
