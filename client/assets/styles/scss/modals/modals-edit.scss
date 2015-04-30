@@ -104,9 +104,10 @@
 
   // replace
   .cell.monospace {
+    padding-right: 12px;
     position: relative;
 
-    &:first-child::after {
+    &:nth-child(2)::after {
       color: $green;
       content: '→';
       display: block;
