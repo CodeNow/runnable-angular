@@ -8,11 +8,11 @@ var $rootScope;
 var instances = require('../apiMocks').instances;
 var runnable = new (require('runnable'))(window.host);
 var $q;
+var mockGetInstanceMaster = require('../fixtures/mockGetInstanceMaster');
 
 // Skipping until we bring this directive back (Kahn)
-describe.skip('directiveDnsManager'.bold.underline.blue, function() {
+describe('directiveDnsManager'.bold.underline.blue, function() {
   var ctx;
-  var mockFetchInstances;
   var masterPods;
   var masterChildMapping;
   var instanceDependencies;
@@ -21,10 +21,52 @@ describe.skip('directiveDnsManager'.bold.underline.blue, function() {
     ctx = {};
     angular.mock.module('app');
 
-    mockFetchInstances = sinon.stub();
+    var masterInstances = runnable.newInstances(instances.list, {
+      noStore: true
+    });
+
+    masterInstances.forEach(function (instance, index) {
+      instance.attrs.contextVersion.context = 'TestContext' + index;
+    });
+
+    masterPods = masterInstances.models;
+
+    masterChildMapping = {};
+
+    masterPods.forEach(function (instance, index) {
+      var newInstances = [angular.copy(instances.running), angular.copy(instances.stopped)];
+      newInstances[0]._id = 'NewInstance0-'+index;
+      newInstances[1]._id = 'NewInstance1-'+index;
+      newInstances[0].shortHash = index + 'abcde';
+      newInstances[1].shortHash = index + 'fghij';
+
+      var childInstances = runnable.newInstances(newInstances, {
+        noStore: true
+      });
+
+      childInstances.models[0].attrs.contextVersion = {
+        context: instance.attrs.contextVersion.context
+      };
+      childInstances.models[0].attrs.name = 'ABCDE' + index;
+
+      childInstances.models[1].attrs.contextVersion = {
+        context: instance.attrs.contextVersion.context
+      };
+      childInstances.models[1].attrs.name = 'FGHIJ' + index;
+
+      childInstances.models[0].attrs.parent = instance.attrs.shortHash;
+      childInstances.models[1].attrs.parent = instance.attrs.shortHash;
+
+      masterChildMapping[instance.attrs.shortHash] = childInstances.models;
+
+      instance.children = {
+        fetch: sinon.stub().callsArg(0),
+        models: childInstances
+      };
+    });
 
     angular.mock.module(function ($provide) {
-      $provide.value('fetchInstances', mockFetchInstances);
+      $provide.factory('getInstanceMaster', mockGetInstanceMaster(masterPods));
     });
 
     angular.mock.inject(function (
@@ -36,55 +78,23 @@ describe.skip('directiveDnsManager'.bold.underline.blue, function() {
       $compile = _$compile_;
       $rootScope = _$rootScope_;
       $q = _$q_;
-
-      var masterInstances = runnable.newInstances(instances.list, {
-        noStore: true
-      });
-
-      masterInstances.forEach(function (instance, index) {
-        instance.attrs.contextVersion.context = 'TestContext' + index;
-      });
-
-      // Setup mockFetchInstances
-      mockFetchInstances.withArgs({masterPod: true}).returns($q.when(masterInstances));
-      masterPods = masterInstances.models;
-
-      masterChildMapping = {};
-
-      masterPods.forEach(function (instance, index) {
-        var newInstances = [angular.copy(instances.running), angular.copy(instances.stopped)];
-        newInstances[0]._id = 'NewInstance0-'+index;
-        newInstances[1]._id = 'NewInstance1-'+index;
-        newInstances[0].shortHash = index + 'abcde';
-        newInstances[1].shortHash = index + 'fghij';
-
-        var childInstances = runnable.newInstances(newInstances, {
-          noStore: true
-        });
-        masterChildMapping[instance.attrs.shortHash] = childInstances.models;
-
-        childInstances.models[0].attrs.contextVersion = {
-          context: instance.attrs.contextVersion.context
-        };
-        childInstances.models[0].attrs.name = 'ABCDE' + index;
-
-        childInstances.models[1].attrs.contextVersion = {
-          context: instance.attrs.contextVersion.context
-        };
-        childInstances.models[1].attrs.name = 'FGHIJ' + index;
-
-        childInstances.models[0].attrs.parent = instance.attrs.shortHash;
-        childInstances.models[1].attrs.parent = instance.attrs.shortHash;
-
-        childInstances.foo = index;
-
-        mockFetchInstances.onCall(index + 1).returns($q.when(childInstances));
-      });
     });
+
+
     $rootScope.$apply();
 
-    // Get the first child of the first master instance.
+    // Make sure we can fetch the dependencies of the master instance
+    masterPods[0].fetchDependencies = sinon.mock().returns({
+      models: [
+        masterPods[1],
+        masterChildMapping[masterPods[2].attrs.shortHash][1]
+      ]
+    });
+
+    // Setup our instance to be a child of the master instance
     $scope.instance = masterChildMapping[masterPods[0].attrs.shortHash][0];
+
+    // Setup our instance dependency override
     var instanceDependency = masterChildMapping[masterPods[1].attrs.shortHash][1];
     instanceDependency.destroy = sinon.spy();
     instanceDependencies = {
@@ -92,6 +102,8 @@ describe.skip('directiveDnsManager'.bold.underline.blue, function() {
       models: [ instanceDependency ]
     };
     $scope.instance.fetchDependencies = sinon.mock().returns(instanceDependencies);
+
+    // Okay, digesat this shit and let's get started with testing.
     $scope.$digest();
 
     $scope.isDnsSetup = false;
@@ -112,22 +124,9 @@ describe.skip('directiveDnsManager'.bold.underline.blue, function() {
   it('should configure the scope variables', function(){
     injectSetupCompile();
 
-    sinon.assert.calledWith(mockFetchInstances, { masterPod: true });
-
-    // Should call fetch instances on every master pod but ours
-    var scopeContext = $scope.instance.attrs.contextVersion.context;
-    masterPods.forEach(function (instance) {
-      var context = instance.attrs.contextVersion.context;
-      if (context === scopeContext) {
-        sinon.assert.neverCalledWith(mockFetchInstances, { masterPod: false, 'contextVersion.context': context});
-      } else {
-        sinon.assert.calledWith(mockFetchInstances, { masterPod: false, 'contextVersion.context': context});
-      }
-    });
-
     expect($elScope.isDnsSetup, 'DNS is setup!').to.equal(true);
 
-    expect($elScope.relatedMasterInstances.length, 'Related master instances length').to.equal(masterPods.length - 1);
+    expect($elScope.directlyRelatedMasterInstances.length, 'Directly related master instances length').to.equal(2);
 
     sinon.assert.calledOnce($scope.instance.fetchDependencies);
 
