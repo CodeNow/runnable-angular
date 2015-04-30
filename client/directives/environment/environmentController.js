@@ -23,7 +23,8 @@ function EnvironmentController(
   pageName,
   promisify,
   $rootScope,
-  $q
+  $q,
+  user
 ) {
   favico.reset();
   pageName.setTitle('Configure - Runnable');
@@ -50,10 +51,10 @@ function EnvironmentController(
       $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
-      var instance = $scope.user.newInstance({
+      var instance = user.newInstance({
         name: name,
         owner: {
-          username: $scope.user
+          username: user
         }
       }, { warn: false });
       $scope.data.instances.add(instance);
@@ -91,10 +92,5 @@ function EnvironmentController(
       $scope.data.loadingNewServers = false;
     })
     .catch(errs.handler);
-
-  pFetchUser()
-    .then(function (user) {
-      $scope.user = user;
-    });
 
 }
