@@ -12,6 +12,11 @@
         pop-over-options = "{\"left\":0,\"top\":-108}"
         pop-over-template = "viewPopoverRules"
       ) New string rule
+  //- when dragging:
+    - add .disabled to the .tr to be dragged
+    - clone .tr that's being dragged
+    - add .dragging class
+    - add current width
   .tr.tr-action.clearfix
     .cell.cell-action
       svg.iconnables.icons-drag
