@@ -43,6 +43,18 @@ module.exports = [
       anon: true
     }
   }, {
+    state: 'branchSelection',
+    abstract: false,
+    url: '^/:userName/branchSelection/:hostname',
+    templateUrl: 'viewBranchSelection',
+    controller: 'ControllerBranchSelection',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  }, {
     state: 'base',
     abstract: true,
     url: '^/:userName/',

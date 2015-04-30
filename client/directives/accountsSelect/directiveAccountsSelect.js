@@ -71,12 +71,13 @@ function accountsSelect (
       });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
-        $scope.$broadcast('close-popovers');
         var username = userOrOrg.oauthName();
-        $scope.data.activeAccount = userOrOrg;
-        $scope.$emit('INSTANCE_LIST_FETCH', username);
+        $scope.$broadcast('close-popovers');
         $state.go('^.home', {
           userName: username
+        }).then(function () {
+          $scope.data.activeAccount = userOrOrg;
+          $scope.$emit('INSTANCE_LIST_FETCH', username);
         });
       };
     }
