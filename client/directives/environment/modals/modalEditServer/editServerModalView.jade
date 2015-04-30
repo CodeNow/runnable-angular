@@ -1,5 +1,5 @@
 form.modal-dialog.modal-edit(
-  name = 'editServerForm'
+  name = "editServerForm"
   ng-class = "{disabled: building}"
 )
   header.modal-header
@@ -108,27 +108,27 @@ form.modal-dialog.modal-edit(
       state = "state"
     )
     .modal-form(
-      ng-show = "selectedTab === 'command'"
+      ng-if = "selectedTab === 'command'"
       ng-include = "'viewFormStartCommand'"
     )
     .modal-form(
-      ng-show = "selectedTab === 'ports'"
+      ng-if = "selectedTab === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-show = "selectedTab === 'repositories'"
+      ng-if = "selectedTab === 'repositories'"
       ng-include = "'viewFormRepositories'"
     )
     .modal-form(
-      ng-show = "selectedTab === 'env'"
+      ng-if = "selectedTab === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
-      ng-show = "selectedTab === 'replace'"
+      ng-if = "selectedTab === 'replace'"
       ng-include = "'viewFormReplace'"
     )
     .modal-form.modal-logs(
-      ng-show = "selectedTab === 'logs'"
+      ng-if = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
     )
 
