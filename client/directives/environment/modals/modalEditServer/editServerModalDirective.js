@@ -213,9 +213,9 @@ function editServerModal(
         });
 
       // Only start watching this after the context version has
-      $scope.$watch('state.advanced', function (advanced, p) {
+      $scope.$watch('state.advanced', function (advanced, previousAdvanced) {
         // This is so we don't fire the first time with no changes
-        if (advanced !== p) {
+        if (advanced !== previousAdvanced) {
           waitForStateContextVersion($scope, function () {
             $rootScope.$broadcast('close-popovers');
             $scope.selectedTab = advanced ? 'buildfiles' : 'stack';
