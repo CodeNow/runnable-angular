@@ -1,8 +1,6 @@
 .server-name {{ instance.attrs.name }}
-  span.icons-status(
-    ng-class = "getInstanceClasses(instance)"
-    tooltip = "{{ getInstanceAltTitle(instance) }}"
-    tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+  status-icon(
+    instance = "instance"
   )
 input.server-url(
   coach-mark-style = "{\"left\": -13, \"top\": 33}"

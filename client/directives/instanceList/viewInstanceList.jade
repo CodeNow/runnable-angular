@@ -37,7 +37,10 @@ ul.server-category-list(
           span.branch-name(
             ng-if = "masterInstance.getBranchName()"
           ) /{{ masterInstance.getBranchName() }}
-        .icons-status.running
+        status-icon(
+          instance = "masterInstance"
+        )
+
       li.server-list-item(
         ng-repeat = "branchFork in masterInstance.children.models"
         ng-class = "{selected: isSelected(branchFork)}"
@@ -45,6 +48,6 @@ ul.server-category-list(
                      instanceName: branchFork.attrs.name })"
       )
         span.branch-name.text-overflow {{ branchFork.attrs.name }}
-        .icons-status(
-          ng-class = "getInstanceClasses(branchFork)"
+        status-icon(
+          instance = "branchFork"
         )
