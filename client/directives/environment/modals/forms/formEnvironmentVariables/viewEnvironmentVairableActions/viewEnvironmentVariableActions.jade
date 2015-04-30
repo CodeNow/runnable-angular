@@ -8,7 +8,9 @@ button.btn.btn-xs.gray(
 
 button.btn.btn-xs(
   ng-if = "!state.showHostName"
-  ng-disable = "!linkedEnvResults.servers.length && !linkedEnvResults.others.length"
+  ng-class = "{\
+    'no-touching': !linkedEnvResults.servers.length && !linkedEnvResults.others.length\
+  }"
   pop-over
   pop-over-data = "linkedEnvResults"
   pop-over-options = "{\"left\":0,\"top\":0}"

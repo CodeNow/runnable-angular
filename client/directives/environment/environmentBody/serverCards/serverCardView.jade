@@ -10,6 +10,7 @@
     pop-over-template = "serverOptionsCardPopover"
   )
   input.input.input-sm.monospace(
+    ng-if = "!server.building && server.build"
     readonly
     select-all
     value = "{{ server.instance.getProxyHost() }}"

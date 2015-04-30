@@ -1,34 +1,33 @@
 'use strict';
 
 require('app')
-  .controller('ControllerEnvironment', ControllerEnvironment);
+  .controller('EnvironmentController', EnvironmentController);
 /**
- * ControllerEnvironment
+ * EnvironmentController
  * @constructor
  * @export
  * @ngInject
  */
-function ControllerEnvironment(
+function EnvironmentController(
   $scope,
-  $state,
   $timeout,
   createNewInstance,
   errs,
   eventTracking,
   favico,
   fetchContexts,
-  getNewForkName,
   pFetchUser,
   fetchStackInfo,
   keypather,
   fetchInstances,
+  pageName,
   promisify,
-  copySourceInstance,
   $rootScope
 ) {
   favico.reset();
+  pageName.setTitle('Configure - Runnable');
   $scope.data = {
-    instances: []
+    instances: null
   };
   $scope.state = {
     validation: {
@@ -50,10 +49,10 @@ function ControllerEnvironment(
       $rootScope.$broadcast('close-modal');
 
       eventTracking.triggeredBuild(false);
-      var instance = $rootScope.dataApp.data.user.newInstance({
+      var instance = $scope.user.newInstance({
         name: name,
         owner: {
-          username: keypather.get($rootScope, 'dataApp.data.activeAccount.accounts.github.username')
+          username: $scope.user
         }
       }, { warn: false });
       $scope.data.instances.add(instance);
