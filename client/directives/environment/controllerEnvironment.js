@@ -51,7 +51,10 @@ function ControllerEnvironment(
 
       eventTracking.triggeredBuild(false);
       var instance = $rootScope.dataApp.data.user.newInstance({
-        name: name
+        name: name,
+        owner: {
+          username: keypather.get($rootScope, 'dataApp.data.activeAccount.accounts.github.username')
+        }
       }, { warn: false });
       $scope.data.instances.add(instance);
 
