@@ -7,13 +7,13 @@
       xlink:href = "#icons-disclose"
     )
   | {{ explorerTitle }}
-  button.btn.btn-xs.btn-icon.white.sub-header-action(
+  button.btn.btn-xs.btn-icon.sub-header-action(
     ng-class = "{active: filePopover.data.show}"
     ng-if = "!$storage.explorerIsClosed && fileModel.running()"
     pop-over
     pop-over-actions = "filePopover.actions"
     pop-over-data = "filePopover.data"
-    pop-over-options = "{\"left\":-74,\"top\":40}"
+    pop-over-options = "{\"left\":-68,\"top\":40}"
     pop-over-template = "viewFileTreePopoverFileExplorerMenu"
     pop-over-active = "filePopover.data.show"
   )
