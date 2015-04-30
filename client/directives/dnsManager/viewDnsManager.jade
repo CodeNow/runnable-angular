@@ -17,7 +17,7 @@
 
 .empty-state(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
-) You have no linked instances.
+) You have no linked containers.
 
 fancy-select.well(
   ng-repeat = "masterInstance in masterInstancesWithChildren"
