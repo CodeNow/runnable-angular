@@ -47,8 +47,6 @@ function editServerModal(
         tags: new JSTagsCollection(($scope.server.ports || '').split(' '))
       };
 
-      $scope.getInstanceClasses = getInstanceClasses;
-
       $scope.linkedEnvResults = findLinkedServerVariables($scope.server.opts.env);
       $scope.$watchCollection('state.opts.env', function (n) {
         if (n) {
@@ -103,15 +101,9 @@ function editServerModal(
       };
 
       $scope.getUpdatePromise = function () {
-        function updatePromise() {
-          var deferer = $q.defer();
-          $scope.building = true;
-          $scope.state.ports = convertTagToPortList();
-          deferer.resolve($scope.state);
-          return deferer.promise;
-        }
-
-        return updatePromise()
+        $scope.building = true;
+        $scope.state.ports = convertTagToPortList();
+        return $q.when($scope.state)
           .then(function (state) {
             if (state.advanced) {
               return buildBuild(state);
@@ -126,9 +118,7 @@ function editServerModal(
             return promisify($scope.instance, 'update')(state.opts);
           })
           .then(function () {
-            return $scope.defaultActions.close();
-          })
-          .then(function () {
+            $scope.defaultActions.close();
             if (keypather.get($scope.instance, 'container.running()')) {
               return promisify($scope.instance, 'redeploy')();
             }
@@ -165,9 +155,8 @@ function editServerModal(
             );
           })
           .then(function () {
-            return $scope.state;
-          })
-          .then(buildBuild);
+            return buildBuild($scope.state);
+          });
       }
       if ($scope.server.repo) {
         $scope.branches = $scope.server.repo.branches;
