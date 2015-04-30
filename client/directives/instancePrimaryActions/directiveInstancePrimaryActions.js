@@ -31,7 +31,6 @@ function instancePrimaryActions(
       $scope.popoverSaveOptions.data.restartOnSave = false;
 
       $scope.saving = false;
-      $scope.loading = false;
 
       $scope.saveChanges = function () {
         $scope.saving = true;

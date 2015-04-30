@@ -1,5 +1,5 @@
 .btn-group(
-  ng-init = "page = 'build'"
+  ng-init = "page = instance.containers.models[0].running() ? 'run' : 'build'"
 )
   button.btn.btn-xs.white(
     ng-class = "{active: page === 'build'}"

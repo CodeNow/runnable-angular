@@ -114,20 +114,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $scope.$apply();
       expect($scope.data.activeAccount).to.equal(ctx.fakeOrg1);
     });
-    it('should not emit signal when not on the main page', function () {
-      initState();
-      ctx.stateMock.go = sinon.spy();
-      var instanceFetchSpy = sinon.spy();
-      $rootScope.$on('INSTANCE_LIST_FETCH', instanceFetchSpy);
-      $scope.$digest();
-      $elScope.popoverAccountMenu.actions.selectActiveAccount(ctx.fakeOrg1);
-      $scope.$apply();
-      expect($scope.data.activeAccount).to.equal(ctx.fakeOrg1);
-      sinon.assert.neverCalledWith(ctx.stateMock.go, 'instance.home', {
-        userName: ctx.fakeOrg1.oauthName()
-      });
-      sinon.assert.notCalled(instanceFetchSpy);
-    });
   });
 
   // Logic for popover

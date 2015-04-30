@@ -21,14 +21,6 @@
       )
     | Update
 
-  //- add repository button
-  span.sub-header-action(
-    add-repo-popover
-    context-version = "build.contextVersions.models[0]"
-    ng-if = "showAddRepo"
-    show = "data.show"
-  )
-
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.guide-image.guide-pointer(
   ng-click = "data.show = !data.show"
@@ -46,7 +38,6 @@ ul.list.repository-group(
     edit-repo-commit
     ng-repeat = "model in unsavedAcvs"
     model = "model"
-    show-remove-repo = "showAddRepo"
   )
   li.list-details(
     ng-show = "unsavedAcvs.length && !showAddFirstRepoMessage"

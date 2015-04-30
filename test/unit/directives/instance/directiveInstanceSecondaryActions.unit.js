@@ -38,9 +38,6 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
     };
     angular.mock.module(function ($provide) {
       $provide.value('$state', stateMock);
-      $provide.value('helperInstanceActionsModal', function () {
-        ctx.helperCalled = true;
-      });
       $provide.value('QueryAssist', MockQueryAssist);
       $provide.value('$stateParams', {
         userName: 'username',
@@ -95,20 +92,9 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
       expect($elScope.instance).to.equal(inputScope.instance);
       expect($elScope.instances).to.equal(inputScope.instances);
       expect($elScope.saving).to.equal(false);
-      expect($elScope.popoverGearMenu).to.be.ok;
-      expect($elScope.popoverGearMenu.data).to.deep.equal({
-        show: false,
-        dataModalEnvironment: {
-          showRebuild: true
-        }
-      });
-      expect($elScope.popoverGearMenu.actions).to.be.ok;
-      expect($elScope.popoverGearMenu.actions).to.have.property('stopInstance');
-      expect($elScope.popoverGearMenu.actions).to.have.property('startInstance');
     });
     it('should modify the scope', function () {
       $scope.$digest();
-      expect(ctx.helperCalled).to.be.ok;
       expect($elScope.goToEdit).to.be.ok;
     });
   });
@@ -148,9 +134,9 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
         cb();
       };
       $scope.$digest();
-      $elScope.popoverGearMenu.actions.stopInstance();
+      $elScope.actions.stopInstance();
       expect($elScope.saving).to.be.true;
-      expect($elScope.popoverGearMenu.data.show).to.be.false;
+      expect($elScope.starting).to.be.false;
       $scope.$digest();
       sinon.assert.calledOnce($scope.instance.stop);
       expect($elScope.saving).to.be.false;
@@ -165,11 +151,11 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
         cb();
       };
       $scope.$digest();
-      $elScope.popoverGearMenu.actions.startInstance();
+      $elScope.actions.startInstance();
       expect($elScope.saving).to.be.true;
-      expect($elScope.popoverGearMenu.data.show).to.be.false;
-      sinon.assert.calledOnce($scope.instance.start);
+      expect($elScope.starting).to.be.true;
       $scope.$digest();
+      sinon.assert.calledOnce($scope.instance.start);
       expect($elScope.saving).to.be.false;
     });
   });

@@ -144,10 +144,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       expect(element[0].querySelector('.guide'), 'RepoList Guide').to.be.ok;
     });
 
-    it('should show plus', function () {
-      expect(element[0].querySelector('.icons-add')).to.be.ok;
-    });
-
     it('should attempt to update the acv object on acv-change', function () {
 
       var acv = {
@@ -234,47 +230,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       sinon.assert.notCalled($elScope.triggerInstanceUpdateOnRepoCommitChange);
       expect($elScope.loading, 'loading').to.not.be.ok;
 
-    });
-  });
-
-  describe('editing instance with repo'.bold.blue, function() {
-    beforeEach(function () {
-      var instance = createInstanceObject(mocks.instances.building);
-      instance.build = createBuildObject(mocks.builds.setup);
-      initGlobalState({
-        'show-add-repo': 'true'
-      }, {
-        build: createBuildObject(mocks.builds.built),
-        instance: instance
-      });
-    });
-    beforeEach(function() {
-      $rootScope.$digest();
-    });
-
-    it('should not display the guide', function() {
-      expect(element.find('.guide').length, 'RepoList Guide').to.not.be.ok;
-    });
-
-    it('should show plus', function() {
-      expect(element[0].querySelector('.icons-add')).to.be.ok;
-    });
-    it('should attempt to update the acv object on acv-change', function () {
-      var acv = {
-        attrs: apiMocks.appCodeVersions.bitcoinAppCodeVersion,
-        update: sinon.spy(function (opts, cb) {
-          cb();
-        })
-      };
-      var triggerInstanceUpdateOnRepoCommitChange = $elScope.triggerInstanceUpdateOnRepoCommitChange;
-      $elScope.triggerInstanceUpdateOnRepoCommitChange =
-        sinon.spy(triggerInstanceUpdateOnRepoCommitChange);
-      var updateOpts = 'Hello';
-      $scope.$broadcast('acv-change', { acv: acv, updateOpts: updateOpts });
-      $scope.$apply();
-      sinon.assert.calledWith(acv.update, updateOpts);
-      sinon.assert.notCalled($elScope.triggerInstanceUpdateOnRepoCommitChange);
-      expect(element[0].querySelector('.btn.btn-xs.orange'), 'Update Button').to.not.be.ok;
     });
   });
 });

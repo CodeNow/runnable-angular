@@ -15,6 +15,7 @@ require('app')
 
 function pFetchUser(keypather, user, $q, $state) {
   var fetchedUser = null;
+  var socket = null;
   // For consistency with other promise fetchers
   return function () {
     if (!fetchedUser) {
@@ -30,6 +31,9 @@ function pFetchUser(keypather, user, $q, $state) {
           }
           deferred.reject(err);
         } else {
+          if (!socket) {
+            socket = user.createSocket();
+          }
           deferred.resolve(user);
         }
       });
@@ -63,7 +67,6 @@ function fetchInstances(
         throw new Error('Instance not found');
       }
       instance.githubUsername = opts.githubUsername;
-
       return instance;
     });
   };
@@ -74,9 +77,10 @@ function fetchInstancesByPod(
   $q,
   promisify
 ) {
-  return function () {
+  return function (username) {
     return fetchInstances({
-      masterPod: true
+      masterPod: true,
+      githubUsername: username
     })
       .then(function (masterPods) {
         var podFetch = [];

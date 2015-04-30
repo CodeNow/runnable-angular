@@ -37,6 +37,9 @@ function ControllerHome(
     } else {
       $state.go('orgSelect', {}, {location: 'replace'});
     }
-  }).catch(errs.handler);
+  }).catch(function (err) {
+    $scope.dataApp.data.loading = false;
+    errs.handler(err);
+  });
 
 }

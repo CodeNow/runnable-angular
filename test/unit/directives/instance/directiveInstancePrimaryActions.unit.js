@@ -88,7 +88,7 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
 
   it('initalizes scope properly', function () {
     expect($elScope.saving).to.be.false;
-    expect($elScope.loading).to.be.false;
+    expect($elScope.loading).to.be.true;
 
     expect($elScope.popoverSaveOptions).to.deep.equal({
       actions: {},
