@@ -132,6 +132,26 @@
 
 .cell-action {
   flex: 0 0 auto;
+
+  &:first-child {
+    cursor: grab;
+    padding: 0 3px 0 9px;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &.disabled {
+    visibility: hidden;
+  }
+
+  // dragging icon
+  .icons-drag {
+    height: 100%;
+    opacity: .3;
+    width: 9px;
+  }
 }
 
 .cell-checkbox {
