@@ -17,7 +17,7 @@ function accountsSelect (
   $state
 ) {
   return {
-    restrict: 'AE',
+    restrict: 'E',
     templateUrl: 'viewAccountsSelect',
     scope: {
       data: '='
@@ -73,9 +73,9 @@ function accountsSelect (
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
         var username = userOrOrg.oauthName();
         $scope.$broadcast('close-popovers');
-        $state.go('^.home', {
+        $state.go($state.$current, {
           userName: username
-        }).then(function () {
+        }, {reload: true}).then(function () {
           $scope.data.activeAccount = userOrOrg;
           $scope.$emit('INSTANCE_LIST_FETCH', username);
         });

@@ -82,7 +82,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
 
-      var tpl = directiveTemplate.attribute('accounts-select', {
+      var tpl = directiveTemplate('accounts-select', {
         'data': 'data'
       });
 

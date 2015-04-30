@@ -17,7 +17,7 @@
 
 .empty-state(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
-) You have no linked instances.
+) You have no linked containers.
 
 fancy-select.well(
   ng-repeat = "masterInstance in masterInstancesWithChildren"
@@ -31,7 +31,7 @@ fancy-select.well(
     status-icon(
       instance = "$parent.$parent.masterInstance"
     )
-    | {{ $parent.$parent.masterInstance.attrs.name }}
+    | {{ $parent.$parent.masterInstance.repoName() }}
     span.branch-name /{{ $parent.$parent.masterInstance.getBranchName() }}
 
   fancy-option(
@@ -52,7 +52,7 @@ fancy-select.well(
   status-icon(
     instance = "masterInstance"
   )
-  | {{ masterInstance.attrs.name }}
+  | {{ masterInstance.repoName() }}
   span.branch-name(
     ng-if = "masterInstance.getBranchName().length"
   ) /{{ masterInstance.getBranchName() }}
