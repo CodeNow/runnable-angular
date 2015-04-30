@@ -47,6 +47,7 @@ function dnsManager(
        *
        * 1. Get our master instance
        * 2. Fetch it's dependencies
+       *    a. Fetch their children
        * 3. Set those as our dependencies
        * 4. Fetch our actual dependencies
        * 5. Merge our actual dependencies with those from the master
@@ -55,52 +56,55 @@ function dnsManager(
        */
 
       getInstanceMaster($scope.instance).then(function (master) {
-        promisify(master, 'fetchDependencies')().then(function (_masterDeps) {
-          var promiseFetchMasters = _masterDeps.models.map(function (dep) {
-            return getInstanceMaster(dep).then(function (masterInstance) {
-              return promisify(masterInstance.children, 'fetch')().then(function () {
-                return masterInstance;
-              });
-            });
-          });
-          $q.all(promiseFetchMasters).then(function (masters) {
-            $scope.directlyRelatedMasterInstances = masters;
-            // Set the dependency to be defaulted to the master
-            $scope.directlyRelatedMasterInstances.forEach(function (instance) {
-              $scope.instanceDependencyMap[instance.attrs.contextVersion.context] = instance.attrs.shortHash;
-            });
-
-            var promiseList = [];
-            promiseList.push(promisify($scope.instance, 'fetchDependencies')()
-              .then(function (_dependencies) {
-                $scope.dependencies = _dependencies;
-                $scope.dependencies.models.forEach(function (dependency) {
-                  $scope.instanceDependencyMap[dependency.attrs.contextVersion.context] = dependency.attrs.shortHash;
+        promisify(master, 'fetchDependencies')()
+          .then(function (_masterDeps) {
+            var promiseFetchMasters = _masterDeps.models.map(function (dep) {
+              return getInstanceMaster(dep)
+                .then(function (masterInstance) {
+                  return promisify(masterInstance.children, 'fetch')()
+                    .then(function () {
+                      return masterInstance;
+                    });
                 });
-              }));
-
-            return $q.all(promiseList).then(function () {
-              $scope.masterInstancesWithChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
-                return instance.children.models.length !== 0;
-              });
-              $scope.masterInstancesWithoutChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
-                return instance.children.models.length === 0;
-              });
-
-              $scope.isDnsSetup = true;
             });
-          });
+            $q.all(promiseFetchMasters)
+              .then(function (masters) {
+                $scope.directlyRelatedMasterInstances = masters;
+                // Set the dependency to be defaulted to the master
+                $scope.directlyRelatedMasterInstances.forEach(function (instance) {
+                  $scope.instanceDependencyMap[instance.attrs.contextVersion.context] = instance.attrs.shortHash;
+                });
+
+                return promisify($scope.instance, 'fetchDependencies')()
+                  .then(function (_dependencies) {
+                    $scope.dependencies = _dependencies;
+                    $scope.dependencies.models.forEach(function (dependency) {
+                      $scope.instanceDependencyMap[dependency.attrs.contextVersion.context] = dependency.attrs.shortHash;
+                    });
+                  })
+                  .then(function () {
+                    $scope.masterInstancesWithChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
+                      return instance.children.models.length !== 0;
+                    });
+                    $scope.masterInstancesWithoutChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
+                      return instance.children.models.length === 0;
+                    });
+                    $scope.isDnsSetup = true;
+                  });
+            });
         });
-      }).catch(errs.handler);
+      })
+        .catch(errs.handler);
 
       $scope.actions = {
         setDependency: function (masterInstance, instanceId) {
           var hostName = createInstanceUrl(masterInstance);
           if (instanceId !== masterInstance.attrs.shortHash) {
-            $scope.dependencies.create({
+            promisify($scope.dependencies, 'create')({
               hostname: hostName,
               instance: instanceId
-            }, errs.handler);
+            })
+              .catch(errs.handler);
           } else {
             var dependency = $scope.dependencies.models.find(function (dependency) {
               return dependency.attrs.contextVersion.context === masterInstance.attrs.contextVersion.context;
