@@ -25,11 +25,6 @@
     margin: 6px;
   }
 
-  .branch-name {
-    color: $gray;
-    font-weight: 400;
-  }
-
   .icons-status {
     float: right;
     margin: 8px 9px 0 0;
@@ -91,7 +86,7 @@
 
 .server-list-item {
   cursor: pointer;
-  height: 33px;
+  height: 34px;
   margin: 0 -12px;
   padding: 4px 9px 0 30px;
   position: relative;
