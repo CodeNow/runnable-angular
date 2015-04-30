@@ -1,25 +1,35 @@
-.server-name repo
-  span.branch-name /{{ instance.attrs.name }}
-  span.icons-status(
-  ng-class = "getInstanceClasses(instance)"
-  tooltip = "{{ getInstanceAltTitle(instance) }}"
-  tooltip-options = "{\"class\":\"bottom\",\"left\":-7,\"top\":12}"
+.server-name
+  span.sever-name(
+    ng-if = "instance.getRepoName()"
+  ) {{ instance.getRepoName() }}
+  span.sever-name(
+    ng-if = "!instance.getRepoName()"
+  ) {{ instance.getDisplayName() }}
+  span.branch-name(
+    ng-if = "instance.getBranchName()"
+  ) /{{ instance.getBranchName() }}
+
+  status-icon(
+    instance = "instance"
   )
 input.server-url(
-coach-mark-style = "{\"left\": -13, \"top\": 33}"
-coach-mark-template = "viewCoachMarksBoxNamePopover"
-coach-mark-type = "editButton"
-ng-if = "instance.attrs.name"
-readonly
-select-all
-show-coach-marks
-value = "{{ instance.attrs.name }}-{{ instance.attrs.owner.username }}.runnableapp.com"
-template = "viewCoachMarksBoxNamePopover"
+  coach-mark-style = "{\"left\": -13, \"top\": 33}"
+  coach-mark-template = "viewCoachMarksBoxNamePopover"
+  coach-mark-type = "editButton"
+  ng-if = "instance.attrs.name"
+  readonly
+  select-all
+  show-coach-marks
+  value = "{{ instance.getContainerHost() }}"
+  template = "viewCoachMarksBoxNamePopover"
 )
 //- sets width
-span.server-name-ghost.no-touching {{ instance.attrs.name }}-{{ instance.attrs.owner.username }}.runnableapp.com
-  a.container-link-external
-svg.iconnables.icons-link-external
-  use(
-  xlink:href = "#icons-link-external"
-  )
+span.server-name-ghost.no-touching {{ instance.getContainerHost() }}
+a.container-link-external(
+  target = "_blank"
+  ng-href = "http://{{ instance.getContainerHost() }}"
+)
+  svg.iconnables.icons-link-external
+    use(
+      xlink:href = "#icons-link-external"
+    )

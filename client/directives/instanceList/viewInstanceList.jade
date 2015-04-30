@@ -33,11 +33,15 @@ ul.server-category-list(
             use(
               xlink:href = "#icons-repository"
             )
-        span.server-category-name.text-overflow
-          | {{ masterInstance.attrs.name }}
-          span.branch-name(
-            ng-if = "masterInstance.getBranchName()"
-          ) /{{ masterInstance.getBranchName() }}
+        span.server-category-name.text-overflow(
+          ng-if = "masterInstance.getRepoName()"
+        ) {{ masterInstance.getRepoName() }}
+          span.branch-name /{{ masterInstance.getBranchName() }}
+
+        span.server-category-name.text-overflow(
+          ng-if = "!masterInstance.getRepoName()"
+        ) {{ masterInstance.attrs.name }}
+
         status-icon(
           instance = "masterInstance"
         )
