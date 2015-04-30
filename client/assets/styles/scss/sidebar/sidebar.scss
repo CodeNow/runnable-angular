@@ -73,6 +73,10 @@
 .nav-sidebar {
   background: $gray-lightest;
   float: left;
+
+  .spinner-wrapper {
+    margin-top: 30px;
+  }
 }
 
 .servers {
