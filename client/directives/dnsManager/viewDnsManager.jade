@@ -41,7 +41,7 @@ fancy-select.well(
     status-icon(
       instance = "$parent.childInstance"
     )
-    | {{ $parent.$parent.$parent.masterInstance.attrs.name }}
+    | {{ $parent.childInstance.getRepoName() }}
     span.branch-name /{{ $parent.childInstance.getBranchName() }}
 
 //- non-repo containers, or repo containers with only one branch, that are linked directly
