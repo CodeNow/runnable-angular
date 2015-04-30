@@ -14,10 +14,7 @@ function accountsSelect (
   errs,
   keypather,
   promisify,
-  $state,
-  $q,
-  fetchSettings,
-  verifyChatIntegration
+  $state
 ) {
   return {
     restrict: 'AE',
@@ -29,6 +26,11 @@ function accountsSelect (
 
       $scope.popoverAccountMenu = {
         actions: {
+          logout: function () {
+            promisify($scope.data.user, 'logout')().then(function () {
+              window.location = '/';
+            }).catch(errs.handler);
+          },
           clearAllUserOptions: function () {
             var userOptions = {};
             ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {

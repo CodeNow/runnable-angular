@@ -23,7 +23,7 @@ function cardBuildStatusText(
       }
     } else if (build) {
       if (build.failed()) {
-        returnString += 'Building Failed';
+        returnString += 'Build Failed';
       } else {
         returnString += 'Building';
       }

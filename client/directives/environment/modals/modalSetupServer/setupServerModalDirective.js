@@ -29,7 +29,6 @@ function setupServerModal(
     link: function ($scope, elem, attrs) {
       $scope.state = {
         opts: {
-          env: null,
           masterPod: true
         }
       };

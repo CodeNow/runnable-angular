@@ -1,5 +1,5 @@
-form.modal-dialog.modal-edit-server(
-  name = 'editServerForm'
+form.modal-dialog.modal-edit(
+  name = "editServerForm"
   ng-class = "{disabled: building}"
 )
   header.modal-header
@@ -97,11 +97,11 @@ form.modal-dialog.modal-edit-server(
     )
 
     .modal-form(
-      ng-if = "selectedTab === 'buildfiles'"
+      ng-show = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'stack'"
+      ng-show = "selectedTab === 'stack'"
       stack-selector-form
       data = "data"
       state = "state"
