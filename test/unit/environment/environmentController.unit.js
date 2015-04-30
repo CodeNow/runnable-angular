@@ -4,6 +4,7 @@ var $controller,
     $rootScope,
     $scope,
     $timeout;
+var $window;
 var keypather;
 var apiMocks = require('../apiMocks/index');
 var fetchUserMock = new (require('../fixtures/mockFetch'))();
