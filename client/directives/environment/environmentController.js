@@ -49,29 +49,32 @@ function EnvironmentController(
     createAndBuild: function (createPromise, name) {
       $rootScope.$broadcast('close-modal');
 
-      eventTracking.triggeredBuild(false);
-      var instance = $scope.user.newInstance({
-        name: name,
-        owner: {
-          username: $scope.user
-        }
-      }, { warn: false });
-      $scope.data.instances.add(instance);
+      pFetchUser()
+        .then(function (user) {
+          eventTracking.triggeredBuild(false);
+          var instance = user.newInstance({
+            name: name,
+            owner: {
+              username: user
+            }
+          }, { warn: false });
+          $scope.data.instances.add(instance);
 
-      createPromise
-        .then(function (newServerModel) {
-          return createNewInstance(
-            $rootScope.dataApp.data.activeAccount,
-            newServerModel.build,
-            newServerModel.opts,
-            instance
-          );
-        })
-        .catch(function (err) {
-          errs.handler(err);
-          // Remove it from the servers list
-          instance.dealloc();
-          //dealloc
+          createPromise
+            .then(function (newServerModel) {
+              return createNewInstance(
+                $rootScope.dataApp.data.activeAccount,
+                newServerModel.build,
+                newServerModel.opts,
+                instance
+              );
+            })
+            .catch(function (err) {
+              errs.handler(err);
+              // Remove it from the servers list
+              instance.dealloc();
+              //dealloc
+            });
         });
     }
   };
@@ -92,9 +95,6 @@ function EnvironmentController(
     })
     .catch(errs.handler);
 
-  pFetchUser()
-    .then(function (user) {
-      $scope.user = user;
-    });
+
 
 }
