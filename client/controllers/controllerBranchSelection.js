@@ -38,7 +38,7 @@ function controllerBranchSelection (
       destInstanceId: instance.id()
     })
     .then(function () {
-      $window.location = 'http://' + hostname;
+      $window.location = '//' + hostname;
     })
     .catch(errs.handler);
   };
