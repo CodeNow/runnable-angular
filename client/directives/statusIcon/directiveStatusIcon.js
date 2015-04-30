@@ -14,7 +14,6 @@ function statusIcon(
     replace: true,
     templateUrl: 'viewStatusIcon',
     link: function ($scope) {
-      console.log('Hello!');
       $scope.getInstanceClasses = getInstanceClasses;
     }
   };
