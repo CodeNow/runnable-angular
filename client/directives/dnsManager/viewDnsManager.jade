@@ -8,12 +8,12 @@
       )
   | Associations
 
-  //- TODO: For the moment comment this out, we don't have a good way of looping over our direct relations, waiting on what happens from backend
-  //-.icons-status(
-  //-  ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
-  //-  ng-repeat = "masterInstance in directlyRelatedMasterInstances"
-  //-  ng-class = "getInstanceClasses(masterInstance)"
-  //-)
+
+  status-icon(
+    ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
+    ng-repeat = "relatedInstance in getRelatedInstancesList()"
+    instance = "relatedInstance"
+  )
 
 .empty-state(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
