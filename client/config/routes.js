@@ -63,8 +63,8 @@ module.exports = [
     state: 'instance.config',
     abstract: false,
     url: '^/:userName/configure',
-    templateUrl: 'viewEnvironment',
-    controller: 'ControllerEnvironment',
+    templateUrl: 'environmentView',
+    controller: 'EnvironmentController',
     onEnter: function ($rootScope, keypather) {
       keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
     },

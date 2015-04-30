@@ -98,37 +98,37 @@ form.modal-dialog.modal-edit-server(
     )
 
     .modal-form(
-      ng-if = "selectedTab === 'buildfiles'"
+      ng-show = "selectedTab === 'buildfiles'"
       ng-include = "'viewFormBuildfiles'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'stack'"
+      ng-show = "selectedTab === 'stack'"
       stack-selector-form
       data = "data"
       state = "state"
     )
     .modal-form(
-      ng-if = "selectedTab === 'command'"
+      ng-show = "selectedTab === 'command'"
       ng-include = "'viewFormStartCommand'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'ports'"
+      ng-show = "selectedTab === 'ports'"
       ng-include = "'viewFormPorts'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'repositories'"
+      ng-show = "selectedTab === 'repositories'"
       ng-include = "'viewFormRepositories'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'env'"
+      ng-show = "selectedTab === 'env'"
       ng-include = "'viewFormEnvironmentVariables'"
     )
     .modal-form(
-      ng-if = "selectedTab === 'replace'"
+      ng-show = "selectedTab === 'replace'"
       ng-include = "'viewFormReplace'"
     )
     .modal-form.modal-logs(
-      ng-if = "selectedTab === 'logs'"
+      ng-show = "selectedTab === 'logs'"
       ng-include = "'viewFormLogs'"
     )
 
