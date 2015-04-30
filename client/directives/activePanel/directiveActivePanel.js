@@ -27,8 +27,7 @@ function activePanel(
       build: '=',
       validation: '=',
       stateModel: '=',
-      isEditModal: '=?',
-      hideTabBar: '=?'
+      isEditModal: '=?'
     },
     link: function ($scope, element, attrs) {
 
