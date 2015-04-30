@@ -45,7 +45,7 @@ module.exports = [
   }, {
     state: 'branchSelection',
     abstract: false,
-    url: '^/:userName/branchSelection/:hostname',
+    url: '^/branchSelection/:hostname',
     templateUrl: 'viewBranchSelection',
     controller: 'ControllerBranchSelection',
     data: {
