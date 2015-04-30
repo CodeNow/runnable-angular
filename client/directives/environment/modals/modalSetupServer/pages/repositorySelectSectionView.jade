@@ -11,7 +11,7 @@ section.modal-body.clearfix
   input.input.input-sm.input-search(
     ng-disabled = "repoSelected"
     ng-if = "data.githubRepos.models"
-    ng-model = "repoFilter"
+    ng-model = "data.repoFilter"
     placeholder = "Filter by name"
     required
     select-on = "showFilter"
@@ -27,8 +27,8 @@ section.modal-body.clearfix
       ng-click = "selectRepo(repo)"
       ng-init = "repo.isAdded = isRepoAdded(repo)"
       ng-repeat = "\
-        repo in data.githubRepos.models| \
-        repos: repoFilter | \
+        repo in data.githubRepos.models | \
+        repos: data.repoFilter | \
         orderBy: '-attrs.updated_at'\
       "
     )
