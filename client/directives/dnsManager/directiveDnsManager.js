@@ -105,11 +105,10 @@ function dnsManager(
           });
           if (depMaster.attrs.shortHash === searchShortHash){
             return depMaster;
-          } else {
-            return depMaster.children.models.find(function (child) {
-              return child.attrs.shortHash === searchShortHash;
-            });
           }
+          return depMaster.children.models.find(function (child) {
+            return child.attrs.shortHash === searchShortHash;
+          });
         });
       };
 
