@@ -203,26 +203,26 @@
 .modal-logs {
 
   .active-panel {
-    height: 750px;
+    height: 700px;
 
     @media (max-height: 1100px) {
-      height: 650px;
+      height: 600px;
     }
 
     @media (max-height: 1000px) {
-      height: 550px;
+      height: 500px;
     }
 
     @media (max-height: 900px) {
-      height: 450px;
+      height: 400px;
     }
 
     @media (max-height: 800px) {
-      height: 350px;
+      height: 300px;
     }
 
     @media (max-height: 700px) {
-      height: 250px;
+      height: 200px;
     }
 
     @media (max-height: 600px) {
