@@ -1,29 +1,21 @@
-.btn-group
+.btn-group(
+  ng-init = "page = 'rules'"
+)
   button.btn.btn-xs.white.active(
-    ng-class = "{active: lol}"
+    ng-class = "{active: page === 'rules'}"
     ng-click = "page = 'rules'"
   ) Rules
   button.btn.btn-xs.white(
-    ng-class = "{active: lol}"
+    ng-class = "{active: page === 'preview'}"
     ng-click = "page = 'preview'"
   ) Preview
 
-.clearfix
-  .label-col Translation Rules
-
-//- table
-.table(
-  ng-include = "'viewTranslationTable'"
+div(
+  ng-include = "'viewFormTranslationRules'"
+  ng-show = "page === 'rules'"
 )
 
-.clearfix
-  .label-col Ignored Files
-
-pre.ace-container.ace-runnable-dark.ace-ignored-files(
-  ui-ace
-) filenames
-small.small Translation rules allow you to dynamically translate strings or filenames in your code. Use this to modify connection strings or server names in your code to make sure that containers in your sandbox can communicate with each other, or to rename files when they are copied to your container without having to modify your original source code. #{''}
-  a.link(
-    href = "//google.com"
-    target = "_blank"
-  ) More about translation rules
+div(
+  ng-include = "'viewFormTranslationPreview'"
+  ng-show = "page === 'preview'"
+)
