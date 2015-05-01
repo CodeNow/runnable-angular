@@ -14,7 +14,7 @@ var fetchInstancesMock = new (require('../fixtures/mockFetch'))();
 var stacks = angular.copy(apiMocks.stackInfo);
 var thisUser = runnable.newUser(apiMocks.user);
 
-describe.only('environmentController'.bold.underline.blue, function () {
+describe('environmentController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
     ctx.$log = {
