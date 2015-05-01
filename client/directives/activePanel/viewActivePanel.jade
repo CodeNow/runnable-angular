@@ -47,26 +47,11 @@
   )
     span.js-char-width 0
 
-  //- iframe
-  .web-container(
-    ng-if = "item.state.type === 'WebView'"
-    web-view
-  )
-
 //- blank state
 .blank-panel(
   ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
   ul.blank-panel-group
-    li.btn.white(
-      ng-click = "openItems.addWebView()"
-      ng-if = "showBackgroundButtons.web"
-    )
-      svg.iconnables.iconnables-lg.icons-web
-        use(
-          xlink:href = "#icons-web"
-        )
-      | Web View
     li.btn.white(
       ng-click = "openItems.addTerminal()"
       ng-if = "showBackgroundButtons.term"
