@@ -51,7 +51,7 @@ describe.skip('serviceOpenItems'.bold.underline.blue, function () {
   });
 
   describe('adding tabs'.blue, function () {
-    ['WebView', 'Terminal', 'BuildStream', 'Logs'].forEach(function (tab) {
+    ['Terminal', 'BuildStream', 'Logs'].forEach(function (tab) {
       it('adds ' + tab, function () {
         var oi = new OpenItems('123456');
         expect(oi['add' + tab]()).to.be.ok;
