@@ -21,8 +21,25 @@
     }
   }
 
+  // cell line number
+  .cell-line {
+    background: $white;
+    border-right: 1px solid $gray-lighter;
+    flex: 0 0 50px;
+    margin-left: -1px; // padding offset
+    text-align: right;
+  }
+
   .tr:last-child .cell-line {
     border-bottom-left-radius: 3px;
+  }
+
+  .tr-gap {
+    background: rgba($blue,.05);
+
+    .cell-line {
+      background: rgba($blue,.05);
+    }
   }
 
   // diff colors
@@ -43,16 +60,6 @@
   .cell {
     height: 24px;
     line-height: 24px;
-
-  }
-
-  // cell line number
-  .cell-line {
-    background: $white;
-    border-right: 1px solid $gray-lighter;
-    flex: 0 0 50px;
-    margin-left: -1px; // padding offset
-    text-align: right;
   }
 
   // checkbox
@@ -87,9 +94,9 @@
 
   // cloned element
   &.dragging {
-    box-shadow:
-      0 2px 3px rgba($black,.1), // shadow
-      inset 0 -1px 0 $gray-lighter, // pseudo borders
+    box-shadow: // shadow + borders
+      0 2px 3px rgba($black,.1),
+      inset 0 -1px 0 $gray-lighter,
       inset -1px 0 0 $gray-lighter,
       inset 1px 0 0 $gray-lighter;
     position: absolute;
@@ -111,7 +118,8 @@
     font-weight: 500;
 
     &.tr-addition,
-    &.tr-deletion {
+    &.tr-deletion,
+    &.tr-gap {
       border-top: 0;
     }
   }

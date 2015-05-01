@@ -7,10 +7,18 @@
         target = "_blank"
       ) View original
   .tr.tr-deletion.clearfix
-    .cell.monospace.cell-line 0000
+    .cell.monospace.cell-line 1
     .cell.monospace.text-overflow - userName: username
   .tr.tr-addition.clearfix
-    .cell.monospace.cell-line 0000
+    .cell.monospace.cell-line 1
+    .cell.monospace.text-overflow + userName: account.oauthName()
+  .tr.tr-gap.clearfix
+    .cell.monospace.cell-line ...
+  .tr.tr-deletion.clearfix
+    .cell.monospace.cell-line 5123
+    .cell.monospace.text-overflow - userName: username
+  .tr.tr-addition.clearfix
+    .cell.monospace.cell-line 5123
     .cell.monospace.text-overflow + userName: account.oauthName()
 
 //- string verification table (2)
