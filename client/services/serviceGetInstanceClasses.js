@@ -17,13 +17,25 @@ function getInstanceClasses(
     var build = keypather.get(instance, 'build');
     var h = {};
     h.active = (instance.attrs.name === $state.params.instanceName);
-    if (container && container.running()) {
-      h.green = true;
-    } else if (build && build.failed()) {
-      h.red = true;
-    } else {
-      h.orange = true;
+
+    if (container) {
+      if (container.running()) {
+        // Running
+        h.green = true;
+      } else {
+        //Crashed
+        h.red = true;
+      }
+    } else if (build) {
+      if (build.failed()) {
+        // Build Failure
+        h.red = true;
+      } else {
+        // Building
+        h.orange = true;
+      }
     }
+
     return h;
   };
 }
