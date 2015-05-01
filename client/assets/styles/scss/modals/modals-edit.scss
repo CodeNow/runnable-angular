@@ -16,7 +16,9 @@
 
     .btn,
     .input,
-    .ace-container {
+    .ace-container,
+    .textarea,
+    .small {
       @extend %no-touching;
       opacity: .6 !important;
     }
@@ -152,7 +154,7 @@
 // environment variables
 .ace-environment-variables {
   border-bottom: 0;
-  border-radius: 3px 3px 0 0;
+  border-radius: 3px;
 }
 
 // build files

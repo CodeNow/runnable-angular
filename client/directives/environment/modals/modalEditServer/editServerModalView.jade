@@ -1,9 +1,6 @@
 form.modal-dialog.modal-edit(
   name = "editServerForm"
-  ng-class = "{\
-      disabled: building,\
-      'no-touching': building\
-          }"
+  ng-class = "{disabled: building}"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
