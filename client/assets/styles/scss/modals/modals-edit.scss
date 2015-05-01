@@ -17,8 +17,7 @@
     .btn,
     .input,
     .ace-container,
-    .textarea,
-    .small {
+    .textarea {
       @extend %no-touching;
       opacity: .6 !important;
     }
