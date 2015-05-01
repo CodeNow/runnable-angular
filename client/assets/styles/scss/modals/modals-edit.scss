@@ -14,9 +14,10 @@
   &.disabled {
     cursor: not-allowed !important;
 
+    .ace-container,
     .btn,
     .input,
-    .ace-container,
+    .label,
     .textarea {
       @extend %no-touching;
       opacity: .6 !important;
