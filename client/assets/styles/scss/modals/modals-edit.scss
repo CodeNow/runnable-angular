@@ -126,6 +126,12 @@
     }
   }
 
+  .table + .clearfix {
+    border-top: 1px solid $gray-lighter;
+    margin-top: 27px;
+    padding-top: 21px;
+  }
+
   // active panel & ace container
   .active-panel,
   .ace-container {
@@ -136,6 +142,12 @@
     &.ace-runnable-dark {
       background: $purple-darker;
       border-color: $purple-darker;
+    }
+
+    // translation rules
+    &.ace-ignored-files {
+      border-radius: 3px;
+      min-height: 90px;
     }
 
     .ace_editor {
