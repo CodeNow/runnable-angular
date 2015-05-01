@@ -1,6 +1,6 @@
 //- group/pod/server/instance/box page
 a.btn.gray(
-  href = "/"
+  ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
 )
   svg.iconnables.icons-arrow-back.icons-round
     use(
