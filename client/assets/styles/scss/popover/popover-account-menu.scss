@@ -1,13 +1,7 @@
-// offset for getting started navbar popover
-.popover-account-menu.popover-getting-started-offset {
+.popover-account-menu {
 
-  @include media(xs) {
-    left: auto !important;
-    right: 29px !important;
-
-    .arrow {
-      left: auto;
-      right: 15px;
-    }
+  .list {
+    max-height: 50vh;
+    overflow-y: auto;
   }
 }

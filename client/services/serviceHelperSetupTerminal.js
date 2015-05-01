@@ -14,11 +14,13 @@ function helperSetupTerminal(
     var CHAR_SIZE = getTerminalCharacterSize(elem);
     var config = angular.extend({}, configTerminalOpts);
     config = angular.extend(config, (opts || {}));
-    if (elem[0].clientHeight > 100) {
-      config.rows = Math.floor(elem[0].clientHeight / CHAR_SIZE.height);
+    var rows = Math.floor(elem[0].clientHeight / CHAR_SIZE.height);
+    var cols = Math.floor(elem[0].clientWidth / CHAR_SIZE.width);
+    if (rows > config.rows) {
+      config.rows = rows;
     }
-    if (elem[0].clientWidth > 100) {
-      config.cols = Math.floor(elem[0].clientWidth / CHAR_SIZE.width);
+    if (cols > config.cols) {
+      config.cols = cols;
     }
     var terminal = new Termjs(config);
     terminal.open(elem[0]);
@@ -36,7 +38,7 @@ function helperSetupTerminal(
       if (x < configTerminalOpts.cols) {
         x = configTerminalOpts.cols;
       }
-      var y = Math.floor(terminal.element.clientHeight / CHAR_SIZE.height) - 1;
+      var y = Math.floor(terminal.element.clientHeight / CHAR_SIZE.height);
       if (!(oldX === x && oldY === y)) {
         oldX = x;
         oldY = y;

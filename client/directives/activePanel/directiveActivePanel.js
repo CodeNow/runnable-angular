@@ -12,9 +12,7 @@ require('app')
  */
 function activePanel(
   $sce,
-  colorScheme,
   keypather,
-  helperInstanceActionsModal,
   updateInstanceWithNewBuild,
   errs,
   $rootScope,
@@ -33,13 +31,6 @@ function activePanel(
     },
     link: function ($scope, element, attrs) {
 
-      $scope.popoverGearMenu = {
-        data: {},
-        actions: {}
-      };
-      // mutate scope, shared-multiple-states properties & logic for actions-modal
-      helperInstanceActionsModal($scope);
-
       /**
        * showBackgroundButtons
        * @type {{ web, build, server, term }}
@@ -55,7 +46,6 @@ function activePanel(
 
       // allow iframe to load url
       $scope.$sce = $sce;
-      $scope.colorScheme = colorScheme;
       $scope.useAutoUpdate = !!attrs.useAutoUpdate;
 
       var shouldShowBuildFailurePrompt = false;

@@ -7,7 +7,8 @@ require('app')
  */
 function instanceBoxName(
   getInstanceAltTitle,
-  getInstanceClasses
+  getInstanceClasses,
+  extractInstancePorts
 ) {
   return {
     restrict: 'A',
@@ -19,6 +20,14 @@ function instanceBoxName(
       $scope.getInstanceClasses = getInstanceClasses;
 
       $scope.getInstanceAltTitle = getInstanceAltTitle;
+
+      $scope.$watch('instance', function (newValue) {
+        var ports = extractInstancePorts(newValue);
+        $scope.defaultPort = '';
+        if (ports.length && ports.indexOf('80') === -1) {
+          $scope.defaultPort = ':' + ports[0];
+        }
+      });
     }
   };
 }

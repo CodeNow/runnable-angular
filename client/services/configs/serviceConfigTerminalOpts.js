@@ -2,7 +2,7 @@
 
 var configTerminalOpts = {
   cols: 80,
-  rows: 20,
+  rows: 10,
   useStyle: true,
   screenKeys: true,
   scrollback: 10000,

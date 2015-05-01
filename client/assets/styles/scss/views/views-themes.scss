@@ -214,7 +214,8 @@
   }
 }
 
-.ace-runnable-dark .pre {
+.ace-runnable-dark .pre,
+.ace-container.ace-runnable-dark {
   background-color: #311d40;
   color: $white;
 

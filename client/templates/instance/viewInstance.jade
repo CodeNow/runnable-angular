@@ -112,6 +112,7 @@ section.sidebar.server-sidebar.load(
   show-coach-marks
 )
   section.row.repo-list(
+    ng-class = "{closed: $storage.repoListIsClosed}"
     auto-build-on-acv-change = "true"
     build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
@@ -120,18 +121,19 @@ section.sidebar.server-sidebar.load(
     repo-list
     show-auto-deploy = "true"
   )
-  section.manage-dns.row.explorer(
+
+  section.row.linked-servers(
+    ng-class = "{closed: $storage.dnsManagementIsClosed}"
     ng-if = "dataInstance.data.instance"
-    ng-show = "isDnsSetup"
     dns-manager
     instance = "dataInstance.data.instance"
-    is-dns-setup = "isDnsSetup"
   )
+
   section.row.explorer(
+    ng-class = "{closed: $storage.explorerIsClosed}"
     explorer
     edit-explorer = "false"
     file-model = "dataInstance.data.instance.containers.models[0]"
-    ng-if = "dataInstance.data.instance.containers.models[0].running()"
     open-items = "dataInstance.data.openItems"
     root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
     explorer-title = "File Explorer"

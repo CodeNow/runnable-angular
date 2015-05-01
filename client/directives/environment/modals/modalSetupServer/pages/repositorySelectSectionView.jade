@@ -1,0 +1,53 @@
+header.modal-header
+  h1.modal-heading New Container from Repository
+
+section.modal-body.clearfix
+
+  .spinner-wrapper.spinner-md.in(
+    ng-if = "!data.githubRepos.models"
+    ng-include = "'spinner'"
+  )
+
+  input.input.input-sm.input-search(
+    ng-disabled = "repoSelected"
+    ng-if = "data.githubRepos.models"
+    ng-model = "data.repoFilter"
+    placeholder = "Filter by name"
+    required
+    select-on = "showFilter"
+  )
+  ul.list.list-servers(
+    ng-if = "data.githubRepos.models"
+  )
+    li.list-item.multi-line(
+      ng-class = "{\
+        active: repo.loading,\
+        'no-touching': repo.isAdded || repoSelected\
+      }"
+      ng-click = "selectRepo(repo)"
+      ng-init = "repo.isAdded = isRepoAdded(repo)"
+      ng-repeat = "\
+        repo in data.githubRepos.models | \
+        repos: data.repoFilter | \
+        orderBy: '-attrs.updated_at'\
+      "
+    )
+      .text-overflow {{ repo.attrs.name}}
+      small.small Updated {{ repo.attrs.updated_at | timeFrom }}
+      button.btn.btn-xs(
+        ng-class = "{\
+          disabled: repo.isAdded,\
+          green: !repo.isAdded\
+        }"
+        ng-disabled = "repoSelected"
+        ng-if = "!repo.loading"
+      ) {{ repo.isAdded ? 'Already Added' : 'Add Container' }}
+      .spinner-wrapper.spinner-md.spinner-green.in(
+        ng-if = "repo.loading"
+        ng-include = "'spinner'"
+      )
+
+footer.modal-footer.clearfix
+  button.btn.white.btn-cancel(
+    ng-click = "defaultActions.cancel();"
+  ) Cancel

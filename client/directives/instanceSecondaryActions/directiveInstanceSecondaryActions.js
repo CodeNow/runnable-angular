@@ -7,11 +7,7 @@ require('app')
  */
 function instanceSecondaryActions(
   errs,
-  helperInstanceActionsModal,
-  $log,
-  $rootScope,
   $state,
-  keypather,
   $stateParams,
   promisify
 ) {
@@ -23,24 +19,17 @@ function instanceSecondaryActions(
       instances: '=',
       saving: '='
     },
-    link: function ($scope, elem, attrs) {
-
+    link: function ($scope) {
       $scope.saving = false;
 
-      $scope.popoverGearMenu = {
-        data: {},
-        actions: {}
+      $scope.actions = {
+        stopInstance: function () {
+          modInstance('stop');
+        },
+        startInstance: function () {
+          modInstance('start');
+        }
       };
-      $scope.popoverGearMenu.actions.stopInstance = function () {
-        modInstance('stop');
-      };
-      $scope.popoverGearMenu.actions.startInstance = function () {
-        modInstance('start');
-      };
-      // mutate scope, shared-multiple-states properties & logic for actions-modal
-      helperInstanceActionsModal($scope);
-
-      keypather.set($scope, 'popoverGearMenu.data.dataModalEnvironment.showRebuild', true);
 
       $scope.goToEdit = function () {
         promisify($scope.instance.build, 'deepCopy')(
@@ -55,6 +44,8 @@ function instanceSecondaryActions(
 
       function modInstance(action, opts) {
         $scope.saving = true;
+        $scope.starting = action === 'start';
+
         $scope.$broadcast('close-popovers');
         promisify($scope.instance, action)(
           opts

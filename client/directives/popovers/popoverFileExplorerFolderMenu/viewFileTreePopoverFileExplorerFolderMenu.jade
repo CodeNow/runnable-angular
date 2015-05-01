@@ -12,7 +12,7 @@
             xlink:href = "#icons-file-upload"
           )
         | Upload File
-        input.input-upload(
+        input(
           ng-file-change = "actions.uploadFiles($files, $event)"
           ng-file-select
           ng-multiple = "true"

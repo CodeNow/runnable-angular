@@ -1,0 +1,21 @@
+//- spinner
+.card.gray.disabled.load.empty(
+  ng-if = "data.loadingNewServers"
+)
+  .spinner-wrapper.spinner-md.spinner-gray.in(
+    ng-include = "'spinner'"
+  )
+
+//- empty state
+.card.gray.disabled.load.empty(
+  ng-if = "!data.loadingNewServers && !data.instances.models.length"
+) Add a new container to get started
+
+//- server card
+.card.gray.disabled.load(
+  actions = "actions"
+  data = "data"
+  instance = "instance"
+  ng-repeat = "instance in data.instances.models"
+  server-card
+)

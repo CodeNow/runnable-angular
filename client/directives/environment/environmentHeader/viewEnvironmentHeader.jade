@@ -1,0 +1,39 @@
+//- group/pod/server/instance/box page
+a.btn.gray(
+  ui-sref = "instance.home({ userName: dataApp.data.activeAccount.oauthName() })"
+)
+  svg.iconnables.icons-arrow-back.icons-round
+    use(
+      xlink:href = "#icons-arrow-back"
+    )
+  | To Sandbox
+
+button.btn.btn-icon.blue(
+  ng-class = "{active: state.helpButton.active}"
+  ng-include = "'viewHelpButton'"
+  pop-over
+  pop-over-actions = "actions"
+  pop-over-active = "state.helpButton.active"
+  pop-over-data = "data"
+  pop-over-options = "{\"left\":-129,\"top\":47}"
+  pop-over-template = "viewHelpPopover"
+  title = "Help Center"
+)
+
+//- new server button
+button.btn.green(
+  pop-over
+  pop-over-actions = "actions"
+  pop-over-data = "data"
+  pop-over-options = "{\"right\":0,\"top\":56}"
+  pop-over-template = "viewPopoverNewServer"
+)
+  svg.iconnables.icons-add.icons-round
+    use(
+      xlink:href = "#icons-add"
+    )
+  | New Container
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )

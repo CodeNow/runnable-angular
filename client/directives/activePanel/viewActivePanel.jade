@@ -7,8 +7,7 @@
 )
 
 //- active panel
-.active-panel(
-  ng-class = "colorScheme.getSchemeStyle()"
+.active-panel.ace-runnable-dark(
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
@@ -106,17 +105,6 @@
       ng-class = "{white: !highlightRebuildWithoutCache, orange: highlightRebuildWithoutCache}"
       ng-click = "actions.buildWithoutCache()"
     ) Rebuild w/out cache
-    button.btn.orange(
-      modal
-      modal-actions = "popoverGearMenu.actions.actionsModalEdit"
-      modal-data = "popoverGearMenu.data.dataModalEdit"
-      modal-template = "viewOpenModalEdit"
-    )
-      svg.iconnables.icons-edit
-        use(
-          xlink:href = "#icons-edit"
-        )
-      | Edit build files
     button.btn.btn-close-prompt(
       ng-click = "actions.hideBuildFailurePrompt()"
     )

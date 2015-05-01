@@ -14,22 +14,23 @@ function accountsSelect (
   errs,
   keypather,
   promisify,
-  $state,
-  $q,
-  fetchSettings,
-  verifyChatIntegration
+  $state
 ) {
   return {
-    restrict: 'A',
+    restrict: 'E',
     templateUrl: 'viewAccountsSelect',
     scope: {
-      data: '=',
-      isMainPage: '='
+      data: '='
     },
     link: function ($scope) {
 
       $scope.popoverAccountMenu = {
         actions: {
+          logout: function () {
+            promisify($scope.data.user, 'logout')().then(function () {
+              window.location = '/';
+            }).catch(errs.handler);
+          },
           clearAllUserOptions: function () {
             var userOptions = {};
             ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {
@@ -51,7 +52,6 @@ function accountsSelect (
 
       keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
       keypather.set($scope, 'popoverAccountMenu.data.logoutURL', configLogoutURL());
-      keypather.set($scope, 'popoverAccountMenu.data.isMainPage', $scope.isMainPage);
 
       if (configEnvironment !== 'production') {
         keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
@@ -62,8 +62,6 @@ function accountsSelect (
         keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
         keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
 
-        if (!$scope.isMainPage) { return; }
-
         // Integrations modal
         if ($scope.data.user.oauthName() === $state.params.userName) {
           $scope.popoverAccountMenu.data.showIntegrations = false;
@@ -73,15 +71,14 @@ function accountsSelect (
       });
 
       $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
-        $scope.$broadcast('close-popovers');
         var username = userOrOrg.oauthName();
-        $scope.data.activeAccount = userOrOrg;
-        if ($scope.isMainPage) {
+        $scope.$broadcast('close-popovers');
+        $state.go($state.$current, {
+          userName: username
+        }, {reload: true}).then(function () {
+          $scope.data.activeAccount = userOrOrg;
           $scope.$emit('INSTANCE_LIST_FETCH', username);
-          $state.go('^.home', {
-            userName: username
-          });
-        }
+        });
       };
     }
   };

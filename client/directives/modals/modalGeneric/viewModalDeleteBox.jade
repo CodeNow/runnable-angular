@@ -2,42 +2,16 @@
   ng-click = "$event.stopPropagation()"
 )
   header.modal-header
-    h1.modal-heading Delete Server
+    h1.modal-heading Delete Container
   section.modal-body
-    p.modal-description Your server, #{''}
+    p.modal-description
       strong {{ data.instance.attrs.name }}
       | , will be permanently removed.
-  section.inset(
-    ng-class = "{in: data.deleteLinked}"
-    ng-init = "data.deleteLinked = true"
-    ng-show = "data.instance.dependencies.models.length"
-  )
-    small.small Deleting linked servers
-    .list.list-bordered
-      label.list-item.label-checkbox(
-        ng-init = "instance.state.delete = true"
-        ng-repeat = "instance in data.instance.dependencies.models"
-      )
-        input.input-checkbox(
-          checked
-          type = "checkbox"
-          ng-model = "instance.state.delete"
-        )
-        | {{ instance.attrs.name }}
   footer.modal-footer
-    label.btn.btn-xs.gray.label-checkbox.btn-checkbox(
-      ng-if = "data.instance.dependencies.models.length"
-    )
-      input.input-checkbox(
-        checked
-        ng-click = "data.deleteLinked = !data.deleteLinked"
-        type = "checkbox"
-      )
-      | Delete linked servers
     button.btn.orange(
       ng-click = "actions.deleteInstance(data.deleteLinked); \
         defaultActions.cancel();"
-    ) Delete Server
+    ) Delete Container
     button.btn.white(
       ng-click = "defaultActions.cancel()"
     ) Go Back

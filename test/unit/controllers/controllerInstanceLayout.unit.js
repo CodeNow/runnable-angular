@@ -11,10 +11,7 @@ var $controller,
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var mockUserFetch = new (require('../fixtures/mockFetch'))();
-/**
- * Things to test:
- * Since this controller is pretty simple, we only need to test it's redirection
- */
+
 describe('ControllerInstanceLayout'.bold.underline.blue, function () {
   var ctx = {};
 
@@ -54,7 +51,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
         }
       });
       $provide.factory('pFetchUser', mockUserFetch.fetch());
-      $provide.factory('fetchInstances', mockFetch.fetch());
+      $provide.factory('fetchInstancesByPod', mockFetch.fetch());
     });
     angular.mock.inject(function (_$controller_,
                                   _$rootScope_,
@@ -83,7 +80,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     $rootScope.$digest();
   }
 
-  it('basic', function () {
+  it('Sets up data & loads correctly', function () {
 
     setup('user');
     mockUserFetch.triggerPromise(ctx.userList.user);
@@ -96,7 +93,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     expect($scope).to.have.deep.property('dataInstanceLayout.data.logoutURL');
     $rootScope.$digest();
     expect($rootScope.dataApp.state.loadingInstances).to.be.true;
-    expect($rootScope.dataApp.data.instances).to.be.null;
+    expect($rootScope.dataApp.data.instancesByPod).to.be.null;
     var many = runnable.newInstances(
       [apiMocks.instances.running, apiMocks.instances.stopped],
       {noStore: true}
@@ -105,68 +102,14 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
     mockFetch.triggerPromise(many);
     $rootScope.$digest();
     $scope.$apply();
-    expect($rootScope.dataApp.state.loadingInstances).to.be.false;
-    expect($rootScope.dataApp.data.instances).to.equal(many);
-
-    var parsedInstances = {
-      teamMembers: [{
-        github: 1616464,
-        instances: [
-          runnable.newInstance(apiMocks.instances.running),
-          runnable.newInstance(apiMocks.instances.stopped)
-        ]
-      }],
-      me: undefined
-    };
-
-    expect($rootScope.dataApp.data.instanceGroups).to.deep.equal(parsedInstances);
+    expect($rootScope.dataApp.state.loadingInstances, 'loadingInstances').to.be.false;
+    expect($rootScope.dataApp.data.instancesByPod, 'instancesByPod').to.equal(many);
 
     $scope.$apply();
     $scope.$destroy();
 
   });
 
-  it('toggles the active instance', function() {
-    setup('user');
-    mockUserFetch.triggerPromise(ctx.userList.user);
-    $rootScope.$digest();
-
-    var activeInstance = runnable.newInstance(apiMocks.instances.running);
-    activeInstance.attrs.name = 'active-instance';
-    var many = runnable.newInstances(
-      [activeInstance, apiMocks.instances.stopped],
-      {noStore: true}
-    );
-    many.githubUsername = 'user';
-    mockFetch.triggerPromise(many);
-    $rootScope.$digest();
-    $scope.$apply();
-    expect($rootScope.dataApp.state.loadingInstances).to.be.false;
-    expect($rootScope.dataApp.data.instances).to.equal(many);
-
-    var parsedActiveInstance = runnable.newInstance(apiMocks.instances.running);
-    parsedActiveInstance.attrs.name = 'active-instance';
-
-    $scope.dataApp.actions.setToggled($scope.dataApp.data.instanceGroups.teamMembers[0]);
-
-    var parsedInstances = {
-      teamMembers: [{
-        github: 1616464,
-        toggled: true,
-        instances: [
-          parsedActiveInstance,
-          runnable.newInstance(apiMocks.instances.stopped)
-        ]
-      }],
-      me: undefined
-    };
-
-    expect($rootScope.dataApp.data.instanceGroups).to.deep.equal(parsedInstances);
-
-    $scope.$apply();
-    $scope.$destroy();
-
-  });
   describe('event trigger'.blue, function() {
 
     it('no username', function () {
@@ -183,26 +126,13 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       $rootScope.$digest();
       $scope.$apply();
       expect($rootScope.dataApp.state.loadingInstances).to.be.false;
-      expect($rootScope.dataApp.data.instances).to.equal(many);
-
-      var parsedInstances = {
-        teamMembers: [{
-          github: 1616464,
-          instances: [
-            runnable.newInstance(apiMocks.instances.running),
-            runnable.newInstance(apiMocks.instances.stopped)
-          ]
-        }],
-        me: undefined
-      };
-
-      expect($rootScope.dataApp.data.instanceGroups).to.deep.equal(parsedInstances);
+      expect($rootScope.dataApp.data.instancesByPod).to.equal(many);
 
       $rootScope.$broadcast('INSTANCE_LIST_FETCH');
       $rootScope.$digest();
 
       expect($rootScope.dataApp.state.loadingInstances).to.not.be.ok;
-      expect($rootScope.dataApp.data.instances).to.be.ok;
+      expect($rootScope.dataApp.data.instancesByPod).to.be.ok;
 
       $scope.$apply();
 
@@ -217,7 +147,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       $rootScope.$broadcast('INSTANCE_LIST_FETCH', 'org2');
       $rootScope.$digest();
       expect($rootScope.dataApp.state.loadingInstances).to.be.true;
-      expect($rootScope.dataApp.data.instances).to.be.null;
+      expect($rootScope.dataApp.data.instancesByPod).to.be.null;
       var many = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],
         {noStore: true}
@@ -227,20 +157,7 @@ describe('ControllerInstanceLayout'.bold.underline.blue, function () {
       $rootScope.$digest();
       $scope.$apply();
       expect($rootScope.dataApp.state.loadingInstances).to.be.false;
-      expect($rootScope.dataApp.data.instances).to.equal(many);
-
-      var parsedInstances = {
-        teamMembers: [{
-          github: 1616464,
-          instances: [
-            runnable.newInstance(apiMocks.instances.running),
-            runnable.newInstance(apiMocks.instances.stopped)
-          ]
-        }],
-        me: undefined
-      };
-
-      expect($rootScope.dataApp.data.instanceGroups).to.deep.equal(parsedInstances);
+      expect($rootScope.dataApp.data.instancesByPod).to.equal(many);
     });
   });
 

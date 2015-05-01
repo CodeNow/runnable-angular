@@ -11,7 +11,8 @@ function explorer(
   configAPIHost,
   errs,
   helperCreateFS,
-  promisify
+  promisify,
+  $localStorage
 ) {
   return {
     restrict: 'A',
@@ -23,9 +24,12 @@ function explorer(
       explorerTitle: '@',
       toggleTheme: '=',
       showRepoFolder: '=',
-      editExplorer: '='
+      editExplorer: '=?'
     },
     link: function ($scope, elem, attrs) {
+      $scope.$storage = $localStorage.$default({
+        explorerIsClosed: false
+      });
 
       $scope.filePopover = {
         data: {
@@ -33,7 +37,7 @@ function explorer(
           canUpload: $scope.editExplorer
         },
         actions: {
-          createFile: function() {
+          createFile: function () {
             helperCreateFS($scope.rootDir, {
               isDir: false
             }, errs.handler);
@@ -94,7 +98,7 @@ function explorer(
                   }
                 });
               }).then(function () {
-                promisify($scope.rootDir, 'fetch')();
+                return promisify($scope.rootDir.contents, 'fetch')();
               });
             }
           }

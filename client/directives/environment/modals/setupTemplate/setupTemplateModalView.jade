@@ -1,0 +1,26 @@
+.modal-dialog
+  header.modal-header
+    h1.modal-heading New Container from Template
+
+  section.modal-body
+    ul.list.list-servers
+      li.list-item.multi-line(
+        ng-click = "addServerFromTemplate(dependency)"
+        ng-repeat = "dependency in data.allDependencies.models | \
+          removeTemplateInstances | \
+          orderBy:'attrs.name'"
+      )
+        img.img.gravatar(
+          height = "24"
+          ng-src = "/build/images/logos/logo-icon-{{dependency.attrs.name.toLowerCase()}}.png"
+          width = "24"
+        )
+        .text-overflow {{dependency.attrs.name}}
+        small.small {{dependency.description}}
+        button.btn.btn-xs.green Add Container
+
+
+  footer.modal-footer.clearfix
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel();"
+    ) Cancel

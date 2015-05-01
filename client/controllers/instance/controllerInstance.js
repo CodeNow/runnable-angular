@@ -23,7 +23,8 @@ function ControllerInstance(
   fetchSettings,
   keypather,
   pFetchUser,
-  pageName
+  pageName,
+  setLastInstance
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -32,7 +33,8 @@ function ControllerInstance(
     actions: {}
   };
   var data = dataInstance.data;
-  var actions = dataInstance.actions;
+  $scope.$storage = $localStorage;
+  $scope.dataApp.data.loading = true;
 
   data.openItems = new OpenItems();
 
@@ -77,23 +79,13 @@ function ControllerInstance(
       data.instance.state = {};
 
       data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
-      // This is to untoggle all of the other team members trays
-      if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
-        $scope.dataApp.actions.setToggled();
-      }
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        $stateParams.instanceName
-      );
+      setLastInstance($stateParams.instanceName);
+      $scope.dataApp.data.loading = false;
     })
     .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
       errs.handler(err);
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        null
-      );
+      $scope.dataApp.data.loading = false;
+      setLastInstance(false);
       $state.go('instance.home', {
         userName: $stateParams.userName
       });

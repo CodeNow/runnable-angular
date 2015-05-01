@@ -196,6 +196,16 @@ input[type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
 
+input,
+textarea {
+  -webkit-appearance: none;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 // Define consistent border, margin, and padding.
 fieldset {
   border: 1px solid #c0c0c0;

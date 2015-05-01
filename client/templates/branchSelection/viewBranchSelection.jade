@@ -1,0 +1,28 @@
+main.home.server-selection
+  a.logo
+    svg
+      use(
+        xlink:href = "#runnable-logo-gray"
+      )
+
+  h3.h3.header-thin Choose a server to run…
+  a.block-quote(
+    href = "#"
+    target = "_blank"
+  ) {{ message }}
+  //- spinner
+  .spinner-wrapper.spinner-md.in(
+    ng-if = "loading"
+    ng-include = "'spinner'"
+  )
+  ol.list.list-bordered.list-divided(
+    ng-show = "!loading"
+  )
+    li.list-item(
+      ng-class = "{active: data.listExpand}"
+      ng-repeat = "instance in instances.models"
+    )
+      .list-item-row(
+        ng-click = "selectInstance(instance)"
+      )
+        h4.h4.header-thin {{ instance.attrs.name }}

@@ -190,10 +190,14 @@ describe('updateInstanceWithNewBuild'.bold.underline.blue, function () {
       var goStub = sinon.stub($state, 'go');
       var state = {};
       var scope = makeDefaultScope();
+      var buildParams = {
+        message: 'Manual build',
+        noCache: true
+      };
       scope.build = createBuildObject();
       scope.building = true;
 
-      theServiceToTest(scope.data.instance, scope.build, true, state, scope, scope.actions);
+      theServiceToTest(scope.data.instance, scope.build, buildParams, state, scope, scope.actions);
       $scope.$digest();
 
       expect(buildBuildCb, 'buildBuildCb').to.be.ok;
