@@ -1,7 +1,5 @@
 .server-name
-  span.sever-name(
-    ng-if = "instance.getRepoName()"
-  ) {{ instance.getRepoName() || instance.getDisplayName() }}
+  span.sever-name {{ instance.getRepoName() || instance.getDisplayName() }}
   span.branch-name(
     ng-if = "instance.getBranchName()"
   ) /{{ instance.getBranchName() }}
