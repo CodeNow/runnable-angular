@@ -8,12 +8,6 @@
       ng-disabled = "!instance.containers.models[0].running() || loading"
       type = "button"
     )
-      //- spinner
-      //- disable button when saving
-      .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-if = "false"
-        ng-include = "'spinner'"
-      )
       span.btn-text Save
       //- show if restart is checked
       span.btn-text(
