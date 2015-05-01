@@ -23,9 +23,7 @@ function controllerBranchSelection (
   .then(function (_masterInstance) {
     masterInstance = _masterInstance;
     var context = masterInstance.attrs.contextVersion.context;
-    return promisify(masterInstance, 'fetchDependencies')({
-      'contextVersion.context': context
-    });
+    return promisify(masterInstance.children, 'fetch')();
   })
   .then(function (instances) {
     instances.add(masterInstance);
@@ -40,7 +38,7 @@ function controllerBranchSelection (
       destInstanceId: instance.id()
     })
     .then(function () {
-      $window.location = 'http://' + hostname;
+      $window.location = '//' + hostname;
     })
     .catch(errs.handler);
   };

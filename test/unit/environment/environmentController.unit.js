@@ -34,7 +34,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.value('pageName', {
         setTitle: sinon.spy()
       });
-      $provide.factory('pFetchUser', fetchUserMock.fetch());
+      $provide.value('user', thisUser);
       $provide.factory('fetchStackInfo', fetchStackInfoMock.fetch());
       $provide.factory('fetchInstances', fetchInstancesMock.fetch());
       $provide.factory('fetchContexts', fetchContextsMock.fetch());
@@ -70,44 +70,34 @@ describe('environmentController'.bold.underline.blue, function () {
       expect($scope.state).to.have.property('validation');
       expect($scope.state.validation).to.have.property('env');
       expect($scope).to.have.property('actions');
-      expect($scope.actions.deleteServer).to.be.ok;
-      expect($scope.actions.createAndBuild).to.be.ok;
+      expect($scope.actions.deleteServer, 'deleteServer').to.be.ok;
+      expect($scope.actions.createAndBuild, 'createAndBuild').to.be.ok;
 
-      expect($scope.data.loadingNewServers).to.be.true;
+      expect($scope.data.loadingNewServers, 'loadingNewServers').to.be.true;
 
-      expect($scope.data.allDependencies).to.not.be.ok;
+      expect($scope.data.allDependencies, 'allDependencies').to.not.be.ok;
       var templateInstances = runnable.newInstances(
         [apiMocks.instances.running, apiMocks.instances.stopped],
         {noStore: true}
       );
       templateInstances.githubUsername = 'HelloRunnable';
       fetchInstancesMock.triggerPromise(templateInstances);
-      $rootScope.$digest();
-      expect($scope.data.allDependencies).to.equal(templateInstances);
-
-      fetchUserMock.triggerPromise(thisUser);
-      $rootScope.$digest();
-      expect($scope.user).to.equal(thisUser);
-
-
       fetchStackInfoMock.triggerPromise(stacks);
-      $rootScope.$digest();
-      expect($scope.data.stacks).to.equal(stacks);
       var masterPods = runnable.newInstances(
         [apiMocks.instances.building, apiMocks.instances.runningWithContainers],
         {noStore: true}
       );
       masterPods.githubUsername = thisUser.oauthName();
-      fetchInstancesMock.triggerPromise(masterPods);
-      $rootScope.$digest();
-      expect($scope.data.instances).to.equal(masterPods);
-      expect($scope.data.loadingNewServers).to.be.false;
-
+      fetchInstancesMock.triggerPromise(templateInstances);
       var sourceContexts = [{
         attrs: 'awesome'
       }];
       fetchContextsMock.triggerPromise(sourceContexts);
       $rootScope.$digest();
+      expect($scope.data.allDependencies, 'allDependencies').to.equal(templateInstances);
+      expect($scope.data.instances, 'masterPods').to.equal(templateInstances);
+      expect($scope.data.loadingNewServers, 'loadingNewServers').to.be.false;
+      expect($scope.data.stacks, 'stacks').to.equal(stacks);
       expect($scope.data.sourceContexts).to.equal(sourceContexts);
     });
   });

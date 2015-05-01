@@ -2,9 +2,7 @@
 
 require('app')
   .directive('serverCard', serverCard);
-/**
- * @ngInject
- */
+
 function serverCard(
   $rootScope,
   getInstanceClasses,
@@ -33,6 +31,14 @@ function serverCard(
           env: instance.attrs.env
         };
         if (instance.contextVersion) {
+          promisify(instance, 'fetchDependencies')()
+            .then(function (dependencies) {
+              if (dependencies.length) {
+                $scope.numberOfDependencies = dependencies.length + ' associations';
+              } else {
+                $scope.numberOfDependencies = 'no associations defined';
+              }
+            });
           $scope.server.building = true;
           $scope.server.contextVersion = instance.contextVersion;
 

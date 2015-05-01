@@ -1,6 +1,9 @@
 form.modal-dialog.modal-edit(
   name = "editServerForm"
-  ng-class = "{disabled: building}"
+  ng-class = "{\
+      disabled: building,\
+      'no-touching': building\
+          }"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
@@ -88,13 +91,6 @@ form.modal-dialog.modal-edit(
         span.btn-text Logs
 
   section.modal-body
-
-    //- use when loading build files
-      - if files aren't ready
-    .spinner-wrapper.spinner-md.in(
-      ng-if = "false"
-      ng-include = "'spinner'"
-    )
 
     .modal-form(
       ng-show = "selectedTab === 'buildfiles'"

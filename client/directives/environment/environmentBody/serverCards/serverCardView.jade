@@ -8,6 +8,7 @@
   server-status-card-header.btn.btn-sm.btn-title.white(
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
+    ng-attr-no-touching = "{{ server.building || !server.build }}"
   )
   input.input.input-sm.monospace(
     ng-if = "!server.building && server.build"
@@ -133,7 +134,7 @@ ul.card-body.load(
         xlink:href = "#icons-environment-variable"
       )
     h3.h3 Environment Variables
-    p.p.text-overflow {{ (server.opts.env.length ? server.opts.env.length : 'none') + ' defined'}}
+    p.p.text-overflow {{ numberOfDependencies }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"

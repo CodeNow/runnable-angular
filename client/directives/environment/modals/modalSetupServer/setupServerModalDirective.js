@@ -44,7 +44,7 @@ function setupServerModal(
 
       $scope.isRepoAdded = function (repo) {
         // Since the newServers may have faked repos (just containing names), just check the name
-        return !!$scope.data.instances.find(hasKeypaths({'contextVersion.appCodeVersions.models[0].githubRepo.attrs.name': repo.attrs.name}));
+        return !!$scope.data.instances.find(hasKeypaths({'getRepoName()': repo.attrs.name}));
       };
 
       $scope.createServer = function () {

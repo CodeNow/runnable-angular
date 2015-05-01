@@ -3,15 +3,19 @@ button.btn.gray(
   ng-if = "!saving && instance.build.attrs.completed && instance.containers.models[0].running()"
 ) Stop Container
 
-button.btn.gray(
-  ng-if = "saving && starting"
+button.btn.gray.btn-spinner.in(
+  ng-if = "saving"
   disabled
-) Starting Container &hellip;
-
-button.btn.gray(
-  ng-if = "saving && !starting"
-  disabled
-) Stopping Container &hellip;
+)
+  .spinner-wrapper.spinner-sm.spinner-purple.in(
+    ng-include = "'spinner'"
+  )
+  span.btn-text(
+    ng-if = "starting"
+  ) Starting Container
+  span.btn-text(
+    ng-if = "!starting"
+  ) Stopping Container
 
 button.btn.gray(
   ng-click = "actions.startInstance()"

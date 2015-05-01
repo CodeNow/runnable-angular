@@ -2,12 +2,6 @@
 
 require('app')
   .controller('ControllerOrgSelect', ControllerOrgSelect);
-/**
- * ControllerApp
- * @constructor
- * @export
- * @ngInject
- */
 function ControllerOrgSelect(
   $scope,
   $state
