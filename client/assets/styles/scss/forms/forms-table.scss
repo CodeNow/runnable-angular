@@ -8,7 +8,7 @@
 .table-diff {
 
   + .table-diff {
-    margin-top: 15px;
+    margin-top: 9px;
   }
 
   .thead {
@@ -17,7 +17,12 @@
     // github link
     .link {
       float: right;
+      margin: 0;
     }
+  }
+
+  .tr:last-child .cell-line {
+    border-bottom-left-radius: 3px;
   }
 
   // diff colors
@@ -38,6 +43,16 @@
   .cell {
     height: 24px;
     line-height: 24px;
+
+  }
+
+  // cell line number
+  .cell-line {
+    background: $white;
+    border-right: 1px solid $gray-lighter;
+    flex: 0 0 50px;
+    margin-left: -1px; // padding offset
+    text-align: right;
   }
 
   // checkbox

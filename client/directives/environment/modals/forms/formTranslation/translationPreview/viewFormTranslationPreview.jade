@@ -1,36 +1,30 @@
 //- string verification table
 .table.table-diff
   .tr.thead.clearfix
-    label.cell.cell-checkbox
-      input.input-checkbox(
-        checked
-        type = "checkbox"
-      )
-      | index.html, Line 18
-      a.link(
+    label.cell build/index.html
+      a.link.small(
         href = "//github.com"
         target = "_blank"
-      ) View in Github
+      ) View original
   .tr.tr-deletion.clearfix
-    .cell.monospace - userName: username
+    .cell.monospace.cell-line 0000
+    .cell.monospace.text-overflow - userName: username
   .tr.tr-addition.clearfix
-    .cell.monospace + userName: account.oauthName()
+    .cell.monospace.cell-line 0000
+    .cell.monospace.text-overflow + userName: account.oauthName()
 
 //- string verification table (2)
 .table.table-diff
   .tr.thead.clearfix
-    label.cell.cell-checkbox
-      input.input-checkbox(
-        checked
-        type = "checkbox"
-      )
-      | setup.yml, Line 1
+    label.cell setup.yml
       //- should link to line number
-      a.link(
+      a.link.small(
         href = "//github.com"
         target = "_blank"
-      ) View in Github
+      ) View original
   .tr.tr-deletion.clearfix
-    .cell.monospace - userName: username
+    .cell.monospace.cell-line 0000
+    .cell.monospace.text-overflow - userName: username
   .tr.tr-addition.clearfix
-    .cell.monospace + userName: account.oauthName()
+    .cell.monospace.cell-line 0000
+    .cell.monospace.text-overflow + userName: account.oauthName()
