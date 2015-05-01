@@ -133,6 +133,7 @@ form.modal-dialog.modal-edit(
     button.btn.green.btn-spinner(
       ng-class = "{in: building}"
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
+      ng-disabled = "!state.advanced && state.isStackInfoEmpty(state.selectedStack)"
       type = "submit"
     )
       //- spinner

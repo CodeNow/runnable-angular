@@ -81,9 +81,11 @@ function editServerModal(
       };
 
       $scope.changeTab = function (tabname) {
-        if (!$scope.editServerForm.$invalid) {
-          $scope.selectedTab = tabname;
+        if ($scope.editServerForm.$invalid ||
+            (!$scope.state.advanced && $scope.state.isStackInfoEmpty($scope.state.selectedStack))) {
+          return;
         }
+        $scope.selectedTab = tabname;
       };
 
       $scope.insertHostName = function (opts) {
@@ -201,7 +203,7 @@ function editServerModal(
           return promisify(user, 'createBuild')({
             contextVersions: [$scope.state.contextVersion.id()],
             owner: {
-              github: user.oauthId()
+              github: $rootScope.dataApp.data.activeAccount.oauthId()
             }
           });
         })
@@ -246,6 +248,18 @@ function editServerModal(
         }
       });
 
+
+      $scope.state.isStackInfoEmpty = function (selectedStack) {
+        if (!selectedStack || !selectedStack.selectedVersion) {
+          return true;
+        }
+        if (selectedStack.dependencies) {
+          var depsEmpty = !selectedStack.dependencies.find(function (dep) {
+            return !$scope.state.isStackInfoEmpty(dep);
+          });
+          return !!depsEmpty;
+        }
+      };
     }
   };
 }
