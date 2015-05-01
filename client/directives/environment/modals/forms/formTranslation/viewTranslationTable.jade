@@ -7,6 +7,11 @@
       pop-over-options = "{\"left\":0,\"top\":-108}"
       pop-over-template = "viewPopoverRules"
     ) New string rule
+//- if no rules of this type
+.tr.tr-empty.clearfix(
+  ng-if = ""
+)
+  .cell (empty)
 //- when dragging:
   - add .disabled to the .tr to be dragged
   - clone .tr that's being dragged

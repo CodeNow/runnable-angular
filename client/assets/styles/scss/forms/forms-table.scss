@@ -140,6 +140,11 @@
   }
 }
 
+// empty state
+.tr-empty {
+  color: $gray-light;
+}
+
 .cell {
   flex: 1 1 50%;
   float: left;
