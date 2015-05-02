@@ -2,6 +2,7 @@
 
 var Runnable = require('runnable');
 var qs = require('qs');
+var debounce = require('debounce');
 
 require('app')
   .factory('user', function ($http, configAPIHost, configUserContentDomain, modelStore, collectionStore, $timeout) {
@@ -9,7 +10,9 @@ require('app')
     runnable.client.request = new AngularHttpRequest($http);
 
     function triggerDigest() {
-      $timeout(angular.noop);
+      debounce(function () {
+        $timeout(angular.noop);
+      }, 100);
     }
     modelStore.on('model:update:socket', triggerDigest);
     collectionStore.on('collection:update:socket', triggerDigest);
