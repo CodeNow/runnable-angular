@@ -59,10 +59,12 @@ function fetchInstances(
 
     var fetchKey = jsonHash.digest(opts);
     if (!fetchCache[fetchKey]) {
-      fetchCache[fetchKey] = pFetchUser().then(function (user) {
+      fetchCache[fetchKey] = pFetchUser()
+        .then(function (user) {
           var pFetch = promisify(user, 'fetchInstances');
           return pFetch(opts);
-        }).then(function (results) {
+        })
+        .then(function (results) {
           var instance = results;
           if (opts.name) {
             instance = keypather.get(results, 'models[0]');

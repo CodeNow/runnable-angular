@@ -10,6 +10,7 @@ require('app')
     runnable.client.request = new AngularHttpRequest($http);
 
     function triggerDigest() {
+      // We need to debounce here because we could get a lot of messages from the socket and we don't want to refresh constantly
       debounce(function () {
         $timeout(angular.noop);
       }, 100);
