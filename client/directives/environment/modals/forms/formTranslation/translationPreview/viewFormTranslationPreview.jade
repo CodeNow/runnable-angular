@@ -1,11 +1,12 @@
 //- string verification table
 .table.table-diff
   .tr.thead.clearfix
-    label.cell build/index.html
-      a.link.small(
+    label.cell
+      a.link(
         href = "//github.com"
         target = "_blank"
-      ) View original
+      ) build/index.html
+      button.btn.btn-xs.white Ignore File
   .tr.tr-deletion.clearfix
     .cell.monospace.cell-line 1
     .cell.monospace.text-overflow - userName: username
@@ -24,12 +25,13 @@
 //- string verification table (2)
 .table.table-diff
   .tr.thead.clearfix
-    label.cell setup.yml
+    label.cell
       //- should link to line number
-      a.link.small(
+      a.link(
         href = "//github.com"
         target = "_blank"
-      ) View original
+      ) build/index.scss
+      button.btn.btn-xs.white Ignore File
   .tr.tr-deletion.clearfix
     .cell.monospace.cell-line 0000
     .cell.monospace.text-overflow - userName: username
