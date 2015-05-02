@@ -112,6 +112,7 @@ function ControllerApp(
   dataApp.documentKeydownEventHandler = function(e) {
     if (e.keyCode === 27) {
       $rootScope.$broadcast('app-document-click');
+      $rootScope.$broadcast('close-modal');
     }
   };
 
