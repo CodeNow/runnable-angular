@@ -15,14 +15,14 @@ input.server-url(
   readonly
   select-all
   show-coach-marks
-  value = "{{ instance.getContainerHost() }}{{defaultPort}}"
+  value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
   template = "viewCoachMarksBoxNamePopover"
 )
 //- sets width
-span.server-name-ghost.no-touching {{ instance.getContainerHost() }}{{defaultPort}}
+span.server-name-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
 a.container-link-external(
   target = "_blank"
-  ng-href = "http://{{ instance.getContainerHost() }}{{defaultPort}}"
+  ng-href = "http://{{ instance.getContainerHostname() }}{{defaultPort}}"
 )
   svg.iconnables.icons-link-external
     use(

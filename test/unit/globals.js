@@ -9,6 +9,8 @@ require('angular');  // Angular
 require('angular-mocks');  // Mocks stuff!
 require('main');  // Requires our app
 
+require('es6-symbol/implement');
+
 // Must use window here due to Browserify's encapsulation
 window.host = require('../../client/config/json/api.json').host.toLowerCase();
 window.userContentDomain = require('../../client/config/json/api.json').userContentDomain.toLowerCase();
