@@ -41,7 +41,7 @@ button.btn.btn-xs(
       value = "instance"
       ng-repeat = "instance in $parent.data.instances.models"
       ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.state.server.instance.attrs.shortHash"
-    ) {{ $parent.instance.getElasticHost() }}
+    ) {{ $parent.instance.getElasticHostname() }}
 
   fancy-select.input-sm.monospace.text-overflow(
     value = "$parent.state.newLink.port"

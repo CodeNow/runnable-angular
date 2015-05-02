@@ -94,7 +94,7 @@ function editServerModal(
           hostName += opts.protocol;
         }
         if (opts.server) {
-          hostName += opts.server.getElasticHost();
+          hostName += opts.server.getElasticHostname();
         }
         if (opts.port) {
           hostName += ':' + opts.port;
