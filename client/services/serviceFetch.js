@@ -49,16 +49,20 @@ function fetchInstances(
   pFetchUser,
   promisify,
   keypather,
-  $state
+  $state,
+  exists
 ) {
-  return function (opts) {
+  return function (opts, resetCache) {
     if (!opts) {
       opts = {};
+    }
+    if (!exists(resetCache)) {
+      resetCache = false;
     }
     opts.githubUsername = opts.githubUsername || $state.params.userName;
 
     var fetchKey = jsonHash.digest(opts);
-    if (!fetchCache[fetchKey]) {
+    if (resetCache || !fetchCache[fetchKey]) {
       fetchCache[fetchKey] = pFetchUser()
         .then(function (user) {
           var pFetch = promisify(user, 'fetchInstances');
