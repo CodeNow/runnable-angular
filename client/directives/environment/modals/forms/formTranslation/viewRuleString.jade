@@ -4,7 +4,10 @@
       href = "//github.com"
       target = "_blank"
     ) build/index.html
-    button.btn.btn-xs.white Ignore File
+    //- if in preview tab
+    button.btn.btn-xs.white(
+      ng-if = ""
+    ) Ignore File
 .tr.tr-deletion.clearfix
   .cell.monospace.cell-line 1
   .cell.monospace.text-overflow - userName: username

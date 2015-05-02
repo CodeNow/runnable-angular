@@ -13,6 +13,10 @@
 
   .thead {
     border-bottom: 1px solid $gray-lighter;
+
+    &:only-child {
+      border-bottom: 0;
+    }
   }
 
   // cell line number
