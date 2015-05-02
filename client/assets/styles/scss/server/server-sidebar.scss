@@ -158,6 +158,20 @@
     }
   }
 
+  .empty-state {
+    color: $gray;
+    height: auto;
+    line-height: 17px;
+    padding: 6px 10px;
+    // font-weight: 400;
+    // padding: 5px 0;
+    // text-align: center;
+
+    .boldme {
+      font-weight: 500;
+    }
+  }
+
   // modifying fancy-select elements for container selection
   .btn {
     border-width: 2px;
@@ -171,32 +185,7 @@
       top: 8px;
     }
   }
-
-  // .well-item {
-  //   height: 34px;
-  //   padding: 4px 0 0 23px;
-  //   position: relative;
-
-  //   .iconnables {
-  //     top: 8px;
-  //   }
-  // }
 }
-
-// .indirect {
-//   max-height: 2000px;
-//   padding-bottom: 3px;
-
-//   &.closed {
-//     max-height: 36px;
-//     overflow: hidden;
-//     padding-bottom: 0;
-//   }
-
-//   ul .well-item {
-//     margin-top: -6px;
-//   }
-// }
 
 .repo-list {
   flex: 0 0 auto;
