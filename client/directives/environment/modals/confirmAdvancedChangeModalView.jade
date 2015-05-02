@@ -1,0 +1,13 @@
+.modal-dialog.modal-confirm(
+  ng-click = "$event.stopPropagation()"
+)
+  section.modal-body
+    p.modal-description {{ data.advanced ? "You will lose all changes you've made to your dockerfile (ever)." : "If you make changes to the build files, you will not be able to switch back without losing changes."}}
+
+  footer.modal-footer
+    button.btn.orange(
+      ng-click = "data.advanced = !data.advanced; defaultActions.close()"
+    ) {{ (data.advanced ? "Enable" : "Disable") + "advanced config" }}
+    button.btn.white.btn-cancel(
+      ng-click = "defaultActions.cancel()"
+    ) Cancel

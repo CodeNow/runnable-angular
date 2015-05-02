@@ -11,7 +11,8 @@
       li.list-item.popover-list-item.multi-line
         label.label-checkbox
           input.input-checkbox(
-            ng-model = "data.parentState.advanced"
+            ng-model = "advanced"
+            ng-click = "data.actions.changeAdvancedFlag()"
             type = "checkbox"
           )
           | Advanced options

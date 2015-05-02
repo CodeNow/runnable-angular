@@ -88,6 +88,7 @@ function editServerModal(
         $scope.selectedTab = tabname;
       };
 
+
       $scope.insertHostName = function (opts) {
         var hostName = '';
         if (opts.protocol) {
