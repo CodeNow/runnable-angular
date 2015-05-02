@@ -77,6 +77,13 @@
     }
   }
 
+  .empty-state {
+    color: $gray;
+    height: auto;
+    line-height: 17px;
+    padding: 6px 10px;
+  }
+
   .repository-group-text {
     border-width: 2px;
     cursor: pointer;
@@ -156,19 +163,12 @@
     .icons-status {
       float: left;
     }
-  }
 
-  .empty-state {
-    color: $gray;
-    height: auto;
-    line-height: 17px;
-    padding: 6px 10px;
-    // font-weight: 400;
-    // padding: 5px 0;
-    // text-align: center;
-
-    .boldme {
-      font-weight: 500;
+    &.empty-state {
+      color: $gray;
+      height: auto;
+      line-height: 17px;
+      padding: 6px 10px;
     }
   }
 
