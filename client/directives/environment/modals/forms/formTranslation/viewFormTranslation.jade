@@ -6,6 +6,10 @@
     ng-click = "page = 'rules'"
   ) Rules
   button.btn.btn-xs.white(
+    ng-class = "{active: page === 'ignored'}"
+    ng-click = "page = 'ignored'"
+  ) Ignored Files
+  button.btn.btn-xs.white(
     ng-class = "{active: page === 'preview'}"
     ng-click = "page = 'preview'"
   ) Preview Changes
@@ -13,6 +17,11 @@
 div(
   ng-include = "'viewFormTranslationRules'"
   ng-show = "page === 'rules'"
+)
+
+div(
+  ng-include = "'viewFormTranslationIgnored'"
+  ng-show = "page === 'ignored'"
 )
 
 div(
