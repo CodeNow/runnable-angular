@@ -20,7 +20,7 @@
 )
   | {{ instance.getRepoName() || instance.getDisplayName() }}
   span.branch-name
-    |  has no associated containers
+    |  has no associated containers.
 
 fancy-select.well(
   ng-repeat = "masterInstance in masterInstancesWithChildren"
