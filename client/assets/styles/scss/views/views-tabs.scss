@@ -5,7 +5,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  width: calc(100% - 90px);
+  width: calc(100% - 45px);
 }
 
 // li.tab-wrapper
@@ -96,4 +96,12 @@
   line-height: 45px;
   padding: 0 1px 0 9px;
   text-align: center;
+
+  &::after {
+    content: attr(ng-data-title);
+    display: block;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+  }
 }

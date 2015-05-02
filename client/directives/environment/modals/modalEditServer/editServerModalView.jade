@@ -1,9 +1,6 @@
 form.modal-dialog.modal-edit(
   name = "editServerForm"
-  ng-class = "{\
-      disabled: building,\
-      'no-touching': building\
-          }"
+  ng-class = "{disabled: building}"
 )
   header.modal-header
     server-status-card-header.btn.btn-sm.btn-title(
@@ -132,6 +129,7 @@ form.modal-dialog.modal-edit(
     button.btn.green.btn-spinner(
       ng-class = "{in: building}"
       ng-click = "editServerForm.$invalid || getUpdatePromise()"
+      ng-disabled = "!state.advanced && state.isStackInfoEmpty(state.selectedStack)"
       type = "submit"
     )
       //- spinner

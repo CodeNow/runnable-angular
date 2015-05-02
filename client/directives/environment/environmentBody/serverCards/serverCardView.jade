@@ -14,7 +14,7 @@
     ng-if = "!server.building && server.build"
     readonly
     select-all
-    value = "{{ server.instance.getProxyHost() }}"
+    value = "{{ server.instance.getElasticHostname() }}"
   )
 
 ul.card-body.card-loading(

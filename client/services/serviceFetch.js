@@ -1,4 +1,5 @@
 'use strict';
+var jsonHash = require('json-hash');
 
 require('app')
   .factory('pFetchUser', pFetchUser)
@@ -42,35 +43,51 @@ function pFetchUser(keypather, user, $q, $state) {
   };
 }
 
+var fetchCache = {};
+
 function fetchInstances(
   pFetchUser,
   promisify,
   keypather,
-  $state
+  $state,
+  exists
 ) {
-
-  return function (opts) {
+  return function (opts, resetCache) {
     if (!opts) {
       opts = {};
     }
+    if (!exists(resetCache)) {
+      resetCache = false;
+    }
     opts.githubUsername = opts.githubUsername || $state.params.userName;
-    return pFetchUser().then(function (user) {
-      var pFetch = promisify(user, 'fetchInstances');
-      return pFetch(opts);
-    }).then(function (results) {
-      var instance = results;
-      if (opts.name) {
-        instance = keypather.get(results, 'models[0]');
-      }
 
-      if (!instance) {
-        throw new Error('Instance not found');
-      }
-      instance.githubUsername = opts.githubUsername;
-      return instance;
-    });
+    var fetchKey = jsonHash.digest(opts);
+    if (resetCache || !fetchCache[fetchKey]) {
+      fetchCache[fetchKey] = pFetchUser()
+        .then(function (user) {
+          var pFetch = promisify(user, 'fetchInstances');
+          return pFetch(opts);
+        })
+        .then(function (results) {
+          var instance = results;
+          if (opts.name) {
+            instance = keypather.get(results, 'models[0]');
+          }
+
+          if (!instance) {
+            throw new Error('Instance not found');
+          }
+          instance.githubUsername = opts.githubUsername;
+          return instance;
+        });
+    }
+    return fetchCache[fetchKey];
+
+
   };
 }
+
+var fetchByPodCache = {};
 
 function fetchInstancesByPod(
   fetchInstances,
@@ -78,19 +95,24 @@ function fetchInstancesByPod(
   promisify
 ) {
   return function (username) {
-    return fetchInstances({
-      masterPod: true,
-      githubUsername: username
-    })
-      .then(function (masterPods) {
-        var podFetch = [];
-        masterPods.forEach(function (masterInstance) {
-          podFetch.push(promisify(masterInstance.children, 'fetch')());
+    if (!fetchByPodCache[username]) {
+      fetchByPodCache[username] = fetchInstances({
+        masterPod: true,
+        githubUsername: username
+      })
+        .then(function (masterPods) {
+          var podFetch = [];
+          masterPods.forEach(function (masterInstance) {
+            podFetch.push(promisify(masterInstance.children, 'fetch')());
+          });
+          return $q.all(podFetch).then(function () {
+            return masterPods;
+          });
         });
-        return $q.all(podFetch).then(function () {
-          return masterPods;
-        });
-      });
+    }
+
+    return fetchByPodCache[username];
+
   };
 }
 

@@ -23,7 +23,6 @@ function openItemsFactory(
     return (model instanceof VersionFileModel ||
       model instanceof ContainerFileModel ||
       model instanceof Terminal ||
-      model instanceof WebView ||
       model instanceof LogView ||
       model instanceof EnvVars ||
       model instanceof BuildStream);
@@ -37,13 +36,6 @@ function openItemsFactory(
 
   // TODO split out
   function Terminal(data) {
-    this.collections = [];
-    this.attrs = data || {};
-    this.attrs._id = i++;
-    return this;
-  }
-
-  function WebView(data) {
     this.collections = [];
     this.attrs = data || {};
     this.attrs._id = i++;
@@ -72,14 +64,12 @@ function openItemsFactory(
   }
 
   util.inherits(Terminal, BaseModel);
-  util.inherits(WebView, BaseModel);
   util.inherits(BuildStream, BaseModel);
   util.inherits(LogView, BaseModel);
   util.inherits(EnvVars, BaseModel);
 
   var tabTypes = {
     Terminal: Terminal,
-    WebView: WebView,
     BuildStream: BuildStream,
     LogView: LogView,
     EnvVars: EnvVars,
@@ -193,18 +183,6 @@ function openItemsFactory(
     BaseCollection.prototype.reset.apply(this, arguments);
   };
 
-  OpenItems.prototype.addWebView = function (data) {
-    if (!data) {
-      data = {};
-    }
-    if (!data.name) {
-      data.name = 'Web View';
-    }
-    var webView = new WebView(data);
-    this.add(webView);
-    return webView;
-  };
-
   OpenItems.prototype.addTerminal = function (data) {
     if (!data) {
       data = {};
@@ -302,8 +280,6 @@ function openItemsFactory(
     };
     if (model instanceof Terminal) {
       model.state.type = 'Terminal';
-    } else if (model instanceof WebView) {
-      model.state.type = 'WebView';
     } else if (model instanceof BuildStream) {
       model.state.type = 'BuildStream';
     } else if (model instanceof LogView) {

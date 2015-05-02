@@ -64,6 +64,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var keypather;
     var $state;
     var errs;
+    var $timeout;
 
     var setupFetchInstances = function (pFetchUserFactory) {
       errs = {
@@ -79,13 +80,15 @@ describe('serviceFetch'.bold.underline.blue, function () {
         _fetchInstances_,
         _$stateParams_,
         _keypather_,
-        _$state_
+        _$state_,
+        _$timeout_
       ) {
         $rootScope = _$rootScope_;
         fetchInstances = _fetchInstances_;
         $stateParams = _$stateParams_;
         keypather = _keypather_;
         $state = _$state_;
+        $timeout = _$timeout_;
       });
     };
 
@@ -100,7 +103,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         return sinon.stub().returns($q.reject(err));
       });
 
-      fetchInstances().catch(function (userError) {
+      fetchInstances({}, true).catch(function (userError) {
         expect(userError).to.equal(err);
         done();
       }).catch(function (e) {
@@ -124,7 +127,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
       $stateParams.userName = 'Myztiq';
 
-      fetchInstances({name: 'MyModel'}).then(function (instance) {
+      fetchInstances({name: 'MyModel'}, true).then(function (instance) {
         expect(instance.name).to.equal('MyModel');
         expect(user.fetchInstances.calledOnce).to.equal(true);
         done();
@@ -149,7 +152,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
       $stateParams.userName = 'Myztiq';
 
-      fetchInstances().then(function (instance) {
+      fetchInstances({}, true).then(function (instance) {
         expect(instance.models[0].name).to.equal('MyModel');
         done();
       }).catch(function (e) {

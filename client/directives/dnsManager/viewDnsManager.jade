@@ -31,7 +31,7 @@ fancy-select.well(
     status-icon(
       instance = "$parent.$parent.masterInstance"
     )
-    | {{ $parent.$parent.masterInstance.repoName() }}
+    | {{ $parent.$parent.masterInstance.repoName() || $parent.$parent.masterInstance.attrs.name }}
     span.branch-name /{{ $parent.$parent.masterInstance.getBranchName() }}
 
   fancy-option(
@@ -41,7 +41,7 @@ fancy-select.well(
     status-icon(
       instance = "$parent.childInstance"
     )
-    | {{ $parent.childInstance.getRepoName() }}
+    | {{ $parent.childInstance.getRepoName() || $parent.childInstance.attrs.name }}
     span.branch-name /{{ $parent.childInstance.getBranchName() }}
 
 //- non-repo containers, or repo containers with only one branch, that are linked directly
@@ -52,7 +52,7 @@ fancy-select.well(
   status-icon(
     instance = "masterInstance"
   )
-  | {{ masterInstance.repoName() }}
+  | {{ masterInstance.repoName() || masterInstance.attrs.name }}
   span.branch-name(
     ng-if = "masterInstance.getBranchName().length"
   ) /{{ masterInstance.getBranchName() }}

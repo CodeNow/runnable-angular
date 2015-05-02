@@ -147,6 +147,11 @@
   max-width: 100%;
   padding-right: 30px;
 
+  // hide arrow space
+  &.no-touching {
+    padding-right: 15px;
+  }
+
   .btn-text {
 
     &:first-child {

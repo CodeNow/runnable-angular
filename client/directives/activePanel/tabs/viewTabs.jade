@@ -13,9 +13,10 @@ ul.tabs
       openItems.saveState();"
     ng-repeat = "item in openItems.models"
   )
-    span.tab-name(
+    .tab-name(
+      ng-data-title = "{{ item.attrs.name }}"
       title = "{{ item.filepath() }}"
-    ) {{ item.attrs.name  }}
+    ) {{ item.attrs.name }}
     .icons-dirty *
     button.btn.white.btn-icon.btn-close(
       ng-click = "actions.removeItem($event, item)"

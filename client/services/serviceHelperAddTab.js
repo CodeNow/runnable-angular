@@ -22,13 +22,6 @@ function helperAddTab(
           pat.data.show = false;
           return openItems.addBuildStream();
         },
-        addWebView: function () {
-          if (!openItems) {
-            return;
-          }
-          pat.data.show = false;
-          return openItems.addWebView();
-        },
         addTerminal: function () {
           if (!openItems) {
             return;
