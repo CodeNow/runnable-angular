@@ -5,6 +5,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var $scope, $elScope;
   var $rootScope;
   var ctx;
+  var $timeout;
   var apiMocks = require('../apiMocks/index');
 
   function makeDefaultScope(addToScope) {
@@ -78,9 +79,10 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         instanceName: 'instanceName'
       });
     });
-    angular.mock.inject(function($compile, _$rootScope_, $timeout){
+    angular.mock.inject(function($compile, _$rootScope_, _$timeout_){
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
+      $timeout = _$timeout_;
 
       var tpl = directiveTemplate('accounts-select', {
         'data': 'data'
@@ -112,6 +114,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $scope.$digest();
       $elScope.popoverAccountMenu.actions.selectActiveAccount(ctx.fakeOrg1);
       $scope.$apply();
+      $timeout.flush();
       expect($scope.data.activeAccount).to.equal(ctx.fakeOrg1);
     });
   });

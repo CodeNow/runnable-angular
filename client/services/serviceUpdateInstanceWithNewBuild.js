@@ -10,21 +10,28 @@ require('app')
  */
 function updateInstanceWithNewBuild(
   $state,
-  $timeout,
+  keypather,
   $q,
   eventTracking,
   promisify
 ) {
-  return function (instance, build, noCache) {
+  return function (instance, build, noCache, instanceUpdateOpts) {
+    var opts = {};
+    if (keypather.get(instanceUpdateOpts, 'env')) {
+      opts.env = instanceUpdateOpts.env;
+    }
+    if (keypather.get(instanceUpdateOpts, 'name') &&
+        instanceUpdateOpts.name !== instance.attrs.name) {
+      opts.name = instanceUpdateOpts.name;
+    }
     eventTracking.triggeredBuild(false);
     return promisify(build, 'build')({
-      message: 'manual',
-      noCache: noCache
+      message: 'Manual build',
+      noCache: !!noCache
     })
       .then(function (build) {
-        return promisify(instance, 'update')({
-          build: build.id()
-        });
+        opts.build = build.id();
+        return promisify(instance, 'update')(opts);
       });
   };
 }
