@@ -107,7 +107,7 @@ function editServerModal(
             return promisify(user, 'createBuild')({
               contextVersions: [$scope.state.contextVersion.id()],
               owner: {
-                github: user.oauthId()
+                github: $rootScope.dataApp.data.activeAccount.oauthId()
               }
             });
           })
@@ -173,8 +173,11 @@ function editServerModal(
               }
             })
             .catch(function (err) {
-              $scope.building = false;
               errs.handler(err);
+              resetState($scope.state)
+                .then(function () {
+                  $scope.building = false;
+                });
             });
         });
       };
