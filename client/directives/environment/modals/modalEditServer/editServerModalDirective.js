@@ -147,33 +147,36 @@ function editServerModal(
       $scope.getUpdatePromise = function () {
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        return $q.when($scope.state)
-          .then(function (state) {
-            if (state.advanced) {
-              return buildBuild(state);
-            } else if (state.server.startCommand !== state.startCommand ||
-                state.server.ports !== state.ports ||
-                !angular.equals(state.server.selectedStack, state.selectedStack)) {
-              return updateDockerfile(state);
-            }
-            return state;
-          })
-          .then(function (state) {
-            return promisify($scope.instance, 'update')(state.opts);
-          })
-          .then(function () {
-            $scope.defaultActions.close();
-            if (keypather.get($scope.instance, 'container.running()')) {
-              return promisify($scope.instance, 'redeploy')();
-            }
-          })
-          .catch(function (err) {
-            errs.handler(err);
-            resetState($scope.state)
-              .then(function () {
-                $scope.building = false;
-              });
-          });
+        var unwatch = $scope.$watch('openItems.isClean', function (n) {
+          if (!n) {
+            return;
+          }
+          unwatch();
+          return $q.when($scope.state)
+            .then(function (state) {
+              if (state.advanced) {
+                return buildBuild(state);
+              } else if (state.server.startCommand !== state.startCommand ||
+                  state.server.ports !== state.ports ||
+                  !angular.equals(state.server.selectedStack, state.selectedStack)) {
+                return updateDockerfile(state);
+              }
+              return state;
+            })
+            .then(function (state) {
+              return promisify($scope.instance, 'update')(state.opts);
+            })
+            .then(function () {
+              $scope.defaultActions.close();
+              if (keypather.get($scope.instance, 'container.running()')) {
+                return promisify($scope.instance, 'redeploy')();
+              }
+            })
+            .catch(function (err) {
+              $scope.building = false;
+              errs.handler(err);
+            });
+        });
       };
 
       function buildBuild(state) {

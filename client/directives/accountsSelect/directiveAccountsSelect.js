@@ -9,12 +9,14 @@ require('app')
  * @ngInject
  */
 function accountsSelect (
+  $rootScope,
+  $state,
+  $timeout,
   configLogoutURL,
   configEnvironment,
   errs,
   keypather,
-  promisify,
-  $state
+  promisify
 ) {
   return {
     restrict: 'E',
@@ -36,7 +38,7 @@ function accountsSelect (
             ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {
               userOptions['userOptions.uiState.shownCoachMarks.' + key] = false;
             });
-            $scope.$broadcast('close-popovers');
+            $rootScope.$broadcast('close-popovers');
             // Make user update call here
             promisify($scope.data.user, 'update')(
               userOptions
@@ -45,9 +47,24 @@ function accountsSelect (
             ).finally(function () {
               $state.reload();
             });
+          },
+          selectActiveAccount: function (userOrOrg) {
+            var username = userOrOrg.oauthName();
+            $rootScope.$broadcast('close-popovers');
+            $timeout(function () {
+              $state.go($state.$current, {
+                userName: username
+              }, {reload: true}).then(function () {
+                $scope.data.activeAccount = userOrOrg;
+                $scope.$emit('INSTANCE_LIST_FETCH', username);
+              });
+            });
           }
         },
-        data: $scope.data
+        data: $scope.data,
+        state: {
+          active: false
+        }
       };
 
       keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
@@ -69,17 +86,6 @@ function accountsSelect (
           $scope.popoverAccountMenu.data.showIntegrations = true;
         }
       });
-
-      $scope.popoverAccountMenu.actions.selectActiveAccount = function (userOrOrg) {
-        var username = userOrOrg.oauthName();
-        $scope.$broadcast('close-popovers');
-        $state.go($state.$current, {
-          userName: username
-        }, {reload: true}).then(function () {
-          $scope.data.activeAccount = userOrOrg;
-          $scope.$emit('INSTANCE_LIST_FETCH', username);
-        });
-      };
     }
   };
 }
