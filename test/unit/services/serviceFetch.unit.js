@@ -10,6 +10,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     beforeEach(function () {
       user = {
+        createSocket: sinon.spy(),
         fetchUser: sinon.spy()
       };
       angular.mock.module('app');
@@ -31,6 +32,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       user.fetchUser = sinon.stub().callsArgWith(1, null);
       pFetchUser().then(function (foundUser) {
         expect(user.fetchUser.calledOnce, 'fetchUser called').to.equal(true);
+        expect(user.createSocket.calledOnce, 'createSocket called').to.equal(true);
         expect(foundUser, 'Returned user').to.equal(user);
         done();
       });
@@ -59,27 +61,18 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var $rootScope;
     var fetchInstances;
     var $stateParams;
-    var userStream;
     var keypather;
     var $state;
     var errs;
+    var $timeout;
 
     var setupFetchInstances = function (pFetchUserFactory) {
       errs = {
         handler: sinon.spy()
       };
-      userStream = {
-        on: sinon.spy()
-      };
-      var primus = {
-        createUserStream: function () {
-          return userStream;
-        }
-      };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
         $provide.factory('pFetchUser', pFetchUserFactory);
-        $provide.value('primus', primus);
         $provide.value('errs', errs);
       });
       angular.mock.inject(function (
@@ -87,13 +80,15 @@ describe('serviceFetch'.bold.underline.blue, function () {
         _fetchInstances_,
         _$stateParams_,
         _keypather_,
-        _$state_
+        _$state_,
+        _$timeout_
       ) {
         $rootScope = _$rootScope_;
         fetchInstances = _fetchInstances_;
         $stateParams = _$stateParams_;
         keypather = _keypather_;
         $state = _$state_;
+        $timeout = _$timeout_;
       });
     };
 
@@ -108,7 +103,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         return sinon.stub().returns($q.reject(err));
       });
 
-      fetchInstances().catch(function (userError) {
+      fetchInstances({}, true).catch(function (userError) {
         expect(userError).to.equal(err);
         done();
       }).catch(function (e) {
@@ -132,7 +127,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
       $stateParams.userName = 'Myztiq';
 
-      fetchInstances({name: 'MyModel'}).then(function (instance) {
+      fetchInstances({name: 'MyModel'}, true).then(function (instance) {
         expect(instance.name).to.equal('MyModel');
         expect(user.fetchInstances.calledOnce).to.equal(true);
         done();
@@ -157,7 +152,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
       $stateParams.userName = 'Myztiq';
 
-      fetchInstances().then(function (instance) {
+      fetchInstances({}, true).then(function (instance) {
         expect(instance.models[0].name).to.equal('MyModel');
         done();
       }).catch(function (e) {
@@ -166,112 +161,6 @@ describe('serviceFetch'.bold.underline.blue, function () {
       $rootScope.$apply();
     });
 
-    describe('userStream events', function () {
-      beforeEach(function (done) {
-        user = {
-          models: [
-            {
-              name: 'MyModel'
-            }
-          ],
-          find: sinon.spy(),
-          add: sinon.spy(),
-          remove: sinon.spy(),
-          fetchInstances: sinon.stub().callsArg(1)
-        };
-        setupFetchInstances(function ($q) {
-          return sinon.stub().returns($q.when(user));
-        });
-
-        $stateParams.userName = 'Myztiq';
-
-        keypather.set($rootScope, 'dataApp.data.activeAccount.oauthId', function () {
-          return 1234;
-        });
-
-        $rootScope.$apply();
-
-        fetchInstances().then(function () {
-          setTimeout(function () {
-            done();
-          }, 0);
-        }).catch(function (e) {
-          done(e);
-        });
-        $rootScope.$apply();
-      });
-
-      it('should register to data events', function () {
-        expect(userStream.on.calledWith('data')).to.equal(true);
-      });
-
-      it('should listen to deploy message', function () {
-        userStream.on.withArgs('data').lastCall.args[1]({
-          event: 'ROOM_MESSAGE',
-          data: {
-            action: 'deploy',
-            data: {
-              name: 'New Instance',
-              owner: {
-                github: 1234
-              }
-            }
-          }
-        });
-        expect(user.add.calledOnce).to.equal(true);
-        expect(user.find.calledOnce).to.equal(true);
-        expect(user.remove.called).to.equal(false);
-        expect(errs.handler.called).to.equal(false);
-      });
-
-      it('should listen to post event', function () {
-        userStream.on.withArgs('data').lastCall.args[1]({
-          event: 'ROOM_MESSAGE',
-          data: {
-            action: 'post',
-            data: {
-              name: 'New Instance',
-              owner: {
-                github: 1234
-              }
-            }
-          }
-        });
-        expect(user.add.calledOnce).to.equal(true);
-        expect(user.find.calledOnce).to.equal(true);
-        expect(user.remove.called).to.equal(false);
-        expect(errs.handler.called).to.equal(false);
-      });
-
-      it('should listen to delete events', function () {
-        $state.go = sinon.stub();
-        $stateParams.instanceName = 'DELETE ME!';
-        var myInstance = {
-          attrs: {
-            name: 'DELETE ME!'
-          }
-        };
-        user.find = sinon.stub().returns(myInstance);
-        userStream.on.withArgs('data').lastCall.args[1]({
-          event: 'ROOM_MESSAGE',
-          data: {
-            action: 'delete',
-            data: {
-              name: 'New Instance',
-              owner: {
-                github: 1234
-              }
-            }
-          }
-        });
-        expect(user.add.called, 'Add Called').to.equal(false);
-        expect(user.find.calledOnce, 'Find called').to.equal(true);
-        expect(user.remove.calledOnce, 'Remove called').to.equal(true);
-        expect(user.remove.calledWith(myInstance), 'Removed called with myInstance').to.equal(true);
-        expect($state.go.calledWith('instance.home'), 'Go to instance home').to.equal(true);
-        expect(errs.handler.calledOnce, 'Errs handler called').to.equal(true);
-      });
-    });
   });
 
   describe('factory fetchBuild', function () {

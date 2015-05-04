@@ -1,0 +1,15 @@
+.modal-dialog.modal-welcome.in
+  section.modal-body.card-body
+    h1.modal-heading Welcome to Runnable!
+    p.p Choose an organization to get started
+    small.small (You can change your organization later)
+    .card.card-sm.load(
+      ng-repeat = "org in data.allAccounts"
+      ng-click = "actions.selectAccount(org)"
+    )
+      img.img.gravatar(
+        height = "30"
+        ng-src = "{{ org.gravitar() }}"
+        width = "30"
+      )
+      span.text-overflow {{ org.oauthName() }}

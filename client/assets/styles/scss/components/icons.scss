@@ -33,10 +33,12 @@
 // iconnables
 .iconnables {
   display: inline-block;
+  fill: currentColor;
   height: 24px;
   margin: 0;
   pointer-events: none;
   position: relative;
+  stroke: none;
   transition: transform .15s;
   width: 24px;
 
@@ -47,53 +49,13 @@
 
   &.filetypes {
     height: 14px;
-    margin-right: 3px;
+    margin-right: 1px;
     top: 3px;
     width: 14px;
   }
 
-  // icons with fill
-  &.icons-add,
-  &.icons-arrow-back,
-  &.icons-arrow-down,
-  &.icons-branch,
-  &.icons-check,
-  &.icons-close,
-  &.icons-commit,
-  &.icons-docker,
-  &.icons-edit,
-  &.icons-folder-open,
-  &.icons-fork,
-  &.icons-flask,
-  &.icons-gear,
-  &.icons-git,
-  &.icons-link,
-  &.icons-logs,
-  &.icons-minimize,
-  &.icons-nodejs,
-  &.icons-octocat,
-  &.icons-php,
-  &.icons-private,
-  &.icons-pull-request,
-  &.icons-python,
-  &.icons-rails,
-  &.icons-repository,
-  &.icons-repository-add,
-  &.icons-ruby,
-  &.icons-run,
-  &.icons-runnable,
-  &.icons-search,
-  &.icons-server,
-  &.icons-sidebar,
-  &.icons-star,
-  &.icons-team,
-  &.icons-terminal,
-  &.icons-trash,
-  &.icons-update,
-  &.icons-warning,
-  &.icons-web {
-    fill: currentColor;
-    stroke: none;
+  &.icons-round {
+    border-radius: 50%;
   }
 
   // icons with stroke
@@ -105,6 +67,11 @@
     stroke: currentColor;
   }
 
+  // flip
+  &.icons-arrow-forward {
+    transform: rotate3d(0,0,1,-90deg);
+  }
+
   &.icons-file-tree {
     color: $gray;
   }
@@ -112,24 +79,29 @@
 
 // status
 .icons-status {
-  background: $gray-lightest;
-  border: 1px solid $gray-light;
+  background: $gray-light;
   border-radius: 50%;
   display: inline-block;
   height: 9px;
   position: relative;
   width: 9px;
 
+  &.green,
   &.running,
   .running > & {
     background: $green;
-    border-color: $green-dark;
   }
 
+  &.orange,
   &.building,
   .building > & {
     background: $orange;
-    border-color: $orange-darker;
+  }
+
+  &.red,
+  &.failed,
+  .failed > & {
+    background: $red;
   }
 
   &.in-progress::before {
@@ -146,4 +118,56 @@
     transform: scale3d(.3,.3,.3);
     width: 17px;
   }
+
+  &.new::after {
+    border: 1px solid $green;
+    border-radius: 50%;
+    content: '';
+    height: 12px;
+    margin-left: -3px;
+    margin-top: -3px;
+    opacity: .44;
+    position: absolute;
+    width: 12px;
+  }
+
+  &.new::before {
+    border: 1px solid $green;
+    border-radius: 50%;
+    content: '';
+    height: 18px;
+    margin-left: -6px;
+    margin-top: -6px;
+    opacity: .18;
+    position: absolute;
+    width: 18px;
+  }
+}
+
+// new server status icons, remove old ones once finalized
+.icons-server {
+
+  .status-green,
+  .status-orange,
+  .status-red {
+    display: none;
+  }
+
+  &.status-green .status-green {
+    display: block;
+  }
+
+  &.status-orange .status-orange {
+    display: block;
+  }
+
+  &.status-red .status-red {
+    display: block;
+  }
+}
+
+// gear + arrow-down
+.icons-gear + .icons-arrow-down {
+  margin: 0 0 0 -2px;
+  width: 15px;
 }

@@ -12,7 +12,7 @@
             xlink:href = "#icons-file-upload"
           )
         | Upload File
-        input.input-upload(
+        input(
           ng-file-change = "actions.uploadFiles($files, $event)"
           ng-file-select
           ng-multiple = "true"
@@ -22,10 +22,7 @@
         ng-if = "data.canUpload"
       )
       li.popover-list-item(
-        ng-click = "\
-          actions.createFile();\
-          $event.stopPropagation();\
-        "
+        ng-click = "actions.createFile()"
       )
         svg.iconnables.icons-file-tree
           use(
@@ -33,10 +30,7 @@
           )
         | New File
       li.popover-list-item(
-        ng-click = "\
-          actions.createFolder();\
-          $event.stopPropagation();\
-        "
+        ng-click = "actions.createFolder()"
       )
         svg.iconnables.icons-file-tree
           use(
@@ -48,10 +42,7 @@
       )
       li.popover-list-item(
         ng-if = "dir.attrs.name !== '/'"
-        ng-click = "\
-          actions.renameFolder();\
-          $event.stopPropagation();\
-        "
+        ng-click = "actions.renameFolder()"
       )
         svg.iconnables.icons-file-tree
           use(
@@ -60,10 +51,7 @@
         | Rename
       li.popover-list-item(
         ng-if = "dir.attrs.name !== '/'"
-        ng-click = "\
-          actions.deleteFolder();\
-          $event.stopPropagation();\
-        "
+        ng-click = "actions.deleteFolder()"
       )
         svg.iconnables.icons-file-tree
           use(

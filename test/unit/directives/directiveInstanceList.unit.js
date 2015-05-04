@@ -124,29 +124,8 @@ describe('directiveInstanceList'.bold.underline.blue, function() {
       injectSetupCompile();
     });
 
-    it('should show a list of users', function() {
-      expect(ctx.element[0].querySelectorAll('.list-users > .list-item').length).to.equal(1);
-    });
-
-    it('should expand the user when active', function() {
-      $scope.dataApp.data.instanceGroups.teamMembers[0].toggled = true;
-      $scope.$digest();
-      expect(ctx.element[0].querySelectorAll('.list-users > .list-item.active').length).to.equal(1);
-      expect(ctx.element[0].querySelectorAll('.list-users > .list-item > .list-item').length).to.equal(2);
-    });
-
-    it('should show search results when a filter is present', function() {
-      $elScope.filter.string = 'good';
-      $elScope.$digest();
-      expect(ctx.element[0].querySelectorAll('.filter-list > .list-item').length).to.equal(1);
-    });
-
-    it('should show no results found when a filter is present with no matches', function() {
-      $elScope.filter.string = '312';
-      $elScope.$digest();
-      expect(ctx.element[0].querySelectorAll('.filter-list > .list-item').length).to.equal(0);
-      expect(ctx.element[0].querySelectorAll('.filter-list .sub-header-text')[0].innerHTML).to.equal('No servers match your search');
-    });
+    it('should render grouped on master pods');
+    it('should show auto forked instances underneath the master pod');
 
     it('should be able to transition to an instance when clicked', function(){
       $state.go = sinon.spy();

@@ -2,62 +2,95 @@
   animation: alert .3s ease-in forwards;
   border-radius: 6px;
   bottom: 6px;
-  margin-left: 6px;
+  box-shadow: 0 0 30px rgba($black,.12);
   max-width: 420px;
   min-width: 345px;
-  opacity: 0;
-  padding: 9px 15px;
+  padding: 15px;
   position: fixed;
   right: 6px;
+  transition: all .15s ease-in;
   z-index: $z-alert;
 
-  > .iconnables {
-    margin-right: 6px;
-    top: 6px;
+  &:active {
+    box-shadow: 0 0 30px rgba($black,.12);
   }
 
+  // active styles for alerts
+  &.orange {
+    background: $orange;
+  }
+
+  &.green {
+    background: $green;
+  }
+
+  // anchor image
+  .gravatar {
+    float: left;
+    margin-right: 12px;
+  }
+
+  // link
+  .link {
+    color: $white;
+    display: inline-block;
+  }
+
+  // buttons
+  .orange {
+    background: rgba($orange-dark,.75);
+  }
+
+  .green {
+    background: rgba($green-dark,.75);
+  }
+
+  // close button
   .btn-close {
     float: right;
-    opacity: .5;
     padding: 0;
+    width: 24px;
 
-    &:hover,
-    &:active {
-      opacity: 1;
+    .icons-close {
+      top: 0;
     }
   }
 
-  .block-quote {
-    margin: 12px 0 0;
-  }
+  // success animation
+  .btn-state {
+    background: $white;
+    border: 0;
+    border-radius: 50%;
+    margin: 21px 0 0 21px;
+    position: absolute;
+    width: 18px;
 
-  // styles for orange alerts
-  &.orange {
-    background: rgba($orange,.95);
+    &.green {
+      color: $green;
+    }
 
-    .block-quote {
-      border-color: rgba($white,.6);
-      color: $white;
+    &.orange {
+      color: $red;
+    }
 
-      &:hover,
-      &:active {
-        border-color: rgba($white,.9);
-      }
+    .iconnables {
+      animation: scale-in-bounce .3s ease-in;
+      border-radius: 50%;
+      height: 100%;
+      top: 0;
+      width: 100%;
     }
   }
 
-  // styles for green alerts
-  &.green {
-    background: rgba($green,.95);
+  // nag
+  .p {
+    border-top: 2px solid rgba($white,.3);
+    font-size: 14px;
+    margin-top: 12px;
+    padding-top: 6px;
 
-    .block-quote {
-      border-color: rgba($white,.6);
-      color: $white;
-
-      &:hover,
-      &:active {
-        border-color: rgba($white,.9);
-      }
+    .btn {
+      margin-left: 3px;
     }
   }
 }

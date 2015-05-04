@@ -7,21 +7,29 @@ require('app')
  * @ngInject
  */
 function tabs(
-  $state,
-  colorScheme
+  helperAddTab,
+  $rootScope
 ) {
   return {
     restrict: 'A',
     templateUrl: 'viewTabs',
     scope: {
-      openItems: '='
+      openItems: '=',
+      instance: '=',
+      showAddButtons: '='
     },
-    link: function ($scope, element, attrs) {
-      $scope.state = $state;
-      var actions = $scope.actions = {};
-      var data = $scope.data = {};
+    link: function ($scope) {
+      $scope.popoverAddTab = helperAddTab($scope.showAddButtons, $scope.openItems);
+      $scope.actions = {
+        removeItem: function (event, item) {
+          $scope.openItems.remove(item);
 
-      $scope.colorScheme = colorScheme;
+          //We need to stop propagation, so we need to manually trigger close-popovers
+          $rootScope.$broadcast('close-popovers');
+          event.stopPropagation();
+        }
+      };
+      $scope.data = {};
     }
   };
 }

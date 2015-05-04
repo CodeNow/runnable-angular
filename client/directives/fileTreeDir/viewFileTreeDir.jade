@@ -1,13 +1,15 @@
 li.folder(
   draggable
   droppable
-  ng-class = "{ 'in': dir.state.open }"
+  ng-class = "{\
+   'in': dir.state.open, \
+   'not-toggleable': isRootDir \
+   }"
 )
 
   a(
-    ng-click = "actions.closeOpenModals(); \
-                dir.state.open = !dir.state.open; \
-                $event.stopPropagation();"
+    ng-class = "{ 'no-touching': isRootDir}"
+    ng-click = "dir.state.open = (!!showRepoFolder) || !dir.state.open"
     pop-over
     pop-over-actions = "popoverFileExplorerFolder.actions"
     pop-over-data = "popoverFileExplorerFolder.data"
@@ -16,7 +18,9 @@ li.folder(
     pop-over-trigger = "rightClick"
   )
     svg.iconnables.filetypes.icons-folder
-      use(xlink:href = "#icons-folder")
+      use(
+        xlink:href = "#icons-folder"
+      )
     input.tree-input(
       ng-keyup = "actions.shouldCloseFolderNameInput($event)"
       ng-blur = "actions.closeFolderNameInput()"
@@ -28,6 +32,18 @@ li.folder(
   //- This part is ng-included here to get around an Angular compiling issue when recursively
       using directives.  Without this, angular will just blow the stack and use all of your
       processor
+  ul(
+    ng-if = "(isRootDir && showRepoFolder)"
+  )
+    li.file.no-touching(
+      ng-repeat = "acv in fileModel.appCodeVersions.models"
+      tooltip = "Your repository lives here"
+      tooltip-options = "{\"class\":\"bottom\",\"left\":21,\"top\":28}"
+    )
+      a
+        svg.iconnables.filetypes.icons-repository
+          use(xlink:href = "#icons-repository")
+        span.item-name {{ acv.attrs.repo.split('/')[1] }}
   ul(
     ng-if = "dir.contents.models.length"
     ng-include = "'viewFileTreeDirItem'"

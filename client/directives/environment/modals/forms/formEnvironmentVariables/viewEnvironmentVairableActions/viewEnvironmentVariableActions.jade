@@ -1,0 +1,66 @@
+//- default actions
+//- prefer ng-hide > ng-if for this button
+button.btn.btn-xs.gray(
+  ng-click = "state.showHostName = true"
+  ng-init = "state.showHostName = false"
+  ng-hide = "state.showHostName"
+) Insert elastic url
+
+button.btn.btn-xs(
+  ng-if = "!state.showHostName"
+  ng-class = "{\
+    'no-touching': !linkedEnvResults.servers.length && !linkedEnvResults.others.length\
+  }"
+  pop-over
+  pop-over-data = "linkedEnvResults"
+  pop-over-options = "{\"left\":0,\"top\":0}"
+  pop-over-template = "viewPopoverLinkHelper"
+) Associations
+  .tag.monospace {{linkedEnvResults.servers.length || 0 }}
+
+//- if inserting host names
+.label.label-row.clearfix(
+  ng-if = "state.showHostName"
+)
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.protocol"
+    type = "text"
+    placeholder = "Protocol"
+  )
+    li.list-item.popover-list-item.small(
+    ) Select Protocol (optional)
+    fancy-option(
+      value = "'http://'"
+    ) http://
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.server"
+    placeholder = "Elastic Url"
+  )
+    li.list-item.popover-list-item.small Select elastic url
+    fancy-option.monospace(
+      value = "instance"
+      ng-repeat = "instance in $parent.data.instances.models"
+      ng-if = "instance.attrs.shortHash !== $parent.$parent.$parent.state.server.instance.attrs.shortHash"
+    ) {{ $parent.instance.getElasticHostname() }}
+
+  fancy-select.input-sm.monospace.text-overflow(
+    value = "$parent.state.newLink.port"
+    placeholder = "Port"
+    type = "text"
+  )
+    li.list-item.popover-list-item.small(
+    ) Select Port (optional)
+    fancy-option(
+      value = "port"
+      ng-repeat = "port in $parent.$parent.state.newLink.server | extractInstancePorts"
+    ) :{{ $parent.port }}
+
+.table-footer.clearfix(
+  ng-if = "state.showHostName"
+)
+  button.btn.btn-xs.gray(
+    ng-click = "state.showHostName = false"
+  ) Cancel
+  button.btn.btn-xs.green(
+    ng-click = "state.showHostName = false; insertHostName(state.newLink);"
+  ) Insert elastic url

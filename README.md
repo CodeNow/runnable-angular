@@ -49,17 +49,32 @@ Requirements
 
 Testing
 -------
+Unit Tests
 ```bash
-# Unit Tests
 grunt test
+```
 
-# E2E tests
+E2E tests
+```bash
 webdriver-manager start;
 npm run e2e
+```
+You can also pass credentials to protractor like so:
+```bash
+protractor ./test/protractor.conf.js --params.user SomeKittens --params.password hunter2
 ```
 
 Contributors
 -------------
+<img src="https://avatars3.githubusercontent.com/u/7440805?s=64" width="64">&nbsp;
+[Taylor Dolan (taylordolan)](https://github.com/taylordolan)
+San Francisco, CA, USA  
+<img src="https://avatars3.githubusercontent.com/u/495765?s=64">&nbsp;
+[Ryan Khan (Myztiq)](https://github.com/Myztiq)
+San Francisco, CA, USA  
+<img src="https://avatars1.githubusercontent.com/u/6379413?s=64">&nbsp;
+[Nathan Meyers (Nathan219)](https://github.com/Nathan219)
+San Francisco, CA, USA  
 <img src="https://avatars1.githubusercontent.com/u/429706?v=3&s=64">&nbsp;
 [Anton Podviaznikov (podviaznikov)](https://github.com/podviaznikov)
 San Francisco, CA, USA  

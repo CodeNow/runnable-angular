@@ -40,12 +40,6 @@ html(
       name = "apple-mobile-web-app-title"
     )
 
-    //- mobile chrome and firefox theme
-    meta(
-      content = "#5b3777"
-      name = "theme-color"
-    )
-
     if env === 'production'
       script.
         // runnable-angular-production (applicationId: 5920401)
@@ -68,7 +62,8 @@ html(
         (function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
         for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
         mixpanel.init("57260a5b6fc972e9c69184882efd009e");
-    else
+
+     if (env === 'staging')
       script(type='text/javascript').
         (function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
         for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
@@ -102,9 +97,9 @@ html(
         ga("send", "pageview");
 
 
-  body(
-    ng-class = "{minimize: dataApp.data.minimizeNav}"
-    ng-click = "dataApp.documentClickEventHandler($scope, this)"
+  body.clearfix(
+    ng-class = "{minimize: dataApp.data.minimizeNav, 'modal-open': dataApp.data.modalOpen || dataApp.data.modalError.data.in}"
+    ng-click = "dataApp.documentClickEventHandler($event)"
     ng-keydown = "dataApp.documentKeydownEventHandler($event)"
   )
     //
@@ -123,13 +118,31 @@ html(
       ng-include = "'spinner'"
     )
 
+    //- modals
     div(
+      modal-manager
+      modal-open = "dataApp.data.modalOpen"
+    )
+
+    //- page
+    div.clearfix(
       ui-view
     )
-  div(
-    style = "display: none"
-    modal
-    modal-actions = "dataApp.data.modalError.actions"
-    modal-data = "dataApp.data.modalError.data"
-    modal-template = "viewModalError"
-  )
+
+    //- error modal
+    .modal-backdrop.in(
+      ng-if = "dataApp.data.modalError.data.in"
+      ng-click = "$event.stopPropagation()"
+    )
+      .modal-dialog.modal-error
+        header.modal-header
+          h1.modal-heading Something went wrong.
+        section.modal-body.clearfix
+          .modal-description.well.well-code.gray.monospace(
+          ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
+          ) {{ error.message }}
+
+        footer.modal-footer
+          button.btn.white.btn-cancel(
+          ng-click = "dataApp.data.modalError.actions.close(defaultActions.cancel);"
+          ) Dismiss

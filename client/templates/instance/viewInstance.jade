@@ -1,38 +1,80 @@
 //- show if server build is being swapped out
-.alert.orange.in(
-  ng-show = "dataInstance.data.showUpdatingMessage"
+  - orange when build is updating or has failed
+  - green if build is successfully built
+//- Disabling until this section is finished
+.alert.in(
+  ng-class = "{\
+    green: dataInstance.data.showUpdatedMessage,\
+    orange: dataInstance.data.showUpdatingMessage\
+  }"
+  ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) && dataInstance.data.userIsOrg()"
 )
-  h4.h4 Your server is being updated…
-
-.alert.green.in(
-  ng-show = "dataInstance.data.showUpdatedMessage"
-)
+  //- if successful, .green; if fail, .orange
+  .btn.btn-xxs.btn-icon.btn-state.no-touching(
+    ng-if = ""
+    ng-class = "{\
+      green: dataInstance.data.showUpdatedMessage,\
+      orange: dataInstance.data.showUpdatingMessage\
+    }"
+  )
+    //- if successful
+    svg.iconnables.icons-fat-check(
+      ng-if = ""
+    )
+      use(
+        xlink:href = "#icons-fat-check"
+      )
+    //- if failed
+    svg.iconnables.icons-warning(
+      ng-if = ""
+    )
+      use(
+        xlink:href = "#icons-warning"
+      )
+  img.gravatar(
+    height = "36"
+    ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
+    width = "36"
+  )
+  //- inherit green/orange from .alert
   button.btn.btn-xs.btn-close(
-    ng-click = "dataInstance.data.showUpdatedMessage = false"
+    ng-class = "{\
+      green: dataInstance.data.showUpdatedMessage,\
+      orange: dataInstance.data.showUpdatingMessage\
+    }"
+    ng-click = "dataInstance.data.showUpdatedMessage = false;dataInstance.data.showUpdatingMessage = false"
   )
     svg.iconnables.icons-close
       use(
         xlink:href = "#icons-close"
       )
-  h4.h4 Your server has been updated
-  a.block-quote.text-overflow(
-    href = "{{ dataInstance.data.commit.attrs.commit.html_url }}"
+  //- copy should read:
+      if updating: Updating {{ serverName }}
+      if success: Successful Build
+      if failed: Failed Build
+  h4.h4 Updating {{ dataInstance.data.instance.attrs.name }}
+  a(
     target = "_blank"
-  ) {{ dataInstance.data.commit.attrs.commit.message }}
-    small.small
-      svg.iconnables.icons-branch
-        use(
-          xlink:href = "#icons-branch"
-        )
-      //- Using ACV here to avoid another fetch
-      | {{ dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models[0].attrs.repo }}@{{ dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models[0].attrs.branch }}
-    small.small
-      img.gravatar(
-        height = "15"
-        ng-src = "{{ dataInstance.data.commit.attrs.author.avatar_url }}"
-        width = "15"
-      )
-      | {{ dataInstance.data.commit.attrs.author.login }}
+    ng-if = "dataInstance.data.showUpdatedMessage"
+  ) {{ dataInstance.data.commit.attrs.author.login }} pushed #{''}
+    a.link(
+      ng-href = "{{ dataInstance.data.commit.attrs.html_url }}"
+      target = "_blank"
+    ) {{ dataInstance.data.commit.attrs.sha  | limitTo:6 }}
+  //- do not show if integration is already setup
+  p.p(
+    ng-if = "!dataInstance.data.hasToken"
+  ) Get these notifications in Slack?
+    button.btn.btn-xxs(
+      modal
+      modal-actions = "actions.actionsModalIntegrations"
+      modal-data = "data.dataModalIntegrations"
+      modal-template = "viewOpenModalIntegrations"
+      ng-class = "{\
+        green: dataInstance.data.showUpdatedMessage,\
+        orange: dataInstance.data.showUpdatingMessage\
+      }"
+    ) Setup
 
 header.server-header
 
@@ -43,19 +85,19 @@ header.server-header
   )
 
   instance-primary-actions(
-    loading = "dataApp.data.loading"
     instance = "dataInstance.data.instance"
-    saving = "dataInstance.data.saving"
+    loading = "dataApp.data.loading"
     open-items = "dataInstance.data.openItems"
+    saving = "dataInstance.data.saving"
   )
 
   .secondary-actions(
+    instance = "dataInstance.data.instance"
+    instances = "dataApp.data.instances"
     instance-secondary-actions
     ng-if = "dataInstance.data.instance"
-    instances = "dataApp.data.instances"
-    instance = "dataInstance.data.instance"
-    saving = "dataInstance.data.saving"
     ng-if = "!dataInstance.data.isDemo"
+    saving = "dataInstance.data.saving"
   )
 
   instance-anon-secondary-actions(
@@ -70,31 +112,38 @@ section.sidebar.server-sidebar.load(
   show-coach-marks
 )
   section.row.repo-list(
+    ng-class = "{closed: $storage.repoListIsClosed}"
+    auto-build-on-acv-change = "true"
     build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
     loading = "dataApp.data.loading"
+    ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
     repo-list
     show-auto-deploy = "true"
-    auto-build-on-acv-change = "true"
-    ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
+  )
+
+  section.row.linked-servers(
+    ng-class = "{closed: $storage.dnsManagementIsClosed}"
+    ng-if = "dataInstance.data.instance"
+    dns-manager
+    instance = "dataInstance.data.instance"
   )
 
   section.row.explorer(
+    ng-class = "{closed: $storage.explorerIsClosed}"
     explorer
     edit-explorer = "false"
-    title = "File Explorer"
     file-model = "dataInstance.data.instance.containers.models[0]"
-    root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
-    ng-if = "dataInstance.data.instance.containers.models[0].running()"
     open-items = "dataInstance.data.openItems"
+    root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
+    explorer-title = "File Explorer"
   )
 
 //- in / out control presence of header-bar
-section.views.with-add-tab(
+section.views(
   active-panel
-  ng-class = "dataInstance.data.sectionClasses"
-  open-items = "dataInstance.data.openItems"
+  background-buttons = "build, server, term, web"
   build = "dataInstance.data.instance.build"
   instance = "dataInstance.data.instance"
-  background-buttons = "build, server, term, web"
+  open-items = "dataInstance.data.openItems"
 )

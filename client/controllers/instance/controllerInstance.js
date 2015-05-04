@@ -6,21 +6,25 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  errs,
-  fetchCommitData,
-  keypather,
-  OpenItems,
   $localStorage,
   $location,
+  $q,
   $scope,
   $state,
   $stateParams,
   $timeout,
   $window,
+  OpenItems,
+  errs,
+  eventTracking,
   favico,
-  pageName,
+  fetchCommitData,
+  fetchInstances,
+  fetchSettings,
+  keypather,
   pFetchUser,
-  fetchInstances
+  pageName,
+  setLastInstance
 ) {
   var dataInstance = $scope.dataInstance = {
     data: {
@@ -29,7 +33,8 @@ function ControllerInstance(
     actions: {}
   };
   var data = dataInstance.data;
-  var actions = dataInstance.actions;
+  $scope.$storage = $localStorage;
+  $scope.dataApp.data.loading = true;
 
   data.openItems = new OpenItems();
 
@@ -45,6 +50,10 @@ function ControllerInstance(
     in: false
   };
 
+  data.userIsOrg = function () {
+    return $scope.user.oauthName() !== $state.params.userName;
+  };
+
   // Trigger Heap event
   if ($window.heap && $location.search().chat) {
     $window.heap.track('box-selection-chat-click', {
@@ -57,28 +66,26 @@ function ControllerInstance(
   // The error handling for pFetchUser will re-direct for us, so we don't need to handle that case
   pFetchUser().then(function (user) {
     $scope.user = user;
-    return fetchInstances({
-      name: $stateParams.instanceName
-    }).then(function (instance) {
+    // product team - track visits to instance page & referrer
+    eventTracking.boot(user).visitedState();
+    return $q.all({
+      instance: fetchInstances({ name: $stateParams.instanceName }),
+      settings: fetchSettings()
+    })
+    .then(function (results) {
+      var instance = results.instance;
       data.instance = instance;
       pageName.setTitle(instance.attrs.name);
       data.instance.state = {};
-      // This is to untoggle all of the other team members trays
-      if (instance.attrs.createdBy.username === $scope.user.oauthName()) {
-        $scope.dataApp.actions.setToggled();
-      }
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        $stateParams.instanceName
-      );
-    }).catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
+
+      data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
+      setLastInstance($stateParams.instanceName);
+      $scope.dataApp.data.loading = false;
+    })
+    .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
       errs.handler(err);
-      keypather.set(
-        $localStorage,
-        'lastInstancePerUser.' + $stateParams.userName,
-        null
-      );
+      $scope.dataApp.data.loading = false;
+      setLastInstance(false);
       $state.go('instance.home', {
         userName: $stateParams.userName
       });
@@ -87,17 +94,41 @@ function ControllerInstance(
 
   $scope.$watch('dataInstance.data.instance.build.attrs.started', function (n, p) {
     if (data.showUpdatingMessage || !n || !p || n === p) { return; }
+
+    // If the build was triggered by me manually we don't want to show toasters.
+    var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
+    var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
+
+    if (isManual && isTriggeredByMe){
+      data.showUpdatedMessage = false;
+      data.showUpdatingMessage = false;
+      return;
+    }
+
+
     data.showUpdatedMessage = false;
     data.showUpdatingMessage = true;
   });
   $scope.$watch('dataInstance.data.instance.build.attrs.completed', function (n, p) {
     // p should be null since during a build, the completed field is nulled out
     if (!data.showUpdatingMessage || data.showUpdatedMessage || !n || p) { return; }
-    data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
+
+    // If the build was triggered by me manually we don't want to show toasters.
+    var isManual = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredAction.manual;
+    var isTriggeredByMe = $scope.dataInstance.data.instance.contextVersion.attrs.build.triggeredBy.github === $scope.user.oauthId();
+
+    if (isManual && isTriggeredByMe){
+      data.showUpdatedMessage = false;
+      data.showUpdatingMessage = false;
+      return;
+    }
+
+    if (data.instance.contextVersion.appCodeVersions.models.length) {
+      data.commit = fetchCommitData.activeCommit(data.instance.contextVersion.appCodeVersions.models[0]);
+    }
     data.showUpdatingMessage = false;
     data.showUpdatedMessage = true;
   });
-
 
   // watch showExplorer (toggle when user clicks file menu)
   // if no running container, return early (user shouldn't be able to even click
@@ -205,9 +236,6 @@ function ControllerInstance(
     }
     if (!data.openItems.hasOpen('LogView')) {
       data.openItems.addLogs();
-    }
-    if (!data.openItems.hasOpen('WebView')) {
-      data.openItems.addWebView();
     }
     data.openItems.restoreTabs({
         instanceId: data.instance.id(),

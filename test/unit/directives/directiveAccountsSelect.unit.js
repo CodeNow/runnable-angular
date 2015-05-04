@@ -5,6 +5,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var $scope, $elScope;
   var $rootScope;
   var ctx;
+  var $timeout;
   var apiMocks = require('../apiMocks/index');
 
   function makeDefaultScope(addToScope) {
@@ -78,13 +79,13 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         instanceName: 'instanceName'
       });
     });
-    angular.mock.inject(function($compile, _$rootScope_, $timeout){
+    angular.mock.inject(function($compile, _$rootScope_, _$timeout_){
       $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
+      $timeout = _$timeout_;
 
-      var tpl = directiveTemplate.attribute('accounts-select', {
-        'data': 'data',
-        'is-main-page': 'isMainPage'
+      var tpl = directiveTemplate('accounts-select', {
+        'data': 'data'
       });
 
       Object.keys(addToScope).forEach(function (key) {
@@ -99,7 +100,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
 
   describe('directive logic'.bold.blue, function() {
     it('should emit signal and change state on account change', function (done) {
-      initState({ isMainPage: true });
+      initState();
       ctx.stateMock.go = sinon.spy(function (location, state) {
         expect(state).to.deep.equal({
           userName: ctx.fakeOrg1.oauthName()
@@ -113,21 +114,8 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $scope.$digest();
       $elScope.popoverAccountMenu.actions.selectActiveAccount(ctx.fakeOrg1);
       $scope.$apply();
+      $timeout.flush();
       expect($scope.data.activeAccount).to.equal(ctx.fakeOrg1);
-    });
-    it('should not emit signal when not on the main page', function () {
-      initState();
-      ctx.stateMock.go = sinon.spy();
-      var instanceFetchSpy = sinon.spy();
-      $rootScope.$on('INSTANCE_LIST_FETCH', instanceFetchSpy);
-      $scope.$digest();
-      $elScope.popoverAccountMenu.actions.selectActiveAccount(ctx.fakeOrg1);
-      $scope.$apply();
-      expect($scope.data.activeAccount).to.equal(ctx.fakeOrg1);
-      sinon.assert.neverCalledWith(ctx.stateMock.go, 'instance.home', {
-        userName: ctx.fakeOrg1.oauthName()
-      });
-      sinon.assert.notCalled(instanceFetchSpy);
     });
   });
 

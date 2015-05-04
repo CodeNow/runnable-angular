@@ -55,4 +55,5 @@ require('app')
   .service('uuid', function () {
     return require('node-uuid');
   })
-  .value('modelStore', require('runnable/lib/stores/model-store'));
+  .value('modelStore', require('runnable/lib/stores/model-store'))
+  .value('collectionStore', require('runnable/lib/stores/collection-store'));

@@ -1,5 +1,6 @@
 'use strict';
 
+require('es5-shim');
 // Variables we want everywhere
 
 // These already modify global variables
@@ -7,6 +8,8 @@ require('colors');  // Modifies String.prototype to allow us to color
 require('angular');  // Angular
 require('angular-mocks');  // Mocks stuff!
 require('main');  // Requires our app
+
+require('es6-symbol/implement');
 
 // Must use window here due to Browserify's encapsulation
 window.host = require('../../client/config/json/api.json').host.toLowerCase();
@@ -25,7 +28,9 @@ window.fixtures = {
   mockFetchOwnerRepos: require('./fixtures/mockFetchOwnerRepos')
   //mockFetch: require('./fixtures/mockFetch')
 };
-window.runnable = new (require('runnable'))(window.host);
+window.runnable = new (require('runnable'))(window.host, {
+  socket: true
+});
 window.noop = function () {};
 window.helpers = {
   click: function (el, augmentCb){

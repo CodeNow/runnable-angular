@@ -3,7 +3,7 @@
 var util = require('../helpers/util');
 var AccountsSelect = require('../popovers/AccountsSelect');
 module.exports = {
-  userList: ['runnable-doobie', 'runnable-test'],
+  userList: [browser.params.user, browser.params.org],
   changeUser: function (username, manuallySwitch) {
     util.setCurrentUser(username);
     if (manuallySwitch) {

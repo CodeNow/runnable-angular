@@ -1,38 +1,46 @@
-button.btn.toggle-theme(
-  ng-class = "{ \
-    dark: colorScheme.isDarkScheme(), \
-    light: !colorScheme.isDarkScheme() \
-  }"
-  ng-click = "colorScheme.toggleScheme()"
-  tooltip = "Change Theme"
-  tooltip-options = "{\"class\":\"bottom\",\"left\":11,\"top\":36}"
-)
-  .theme
+//- tabs
 ul.tabs
+  //- apply .disabled class when server is not running EXCEPT on build logs tab
+  //- apply .error class on build logs tab
+  //- disable ng-click events when disabled
   li.tab-wrapper(
     ng-class = "{\
       'active': item.state.active,\
-      'dirty': (item.state.isDirty), \
-      'always-open': item.state.alwaysOpen\
+      'always-open': item.state.alwaysOpen,\
+      'dirty': (item.state.isDirty)\
     }"
-    ng-click = "\
-      openItems.activeHistory.add(item);\
-      openItems.saveState();\
-    "
+    ng-click = "openItems.activeHistory.add(item); \
+      openItems.saveState();"
     ng-repeat = "item in openItems.models"
   )
-    span.tab-name(
+    .tab-name(
+      ng-data-title = "{{ item.attrs.name }}"
       title = "{{ item.filepath() }}"
-    ) {{ item.attrs.name  }}
+    ) {{ item.attrs.name }}
     .icons-dirty *
     button.btn.white.btn-icon.btn-close(
-      ng-click = "\
-        openItems.remove(item);\
-        $event.stopPropagation();\
-      "
-      ng-if = "!item.state.alwaysOpen"
+      ng-click = "actions.removeItem($event, item)"
+      ng-if = "!item.state.alwaysOpen && instance.containers.models[0].running()"
     )
       svg.iconnables.icons-close
         use(
           xlink:href = "#icons-close"
         )
+
+//- add tab popover
+//- apply [disabled] attribute when server is not running EXCEPT on build logs tab
+button.btn.btn-sm.btn-icon.btn-add-tab(
+  ng-class = "{active: popoverAddTab.data.show}"
+  ng-disabled = "!instance.containers.models[0].running()"
+  pop-over
+  pop-over-actions = "popoverAddTab.actions"
+  ng-if = "showAddButtons"
+  pop-over-active = "popoverAddTab.data.show"
+  pop-over-data = "popoverAddTab.data"
+  pop-over-options = "{\"right\":0,\"top\":45}"
+  pop-over-template = "viewPopoverAddTab"
+)
+  svg.iconnables.icons-add
+    use(
+      xlink:href = "#icons-add"
+    )

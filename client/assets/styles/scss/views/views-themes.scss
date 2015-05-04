@@ -7,7 +7,8 @@
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: .3px !important;
   padding: 6px 9px !important;
-  transform: translate3d(-540px, -130px, 0); // fix weird ace offset
+  position: absolute !important;
+  // transform: translate3d(-540px, -130px, 0); // fix weird ace offset
 }
 
 .ace_gutter,
@@ -213,7 +214,8 @@
   }
 }
 
-.ace-runnable-dark .pre {
+.ace-runnable-dark .pre,
+.ace-container.ace-runnable-dark {
   background-color: #311d40;
   color: $white;
 

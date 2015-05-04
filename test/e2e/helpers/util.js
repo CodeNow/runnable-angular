@@ -80,7 +80,10 @@ util.createGetterAll = function(by, parentElement) {
 };
 
 util.hasClass = function(elem, klass) {
-  return elem.get().getAttribute('class').then(function (classes) {
+  if (typeof elem.get === 'function') {
+    elem = elem.get();
+  }
+  return elem.getAttribute('class').then(function (classes) {
     return classes.split(' ').indexOf(klass) > -1;
   });
 };
@@ -100,7 +103,6 @@ util.refreshCache = function() {
     return key.indexOf('test/e2e') > -1;
   });
   toRefresh.forEach(function(key) {
-    console.log('refreshing', key);
     delete require.cache[key];
     require(key);
   });

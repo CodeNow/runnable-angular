@@ -1,39 +1,4 @@
 // configuration images
-.img-servers {
-  background: $white;
-  border: 1px solid rgba($black,.1);
-  border-radius: 6px;
-  box-shadow: 0 0 30px rgba($black,.06); // same as popovers
-  margin: -90px auto 0;
-  overflow: hidden;
-  padding: 6px 0;
-  width: 300px;
-
-  // override defaults
-  .sub-header {
-    background: $white;
-    font-weight: 500;
-  }
-
-  .list {
-    margin: 0;
-  }
-
-  // larger server rows
-  .list-item {
-    height: 54px;
-    line-height: 54px;
-    margin: 0;
-    padding: 0 6px;
-    width: auto;
-  }
-
-  .icons-status.icons-status {
-    right: 18px;
-    top: 22px;
-  }
-}
-
 .img-configuration {
   margin: 30px auto 15px;
   width: 414px;

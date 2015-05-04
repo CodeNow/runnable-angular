@@ -25,11 +25,29 @@ module.exports = [
       anon: true
     }
   }, {
+    state: 'orgSelect',
+    abstract: false,
+    url: '^/orgSelect',
+    templateUrl: 'viewOrgSelect',
+    controller: 'ControllerOrgSelect'
+  }, {
     state: 'serverSelection',
     abstract: false,
     url: '^/:userName/serverSelection/:repo',
     templateUrl: 'viewServerSelection',
     controller: 'ControllerServerSelection',
+    data: {
+      bodyClass: {
+        'vertical': true
+      },
+      anon: true
+    }
+  }, {
+    state: 'branchSelection',
+    abstract: false,
+    url: '^/branchSelection/:hostname',
+    templateUrl: 'viewBranchSelection',
+    controller: 'ControllerBranchSelection',
     data: {
       bodyClass: {
         'vertical': true
@@ -54,16 +72,17 @@ module.exports = [
     templateUrl: 'viewInstanceHome',
     controller: 'ControllerInstanceHome'
   }, {
-    state: 'instance.new',
+    state: 'instance.config',
     abstract: false,
-    url: '^/:userName/new',
-    controller: 'ControllerNew'
-  }, {
-    state: 'instance.setup',
-    abstract: false,
-    url: '^/:userName/new/:buildId',
-    templateUrl: 'viewSetup',
-    controller: 'ControllerSetup'
+    url: '^/:userName/configure',
+    templateUrl: 'environmentView',
+    controller: 'EnvironmentController',
+    onEnter: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', true);
+    },
+    onExit: function ($rootScope, keypather) {
+      keypather.set($rootScope, 'layoutOptions.hideSidebar', false);
+    }
   }, {
     state: '404',
     abstract: false,
@@ -81,12 +100,6 @@ module.exports = [
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',
     controller: 'ControllerInstance'
-  }, {
-    state: 'instance.instanceEdit',
-    abstract: false,
-    url: '^/:userName/:instanceName/edit/:buildId',
-    templateUrl: 'viewInstanceEdit',
-    controller: 'ControllerInstanceEdit'
   }
 ];
 Object.freeze(module.exports);

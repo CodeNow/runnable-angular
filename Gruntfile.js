@@ -267,10 +267,10 @@ module.exports = function(grunt) {
       default: {
         options: {
           thresholds: {
-            statements: 68.58,
-            branches: 52.01,
-            functions: 61.6,
-            lines: 68.98
+            statements: 62.03,
+            branches: 42.00,
+            functions: 52.03,
+            lines: 62.3
           },
           dir: 'coverage',
           root: 'test'
@@ -279,7 +279,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('autoBundleDependencies', '', function () {
+  grunt.registerTask('autoBundleDependencies', 'generates index.js files that require all other files in the directory', function () {
     var done       = this.async();
     var clientPath = path.join(__dirname, 'client');
     async.series([
@@ -288,8 +288,7 @@ module.exports = function(grunt) {
       bundle('services'),
       bundle('filters'),
       bundle('directives'),
-      bundle('decorators'),
-      bundle('animations')
+      bundle('decorators')
     ], function () { done(); });
 
     function bundle (subDir) {

@@ -14,7 +14,6 @@ require('./services/index');
 require('./filters/index');
 require('./directives/index');
 require('./decorators/index');
-require('./animations/index');
 require('./lib/router');
 
 /**

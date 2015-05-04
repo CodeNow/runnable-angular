@@ -68,7 +68,7 @@ dfn {
 // contexts in Firefox 4+, Safari, and Chrome.
 h1 {
   font-size: 2em;
-  margin: 0.67em 0;
+  margin: .67em 0;
 }
 
 // Address inconsistent and variable font size in all browsers.
@@ -86,11 +86,11 @@ sup {
 }
 
 sup {
-  top: -0.5em;
+  top: -.5em;
 }
 
 sub {
-  bottom: -0.25em;
+  bottom: -.25em;
 }
 
 // Embedded content
@@ -196,11 +196,21 @@ input[type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
 
+input,
+textarea {
+  -webkit-appearance: none;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 // Define consistent border, margin, and padding.
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
-  padding: 0.35em 0.625em 0.75em;
+  padding: .35em .625em .75em;
 }
 
 legend {
@@ -287,4 +297,9 @@ pre {
 // p
 p {
   margin: 0;
+}
+
+// iframes
+iframe {
+  border: 0;
 }

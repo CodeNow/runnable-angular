@@ -10,8 +10,7 @@ function instanceList(
   getInstanceAltTitle,
   getTeamMemberClasses,
   $state,
-  keypather,
-  regexpQuote
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -21,10 +20,10 @@ function instanceList(
       state: '=',
       actions: '='
     },
-    link: function ($scope, elem, attrs) {
-      $scope.filter = {
-        string: '',
-        instances: []
+    link: function ($scope) {
+
+      $scope.isLoading = function () {
+        return !$scope.data.activeAccount || !keypather.get($scope, 'data.instancesByPod.models.length');
       };
 
       $scope.stateToInstance = function (instance, $event) {
@@ -35,6 +34,10 @@ function instanceList(
           instanceName: instance.attrs.name,
           userName: instance.attrs.owner.username
         });
+      };
+
+      $scope.isSelected = function (instance) {
+        return instance.attrs.name === $state.params.instanceName;
       };
 
       $scope.getInstanceClasses = getInstanceClasses;
@@ -48,26 +51,6 @@ function instanceList(
           }
         }
       };
-
-      $scope.$watch('filter.string', function(newValue) {
-        if (newValue && newValue.length) {
-
-          var filterRegex = '^.*';
-          newValue.split('').forEach(function(char){
-            filterRegex += regexpQuote(char) + '.*';
-          });
-          filterRegex += '$';
-
-          var regex = new RegExp(filterRegex);
-          var instances = keypather.get($scope, 'data.instances.models') || [];
-          $scope.filter.instances = instances.filter(function(instance) {
-            return regex.test(instance.attrs.name);
-          });
-
-        } else {
-          $scope.filter.instances = [];
-        }
-      });
     }
   };
 }

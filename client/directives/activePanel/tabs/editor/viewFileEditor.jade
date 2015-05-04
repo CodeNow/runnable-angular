@@ -1,10 +1,10 @@
+//- spinner
 .spinner-wrapper.spinner-backdrop.spinner-md.spinner-purple.in(
   ng-if = "loading"
   ng-include = "'spinner'"
 )
 
 pre.pre(
-
   ng-model = "file.state.body"
   ui-ace = "{ \
     onLoad: actions.setAceMode, \

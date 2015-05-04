@@ -1,0 +1,164 @@
+// arrows
+.popover.top .arrow {
+  border-bottom-width: 0;
+  border-top-color: $gray-lighter;
+  bottom: -13px;
+  left: 50%;
+  margin-left: -11px;
+}
+
+.popover.top .arrow:after {
+  border-bottom-width: 0;
+  border-top-color: rgba($white,.975);
+  bottom: 3px;
+  content: '';
+  margin-left: -10px;
+}
+
+.popover.right .arrow {
+  border-left-width: 0;
+  border-right-color: $gray-lighter;
+  left: -11px;
+  margin-top: -11px;
+  top: 50%;
+}
+
+.popover.right .arrow:after {
+  border-left-width: 0;
+  border-right-color: $gray-lightest;
+  bottom: -10px;
+  content: '';
+  left: 1px;
+}
+
+.popover.bottom .arrow {
+  border-bottom-color: $gray-lighter;
+  border-top-width: 0;
+  left: 50%;
+  margin-left: -13px;
+  top: -13px;
+}
+
+.popover.bottom .arrow:after {
+  border-bottom-color: rgba($white,.975);
+  border-top-width: 0;
+  content: '';
+  margin-left: -10px;
+  top: 3px;
+}
+
+.popover.left .arrow {
+  border-left-color: $gray-lighter;
+  border-right-width: 0;
+  margin-top: -11px;
+  right: -11px;
+  top: 50%;
+}
+
+.popover.left .arrow:after {
+  border-left-color: rgba($white,.975);
+  border-right-width: 0;
+  bottom: -10px;
+  content: '';
+  right: 1px;
+}
+
+.popover {
+
+  .arrow,
+  .arrow::after {
+    border-color: transparent;
+    border-style: solid;
+    display: block;
+    height: 0;
+    position: absolute;
+    width: 0;
+  }
+
+  .arrow {
+    border-width: 13px;
+
+    &:hover {
+      background: none;
+    }
+
+    &.right {
+      left: auto;
+      right: 21px;
+    }
+
+    &.left {
+      left: 21px;
+      right: auto;
+    }
+  }
+
+  .arrow::after {
+    border-width: 10px;
+    content: '';
+  }
+
+  &.bottom > .arrow::after {
+    border-bottom-color: $gray-lightest;
+  }
+
+  &.top {
+    margin-top: -10px;
+
+    > .arrow {
+
+      &.white::after {
+        border-top-color: rgba($white,.975);
+      }
+
+      &.blue::after {
+        border-top-color: $blue;
+      }
+    }
+  }
+
+  &.right {
+    margin-left: 10px;
+
+    > .arrow {
+
+      &.white::after {
+        border-right-color: rgba($white,.975);
+      }
+
+      &.blue::after {
+        border-right-color: $blue;
+      }
+    }
+  }
+
+  &.bottom {
+    transform-origin: 50% 0;
+
+    > .arrow {
+
+      &.white::after {
+        border-bottom-color: rgba($white,.975);
+      }
+
+      &.blue::after {
+        border-bottom-color: $blue;
+      }
+    }
+  }
+
+  &.left {
+    margin-left: -10px;
+
+    > .arrow {
+
+      &.white::after {
+        border-left-color: rgba($white,.975);
+      }
+
+      &.blue::after {
+        border-left-color: $blue;
+      }
+    }
+  }
+}

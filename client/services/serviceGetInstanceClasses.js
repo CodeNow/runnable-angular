@@ -6,7 +6,7 @@ require('app')
  * @njInject
  */
 function getInstanceClasses(
-  $stateParams,
+  $state,
   keypather
 ) {
   return function (instance) {
@@ -16,13 +16,26 @@ function getInstanceClasses(
     var container = keypather.get(instance, 'containers.models[0]');
     var build = keypather.get(instance, 'build');
     var h = {};
-    var hasDeps = keypather.get(instance, 'dependencies.models.length');
-    h.active = (instance.attrs.name === $stateParams.instanceName);
-    h.expanded = (h.active && hasDeps);
-    h.running = container && container.running();
-    h.stopped = !h.running;
-    h.building = build && !build.attrs.completed;
-    h.failed = build && build.failed();
+    h.active = (instance.attrs.name === $state.params.instanceName);
+
+    if (container) {
+      if (container.running()) {
+        // Running
+        h.green = true;
+      } else {
+        //Crashed
+        h.red = true;
+      }
+    } else if (build) {
+      if (build.failed()) {
+        // Build Failure
+        h.red = true;
+      } else {
+        // Building
+        h.orange = true;
+      }
+    }
+
     return h;
   };
 }

@@ -136,7 +136,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     });
     it('should navigate to new for org2', function () {
       setup('org2');
-      expect($scope.loading).to.be.true;
+      expect($scope.loading, '$scope.loading').to.be.true;
       $rootScope.$digest();
       var many = runnable.newInstances(
         [],
@@ -145,11 +145,10 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       many.githubUsername = 'org2';
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
-      expect($scope.loading).to.be.false;
+      expect($scope.loading, '$scope.loading').to.be.false;
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
-      expect($scope.data.in).to.be.true;
     });
   });
   describe('local storage options'.blue, function () {
@@ -166,10 +165,9 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       many.githubUsername = 'user';
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
-      sinon.assert.calledWith(ctx.fakeGo, 'instance.instance', {
-        userName: 'user',
-        instanceName: 'space'
-      });
+      sinon.assert.calledWith(ctx.fakeGo, 'instance.config', {
+        userName: 'user'
+      }, {location: 'replace'});
       expect($scope.loading).to.be.false;
     });
   });
@@ -219,7 +217,6 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
-      expect($scope.data.in).to.be.true;
     });
   });
 });

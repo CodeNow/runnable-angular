@@ -1,0 +1,87 @@
+.row-heading(
+  ng-click = "$storage.dnsManagementIsClosed = !$storage.dnsManagementIsClosed"
+  ng-class = "{ closed: $storage.dnsManagementIsClosed }"
+)
+  svg.iconnables.icons-disclose
+      use(
+        xlink:href = "#icons-disclose"
+      )
+  | Associations
+
+  status-icon(
+    ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
+    ng-repeat = "relatedInstance in getRelatedInstancesList()"
+    instance = "relatedInstance"
+  )
+
+.empty-state.well(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
+)
+  | {{ instance.getRepoName() || instance.getDisplayName() }}
+  span.branch-name
+    |  has no associated containers.
+
+fancy-select.well(
+  ng-repeat = "masterInstance in masterInstancesWithChildren"
+  value = "instanceDependencyMap[masterInstance.attrs.contextVersion.context]"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+)
+
+  fancy-option(
+    value = "$parent.masterInstance.attrs.shortHash"
+  )
+    status-icon(
+      instance = "$parent.$parent.masterInstance"
+    )
+    | {{ $parent.$parent.masterInstance.repoName() || $parent.$parent.masterInstance.attrs.name }}
+    span.branch-name /{{ $parent.$parent.masterInstance.getBranchName() }}
+
+  fancy-option(
+    ng-repeat = "childInstance in $parent.masterInstance.children.models"
+    value = "childInstance.attrs.shortHash"
+  )
+    status-icon(
+      instance = "$parent.childInstance"
+    )
+    | {{ $parent.childInstance.getRepoName() || $parent.childInstance.attrs.name }}
+    span.branch-name /{{ $parent.childInstance.getBranchName() }}
+
+//- non-repo containers, or repo containers with only one branch, that are linked directly
+.well.non-configurable(
+  ng-repeat = "masterInstance in masterInstancesWithoutChildren"
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed"
+)
+  status-icon(
+    instance = "masterInstance"
+  )
+  | {{ masterInstance.repoName() || masterInstance.attrs.name }}
+  span.branch-name(
+    ng-if = "masterInstance.getBranchName().length"
+  ) /{{ masterInstance.getBranchName() }}
+
+.well.indirect(
+  ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && indirectlyRelatedInstances.length"
+)
+  .well-item
+    svg.iconnables.icons-disclose
+      use(
+        xlink:href = "#icons-disclose"
+      )
+    span Indirect Links
+    status-icon(
+      instance = "dep"
+      ng-repeat = "dep in indirectlyRelatedInstances"
+    )
+  ul
+    li.well-item(
+      ng-repeat = "indirectInstance in indirectlyRelatedInstances"
+    )
+      svg.iconnables.icons-repository
+        use(
+          xlink:href = "#icons-repository"
+        )
+      span.server-category-name.text-overflow {{ indirectInstance.attrs.name }}
+        span.branch-name /master
+      status-icon(
+        instance = "indirectInstance"
+      )

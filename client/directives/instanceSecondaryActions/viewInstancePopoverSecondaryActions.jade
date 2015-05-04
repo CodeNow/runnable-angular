@@ -13,17 +13,6 @@
         ng-click = "actions.startInstance()"
         ng-if = "data.instance.build.attrs.completed && !data.instance.containers.models[0].running()"
       ) Start Running
-      li.divider(
-        ng-if = "data.instance.build.attrs.completed"
-      )
-      li.popover-list-item(
-        modal
-        modal-actions = "actions.actionsModalEnvironment"
-        modal-data = "data.dataModalEnvironment"
-        modal-current-model = "data.instance.attrs"
-        modal-state-model = "data.instance.state"
-        modal-template = "viewOpenModalEnvironment"
-      ) Edit Environment
       li.divider
       li.popover-list-item(
         modal

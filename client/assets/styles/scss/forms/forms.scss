@@ -1,39 +1,104 @@
+// form layout
+// row
+.label {
+  display: block;
+  margin-bottom: 21px;
+  position: relative;
+
+  @include media(xs) {
+    margin-bottom: 15px;
+  }
+}
+
+// label column (left)
+.label-col {
+  color: $gray;
+  float: left;
+  font-weight: 500;
+  height: 36px;
+  line-height: 36px;
+  padding-right: 15px;
+  width: 270px;
+  word-break: break-word;
+
+  @include media(md) {
+    width: 240px;
+  }
+
+  @include media(xs) {
+    float: none;
+    text-align: left;
+    width: 100%;
+  }
+}
+
+// input column (right)
+.input-col {
+  float: right;
+  text-align: left;
+  width: calc(100% - 271px);
+
+  @include media(md) {
+    width: calc(100% - 241px);
+  }
+
+  @include media(xs) {
+    float: none;
+    width: 100%;
+  }
+}
+
+// .label-row: override .label-col for 2 or more inputs on a row
+.label-row {
+  display: flex;
+
+  .label-col {
+    flex: 1 1 auto;
+    height: auto;
+    padding: 0;
+  }
+
+  // equal sign between inputs
+  .span-col {
+    flex: 0 0 25px;
+    line-height: 36px;
+    padding-top: 36px;
+    text-align: center;
+    user-select: none;
+  }
+
+  // helpful messages
+  .small {
+    font-weight: 500;
+    line-height: 18px;
+    margin: 6px 0 0;
+
+    &.valid {
+      color: $green;
+    }
+
+    &.invalid {
+      color: $orange;
+    }
+
+    .iconnables {
+      float: left;
+      height: 20px;
+      margin-right: 3px;
+      width: 21px;
+    }
+  }
+}
+
 // label.btn.btn-checkbox
 .btn-checkbox {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 // input.checkbox
 .checkbox {
   float: right;
   margin-left: 12px;
-}
-
-.form-label {
-  position: relative;
-
-  .iconnables,
-  span {
-    position: absolute;
-  }
-
-  span {
-    display: inline-block;
-    height: 36px;
-    width: 36px;
-  }
-
-  .iconnables {
-    height: 24px;
-    left: 9px;
-    opacity: .25;
-    top: 6px;
-    width: 24px;
-  }
-
-  > input {
-    text-indent: 21px; // +15px (padding) = total of 36px
-  }
 }
 
 input,
@@ -47,81 +112,16 @@ input,
 
   &[disabled],
   &[readonly] {
-    background: $gray-lightest;
+    background-color: $gray-lightest;
+    border-color: $gray-lighter !important; // override any validation
+    color: $gray-lighter;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
   }
 
   &[readonly] {
     cursor: pointer;
-  }
-}
-
-.search {
-  position: relative;
-
-  > input {
-    padding-left: 30px;
-  }
-
-  .iconnables {
-    height: 24px;
-    margin: 6px 6px 0;
-    right: 0;
-    top: 6px;
-    width: 24px;
-  }
-
-  > button {
-    height: 45px;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    transition: transform .2s;
-    width: 36px;
-  }
-
-  > .submit {
-    left: 0;
-  }
-
-  > .add {
-    color: $orange;
-    right: -36px;
-  }
-
-  .icons-search,
-  .icons-search-active {
-    position: absolute;
-  }
-
-  .icons-search {
-    opacity: 1;
-  }
-
-  .icons-search-active {
-    opacity: 0;
-  }
-
-  input:valid ~ .submit {
-
-    .icons-search {
-      opacity: 0;
-    }
-
-    .icons-search-active {
-      opacity: 1;
-    }
-  }
-
-  &.check-valid input:valid {
-
-    & ~ .submit > .icons-search {
-      opacity: 1;
-    }
-
-    & ~ .add {
-      transform: translate3d(-36px,0,0);
-    }
   }
 }

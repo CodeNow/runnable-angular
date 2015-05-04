@@ -1,0 +1,34 @@
+.popover.menu.bottom.popover-new-server(
+  ng-class = "{in: active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow.white(
+    style = "left: 217px"
+  )
+  .popover-content
+    ul.popover-list
+      li.list-item.popover-list-item.small Select container type
+      li.list-item.popover-list-item.multi-line(
+        modal
+        modal-actions = "actions"
+        modal-data = "data"
+        modal-template = "setupServerModalOpen"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-new-repository-server"
+          )
+        | Repository
+        small.small New container from a repository
+      li.list-item.popover-list-item.multi-line(
+        modal
+        modal-actions = "actions"
+        modal-data = "data"
+        modal-template = "setupTemplateModalOpen"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-new-server"
+          )
+        | Non-repository
+        small.small New container from templates like MySQL, RabbitMQ, Redis, etc.

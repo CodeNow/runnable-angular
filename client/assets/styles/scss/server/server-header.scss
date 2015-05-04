@@ -5,6 +5,27 @@
   padding: 0 6px 0 15px;
 }
 
+.container-link-external {
+  color: $gray;
+  cursor: pointer;
+  left: -9px;
+  position: relative;
+  top: -36px;
+
+  &:hover {
+    color: $purple-light;
+  }
+
+  &:active {
+    color: $purple-dark;
+  }
+
+  .icons-link-external {
+    height: 21px;
+    width: 20px;
+  }
+}
+
 // h1.server-info
 .server-info {
   float: left;
@@ -13,19 +34,19 @@
   .icons-status {
     left: 9px;
     top: -4px;
-
-    &::before,
-    &::after {
-      margin: -6px 0 0 -8px;
-    }
   }
 }
 
 // text + status wrapper
 .server-name {
-  font-size: 27px;
-  height: 54px;
-  line-height: 54px;
+  font-size: 24px;
+  height: 51px;
+  line-height: 51px;
+
+  .branch-name {
+    color: inherit;
+    font-weight: 400;
+  }
 }
 
 // [readonly] specifity to override default [readonly] background-color
@@ -36,7 +57,7 @@
   color: $gray;
   cursor: default;
   display: block;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
   height: auto;
   line-height: 1;
@@ -53,7 +74,7 @@
 
 // sets width
 .server-name-ghost {
-  font-size: 13px;
+  font-size: 15px;
   visibility: hidden;
 }
 
@@ -76,7 +97,7 @@
 
   // offset for vertical-align: middle
   .btn-group {
-    top: -2px;
+    top: -4px;
   }
 
   .btn[disabled],

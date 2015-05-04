@@ -1,15 +1,11 @@
 // ul.tabs
 .tabs {
   float: left;
-  height: 100%;
+  height: 45px;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  width: calc(100% - 90px);
-
-  .with-add-tab & {
-    margin-right: 45px;
-  }
+  width: calc(100% - 45px);
 }
 
 // li.tab-wrapper
@@ -61,6 +57,15 @@
     padding-right: 9px;
   }
 
+  &.disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
+  &.error {
+    color: $red;
+  }
+
   .icons-dirty {
     display: inline-block;
     float: left;
@@ -91,4 +96,12 @@
   line-height: 45px;
   padding: 0 1px 0 9px;
   text-align: center;
+
+  &::after {
+    content: attr(ng-data-title);
+    display: block;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+  }
 }

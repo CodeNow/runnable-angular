@@ -5,10 +5,15 @@
   user-select: none;
   white-space: nowrap;
 
+  + .file-tree {
+    border-top: 1px solid rgba($black,.1);
+    margin-top: 6px;
+    padding-top: 6px;
+  }
+
   // files & folders
   li {
     cursor: pointer;
-    // height: 28px; // default height
     line-height: 26px;
     padding: 0;
     position: relative;
@@ -19,6 +24,21 @@
     }
 
     // states
+    &.not-toggleable {
+
+      // hide arrow
+      &::after {
+        display: none;
+      }
+
+      > a {
+        background: transparent !important;
+        border-color: transparent !important;
+        color: $gray-darker !important;
+        cursor: default;
+      }
+    }
+
     &.active a,
     &.active a:hover {
       background: rgba($purple-light,.15);
@@ -29,10 +49,11 @@
     }
 
     a {
-      border: 1px solid transparent;
+      border: 2px solid transparent;
       border-radius: 3px;
       display: block;
       margin-bottom: 2px;
+      max-height: 28px;
       overflow: hidden;
       padding-left: 15px;
       text-overflow: ellipsis;
@@ -47,7 +68,6 @@
         background: rgba($purple-light,.15);
         border-color: rgba($purple-light,.15);
         color: $purple-light;
-        font-weight: 500;
         transition: none;
       }
     }
@@ -103,10 +123,10 @@
 
   // repository icon
   .icons-repository {
-    float: left;
-    height: 21px;
-    left: 36px;
-    margin-right: -4px;
+    height: 18px;
+    left: 2px;
+    margin-left: -6px;
+    top: 4px;
     width: 21px;
   }
 
@@ -153,4 +173,58 @@
 .item-name {
   margin-left: 5px;
   pointer-events: none;
+}
+
+.btn-file-errors,
+.btn-file-action {
+  position: absolute;
+  right: 0;
+}
+
+// errors
+.btn-file-errors {
+  border: 0;
+  border-radius: 9px;
+  font-size: 14px;
+  height: 18px;
+  line-height: 18px;
+  margin: 5px;
+  pointer-events: none;
+  text-align: center;
+  text-indent: 0;
+  width: 18px;
+
+  + .btn-file-action {
+    right: 24px;
+  }
+}
+
+// action icons
+.btn-file-action {
+  background: $gray-lightest;
+  border: 0;
+  border-radius: 50%;
+  margin: 5px;
+  padding: 0;
+  width: 18px;
+
+  &:hover,
+  &:active,
+  &.active {
+
+    .iconnables {
+      color: $purple-light;
+    }
+  }
+
+  &:active,
+  &.active {
+    background: transparent;
+  }
+
+  .iconnables {
+    color: $gray;
+    height: 100%;
+    width: 15px;
+  }
 }

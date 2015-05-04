@@ -1,4 +1,12 @@
-h2.sub-header Repositories
+.row-heading(
+  ng-click = "$storage.repoListIsClosed = !$storage.repoListIsClosed"
+  ng-class = "{ closed: $storage.repoListIsClosed }"
+)
+  svg.iconnables.icons-disclose
+    use(
+      xlink:href = "#icons-disclose"
+    )
+  | Repositories
 
   //- update / build button
   button.btn.btn-xs.orange.sub-header-action(
@@ -13,24 +21,19 @@ h2.sub-header Repositories
       )
     | Update
 
-  add-repo-popover(
-    ng-if = "showAddRepo"
-    context-version = "build.contextVersions.models[0]"
-    show = "data.show"
-  )
-
 //- show .guide if instance.setup && no repositories have been added yet
 .guide.guide-image.guide-pointer(
-  ng-if = "showAddFirstRepoMessage && unsavedAcvs.length === 0"
-  ng-click = "data.show = !data.show; \
-    $event.stopPropagation();"
+  ng-click = "data.show = !data.show"
+  ng-if = "!$storage.repoListIsClosed && showAddFirstRepoMessage && unsavedAcvs.length === 0"
 )
   svg.iconnables.icons-git
     use(
       xlink:href = "#icons-git"
     )
   p.guide-text Add a repository to your server.
-ul.list.repository-group
+ul.list.repository-group(
+  ng-if = "!$storage.repoListIsClosed"
+)
   li.list-item.repository-group-item(
     edit-repo-commit
     ng-repeat = "model in unsavedAcvs"

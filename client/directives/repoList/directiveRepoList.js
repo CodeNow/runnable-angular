@@ -8,19 +8,18 @@ require('app')
  * Attributes:
  *  showAutoDeploy: true if the 'Disable AutoDeploy' cb should be present
  *  showAddFirstRepoMessage: true if the helper message should be present (setup)
- *  showAddRepo: true if the + button to add repos should be present
  *  autoBuildOnAcvChange: true if the build should rebuild after making an ACV change
  */
 function repoList(
   $rootScope,
-  $state,
   createNewBuild,
   debounce,
   errs,
   eventTracking,
   keypather,
   pFetchUser,
-  promisify
+  promisify,
+  $localStorage
 ) {
   return {
     restrict: 'A',
@@ -31,6 +30,9 @@ function repoList(
       build: '='
     },
     link: function ($scope, elem, attrs) {
+      $scope.$storage = $localStorage.$default({
+        repoListIsClosed: false
+      });
 
       if (attrs.showAutoDeploy) {
         $scope.showAutoDeploy = true;
@@ -43,7 +45,6 @@ function repoList(
       };
       $scope.unsavedAcvs = [];
       $scope.showAddFirstRepoMessage = attrs.showAddFirstRepoMessage;
-      $scope.showAddRepo = attrs.showAddRepo;
 
       // track all temp acvs generated
       // for each repo/child-scope

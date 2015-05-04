@@ -1,77 +1,99 @@
 //- tabs
 .views-toolbar(
-  open-items= "openItems"
+  open-items = "openItems"
+  instance = "instance"
+  show-add-buttons = "showBackgroundButtons"
   tabs
 )
-div(
-  add-tab
-  show-add-buttons = "showBackgroundButtons"
-  open-items = "openItems"
-  ng-if = "showBackgroundButtons"
-)
+
 //- active panel
-.active-panel(
-  ng-class = "colorScheme.getSchemeStyle()"
+.active-panel.ace-runnable-dark(
   ng-repeat = "item in openItems.models"
   ng-show = "item === openItems.activeHistory.last()"
 )
+  //- logs
   .logs(
-    ng-controller = "BuildLogController"
     log-term
+    ng-controller = "BuildLogController"
     ng-if = "item.state.type === 'BuildStream'"
   )
   .logs(
-    ng-controller = "BoxLogController"
     log-term
+    ng-controller = "BoxLogController"
     ng-if = "item.state.type === 'LogView'"
   )
-  .term-container(
-    ng-if = "item.state.type === 'File'"
-    file-editor
-    file = "item"
-    use-auto-update = "useAutoUpdate"
-  )
-  .term-container(
+
+  //- terminal
+  .logs(
     ng-if = "item.state.type === 'Terminal'"
-    term
-    item = "item"
+    ng-controller = "TermController"
+    log-term
+  )
+
+  //- files
+  div(
+    file = "item"
+    file-editor
+    ng-if = "item.state.type === 'File'"
+    use-auto-update = "useAutoUpdate"
+    loading = "loading"
+  )
+  div(
+    current-model = "instance.attrs"
+    env-vars
+    ng-if = "item.state.type === 'EnvVars'"
+    state-model = "stateModel"
+    validation = "validation.env"
   )
     span.js-char-width 0
 
-  .web-container(
-    web-view
-    ng-if = "item.state.type === 'WebView'"
-  )
 //- blank state
 .blank-panel(
   ng-if= "openItems.models.length === 0 && showBackgroundButtons"
 )
   ul.blank-panel-group
     li.btn.white(
-      ng-if = "showBackgroundButtons.web"
-      ng-click = "openItems.addWebView()"
-    )
-      svg.iconnables.iconnables-lg.icons-web
-        use(xlink:href = "#icons-web")
-      | Web View
-    li.btn.white(
-      ng-if = "showBackgroundButtons.term"
       ng-click = "openItems.addTerminal()"
+      ng-if = "showBackgroundButtons.term"
     )
       svg.iconnables.iconnables-lg.icons-terminal
-        use(xlink:href = "#icons-terminal")
+        use(
+          xlink:href = "#icons-terminal"
+        )
       | Terminal
     li.btn.white(
-      ng-if = "showBackgroundButtons.build"
       ng-click = "openItems.addBuildStream()"
+      ng-if = "showBackgroundButtons.build"
     )
       svg.iconnables.iconnables-lg.icons-logs
-        use(xlink:href = "#icons-logs")
+        use(
+          xlink:href = "#icons-logs"
+        )
       | Build Log
     li.btn.white(
-      ng-if = "showBackgroundButtons.server"
       ng-click = "openItems.addLogs()"
+      ng-if = "showBackgroundButtons.server"
     )
       svg.iconnables.iconnables-lg.icons-server
-        use(xlink:href = "#icons-server")
+        use(
+          xlink:href = "#icons-server"
+        )
       | Server Log
+
+//- can .views-prompt go in its own template file?
+.views-prompt.theme-dark.hide(
+  ng-class = "{hide: !showBuildFailurePrompt()}"
+)
+  p.p.monospace Having build problems?
+  .btn-container
+    button.btn(
+      ng-class = "{white: !highlightRebuildWithoutCache, orange: highlightRebuildWithoutCache}"
+      ng-click = "actions.buildWithoutCache()"
+    ) Rebuild w/out cache
+    button.btn.btn-close-prompt(
+      ng-click = "actions.hideBuildFailurePrompt()"
+    )
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )

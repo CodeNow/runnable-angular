@@ -1,0 +1,15 @@
+label.label.clearfix
+  .label-col Exposed Ports
+
+  .input-col
+
+    //- input for open ports
+    js-tag.textarea.monospace(
+      js-tag-options = "portTagOptions"
+    )
+
+    small.small Exposed ports are the network ports on your container that are open for connections. #{''}
+      a.link(
+        href = "//docs.docker.com/reference/builder/#expose"
+        target = "_blank"
+      ) More about exposed ports

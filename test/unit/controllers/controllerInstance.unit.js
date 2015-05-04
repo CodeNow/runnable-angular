@@ -1,18 +1,23 @@
 'use strict';
 
 // injector-provided
-var async,
-    $controller,
+var $controller,
     $httpBackend,
-    keypather,
-    OpenItems,
-    $scope,
-    $window,
     $rootScope,
+    $scope,
     $state,
     $stateParams,
+    $window,
+    async,
+    OpenItems,
+    eventTracking,
+    keypather,
     user;
 var runnable = new (require('runnable'))(window.host);
+
+var User = require('runnable/lib/models/user');
+var mockUserFetch = new (require('../fixtures/mockFetch'))();
+var user = require('../apiMocks').user;
 
 describe('controllerInstance'.bold.underline.blue, function () {
   var ctx = {};
@@ -26,7 +31,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
         setImage: sinon.spy(),
         setInstanceState: sinon.spy()
       });
-      $provide.factory('pFetchUser', fixtures.mockFetchUser);
+      $provide.factory('pFetchUser', mockUserFetch.fetch());
       $provide.factory('fetchCommitData', function () {
         return {
           activeCommit: sinon.spy(function () {
@@ -50,29 +55,36 @@ describe('controllerInstance'.bold.underline.blue, function () {
           }
         }
       }));
+      $provide.factory('fetchSettings', function ($q) {
+        return function () {
+          return $q.when({});
+        };
+      });
     });
     angular.mock.inject(function (
-      _async_,
       _$controller_,
       _$httpBackend_,
-      _$window_,
-      _keypather_,
-      _OpenItems_,
       _$rootScope_,
-      _$state_,
       _$stateParams_,
+      _$state_,
+      _$window_,
+      _OpenItems_,
+      _async_,
+      _eventTracking_,
+      _keypather_,
       _user_
     ) {
-      async = _async_;
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
-      keypather = _keypather_;
-      OpenItems = _OpenItems_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;
-      user = _user_;
       $window = _$window_;
+      OpenItems = _OpenItems_;
+      async = _async_;
+      eventTracking = _eventTracking_;
+      keypather = _keypather_;
+      user = _user_;
     });
     $window.heap = null;
   });
@@ -114,10 +126,13 @@ describe('controllerInstance'.bold.underline.blue, function () {
 
   it('basic', function () {
 
+    sinon.spy(eventTracking, 'visitedState');
+
     var $scope = $rootScope.$new();
     keypather.set($scope, 'dataApp.actions.setToggled', sinon.spy());
+    keypather.set($scope, 'dataApp.data.loading', false);
 
-    $scope.user
+    $scope.user;
     var ci = $controller('ControllerInstance', {
       '$scope': $scope
     });
@@ -132,6 +147,13 @@ describe('controllerInstance'.bold.underline.blue, function () {
     expect($scope).to.have.deep.property('dataInstance.data.sectionClasses');
 
     $scope.$apply();
+
+    mockUserFetch.triggerPromise(new User(user));
+    $rootScope.$digest();
+
+    // mixpanel tracking user visit to instance page
+    expect(eventTracking.visitedState.callCount).to.equal(1);
+    eventTracking.visitedState.restore();
 
   });
 

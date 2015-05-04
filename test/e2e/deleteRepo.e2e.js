@@ -2,11 +2,11 @@
 
 var util = require('./helpers/util');
 
-var InstanceEditPage = require('./pages/InstanceEditPage');
+var InstanceEditPage = require('./modals/InstanceEditModal');
 
 describe('deleteRepo', function() {
   it('should delete a repo from an instance', function() {
-    var instanceEdit = new InstanceEditPage('Test-0');
+    var instanceEdit = new InstanceEditModal('Test-0');
     instanceEdit.get();
 
     instanceEdit.repoList.deleteRepo(1);
