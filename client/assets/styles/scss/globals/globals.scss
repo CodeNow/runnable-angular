@@ -7,6 +7,7 @@ html {
 body {
   color: $gray-darker;
   font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
+  font-feature-settings: 'kern';
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
