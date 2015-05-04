@@ -140,6 +140,7 @@ ul.card-body.load(
         xlink:href = "#icons-arrow-down"
       )
   li.btn.white(
+    ng-if = "server.repo"
     modal
     modal-actions = "actions"
     modal-current-model = "server"
@@ -152,7 +153,7 @@ ul.card-body.load(
         xlink:href = "#icons-ports"
       )
     h3.h3 Translation Rules
-    p.p.text-overflow
+    p.p.text-overflow No associations defined
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"

@@ -157,6 +157,7 @@
 // tr that's clickable
 .tr-action {
   cursor: pointer;
+  position: relative; // for the dragging indicator
 
   &:hover {
     background: rgba($purple-lightest,.5);
@@ -205,6 +206,29 @@
 
   &.disabled {
     visibility: hidden;
+  }
+
+  // dragging indicator
+  &.dragging-down,
+  &.dragging-up {
+
+    &::after {
+      background: $purple-light;
+      content: '';
+      display: block;
+      height: 2px;
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  &.dragging-down::after {
+    bottom: -1px;
+  }
+
+  &.dragging-up::after {
+    top: -1px;
   }
 
   // dragging icon
