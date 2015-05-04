@@ -59,7 +59,6 @@ function ControllerInstanceHome(
   function goToInstance(username, instanceName) {
     setLastOrg(username);
     if (instanceName) {
-      console.log('Direct to instance!');
       $state.go('instance.instance', {
         instanceName: instanceName,
         userName: username
