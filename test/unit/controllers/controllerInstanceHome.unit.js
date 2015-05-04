@@ -72,7 +72,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('pFetchUser', mockFetchUser);
-      $provide.factory('fetchInstances', mockFetch.fetch());
+      $provide.factory('fetchInstancesByPod', mockFetch.fetch());
       $provide.value('favico', {
         reset : sinon.spy(),
         setImage: sinon.spy(),
@@ -125,6 +125,12 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         [userInstance, apiMocks.instances.stopped],
         {noStore: true}
       );
+      many.forEach(function (instance) {
+        instance.children = {
+          models: [],
+          fetch: sinon.stub().callsArg(1)
+        };
+      });
       many.githubUsername = 'SomeKittens';
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
@@ -152,24 +158,7 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
     });
   });
   describe('local storage options'.blue, function () {
-    it('should navigate based on local storage', function () {
-      var lsData = {};
-      keypather.set(lsData, 'lastInstancePerUser.user', 'space');
-      setup('user', lsData);
-      var many = runnable.newInstances(
-        [apiMocks.instances.running, apiMocks.instances.stopped],
-        {noStore: true}
-      );
-      $rootScope.$digest();
-      expect($scope.loading).to.be.true;
-      many.githubUsername = 'user';
-      mockFetch.triggerPromise(many);
-      $rootScope.$digest();
-      sinon.assert.calledWith(ctx.fakeGo, 'instance.config', {
-        userName: 'user'
-      }, {location: 'replace'});
-      expect($scope.loading).to.be.false;
-    });
+    it('should navigate based on local storage');
   });
   describe('multiple requests for different active accounts'.blue, function () {
     it('should only care about the last requested user, even when the responses are out of order', function () {
@@ -182,6 +171,12 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         [apiMocks.instances.running, apiMocks.instances.stopped],
         {noStore: true}
       );
+      many.forEach(function (instance) {
+        instance.children = {
+          models: [],
+          fetch: sinon.stub().callsArg(1)
+        };
+      });
       many.githubUsername = 'org1';
 
       // Change the user
@@ -210,6 +205,12 @@ describe('ControllerInstanceHome'.bold.underline.blue, function () {
         [],
         {noStore: true, reset: true}
       );
+      many2.forEach(function (instance) {
+        instance.children = {
+          models: [],
+          fetch: sinon.stub().callsArg(1)
+        };
+      });
       many2.githubUsername = 'org2';
       mockFetch.triggerPromise(many2);
       $rootScope.$digest();
