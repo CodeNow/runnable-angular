@@ -1,5 +1,6 @@
 .modal-edit {
   max-width: 900px;
+  min-height: 360px;
   width: 100%;
 
   @include media(md) {
@@ -225,20 +226,24 @@
   .active-panel {
     height: 700px;
 
-    @media (max-height: 1100px) {
+    @media (max-height: 1200px) {
       height: 600px;
     }
 
-    @media (max-height: 1000px) {
+    @media (max-height: 1100px) {
       height: 500px;
     }
 
-    @media (max-height: 900px) {
+    @media (max-height: 1000px) {
       height: 400px;
     }
 
-    @media (max-height: 800px) {
+    @media (max-height: 900px) {
       height: 300px;
+    }
+
+    @media (max-height: 800px) {
+      height: 250px;
     }
 
     @media (max-height: 700px) {
@@ -248,6 +253,10 @@
     @media (max-height: 600px) {
       height: 175px;
       min-height: none;
+    }
+
+    @include media(sm) {
+      height: calc(100vh - 342px);
     }
   }
 }
