@@ -13,11 +13,12 @@
     ng-repeat = "relatedInstance in getRelatedInstancesList()"
     instance = "relatedInstance"
   )
-//- spinner for sidebar
-.spinner-wrapper.spinner-sm.spinner-gray.in(
-  ng-if = "!isDnsSetup && !$storage.dnsManagementIsClosed"
-  ng-include = "'spinner'"
-)
+
+  //- spinner for sidebar
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-if = "!isDnsSetup && !$storage.dnsManagementIsClosed"
+    ng-include = "'spinner'"
+  )
 
 .empty-state.well(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
