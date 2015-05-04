@@ -21,18 +21,26 @@ ul.server-category-list(
   ng-if = "!isLoading()"
 )
   li.server-category-list-item(
-    ng-repeat = "masterInstance in data.instancesByPod.models | orderBy:'attrs.name'"
+    ng-repeat = "masterInstance in data.instancesByPod.models | orderBy:'attrs.name' | orderBy: 'attrs.contextVersion.appCodeVersions.length === 0' "
   )
     ul.server-list
       li.server-list-item(
         ng-class = "{selected: isSelected(masterInstance)}"
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
-                     instanceName: masterInstance.attrs.name })"
+                       instanceName: masterInstance.attrs.name })"
       )
-        svg.iconnables.icons-repository
-            use(
-              xlink:href = "#icons-repository"
-            )
+        svg.iconnables.icons-repository(
+          ng-if = "masterInstance.getRepoName()"
+        )
+          use(
+            xlink:href = "#icons-repository"
+          )
+        svg.iconnables.icons-container(
+          ng-if = "!masterInstance.getRepoName()"
+        )
+          use(
+            xlink:href = "#icons-container"
+          )
         span.server-category-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
         ) {{ masterInstance.getRepoName() }}

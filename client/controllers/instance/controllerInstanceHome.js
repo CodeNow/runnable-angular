@@ -11,12 +11,13 @@ function ControllerInstanceHome(
   $state,
   $scope,
   favico,
-  fetchInstances,
+  fetchInstancesByPod,
   $rootScope,
   hasKeypaths,
   keypather,
   pFetchUser,
-  setLastOrg
+  setLastOrg,
+  errs
 ) {
   favico.reset();
   var userName = $stateParams.userName;
@@ -26,9 +27,17 @@ function ControllerInstanceHome(
   .then(function(_user) {
     // Needed to get actual user name (not just org)
     user = _user;
-    return fetchInstances();
+    return fetchInstancesByPod();
   }).then(function (instances) {
     var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
+
+    var flattenedInstances = [];
+    instances.forEach(function (instance) {
+      flattenedInstances.push(instance);
+      instance.children.models.forEach(function (childInstance) {
+        flattenedInstances.push(childInstance);
+      });
+    });
 
     var currentUserOrOrg =
         keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()') || userName;
@@ -36,17 +45,17 @@ function ControllerInstanceHome(
       $scope.loading = false;
       var name;
       if (lastViewedInstance) {
-        var model = instances.models.find(hasKeypaths({'attrs.name': lastViewedInstance}));
+        var model = flattenedInstances.find(hasKeypaths({'attrs.name': lastViewedInstance}));
         name = keypather.get(model, 'attrs.name');
       }
       if (!name) {
-        var ownedInstances = instances.models.filter(hasKeypaths({'attrs.createdBy.username': user.oauthName()}));
-        var models = $filter('orderBy')(ownedInstances, 'attrs.name');
+        var models = $filter('orderBy')(instances.models, 'attrs.name');
         name = keypather.get(models, '[0].attrs.name');
       }
       goToInstance(userName, name);
     }
-  });
+  })
+    .catch(errs.handler);
   function goToInstance(username, instanceName) {
     setLastOrg(username);
     if (instanceName) {

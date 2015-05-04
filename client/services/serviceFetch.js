@@ -92,9 +92,11 @@ var fetchByPodCache = {};
 function fetchInstancesByPod(
   fetchInstances,
   $q,
-  promisify
+  promisify,
+  $state
 ) {
   return function (username) {
+    username = username || $state.params.userName;
     if (!fetchByPodCache[username]) {
       fetchByPodCache[username] = fetchInstances({
         masterPod: true,

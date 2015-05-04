@@ -9,8 +9,7 @@ function createNewInstance(
 ) {
   return function (activeAccount, build, opts, instanceModel) {
     return promisify(build, 'build')({
-      message: 'Initial Build',
-      noCache: true
+      message: 'Initial Build'
     }).then(function () {
       opts.owner = {
         github: activeAccount.oauthId()

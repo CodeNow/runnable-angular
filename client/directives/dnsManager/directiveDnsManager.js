@@ -67,34 +67,33 @@ function dnsManager(
                     });
                 });
             });
-            $q.all(promiseFetchMasters)
+            return $q.all(promiseFetchMasters)
               .then(function (masters) {
                 $scope.directlyRelatedMasterInstances = masters;
                 // Set the dependency to be defaulted to the master
                 $scope.directlyRelatedMasterInstances.forEach(function (instance) {
                   $scope.instanceDependencyMap[instance.attrs.contextVersion.context] = instance.attrs.shortHash;
                 });
-
-                return promisify($scope.instance, 'fetchDependencies')()
-                  .then(function (_dependencies) {
-                    $scope.dependencies = _dependencies;
-                    $scope.dependencies.models.forEach(function (dependency) {
-                      $scope.instanceDependencyMap[dependency.attrs.contextVersion.context] = dependency.attrs.shortHash;
-                    });
-                  })
-                  .then(function () {
-                    $scope.masterInstancesWithChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
-                      return instance.children.models.length !== 0;
-                    });
-                    $scope.masterInstancesWithoutChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
-                      return instance.children.models.length === 0;
-                    });
-                    $scope.isDnsSetup = true;
-                  });
-            });
-        });
+                return promisify($scope.instance, 'fetchDependencies')();
+              })
+              .then(function (_dependencies) {
+                $scope.dependencies = _dependencies;
+                $scope.dependencies.models.forEach(function (dependency) {
+                  $scope.instanceDependencyMap[dependency.attrs.contextVersion.context] = dependency.attrs.shortHash;
+                });
+                $scope.masterInstancesWithChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
+                  return instance.children.models.length !== 0;
+                });
+                $scope.masterInstancesWithoutChildren = $scope.directlyRelatedMasterInstances.filter(function (instance) {
+                  return instance.children.models.length === 0;
+                });
+              });
+          });
       })
-        .catch(errs.handler);
+        .catch(errs.handler)
+        .finally(function () {
+          $scope.isDnsSetup = true;
+        });
 
 
       $scope.getRelatedInstancesList = function () {

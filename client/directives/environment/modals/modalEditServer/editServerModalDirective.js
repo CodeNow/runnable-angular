@@ -145,6 +145,7 @@ function editServerModal(
       };
 
       $scope.getUpdatePromise = function () {
+        $rootScope.$broadcast('close-popovers');
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
         var unwatch = $scope.$watch('openItems.isClean', function (n) {

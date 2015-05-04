@@ -4,7 +4,9 @@ require('app')
   .directive('serverCard', serverCard);
 
 function serverCard(
+  $q,
   $rootScope,
+  $timeout,
   getInstanceClasses,
   keypather,
   parseDockerfileForCardInfoFromInstance,
@@ -31,45 +33,56 @@ function serverCard(
           env: instance.attrs.env
         };
         if (instance.contextVersion) {
-          promisify(instance, 'fetchDependencies')()
-            .then(function (dependencies) {
-              if (dependencies.length) {
-                $scope.numberOfDependencies = dependencies.length + ' associations';
-              } else {
-                $scope.numberOfDependencies = 'no associations defined';
-              }
-            });
           $scope.server.building = true;
+
           $scope.server.contextVersion = instance.contextVersion;
 
           $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
-          parseDockerfileForCardInfoFromInstance(instance, $scope.data.stacks)
-            .then(function (parsingResults) {
-              $scope.server.selectedStack = parsingResults.selectedStack;
-              $scope.server.ports = parsingResults.ports;
-              $scope.server.startCommand = parsingResults.startCommand;
-
-              $scope.server.building = false;
-            });
 
           $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
+          var qAll = {
+            dependencies: promisify(instance, 'fetchDependencies')()
+          };
           if ($scope.server.repo) {
-            promisify($scope.server.repo.branches, 'fetch')();
+            qAll.branches = promisify($scope.server.repo.branches, 'fetch')();
           }
+          return $q.all(qAll)
+            .then(function (data) {
+              if (keypather.get(data, 'dependencies.models.length')) {
+                $scope.numberOfDependencies = data.dependencies.models.length + ' associations';
+              } else {
+                $scope.numberOfDependencies = 'no associations defined';
+              }
+              $scope.server.building = false;
+              $timeout(angular.noop);
+            });
         }
       }
 
-      $scope.$watch('instance.contextVersion', function () {
+      $scope.$watchCollection('instance.attrs', function () {
         if ($scope.instance) {
           createServerObjectFromInstance($scope.instance);
         }
       });
 
+      $scope.$watch('instance.contextVersion.attrs.infraCodeVersion', function (n) {
+        if (n && $scope.instance) {
+          $scope.server.building = true;
+          return parseDockerfileForCardInfoFromInstance($scope.instance, $scope.data.stacks)
+            .then(function (data) {
+              if (data) {
+                $scope.server.selectedStack = data.selectedStack;
+                $scope.server.ports = data.ports;
+                $scope.server.startCommand = data.startCommand;
+              }
+              $scope.server.building = false;
+              $timeout(angular.noop);
+            });
+        }
+      });
+
       $scope.getInstanceClasses = getInstanceClasses;
       $scope.getFlattenedSelectedStacks = function (selectedStack) {
-        if (!selectedStack) {
-          return 'none';
-        }
         if (selectedStack) {
           var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;
           if (selectedStack.dependencies) {
@@ -79,7 +92,7 @@ function serverCard(
           }
           return flattened;
         }
-        return 'None';
+        return 'none';
       };
     }
   };
