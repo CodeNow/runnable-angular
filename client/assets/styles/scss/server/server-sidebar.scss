@@ -26,7 +26,6 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    // padding-bottom: 15px;
 
     .explorer-menu-bar-container {
       flex: 0 0 60px;
@@ -123,11 +122,6 @@
     top: 0;
     width: 50%;
 
-    .text-overflow {
-      display: inline-block;
-      max-width: 81px;
-    }
-
     &:hover {
       background-color: $white;
     }
@@ -203,10 +197,6 @@
   }
 }
 
-.repository-group-item {
-  line-height: 23px;
-}
-
 .repository-description {
   font-weight: 500;
   line-height: 24px;
@@ -229,6 +219,5 @@
   .link {
     color: $purple-light;
     float: right;
-    margin-right: 26px;
   }
 }
