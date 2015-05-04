@@ -1,7 +1,11 @@
 .tr.thead.clearfix
-  label.cell
+  .cell
     a.link(
       href = "//github.com"
       target = "_blank"
     ) build/index.html
     | #{''} → build/index.ass
+    //- if in preview tab
+    button.btn.btn-xs.white(
+      ng-if = "true"
+    ) Ignore File

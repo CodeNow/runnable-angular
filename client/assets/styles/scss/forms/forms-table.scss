@@ -50,8 +50,12 @@
   }
 
   // extra padding-bottom is weird when colored
-  .tr:last-child {
-    padding-bottom: 0;
+  .tr-deletion,
+  .tr-addition {
+
+    &:last-child {
+      padding-bottom: 0;
+    }
   }
 
   // reduce cell height
@@ -88,6 +92,11 @@
   &:last-child {
     border-radius: 0 0 3px 3px;
     padding-bottom: 3px;
+  }
+
+  &:only-child {
+    border-radius: 3px;
+    padding: 3px 0;
   }
 
   // cloned element
