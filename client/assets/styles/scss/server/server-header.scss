@@ -8,7 +8,7 @@
 .container-link-external {
   color: $gray;
   cursor: pointer;
-  left: -3px;
+  left: -9px;
   position: relative;
   top: -36px;
 
@@ -45,6 +45,7 @@
 
   .branch-name {
     color: inherit;
+    font-weight: 400;
   }
 }
 
