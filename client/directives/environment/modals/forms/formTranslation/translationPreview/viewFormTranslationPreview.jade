@@ -1,3 +1,20 @@
+//- do not show if no preview
+.clearfix(
+  ng-if = "true"
+)
+  label.label.label-jump
+    small.small Jump to
+    select.select
+      optgroup(
+        label = "Filename rule"
+      )
+        option build/index.html
+      optgroup(
+        label = "String rule"
+      )
+        option build/index2.html
+        option build/assets/img.img
+
 .table.table-diff(
   ng-include = "'viewRuleFilename'"
 )
