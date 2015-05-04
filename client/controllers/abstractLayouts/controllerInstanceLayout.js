@@ -38,12 +38,13 @@ function ControllerInstanceLayout(
     keypather.set($rootScope, 'dataApp.data.instancesByPod', null);
 
     fetchInstancesByPod(username)
-    .then(function (instancesByPod) {
-      if (instancesByPod.githubUsername === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
-        $rootScope.dataApp.data.instancesByPod = instancesByPod;
-        keypather.set($rootScope, 'dataApp.state.loadingInstances', false);
-      }
-    }).catch(errs.handler);
+      .then(function (instancesByPod) {
+        if (instancesByPod.githubUsername === keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()')) {
+          $rootScope.dataApp.data.instancesByPod = instancesByPod;
+          keypather.set($rootScope, 'dataApp.state.loadingInstances', false);
+        }
+      })
+      .catch(errs.handler);
   }
 
   var instanceListUnwatcher = $scope.$on('INSTANCE_LIST_FETCH', function (event, username) {

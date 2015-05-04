@@ -21,6 +21,7 @@
       use(
         xlink:href = "#icons-add"
       )
-.empty-state(
+.empty-state.well(
   ng-if = "!$storage.explorerIsClosed && !fileModel.running()"
-) Your container is not running so there are no files.
+)
+  span.branch-name The container must be running in order to view its files.

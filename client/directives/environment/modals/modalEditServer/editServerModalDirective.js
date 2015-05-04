@@ -69,16 +69,57 @@ function editServerModal(
       $scope.instance = $scope.server.instance;
       $scope.build = $scope.server.build;
 
-      $scope.state = {
-        advanced: $scope.server.advanced || false,
-        startCommand: $scope.server.startCommand,
-        selectedStack: $scope.server.selectedStack,
-        opts: {
-          // Don't save envs here, since EnvVars will add them.
-        },
-        repo: $scope.server.repo,
-        server: $scope.server
-      };
+      function resetState(server) {
+        $scope.state = {
+          advanced: server.advanced || false,
+          startCommand: server.startCommand,
+          selectedStack: server.selectedStack,
+          opts: {
+            // Don't save envs here, since EnvVars will add them.
+          },
+          repo: server.repo,
+          server: server
+        };
+
+        if (server.repo) {
+          $scope.branches = server.repo.branches;
+          $scope.state.branch =
+            server.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
+              server,
+              'instance.contextVersion.appCodeVersions.models[0].attrs.branch'
+            )}));
+        }
+        return promisify(server.contextVersion, 'deepCopy')()
+          .then(function (contextVersion) {
+            $scope.state.contextVersion = contextVersion;
+            return promisify(contextVersion, 'fetch')();
+          })
+          .then(function (contextVersion) {
+            if (contextVersion.attrs.advanced) {
+              openDockerfile();
+            }
+            if (contextVersion.appCodeVersions.models.length) {
+              $scope.acv = contextVersion.appCodeVersions.models[0];
+            }
+            return pFetchUser();
+          })
+          .then(function (user) {
+            return promisify(user, 'createBuild')({
+              contextVersions: [$scope.state.contextVersion.id()],
+              owner: {
+                github: $rootScope.dataApp.data.activeAccount.oauthId()
+              }
+            });
+          })
+          .then(function (build) {
+            $scope.state.build = build;
+          })
+          .catch(function (err) {
+            errs.handler(err);
+          });
+      }
+
+      resetState($scope.server);
 
       $scope.changeTab = function (tabname) {
         if ($scope.editServerForm.$invalid ||
@@ -87,6 +128,7 @@ function editServerModal(
         }
         $scope.selectedTab = tabname;
       };
+
 
       $scope.insertHostName = function (opts) {
         var hostName = '';
@@ -105,30 +147,39 @@ function editServerModal(
       $scope.getUpdatePromise = function () {
         $scope.building = true;
         $scope.state.ports = convertTagToPortList();
-        return $q.when($scope.state)
-          .then(function (state) {
-            if (state.advanced) {
-              return buildBuild(state);
-            } else if (state.server.startCommand !== state.startCommand ||
-                state.server.ports !== state.ports ||
-                !angular.equals(state.server.selectedStack, state.selectedStack)) {
-              return updateDockerfile(state);
-            }
-            return state;
-          })
-          .then(function (state) {
-            return promisify($scope.instance, 'update')(state.opts);
-          })
-          .then(function () {
-            $scope.defaultActions.close();
-            if (keypather.get($scope.instance, 'container.running()')) {
-              return promisify($scope.instance, 'redeploy')();
-            }
-          })
-          .catch(function (err) {
-            $scope.building = false;
-            errs.handler(err);
-          });
+        var unwatch = $scope.$watch('openItems.isClean', function (n) {
+          if (!n) {
+            return;
+          }
+          unwatch();
+          return $q.when($scope.state)
+            .then(function (state) {
+              if (state.advanced) {
+                return buildBuild(state);
+              } else if (state.server.startCommand !== state.startCommand ||
+                  state.server.ports !== state.ports ||
+                  !angular.equals(state.server.selectedStack, state.selectedStack)) {
+                return updateDockerfile(state);
+              }
+              return state;
+            })
+            .then(function (state) {
+              return promisify($scope.instance, 'update')(state.opts);
+            })
+            .then(function () {
+              $scope.defaultActions.close();
+              if (keypather.get($scope.instance, 'container.running()')) {
+                return promisify($scope.instance, 'redeploy')();
+              }
+            })
+            .catch(function (err) {
+              errs.handler(err);
+              resetState($scope.state)
+                .then(function () {
+                  $scope.building = false;
+                });
+            });
+        });
       };
 
       function buildBuild(state) {
@@ -160,14 +211,6 @@ function editServerModal(
             return buildBuild($scope.state);
           });
       }
-      if ($scope.server.repo) {
-        $scope.branches = $scope.server.repo.branches;
-        $scope.state.branch =
-          $scope.server.repo.branches.models.find(hasKeypaths({'attrs.name': keypather.get(
-            $scope.server,
-            'instance.contextVersion.appCodeVersions.models[0].attrs.branch'
-          )}));
-      }
 
       function openDockerfile() {
         var rootDir = keypather.get($scope.state, 'contextVersion.rootDir');
@@ -185,34 +228,7 @@ function editServerModal(
           });
       }
 
-      promisify($scope.server.contextVersion, 'deepCopy')()
-        .then(function (contextVersion) {
-          $scope.state.contextVersion = contextVersion;
-          return promisify(contextVersion, 'fetch')();
-        })
-        .then(function (contextVersion) {
-          if (contextVersion.attrs.advanced) {
-            openDockerfile();
-          }
-          if (contextVersion.appCodeVersions.models.length) {
-            $scope.acv = contextVersion.appCodeVersions.models[0];
-          }
-          return pFetchUser();
-        })
-        .then(function (user) {
-          return promisify(user, 'createBuild')({
-            contextVersions: [$scope.state.contextVersion.id()],
-            owner: {
-              github: $rootScope.dataApp.data.activeAccount.oauthId()
-            }
-          });
-        })
-        .then(function (build) {
-          $scope.state.build = build;
-        })
-        .catch(function (err) {
-          errs.handler(err);
-        });
+
 
       // Only start watching this after the context version has
       $scope.$watch('state.advanced', function (advanced, previousAdvanced) {

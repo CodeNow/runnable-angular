@@ -18,7 +18,7 @@
     padding: 0 12px;
 
     &.closed {
-      flex: 0 0 60px;
+      flex: 0 0 61px;
     }
   }
 
@@ -26,7 +26,6 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    // padding-bottom: 15px;
 
     .explorer-menu-bar-container {
       flex: 0 0 60px;
@@ -45,10 +44,10 @@
     padding-right: 0;
 
     &.closed {
-      opacity: .7;
+      color: $gray;
 
       &:hover {
-        opacity: 1;
+        color: $gray-darker;
       }
     }
 
@@ -75,6 +74,13 @@
       top: 4px;
       width: 17px;
     }
+  }
+
+  .empty-state {
+    color: $gray;
+    height: auto;
+    line-height: 17px;
+    padding: 6px 10px;
   }
 
   .repository-group-text {
@@ -116,11 +122,6 @@
     top: 0;
     width: 50%;
 
-    .text-overflow {
-      display: inline-block;
-      max-width: 81px;
-    }
-
     &:hover {
       background-color: $white;
     }
@@ -156,6 +157,13 @@
     .icons-status {
       float: left;
     }
+
+    &.empty-state {
+      color: $gray;
+      height: auto;
+      line-height: 17px;
+      padding: 6px 10px;
+    }
   }
 
   // modifying fancy-select elements for container selection
@@ -171,32 +179,7 @@
       top: 8px;
     }
   }
-
-  // .well-item {
-  //   height: 34px;
-  //   padding: 4px 0 0 23px;
-  //   position: relative;
-
-  //   .iconnables {
-  //     top: 8px;
-  //   }
-  // }
 }
-
-// .indirect {
-//   max-height: 2000px;
-//   padding-bottom: 3px;
-
-//   &.closed {
-//     max-height: 36px;
-//     overflow: hidden;
-//     padding-bottom: 0;
-//   }
-
-//   ul .well-item {
-//     margin-top: -6px;
-//   }
-// }
 
 .repo-list {
   flex: 0 0 auto;
@@ -208,10 +191,11 @@
   .well {
     padding: 5px 3px 6px;
   }
-}
 
-.repository-group-item {
-  line-height: 23px;
+  .label-checkbox {
+    margin: 0;
+    padding: 3px 0;
+  }
 }
 
 .repository-description {
@@ -236,6 +220,5 @@
   .link {
     color: $purple-light;
     float: right;
-    margin-right: 26px;
   }
 }

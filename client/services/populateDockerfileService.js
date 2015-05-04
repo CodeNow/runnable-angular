@@ -25,6 +25,9 @@ function populateDockerfile(
         .replace(/<repo-name>/gm, state.repo.attrs.name)
         .replace(/<add-dependencies>/gm, '')
         .replace(/<start-command>/gm, state.startCommand);
+      if (!state.ports.length) {
+        dockerfileBody = dockerfileBody.replace('EXPOSE', '');
+      }
       return dockerfileBody;
     }
 

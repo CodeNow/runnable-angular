@@ -8,16 +8,18 @@
       )
   | Associations
 
-
   status-icon(
     ng-if = "isDnsSetup && $storage.dnsManagementIsClosed"
     ng-repeat = "relatedInstance in getRelatedInstancesList()"
     instance = "relatedInstance"
   )
 
-.empty-state(
+.empty-state.well(
   ng-if = "isDnsSetup && !$storage.dnsManagementIsClosed && directlyRelatedMasterInstances.length === 0 && indirectlyRelatedInstances.length === 0"
-) You have no linked containers.
+)
+  | {{ instance.getRepoName() || instance.getDisplayName() }}
+  span.branch-name
+    |  has no associated containers.
 
 fancy-select.well(
   ng-repeat = "masterInstance in masterInstancesWithChildren"

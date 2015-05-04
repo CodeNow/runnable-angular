@@ -25,9 +25,20 @@
     margin: 6px;
   }
 
+  .text-overflow {
+    display: block;
+    padding-right: 24px;
+  }
+
+  .branch-name {
+    color: $gray;
+    font-weight: 400;
+  }
+
   .icons-status {
-    float: right;
-    margin: 8px 9px 0 0;
+    position: absolute;
+    right: 15px;
+    top: 12px;
   }
 }
 
@@ -36,8 +47,6 @@
 }
 
 .row-heading {
-  // cursor: pointer;
-  font-size: 14px;
   height: 60px;
   padding: 19px 12px 0;
   position: relative;
@@ -87,6 +96,7 @@
 
 .server-list-item {
   cursor: pointer;
+  display: block;
   height: 34px;
   margin: 0 -12px;
   padding: 4px 9px 0 30px;
@@ -112,11 +122,6 @@
     .branch-name {
       color: $purple-light;
     }
-  }
-
-  .text-overflow {
-    display: inline-block;
-    max-width: 170px;
   }
 
   .iconnables {

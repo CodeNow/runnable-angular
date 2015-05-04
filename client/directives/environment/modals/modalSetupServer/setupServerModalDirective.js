@@ -75,7 +75,8 @@ function setupServerModal(
         if ($scope.repoSelected) { return; }
         $scope.repoSelected = true;
         repo.loading = true;
-        $scope.state.opts.name = repo.attrs.name;
+        // Replace any non-word character with a -
+        $scope.state.opts.name = repo.attrs.name.replace(/\W/g, '-');
         return $scope.fetchStackData(repo)
           .then(function () {
             $scope.state.repo = repo;

@@ -80,9 +80,7 @@ function activePanel(
               updateInstanceWithNewBuild(
                 $scope.instance,
                 build,
-                true,
-                {},
-                {}
+                true
               )
                 .catch(errs.handler)
                 .finally(function () {
