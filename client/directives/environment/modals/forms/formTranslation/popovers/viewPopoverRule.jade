@@ -25,9 +25,7 @@
             xlink:href = "#icons-trash"
           )
         | Delete Rule
-      small.small Rules are case-sensitive and trailing whitespace is not trimmed.
-        br
-        | Regular expressions are not supported.
+      small.small Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
     //- if string that exists
     h3.popover-title(
       ng-if = "false"
@@ -46,7 +44,7 @@
 
     small.small.table-details(
       ng-if = "data.saving"
-    ) 2 matches in 1 file
+    ) 2 matches in 1 file (excludes ignored files)
 
     //- string verification table
     .table.table-diff(
