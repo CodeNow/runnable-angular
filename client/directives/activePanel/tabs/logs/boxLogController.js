@@ -30,8 +30,9 @@ function BoxLogController(
   $scope.$watch('instance.containers.models[0].running()', function () {
     var container = keypather.get($scope, 'instance.containers.models[0]');
     if (!container) { return; }
-    if (container.attrs.error) {
-      $scope.$emit('WRITE_TO_TERM', '\x1b[33;1m' + container.attrs.error.message + '\x1b[0m');
+    if (container.attrs.error || keypather.get(container, 'attrs.inspect.error')) {
+      var error = keypather.get(container, 'attrs.inspect.error') || container.attrs.error;
+      $scope.$emit('WRITE_TO_TERM', '\x1b[33;1m' + error.message + '\x1b[0m');
     } else if (container.attrs.dockerContainer) {
       // prepend log command to terminal
       $scope.$emit('WRITE_TO_TERM',
