@@ -141,8 +141,7 @@ describe('updateInstanceWithNewBuild'.bold.underline.blue, function () {
   }
   describe('basic functionality', function () {
     beforeEach(injectSetupCompile);
-    it('should build successfully', function () {
-      var goStub = sinon.stub($state, 'go');
+    it('should build successfully with opts', function () {
       var state = {};
       var scope = makeDefaultScope();
       scope.build = createBuildObject();
@@ -151,8 +150,7 @@ describe('updateInstanceWithNewBuild'.bold.underline.blue, function () {
       });
       keypather.set(state, 'name', 'Cheeseburgers');
 
-      scope.building = true;
-      theServiceToTest(scope.data.instance, scope.build, false, state, scope, scope.actions);
+      theServiceToTest(scope.data.instance, scope.build, false, state);
       $scope.$digest();
 
       expect(buildBuildCb, 'buildBuildCb').to.be.ok;
@@ -169,35 +167,16 @@ describe('updateInstanceWithNewBuild'.bold.underline.blue, function () {
         name: 'Cheeseburgers',
         build: scope.build.id()
       });
-      $scope.$digest();
-
-      expect(scope.building, 'building').to.be.false;
-      sinon.assert.calledOnce(scope.actions.close);
-      $scope.$digest();
-
-      $timeout.flush();
-      $scope.$digest();
-
-      expect($state.go.calledWith('instance.instance', {
-        instanceName: 'Cheeseburgers'
-      }), 'Called instance').to.equal(true);
 
       $scope.$destroy();
       $scope.$digest();
     });
 
-    it('should build successfully as normal, no redirect', function () {
-      var goStub = sinon.stub($state, 'go');
-      var state = {};
+    it('should build successfully as normal', function () {
       var scope = makeDefaultScope();
-      var buildParams = {
-        message: 'Manual build',
-        noCache: true
-      };
       scope.build = createBuildObject();
-      scope.building = true;
 
-      theServiceToTest(scope.data.instance, scope.build, buildParams, state, scope, scope.actions);
+      theServiceToTest(scope.data.instance, scope.build, true);
       $scope.$digest();
 
       expect(buildBuildCb, 'buildBuildCb').to.be.ok;
@@ -215,17 +194,6 @@ describe('updateInstanceWithNewBuild'.bold.underline.blue, function () {
       expect(instanceUpdateCall.args[0], 'instance update 1st arg').to.deep.equal({
         build: scope.build.id()
       });
-      $timeout.flush();
-
-      expect(scope.building, 'building').to.be.false;
-      sinon.assert.calledOnce(scope.actions.close);
-      $scope.$digest();
-
-      $timeout.verifyNoPendingTasks();
-      $scope.$digest();
-
-      sinon.assert.notCalled($state.go);
-
       $scope.$destroy();
       $scope.$digest();
     });

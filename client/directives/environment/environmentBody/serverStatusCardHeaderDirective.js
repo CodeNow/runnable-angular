@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function serverStatusCardHeader(
+  $rootScope
 ) {
   return {
     restrict: 'E',
@@ -15,7 +16,19 @@ function serverStatusCardHeader(
       $scope.popOverServerData = {
         server: $scope.server,
         parentData: $scope.data,
-        parentState: $scope.state
+        parentState: $scope.state,
+        actions: {
+          changeAdvancedFlag: function () {
+            $rootScope.$broadcast('close-popovers');
+            if (confirm($scope.state.advanced ?
+                  'You will lose all changes you\'ve made to your dockerfile (ever).' :
+                  'If you make changes to the build files, you will not be able to ' +
+                  'switch back without losing changes.')) {
+              $scope.state.advanced = !$scope.state.advanced;
+            }
+            $scope.advanced = $scope.state.advanced;
+          }
+        }
       };
       var unwatch = $scope.$watch('server', function (n) {
         if (n) {
@@ -28,6 +41,7 @@ function serverStatusCardHeader(
       }, function (n) {
         $scope.noTouching = n;
       });
+
     }
   };
 }
