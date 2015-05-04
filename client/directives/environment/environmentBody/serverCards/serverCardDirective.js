@@ -4,6 +4,7 @@ require('app')
   .directive('serverCard', serverCard);
 
 function serverCard(
+  $q,
   $rootScope,
   getInstanceClasses,
   keypather,
@@ -31,26 +32,29 @@ function serverCard(
           env: instance.attrs.env
         };
         if (instance.contextVersion) {
-          promisify(instance, 'fetchDependencies')()
-            .then(function (dependencies) {
-              if (dependencies.length) {
-                $scope.numberOfDependencies = dependencies.length + ' associations';
+          $scope.server.building = true;
+          $q.all({
+            dependencies: promisify(instance, 'fetchDependencies')(),
+            parsing: parseDockerfileForCardInfoFromInstance(instance, $scope.data.stacks)
+          })
+            .then(function (data) {
+              if (keypather.get(data, 'dependencies.models.length')) {
+                $scope.numberOfDependencies = data.dependencies.models.length + ' associations';
               } else {
                 $scope.numberOfDependencies = 'no associations defined';
               }
+              if (data.parsing) {
+                $scope.server.selectedStack = data.parsing.selectedStack;
+                $scope.server.ports = data.parsing.ports;
+                $scope.server.startCommand = data.parsing.startCommand;
+
+                $scope.server.building = false;
+              }
+              $scope.server.building = false;
             });
-          $scope.server.building = true;
           $scope.server.contextVersion = instance.contextVersion;
 
           $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
-          parseDockerfileForCardInfoFromInstance(instance, $scope.data.stacks)
-            .then(function (parsingResults) {
-              $scope.server.selectedStack = parsingResults.selectedStack;
-              $scope.server.ports = parsingResults.ports;
-              $scope.server.startCommand = parsingResults.startCommand;
-
-              $scope.server.building = false;
-            });
 
           $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
           if ($scope.server.repo) {
@@ -59,17 +63,14 @@ function serverCard(
         }
       }
 
-      $scope.$watch('instance.contextVersion', function () {
+      $scope.$watch('instance.attrs', function () {
         if ($scope.instance) {
           createServerObjectFromInstance($scope.instance);
         }
-      });
+      }, true);
 
       $scope.getInstanceClasses = getInstanceClasses;
       $scope.getFlattenedSelectedStacks = function (selectedStack) {
-        if (!selectedStack) {
-          return 'none';
-        }
         if (selectedStack) {
           var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;
           if (selectedStack.dependencies) {
@@ -79,7 +80,7 @@ function serverCard(
           }
           return flattened;
         }
-        return 'None';
+        return 'none';
       };
     }
   };
