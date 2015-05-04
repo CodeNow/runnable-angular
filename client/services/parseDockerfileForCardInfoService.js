@@ -78,7 +78,7 @@ function parseDockerfileForCardInfoFromInstance(
     var server = {
       instance: instance
     };
-    return promisify(instance.contextVersion, 'fetchFile')('/Dockerfile')
+    return promisify(instance.contextVersion, 'fetchFile', true)('/Dockerfile')
       .then(function (dockerfile) {
         server.ports = parseDockerfileForPorts(dockerfile);
         server.startCommand = parseDockerfileForStartCommand(dockerfile);
