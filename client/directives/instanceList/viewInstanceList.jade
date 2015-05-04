@@ -29,10 +29,18 @@ ul.server-category-list(
         ui-sref = "instance.instance({ userName: data.activeAccount.oauthName(), \
                      instanceName: masterInstance.attrs.name })"
       )
-        svg.iconnables.icons-repository
-            use(
-              xlink:href = "#icons-repository"
-            )
+        svg.iconnables.icons-repository(
+          ng-if = "masterInstance.getRepoName()"
+        )
+          use(
+            xlink:href = "#icons-repository"
+          )
+        svg.iconnables.icons-container(
+          ng-if = "!masterInstance.getRepoName()"
+        )
+          use(
+            xlink:href = "#icons-container"
+          )
         span.server-category-name.text-overflow(
           ng-if = "masterInstance.getRepoName()"
         ) {{ masterInstance.getRepoName() }}
