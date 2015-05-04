@@ -63,11 +63,11 @@ function serverCard(
         }
       }
 
-      $scope.$watch('instance.attrs', function () {
+      $scope.$watchCollection('instance.attrs', function () {
         if ($scope.instance) {
           createServerObjectFromInstance($scope.instance);
         }
-      }, true);
+      });
 
       $scope.getInstanceClasses = getInstanceClasses;
       $scope.getFlattenedSelectedStacks = function (selectedStack) {
