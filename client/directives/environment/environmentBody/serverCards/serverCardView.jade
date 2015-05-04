@@ -4,7 +4,6 @@
     - if building succeeded, and running: text says "Running"; title attribute shows time running "82 seconds" "50 minutes" etc.
     - if building succeeded, and stopped: text says "Stopped"; title attribute shows when the server was stopped "Stopped 2 minutes ago"
     - if building succeeded, and run fails: text says "Crashed"; title attribute shows when the server crashed "Crashed 2 minutes ago"
-
   server-status-card-header.btn.btn-sm.btn-title.white(
     pop-over-options = "{\"right\":0,\"top\":47}"
     pop-over-template = "serverOptionsCardPopover"
@@ -23,6 +22,7 @@ ul.card-body.card-loading(
   .spinner-wrapper.spinner-md.spinner-gray.in(
     ng-include = "'spinner'"
   )
+
 ul.card-body.load(
   ng-if = "!server.building && server.build"
 )
