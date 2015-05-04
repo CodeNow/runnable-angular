@@ -31,13 +31,12 @@
     title = "./client/config/environment.js"
   ) ./client/config/environment.js
   //- add .disabled if no warning
+  //- note: the title attribute
   .cell.cell-action.monospace.disabled(
     ng-class = "{disabled: noWarning}"
+    title = "0 strings being replaced"
   )
-    //- note: the title attribute
-    svg.iconnables.icons-warning(
-      title = "0 strings being replaced"
-    )
+    svg.iconnables.icons-warning
       use(
         xlink:href = "#icons-warning"
       )
@@ -55,12 +54,13 @@
     title = "./client/assets/js/primus-client-prod.js"
   ) ./client/assets/js/primus-client-prod.js
   //- add .disabled if no warning
+  //- note: the title attribute
+    - the title attribute should only appear if the warning also appears
   .cell.cell-action.monospace(
     ng-class = "{disabled: noWarning}"
+    title = "0 strings being replaced"
   )
-    //- note: the title attribute
     svg.iconnables.icons-warning(
-      title = "0 strings being replaced"
     )
       use(
         xlink:href = "#icons-warning"

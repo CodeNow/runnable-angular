@@ -199,8 +199,8 @@
   }
 
   &:last-child {
-    padding: 0 3px 0 0;
-    width: 21px;
+    padding: 0;
+    width: 24px;
   }
 
   &.disabled {
@@ -216,10 +216,12 @@
 
   // warning icon
   .icons-warning {
+    background: $white;
+    border-radius: 50%;
     color: $orange;
-    height: 100%;
-    padding-top: 3px;
-    width: 100%;
+    height: 18px;
+    top: 4px;
+    width: 18px;
   }
 }
 
