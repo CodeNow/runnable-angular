@@ -6,6 +6,7 @@ require('app')
 function serverCard(
   $q,
   $rootScope,
+  $timeout,
   getInstanceClasses,
   keypather,
   parseDockerfileForCardInfoFromInstance,
@@ -33,39 +34,50 @@ function serverCard(
         };
         if (instance.contextVersion) {
           $scope.server.building = true;
-          $q.all({
-            dependencies: promisify(instance, 'fetchDependencies')(),
-            parsing: parseDockerfileForCardInfoFromInstance(instance, $scope.data.stacks)
-          })
+
+          $scope.server.contextVersion = instance.contextVersion;
+
+          $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
+
+          $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
+          var qAll = {
+            dependencies: promisify(instance, 'fetchDependencies')()
+          };
+          if ($scope.server.repo) {
+            qAll.branches = promisify($scope.server.repo.branches, 'fetch')();
+          }
+          return $q.all(qAll)
             .then(function (data) {
               if (keypather.get(data, 'dependencies.models.length')) {
                 $scope.numberOfDependencies = data.dependencies.models.length + ' associations';
               } else {
                 $scope.numberOfDependencies = 'no associations defined';
               }
-              if (data.parsing) {
-                $scope.server.selectedStack = data.parsing.selectedStack;
-                $scope.server.ports = data.parsing.ports;
-                $scope.server.startCommand = data.parsing.startCommand;
-
-                $scope.server.building = false;
-              }
               $scope.server.building = false;
+              $timeout(angular.noop);
             });
-          $scope.server.contextVersion = instance.contextVersion;
-
-          $scope.server.advanced = keypather.get(instance, 'contextVersion.attrs.advanced');
-
-          $scope.server.repo = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].githubRepo');
-          if ($scope.server.repo) {
-            promisify($scope.server.repo.branches, 'fetch')();
-          }
         }
       }
 
       $scope.$watchCollection('instance.attrs', function () {
         if ($scope.instance) {
           createServerObjectFromInstance($scope.instance);
+        }
+      });
+
+      $scope.$watch('instance.contextVersion.attrs.infraCodeVersion', function (n) {
+        if (n && $scope.instance) {
+          $scope.server.building = true;
+          return parseDockerfileForCardInfoFromInstance($scope.instance, $scope.data.stacks)
+            .then(function (data) {
+              if (data) {
+                $scope.server.selectedStack = data.selectedStack;
+                $scope.server.ports = data.ports;
+                $scope.server.startCommand = data.startCommand;
+              }
+              $scope.server.building = false;
+              $timeout(angular.noop);
+            });
         }
       });
 
