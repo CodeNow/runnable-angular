@@ -15,10 +15,11 @@
         ng-repeat = "framework in $parent.data.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework }"
         value = "framework"
       )
-        svg.iconnables.icons-server
-          use(
-            xlink:href = "#icons-server"
-          )
+        img.iconnables(
+          height = "24"
+          ng-src = "/build/images/home/icons/icons-{{$parent.framework.name}}.svg"
+          width = "24"
+        )
         | {{$parent.framework.name}}
 
       li.divider(
@@ -28,10 +29,11 @@
         ng-repeat = "framework in $parent.data.stacks | filter: { key: '!' + $parent.state.repo.stackAnalysis.languageFramework } | orderBy:'name'"
         value = "framework"
       )
-        svg.iconnables.icons-server
-          use(
-            xlink:href = "#icons-server"
-          )
+        img.iconnables(
+          height = "24"
+          ng-src = "/build/images/home/icons/icons-{{$parent.framework.name}}.svg"
+          width = "24"
+        )
         | {{$parent.framework.name}}
 
     fancy-select(
