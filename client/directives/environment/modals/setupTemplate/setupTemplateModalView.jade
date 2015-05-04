@@ -15,7 +15,7 @@
           ng-src = "/build/images/logos/logo-icon-{{dependency.attrs.name.toLowerCase()}}.png"
           width = "24"
         )
-        .text-overflow {{dependency.attrs.name}}
+        | {{dependency.attrs.name}}
         small.small {{dependency.description}}
         button.btn.btn-xs.green Add Container
 
