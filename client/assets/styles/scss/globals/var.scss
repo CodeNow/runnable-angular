@@ -35,7 +35,9 @@ $red-lighter: #fde6e9;
 $red-dark: desaturate(darken($red,10),7);
 
 $blue: #2ab0f6;
-$blue-dark: darken($blue,6%);
+$blue-light: #86cff6;
+$blue-lighter: #f1faff;
+$blue-dark: #1e7daf;
 
 // spinner vars
 $spinner-offset: 187;
