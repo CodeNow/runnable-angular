@@ -31,31 +31,18 @@
 
 @keyframes card-blink {
   0% {
-    background-color: $purple-lightest;
-  }
-
-  24% {
-    background-color: $purple-lightest;
-  }
-
-  25% {
-    background-color: $white;
-  }
-
-  49% {
-    background-color: $white;
+    border-color: $gray-lighter;
+    box-shadow: none;
   }
 
   50% {
-    background-color: $white;
-  }
-
-  51% {
-    background-color: $purple-lightest;
+    border-color: rgba($blue,.6);
+    box-shadow: 0 0 3px rgba($blue,.3);
   }
 
   100% {
-    background-color: $white;
+    border-color: $gray-lighter;
+    box-shadow: none;
   }
 }
 

@@ -24,10 +24,6 @@
     color: $purple-light;
   }
 
-  &.focus {
-    animation: card-blink .5s ease-out;
-  }
-
   // sizes
   &.card-sm {
     border-width: 2px;
@@ -44,6 +40,10 @@
       margin-right: 6px;
       position: relative;
     }
+  }
+
+  &.focus {
+    animation: card-blink 2s ease-in-out;
   }
 
   // colors
