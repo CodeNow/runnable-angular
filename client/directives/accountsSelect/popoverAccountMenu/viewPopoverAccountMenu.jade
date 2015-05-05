@@ -9,7 +9,7 @@
     ul.list.popover-list
       li.list-item.popover-list-item.small Change Organization
       //- current user (if user is not active)
-      li.list-item.popover-list-item(
+      li.list-item.popover-list-item.text-overflow(
         ng-if = "data.user !== data.activeAccount"
         ng-click = "actions.selectActiveAccount(data.user)"
       )
@@ -19,7 +19,7 @@
           width = "24"
         )
         | {{ data.user.oauthName() }}
-      li.list-item.popover-list-item(
+      li.list-item.popover-list-item.text-overflow(
         ng-click = "actions.selectActiveAccount(org)"
         ng-if = "org !== data.activeAccount"
         ng-repeat = "org in data.orgs.models"
