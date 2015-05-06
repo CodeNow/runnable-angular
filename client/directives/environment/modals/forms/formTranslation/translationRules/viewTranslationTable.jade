@@ -5,7 +5,7 @@
       pop-over-actions = "actions"
       pop-over-data = "data"
       pop-over-options = "{\"left\":0,\"top\":0}"
-      pop-over-template = "viewPopoverRule"
+      pop-over-template = "viewPopoverStringRule"
     ) New string rule
 //- if no rules of this type
 .tr.tr-empty.clearfix(
@@ -67,7 +67,13 @@
       )
 .tr.thead.clearfix
   .cell Filenames
-    button.btn.btn-xs.white New filename rule
+    button.btn.btn-xs.white(
+      pop-over
+      pop-over-actions = "actions"
+      pop-over-data = "data"
+      pop-over-options = "{\"left\":0,\"top\":0}"
+      pop-over-template = "viewPopoverFilenameRule"
+    ) New filename rule
 .tr.tr-action.clearfix
   //- hide drag if there is only one rule of that type
     - .disabled will hide the action visually

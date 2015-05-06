@@ -4,19 +4,17 @@
 )
   .popover-content
 
-    //- if new filename
+    //- if new rule
     h3.popover-title(
-      ng-if = "false"
+      ng-if = "true"
     ) New Filename Replace Rule
-    //- if filename that exists
+      small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
+
+    //- if existing rule
     h3.popover-title(
       ng-if = "false"
     ) Filename Replace Rule
-    //- if string
-    h3.popover-title(
-      ng-if = "true"
-    ) New String Replace Rule
-      //- if existing rule
+      small.small 🐶 Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
       button.btn.btn-xs.gray(
         ng-if = ""
       )
@@ -25,31 +23,26 @@
             xlink:href = "#icons-trash"
           )
         | Delete Rule
-      small.small Rules are case-sensitive and trailing whitespace is not trimmed. Regular expressions are not supported.
-    //- if string that exists
-    h3.popover-title(
-      ng-if = "false"
-    ) String Replace Rule
 
     .label-row
-      label.label-col Find
+      label.label-col Source
         input.input.input-sm.monospace(
           spellcheck = "false"
         )
       .span-col →
-      label.label-col Replace
+      label.label-col Destination
         input.input.input-sm.monospace(
           spellcheck = "false"
         )
 
     small.small.table-details(
       ng-if = "data.saving"
-    ) 2 matches in 1 file (excludes ignored files)
+    ) 1 match (excludes ignored files)
 
     //- string verification table
     .table.table-diff(
       ng-if = "data.saving"
-      ng-include = "'viewRuleString'"
+      ng-include = "'viewRuleFilename'"
     )
 
   .popover-footer.clearfix
