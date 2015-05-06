@@ -217,7 +217,7 @@ function openItemsFactory(
       data = {};
     }
     if (!data.name) {
-      data.name = 'Server Logs';
+      data.name = 'Container Logs';
     }
     if (this.hasOpen('LogView')) {
       var currStream = this.getFirst('LogView');

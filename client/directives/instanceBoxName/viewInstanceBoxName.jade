@@ -8,15 +8,10 @@
     instance = "instance"
   )
 input.server-url(
-  coach-mark-style = "{\"left\": -13, \"top\": 33}"
-  coach-mark-template = "viewCoachMarksBoxNamePopover"
-  coach-mark-type = "editButton"
   ng-if = "instance.attrs.name"
   readonly
   select-all
-  show-coach-marks
   value = "{{ instance.getContainerHostname() }}{{defaultPort}}"
-  template = "viewCoachMarksBoxNamePopover"
 )
 //- sets width
 span.server-name-ghost.no-touching {{ instance.getContainerHostname() }}{{defaultPort}}
