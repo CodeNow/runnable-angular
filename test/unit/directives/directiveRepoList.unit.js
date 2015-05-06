@@ -139,11 +139,6 @@ describe('directiveRepoList'.bold.underline.blue, function () {
       $rootScope.$digest();
     });
 
-    it('should show guide', function () {
-      expect($elScope.unsavedAcvs.length, 'Unsaved Acvs').to.equal(0);
-      expect(element[0].querySelector('.guide'), 'RepoList Guide').to.be.ok;
-    });
-
     it('should attempt to update the acv object on acv-change', function () {
 
       var acv = {
