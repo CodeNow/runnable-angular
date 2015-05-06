@@ -3,6 +3,14 @@
 
   .modal-body {
     max-height: 60vh;
+
+    @include media(sm) {
+      max-height: none;
+    }
+
+    @media (max-height: 768px) {
+      max-height: none;
+    }
   }
 
   // search
