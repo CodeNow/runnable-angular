@@ -4,6 +4,7 @@
   // alert help things
   // overwrite current alerts :(
   &.alert {
+    animation: alert-help .3s ease-in forwards;
     background: $blue-lighter;
     border: 2px solid $blue-light;
     border-radius: 3px;

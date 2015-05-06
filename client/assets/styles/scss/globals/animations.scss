@@ -11,6 +11,22 @@
   }
 }
 
+@keyframes alert-help {
+  0% {
+    opacity: 0;
+    transform: scale3d(.8,.8,.8) translate3d(0,100%,0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale3d(1.05,1.05,1.05) translate3d(0,0,0);
+  }
+
+  100% {
+    transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+}
+
 @keyframes btn-spinner {
   0% {
     padding-left: 15px;
