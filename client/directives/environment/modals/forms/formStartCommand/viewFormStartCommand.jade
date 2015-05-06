@@ -1,5 +1,5 @@
 label.label.clearfix
-  .label-col Container Command
+  .label-col Container CMD
 
   .input-col
     fancy-select(
@@ -10,7 +10,7 @@ label.label.clearfix
       type = "text"
       value = "state.startCommand"
     )
-      li.list-item.popover-list-item.small Suggested container command
+      li.list-item.popover-list-item.small Suggested container cmd
       fancy-option(
         value = "$parent.state.selectedStack.startCommand"
       ) {{$parent.$parent.state.selectedStack.startCommand}}
@@ -19,4 +19,19 @@ label.label.clearfix
       a.link(
         href = "//docs.docker.com/reference/builder/#cmd"
         target = "_blank"
-      ) More about the container command
+      ) More about the container cmd
+
+label.label.clearfix
+  .label-col Build Commands
+
+  .input-col
+    //- we only have suggestions for build commands on the main repository
+    fancy-select(
+      placeholder = "Build commands"
+      type = "text"
+    )
+      li.list-item.popover-list-item.small Suggested build commands
+      fancy-option(
+        value = ""
+      )
+    small.small Specify the commands that need to be executed when your container is built and before it is launched that support your application (e.g. installing the packages that your code needs).
