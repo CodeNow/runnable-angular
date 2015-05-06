@@ -16,9 +16,7 @@ function EnvironmentController(
   eventTracking,
   favico,
   fetchContexts,
-  pFetchUser,
   fetchStackInfo,
-  keypather,
   fetchInstances,
   pageName,
   promisify,
@@ -54,7 +52,7 @@ function EnvironmentController(
       var instance = user.newInstance({
         name: name,
         owner: {
-          username: user
+          username: $rootScope.dataApp.data.activeAccount.oauthName()
         }
       }, { warn: false });
       $scope.data.instances.add(instance);
