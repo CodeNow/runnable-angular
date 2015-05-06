@@ -78,7 +78,10 @@ ul.card-body.load(
         xlink:href = "#icons-start-cmd"
       )
     h3.h3 Commands
-    p.p.text-overflow {{ server.startCommand }}
+    //- \\n for new line
+    p.p.text-overflow(
+      title = "npm start\\nbuild commands"
+    ) {{ server.startCommand }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
