@@ -6,8 +6,8 @@ describe('serviceInstanceStatus', function () {
   beforeEach(function() {
     angular.mock.module('app');
     // Needs to have 'Filter' on the end to be properly injected
-    angular.mock.inject(function(_serviceInstanceStatus_, _keypather_) {
-      serviceInstanceStatus = _serviceInstanceStatus_;
+    angular.mock.inject(function(_instanceStatus_, _keypather_) {
+      serviceInstanceStatus = _instanceStatus_;
       keypather = _keypather_;
     });
   });
