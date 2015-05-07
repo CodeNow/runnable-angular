@@ -9,9 +9,6 @@ require('app')
   .factory('debounce', function () {
     return require('debounce');
   })
-  .factory('equals', function () {
-    return require('101/equals');
-  })
   .factory('exists', function () {
     return require('101/exists');
   })
@@ -21,20 +18,8 @@ require('app')
   .factory('hasKeypaths', function () {
     return require('101/has-keypaths');
   })
-  .factory('hasProps', function () {
-    return require('101/has-properties');
-  })
-  .factory('isFunction', function () {
-    return require('101/is-function');
-  })
   .factory('moment', function () {
     return require('moment');
-  })
-  .factory('pick', function () {
-    return require('101/pick');
-  })
-  .factory('pluck', function () {
-    return require('101/pluck');
   })
   .factory('regexpQuote', function () {
     return require('regexp-quote');

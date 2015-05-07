@@ -14,8 +14,6 @@ require('app')
 function openItemsFactory(
   $localStorage,
   keypather,
-  pluck,
-  equals,
   user
 ) {
 
