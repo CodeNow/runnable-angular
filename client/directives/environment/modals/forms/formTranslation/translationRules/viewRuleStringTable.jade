@@ -12,6 +12,7 @@
   ng-if = ""
 )
   .cell (empty)
+
 //- when dragging:
   - add .disabled to the .tr to be dragged
   - clone .tr that's being dragged
@@ -40,6 +41,7 @@
       use(
         xlink:href = "#icons-warning"
       )
+
 .tr.tr-action.clearfix
   .cell.cell-action
     svg.iconnables.icons-drag
@@ -65,3 +67,10 @@
       use(
         xlink:href = "#icons-warning"
       )
+
+.tr.tr-footer.clearfix
+  .cell
+    button.btn.btn-xs(
+      title = "0 associations with translation rules"
+    ) Associations
+      .tag.monospace 0

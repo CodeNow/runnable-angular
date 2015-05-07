@@ -7,11 +7,13 @@
       pop-over-options = "{\"left\":0,\"top\":0}"
       pop-over-template = "viewPopoverFilenameRule"
     ) New filename rule
+
 //- if no rules of this type
 .tr.tr-empty.clearfix(
   ng-if = ""
 )
   .cell (empty)
+
 .tr.tr-action.clearfix
   //- hide drag if there is only one rule of that type
     - .disabled will hide the action visually

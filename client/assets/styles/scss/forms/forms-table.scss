@@ -131,26 +131,46 @@
 }
 
 
-// table row header usage:
+// table row header/footer usage:
 // .tr.thead
-.thead {
+// .tr.tr-footer
+.thead,
+.tr-footer {
   background: #f0f0f0;
   font-size: 13px;
   font-weight: 500;
   padding: 3px 0;
 
+  .btn {
+    float: right;
+    top: 3px;
+  }
+}
+
+.thead .cell {
+  height: 30px;
+  line-height: 30px;
+}
+
+.tr-footer {
+
   .cell {
-    height: 30px;
-    line-height: 30px;
+    height: 24px;
+    line-height: 24px;
+  }
 
-    &:only-child {
-      width: 100%;
-    }
+  .btn {
+    color: $gray;
+    float: right;
+    font-size: 13px;
+    top: 1px;
+  }
 
-    .btn {
-      float: right;
-      top: 3px;
-    }
+  .tag {
+    background: $gray;
+    color: $gray-lighter;
+    cursor: pointer;
+    float: right;
   }
 }
 
