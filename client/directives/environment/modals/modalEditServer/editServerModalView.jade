@@ -30,7 +30,7 @@ form.modal-dialog.modal-edit(
           )
         span.btn-text Stack Type
       button.btn.btn-radio(
-        ng-class = "{active: selectedTab === 'command'}"
+        ng-class = "{active: selectedTab === 'repository'}"
         ng-click = "changeTab('repository')"
         ng-if = "!state.advanced"
       )
@@ -51,7 +51,7 @@ form.modal-dialog.modal-edit(
         span.btn-text Exposed Ports
       //- will use in the second half of build commands
       //- button.btn.btn-radio(
-      //-   ng-class = "{active: selectedTab === 'repositories'}"
+      //-   ng-class = "{active: selectedTab === 'files'}"
       //-   ng-click = "changeTab('files')"
       //-   ng-if = "state.repo"
       //- )
