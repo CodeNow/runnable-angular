@@ -262,8 +262,8 @@
 
   // override sidebar
   .sidebar {
-    border: 2px solid $gray-light;
-    border-radius: 3px 0 0 3px;
+    border: 1px solid $gray-lighter;
+    border-radius: 2px 0 0 2px;
     border-right: 0;
     height: auto;
     margin: -2px 0 -2px -2px;
@@ -277,9 +277,9 @@
   }
 
   .sidebar-actions {
-    background: $gray-lighter;
-    height: 30px;
-    padding: 2px;
+    background: #f0f0f0;
+    border-bottom: 1px solid $gray-lighter;
+    padding: 6px;
 
     .btn-xs {
       float: right;
