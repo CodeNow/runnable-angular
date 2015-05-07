@@ -123,7 +123,7 @@
   // active panel & ace container
   .active-panel,
   .ace-container {
-    border: 2px solid $gray-lighter;
+    border: 2px solid $purple-darker;
     display: flex;
     min-height: 210px;
 
@@ -234,8 +234,11 @@
 
   // override sidebar
   .sidebar {
-    border-right-width: 2px;
+    border: 2px solid $gray-light;
+    border-radius: 3px 0 0 3px;
+    border-right: 0;
     height: auto;
+    margin: -2px 0 -2px -2px;
     padding: 0;
     width: 180px;
 
