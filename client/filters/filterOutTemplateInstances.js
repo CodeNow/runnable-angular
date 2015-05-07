@@ -12,7 +12,7 @@ function removeTemplateInstances(
       return [];
     }
     return instances.filter(function (instance) {
-      return instance.attrs.name.indexOf('TEMPLATE_') === -1;
+      return instance.attrs.name.indexOf('TEMPLATE-') === -1;
     });
   };
 }

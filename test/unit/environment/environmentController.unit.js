@@ -3,6 +3,7 @@
 var $controller,
     $rootScope,
     $scope,
+    $q,
     $timeout;
 var keypather;
 var apiMocks = require('../apiMocks/index');
@@ -10,6 +11,7 @@ var fetchUserMock = new (require('../fixtures/mockFetch'))();
 var fetchStackInfoMock = new (require('../fixtures/mockFetch'))();
 var fetchContextsMock = new (require('../fixtures/mockFetch'))();
 var fetchInstancesMock = new (require('../fixtures/mockFetch'))();
+var createNewInstanceMock = new (require('../fixtures/mockFetch'))();
 
 var stacks = angular.copy(apiMocks.stackInfo);
 var thisUser = runnable.newUser(apiMocks.user);
@@ -17,27 +19,41 @@ var thisUser = runnable.newUser(apiMocks.user);
 describe('environmentController'.bold.underline.blue, function () {
   var ctx = {};
   function setup() {
+    ctx = {};
     ctx.$log = {
       error: sinon.spy()
     };
     ctx.errs = {
       handler: sinon.spy()
     };
+    ctx.eventTracking = {
+      triggeredBuild: sinon.spy()
+    };
+    ctx.fakeOrg1 = {
+      attrs: angular.copy(apiMocks.user),
+      oauthName: function () {
+        return 'org1';
+      }
+    };
+    ctx.favicoMock = {
+      reset : sinon.spy(),
+      setImage: sinon.spy(),
+      setInstanceState: sinon.spy()
+    };
+    ctx.pageNameMock = {
+      setTitle: sinon.spy()
+    };
 
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
-      $provide.value('favico', {
-        reset : sinon.spy(),
-        setImage: sinon.spy(),
-        setInstanceState: sinon.spy()
-      });
-      $provide.value('pageName', {
-        setTitle: sinon.spy()
-      });
+      $provide.value('favico', ctx.favicoMock);
+      $provide.value('pageName', ctx.pageNameMock);
+      $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('user', thisUser);
       $provide.factory('fetchStackInfo', fetchStackInfoMock.fetch());
       $provide.factory('fetchInstances', fetchInstancesMock.fetch());
       $provide.factory('fetchContexts', fetchContextsMock.fetch());
+      $provide.factory('createNewInstance', createNewInstanceMock.fetch());
       $provide.value('$log', ctx.$log);
       $provide.value('errs', ctx.errs);
     });
@@ -45,8 +61,10 @@ describe('environmentController'.bold.underline.blue, function () {
       _$controller_,
       _$rootScope_,
       _keypather_,
-      _$timeout_
+      _$timeout_,
+      _$q_
     ) {
+      $q = _$q_;
       $timeout = _$timeout_;
       $controller = _$controller_;
       $rootScope = _$rootScope_;
@@ -92,6 +110,9 @@ describe('environmentController'.bold.underline.blue, function () {
       var sourceContexts = [{
         attrs: 'awesome'
       }];
+      sinon.assert.calledWith(ctx.pageNameMock.setTitle, 'Configure - Runnable');
+      sinon.assert.calledOnce(ctx.favicoMock.reset);
+
       fetchContextsMock.triggerPromise(sourceContexts);
       $rootScope.$digest();
       expect($scope.data.allDependencies, 'allDependencies').to.equal(templateInstances);
@@ -129,7 +150,86 @@ describe('environmentController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(window.confirm);
       $rootScope.$digest();
       sinon.assert.calledOnce(instance.destroy);
+    });
 
+    it('should create a server', function () {
+      setup();
+      $rootScope.$digest();
+      var instance = runnable.newInstance(
+        apiMocks.instances.running,
+        {noStore: true}
+      );
+      var closeModalSpy = sinon.spy();
+      $rootScope.$on('close-modal', closeModalSpy);
+      $scope.data.instances = {
+        add: sinon.spy()
+      };
+      sinon.stub(thisUser, 'newInstance');
+      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
+      var server = {
+        instance: instance
+      };
+      $scope.actions.createAndBuild($q.when(server), 'newName');
+      $rootScope.$digest();
+
+      sinon.assert.calledWith(thisUser.newInstance, {
+        name: 'newName',
+        owner: {
+          username: ctx.fakeOrg1.oauthName()
+        }
+      }, { warn: false });
+
+      sinon.assert.calledOnce($scope.data.instances.add);
+      sinon.assert.calledOnce(closeModalSpy);
+      sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
+
+
+      createNewInstanceMock.triggerPromise(instance);
+      $rootScope.$digest();
+    });
+  });
+
+  describe('failures', function () {
+    it('should fail successfully when it receives a failed promise', function () {
+      setup();
+      $rootScope.$digest();
+      var instance = runnable.newInstance(
+        apiMocks.instances.running,
+        {noStore: true}
+      );
+      instance.dealloc = sinon.spy();
+      var closeModalSpy = sinon.spy();
+      $rootScope.$on('close-modal', closeModalSpy);
+      $scope.data.instances = {
+        add: sinon.spy()
+      };
+      thisUser.newInstance = sinon.spy(function () {
+        return instance;
+      });
+      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
+
+      var error = new Error('Oops');
+      $scope.actions.createAndBuild($q.reject(error), 'newName');
+      $rootScope.$digest();
+
+      sinon.assert.calledWith(thisUser.newInstance, {
+        name: 'newName',
+        owner: {
+          username: ctx.fakeOrg1.oauthName()
+        }
+      }, { warn: false });
+
+      sinon.assert.notCalled(createNewInstanceMock.getFetchSpy());
+      sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
+      sinon.assert.calledWith(ctx.errs.handler, error);
+      sinon.assert.calledOnce($scope.data.instances.add);
+      sinon.assert.calledOnce(closeModalSpy);
+      sinon.assert.calledOnce(closeModalSpy);
+
+      sinon.assert.calledOnce(instance.dealloc);
+
+
+      $rootScope.$digest();
     });
   });
 });

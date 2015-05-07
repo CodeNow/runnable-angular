@@ -33,21 +33,6 @@ function accountsSelect (
               window.location = '/';
             }).catch(errs.handler);
           },
-          clearAllUserOptions: function () {
-            var userOptions = {};
-            ['boxName', 'editButton', 'repoList', 'explorer'].forEach(function (key) {
-              userOptions['userOptions.uiState.shownCoachMarks.' + key] = false;
-            });
-            $rootScope.$broadcast('close-popovers');
-            // Make user update call here
-            promisify($scope.data.user, 'update')(
-              userOptions
-            ).catch(
-              errs.handler
-            ).finally(function () {
-              $state.reload();
-            });
-          },
           selectActiveAccount: function (userOrOrg) {
             var username = userOrOrg.oauthName();
             $rootScope.$broadcast('close-popovers');
