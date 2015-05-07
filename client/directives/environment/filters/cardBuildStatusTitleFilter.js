@@ -7,38 +7,43 @@ require('app')
  */
 function cardBuildStatusTitle(
   keypather,
-  moment
+  moment,
+  instanceStatus
 ) {
   return function (instance) {
-    var container = keypather.get(instance, 'containers.models[0]');
-    var build = keypather.get(instance, 'build');
+    var status = instanceStatus(instance);
+    var statusMap = {
+      'stopped': 'Stopped',
+      'crashed': 'Crashed',
+      'running': 'Running',
+      'buildFailed': 'Failed',
+      'building': 'Building for',
+      'unknown': 'unknown'
+    };
+
     var time = 0;
-    var prefix = '';
     var noAgo = false;
-    if (container) {
-      if (container.running()) {
-        prefix = 'Running for';
+
+    switch (status) {
+      case 'stopped':
+      case 'crashed':
+        time = keypather.get(instance, 'containers.models[0].attrs.inspect.State.FinishedAt');
+        break;
+      case 'buildFailed':
+        time = keypather.get(instance, 'build.attrs.completed');
+        break;
+      case 'building':
         noAgo = true;
-        time = keypather.get(container, 'attrs.inspect.State.StartedAt');
-      } else {
-        if (keypather.get(container, 'attrs.inspect.State.ExitCode') === -1) {
-          // -1 means a user killed it
-          prefix = 'Stopped';
-        } else {
-          prefix = 'Crashed';
-        }
-        time = keypather.get(container, 'attrs.inspect.State.FinishedAt');
-      }
-    } else if (build) {
-      if (build.failed()) {
-        prefix = 'Failed';
-        time = keypather.get(build, 'attrs.completed');
-      } else {
+        time = keypather.get(instance, 'build.attrs.started');
+        break;
+      case 'running':
         noAgo = true;
-        prefix = 'Building for';
-        time = keypather.get(build, 'attrs.started');
-      }
+        time = keypather.get(instance, 'containers.models[0].attrs.inspect.State.StartedAt');
+        break;
+      default:
+        return 'Unknown';
     }
-    return prefix + ' ' + moment(time).fromNow(noAgo);
+
+    return statusMap[status] + ' ' + moment(time).fromNow(noAgo);
   };
 }
