@@ -1,16 +1,16 @@
 // help things
 .help {
+  background: $blue-lighter;
+  border: 1px solid $blue-light;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba($blue,.2);
+  color: $blue;
 
   // alert help things
   // overwrite current alerts :(
   &.alert {
     animation: alert-help .3s ease-in forwards;
-    background: $blue-lighter;
-    border: 2px solid $blue-light;
-    border-radius: 3px;
     bottom: 15px;
-    box-shadow: 0 2px 3px rgba($blue,.2);
-    color: $blue;
     height: 36px;
     left: 0;
     line-height: 32px;
@@ -27,4 +27,17 @@
       margin-right: 6px;
     }
   }
+}
+
+.help-step-container {
+  position: fixed;
+  text-align: center;
+  right: 0;
+  left: 0;
+}
+
+.help-step-item {
+  margin: 0 auto;
+  padding: 0 15px;
+  display: inline-block;
 }

@@ -1,19 +1,69 @@
 .popover-help {
-  padding-bottom: 15px;
-  text-align: center;
-  width: 300px;
+  // duplicated from .help in help.scss
+  background: $blue-lighter;
+  border: 1px solid $blue-light;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba($blue,.2);
+  color: $blue;
+  //
+  width: 390px;
+  max-width: none; // overwrites max-width set in popover.scss
+  font-size: 15px;
+  line-height: 18px;
 
-  .img {
-    display: block;
-    margin: 15px auto;
+  .popover-content {
+    padding: 0 12px; // overwrites padding for popover-content set in popover.scss
+  }
+}
+
+.triggered-help-list {
+
+}
+
+.triggered-help-item {
+  padding: 15px 0;
+  overflow: auto;
+  border-bottom: 1px solid $blue-light;
+  position: relative;
+
+  // dismiss button for triggerd help items
+  .btn-icon {
+    position: absolute;
+    left: -7px;
+    top: 13px;
+
+    .iconnables {
+      width: 18px;
+      height: 18px;
+    }
   }
 
+  // triggered help text
   .p {
-    color: $gray;
-    margin-bottom: 9px;
+    width: 230px;
+    float: left;
+    margin-left: 18px;
   }
 
-  .small {
-    display: block;
+  // "show me" button
+  .btn-sm {
+    background-color: white;
+    float: right;
+    border: 2px solid $blue-light;
+    margin-right: 6px;
+    font-weight: 500;
   }
+}
+
+.general-help-list {
+  border-bottom: 1px solid $blue-light;
+}
+
+.general-help-item {
+  margin-left: 18px;
+}
+
+.more-help {
+  height: 30px;
+  width: 100%;
 }
