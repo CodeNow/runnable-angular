@@ -44,9 +44,6 @@ describe('directiveInstanceSecondaryActions'.bold.underline.blue, function() {
         buildId: '54668070531ae50e002c8503',
         instanceName: 'instancename'
       });
-      $provide.value('fetchCoachMarkData', sinon.spy(function (type, cb) {
-        cb(null);
-      }));
     });
     angular.mock.inject(function (
       _$state_,

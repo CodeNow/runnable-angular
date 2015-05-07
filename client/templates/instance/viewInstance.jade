@@ -105,12 +105,7 @@ header.server-header
   )
 
 //- sidebar with repositories and urls
-section.sidebar.server-sidebar.load(
-  coach-mark-style = "{\"left\": 7, \"top\": 108}"
-  coach-mark-template = "viewCoachMarksRepoPopover"
-  coach-mark-type = "repoList"
-  show-coach-marks
-)
+section.sidebar.server-sidebar.load
   section.row.repo-list(
     ng-class = "{closed: $storage.repoListIsClosed}"
     auto-build-on-acv-change = "true"
