@@ -184,15 +184,79 @@
 .ace-environment-variables {
   border-bottom: 0;
   border-radius: 3px;
+  height: 675px;
+
+  @media (max-height: 1200px) {
+    height: 550px;
+  }
+
+  @media (max-height: 1100px) {
+    height: 475px;
+  }
+
+  @media (max-height: 1000px) {
+    height: 375px;
+  }
+
+  @media (max-height: 900px) {
+    height: 275px;
+  }
+
+  @media (max-height: 800px) {
+    height: 250px;
+  }
+
+  @media (max-height: 700px) {
+    height: 200px;
+  }
+
+  @media (max-height: 600px) {
+    height: 175px;
+    min-height: none;
+  }
+
+  @include media(sm) {
+    height: calc(100vh - 450px);
+  }
 }
 
 // build files
 .ace-build-files {
   background: $white;
   border-radius: 3px;
+  height: 700px;
 
-  .ace_editor {
-    height: 210px;
+  @media (max-height: 1200px) {
+    height: 600px;
+  }
+
+  @media (max-height: 1100px) {
+    height: 500px;
+  }
+
+  @media (max-height: 1000px) {
+    height: 400px;
+  }
+
+  @media (max-height: 900px) {
+    height: 300px;
+  }
+
+  @media (max-height: 800px) {
+    height: 250px;
+  }
+
+  @media (max-height: 700px) {
+    height: 200px;
+  }
+
+  @media (max-height: 600px) {
+    height: 175px;
+    min-height: none;
+  }
+
+  @include media(sm) {
+    height: calc(100vh - 342px);
   }
 
   // override sidebar
