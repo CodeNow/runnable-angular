@@ -14,17 +14,14 @@
   )
 
   .ace_editor.ace-runnable-dark(
+    file = "item"
+    file-editor
+    loading = "loading"
+    ng-if = "item.state.type === 'File'"
     ng-repeat = "item in openItems.models"
     ng-show = "item === openItems.activeHistory.last()"
+    use-auto-update = "true"
   )
-    //- files
-    div(
-      file = "item"
-      file-editor
-      loading = "loading"
-      ng-if = "item.state.type === 'File'"
-      use-auto-update = "true"
-    )
 
 //- small.small 😌🐻✌️ #{''}
 //-   a.link(
