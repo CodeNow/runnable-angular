@@ -8,7 +8,6 @@ var $controller,
     $state,
     $stateParams,
     $window,
-    async,
     OpenItems,
     eventTracking,
     keypather,
@@ -69,7 +68,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
       _$state_,
       _$window_,
       _OpenItems_,
-      _async_,
       _eventTracking_,
       _keypather_,
       _user_
@@ -81,7 +79,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
       $stateParams = _$stateParams_;
       $window = _$window_;
       OpenItems = _OpenItems_;
-      async = _async_;
       eventTracking = _eventTracking_;
       keypather = _keypather_;
       user = _user_;
