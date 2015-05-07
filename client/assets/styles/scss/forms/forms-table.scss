@@ -2,14 +2,14 @@
   background: $white;
   border: 1px solid $gray-lighter;
   border-radius: 3px;
+
+  + .table {
+    margin-top: 9px;
+  }
 }
 
 // diff
 .table-diff {
-
-  + .table-diff {
-    margin-top: 9px;
-  }
 
   .thead {
     border-bottom: 1px solid $gray-lighter;
