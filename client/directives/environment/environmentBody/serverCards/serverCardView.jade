@@ -69,19 +69,19 @@ ul.card-body.load(
     modal-actions = "actions"
     modal-current-model = "server"
     modal-data = "data"
-    modal-state-model = "'command'"
+    modal-state-model = "'repository'"
     modal-template = "editServerModalOpen"
     ng-if = "server.repo && !server.advanced"
   )
     svg.iconnables
       use(
-        xlink:href = "#icons-start-cmd"
+        xlink:href = "#icons-git-repository"
       )
-    h3.h3 Commands
+    h3.h3 Repository
     //- \\n for new line
     p.p.text-overflow(
-      title = "npm start\\nbuild commands"
-    ) {{ server.startCommand }}
+      title = "{{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}\\nnpm start\\nbuild commands"
+    ) {{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}
     svg.iconnables.icons-arrow-down
       use(
         xlink:href = "#icons-arrow-down"
@@ -105,20 +105,21 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  li.btn.white(
-    modal
-    modal-actions = "actions"
-    modal-current-model = "server"
-    modal-data = "data"
-    modal-state-model = "'repositories'"
-    modal-template = "editServerModalOpen"
-    ng-if = "server.repo && !server.advanced"
-  )
+  //- will use in the second half of build commands
+  //- li.btn.white(
+  //-   modal
+  //-   modal-actions = "actions"
+  //-   modal-current-model = "server"
+  //-   modal-data = "data"
+  //-   modal-state-model = "'files'"
+  //-   modal-template = "editServerModalOpen"
+  //-   ng-if = "server.repo && !server.advanced"
+  //- )
     svg.iconnables
       use(
         xlink:href = "#icons-git-repository"
       )
-    h3.h3 Repositories
+    h3.h3 Additional Files
     p.p.text-overflow {{ server.instance.contextVersion.appCodeVersions.models[0].attrs.branch }}
     svg.iconnables.icons-arrow-down
       use(
