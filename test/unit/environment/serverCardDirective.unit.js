@@ -160,6 +160,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
         return depInstances;
       });
       $scope.instance = instance;
+      instance.dependencies = depInstances;
       instance.contextVersion = {
         attrs: {
           advanced: false,
@@ -190,6 +191,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       });
       $scope.$digest();
       expect($elScope.server.opts.env, 'env').to.equal(instance.attrs.env);
+      expect($elScope.getDependecyInfo(), 'getDependecyInfo').to.equal('2 associations');
 
       expect($elScope.server.selectedStack, 'selectedStack').to.equal('CHEESE');
       expect($elScope.server.ports, 'ports').to.equal('kajflkajsf');
@@ -254,6 +256,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
       parseDockMock.triggerPromise(null);
       $scope.$digest();
       expect($elScope.server.opts.env, 'env').to.equal(instance.attrs.env);
+      expect($elScope.getDependecyInfo(), 'getDependecyInfo').to.equal('no associations defined');
 
       expect($elScope.server.selectedStack, 'selectedStack').to.not.be.ok;
       expect($elScope.server.ports, 'ports').to.not.be.ok;
