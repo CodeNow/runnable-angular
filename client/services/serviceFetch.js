@@ -2,7 +2,8 @@
 var jsonHash = require('json-hash');
 
 require('app')
-  .factory('pFetchUser', pFetchUser)
+  .factory('fetchUser', fetchUser)
+  .factory('fetchOrgs', fetchOrgs)
   .factory('fetchInstances', fetchInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
@@ -14,7 +15,7 @@ require('app')
   .factory('integrationsCache', integrationsCache)
   .factory('fetchInstancesByPod', fetchInstancesByPod);
 
-function pFetchUser(keypather, user, $q, $state) {
+function fetchUser(keypather, user, $q, $state) {
   var fetchedUser = null;
   var socket = null;
   // For consistency with other promise fetchers
@@ -43,10 +44,27 @@ function pFetchUser(keypather, user, $q, $state) {
   };
 }
 
+function fetchOrgs (
+  fetchUser,
+  promisify
+) {
+  var fetchedOrgs;
+  return function () {
+    if (!fetchedOrgs) {
+      fetchedOrgs = fetchUser()
+      .then(function (user) {
+        return promisify(user, 'fetchGithubOrgs')();
+      });
+    }
+    return fetchedOrgs;
+  };
+}
+
+
 var fetchCache = {};
 
 function fetchInstances(
-  pFetchUser,
+  fetchUser,
   promisify,
   keypather,
   $state,
@@ -63,7 +81,7 @@ function fetchInstances(
 
     var fetchKey = jsonHash.digest(opts);
     if (resetCache || !fetchCache[fetchKey]) {
-      fetchCache[fetchKey] = pFetchUser()
+      fetchCache[fetchKey] = fetchUser()
         .then(function (user) {
           var pFetch = promisify(user, 'fetchInstances');
           return pFetch(opts);
@@ -119,7 +137,7 @@ function fetchInstancesByPod(
 }
 
 function fetchBuild(
-  pFetchUser,
+  fetchUser,
   promisify
 ) {
   // No caching here, as there aren't any times we're fetching a build
@@ -129,18 +147,18 @@ function fetchBuild(
       throw new Error('BuildId is required');
     }
 
-    return pFetchUser().then(function (user) {
+    return fetchUser().then(function (user) {
       var pFetch = promisify(user, 'fetchBuild');
       return pFetch(buildId);
     });
   };
 }
 
-function fetchOwnerRepos(pFetchUser, promisify) {
+function fetchOwnerRepos(fetchUser, promisify) {
   return function (userName) {
     var user;
     var repoType;
-    return pFetchUser().then(function (_user) {
+    return fetchUser().then(function (_user) {
       if (userName === _user.oauthName()) {
         user = _user;
         repoType = 'GithubRepos';
@@ -175,9 +193,9 @@ function fetchOwnerRepos(pFetchUser, promisify) {
   };
 }
 
-function fetchContexts(pFetchUser, promisify) {
+function fetchContexts(fetchUser, promisify) {
   return function (opts) {
-    return pFetchUser().then(function (user) {
+    return fetchUser().then(function (user) {
       var contextFetch = promisify(user, 'fetchContexts');
       return contextFetch(opts);
     });
@@ -187,7 +205,7 @@ function fetchContexts(pFetchUser, promisify) {
 function fetchSettings(
   $state,
   $q,
-  pFetchUser,
+  fetchUser,
   promisify,
   integrationsCache
 ) {
@@ -200,7 +218,7 @@ function fetchSettings(
     }
 
     var settings;
-    return pFetchUser().then(function(user) {
+    return fetchUser().then(function(user) {
       return promisify(user, 'fetchSettings')({
         githubUsername: $state.params.userName
       });

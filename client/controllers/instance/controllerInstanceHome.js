@@ -15,7 +15,7 @@ function ControllerInstanceHome(
   $rootScope,
   hasKeypaths,
   keypather,
-  pFetchUser,
+  fetchUser,
   setLastOrg,
   errs
 ) {
@@ -23,7 +23,7 @@ function ControllerInstanceHome(
   var userName = $stateParams.userName;
   $scope.loading = true;
   var user;
-  pFetchUser()
+  fetchUser()
   .then(function(_user) {
     // Needed to get actual user name (not just org)
     user = _user;

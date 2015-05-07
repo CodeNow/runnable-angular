@@ -92,7 +92,7 @@ describe('directiveRepoList'.bold.underline.blue, function () {
           branchCommits: sinon.spy()
         };
       });
-      $provide.factory('pFetchUser', fixtures.mockFetchUser);
+      $provide.factory('fetchUser', fixtures.mockFetchUser);
       $provide.factory('fetchOwnerRepos', fixtures.mockFetchOwnerRepos);
     });
     angular.mock.inject(function ($compile, _$rootScope_, $timeout, user){

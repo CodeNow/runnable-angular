@@ -17,7 +17,7 @@ function repoList(
   errs,
   eventTracking,
   keypather,
-  pFetchUser,
+  fetchUser,
   promisify,
   $localStorage
 ) {
@@ -176,7 +176,7 @@ function repoList(
         });
       }
 
-      pFetchUser(
+      fetchUser(
       ).then(function (user) {
         $scope.user = user;
       }).catch(errs.handler);

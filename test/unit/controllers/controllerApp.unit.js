@@ -10,6 +10,8 @@ var User = require('runnable/lib/models/user');
 var apiMocks = require('../apiMocks/index');
 var isFunction = require('101/is-function');
 var keypather = require('keypather')();
+var User = require('runnable/lib/models/user');
+var user = require('../apiMocks').user;
 
 describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
@@ -28,19 +30,19 @@ describe('controllerApp'.bold.underline.blue, function () {
         return 'org2';
       }
     };
-    var fetchUserMock = function (cb) {
-      cb(null, ctx.fakeuser);
-    };
-    var fetchOrgsMock = function(cb) {
-      cb(null, {models: [ctx.fakeOrg1, ctx.fakeOrg2]});
+    var mockUserFetch = new (require('../fixtures/mockFetch'))();
+    var fetchOrgsMock = function ($q) {
+      return function () {
+        return $q.when({models: [ctx.fakeOrg1, ctx.fakeOrg2]});
+      };
     };
     ctx.stateParams = stateParams || {
       userName: 'username',
       instanceName: 'instancename'
     };
     angular.mock.module('app', function ($provide) {
-      $provide.value('fetchUser', fetchUserMock);
-      $provide.value('fetchOrgs', fetchOrgsMock);
+      $provide.factory('fetchUser', mockUserFetch.fetch());
+      $provide.factory('fetchOrgs', fetchOrgsMock);
       $provide.value('$stateParams', ctx.stateParams);
     });
     angular.mock.inject(function (
@@ -69,6 +71,8 @@ describe('controllerApp'.bold.underline.blue, function () {
     var ca = $controller('ControllerApp', {
       '$scope': $scope
     });
+    mockUserFetch.triggerPromise(ctx.fakeuser);
+    $rootScope.$apply();
   }
 
   function tearDown () {
@@ -109,7 +113,7 @@ describe('controllerApp'.bold.underline.blue, function () {
 
   describe('account stuff'.blue, function () {
     describe('No account already chosen'.blue, function () {
-      it('should select user if nothing matches name in url ', function (done) {
+      it('should select user if nothing matches name in url', function (done) {
         setup({});
         var listFetchSpy = sinon.spy(function(event, name) {
           expect(name).to.equal(ctx.fakeuser.oauthName());
@@ -124,7 +128,7 @@ describe('controllerApp'.bold.underline.blue, function () {
         });
         $rootScope.$digest();
       });
-      it('should select user, matching it from the stateParams ', function (done) {
+      it('should select user, matching it from the stateParams', function (done) {
         setup({});
         var listFetchSpy = sinon.spy(function(event, name) {
           expect(name).to.equal(ctx.fakeuser.oauthName());
@@ -139,7 +143,7 @@ describe('controllerApp'.bold.underline.blue, function () {
         });
         $rootScope.$digest();
       });
-      it('should select org1, matching it from the stateParams ', function (done) {
+      it('should select org1, matching it from the stateParams', function (done) {
         setup({}, false, false, true);
         var listFetchSpy = sinon.spy(function(event, name) {
           expect(name).to.equal(ctx.fakeOrg1.oauthName());
@@ -169,13 +173,12 @@ describe('controllerApp'.bold.underline.blue, function () {
       expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeOrg1);
       sinon.assert.notCalled(listFetchSpy);
     });
-    it('should switch accounts if active account does not match url', function (done) {
+    it('should switch accounts if active account does not match url', function () {
       setup({}, false, true);
       var listFetchSpy = sinon.spy(function(event, name) {
         expect(name).to.equal(ctx.fakeOrg2.oauthName());
         expect($scope.dataApp.data.activeAccount).to.be.an.Object;
         expect($scope.dataApp.data.activeAccount).to.equal(ctx.fakeOrg2);
-        done();
       });
       keypather.set($scope, 'dataApp.data.activeAccount', ctx.fakeOrg1);
       $scope.$on('INSTANCE_LIST_FETCH', listFetchSpy);

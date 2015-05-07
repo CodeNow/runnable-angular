@@ -2,11 +2,11 @@ describe('serviceFetch'.bold.underline.blue, function () {
   'use strict';
 
 
-  describe('factory pFetchUser', function () {
+  describe('factory fetchUser', function () {
     var $state;
     var user;
     var $rootScope;
-    var pFetchUser;
+    var fetchUser;
 
     beforeEach(function () {
       user = {
@@ -19,18 +19,18 @@ describe('serviceFetch'.bold.underline.blue, function () {
       });
       angular.mock.inject(function (
         _$state_,
-        _pFetchUser_,
+        _fetchUser_,
         _$rootScope_
       ) {
         $state = _$state_;
-        pFetchUser = _pFetchUser_;
+        fetchUser = _fetchUser_;
         $rootScope = _$rootScope_;
       });
     });
 
     it('should call the fetchUser method of the user service', function (done) {
       user.fetchUser = sinon.stub().callsArgWith(1, null);
-      pFetchUser().then(function (foundUser) {
+      fetchUser().then(function (foundUser) {
         expect(user.fetchUser.calledOnce, 'fetchUser called').to.equal(true);
         expect(user.createSocket.calledOnce, 'createSocket called').to.equal(true);
         expect(foundUser, 'Returned user').to.equal(user);
@@ -47,12 +47,56 @@ describe('serviceFetch'.bold.underline.blue, function () {
         }
       };
       user.fetchUser = sinon.stub().callsArgWith(1, err);
-      pFetchUser().catch(function (myErr) {
+      fetchUser().catch(function (myErr) {
         expect(myErr, 'Returned err').to.equal(err);
         expect($state.go.calledWith('home'), 'Called go home on the state').to.equal(true);
         done();
       });
       $rootScope.$apply();
+    });
+  });
+
+  describe('factory fetchOrgs', function () {
+    var user;
+    var $rootScope;
+    var fetchOrgs;
+
+    beforeEach(function () {
+      user = {};
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchUser', function ($q) {
+          return function () {
+            return $q.when(user);
+          };
+        });
+      });
+      angular.mock.inject(function (
+        _fetchOrgs_,
+        _$rootScope_,
+        $q
+      ) {
+        fetchOrgs = _fetchOrgs_;
+        $rootScope = _$rootScope_;
+
+        user.fetchGithubOrgs = sinon.spy(function (cb) {
+          setTimeout(cb);
+          return 'some value, perhaps';
+        })
+      });
+    });
+
+    it('should call the fetchGithubOrgs method of the user service', function (done) {
+      fetchOrgs().then(function (orgs) {
+        expect(user.fetchGithubOrgs.calledOnce, 'fetchGithubOrgs called').to.equal(true);
+        expect(orgs, 'Returned orgs').to.equal('some value, perhaps');
+        done();
+      });
+      $rootScope.$apply();
+      // Need to trigger this after the setTimeout above
+      setTimeout(function () {
+        $rootScope.$apply();
+      }, 50);
     });
   });
 
@@ -66,13 +110,13 @@ describe('serviceFetch'.bold.underline.blue, function () {
     var errs;
     var $timeout;
 
-    var setupFetchInstances = function (pFetchUserFactory) {
+    var setupFetchInstances = function (fetchUserFactory) {
       errs = {
         handler: sinon.spy()
       };
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('pFetchUser', pFetchUserFactory);
+        $provide.factory('fetchUser', fetchUserFactory);
         $provide.value('errs', errs);
       });
       angular.mock.inject(function (
@@ -171,7 +215,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     beforeEach(function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('pFetchUser', function ($q) {
+        $provide.factory('fetchUser', function ($q) {
           user = {
             fetchBuild: sinon.stub().callsArg(1)
           };
@@ -207,7 +251,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     beforeEach(function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('pFetchUser', function ($q) {
+        $provide.factory('fetchUser', function ($q) {
           user = {
             oauthName: sinon.stub().returns('Myztiq'),
             fetchGithubRepos: sinon.stub().callsArgWith(1),
@@ -250,7 +294,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     beforeEach(function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('pFetchUser', function ($q) {
+        $provide.factory('fetchUser', function ($q) {
           user = {
             fetchContexts: sinon.stub().callsArgWith(1)
           };
