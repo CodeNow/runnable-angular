@@ -3,7 +3,7 @@
 var $state, user, fetchInstances, ctx;
 describe.skip('serviceFetchInstances'.bold.underline.blue, function () {
   var apiMocks = require('../apiMocks/index');
-  var MockQueryAssist = require('../fixtures/mockQueryAssist');
+  var MockQueryAssist = {};
   beforeEach(function () {
     user = {};
     ctx = {};
