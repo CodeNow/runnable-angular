@@ -1,5 +1,8 @@
 .tr.thead.clearfix
   .cell Strings
+    button.btn.btn-xs.btn-status(
+      title = "{{linkedEnvResults.servers.length || 0 }} associations from translation rules"
+    ) 0 associations
     button.btn.btn-xs.white(
       pop-over
       pop-over-actions = "actions"
@@ -67,10 +70,3 @@
       use(
         xlink:href = "#icons-warning"
       )
-
-.tr.tr-footer.clearfix
-  .cell
-    button.btn.btn-xs(
-      title = "0 associations with translation rules"
-    ) Associations
-      .tag.monospace 0
