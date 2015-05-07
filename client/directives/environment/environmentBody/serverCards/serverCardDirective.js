@@ -7,6 +7,7 @@ function serverCard(
   $q,
   $rootScope,
   $timeout,
+  errs,
   getInstanceClasses,
   keypather,
   parseDockerfileForCardInfoFromInstance,
@@ -53,21 +54,24 @@ function serverCard(
               } else {
                 $scope.numberOfDependencies = 'no associations defined';
               }
+            })
+            .catch(errs.handler)
+            .finally(function () {
               $scope.server.building = false;
               $timeout(angular.noop);
             });
         }
       }
 
-      $scope.$watchCollection('instance.attrs', function () {
-        if ($scope.instance) {
+      $scope.$watchCollection('instance.attrs', function (n) {
+        if (n) {
           createServerObjectFromInstance($scope.instance);
         }
       });
 
       $scope.$watch('instance.contextVersion.attrs.infraCodeVersion', function (n) {
-        if (n && $scope.instance) {
-          $scope.server.building = true;
+        if (n) {
+          $scope.server.parsing = true;
           return parseDockerfileForCardInfoFromInstance($scope.instance, $scope.data.stacks)
             .then(function (data) {
               if (data) {
@@ -75,7 +79,10 @@ function serverCard(
                 $scope.server.ports = data.ports;
                 $scope.server.startCommand = data.startCommand;
               }
-              $scope.server.building = false;
+            })
+            .catch(errs.handler)
+            .finally(function () {
+              $scope.server.parsing = false;
               $timeout(angular.noop);
             });
         }
@@ -93,6 +100,9 @@ function serverCard(
           return flattened;
         }
         return 'none';
+      };
+      $scope.showSpinner = function () {
+        return !$scope.server.build || $scope.server.building || $scope.server.parsing;
       };
     }
   };
