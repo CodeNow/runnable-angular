@@ -8,7 +8,6 @@ var keypather;
 
 var User = require('runnable/lib/models/user');
 var apiMocks = require('../apiMocks/index');
-var isFunction = require('101/is-function');
 var keypather = require('keypather')();
 var User = require('runnable/lib/models/user');
 var user = require('../apiMocks').user;

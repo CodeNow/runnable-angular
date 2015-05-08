@@ -91,19 +91,6 @@ header.server-header
     saving = "dataInstance.data.saving"
   )
 
-  .secondary-actions(
-    instance = "dataInstance.data.instance"
-    instances = "dataApp.data.instances"
-    instance-secondary-actions
-    ng-if = "dataInstance.data.instance"
-    ng-if = "!dataInstance.data.isDemo"
-    saving = "dataInstance.data.saving"
-  )
-
-  instance-anon-secondary-actions(
-    ng-if = "dataInstance.data.isDemo"
-  )
-
 //- sidebar with repositories and urls
 section.sidebar.server-sidebar.load
   section.row.repo-list(

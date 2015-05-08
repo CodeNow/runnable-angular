@@ -150,5 +150,38 @@ describe('directiveInstancePrimaryActions'.bold.underline.blue, function () {
 
     sinon.assert.called($elScope.instance.restart);
   });
+  it('should allow the user to stop the instance', function () {
+    $scope.instance.stop = sinon.spy(function (opts, cb) {
+      expect(opts).to.be.undefined;
+      cb();
+    });
+    $scope.instance.fetch = function (cb) {
+      cb();
+    };
+    $scope.$digest();
+    $elScope.actions.stopInstance();
+    expect($elScope.saving).to.be.true;
+    expect($elScope.starting).to.be.false;
+    $scope.$digest();
+    sinon.assert.calledOnce($scope.instance.stop);
+    expect($elScope.saving).to.be.false;
+  });
+
+  it('should allow the user to start the instance', function () {
+    $scope.instance.start = sinon.spy(function (opts, cb) {
+      expect(opts).to.be.undefined;
+      cb();
+    });
+    $scope.instance.fetch = function (cb) {
+      cb();
+    };
+    $scope.$digest();
+    $elScope.actions.startInstance();
+    expect($elScope.saving).to.be.true;
+    expect($elScope.starting).to.be.true;
+    $scope.$digest();
+    sinon.assert.calledOnce($scope.instance.start);
+    expect($elScope.saving).to.be.false;
+  });
 
 });
