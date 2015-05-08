@@ -42,26 +42,26 @@
             )
 
     //- if string
-    small.small.table-details(
-      ng-if = "data.saving"
-    ) 2 matches in 1 file (excludes ignored files)
-
-    //- string verification table
-    .table.table-diff(
-      ng-if = "data.saving"
-      ng-include = "'viewRuleString'"
-    )
-
-    //- //- if association
     //- small.small.table-details(
     //-   ng-if = "data.saving"
-    //- ) 1 association
+    //- ) 2 matches in 1 file (excludes ignored files)
 
-    //- //- association verification table
+    //- //- string verification table
     //- .table.table-diff(
     //-   ng-if = "data.saving"
-    //-   ng-include = "'viewRuleAssociation'"
+    //-   ng-include = "'viewRuleString'"
     //- )
+
+    //- if association
+    small.small.table-details(
+      ng-if = "data.saving"
+    ) 1 match in 1 file (1 new association)
+
+    //- association verification table
+    .table.table-diff(
+      ng-if = "data.saving"
+      ng-include = "'viewRuleAssociation'"
+    )
 
   .popover-footer.clearfix
     button.btn.green.btn-spinner(
