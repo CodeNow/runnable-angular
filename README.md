@@ -70,7 +70,7 @@ Contributors
 [Taylor Dolan (taylordolan)](https://github.com/taylordolan)
 San Francisco, CA, USA  
 <img src="https://avatars3.githubusercontent.com/u/495765?s=64">&nbsp;
-[Ryan Khan (Myztiq)](https://github.com/Myztiq)
+[Ryan Kahn (Myztiq)](https://github.com/Myztiq)
 San Francisco, CA, USA  
 <img src="https://avatars1.githubusercontent.com/u/6379413?s=64">&nbsp;
 [Nathan Meyers (Nathan219)](https://github.com/Nathan219)
