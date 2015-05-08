@@ -22,7 +22,7 @@ function ControllerInstance(
   fetchInstances,
   fetchSettings,
   keypather,
-  pFetchUser,
+  fetchUser,
   pageName,
   setLastInstance
 ) {
@@ -63,8 +63,8 @@ function ControllerInstance(
     $location.search('chat', '');
   }
 
-  // The error handling for pFetchUser will re-direct for us, so we don't need to handle that case
-  pFetchUser().then(function (user) {
+  // The error handling for fetchUser will re-direct for us, so we don't need to handle that case
+  fetchUser().then(function (user) {
     $scope.user = user;
     // product team - track visits to instance page & referrer
     eventTracking.boot(user).visitedState();
