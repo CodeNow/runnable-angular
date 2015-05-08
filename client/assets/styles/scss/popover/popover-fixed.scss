@@ -1,7 +1,7 @@
 .popover-fixed {
   left: 0 !important;
   margin: 0 auto;
-  max-width: 540px;
+  max-width: 630px;
   position: fixed;
   right: 0 !important;
   top: calc(9% + 90px) !important;
@@ -57,5 +57,7 @@
   .input.monospace {
     color: $gray-darker;
     font-size: 13px;
+    letter-spacing: -.25px;
+    padding-right: 33px;
   }
 }
