@@ -86,7 +86,7 @@ header.server-header
 
   instance-primary-actions(
     instance = "dataInstance.data.instance"
-    loading = "dataApp.data.loading"
+    loading = "isLoading.main"
     open-items = "dataInstance.data.openItems"
     saving = "dataInstance.data.saving"
   )
@@ -111,7 +111,7 @@ section.sidebar.server-sidebar.load
     auto-build-on-acv-change = "true"
     build = "dataInstance.data.instance.build"
     instance = "dataInstance.data.instance"
-    loading = "dataApp.data.loading"
+    loading = "isLoading.main"
     ng-if = "dataInstance.data.instance.build.contextVersions.models[0].appCodeVersions.models.length"
     repo-list
     show-auto-deploy = "true"

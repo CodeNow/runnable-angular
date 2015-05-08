@@ -4,6 +4,7 @@ header.header(
 
 nav.sidebar.nav-sidebar(
   ng-if = "!layoutOptions.hideSidebar"
+  ng-hide = "isLoading.main && isLoading.sidebar"
 )
 
   section.row.servers(
@@ -23,10 +24,17 @@ nav.sidebar.nav-sidebar(
 //- 2nd level views (viewInstance, viewInstanceEdit...)
 main.content(
   ui-view
+  ng-hide = "isLoading.main"
 )
 
-//- spinner
-.spinner-wrapper.spinner-backdrop.spinner-lg.spinner-purple.in(
-  ng-if = "dataApp.data.loading"
+//- spinner for both instance AND sidebar
+.spinner-wrapper.spinner-lg.spinner-purple.in(
+  ng-if = "isLoading.main && isLoading.sidebar"
+  ng-include = "'spinner'"
+)
+
+//- spinner for JUST instance
+.spinner-wrapper.spinner-lg.spinner-purple.in(
+  ng-if = "isLoading.main && !isLoading.sidebar"
   ng-include = "'spinner'"
 )
