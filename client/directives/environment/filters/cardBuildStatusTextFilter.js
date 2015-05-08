@@ -14,11 +14,13 @@ function cardBuildStatusText(
     var statusMap = {
       'stopped': 'Stopped',
       'crashed': 'Crashed',
-      'running': 'Running',
       'buildFailed': 'Build Failed',
-      'building': 'Building',
-      'unknown': 'unknown'
+      'building': 'Building'
     };
+
+    if (~['running', 'unknown'].indexOf(status)) {
+      return '';
+    }
 
     var returnString = includeDash ? '— ' : '';
     returnString += statusMap[status];
