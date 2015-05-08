@@ -6,11 +6,13 @@ var uiAce = require('angular-ui-ace');
 var ngStorage = require('ngStorage');
 require('jsTag/jsTag/compiled/jsTag.min');
 require('ng-file-upload/dist/angular-file-upload');
+require('angular-drag-and-drop-lists/angular-drag-and-drop-lists');
 
 module.exports = angular.module('app', [
   uiRouter,
   uiAce,
   ngStorage,
   'jsTag',
-  'angularFileUpload'
+  'angularFileUpload',
+  'dndLists'
 ]);
