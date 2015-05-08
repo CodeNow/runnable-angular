@@ -4,12 +4,12 @@ require('app')
   .factory('setLastInstance', setLastInstance);
 
 function setLastInstance(
-  pFetchUser,
+  fetchUser,
   promisify,
   errs
 ) {
   return function (instanceName) {
-    return pFetchUser().then(function (user){
+    return fetchUser().then(function (user){
       return promisify(user, 'update')({
         'userOptions.uiState.previousLocation.instance': instanceName
       });
